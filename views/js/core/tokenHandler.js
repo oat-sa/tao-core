@@ -38,6 +38,7 @@ function (_, module, store, feedback, tokenStoreFactory) {
      * @param {Object} [config]
      * @param {String} [config.maxSize]
      * @param {String} [config.tokenTimeLimit]
+     * @param {String} [config.initialToken]
      * @returns {tokenHandler}
      */
     return function tokenHandlerFactory(config) {
@@ -58,6 +59,10 @@ function (_, module, store, feedback, tokenStoreFactory) {
         config = _.defaults({}, config, defaults);
         // Initialise storage for tokens:
         tokenStore = tokenStoreFactory(config);
+
+        if (config.initialToken) {
+            tokenStore.add(config.initialToken);
+        }
 
         return {
             /**
@@ -94,18 +99,7 @@ function (_, module, store, feedback, tokenStoreFactory) {
                     else if (!clientConfigFetched) {
                         // Client Config allowed! (first and only time)
                         return self.getClientConfigTokens()
-                            .then(function(newTokens) {
-                                // Add the fetched tokens to the store, synchronously:
-                                // Chaining the promises using Array.prototype.reduce is necessary
-                                // to manage token addition & deletion correctly
-                                return newTokens.reduce(function(previousPromise, nextToken) {
-                                    return previousPromise.then(function() {
-                                        return self.setToken(nextToken);
-                                    });
-                                }, Promise.resolve());
-                            })
                             .then(function() {
-                                // We assume the store was refilled
                                 return tokenStore.get().then(function(currentToken) {
                                     return currentToken.value;
                                 });
@@ -122,7 +116,7 @@ function (_, module, store, feedback, tokenStoreFactory) {
              * Adds a new security token to the token queue
              * Internally, old tokens are deleted to keep queue within maximum pool size
              * @param {String} newToken
-             * @returns {Promise<Boolean>} - true if successful
+             * @returns {Promise<Boolean>} - resolves true if successful
              */
             setToken: function setToken(newToken) {
                 return tokenStore.add(newToken)
@@ -138,21 +132,35 @@ function (_, module, store, feedback, tokenStoreFactory) {
             /**
              * Extracts tokens from the Client Config which should be received on every page load
              *
-             * @returns {Promise<Array>} - an array of locally-timestamped token objects
+             * @returns {Promise<Boolean>} - resolves true when completed
              */
             getClientConfigTokens() {
+                var self = this;
                 var tokens = _.map(module.config().tokens, function(serverToken) {
                     return {
                         value: serverToken,
                         receivedAt: Date.now()
                     };
                 });
+
                 // Store flag in memory saying that this function ran:
                 getConfigStore().then(function(configStore) {
                     configStore.setItem('clientConfigFetched', true);
                 });
 
-                return Promise.resolve(tokens);
+                return Promise.resolve(tokens).then(function(newTokens) {
+                    // Add the fetched tokens to the store, synchronously:
+                    // Chaining the promises using Array.prototype.reduce is necessary
+                    // to manage token addition & deletion correctly
+                    return newTokens.reduce(function(previousPromise, nextToken) {
+                        return previousPromise.then(function() {
+                            return self.setToken(nextToken);
+                        });
+                    }, Promise.resolve())
+                    .then(function() {
+                        return true;
+                    });
+                });
             },
 
             /**

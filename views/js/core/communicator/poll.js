@@ -92,7 +92,9 @@ define([
         init: function init() {
             var self = this;
             var config = _.defaults(this.getConfig(), defaults);
-            var tokenHandler = tokenHandlerFactory(config.token);
+            var tokenHandler = tokenHandlerFactory({
+                initialToken: config.token
+            });
 
             // validate the config
             if (!config.service) {

@@ -25,8 +25,7 @@
 define([
     'lodash',
     'core/store',
-    'lib/uuid'
-], function(_, store, uuid) {
+], function(_, store) {
     'use strict';
 
     /**
@@ -42,7 +41,6 @@ define([
      * @param {Object} [options]
      * @param {Number} [options.maxSize = 6] - the store limit
      * @param {Number} [options.tokenTimeLimit] - time in milliseconds each token remains valid for
-     * @param {String} [options.initialToken] - first token to put in the store
      * @returns {tokenStore}
      */
     return function tokenStoreFactory(options) {
@@ -53,13 +51,6 @@ define([
         var getStore = function getStore() {
             return store('tokenStore.tokens', store.backends.memory);
         };
-
-        if (config.initialToken) {
-            this.add({
-                value: config.initialToken,
-                receivedAt: Date.now()
-            });
-        }
 
         /**
          * @typedef tokenStore

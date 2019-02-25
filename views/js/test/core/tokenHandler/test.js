@@ -162,40 +162,21 @@ define([
     QUnit.asyncTest('getClientConfigTokens', function(assert) {
         var tokenHandler = tokenHandlerFactory();
 
-        QUnit.expect(5);
+        QUnit.expect(3);
 
         tokenHandler.getClientConfigTokens()
-            .then(function(tokens){
-                assert.equal(typeof tokens, 'object', 'An object was fetched');
-                assert.equal(tokens.length, 5, '5 tokens were fetched');
-                assert.equal(typeof tokens[0].value, 'string', 'The first token has a value');
-                assert.equal(typeof tokens[0].receivedAt, 'number', 'The first token has a timestamp');
-                assert.notEqual(tokens[0].value, tokens[1].value, 'The tokens have different values');
-
-                return tokenHandler.clearStore();
-            })
-            .then(function() {
-                QUnit.start();
-            })
-            .catch(function(err){
-                assert.ok(false, err.message);
-                QUnit.start();
-            });
-    });
-
-    QUnit.asyncTest('get token when empty', function(assert) {
-        var tokenHandler = tokenHandlerFactory({ maxSize: 5 });
-
-        QUnit.expect(2);
-
-        tokenHandler.getToken() // internally uses getClientConfigTokens() -> should fetch 5
-            .then(function(token){
-                assert.equal(typeof token, 'string', 'A token string was fetched');
+            .then(function(result) {
+                assert.ok(result, 'The method returned true');
 
                 return tokenHandler.getQueueLength();
             })
             .then(function(length) {
-                assert.equal(length, 4, 'The queue size is correct: 4');
+                assert.equal(length, 5, 'The queue size is correct: 5');
+
+                return tokenHandler.getToken();
+            })
+            .then(function(token){
+                assert.equal(typeof token, 'string', 'A token string was fetched');
 
                 return tokenHandler.clearStore();
             })
@@ -206,7 +187,5 @@ define([
                 assert.ok(false, err.message);
                 QUnit.start();
             });
-
     });
-
 });

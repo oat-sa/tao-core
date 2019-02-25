@@ -149,6 +149,18 @@ define([
                     })
                     .fail(function(xhr, textStatus, errorThrown) {
                         var response;
+                        var token;
+                        var tokenDone = Promise.resolve();
+
+                        if (_.isFunction(xhr.getResponseHeader)) {
+                            token = xhr.getResponseHeader('X-CSRF-Token');
+                            console.log('received X-CSRF-Token header', token);
+                            // store the response token for the next request
+                            if (token) {
+                                tokenDone = tokenHandler.setToken(token);
+                            }
+                        }
+
                         try {
                             response = JSON.parse(xhr.responseText);
                         } catch (parseErr) {
@@ -167,7 +179,9 @@ define([
                             message: errorThrown || __('An error occurred!')
                         });
 
-                        return reject(createError(response, xhr.status + ' : ' + xhr.statusText, xhr.status));
+                        return tokenDone.then(function () {
+                            return reject(createError(response, xhr.status + ' : ' + xhr.statusText, xhr.status));
+                        });
                     });
                 });
             }
