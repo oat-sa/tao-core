@@ -15,29 +15,25 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
+ *
  */
 
 namespace oat\tao\model\routing;
 
-use Psr\Http\Message\ServerRequestInterface;
-
 /**
- * Interface Route
+ * Class ApiRoute
  * @package oat\tao\model\routing
  */
-interface Route
+class ApiRoute extends AbstractApiRoute
 {
-    /**
-     * Returns the name of the controller and action to call
-     * or null if it doesn't apply
-     * @param ServerRequestInterface $request
-     * @return string
-     */
-    public function resolve(ServerRequestInterface $request);
+    const REST_CONTROLLER_PREFIX = 'oat\\tao\\controller\\api\\';
 
     /**
      * Get controller namespace prefix
      * @return string
      */
-    public static function getControllerPrefix();
+    public static function getControllerPrefix()
+    {
+        return static::REST_CONTROLLER_PREFIX;
+    }
 }

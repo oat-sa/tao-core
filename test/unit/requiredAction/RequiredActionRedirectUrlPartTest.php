@@ -19,13 +19,14 @@
  *
  */
 
+namespace oat\tao\test\unit\requiredAction;
+
+use oat\generis\test\TestCase;
 use oat\tao\model\requiredAction\implementation\RequiredActionRedirectUrlPart;
-use oat\tao\test\TaoPhpUnitTestRunner;
 use Prophecy\Argument;
 
-class RequiredActionRedirectUrlPartTest extends \PHPUnit_Framework_TestCase
+class RequiredActionRedirectUrlPartTest extends TestCase
 {
-
     /**
      * @dataProvider optionsProvider
      */
