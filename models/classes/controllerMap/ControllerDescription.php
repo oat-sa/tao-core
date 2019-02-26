@@ -21,12 +21,12 @@
 
 namespace oat\tao\model\controllerMap;
 
-use oat\tao\model\http\Controller;
+use oat\tao\model\http\HttpController;
 use ReflectionClass;
 use ReflectionMethod;
 
 /**
- * Description of a Tao Controller
+ * Description of a Tao HttpController
  *
  * @author Joel Bout <joel@taotesting.com>
  */
@@ -70,7 +70,7 @@ class ControllerDescription
                 continue;
             }
 
-            if (is_subclass_of($m->class, 'Module') || is_subclass_of($m->class, Controller::class)) {
+            if (is_subclass_of($m->class, 'Module') || is_subclass_of($m->class, HttpController::class)) {
                 $actions[] = new ActionDescription($m);
             }
         }

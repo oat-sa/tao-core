@@ -26,15 +26,15 @@ use Context;
  * Class LegacyController
  * @package oat\tao\model\http
  *
- * @deprecated please use \oat\tao\model\http\Controller instead
+ * @deprecated please use \oat\tao\model\http\HttpController instead
  *
  * In order to remove legacy DI & http request handling, we need to remove this controller
  * Any entry point (e.q. controller) should not extend this class anymore
- * To correctly handle PSR7 request and response please inherit directly \oat\tao\model\http\Controller
+ * To correctly handle PSR7 request and response please inherit directly \oat\tao\model\http\HttpController
  * This is a temporary solution to wait all children do not call legacy "Module" method anymore
  *
  */
-abstract class LegacyController extends Controller
+abstract class LegacyController extends HttpController
 {
     protected $response, $request;
 
@@ -314,7 +314,7 @@ abstract class LegacyController extends Controller
      *
      * @param $contentType
      * @param string $charset
-     * @return Controller
+     * @return HttpController
      */
     public function setContentHeader($contentType, $charset = 'UTF-8')
     {

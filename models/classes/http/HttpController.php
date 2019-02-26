@@ -24,14 +24,14 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * Class Controller
+ * Class HttpController
  *
  * A controller to handle http request & response following Psr7 standard
  *
  * @package oat\tao\model\http
  * @author Moyon Camille
  */
-abstract class Controller
+abstract class HttpController
 {
     use HttpRequestHelperTrait;
     use HttpFlowTrait;

@@ -22,7 +22,7 @@
 namespace oat\tao\model\controllerMap;
 
 use common_Logger;
-use oat\tao\model\http\Controller;
+use oat\tao\model\http\HttpController;
 use ReflectionClass;
 use RecursiveDirectoryIterator;
 use DirectoryIterator;
@@ -150,8 +150,8 @@ class Factory
         if (!class_exists($controllerClassName)) {
             common_Logger::w($controllerClassName.' not found');
             $returnValue = false;
-        } elseif (!is_subclass_of($controllerClassName, 'Module') && !is_subclass_of($controllerClassName, Controller::class)) {
-            common_Logger::w($controllerClassName.' is not a valid Controller.');
+        } elseif (!is_subclass_of($controllerClassName, 'Module') && !is_subclass_of($controllerClassName, HttpController::class)) {
+            common_Logger::w($controllerClassName.' is not a valid HttpController.');
             $returnValue = false;
         } else {
             // abstract so just move along

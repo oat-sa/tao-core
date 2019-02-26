@@ -22,7 +22,7 @@ namespace oat\tao\test\unit\http;
 
 use GuzzleHttp\Psr7\ServerRequest;
 use oat\generis\test\TestCase;
-use oat\tao\model\http\Controller;
+use oat\tao\model\http\HttpController;
 
 class HttpRequestHelperTraitTest extends TestCase
 {
@@ -35,8 +35,8 @@ class HttpRequestHelperTraitTest extends TestCase
         $headers = ['toto' => 'header', 'titi' => 'headers'];
         $request = new ServerRequest($method, '/', $headers);
 
-        $controller = new ProxyController();
-        $this->assertInstanceOf(Controller::class, $controller->setRequest($request));
+        $controller = new ProxyHttpController();
+        $this->assertInstanceOf(HttpController::class, $controller->setRequest($request));
 
         $this->assertEquals($headers, $controller->getHeaders());
 
@@ -57,8 +57,8 @@ class HttpRequestHelperTraitTest extends TestCase
         $request = new ServerRequest($method, '/', $parameters);
         $request = $request->withParsedBody($parameters);
 
-        $controller = new ProxyController();
-        $this->assertInstanceOf(Controller::class, $controller->setRequest($request));
+        $controller = new ProxyHttpController();
+        $this->assertInstanceOf(HttpController::class, $controller->setRequest($request));
 
         $this->assertEquals($parameters, $controller->getPostParameters());
 
@@ -79,8 +79,8 @@ class HttpRequestHelperTraitTest extends TestCase
         $request = new ServerRequest($method, '/', $parameters);
         $request = $request->withQueryParams($parameters);
 
-        $controller = new ProxyController();
-        $this->assertInstanceOf(Controller::class, $controller->setRequest($request));
+        $controller = new ProxyHttpController();
+        $this->assertInstanceOf(HttpController::class, $controller->setRequest($request));
 
         $this->assertEquals($parameters, $controller->getGetParameters());
 
@@ -103,8 +103,8 @@ class HttpRequestHelperTraitTest extends TestCase
             $request = $request->withAttribute($attribute, $value);
         }
 
-        $controller = new ProxyController();
-        $this->assertInstanceOf(Controller::class, $controller->setRequest($request));
+        $controller = new ProxyHttpController();
+        $this->assertInstanceOf(HttpController::class, $controller->setRequest($request));
 
         $this->assertEquals($parameters, $controller->getAttributeParameters());
 
@@ -125,8 +125,8 @@ class HttpRequestHelperTraitTest extends TestCase
         $request = new ServerRequest($method, '/', $parameters);
         $request = $request->withCookieParams($parameters);
 
-        $controller = new ProxyController();
-        $this->assertInstanceOf(Controller::class, $controller->setRequest($request));
+        $controller = new ProxyHttpController();
+        $this->assertInstanceOf(HttpController::class, $controller->setRequest($request));
 
         $this->assertEquals($parameters, $controller->getCookieParams());
 
@@ -144,8 +144,8 @@ class HttpRequestHelperTraitTest extends TestCase
     public function testHttpMethod($method)
     {
         $request = new ServerRequest($method, '/');
-        $controller = new ProxyController();
-        $this->assertInstanceOf(Controller::class, $controller->setRequest($request));
+        $controller = new ProxyHttpController();
+        $this->assertInstanceOf(HttpController::class, $controller->setRequest($request));
 
         $this->assertSame($method, $controller->getRequestMethod());
 
@@ -181,8 +181,8 @@ class HttpRequestHelperTraitTest extends TestCase
             ]
         );
 
-        $controller = new ProxyController();
-        $this->assertInstanceOf(Controller::class, $controller->setRequest($request));
+        $controller = new ProxyHttpController();
+        $this->assertInstanceOf(HttpController::class, $controller->setRequest($request));
 
         $this->assertTrue($controller->isXmlHttpRequest());
         $this->assertEquals(['toto'], $controller->getUserAgent());
@@ -195,8 +195,8 @@ class HttpRequestHelperTraitTest extends TestCase
     {
         $request = new ServerRequest('GET', '/');
 
-        $controller = new ProxyController();
-        $this->assertInstanceOf(Controller::class, $controller->setRequest($request));
+        $controller = new ProxyHttpController();
+        $this->assertInstanceOf(HttpController::class, $controller->setRequest($request));
 
         $this->assertFalse($controller->isXmlHttpRequest());
         $this->assertEmpty($controller->getUserAgent());

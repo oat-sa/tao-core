@@ -20,9 +20,9 @@
 
 namespace oat\tao\test\unit\http;
 
-use oat\tao\model\http\Controller;
+use oat\tao\model\http\HttpController;
 
-class ProxyController extends Controller
+class ProxyHttpController extends HttpController
 {
     protected $serviceLocator;
 
