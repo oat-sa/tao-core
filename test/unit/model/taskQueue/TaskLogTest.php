@@ -20,6 +20,7 @@
 
 namespace oat\tao\test\unit\model\taskQueue;
 
+use oat\generis\test\TestCase;
 use oat\tao\model\taskQueue\Task\AbstractTask;
 use oat\tao\model\taskQueue\TaskLog;
 use oat\tao\model\taskQueue\TaskLog\Broker\RdsTaskLogBroker;
@@ -30,7 +31,7 @@ use oat\tao\model\taskQueue\TaskLog\TasksLogsStats;
 use oat\tao\model\taskQueue\TaskLogInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class TaskLogTest extends \PHPUnit_Framework_TestCase
+class TaskLogTest extends TestCase
 {
     /**
      * @expectedException \InvalidArgumentException

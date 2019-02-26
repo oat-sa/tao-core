@@ -19,7 +19,6 @@
 
 namespace oat\tao\test\unit\service;
 
-use oat\generis\test\GenerisPhpUnitTestRunner;
 use oat\generis\test\TestCase;
 use oat\oatbox\service\ServiceNotFoundException;
 use oat\tao\model\service\ApplicationService;
@@ -49,9 +48,7 @@ class ApplicationServiceTest extends TestCase
         parent::setUp();
 
         $this->instance = new ApplicationService();
-        $extensionMock = $this->getMockBuilder(common_ext_Extension::class);
-        $extensionMock->disableOriginalConstructor();
-        $this->extensionMock = $extensionMock->getMock();
+        $this->extensionMock = $this->createMock(common_ext_Extension::class);
     }
 
     protected function tearDown()
