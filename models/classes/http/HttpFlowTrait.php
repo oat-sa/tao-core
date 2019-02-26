@@ -31,7 +31,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Trait HttpFlowTrait
- * @package oat\oatbox\http
+ * @package oat\tao\model\http
  * @author Moyon Camille
  */
 trait HttpFlowTrait

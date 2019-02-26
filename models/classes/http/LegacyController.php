@@ -24,7 +24,7 @@ use Context;
 
 /**
  * Class LegacyController
- * @package oat\oatbox\http
+ * @package oat\tao\model\http
  *
  * @deprecated please use \oat\tao\model\http\Controller instead
  *

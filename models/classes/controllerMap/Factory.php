@@ -22,7 +22,7 @@
 namespace oat\tao\model\controllerMap;
 
 use common_Logger;
-use oat\oatbox\http\Controller;
+use oat\tao\model\http\Controller;
 use ReflectionClass;
 use RecursiveDirectoryIterator;
 use DirectoryIterator;

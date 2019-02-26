@@ -28,7 +28,7 @@ use Psr\Http\Message\ServerRequestInterface;
  *
  * A controller to handle http request & response following Psr7 standard
  *
- * @package oat\oatbox\http
+ * @package oat\tao\model\http
  * @author Moyon Camille
  */
 abstract class Controller

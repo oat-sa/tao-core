@@ -24,7 +24,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Trait HttpRequestHelperTrait
- * @package oat\oatbox\http
+ * @package oat\tao\model\http
  * @author Moyon Camille
  */
 trait HttpRequestHelperTrait

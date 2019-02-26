@@ -21,7 +21,7 @@
 
 namespace oat\tao\model\controllerMap;
 
-use oat\oatbox\http\Controller;
+use oat\tao\model\http\Controller;
 use ReflectionClass;
 use ReflectionMethod;
 

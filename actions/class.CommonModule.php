@@ -20,7 +20,7 @@
  *               2013-2019 (update and modification) Open Assessment Technologies SA;
  */
 
-use oat\oatbox\http\LegacyController;
+use oat\tao\model\http\LegacyController;
 use oat\oatbox\session\LegacySessionUtils;
 use oat\tao\model\action\CommonModuleInterface;
 use oat\tao\model\mvc\RendererTrait;
