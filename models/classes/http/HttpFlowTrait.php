@@ -75,8 +75,10 @@ trait HttpFlowTrait
      *
      * @param string $url the url to forward to
      * @throws InterruptedActionException
-     * @throws \ActionEnforcingException
-     * @throws \common_exception_Error
+     * @throws \ResolverException
+     * @throws \common_exception_InconsistentData
+     * @throws \common_exception_InvalidArgumentType
+     * @throws \common_ext_ManifestNotFoundException
      */
     public function forwardUrl($url)
     {
@@ -86,6 +88,9 @@ trait HttpFlowTrait
         if (strlen($query) > 0) {
             parse_str($query, $queryParams);
         }
+
+        \common_Logger::w(print_r($url,true));
+        \common_Logger::w(print_r($uri->getQuery(),true));
 
         switch ($this->getPsrRequest()->getMethod()) {
             case 'GET' :
@@ -102,7 +107,7 @@ trait HttpFlowTrait
             ->withQueryParams((array) $queryParams);
 
         //resolve the given URL for routing
-        $resolver = new Resolver($request)
+        $resolver = new Resolver($request);
         $this->propagate($resolver);
 
         //update the context to the new route
@@ -111,12 +116,19 @@ trait HttpFlowTrait
         $context->setModuleName($resolver->getControllerShortName());
         $context->setActionName($resolver->getMethodName());
 
+//        foreach ($params as $key => $param) {
+//            $context->setData($key, $param);
+//        }
+        $context->getRequest()->addParameters($queryParams);
+//        $context->set
+//        unset($context::getInstance());
+
         $request = $request
             ->withAttribute('extension', $resolver->getExtensionId())
             ->withAttribute('controller', $resolver->getControllerShortName())
             ->withAttribute('method', $resolver->getMethodName());
 
-            //execute the new action
+        //execute the new action
         $enforcer = new ActionEnforcer(
             $resolver->getExtensionId(),
             $resolver->getControllerClass(),

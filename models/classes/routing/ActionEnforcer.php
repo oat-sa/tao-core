@@ -116,6 +116,7 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
         if (!$this->request) {
             $this->request = ServerRequest::fromGlobals();
         }
+
         return $this->request;
     }
 
