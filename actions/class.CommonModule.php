@@ -27,13 +27,13 @@ use oat\tao\model\mvc\RendererTrait;
 use oat\tao\model\security\ActionProtector;
 use oat\tao\helpers\Template;
 use oat\tao\helpers\JavaScript;
-use oat\tao\model\routing\FlowController;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\accessControl\AclProxy;
 use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\exception\InvalidServiceManagerException;
 use oat\oatbox\log\LoggerAwareTrait;
+use function GuzzleHttp\Psr7\stream_for;
 
 /**
  * Top level controller
@@ -201,7 +201,8 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
      * @param array $extraParameters additional parameters to append to the URL
      * @return string the URL
      */
-    protected function getClientConfigUrl($extraParameters = []){
+    protected function getClientConfigUrl($extraParameters = [])
+    {
         return JavaScript::getClientConfigUrl($extraParameters);
     }
 
@@ -211,7 +212,8 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
      * @return int the timeout value in seconds
      * @throws common_ext_ExtensionException
      */
-    protected function getClientTimeout(){
+    protected function getClientTimeout()
+    {
         $ext = $this->getServiceManager()->get(common_ext_ExtensionsManager::SERVICE_ID)->getExtensionById('tao');
         $config = $ext->getConfig('js');
         if($config !== null && isset($config['timeout'])){
@@ -229,7 +231,7 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
     protected function returnJson($data, $httpStatus = 200) {
         header(HTTPToolkit::statusCodeHeader($httpStatus));
         Context::getInstance()->getResponse()->setContentHeader('application/json');
-        echo json_encode($data);
+        $this->response = $this->getPsrResponse()->withBody(stream_for(json_encode($data)));
     }
 
     /**
@@ -256,22 +258,6 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
     }
 
     /**
-     * Returns a request parameter unencoded
-     *
-     * @param string $paramName
-     * @throws common_exception_MissingParameter
-     * @return string
-     */
-    protected function getRawParameter($paramName)
-    {
-        $raw = $this->getRequest()->getRawParameters();
-        if (!isset($raw[$paramName])) {
-            throw new common_exception_MissingParameter($paramName);
-        }
-        return $raw[$paramName];
-    }
-
-    /**
      * Get the current session
      *
      * @return common_session_Session
@@ -280,18 +266,6 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
     protected function getSession()
     {
         return common_session_SessionManager::getSession();
-    }
-
-    /**
-     * Get the flow controller
-     *
-     * Propagate the service (logger and service manager)
-     *
-     * @return FlowController
-     */
-    protected function getFlowController()
-    {
-        return $this->propagate(new FlowController());
     }
 
     /**

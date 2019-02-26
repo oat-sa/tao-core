@@ -22,6 +22,7 @@ namespace oat\tao\model\http;
 
 use common_http_Request;
 use Context;
+use GuzzleHttp\Psr7\Uri;
 use HTTPToolkit;
 use InterruptedActionException;
 use oat\tao\model\routing\ActionEnforcer;
@@ -79,58 +80,64 @@ trait HttpFlowTrait
      */
     public function forwardUrl($url)
     {
-        //get the current request
-        $request = common_http_Request::currentRequest();
-        $params = $request->getParams();
-
-        //parse the given URL
-        $parsedUrl = parse_url($url);
-
-        //if new parameters are given, then merge them
-        if(isset($parsedUrl['query']) && strlen($parsedUrl['query']) > 0){
-            $newParams = array();
-            parse_str($parsedUrl['query'], $newParams);
-            if(count($newParams) > 0){
-                $params = array_merge($params, $newParams);
-            }
+        $uri = new Uri($url);
+        $query = $uri->getQuery();
+        $queryParams = [];
+        if (strlen($query) > 0) {
+            parse_str($query, $queryParams);
         }
 
-        //resolve the given URL for routing
-        $resolver = new Resolver(new common_http_Request($parsedUrl['path'], $request->getMethod(), $params));
-        $resolver->setServiceLocator($this->getServiceLocator());
+        switch ($this->getPsrRequest()->getMethod()) {
+            case 'GET' :
+                $params = $this->getPsrRequest()->getQueryParams();
+                break;
+            case 'POST' :
+                $params = $this->getPsrRequest()->getParsedBody();
+                break;
+            default:
+                $params = [];
+        }
+        $request = $this->getPsrRequest()
+            ->withUri($uri)
+            ->withQueryParams((array) $queryParams);
 
-        $context = Context::getInstance();
+        //resolve the given URL for routing
+        $resolver = new Resolver($request)
+        $this->propagate($resolver);
 
         //update the context to the new route
+        $context = \Context::getInstance();
         $context->setExtensionName($resolver->getExtensionId());
         $context->setModuleName($resolver->getControllerShortName());
         $context->setActionName($resolver->getMethodName());
-        if(count($params) > 0){
-            $context->getRequest()->addParameters($params);
-        }
 
-        //add a custom header so the client knows where the route ends
-        header('X-Tao-Forward: ' . $resolver->getExtensionId() . '/' .  $resolver->getControllerShortName() . '/' . $resolver->getMethodName());
+        $request = $request
+            ->withAttribute('extension', $resolver->getExtensionId())
+            ->withAttribute('controller', $resolver->getControllerShortName())
+            ->withAttribute('method', $resolver->getMethodName());
 
-//        $request = $request
-//            ->withAttribute('extension', $resolver->getExtensionId())
-//            ->withAttribute('controller', $resolver->getControllerShortName())
-//            ->withAttribute('method', $resolver->getMethodName());
-
-        //execute the new action
+            //execute the new action
         $enforcer = new ActionEnforcer(
             $resolver->getExtensionId(),
             $resolver->getControllerClass(),
             $resolver->getMethodName(),
             $params
         );
-        $enforcer->setServiceLocator($this->getServiceLocator());
-        $enforcer->execute();
+        $this->propagate($enforcer);
 
-        //should not be reached
-        throw new InterruptedActionException('Interrupted action after a forward',
+        $enforcer(
+            $request,
+            $this->response->withHeader(
+                'X-Tao-Forward',
+                $resolver->getExtensionId() . '/' .  $resolver->getControllerShortName() . '/' . $resolver->getMethodName()
+            )
+        );
+
+        throw new InterruptedActionException(
+            'Interrupted action after a forwardUrl',
             $context->getModuleName(),
-            $context->getActionName());
+            $context->getActionName()
+        );
     }
 
     /**

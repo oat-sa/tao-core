@@ -29,11 +29,6 @@ trait RendererTrait
      */
     protected $renderer;
 
-    /**
-     * Get the renderer engine
-     *
-     * @return Renderer
-     */
     public function getRenderer()
     {
         if (!isset($this->renderer)) {

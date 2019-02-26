@@ -888,6 +888,9 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
 
         $tokenName = $tokenService->getTokenName();
         $token = $this->getRequestParameter($tokenName);
+        common_Logger::w(print_r($this->getPsrRequest()->getAttributes(), true));
+        common_Logger::w(print_r($this->getRequestParameters(), true));
+        common_Logger::w(print_r($this->getRequestParameter($tokenName), true));
 
         if ( $tokenService->checkToken($token) ) {
             $tokenService->revokeToken($token);

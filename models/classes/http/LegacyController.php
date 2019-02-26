@@ -104,6 +104,22 @@ abstract class LegacyController extends Controller
     }
 
     /**
+     * Returns a request parameter unencoded
+     *
+     * @param string $paramName
+     * @throws \common_exception_MissingParameter
+     * @return string
+     */
+    protected function getRawParameter($paramName)
+    {
+        $raw = $this->getRequest()->getRawParameters();
+        if (!isset($raw[$paramName])) {
+            throw new \common_exception_MissingParameter($paramName);
+        }
+        return $raw[$paramName];
+    }
+
+    /**
      * @see parent::getHeaders()
      *
      * @return array
