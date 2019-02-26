@@ -133,14 +133,15 @@ abstract class LegacyController extends Controller
     /**
      * @see parent::getHeader()
      *
+     * @param $default
      * @return mixed
      */
-    public function getHeader($name)
+    public function getHeader($name, $default = null)
     {
         if (!$this->request) {
             return $this->getRequest()->getHeader($name);
         }
-        return parent::getHeader($name);
+        return parent::getHeader($name, $default);
     }
 
     /**
@@ -160,14 +161,15 @@ abstract class LegacyController extends Controller
      * @see parent::getCookie()
      *
      * @param $name
+     * @param $default
      * @return bool|mixed
      */
-    public function getCookie($name)
+    public function getCookie($name, $default = null)
     {
         if (!$this->request) {
             return $this->getRequest()->getCookie($name);
         }
-        return parent::getCookie($name);
+        return parent::getCookie($name, $default);
     }
 
     /**
