@@ -23,7 +23,6 @@ use common_exception_RestApi;
 use tao_actions_CommonRestModule;
 
 /**
- * Class tao_actions_RestVersion
  * @author Mikhail Kamarouski, <mikhail.kamarouski@1pt.com>
  */
 class Version extends tao_actions_CommonRestModule
