@@ -32,6 +32,7 @@ use oat\generis\model\kernel\persistence\file\FileIterator;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\controller\api\Users;
+use oat\tao\controller\api\Version;
 use oat\tao\model\cliArgument\argument\implementation\Group;
 use oat\tao\model\cliArgument\argument\implementation\verbose\Debug;
 use oat\tao\model\cliArgument\argument\implementation\verbose\Error;
@@ -927,11 +928,11 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         $this->skip('27.0.0', '27.1.1');
 
-        if ($this->isVersion('26.1.3')) {
-//            AclProxy::applyRule(new AccessRule(AccessRule::GRANT,  TaoRoles::SYSTEM_ADMINISTRATOR, Version::class));
+        if ($this->isVersion('27.1.1')) {
+            AclProxy::applyRule(new AccessRule(AccessRule::GRANT,  TaoRoles::SYSTEM_ADMINISTRATOR, Version::class));
+            AclProxy::applyRule(new AccessRule(AccessRule::GRANT,  TaoRoles::GLOBAL_MANAGER, Version::class));
 
-            AclProxy::applyRule(new AccessRule('grant', TaoRoles::ANONYMOUS, ['ext' => 'tao', 'mod' => 'RestVersion', 'act' => 'index']));
-            $this->setVersion('26.2.0');
+            $this->setVersion('27.2.0');
         }
     }
 }

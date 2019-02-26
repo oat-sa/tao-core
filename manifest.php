@@ -173,6 +173,8 @@ return array(
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#PropertyManagerRole', 'tao_actions_PropertiesAuthoring'),
         array(AccessRule::GRANT, TaoRoles::SYSTEM_ADMINISTRATOR, oat\tao\controller\api\Users::class),
         array(AccessRule::GRANT, TaoRoles::GLOBAL_MANAGER, oat\tao\controller\api\Users::class),
+        array(AccessRule::GRANT, TaoRoles::SYSTEM_ADMINISTRATOR, oat\tao\controller\api\Version::class),
+        array(AccessRule::GRANT, TaoRoles::GLOBAL_MANAGER, oat\tao\controller\api\Version::class),
     ),
     'routes' => [
         '/tao/api'  => ['class' => ApiRoute::class],

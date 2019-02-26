@@ -17,20 +17,20 @@
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
  */
 
+namespace oat\tao\controller\api;
+
+use common_exception_RestApi;
+use tao_actions_CommonRestModule;
+
 /**
  * Class tao_actions_RestVersion
  * @author Mikhail Kamarouski, <mikhail.kamarouski@1pt.com>
- * @OA\Info(
- *     title="Provides platform version information",
- *     version="0.1.0",
- *     @OA\License(name="GPL-2.0-only")
- *    )
  */
-class tao_actions_RestVersion extends tao_actions_RestClass
+class Version extends tao_actions_CommonRestModule
 {
     /**
      * @OA\Get(
-     *      path="/RestVersion",
+     *      path="/tao/api/Version",
      *      operationId="getVersion",
      *      tags={"platform"},
      *      @OA\Response(
@@ -47,15 +47,38 @@ class tao_actions_RestVersion extends tao_actions_RestClass
      *         ),
      *     ),
      * )
+     * @param null $uri
+     * @return void
      */
-    public function index()
+    public function get($uri = null)
     {
-        if ($this->getRequest()->isGet()) {
-            return $this->returnJson([
-                'version' => TAO_VERSION
-            ]);
-        }
-        throw new common_exception_RestApi();
-
+        return $this->returnJson([
+            'version' => TAO_VERSION
+        ]);
     }
+
+    public function put($uri)
+    {
+        $this->returnFailure(new common_exception_RestApi('Not implemented'));
+    }
+
+    /**
+     * @param string $uri
+     * @return void
+     * @throws \common_exception_NotImplemented
+     */
+    public function delete($uri = null)
+    {
+        $this->returnFailure(new common_exception_RestApi('Not implemented'));
+    }
+
+    /**
+     * @return void
+     * @throws \common_exception_NotImplemented
+     */
+    public function post()
+    {
+        $this->returnFailure(new common_exception_RestApi('Not implemented'));
+    }
+
 }
