@@ -156,7 +156,7 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
             $user = common_session_SessionManager::getSession()->getUser();
             $this->logDebug('Invoking '.get_class($controller).'::'.$action.' by '.$user->getIdentifier(), ARRAY('GENERIS', 'CLEARRFW'));
 
-            $eventManager = ServiceManager::getServiceManager()->get(EventManager::CONFIG_ID);
+            $eventManager = ServiceManager::getServiceManager()->get(EventManager::SERVICE_ID);
             $eventManager->trigger(new BeforeAction());
 
             call_user_func_array(array($controller, $action), $tabParam);

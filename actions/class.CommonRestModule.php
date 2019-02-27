@@ -22,6 +22,10 @@ use oat\generis\model\OntologyRdfs;
  *
  */
 
+/**
+ * Class tao_actions_CommonRestModule
+ * @OA\Info(title="TAO Rest API", version="1.0")
+ */
 abstract class tao_actions_CommonRestModule extends tao_actions_RestController
 {
     /**
@@ -35,7 +39,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
             $uri = null;
             if ($this->hasRequestParameter("uri")) {
                 $uri = $this->getRequestParameter("uri");
-                if (!(common_Utils::isUri($uri))) {
+                if (!common_Utils::isUri($uri)) {
                     throw new common_exception_InvalidArgumentType();
                 }
             }
@@ -60,6 +64,12 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
             $this->returnSuccess($response);
 
         } catch (Exception $e) {
+            if ($e instanceof \common_exception_ValidationFailed &&
+                $alias = $this->reverseSearchAlias($e->getField())
+            ) {
+                $e = new \common_exception_ValidationFailed($alias, null, $e->getCode());
+            }
+
             $this->returnFailure($e);
         }
     }
@@ -139,6 +149,17 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
      *     @OA\Property(
      *         property="comment",
      *         type="string"
+     *     )
+     * )
+     * @OA\Schema(
+     *     schema="tao.CommonRestModule.CreatedResourceResponse",
+     *     description="Created resource data",
+     *     allOf={
+     *         @OA\Schema(ref="#/components/schemas/tao.RestTrait.BaseResponse")
+     *     },
+     *     @OA\Property(
+     *         property="data",
+     *         ref="#/components/schemas/tao.CommonRestModule.CreatedResource"
      *     )
      * )
      *
@@ -232,11 +253,19 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
      */
     protected function getParametersAliases()
     {
-        return array(
-            "label"=> OntologyRdfs::RDFS_LABEL,
-            "comment" => OntologyRdfs::RDFS_COMMENT,
-            "type"=> OntologyRdf::RDF_TYPE
-        );
+        return [
+            'label' => OntologyRdfs::RDFS_LABEL,
+            'comment' => OntologyRdfs::RDFS_COMMENT,
+            'type' => OntologyRdf::RDF_TYPE
+        ];
+    }
+
+    /**
+     * @param string $paramName
+     * @return string|false
+     */
+    protected function reverseSearchAlias($paramName) {
+        return array_search($paramName, $this->getParametersAliases(), true);
     }
 
     /**

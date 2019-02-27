@@ -1,20 +1,21 @@
 <?php
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 
-namespace oat\test\model;
+namespace oat\test\unitmodel;
+
+use oat\generis\test\TestCase;
 
 /**
  * Description of ClassServiceTest
  *
  * @author Christophe GARCIA <christopheg@taotesting.com>
  */
-class ClassServiceTest extends \oat\tao\test\TaoPhpUnitTestRunner {
-    
+class ClassServiceTest extends TestCase
+{
     public function testDeleteResource() {
         
         $instance = $this->getMockForAbstractClass(\tao_models_classes_ClassService::class, 
