@@ -31,6 +31,8 @@ use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\exception\InvalidServiceManagerException;
 use oat\oatbox\log\LoggerAwareTrait;
+use oat\tao\model\routing\AnnotationReader\security;
+
 
 /**
  * Top level controller
@@ -55,6 +57,7 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
 
     /**
      * tao_actions_CommonModule constructor.
+     * @security("hide");
      */
     public function __construct() {}
 
