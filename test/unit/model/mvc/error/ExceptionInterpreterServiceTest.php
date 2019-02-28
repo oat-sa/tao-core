@@ -22,17 +22,17 @@
 
 namespace oat\tao\test\unit\model\mvc\error;
 
+use oat\generis\test\TestCase;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\mvc\error\ExceptionInterpreterService;
 use oat\tao\model\mvc\error\ExceptionInterpretor;
-use oat\tao\test\TaoPhpUnitTestRunner;
 
 /**
  * Class ExceptionInterpreterServiceTest
  * @package oat\tao\test\unit\model\mvc\error
  * @author Aleh Hutnikau, <hutnikau@1pt.com>
  */
-class ExceptionInterpreterServiceTest extends TaoPhpUnitTestRunner
+class ExceptionInterpreterServiceTest extends TestCase
 {
 
     public function testGetExceptionInterpreter()
