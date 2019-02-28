@@ -15,7 +15,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 /**
@@ -31,6 +30,11 @@ class tao_actions_Security extends tao_actions_CommonModule
      */
     public function index()
     {
-        $this->setView('extensionManager/view.tpl');
+        $this->setView('security/view.tpl');
+
+        $formFactory = new tao_actions_form_CspHeader();
+        $cspHeaderForm = $formFactory->getForm();
+        $this->setData('formTitle', __('Edit sources that can embed this platform in an iFrame'));
+        $this->setData('cspHeaderForm', $cspHeaderForm->render());
     }
 }
