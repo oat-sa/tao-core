@@ -19,6 +19,7 @@
  *
  */
 
+use oat\generis\model\OntologyAwareTrait;
 use oat\tao\helpers\form\validators\CspHeaderValidator;
 
 /**
@@ -28,6 +29,11 @@ use oat\tao\helpers\form\validators\CspHeaderValidator;
  */
 class tao_actions_form_CspHeader extends tao_helpers_form_FormContainer
 {
+
+    use OntologyAwareTrait;
+
+    const SOURCE_RADIO_NAME = 'iframeSourceOption';
+    const SOURCE_LIST_NAME  = 'iframeSourceDomains';
 
     /**
      * @var \tao_helpers_form_elements_xhtml_Radiobox
@@ -59,8 +65,8 @@ class tao_actions_form_CspHeader extends tao_helpers_form_FormContainer
      */
     public function initElements()
     {
-        $this->sourceElement = tao_helpers_form_FormFactory::getElement('iframeSourceOption', 'Radiobox');
-        $this->sourceDomainsElement = tao_helpers_form_FormFactory::getElement('iframeSourceDomains', 'Textarea');
+        $this->sourceElement = tao_helpers_form_FormFactory::getElement(self::SOURCE_RADIO_NAME, 'Radiobox');
+        $this->sourceDomainsElement = tao_helpers_form_FormFactory::getElement(self::SOURCE_LIST_NAME, 'Textarea');
         $this->sourceDomainsElement->setAttribute('rows', 10);
         $this->sourceDomainsElement->addClass('hidden');
         $this->sourceDomainsElement->setDescription(
@@ -71,7 +77,7 @@ class tao_actions_form_CspHeader extends tao_helpers_form_FormContainer
         $this->setValidation();
         $this->sourceElement->setOptions($this->getSourceOptions());
 
-        $this->setPostData();
+        $this->setFormData();
 
         $this->form->addElement($this->sourceElement);
         $this->form->addElement($this->sourceDomainsElement);
@@ -79,7 +85,7 @@ class tao_actions_form_CspHeader extends tao_helpers_form_FormContainer
         $this->form->createGroup(
             'sources',
             '<h3>' . __('Sources that can embed this platform in an iFrame') . '</h3>',
-            ['iframeSourceOption', 'iframeSourceDomains']
+            [self::SOURCE_RADIO_NAME, self::SOURCE_LIST_NAME]
         );
 
         $this->form->setActions(tao_helpers_form_FormFactory::getCommonActions());
@@ -100,14 +106,15 @@ class tao_actions_form_CspHeader extends tao_helpers_form_FormContainer
     /**
      * Set the data received through a POST request
      */
-    private function setPostData()
+    private function setFormData()
     {
-        if (isset($_POST['iframeSourceOption']) && array_key_exists($_POST['iframeSourceOption'], $this->getSourceOptions())) {
-            $this->sourceElement->setValue($_POST['iframeSourceOption']);
+        $currentConfig = $this->getConfiguration();
+        if (isset($_POST[self::SOURCE_RADIO_NAME]) && array_key_exists($_POST[self::SOURCE_RADIO_NAME], $this->getSourceOptions())) {
+            $this->sourceElement->setValue($_POST[self::SOURCE_RADIO_NAME]);
         }
 
-        if (isset($_POST['iframeSourceDomains'])) {
-            $this->sourceDomainsElement->setValue($_POST['iframeSourceDomains']);
+        if (isset($_POST[self::SOURCE_LIST_NAME])) {
+            $this->sourceDomainsElement->setValue($_POST[self::SOURCE_LIST_NAME]);
         }
     }
 
@@ -120,6 +127,36 @@ class tao_actions_form_CspHeader extends tao_helpers_form_FormContainer
         $this->sourceElement->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
     }
 
+    /**
+     * Get the current configuration
+     */
+    public function getConfiguration()
+    {
+        $headerConfig = $this->getClass(self::CSP_HEADER_CONFIG);
+        $config = $headerConfig->getInstances();
+        if ($headerConfig->exists() === false) {
+            $headerConfig->createInstance();
+        }
+
+    }
+
+    /**
+     * Stores the configuration based on the form values.
+     */
+    public function saveConfiguration()
+    {
+        $formValues = $this->getForm()->getValues();
+
+        $configValue = $formValues[self::SOURCE_RADIO_NAME];
+        if ($configValue === 'all') {
+            $configValue = '*';
+        }
+
+        if ($configValue === 'list') {
+            $sources = trim(str_replace("\r", '', $formValues[self::SOURCE_LIST_NAME]));
+            $configValue = explode("\n", $sources);
+        }
 
 
+    }
 }

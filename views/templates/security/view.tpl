@@ -61,12 +61,7 @@
                 if ($formErrors.length > 0) {
                     var tooltipOptions = {
                         trigger: 'manual',
-                        closeOnClickOutside: true,
-                        popperOptions: {
-                            data: {
-                                placement: 'auto-end'
-                            }
-                        }
+                        closeOnClickOutside: true
                     };
 
                     tooltip.error($formTextArea, $formErrors.html(), tooltipOptions).show();

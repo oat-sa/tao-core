@@ -34,6 +34,11 @@ class tao_actions_Security extends tao_actions_CommonModule
 
         $formFactory = new tao_actions_form_CspHeader();
         $cspHeaderForm = $formFactory->getForm();
+
+        if ($cspHeaderForm->isSubmited() && $cspHeaderForm->isValid()) {
+            $formFactory->saveConfiguration();
+        }
+
         $this->setData('formTitle', __('Edit sources that can embed this platform in an iFrame'));
         $this->setData('cspHeaderForm', $cspHeaderForm->render());
     }
