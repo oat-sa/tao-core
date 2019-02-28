@@ -45,7 +45,11 @@ use oat\tao\model\routing\AnnotationReader\security;
  */
 abstract class tao_actions_CommonModule extends Module implements ServiceManagerAwareInterface, CommonModuleInterface
 {
-    use ServiceManagerAwareTrait { getServiceManager as protected getOriginalServiceManager; }
+    use ServiceManagerAwareTrait {
+        getServiceManager as protected getOriginalServiceManager;
+        getServiceLocator as protected getOriginalServiceLocator;
+        setServiceLocator as protected setOriginalServiceLocator;
+    }
     use LoggerAwareTrait;
 
     /**
@@ -356,5 +360,24 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
             $serviceManager = ServiceManager::getServiceManager();
         }
         return $serviceManager;
+    }
+
+    /**
+     * @return \Zend\ServiceManager\ServiceLocatorInterface
+     * @security("hide");
+     */
+    public function getServiceLocator()
+    {
+        return $this->getOriginalServiceLocator();
+    }
+
+    /**
+     * @param \Zend\ServiceManager\ServiceLocatorInterface $serviceLocator
+     * @return mixed
+     * @security("hide");
+     */
+    public function setServiceLocator(\Zend\ServiceManager\ServiceLocatorInterface $serviceLocator)
+    {
+        return $this->setOriginalServiceLocator($serviceLocator);
     }
 }
