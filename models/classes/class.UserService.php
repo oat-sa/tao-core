@@ -43,13 +43,14 @@ use oat\tao\model\GenerisServiceTrait;
  */
 class tao_models_classes_UserService extends ConfigurableService implements core_kernel_users_UsersManagement
 {
-
     use ClassServiceTrait;
     use GenerisServiceTrait {
         createInstance as protected traitCreateInstance;
     }
 
     const SERVICE_ID = 'tao/UserService';
+
+    const OPTION_ALLOW_API = 'allow_api';
 
     /**
      * the core user service

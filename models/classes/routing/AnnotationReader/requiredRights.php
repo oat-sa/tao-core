@@ -14,30 +14,34 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2019  (original work) Open Assessment Technologies SA;
+ *
+ * @author Alexander Zagovorichev <zagovorichev@1pt.com>
  */
 
-namespace oat\tao\model\routing;
+namespace oat\tao\model\routing\AnnotationReader;
 
-use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * Interface Route
- * @package oat\tao\model\routing
+ * Class requiredRights
+ * @package oat\tao\model\routing\AnnotationReader
+ *
+ * @requiredRights(key="id", permission="READ")
+ * @requiredRights(key="uid", permission="GRANT")
+ *
+ * @Annotation
  */
-interface Route
+class requiredRights
 {
     /**
-     * Returns the name of the controller and action to call
-     * or null if it doesn't apply
-     * @param ServerRequestInterface $request
-     * @return string
+     * @var string
+     * id, uri, resource_id ...
      */
-    public function resolve(ServerRequestInterface $request);
+    public $key;
 
     /**
-     * Get controller namespace prefix
-     * @return string
+     * @var string
+     * READ, WRITE, GRAND
      */
-    public static function getControllerPrefix();
+    public $permission;
 }
