@@ -52,7 +52,7 @@ interface SettingsStorageInterface
      * @param string $settingId
      * @return boolean
      */
-    public function has($settingId);
+    public function exists($settingId);
 
     /**
      * Remove the given setting from storage

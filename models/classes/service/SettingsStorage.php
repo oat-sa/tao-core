@@ -14,12 +14,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
+ * Copyright (c) 2019 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
 namespace oat\tao\model\service;
 
+use common_Exception;
 use common_persistence_KeyValuePersistence;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\settings\SettingsStorageInterface;
@@ -33,24 +33,9 @@ class SettingsStorage extends ConfigurableService implements SettingsStorageInte
 {
 
     /**
-     * Persistence to store service states to
-     *
      * @var common_persistence_KeyValuePersistence
      */
     private $persistence;
-
-    /**
-     * protected constructor to ensure singleton pattern
-     */
-    protected function getPersistence()
-    {
-        if ($this->persistence === null) {
-            $this->persistence = common_persistence_KeyValuePersistence::getPersistence(
-                $this->getOption(self::OPTION_PERSISTENCE)
-            );
-        }
-        return $this->persistence;
-    }
 
     /**
      * @inheritdoc
@@ -75,7 +60,7 @@ class SettingsStorage extends ConfigurableService implements SettingsStorageInte
     /**
      * @inheritdoc
      */
-    public function has($settingId)
+    public function exists($settingId)
     {
         return $this->getPersistence()->exists($settingId);
     }
@@ -86,5 +71,18 @@ class SettingsStorage extends ConfigurableService implements SettingsStorageInte
     public function del($settingId)
     {
         return $this->getPersistence()->del($settingId);
+    }
+
+    /**
+     * Get the persistence
+     */
+    private function getPersistence()
+    {
+        if ($this->persistence === null) {
+            $this->persistence = common_persistence_KeyValuePersistence::getPersistence(
+                $this->getOption(self::OPTION_PERSISTENCE)
+            );
+        }
+        return $this->persistence;
     }
 }

@@ -31,7 +31,7 @@ class CspHeaderValidator extends \tao_helpers_form_Validator
     const DIRECTIVES = [
         'self',
         'none',
-        'all' // all is not an actual valid directive, but will be converted to *
+        '*'
     ];
 
     /**
@@ -57,6 +57,13 @@ class CspHeaderValidator extends \tao_helpers_form_Validator
      */
     public function evaluate($values)
     {
+        // Only validate if the source is set to 'list'
+        $sourceElement = $this->getOption('sourceElement');
+        $sourceElementValue = $sourceElement->getEvaluatedValue();
+        if ($sourceElementValue !== 'list') {
+            return true;
+        }
+
         $this->invalidValues = [];
         $values = trim(str_replace("\r", '', $values));
 
@@ -103,9 +110,6 @@ class CspHeaderValidator extends \tao_helpers_form_Validator
     private function getNormalizedDirective($directive)
     {
         $directive = strtolower($directive);
-        if ($directive === 'all') {
-            $directive = '*';
-        }
 
         if (ctype_alpha($directive) === true) {
             $directive = "'" . $directive . "'";
@@ -122,6 +126,9 @@ class CspHeaderValidator extends \tao_helpers_form_Validator
      */
     private function isValidDirective($directive)
     {
+        if ($directive === '*') {
+            return true;
+        }
         return preg_match('/^(\'[a-z]+\'|[a-z]+)$/i', $directive) !== false;
     }
 

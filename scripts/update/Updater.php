@@ -63,6 +63,7 @@ use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStoreSession;
 use oat\tao\model\service\ApplicationService;
 use oat\tao\model\service\ContainerService;
+use oat\tao\model\service\SettingsStorage;
 use oat\tao\model\session\restSessionFactory\builder\HttpBasicAuthBuilder;
 use oat\tao\model\session\restSessionFactory\RestSessionFactory;
 use oat\tao\model\task\ExportByHandler;
@@ -958,6 +959,14 @@ class Updater extends \common_ext_ExtensionUpdater {
                 TaoRoles::TAO_MANAGER,
                 ['ext' => 'tao', 'mod' => 'Security']
             ));
+
+            \common_persistence_Manager::addPersistence('settings',  ['driver' => 'phpfile']);
+
+            $this->getServiceManager()->register(
+                SettingsStorage::SERVICE_ID,
+                new SettingsStorage(['persistence' => 'settings'])
+            );
+
             $this->setVersion('27.3.0');
         }
     }

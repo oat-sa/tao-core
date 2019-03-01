@@ -32,11 +32,13 @@ class tao_actions_Security extends tao_actions_CommonModule
     {
         $this->setView('security/view.tpl');
 
-        $formFactory = new tao_actions_form_CspHeader();
+        $formFactory = new tao_actions_form_CspHeader(['serviceLocator' => $this->getServiceLocator()]);
         $cspHeaderForm = $formFactory->getForm();
 
         if ($cspHeaderForm->isSubmited() && $cspHeaderForm->isValid()) {
-            $formFactory->saveConfiguration();
+            $formFactory->saveSettings();
+            $this->setData('cspHeaderFormSuccess', __('CSP Header settings were saved successfully!'));
+
         }
 
         $this->setData('formTitle', __('Edit sources that can embed this platform in an iFrame'));

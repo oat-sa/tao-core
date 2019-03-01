@@ -17,6 +17,10 @@
     <?php endif;?>
 </div>
 
+<?php if (get_data('cspHeaderFormSuccess')): ?>
+<div id="csp-header-success" class="hidden"><?= get_data('cspHeaderFormSuccess') ?></div>
+<?php endif;?>
+
 <script>
     require(
         [
@@ -33,7 +37,8 @@
                 $formTextArea = $form.find('#iframeSourceDomains'),
                 $textAreaLabel = $form.find('label[for=iframeSourceDomains]'),
                 $formRadioOptions = $form.find('input[name=iframeSourceOption]'),
-                $formErrors = $form.find('.form-error');
+                $formErrors = $form.find('.form-error'),
+                $formSuccess = $('#csp-header-success');
 
             $(document).ready(function() {
 
@@ -47,6 +52,10 @@
                         hideSourceList();
                     }
                 });
+
+                if ($formSuccess.length > 0) {
+                    feedback().success($formSuccess.html());
+                }
 
                 $formSubmitButton.on('click', function() {
                     uiForm.submitForm($form);

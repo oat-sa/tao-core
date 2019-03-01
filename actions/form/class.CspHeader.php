@@ -19,8 +19,9 @@
  *
  */
 
-use oat\generis\model\OntologyAwareTrait;
+use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\tao\helpers\form\validators\CspHeaderValidator;
+use oat\tao\model\service\SettingsStorage;
 
 /**
  * Class tao_actions_form_CspHeader
@@ -30,10 +31,12 @@ use oat\tao\helpers\form\validators\CspHeaderValidator;
 class tao_actions_form_CspHeader extends tao_helpers_form_FormContainer
 {
 
-    use OntologyAwareTrait;
+    use ServiceManagerAwareTrait;
 
     const SOURCE_RADIO_NAME = 'iframeSourceOption';
     const SOURCE_LIST_NAME  = 'iframeSourceDomains';
+    const CSP_HEADER_SETTING  = 'cspHeader';
+    const CSP_HEADER_LIST  = 'cspHeaderList';
 
     /**
      * @var \tao_helpers_form_elements_xhtml_Radiobox
@@ -50,6 +53,7 @@ class tao_actions_form_CspHeader extends tao_helpers_form_FormContainer
      */
     public function initForm()
     {
+        $this->setServiceLocator($this->data['serviceLocator']);
         $this->form = new tao_helpers_form_xhtml_Form('cspHeader');
 
         $this->form->setDecorators([
@@ -98,7 +102,7 @@ class tao_actions_form_CspHeader extends tao_helpers_form_FormContainer
     {
         return [
             'none' => __('Forbid for all domains'),
-            'all'  => __('Allow for all domains'),
+            '*'  => __('Allow for all domains'),
             'list' => __('Allow for the following domains'),
         ];
     }
@@ -108,7 +112,20 @@ class tao_actions_form_CspHeader extends tao_helpers_form_FormContainer
      */
     private function setFormData()
     {
-        $currentConfig = $this->getConfiguration();
+        $currentSetting = $this->getSettings();
+        $listSettings = [];
+        if ($currentSetting === 'list') {
+            $listSettings = $this->getListSettings();
+        }
+
+        if (!isset($_POST[self::SOURCE_RADIO_NAME]) && $currentSetting) {
+            $this->sourceElement->setValue($currentSetting);
+        }
+
+        if (!isset($_POST[self::SOURCE_LIST_NAME]) && !empty($listSettings)) {
+            $this->sourceDomainsElement->setValue(implode("\n", $listSettings));
+        }
+
         if (isset($_POST[self::SOURCE_RADIO_NAME]) && array_key_exists($_POST[self::SOURCE_RADIO_NAME], $this->getSourceOptions())) {
             $this->sourceElement->setValue($_POST[self::SOURCE_RADIO_NAME]);
         }
@@ -123,40 +140,60 @@ class tao_actions_form_CspHeader extends tao_helpers_form_FormContainer
      */
     private function setValidation()
     {
-        $this->sourceDomainsElement->addValidator(new CspHeaderValidator());
+        $this->sourceDomainsElement->addValidator(new CspHeaderValidator(['sourceElement' => $this->sourceElement]));
         $this->sourceElement->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
     }
 
     /**
-     * Get the current configuration
+     * Get the current settings
      */
-    public function getConfiguration()
+    private function getSettings()
     {
-        $headerConfig = $this->getClass(self::CSP_HEADER_CONFIG);
-        $config = $headerConfig->getInstances();
-        if ($headerConfig->exists() === false) {
-            $headerConfig->createInstance();
+        $settingsStorage = $this->getSettingsStorage();
+        if (!$settingsStorage->exists(self::CSP_HEADER_SETTING)) {
+            return '';
         }
 
+        return $settingsStorage->get(self::CSP_HEADER_SETTING);
     }
 
     /**
-     * Stores the configuration based on the form values.
+     * Get the current list settings
      */
-    public function saveConfiguration()
+    private function getListSettings()
+    {
+        $settingsStorage = $this->getSettingsStorage();
+        if (!$settingsStorage->exists(self::CSP_HEADER_LIST)) {
+            return [];
+        }
+
+        return json_decode($settingsStorage->get(self::CSP_HEADER_LIST));
+    }
+
+    /**
+     * Stores the settings based on the form values.
+     */
+    public function saveSettings()
     {
         $formValues = $this->getForm()->getValues();
+        $settingStorage = $this->getSettingsStorage();
 
         $configValue = $formValues[self::SOURCE_RADIO_NAME];
-        if ($configValue === 'all') {
-            $configValue = '*';
-        }
-
         if ($configValue === 'list') {
             $sources = trim(str_replace("\r", '', $formValues[self::SOURCE_LIST_NAME]));
-            $configValue = explode("\n", $sources);
+            $sources = explode("\n", $sources);
+            $settingStorage->set(self::CSP_HEADER_LIST, json_encode($sources));
         }
 
+        $settingStorage->set(self::CSP_HEADER_SETTING, $configValue);
+    }
 
+    /**
+     * Get the SettingsStorage service
+     * @return SettingsStorage
+     */
+    private function getSettingsStorage()
+    {
+        return $this->getServiceLocator()->get(SettingsStorage::SERVICE_ID);
     }
 }
