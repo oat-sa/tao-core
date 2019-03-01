@@ -37,7 +37,7 @@ class DatatableRequest implements DatatableRequestInterface
     const DEFAULT_SORT_ORDER = 'asc';
     const DEFAULT_SORT_TYPE = 'string';
     const DEFAULT_FILTERS = [];
-    const PERIOD_FILTER =['startfrom', 'startto', 'endfrom', 'endto'];
+
 
 
     /**
@@ -151,18 +151,5 @@ class DatatableRequest implements DatatableRequestInterface
         return new static(ServerRequest::fromGlobals());
     }
 
-    /**
-     * Get periodFilter
-     * @return array
-     */
-    public function periodFilter()
-    {
-        $period = [];
-        foreach (self::PERIOD_FILTER as $value){
-            if(isset($this->requestParams[$value])){
-                $period[$value] = strtotime($this->requestParams[$value]);
-            }
-        }
-        return $period;
-    }
+
 }
