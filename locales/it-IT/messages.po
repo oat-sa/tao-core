@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint94\n"
-"PO-Revision-Date: 2019-02-01T09:17:28\n"
+"Project-Id-Version: TAO 3.3.0-sprint96\n"
+"PO-Revision-Date: 2019-02-19T07:46:59\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: it-IT\n"
@@ -148,7 +148,13 @@ msgstr ""
 msgid "A message with further instructions has been sent to your email address: %s"
 msgstr "Un messaggio con ulteriori istruzioni è stato inviato alla tua casella di posta elettronica: %s"
 
+msgid "abs"
+msgstr ""
+
 msgid "Absolute value"
+msgstr ""
+
+msgid "AC"
 msgstr ""
 
 msgid "Access Denied"
@@ -273,6 +279,9 @@ msgstr ""
 msgid "Arguments %s and %s are mutually exclusive"
 msgstr ""
 
+msgid "Arguments separator"
+msgstr ""
+
 msgid "array"
 msgstr ""
 
@@ -340,17 +349,20 @@ msgstr "Sfoglia le cartelle"
 msgid "Browse..."
 msgstr "Sfoglia..."
 
+msgid "C"
+msgstr ""
+
 msgid "Calculator"
 msgstr ""
 
 msgid "Calendar"
 msgstr "Calendario"
 
-msgid "cancel"
-msgstr "no"
-
 msgid "Cancel"
 msgstr "No"
+
+msgid "cancel"
+msgstr "no"
 
 msgid "cancel the action"
 msgstr "annulla operazione"
@@ -367,6 +379,9 @@ msgstr ""
 msgid "Case sensitive"
 msgstr ""
 
+msgid "ceil"
+msgstr ""
+
 #, tao-public
 msgid "Change password"
 msgstr "Cambia password"
@@ -377,11 +392,11 @@ msgstr "Cambia la password"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check All"
-msgstr "Controlla Tutti"
-
 msgid "Check all"
 msgstr "Verifica tutto"
+
+msgid "Check All"
+msgstr "Controlla Tutti"
 
 msgid "Check-in"
 msgstr "Check-in"
@@ -425,10 +440,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
 msgid "Clear selection"
@@ -488,6 +503,12 @@ msgstr ""
 msgid "Copy to clipboard"
 msgstr ""
 
+msgid "cos"
+msgstr ""
+
+msgid "cosh"
+msgstr ""
+
 msgid "Cosine"
 msgstr ""
 
@@ -533,11 +554,11 @@ msgstr "Dati importati con successo"
 msgid "Data imported. Some records are invalid."
 msgstr "Dati importati. Alcuni record non sono validi."
 
-msgid "Data language"
-msgstr "Dati di lingua"
-
 msgid "Data Language"
 msgstr "Dati di lingua."
+
+msgid "Data language"
+msgstr "Dati di lingua"
 
 msgid "Data not imported. All records are invalid."
 msgstr "Dati non importati. Nessun record è valido."
@@ -713,6 +734,9 @@ msgstr ""
 msgid "Executing task %s failed"
 msgstr ""
 
+msgid "exp"
+msgstr ""
+
 msgid "Exponent"
 msgstr ""
 
@@ -807,6 +831,9 @@ msgstr "Nomi prima riga colonna"
 
 msgid "Fit to width"
 msgstr "Adatta"
+
+msgid "floor"
+msgstr ""
 
 msgid "Force Release"
 msgstr "Forza il rilascio"
@@ -913,10 +940,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -927,6 +954,9 @@ msgstr ""
 
 msgid "Indexing has been run"
 msgstr "L'indicizzazione è stata richiamata"
+
+msgid "Infinity"
+msgstr "Infinito"
 
 msgid "Injector has to contains a valid \"destination\" field."
 msgstr ""
@@ -1045,6 +1075,9 @@ msgstr "Lista - Scelta singola - Scorri giù"
 msgid "List - Single choice - Radio button"
 msgstr "Lista - Scelta singola - Tasto radio"
 
+msgid "ln"
+msgstr ""
+
 msgid "Load more"
 msgstr ""
 
@@ -1064,6 +1097,9 @@ msgid "Loading task status ..."
 msgstr ""
 
 msgid "locked by %s"
+msgstr ""
+
+msgid "log"
 msgstr ""
 
 msgid "Log in"
@@ -1141,6 +1177,9 @@ msgid "missing config %s for the service %s"
 msgstr ""
 
 msgid "Missing Parameters"
+msgstr ""
+
+msgid "modulo"
 msgstr ""
 
 msgid "More"
@@ -1236,10 +1275,10 @@ msgstr "Nessun file"
 msgid "no label"
 msgstr "nessuna etichetta"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "Nessuna anteprima disponibile"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "Nessuna anteprima disponibile"
 
 msgid "No results found"
@@ -1448,6 +1487,9 @@ msgstr ""
 msgid "Radian"
 msgstr ""
 
+msgid "random"
+msgstr ""
+
 msgid "Random value"
 msgstr ""
 
@@ -1587,6 +1629,9 @@ msgstr "Ruoli"
 msgid "Roles library"
 msgstr "Ruoli della biblioteca"
 
+msgid "round"
+msgstr ""
+
 msgid "Round to closest whole number"
 msgstr ""
 
@@ -1687,7 +1732,13 @@ msgstr ""
 msgid "Simple Mode"
 msgstr "Modalità semplice"
 
+msgid "sin"
+msgstr ""
+
 msgid "Sine"
+msgstr ""
+
+msgid "sinh"
 msgstr ""
 
 msgid "Size"
@@ -1741,7 +1792,16 @@ msgstr ""
 msgid "Supported export formats"
 msgstr "Formati di esportazione supportati"
 
+msgid "Syntax error"
+msgstr "Errore di sintassi"
+
+msgid "tan"
+msgstr ""
+
 msgid "Tangent"
+msgstr ""
+
+msgid "tanh"
 msgstr ""
 
 msgid "Tao Default Theme"
@@ -1924,6 +1984,9 @@ msgstr "Scelta nodo Albero - Multiple"
 msgid "True"
 msgstr "Vero"
 
+msgid "trunc"
+msgstr ""
+
 msgid "Type"
 msgstr "Tipo"
 
@@ -1977,6 +2040,9 @@ msgstr "Impossibile caricare il file"
 
 msgid "Unable to upload file %s : %s"
 msgstr "Impossibile caricare il file %s : %s"
+
+msgid "Unary operator +"
+msgstr ""
 
 msgid "Unary operator -"
 msgstr ""

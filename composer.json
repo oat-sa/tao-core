@@ -56,6 +56,7 @@
     },
     "autoload": {
         "psr-4": {
+            "oat\\tao\\controller\\": "controller",
             "oat\\tao\\model\\": "models/classes/",
             "oat\\tao\\controller\\": "controller",
             "oat\\tao\\helpers\\": "helpers",
