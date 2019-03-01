@@ -950,6 +950,6 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('27.2.0');
         }
 
-        $this->skip('27.2.0', '27.2.2');
+        $this->skip('27.2.0', '27.3.0');
     }
 }
