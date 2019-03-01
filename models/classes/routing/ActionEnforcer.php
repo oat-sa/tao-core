@@ -22,6 +22,7 @@ namespace oat\tao\model\routing;
 
 use IExecutable;
 use ActionEnforcingException;
+use oat\generis\component\DependencyInjection\ObjectFactory;
 use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\ServiceManagerAwareTrait;
 use ReflectionMethod;
@@ -73,19 +74,31 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
         return $this->controller;
     }
 
+    /**
+     * @return mixed
+     */
     protected function getAction() {
         return $this->action;
     }
 
+    /**
+     * @return array
+     */
     protected function getParameters() {
         return $this->parameters;
     }
 
+    /**
+     * @return mixed
+     * @throws ActionEnforcingException
+     * @throws \ReflectionException
+     */
     protected function getController()
     {
         $controllerClass = $this->getControllerClass();
         if(class_exists($controllerClass)) {
-            $controller = new $controllerClass();
+            $objectFactory = new ObjectFactory();
+            $controller = $objectFactory->create($controllerClass);
             $this->propagate($controller);
             $controller->initialize();
             return $controller;
@@ -94,6 +107,12 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
         }
     }
 
+    /**
+     * @throws PermissionException
+     * @throws \common_exception_Error
+     * @throws \common_exception_MissingParameter
+     * @throws tao_models_classes_AccessDeniedException
+     */
     protected function verifyAuthorization() {
         $user = common_session_SessionManager::getSession()->getUser();
         if (!AclProxy::hasAccess($user, $this->getControllerClass(), $this->getAction(), $this->getParameters())) {
@@ -110,6 +129,13 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
 	    }
     }
 
+    /**
+     * @throws ActionEnforcingException
+     * @throws \ReflectionException
+     * @throws \common_exception_Error
+     * @throws \common_exception_MissingParameter
+     * @throws tao_models_classes_AccessDeniedException
+     */
 	public function execute()
 	{
 	    // Are we authorized to execute this action?
@@ -139,7 +165,12 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
 	            if (isset($parameters[$param->getName()])) {
 	               $tabParam[$param->getName()] = $parameters[$param->getName()];
 	            } elseif (!$param->isDefaultValueAvailable()) {
-	                $this->logWarning('Missing parameter '.$param->getName().' for '.$this->getControllerClass().'@'.$action);
+	                if ($param->getType() instanceof \ReflectionNamedType) {
+	                    $objectFactory = new ObjectFactory();
+	                    $instance = $objectFactory->create($param->getType()->getName());
+	                    $tabParam[$param->getName()] = $instance;
+                    }
+                    $this->logWarning('Missing parameter '.$param->getName().' for '.$this->getControllerClass().'@'.$action);
 	            }
 	        }
 
