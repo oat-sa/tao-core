@@ -30,7 +30,7 @@ class tao_actions_RestVersion extends tao_actions_RestClass
 {
     /**
      * @OA\Get(
-     *      path="/RestVersion",
+     *      path="/tao/RestVersion",
      *      operationId="getVersion",
      *      tags={"platform"},
      *      @OA\Response(

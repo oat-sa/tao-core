@@ -41,7 +41,7 @@
         }
       }
     },
-    "/RestVersion": {
+    "/tao/RestVersion": {
       "get": {
         "tags": [
           "platform"
