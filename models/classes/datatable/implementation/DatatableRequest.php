@@ -40,7 +40,6 @@ class DatatableRequest implements DatatableRequestInterface
     const PERIOD_FILTER =['startfrom', 'startto', 'endfrom', 'endto'];
 
 
-
     /**
      * @var array
      */
