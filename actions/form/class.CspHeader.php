@@ -22,6 +22,7 @@
 use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\tao\helpers\form\validators\CspHeaderValidator;
 use oat\tao\model\service\SettingsStorage;
+use oat\tao\model\settings\CspHeaderSettingsInterface;
 
 /**
  * Class tao_actions_form_CspHeader
@@ -35,8 +36,6 @@ class tao_actions_form_CspHeader extends tao_helpers_form_FormContainer
 
     const SOURCE_RADIO_NAME = 'iframeSourceOption';
     const SOURCE_LIST_NAME  = 'iframeSourceDomains';
-    const CSP_HEADER_SETTING  = 'cspHeader';
-    const CSP_HEADER_LIST  = 'cspHeaderList';
 
     /**
      * @var \tao_helpers_form_elements_xhtml_Radiobox
@@ -103,6 +102,7 @@ class tao_actions_form_CspHeader extends tao_helpers_form_FormContainer
         return [
             'none' => __('Forbid for all domains'),
             '*'  => __('Allow for all domains'),
+            'self'  => __('Only allow for my own domain (%s)', ROOT_URL),
             'list' => __('Allow for the following domains'),
         ];
     }
@@ -150,11 +150,11 @@ class tao_actions_form_CspHeader extends tao_helpers_form_FormContainer
     private function getSettings()
     {
         $settingsStorage = $this->getSettingsStorage();
-        if (!$settingsStorage->exists(self::CSP_HEADER_SETTING)) {
+        if (!$settingsStorage->exists(CspHeaderSettingsInterface::CSP_HEADER_SETTING)) {
             return '';
         }
 
-        return $settingsStorage->get(self::CSP_HEADER_SETTING);
+        return $settingsStorage->get(CspHeaderSettingsInterface::CSP_HEADER_SETTING);
     }
 
     /**
@@ -163,11 +163,11 @@ class tao_actions_form_CspHeader extends tao_helpers_form_FormContainer
     private function getListSettings()
     {
         $settingsStorage = $this->getSettingsStorage();
-        if (!$settingsStorage->exists(self::CSP_HEADER_LIST)) {
+        if (!$settingsStorage->exists(CspHeaderSettingsInterface::CSP_HEADER_LIST)) {
             return [];
         }
 
-        return json_decode($settingsStorage->get(self::CSP_HEADER_LIST));
+        return json_decode($settingsStorage->get(CspHeaderSettingsInterface::CSP_HEADER_LIST));
     }
 
     /**
@@ -182,10 +182,10 @@ class tao_actions_form_CspHeader extends tao_helpers_form_FormContainer
         if ($configValue === 'list') {
             $sources = trim(str_replace("\r", '', $formValues[self::SOURCE_LIST_NAME]));
             $sources = explode("\n", $sources);
-            $settingStorage->set(self::CSP_HEADER_LIST, json_encode($sources));
+            $settingStorage->set(CspHeaderSettingsInterface::CSP_HEADER_LIST, json_encode($sources));
         }
 
-        $settingStorage->set(self::CSP_HEADER_SETTING, $configValue);
+        $settingStorage->set(CspHeaderSettingsInterface::CSP_HEADER_SETTING, $configValue);
     }
 
     /**
