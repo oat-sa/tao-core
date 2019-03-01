@@ -271,6 +271,7 @@ $footerHeight: 34;
 .content-wrap > header, body > header {
     position: relative;
     border-bottom: 1px $uiGeneralContentBorder solid;
+    z-index: 1000;
 }
 
 // Footer
