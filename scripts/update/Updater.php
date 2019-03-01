@@ -951,9 +951,15 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('27.2.0');
         }
 
-        $this->skip('27.2.0', '27.2.1');
+        $this->skip('27.2.0', '27.3.0');
 
-        if ($this->isVersion('27.2.1')) {
+        if ($this->isVersion('27.3.0')) {
+            AclProxy::applyRule(new AccessRule('grant', TaoRoles::ANONYMOUS, ['ext' => 'tao', 'mod' => 'RestVersion', 'act' => 'index']));
+
+            $this->setVersion('27.4.0');
+        }
+
+        if ($this->isVersion('27.4.0')) {
             AclProxy::applyRule(new AccessRule(
                 AccessRule::GRANT,
                 TaoRoles::TAO_MANAGER,
@@ -967,7 +973,7 @@ class Updater extends \common_ext_ExtensionUpdater {
                 new SettingsStorage(['persistence' => 'settings'])
             );
 
-            $this->setVersion('27.3.0');
+            $this->setVersion('27.5.0');
         }
     }
 }
