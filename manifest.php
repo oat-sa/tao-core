@@ -49,7 +49,7 @@ return array(
     'label' => 'TAO Base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '27.3.0',
+    'version' => '27.4.0',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
         'generis' => '>=8.2.2',
@@ -133,6 +133,7 @@ return array(
         array('grant', TaoRoles::ANONYMOUS,            array('ext'=>'tao','mod' => 'PasswordRecovery', 'act' => 'resetPassword')),
         array('grant', TaoRoles::ANONYMOUS,            array('ext'=>'tao','mod' => 'ClientConfig')),
         array('grant', TaoRoles::ANONYMOUS,            array('ext'=>'tao','mod' => 'Health')),
+        array('grant', TaoRoles::ANONYMOUS,            array('ext'=>'tao','mod' => 'RestVersion', 'act' => 'index')),
         array('grant', TaoRoles::BASE_USER,            array('ext'=>'tao','mod' => 'ServiceModule')),
         array('grant', TaoRoles::BASE_USER,            array('ext'=>'tao','mod' => 'Notification')),
         array('grant', TaoRoles::BASE_USER,            array('ext'=>'tao','mod' => 'File', 'act' => 'accessFile')),
