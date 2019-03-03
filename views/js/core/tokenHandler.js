@@ -13,20 +13,22 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2019 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2016-2019 (original work) Open Assessment Technologies SA ;
  */
 /**
+ * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  * @author Martin Nicholson <martin@taotesting.com>
  */
 define([
     'lodash',
     'module',
-    'core/store',
-    'ui/feedback',
-    'core/tokenStore'
+    'core/tokenStore',
+    'core/promiseQueue'
 ],
-function (_, module, store, feedback, tokenStoreFactory) {
+function (_, module, tokenStoreFactory, promiseQueue) {
     'use strict';
+
+    var clientConfigFetched = false;
 
     var defaults = {
         maxSize: 6,
@@ -35,81 +37,67 @@ function (_, module, store, feedback, tokenStoreFactory) {
 
     /**
      * Stores the security token queue
-     * @param {Object} [config]
-     * @param {String} [config.maxSize]
-     * @param {String} [config.tokenTimeLimit]
-     * @param {String} [config.initialToken]
+     * @param {Object} [options]
+     * @param {String} [options.maxSize]
+     * @param {String} [options.tokenTimeLimit]
+     * @param {String} [options.initialToken]
      * @returns {tokenHandler}
      */
-    return function tokenHandlerFactory(config) {
-
-        //in memory storage
-        var getConfigStore = function getConfigStore() {
-            return store('tokenHandler', store.backends.memory);
-        };
+    return function tokenHandlerFactory(options) {
 
         var tokenStore;
 
         // Convert legacy parameter:
-        if (_.isString(config)) {
-            config = {
-                initialToken: config
+        if (_.isString(options)) {
+            options = {
+                initialToken: options
             };
         }
-        config = _.defaults({}, config, defaults);
+        options = _.defaults({}, options, defaults);
         // Initialise storage for tokens:
-        tokenStore = tokenStoreFactory(config);
+        tokenStore = tokenStoreFactory(options);
 
-        if (config.initialToken) {
-            tokenStore.add(config.initialToken);
+        if (options.initialToken) {
+            tokenStore.push(options.initialToken);
         }
 
         return {
             /**
              * Gets the next security token from the token queue
              * If none are available, it can check the ClientConfig (once only per page)
-             * Once the token is got, it is erased from the memory (one use only)
+             * Once the token is got, it is erased from the store (because they are single-use by design)
+             *
              * @returns {Promise<String>} the token value
              */
             getToken: function getToken() {
                 var self = this;
-                var clientConfigCheck = getConfigStore()
-                    .then(function(configStore) {
-                        return configStore.getItem('clientConfigFetched');
-                    });
 
                 // Some async checks before we go for the token:
                 return tokenStore.expireOldTokens()
-                .then (function() {
-                    return Promise.all([
-                        clientConfigCheck,
-                        tokenStore.getSize(),
-                    ]);
-                })
-                .then(function(values) {
-                    var clientConfigFetched = !!values[0];
-                    var queueSize = values[1];
-
-                    if (queueSize > 0) {
-                        // Token available, use it
-                        return tokenStore.get().then(function(currentToken) {
-                            return currentToken.value;
-                        });
-                    }
-                    else if (!clientConfigFetched) {
-                        // Client Config allowed! (first and only time)
-                        return self.getClientConfigTokens()
-                            .then(function() {
-                                return tokenStore.get().then(function(currentToken) {
-                                    return currentToken.value;
-                                });
+                    .then (function() {
+                        return tokenStore.getSize();
+                    })
+                    .then(function(queueSize) {
+                        if (queueSize > 0) {
+                            // Token available, use it
+                            return tokenStore.pop().then(function(currentToken) {
+                                return currentToken.value;
                             });
-                    }
-                    else {
-                        // No more token options, refresh needed
-                        return Promise.reject(new Error('No tokens available. Please refresh the page.'));
-                    }
-                });
+                        }
+                        else if (!clientConfigFetched) {
+                            // Client Config allowed! (first and only time)
+                            return self.getClientConfigTokens()
+                                .then(function() {
+                                    return tokenStore.pop().then(function(currentToken) {
+                                        return currentToken.value;
+                                    });
+                                });
+                        }
+                        else {
+                            // No more token options, refresh needed
+                            return Promise.reject(new Error('No tokens available. Please refresh the page.'));
+                        }
+                    });
             },
 
             /**
@@ -119,7 +107,7 @@ function (_, module, store, feedback, tokenStoreFactory) {
              * @returns {Promise<Boolean>} - resolves true if successful
              */
             setToken: function setToken(newToken) {
-                return tokenStore.add(newToken)
+                return tokenStore.push(newToken)
                     .then(function(added) {
                         return added;
                     })
@@ -131,33 +119,32 @@ function (_, module, store, feedback, tokenStoreFactory) {
 
             /**
              * Extracts tokens from the Client Config which should be received on every page load
-             *
              * @returns {Promise<Boolean>} - resolves true when completed
              */
             getClientConfigTokens() {
                 var self = this;
-                var tokens = _.map(module.config().tokens, function(serverToken) {
+                var clientTokens = _.map(module.config().tokens, function(serverToken) {
                     return {
                         value: serverToken,
                         receivedAt: Date.now()
                     };
                 });
 
-                // Store flag in memory saying that this function ran:
-                getConfigStore().then(function(configStore) {
-                    configStore.setItem('clientConfigFetched', true);
-                });
+                // Record that this function ran:
+                clientConfigFetched = true;
 
-                return Promise.resolve(tokens).then(function(newTokens) {
-                    // Add the fetched tokens to the store, synchronously:
-                    // Chaining the promises using Array.prototype.reduce is necessary
-                    // to manage token addition & deletion correctly
-                    return newTokens.reduce(function(previousPromise, nextToken) {
-                        return previousPromise.then(function() {
-                            return self.setToken(nextToken);
+                return Promise.resolve(clientTokens).then(function(newTokens) {
+                    // Add the fetched tokens to the store
+                    // Uses a promiseQueue to ensure synchronous adding
+                    var setTokenQueue = promiseQueue();
+
+                    _.forEach(newTokens, function(token){
+                        setTokenQueue.serie(function(){
+                            return self.setToken(token);
                         });
-                    }, Promise.resolve())
-                    .then(function() {
+                    });
+
+                    return setTokenQueue.serie(function() {
                         return true;
                     });
                 });

@@ -20,10 +20,11 @@
  * Common HTTP request wrapper to get data from TAO.
  * This suppose the endpoint to match the following criteria :
  *   - Restful endpoint
- *   - contentType : application/json
+ *   - contentType : application/json; charset=UTF-8
+ *   - headers : contains 'X-CSRF-Token' value when needed
  *   - the responseBody:
  *      { success : true, data : [the results]}
- *      { success : false, errorCode: 412, errorMsg : 'Something went wrong' }
+ *      { success : false, data : {Exception}, message : 'Something went wrong' }
  *   - 204 for empty content
  *
  * @author Martin Nicholson <martin@taotesting.com>
@@ -36,13 +37,16 @@ define([
     'core/promise',
     'core/promiseQueue',
     'core/tokenHandler',
-    'ui/feedback'
-], function($, _, __, context, Promise, promiseQueue, tokenHandlerFactory, feedback) {
+    'ui/feedback',
+    'core/logger'
+], function($, _, __, context, Promise, promiseQueue, tokenHandlerFactory, feedback, loggerFactory) {
     'use strict';
 
     var tokenHandler = tokenHandlerFactory();
 
     var queue = promiseQueue();
+
+    var logger = loggerFactory('core/request');
 
     /**
      * Create a new error based on the given response
@@ -82,7 +86,7 @@ define([
     return function request(options) {
 
         if (_.isEmpty(options.url)) {
-            return Promise.reject(new TypeError('At least give a URL...'));
+            throw new TypeError('At least give a URL...');
         }
 
         /**
@@ -90,16 +94,26 @@ define([
          * @returns {Promise} resolves with response, or rejects if something went wrong
          */
         function runRequest() {
+
             /**
-             * Function wrapper in which the AJAX request is actually made
-             * This wrapping allows a token to be fetched asynchronously before we run it
-             * @param {Object} customHeaders
-             * @returns {Promise} resolves with response, or rejects with Error if something went wrong
+             * Fetches a security token and appends it to headers, if required
+             * @returns {Promise<Object>} - resolves with headers object
              */
-            function runAjax(customHeaders) {
+            var computeHeaders = function computeHeaders() {
+                var headers = _.extend({}, options.headers);
+                if (!options.noToken) {
+                    return tokenHandler.getToken().then(function(token) {
+                        headers['X-CSRF-Token'] = token || 'none';
+                        return headers;
+                    });
+                }
+                return Promise.resolve(headers);
+            };
+
+            return computeHeaders().then(function(customHeaders) {
                 return new Promise(function(resolve, reject) {
                     var noop;
-                    return $.ajax({
+                    $.ajax({
                         url: options.url,
                         type: options.method || 'GET',
                         dataType: 'json',
@@ -109,7 +123,7 @@ define([
                         timeout: options.timeout * 1000 || context.timeout * 1000 || 0,
                         contentType: options.contentType || noop,
                         beforeSend: function() {
-                            console.log('sending X-CSRF-Token header', customHeaders && customHeaders['X-CSRF-Token']);
+                            logger.debug('sending X-CSRF-Token header %s', customHeaders && customHeaders['X-CSRF-Token']);
                         },
                         global: !options.background //TODO fix this with TT-260
                     })
@@ -119,33 +133,34 @@ define([
 
                         if (_.isFunction(xhr.getResponseHeader)) {
                             token = xhr.getResponseHeader('X-CSRF-Token');
-                            console.log('received X-CSRF-Token header', token);
+                            logger.debug('received X-CSRF-Token header %s', token);
+
                             // store the response token for the next request
                             if (token) {
                                 tokenDone = tokenHandler.setToken(token);
                             }
                         }
 
-                        return tokenDone.then(function() {
+                        tokenDone.then(function() {
                             if (xhr.status === 204 || (response && response.errorCode === 204) || status === 'nocontent') {
                                 // no content, so resolve with empty data.
-                                return resolve();
+                                resolve();
                             }
 
                             // handle case where token expired or invalid
                             if (xhr.status === 401 || (response && response.errorCode === 401)) {
-                                feedback().error(__('Unauthorised request'));
-                                return reject(createError(response, xhr.status + ' : ' + xhr.statusText, xhr.status));
+                                reject(createError(response, xhr.status + ' : ' + xhr.statusText, xhr.status));
                             }
 
                             if (response && response.success === true) {
                                 // there's some data
-                                return resolve(response);
+                                resolve(response);
                             }
 
                             //the server has handled the error
-                            return reject(createError(response, __('The server has sent an empty response'), xhr.status));
+                            reject(createError(response, __('The server has sent an empty response'), xhr.status));
                         });
+                        //catch?
                     })
                     .fail(function(xhr, textStatus, errorThrown) {
                         var response;
@@ -154,7 +169,7 @@ define([
 
                         if (_.isFunction(xhr.getResponseHeader)) {
                             token = xhr.getResponseHeader('X-CSRF-Token');
-                            console.log('received X-CSRF-Token header', token);
+                            logger.debug('received X-CSRF-Token header %s', token);
                             // store the response token for the next request
                             if (token) {
                                 tokenDone = tokenHandler.setToken(token);
@@ -179,33 +194,12 @@ define([
                             message: errorThrown || __('An error occurred!')
                         });
 
-                        return tokenDone.then(function () {
-                            return reject(createError(response, xhr.status + ' : ' + xhr.statusText, xhr.status));
+                        tokenDone.then(function () {
+                            reject(createError(response, xhr.status + ' : ' + xhr.statusText, xhr.status));
                         });
                     });
                 });
-            }
-
-            // Determine if token needs to be fetched
-            if (!options.noToken) {
-                return tokenHandler.getToken()
-                    .then(function(token) {
-                        var customHeaders;
-                        if (token) {
-                            customHeaders = _.extend({}, options.headers, {
-                                'X-CSRF-Token': token || 'none', // new key to use globally
-                                'X-Auth-Token': token || 'none'  // old key for current TR only
-                            });
-                        }
-                        else {
-                            customHeaders = _.extend({}, options.headers);
-                        }
-                        return runAjax(customHeaders);
-                    });
-            }
-            else {
-                return runAjax(options.headers);
-            }
+            });
         }
 
         // Decide how to launch the request based on certain params:

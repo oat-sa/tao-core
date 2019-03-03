@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2016-2019 (original work) Open Assessment Technologies SA;
  */
 
 /**
@@ -47,8 +47,6 @@ define([
      * @returns {Promise} that resolves with data or reject if something went wrong
      */
     return function request(url, data, method, headers, background, noToken) {
-        console.log('dataProvider/request()', url, data, method, headers, background, noToken);
-
         return coreRequest({
             url: url,
             data: data,

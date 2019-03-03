@@ -446,7 +446,6 @@ define([
                 var taskCreate, self = this;
                 taskCreate = request(url, data, 'POST', {}, true)
                     .then(function(creationResult){
-                        console.log(creationResult);
                         //poll short result:
                         if(creationResult && creationResult.task && creationResult.task.id){
                             self.trigger('created', creationResult);

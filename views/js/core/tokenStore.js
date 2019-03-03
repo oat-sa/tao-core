@@ -49,7 +49,7 @@ define([
 
         //in memory storage
         var getStore = function getStore() {
-            return store('tokenStore.tokens', store.backends.memory);
+            return store('tokenStore.tokens', store.backends.indexeddb);
         };
 
         /**
@@ -63,7 +63,7 @@ define([
              *
              * @returns {Promise<Object>} the token object
              */
-            get: function get() {
+            pop: function pop() {
                 var self = this;
                 return self.getIndex().then(function(latestIndex) {
                     var key = _.first(latestIndex);
@@ -90,7 +90,7 @@ define([
              * @param {Number} token.receivedAt - timestamp
              * @returns {Promise<Boolean>} - true if added
              */
-            add: function add(token) {
+            push: function push(token) {
                 var self = this;
                 // Handle legacy param type:
                 if (_.isString(token)) {
@@ -104,7 +104,9 @@ define([
                 })
                 .then(function(updated){
                     if (updated) {
-                        return self.enforceMaxSize().then(true);
+                        return self.enforceMaxSize().then(function() {
+                            return true;
+                        });
                     }
                     return false;
                 });
@@ -147,18 +149,15 @@ define([
              * @returns {Promise<Boolean>} resolves once removed
              */
             remove: function remove(key) {
-                return this.has(key).then(function(result) {
-                    if (result) {
-                        return getStore()
-                            .then(function(storage){
+                return this.has(key)
+                    .then(function(result) {
+                        if (result) {
+                            return getStore().then(function(storage){
                                 return storage.removeItem(key);
-                            })
-                            .then(function(removed) {
-                                return removed;
                             });
-                    }
-                    return Promise.resolve(false);
-                });
+                        }
+                        return false;
+                    });
             },
 
             /**
@@ -225,17 +224,18 @@ define([
              */
             enforceMaxSize: function enforceMaxSize() {
                 var self = this;
-                return this.getIndex().then(function(latestIndex) {
-                    var keysToRemove;
-                    var excess = latestIndex.length - config.maxSize;
-                    if (excess > 0) {
-                        keysToRemove = latestIndex.slice(0, excess);
-                        return Promise.all(_.map(keysToRemove, function(key) {
-                            return self.remove(key);
-                        }));
-                    }
-                    return Promise.resolve(true);
-                });
+                return this.getIndex()
+                    .then(function(latestIndex) {
+                        var keysToRemove;
+                        var excess = latestIndex.length - config.maxSize;
+                        if (excess > 0) {
+                            keysToRemove = latestIndex.slice(0, excess);
+                            return Promise.all(_.map(keysToRemove, function(key) {
+                                return self.remove(key);
+                            }));
+                        }
+                        return true;
+                    });
             },
 
             /**
@@ -246,11 +246,9 @@ define([
             checkExpiry: function checkExpiry(token) {
                 var self = this;
                 if (Date.now() - token.receivedAt > config.tokenTimeLimit) {
-                    return self.remove(token.value).then(function(removed) {
-                        return removed;
-                    });
+                    return self.remove(token.value);
                 }
-                return Promise.resolve(true);
+                return true;
             },
 
             /**
