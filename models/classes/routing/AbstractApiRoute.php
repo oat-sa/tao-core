@@ -28,7 +28,7 @@ use Psr\Http\Message\ServerRequestInterface;
  * @package oat\tao\model\routing
  * @author Aleh Hutnikau, <hutnikau@1pt.com>
  */
-abstract class AbstractApiRoute extends Route
+abstract class AbstractApiRoute extends AbstractRoute
 {
     /**
      * @param ServerRequestInterface $request
@@ -77,16 +77,16 @@ abstract class AbstractApiRoute extends Route
     protected function getAction($method)
     {
         switch ($method) {
-            case "GET":
+            case 'GET':
                 $action = 'get';
                 break;
-            case "PUT":
+            case 'PUT':
                 $action = 'put';
                 break;
-            case "POST":
+            case 'POST':
                 $action = 'post';
                 break;
-            case "DELETE":
+            case 'DELETE':
                 $action = 'delete';
                 break;
             default:
@@ -95,10 +95,4 @@ abstract class AbstractApiRoute extends Route
 
         return $action;
     }
-
-    /**
-     * Get controller namespace prefix
-     * @return string
-     */
-    abstract protected function getControllerPrefix();
 }
