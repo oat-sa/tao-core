@@ -214,6 +214,14 @@ ul.listbox {
     }
 
     .modal-body{
+        h4 {
+            @include font-size(16);
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+        .content, .message {
+            margin-bottom: 8px;
+        }
         .buttons{
             top: 16px;
             position: relative;
@@ -231,6 +239,31 @@ ul.listbox {
                     background: whiten($info, .85);
                 }
             }
+        }
+    }
+    // modal with big icon left of content
+    &[class^="modal-decorated-"], &[class*=" modal-decorated-"] { // -success, -info, -warning, -error
+        .modal-body {
+            font-family: $regularFont !important; // override icon font
+            line-height: 1.4;
+            margin-left: 8.5rem;
+        }
+        &[class^="icon-"]:before, &[class*=" icon-"]:before { // supports any TAO icon
+            @include font-size(44);
+            color: $info;
+            position: absolute;
+        }
+        &.modal-decorated-success {
+            @include colored-icon($success);
+        }
+        &.modal-decorated-info {
+            @include colored-icon($info);
+        }
+        &.modal-decorated-warning {
+            @include colored-icon($error);
+        }
+        &.modal-decorated-error {
+            @include colored-icon($error);
         }
     }
 }

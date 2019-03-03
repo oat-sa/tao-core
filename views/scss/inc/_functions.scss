@@ -281,3 +281,9 @@ Usage:
 @mixin disableSelect() {
     @include vendor-prefix(user-select, none, property);
 }
+
+@mixin colored-icon($color) {
+    &[class^="icon-"]:before, &[class*=" icon-"]:before {
+        color: $color;
+    }
+}
