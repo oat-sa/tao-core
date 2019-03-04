@@ -120,21 +120,11 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
         $this->setData('action', $context->getActionName());
 
         if ($this->hasRequestParameter('uri')) {
-
-            // @todo stop using session to manage uri/classUri
-//            $this->setSessionAttribute('uri', $this->getRequestParameter('uri'));
-
             // inform the client of new classUri
             $this->setData('uri', $this->getRequestParameter('uri'));
         }
+
         if ($this->hasRequestParameter('classUri')) {
-
-            // @todo stop using session to manage uri/classUri
-//            $this->setSessionAttribute('classUri', $this->getRequestParameter('classUri'));
-            if (! $this->hasRequestParameter('uri')) {
-//                $this->removeSessionAttribute('uri');
-            }
-
             // inform the client of new classUri
             $this->setData('uri', $this->getRequestParameter('classUri'));
         }
