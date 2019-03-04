@@ -47,9 +47,9 @@
                 $formRadioOptions.on('click', function() {
                     var selectedValue = $(this).val();
                     if (selectedValue === 'list') {
-                        showSourceList();
+                        showTextArea();
                     } else {
-                        hideSourceList();
+                        hideTextArea();
                     }
                 });
 
@@ -65,7 +65,7 @@
             function initializeForm() {
                 var selectedRadio = $form.find('input[name=iframeSourceOption]:checked');
 
-                $textAreaLabel.hide();
+                hideTextArea();
 
                 if ($formErrors.length > 0) {
                     var tooltipOptions = {
@@ -78,18 +78,16 @@
                 }
 
                 if (selectedRadio.length > 0 && selectedRadio.val() === 'list') {
-                    showSourceList();
+                    showTextArea();
                 }
             }
 
-            function showSourceList() {
-                $formTextArea.removeClass('hidden');
-                $textAreaLabel.show();
+            function showTextArea() {
+                $formTextArea.parent().show();
             }
 
-            function hideSourceList() {
-                $formTextArea.addClass('hidden');
-                $textAreaLabel.hide();
+            function hideTextArea() {
+                $formTextArea.parent().hide()
             }
         }
     )

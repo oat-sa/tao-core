@@ -71,10 +71,9 @@ class tao_actions_form_CspHeader extends tao_helpers_form_FormContainer
         $this->sourceElement = tao_helpers_form_FormFactory::getElement(self::SOURCE_RADIO_NAME, 'Radiobox');
         $this->sourceDomainsElement = tao_helpers_form_FormFactory::getElement(self::SOURCE_LIST_NAME, 'Textarea');
         $this->sourceDomainsElement->setAttribute('rows', 10);
-        $this->sourceDomainsElement->addClass('hidden');
-        $this->sourceDomainsElement->setDescription(
-            "Each domain should be added on a new line. \n
-            Valid domain formats: www.example.com, *.example.com, http://www.example.com"
+        $this->sourceDomainsElement->setHelp(
+            "<div class='help-text'>Each domain should be added on a new line. \n
+            Valid domain formats: www.example.com, *.example.com, http://www.example.com</div>"
         );
 
         $this->setValidation();
