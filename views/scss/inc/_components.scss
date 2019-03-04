@@ -241,29 +241,33 @@ ul.listbox {
             }
         }
     }
-    // modal with big icon left of content
-    &[class^="modal-decorated-"], &[class*=" modal-decorated-"] { // -success, -info, -warning, -error
-        .modal-body {
-            font-family: $regularFont !important; // override icon font
-            line-height: 1.4;
-            margin-left: 8.5rem;
-        }
-        &[class^="icon-"]:before, &[class*=" icon-"]:before { // supports any TAO icon
+
+    &[class^="icon-"], &[class*=" icon-"] { // supports any TAO icon
+        &:before {
             @include font-size(44);
             color: $info;
             position: absolute;
         }
-        &.modal-decorated-success {
-            @include colored-icon($success);
+        // some predefined icon colours:
+        &.icon-result-nok {
+            &:before {
+                color: $error;
+            }
         }
-        &.modal-decorated-info {
-            @include colored-icon($info);
+        &.icon-warning {
+            &:before {
+                color: $danger;
+            }
         }
-        &.modal-decorated-warning {
-            @include colored-icon($error);
+        &.icon-result-ok {
+            &:before {
+                color: $success;
+            }
         }
-        &.modal-decorated-error {
-            @include colored-icon($error);
+        .modal-body {
+            font-family: $regularFont !important; // override icon font
+            line-height: 1.4;
+            margin-left: 8.5rem;
         }
     }
 }
