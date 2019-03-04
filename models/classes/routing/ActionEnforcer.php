@@ -128,6 +128,12 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
         return $this->response;
     }
 
+    /**
+     * @throws PermissionException
+     * @throws \common_exception_Error
+     * @throws \common_exception_MissingParameter
+     * @throws tao_models_classes_AccessDeniedException
+     */
     protected function verifyAuthorization() {
         $user = common_session_SessionManager::getSession()->getUser();
         if (!AclProxy::hasAccess($user, $this->getControllerClass(), $this->getAction(), $this->getParameters())) {
@@ -141,7 +147,7 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
             }
 
 	        throw new tao_models_classes_AccessDeniedException($user->getIdentifier(), $this->getAction(), $this->getControllerClass(), $this->getExtensionId());
-	    }
+        }
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response = null)
@@ -151,6 +157,13 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
         $this->execute();
     }
 
+    /**
+     * @throws ActionEnforcingException
+     * @throws \ReflectionException
+     * @throws \common_exception_Error
+     * @throws \common_exception_MissingParameter
+     * @throws tao_models_classes_AccessDeniedException
+     */
 	public function execute()
 	{
 	    // Are we authorized to execute this action?
@@ -170,13 +183,27 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
         $emitter($response);
 	}
 
+    /**
+     * @param ServerRequestInterface $request
+     * @return ResponseInterface
+     * @throws ActionEnforcingException
+     * @throws \ReflectionException
+     * @throws \common_exception_Error
+     */
 	public function resolve(ServerRequestInterface $request)
     {
         $this->request = $request;
 
-        // get the controller
+        /** @var ControllerService $controllerService */
+        $controllerService = $this->getServiceLocator()->get(ControllerService::SERVICE_ID);
+        try {
+            $controllerService->checkController($this->getControllerClass());
+            $action = $controllerService->getAction($this->getControllerClass(), $this->getAction());
+        } catch (RouterException $e) {
+            throw new ActionEnforcingException($e->getMessage(), $this->getControllerClass(), $this->getAction());
+        }
+
         $controller = $this->getController();
-        $action = $this->getAction();
 
         if (!method_exists($controller, $action)) {
             throw new ActionEnforcingException("Unable to find the action '" . $action . "' in '" . get_class($controller) . "'.",

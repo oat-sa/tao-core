@@ -34,6 +34,7 @@ use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\exception\InvalidServiceManagerException;
 use oat\oatbox\log\LoggerAwareTrait;
 use function GuzzleHttp\Psr7\stream_for;
+use oat\tao\model\routing\AnnotationReader\security;
 
 /**
  * Top level controller
@@ -55,11 +56,13 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
      * The Modules access the models through the service instance
      *
      * @var tao_models_classes_Service
+     * @deprecated
      */
     protected $service;
 
     /**
      * tao_actions_CommonModule constructor.
+     * @security("hide");
      */
     public function __construct() {}
 
@@ -228,7 +231,8 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
      * @param array $data
      * @param int $httpStatus
      */
-    protected function returnJson($data, $httpStatus = 200) {
+    protected function returnJson($data, $httpStatus = 200)
+    {
         header(HTTPToolkit::statusCodeHeader($httpStatus));
         Context::getInstance()->getResponse()->setContentHeader('application/json');
         $this->response = $this->getPsrResponse()->withBody(stream_for(json_encode($data)));
@@ -239,7 +243,8 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
      *
      * @param common_report_Report $report
      */
-    protected function returnReport(common_report_Report $report) {
+    protected function returnReport(common_report_Report $report)
+    {
         $data = $report->getData();
         $successes = $report->getSuccesses();
 
