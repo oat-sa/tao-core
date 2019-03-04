@@ -254,7 +254,7 @@ define( [  "lodash", "core/pluginLoader", "core/promise" ], function(  _, plugin
             ready();
         } ).catch( function( e ) {
             assert.ok( false, e );
-            ready1();
+            ready();
         } );
     } );
 } );

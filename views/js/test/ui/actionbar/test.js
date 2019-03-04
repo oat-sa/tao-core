@@ -360,6 +360,8 @@ define( [
         var ready3 = assert.async();
         var ready2 = assert.async();
         var ready1 = assert.async();
+        var ready = assert.async();
+
         var config = {
             selectable: true,
             buttons: [ {
@@ -398,7 +400,6 @@ define( [
         } );
 
         assert.expect( 7 );
-        var ready = assert.async();
 
         instance
             .render()
