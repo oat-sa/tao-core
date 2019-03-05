@@ -215,19 +215,26 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
      */
     protected function getParameters()
     {
-        $aliasedParameters = $this->getParametersAliases();
-        $effectiveParameters = array();
-        foreach ($aliasedParameters as $checkParameterShort =>$checkParameterUri) {
-            if ($this->hasRequestParameter($checkParameterShort)) {
-                $effectiveParameters[$checkParameterUri] = $this->getRequestParameter($checkParameterShort);
-            }
+        $effectiveParameters = [];
+        $missedAliases = [];
+
+        foreach ($this->getParametersAliases() as $checkParameterShort => $checkParameterUri) {
             if ($this->hasRequestParameter($checkParameterUri)) {
                 $effectiveParameters[$checkParameterUri] = $this->getRequestParameter($checkParameterUri);
             }
-            if ($this->isRequiredParameter($checkParameterShort) and !(isset($effectiveParameters[$checkParameterUri]))){
-                throw new \common_exception_RestApi("Missed required parameter: $checkParameterShort");
+            else if ($this->hasRequestParameter($checkParameterShort)) {
+                $effectiveParameters[$checkParameterUri] = $this->getRequestParameter($checkParameterShort);
+            }
+            else if ($this->isRequiredParameter($checkParameterShort)) {
+                $missedAliases[] = $checkParameterShort;
             }
         }
+
+        if (count($missedAliases) > 0) {
+            throw new \common_exception_RestApi(
+                'Missed required parameters: ' . implode(', ', $missedAliases));
+        }
+
         return $effectiveParameters;
     }
 

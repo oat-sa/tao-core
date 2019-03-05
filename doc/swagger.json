@@ -40,6 +40,28 @@
           }
         }
       }
+    },
+    "/tao/RestVersion": {
+      "get": {
+        "tags": [
+          "platform"
+        ],
+        "operationId": "getVersion",
+        "responses": {
+          "200": {
+            "description": "Returns current platform version",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "version": "3.3.0-sprint97"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {

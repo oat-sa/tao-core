@@ -55,6 +55,9 @@ use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\resources\ResourceWatcher;
+use oat\tao\model\routing\AnnotationReaderService;
+use oat\tao\model\routing\ControllerService;
+use oat\tao\model\routing\RouteAnnotationService;
 use oat\tao\model\security\ActionProtector;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStoreSession;
@@ -925,6 +928,36 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('27.0.0');
         }
 
-        $this->skip('27.0.0', '28.0.0');
+        $this->skip('27.0.0', '27.1.2');
+
+        if ($this->isVersion('27.1.2')) {
+
+            if (!$this->getServiceManager()->has(RouteAnnotationService::SERVICE_ID)) {
+                $annotationService = new RouteAnnotationService();
+                $this->getServiceManager()->register(RouteAnnotationService::SERVICE_ID, $annotationService);
+            }
+
+            if (!$this->getServiceManager()->has(AnnotationReaderService::SERVICE_ID)) {
+                $readerService = new AnnotationReaderService();
+                $this->getServiceManager()->register(AnnotationReaderService::SERVICE_ID, $readerService);
+            }
+
+            if (!$this->getServiceManager()->has(ControllerService::SERVICE_ID)) {
+                $controllerService = new ControllerService();
+                $this->getServiceManager()->register(ControllerService::SERVICE_ID, $controllerService);
+            }
+
+            $this->setVersion('27.2.0');
+        }
+
+        $this->skip('27.2.0', '27.3.0');
+
+        if ($this->isVersion('27.3.0')) {
+            AclProxy::applyRule(new AccessRule('grant', TaoRoles::ANONYMOUS, ['ext' => 'tao', 'mod' => 'RestVersion', 'act' => 'index']));
+
+            $this->setVersion('27.4.0');
+        }
+
+        $this->skip('27.4.0', '28.0.0');
     }
 }
