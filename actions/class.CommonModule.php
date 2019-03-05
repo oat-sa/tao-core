@@ -32,6 +32,7 @@ use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\exception\InvalidServiceManagerException;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\tao\model\routing\AnnotationReader\security;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 
 /**
@@ -363,7 +364,7 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
     }
 
     /**
-     * @return \Zend\ServiceManager\ServiceLocatorInterface
+     * @return ServiceLocatorInterface
      * @security("hide");
      */
     public function getServiceLocator()
@@ -372,11 +373,11 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
     }
 
     /**
-     * @param \Zend\ServiceManager\ServiceLocatorInterface $serviceLocator
+     * @param ServiceLocatorInterface $serviceLocator
      * @return mixed
      * @security("hide");
      */
-    public function setServiceLocator(\Zend\ServiceManager\ServiceLocatorInterface $serviceLocator)
+    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
     {
         return $this->setOriginalServiceLocator($serviceLocator);
     }
