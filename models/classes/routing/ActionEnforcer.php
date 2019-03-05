@@ -94,6 +94,12 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
         }
     }
 
+    /**
+     * @throws PermissionException
+     * @throws \common_exception_Error
+     * @throws \common_exception_MissingParameter
+     * @throws tao_models_classes_AccessDeniedException
+     */
     protected function verifyAuthorization() {
         $user = common_session_SessionManager::getSession()->getUser();
         if (!AclProxy::hasAccess($user, $this->getControllerClass(), $this->getAction(), $this->getParameters())) {
@@ -107,14 +113,60 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
             }
 
 	        throw new tao_models_classes_AccessDeniedException($user->getIdentifier(), $this->getAction(), $this->getControllerClass(), $this->getExtensionId());
-	    }
+        }
     }
 
-	public function execute()
-	{
-	    // Are we authorized to execute this action?
+    /**
+     * @throws ActionEnforcingException
+     * @throws \ReflectionException
+     * @throws \common_exception_Error
+     * @throws \common_exception_MissingParameter
+     * @throws tao_models_classes_AccessDeniedException
+     */
+    public function execute()
+    {
+        /** @var ControllerService $controllerService */
+        $controllerService = $this->getServiceLocator()->get(ControllerService::SERVICE_ID);
+        try {
+            $controller = $controllerService->getController($this->getControllerClass());
+            $action = $controllerService->getAction($this->getControllerClass(), $this->getAction());
+        } catch (RouterException $e) {
+            throw new ActionEnforcingException($e->getMessage(), $this->getControllerClass(), $this->getAction());
+        }
+
+        // Are we authorized to execute this action?
         try {
             $this->verifyAuthorization();
+
+            // search parameters method
+            $reflect	= new ReflectionMethod($controller, $action);
+            $parameters	= $this->getParameters();
+
+            $tabParam 	= array();
+            foreach($reflect->getParameters() as $param) {
+                if (isset($parameters[$param->getName()])) {
+                    $tabParam[$param->getName()] = $parameters[$param->getName()];
+                } elseif (!$param->isDefaultValueAvailable()) {
+                    $this->logWarning('Missing parameter '.$param->getName().' for '.$this->getControllerClass().'@'.$action);
+                }
+            }
+
+            // Action method is invoked, passing request parameters as
+            // method parameters.
+            $user = common_session_SessionManager::getSession()->getUser();
+            $this->logDebug('Invoking '.get_class($controller).'::'.$action.' by '.$user->getIdentifier(), ARRAY('GENERIS', 'CLEARRFW'));
+
+            $eventManager = ServiceManager::getServiceManager()->get(EventManager::SERVICE_ID);
+            $eventManager->trigger(new BeforeAction());
+
+            call_user_func_array(array($controller, $action), $tabParam);
+
+            // Render the view if selected.
+            if ($controller->hasView())
+            {
+                $renderer = $controller->getRenderer();
+                echo $renderer->render();
+            }
         } catch(PermissionException $pe){
             //forward the action (yes it's an awful hack, but far better than adding a step in Bootstrap's dispatch error).
             \Context::getInstance()->setExtensionName('tao');
@@ -122,49 +174,6 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
             $this->controller   = 'tao_actions_Permission';
             $this->extension    = 'tao';
         }
-
-	    // get the controller
-	    $controller = $this->getController();
-	    $action = $this->getAction();
-
-	    // if the method related to the specified action exists, call it
-	    if (method_exists($controller, $action)) {
-
-	        // search parameters method
-	        $reflect	= new ReflectionMethod($controller, $action);
-	        $parameters	= $this->getParameters();
-
-	        $tabParam 	= array();
-	        foreach($reflect->getParameters() as $param) {
-	            if (isset($parameters[$param->getName()])) {
-	               $tabParam[$param->getName()] = $parameters[$param->getName()];
-	            } elseif (!$param->isDefaultValueAvailable()) {
-	                $this->logWarning('Missing parameter '.$param->getName().' for '.$this->getControllerClass().'@'.$action);
-	            }
-	        }
-
-	        // Action method is invoked, passing request parameters as
-	        // method parameters.
-	        $user = common_session_SessionManager::getSession()->getUser();
-	        $this->logDebug('Invoking '.get_class($controller).'::'.$action.' by '.$user->getIdentifier(), ARRAY('GENERIS', 'CLEARRFW'));
-
-            $eventManager = ServiceManager::getServiceManager()->get(EventManager::CONFIG_ID);
-            $eventManager->trigger(new BeforeAction());
-
-	        call_user_func_array(array($controller, $action), $tabParam);
-
-	        // Render the view if selected.
-	        if ($controller->hasView())
-	        {
-	            $renderer = $controller->getRenderer();
-	            echo $renderer->render();
-	        }
-	    }
-	    else {
-	        throw new ActionEnforcingException("Unable to find the action '".$action."' in '".get_class($controller)."'.",
-	            $this->getControllerClass(),
-	            $this->getAction());
-	    }
-	}
+    }
 
 }
