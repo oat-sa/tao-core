@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License
  *  as published by the Free Software Foundation; under version 2
@@ -121,19 +121,21 @@ class ExceptionInterpretor implements ServiceLocatorAwareInterface {
     public function getResponseClassName() {
         return __NAMESPACE__ . '\\' .$this->responseClassName;
     }
+
     /**
-     *  return an instance of ResponseInterface
-     * @return \oat\tao\model\mvc\error\class
+     * return an instance of ResponseInterface
+     *
+     * @return ResponseAbstract
      */
     public function getResponse() {
         $class = $this->getResponseClassName();
-        /*@var $response ResponseAbstract */
+        /** @var $response ResponseAbstract */
         $response = new $class;
         $response->setServiceLocator($this->getServiceLocator());
         $response->setException($this->exception)
             ->setHttpCode($this->returnHttpCode)
             ->trace();
+
         return $response;
     }
-
 }
