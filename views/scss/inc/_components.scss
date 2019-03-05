@@ -248,7 +248,7 @@ ul.listbox {
             color: $info;
             position: absolute;
         }
-        // some predefined icon colours:
+        // some predefined icons & their colours:
         &.icon-result-nok {
             &:before {
                 color: $error;
@@ -260,6 +260,32 @@ ul.listbox {
             }
         }
         &.icon-result-ok {
+            &:before {
+                color: $success;
+            }
+        }
+        // extra colour classes for convenience:
+        &.error {
+            &:before {
+                color: $error;
+            }
+        }
+        &.danger {
+            &:before {
+                color: $danger;
+            }
+        }
+        &.warning {
+            &:before {
+                color: $warning;
+            }
+        }
+        &.info {
+            &:before {
+                color: $info;
+            }
+        }
+        &.success {
             &:before {
                 color: $success;
             }
