@@ -17,58 +17,58 @@
  */
 
 /**
- * Plugin loader's test
+ * Plugin loade\'s test
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define( [  "lodash", "core/pluginLoader", "core/promise" ], function(  _, pluginLoader, Promise ) {
-    "use strict";
+define( [  'lodash', 'core/pluginLoader', 'core/promise' ], function(  _, pluginLoader, Promise ) {
+    'use strict';
 
-    QUnit.module( "API" );
+    QUnit.module( 'API' );
 
-    QUnit.test( "module", function( assert ) {
+    QUnit.test( 'module', function( assert ) {
         assert.expect( 3 );
 
-        assert.equal( typeof pluginLoader, "function", "The plugin loader exposes a function" );
-        assert.equal( typeof pluginLoader(), "object", "The plugin loader produces an object" );
-        assert.notStrictEqual( pluginLoader(), pluginLoader(), "The plugin loader provides a different object on each call" );
+        assert.equal( typeof pluginLoader, 'function', 'The plugin loader exposes a function' );
+        assert.equal( typeof pluginLoader(), 'object', 'The plugin loader produces an object' );
+        assert.notStrictEqual( pluginLoader(), pluginLoader(), 'The plugin loader provides a different object on each call' );
     } );
 
-    QUnit.test( "loader methods", function( assert ) {
+    QUnit.test( 'loader methods', function( assert ) {
         var loader = pluginLoader();
 
         assert.expect( 7 );
 
-        assert.equal( typeof loader, "object", "The loader is an object" );
-        assert.equal( typeof loader.add, "function", "The loader exposes the add method" );
-        assert.equal( typeof loader.addList, "function", "The loader exposes the addList method" );
-        assert.equal( typeof loader.append, "function", "The loader exposes the append method" );
-        assert.equal( typeof loader.prepend, "function", "The loader exposes the prepend method" );
-        assert.equal( typeof loader.load, "function", "The loader exposes the load method" );
-        assert.equal( typeof loader.getPlugins, "function", "The loader exposes the getPlugins method" );
+        assert.equal( typeof loader, 'object', 'The loader is an object' );
+        assert.equal( typeof loader.add, 'function', 'The loader exposes the add method' );
+        assert.equal( typeof loader.addList, 'function', 'The loader exposes the addList method' );
+        assert.equal( typeof loader.append, 'function', 'The loader exposes the append method' );
+        assert.equal( typeof loader.prepend, 'function', 'The loader exposes the prepend method' );
+        assert.equal( typeof loader.load, 'function', 'The loader exposes the load method' );
+        assert.equal( typeof loader.getPlugins, 'function', 'The loader exposes the getPlugins method' );
 
     } );
 
-    QUnit.module( "required" );
+    QUnit.module( 'required' );
 
-    QUnit.test( "required plugin format", function( assert ) {
+    QUnit.test( 'required plugin format', function( assert ) {
         assert.expect( 4 );
 
         assert.throws( function() {
             pluginLoader( { 12: _.noop } );
-        }, TypeError, "Wrong category format" );
+        }, TypeError, 'Wrong category format' );
 
         assert.throws( function() {
-            pluginLoader( { "foo": true } );
-        }, TypeError, "The plugin list must be an array" );
+            pluginLoader( { 'foo': true } );
+        }, TypeError, 'The plugin list must be an array' );
 
         assert.throws( function() {
-            pluginLoader( { "foo": [ true ] } );
-        }, TypeError, "The plugin list must be an array of function" );
+            pluginLoader( { 'foo': [ true ] } );
+        }, TypeError, 'The plugin list must be an array of function' );
 
         assert.throws( function() {
-            pluginLoader( { "foo": [ "true", _.noop ] } );
-        }, TypeError, "The plugin list must be an array with only functions" );
+            pluginLoader( { 'foo': [ 'true', _.noop ] } );
+        }, TypeError, 'The plugin list must be an array with only functions' );
 
         pluginLoader( {
             foo: [ _.noop ],
@@ -76,10 +76,10 @@ define( [  "lodash", "core/pluginLoader", "core/promise" ], function(  _, plugin
         } );
     } );
 
-    QUnit.test( "required plugin loading", function( assert ) {
-        var a = function a() { return "a"; };
-        var b = function b() { return "b"; };
-        var c = function c() { return "c"; };
+    QUnit.test( 'required plugin loading', function( assert ) {
+        var a = function a() { return 'a'; };
+        var b = function b() { return 'b'; };
+        var c = function c() { return 'c'; };
         var plugins = {
             foo: [ a ],
             bar: [ b, c ]
@@ -89,56 +89,56 @@ define( [  "lodash", "core/pluginLoader", "core/promise" ], function(  _, plugin
 
         assert.expect( 5 );
 
-        assert.equal( typeof loader, "object", "The loader is an object" );
-        assert.deepEqual( loader.getCategories(), [ "foo", "bar" ], "The plugins categories are correct" );
-        assert.deepEqual( loader.getPlugins(), [ a, b, c ], "The plugins have been registered" );
-        assert.deepEqual( loader.getPlugins( "foo" ), plugins.foo, "The plugins are registered under the right category" );
-        assert.deepEqual( loader.getPlugins( "bar" ), plugins.bar, "The plugins are registered under the right category" );
+        assert.equal( typeof loader, 'object', 'The loader is an object' );
+        assert.deepEqual( loader.getCategories(), [ 'foo', 'bar' ], 'The plugins categories are correct' );
+        assert.deepEqual( loader.getPlugins(), [ a, b, c ], 'The plugins have been registered' );
+        assert.deepEqual( loader.getPlugins( 'foo' ), plugins.foo, 'The plugins are registered under the right category' );
+        assert.deepEqual( loader.getPlugins( 'bar' ), plugins.bar, 'The plugins are registered under the right category' );
     } );
 
-    QUnit.module( "dynamic" );
+    QUnit.module( 'dynamic' );
 
-    QUnit.test( "add plugin module format", function( assert ) {
+    QUnit.test( 'add plugin module format', function( assert ) {
         var loader = pluginLoader();
 
         assert.expect( 5 );
 
-        assert.equal( typeof loader, "object", "The loader is an object" );
+        assert.equal( typeof loader, 'object', 'The loader is an object' );
 
         assert.throws( function() {
             loader.add( 12 );
-        }, TypeError, "Add requires an object" );
+        }, TypeError, 'Add requires an object' );
 
         assert.throws( function() {
             loader.add( {
-                foo: "12",
+                foo: '12',
                 bar: true
             } );
-        }, TypeError, "Add requires an object with a module and a category" );
+        }, TypeError, 'Add requires an object with a module and a category' );
 
         assert.throws( function() {
             loader.add( {
-                module: "foo"
+                module: 'foo'
             } );
-        }, TypeError, "Add requires an object with a category" );
+        }, TypeError, 'Add requires an object with a category' );
 
         assert.throws( function() {
             loader.add( {
-                category: "foo"
+                category: 'foo'
             } );
-        }, TypeError, "Add requires an object with a module" );
+        }, TypeError, 'Add requires an object with a module' );
 
         loader.add( {
-            module: "foo",
-            category: "foo"
+            module: 'foo',
+            category: 'foo'
         } );
     } );
 
-    QUnit.test( "load a plugin", function( assert ) {
+    QUnit.test( 'load a plugin', function( assert ) {
         var ready = assert.async();
         var plugin = {
-            module: "test/core/pluginLoader/mockPlugin",
-            category: "mock"
+            module: 'test/core/pluginLoader/mockPlugin',
+            category: 'mock'
         };
         var loader, promise;
 
@@ -146,17 +146,17 @@ define( [  "lodash", "core/pluginLoader", "core/promise" ], function(  _, plugin
 
         loader = pluginLoader();
 
-        assert.equal( typeof loader, "object", "The loader is an object" );
+        assert.equal( typeof loader, 'object', 'The loader is an object' );
 
-        assert.deepEqual( loader.append( plugin ), loader, "The loader chains" );
+        assert.deepEqual( loader.append( plugin ), loader, 'The loader chains' );
 
         promise = loader.load();
 
-        assert.ok( promise instanceof Promise, "The load method returns a Promise" );
-        assert.deepEqual( loader.getPlugins( "mock" ), [], "The loader mock category is empty" );
+        assert.ok( promise instanceof Promise, 'The load method returns a Promise' );
+        assert.deepEqual( loader.getPlugins( 'mock' ), [], 'The loader mock category is empty' );
 
         promise.then( function() {
-            assert.equal( loader.getPlugins( "mock" ).length, 1, "The mock category contains now a plugin" );
+            assert.equal( loader.getPlugins( 'mock' ).length, 1, 'The mock category contains now a plugin' );
             ready();
         } ).catch( function( e ) {
             assert.ok( false, e );
@@ -164,12 +164,12 @@ define( [  "lodash", "core/pluginLoader", "core/promise" ], function(  _, plugin
         } );
     } );
 
-    QUnit.test( "load a bundle", function( assert ) {
+    QUnit.test( 'load a bundle', function( assert ) {
         var ready = assert.async();
         var plugin = {
-            module: "test/core/pluginLoader/mockAPlugin",
-            bundle: "test/core/pluginLoader/mockBundle.min",
-            category: "mock"
+            module: 'test/core/pluginLoader/mockAPlugin',
+            bundle: 'test/core/pluginLoader/mockBundle.min',
+            category: 'mock'
         };
         var loader, promise;
 
@@ -177,16 +177,16 @@ define( [  "lodash", "core/pluginLoader", "core/promise" ], function(  _, plugin
 
         loader = pluginLoader();
 
-        assert.equal( typeof loader, "object", "The loader is an object" );
-        assert.deepEqual( loader.add( plugin ), loader, "The loader chains" );
+        assert.equal( typeof loader, 'object', 'The loader is an object' );
+        assert.deepEqual( loader.add( plugin ), loader, 'The loader chains' );
 
         promise = loader.load( true );
 
-        assert.ok( promise instanceof Promise, "The load method returns a Promise" );
-        assert.deepEqual( loader.getPlugins( "mock" ), [], "The loader mock category is empty" );
+        assert.ok( promise instanceof Promise, 'The load method returns a Promise' );
+        assert.deepEqual( loader.getPlugins( 'mock' ), [], 'The loader mock category is empty' );
 
         promise.then( function() {
-            assert.equal( loader.getPlugins( "mock" ).length, 1, "The mock category contains now one plugin" );
+            assert.equal( loader.getPlugins( 'mock' ).length, 1, 'The mock category contains now one plugin' );
 
             ready();
         } ).catch( function( e ) {
@@ -195,17 +195,17 @@ define( [  "lodash", "core/pluginLoader", "core/promise" ], function(  _, plugin
         } );
     } );
 
-    QUnit.test( "load load multiple plugins from a bundle", function( assert ) {
+    QUnit.test( 'load load multiple plugins from a bundle', function( assert ) {
         var ready = assert.async();
         var plugins = [ {
-            module: "test/core/pluginLoader/mockAPlugin",
-            bundle: "test/core/pluginLoader/mockBundle.min",
-            category: "mock",
+            module: 'test/core/pluginLoader/mockAPlugin',
+            bundle: 'test/core/pluginLoader/mockBundle.min',
+            category: 'mock',
             position: 1
         }, {
-            module: "test/core/pluginLoader/mockBPlugin",
-            bundle: "test/core/pluginLoader/mockBundle.min",
-            category: "mock",
+            module: 'test/core/pluginLoader/mockBPlugin',
+            bundle: 'test/core/pluginLoader/mockBundle.min',
+            category: 'mock',
             position: 0
         } ];
         var loader, promise;
@@ -214,16 +214,16 @@ define( [  "lodash", "core/pluginLoader", "core/promise" ], function(  _, plugin
 
         loader = pluginLoader();
 
-        assert.equal( typeof loader, "object", "The loader is an object" );
-        assert.deepEqual( loader.addList( plugins ), loader, "The loader chains" );
+        assert.equal( typeof loader, 'object', 'The loader is an object' );
+        assert.deepEqual( loader.addList( plugins ), loader, 'The loader chains' );
 
         promise = loader.load( true );
 
-        assert.ok( promise instanceof Promise, "The load method returns a Promise" );
-        assert.deepEqual( loader.getPlugins( "mock" ), [], "The loader mock category is empty" );
+        assert.ok( promise instanceof Promise, 'The load method returns a Promise' );
+        assert.deepEqual( loader.getPlugins( 'mock' ), [], 'The loader mock category is empty' );
 
         promise.then( function() {
-            assert.equal( loader.getPlugins( "mock" ).length, 2, "The mock category contains now one plugin" );
+            assert.equal( loader.getPlugins( 'mock' ).length, 2, 'The mock category contains now one plugin' );
 
             ready();
         } ).catch( function( e ) {
@@ -232,11 +232,11 @@ define( [  "lodash", "core/pluginLoader", "core/promise" ], function(  _, plugin
         } );
     } );
 
-    QUnit.test( "remove a plugin", function( assert ) {
+    QUnit.test( 'remove a plugin', function( assert ) {
         var ready = assert.async();
         var plugin = {
-            module: "test/core/pluginLoader/mockPlugin",
-            category: "mock"
+            module: 'test/core/pluginLoader/mockPlugin',
+            category: 'mock'
         };
         var loader;
 
@@ -244,13 +244,13 @@ define( [  "lodash", "core/pluginLoader", "core/promise" ], function(  _, plugin
 
         loader = pluginLoader();
 
-        assert.equal( typeof loader, "object", "The loader is an object" );
-        assert.deepEqual( loader.prepend( plugin ), loader, "The prepend chains" );
+        assert.equal( typeof loader, 'object', 'The loader is an object' );
+        assert.deepEqual( loader.prepend( plugin ), loader, 'The prepend chains' );
 
-        assert.deepEqual( loader.remove( "mock" ), loader, "The loader chains" );
+        assert.deepEqual( loader.remove( 'mock' ), loader, 'The loader chains' );
 
         loader.load().then( function() {
-            assert.equal( loader.getPlugins( "test/core/pluginLoader/mockPlugin" ).length, 0, "The mock plugin has been removed" );
+            assert.equal( loader.getPlugins( 'test/core/pluginLoader/mockPlugin' ).length, 0, 'The mock plugin has been removed' );
             ready();
         } ).catch( function( e ) {
             assert.ok( false, e );

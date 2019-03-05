@@ -16,24 +16,24 @@
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
  */
 
-define( [  "jquery", "lodash", "ui/generis/validator/validator" ], function(  $, _, generisValidatorFactory ) {
-    "use strict";
+define( [  'jquery', 'lodash', 'ui/generis/validator/validator' ], function(  $, _, generisValidatorFactory ) {
+    'use strict';
 
     var validations = [
         {
             predicate: /three/i,
-            message: "three"
+            message: 'three'
         },
         {
             predicate: /one/i,
-            message: "one",
+            message: 'one',
             precedence: 1
         },
         {
             predicate: function( value ) {
-                return value.indexOf( "two" ) > -1;
+                return value.indexOf( 'two' ) > -1;
             },
-            message: "two",
+            message: 'two',
             precedence: 99
         }
     ];
@@ -41,27 +41,27 @@ define( [  "jquery", "lodash", "ui/generis/validator/validator" ], function(  $,
     /**
      * Api
      */
-    QUnit.module( "Api" );
+    QUnit.module( 'Api' );
 
-    QUnit.test( "module", function( assert ) {
+    QUnit.test( 'module', function( assert ) {
         var obj1 = generisValidatorFactory();
         var obj2 = generisValidatorFactory();
-        assert.equal( typeof generisValidatorFactory, "function", "The module exposes a function" );
-        assert.equal( typeof obj1, "object", "The factory produces an object" );
-        assert.notStrictEqual( obj1, obj2, "The factory provides a different object on each call" );
+        assert.equal( typeof generisValidatorFactory, 'function', 'The module exposes a function' );
+        assert.equal( typeof obj1, 'object', 'The factory produces an object' );
+        assert.notStrictEqual( obj1, obj2, 'The factory provides a different object on each call' );
     } );
 
     QUnit
     .cases.init( [
-        { name: "errors",            title: "errors",            type: "object" },
-        { name: "validations",       title: "validations",       type: "object" },
-        { name: "run",               title: "run",               type: "function" },
-        { name: "clear",             title: "clear",             type: "function" },
-        { name: "display",           title: "display",           type: "function" },
-        { name: "addValidation",     title: "addValidation",     type: "function" },
-        { name: "removeValidations", title: "removeValidations", type: "function" }
+        { name: 'errors',            title: 'errors',            type: 'object' },
+        { name: 'validations',       title: 'validations',       type: 'object' },
+        { name: 'run',               title: 'run',               type: 'function' },
+        { name: 'clear',             title: 'clear',             type: 'function' },
+        { name: 'display',           title: 'display',           type: 'function' },
+        { name: 'addValidation',     title: 'addValidation',     type: 'function' },
+        { name: 'removeValidations', title: 'removeValidations', type: 'function' }
     ] )
-    .test( "instance", function( data, assert ) {
+    .test( 'instance', function( data, assert ) {
         var instance = generisValidatorFactory();
         assert.equal( typeof instance[ data.name ], data.type, 'The instance exposes a(n) "' + data.title + '" ' + data.type );
     } );
@@ -69,79 +69,79 @@ define( [  "jquery", "lodash", "ui/generis/validator/validator" ], function(  $,
     /**
      * Methods
      */
-    QUnit.module( "Methods" );
+    QUnit.module( 'Methods' );
 
-    QUnit.test( "run", function( assert ) {
+    QUnit.test( 'run', function( assert ) {
         var validator = generisValidatorFactory( {
             validations: validations
         } );
 
-        validator.run( "" );
-        assert.deepEqual( validator.errors, [ "one", "two", "three" ], "errors will be sorted by precedence" );
+        validator.run( '' );
+        assert.deepEqual( validator.errors, [ 'one', 'two', 'three' ], 'errors will be sorted by precedence' );
 
-        validator.run( "one two three" );
-        assert.ok( !validator.errors.length, "can find no errors" );
+        validator.run( 'one two three' );
+        assert.ok( !validator.errors.length, 'can find no errors' );
     } );
 
-    QUnit.test( "clear", function( assert ) {
+    QUnit.test( 'clear', function( assert ) {
         var validator = generisValidatorFactory( {
             validations: validations
         } );
 
-        validator.run( "" );
-        assert.ok( validator.errors.length, "first populate with errors" );
+        validator.run( '' );
+        assert.ok( validator.errors.length, 'first populate with errors' );
 
         validator.clear();
-        assert.ok( !validator.errors.length, "then show clear removes all errors" );
+        assert.ok( !validator.errors.length, 'then show clear removes all errors' );
     } );
 
-    QUnit.test( "display", function( assert ) {
-        assert.ok( true, "display is a visual test" );
+    QUnit.test( 'display', function( assert ) {
+        assert.ok( true, 'display is a visual test' );
     } );
 
-    QUnit.test( "addValidation", function( assert ) {
+    QUnit.test( 'addValidation', function( assert ) {
         var validator = generisValidatorFactory( {
             validations: validations
         } );
 
         validator.addValidation( {} );
-        assert.equal( validator.validations.length, 4, "added validation" );
+        assert.equal( validator.validations.length, 4, 'added validation' );
     } );
 
-    QUnit.test( "removeValidations", function( assert ) {
+    QUnit.test( 'removeValidations', function( assert ) {
         var validator = generisValidatorFactory( {
             validations: validations
         } );
 
         validator.removeValidations();
-        assert.equal( validator.validations.length, 0, "cleared validations" );
+        assert.equal( validator.validations.length, 0, 'cleared validations' );
     } );
 
     /**
      * Visual Test
      */
-    QUnit.module( "Visual Test" );
+    QUnit.module( 'Visual Test' );
 
-    QUnit.test( "Display and play", function( assert ) {
+    QUnit.test( 'Display and play', function( assert ) {
         var inputOne, selectTwo;
         var validationOne, validationTwo;
 
-        inputOne = $( "#field-1" ).find( "input" );
+        inputOne = $( '#field-1' ).find( 'input' );
 
         validationOne = generisValidatorFactory( {
             validations: validations
         } )
-        .render( "#field-1" );
+        .render( '#field-1' );
 
-        selectTwo = $( "#field-2" ).find( "select" );
+        selectTwo = $( '#field-2' ).find( 'select' );
 
         validationTwo = generisValidatorFactory( {
             validations: validations
         } )
-        .render( "#field-2" );
+        .render( '#field-2' );
 
-        $( "form" )
-        .on( "submit", function( e ) {
+        $( 'form' )
+        .on( 'submit', function( e ) {
             e.preventDefault();
 
             validationOne.run( inputOne.val() );

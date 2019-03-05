@@ -17,433 +17,433 @@
  */
 define( [
 
-    "jquery",
-    "lodash",
-    "ui/keyNavigation/navigator",
-    "ui/keyNavigation/navigableDomElement",
-    "ui/keyNavigation/navigableGroupElement",
-    "lib/simulator/jquery.simulate"
+    'jquery',
+    'lodash',
+    'ui/keyNavigation/navigator',
+    'ui/keyNavigation/navigableDomElement',
+    'ui/keyNavigation/navigableGroupElement',
+    'lib/simulator/jquery.simulate'
 ], function(  $, _, keyNavigator, navigableDomElement, navigableGroupElement ) {
-    "use strict";
+    'use strict';
 
     var pluginApi = [
-        { name: "on", title: "on" },
-        { name: "off", title: "off" },
-        { name: "trigger", title: "trigger" },
-        { name: "getId", title: "getId" },
-        { name: "getGroup", title: "getGroup" },
-        { name: "next", title: "next" },
-        { name: "previous", title: "previous" },
-        { name: "activate", title: "activate" },
-        { name: "goto", title: "goto" },
-        { name: "focus", title: "focus" },
-        { name: "focusPosition", title: "focusPosition" },
-        { name: "destroy", title: "destroy" },
-        { name: "blur", title: "blur" }
+        { name: 'on', title: 'on' },
+        { name: 'off', title: 'off' },
+        { name: 'trigger', title: 'trigger' },
+        { name: 'getId', title: 'getId' },
+        { name: 'getGroup', title: 'getGroup' },
+        { name: 'next', title: 'next' },
+        { name: 'previous', title: 'previous' },
+        { name: 'activate', title: 'activate' },
+        { name: 'goto', title: 'goto' },
+        { name: 'focus', title: 'focus' },
+        { name: 'focusPosition', title: 'focusPosition' },
+        { name: 'destroy', title: 'destroy' },
+        { name: 'blur', title: 'blur' }
     ];
 
-    QUnit.module( "API" );
+    QUnit.module( 'API' );
 
-    QUnit.test( "factory", function( assert ) {
+    QUnit.test( 'factory', function( assert ) {
         var knavigator = keyNavigator();
-        assert.equal( typeof keyNavigator, "function", "The module exposes a function" );
-        assert.equal( typeof knavigator, "object", "The factory creates an object" );
-        assert.notDeepEqual( knavigator, keyNavigator(), "The factory creates new objects" );
+        assert.equal( typeof keyNavigator, 'function', 'The module exposes a function' );
+        assert.equal( typeof knavigator, 'object', 'The factory creates an object' );
+        assert.notDeepEqual( knavigator, keyNavigator(), 'The factory creates new objects' );
     } );
 
     QUnit
         .cases.init( pluginApi )
-        .test( "component method ", function( data, assert ) {
+        .test( 'component method ', function( data, assert ) {
             var knavigator = keyNavigator();
             assert.expect( 1 );
-            assert.equal( typeof knavigator[ data.name ], "function", 'The navigator exposes a "' + data.name + '" function' );
+            assert.equal( typeof knavigator[ data.name ], 'function', 'The navigator exposes a "' + data.name + '" function' );
         } );
 
-    QUnit.module( "Dom navigable element" );
+    QUnit.module( 'Dom navigable element' );
 
-    QUnit.test( "activate", function( assert ) {
+    QUnit.test( 'activate', function( assert ) {
         var ready = assert.async();
         var knavigator;
-        var $container = $( "#qunit-fixture .nav-1" );
-        var $navigables = $container.find( ".nav" );
+        var $container = $( '#qunit-fixture .nav-1' );
+        var $navigables = $container.find( '.nav' );
         var navigables = navigableDomElement.createFromDoms( $navigables );
 
-        assert.equal( navigables.length, 3, "navigable element created" );
+        assert.equal( navigables.length, 3, 'navigable element created' );
 
         knavigator = keyNavigator( {
             elements: navigables,
             defaultPosition: navigables.length - 1
-        } ).on( "activate", function( cursor ) {
+        } ).on( 'activate', function( cursor ) {
             ready();
-            assert.ok( true, "activated" );
-            assert.equal( cursor.position, 2, "activated position is ok" );
-            assert.ok( cursor.navigable.getElement() instanceof $, "navigable element in cursor" );
-            assert.equal( cursor.navigable.getElement().data( "id" ), "C", "navigable element in cursor is correct" );
+            assert.ok( true, 'activated' );
+            assert.equal( cursor.position, 2, 'activated position is ok' );
+            assert.ok( cursor.navigable.getElement() instanceof $, 'navigable element in cursor' );
+            assert.equal( cursor.navigable.getElement().data( 'id' ), 'C', 'navigable element in cursor is correct' );
         } );
 
         knavigator.focus();
-        assert.equal( $( document.activeElement ).data( "id" ), "C", "focus on last" );
-        $( document.activeElement ).simulate( "keydown", { keyCode: 13 } );//Enter
+        assert.equal( $( document.activeElement ).data( 'id' ), 'C', 'focus on last' );
+        $( document.activeElement ).simulate( 'keydown', { keyCode: 13 } );//Enter
     } );
 
-    QUnit.test( "navigate with API", function( assert ) {
+    QUnit.test( 'navigate with API', function( assert ) {
         var ready = assert.async();
         var knavigator;
-        var $container = $( "#qunit-fixture .nav-1" );
-        var $navigables = $container.find( ".nav" );
+        var $container = $( '#qunit-fixture .nav-1' );
+        var $navigables = $container.find( '.nav' );
         var navigables = navigableDomElement.createFromDoms( $navigables );
 
-        assert.equal( navigables.length, 3, "navigable element created" );
+        assert.equal( navigables.length, 3, 'navigable element created' );
 
         knavigator = keyNavigator( {
-            id: "bottom-toolbar",
+            id: 'bottom-toolbar',
             replace: true,
             group: $container,
             elements: navigables,
             defaultPosition: navigables.length - 1
-        } ).on( "right down", function() {
+        } ).on( 'right down', function() {
             this.next();
-        } ).on( "left up", function() {
+        } ).on( 'left up', function() {
             this.previous();
-        } ).on( "activate", function( cursor ) {
+        } ).on( 'activate', function( cursor ) {
             ready();
-            assert.ok( true, "activated" );
-            assert.equal( cursor.position, 0, "activated position is ok" );
-            assert.ok( cursor.navigable.getElement() instanceof $, "navigable element in cursor" );
-            assert.equal( cursor.navigable.getElement().data( "id" ), "A", "navigable element in cursor is correct" );
+            assert.ok( true, 'activated' );
+            assert.equal( cursor.position, 0, 'activated position is ok' );
+            assert.ok( cursor.navigable.getElement() instanceof $, 'navigable element in cursor' );
+            assert.equal( cursor.navigable.getElement().data( 'id' ), 'A', 'navigable element in cursor is correct' );
         } );
 
         knavigator.focus();
-        assert.equal( $( document.activeElement ).data( "id" ), "C", "default focus on last" );
+        assert.equal( $( document.activeElement ).data( 'id' ), 'C', 'default focus on last' );
         knavigator.next();
-        assert.equal( $( document.activeElement ).data( "id" ), "C", "stay on last" );
+        assert.equal( $( document.activeElement ).data( 'id' ), 'C', 'stay on last' );
         knavigator.previous();
-        assert.equal( $( document.activeElement ).data( "id" ), "B", "focus on second" );
+        assert.equal( $( document.activeElement ).data( 'id' ), 'B', 'focus on second' );
         knavigator.previous();
-        assert.equal( $( document.activeElement ).data( "id" ), "A", "focus on first" );
+        assert.equal( $( document.activeElement ).data( 'id' ), 'A', 'focus on first' );
         knavigator.previous();
-        assert.equal( $( document.activeElement ).data( "id" ), "A", "stay on first" );
+        assert.equal( $( document.activeElement ).data( 'id' ), 'A', 'stay on first' );
         knavigator.activate();
     } );
 
-    QUnit.test( "navigate with keyboard", function( assert ) {
+    QUnit.test( 'navigate with keyboard', function( assert ) {
         var ready = assert.async();
         var knavigator;
-        var $container = $( "#qunit-fixture .nav-1" );
-        var $navigables = $container.find( ".nav" );
+        var $container = $( '#qunit-fixture .nav-1' );
+        var $navigables = $container.find( '.nav' );
         var navigables = navigableDomElement.createFromDoms( $navigables );
 
         assert.expect( 16 );
 
-        assert.equal( navigables.length, 3, "navigable element created" );
+        assert.equal( navigables.length, 3, 'navigable element created' );
 
         knavigator = keyNavigator( {
             elements: navigables,
             defaultPosition: navigables.length - 1
-        } ).on( "right down", function() {
+        } ).on( 'right down', function() {
             this.next();
-            assert.ok( true, "go next" );
-        } ).on( "left up", function() {
+            assert.ok( true, 'go next' );
+        } ).on( 'left up', function() {
             this.previous();
-            assert.ok( true, "go previous" );
-        } ).on( "activate", function( cursor ) {
+            assert.ok( true, 'go previous' );
+        } ).on( 'activate', function( cursor ) {
             ready();
-            assert.ok( true, "activated" );
-            assert.equal( cursor.position, 1, "activated position is ok" );
-            assert.ok( cursor.navigable.getElement() instanceof $, "navigable element in cursor" );
-            assert.equal( cursor.navigable.getElement().data( "id" ), "B", "navigable element in cursor is correct" );
+            assert.ok( true, 'activated' );
+            assert.equal( cursor.position, 1, 'activated position is ok' );
+            assert.ok( cursor.navigable.getElement() instanceof $, 'navigable element in cursor' );
+            assert.equal( cursor.navigable.getElement().data( 'id' ), 'B', 'navigable element in cursor is correct' );
         } );
 
         knavigator.focus();
-        assert.equal( $( document.activeElement ).data( "id" ), "C", "default focus on last" );
+        assert.equal( $( document.activeElement ).data( 'id' ), 'C', 'default focus on last' );
 
-        $( document.activeElement ).simulate( "keydown", { keyCode: 40 } );//Down
-        assert.equal( $( document.activeElement ).data( "id" ), "C", "stay on last" );
+        $( document.activeElement ).simulate( 'keydown', { keyCode: 40 } );//Down
+        assert.equal( $( document.activeElement ).data( 'id' ), 'C', 'stay on last' );
 
-        $( document.activeElement ).simulate( "keydown", { keyCode: 38 } );//Up
-        assert.equal( $( document.activeElement ).data( "id" ), "B", "focus on second" );
+        $( document.activeElement ).simulate( 'keydown', { keyCode: 38 } );//Up
+        assert.equal( $( document.activeElement ).data( 'id' ), 'B', 'focus on second' );
 
-        $( document.activeElement ).simulate( "keydown", { keyCode: 37 } );//Left
-        assert.equal( $( document.activeElement ).data( "id" ), "A", "focus on first" );
+        $( document.activeElement ).simulate( 'keydown', { keyCode: 37 } );//Left
+        assert.equal( $( document.activeElement ).data( 'id' ), 'A', 'focus on first' );
 
-        $( document.activeElement ).simulate( "keydown", { keyCode: 38 } );//Up
-        assert.equal( $( document.activeElement ).data( "id" ), "A", "stay on first" );
+        $( document.activeElement ).simulate( 'keydown', { keyCode: 38 } );//Up
+        assert.equal( $( document.activeElement ).data( 'id' ), 'A', 'stay on first' );
 
-        $( document.activeElement ).simulate( "keydown", { keyCode: 39 } );//Right
-        assert.equal( $( document.activeElement ).data( "id" ), "B", "focus on second" );
+        $( document.activeElement ).simulate( 'keydown', { keyCode: 39 } );//Right
+        assert.equal( $( document.activeElement ).data( 'id' ), 'B', 'focus on second' );
 
-        $( document.activeElement ).simulate( "keydown", { keyCode: 13 } );//Enter
+        $( document.activeElement ).simulate( 'keydown', { keyCode: 13 } );//Enter
     } );
 
-    QUnit.test( "isFocused", function( assert ) {
+    QUnit.test( 'isFocused', function( assert ) {
         var knavigator;
-        var $container = $( "#qunit-fixture .nav-1" );
-        var $navigables = $container.find( ".nav" );
+        var $container = $( '#qunit-fixture .nav-1' );
+        var $navigables = $container.find( '.nav' );
         var navigables = navigableDomElement.createFromDoms( $navigables );
 
         assert.expect( 4 );
 
-        assert.equal( navigables.length, 3, "navigable element created" );
+        assert.equal( navigables.length, 3, 'navigable element created' );
 
         knavigator = keyNavigator( { elements: navigables } );
 
-        assert.ok( !knavigator.isFocused(), "the navigator is not on focus" );
+        assert.ok( !knavigator.isFocused(), 'the navigator is not on focus' );
         knavigator.focus();
-        assert.ok( knavigator.isFocused(), "the knavigator is now on focus" );
+        assert.ok( knavigator.isFocused(), 'the knavigator is now on focus' );
         knavigator.blur();
-        assert.ok( !knavigator.isFocused(), "the navigator is now blurred" );
+        assert.ok( !knavigator.isFocused(), 'the navigator is now blurred' );
     } );
 
-    QUnit.test( "loop", function( assert ) {
+    QUnit.test( 'loop', function( assert ) {
         var ready = assert.async();
         var knavigator;
-        var $container = $( "#qunit-fixture .nav-1" );
-        var $navigables = $container.find( ".nav" );
+        var $container = $( '#qunit-fixture .nav-1' );
+        var $navigables = $container.find( '.nav' );
         var navigables = navigableDomElement.createFromDoms( $navigables );
 
         assert.expect( 10 );
 
-        assert.equal( navigables.length, 3, "navigable element created" );
+        assert.equal( navigables.length, 3, 'navigable element created' );
 
         knavigator = keyNavigator( {
             loop: true,
             elements: navigables
-        } ).on( "right down", function() {
+        } ).on( 'right down', function() {
             this.next();
-        } ).on( "left up", function() {
+        } ).on( 'left up', function() {
             this.previous();
-        } ).on( "activate", function( cursor ) {
+        } ).on( 'activate', function( cursor ) {
             ready();
-            assert.ok( true, "activated" );
-            assert.equal( cursor.position, 2, "activated position is ok" );
-            assert.ok( cursor.navigable.getElement() instanceof $, "navigable element in cursor" );
-            assert.equal( cursor.navigable.getElement().data( "id" ), "C", "navigable element in cursor is correct" );
+            assert.ok( true, 'activated' );
+            assert.equal( cursor.position, 2, 'activated position is ok' );
+            assert.ok( cursor.navigable.getElement() instanceof $, 'navigable element in cursor' );
+            assert.equal( cursor.navigable.getElement().data( 'id' ), 'C', 'navigable element in cursor is correct' );
         } );
 
         knavigator.focus();
-        assert.equal( $( document.activeElement ).data( "id" ), "A", "focus on first" );
+        assert.equal( $( document.activeElement ).data( 'id' ), 'A', 'focus on first' );
 
         knavigator.next();
-        assert.equal( $( document.activeElement ).data( "id" ), "B", "focus on second" );
+        assert.equal( $( document.activeElement ).data( 'id' ), 'B', 'focus on second' );
 
         knavigator.next();
-        assert.equal( $( document.activeElement ).data( "id" ), "C", "focus on last" );
+        assert.equal( $( document.activeElement ).data( 'id' ), 'C', 'focus on last' );
 
         knavigator.next();
-        assert.equal( $( document.activeElement ).data( "id" ), "A", "loop to first" );
+        assert.equal( $( document.activeElement ).data( 'id' ), 'A', 'loop to first' );
 
         knavigator.previous();
-        assert.equal( $( document.activeElement ).data( "id" ), "C", "loop to last" );
+        assert.equal( $( document.activeElement ).data( 'id' ), 'C', 'loop to last' );
 
         knavigator.activate();
     } );
 
-    QUnit.test( "keep state off", function( assert ) {
+    QUnit.test( 'keep state off', function( assert ) {
         var ready = assert.async();
         var knavigator;
-        var $container = $( "#qunit-fixture .nav-1" );
-        var $navigables = $container.find( ".nav" );
+        var $container = $( '#qunit-fixture .nav-1' );
+        var $navigables = $container.find( '.nav' );
         var navigables = navigableDomElement.createFromDoms( $navigables );
 
         assert.expect( 9 );
 
-        assert.equal( navigables.length, 3, "navigable element created" );
+        assert.equal( navigables.length, 3, 'navigable element created' );
 
         knavigator = keyNavigator( {
             elements: navigables
-        } ).on( "right down", function() {
+        } ).on( 'right down', function() {
             this.next();
-        } ).on( "left up", function() {
+        } ).on( 'left up', function() {
             this.previous();
-        } ).on( "activate", function( cursor ) {
+        } ).on( 'activate', function( cursor ) {
             ready();
-            assert.ok( true, "activated" );
-            assert.equal( cursor.position, 0, "activated position is ok" );
-            assert.ok( cursor.navigable.getElement() instanceof $, "navigable element in cursor" );
-            assert.equal( cursor.navigable.getElement().data( "id" ), "A", "navigable element in cursor is correct" );
+            assert.ok( true, 'activated' );
+            assert.equal( cursor.position, 0, 'activated position is ok' );
+            assert.ok( cursor.navigable.getElement() instanceof $, 'navigable element in cursor' );
+            assert.equal( cursor.navigable.getElement().data( 'id' ), 'A', 'navigable element in cursor is correct' );
         } );
 
         knavigator.focus();
-        assert.equal( $( document.activeElement ).data( "id" ), "A", "focus on first" );
+        assert.equal( $( document.activeElement ).data( 'id' ), 'A', 'focus on first' );
 
         knavigator.next();
-        assert.equal( $( document.activeElement ).data( "id" ), "B", "focus on second" );
+        assert.equal( $( document.activeElement ).data( 'id' ), 'B', 'focus on second' );
 
         $( document.activeElement ).blur();
-        assert.equal( document.activeElement, $( "body" ).get( 0 ), "focus out" );
+        assert.equal( document.activeElement, $( 'body' ).get( 0 ), 'focus out' );
 
         knavigator.focus();
-        assert.equal( $( document.activeElement ).data( "id" ), "A", "focus on a a navigator with keep state on should reset the cursor" );
+        assert.equal( $( document.activeElement ).data( 'id' ), 'A', 'focus on a a navigator with keep state on should reset the cursor' );
 
         knavigator.activate();
     } );
 
-    QUnit.test( "keep state on", function( assert ) {
+    QUnit.test( 'keep state on', function( assert ) {
         var ready = assert.async();
         var knavigator;
-        var $container = $( "#qunit-fixture .nav-1" );
-        var $navigables = $container.find( ".nav" );
+        var $container = $( '#qunit-fixture .nav-1' );
+        var $navigables = $container.find( '.nav' );
         var navigables = navigableDomElement.createFromDoms( $navigables );
 
         assert.expect( 9 );
 
-        assert.equal( navigables.length, 3, "navigable element created" );
+        assert.equal( navigables.length, 3, 'navigable element created' );
 
         knavigator = keyNavigator( {
             keepState: true,
             elements: navigables
-        } ).on( "right down", function() {
+        } ).on( 'right down', function() {
             this.next();
-        } ).on( "left up", function() {
+        } ).on( 'left up', function() {
             this.previous();
-        } ).on( "activate", function( cursor ) {
+        } ).on( 'activate', function( cursor ) {
             ready();
-            assert.ok( true, "activated" );
-            assert.equal( cursor.position, 1, "activated position is ok" );
-            assert.ok( cursor.navigable.getElement() instanceof $, "navigable element in cursor" );
-            assert.equal( cursor.navigable.getElement().data( "id" ), "B", "navigable element in cursor is correct" );
+            assert.ok( true, 'activated' );
+            assert.equal( cursor.position, 1, 'activated position is ok' );
+            assert.ok( cursor.navigable.getElement() instanceof $, 'navigable element in cursor' );
+            assert.equal( cursor.navigable.getElement().data( 'id' ), 'B', 'navigable element in cursor is correct' );
         } );
 
         knavigator.focus();
-        assert.equal( $( document.activeElement ).data( "id" ), "A", "focus on first" );
+        assert.equal( $( document.activeElement ).data( 'id' ), 'A', 'focus on first' );
 
         knavigator.next();
-        assert.equal( $( document.activeElement ).data( "id" ), "B", "focus on second" );
+        assert.equal( $( document.activeElement ).data( 'id' ), 'B', 'focus on second' );
 
         $( document.activeElement ).blur();
-        assert.equal( document.activeElement, $( "body" ).get( 0 ), "focus out" );
+        assert.equal( document.activeElement, $( 'body' ).get( 0 ), 'focus out' );
 
         knavigator.focus();
-        assert.equal( $( document.activeElement ).data( "id" ), "B", "focus on a a navigator with keep state on should restore the cursor in memory" );
+        assert.equal( $( document.activeElement ).data( 'id' ), 'B', 'focus on a a navigator with keep state on should restore the cursor in memory' );
 
         knavigator.activate();
     } );
 
-    QUnit.test( "activate with space", function( assert ) {
+    QUnit.test( 'activate with space', function( assert ) {
         var ready = assert.async();
         var knavigator;
-        var $container = $( "#qunit-fixture .nav-2" );
-        var $navigables = $container.find( ".nav" );
+        var $container = $( '#qunit-fixture .nav-2' );
+        var $navigables = $container.find( '.nav' );
         var navigables = navigableDomElement.createFromDoms( $navigables );
 
-        var $textarea  = $( "textarea", $container );
+        var $textarea  = $( 'textarea', $container );
         assert.expect( 7 );
 
-        assert.equal( navigables.length, 3, "navigable element created" );
+        assert.equal( navigables.length, 3, 'navigable element created' );
 
         knavigator = keyNavigator( {
             keepState: true,
             elements: navigables
         } )
-        .on( "right", function() {
+        .on( 'right', function() {
             this.next();
         } )
-        .on( "activate", function( cursor ) {
-            assert.equal( cursor.position, 2, "activated position is ok" );
-            assert.equal( cursor.navigable.getElement().data( "id" ), "C", "navigable element in cursor is correct" );
+        .on( 'activate', function( cursor ) {
+            assert.equal( cursor.position, 2, 'activated position is ok' );
+            assert.equal( cursor.navigable.getElement().data( 'id' ), 'C', 'navigable element in cursor is correct' );
 
-            assert.equal( $textarea.length, 1, "The textarea element exists" );
+            assert.equal( $textarea.length, 1, 'The textarea element exists' );
 
-            this.on( "blur", function() {
-                assert.ok( false, "Hitting the space key should not blur the active element" );
+            this.on( 'blur', function() {
+                assert.ok( false, 'Hitting the space key should not blur the active element' );
                 ready();
             } );
 
-            $textarea.simulate( "keydown", { keyCode: 32 } );//Space-> should not blur
-            $textarea.simulate( "keyup", { keyCode: 32 } );//Space
+            $textarea.simulate( 'keydown', { keyCode: 32 } );//Space-> should not blur
+            $textarea.simulate( 'keyup', { keyCode: 32 } );//Space
 
             setTimeout( function() {
-                knavigator.off( "blur" );
+                knavigator.off( 'blur' );
                 ready();
             }, 100 );
         } );
 
         knavigator.focus();
-        assert.equal( $( document.activeElement ).data( "id" ), "A", "focus on first" );
+        assert.equal( $( document.activeElement ).data( 'id' ), 'A', 'focus on first' );
 
-        $( document.activeElement ).simulate( "keydown", { keyCode: 39 } );//Right
-        assert.equal( $( document.activeElement ).data( "id" ), "B", "focus on second" );
+        $( document.activeElement ).simulate( 'keydown', { keyCode: 39 } );//Right
+        assert.equal( $( document.activeElement ).data( 'id' ), 'B', 'focus on second' );
 
-        $( document.activeElement ).simulate( "keydown", { keyCode: 39 } );//Right
-        assert.equal( $( document.activeElement ).data( "id" ), "C", "focus on third" );
+        $( document.activeElement ).simulate( 'keydown', { keyCode: 39 } );//Right
+        assert.equal( $( document.activeElement ).data( 'id' ), 'C', 'focus on third' );
 
-        $( document.activeElement ).simulate( "keyup", { keyCode: 32 } );//Space -> activate
+        $( document.activeElement ).simulate( 'keyup', { keyCode: 32 } );//Space -> activate
     } );
 
-    QUnit.module( "Group navigable element" );
+    QUnit.module( 'Group navigable element' );
 
-    QUnit.test( "isVisible", function( assert ) {
-        var $container = $( "#qunit-fixture .inputable" );
+    QUnit.test( 'isVisible', function( assert ) {
+        var $container = $( '#qunit-fixture .inputable' );
         var domNavigable = keyNavigator( {
-            id: "A",
+            id: 'A',
             replace: true,
-            elements: navigableDomElement.createFromDoms( $container.find( "input" ) ),
+            elements: navigableDomElement.createFromDoms( $container.find( 'input' ) ),
             group: $container
         } );
         var groupNavigable = navigableGroupElement( domNavigable );
 
-        assert.ok( groupNavigable.isVisible(), "group element is visible" );
+        assert.ok( groupNavigable.isVisible(), 'group element is visible' );
 
-        $container.find( "input[data-id=A]" ).hide();
-        assert.ok( groupNavigable.isVisible(), "group element is still visible" );
+        $container.find( 'input[data-id=A]' ).hide();
+        assert.ok( groupNavigable.isVisible(), 'group element is still visible' );
 
-        $container.find( "input[data-id=B]" ).hide();
-        assert.ok( groupNavigable.isVisible(), "group element is still visible" );
+        $container.find( 'input[data-id=B]' ).hide();
+        assert.ok( groupNavigable.isVisible(), 'group element is still visible' );
 
-        $container.find( "input[data-id=C]" ).hide();
-        assert.ok( !groupNavigable.isVisible(), "group element is hidden" );
+        $container.find( 'input[data-id=C]' ).hide();
+        assert.ok( !groupNavigable.isVisible(), 'group element is hidden' );
 
-        $container.find( "input[data-id=C]" ).show();
-        assert.ok( groupNavigable.isVisible(), "group element is visible again" );
+        $container.find( 'input[data-id=C]' ).show();
+        assert.ok( groupNavigable.isVisible(), 'group element is visible again' );
     } );
 
-    QUnit.test( "isEnabled", function( assert ) {
-        var $container = $( "#qunit-fixture .inputable" );
+    QUnit.test( 'isEnabled', function( assert ) {
+        var $container = $( '#qunit-fixture .inputable' );
         var domNavigable = keyNavigator( {
-            id: "A",
+            id: 'A',
             replace: true,
-            elements: navigableDomElement.createFromDoms( $container.find( "input" ) ),
+            elements: navigableDomElement.createFromDoms( $container.find( 'input' ) ),
             group: $container
         } );
         var groupNavigable = navigableGroupElement( domNavigable );
 
-        assert.ok( groupNavigable.isEnabled(), "group element is enabled" );
+        assert.ok( groupNavigable.isEnabled(), 'group element is enabled' );
 
-        $container.find( "input[data-id=A]" ).attr( "disabled", "disabled" );
-        assert.ok( groupNavigable.isEnabled(), "group element is still enabled" );
+        $container.find( 'input[data-id=A]' ).attr( 'disabled', 'disabled' );
+        assert.ok( groupNavigable.isEnabled(), 'group element is still enabled' );
 
-        $container.find( "input[data-id=B]" ).attr( "disabled", "disabled" );
-        assert.ok( groupNavigable.isEnabled(), "group element is still enabled" );
+        $container.find( 'input[data-id=B]' ).attr( 'disabled', 'disabled' );
+        assert.ok( groupNavigable.isEnabled(), 'group element is still enabled' );
 
-        $container.find( "input[data-id=C]" ).attr( "disabled", "disabled" );
-        assert.ok( !groupNavigable.isEnabled(), "group element is disabled" );
+        $container.find( 'input[data-id=C]' ).attr( 'disabled', 'disabled' );
+        assert.ok( !groupNavigable.isEnabled(), 'group element is disabled' );
 
-        $container.find( "input[data-id=C]" ).removeAttr( "disabled" );
-        assert.ok( groupNavigable.isEnabled(), "group element is enabled again" );
+        $container.find( 'input[data-id=C]' ).removeAttr( 'disabled' );
+        assert.ok( groupNavigable.isEnabled(), 'group element is enabled again' );
     } );
 
-    QUnit.test( "navigate between navigable areas", function( assert ) {
+    QUnit.test( 'navigate between navigable areas', function( assert ) {
         var ready = assert.async();
         var knavigator;
-        var $container = $( "#qunit-fixture" );
+        var $container = $( '#qunit-fixture' );
         var navigableAreas = [
             keyNavigator( {
-                id: "A",
+                id: 'A',
                 replace: true,
-                elements: navigableDomElement.createFromDoms( $container.find( "[data-id=A]" ) ),
-                group: $container.find( "[data-id=A]" )
+                elements: navigableDomElement.createFromDoms( $container.find( '[data-id=A]' ) ),
+                group: $container.find( '[data-id=A]' )
             } ),
             keyNavigator( {
-                id: "B",
+                id: 'B',
                 replace: true,
-                elements: navigableDomElement.createFromDoms( $container.find( "[data-id=B]" ) ),
-                group: $container.find( "[data-id=B]" )
+                elements: navigableDomElement.createFromDoms( $container.find( '[data-id=B]' ) ),
+                group: $container.find( '[data-id=B]' )
             } ),
             keyNavigator( {
-                id: "C",
+                id: 'C',
                 replace: true,
-                elements: navigableDomElement.createFromDoms( $container.find( "[data-id=C]" ) ),
-                group: $container.find( "[data-id=C]" )
+                elements: navigableDomElement.createFromDoms( $container.find( '[data-id=C]' ) ),
+                group: $container.find( '[data-id=C]' )
             } )
         ];
 
@@ -451,30 +451,30 @@ define( [
 
         assert.expect( 8 );
 
-        assert.equal( navigables.length, 3, "navigable element created" );
+        assert.equal( navigables.length, 3, 'navigable element created' );
 
         knavigator = keyNavigator( {
             elements: navigables
-        } ).on( "right down", function() {
+        } ).on( 'right down', function() {
             this.next();
-        } ).on( "left up", function() {
+        } ).on( 'left up', function() {
             this.previous();
-        } ).on( "activate", function( cursor ) {
+        } ).on( 'activate', function( cursor ) {
             ready();
-            assert.ok( true, "activated" );
-            assert.equal( cursor.position, 2, "activated position is ok" );
-            assert.ok( cursor.navigable.getElement() instanceof $, "navigable element in cursor" );
-            assert.equal( cursor.navigable.getElement().data( "id" ), "C", "navigable element in cursor is correct" );
+            assert.ok( true, 'activated' );
+            assert.equal( cursor.position, 2, 'activated position is ok' );
+            assert.ok( cursor.navigable.getElement() instanceof $, 'navigable element in cursor' );
+            assert.equal( cursor.navigable.getElement().data( 'id' ), 'C', 'navigable element in cursor is correct' );
         } );
 
         knavigator.focus();
-        assert.equal( $( document.activeElement ).data( "id" ), "A", "focus on first" );
+        assert.equal( $( document.activeElement ).data( 'id' ), 'A', 'focus on first' );
 
         knavigator.next();
-        assert.equal( $( document.activeElement ).data( "id" ), "B", "focus on second" );
+        assert.equal( $( document.activeElement ).data( 'id' ), 'B', 'focus on second' );
 
         knavigator.next();
-        assert.equal( $( document.activeElement ).data( "id" ), "C", "focus on last" );
+        assert.equal( $( document.activeElement ).data( 'id' ), 'C', 'focus on last' );
 
         knavigator.activate();
     } );

@@ -30,7 +30,7 @@ define([
 
     QUnit.test('module', function (assert) {
         assert.expect(1);
-        assert.equal(typeof labels, 'object', "The module exposes an object");
+        assert.equal(typeof labels, 'object', 'The module exposes an object');
     });
 
     QUnit.test('labels', function (assert) {

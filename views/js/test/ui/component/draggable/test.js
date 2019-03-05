@@ -20,40 +20,40 @@
  */
 define( [
     
-    "jquery",
-    "ui/component",
-    "ui/component/placeable",
-    "ui/component/draggable"
+    'jquery',
+    'ui/component',
+    'ui/component/placeable',
+    'ui/component/draggable'
 ], function(  $, componentFactory, makePlaceable, makeDraggable ) {
-    "use strict";
+    'use strict';
 
-    QUnit.module( "API" );
+    QUnit.module( 'API' );
 
-    QUnit.test( "module", function( assert ) {
+    QUnit.test( 'module', function( assert ) {
         assert.expect( 1 );
 
-        assert.ok( typeof makeDraggable === "function", "The module expose a function" );
+        assert.ok( typeof makeDraggable === 'function', 'The module expose a function' );
     } );
 
-    QUnit.test( "auto makes the component placeable", function( assert ) {
+    QUnit.test( 'auto makes the component placeable', function( assert ) {
         var component = makeDraggable( componentFactory() );
         assert.expect( 1 );
-        assert.ok( makePlaceable.isPlaceable( component ), "created component is placeable" );
+        assert.ok( makePlaceable.isPlaceable( component ), 'created component is placeable' );
     } );
 
-    QUnit.module( "Visual test" );
+    QUnit.module( 'Visual test' );
 
-    QUnit.test( "Display and play", function( assert ) {
+    QUnit.test( 'Display and play', function( assert ) {
         var ready = assert.async();
         var component = componentFactory( {}, { width: 200, height: 300 } ),
-            $container = $( "#outside" );
+            $container = $( '#outside' );
 
         assert.expect( 1 );
 
         makeDraggable( component );
 
         component
-            .on( "render", function() {
+            .on( 'render', function() {
                 assert.ok( true );
                 ready();
             } )

@@ -18,8 +18,8 @@
 /**
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
  */
-define( [  "lodash", "ui/maths/calculator/core/terms" ], function(  _, registeredTerms ) {
-    "use strict";
+define( [  'lodash', 'ui/maths/calculator/core/terms' ], function(  _, registeredTerms ) {
+    'use strict';
 
     var termTypes = [
         'digit',
@@ -32,23 +32,23 @@ define( [  "lodash", "ui/maths/calculator/core/terms" ], function(  _, registere
         'function'
     ];
 
-    QUnit.module( "Module" );
+    QUnit.module( 'Module' );
 
-    QUnit.test( "module", function( assert ) {
+    QUnit.test( 'module', function( assert ) {
         assert.expect( 1 );
-        assert.equal( typeof registeredTerms, "object", "The module exposes an object" );
+        assert.equal( typeof registeredTerms, 'object', 'The module exposes an object' );
     } );
 
-    QUnit.test( "terms", function( assert ) {
+    QUnit.test( 'terms', function( assert ) {
         assert.expect( 1 + _.size( registeredTerms ) * 9 );
 
-        assert.ok( _.size( registeredTerms ) > 0, "A list of terms is exposed" );
+        assert.ok( _.size( registeredTerms ) > 0, 'A list of terms is exposed' );
 
         _.forEach( registeredTerms, function( term, id ) {
-            assert.equal( typeof term.label, "string", "The term " + id + " has a property label" );
-            assert.equal( typeof term.value, "string", "The term " + id + " has a property value" );
-            assert.equal( typeof term.type, "string", "The term " + id + " has a property type" );
-            assert.equal( typeof term.description, "string", "The term " + id + " has a property description" );
+            assert.equal( typeof term.label, 'string', 'The term ' + id + ' has a property label' );
+            assert.equal( typeof term.value, 'string', 'The term ' + id + ' has a property value' );
+            assert.equal( typeof term.type, 'string', 'The term ' + id + ' has a property type' );
+            assert.equal( typeof term.description, 'string', 'The term ' + id + ' has a property description' );
 
             assert.notEqual(termTypes.indexOf(term.type), -1, 'The term ' + id + ' has the known type ' + term.type);
             assert.notEqual(term.label, '', 'The property label of the term ' + id + ' is not empty');

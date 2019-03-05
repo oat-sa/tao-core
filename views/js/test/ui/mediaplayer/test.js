@@ -18,8 +18,8 @@
 /**
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
-define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $, _, Promise, mediaplayer ) {
-    "use strict";
+define( [  'jquery', 'lodash', 'core/promise', 'ui/mediaplayer' ], function(  $, _, Promise, mediaplayer ) {
+    'use strict';
 
     var skipPlaybackIfUnsupported = true;
 
@@ -28,93 +28,93 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
 
     var isHeadless = /HeadlessChrome/.test( navigator.userAgent );
 
-    QUnit.module( "mediaplayer" );
+    QUnit.module( 'mediaplayer' );
 
-    QUnit.test( "module", function( assert ) {
-        assert.equal( typeof mediaplayer, "function", "The mediaplayer module exposes a function" );
-        assert.equal( typeof mediaplayer(), "object", "The mediaplayer factory produces an object" );
-        assert.equal( typeof mediaplayer.canPlay, "function", "The mediaplayer factory exposes a function telling if the browser can play video and audio" );
-        assert.equal( typeof mediaplayer.canPlayAudio, "function", "The mediaplayer factory exposes a function telling if the browser can play audio" );
-        assert.equal( typeof mediaplayer.canPlayVideo, "function", "The mediaplayer factory exposes a function telling if the browser can play video" );
-        assert.equal( typeof mediaplayer.canControl, "function", "The mediaplayer factory exposes a function telling if the browser allows to control the media playback" );
-        assert.equal( typeof mediaplayer.youtubePolling, "number", "The mediaplayer factory exposes a config entry to set the YouTube polling delay" );
-        assert.notStrictEqual( mediaplayer(), mediaplayer(), "The mediaplayer factory provides a different object on each call" );
+    QUnit.test( 'module', function( assert ) {
+        assert.equal( typeof mediaplayer, 'function', 'The mediaplayer module exposes a function' );
+        assert.equal( typeof mediaplayer(), 'object', 'The mediaplayer factory produces an object' );
+        assert.equal( typeof mediaplayer.canPlay, 'function', 'The mediaplayer factory exposes a function telling if the browser can play video and audio' );
+        assert.equal( typeof mediaplayer.canPlayAudio, 'function', 'The mediaplayer factory exposes a function telling if the browser can play audio' );
+        assert.equal( typeof mediaplayer.canPlayVideo, 'function', 'The mediaplayer factory exposes a function telling if the browser can play video' );
+        assert.equal( typeof mediaplayer.canControl, 'function', 'The mediaplayer factory exposes a function telling if the browser allows to control the media playback' );
+        assert.equal( typeof mediaplayer.youtubePolling, 'number', 'The mediaplayer factory exposes a config entry to set the YouTube polling delay' );
+        assert.notStrictEqual( mediaplayer(), mediaplayer(), 'The mediaplayer factory provides a different object on each call' );
     } );
 
     var mediaplayerApi = [
-        { name: "init", title: "init" },
-        { name: "destroy", title: "destroy" },
-        { name: "render", title: "render" },
-        { name: "seek", title: "seek" },
-        { name: "play", title: "play" },
-        { name: "stop", title: "stop" },
-        { name: "pause", title: "pause" },
-        { name: "resume", title: "resume" },
-        { name: "restart", title: "restart" },
-        { name: "rewind", title: "rewind" },
-        { name: "mute", title: "mute" },
-        { name: "unmute", title: "unmute" },
-        { name: "setVolume", title: "setVolume" },
-        { name: "getVolume", title: "getVolume" },
-        { name: "getPosition", title: "getPosition" },
-        { name: "getDuration", title: "getDuration" },
-        { name: "getTimesPlayed", title: "getTimesPlayed" },
-        { name: "resize", title: "resize" },
-        { name: "is", title: "is" },
-        { name: "enable", title: "enable" },
-        { name: "disable", title: "disable" },
-        { name: "show", title: "show" },
-        { name: "hide", title: "hide" },
-        { name: "trigger", title: "trigger" },
-        { name: "on", title: "on" },
-        { name: "off", title: "off" },
-        { name: "getContainer", title: "getContainer" },
-        { name: "getElement", title: "getElement" },
-        { name: "getSources", title: "getSources" },
-        { name: "setSource", title: "setSource" },
-        { name: "addSource", title: "addSource" }
+        { name: 'init', title: 'init' },
+        { name: 'destroy', title: 'destroy' },
+        { name: 'render', title: 'render' },
+        { name: 'seek', title: 'seek' },
+        { name: 'play', title: 'play' },
+        { name: 'stop', title: 'stop' },
+        { name: 'pause', title: 'pause' },
+        { name: 'resume', title: 'resume' },
+        { name: 'restart', title: 'restart' },
+        { name: 'rewind', title: 'rewind' },
+        { name: 'mute', title: 'mute' },
+        { name: 'unmute', title: 'unmute' },
+        { name: 'setVolume', title: 'setVolume' },
+        { name: 'getVolume', title: 'getVolume' },
+        { name: 'getPosition', title: 'getPosition' },
+        { name: 'getDuration', title: 'getDuration' },
+        { name: 'getTimesPlayed', title: 'getTimesPlayed' },
+        { name: 'resize', title: 'resize' },
+        { name: 'is', title: 'is' },
+        { name: 'enable', title: 'enable' },
+        { name: 'disable', title: 'disable' },
+        { name: 'show', title: 'show' },
+        { name: 'hide', title: 'hide' },
+        { name: 'trigger', title: 'trigger' },
+        { name: 'on', title: 'on' },
+        { name: 'off', title: 'off' },
+        { name: 'getContainer', title: 'getContainer' },
+        { name: 'getElement', title: 'getElement' },
+        { name: 'getSources', title: 'getSources' },
+        { name: 'setSource', title: 'setSource' },
+        { name: 'addSource', title: 'addSource' }
     ];
 
     QUnit
         .cases.init( mediaplayerApi )
-        .test( "API ", function( data, assert ) {
+        .test( 'API ', function( data, assert ) {
             var instance = mediaplayer();
-            assert.equal( typeof instance[ data.name ], "function", 'The mediaplayer instance exposes a "' + data.title + '" function' );
+            assert.equal( typeof instance[ data.name ], 'function', 'The mediaplayer instance exposes a "' + data.title + '" function' );
         } );
 
-    QUnit.test( "DOM [audio player]", function( assert ) {
+    QUnit.test( 'DOM [audio player]', function( assert ) {
         var ready = assert.async();
-        var url = "js/test/ui/mediaplayer/samples/audio.mp3";
-        var $container = $( "#fixture-1" );
+        var url = 'js/test/ui/mediaplayer/samples/audio.mp3';
+        var $container = $( '#fixture-1' );
         var instance = mediaplayer( {
             url: url,
-            type: "audio/mp3",
+            type: 'audio/mp3',
             renderTo: $container
         } );
 
-        instance.on( "render", function( $dom ) {
-            var $player = $dom.find( ".player" );
-            var $controls = $dom.find( ".controls" );
-            var $overlay = $player.find( ".overlay" );
-            var $media = $player.find( ".media" );
-            var $source = $media.find( "source" );
+        instance.on( 'render', function( $dom ) {
+            var $player = $dom.find( '.player' );
+            var $controls = $dom.find( '.controls' );
+            var $overlay = $player.find( '.overlay' );
+            var $media = $player.find( '.media' );
+            var $source = $media.find( 'source' );
 
-            assert.ok( true, "The media player has trigger the render event" );
+            assert.ok( true, 'The media player has trigger the render event' );
 
-            assert.equal( $container.find( ".mediaplayer" ).length, 1, "The media player has been inserted into the page" );
+            assert.equal( $container.find( '.mediaplayer' ).length, 1, 'The media player has been inserted into the page' );
 
-            assert.equal( typeof $dom, "object", "The rendered content is returned by the render() method" );
-            assert.notEqual( typeof $dom.jquery, "undefined", "The rendered content is returned as a jQuery selection by the render() method" );
-            assert.equal( $dom.length, 1, "The rendered content contains a root element" );
+            assert.equal( typeof $dom, 'object', 'The rendered content is returned by the render() method' );
+            assert.notEqual( typeof $dom.jquery, 'undefined', 'The rendered content is returned as a jQuery selection by the render() method' );
+            assert.equal( $dom.length, 1, 'The rendered content contains a root element' );
 
-            assert.equal( $player.length, 1, "The rendered content contains a player element" );
-            assert.equal( $player.find( ".audio" ).length, 1, "The player is related to audio" );
+            assert.equal( $player.length, 1, 'The rendered content contains a player element' );
+            assert.equal( $player.find( '.audio' ).length, 1, 'The player is related to audio' );
 
-            assert.equal( $media.length, 1, "The rendered content contains a media element" );
-            assert.equal( $media.is( "audio" ), true, "The rendered content uses an audio tag to embed the audio track" );
+            assert.equal( $media.length, 1, 'The rendered content contains a media element' );
+            assert.equal( $media.is( 'audio' ), true, 'The rendered content uses an audio tag to embed the audio track' );
 
-            assert.equal( $source.length, 1, "The rendered content contains an audio source" );
-            assert.equal( $source.attr( "src" ), url, "Audio source targets the right URL" );
+            assert.equal( $source.length, 1, 'The rendered content contains an audio source' );
+            assert.equal( $source.attr( 'src' ), url, 'Audio source targets the right URL' );
 
             assert.equal( $overlay.length, 1, "The rendered content contains an overlay element" );
             assert.equal( $overlay.find( '[data-control="play"]' ).length, 1, "The overlay element contains a play control" );
@@ -134,51 +134,51 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
             _.defer( function() {
                 instance.destroy();
 
-                assert.equal( $container.find( ".mediaplayer" ).length, 0, "The media player has been removed by the destroy action" );
+                assert.equal( $container.find( '.mediaplayer' ).length, 0, 'The media player has been removed by the destroy action' );
 
                 ready();
             } );
         } )
-        .on( "error", function( err ) {
+        .on( 'error', function( err ) {
 
             assert.ok( false, err.message );
             ready();
         } );
     } );
 
-    QUnit.test( "DOM [video player]", function( assert ) {
+    QUnit.test( 'DOM [video player]', function( assert ) {
         var ready = assert.async();
-        var url = "js/test/ui/mediaplayer/samples/video.mp4";
-        var $container = $( "#fixture-2" );
+        var url = 'js/test/ui/mediaplayer/samples/video.mp4';
+        var $container = $( '#fixture-2' );
         var instance = mediaplayer( {
             url: url,
-            type: "video/mp4",
+            type: 'video/mp4',
             renderTo: $container
         } );
 
-        instance.on( "render", function( $dom ) {
-            var $player = $dom.find( ".player" );
-            var $controls = $dom.find( ".controls" );
-            var $overlay = $player.find( ".overlay" );
-            var $media = $player.find( ".media" );
-            var $source = $media.find( "source" );
+        instance.on( 'render', function( $dom ) {
+            var $player = $dom.find( '.player' );
+            var $controls = $dom.find( '.controls' );
+            var $overlay = $player.find( '.overlay' );
+            var $media = $player.find( '.media' );
+            var $source = $media.find( 'source' );
 
-            assert.ok( true, "The media player has trigger the render event" );
+            assert.ok( true, 'The media player has trigger the render event' );
 
-            assert.equal( $container.find( ".mediaplayer" ).length, 1, "The media player has been inserted into the page" );
+            assert.equal( $container.find( '.mediaplayer' ).length, 1, 'The media player has been inserted into the page' );
 
-            assert.equal( typeof $dom, "object", "The rendered content is returned by the render() method" );
-            assert.notEqual( typeof $dom.jquery, "undefined", "The rendered content is returned as a jQuery selection by the render() method" );
-            assert.equal( $dom.length, 1, "The rendered content contains a root element" );
+            assert.equal( typeof $dom, 'object', 'The rendered content is returned by the render() method' );
+            assert.notEqual( typeof $dom.jquery, 'undefined', 'The rendered content is returned as a jQuery selection by the render() method' );
+            assert.equal( $dom.length, 1, 'The rendered content contains a root element' );
 
-            assert.equal( $player.length, 1, "The rendered content contains a player element" );
-            assert.equal( $player.find( ".video" ).length, 1, "The player is related to video" );
+            assert.equal( $player.length, 1, 'The rendered content contains a player element' );
+            assert.equal( $player.find( '.video' ).length, 1, 'The player is related to video' );
 
-            assert.equal( $media.length, 1, "The rendered content contains a media element" );
-            assert.equal( $media.is( "video" ), true, "The rendered content uses a video tag to embed the movie" );
+            assert.equal( $media.length, 1, 'The rendered content contains a media element' );
+            assert.equal( $media.is( 'video' ), true, 'The rendered content uses a video tag to embed the movie' );
 
-            assert.equal( $source.length, 1, "The rendered content contains a video source" );
-            assert.equal( $source.attr( "src" ), url, "Video source targets the right URL" );
+            assert.equal( $source.length, 1, 'The rendered content contains a video source' );
+            assert.equal( $source.attr( 'src' ), url, 'Video source targets the right URL' );
 
             assert.equal( $overlay.length, 1, "The rendered content contains an overlay element" );
             assert.equal( $overlay.find( '[data-control="play"]' ).length, 1, "The overlay element contains a play control" );
@@ -198,51 +198,51 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
             _.defer( function() {
                 instance.destroy();
 
-                assert.equal( $container.find( ".mediaplayer" ).length, 0, "The media player has been removed by the destroy action" );
+                assert.equal( $container.find( '.mediaplayer' ).length, 0, 'The media player has been removed by the destroy action' );
 
                 ready();
             } );
         } )
-        .on( "error", function( err ) {
+        .on( 'error', function( err ) {
 
             assert.ok( false, err.message );
             ready();
         } );
     } );
 
-    QUnit.test( "DOM [youtube player]", function( assert ) {
+    QUnit.test( 'DOM [youtube player]', function( assert ) {
         var ready = assert.async();
-        var videoId = "YJWSVUPSQqw";
-        var url = "//www.youtube.com/watch?v=" + videoId;
-        var $container = $( "#fixture-3" );
+        var videoId = 'YJWSVUPSQqw';
+        var url = '//www.youtube.com/watch?v=' + videoId;
+        var $container = $( '#fixture-3' );
         var instance = mediaplayer( {
             url: url,
-            type: "video/youtube",
+            type: 'video/youtube',
             renderTo: $container
         } );
 
-        instance.on( "render", function( $dom ) {
-            var $player = $dom.find( ".player" );
-            var $controls = $dom.find( ".controls" );
-            var $overlay = $player.find( ".overlay" );
-            var $media = $player.find( ".media" );
+        instance.on( 'render', function( $dom ) {
+            var $player = $dom.find( '.player' );
+            var $controls = $dom.find( '.controls' );
+            var $overlay = $player.find( '.overlay' );
+            var $media = $player.find( '.media' );
 
-            assert.ok( true, "The media player has trigger the render event" );
+            assert.ok( true, 'The media player has trigger the render event' );
 
-            assert.equal( $container.find( ".mediaplayer" ).length, 1, "The media player has been inserted into the page" );
+            assert.equal( $container.find( '.mediaplayer' ).length, 1, 'The media player has been inserted into the page' );
 
-            assert.equal( typeof $dom, "object", "The rendered content is returned by the render() method" );
-            assert.notEqual( typeof $dom.jquery, "undefined", "The rendered content is returned as a jQuery selection by the render() method" );
-            assert.equal( $dom.length, 1, "The rendered content contains a root element" );
+            assert.equal( typeof $dom, 'object', 'The rendered content is returned by the render() method' );
+            assert.notEqual( typeof $dom.jquery, 'undefined', 'The rendered content is returned as a jQuery selection by the render() method' );
+            assert.equal( $dom.length, 1, 'The rendered content contains a root element' );
 
-            assert.equal( $player.length, 1, "The rendered content contains a player element" );
-            assert.equal( $player.find( ".video" ).length, 1, "The player is related to video" );
+            assert.equal( $player.length, 1, 'The rendered content contains a player element' );
+            assert.equal( $player.find( '.video' ).length, 1, 'The player is related to video' );
 
-            assert.equal( $media.length, 1, "The rendered content contains a media element" );
-            assert.equal( $media.is( ".youtube" ), true, "The rendered content uses a placeholder to embed the youtube player" );
-            assert.equal( $media.data( "videoSrc" ), url, "The video source targets the right URL" );
-            assert.equal( $media.data( "videoId" ), videoId, "The video ID contains the right identifier" );
-            assert.equal( $media.data( "type" ), "youtube", "The type is youtube" );
+            assert.equal( $media.length, 1, 'The rendered content contains a media element' );
+            assert.equal( $media.is( '.youtube' ), true, 'The rendered content uses a placeholder to embed the youtube player' );
+            assert.equal( $media.data( 'videoSrc' ), url, 'The video source targets the right URL' );
+            assert.equal( $media.data( 'videoId' ), videoId, 'The video ID contains the right identifier' );
+            assert.equal( $media.data( 'type' ), 'youtube', 'The type is youtube' );
 
             assert.equal( $overlay.length, 1, "The rendered content contains an overlay element" );
             assert.equal( $overlay.find( '[data-control="play"]' ).length, 1, "The overlay element contains a play control" );
@@ -262,12 +262,12 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
             _.defer( function() {
                 instance.destroy();
 
-                assert.equal( $container.find( ".mediaplayer" ).length, 0, "The media player has been removed by the destroy action" );
+                assert.equal( $container.find( '.mediaplayer' ).length, 0, 'The media player has been removed by the destroy action' );
 
                 ready();
             } );
         } )
-        .on( "error", function( err ) {
+        .on( 'error', function( err ) {
 
             assert.ok( false, err.message );
             ready();
@@ -275,58 +275,58 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
     } );
 
     var mediaplayerTypes = [ {
-        title: "audio player",
-        fixture: "4",
-        type: "audio",
+        title: 'audio player',
+        fixture: '4',
+        type: 'audio',
         url: [ {
-            src: "js/test/ui/mediaplayer/samples/audio.mp3",
-            type: "audio/mp3"
+            src: 'js/test/ui/mediaplayer/samples/audio.mp3',
+            type: 'audio/mp3'
         }, {
-            src: "js/test/ui/mediaplayer/samples/audio.m4a",
-            type: "audio/m4a"
+            src: 'js/test/ui/mediaplayer/samples/audio.m4a',
+            type: 'audio/m4a'
         }, {
-            src: "js/test/ui/mediaplayer/samples/audio.ogg",
-            type: "audio/ogg"
+            src: 'js/test/ui/mediaplayer/samples/audio.ogg',
+            type: 'audio/ogg'
         } ]
     }, {
-        title: "video player",
-        fixture: "5",
-        type: "video",
+        title: 'video player',
+        fixture: '5',
+        type: 'video',
         url: [ {
-            src: "js/test/ui/mediaplayer/samples/video.mp4",
-            type: "video/mp4"
+            src: 'js/test/ui/mediaplayer/samples/video.mp4',
+            type: 'video/mp4'
         }, {
-            src: "js/test/ui/mediaplayer/samples/video.ogm",
-            type: "video/ogm"
+            src: 'js/test/ui/mediaplayer/samples/video.ogm',
+            type: 'video/ogm'
         }, {
-            src: "js/test/ui/mediaplayer/samples/video.webm",
-            type: "video/webm"
+            src: 'js/test/ui/mediaplayer/samples/video.webm',
+            type: 'video/webm'
         } ]
     }, {
-        title: "youtube player",
-        fixture: "6",
-        type: "youtube",
-        url: "YJWSVUPSQqw",
-        url2: "YUHRY27pg8g"
+        title: 'youtube player',
+        fixture: '6',
+        type: 'youtube',
+        url: 'YJWSVUPSQqw',
+        url2: 'YUHRY27pg8g'
     } ];
 
     if ( skipPlaybackIfUnsupported && !mediaplayer.canPlay() ) {
-        QUnit.test( "Playback", function( assert ) {
-            assert.ok( true, "The browser does not support the video or audio tags!" );
+        QUnit.test( 'Playback', function( assert ) {
+            assert.ok( true, 'The browser does not support the video or audio tags!' );
         } );
     } else if ( skipPlaybackIfUnsupported && ( isMobile || isHeadless || !mediaplayer.canControl() ) ) {
-        QUnit.test( "Playback", function( assert ) {
-            assert.ok( true, "The browser does not support autoplay of video or audio!" );
+        QUnit.test( 'Playback', function( assert ) {
+            assert.ok( true, 'The browser does not support autoplay of video or audio!' );
         } );
     } else {
         mediaplayer.youtubePolling = 1000; // Large polling window to avoid useless update events
 
         QUnit
             .cases.init( mediaplayerTypes )
-            .test( "Events ", function( data, assert ) {
+            .test( 'Events ', function( data, assert ) {
                 var ready = assert.async(4);
                 if ( !mediaplayer.canPlay( data.type ) ) {
-                    throw new Error( "The browser does not support the " + data.type + " player!" );
+                    throw new Error( 'The browser does not support the ' + data.type + ' player!' );
                 }
 
                 // Pointer inside the life cycle path
@@ -335,25 +335,25 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
                 // The media player life cycle must follow this path during this test
                 var path = [ {
                     render: function( $dom ) {
-                        assert.equal( typeof $dom, "object", "The render event provides the DOM" );
-                        assert.ok( $dom.is( ".mediaplayer" ), "The provided DOM has the right class" );
-                        assert.equal( $dom, instance.getElement(), "The render event provides the right DOM" );
-                        assert.equal( this, instance, "The render event is bound to the instance" );
+                        assert.equal( typeof $dom, 'object', 'The render event provides the DOM' );
+                        assert.ok( $dom.is( '.mediaplayer' ), 'The provided DOM has the right class' );
+                        assert.equal( $dom, instance.getElement(), 'The render event provides the right DOM' );
+                        assert.equal( this, instance, 'The render event is bound to the instance' );
                     },
                     ready: function() {
                         forward();
-                        assert.equal( this, instance, "The ready event is bound to the instance" );
-                        assert.ok( true, "command #1: play()" );
+                        assert.equal( this, instance, 'The ready event is bound to the instance' );
+                        assert.ok( true, 'command #1: play()' );
                         this.play();
                     }
                 }, {
                     play: function() {
                         var player = this;
-                        assert.equal( this, instance, "The play event is bound to the instance" );
+                        assert.equal( this, instance, 'The play event is bound to the instance' );
 
                         setTimeout( function() {
                             forward();
-                            assert.ok( true, "command #2: pause()" );
+                            assert.ok( true, 'command #2: pause()' );
                             player.pause();
                         }, 500 );
                     },
@@ -361,60 +361,60 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
                 }, {
                     pause: function() {
                         forward();
-                        assert.equal( this, instance, "The pause event is bound to the instance" );
-                        assert.ok( true, "command #3: resume()" );
+                        assert.equal( this, instance, 'The pause event is bound to the instance' );
+                        assert.ok( true, 'command #3: resume()' );
                         this.resume();
                     },
                     update: true
                 }, {
                     play: function() {
                         forward();
-                        assert.equal( this, instance, "The play event is bound to the instance" );
-                        assert.ok( true, "command #4: seek(1)" );
+                        assert.equal( this, instance, 'The play event is bound to the instance' );
+                        assert.ok( true, 'command #4: seek(1)' );
                         this.seek( 1 );
                     },
                     update: true
                 }, {
                     update: function() {
                         forward();
-                        assert.equal( this, instance, "The update event is bound to the instance" );
-                        assert.equal( Math.floor( this.player.getPosition() ), 1, "The media player has moved forward to the right position" );
-                        assert.ok( true, "command #5: rewind()" );
+                        assert.equal( this, instance, 'The update event is bound to the instance' );
+                        assert.equal( Math.floor( this.player.getPosition() ), 1, 'The media player has moved forward to the right position' );
+                        assert.ok( true, 'command #5: rewind()' );
                         this.rewind();
                     },
                     play: true
                 }, {
                     update: function() {
                         forward();
-                        assert.equal( this, instance, "The update event is bound to the instance" );
-                        assert.equal( Math.floor( this.player.getPosition() ), 0, "The media player has restarted from the beginning" );
-                        assert.ok( true, "command #6: seek(1)" );
+                        assert.equal( this, instance, 'The update event is bound to the instance' );
+                        assert.equal( Math.floor( this.player.getPosition() ), 0, 'The media player has restarted from the beginning' );
+                        assert.ok( true, 'command #6: seek(1)' );
                         this.seek( 1 );
                     },
                     play: true
                 }, {
                     update: function() {
                         forward();
-                        assert.equal( this, instance, "The update event is bound to the instance" );
-                        assert.equal( Math.floor( this.player.getPosition() ), 1, "The media player has moved forward to the right position" );
-                        assert.ok( true, "command #7: pause()" );
+                        assert.equal( this, instance, 'The update event is bound to the instance' );
+                        assert.equal( Math.floor( this.player.getPosition() ), 1, 'The media player has moved forward to the right position' );
+                        assert.ok( true, 'command #7: pause()' );
                         this.pause();
                     },
                     play: true
                 }, {
                     pause: function() {
                         forward();
-                        assert.equal( this, instance, "The pause event is bound to the instance" );
-                        assert.ok( true, "command #8: restart()" );
+                        assert.equal( this, instance, 'The pause event is bound to the instance' );
+                        assert.ok( true, 'command #8: restart()' );
                         this.restart();
                     },
                     update: true
                 }, {
                     play: function() {
                         forward();
-                        assert.equal( this, instance, "The play event is bound to the instance" );
-                        assert.equal( Math.floor( this.player.getPosition() ), 0, "The media player has restarted from the beginning" );
-                        assert.ok( true, "command #9: hide()" );
+                        assert.equal( this, instance, 'The play event is bound to the instance' );
+                        assert.equal( Math.floor( this.player.getPosition() ), 0, 'The media player has restarted from the beginning' );
+                        assert.ok( true, 'command #9: hide()' );
                         this.hide();
                     },
                     update: true
@@ -422,13 +422,13 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
                     pause: function() {
                         var player = this;
                         forward();
-                        assert.equal( this, instance, "The pause event is bound to the instance" );
-                        assert.ok( true, "command #10: play()" );
+                        assert.equal( this, instance, 'The pause event is bound to the instance' );
+                        assert.ok( true, 'command #10: play()' );
                         this.play();
 
                         setTimeout( function() {
-                            assert.ok( !player.is( "playing" ), "The player cannot be played while hidden!" );
-                            assert.ok( true, "command #11: show()" );
+                            assert.ok( !player.is( 'playing' ), 'The player cannot be played while hidden!' );
+                            assert.ok( true, 'command #11: show()' );
                             player.show();
                         }, 500 );
                     },
@@ -436,8 +436,8 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
                 }, {
                     play: function() {
                         forward();
-                        assert.equal( this, instance, "The play event is bound to the instance" );
-                        assert.ok( true, "command #12: disable()" );
+                        assert.equal( this, instance, 'The play event is bound to the instance' );
+                        assert.ok( true, 'command #12: disable()' );
                         this.disable();
                     },
                     update: true
@@ -445,13 +445,13 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
                     pause: function() {
                         var player = this;
                         forward();
-                        assert.equal( this, instance, "The pause event is bound to the instance" );
-                        assert.ok( true, "command #13: play()" );
+                        assert.equal( this, instance, 'The pause event is bound to the instance' );
+                        assert.ok( true, 'command #13: play()' );
                         this.play();
 
                         setTimeout( function() {
-                            assert.ok( !player.is( "playing" ), "The player cannot be played while disabled!" );
-                            assert.ok( true, "command #14: enable()" );
+                            assert.ok( !player.is( 'playing' ), 'The player cannot be played while disabled!' );
+                            assert.ok( true, 'command #14: enable()' );
                             player.enable();
                         }, 500 );
                     },
@@ -459,16 +459,16 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
                 }, {
                     play: function() {
                         forward();
-                        assert.equal( this, instance, "The play event is bound to the instance" );
-                        assert.ok( true, "command #15: stop()" );
+                        assert.equal( this, instance, 'The play event is bound to the instance' );
+                        assert.ok( true, 'command #15: stop()' );
                         this.stop();
                     },
                     update: true
                 }, {
                     ended: function() {
                         forward();
-                        assert.equal( this, instance, "The ended event is bound to the instance" );
-                        assert.ok( true, "command #16: destroy()" );
+                        assert.equal( this, instance, 'The ended event is bound to the instance' );
+                        assert.ok( true, 'command #16: destroy()' );
                         this.destroy();
                     },
                     pause: true,
@@ -476,13 +476,13 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
                 }, {
                     destroy: function() {
                         forward();
-                        assert.equal( this, instance, "The destroy event is bound to the instance" );
+                        assert.equal( this, instance, 'The destroy event is bound to the instance' );
                         ready();
                     }
                 } ];
 
-                var $container = $( "#fixture-" + data.fixture );
-                var events = [ "render", "ready", "play", "pause", "update", "ended", "destroy" ];
+                var $container = $( '#fixture-' + data.fixture );
+                var events = [ 'render', 'ready', 'play', 'pause', 'update', 'ended', 'destroy' ];
                 var instance = mediaplayer( {
                     url: data.url,
                     type: data.type,
@@ -501,42 +501,42 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
                     if ( _.isFunction( stepEvent ) ) {
                         if ( !stepEvent.triggered ) {
                             stepEvent.triggered = true;
-                            assert.ok( true, "The event " + event + " has been triggered!" );
+                            assert.ok( true, 'The event ' + event + ' has been triggered!' );
                             _.defer( function() {
                                 stepEvent.apply( instance, args );
                             } );
                         }
                     } else if ( !stepEvent ) {
-                        assert.ok( false, "The event " + event + " was unexpected!" );
+                        assert.ok( false, 'The event ' + event + ' was unexpected!' );
                     }
                 }
 
                 instance
-                    .on( "render", function() {
-                        checkPath( "render", arguments );
+                    .on( 'render', function() {
+                        checkPath( 'render', arguments );
                     } )
-                    .on( "ready", function() {
-                        checkPath( "ready", arguments );
+                    .on( 'ready', function() {
+                        checkPath( 'ready', arguments );
                     } )
-                    .on( "play", function() {
-                        checkPath( "play", arguments );
+                    .on( 'play', function() {
+                        checkPath( 'play', arguments );
                     } )
-                    .on( "update", function() {
-                        checkPath( "update", arguments );
+                    .on( 'update', function() {
+                        checkPath( 'update', arguments );
                     } )
-                    .on( "pause", function() {
-                        checkPath( "pause", arguments );
+                    .on( 'pause', function() {
+                        checkPath( 'pause', arguments );
                     } )
-                    .on( "ended", function() {
-                        checkPath( "ended", arguments );
+                    .on( 'ended', function() {
+                        checkPath( 'ended', arguments );
                     } )
-                    .on( "destroy", function() {
-                        checkPath( "destroy", arguments );
+                    .on( 'destroy', function() {
+                        checkPath( 'destroy', arguments );
                     } );
 
                 _.forEach( events, function( event ) {
-                    $container.one( event + ".mediaplayer", function() {
-                        assert.ok( true, "The media player has triggered the " + event + " event through the DOM" );
+                    $container.one( event + '.mediaplayer', function() {
+                        assert.ok( true, 'The media player has triggered the ' + event + ' event through the DOM' );
 
                         ready();
                     } );
@@ -544,24 +544,24 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
 
                 instance.render( $container );
 
-                $container.on( "custom.mediaplayer", function() {
-                    assert.ok( true, "The media player can handle custom events through DOM" );
+                $container.on( 'custom.mediaplayer', function() {
+                    assert.ok( true, 'The media player can handle custom events through DOM' );
                     ready();
                 } );
-                instance.on( "custom", function() {
-                    assert.ok( true, "The media player can handle custom events internally" );
+                instance.on( 'custom', function() {
+                    assert.ok( true, 'The media player can handle custom events internally' );
                     ready();
                 } );
 
-                instance.trigger( "custom" );
+                instance.trigger( 'custom' );
             } );
 
         QUnit
             .cases.init( mediaplayerTypes )
-            .test( "Option autoStart ", function( data, assert ) {
+            .test( 'Option autoStart ', function( data, assert ) {
                 var ready = assert.async();
                 if ( !mediaplayer.canPlay( data.type ) ) {
-                    throw new Error( "The browser does not support the " + data.type + " player!" );
+                    throw new Error( 'The browser does not support the ' + data.type + ' player!' );
                 }
 
                 mediaplayer( {
@@ -569,27 +569,27 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
                     type: data.type,
                     startMuted: true,
                     autoStart: true,
-                    renderTo: "#fixture-" + data.fixture
+                    renderTo: '#fixture-' + data.fixture
                 } )
-                    .on( "play", function() {
+                    .on( 'play', function() {
                         var player = this;
-                        assert.ok( true, "The media player has auto started the playback" );
+                        assert.ok( true, 'The media player has auto started the playback' );
 
                         _.defer( function() {
                             player.destroy();
                         } );
                     } )
-                    .on( "destroy", function() {
+                    .on( 'destroy', function() {
                         ready();
                     } );
             } );
 
         QUnit
             .cases.init( mediaplayerTypes )
-            .test( "Option autoStartAt ", function( data, assert ) {
+            .test( 'Option autoStartAt ', function( data, assert ) {
                 var ready = assert.async();
                 if ( !mediaplayer.canPlay( data.type ) ) {
-                    throw new Error( "The browser does not support the " + data.type + " player!" );
+                    throw new Error( 'The browser does not support the ' + data.type + ' player!' );
                 }
 
                 var expected = 1;
@@ -598,29 +598,29 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
                     type: data.type,
                     startMuted: true,
                     autoStartAt: expected,
-                    renderTo: "#fixture-" + data.fixture
+                    renderTo: '#fixture-' + data.fixture
                 } )
-                    .on( "play", function() {
+                    .on( 'play', function() {
                         var player = this;
                         this.pause();
-                        assert.ok( true, "The media player has auto started the playback" );
-                        assert.equal( Math.floor( this.player.getPosition() ), expected, "The media player has auto started the playback at the right position" );
+                        assert.ok( true, 'The media player has auto started the playback' );
+                        assert.equal( Math.floor( this.player.getPosition() ), expected, 'The media player has auto started the playback at the right position' );
 
                         _.defer( function() {
                             player.destroy();
                         } );
                     } )
-                    .on( "destroy", function() {
+                    .on( 'destroy', function() {
                         ready();
                     } );
             } );
 
         QUnit
             .cases.init( mediaplayerTypes )
-            .test( "Option canPause ", function( data, assert ) {
+            .test( 'Option canPause ', function( data, assert ) {
                 var ready = assert.async();
                 if ( !mediaplayer.canPlay( data.type ) ) {
-                    throw new Error( "The browser does not support the " + data.type + " player!" );
+                    throw new Error( 'The browser does not support the ' + data.type + ' player!' );
                 }
 
                 
@@ -631,21 +631,21 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
                     startMuted: true,
                     autoStart: true,
                     canPause: false,
-                    renderTo: "#fixture-" + data.fixture
+                    renderTo: '#fixture-' + data.fixture
                 } )
-                    .on( "play", function() {
+                    .on( 'play', function() {
                         var player = this;
-                        assert.ok( true, "The media player has auto started the playback" );
+                        assert.ok( true, 'The media player has auto started the playback' );
                         this.pause();
 
                         setTimeout( function() {
                             player.destroy();
                         }, 500 );
                     } )
-                    .on( "pause", function() {
-                        assert.ok( false, "The media player cannot be paused!" );
+                    .on( 'pause', function() {
+                        assert.ok( false, 'The media player cannot be paused!' );
                     } )
-                    .on( "destroy", function() {
+                    .on( 'destroy', function() {
                        ready();
                     } );
 
@@ -655,31 +655,31 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
                     startMuted: true,
                     autoStart: true,
                     canPause: true,
-                    renderTo: "#fixture-" + data.fixture
+                    renderTo: '#fixture-' + data.fixture
                 } )
-                    .on( "play", function() {
-                        assert.ok( true, "The media player has auto started the playback" );
+                    .on( 'play', function() {
+                        assert.ok( true, 'The media player has auto started the playback' );
                         this.pause();
                     } )
-                    .on( "pause", function() {
+                    .on( 'pause', function() {
                         var player = this;
-                        assert.ok( true, "The media player can be paused" );
+                        assert.ok( true, 'The media player can be paused' );
 
                         _.defer( function() {
                             player.destroy();
                         } );
                     } )
-                    .on( "destroy", function() {
+                    .on( 'destroy', function() {
                        ready();
                     } );
             } );
 
         QUnit
             .cases.init( mediaplayerTypes )
-            .test( "Option startMuted ", function( data, assert ) {
+            .test( 'Option startMuted ', function( data, assert ) {
                 var ready = assert.async(2);
                 if ( !mediaplayer.canPlay( data.type ) ) {
-                    throw new Error( "The browser does not support the " + data.type + " player!" );
+                    throw new Error( 'The browser does not support the ' + data.type + ' player!' );
                 }
 
                 
@@ -689,13 +689,13 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
                     type: data.type,
                     startMuted: true,
                     autoStart: true,
-                    renderTo: "#fixture-" + data.fixture
+                    renderTo: '#fixture-' + data.fixture
                 } )
-                    .on( "play", function() {
+                    .on( 'play', function() {
                         var player = this;
-                        assert.ok( true, "The media player has auto started the playback" );
-                        assert.ok( this.player.isMuted(), "The media player is muted" );
-                        assert.ok( this.is( "muted" ), "The media player is muted" );
+                        assert.ok( true, 'The media player has auto started the playback' );
+                        assert.ok( this.player.isMuted(), 'The media player is muted' );
+                        assert.ok( this.is( 'muted' ), 'The media player is muted' );
 
                         this.pause();
 
@@ -703,7 +703,7 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
                             player.destroy();
                         } );
                     } )
-                    .on( "destroy", function() {
+                    .on( 'destroy', function() {
                         ready();
                     } );
 
@@ -712,13 +712,13 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
                     type: data.type,
                     startMuted: false,
                     autoStart: true,
-                    renderTo: "#fixture-" + data.fixture
+                    renderTo: '#fixture-' + data.fixture
                 } )
-                    .on( "play", function() {
+                    .on( 'play', function() {
                         var player = this;
-                        assert.ok( true, "The media player has auto started the playback" );
-                        assert.ok( !this.player.isMuted(), "The media player is not muted" );
-                        assert.ok( !this.is( "muted" ), "The media player is not muted" );
+                        assert.ok( true, 'The media player has auto started the playback' );
+                        assert.ok( !this.player.isMuted(), 'The media player is not muted' );
+                        assert.ok( !this.is( 'muted' ), 'The media player is not muted' );
 
                         this.pause();
 
@@ -726,17 +726,17 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
                             player.destroy();
                         } );
                     } )
-                    .on( "destroy", function() {
+                    .on( 'destroy', function() {
                         ready();
                     } );
             } );
 
         QUnit
             .cases.init( mediaplayerTypes )
-            .test( "Option volume ", function( data, assert ) {
+            .test( 'Option volume ', function( data, assert ) {
                 var ready = assert.async();
                 if ( !mediaplayer.canPlay( data.type ) ) {
-                    throw new Error( "The browser does not support the " + data.type + " player!" );
+                    throw new Error( 'The browser does not support the ' + data.type + ' player!' );
                 }
 
                 var expected = 30;
@@ -745,13 +745,13 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
                     type: data.type,
                     volume: expected,
                     autoStart: true,
-                    renderTo: "#fixture-" + data.fixture
+                    renderTo: '#fixture-' + data.fixture
                 } )
-                    .on( "play", function() {
+                    .on( 'play', function() {
                         var player = this;
-                        assert.ok( true, "The media player has auto started the playback" );
-                        assert.equal( this.player.getVolume(), expected, "The media player has the right volume set" );
-                        assert.equal( this.getVolume(), expected, "The media player must provide the right volume" );
+                        assert.ok( true, 'The media player has auto started the playback' );
+                        assert.equal( this.player.getVolume(), expected, 'The media player has the right volume set' );
+                        assert.equal( this.getVolume(), expected, 'The media player must provide the right volume' );
 
                         this.pause();
 
@@ -759,17 +759,17 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
                             player.destroy();
                         } );
                     } )
-                    .on( "destroy", function() {
+                    .on( 'destroy', function() {
                         ready();
                     } );
             } );
 
         QUnit
             .cases.init( mediaplayerTypes )
-            .test( "Option loop ", function( data, assert ) {
+            .test( 'Option loop ', function( data, assert ) {
                 var ready = assert.async();
                 if ( !mediaplayer.canPlay( data.type ) ) {
-                    throw new Error( "The browser does not support the " + data.type + " player!" );
+                    throw new Error( 'The browser does not support the ' + data.type + ' player!' );
                 }
 
                 var count = 0;
@@ -780,21 +780,21 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
                     loop: true,
                     autoStart: true,
                     startMuted: true,
-                    renderTo: "#fixture-" + data.fixture
+                    renderTo: '#fixture-' + data.fixture
                 } )
-                    .on( "play", function() {
-                        assert.ok( true, "The media player has started the playback" );
+                    .on( 'play', function() {
+                        assert.ok( true, 'The media player has started the playback' );
 
                         this.seek( this.getDuration() - 0.1 );
                     } )
-                    .on( "ended", function() {
+                    .on( 'ended', function() {
                         var player = this;
                         count++;
-                        assert.ok( true, "The media player has finished the playback" );
-                        assert.equal( this.getTimesPlayed(), count, "The media player must provide the right number of plays" );
+                        assert.ok( true, 'The media player has finished the playback' );
+                        assert.equal( this.getTimesPlayed(), count, 'The media player must provide the right number of plays' );
 
                         if ( count >= expected ) {
-                            assert.ok( true, "The media player has looped the playback" );
+                            assert.ok( true, 'The media player has looped the playback' );
                             this.loop = false;
 
                             _.defer( function() {
@@ -802,17 +802,17 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
                             } );
                         }
                     } )
-                    .on( "destroy", function() {
+                    .on( 'destroy', function() {
                         ready();
                     } );
             } );
 
         QUnit
             .cases.init( mediaplayerTypes )
-            .test( "Option maxPlays ", function( data, assert ) {
+            .test( 'Option maxPlays ', function( data, assert ) {
                 var ready = assert.async();
                 if ( !mediaplayer.canPlay( data.type ) ) {
-                    throw new Error( "The browser does not support the " + data.type + " player!" );
+                    throw new Error( 'The browser does not support the ' + data.type + ' player!' );
                 }
 
                 var count = 0;
@@ -824,16 +824,16 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
                     maxPlays: expected,
                     autoStart: true,
                     startMuted: true,
-                    renderTo: "#fixture-" + data.fixture
+                    renderTo: '#fixture-' + data.fixture
                 } )
-                    .on( "play", function() {
+                    .on( 'play', function() {
                         var player = this;
-                        assert.ok( true, "The media player has started the playback" );
+                        assert.ok( true, 'The media player has started the playback' );
 
                         count++;
 
                         if ( count > expected ) {
-                            assert.ok( false, "The media player cannot play more than allowed!" );
+                            assert.ok( false, 'The media player cannot play more than allowed!' );
 
                             if ( to ) {
                                 clearTimeout( to );
@@ -849,21 +849,21 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
                             } );
                         }
                     } )
-                    .on( "ended", function() {
+                    .on( 'ended', function() {
                         var player = this;
-                        assert.ok( true, "The media player has finished the playback" );
-                        assert.equal( this.getTimesPlayed(), count, "The media player must provide the right number of plays" );
+                        assert.ok( true, 'The media player has finished the playback' );
+                        assert.equal( this.getTimesPlayed(), count, 'The media player must provide the right number of plays' );
 
                         _.defer( function() {
                             player.play();
                         } );
                     } )
-                    .on( "limitreached", function() {
+                    .on( 'limitreached', function() {
                         var player = this;
-                        if ( this.is( "playing" ) || count > expected ) {
-                            assert.ok( false, "The media player must be stopped!" );
+                        if ( this.is( 'playing' ) || count > expected ) {
+                            assert.ok( false, 'The media player must be stopped!' );
                         } else {
-                            assert.ok( true, "The media player has stopped the playback after the play limit has been reached" );
+                            assert.ok( true, 'The media player has stopped the playback after the play limit has been reached' );
                         }
 
                         _.defer( function() {
@@ -874,7 +874,7 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
                             player.play();
                         } );
                     } )
-                    .on( "destroy", function() {
+                    .on( 'destroy', function() {
                         ready();
                     } );
             } );
@@ -882,17 +882,17 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
 
     QUnit
         .cases.init( mediaplayerTypes )
-        .test( "Option renderTo ", function( data, assert ) {
+        .test( 'Option renderTo ', function( data, assert ) {
             var ready = assert.async(3);
-            var selector = "#fixture-" + data.fixture;
+            var selector = '#fixture-' + data.fixture;
             var places = [ {
-                type: "jQuery",
+                type: 'jQuery',
                 container: $( selector )
             }, {
-                type: "String",
+                type: 'String',
                 container: selector
             }, {
-                type: "HTMLElement",
+                type: 'HTMLElement',
                 container: document.getElementById( selector.substr( 1 ) )
             } ];
 
@@ -902,101 +902,101 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
                     type: data.type,
                     renderTo: place.container
                 } )
-                    .on( "render", function( $dom ) {
+                    .on( 'render', function( $dom ) {
                         var player = this;
-                        assert.ok( $dom.parent().is( selector ), "The media player has been rendered in the container provided using " + place.type );
+                        assert.ok( $dom.parent().is( selector ), 'The media player has been rendered in the container provided using ' + place.type );
 
                         _.defer( function() {
                             player.destroy();
                         } );
                     } )
-                    .on( "destroy", function() {
+                    .on( 'destroy', function() {
                         ready();
                     } );
             } );
         } );
     QUnit
         .cases.init( mediaplayerTypes )
-        .test( "Show/Hide ", function( data, assert ) {
-            var selector = "#fixture-" + data.fixture;
+        .test( 'Show/Hide ', function( data, assert ) {
+            var selector = '#fixture-' + data.fixture;
             var ready = assert.async();
             mediaplayer( {
                 url: data.url,
                 type: data.type,
                 renderTo: selector
             } )
-                .on( "render", function( $dom ) {
+                .on( 'render', function( $dom ) {
                     var player = this;
-                    assert.ok( $dom.parent().is( selector ), "The media player has been rendered in the container" );
+                    assert.ok( $dom.parent().is( selector ), 'The media player has been rendered in the container' );
 
-                    assert.equal( $dom.length, 1, "the media player exists" );
-                    assert.ok( !$dom.hasClass( "hidden" ), "the media player is displayed" );
-                    assert.ok( $dom.is( ":visible" ), "the media player is displayed" );
+                    assert.equal( $dom.length, 1, 'the media player exists' );
+                    assert.ok( !$dom.hasClass( 'hidden' ), 'the media player is displayed' );
+                    assert.ok( $dom.is( ':visible' ), 'the media player is displayed' );
 
                     _.defer( function() {
                         player.hide();
 
                         _.defer( function() {
-                            assert.ok( $dom.hasClass( "hidden" ), "the media player is hidden" );
-                            assert.ok( !$dom.is( ":visible" ), "the media player is hidden" );
+                            assert.ok( $dom.hasClass( 'hidden' ), 'the media player is hidden' );
+                            assert.ok( !$dom.is( ':visible' ), 'the media player is hidden' );
 
                             player.show();
 
                             _.defer( function() {
-                                assert.ok( !$dom.hasClass( "hidden" ), "the media player is displayed" );
-                                assert.ok( $dom.is( ":visible" ), "the media player is displayed" );
+                                assert.ok( !$dom.hasClass( 'hidden' ), 'the media player is displayed' );
+                                assert.ok( $dom.is( ':visible' ), 'the media player is displayed' );
 
                                 player.destroy();
                             } );
                         } );
                     } );
                 } )
-                .on( "destroy", function() {
+                .on( 'destroy', function() {
                     ready();
                 } );
         } );
 
     QUnit
         .cases.init( mediaplayerTypes )
-        .test( "Enable/Disable ", function( data, assert ) {
+        .test( 'Enable/Disable ', function( data, assert ) {
             var ready = assert.async();
-            var selector = "#fixture-" + data.fixture;
+            var selector = '#fixture-' + data.fixture;
             mediaplayer( {
                 url: data.url,
                 type: data.type,
                 renderTo: selector
             } )
-                .on( "render", function( $dom ) {
+                .on( 'render', function( $dom ) {
                     var player = this;
-                    assert.ok( $dom.parent().is( selector ), "The media player has been rendered in the container" );
+                    assert.ok( $dom.parent().is( selector ), 'The media player has been rendered in the container' );
 
-                    assert.equal( $dom.length, 1, "the media player exists" );
-                    assert.ok( !$dom.hasClass( "disabled" ), "the media player is enabled" );
+                    assert.equal( $dom.length, 1, 'the media player exists' );
+                    assert.ok( !$dom.hasClass( 'disabled' ), 'the media player is enabled' );
 
                     _.defer( function() {
                         player.disable();
 
                         _.defer( function() {
-                            assert.ok( $dom.hasClass( "disabled" ), "the media player is disabled" );
+                            assert.ok( $dom.hasClass( 'disabled' ), 'the media player is disabled' );
 
                             player.enable();
 
                             _.defer( function() {
-                                assert.ok( !$dom.hasClass( "disabled" ), "the media player is enabled" );
+                                assert.ok( !$dom.hasClass( 'disabled' ), 'the media player is enabled' );
 
                                 player.destroy();
                             } );
                         } );
                     } );
                 } )
-                .on( "destroy", function() {
+                .on( 'destroy', function() {
                     ready();
                 } );
         } );
 
     QUnit
         .cases.init( mediaplayerTypes )
-        .test( "Sources management ", function( data, assert ) {
+        .test( 'Sources management ', function( data, assert ) {
             var url1 = _.isArray( data.url ) ? data.url[ 0 ] : data.url;
             var url2 = data.url2 || data.url[ 1 ];
             var player = mediaplayer( {
@@ -1004,36 +1004,36 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
             } );
             var res = player.getSources();
 
-            assert.equal( res.length, 0, "The media player has an empty list of sources" );
+            assert.equal( res.length, 0, 'The media player has an empty list of sources' );
 
             player.setSource( url1 );
             res = player.getSources();
 
-            assert.equal( res.length, 1, "The media player has one media in its list of sources" );
-            if ( "object" === typeof url1 ) {
-                assert.equal( res[ 0 ].src, url1.src, "The media player has the right media at the first position in its list of sources" );
+            assert.equal( res.length, 1, 'The media player has one media in its list of sources' );
+            if ( 'object' === typeof url1 ) {
+                assert.equal( res[ 0 ].src, url1.src, 'The media player has the right media at the first position in its list of sources' );
             } else {
-                assert.equal( res[ 0 ].src, url1, "The media player has the right media at the first position in its list of sources" );
+                assert.equal( res[ 0 ].src, url1, 'The media player has the right media at the first position in its list of sources' );
             }
 
             player.addSource( url2 );
             res = player.getSources();
 
-            assert.equal( res.length, 2, "The media player has two media in its list of sources" );
-            if ( "object" === typeof url2 ) {
-                assert.equal( res[ 1 ].src, url2.src, "The media player has the right media at the second position in its list of sources" );
+            assert.equal( res.length, 2, 'The media player has two media in its list of sources' );
+            if ( 'object' === typeof url2 ) {
+                assert.equal( res[ 1 ].src, url2.src, 'The media player has the right media at the second position in its list of sources' );
             } else {
-                assert.equal( res[ 1 ].src, url2, "The media player has the right media at the second position in its list of sources" );
+                assert.equal( res[ 1 ].src, url2, 'The media player has the right media at the second position in its list of sources' );
             }
 
             player.setSource( url1 );
             res = player.getSources();
 
-            assert.equal( res.length, 1, "The media player has one media in its list of sources" );
-            if ( "object" === typeof url1 ) {
-                assert.equal( res[ 0 ].src, url1.src, "The media player has the right media at the first position in its list of sources" );
+            assert.equal( res.length, 1, 'The media player has one media in its list of sources' );
+            if ( 'object' === typeof url1 ) {
+                assert.equal( res[ 0 ].src, url1.src, 'The media player has the right media at the first position in its list of sources' );
             } else {
-                assert.equal( res[ 0 ].src, url1, "The media player has the right media at the first position in its list of sources" );
+                assert.equal( res[ 0 ].src, url1, 'The media player has the right media at the first position in its list of sources' );
             }
 
             player.destroy();

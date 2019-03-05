@@ -15,137 +15,137 @@
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
  */
-define( [  "jquery", "lodash", "ui/badge/badge" ], function(  $, _, badgeFactory ) {
-    "use strict";
+define( [  'jquery', 'lodash', 'ui/badge/badge' ], function(  $, _, badgeFactory ) {
+    'use strict';
 
-    QUnit.module( "API" );
+    QUnit.module( 'API' );
 
-    QUnit.test( "module", function( assert ) {
+    QUnit.test( 'module', function( assert ) {
         assert.expect( 3 );
 
-        assert.equal( typeof badgeFactory, "function", "The badgeFactory module exposes a function" );
-        assert.equal( typeof badgeFactory(), "object", "The badgeFactory produces an object" );
-        assert.notStrictEqual( badgeFactory(), badgeFactory(), "The badgeFactory provides a different object on each call" );
+        assert.equal( typeof badgeFactory, 'function', 'The badgeFactory module exposes a function' );
+        assert.equal( typeof badgeFactory(), 'object', 'The badgeFactory produces an object' );
+        assert.notStrictEqual( badgeFactory(), badgeFactory(), 'The badgeFactory provides a different object on each call' );
     } );
 
     QUnit.cases.init( [
-        { title: "init" },
-        { title: "destroy" },
-        { title: "render" },
-        { title: "show" },
-        { title: "hide" },
-        { title: "enable" },
-        { title: "disable" },
-        { title: "is" },
-        { title: "setState" },
-        { title: "getContainer" },
-        { title: "getElement" },
-        { title: "getTemplate" },
-        { title: "setTemplate" }
-    ] ).test( "Component API ", function( data, assert ) {
+        { title: 'init' },
+        { title: 'destroy' },
+        { title: 'render' },
+        { title: 'show' },
+        { title: 'hide' },
+        { title: 'enable' },
+        { title: 'disable' },
+        { title: 'is' },
+        { title: 'setState' },
+        { title: 'getContainer' },
+        { title: 'getElement' },
+        { title: 'getTemplate' },
+        { title: 'setTemplate' }
+    ] ).test( 'Component API ', function( data, assert ) {
         var instance = badgeFactory();
-        assert.equal( typeof instance[ data.title ], "function", 'The badge exposes the component method "' + data.title );
+        assert.equal( typeof instance[ data.title ], 'function', 'The badge exposes the component method "' + data.title );
     } );
 
     QUnit.cases.init( [
-        { title: "on" },
-        { title: "off" },
-        { title: "trigger" },
-        { title: "before" },
-        { title: "after" }
-    ] ).test( "Eventifier API ", function( data, assert ) {
+        { title: 'on' },
+        { title: 'off' },
+        { title: 'trigger' },
+        { title: 'before' },
+        { title: 'after' }
+    ] ).test( 'Eventifier API ', function( data, assert ) {
         var instance = badgeFactory();
-        assert.equal( typeof instance[ data.title ], "function", 'The badge exposes the eventifier method "' + data.title );
+        assert.equal( typeof instance[ data.title ], 'function', 'The badge exposes the eventifier method "' + data.title );
     } );
 
     QUnit.cases.init( [
-        { title: "update" }
-    ] ).test( "Instance API ", function( data, assert ) {
+        { title: 'update' }
+    ] ).test( 'Instance API ', function( data, assert ) {
         var instance = badgeFactory();
-        assert.equal( typeof instance[ data.title ], "function", 'The badge exposes the method "' + data.title );
+        assert.equal( typeof instance[ data.title ], 'function', 'The badge exposes the method "' + data.title );
     } );
 
-    QUnit.module( "Behavior" );
+    QUnit.module( 'Behavior' );
 
-    QUnit.test( "simple rendering", function( assert ) {
+    QUnit.test( 'simple rendering', function( assert ) {
         var ready = assert.async();
-        var $container = $( "#qunit-fixture" );
+        var $container = $( '#qunit-fixture' );
         assert.expect( 4 );
         badgeFactory( {
-            type: "info",
+            type: 'info',
             value: 9,
             loading: true
         } )
-        .on( "render", function() {
-            var $component = $container.find( ".badge-component" );
-            assert.equal( $component.length, 1, "rendered" );
-            assert.equal( $component.find( ".badge" ).text(), "9", "value correct" );
-            assert.ok( $component.find( ".badge" ).hasClass( "badge-info" ), "class ok" );
-            assert.ok( $component.find( ".loader" ).is( ":visible" ), "loading visible" );
+        .on( 'render', function() {
+            var $component = $container.find( '.badge-component' );
+            assert.equal( $component.length, 1, 'rendered' );
+            assert.equal( $component.find( '.badge' ).text(), '9', 'value correct' );
+            assert.ok( $component.find( '.badge' ).hasClass( 'badge-info' ), 'class ok' );
+            assert.ok( $component.find( '.loader' ).is( ':visible' ), 'loading visible' );
             ready();
         } )
         .render( $container );
     } );
 
-    QUnit.test( "update", function( assert ) {
+    QUnit.test( 'update', function( assert ) {
         var ready = assert.async();
-        var $container = $( "#qunit-fixture" );
+        var $container = $( '#qunit-fixture' );
         assert.expect( 11 );
         badgeFactory( {
-            type: "info",
+            type: 'info',
             value: 9,
             loading: true
         } )
-        .on( "render", function() {
-            var $component = $container.find( ".badge-component" );
+        .on( 'render', function() {
+            var $component = $container.find( '.badge-component' );
 
-            assert.equal( $component.length, 1, "rendered" );
-            assert.equal( $component.find( ".badge" ).text(), "9", "value correct" );
-            assert.ok( $component.find( ".badge" ).hasClass( "badge-info" ), "class ok" );
-            assert.ok( $component.find( ".loader" ).is( ":visible" ), "loading visible" );
+            assert.equal( $component.length, 1, 'rendered' );
+            assert.equal( $component.find( '.badge' ).text(), '9', 'value correct' );
+            assert.ok( $component.find( '.badge' ).hasClass( 'badge-info' ), 'class ok' );
+            assert.ok( $component.find( '.loader' ).is( ':visible' ), 'loading visible' );
 
             this.update( { loading: false } );
 
-            assert.equal( $component.find( ".badge" ).text(), "9", "value still correct" );
-            assert.ok( $component.find( ".badge" ).hasClass( "badge-info" ), "class ok" );
-            assert.ok( !$component.find( ".loader" ).is( ":visible" ), "loading is hidden" );
+            assert.equal( $component.find( '.badge' ).text(), '9', 'value still correct' );
+            assert.ok( $component.find( '.badge' ).hasClass( 'badge-info' ), 'class ok' );
+            assert.ok( !$component.find( '.loader' ).is( ':visible' ), 'loading is hidden' );
 
             this.update( { value: 0 } );
-            assert.equal( $component.find( ".badge" ).text(), "", "value emptied" );
-            assert.ok( !$component.find( ".badge" ).hasClass( "badge-info" ), "class info gone" );
-            assert.ok( $component.find( ".badge" ).hasClass( "icon-result-ok" ), "class ok" );
-            assert.ok( !$component.find( ".loader" ).is( ":visible" ), "loading is hidden" );
+            assert.equal( $component.find( '.badge' ).text(), '', 'value emptied' );
+            assert.ok( !$component.find( '.badge' ).hasClass( 'badge-info' ), 'class info gone' );
+            assert.ok( $component.find( '.badge' ).hasClass( 'icon-result-ok' ), 'class ok' );
+            assert.ok( !$component.find( '.loader' ).is( ':visible' ), 'loading is hidden' );
 
             ready();
         } )
         .render( $container );
     } );
 
-    QUnit.test( "invalid type", function( assert ) {
-        var $container = $( "#qunit-fixture" );
+    QUnit.test( 'invalid type', function( assert ) {
+        var $container = $( '#qunit-fixture' );
         assert.expect( 1 );
         assert.throws( function() {
 
             badgeFactory( {
-                type: "invalid-value",
+                type: 'invalid-value',
                 value: 9,
                 loading: true
             } ).render( $container );
 
-        }, Error, "An exception should be thrown if the type is invalid" );
+        }, Error, 'An exception should be thrown if the type is invalid' );
     } );
 
-    QUnit.module( "Visual" );
+    QUnit.module( 'Visual' );
 
-    QUnit.test( "playground", function( assert ) {
+    QUnit.test( 'playground', function( assert ) {
         var ready = assert.async();
-        var $container = $( "#visual" );
+        var $container = $( '#visual' );
         badgeFactory( {
-            type: "success",
+            type: 'success',
             value: 9,
             loading: true
         } )
-        .on( "render", function() {
+        .on( 'render', function() {
             assert.ok( true );
             ready();
         } )

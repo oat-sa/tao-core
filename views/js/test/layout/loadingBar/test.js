@@ -19,33 +19,33 @@
 /**
  * @author Aleh Hutnikau <hutnikau@1pt.com>
  */
-define( [  "jquery", "lodash", "layout/loading-bar" ], function(  $, _, loadingBar ) {
-    "use strict";
+define( [  'jquery', 'lodash', 'layout/loading-bar' ], function(  $, _, loadingBar ) {
+    'use strict';
 
-    QUnit.module( "layout/loading-bar" );
+    QUnit.module( 'layout/loading-bar' );
 
-    QUnit.test( "module", function( assert ) {
-        assert.ok( typeof loadingBar === "object", "the module expose an object" );
+    QUnit.test( 'module', function( assert ) {
+        assert.ok( typeof loadingBar === 'object', 'the module expose an object' );
     } );
 
-    QUnit.test( "Show loading bar with overlay", function( assert ) {
+    QUnit.test( 'Show loading bar with overlay', function( assert ) {
         var ready = assert.async();
         loadingBar.start();
         assert.expect( 2 );
 
-        assert.ok( $( ".loading-bar" ).is( ":visible" ), "Loading bar has been shown" );
-        assert.ok( $( ".loading-bar.loading" ).hasClass( "loadingbar-covered" ), "Loading bar has overlay" );
+        assert.ok( $( '.loading-bar' ).is( ':visible' ), 'Loading bar has been shown' );
+        assert.ok( $( '.loading-bar.loading' ).hasClass( 'loadingbar-covered' ), 'Loading bar has overlay' );
 
         ready();
     } );
 
-    QUnit.test( "Show loading bar without overlay", function( assert ) {
+    QUnit.test( 'Show loading bar without overlay', function( assert ) {
         var ready = assert.async();
         loadingBar.start( false );
         assert.expect( 2 );
 
-        assert.ok( $( ".loading-bar" ).is( ":visible" ), "Loading bar has been shown" );
-        assert.ok( !$( ".loading-bar.loading" ).hasClass( "loadingbar-covered" ), "Loading bar does not have overlay" );
+        assert.ok( $( '.loading-bar' ).is( ':visible' ), 'Loading bar has been shown' );
+        assert.ok( !$( '.loading-bar.loading' ).hasClass( 'loadingbar-covered' ), 'Loading bar does not have overlay' );
 
         ready();
     } );

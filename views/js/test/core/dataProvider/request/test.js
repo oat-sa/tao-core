@@ -67,7 +67,7 @@ define([ 'jquery', 'lodash', 'core/dataProvider/request', 'core/promise'], funct
     QUnit.test('module', function (assert){
         assert.expect(1);
 
-        assert.equal(typeof request, 'function', "The module exposes a function");
+        assert.equal(typeof request, 'function', 'The module exposes a function');
     });
 
     QUnit.module('request', {

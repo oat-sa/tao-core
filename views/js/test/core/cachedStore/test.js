@@ -18,77 +18,77 @@
 /**
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
-define( [  "core/store", "core/cachedStore" ], function(  store, cachedStore ) {
-    "use strict";
+define( [  'core/store', 'core/cachedStore' ], function(  store, cachedStore ) {
+    'use strict';
 
-    QUnit.module( "cachedStore" );
+    QUnit.module( 'cachedStore' );
 
-    QUnit.test( "module", function( assert ) {
+    QUnit.test( 'module', function( assert ) {
         assert.expect( 1 );
 
-        assert.equal( typeof cachedStore, "function", "The cachedStore module exposes a function" );
+        assert.equal( typeof cachedStore, 'function', 'The cachedStore module exposes a function' );
     } );
 
-    QUnit.test( "factory", function( assert ) {
+    QUnit.test( 'factory', function( assert ) {
         var ready = assert.async();
         assert.expect( 3 );
 
-        var name = "test1";
+        var name = 'test1';
 
         cachedStore( name ).then( function( storage1 ) {
-            assert.equal( typeof storage1, "object", "An instance of the cachedStore accessor has been created" );
+            assert.equal( typeof storage1, 'object', 'An instance of the cachedStore accessor has been created' );
 
             cachedStore( name ).then( function( storage2 ) {
-                assert.equal( typeof storage2, "object", "Another instance of the cachedStore accessor has been created" );
-                assert.notEqual( storage1, storage2, "The factory creates a new instance on each build" );
+                assert.equal( typeof storage2, 'object', 'Another instance of the cachedStore accessor has been created' );
+                assert.notEqual( storage1, storage2, 'The factory creates a new instance on each build' );
 
                 ready();
             } );
         } );
     } );
 
-    QUnit.test( "data", function( assert ) {
+    QUnit.test( 'data', function( assert ) {
         var ready = assert.async();
         assert.expect( 11 );
 
-        var name = "test2";
-        var expectedName1 = "foo";
-        var expectedName2 = "bob";
-        var expectedValue1 = "bar";
-        var expectedValue2 = "fake";
+        var name = 'test2';
+        var expectedName1 = 'foo';
+        var expectedName2 = 'bob';
+        var expectedValue1 = 'bar';
+        var expectedValue2 = 'fake';
 
         cachedStore( name ).then( function( storage ) {
-            assert.equal( typeof storage, "object", "An instance of the cachedStore accessor has been created" );
+            assert.equal( typeof storage, 'object', 'An instance of the cachedStore accessor has been created' );
 
             storage.setItem( expectedName1, expectedValue1 ).then( function() {
-                assert.ok( true, "The value1 has been set" );
+                assert.ok( true, 'The value1 has been set' );
 
                 storage.setItem( expectedName2, expectedValue2 ).then( function() {
-                    assert.ok( true, "The value2 has been set" );
+                    assert.ok( true, 'The value2 has been set' );
 
                     var value1 = storage.getItem( expectedName1 );
-                    assert.equal( value1, expectedValue1, "The got value1 is correct" );
+                    assert.equal( value1, expectedValue1, 'The got value1 is correct' );
 
                     var value2 = storage.getItem( expectedName2 );
-                    assert.equal( value2, expectedValue2, "The got value2 is correct" );
+                    assert.equal( value2, expectedValue2, 'The got value2 is correct' );
 
                     storage.removeItem( expectedName1 ).then( function() {
-                        assert.ok( true, "The value1 has been removed" );
+                        assert.ok( true, 'The value1 has been removed' );
 
                         var value1 = storage.getItem( expectedName1 );
-                        assert.equal( value1, undefined, "The value1 is erased" );
+                        assert.equal( value1, undefined, 'The value1 is erased' );
 
                         var value2 = storage.getItem( expectedName2 );
-                        assert.equal( value2, expectedValue2, "The value2 is still there" );
+                        assert.equal( value2, expectedValue2, 'The value2 is still there' );
 
                         storage.clear().then( function() {
-                            assert.ok( true, "The data is erased" );
+                            assert.ok( true, 'The data is erased' );
 
                             var value1 = storage.getItem( expectedName1 );
-                            assert.equal( value1, undefined, "The value1 is erased" );
+                            assert.equal( value1, undefined, 'The value1 is erased' );
 
                             var value2 = storage.getItem( expectedName2 );
-                            assert.equal( value2, undefined, "The value2 is erased" );
+                            assert.equal( value2, undefined, 'The value2 is erased' );
 
                             ready();
                         } );
@@ -98,32 +98,32 @@ define( [  "core/store", "core/cachedStore" ], function(  store, cachedStore ) {
         } );
     } );
 
-    QUnit.test( "persistence", function( assert ) {
+    QUnit.test( 'persistence', function( assert ) {
         var ready = assert.async();
         assert.expect( 6 );
 
-        var name = "test3";
-        var expectedName = "foo";
-        var expectedValue = "bar";
+        var name = 'test3';
+        var expectedName = 'foo';
+        var expectedValue = 'bar';
 
         cachedStore( name ).then( function( storage1 ) {
-            assert.equal( typeof storage1, "object", "An instance of the cachedStore accessor has been created" );
+            assert.equal( typeof storage1, 'object', 'An instance of the cachedStore accessor has been created' );
 
             storage1.setItem( expectedName, expectedValue ).then( function() {
-                assert.ok( true, "The value has been set" );
+                assert.ok( true, 'The value has been set' );
 
                 cachedStore( name ).then( function( storage2 ) {
-                    assert.equal( typeof storage2, "object", "Another instance of the cachedStore accessor has been created" );
+                    assert.equal( typeof storage2, 'object', 'Another instance of the cachedStore accessor has been created' );
 
                     var value = storage2.getItem( expectedName );
-                    assert.equal( value, expectedValue, "The got value is correct" );
+                    assert.equal( value, expectedValue, 'The got value is correct' );
 
                     storage2.removeStore().then( function() {
                         cachedStore( name ).then( function( storage3 ) {
-                            assert.equal( typeof storage3, "object", "Another instance of the cachedStore accessor has been created" );
+                            assert.equal( typeof storage3, 'object', 'Another instance of the cachedStore accessor has been created' );
 
                             var value = storage3.getItem( expectedName );
-                            assert.equal( typeof value, "undefined", "The got value is correct" );
+                            assert.equal( typeof value, 'undefined', 'The got value is correct' );
 
                             ready();
                         } );

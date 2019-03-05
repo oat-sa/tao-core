@@ -20,117 +20,117 @@
  */
 define( [
     
-    "jquery",
-    "lodash",
-    "core/promise",
-    "ui/maths/calculator/core/board",
-    "ui/maths/calculator/plugins/core/history"
+    'jquery',
+    'lodash',
+    'core/promise',
+    'ui/maths/calculator/core/board',
+    'ui/maths/calculator/plugins/core/history'
 ], function(  $, _, Promise, calculatorBoardFactory, historyPluginFactory ) {
-    "use strict";
+    'use strict';
 
-    QUnit.module( "module" );
+    QUnit.module( 'module' );
 
-    QUnit.test( "history", function( assert ) {
+    QUnit.test( 'history', function( assert ) {
         var calculator = calculatorBoardFactory();
 
         assert.expect( 3 );
 
-        assert.equal( typeof historyPluginFactory, "function", "The plugin module exposes a function" );
-        assert.equal( typeof historyPluginFactory( calculator ), "object", "The plugin factory produces an instance" );
-        assert.notStrictEqual( historyPluginFactory( calculator ), historyPluginFactory( calculator ), "The plugin factory provides a different instance on each call" );
+        assert.equal( typeof historyPluginFactory, 'function', 'The plugin module exposes a function' );
+        assert.equal( typeof historyPluginFactory( calculator ), 'object', 'The plugin factory produces an instance' );
+        assert.notStrictEqual( historyPluginFactory( calculator ), historyPluginFactory( calculator ), 'The plugin factory provides a different instance on each call' );
     } );
 
-    QUnit.module( "api" );
+    QUnit.module( 'api' );
 
     QUnit.cases.init( [
-        { title: "install" },
-        { title: "init" },
-        { title: "render" },
-        { title: "destroy" },
-        { title: "trigger" },
-        { title: "getCalculator" },
-        { title: "getAreaBroker" },
-        { title: "getConfig" },
-        { title: "setConfig" },
-        { title: "getState" },
-        { title: "setState" },
-        { title: "show" },
-        { title: "hide" },
-        { title: "enable" },
-        { title: "disable" }
-    ] ).test( "plugin API ", function( data, assert ) {
+        { title: 'install' },
+        { title: 'init' },
+        { title: 'render' },
+        { title: 'destroy' },
+        { title: 'trigger' },
+        { title: 'getCalculator' },
+        { title: 'getAreaBroker' },
+        { title: 'getConfig' },
+        { title: 'setConfig' },
+        { title: 'getState' },
+        { title: 'setState' },
+        { title: 'show' },
+        { title: 'hide' },
+        { title: 'enable' },
+        { title: 'disable' }
+    ] ).test( 'plugin API ', function( data, assert ) {
         var calculator = calculatorBoardFactory();
         var plugin = historyPluginFactory( calculator );
         assert.expect( 1 );
-        assert.equal( typeof plugin[ data.title ], "function", 'The plugin instances expose a "' + data.title + '" function' );
+        assert.equal( typeof plugin[ data.title ], 'function', 'The plugin instances expose a "' + data.title + '" function' );
     } );
 
-    QUnit.module( "behavior" );
+    QUnit.module( 'behavior' );
 
-    QUnit.test( "install", function( assert ) {
+    QUnit.test( 'install', function( assert ) {
         var ready = assert.async();
-        var $container = $( "#fixture-install" );
+        var $container = $( '#fixture-install' );
         var calculator = calculatorBoardFactory( $container )
-            .on( "ready", function() {
+            .on( 'ready', function() {
                 var areaBroker = calculator.getAreaBroker();
                 var plugin = historyPluginFactory( calculator, areaBroker );
 
                 assert.expect( 9 );
 
-                assert.ok( !calculator.hasCommand( "historyClear" ), "The command historyClear is not yet registered" );
-                assert.ok( !calculator.hasCommand( "historyUp" ), "The command historyUp is not yet registered" );
-                assert.ok( !calculator.hasCommand( "historyDown" ), "The command historyDown is not yet registered" );
-                assert.ok( !calculator.hasCommand( "historyGet" ), "The command historyGet is not yet registered" );
+                assert.ok( !calculator.hasCommand( 'historyClear' ), 'The command historyClear is not yet registered' );
+                assert.ok( !calculator.hasCommand( 'historyUp' ), 'The command historyUp is not yet registered' );
+                assert.ok( !calculator.hasCommand( 'historyDown' ), 'The command historyDown is not yet registered' );
+                assert.ok( !calculator.hasCommand( 'historyGet' ), 'The command historyGet is not yet registered' );
 
                 calculator
-                    .on( "plugin-install.history", function() {
-                        assert.ok( true, "The plugin has been installed" );
+                    .on( 'plugin-install.history', function() {
+                        assert.ok( true, 'The plugin has been installed' );
                     } )
-                    .on( "destroy", function() {
+                    .on( 'destroy', function() {
                         ready();
                     } );
 
                 plugin.install()
                     .then( function() {
-                        assert.ok( calculator.hasCommand( "historyClear" ), "The command historyClear is now registered" );
-                        assert.ok( calculator.hasCommand( "historyUp" ), "The command historyUp is now registered" );
-                        assert.ok( calculator.hasCommand( "historyDown" ), "The command historyDown is now registered" );
-                        assert.ok( calculator.hasCommand( "historyGet" ), "The command historyGet is now registered" );
+                        assert.ok( calculator.hasCommand( 'historyClear' ), 'The command historyClear is now registered' );
+                        assert.ok( calculator.hasCommand( 'historyUp' ), 'The command historyUp is now registered' );
+                        assert.ok( calculator.hasCommand( 'historyDown' ), 'The command historyDown is now registered' );
+                        assert.ok( calculator.hasCommand( 'historyGet' ), 'The command historyGet is now registered' );
                     } )
                     .catch( function( err ) {
-                        assert.ok( false, "Unexpected failure : " + err.message );
+                        assert.ok( false, 'Unexpected failure : ' + err.message );
                     } )
                     .then( function() {
                         calculator.destroy();
                     } );
             } )
-            .on( "error", function( err ) {
+            .on( 'error', function( err ) {
                 console.error( err );
-                assert.ok( false, "The operation should not fail!" );
+                assert.ok( false, 'The operation should not fail!' );
                 ready();
             } );
     } );
 
-    QUnit.test( "init", function( assert ) {
+    QUnit.test( 'init', function( assert ) {
         var ready = assert.async();
-        var $container = $( "#fixture-init" );
+        var $container = $( '#fixture-init' );
         var calculator = calculatorBoardFactory( $container )
-            .on( "ready", function() {
+            .on( 'ready', function() {
                 var areaBroker = calculator.getAreaBroker();
                 var plugin = historyPluginFactory( calculator, areaBroker );
 
                 assert.expect( 12 );
 
-                assert.ok( !calculator.hasCommand( "historyClear" ), "The command historyClear is not yet registered" );
-                assert.ok( !calculator.hasCommand( "historyUp" ), "The command historyUp is not yet registered" );
-                assert.ok( !calculator.hasCommand( "historyDown" ), "The command historyDown is not yet registered" );
-                assert.ok( !calculator.hasCommand( "historyGet" ), "The command historyGet is not yet registered" );
+                assert.ok( !calculator.hasCommand( 'historyClear' ), 'The command historyClear is not yet registered' );
+                assert.ok( !calculator.hasCommand( 'historyUp' ), 'The command historyUp is not yet registered' );
+                assert.ok( !calculator.hasCommand( 'historyDown' ), 'The command historyDown is not yet registered' );
+                assert.ok( !calculator.hasCommand( 'historyGet' ), 'The command historyGet is not yet registered' );
 
                 calculator
-                    .on( "plugin-init.history", function() {
-                        assert.ok( plugin.getState( "init" ), "The plugin has been initialized" );
+                    .on( 'plugin-init.history', function() {
+                        assert.ok( plugin.getState( 'init' ), 'The plugin has been initialized' );
                     } )
-                    .on( "destroy", function() {
+                    .on( 'destroy', function() {
                         ready();
                     } );
 
@@ -139,61 +139,61 @@ define( [
                         return plugin.init();
                     } )
                     .then( function() {
-                        assert.ok( calculator.hasCommand( "historyClear" ), "The command historyClear is now registered" );
-                        assert.ok( calculator.hasCommand( "historyUp" ), "The command historyUp is now registered" );
-                        assert.ok( calculator.hasCommand( "historyDown" ), "The command historyDown is now registered" );
-                        assert.ok( calculator.hasCommand( "historyGet" ), "The command historyGet is now registered" );
+                        assert.ok( calculator.hasCommand( 'historyClear' ), 'The command historyClear is now registered' );
+                        assert.ok( calculator.hasCommand( 'historyUp' ), 'The command historyUp is now registered' );
+                        assert.ok( calculator.hasCommand( 'historyDown' ), 'The command historyDown is now registered' );
+                        assert.ok( calculator.hasCommand( 'historyGet' ), 'The command historyGet is now registered' );
 
                         return new Promise( function( resolve ) {
-                            calculator.on( "history.read", function( h1 ) {
-                                calculator.off( "history.read" );
-                                assert.deepEqual( h1, [], "history is empty" );
+                            calculator.on( 'history.read', function( h1 ) {
+                                calculator.off( 'history.read' );
+                                assert.deepEqual( h1, [], 'history is empty' );
 
-                                calculator.replace( "cos PI" );
-                                assert.equal( calculator.evaluate().value, "-1", "The expression is computed" );
+                                calculator.replace( 'cos PI' );
+                                assert.equal( calculator.evaluate().value, '-1', 'The expression is computed' );
 
-                                calculator.on( "history.read", function( h2 ) {
-                                    calculator.off( "history.read" );
-                                    assert.deepEqual( h2, [ "cos PI" ], "history now contains evaluated expression" );
+                                calculator.on( 'history.read', function( h2 ) {
+                                    calculator.off( 'history.read' );
+                                    assert.deepEqual( h2, [ 'cos PI' ], 'history now contains evaluated expression' );
 
                                     resolve();
                                 } );
-                                calculator.useCommand( "historyGet" );
+                                calculator.useCommand( 'historyGet' );
                             } );
-                            calculator.useCommand( "historyGet" );
+                            calculator.useCommand( 'historyGet' );
                         } );
                     } )
                     .catch( function( err ) {
-                        assert.ok( false, "Unexpected failure : " + err.message );
+                        assert.ok( false, 'Unexpected failure : ' + err.message );
                     } )
                     .then( function() {
                         calculator.destroy();
                     } );
             } )
-            .on( "error", function( err ) {
+            .on( 'error', function( err ) {
                 console.error( err );
-                assert.ok( false, "The operation should not fail!" );
+                assert.ok( false, 'The operation should not fail!' );
                 ready();
             } );
     } );
 
-    QUnit.test( "destroy", function( assert ) {
+    QUnit.test( 'destroy', function( assert ) {
         var ready = assert.async();
-        var $container = $( "#fixture-destroy" );
+        var $container = $( '#fixture-destroy' );
         var calculator = calculatorBoardFactory( $container )
-            .on( "ready", function() {
+            .on( 'ready', function() {
                 var areaBroker = calculator.getAreaBroker();
                 var plugin = historyPluginFactory( calculator, areaBroker );
 
                 assert.expect( 12 );
 
-                assert.ok( !calculator.hasCommand( "historyClear" ), "The command historyClear is not yet registered" );
-                assert.ok( !calculator.hasCommand( "historyUp" ), "The command historyUp is not yet registered" );
-                assert.ok( !calculator.hasCommand( "historyDown" ), "The command historyDown is not yet registered" );
-                assert.ok( !calculator.hasCommand( "historyGet" ), "The command historyGet is not yet registered" );
+                assert.ok( !calculator.hasCommand( 'historyClear' ), 'The command historyClear is not yet registered' );
+                assert.ok( !calculator.hasCommand( 'historyUp' ), 'The command historyUp is not yet registered' );
+                assert.ok( !calculator.hasCommand( 'historyDown' ), 'The command historyDown is not yet registered' );
+                assert.ok( !calculator.hasCommand( 'historyGet' ), 'The command historyGet is not yet registered' );
 
                 calculator
-                    .on( "destroy", function() {
+                    .on( 'destroy', function() {
                         ready();
                     } );
 
@@ -202,48 +202,48 @@ define( [
                         return plugin.init();
                     } )
                     .then( function() {
-                        assert.ok( calculator.hasCommand( "historyClear" ), "The command historyClear is now registered" );
-                        assert.ok( calculator.hasCommand( "historyUp" ), "The command historyUp is now registered" );
-                        assert.ok( calculator.hasCommand( "historyDown" ), "The command historyDown is now registered" );
-                        assert.ok( calculator.hasCommand( "historyGet" ), "The command historyGet is now registered" );
+                        assert.ok( calculator.hasCommand( 'historyClear' ), 'The command historyClear is now registered' );
+                        assert.ok( calculator.hasCommand( 'historyUp' ), 'The command historyUp is now registered' );
+                        assert.ok( calculator.hasCommand( 'historyDown' ), 'The command historyDown is now registered' );
+                        assert.ok( calculator.hasCommand( 'historyGet' ), 'The command historyGet is now registered' );
 
                         return plugin.destroy();
                     } )
                     .then( function() {
-                        assert.ok( !calculator.hasCommand( "historyClear" ), "The command historyClear is removed" );
-                        assert.ok( !calculator.hasCommand( "historyUp" ), "The command historyUp is removed" );
-                        assert.ok( !calculator.hasCommand( "historyDown" ), "The command historyDown is removed" );
-                        assert.ok( !calculator.hasCommand( "historyGet" ), "The command historyGet is removed" );
+                        assert.ok( !calculator.hasCommand( 'historyClear' ), 'The command historyClear is removed' );
+                        assert.ok( !calculator.hasCommand( 'historyUp' ), 'The command historyUp is removed' );
+                        assert.ok( !calculator.hasCommand( 'historyDown' ), 'The command historyDown is removed' );
+                        assert.ok( !calculator.hasCommand( 'historyGet' ), 'The command historyGet is removed' );
                     } )
                     .catch( function( err ) {
-                        assert.ok( false, "Unexpected failure : " + err.message );
+                        assert.ok( false, 'Unexpected failure : ' + err.message );
                     } )
                     .then( function() {
                         calculator.destroy();
                     } );
             } )
-            .on( "error", function( err ) {
+            .on( 'error', function( err ) {
                 console.error( err );
-                assert.ok( false, "The operation should not fail!" );
+                assert.ok( false, 'The operation should not fail!' );
                 ready();
             } );
     } );
 
-    QUnit.test( "history - fill and clear", function( assert ) {
+    QUnit.test( 'history - fill and clear', function( assert ) {
         var ready = assert.async();
-        var $container = $( "#fixture-history-fill" );
+        var $container = $( '#fixture-history-fill' );
         var calculator = calculatorBoardFactory( $container )
-            .on( "ready", function() {
+            .on( 'ready', function() {
                 var areaBroker = calculator.getAreaBroker();
                 var plugin = historyPluginFactory( calculator, areaBroker );
 
                 assert.expect( 19 );
 
                 calculator
-                    .on( "plugin-init.history", function() {
-                        assert.ok( plugin.getState( "init" ), "The plugin has been initialized" );
+                    .on( 'plugin-init.history', function() {
+                        assert.ok( plugin.getState( 'init' ), 'The plugin has been initialized' );
                     } )
-                    .on( "destroy", function() {
+                    .on( 'destroy', function() {
                         ready();
                     } );
 
@@ -252,142 +252,142 @@ define( [
                         return plugin.init();
                     } )
                     .then( function() {
-                        assert.ok( calculator.hasCommand( "historyClear" ), "The command historyClear is registered" );
-                        assert.ok( calculator.hasCommand( "historyUp" ), "The command historyUp is registered" );
-                        assert.ok( calculator.hasCommand( "historyDown" ), "The command historyDown is registered" );
-                        assert.ok( calculator.hasCommand( "historyGet" ), "The command historyGet is registered" );
+                        assert.ok( calculator.hasCommand( 'historyClear' ), 'The command historyClear is registered' );
+                        assert.ok( calculator.hasCommand( 'historyUp' ), 'The command historyUp is registered' );
+                        assert.ok( calculator.hasCommand( 'historyDown' ), 'The command historyDown is registered' );
+                        assert.ok( calculator.hasCommand( 'historyGet' ), 'The command historyGet is registered' );
                     } )
                     .then( function() {
                         return new Promise( function( resolve ) {
                             calculator
-                                .on( "history.read", function( history ) {
-                                    calculator.off( "history.read" );
-                                    assert.deepEqual( history, [], "history is empty" );
+                                .on( 'history.read', function( history ) {
+                                    calculator.off( 'history.read' );
+                                    assert.deepEqual( history, [], 'history is empty' );
 
                                     resolve();
                                 } )
-                                .useCommand( "historyGet" );
+                                .useCommand( 'historyGet' );
                         } );
                     } )
                     .then( function() {
                         return new Promise( function( resolve ) {
-                            calculator.replace( "cos PI" );
-                            assert.equal( calculator.evaluate().value, "-1", "The expression is computed" );
+                            calculator.replace( 'cos PI' );
+                            assert.equal( calculator.evaluate().value, '-1', 'The expression is computed' );
 
                             calculator
-                                .on( "history.read", function( history ) {
-                                    calculator.off( "history.read" );
-                                    assert.deepEqual( history, [ "cos PI" ], "history now contains evaluated expression" );
+                                .on( 'history.read', function( history ) {
+                                    calculator.off( 'history.read' );
+                                    assert.deepEqual( history, [ 'cos PI' ], 'history now contains evaluated expression' );
 
                                     resolve();
                                 } )
-                                .useCommand( "historyGet" );
+                                .useCommand( 'historyGet' );
                         } );
                     } )
                     .then( function() {
                         return new Promise( function( resolve ) {
-                            calculator.replace( "cos PI" );
-                            assert.equal( calculator.evaluate().value, "-1", "The expression is computed" );
+                            calculator.replace( 'cos PI' );
+                            assert.equal( calculator.evaluate().value, '-1', 'The expression is computed' );
 
                             calculator
-                                .on( "history.read", function( history ) {
-                                    calculator.off( "history.read" );
-                                    assert.deepEqual( history, [ "cos PI" ], "since the same expression has been computed, history did not change" );
+                                .on( 'history.read', function( history ) {
+                                    calculator.off( 'history.read' );
+                                    assert.deepEqual( history, [ 'cos PI' ], 'since the same expression has been computed, history did not change' );
 
                                     resolve();
                                 } )
-                                .useCommand( "historyGet" );
+                                .useCommand( 'historyGet' );
                         } );
                     } )
                     .then( function() {
                         return new Promise( function( resolve ) {
-                            calculator.replace( ".1+.2" );
-                            assert.equal( calculator.evaluate().value, "0.3", "The expression is computed" );
+                            calculator.replace( '.1+.2' );
+                            assert.equal( calculator.evaluate().value, '0.3', 'The expression is computed' );
 
                             calculator
-                                .on( "history.read", function( history ) {
-                                    calculator.off( "history.read" );
-                                    assert.deepEqual( history, [ "cos PI", ".1+.2" ], "history has been completed" );
+                                .on( 'history.read', function( history ) {
+                                    calculator.off( 'history.read' );
+                                    assert.deepEqual( history, [ 'cos PI', '.1+.2' ], 'history has been completed' );
 
                                     resolve();
                                 } )
-                                .useCommand( "historyGet" );
+                                .useCommand( 'historyGet' );
                         } );
                     } )
                     .then( function() {
                         return new Promise( function( resolve ) {
-                            calculator.replace( "ans*2" );
-                            assert.equal( calculator.evaluate().value, "0.6", "The expression is computed" );
+                            calculator.replace( 'ans*2' );
+                            assert.equal( calculator.evaluate().value, '0.6', 'The expression is computed' );
 
                             calculator
-                                .on( "history.read", function( history ) {
-                                    calculator.off( "history.read" );
-                                    assert.equal( calculator.getExpression(), "", "The expression is cleared" );
-                                    assert.deepEqual( history, [ "cos PI", ".1+.2", "0.3*2" ], "history still contains expressions" );
+                                .on( 'history.read', function( history ) {
+                                    calculator.off( 'history.read' );
+                                    assert.equal( calculator.getExpression(), '', 'The expression is cleared' );
+                                    assert.deepEqual( history, [ 'cos PI', '.1+.2', '0.3*2' ], 'history still contains expressions' );
 
                                     resolve();
                                 } )
                                 .clear()
-                                .useCommand( "historyGet" );
+                                .useCommand( 'historyGet' );
                         } );
                     } )
                     .then( function() {
                         return new Promise( function( resolve ) {
                             calculator
-                                .on( "history.read", function( history ) {
-                                    calculator.off( "history.read" );
-                                    assert.equal( calculator.getExpression(), "", "The expression is cleared" );
-                                    assert.deepEqual( history, [ "cos PI", ".1+.2", "0.3*2" ], "history still contains expressions" );
+                                .on( 'history.read', function( history ) {
+                                    calculator.off( 'history.read' );
+                                    assert.equal( calculator.getExpression(), '', 'The expression is cleared' );
+                                    assert.deepEqual( history, [ 'cos PI', '.1+.2', '0.3*2' ], 'history still contains expressions' );
 
                                     resolve();
                                 } )
                                 .clear()
-                                .useCommand( "historyGet" );
+                                .useCommand( 'historyGet' );
                         } );
                     } )
                     .then( function() {
                         return new Promise( function( resolve ) {
                             calculator
-                                .on( "history.read", function( history ) {
-                                    calculator.off( "history.read" );
-                                    assert.deepEqual( history, [], "history has been cleared" );
-                                    assert.equal( calculator.getExpression(), "", "The expression is still empty" );
+                                .on( 'history.read', function( history ) {
+                                    calculator.off( 'history.read' );
+                                    assert.deepEqual( history, [], 'history has been cleared' );
+                                    assert.equal( calculator.getExpression(), '', 'The expression is still empty' );
 
                                     resolve();
                                 } )
-                                .useCommand( "clearAll" )
-                                .useCommand( "historyGet" );
+                                .useCommand( 'clearAll' )
+                                .useCommand( 'historyGet' );
                         } );
                     } )
                     .catch( function( err ) {
-                        assert.ok( false, "Unexpected failure : " + err.message );
+                        assert.ok( false, 'Unexpected failure : ' + err.message );
                     } )
                     .then( function() {
                         calculator.destroy();
                     } );
             } )
-            .on( "error", function( err ) {
+            .on( 'error', function( err ) {
                 console.error( err );
-                assert.ok( false, "The operation should not fail!" );
+                assert.ok( false, 'The operation should not fail!' );
                 ready();
             } );
     } );
 
-    QUnit.test( "history - navigate and remind", function( assert ) {
+    QUnit.test( 'history - navigate and remind', function( assert ) {
         var ready = assert.async();
-        var $container = $( "#fixture-history-navigate" );
+        var $container = $( '#fixture-history-navigate' );
         var calculator = calculatorBoardFactory( $container )
-            .on( "ready", function() {
+            .on( 'ready', function() {
                 var areaBroker = calculator.getAreaBroker();
                 var plugin = historyPluginFactory( calculator, areaBroker );
 
                 assert.expect( 29 );
 
                 calculator
-                    .on( "plugin-init.history", function() {
-                        assert.ok( plugin.getState( "init" ), "The plugin has been initialized" );
+                    .on( 'plugin-init.history', function() {
+                        assert.ok( plugin.getState( 'init' ), 'The plugin has been initialized' );
                     } )
-                    .on( "destroy", function() {
+                    .on( 'destroy', function() {
                         ready();
                     } );
 
@@ -396,268 +396,268 @@ define( [
                         return plugin.init();
                     } )
                     .then( function() {
-                        assert.ok( calculator.hasCommand( "historyClear" ), "The command historyClear is registered" );
-                        assert.ok( calculator.hasCommand( "historyUp" ), "The command historyUp is registered" );
-                        assert.ok( calculator.hasCommand( "historyDown" ), "The command historyDown is registered" );
-                        assert.ok( calculator.hasCommand( "historyGet" ), "The command historyGet is registered" );
+                        assert.ok( calculator.hasCommand( 'historyClear' ), 'The command historyClear is registered' );
+                        assert.ok( calculator.hasCommand( 'historyUp' ), 'The command historyUp is registered' );
+                        assert.ok( calculator.hasCommand( 'historyDown' ), 'The command historyDown is registered' );
+                        assert.ok( calculator.hasCommand( 'historyGet' ), 'The command historyGet is registered' );
                     } )
                     .then( function() {
                         return new Promise( function( resolve ) {
                             calculator
-                                .on( "history.read", function( history ) {
-                                    calculator.off( "history.read" );
-                                    assert.deepEqual( history, [], "history is empty" );
+                                .on( 'history.read', function( history ) {
+                                    calculator.off( 'history.read' );
+                                    assert.deepEqual( history, [], 'history is empty' );
 
                                     resolve();
                                 } )
-                                .useCommand( "historyGet" );
+                                .useCommand( 'historyGet' );
                         } );
                     } )
                     .then( function() {
                         return new Promise( function( resolve ) {
-                            calculator.replace( "cos PI" );
-                            assert.equal( calculator.evaluate().value, "-1", 'The expression "cos PI" is computed' );
+                            calculator.replace( 'cos PI' );
+                            assert.equal( calculator.evaluate().value, '-1', 'The expression "cos PI" is computed' );
 
-                            calculator.replace( "cos PI" );
-                            assert.equal( calculator.evaluate().value, "-1", 'The expression "cos PI" is computed again' );
+                            calculator.replace( 'cos PI' );
+                            assert.equal( calculator.evaluate().value, '-1', 'The expression "cos PI" is computed again' );
 
-                            calculator.replace( ".1+.2" );
-                            assert.equal( calculator.evaluate().value, "0.3", 'The expression ".1+.2" is computed' );
+                            calculator.replace( '.1+.2' );
+                            assert.equal( calculator.evaluate().value, '0.3', 'The expression ".1+.2" is computed' );
 
                             calculator
-                                .on( "history.read", function( history ) {
-                                    calculator.off( "history.read" );
-                                    assert.deepEqual( history, [ "cos PI", ".1+.2" ], "history has been completed with 2 entries" );
+                                .on( 'history.read', function( history ) {
+                                    calculator.off( 'history.read' );
+                                    assert.deepEqual( history, [ 'cos PI', '.1+.2' ], 'history has been completed with 2 entries' );
 
                                     resolve( history );
                                 } )
-                                .useCommand( "historyGet" );
+                                .useCommand( 'historyGet' );
                         } );
                     } )
                     .then( function( history ) {
                         return new Promise( function( resolve ) {
                             calculator.clear();
-                            assert.equal( calculator.getExpression(), "", "The expression is cleared" );
+                            assert.equal( calculator.getExpression(), '', 'The expression is cleared' );
 
-                            calculator.on( "replace.set", function() {
-                                calculator.off( "replace.set" );
-                                assert.equal( calculator.getExpression(), history[ history.length - 1 ], "The last expression has been reminded" );
+                            calculator.on( 'replace.set', function() {
+                                calculator.off( 'replace.set' );
+                                assert.equal( calculator.getExpression(), history[ history.length - 1 ], 'The last expression has been reminded' );
 
                                 resolve();
                             } );
-                            calculator.useCommand( "historyUp" );
+                            calculator.useCommand( 'historyUp' );
                         } );
                     } )
                     .then( function() {
                         return new Promise( function( resolve ) {
-                            calculator.replace( "1+2" );
-                            assert.equal( calculator.evaluate().value, "3", 'The expression "1+2" is computed' );
+                            calculator.replace( '1+2' );
+                            assert.equal( calculator.evaluate().value, '3', 'The expression "1+2" is computed' );
 
                             calculator
-                                .on( "history.read", function( history ) {
-                                    calculator.off( "history.read" );
-                                    assert.deepEqual( history, [ "cos PI", ".1+.2", "1+2" ], "history has been updated" );
+                                .on( 'history.read', function( history ) {
+                                    calculator.off( 'history.read' );
+                                    assert.deepEqual( history, [ 'cos PI', '.1+.2', '1+2' ], 'history has been updated' );
 
                                     resolve();
                                 } )
-                                .useCommand( "historyGet" );
+                                .useCommand( 'historyGet' );
                         } );
                     } )
                     .then( function() {
                         return new Promise( function( resolve ) {
-                            calculator.replace( "3*4" );
-                            assert.equal( calculator.evaluate().value, "12", 'The expression "3*4" is computed' );
+                            calculator.replace( '3*4' );
+                            assert.equal( calculator.evaluate().value, '12', 'The expression "3*4" is computed' );
 
                             calculator
-                                .on( "history.read", function( history ) {
-                                    calculator.off( "history.read" );
-                                    assert.deepEqual( history, [ "cos PI", ".1+.2", "1+2", "3*4" ], "history has been completed" );
+                                .on( 'history.read', function( history ) {
+                                    calculator.off( 'history.read' );
+                                    assert.deepEqual( history, [ 'cos PI', '.1+.2', '1+2', '3*4' ], 'history has been completed' );
 
                                     resolve();
                                 } )
-                                .useCommand( "historyGet" );
+                                .useCommand( 'historyGet' );
                         } );
                     } )
                     .then( function() {
                         return new Promise( function( resolve ) {
-                            calculator.replace( "6*7" );
+                            calculator.replace( '6*7' );
 
                             calculator
-                                .on( "replace.set", function() {
-                                    calculator.off( "replace.set" );
-                                    assert.equal( calculator.getExpression(), "3*4", 'The last expression has been reminded: "3*4"' );
+                                .on( 'replace.set', function() {
+                                    calculator.off( 'replace.set' );
+                                    assert.equal( calculator.getExpression(), '3*4', 'The last expression has been reminded: "3*4"' );
 
                                     resolve();
                                 } )
-                                .useCommand( "historyUp" );
-                        } );
-                    } )
-                    .then( function() {
-                        return new Promise( function( resolve ) {
-                            calculator
-                                .on( "replace.set", function() {
-                                    calculator.off( "replace.set" );
-                                    assert.equal( calculator.getExpression(), "1+2", 'The N-1 expression has been reminded: "1+2"' );
-
-                                    resolve();
-                                } )
-                                .useCommand( "historyUp" );
+                                .useCommand( 'historyUp' );
                         } );
                     } )
                     .then( function() {
                         return new Promise( function( resolve ) {
                             calculator
-                                .on( "replace.set", function() {
-                                    calculator.off( "replace.set" );
-                                    assert.equal( calculator.getExpression(), ".1+.2", 'The N-2 expression has been reminded: ".1+.2"' );
+                                .on( 'replace.set', function() {
+                                    calculator.off( 'replace.set' );
+                                    assert.equal( calculator.getExpression(), '1+2', 'The N-1 expression has been reminded: "1+2"' );
 
                                     resolve();
                                 } )
-                                .useCommand( "historyUp" );
+                                .useCommand( 'historyUp' );
                         } );
                     } )
                     .then( function() {
                         return new Promise( function( resolve ) {
                             calculator
-                                .on( "replace.set", function() {
-                                    calculator.off( "replace.set" );
-                                    assert.equal( calculator.getExpression(), "cos PI", 'The N-3 expression has been reminded: "cos PI"' );
+                                .on( 'replace.set', function() {
+                                    calculator.off( 'replace.set' );
+                                    assert.equal( calculator.getExpression(), '.1+.2', 'The N-2 expression has been reminded: ".1+.2"' );
 
                                     resolve();
                                 } )
-                                .useCommand( "historyUp" );
+                                .useCommand( 'historyUp' );
                         } );
                     } )
                     .then( function() {
                         return new Promise( function( resolve ) {
                             calculator
-                                .after( "command-historyUp.stop", function() {
-                                    calculator.off( "command-historyUp.stop" );
-                                    assert.equal( calculator.getExpression(), "cos PI", 'The expression is still the same: "cos PI"' );
+                                .on( 'replace.set', function() {
+                                    calculator.off( 'replace.set' );
+                                    assert.equal( calculator.getExpression(), 'cos PI', 'The N-3 expression has been reminded: "cos PI"' );
 
                                     resolve();
                                 } )
-                                .useCommand( "historyUp" );
+                                .useCommand( 'historyUp' );
                         } );
                     } )
                     .then( function() {
                         return new Promise( function( resolve ) {
                             calculator
-                                .on( "replace.set", function() {
-                                    calculator.off( "replace.set" );
-                                    assert.equal( calculator.getExpression(), ".1+.2", 'The N-2 expression has been reminded: ".1+.2"' );
+                                .after( 'command-historyUp.stop', function() {
+                                    calculator.off( 'command-historyUp.stop' );
+                                    assert.equal( calculator.getExpression(), 'cos PI', 'The expression is still the same: "cos PI"' );
 
                                     resolve();
                                 } )
-                                .useCommand( "historyDown" );
+                                .useCommand( 'historyUp' );
                         } );
                     } )
                     .then( function() {
                         return new Promise( function( resolve ) {
                             calculator
-                                .on( "replace.set", function() {
-                                    calculator.off( "replace.set" );
-                                    assert.equal( calculator.getExpression(), "1+2", 'The N-1 expression has been reminded: "1+2"' );
+                                .on( 'replace.set', function() {
+                                    calculator.off( 'replace.set' );
+                                    assert.equal( calculator.getExpression(), '.1+.2', 'The N-2 expression has been reminded: ".1+.2"' );
 
                                     resolve();
                                 } )
-                                .useCommand( "historyDown" );
+                                .useCommand( 'historyDown' );
                         } );
                     } )
                     .then( function() {
                         return new Promise( function( resolve ) {
                             calculator
-                                .on( "replace.set", function() {
-                                    calculator.off( "replace.set" );
-                                    assert.equal( calculator.getExpression(), "3*4", 'The last expression has been reminded: "3*4"' );
+                                .on( 'replace.set', function() {
+                                    calculator.off( 'replace.set' );
+                                    assert.equal( calculator.getExpression(), '1+2', 'The N-1 expression has been reminded: "1+2"' );
 
                                     resolve();
                                 } )
-                                .useCommand( "historyDown" );
+                                .useCommand( 'historyDown' );
                         } );
                     } )
                     .then( function() {
                         return new Promise( function( resolve ) {
                             calculator
-                                .on( "replace.set", function() {
-                                    calculator.off( "replace.set" );
-                                    assert.equal( calculator.getExpression(), "6*7", "The expression has been reset" );
+                                .on( 'replace.set', function() {
+                                    calculator.off( 'replace.set' );
+                                    assert.equal( calculator.getExpression(), '3*4', 'The last expression has been reminded: "3*4"' );
 
                                     resolve();
                                 } )
-                                .useCommand( "historyDown" );
+                                .useCommand( 'historyDown' );
                         } );
                     } )
                     .then( function() {
                         return new Promise( function( resolve ) {
                             calculator
-                                .after( "command-historyDown.stop", function() {
-                                    calculator.off( "command-historyDown.stop" );
-                                    assert.equal( calculator.getExpression(), "6*7", "The expression did not change" );
+                                .on( 'replace.set', function() {
+                                    calculator.off( 'replace.set' );
+                                    assert.equal( calculator.getExpression(), '6*7', 'The expression has been reset' );
 
                                     resolve();
                                 } )
-                                .useCommand( "historyDown" );
+                                .useCommand( 'historyDown' );
                         } );
                     } )
                     .then( function() {
                         return new Promise( function( resolve ) {
                             calculator
-                                .on( "replace.set", function() {
-                                    calculator.off( "replace.set" );
-                                    assert.equal( calculator.getExpression(), "3*4", 'The last expression has been reminded: "3*4"' );
+                                .after( 'command-historyDown.stop', function() {
+                                    calculator.off( 'command-historyDown.stop' );
+                                    assert.equal( calculator.getExpression(), '6*7', 'The expression did not change' );
 
                                     resolve();
                                 } )
-                                .useCommand( "historyUp" );
+                                .useCommand( 'historyDown' );
                         } );
                     } )
                     .then( function() {
                         return new Promise( function( resolve ) {
-                            calculator.after( "command-historyClear.set", function() {
-                                calculator.off( "command-historyClear.set" );
+                            calculator
+                                .on( 'replace.set', function() {
+                                    calculator.off( 'replace.set' );
+                                    assert.equal( calculator.getExpression(), '3*4', 'The last expression has been reminded: "3*4"' );
 
-                                calculator.on( "history.read", function( history ) {
-                                    calculator.off( "history.read" );
-                                    assert.deepEqual( history, [], "history is empty" );
-                                    assert.equal( calculator.getExpression(), "3*4", 'The expression is still there: "3*4"' );
+                                    resolve();
+                                } )
+                                .useCommand( 'historyUp' );
+                        } );
+                    } )
+                    .then( function() {
+                        return new Promise( function( resolve ) {
+                            calculator.after( 'command-historyClear.set', function() {
+                                calculator.off( 'command-historyClear.set' );
+
+                                calculator.on( 'history.read', function( history ) {
+                                    calculator.off( 'history.read' );
+                                    assert.deepEqual( history, [], 'history is empty' );
+                                    assert.equal( calculator.getExpression(), '3*4', 'The expression is still there: "3*4"' );
 
                                     resolve();
                                 } );
-                                calculator.useCommand( "historyGet" );
+                                calculator.useCommand( 'historyGet' );
                             } );
-                            calculator.useCommand( "historyClear" );
+                            calculator.useCommand( 'historyClear' );
                         } );
                     } )
                     .catch( function( err ) {
-                        assert.ok( false, "Unexpected failure : " + err.message );
+                        assert.ok( false, 'Unexpected failure : ' + err.message );
                     } )
                     .then( function() {
                         calculator.destroy();
                     } );
             } )
-            .on( "error", function( err ) {
+            .on( 'error', function( err ) {
                 console.error( err );
-                assert.ok( false, "The operation should not fail!" );
+                assert.ok( false, 'The operation should not fail!' );
                 ready();
             } );
     } );
 
-    QUnit.test( "history - navigate and replace", function( assert ) {
+    QUnit.test( 'history - navigate and replace', function( assert ) {
         var ready = assert.async();
-        var $container = $( "#fixture-history-replace" );
+        var $container = $( '#fixture-history-replace' );
         var calculator = calculatorBoardFactory( $container )
-            .on( "ready", function() {
+            .on( 'ready', function() {
                 var areaBroker = calculator.getAreaBroker();
                 var plugin = historyPluginFactory( calculator, areaBroker );
 
                 assert.expect( 31 );
 
                 calculator
-                    .on( "plugin-init.history", function() {
-                        assert.ok( plugin.getState( "init" ), "The plugin has been initialized" );
+                    .on( 'plugin-init.history', function() {
+                        assert.ok( plugin.getState( 'init' ), 'The plugin has been initialized' );
                     } )
-                    .on( "destroy", function() {
+                    .on( 'destroy', function() {
                         ready();
                     } );
 
@@ -666,225 +666,141 @@ define( [
                         return plugin.init();
                     } )
                     .then( function() {
-                        assert.ok( calculator.hasCommand( "historyClear" ), "The command historyClear is registered" );
-                        assert.ok( calculator.hasCommand( "historyUp" ), "The command historyUp is registered" );
-                        assert.ok( calculator.hasCommand( "historyDown" ), "The command historyDown is registered" );
-                        assert.ok( calculator.hasCommand( "historyGet" ), "The command historyGet is registered" );
+                        assert.ok( calculator.hasCommand( 'historyClear' ), 'The command historyClear is registered' );
+                        assert.ok( calculator.hasCommand( 'historyUp' ), 'The command historyUp is registered' );
+                        assert.ok( calculator.hasCommand( 'historyDown' ), 'The command historyDown is registered' );
+                        assert.ok( calculator.hasCommand( 'historyGet' ), 'The command historyGet is registered' );
                     } )
                     .then( function() {
                         return new Promise( function( resolve ) {
                             calculator
-                                .on( "history.read", function( history ) {
-                                    calculator.off( "history.read" );
-                                    assert.deepEqual( history, [], "history is empty" );
+                                .on( 'history.read', function( history ) {
+                                    calculator.off( 'history.read' );
+                                    assert.deepEqual( history, [], 'history is empty' );
 
                                     resolve();
                                 } )
-                                .useCommand( "historyGet" );
+                                .useCommand( 'historyGet' );
                         } );
                     } )
                     .then( function() {
                         return new Promise( function( resolve ) {
-                            calculator.replace( "cos PI" );
-                            assert.equal( calculator.evaluate().value, "-1", 'The expression "cos PI" is computed' );
+                            calculator.replace( 'cos PI' );
+                            assert.equal( calculator.evaluate().value, '-1', 'The expression "cos PI" is computed' );
 
-                            calculator.replace( "cos PI" );
-                            assert.equal( calculator.evaluate().value, "-1", 'The expression "cos PI" is computed again' );
+                            calculator.replace( 'cos PI' );
+                            assert.equal( calculator.evaluate().value, '-1', 'The expression "cos PI" is computed again' );
 
-                            calculator.replace( ".1+.2" );
-                            assert.equal( calculator.evaluate().value, "0.3", 'The expression ".1+.2" is computed' );
+                            calculator.replace( '.1+.2' );
+                            assert.equal( calculator.evaluate().value, '0.3', 'The expression ".1+.2" is computed' );
 
                             calculator
-                                .on( "history.read", function( history ) {
-                                    calculator.off( "history.read" );
-                                    assert.deepEqual( history, [ "cos PI", ".1+.2" ], "history has been completed with 2 entries" );
+                                .on( 'history.read', function( history ) {
+                                    calculator.off( 'history.read' );
+                                    assert.deepEqual( history, [ 'cos PI', '.1+.2' ], 'history has been completed with 2 entries' );
 
                                     resolve( history );
                                 } )
-                                .useCommand( "historyGet" );
+                                .useCommand( 'historyGet' );
                         } );
                     } )
                     .then( function( history ) {
                         return new Promise( function( resolve ) {
                             calculator.clear();
-                            assert.equal( calculator.getExpression(), "", "The expression is cleared" );
+                            assert.equal( calculator.getExpression(), '', 'The expression is cleared' );
 
-                            calculator.on( "replace.set", function() {
-                                calculator.off( "replace.set" );
-                                assert.equal( calculator.getExpression(), history[ history.length - 1 ], "The last expression has been reminded" );
+                            calculator.on( 'replace.set', function() {
+                                calculator.off( 'replace.set' );
+                                assert.equal( calculator.getExpression(), history[ history.length - 1 ], 'The last expression has been reminded' );
 
                                 resolve();
                             } );
-                            calculator.useCommand( "historyUp" );
+                            calculator.useCommand( 'historyUp' );
                         } );
                     } )
                     .then( function() {
                         return new Promise( function( resolve ) {
-                            calculator.replace( "1+2" );
-                            assert.equal( calculator.evaluate().value, "3", 'The expression "1+2" is computed' );
+                            calculator.replace( '1+2' );
+                            assert.equal( calculator.evaluate().value, '3', 'The expression "1+2" is computed' );
 
                             calculator
-                                .on( "history.read", function( history ) {
-                                    calculator.off( "history.read" );
-                                    assert.deepEqual( history, [ "cos PI", ".1+.2", "1+2" ], "history has been updated" );
+                                .on( 'history.read', function( history ) {
+                                    calculator.off( 'history.read' );
+                                    assert.deepEqual( history, [ 'cos PI', '.1+.2', '1+2' ], 'history has been updated' );
 
                                     resolve();
                                 } )
-                                .useCommand( "historyGet" );
+                                .useCommand( 'historyGet' );
                         } );
                     } )
                     .then( function() {
                         return new Promise( function( resolve ) {
-                            calculator.replace( "6*7" );
+                            calculator.replace( '6*7' );
 
                             calculator
-                                .on( "replace.set", function() {
-                                    calculator.off( "replace.set" );
-                                    assert.equal( calculator.getExpression(), "1+2", 'The last expression has been reminded: "1+2"' );
-
-                                    resolve();
-                                } )
-                                .useCommand( "historyUp" );
-                        } );
-                    } )
-                    .then( function() {
-                        return new Promise( function( resolve ) {
-                            calculator
-                                .on( "replace.set", function() {
-                                    calculator.off( "replace.set" );
-                                    assert.equal( calculator.getExpression(), ".1+.2", 'The N-1 expression has been reminded: ".1+.2"' );
+                                .on( 'replace.set', function() {
+                                    calculator.off( 'replace.set' );
+                                    assert.equal( calculator.getExpression(), '1+2', 'The last expression has been reminded: "1+2"' );
 
                                     resolve();
                                 } )
-                                .useCommand( "historyUp" );
+                                .useCommand( 'historyUp' );
                         } );
                     } )
                     .then( function() {
                         return new Promise( function( resolve ) {
                             calculator
-                                .on( "replace.set", function() {
-                                    calculator.off( "replace.set" );
-                                    assert.equal( calculator.getExpression(), ".1+.2+.3", 'The expression has been replaced by ".1+.2+.3"' );
+                                .on( 'replace.set', function() {
+                                    calculator.off( 'replace.set' );
+                                    assert.equal( calculator.getExpression(), '.1+.2', 'The N-1 expression has been reminded: ".1+.2"' );
 
                                     resolve();
                                 } )
-                                .replace( ".1+.2+.3" );
+                                .useCommand( 'historyUp' );
                         } );
                     } )
                     .then( function() {
                         return new Promise( function( resolve ) {
                             calculator
-                                .on( "replace.set", function() {
-                                    calculator.off( "replace.set" );
-                                    assert.equal( calculator.getExpression(), "1+2", 'The last expression has been reminded: "1+2"' );
+                                .on( 'replace.set', function() {
+                                    calculator.off( 'replace.set' );
+                                    assert.equal( calculator.getExpression(), '.1+.2+.3', 'The expression has been replaced by ".1+.2+.3"' );
 
                                     resolve();
                                 } )
-                                .useCommand( "historyDown" );
+                                .replace( '.1+.2+.3' );
                         } );
                     } )
                     .then( function() {
                         return new Promise( function( resolve ) {
                             calculator
-                                .on( "replace.set", function() {
-                                    calculator.off( "replace.set" );
-                                    assert.equal( calculator.getExpression(), ".1+.2+.3", 'The replaced N-1 expression has been reminded: ".1+.2+.3"' );
+                                .on( 'replace.set', function() {
+                                    calculator.off( 'replace.set' );
+                                    assert.equal( calculator.getExpression(), '1+2', 'The last expression has been reminded: "1+2"' );
 
                                     resolve();
                                 } )
-                                .useCommand( "historyUp" );
+                                .useCommand( 'historyDown' );
                         } );
                     } )
                     .then( function() {
                         return new Promise( function( resolve ) {
                             calculator
-                                .on( "evaluate.set", function( result ) {
-                                    calculator.off( "evaluate.set" );
-                                    assert.equal( result.value, "0.6", "The expression is computed" );
+                                .on( 'replace.set', function() {
+                                    calculator.off( 'replace.set' );
+                                    assert.equal( calculator.getExpression(), '.1+.2+.3', 'The replaced N-1 expression has been reminded: ".1+.2+.3"' );
 
                                     resolve();
                                 } )
-                                .evaluate();
+                                .useCommand( 'historyUp' );
                         } );
                     } )
                     .then( function() {
                         return new Promise( function( resolve ) {
                             calculator
-                                .on( "history.read", function( history ) {
-                                    calculator.off( "history.read" );
-                                    assert.deepEqual( history, [ "cos PI", ".1+.2", "1+2", ".1+.2+.3" ], "history has been completed" );
-
-                                    resolve();
-                                } )
-                                .useCommand( "historyGet" );
-                        } );
-                    } )
-                    .then( function() {
-                        return new Promise( function( resolve ) {
-                            calculator
-                                .on( "replace.set", function() {
-                                    calculator.off( "replace.set" );
-                                    assert.equal( calculator.getExpression(), ".1+.2+.3", 'The last expression has been reminded: ".1+.2+.3"' );
-
-                                    resolve();
-                                } )
-                                .useCommand( "historyUp" );
-                        } );
-                    } )
-                    .then( function() {
-                        return new Promise( function( resolve ) {
-                            calculator
-                                .on( "replace.set", function() {
-                                    calculator.off( "replace.set" );
-                                    assert.equal( calculator.getExpression(), "1+2", 'The N-1 expression has been reminded: "1+2"' );
-
-                                    resolve();
-                                } )
-                                .useCommand( "historyUp" );
-                        } );
-                    } )
-                    .then( function() {
-                        return new Promise( function( resolve ) {
-                            calculator
-                                .on( "replace.set", function() {
-                                    calculator.off( "replace.set" );
-                                    assert.equal( calculator.getExpression(), "1+2-1", "The expression has been replaced by 1+2-1" );
-
-                                    resolve();
-                                } )
-                                .replace( "1+2-1" );
-                        } );
-                    } )
-                    .then( function() {
-                        return new Promise( function( resolve ) {
-                            calculator
-                                .after( "command-historyDown.set", function() {
-                                    calculator.off( "command-historyDown.set" );
-                                    assert.equal( calculator.getExpression(), ".1+.2+.3", 'The last expression has been reminded: ".1+.2+.3"' );
-
-                                    resolve();
-                                } )
-                                .useCommand( "historyDown" );
-                        } );
-                    } )
-                    .then( function() {
-                        return new Promise( function( resolve ) {
-                            calculator
-                                .on( "replace.set", function() {
-                                    calculator.off( "replace.set" );
-                                    assert.equal( calculator.getExpression(), "1+2-1", 'The replaced N-1 expression has been reminded: "1+2-1"' );
-
-                                    resolve();
-                                } )
-                                .useCommand( "historyUp" );
-                        } );
-                    } )
-                    .then( function() {
-                        return new Promise( function( resolve ) {
-                            calculator
-                                .on( "evaluate.set", function( result ) {
-                                    calculator.off( "evaluate.set" );
-                                    assert.equal( result.value, "2", "The expression is computed" );
+                                .on( 'evaluate.set', function( result ) {
+                                    calculator.off( 'evaluate.set' );
+                                    assert.equal( result.value, '0.6', 'The expression is computed' );
 
                                     resolve();
                                 } )
@@ -894,61 +810,145 @@ define( [
                     .then( function() {
                         return new Promise( function( resolve ) {
                             calculator
-                                .on( "history.read", function( history ) {
-                                    calculator.off( "history.read" );
-                                    assert.deepEqual( history, [ "cos PI", ".1+.2", "1+2", ".1+.2+.3", "1+2-1" ], "history has been completed" );
+                                .on( 'history.read', function( history ) {
+                                    calculator.off( 'history.read' );
+                                    assert.deepEqual( history, [ 'cos PI', '.1+.2', '1+2', '.1+.2+.3' ], 'history has been completed' );
 
                                     resolve();
                                 } )
-                                .useCommand( "historyGet" );
+                                .useCommand( 'historyGet' );
                         } );
                     } )
                     .then( function() {
                         return new Promise( function( resolve ) {
                             calculator
-                                .on( "replace.set", function() {
-                                    calculator.off( "replace.set" );
-                                    assert.equal( calculator.getExpression(), "1+2-1", 'The last expression has been reminded: "1+2-1"' );
+                                .on( 'replace.set', function() {
+                                    calculator.off( 'replace.set' );
+                                    assert.equal( calculator.getExpression(), '.1+.2+.3', 'The last expression has been reminded: ".1+.2+.3"' );
 
                                     resolve();
                                 } )
-                                .useCommand( "historyUp" );
+                                .useCommand( 'historyUp' );
                         } );
                     } )
                     .then( function() {
                         return new Promise( function( resolve ) {
                             calculator
-                                .on( "replace.set", function() {
-                                    calculator.off( "replace.set" );
-                                    assert.equal( calculator.getExpression(), ".1+.2+.3", 'The N-1 expression has been reminded: ".1+.2+.3"' );
+                                .on( 'replace.set', function() {
+                                    calculator.off( 'replace.set' );
+                                    assert.equal( calculator.getExpression(), '1+2', 'The N-1 expression has been reminded: "1+2"' );
 
                                     resolve();
                                 } )
-                                .useCommand( "historyUp" );
+                                .useCommand( 'historyUp' );
                         } );
                     } )
                     .then( function() {
                         return new Promise( function( resolve ) {
                             calculator
-                                .on( "replace.set", function() {
-                                    calculator.off( "replace.set" );
-                                    assert.equal( calculator.getExpression(), "1+2", 'The replaced N-2 expression has been restored: "1+2"' );
+                                .on( 'replace.set', function() {
+                                    calculator.off( 'replace.set' );
+                                    assert.equal( calculator.getExpression(), '1+2-1', 'The expression has been replaced by 1+2-1' );
 
                                     resolve();
                                 } )
-                                .useCommand( "historyUp" );
+                                .replace( '1+2-1' );
+                        } );
+                    } )
+                    .then( function() {
+                        return new Promise( function( resolve ) {
+                            calculator
+                                .after( 'command-historyDown.set', function() {
+                                    calculator.off( 'command-historyDown.set' );
+                                    assert.equal( calculator.getExpression(), '.1+.2+.3', 'The last expression has been reminded: ".1+.2+.3"' );
+
+                                    resolve();
+                                } )
+                                .useCommand( 'historyDown' );
+                        } );
+                    } )
+                    .then( function() {
+                        return new Promise( function( resolve ) {
+                            calculator
+                                .on( 'replace.set', function() {
+                                    calculator.off( 'replace.set' );
+                                    assert.equal( calculator.getExpression(), '1+2-1', 'The replaced N-1 expression has been reminded: "1+2-1"' );
+
+                                    resolve();
+                                } )
+                                .useCommand( 'historyUp' );
+                        } );
+                    } )
+                    .then( function() {
+                        return new Promise( function( resolve ) {
+                            calculator
+                                .on( 'evaluate.set', function( result ) {
+                                    calculator.off( 'evaluate.set' );
+                                    assert.equal( result.value, '2', 'The expression is computed' );
+
+                                    resolve();
+                                } )
+                                .evaluate();
+                        } );
+                    } )
+                    .then( function() {
+                        return new Promise( function( resolve ) {
+                            calculator
+                                .on( 'history.read', function( history ) {
+                                    calculator.off( 'history.read' );
+                                    assert.deepEqual( history, [ 'cos PI', '.1+.2', '1+2', '.1+.2+.3', '1+2-1' ], 'history has been completed' );
+
+                                    resolve();
+                                } )
+                                .useCommand( 'historyGet' );
+                        } );
+                    } )
+                    .then( function() {
+                        return new Promise( function( resolve ) {
+                            calculator
+                                .on( 'replace.set', function() {
+                                    calculator.off( 'replace.set' );
+                                    assert.equal( calculator.getExpression(), '1+2-1', 'The last expression has been reminded: "1+2-1"' );
+
+                                    resolve();
+                                } )
+                                .useCommand( 'historyUp' );
+                        } );
+                    } )
+                    .then( function() {
+                        return new Promise( function( resolve ) {
+                            calculator
+                                .on( 'replace.set', function() {
+                                    calculator.off( 'replace.set' );
+                                    assert.equal( calculator.getExpression(), '.1+.2+.3', 'The N-1 expression has been reminded: ".1+.2+.3"' );
+
+                                    resolve();
+                                } )
+                                .useCommand( 'historyUp' );
+                        } );
+                    } )
+                    .then( function() {
+                        return new Promise( function( resolve ) {
+                            calculator
+                                .on( 'replace.set', function() {
+                                    calculator.off( 'replace.set' );
+                                    assert.equal( calculator.getExpression(), '1+2', 'The replaced N-2 expression has been restored: "1+2"' );
+
+                                    resolve();
+                                } )
+                                .useCommand( 'historyUp' );
                         } );
                     } )
                     .catch( function( err ) {
-                        assert.ok( false, "Unexpected failure : " + err.message );
+                        assert.ok( false, 'Unexpected failure : ' + err.message );
                     } )
                     .then( function() {
                         calculator.destroy();
                     } );
             } )
-            .on( "error", function( err ) {
+            .on( 'error', function( err ) {
                 console.error( err );
-                assert.ok( false, "The operation should not fail!" );
+                assert.ok( false, 'The operation should not fail!' );
                 ready();
             } );
     } );

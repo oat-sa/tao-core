@@ -17,59 +17,59 @@
  */
 define( [
 
-    "jquery",
-    "lodash",
-    "ui/component",
-    "ui/animable/pulsable/pulsable"
+    'jquery',
+    'lodash',
+    'ui/component',
+    'ui/animable/pulsable/pulsable'
 ], function(  $, _, componentFactory, makePulsable ) {
-    "use strict";
+    'use strict';
 
-    QUnit.module( "API" );
+    QUnit.module( 'API' );
 
-    QUnit.test( "module", function( assert ) {
+    QUnit.test( 'module', function( assert ) {
         assert.expect( 1 );
-        assert.ok( typeof makePulsable === "function", "The module expose a function" );
+        assert.ok( typeof makePulsable === 'function', 'The module expose a function' );
     } );
 
     QUnit
         .cases.init( [
-            { title: "pulse",          method: "pulse" }
+            { title: 'pulse',          method: 'pulse' }
         ] )
-        .test( "component API", function( data, assert ) {
+        .test( 'component API', function( data, assert ) {
             var component = makePulsable( componentFactory() );
 
             assert.expect( 1 );
-            assert.equal( typeof component[ data.method ], "function", "The component has the method " + data.method );
+            assert.equal( typeof component[ data.method ], 'function', 'The component has the method ' + data.method );
         } );
 
-    QUnit.module( "Behavior" );
+    QUnit.module( 'Behavior' );
 
-    QUnit.test( "pulse", function( assert ) {
+    QUnit.test( 'pulse', function( assert ) {
         var ready = assert.async();
-        var $container = $( "#qunit-fixture" );
+        var $container = $( '#qunit-fixture' );
         makePulsable( componentFactory() )
             .init()
             .render( $container )
             .pulse( 1 ).then( function() {
-                assert.ok( true, "pulsed" );
+                assert.ok( true, 'pulsed' );
                 ready();
             } );
     } );
 
-    QUnit.module( "Visual" );
+    QUnit.module( 'Visual' );
 
-    QUnit.test( "playground", function( assert ) {
-        var $container = $( "#visual" );
-        var $count = $container.find( ".count" );
-        var $pulse = $container.find( ".pulse" );
+    QUnit.test( 'playground', function( assert ) {
+        var $container = $( '#visual' );
+        var $count = $container.find( '.count' );
+        var $pulse = $container.find( '.pulse' );
         var pulsable = makePulsable( componentFactory() )
             .init()
-            .render( $container.find( ".target" ) );
+            .render( $container.find( '.target' ) );
 
         $pulse.click( function() {
             pulsable.pulse( $count.val() );
         } );
 
-        assert.ok( true, "started" );
+        assert.ok( true, 'started' );
     } );
 } );

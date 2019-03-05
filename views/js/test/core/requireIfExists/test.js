@@ -18,33 +18,33 @@
 /**
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
-define( [  "core/requireIfExists" ], function(  requireIfExists ) {
-    "use strict";
+define( [  'core/requireIfExists' ], function(  requireIfExists ) {
+    'use strict';
 
-    QUnit.module( "requireIfExists" );
+    QUnit.module( 'requireIfExists' );
 
-    QUnit.test( "module", function( assert ) {
+    QUnit.test( 'module', function( assert ) {
         assert.expect( 1 );
 
-        assert.equal( typeof requireIfExists, "function", "The requireIfExists module exposes a function" );
+        assert.equal( typeof requireIfExists, 'function', 'The requireIfExists module exposes a function' );
     } );
 
-    QUnit.test( "exist", function( assert ) {
+    QUnit.test( 'exist', function( assert ) {
         var ready = assert.async();
         assert.expect( 1 );
 
-        requireIfExists( "core/Promise" ).then( function( Promise ) {
-            assert.notEqual( typeof Promise, "undefined", "The core/Promise module has been loaded" );
+        requireIfExists( 'core/Promise' ).then( function( Promise ) {
+            assert.notEqual( typeof Promise, 'undefined', 'The core/Promise module has been loaded' );
             ready();
         } );
     } );
 
-    QUnit.test( "not exist", function( assert ) {
+    QUnit.test( 'not exist', function( assert ) {
         var ready = assert.async();
         assert.expect( 1 );
 
-        requireIfExists( "not/exist" ).then( function( dummy ) {
-            assert.strictEqual( dummy, null, "The not/exist module has been faked" );
+        requireIfExists( 'not/exist' ).then( function( dummy ) {
+            assert.strictEqual( dummy, null, 'The not/exist module has been faked' );
             ready();
         } );
     } );

@@ -20,13 +20,13 @@
  */
 define( [
 
-    "jquery",
-    "lodash",
-    "ui/maths/calculator/core/tokens",
-    "ui/maths/calculator/core/tokenizer",
-    "ui/maths/calculator/core/terms"
+    'jquery',
+    'lodash',
+    'ui/maths/calculator/core/tokens',
+    'ui/maths/calculator/core/tokenizer',
+    'ui/maths/calculator/core/terms'
 ], function(  $, _, tokensHelper, calculatorTokenizerFactory, registeredTerms ) {
-    "use strict";
+    'use strict';
 
     var tokens = {
         NUM0: {
@@ -160,9 +160,9 @@ define( [
 
     QUnit.module('Factory');
 
-    QUnit.test( "module", function( assert ) {
+    QUnit.test( 'module', function( assert ) {
         assert.expect( 1 );
-        assert.equal( typeof tokensHelper, "object", "The module exposes an object" );
+        assert.equal( typeof tokensHelper, 'object', 'The module exposes an object' );
     } );
 
     QUnit.cases.init([
@@ -188,22 +188,22 @@ define( [
         assert.equal(typeof tokensHelper[data.title], 'function', 'The helper exposes a "' + data.title + '" function');
     });
 
-    QUnit.module( "API" );
+    QUnit.module( 'API' );
 
-    QUnit.test( "getType", function( assert ) {
+    QUnit.test( 'getType', function( assert ) {
         var tokenizer = calculatorTokenizerFactory();
         assert.expect( _.size( registeredTerms ) + 6 );
 
         _.forEach( registeredTerms, function( term ) {
-            assert.equal( tokensHelper.getType( tokenizer.tokenize( term.value )[ 0 ] ), term.type, "Should tell " + term.value + " has type " + term.type );
+            assert.equal( tokensHelper.getType( tokenizer.tokenize( term.value )[ 0 ] ), term.type, 'Should tell ' + term.value + ' has type ' + term.type );
         } );
 
-        assert.equal( tokensHelper.getType( tokenizer.tokenize( "" )[ 0 ] ), null, "Empty token should be a null" );
-        assert.equal( tokensHelper.getType( tokenizer.tokenize( "foo" )[ 0 ] ), "term", "Generic identifier should be a term" );
-        assert.equal( tokensHelper.getType( { type: "foo" } ), "foo", "Specific type: foo" );
-        assert.equal( tokensHelper.getType( "foo" ), "foo", "String type: foo" );
-        assert.equal( tokensHelper.getType(), null, "No token" );
-        assert.equal( tokensHelper.getType( {} ), null, "Empty token" );
+        assert.equal( tokensHelper.getType( tokenizer.tokenize( '' )[ 0 ] ), null, 'Empty token should be a null' );
+        assert.equal( tokensHelper.getType( tokenizer.tokenize( 'foo' )[ 0 ] ), 'term', 'Generic identifier should be a term' );
+        assert.equal( tokensHelper.getType( { type: 'foo' } ), 'foo', 'Specific type: foo' );
+        assert.equal( tokensHelper.getType( 'foo' ), 'foo', 'String type: foo' );
+        assert.equal( tokensHelper.getType(), null, 'No token' );
+        assert.equal( tokensHelper.getType( {} ), null, 'Empty token' );
     } );
 
     QUnit.test('isDigit', function (assert) {
@@ -554,137 +554,137 @@ define( [
     });
 
     QUnit.cases.init( [ {
-        title: "Normal expression",
-        expression: "3*4",
-        expected: "3*4"
+        title: 'Normal expression',
+        expression: '3*4',
+        expected: '3*4'
     }, {
-        title: "Number expression",
+        title: 'Number expression',
         expression: 42,
-        expected: "42"
+        expected: '42'
     }, {
-        title: "Not a Number",
+        title: 'Not a Number',
         expression: NaN,
-        expected: "NaN"
+        expected: 'NaN'
     }, {
-        title: "Object expression",
+        title: 'Object expression',
         expression: {
-            value: "cos PI * (40 + 2)"
+            value: 'cos PI * (40 + 2)'
         },
-        expected: "cos PI * (40 + 2)"
+        expected: 'cos PI * (40 + 2)'
     }, {
-        title: "Void object expression",
+        title: 'Void object expression',
         expression: {},
-        expected: ""
+        expected: ''
     }, {
-        title: "Null expression",
+        title: 'Null expression',
         expression: null,
-        expected: ""
+        expected: ''
     }, {
-        title: "No expression",
-        expected: ""
+        title: 'No expression',
+        expected: ''
     } ] )
-        .test( "stringValue", function( data, assert ) {
+        .test( 'stringValue', function( data, assert ) {
             assert.expect( 1 );
 
-            assert.equal( tokensHelper.stringValue( data.expression ), data.expected, "Should cast the value " + data.expression );
+            assert.equal( tokensHelper.stringValue( data.expression ), data.expected, 'Should cast the value ' + data.expression );
 
         } );
 
     QUnit.cases.init( [ {
-        title: "Normal expression",
-        expression: "3*4",
-        expected: "3*4"
+        title: 'Normal expression',
+        expression: '3*4',
+        expected: '3*4'
     }, {
-        title: "Number expression",
+        title: 'Number expression',
         expression: 42,
-        expected: "42"
+        expected: '42'
     }, {
-        title: "Not a Number",
+        title: 'Not a Number',
         expression: NaN,
-        expected: "NaN"
+        expected: 'NaN'
     }, {
-        title: "Object expression",
+        title: 'Object expression',
         expression: {
-            value: "cos PI * (40 + 2)"
+            value: 'cos PI * (40 + 2)'
         },
-        expected: "cos PI * (40 + 2)"
+        expected: 'cos PI * (40 + 2)'
     }, {
-        title: "Void object expression",
+        title: 'Void object expression',
         expression: {},
-        expected: ""
+        expected: ''
     }, {
-        title: "Null expression",
+        title: 'Null expression',
         expression: null,
-        expected: ""
+        expected: ''
     }, {
-        title: "No expression",
-        expected: ""
+        title: 'No expression',
+        expected: ''
     }, {
-        title: "Simple value",
-        expression: "ans",
-        value: "42",
-        expected: "42"
+        title: 'Simple value',
+        expression: 'ans',
+        value: '42',
+        expected: '42'
     }, {
-        title: "Simple value in expression",
-        expression: "3*ans+1",
-        value: "42",
-        expected: "3*42+1"
+        title: 'Simple value in expression',
+        expression: '3*ans+1',
+        value: '42',
+        expected: '3*42+1'
     }, {
-        title: "Multiple values in expression",
-        expression: "3*ans+1/ans+ans",
-        value: "5",
-        expected: "3*5+1/5+5"
+        title: 'Multiple values in expression',
+        expression: '3*ans+1/ans+ans',
+        value: '5',
+        expected: '3*5+1/5+5'
     }, {
-        title: "Object value in expression",
-        expression: "3*ans+1",
+        title: 'Object value in expression',
+        expression: '3*ans+1',
         value: {
-            value: "42"
+            value: '42'
         },
-        expected: "3*42+1"
+        expected: '3*42+1'
     }, {
-        title: "NaN in expression",
-        expression: "3*ans+1",
+        title: 'NaN in expression',
+        expression: '3*ans+1',
         value: {
             value: NaN
         },
-        expected: "3*NaN+1"
+        expected: '3*NaN+1'
     }, {
-        title: "No value",
-        expression: "ans",
-        expected: ""
+        title: 'No value',
+        expression: 'ans',
+        expected: ''
     } ] )
-        .test( "renderLastResult", function( data, assert ) {
+        .test( 'renderLastResult', function( data, assert ) {
             assert.expect( 1 );
 
-            assert.equal( tokensHelper.renderLastResult( data.expression, data.value ), data.expected, "Should render the last result variable from " + data.expression + " to " + data.expected );
+            assert.equal( tokensHelper.renderLastResult( data.expression, data.value ), data.expected, 'Should render the last result variable from ' + data.expression + ' to ' + data.expected );
 
         } );
 
-    QUnit.test( "containsError", function( assert ) {
+    QUnit.test( 'containsError', function( assert ) {
         assert.expect( 12 );
 
-        assert.equal( tokensHelper.containsError( "3*4" ), false, "Should not contain an error" );
-        assert.equal( tokensHelper.containsError( "NaN" ), true, "Should contain an error" );
-        assert.equal( tokensHelper.containsError( "Infinity" ), true, "Should contain an error" );
-        assert.equal( tokensHelper.containsError( "+Infinity" ), true, "Should contain an error" );
-        assert.equal( tokensHelper.containsError( "-Infinity" ), true, "Should contain an error" );
-        assert.equal( tokensHelper.containsError( "2*NaN" ), true, "Should contain an error" );
-        assert.equal( tokensHelper.containsError( "4-Infinity" ), true, "Should contain an error" );
-        assert.equal( tokensHelper.containsError( NaN ), true, "Should contain an error" );
-        assert.equal( tokensHelper.containsError( 10 ), false, "Should not contain an error" );
-        assert.equal( tokensHelper.containsError( { value: NaN } ), true, "Should contain an error" );
-        assert.equal( tokensHelper.containsError( { value: "NaN" } ), true, "Should contain an error" );
-        assert.equal( tokensHelper.containsError( { value: "0" } ), false, "Should not contain an error" );
+        assert.equal( tokensHelper.containsError( '3*4' ), false, 'Should not contain an error' );
+        assert.equal( tokensHelper.containsError( 'NaN' ), true, 'Should contain an error' );
+        assert.equal( tokensHelper.containsError( 'Infinity' ), true, 'Should contain an error' );
+        assert.equal( tokensHelper.containsError( '+Infinity' ), true, 'Should contain an error' );
+        assert.equal( tokensHelper.containsError( '-Infinity' ), true, 'Should contain an error' );
+        assert.equal( tokensHelper.containsError( '2*NaN' ), true, 'Should contain an error' );
+        assert.equal( tokensHelper.containsError( '4-Infinity' ), true, 'Should contain an error' );
+        assert.equal( tokensHelper.containsError( NaN ), true, 'Should contain an error' );
+        assert.equal( tokensHelper.containsError( 10 ), false, 'Should not contain an error' );
+        assert.equal( tokensHelper.containsError( { value: NaN } ), true, 'Should contain an error' );
+        assert.equal( tokensHelper.containsError( { value: 'NaN' } ), true, 'Should contain an error' );
+        assert.equal( tokensHelper.containsError( { value: '0' } ), false, 'Should not contain an error' );
     } );
 
     QUnit.cases.init( [ {
-        title: "Undefined list",
-        expected: ""
+        title: 'Undefined list',
+        expected: ''
     }, {
-        title: "Void list",
+        title: 'Void list',
         tokens: [],
         variables: {},
-        expected: ""
+        expected: ''
     }, {
         title: 'Simple number',
         tokens: [
@@ -788,7 +788,7 @@ define( [
             tokens.ANS
         ],
         variables: {
-            ans: "42"
+            ans: '42'
         },
         expected: renderedTokens.ANS.replace('{{ans}}', '42')
     }, {
@@ -797,7 +797,7 @@ define( [
             tokens.ANS
         ],
         variables: {
-            ans: "-42"
+            ans: '-42'
         },
         expected: renderedTokens.ANS.replace('{{ans}}', registeredTerms.NEG.label + '42')
     }, {

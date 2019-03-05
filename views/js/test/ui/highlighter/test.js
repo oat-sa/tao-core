@@ -18,18 +18,18 @@
 /**
  * @author Christophe Noël <christophe@taotesting.com>
  */
-define( [  "jquery", "lodash", "ui/highlighter" ], function(  $, _, highlighterFactory ) {
-    "use strict";
+define( [  'jquery', 'lodash', 'ui/highlighter' ], function(  $, _, highlighterFactory ) {
+    'use strict';
 
     var highlightRangeData;
 
-    QUnit.module( "highlighterFactory" );
+    QUnit.module( 'highlighterFactory' );
 
-    QUnit.test( "module", function( assert ) {
-        assert.ok( typeof highlighterFactory === "function", "the module expose a function" );
+    QUnit.test( 'module', function( assert ) {
+        assert.ok( typeof highlighterFactory === 'function', 'the module expose a function' );
     } );
 
-    QUnit.module( "highlighter" );
+    QUnit.module( 'highlighter' );
 
     highlightRangeData = [
 
@@ -46,7 +46,7 @@ define( [  "jquery", "lodash", "ui/highlighter" ], function(  $, _, highlighterF
                 range.selectNodeContents( fixtureContainer );
             },
             highlightIndex: [
-                { highlighted: true, groupId: "1" }
+                { highlighted: true, groupId: '1' }
             ]
         },
 
@@ -56,12 +56,12 @@ define( [  "jquery", "lodash", "ui/highlighter" ], function(  $, _, highlighterF
             selection:                  "partially",
             output:     'I should end up <span class="hl" data-hl-group="1">partially</span> highlighted',
             buildRange: function( range, fixtureContainer ) {
-                range.setStart( fixtureContainer.firstChild, "I should end up ".length );
-                range.setEnd( fixtureContainer.firstChild, "I should end up partially".length );
+                range.setStart( fixtureContainer.firstChild, 'I should end up '.length );
+                range.setEnd( fixtureContainer.firstChild, 'I should end up partially'.length );
             },
             highlightIndex: [
                 { highlighted: true, inlineRanges: [
-                    { groupId: "1", startOffset: "I should end up ".length, endOffset: "I should end up partially".length }
+                    { groupId: '1', startOffset: 'I should end up '.length, endOffset: 'I should end up partially'.length }
                 ] }
             ]
         },
@@ -73,11 +73,11 @@ define( [  "jquery", "lodash", "ui/highlighter" ], function(  $, _, highlighterF
             output:     '<span class="hl" data-hl-group="1">I should end up partially</span> highlighted',
             buildRange: function( range, fixtureContainer ) {
                 range.setStart( fixtureContainer.firstChild, 0 );
-                range.setEnd( fixtureContainer.firstChild, "I should end up partially".length );
+                range.setEnd( fixtureContainer.firstChild, 'I should end up partially'.length );
             },
             highlightIndex: [
                 { highlighted: true, inlineRanges: [
-                    { groupId: "1", endOffset: "I should end up partially".length }
+                    { groupId: '1', endOffset: 'I should end up partially'.length }
                 ] }
             ]
         },
@@ -94,15 +94,15 @@ define( [  "jquery", "lodash", "ui/highlighter" ], function(  $, _, highlighterF
                         '<span class="hl" data-hl-group="3">I</span>' +
                         ' are a bunch of <span class="hl" data-hl-group="4">highlighted</span> friends',
             buildRange: function( range, fixtureContainer ) {
-                range.setStart( fixtureContainer.childNodes[ 4 ], " and ".length );
-                range.setEnd( fixtureContainer.childNodes[ 4 ], " and I".length );
+                range.setStart( fixtureContainer.childNodes[ 4 ], ' and '.length );
+                range.setEnd( fixtureContainer.childNodes[ 4 ], ' and I'.length );
             },
             highlightIndex: [
                 { highlighted: true, inlineRanges: [
-                    { groupId: "1", startOffset: "How cool is that: ".length, endOffset: "How cool is that: Me".length },
-                    { groupId: "2", startOffset: "How cool is that: Me, ".length, endOffset: "How cool is that: Me, myself".length },
-                    { groupId: "3", startOffset: "How cool is that: Me, myself and ".length, endOffset: "How cool is that: Me, myself and I".length },
-                    { groupId: "4", startOffset: "How cool is that: Me, myself and I are a bunch of ".length, endOffset: "How cool is that: Me, myself and I are a bunch of highlighted".length }
+                    { groupId: '1', startOffset: 'How cool is that: '.length, endOffset: 'How cool is that: Me'.length },
+                    { groupId: '2', startOffset: 'How cool is that: Me, '.length, endOffset: 'How cool is that: Me, myself'.length },
+                    { groupId: '3', startOffset: 'How cool is that: Me, myself and '.length, endOffset: 'How cool is that: Me, myself and I'.length },
+                    { groupId: '4', startOffset: 'How cool is that: Me, myself and I are a bunch of '.length, endOffset: 'How cool is that: Me, myself and I are a bunch of highlighted'.length }
                 ] }
             ]
         },
@@ -119,16 +119,16 @@ define( [  "jquery", "lodash", "ui/highlighter" ], function(  $, _, highlighterF
                         '<span class="hl" data-hl-group="4">I</span>' +
                         ' are a bunch of <span class="hl" data-hl-group="5">highlighted friends</span>',
             buildRange: function( range, fixtureContainer ) {
-                range.setStart( fixtureContainer.childNodes[ 5 ], " and ".length );
-                range.setEnd( fixtureContainer.childNodes[ 5 ], " and I".length );
+                range.setStart( fixtureContainer.childNodes[ 5 ], ' and '.length );
+                range.setEnd( fixtureContainer.childNodes[ 5 ], ' and I'.length );
             },
             highlightIndex: [
                 { highlighted: true, inlineRanges: [
-                    { groupId: "1", endOffset: "How cool".length },
-                    { groupId: "2", startOffset: "How cool is that: ".length, endOffset: "How cool is that: Me".length },
-                    { groupId: "3", startOffset: "How cool is that: Me, ".length, endOffset: "How cool is that: Me, myself".length },
-                    { groupId: "4", startOffset: "How cool is that: Me, myself and ".length, endOffset: "How cool is that: Me, myself and I".length },
-                    { groupId: "5", startOffset: "How cool is that: Me, myself and I are a bunch of ".length }
+                    { groupId: '1', endOffset: 'How cool'.length },
+                    { groupId: '2', startOffset: 'How cool is that: '.length, endOffset: 'How cool is that: Me'.length },
+                    { groupId: '3', startOffset: 'How cool is that: Me, '.length, endOffset: 'How cool is that: Me, myself'.length },
+                    { groupId: '4', startOffset: 'How cool is that: Me, myself and '.length, endOffset: 'How cool is that: Me, myself and I'.length },
+                    { groupId: '5', startOffset: 'How cool is that: Me, myself and I are a bunch of '.length }
                 ] }
             ]
         },
@@ -142,7 +142,7 @@ define( [  "jquery", "lodash", "ui/highlighter" ], function(  $, _, highlighterF
                 range.selectNode( fixtureContainer.firstChild );
             },
             highlightIndex: [
-                { highlighted: true, groupId: "1" }
+                { highlighted: true, groupId: '1' }
             ]
         },
 
@@ -152,12 +152,12 @@ define( [  "jquery", "lodash", "ui/highlighter" ], function(  $, _, highlighterF
             selection:                       "partially",
             output:     '<div>I should end up <span class="hl" data-hl-group="1">partially</span> highlighted</div>',
             buildRange: function( range, fixtureContainer ) {
-                range.setStart( fixtureContainer.firstChild.firstChild, "I should end up ".length );
-                range.setEnd( fixtureContainer.firstChild.firstChild, "I should end up partially".length );
+                range.setStart( fixtureContainer.firstChild.firstChild, 'I should end up '.length );
+                range.setEnd( fixtureContainer.firstChild.firstChild, 'I should end up partially'.length );
             },
             highlightIndex: [
                 { highlighted: true, inlineRanges: [
-                    { groupId: "1", startOffset: "I should end up ".length, endOffset: "I should end up partially".length }
+                    { groupId: '1', startOffset: 'I should end up '.length, endOffset: 'I should end up partially'.length }
                 ] }
             ]
         },
@@ -179,14 +179,14 @@ define( [  "jquery", "lodash", "ui/highlighter" ], function(  $, _, highlighterF
                             "<li>I am too shy to be highlighted</li>" +
                         "</ul>",
             buildRange: function( range ) {
-                var list = document.getElementById( "list" );
+                var list = document.getElementById( 'list' );
                 range.setStart( list, 1 );
                 range.setEnd( list, 3 );
             },
             highlightIndex: [
                 { highlighted: false },
-                { highlighted: true, groupId: "1" },
-                { highlighted: true, groupId: "1" },
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' },
                 { highlighted: false }
             ]
         },
@@ -210,21 +210,21 @@ define( [  "jquery", "lodash", "ui/highlighter" ], function(  $, _, highlighterF
                             "<li>I am too shy to be highlighted</li>" +
                         "</ul>",
             buildRange: function( range ) {
-                var list = document.getElementById( "list" );
+                var list = document.getElementById( 'list' );
 
                 // This actually happens in real-world selection scenarios
                 // instead of ending the selection at the end of the previous node,
                 // it is ended in the current node with an end offset of 0
                 range.setEnd( list.childNodes[ 3 ].firstChild, 0 );
 
-                // This hasn't been observed real-world, but we mirror the previous case to be on the safe side,
+                // This hasn\'t been observed real-world, but we mirror the previous case to be on the safe side,
                 // meaning we start the selection at the end of the previous node
                 range.setStart( list.childNodes[ 0 ].firstChild, list.childNodes[ 0 ].firstChild.length );
             },
             highlightIndex: [
                 { highlighted: false },
-                { highlighted: true, groupId: "1" },
-                { highlighted: true, groupId: "1" },
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' },
                 { highlighted: false }
             ]
         },
@@ -240,9 +240,9 @@ define( [  "jquery", "lodash", "ui/highlighter" ], function(  $, _, highlighterF
                 range.selectNodeContents( fixtureContainer );
             },
             highlightIndex: [
-                { highlighted: true, groupId: "1" },
-                { highlighted: true, groupId: "1" },
-                { highlighted: true, groupId: "1" }
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' }
             ]
         },
 
@@ -254,13 +254,13 @@ define( [  "jquery", "lodash", "ui/highlighter" ], function(  $, _, highlighterF
                         '<strong><span class="hl" data-hl-group="1">me and my children</span></strong>' +
                         '<span class="hl" data-hl-group="1"> should end up</span> partially highlighted',
             buildRange: function( range, fixtureContainer ) {
-                range.setStart( fixtureContainer.firstChild, "We, ".length );
-                range.setEnd( fixtureContainer.lastChild, " should end up".length );
+                range.setStart( fixtureContainer.firstChild, 'We, '.length );
+                range.setEnd( fixtureContainer.lastChild, ' should end up'.length );
             },
             highlightIndex: [
-                { highlighted: true, inlineRanges: [ { groupId: "1", startOffset: "We, ".length } ] },
-                { highlighted: true, groupId: "1" },
-                { highlighted: true, inlineRanges: [ { groupId: "1", endOffset: " should end up".length } ] }
+                { highlighted: true, inlineRanges: [ { groupId: '1', startOffset: 'We, '.length } ] },
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, inlineRanges: [ { groupId: '1', endOffset: ' should end up'.length } ] }
             ]
         },
 
@@ -272,13 +272,13 @@ define( [  "jquery", "lodash", "ui/highlighter" ], function(  $, _, highlighterF
                         '<span class="hl" data-hl-group="1">not bother </span>' +
                         "me <strong>at all</strong>",
             buildRange: function( range, fixtureContainer ) {
-                range.setStart( fixtureContainer.childNodes[ 2 ], " should ".length );
-                range.setEnd( fixtureContainer.childNodes[ 2 ], " should not bother ".length );
+                range.setStart( fixtureContainer.childNodes[ 2 ], ' should '.length );
+                range.setEnd( fixtureContainer.childNodes[ 2 ], ' should not bother '.length );
             },
             highlightIndex: [
                 { highlighted: false },
                 { highlighted: false },
-                { highlighted: true, inlineRanges: [ { groupId: "1", startOffset: " should ".length, endOffset: " should not bother ".length } ] },
+                { highlighted: true, inlineRanges: [ { groupId: '1', startOffset: ' should '.length, endOffset: ' should not bother '.length } ] },
                 { highlighted: false }
             ]
         },
@@ -288,9 +288,9 @@ define( [  "jquery", "lodash", "ui/highlighter" ], function(  $, _, highlighterF
         // ====================================
 
         {
-            title:      "highlights a selection ending in a partially selected node",
-            input:      "I should be highlighted <strong>even if I was poorly selected...</strong>",
-            selection:              "highlighted <strong>even if I was" +
+            title:      'highlights a selection ending in a partially selected node',
+            input:      'I should be highlighted <strong>even if I was poorly selected...</strong>',
+            selection:              'highlighted <strong>even if I was' +
 
                                                                             // Added upon invalid range => HTML conversion
                                                                             "</strong>",
@@ -298,18 +298,18 @@ define( [  "jquery", "lodash", "ui/highlighter" ], function(  $, _, highlighterF
                         '<strong><span class="hl" data-hl-group="1">even if I was</span>' +
                         " poorly selected...</strong>",
             buildRange: function( range, fixtureContainer ) {
-                range.setStart( fixtureContainer.firstChild, "I should be ".length );
-                range.setEnd( fixtureContainer.lastChild.firstChild, "even if I was".length );
+                range.setStart( fixtureContainer.firstChild, 'I should be '.length );
+                range.setEnd( fixtureContainer.lastChild.firstChild, 'even if I was'.length );
             },
             highlightIndex: [
-                { highlighted: true, inlineRanges: [ { groupId: "1", startOffset: "I should be ".length } ] },
-                { highlighted: true, inlineRanges: [ { groupId: "1", endOffset: "even if I was".length } ] }
+                { highlighted: true, inlineRanges: [ { groupId: '1', startOffset: 'I should be '.length } ] },
+                { highlighted: true, inlineRanges: [ { groupId: '1', endOffset: 'even if I was'.length } ] }
             ]
         },
 
         {
-            title:      "highlights a selection starting in a partially selected node",
-            input:      "<strong>I should be highlighted</strong> even if I was poorly selected...",
+            title:      'highlights a selection starting in a partially selected node',
+            input:      '<strong>I should be highlighted</strong> even if I was poorly selected...',
 
                                                                                  // Added upon invalid range => HTML conversion
             selection:                                                           "<strong>" +
@@ -318,12 +318,12 @@ define( [  "jquery", "lodash", "ui/highlighter" ], function(  $, _, highlighterF
                         '<span class="hl" data-hl-group="1"> even if I was</span>' +
                         " poorly selected...",
             buildRange: function( range, fixtureContainer ) {
-                range.setStart( fixtureContainer.firstChild.firstChild, "I should be ".length );
-                range.setEnd( fixtureContainer.lastChild, " even if I was".length );
+                range.setStart( fixtureContainer.firstChild.firstChild, 'I should be '.length );
+                range.setEnd( fixtureContainer.lastChild, ' even if I was'.length );
             },
             highlightIndex: [
-                { highlighted: true, inlineRanges: [ { groupId: "1", startOffset: "I should be ".length } ] },
-                { highlighted: true, inlineRanges: [ { groupId: "1", endOffset: " even if I was".length } ] }
+                { highlighted: true, inlineRanges: [ { groupId: '1', startOffset: 'I should be '.length } ] },
+                { highlighted: true, inlineRanges: [ { groupId: '1', endOffset: ' even if I was'.length } ] }
             ]
         },
 
@@ -357,18 +357,18 @@ define( [  "jquery", "lodash", "ui/highlighter" ], function(  $, _, highlighterF
                         "</ul>" +
                         "<div><p><span>The list</span> is <strong>finished</strong>, see you soon !</p></div>",
             buildRange: function( range, fixtureContainer ) {
-                range.setStart( fixtureContainer.childNodes[ 1 ].firstChild, "There is a ni".length );
+                range.setStart( fixtureContainer.childNodes[ 1 ].firstChild, 'There is a ni'.length );
                 range.setEnd( fixtureContainer, 3 );
             },
             highlightIndex: [
                 { highlighted: false },
-                { highlighted: true, inlineRanges: [ { groupId: "1", startOffset: "There is a ni".length } ] },
-                { highlighted: true, groupId: "1" },
-                { highlighted: true, groupId: "1" },
-                { highlighted: true, groupId: "1" },
-                { highlighted: true, groupId: "1" },
-                { highlighted: true, groupId: "1" },
-                { highlighted: true, groupId: "1" },
+                { highlighted: true, inlineRanges: [ { groupId: '1', startOffset: 'There is a ni'.length } ] },
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' },
                 { highlighted: false },
                 { highlighted: false },
                 { highlighted: false },
@@ -406,10 +406,10 @@ define( [  "jquery", "lodash", "ui/highlighter" ], function(  $, _, highlighterF
                         "</ul>" +
                         '<div><p id="end-p"><span><span class="hl" data-hl-group="1">The list</span></span><span class="hl" data-hl-group="1"> is </span><strong><span class="hl" data-hl-group="1">finished</span></strong><span class="hl" data-hl-group="1">, see you</span> soon !</p></div>',
             buildRange: function( range ) {
-                var startNode = document.getElementsByClassName( "some-class" ).item( 0 ).firstChild;
-                var endNode = document.getElementById( "end-p" ).childNodes[ 3 ];
-                range.setStart( startNode, "th".length );
-                range.setEnd( endNode, ", see you".length );
+                var startNode = document.getElementsByClassName( 'some-class' ).item( 0 ).firstChild;
+                var endNode = document.getElementById( 'end-p' ).childNodes[ 3 ];
+                range.setStart( startNode, 'th'.length );
+                range.setEnd( endNode, ', see you'.length );
             },
             highlightIndex: [
                 { highlighted: false },
@@ -417,13 +417,13 @@ define( [  "jquery", "lodash", "ui/highlighter" ], function(  $, _, highlighterF
                 { highlighted: false },
                 { highlighted: false },
                 { highlighted: false },
-                { highlighted: true, inlineRanges: [ { groupId: "1", startOffset: "th".length } ] },
-                { highlighted: true, groupId: "1" },
-                { highlighted: true, groupId: "1" },
-                { highlighted: true, groupId: "1" },
-                { highlighted: true, groupId: "1" },
-                { highlighted: true, groupId: "1" },
-                { highlighted: true, inlineRanges: [ { groupId: "1", endOffset: ", see you".length } ] }
+                { highlighted: true, inlineRanges: [ { groupId: '1', startOffset: 'th'.length } ] },
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, inlineRanges: [ { groupId: '1', endOffset: ', see you'.length } ] }
             ]
         },
 
@@ -458,16 +458,16 @@ define( [  "jquery", "lodash", "ui/highlighter" ], function(  $, _, highlighterF
                         '<div><p id="end-p"><span>The list</span> is <strong>finished</strong>, see you soon !</p></div>',
             buildRange: function( range, fixtureContainer ) {
                 var startNode = fixtureContainer.firstChild;
-                var endNode = document.getElementById( "list" ).childNodes[ 2 ].firstChild;
+                var endNode = document.getElementById( 'list' ).childNodes[ 2 ].firstChild;
                 range.setStart( startNode, 0 );
-                range.setEnd( endNode, "I am".length );
+                range.setEnd( endNode, 'I am'.length );
             },
             highlightIndex: [
-                { highlighted: true, groupId: "1" },
-                { highlighted: true, groupId: "1" },
-                { highlighted: true, groupId: "1" },
-                { highlighted: true, groupId: "1" },
-                { highlighted: true, inlineRanges: [ { groupId: "1", endOffset: "I am".length } ] },
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, inlineRanges: [ { groupId: '1', endOffset: 'I am'.length } ] },
                 { highlighted: false },
                 { highlighted: false },
                 { highlighted: false },
@@ -491,16 +491,16 @@ define( [  "jquery", "lodash", "ui/highlighter" ], function(  $, _, highlighterF
                 range.selectNodeContents( fixtureContainer );
             },
             highlightIndex: [
-                { highlighted: true, groupId: "1" },
-                { highlighted: true, groupId: "1" }
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' }
             ]
         },
 
         {
-            title:      "do not highlight text in a selected textarea",
-            input:      "<textarea>Leave me alone, I am inside a text area</textarea>",
-            selection:  "<textarea>Leave me alone, I am inside a text area</textarea>",
-            output:     "<textarea>Leave me alone, I am inside a text area</textarea>",
+            title:      'do not highlight text in a selected textarea',
+            input:      '<textarea>Leave me alone, I am inside a text area</textarea>',
+            selection:  '<textarea>Leave me alone, I am inside a text area</textarea>',
+            output:     '<textarea>Leave me alone, I am inside a text area</textarea>',
             buildRange: function( range, fixtureContainer ) {
                 range.selectNodeContents( fixtureContainer );
             },
@@ -508,10 +508,10 @@ define( [  "jquery", "lodash", "ui/highlighter" ], function(  $, _, highlighterF
         },
 
         {
-            title:      "do not highlight text fully selected in a textarea",
-            input:      "<textarea>Leave me alone, I am inside a text area</textarea>",
-            selection:            "Leave me alone, I am inside a text area",
-            output:     "<textarea>Leave me alone, I am inside a text area</textarea>",
+            title:      'do not highlight text fully selected in a textarea',
+            input:      '<textarea>Leave me alone, I am inside a text area</textarea>',
+            selection:            'Leave me alone, I am inside a text area',
+            output:     '<textarea>Leave me alone, I am inside a text area</textarea>',
             buildRange: function( range, fixtureContainer ) {
                 range.selectNodeContents( fixtureContainer.firstChild );
             },
@@ -524,8 +524,8 @@ define( [  "jquery", "lodash", "ui/highlighter" ], function(  $, _, highlighterF
             selection:                            "I am inside",
             output:     "<textarea>Leave me alone, I am inside a text area</textarea>",
             buildRange: function( range, fixtureContainer ) {
-                range.setStart( fixtureContainer.firstChild.firstChild, "Leave me alone, ".length );
-                range.setEnd( fixtureContainer.firstChild.firstChild, "Leave me alone, I am inside".length );
+                range.setStart( fixtureContainer.firstChild.firstChild, 'Leave me alone, '.length );
+                range.setEnd( fixtureContainer.firstChild.firstChild, 'Leave me alone, I am inside'.length );
             },
             highlightIndex: []
         },
@@ -541,8 +541,8 @@ define( [  "jquery", "lodash", "ui/highlighter" ], function(  $, _, highlighterF
                 range.selectNodeContents( fixtureContainer );
             },
             highlightIndex: [
-                { highlighted: true, groupId: "1" },
-                { highlighted: true, groupId: "1" }
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' }
             ]
         },
 
@@ -574,11 +574,11 @@ define( [  "jquery", "lodash", "ui/highlighter" ], function(  $, _, highlighterF
                 range.selectNodeContents( fixtureContainer );
             },
             highlightIndex: [
-                { highlighted: true, groupId: "1" },
-                { highlighted: true, groupId: "1" },
-                { highlighted: true, groupId: "1" },
-                { highlighted: true, groupId: "1" },
-                { highlighted: true, groupId: "1" }
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' }
             ]
         },
 
@@ -589,13 +589,13 @@ define( [  "jquery", "lodash", "ui/highlighter" ], function(  $, _, highlighterF
             output:     '<span class="hl" data-hl-group="1">I am enlightened</span>, ' +
                         '<span class="hl" data-hl-group="2">will you join me?</span>',
             buildRange: function( range, fixtureContainer ) {
-                range.setStart( fixtureContainer.childNodes[ 1 ], ", ".length );
-                range.setEnd( fixtureContainer.childNodes[ 1 ], ", will you join me?".length );
+                range.setStart( fixtureContainer.childNodes[ 1 ], ', '.length );
+                range.setEnd( fixtureContainer.childNodes[ 1 ], ', will you join me?'.length );
             },
             highlightIndex: [
                 { highlighted: true, inlineRanges: [
-                        { groupId: "1", endOffset: "I am enlightened".length },
-                        { groupId: "2", startOffset: "I am enlightened, ".length }
+                        { groupId: '1', endOffset: 'I am enlightened'.length },
+                        { groupId: '2', startOffset: 'I am enlightened, '.length }
                 ] }
             ]
         },
@@ -609,7 +609,7 @@ define( [  "jquery", "lodash", "ui/highlighter" ], function(  $, _, highlighterF
                 range.selectNodeContents( fixtureContainer.childNodes[ 1 ] );
             },
             highlightIndex: [
-                { highlighted: true, groupId: "1" }
+                { highlighted: true, groupId: '1' }
             ]
         },
 
@@ -622,7 +622,7 @@ define( [  "jquery", "lodash", "ui/highlighter" ], function(  $, _, highlighterF
                 range.selectNodeContents( fixtureContainer.childNodes[ 1 ] );
             },
             highlightIndex: [
-                { highlighted: true, groupId: "1" }
+                { highlighted: true, groupId: '1' }
             ]
         },
 
@@ -644,9 +644,9 @@ define( [  "jquery", "lodash", "ui/highlighter" ], function(  $, _, highlighterF
                 range.setEnd( fixtureContainer.firstChild, 2 );
             },
             highlightIndex: [
-                { highlighted: true, groupId: "1" },
-                { highlighted: true, groupId: "1" },
-                { highlighted: true, groupId: "1" }
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' }
             ]
         },
 
@@ -659,7 +659,7 @@ define( [  "jquery", "lodash", "ui/highlighter" ], function(  $, _, highlighterF
                 range.selectNodeContents( fixtureContainer.firstChild.firstChild );
             },
             highlightIndex: [
-                { highlighted: true, groupId: "1" }
+                { highlighted: true, groupId: '1' }
             ]
         },
 
@@ -669,11 +669,11 @@ define( [  "jquery", "lodash", "ui/highlighter" ], function(  $, _, highlighterF
             selection:                                                         "highlight",
             output:     '<span class="hl" data-hl-group="1">I already have more highlight that I need, leave me alone</span>',
             buildRange: function( range, fixtureContainer ) {
-                range.setStart( fixtureContainer.firstChild.firstChild, "I already have more ".length );
-                range.setEnd( fixtureContainer.firstChild.firstChild, "I already have more highlight".length );
+                range.setStart( fixtureContainer.firstChild.firstChild, 'I already have more '.length );
+                range.setEnd( fixtureContainer.firstChild.firstChild, 'I already have more highlight'.length );
             },
             highlightIndex: [
-                { highlighted: true, groupId: "1" }
+                { highlighted: true, groupId: '1' }
             ]
         },
 
@@ -686,7 +686,7 @@ define( [  "jquery", "lodash", "ui/highlighter" ], function(  $, _, highlighterF
                 range.selectNodeContents( fixtureContainer );
             },
             highlightIndex: [
-                { highlighted: true, groupId: "1" }
+                { highlighted: true, groupId: '1' }
             ]
         },
 
@@ -699,7 +699,7 @@ define( [  "jquery", "lodash", "ui/highlighter" ], function(  $, _, highlighterF
                 range.selectNodeContents( fixtureContainer );
             },
             highlightIndex: [
-                { highlighted: true, groupId: "1" }
+                { highlighted: true, groupId: '1' }
             ]
         },
 
@@ -726,10 +726,10 @@ define( [  "jquery", "lodash", "ui/highlighter" ], function(  $, _, highlighterF
                 range.setEnd( fixtureContainer.firstChild, 4 );
             },
             highlightIndex: [
-                { highlighted: true, groupId: "1" },
-                { highlighted: true, groupId: "1" },
-                { highlighted: true, groupId: "1" },
-                { highlighted: true, groupId: "1" }
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' }
             ]
         },
 
@@ -743,10 +743,10 @@ define( [  "jquery", "lodash", "ui/highlighter" ], function(  $, _, highlighterF
             output:     '<span class="hl" data-hl-group="1">This existing highlight</span> is about to be extended',
             buildRange: function( range, fixtureContainer ) {
                 range.setStart( fixtureContainer.firstChild, 0 );
-                range.setEnd( fixtureContainer.childNodes[ 1 ].firstChild, "existing".length );
+                range.setEnd( fixtureContainer.childNodes[ 1 ].firstChild, 'existing'.length );
             },
             highlightIndex: [
-                { highlighted: true, inlineRanges: [ { groupId: "1", endOffset: "This existing highlight".length } ] }
+                { highlighted: true, inlineRanges: [ { groupId: '1', endOffset: 'This existing highlight'.length } ] }
             ]
         },
 
@@ -762,7 +762,7 @@ define( [  "jquery", "lodash", "ui/highlighter" ], function(  $, _, highlighterF
                 range.setEnd( fixtureContainer.childNodes[ 2 ], " is about to".length );
             },
             highlightIndex: [
-                { highlighted: true, inlineRanges: [ { groupId: "1", startOffset: "This ".length, endOffset: "This existing highlight is about to".length } ] }
+                { highlighted: true, inlineRanges: [ { groupId: '1', startOffset: 'This '.length, endOffset: 'This existing highlight is about to'.length } ] }
             ]
         },
 
@@ -785,13 +785,13 @@ define( [  "jquery", "lodash", "ui/highlighter" ], function(  $, _, highlighterF
                         '<span class="hl" data-hl-group="1">This existing highlight will soon be joined by a new one</span>' +
                         '<strong><span class="hl" data-hl-group="1">how cool is that ?!</span></strong>',
             buildRange: function( range, fixtureContainer ) {
-                range.setStart( fixtureContainer.childNodes[ 1 ].firstChild, "This existing ".length );
-                range.setEnd( fixtureContainer.childNodes[ 5 ].firstChild, "by a ".length );
+                range.setStart( fixtureContainer.childNodes[ 1 ].firstChild, 'This existing '.length );
+                range.setEnd( fixtureContainer.childNodes[ 5 ].firstChild, 'by a '.length );
             },
             highlightIndex: [
-                { highlighted: true, groupId: "1" },
-                { highlighted: true, groupId: "1" },
-                { highlighted: true, groupId: "1" }
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' }
             ]
         }
 
@@ -799,44 +799,44 @@ define( [  "jquery", "lodash", "ui/highlighter" ], function(  $, _, highlighterF
 
     QUnit
         .cases.init( highlightRangeData )
-        .test( "HighlightRange", function( data, assert ) {
+        .test( 'HighlightRange', function( data, assert ) {
 
             // Setup test
             var highlighter = highlighterFactory( {
-                className: "hl",
-                containerSelector: "#qunit-fixture"
+                className: 'hl',
+                containerSelector: '#qunit-fixture'
             } );
             var range = document.createRange();
             var highlightIndex;
             var rangeHtml;
 
-            var fixtureContainer = document.getElementById( "qunit-fixture" );
+            var fixtureContainer = document.getElementById( 'qunit-fixture' );
 
             assert.expect( 8 );
 
             fixtureContainer.innerHTML = data.input;
 
             // The following assertion is just to provide a better visual feedback in QUnit UI
-            assert.equal( fixtureContainer.innerHTML, data.input, "input: " + data.input );
+            assert.equal( fixtureContainer.innerHTML, data.input, 'input: ' + data.input );
 
             // Create range, then make sure it is correctly built
             data.buildRange( range, fixtureContainer );
-            rangeHtml = $( "<div>" ).append( range.cloneContents() ).html(); // This conversion to HTML will automatically close partially selected nodes, if any
-            assert.equal( rangeHtml, data.selection, "selection: " + data.selection );
+            rangeHtml = $( '<div>' ).append( range.cloneContents() ).html(); // This conversion to HTML will automatically close partially selected nodes, if any
+            assert.equal( rangeHtml, data.selection, 'selection: ' + data.selection );
 
             // Highlight
             highlighter.highlightRanges( [ range ] );
-            assert.equal( fixtureContainer.innerHTML, data.output, "highlight: " + data.output );
+            assert.equal( fixtureContainer.innerHTML, data.output, 'highlight: ' + data.output );
 
             // Save highlight
             highlightIndex = highlighter.getHighlightIndex();
-            assert.ok( _.isArray( highlightIndex ), "getHighlightIndex returns an array" );
-            assert.equal( highlightIndex.length, data.highlightIndex.length, "array has the correct size" );
-            assert.deepEqual( highlightIndex, data.highlightIndex, "array has the correct content" );
+            assert.ok( _.isArray( highlightIndex ), 'getHighlightIndex returns an array' );
+            assert.equal( highlightIndex.length, data.highlightIndex.length, 'array has the correct size' );
+            assert.deepEqual( highlightIndex, data.highlightIndex, 'array has the correct content' );
 
             // Reset markup
-            fixtureContainer.innerHTML = "";
-            assert.equal( fixtureContainer.innerHTML, "", "markup has been deleted" );
+            fixtureContainer.innerHTML = '';
+            assert.equal( fixtureContainer.innerHTML, '', 'markup has been deleted' );
 
             // Re-add markup and remove any existing highlight in fixture
             fixtureContainer.innerHTML = data.input ;
@@ -844,7 +844,7 @@ define( [  "jquery", "lodash", "ui/highlighter" ], function(  $, _, highlighterF
 
             // Restore highlight
             highlighter.highlightFromIndex( highlightIndex );
-            assert.equal( fixtureContainer.innerHTML, data.output, "highlight has been restored" );
+            assert.equal( fixtureContainer.innerHTML, data.output, 'highlight has been restored' );
         } );
 
 } );

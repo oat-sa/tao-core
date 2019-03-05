@@ -17,9 +17,9 @@
  *
  *
  */
-define( [  "util/capitalize", "lodash" ], function(  capitalize, _ ) {
+define( [  'util/capitalize', 'lodash' ], function(  capitalize, _ ) {
 
-    QUnit.module( "API" );
+    QUnit.module( 'API' );
 
     QUnit.test( "util api", function( assert ) {
         assert.equal( capitalize( "lorem" ), "Lorem", "Single word input" );

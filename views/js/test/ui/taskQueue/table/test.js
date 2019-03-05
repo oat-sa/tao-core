@@ -15,107 +15,107 @@
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
  */
-define( [  "jquery", "lodash", "ui/taskQueue/table" ], function(  $, _, taskQueueTableFactory ) {
-    "use strict";
+define( [  'jquery', 'lodash', 'ui/taskQueue/table' ], function(  $, _, taskQueueTableFactory ) {
+    'use strict';
 
-    QUnit.module( "API" );
+    QUnit.module( 'API' );
 
-    QUnit.test( "factory", function( assert ) {
+    QUnit.test( 'factory', function( assert ) {
         assert.expect( 5 );
 
-        var context = "oneTypeOfSuperLongTask";
+        var context = 'oneTypeOfSuperLongTask';
         var taskTable;
 
-        assert.equal( typeof taskQueueTableFactory, "function", "The module exposes a function" );
+        assert.equal( typeof taskQueueTableFactory, 'function', 'The module exposes a function' );
 
         assert.throws( function() {
             taskQueueTableFactory();
-        }, TypeError, "The component needs to be configured" );
+        }, TypeError, 'The component needs to be configured' );
 
         assert.throws( function() {
-            taskQueueTableFactory( { context:"" } );
-        }, TypeError, "The component needs a not empty context" );
+            taskQueueTableFactory( { context:'' } );
+        }, TypeError, 'The component needs a not empty context' );
 
         taskTable = taskQueueTableFactory( { context:context } );
 
-        assert.equal( typeof taskTable, "object", "The factory creates an object" );
-        assert.notDeepEqual( taskTable, taskQueueTableFactory( { context:context } ), "The factory creates new objects" );
+        assert.equal( typeof taskTable, 'object', 'The factory creates an object' );
+        assert.notDeepEqual( taskTable, taskQueueTableFactory( { context:context } ), 'The factory creates new objects' );
     } );
 
     var pluginApi = [
-        { name: "init", title: "init" },
-        { name: "render", title: "render" },
-        { name: "destroy", title: "destroy" },
-        { name: "on", title: "on" },
-        { name: "off", title: "off" },
-        { name: "trigger", title: "trigger" }
+        { name: 'init', title: 'init' },
+        { name: 'render', title: 'render' },
+        { name: 'destroy', title: 'destroy' },
+        { name: 'on', title: 'on' },
+        { name: 'off', title: 'off' },
+        { name: 'trigger', title: 'trigger' }
     ];
 
     QUnit
         .cases.init( pluginApi )
-        .test( "component method ", function( data, assert ) {
+        .test( 'component method ', function( data, assert ) {
             assert.expect( 1 );
 
-            var context = "oneTypeOfSuperLongTask";
+            var context = 'oneTypeOfSuperLongTask';
             var taskTable = taskQueueTableFactory( { context:context } );
 
-            assert.equal( typeof taskTable[ data.name ], "function", 'The component exposes a "' + data.name + '" function' );
+            assert.equal( typeof taskTable[ data.name ], 'function', 'The component exposes a "' + data.name + '" function' );
         } );
 
-    QUnit.module( "Behavior" );
+    QUnit.module( 'Behavior' );
 
-    QUnit.test( "create table", function( assert ) {
+    QUnit.test( 'create table', function( assert ) {
         var ready = assert.async();
         assert.expect( 5 );
 
-        var context = "oneTypeOfSuperLongTask";
-        var $fixtureContainer = $( "#qunit-fixture" );
+        var context = 'oneTypeOfSuperLongTask';
+        var $fixtureContainer = $( '#qunit-fixture' );
         var taskTable = taskQueueTableFactory( { context:context } );
 
         taskTable
-            .on( "render", function() {
-                var $component = $( ".component", $fixtureContainer );
+            .on( 'render', function() {
+                var $component = $( '.component', $fixtureContainer );
 
-                assert.equal( $component.length, 1, "The component has been appended to the container" );
-                assert.ok( $component.hasClass( "rendered" ), "The component has the rendered class" );
+                assert.equal( $component.length, 1, 'The component has been appended to the container' );
+                assert.ok( $component.hasClass( 'rendered' ), 'The component has the rendered class' );
 
             } )
-            .on( "loaded", function() {
+            .on( 'loaded', function() {
 
-                var $component = $( ".component", $fixtureContainer );
-                assert.equal( $( ".datatable-container > table", $component ).length, 1, "The table is also added" );
-                assert.equal( $( ".datatable-container > table tbody tr", $component ).length, 3, "The table contains 3 rows" );
-                assert.equal( $( ".actions .btn-info", $( ".datatable-container > table tbody tr", $component )[ 0 ] ).length, 2, "Each row contains 2 buttons" );
+                var $component = $( '.component', $fixtureContainer );
+                assert.equal( $( '.datatable-container > table', $component ).length, 1, 'The table is also added' );
+                assert.equal( $( '.datatable-container > table tbody tr', $component ).length, 3, 'The table contains 3 rows' );
+                assert.equal( $( '.actions .btn-info', $( '.datatable-container > table tbody tr', $component )[ 0 ] ).length, 2, 'Each row contains 2 buttons' );
                 ready();
             } )
             .init( {
-                dataUrl: "/tao/views/js/test/ui/taskQueue/table/data.json",
-                statusUrl: "/tao/views/js/test/ui/taskQueue/table/data-status.json",
-                removeUrl: "/tao/views/js/test/ui/taskQueue/table/data-archived.json"
+                dataUrl: '/tao/views/js/test/ui/taskQueue/table/data.json',
+                statusUrl: '/tao/views/js/test/ui/taskQueue/table/data-status.json',
+                removeUrl: '/tao/views/js/test/ui/taskQueue/table/data-archived.json'
             } )
             .render( $fixtureContainer );
     } );
 
-    QUnit.test( "create table with download button", function( assert ) {
+    QUnit.test( 'create table with download button', function( assert ) {
         var ready = assert.async();
         assert.expect( 1 );
 
-        var context = "oneTypeOfSuperLongTask";
-        var $fixtureContainer = $( "#qunit-fixture" );
+        var context = 'oneTypeOfSuperLongTask';
+        var $fixtureContainer = $( '#qunit-fixture' );
         var taskTable = taskQueueTableFactory( { context:context } );
 
         taskTable
-            .on( "loaded", function() {
+            .on( 'loaded', function() {
 
-                var $component = $( ".component", $fixtureContainer );
-                assert.equal( $( ".actions .btn-info", $( ".datatable-container > table tbody tr", $component )[ 0 ] ).length, 3, "Each row contains 3 buttons" );
+                var $component = $( '.component', $fixtureContainer );
+                assert.equal( $( '.actions .btn-info', $( '.datatable-container > table tbody tr', $component )[ 0 ] ).length, 3, 'Each row contains 3 buttons' );
                 ready();
             } )
             .init( {
-                dataUrl: "/tao/views/js/test/ui/taskQueue/table/data.json",
-                statusUrl: "/tao/views/js/test/ui/taskQueue/table/data-status.json",
-                removeUrl: "/tao/views/js/test/ui/taskQueue/table/data-archived.json",
-                downloadUrl: "/tao/views/js/test/ui/taskQueue/table/data-archived.json"
+                dataUrl: '/tao/views/js/test/ui/taskQueue/table/data.json',
+                statusUrl: '/tao/views/js/test/ui/taskQueue/table/data-status.json',
+                removeUrl: '/tao/views/js/test/ui/taskQueue/table/data-archived.json',
+                downloadUrl: '/tao/views/js/test/ui/taskQueue/table/data-archived.json'
             } )
             .render( $fixtureContainer );
     } );

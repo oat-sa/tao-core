@@ -20,89 +20,89 @@
  */
 define( [
 
-    "jquery",
-    "ui/component",
-    "ui/component/placeable",
-    "ui/component/alignable"
+    'jquery',
+    'ui/component',
+    'ui/component/placeable',
+    'ui/component/alignable'
 ], function(  $, componentFactory, makePlaceable, makeAlignable ) {
-    "use strict";
+    'use strict';
 
-    var fixtureContainer = "#qunit-fixture";
+    var fixtureContainer = '#qunit-fixture';
 
-    QUnit.module( "API" );
+    QUnit.module( 'API' );
 
-    QUnit.test( "module", function( assert ) {
+    QUnit.test( 'module', function( assert ) {
         assert.expect( 1 );
 
-        assert.ok( typeof makeAlignable === "function", "The module expose a function" );
+        assert.ok( typeof makeAlignable === 'function', 'The module expose a function' );
     } );
 
     QUnit
         .cases.init( [
-            { title: "alignWith" },
-            { title: "hAlignWith" },
-            { title: "vAlignWith" },
-            { title: "_getAlignedCoords" },
-            { title: "_getDefaultHOrigin" },
-            { title: "_getDefaultVOrigin" }
+            { title: 'alignWith' },
+            { title: 'hAlignWith' },
+            { title: 'vAlignWith' },
+            { title: '_getAlignedCoords' },
+            { title: '_getDefaultHOrigin' },
+            { title: '_getDefaultVOrigin' }
         ] )
-        .test( "component API", function( data, assert ) {
+        .test( 'component API', function( data, assert ) {
             var component = makeAlignable( componentFactory() );
 
             assert.expect( 1 );
-            assert.equal( typeof component[ data.title ], "function", "The component has the method " + data.title );
+            assert.equal( typeof component[ data.title ], 'function', 'The component has the method ' + data.title );
         } );
 
-    QUnit.test( "auto makes the component placeable", function( assert ) {
+    QUnit.test( 'auto makes the component placeable', function( assert ) {
         var component = makeAlignable( componentFactory() );
         assert.expect( 1 );
-        assert.ok( makePlaceable.isPlaceable( component ), "created component is placeable" );
+        assert.ok( makePlaceable.isPlaceable( component ), 'created component is placeable' );
     } );
 
-    QUnit.module( "Alignable Component" );
+    QUnit.module( 'Alignable Component' );
 
     QUnit
         .cases.init( [
 
             // With default origins
-            { title: "centerH, centerV", hPos: "center", vPos: "center", expectedX: 350, expectedY: 325 },
-            { title: "leftH, centerV",   hPos: "left",   vPos: "center", expectedX: 200, expectedY: 325 },
-            { title: "rightH, centerV",  hPos: "right",  vPos: "center", expectedX: 500, expectedY: 325 },
-            { title: "centerH, topV",    hPos: "center", vPos: "top",    expectedX: 350, expectedY: 250 },
-            { title: "centerH, bottomV", hPos: "center", vPos: "bottom", expectedX: 350, expectedY: 400 },
+            { title: 'centerH, centerV', hPos: 'center', vPos: 'center', expectedX: 350, expectedY: 325 },
+            { title: 'leftH, centerV',   hPos: 'left',   vPos: 'center', expectedX: 200, expectedY: 325 },
+            { title: 'rightH, centerV',  hPos: 'right',  vPos: 'center', expectedX: 500, expectedY: 325 },
+            { title: 'centerH, topV',    hPos: 'center', vPos: 'top',    expectedX: 350, expectedY: 250 },
+            { title: 'centerH, bottomV', hPos: 'center', vPos: 'bottom', expectedX: 350, expectedY: 400 },
 
             // With custom hOrigin
-            { title: "centerH, hOrigin left",    hPos: "center", hOrigin: "left",    vPos: "center", expectedX: 400, expectedY: 325 },
-            { title: "centerH, hOrigin center",  hPos: "center", hOrigin: "center",  vPos: "center", expectedX: 350, expectedY: 325 },
-            { title: "centerH, hOrigin right",   hPos: "center", hOrigin: "right",   vPos: "center", expectedX: 300, expectedY: 325 },
-            { title: "leftH, hOrigin left",      hPos: "left",   hOrigin: "left",    vPos: "center", expectedX: 300, expectedY: 325 },
-            { title: "leftH, hOrigin center",    hPos: "left",   hOrigin: "center",  vPos: "center", expectedX: 250, expectedY: 325 },
-            { title: "leftH, hOrigin right",     hPos: "left",   hOrigin: "right",   vPos: "center", expectedX: 200, expectedY: 325 },
-            { title: "rightH, hOrigin left",     hPos: "right",  hOrigin: "left",    vPos: "center", expectedX: 500, expectedY: 325 },
-            { title: "rightH, hOrigin center",   hPos: "right",  hOrigin: "center",  vPos: "center", expectedX: 450, expectedY: 325 },
-            { title: "rightH, hOrigin right",    hPos: "right",  hOrigin: "right",   vPos: "center", expectedX: 400, expectedY: 325 },
+            { title: 'centerH, hOrigin left',    hPos: 'center', hOrigin: 'left',    vPos: 'center', expectedX: 400, expectedY: 325 },
+            { title: 'centerH, hOrigin center',  hPos: 'center', hOrigin: 'center',  vPos: 'center', expectedX: 350, expectedY: 325 },
+            { title: 'centerH, hOrigin right',   hPos: 'center', hOrigin: 'right',   vPos: 'center', expectedX: 300, expectedY: 325 },
+            { title: 'leftH, hOrigin left',      hPos: 'left',   hOrigin: 'left',    vPos: 'center', expectedX: 300, expectedY: 325 },
+            { title: 'leftH, hOrigin center',    hPos: 'left',   hOrigin: 'center',  vPos: 'center', expectedX: 250, expectedY: 325 },
+            { title: 'leftH, hOrigin right',     hPos: 'left',   hOrigin: 'right',   vPos: 'center', expectedX: 200, expectedY: 325 },
+            { title: 'rightH, hOrigin left',     hPos: 'right',  hOrigin: 'left',    vPos: 'center', expectedX: 500, expectedY: 325 },
+            { title: 'rightH, hOrigin center',   hPos: 'right',  hOrigin: 'center',  vPos: 'center', expectedX: 450, expectedY: 325 },
+            { title: 'rightH, hOrigin right',    hPos: 'right',  hOrigin: 'right',   vPos: 'center', expectedX: 400, expectedY: 325 },
 
             // With custom vOrigin
-            { title: "centerV, vOrigin top",     hPos: "center", vOrigin: "top",    vPos: "center", expectedX: 350, expectedY: 350 },
-            { title: "centerV, vOrigin center",  hPos: "center", vOrigin: "center", vPos: "center", expectedX: 350, expectedY: 325 },
-            { title: "centerV, vOrigin bottom",  hPos: "center", vOrigin: "bottom", vPos: "center", expectedX: 350, expectedY: 300 },
-            { title: "topV, vOrigin top",        hPos: "center", vOrigin: "top",    vPos: "top",    expectedX: 350, expectedY: 300 },
-            { title: "topV, vOrigin center",     hPos: "center", vOrigin: "center", vPos: "top",    expectedX: 350, expectedY: 275 },
-            { title: "topV, vOrigin bottom",     hPos: "center", vOrigin: "bottom", vPos: "top",    expectedX: 350, expectedY: 250 },
-            { title: "bottomV, vOrigin top",     hPos: "center", vOrigin: "top",    vPos: "bottom", expectedX: 350, expectedY: 400 },
-            { title: "bottomV, vOrigin center",  hPos: "center", vOrigin: "center", vPos: "bottom", expectedX: 350, expectedY: 375 },
-            { title: "bottomV, vOrigin bottom",  hPos: "center", vOrigin: "bottom", vPos: "bottom", expectedX: 350, expectedY: 350 },
+            { title: 'centerV, vOrigin top',     hPos: 'center', vOrigin: 'top',    vPos: 'center', expectedX: 350, expectedY: 350 },
+            { title: 'centerV, vOrigin center',  hPos: 'center', vOrigin: 'center', vPos: 'center', expectedX: 350, expectedY: 325 },
+            { title: 'centerV, vOrigin bottom',  hPos: 'center', vOrigin: 'bottom', vPos: 'center', expectedX: 350, expectedY: 300 },
+            { title: 'topV, vOrigin top',        hPos: 'center', vOrigin: 'top',    vPos: 'top',    expectedX: 350, expectedY: 300 },
+            { title: 'topV, vOrigin center',     hPos: 'center', vOrigin: 'center', vPos: 'top',    expectedX: 350, expectedY: 275 },
+            { title: 'topV, vOrigin bottom',     hPos: 'center', vOrigin: 'bottom', vPos: 'top',    expectedX: 350, expectedY: 250 },
+            { title: 'bottomV, vOrigin top',     hPos: 'center', vOrigin: 'top',    vPos: 'bottom', expectedX: 350, expectedY: 400 },
+            { title: 'bottomV, vOrigin center',  hPos: 'center', vOrigin: 'center', vPos: 'bottom', expectedX: 350, expectedY: 375 },
+            { title: 'bottomV, vOrigin bottom',  hPos: 'center', vOrigin: 'bottom', vPos: 'bottom', expectedX: 350, expectedY: 350 },
 
             // With offsets
-            { title: "positive Offset", hPos: "center", vPos: "center", hOffset:  10, vOffset:  10, expectedX: 360, expectedY: 335 },
-            { title: "negative Offset", hPos: "center", vPos: "center", hOffset: -10, vOffset: -10, expectedX: 340, expectedY: 315 }
+            { title: 'positive Offset', hPos: 'center', vPos: 'center', hOffset:  10, vOffset:  10, expectedX: 360, expectedY: 335 },
+            { title: 'negative Offset', hPos: 'center', vPos: 'center', hOffset: -10, vOffset: -10, expectedX: 340, expectedY: 315 }
 
         ] )
-        .test( ".alignWith(), .hAlignWith(), .vAlignWith()", function( data, assert ) {
+        .test( '.alignWith(), .hAlignWith(), .vAlignWith()', function( data, assert ) {
             var ready = assert.async();
             var component = makeAlignable( componentFactory() ),
                 $container = $( fixtureContainer ),
-                $refElement = ( $( "<div>REFERENCE</div>" ) ),
+                $refElement = ( $( '<div>REFERENCE</div>' ) ),
                 moveCounter = 0;
 
             assert.expect( 13 );
@@ -110,15 +110,15 @@ define( [
             $container.append( $refElement );
 
             $refElement.css( {
-                position: "absolute",
-                width: "200px",
-                height: "100px",
-                left: "300px",
-                top: "300px"
+                position: 'absolute',
+                width: '200px',
+                height: '100px',
+                left: '300px',
+                top: '300px'
             } );
 
             component
-                .on( "render", function() {
+                .on( 'render', function() {
                     this.alignWith( $refElement, {
                         hPos: data.hPos,
                         vPos: data.vPos,
@@ -128,7 +128,7 @@ define( [
                         vOffset: data.vOffset
                     } );
                 } )
-                .on( "move", function() {
+                .on( 'move', function() {
                     var componentPosition;
 
                     moveCounter++;
@@ -137,14 +137,14 @@ define( [
                     if ( moveCounter === 2 ) {
                         componentPosition = this.getPosition();
 
-                        assert.ok( true, "move event has been triggered" );
-                        assert.equal( componentPosition.x, data.expectedX, "component has the correct x position" );
-                        assert.equal( componentPosition.y, data.expectedY, "component has the correct y position" );
+                        assert.ok( true, 'move event has been triggered' );
+                        assert.equal( componentPosition.x, data.expectedX, 'component has the correct x position' );
+                        assert.equal( componentPosition.y, data.expectedY, 'component has the correct y position' );
 
                         this.resetPosition();
                         componentPosition = this.getPosition();
-                        assert.equal( componentPosition.x, 0, "component x position has been reset" );
-                        assert.equal( componentPosition.y, 0, "component y position has been reset" );
+                        assert.equal( componentPosition.x, 0, 'component x position has been reset' );
+                        assert.equal( componentPosition.y, 0, 'component y position has been reset' );
 
                         this.hAlignWith( $refElement, data.hPos, data.hOrigin, data.hOffset );
 
@@ -152,14 +152,14 @@ define( [
                     } else if ( moveCounter === 4 ) {
                         componentPosition = this.getPosition();
 
-                        assert.ok( true, "move event has been triggered" );
-                        assert.equal( componentPosition.x, data.expectedX, "component has the correct x position" );
-                        assert.equal( componentPosition.y, 0, "component has the correct y position" );
+                        assert.ok( true, 'move event has been triggered' );
+                        assert.equal( componentPosition.x, data.expectedX, 'component has the correct x position' );
+                        assert.equal( componentPosition.y, 0, 'component has the correct y position' );
 
                         this.resetPosition();
                         componentPosition = this.getPosition();
-                        assert.equal( componentPosition.x, 0, "component x position has been reset" );
-                        assert.equal( componentPosition.y, 0, "component y position has been reset" );
+                        assert.equal( componentPosition.x, 0, 'component x position has been reset' );
+                        assert.equal( componentPosition.y, 0, 'component y position has been reset' );
 
                         this.vAlignWith( $refElement, data.vPos, data.vOrigin, data.vOffset ) ;
 
@@ -167,9 +167,9 @@ define( [
                     } else if ( moveCounter === 6 ) {
                         componentPosition = this.getPosition();
 
-                        assert.ok( true, "move event has been triggered" );
-                        assert.equal( componentPosition.x, 0, "component has the correct x position" );
-                        assert.equal( componentPosition.y, data.expectedY, "component has the correct y position" );
+                        assert.ok( true, 'move event has been triggered' );
+                        assert.equal( componentPosition.x, 0, 'component has the correct x position' );
+                        assert.equal( componentPosition.y, data.expectedY, 'component has the correct y position' );
 
                         ready();
                     }
@@ -181,35 +181,35 @@ define( [
                 .render( $container );
         } );
 
-    QUnit.module( "Visual test" );
+    QUnit.module( 'Visual test' );
 
-    QUnit.test( "display and play", function( assert ) {
+    QUnit.test( 'display and play', function( assert ) {
         var ready = assert.async();
         var component = makeAlignable( componentFactory() ),
-            $container = $( "#outside" );
+            $container = $( '#outside' );
 
         assert.expect( 1 );
 
         component
-            .on( "render", function() {
+            .on( 'render', function() {
                 var self = this,
-                    $target = $container.find( "#target" ),
-                    $hPos = $container.find( "#hPos" ),
-                    $vPos = $container.find( "#vPos" ),
-                    $hOrigin = $container.find( "#hOrigin" ),
-                    $vOrigin = $container.find( "#vOrigin" );
+                    $target = $container.find( '#target' ),
+                    $hPos = $container.find( '#hPos' ),
+                    $vPos = $container.find( '#vPos' ),
+                    $hOrigin = $container.find( '#hOrigin' ),
+                    $vOrigin = $container.find( '#vOrigin' );
 
-                $container.find( "select" ).on( "change", function( e ) {
+                $container.find( 'select' ).on( 'change', function( e ) {
                     var options = {
                         hPos: $hPos.val(),
                         vPos: $vPos.val()
                     };
                     e.preventDefault();
 
-                    if ( $hOrigin.val() && $hOrigin.val() !== "default" ) {
+                    if ( $hOrigin.val() && $hOrigin.val() !== 'default' ) {
                         options.hOrigin = $hOrigin.val();
                     }
-                    if ( $vOrigin.val() && $vOrigin.val() !== "default" ) {
+                    if ( $vOrigin.val() && $vOrigin.val() !== 'default' ) {
                         options.vOrigin = $vOrigin.val();
                     }
 

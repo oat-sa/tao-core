@@ -18,24 +18,24 @@
 /**
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
-define( [  "lib/gamp/gamp" ], function(  gamp ) {
-    "use strict";
+define( [  'lib/gamp/gamp' ], function(  gamp ) {
+    'use strict';
 
-    QUnit.module( "gamp" );
+    QUnit.module( 'gamp' );
 
-    QUnit.test( "module", function( assert ) {
+    QUnit.test( 'module', function( assert ) {
         assert.expect( 8 );
-        assert.equal( typeof gamp, "function", "The gamp module exposes a function" );
-        assert.equal( typeof gamp.normalize, "function", "The gamp API exposes the normalize() function" );
-        assert.equal( typeof gamp.round, "function", "The gamp API exposes the round() function" );
-        assert.equal( typeof gamp.add, "function", "The gamp API exposes the add() function" );
-        assert.equal( typeof gamp.sub, "function", "The gamp API exposes the sub() function" );
-        assert.equal( typeof gamp.mul, "function", "The gamp API exposes the mul() function" );
-        assert.equal( typeof gamp.div, "function", "The gamp API exposes the div() function" );
-        assert.equal( typeof gamp.pow, "function", "The gamp API exposes the div() function" );
+        assert.equal( typeof gamp, 'function', 'The gamp module exposes a function' );
+        assert.equal( typeof gamp.normalize, 'function', 'The gamp API exposes the normalize() function' );
+        assert.equal( typeof gamp.round, 'function', 'The gamp API exposes the round() function' );
+        assert.equal( typeof gamp.add, 'function', 'The gamp API exposes the add() function' );
+        assert.equal( typeof gamp.sub, 'function', 'The gamp API exposes the sub() function' );
+        assert.equal( typeof gamp.mul, 'function', 'The gamp API exposes the mul() function' );
+        assert.equal( typeof gamp.div, 'function', 'The gamp API exposes the div() function' );
+        assert.equal( typeof gamp.pow, 'function', 'The gamp API exposes the div() function' );
     } );
 
-    QUnit.test( "gamp", function( assert ) {
+    QUnit.test( 'gamp', function( assert ) {
         var checks = [
             { numbers: [ 42 ], precision: 1 },
             { numbers: [ 0.1 ], precision: 10 },
@@ -47,11 +47,11 @@ define( [  "lib/gamp/gamp" ], function(  gamp ) {
 
         assert.expect( checks.length );
         checks.forEach( function( check ) {
-            assert.equal( gamp.apply( gamp, check.numbers ), check.precision, "The approached decimal precision for " + check.numbers.join( ", " ) + " is " + check.precision );
+            assert.equal( gamp.apply( gamp, check.numbers ), check.precision, 'The approached decimal precision for ' + check.numbers.join( ', ' ) + ' is ' + check.precision );
         } );
     } );
 
-    QUnit.test( "normalize", function( assert ) {
+    QUnit.test( 'normalize', function( assert ) {
         var checks = [
             { value: 42, factor: 10, result: 420 },
             { value: 4.2, factor: 10, result: 42 },
@@ -61,11 +61,11 @@ define( [  "lib/gamp/gamp" ], function(  gamp ) {
 
         assert.expect( checks.length );
         checks.forEach( function( check ) {
-            assert.equal( gamp.normalize( check.value, check.factor ), check.result, "The normalized value of " + check.value + " by " + check.factor + " is " + check.result );
+            assert.equal( gamp.normalize( check.value, check.factor ), check.result, 'The normalized value of ' + check.value + ' by ' + check.factor + ' is ' + check.result );
         } );
     } );
 
-    QUnit.test( "round", function( assert ) {
+    QUnit.test( 'round', function( assert ) {
         var checks = [
             { value: 42, result: 42 },
             { value: 5.0000000000000002, result: 5 },
@@ -79,13 +79,13 @@ define( [  "lib/gamp/gamp" ], function(  gamp ) {
 
         assert.expect( checks.length );
         checks.forEach( function( check ) {
-            assert.equal( gamp.round( check.value, check.precision ), check.result, "The formated value of " + check.value + " is " + check.result );
+            assert.equal( gamp.round( check.value, check.precision ), check.result, 'The formated value of ' + check.value + ' is ' + check.result );
         } );
     } );
 
-    QUnit.module( "simple" );
+    QUnit.module( 'simple' );
 
-    QUnit.test( "add", function( assert ) {
+    QUnit.test( 'add', function( assert ) {
         var checks = [
             { left: 3, right: 4, result: 7 },
             { left: 0.1, right: 0.2, result: 0.3 },
@@ -96,11 +96,11 @@ define( [  "lib/gamp/gamp" ], function(  gamp ) {
 
         assert.expect( checks.length );
         checks.forEach( function( check ) {
-            assert.equal( gamp.add( check.left, check.right ), check.result, "The result of " + check.left + " + " + check.right + " is " + check.result );
+            assert.equal( gamp.add( check.left, check.right ), check.result, 'The result of ' + check.left + ' + ' + check.right + ' is ' + check.result );
         } );
     } );
 
-    QUnit.test( "sub", function( assert ) {
+    QUnit.test( 'sub', function( assert ) {
         var checks = [
             { left: 17, right: 11, result: 6 },
             { left: 0.1, right: 0.1, result: 0 },
@@ -111,11 +111,11 @@ define( [  "lib/gamp/gamp" ], function(  gamp ) {
 
         assert.expect( checks.length );
         checks.forEach( function( check ) {
-            assert.equal( gamp.sub( check.left, check.right ), check.result, "The result of " + check.left + " - " + check.right + " is " + check.result );
+            assert.equal( gamp.sub( check.left, check.right ), check.result, 'The result of ' + check.left + ' - ' + check.right + ' is ' + check.result );
         } );
     } );
 
-    QUnit.test( "mul", function( assert ) {
+    QUnit.test( 'mul', function( assert ) {
         var checks = [
             { left: 6, right: 7, result: 42 },
             { left: 0.1, right: 0.2, result: 0.02 },
@@ -127,11 +127,11 @@ define( [  "lib/gamp/gamp" ], function(  gamp ) {
 
         assert.expect( checks.length );
         checks.forEach( function( check ) {
-            assert.equal( gamp.mul( check.left, check.right ), check.result, "The result of " + check.left + " x " + check.right + " is " + check.result );
+            assert.equal( gamp.mul( check.left, check.right ), check.result, 'The result of ' + check.left + ' x ' + check.right + ' is ' + check.result );
         } );
     } );
 
-    QUnit.test( "div", function( assert ) {
+    QUnit.test( 'div', function( assert ) {
         var checks = [
             { left: 77, right: 7, result: 11 },
             { left: 0.1, right: 0.2, result: 0.5 },
@@ -142,11 +142,11 @@ define( [  "lib/gamp/gamp" ], function(  gamp ) {
 
         assert.expect( checks.length );
         checks.forEach( function( check ) {
-            assert.equal( gamp.div( check.left, check.right ), check.result, "The result of " + check.left + " / " + check.right + " is " + check.result );
+            assert.equal( gamp.div( check.left, check.right ), check.result, 'The result of ' + check.left + ' / ' + check.right + ' is ' + check.result );
         } );
     } );
 
-    QUnit.test( "pow", function( assert ) {
+    QUnit.test( 'pow', function( assert ) {
         var checks = [
             { left: 2, right: 4, result: 16 },
             { left: 10, right: 3, result: 1000 },
@@ -158,13 +158,13 @@ define( [  "lib/gamp/gamp" ], function(  gamp ) {
 
         assert.expect( checks.length );
         checks.forEach( function( check ) {
-            assert.equal( gamp.pow( check.left, check.right ), check.result, "The result of " + check.left + " ^ " + check.right + " is " + check.result );
+            assert.equal( gamp.pow( check.left, check.right ), check.result, 'The result of ' + check.left + ' ^ ' + check.right + ' is ' + check.result );
         } );
     } );
 
-    QUnit.module( "reciprocal" );
+    QUnit.module( 'reciprocal' );
 
-    QUnit.test( "add", function( assert ) {
+    QUnit.test( 'add', function( assert ) {
         var checks = [
             { left: 3, right: 4 },
             { left: 0.1, right: 0.2 },
@@ -180,12 +180,12 @@ define( [  "lib/gamp/gamp" ], function(  gamp ) {
         assert.expect( checks.length * 2 );
         checks.forEach( function( check ) {
             var result = gamp.add( check.left, check.right );
-            assert.equal( gamp.sub( result, check.right ), check.left, "The result of " + check.left + " + " + check.right + " should be reversed to the left operand" );
-            assert.equal( gamp.sub( result, check.left ), check.right, "The result of " + check.left + " + " + check.right + " should be reversed to the right operand" );
+            assert.equal( gamp.sub( result, check.right ), check.left, 'The result of ' + check.left + ' + ' + check.right + ' should be reversed to the left operand' );
+            assert.equal( gamp.sub( result, check.left ), check.right, 'The result of ' + check.left + ' + ' + check.right + ' should be reversed to the right operand' );
         } );
     } );
 
-    QUnit.test( "sub", function( assert ) {
+    QUnit.test( 'sub', function( assert ) {
         var checks = [
             { left: 3, right: 4 },
             { left: 0.1, right: 0.2 },
@@ -201,12 +201,12 @@ define( [  "lib/gamp/gamp" ], function(  gamp ) {
         assert.expect( checks.length * 2 );
         checks.forEach( function( check ) {
             var result = gamp.sub( check.left, check.right );
-            assert.equal( gamp.add( result, check.right ), check.left, "The result of " + check.left + " - " + check.right + " should be reversed to the left operand" );
-            assert.equal( gamp.sub( check.left, result ), check.right, "The result of " + check.left + " - " + check.right + " should be reversed to the right operand" );
+            assert.equal( gamp.add( result, check.right ), check.left, 'The result of ' + check.left + ' - ' + check.right + ' should be reversed to the left operand' );
+            assert.equal( gamp.sub( check.left, result ), check.right, 'The result of ' + check.left + ' - ' + check.right + ' should be reversed to the right operand' );
         } );
     } );
 
-    QUnit.test( "mul", function( assert ) {
+    QUnit.test( 'mul', function( assert ) {
         var checks = [
             { left: 6, right: 7 },
             { left: 0.1, right: 0.2 },
@@ -219,12 +219,12 @@ define( [  "lib/gamp/gamp" ], function(  gamp ) {
         assert.expect( checks.length * 2 );
         checks.forEach( function( check ) {
             var result = gamp.mul( check.left, check.right );
-            assert.equal( gamp.div( result, check.right ), check.left, "The result of " + check.left + " * " + check.right + " should be reversed to the left operand" );
-            assert.equal( gamp.div( result, check.left ), check.right, "The result of " + check.left + " * " + check.right + " should be reversed to the right operand" );
+            assert.equal( gamp.div( result, check.right ), check.left, 'The result of ' + check.left + ' * ' + check.right + ' should be reversed to the left operand' );
+            assert.equal( gamp.div( result, check.left ), check.right, 'The result of ' + check.left + ' * ' + check.right + ' should be reversed to the right operand' );
         } );
     } );
 
-    QUnit.test( "div", function( assert ) {
+    QUnit.test( 'div', function( assert ) {
         var checks = [
             { left: 77, right: 7 },
             { left: 0.1, right: 0.2 },
@@ -236,25 +236,25 @@ define( [  "lib/gamp/gamp" ], function(  gamp ) {
         assert.expect( checks.length * 2 );
         checks.forEach( function( check ) {
             var result = gamp.div( check.left, check.right );
-            assert.equal( gamp.round( result * check.right ), check.left, "The result of " + check.left + " / " + check.right + " should be reversed to the left operand" );
-            assert.equal( gamp.round( check.left / result ), check.right, "The result of " + check.left + " / " + check.right + " should be reversed to the right operand" );
+            assert.equal( gamp.round( result * check.right ), check.left, 'The result of ' + check.left + ' / ' + check.right + ' should be reversed to the left operand' );
+            assert.equal( gamp.round( check.left / result ), check.right, 'The result of ' + check.left + ' / ' + check.right + ' should be reversed to the right operand' );
         } );
     } );
 
-    QUnit.test( "pow", function( assert ) {
+    QUnit.test( 'pow', function( assert ) {
         var checks = [ 1, 2, 3, 4, 5 ];
 
         assert.expect( checks.length * 2 );
         checks.forEach( function( value ) {
             var result = Math.sqrt( value );
-            assert.equal( Math.sqrt( gamp.pow( value, 2 ) ), value, "The result of " + value + " ^ 2 should be reversed to the original value" );
-            assert.equal( gamp.pow( result, 2 ), value, "The result of sqrt(" + value + ") should be reversed to the original value" );
+            assert.equal( Math.sqrt( gamp.pow( value, 2 ) ), value, 'The result of ' + value + ' ^ 2 should be reversed to the original value' );
+            assert.equal( gamp.pow( result, 2 ), value, 'The result of sqrt(' + value + ') should be reversed to the original value' );
         } );
     } );
 
-    QUnit.module( "cumulative" );
+    QUnit.module( 'cumulative' );
 
-    QUnit.test( "add", function( assert ) {
+    QUnit.test( 'add', function( assert ) {
         var checks = [
             { operands: [ 3, 4, 5, 6 ], result: 18 },
             { operands: [ 4.52, 4.49, 4.45, 4.51, 3.26, 4.38 ], result: 25.61 },
@@ -268,11 +268,11 @@ define( [  "lib/gamp/gamp" ], function(  gamp ) {
                 result = gamp.add( result, operand );
             } );
 
-            assert.equal( result, check.result, "The result of " + check.operands.join( " + " ) + " is " + check.result );
+            assert.equal( result, check.result, 'The result of ' + check.operands.join( ' + ' ) + ' is ' + check.result );
         } );
     } );
 
-    QUnit.test( "sub", function( assert ) {
+    QUnit.test( 'sub', function( assert ) {
         var checks = [
             { operands: [ 3, 4, 5, 6 ], result: -12 },
             { operands: [ 4.52, 4.49, 4.45, 4.51, 3.26, 4.38 ], result: -16.57 },
@@ -286,11 +286,11 @@ define( [  "lib/gamp/gamp" ], function(  gamp ) {
                 result = gamp.sub( result, check.operands[ i ] );
             }
 
-            assert.equal( result, check.result, "The result of " + check.operands.join( " - " ) + " is " + check.result );
+            assert.equal( result, check.result, 'The result of ' + check.operands.join( ' - ' ) + ' is ' + check.result );
         } );
     } );
 
-    QUnit.test( "mul", function( assert ) {
+    QUnit.test( 'mul', function( assert ) {
         var checks = [
             { operands: [ 3, 4, 5, 6 ], result: 360 },
             { operands: [ 4.52, 4.49, 4.45, 4.51, 3.26, 4.38 ], result: 5815.84788942168 },
@@ -304,11 +304,11 @@ define( [  "lib/gamp/gamp" ], function(  gamp ) {
                 result = gamp.mul( result, operand );
             } );
 
-            assert.equal( result, check.result, "The result of " + check.operands.join( " * " ) + " is " + check.result );
+            assert.equal( result, check.result, 'The result of ' + check.operands.join( ' * ' ) + ' is ' + check.result );
         } );
     } );
 
-    QUnit.test( "div", function( assert ) {
+    QUnit.test( 'div', function( assert ) {
         var checks = [
             { operands: [ 3, 4, 5, 6 ], result: 0.025 },
             { operands: [ 4.52, 4.49, 4.45, 4.51, 3.26, 4.38 ], result: 0.003512884172428308 },
@@ -323,11 +323,11 @@ define( [  "lib/gamp/gamp" ], function(  gamp ) {
                 result = gamp.div( result, check.operands[ i ] );
             }
 
-            assert.equal( result, check.result, "The result of " + check.operands.join( " / " ) + " is " + check.result );
+            assert.equal( result, check.result, 'The result of ' + check.operands.join( ' / ' ) + ' is ' + check.result );
         } );
     } );
 
-    QUnit.test( "pow", function( assert ) {
+    QUnit.test( 'pow', function( assert ) {
         var checks = [
             { operands: [ 3, 4, 5, 6 ], result: 1.79701029991443e57 },
             { operands: [ 4.52, 2, 4 ], result: 174223.798626316 },
@@ -342,17 +342,17 @@ define( [  "lib/gamp/gamp" ], function(  gamp ) {
                 result = gamp.pow( result, check.operands[ i ] );
             }
 
-            assert.equal( result, check.result, "The result of " + check.operands.join( " ^ " ) + " is " + check.result );
+            assert.equal( result, check.result, 'The result of ' + check.operands.join( ' ^ ' ) + ' is ' + check.result );
         } );
     } );
 
-    QUnit.module( "complex" );
+    QUnit.module( 'complex' );
 
-    QUnit.test( "expression", function( assert ) {
+    QUnit.test( 'expression', function( assert ) {
         var checks = [
-            { expression: [ 3, "+", 4, "-", 5, "*", 6, "/", 7 ], result: 1.714285714285714 },
-            { expression: [ 1.11, "*", 5, "/", 5, "*", 5, "/", 5 ], result: 1.11 },
-            { expression: [ 5, "^", 2, "/", 5, "^", 2, "/", 5 ], result: 5 }
+            { expression: [ 3, '+', 4, '-', 5, '*', 6, '/', 7 ], result: 1.714285714285714 },
+            { expression: [ 1.11, '*', 5, '/', 5, '*', 5, '/', 5 ], result: 1.11 },
+            { expression: [ 5, '^', 2, '/', 5, '^', 2, '/', 5 ], result: 5 }
         ];
 
         assert.expect( checks.length );
@@ -364,15 +364,15 @@ define( [  "lib/gamp/gamp" ], function(  gamp ) {
                 operator = expression.shift();
                 operand = expression.shift();
                 switch ( operator ) {
-                    case "+": result = gamp.add( result, operand ); break;
-                    case "-": result = gamp.sub( result, operand ); break;
-                    case "*": result = gamp.mul( result, operand ); break;
-                    case "/": result = gamp.div( result, operand ); break;
-                    case "^": result = gamp.pow( result, operand ); break;
+                    case '+': result = gamp.add( result, operand ); break;
+                    case '-': result = gamp.sub( result, operand ); break;
+                    case '*': result = gamp.mul( result, operand ); break;
+                    case '/': result = gamp.div( result, operand ); break;
+                    case '^': result = gamp.pow( result, operand ); break;
                 }
             }
 
-            assert.equal( result, check.result, "The result of " + check.expression.join( " " ) + " is " + check.result );
+            assert.equal( result, check.result, 'The result of ' + check.expression.join( ' ' ) + ' is ' + check.result );
         } );
     } );
 } );

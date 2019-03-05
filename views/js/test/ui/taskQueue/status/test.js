@@ -15,85 +15,85 @@
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
  */
-define( [  "jquery", "lodash", "ui/taskQueue/status" ], function(  $, _, taskQueueStatusFactory ) {
-    "use strict";
+define( [  'jquery', 'lodash', 'ui/taskQueue/status' ], function(  $, _, taskQueueStatusFactory ) {
+    'use strict';
 
-    QUnit.module( "API" );
+    QUnit.module( 'API' );
 
-    QUnit.test( "factory", function( assert ) {
+    QUnit.test( 'factory', function( assert ) {
         assert.expect( 5 );
 
-        var serviceUrl = "dummy/service/url";
+        var serviceUrl = 'dummy/service/url';
         var taskStatus;
         var taskStatusBis;
 
-        assert.equal( typeof taskQueueStatusFactory, "function", "The module exposes a function" );
+        assert.equal( typeof taskQueueStatusFactory, 'function', 'The module exposes a function' );
 
         assert.throws( function() {
             taskQueueStatusFactory();
-        }, TypeError, "The component needs to be configured" );
+        }, TypeError, 'The component needs to be configured' );
 
         assert.throws( function() {
-            taskQueueStatusFactory( { context:"" } );
-        }, TypeError, "The component needs a not empty context" );
+            taskQueueStatusFactory( { context:'' } );
+        }, TypeError, 'The component needs a not empty context' );
 
         taskStatus = taskQueueStatusFactory( { serviceUrl:serviceUrl } );
 
-        assert.equal( typeof taskStatus, "object", "The factory creates an object" );
+        assert.equal( typeof taskStatus, 'object', 'The factory creates an object' );
 
         taskStatusBis = taskQueueStatusFactory( { serviceUrl:serviceUrl } );
-        assert.notDeepEqual( taskStatus, taskStatusBis, "The factory creates new objects" );
+        assert.notDeepEqual( taskStatus, taskStatusBis, 'The factory creates new objects' );
 
     } );
 
     var pluginApi = [
-        { name: "init", title: "init" },
-        { name: "render", title: "render" },
-        { name: "destroy", title: "destroy" },
-        { name: "on", title: "on" },
-        { name: "off", title: "off" },
-        { name: "trigger", title: "trigger" },
-        { name: "start", title: "start" },
-        { name: "stop", title: "stop" }
+        { name: 'init', title: 'init' },
+        { name: 'render', title: 'render' },
+        { name: 'destroy', title: 'destroy' },
+        { name: 'on', title: 'on' },
+        { name: 'off', title: 'off' },
+        { name: 'trigger', title: 'trigger' },
+        { name: 'start', title: 'start' },
+        { name: 'stop', title: 'stop' }
     ];
 
     QUnit
         .cases.init( pluginApi )
-        .test( "component method ", function( data, assert ) {
+        .test( 'component method ', function( data, assert ) {
             assert.expect( 1 );
 
-            var serviceUrl = "dummy/service/url";
+            var serviceUrl = 'dummy/service/url';
             var status = taskQueueStatusFactory( { serviceUrl:serviceUrl } );
 
-            assert.equal( typeof status[ data.name ], "function", 'The component exposes a "' + data.name + '" function' );
+            assert.equal( typeof status[ data.name ], 'function', 'The component exposes a "' + data.name + '" function' );
         } );
 
-    QUnit.module( "Rendering" );
+    QUnit.module( 'Rendering' );
 
-    QUnit.test( "status running", function( assert ) {
+    QUnit.test( 'status running', function( assert ) {
         var ready = assert.async();
         assert.expect( 6 );
 
-        var serviceUrl = "/tao/views/js/test/ui/taskQueue/status/data-running.json";
-        var $fixtureContainer = $( "#qunit-fixture" );
+        var serviceUrl = '/tao/views/js/test/ui/taskQueue/status/data-running.json';
+        var $fixtureContainer = $( '#qunit-fixture' );
         var status = taskQueueStatusFactory( {
-            taskId:"task#123456xyz",
+            taskId:'task#123456xyz',
             serviceUrl:serviceUrl
         } );
 
         status
-            .on( "render", function() {
-                var $component = $( ".task-queue-status ", $fixtureContainer );
-                assert.equal( $component.length, 1, "The component has been appended to the container" );
-                assert.ok( $component.hasClass( "rendered" ), "The component has the rendered class" );
+            .on( 'render', function() {
+                var $component = $( '.task-queue-status ', $fixtureContainer );
+                assert.equal( $component.length, 1, 'The component has been appended to the container' );
+                assert.ok( $component.hasClass( 'rendered' ), 'The component has the rendered class' );
             } )
-            .on( "running", function() {
+            .on( 'running', function() {
                 status.stop();
 
-                assert.equal( this.$component.find( ".component-report" ).length, 1, "a report has been attached to the status" );
-                assert.equal( status.$component.find( ".component-report .icon-info" ).length, 1, "the status report is of an info type" );
-                assert.equal( status.$component.find( ".component-report .hierarchical" ).length, 0, "the status report has no children" );
-                assert.equal( status.$component.find( ".component-report .fold" ).length, 0, "the status report has no show details button" );
+                assert.equal( this.$component.find( '.component-report' ).length, 1, 'a report has been attached to the status' );
+                assert.equal( status.$component.find( '.component-report .icon-info' ).length, 1, 'the status report is of an info type' );
+                assert.equal( status.$component.find( '.component-report .hierarchical' ).length, 0, 'the status report has no children' );
+                assert.equal( status.$component.find( '.component-report .fold' ).length, 0, 'the status report has no show details button' );
 
                 ready();
             } )
@@ -101,31 +101,31 @@ define( [  "jquery", "lodash", "ui/taskQueue/status" ], function(  $, _, taskQue
             .start();
     } );
 
-    QUnit.test( "status finished", function( assert ) {
+    QUnit.test( 'status finished', function( assert ) {
         var ready = assert.async();
         assert.expect( 7 );
 
-        var serviceUrl = "/tao/views/js/test/ui/taskQueue/status/data-finished.json";
-        var $fixtureContainer = $( "#qunit-fixture" );
+        var serviceUrl = '/tao/views/js/test/ui/taskQueue/status/data-finished.json';
+        var $fixtureContainer = $( '#qunit-fixture' );
         var status = taskQueueStatusFactory( {
-            taskId:"task#123456xyz",
+            taskId:'task#123456xyz',
             serviceUrl:serviceUrl
         } );
 
         status
-            .on( "render", function() {
-                var $component = $( ".task-queue-status ", $fixtureContainer );
-                assert.equal( $component.length, 1, "The component has been appended to the container" );
-                assert.ok( $component.hasClass( "rendered" ), "The component has the rendered class" );
+            .on( 'render', function() {
+                var $component = $( '.task-queue-status ', $fixtureContainer );
+                assert.equal( $component.length, 1, 'The component has been appended to the container' );
+                assert.ok( $component.hasClass( 'rendered' ), 'The component has the rendered class' );
             } )
-            .on( "finished", function() {
+            .on( 'finished', function() {
                 status.stop();
 
-                assert.equal( this.$component.find( ".component-report" ).length, 1, "a report has been attached to the status" );
-                assert.equal( status.$component.find( ".component-report .fold" ).length, 1, "the status report has the show details button" );
-                assert.ok( status.$component.find( ".component-report .content > .hierarchical" ).hasClass( "feedback-warning" ), 1, "the status report inherit the type of the report" );
-                assert.equal( status.$component.find( ".component-report .hierarchical" ).length, 4, "the report has 4 hierarchical reports" );
-                assert.equal( status.$component.find( ".component-report .leaf" ).length, 3, "the report has 3 leaf reports" );
+                assert.equal( this.$component.find( '.component-report' ).length, 1, 'a report has been attached to the status' );
+                assert.equal( status.$component.find( '.component-report .fold' ).length, 1, 'the status report has the show details button' );
+                assert.ok( status.$component.find( '.component-report .content > .hierarchical' ).hasClass( 'feedback-warning' ), 1, 'the status report inherit the type of the report' );
+                assert.equal( status.$component.find( '.component-report .hierarchical' ).length, 4, 'the report has 4 hierarchical reports' );
+                assert.equal( status.$component.find( '.component-report .leaf' ).length, 3, 'the report has 3 leaf reports' );
 
                 ready();
             } )
@@ -133,44 +133,44 @@ define( [  "jquery", "lodash", "ui/taskQueue/status" ], function(  $, _, taskQue
             .start();
     } );
 
-    QUnit.module( "Behaviour" );
+    QUnit.module( 'Behaviour' );
 
-    QUnit.test( "toggle details", function( assert ) {
+    QUnit.test( 'toggle details', function( assert ) {
         var ready = assert.async();
         assert.expect( 12 );
 
-        var serviceUrl = "/tao/views/js/test/ui/taskQueue/status/data-finished.json";
-        var $fixtureContainer = $( "#qunit-fixture" );
+        var serviceUrl = '/tao/views/js/test/ui/taskQueue/status/data-finished.json';
+        var $fixtureContainer = $( '#qunit-fixture' );
         var status = taskQueueStatusFactory( {
-            taskId:"task#123456xyz",
+            taskId:'task#123456xyz',
             serviceUrl:serviceUrl
         } );
         var $checkbox;
 
         status
-            .on( "render", function() {
-                var $component = $( ".task-queue-status ", $fixtureContainer );
-                assert.equal( $component.length, 1, "The component has been appended to the container" );
-                assert.ok( $component.hasClass( "rendered" ), "The component has the rendered class" );
+            .on( 'render', function() {
+                var $component = $( '.task-queue-status ', $fixtureContainer );
+                assert.equal( $component.length, 1, 'The component has been appended to the container' );
+                assert.ok( $component.hasClass( 'rendered' ), 'The component has the rendered class' );
             } )
-            .on( "finished", function() {
+            .on( 'finished', function() {
 
-                assert.equal( this.$component.find( ".component-report" ).length, 1, "a report has been attached to the status" );
-                assert.equal( status.$component.find( ".component-report .fold" ).length, 1, "the status report has the show details button" );
-                assert.ok( status.$component.find( ".component-report .content > .hierarchical" ).hasClass( "feedback-warning" ), "the status report inherit the type of the report" );
-                assert.equal( status.$component.find( ".component-report .hierarchical" ).length, 4, "the report has 4 hierarchical reports" );
-                assert.equal( status.$component.find( ".component-report .leaf" ).length, 3, "the report has 3 leaf reports" );
-                assert.equal( status.$component.find( ".component-report .hierarchical:visible" ).length, 4, "all hierarchical reports are visible" );
-                assert.equal( status.$component.find( ".component-report .leaf:visible" ).length, 3, "all leaf reports are visible" );
+                assert.equal( this.$component.find( '.component-report' ).length, 1, 'a report has been attached to the status' );
+                assert.equal( status.$component.find( '.component-report .fold' ).length, 1, 'the status report has the show details button' );
+                assert.ok( status.$component.find( '.component-report .content > .hierarchical' ).hasClass( 'feedback-warning' ), 'the status report inherit the type of the report' );
+                assert.equal( status.$component.find( '.component-report .hierarchical' ).length, 4, 'the report has 4 hierarchical reports' );
+                assert.equal( status.$component.find( '.component-report .leaf' ).length, 3, 'the report has 3 leaf reports' );
+                assert.equal( status.$component.find( '.component-report .hierarchical:visible' ).length, 4, 'all hierarchical reports are visible' );
+                assert.equal( status.$component.find( '.component-report .leaf:visible' ).length, 3, 'all leaf reports are visible' );
 
-                $checkbox = status.$component.find( ".component-report .fold :checkbox" );
-                assert.equal( $checkbox.length, 1, "checkbox found" );
+                $checkbox = status.$component.find( '.component-report .fold :checkbox' );
+                assert.equal( $checkbox.length, 1, 'checkbox found' );
                 $checkbox.click();//Show details
 
-            } ).on( "hideDetails", function() {
+            } ).on( 'hideDetails', function() {
 
-                assert.equal( status.$component.find( ".component-report .hierarchical:visible" ).length, 1, "1 hierarchical report is visible" );
-                assert.equal( status.$component.find( ".component-report .leaf:visible" ).length, 0, "no leaf report is visible" );
+                assert.equal( status.$component.find( '.component-report .hierarchical:visible' ).length, 1, '1 hierarchical report is visible' );
+                assert.equal( status.$component.find( '.component-report .leaf:visible' ).length, 0, 'no leaf report is visible' );
 
                 $checkbox.click();//Hide details
 

@@ -21,42 +21,42 @@
  * Test {@module core/encoder/entity}
  *
  */
-define( [  "core/encoder/entity" ], function(  entity ) {
-    "use strict";
+define( [  'core/encoder/entity' ], function(  entity ) {
+    'use strict';
 
-    QUnit.module( "API" );
+    QUnit.module( 'API' );
 
-    QUnit.test( "module", function( assert ) {
-        assert.equal( typeof entity, "object", "The module expose an object" );
-        assert.equal( typeof entity.encode, "function", "The encode method is available" );
-        assert.equal( typeof entity.decode, "function", "The decode method is available" );
+    QUnit.test( 'module', function( assert ) {
+        assert.equal( typeof entity, 'object', 'The module expose an object' );
+        assert.equal( typeof entity.encode, 'function', 'The encode method is available' );
+        assert.equal( typeof entity.decode, 'function', 'The decode method is available' );
     } );
 
-    QUnit.module( "encode" );
+    QUnit.module( 'encode' );
 
     QUnit.cases.init( [ {
-        title: "no special chars",
-        input: "Hello Foo bar world !",
-        output: "Hello Foo bar world !"
+        title: 'no special chars',
+        input: 'Hello Foo bar world !',
+        output: 'Hello Foo bar world !'
     }, {
-        title: "xss",
+        title: 'xss',
         input: 'Hello Foo<script>alert("foo")</script>bar world !',
-        output: "Hello Foo&#60;script&#62;alert(&#34;foo&#34;)&#60;/script&#62;bar world !"
-    } ] ).test( "encode ", function( data, assert ) {
+        output: 'Hello Foo&#60;script&#62;alert(&#34;foo&#34;)&#60;/script&#62;bar world !'
+    } ] ).test( 'encode ', function( data, assert ) {
         assert.equal( entity.encode( data.input ), data.output );
     } );
 
-    QUnit.module( "decode" );
+    QUnit.module( 'decode' );
 
     QUnit.cases.init( [ {
-        title: "no special chars",
-        input: "Hello Foo bar world !",
-        output: "Hello Foo bar world !"
+        title: 'no special chars',
+        input: 'Hello Foo bar world !',
+        output: 'Hello Foo bar world !'
     }, {
-        title: "xss",
-        input: "Hello Foo&#60;script&#62;alert(&#34;foo&#34;)&#60;/script&#62;bar world !",
+        title: 'xss',
+        input: 'Hello Foo&#60;script&#62;alert(&#34;foo&#34;)&#60;/script&#62;bar world !',
         output: 'Hello Foo<script>alert("foo")</script>bar world !'
-    } ] ).test( "decode ", function( data, assert ) {
+    } ] ).test( 'decode ', function( data, assert ) {
         assert.equal( entity.decode( data.input ), data.output );
     } );
 } );

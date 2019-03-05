@@ -17,49 +17,49 @@
  *
  *
  */
-define( [  "util/image" ], function(  imageUtil ) {
+define( [  'util/image' ], function(  imageUtil ) {
 
-    var imageUrl = "img/tao_icon.png";
+    var imageUrl = 'img/tao_icon.png';
     var width = 53;
     var height = 40;
 
-    QUnit.test( "utilitary structure", function( assert ) {
+    QUnit.test( 'utilitary structure', function( assert ) {
         assert.expect( 2 );
 
-        assert.ok( typeof imageUtil === "object" );
-        assert.ok( typeof imageUtil.getSize === "function" );
+        assert.ok( typeof imageUtil === 'object' );
+        assert.ok( typeof imageUtil.getSize === 'function' );
     } );
 
-    QUnit.test( "getSize", function( assert ) {
+    QUnit.test( 'getSize', function( assert ) {
         var ready = assert.async();
         assert.expect( 3 );
 
         imageUtil.getSize( imageUrl, function( size ) {
-            assert.notEqual( size, null, "The size is not null" );
-            assert.equal( size.width, width, "Check the image width" );
-            assert.equal( size.height, height, "Check the image height" );
+            assert.notEqual( size, null, 'The size is not null' );
+            assert.equal( size.width, width, 'Check the image width' );
+            assert.equal( size.height, height, 'Check the image height' );
             ready();
         } );
     } );
 
-    QUnit.test( "getSize with a short timeout", function( assert ) {
+    QUnit.test( 'getSize with a short timeout', function( assert ) {
         var ready = assert.async();
         assert.expect( 3 );
 
         imageUtil.getSize( imageUrl, function( size ) {
-            assert.notEqual( size, null, "The size is not null" );
-            assert.equal( size.width, width, "Check the image width" );
-            assert.equal( size.height, height, "Check the image height" );
+            assert.notEqual( size, null, 'The size is not null' );
+            assert.equal( size.width, width, 'Check the image width' );
+            assert.equal( size.height, height, 'Check the image height' );
             ready();
         } );
     } );
 
-    QUnit.test( "wrong url", function( assert ) {
+    QUnit.test( 'wrong url', function( assert ) {
         var ready = assert.async();
         assert.expect( 1 );
 
-        imageUtil.getSize( "img/a-fake-url.png", function( size ) {
-            assert.strictEqual( size, null, "The size is null" );
+        imageUtil.getSize( 'img/a-fake-url.png', function( size ) {
+            assert.strictEqual( size, null, 'The size is null' );
             ready();
         } );
     } );

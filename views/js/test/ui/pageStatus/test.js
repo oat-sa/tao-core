@@ -21,33 +21,33 @@
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define( [ "jquery", "ui/pageStatus" ], function($, pageStatusFactory ) {
-    "use strict";
+define( [ 'jquery', 'ui/pageStatus' ], function($, pageStatusFactory ) {
+    'use strict';
 
-    QUnit.module( "pageStatus" );
+    QUnit.module( 'pageStatus' );
 
-    QUnit.test( "module", function( assert ) {
+    QUnit.test( 'module', function( assert ) {
         assert.expect( 1 );
-        assert.equal( typeof pageStatusFactory, "function", "The pageStatus module exposes an function" );
+        assert.equal( typeof pageStatusFactory, 'function', 'The pageStatus module exposes an function' );
     } );
 
-    QUnit.test( "api", function( assert ) {
+    QUnit.test( 'api', function( assert ) {
         assert.expect( 5 );
         var pageStatus = pageStatusFactory();
 
-        assert.equal( typeof pageStatus, "object", "The factory creates an object" );
-        assert.notEqual( pageStatus, pageStatusFactory(), "The factory creates a new object" );
-        assert.equal( typeof pageStatus.on, "function", "The pageStatus module expose the on method" );
-        assert.equal( typeof pageStatus.off, "function", "The pageStatus module expose the off method" );
-        assert.equal( typeof pageStatus.trigger, "function", "The pageStatus module expose the trigger method" );
+        assert.equal( typeof pageStatus, 'object', 'The factory creates an object' );
+        assert.notEqual( pageStatus, pageStatusFactory(), 'The factory creates a new object' );
+        assert.equal( typeof pageStatus.on, 'function', 'The pageStatus module expose the on method' );
+        assert.equal( typeof pageStatus.off, 'function', 'The pageStatus module expose the off method' );
+        assert.equal( typeof pageStatus.trigger, 'function', 'The pageStatus module expose the trigger method' );
 
     } );
 
-    QUnit.test( "popup status", function( assert ) {
+    QUnit.test( 'popup status', function( assert ) {
         var ready = assert.async();
         assert.expect( 10 );
 
-        var popup = window.open( "/", "test", "width=300,height=300,visible=none" );
+        var popup = window.open( '/', 'test', 'width=300,height=300,visible=none' );
 
         var pageStatus = pageStatusFactory( {
             window:  popup
@@ -56,20 +56,20 @@ define( [ "jquery", "ui/pageStatus" ], function($, pageStatusFactory ) {
         var counter = 0;
 
         pageStatus
-            .on( "statuschange", function( status ) {
-                assert.ok( true, "The statuschange event is triggered" );
+            .on( 'statuschange', function( status ) {
+                assert.ok( true, 'The statuschange event is triggered' );
             } )
-            .on( "focus", function() {
-                assert.ok( true, "The focus event is triggered" );
+            .on( 'focus', function() {
+                assert.ok( true, 'The focus event is triggered' );
             } )
-            .on( "hide", function() {
-                assert.ok( true, "The blur event is triggered" );
+            .on( 'hide', function() {
+                assert.ok( true, 'The blur event is triggered' );
             } )
-            .on( "blur", function() {
-                assert.ok( true, "The blur event is triggered" );
+            .on( 'blur', function() {
+                assert.ok( true, 'The blur event is triggered' );
             } )
-            .on( "unload", function() {
-                assert.ok( true, "The unload event is triggered" );
+            .on( 'unload', function() {
+                assert.ok( true, 'The unload event is triggered' );
             } );
 
         setTimeout( function() {

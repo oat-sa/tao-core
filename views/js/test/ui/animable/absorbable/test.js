@@ -17,70 +17,70 @@
  */
 define( [
 
-    "jquery",
-    "lodash",
-    "ui/component",
-    "ui/animable/absorbable/absorbable"
+    'jquery',
+    'lodash',
+    'ui/component',
+    'ui/animable/absorbable/absorbable'
 ], function(  $, _, componentFactory, makeAbsorbable ) {
-    "use strict";
+    'use strict';
 
-    QUnit.module( "API" );
+    QUnit.module( 'API' );
 
-    QUnit.test( "module", function( assert ) {
+    QUnit.test( 'module', function( assert ) {
         assert.expect( 1 );
-        assert.ok( typeof makeAbsorbable === "function", "The module expose a function" );
+        assert.ok( typeof makeAbsorbable === 'function', 'The module expose a function' );
     } );
 
     QUnit
         .cases.init( [
-            { title: "absorb", method: "absorb" },
-            { title: "absorbBurst", method: "absorbBurst" }
+            { title: 'absorb', method: 'absorb' },
+            { title: 'absorbBurst', method: 'absorbBurst' }
         ] )
-        .test( "component API", function( data, assert ) {
+        .test( 'component API', function( data, assert ) {
             var component = makeAbsorbable( componentFactory() );
 
             assert.expect( 1 );
-            assert.equal( typeof component[ data.method ], "function", "The component has the method " + data.method );
+            assert.equal( typeof component[ data.method ], 'function', 'The component has the method ' + data.method );
         } );
 
-    QUnit.module( "Behavior" );
+    QUnit.module( 'Behavior' );
 
-    QUnit.test( "absorb", function( assert ) {
+    QUnit.test( 'absorb', function( assert ) {
         var ready = assert.async();
-        var $container = $( "#qunit-fixture" );
-        var $target = $( "body" );
+        var $container = $( '#qunit-fixture' );
+        var $target = $( 'body' );
         makeAbsorbable( componentFactory() )
             .init()
             .render( $container )
             .absorb( $target ).then( function() {
-            assert.ok( true, "absorbed" );
+            assert.ok( true, 'absorbed' );
             ready();
         } );
     } );
 
-    QUnit.test( "absorb burst", function( assert ) {
+    QUnit.test( 'absorb burst', function( assert ) {
         var ready = assert.async();
-        var $container = $( "#qunit-fixture" );
-        var $target = $( "body" );
+        var $container = $( '#qunit-fixture' );
+        var $target = $( 'body' );
         makeAbsorbable( componentFactory() )
             .init()
             .render( $container )
             .absorbBurst( $target, [ 0, 100, 200 ] ).then( function() {
-            assert.ok( true, "burst absorbed" );
+            assert.ok( true, 'burst absorbed' );
             ready();
         } );
     } );
 
-    QUnit.module( "Visual" );
+    QUnit.module( 'Visual' );
 
-    QUnit.test( "playground", function( assert ) {
-        var $container = $( "#visual" );
-        var $count = $container.find( ".count" );
-        var $trigger = $container.find( ".trigger" );
-        var $absorb = $container.find( ".absorb" );
+    QUnit.test( 'playground', function( assert ) {
+        var $container = $( '#visual' );
+        var $count = $container.find( '.count' );
+        var $trigger = $container.find( '.trigger' );
+        var $absorb = $container.find( '.absorb' );
         var absorbable = makeAbsorbable( componentFactory() )
             .init()
-            .render( $container.find( ".target" ) );
+            .render( $container.find( '.target' ) );
 
         $trigger.click( function() {
             var i;
@@ -91,6 +91,6 @@ define( [
             absorbable.absorbBurst( $absorb, burstTiming );
         } );
 
-        assert.ok( true, "started" );
+        assert.ok( true, 'started' );
     } );
 } );

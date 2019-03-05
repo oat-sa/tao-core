@@ -1,28 +1,28 @@
-define( [  "jquery", "ui", "ui/deleter" ], function(  $, ui, deleter ) {
-    "use strict";
+define( [  'jquery', 'ui', 'ui/deleter' ], function(  $, ui, deleter ) {
+    'use strict';
 
-    QUnit.module( "Deleter Stand Alone Test" );
+    QUnit.module( 'Deleter Stand Alone Test' );
 
-    QUnit.test( "plugin", function( assert ) {
+    QUnit.test( 'plugin', function( assert ) {
        assert.expect( 1 );
-       assert.ok( typeof $.fn.deleter === "function", "The Deleter plugin is registered" );
+       assert.ok( typeof $.fn.deleter === 'function', 'The Deleter plugin is registered' );
     } );
 
-    QUnit.test( "Initialization", function( assert ) {
+    QUnit.test( 'Initialization', function( assert ) {
         var ready = assert.async();
         assert.expect( 4 );
 
-        var $container = $( "#container-1" );
-        assert.ok( $container.length === 1, "Test the fixture is available" );
+        var $container = $( '#container-1' );
+        assert.ok( $container.length === 1, 'Test the fixture is available' );
 
-        var $elt = $( ".deleter", $container );
-        assert.ok( $elt.length === 1, "Deleter link is available" );
+        var $elt = $( '.deleter', $container );
+        assert.ok( $elt.length === 1, 'Deleter link is available' );
 
-        var $target = $( ".content", $container );
-        assert.ok( $target.length === 1, "Target is available" );
+        var $target = $( '.content', $container );
+        assert.ok( $target.length === 1, 'Target is available' );
 
-        $elt.on( "create.deleter", function() {
-            assert.ok( typeof $elt.data( "ui.deleter" ) === "object", "The element is runing the plugin" );
+        $elt.on( 'create.deleter', function() {
+            assert.ok( typeof $elt.data( 'ui.deleter' ) === 'object', 'The element is runing the plugin' );
             ready();
         } );
         $elt.deleter( {
@@ -31,26 +31,26 @@ define( [  "jquery", "ui", "ui/deleter" ], function(  $, ui, deleter ) {
         } );
     } );
 
-    QUnit.test( "Deleting", function( assert ) {
+    QUnit.test( 'Deleting', function( assert ) {
         var ready = assert.async();
         assert.expect( 4 );
 
-        var $container = $( "#container-1" );
-        assert.ok( $container.length === 1, "Test the fixture is available" );
+        var $container = $( '#container-1' );
+        assert.ok( $container.length === 1, 'Test the fixture is available' );
 
-        var $elt = $( ".deleter", $container );
-        assert.ok( $elt.length === 1, "Deleter link is available" );
+        var $elt = $( '.deleter', $container );
+        assert.ok( $elt.length === 1, 'Deleter link is available' );
 
-        var $target = $( ".content", $container );
-        assert.ok( $target.length === 1, "Target is available" );
+        var $target = $( '.content', $container );
+        assert.ok( $target.length === 1, 'Target is available' );
 
-        $elt.on( "create.deleter", function() {
-            $elt.trigger( "click" );
+        $elt.on( 'create.deleter', function() {
+            $elt.trigger( 'click' );
         } );
 
-        $elt.on( "deleted.deleter", function( e ) {
-           if ( e.namespace === "deleter" ) {
-               assert.ok( $( ".content", $container ).length === 0, "Target doesn't exists anymore" );
+        $elt.on( 'deleted.deleter', function( e ) {
+           if ( e.namespace === 'deleter' ) {
+               assert.ok( $( '.content', $container ).length === 0, 'Target doesn\'t exists anymore' );
                ready();
            }
        } );
@@ -60,9 +60,9 @@ define( [  "jquery", "ui", "ui/deleter" ], function(  $, ui, deleter ) {
         } );
     } );
 
-    QUnit.module( "Deleter Data Attr Test" );
+    QUnit.module( 'Deleter Data Attr Test' );
 
-     QUnit.test( "Initialization", function( assert ) {
+     QUnit.test( 'Initialization', function( assert ) {
          var ready = assert.async();
          assert.expect( 4 );
 
@@ -71,57 +71,57 @@ define( [  "jquery", "ui", "ui/deleter" ], function(  $, ui, deleter ) {
              return true;
          };
 
-         var $container = $( "#container-2" );
-         assert.ok( $container.length === 1, "Test the fixture is available" );
+         var $container = $( '#container-2' );
+         assert.ok( $container.length === 1, 'Test the fixture is available' );
 
-         var $elt = $( ".deleter", $container );
-         assert.ok( $elt.length === 1, "Deleter link is available" );
+         var $elt = $( '.deleter', $container );
+         assert.ok( $elt.length === 1, 'Deleter link is available' );
 
-         var $target = $( ".content", $container );
-         assert.ok( $target.length === 1, "Target is available" );
+         var $target = $( '.content', $container );
+         assert.ok( $target.length === 1, 'Target is available' );
 
-         $elt.on( "deleted.deleter", function( e ) {
-             if ( e.namespace === "deleter" ) {
-                 assert.ok( $( ".content", $container ).length === 0, "Target doesn't exists anymore" );
+         $elt.on( 'deleted.deleter', function( e ) {
+             if ( e.namespace === 'deleter' ) {
+                 assert.ok( $( '.content', $container ).length === 0, 'Target doesn\'t exists anymore' );
                  ready();
              }
          } );
 
          deleter( $container );
-         $elt.trigger( "click" );
+         $elt.trigger( 'click' );
      } );
 
-    QUnit.module( "Undo" );
+    QUnit.module( 'Undo' );
 
-    QUnit.test( "Undo Delete", function( assert ) {
+    QUnit.test( 'Undo Delete', function( assert ) {
         var ready = assert.async();
         assert.expect( 5 );
 
-        var $container = $( "#container-1" );
-        assert.ok( $container.length === 1, "Test the fixture is available" );
+        var $container = $( '#container-1' );
+        assert.ok( $container.length === 1, 'Test the fixture is available' );
 
-        var $elt = $( ".deleter", $container );
-        assert.ok( $elt.length === 1, "Deleter link is available" );
+        var $elt = $( '.deleter', $container );
+        assert.ok( $elt.length === 1, 'Deleter link is available' );
 
-        var $target = $( ".content", $container );
-        assert.ok( $target.length === 1, "Target is available" );
+        var $target = $( '.content', $container );
+        assert.ok( $target.length === 1, 'Target is available' );
 
-        $elt.on( "create.deleter", function() {
-            $elt.trigger( "click" );
+        $elt.on( 'create.deleter', function() {
+            $elt.trigger( 'click' );
         } );
 
-        $elt.on( "delete.deleter", function( e ) {
-            if ( e.namespace === "deleter" ) {
+        $elt.on( 'delete.deleter', function( e ) {
+            if ( e.namespace === 'deleter' ) {
                 setTimeout( function() {
-                    var $undo = $( "body" ).find( "a.undo" );
-                    assert.ok( $undo.length === 1, "the undo link is there" );
-                    $undo.trigger( "click" );
+                    var $undo = $( 'body' ).find( 'a.undo' );
+                    assert.ok( $undo.length === 1, 'the undo link is there' );
+                    $undo.trigger( 'click' );
                 }, 100 );
             }
         } );
-        $elt.on( "undo.deleter", function( e ) {
-            var $target = $( ".content", $container );
-            assert.ok( $target.length === 1, "Target is available" );
+        $elt.on( 'undo.deleter', function( e ) {
+            var $target = $( '.content', $container );
+            assert.ok( $target.length === 1, 'Target is available' );
             ready();
         } );
         $elt.deleter( {
@@ -129,7 +129,7 @@ define( [  "jquery", "ui", "ui/deleter" ], function(  $, ui, deleter ) {
             confirm: false,
             undo: true,
             undoTimeout: 10000,
-            undoContainer: $( "#qunit-fixture" )
+            undoContainer: $( '#qunit-fixture' )
         } );
     } );
 } );

@@ -18,94 +18,94 @@
 /**
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
-define( [  "jquery", "ui/autocomplete", "lib/simulator/jquery.keystroker" ], function(  $, autocompleteUI, keystroker ) {
+define( [  'jquery', 'ui/autocomplete', 'lib/simulator/jquery.keystroker' ], function(  $, autocompleteUI, keystroker ) {
 
-    "use strict";
+    'use strict';
 
     /**
      * Checks the API
      */
 
-    QUnit.module( "API" );
+    QUnit.module( 'API' );
 
-    QUnit.test( "ui/autocomplete module", function( assert ) {
-        assert.ok( typeof autocompleteUI === "function", "The ui/autocomplete module exposes a function" );
-        assert.ok( typeof autocompleteUI() === "object", "The ui/autocomplete factory produces an object" );
-        assert.ok( autocompleteUI() !== autocompleteUI(), "The ui/autocomplete factory provides a different object on each call" );
+    QUnit.test( 'ui/autocomplete module', function( assert ) {
+        assert.ok( typeof autocompleteUI === 'function', 'The ui/autocomplete module exposes a function' );
+        assert.ok( typeof autocompleteUI() === 'object', 'The ui/autocomplete factory produces an object' );
+        assert.ok( autocompleteUI() !== autocompleteUI(), 'The ui/autocomplete factory provides a different object on each call' );
     } );
 
     var autocompleteApi = [
-        { name: "init", title: "init" },
-        { name: "destroy", title: "destroy" },
-        { name: "setOptions", title: "setOptions" },
-        { name: "trigger", title: "trigger" },
-        { name: "on", title: "on" },
-        { name: "off", title: "off" },
-        { name: "getElement", title: "getElement" },
-        { name: "getValue", title: "getValue" },
-        { name: "setValue", title: "setValue" },
-        { name: "getLabel", title: "getLabel" },
-        { name: "setLabel", title: "setLabel" },
-        { name: "getOntology", title: "getOntology" },
-        { name: "setOntology", title: "setOntology" },
-        { name: "getValueField", title: "getValueField" },
-        { name: "setValueField", title: "setValueField" },
-        { name: "getLabelField", title: "getLabelField" },
-        { name: "setLabelField", title: "setLabelField" },
-        { name: "getIsProvider", title: "getIsProvider" },
-        { name: "setIsProvider", title: "setIsProvider" },
-        { name: "getParamsRoot", title: "getParamsRoot" },
-        { name: "setParamsRoot", title: "setParamsRoot" },
-        { name: "getParams", title: "getParams" },
-        { name: "setParams", title: "setParams" },
-        { name: "getQueryParam", title: "getQueryParam" },
-        { name: "setQueryParam", title: "setQueryParam" },
-        { name: "getOntologyParam", title: "getOntologyParam" },
-        { name: "setOntologyParam", title: "setOntologyParam" },
-        { name: "getUrl", title: "getUrl" },
-        { name: "setUrl", title: "setUrl" },
-        { name: "getType", title: "getType" },
-        { name: "setType", title: "setType" },
-        { name: "getDelay", title: "getDelay" },
-        { name: "setDelay", title: "setDelay" },
-        { name: "getMinChars", title: "getMinChars" },
-        { name: "setMinChars", title: "setMinChars" },
-        { name: "enable", title: "enable" },
-        { name: "disable", title: "disable" },
-        { name: "hide", title: "hide" },
-        { name: "clear", title: "clear" },
-        { name: "clearCache", title: "clearCache" },
-        { name: "reset", title: "reset" }
+        { name: 'init', title: 'init' },
+        { name: 'destroy', title: 'destroy' },
+        { name: 'setOptions', title: 'setOptions' },
+        { name: 'trigger', title: 'trigger' },
+        { name: 'on', title: 'on' },
+        { name: 'off', title: 'off' },
+        { name: 'getElement', title: 'getElement' },
+        { name: 'getValue', title: 'getValue' },
+        { name: 'setValue', title: 'setValue' },
+        { name: 'getLabel', title: 'getLabel' },
+        { name: 'setLabel', title: 'setLabel' },
+        { name: 'getOntology', title: 'getOntology' },
+        { name: 'setOntology', title: 'setOntology' },
+        { name: 'getValueField', title: 'getValueField' },
+        { name: 'setValueField', title: 'setValueField' },
+        { name: 'getLabelField', title: 'getLabelField' },
+        { name: 'setLabelField', title: 'setLabelField' },
+        { name: 'getIsProvider', title: 'getIsProvider' },
+        { name: 'setIsProvider', title: 'setIsProvider' },
+        { name: 'getParamsRoot', title: 'getParamsRoot' },
+        { name: 'setParamsRoot', title: 'setParamsRoot' },
+        { name: 'getParams', title: 'getParams' },
+        { name: 'setParams', title: 'setParams' },
+        { name: 'getQueryParam', title: 'getQueryParam' },
+        { name: 'setQueryParam', title: 'setQueryParam' },
+        { name: 'getOntologyParam', title: 'getOntologyParam' },
+        { name: 'setOntologyParam', title: 'setOntologyParam' },
+        { name: 'getUrl', title: 'getUrl' },
+        { name: 'setUrl', title: 'setUrl' },
+        { name: 'getType', title: 'getType' },
+        { name: 'setType', title: 'setType' },
+        { name: 'getDelay', title: 'getDelay' },
+        { name: 'setDelay', title: 'setDelay' },
+        { name: 'getMinChars', title: 'getMinChars' },
+        { name: 'setMinChars', title: 'setMinChars' },
+        { name: 'enable', title: 'enable' },
+        { name: 'disable', title: 'disable' },
+        { name: 'hide', title: 'hide' },
+        { name: 'clear', title: 'clear' },
+        { name: 'clearCache', title: 'clearCache' },
+        { name: 'reset', title: 'reset' }
     ];
 
     QUnit
         .cases.init( autocompleteApi )
-        .test( "ui/autocomplete instance API ", function( data, assert ) {
+        .test( 'ui/autocomplete instance API ', function( data, assert ) {
             var instance = autocompleteUI();
-            assert.ok( typeof instance[ data.name ] === "function", 'The ui/autocomplete instance exposes a "' + data.title + '" function' );
+            assert.ok( typeof instance[ data.name ] === 'function', 'The ui/autocomplete instance exposes a "' + data.title + '" function' );
         } );
 
-    QUnit.test( "ui/autocomplete getter/setter", function( assert ) {
+    QUnit.test( 'ui/autocomplete getter/setter', function( assert ) {
         var instance = autocompleteUI();
         var expected;
 
-        expected = "12";
+        expected = '12';
         instance.setValue( expected );
         assert.equal( instance.getValue(), expected, 'The ui/autocomplete instance must provide bidirectional access to "value"' );
 
-        expected = "Twelve";
+        expected = 'Twelve';
         instance.setLabel( expected );
         assert.equal( instance.getLabel(), expected, 'The ui/autocomplete instance must provide bidirectional access to "label"' );
 
-        expected = "http://www.tao.lu/Ontologies/TAO.rdf#User";
+        expected = 'http://www.tao.lu/Ontologies/TAO.rdf#User';
         instance.setOntology( expected );
         assert.equal( instance.getOntology(), expected, 'The ui/autocomplete instance must provide bidirectional access to "ontology"' );
 
-        expected = "value1234";
+        expected = 'value1234';
         instance.setValueField( expected );
         assert.equal( instance.getValueField(), expected, 'The ui/autocomplete instance must provide bidirectional access to "valueField"' );
 
-        expected = "label1234";
+        expected = 'label1234';
         instance.setLabelField( expected );
         assert.equal( instance.getLabelField(), expected, 'The ui/autocomplete instance must provide bidirectional access to "labelField"' );
 
@@ -116,29 +116,29 @@ define( [  "jquery", "ui/autocomplete", "lib/simulator/jquery.keystroker" ], fun
         instance.setIsProvider( expected );
         assert.equal( instance.getIsProvider(), expected, 'The ui/autocomplete instance must provide bidirectional access to "isProvider"' );
 
-        expected = "fragment";
+        expected = 'fragment';
         instance.setQueryParam( expected );
         assert.equal( instance.getQueryParam(), expected, 'The ui/autocomplete instance must provide bidirectional access to "queryParam"' );
 
-        expected = "ontology";
+        expected = 'ontology';
         instance.setOntologyParam( expected );
         assert.equal( instance.getOntologyParam(), expected, 'The ui/autocomplete instance must provide bidirectional access to "ontologyParam"' );
 
-        expected = "params";
+        expected = 'params';
         instance.setParamsRoot( expected );
         assert.equal( instance.getParamsRoot(), expected, 'The ui/autocomplete instance must provide bidirectional access to "paramsRoot"' );
         assert.equal( instance.getQueryParam(), "params[fragment]", 'The ui/autocomplete instance must provide adjusted value for "queryParam" when "paramsRoot" is defined' );
         assert.equal( instance.getOntologyParam(), "params[ontology]", 'The ui/autocomplete instance must provide adjusted value for "ontologyParam" when "paramsRoot" is defined' );
 
-        expected = "http://tao.dev/tao/Search/search";
+        expected = 'http://tao.dev/tao/Search/search';
         instance.setUrl( expected );
         assert.equal( instance.getUrl(), expected, 'The ui/autocomplete instance must provide bidirectional access to "url"' );
 
-        expected = "POST";
+        expected = 'POST';
         instance.setType( expected );
         assert.equal( instance.getType(), expected, 'The ui/autocomplete instance must provide bidirectional access to "type"' );
 
-        expected = "GET";
+        expected = 'GET';
         instance.setType( null );
         assert.equal( instance.getType(), expected, 'The ui/autocomplete instance must provide default value for "type"' );
 
@@ -164,19 +164,19 @@ define( [  "jquery", "ui/autocomplete", "lib/simulator/jquery.keystroker" ], fun
 
         expected = {
             params: {
-                ontology: "http://www.tao.lu/Ontologies/TAO.rdf#User"
+                ontology: 'http://www.tao.lu/Ontologies/TAO.rdf#User'
             }
         };
         assert.deepEqual( instance.getParams(), expected, 'The ui/autocomplete instance must provide nested "params" when "paramsRoot" is defined' );
 
         expected = {
-            ontology: "http://www.tao.lu/Ontologies/TAO.rdf#User"
+            ontology: 'http://www.tao.lu/Ontologies/TAO.rdf#User'
         };
         instance.setParamsRoot( null );
         assert.deepEqual( instance.getParams(), expected, 'The ui/autocomplete instance must provide "params" when "paramsRoot" is not defined' );
 
         expected = {
-            ontology: "http://www.tao.lu/Ontologies/TAO.rdf#User",
+            ontology: 'http://www.tao.lu/Ontologies/TAO.rdf#User',
             page: 1,
             count: 2
         };
@@ -207,19 +207,19 @@ define( [  "jquery", "ui/autocomplete", "lib/simulator/jquery.keystroker" ], fun
      * Checks the behavior
      */
 
-    QUnit.module( "Behavior" );
+    QUnit.module( 'Behavior' );
 
-    QUnit.test( "ui/autocomplete install", function( assert ) {
+    QUnit.test( 'ui/autocomplete install', function( assert ) {
         var ready = assert.async(2);
-        var instance = autocompleteUI( "#autocomplete1" );
+        var instance = autocompleteUI( '#autocomplete1' );
         var element = instance.getElement();
         var stopper;
         var listenerInstalled;
         var eventListener = function() {
             if ( listenerInstalled ) {
-                assert.ok( true, "The ui/autocomplete instance can handle custom events" );
+                assert.ok( true, 'The ui/autocomplete instance can handle custom events' );
             } else {
-                assert.ok( false, "The ui/autocomplete instance must be able to remove custom events" );
+                assert.ok( false, 'The ui/autocomplete instance must be able to remove custom events' );
             }
 
             clearTimeout( stopper );
@@ -227,46 +227,46 @@ define( [  "jquery", "ui/autocomplete", "lib/simulator/jquery.keystroker" ], fun
         };
 
         // Basic
-        assert.ok( typeof instance === "object", "An installed autocomplete relies on an object" );
-        assert.ok( !!element && element.length === 1, "The ui/autocomplete instance relies on a nested element" );
+        assert.ok( typeof instance === 'object', 'An installed autocomplete relies on an object' );
+        assert.ok( !!element && element.length === 1, 'The ui/autocomplete instance relies on a nested element' );
 
         // Add custom event
         stopper = setTimeout( function() {
-            assert.ok( false, "The ui/autocomplete instance fails to handle custom events" );
+            assert.ok( false, 'The ui/autocomplete instance fails to handle custom events' );
             ready();
         }, 250 );
 
-        instance.on( "test", eventListener );
+        instance.on( 'test', eventListener );
         listenerInstalled = true;
-        instance.trigger( "test" );
+        instance.trigger( 'test' );
 
         stopper = setTimeout( function() {
-            assert.ok( true, "The ui/autocomplete instance can remove custom events" );
+            assert.ok( true, 'The ui/autocomplete instance can remove custom events' );
             ready();
         }, 250 );
-        instance.off( "test" );
+        instance.off( 'test' );
         listenerInstalled = false;
-        instance.trigger( "test" );
+        instance.trigger( 'test' );
 
         // Remove the component
         instance.destroy();
     } );
 
-    QUnit.test( "ui/autocomplete successful query", function( assert ) {
+    QUnit.test( 'ui/autocomplete successful query', function( assert ) {
         var ready = assert.async();
-        var instance = autocompleteUI( "#autocomplete2", {
-            url: "js/test/ui/autocomplete/test.success.json",
+        var instance = autocompleteUI( '#autocomplete2', {
+            url: 'js/test/ui/autocomplete/test.success.json',
 
             onSearchStart: function() {
 
                 // Avoid TU to be broken by multi events calls
-                instance.off( "searchStart" );
+                instance.off( 'searchStart' );
 
-                assert.ok( true, "The ui/autocomplete instance must fire the searchSearch event when the user inputs a query" );
+                assert.ok( true, 'The ui/autocomplete instance must fire the searchSearch event when the user inputs a query' );
 
                 clearTimeout( stopper );
                 stopper = setTimeout( function() {
-                    assert.ok( false, "The ui/autocomplete instance fails to handle searchComplete event" );
+                    assert.ok( false, 'The ui/autocomplete instance fails to handle searchComplete event' );
                     ready();
                 }, 500 );
             },
@@ -274,13 +274,13 @@ define( [  "jquery", "ui/autocomplete", "lib/simulator/jquery.keystroker" ], fun
             onSearchComplete: function() {
 
                 // Avoid TU to be broken by multi events calls
-                instance.off( "searchComplete" );
+                instance.off( 'searchComplete' );
 
-                assert.ok( true, "The ui/autocomplete instance must fire the searchComplete event after server response" );
+                assert.ok( true, 'The ui/autocomplete instance must fire the searchComplete event after server response' );
 
                 clearTimeout( stopper );
                 stopper = setTimeout( function() {
-                    assert.ok( false, "The ui/autocomplete instance fails to handle selectItem event" );
+                    assert.ok( false, 'The ui/autocomplete instance fails to handle selectItem event' );
                     ready();
                 }, 500 );
                 setTimeout( function() {
@@ -291,13 +291,13 @@ define( [  "jquery", "ui/autocomplete", "lib/simulator/jquery.keystroker" ], fun
             onSelectItem: function() {
 
                 // Avoid TU to be broken by multi events calls
-                instance.off( "selectItem" );
+                instance.off( 'selectItem' );
 
-                assert.ok( true, "The ui/autocomplete instance must fire the selectItem event when an item is selected" );
+                assert.ok( true, 'The ui/autocomplete instance must fire the selectItem event when an item is selected' );
 
-                assert.equal( element.val(), "user", "The ui/autocomplete instance keep the value of the selected item in the textbox" );
-                assert.equal( instance.getValue(), "http://tao.dev/tao-dev.rdf#i1431522022337107", "The ui/autocomplete instance must keep the value of the selected item" );
-                assert.equal( instance.getLabel(), "user", "The ui/autocomplete instance must keep the label of the selected item" );
+                assert.equal( element.val(), 'user', 'The ui/autocomplete instance keep the value of the selected item in the textbox' );
+                assert.equal( instance.getValue(), 'http://tao.dev/tao-dev.rdf#i1431522022337107', 'The ui/autocomplete instance must keep the value of the selected item' );
+                assert.equal( instance.getLabel(), 'user', 'The ui/autocomplete instance must keep the label of the selected item' );
 
                 clearTimeout( stopper );
                 ready();
@@ -305,28 +305,28 @@ define( [  "jquery", "ui/autocomplete", "lib/simulator/jquery.keystroker" ], fun
         } );
         var element = instance.getElement();
         var stopper = setTimeout( function() {
-            assert.ok( false, "The ui/autocomplete instance fails to handle searchStart event" );
+            assert.ok( false, 'The ui/autocomplete instance fails to handle searchStart event' );
             ready();
         }, 500 );
 
-        keystroker.puts( element, "user" );
+        keystroker.puts( element, 'user' );
     } );
 
-    QUnit.test( "ui/autocomplete failed query", function( assert ) {
+    QUnit.test( 'ui/autocomplete failed query', function( assert ) {
         var ready = assert.async();
-        var instance = autocompleteUI( "#autocomplete3", {
-            url: "js/test/ui/autocomplete/test.blank.json",
+        var instance = autocompleteUI( '#autocomplete3', {
+            url: 'js/test/ui/autocomplete/test.blank.json',
 
             onSearchStart: function() {
 
                 // Avoid TU to be broken by multi events calls
-                instance.off( "searchStart" );
+                instance.off( 'searchStart' );
 
-                assert.ok( true, "The ui/autocomplete instance must fire the searchSearch event when the user inputs a query" );
+                assert.ok( true, 'The ui/autocomplete instance must fire the searchSearch event when the user inputs a query' );
 
                 clearTimeout( stopper );
                 stopper = setTimeout( function() {
-                    assert.ok( false, "The ui/autocomplete instance fails to handle searchComplete event" );
+                    assert.ok( false, 'The ui/autocomplete instance fails to handle searchComplete event' );
                     ready();
                 }, 500 );
             },
@@ -334,13 +334,13 @@ define( [  "jquery", "ui/autocomplete", "lib/simulator/jquery.keystroker" ], fun
             onSearchComplete: function() {
 
                 // Avoid TU to be broken by multi events calls
-                instance.off( "searchComplete" );
+                instance.off( 'searchComplete' );
 
-                assert.ok( true, "The ui/autocomplete instance must fire the searchComplete event after server response" );
+                assert.ok( true, 'The ui/autocomplete instance must fire the searchComplete event after server response' );
 
                 clearTimeout( stopper );
                 stopper = setTimeout( function() {
-                    assert.ok( true, "The ui/autocomplete instance must not fire the selectItem event when no item is selectable" );
+                    assert.ok( true, 'The ui/autocomplete instance must not fire the selectItem event when no item is selectable' );
                     ready();
                 }, 500 );
 
@@ -352,9 +352,9 @@ define( [  "jquery", "ui/autocomplete", "lib/simulator/jquery.keystroker" ], fun
             onSelectItem: function() {
 
                 // Avoid TU to be broken by multi events calls
-                instance.off( "selectItem" );
+                instance.off( 'selectItem' );
 
-                assert.ok( false, "The ui/autocomplete instance must not fire the selectItem event when no item is selectable" );
+                assert.ok( false, 'The ui/autocomplete instance must not fire the selectItem event when no item is selectable' );
 
                 clearTimeout( stopper );
                 ready();
@@ -362,30 +362,30 @@ define( [  "jquery", "ui/autocomplete", "lib/simulator/jquery.keystroker" ], fun
         } );
         var element = instance.getElement();
         var stopper = setTimeout( function() {
-            assert.ok( false, "The ui/autocomplete instance fails to handle searchStart event" );
+            assert.ok( false, 'The ui/autocomplete instance fails to handle searchStart event' );
             ready();
         }, 500 );
 
-        keystroker.puts( element, "test" );
+        keystroker.puts( element, 'test' );
     } );
 
-    QUnit.test( "ui/autocomplete as provider", function( assert ) {
+    QUnit.test( 'ui/autocomplete as provider', function( assert ) {
 
         var ready = assert.async();
-        var instance = autocompleteUI( "#autocomplete4", {
-            url: "js/test/ui/autocomplete/test.success.json",
+        var instance = autocompleteUI( '#autocomplete4', {
+            url: 'js/test/ui/autocomplete/test.success.json',
             isProvider: true,
 
             onSearchStart: function() {
 
                 // Avoid TU to be broken by multi events calls
-                instance.off( "searchStart" );
+                instance.off( 'searchStart' );
 
-                assert.ok( true, "The ui/autocomplete instance must fire the searchSearch event when the user inputs a query" );
+                assert.ok( true, 'The ui/autocomplete instance must fire the searchSearch event when the user inputs a query' );
 
                 clearTimeout( stopper );
                 stopper = setTimeout( function() {
-                    assert.ok( false, "The ui/autocomplete instance fails to handle searchComplete event" );
+                    assert.ok( false, 'The ui/autocomplete instance fails to handle searchComplete event' );
                     ready();
                 }, 500 );
             },
@@ -393,13 +393,13 @@ define( [  "jquery", "ui/autocomplete", "lib/simulator/jquery.keystroker" ], fun
             onSearchComplete: function() {
 
                 // Avoid TU to be broken by multi events calls
-                instance.off( "searchComplete" );
+                instance.off( 'searchComplete' );
 
-                assert.ok( true, "The ui/autocomplete instance must fire the searchComplete event after server response" );
+                assert.ok( true, 'The ui/autocomplete instance must fire the searchComplete event after server response' );
 
                 clearTimeout( stopper );
                 stopper = setTimeout( function() {
-                    assert.ok( false, "The ui/autocomplete instance fails to handle selectItem event" );
+                    assert.ok( false, 'The ui/autocomplete instance fails to handle selectItem event' );
                     ready();
                 }, 500 );
                 setTimeout( function() {
@@ -410,13 +410,13 @@ define( [  "jquery", "ui/autocomplete", "lib/simulator/jquery.keystroker" ], fun
             onSelectItem: function() {
 
                 // Avoid TU to be broken by multi events calls
-                instance.off( "selectItem" );
+                instance.off( 'selectItem' );
 
-                assert.ok( true, "The ui/autocomplete instance must fire the selectItem event when an item is selected" );
+                assert.ok( true, 'The ui/autocomplete instance must fire the selectItem event when an item is selected' );
 
-                assert.equal( element.val(), "", "The ui/autocomplete instance must clear the value of the selected item in the textbox" );
-                assert.equal( instance.getValue(), "http://tao.dev/tao-dev.rdf#i1431522022337107", "The ui/autocomplete instance must keep the value of the selected item" );
-                assert.equal( instance.getLabel(), "user", "The ui/autocomplete instance must keep the label of the selected item" );
+                assert.equal( element.val(), '', 'The ui/autocomplete instance must clear the value of the selected item in the textbox' );
+                assert.equal( instance.getValue(), 'http://tao.dev/tao-dev.rdf#i1431522022337107', 'The ui/autocomplete instance must keep the value of the selected item' );
+                assert.equal( instance.getLabel(), 'user', 'The ui/autocomplete instance must keep the label of the selected item' );
 
                 clearTimeout( stopper );
                 ready();
@@ -424,11 +424,11 @@ define( [  "jquery", "ui/autocomplete", "lib/simulator/jquery.keystroker" ], fun
         } );
         var element = instance.getElement();
         var stopper = setTimeout( function() {
-            assert.ok( false, "The ui/autocomplete instance fails to handle searchStart event" );
+            assert.ok( false, 'The ui/autocomplete instance fails to handle searchStart event' );
             ready();
         }, 500 );
 
-        keystroker.puts( element, "user" );
+        keystroker.puts( element, 'user' );
     } );
 
 } );
