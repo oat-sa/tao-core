@@ -18,15 +18,15 @@
 /**
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
  */
-define( [
-
-    "jquery",
-    "lodash",
-    "ui/maths/calculator/core/tokens",
-    "ui/maths/calculator/core/tokenizer",
-    "ui/maths/calculator/core/terms"
-], function(  $, _, tokensHelper, calculatorTokenizerFactory, registeredTerms ) {
-    "use strict";
+define([
+    'jquery',
+    'lodash',
+    'ui/maths/calculator/core/tokens',
+    'ui/maths/calculator/core/tokenizer',
+    'ui/maths/calculator/core/terms',
+    'util/mathsEvaluator'
+], function ($, _, tokensHelper, calculatorTokenizerFactory, registeredTerms, mathsEvaluatorFactory) {
+    'use strict';
 
     var tokens = {
         NUM0: {
@@ -157,6 +157,8 @@ define( [
         VAR_Y: '<span class="term term-variable" data-value="y" data-token="term" data-type="variable">y</span>',
         UNKNOWN_Y: '<span class="term term-unknown" data-value="y" data-token="term" data-type="unknown">y</span>'
     };
+
+    var mathsEvaluator = mathsEvaluatorFactory();
 
     QUnit.module('Factory');
 
@@ -580,11 +582,15 @@ define( [
         expression: null,
         expected: ""
     }, {
-        title: "No expression",
-        expected: ""
-    } ] )
-        .test( "stringValue", function( data, assert ) {
-            assert.expect( 1 );
+        title: 'No expression',
+        expected: ''
+    }, {
+        title: 'Computed expression: 4 @nthrt 45',
+        expression: mathsEvaluator('4 @nthrt 45'),
+        expected: '2.5900200641113514527'
+    }])
+        .test('stringValue', function (data, assert) {
+            assert.expect(1);
 
             assert.equal( tokensHelper.stringValue( data.expression ), data.expected, "Should cast the value " + data.expression );
 

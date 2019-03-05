@@ -29,34 +29,37 @@ define( [  "jquery", "lodash", "core/promise", "ui/dialog" ], function(  $, _, P
         assert.notStrictEqual( dialog(), dialog(), "The dialog factory provides a different object on each call" );
     } );
 
+
     var dialogApi = [
-        { name: "init", title: "init" },
-        { name: "destroy", title: "destroy" },
-        { name: "setButtons", title: "setButtons" },
-        { name: "render", title: "render" },
-        { name: "show", title: "show" },
-        { name: "hide", title: "hide" },
-        { name: "trigger", title: "trigger" },
-        { name: "on", title: "on" },
-        { name: "off", title: "off" },
-        { name: "getDom", title: "getDom" }
+        {title: 'init'},
+        {title: 'destroy'},
+        {title: 'setButtons'},
+        {title: 'render'},
+        {title: 'show'},
+        {title: 'hide'},
+        {title: 'trigger'},
+        {title: 'on'},
+        {title: 'off'},
+        {title: 'getDom'},
+        {title: 'focus'}
     ];
 
     QUnit
-        .cases.init( dialogApi )
-        .test( "instance API ", function( data, assert ) {
+        .cases(dialogApi)
+        .test('instance API ', function(data, assert) {
             var instance = dialog();
-            assert.equal( typeof instance[ data.name ], "function", 'The dialog instance exposes a "' + data.title + '" function' );
-        } );
+            assert.equal(typeof instance[data.title], 'function', 'The dialog instance exposes a "' + data.title + '" function');
+        });
 
-    QUnit.test( "install", function( assert ) {
+
+    QUnit.asyncTest('install', function(assert) {
         var ready1 = assert.async();
         var ready = assert.async(4);
-        var heading = "heading";
-        var message = "test";
-        var content = "12345";
-        var renderTo = "#qunit-fixture";
-        var modal = dialog( {
+        var heading = 'heading';
+        var message = 'test';
+        var content = '12345';
+        var renderTo = '#fixture-install';
+        var modal = dialog({
             heading: heading,
             message: message,
             content: content,
@@ -264,13 +267,63 @@ define( [  "jquery", "lodash", "core/promise", "ui/dialog" ], function(  $, _, P
         modal.getDom().find( 'button[data-control="ok"]' ).click();
         modal.getDom().find( 'button[data-control="done"]' ).click();
     } );
+    QUnit.cases.init([{
+        title: '1st button',
+        focus: 'yes',
+        buttons: 'yes,no,ok,cancel'
+    }, {
+        title: '2nd button',
+        focus: 'no',
+        buttons: 'yes,no,ok,cancel'
+    }, {
+        title: '3rd button',
+        focus: 'ok',
+        buttons: 'yes,no,ok,cancel'
+    }, {
+        title: '4th button',
+        focus: 'ok',
+        buttons: 'yes,no,ok,cancel'
+    }]).test('focus', function(data, assert) {
+        var ready = assert.async();
+        var renderTo = '#fixture-focus';
+        var message = 'test';
+        var buttons = data.buttons.split(',');
+        var modal = dialog({
+            message: message,
+            buttons: data.buttons
+        });
 
+        assert.equal(typeof modal, 'object', "The dialog instance is an object");
+        assert.equal(typeof modal.getDom(), 'object', "The dialog instance gets a DOM element");
+        assert.ok(!!modal.getDom().length, "The dialog instance gets a DOM element");
+        assert.equal(modal.getDom().parent().length, 0, "The dialog box is not rendered by default");
+        assert.equal(modal.getDom().find('.message').text(), message, "The dialog box displays the message");
+
+        assert.equal(modal.getDom().find('button').length, buttons.length, "The dialog box displays " + buttons.length + " buttons");
+
+        modal.on('create.modal', function() {
+            modal.getDom().click();
+            buttons.forEach(function(button) {
+                assert.equal(modal.getDom().find('button[data-control="' + button + '"]').length, 1, "The dialog box displays a '" + button + "' button");
+                assert.equal(modal.getDom().find('button[data-control="' + button + '"]:focus').length, 0, "The button '" + button + "' should not be focused yet");
+            });
+
+            modal.focus();
+            assert.equal(modal.getDom().find('button:eq(0)').is(':focus'), 1, "The first button should be focused now");
+
+            modal.focus(data.focus);
+            assert.equal(modal.getDom().find('button[data-control="' + data.focus + '"]:focus').length, 1, "The button '" + data.focus + "' should be focused now");
+
+            modal.destroy();
+            ready();
+        }).render(renderTo);
+    });
     QUnit.test( "destroy", function( assert ) {
         var ready = assert.async();
 
-        var message = "foo";
-        var content = "bar";
-        var renderTo = "#qunit-fixture";
+        var message = 'foo';
+        var content = 'bar';
+        var renderTo = '#fixture-destroy';
 
         var modal = dialog( {
             message: message,
@@ -297,3 +350,4 @@ define( [  "jquery", "lodash", "core/promise", "ui/dialog" ], function(  $, _, P
         modal.render();
     } );
 } );
+

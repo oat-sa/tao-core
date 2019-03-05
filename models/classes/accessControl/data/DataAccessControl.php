@@ -42,6 +42,8 @@ class DataAccessControl implements AccessControl
     public function hasAccess(User $user, $controller, $action, $parameters) {
         $required = array();
         try {
+            // $rights = ServiceManager::getServiceManager()->get(RouteAnnotationService::SERVICE_ID)->getRights($controller, $action);
+            // todo use $rights when PHPDoc Annotations will be moved to the Doctrines annotations
             foreach (ControllerHelper::getRequiredRights($controller, $action) as $paramName => $privileges) {
                 if (isset($parameters[$paramName])) {
                     if (is_array($parameters[$paramName])) {

@@ -264,13 +264,77 @@ define( [
                     } )
                     .then( function() {
                         calculator.destroy();
-                    } );
-            } )
-            .on( "error", function( err ) {
-                console.error( err );
-                assert.ok( false, "The operation should not fail!" );
+                    });
+            })
+            .on('error', function (err) {
+                console.error(err);
+                assert.ok(false, 'The operation should not fail!');
                 ready();
-            } );
-    } );
+            });
+    });
 
-} );
+    QUnit.cases.init([{
+        title: 'Set config to degree',
+        config: {
+            maths: {
+                degree: true
+            }
+        },
+        expected: 'degree'
+    }, {
+        title: 'Set config to radian',
+        config: {
+            maths: {
+                degree: false
+            }
+        },
+        expected: 'radian'
+    }])
+        .test('config', function (data, assert) {
+            var ready = assert.async();
+
+            var $container = $('#fixture-config');
+            var calculator = calculatorBoardFactory($container, [], data.config)
+                .on('ready', function () {
+                    var areaBroker = calculator.getAreaBroker();
+                    var plugin = degradPluginFactory(calculator, areaBroker);
+
+                    assert.expect(8);
+
+                    assert.ok(!calculator.hasCommand('degree'), 'The command degree is not yet registered');
+                    assert.ok(!calculator.hasCommand('radian'), 'The command radian is not yet registered');
+                    assert.ok(!calculator.is('degree'), 'The state degree is not set');
+                    assert.ok(!calculator.is('radian'), 'The state radian is not set');
+
+                    calculator
+                        .on('plugin-init.degrad', function() {
+                            assert.ok(plugin.getState('init'), 'The plugin has been initialized');
+                        })
+                        .on('destroy', function() {
+                            ready();
+                        });
+
+                    plugin.install()
+                        .then(function() {
+                            return plugin.init();
+                        })
+                        .then(function () {
+                            assert.ok(calculator.hasCommand('degree'), 'The command degree is now registered');
+                            assert.ok(calculator.hasCommand('radian'), 'The command radian is now registered');
+
+                            assert.ok(calculator.is(data.expected), 'The expected state is set: ' + data.expected);
+                        })
+                        .catch(function (err) {
+                            assert.ok(false, 'Unexpected failure : ' + err.message);
+                        })
+                        .then(function () {
+                            calculator.destroy();
+                        });
+                })
+                .on('error', function (err) {
+                    console.error(err);
+                    assert.ok(false, 'The operation should not fail!');
+                    ready();
+                });
+        });
+});

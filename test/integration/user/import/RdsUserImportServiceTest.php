@@ -101,7 +101,7 @@ class RdsUserImportServiceTest extends GenerisPhpUnitTestRunner
         $importService->setLogger(new NullLogger());
 
         $reportMock = $this->prophesize(\common_report_Report::class)->reveal();
-        $mapper = $this->getMock(UserMapperInterface::class);
+        $mapper = $this->createMock(UserMapperInterface::class);
         $mapper->method('map')
             ->will($this->onConsecutiveCalls(
                 $mapper,
