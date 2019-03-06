@@ -134,37 +134,44 @@ class TokenService extends ConfigurableService
     public function validateToken($token)
     {
         $isValid = false;
-        $expired = false;
-        $newToken = false;
-        $actualTime = microtime(true);
-        $timeLimit  = $this->getTimeLimit();
         $pool = $this->getStore()->getTokens();
         if($pool !== null){
 
             foreach ($pool as $savedToken) {
-                $expired = false;
-                if ($savedToken['token'] === $token){
-                    if ($timeLimit > 0) {
-                        $expired = $savedToken['ts'] + $timeLimit < $actualTime;
-                    }
-
-                    $isValid = !$expired;
+                if ($savedToken['token'] === $token && !$this->isExpired($token)){
+                    $isValid = true;
                     break;
                 }
             }
         }
 
         if ($isValid !== true) {
-            if ($expired) {
-                $this->revokeToken($token);
-            }
             throw new \common_exception_Unauthorized();
         }
 
         $this->revokeToken($token);
-        $newToken = $this->addNewToken();
+        return $this->addNewToken();
+    }
 
-        return $newToken;
+    /**
+     * Check if the given token has expired. If it has, revoke it
+     *
+     * @param $token
+     * @param bool $revokeIfExpired
+     * @return bool
+     */
+    private function isExpired($token, $revokeIfExpired = false)
+    {
+        $expired = false;
+        $actualTime = microtime(true);
+        $timeLimit  = $this->getTimeLimit();
+
+        if (($timeLimit > 0) && $token['ts'] + $timeLimit < $actualTime) {
+            $expired = true;
+            !$revokeIfExpired ?: $this->revokeToken($token);
+        }
+
+        return $expired;
     }
 
     /**

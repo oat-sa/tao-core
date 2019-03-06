@@ -353,11 +353,12 @@ class tao_actions_Main extends tao_actions_CommonModule
         $this->setData('current-section', $this->getRequestParameter('section'));
 
         // Add csrf token
-//        $tokenService = $this->getServiceLocator()->get(TokenService::SERVICE_ID);
-//        $tokenName = $tokenService->getTokenName();
-//        $token = $tokenService->createToken();
-//        $this->setCookie($tokenName, $token, null, '/');
-//        $this->setData('xsrf-token-name', $tokenName);
+        // @todo: Replace this with new token logic
+        $tokenService = $this->getServiceLocator()->get(TokenService::SERVICE_ID);
+        $tokenName = $tokenService->getTokenName();
+        $token = $tokenService->createToken();
+        $this->setCookie($tokenName, $token, null, '/');
+        $this->setData('xsrf-token-name', $tokenName);
 
         //creates the URL of the action used to configure the client side
         $clientConfigParams = array(
