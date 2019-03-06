@@ -96,7 +96,7 @@ define([
                 window :  popup
             });
 
-            QUnit.expect(6);
+            assert.expect(6);
 
             pageStatus
                 .on('statuschange', _.once(function(status){
