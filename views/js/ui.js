@@ -83,7 +83,7 @@ define([
             durationer($container);
             selecter($container);
             initCrossBrowserSvg();
-            tooltip($container);
+            tooltip.lookup($container);
         }
     };
 });

@@ -62,9 +62,61 @@ require(['config'], function() {
         }
 
         $('form').bind('submit', function() {
-            if (install.isNextable()) {
-                install.setTemplate('step_database_setup');
-            }
+            // set a spinner up.
+            $serverSetup = $('#server-setup');
+            $serverSetup.css('visibility', 'visible').html('<span>' + $serverSetup.attr('data-next') + '</span>');
+            var spinner = new Spinner(getSpinnerOptions('small')).spin($serverSetup[0]);
+
+            setTimeout(function() { // Fake additional delay for user - 500ms.
+                var file_path = install.getData('file_path');
+                var file_path_overwrite = install.getData('file_path_overwrite');
+
+                var check = {
+                    id: 'fs_data',
+                    location: file_path,
+                    rights: 'rw',
+                    recursive: true,
+                    mustCheckIfEmpty: true
+                };
+
+                install.checkFileSystemComponent(check, function(status, data) {
+                    $serverSetup.css('visibility', 'hidden');
+                    spinner.stop();
+
+                    if (data.value.status == 'valid') {
+                        if (install.isNextable()) {
+                            install.setTemplate('step_database_setup');
+                        }
+                    } else if (data.value.status == 'invalid') {
+                        var location = data.value.location;
+                        var recursive = data.value.recursive;
+
+                        var expectedRightsMessage = install.getExpectedRightsAsString(data.value.expectedRights);
+                        var currentRightsMessage = install.getCurrentRightsAsString(data);
+                        var nature = (data.value.isFile == true) ? 'file' : 'directory';
+                        var recursiveMessage = (!data.value.isFile && recursive) ? ' (and all nested files) ' : '';
+
+                        var message = "The " + nature + recursiveMessage + " located at '" + location + "' on your web server should be " + expectedRightsMessage + " but is currently " + currentRightsMessage + ' only.';
+
+                        if (data.value.isReadable && !data.value.isEmptyDirectory) {
+                            message = "The " + nature + " '" + data.value.location + "' is not empty.";
+                            if (!file_path_overwrite) {
+                                message += " Check the corresponding check box to overwrite it."
+                            } else {
+                                if (install.isNextable()) {
+                                    install.setTemplate('step_database_setup');
+                                }
+                            }
+                        }
+
+                        displayTaoError(message);
+                    } else if (data.value.status == 'unknown') {
+                        var message = "The path '" + data.value.location + "' could not be found on your web server.";
+
+                        displayTaoError(message);
+                    }
+                });
+            }, 500);
 
             return false;
         });
@@ -171,7 +223,8 @@ require(['config'], function() {
             install.addHelp('hlp_deployment_mode', "The <em>production</em> deployment mode provides you with a secure installation dedicated to production. On the other hand, the <em>development</em> mode is dedicated to developers where various debug modes are enabled.");
             install.addHelp('hlp_operated_by_name', "The name of the organization managing this TAO platform installation. This information will appear in the TAO footer.");
             install.addHelp('hlp_operated_by_email', "The email address of the organization managing this TAO platform installation. This information will appear in the TAO footer.");
+            install.addHelp('hlp_file_path', "The path to the directory where TAO will store files, e.g. assessment content. This directory must be readable and writable by the user account running your web server, and should not be accessible through your web server to prevent unauthorized access.");
+            install.addHelp('hlp_file_path_overwrite', "Check this box only if the folder you choose already exists and you wish to overwrite it. Be careful, as this means your folder content will be reset and you will lose all existing content.");
         }
-
     });
 });

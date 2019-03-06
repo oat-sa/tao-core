@@ -554,11 +554,11 @@ define([
             // check/uncheck all checkboxes
             $checkAll.click(function() {
                 if (this.checked) {
-                    $checkAll.attr('checked', 'checked');
-                    $checkboxes.attr('checked', 'checked');
+                    $checkAll.prop('checked', true);
+                    $checkboxes.prop('checked', true);
                 } else {
-                    $checkAll.removeAttr('checked');
-                    $checkboxes.removeAttr('checked');
+                    $checkAll.prop('checked', false);
+                    $checkboxes.prop('checked', false);
                 }
 
                 if ($massActionBtns.length) {
@@ -575,9 +575,9 @@ define([
             $checkboxes.click(function() {
                 var $checked = $checkboxes.filter(':checked');
                 if ($checked.length === $checkboxes.length) {
-                    $checkAll.attr('checked', 'checked');
+                    $checkAll.prop('checked', true);
                 } else {
-                    $checkAll.removeAttr('checked');
+                    $checkAll.prop('checked', false);
                 }
 
                 if ($massActionBtns.length) {
@@ -702,14 +702,17 @@ define([
          * @fires dataTable#sort.datatable
          */
         _sort: function($elt, sortBy, asc, sortType) {
+
+            var options = this._sortOptions($elt, sortBy, asc, sortType);
+
             /**
-             * @event dataTable#sort.dataTable
+             * @event dataTable#sort.datatable
              * @param {String} column - The name of the column to sort
              * @param {String} direction - The sort direction
+             * @param {String} type - The type of sorting field, string or numeric
              */
-            $elt.trigger('sort.' + ns, [sortBy, asc, sortType]);
+            $elt.trigger('sort.' + ns, [options.sortby, options.sortorder, options.sorttype]);
 
-            this._sortOptions($elt, sortBy, asc, sortType);
             this._query($elt);
         },
 

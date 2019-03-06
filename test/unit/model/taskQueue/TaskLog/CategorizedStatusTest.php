@@ -62,6 +62,12 @@ class CategorizedStatusTest extends \PHPUnit_Framework_TestCase
         $status = CategorizedStatus::createFromString('failed');
         $this->assertSame('failed', (string)$status);
 
+        $status = CategorizedStatus::createFromString('archived');
+        $this->assertSame('archived', (string)$status);
+
+        $status = CategorizedStatus::createFromString('cancelled');
+        $this->assertSame('cancelled', (string)$status);
+
         $status = CategorizedStatus::createFromString('unknown');
         $this->assertSame('failed', (string)$status);
     }
@@ -77,10 +83,34 @@ class CategorizedStatusTest extends \PHPUnit_Framework_TestCase
         $statusCompleted = CategorizedStatus::createFromString('completed');
         $this->assertTrue($statusCompleted->equals(CategorizedStatus::createFromString('completed')));
 
+        $statusArchived = CategorizedStatus::createFromString('archived');
+        $this->assertTrue($statusArchived->equals(CategorizedStatus::createFromString('archived')));
+
+        $statusCancelled = CategorizedStatus::createFromString('cancelled');
+        $this->assertTrue($statusCancelled->equals(CategorizedStatus::createFromString('cancelled')));
+
         $statusFailed = CategorizedStatus::createFromString('failed');
         $this->assertTrue($statusFailed->equals(CategorizedStatus::createFromString('unknown')));
 
         $this->assertFalse($statusRunning->equals($statusCompleted));
         $this->assertFalse($statusCompleted->equals($statusFailed));
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function testIsArchived()
+    {
+        $status = CategorizedStatus::createFromString('archived');
+        $this->assertTrue($status->isArchived());
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function testIsCancelled()
+    {
+        $status = CategorizedStatus::createFromString('cancelled');
+        $this->assertTrue($status->isCancelled());
     }
 }

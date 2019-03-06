@@ -40,8 +40,9 @@ define([
     'core/eventifier',
     'core/polling',
     'core/dataProvider/request',
+    'ui/feedback',
     'jquery.fileDownload'
-], function ($, _, Promise, eventifier, polling, request) {
+], function ($, _, Promise, eventifier, polling, request, feedback) {
     'use strict';
 
     var _defaults = {
@@ -176,6 +177,17 @@ define([
                 });
 
                 return status;
+            },
+
+            /**
+             * Get the task data, but try the cache first!
+             * @returns {Promise}
+             */
+            getCached : function getCached(taskId) {
+                if (_cache && _cache[taskId]) {
+                    return Promise.resolve(_cache[taskId]);
+                }
+                return this.get(taskId);
             },
 
             /**
@@ -483,6 +495,38 @@ define([
                             reject(err);
                         }
                     });
+                });
+            },
+
+            /**
+             * Call the task result redirection endpoint
+             * @param {String} taskId - the task id
+             * @returns {Promise}
+             */
+            redirect : function redirect(taskId){
+                return this.getCached(taskId).then(function(taskData) {
+                    var redirectUrl = (taskData || {}).redirectUrl;
+                    if(!redirectUrl){
+                        throw new TypeError('config.redirectUrl is not configured while redirect() is being called');
+                    }
+
+                    if(redirectUrl.indexOf('http') !== 0) {
+                        throw new TypeError('redirectUrl does not look like a proper url: ' + redirectUrl);
+                    }
+
+                    return request(taskData.redirectUrl);
+                })
+                .then(function(response){
+                    if(!_.isEmpty(response)){
+                        window.location.href = response;
+                    }
+                })
+                .catch(function(err){
+                    //202 -> resource deleted, handle it has a user error
+                    if(err && err.code === 202 && err.response && err.response.errorMessage){
+                        feedback().error(err.response.errorMessage);
+                    }
+                    throw err;
                 });
             }
         });

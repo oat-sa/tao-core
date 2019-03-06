@@ -106,7 +106,7 @@ class TaskLogFilterTest extends \PHPUnit_Framework_TestCase
 
         $filters = $this->filter->getFilters();
 
-        $this->assertCount(2, $filters);
+        $this->assertCount(3, $filters);
 
         foreach ($filters as $filter) {
             $this->assertArrayHasKey('column', $filter);
@@ -122,6 +122,22 @@ class TaskLogFilterTest extends \PHPUnit_Framework_TestCase
 
         $filters = $this->filter->getFilters();
 
+        $this->assertCount(2, $filters);
+
+        foreach ($filters as $filter) {
+            $this->assertArrayHasKey('column', $filter);
+            $this->assertArrayHasKey('columnSqlTranslate', $filter);
+            $this->assertArrayHasKey('operator', $filter);
+            $this->assertArrayHasKey('value', $filter);
+        }
+    }
+
+    public function testAddAvailableFiltersWithArchivedAllowed()
+    {
+        $this->filter->addAvailableFilters(TaskLogInterface::SUPER_USER, false, true);
+
+        $filters = $this->filter->getFilters();
+
         $this->assertCount(1, $filters);
 
         foreach ($filters as $filter) {
@@ -129,6 +145,24 @@ class TaskLogFilterTest extends \PHPUnit_Framework_TestCase
             $this->assertArrayHasKey('columnSqlTranslate', $filter);
             $this->assertArrayHasKey('operator', $filter);
             $this->assertArrayHasKey('value', $filter);
+            $this->assertEquals('archived', $filter['value']);
+        }
+    }
+
+    public function testAddAvailableFiltersWithCancelledAllowed()
+    {
+        $this->filter->addAvailableFilters(TaskLogInterface::SUPER_USER, true, false);
+
+        $filters = $this->filter->getFilters();
+
+        $this->assertCount(1, $filters);
+
+        foreach ($filters as $filter) {
+            $this->assertArrayHasKey('column', $filter);
+            $this->assertArrayHasKey('columnSqlTranslate', $filter);
+            $this->assertArrayHasKey('operator', $filter);
+            $this->assertArrayHasKey('value', $filter);
+            $this->assertEquals('cancelled', $filter['value']);
         }
     }
 

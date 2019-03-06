@@ -22,10 +22,14 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
+    'lodash',
     'jquery',
     'ui/pageStatus'
-], function ($, pageStatusFactory) {
+], function (_, $, pageStatusFactory) {
     'use strict';
+
+    var isHeadless = /HeadlessChrome/.test(navigator.userAgent);
+
 
     QUnit.module('pageStatus');
 
@@ -46,46 +50,88 @@ define([
 
     });
 
-    QUnit.asyncTest('popup status', function (assert) {
-        QUnit.expect(8);
 
-        var popup = window.open('/','test','width=300,height=300,visible=none');
+    if (isHeadless){
+        QUnit.asyncTest('popup status', function (assert) {
 
-        var pageStatus = pageStatusFactory({
-            window :  popup
+            var popup = window.open('/tao/views/js/test/ui/pageStatus/blank.html','test','width=300,height=300,visible=none');
+
+            var pageStatus = pageStatusFactory({
+                window :  popup
+            });
+            QUnit.expect(4);
+
+            pageStatus
+                .on('statuschange', _.once(function(status){
+                    assert.ok(true, 'The statuschange event is triggered');
+                }))
+                .on('hide', _.once(function(){
+                    assert.ok(true, 'The hide event is triggered');
+                }))
+                .on('load', _.once(function(){
+                    assert.ok(true, 'The load event is triggered');
+                }))
+                .on('unload', _.once(function(){
+                    assert.ok(true, 'The unload event is triggered');
+                }));
+
+
+            _.delay(function() {
+                popup.close();
+            },100);
+
+            setTimeout(function () {
+                QUnit.start();
+            }, 300)
         });
 
-        var counter = 0;
 
-        pageStatus
-            .on('statuschange', function(status){
-                switch(counter){
-                    case 0: assert.equal(status, 'focus', 'The first event is focus'); break;
-                    case 1: assert.ok(status === 'hide' || status === 'blur', 'The second event is either hide or blur'); break;
-                    case 2: assert.ok(status === 'hide' || status === 'blur', 'The third event is either hide or blur'); break;
-                    case 3: assert.equal(status, 'unload', 'The forth event is unload'); break;
-                }
+    }else{
+        QUnit.asyncTest('popup status', function (assert) {
 
-                counter++;
-            })
-            .on('focus', function(){
-                assert.ok(true, 'The focus event is triggered');
-            })
-            .on('hide', function(){
-                assert.ok(true, 'The blur event is triggered');
-            })
-            .on('blur', function(){
-                assert.ok(true, 'The blur event is triggered');
-            })
-            .on('unload', function(){
-                assert.ok(true, 'The unload event is triggered');
-                QUnit.start();
+            var popup = window.open('/tao/views/js/test/ui/pageStatus/blank.html','test','width=300,height=300,visible=none');
+            var secondPopup;
+
+            var pageStatus = pageStatusFactory({
+                window :  popup
             });
 
-        popup.focus();
+            QUnit.expect(6);
 
-        setTimeout(function() {
-            popup.close();
-        }, 10);
-    });
+            pageStatus
+                .on('statuschange', _.once(function(status){
+                    assert.ok(true, 'The statuschange event is triggered');
+                }))
+                .on('focus', _.once(function(){
+                    assert.ok(true, 'The focus event is triggered');
+                }))
+                .on('hide', _.once(function(){
+                    assert.ok(true, 'The hide event is triggered');
+                }))
+                .on('load', _.once(function(){
+                    assert.ok(true, 'The load event is triggered');
+                }))
+                .on('blur', _.once(function(){
+                    assert.ok(true, 'The blur event is triggered');
+                }))
+                .on('unload', _.once(function(){
+                    assert.ok(true, 'The unload event is triggered');
+                }));
+
+
+            _.delay(function() {
+                secondPopup = window.open('/tao/views/js/test/ui/pageStatus/blank.html','test2','width=300,height=300');
+                _.delay(function () {
+                    popup.close();
+
+                },200)
+            },100);
+
+            setTimeout(function () {
+                secondPopup.close();
+                QUnit.start();
+            }, 400)
+        });
+
+    }
 });

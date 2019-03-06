@@ -1,0 +1,14 @@
+{
+	"version": 3,
+	"file": "waitingDialog.css",
+	"sources": [
+		"../scss/waitingDialog.scss",
+		"../../../../scss/inc/_bootstrap.scss",
+		"../../../../scss/inc/_variables.scss",
+		"../../../../scss/inc/_functions.scss",
+		"../../../../scss/inc/_colors.scss",
+		"../../../../scss/inc/fonts/_tao-icon-vars.scss"
+	],
+	"names": [],
+	"mappings": "AAEA,AAEQ,MAFF,AACD,cAAc,CACX,QAAQ,AAAC,CACL,WAAW,CAAE,IAAI,CACpB,AAJT,AAKQ,MALF,AACD,cAAc,CAIX,QAAQ,AAAC,CAEL,KAAK,CAAE,IAAI,CACX,UAAU,CAAE,MAAM,CAerB,AAvBT,AASY,MATN,AACD,cAAc,CAIX,QAAQ,CAIJ,MAAM,AAAA,QAAQ,AAAA,SAAS,AAAC,CAEpB,gBAAgB,CAAE,sBAAsB,CACxC,KAAK,CIOT,IAAI,CJPkB,UAAU,CAC5B,OAAO,CAAE,YAAY,CACrB,SAAS,CAAE,iBAAiB,CAC5B,WAAW,CAAE,eAAe,CAC5B,cAAc,CAAE,IAAI,CACvB,AAjBb,AAkBY,MAlBN,AACD,cAAc,CAIX,QAAQ,CAaJ,qBAAqB,AAAC,CAClB,KAAK,CGgLT,OAAsC,CH/KlC,OAAO,CAAE,MAAM,CG4MvB,SAAS,CAAE,IAAc,CACzB,SAAS,CAAE,MAAoB,CH3M1B,AAtBb,AAwBQ,MAxBF,AACD,cAAc,CAuBX,eAAe,AAAC,CGwMhB,SAAS,CAAE,IAAc,CACzB,SAAS,CAAE,MAAoB,CHvM3B,KAAK,CGyKL,OAAsC,CHxKtC,UAAU,CAAE,MAAM,CAClB,UAAU,CAAE,MAAM,CACrB"
+}

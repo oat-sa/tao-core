@@ -37,6 +37,10 @@ define([
         getQueryData : function getQueryData($table, $filterElement, options) {
             var data = {filtercolumns : {}};
 
+            if ($('.filter', $table).length === 0) {
+                return;
+            }
+
             _.forEach($('.filter', $table), function (filter) {
                 var $filter = $(filter);
                 var column = $filter.data('column');

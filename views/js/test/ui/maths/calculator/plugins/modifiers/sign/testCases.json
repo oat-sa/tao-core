@@ -1,0 +1,773 @@
+[
+    {
+        "title": "empty",
+        "expression": "",
+        "expected": "",
+        "from": 0,
+        "to": 0,
+        "move": 0
+    },
+    {
+        "title": "0",
+        "expression": "0",
+        "expected": "0",
+        "from": 0,
+        "to": 1,
+        "move": 0
+    },
+    {
+        "title": "Positive numeric value",
+        "expression": "42",
+        "expected": "-42",
+        "from": 0,
+        "to": 2,
+        "move": 1
+    },
+    {
+        "title": "Explicit positive numeric value",
+        "expression": "+42",
+        "expected": "-42",
+        "from": 0,
+        "to": 3,
+        "move": 0
+    },
+    {
+        "title": "Negative numeric value",
+        "expression": "-42",
+        "expected": "42",
+        "from": 0,
+        "to": 3,
+        "move": -1
+    },
+    {
+        "title": "Simple sum of numeric values - first operand",
+        "expression": "24+42",
+        "expected": "-24+42",
+        "from": 0,
+        "to": 1,
+        "move": 1
+    },
+    {
+        "title": "Simple sum of numeric values - second operand",
+        "expression": "24+42",
+        "expected": "24-42",
+        "from": 2,
+        "to": 5,
+        "move": 0
+    },
+    {
+        "title": "Sum of negative numeric values - first operand",
+        "expression": "-24+-42",
+        "expected": "24+-42",
+        "from": 0,
+        "to": 2,
+        "move": -1
+    },
+    {
+        "title": "Sum of negative numeric values - operator",
+        "expression": "-24+-42",
+        "expected": "-24--42",
+        "from": 3,
+        "to": 3,
+        "move": 0
+    },
+    {
+        "title": "Sum of negative numeric values - second operand",
+        "expression": "-24+-42",
+        "expected": "-24+42",
+        "from": 4,
+        "to": 7,
+        "move": -1
+    },
+    {
+        "title": "Simple subtraction of numeric values - first operand",
+        "expression": "24-42",
+        "expected": "-24-42",
+        "from": 0,
+        "to": 1,
+        "move": 1
+    },
+    {
+        "title": "Simple subtraction of numeric values - second operand",
+        "expression": "24-42",
+        "expected": "24+42",
+        "from": 2,
+        "to": 5,
+        "move": 0
+    },
+    {
+        "title": "Subtraction of negative numeric values - first operand",
+        "expression": "-24--42",
+        "expected": "24--42",
+        "from": 0,
+        "to": 2,
+        "move": -1
+    },
+    {
+        "title": "Subtraction of negative numeric values - operator",
+        "expression": "-24--42",
+        "expected": "-24+-42",
+        "from": 3,
+        "to": 3,
+        "move": 0
+    },
+    {
+        "title": "Subtraction of negative numeric values - second operand",
+        "expression": "-24--42",
+        "expected": "-24-42",
+        "from": 4,
+        "to": 7,
+        "move": -1
+    },
+    {
+        "title": "Simple multiplication of numeric values - first operand",
+        "expression": "24*42",
+        "expected": "-24*42",
+        "from": 0,
+        "to": 1,
+        "move": 1
+    },
+    {
+        "title": "Simple multiplication of numeric values - operator",
+        "expression": "24*42",
+        "expected": "24*42",
+        "from": 2,
+        "to": 2,
+        "move": 0
+    },
+    {
+        "title": "Simple multiplication of numeric values - second operand",
+        "expression": "24*42",
+        "expected": "24*-42",
+        "from": 3,
+        "to": 5,
+        "move": 1
+    },
+    {
+        "title": "Simple division of numeric values - first operand",
+        "expression": "24/42",
+        "expected": "-24/42",
+        "from": 0,
+        "to": 1,
+        "move": 1
+    },
+    {
+        "title": "Simple division of numeric values - operator",
+        "expression": "24/42",
+        "expected": "24/42",
+        "from": 2,
+        "to": 2,
+        "move": 0
+    },
+    {
+        "title": "Simple division of numeric values - second operand",
+        "expression": "24/42",
+        "expected": "24/-42",
+        "from": 3,
+        "to": 5,
+        "move": 1
+    },
+    {
+        "title": "Factorial of positive numeric values",
+        "expression": "42!",
+        "expected": "-42!",
+        "from": 0,
+        "to": 3,
+        "move": 1
+    },
+    {
+        "title": "Factorial of explicit positive numeric values",
+        "expression": "+42!",
+        "expected": "-42!",
+        "from": 0,
+        "to": 4,
+        "move": 0
+    },
+    {
+        "title": "Factorial of negative numeric values",
+        "expression": "-42!",
+        "expected": "42!",
+        "from": 0,
+        "to": 4,
+        "move": -1
+    },
+    {
+        "title": "Function applying on a positive numeric value - function",
+        "expression": "cos 42",
+        "expected": "-cos 42",
+        "from": 0,
+        "to": 3,
+        "move": 1
+    },
+    {
+        "title": "Function applying on a positive numeric value - operand",
+        "expression": "cos 42",
+        "expected": "cos -42",
+        "from": 4,
+        "to": 6,
+        "move": 1
+    },
+    {
+        "title": "Function applying on an explicit positive numeric value - function",
+        "expression": "cos +42",
+        "expected": "-cos +42",
+        "from": 0,
+        "to": 3,
+        "move": 1
+    },
+    {
+        "title": "Function applying on an explicit positive numeric value - operand",
+        "expression": "cos +42",
+        "expected": "cos -42",
+        "from": 4,
+        "to": 7,
+        "move": 0
+    },
+    {
+        "title": "Function applying on a negative numeric value - function",
+        "expression": "cos -42",
+        "expected": "-cos -42",
+        "from": 0,
+        "to": 3,
+        "move": 1
+    },
+    {
+        "title": "Function applying on a negative numeric value - operand",
+        "expression": "cos -42",
+        "expected": "cos 42",
+        "from": 4,
+        "to": 7,
+        "move": -1
+    },
+    {
+        "title": "First positive numeric value after a left parenthesis",
+        "expression": "(42+2)",
+        "expected": "(-42+2)",
+        "from": 1,
+        "to": 2,
+        "move": 1
+    },
+    {
+        "title": "First explicit positive numeric value after a left parenthesis",
+        "expression": "(+42+2)",
+        "expected": "(-42+2)",
+        "from": 1,
+        "to": 3,
+        "move": 0
+    },
+    {
+        "title": "First negative numeric value after a left parenthesis",
+        "expression": "(-42+2)",
+        "expected": "(42+2)",
+        "from": 1,
+        "to": 3,
+        "move": -1
+    },
+    {
+        "title": "Positive constant",
+        "expression": "pi",
+        "expected": "-pi",
+        "from": 0,
+        "to": 2,
+        "move": 1
+    },
+    {
+        "title": "Explicit positive constant",
+        "expression": "+pi",
+        "expected": "-pi",
+        "from": 0,
+        "to": 3,
+        "move": 0
+    },
+    {
+        "title": "Negative constant",
+        "expression": "-pi",
+        "expected": "pi",
+        "from": 0,
+        "to": 3,
+        "move": -1
+    },
+    {
+        "title": "Operation with positive constant",
+        "expression": "3*pi",
+        "expected": "3*-pi",
+        "from": 2,
+        "to": 4,
+        "move": 1
+    },
+    {
+        "title": "Operation with explicit positive constant",
+        "expression": "3*+pi",
+        "expected": "3*-pi",
+        "from": 2,
+        "to": 5,
+        "move": 0
+    },
+    {
+        "title": "Operation with negative constant",
+        "expression": "3*-pi",
+        "expected": "3*pi",
+        "from": 2,
+        "to": 5,
+        "move": -1
+    },
+    {
+        "title": "Function with positive value - function",
+        "expression": "sin 1",
+        "expected": "-sin 1",
+        "from": 0,
+        "to": 3,
+        "move": 1
+    },
+    {
+        "title": "Function with positive value - value",
+        "expression": "sin 1",
+        "expected": "sin -1",
+        "from": 4,
+        "to": 5,
+        "move": 1
+    },
+    {
+        "title": "Function with negative value - function",
+        "expression": "sin -1",
+        "expected": "-sin -1",
+        "from": 0,
+        "to": 3,
+        "move": 1
+    },
+    {
+        "title": "Function with negative value - value",
+        "expression": "sin -1",
+        "expected": "sin 1",
+        "from": 4,
+        "to": 6,
+        "move": -1
+    },
+    {
+        "title": "Positive function - function",
+        "expression": "sin 1",
+        "expected": "-sin 1",
+        "from": 0,
+        "to": 3,
+        "move": 1
+    },
+    {
+        "title": "Positive function - value",
+        "expression": "sin 1",
+        "expected": "sin -1",
+        "from": 4,
+        "to": 5,
+        "move": 1
+    },
+    {
+        "title": "Explicit positive function - function",
+        "expression": "+sin 1",
+        "expected": "-sin 1",
+        "from": 0,
+        "to": 4,
+        "move": 0
+    },
+    {
+        "title": "Explicit positive function - value",
+        "expression": "+sin 1",
+        "expected": "+sin -1",
+        "from": 5,
+        "to": 6,
+        "move": 1
+    },
+    {
+        "title": "Negative function - function",
+        "expression": "-sin 1",
+        "expected": "sin 1",
+        "from": 0,
+        "to": 4,
+        "move": -1
+    },
+    {
+        "title": "Negative function - value",
+        "expression": "-sin 1",
+        "expected": "-sin -1",
+        "from": 5,
+        "to": 6,
+        "move": 1
+    },
+    {
+        "title": "Positive nested function - function",
+        "expression": "exp sin 1",
+        "expected": "exp -sin 1",
+        "from": 4,
+        "to": 7,
+        "move": 1
+    },
+    {
+        "title": "Positive nested function - value",
+        "expression": "exp sin 1",
+        "expected": "exp sin -1",
+        "from": 8,
+        "to": 9,
+        "move": 1
+    },
+    {
+        "title": "Explicit positive nested function - function",
+        "expression": "exp +sin 1",
+        "expected": "exp -sin 1",
+        "from": 4,
+        "to": 8,
+        "move": 0
+    },
+    {
+        "title": "Explicit positive nested function - value",
+        "expression": "exp +sin 1",
+        "expected": "exp +sin -1",
+        "from": 9,
+        "to": 10,
+        "move": 1
+    },
+    {
+        "title": "Negative nested function - function",
+        "expression": "exp -sin 1",
+        "expected": "exp sin 1",
+        "from": 4,
+        "to": 8,
+        "move": -1
+    },
+    {
+        "title": "Negative nested function - value",
+        "expression": "exp -sin 1",
+        "expected": "exp -sin -1",
+        "from": 9,
+        "to": 10,
+        "move": 1
+    },
+    {
+        "title": "Positive variable",
+        "expression": "x",
+        "expected": "-x",
+        "from": 0,
+        "to": 1,
+        "move": 1
+    },
+    {
+        "title": "Explicit positive variable",
+        "expression": "+x",
+        "expected": "-x",
+        "from": 0,
+        "to": 2,
+        "move": 0
+    },
+    {
+        "title": "Negative variable",
+        "expression": "-x",
+        "expected": "x",
+        "from": 0,
+        "to": 2,
+        "move": -1
+    },
+    {
+        "title": "Positive variable in expression",
+        "expression": "3+x",
+        "expected": "3-x",
+        "from": 1,
+        "to": 3,
+        "move": 0
+    },
+    {
+        "title": "Negative variable in expression",
+        "expression": "3-x",
+        "expected": "3+x",
+        "from": 1,
+        "to": 3,
+        "move": 0
+    },
+    {
+        "title": "Explicit negative variable in expression",
+        "expression": "3+-x",
+        "expected": "3+x",
+        "from": 2,
+        "to": 4,
+        "move": -1
+    },
+    {
+        "title": "Positive sub expression - left parenthesis",
+        "expression": "(3+2)",
+        "expected": "-(3+2)",
+        "from": 0,
+        "to": 0,
+        "move": 1
+    },
+    {
+        "title": "Positive sub expression - inside",
+        "expression": "(3+2)",
+        "expected": "(-3+2)",
+        "from": 1,
+        "to": 1,
+        "move": 1
+    },
+    {
+        "title": "Positive sub expression - inside",
+        "expression": "(3+2)",
+        "expected": "(3-2)",
+        "from": 2,
+        "to": 3,
+        "move": 0
+    },
+    {
+        "title": "Positive sub expression - right parenthesis",
+        "expression": "(3+2)",
+        "expected": "-(3+2)",
+        "from": 4,
+        "to": 5,
+        "move": 1
+    },
+    {
+        "title": "Explicit positive sub expression - left parenthesis",
+        "expression": "+(3+2)",
+        "expected": "-(3+2)",
+        "from": 0,
+        "to": 1,
+        "move": 0
+    },
+    {
+        "title": "Explicit positive sub expression - inside",
+        "expression": "+(3+2)",
+        "expected": "+(-3+2)",
+        "from": 2,
+        "to": 2,
+        "move": 1
+    },
+    {
+        "title": "Explicit positive sub expression - inside",
+        "expression": "+(3+2)",
+        "expected": "+(3-2)",
+        "from": 3,
+        "to": 4,
+        "move": 0
+    },
+    {
+        "title": "Explicit positive sub expression - right parenthesis",
+        "expression": "+(3+2)",
+        "expected": "-(3+2)",
+        "from": 5,
+        "to": 6,
+        "move": 0
+    },
+    {
+        "title": "Negative sub expression - left parenthesis",
+        "expression": "-(3+2)",
+        "expected": "(3+2)",
+        "from": 0,
+        "to": 1,
+        "move": -1
+    },
+    {
+        "title": "Negative sub expression - inside",
+        "expression": "-(3+2)",
+        "expected": "-(-3+2)",
+        "from": 2,
+        "to": 2,
+        "move": 1
+    },
+    {
+        "title": "Negative sub expression - inside",
+        "expression": "-(3+2)",
+        "expected": "-(3-2)",
+        "from": 3,
+        "to": 4,
+        "move": 0
+    },
+    {
+        "title": "Negative sub expression - right parenthesis",
+        "expression": "-(3+2)",
+        "expected": "(3+2)",
+        "from": 5,
+        "to": 6,
+        "move": -1
+    },
+    {
+        "title": "Nested sub expression - left parenthesis",
+        "expression": "(3*(2+1))",
+        "expected": "-(3*(2+1))",
+        "from": 0,
+        "to": 0,
+        "move": 1
+    },
+    {
+        "title": "Nested sub expression - inside",
+        "expression": "(3*(2+1))",
+        "expected": "(-3*(2+1))",
+        "from": 1,
+        "to": 1,
+        "move": 1
+    },
+    {
+        "title": "Nested sub expression - inside",
+        "expression": "(3*(2+1))",
+        "expected": "(3*-(2+1))",
+        "from": 7,
+        "to": 7,
+        "move": 1
+    },
+    {
+        "title": "Nested sub expression - right parenthesis",
+        "expression": "(3*(2+1))",
+        "expected": "-(3*(2+1))",
+        "from": 8,
+        "to": 9,
+        "move": 1
+    },
+    {
+        "title": "Nested explicit positive sub expression - left parenthesis",
+        "expression": "+(3*(2+1))",
+        "expected": "-(3*(2+1))",
+        "from": 0,
+        "to": 1,
+        "move": 0
+    },
+    {
+        "title": "Nested explicit positive sub expression - inside",
+        "expression": "+(3*(2+1))",
+        "expected": "+(-3*(2+1))",
+        "from": 2,
+        "to": 2,
+        "move": 1
+    },
+    {
+        "title": "Nested explicit positive sub expression - inside",
+        "expression": "+(3*(2+1))",
+        "expected": "+(3*-(2+1))",
+        "from": 8,
+        "to": 8,
+        "move": 1
+    },
+    {
+        "title": "Nested explicit positive sub expression - right parenthesis",
+        "expression": "+(3*(2+1))",
+        "expected": "-(3*(2+1))",
+        "from": 9,
+        "to": 10,
+        "move": 0
+    },
+    {
+        "title": "Nested negative sub expression - left parenthesis",
+        "expression": "-(3*-(2+1))",
+        "expected": "(3*-(2+1))",
+        "from": 0,
+        "to": 1,
+        "move": -1
+    },
+    {
+        "title": "Nested negative sub expression - inside",
+        "expression": "-(3*-(2+1))",
+        "expected": "-(-3*-(2+1))",
+        "from": 2,
+        "to": 2,
+        "move": 1
+    },
+    {
+        "title": "Nested negative sub expression - inside",
+        "expression": "-(3*-(2+1))",
+        "expected": "-(3*(2+1))",
+        "from": 9,
+        "to": 9,
+        "move": -1
+    },
+    {
+        "title": "Nested negative sub expression - right parenthesis",
+        "expression": "-(3*-(2+1))",
+        "expected": "(3*-(2+1))",
+        "from": 10,
+        "to": 11,
+        "move": -1
+    },
+    {
+        "title": "Nested sub expression 2 - left parenthesis",
+        "expression": "((2+1)*2)",
+        "expected": "-((2+1)*2)",
+        "from": 0,
+        "to": 0,
+        "move": 1
+    },
+    {
+        "title": "Nested sub expression 2 - inside left parenthesis",
+        "expression": "((2+1)*2)",
+        "expected": "(-(2+1)*2)",
+        "from": 1,
+        "to": 1,
+        "move": 1
+    },
+    {
+        "title": "Nested sub expression 2 - inside right parenthesis",
+        "expression": "((2+1)*2)",
+        "expected": "(-(2+1)*2)",
+        "from": 5,
+        "to": 5,
+        "move": 1
+    },
+    {
+        "title": "Nested sub expression 2 - right parenthesis",
+        "expression": "((2+1)*2)",
+        "expected": "-((2+1)*2)",
+        "from": 8,
+        "to": 9,
+        "move": 1
+    },
+    {
+        "title": "Nested negative sub expression 2 - left parenthesis",
+        "expression": "(-(2+1)*2)",
+        "expected": "-(-(2+1)*2)",
+        "from": 0,
+        "to": 0,
+        "move": 1
+    },
+    {
+        "title": "Nested negative sub expression 2 - inside left parenthesis",
+        "expression": "(-(2+1)*2)",
+        "expected": "((2+1)*2)",
+        "from": 1,
+        "to": 2,
+        "move": -1
+    },
+    {
+        "title": "Nested negative sub expression 2 - inside right parenthesis",
+        "expression": "(-(2+1)*2)",
+        "expected": "((2+1)*2)",
+        "from": 6,
+        "to": 6,
+        "move": -1
+    },
+    {
+        "title": "Nested negative sub expression 2 - right parenthesis",
+        "expression": "(-(2+1)*2)",
+        "expected": "-(-(2+1)*2)",
+        "from": 9,
+        "to": 10,
+        "move": 1
+    },
+    {
+        "title": "Previous result with negative number",
+        "expression": "ans",
+        "lastResult": "-2",
+        "expected": "2",
+        "from": 0,
+        "to": 3,
+        "position": 1
+    },
+    {
+        "title": "Previous result with positive number",
+        "expression": "ans",
+        "lastResult": "2",
+        "expected": "-2",
+        "from": 0,
+        "to": 3,
+        "position": 2
+    },
+    {
+        "title": "Previous result with explicit positive number",
+        "expression": "ans",
+        "lastResult": "+2",
+        "expected": "-2",
+        "from": 0,
+        "to": 3,
+        "position": 2
+    }
+]

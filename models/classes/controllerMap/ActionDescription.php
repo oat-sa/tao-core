@@ -29,6 +29,7 @@ use ReflectionMethod;
  * Description of a Tao Controller
  * 
  * @author Joel Bout <joel@taotesting.com>
+ * @deprecated use \oat\tao\model\routing\RouteAnnotationService instead
  */
 class ActionDescription
 {

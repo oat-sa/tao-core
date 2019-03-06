@@ -31,6 +31,7 @@ use oat\generis\model\data\ModelManager;
 use oat\generis\model\kernel\persistence\file\FileIterator;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\controller\api\Users;
 use oat\tao\model\cliArgument\argument\implementation\Group;
 use oat\tao\model\cliArgument\argument\implementation\verbose\Debug;
 use oat\tao\model\cliArgument\argument\implementation\verbose\Error;
@@ -55,6 +56,10 @@ use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\resources\ResourceWatcher;
 use oat\tao\model\security\SignatureGenerator;
+use oat\tao\model\routing\AnnotationReaderService;
+use oat\tao\model\routing\ControllerService;
+use oat\tao\model\routing\RouteAnnotationService;
+use oat\tao\model\security\ActionProtector;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStoreSession;
 use oat\tao\model\service\ApplicationService;
@@ -108,6 +113,7 @@ use oat\tao\model\resources\TreeResourceLookup;
 use oat\tao\model\user\TaoRoles;
 use oat\generis\model\data\event\ResourceDeleted;
 use oat\tao\model\search\index\IndexService;
+use tao_models_classes_UserService;
 
 /**
  *
@@ -875,7 +881,85 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('21.5.0');
         }
 
-        $this->skip('21.5.0', '22.4.2');
+        $this->skip('21.5.0', '22.9.1');
+
+        if ($this->isVersion('22.9.1')) {
+            OntologyUpdater::syncModels();
+
+            $iterator = new FileIterator(__DIR__ . '/../../locales/nl-BE/lang.rdf');
+            $rdf = ModelManager::getModel()->getRdfInterface();
+
+            /* @var \core_kernel_classes_Triple $triple */
+            foreach ($iterator as $triple) {
+                $rdf->add($triple);
+            }
+
+            $this->setVersion('22.10.2');
+        }
+
+        $this->skip('22.10.0', '22.12.0');
+
+        if ($this->isVersion('22.12.0')) {
+            $this->getServiceManager()->register(
+                ActionProtector::SERVICE_ID,
+                new ActionProtector(['frameSourceWhitelist' => ['self']])
+            );
+            $this->setVersion('22.13.0');
+        }
+
+        if ($this->isVersion('22.13.0')) {
+            $this->getServiceManager()->register(
+                ActionProtector::SERVICE_ID,
+                new ActionProtector(['frameSourceWhitelist' => ["'self'"]])
+            );
+            $this->setVersion('22.13.1');
+        }
+
+        $this->skip('22.13.1', '26.1.7');
+
+        if ($this->isVersion('26.1.7')) {
+
+            AclProxy::applyRule(new AccessRule(AccessRule::GRANT,  TaoRoles::SYSTEM_ADMINISTRATOR, Users::class));
+            AclProxy::applyRule(new AccessRule(AccessRule::GRANT,  TaoRoles::GLOBAL_MANAGER, Users::class));
+
+            $userService = $this->getServiceManager()->get(tao_models_classes_UserService::SERVICE_ID);
+            $userService->setOption(tao_models_classes_UserService::OPTION_ALLOW_API, false);
+            $this->getServiceManager()->register(tao_models_classes_UserService::SERVICE_ID, $userService);
+
+            $this->setVersion('27.0.0');
+        }
+
+        $this->skip('27.0.0', '27.1.2');
+
+        if ($this->isVersion('27.1.2')) {
+
+            if (!$this->getServiceManager()->has(RouteAnnotationService::SERVICE_ID)) {
+                $annotationService = new RouteAnnotationService();
+                $this->getServiceManager()->register(RouteAnnotationService::SERVICE_ID, $annotationService);
+            }
+
+            if (!$this->getServiceManager()->has(AnnotationReaderService::SERVICE_ID)) {
+                $readerService = new AnnotationReaderService();
+                $this->getServiceManager()->register(AnnotationReaderService::SERVICE_ID, $readerService);
+            }
+
+            if (!$this->getServiceManager()->has(ControllerService::SERVICE_ID)) {
+                $controllerService = new ControllerService();
+                $this->getServiceManager()->register(ControllerService::SERVICE_ID, $controllerService);
+            }
+
+            $this->setVersion('27.2.0');
+        }
+
+        $this->skip('27.2.0', '27.3.0');
+
+        if ($this->isVersion('27.3.0')) {
+            AclProxy::applyRule(new AccessRule('grant', TaoRoles::ANONYMOUS, ['ext' => 'tao', 'mod' => 'RestVersion', 'act' => 'index']));
+
+            $this->setVersion('27.4.0');
+        }
+
+        $this->skip('27.4.0', '27.5.0');
 
         if ($this->isVersion('22.4.2')) {
             $taskSerializer = new SignatureGenerator([
