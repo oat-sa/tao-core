@@ -82,17 +82,41 @@ define([
         $.mockjax.clear();
     });
 
+
+    QUnit.module('Missed params');
+
+    requestCases = [{
+        title: 'no url',
+        err : new TypeError('At least give a URL...')
+    }];
+
+    QUnit
+        .cases(requestCases)
+        .asyncTest('bad request call with ', function(caseData, assert){
+            QUnit.expect(1);
+
+            assert.throws(
+                function() {
+                    request(caseData.url, caseData.data, caseData.method, caseData.headers, caseData.background, caseData.noToken);
+                },
+                "throws an error"
+            );
+            QUnit.start();
+        });
+
+
     QUnit.module('request');
 
     requestCases = [
         {
-            title: 'no url',
-            reject: true,
-            err : new TypeError('At least give a URL...')
-        },
-        {
             title : '200 got content',
             url : '//200',
+            content: { foo : 'bar' }
+        },
+        {
+            title : '200 no token required',
+            url : '//200',
+            noToken: true,
             content: { foo : 'bar' }
         },
         {
@@ -101,12 +125,6 @@ define([
             headers: { 'x-foo': 'bar' },
             noToken: true,
             content: { foo : 'bar', requestHeaders: { 'x-foo': 'bar' } }
-        },
-        {
-            title : '200 no token required',
-            url : '//200',
-            noToken: true,
-            content: { foo : 'bar' }
         },
         {
             title : '204 no content',

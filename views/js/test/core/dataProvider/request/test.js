@@ -75,6 +75,29 @@ define([
         assert.equal(typeof request, 'function', "The module exposes a function");
     });
 
+
+    QUnit.module('Missed params');
+
+    requestCases = [{
+        title: 'no url',
+        err : new TypeError('At least give a URL...')
+    }];
+
+    QUnit
+        .cases(requestCases)
+        .asyncTest('bad request call with ', function(caseData, assert){
+            QUnit.expect(1);
+
+            assert.throws(
+                function() {
+                    request(caseData.url, caseData.data, caseData.method, caseData.headers, caseData.background, caseData.noToken);
+                },
+                "throws an error"
+            );
+            QUnit.start();
+        });
+
+
     QUnit.module('request', {
         setup : function(){
 
@@ -84,7 +107,7 @@ define([
                     done : function(cb){
                         var response = responses[options.url];
                         if (response) {
-                            if (options.headers) {
+                            if (options.headers && !_.isEmpty(options.headers)) {
                                 response = _.cloneDeep(response);
                                 if (!response[0].data) {
                                     response[0].data = {};
@@ -110,10 +133,6 @@ define([
     });
 
     requestCases = [{
-        title: 'no url',
-        reject: true,
-        err : new TypeError('At least give a URL...')
-    }, {
         title : '200 got content',
         url : '//200',
         content: { foo : 'bar' },

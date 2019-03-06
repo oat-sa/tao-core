@@ -49,7 +49,7 @@ define([
 
         //in memory storage
         var getStore = function getStore() {
-            return store('tokenStore.tokens', store.backends.indexeddb);
+            return store('tokenStore.tokens', store.backends.memory);
         };
 
         /**
