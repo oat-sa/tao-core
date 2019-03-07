@@ -64,7 +64,6 @@ Usage:
         }
     }
 }
-
 @mixin flex-container($wrapBehavior: nowrap, $direction : row) {
     display: box; // 2009 syntax : FF 21
     // 2012 Syntax

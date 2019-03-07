@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2013-2019 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  *
  */
@@ -22,13 +22,21 @@
  * https://github.com/epeli/requirejs-hbs
  * Copyright 2013 Esa-Matti Suuronen
  * MIT License : https://github.com/epeli/requirejs-hbs/blob/master/LICENSE
- * 
+ *
  * MODIFIED VERSION:
  * @author Bertrand Chevrier <bertrand@taotesting.com> for OAT SA
  * - Minor code refactoring
- * - Add the i18n helper
+ * - i18n helper has been added
+ * - dompurify helper has been added
  */
-define(['handlebars', 'i18n', 'lodash'], function(hb, __, _){
+define([
+    'handlebars',
+    'i18n',
+    'lodash',
+    'lib/dompurify/purify'
+], function(hb, __, _, DOMPurify){
+    'use strict';
+
     var buildMap = {};
     var extension = '.tpl';
 
@@ -38,7 +46,18 @@ define(['handlebars', 'i18n', 'lodash'], function(hb, __, _){
     });
 
     /**
-     * register join helper
+     * Register dompurify helper
+     *
+     * https://github.com/cure53/DOMPurify
+     * with config SAFE_FOR_TEMPLATES: true
+     * to make output safe for template systems
+     */
+    hb.registerHelper('dompurify', function(context){
+        return DOMPurify.sanitize(context);
+    });
+
+    /**
+     * Register join helper
      *
      * Example :
      * var values = {a:v1, b:v2, c:v3};
@@ -117,25 +136,29 @@ define(['handlebars', 'i18n', 'lodash'], function(hb, __, _){
 
             if(config.isBuild){
                 //optimization, r.js node.js version
-                buildMap[name] = fs.readFileSync(req.toUrl(name + extension)).toString();
+                buildMap[name] = fs.readFileSync(req.toUrl(name + extension)).toString().trim();
                 onload();
 
-            }else{
+            } else {
                 req(["text!" + name + extension], function(raw){
                     // Just return the compiled template
-                    onload(hb.compile(raw));
+                    onload(function(){
+                        var compiled = hb.compile(raw);
+                        return compiled.apply(hb, arguments).trim();
+                    });
                 });
             }
         },
         write : function(pluginName, moduleName, write){
+            var compiled;
             if(moduleName in buildMap){
-                var compiled = hb.precompile(buildMap[moduleName]);
+                compiled = hb.precompile(buildMap[moduleName]);
                 // Write out precompiled version of the template function as AMD definition.
                 write(
                     "define('tpl!" + moduleName + "', ['handlebars'], function(hb){ \n" +
                     "return hb.template(" + compiled.toString() + ");\n" +
                     "});\n"
-                    );
+                );
             }
         }
     };

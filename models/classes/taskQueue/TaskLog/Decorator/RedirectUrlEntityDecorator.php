@@ -20,8 +20,10 @@
 
 namespace oat\tao\model\taskQueue\TaskLog\Decorator;
 
+use oat\oatbox\user\User;
 use oat\tao\model\accessControl\AclProxy;
 use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
+use oat\tao\model\taskQueue\TaskLogInterface;
 use oat\taoBackOffice\controller\Redirector;
 
 /**
@@ -29,9 +31,27 @@ use oat\taoBackOffice\controller\Redirector;
  */
 class RedirectUrlEntityDecorator extends TaskLogEntityDecorator
 {
-    public function __construct(EntityInterface $entity)
+    /**
+     * @var TaskLogInterface
+     */
+    private $taskLogService;
+
+    /**
+     * @var User
+     */
+    private $user;
+
+    /**
+     * RedirectUrlEntityDecorator constructor.
+     * @param EntityInterface $entity
+     * @param TaskLogInterface $taskLogService
+     * @param User $user
+     */
+    public function __construct(EntityInterface $entity, TaskLogInterface $taskLogService, User $user)
     {
         parent::__construct($entity);
+        $this->taskLogService = $taskLogService;
+        $this->user = $user;
     }
 
     /**
@@ -43,32 +63,57 @@ class RedirectUrlEntityDecorator extends TaskLogEntityDecorator
     }
 
     /**
-     * Add 'redirectUrl' to the result if the task has been processed.
+     * Add 'redirectUrl' to the result if the task has been processed
+     * and it is not an export or delete task
      *
      * @return array
      */
     public function toArray()
     {
         $data = parent::toArray();
-        if ($this->getStatus()->isCompleted() || $this->getStatus()->isArchived()) {
-            $user = \common_session_SessionManager::getSession()->getUser();
+
+        $deniedCategories = [
+            TaskLogInterface::CATEGORY_DELETE,
+            TaskLogInterface::CATEGORY_EXPORT,
+            TaskLogInterface::CATEGORY_UNKNOWN
+        ];
+
+        if ( !in_array($this->taskLogService->getCategoryForTask($this->getTaskName()), $deniedCategories) &&
+             ($this->getStatus()->isCompleted() || $this->getStatus()->isArchived()) ) {
+
+            $user = $this->user;
             $params = [
                 'taskId' => $this->getId()
             ];
-            $hasAccess = AclProxy::hasAccess(
+            $hasAccess = $this->hasAccess(
                 $user,
                 Redirector::class,
                 'redirectTaskToInstance',
                 $params
             );
             if ($hasAccess) {
-                $data = array_merge(parent::toArray(), [
+                $data = array_merge($data, [
                     'redirectUrl' => _url('redirectTaskToInstance', 'Redirector', 'taoBackOffice', $params)
                 ]);
             } else {
                 \common_Logger::w('User \''.$user->getIdentifier().'\' does not have access to redirectTaskToInstance');
             }
         }
+
         return $data;
+    }
+
+    /**
+     * Check the ACL
+     *
+     * @param $user
+     * @param $class
+     * @param $method
+     * @param $parameters
+     * @return bool
+     */
+    protected function hasAccess($user, $class, $method, $parameters)
+    {
+        return AclProxy::hasAccess($user, $class, $method, $parameters);
     }
 }

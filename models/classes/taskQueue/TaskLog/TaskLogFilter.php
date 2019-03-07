@@ -191,16 +191,21 @@ class TaskLogFilter
     }
 
     /**
-     * Add a basic filter to query only rows belonging to a given user and not having status ARCHIVED.
+     * Add a basic filter to query only rows belonging to a given user and not having status ARCHIVED or CANCELLED.
      *
      * @param string $userId
      * @param bool $archivedAllowed
+     * @param bool $cancelledAvailable
      * @return $this
      */
-    public function addAvailableFilters($userId, $archivedAllowed = false)
+    public function addAvailableFilters($userId, $archivedAllowed = false, $cancelledAvailable = false)
     {
         if (!$archivedAllowed) {
             $this->neq(TaskLogBrokerInterface::COLUMN_STATUS, TaskLogInterface::STATUS_ARCHIVED);
+        }
+
+        if (!$cancelledAvailable) {
+            $this->neq(TaskLogBrokerInterface::COLUMN_STATUS, TaskLogInterface::STATUS_CANCELLED);
         }
 
         if ($userId !== TaskLogInterface::SUPER_USER) {
@@ -217,6 +222,21 @@ class TaskLogFilter
     public function availableForArchived($userId)
     {
         $this->in(TaskLogBrokerInterface::COLUMN_STATUS, [TaskLogInterface::STATUS_FAILED, TaskLogInterface::STATUS_COMPLETED]);
+
+        if ($userId !== TaskLogInterface::SUPER_USER) {
+            $this->eq(TaskLogBrokerInterface::COLUMN_OWNER, $userId);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param $userId
+     * @return $this
+     */
+    public function availableForCancelled($userId)
+    {
+        $this->eq(TaskLogBrokerInterface::COLUMN_STATUS, TaskLogInterface::STATUS_ENQUEUED);
 
         if ($userId !== TaskLogInterface::SUPER_USER) {
             $this->eq(TaskLogBrokerInterface::COLUMN_OWNER, $userId);

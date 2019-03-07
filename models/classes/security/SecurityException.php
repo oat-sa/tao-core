@@ -20,6 +20,7 @@ namespace oat\tao\model\security;
 
 use common_Logger;
 
+// TODO: refactor after https://oat-sa.atlassian.net/browse/TAO-6637 is merged
 class SecurityException extends \Exception
 {
     private $messageToLog;

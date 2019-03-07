@@ -23,15 +23,21 @@ use oat\oatbox\service\ServiceManager;
 
 class SignatureValidator
 {
+    /**
+     * @param array $list
+     * @param string $signatureFieldName
+     * @param string $idFieldName
+     *
+     * @throws SecurityException
+     * @throws \oat\tao\model\metadata\exception\InconsistencyConfigException
+     */
     public function checkSignatures(array $list, $signatureFieldName = 'signature', $idFieldName = 'id')
     {
         /** @var SignatureGenerator $signatureGenerator */
         $signatureGenerator = ServiceManager::getServiceManager()->get(SignatureGenerator::class);
 
         foreach ($list as $item) {
-           if ($signatureGenerator->generate($item[$idFieldName]) !== $item[$signatureFieldName]) {
-               throw new SecurityException('Invalid signature');
-           }
+            $this->checkSignature($item[$signatureFieldName], $signatureGenerator->generate($item[$idFieldName]));
         }
     }
 
