@@ -20,6 +20,7 @@
 namespace oat\tao\model\security;
 
 use oat\oatbox\service\ServiceManager;
+use oat\tao\model\metadata\exception\InconsistencyConfigException;
 
 class SignatureValidator
 {
@@ -29,18 +30,24 @@ class SignatureValidator
      * @param string $idFieldName
      *
      * @throws SecurityException
-     * @throws \oat\tao\model\metadata\exception\InconsistencyConfigException
+     * @throws InconsistencyConfigException
      */
     public function checkSignatures(array $list, $signatureFieldName = 'signature', $idFieldName = 'id')
     {
-        /** @var SignatureGenerator $signatureGenerator */
-        $signatureGenerator = ServiceManager::getServiceManager()->get(SignatureGenerator::class);
+        $signatureGenerator = $this->getSignatureGenerator();
 
         foreach ($list as $item) {
             $this->checkSignature($item[$signatureFieldName], $signatureGenerator->generate($item[$idFieldName]));
         }
     }
 
+    /**
+     * @param string $signature
+     * @param mixed $data data to be signed
+     *
+     * @throws SecurityException
+     * @throws InconsistencyConfigException
+     */
     public function checkSignature($signature, ...$data)
     {
         if (empty($signature)) {
@@ -51,11 +58,16 @@ class SignatureValidator
             throw new SecurityException('Signature should be a string');
         }
 
-        /** @var SignatureGenerator $signatureGenerator */
-        $signatureGenerator = ServiceManager::getServiceManager()->get(SignatureGenerator::class);
-
-        if ($signature !== $signatureGenerator->generate(...$data)) {
+        if ($signature !== $this->getSignatureGenerator()->generate(...$data)) {
             throw new SecurityException('Invalid signature');
         }
+    }
+
+    /**
+     * @return SignatureGenerator
+     */
+    private function getSignatureGenerator()
+    {
+        return ServiceManager::getServiceManager()->get(SignatureGenerator::class);
     }
 }

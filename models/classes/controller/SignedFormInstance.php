@@ -7,7 +7,6 @@ use oat\tao\helpers\form\validators\ResourceSignatureValidator;
 use oat\tao\model\security\SignatureGenerator;
 use tao_actions_form_Instance;
 use tao_helpers_form_FormFactory;
-use tao_helpers_Uri;
 
 class SignedFormInstance extends tao_actions_form_Instance
 {
@@ -55,6 +54,6 @@ class SignedFormInstance extends tao_actions_form_Instance
 
     protected function getDataToSign()
     {
-        return tao_helpers_Uri::encode($this->instance->getUri());
+        return $this->instance->getUri();
     }
 }
