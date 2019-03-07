@@ -17,7 +17,7 @@
  * Copyright (c) 2015-2018 Open Assessment Technologies S.A.
  */
 
-use oat\oatbox\event\EventManagerAwareTrait;
+use oat\oatbox\event\EventManager;
 use oat\tao\model\event\ClassFormUpdatedEvent;
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyRdfs;
@@ -34,9 +34,13 @@ use oat\oatbox\log\LoggerAwareTrait;
  */
 class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
 {
-    use EventManagerAwareTrait;
     use OntologyAwareTrait;
     use LoggerAwareTrait;
+
+    protected function getEventManager()
+    {
+        return $this->getServiceLocator()->get(EventManager::SERVICE_ID);
+    }
 
     /**
      * @requiresRight id READ

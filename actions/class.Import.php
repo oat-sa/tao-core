@@ -20,7 +20,7 @@
  *               2013-2018 (update and modification) Open Assessment Technologies SA;
  */
 
-use oat\oatbox\event\EventManagerAwareTrait;
+use oat\oatbox\event\EventManager;
 use oat\tao\model\import\TaskParameterProviderInterface;
 use oat\tao\model\task\ImportByHandler;
 use oat\tao\model\taskQueue\QueueDispatcher;
@@ -42,10 +42,14 @@ class tao_actions_Import extends tao_actions_CommonModule
      */
     private $availableHandlers = [];
 
-    use EventManagerAwareTrait;
     use TaskLogActionTrait;
     use OntologyAwareTrait;
-    
+
+    protected function getEventManager()
+    {
+        return $this->getServiceLocator()->get(EventManager::SERVICE_ID);
+    }
+
     /**
      * initialize the classUri and execute the upload action
      *
