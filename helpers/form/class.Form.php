@@ -123,6 +123,11 @@ abstract class tao_helpers_form_Form
      */
     protected $systemElements = array();
 
+    /**
+     * @var bool
+     */
+    private $useCsrfToken = false;
+
     // --- OPERATIONS ---
 
     /**
@@ -649,6 +654,22 @@ abstract class tao_helpers_form_Form
 		}
 
         return $returnValue;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isCsrfTokenRequired()
+    {
+        return $this->useCsrfToken;
+    }
+
+    /**
+     * Add usage of a CSRF token for this form.
+     */
+    public function addCsrfTokenProtection()
+    {
+        $this->useCsrfToken = true;
     }
 
     /**

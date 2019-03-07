@@ -241,25 +241,23 @@ class tao_actions_Users extends tao_actions_CommonModule
         $container = new tao_actions_form_Users($this->getClass(TaoOntology::CLASS_URI_TAO_USER));
         $form = $container->getForm();
 
-        if ($form->isSubmited()) {
-            if ($form->isValid()) {
-                $values = $form->getValues();
-                $values[GenerisRdf::PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($values['password1']);
-                $plainPassword = $values['password1'];
-                unset($values['password1']);
-                unset($values['password2']);
+        if ($form->isSubmited() && $form->isValid()) {
+            $values = $form->getValues();
+            $values[GenerisRdf::PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($values['password1']);
+            $plainPassword = $values['password1'];
+            unset($values['password1']);
+            unset($values['password2']);
 
-                $user = $container->getUser();
-                $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($container->getUser());
+            $user = $container->getUser();
+            $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($container->getUser());
 
-                if ($binder->bind($values)) {
-                    $this->getEventManager()->trigger(new UserUpdatedEvent(
-                            $user,
-                            array_merge($values, ['hashForKey' => UserHashForEncryption::hash($plainPassword)]))
-                    );
-                    $this->setData('message', __('User added'));
-                    $this->setData('exit', true);
-                }
+            if ($binder->bind($values)) {
+                $this->getEventManager()->trigger(new UserUpdatedEvent(
+                        $user,
+                        array_merge($values, ['hashForKey' => UserHashForEncryption::hash($plainPassword)]))
+                );
+                $this->setData('message', __('User added'));
+                $this->setData('exit', true);
             }
         }
 
