@@ -23,15 +23,15 @@ namespace oat\tao\scripts\install;
 use oat\tao\model\security\SignatureGenerator;
 use oat\taoLti\scripts\install\InstallServices;
 
-class RegisterSignatureService extends InstallServices
+class RegisterSignatureGenerator extends InstallServices
 {
     public function __invoke($params)
     {
-        $taskSerializer = new SignatureGenerator([
-            SignatureGenerator::SALT => uniqid(mt_rand(), true)
+        $signatureGenerator = new SignatureGenerator([
+            SignatureGenerator::OPTION_SALT => uniqid(mt_rand(), true)
         ]);
 
-        $this->getServiceManager()->register(SignatureGenerator::SERVICE_ID, $taskSerializer);
+        $this->getServiceManager()->register(SignatureGenerator::SERVICE_ID, $signatureGenerator);
 
         return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'SignatureGenerator service is registered');
     }

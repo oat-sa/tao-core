@@ -875,8 +875,8 @@ class Updater extends \common_ext_ExtensionUpdater {
         $this->skip('21.3.0', '21.4.0');
 
         if ($this->isVersion('21.4.0')) {
-            $taskSerializer = new TaskSerializerService();
-            $this->getServiceManager()->register(TaskSerializerService::SERVICE_ID, $taskSerializer);
+            $signatureGenerator = new TaskSerializerService();
+            $this->getServiceManager()->register(TaskSerializerService::SERVICE_ID, $signatureGenerator);
 
             $this->setVersion('21.5.0');
         }
@@ -961,14 +961,14 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         $this->skip('27.4.0', '27.5.0');
 
-        if ($this->isVersion('22.4.2')) {
-            $taskSerializer = new SignatureGenerator([
-                SignatureGenerator::SALT => uniqid(mt_rand(), true)
+        if ($this->isVersion('27.5.0')) {
+            $signatureGenerator = new SignatureGenerator([
+                SignatureGenerator::OPTION_SALT => uniqid(mt_rand(), true)
             ]);
 
-            $this->getServiceManager()->register(SignatureGenerator::SERVICE_ID, $taskSerializer);
+            $this->getServiceManager()->register(SignatureGenerator::SERVICE_ID, $signatureGenerator);
 
-            $this->setVersion('22.5.0');
+            $this->setVersion('27.6.0');
         }
     }
 }

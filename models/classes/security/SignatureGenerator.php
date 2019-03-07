@@ -9,24 +9,24 @@ class SignatureGenerator extends ConfigurableService
 {
     const SERVICE_ID = 'tao/SignatureGenerator';
 
-    const SALT = 'salt';
+    const OPTION_SALT = 'salt';
 
     /**
-     * @param string[] $data
+     * @param string[] $dataToHash
      *
      * @return string
      *
      * @throws InconsistencyConfigException
      */
-    public function generate(...$data)
+    public function generate(...$dataToHash)
     {
-        $salt = $this->getOption(self::SALT);
+        $salt = $this->getOption(self::OPTION_SALT);
 
         if (empty($salt)) {
             throw new InconsistencyConfigException('Salt is not defined');
         }
 
-        $dataToCheck = json_encode($data);
+        $dataToCheck = json_encode($dataToHash);
 
         return hash('sha256', $salt . $dataToCheck . $salt);
     }

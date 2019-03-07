@@ -52,9 +52,7 @@ class ResourceSignatureValidator implements ValidatorInterface
         $generator = ServiceManager::getServiceManager()->get(SignatureGenerator::class);
 
         if (!($generator->generate($this->uri) === $signature)) {
-            $message = 'Signature is not valid';
-
-            throw new SecurityException($message);
+            throw new SecurityException('Signature is not valid');
         }
 
         return true;

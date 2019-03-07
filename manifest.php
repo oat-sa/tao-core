@@ -26,7 +26,7 @@ use oat\tao\model\routing\ApiRoute;
 use oat\tao\model\routing\LegacyRoute;
 use oat\tao\scripts\install\AddLogFs;
 use oat\tao\scripts\install\AddTmpFsHandlers;
-use oat\tao\scripts\install\RegisterSignatureService;
+use oat\tao\scripts\install\RegisterSignatureGenerator;
 use oat\tao\scripts\install\RegisterTaskQueueServices;
 use oat\tao\scripts\install\RegisterUserLockoutsEventListeners;
 use oat\tao\scripts\install\SetClientLoggerConfig;
@@ -50,7 +50,7 @@ return array(
     'label' => 'TAO Base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '22.6.0',
+    'version' => '27.6.0',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
         'generis' => '>=8.2.2',
@@ -118,7 +118,7 @@ return array(
             RegisterUserLockoutsEventListeners::class,
             RegisterTaskQueueServices::class,
             SetUpQueueTasks::class,
-            RegisterSignatureService::class
+            RegisterSignatureGenerator::class
         )
     ),
     'update' => 'oat\\tao\\scripts\\update\\Updater',
