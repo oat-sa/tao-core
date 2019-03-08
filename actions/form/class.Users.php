@@ -24,6 +24,7 @@ use oat\generis\model\user\PasswordConstraintsService;
 use oat\tao\helpers\ApplicationHelper;
 use oat\generis\model\user\UserRdf;
 use oat\oatbox\user\UserLanguageServiceInterface;
+use oat\tao\model\controller\SignedFormInstance;
 
 /**
  * This container initialize the user edition form.
@@ -33,7 +34,7 @@ use oat\oatbox\user\UserLanguageServiceInterface;
  * @package tao
  
  */
-class tao_actions_form_Users extends \oat\tao\model\controller\SignedFormInstance
+class tao_actions_form_Users extends SignedFormInstance
 {
     // --- ASSOCIATIONS ---
 

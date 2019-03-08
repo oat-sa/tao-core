@@ -20,10 +20,11 @@
 
 namespace oat\tao\scripts\install;
 
+use common_report_Report;
+use oat\oatbox\extension\InstallAction;
 use oat\tao\model\security\SignatureGenerator;
-use oat\taoLti\scripts\install\InstallServices;
 
-class RegisterSignatureGenerator extends InstallServices
+class RegisterSignatureGenerator extends InstallAction
 {
     public function __invoke($params)
     {
@@ -33,6 +34,6 @@ class RegisterSignatureGenerator extends InstallServices
 
         $this->getServiceManager()->register(SignatureGenerator::SERVICE_ID, $signatureGenerator);
 
-        return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'SignatureGenerator service is registered');
+        return new common_report_Report(common_report_Report::TYPE_SUCCESS, 'SignatureGenerator service is registered');
     }
 }

@@ -12,21 +12,21 @@ class SignatureGenerator extends ConfigurableService
     const OPTION_SALT = 'salt';
 
     /**
-     * @param string[] $dataToHash
+     * @param string[] $dataToSign
      *
      * @return string
      *
      * @throws InconsistencyConfigException
      */
-    public function generate(...$dataToHash)
+    public function generate(...$dataToSign)
     {
         $salt = $this->getOption(self::OPTION_SALT);
 
         if (empty($salt)) {
-            throw new InconsistencyConfigException('Salt is not defined');
+            throw new InconsistencyConfigException(sprintf('Option %s is not defined', self::OPTION_SALT));
         }
 
-        $dataToCheck = json_encode($dataToHash);
+        $dataToCheck = json_encode($dataToSign);
 
         return hash('sha256', $salt . $dataToCheck . $salt);
     }

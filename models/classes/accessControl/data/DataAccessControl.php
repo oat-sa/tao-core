@@ -28,6 +28,7 @@ use oat\tao\helpers\ControllerHelper;
 use oat\tao\model\accessControl\AccessControl;
 use oat\tao\model\controllerMap\ActionNotFoundException;
 use oat\tao\model\lock\LockManager;
+use tao_helpers_Uri;
 
 /**
  * Interface for data based access control
@@ -80,20 +81,15 @@ class DataAccessControl implements AccessControl
     }
 
     /**
-     * Gets the cleaned paramName from paramValue ($cleanName)
-     *
-     * @param string $paramName just for logging purposes
      * @param string $decodedUri param to be cleared
      *
      * @return string
      */
     private function getEncodedUri($decodedUri)
     {
-        if (preg_match('/^[a-z]*_2_/', $decodedUri) === 1) {
-            $decodedUri = \tao_helpers_Uri::decode($decodedUri);
-        }
-
-        return $decodedUri;
+        return tao_helpers_Uri::isUriEncoded($decodedUri)
+            ? tao_helpers_Uri::decode($decodedUri)
+            : $decodedUri;
     }
     
     /**

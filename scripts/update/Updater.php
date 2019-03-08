@@ -86,6 +86,7 @@ use oat\tao\model\user\UserLocks;
 use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\AddTmpFsHandlers;
+use oat\tao\scripts\install\RegisterSignatureGenerator;
 use oat\tao\scripts\install\RegisterTaskQueueServices;
 use oat\tao\scripts\install\UpdateRequiredActionUrl;
 use oat\tao\model\accessControl\func\AclProxy;
@@ -962,11 +963,8 @@ class Updater extends \common_ext_ExtensionUpdater {
         $this->skip('27.4.0', '27.5.0');
 
         if ($this->isVersion('27.5.0')) {
-            $signatureGenerator = new SignatureGenerator([
-                SignatureGenerator::OPTION_SALT => uniqid(mt_rand(), true)
-            ]);
-
-            $this->getServiceManager()->register(SignatureGenerator::SERVICE_ID, $signatureGenerator);
+            $register = new RegisterSignatureGenerator();
+            $register->__invoke('');
 
             $this->setVersion('27.6.0');
         }

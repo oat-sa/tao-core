@@ -20,15 +20,17 @@
 
 namespace oat\tao\helpers\form\validators;
 
-use oat\oatbox\service\ServiceManager;
 use oat\oatbox\validator\ValidatorInterface;
 use oat\tao\model\security\SecurityException;
-use oat\tao\model\security\SignatureGenerator;
+use oat\tao\model\security\SignatureValidator;
 
 class ResourceSignatureValidator implements ValidatorInterface
 {
     /** @var string */
     private $uri;
+
+    /** string */
+    private $message = 'Signature is not valid';
 
     /**
      * @param string $uri
@@ -48,12 +50,8 @@ class ResourceSignatureValidator implements ValidatorInterface
      */
     public function evaluate($signature)
     {
-        /** @var SignatureGenerator $generator */
-        $generator = ServiceManager::getServiceManager()->get(SignatureGenerator::class);
-
-        if (!($generator->generate($this->uri) === $signature)) {
-            throw new SecurityException('Signature is not valid');
-        }
+        $validator = new SignatureValidator();
+        $validator->checkSignature($signature, $this->uri);
 
         return true;
     }
@@ -79,7 +77,7 @@ class ResourceSignatureValidator implements ValidatorInterface
      */
     public function getMessage()
     {
-        return 'Signature is not valid';
+        return $this->message;
     }
 
     /**
@@ -89,16 +87,14 @@ class ResourceSignatureValidator implements ValidatorInterface
      */
     public function setMessage($message)
     {
-        return $this;
+        return $this->message = $message;
     }
 
     /**
      * @param array $options
-     *
-     * @return $this
      */
     public function setOptions(array $options)
     {
-        return $this;
+        throw new \InvalidArgumentException('Tis validator does not have any options');
     }
 }

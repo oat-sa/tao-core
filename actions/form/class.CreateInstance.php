@@ -47,9 +47,9 @@ class tao_actions_form_CreateInstance
      * Short description of attribute classes
      *
      * @access private
-     * @var array
+     * @var core_kernel_classes_Class[]
      */
-    private $classes = array();
+    private $classes;
 
     // --- OPERATIONS ---
 
@@ -244,7 +244,6 @@ class tao_actions_form_CreateInstance
     {
         $uris = [];
 
-        /** @var core_kernel_classes_Class $class */
         foreach ($this->classes as $class) {
             $uris[] = $class->getUri();
         }

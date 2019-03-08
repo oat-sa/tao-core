@@ -21,19 +21,19 @@
  *
  */
 
+use oat\generis\model\OntologyAwareTrait;
+use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ServiceManager;
+use oat\tao\model\accessControl\data\DataAccessControl;
 use oat\tao\model\controller\SignedFormInstance;
+use oat\tao\model\lock\LockManager;
 use oat\tao\model\menu\ActionService;
 use oat\tao\model\menu\MenuService;
-use oat\tao\model\accessControl\data\DataAccessControl;
-use oat\tao\model\lock\LockManager;
+use oat\tao\model\resources\ResourceService;
 use oat\tao\model\security\SecurityException;
 use oat\tao\model\security\SignatureGenerator;
 use oat\tao\model\security\SignatureValidator;
 use oat\tao\model\security\xsrf\TokenService;
-use oat\tao\model\resources\ResourceService;
-use oat\generis\model\OntologyRdfs;
-use oat\generis\model\OntologyAwareTrait;
 
 /**
  * The TaoModule is an abstract controller,
@@ -82,6 +82,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
      * @param string $uri
      *
      * @throws common_exception_Error
+     * @throws SecurityException
      */
     protected function validateInstanceRoot($uri)
     {
@@ -95,7 +96,11 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             if (!($class->isSubClassOf($root) || $class->equals($root))) {
                 throw new SecurityException('Security issue');
             }
-        } else if (!$instance->isInstanceOf($root)) {
+
+            return;
+        }
+
+        if (!$instance->isInstanceOf($root)) {
             throw new SecurityException('Security issue');
         }
     }
@@ -404,7 +409,12 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             \tao_helpers_Uri::encode($this->getRequestParameter('classUri'))
         );
 
-        $editClassLabelForm = new \tao_actions_form_EditClassLabel($clazz,  $this->getRequestParameters(), $signature);
+        $editClassLabelForm = new tao_actions_form_EditClassLabel(
+            $clazz,
+            $this->getRequestParameters(),
+            $signature
+        );
+
         $myForm = $editClassLabelForm->getForm();
 
         if ($myForm->isSubmited()) {

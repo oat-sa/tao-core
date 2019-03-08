@@ -16,27 +16,32 @@
  *
  * Copyright (c) 2018 (update and modification) Open Assessment Technologies SA
  */
+
 namespace oat\tao\model\security;
 
-use common_Logger;
+use Exception;
 
-// TODO: refactor after https://oat-sa.atlassian.net/browse/TAO-6637 is merged
-class SecurityException extends \Exception
+class SecurityException extends Exception
 {
     private $messageToLog;
 
-    public function __construct($message = null, $code = 0, \Exception $previous = null)
+    public function __construct($message = null, $code = 0, Exception $previous = null)
     {
         $this->messageToLog = $message;
 
         parent::__construct('', $code, $previous);
 
-        common_Logger::singleton()->handleException($this);
     }
 
     public function __toString()
     {
-        return get_class($this) . " '{$this->messageToLog}' in {$this->file}({$this->line})\n
-                                    {$this->getTraceAsString()}";
+        return sprintf(
+            "%s %s in %s(%s)\n\t\t\t%s",
+            get_class($this),
+            $this->messageToLog,
+            $this->file,
+            $this->line,
+            $this->getTraceAsString()
+        );
     }
 }
