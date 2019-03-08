@@ -20,12 +20,13 @@
 
 namespace oat\tao\test\unit\model\taskQueue;
 
+use oat\generis\test\TestCase;
 use oat\tao\model\taskQueue\Queue;
 use oat\tao\model\taskQueue\Queue\Broker\QueueBrokerInterface;
 use oat\tao\model\taskQueue\Task\AbstractTask;
 use oat\tao\model\taskQueue\TaskLogInterface;
 
-class QueueTest extends \PHPUnit_Framework_TestCase
+class QueueTest extends TestCase
 {
     /**
      * @expectedException \InvalidArgumentException
@@ -140,7 +141,7 @@ class QueueTest extends \PHPUnit_Framework_TestCase
 
     public function provideDequeueOptions()
     {
-        $taskMock = $this->getMockForAbstractClass(AbstractTask::class, [], "", false);
+        $taskMock = $this->getMockForAbstractClass(AbstractTask::class, [], "", false, false);
 
         return [
             'ShouldBeSuccessful' => [$taskMock, $taskMock],
