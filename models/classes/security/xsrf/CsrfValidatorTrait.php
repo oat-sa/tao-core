@@ -23,6 +23,7 @@ use common_Exception;
 use common_exception_Error;
 use common_exception_Unauthorized;
 use common_session_SessionManager;
+use oat\oatbox\service\ServiceManager;
 
 /**
  * Trait that can be used to validate a CSRF token (using the X-CSRF-Token header)
@@ -58,7 +59,7 @@ trait CsrfValidatorTrait
         }
 
         /** @var TokenService $tokenService */
-        $tokenService = $this->getServiceLocator()->get(TokenService::SERVICE_ID);
+        $tokenService = ServiceManager::getServiceManager()->get(TokenService::SERVICE_ID);
         $newToken = null;
 
         try {
