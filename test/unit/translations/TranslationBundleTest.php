@@ -22,16 +22,20 @@
  *
  */
 
+namespace oat\tao\test\unit\translation;
+
+use InvalidArgumentException;
+use oat\generis\test\TestCase;
 use oat\tao\helpers\translation\TranslationBundle;
-use oat\tao\test\TaoPhpUnitTestRunner;
+use tao_helpers_File;
 
 /**
  * Unit and Integration(fs) test {@link oat\tao\heplers\translation\TranslationBundle}
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @package tao
  */
-class TranslationBundleTest extends TaoPhpUnitTestRunner {
-
+class TranslationBundleTest extends TestCase
+{
     /**
      * A temporary directory to write translations bundles
      */
@@ -46,15 +50,14 @@ class TranslationBundleTest extends TaoPhpUnitTestRunner {
             mkdir(self::$tmpDir);
         }
     }
-   
 
-    
     /**
      * Removes the temporary directory
      */
     public static function tearDownAfterClass(){
         tao_helpers_File::delTree(self::$tmpDir);  
     }
+
     /**
      * Provides wrong constructor parameters
      * @return array() the data
@@ -111,5 +114,4 @@ class TranslationBundleTest extends TaoPhpUnitTestRunner {
             $this->assertEquals($expectedSerial, $content['serial']);
         }
     }
-
 }

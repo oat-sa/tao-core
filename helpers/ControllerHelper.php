@@ -23,6 +23,7 @@ namespace oat\tao\helpers;
 
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\controllerMap\Factory;
+
 /**
  * Utility class that focuses on he controllers.
  *
@@ -34,7 +35,7 @@ class ControllerHelper
     const EXTENSION_PREFIX = 'controllerMap_e_';
     const CONTROLLER_PREFIX = 'controllerMap_c_';
     const ACTION_PREFIX = 'controllerMap_a_';
-    
+
     /**
      * Returns al lthe controllers of an extension
      * 
