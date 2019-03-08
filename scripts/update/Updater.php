@@ -959,7 +959,9 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('27.4.0');
         }
 
-        if ($this->isVersion('27.4.0')) {
+        $this->skip('27.4.0', '28.0.2');
+
+        if ($this->isVersion('28.0.2')) {
             AclProxy::applyRule(new AccessRule(
                 AccessRule::GRANT,
                 TaoRoles::TAO_MANAGER,
@@ -973,7 +975,7 @@ class Updater extends \common_ext_ExtensionUpdater {
                 new SettingsStorage(['persistence' => 'settings'])
             );
 
-            $this->setVersion('27.5.0');
+            $this->setVersion('28.1.0');
         }
     }
 }
