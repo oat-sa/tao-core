@@ -43,12 +43,12 @@ class SignatureValidator
 
     /**
      * @param string $signature
-     * @param mixed $data data to be signed
+     * @param mixed $dataToSign data to be signed
      *
      * @throws SecurityException
      * @throws InconsistencyConfigException
      */
-    public function checkSignature($signature, ...$data)
+    public function checkSignature($signature, ...$dataToSign)
     {
         if (empty($signature)) {
             throw new SecurityException('Empty signature');
@@ -58,7 +58,7 @@ class SignatureValidator
             throw new SecurityException('Signature should be a string');
         }
 
-        if ($signature !== $this->getSignatureGenerator()->generate(...$data)) {
+        if ($signature !== $this->getSignatureGenerator()->generate(...$dataToSign)) {
             throw new SecurityException('Invalid signature');
         }
     }

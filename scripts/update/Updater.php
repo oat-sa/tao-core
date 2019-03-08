@@ -876,8 +876,8 @@ class Updater extends \common_ext_ExtensionUpdater {
         $this->skip('21.3.0', '21.4.0');
 
         if ($this->isVersion('21.4.0')) {
-            $signatureGenerator = new TaskSerializerService();
-            $this->getServiceManager()->register(TaskSerializerService::SERVICE_ID, $signatureGenerator);
+            $taskSerializer = new TaskSerializerService();
+            $this->getServiceManager()->register(TaskSerializerService::SERVICE_ID, $taskSerializer);
 
             $this->setVersion('21.5.0');
         }

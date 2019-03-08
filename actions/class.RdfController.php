@@ -94,14 +94,24 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             $class = new core_kernel_classes_Class($instance->getUri());
 
             if (!($class->isSubClassOf($root) || $class->equals($root))) {
-                throw new SecurityException('Security issue');
+                throw new SecurityException(
+                    sprintf(
+                        'Security issue: class %s is not a subclass of %s',
+                        $instance->getLabel(),
+                        $root->getLabel()
+                    )
+                );
             }
 
             return;
         }
 
         if (!$instance->isInstanceOf($root)) {
-            throw new SecurityException('Security issue');
+            throw new SecurityException(sprintf(
+                'Security issue: instance %s is not a child of %s',
+                $instance->getLabel(),
+                $root->getLabel()
+            ));
         }
     }
 
