@@ -56,7 +56,7 @@ define(function(){
         },
         'Security' : {
             'actions' : {
-                'index' : 'form/cspHeader'
+                'index' : 'controller/security/cspHeaderForm'
             }
         },
     };
