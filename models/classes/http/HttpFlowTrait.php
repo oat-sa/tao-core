@@ -89,9 +89,6 @@ trait HttpFlowTrait
             parse_str($query, $queryParams);
         }
 
-        \common_Logger::w(print_r($url,true));
-        \common_Logger::w(print_r($uri->getQuery(),true));
-
         switch ($this->getPsrRequest()->getMethod()) {
             case 'GET' :
                 $params = $this->getPsrRequest()->getQueryParams();
@@ -116,12 +113,7 @@ trait HttpFlowTrait
         $context->setModuleName($resolver->getControllerShortName());
         $context->setActionName($resolver->getMethodName());
 
-//        foreach ($params as $key => $param) {
-//            $context->setData($key, $param);
-//        }
         $context->getRequest()->addParameters($queryParams);
-//        $context->set
-//        unset($context::getInstance());
 
         $request = $request
             ->withAttribute('extension', $resolver->getExtensionId())

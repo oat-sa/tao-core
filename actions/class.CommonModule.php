@@ -21,7 +21,7 @@
  */
 
 use oat\tao\model\http\LegacyController;
-use oat\oatbox\session\LegacySessionUtils;
+use oat\tao\helpers\LegacySessionUtils;
 use oat\tao\model\action\CommonModuleInterface;
 use oat\tao\model\mvc\RendererTrait;
 use oat\tao\model\security\ActionProtector;
