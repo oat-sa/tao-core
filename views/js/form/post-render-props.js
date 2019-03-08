@@ -19,9 +19,8 @@
 define([
     'jquery',
     'i18n',
-    'ui/feedback',
-    'core/request'
-], function ($, __, feedback, request) {
+    'ui/feedback'
+], function ($, __, feedback) {
     'use strict';
 
     /**
@@ -285,27 +284,6 @@ define([
         if (!$container.length) {
             return;
         }
-
-        // Submit handler for tokenized forms (TAO-7306)
-        $container.on('submit', function(e) {
-            if (!$container.attr('data-use-csrf-token')) {
-                return;
-            }
-
-            e.preventDefault();
-            request({
-                url: $container.attr('action'),
-                method: $container.attr('method'),
-                data: $container.serialize()
-            })
-            .then(function(response) {
-                feedback().success();
-                console.log('response', response);
-            })
-            .catch(function(err) {
-                feedback().error(err);
-            });
-        });
 
         _idToClipboard($container);
 

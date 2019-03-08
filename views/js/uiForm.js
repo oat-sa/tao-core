@@ -32,6 +32,8 @@ define([
     'form/property',
     'form/post-render-props',
     'util/encode',
+    'core/request',
+    'ui/feedback',
     'ckeditor',
     'ui/ckeditor/ckConfigurator',
     'lib/jsTree/plugins/jquery.tree.contextmenu'
@@ -45,6 +47,8 @@ define([
     property,
     postRenderProps,
     encode,
+    request,
+    feedback,
     ckeditor,
     ckConfigurator ) {
     'use strict';
@@ -75,7 +79,7 @@ define([
             this.initTranslationFormPattern = /translate/;
             this.htmlEditors = {};
 
-            $(document).ajaxComplete(function (event, request, settings) {
+            $(document).ajaxComplete(function (_event, _request, settings) {
                 var testedUrl;
 
                 //initialize regarding the requested action
@@ -161,7 +165,11 @@ define([
                 var $form = $(this);
                 e.preventDefault();
 
-                return self.submitForm($form,  self.getFormData($form));
+                // Handle submit of tokenized form (TAO-7306)
+                if ($form.attr('data-use-csrf-token')) {
+                    return self.submitFormTokenized($form, self.getFormData($form));
+                }
+                return self.submitForm($form, self.getFormData($form));
             });
 
             $('.form-submitter').off('click').on('click', function (e) {
@@ -925,6 +933,31 @@ define([
                 return false;
             }
             return false;
+        },
+
+        /**
+         * Submits a form via AJAX (using core/request) with a CSRF token attached
+         * core/request fetches that token behind-the-scenes
+         * @param {jQuery} $form
+         * @param {*} serialize - serialized form data
+         */
+        submitFormTokenized: function submitFormTokenized($form, serialized) {
+            if (_.isUndefined(serialized)) {
+                serialized = $form.serialize();
+            }
+            request({
+                url: $form.attr('action'),
+                method: $form.attr('method'),
+                data: serialized,
+                noToken: false
+            })
+            .then(function(response) {
+                feedback().success();
+                console.log('response', response);
+            })
+            .catch(function(err) {
+                feedback().error(err);
+            });
         }
     };
 
