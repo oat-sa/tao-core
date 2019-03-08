@@ -19,7 +19,6 @@
  */
 namespace oat\tao\model\accessControl\data;
 
-use common_exception_MissingParameter;
 use common_Logger;
 use oat\generis\model\data\permission\PermissionInterface;
 use oat\generis\model\data\permission\PermissionManager;
@@ -35,37 +34,52 @@ use tao_helpers_Uri;
  */
 class DataAccessControl implements AccessControl
 {
-    private function getUris(array $parameters, array $filterNames)
+    /**
+     * @param array $requestParameters
+     * @param array $filterNames
+     *
+     * @return array
+     */
+    private function extractAndGroupUriFromParameters(array $requestParameters, array $filterNames)
     {
+        if (empty($filterNames)) {
+            return [];
+        }
+
         $uris = [];
 
-        foreach ($parameters as $name => $uri) {
+        foreach ($requestParameters as $name => $uri) {
             if (is_array($uri)) {
-                $uris = array_merge_recursive($uris, $this->getUris($uri, $filterNames));
+                $uris[] = $this->extractAndGroupUriFromParameters($uri, $filterNames);
             } else {
                 $encodedUri = $this->getEncodedUri($uri);
 
                 if (in_array($name, $filterNames, true) && \common_Utils::isUri($encodedUri)) {
-                    $uris[$name][] = $encodedUri;
+                    $uris[0][$name][] = $encodedUri;
                 }
             }
         }
 
-        return $uris;
+        return array_merge_recursive(...$uris);
     }
 
     /**
-     * (non-PHPdoc)
-     * @throws common_exception_MissingParameter
+     * @param User $user
+     * @param $controller
+     * @param $action
+     * @param $requestParameters
+     *
+     * @return bool
+     *
      * @see \oat\tao\model\accessControl\AccessControl::hasAccess()
      */
-    public function hasAccess(User $user, $controller, $action, $parameters) {
+    public function hasAccess(User $user, $controller, $action, $requestParameters) {
         $required = array();
         try {
             // $rights = ServiceManager::getServiceManager()->get(RouteAnnotationService::SERVICE_ID)->getRights($controller, $action);
             // todo use $rights when PHPDoc Annotations will be moved to the Doctrines annotations
             $requiredRights = ControllerHelper::getRequiredRights($controller, $action);
-            $uris = $this->getUris($parameters, array_keys($requiredRights));
+            $uris = $this->extractAndGroupUriFromParameters($requestParameters, array_keys($requiredRights));
 
             foreach($uris as $name => $urisValue) {
                 $required[] = array_fill_keys($urisValue, $requiredRights[$name]);
