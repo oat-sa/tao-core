@@ -73,6 +73,30 @@ class TokenServiceTest extends TestCase
         $this->assertFalse($token == $token2, 'The tokens are differents');
     }
 
+    public function testGenerateTokenPool()
+    {
+        $store = $this->getStoreMock();
+        $service = new TokenService([
+            'store' =>  $store,
+            TokenService::POOL_SIZE_OPT => 15
+        ]);
+
+        $this->assertCount(0, $store->getTokens(), 'The store is empty');
+
+        $tokenPool = $service->generateTokenPool();
+        $this->assertCount(15, $tokenPool, 'The token pool has the expected size');
+
+        $tokens = $store->getTokens();
+        $this->assertCount(15, $tokens, 'The token pool contains the expected amount of tokens');
+
+        $firstToken  = $tokens[0];
+        $secondToken = $tokens[1];
+
+        $this->assertTrue(isset($firstToken['ts']), 'The first token contains a timestamp');
+        $this->assertTrue(isset($firstToken['token']), 'The first token contains a token value');
+        $this->assertNotSame($firstToken, $secondToken, 'The first and second token are different');
+    }
+
     public function testPoolSize()
     {
         $store = $this->getStoreMock();

@@ -21,7 +21,6 @@
  */
 
 use oat\generis\model\OntologyRdfs;
-use oat\tao\helpers\form\validators\XsrfTokenValidator;
 use oat\tao\model\TaoOntology;
 
 /**
