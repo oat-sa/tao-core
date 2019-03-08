@@ -20,6 +20,7 @@
 namespace oat\tao\model\accessControl\data;
 
 use common_Logger;
+use common_Utils;
 use oat\generis\model\data\permission\PermissionInterface;
 use oat\generis\model\data\permission\PermissionManager;
 use oat\oatbox\user\User;
@@ -27,6 +28,8 @@ use oat\tao\helpers\ControllerHelper;
 use oat\tao\model\accessControl\AccessControl;
 use oat\tao\model\controllerMap\ActionNotFoundException;
 use oat\tao\model\lock\LockManager;
+use RecursiveArrayIterator;
+use RecursiveIteratorIterator;
 use tao_helpers_Uri;
 
 /**
@@ -34,6 +37,13 @@ use tao_helpers_Uri;
  */
 class DataAccessControl implements AccessControl
 {
+    private function flattenArray(array $multiDimensionalArray)
+    {
+        return new RecursiveIteratorIterator(
+            new RecursiveArrayIterator($multiDimensionalArray)
+        );
+    }
+
     /**
      * @param array $requestParameters
      * @param array $filterNames
@@ -46,21 +56,17 @@ class DataAccessControl implements AccessControl
             return [];
         }
 
-        $uris = [];
+        $groupedUris = [];
 
-        foreach ($requestParameters as $name => $uri) {
-            if (is_array($uri)) {
-                $uris[] = $this->extractAndGroupUriFromParameters($uri, $filterNames);
-            } else {
-                $encodedUri = $this->getEncodedUri($uri);
+        foreach ($this->flattenArray($requestParameters) as $key => $value) {
+            $encodedUri = $this->getEncodedUri($value);
 
-                if (in_array($name, $filterNames, true) && \common_Utils::isUri($encodedUri)) {
-                    $uris[0][$name][] = $encodedUri;
-                }
+            if (in_array($key, $filterNames, true) && common_Utils::isUri($encodedUri)) {
+                $groupedUris[$key][] = $encodedUri;
             }
         }
 
-        return array_merge_recursive(...$uris);
+        return $groupedUris;
     }
 
     /**
