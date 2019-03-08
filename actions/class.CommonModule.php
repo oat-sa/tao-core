@@ -356,4 +356,27 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
         }
         return $serviceManager;
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function logCsrfFailure($exceptionMessage, $token = null)
+    {
+        $userIdentifier = $this->getSession()->getUser()->getIdentifier();
+        $requestMethod  = $this->getRequestMethod();
+        $requestUri     = $this->getRequestURI();
+        $requestHeaders = $this->getHeaders();
+
+        $this->logWarning('Failed to validate CSRF token. The following exception occurred: ' . $exceptionMessage);
+        $this->logWarning(
+            "CSRF validation information: \n" .
+            'Provided token: ' . ($token ?: 'none')  . " \n" .
+            'User identifier: ' . $userIdentifier  . " \n" .
+            'Request: [' . $requestMethod . '] ' . $requestUri   . " \n" .
+            "Request Headers : \n" .
+            urldecode(http_build_query($requestHeaders, '', "\n"))
+        );
+
+        throw new common_exception_Unauthorized($exceptionMessage);
+    }
 }

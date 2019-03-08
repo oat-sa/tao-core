@@ -28,7 +28,6 @@ use oat\oatbox\event\EventManagerAwareTrait;
 use oat\tao\helpers\ApplicationHelper;
 use oat\tao\helpers\UserHelper;
 use oat\tao\model\event\UserUpdatedEvent;
-use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\user\UserLocks;
 use oat\oatbox\user\UserLanguageServiceInterface;
@@ -191,23 +190,9 @@ class tao_actions_Users extends tao_actions_CommonModule
      */
     public function delete()
     {
+        $this->validateCsrf();
+
         $userService = $this->getServiceLocator()->get(tao_models_classes_UserService::class);
-        // Csrf token validation
-        $tokenService = $this->getServiceLocator()->get(TokenService::SERVICE_ID);
-        $tokenName = $tokenService->getTokenName();
-        $token = $this->getRequestParameter($tokenName);
-        if (! $tokenService->checkToken($token)) {
-            $this->logWarning('Xsrf validation failed');
-            $this->returnJson([
-                'success' => false,
-                'message' => 'Not authorized to perform action'
-            ]);
-            return;
-        } else {
-            $tokenService->revokeToken($token);
-            $newToken = $tokenService->createToken();
-            $this->setCookie($tokenName, $newToken, null, '/');
-        }
 
         $deleted = false;
         $message = __('An error occurred during user deletion');
@@ -245,8 +230,7 @@ class tao_actions_Users extends tao_actions_CommonModule
             $values = $form->getValues();
             $values[GenerisRdf::PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($values['password1']);
             $plainPassword = $values['password1'];
-            unset($values['password1']);
-            unset($values['password2']);
+            unset($values['password1'], $values['password2']);
 
             $user = $container->getUser();
             $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($container->getUser());

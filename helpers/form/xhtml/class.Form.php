@@ -19,6 +19,9 @@
  *
  */
 
+use oat\oatbox\log\LoggerAwareTrait;
+use oat\tao\model\security\xsrf\CsrfValidatorTrait;
+
 /**
  * Short description of class tao_helpers_form_xhtml_Form
  *
@@ -27,9 +30,12 @@
  * @package tao
 
  */
-class tao_helpers_form_xhtml_Form
-    extends tao_helpers_form_Form
+class tao_helpers_form_xhtml_Form extends tao_helpers_form_Form
 {
+
+    use LoggerAwareTrait;
+    use CsrfValidatorTrait;
+
     // --- ASSOCIATIONS ---
 
 
@@ -150,29 +156,56 @@ class tao_helpers_form_xhtml_Form
     }
 
     /**
-     * Short description of method validate
+     * Validate the form
      *
-     * @access protected
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @return boolean
+     * @return bool
+     * @throws common_Exception
+     * @throws common_exception_Error
+     * @throws common_exception_Unauthorized
      */
     protected function validate()
     {
-        $returnValue = (bool) false;
+        $returnValue = false;
 
-
+        if ($this->isCsrfTokenRequired()) {
+            $this->validateCsrf();
+        }
 
         $this->valid = true;
 
-        foreach($this->elements as $element){
-            if(!$element->validate()){
+        /** @var tao_helpers_form_FormElement $element */
+        foreach ($this->elements as $element) {
+            if (!$element->validate()) {
                 $this->valid = false;
             }
         }
 
+        return $returnValue;
+    }
 
+    /**
+     * @inheritdoc
+     */
+    public function logCsrfFailure($exceptionMessage, $token = null)
+    {
+        $session        = common_session_SessionManager::getSession();
+        $userIdentifier = $session->getUser()->getIdentifier();
+        $requestMethod  = $_SERVER['REQUEST_METHOD'];
+        $requestUri     = $_SERVER['REQUEST_URI'];
+        $requestHeaders = $this->getRequestHeaders();
 
-        return (bool) $returnValue;
+        $this->logWarning('Failed to validate CSRF token. The following exception occurred: ' . $exceptionMessage);
+        $this->logWarning(
+            "CSRF validation information: \n" .
+            'Provided token: ' . ($token ?: 'none')  . " \n" .
+            'User identifier: ' . $userIdentifier  . " \n" .
+            'Request: [' . $requestMethod . '] ' . $requestUri   . " \n" .
+            "Request Headers : \n" .
+            urldecode(http_build_query($requestHeaders, '', "\n"))
+        );
+
+        throw new common_exception_Unauthorized($exceptionMessage);
     }
 
 }

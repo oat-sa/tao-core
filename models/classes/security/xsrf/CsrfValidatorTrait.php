@@ -33,9 +33,14 @@ trait CsrfValidatorTrait
 {
 
     /**
+     * @var string[]
+     */
+    private $requestHeaders;
+
+    /**
      * @var string
      */
-    private $CsrfTokenHeader = 'X-CSRF-Token';
+    private $csrfTokenHeader = 'X-CSRF-Token';
 
     /**
      * Validate the current request using the CSRF token header.
@@ -47,15 +52,14 @@ trait CsrfValidatorTrait
      */
     public function validateCsrf()
     {
-        if (!$this->getHeader($this->CsrfTokenHeader)) {
+        $csrfToken = $this->getTokenHeader();
+        if (!$csrfToken) {
             $this->logCsrfFailure('Missing X-CSRF-Token header.');
         }
 
-        $newToken = null;
-        $csrfToken = $this->getHeader($this->CsrfTokenHeader);
-
         /** @var TokenService $tokenService */
         $tokenService = $this->getServiceLocator()->get(TokenService::SERVICE_ID);
+        $newToken = null;
 
         try {
             $newToken = $tokenService->validateToken($csrfToken);
@@ -74,7 +78,7 @@ trait CsrfValidatorTrait
      */
     public function setTokenHeader($token)
     {
-        header($this->CsrfTokenHeader . ': ' . $token);
+        header($this->csrfTokenHeader . ': ' . $token);
     }
 
     /**
@@ -83,23 +87,45 @@ trait CsrfValidatorTrait
      * @throws common_exception_Unauthorized
      * @throws common_exception_Error
      */
-    private function  logCsrfFailure($exceptionMessage, $token = null)
+    abstract public function logCsrfFailure($exceptionMessage, $token = null);
+
+    /**
+     * Retrieve the token header.
+     *
+     * @return string|null
+     */
+    private function getTokenHeader()
     {
-        $userIdentifier = $this->getSession()->getUser()->getIdentifier();
-        $requestMethod  = $this->getRequestMethod();
-        $requestUri     = $this->getRequestURI();
-        $requestHeaders = $this->getRequest()->getHeaders();
+        $tokenHeaderValue = null;
+        $headers = $this->getRequestHeaders();
+        $headerKey = strtolower($this->csrfTokenHeader);
 
-        $this->logWarning('Failed to validate CSRF token. The following exception occurred: ' . $exceptionMessage);
-        $this->logWarning(
-            "CSRF validation information: \n" .
-            'Provided token: ' . ($token ?: 'none')  . " \n" .
-            'User identifier: ' . $userIdentifier  . " \n" .
-            'Request: [' . $requestMethod . '] ' . $requestUri   . " \n" .
-            "Request Headers : \n" .
-            urldecode(http_build_query($requestHeaders, '', "\n"))
-        );
+        return isset($headers[$headerKey]) ? $headers[$headerKey] : null;
+    }
 
-        throw new common_exception_Unauthorized($exceptionMessage);
+    /**
+     * Retrieve the token header.
+     *
+     * @return string|null
+     */
+    private function getRequestHeaders()
+    {
+        if ($this->requestHeaders !== null) {
+            $this->requestHeaders;
+        }
+
+        if (function_exists('apache_request_headers')) {
+            foreach (apache_request_headers() as $key => $value) {
+                $this->requestHeaders[strtolower($key)] = $value;
+            }
+        } else {
+            foreach ($_SERVER as $name => $value) {
+                if (strpos($name, 'HTTP_') === 0) {
+                    $this->requestHeaders[str_replace(' ', '-', strtolower(str_replace('_', ' ', substr($name, 5))))] = $value;
+                }
+            }
+        }
+
+        return $this->requestHeaders;
     }
 }
