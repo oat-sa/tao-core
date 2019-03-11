@@ -29,7 +29,8 @@ define([
     'layout/logout-event',
     'layout/loading-bar',
     'core/logger',
-    'util/httpErrorParser'
+    'util/httpErrorParser',
+    'select2'
 ], function($, _, __, Pluginifier, layout, btnTpl, filterStrategyFactory, paginationComponent, feedback, logoutEvent, loadingBar, loggerFactory, httpErrorParser){
 
     'use strict';
@@ -53,7 +54,15 @@ define([
             available: __('Available'),
             loading: __('Loading'),
             actions: __('Actions')
-        }
+        },
+        pageSizes: [
+            { label: '25 ' + __('items per page'), selected: true, value: 25 },
+            { label: '50 ' + __('items per page'), value: 50 },
+            { label: '75 ' + __('items per page'), value: 75 },
+            { label: '100 ' + __('items per page'), value: 100 },
+            { label: '200 ' + __('items per page'), value: 200 },
+        ],
+        pageSizeSelector: false,
     };
 
     var logger = loggerFactory('ui/datatable');
@@ -142,6 +151,7 @@ define([
          * @param {String} options.paginationStrategyBottom  - 'none' | 'pages' | 'simple' -- 'simple' by default (next/prev), 'pages' show pages and extended control for pagination
          * @param {Object} options.labels - list of labels in datatable interface, that can be overridden by incoming options
          * @param {String} options.emptyText - text that will be shown when no data found for showing in the grid.
+         * @param {Boolean} options.pageSizeSelector - flag that indicates if control for changing page size should be displayed
          * @param {Object} [data] - inject predefined data to avoid the first query.
          * @fires dataTable#create.datatable
          * @returns {jQueryElement} for chaining
@@ -630,6 +640,15 @@ define([
              * @param {Object} dataset - The data set used to render the table
              */
             $elt.trigger('load.' + ns, [dataset]);
+
+            if (options.pageSizeSelector) {
+                $('.page-size-selector-container .select2', $rendering).select2({
+                    dropdownCssClass: 'page-size-dropdown',
+                    minimumResultsForSearch: Infinity,
+                }).on('change', function(e) {
+                    self._setRows($elt, e.val);
+                });
+            }
         },
 
         /**
@@ -812,7 +831,41 @@ define([
             if ($row.hasClass(className)) {
                 $row.removeClass(className);
             }
-        }
+        },
+
+        /**
+         * Update amount items per page
+         *
+         * @param $elt
+         * @param rows
+         * @fires dataTable#setpage.datatable
+         */
+        _setRows: function _setPage($elt, rows) {
+            var options = $elt.data(dataNs);
+
+            if(options.rows !== rows){
+                // set new amount of items per page
+                options.rows = rows;
+
+                options.pageSizes.forEach(function (pageSize) {
+                    pageSize.selected = pageSize.value == rows;
+                });
+
+                // set page to the first one
+                options.page = 1;
+
+                //rebind options to the elt
+                $elt.data(dataNs, options);
+
+                /**
+                 * @event dataTable#setpage.dataTable
+                 */
+                $elt.trigger('setpage.' + ns);
+
+                // Call the query
+                this._query($elt);
+            }
+        },
     };
 
     Pluginifier.register(ns, dataTable, {
