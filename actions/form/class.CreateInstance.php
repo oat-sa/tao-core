@@ -23,8 +23,8 @@ use oat\generis\model\OntologyRdfs;
 use oat\generis\model\WidgetRdf;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\helpers\form\validators\ResourceSignatureValidator;
-use oat\tao\helpers\Template;
 use oat\tao\model\security\SignatureGenerator;
+use oat\tao\model\security\SignatureValidator;
 use oat\tao\model\TaoOntology;
 
 /**
@@ -221,6 +221,7 @@ class tao_actions_form_CreateInstance
         $signature->setValue($this->getSignature());
         $signature->addValidator(
             new ResourceSignatureValidator(
+                new SignatureValidator(),
                 $this->getDataToSign()
             )
         );

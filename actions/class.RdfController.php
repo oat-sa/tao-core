@@ -34,7 +34,6 @@ use oat\tao\model\security\SecurityException;
 use oat\tao\model\security\SignatureGenerator;
 use oat\tao\model\security\SignatureValidator;
 use oat\tao\model\security\xsrf\TokenService;
-use tao_helpers_Uri;
 
 /**
  * The TaoModule is an abstract controller,
@@ -446,38 +445,43 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
     /**
      * Add an instance of the selected class
      * @requiresRight id WRITE
+     *
+     * @return void
+     *
+     * @throws SecurityException
+     * @throws \oat\tao\model\metadata\exception\InconsistencyConfigException
      * @throws common_exception_BadRequest
      * @throws common_exception_Error
-     * @return void
      */
     public function addInstance()
     {
-        if(!$this->isXmlHttpRequest()){
+        if (!$this->isXmlHttpRequest()) {
             throw new common_exception_BadRequest('wrong request mode');
         }
 
-        $this->validateInstanceRoot(
-            $this->getRequestParameter('id')
-        );
+        $id = $this->getRequestParameter('id');
+
+        $this->validateInstanceRoot($id);
 
         $this->signatureValidator->checkSignature(
             $this->getRequestParameter('signature'),
-            $this->getRequestParameter('id')
+            $id
         );
 
-        $response = array();
+        $response = [];
 
-        $clazz = $this->getClass($this->getRequestParameter('id'));
+        $clazz = $this->getClass($id);
         $label = $this->getClassService()->createUniqueLabel($clazz);
 
         $instance = $this->getClassService()->createInstance($clazz, $label);
 
         if(!is_null($instance) && $instance instanceof core_kernel_classes_Resource){
-            $response = array(
+            $response = [
                 'label' => $instance->getLabel(),
                 'uri'   => $instance->getUri()
-            );
+            ];
         }
+
         $this->returnJson($response);
     }
 
@@ -493,21 +497,21 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             throw new common_exception_BadRequest('wrong request mode');
         }
 
+        $classId = $this->getRequestParameter('id');
+
         $this->signatureValidator->checkSignature(
             $this->getRequestParameter('signature'),
-            $this->getRequestParameter('id')
+            $classId
         );
 
-        $this->validateInstanceRoot(
-            $this->getRequestParameter('id')
-        );
+        $this->validateInstanceRoot($classId);
 
-        $parent = $this->getClass($this->getRequestParameter('id'));
+        $parent = $this->getClass($classId);
         $clazz = $this->getClassService()->createSubClass($parent);
         if(!is_null($clazz) && $clazz instanceof core_kernel_classes_Class){
             $this->returnJson(array(
-                'label'     => $clazz->getLabel(),
-                'uri'       => tao_helpers_Uri::encode($clazz->getUri())
+                'label' => $clazz->getLabel(),
+                'uri'   => tao_helpers_Uri::encode($clazz->getUri())
             ));
         }
     }

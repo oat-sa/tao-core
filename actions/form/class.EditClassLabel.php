@@ -20,6 +20,7 @@
 
 use oat\generis\model\OntologyRdfs;
 use oat\tao\helpers\form\validators\ResourceSignatureValidator;
+use oat\tao\model\security\SignatureValidator;
 
 /**
  *
@@ -138,6 +139,7 @@ class tao_actions_form_EditClassLabel
         $signature->setValue($this->signature);
         $signature->addValidator(
             new ResourceSignatureValidator(
+                new SignatureValidator(),
                 tao_helpers_Uri::encode($this->clazz->getUri())
             )
         );

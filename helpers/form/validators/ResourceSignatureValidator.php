@@ -25,20 +25,26 @@ use oat\oatbox\validator\ValidatorInterface;
 use oat\tao\model\security\SecurityException;
 use oat\tao\model\security\SignatureValidator;
 
-class ResourceSignatureValidator implements ValidatorInterface
+final class ResourceSignatureValidator implements ValidatorInterface
 {
     /** @var string */
     private $uri;
 
     /** string */
     private $message = 'Signature is not valid';
+    /**
+     * @var SignatureValidator
+     */
+    private $signatureValidator;
 
     /**
+     * @param SignatureValidator $signatureValidator
      * @param string $uri
      */
-    public function __construct($uri)
+    public function __construct(SignatureValidator $signatureValidator, $uri)
     {
         $this->uri = $uri;
+        $this->signatureValidator = $signatureValidator;
     }
 
     /**
@@ -51,8 +57,7 @@ class ResourceSignatureValidator implements ValidatorInterface
      */
     public function evaluate($signature)
     {
-        $validator = new SignatureValidator();
-        $validator->checkSignature($signature, $this->uri);
+        $this->signatureValidator->checkSignature($signature, $this->uri);
 
         return true;
     }
