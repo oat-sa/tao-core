@@ -41,6 +41,9 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
 
     const QUEUE_TREND = 'queue_trend';
 
+    /**
+     * @return EventManager
+     */
     protected function getEventManager()
     {
         return $this->getServiceLocator()->get(EventManager::SERVICE_ID);

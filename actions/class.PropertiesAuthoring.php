@@ -37,6 +37,9 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
     use OntologyAwareTrait;
     use LoggerAwareTrait;
 
+    /**
+     * @return EventManager
+     */
     protected function getEventManager()
     {
         return $this->getServiceLocator()->get(EventManager::SERVICE_ID);

@@ -32,7 +32,9 @@ use oat\tao\model\event\RdfExportEvent;
  */
 class tao_models_classes_export_RdfExporter implements tao_models_classes_export_ExportHandler
 {
-
+    /**
+     * @return EventManager
+     */
     protected function getEventManager()
     {
         return ServiceManager::getServiceManager()->get(EventManager::SERVICE_ID);

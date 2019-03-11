@@ -45,6 +45,9 @@ class tao_actions_Import extends tao_actions_CommonModule
     use TaskLogActionTrait;
     use OntologyAwareTrait;
 
+    /**
+     * @return EventManager
+     */
     protected function getEventManager()
     {
         return $this->getServiceLocator()->get(EventManager::SERVICE_ID);
