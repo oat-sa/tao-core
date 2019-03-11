@@ -1877,6 +1877,9 @@ define([
             this._setState('canseek', this.config.canSeek);
             this._setState('loading', false);
 
+            this.url = new URL(window.location.href);
+            this.section = this.url.searchParams.get("section");
+
             /**
              * Triggers a media ready event
              * @event mediaplayer#ready
@@ -1888,7 +1891,7 @@ define([
             this.mute(!!this.startMuted);
             if (this.autoStartAt) {
                 this.seek(this.autoStartAt);
-            } else if (this.autoStart) {
+            } else if (this.autoStart && this.section!="authoring") {
                 this.play();
             }
         },
