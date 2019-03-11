@@ -20,6 +20,7 @@
 
 namespace oat\tao\helpers\form\validators;
 
+use InvalidArgumentException;
 use oat\oatbox\validator\ValidatorInterface;
 use oat\tao\model\security\SecurityException;
 use oat\tao\model\security\SignatureValidator;
@@ -87,7 +88,9 @@ class ResourceSignatureValidator implements ValidatorInterface
      */
     public function setMessage($message)
     {
-        return $this->message = $message;
+        $this->message = $message;
+
+        return $this;
     }
 
     /**
@@ -95,6 +98,6 @@ class ResourceSignatureValidator implements ValidatorInterface
      */
     public function setOptions(array $options)
     {
-        throw new \InvalidArgumentException('Tis validator does not have any options');
+        throw new InvalidArgumentException('Tis validator does not have any options');
     }
 }

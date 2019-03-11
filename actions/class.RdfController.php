@@ -34,6 +34,7 @@ use oat\tao\model\security\SecurityException;
 use oat\tao\model\security\SignatureGenerator;
 use oat\tao\model\security\SignatureValidator;
 use oat\tao\model\security\xsrf\TokenService;
+use tao_helpers_Uri;
 
 /**
  * The TaoModule is an abstract controller,
@@ -328,7 +329,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         }
 
         if ($this->hasRequestParameter('order')) {
-            $options['order'] = \tao_helpers_Uri::decode($this->getRequestParameter('order'));
+            $options['order'] = tao_helpers_Uri::decode($this->getRequestParameter('order'));
         }
 
         if ($this->hasRequestParameter('orderdir')) {
@@ -416,7 +417,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         $signatureGenerator = ServiceManager::getServiceManager()->get(SignatureGenerator::class);
 
         $signature = $signatureGenerator->generate(
-            \tao_helpers_Uri::encode($this->getRequestParameter('classUri'))
+            tao_helpers_Uri::encode($this->getRequestParameter('classUri'))
         );
 
         $editClassLabelForm = new tao_actions_form_EditClassLabel(
@@ -429,9 +430,9 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
 
         if ($myForm->isSubmited()) {
             if ($myForm->isValid()) {
-                $clazz->setLabel($myForm->getValue(\tao_helpers_Uri::encode(OntologyRdfs::RDFS_LABEL)));
+                $clazz->setLabel($myForm->getValue(tao_helpers_Uri::encode(OntologyRdfs::RDFS_LABEL)));
 
-                $this->setData("selectNode", \tao_helpers_Uri::encode($clazz->getUri()));
+                $this->setData("selectNode", tao_helpers_Uri::encode($clazz->getUri()));
                 $this->setData('message', __('%s Class saved', $clazz->getLabel()));
                 $this->setData('reload', true);
             }
