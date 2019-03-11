@@ -62,12 +62,11 @@ class tao_actions_form_CreateInstance
      * @param  array options
      * @return mixed
      */
-    public function __construct($classes, $options)
+    public function __construct(array $classes, $options)
     {
-        
         $this->classes = $classes;
-    	parent::__construct(array(), $options);
-        
+
+        parent::__construct([], $options);
     }
 
     /**
@@ -241,6 +240,9 @@ class tao_actions_form_CreateInstance
         return $signatureGenerator->generate($this->getDataToSign());
     }
 
+    /**
+     * @return string
+     */
     protected function getDataToSign()
     {
         $uris = [];
@@ -249,6 +251,6 @@ class tao_actions_form_CreateInstance
             $uris[] = $class->getUri();
         }
 
-        return $uris;
+        return implode('', $uris);
     }
 }
