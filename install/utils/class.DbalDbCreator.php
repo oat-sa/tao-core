@@ -68,7 +68,7 @@ class tao_install_utils_DbalDbCreator {
    		}
    		catch(Exception $e){
    			$this->connection = null;
-            common_Logger::e($e->getMessage() . $e->getTraceAsString(), 'INSTALL');
+            common_Logger::e($e->getMessage() . $e->getTraceAsString());
    			throw new tao_install_utils_Exception('Unable to connect to the database ' . $params['dbname'] . ' with the provided credentials: ' . $e->getMessage());
    		}
    	}
@@ -104,7 +104,7 @@ class tao_install_utils_DbalDbCreator {
      */
     public function setDatabase($name){
         $this->connection->close();
-        common_Logger::d('Switch to database ' . $name , 'INSTALL');
+        common_Logger::d('Switch to database ' . $name);
         $this->dbConfiguration['dbname'] = $name;
         $this->connection = $this->buildDbalConnection($this->dbConfiguration);
         
