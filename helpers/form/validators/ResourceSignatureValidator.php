@@ -98,6 +98,6 @@ class ResourceSignatureValidator implements ValidatorInterface
      */
     public function setOptions(array $options)
     {
-        throw new InvalidArgumentException('Tis validator does not have any options');
+        throw new InvalidArgumentException('This validator does not have any options');
     }
 }
