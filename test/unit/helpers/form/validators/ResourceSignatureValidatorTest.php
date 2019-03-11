@@ -24,35 +24,45 @@ use oat\generis\test\TestCase;
 use oat\tao\helpers\form\validators\ResourceSignatureValidator;
 use oat\tao\model\security\SecurityException;
 use oat\tao\model\security\SignatureValidator;
+use PHPUnit_Framework_MockObject_MockObject;
 
 class ResourceSignatureValidatorTest extends TestCase
 {
-    private function getSignatureValidatorMock()
+    /** @var SignatureValidator|PHPUnit_Framework_MockObject_MockObject */
+    private $signatureValidator;
+
+    /** @var ResourceSignatureValidator */
+    private $subject;
+
+    protected function setUp()
     {
-        return $this->getMockBuilder(SignatureValidator::class)->getMock();
+        parent::setUp();
+
+        $this->signatureValidator = $this->createMock(SignatureValidator::class);
+        $this->subject = new ResourceSignatureValidator($this->signatureValidator, 'http://www.dot.com');
     }
 
+    /**
+     * @throws SecurityException
+     * @throws \oat\tao\model\metadata\exception\InconsistencyConfigException
+     */
     public function testEvaluate()
     {
-        $signatureValidator = $this->getSignatureValidatorMock();
-
-        $resourceValidator = new ResourceSignatureValidator($signatureValidator, 'valid signature');
-
-        $result = $resourceValidator->evaluate('signature');
-
-        $this->assertTrue($result);
+        $this->assertTrue($this->subject->evaluate('signature'));
     }
 
+    /**
+     * @throws SecurityException
+     * @throws \oat\tao\model\metadata\exception\InconsistencyConfigException
+     */
     public function testNotSuccessfulEvaluate()
     {
         $this->expectException(SecurityException::class);
 
-        $signatureValidator = $this->getSignatureValidatorMock();
+        $this->signatureValidator
+            ->method('checkSignature')
+            ->willThrowException(new SecurityException('exception message'));
 
-        $signatureValidator->method('checkSignature')->willThrowException(new SecurityException('exception message'));
-
-        $resourceValidator = new ResourceSignatureValidator($signatureValidator, 'valid signature');
-
-        $resourceValidator->evaluate('signature');
+        $this->subject->evaluate('signature');
     }
 }
