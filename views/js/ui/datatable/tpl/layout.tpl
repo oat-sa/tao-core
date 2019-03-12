@@ -16,15 +16,7 @@
     {{/with}}
 
     {{#if options.pageSizeSelector}}
-        <div class="page-size-selector-container">
-            <select class="select2">
-                {{#each options.pageSizes}}
-                    <option {{#if selected}}selected{{/if}} value="{{value}}">
-                        {{label}}
-                    </option>
-                {{/each}}
-            </select>
-        </div>
+        <div class="toolbox-container"></div>
     {{/if}}
 
     {{#if options.tools}}

@@ -30,8 +30,8 @@ define([
     'layout/loading-bar',
     'core/logger',
     'util/httpErrorParser',
-    'select2'
-], function($, _, __, Pluginifier, layout, btnTpl, filterStrategyFactory, paginationComponent, feedback, logoutEvent, loadingBar, loggerFactory, httpErrorParser){
+    'ui/pageSizeSelector',
+], function($, _, __, Pluginifier, layout, btnTpl, filterStrategyFactory, paginationComponent, feedback, logoutEvent, loadingBar, loggerFactory, httpErrorParser, pageSizeSelector){
 
     'use strict';
 
@@ -55,13 +55,6 @@ define([
             loading: __('Loading'),
             actions: __('Actions')
         },
-        pageSizes: [
-            { label: '25 ' + __('items per page'), selected: true, value: 25 },
-            { label: '50 ' + __('items per page'), value: 50 },
-            { label: '75 ' + __('items per page'), value: 75 },
-            { label: '100 ' + __('items per page'), value: 100 },
-            { label: '200 ' + __('items per page'), value: 200 },
-        ],
         pageSizeSelector: false,
     };
 
@@ -642,11 +635,11 @@ define([
             $elt.trigger('load.' + ns, [dataset]);
 
             if (options.pageSizeSelector) {
-                $('.page-size-selector-container .select2', $rendering).select2({
-                    dropdownCssClass: 'page-size-dropdown',
-                    minimumResultsForSearch: Infinity,
-                }).on('change', function(e) {
-                    self._setRows($elt, e.val);
+                pageSizeSelector({
+                    renderTo: $('.toolbox-container', $rendering),
+                    selectedSize: options.rows,
+                }).on('change', function(val) {
+                    self._setRows($elt, val);
                 });
             }
         },
@@ -846,10 +839,6 @@ define([
             if(options.rows !== rows){
                 // set new amount of items per page
                 options.rows = rows;
-
-                options.pageSizes.forEach(function (pageSize) {
-                    pageSize.selected = pageSize.value == rows;
-                });
 
                 // set page to the first one
                 options.page = 1;
