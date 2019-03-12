@@ -966,7 +966,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $register = new RegisterSignatureGenerator();
             $register->__invoke('');
 
-            $this->setVersion('28.0.3');
+            $this->setVersion('28.0.4');
         }
     }
 }
