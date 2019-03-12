@@ -34,10 +34,8 @@ class SignatureValidator
      */
     public function checkSignatures(array $list, $signatureFieldName = 'signature', $idFieldName = 'id')
     {
-        $signatureGenerator = $this->getSignatureGenerator();
-
         foreach ($list as $item) {
-            $this->checkSignature($item[$signatureFieldName], $signatureGenerator->generate($item[$idFieldName]));
+            $this->checkSignature($item[$signatureFieldName], $item[$idFieldName]);
         }
     }
 
