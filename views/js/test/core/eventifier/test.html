@@ -13,6 +13,7 @@
 
             //don't start the test now
             QUnit.config.autostart = false;
+            QUnit.config.notrycatch = true;
 
             //load the config
             require(['/tao/ClientConfig/config'], function(){
@@ -33,8 +34,10 @@
                 //load the test
                 require(['test/core/eventifier/test'], function(){
 
-                    //Tests loaded, run tests
-                    QUnit.start();
+                    //waiting till .getConfig() (/tao/ClientConfig/config) request done;
+                    setTimeout(function () {
+                        QUnit.start();
+                    }, 10);
                 });
             });
         </script>
