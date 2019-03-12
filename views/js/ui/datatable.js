@@ -628,12 +628,6 @@ define([
             // restore pagination's after data loaded
             enablePaginations($elt.paginations);
 
-            /**
-             * @event dataTable#load.dataTable
-             * @param {Object} dataset - The data set used to render the table
-             */
-            $elt.trigger('load.' + ns, [dataset]);
-
             if (options.pageSizeSelector) {
                 pageSizeSelector({
                     renderTo: $('.toolbox-container', $rendering),
@@ -642,6 +636,12 @@ define([
                     self._setRows($elt, val);
                 });
             }
+
+            /**
+             * @event dataTable#load.dataTable
+             * @param {Object} dataset - The data set used to render the table
+             */
+            $elt.trigger('load.' + ns, [dataset]);
         },
 
         /**
