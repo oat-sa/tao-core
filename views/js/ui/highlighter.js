@@ -48,12 +48,12 @@ define([
      * @param {Object} options.className - name of the class that will be used by the wrappers tags to highlight text
      * @param {Object} options.containerSelector - allows to select the root Node in which highlighting is allowed
      * @param {Object} [options.containersBlackList] - additional blacklist selectors to be added to module instance's blacklist
-     * @param {Object} [options.id] - debugging
+     * @param {String} [options.id] - key for identification/storage
+     * @returns {Object} - the highlighter instance
      */
     return function(options) {
         var className = options.className;
         var containerSelector = options.containerSelector;
-        var id = options.id;
 
         /**
          * list of node selectors which should NOT receive any highlighting from this instance
@@ -227,7 +227,6 @@ define([
                 && isWrappable(node)
             ) {
                 $(node).wrap($(getWrapper(groupId)));
-                console.warn(id, 'wrapped node', node, groupId);
             }
         }
 
@@ -476,29 +475,20 @@ define([
          * @returns {boolean}
          */
         function isWrappable(node) {
-            var inBlackList = $(node).closest(containersBlackList.join(',')).length > 0;
-            //console.log(id, node, 'in blacklist?', inBlackList);
             return isText(node)
-                && !inBlackList
+                && $(node).closest(containersBlackList.join(',')).length === 0
                 && node.textContent.trim().length > 0;
-            // return isText(node)
-            //     && $(node).closest(containersBlackList.join(',')).length === 0
-            //     && node.textContent.trim().length > 0;
         }
 
         /**
          * Create a wrapping node
          * @param {number} groupId
-         * @param {number} [stimulusId] - in case the node being wrapped is within a stimulus element
          * @returns {Element}
          */
-        function getWrapper(groupId, stimulusId) {
+        function getWrapper(groupId) {
             var wrapper = document.createElement('span');
             wrapper.className = className;
             wrapper.setAttribute(GROUP_ATTR, groupId + '');
-            if (stimulusId) {
-                wrapper.setAttribute('stimulus_id', stimulusId);
-            }
             return wrapper;
         }
 
