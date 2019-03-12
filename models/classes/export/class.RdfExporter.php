@@ -19,7 +19,8 @@
  *
  */
 
-use oat\oatbox\event\EventManagerAwareTrait;
+use oat\oatbox\event\EventManager;
+use oat\oatbox\service\ServiceManager;
 use oat\tao\model\event\RdfExportEvent;
 
 /**
@@ -31,7 +32,13 @@ use oat\tao\model\event\RdfExportEvent;
  */
 class tao_models_classes_export_RdfExporter implements tao_models_classes_export_ExportHandler
 {
-    use EventManagerAwareTrait;
+    /**
+     * @return EventManager
+     */
+    protected function getEventManager()
+    {
+        return ServiceManager::getServiceManager()->get(EventManager::SERVICE_ID);
+    }
 
     /**
      * @inheritdoc
