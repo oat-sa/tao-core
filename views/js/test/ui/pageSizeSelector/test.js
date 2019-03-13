@@ -24,7 +24,7 @@ define([
 ], function ($, pageSizeSelector) {
     'use strict';
 
-    var selectedSize = 500;
+    var defaultSize = 500;
     var options = [
         { label: '100', value: 100 },
         { label: '500', value: 500 },
@@ -77,7 +77,7 @@ define([
         var instance = pageSizeSelector({
             renderTo: '#fixture-render-with-config',
             options: options,
-            selectedSize: selectedSize,
+            defaultSize: defaultSize,
         });
 
         assert.equal(typeof instance, 'object', "The dropdown instance is an object");
@@ -90,8 +90,20 @@ define([
         instance.destroy();
     });
 
+    QUnit.test('use first option as default if there is no option with defaultSize', function (assert) {
+        var instance = pageSizeSelector({
+            renderTo: '#fixture-default-option',
+            defaultSize: 1000,
+        });
+
+        assert.equal(instance.getElement().find('select').val(), '25', "The default page size option is selected");
+
+        instance.destroy();
+    });
+
     QUnit.asyncTest('trigger change event', function (assert) {
-        QUnit.expect(1);
+        QUnit.expect(2);
+        QUnit.stop(1);
 
         var instance = pageSizeSelector({
             renderTo: '#fixture-change-event'
@@ -110,6 +122,22 @@ define([
         instance.destroy();
     });
 
+    QUnit.asyncTest('trigger change event after render to notify about selected value', function (assert) {
+        QUnit.expect(1);
+
+        var instance = pageSizeSelector({
+            renderTo: '#fixture-change-event-after-render'
+        });
+
+        instance.on('change', function () {
+            assert.ok(true, "The component fires a specific event when a page option is selected");
+
+            QUnit.start();
+        });
+
+        instance.destroy();
+    });
+
     QUnit.test('playground', function(assert) {
         pageSizeSelector({
             renderTo: '#visual-test-default-config'
@@ -118,7 +146,7 @@ define([
         pageSizeSelector({
             renderTo: '#visual-test-custom-config',
             options: options,
-            selectedSize: selectedSize,
+            defaultSize: defaultSize,
         });
 
         assert.ok(true, 'started');
