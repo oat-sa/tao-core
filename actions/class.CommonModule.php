@@ -31,6 +31,9 @@ use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\exception\InvalidServiceManagerException;
 use oat\oatbox\log\LoggerAwareTrait;
+use oat\tao\model\routing\AnnotationReader\security;
+use Zend\ServiceManager\ServiceLocatorInterface;
+
 
 /**
  * Top level controller
@@ -43,7 +46,11 @@ use oat\oatbox\log\LoggerAwareTrait;
  */
 abstract class tao_actions_CommonModule extends Module implements ServiceManagerAwareInterface, CommonModuleInterface
 {
-    use ServiceManagerAwareTrait { getServiceManager as protected getOriginalServiceManager; }
+    use ServiceManagerAwareTrait {
+        getServiceManager as protected getOriginalServiceManager;
+        getServiceLocator as protected getOriginalServiceLocator;
+        setServiceLocator as protected setOriginalServiceLocator;
+    }
     use LoggerAwareTrait;
 
     /**
@@ -55,6 +62,7 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
 
     /**
      * tao_actions_CommonModule constructor.
+     * @security("hide");
      */
     public function __construct() {}
 
@@ -353,5 +361,24 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
             $serviceManager = ServiceManager::getServiceManager();
         }
         return $serviceManager;
+    }
+
+    /**
+     * @return ServiceLocatorInterface
+     * @security("hide");
+     */
+    public function getServiceLocator()
+    {
+        return $this->getOriginalServiceLocator();
+    }
+
+    /**
+     * @param ServiceLocatorInterface $serviceLocator
+     * @return mixed
+     * @security("hide");
+     */
+    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
+    {
+        return $this->setOriginalServiceLocator($serviceLocator);
     }
 }

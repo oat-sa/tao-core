@@ -226,6 +226,8 @@ define([
                     .then(function () {
                         var position = data.from;
 
+                        calculator.setLastResult(data.lastResult || 0);
+
                         // apply the command on successive positions with respect to the provided data
                         function applyCommand() {
                             return Promise.resolve()
@@ -239,8 +241,10 @@ define([
                                     });
                                 })
                                 .then(function () {
+                                    var pos =  'undefined' !== typeof data.position ? data.position : Math.max(0, position + data.move);
+
                                     assert.equal(calculator.getExpression(), data.expected, 'Applying the sign change on ' + data.expression + ' at position ' + position + ' produced ' + data.expected);
-                                    assert.equal(calculator.getPosition(), Math.max(0, position + data.move), 'The position has changed from ' + position + ' to ' + Math.max(0, position + data.move));
+                                    assert.equal(calculator.getPosition(), pos, 'The position has changed from ' + position + ' to ' + pos);
                                 })
                                 .then(function () {
                                     if (++position <= data.to) {
@@ -264,6 +268,5 @@ define([
                 QUnit.start();
             });
     });
-
 
 });

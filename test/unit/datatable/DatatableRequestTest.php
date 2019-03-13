@@ -20,7 +20,7 @@
 
 namespace oat\tao\test\unit\datatable;
 
-use oat\tao\test\TaoPhpUnitTestRunner;
+use oat\generis\test\TestCase;
 use oat\tao\model\datatable\implementation\DatatableRequest;
 use Slim\Http\Environment;
 use Slim\Http\Request;
@@ -30,7 +30,7 @@ use Slim\Http\Request;
  * @package oat\tao\test\unit\datatable
  * @author Aleh Hutnikau <hutnikau@1pt.com>
  */
-class DatatableRequestTest extends \PHPUnit_Framework_TestCase
+class DatatableRequestTest extends TestCase
 {
 
     public function setUp()

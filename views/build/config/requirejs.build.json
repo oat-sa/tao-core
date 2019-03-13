@@ -48,7 +48,7 @@
       "exports": "Class"
     },
     "c3": {
-      "deps": ["css!lib/c3js/c3.css"]
+      "deps": ["d3", "css!lib/c3js/c3.css"]
     }
   },
   "vendor" : [

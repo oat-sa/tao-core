@@ -17,9 +17,10 @@
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA
  *
  */
-namespace oat\tao\helpers\test;
 
-use oat\tao\test\TaoPhpUnitTestRunner;
+namespace oat\tao\test\unit\helpers;
+
+use oat\generis\test\TestCase;
 use \tao_helpers_Display;
 
 /**
@@ -27,7 +28,7 @@ use \tao_helpers_Display;
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-class DisplayTest extends TaoPhpUnitTestRunner
+class DisplayTest extends TestCase
 {
 
     /**
