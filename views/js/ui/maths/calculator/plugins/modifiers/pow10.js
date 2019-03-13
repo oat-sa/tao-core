@@ -59,6 +59,23 @@ define([
         init: function init() {
             var calculator = this.getCalculator();
 
+            /**
+             * Checks if the expression contains a space before the current position
+             * @returns {Boolean}
+             */
+            function spaceBefore() {
+                return calculator.getExpression().charAt(calculator.getPosition() - 1) === ' ';
+            }
+
+            /**
+             * Checks if the token is considered as a separator
+             * @param {token} token
+             * @returns {Boolean}
+             */
+            function isSeparator(token) {
+                return tokensHelper.isFunction(token) || (tokensHelper.isSeparator(token) && token.type !== 'RPAR');
+            }
+
             // insert the sub-expression based on strategies
             calculator
                 .on(nsHelper.namespaceAll('command-pow10', pluginName), function () {
@@ -69,6 +86,7 @@ define([
                     var prevToken = tokens[index - 1] || null;
                     var nextToken = tokens[index + 1] || null;
                     var aligned = false;
+                    var expr = termsMulByPow10;
 
                     if (token) {
                         // refine the current position, as it should be either on the start or the end of the token
@@ -90,25 +108,29 @@ define([
                         }
                     }
 
-                    // empty expression or 0
+                    // empty expression or 0, should be replaced by the shorter version
                     if (tokens.length <= 1 && !token || token.type === 'NUM0') {
                         calculator.replace(termsPow10);
                     }
-                    // no token before, or the previous one is either an operator or a function, so no need to add the
-                    // "multiply" operator to link to the inserted expression
-                    else if (
-                        (!aligned && (tokensHelper.isOperator(token) || (token && token.type === 'LPAR'))) ||
-                        (aligned && (
-                            index === 0 ||
-                            tokensHelper.isFunction(prevToken) ||
-                            (tokensHelper.isSeparator(prevToken) && prevToken.type !== 'RPAR')
-                        ))
-                    ) {
-                        calculator.insert(termsPow10);
-                    }
-                    // all other cases, that require an operator to link to the inserted expression
+                    // will insert expression at position:
+                    // - use the shorter version if there is no token before, or the previous one is either an operator
+                    //   or a function
+                    // - user the longer version in any other cases
                     else {
-                        calculator.insert(termsMulByPow10);
+                        if (aligned) {
+                            if (index === 0 || isSeparator(prevToken)) {
+                                expr = termsPow10;
+                            }
+                        } else if (isSeparator(token)) {
+                            expr = termsPow10;
+
+                            // the expression may need a space before if the previous token is a function
+                            if (tokensHelper.isFunction(token) && !spaceBefore()) {
+                                expr = ' ' + expr;
+                            }
+                        }
+
+                        calculator.insert(expr);
                     }
                 });
         },

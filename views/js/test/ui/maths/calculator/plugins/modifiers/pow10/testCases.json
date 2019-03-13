@@ -384,6 +384,30 @@
         "move": 4
     },
     {
+        "title": "cos",
+        "expression": "cos",
+        "expected": "10^cos",
+        "from": 0,
+        "to": 2,
+        "position": 3
+    },
+    {
+        "title": "cos ",
+        "expression": "cos ",
+        "expected": "cos 10^ ",
+        "from": 3,
+        "to": 3,
+        "move": 4
+    },
+    {
+        "title": "cos ",
+        "expression": "cos ",
+        "expected": "cos 10^",
+        "from": 4,
+        "to": 4,
+        "move": 3
+    },
+    {
         "title": "cos PI*2",
         "expression": "cos PI*2",
         "expected": "10^cos PI*2",
