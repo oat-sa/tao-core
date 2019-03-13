@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Ui Test - PageSizeSelector</title>
+        <base href="../../../../" />
+        <link rel="stylesheet" type="text/css" href="js/lib/qunit/qunit.css">
+        <link rel="stylesheet" type="text/css" href="css/tao-main-style.css">
+        <script type="text/javascript" src="js/lib/require.js"></script>
+        <script type="text/javascript" src="js/lib/qunit/qunit.js"></script>
+        <script type="text/javascript" src="js/lib/qunit/qunit-parameterize.js"></script>
+        <script type="text/javascript" src="js/lib/blanket/blanket.min.js" data-cover-only="pageSizeSelector.js"></script>
+
+        <script  type="text/javascript">
+            //don't start the test now
+            QUnit.config.autostart = false;
+
+            //load the config
+            require(['/tao/ClientConfig/config'], function(){
+
+                //load the test
+                require(['test/ui/pageSizeSelector/test'], function(){
+
+                    //Tests loaded, run tests
+                    QUnit.start();
+                });
+            });
+        </script>
+    </head>
+    <body class="delivery-scope">
+        <div id="qunit"></div>
+        <div id="qunit-fixture">
+            <div id="fixture-render"></div>
+            <div id="fixture-render-with-config"></div>
+            <div id="fixture-default-option"></div>
+            <div id="fixture-change-event"></div>
+            <div id="fixture-change-event-after-render"></div>
+        </div>
+        <div id="visual-test-default-config" style="height: 200px"></div>
+        <div id="visual-test-custom-config" style="height: 200px"></div>
+    </body>
+</html>
