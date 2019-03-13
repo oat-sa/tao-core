@@ -19,8 +19,8 @@
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
  */
 
-define( [
-    
+define([
+
     'jquery',
     'lodash',
     'tpl!test/ui/datatable/demo/feature',
@@ -30,84 +30,84 @@ define( [
     'ui/dialog',
     'ui/datatable',
     'lib/jquery.mockjax/jquery.mockjax'
-], function(  $, _, featureTpl, queryTpl, fileTpl, demoData, dialog ) {
+], function($, _, featureTpl, queryTpl, fileTpl, demoData, dialog) {
     'use strict';
 
-    var $container = $( '#demo' );
+    var $container = $('#demo');
 
-    function sort( samples, criteria ) {
+    function sort(samples, criteria) {
         var direction = criteria.sortorder === 'desc' || criteria.sortorder < 0 ? -1 : 1;
         var field = criteria.sortby;
-        return samples.sort( function( a, b ) {
-            a = a && a[ field ];
-            b = b && b[ field ];
-            if ( a > b ) {
+        return samples.sort(function(a, b) {
+            a = a && a[field];
+            b = b && b[field];
+            if (a > b) {
                 return direction;
-            } else if ( a < b ) {
+            } else if (a < b) {
                 return -direction;
             } else {
                 return 0;
             }
-        } );
+        });
     }
 
-    function filterToRegExp( filterPattern ) {
-        if ( filterPattern ) {
-            if ( filterPattern.substr( -1 ) !== '*' ) {
+    function filterToRegExp(filterPattern) {
+        if (filterPattern) {
+            if (filterPattern.substr(-1) !== '*') {
                 filterPattern += '*';
             }
 
-            return new RegExp( '^' + filterPattern.replace( /\*/g, '.*?' ) + '$', 'i' );
+            return new RegExp('^' + filterPattern.replace(/\*/g, '.*?') + '$', 'i');
         }
         return '';
     }
 
-    function filter( samples, model, criteria, options ) {
-        var filteredColumns = _.map( model, 'id' );
+    function filter(samples, model, criteria, options) {
+        var filteredColumns = _.map(model, 'id');
         var filterPatterns = {};
         var filterPattern = '';
 
-        if ( criteria.filtercolumns ) {
-            if ( _.isArray( criteria.filtercolumns ) ) {
-                _.forEach( criteria.filtercolumns, function( field ) {
-                    filterPatterns[ field ] = filterToRegExp( criteria.filterquery );
-                } );
+        if (criteria.filtercolumns) {
+            if (_.isArray(criteria.filtercolumns)) {
+                _.forEach(criteria.filtercolumns, function(field) {
+                    filterPatterns[field] = filterToRegExp(criteria.filterquery);
+                });
             } else {
-                _.forEach( criteria.filtercolumns, function( pattern, field ) {
-                    if ( field === 'filter' ) {
-                        filterPattern = filterToRegExp( pattern );
+                _.forEach(criteria.filtercolumns, function(pattern, field) {
+                    if (field === 'filter') {
+                        filterPattern = filterToRegExp(pattern);
                     } else {
-                        filterPatterns[ field ] = filterToRegExp( pattern );
+                        filterPatterns[field] = filterToRegExp(pattern);
                     }
-                } );
+                });
             }
         } else {
-            filterPattern = filterToRegExp( criteria.filterquery );
+            filterPattern = filterToRegExp(criteria.filterquery);
         }
 
-        if ( options.filterRequired && !filterPattern && !_.size( filterPatterns ) ) {
+        if (options.filterRequired && !filterPattern && !_.size(filterPatterns)) {
             return [];
         }
 
-        return _.filter( samples, function( row ) {
-            return _.every( filterPatterns, function( pattern, field ) {
-                return pattern.test( row[ field ] );
-            } ) && ( !filterPattern || _.some( filteredColumns, function( field ) {
-                return filterPattern.test( row[ field ] );
-            } ) );
-        } );
+        return _.filter(samples, function(row) {
+            return _.every(filterPatterns, function(pattern, field) {
+                return pattern.test(row[field]);
+            }) && (!filterPattern || _.some(filteredColumns, function(field) {
+                return filterPattern.test(row[field]);
+            }));
+        });
     }
 
-    function query( request, model, options ) {
+    function query(request, model, options) {
         var queryOptions = options || {};
         var criteria = request && request.data || {};
-        var limit = _.isNumber( queryOptions.limit ) ? Math.max( 0, queryOptions.limit ) : demoData.length;
-        var filteredData = filter( sort( demoData.slice( 0, limit ), criteria ), model, criteria, queryOptions );
+        var limit = _.isNumber(queryOptions.limit) ? Math.max(0, queryOptions.limit) : demoData.length;
+        var filteredData = filter(sort(demoData.slice(0, limit), criteria), model, criteria, queryOptions);
         var rows = request.data.rows || 25;
-        var totalPages = Math.ceil( filteredData.length / rows );
-        var page = Math.max( 1, Math.min( request.data.page || 1, totalPages ) );
-        var start = rows * ( page - 1 );
-        var pageData = filteredData.slice( start, start + rows );
+        var totalPages = Math.ceil(filteredData.length / rows);
+        var page = Math.max(1, Math.min(request.data.page || 1, totalPages));
+        var start = rows * (page - 1);
+        var pageData = filteredData.slice(start, start + rows);
 
         return {
             data: pageData,
@@ -122,18 +122,18 @@ define( [
     $.mockjaxSettings.responseTime = 1;
 
     // Toggle panels
-    $container.on( 'click', '.feature .title', function( e ) {
-        var $el = $( e.target );
-        var $feature = $el.closest( '.feature' );
-        var action = $el.data( 'control' );
-        var $content = $feature.find( '.content' );
-        var contentVisible = $content.is( ':visible' );
+    $container.on('click', '.feature .title', function(e) {
+        var $el = $(e.target);
+        var $feature = $el.closest('.feature');
+        var action = $el.data('control');
+        var $content = $feature.find('.content');
+        var contentVisible = $content.is(':visible');
         var toggle = false;
         var $config;
 
-        if ( action === 'settings' ) {
-            $config = $feature.find( '.config' );
-            if ( contentVisible ) {
+        if (action === 'settings') {
+            $config = $feature.find('.config');
+            if (contentVisible) {
                 $config.toggle();
             } else {
                 $config.show();
@@ -143,30 +143,30 @@ define( [
             toggle = true;
         }
 
-        if ( toggle ) {
-            if ( contentVisible ) {
+        if (toggle) {
+            if (contentVisible) {
                 $content.hide();
             } else {
-                $container.find( '.feature .content' ).hide();
+                $container.find('.feature .content').hide();
                 $content.show();
             }
-            $feature.find( '[data-control=hide]' ).toggle( !contentVisible );
-            $feature.find( '[data-control=show]' ).toggle( contentVisible );
+            $feature.find('[data-control=hide]').toggle(!contentVisible);
+            $feature.find('[data-control=show]').toggle(contentVisible);
         }
-    } );
+    });
 
-    QUnit.moduleDone( function() {
-        $container.find( '.feature:last-child .title' ).click();
-    } );
+    QUnit.moduleDone(function() {
+        $container.find('.feature:last-child .title').click();
+    });
 
-    QUnit.module( 'Datatable Demo' );
+    QUnit.module('Datatable Demo');
 
-    QUnit.cases.init( [ {
+    QUnit.cases.init([{
         title: 'Default',
         config: {
             url: '/demo-data/default',
             rows: 10,
-            model: [ {
+            model: [{
                 id: 'login',
                 label: 'Login'
             }, {
@@ -196,14 +196,14 @@ define( [
             }, {
                 id: 'zipcode',
                 label: 'Zip Code'
-            } ]
+            }]
         }
     }, {
         title: 'Sortable',
         config: {
             url: '/demo-data/sortable',
             rows: 10,
-            model: [ {
+            model: [{
                 id: 'login',
                 label: 'Login',
                 sortable: true
@@ -243,7 +243,7 @@ define( [
                 id: 'zipcode',
                 label: 'Zip Code',
                 sortable: true
-            } ]
+            }]
         }
     }, {
         title: 'Selectable',
@@ -251,7 +251,7 @@ define( [
             url: '/demo-data/selectable',
             rows: 10,
             selectable: true,
-            model: [ {
+            model: [{
                 id: 'login',
                 label: 'Login'
             }, {
@@ -281,7 +281,7 @@ define( [
             }, {
                 id: 'zipcode',
                 label: 'Zip Code'
-            } ]
+            }]
         }
     }, {
         title: 'Row selection',
@@ -290,7 +290,7 @@ define( [
             url: '/demo-data/row-selection',
             rows: 5,
             rowSelection: true,
-            model: [ {
+            model: [{
                 id: 'login',
                 label: 'Login'
             }, {
@@ -320,7 +320,7 @@ define( [
             }, {
                 id: 'zipcode',
                 label: 'Zip Code'
-            } ]
+            }]
         }
     }, {
         title: 'Status',
@@ -328,7 +328,7 @@ define( [
             url: '/demo-data/status',
             rows: 10,
             status: true,
-            model: [ {
+            model: [{
                 id: 'login',
                 label: 'Login'
             }, {
@@ -358,7 +358,7 @@ define( [
             }, {
                 id: 'zipcode',
                 label: 'Zip Code'
-            } ]
+            }]
         }
     }, {
         title: 'Status empty',
@@ -370,7 +370,7 @@ define( [
                 available: 'Users found',
                 empty: 'No user found!'
             },
-            model: [ {
+            model: [{
                 id: 'login',
                 label: 'Login'
             }, {
@@ -400,7 +400,7 @@ define( [
             }, {
                 id: 'zipcode',
                 label: 'Zip Code'
-            } ]
+            }]
         }
     }, {
         title: 'Status available',
@@ -411,7 +411,7 @@ define( [
                 available: 'Users found',
                 empty: 'No user found!'
             },
-            model: [ {
+            model: [{
                 id: 'login',
                 label: 'Login'
             }, {
@@ -441,7 +441,7 @@ define( [
             }, {
                 id: 'zipcode',
                 label: 'Zip Code'
-            } ]
+            }]
         }
     }, {
         title: 'Pagination',
@@ -450,7 +450,7 @@ define( [
             rows: 10,
             paginationStrategyTop: 'simple',
             paginationStrategyBottom: 'pages',
-            model: [ {
+            model: [{
                 id: 'login',
                 label: 'Login'
             }, {
@@ -480,7 +480,7 @@ define( [
             }, {
                 id: 'zipcode',
                 label: 'Zip Code'
-            } ]
+            }]
         }
     }, {
         title: 'Filter',
@@ -492,7 +492,7 @@ define( [
                 available: 'Users found',
                 empty: 'No user found!'
             },
-            model: [ {
+            model: [{
                 id: 'login',
                 label: 'Login'
             }, {
@@ -522,7 +522,7 @@ define( [
             }, {
                 id: 'zipcode',
                 label: 'Zip Code'
-            } ]
+            }]
         }
     }, {
         title: 'Filter single column',
@@ -534,7 +534,7 @@ define( [
                 available: 'Users found',
                 empty: 'No user found!'
             },
-            model: [ {
+            model: [{
                 id: 'login',
                 label: 'Login',
                 filterable: true
@@ -572,7 +572,7 @@ define( [
             }, {
                 id: 'zipcode',
                 label: 'Zip Code'
-            } ]
+            }]
         }
     }, {
         title: 'Filter multiple columns',
@@ -585,7 +585,7 @@ define( [
                 available: 'Users found',
                 empty: 'No user found!'
             },
-            model: [ {
+            model: [{
                 id: 'login',
                 label: 'Login',
                 filterable: true
@@ -623,7 +623,7 @@ define( [
             }, {
                 id: 'zipcode',
                 label: 'Zip Code'
-            } ]
+            }]
         }
     }, {
         title: 'Filter required',
@@ -637,7 +637,7 @@ define( [
                 available: 'Users found',
                 empty: 'No user found! Please precise your search'
             },
-            model: [ {
+            model: [{
                 id: 'login',
                 label: 'Login',
                 filterable: true
@@ -675,41 +675,41 @@ define( [
             }, {
                 id: 'zipcode',
                 label: 'Zip Code'
-            } ]
+            }]
         }
     }, {
         title: 'Actions',
         config: {
             url: '/demo-data/actions',
             rows: 10,
-            actions: [ {
+            actions: [{
                 id: 'file',
                 label: 'File',
                 icon: 'item',
-                action: function( id, row ) {
-                    dialog( {
+                action: function(id, row) {
+                    dialog({
                         message: 'Use\'s file #' + id,
-                        content: fileTpl( row ),
+                        content: fileTpl(row),
                         buttons: 'ok',
                         autoRender: true,
                         autoDestroy: true
-                    } );
+                    });
                 }
             }, {
                 id: 'remove',
                 label: 'Remove',
                 icon: 'bin',
-                action: function( id ) {
-                    dialog( {
+                action: function(id) {
+                    dialog({
                         message: 'Deletion is not supported yet!',
                         content: 'That would affect user id #' + id,
                         buttons: 'ok',
                         autoRender: true,
                         autoDestroy: true
-                    } );
+                    });
                 }
-            } ],
-            model: [ {
+            }],
+            model: [{
                 id: 'login',
                 label: 'Login'
             }, {
@@ -727,7 +727,7 @@ define( [
             }, {
                 id: 'country',
                 label: 'country'
-            } ]
+            }]
         }
     }, {
         title: 'Tools',
@@ -735,60 +735,60 @@ define( [
             url: '/demo-data/tools',
             rows: 10,
             selectable: true,
-            tools: [ {
+            tools: [{
                 id: 'tool',
                 label: 'Tool',
                 icon: 'settings',
                 action: function() {
-                    dialog( {
+                    dialog({
                         message: 'It is a wonderful tool!',
                         buttons: 'ok',
                         autoRender: true,
                         autoDestroy: true
-                    } );
+                    });
                 }
             }, {
                 id: 'massAction',
                 label: 'Mass Action',
                 icon: 'play',
                 massAction: true,
-                action: function( selection ) {
-                    dialog( {
-                        message: 'This action will affect users [' + selection.join( ', ' ) + ']',
+                action: function(selection) {
+                    dialog({
+                        message: 'This action will affect users [' + selection.join(', ') + ']',
                         buttons: 'ok',
                         autoRender: true,
                         autoDestroy: true
-                    } );
+                    });
                 }
-            } ],
-            actions: [ {
+            }],
+            actions: [{
                 id: 'file',
                 label: 'File',
                 icon: 'item',
-                action: function( id, row ) {
-                    dialog( {
+                action: function(id, row) {
+                    dialog({
                         message: 'Use\'s file #' + id,
-                        content: fileTpl( row ),
+                        content: fileTpl(row),
                         buttons: 'ok',
                         autoRender: true,
                         autoDestroy: true
-                    } );
+                    });
                 }
             }, {
                 id: 'remove',
                 label: 'Remove',
                 icon: 'bin',
-                action: function( id ) {
-                    dialog( {
+                action: function(id) {
+                    dialog({
                         message: 'Deletion is not supported yet!',
                         content: 'That would affect user id #' + id,
                         buttons: 'ok',
                         autoRender: true,
                         autoDestroy: true
-                    } );
+                    });
                 }
-            } ],
-            model: [ {
+            }],
+            model: [{
                 id: 'login',
                 label: 'Login'
             }, {
@@ -806,7 +806,7 @@ define( [
             }, {
                 id: 'country',
                 label: 'country'
-            } ]
+            }]
         }
     }, {
         title: 'All',
@@ -823,60 +823,60 @@ define( [
                 available: 'Users found',
                 empty: 'No user found!'
             },
-            tools: [ {
+            tools: [{
                 id: 'tool',
                 label: 'Tool',
                 icon: 'settings',
                 action: function() {
-                    dialog( {
+                    dialog({
                         message: 'It is a wonderful tool!',
                         buttons: 'ok',
                         autoRender: true,
                         autoDestroy: true
-                    } );
+                    });
                 }
             }, {
                 id: 'massAction',
                 label: 'Mass Action',
                 icon: 'play',
                 massAction: true,
-                action: function( selection ) {
-                    dialog( {
-                        message: 'This action will affect users [' + selection.join( ', ' ) + ']',
+                action: function(selection) {
+                    dialog({
+                        message: 'This action will affect users [' + selection.join(', ') + ']',
                         buttons: 'ok',
                         autoRender: true,
                         autoDestroy: true
-                    } );
+                    });
                 }
-            } ],
-            actions: [ {
+            }],
+            actions: [{
                 id: 'file',
                 label: 'File',
                 icon: 'item',
-                action: function( id, row ) {
-                    dialog( {
+                action: function(id, row) {
+                    dialog({
                         message: 'Use\'s file #' + id,
-                        content: fileTpl( row ),
+                        content: fileTpl(row),
                         buttons: 'ok',
                         autoRender: true,
                         autoDestroy: true
-                    } );
+                    });
                 }
             }, {
                 id: 'remove',
                 label: 'Remove',
                 icon: 'bin',
-                action: function( id ) {
-                    dialog( {
+                action: function(id) {
+                    dialog({
                         message: 'Deletion is not supported yet!',
                         content: 'That would affect user id #' + id,
                         buttons: 'ok',
                         autoRender: true,
                         autoDestroy: true
-                    } );
+                    });
                 }
-            } ],
-            model: [ {
+            }],
+            model: [{
                 id: 'login',
                 label: 'Login',
                 sortable: true,
@@ -906,45 +906,45 @@ define( [
                 label: 'country',
                 sortable: true,
                 filterable: true
-            } ]
+            }]
         }
-    } ] ).test( 'configured with ', function( testCase, assert ) {
-        var $feature = $( featureTpl( {
+    }]).test('configured with ', function(testCase, assert) {
+        var $feature = $(featureTpl({
             title: testCase.title,
-            config: JSON.stringify( testCase.config, null, 2 )
-        } ) ).appendTo( $container );
+            config: JSON.stringify(testCase.config, null, 2)
+        })).appendTo($container);
         var ready = assert.async();
 
-        assert.expect( 1 );
+        assert.expect(1);
 
-        $.mockjax( {
+        $.mockjax({
             url: testCase.config.url,
             dataType: 'json',
-            response: function( request ) {
-                this.responseText = query( request, testCase.config.model, {
+            response: function(request) {
+                this.responseText = query(request, testCase.config.model, {
                     limit: testCase.limit,
                     filterRequired: testCase.filterRequired
-                } );
+                });
             }
-        } );
+        });
 
-        $feature.find( '.widget' )
-            .on( 'create.datatable', function() {
-                assert.ok( true, 'Datatable is created' );
+        $feature.find('.widget')
+            .on('create.datatable', function() {
+                assert.ok(true, 'Datatable is created');
                 ready();
-            } )
-            .on( 'query.datatable', function( e, ajaxConfig ) {
+            })
+            .on('query.datatable', function(e, ajaxConfig) {
                 var queryData = {
                     method: ajaxConfig.type,
                     url: ajaxConfig.url
                 };
-                if ( ajaxConfig.type === 'GET' ) {
-                    queryData.url = queryData.url + ( queryData.url.indexOf( '?' ) > -1 ? '&' : '?' ) + $.param( ajaxConfig.data );
+                if (ajaxConfig.type === 'GET') {
+                    queryData.url = queryData.url + (queryData.url.indexOf('?') > -1 ? '&' : '?') + $.param(ajaxConfig.data);
                 } else {
-                    queryData.params = JSON.stringify( ajaxConfig.data );
+                    queryData.params = JSON.stringify(ajaxConfig.data);
                 }
-                $feature.find( '.query' ).html( queryTpl( queryData ) );
-            } )
-            .datatable( testCase.config );
-    } );
-} );
+                $feature.find('.query').html(queryTpl(queryData));
+            })
+            .datatable(testCase.config);
+    });
+});

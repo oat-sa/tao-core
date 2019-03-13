@@ -18,91 +18,91 @@
 /**
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
-define( [
+define([
 
     'lodash',
     'core/promise',
     'ui/documentViewer/viewerFactory',
     'ui/documentViewer/providers/pdfViewer',
     'test/ui/documentViewer/pdfViewer/mocks/mockPdfjs'
-], function(  _, Promise, viewerFactory, pdfViewer, mockPdfjs ) {
+], function(_, Promise, viewerFactory, pdfViewer, mockPdfjs) {
     'use strict';
 
-    var headless = /HeadlessChrome/.test( window.navigator.userAgent );
-    var pdfUrl = location.href.replace( '/pdfViewer/viewer/test.html', '/sample/demo.pdf' );
+    var headless = /HeadlessChrome/.test(window.navigator.userAgent);
+    var pdfUrl = location.href.replace('/pdfViewer/viewer/test.html', '/sample/demo.pdf');
     var PDFjsId = 'pdfjs-dist/build/pdf';
-    var contexts = [ {
+    var contexts = [{
         title: 'fallback',
         module: null
     }, {
         title: 'PDF.js',
         module: mockPdfjs
-    } ];
+    }];
 
-    QUnit.module( 'pdfViewer factory', {
-        afterEach: function( assert ) {
+    QUnit.module('pdfViewer factory', {
+        afterEach: function(assert) {
             viewerFactory.clearProviders();
         }
-    } );
+    });
 
-    QUnit.test( 'module', function( assert ) {
-        assert.expect( 7 );
+    QUnit.test('module', function(assert) {
+        assert.expect(7);
 
-        assert.equal( typeof pdfViewer, 'object', 'The pdfViewer module exposes an object' );
-        assert.equal( typeof pdfViewer.getTemplate, 'function', 'The pdfViewer module exposes a function getTemplate()' );
-        assert.equal( typeof pdfViewer.init, 'function', 'The pdfViewer module exposes a function init()' );
-        assert.equal( typeof pdfViewer.load, 'function', 'The pdfViewer module exposes a function load()' );
+        assert.equal(typeof pdfViewer, 'object', 'The pdfViewer module exposes an object');
+        assert.equal(typeof pdfViewer.getTemplate, 'function', 'The pdfViewer module exposes a function getTemplate()');
+        assert.equal(typeof pdfViewer.init, 'function', 'The pdfViewer module exposes a function init()');
+        assert.equal(typeof pdfViewer.load, 'function', 'The pdfViewer module exposes a function load()');
 
-        viewerFactory.registerProvider( 'pdf', pdfViewer );
-        assert.ok( true, 'The pdfViewer provider can be registered without triggering an error' );
-        assert.equal( typeof viewerFactory( 'pdf' ), 'object', 'An instance of pdfViewer can be created' );
-        assert.notStrictEqual( viewerFactory( 'pdf' ), viewerFactory( 'pdf' ), 'A different instance of pdfViewer is created on each call' );
+        viewerFactory.registerProvider('pdf', pdfViewer);
+        assert.ok(true, 'The pdfViewer provider can be registered without triggering an error');
+        assert.equal(typeof viewerFactory('pdf'), 'object', 'An instance of pdfViewer can be created');
+        assert.notStrictEqual(viewerFactory('pdf'), viewerFactory('pdf'), 'A different instance of pdfViewer is created on each call');
 
         viewerFactory.clearProviders();
-    } );
+    });
 
-    QUnit.module( 'pdfViewer implementation', {
-        beforeEach: function( assert ) {
-            viewerFactory.registerProvider( 'pdf', pdfViewer );
+    QUnit.module('pdfViewer implementation', {
+        beforeEach: function(assert) {
+            viewerFactory.registerProvider('pdf', pdfViewer);
         },
-        afterEach: function( assert ) {
+        afterEach: function(assert) {
             viewerFactory.clearProviders();
         }
-    } );
+    });
 
     QUnit
-        .cases.init( contexts )
-        .test( 'render ', function( data, assert ) {
+        .cases.init(contexts)
+        .test('render ', function(data, assert) {
             var ready = assert.async();
-            assert.expect( headless ? 2 : 3 );
+            assert.expect(headless ? 2 : 3);
 
-            requirejs.undef( PDFjsId );
-            define( PDFjsId, data.module );
+            requirejs.undef(PDFjsId);
+            define(PDFjsId, data.module);
 
-            viewerFactory( 'pdf', {
+            viewerFactory('pdf', {
                 type: 'pdf',
                 url: pdfUrl
-            } )
-                .on( 'initialized', function() {
-                    assert.ok( true, 'The viewer is initialized' );
+            })
+                .on('initialized', function() {
+                    assert.ok(true, 'The viewer is initialized');
 
-                    if ( headless ) {
+                    if (headless) {
                         this.destroy();
                     } else {
-                        this.render( '#qunit-fixture' );
+                        this.render('#qunit-fixture');
                     }
-                } )
-                .on( 'loaded', function() {
+                })
+                .on('loaded', function() {
                     var self = this;
-                    assert.ok( true, 'The PDF file has been loaded' );
-                    setTimeout( function() {
+                    assert.ok(true, 'The PDF file has been loaded');
+                    setTimeout(function() {
                         self.destroy();
-                    }, 250 );
-                } )
-                .on( 'unloaded', function() {
-                    assert.ok( true, 'The viewer is destroyed' );
+                    }, 250);
+                })
+                .on('unloaded', function() {
+                    assert.ok(true, 'The viewer is destroyed');
                     ready();
-                } );
-        } );
+                });
+        });
 
-} );
+});

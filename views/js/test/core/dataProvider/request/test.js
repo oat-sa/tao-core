@@ -21,7 +21,7 @@
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define([ 'jquery', 'lodash', 'core/dataProvider/request', 'core/promise'], function( $, _, request, Promise) {
+define(['jquery', 'lodash', 'core/dataProvider/request', 'core/promise'], function($, _, request, Promise) {
     'use strict';
 
     var requestCases;
@@ -71,12 +71,12 @@ define([ 'jquery', 'lodash', 'core/dataProvider/request', 'core/promise'], funct
     });
 
     QUnit.module('request', {
-        beforeEach : function(assert) {
+        beforeEach: function(assert) {
 
             //mock the jquery ajax method
             $.ajax = function(options){
                 return {
-                    done : function(cb){
+                    done: function(cb){
                         var response = responses[options.url];
                         if (response) {
                             if (options.headers) {
@@ -90,7 +90,7 @@ define([ 'jquery', 'lodash', 'core/dataProvider/request', 'core/promise'], funct
                         }
                         return this;
                     },
-                    fail : function(cb){
+                    fail: function(cb){
                         if (errors[options.url]) {
                             cb.apply(null, errors[options.url]);
                         }
@@ -99,7 +99,7 @@ define([ 'jquery', 'lodash', 'core/dataProvider/request', 'core/promise'], funct
                 };
             };
         },
-        afterEach : function teardown(assert) {
+        afterEach: function teardown(assert) {
             $.ajax = $ajax;
         }
     });
@@ -107,39 +107,39 @@ define([ 'jquery', 'lodash', 'core/dataProvider/request', 'core/promise'], funct
     requestCases = [{
         title: 'no url',
         reject: true,
-        err : new TypeError('At least give a URL...')
+        err: new TypeError('At least give a URL...')
     }, {
-        title : '200 got content',
-        url : '//200',
-        content: { foo : 'bar' }
+        title: '200 got content',
+        url: '//200',
+        content: {foo: 'bar'}
     }, {
-        title : '200 header',
-        url : '//200',
-        headers: { 'x-foo': 'bar' },
-        content: { foo : 'bar', requestHeaders: { 'x-foo': 'bar' } }
+        title: '200 header',
+        url: '//200',
+        headers: {'x-foo': 'bar'},
+        content: {foo: 'bar', requestHeaders: {'x-foo': 'bar'}}
     }, {
-        title : '204 no content',
-        url : '//204'
+        title: '204 no content',
+        url: '//204'
     }, {
-        title : '500 error',
-        url : '//500',
-        reject : true,
-        err : new Error('500 : Server Error')
+        title: '500 error',
+        url: '//500',
+        reject: true,
+        err: new Error('500 : Server Error')
     }, {
-        title : '200 error 1',
-        url : '//200/error/1',
-        reject : true,
-        err : new Error('1 : oops')
+        title: '200 error 1',
+        url: '//200/error/1',
+        reject: true,
+        err: new Error('1 : oops')
     }, {
-        title : '200 error 2',
-        url : '//200/error/2',
-        reject : true,
-        err : new Error('2 : woops')
+        title: '200 error 2',
+        url: '//200/error/2',
+        reject: true,
+        err: new Error('2 : woops')
     }, {
-        title : '200 error fallback',
-        url : '//200/error/fallback',
-        reject : true,
-        err : new Error('The server has sent an empty response')
+        title: '200 error fallback',
+        url: '//200/error/fallback',
+        reject: true,
+        err: new Error('The server has sent an empty response')
     }];
 
     QUnit

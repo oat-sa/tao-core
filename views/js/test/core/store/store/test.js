@@ -19,37 +19,37 @@
 /**
  * Test the module {@link core/store}
  */
-define( [  'core/store', 'core/promise' ], function(  store, Promise ) {
+define(['core/store', 'core/promise'], function(store, Promise) {
     'use strict';
 
     var mockedData = {};
-    var mockBackend = function( name ) {
+    var mockBackend = function(name) {
 
-        if ( !name ) {
-            throw new TypeError( 'no name' );
+        if (!name) {
+            throw new TypeError('no name');
         }
         return {
-            getItem: function getItem( key ) {
-                return Promise.resolve( mockedData[ key ] );
+            getItem: function getItem(key) {
+                return Promise.resolve(mockedData[key]);
             },
-            setItem: function setItem( key, value ) {
-                mockedData[ key ] = value;
-                return Promise.resolve( true );
+            setItem: function setItem(key, value) {
+                mockedData[key] = value;
+                return Promise.resolve(true);
             },
             getItems: function getItems() {
-                return Promise.resolve( mockedData );
+                return Promise.resolve(mockedData);
             },
-            removeItem: function removeItem( key ) {
-                delete mockedData[ key ];
-                return Promise.resolve( true );
+            removeItem: function removeItem(key) {
+                delete mockedData[key];
+                return Promise.resolve(true);
             },
             clear: function clear() {
                 mockedData = {};
-                return Promise.resolve( true );
+                return Promise.resolve(true);
             },
             removeStore: function removeStore() {
                 mockedData = {};
-                return Promise.resolve( true );
+                return Promise.resolve(true);
             }
         };
     };
@@ -60,21 +60,21 @@ define( [  'core/store', 'core/promise' ], function(  store, Promise ) {
 
     mockBackend.getStoreIdentifier = function() {};
 
-    QUnit.module( 'API' );
+    QUnit.module('API');
 
-    QUnit.test( 'module', function( assert ) {
-        assert.expect( 7 );
+    QUnit.test('module', function(assert) {
+        assert.expect(7);
 
-        assert.ok( typeof store !== 'undefined', 'The module exports something' );
-        assert.ok( typeof store === 'function', 'The module exposes a function' );
-        assert.ok( typeof store.backends === 'object', 'The module has a backends object' );
-        assert.ok( typeof store.getIdentifier === 'function', 'The module expose the getIdentifier method' );
-        assert.ok( typeof store.getAll === 'function', 'The module expose the getAll method' );
-        assert.ok( typeof store.removeAll === 'function', 'The module expose the removeAll method' );
-        assert.ok( typeof store.cleanUpSpace === 'function', 'The module expose the cleanUpSpace method' );
-    } );
+        assert.ok(typeof store !== 'undefined', 'The module exports something');
+        assert.ok(typeof store === 'function', 'The module exposes a function');
+        assert.ok(typeof store.backends === 'object', 'The module has a backends object');
+        assert.ok(typeof store.getIdentifier === 'function', 'The module expose the getIdentifier method');
+        assert.ok(typeof store.getAll === 'function', 'The module expose the getAll method');
+        assert.ok(typeof store.removeAll === 'function', 'The module expose the removeAll method');
+        assert.ok(typeof store.cleanUpSpace === 'function', 'The module expose the cleanUpSpace method');
+    });
 
-    QUnit.cases.init( [ {
+    QUnit.cases.init([{
         title: 'without parameter'
     }, {
         title: 'with a name and a backend name',
@@ -88,84 +88,84 @@ define( [  'core/store', 'core/promise' ], function(  store, Promise ) {
                 getItem: function() {}
             };
         }
-    } ] ).test( 'factory', function( data, assert ) {
+    }]).test('factory', function(data, assert) {
         var ready = assert.async();
         var p;
 
-        assert.expect( 2 );
+        assert.expect(2);
 
-        p = store( data.name, data.backend );
-        assert.ok( p instanceof Promise, 'The factory returns a promise' );
+        p = store(data.name, data.backend);
+        assert.ok(p instanceof Promise, 'The factory returns a promise');
 
-        p.catch( function( err ) {
-            assert.ok( err instanceof TypeError, err.message );
+        p.catch(function(err) {
+            assert.ok(err instanceof TypeError, err.message);
             ready();
-        } );
-    } );
+        });
+    });
 
-    QUnit.test( 'factory', function( assert ) {
+    QUnit.test('factory', function(assert) {
         var ready = assert.async();
         var p;
-        assert.expect( 3 );
+        assert.expect(3);
 
-        p = store( 'foo', mockBackend );
-        assert.ok( p instanceof Promise, 'The factory returns a promise' );
+        p = store('foo', mockBackend);
+        assert.ok(p instanceof Promise, 'The factory returns a promise');
 
-        p.then( function( storage ) {
-            assert.ok( typeof storage === 'object', 'The factory creates an object' );
-            store( 'foo', mockBackend ).then( function( otherStorage ) {
-                assert.notEqual( storage, otherStorage, 'The factory creates an new object' );
+        p.then(function(storage) {
+            assert.ok(typeof storage === 'object', 'The factory creates an object');
+            store('foo', mockBackend).then(function(otherStorage) {
+                assert.notEqual(storage, otherStorage, 'The factory creates an new object');
                 ready();
-            } );
-        } );
-    } );
+            });
+        });
+    });
 
-    QUnit.test( 'wrong backend', function( assert ) {
+    QUnit.test('wrong backend', function(assert) {
         var ready = assert.async();
         var wrongBackend;
 
-        assert.expect( 2 );
+        assert.expect(2);
 
         wrongBackend = function() {
             return {};
         };
 
-        store( 'foo', wrongBackend ).then( function() {
-            assert.ok( false, 'The backend should not be validated' );
-        } ).catch( function( err ) {
-            assert.ok( err instanceof TypeError, "The error is the one expected" );
-            assert.equal( err.message, "This backend doesn\'t comply with the store backend API", "The error message is the one expected" );
+        store('foo', wrongBackend).then(function() {
+            assert.ok(false, 'The backend should not be validated');
+        }).catch(function(err) {
+            assert.ok(err instanceof TypeError, "The error is the one expected");
+            assert.equal(err.message, "This backend doesn\'t comply with the store backend API", "The error message is the one expected");
 
             ready();
-        } );
-    } );
+        });
+    });
 
-    QUnit.test( 'missing backend methods', function( assert ) {
+    QUnit.test('missing backend methods', function(assert) {
         var ready = assert.async();
         var wrongBackend;
 
-        assert.expect( 2 );
+        assert.expect(2);
 
         wrongBackend = function() {
             return {};
         };
         wrongBackend.removeAll = function() {};
 
-        store( 'foo', wrongBackend ).then( function() {
-            assert.ok( false, 'The backend should not be validated' );
-        } ).catch( function( err ) {
-            assert.ok( err instanceof TypeError, "The error is the one expected" );
-            assert.equal( err.message, "This backend doesn\'t comply with the store backend API", "The error message is the one expected" );
+        store('foo', wrongBackend).then(function() {
+            assert.ok(false, 'The backend should not be validated');
+        }).catch(function(err) {
+            assert.ok(err instanceof TypeError, "The error is the one expected");
+            assert.equal(err.message, "This backend doesn\'t comply with the store backend API", "The error message is the one expected");
 
             ready();
-        } );
-    } );
+        });
+    });
 
-    QUnit.test( 'wrong storage', function( assert ) {
+    QUnit.test('wrong storage', function(assert) {
         var ready = assert.async();
         var wrongBackend;
 
-        assert.expect( 2 );
+        assert.expect(2);
 
         wrongBackend = function() {
             return {};
@@ -174,21 +174,21 @@ define( [  'core/store', 'core/promise' ], function(  store, Promise ) {
         wrongBackend.getAll = function() {};
         wrongBackend.getStoreIdentifier = function() {};
 
-        store( 'foo', wrongBackend ).then( function() {
-            assert.ok( false, 'The backend should not be validated' );
-        } ).catch( function( err ) {
-            assert.ok( err instanceof TypeError, "The error is the one expected" );
-            assert.equal( err.message, "The store doesn\'t comply with the Storage interface", "The error message is the one expected" );
+        store('foo', wrongBackend).then(function() {
+            assert.ok(false, 'The backend should not be validated');
+        }).catch(function(err) {
+            assert.ok(err instanceof TypeError, "The error is the one expected");
+            assert.equal(err.message, "The store doesn\'t comply with the Storage interface", "The error message is the one expected");
 
             ready();
-        } );
-    } );
+        });
+    });
 
-    QUnit.test( 'missing storage methods', function( assert ) {
+    QUnit.test('missing storage methods', function(assert) {
         var ready = assert.async();
         var wrongBackend;
 
-        assert.expect( 2 );
+        assert.expect(2);
 
         wrongBackend = function() {
             return {
@@ -201,296 +201,296 @@ define( [  'core/store', 'core/promise' ], function(  store, Promise ) {
         wrongBackend.getAll = function() {};
         wrongBackend.getStoreIdentifier = function() {};
 
-        store( 'foo', wrongBackend ).then( function() {
-            assert.ok( false, 'The backend should not be validated' );
-        } ).catch( function( err ) {
-            assert.ok( err instanceof TypeError, "The error is the one expected" );
-            assert.equal( err.message, "The store doesn\'t comply with the Storage interface", "The error message is the one expected" );
+        store('foo', wrongBackend).then(function() {
+            assert.ok(false, 'The backend should not be validated');
+        }).catch(function(err) {
+            assert.ok(err instanceof TypeError, "The error is the one expected");
+            assert.equal(err.message, "The store doesn\'t comply with the Storage interface", "The error message is the one expected");
 
             ready();
-        } );
-    } );
+        });
+    });
 
-    QUnit.module( 'CRUD', {
-        beforeEach: function( assert ) {
+    QUnit.module('CRUD', {
+        beforeEach: function(assert) {
             mockedData = {};
         }
-    } );
+    });
 
-    QUnit.test( 'setItem', function( assert ) {
+    QUnit.test('setItem', function(assert) {
         var ready = assert.async();
-        assert.expect( 4 );
+        assert.expect(4);
 
-        store( 'foo', mockBackend ).then( function( storage ) {
+        store('foo', mockBackend).then(function(storage) {
             var p;
 
-            assert.equal( typeof storage, 'object', 'The store is an object' );
+            assert.equal(typeof storage, 'object', 'The store is an object');
 
-            p = storage.setItem( 'bar', 'boz' );
-            assert.ok( p instanceof Promise, 'setItem returns a Promise' );
+            p = storage.setItem('bar', 'boz');
+            assert.ok(p instanceof Promise, 'setItem returns a Promise');
 
-            return p.then( function( result ) {
+            return p.then(function(result) {
 
-                assert.equal( typeof result, 'boolean', 'The result is a boolean' );
-                assert.ok( result, 'The item is added' );
+                assert.equal(typeof result, 'boolean', 'The result is a boolean');
+                assert.ok(result, 'The item is added');
 
                 ready();
-            } );
-        } ).catch( function( err ) {
-            assert.ok( false, err );
+            });
+        }).catch(function(err) {
+            assert.ok(false, err);
             ready();
-        } );
-    } );
+        });
+    });
 
-    QUnit.test( 'getItem', function( assert ) {
+    QUnit.test('getItem', function(assert) {
         var ready = assert.async();
-        assert.expect( 5 );
+        assert.expect(5);
 
-        store( 'foo', mockBackend ).then( function( storage ) {
+        store('foo', mockBackend).then(function(storage) {
             var p;
 
-            assert.equal( typeof storage, 'object', 'The store is an object' );
+            assert.equal(typeof storage, 'object', 'The store is an object');
 
-            p = storage.setItem( 'bar', 'noz' );
-            assert.ok( p instanceof Promise, 'setItem returns a Promise' );
+            p = storage.setItem('bar', 'noz');
+            assert.ok(p instanceof Promise, 'setItem returns a Promise');
 
-            return p.then( function( result ) {
-                assert.ok( result, 'The item is added' );
+            return p.then(function(result) {
+                assert.ok(result, 'The item is added');
 
-                storage.getItem( 'bar' ).then( function( value ) {
+                storage.getItem('bar').then(function(value) {
 
-                    assert.equal( typeof value, 'string', 'The result is a string' );
-                    assert.equal( value, 'noz', 'The retrieved value is correct' );
+                    assert.equal(typeof value, 'string', 'The result is a string');
+                    assert.equal(value, 'noz', 'The retrieved value is correct');
 
                     ready();
-                } );
-            } );
-        } ).catch( function( err ) {
-            assert.ok( false, err );
+                });
+            });
+        }).catch(function(err) {
+            assert.ok(false, err);
             ready();
-        } );
-    } );
+        });
+    });
 
-    QUnit.test( 'get/set objects', function( assert ) {
+    QUnit.test('get/set objects', function(assert) {
         var ready = assert.async();
         var sample = {
-            collection: [ {
+            collection: [{
                 item1: true,
                 item2: 'false',
                 item3: 12
             }, {
-                item4: { value: null }
-            } ]
+                item4: {value: null}
+            }]
         };
 
-        assert.expect( 3 );
+        assert.expect(3);
 
-        store( 'foo', mockBackend ).then( function( storage ) {
-            assert.equal( typeof storage, 'object', 'The store is an object' );
+        store('foo', mockBackend).then(function(storage) {
+            assert.equal(typeof storage, 'object', 'The store is an object');
 
-            return storage.setItem( 'sample', sample ).then( function( added ) {
-                assert.ok( added, 'The item is added' );
-                storage.getItem( 'sample' ).then( function( result ) {
-                    assert.deepEqual( result, sample, 'Retrieving the sample' );
+            return storage.setItem('sample', sample).then(function(added) {
+                assert.ok(added, 'The item is added');
+                storage.getItem('sample').then(function(result) {
+                    assert.deepEqual(result, sample, 'Retrieving the sample');
                     ready();
-                } );
-            } );
-        } ).catch( function( err ) {
-            assert.ok( false, err );
+                });
+            });
+        }).catch(function(err) {
+            assert.ok(false, err);
             ready();
-        } );
-    } );
+        });
+    });
 
-    QUnit.test( 'removeItem', function( assert ) {
+    QUnit.test('removeItem', function(assert) {
         var ready = assert.async();
-        assert.expect( 5 );
+        assert.expect(5);
 
-        store( 'foo', mockBackend ).then( function( storage ) {
-            assert.equal( typeof storage, 'object', 'The store is an object' );
+        store('foo', mockBackend).then(function(storage) {
+            assert.equal(typeof storage, 'object', 'The store is an object');
 
-            return storage.setItem( 'moo', 'noob' )
-            .then( function( result ) {
-                assert.ok( result, 'The item is added' );
+            return storage.setItem('moo', 'noob')
+            .then(function(result) {
+                assert.ok(result, 'The item is added');
 
-                return storage.getItem( 'moo' ).then( function( value ) {
-                    assert.equal( value, 'noob', 'The retrieved value is correct' );
-                } );
-            } ).then( function() {
-                return storage.removeItem( 'moo' ).then( function( rmResult ) {
-                    assert.ok( rmResult, 'The item is removed' );
-                } );
-            } ).then( function() {
-                return storage.getItem( 'moo' ).then( function( value ) {
-                    assert.equal( typeof value, 'undefined', 'The value does not exists anymore' );
+                return storage.getItem('moo').then(function(value) {
+                    assert.equal(value, 'noob', 'The retrieved value is correct');
+                });
+            }).then(function() {
+                return storage.removeItem('moo').then(function(rmResult) {
+                    assert.ok(rmResult, 'The item is removed');
+                });
+            }).then(function() {
+                return storage.getItem('moo').then(function(value) {
+                    assert.equal(typeof value, 'undefined', 'The value does not exists anymore');
                     ready();
-                } );
-            } );
-        } ).catch( function( err ) {
-            assert.ok( false, err );
+                });
+            });
+        }).catch(function(err) {
+            assert.ok(false, err);
             ready();
-        } );
-    } );
+        });
+    });
 
-    QUnit.test( 'clear', function( assert ) {
+    QUnit.test('clear', function(assert) {
         var ready = assert.async();
-        assert.expect( 5 );
+        assert.expect(5);
 
-        store( 'foo', mockBackend ).then( function( storage ) {
-            assert.equal( typeof storage, 'object', 'The store is an object' );
+        store('foo', mockBackend).then(function(storage) {
+            assert.equal(typeof storage, 'object', 'The store is an object');
 
-            return Promise.all( [
-                storage.setItem( 'zoo', 'zoob' ),
-                storage.setItem( 'too', 'toob' )
-            ] )
-            .then( function() {
-                return storage.getItem( 'too' ).then( function( value ) {
-                    assert.equal( value, 'toob', 'The retrieved value is correct' );
-                } );
-            } ).then( function() {
-                return storage.clear().then( function( rmResult ) {
-                    assert.ok( rmResult, 'The item is removed' );
-                } );
-            } ).then( function() {
-                return storage.getItem( 'too' ).then( function( value ) {
-                    assert.equal( typeof value, 'undefined', 'The value does not exists anymore' );
-                    return storage.getItem( 'zoo' ).then( function( newValue ) {
-                        assert.equal( typeof newValue, 'undefined', 'The value does not exists anymore' );
+            return Promise.all([
+                storage.setItem('zoo', 'zoob'),
+                storage.setItem('too', 'toob')
+            ])
+            .then(function() {
+                return storage.getItem('too').then(function(value) {
+                    assert.equal(value, 'toob', 'The retrieved value is correct');
+                });
+            }).then(function() {
+                return storage.clear().then(function(rmResult) {
+                    assert.ok(rmResult, 'The item is removed');
+                });
+            }).then(function() {
+                return storage.getItem('too').then(function(value) {
+                    assert.equal(typeof value, 'undefined', 'The value does not exists anymore');
+                    return storage.getItem('zoo').then(function(newValue) {
+                        assert.equal(typeof newValue, 'undefined', 'The value does not exists anymore');
                         ready();
-                    } );
-                } );
-            } );
-        } ).catch( function( err ) {
-            assert.ok( false, err );
+                    });
+                });
+            });
+        }).catch(function(err) {
+            assert.ok(false, err);
             ready();
-        } );
-    } );
+        });
+    });
 
-    QUnit.test( 'removeStore', function( assert ) {
+    QUnit.test('removeStore', function(assert) {
         var ready = assert.async();
-        assert.expect( 5 );
+        assert.expect(5);
 
-        store( 'foo', mockBackend ).then( function( storage ) {
-            assert.equal( typeof storage, 'object', 'The store is an object' );
+        store('foo', mockBackend).then(function(storage) {
+            assert.equal(typeof storage, 'object', 'The store is an object');
 
-            return Promise.all( [
-                storage.setItem( 'zoo', 'zoob' ),
-                storage.setItem( 'too', 'toob' )
-            ] )
-                .then( function() {
-                    return storage.getItem( 'too' ).then( function( value ) {
-                        assert.equal( value, 'toob', 'The retrieved value is correct' );
-                    } );
-                } ).then( function() {
-                    return storage.removeStore().then( function( rmResult ) {
-                        assert.ok( rmResult, 'The store is removed' );
-                    } );
-                } ).then( function() {
-                    return storage.getItem( 'too' ).then( function( value ) {
-                        assert.equal( typeof value, 'undefined', 'The value does not exists anymore' );
-                        return storage.getItem( 'zoo' ).then( function( newValue ) {
-                            assert.equal( typeof newValue, 'undefined', 'The value does not exists anymore' );
+            return Promise.all([
+                storage.setItem('zoo', 'zoob'),
+                storage.setItem('too', 'toob')
+            ])
+                .then(function() {
+                    return storage.getItem('too').then(function(value) {
+                        assert.equal(value, 'toob', 'The retrieved value is correct');
+                    });
+                }).then(function() {
+                    return storage.removeStore().then(function(rmResult) {
+                        assert.ok(rmResult, 'The store is removed');
+                    });
+                }).then(function() {
+                    return storage.getItem('too').then(function(value) {
+                        assert.equal(typeof value, 'undefined', 'The value does not exists anymore');
+                        return storage.getItem('zoo').then(function(newValue) {
+                            assert.equal(typeof newValue, 'undefined', 'The value does not exists anymore');
                             ready();
-                        } );
-                    } );
-                } );
-        } ).catch( function( err ) {
-            assert.ok( false, err );
+                        });
+                    });
+                });
+        }).catch(function(err) {
+            assert.ok(false, err);
             ready();
-        } );
-    } );
+        });
+    });
 
-    QUnit.module( 'backend' );
+    QUnit.module('backend');
 
-    QUnit.test( 'removeAll', function( assert ) {
+    QUnit.test('removeAll', function(assert) {
         var ready = assert.async();
         var expectedValidate = function() {
             return true;
         };
 
-        assert.expect( 3 );
+        assert.expect(3);
 
-        mockBackend.removeAll = function( validate ) {
-            assert.ok( true, 'The store has delegated the call to the backend' );
-            assert.equal( validate, expectedValidate, 'The expected validator has been provided' );
+        mockBackend.removeAll = function(validate) {
+            assert.ok(true, 'The store has delegated the call to the backend');
+            assert.equal(validate, expectedValidate, 'The expected validator has been provided');
         };
 
-        store.removeAll( expectedValidate, mockBackend ).then( function() {
-            assert.ok( true, 'The store has resolved the clean up' );
+        store.removeAll(expectedValidate, mockBackend).then(function() {
+            assert.ok(true, 'The store has resolved the clean up');
             ready();
-        } ).catch( function( err ) {
-            assert.ok( false, err );
+        }).catch(function(err) {
+            assert.ok(false, err);
             ready();
-        } );
-    } );
+        });
+    });
 
-    QUnit.test( 'getAll', function( assert ) {
+    QUnit.test('getAll', function(assert) {
         var ready = assert.async();
-        var storeNames = [ 'foo', 'bar' ];
+        var storeNames = ['foo', 'bar'];
 
         var expectedValidate = function() {
             return true;
         };
 
-        assert.expect( 3 );
+        assert.expect(3);
 
-        mockBackend.getAll = function( validate ) {
-            assert.ok( true, 'The store has delegated the call to the backend' );
-            assert.equal( validate, expectedValidate, 'The expected validator has been provided' );
+        mockBackend.getAll = function(validate) {
+            assert.ok(true, 'The store has delegated the call to the backend');
+            assert.equal(validate, expectedValidate, 'The expected validator has been provided');
 
-            return Promise.resolve( storeNames );
+            return Promise.resolve(storeNames);
         };
 
-        store.getAll( expectedValidate, mockBackend ).then( function( resultNames ) {
-            assert.deepEqual( resultNames, storeNames, 'The method has resolved with the expected names' );
+        store.getAll(expectedValidate, mockBackend).then(function(resultNames) {
+            assert.deepEqual(resultNames, storeNames, 'The method has resolved with the expected names');
             ready();
-        } ).catch( function( err ) {
-            assert.ok( false, err );
+        }).catch(function(err) {
+            assert.ok(false, err);
             ready();
-        } );
-    } );
+        });
+    });
 
-    QUnit.test( 'getIdentifier', function( assert ) {
+    QUnit.test('getIdentifier', function(assert) {
         var ready = assert.async();
-        assert.expect( 3 );
+        assert.expect(3);
 
         mockBackend.getStoreIdentifier = function() {
 
-            assert.ok( true, 'The store has delegated the call to the backend' );
-            return Promise.resolve( 'aaaa-bbbb-cccc-dddd' );
+            assert.ok(true, 'The store has delegated the call to the backend');
+            return Promise.resolve('aaaa-bbbb-cccc-dddd');
         };
 
-        store.getIdentifier( mockBackend ).then( function( id ) {
-            assert.equal( typeof id, 'string', 'we have a store identifier' );
-            assert.equal( id, 'aaaa-bbbb-cccc-dddd', 'the identifier matches' );
+        store.getIdentifier(mockBackend).then(function(id) {
+            assert.equal(typeof id, 'string', 'we have a store identifier');
+            assert.equal(id, 'aaaa-bbbb-cccc-dddd', 'the identifier matches');
             ready();
-        } ).catch( function( err ) {
-            assert.ok( false, err );
+        }).catch(function(err) {
+            assert.ok(false, err);
             ready();
-        } );
-    } );
+        });
+    });
 
-    QUnit.cases.init( [ {
+    QUnit.cases.init([{
         title: 'older than 30 seconds',
         since: 'PT30S',
-        removed: [ 'store-1-day', 'store-10-days',  'store-20-days', 'store-40-days' ]
+        removed: ['store-1-day', 'store-10-days', 'store-20-days', 'store-40-days']
     }, {
         title: 'older than 1 day',
         since: 'P1D',
-        removed: [ 'store-1-day', 'store-10-days',  'store-20-days', 'store-40-days' ]
+        removed: ['store-1-day', 'store-10-days', 'store-20-days', 'store-40-days']
     }, {
         title: 'older than 2 weeks',
         since: 'P2W',
-        removed: [ 'store-20-days', 'store-40-days' ]
+        removed: ['store-20-days', 'store-40-days']
     }, {
         title: 'older than 6 months (using a timestamp)',
-        since: Date.now() - ( 1000 * 60 * 60 * 24 * 182.5 ),
+        since: Date.now() - (1000 * 60 * 60 * 24 * 182.5),
         removed: []
     }, {
         title: 'older than 1 day and starts with ^store-1',
         since: 'P1D',
         pattern: /^store-1/,
-        removed: [ 'store-1-day', 'store-10-days' ]
-    } ] ).test( 'cleanUpSpace, clean up stores', function( data, assert ) {
+        removed: ['store-1-day', 'store-10-days']
+    }]).test('cleanUpSpace, clean up stores', function(data, assert) {
         var ready = assert.async();
         var now = Date.now();
         var aDay = 1000 * 60 * 60 * 24;
@@ -505,37 +505,37 @@ define( [  'core/store', 'core/promise' ], function(  store, Promise ) {
             },
             'store-10-days': {
                 name: 'store-10-days',
-                lastOpen: now - ( aDay * 10 )
+                lastOpen: now - (aDay * 10)
             },
             'store-20-days': {
                 name: 'store-20-days',
-                lastOpen: now - ( aDay * 20 )
+                lastOpen: now - (aDay * 20)
             },
             'store-40-days': {
                 name: 'store-40-days',
-                lastOpen: now - ( aDay * 40 )
+                lastOpen: now - (aDay * 40)
             }
         };
 
-        assert.expect( 8 );
+        assert.expect(8);
 
-        mockBackend.removeAll = function( validate ) {
-            assert.ok( true, 'The store has delegated the call to the backend' );
-            assert.equal( typeof validate, 'function', 'The validator has been provided' );
+        mockBackend.removeAll = function(validate) {
+            assert.ok(true, 'The store has delegated the call to the backend');
+            assert.equal(typeof validate, 'function', 'The validator has been provided');
 
-            assert.equal( validate( 'store-now', testStores[ 'store-now' ] ), data.removed.indexOf( 'store-now' ) > -1 );
-            assert.equal( validate( 'store-1-day', testStores[ 'store-1-day' ] ), data.removed.indexOf( 'store-1-day' ) > -1 );
-            assert.equal( validate( 'store-10-days', testStores[ 'store-10-days' ] ), data.removed.indexOf( 'store-10-days' ) > -1 );
-            assert.equal( validate( 'store-20-days', testStores[ 'store-20-days' ] ), data.removed.indexOf( 'store-20-days' ) > -1 );
-            assert.equal( validate( 'store-40-days', testStores[ 'store-40-days' ] ), data.removed.indexOf( 'store-40-days' ) > -1 );
+            assert.equal(validate('store-now', testStores['store-now']), data.removed.indexOf('store-now') > -1);
+            assert.equal(validate('store-1-day', testStores['store-1-day']), data.removed.indexOf('store-1-day') > -1);
+            assert.equal(validate('store-10-days', testStores['store-10-days']), data.removed.indexOf('store-10-days') > -1);
+            assert.equal(validate('store-20-days', testStores['store-20-days']), data.removed.indexOf('store-20-days') > -1);
+            assert.equal(validate('store-40-days', testStores['store-40-days']), data.removed.indexOf('store-40-days') > -1);
         };
 
-        store.cleanUpSpace( data.since, data.pattern, mockBackend ).then( function() {
-            assert.ok( true, 'The store has resolved the clean up' );
+        store.cleanUpSpace(data.since, data.pattern, mockBackend).then(function() {
+            assert.ok(true, 'The store has resolved the clean up');
             ready();
-        } ).catch( function( err ) {
-            assert.ok( false, err );
+        }).catch(function(err) {
+            assert.ok(false, err);
             ready();
-        } );
-    } );
-} );
+        });
+    });
+});

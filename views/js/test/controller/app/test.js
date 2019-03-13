@@ -18,121 +18,121 @@
 /**
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
  */
-define( [
+define([
     'jquery',
     'lodash',
     'controller/app',
     'core/historyRouter',
     'core/logger',
     'ui/feedback'
-], function( $, _, appController, historyRouterFactory, loggerFactory, feedback ) {
+], function($, _, appController, historyRouterFactory, loggerFactory, feedback) {
     'use strict';
 
     var appControllerApi = [
 
         // Core
-        { title: 'start' },
-        { title: 'apply' },
-        { title: 'getRouter' },
-        { title: 'getLogger' },
-        { title: 'onError' },
+        {title: 'start'},
+        {title: 'apply'},
+        {title: 'getRouter'},
+        {title: 'getLogger'},
+        {title: 'onError'},
 
         // Eventifier
-        { title: 'trigger' },
-        { title: 'on' },
-        { title: 'off' },
+        {title: 'trigger'},
+        {title: 'on'},
+        {title: 'off'},
 
         // Statifier
-        { title: 'getState' },
-        { title: 'setState' }
+        {title: 'getState'},
+        {title: 'setState'}
     ];
 
-    QUnit.module( 'API', {
-        afterEach: function( assert ) {
+    QUnit.module('API', {
+        afterEach: function(assert) {
             loggerFactory.removeAllListeners();
             feedback.removeAllListeners();
             appController.removeAllListeners();
         }
-    } );
+    });
 
-    QUnit.test( 'module', function( assert ) {
-        assert.expect( 1 );
+    QUnit.test('module', function(assert) {
+        assert.expect(1);
 
-        assert.equal( typeof appController, 'object', 'The appController module exposes an object' );
-    } );
+        assert.equal(typeof appController, 'object', 'The appController module exposes an object');
+    });
 
     QUnit
-        .cases.init( appControllerApi )
-        .test( 'module API ', function( data, assert ) {
-            assert.expect( 1 );
-            assert.equal( typeof appController[ data.title ], 'function', 'The appController exposes a "' + data.title + '" function' );
-        } );
+        .cases.init(appControllerApi)
+        .test('module API ', function(data, assert) {
+            assert.expect(1);
+            assert.equal(typeof appController[data.title], 'function', 'The appController exposes a "' + data.title + '" function');
+        });
 
-    QUnit.test( 'getRouter', function( assert ) {
-        assert.expect( 1 );
-         assert.equal( appController.getRouter(), historyRouterFactory(), 'The appController returns the history router' );
-    } );
+    QUnit.test('getRouter', function(assert) {
+        assert.expect(1);
+        assert.equal(appController.getRouter(), historyRouterFactory(), 'The appController returns the history router');
+    });
 
-    QUnit.test( 'getLogger', function( assert ) {
-        assert.expect( 3 );
-        assert.equal( typeof appController.getLogger(), 'object', 'The appController returns a logger' );
-        assert.equal( typeof appController.getLogger().log, 'function', 'The logger has a log method' );
-        assert.equal( typeof appController.getLogger().error, 'function', 'The logger has an error method' );
-    } );
+    QUnit.test('getLogger', function(assert) {
+        assert.expect(3);
+        assert.equal(typeof appController.getLogger(), 'object', 'The appController returns a logger');
+        assert.equal(typeof appController.getLogger().log, 'function', 'The logger has a log method');
+        assert.equal(typeof appController.getLogger().error, 'function', 'The logger has an error method');
+    });
 
-    QUnit.test( 'onError', function( assert ) {
-        var expectedError = new Error( 'Test' );
+    QUnit.test('onError', function(assert) {
+        var expectedError = new Error('Test');
         var ready = assert.async();
         var ready2 = assert.async();
 
-        assert.expect( 3 );
+        assert.expect(3);
 
-        loggerFactory.on( 'error', function( err ) {
-            assert.equal( err, expectedError, 'Should log the error' );
+        loggerFactory.on('error', function(err) {
+            assert.equal(err, expectedError, 'Should log the error');
             ready();
-        } );
-        feedback.on( 'error', function( err ) {
-            assert.equal( err, expectedError.message, 'Should display the error' );
+        });
+        feedback.on('error', function(err) {
+            assert.equal(err, expectedError.message, 'Should display the error');
             ready2();
-        } );
+        });
 
-        assert.equal( appController.onError( expectedError ), appController, 'Should return the appController' );
-    } );
+        assert.equal(appController.onError(expectedError), appController, 'Should return the appController');
+    });
 
-    QUnit.test( 'apply', function( assert ) {
-        var $target = $( '#qunit-fixture' );
+    QUnit.test('apply', function(assert) {
+        var $target = $('#qunit-fixture');
 
         var ready = assert.async();
-        assert.expect( 5 );
+        assert.expect(5);
 
-        appController.on( 'change', function( url ) {
-            assert.ok( appController.getState( 'dispatching' ), 'The controller is dispatching: ' + url );
-        } );
+        appController.on('change', function(url) {
+            assert.ok(appController.getState('dispatching'), 'The controller is dispatching: ' + url);
+        });
 
-        appController.on( 'started', function( url ) {
-            assert.ok( !appController.getState( 'dispatching' ), 'The controller has dispatched: ' + url );
-        } );
+        appController.on('started', function(url) {
+            assert.ok(!appController.getState('dispatching'), 'The controller has dispatched: ' + url);
+        });
 
-        assert.equal( appController.apply( '.fixture', $target ), appController, 'Should return the appController' );
+        assert.equal(appController.apply('.fixture', $target), appController, 'Should return the appController');
 
-        $target.find( 'a' ).click();
+        $target.find('a').click();
 
         _.delay(function () {
             ready();
-        },300);
-    } );
+        }, 300);
+    });
 
-    QUnit.test( 'start', function( assert ) {
+    QUnit.test('start', function(assert) {
         var ready = assert.async();
 
-        assert.expect( 2 );
+        assert.expect(2);
 
-        historyRouterFactory().on( 'forward', function( url ) {
-            assert.ok( true, 'The historyRouter has forwarded the route' );
-            assert.equal( url, window.location.href, 'The right url has been forwarded' );
+        historyRouterFactory().on('forward', function(url) {
+            assert.ok(true, 'The historyRouter has forwarded the route');
+            assert.equal(url, window.location.href, 'The right url has been forwarded');
             ready();
-        } );
+        });
 
         appController.start();
-    } );
-} );
+    });
+});

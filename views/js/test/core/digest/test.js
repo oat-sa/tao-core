@@ -22,36 +22,36 @@
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define( [  'core/digest' ], function(  digest ) {
+define(['core/digest'], function(digest) {
     'use strict';
 
-    QUnit.module( 'API' );
+    QUnit.module('API');
 
-    QUnit.test( 'module', function( assert ) {
-        assert.equal( typeof digest, 'function', 'The module exposes an function' );
-    } );
+    QUnit.test('module', function(assert) {
+        assert.equal(typeof digest, 'function', 'The module exposes an function');
+    });
 
-    QUnit.module( 'Behavior' );
+    QUnit.module('Behavior');
 
-    QUnit.test( 'valid inputs', function( assert ) {
+    QUnit.test('valid inputs', function(assert) {
 
-        assert.throws( function() {
+        assert.throws(function() {
             digest();
-        }, TypeError, 'An input string is required' );
+        }, TypeError, 'An input string is required');
 
-        assert.throws( function() {
-            digest( {} );
-        }, TypeError, 'An input string is required' );
+        assert.throws(function() {
+            digest({});
+        }, TypeError, 'An input string is required');
 
-        assert.throws( function() {
-            digest( 'foo', 'MD5' );
-        }, TypeError, 'A valid algorithm is required' );
+        assert.throws(function() {
+            digest('foo', 'MD5');
+        }, TypeError, 'A valid algorithm is required');
 
         //Do not throw
-        digest( 'foo' );
-    } );
+        digest('foo');
+    });
 
-    QUnit.cases.init( [ {
+    QUnit.cases.init([{
         title: 'short text SHA-1',
         input: 'lorem',
         algo: 'SHA-1',
@@ -75,19 +75,19 @@ define( [  'core/digest' ], function(  digest ) {
         input: 'Earum nobis nulla veniam aut sapiente vel. Voluptate praesentium sed et beatae',
         algo: 'SHA-512',
         output: '00d7c8367e02fb59989bb05fa86421d7afbbf397b0babc2d2f2fb02da9ec65092e782242ac47a912de2d9e6979c543c1b42a93f2ca258a07f0095e67d28571e6'
-    } ] ).test( 'digest', function( data, assert ) {
+    }]).test('digest', function(data, assert) {
         var ready = assert.async();
 
-        assert.expect( 1 );
+        assert.expect(1);
 
-        digest( data.input, data.algo )
-            .then( function( hash ) {
-                assert.equal( hash, data.output, 'The generated hash matches' );
+        digest(data.input, data.algo)
+            .then(function(hash) {
+                assert.equal(hash, data.output, 'The generated hash matches');
                 ready();
-            } )
-            .catch( function( err ) {
-                assert.ok( false, err.message );
+            })
+            .catch(function(err) {
+                assert.ok(false, err.message);
                 ready();
-            } );
-    } );
-} );
+            });
+    });
+});

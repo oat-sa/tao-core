@@ -21,113 +21,113 @@
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define( [  'jquery', 'ui/hider' ], function(  $, hider ) {
+define(['jquery', 'ui/hider'], function($, hider) {
     'use strict';
 
-    QUnit.module( 'hider' );
+    QUnit.module('hider');
 
-    QUnit.test( 'module', function( assert ) {
-        assert.expect( 1 );
-        assert.equal( typeof hider, 'object', 'The hider module exposes an object' );
-    } );
+    QUnit.test('module', function(assert) {
+        assert.expect(1);
+        assert.equal(typeof hider, 'object', 'The hider module exposes an object');
+    });
 
-    QUnit.test( 'api', function( assert ) {
-        assert.expect( 4 );
-        assert.equal( typeof hider.show, 'function', 'The hider module expose the show method' );
-        assert.equal( typeof hider.hide, 'function', 'The hider module expose the hide method' );
-        assert.equal( typeof hider.toggle, 'function', 'The hider module expose the toggle method' );
-        assert.equal( typeof hider.isHidden, 'function', 'The hider module expose the isHidden method' );
-    } );
+    QUnit.test('api', function(assert) {
+        assert.expect(4);
+        assert.equal(typeof hider.show, 'function', 'The hider module expose the show method');
+        assert.equal(typeof hider.hide, 'function', 'The hider module expose the hide method');
+        assert.equal(typeof hider.toggle, 'function', 'The hider module expose the toggle method');
+        assert.equal(typeof hider.isHidden, 'function', 'The hider module expose the isHidden method');
+    });
 
-    QUnit.test( 'hide', function( assert ) {
-        assert.expect( 6 );
+    QUnit.test('hide', function(assert) {
+        assert.expect(6);
 
-        var $container = $( '#qunit-fixture' );
-        var $list = $( 'ul', $container );
+        var $container = $('#qunit-fixture');
+        var $list = $('ul', $container);
 
-        assert.equal( $list.length, 1, 'The list exists' );
-        assert.ok( !$list.hasClass( 'hidden' ), 'The list has not the hidden class' );
-        assert.ok( $list.css( 'display' ) !== 'none', 'The list is shown' );
+        assert.equal($list.length, 1, 'The list exists');
+        assert.ok(!$list.hasClass('hidden'), 'The list has not the hidden class');
+        assert.ok($list.css('display') !== 'none', 'The list is shown');
 
-        assert.deepEqual( hider.hide( $list ), $list, 'hide chains jquery elements' );
+        assert.deepEqual(hider.hide($list), $list, 'hide chains jquery elements');
 
-        assert.ok( $list.hasClass( 'hidden' ), 'The list has the hidden class' );
-        assert.equal( $list.css( 'display' ), 'none', 'The list is hidden' );
+        assert.ok($list.hasClass('hidden'), 'The list has the hidden class');
+        assert.equal($list.css('display'), 'none', 'The list is hidden');
 
-    } );
+    });
 
-    QUnit.test( 'show', function( assert ) {
-        assert.expect( 6 );
+    QUnit.test('show', function(assert) {
+        assert.expect(6);
 
-        var $container = $( '#qunit-fixture' );
-        var $table = $( 'table', $container );
+        var $container = $('#qunit-fixture');
+        var $table = $('table', $container);
 
-        assert.equal( $table.length, 1, 'The table exits' );
+        assert.equal($table.length, 1, 'The table exits');
 
-        assert.ok( $table.hasClass( 'hidden' ), 'The table has the hidden class' );
-        assert.equal( $table.css( 'display' ), 'none', 'The table is hidden' );
+        assert.ok($table.hasClass('hidden'), 'The table has the hidden class');
+        assert.equal($table.css('display'), 'none', 'The table is hidden');
 
-        assert.deepEqual( hider.show( $table ), $table, 'show chains jquery elements' );
+        assert.deepEqual(hider.show($table), $table, 'show chains jquery elements');
 
-        assert.ok( !$table.hasClass( 'hidden' ), 'The table has not the hidden class anymore' );
-        assert.equal( $table.css( 'display' ), 'table', 'The table is shown' );
-    } );
+        assert.ok(!$table.hasClass('hidden'), 'The table has not the hidden class anymore');
+        assert.equal($table.css('display'), 'table', 'The table is shown');
+    });
 
-    QUnit.test( 'toggle', function( assert ) {
-        assert.expect( 12 );
+    QUnit.test('toggle', function(assert) {
+        assert.expect(12);
 
-        var $container = $( '#qunit-fixture' );
-        var $table = $( 'table', $container );
+        var $container = $('#qunit-fixture');
+        var $table = $('table', $container);
 
-        assert.equal( $table.length, 1, 'The table exits' );
+        assert.equal($table.length, 1, 'The table exits');
 
-        assert.ok( $table.hasClass( 'hidden' ), 'The table has the hidden class' );
-        assert.equal( $table.css( 'display' ), 'none', 'The table is hidden' );
+        assert.ok($table.hasClass('hidden'), 'The table has the hidden class');
+        assert.equal($table.css('display'), 'none', 'The table is hidden');
 
-        assert.deepEqual( hider.toggle( $table ), $table, 'toggle chains jquery elements' );
+        assert.deepEqual(hider.toggle($table), $table, 'toggle chains jquery elements');
 
-        assert.ok( !$table.hasClass( 'hidden' ), 'The table has not the hidden class anymore' );
-        assert.equal( $table.css( 'display' ), 'table', 'The table is shown' );
+        assert.ok(!$table.hasClass('hidden'), 'The table has not the hidden class anymore');
+        assert.equal($table.css('display'), 'table', 'The table is shown');
 
-        hider.toggle( $table );
+        hider.toggle($table);
 
-        assert.ok( $table.hasClass( 'hidden' ), 'The table has the hidden class' );
-        assert.equal( $table.css( 'display' ), 'none', 'The table is hidden' );
+        assert.ok($table.hasClass('hidden'), 'The table has the hidden class');
+        assert.equal($table.css('display'), 'none', 'The table is hidden');
 
-        hider.toggle( $table, false );
+        hider.toggle($table, false);
 
-        assert.ok( $table.hasClass( 'hidden' ), 'The table has the hidden class' );
-        assert.equal( $table.css( 'display' ), 'none', 'The table is hidden' );
+        assert.ok($table.hasClass('hidden'), 'The table has the hidden class');
+        assert.equal($table.css('display'), 'none', 'The table is hidden');
 
-        hider.toggle( $table, true );
+        hider.toggle($table, true);
 
-        assert.ok( !$table.hasClass( 'hidden' ), 'The table has not the hidden class' );
-        assert.equal( $table.css( 'display' ), 'table', 'The table is shown' );
-    } );
+        assert.ok(!$table.hasClass('hidden'), 'The table has not the hidden class');
+        assert.equal($table.css('display'), 'table', 'The table is shown');
+    });
 
-    QUnit.test( 'isHidden', function( assert ) {
-        assert.expect( 10 );
+    QUnit.test('isHidden', function(assert) {
+        assert.expect(10);
 
-        var $container = $( '#qunit-fixture' );
+        var $container = $('#qunit-fixture');
 
-        var $table = $( 'table', $container );
-        assert.equal( $table.length, 1, 'The table exits' );
-        assert.ok( $table.hasClass( 'hidden' ), 'The table has the hidden class' );
-        assert.equal( $table.css( 'display' ), 'none', 'The table is hidden' );
+        var $table = $('table', $container);
+        assert.equal($table.length, 1, 'The table exits');
+        assert.ok($table.hasClass('hidden'), 'The table has the hidden class');
+        assert.equal($table.css('display'), 'none', 'The table is hidden');
 
-        assert.equal( hider.isHidden( $table ), true, 'The table should be hidden' );
+        assert.equal(hider.isHidden($table), true, 'The table should be hidden');
 
-        var $list = $( 'ul', $container );
-        assert.equal( $list.length, 1, 'The list exists' );
-        assert.ok( !$list.hasClass( 'hidden' ), 'The list has not the hidden class' );
-        assert.ok( $list.css( 'display' ) !== 'none', 'The list is shown' );
+        var $list = $('ul', $container);
+        assert.equal($list.length, 1, 'The list exists');
+        assert.ok(!$list.hasClass('hidden'), 'The list has not the hidden class');
+        assert.ok($list.css('display') !== 'none', 'The list is shown');
 
-        assert.equal( hider.isHidden( $list ), false, 'The list should not be hidden' );
+        assert.equal(hider.isHidden($list), false, 'The list should not be hidden');
 
-        $list.css( 'visibility', 'hidden' );
+        $list.css('visibility', 'hidden');
 
-        assert.equal( hider.isHidden( $list ), false, 'The list should still not be hidden - by default isHidden checks only the class' );
-        assert.equal( hider.isHidden( $list, true ), true, 'The list is really hidden' );
+        assert.equal(hider.isHidden($list), false, 'The list should still not be hidden - by default isHidden checks only the class');
+        assert.equal(hider.isHidden($list, true), true, 'The list is really hidden');
 
-    } );
-} );
+    });
+});

@@ -18,49 +18,49 @@
 /**
  * @author Christophe Noël <christophe@taotesting.com>
  */
-define( [
-    
+define([
+
     'jquery',
     'ui/component',
     'ui/component/placeable',
     'ui/component/draggable'
-], function(  $, componentFactory, makePlaceable, makeDraggable ) {
+], function($, componentFactory, makePlaceable, makeDraggable) {
     'use strict';
 
-    QUnit.module( 'API' );
+    QUnit.module('API');
 
-    QUnit.test( 'module', function( assert ) {
-        assert.expect( 1 );
+    QUnit.test('module', function(assert) {
+        assert.expect(1);
 
-        assert.ok( typeof makeDraggable === 'function', 'The module expose a function' );
-    } );
+        assert.ok(typeof makeDraggable === 'function', 'The module expose a function');
+    });
 
-    QUnit.test( 'auto makes the component placeable', function( assert ) {
-        var component = makeDraggable( componentFactory() );
-        assert.expect( 1 );
-        assert.ok( makePlaceable.isPlaceable( component ), 'created component is placeable' );
-    } );
+    QUnit.test('auto makes the component placeable', function(assert) {
+        var component = makeDraggable(componentFactory());
+        assert.expect(1);
+        assert.ok(makePlaceable.isPlaceable(component), 'created component is placeable');
+    });
 
-    QUnit.module( 'Visual test' );
+    QUnit.module('Visual test');
 
-    QUnit.test( 'Display and play', function( assert ) {
+    QUnit.test('Display and play', function(assert) {
         var ready = assert.async();
-        var component = componentFactory( {}, { width: 200, height: 300 } ),
-            $container = $( '#outside' );
+        var component = componentFactory({}, {width: 200, height: 300}),
+            $container = $('#outside');
 
-        assert.expect( 1 );
+        assert.expect(1);
 
-        makeDraggable( component );
+        makeDraggable(component);
 
         component
-            .on( 'render', function() {
-                assert.ok( true );
+            .on('render', function() {
+                assert.ok(true);
                 ready();
-            } )
+            })
             .init()
-            .render( $container )
+            .render($container)
             .center()
         ;
-    } );
+    });
 
-} );
+});

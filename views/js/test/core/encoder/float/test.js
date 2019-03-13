@@ -15,30 +15,30 @@
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
-define( [  'jquery', 'core/encoder/float' ], function(  $, FloatEncoder ) {
+define(['jquery', 'core/encoder/float'], function($, FloatEncoder) {
     'use strict';
 
-    QUnit.test( 'encode', function( assert ) {
-        assert.expect( 3 );
+    QUnit.test('encode', function(assert) {
+        assert.expect(3);
 
-        assert.ok( typeof FloatEncoder.encode === 'function' );
+        assert.ok(typeof FloatEncoder.encode === 'function');
 
-        assert.equal( typeof FloatEncoder.encode( 5.4 ), 'string' );
+        assert.equal(typeof FloatEncoder.encode(5.4), 'string');
 
-        assert.equal( FloatEncoder.encode( 5.4 ), '5.4' );
-    } );
+        assert.equal(FloatEncoder.encode(5.4), '5.4');
+    });
 
-    QUnit.test( 'decode', function( assert ) {
-        assert.expect( 6 );
+    QUnit.test('decode', function(assert) {
+        assert.expect(6);
 
-        assert.ok( typeof FloatEncoder.decode === 'function' );
+        assert.ok(typeof FloatEncoder.decode === 'function');
 
-        assert.equal( typeof FloatEncoder.decode( '5.4' ), 'number' );
+        assert.equal(typeof FloatEncoder.decode('5.4'), 'number');
 
-        assert.equal( FloatEncoder.decode( '5.4' ), 5.4 );
-        assert.equal( FloatEncoder.decode( '5,4' ), 5.4 );
-        assert.equal( FloatEncoder.decode( '-5,4' ), -5.4 );
-        assert.equal( FloatEncoder.decode( '  -5,4   ' ), -5.4 );
-    } );
-} );
+        assert.equal(FloatEncoder.decode('5.4'), 5.4);
+        assert.equal(FloatEncoder.decode('5,4'), 5.4);
+        assert.equal(FloatEncoder.decode('-5,4'), -5.4);
+        assert.equal(FloatEncoder.decode('  -5,4   '), -5.4);
+    });
+});
 

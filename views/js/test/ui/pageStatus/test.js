@@ -33,31 +33,31 @@ define([
 
     QUnit.module('pageStatus');
 
-    QUnit.test( 'module', function( assert ) {
-        assert.expect( 1 );
-        assert.equal( typeof pageStatusFactory, 'function', 'The pageStatus module exposes an function' );
-    } );
+    QUnit.test('module', function(assert) {
+        assert.expect(1);
+        assert.equal(typeof pageStatusFactory, 'function', 'The pageStatus module exposes an function');
+    });
 
-    QUnit.test( 'api', function( assert ) {
-        assert.expect( 5 );
+    QUnit.test('api', function(assert) {
+        assert.expect(5);
         var pageStatus = pageStatusFactory();
 
-        assert.equal( typeof pageStatus, 'object', 'The factory creates an object' );
-        assert.notEqual( pageStatus, pageStatusFactory(), 'The factory creates a new object' );
-        assert.equal( typeof pageStatus.on, 'function', 'The pageStatus module expose the on method' );
-        assert.equal( typeof pageStatus.off, 'function', 'The pageStatus module expose the off method' );
-        assert.equal( typeof pageStatus.trigger, 'function', 'The pageStatus module expose the trigger method' );
+        assert.equal(typeof pageStatus, 'object', 'The factory creates an object');
+        assert.notEqual(pageStatus, pageStatusFactory(), 'The factory creates a new object');
+        assert.equal(typeof pageStatus.on, 'function', 'The pageStatus module expose the on method');
+        assert.equal(typeof pageStatus.off, 'function', 'The pageStatus module expose the off method');
+        assert.equal(typeof pageStatus.trigger, 'function', 'The pageStatus module expose the trigger method');
 
-    } );
+    });
 
 
     if (isHeadless){
         QUnit.test('popup status', function (assert) {
             var ready = assert.async();
-            var popup = window.open('/tao/views/js/test/ui/pageStatus/blank.html','test','width=300,height=300,visible=none');
+            var popup = window.open('/tao/views/js/test/ui/pageStatus/blank.html', 'test', 'width=300,height=300,visible=none');
 
             var pageStatus = pageStatusFactory({
-                window :  popup
+                window: popup
             });
             assert.expect(4);
 
@@ -78,22 +78,22 @@ define([
 
             _.delay(function() {
                 popup.close();
-            },100);
+            }, 100);
 
             setTimeout(function () {
                 ready();
-            }, 300)
+            }, 300);
         });
 
 
     }else{
         QUnit.test('popup status', function (assert) {
             var ready = assert.async();
-            var popup = window.open('/tao/views/js/test/ui/pageStatus/blank.html','test','width=300,height=300,visible=none');
+            var popup = window.open('/tao/views/js/test/ui/pageStatus/blank.html', 'test', 'width=300,height=300,visible=none');
             var secondPopup;
 
             var pageStatus = pageStatusFactory({
-                window :  popup
+                window: popup
             });
 
             assert.expect(6);
@@ -119,17 +119,17 @@ define([
                 }));
 
             _.delay(function() {
-                secondPopup = window.open('/tao/views/js/test/ui/pageStatus/blank.html','test2','width=300,height=300');
+                secondPopup = window.open('/tao/views/js/test/ui/pageStatus/blank.html', 'test2', 'width=300,height=300');
                 _.delay(function () {
                     popup.close();
 
-                },200)
-            },100);
+                }, 200);
+            }, 100);
 
             setTimeout(function () {
                 secondPopup.close();
                 ready();
-            }, 400)
+            }, 400);
         });
 
     }

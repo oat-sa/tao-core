@@ -18,44 +18,44 @@
 /**
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
-define( [  'lodash', 'core/tokenHandler' ], function(  _, tokenHandlerFactory ) {
+define(['lodash', 'core/tokenHandler'], function(_, tokenHandlerFactory) {
     'use strict';
 
-    QUnit.module( 'tokenHandler' );
+    QUnit.module('tokenHandler');
 
-    QUnit.test( 'module', function( assert ) {
-        assert.expect( 3 );
+    QUnit.test('module', function(assert) {
+        assert.expect(3);
 
-        assert.equal( typeof tokenHandlerFactory, 'function', 'The tokenHandler module exposes a function' );
-        assert.equal( typeof tokenHandlerFactory(), 'object', 'The tokenHandler factory produces an object' );
-        assert.notStrictEqual( tokenHandlerFactory(), tokenHandlerFactory(), 'The tokenHandler factory provides a different object on each call' );
-    } );
+        assert.equal(typeof tokenHandlerFactory, 'function', 'The tokenHandler module exposes a function');
+        assert.equal(typeof tokenHandlerFactory(), 'object', 'The tokenHandler factory produces an object');
+        assert.notStrictEqual(tokenHandlerFactory(), tokenHandlerFactory(), 'The tokenHandler factory provides a different object on each call');
+    });
 
     var proxyApi = [
-        { name: 'getToken', title: 'getToken' },
-        { name: 'setToken', title: 'setToken' }
+        {name: 'getToken', title: 'getToken'},
+        {name: 'setToken', title: 'setToken'}
     ];
 
     QUnit
-        .cases.init( proxyApi )
-        .test( 'instance API ', function( data, assert ) {
-            assert.expect( 1 );
+        .cases.init(proxyApi)
+        .test('instance API ', function(data, assert) {
+            assert.expect(1);
 
             var instance = tokenHandlerFactory();
-            assert.equal( typeof instance[ data.name ], 'function', 'The tokenHandler instance exposes a "' + data.name + '" function' );
-        } );
+            assert.equal(typeof instance[data.name], 'function', 'The tokenHandler instance exposes a "' + data.name + '" function');
+        });
 
-    QUnit.test( 'setters', function( assert ) {
-        assert.expect( 4 );
+    QUnit.test('setters', function(assert) {
+        assert.expect(4);
 
         var tokenHandler = tokenHandlerFactory();
         var expectedToken = 'e56fg1a3b9de2237f';
 
-        assert.equal( tokenHandler.getToken(), undefined, 'There is no registered token in a fresh instance' );
+        assert.equal(tokenHandler.getToken(), undefined, 'There is no registered token in a fresh instance');
 
-        assert.equal( tokenHandler.setToken( expectedToken ), tokenHandler, 'The setToken method return the chain instance' );
+        assert.equal(tokenHandler.setToken(expectedToken), tokenHandler, 'The setToken method return the chain instance');
 
-        assert.equal( tokenHandler.getToken(), expectedToken, 'The getToken method returns the right token' );
-        assert.equal( tokenHandler.getToken(), null, 'The getToken method returns the token only once' );
-    } );
-} );
+        assert.equal(tokenHandler.getToken(), expectedToken, 'The getToken method returns the right token');
+        assert.equal(tokenHandler.getToken(), null, 'The getToken method returns the token only once');
+    });
+});

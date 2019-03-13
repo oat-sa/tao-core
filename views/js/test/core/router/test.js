@@ -16,16 +16,16 @@
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
-define( [  'router', 'context' ], function(  router, context ) {
+define(['router', 'context'], function(router, context) {
     'use strict';
 
-    QUnit.module( 'API' );
+    QUnit.module('API');
 
-    QUnit.test( 'router', function( assert ) {
-        assert.equal( typeof router, 'object', 'The router module exposes and object' );
-    } );
+    QUnit.test('router', function(assert) {
+        assert.equal(typeof router, 'object', 'The router module exposes and object');
+    });
 
-    QUnit.cases.init( [ {
+    QUnit.cases.init([{
         title: 'dispatch'
     }, {
         title: 'dispatchUrl'
@@ -35,17 +35,17 @@ define( [  'router', 'context' ], function(  router, context ) {
         title: 'loadRouteBundle'
     }, {
         title: 'loadRoute'
-    } ] ).test( 'router has the method ', function( data, assert ) {
-        assert.equal( typeof router[ data.title ], 'function', 'The router object expose the method ' + data.title );
-    } );
+    }]).test('router has the method ', function(data, assert) {
+        assert.equal(typeof router[data.title], 'function', 'The router object expose the method ' + data.title);
+    });
 
-    QUnit.module( 'Parse URl', {
-        beforeEach: function setup( assert ) {
+    QUnit.module('Parse URl', {
+        beforeEach: function setup(assert) {
             context.bundle = false;
         }
-    } );
+    });
 
-    QUnit.cases.init( [ {
+    QUnit.cases.init([{
         title: 'url path',
         url: '/taoItems/Items/editItem',
         route: {
@@ -85,12 +85,12 @@ define( [  'router', 'context' ], function(  router, context ) {
         title: 'and invalid value',
         url: 12,
         route: null
-    } ] ).test( 'parse : ', function( data, assert ) {
-        var route = router.parseMvcUrl( data.url );
-        assert.deepEqual( route, data.route, 'The given url has been parsed as expected' );
-    } );
+    }]).test('parse : ', function(data, assert) {
+        var route = router.parseMvcUrl(data.url);
+        assert.deepEqual(route, data.route, 'The given url has been parsed as expected');
+    });
 
-    QUnit.cases.init( [ {
+    QUnit.cases.init([{
         title: 'extenstion bundle',
         route: {
             extension: 'taoItems'
@@ -120,25 +120,25 @@ define( [  'router', 'context' ], function(  router, context ) {
         title: 'no route no bundle',
         route: {},
         bundle: true
-    } ] ).test( 'Load route bundle : ', function( data, assert ) {
+    }]).test('Load route bundle : ', function(data, assert) {
         var ready = assert.async();
         context.bundle = data.bundle;
 
-        assert.expect( 1 );
+        assert.expect(1);
 
         router
-            .loadRouteBundle( data.route )
-            .then( function( result ) {
-                assert.equal( result, data.resolve, 'The correct bundle is loaded' );
+            .loadRouteBundle(data.route)
+            .then(function(result) {
+                assert.equal(result, data.resolve, 'The correct bundle is loaded');
                 ready();
-            } )
-            .catch( function( err ) {
-                assert.ok( false, err.message );
+            })
+            .catch(function(err) {
+                assert.ok(false, err.message);
                 ready();
-            } );
-    } );
+            });
+    });
 
-    QUnit.cases.init( [ {
+    QUnit.cases.init([{
         title: 'tao routes',
         route: {
             extension: 'tao'
@@ -169,46 +169,46 @@ define( [  'router', 'context' ], function(  router, context ) {
             }
 
         }
-    } ] ).test( 'Load route : ', function( data, assert ) {
+    }]).test('Load route : ', function(data, assert) {
         var ready = assert.async();
         context.bundle = data.bundle;
 
-        assert.expect( 1 );
+        assert.expect(1);
 
         router
-            .loadRoute( data.route )
-            .then( function( result ) {
-                assert.deepEqual( result, data.resolve, 'The correct route module is loaded' );
+            .loadRoute(data.route)
+            .then(function(result) {
+                assert.deepEqual(result, data.resolve, 'The correct route module is loaded');
                 ready();
-            } )
-            .catch( function( err ) {
-                assert.ok( false, err.message );
+            })
+            .catch(function(err) {
+                assert.ok(false, err.message);
                 ready();
-            } );
-    } );
+            });
+    });
 
-    QUnit.test( 'dispatch', function( assert ) {
+    QUnit.test('dispatch', function(assert) {
         var ready = assert.async();
-        assert.expect( 2 );
+        assert.expect(2);
 
-        assert.ok( !window.controllerStarted, 'The controllerStarted global doesnt exist' );
+        assert.ok(!window.controllerStarted, 'The controllerStarted global doesnt exist');
 
-        router.dispatch( [
+        router.dispatch([
             '/tao/Main/test',
             '/taoItems/Item/test'
-        ] ).then( function() {
+        ]).then(function() {
 
             //The global value is set by the controller start
-            assert.deepEqual( window.controllerStarted, {
+            assert.deepEqual(window.controllerStarted, {
                 tao: true,
                 taoItems: true
-            }, 'The controllerStarted global value has been set' );
+            }, 'The controllerStarted global value has been set');
 
             ready();
 
-        } ).catch( function( err ) {
-            assert.ok( false, err.message );
+        }).catch(function(err) {
+            assert.ok(false, err.message);
             ready();
-        } );
-    } );
-} );
+        });
+    });
+});

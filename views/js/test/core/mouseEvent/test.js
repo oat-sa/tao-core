@@ -19,28 +19,28 @@
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  * @author Christophe Noël <christophe@taotesting.com>
  */
-define( [  'jquery', 'core/mouseEvent' ], function(  $, triggerMouseEvent ) {
+define(['jquery', 'core/mouseEvent'], function($, triggerMouseEvent) {
     'use strict';
 
-    QUnit.module( 'API' );
+    QUnit.module('API');
 
-    QUnit.test( 'mouseEvent api', function( assert ) {
-        assert.ok( typeof triggerMouseEvent === 'function', 'The mouseEvent module exposes a function' );
-    } );
+    QUnit.test('mouseEvent api', function(assert) {
+        assert.ok(typeof triggerMouseEvent === 'function', 'The mouseEvent module exposes a function');
+    });
 
-    QUnit.module( 'Events' );
+    QUnit.module('Events');
 
-    QUnit.test( 'invalid event', function( assert ) {
-        var element = document.getElementById( 'elem1' );
+    QUnit.test('invalid event', function(assert) {
+        var element = document.getElementById('elem1');
         var eventName = 'custom';
         var eventOptions = {};
 
-        assert.ok( !triggerMouseEvent( element, eventName, eventOptions ), 'returns false if event is invalid' );
-    } );
+        assert.ok(!triggerMouseEvent(element, eventName, eventOptions), 'returns false if event is invalid');
+    });
 
-    QUnit.test( 'jQuery', function( assert ) {
+    QUnit.test('jQuery', function(assert) {
         var ready = assert.async();
-        var element = $( '#elem1' );
+        var element = $('#elem1');
         var eventName = 'click';
         var eventOptions = {
             bubbles: true,
@@ -49,24 +49,24 @@ define( [  'jquery', 'core/mouseEvent' ], function(  $, triggerMouseEvent ) {
             screenY: 25
         };
 
-        element.on( eventName, function( event ) {
-            assert.ok( true, 'The event has been triggered' );
-            assert.strictEqual( event.target, element.get( 0 ), 'The event has the right target' );
-            assert.strictEqual( event.type, eventName, 'The event has the right name' );
-            assert.strictEqual( event.bubbles, eventOptions.bubbles, 'The event has the right bubbles option' );
-            assert.strictEqual( event.cancelable, eventOptions.cancelable, 'The event has the right cancelable option' );
-            assert.strictEqual( event.screenX, eventOptions.screenX, 'The event has the right screenX option' );
-            assert.strictEqual( event.screenY, eventOptions.screenY, 'The event has the right screenY option' );
+        element.on(eventName, function(event) {
+            assert.ok(true, 'The event has been triggered');
+            assert.strictEqual(event.target, element.get(0), 'The event has the right target');
+            assert.strictEqual(event.type, eventName, 'The event has the right name');
+            assert.strictEqual(event.bubbles, eventOptions.bubbles, 'The event has the right bubbles option');
+            assert.strictEqual(event.cancelable, eventOptions.cancelable, 'The event has the right cancelable option');
+            assert.strictEqual(event.screenX, eventOptions.screenX, 'The event has the right screenX option');
+            assert.strictEqual(event.screenY, eventOptions.screenY, 'The event has the right screenY option');
 
             ready();
-        } );
+        });
 
-        triggerMouseEvent( element.get( 0 ), eventName, eventOptions );
-    } );
+        triggerMouseEvent(element.get(0), eventName, eventOptions);
+    });
 
-    QUnit.test( 'native', function( assert ) {
+    QUnit.test('native', function(assert) {
         var ready = assert.async();
-        var element = document.getElementById( 'elem2' );
+        var element = document.getElementById('elem2');
         var eventName = 'dblclick';
         var eventOptions = {
             bubbles: true,
@@ -75,18 +75,18 @@ define( [  'jquery', 'core/mouseEvent' ], function(  $, triggerMouseEvent ) {
             screenY: 25
         };
 
-        element.addEventListener( eventName, function( event ) {
-            assert.ok( true, 'The event has been triggered' );
-            assert.strictEqual( event.target, element, 'The event has the right target' );
-            assert.strictEqual( event.type, eventName, 'The event has the right name' );
-            assert.strictEqual( event.bubbles, eventOptions.bubbles, 'The event has the right bubbles option' );
-            assert.strictEqual( event.cancelable, eventOptions.cancelable, 'The event has the right cancelable option' );
-            assert.strictEqual( event.screenX, eventOptions.screenX, 'The event has the right screenX option' );
-            assert.strictEqual( event.screenY, eventOptions.screenY, 'The event has the right screenY option' );
+        element.addEventListener(eventName, function(event) {
+            assert.ok(true, 'The event has been triggered');
+            assert.strictEqual(event.target, element, 'The event has the right target');
+            assert.strictEqual(event.type, eventName, 'The event has the right name');
+            assert.strictEqual(event.bubbles, eventOptions.bubbles, 'The event has the right bubbles option');
+            assert.strictEqual(event.cancelable, eventOptions.cancelable, 'The event has the right cancelable option');
+            assert.strictEqual(event.screenX, eventOptions.screenX, 'The event has the right screenX option');
+            assert.strictEqual(event.screenY, eventOptions.screenY, 'The event has the right screenY option');
 
             ready();
-        } );
+        });
 
-        triggerMouseEvent( element, eventName, eventOptions );
-    } );
-} );
+        triggerMouseEvent(element, eventName, eventOptions);
+    });
+});

@@ -18,26 +18,26 @@
 /**
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
-define( [
-    
+define([
+
     'jquery',
     'lodash',
     'ui/bulkActionPopup',
     'ui/cascadingComboBox',
     'lib/simulator/jquery.simulate'
-], function(  $, _, bulkActionPopup, cascadingComboBox ) {
+], function($, _, bulkActionPopup, cascadingComboBox) {
     'use strict';
 
-    QUnit.module( 'Bulk Action Popup' );
+    QUnit.module('Bulk Action Popup');
 
-    QUnit.test( 'render (all options)', function( assert ) {
+    QUnit.test('render (all options)', function(assert) {
 
-        var $container = $( '#fixture-1' );
+        var $container = $('#fixture-1');
         var config = {
             renderTo: $container,
             actionName: 'Resume Test Session',
             resourceType: 'test taker',
-            categoriesSelector: cascadingComboBox( {
+            categoriesSelector: cascadingComboBox({
                 categoriesDefinitions: [
                     {
                         id: 'reason1',
@@ -61,17 +61,17 @@ define( [
                                 id: 'optionA1',
                                 label: 'option A-1',
                                 categories: [
-                                    { id: 'option A1a', label: 'option A-1-a' },
-                                    { id: 'option A1b', label: 'option A-1-b' },
-                                    { id: 'option A1c', label: 'option A-1-c' }
+                                    {id: 'option A1a', label: 'option A-1-a'},
+                                    {id: 'option A1b', label: 'option A-1-b'},
+                                    {id: 'option A1c', label: 'option A-1-c'}
                                 ]
                             },
                             {
                                 id: 'optionA2',
                                 label: 'option A-2',
                                 categories: [
-                                    { id: 'option A2a', label: 'option A-2-a' },
-                                    { id: 'option A2b', label: 'option A-2-b' }
+                                    {id: 'option A2a', label: 'option A-2-a'},
+                                    {id: 'option A2b', label: 'option A-2-b'}
                                 ]
                             },
                             {
@@ -83,10 +83,10 @@ define( [
                         id: 'optionB',
                         label: 'option B',
                         categories: [
-                            { id: 'option B1', label: 'option B-1' },
-                            { id: 'option B2', label: 'option B-2' },
-                            { id: 'option B3', label: 'option B-3' },
-                            { id: 'option B4', label: 'option B-4' }
+                            {id: 'option B1', label: 'option B-1'},
+                            {id: 'option B2', label: 'option B-2'},
+                            {id: 'option B3', label: 'option B-3'},
+                            {id: 'option B4', label: 'option B-4'}
                         ]
                     },
                     {
@@ -94,7 +94,7 @@ define( [
                         label: 'option C'
                     }
                 ]
-            } ),
+            }),
             reason: true,
             allowedResources: [
                 {
@@ -170,19 +170,19 @@ define( [
             ]
         };
         var $element;
-        var instance = bulkActionPopup( config );
-        assert.equal( $container[ 0 ], instance.getContainer()[ 0 ], 'container ok' );
+        var instance = bulkActionPopup(config);
+        assert.equal($container[0], instance.getContainer()[0], 'container ok');
 
-        $element = $container.children( '.bulk-action-popup' );
-        assert.equal( $element.length, 1, 'element ok' );
-        assert.equal( $element.find( '.applicables li' ).length, 12, 'allowed resources are displayed' );
-        assert.equal( $element.find( '.no-applicables li' ).length, 4, 'denied resources are displayed' );
-        assert.equal( $element.children( '.reason' ).length, 1, 'the reason box is displayed' );
-    } );
+        $element = $container.children('.bulk-action-popup');
+        assert.equal($element.length, 1, 'element ok');
+        assert.equal($element.find('.applicables li').length, 12, 'allowed resources are displayed');
+        assert.equal($element.find('.no-applicables li').length, 4, 'denied resources are displayed');
+        assert.equal($element.children('.reason').length, 1, 'the reason box is displayed');
+    });
 
-    QUnit.test( 'render (without reason)', function( assert ) {
+    QUnit.test('render (without reason)', function(assert) {
 
-        var $container = $( '#fixture-1' );
+        var $container = $('#fixture-1');
         var config = {
             renderTo: $container,
             actionName: 'Resume Test Session',
@@ -262,21 +262,21 @@ define( [
             ]
         };
         var $element;
-        var instance = bulkActionPopup( config );
-        assert.equal( $container[ 0 ], instance.getContainer()[ 0 ], 'container ok' );
+        var instance = bulkActionPopup(config);
+        assert.equal($container[0], instance.getContainer()[0], 'container ok');
 
-        $element = $container.children( '.bulk-action-popup' );
-        assert.equal( $element.length, 1, 'element ok' );
-        assert.equal( $element.find( '.applicables li' ).length, 12, 'allowed resources are displayed' );
-        assert.equal( $element.find( '.no-applicables li' ).length, 4, 'denied resources are displayed' );
-        assert.equal( $element.children( '.reason' ).length, 0, 'the reason box is displayed' );
+        $element = $container.children('.bulk-action-popup');
+        assert.equal($element.length, 1, 'element ok');
+        assert.equal($element.find('.applicables li').length, 12, 'allowed resources are displayed');
+        assert.equal($element.find('.no-applicables li').length, 4, 'denied resources are displayed');
+        assert.equal($element.children('.reason').length, 0, 'the reason box is displayed');
 
-    } );
+    });
 
-    QUnit.test( 'cancel (click)', function( assert ) {
+    QUnit.test('cancel (click)', function(assert) {
         var ready1 = assert.async();
         var ready = assert.async();
-        var $container = $( '#fixture-1' );
+        var $container = $('#fixture-1');
         var config = {
             renderTo: $container,
             actionName: 'Resume Test Session',
@@ -290,28 +290,28 @@ define( [
             ]
         };
 
-        var instance = bulkActionPopup( config )
-            .on( 'cancel', function() {
-                assert.ok( true, 'canceled' );
+        var instance = bulkActionPopup(config)
+            .on('cancel', function() {
+                assert.ok(true, 'canceled');
                 ready();
-            } ).on( 'destroy', function() {
-                assert.ok( true, 'destroyed' );
+            }).on('destroy', function() {
+                assert.ok(true, 'destroyed');
                 ready1();
-            } );
+            });
 
-        assert.equal( $container[ 0 ], instance.getContainer()[ 0 ], 'container ok' );
-        assert.equal( $container.children( '.bulk-action-popup' ).length, 1, 'element ok' );
+        assert.equal($container[0], instance.getContainer()[0], 'container ok');
+        assert.equal($container.children('.bulk-action-popup').length, 1, 'element ok');
 
-        $container.find( '.cancel' ).click();
-        assert.equal( $container[ 0 ], instance.getContainer()[ 0 ], 'container is still there' );
-        assert.equal( $container.children( '.bulk-action-popup' ).length, 0, 'element is removed' );
-    } );
+        $container.find('.cancel').click();
+        assert.equal($container[0], instance.getContainer()[0], 'container is still there');
+        assert.equal($container.children('.bulk-action-popup').length, 0, 'element is removed');
+    });
 
-    QUnit.test( 'ok (click)', function( assert ) {
+    QUnit.test('ok (click)', function(assert) {
         var ready1 = assert.async();
         var ready = assert.async();
         var theReason = 'The Reason.';
-        var $container = $( '#fixture-1' );
+        var $container = $('#fixture-1');
         var config = {
             renderTo: $container,
             actionName: 'Resume Test Session',
@@ -325,29 +325,29 @@ define( [
             ]
         };
 
-        var instance = bulkActionPopup( config )
-            .on( 'ok', function( state ) {
-                assert.equal( state.comment, theReason, 'the reason has been sent' );
-                assert.ok( true, 'ok !' );
+        var instance = bulkActionPopup(config)
+            .on('ok', function(state) {
+                assert.equal(state.comment, theReason, 'the reason has been sent');
+                assert.ok(true, 'ok !');
                 ready();
-            } ).on( 'destroy', function() {
-                assert.ok( true, 'destroyed' );
+            }).on('destroy', function() {
+                assert.ok(true, 'destroyed');
                 ready1();
-            } );
+            });
 
-        assert.equal( $container[ 0 ], instance.getContainer()[ 0 ], 'container ok' );
-        assert.equal( $container.children( '.bulk-action-popup' ).length, 1, 'element ok' );
-        $container.find( 'textarea' ).text( theReason ).change();
+        assert.equal($container[0], instance.getContainer()[0], 'container ok');
+        assert.equal($container.children('.bulk-action-popup').length, 1, 'element ok');
+        $container.find('textarea').text(theReason).change();
 
-        $container.find( '.done' ).click();
-        assert.equal( $container[ 0 ], instance.getContainer()[ 0 ], 'container is still there' );
-        assert.equal( $container.children( '.bulk-action-popup' ).length, 0, 'element is removed' );
-    } );
+        $container.find('.done').click();
+        assert.equal($container[0], instance.getContainer()[0], 'container is still there');
+        assert.equal($container.children('.bulk-action-popup').length, 0, 'element is removed');
+    });
 
-    QUnit.test( 'cancel (api)', function( assert ) {
+    QUnit.test('cancel (api)', function(assert) {
         var ready1 = assert.async();
         var ready = assert.async();
-        var $container = $( '#fixture-1' );
+        var $container = $('#fixture-1');
         var config = {
             renderTo: $container,
             actionName: 'Resume Test Session',
@@ -361,28 +361,28 @@ define( [
             ]
         };
 
-        var instance = bulkActionPopup( config )
-            .on( 'cancel', function() {
-                assert.ok( true, 'canceled' );
+        var instance = bulkActionPopup(config)
+            .on('cancel', function() {
+                assert.ok(true, 'canceled');
                 ready();
-            } ).on( 'destroy', function() {
-                assert.ok( true, 'destroyed' );
+            }).on('destroy', function() {
+                assert.ok(true, 'destroyed');
                 ready1();
-            } );
+            });
 
-        assert.equal( $container[ 0 ], instance.getContainer()[ 0 ], 'container ok' );
-        assert.equal( $container.children( '.bulk-action-popup' ).length, 1, 'element ok' );
+        assert.equal($container[0], instance.getContainer()[0], 'container ok');
+        assert.equal($container.children('.bulk-action-popup').length, 1, 'element ok');
 
         instance.cancel();
-        assert.equal( $container[ 0 ], instance.getContainer()[ 0 ], 'container is still there' );
-        assert.equal( $container.children( '.bulk-action-popup' ).length, 0, 'element is removed' );
-    } );
+        assert.equal($container[0], instance.getContainer()[0], 'container is still there');
+        assert.equal($container.children('.bulk-action-popup').length, 0, 'element is removed');
+    });
 
-    QUnit.test( 'ok (api)', function( assert ) {
+    QUnit.test('ok (api)', function(assert) {
         var ready1 = assert.async();
         var ready = assert.async();
         var theReason = 'The Reason.';
-        var $container = $( '#fixture-1' );
+        var $container = $('#fixture-1');
         var config = {
             renderTo: $container,
             actionName: 'Resume Test Session',
@@ -396,30 +396,30 @@ define( [
             ]
         };
 
-        var instance = bulkActionPopup( config )
-            .on( 'ok', function( state ) {
-                assert.equal( state.comment, theReason, 'the reason has been sent' );
-                assert.ok( true, 'ok !' );
+        var instance = bulkActionPopup(config)
+            .on('ok', function(state) {
+                assert.equal(state.comment, theReason, 'the reason has been sent');
+                assert.ok(true, 'ok !');
                 ready();
-            } ).on( 'destroy', function() {
-                assert.ok( true, 'destroyed' );
+            }).on('destroy', function() {
+                assert.ok(true, 'destroyed');
                 ready1();
-            } );
+            });
 
-        assert.equal( $container[ 0 ], instance.getContainer()[ 0 ], 'container ok' );
-        assert.equal( $container.children( '.bulk-action-popup' ).length, 1, 'element ok' );
-        $container.find( 'textarea' ).text( theReason ).change();
+        assert.equal($container[0], instance.getContainer()[0], 'container ok');
+        assert.equal($container.children('.bulk-action-popup').length, 1, 'element ok');
+        $container.find('textarea').text(theReason).change();
 
-        assert.equal( instance.validate(), true, 'The dialog has been validated' );
-        assert.equal( $container[ 0 ], instance.getContainer()[ 0 ], 'container is still there' );
-        assert.equal( $container.children( '.bulk-action-popup' ).length, 0, 'element is removed' );
-    } );
+        assert.equal(instance.validate(), true, 'The dialog has been validated');
+        assert.equal($container[0], instance.getContainer()[0], 'container is still there');
+        assert.equal($container.children('.bulk-action-popup').length, 0, 'element is removed');
+    });
 
-    QUnit.test( 'cancel (shortcut)', function( assert ) {
+    QUnit.test('cancel (shortcut)', function(assert) {
         var ready1 = assert.async();
         var ready = assert.async();
 
-        var $container = $( '#fixture-1' );
+        var $container = $('#fixture-1');
         var config = {
             renderTo: $container,
             actionName: 'Resume Test Session',
@@ -433,19 +433,19 @@ define( [
             ]
         };
 
-        var instance = bulkActionPopup( config )
-            .on( 'cancel', function() {
-                assert.ok( true, 'canceled' );
+        var instance = bulkActionPopup(config)
+            .on('cancel', function() {
+                assert.ok(true, 'canceled');
                 ready();
-            } ).on( 'destroy', function() {
-                assert.ok( true, 'destroyed' );
+            }).on('destroy', function() {
+                assert.ok(true, 'destroyed');
                 ready1();
-            } );
+            });
 
-        assert.equal( $container[ 0 ], instance.getContainer()[ 0 ], 'container ok' );
-        assert.equal( $container.children( '.bulk-action-popup' ).length, 1, 'element ok' );
+        assert.equal($container[0], instance.getContainer()[0], 'container ok');
+        assert.equal($container.children('.bulk-action-popup').length, 1, 'element ok');
 
-        $container.simulate( 'keydown', {
+        $container.simulate('keydown', {
             charCode: 0,
             keyCode: 27,
             which: 27,
@@ -455,16 +455,16 @@ define( [
             shiftKey: false,
             altKey: false,
             metaKey: false
-        } );
-        assert.equal( $container[ 0 ], instance.getContainer()[ 0 ], 'container is still there' );
-        assert.equal( $container.children( '.bulk-action-popup' ).length, 0, 'element is removed' );
-    } );
+        });
+        assert.equal($container[0], instance.getContainer()[0], 'container is still there');
+        assert.equal($container.children('.bulk-action-popup').length, 0, 'element is removed');
+    });
 
-    QUnit.test( 'ok (shortcut)', function( assert ) {
+    QUnit.test('ok (shortcut)', function(assert) {
         var ready1 = assert.async();
         var ready = assert.async();
         var theReason = 'The Reason.';
-        var $container = $( '#fixture-1' );
+        var $container = $('#fixture-1');
         var config = {
             renderTo: $container,
             actionName: 'Resume Test Session',
@@ -478,21 +478,21 @@ define( [
             ]
         };
 
-        var instance = bulkActionPopup( config )
-            .on( 'ok', function( state ) {
-                assert.equal( state.comment, theReason, 'the reason has been sent' );
-                assert.ok( true, 'ok !' );
+        var instance = bulkActionPopup(config)
+            .on('ok', function(state) {
+                assert.equal(state.comment, theReason, 'the reason has been sent');
+                assert.ok(true, 'ok !');
                 ready();
-            } ).on( 'destroy', function() {
-                assert.ok( true, 'destroyed' );
+            }).on('destroy', function() {
+                assert.ok(true, 'destroyed');
                 ready1();
-            } );
+            });
 
-        assert.equal( $container[ 0 ], instance.getContainer()[ 0 ], 'container ok' );
-        assert.equal( $container.children( '.bulk-action-popup' ).length, 1, 'element ok' );
-        $container.find( 'textarea' ).text( theReason ).change();
+        assert.equal($container[0], instance.getContainer()[0], 'container ok');
+        assert.equal($container.children('.bulk-action-popup').length, 1, 'element ok');
+        $container.find('textarea').text(theReason).change();
 
-        $container.simulate( 'keydown', {
+        $container.simulate('keydown', {
             charCode: 0,
             keyCode: 13,
             which: 13,
@@ -502,15 +502,15 @@ define( [
             shiftKey: false,
             altKey: false,
             metaKey: false
-        } );
-        assert.equal( $container[ 0 ], instance.getContainer()[ 0 ], 'container is still there' );
-        assert.equal( $container.children( '.bulk-action-popup' ).length, 0, 'element is removed' );
-    } );
+        });
+        assert.equal($container[0], instance.getContainer()[0], 'container is still there');
+        assert.equal($container.children('.bulk-action-popup').length, 0, 'element is removed');
+    });
 
-    QUnit.test( 'disabled shortcut', function( assert ) {
+    QUnit.test('disabled shortcut', function(assert) {
         var ready1 = assert.async();
         var ready = assert.async();
-        var $container = $( '#fixture-1' );
+        var $container = $('#fixture-1');
         var config = {
             renderTo: $container,
             actionName: 'Resume Test Session',
@@ -525,19 +525,19 @@ define( [
             ]
         };
 
-        var instance = bulkActionPopup( config )
-            .on( 'cancel', function() {
-                assert.ok( true, 'canceled' );
+        var instance = bulkActionPopup(config)
+            .on('cancel', function() {
+                assert.ok(true, 'canceled');
                 ready();
-            } ).on( 'destroy', function() {
-                assert.ok( true, 'destroyed' );
+            }).on('destroy', function() {
+                assert.ok(true, 'destroyed');
                 ready1();
-            } );
+            });
 
-        assert.equal( $container[ 0 ], instance.getContainer()[ 0 ], 'container ok' );
-        assert.equal( $container.children( '.bulk-action-popup' ).length, 1, 'element ok' );
+        assert.equal($container[0], instance.getContainer()[0], 'container ok');
+        assert.equal($container.children('.bulk-action-popup').length, 1, 'element ok');
 
-        $container.simulate( 'keydown', {
+        $container.simulate('keydown', {
             charCode: 0,
             keyCode: 27,
             which: 27,
@@ -547,52 +547,19 @@ define( [
             shiftKey: false,
             altKey: false,
             metaKey: false
-        } );
-        assert.equal( $container[ 0 ], instance.getContainer()[ 0 ], 'container is still there' );
-        assert.equal( $container.children( '.bulk-action-popup' ).length, 1, 'element has not been removed' );
+        });
+        assert.equal($container[0], instance.getContainer()[0], 'container is still there');
+        assert.equal($container.children('.bulk-action-popup').length, 1, 'element has not been removed');
 
         instance.cancel();
-        assert.equal( $container[ 0 ], instance.getContainer()[ 0 ], 'container is still there' );
-        assert.equal( $container.children( '.bulk-action-popup' ).length, 0, 'element is removed' );
-    } );
+        assert.equal($container[0], instance.getContainer()[0], 'container is still there');
+        assert.equal($container.children('.bulk-action-popup').length, 0, 'element is removed');
+    });
 
-    QUnit.test( 'requiredReasonEmpty (click)', function( assert ) {
-
-        var theReason = '';
-        var $container = $( '#fixture-1' );
-        var config = {
-            renderTo: $container,
-            actionName: 'Resume Test Session',
-            resourceType: 'test taker',
-            reason: true,
-            requiredReason: true,
-            allowedResources: [
-                {
-                    id: 'uri_ns#i0000001',
-                    label: 'Test Taker 1'
-                }
-            ]
-        };
-
-        var instance = bulkActionPopup( config );
-
-        assert.expect( 5 );
-
-        assert.equal( $container[ 0 ], instance.getContainer()[ 0 ], 'container ok' );
-        assert.equal( $container.children( '.bulk-action-popup' ).length, 1, 'element ok' );
-        $container.find( 'textarea' ).text( theReason ).change();
-
-        $container.find( '.done' ).click();
-        assert.equal( $container[ 0 ], instance.getContainer()[ 0 ], 'container is still there' );
-        assert.equal( $container.children( '.bulk-action-popup' ).length, 1, 'element is not removed' );
-
-        assert.equal( $container.find( '.feedback-error', $container ).length, 1, 'the interaction has error' );
-    } );
-
-    QUnit.test( 'requiredReasonEmpty (api)', function( assert ) {
+    QUnit.test('requiredReasonEmpty (click)', function(assert) {
 
         var theReason = '';
-        var $container = $( '#fixture-1' );
+        var $container = $('#fixture-1');
         var config = {
             renderTo: $container,
             actionName: 'Resume Test Session',
@@ -607,25 +574,58 @@ define( [
             ]
         };
 
-        var instance = bulkActionPopup( config );
+        var instance = bulkActionPopup(config);
 
-        assert.expect( 6 );
+        assert.expect(5);
 
-        assert.equal( $container[ 0 ], instance.getContainer()[ 0 ], 'container ok' );
-        assert.equal( $container.children( '.bulk-action-popup' ).length, 1, 'element ok' );
-        $container.find( 'textarea' ).text( theReason ).change();
+        assert.equal($container[0], instance.getContainer()[0], 'container ok');
+        assert.equal($container.children('.bulk-action-popup').length, 1, 'element ok');
+        $container.find('textarea').text(theReason).change();
 
-        assert.equal( instance.validate(), false, 'The dialog cannot be validated' );
-        assert.equal( $container[ 0 ], instance.getContainer()[ 0 ], 'container is still there' );
-        assert.equal( $container.children( '.bulk-action-popup' ).length, 1, 'element is not removed' );
+        $container.find('.done').click();
+        assert.equal($container[0], instance.getContainer()[0], 'container is still there');
+        assert.equal($container.children('.bulk-action-popup').length, 1, 'element is not removed');
 
-        assert.equal( $container.find( '.feedback-error', $container ).length, 1, 'the interaction has error' );
-    } );
+        assert.equal($container.find('.feedback-error', $container).length, 1, 'the interaction has error');
+    });
 
-    QUnit.test( 'requiredReasonFilled (click)', function( assert ) {
+    QUnit.test('requiredReasonEmpty (api)', function(assert) {
+
+        var theReason = '';
+        var $container = $('#fixture-1');
+        var config = {
+            renderTo: $container,
+            actionName: 'Resume Test Session',
+            resourceType: 'test taker',
+            reason: true,
+            requiredReason: true,
+            allowedResources: [
+                {
+                    id: 'uri_ns#i0000001',
+                    label: 'Test Taker 1'
+                }
+            ]
+        };
+
+        var instance = bulkActionPopup(config);
+
+        assert.expect(6);
+
+        assert.equal($container[0], instance.getContainer()[0], 'container ok');
+        assert.equal($container.children('.bulk-action-popup').length, 1, 'element ok');
+        $container.find('textarea').text(theReason).change();
+
+        assert.equal(instance.validate(), false, 'The dialog cannot be validated');
+        assert.equal($container[0], instance.getContainer()[0], 'container is still there');
+        assert.equal($container.children('.bulk-action-popup').length, 1, 'element is not removed');
+
+        assert.equal($container.find('.feedback-error', $container).length, 1, 'the interaction has error');
+    });
+
+    QUnit.test('requiredReasonFilled (click)', function(assert) {
 
         var theReason = 'reason';
-        var $container = $( '#fixture-1' );
+        var $container = $('#fixture-1');
         var config = {
             renderTo: $container,
             actionName: 'Resume Test Session',
@@ -640,24 +640,24 @@ define( [
             ]
         };
 
-        var instance = bulkActionPopup( config );
+        var instance = bulkActionPopup(config);
 
-        assert.expect( 5 );
+        assert.expect(5);
 
-        assert.equal( $container[ 0 ], instance.getContainer()[ 0 ], 'container ok' );
-        assert.equal( $container.children( '.bulk-action-popup' ).length, 1, 'element ok' );
-        $container.find( 'textarea' ).text( theReason ).change();
+        assert.equal($container[0], instance.getContainer()[0], 'container ok');
+        assert.equal($container.children('.bulk-action-popup').length, 1, 'element ok');
+        $container.find('textarea').text(theReason).change();
 
-        $container.find( '.done' ).click();
-        assert.equal( $container[ 0 ], instance.getContainer()[ 0 ], 'container is still there' );
-        assert.equal( $container.find( '.feedback-error', $container ).length, 0, 'the interaction hasn\'t error' );
-        assert.equal( $container.children( '.bulk-action-popup' ).length, 0, 'element is removed' );
-    } );
+        $container.find('.done').click();
+        assert.equal($container[0], instance.getContainer()[0], 'container is still there');
+        assert.equal($container.find('.feedback-error', $container).length, 0, 'the interaction hasn\'t error');
+        assert.equal($container.children('.bulk-action-popup').length, 0, 'element is removed');
+    });
 
-    QUnit.test( 'requiredReasonFilled (api)', function( assert ) {
+    QUnit.test('requiredReasonFilled (api)', function(assert) {
 
         var theReason = 'reason';
-        var $container = $( '#fixture-1' );
+        var $container = $('#fixture-1');
         var config = {
             renderTo: $container,
             actionName: 'Resume Test Session',
@@ -672,17 +672,17 @@ define( [
             ]
         };
 
-        var instance = bulkActionPopup( config );
+        var instance = bulkActionPopup(config);
 
-        assert.expect( 6 );
+        assert.expect(6);
 
-        assert.equal( $container[ 0 ], instance.getContainer()[ 0 ], 'container ok' );
-        assert.equal( $container.children( '.bulk-action-popup' ).length, 1, 'element ok' );
-        $container.find( 'textarea' ).text( theReason ).change();
+        assert.equal($container[0], instance.getContainer()[0], 'container ok');
+        assert.equal($container.children('.bulk-action-popup').length, 1, 'element ok');
+        $container.find('textarea').text(theReason).change();
 
-        assert.equal( instance.validate(), true, 'The dialog has been validated' );
-        assert.equal( $container[ 0 ], instance.getContainer()[ 0 ], 'container is still there' );
-        assert.equal( $container.find( '.feedback-error', $container ).length, 0, 'the interaction hasn\'t error' );
-        assert.equal( $container.children( '.bulk-action-popup' ).length, 0, 'element is removed' );
-    } );
-} );
+        assert.equal(instance.validate(), true, 'The dialog has been validated');
+        assert.equal($container[0], instance.getContainer()[0], 'container is still there');
+        assert.equal($container.find('.feedback-error', $container).length, 0, 'the interaction hasn\'t error');
+        assert.equal($container.children('.bulk-action-popup').length, 0, 'element is removed');
+    });
+});
