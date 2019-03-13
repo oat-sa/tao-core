@@ -21,7 +21,7 @@
 
 namespace oat\tao\model\actionQueue\implementation;
 
-use oat\oatbox\event\EventManagerAwareTrait;
+use oat\oatbox\event\EventManager;
 use oat\tao\model\actionQueue\ActionQueue;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\actionQueue\QueuedAction;
@@ -39,9 +39,16 @@ use oat\tao\model\actionQueue\event\InstantActionOnQueueEvent;
 class InstantActionQueue extends ConfigurableService implements ActionQueue
 {
 
-    use EventManagerAwareTrait;
-
     const QUEUE_TREND = 'queue_trend';
+
+    /**
+     * @return EventManager
+     */
+    protected function getEventManager()
+    {
+        return $this->getServiceLocator()->get(EventManager::SERVICE_ID);
+    }
+
 
     /**
      * @param QueuedAction $action

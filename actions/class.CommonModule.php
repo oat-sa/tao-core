@@ -35,6 +35,7 @@ use oat\oatbox\service\exception\InvalidServiceManagerException;
 use oat\oatbox\log\LoggerAwareTrait;
 use function GuzzleHttp\Psr7\stream_for;
 use oat\tao\model\routing\AnnotationReader\security;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Top level controller
@@ -47,7 +48,11 @@ use oat\tao\model\routing\AnnotationReader\security;
  */
 abstract class tao_actions_CommonModule extends LegacyController implements ServiceManagerAwareInterface, CommonModuleInterface
 {
-    use ServiceManagerAwareTrait { getServiceManager as protected getOriginalServiceManager; }
+    use ServiceManagerAwareTrait {
+        getServiceManager as protected getOriginalServiceManager;
+        getServiceLocator as protected getOriginalServiceLocator;
+        setServiceLocator as protected setOriginalServiceLocator;
+    }
     use LoggerAwareTrait;
     use RendererTrait { setView as protected setRendererView; }
     use LegacySessionUtils;
@@ -279,5 +284,24 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
             $serviceManager = ServiceManager::getServiceManager();
         }
         return $serviceManager;
+    }
+
+    /**
+     * @return ServiceLocatorInterface
+     * @security("hide");
+     */
+    public function getServiceLocator()
+    {
+        return $this->getOriginalServiceLocator();
+    }
+
+    /**
+     * @param ServiceLocatorInterface $serviceLocator
+     * @return mixed
+     * @security("hide");
+     */
+    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
+    {
+        return $this->setOriginalServiceLocator($serviceLocator);
     }
 }
