@@ -33,7 +33,7 @@ define([
      * @type {Object}
      */
     var defaults = {
-        selectedSize: 25,
+        defaultSize: 25,
         options: [
             { label: '25 ' + __('items per page'), value: 25 },
             { label: '50 ' + __('items per page'), value: 50 },
@@ -47,19 +47,31 @@ define([
      * Builds a select component with page size options
      *
      * @param {Object} config
-     * @param {Number} [config.selectedSize] - selected page size
+     * @param {Number} [config.defaultSize] - selected page size
      * @param {Object} [config.items] - available options
      * @returns {pageSizeSelector}
      */
-    function pageSizeSelectorFactory(config) {
+    var pageSizeSelectorFactory = function pageSizeSelectorFactory(config) {
         var pageSizeSelectorSpecs = {
             setSelectedOption: function  setSelectedOption() {
                 var options = this.config.options;
-                var selectedSize = this.config.selectedSize;
+                var defaultSize = this.config.defaultSize;
 
+                var selectedOption;
                 options.forEach(function (option) {
-                    option.selected = option.value == selectedSize;
+                    if (option.value == defaultSize) {
+                        selectedOption = option;
+
+                        option.selected = true;
+                    } else {
+                        option.selected = false;
+                    }
                 });
+
+                // if there is no option with provided default size use first option as default
+                if (!selectedOption) {
+                    options[0].selected = true;
+                }
             },
         };
 
@@ -78,6 +90,12 @@ define([
                 }).on('change', function(e) {
                     self.trigger('change', e.val);
                 });
+            })
+            .after('render', function() {
+                var $component = this.getElement();
+
+                // Notify about the default value after render
+                this.trigger('change', $('select', $component).val());
             })
             .on('destroy', function(){
                 var $component = this.getElement();

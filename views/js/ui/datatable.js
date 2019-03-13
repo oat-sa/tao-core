@@ -631,7 +631,7 @@ define([
             if (options.pageSizeSelector) {
                 pageSizeSelector({
                     renderTo: $('.toolbox-container', $rendering),
-                    selectedSize: options.rows,
+                    defaultSize: options.rows,
                 }).on('change', function(val) {
                     self._setRows($elt, val);
                 });
