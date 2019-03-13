@@ -149,11 +149,17 @@ define([
          * @returns {boolean}
          */
         function isRangeValid(range) {
-            var rangeInContainer =
-                $.contains(getContainer(), range.commonAncestorContainer)
-                || getContainer().isSameNode(range.commonAncestorContainer);
+            var rangeInContainer;
+            try {
+                rangeInContainer =
+                    $.contains(getContainer(), range.commonAncestorContainer)
+                    || getContainer().isSameNode(range.commonAncestorContainer);
 
-            return (rangeInContainer && !range.collapsed);
+                return (rangeInContainer && !range.collapsed);
+            }
+            catch (e) {
+                return false;
+            }
         }
 
         /**
