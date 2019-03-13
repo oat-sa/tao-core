@@ -195,10 +195,11 @@ define([
      * @property {Number} from - the start position from which the result is expected
      * @property {Number} to - the end position until which the result is expected
      * @property {Number} move - the expected move in the position after change
+     * @property {Number} position - the expected position after change
      */
 
-    QUnit.cases(testCases).asyncTest('toggle', function (data, assert) {
-        var $container = $('#fixture-sign');
+    QUnit.cases(testCases).asyncTest('command ', function (data, assert) {
+        var $container = $('#fixture-command');
         var calculator = calculatorBoardFactory($container)
             .on('ready', function () {
                 var areaBroker = calculator.getAreaBroker();
@@ -243,7 +244,7 @@ define([
                                 .then(function () {
                                     var pos =  'undefined' !== typeof data.position ? data.position : Math.max(0, position + data.move);
 
-                                    assert.equal(calculator.getExpression(), data.expected, 'Applying the sign change on ' + data.expression + ' at position ' + position + ' produced ' + data.expected);
+                                    assert.equal(calculator.getExpression(), data.expected, 'Applying the sign command on ' + data.expression + ' at position ' + position + ' produced ' + data.expected);
                                     assert.equal(calculator.getPosition(), pos, 'The position has changed from ' + position + ' to ' + pos);
                                 })
                                 .then(function () {
