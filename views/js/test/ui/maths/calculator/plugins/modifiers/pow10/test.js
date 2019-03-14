@@ -23,21 +23,21 @@ define([
     'lodash',
     'core/promise',
     'ui/maths/calculator/core/board',
-    'ui/maths/calculator/plugins/modifiers/sign',
-    'json!test/ui/maths/calculator/plugins/modifiers/sign/testCases.json'
-], function ($, _, Promise, calculatorBoardFactory, signPluginFactory, testCases) {
+    'ui/maths/calculator/plugins/modifiers/pow10',
+    'json!test/ui/maths/calculator/plugins/modifiers/pow10/testCases.json'
+], function ($, _, Promise, calculatorBoardFactory, pow10PluginFactory, testCases) {
     'use strict';
 
     QUnit.module('module');
 
-    QUnit.test('sign', function (assert) {
+    QUnit.test('pow10', function (assert) {
         var calculator = calculatorBoardFactory();
 
         QUnit.expect(3);
 
-        assert.equal(typeof signPluginFactory, 'function', "The plugin module exposes a function");
-        assert.equal(typeof signPluginFactory(calculator), 'object', "The plugin factory produces an instance");
-        assert.notStrictEqual(signPluginFactory(calculator), signPluginFactory(calculator), "The plugin factory provides a different instance on each call");
+        assert.equal(typeof pow10PluginFactory, 'function', "The plugin module exposes a function");
+        assert.equal(typeof pow10PluginFactory(calculator), 'object', "The plugin factory produces an instance");
+        assert.notStrictEqual(pow10PluginFactory(calculator), pow10PluginFactory(calculator), "The plugin factory provides a different instance on each call");
     });
 
     QUnit.module('api');
@@ -60,7 +60,7 @@ define([
         {title: 'disable'}
     ]).test('plugin API ', function (data, assert) {
         var calculator = calculatorBoardFactory();
-        var plugin = signPluginFactory(calculator);
+        var plugin = pow10PluginFactory(calculator);
         QUnit.expect(1);
         assert.equal(typeof plugin[data.title], 'function', 'The plugin instances expose a "' + data.title + '" function');
     });
@@ -72,14 +72,14 @@ define([
         var calculator = calculatorBoardFactory($container)
             .on('ready', function () {
                 var areaBroker = calculator.getAreaBroker();
-                var plugin = signPluginFactory(calculator, areaBroker);
+                var plugin = pow10PluginFactory(calculator, areaBroker);
 
                 QUnit.expect(3);
 
-                assert.ok(!calculator.hasCommand('sign'), 'The command sign is not yet registered');
+                assert.ok(!calculator.hasCommand('pow10'), 'The command pow10 is not yet registered');
 
                 calculator
-                    .on('plugin-install.sign', function () {
+                    .on('plugin-install.pow10', function () {
                         assert.ok(true, 'The plugin has been installed');
                     })
                     .on('destroy', function () {
@@ -88,7 +88,7 @@ define([
 
                 plugin.install()
                     .then(function () {
-                        assert.ok(calculator.hasCommand('sign'), 'The command sign is now registered');
+                        assert.ok(calculator.hasCommand('pow10'), 'The command pow10 is now registered');
                     })
                     .catch(function (err) {
                         assert.ok(false, 'Unexpected failure : ' + err.message);
@@ -110,14 +110,14 @@ define([
         var calculator = calculatorBoardFactory($container)
             .on('ready', function () {
                 var areaBroker = calculator.getAreaBroker();
-                var plugin = signPluginFactory(calculator, areaBroker);
+                var plugin = pow10PluginFactory(calculator, areaBroker);
 
                 QUnit.expect(3);
 
-                assert.ok(!calculator.hasCommand('sign'), 'The command sign is not yet registered');
+                assert.ok(!calculator.hasCommand('pow10'), 'The command pow10 is not yet registered');
 
                 calculator
-                    .on('plugin-init.sign', function () {
+                    .on('plugin-init.pow10', function () {
                         assert.ok(plugin.getState('init'), 'The plugin has been initialized');
                     })
                     .on('destroy', function () {
@@ -129,7 +129,7 @@ define([
                         return plugin.init();
                     })
                     .then(function () {
-                        assert.ok(calculator.hasCommand('sign'), 'The command sign is now registered');
+                        assert.ok(calculator.hasCommand('pow10'), 'The command pow10 is now registered');
                     })
                     .catch(function (err) {
                         assert.ok(false, 'Unexpected failure : ' + err.message);
@@ -150,11 +150,11 @@ define([
         var calculator = calculatorBoardFactory($container)
             .on('ready', function () {
                 var areaBroker = calculator.getAreaBroker();
-                var plugin = signPluginFactory(calculator, areaBroker);
+                var plugin = pow10PluginFactory(calculator, areaBroker);
 
                 QUnit.expect(4);
 
-                assert.ok(!calculator.hasCommand('sign'), 'The command sign is not yet registered');
+                assert.ok(!calculator.hasCommand('pow10'), 'The command pow10 is not yet registered');
 
                 calculator
                     .on('destroy', function () {
@@ -167,12 +167,12 @@ define([
                     })
                     .then(function () {
                         assert.ok(plugin.getState('init'), 'The plugin has been initialized');
-                        assert.ok(calculator.hasCommand('sign'), 'The command sign is now registered');
+                        assert.ok(calculator.hasCommand('pow10'), 'The command pow10 is now registered');
 
                         return plugin.destroy();
                     })
                     .then(function () {
-                        assert.ok(!calculator.hasCommand('sign'), 'The command sign is removed');
+                        assert.ok(!calculator.hasCommand('pow10'), 'The command pow10 is removed');
                     })
                     .catch(function (err) {
                         assert.ok(false, 'Unexpected failure : ' + err.message);
@@ -203,14 +203,14 @@ define([
         var calculator = calculatorBoardFactory($container)
             .on('ready', function () {
                 var areaBroker = calculator.getAreaBroker();
-                var plugin = signPluginFactory(calculator, areaBroker);
+                var plugin = pow10PluginFactory(calculator, areaBroker);
 
                 QUnit.expect(5 + 2 * (data.to - data.from));
 
-                assert.ok(!calculator.hasCommand('sign'), 'The command sign is not yet registered');
+                assert.ok(!calculator.hasCommand('pow10'), 'The command pow10 is not yet registered');
 
                 calculator
-                    .on('plugin-init.sign', function () {
+                    .on('plugin-init.pow10', function () {
                         assert.ok(plugin.getState('init'), 'The plugin has been initialized');
                     })
                     .on('destroy', function () {
@@ -222,7 +222,7 @@ define([
                         return plugin.init();
                     })
                     .then(function () {
-                        assert.ok(calculator.hasCommand('sign'), 'The command sign is now registered');
+                        assert.ok(calculator.hasCommand('pow10'), 'The command pow10 is now registered');
                     })
                     .then(function () {
                         var position = data.from;
@@ -237,14 +237,14 @@ define([
                                         calculator
                                             .setExpression(data.expression)
                                             .setPosition(position)
-                                            .after('command-sign', resolve)
-                                            .useCommand('sign');
+                                            .after('command-pow10', resolve)
+                                            .useCommand('pow10');
                                     });
                                 })
                                 .then(function () {
                                     var pos =  'undefined' !== typeof data.position ? data.position : Math.max(0, position + data.move);
 
-                                    assert.equal(calculator.getExpression(), data.expected, 'Applying the sign command on ' + data.expression + ' at position ' + position + ' produced ' + data.expected);
+                                    assert.equal(calculator.getExpression(), data.expected, 'Applying the pow10 command on ' + data.expression + ' at position ' + position + ' produced ' + data.expected);
                                     assert.equal(calculator.getPosition(), pos, 'The position has changed from ' + position + ' to ' + pos);
                                 })
                                 .then(function () {
