@@ -29,8 +29,9 @@ define([
     'layout/logout-event',
     'layout/loading-bar',
     'core/logger',
-    'util/httpErrorParser'
-], function($, _, __, Pluginifier, layout, btnTpl, filterStrategyFactory, paginationComponent, feedback, logoutEvent, loadingBar, loggerFactory, httpErrorParser){
+    'util/httpErrorParser',
+    'ui/pageSizeSelector',
+], function($, _, __, Pluginifier, layout, btnTpl, filterStrategyFactory, paginationComponent, feedback, logoutEvent, loadingBar, loggerFactory, httpErrorParser, pageSizeSelector){
 
     'use strict';
 
@@ -53,7 +54,8 @@ define([
             available: __('Available'),
             loading: __('Loading'),
             actions: __('Actions')
-        }
+        },
+        pageSizeSelector: false,
     };
 
     var logger = loggerFactory('ui/datatable');
@@ -142,6 +144,7 @@ define([
          * @param {String} options.paginationStrategyBottom  - 'none' | 'pages' | 'simple' -- 'simple' by default (next/prev), 'pages' show pages and extended control for pagination
          * @param {Object} options.labels - list of labels in datatable interface, that can be overridden by incoming options
          * @param {String} options.emptyText - text that will be shown when no data found for showing in the grid.
+         * @param {Boolean} options.pageSizeSelector - flag that indicates if control for changing page size should be displayed
          * @param {Object} [data] - inject predefined data to avoid the first query.
          * @fires dataTable#create.datatable
          * @returns {jQueryElement} for chaining
@@ -625,6 +628,15 @@ define([
             // restore pagination's after data loaded
             enablePaginations($elt.paginations);
 
+            if (options.pageSizeSelector) {
+                pageSizeSelector({
+                    renderTo: $('.toolbox-container', $rendering),
+                    defaultSize: options.rows,
+                }).on('change', function(val) {
+                    self._setRows($elt, val);
+                });
+            }
+
             /**
              * @event dataTable#load.dataTable
              * @param {Object} dataset - The data set used to render the table
@@ -812,7 +824,37 @@ define([
             if ($row.hasClass(className)) {
                 $row.removeClass(className);
             }
-        }
+        },
+
+        /**
+         * Update amount items per page
+         *
+         * @param $elt
+         * @param rows
+         * @fires dataTable#setpage.datatable
+         */
+        _setRows: function _setPage($elt, rows) {
+            var options = $elt.data(dataNs);
+
+            if(options.rows !== rows){
+                // set new amount of items per page
+                options.rows = rows;
+
+                // set page to the first one
+                options.page = 1;
+
+                //rebind options to the elt
+                $elt.data(dataNs, options);
+
+                /**
+                 * @event dataTable#setpage.dataTable
+                 */
+                $elt.trigger('setpage.' + ns);
+
+                // Call the query
+                this._query($elt);
+            }
+        },
     };
 
     Pluginifier.register(ns, dataTable, {
