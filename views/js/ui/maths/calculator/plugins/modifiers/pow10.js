@@ -89,7 +89,9 @@ define([
                     var expr = termsMulByPow10;
 
                     if (token) {
-                        // refine the current position, as it should be either on the start or the end of the token
+                        // refine the current position, as it should be either on the start or the end of the token:
+                        // "aligned" means the position is properly aligned with the token, said at the start of the value,
+                        // while not "aligned" means any other position inside the token
                         aligned = token.offset === position;
                         if (token.type === 'MUL') {
                             if (aligned) {
