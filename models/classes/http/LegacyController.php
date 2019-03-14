@@ -45,7 +45,7 @@ abstract class LegacyController extends Controller
      */
     public function getRequest()
     {
-        $this->maskAsDeprecatedCall();
+        $this->logDeprecated();
         return Context::getInstance()->getRequest();
     }
 
@@ -56,7 +56,7 @@ abstract class LegacyController extends Controller
      */
     public function getResponse()
     {
-        $this->maskAsDeprecatedCall();
+        $this->logDeprecated();
         return Context::getInstance()->getResponse();
     }
 
@@ -361,7 +361,7 @@ abstract class LegacyController extends Controller
     protected function isXmlHttpRequest()
     {
         if (!$this->request) {
-            $this->maskAsDeprecatedCall();
+            $this->logDeprecated();
             return \tao_helpers_Request::isAjax();
         }
         return parent::isXmlHttpRequest();
@@ -371,8 +371,9 @@ abstract class LegacyController extends Controller
      * Mark a method as deprecated
      * @param null $function
      */
-    protected function maskAsDeprecatedCall($function = null)
+    protected function logDeprecated($function = null)
     {
+        return;
         $message = '[DEPRECATED]  Deprecated call ';
         if (!is_null($function)) {
             $message .= 'of "' . $function . '"';
