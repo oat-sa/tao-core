@@ -17,7 +17,6 @@
 
             //load the config
             require(['/tao/ClientConfig/config'], function(){
-
                 require.config({
                     config : {
                         'core/logger' : {
@@ -33,11 +32,10 @@
 
                 //load the test
                 require(['test/core/eventifier/test'], function(){
-
-                    //waiting till .getConfig() (/tao/ClientConfig/config) request done;
+                    //moving test execution out of the call stack context
                     setTimeout(function () {
                         QUnit.start();
-                    }, 10);
+                    });
                 });
             });
         </script>
