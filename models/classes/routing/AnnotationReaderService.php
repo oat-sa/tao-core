@@ -49,8 +49,6 @@ class AnnotationReaderService extends ConfigurableService
      */
     public function getAnnotations($className, $methodName)
     {
-        \common_Logger::w(print_r(get_class($this->getServiceLocator()
-            ->get(\common_cache_Cache::SERVICE_ID)),true));
         $annotationKey = self::KEY_PREFIX . $className . $methodName;
         if ($this->getCacheService()->has($annotationKey)) {
             $annotation = json_decode($this->getCacheService()->get($annotationKey), true);
