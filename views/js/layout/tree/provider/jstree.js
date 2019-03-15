@@ -456,7 +456,8 @@ define([
                         var nodeUri         = $node.data('uri');
                         var $parentNode     = tree.parent($node);
                         var nodeContext     =  {
-                            rootClassUri :  options.rootClassUri
+                            rootClassUri :  options.rootClassUri,
+                            signature: $node.data('signature')
                         };
 
                         //mark all unselected
@@ -492,7 +493,6 @@ define([
                         //exec the  selectInstance action
                         if ($node.hasClass('node-instance')){
                             nodeContext.uri = nodeId;
-                            nodeContext.signature = $node.data('signature');
                             nodeContext.classUri = $parentNode.attr('id');
                             nodeContext.classSignature = $parentNode.data('signature');
                             nodeContext.id = nodeUri;
