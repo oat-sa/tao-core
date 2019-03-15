@@ -54,12 +54,16 @@ define([
         assert.ok(instance, 'tooltip got built from given container');
     });
     QUnit.test('Tooltip: component API', function (assert) {
+        var $container = $('#' + containerName);
         var $single;
         var instance;
         var wrapperInstance;
-        QUnit.expect(14);
-        tooltip.lookup($('#' + containerName));
-        $single = $( '[data-tooltip]', '#' + containerName).first();
+        var expectedContent = $('.tooltip-content' ,$container)[0].cloneNode(true).outerHTML;
+
+        QUnit.expect(16);
+
+        tooltip.lookup($container);
+        $single = $( '[data-tooltip]', $container).first();
         wrapperInstance = $single.data('$tooltip');
         instance = tooltip.create($single, 'default text');
         assert.equal(typeof wrapperInstance.show, 'function', 'tooltipAPI: show() defined');
@@ -76,6 +80,14 @@ define([
         assert.equal(typeof instance.updateTitleContent, 'function', 'tooltipAPI: updateTitleContent() defined');
         assert.equal(typeof instance.options, 'object', 'tooltipAPI: .options defined');
         assert.equal(typeof instance._isOpen, 'boolean', 'tooltipAPI: ._isOpen defined');
+
+        assert.equal(wrapperInstance.options.title.outerHTML, expectedContent, 'tooltip can recieve DOM element as title content');
+
+        tooltip.lookup($container);
+        wrapperInstance = $single.data('$tooltip');
+        assert.equal(wrapperInstance.options.title.outerHTML, expectedContent, 'tooltip can be rewritten by the executing it several times at the same wrapper.');
+
+
     });
     QUnit.cases(themes)
         .test('Tooltip: all themes applied', function (data, assert) {
