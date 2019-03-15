@@ -219,10 +219,10 @@ define([
         stringValue: function stringValue(expression) {
             var type = typeof expression;
             if (type !== 'string') {
-                if (expression && 'undefined' !== typeof expression.result) {
-                    expression = expression.result;
-                } else if (expression && 'undefined' !== typeof expression.value) {
+                if (expression && 'undefined' !== typeof expression.value) {
                     expression = expression.value;
+                } else if (expression && 'undefined' !== typeof expression.result) {
+                    expression = expression.result;
                 } else if (type === 'object' || type === 'undefined' || expression === null) {
                     expression = '';
                 }

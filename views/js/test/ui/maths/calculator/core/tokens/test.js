@@ -588,7 +588,7 @@ define([
     }, {
         title: 'Computed expression: 4 @nthrt 45',
         expression: mathsEvaluator('4 @nthrt 45'),
-        expected: '2.5900200641113514527'
+        expected: '2.5900200641113513'
     }])
         .test('stringValue', function (data, assert) {
             QUnit.expect(1);
