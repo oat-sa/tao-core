@@ -190,7 +190,7 @@ define([
                 }
                 if (ids.length === 1) {
                     params.uri = ids[0];
-                    params.signature = config.moveTo.signature
+                    params.signature = config.moveTo.signature;
                 } else {
                     params.ids = ids;
                 }
