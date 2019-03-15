@@ -135,6 +135,16 @@
         "expected": "NaN"
     },
     {
+        "title": "arithmetic => nth root 4 of 81 exponent 4",
+        "expression": "4 @nthrt 81 ^ 4",
+        "expected": "81"
+    },
+    {
+        "title": "arithmetic => nth root 4 of 45 exponent 4",
+        "expression": "4 @nthrt 45 ^ 4",
+        "expected": "45"
+    },
+    {
         "title": "arithmetic => log 0",
         "expression": "log 0",
         "expected": "-Infinity"
