@@ -26,6 +26,12 @@ use oat\tao\model\security\SignatureGenerator;
 
 class RegisterSignatureGenerator extends InstallAction
 {
+    /**
+     * @param $params
+     * @return common_report_Report
+     * @throws \common_Exception
+     * @throws \oat\oatbox\service\exception\InvalidServiceManagerException
+     */
     public function __invoke($params)
     {
         $signatureGenerator = new SignatureGenerator([

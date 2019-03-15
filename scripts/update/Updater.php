@@ -964,6 +964,7 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         if ($this->isVersion('27.5.0')) {
             $register = new RegisterSignatureGenerator();
+            $register->setServiceLocator($this->getServiceManager());
             $register->__invoke('');
 
             $this->setVersion('28.0.4');
