@@ -84,6 +84,7 @@ define([
                 extension       : context.shownExtension,
                 perspective     : context.shownStructure,
                 section         : context.section,
+                // eslint-disable-next-line no-undefined
                 classUri        : options.rootClassUri ? options.rootClassUri : undefined,
                 hideInstances   : options.hideInstances || 0,
                 filter          : '*',
@@ -456,7 +457,7 @@ define([
                         var nodeUri         = $node.data('uri');
                         var $parentNode     = tree.parent($node);
                         var nodeContext     =  {
-                            rootClassUri :  options.rootClassUri,
+                            rootClassUri:  options.rootClassUri,
                             signature: $node.data('signature')
                         };
 
