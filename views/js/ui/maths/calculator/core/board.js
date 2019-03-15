@@ -298,7 +298,7 @@ define([
             getVariables: function getVariables() {
                 var defs = {};
                 variables.forEach(function (value, name) {
-                    defs[name] = value.result;
+                    defs[name] = value;
                 });
                 return defs;
             },
@@ -671,7 +671,7 @@ define([
                 var result = null;
                 try {
                     if (expression.trim()) {
-                        result = mathsEvaluator(expression, this.getVariables());
+                        result = mathsEvaluator(expression, _.mapValues(this.getVariables(), 'result'));
                     } else {
                         result = mathsEvaluator('0');
                     }

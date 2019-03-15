@@ -743,8 +743,14 @@ define([
     });
 
     QUnit.asyncTest('variables', function (assert) {
+        var noop;
         var defaultVariables = {
-            'ans': 0
+            ans: {
+                expression: '0',
+                result: 0,
+                value: 0,
+                variables: noop
+            }
         };
         var expectedVariables = {
             'foo': 'bar',
@@ -752,10 +758,30 @@ define([
             'y': '3'
         };
         var expectedResults = {
-            'ans': 0,
-            'foo': 0,
-            'x': 42,
-            'y': 3
+            ans: {
+                expression: '0',
+                result: 0,
+                value: 0,
+                variables: noop
+            },
+            foo: {
+                expression: 'bar',
+                result: 0,
+                value: 0,
+                variables: noop
+            },
+            x: {
+                expression: '42',
+                result: 42,
+                value: 42,
+                variables: noop
+            },
+            y: {
+                expression: '3',
+                result: 3,
+                value: 3,
+                variables: noop
+            }
         };
         var $container = $('#fixture-variables');
         var instance;
@@ -1357,8 +1383,14 @@ define([
     });
 
     QUnit.asyncTest('useVariable - success', function (assert) {
+        var noop;
         var defaultVariables = {
-            'ans': 0
+            ans: {
+                expression: '0',
+                result: 0,
+                value: 0,
+                variables: noop
+            }
         };
         var expectedVariables = {
             'foo': 'bar',
@@ -1366,10 +1398,30 @@ define([
             'y': '3'
         };
         var expectedResults = {
-            'ans': 0,
-            'foo': 0,
-            'x': 42,
-            'y': 3
+            ans: {
+                expression: '0',
+                result: 0,
+                value: 0,
+                variables: noop
+            },
+            foo: {
+                expression: 'bar',
+                result: 0,
+                value: 0,
+                variables: noop
+            },
+            x: {
+                expression: '42',
+                result: 42,
+                value: 42,
+                variables: noop
+            },
+            y: {
+                expression: '3',
+                result: 3,
+                value: 3,
+                variables: noop
+            }
         };
         var $container = $('#fixture-usevariable');
         var instance;
@@ -1471,8 +1523,14 @@ define([
     });
 
     QUnit.asyncTest('useVariable - failure', function (assert) {
+        var noop;
         var defaultVariables = {
-            'ans': 0
+            ans: {
+                expression: '0',
+                result: 0,
+                value: 0,
+                variables: noop
+            }
         };
         var $container = $('#fixture-usevariable');
         var instance;

@@ -311,7 +311,7 @@ define([
                     // always display the actual value of the last result variable
                     // also takes care of the value's sign
                     if (term.token === 'ANS' && 'undefined' !== typeof variables[term.value]) {
-                        term.label = tokensHelper.renderSign(String(variables.ans || '0'));
+                        term.label = tokensHelper.renderSign(tokensHelper.stringValue(variables[term.value] || '0'));
                     }
                 } else if (term.token === 'term') {
                     // unspecified token can be a variable
