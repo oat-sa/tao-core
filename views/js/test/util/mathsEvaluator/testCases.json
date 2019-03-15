@@ -1,0 +1,1059 @@
+[
+    {
+        "title": "arithmetic => round-off",
+        "expression": ".1+.2",
+        "expected": "0.3"
+    },
+    {
+        "title": "arithmetic => round-off exp",
+        "expression": "(.1+.2)*10^20",
+        "expected": "30000000000000000000"
+    },
+    {
+        "title": "arithmetic => round off root and exp",
+        "expression": "nthrt(4, 2)^4",
+        "expected": "2"
+    },
+    {
+        "title": "arithmetic => precision below native data type",
+        "expression": "2^-100",
+        "expected": "7.888609052210118e-31"
+    },
+    {
+        "title": "arithmetic => internal precision",
+        "expression": "(3^-300)*10^140",
+        "expected": "0.000730505658114782"
+    },
+    {
+        "title": "arithmetic => unary +",
+        "expression": "+.2",
+        "expected": "0.2"
+    },
+    {
+        "title": "arithmetic => unary -",
+        "expression": "-.2",
+        "expected": "-0.2"
+    },
+    {
+        "title": "arithmetic => natural operator precedence",
+        "expression": "3+4*5-6/2*5",
+        "expected": "8"
+    },
+    {
+        "title": "arithmetic => forced operator precedence",
+        "expression": "(3+4)*(5-6)/(2*5)",
+        "expected": "-0.7"
+    },
+    {
+        "title": "arithmetic => factorial prefix",
+        "expression": "!10",
+        "expected": "3628800"
+    },
+    {
+        "title": "arithmetic => factorial suffix",
+        "expression": "10!",
+        "expected": "3628800"
+    },
+    {
+        "title": "arithmetic => factorial function",
+        "expression": "fac(11)",
+        "expected": "39916800"
+    },
+    {
+        "title": "arithmetic => floor",
+        "expression": "floor(3.14)",
+        "expected": "3"
+    },
+    {
+        "title": "arithmetic => ceil",
+        "expression": "ceil(3.14)",
+        "expected": "4"
+    },
+    {
+        "title": "arithmetic => round",
+        "expression": "round(3.14)",
+        "expected": "3"
+    },
+    {
+        "title": "arithmetic => square root",
+        "expression": "sqrt(9)",
+        "expected": "3"
+    },
+    {
+        "title": "arithmetic => cube root",
+        "expression": "cbrt(27)",
+        "expected": "3"
+    },
+    {
+        "title": "arithmetic => nth root 2",
+        "expression": "nthrt(2, 16)",
+        "expected": "4"
+    },
+    {
+        "title": "arithmetic => nth root 3",
+        "expression": "nthrt(3, 27)",
+        "expected": "3"
+    },
+    {
+        "title": "arithmetic => negative nth root 3",
+        "expression": "nthrt(3, -27)",
+        "expected": "-3"
+    },
+    {
+        "title": "arithmetic => nth root 4",
+        "expression": "nthrt(4, 81)",
+        "expected": "3"
+    },
+    {
+        "title": "arithmetic => negative nth root 4",
+        "expression": "nthrt(4, -81)",
+        "expected": "NaN"
+    },
+    {
+        "title": "arithmetic => nth root 2",
+        "expression": "2 @nthrt 16",
+        "expected": "4"
+    },
+    {
+        "title": "arithmetic => nth root 3",
+        "expression": "3 @nthrt 27",
+        "expected": "3"
+    },
+    {
+        "title": "arithmetic => negative nth root 3",
+        "expression": "3 @nthrt -27",
+        "expected": "-3"
+    },
+    {
+        "title": "arithmetic => nth root 4",
+        "expression": "4 @nthrt 81",
+        "expected": "3"
+    },
+    {
+        "title": "arithmetic => negative nth root 4",
+        "expression": "4 @nthrt -81",
+        "expected": "NaN"
+    },
+    {
+        "title": "arithmetic => log 0",
+        "expression": "log 0",
+        "expected": "-Infinity"
+    },
+    {
+        "title": "arithmetic => log 1",
+        "expression": "log 1",
+        "expected": "0"
+    },
+    {
+        "title": "arithmetic => log 10",
+        "expression": "log 10",
+        "expected": "1"
+    },
+    {
+        "title": "arithmetic => ln 0",
+        "expression": "ln 0",
+        "expected": "-Infinity"
+    },
+    {
+        "title": "arithmetic => ln 1",
+        "expression": "ln 1",
+        "expected": "0"
+    },
+    {
+        "title": "arithmetic => ln e",
+        "expression": "ln E",
+        "expected": "1"
+    },
+    {
+        "title": "arithmetic => 1 / 3 * 3",
+        "expression": "1 / 3 * 3",
+        "expected": "1"
+    },
+    {
+        "title": "logical => equal: true",
+        "expression": "3*4==12",
+        "expected": true
+    },
+    {
+        "title": "logical => equal: false",
+        "expression": "3*4==10",
+        "expected": false
+    },
+    {
+        "title": "logical => not equal: true",
+        "expression": "3*4!=15",
+        "expected": true
+    },
+    {
+        "title": "logical => not equal: false",
+        "expression": "3*4!=12",
+        "expected": false
+    },
+    {
+        "title": "logical => greater than: true",
+        "expression": "3*4>10",
+        "expected": true
+    },
+    {
+        "title": "logical => greater than: false",
+        "expression": "3*4>20",
+        "expected": false
+    },
+    {
+        "title": "logical => greater or equal than: true",
+        "expression": "3*4>=10",
+        "expected": true
+    },
+    {
+        "title": "logical => greater or equal than: equal",
+        "expression": "3*4>=12",
+        "expected": true
+    },
+    {
+        "title": "logical => greater or equal than: false",
+        "expression": "3*4>=20",
+        "expected": false
+    },
+    {
+        "title": "logical => lesser than: true",
+        "expression": "3*3<12",
+        "expected": true
+    },
+    {
+        "title": "logical => lesser than: false",
+        "expression": "4*4<12",
+        "expected": false
+    },
+    {
+        "title": "logical => lesser or equal than: true",
+        "expression": "3*3<=12",
+        "expected": true
+    },
+    {
+        "title": "logical => lesser or equal than: equal",
+        "expression": "3*4<=12",
+        "expected": true
+    },
+    {
+        "title": "logical => lesser or equal than: false",
+        "expression": "4*4<=12",
+        "expected": false
+    },
+    {
+        "title": "logical => or: first condition is true",
+        "expression": "2+2==4 or 3-1==4",
+        "expected": true
+    },
+    {
+        "title": "logical => or: second condition is true",
+        "expression": "2+2==3 or 3-1==2",
+        "expected": true
+    },
+    {
+        "title": "logical => or: none is true",
+        "expression": "2+2==2 or 3-1==4",
+        "expected": false
+    },
+    {
+        "title": "logical => or: all is true",
+        "expression": "2+2==4 or 3-1==2",
+        "expected": true
+    },
+    {
+        "title": "logical => and: first condition is true",
+        "expression": "2+2==4 and 3-1==4",
+        "expected": false
+    },
+    {
+        "title": "logical => and: second condition is true",
+        "expression": "2+2==3 and 3-1==2",
+        "expected": false
+    },
+    {
+        "title": "logical => and: none is true",
+        "expression": "2+2==2 and 3-1==4",
+        "expected": false
+    },
+    {
+        "title": "logical => and: all is true",
+        "expression": "2+2==4 and 3-1==2",
+        "expected": true
+    },
+    {
+        "title": "logical => not: true",
+        "expression": "not true",
+        "expected": false
+    },
+    {
+        "title": "logical => not: false",
+        "expression": "not false",
+        "expected": true
+    },
+    {
+        "title": "logical => pipe",
+        "expression": "10-6 || sqrt(4)",
+        "expected": "42"
+    },
+    {
+        "title": "parametric => 2*a*x+b",
+        "expression": "2*a*x+b",
+        "variables": {
+            "a": 5,
+            "x": 3,
+            "b": 15
+        },
+        "expected": "45"
+    },
+    {
+        "title": "radian => PI",
+        "expression": "PI",
+        "config": {
+            "degree": false
+        },
+        "expected": "3.141592653589793"
+    },
+    {
+        "title": "radian => cos 0",
+        "expression": "cos 0",
+        "config": {
+            "degree": false
+        },
+        "expected": "1"
+    },
+    {
+        "title": "radian => cos 0 + cos 0",
+        "expression": "cos 0 + cos 0",
+        "config": {
+            "degree": false
+        },
+        "expected": "2"
+    },
+    {
+        "title": "radian => cos 1",
+        "expression": "cos 1",
+        "config": {
+            "degree": false
+        },
+        "expected": "0.5403023058681398"
+    },
+    {
+        "title": "radian => cos (PI/2)",
+        "expression": "cos (PI/2)",
+        "config": {
+            "degree": false
+        },
+        "expected": "0"
+    },
+    {
+        "title": "radian => cos (PI/2) + cos (PI/2)",
+        "expression": "cos (PI/2) + cos (PI/2)",
+        "config": {
+            "degree": false
+        },
+        "expected": "0"
+    },
+    {
+        "title": "radian => cos PI",
+        "expression": "cos PI",
+        "config": {
+            "degree": false
+        },
+        "expected": "-1"
+    },
+    {
+        "title": "radian => sin 0",
+        "expression": "sin 0",
+        "config": {
+            "degree": false
+        },
+        "expected": "0"
+    },
+    {
+        "title": "radian => sin 1",
+        "expression": "sin 1",
+        "config": {
+            "degree": false
+        },
+        "expected": "0.8414709848078965"
+    },
+    {
+        "title": "radian => sin PI",
+        "expression": "sin PI",
+        "config": {
+            "degree": false
+        },
+        "expected": "0"
+    },
+    {
+        "title": "radian => sin (PI/2)",
+        "expression": "sin (PI/2)",
+        "config": {
+            "degree": false
+        },
+        "expected": "1"
+    },
+    {
+        "title": "radian => sin (PI*3)*10^20",
+        "expression": "sin (PI*3)*10^20",
+        "config": {
+            "degree": false
+        },
+        "expected": "0"
+    },
+    {
+        "title": "radian => tan 0",
+        "expression": "tan 0",
+        "config": {
+            "degree": false
+        },
+        "expected": "0"
+    },
+    {
+        "title": "radian => tan 1",
+        "expression": "tan 1",
+        "config": {
+            "degree": false
+        },
+        "expected": "1.5574077246549023"
+    },
+    {
+        "title": "radian => tan PI",
+        "expression": "tan PI",
+        "config": {
+            "degree": false
+        },
+        "expected": "0"
+    },
+    {
+        "title": "radian => tan (PI/2)",
+        "expression": "tan (PI/2)",
+        "config": {
+            "degree": false
+        },
+        "expected": "NaN"
+    },
+    {
+        "title": "radian => acos -1",
+        "expression": "acos -1",
+        "config": {
+            "degree": false
+        },
+        "expected": "3.141592653589793"
+    },
+    {
+        "title": "radian => acos 0",
+        "expression": "acos 0",
+        "config": {
+            "degree": false
+        },
+        "expected": "1.5707963267948966"
+    },
+    {
+        "title": "radian => acos 1",
+        "expression": "acos 1",
+        "config": {
+            "degree": false
+        },
+        "expected": "0"
+    },
+    {
+        "title": "radian => asin -1",
+        "expression": "asin -1",
+        "config": {
+            "degree": false
+        },
+        "expected": "-1.5707963267948966"
+    },
+    {
+        "title": "radian => asin 0",
+        "expression": "asin 0",
+        "config": {
+            "degree": false
+        },
+        "expected": "0"
+    },
+    {
+        "title": "radian => asin 1",
+        "expression": "asin 1",
+        "config": {
+            "degree": false
+        },
+        "expected": "1.5707963267948966"
+    },
+    {
+        "title": "radian => atan -1",
+        "expression": "atan -1",
+        "config": {
+            "degree": false
+        },
+        "expected": "-0.7853981633974483"
+    },
+    {
+        "title": "radian => atan 0",
+        "expression": "atan 0",
+        "config": {
+            "degree": false
+        },
+        "expected": "0"
+    },
+    {
+        "title": "radian => atan 1",
+        "expression": "atan 1",
+        "config": {
+            "degree": false
+        },
+        "expected": "0.7853981633974483"
+    },
+    {
+        "title": "radian => cosh 0",
+        "expression": "cosh 0",
+        "config": {
+            "degree": false
+        },
+        "expected": "1"
+    },
+    {
+        "title": "radian => cosh 1",
+        "expression": "cosh 1",
+        "config": {
+            "degree": false
+        },
+        "expected": "1.5430806348152437"
+    },
+    {
+        "title": "radian => cosh PI",
+        "expression": "cosh PI",
+        "config": {
+            "degree": false
+        },
+        "expected": "11.59195327552152"
+    },
+    {
+        "title": "radian => sinh 0",
+        "expression": "sinh 0",
+        "config": {
+            "degree": false
+        },
+        "expected": "0"
+    },
+    {
+        "title": "radian => sinh 1",
+        "expression": "sinh 1",
+        "config": {
+            "degree": false
+        },
+        "expected": "1.1752011936438014"
+    },
+    {
+        "title": "radian => sinh PI",
+        "expression": "sinh PI",
+        "config": {
+            "degree": false
+        },
+        "expected": "11.548739357257748"
+    },
+    {
+        "title": "radian => (sinh 0)*10^20",
+        "expression": "(sinh 0)*10^20",
+        "config": {
+            "degree": false
+        },
+        "expected": "0"
+    },
+    {
+        "title": "radian => tanh 0",
+        "expression": "tanh 0",
+        "config": {
+            "degree": false
+        },
+        "expected": "0"
+    },
+    {
+        "title": "radian => tanh 1",
+        "expression": "tanh 1",
+        "config": {
+            "degree": false
+        },
+        "expected": "0.7615941559557649"
+    },
+    {
+        "title": "radian => tanh PI",
+        "expression": "tanh PI",
+        "config": {
+            "degree": false
+        },
+        "expected": "0.99627207622075"
+    },
+    {
+        "title": "radian => acosh 0",
+        "expression": "acosh 0",
+        "config": {
+            "degree": false
+        },
+        "expected": "NaN"
+    },
+    {
+        "title": "radian => acosh 1",
+        "expression": "acosh 1",
+        "config": {
+            "degree": false
+        },
+        "expected": "0"
+    },
+    {
+        "title": "radian => acosh 2",
+        "expression": "acosh 2",
+        "config": {
+            "degree": false
+        },
+        "expected": "1.3169578969248168"
+    },
+    {
+        "title": "radian => asinh -1",
+        "expression": "asinh -1",
+        "config": {
+            "degree": false
+        },
+        "expected": "-0.881373587019543"
+    },
+    {
+        "title": "radian => asinh 0",
+        "expression": "asinh 0",
+        "config": {
+            "degree": false
+        },
+        "expected": "0"
+    },
+    {
+        "title": "radian => asinh 1",
+        "expression": "asinh 1",
+        "config": {
+            "degree": false
+        },
+        "expected": "0.881373587019543"
+    },
+    {
+        "title": "radian => atanh -1",
+        "expression": "atanh -1",
+        "config": {
+            "degree": false
+        },
+        "expected": "-Infinity"
+    },
+    {
+        "title": "radian => atanh 0",
+        "expression": "atanh 0",
+        "config": {
+            "degree": false
+        },
+        "expected": "0"
+    },
+    {
+        "title": "radian => atanh 0.5",
+        "expression": "atanh 0.5",
+        "config": {
+            "degree": false
+        },
+        "expected": "0.5493061443340549"
+    },
+    {
+        "title": "radian => atanh 1",
+        "expression": "atanh 1",
+        "config": {
+            "degree": false
+        },
+        "expected": "Infinity"
+    },
+    {
+        "title": "degree => PI",
+        "expression": "PI",
+        "config": {
+            "degree": true
+        },
+        "expected": "3.141592653589793"
+    },
+    {
+        "title": "degree => cos 0",
+        "expression": "cos 0",
+        "config": {
+            "degree": true
+        },
+        "expected": "1"
+    },
+    {
+        "title": "degree => cos 1",
+        "expression": "cos 1",
+        "config": {
+            "degree": true
+        },
+        "expected": "0.9998476951563913"
+    },
+    {
+        "title": "degree => cos PI",
+        "expression": "cos PI",
+        "config": {
+            "degree": true
+        },
+        "expected": "0.9984971498638638"
+    },
+    {
+        "title": "degree => cos 90",
+        "expression": "cos 90",
+        "config": {
+            "degree": true
+        },
+        "expected": "0"
+    },
+    {
+        "title": "degree => cos 90 + cos 90",
+        "expression": "cos 90 + cos 90",
+        "config": {
+            "degree": true
+        },
+        "expected": "0"
+    },
+    {
+        "title": "degree => cos 180",
+        "expression": "cos 180",
+        "config": {
+            "degree": true
+        },
+        "expected": "-1"
+    },
+    {
+        "title": "degree => cos 180 + cos 180",
+        "expression": "cos 180 + cos 180",
+        "config": {
+            "degree": true
+        },
+        "expected": "-2"
+    },
+    {
+        "title": "degree => cos 0 + cos 30 + cos 45 + cos 60 + cos 90",
+        "expression": "cos 0 + cos 30 + cos 45 + cos 60 + cos 90",
+        "config": {
+            "degree": true
+        },
+        "expected": "3.0731321849709863"
+    },
+    {
+        "title": "degree => sin 0",
+        "expression": "sin 0",
+        "config": {
+            "degree": true
+        },
+        "expected": "0"
+    },
+    {
+        "title": "degree => sin 1",
+        "expression": "sin 1",
+        "config": {
+            "degree": true
+        },
+        "expected": "0.01745240643728351"
+    },
+    {
+        "title": "degree => sin PI",
+        "expression": "sin PI",
+        "config": {
+            "degree": true
+        },
+        "expected": "0.05480366514878953"
+    },
+    {
+        "title": "degree => sin 90",
+        "expression": "sin 90",
+        "config": {
+            "degree": true
+        },
+        "expected": "1"
+    },
+    {
+        "title": "degree => sin 180",
+        "expression": "sin 180",
+        "config": {
+            "degree": true
+        },
+        "expected": "0"
+    },
+    {
+        "title": "degree => (sin 720)*10^20",
+        "expression": "(sin 720)*10^20",
+        "config": {
+            "degree": true
+        },
+        "expected": "0"
+    },
+    {
+        "title": "degree => tan 0",
+        "expression": "tan 0",
+        "config": {
+            "degree": true
+        },
+        "expected": "0"
+    },
+    {
+        "title": "degree => tan 1",
+        "expression": "tan 1",
+        "config": {
+            "degree": true
+        },
+        "expected": "0.017455064928217585"
+    },
+    {
+        "title": "degree => tan PI",
+        "expression": "tan PI",
+        "config": {
+            "degree": true
+        },
+        "expected": "0.054886150808003326"
+    },
+    {
+        "title": "degree => tan 90",
+        "expression": "tan 90",
+        "config": {
+            "degree": true
+        },
+        "expected": "NaN"
+    },
+    {
+        "title": "degree => tan 180",
+        "expression": "tan 180",
+        "config": {
+            "degree": true
+        },
+        "expected": "0"
+    },
+    {
+        "title": "degree => acos -1",
+        "expression": "acos -1",
+        "config": {
+            "degree": true
+        },
+        "expected": "180"
+    },
+    {
+        "title": "degree => acos 0",
+        "expression": "acos 0",
+        "config": {
+            "degree": true
+        },
+        "expected": "90"
+    },
+    {
+        "title": "degree => acos 1",
+        "expression": "acos 1",
+        "config": {
+            "degree": true
+        },
+        "expected": "0"
+    },
+    {
+        "title": "degree => asin -1",
+        "expression": "asin -1",
+        "config": {
+            "degree": true
+        },
+        "expected": "-90"
+    },
+    {
+        "title": "degree => asin 0",
+        "expression": "asin 0",
+        "config": {
+            "degree": true
+        },
+        "expected": "0"
+    },
+    {
+        "title": "degree => asin 1",
+        "expression": "asin 1",
+        "config": {
+            "degree": true
+        },
+        "expected": "90"
+    },
+    {
+        "title": "degree => atan -1",
+        "expression": "atan -1",
+        "config": {
+            "degree": true
+        },
+        "expected": "-45"
+    },
+    {
+        "title": "degree => atan 0",
+        "expression": "atan 0",
+        "config": {
+            "degree": true
+        },
+        "expected": "0"
+    },
+    {
+        "title": "degree => atan 1",
+        "expression": "atan 1",
+        "config": {
+            "degree": true
+        },
+        "expected": "45"
+    },
+    {
+        "title": "degree => cosh 0",
+        "expression": "cosh 0",
+        "config": {
+            "degree": true
+        },
+        "expected": "1"
+    },
+    {
+        "title": "degree => cosh 1",
+        "expression": "cosh 1",
+        "config": {
+            "degree": true
+        },
+        "expected": "1.5430806348152437"
+    },
+    {
+        "title": "degree => cosh PI",
+        "expression": "cosh PI",
+        "config": {
+            "degree": true
+        },
+        "expected": "11.59195327552152"
+    },
+    {
+        "title": "degree => sinh 0",
+        "expression": "sinh 0",
+        "config": {
+            "degree": true
+        },
+        "expected": "0"
+    },
+    {
+        "title": "degree => sinh 1",
+        "expression": "sinh 1",
+        "config": {
+            "degree": true
+        },
+        "expected": "1.1752011936438014"
+    },
+    {
+        "title": "degree => sinh PI",
+        "expression": "sinh PI",
+        "config": {
+            "degree": true
+        },
+        "expected": "11.548739357257748"
+    },
+    {
+        "title": "degree => (sinh 0)*10^20",
+        "expression": "(sinh 0)*10^20",
+        "config": {
+            "degree": true
+        },
+        "expected": "0"
+    },
+    {
+        "title": "degree => tanh 0",
+        "expression": "tanh 0",
+        "config": {
+            "degree": true
+        },
+        "expected": "0"
+    },
+    {
+        "title": "degree => tanh 1",
+        "expression": "tanh 1",
+        "config": {
+            "degree": true
+        },
+        "expected": "0.7615941559557649"
+    },
+    {
+        "title": "degree => tanh PI",
+        "expression": "tanh PI",
+        "config": {
+            "degree": true
+        },
+        "expected": "0.99627207622075"
+    },
+    {
+        "title": "degree => acosh 0",
+        "expression": "acosh 0",
+        "config": {
+            "degree": true
+        },
+        "expected": "NaN"
+    },
+    {
+        "title": "degree => acosh 1",
+        "expression": "acosh 1",
+        "config": {
+            "degree": true
+        },
+        "expected": "0"
+    },
+    {
+        "title": "degree => acosh 2",
+        "expression": "acosh 2",
+        "config": {
+            "degree": true
+        },
+        "expected": "1.3169578969248168"
+    },
+    {
+        "title": "degree => asinh -1",
+        "expression": "asinh -1",
+        "config": {
+            "degree": true
+        },
+        "expected": "-0.881373587019543"
+    },
+    {
+        "title": "degree => asinh 0",
+        "expression": "asinh 0",
+        "config": {
+            "degree": true
+        },
+        "expected": "0"
+    },
+    {
+        "title": "degree => asinh 1",
+        "expression": "asinh 1",
+        "config": {
+            "degree": true
+        },
+        "expected": "0.881373587019543"
+    },
+    {
+        "title": "degree => atanh -1",
+        "expression": "atanh -1",
+        "config": {
+            "degree": true
+        },
+        "expected": "-Infinity"
+    },
+    {
+        "title": "degree => atanh 0",
+        "expression": "atanh 0",
+        "config": {
+            "degree": true
+        },
+        "expected": "0"
+    },
+    {
+        "title": "degree => atanh 0.5",
+        "expression": "atanh 0.5",
+        "config": {
+            "degree": true
+        },
+        "expected": "0.5493061443340549"
+    },
+    {
+        "title": "degree => atanh 1",
+        "expression": "atanh 1",
+        "config": {
+            "degree": true
+        },
+        "expected": "Infinity"
+    }
+]
