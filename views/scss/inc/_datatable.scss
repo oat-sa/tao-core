@@ -49,7 +49,14 @@
     .datatable-pagination-top {
         overflow-x: hidden;
     }
+
+    .page-size-selector-container {
+        position: absolute;
+        right: 20px;
+        top: 130px;
+    }
 }
+
 .datatable-container {
     overflow-y: auto;
     .empty {
