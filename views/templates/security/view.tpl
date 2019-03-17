@@ -16,7 +16,3 @@
     </div>
     <?php endif;?>
 </div>
-
-<?php if (get_data('cspHeaderFormSuccess')): ?>
-<div id="csp-header-success" class="hidden"><?= get_data('cspHeaderFormSuccess') ?></div>
-<?php endif;?>

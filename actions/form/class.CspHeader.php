@@ -58,7 +58,7 @@ class tao_actions_form_CspHeader extends tao_helpers_form_FormContainer
         $this->form->setDecorators([
             'element'			=> new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div']),
             'group'				=> new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div', 'cssClass' => 'form-group']),
-            'error'				=> new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div', 'cssClass' => 'form-error ui-state-error ui-corner-all']),
+            'error'				=> new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div', 'cssClass' => 'form-error ui-state-error ui-corner-all hidden']),
             'actions-bottom'	=> new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div', 'cssClass' => 'form-toolbar'])
         ]);
     }

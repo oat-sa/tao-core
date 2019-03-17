@@ -1,67 +1,77 @@
-require(
-    [
-        'jquery',
-        'ui/feedback',
-        'ui/tooltip',
-        'uiForm'
-    ],
-    function($, feedback, tooltip, uiForm) {
-        'use strict';
+define([
+    'jquery',
+    'lodash',
+    'i18n',
+    'ui/feedback',
+    'ui/tooltip'
+],
+function($, _, __, feedback, tooltip) {
+    'use strict';
 
+
+    function initializeForm() {
         var $form = $('form#cspHeader'),
-            $formSubmitButton = $form.find('#Save'),
-            $formTextArea = $form.find('#iframeSourceDomains'),
+            $formSourceList = $form.find('#iframeSourceDomains').parent(),
             $formRadioOptions = $form.find('input[name=iframeSourceOption]'),
-            $formErrors = $form.find('.form-error'),
-            $formSuccess = $('#csp-header-success');
+            $selectedRadio;
 
-        $(document).ready(function() {
-            initializeForm();
+        // manage radios & visibility of form sections:
+        $formSourceList.hide();
 
-            $formRadioOptions.on('click', function() {
-                var selectedValue = $(this).val();
-                if (selectedValue === 'list') {
-                    showTextArea();
-                } else {
-                    hideTextArea();
-                }
-            });
+        $selectedRadio = $form.find('input[name=iframeSourceOption]:checked');
+        if ($selectedRadio.val() === 'list') {
+            $formSourceList.show();
+        }
 
-            if ($formSuccess.length > 0) {
-                feedback().success($formSuccess.html());
-            }
-
-            $formSubmitButton.on('click', function() {
-                uiForm.submitForm($form);
-            })
+        $formRadioOptions.on('click', function() {
+            var selectedValue = $(this).val();
+            $formSourceList.toggle(selectedValue === 'list');
         });
 
-        function initializeForm() {
-            var selectedRadio = $form.find('input[name=iframeSourceOption]:checked');
+        // handle submit:
+        $form.on('submit', _submitForm);
+    }
 
-            hideTextArea();
+    function _submitForm(event) {
+        var $form = $('form#cspHeader');
+        event.preventDefault();
 
-            if ($formErrors.length > 0) {
-                var tooltipOptions = {
-                    trigger: 'manual',
-                    closeOnClickOutside: true
-                };
-
-                tooltip.error($formTextArea, $formErrors.html(), tooltipOptions).show();
-                $formErrors.remove();
+        $.ajax({
+            url: $form.attr('action'),
+            method: 'POST',
+            success: function(data) {
+                $form.closest('.content-block').html(data);
+                setTimeout(_showFeedback, 250);
+            },
+            fail: function() {
+                feedback().error(__('Form data not saved.'));
             }
+        });
+    }
 
-            if (selectedRadio.length > 0 && selectedRadio.val() === 'list') {
-                showTextArea();
-            }
+    function _showFeedback() {
+        // DOM content was probably renewed, so make sure we have a fresh reference:
+        var $form = $('form#cspHeader');
+        var $formTextArea = $form.find('#iframeSourceDomains');
+        var $formErrors = $form.find('.form-error');
+        var tooltipOptions;
+
+        // handle errors:
+        if ($formErrors.length > 0) {
+            tooltipOptions = {
+                trigger: 'click',
+                closeOnClickOutside: true,
+                placement: 'right'
+            };
+            tooltip.error($formTextArea, $formErrors.html(), tooltipOptions).show();
+            $formErrors.remove();
         }
-
-        function showTextArea() {
-            $formTextArea.parent().show();
-        }
-
-        function hideTextArea() {
-            $formTextArea.parent().hide()
+        else  {
+            feedback().success(__('Saved.'));
         }
     }
-);
+
+    return {
+        start : initializeForm
+    };
+});
