@@ -127,7 +127,7 @@ function (_, module, tokenStoreFactory, promiseQueue) {
              * Extracts tokens from the Client Config which should be received on every page load
              * @returns {Promise<Boolean>} - resolves true when completed
              */
-            getClientConfigTokens() {
+            getClientConfigTokens: function getClientConfigTokens() {
                 var self = this;
                 var clientTokens = _.map(module.config().tokens, function(serverToken) {
                     return {

@@ -20,19 +20,19 @@
  * Common HTTP request wrapper to get data from TAO.
  * This suppose the endpoint to match the following criteria :
  *   - Restful endpoint
- *   - contentType : application/json
+ *   - contentType : application/json; charset=UTF-8
+ *   - headers : contains 'X-CSRF-Token' value when needed
  *   - the responseBody:
  *      { success : true, data : [the results]}
- *      { success : false, errorCode: 412, errorMsg : 'Something went wrong' }
+ *      { success : false, data : {Exception}, message : 'Something went wrong' }
  *   - 204 for empty content
  *
  * @author Martin Nicholson <martin@taotesting.com>
  */
 define([
     'lodash',
-    'core/request',
-    'core/promise'
-], function(_, coreRequest, Promise){
+    'core/request'
+], function(_, coreRequest){
     'use strict';
 
     /**
@@ -40,10 +40,10 @@ define([
      *
      * @param {String} url - the endpoint full url
      * @param {Object} [data] - additional parameters
-     * @param {String} [method = 'GET'] - the HTTP method
+     * @param {String} [method='GET'] - the HTTP method
      * @param {Object} [headers] - the HTTP header
      * @param {Boolean} [background] - tells if the request should be done in the background, which in practice does not trigger the global handlers like ajaxStart or ajaxStop
-     * @param {Boolean} [noToken = false] - to disable the token
+     * @param {Boolean} [noToken=false] - to disable the token
      * @returns {Promise} that resolves with data or reject if something went wrong
      */
     return function request(url, data, method, headers, background, noToken) {
@@ -56,19 +56,12 @@ define([
             noToken: noToken
         })
         .then(function(response) {
-            if (_.isUndefined(response)) {
-                return Promise.resolve();
+            if (!_.isUndefined(response)) {
+                if (response.success) {
+                    return response.data;
+                }
+                throw new Error(response.data);
             }
-            else if (response.success) {
-                return Promise.resolve(response.data);
-            }
-            else {
-                return Promise.reject(response.data);
-            }
-        })
-        .catch(function(error) {
-            return Promise.reject(error);
         });
-
     };
 });

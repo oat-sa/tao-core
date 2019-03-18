@@ -168,6 +168,7 @@ define([
                             })
                             .catch(function(error) {
                                 logger.error(error);
+                                reject(createError(response, error, xhr.status));
                             });
                     })
                     .fail(function(xhr, textStatus, errorThrown) {
@@ -196,6 +197,7 @@ define([
                             })
                             .catch(function(error) {
                                 logger.error(error);
+                                reject(createError(response, error, xhr.status));
                             });
                     });
                 });
