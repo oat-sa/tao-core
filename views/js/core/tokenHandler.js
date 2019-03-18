@@ -57,10 +57,6 @@ function (_, module, tokenStoreFactory, promiseQueue) {
         // Initialise storage for tokens:
         tokenStore = tokenStoreFactory(options);
 
-        if (options.initialToken) {
-            tokenStore.push(options.initialToken);
-        }
-
         return {
             /**
              * Gets the next security token from the token queue
@@ -71,6 +67,13 @@ function (_, module, tokenStoreFactory, promiseQueue) {
              */
             getToken: function getToken() {
                 var self = this;
+                var initialToken = options.initialToken;
+
+                // If set, initialToken will be provided directly, without using store:
+                if (initialToken) {
+                    options.initialToken = null;
+                    return Promise.resolve(initialToken);
+                }
 
                 // Some async checks before we go for the token:
                 return tokenStore.expireOldTokens()
@@ -89,7 +92,10 @@ function (_, module, tokenStoreFactory, promiseQueue) {
                             return self.getClientConfigTokens()
                                 .then(function() {
                                     return tokenStore.pop().then(function(currentToken) {
-                                        return currentToken.value;
+                                        if (currentToken) {
+                                            return currentToken.value;
+                                        }
+                                        return null;
                                     });
                                 });
                         }

@@ -37,9 +37,8 @@ define([
     'core/promise',
     'core/promiseQueue',
     'core/tokenHandler',
-    'ui/feedback',
     'core/logger'
-], function($, _, __, context, Promise, promiseQueue, tokenHandlerFactory, feedback, loggerFactory) {
+], function($, _, __, context, Promise, promiseQueue, tokenHandlerFactory, loggerFactory) {
     'use strict';
 
     var tokenHandler = tokenHandlerFactory();
