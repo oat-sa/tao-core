@@ -83,7 +83,7 @@ function (_, module, tokenStoreFactory, promiseQueue) {
                     .then(function(queueSize) {
                         if (queueSize > 0) {
                             // Token available, use it
-                            return tokenStore.pop().then(function(currentToken) {
+                            return tokenStore.dequeue().then(function(currentToken) {
                                 return currentToken.value;
                             });
                         }
@@ -91,7 +91,7 @@ function (_, module, tokenStoreFactory, promiseQueue) {
                             // Client Config allowed! (first and only time)
                             return self.getClientConfigTokens()
                                 .then(function() {
-                                    return tokenStore.pop().then(function(currentToken) {
+                                    return tokenStore.dequeue().then(function(currentToken) {
                                         if (currentToken) {
                                             return currentToken.value;
                                         }
@@ -113,12 +113,8 @@ function (_, module, tokenStoreFactory, promiseQueue) {
              * @returns {Promise<Boolean>} - resolves true if successful
              */
             setToken: function setToken(newToken) {
-                return tokenStore.push(newToken)
+                return tokenStore.enqueue(newToken)
                     .then(function(added) {
-                        return added;
-                    })
-                    .then(function(added) { // just logs - remove later
-                        tokenStore.log('tokenHandler.getToken');
                         return added;
                     });
             },

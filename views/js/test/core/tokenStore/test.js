@@ -75,9 +75,9 @@ define([
 
         tokenStore = tokenStoreFactory();
 
-        assert.equal(typeof tokenStore.pop, 'function', "The store exposes the method pop");
+        assert.equal(typeof tokenStore.dequeue, 'function', "The store exposes the method dequeue");
         assert.equal(typeof tokenStore.has, 'function', "The store exposes the method has");
-        assert.equal(typeof tokenStore.push, 'function', "The store exposes the method push");
+        assert.equal(typeof tokenStore.enqueue, 'function', "The store exposes the method enqueue");
         assert.equal(typeof tokenStore.remove, 'function', "The store exposes the method remove");
         assert.equal(typeof tokenStore.clear, 'function', "The store exposes the method clear");
         assert.equal(typeof tokenStore.getSize, 'function', "The store exposes the method getSize");
@@ -87,7 +87,7 @@ define([
 
     QUnit.module('behavior');
 
-    QUnit.asyncTest('basic access, push/pop/has', function(assert) {
+    QUnit.asyncTest('basic access, enqueue/dequeue/has', function(assert) {
         var tokenStore;
         QUnit.expect(6);
 
@@ -100,11 +100,11 @@ define([
         })
         .then(function(result) {
             assert.equal(result, false, 'The store does not contain token 1');
-            return tokenStore.pop();
+            return tokenStore.dequeue();
         })
         .then(function(value) {
             assert.equal(typeof value, 'undefined', 'The empty store returns undefined token');
-            return tokenStore.push(token1);
+            return tokenStore.enqueue(token1);
         })
         .then(function(assigned) {
             assert.ok(assigned, 'The value assignment is done');
@@ -112,7 +112,7 @@ define([
         })
         .then(function(result) {
             assert.equal(result, true, 'The store contains token 1');
-            return tokenStore.pop();
+            return tokenStore.dequeue();
         })
         .then(function(value) {
             assert.deepEqual(value, token1, 'The store gives the correct token');
@@ -134,7 +134,7 @@ define([
 
         tokenStore.clear()
         .then(function() {
-            return tokenStore.push(token1);
+            return tokenStore.enqueue(token1);
         })
         .then(function() {
             return tokenStore.getTokens();
@@ -143,7 +143,7 @@ define([
             assert.ok(key1 in tokens, 'The store contains token 1');
         })
         .then(function() {
-            return tokenStore.push(token2);
+            return tokenStore.enqueue(token2);
         })
         .then(function() {
             return tokenStore.getTokens();
@@ -153,7 +153,7 @@ define([
             assert.ok(key2 in tokens, 'The store contains token 2');
         })
         .then(function() {
-            return tokenStore.push(token3);
+            return tokenStore.enqueue(token3);
         })
         .then(function() {
             return tokenStore.getTokens();
@@ -162,7 +162,7 @@ define([
             assert.ok(key1 in tokens, 'The store contains token 1');
             assert.ok(key2 in tokens, 'The store contains token 2');
             assert.ok(key3 in tokens, 'The store contains token 3');
-            return tokenStore.push(token4);
+            return tokenStore.enqueue(token4);
         })
         .then(function() {
             return tokenStore.getSize();
@@ -196,9 +196,9 @@ define([
         tokenStore.clear()
         .then(function() {
             return Promise.all([
-                tokenStore.push(token1),
-                tokenStore.push(token2),
-                tokenStore.push(token3)
+                tokenStore.enqueue(token1),
+                tokenStore.enqueue(token2),
+                tokenStore.enqueue(token3)
             ]);
         })
         .then(function() {
@@ -227,7 +227,7 @@ define([
             assert.ok(!removed, 'Nothing to remove');
         })
         .then(function() {
-            return tokenStore.push(token4);
+            return tokenStore.enqueue(token4);
         })
         .then(function() {
             return tokenStore.getTokens();
@@ -253,9 +253,9 @@ define([
 
         Promise
             .all([
-                tokenStore.push(token1),
-                tokenStore.push(token2),
-                tokenStore.push(token3)
+                tokenStore.enqueue(token1),
+                tokenStore.enqueue(token2),
+                tokenStore.enqueue(token3)
             ])
             .then(function() {
                 assert.ok(tokenStore.has(key1), 'The store contains the given token');
@@ -291,9 +291,9 @@ define([
         tokenStore.clear()
         .then(function() {
             return Promise.all([
-                tokenStore.push(token1),
-                tokenStore.push(token2),
-                tokenStore.push(token3)
+                tokenStore.enqueue(token1),
+                tokenStore.enqueue(token2),
+                tokenStore.enqueue(token3)
             ]);
         })
         .then(function() {
@@ -326,9 +326,9 @@ define([
 
         Promise
             .all([
-                tokenStore.push(token1),
-                tokenStore.push(token2),
-                tokenStore.push(token3)
+                tokenStore.enqueue(token1),
+                tokenStore.enqueue(token2),
+                tokenStore.enqueue(token3)
             ])
             .then(function() {
                 return tokenStore.getTokens();
@@ -362,9 +362,9 @@ define([
 
         Promise
             .all([
-                tokenStore.push(token1),
-                tokenStore.push(token2),
-                tokenStore.push(token3)
+                tokenStore.enqueue(token1),
+                tokenStore.enqueue(token2),
+                tokenStore.enqueue(token3)
             ])
             .then(function() {
                 return tokenStore.getIndex();
@@ -399,10 +399,10 @@ define([
         tokenStore.clear()
         .then(function() {
             return Promise.all([
-                tokenStore.push(token1),
-                tokenStore.push(token2),
-                tokenStore.push(token3),
-                tokenStore.push(token4)
+                tokenStore.enqueue(token1),
+                tokenStore.enqueue(token2),
+                tokenStore.enqueue(token3),
+                tokenStore.enqueue(token4)
             ]);
         })
         .then(function() {

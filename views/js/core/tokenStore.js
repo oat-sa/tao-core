@@ -17,7 +17,7 @@
  */
 
 /**
- * Store for tokens in memory as a FIFO list
+ * Store for tokens in memory as a FIFO queue
  * Modeled on taoQtiTest/views/js/runner/proxy/cache/itemStore.js
  *
  * @author Martin Nicholson <martin@taotesting.com>
@@ -63,7 +63,7 @@ define([
              *
              * @returns {Promise<Object>} the token object
              */
-            pop: function pop() {
+            dequeue: function dequeue() {
                 var self = this;
                 return self.getIndex().then(function(latestIndex) {
                     var key = _.first(latestIndex);
@@ -90,7 +90,7 @@ define([
              * @param {Number} token.receivedAt - timestamp
              * @returns {Promise<Boolean>} - true if added
              */
-            push: function push(token) {
+            enqueue: function enqueue(token) {
                 var self = this;
                 // Handle legacy param type:
                 if (_.isString(token)) {
@@ -167,21 +167,6 @@ define([
             clear: function clear() {
                 return getStore().then(function(storage){
                     return storage.clear();
-                });
-            },
-
-            /**
-             * Log queue contents & store contents
-             */
-            log: function log(msg) {
-                var self = this;
-                return self.getTokens().then(function(items) {
-                    return self.getIndex().then(function(latestIndex) {
-                        console.log('logging from', msg);
-                        console.log('maxSize', config.maxSize);
-                        console.log('genIndex', latestIndex);
-                        console.table(_.values(items));
-                    });
                 });
             },
 
