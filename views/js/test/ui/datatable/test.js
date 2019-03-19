@@ -1175,17 +1175,18 @@ define([
             });
     });
 
-    QUnit.asyncTest('pageSizeSelector disabled by default', function(assert){
+    QUnit.test('pageSizeSelector disabled by default', function(assert){
+        var ready = assert.async();
         var $container = $('#container-1');
 
-        QUnit.expect(1);
+        assert.expect(1);
 
         var url = 'js/test/ui/datatable/largedata.json';
 
         $container.one('create.datatable', function(){
             assert.ok($container.find('.toolbox-container').length === 0, 'pageSizeSelector is not rendered by default');
 
-            QUnit.start();
+            ready();
         });
 
         $container.datatable({
@@ -1222,10 +1223,11 @@ define([
         });
     });
 
-    QUnit.asyncTest('render pageSizeSelector', function(assert){
+    QUnit.test('render pageSizeSelector', function(assert){
+        var ready = assert.async();
         var $container = $('#container-1');
 
-        QUnit.expect(2);
+        assert.expect(2);
 
         var url = 'js/test/ui/datatable/largedata.json';
 
@@ -1233,7 +1235,7 @@ define([
             assert.ok($container.find('.toolbox-container').length === 1, 'pageSizeSelector is rendered');
             assert.equal($container.find('.toolbox-container select').val(), 50, 'rows option is used as default value for pageSizeSelector');
 
-            QUnit.start();
+            ready();
         });
 
         $container.datatable({
