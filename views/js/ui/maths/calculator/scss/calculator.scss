@@ -309,14 +309,16 @@
         .term {
             padding: 0;
 
-            &.term-operator:not([data-token="POW"]):not([data-token="FAC"]):not([data-token="NEG"]):not([data-token="POS"]) {
+            &.term-operator:not([data-token="POW"]):not([data-token="FAC"]):not([data-token="NEG"]) {
                 padding: 0 $calculatorTermSpace;
             }
             &.term-operator[data-token="FAC"],
-            &.term-operator[data-token="NEG"],
-            &.term-operator[data-token="POS"] {
+            &.term-operator[data-token="NEG"] {
                 margin-left: -$calculatorTermSpace / 2;
                 margin-right: -$calculatorTermSpace / 2;
+            }
+            &.term-operator[data-token="POS"] {
+                display: none;
             }
             &.term-function:not([data-token="SQRT"]):not([data-token="CBRT"]) {
                 padding-right: $calculatorTermSpace;
