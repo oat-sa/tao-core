@@ -567,7 +567,9 @@ define([
             return new Promise(function (resolve, reject) {
                 var rootClassUri = _.pluck(actionContext, 'rootClassUri').pop();
                 var selectedUri = _.pluck(actionContext, 'id');
-                var selectedData = _.map(actionContext, function(a){return {id: a.id, signature: a.signature};});
+                var selectedData = _.map(actionContext, function (a) {
+                    return {id: a.id, signature: a.signature};
+                });
 
                 //set up a destination selector
                 destinationSelectorFactory($container, {
