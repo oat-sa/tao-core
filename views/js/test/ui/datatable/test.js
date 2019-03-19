@@ -1174,4 +1174,101 @@ define([
                 }]
             });
     });
+
+    QUnit.asyncTest('pageSizeSelector disabled by default', function(assert){
+        var $container = $('#container-1');
+
+        QUnit.expect(1);
+
+        var url = 'js/test/ui/datatable/largedata.json';
+
+        $container.one('create.datatable', function(){
+            assert.ok($container.find('.toolbox-container').length === 0, 'pageSizeSelector is not rendered by default');
+
+            QUnit.start();
+        });
+
+        $container.datatable({
+            url : url,
+            'model' : [{
+                id: 'login',
+                label: 'Login',
+                sortable: true,
+                visible: true
+            }, {
+                id: 'name',
+                label: 'Name',
+                sortable: true,
+                visible: false
+            }, {
+                id: 'email',
+                label: 'Email',
+                sortable: false
+            }, {
+                id: 'roles',
+                label: 'Roles',
+                sortable: false,
+                visible: function () {
+                    return false;
+                }
+            }, {
+                id: 'guiLg',
+                label: 'Data Language',
+                sortable: false,
+                visible: function () {
+                    return true;
+                }
+            }]
+        });
+    });
+
+    QUnit.asyncTest('render pageSizeSelector', function(assert){
+        var $container = $('#container-1');
+
+        QUnit.expect(2);
+
+        var url = 'js/test/ui/datatable/largedata.json';
+
+        $container.one('create.datatable', function(){
+            assert.ok($container.find('.toolbox-container').length === 1, 'pageSizeSelector is rendered');
+            assert.equal($container.find('.toolbox-container select').val(), 50, 'rows option is used as default value for pageSizeSelector');
+
+            QUnit.start();
+        });
+
+        $container.datatable({
+            url : url,
+            'model' : [{
+                id: 'login',
+                label: 'Login',
+                sortable: true,
+                visible: true
+            }, {
+                id: 'name',
+                label: 'Name',
+                sortable: true,
+                visible: false
+            }, {
+                id: 'email',
+                label: 'Email',
+                sortable: false
+            }, {
+                id: 'roles',
+                label: 'Roles',
+                sortable: false,
+                visible: function () {
+                    return false;
+                }
+            }, {
+                id: 'guiLg',
+                label: 'Data Language',
+                sortable: false,
+                visible: function () {
+                    return true;
+                }
+            }],
+            pageSizeSelector: true,
+            rows: 50,
+        });
+    });
 });

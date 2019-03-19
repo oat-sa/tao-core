@@ -22,6 +22,7 @@
 namespace oat\tao\model\routing;
 
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\http\Controller;
 use ReflectionClass;
 use ReflectionMethod;
 
@@ -68,7 +69,7 @@ class ControllerService extends ConfigurableService
      * @return mixed
      * @throws RouterException
      */
-    public function getController($controllerClass)
+    public function checkController($controllerClass)
     {
         // abstract class can't be loaded
         $this->checkAbstract($controllerClass);
@@ -76,14 +77,7 @@ class ControllerService extends ConfigurableService
         // check if blocked by annotations
         $this->checkAnnotations($controllerClass);
 
-        $controller = new $controllerClass();
-        $this->propagate($controller);
-
-        if (method_exists($controller, 'initialize')) {
-            $controller->initialize();
-        }
-
-        return $controller;
+        return $controllerClass;
     }
 
     /**

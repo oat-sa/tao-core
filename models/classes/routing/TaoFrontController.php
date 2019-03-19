@@ -19,6 +19,8 @@
  */
 namespace oat\tao\model\routing;
 
+use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Psr7\ServerRequest;
 use InterruptedActionException;
 use common_ext_ExtensionsManager;
 use common_http_Request;
@@ -30,39 +32,45 @@ use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * A simple controller to replace the ClearFw controller
- * 
+ *
  * @author Joel Bout, <joel@taotesting.com>
  */
 class TaoFrontController implements ServiceManagerAwareInterface
 {
     use ServiceManagerAwareTrait;
 
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response) {
-        $request->getUri();
-        $pRequest = \common_http_Request::currentRequest();
-        $this->legacy($pRequest, $response);
-    }
-
     /**
-     * Run the controller
-     * 
-     * @param common_http_Request $pRequest
+     * Resolve the request and enforce the responsible controller
+     *
+     * - Resolve request
+     * - load the extension
+     * - set the context
+     * - load rest session if needed
+     * - load the language
+     * - enforce controller: $controller->$method()
+     *
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
      * @throws \ActionEnforcingException
-     * @throws \Exception
      * @throws \common_exception_Error
+     * @throws \common_exception_InvalidArgumentType
      * @throws \common_ext_ExtensionException
      */
-    public function legacy(common_http_Request $pRequest) {
-        $resolver = new Resolver($pRequest);
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response)
+    {
+        $resolver = new Resolver($request);
         $this->propagate($resolver);
 
         // load the responsible extension
-        $ext = common_ext_ExtensionsManager::singleton()->getExtensionById($resolver->getExtensionId());
+        $ext = $this->getServiceLocator()->get(common_ext_ExtensionsManager::SERVICE_ID)
+            ->getExtensionById($resolver->getExtensionId());
+
         \Context::getInstance()->setExtensionName($resolver->getExtensionId());
 
         try {
             /** @var RestSessionFactory $service */
             $service = $this->getServiceLocator()->get(RestSessionFactory::SERVICE_ID);
+            $pRequest = common_http_Request::currentRequest();
             $service->createSessionFromRequest($pRequest, $resolver);
         } catch (\common_user_auth_AuthFailedException $e) {
             $data['success']	= false;
@@ -81,11 +89,34 @@ class TaoFrontController implements ServiceManagerAwareInterface
         \tao_helpers_I18n::init($ext, $uiLang);
 
         try {
-            $enforcer = new ActionEnforcer($resolver->getExtensionId(), $resolver->getControllerClass(), $resolver->getMethodName(), $pRequest->getParams());
+            if($request->getMethod() == 'GET') {
+                $parameters = $request->getQueryParams();
+            } else {
+                $parameters = $request->getParsedBody();
+            }
+            $enforcer = new ActionEnforcer($resolver->getExtensionId(), $resolver->getControllerClass(), $resolver->getMethodName(), $parameters);
             $this->propagate($enforcer);
-            $enforcer->execute();
+            $enforcer($request, $response);
         } catch (InterruptedActionException $iE) {
             // Nothing to do here.
         }
+    }
+
+    /**
+     * Run the controller
+     *
+     * @deprecated use $this->__invoke() instead
+     *
+     * @param common_http_Request $pRequest
+     * @throws \ActionEnforcingException
+     * @throws \common_exception_Error
+     * @throws \common_exception_InvalidArgumentType
+     * @throws \common_ext_ExtensionException
+     */
+    public function legacy(common_http_Request $pRequest)
+    {
+        $request = ServerRequest::fromGlobals();
+        $response = new Response();
+        $this($request, $response);
     }
 }
