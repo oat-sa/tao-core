@@ -20,59 +20,57 @@
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
 define([
+
     'jquery',
     'lodash',
     'ui/actionbar',
     'css!taoCss/tao-3.css',
     'css!taoCss/tao-main-style.css'
-], function ($, _, actionbar) {
+], function($, _, actionbar) {
     'use strict';
 
-    // toggle the sample display
+    // Toggle the sample display
     var showSample = false;
 
-    // display a sample of the component
+    // Display a sample of the component
     if (showSample) {
         actionbar({
             renderTo: $('body'),
             buttons: [{
                 id: 'btn1',
                 label: 'Button 1',
-                action: function () {
-                    console.log('button 1', arguments)
+                action: function() {
+                    console.log('button 1', arguments);
                 }
             }, {
                 id: 'btn2',
                 label: 'Button 2',
-                action: function () {
-                    console.log('button 2', arguments)
+                action: function() {
+                    console.log('button 2', arguments);
                 }
             }, {
                 id: 'btnx',
                 label: 'Button ...',
-                action: function () {
-                    console.log('button ...', arguments)
+                action: function() {
+                    console.log('button ...', arguments);
                 }
             }, {
                 id: 'btnN',
                 label: 'Button N',
-                action: function () {
-                    console.log('button n', arguments)
+                action: function() {
+                    console.log('button n', arguments);
                 }
             }]
         });
     }
 
-
     QUnit.module('actionbar');
 
-
-    QUnit.test('module', 3, function (assert) {
-        assert.equal(typeof actionbar, 'function', "The actionbar module exposes a function");
-        assert.equal(typeof actionbar(), 'object', "The actionbar factory produces an object");
-        assert.notStrictEqual(actionbar(), actionbar(), "The actionbar factory provides a different object on each call");
+    QUnit.test('module', function(assert) {
+        assert.equal(typeof actionbar, 'function', 'The actionbar module exposes a function');
+        assert.equal(typeof actionbar(), 'object', 'The actionbar factory produces an object');
+        assert.notStrictEqual(actionbar(), actionbar(), 'The actionbar factory provides a different object on each call');
     });
-
 
     var datalistApi = [
         {name: 'init', title: 'init'},
@@ -102,14 +100,13 @@ define([
     ];
 
     QUnit
-        .cases(datalistApi)
-        .test('instance API ', function (data, assert) {
+        .cases.init(datalistApi)
+        .test('instance API ', function(data, assert) {
             var instance = actionbar();
             assert.equal(typeof instance[data.name], 'function', 'The actionbar instance exposes a "' + data.title + '" function');
         });
 
-
-    QUnit.test('init', function (assert) {
+    QUnit.test('init', function(assert) {
         var buttons = [];
         var config = {
             nothing: undefined,
@@ -127,8 +124,7 @@ define([
         instance.destroy();
     });
 
-
-    QUnit.test('render ', function (assert) {
+    QUnit.test('render ', function(assert) {
         var $dummy = $('<div class="dummy" />');
         var $container = $('#fixture-1').append($dummy);
         var config = {
@@ -144,15 +140,15 @@ define([
         };
         var instance;
 
-        // check place before render
+        // Check place before render
         assert.equal($container.children().length, 1, 'The container already contains an element');
         assert.equal($container.children().get(0), $dummy.get(0), 'The container contains the dummy element');
         assert.equal($container.find('.dummy').length, 1, 'The container contains an element of the class dummy');
 
-        // create an instance with auto rendering
+        // Create an instance with auto rendering
         instance = actionbar(config);
 
-        // check the rendered header
+        // Check the rendered header
         assert.equal($container.find('.dummy').length, 0, 'The container does not contain an element of the class dummy');
         assert.equal(instance.is('rendered'), true, 'The actionbar instance must be rendered');
         assert.equal(typeof instance.getElement(), 'object', 'The actionbar instance returns the rendered content as an object');
@@ -162,9 +158,8 @@ define([
         assert.equal(instance.is('horizontal'), true, 'The actionbar instance is horizontal');
         assert.equal(instance.getElement().hasClass('horizontal-action-bar'), true, 'The actionbar instance is rendered horizontally');
 
-
         assert.equal(instance.getElement().find('button').length, config.buttons.length, 'The actionbar instance has rendered the buttons');
-        _.forEach(config.buttons, function (button) {
+        _.forEach(config.buttons, function(button) {
             assert.equal(instance.getElement().find('[data-control="' + button.id + '"]').length, 1, 'The actionbar instance has rendered the button ' + button.id);
             assert.equal(instance.getElement().find('[data-control="' + button.id + '"]').text().trim(), button.label, 'The actionbar instance has rendered the button ' + button.id + ' with label ' + button.label);
 
@@ -194,8 +189,7 @@ define([
         assert.equal(instance.getElement(), null, 'The actionbar instance has removed its rendered content');
     });
 
-
-    QUnit.test('show/hide', function (assert) {
+    QUnit.test('show/hide', function(assert) {
         var instance = actionbar().render();
 
         var $component = instance.getElement();
@@ -219,8 +213,7 @@ define([
         instance.destroy();
     });
 
-
-    QUnit.test('show/hide buttons', function (assert) {
+    QUnit.test('show/hide buttons', function(assert) {
         var config = {
             buttons: [{
                 id: 'b1',
@@ -262,8 +255,7 @@ define([
         instance.destroy();
     });
 
-
-    QUnit.test('toggle buttons', function (assert) {
+    QUnit.test('toggle buttons', function(assert) {
         var config = {
             buttons: [{
                 id: 'b1',
@@ -317,8 +309,7 @@ define([
         instance.destroy();
     });
 
-
-    QUnit.test('enable/disable', function (assert) {
+    QUnit.test('enable/disable', function(assert) {
         var instance = actionbar().render();
         var $component = instance.getElement();
 
@@ -341,8 +332,7 @@ define([
         instance.destroy();
     });
 
-
-    QUnit.test('state', function (assert) {
+    QUnit.test('state', function(assert) {
         var instance = actionbar().render();
         var $component = instance.getElement();
 
@@ -365,8 +355,13 @@ define([
         instance.destroy();
     });
 
+    QUnit.test('events', function(assert) {
+        var ready4 = assert.async();
+        var ready3 = assert.async();
+        var ready2 = assert.async();
+        var ready1 = assert.async();
+        var ready = assert.async();
 
-    QUnit.asyncTest('events', function (assert) {
         var config = {
             selectable: true,
             buttons: [{
@@ -375,37 +370,36 @@ define([
                 action: function(buttonId) {
                     assert.ok(true, 'The actionbar instance call the right action a button is clicked');
                     assert.equal(buttonId, 'button1', 'The actionbar instance provides the button identifier when a button is clicked');
-                    QUnit.start();
+                    ready();
                 }
             }]
         };
         var instance = actionbar(config);
 
-        instance.on('custom', function () {
+        instance.on('custom', function() {
             assert.ok(true, 'The actionbar instance can handle custom events');
-            QUnit.start();
+            ready1();
         });
 
-        instance.on('render', function () {
+        instance.on('render', function() {
             assert.ok(true, 'The actionbar instance triggers event when it is rendered');
-            QUnit.start();
+            ready2();
 
             instance.getElement().find('[data-control="button1"]').click();
         });
 
-        instance.on('button', function (buttonId) {
+        instance.on('button', function(buttonId) {
             assert.ok(true, 'The actionbar instance triggers event when aﬁ button is clicked');
             assert.equal(buttonId, 'button1', 'The actionbar instance provides the button identifier when a button is clicked');
-            QUnit.start();
+            ready3();
         });
 
-        instance.on('destroy', function () {
+        instance.on('destroy', function() {
             assert.ok(true, 'The actionbar instance triggers event when it is destroyed');
-            QUnit.start();
+            ready4();
         });
 
-        QUnit.expect(7);
-        QUnit.stop(4);
+        assert.expect(7);
 
         instance
             .render()

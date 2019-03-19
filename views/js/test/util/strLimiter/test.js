@@ -17,9 +17,7 @@
  *
  *
  */
-define([
-    'util/strLimiter'
-], function(strLimiter){
+define(['util/strLimiter'], function(strLimiter) {
 
     'use strict';
 
@@ -29,19 +27,19 @@ define([
 
     QUnit.module('API');
 
-    QUnit.test('Limit by Word Count', function(assert){
+    QUnit.test('Limit by Word Count', function(assert) {
         assert.equal(strLimiter.limitByWordCount(txt, 5), 'Lorem ipsum dolor sit amet', 'Word count, input already correct size');
         assert.equal(strLimiter.limitByWordCount(txt, 10), 'Lorem ipsum dolor sit amet', 'Word count, input too short');
         assert.equal(strLimiter.limitByWordCount(txt, 2), 'Lorem ipsum', 'Word count, input too long');
     });
 
-    QUnit.test('Limit by Word Count, weird whitespace', function(assert){
+    QUnit.test('Limit by Word Count, weird whitespace', function(assert) {
         assert.equal(strLimiter.limitByWordCount(weirdWhiteSpace, 5), 'Lorem    ipsum   dolor  sit   amet', 'Word count, input already correct size');
         assert.equal(strLimiter.limitByWordCount(weirdWhiteSpace, 10), 'Lorem    ipsum   dolor  sit   amet', 'Word count, input too short');
         assert.equal(strLimiter.limitByWordCount(weirdWhiteSpace, 2), 'Lorem    ipsum', 'Word count, input too long');
     });
 
-    QUnit.test('Limit by Character count', function(assert){
+    QUnit.test('Limit by Character count', function(assert) {
         assert.equal(strLimiter.limitByCharCount(txt, 26), 'Lorem ipsum dolor sit amet', 'Char count, input already correct size');
         assert.equal(strLimiter.limitByCharCount(txt, 100), 'Lorem ipsum dolor sit amet', 'Char count, input too short');
         assert.equal(strLimiter.limitByCharCount(txt, 11), 'Lorem ipsum', 'Char count, input too long');

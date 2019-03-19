@@ -19,91 +19,93 @@
 < * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
+
     'jquery',
     'ui/component',
     'ui/component/placeable',
     'ui/component/alignable'
-], function ($, componentFactory, makePlaceable, makeAlignable) {
+], function($, componentFactory, makePlaceable, makeAlignable) {
     'use strict';
 
     var fixtureContainer = '#qunit-fixture';
 
     QUnit.module('API');
 
-    QUnit.test('module', function (assert) {
-        QUnit.expect(1);
+    QUnit.test('module', function(assert) {
+        assert.expect(1);
 
         assert.ok(typeof makeAlignable === 'function', 'The module expose a function');
     });
 
     QUnit
-        .cases([
-            { title: 'alignWith' },
-            { title: 'hAlignWith' },
-            { title: 'vAlignWith' },
-            { title: '_getAlignedCoords' },
-            { title: '_getDefaultHOrigin' },
-            { title: '_getDefaultVOrigin' }
+        .cases.init([
+            {title: 'alignWith'},
+            {title: 'hAlignWith'},
+            {title: 'vAlignWith'},
+            {title: '_getAlignedCoords'},
+            {title: '_getDefaultHOrigin'},
+            {title: '_getDefaultVOrigin'}
         ])
         .test('component API', function(data, assert) {
             var component = makeAlignable(componentFactory());
 
-            QUnit.expect(1);
+            assert.expect(1);
             assert.equal(typeof component[data.title], 'function', 'The component has the method ' + data.title);
         });
 
     QUnit.test('auto makes the component placeable', function(assert) {
         var component = makeAlignable(componentFactory());
-        QUnit.expect(1);
+        assert.expect(1);
         assert.ok(makePlaceable.isPlaceable(component), 'created component is placeable');
     });
 
     QUnit.module('Alignable Component');
 
     QUnit
-        .cases([
-            // with default origins
-            { title: 'centerH, centerV', hPos: 'center', vPos: 'center', expectedX: 350, expectedY: 325 },
-            { title: 'leftH, centerV',   hPos: 'left',   vPos: 'center', expectedX: 200, expectedY: 325 },
-            { title: 'rightH, centerV',  hPos: 'right',  vPos: 'center', expectedX: 500, expectedY: 325 },
-            { title: 'centerH, topV',    hPos: 'center', vPos: 'top',    expectedX: 350, expectedY: 250 },
-            { title: 'centerH, bottomV', hPos: 'center', vPos: 'bottom', expectedX: 350, expectedY: 400 },
+        .cases.init([
 
-            // with custom hOrigin
-            { title: 'centerH, hOrigin left',    hPos: 'center', hOrigin: 'left',    vPos: 'center', expectedX: 400, expectedY: 325 },
-            { title: 'centerH, hOrigin center',  hPos: 'center', hOrigin: 'center',  vPos: 'center', expectedX: 350, expectedY: 325 },
-            { title: 'centerH, hOrigin right',   hPos: 'center', hOrigin: 'right',   vPos: 'center', expectedX: 300, expectedY: 325 },
-            { title: 'leftH, hOrigin left',      hPos: 'left',   hOrigin: 'left',    vPos: 'center', expectedX: 300, expectedY: 325 },
-            { title: 'leftH, hOrigin center',    hPos: 'left',   hOrigin: 'center',  vPos: 'center', expectedX: 250, expectedY: 325 },
-            { title: 'leftH, hOrigin right',     hPos: 'left',   hOrigin: 'right',   vPos: 'center', expectedX: 200, expectedY: 325 },
-            { title: 'rightH, hOrigin left',     hPos: 'right',  hOrigin: 'left',    vPos: 'center', expectedX: 500, expectedY: 325 },
-            { title: 'rightH, hOrigin center',   hPos: 'right',  hOrigin: 'center',  vPos: 'center', expectedX: 450, expectedY: 325 },
-            { title: 'rightH, hOrigin right',    hPos: 'right',  hOrigin: 'right',   vPos: 'center', expectedX: 400, expectedY: 325 },
+            // With default origins
+            {title: 'centerH, centerV', hPos: 'center', vPos: 'center', expectedX: 350, expectedY: 325},
+            {title: 'leftH, centerV', hPos: 'left', vPos: 'center', expectedX: 200, expectedY: 325},
+            {title: 'rightH, centerV', hPos: 'right', vPos: 'center', expectedX: 500, expectedY: 325},
+            {title: 'centerH, topV', hPos: 'center', vPos: 'top', expectedX: 350, expectedY: 250},
+            {title: 'centerH, bottomV', hPos: 'center', vPos: 'bottom', expectedX: 350, expectedY: 400},
 
-            // with custom vOrigin
-            { title: 'centerV, vOrigin top',     hPos: 'center', vOrigin: 'top',    vPos: 'center', expectedX: 350, expectedY: 350 },
-            { title: 'centerV, vOrigin center',  hPos: 'center', vOrigin: 'center', vPos: 'center', expectedX: 350, expectedY: 325 },
-            { title: 'centerV, vOrigin bottom',  hPos: 'center', vOrigin: 'bottom', vPos: 'center', expectedX: 350, expectedY: 300 },
-            { title: 'topV, vOrigin top',        hPos: 'center', vOrigin: 'top',    vPos: 'top',    expectedX: 350, expectedY: 300 },
-            { title: 'topV, vOrigin center',     hPos: 'center', vOrigin: 'center', vPos: 'top',    expectedX: 350, expectedY: 275 },
-            { title: 'topV, vOrigin bottom',     hPos: 'center', vOrigin: 'bottom', vPos: 'top',    expectedX: 350, expectedY: 250 },
-            { title: 'bottomV, vOrigin top',     hPos: 'center', vOrigin: 'top',    vPos: 'bottom', expectedX: 350, expectedY: 400 },
-            { title: 'bottomV, vOrigin center',  hPos: 'center', vOrigin: 'center', vPos: 'bottom', expectedX: 350, expectedY: 375 },
-            { title: 'bottomV, vOrigin bottom',  hPos: 'center', vOrigin: 'bottom', vPos: 'bottom', expectedX: 350, expectedY: 350 },
+            // With custom hOrigin
+            {title: 'centerH, hOrigin left', hPos: 'center', hOrigin: 'left', vPos: 'center', expectedX: 400, expectedY: 325},
+            {title: 'centerH, hOrigin center', hPos: 'center', hOrigin: 'center', vPos: 'center', expectedX: 350, expectedY: 325},
+            {title: 'centerH, hOrigin right', hPos: 'center', hOrigin: 'right', vPos: 'center', expectedX: 300, expectedY: 325},
+            {title: 'leftH, hOrigin left', hPos: 'left', hOrigin: 'left', vPos: 'center', expectedX: 300, expectedY: 325},
+            {title: 'leftH, hOrigin center', hPos: 'left', hOrigin: 'center', vPos: 'center', expectedX: 250, expectedY: 325},
+            {title: 'leftH, hOrigin right', hPos: 'left', hOrigin: 'right', vPos: 'center', expectedX: 200, expectedY: 325},
+            {title: 'rightH, hOrigin left', hPos: 'right', hOrigin: 'left', vPos: 'center', expectedX: 500, expectedY: 325},
+            {title: 'rightH, hOrigin center', hPos: 'right', hOrigin: 'center', vPos: 'center', expectedX: 450, expectedY: 325},
+            {title: 'rightH, hOrigin right', hPos: 'right', hOrigin: 'right', vPos: 'center', expectedX: 400, expectedY: 325},
 
-            // with offsets
-            { title: 'positive Offset', hPos: 'center', vPos: 'center', hOffset:  10, vOffset:  10, expectedX: 360, expectedY: 335 },
-            { title: 'negative Offset', hPos: 'center', vPos: 'center', hOffset: -10, vOffset: -10, expectedX: 340, expectedY: 315 }
+            // With custom vOrigin
+            {title: 'centerV, vOrigin top', hPos: 'center', vOrigin: 'top', vPos: 'center', expectedX: 350, expectedY: 350},
+            {title: 'centerV, vOrigin center', hPos: 'center', vOrigin: 'center', vPos: 'center', expectedX: 350, expectedY: 325},
+            {title: 'centerV, vOrigin bottom', hPos: 'center', vOrigin: 'bottom', vPos: 'center', expectedX: 350, expectedY: 300},
+            {title: 'topV, vOrigin top', hPos: 'center', vOrigin: 'top', vPos: 'top', expectedX: 350, expectedY: 300},
+            {title: 'topV, vOrigin center', hPos: 'center', vOrigin: 'center', vPos: 'top', expectedX: 350, expectedY: 275},
+            {title: 'topV, vOrigin bottom', hPos: 'center', vOrigin: 'bottom', vPos: 'top', expectedX: 350, expectedY: 250},
+            {title: 'bottomV, vOrigin top', hPos: 'center', vOrigin: 'top', vPos: 'bottom', expectedX: 350, expectedY: 400},
+            {title: 'bottomV, vOrigin center', hPos: 'center', vOrigin: 'center', vPos: 'bottom', expectedX: 350, expectedY: 375},
+            {title: 'bottomV, vOrigin bottom', hPos: 'center', vOrigin: 'bottom', vPos: 'bottom', expectedX: 350, expectedY: 350},
 
+            // With offsets
+            {title: 'positive Offset', hPos: 'center', vPos: 'center', hOffset: 10, vOffset: 10, expectedX: 360, expectedY: 335},
+            {title: 'negative Offset', hPos: 'center', vPos: 'center', hOffset: -10, vOffset: -10, expectedX: 340, expectedY: 315}
 
         ])
-        .asyncTest('.alignWith(), .hAlignWith(), .vAlignWith()', function (data, assert) {
+        .test('.alignWith(), .hAlignWith(), .vAlignWith()', function(data, assert) {
+            var ready = assert.async();
             var component = makeAlignable(componentFactory()),
                 $container = $(fixtureContainer),
                 $refElement = ($('<div>REFERENCE</div>')),
                 moveCounter = 0;
 
-            QUnit.expect(13);
+            assert.expect(13);
 
             $container.append($refElement);
 
@@ -147,7 +149,7 @@ define([
                         this.hAlignWith($refElement, data.hPos, data.hOrigin, data.hOffset);
 
                     // .hAlignWith() result
-                    } else if(moveCounter === 4) {
+                    } else if (moveCounter === 4) {
                         componentPosition = this.getPosition();
 
                         assert.ok(true, 'move event has been triggered');
@@ -162,14 +164,14 @@ define([
                         this.vAlignWith($refElement, data.vPos, data.vOrigin, data.vOffset) ;
 
                     // .vAlignWith() result
-                    } else if(moveCounter === 6) {
+                    } else if (moveCounter === 6) {
                         componentPosition = this.getPosition();
 
                         assert.ok(true, 'move event has been triggered');
                         assert.equal(componentPosition.x, 0, 'component has the correct x position');
                         assert.equal(componentPosition.y, data.expectedY, 'component has the correct y position');
 
-                        QUnit.start();
+                        ready();
                     }
                 })
                 .init({
@@ -179,17 +181,17 @@ define([
                 .render($container);
         });
 
-
     QUnit.module('Visual test');
 
-    QUnit.asyncTest('display and play', function (assert) {
+    QUnit.test('display and play', function(assert) {
+        var ready = assert.async();
         var component = makeAlignable(componentFactory()),
             $container = $('#outside');
 
-        QUnit.expect(1);
+        assert.expect(1);
 
         component
-            .on('render', function(){
+            .on('render', function() {
                 var self = this,
                     $target = $container.find('#target'),
                     $hPos = $container.find('#hPos'),
@@ -215,7 +217,7 @@ define([
                 });
 
                 assert.ok(true);
-                QUnit.start();
+                ready();
             })
             .init()
             .render($container)

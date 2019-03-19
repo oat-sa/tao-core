@@ -23,30 +23,29 @@ define(['core/requireIfExists'], function(requireIfExists) {
 
     QUnit.module('requireIfExists');
 
-
     QUnit.test('module', function(assert) {
-        QUnit.expect(1);
+        assert.expect(1);
 
-        assert.equal(typeof requireIfExists, 'function', "The requireIfExists module exposes a function");
+        assert.equal(typeof requireIfExists, 'function', 'The requireIfExists module exposes a function');
     });
 
-
-    QUnit.asyncTest('exist', function(assert) {
-        QUnit.expect(1);
+    QUnit.test('exist', function(assert) {
+        var ready = assert.async();
+        assert.expect(1);
 
         requireIfExists('core/Promise').then(function(Promise) {
             assert.notEqual(typeof Promise, 'undefined', 'The core/Promise module has been loaded');
-            QUnit.start();
+            ready();
         });
     });
 
-
-    QUnit.asyncTest('not exist', function(assert) {
-        QUnit.expect(1);
+    QUnit.test('not exist', function(assert) {
+        var ready = assert.async();
+        assert.expect(1);
 
         requireIfExists('not/exist').then(function(dummy) {
             assert.strictEqual(dummy, null, 'The not/exist module has been faked');
-            QUnit.start();
+            ready();
         });
     });
 });
