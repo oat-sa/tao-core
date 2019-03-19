@@ -16,6 +16,7 @@
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
  */
 define([
+
     'jquery',
     'lodash',
     'ui/component',
@@ -25,32 +26,33 @@ define([
 
     QUnit.module('API');
 
-    QUnit.test('module', function (assert) {
-        QUnit.expect(1);
+    QUnit.test('module', function(assert) {
+        assert.expect(1);
         assert.ok(typeof makePulsable === 'function', 'The module expose a function');
     });
 
     QUnit
-        .cases([
-            { title: 'pulse',          method: 'pulse' }
+        .cases.init([
+            {title: 'pulse', method: 'pulse'}
         ])
         .test('component API', function(data, assert) {
             var component = makePulsable(componentFactory());
 
-            QUnit.expect(1);
+            assert.expect(1);
             assert.equal(typeof component[data.method], 'function', 'The component has the method ' + data.method);
         });
 
     QUnit.module('Behavior');
 
-    QUnit.asyncTest('pulse', function(assert) {
+    QUnit.test('pulse', function(assert) {
+        var ready = assert.async();
         var $container = $('#qunit-fixture');
         makePulsable(componentFactory())
             .init()
             .render($container)
-            .pulse(1).then(function(){
+            .pulse(1).then(function() {
                 assert.ok(true, 'pulsed');
-                QUnit.start();
+                ready();
             });
     });
 
@@ -64,7 +66,7 @@ define([
             .init()
             .render($container.find('.target'));
 
-        $pulse.click(function(){
+        $pulse.click(function() {
             pulsable.pulse($count.val());
         });
 

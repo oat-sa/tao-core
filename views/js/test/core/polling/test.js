@@ -18,49 +18,42 @@
 /**
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
-define([
-    'jquery',
-    'lodash',
-    'core/polling'
-], function($, _, polling) {
+define(['jquery', 'lodash', 'core/polling'], function($, _, polling) {
     'use strict';
 
     QUnit.module('polling');
 
-
     QUnit.test('module', function(assert) {
-        QUnit.expect(3);
-        assert.equal(typeof polling, 'function', "The polling module exposes a function");
-        assert.equal(typeof polling(), 'object', "The polling factory produces an object");
-        assert.notStrictEqual(polling(), polling(), "The polling factory provides a different object on each call");
+        assert.expect(3);
+        assert.equal(typeof polling, 'function', 'The polling module exposes a function');
+        assert.equal(typeof polling(), 'object', 'The polling factory produces an object');
+        assert.notStrictEqual(polling(), polling(), 'The polling factory provides a different object on each call');
     });
 
-
     var testReviewApi = [
-        { name : 'async', title : 'async' },
-        { name : 'next', title : 'next' },
-        { name : 'start', title : 'start' },
-        { name : 'stop', title : 'stop' },
-        { name : 'setInterval', title : 'setInterval' },
-        { name : 'getInterval', title : 'getInterval' },
-        { name : 'setAction', title : 'setAction' },
-        { name : 'getAction', title : 'getAction' },
-        { name : 'setContext', title : 'setContext' },
-        { name : 'getContext', title : 'getContext' },
-        { name : 'getIteration', title : 'getIteration' },
-        { name : 'setMax', title : 'setMax' },
-        { name : 'getMax', title : 'getMax' },
-        { name : 'is', title : 'is' }
+        {name: 'async', title: 'async'},
+        {name: 'next', title: 'next'},
+        {name: 'start', title: 'start'},
+        {name: 'stop', title: 'stop'},
+        {name: 'setInterval', title: 'setInterval'},
+        {name: 'getInterval', title: 'getInterval'},
+        {name: 'setAction', title: 'setAction'},
+        {name: 'getAction', title: 'getAction'},
+        {name: 'setContext', title: 'setContext'},
+        {name: 'getContext', title: 'getContext'},
+        {name: 'getIteration', title: 'getIteration'},
+        {name: 'setMax', title: 'setMax'},
+        {name: 'getMax', title: 'getMax'},
+        {name: 'is', title: 'is'}
     ];
 
     QUnit
-        .cases(testReviewApi)
+        .cases.init(testReviewApi)
         .test('instance API ', function(data, assert) {
             var instance = polling();
-            QUnit.expect(1);
+            assert.expect(1);
             assert.equal(typeof instance[data.name], 'function', 'The polling instance exposes a "' + data.title + '" function');
         });
-
 
     QUnit.test('API', function(assert) {
         var instance = polling();
@@ -69,7 +62,7 @@ define([
         var context = {};
         var max = 3;
 
-        QUnit.expect(18);
+        assert.expect(18);
 
         assert.equal(instance.getInterval(), 60000, 'The polling instance has set a default value for the interval');
         assert.equal(instance.getContext(), instance, 'The polling instance has set a default value for the call context');
@@ -90,7 +83,6 @@ define([
         assert.equal(instance2.getContext(), instance2, 'The polling instance has set a default value for the call context');
         assert.equal(instance2.getAction(), action, 'The polling instance has set the right action callback');
 
-
         var instance3 = polling({
             action: action,
             interval: interval,
@@ -103,13 +95,23 @@ define([
         assert.equal(instance3.getAction(), action, 'The polling instance has set the right action callback');
     });
 
-
-    QUnit.asyncTest('events', function(assert) {
+    QUnit.test('events', function(assert) {
+        var ready10 = assert.async();
+        var ready9 = assert.async();
+        var ready8 = assert.async();
+        var ready7 = assert.async(3);
+        var ready6 = assert.async();
+        var ready5 = assert.async(2);
+        var ready4 = assert.async(3);
+        var ready3 = assert.async(2);
+        var ready2 = assert.async();
+        var ready1 = assert.async(4);
+        var ready = assert.async();
         var instance = polling();
 
         var interval = 50;
         var context = {
-            step : 0
+            step: 0
         };
 
         var action = function() {
@@ -117,7 +119,7 @@ define([
 
             assert.equal(instance.is('processing'), true, 'The instance must be in state processing');
 
-            switch (this.step ++) {
+            switch (this.step++) {
                 case 0:
                     async = instance.async();
                     setTimeout(function() {
@@ -147,19 +149,19 @@ define([
 
         instance.on('custom', function() {
             assert.ok(true, 'The polling instance can handle custom events');
-            QUnit.start();
+            ready();
         });
 
         instance.on('call', function() {
             assert.ok(true, 'The polling instance triggers event when the action is called [step ' + context.step + ']');
-            QUnit.start();
+            ready1();
         });
 
         instance.on('resolved', function() {
             assert.equal(instance.is('processing'), false, 'The instance must not be in state processing');
             assert.equal(instance.is('pending'), true, 'The instance must be in state pending');
             assert.ok(true, 'The polling instance triggers event when the action is validated in async mode [step ' + context.step + ']');
-            QUnit.start();
+            ready2();
         });
 
         instance.on('rejected', function() {
@@ -168,7 +170,7 @@ define([
                 assert.equal(instance.is('stopped'), true, 'The instance must be in state stopped');
             }
             assert.ok(true, 'The polling instance triggers event when the action is canceled in async mode [step ' + context.step + ']');
-            QUnit.start();
+            ready3();
         });
 
         instance.on('async', function(cb) {
@@ -176,27 +178,27 @@ define([
             assert.equal(typeof cb, 'object', 'The first parameter of the async event is the resolve object');
             assert.ok(cb.resolve, 'The first parameter of the async event has a resolve method');
             assert.ok(cb.reject, 'The first parameter of the async event has a reject method');
-            QUnit.start();
+            ready4();
         });
 
         instance.on('next', function() {
             assert.equal(instance.is('stopped'), false, 'The instance must not be in state stopped');
             assert.ok(true, 'The polling instance triggers event when the action is triggered immediately [step ' + context.step + ']');
-            QUnit.start();
+            ready5();
         });
 
         instance.on('start', function() {
             assert.equal(instance.is('pending'), true, 'The instance must be in state pending');
             assert.equal(instance.is('stopped'), false, 'The instance must not be in state stopped');
             assert.ok(true, 'The polling instance triggers event when the polling is started [step ' + context.step + ']');
-            QUnit.start();
+            ready6();
         });
 
         instance.on('stop', function() {
             assert.equal(instance.is('pending'), false, 'The instance must not be in state pending');
             assert.equal(instance.is('stopped'), true, 'The instance must be in state stopped');
             assert.ok(true, 'The polling instance triggers event when the polling is stopped [step ' + context.step + ']');
-            QUnit.start();
+            ready7();
 
             if (2 === context.step || 3 === context.step) {
                 instance.next();
@@ -206,23 +208,22 @@ define([
         instance.on('setinterval', function(val) {
             assert.ok(true, 'The polling instance triggers event when the interval is changed');
             assert.equal(val, interval, 'The first parameter of the setinterval event is the changed value');
-            QUnit.start();
+            ready8();
         });
 
         instance.on('setaction', function(val) {
             assert.ok(true, 'The polling instance triggers event when the action to call is changed');
             assert.equal(val, action, 'The first parameter of the setaction event is the changed value');
-            QUnit.start();
+            ready9();
         });
 
         instance.on('setcontext', function(val) {
             assert.ok(true, 'The polling instance triggers event when the call context is changed');
             assert.equal(val, context, 'The first parameter of the setcontext event is the changed value');
-            QUnit.start();
+            ready10();
         });
 
-        QUnit.stop(19);
-        QUnit.expect(48);
+        assert.expect(48);
 
         instance.trigger('custom');
 
@@ -232,29 +233,29 @@ define([
         instance.start();
     });
 
-
-    QUnit.asyncTest('limit', function(assert) {
+    QUnit.test('limit', function(assert) {
+        var ready1 = assert.async();
+        var ready = assert.async(3);
         var instance = polling();
         var max = 3;
         var interval = 50;
         var context = {
-            step : 0
+            step: 0
         };
 
         var action = function() {
-            this.step ++;
+            this.step++;
             assert.equal(instance.getIteration(), this.step, 'The iteration is counted #' + this.step);
             assert.ok(instance.getIteration() <= max, 'The number of iterations is under the max #' + this.step);
-            QUnit.start();
+            ready();
         };
 
         instance.on('stop', function() {
             assert.ok(true, 'The polling instance is stopped');
-            QUnit.start();
+            ready1();
         });
 
-        QUnit.stop(max);
-        QUnit.expect(11);
+        assert.expect(11);
 
         instance.setInterval(interval);
         instance.setContext(context);
@@ -274,8 +275,8 @@ define([
         instance2.stop();
     });
 
-
-    QUnit.asyncTest('autoStart', function(assert) {
+    QUnit.test('autoStart', function(assert) {
+        var ready = assert.async();
         var instance = polling({
             action: function() {
                 assert.ok(true, 'The instance has auto started the polling');
@@ -285,29 +286,29 @@ define([
             autoStart: true
         });
 
-        QUnit.expect(2);
+        assert.expect(2);
 
         instance.on('stop', function() {
             assert.ok(true, 'The polling instance is stopped');
-            QUnit.start();
+            ready();
         });
     });
 
-
-    QUnit.asyncTest('next pending', function(assert) {
+    QUnit.test('next pending', function(assert) {
+        var ready = assert.async();
         var instance = polling({
             action: function() {
                 var async = this.async();
 
                 assert.ok(true, 'The next() method has force an iteration');
-                count ++;
+                count++;
 
                 setTimeout(function() {
                     async.resolve();
 
-                    if(count >= 2) {
+                    if (count >= 2) {
                         instance.stop();
-                        QUnit.start();
+                        ready();
                     }
                 }, 250);
             },
@@ -315,11 +316,11 @@ define([
         });
         var count = 0;
 
-        QUnit.expect(4);
+        assert.expect(4);
 
         instance.next();
-        assert.equal(count, 1, "An iteration has been ran");
+        assert.equal(count, 1, 'An iteration has been ran');
         instance.next();
-        assert.equal(count, 1, "No other iteration has been ran at this time");
+        assert.equal(count, 1, 'No other iteration has been ran at this time');
     });
 });

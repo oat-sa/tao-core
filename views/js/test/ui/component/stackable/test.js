@@ -19,12 +19,13 @@
  * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
+
     'jquery',
     'ui/hider',
     'ui/stacker',
     'ui/component',
     'ui/component/stackable'
-], function ($, hider, stackerFactory, componentFactory, makeStackable) {
+], function($, hider, stackerFactory, componentFactory, makeStackable) {
     'use strict';
 
     var fixtureContainer = '#qunit-fixture',
@@ -33,26 +34,26 @@ define([
 
     QUnit.module('plugin');
 
-    QUnit.test('module', function (assert) {
-        QUnit.expect(1);
+    QUnit.test('module', function(assert) {
+        assert.expect(1);
 
         assert.ok(typeof makeStackable === 'function', 'The module expose a function');
     });
 
     QUnit
-        .cases([
-            { 'title': 'bringToFront' }
+        .cases.init([
+            {'title': 'bringToFront'}
         ])
         .test('stackable component API', function(data, assert) {
             var component = makeStackable(componentFactory());
 
-            QUnit.expect(1);
+            assert.expect(1);
             assert.ok(typeof component[data.title] === 'function', 'component has a ' + data.title + ' method');
         });
 
     QUnit.module('Regular component');
 
-    QUnit.test('does not provide any z-index behavior', function (assert) {
+    QUnit.test('does not provide any z-index behavior', function(assert) {
         var $container = $(fixtureContainer),
             component = componentFactory()
                 .init()
@@ -60,9 +61,9 @@ define([
                 .show(),
             $element = component.getElement();
 
-        QUnit.expect(3);
+        assert.expect(3);
 
-        assert.ok(! hider.isHidden($element), 'component is visible');
+        assert.ok(!hider.isHidden($element), 'component is visible');
         assert.equal($element.get(0).style.zIndex, '', 'component has no z-index');
 
         $element.trigger('click');
@@ -73,17 +74,17 @@ define([
 
     QUnit.test('bring component to front on .bringToFront()', function(assert) {
         var $container = $(fixtureContainer),
-            component = makeStackable(componentFactory(), { stackingScope: stackingScope })
+            component = makeStackable(componentFactory(), {stackingScope: stackingScope})
                 .init()
                 .render($container),
             $element = component.getElement();
 
-        QUnit.expect(4);
+        assert.expect(4);
 
-        assert.ok(! hider.isHidden($element), 'component is visible');
+        assert.ok(!hider.isHidden($element), 'component is visible');
         assert.equal($element.get(0).style.zIndex, stacker.getCurrent(), 'component has been brought to the front');
 
-        // put another element on top of the component
+        // Put another element on top of the component
         stacker.bringToFront($('div'));
         assert.notEqual($element.get(0).style.zIndex, stacker.getCurrent(), 'component is not on the front anymore');
 
@@ -93,30 +94,30 @@ define([
 
     QUnit.test('bring component to front on .render()', function(assert) {
         var $container = $(fixtureContainer),
-            component = makeStackable(componentFactory(), { stackingScope: stackingScope })
+            component = makeStackable(componentFactory(), {stackingScope: stackingScope})
                 .init()
                 .render($container),
             $element = component.getElement();
 
-        QUnit.expect(2);
+        assert.expect(2);
 
-        assert.ok(! hider.isHidden($element), 'component is visible');
+        assert.ok(!hider.isHidden($element), 'component is visible');
         assert.equal($element.get(0).style.zIndex, stacker.getCurrent(), 'component has the latest z-index');
     });
 
     QUnit.test('bring component to front on .show()', function(assert) {
         var $container = $(fixtureContainer),
-            component = makeStackable(componentFactory(), { stackingScope: stackingScope })
+            component = makeStackable(componentFactory(), {stackingScope: stackingScope})
                 .init()
                 .render($container),
             $element = component.getElement();
 
-        QUnit.expect(4);
+        assert.expect(4);
 
-        assert.ok(! hider.isHidden($element), 'component is visible');
+        assert.ok(!hider.isHidden($element), 'component is visible');
         assert.equal($element.get(0).style.zIndex, stacker.getCurrent(), 'component has been brought to the front');
 
-        // put another element on top of the component
+        // Put another element on top of the component
         stacker.bringToFront($('div'));
         assert.notEqual($element.get(0).style.zIndex, stacker.getCurrent(), 'component is not on the front anymore');
 
@@ -126,17 +127,17 @@ define([
 
     QUnit.test('bring component to front on mousedown', function(assert) {
         var $container = $(fixtureContainer),
-            component = makeStackable(componentFactory(), { stackingScope: stackingScope })
+            component = makeStackable(componentFactory(), {stackingScope: stackingScope})
                 .init()
                 .render($container),
             $element = component.getElement();
 
-        QUnit.expect(4);
+        assert.expect(4);
 
-        assert.ok(! hider.isHidden($element), 'component is visible');
+        assert.ok(!hider.isHidden($element), 'component is visible');
         assert.equal($element.get(0).style.zIndex, stacker.getCurrent(), 'component has been brought to the front');
 
-        // put another element on top of the component
+        // Put another element on top of the component
         stacker.bringToFront($('div'));
         assert.notEqual($element.get(0).style.zIndex, stacker.getCurrent(), 'component is not on the front anymore');
 

@@ -19,11 +19,7 @@
 /**
  * @author Aleh Hutnikau <hutnikau@1pt.com>
  */
-define([
-    'jquery',
-    'lodash',
-    'layout/loading-bar'
-], function($, _, loadingBar) {
+define(['jquery', 'lodash', 'layout/loading-bar'], function($, _, loadingBar) {
     'use strict';
 
     QUnit.module('layout/loading-bar');
@@ -32,24 +28,26 @@ define([
         assert.ok(typeof loadingBar === 'object', 'the module expose an object');
     });
 
-    QUnit.asyncTest('Show loading bar with overlay', function(assert) {
+    QUnit.test('Show loading bar with overlay', function(assert) {
+        var ready = assert.async();
         loadingBar.start();
-        QUnit.expect(2);
+        assert.expect(2);
 
         assert.ok($('.loading-bar').is(':visible'), 'Loading bar has been shown');
         assert.ok($('.loading-bar.loading').hasClass('loadingbar-covered'), 'Loading bar has overlay');
 
-        QUnit.start();
+        ready();
     });
 
-    QUnit.asyncTest('Show loading bar without overlay', function(assert) {
+    QUnit.test('Show loading bar without overlay', function(assert) {
+        var ready = assert.async();
         loadingBar.start(false);
-        QUnit.expect(2);
+        assert.expect(2);
 
         assert.ok($('.loading-bar').is(':visible'), 'Loading bar has been shown');
         assert.ok(!$('.loading-bar.loading').hasClass('loadingbar-covered'), 'Loading bar does not have overlay');
 
-        QUnit.start();
+        ready();
     });
 
 });

@@ -19,34 +19,32 @@
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
 define([
+
     'lodash',
     'core/promise',
     'ui/documentViewer/viewerFactory',
     'tpl!test/ui/documentViewer/viewerFactory/mock'
-], function (_, Promise, viewerFactory, mockTpl) {
+], function(_, Promise, viewerFactory, mockTpl) {
     'use strict';
 
-
     QUnit.module('viewerFactory factory', {
-        setup: function () {
+        beforeEach: function(assert) {
             viewerFactory.registerProvider('mock', {init: _.noop, load: _.noop});
         },
-        teardown: function () {
+        afterEach: function(assert) {
             viewerFactory.clearProviders();
         }
     });
 
+    QUnit.test('module', function(assert) {
+        assert.expect(5);
 
-    QUnit.test('module', function (assert) {
-        QUnit.expect(5);
-
-        assert.equal(typeof viewerFactory, 'function', "The viewerFactory module exposes a function");
-        assert.equal(typeof viewerFactory.registerProvider, 'function', "The instance module exposes a function registerProvider()");
-        assert.equal(typeof viewerFactory.getProvider, 'function', "The instance module exposes a function getProvider()");
-        assert.equal(typeof viewerFactory('mock'), 'object', "The viewerFactory factory produces an object");
-        assert.notStrictEqual(viewerFactory('mock'), viewerFactory('mock'), "The viewerFactory factory provides a different object on each call");
+        assert.equal(typeof viewerFactory, 'function', 'The viewerFactory module exposes a function');
+        assert.equal(typeof viewerFactory.registerProvider, 'function', 'The instance module exposes a function registerProvider()');
+        assert.equal(typeof viewerFactory.getProvider, 'function', 'The instance module exposes a function getProvider()');
+        assert.equal(typeof viewerFactory('mock'), 'object', 'The viewerFactory factory produces an object');
+        assert.notStrictEqual(viewerFactory('mock'), viewerFactory('mock'), 'The viewerFactory factory provides a different object on each call');
     });
-
 
     var viewerFactoryApi = [
         {name: 'init', title: 'init'},
@@ -72,32 +70,30 @@ define([
     ];
 
     QUnit
-        .cases(viewerFactoryApi)
-        .test('has API ', function (data, assert) {
+        .cases.init(viewerFactoryApi)
+        .test('has API ', function(data, assert) {
             var instance = viewerFactory('mock');
             assert.equal(typeof instance[data.name], 'function', 'The viewerFactory instance exposes a "' + data.name + '" function');
         });
 
-
     QUnit.module('provider', {
-        setup: function () {
+        beforeEach: function(assert) {
             viewerFactory.clearProviders();
         }
     });
 
+    QUnit.test('register error', function(assert) {
+        assert.expect(4);
 
-    QUnit.test('register error', function (assert) {
-        QUnit.expect(4);
-
-        assert.throws(function () {
+        assert.throws(function() {
             viewerFactory.registerProvider('mock');
         }, 'An error is thrown when no provider is provided');
 
-        assert.throws(function () {
+        assert.throws(function() {
             viewerFactory.registerProvider('mock', {load: _.noop});
         }, 'An error is thrown when a provider without init method is provided');
 
-        assert.throws(function () {
+        assert.throws(function() {
             viewerFactory.registerProvider('mock', {init: _.noop});
         }, 'An error is thrown when a provider without load method is provided');
 
@@ -105,8 +101,8 @@ define([
         assert.ok(true, 'No error is thrown when a well formatted provider is provided');
     });
 
-
-    QUnit.asyncTest('init()', function (assert) {
+    QUnit.test('init()', function(assert) {
+        var ready = assert.async();
         var expectedConfig = {
             url: 'an/url/to/test',
             width: 200,
@@ -117,7 +113,7 @@ define([
             highlightAllMatches: false
         };
 
-        QUnit.expect(3);
+        assert.expect(3);
 
         viewerFactory.registerProvider('mock', {
             init: function() {
@@ -130,13 +126,12 @@ define([
         viewerFactory('mock', expectedConfig)
             .on('initialized', function() {
                 assert.ok(true, 'The viewer is initialized');
-                QUnit.start();
+                ready();
             });
-
     });
 
-
-    QUnit.asyncTest('destroy()', function (assert) {
+    QUnit.test('destroy()', function(assert) {
+        var ready = assert.async();
         var expectedConfig = {
             url: 'an/url/to/test',
             width: 200,
@@ -147,7 +142,7 @@ define([
             highlightAllMatches: false
         };
 
-        QUnit.expect(5);
+        assert.expect(5);
 
         viewerFactory.registerProvider('mock', {
             init: function() {
@@ -169,13 +164,12 @@ define([
             .on('unloaded', function() {
                 assert.ok(true, 'The viewer is destroyed');
 
-                QUnit.start();
+                ready();
             });
-
     });
 
-
-    QUnit.asyncTest('render()', function (assert) {
+    QUnit.test('render()', function(assert) {
+        var ready = assert.async();
         var expectedConfig = {
             url: 'an/url/to/test',
             width: 200,
@@ -186,7 +180,7 @@ define([
             highlightAllMatches: false
         };
 
-        QUnit.expect(7);
+        assert.expect(7);
 
         viewerFactory.registerProvider('mock', {
             init: function() {
@@ -215,13 +209,12 @@ define([
             .on('unloaded', function() {
                 assert.ok(true, 'The viewer is destroyed');
 
-                QUnit.start();
+                ready();
             });
-
     });
 
-
-    QUnit.asyncTest('setSize()', function (assert) {
+    QUnit.test('setSize()', function(assert) {
+        var ready = assert.async();
         var expectedWidth = 200;
         var expectedHeight = 100;
         var expectedConfig = {
@@ -234,7 +227,7 @@ define([
             highlightAllMatches: false
         };
 
-        QUnit.expect(13);
+        assert.expect(13);
 
         viewerFactory.registerProvider('mock', {
             init: function() {
@@ -275,13 +268,13 @@ define([
             .on('unloaded', function() {
                 assert.ok(true, 'The viewer is destroyed');
 
-                QUnit.start();
+                ready();
             });
-
     });
 
-    QUnit.asyncTest('init error', function (assert) {
-        QUnit.expect(2);
+    QUnit.test('init error', function(assert) {
+        var ready = assert.async();
+        assert.expect(2);
 
         viewerFactory.registerProvider('mock', {
             init: function() {
@@ -295,13 +288,13 @@ define([
             .on('error', function() {
                 assert.ok(true, 'The viewer has thrown an error when initializing');
 
-                QUnit.start();
+                ready();
             });
     });
 
-
-    QUnit.asyncTest('load error', function (assert) {
-        QUnit.expect(3);
+    QUnit.test('load error', function(assert) {
+        var ready = assert.async();
+        assert.expect(3);
 
         viewerFactory.registerProvider('mock', {
             init: function() {
@@ -318,13 +311,13 @@ define([
             .on('error', function() {
                 assert.ok(true, 'The viewer has thrown an error when loading');
 
-                QUnit.start();
+                ready();
             });
     });
 
-
-    QUnit.asyncTest('setSize error', function (assert) {
-        QUnit.expect(4);
+    QUnit.test('setSize error', function(assert) {
+        var ready = assert.async();
+        assert.expect(4);
 
         viewerFactory.registerProvider('mock', {
             init: function() {
@@ -345,13 +338,13 @@ define([
             .on('error', function() {
                 assert.ok(true, 'The viewer has thrown an error when resizing');
 
-                QUnit.start();
+                ready();
             });
     });
 
-
-    QUnit.asyncTest('unload error', function (assert) {
-        QUnit.expect(4);
+    QUnit.test('unload error', function(assert) {
+        var ready = assert.async();
+        assert.expect(4);
 
         viewerFactory.registerProvider('mock', {
             init: function() {
@@ -372,34 +365,32 @@ define([
             .on('error', function() {
                 assert.ok(true, 'The viewer has thrown an error when unloading');
 
-                QUnit.start();
+                ready();
             });
     });
 
-
-    QUnit.test('getType', function (assert) {
+    QUnit.test('getType', function(assert) {
         var viewer;
 
-        QUnit.expect(1);
+        assert.expect(1);
 
         viewerFactory.registerProvider('pdf', {init: _.noop, load: _.noop});
         viewer = viewerFactory('pdf', {type: 'pdf', url: '/test.pdf'});
         assert.equal(viewer.getType(), 'pdf', 'The type is defined');
     });
 
-
-    QUnit.test('getUrl', function (assert) {
+    QUnit.test('getUrl', function(assert) {
         var viewer;
 
-        QUnit.expect(1);
+        assert.expect(1);
 
         viewerFactory.registerProvider('pdf', {init: _.noop, load: _.noop});
         viewer = viewerFactory('pdf', {type: 'pdf', url: '/test.pdf'});
         assert.equal(viewer.getUrl(), '/test.pdf', 'The url is defined');
     });
 
-
-    QUnit.asyncTest('getTemplate()', function (assert) {
+    QUnit.test('getTemplate()', function(assert) {
+        var ready = assert.async();
         var expectedConfig = {
             url: 'an/url/to/test',
             width: 200,
@@ -410,7 +401,7 @@ define([
             highlightAllMatches: false
         };
 
-        QUnit.expect(8);
+        assert.expect(8);
 
         viewerFactory.registerProvider('mock', {
             init: function() {
@@ -443,8 +434,7 @@ define([
             .on('unloaded', function() {
                 assert.ok(true, 'The viewer is destroyed');
 
-                QUnit.start();
+                ready();
             });
-
     });
 });
