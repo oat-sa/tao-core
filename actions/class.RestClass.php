@@ -41,9 +41,9 @@ class tao_actions_RestClass extends tao_actions_RestResource
             } catch (common_Exception $e) {
                 $this->returnFailure($e);
             }
+        } else {
+            $this->returnFailure(new common_exception_MethodNotAllowed(__METHOD__ . ' only accepts GET method'));
         }
-
-        $this->returnFailure(new common_exception_MethodNotAllowed(__METHOD__ . ' only accepts GET method'));
     }
 
 }
