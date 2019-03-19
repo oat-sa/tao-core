@@ -76,6 +76,7 @@
 
     .keyboard {
         position: relative;
+        @include vendor-prefix(display, flex, value, (-ms-, -webkit-, ''));
         @include vendor-prefix(flex, 1 1, property, (-ms-, -webkit-, ''));
     }
 
@@ -87,7 +88,7 @@
         background: $calculatorKeyboardBg;
         color: $calculatorKeyboardTxt;
         width: 100%;
-        height: 100%;
+        height: auto;
         padding-top: $calculatorScreenPadding;
 
         .row {

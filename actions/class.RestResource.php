@@ -61,17 +61,15 @@ class tao_actions_RestResource extends tao_actions_CommonModule
             } catch (common_Exception $e) {
                 $this->returnFailure($e);
             }
-        }
-
-        if ($this->isRequestPost()) {
+        } elseif ($this->isRequestPost()) {
             try {
                 $this->processForm($this->getClassParameter());
             } catch (common_Exception $e) {
                 $this->returnFailure($e);
             }
+        } else {
+            $this->returnFailure(new common_exception_MethodNotAllowed(__METHOD__ . ' only accepts GET or POST method'));
         }
-
-        $this->returnFailure(new common_exception_MethodNotAllowed(__METHOD__ . ' only accepts GET or POST method'));
     }
 
     /**
@@ -349,7 +347,7 @@ class tao_actions_RestResource extends tao_actions_CommonModule
         }
 
         $this->returnJson($data);
-        exit(0);
+//        exit(0);
     }
 
     /**

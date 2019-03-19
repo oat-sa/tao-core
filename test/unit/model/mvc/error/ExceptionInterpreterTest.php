@@ -1,20 +1,20 @@
 <?php
-/*
+/**
  * This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License
  *  as published by the Free Software Foundation; under version 2
  *  of the License (non-upgradable).
- *  
+ *
  * This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
- * 
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
- *  Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ *
+ *  Copyright (c) 2016-2019 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
 namespace oat\tao\test\unit\model\mvc\error;
@@ -25,7 +25,6 @@ use oat\oatbox\user\LoginFailedException;
 use oat\tao\model\mvc\error\ExceptionInterpretor;
 use oat\generis\test\TestCase;
 use ResolverException;
-use tao_models_classes_AccessDeniedException;
 use tao_models_classes_FileNotFoundException;
 use tao_models_classes_UserException;
 
@@ -34,15 +33,13 @@ use tao_models_classes_UserException;
  *
  * @author Christophe GARCIA <christopheg@taotesting.com>
  */
-class ExceptionInterpretorTest extends TestCase
+class ExceptionInterpreterTest extends TestCase
 {
 
     public function interpretErrorProvider()
     {
-        $userUri = 'toto';
         $action = 'test';
         $module = 'test';
-        $ext = 'test';
 
         return
             [
@@ -57,22 +54,23 @@ class ExceptionInterpretorTest extends TestCase
 
 
     /**
+     * Test the interpreter exception process and getTrace() method
      *
-     * @param type $exception
-     * @param type $expectedHttpStatus
-     * @param type $expectedTrace
-     * @param type $expectedResponseClassName
+     * @param $exception
+     * @param $expectedHttpStatus
+     * @param $expectedTrace
+     * @param $expectedResponseClassName
      * @dataProvider interpretErrorProvider
+     * @throws \ReflectionException
      */
     public function testInterpretError($exception, $expectedHttpStatus, $expectedTrace, $expectedResponseClassName)
     {
-
-        $ExceptionInterpretor = new ExceptionInterpretor();
-        $this->setInaccessibleProperty($ExceptionInterpretor, 'exception', $exception);
-        $this->assertSame($ExceptionInterpretor, $this->invokeProtectedMethod($ExceptionInterpretor, 'interpretError'));
-        $this->assertSame($expectedHttpStatus, $this->getInaccessibleProperty($ExceptionInterpretor, 'returnHttpCode'));
-        $this->assertSame($expectedTrace, $this->getInaccessibleProperty($ExceptionInterpretor, 'trace'));
-        $this->assertSame($expectedResponseClassName, $this->getInaccessibleProperty($ExceptionInterpretor, 'responseClassName'));
+        $exceptionInterpreter = new ExceptionInterpretor();
+        $this->setInaccessibleProperty($exceptionInterpreter, 'exception', $exception);
+        $this->assertSame($exceptionInterpreter, $this->invokeProtectedMethod($exceptionInterpreter, 'interpretError'));
+        $this->assertSame($expectedHttpStatus, $this->getInaccessibleProperty($exceptionInterpreter, 'returnHttpCode'));
+        $this->assertSame($expectedTrace, $exceptionInterpreter->getTrace());
+        $this->assertSame($expectedResponseClassName, $this->getInaccessibleProperty($exceptionInterpreter, 'responseClassName'));
     }
 
     /**
@@ -85,14 +83,6 @@ class ExceptionInterpretorTest extends TestCase
         $this->assertSame($ExceptionInterpretor, $ExceptionInterpretor->setException($exception));
         $this->assertSame($exception, $this->getInaccessibleProperty($ExceptionInterpretor, 'exception'));
 
-    }
-
-    public function testGetTrace()
-    {
-        $fixtureTrace = 'test toto titi';
-        $ExceptionInterpretor = new ExceptionInterpretor();
-        $this->setInaccessibleProperty($ExceptionInterpretor, 'trace', $fixtureTrace);
-        $this->assertSame($fixtureTrace, $ExceptionInterpretor->getTrace());
     }
 
     public function testGetHttpCode()

@@ -960,14 +960,14 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('27.4.0');
         }
 
-        $this->skip('27.4.0', '27.5.0');
+        $this->skip('27.4.0', '29.0.0');
 
-        if ($this->isVersion('27.5.0')) {
+        if ($this->isVersion('29.0.0')) {
             $register = new RegisterSignatureGenerator();
             $register->setServiceLocator($this->getServiceManager());
             $register->__invoke('');
 
-            $this->setVersion('28.0.4');
+            $this->setVersion('29.0.1');
         }
     }
 }
