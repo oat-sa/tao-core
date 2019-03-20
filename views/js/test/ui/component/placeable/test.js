@@ -20,46 +20,47 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
+
     'jquery',
     'ui/component',
     'ui/component/placeable',
     'ui/transformer'
-], function ($, componentFactory, makePlaceable, transformer) {
+], function($, componentFactory, makePlaceable, transformer) {
     'use strict';
 
     var fixtureContainer = '#qunit-fixture';
 
     QUnit.module('API');
 
-    QUnit.test('module', function (assert) {
-        QUnit.expect(1);
+    QUnit.test('module', function(assert) {
+        assert.expect(1);
 
         assert.ok(typeof makePlaceable === 'function', 'The module expose a function');
     });
 
     QUnit
-        .cases([
-            { title: 'center',          method: 'center' },
-            { title: 'getPosition',     method: 'getPosition' },
-            { title: 'moveTo',          method: 'moveTo' },
-            { title: 'moveBy',          method: 'moveBy' },
-            { title: 'resetPosition',   method: 'resetPosition' },
-            { title: 'moveToX',         method: 'moveToX' },
-            { title: 'moveToY',         method: 'moveToY' }
+        .cases.init([
+            {title: 'center', method: 'center'},
+            {title: 'getPosition', method: 'getPosition'},
+            {title: 'moveTo', method: 'moveTo'},
+            {title: 'moveBy', method: 'moveBy'},
+            {title: 'resetPosition', method: 'resetPosition'},
+            {title: 'moveToX', method: 'moveToX'},
+            {title: 'moveToY', method: 'moveToY'}
         ])
         .test('component API', function(data, assert) {
             var component = makePlaceable(componentFactory());
 
-            QUnit.expect(1);
+            assert.expect(1);
             assert.equal(typeof component[data.method], 'function', 'The component has the method ' + data.method);
         });
 
     QUnit.test('.isPlaceable()', function(assert) {
         var component = componentFactory();
 
-        QUnit.expect(2);
+        assert.expect(2);
 
-        assert.ok(! makePlaceable.isPlaceable(component), 'returns false if component is not placeable');
+        assert.ok(!makePlaceable.isPlaceable(component), 'returns false if component is not placeable');
 
         makePlaceable(component);
 
@@ -68,11 +69,11 @@ define([
 
     QUnit.module('component options');
 
-    QUnit.test('pass options with makePlaceable()', function (assert) {
+    QUnit.test('pass options with makePlaceable()', function(assert) {
         var $container = $(fixtureContainer),
             component = makePlaceable(
                 componentFactory(),
-                { initialX: 50, initialY: 50 }
+                {initialX: 50, initialY: 50}
             ),
             position;
 
@@ -85,16 +86,16 @@ define([
         assert.equal(position.top, 50, 'initialY option has been used');
     });
 
-    QUnit.test('options in init overrides options passed in makePlaceable()', function (assert) {
+    QUnit.test('options in init overrides options passed in makePlaceable()', function(assert) {
         var $container = $(fixtureContainer),
             component = makePlaceable(
                 componentFactory(),
-                { initialX: 50, initialY: 50 }
+                {initialX: 50, initialY: 50}
             ),
             position;
 
         component
-            .init({ initialX: 75, initialY: 75 })
+            .init({initialX: 75, initialY: 75})
             .render($container);
 
         position = component.getElement().position();
@@ -104,14 +105,14 @@ define([
 
     QUnit.module('Placeable component');
 
-    QUnit.test('render the component with absolute positioning', function (assert) {
+    QUnit.test('render the component with absolute positioning', function(assert) {
         var $container = $(fixtureContainer),
             component = makePlaceable(componentFactory())
                 .init()
                 .render($container),
             $element = component.getElement();
 
-        QUnit.expect(1);
+        assert.expect(1);
 
         assert.equal($element.css('position'), 'absolute', 'component has been rendered with absolute positioning');
     });
@@ -122,7 +123,7 @@ define([
             position,
             $element;
 
-        QUnit.expect(8);
+        assert.expect(8);
 
         component
             .init()
@@ -137,12 +138,11 @@ define([
         assert.equal(position.top, 0, '$.position() returns the correct top value');
 
         $element = component.getElement();
-        assert.equal($element.css('left'), '0px', 'component\'s element has the correct value for css property left');
-        assert.equal($element.css('top'), '0px', 'component\'s element has the correct value for css property top');
-        assert.equal(transformer.getTransformation($element).obj.translateX, 0, 'component\'s element has the right x translation');
-        assert.equal(transformer.getTransformation($element).obj.translateY, 0, 'component\'s element has the the right y translation');
+        assert.equal($element.css('left'), '0px', 'componen\'s element has the correct value for css property left');
+        assert.equal($element.css('top'), '0px', 'componen\'s element has the correct value for css property top');
+        assert.equal(transformer.getTransformation($element).obj.translateX, 0, 'componen\'s element has the right x translation');
+        assert.equal(transformer.getTransformation($element).obj.translateY, 0, 'componen\'s element has the the right y translation');
     });
-
 
     QUnit.test('render component into default position', function(assert) {
         var component = makePlaceable(componentFactory()),
@@ -150,7 +150,7 @@ define([
             position,
             $element;
 
-        QUnit.expect(8);
+        assert.expect(8);
 
         component
             .init({
@@ -168,19 +168,20 @@ define([
         assert.equal(position.top, 50, '$.position() returns the correct top value');
 
         $element = component.getElement();
-        assert.equal($element.css('left'), '100px', 'component\'s element has the correct value for css property left');
-        assert.equal($element.css('top'), '50px', 'component\'s element has the correct value for css property top');
-        assert.equal(transformer.getTransformation($element).obj.translateX, 0, 'component\'s element has the right x translation');
-        assert.equal(transformer.getTransformation($element).obj.translateY, 0, 'component\'s element has the the right y translation');
+        assert.equal($element.css('left'), '100px', 'componen\'s element has the correct value for css property left');
+        assert.equal($element.css('top'), '50px', 'componen\'s element has the correct value for css property top');
+        assert.equal(transformer.getTransformation($element).obj.translateX, 0, 'componen\'s element has the right x translation');
+        assert.equal(transformer.getTransformation($element).obj.translateY, 0, 'componen\'s element has the the right y translation');
     });
 
-    QUnit.asyncTest('.center() - no default position', function (assert) {
+    QUnit.test('.center() - no default position', function(assert) {
+        var ready = assert.async();
         var component = makePlaceable(componentFactory()),
             $container = $(fixtureContainer).width(800).height(600),
             position,
             $element;
 
-        QUnit.expect(11);
+        assert.expect(11);
 
         component
             .on('center', function(x, y) {
@@ -188,7 +189,7 @@ define([
                 assert.equal(x, 160, 'correct x value is transmitted as an event parameter');
                 assert.equal(y, 120, 'correct y value is transmitted as an event parameter');
 
-                QUnit.start();
+                ready();
             })
             .init()
             .render($container);
@@ -205,19 +206,20 @@ define([
         assert.equal(position.top, 120, '$.position() returns the correct top value');
 
         $element = component.getElement();
-        assert.equal($element.css('left'), '0px', 'component\'s element has the correct value for css property left');
-        assert.equal($element.css('top'), '0px', 'component\'s element has the correct value for css property top');
-        assert.equal(transformer.getTransformation($element).obj.translateX, 160, 'component\'s element has the right x translation');
-        assert.equal(transformer.getTransformation($element).obj.translateY, 120, 'component\'s element has the the right y translation');
+        assert.equal($element.css('left'), '0px', 'componen\'s element has the correct value for css property left');
+        assert.equal($element.css('top'), '0px', 'componen\'s element has the correct value for css property top');
+        assert.equal(transformer.getTransformation($element).obj.translateX, 160, 'componen\'s element has the right x translation');
+        assert.equal(transformer.getTransformation($element).obj.translateY, 120, 'componen\'s element has the the right y translation');
     });
 
-    QUnit.asyncTest('.center() - with default position', function (assert) {
+    QUnit.test('.center() - with default position', function(assert) {
+        var ready = assert.async();
         var component = makePlaceable(componentFactory()),
             $container = $(fixtureContainer).width(800).height(600),
             position,
             $element;
 
-        QUnit.expect(11);
+        assert.expect(11);
 
         component
             .on('center', function(x, y) {
@@ -225,7 +227,7 @@ define([
                 assert.equal(x, 160, 'correct x value is transmitted as an event parameter');
                 assert.equal(y, 120, 'correct y value is transmitted as an event parameter');
 
-                QUnit.start();
+                ready();
             })
             .init({
                 initialX: 150,
@@ -245,20 +247,21 @@ define([
         assert.equal(position.top, 120, '$.position() returns the correct top value');
 
         $element = component.getElement();
-        assert.equal($element.css('left'), '150px', 'component\'s element has the correct value for css property left');
-        assert.equal($element.css('top'), '170px', 'component\'s element has the correct value for css property top');
-        assert.equal(transformer.getTransformation($element).obj.translateX, 10, 'component\'s element has the right x translation');
-        assert.equal(transformer.getTransformation($element).obj.translateY, -50, 'component\'s element has the the right y translation');
+        assert.equal($element.css('left'), '150px', 'componen\'s element has the correct value for css property left');
+        assert.equal($element.css('top'), '170px', 'componen\'s element has the correct value for css property top');
+        assert.equal(transformer.getTransformation($element).obj.translateX, 10, 'componen\'s element has the right x translation');
+        assert.equal(transformer.getTransformation($element).obj.translateY, -50, 'componen\'s element has the the right y translation');
     });
 
-    QUnit.asyncTest('.moveBy() - no default position', function (assert) {
+    QUnit.test('.moveBy() - no default position', function(assert) {
+        var ready = assert.async();
         var component = makePlaceable(componentFactory()),
             $container = $(fixtureContainer).width(800).height(600),
             position,
             $element,
             moveCounter = 0;
 
-        QUnit.expect(13);
+        assert.expect(13);
 
         component
             .on('move', function(x, y) {
@@ -269,7 +272,7 @@ define([
                     assert.equal(x, 50, 'correct x value is transmitted as an event parameter');
                     assert.equal(y, 100, 'correct y value is transmitted as an event parameter');
 
-                    QUnit.start();
+                    ready();
                 }
             })
             .init()
@@ -290,20 +293,21 @@ define([
         assert.equal(position.top, 100, '$.position() returns the correct top value');
 
         $element = component.getElement();
-        assert.equal($element.css('left'), '0px', 'component\'s element has the correct value for css property left');
-        assert.equal($element.css('top'), '0px', 'component\'s element has the correct value for css property top');
-        assert.equal(transformer.getTransformation($element).obj.translateX, 50, 'component\'s element has the right x translation');
-        assert.equal(transformer.getTransformation($element).obj.translateY, 100, 'component\'s element has the the right y translation');
+        assert.equal($element.css('left'), '0px', 'componen\'s element has the correct value for css property left');
+        assert.equal($element.css('top'), '0px', 'componen\'s element has the correct value for css property top');
+        assert.equal(transformer.getTransformation($element).obj.translateX, 50, 'componen\'s element has the right x translation');
+        assert.equal(transformer.getTransformation($element).obj.translateY, 100, 'componen\'s element has the the right y translation');
     });
 
-    QUnit.asyncTest('.moveBy() - with default position', function (assert) {
+    QUnit.test('.moveBy() - with default position', function(assert) {
+        var ready = assert.async();
         var component = makePlaceable(componentFactory()),
             $container = $(fixtureContainer).width(800).height(600),
             position,
             $element,
             moveCounter = 0;
 
-        QUnit.expect(13);
+        assert.expect(13);
 
         component
             .on('move', function(x, y) {
@@ -314,7 +318,7 @@ define([
                     assert.equal(x, 260, 'correct x value is transmitted as an event parameter');
                     assert.equal(y, 225, 'correct y value is transmitted as an event parameter');
 
-                    QUnit.start();
+                    ready();
                 }
             })
             .init({
@@ -338,20 +342,21 @@ define([
         assert.equal(position.top, 225, '$.position() returns the correct top value');
 
         $element = component.getElement();
-        assert.equal($element.css('left'), '210px', 'component\'s element has the correct value for css property left');
-        assert.equal($element.css('top'), '125px', 'component\'s element has the correct value for css property top');
-        assert.equal(transformer.getTransformation($element).obj.translateX, 50, 'component\'s element has the right x translation');
-        assert.equal(transformer.getTransformation($element).obj.translateY, 100, 'component\'s element has the the right y translation');
+        assert.equal($element.css('left'), '210px', 'componen\'s element has the correct value for css property left');
+        assert.equal($element.css('top'), '125px', 'componen\'s element has the correct value for css property top');
+        assert.equal(transformer.getTransformation($element).obj.translateX, 50, 'componen\'s element has the right x translation');
+        assert.equal(transformer.getTransformation($element).obj.translateY, 100, 'componen\'s element has the the right y translation');
     });
 
-    QUnit.asyncTest('.moveBy() - multiple consecutive calls', function(assert) {
+    QUnit.test('.moveBy() - multiple consecutive calls', function(assert) {
+        var ready = assert.async();
         var component = makePlaceable(componentFactory()),
             $container = $(fixtureContainer).width(800).height(600),
             position,
             $element,
             moveCounter = 0;
 
-        QUnit.expect(23);
+        assert.expect(23);
 
         component
             .on('move', function(x, y) {
@@ -372,7 +377,7 @@ define([
                     assert.equal(x, 300, 'correct x value is transmitted as an event parameter');
                     assert.equal(y, 200, 'correct y value is transmitted as an event parameter');
 
-                    QUnit.start();
+                    ready();
                 }
             })
             .init({
@@ -393,8 +398,8 @@ define([
         assert.equal(position.x, 260, 'component has the correct x');
         assert.equal(position.y, 225, 'component has the correct y');
 
-        assert.equal(transformer.getTransformation($element).obj.translateX, 50, 'component\'s element has the right x translation');
-        assert.equal(transformer.getTransformation($element).obj.translateY, 100, 'component\'s element has the right y translation');
+        assert.equal(transformer.getTransformation($element).obj.translateX, 50, 'componen\'s element has the right x translation');
+        assert.equal(transformer.getTransformation($element).obj.translateY, 100, 'componen\'s element has the right y translation');
 
         component.moveBy(-110, -75);
 
@@ -402,8 +407,8 @@ define([
         assert.equal(position.x, 150, 'component has the correct x');
         assert.equal(position.y, 150, 'component has the correct y');
 
-        assert.equal(transformer.getTransformation($element).obj.translateX, -60, 'component\'s element has the right x translation');
-        assert.equal(transformer.getTransformation($element).obj.translateY, 25, 'component\'s element has the right y translation');
+        assert.equal(transformer.getTransformation($element).obj.translateX, -60, 'componen\'s element has the right x translation');
+        assert.equal(transformer.getTransformation($element).obj.translateY, 25, 'componen\'s element has the right y translation');
 
         component.moveBy(150, 50);
 
@@ -411,19 +416,19 @@ define([
         assert.equal(position.x, 300, 'component has the correct x');
         assert.equal(position.y, 200, 'component has the correct y');
 
-        assert.equal(transformer.getTransformation($element).obj.translateX, 90, 'component\'s element has the right x translation');
-        assert.equal(transformer.getTransformation($element).obj.translateY, 75, 'component\'s element has the right y translation');
-
+        assert.equal(transformer.getTransformation($element).obj.translateX, 90, 'componen\'s element has the right x translation');
+        assert.equal(transformer.getTransformation($element).obj.translateY, 75, 'componen\'s element has the right y translation');
     });
 
-    QUnit.asyncTest('.moveTo() - no default position', function (assert) {
+    QUnit.test('.moveTo() - no default position', function(assert) {
+        var ready = assert.async();
         var component = makePlaceable(componentFactory()),
             $container = $(fixtureContainer).width(800).height(600),
             position,
             $element,
             moveCounter = 0;
 
-        QUnit.expect(13);
+        assert.expect(13);
 
         component
             .on('move', function(x, y) {
@@ -434,7 +439,7 @@ define([
                     assert.equal(x, 400, 'correct x value is transmitted as an event parameter');
                     assert.equal(y, 300, 'correct y value is transmitted as an event parameter');
 
-                    QUnit.start();
+                    ready();
                 }
             })
             .init()
@@ -455,20 +460,21 @@ define([
         assert.equal(position.top, 300, '$.position() returns the correct top value');
 
         $element = component.getElement();
-        assert.equal($element.css('left'), '0px', 'component\'s element has the correct value for css property left');
-        assert.equal($element.css('top'), '0px', 'component\'s element has the correct value for css property top');
-        assert.equal(transformer.getTransformation($element).obj.translateX, 400, 'component\'s element has the right x translation');
-        assert.equal(transformer.getTransformation($element).obj.translateY, 300, 'component\'s element has the the right y translation');
+        assert.equal($element.css('left'), '0px', 'componen\'s element has the correct value for css property left');
+        assert.equal($element.css('top'), '0px', 'componen\'s element has the correct value for css property top');
+        assert.equal(transformer.getTransformation($element).obj.translateX, 400, 'componen\'s element has the right x translation');
+        assert.equal(transformer.getTransformation($element).obj.translateY, 300, 'componen\'s element has the the right y translation');
     });
 
-    QUnit.asyncTest('.moveTo() - with default position', function (assert) {
+    QUnit.test('.moveTo() - with default position', function(assert) {
+        var ready = assert.async();
         var component = makePlaceable(componentFactory()),
             $container = $(fixtureContainer).width(800).height(600),
             position,
             $element,
             moveCounter = 0;
 
-        QUnit.expect(13);
+        assert.expect(13);
 
         component
             .on('move', function(x, y) {
@@ -479,7 +485,7 @@ define([
                     assert.equal(x, 400, 'correct x value is transmitted as an event parameter');
                     assert.equal(y, 300, 'correct y value is transmitted as an event parameter');
 
-                    QUnit.start();
+                    ready();
                 }
             })
             .init({
@@ -503,19 +509,20 @@ define([
         assert.equal(position.top, 300, '$.position() returns the correct top value');
 
         $element = component.getElement();
-        assert.equal($element.css('left'), '210px', 'component\'s element has the correct value for css property left');
-        assert.equal($element.css('top'), '425px', 'component\'s element has the correct value for css property top');
-        assert.equal(transformer.getTransformation($element).obj.translateX, 190, 'component\'s element has the right x translation');
-        assert.equal(transformer.getTransformation($element).obj.translateY, -125, 'component\'s element has the the right y translation');
+        assert.equal($element.css('left'), '210px', 'componen\'s element has the correct value for css property left');
+        assert.equal($element.css('top'), '425px', 'componen\'s element has the correct value for css property top');
+        assert.equal(transformer.getTransformation($element).obj.translateX, 190, 'componen\'s element has the right x translation');
+        assert.equal(transformer.getTransformation($element).obj.translateY, -125, 'componen\'s element has the the right y translation');
     });
 
-    QUnit.asyncTest('.moveToX(), .moveToY', function (assert) {
+    QUnit.test('.moveToX(), .moveToY', function(assert) {
+        var ready = assert.async();
         var component = makePlaceable(componentFactory()),
             $container = $(fixtureContainer),
             moveCounter = 0,
             componentPosition;
 
-        QUnit.expect(8);
+        assert.expect(8);
 
         component
             .on('render', function() {
@@ -537,14 +544,14 @@ define([
 
                     this.moveToY(100);
 
-                } else if(moveCounter === 3) {
+                } else if (moveCounter === 3) {
                     componentPosition = this.getPosition();
 
                     assert.ok(true, 'move event has been triggered');
                     assert.equal(componentPosition.x, 200, 'component x position has not moved');
                     assert.equal(componentPosition.y, 100, 'component has the correct y position');
 
-                    QUnit.start();
+                    ready();
                 }
             })
             .init({
@@ -554,14 +561,15 @@ define([
             .render($container);
     });
 
-    QUnit.asyncTest('.resetPosition() - no default position', function (assert) {
+    QUnit.test('.resetPosition() - no default position', function(assert) {
+        var ready = assert.async();
         var component = makePlaceable(componentFactory()),
             $container = $(fixtureContainer).width(800).height(600),
             position,
             $element,
             moveCounter = 0;
 
-        QUnit.expect(13);
+        assert.expect(13);
 
         component
             .on('move', function(x, y) {
@@ -572,7 +580,7 @@ define([
                     assert.equal(x, 0, 'correct x value is transmitted as an event parameter');
                     assert.equal(y, 0, 'correct y value is transmitted as an event parameter');
 
-                    QUnit.start();
+                    ready();
                 }
             })
             .init()
@@ -595,20 +603,21 @@ define([
         assert.equal(position.y, 0, 'component has the correct y');
 
         $element = component.getElement();
-        assert.equal($element.css('left'), '0px', 'component\'s element has the correct value for css property left');
-        assert.equal($element.css('top'), '0px', 'component\'s element has the correct value for css property top');
-        assert.equal(transformer.getTransformation($element).obj.translateX, 0, 'component\'s element has the right x translation');
-        assert.equal(transformer.getTransformation($element).obj.translateY, 0, 'component\'s element has the the right y translation');
+        assert.equal($element.css('left'), '0px', 'componen\'s element has the correct value for css property left');
+        assert.equal($element.css('top'), '0px', 'componen\'s element has the correct value for css property top');
+        assert.equal(transformer.getTransformation($element).obj.translateX, 0, 'componen\'s element has the right x translation');
+        assert.equal(transformer.getTransformation($element).obj.translateY, 0, 'componen\'s element has the the right y translation');
     });
 
-    QUnit.asyncTest('.resetPosition() - with default position', function (assert) {
+    QUnit.test('.resetPosition() - with default position', function(assert) {
+        var ready = assert.async();
         var component = makePlaceable(componentFactory()),
             $container = $(fixtureContainer).width(800).height(600),
             position,
             $element,
             moveCounter = 0;
 
-        QUnit.expect(13);
+        assert.expect(13);
 
         component
             .on('move', function(x, y) {
@@ -619,7 +628,7 @@ define([
                     assert.equal(x, 210, 'correct x value is transmitted as an event parameter');
                     assert.equal(y, 425, 'correct y value is transmitted as an event parameter');
 
-                    QUnit.start();
+                    ready();
                 }
             })
             .init({
@@ -645,10 +654,10 @@ define([
         assert.equal(position.y, 425, 'component has the correct y');
 
         $element = component.getElement();
-        assert.equal($element.css('left'), '210px', 'component\'s element has the correct value for css property left');
-        assert.equal($element.css('top'), '425px', 'component\'s element has the correct value for css property top');
-        assert.equal(transformer.getTransformation($element).obj.translateX, 0, 'component\'s element has the right x translation');
-        assert.equal(transformer.getTransformation($element).obj.translateY, 0, 'component\'s element has the the right y translation');
+        assert.equal($element.css('left'), '210px', 'componen\'s element has the correct value for css property left');
+        assert.equal($element.css('top'), '425px', 'componen\'s element has the correct value for css property top');
+        assert.equal(transformer.getTransformation($element).obj.translateX, 0, 'componen\'s element has the right x translation');
+        assert.equal(transformer.getTransformation($element).obj.translateY, 0, 'componen\'s element has the the right y translation');
     });
 
 });

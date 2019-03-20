@@ -19,81 +19,82 @@
 /**
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define([
-    'jquery',
-    'ui/waitingDialog/waitingDialog'
-], function($, waitingDialog) {
+define(['jquery', 'ui/waitingDialog/waitingDialog'], function($, waitingDialog) {
     'use strict';
 
-    var config = { container: '#qunit-fixture' };
+    var config = {container: '#qunit-fixture'};
 
     QUnit.module('API');
 
-    QUnit.cases([
-        { title : 'init' },
-        { title : 'destroy' },
-        { title : 'render' },
-        { title : 'show' },
-        { title : 'hide' },
-        { title : 'enable' },
-        { title : 'disable' },
-        { title : 'is' },
-        { title : 'setState' },
-        { title : 'getContainer' },
-        { title : 'getElement' },
-        { title : 'getTemplate' },
-        { title : 'setTemplate' },
-    ]).asyncTest('Component API ', function(data, assert) {
-        waitingDialog(config).on('init', function(){
+    QUnit.cases.init([
+        {title: 'init'},
+        {title: 'destroy'},
+        {title: 'render'},
+        {title: 'show'},
+        {title: 'hide'},
+        {title: 'enable'},
+        {title: 'disable'},
+        {title: 'is'},
+        {title: 'setState'},
+        {title: 'getContainer'},
+        {title: 'getElement'},
+        {title: 'getTemplate'},
+        {title: 'setTemplate'}
+    ]).test('Component API ', function(data, assert) {
+        var ready = assert.async();
+        waitingDialog(config).on('init', function() {
             assert.equal(typeof this[data.title], 'function', 'The waitingDialog exposes the component method "' + data.title);
             this.destroy();
-            QUnit.start();
+            ready();
         });
     });
 
-    QUnit.cases([
-        { title : 'on' },
-        { title : 'off' },
-        { title : 'trigger' },
-        { title : 'before' },
-        { title : 'after' },
-    ]).asyncTest('Eventifier API ', function(data, assert) {
-        waitingDialog(config).on('init', function(){
+    QUnit.cases.init([
+        {title: 'on'},
+        {title: 'off'},
+        {title: 'trigger'},
+        {title: 'before'},
+        {title: 'after'}
+    ]).test('Eventifier API ', function(data, assert) {
+        var ready = assert.async();
+        waitingDialog(config).on('init', function() {
             assert.equal(typeof this[data.title], 'function', 'The waitingDialog exposes the eventifier method "' + data.title);
             this.destroy();
-            QUnit.start();
+            ready();
         });
     });
 
-    QUnit.cases([
-        { title : 'beginWait' },
-        { title : 'endWait' },
-    ]).asyncTest('Instance API ', function(data, assert) {
-        waitingDialog(config).on('init', function(){
+    QUnit.cases.init([
+        {title: 'beginWait'},
+        {title: 'endWait'}
+    ]).test('Instance API ', function(data, assert) {
+        var ready = assert.async();
+        waitingDialog(config).on('init', function() {
             assert.equal(typeof this[data.title], 'function', 'The waitingDialog exposes the method "' + data.title);
             this.destroy();
-            QUnit.start();
+            ready();
         });
     });
 
     QUnit.module('Behavior');
 
-    QUnit.asyncTest('Lifecycle', function(assert) {
+    QUnit.test('Lifecycle', function(assert) {
+        var ready = assert.async();
 
-        QUnit.expect(4);
+        assert.expect(4);
 
         waitingDialog(config)
-            .on('render', function(){
+            .on('render', function() {
 
                 assert.ok(this.is('rendered'), 'The component is rendered');
                 assert.ok(this.is('waiting'), 'The component starts in waiting state');
 
                 this.endWait();
             })
-            .on('unwait', function(){
+            .on('unwait', function() {
                 assert.ok(!this.is('waiting'), 'The component is not in waiting state');
 
-                this.on('wait', function(){
+                this.on('wait', function() {
 
                     assert.ok(this.is('waiting'), 'The component is again in waiting state');
 
@@ -101,28 +102,29 @@ define([
                 });
                 this.beginWait();
             })
-            .on('destroy', function(){
-                QUnit.start();
+            .on('destroy', function() {
+                ready();
             });
     });
 
-    QUnit.asyncTest('Rendering', function(assert) {
+    QUnit.test('Rendering', function(assert) {
+        var ready = assert.async();
         var $container = $('#qunit-fixture');
 
-        QUnit.expect(15);
+        assert.expect(15);
 
         waitingDialog({
-            container : $container,
-            message : 'message',
-            waitContent : 'wait content',
-            waitButtonText : 'wait button',
-            proceedContent : 'proceed content',
-            proceedButtonText : 'proceed button'
+            container: $container,
+            message: 'message',
+            waitContent: 'wait content',
+            waitButtonText: 'wait button',
+            proceedContent: 'proceed content',
+            proceedButtonText: 'proceed button'
         })
-        .on('init', function(){
+        .on('init', function() {
             assert.equal($('.modal', $container).length, 0, 'The modal is closed');
         })
-        .on('render', function(){
+        .on('render', function() {
 
             assert.equal($('.modal', $container).length, 1, 'The modal is opened');
             assert.equal($('.modal .message', $container).text(), 'message');
@@ -132,7 +134,7 @@ define([
 
             this.endWait();
         })
-        .on('unwait', function(){
+        .on('unwait', function() {
 
             assert.equal($('.modal', $container).length, 1, 'The modal remains opened');
             assert.equal($('.modal .message', $container).text(), 'message');
@@ -140,7 +142,7 @@ define([
             assert.equal($('.modal button .label', $container).text(), 'proceed button');
             assert.equal($('.modal button', $container).prop('disabled'), false, 'the button is not disabled anymore');
 
-            this.on('wait', function(){
+            this.on('wait', function() {
 
                 assert.equal($('.modal .message', $container).text(), 'message');
                 assert.equal($('.modal .content', $container).text(), 'wait content');
@@ -148,33 +150,34 @@ define([
                 assert.equal($('.modal button', $container).prop('disabled'), true, 'the button is disabled');
 
                 this.destroy();
-                QUnit.start();
+                ready();
             });
             this.beginWait();
         });
     });
 
-    QUnit.asyncTest('Rendering with secondary', function(assert) {
+    QUnit.test('Rendering with secondary', function(assert) {
+        var ready = assert.async();
         var $container = $('#qunit-fixture');
 
-        QUnit.expect(18);
+        assert.expect(18);
 
         waitingDialog({
-            container : $container,
-            message : 'message',
-            waitContent : 'wait content',
-            waitButtonText : 'wait button',
-            proceedContent : 'proceed content',
-            proceedButtonText : 'proceed button',
-            showSecondary : true,
+            container: $container,
+            message: 'message',
+            waitContent: 'wait content',
+            waitButtonText: 'wait button',
+            proceedContent: 'proceed content',
+            proceedButtonText: 'proceed button',
+            showSecondary: true,
             secondaryButtonText: 'other button'
         })
-        .on('init', function(){
+        .on('init', function() {
             assert.equal($('.modal', $container).length, 0, 'The modal is closed');
         })
-        .on('render', function(){
+        .on('render', function() {
             assert.equal($('.modal', $container).length, 1, 'The modal is opened');
-            assert.ok($('.modal').hasClass('has-secondary'), 'The modal has \'has-secondary\' class');
+            assert.ok($('.modal').hasClass("has-secondary"), 'The modal has "has-secondary" class');
             assert.equal($('.modal .buttons button', $container).length, 2, 'The modal has 2 buttons');
             assert.equal($('.modal button:first-child .label', $container).text(), 'wait button');
             assert.equal($('.modal button:first-child', $container).prop('disabled'), true, 'the button is disabled');
@@ -184,7 +187,7 @@ define([
 
             this.endWait();
         })
-        .on('unwait', function(){
+        .on('unwait', function() {
 
             assert.equal($('.modal', $container).length, 1, 'The modal remains opened');
             assert.equal($('.modal button:first-child .label', $container).text(), 'proceed button');
@@ -192,68 +195,70 @@ define([
             assert.equal($('.modal button.secondary', $container).prop('disabled'), true, 'the secondary button is disabled');
             assert.equal($('.modal button.secondary', $container).hasClass('hidden'), true, 'the secondary button is hidden');
 
-            this.on('wait', function(){
+            this.on('wait', function() {
                 assert.equal($('.modal button:first-child .label', $container).text(), 'wait button');
                 assert.equal($('.modal button:first-child', $container).prop('disabled'), true, 'the button is disabled');
                 assert.equal($('.modal button.secondary', $container).prop('disabled'), false, 'the secondary button is enabled');
                 assert.equal($('.modal button.secondary', $container).hasClass('hidden'), false, 'the secondary button is visible');
 
                 this.destroy();
-                QUnit.start();
+                ready();
             });
             this.beginWait();
         });
     });
 
-    QUnit.asyncTest('proceed', function(assert) {
+    QUnit.test('proceed', function(assert) {
+        var ready = assert.async();
         var $container = $('#qunit-fixture');
 
-        QUnit.expect(2);
+        assert.expect(2);
 
         waitingDialog({
-            container : $container,
+            container: $container
         })
-        .on('render', function(){
+        .on('render', function() {
             var $button = $('.modal button', $container);
 
             assert.equal($button.length, 1, 'The dialog control exists');
 
-            //no effect
+            //No effect
             $button.click();
             $button.click();
 
-            this.on('unwait', function(){
+            this.on('unwait', function() {
                 $button.click();
             });
             this.endWait();
         })
-        .on('proceed', function(){
+        .on('proceed', function() {
 
             assert.ok(true, 'The proceed events has been trigerred');
             this.destroy();
-            QUnit.start();
+            ready();
         });
     });
 
     QUnit.module('Visual');
 
-    QUnit.asyncTest('playground', function(assert) {
-        QUnit.expect(1);
+    QUnit.test('playground', function(assert) {
+        var ready = assert.async();
+        assert.expect(1);
 
         waitingDialog({
-            message : 'Test dialog',
-            waitContent : 'We wait 2s before being able to proceed',
-            waitButtonText : 'waiting ...',
-            proceedContent : 'The wait is over',
-            proceedButtonText : 'proceed'
+            message: 'Test dialog',
+            waitContent: 'We wait 2s before being able to proceed',
+            waitButtonText: 'waiting ...',
+            proceedContent: 'The wait is over',
+            proceedButtonText: 'proceed'
         })
-        .on('render', function(){
+        .on('render', function() {
             var self = this;
-            setTimeout(function(){
+            setTimeout(function() {
                 self.endWait();
 
                 assert.ok(true);
-                QUnit.start();
+                ready();
             }, 2000);
         });
     });

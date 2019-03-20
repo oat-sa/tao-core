@@ -15,50 +15,46 @@
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA ;
  */
-define([
-    'jquery',
-    'lodash',
-    'ui/calculator'
-], function ($, _, calculator){
+define(['jquery', 'lodash', 'ui/calculator'], function($, _, calculator) {
     'use strict';
 
     QUnit.module('Calculator');
 
-    QUnit.test('module', 3, function (assert){
-        assert.equal(typeof calculator, 'function', "The calculator module exposes a function");
-        assert.equal(typeof calculator(), 'object', "The calculator factory produces an object");
-        assert.notStrictEqual(calculator(), calculator(), "The calculator factory provides a different object on each call");
+    QUnit.test('module', function(assert) {
+        assert.equal(typeof calculator, 'function', 'The calculator module exposes a function');
+        assert.equal(typeof calculator(), 'object', 'The calculator factory produces an object');
+        assert.notStrictEqual(calculator(), calculator(), 'The calculator factory provides a different object on each call');
     });
 
     var testReviewApi = [
-        {name : 'init', title : 'init'},
-        {name : 'destroy', title : 'destroy'},
-        {name : 'render', title : 'render'},
-        {name : 'show', title : 'show'},
-        {name : 'hide', title : 'hide'},
-        {name : 'enable', title : 'enable'},
-        {name : 'disable', title : 'disable'},
-        {name : 'is', title : 'is'},
-        {name : 'setState', title : 'setState'},
-        {name : 'getContainer', title : 'getContainer'},
-        {name : 'getElement', title : 'getElement'},
-        {name : 'getTemplate', title : 'getTemplate'},
-        {name : 'setTemplate', title : 'setTemplate'},
-        {name : 'reset', title : 'reset'},
-        {name : 'resetPosition', title : 'resetPosition'},
-        {name : 'resetSize', title : 'resetSize'},
-        {name : 'press', title : 'press'}
+        {name: 'init', title: 'init'},
+        {name: 'destroy', title: 'destroy'},
+        {name: 'render', title: 'render'},
+        {name: 'show', title: 'show'},
+        {name: 'hide', title: 'hide'},
+        {name: 'enable', title: 'enable'},
+        {name: 'disable', title: 'disable'},
+        {name: 'is', title: 'is'},
+        {name: 'setState', title: 'setState'},
+        {name: 'getContainer', title: 'getContainer'},
+        {name: 'getElement', title: 'getElement'},
+        {name: 'getTemplate', title: 'getTemplate'},
+        {name: 'setTemplate', title: 'setTemplate'},
+        {name: 'reset', title: 'reset'},
+        {name: 'resetPosition', title: 'resetPosition'},
+        {name: 'resetSize', title: 'resetSize'},
+        {name: 'press', title: 'press'}
     ];
 
     QUnit
-        .cases(testReviewApi)
-        .test('instance API ', function (data, assert){
+        .cases.init(testReviewApi)
+        .test('instance API ', function(data, assert) {
             var instance = calculator();
             assert.equal(typeof instance[data.name], 'function', 'The calculator instance exposes a "' + data.title + '" function');
             instance.destroy();
         });
 
-    QUnit.test('init', function (assert){
+    QUnit.test('init', function(assert) {
         var config = {};
         var instance = calculator(config);
 
@@ -67,18 +63,18 @@ define([
         instance.destroy();
     });
 
-    QUnit.test('render (visual test)', function (assert){
+    QUnit.test('render (visual test)', function(assert) {
 
         var $container = $('#fixture-0')
             .css({
-                height : 1000,
-                width : 1000,
-                position : 'relative',
-                backgroundColor : '#ccc'
+                height: 1000,
+                width: 1000,
+                position: 'relative',
+                backgroundColor: '#ccc'
             });
         var config = {
-            renderTo : $container,
-            replace : true
+            renderTo: $container,
+            replace: true
         };
         calculator(config);
 
@@ -89,21 +85,22 @@ define([
         assert.equal($container.find('.dynamic-component-container .calcContainer .calcDigit').length, 10, 'calculator digit button ok');
     });
 
-    QUnit.asyncTest('render (visual test)', function (assert){
+    QUnit.test('render (visual test)', function(assert) {
+        var ready = assert.async();
 
         var $container = $('#fixture-1')
             .css({
-                height : 1000,
-                width : 1000,
-                position : 'relative',
-                backgroundColor : '#ccc'
+                height: 1000,
+                width: 1000,
+                position: 'relative',
+                backgroundColor: '#ccc'
             });
 
-        require(['tpl!tao/test/ui/calculator/alt-template'], function(alternativeTemplate){
+        require(['tpl!tao/test/ui/calculator/alt-template'], function(alternativeTemplate) {
             var config = {
-                renderTo : $container,
-                replace : true,
-                alternativeTemplate : alternativeTemplate
+                renderTo: $container,
+                replace: true,
+                alternativeTemplate: alternativeTemplate
             };
             calculator(config);
 
@@ -113,16 +110,16 @@ define([
             assert.equal($container.find('.dynamic-component-container .calcContainer .calcClear').length, 3, 'calculator clear button ok');
             assert.equal($container.find('.dynamic-component-container .calcContainer .calcDigit').length, 10, 'calculator digit button ok');
 
-            QUnit.start();
+            ready();
         });
     });
 
-    QUnit.test('press', function (assert){
+    QUnit.test('press', function(assert) {
 
         var $container = $('#fixture-1');
         var config = {
-            renderTo : $container,
-            replace : true
+            renderTo: $container,
+            replace: true
         };
         var instance = calculator(config);
         var $display = $container.find('.dynamic-component-container .calcContainer .calcDisplay');
@@ -168,16 +165,17 @@ define([
 
     });
 
-    QUnit.asyncTest('reset', function (assert){
+    QUnit.test('reset', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-1');
         var config = {
-            renderTo : $container,
-            replace : true
+            renderTo: $container,
+            replace: true
         };
         var instance = calculator(config)
-            .after('reset', function (){
+            .after('reset', function() {
                 assert.equal($container.find('.dynamic-component-container .calcContainer .calcDisplay').val(), '0', 'display reset');
-                QUnit.start();
+                ready();
             });
 
         instance.press(1);
@@ -186,35 +184,38 @@ define([
         instance.reset();
     });
 
-    QUnit.asyncTest('destroy', function (assert){
+    QUnit.test('destroy', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-1');
         var config = {
-            renderTo : $container,
-            replace : true
+            renderTo: $container,
+            replace: true
         };
         var instance = calculator(config)
-            .after('destroy', function (){
+            .after('destroy', function() {
                 assert.equal($container.find('.dynamic-component-container .calcContainer .calcDisplay').length, 0, 'container destroyed');
-                QUnit.start();
+                ready();
             });
 
         assert.equal($container.find('.dynamic-component-container .calcContainer').length, 1, 'container rendered');
 
         instance.destroy();
     });
-    
-    QUnit.asyncTest('show', function (assert){
+
+    QUnit.test('show', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-1');
         var config = {
-            renderTo : $container,
-            replace : true
+            renderTo: $container,
+            replace: true
         };
         calculator(config)
-            .after('show', function (){
-                _.delay(function (){
-                    //check focus
+            .after('show', function() {
+                _.delay(function() {
+
+                    //Check focus
                     assert.ok($container.find('.calcDisplay')[0] === document.activeElement, 'calculator display on focus');
-                    QUnit.start();
+                    ready();
                 }, 100);
             })
             .show();

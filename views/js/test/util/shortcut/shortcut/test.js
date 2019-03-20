@@ -21,31 +21,28 @@
 define(['jquery', 'util/shortcut', 'lib/simulator/jquery.simulate'], function($, shortcutHelper) {
     'use strict';
 
-
     QUnit.module('shortcut');
 
-
     QUnit.test('module', function(assert) {
-        QUnit.expect(3);
+        assert.expect(3);
 
-        assert.equal(typeof shortcutHelper, 'object', "The shortcutHelper module exposes an object");
-        assert.equal(typeof shortcutHelper.add, 'function', "The shortcutHelper module exposes a add() function");
-        assert.equal(typeof shortcutHelper.remove, 'function', "The shortcutHelper module exposes a remove() function");
+        assert.equal(typeof shortcutHelper, 'object', 'The shortcutHelper module exposes an object');
+        assert.equal(typeof shortcutHelper.add, 'function', 'The shortcutHelper module exposes a add() function');
+        assert.equal(typeof shortcutHelper.remove, 'function', 'The shortcutHelper module exposes a remove() function');
     });
-
 
     QUnit.module('Keyboard');
 
-
-    QUnit.asyncTest('add', function(assert) {
-        QUnit.expect(4);
+    QUnit.test('add', function(assert) {
+        var ready = assert.async();
+        assert.expect(4);
 
         var res = shortcutHelper.add('Meta+C', function(event, keystroke) {
             assert.ok(true, 'The shortcut has been caught');
             assert.equal(typeof event, 'object', 'The event object is provided');
             assert.equal(keystroke, 'meta+c', 'The keystroke is provided');
             shortcutHelper.remove('Meta+C');
-            QUnit.start();
+            ready();
         });
 
         assert.equal(res, shortcutHelper, 'The helper returns itself');
@@ -63,9 +60,9 @@ define(['jquery', 'util/shortcut', 'lib/simulator/jquery.simulate'], function($,
         });
     });
 
-
-    QUnit.asyncTest('remove', function(assert) {
-        QUnit.expect(5);
+    QUnit.test('remove', function(assert) {
+        var ready = assert.async();
+        assert.expect(5);
 
         shortcutHelper.add('Ctrl+C', function(event, keystroke) {
             assert.ok(true, 'The shortcut has been caught');
@@ -78,7 +75,7 @@ define(['jquery', 'util/shortcut', 'lib/simulator/jquery.simulate'], function($,
             $(document).on('keydown.test-remove', function() {
                 $(document).off('keydown.test-remove');
                 assert.ok(true, 'The shortcut has been removed');
-                QUnit.start();
+                ready();
             });
 
             $(document).simulate('keydown', {
@@ -107,9 +104,8 @@ define(['jquery', 'util/shortcut', 'lib/simulator/jquery.simulate'], function($,
         });
     });
 
-
     QUnit.test('exists', function(assert) {
-        QUnit.expect(3);
+        assert.expect(3);
 
         shortcutHelper.add('Meta+C', _.noop);
 
@@ -121,9 +117,9 @@ define(['jquery', 'util/shortcut', 'lib/simulator/jquery.simulate'], function($,
         assert.ok(!shortcutHelper.exists('meta+c'), 'The removed shortcut must not exists anymore');
     });
 
-
-    QUnit.asyncTest('clear', function(assert) {
-        QUnit.expect(7);
+    QUnit.test('clear', function(assert) {
+        var ready = assert.async();
+        assert.expect(7);
 
         shortcutHelper.add('Shift+C', function(event, keystroke) {
             assert.ok(true, 'The shortcut has been caught');
@@ -139,7 +135,7 @@ define(['jquery', 'util/shortcut', 'lib/simulator/jquery.simulate'], function($,
             $(document).on('keydown.test-remove', function() {
                 $(document).off('keydown.test-remove');
                 assert.ok(true, 'The shortcut has been removed');
-                QUnit.start();
+                ready();
             });
 
             $(document).simulate('keydown', {
@@ -168,19 +164,18 @@ define(['jquery', 'util/shortcut', 'lib/simulator/jquery.simulate'], function($,
         });
     });
 
-
     QUnit.module('Mouse');
 
-
-    QUnit.asyncTest('add', function(assert) {
-        QUnit.expect(3);
+    QUnit.test('add', function(assert) {
+        var ready = assert.async();
+        assert.expect(3);
 
         shortcutHelper.add('Meta+LeftMouseClick', function(event, keystroke) {
             assert.ok(true, 'The shortcut has been caught');
             assert.equal(typeof event, 'object', 'The event object is provided');
             assert.equal(keystroke, 'meta+clickLeft', 'The keystroke is provided');
             shortcutHelper.remove('Meta+LeftMouseClick');
-            QUnit.start();
+            ready();
         });
 
         $(document).simulate('click', {
@@ -191,9 +186,9 @@ define(['jquery', 'util/shortcut', 'lib/simulator/jquery.simulate'], function($,
         });
     });
 
-
-    QUnit.asyncTest('remove', function(assert) {
-        QUnit.expect(4);
+    QUnit.test('remove', function(assert) {
+        var ready = assert.async();
+        assert.expect(4);
 
         shortcutHelper.add('Ctrl+RightMouseClick', function(event, keystroke) {
             assert.ok(true, 'The shortcut has been caught');
@@ -205,7 +200,7 @@ define(['jquery', 'util/shortcut', 'lib/simulator/jquery.simulate'], function($,
             $(document).on('click.test-remove', function() {
                 $(document).off('click.test-remove');
                 assert.ok(true, 'The shortcut has been removed');
-                QUnit.start();
+                ready();
             });
 
             $(document).simulate('click', {
@@ -226,9 +221,8 @@ define(['jquery', 'util/shortcut', 'lib/simulator/jquery.simulate'], function($,
         });
     });
 
-
     QUnit.test('exists', function(assert) {
-        QUnit.expect(3);
+        assert.expect(3);
 
         shortcutHelper.add('Shift+MouseScrollUp', $.noop);
 
@@ -240,9 +234,9 @@ define(['jquery', 'util/shortcut', 'lib/simulator/jquery.simulate'], function($,
         assert.ok(!shortcutHelper.exists('shift+mouseScrollUp'), 'The removed shortcut must not exists anymore');
     });
 
-
-    QUnit.asyncTest('clear', function(assert) {
-        QUnit.expect(6);
+    QUnit.test('clear', function(assert) {
+        var ready = assert.async();
+        assert.expect(6);
 
         shortcutHelper.add('shift+mouseMiddleClick', function(event, keystroke) {
             assert.ok(true, 'The shortcut has been caught');
@@ -256,7 +250,7 @@ define(['jquery', 'util/shortcut', 'lib/simulator/jquery.simulate'], function($,
             $(document).on('click.test-remove', function() {
                 $(document).off('click.test-remove');
                 assert.ok(true, 'The shortcut has been removed');
-                QUnit.start();
+                ready();
             });
 
             $(document).simulate('click', {
@@ -277,12 +271,10 @@ define(['jquery', 'util/shortcut', 'lib/simulator/jquery.simulate'], function($,
         });
     });
 
-
     QUnit.module('Error');
 
-
     QUnit.test('keyboard and mouse', function(assert) {
-        QUnit.expect(2);
+        assert.expect(2);
 
         assert.throws(function() {
             shortcutHelper.add('Ctrl+C+mouseLeftClick', $.noop);

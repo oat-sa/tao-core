@@ -23,44 +23,41 @@ define(['ui/dialog/confirm'], function(dialogConfirm) {
 
     QUnit.module('dialog/confirm');
 
-
-    QUnit.test('module', 3, function(assert) {
+    QUnit.test('module', function(assert) {
         var conf1 = dialogConfirm();
         var conf2 = dialogConfirm();
-        assert.equal(typeof dialogConfirm, 'function', "The dialogConfirm module exposes a function");
-        assert.equal(typeof conf1, 'object', "The dialogConfirm factory produces an object");
-        assert.notStrictEqual(conf1, conf2, "The dialogConfirm factory provides a different object on each call");
+        assert.equal(typeof dialogConfirm, 'function', 'The dialogConfirm module exposes a function');
+        assert.equal(typeof conf1, 'object', 'The dialogConfirm factory produces an object');
+        assert.notStrictEqual(conf1, conf2, 'The dialogConfirm factory provides a different object on each call');
         conf1.destroy();
         conf2.destroy();
     });
 
-
     var dialogApi = [
-        { name : 'init', title : 'init' },
-        { name : 'destroy', title : 'destroy' },
-        { name : 'setButtons', title : 'setButtons' },
-        { name : 'render', title : 'render' },
-        { name : 'show', title : 'show' },
-        { name : 'hide', title : 'hide' },
-        { name : 'trigger', title : 'trigger' },
-        { name : 'on', title : 'on' },
-        { name : 'off', title : 'off' },
-        { name : 'getDom', title : 'getDom' }
+        {name: 'init', title: 'init'},
+        {name: 'destroy', title: 'destroy'},
+        {name: 'setButtons', title: 'setButtons'},
+        {name: 'render', title: 'render'},
+        {name: 'show', title: 'show'},
+        {name: 'hide', title: 'hide'},
+        {name: 'trigger', title: 'trigger'},
+        {name: 'on', title: 'on'},
+        {name: 'off', title: 'off'},
+        {name: 'getDom', title: 'getDom'}
     ];
 
     QUnit
-        .cases(dialogApi)
+        .cases.init(dialogApi)
         .test('instance API ', function(data, assert) {
             var instance = dialogConfirm();
             assert.equal(typeof instance[data.name], 'function', 'The dialogConfirm instance exposes a "' + data.title + '" function');
             instance.destroy();
         });
 
-
     var confirmCases = [{
         message: 'must accept',
         button: 'ok',
-        title: 'accept',
+        title: 'accept'
     }, {
         message: 'must refuse',
         button: 'cancel',
@@ -76,25 +73,26 @@ define(['ui/dialog/confirm'], function(dialogConfirm) {
     }];
 
     QUnit
-        .cases(confirmCases)
-        .asyncTest('use ', function(data, assert) {
+        .cases.init(confirmCases)
+        .test('use ', function(data, assert) {
+            var ready = assert.async();
             var accept = function() {
                 assert.equal(data.button, 'ok', 'The dialogConfirm has triggered the accept callback function when hitting the ok button!');
-                QUnit.start();
+                ready();
             };
             var refuse = function() {
                 assert.equal(data.button, 'cancel', 'The dialogConfirm has triggered the refuse callback function when hitting the cancel button!');
-                QUnit.start();
+                ready();
             };
             var modal = dialogConfirm(data.message, accept, refuse, data.options || {});
 
-            assert.equal(typeof modal, 'object', "The dialogConfirm instance is an object");
-            assert.equal(typeof modal.getDom(), 'object', "The dialogConfirm instance gets a DOM element");
-            assert.ok(!!modal.getDom().length, "The dialogConfirm instance gets a DOM element");
-            assert.equal(modal.getDom().parent().length, 1, "The dialogConfirm box is rendered by default");
-            assert.equal(modal.getDom().find('.message').text(), data.message, "The dialogConfirm box displays the message");
+            assert.equal(typeof modal, 'object', 'The dialogConfirm instance is an object');
+            assert.equal(typeof modal.getDom(), 'object', 'The dialogConfirm instance gets a DOM element');
+            assert.ok(!!modal.getDom().length, 'The dialogConfirm instance gets a DOM element');
+            assert.equal(modal.getDom().parent().length, 1, 'The dialogConfirm box is rendered by default');
+            assert.equal(modal.getDom().find('.message').text(), data.message, 'The dialogConfirm box displays the message');
 
-            assert.equal(modal.getDom().find('button').length, 2, "The dialogConfirm box displays 2 buttons");
+            assert.equal(modal.getDom().find("button").length, 2, "The dialogConfirm box displays 2 buttons");
             assert.equal(modal.getDom().find('button[data-control="ok"]').length, 1, "The dialogConfirm box displays a 'ok' button");
             assert.equal(modal.getDom().find('button[data-control="cancel"]').length, 1, "The dialogConfirm box displays a 'cancel' button");
 

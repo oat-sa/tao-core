@@ -107,7 +107,7 @@ class tao_helpers_Date
         $newDate = new \DateTime();
         $intervalObj = $intervalObj instanceof DateTimeInterface ? $newDate->diff($intervalObj, true) : $intervalObj;
         if (! $intervalObj instanceof DateInterval) {
-            common_Logger::w('Unknown interval format ' . get_class($interval) . ' for ' . __FUNCTION__, 'TAO');
+            common_Logger::w('Unknown interval format ' . get_class($interval) . ' for ' . __FUNCTION__);
             return '';
         }
         
@@ -124,7 +124,7 @@ class tao_helpers_Date
                     $returnValue = self::formatElapsed($intervalObj, $formatStrings);
                     break;
                 default:
-                    common_Logger::w('Unknown date format ' . $format . ' for ' . __FUNCTION__, 'TAO');
+                    common_Logger::w('Unknown date format ' . $format . ' for ' . __FUNCTION__);
             }
         }
         return $returnValue;
