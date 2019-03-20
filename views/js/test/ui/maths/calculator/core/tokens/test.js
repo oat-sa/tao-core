@@ -69,6 +69,10 @@ define([
             type: 'NUM9',
             value: '9'
         },
+        EXP10: {
+            type: 'EXP10',
+            value: 'e'
+        },
         ADD: {
             type: 'ADD',
             value: '+'
@@ -137,6 +141,7 @@ define([
         NUM7: '<span class="term term-digit" data-value="7" data-token="NUM7" data-type="digit">' + registeredTerms.NUM7.label + '</span>',
         NUM8: '<span class="term term-digit" data-value="8" data-token="NUM8" data-type="digit">' + registeredTerms.NUM8.label + '</span>',
         NUM9: '<span class="term term-digit" data-value="9" data-token="NUM9" data-type="digit">' + registeredTerms.NUM9.label + '</span>',
+        EXP10: '<span class="term term-digit" data-value="e" data-token="EXP10" data-type="digit">' + registeredTerms.EXP10.label + '</span>',
         ADD: '<span class="term term-operator" data-value="+" data-token="ADD" data-type="operator">' + registeredTerms.ADD.label + '</span>',
         SUB: '<span class="term term-operator" data-value="-" data-token="SUB" data-type="operator">' + registeredTerms.SUB.label + '</span>',
         POS: '<span class="term term-operator" data-value="+" data-token="POS" data-type="operator">' + registeredTerms.POS.label + '</span>',
@@ -184,6 +189,7 @@ define([
         {title: 'stringValue'},
         {title: 'containsError'},
         {title: 'renderLastResult'},
+        {title: 'renderSign'},
         {title: 'render'}
     ]).test('API ', function (data, assert) {
         QUnit.expect(1);
@@ -569,9 +575,15 @@ define([
         expression: NaN,
         expected: 'NaN'
     }, {
-        title: 'Object expression',
+        title: 'Object expression containing value',
         expression: {
             value: 'cos PI * (40 + 2)'
+        },
+        expected: 'cos PI * (40 + 2)'
+    }, {
+        title: 'Object expression containing result',
+        expression: {
+            result: 'cos PI * (40 + 2)'
         },
         expected: 'cos PI * (40 + 2)'
     }, {
@@ -610,9 +622,15 @@ define([
         expression: NaN,
         expected: 'NaN'
     }, {
-        title: 'Object expression',
+        title: 'Object expression containing value',
         expression: {
             value: 'cos PI * (40 + 2)'
+        },
+        expected: 'cos PI * (40 + 2)'
+    }, {
+        title: 'Object expression containing result',
+        expression: {
+            result: 'cos PI * (40 + 2)'
         },
         expected: 'cos PI * (40 + 2)'
     }, {
@@ -658,7 +676,7 @@ define([
     }, {
         title: 'No value',
         expression: 'ans',
-        expected: ''
+        expected: '0'
     }])
         .test('renderLastResult', function (data, assert) {
             QUnit.expect(1);
@@ -666,6 +684,17 @@ define([
             assert.equal(tokensHelper.renderLastResult(data.expression, data.value), data.expected, 'Should render the last result variable from ' + data.expression + ' to ' + data.expected);
 
         });
+
+    QUnit.test('renderSign', function (assert) {
+        QUnit.expect(6);
+
+        assert.equal(tokensHelper.renderSign(), '', 'Missing value');
+        assert.equal(tokensHelper.renderSign(''), '', 'Empty value');
+        assert.equal(tokensHelper.renderSign('42'), '42', 'Simple value');
+        assert.equal(tokensHelper.renderSign('-42'), registeredTerms.NEG.label + '42', 'Negative value');
+        assert.equal(tokensHelper.renderSign('+42'), registeredTerms.POS.label + '42', 'Positive value');
+        assert.equal(tokensHelper.renderSign('3-4+2'), '3' + registeredTerms.NEG.label + '4' + registeredTerms.POS.label + '2', 'Simple expression');
+    });
 
     QUnit.test('containsError', function (assert) {
         QUnit.expect(12);
@@ -816,6 +845,37 @@ define([
             ans: '+42'
         },
         expected: renderedTokens.ANS.replace('{{ans}}', registeredTerms.POS.label + '42')
+    }, {
+        title: 'Last result, mathsExpression',
+        tokens: [
+            tokens.ANS
+        ],
+        variables: {
+            ans: {
+                expression: '40+2',
+                value: 42
+            }
+        },
+        expected: renderedTokens.ANS.replace('{{ans}}', '42')
+    }, {
+        title: 'Last result, mathsExpression with tokens',
+        tokens: [
+            tokens.ANS
+        ],
+        variables: {
+            ans: {
+                expression: '40+2',
+                value: 42,
+                tokens: [{
+                    type: 'NUM4',
+                    value: '4'
+                }, {
+                    type: 'NUM2',
+                    value: '2'
+                }]
+            }
+        },
+        expected: renderedTokens.ANS.replace('{{ans}}', renderedTokens.NUM4 + renderedTokens.NUM2)
     }, {
         title: 'Expression with variables',
         tokens: [
@@ -2196,6 +2256,61 @@ define([
             '</sup>',
             renderedTokens.ADD,
             renderedTokens.NUM5
+        ].join('')
+    }, {
+        title: 'Right exponent: 5e10',
+        tokens: [
+            tokens.NUM5,
+            tokens.EXP10,
+            tokens.NUM1,
+            tokens.NUM0
+        ],
+        variables: {},
+        expected: [
+            renderedTokens.NUM5,
+            renderedTokens.EXP10,
+            '<sup>',
+            renderedTokens.NUM1,
+            renderedTokens.NUM0,
+            '</sup>'
+        ].join('')
+    }, {
+        title: 'Right exponent: 5e+10',
+        tokens: [
+            tokens.NUM5,
+            tokens.EXP10,
+            tokens.ADD,
+            tokens.NUM1,
+            tokens.NUM0
+        ],
+        variables: {},
+        expected: [
+            renderedTokens.NUM5,
+            renderedTokens.EXP10,
+            '<sup>',
+            renderedTokens.POS,
+            renderedTokens.NUM1,
+            renderedTokens.NUM0,
+            '</sup>'
+        ].join('')
+    }, {
+        title: 'Right exponent: 5e-10',
+        tokens: [
+            tokens.NUM5,
+            tokens.EXP10,
+            tokens.SUB,
+            tokens.NUM1,
+            tokens.NUM0
+        ],
+        variables: {},
+        expected: [
+            renderedTokens.NUM5,
+            renderedTokens.EXP10,
+            '<sup>',
+            renderedTokens.NEG,
+            renderedTokens.NUM1,
+            renderedTokens.NUM0,
+            '</sup>'
         ].join('')
     }, {
         title: 'Exponent: !3 nthrt 2^3!',

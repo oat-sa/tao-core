@@ -247,7 +247,7 @@ define([
          * @returns {String}
          */
         renderLastResult: function renderLastResult(expression, value) {
-            return tokensHelper.stringValue(expression).replace(reAnsVar, tokensHelper.stringValue(value));
+            return tokensHelper.stringValue(expression).replace(reAnsVar, tokensHelper.stringValue(value || '0'));
         },
 
         /**
@@ -278,7 +278,7 @@ define([
              * @param {String} token
              */
             function toSignOperator(term, token) {
-                if (!previous || tokensHelper.isModifier(previous.type) || previous.token === 'LPAR') {
+                if (!previous || tokensHelper.isModifier(previous.type) || previous.token === 'LPAR' || previous.token === 'EXP10') {
                     term.label = registeredTerms[token].label;
                     term.token = token;
                 }
@@ -289,6 +289,7 @@ define([
             // each token needs to be translated into a displayable term
             _.forEach(tokens, function (token, index) {
                 var registeredTerm = registeredTerms[token.type];
+                var lastResult;
                 /**
                  * @type {renderTerm}
                  */
@@ -311,7 +312,12 @@ define([
                     // always display the actual value of the last result variable
                     // also takes care of the value's sign
                     if (term.token === 'ANS' && 'undefined' !== typeof variables[term.value]) {
-                        term.label = tokensHelper.renderSign(tokensHelper.stringValue(variables[term.value] || '0'));
+                        lastResult = variables[term.value];
+                        if (lastResult.tokens) {
+                            term.label = tokensHelper.render(lastResult.tokens, variables);
+                        } else {
+                            term.label = tokensHelper.renderSign(tokensHelper.stringValue(lastResult || '0'));
+                        }
                     }
                 } else if (term.token === 'term') {
                     // unspecified token can be a variable

@@ -24,9 +24,13 @@ define([
     'core/promise',
     'ui/maths/calculator/core/board',
     'ui/maths/calculator/core/terms',
+    'ui/maths/calculator/core/tokens',
+    'ui/maths/calculator/core/tokenizer',
     'ui/maths/calculator/plugins/screen/simpleScreen/simpleScreen'
-], function ($, _, Promise, calculatorBoardFactory, registeredTerms, simpleScreenPluginFactory) {
+], function ($, _, Promise, calculatorBoardFactory, registeredTerms, tokensHelper, tokenizerFactory, simpleScreenPluginFactory) {
     'use strict';
+
+    var tokenizer = tokenizerFactory();
 
     QUnit.module('module');
 
@@ -457,12 +461,12 @@ define([
                             calculator
                                 .after('expressionchange.test', function() {
                                     calculator.off('expressionchange.test');
-                                    assert.equal($screen.find('.term').length, expectedTokens.length, 'The expected number of terms has been transformed');
+                                    assert.equal($screen.find('.term').length, expectedTokens.length + 1, 'The expected number of terms has been transformed');
 
                                     _.forEach(expectedTokens, function(term, index) {
-                                        var el = $screen.find('.expression .term').get(index);
+                                        var el = $screen.find('.expression .term[data-token="' + term.token + '"]').get(0);
                                         if (term.token === 'ANS') {
-                                            term.label = calculator.getLastResult().value;
+                                            term.label = tokensHelper.render(tokenizer.tokenize(calculator.getLastResult()));
                                         }
                                         assert.equal(el.dataset.value, term.value, 'the term ' + index + ' is transformed - data-value');
                                         assert.equal(el.dataset.token, term.token, 'the term ' + index + ' is transformed - data-token');
@@ -520,7 +524,7 @@ define([
                 var areaBroker = calculator.getAreaBroker();
                 var plugin = simpleScreenPluginFactory(calculator, areaBroker);
 
-                QUnit.expect(115);
+                QUnit.expect(135);
 
                 calculator
                     .on('plugin-render.simpleScreen', function () {
@@ -589,12 +593,17 @@ define([
 
                                     assert.equal(calculator.getVariable('ans').value, '5', 'The last result is 5');
 
-                                    assert.equal($screen.find('.expression .term').length, 1, 'The expected number of terms has been transformed in the expression');
+                                    assert.equal($screen.find('.expression .term').length, 2, 'The expected number of terms has been transformed in the expression');
 
                                     assert.equal($screen.find('.expression .term:eq(0)').data('value'), 'ans', 'the expression is transformed - data-value');
                                     assert.equal($screen.find('.expression .term:eq(0)').data('token'), 'ANS', 'the expression is transformed - data-token');
                                     assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'variable', 'the expression is transformed - data-type');
                                     assert.equal($screen.find('.expression .term:eq(0)').text().trim(), '5', 'the expression is transformed - content');
+
+                                    assert.equal($screen.find('.expression .term:eq(1)').data('value'), '5', 'the expression is transformed - data-value');
+                                    assert.equal($screen.find('.expression .term:eq(1)').data('token'), 'NUM5', 'the expression is transformed - data-token');
+                                    assert.equal($screen.find('.expression .term:eq(1)').data('type'), 'digit', 'the expression is transformed - data-type');
+                                    assert.equal($screen.find('.expression .term:eq(1)').text().trim(), '5', 'the expression is transformed - content');
 
                                     assert.equal($screen.find('.history .history-line').length, 1, 'The expected number of history lines has been added in the history');
                                     assert.equal($screen.find('.history .history-expression').length, 1, 'The history contains an expression');
@@ -637,17 +646,22 @@ define([
                                     assert.equal(calculator.getExpression(), 'ans+', 'The expression should be ans+');
                                     assert.equal(calculator.getPosition(), 4, 'The position should be set to 4');
 
-                                    assert.equal($screen.find('.expression .term').length, 2, 'The expected number of terms has been transformed in the expression');
+                                    assert.equal($screen.find('.expression .term').length, 3, 'The expected number of terms has been transformed in the expression');
 
                                     assert.equal($screen.find('.expression .term:eq(0)').data('value'), 'ans', 'the variable is transformed - data-value');
                                     assert.equal($screen.find('.expression .term:eq(0)').data('token'), 'ANS', 'the variable is transformed - data-token');
                                     assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'variable', 'the variable is transformed - data-type');
                                     assert.equal($screen.find('.expression .term:eq(0)').text().trim(), '5', 'the variable is transformed - content');
 
-                                    assert.equal($screen.find('.expression .term:eq(1)').data('value'), '+', 'the operator is transformed - data-value');
-                                    assert.equal($screen.find('.expression .term:eq(1)').data('token'), 'ADD', 'the operator is transformed - data-token');
-                                    assert.equal($screen.find('.expression .term:eq(1)').data('type'), 'operator', 'the operator is transformed - data-type');
-                                    assert.equal($screen.find('.expression .term:eq(1)').text().trim(), '+', 'the operator is transformed - content');
+                                    assert.equal($screen.find('.expression .term:eq(1)').data('value'), '5', 'the variable is transformed - data-value');
+                                    assert.equal($screen.find('.expression .term:eq(1)').data('token'), 'NUM5', 'the variable is transformed - data-token');
+                                    assert.equal($screen.find('.expression .term:eq(1)').data('type'), 'digit', 'the variable is transformed - data-type');
+                                    assert.equal($screen.find('.expression .term:eq(1)').text().trim(), '5', 'the variable is transformed - content');
+
+                                    assert.equal($screen.find('.expression .term:eq(2)').data('value'), '+', 'the operator is transformed - data-value');
+                                    assert.equal($screen.find('.expression .term:eq(2)').data('token'), 'ADD', 'the operator is transformed - data-token');
+                                    assert.equal($screen.find('.expression .term:eq(2)').data('type'), 'operator', 'the operator is transformed - data-type');
+                                    assert.equal($screen.find('.expression .term:eq(2)').text().trim(), '+', 'the operator is transformed - content');
 
                                     resolve();
                                 })
@@ -664,22 +678,27 @@ define([
                                     assert.equal(calculator.getExpression(), 'ans+3', 'The expression should be ans+');
                                     assert.equal(calculator.getPosition(), 5, 'The position should be set to 5');
 
-                                    assert.equal($screen.find('.expression .term').length, 3, 'The expected number of terms has been transformed in the expression');
+                                    assert.equal($screen.find('.expression .term').length, 4, 'The expected number of terms has been transformed in the expression');
 
                                     assert.equal($screen.find('.expression .term:eq(0)').data('value'), 'ans', 'the variable is transformed - data-value');
                                     assert.equal($screen.find('.expression .term:eq(0)').data('token'), 'ANS', 'the variable is transformed - data-token');
                                     assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'variable', 'the variable is transformed - data-type');
                                     assert.equal($screen.find('.expression .term:eq(0)').text().trim(), '5', 'the variable is transformed - content');
 
-                                    assert.equal($screen.find('.expression .term:eq(1)').data('value'), '+', 'the operator is transformed - data-value');
-                                    assert.equal($screen.find('.expression .term:eq(1)').data('token'), 'ADD', 'the operator is transformed - data-token');
-                                    assert.equal($screen.find('.expression .term:eq(1)').data('type'), 'operator', 'the operator is transformed - data-type');
-                                    assert.equal($screen.find('.expression .term:eq(1)').text().trim(), '+', 'the operator is transformed - content');
+                                    assert.equal($screen.find('.expression .term:eq(1)').data('value'), '5', 'the variable is transformed - data-value');
+                                    assert.equal($screen.find('.expression .term:eq(1)').data('token'), 'NUM5', 'the variable is transformed - data-token');
+                                    assert.equal($screen.find('.expression .term:eq(1)').data('type'), 'digit', 'the variable is transformed - data-type');
+                                    assert.equal($screen.find('.expression .term:eq(1)').text().trim(), '5', 'the variable is transformed - content');
 
-                                    assert.equal($screen.find('.expression .term:eq(2)').data('value'), '3', 'the second operand is transformed - data-value');
-                                    assert.equal($screen.find('.expression .term:eq(2)').data('token'), 'NUM3', 'the second operand is transformed - data-token');
-                                    assert.equal($screen.find('.expression .term:eq(2)').data('type'), 'digit', 'the first operand is transformed - data-type');
-                                    assert.equal($screen.find('.expression .term:eq(2)').html().trim(), '3', 'the second operand is transformed - content');
+                                    assert.equal($screen.find('.expression .term:eq(2)').data('value'), '+', 'the operator is transformed - data-value');
+                                    assert.equal($screen.find('.expression .term:eq(2)').data('token'), 'ADD', 'the operator is transformed - data-token');
+                                    assert.equal($screen.find('.expression .term:eq(2)').data('type'), 'operator', 'the operator is transformed - data-type');
+                                    assert.equal($screen.find('.expression .term:eq(2)').text().trim(), '+', 'the operator is transformed - content');
+
+                                    assert.equal($screen.find('.expression .term:eq(3)').data('value'), '3', 'the second operand is transformed - data-value');
+                                    assert.equal($screen.find('.expression .term:eq(3)').data('token'), 'NUM3', 'the second operand is transformed - data-token');
+                                    assert.equal($screen.find('.expression .term:eq(3)').data('type'), 'digit', 'the first operand is transformed - data-type');
+                                    assert.equal($screen.find('.expression .term:eq(3)').html().trim(), '3', 'the second operand is transformed - content');
 
                                     resolve();
                                 })
@@ -699,17 +718,22 @@ define([
 
                                     assert.equal(calculator.getVariable('ans').value, '8', 'The last result is 8');
 
-                                    assert.equal($screen.find('.expression .term').length, 1, 'The expected number of terms has been transformed in the expression');
+                                    assert.equal($screen.find('.expression .term').length, 2, 'The expected number of terms has been transformed in the expression');
 
                                     assert.equal($screen.find('.expression .term:eq(0)').data('value'), 'ans', 'the expression is transformed - data-value');
                                     assert.equal($screen.find('.expression .term:eq(0)').data('token'), 'ANS', 'the expression is transformed - data-token');
                                     assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'variable', 'the expression is transformed - data-type');
                                     assert.equal($screen.find('.expression .term:eq(0)').text().trim(), '8', 'the expression is transformed - content');
 
+                                    assert.equal($screen.find('.expression .term:eq(1)').data('value'), '8', 'the expression is transformed - data-value');
+                                    assert.equal($screen.find('.expression .term:eq(1)').data('token'), 'NUM8', 'the expression is transformed - data-token');
+                                    assert.equal($screen.find('.expression .term:eq(1)').data('type'), 'digit', 'the expression is transformed - data-type');
+                                    assert.equal($screen.find('.expression .term:eq(1)').text().trim(), '8', 'the expression is transformed - content');
+
                                     assert.equal($screen.find('.history .history-line').length, 1, 'The expected number of history lines has been added in the history');
                                     assert.equal($screen.find('.history .history-expression').length, 1, 'The history contains an expression');
                                     assert.equal($screen.find('.history .history-result').length, 1, 'The history contains a result');
-                                    assert.equal($screen.find('.history .history-expression .term').length, 3, 'The expected number of terms has been transformed in the history expression');
+                                    assert.equal($screen.find('.history .history-expression .term').length, 4, 'The expected number of terms has been transformed in the history expression');
                                     assert.equal($screen.find('.history .history-result .term').length, 1, 'The expected number of terms has been transformed in the history result');
 
                                     assert.equal($screen.find('.history .history-expression .term:eq(0)').data('value'), 'ans', 'the first operand is transformed - data-value');
@@ -717,15 +741,20 @@ define([
                                     assert.equal($screen.find('.history .history-expression .term:eq(0)').data('type'), 'variable', 'the first operand is transformed - data-type');
                                     assert.equal($screen.find('.history .history-expression .term:eq(0)').text().trim(), '5', 'the first operand is transformed - content');
 
-                                    assert.equal($screen.find('.history .history-expression .term:eq(1)').data('value'), '+', 'the operator is transformed - data-value');
-                                    assert.equal($screen.find('.history .history-expression .term:eq(1)').data('token'), 'ADD', 'the operator is transformed - data-token');
-                                    assert.equal($screen.find('.history .history-expression .term:eq(1)').data('type'), 'operator', 'the operator is transformed - data-type');
-                                    assert.equal($screen.find('.history .history-expression .term:eq(1)').text().trim(), '+', 'the operator is transformed - content');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(1)').data('value'), '5', 'the first operand is transformed - data-value');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(1)').data('token'), 'NUM5', 'the first operand is transformed - data-token');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(1)').data('type'), 'digit', 'the first operand is transformed - data-type');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(1)').text().trim(), '5', 'the first operand is transformed - content');
 
-                                    assert.equal($screen.find('.history .history-expression .term:eq(2)').data('value'), '3', 'the second operand is transformed - data-value');
-                                    assert.equal($screen.find('.history .history-expression .term:eq(2)').data('token'), 'NUM3', 'the second operand is transformed - data-token');
-                                    assert.equal($screen.find('.history .history-expression .term:eq(2)').data('type'), 'digit', 'the first operand is transformed - data-type');
-                                    assert.equal($screen.find('.history .history-expression .term:eq(2)').html().trim(), '3', 'the second operand is transformed - content');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(2)').data('value'), '+', 'the operator is transformed - data-value');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(2)').data('token'), 'ADD', 'the operator is transformed - data-token');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(2)').data('type'), 'operator', 'the operator is transformed - data-type');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(2)').text().trim(), '+', 'the operator is transformed - content');
+
+                                    assert.equal($screen.find('.history .history-expression .term:eq(3)').data('value'), '3', 'the second operand is transformed - data-value');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(3)').data('token'), 'NUM3', 'the second operand is transformed - data-token');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(3)').data('type'), 'digit', 'the first operand is transformed - data-type');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(3)').html().trim(), '3', 'the second operand is transformed - content');
 
                                     assert.equal($screen.find('.history .history-result .term:eq(0)').data('value'), '8', 'the result term is transformed - data-value');
                                     assert.equal($screen.find('.history .history-result .term:eq(0)').data('token'), 'NUM8', 'the result term is transformed - data-token');
@@ -784,7 +813,7 @@ define([
                 var areaBroker = calculator.getAreaBroker();
                 var plugin = simpleScreenPluginFactory(calculator, areaBroker);
 
-                QUnit.expect(70);
+                QUnit.expect(74);
 
                 calculator
                     .on('plugin-render.simpleScreen', function () {
@@ -901,17 +930,22 @@ define([
                                     assert.equal(calculator.getExpression(), 'ans+', 'The expression should be ans+');
                                     assert.equal(calculator.getPosition(), 4, 'The position should be set to 4');
 
-                                    assert.equal($screen.find('.expression .term').length, 2, 'The expected number of terms has been transformed in the expression');
+                                    assert.equal($screen.find('.expression .term').length, 3, 'The expected number of terms has been transformed in the expression');
 
                                     assert.equal($screen.find('.expression .term:eq(0)').data('value'), 'ans', 'the variable is transformed - data-value');
                                     assert.equal($screen.find('.expression .term:eq(0)').data('token'), 'ANS', 'the variable is transformed - data-token');
                                     assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'variable', 'the variable is transformed - data-type');
                                     assert.equal($screen.find('.expression .term:eq(0)').text().trim(), '0', 'the variable is transformed - content');
 
-                                    assert.equal($screen.find('.expression .term:eq(1)').data('value'), '+', 'the operator is transformed - data-value');
-                                    assert.equal($screen.find('.expression .term:eq(1)').data('token'), 'ADD', 'the operator is transformed - data-token');
-                                    assert.equal($screen.find('.expression .term:eq(1)').data('type'), 'operator', 'the operator is transformed - data-type');
-                                    assert.equal($screen.find('.expression .term:eq(1)').text().trim(), '+', 'the operator is transformed - content');
+                                    assert.equal($screen.find('.expression .term:eq(1)').data('value'), '0', 'the variable is transformed - data-value');
+                                    assert.equal($screen.find('.expression .term:eq(1)').data('token'), 'NUM0', 'the variable is transformed - data-token');
+                                    assert.equal($screen.find('.expression .term:eq(1)').data('type'), 'digit', 'the variable is transformed - data-type');
+                                    assert.equal($screen.find('.expression .term:eq(1)').text().trim(), '0', 'the variable is transformed - content');
+
+                                    assert.equal($screen.find('.expression .term:eq(2)').data('value'), '+', 'the operator is transformed - data-value');
+                                    assert.equal($screen.find('.expression .term:eq(2)').data('token'), 'ADD', 'the operator is transformed - data-token');
+                                    assert.equal($screen.find('.expression .term:eq(2)').data('type'), 'operator', 'the operator is transformed - data-type');
+                                    assert.equal($screen.find('.expression .term:eq(2)').text().trim(), '+', 'the operator is transformed - content');
 
                                     resolve();
                                 })
@@ -965,7 +999,7 @@ define([
                 var areaBroker = calculator.getAreaBroker();
                 var plugin = simpleScreenPluginFactory(calculator, areaBroker);
 
-                QUnit.expect(70);
+                QUnit.expect(74);
 
                 calculator
                     .on('plugin-render.simpleScreen', function () {
@@ -1082,17 +1116,22 @@ define([
                                     assert.equal(calculator.getExpression(), 'ans+', 'The expression should be ans+');
                                     assert.equal(calculator.getPosition(), 4, 'The position should be set to 4');
 
-                                    assert.equal($screen.find('.expression .term').length, 2, 'The expected number of terms has been transformed in the expression');
+                                    assert.equal($screen.find('.expression .term').length, 3, 'The expected number of terms has been transformed in the expression');
 
                                     assert.equal($screen.find('.expression .term:eq(0)').data('value'), 'ans', 'the variable is transformed - data-value');
                                     assert.equal($screen.find('.expression .term:eq(0)').data('token'), 'ANS', 'the variable is transformed - data-token');
                                     assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'variable', 'the variable is transformed - data-type');
                                     assert.equal($screen.find('.expression .term:eq(0)').text().trim(), '0', 'the variable is transformed - content');
 
-                                    assert.equal($screen.find('.expression .term:eq(1)').data('value'), '+', 'the operator is transformed - data-value');
-                                    assert.equal($screen.find('.expression .term:eq(1)').data('token'), 'ADD', 'the operator is transformed - data-token');
-                                    assert.equal($screen.find('.expression .term:eq(1)').data('type'), 'operator', 'the operator is transformed - data-type');
-                                    assert.equal($screen.find('.expression .term:eq(1)').text().trim(), '+', 'the operator is transformed - content');
+                                    assert.equal($screen.find('.expression .term:eq(1)').data('value'), '0', 'the variable is transformed - data-value');
+                                    assert.equal($screen.find('.expression .term:eq(1)').data('token'), 'NUM0', 'the variable is transformed - data-token');
+                                    assert.equal($screen.find('.expression .term:eq(1)').data('type'), 'digit', 'the variable is transformed - data-type');
+                                    assert.equal($screen.find('.expression .term:eq(1)').text().trim(), '0', 'the variable is transformed - content');
+
+                                    assert.equal($screen.find('.expression .term:eq(2)').data('value'), '+', 'the operator is transformed - data-value');
+                                    assert.equal($screen.find('.expression .term:eq(2)').data('token'), 'ADD', 'the operator is transformed - data-token');
+                                    assert.equal($screen.find('.expression .term:eq(2)').data('type'), 'operator', 'the operator is transformed - data-type');
+                                    assert.equal($screen.find('.expression .term:eq(2)').text().trim(), '+', 'the operator is transformed - content');
 
                                     resolve();
                                 })
@@ -1146,7 +1185,7 @@ define([
                 var areaBroker = calculator.getAreaBroker();
                 var plugin = simpleScreenPluginFactory(calculator, areaBroker);
 
-                QUnit.expect(78);
+                QUnit.expect(82);
 
                 calculator
                     .on('plugin-render.simpleScreen', function () {
@@ -1282,12 +1321,17 @@ define([
 
                                     assert.equal(calculator.getVariable('ans').value, '5', 'The last result is 5');
 
-                                    assert.equal($screen.find('.expression .term').length, 1, 'The expected number of terms has been transformed in the expression');
+                                    assert.equal($screen.find('.expression .term').length, 2, 'The expected number of terms has been transformed in the expression');
 
                                     assert.equal($screen.find('.expression .term:eq(0)').data('value'), 'ans', 'the expression is transformed - data-value');
                                     assert.equal($screen.find('.expression .term:eq(0)').data('token'), 'ANS', 'the expression is transformed - data-token');
                                     assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'variable', 'the expression is transformed - data-type');
                                     assert.equal($screen.find('.expression .term:eq(0)').text().trim(), '5', 'the expression is transformed - content');
+
+                                    assert.equal($screen.find('.expression .term:eq(1)').data('value'), '5', 'the expression is transformed - data-value');
+                                    assert.equal($screen.find('.expression .term:eq(1)').data('token'), 'NUM5', 'the expression is transformed - data-token');
+                                    assert.equal($screen.find('.expression .term:eq(1)').data('type'), 'digit', 'the expression is transformed - data-type');
+                                    assert.equal($screen.find('.expression .term:eq(1)').text().trim(), '5', 'the expression is transformed - content');
 
                                     assert.equal($screen.find('.history .history-line').length, 1, 'The expected number of history lines has been added in the history');
                                     assert.equal($screen.find('.history .history-expression').length, 1, 'The history contains an expression');
@@ -1593,7 +1637,7 @@ define([
                 var areaBroker = calculator.getAreaBroker();
                 var plugin = simpleScreenPluginFactory(calculator, areaBroker);
 
-                QUnit.expect(34);
+                QUnit.expect(41);
 
                 calculator
                     .on('plugin-render.simpleScreen', function () {
@@ -1619,11 +1663,15 @@ define([
                         assert.equal(calculator.getExpression(), 'ans', 'The expression should be set to ans');
                         assert.equal(calculator.getPosition(), 3, 'The position should be set to 3');
 
-                        assert.equal($screen.find('.term').length, 1, 'The expected number of terms has been transformed');
+                        assert.equal($screen.find('.term').length, 2, 'The expected number of terms has been transformed');
 
                         assert.equal($screen.find('.term:eq(0)').data('value'), 'ans', 'the first operand is transformed - data-value');
                         assert.equal($screen.find('.term:eq(0)').data('token'), 'ANS', 'the first operand is transformed - data-token');
                         assert.equal($screen.find('.term:eq(0)').text().trim(), '0', 'the first operand is transformed - content');
+
+                        assert.equal($screen.find('.term:eq(1)').data('value'), '0', 'the first operand is transformed - data-value');
+                        assert.equal($screen.find('.term:eq(1)').data('token'), 'NUM0', 'the first operand is transformed - data-token');
+                        assert.equal($screen.find('.term:eq(1)').text().trim(), '0', 'the first operand is transformed - content');
                     })
                     .then(function () {
                         var $screen = $container.find('.calculator-screen');
@@ -1635,17 +1683,22 @@ define([
                                     assert.equal(calculator.getExpression(), 'ans+', 'The expression should be ans+');
                                     assert.equal(calculator.getPosition(), 4, 'The position should be set to 4');
 
-                                    assert.equal($screen.find('.expression .term').length, 2, 'The expected number of terms has been transformed in the expression');
+                                    assert.equal($screen.find('.expression .term').length, 3, 'The expected number of terms has been transformed in the expression');
 
                                     assert.equal($screen.find('.expression .term:eq(0)').data('value'), 'ans', 'the variable is transformed - data-value');
                                     assert.equal($screen.find('.expression .term:eq(0)').data('token'), 'ANS', 'the variable is transformed - data-token');
                                     assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'variable', 'the variable is transformed - data-type');
                                     assert.equal($screen.find('.expression .term:eq(0)').text().trim(), '0', 'the variable is transformed - content');
 
-                                    assert.equal($screen.find('.expression .term:eq(1)').data('value'), '+', 'the operator is transformed - data-value');
-                                    assert.equal($screen.find('.expression .term:eq(1)').data('token'), 'ADD', 'the operator is transformed - data-token');
-                                    assert.equal($screen.find('.expression .term:eq(1)').data('type'), 'operator', 'the operator is transformed - data-type');
-                                    assert.equal($screen.find('.expression .term:eq(1)').text().trim(), '+', 'the operator is transformed - content');
+                                    assert.equal($screen.find('.expression .term:eq(1)').data('value'), '0', 'the variable is transformed - data-value');
+                                    assert.equal($screen.find('.expression .term:eq(1)').data('token'), 'NUM0', 'the variable is transformed - data-token');
+                                    assert.equal($screen.find('.expression .term:eq(1)').data('type'), 'digit', 'the variable is transformed - data-type');
+                                    assert.equal($screen.find('.expression .term:eq(1)').text().trim(), '0', 'the variable is transformed - content');
+
+                                    assert.equal($screen.find('.expression .term:eq(2)').data('value'), '+', 'the operator is transformed - data-value');
+                                    assert.equal($screen.find('.expression .term:eq(2)').data('token'), 'ADD', 'the operator is transformed - data-token');
+                                    assert.equal($screen.find('.expression .term:eq(2)').data('type'), 'operator', 'the operator is transformed - data-type');
+                                    assert.equal($screen.find('.expression .term:eq(2)').text().trim(), '+', 'the operator is transformed - content');
 
                                     calculator
                                         .after('termadd.NUM8', function() {
@@ -1654,22 +1707,22 @@ define([
                                             assert.equal(calculator.getExpression(), 'ans+8', 'The expression should be ans+8');
                                             assert.equal(calculator.getPosition(), 5, 'The position should be set to 5');
 
-                                            assert.equal($screen.find('.expression .term').length, 3, 'The expected number of terms has been transformed in the expression');
+                                            assert.equal($screen.find('.expression .term').length, 4, 'The expected number of terms has been transformed in the expression');
 
                                             assert.equal($screen.find('.expression .term:eq(0)').data('value'), 'ans', 'the variable is transformed - data-value');
                                             assert.equal($screen.find('.expression .term:eq(0)').data('token'), 'ANS', 'the variable is transformed - data-token');
                                             assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'variable', 'the variable is transformed - data-type');
                                             assert.equal($screen.find('.expression .term:eq(0)').text().trim(), '0', 'the variable is transformed - content');
 
-                                            assert.equal($screen.find('.expression .term:eq(1)').data('value'), '+', 'the operator is transformed - data-value');
-                                            assert.equal($screen.find('.expression .term:eq(1)').data('token'), 'ADD', 'the operator is transformed - data-token');
-                                            assert.equal($screen.find('.expression .term:eq(1)').data('type'), 'operator', 'the operator is transformed - data-type');
-                                            assert.equal($screen.find('.expression .term:eq(1)').text().trim(), '+', 'the operator is transformed - content');
+                                            assert.equal($screen.find('.expression .term:eq(2)').data('value'), '+', 'the operator is transformed - data-value');
+                                            assert.equal($screen.find('.expression .term:eq(2)').data('token'), 'ADD', 'the operator is transformed - data-token');
+                                            assert.equal($screen.find('.expression .term:eq(2)').data('type'), 'operator', 'the operator is transformed - data-type');
+                                            assert.equal($screen.find('.expression .term:eq(2)').text().trim(), '+', 'the operator is transformed - content');
 
-                                            assert.equal($screen.find('.expression .term:eq(2)').data('value'), '8', 'the operand is transformed - data-value');
-                                            assert.equal($screen.find('.expression .term:eq(2)').data('token'), 'NUM8', 'the operand is transformed - data-token');
-                                            assert.equal($screen.find('.expression .term:eq(2)').data('type'), 'digit', 'the operand is transformed - data-type');
-                                            assert.equal($screen.find('.expression .term:eq(2)').text().trim(), '8', 'the operand is transformed - content');
+                                            assert.equal($screen.find('.expression .term:eq(3)').data('value'), '8', 'the operand is transformed - data-value');
+                                            assert.equal($screen.find('.expression .term:eq(3)').data('token'), 'NUM8', 'the operand is transformed - data-token');
+                                            assert.equal($screen.find('.expression .term:eq(3)').data('type'), 'digit', 'the operand is transformed - data-type');
+                                            assert.equal($screen.find('.expression .term:eq(3)').text().trim(), '8', 'the operand is transformed - content');
 
                                             resolve();
                                         })
@@ -1730,7 +1783,7 @@ define([
                     var areaBroker = calculator.getAreaBroker();
                     var plugin = simpleScreenPluginFactory(calculator, areaBroker);
 
-                    QUnit.expect(15);
+                    QUnit.expect(18);
 
                     calculator
                         .on('plugin-render.simpleScreen', function () {
@@ -1756,11 +1809,15 @@ define([
                             assert.equal(calculator.getExpression(), 'ans', 'The expression should be set to ans');
                             assert.equal(calculator.getPosition(), 3, 'The position should be set to 3');
 
-                            assert.equal($screen.find('.term').length, 1, 'The expected number of terms has been transformed');
+                            assert.equal($screen.find('.term').length, 2, 'The expected number of terms has been transformed');
 
                             assert.equal($screen.find('.term:eq(0)').data('value'), 'ans', 'the first operand is transformed - data-value');
                             assert.equal($screen.find('.term:eq(0)').data('token'), 'ANS', 'the first operand is transformed - data-token');
                             assert.equal($screen.find('.term:eq(0)').text().trim(), '0', 'the first operand is transformed - content');
+
+                            assert.equal($screen.find('.term:eq(1)').data('value'), '0', 'the first operand is transformed - data-value');
+                            assert.equal($screen.find('.term:eq(1)').data('token'), 'NUM0', 'the first operand is transformed - data-token');
+                            assert.equal($screen.find('.term:eq(1)').text().trim(), '0', 'the first operand is transformed - content');
                         })
                         .then(function () {
                             var $screen = $container.find('.calculator-screen');

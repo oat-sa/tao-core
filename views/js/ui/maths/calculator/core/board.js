@@ -265,6 +265,7 @@ define([
                     value = mathsEvaluator('0');
                     value.expression = errValue;
                 }
+                value.tokens = tokenizer.tokenize(value);
                 variables.set(name, value);
                 /**
                  * @event variableadd

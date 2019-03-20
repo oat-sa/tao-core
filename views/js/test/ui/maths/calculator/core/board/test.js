@@ -24,9 +24,12 @@ define([
     'core/promise',
     'ui/maths/calculator/core/plugin',
     'ui/maths/calculator/core/board',
-    'ui/maths/calculator/core/terms'
-], function ($, _, Promise, pluginFactory, calculatorBoardFactory, registeredTerms) {
+    'ui/maths/calculator/core/terms',
+    'ui/maths/calculator/core/tokenizer'
+], function ($, _, Promise, pluginFactory, calculatorBoardFactory, registeredTerms, tokenizerFactory) {
     'use strict';
+
+    var tokenizer = tokenizerFactory();
 
     var builtInCommands = {
         clear: {
@@ -749,7 +752,8 @@ define([
                 expression: '0',
                 result: 0,
                 value: 0,
-                variables: noop
+                variables: noop,
+                tokens: tokenizer.tokenize('0')
             }
         };
         var expectedVariables = {
@@ -762,25 +766,29 @@ define([
                 expression: '0',
                 result: 0,
                 value: 0,
-                variables: noop
+                variables: noop,
+                tokens: tokenizer.tokenize('0')
             },
             foo: {
                 expression: 'bar',
                 result: 0,
                 value: 0,
-                variables: noop
+                variables: noop,
+                tokens: tokenizer.tokenize('0')
             },
             x: {
                 expression: '42',
                 result: 42,
                 value: 42,
-                variables: noop
+                variables: noop,
+                tokens: tokenizer.tokenize('42')
             },
             y: {
                 expression: '3',
                 result: 3,
                 value: 3,
-                variables: noop
+                variables: noop,
+                tokens: tokenizer.tokenize('3')
             }
         };
         var $container = $('#fixture-variables');
@@ -1389,7 +1397,8 @@ define([
                 expression: '0',
                 result: 0,
                 value: 0,
-                variables: noop
+                variables: noop,
+                tokens: tokenizer.tokenize('0')
             }
         };
         var expectedVariables = {
@@ -1402,25 +1411,29 @@ define([
                 expression: '0',
                 result: 0,
                 value: 0,
-                variables: noop
+                variables: noop,
+                tokens: tokenizer.tokenize('0')
             },
             foo: {
                 expression: 'bar',
                 result: 0,
                 value: 0,
-                variables: noop
+                variables: noop,
+                tokens: tokenizer.tokenize('0')
             },
             x: {
                 expression: '42',
                 result: 42,
                 value: 42,
-                variables: noop
+                variables: noop,
+                tokens: tokenizer.tokenize('42')
             },
             y: {
                 expression: '3',
                 result: 3,
                 value: 3,
-                variables: noop
+                variables: noop,
+                tokens: tokenizer.tokenize('3')
             }
         };
         var $container = $('#fixture-usevariable');
@@ -1529,7 +1542,8 @@ define([
                 expression: '0',
                 result: 0,
                 value: 0,
-                variables: noop
+                variables: noop,
+                tokens: tokenizer.tokenize('0')
             }
         };
         var $container = $('#fixture-usevariable');
