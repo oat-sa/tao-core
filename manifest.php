@@ -119,7 +119,7 @@ return array(
             SetUpQueueTasks::class
         )
     ),
-    'update' => 'oat\\tao\\scripts\\update\\Updgater',
+    'update' => 'oat\\tao\\scripts\\update\\Updater',
     'optimizableClasses' => array(
         'http://www.tao.lu/Ontologies/TAO.rdf#Languages',
         'http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsages'
