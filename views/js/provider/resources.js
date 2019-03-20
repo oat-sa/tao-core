@@ -153,6 +153,7 @@ define([
              * Copy a resource into another class
              * @param {String} uri - the resource to copy
              * @param {String} destinationClassUri - the destination class
+             * @param {String} signature - the signature for the uri
              * @returns {Promise<Object>} resolves with the data of the new resource
              */
             copyTo : function copyTo(uri, destinationClassUri, signature) {
