@@ -39,7 +39,7 @@ abstract class LegacyController extends Controller
     protected $response, $request;
 
     /**
-     * @deprecated Use getPsrResponse() instead
+     * @deprecated Use getPsrRequest() instead
      *
      * @return \Request
      */
@@ -87,7 +87,7 @@ abstract class LegacyController extends Controller
      */
     public function hasRequestParameter($name)
     {
-        return $this->getRequest()->getParameter($name);
+        return $this->getRequest()->hasParameter($name);
     }
 
     /**
