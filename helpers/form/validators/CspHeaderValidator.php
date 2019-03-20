@@ -144,7 +144,7 @@ class CspHeaderValidator extends \tao_helpers_form_Validator
             return true;
         }
 
-        $regex = '~^(http\:\/\/|https\:\/\/|\*)?(\*|\w+)(?!\s)(?!\.\*)(\W.+)[^\*]$~i';
+        $regex = '~^(https?:\/\/|(\*\.){1})?(\w.+)(\.)(?!\s)(?!\.\*)(\w{2,})$~i';
         return (bool) preg_match($regex, $domain);
     }
 
