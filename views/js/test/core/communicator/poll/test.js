@@ -18,19 +18,18 @@
 /**
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
-define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], function ($, _, communicator, poll) {
+define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], function($, _, communicator, poll) {
     'use strict';
 
-    // backup/restore ajax method between each test
+    // Backup/restore ajax method between each test
     var ajaxBackup;
-    QUnit.testStart(function () {
+    QUnit.testStart(function() {
         ajaxBackup = $.ajax;
     });
-    QUnit.testDone(function () {
+    QUnit.testDone(function() {
         $.ajax = ajaxBackup;
         communicator.clearProviders();
     });
-
 
     /**
      * A simple AJAX mock factory that fakes a successful ajax call.
@@ -42,7 +41,7 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
      * @returns {Function}
      */
     function ajaxMock(resolver, validator) {
-        return function () {
+        return function() {
             var deferred = $.Deferred();
             validator && validator.apply(this, arguments);
             _.defer(resolver, deferred);
@@ -50,17 +49,14 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
         };
     }
 
-
     QUnit.module('communicator/poll factory');
 
+    QUnit.test('module', function(assert) {
+        assert.expect(1);
 
-    QUnit.test('module', function (assert) {
-        QUnit.expect(1);
-
-        assert.equal(typeof poll, 'object', "The communicator/poll module exposes an object");
+        assert.equal(typeof poll, 'object', 'The communicator/poll module exposes an object');
 
     });
-
 
     var pollApi = [
         {name: 'init', title: 'init'},
@@ -71,75 +67,74 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
     ];
 
     QUnit
-        .cases(pollApi)
-        .test('api', function (data, assert) {
+        .cases.init(pollApi)
+        .test('api', function(data, assert) {
             assert.equal(typeof poll[data.name], 'function', 'The communicator/poll api exposes a "' + data.name + '" function');
         });
 
-
     QUnit.module('provider');
 
-
-    QUnit.asyncTest('create error', function (assert) {
-        QUnit.expect(1);
+    QUnit.test('create error', function(assert) {
+        var ready = assert.async();
+        assert.expect(1);
 
         communicator.registerProvider('poll', poll);
 
         var instance = communicator('poll');
 
-        instance.init().catch(function () {
+        instance.init().catch(function() {
             assert.ok(true, 'The provider needs the address of the remote service');
-            QUnit.start();
+            ready();
         });
     });
 
-
-    QUnit.asyncTest('init and destroy', function (assert) {
-        QUnit.expect(11);
+    QUnit.test('init and destroy', function(assert) {
+        var ready = assert.async();
+        assert.expect(11);
 
         communicator.registerProvider('poll', poll);
 
         var instance = communicator('poll', {service: 'service.url'})
-            .on('init', function () {
+            .on('init', function() {
                 assert.ok(true, 'The communicator has fired the "init" event');
             })
-            .on('ready', function () {
+            .on('ready', function() {
                 assert.ok(true, 'The communicator has fired the "ready" event');
             })
-            .on('destroy', function () {
+            .on('destroy', function() {
                 assert.ok(true, 'The communicator has fired the "destroy" event');
             })
-            .on('destroyed', function () {
+            .on('destroyed', function() {
                 assert.ok(true, 'The communicator has fired the "destroyed" event');
             });
 
         assert.ok(!!instance, 'The provider exists');
 
-        instance.init().then(function () {
+        instance.init().then(function() {
             assert.equal(instance.getState('ready'), true, 'The provider is initialized');
 
-            // double check for init fallback when already ready
+            // Double check for init fallback when already ready
             // the init events must not be triggered as the communicator is already ready
-            instance.init().then(function () {
+            instance.init().then(function() {
                 assert.equal(instance.getState('ready'), true, 'The provider is initialized');
 
-                instance.destroy().then(function () {
+                instance.destroy().then(function() {
                     assert.equal(instance.getState('ready'), false, 'The provider is destroyed');
 
-                    // double check for destroy fallback when already destroyed
-                    instance.destroy().then(function () {
+                    // Double check for destroy fallback when already destroyed
+                    instance.destroy().then(function() {
                         assert.equal(instance.getState('ready'), false, 'The provider is already destroyed');
 
-                        QUnit.start();
+                        ready();
                     });
                 });
             });
         });
     });
 
-
-    QUnit.asyncTest('open and close', function (assert) {
-        QUnit.expect(16);
+    QUnit.test('open and close', function(assert) {
+        var ready = assert.async();
+        assert.expect(16);
 
         var config = {
             service: 'service.url',
@@ -148,66 +143,66 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
 
         $.ajax = ajaxMock(function(promise) {
             promise.resolve({});
-        }, function (ajaxConfig) {
+        }, function(ajaxConfig) {
             assert.equal(ajaxConfig.url, config.service, 'The provider has called the right service');
         });
 
         communicator.registerProvider('poll', poll);
 
         var instance = communicator('poll', config)
-            .on('open', function () {
+            .on('open', function() {
                 assert.ok(true, 'The communicator has fired the "open" event');
             })
-            .on('opened', function () {
+            .on('opened', function() {
                 assert.ok(true, 'The communicator has fired the "opened" event');
             })
-            .on('close', function () {
+            .on('close', function() {
                 assert.ok(true, 'The communicator has fired the "close" event');
             })
-            .on('closed', function () {
+            .on('closed', function() {
                 assert.ok(true, 'The communicator has fired the "closed" event');
             })
-            .on('receive', function () {
+            .on('receive', function() {
                 assert.ok(true, 'The communicator has fired the "receive" event');
 
-                instance.close().then(function () {
+                instance.close().then(function() {
                     assert.equal(instance.getState('open'), false, 'The connection is closed');
 
-                    instance.destroy().then(function () {
+                    instance.destroy().then(function() {
                         assert.ok(true, 'The communicator is destroyed');
-                        QUnit.start();
+                        ready();
                     });
                 });
             });
 
         assert.ok(!!instance, 'The provider exists');
 
-        instance.open().catch(function () {
+        instance.open().catch(function() {
             assert.ok(true, 'The communicator cannot connect while the instance is not initialized');
         });
 
-        instance.close().catch(function () {
+        instance.close().catch(function() {
             assert.ok(true, 'The communicator cannot disconnect while the instance is not initialized');
         });
 
-        instance.init().then(function () {
+        instance.init().then(function() {
             assert.equal(instance.getState('ready'), true, 'The communicator is initialized');
 
-            instance.open().then(function () {
+            instance.open().then(function() {
                 assert.equal(instance.getState('open'), true, 'The connection is open');
 
-                // double check for open fallback when already open
+                // Double check for open fallback when already open
                 // the init events must not be triggered as the communicator is already open
-                instance.open().then(function () {
+                instance.open().then(function() {
                     assert.equal(instance.getState('ready'), true, 'The provider is initialized');
                 });
             });
         });
     });
 
-
-    QUnit.asyncTest('send success', function (assert) {
-        QUnit.expect(28);
+    QUnit.test('send success', function(assert) {
+        var ready = assert.async();
+        assert.expect(28);
 
         var config = {
             service: 'service.url',
@@ -256,7 +251,7 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
             expectedToken = testPath[currentStep].token;
             expectedRequest = testPath[currentStep].request;
             expectedResponse = testPath[currentStep].response;
-        }, function (ajaxConfig) {
+        }, function(ajaxConfig) {
             assert.equal(ajaxConfig.url, config.service, 'The provider has called the right service');
             assert.equal(ajaxConfig.headers['X-Auth-Token'], expectedToken, 'The provider has set the right security token');
             assert.deepEqual(JSON.parse(ajaxConfig.data), expectedRequest, 'The provider has sent the request');
@@ -265,69 +260,69 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
         communicator.registerProvider('poll', poll);
 
         var instance = communicator('poll', config)
-            .on('send', function (promise, channel, message) {
+            .on('send', function(promise, channel, message) {
                 assert.ok(true, 'The communicator has fired the "send" event');
                 assert.ok(promise instanceof Promise, 'The promise is provided');
                 assert.equal(channel, requestChannel, 'The right channel is provided');
                 assert.equal(message, requestMessage, 'The right message is provided');
             })
-            .on('sent', function (channel, message) {
+            .on('sent', function(channel, message) {
                 assert.ok(true, 'The communicator has fired the "sent" event');
                 assert.equal(channel, requestChannel, 'The right channel is provided');
                 assert.equal(message, requestMessage, 'The right message is provided');
             })
-            .on('close', function () {
+            .on('close', function() {
                 assert.ok(true, 'The communicator has fired the "close" event');
             })
-            .on('closed', function () {
+            .on('closed', function() {
                 assert.ok(true, 'The communicator has fired the "closed" event');
             })
             .on('receive', function(response) {
                 assert.ok(true, 'A receive event is triggered');
                 assert.equal(response, expectedResponse, 'A response is received');
             })
-            .channel(requestChannel, function (message) {
+            .channel(requestChannel, function(message) {
                 assert.equal(message, expectedResponse.messages[0].message, 'The provider has received the message');
-                // QUnit.start();
+
             });
 
         assert.ok(!!instance, 'The provider exists');
 
-        instance.send(requestChannel, requestMessage).catch(function () {
+        instance.send(requestChannel, requestMessage).catch(function() {
             assert.ok(true, 'The communicator cannot send a message while the instance is not initialized');
         });
 
-        instance.init().then(function () {
+        instance.init().then(function() {
             assert.equal(instance.getState('ready'), true, 'The provider is initialized');
 
-            instance.send(requestChannel, requestMessage).catch(function () {
+            instance.send(requestChannel, requestMessage).catch(function() {
                 assert.ok(true, 'The communicator cannot send a message while the connection is not open');
             });
 
-            instance.open().then(function () {
+            instance.open().then(function() {
                 assert.equal(instance.getState('open'), true, 'The connection is open');
 
-                instance.send(requestChannel, requestMessage).then(function (response) {
+                instance.send(requestChannel, requestMessage).then(function(response) {
                     assert.ok(true, 'The message is sent');
 
                     assert.deepEqual(response, expectedResponse.responses[0], 'The message has received the expected response');
 
-                    // do not explicitly call the close() method,
+                    // Do not explicitly call the close() method,
                     // it will be invoked by the destroy() method,
-                    // thus "close" and "closed" events must be triggered
-                    instance.destroy().then(function () {
+                    // thus 'close' and "closed" events must be triggered
+                    instance.destroy().then(function() {
                         assert.ok(true, 'The provider is destroyed');
 
-                        QUnit.start();
+                        ready();
                     });
                 });
             });
         });
     });
 
-
-    QUnit.asyncTest('send and stop', function (assert) {
-        QUnit.expect(15);
+    QUnit.test('send and stop', function(assert) {
+        var ready = assert.async();
+        assert.expect(15);
 
         var config = {
             service: 'service.url',
@@ -378,7 +373,7 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
             expectedToken = testPath[currentStep].token;
             expectedRequest = testPath[currentStep].request;
             expectedResponse = testPath[currentStep].response;
-        }, function (ajaxConfig) {
+        }, function(ajaxConfig) {
             assert.equal(ajaxConfig.url, config.service, 'The provider has called the right service');
             assert.equal(ajaxConfig.headers['X-Auth-Token'], expectedToken, 'The provider has set the right security token');
             assert.deepEqual(JSON.parse(ajaxConfig.data), expectedRequest, 'The provider has sent the request');
@@ -387,37 +382,36 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
         communicator.registerProvider('poll', poll);
 
         instance = communicator('poll', config)
-            .on('send', function (promise, channel, message) {
+            .on('send', function(promise, channel, message) {
                 assert.ok(true, 'The communicator has fired the "send" event');
                 assert.ok(promise instanceof Promise, 'The promise is provided');
                 assert.equal(channel, requestChannel, 'The right channel is provided');
                 assert.equal(message, requestMessage, 'The right message is provided');
             })
-            .on('message', function () {
-                //should not be called
+            .on('message', function() {
+
+                //Should not be called
                 assert.ok(false, 'Message triggered on stopped polling service.');
             });
 
-
-
         assert.ok(!!instance, 'The provider exists');
 
-        instance.init().then(function () {
+        instance.init().then(function() {
             assert.equal(instance.getState('ready'), true, 'The provider is initialized');
 
-            instance.open().then(function () {
+            instance.open().then(function() {
                 assert.equal(instance.getState('open'), true, 'The connection is open');
 
-                instance.send(requestChannel, requestMessage).then(function (response) {
+                instance.send(requestChannel, requestMessage).then(function(response) {
                     assert.ok(true, 'The message is sent');
 
-                    // do not explicitly call the close() method,
+                    // Do not explicitly call the close() method,
                     // it will be invoked by the destroy() method,
-                    // thus "close" and "closed" events must be triggered
-                    instance.destroy().then(function () {
+                    // thus 'close' and "closed" events must be triggered
+                    instance.destroy().then(function() {
                         assert.ok(true, 'The provider is destroyed');
 
-                        QUnit.start();
+                        ready();
                     });
                 });
 
@@ -425,9 +419,9 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
         });
     });
 
-
-    QUnit.asyncTest('send failed #network', function (assert) {
-        QUnit.expect(25);
+    QUnit.test('send failed #network', function(assert) {
+        var ready = assert.async();
+        assert.expect(25);
 
         var config = {
             service: 'service.url',
@@ -472,7 +466,7 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
                 assert.equal(error.source, 'network', 'The error object contains the error source');
             });
 
-        $.ajax = ajaxMock(function (promise) {
+        $.ajax = ajaxMock(function(promise) {
             if (mustFail) {
                 promise.reject(expectedResponse);
             } else {
@@ -484,7 +478,7 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
             expectedToken = testPath[currentStep].token;
             expectedRequest = testPath[currentStep].request;
             expectedResponse = testPath[currentStep].response;
-        }, function (ajaxConfig) {
+        }, function(ajaxConfig) {
             assert.equal(ajaxConfig.url, config.service, 'The provider has called the right service');
             assert.equal(ajaxConfig.headers['X-Auth-Token'], expectedToken, 'The provider has set the right security token');
             assert.deepEqual(JSON.parse(ajaxConfig.data), expectedRequest, 'The provider has sent the request');
@@ -492,27 +486,27 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
 
         assert.ok(!!instance, 'The provider exists');
 
-        instance.channel(requestChannel, function () {
+        instance.channel(requestChannel, function() {
             assert.ok(false, 'The provider must not receive any message');
         });
 
-        instance.init().then(function () {
+        instance.init().then(function() {
             assert.equal(instance.getState('ready'), true, 'The provider is initialized');
 
-            instance.open().then(function () {
+            instance.open().then(function() {
                 assert.equal(instance.getState('open'), true, 'The connection is open');
 
-                instance.send(requestChannel, requestMessage).catch(function () {
+                instance.send(requestChannel, requestMessage).catch(function() {
                     assert.ok(true, 'The message has not been received');
 
-                    // double send error to check the token reset
-                    instance.send(requestChannel, requestMessage).catch(function () {
+                    // Double send error to check the token reset
+                    instance.send(requestChannel, requestMessage).catch(function() {
                         assert.ok(true, 'The message has not been received');
 
-                        instance.destroy().then(function () {
+                        instance.destroy().then(function() {
                             assert.ok(true, 'The provider is destroyed');
 
-                            QUnit.start();
+                            ready();
                         });
                     });
                 });
@@ -520,9 +514,9 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
         });
     });
 
-
-    QUnit.asyncTest('receive', function (assert) {
-        QUnit.expect(9);
+    QUnit.test('receive', function(assert) {
+        var ready = assert.async();
+        assert.expect(9);
 
         var config = {
             service: 'service.url',
@@ -546,7 +540,7 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
 
         $.ajax = ajaxMock(function(promise) {
             promise.resolve(expectedResponse);
-        }, function (ajaxConfig) {
+        }, function(ajaxConfig) {
             assert.equal(ajaxConfig.url, config.service, 'The provider has called the right service');
             assert.equal(typeof ajaxConfig.headers['X-Auth-Token'], 'undefined', 'The provider has not set any security token');
             assert.deepEqual(JSON.parse(ajaxConfig.data), [], 'The provider has sent the request with no data');
@@ -555,7 +549,7 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
         assert.ok(!!instance, 'The provider exists');
 
         var received = [new Promise(function(resolve) {
-            instance.channel(expectedChannel, function (message) {
+            instance.channel(expectedChannel, function(message) {
                 assert.equal(message, expectedResponse.messages[0].message, 'The provider has received the message');
                 resolve();
             });
@@ -567,17 +561,17 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
         })];
 
         Promise.all(received).then(function() {
-            instance.destroy().then(function () {
+            instance.destroy().then(function() {
                 assert.ok(true, 'The provider is destroyed');
 
-                QUnit.start();
+                ready();
             });
         });
 
-        instance.init().then(function () {
+        instance.init().then(function() {
             assert.equal(instance.getState('ready'), true, 'The provider is initialized');
 
-            instance.open().then(function () {
+            instance.open().then(function() {
                 assert.equal(instance.getState('open'), true, 'The connection is open');
             });
         });

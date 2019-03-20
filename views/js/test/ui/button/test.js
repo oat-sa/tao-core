@@ -20,12 +20,13 @@
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
 define([
+
     'jquery',
     'lodash',
     'ui/button',
     'css!taoCss/tao-3.css',
     'css!taoCss/tao-main-style.css'
-], function ($, _, button) {
+], function($, _, button) {
     'use strict';
 
     var renderCases;
@@ -46,29 +47,25 @@ define([
         {title: 'setTemplate'}
     ];
 
-
     QUnit.module('button');
 
+    QUnit.test('module', function(assert) {
+        assert.expect(3);
 
-    QUnit.test('module', function (assert) {
-        QUnit.expect(3);
-
-        assert.equal(typeof button, 'function', "The button module exposes a function");
-        assert.equal(typeof button(), 'object', "The button factory produces an object");
-        assert.notStrictEqual(button(), button(), "The button factory provides a different object on each call");
+        assert.equal(typeof button, 'function', 'The button module exposes a function');
+        assert.equal(typeof button(), 'object', 'The button factory produces an object');
+        assert.notStrictEqual(button(), button(), 'The button factory provides a different object on each call');
     });
 
-
     QUnit
-        .cases(buttonApi)
-        .test('instance API ', function (data, assert) {
+        .cases.init(buttonApi)
+        .test('instance API ', function(data, assert) {
             var instance = button();
-            QUnit.expect(1);
+            assert.expect(1);
             assert.equal(typeof instance[data.title], 'function', 'The button instance exposes a "' + data.title + '" function');
         });
 
-
-    QUnit.test('init', function (assert) {
+    QUnit.test('init', function(assert) {
         var buttonId = 'myButton';
         var undef;
         var config = {
@@ -78,7 +75,7 @@ define([
         };
         var instance = button(config);
 
-        QUnit.expect(5);
+        assert.expect(5);
 
         assert.notEqual(instance.config, config, 'The button instance must duplicate the config set');
         assert.equal(instance.hasOwnProperty('nothing'), false, 'The button instance must not accept undefined config properties');
@@ -88,7 +85,6 @@ define([
 
         instance.destroy();
     });
-
 
     renderCases = [{
         title: 'simple',
@@ -132,8 +128,8 @@ define([
             label: 'Button 1'
         }
     }];
-    QUnit.cases(renderCases)
-        .test('render ', function (data, assert) {
+    QUnit.cases.init(renderCases)
+        .test('render ', function(data, assert) {
             var $dummy = $('<div class="dummy" />');
             var $container = $('#fixture-1').append($dummy);
             var config = _.merge({
@@ -142,25 +138,25 @@ define([
             }, data.config);
             var instance;
 
-            QUnit.expect(17);
+            assert.expect(17);
 
-            // check place before render
+            // Check place before render
             assert.equal($container.children().length, 1, 'The container already contains an element');
             assert.equal($container.children().get(0), $dummy.get(0), 'The container contains the dummy element');
             assert.equal($container.find('.dummy').length, 1, 'The container contains an element of the class dummy');
 
-            // create an instance with auto rendering
+            // Create an instance with auto rendering
             instance = button(config);
 
-            // check the rendered header
-            assert.equal($container.find('.dummy').length, 0, 'The container does not contain an element of the class dummy');
-            assert.equal(instance.is('rendered'), true, 'The button instance must be rendered');
-            assert.equal(typeof instance.getElement(), 'object', 'The button instance returns the rendered content as an object');
-            assert.equal(instance.getElement().length, 1, 'The button instance returns the rendered content');
-            assert.equal(instance.getElement().parent().get(0), $container.get(0), 'The button instance is rendered inside the right container');
-            assert.ok(instance.getElement().is('button'), 'The button instance has rendered the button');
-            assert.ok(instance.getElement().is('[data-control="' + data.config.id + '"]'), 'The button instance has the right identifier');
-            assert.equal(instance.getElement().text().trim(), data.config.label, 'The button instance has rendered the button  with label ' + data.config.label);
+            // Check the rendered header
+            assert.equal($container.find(".dummy").length, 0, "The container does not contain an element of the class dummy");
+            assert.equal(instance.is("rendered"), true, "The button instance must be rendered");
+            assert.equal(typeof instance.getElement(), "object", "The button instance returns the rendered content as an object");
+            assert.equal(instance.getElement().length, 1, "The button instance returns the rendered content");
+            assert.equal(instance.getElement().parent().get(0), $container.get(0), "The button instance is rendered inside the right container");
+            assert.ok(instance.getElement().is("button"), "The button instance has rendered the button");
+            assert.ok(instance.getElement().is('[data-control="' + data.config.id + '"]'), "The button instance has the right identifier");
+            assert.equal(instance.getElement().text().trim(), data.config.label, "The button instance has rendered the button  with label " + data.config.label);
 
             if (data.config.type) {
                 assert.equal(instance.getElement().hasClass('btn-' + data.config.type), true, 'The button instance has rendered the button with type ' + data.config.type);
@@ -192,13 +188,12 @@ define([
             assert.equal(instance.getElement(), null, 'The button instance has removed its rendered content');
         });
 
-
-    QUnit.test('show/hide', function (assert) {
+    QUnit.test('show/hide', function(assert) {
         var instance = button().render();
 
         var $component = instance.getElement();
 
-        QUnit.expect(8);
+        assert.expect(8);
 
         assert.equal(instance.is('rendered'), true, 'The button instance must be rendered');
         assert.equal($component.length, 1, 'The button instance returns the rendered content');
@@ -219,12 +214,11 @@ define([
         instance.destroy();
     });
 
-
-    QUnit.test('enable/disable', function (assert) {
+    QUnit.test('enable/disable', function(assert) {
         var instance = button().render();
         var $component = instance.getElement();
 
-        QUnit.expect(8);
+        assert.expect(8);
 
         assert.equal(instance.is('rendered'), true, 'The button instance must be rendered');
         assert.equal($component.length, 1, 'The button instance returns the rendered content');
@@ -245,12 +239,11 @@ define([
         instance.destroy();
     });
 
-
-    QUnit.test('state', function (assert) {
+    QUnit.test('state', function(assert) {
         var instance = button().render();
         var $component = instance.getElement();
 
-        QUnit.expect(8);
+        assert.expect(8);
 
         assert.equal(instance.is('rendered'), true, 'The button instance must be rendered');
         assert.equal($component.length, 1, 'The button instance returns the rendered content');
@@ -271,22 +264,24 @@ define([
         instance.destroy();
     });
 
-
-    QUnit.asyncTest('events', function (assert) {
+    QUnit.test('events', function(assert) {
+        var ready3 = assert.async();
+        var ready2 = assert.async();
+        var ready1 = assert.async();
         var config = {
             id: 'button1',
             label: 'Button 1'
         };
         var instance = button(config) ;
 
-        instance.on('custom', function () {
+        instance.on('custom', function() {
             assert.ok(true, 'The button instance can handle custom events');
-            QUnit.start();
+            ready();
         });
 
-        instance.on('render', function () {
+        instance.on('render', function() {
             assert.ok(true, 'The button instance triggers event when it is rendered');
-            QUnit.start();
+            ready1();
 
             instance.getElement().click();
         });
@@ -294,16 +289,16 @@ define([
         instance.on('click', function(buttonId) {
             assert.ok(true, 'The button instance call the right action when the button is clicked');
             assert.equal(buttonId, 'button1', 'The button instance provides the button identifier when the button is clicked');
-            QUnit.start();
+            ready2();
         });
 
-        instance.on('destroy', function () {
+        instance.on('destroy', function() {
             assert.ok(true, 'The button instance triggers event when it is destroyed');
-            QUnit.start();
+            ready3();
         });
 
-        QUnit.expect(5);
-        QUnit.stop(3);
+        assert.expect(5);
+        var ready = assert.async();
 
         instance
             .render()
@@ -311,20 +306,18 @@ define([
             .destroy();
     });
 
-
     QUnit.module('Visual');
 
-
-    QUnit.test('simple button', function(assert){
-        QUnit.expect(1);
+    QUnit.test('simple button', function(assert) {
+        assert.expect(1);
         button({
             id: 'btn1',
             label: 'Button 1'
         })
-            .on('render', function(){
+            .on('render', function() {
                 assert.ok(true);
             })
-            .on('click', function () {
+            .on('click', function() {
                 console.log('button 1', arguments);
             })
             .render('#outside');

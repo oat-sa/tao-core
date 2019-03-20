@@ -20,6 +20,7 @@
  */
 
 define([
+
     'jquery',
     'lodash',
     'tpl!test/ui/datatable/demo/feature',
@@ -29,15 +30,15 @@ define([
     'ui/dialog',
     'ui/datatable',
     'lib/jquery.mockjax/jquery.mockjax'
-], function ($, _, featureTpl, queryTpl, fileTpl, demoData, dialog) {
-    "use strict";
+], function($, _, featureTpl, queryTpl, fileTpl, demoData, dialog) {
+    'use strict';
 
     var $container = $('#demo');
 
     function sort(samples, criteria) {
         var direction = criteria.sortorder === 'desc' || criteria.sortorder < 0 ? -1 : 1;
         var field = criteria.sortby;
-        return samples.sort(function (a, b) {
+        return samples.sort(function(a, b) {
             a = a && a[field];
             b = b && b[field];
             if (a > b) {
@@ -68,11 +69,11 @@ define([
 
         if (criteria.filtercolumns) {
             if (_.isArray(criteria.filtercolumns)) {
-                _.forEach(criteria.filtercolumns, function (field) {
+                _.forEach(criteria.filtercolumns, function(field) {
                     filterPatterns[field] = filterToRegExp(criteria.filterquery);
                 });
             } else {
-                _.forEach(criteria.filtercolumns, function (pattern, field) {
+                _.forEach(criteria.filtercolumns, function(pattern, field) {
                     if (field === 'filter') {
                         filterPattern = filterToRegExp(pattern);
                     } else {
@@ -88,10 +89,10 @@ define([
             return [];
         }
 
-        return _.filter(samples, function (row) {
-            return _.every(filterPatterns, function (pattern, field) {
+        return _.filter(samples, function(row) {
+            return _.every(filterPatterns, function(pattern, field) {
                 return pattern.test(row[field]);
-            }) && (!filterPattern || _.some(filteredColumns, function (field) {
+            }) && (!filterPattern || _.some(filteredColumns, function(field) {
                 return filterPattern.test(row[field]);
             }));
         });
@@ -116,12 +117,12 @@ define([
         };
     }
 
-    // prevent the AJAX mocks to pollute the logs
+    // Prevent the AJAX mocks to pollute the logs
     $.mockjaxSettings.logger = null;
     $.mockjaxSettings.responseTime = 1;
 
-    // toggle panels
-    $container.on('click', '.feature .title', function (e) {
+    // Toggle panels
+    $container.on('click', '.feature .title', function(e) {
         var $el = $(e.target);
         var $feature = $el.closest('.feature');
         var action = $el.data('control');
@@ -154,14 +155,13 @@ define([
         }
     });
 
-
-    QUnit.moduleDone(function () {
+    QUnit.moduleDone(function() {
         $container.find('.feature:last-child .title').click();
     });
 
     QUnit.module('Datatable Demo');
 
-    QUnit.cases([{
+    QUnit.cases.init([{
         title: 'Default',
         config: {
             url: '/demo-data/default',
@@ -686,9 +686,9 @@ define([
                 id: 'file',
                 label: 'File',
                 icon: 'item',
-                action: function (id, row) {
+                action: function(id, row) {
                     dialog({
-                        message: "User's file #" + id,
+                        message: 'Use\'s file #' + id,
                         content: fileTpl(row),
                         buttons: 'ok',
                         autoRender: true,
@@ -699,7 +699,7 @@ define([
                 id: 'remove',
                 label: 'Remove',
                 icon: 'bin',
-                action: function (id) {
+                action: function(id) {
                     dialog({
                         message: 'Deletion is not supported yet!',
                         content: 'That would affect user id #' + id,
@@ -739,7 +739,7 @@ define([
                 id: 'tool',
                 label: 'Tool',
                 icon: 'settings',
-                action: function () {
+                action: function() {
                     dialog({
                         message: 'It is a wonderful tool!',
                         buttons: 'ok',
@@ -752,7 +752,7 @@ define([
                 label: 'Mass Action',
                 icon: 'play',
                 massAction: true,
-                action: function (selection) {
+                action: function(selection) {
                     dialog({
                         message: 'This action will affect users [' + selection.join(', ') + ']',
                         buttons: 'ok',
@@ -765,9 +765,9 @@ define([
                 id: 'file',
                 label: 'File',
                 icon: 'item',
-                action: function (id, row) {
+                action: function(id, row) {
                     dialog({
-                        message: "User's file #" + id,
+                        message: 'Use\'s file #' + id,
                         content: fileTpl(row),
                         buttons: 'ok',
                         autoRender: true,
@@ -778,7 +778,7 @@ define([
                 id: 'remove',
                 label: 'Remove',
                 icon: 'bin',
-                action: function (id) {
+                action: function(id) {
                     dialog({
                         message: 'Deletion is not supported yet!',
                         content: 'That would affect user id #' + id,
@@ -827,7 +827,7 @@ define([
                 id: 'tool',
                 label: 'Tool',
                 icon: 'settings',
-                action: function () {
+                action: function() {
                     dialog({
                         message: 'It is a wonderful tool!',
                         buttons: 'ok',
@@ -840,7 +840,7 @@ define([
                 label: 'Mass Action',
                 icon: 'play',
                 massAction: true,
-                action: function (selection) {
+                action: function(selection) {
                     dialog({
                         message: 'This action will affect users [' + selection.join(', ') + ']',
                         buttons: 'ok',
@@ -853,9 +853,9 @@ define([
                 id: 'file',
                 label: 'File',
                 icon: 'item',
-                action: function (id, row) {
+                action: function(id, row) {
                     dialog({
-                        message: "User's file #" + id,
+                        message: 'Use\'s file #' + id,
                         content: fileTpl(row),
                         buttons: 'ok',
                         autoRender: true,
@@ -866,7 +866,7 @@ define([
                 id: 'remove',
                 label: 'Remove',
                 icon: 'bin',
-                action: function (id) {
+                action: function(id) {
                     dialog({
                         message: 'Deletion is not supported yet!',
                         content: 'That would affect user id #' + id,
@@ -908,18 +908,19 @@ define([
                 filterable: true
             }]
         }
-    }]).asyncTest('configured with ', function (testCase, assert) {
+    }]).test('configured with ', function(testCase, assert) {
         var $feature = $(featureTpl({
             title: testCase.title,
             config: JSON.stringify(testCase.config, null, 2)
         })).appendTo($container);
+        var ready = assert.async();
 
-        QUnit.expect(1);
+        assert.expect(1);
 
         $.mockjax({
             url: testCase.config.url,
             dataType: 'json',
-            response: function (request) {
+            response: function(request) {
                 this.responseText = query(request, testCase.config.model, {
                     limit: testCase.limit,
                     filterRequired: testCase.filterRequired
@@ -928,11 +929,11 @@ define([
         });
 
         $feature.find('.widget')
-            .on('create.datatable', function () {
+            .on('create.datatable', function() {
                 assert.ok(true, 'Datatable is created');
-                QUnit.start();
+                ready();
             })
-            .on('query.datatable', function (e, ajaxConfig) {
+            .on('query.datatable', function(e, ajaxConfig) {
                 var queryData = {
                     method: ajaxConfig.type,
                     url: ajaxConfig.url

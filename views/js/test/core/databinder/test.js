@@ -27,26 +27,26 @@ define(['jquery', 'core/databinder'], function($, DataBinder) {
     var model;
 
     QUnit.module('2 ways data binding', {
-        setup: function() {
+        beforeEach: function(assert) {
             model = {
-                "title": "testTitle",
-                "testParts": [{
-                    "navigationMode": 0,
-                    "submissionMode": 0,
-                    "assessmentSections": [{
-                        "title": "assessmentSectionTitle",
-                        "sectionParts": [{
-                            "href": "http:\/\/tao26.localdomain\/bertao.rdf#i138356893658013",
-                            "identifier": "i138356893658013"
+                'title': 'testTitle',
+                'testParts': [{
+                    'navigationMode': 0,
+                    'submissionMode': 0,
+                    'assessmentSections': [{
+                        'title': 'assessmentSectionTitle',
+                        'sectionParts': [{
+                            'href': 'http:\/\/tao26.localdomain\/bertao.rdf#i138356893658013',
+                            'identifier': 'i138356893658013'
                         }, {
-                            "href": "http:\/\/tao26.localdomain\/bertao.rdf#i138356893796686",
-                            "identifier": "i138356893796686"
+                            'href': 'http:\/\/tao26.localdomain\/bertao.rdf#i138356893796686',
+                            'identifier': 'i138356893796686'
                         }, {
-                            "href": "http:\/\/tao26.localdomain\/bertao.rdf#i138356893768139",
-                            "identifier": "i138356893768139"
+                            'href': 'http:\/\/tao26.localdomain\/bertao.rdf#i138356893768139',
+                            'identifier': 'i138356893768139'
                         }, {
-                            "href": "http:\/\/tao26.localdomain\/bertao.rdf#i1383568938403212",
-                            "identifier": "i1383568938403212"
+                            'href': 'http:\/\/tao26.localdomain\/bertao.rdf#i1383568938403212',
+                            'identifier': 'i1383568938403212'
                         }]
                     }]
                 }]
@@ -57,7 +57,7 @@ define(['jquery', 'core/databinder'], function($, DataBinder) {
     QUnit.test('Simple assignment', function(assert) {
         var $container = $('#container-1');
 
-        QUnit.expect(5);
+        assert.expect(5);
         assert.ok($container.length === 1, 'Test the fixture is available');
 
         assert.equal($('h1', $container).text(), '', 'h1 is empty');
@@ -73,7 +73,7 @@ define(['jquery', 'core/databinder'], function($, DataBinder) {
         var $container = $('#container-1');
         var $title = $('h1', $container);
 
-        QUnit.expect(3);
+        assert.expect(3);
 
         assert.ok($container.length === 1, 'Test the fixture is available');
 
@@ -90,7 +90,7 @@ define(['jquery', 'core/databinder'], function($, DataBinder) {
         var $container = $('#container-1');
         var $title = $('h1', $container);
 
-        QUnit.expect(3);
+        assert.expect(3);
 
         assert.ok($container.length === 1, 'Test the fixture is available');
 
@@ -100,20 +100,20 @@ define(['jquery', 'core/databinder'], function($, DataBinder) {
 
         $title.trigger('delete');
 
-        strictEqual(model.title, undefined, 'model title has been removed');
+        assert.strictEqual(model.title, undefined, 'model title has been removed');
     });
 
     QUnit.test('Array assignment', function(assert) {
         var $container = $('#container-2');
         var $sectionParts = $('ul', $container);
 
-        QUnit.expect(4);
+        assert.expect(4);
 
         assert.ok($container.length === 1, 'Test the fixture is available');
 
         new DataBinder($container, model).bind();
 
-        strictEqual($sectionParts.find('li').length, model.testParts[0].assessmentSections[0].sectionParts.length, 'the same number of nodes has been inserted');
+        assert.strictEqual($sectionParts.find('li').length, model.testParts[0].assessmentSections[0].sectionParts.length, 'the same number of nodes has been inserted');
         assert.equal($sectionParts.find('li:first').text(), model.testParts[0].assessmentSections[0].sectionParts[0].href, 'the first item contains the value');
         assert.equal($sectionParts.find('li:last').text(), model.testParts[0].assessmentSections[0].sectionParts[3].href, 'the last item contains the value');
     });
@@ -123,7 +123,7 @@ define(['jquery', 'core/databinder'], function($, DataBinder) {
         var $sectionParts = $('ul', $container);
         var $firstPart;
 
-        QUnit.expect(3);
+        assert.expect(3);
 
         assert.ok($container.length === 1, 'Test the fixture is available');
 
@@ -145,7 +145,7 @@ define(['jquery', 'core/databinder'], function($, DataBinder) {
         var $thirdPart;
         var index;
 
-        QUnit.expect(7);
+        assert.expect(7);
 
         assert.ok($container.length === 1, 'Test the fixture is available');
 
@@ -156,16 +156,16 @@ define(['jquery', 'core/databinder'], function($, DataBinder) {
         assert.equal($firstPart.find('[data-bind="href"]').text(), model.testParts[0].assessmentSections[0].sectionParts[0].href, 'the first item contains the value');
         assert.equal($thirdPart.find('[data-bind="href"]').text(), model.testParts[0].assessmentSections[0].sectionParts[2].href, 'the third item contains the value');
 
-        //reorder from 0123 to 0213
+        //Reorder from 0123 to 0213
         $firstPart.after($thirdPart);
         $sectionParts.trigger('change');
 
-        assert.equal(model.testParts[0].assessmentSections[0].sectionParts[1].href, "http:\/\/tao26.localdomain\/bertao.rdf#i138356893768139", 'the model value order has been updated');
-        assert.equal(model.testParts[0].assessmentSections[0].sectionParts[2].href, "http:\/\/tao26.localdomain\/bertao.rdf#i138356893796686", 'the model value order has been updated');
+        assert.equal(model.testParts[0].assessmentSections[0].sectionParts[1].href, 'http:\/\/tao26.localdomain\/bertao.rdf#i138356893768139', 'the model value order has been updated');
+        assert.equal(model.testParts[0].assessmentSections[0].sectionParts[2].href, 'http:\/\/tao26.localdomain\/bertao.rdf#i138356893796686', 'the model value order has been updated');
 
         $sectionParts.find('li:nth-child(2)').find('[data-bind="href"]').text('toto').trigger('change');
         index = $sectionParts.find('li:nth-child(2)').attr('data-bind-index');
-        assert.equal(model.testParts[0].assessmentSections[0].sectionParts[1].href, "toto", 'the model value order has been updated');
+        assert.equal(model.testParts[0].assessmentSections[0].sectionParts[1].href, 'toto', 'the model value order has been updated');
         assert.equal(model.testParts[0].assessmentSections[0].sectionParts[1].index, 1, 'the model value index has been updated');
     });
 
@@ -174,7 +174,7 @@ define(['jquery', 'core/databinder'], function($, DataBinder) {
         var $sectionParts = $('ul', $container);
         var $firstPart;
 
-        QUnit.expect(8);
+        assert.expect(8);
 
         assert.ok($container.length === 1, 'Test the fixture is available');
 
@@ -182,16 +182,16 @@ define(['jquery', 'core/databinder'], function($, DataBinder) {
 
         $firstPart = $sectionParts.find('li:nth-child(1)');
 
-        strictEqual(model.testParts[0].assessmentSections[0].sectionParts.length, 4, 'model length has been updated');
+        assert.strictEqual(model.testParts[0].assessmentSections[0].sectionParts.length, 4, 'model length has been updated');
 
         $firstPart.trigger('delete').remove();
 
-        strictEqual(model.testParts[0].assessmentSections[0].sectionParts.length, 3, 'model length has been updated');
-        strictEqual(model.testParts[0].assessmentSections[0].sectionParts[0].index, 0, 'model element has been removed');
-        strictEqual($sectionParts.find('li:nth-child(1)').data('bind-index'), '0', 'the node index is up to date');
-        assert.equal($sectionParts.find('li:nth-child(1) [data-bind="href"]').text(), "http:\/\/tao26.localdomain\/bertao.rdf#i138356893796686", 'the model value order has been updated');
+        assert.strictEqual(model.testParts[0].assessmentSections[0].sectionParts.length, 3, 'model length has been updated');
+        assert.strictEqual(model.testParts[0].assessmentSections[0].sectionParts[0].index, 0, 'model element has been removed');
+        assert.strictEqual($sectionParts.find('li:nth-child(1)').data('bind-index'), '0', 'the node index is up to date');
+        assert.equal($sectionParts.find('li:nth-child(1) [data-bind="href"]').text(), 'http:\/\/tao26.localdomain\/bertao.rdf#i138356893796686', 'the model value order has been updated');
 
-        //test rebinding after removal
+        //Test rebinding after removal
         $sectionParts.find('li:nth-child(1)  [data-bind="href"]').text('http://new.url').trigger('change');
 
         assert.equal($sectionParts.find('li:nth-child(1) [data-bind="href"]').text(), 'http://new.url', 'the model value has changed');
@@ -203,7 +203,7 @@ define(['jquery', 'core/databinder'], function($, DataBinder) {
         var $sectionParts = $('ul', $container);
         var $newSection;
 
-        QUnit.expect(4);
+        assert.expect(4);
 
         assert.ok($container.length === 1, 'Test the fixture is available');
 
@@ -213,7 +213,7 @@ define(['jquery', 'core/databinder'], function($, DataBinder) {
 
         $sectionParts.append($newSection).trigger('add');
 
-        strictEqual(model.testParts[0].assessmentSections[0].sectionParts.length, 5, 'model length has been updated');
+        assert.strictEqual(model.testParts[0].assessmentSections[0].sectionParts.length, 5, 'model length has been updated');
         assert.equal(model.testParts[0].assessmentSections[0].sectionParts[4].identifier, 'sectionpart-5', 'model element has been added');
         assert.equal(model.testParts[0].assessmentSections[0].sectionParts[4].href, 'http://new.rdf#test', 'model element has been added');
     });
@@ -224,7 +224,7 @@ define(['jquery', 'core/databinder'], function($, DataBinder) {
         var $newSection;
         var databinder;
 
-        QUnit.expect(2);
+        assert.expect(2);
 
         assert.ok($container.length === 1, 'Test the fixture is available');
 
@@ -244,7 +244,7 @@ define(['jquery', 'core/databinder'], function($, DataBinder) {
         var $container = $('#container-5');
         var $sectionParts = $('ul', $container);
 
-        QUnit.expect(2);
+        assert.expect(2);
 
         model.testParts[0].assessmentSections[0].sectionParts[0]['qti-type'] = 'assessmentItemRef';
         model.testParts[0].assessmentSections[0].sectionParts[1]['qti-type'] = 'assessmentSectionRef';
@@ -261,13 +261,13 @@ define(['jquery', 'core/databinder'], function($, DataBinder) {
             }
         }).bind();
 
-        strictEqual($sectionParts.find('li').length, 2, 'only filtered values has been assigned');
+        assert.strictEqual($sectionParts.find('li').length, 2, 'only filtered values has been assigned');
     });
 
     QUnit.test('Rm binding', function(assert) {
         var $container = $('#container-6');
 
-        QUnit.expect(5);
+        assert.expect(5);
 
         assert.ok($container.length === 1, 'Test the fixture is available');
 
@@ -282,11 +282,12 @@ define(['jquery', 'core/databinder'], function($, DataBinder) {
         assert.equal(model.testParts[0].assessmentSections[0].sectionParts.length, 3, 'A section parts has been remvoved');
     });
 
-    QUnit.asyncTest('Deleter binding', function(assert) {
+    QUnit.test('Deleter binding', function(assert) {
+        var ready = assert.async();
         var $container = $('#container-7');
         var $3rdDeleter;
 
-        QUnit.expect(6);
+        assert.expect(6);
         assert.ok($container.length === 1, 'Test the fixture is available');
 
         new DataBinder($container, model).bind();
@@ -297,16 +298,17 @@ define(['jquery', 'core/databinder'], function($, DataBinder) {
         $3rdDeleter = $container.find('[data-bind-index=2] [data-delete]');
         assert.equal($3rdDeleter.length, 1, 'The 3rd element containts a deleter');
 
-        //mock the behavior of ui/deleter
+        //Mock the behavior of ui/deleter
         $container.on('delete.deleter', function() {
             $container.on('delete.binder', function(e, newModel) {
                 assert.equal(newModel.testParts[0].assessmentSections[0].sectionParts.length, 3, 'The model contains now one less section part');
             });
             $container.on('deleted.deleter', function() {
-                //we simulate the actual remove after trigerring the event
+
+                //We simulate the actual remove after trigerring the event
                 setTimeout(function() {
                     assert.equal($container.find('[data-bind-index]').length, 3, 'The element is removed from the DOM');
-                    QUnit.start();
+                    ready();
                 }, 10);
             });
 

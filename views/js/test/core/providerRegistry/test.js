@@ -26,31 +26,31 @@ define(['core/providerRegistry'], function(providerRegistry) {
     QUnit.test('module', function(assert) {
         var target = {};
 
-        QUnit.expect(3);
-        assert.equal(typeof providerRegistry, 'function', "The providerRegistry module exposes a function");
+        assert.expect(3);
+        assert.equal(typeof providerRegistry, 'function', 'The providerRegistry module exposes a function');
         assert.equal(providerRegistry(target), target, 'The providerRegistry helper returns the target');
         assert.notEqual(providerRegistry(), providerRegistry(), 'The providerRegistry helper returns a different object if called with no target');
     });
 
-    QUnit.cases([
-        { name : 'registerProvider', title : 'registerProvider' },
-        { name : 'getProvider', title : 'getProvider' },
-        { name : 'getAvailableProviders', title : 'getAvailableProviders' },
-        { name : 'clearProviders', title : 'clearProviders' }
+    QUnit.cases.init([
+        {name: 'registerProvider', title: 'registerProvider'},
+        {name: 'getProvider', title: 'getProvider'},
+        {name: 'getAvailableProviders', title: 'getAvailableProviders'},
+        {name: 'clearProviders', title: 'clearProviders'}
     ]).test('exported API ', function(data, assert) {
         var registry = providerRegistry();
 
-        QUnit.expect(1);
+        assert.expect(1);
         assert.equal(typeof registry[data.name], 'function', 'The providerRegistry helper has injected the "' + data.name + '" API');
     });
 
-    QUnit.cases([
-        { title : 'a provider have a name', provider: {init:function(){}} },
-        { title : 'a provider have a not empty name', name: '', provider: {init:function(){}} },
-        { title : 'a provider is an object', name: 'provider', provider: 'provider' },
-        { title : 'a provider must come with an init function', name: 'provider', provider: {} }
+    QUnit.cases.init([
+        {title: 'a provider have a name', provider: {init: function() {}}},
+        {title: 'a provider have a not empty name', name: '', provider: {init: function() {}}},
+        {title: 'a provider is an object', name: 'provider', provider: 'provider'},
+        {title: 'a provider must come with an init function', name: 'provider', provider: {}}
     ]).test('registerProvider errors ', function(data, assert) {
-        QUnit.expect(1);
+        assert.expect(1);
         assert.throws(function() {
             providerRegistry().registerProvider(data.name, data.provider);
         }, 'registerProvider must throw error when ' + data.title);
@@ -62,7 +62,7 @@ define(['core/providerRegistry'], function(providerRegistry) {
         var name = 'provider2';
         var valid = false;
 
-        QUnit.expect(10);
+        assert.expect(10);
 
         function validator(p) {
             assert.ok(true, 'registerProvider has called the validator');
@@ -88,7 +88,7 @@ define(['core/providerRegistry'], function(providerRegistry) {
         var registry = {};
         var name = 'provider3';
 
-        QUnit.expect(3);
+        assert.expect(3);
 
         assert.equal(providerRegistry(registry), registry, 'The providerRegistry helper has returned the target');
         assert.equal(registry.registerProvider(name, provider), registry, 'The registerProvider method returns the registry');
@@ -96,7 +96,7 @@ define(['core/providerRegistry'], function(providerRegistry) {
     });
 
     QUnit.test('getProvider errors', function(assert) {
-        QUnit.expect(3);
+        assert.expect(3);
 
         assert.throws(function() {
             providerRegistry().getProvider('test');
@@ -119,7 +119,7 @@ define(['core/providerRegistry'], function(providerRegistry) {
         var provider2 = {init: function() {}};
         var registry = {};
 
-        QUnit.expect(7);
+        assert.expect(7);
 
         assert.equal(providerRegistry(registry), registry, 'The providerRegistry helper has returned the target');
         assert.equal(registry.registerProvider('provider1', provider1), registry, 'The registerProvider method returns the registry');
@@ -139,7 +139,7 @@ define(['core/providerRegistry'], function(providerRegistry) {
         var provider2 = {init: function() {}};
         var registry = {};
 
-        QUnit.expect(10);
+        assert.expect(10);
 
         assert.equal(providerRegistry(registry), registry, 'The providerRegistry helper has returned the target');
 
@@ -171,7 +171,7 @@ define(['core/providerRegistry'], function(providerRegistry) {
         var providerMock = {init: function() {}};
         var registry = providerRegistry({});
 
-        QUnit.expect(3);
+        assert.expect(3);
 
         assert.deepEqual(registry.getAvailableProviders(), [], 'No provider available');
 

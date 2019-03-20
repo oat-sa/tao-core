@@ -15,82 +15,79 @@
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
  */
-define([
-    'jquery',
-    'lodash',
-    'ui/taskQueue/status'
-], function($, _, taskQueueStatusFactory){
+define(['jquery', 'lodash', 'ui/taskQueue/status'], function($, _, taskQueueStatusFactory) {
     'use strict';
 
     QUnit.module('API');
 
     QUnit.test('factory', function(assert) {
-        QUnit.expect(5);
+        assert.expect(5);
 
         var serviceUrl = 'dummy/service/url';
         var taskStatus;
         var taskStatusBis;
 
-        assert.equal(typeof taskQueueStatusFactory, 'function', "The module exposes a function");
+        assert.equal(typeof taskQueueStatusFactory, 'function', 'The module exposes a function');
 
-        assert.throws(function(){
+        assert.throws(function() {
             taskQueueStatusFactory();
         }, TypeError, 'The component needs to be configured');
 
-        assert.throws(function(){
-            taskQueueStatusFactory({context:''});
+        assert.throws(function() {
+            taskQueueStatusFactory({context: ''});
         }, TypeError, 'The component needs a not empty context');
 
-        taskStatus = taskQueueStatusFactory({serviceUrl:serviceUrl});
+        taskStatus = taskQueueStatusFactory({serviceUrl: serviceUrl});
 
         assert.equal(typeof taskStatus, 'object', 'The factory creates an object');
 
-        taskStatusBis = taskQueueStatusFactory({serviceUrl:serviceUrl});
+        taskStatusBis = taskQueueStatusFactory({serviceUrl: serviceUrl});
         assert.notDeepEqual(taskStatus, taskStatusBis, 'The factory creates new objects');
 
     });
 
     var pluginApi = [
-        { name : 'init', title : 'init' },
-        { name : 'render', title : 'render' },
-        { name : 'destroy', title : 'destroy' },
-        { name : 'on', title : 'on' },
-        { name : 'off', title : 'off' },
-        { name : 'trigger', title : 'trigger' },
-        { name : 'start', title : 'start' },
-        { name : 'stop', title : 'stop' },
+        {name: 'init', title: 'init'},
+        {name: 'render', title: 'render'},
+        {name: 'destroy', title: 'destroy'},
+        {name: 'on', title: 'on'},
+        {name: 'off', title: 'off'},
+        {name: 'trigger', title: 'trigger'},
+        {name: 'start', title: 'start'},
+        {name: 'stop', title: 'stop'}
     ];
 
     QUnit
-        .cases(pluginApi)
+        .cases.init(pluginApi)
         .test('component method ', function(data, assert) {
-            QUnit.expect(1);
+            assert.expect(1);
 
             var serviceUrl = 'dummy/service/url';
-            var status = taskQueueStatusFactory({serviceUrl:serviceUrl});
+            var status = taskQueueStatusFactory({serviceUrl: serviceUrl});
 
             assert.equal(typeof status[data.name], 'function', 'The component exposes a "' + data.name + '" function');
         });
 
     QUnit.module('Rendering');
 
-    QUnit.asyncTest('status running', function (assert){
-        QUnit.expect(6);
+    QUnit.test('status running', function(assert) {
+        var ready = assert.async();
+        assert.expect(6);
 
         var serviceUrl = '/tao/views/js/test/ui/taskQueue/status/data-running.json';
         var $fixtureContainer = $('#qunit-fixture');
         var status = taskQueueStatusFactory({
-            taskId:'task#123456xyz',
-            serviceUrl:serviceUrl
+            taskId: 'task#123456xyz',
+            serviceUrl: serviceUrl
         });
 
         status
-            .on('render', function () {
+            .on('render', function() {
                 var $component = $('.task-queue-status ', $fixtureContainer);
                 assert.equal($component.length, 1, 'The component has been appended to the container');
                 assert.ok($component.hasClass('rendered'), 'The component has the rendered class');
             })
-            .on('running', function(){
+            .on('running', function() {
                 status.stop();
 
                 assert.equal(this.$component.find('.component-report').length, 1, 'a report has been attached to the status');
@@ -98,29 +95,30 @@ define([
                 assert.equal(status.$component.find('.component-report .hierarchical').length, 0, 'the status report has no children');
                 assert.equal(status.$component.find('.component-report .fold').length, 0, 'the status report has no show details button');
 
-                QUnit.start();
+                ready();
             })
             .render($fixtureContainer)
             .start();
     });
 
-    QUnit.asyncTest('status finished', function (assert){
-        QUnit.expect(7);
+    QUnit.test('status finished', function(assert) {
+        var ready = assert.async();
+        assert.expect(7);
 
         var serviceUrl = '/tao/views/js/test/ui/taskQueue/status/data-finished.json';
         var $fixtureContainer = $('#qunit-fixture');
         var status = taskQueueStatusFactory({
-            taskId:'task#123456xyz',
-            serviceUrl:serviceUrl
+            taskId: 'task#123456xyz',
+            serviceUrl: serviceUrl
         });
 
         status
-            .on('render', function () {
+            .on('render', function() {
                 var $component = $('.task-queue-status ', $fixtureContainer);
                 assert.equal($component.length, 1, 'The component has been appended to the container');
                 assert.ok($component.hasClass('rendered'), 'The component has the rendered class');
             })
-            .on('finished', function(){
+            .on('finished', function() {
                 status.stop();
 
                 assert.equal(this.$component.find('.component-report').length, 1, 'a report has been attached to the status');
@@ -129,7 +127,7 @@ define([
                 assert.equal(status.$component.find('.component-report .hierarchical').length, 4, 'the report has 4 hierarchical reports');
                 assert.equal(status.$component.find('.component-report .leaf').length, 3, 'the report has 3 leaf reports');
 
-                QUnit.start();
+                ready();
             })
             .render($fixtureContainer)
             .start();
@@ -137,24 +135,25 @@ define([
 
     QUnit.module('Behaviour');
 
-    QUnit.asyncTest('toggle details', function (assert){
-        QUnit.expect(12);
+    QUnit.test('toggle details', function(assert) {
+        var ready = assert.async();
+        assert.expect(12);
 
         var serviceUrl = '/tao/views/js/test/ui/taskQueue/status/data-finished.json';
         var $fixtureContainer = $('#qunit-fixture');
         var status = taskQueueStatusFactory({
-            taskId:'task#123456xyz',
-            serviceUrl:serviceUrl
+            taskId: 'task#123456xyz',
+            serviceUrl: serviceUrl
         });
         var $checkbox;
 
         status
-            .on('render', function () {
+            .on('render', function() {
                 var $component = $('.task-queue-status ', $fixtureContainer);
                 assert.equal($component.length, 1, 'The component has been appended to the container');
                 assert.ok($component.hasClass('rendered'), 'The component has the rendered class');
             })
-            .on('finished', function(){
+            .on('finished', function() {
 
                 assert.equal(this.$component.find('.component-report').length, 1, 'a report has been attached to the status');
                 assert.equal(status.$component.find('.component-report .fold').length, 1, 'the status report has the show details button');
@@ -166,16 +165,16 @@ define([
 
                 $checkbox = status.$component.find('.component-report .fold :checkbox');
                 assert.equal($checkbox.length, 1, 'checkbox found');
-                $checkbox.click();//show details
+                $checkbox.click();//Show details
 
-            }).on('hideDetails', function(){
+            }).on('hideDetails', function() {
 
                 assert.equal(status.$component.find('.component-report .hierarchical:visible').length, 1, '1 hierarchical report is visible');
                 assert.equal(status.$component.find('.component-report .leaf:visible').length, 0, 'no leaf report is visible');
 
-                $checkbox.click()//hide details
+                $checkbox.click();//Hide details
 
-                QUnit.start();
+                ready();
             })
             .render($fixtureContainer)
             .start();
