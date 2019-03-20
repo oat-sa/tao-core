@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -14,8 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
  *
  */
 
@@ -25,7 +24,7 @@ use oat\tao\model\service\SettingsStorage;
 use oat\tao\model\settings\CspHeaderSettingsInterface;
 
 /**
- * Class tao_actions_form_CspHeader
+ * Handling of the CSP Header form
  *
  * @author Martijn Swinkels <m.swinkels@taotesting.com>
  */
@@ -107,30 +106,32 @@ class tao_actions_form_CspHeader extends tao_helpers_form_FormContainer
     }
 
     /**
-     * Set the data received through a POST request
+     * Set the form data based on the available data
      */
     private function setFormData()
     {
+        $postData = $this->getPostData();
         $currentSetting = $this->getSettings();
         $listSettings = [];
+
         if ($currentSetting === 'list') {
             $listSettings = $this->getListSettings();
         }
 
-        if (!isset($_POST[self::SOURCE_RADIO_NAME]) && $currentSetting) {
+        if ($currentSetting && !isset($postData[self::SOURCE_RADIO_NAME])) {
             $this->sourceElement->setValue($currentSetting);
         }
 
-        if (!isset($_POST[self::SOURCE_LIST_NAME]) && !empty($listSettings)) {
+        if (!empty($listSettings) && !isset($postData[self::SOURCE_LIST_NAME])) {
             $this->sourceDomainsElement->setValue(implode("\n", $listSettings));
         }
 
-        if (isset($_POST[self::SOURCE_RADIO_NAME]) && array_key_exists($_POST[self::SOURCE_RADIO_NAME], $this->getSourceOptions())) {
-            $this->sourceElement->setValue($_POST[self::SOURCE_RADIO_NAME]);
+        if (isset($postData[self::SOURCE_RADIO_NAME]) && array_key_exists($postData[self::SOURCE_RADIO_NAME], $this->getSourceOptions())) {
+            $this->sourceElement->setValue($postData[self::SOURCE_RADIO_NAME]);
         }
 
-        if (isset($_POST[self::SOURCE_LIST_NAME])) {
-            $this->sourceDomainsElement->setValue($_POST[self::SOURCE_LIST_NAME]);
+        if (isset($postData[self::SOURCE_LIST_NAME])) {
+            $this->sourceDomainsElement->setValue($postData[self::SOURCE_LIST_NAME]);
         }
     }
 
