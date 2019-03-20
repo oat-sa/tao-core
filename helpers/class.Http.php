@@ -24,6 +24,7 @@ use oat\generis\Helper\SystemHelper;
 use oat\tao\helpers\FileUploadException;
 use oat\tao\model\stream\StreamRange;
 use oat\tao\model\stream\StreamRangeException;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -137,7 +138,7 @@ class tao_helpers_Http
     /**
      * verify if file uploads exists.
      * return true if key $name exists in $_FILES
-     * 
+     *
      * @author Christophe GARCIA <christopheg@taotesting.com>
      * @param string $name
      * @return boolean
@@ -149,7 +150,7 @@ class tao_helpers_Http
     /**
      * Get the files data from an HTTP file upload (ie. from the $_FILES)
      * @author "Bertrand Chevrier <bertrand@taotesting.com>
-     * @param string the file field name 
+     * @param string the file field name
      * @return array the file data
      * @throws common_exception_Error in case of wrong upload
      */
@@ -252,11 +253,11 @@ class tao_helpers_Http
                     if (isset($pathinfo['extension']) && $pathinfo['extension'] === 'svgz' && !$svgzSupport) {
                         header('Content-Encoding: gzip');
                     }
-                    
+
                     // session must be closed because, for example, video files might take a while to be sent to the client
                     //  and we need the client to be able to make other calls to the server during that time
                     session_write_close();
-                    
+
                     $http416RequestRangeNotSatisfiable = 'HTTP/1.1 416 Requested Range Not Satisfiable';
                     $http206PartialContent = 'HTTP/1.1 206 Partial Content';
                     $http200OK = 'HTTP/1.1 200 OK';
@@ -266,7 +267,7 @@ class tao_helpers_Http
                     $useFpassthru = false;
                     $partialContent = false;
                     header('Accept-Ranges: bytes');
-                    
+
                     if (isset($_SERVER['HTTP_RANGE'])) {
                         $partialContent = true;
                         preg_match('/bytes=(\d+)-(\d+)?/', $_SERVER['HTTP_RANGE'], $matches);
@@ -278,9 +279,9 @@ class tao_helpers_Http
                             $length = intval($matches[2]) - $offset;
                         }
                     }
-                    
+
                     fseek($fp, $offset);
-                    
+
                     if ($partialContent) {
                         if (($offset < 0) || ($offset > $filesize)) {
                             header($http416RequestRangeNotSatisfiable);
@@ -388,5 +389,52 @@ class tao_helpers_Http
         } catch (StreamRangeException $e) {
             header('HTTP/1.1 416 Requested Range Not Satisfiable');
         }
+    }
+
+    /**
+     * Forward a stream to Psr7 response
+     *
+     * @param StreamInterface $stream
+     * @param null $mimeType
+     * @param ServerRequestInterface|null $request
+     * @param ResponseInterface|null $response
+     * @return ResponseInterface
+     */
+    public static function getStream(
+        StreamInterface $stream,
+        $mimeType = null,
+        ServerRequestInterface $request = null,
+        ResponseInterface $response = null
+    ) {
+        if (!is_null($mimeType)) {
+            $response = $response->withHeader('Content-Type', $mimeType);
+        }
+
+        try{
+            $ranges = StreamRange::createFromRequest($stream, $request);
+            $contentLength = 0;
+            if (!empty($ranges)) {
+                foreach ($ranges as $range) {
+                    $contentLength += (($range->getLastPos() - $range->getFirstPos()) + 1);
+                }
+                $response = $response
+                    ->withStatus(206, 'Partial Content')
+                    //@todo Content-Range for multiple ranges?
+                    ->withHeader('Content-Range', 'bytes ' . $ranges[0]->getFirstPos() . '-' . $ranges[0]->getLastPos() . '/' . $stream->getSize());
+            } else {
+                $contentLength = $stream->getSize();
+                $response = $response->withStatus(200, 'OK');
+            }
+
+            $response = $response
+                ->withHeader('Accept-Ranges', 'bytes')
+                ->withHeader('Content-Length', $contentLength)
+                ->withBody($stream);
+
+        } catch (StreamRangeException $e) {
+            $response = $response->withStatus(416, 'Requested Range Not Satisfiable');
+        }
+
+        return $response;
     }
 }

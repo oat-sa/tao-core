@@ -114,8 +114,11 @@ class tao_actions_File extends tao_actions_CommonModule
 	}
 
     /**
+     * @return \Psr\Http\Message\ResponseInterface|tao_helpers_Http
      * @throws ResolverException
      * @throws \oat\tao\model\websource\WebsourceNotFound
+     * @throws common_exception_Error
+     * @throws common_exception_NotFound
      * @throws tao_models_classes_FileNotFoundException
      */
     public function accessFile()
@@ -126,7 +129,14 @@ class tao_actions_File extends tao_actions_CommonModule
         $source = WebsourceManager::singleton()->getWebsource($key);
         if ($source instanceof ActionWebSource) {
             $path = $subPath.(empty($filePath) ? '' : DIRECTORY_SEPARATOR . $filePath);
-            tao_helpers_Http::returnStream($source->getFileStream($path), $source->getMimetype($path));
+            $response = tao_helpers_Http::getStream(
+                $source->getFileStream($path),
+                $source->getMimetype($path),
+                $this->getPsrRequest(),
+                $this->getPsrResponse()
+
+            );
+            return $response;
         }
     }
 }
