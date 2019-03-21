@@ -342,8 +342,12 @@ define([
             for (i = 0; i < childNodes.length; i++) {
                 currentNode = childNodes[i];
 
+                // Skip blacklisted nodes
+                if (isBlacklisted(currentNode)) {
+                    continue;
+                }
                 // A simple node not highlighted and isolated (= not followed by an wrapped text)
-                if (isWrappable(currentNode) && !isWrappingNode(currentNode.nextSibling)) {
+                else if (isWrappable(currentNode) && !isWrappingNode(currentNode.nextSibling)) {
                     highlightIndex[textNodesIndex] = { highlighted: false };
                     textNodesIndex++;
 
@@ -425,7 +429,10 @@ define([
             for (i = 0; i < childNodes.length; i++) {
                 currentNode = childNodes[i];
 
-                if (isWrappable(currentNode)) {
+                if (isBlacklisted(currentNode)) {
+                    continue;
+                }
+                else if (isWrappable(currentNode)) {
                     parent = currentNode.parentNode;
                     initialChildCount = parent.childNodes.length;
 
@@ -482,8 +489,18 @@ define([
          */
         function isWrappable(node) {
             return isText(node)
-                && $(node).closest(containersBlackList.join(',')).length === 0
+                && !isBlacklisted(node)
                 && node.textContent.trim().length > 0;
+        }
+
+        /**
+         * Check if the given node is, or is within, a blacklisted container
+         * @param {Node} node
+         * @returns {boolean}
+         */
+        function isBlacklisted(node) {
+            var closestBlackListed = $(node).closest(containersBlackList.join(','));
+            return closestBlackListed.length > 0;
         }
 
         /**
