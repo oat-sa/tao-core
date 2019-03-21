@@ -26,6 +26,7 @@ use oat\tao\model\routing\ApiRoute;
 use oat\tao\model\routing\LegacyRoute;
 use oat\tao\scripts\install\AddLogFs;
 use oat\tao\scripts\install\AddTmpFsHandlers;
+use oat\tao\scripts\install\RegisterSignatureGenerator;
 use oat\tao\scripts\install\RegisterTaskQueueServices;
 use oat\tao\scripts\install\RegisterUserLockoutsEventListeners;
 use oat\tao\scripts\install\SetClientLoggerConfig;
@@ -116,7 +117,8 @@ return array(
             RegisterActionService::class,
             RegisterUserLockoutsEventListeners::class,
             RegisterTaskQueueServices::class,
-            SetUpQueueTasks::class
+            SetUpQueueTasks::class,
+            RegisterSignatureGenerator::class
         )
     ),
     'update' => 'oat\\tao\\scripts\\update\\Updater',
