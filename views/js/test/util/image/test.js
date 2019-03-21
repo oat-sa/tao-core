@@ -17,49 +17,51 @@
  *
  *
  */
-define(['util/image'], function(imageUtil){
-   
-    var imageUrl = "img/tao_icon.png";
+define(['util/image'], function(imageUtil) {
+
+    var imageUrl = 'img/tao_icon.png';
     var width = 53;
-    var height = 40;  
- 
-    QUnit.test('utilitary structure', function(assert){
-        QUnit.expect(2);
-        
+    var height = 40;
+
+    QUnit.test('utilitary structure', function(assert) {
+        assert.expect(2);
+
         assert.ok(typeof imageUtil === 'object');
         assert.ok(typeof imageUtil.getSize === 'function');
     });
-    
-    QUnit.asyncTest('getSize', function(assert){
-        QUnit.expect(3);
-        
-        imageUtil.getSize(imageUrl, function(size){
+
+    QUnit.test('getSize', function(assert) {
+        var ready = assert.async();
+        assert.expect(3);
+
+        imageUtil.getSize(imageUrl, function(size) {
             assert.notEqual(size, null, 'The size is not null');
             assert.equal(size.width, width, 'Check the image width');
             assert.equal(size.height, height, 'Check the image height');
-            QUnit.start(); 
-        }); 
-    });
-    
-    QUnit.asyncTest('getSize with a short timeout', function(assert){
-        QUnit.expect(3);
-        
-        imageUtil.getSize(imageUrl, 1, function(size){
-            assert.notEqual(size, null, 'The size is not null');
-            assert.equal(size.width, width, 'Check the image width');
-            assert.equal(size.height, height, 'Check the image height');
-            QUnit.start(); 
-        }); 
+            ready();
+        });
     });
 
-    QUnit.asyncTest('wrong url', function(assert){
-        QUnit.expect(1);
-        
-        imageUtil.getSize("img/a-fake-url.png", function(size){
-            strictEqual(size, null, 'The size is null');
-            QUnit.start(); 
-        }); 
+    QUnit.test('getSize with a short timeout', function(assert) {
+        var ready = assert.async();
+        assert.expect(3);
+
+        imageUtil.getSize(imageUrl, function(size) {
+            assert.notEqual(size, null, 'The size is not null');
+            assert.equal(size.width, width, 'Check the image width');
+            assert.equal(size.height, height, 'Check the image height');
+            ready();
+        });
+    });
+
+    QUnit.test('wrong url', function(assert) {
+        var ready = assert.async();
+        assert.expect(1);
+
+        imageUtil.getSize('img/a-fake-url.png', function(size) {
+            assert.strictEqual(size, null, 'The size is null');
+            ready();
+        });
     });
 });
-
 

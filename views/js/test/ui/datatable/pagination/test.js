@@ -18,27 +18,25 @@
  * @author Oleksander Zagovorychev <olexander.zagovorychev@1pt.com>
  */
 
-define([
-    'jquery',
-    'ui/datatable'
-], function ($) {
-    "use strict";
+define(['jquery', 'ui/datatable'], function($) {
+    'use strict';
 
     QUnit.module('Datatable pagination behavior');
 
-    QUnit.asyncTest('disabled', function (assert) {
+    QUnit.test('disabled', function(assert) {
+        var ready = assert.async();
         var $elt = $('#container-1');
 
-        QUnit.expect(6);
+        assert.expect(6);
         assert.ok($elt.length === 1, 'Test the fixture is available');
 
-        $elt.on('create.datatable', function () {
+        $elt.on('create.datatable', function() {
             assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
             assert.ok($elt.find('.icon-backward').length === 1, 'there is 1 backward button');
             assert.ok($elt.find('.icon-forward').length === 1, 'there is 1 forward button');
             assert.ok($elt.find('.icon-backward').parents('button').prop('disabled'), 'the backward button is disabled');
             assert.ok($elt.find('.icon-forward').parents('button').prop('disabled'), 'the forward button is disabled');
-            QUnit.start();
+            ready();
         });
 
         $elt.datatable({
@@ -71,21 +69,21 @@ define([
         });
     });
 
-    QUnit.asyncTest('enabled', function (assert) {
+    QUnit.test('enabled', function(assert) {
+        var ready = assert.async();
         var $elt = $('#container-1');
 
-        QUnit.expect(7);
+        assert.expect(7);
         assert.ok($elt.length === 1, 'Test the fixture is available');
 
-
-        $elt.on('create.datatable', function () {
+        $elt.on('create.datatable', function() {
             assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
             assert.ok($elt.find('.icon-backward').length === 1, 'there is 1 backward buttons');
             assert.ok($elt.find('.icon-forward').length === 1, 'there is 1 forward buttons');
             assert.ok($elt.find('.icon-forward:first').parents('button').prop('disabled') === false, 'the forward button is enabled');
             assert.ok($elt.find('.icon-forward:last').parents('button').prop('disabled') === false, 'the forward button is disabled');
             assert.ok($elt.find('.icon-backward:first').parents('button').prop('disabled'), 'the backward button is disabled (on the 1st page)');
-            QUnit.start();
+            ready();
         });
         $elt.datatable({
             url: 'js/test/ui/datatable/largedata.json',
@@ -129,16 +127,19 @@ define([
         });
     });
 
-    QUnit.asyncTest('Simple pagination blocker', function (assert) {
+    QUnit.test('Simple pagination blocker', function(assert) {
+        var ready3 = assert.async();
+        var ready2 = assert.async();
+        var ready1 = assert.async();
         var $elt = $('#container-1');
         var forwardBtn, backwardBtn;
 
-        QUnit.expect(13);
+        assert.expect(13);
         assert.ok($elt.length === 1, 'Test the fixture is available');
 
-        QUnit.stop(3);
+        var ready = assert.async();
 
-        $elt.on('create.datatable', function () {
+        $elt.on('create.datatable', function() {
             assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
 
             backwardBtn = $elt.find('.icon-backward').parents('button');
@@ -148,10 +149,10 @@ define([
             assert.ok(forwardBtn.length === 1, 'there is 1 forward button');
             assert.notEqual(forwardBtn.attr('disabled'), 'disabled', 'Next button must not be disabled');
             assert.equal(backwardBtn.attr('disabled'), 'disabled', 'Prev button must be disabled');
-            QUnit.start();
+            ready();
         });
 
-        $elt.on('query.datatable', function (event, ajaxConfig) {
+        $elt.on('query.datatable', function(event, ajaxConfig) {
             assert.equal(typeof ajaxConfig, 'object', 'the query event is triggered and provides an object');
             assert.equal(typeof ajaxConfig.url, 'string', 'the query event provides an object containing the target url');
             assert.equal(typeof ajaxConfig.data, 'object', 'the query event provides an object containing the request parameters');
@@ -160,28 +161,30 @@ define([
             forwardBtn = $elt.find('.icon-forward').parents('button');
 
             if (backwardBtn.length && forwardBtn.length) {
-                // first query will be before the render action
+
+                // First query will be before the render action
                 assert.equal(forwardBtn.attr('disabled'), 'disabled', 'Next button must be disabled');
                 assert.equal(backwardBtn.attr('disabled'), 'disabled', 'Prev button must be disabled');
             }
-            QUnit.start();
+            ready1();
         });
 
-        $elt.on('beforeload.datatable', function (event, response) {
+        $elt.on('beforeload.datatable', function(event, response) {
             assert.equal(typeof response, 'object', 'the beforeload event is triggered and provides the response data');
 
             backwardBtn = $elt.find('.icon-backward').parents('button');
             forwardBtn = $elt.find('.icon-forward').parents('button');
 
             if (backwardBtn.length && forwardBtn.length) {
-                // first query will be before the render action
+
+                // First query will be before the render action
                 assert.equal(forwardBtn.attr('disabled'), 'disabled', 'Next button must be disabled');
                 assert.equal(backwardBtn.attr('disabled'), 'disabled', 'Prev button must be disabled');
             }
-            QUnit.start();
+            ready2();
         });
 
-        $elt.on('load.datatable', function (event, response) {
+        $elt.on('load.datatable', function(event, response) {
             assert.equal(typeof response, 'object', 'the load event is triggered and provides the response data');
 
             backwardBtn = $elt.find('.icon-backward').parents('button');
@@ -189,10 +192,10 @@ define([
 
             assert.notEqual(forwardBtn.attr('disabled'), 'disabled', 'Next button must not be disabled');
             assert.equal(backwardBtn.attr('disabled'), 'disabled', 'Prev button must be disabled');
-            QUnit.start();
+            ready3();
         });
 
-        // simple pagination provider by default
+        // Simple pagination provider by default
         $elt.datatable({
             url: 'js/test/ui/datatable/largedata.json',
             'model': [{

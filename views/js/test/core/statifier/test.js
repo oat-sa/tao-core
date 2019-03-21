@@ -15,9 +15,8 @@
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
  */
-define(['core/statifier'], function (statifier) {
+define(['core/statifier'], function(statifier) {
     'use strict';
-
 
     var statifierApi = [
         {title: 'getState'},
@@ -26,59 +25,53 @@ define(['core/statifier'], function (statifier) {
         {title: 'getStates'}
     ];
 
-
     QUnit.module('statifier');
 
-
-    QUnit.test("api", function (assert) {
+    QUnit.test('api', function(assert) {
         var obj = {
-            foo: "bar"
+            foo: 'bar'
         };
 
-        QUnit.expect(4);
+        assert.expect(4);
 
-        assert.equal(typeof statifier, 'function', "The module exports a function");
-        assert.equal(typeof statifier(), 'object', "The factory returns an object");
-        assert.notEqual(statifier(), statifier(), "The factory creates a new instance on each call");
-        assert.equal(statifier(obj), obj, "The factory returns the provided object if any");
+        assert.equal(typeof statifier, 'function', 'The module exports a function');
+        assert.equal(typeof statifier(), 'object', 'The factory returns an object');
+        assert.notEqual(statifier(), statifier(), 'The factory creates a new instance on each call');
+        assert.equal(statifier(obj), obj, 'The factory returns the provided object if any');
     });
 
-
     QUnit
-        .cases(statifierApi)
-        .test('method ', function (data, assert) {
-            QUnit.expect(1);
+        .cases.init(statifierApi)
+        .test('method ', function(data, assert) {
+            assert.expect(1);
             assert.equal(typeof statifier()[data.title], 'function', 'The statifier instance exposes a "' + data.title + '" function');
         });
 
-
     QUnit.module('statification');
 
-
-    QUnit.test("delegates", function (assert) {
+    QUnit.test('delegates', function(assert) {
         var target = {
             something: function something() {
             },
-            foo: "bar"
+            foo: 'bar'
         };
         var states = statifier(target);
 
-        QUnit.expect(7);
+        assert.expect(7);
 
         assert.equal(states, target, 'The factory returned the provided object');
-        assert.equal(typeof states.getState, 'function', "the target object holds the method getState()");
-        assert.equal(typeof states.setState, 'function', "the target object holds the method setState()");
-        assert.equal(typeof states.clearStates, 'function', "the target object holds the method clearStates()");
-        assert.equal(typeof states.getStates, 'function', "the target object holds the method getStates()");
-        assert.equal(typeof states.something, 'function', "the target object has kept its own methods");
-        assert.equal(states.foo, 'bar', "the target object has kept its own properties");
+        assert.equal(typeof states.getState, 'function', 'the target object holds the method getState()');
+        assert.equal(typeof states.setState, 'function', 'the target object holds the method setState()');
+        assert.equal(typeof states.clearStates, 'function', 'the target object holds the method clearStates()');
+        assert.equal(typeof states.getStates, 'function', 'the target object holds the method getStates()');
+        assert.equal(typeof states.something, 'function', 'the target object has kept its own methods');
+        assert.equal(states.foo, 'bar', 'the target object has kept its own properties');
     });
 
-
-    QUnit.test("setState()/getState()", function(assert) {
+    QUnit.test('setState()/getState()', function(assert) {
         var states = statifier();
 
-        QUnit.expect(11);
+        assert.expect(11);
 
         assert.equal(states.getState('foo'), false, 'The state should not exist');
 
@@ -98,11 +91,10 @@ define(['core/statifier'], function (statifier) {
         assert.equal(states.getState('foo'), true, 'When no value is provided, the state should be set');
     });
 
-
-    QUnit.test("clearStates()", function(assert) {
+    QUnit.test('clearStates()', function(assert) {
         var states = statifier();
 
-        QUnit.expect(9);
+        assert.expect(9);
 
         assert.equal(states.getState('foo'), false, 'The state "foo" should not exist');
         assert.equal(states.setState('foo', true), states, 'The setState() method should return the instance');
@@ -118,11 +110,10 @@ define(['core/statifier'], function (statifier) {
         assert.equal(states.getState('bar'), false, 'The state "bar" should be removed');
     });
 
-
-    QUnit.test("getStates()", function(assert) {
+    QUnit.test('getStates()', function(assert) {
         var states = statifier();
 
-        QUnit.expect(10);
+        assert.expect(10);
 
         assert.deepEqual(states.getStates(), [], 'No state should exist');
 
@@ -134,11 +125,11 @@ define(['core/statifier'], function (statifier) {
         assert.equal(states.setState('bar', true), states, 'The setState() method should return the instance');
         assert.equal(states.getState('bar'), true, 'The state "bar" should exist now');
 
-        assert.deepEqual(states.getStates(), ['foo', 'bar'], 'The states "foo" and "bar" should be set');
+        assert.deepEqual(states.getStates(), ["foo", "bar"], 'The states "foo" and "bar" should be set');
 
         assert.equal(states.setState('foo', false), states, 'The setState() method should return the instance');
 
-        assert.deepEqual(states.getStates(), ['bar'], 'Now only she states "bar" should be set');
+        assert.deepEqual(states.getStates(), ["bar"], 'Now only she states "bar" should be set');
 
     });
 

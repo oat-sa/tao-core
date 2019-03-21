@@ -24,6 +24,7 @@ use oat\generis\model\user\PasswordConstraintsService;
 use oat\tao\helpers\ApplicationHelper;
 use oat\generis\model\user\UserRdf;
 use oat\oatbox\user\UserLanguageServiceInterface;
+use oat\tao\model\controller\SignedFormInstance;
 
 /**
  * This container initialize the user edition form.
@@ -33,7 +34,7 @@ use oat\oatbox\user\UserLanguageServiceInterface;
  * @package tao
  
  */
-class tao_actions_form_Users extends tao_actions_form_Instance
+class tao_actions_form_Users extends SignedFormInstance
 {
     // --- ASSOCIATIONS ---
 
@@ -58,20 +59,23 @@ class tao_actions_form_Users extends tao_actions_form_Instance
 
     // --- OPERATIONS ---
 
-	/**
-	 * Short description of method __construct
-	 *
-	 * @access public
-	 * @author Joel Bout, <joel.bout@tudor.lu>
-	 *
-	 * @param  core_kernel_classes_Class $clazz
-	 * @param  core_kernel_classes_Resource $user
-	 * @param  boolean $forceAdd
-	 *
-	 * @throws Exception
-	 */
-    public function __construct( core_kernel_classes_Class $clazz,  core_kernel_classes_Resource $user = null, $forceAdd = false)
-    {
+    /**
+     * Short description of method __construct
+     *
+     * @access public
+     * @author Joel Bout, <joel.bout@tudor.lu>
+     *
+     * @param  core_kernel_classes_Class $clazz
+     * @param  core_kernel_classes_Resource $user
+     * @param  boolean $forceAdd
+     *
+     * @throws common_exception_Error
+     */
+    public function __construct(
+        core_kernel_classes_Class $clazz,
+        core_kernel_classes_Resource $user = null,
+        $forceAdd = false
+    ) {
     	if (empty($clazz)){
     		throw new Exception('Set the user class in the parameters');	
     	}
@@ -258,5 +262,4 @@ class tao_actions_form_Users extends tao_actions_form_Instance
 			}
 		}
     }
-
 }

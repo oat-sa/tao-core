@@ -82,7 +82,7 @@ class ControllerServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetControllerAbstractClass()
     {
-        $this->service->getController(AbsCl::class);
+        $this->service->checkController(AbsCl::class);
     }
 
     /**
@@ -91,7 +91,7 @@ class ControllerServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetControllerBlockedByAnnotation()
     {
-        $this->service->getController(BlCl::class);
+        $this->service->checkController(BlCl::class);
     }
 
     /**
@@ -99,8 +99,8 @@ class ControllerServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetController()
     {
-        self::assertInstanceOf(RouteAnnotationExample::class,
-            $this->service->getController(RouteAnnotationExample::class));
+        $this->assertEquals(RouteAnnotationExample::class,
+            $this->service->checkController(RouteAnnotationExample::class));
     }
 
     /**

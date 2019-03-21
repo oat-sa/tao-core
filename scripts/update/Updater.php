@@ -55,6 +55,7 @@ use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\resources\ResourceWatcher;
+use oat\tao\model\security\SignatureGenerator;
 use oat\tao\model\routing\AnnotationReaderService;
 use oat\tao\model\routing\ControllerService;
 use oat\tao\model\routing\RouteAnnotationService;
@@ -85,6 +86,7 @@ use oat\tao\model\user\UserLocks;
 use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\AddTmpFsHandlers;
+use oat\tao\scripts\install\RegisterSignatureGenerator;
 use oat\tao\scripts\install\RegisterTaskQueueServices;
 use oat\tao\scripts\install\UpdateRequiredActionUrl;
 use oat\tao\model\accessControl\func\AclProxy;
@@ -958,6 +960,16 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('27.4.0');
         }
 
-        $this->skip('27.4.0', '28.2.0');
+        $this->skip('27.4.0', '30.0.1');
+
+        if ($this->isVersion('30.0.1')) {
+            $register = new RegisterSignatureGenerator();
+            $register->setServiceLocator($this->getServiceManager());
+            $register->__invoke('');
+
+            $this->setVersion('30.0.2');
+        }
+
+        $this->skip('30.0.2', '30.1.0');
     }
 }

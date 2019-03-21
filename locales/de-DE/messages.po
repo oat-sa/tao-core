@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint96\n"
-"PO-Revision-Date: 2019-03-01T11:06:22\n"
+"Project-Id-Version: TAO 3.3.0-sprint98\n"
+"PO-Revision-Date: 2019-03-15T09:31:38\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: de-DE\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " and "
-msgstr " und "
-
 msgid " AND "
 msgstr ""
+
+msgid " and "
+msgstr " und "
 
 msgid " has been deleted successfully"
 msgstr " wurde erfolgreich gelöscht"
@@ -393,11 +393,11 @@ msgstr "Passwort ändern"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check All"
-msgstr "Alle markieren"
-
 msgid "Check all"
 msgstr "Alles markieren"
+
+msgid "Check All"
+msgstr "Alle markieren"
 
 msgid "Check-in"
 msgstr "Check-In"
@@ -1041,6 +1041,9 @@ msgstr "ungültiger regulärer Ausdruck"
 msgid "Invalid values:"
 msgstr ""
 
+msgid "items per page"
+msgstr ""
+
 msgid "Label"
 msgstr "Bezeichnung"
 
@@ -1215,6 +1218,9 @@ msgstr "Das Verschieben dieses Elements wird die Eigenschaften der vorherigen Kl
 msgid "Multiple values delimiter"
 msgstr "Trennsymbol mehrerer Elemente"
 
+msgid "Multiply the value by 10^x"
+msgstr ""
+
 msgid "must be numeric"
 msgstr "muss numerisch sein"
 
@@ -1277,10 +1283,10 @@ msgstr "keine Dateien"
 msgid "no label"
 msgstr "keine Beschriftung"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "keine Vorschau verfügbar"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "keine Vorschau verfügbar"
 
 msgid "No results found"
@@ -1332,10 +1338,10 @@ msgstr "von"
 msgid "Off"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr "OK"
 
-msgid "Ok"
+msgid "OK"
 msgstr "OK"
 
 msgid "Old Password"
@@ -1676,11 +1682,11 @@ msgstr ""
 msgid "seconds"
 msgstr "Sekunden"
 
-msgid "select"
-msgstr "auswählen"
-
 msgid "Select"
 msgstr "Auswählen"
+
+msgid "select"
+msgstr "auswählen"
 
 msgid "Select a class"
 msgstr ""
