@@ -19,6 +19,8 @@
  * 
  */
 
+use oat\oatbox\validator\ValidatorInterface;
+
 /**
  * Represents a form. It provides the default behavior for form management and
  * be overridden for any rendering mode.
@@ -357,9 +359,9 @@ abstract class tao_helpers_form_FormElement
      * Short description of method addValidator
      *
      * @author Joel Bout, <joel@taotesting.com>
-     * @param  tao_helpers_form_Validator $validator
+     * @param ValidatorInterface $validator
      */
-    public function addValidator( tao_helpers_form_Validator $validator)
+    public function addValidator(ValidatorInterface $validator)
     {
         if ($validator instanceof tao_helpers_form_validators_NotEmpty) {
             $this->addAttribute('required', true);

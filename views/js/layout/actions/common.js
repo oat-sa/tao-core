@@ -102,12 +102,11 @@ define([
                 $.ajax({
                     url: self.url,
                     type: "POST",
-                    data: {classUri: actionContext.classUri, id: classUri, type: 'class'},
+                    data: {id: classUri, type: 'class', signature: actionContext.classSignature},
                     dataType: 'json',
-                    success: function(response){
+                    success: function(response) {
                         if (response.uri) {
-
-                            if(actionContext.tree){
+                            if (actionContext.tree) {
                                 $(actionContext.tree).trigger('addnode.taotree', [{
                                     uri       : uri.decode(response.uri),
                                     label     : response.label,
@@ -151,7 +150,7 @@ define([
                 $.ajax({
                     url: self.url,
                     type: "POST",
-                    data: {classUri: actionContext.classUri, id: classUri, type: 'instance'},
+                    data: {id: classUri, type: 'instance', signature: actionContext.classSignature},
                     dataType: 'json',
                     success: function(response){
                         if (response.uri) {
@@ -203,7 +202,8 @@ define([
                     type: "POST",
                     data: {
                         uri: actionContext.id,
-                        classUri: uri.decode(actionContext.classUri)
+                        classUri: uri.decode(actionContext.classUri),
+                        signature: actionContext.signature
                     },
                     dataType: 'json',
                     success: function(response){
@@ -256,6 +256,7 @@ define([
             data.classUri   = uri.decode(actionContext.classUri);
             data.id         = actionContext.id;
             data[tokenName] = $.cookie(tokenName);
+            data.signature  = actionContext.signature;
 
             return new Promise( function (resolve, reject){
                 confirmDialog(__("Please confirm deletion"), function accept(){
@@ -314,7 +315,9 @@ define([
 
             //TODO do not use cookies !
             data[tokenName] = $.cookie(tokenName);
-            data.ids = _.pluck(actionContexts, 'id');
+            data.ids = _.map(actionContexts, function (elem) {
+                return {id: elem.id, signature: elem.signature};
+            });
 
             if(actionContexts.length === 1){
                 confirmMessage = __('Please confirm deletion');
@@ -373,7 +376,7 @@ define([
          * @param {String} [actionContext.classUri]
          */
         binder.register('moveNode', function remove(actionContext){
-            var data = _.pick(actionContext, ['id', 'uri', 'destinationClassUri', 'confirmed']);
+            var data = _.pick(actionContext, ['id', 'uri', 'destinationClassUri', 'confirmed', 'signature']);
 
             //wrap into a private function for recusion calls
             var _moveNode = function _moveNode(url){
@@ -395,6 +398,7 @@ define([
                             }
                             message += __("Please confirm this operation.") + "\n";
 
+                            // eslint-disable-next-line no-alert
                             if (window.confirm(message)) {
                                 data.confirmed = true;
                                 return  _moveNode(url, data);
@@ -511,7 +515,7 @@ define([
                         this.disable();
 
                         resourceProvider
-                            .copyTo(actionContext.id, destinationClassUri)
+                            .copyTo(actionContext.id, destinationClassUri, actionContext.signature)
                             .then(function(result){
                                 if(result && result.uri){
 
@@ -563,6 +567,9 @@ define([
             return new Promise(function (resolve, reject) {
                 var rootClassUri = _.pluck(actionContext, 'rootClassUri').pop();
                 var selectedUri = _.pluck(actionContext, 'id');
+                var selectedData = _.map(actionContext, function (a) {
+                    return {id: a.id, signature: a.signature};
+                });
 
                 //set up a destination selector
                 destinationSelectorFactory($container, {
@@ -620,13 +627,13 @@ define([
                             this.disable();
 
                             resourceProvider
-                                .moveTo(selectedUri, destinationClassUri)
+                                .moveTo(selectedData, destinationClassUri)
                                 .then(function (results) {
                                     var failed = [];
                                     var success = [];
 
-                                    _.forEach(results, function (result, uri) {
-                                        var resource = _.find(actionContext, {uri: uri});
+                                    _.forEach(results, function (result, resUri) {
+                                        var resource = _.find(actionContext, {uri: resUri});
                                         if (result.success) {
                                             success.push(resource);
                                         } else {
