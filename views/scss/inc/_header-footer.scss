@@ -155,6 +155,12 @@ $footerHeight: 34;
             position: relative;
         }
 
+        .menu-right-block {
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+
         .main-menu, .settings-menu, .persistent-menu {
 
             background:inherit;
