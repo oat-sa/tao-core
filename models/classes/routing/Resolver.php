@@ -142,6 +142,13 @@ class Resolver implements ServiceLocatorAwareInterface
     public function getControllerShortName()
     {
         $relativeUrl = $this->request->getUri()->getPath();
+
+        $rootUrl = parse_url(ROOT_URL);
+        if (isset($rootUrl['path'])) {
+            $rootUrlPath = $rootUrl['path'];
+            $relativeUrl = str_replace(rtrim($rootUrlPath, '/'), '', $relativeUrl);
+        }
+
         $parts = explode('/', trim($relativeUrl, '/'));
         if(count($parts) === 3){
             return $parts[1];

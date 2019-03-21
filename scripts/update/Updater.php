@@ -971,9 +971,9 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('30.0.2');
         }
 
-        $this->skip('30.0.2', '30.0.3');
+        $this->skip('30.0.2', '30.0.5');
 
-        if ($this->isVersion('30.0.3')) {
+        if ($this->isVersion('30.0.5')) {
             AclProxy::applyRule(new AccessRule(
                 AccessRule::GRANT,
                 TaoRoles::TAO_MANAGER,
