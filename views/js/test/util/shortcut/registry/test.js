@@ -19,11 +19,12 @@
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
 define([
+
     'jquery',
     'core/promise',
     'util/shortcut/registry',
     'lib/simulator/jquery.simulate'
-], function ($, Promise, shortcutRegistry) {
+], function($, Promise, shortcutRegistry) {
     'use strict';
 
     var shortcutApi = [
@@ -31,50 +32,46 @@ define([
         {name: 'add', title: 'add'},
         {name: 'remove', title: 'remove'},
         {name: 'exists', title: 'exists'},
-        {name: 'clear', title: 'clear'},
+        {name: 'clear', title: 'clear'}
     ];
-
 
     QUnit.module('shortcut');
 
-
-    QUnit.test('module', function (assert) {
+    QUnit.test('module', function(assert) {
         var $target = $('#qunit-fixture');
 
-        QUnit.expect(3);
+        assert.expect(3);
 
-        assert.equal(typeof shortcutRegistry, 'function', "The shortcutRegistry module exposes a function");
-        assert.equal(typeof shortcutRegistry($target.get(0)), 'object', "The shortcutRegistry factory produces an object");
-        assert.notEqual(shortcutRegistry($target.get(0)), shortcutRegistry($target.get(0)), "The shortcutRegistry factory produces a different object at each call");
+        assert.equal(typeof shortcutRegistry, 'function', 'The shortcutRegistry module exposes a function');
+        assert.equal(typeof shortcutRegistry($target.get(0)), 'object', 'The shortcutRegistry factory produces an object');
+        assert.notEqual(shortcutRegistry($target.get(0)), shortcutRegistry($target.get(0)), 'The shortcutRegistry factory produces a different object at each call');
 
     });
 
-
     QUnit
-        .cases(shortcutApi)
-        .test('has API ', function (data, assert) {
+        .cases.init(shortcutApi)
+        .test('has API ', function(data, assert) {
             var $target = $('#qunit-fixture');
             var instance = shortcutRegistry($target.get(0));
             assert.equal(typeof instance[data.name], 'function', 'The shortcutRegistry instance exposes a "' + data.name + '" function');
         });
 
-
     QUnit.module('Keyboard');
 
-
-    QUnit.asyncTest('add', function (assert) {
+    QUnit.test('add', function(assert) {
+        var ready = assert.async();
         var $target = $('#qunit-fixture');
         var shortcuts = shortcutRegistry($target.get(0));
         var res;
 
-        QUnit.expect(4);
+        assert.expect(4);
 
-        res = shortcuts.add('Meta+C', function (event, keystroke) {
+        res = shortcuts.add('Meta+C', function(event, keystroke) {
             assert.ok(true, 'The shortcut has been caught');
             assert.equal(typeof event, 'object', 'The event object is provided');
             assert.equal(keystroke, 'meta+c', 'The keystroke is provided');
             shortcuts.remove('Meta+C');
-            QUnit.start();
+            ready();
         });
 
         assert.equal(res, shortcuts, 'The helper returns itself');
@@ -92,15 +89,15 @@ define([
         });
     });
 
-
-    QUnit.asyncTest('remove', function (assert) {
+    QUnit.test('remove', function(assert) {
+        var ready = assert.async();
         var $target = $('#qunit-fixture');
         var shortcuts = shortcutRegistry($target.get(0));
         var res;
 
-        QUnit.expect(5);
+        assert.expect(5);
 
-        shortcuts.add('Ctrl+C', function (event, keystroke) {
+        shortcuts.add('Ctrl+C', function(event, keystroke) {
             assert.ok(true, 'The shortcut has been caught');
             assert.equal(typeof event, 'object', 'The event object is provided');
             assert.equal(keystroke, 'control+c', 'The keystroke is provided');
@@ -108,10 +105,10 @@ define([
             res = shortcuts.remove('Ctrl+C');
             assert.equal(res, shortcuts, 'The helper returns itself');
 
-            $target.on('keydown.test-remove', function () {
+            $target.on('keydown.test-remove', function() {
                 $target.off('keydown.test-remove');
                 assert.ok(true, 'The shortcut has been removed');
-                QUnit.start();
+                ready();
             });
 
             $target.simulate('keydown', {
@@ -140,12 +137,11 @@ define([
         });
     });
 
-
-    QUnit.test('exists', function (assert) {
+    QUnit.test('exists', function(assert) {
         var $target = $('#qunit-fixture');
         var shortcuts = shortcutRegistry($target.get(0));
 
-        QUnit.expect(3);
+        assert.expect(3);
 
         shortcuts.set('Meta+C');
 
@@ -157,15 +153,15 @@ define([
         assert.ok(!shortcuts.exists('meta+c'), 'The removed shortcut must not exists anymore');
     });
 
-
-    QUnit.asyncTest('clear', function (assert) {
+    QUnit.test('clear', function(assert) {
+        var ready = assert.async();
         var $target = $('#qunit-fixture');
         var shortcuts = shortcutRegistry($target.get(0));
         var res;
 
-        QUnit.expect(7);
+        assert.expect(7);
 
-        shortcuts.add('Shift+C', function (event, keystroke) {
+        shortcuts.add('Shift+C', function(event, keystroke) {
             assert.ok(true, 'The shortcut has been caught');
             assert.equal(typeof event, 'object', 'The event object is provided');
             assert.equal(keystroke, 'shift+c', 'The keystroke is provided');
@@ -176,10 +172,10 @@ define([
             assert.equal(res, shortcuts, 'The helper returns itself');
             assert.ok(!shortcuts.exists('shift+c'), 'The removed shortcut must not exists anymore');
 
-            $target.on('keydown.test-remove', function () {
+            $target.on('keydown.test-remove', function() {
                 $target.off('keydown.test-remove');
                 assert.ok(true, 'The shortcut has been removed');
-                QUnit.start();
+                ready();
             });
 
             $target.simulate('keydown', {
@@ -208,20 +204,20 @@ define([
         });
     });
 
-
-    QUnit.asyncTest('modifiers', function (assert) {
+    QUnit.test('modifiers', function(assert) {
+        var ready = assert.async();
         var $target = $('#qunit-fixture');
         var shortcuts = shortcutRegistry($target.get(0));
         var res;
 
-        QUnit.expect(4);
+        assert.expect(4);
 
-        res = shortcuts.add('Ctrl+Alt+Shift+Meta+C', function (event, keystroke) {
+        res = shortcuts.add('Ctrl+Alt+Shift+Meta+C', function(event, keystroke) {
             assert.ok(true, 'The shortcut has been caught');
             assert.equal(typeof event, 'object', 'The event object is provided');
             assert.equal(keystroke, 'control+alt+shift+meta+c', 'The keystroke is provided');
             shortcuts.remove('Ctrl+Alt+Shift+Meta+C');
-            QUnit.start();
+            ready();
         });
 
         assert.equal(res, shortcuts, 'The helper returns itself');
@@ -239,27 +235,27 @@ define([
         });
     });
 
-
-    QUnit.asyncTest('options.prevent', function (assert) {
+    QUnit.test('options.prevent', function(assert) {
+        var ready = assert.async();
         var $fixture = $('#qunit-fixture');
         var shortcuts = shortcutRegistry($fixture);
 
-        QUnit.expect(1);
+        assert.expect(1);
 
         $('form', $fixture).on('submit', function(event) {
             assert.ok(false, 'The submit event should not be triggered!');
             event.preventDefault();
         });
 
-        shortcuts.add('Enter', function () {
+        shortcuts.add('Enter', function() {
             assert.ok(true, 'The Enter shortcut has been caught');
             shortcuts.remove('Enter');
-            QUnit.start();
+            ready();
         }, {
             prevent: true
         });
 
-        $('input[type="text"]', $fixture).simulate('keydown', {
+        $('input[type="text"]', $fixture).simulate("keydown", {
             charCode: 0,
             keyCode: $.simulate.keyCode.ENTER,
             which: $.simulate.keyCode.ENTER,
@@ -272,19 +268,19 @@ define([
         });
     });
 
-
-    QUnit.asyncTest('options.propagate', function (assert) {
+    QUnit.test('options.propagate', function(assert) {
+        var ready = assert.async();
         var $fixture = $('#qunit-fixture');
         var $container = $('<div />').appendTo($fixture);
         var $target = $('<div />').appendTo($container);
         var shortcuts = shortcutRegistry($target);
 
-        QUnit.expect(1);
+        assert.expect(1);
 
-        shortcuts.add('Alt+C', function () {
+        shortcuts.add('Alt+C', function() {
             assert.ok(true, 'The Alt+C shortcut has been caught');
             shortcuts.remove('Alt+C');
-            QUnit.start();
+            ready();
         }, {
             propagate: false
         });
@@ -306,23 +302,23 @@ define([
         });
     });
 
-
-    QUnit.asyncTest('options.avoidInput', function (assert) {
+    QUnit.test('options.avoidInput', function(assert) {
+        var ready = assert.async();
         var $fixture = $('#qunit-fixture');
         var shortcuts = shortcutRegistry($fixture);
 
-        QUnit.expect(2);
+        assert.expect(2);
 
-        shortcuts.add('Alt+C', function (event) {
+        shortcuts.add('Alt+C', function(event) {
             assert.ok(true, 'The Alt+C shortcut has been caught');
-            assert.ok(!$(event.target).closest(':input').length, 'The shortcut does not come from an input')
+            assert.ok(!$(event.target).closest(':input').length, 'The shortcut does not come from an input');
             shortcuts.remove('Alt+C');
-            QUnit.start();
+            ready();
         }, {
             avoidInput: true
         });
 
-        $('input[type="text"]', $fixture).simulate('keydown', {
+        $('input[type="text"]', $fixture).simulate("keydown", {
             charCode: 0,
             keyCode: 67,
             which: 67,
@@ -359,28 +355,28 @@ define([
         });
     });
 
-
-    QUnit.asyncTest('options.allowIn', function (assert) {
+    QUnit.test('options.allowIn', function(assert) {
+        var ready = assert.async();
         var $fixture = $('#qunit-fixture');
         var shortcuts = shortcutRegistry($fixture);
         var expected = 3;
 
-        QUnit.expect(expected);
+        assert.expect(expected);
 
         $('form', $fixture).addClass('openbar');
 
-        shortcuts.add('Alt+C', function () {
+        shortcuts.add('Alt+C', function() {
             assert.ok(true, 'The Alt+C shortcut has been caught');
             if (!--expected) {
                 shortcuts.remove('Alt+C');
-                QUnit.start();
+                ready();
             }
         }, {
             avoidInput: true,
             allowIn: '.openbar'
         });
 
-        $('input[type="text"]', $fixture).simulate('keydown', {
+        $('input[type="text"]', $fixture).simulate("keydown", {
             charCode: 0,
             keyCode: 67,
             which: 67,
@@ -417,22 +413,21 @@ define([
         });
     });
 
-
     QUnit.module('Mouse');
 
-
-    QUnit.asyncTest('add', function (assert) {
+    QUnit.test('add', function(assert) {
+        var ready = assert.async();
         var $target = $(document);
         var shortcuts = shortcutRegistry($target.get(0));
 
-        QUnit.expect(3);
+        assert.expect(3);
 
-        shortcuts.add('Alt+LeftMouseClick', function (event, keystroke) {
+        shortcuts.add('Alt+LeftMouseClick', function(event, keystroke) {
             assert.ok(true, 'The shortcut has been caught');
             assert.equal(typeof event, 'object', 'The event object is provided');
             assert.equal(keystroke, 'alt+clickLeft', 'The keystroke is provided');
             shortcuts.remove('Alt+LeftMouseClick');
-            QUnit.start();
+            ready();
         });
 
         $target.simulate('click', {
@@ -443,24 +438,24 @@ define([
         });
     });
 
-
-    QUnit.asyncTest('remove', function (assert) {
+    QUnit.test('remove', function(assert) {
+        var ready = assert.async();
         var $target = $(document);
         var shortcuts = shortcutRegistry($target.get(0));
 
-        QUnit.expect(4);
+        assert.expect(4);
 
-        shortcuts.add('Ctrl+RightMouseClick', function (event, keystroke) {
+        shortcuts.add('Ctrl+RightMouseClick', function(event, keystroke) {
             assert.ok(true, 'The shortcut has been caught');
             assert.equal(typeof event, 'object', 'The event object is provided');
             assert.equal(keystroke, 'control+clickRight', 'The keystroke is provided');
 
             shortcuts.remove('Ctrl+RightMouseClick');
 
-            $target.on('click.test-remove', function () {
+            $target.on('click.test-remove', function() {
                 $target.off('click.test-remove');
                 assert.ok(true, 'The shortcut has been removed');
-                QUnit.start();
+                ready();
             });
 
             $target.simulate('click', {
@@ -481,12 +476,11 @@ define([
         });
     });
 
-
-    QUnit.test('exists', function (assert) {
+    QUnit.test('exists', function(assert) {
         var $target = $('#qunit-fixture');
         var shortcuts = shortcutRegistry($target.get(0));
 
-        QUnit.expect(3);
+        assert.expect(3);
 
         shortcuts.set('Shift+MouseScrollUp');
 
@@ -498,14 +492,14 @@ define([
         assert.ok(!shortcuts.exists('shift+mouseScrollUp'), 'The removed shortcut must not exists anymore');
     });
 
-
-    QUnit.asyncTest('clear', function (assert) {
+    QUnit.test('clear', function(assert) {
+        var ready = assert.async();
         var $target = $(document);
         var shortcuts = shortcutRegistry($target.get(0));
 
-        QUnit.expect(6);
+        assert.expect(6);
 
-        shortcuts.add('shift+mouseMiddleClick', function (event, keystroke) {
+        shortcuts.add('shift+mouseMiddleClick', function(event, keystroke) {
             assert.ok(true, 'The shortcut has been caught');
             assert.equal(typeof event, 'object', 'The event object is provided');
             assert.equal(keystroke, 'shift+clickMiddle', 'The keystroke is provided');
@@ -514,10 +508,10 @@ define([
             shortcuts.clear();
             assert.ok(!shortcuts.exists('shift+mouseMiddleClick'), 'The removed shortcut must not exists anymore');
 
-            $target.on('click.test-remove', function () {
+            $target.on('click.test-remove', function() {
                 $target.off('click.test-remove');
                 assert.ok(true, 'The shortcut has been removed');
-                QUnit.start();
+                ready();
             });
 
             $target.simulate('click', {
@@ -538,16 +532,16 @@ define([
         });
     });
 
-
-    QUnit.asyncTest('all buttons', function (assert) {
+    QUnit.test('all buttons', function(assert) {
+        var ready = assert.async();
         var $target = $(document);
         var shortcuts = shortcutRegistry($target.get(0));
 
-        QUnit.expect(16);
+        assert.expect(16);
 
         Promise.all([
             new Promise(function(resolve) {
-                shortcuts.add('Alt+LeftMouseClick', function (event, keystroke) {
+                shortcuts.add('Alt+LeftMouseClick', function(event, keystroke) {
                     assert.ok(true, 'The shortcut has been caught');
                     assert.equal(typeof event, 'object', 'The event object is provided');
                     assert.equal(keystroke, 'alt+clickLeft', 'The keystroke is provided');
@@ -555,7 +549,7 @@ define([
                 });
             }),
             new Promise(function(resolve) {
-                shortcuts.add('Alt+RightMouseClick', function (event, keystroke) {
+                shortcuts.add('Alt+RightMouseClick', function(event, keystroke) {
                     assert.ok(true, 'The shortcut has been caught');
                     assert.equal(typeof event, 'object', 'The event object is provided');
                     assert.equal(keystroke, 'alt+clickRight', 'The keystroke is provided');
@@ -563,7 +557,7 @@ define([
                 });
             }),
             new Promise(function(resolve) {
-                shortcuts.add('Alt+MiddleMouseClick', function (event, keystroke) {
+                shortcuts.add('Alt+MiddleMouseClick', function(event, keystroke) {
                     assert.ok(true, 'The shortcut has been caught');
                     assert.equal(typeof event, 'object', 'The event object is provided');
                     assert.equal(keystroke, 'alt+clickMiddle', 'The keystroke is provided');
@@ -571,7 +565,7 @@ define([
                 });
             }),
             new Promise(function(resolve) {
-                shortcuts.add('Alt+BackMouseClick', function (event, keystroke) {
+                shortcuts.add('Alt+BackMouseClick', function(event, keystroke) {
                     assert.ok(true, 'The shortcut has been caught');
                     assert.equal(typeof event, 'object', 'The event object is provided');
                     assert.equal(keystroke, 'alt+clickBack', 'The keystroke is provided');
@@ -579,20 +573,20 @@ define([
                 });
             }),
             new Promise(function(resolve) {
-                shortcuts.add('Alt+ForwardMouseClick', function (event, keystroke) {
+                shortcuts.add('Alt+ForwardMouseClick', function(event, keystroke) {
                     assert.ok(true, 'The shortcut has been caught');
                     assert.equal(typeof event, 'object', 'The event object is provided');
                     assert.equal(keystroke, 'alt+clickForward', 'The keystroke is provided');
                     resolve();
                 });
             })
-        ]).then(function(){
+        ]).then(function() {
             shortcuts.clear();
             assert.ok(true, 'All done!');
-            QUnit.start();
+            ready();
         }).catch(function() {
             assert.ok(false, 'The promise should not fail!');
-            QUnit.start();
+            ready();
         });
 
         $target.simulate('click', {
@@ -632,66 +626,63 @@ define([
         });
     });
 
-
     QUnit.module('Error');
 
-
-    QUnit.test('keyboard and mouse', function (assert) {
+    QUnit.test('keyboard and mouse', function(assert) {
         var $target = $('#qunit-fixture');
         var shortcuts = shortcutRegistry($target.get(0));
 
-        QUnit.expect(2);
+        assert.expect(2);
 
-        assert.throws(function () {
+        assert.throws(function() {
             shortcuts.add('Ctrl+C+mouseLeftClick', $.noop);
         }, 'The helper refuses to register shortcut that mix keyboard and mouse');
 
-        assert.throws(function () {
+        assert.throws(function() {
             shortcuts.add('mouseLeftClick+V', $.noop);
         }, 'The helper refuses to register shortcut that mix keyboard and mouse');
     });
 
-
     QUnit.module('Namespace');
 
-
-    QUnit.asyncTest('add 2 namespaces, remove by using the full name', function (assert) {
+    QUnit.test('add 2 namespaces, remove by using the full name', function(assert) {
+        var ready = assert.async();
         var $target = $('#qunit-fixture');
         var shortcuts = shortcutRegistry($target.get(0));
         var resolved = false;
 
-        QUnit.expect(4);
+        assert.expect(4);
 
         Promise.all([
             new Promise(function(resolve) {
-                shortcuts.add('Meta+C.first', function (event, keystroke) {
+                shortcuts.add('Meta+C.first', function(event, keystroke) {
                     assert.ok(true, 'The first shortcut handler has been called');
 
                     if (resolved) {
                         assert.ok(false, 'The first shortcut handler should not be called a second time');
 
                         shortcuts.remove(keystroke);
-                        QUnit.start();
+                        ready();
                     } else {
                         resolve();
                     }
                 });
             }),
             new Promise(function(resolve) {
-                shortcuts.add('Meta+C.second', function (event, keystroke) {
+                shortcuts.add('Meta+C.second', function(event, keystroke) {
                     assert.ok(true, 'The second shortcut handler has been called');
 
                     if (resolved) {
                         assert.ok(true, 'The second shortcut handler has been called a second time');
 
                         shortcuts.remove(keystroke);
-                        QUnit.start();
+                        ready();
                     } else {
                         resolve();
                     }
                 });
             })
-        ]).then(function(){
+        ]).then(function() {
             resolved = true;
             shortcuts.remove('Meta+C.first');
 
@@ -708,7 +699,7 @@ define([
             });
         }).catch(function() {
             assert.ok(false, 'The promise should not fail!');
-            QUnit.start();
+            ready();
         });
 
         $target.simulate('keydown', {
@@ -724,44 +715,44 @@ define([
         });
     });
 
-
-    QUnit.asyncTest('add 2 namespaces, remove by using the namespace', function (assert) {
+    QUnit.test('add 2 namespaces, remove by using the namespace', function(assert) {
+        var ready = assert.async();
         var $target = $('#qunit-fixture');
         var shortcuts = shortcutRegistry($target.get(0));
         var resolved = false;
 
-        QUnit.expect(4);
+        assert.expect(4);
 
         Promise.all([
             new Promise(function(resolve) {
-                shortcuts.add('Meta+C.first', function (event, keystroke) {
+                shortcuts.add('Meta+C.first', function(event, keystroke) {
                     assert.ok(true, 'The first shortcut handler has been called');
 
                     if (resolved) {
                         assert.ok(false, 'The first shortcut handler should not be called a second time');
 
                         shortcuts.remove(keystroke);
-                        QUnit.start();
+                        ready();
                     } else {
                         resolve();
                     }
                 });
             }),
             new Promise(function(resolve) {
-                shortcuts.add('Meta+C.second', function (event, keystroke) {
+                shortcuts.add('Meta+C.second', function(event, keystroke) {
                     assert.ok(true, 'The second shortcut handler has been called');
 
                     if (resolved) {
                         assert.ok(true, 'The second shortcut handler has been called a second time');
 
                         shortcuts.remove(keystroke);
-                        QUnit.start();
+                        ready();
                     } else {
                         resolve();
                     }
                 });
             })
-        ]).then(function(){
+        ]).then(function() {
             resolved = true;
             shortcuts.remove('.first');
 
@@ -778,7 +769,7 @@ define([
             });
         }).catch(function() {
             assert.ok(false, 'The promise should not fail!');
-            QUnit.start();
+            ready();
         });
 
         $target.simulate('keydown', {
@@ -794,12 +785,11 @@ define([
         });
     });
 
-
-    QUnit.test('exists', function (assert) {
+    QUnit.test('exists', function(assert) {
         var $target = $('#qunit-fixture');
         var shortcuts = shortcutRegistry($target.get(0));
 
-        QUnit.expect(6);
+        assert.expect(6);
 
         shortcuts.add('Meta+C.myShortcut', $.noop);
 
@@ -814,15 +804,15 @@ define([
         assert.ok(!shortcuts.exists('meta+c'), 'The shortcut has been removed');
     });
 
-
-    QUnit.asyncTest('clear', function (assert) {
+    QUnit.test('clear', function(assert) {
+        var ready = assert.async();
         var $target = $('#qunit-fixture');
         var shortcuts = shortcutRegistry($target.get(0));
         var res;
 
-        QUnit.expect(7);
+        assert.expect(7);
 
-        shortcuts.add('Shift+C.first', function (event, keystroke) {
+        shortcuts.add('Shift+C.first', function(event, keystroke) {
             assert.ok(true, 'The shortcut has been caught');
             assert.equal(typeof event, 'object', 'The event object is provided');
             assert.equal(keystroke, 'shift+c', 'The keystroke is provided');
@@ -833,10 +823,10 @@ define([
             assert.equal(res, shortcuts, 'The helper returns itself');
             assert.ok(!shortcuts.exists('shift+c'), 'The removed shortcut must not exists anymore');
 
-            $target.on('keydown.test-remove', function () {
+            $target.on('keydown.test-remove', function() {
                 $target.off('keydown.test-remove');
                 assert.ok(true, 'The shortcut has been removed');
-                QUnit.start();
+                ready();
             });
 
             $target.simulate('keydown', {
@@ -865,16 +855,14 @@ define([
         });
     });
 
-
     QUnit.module('State');
 
-
-    QUnit.test('setState/getState', function (assert) {
+    QUnit.test('setState/getState', function(assert) {
         var $target = $('#qunit-fixture');
         var shortcuts = shortcutRegistry($target.get(0));
         var res;
 
-        QUnit.expect(3);
+        assert.expect(3);
 
         assert.ok(!shortcuts.getState('disabled'), 'The shortcuts registry is enabled');
 
@@ -884,13 +872,12 @@ define([
         assert.ok(shortcuts.getState('disabled'), 'The shortcuts registry is disabled');
     });
 
-
-    QUnit.test('enable/disable', function (assert) {
+    QUnit.test('enable/disable', function(assert) {
         var $target = $('#qunit-fixture');
         var shortcuts = shortcutRegistry($target.get(0));
         var res;
 
-        QUnit.expect(5);
+        assert.expect(5);
 
         assert.ok(!shortcuts.getState('disabled'), 'The shortcuts registry is enabled');
 
@@ -905,15 +892,15 @@ define([
         assert.ok(!shortcuts.getState('disabled'), 'The shortcuts registry is enabled');
     });
 
-
-    QUnit.asyncTest('disable', function (assert) {
+    QUnit.test('disable', function(assert) {
+        var ready = assert.async();
         var $target = $('#qunit-fixture');
         var shortcuts = shortcutRegistry($target.get(0));
         var res;
 
-        QUnit.expect(6);
+        assert.expect(6);
 
-        res = shortcuts.add('Meta+C', function (event, keystroke) {
+        res = shortcuts.add('Meta+C', function(event, keystroke) {
             assert.ok(true, 'The shortcut has been caught');
             assert.equal(typeof event, 'object', 'The event object is provided');
             assert.equal(keystroke, 'meta+c', 'The keystroke is provided');
@@ -921,10 +908,10 @@ define([
             res = shortcuts.disable();
             assert.equal(res, shortcuts, 'The helper returns itself');
 
-            $target.on('keydown.test-disabled', function () {
+            $target.on('keydown.test-disabled', function() {
                 $target.off('keydown.test-disabled');
                 assert.ok(true, 'The shortcut has been disabled');
-                QUnit.start();
+                ready();
             });
 
             $target.simulate('keydown', {

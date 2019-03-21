@@ -18,9 +18,8 @@
 /**
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
-define(['util/namespace'], function (namespaceHelper) {
+define(['util/namespace'], function(namespaceHelper) {
     'use strict';
-
 
     var namespaceApi = [
         {name: 'split', title: 'split'},
@@ -29,27 +28,23 @@ define(['util/namespace'], function (namespaceHelper) {
         {name: 'namespaceAll', title: 'namespaceAll'}
     ];
 
-
     QUnit.module('namespace');
 
+    QUnit.test('module', function(assert) {
+        assert.expect(1);
 
-    QUnit.test('module', function (assert) {
-        QUnit.expect(1);
-
-        assert.equal(typeof namespaceHelper, 'object', "The namespaceHelper module exposes an object");
+        assert.equal(typeof namespaceHelper, 'object', 'The namespaceHelper module exposes an object');
     });
 
-
     QUnit
-        .cases(namespaceApi)
-        .test('has API ', function (data, assert) {
-            QUnit.expect(1);
+        .cases.init(namespaceApi)
+        .test('has API ', function(data, assert) {
+            assert.expect(1);
             assert.equal(typeof namespaceHelper[data.name], 'function', 'The namespaceHelper exposes a "' + data.name + '" function');
         });
 
-
-    QUnit.test('split', function (assert) {
-        QUnit.expect(7);
+    QUnit.test('split', function(assert) {
+        assert.expect(7);
 
         assert.deepEqual(namespaceHelper.split(), [], 'An empty array is returned from an undefined list');
         assert.deepEqual(namespaceHelper.split({}), [], 'An empty array is returned from an unsupported type');
@@ -60,9 +55,8 @@ define(['util/namespace'], function (namespaceHelper) {
         assert.deepEqual(namespaceHelper.split('n1 N1.ns1 n2.NS2 n3', true), ['n1', 'n1.ns1', 'n2.ns2', 'n3'], 'The names are split in an array with normalization');
     });
 
-
-    QUnit.test('getName', function (assert) {
-        QUnit.expect(6);
+    QUnit.test('getName', function(assert) {
+        assert.expect(6);
 
         assert.equal(namespaceHelper.getName(), '', 'An empty name is returned from an undefined string');
         assert.equal(namespaceHelper.getName(''), '', 'An empty name is returned from an empty string');
@@ -72,9 +66,8 @@ define(['util/namespace'], function (namespaceHelper) {
         assert.equal(namespaceHelper.getName('n'), 'n', 'The name is returned from a string that does not contains the namespace part');
     });
 
-
-    QUnit.test('getNamespace', function (assert) {
-        QUnit.expect(7);
+    QUnit.test('getNamespace', function(assert) {
+        assert.expect(7);
 
         assert.equal(namespaceHelper.getNamespace(), '', 'An empty namespace is returned from an undefined string');
         assert.equal(namespaceHelper.getNamespace(''), '', 'An empty namespace is returned from an empty string');
@@ -85,9 +78,8 @@ define(['util/namespace'], function (namespaceHelper) {
         assert.equal(namespaceHelper.getNamespace('n', '#'), '#', 'The provided default namespace is returned from a string that does not contains the namespace part');
     });
 
-
-    QUnit.test('namespaceAll', function (assert) {
-        QUnit.expect(20);
+    QUnit.test('namespaceAll', function(assert) {
+        assert.expect(20);
 
         assert.equal(namespaceHelper.namespaceAll(), '', 'An empty list is returned from an undefined string');
         assert.equal(namespaceHelper.namespaceAll(''), '', 'An empty list is returned from an empty string');

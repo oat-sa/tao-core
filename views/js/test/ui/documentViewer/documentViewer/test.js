@@ -18,26 +18,19 @@
 /**
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
-define([
-    'lodash',
-    'core/promise',
-    'ui/documentViewer'
-], function (_, Promise, documentViewer) {
+define(['lodash', 'core/promise', 'ui/documentViewer'], function(_, Promise, documentViewer) {
     'use strict';
-
 
     QUnit.module('documentViewer factory');
 
-
-    QUnit.test('module', function (assert) {
-        QUnit.expect(5);
-        assert.equal(typeof documentViewer, 'function', "The documentViewer module exposes a function");
-        assert.equal(typeof documentViewer(), 'object', "The documentViewer factory produces an object");
-        assert.notStrictEqual(documentViewer(), documentViewer(), "The documentViewer factory provides a different object on each call");
-        assert.equal(typeof documentViewer.registerProvider, 'function', "The instance module exposes a function registerProvider()");
-        assert.equal(typeof documentViewer.clearProviders, 'function', "The instance module exposes a function clearProviders()");
+    QUnit.test('module', function(assert) {
+        assert.expect(5);
+        assert.equal(typeof documentViewer, 'function', 'The documentViewer module exposes a function');
+        assert.equal(typeof documentViewer(), 'object', 'The documentViewer factory produces an object');
+        assert.notStrictEqual(documentViewer(), documentViewer(), 'The documentViewer factory provides a different object on each call');
+        assert.equal(typeof documentViewer.registerProvider, 'function', 'The instance module exposes a function registerProvider()');
+        assert.equal(typeof documentViewer.clearProviders, 'function', 'The instance module exposes a function clearProviders()');
     });
-
 
     var documentViewerApi = [
         {name: 'init', title: 'init'},
@@ -66,32 +59,30 @@ define([
     ];
 
     QUnit
-        .cases(documentViewerApi)
-        .test('has API ', function (data, assert) {
+        .cases.init(documentViewerApi)
+        .test('has API ', function(data, assert) {
             var instance = documentViewer('mock');
             assert.equal(typeof instance[data.name], 'function', 'The documentViewer instance exposes a "' + data.name + '" function');
         });
 
-
     QUnit.module('implementation', {
-        setup: function () {
+        beforeEach: function(assert) {
             documentViewer.clearProviders();
         }
     });
 
+    QUnit.test('register error', function(assert) {
+        assert.expect(4);
 
-    QUnit.test('register error', function (assert) {
-        QUnit.expect(4);
-
-        assert.throws(function () {
+        assert.throws(function() {
             documentViewer.registerProvider('mock');
         }, 'An error is thrown when no provider is provided');
 
-        assert.throws(function () {
+        assert.throws(function() {
             documentViewer.registerProvider('mock', {load: _.noop});
         }, 'An error is thrown when a provider without init method is provided');
 
-        assert.throws(function () {
+        assert.throws(function() {
             documentViewer.registerProvider('mock', {init: _.noop});
         }, 'An error is thrown when a provider without load method is provided');
 
@@ -99,29 +90,28 @@ define([
         assert.ok(true, 'No error is thrown when a well formatted provider is provided');
     });
 
-
-    QUnit.test('load error', function (assert) {
+    QUnit.test('load error', function(assert) {
         var viewer = documentViewer();
 
-        QUnit.expect(6);
+        assert.expect(6);
 
-        assert.throws(function () {
+        assert.throws(function() {
             viewer.load();
         }, 'An error is thrown when no parameter is provided to the load() method');
 
-        assert.throws(function () {
+        assert.throws(function() {
             viewer.load('', 'pdf');
         }, 'An error is thrown when an empty url is provided to the load() method');
 
-        assert.throws(function () {
+        assert.throws(function() {
             viewer.load(null, 'pdf');
         }, 'An error is thrown when the url provided to the load() method is not a string');
 
-        assert.throws(function () {
+        assert.throws(function() {
             viewer.load('/test.pdf', '');
         }, 'An error is thrown when an empty type is provided to the load() method');
 
-        assert.throws(function () {
+        assert.throws(function() {
             viewer.load('/test.pdf', 10);
         }, 'An error is thrown when the type provided to the load() method is not a string');
 
@@ -131,11 +121,10 @@ define([
         assert.ok(true, 'No error is thrown when the load() method is called with the right parameters');
     });
 
-
-    QUnit.test('getType', function (assert) {
+    QUnit.test('getType', function(assert) {
         var viewer = documentViewer();
 
-        QUnit.expect(3);
+        assert.expect(3);
 
         documentViewer.registerProvider('pdf', {init: _.noop, load: _.noop});
 
@@ -150,11 +139,10 @@ define([
         assert.equal(viewer.getType(), null, 'No type is defined');
     });
 
-
-    QUnit.test('getUrl', function (assert) {
+    QUnit.test('getUrl', function(assert) {
         var viewer = documentViewer();
 
-        QUnit.expect(3);
+        assert.expect(3);
 
         documentViewer.registerProvider('pdf', {init: _.noop, load: _.noop});
 
@@ -169,11 +157,10 @@ define([
         assert.equal(viewer.getUrl(), null, 'No url is defined');
     });
 
-
-    QUnit.test('getViewer', function (assert) {
+    QUnit.test('getViewer', function(assert) {
         var viewer = documentViewer();
 
-        QUnit.expect(3);
+        assert.expect(3);
 
         documentViewer.registerProvider('pdf', {init: _.noop, load: _.noop});
 
@@ -188,13 +175,13 @@ define([
         assert.equal(viewer.getViewer(), null, 'No viewer is defined');
     });
 
-
-    QUnit.asyncTest('setSize', function (assert) {
+    QUnit.test('setSize', function(assert) {
+        var ready = assert.async();
         var viewer = documentViewer();
         var expectedWidth = 20;
         var expectedHeight = 10;
 
-        QUnit.expect(16);
+        assert.expect(16);
 
         documentViewer.registerProvider('pdf', {init: _.noop, load: _.noop});
 
@@ -229,17 +216,17 @@ define([
             assert.equal(viewer.config.width, expectedWidth, 'The width is still recorded');
             assert.equal(viewer.config.height, expectedHeight, 'The height is still recorded');
 
-            QUnit.start();
+            ready();
         });
 
         viewer.render().load('/test.pdf', 'pdf');
     });
 
-
-    QUnit.asyncTest('error event', function (assert) {
+    QUnit.test('error event', function(assert) {
+        var ready = assert.async();
         var viewer = documentViewer();
 
-        QUnit.expect(2);
+        assert.expect(2);
 
         documentViewer.registerProvider('pdf', {
             init: function() {
@@ -252,17 +239,17 @@ define([
 
         viewer.on('error', function(err) {
             assert.ok('true', 'An error has been triggered');
-            QUnit.start();
+            ready();
         });
 
         viewer.load('/test.pdf', 'pdf');
     });
 
-
-    QUnit.asyncTest('load before render', function (assert) {
+    QUnit.test('load before render', function(assert) {
+        var ready = assert.async();
         var viewer = documentViewer();
 
-        QUnit.expect(2);
+        assert.expect(2);
 
         documentViewer.registerProvider('pdf', {init: _.noop, load: _.noop});
 
@@ -272,17 +259,17 @@ define([
             })
             .on('loaded', function() {
                 assert.ok(true, 'The document has been loaded');
-                QUnit.start();
+                ready();
             })
             .load('/test.pdf', 'pdf')
             .render();
     });
 
-
-    QUnit.asyncTest('load after render', function (assert) {
+    QUnit.test('load after render', function(assert) {
+        var ready = assert.async();
         var viewer = documentViewer();
 
-        QUnit.expect(2);
+        assert.expect(2);
 
         documentViewer.registerProvider('pdf', {init: _.noop, load: _.noop});
 
@@ -292,17 +279,17 @@ define([
             })
             .on('loaded', function() {
                 assert.ok(true, 'The document has been loaded');
-                QUnit.start();
+                ready();
             })
             .render()
             .load('/test.pdf', 'pdf');
     });
 
-
-    QUnit.asyncTest('unload', function (assert) {
+    QUnit.test('unload', function(assert) {
+        var ready = assert.async();
         var viewer = documentViewer();
 
-        QUnit.expect(4);
+        assert.expect(4);
 
         documentViewer.registerProvider('pdf', {init: _.noop, load: _.noop});
 
@@ -320,18 +307,18 @@ define([
             })
             .on('unloaded', function() {
                 assert.ok(true, 'The document has been unloaded');
-                QUnit.start();
+                ready();
             })
             .render()
             .load('/test.pdf', 'pdf');
     });
 
-
-    QUnit.asyncTest('destroy', function (assert) {
+    QUnit.test('destroy', function(assert) {
+        var ready = assert.async();
         var viewer = documentViewer();
         var count = 0;
 
-        QUnit.expect(7);
+        assert.expect(7);
 
         documentViewer.registerProvider('pdf', {init: _.noop, load: _.noop});
 
@@ -342,7 +329,7 @@ define([
             .on('loaded', function() {
                 assert.ok(true, 'The document has been loaded');
 
-                if (count ++) {
+                if (count++) {
                     viewer.destroy();
                 } else {
                     this.load('/test.pdf', 'pdf');
@@ -354,7 +341,7 @@ define([
             .on('unloaded', function() {
                 assert.ok(true, 'The document has been unloaded');
                 if (count > 1) {
-                    QUnit.start();
+                    ready();
                 }
             })
             .render()

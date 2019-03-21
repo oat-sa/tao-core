@@ -16,6 +16,7 @@
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
  */
 define([
+
     'jquery',
     'lodash',
     'ui/component',
@@ -26,170 +27,178 @@ define([
 
     QUnit.module('API');
 
-    QUnit.test('module', function (assert) {
-        QUnit.expect(1);
+    QUnit.test('module', function(assert) {
+        assert.expect(1);
         assert.ok(typeof makeTaskable === 'function', 'The module expose a function');
     });
 
     QUnit
-        .cases([
-            { title: 'createTask', method: 'createTask' },
-            { title: 'displayReport', method: 'displayReport' },
-            { title: 'setTaskConfig', method: 'setTaskConfig' }
+        .cases.init([
+            {title: 'createTask', method: 'createTask'},
+            {title: 'displayReport', method: 'displayReport'},
+            {title: 'setTaskConfig', method: 'setTaskConfig'}
         ])
         .test('component API', function(data, assert) {
             var component = makeTaskable(componentFactory());
 
-            QUnit.expect(1);
+            assert.expect(1);
             assert.equal(typeof component[data.method], 'function', 'The component has the method ' + data.method);
         });
 
-
     QUnit.module('Creation');
 
-    QUnit.asyncTest('enqueued', function(assert) {
+    QUnit.test('enqueued', function(assert) {
+        var ready = assert.async();
         var taskQueue = taskQueueModelFactory({
-            url : {
-                all : '/tao/views/js/test/ui/taskQueueButton/taskable/samples/getAll.json',
-                get : '/tao/views/js/test/ui/taskQueueButton/taskable/samples/getOne.json',
+            url: {
+                all: '/tao/views/js/test/ui/taskQueueButton/taskable/samples/getAll.json',
+                get: '/tao/views/js/test/ui/taskQueueButton/taskable/samples/getOne.json'
             }
-        }).on('error', function(){
+        }).on('error', function() {
             assert.ok(false, 'should not have any error');
         });
         var taskableConfig = {
-            taskQueue : taskQueue,
-            taskCreationUrl : '/tao/views/js/test/ui/taskQueueButton/taskable/samples/newTaskCreationResult.json',
-            taskCreationData : {some: 'data'}
+            taskQueue: taskQueue,
+            taskCreationUrl: '/tao/views/js/test/ui/taskQueueButton/taskable/samples/newTaskCreationResult.json',
+            taskCreationData: {some: 'data'}
         };
 
-        makeTaskable(componentFactory()).on('init', function(){
+        makeTaskable(componentFactory()).on('init', function() {
             assert.deepEqual(this.config, taskableConfig, 'config correctly set');
-        }).on('error', function(){
+        }).on('error', function() {
             assert.ok(false, 'should not have any error');
-        }).on('finished', function(){
+        }).on('finished', function() {
             assert.ok(false, 'should not be finished');
-        }).on('enqueued', function(){
+        }).on('enqueued', function() {
             assert.ok(true, 'task enqueued');
-            QUnit.start();
+            ready();
         }).init(taskableConfig).createTask();
     });
 
-    QUnit.asyncTest('finished', function(assert) {
+    QUnit.test('finished', function(assert) {
+        var ready = assert.async();
         var taskQueue = taskQueueModelFactory({
-            url : {
-                all : '/tao/views/js/test/ui/taskQueueButton/taskable/samples/getAll.json',
-                get : '/tao/views/js/test/ui/taskQueueButton/taskable/samples/getOne.json',
-                archive : '/tao/views/js/test/ui/taskQueueButton/taskable/samples/archive-success.json'
+            url: {
+                all: '/tao/views/js/test/ui/taskQueueButton/taskable/samples/getAll.json',
+                get: '/tao/views/js/test/ui/taskQueueButton/taskable/samples/getOne.json',
+                archive: '/tao/views/js/test/ui/taskQueueButton/taskable/samples/archive-success.json'
             }
-        }).on('pollSingle', function(){
-            //after the first poll, simulate a prompt completion of the task to trigger the finished even on time
+        }).on('pollSingle', function() {
+
+            //After the first poll, simulate a prompt completion of the task to trigger the finished even on time
             this.setEndpoints({
-                get : '/tao/views/js/test/ui/taskQueueButton/taskable/samples/getOne-completed.json'
+                get: '/tao/views/js/test/ui/taskQueueButton/taskable/samples/getOne-completed.json'
             });
-        }).on('error', function(){
+        }).on('error', function() {
             assert.ok(false, 'should not have any error');
         });
         var taskableConfig = {
-            taskQueue : taskQueue,
-            taskCreationUrl : '/tao/views/js/test/ui/taskQueueButton/taskable/samples/newTaskCreationResult.json',
-            taskCreationData : {some: 'data'}
+            taskQueue: taskQueue,
+            taskCreationUrl: '/tao/views/js/test/ui/taskQueueButton/taskable/samples/newTaskCreationResult.json',
+            taskCreationData: {some: 'data'}
         };
 
-        makeTaskable(componentFactory()).on('init', function(){
+        makeTaskable(componentFactory()).on('init', function() {
             assert.deepEqual(this.config, taskableConfig, 'config correctly set');
-        }).on('error', function(){
+        }).on('error', function() {
             assert.ok(false, 'should not have any error');
-        }).on('finished', function(){
+        }).on('finished', function() {
             assert.ok(true, 'finished !');
-            QUnit.start();
-        }).on('enqueued', function(){
+            ready();
+        }).on('enqueued', function() {
             assert.ok(false, 'should not be enqueued');
         }).init(taskableConfig).createTask();
     });
 
-    QUnit.asyncTest('setTaskConfig', function(assert) {
+    QUnit.test('setTaskConfig', function(assert) {
+        var ready = assert.async();
         var taskQueue = taskQueueModelFactory({
-            url : {
-                all : '/tao/views/js/test/ui/taskQueueButton/taskable/samples/getAll.json',
-                get : '/tao/views/js/test/ui/taskQueueButton/taskable/samples/getOne.json',
-                archive : '/tao/views/js/test/ui/taskQueueButton/taskable/samples/archive-success.json'
+            url: {
+                all: '/tao/views/js/test/ui/taskQueueButton/taskable/samples/getAll.json',
+                get: '/tao/views/js/test/ui/taskQueueButton/taskable/samples/getOne.json',
+                archive: '/tao/views/js/test/ui/taskQueueButton/taskable/samples/archive-success.json'
             }
-        }).on('pollSingle', function(){
-            //after the first poll, simulate a prompt completion of the task to trigger the finished even on time
+        }).on('pollSingle', function() {
+
+            //After the first poll, simulate a prompt completion of the task to trigger the finished even on time
             this.setEndpoints({
-                get : '/tao/views/js/test/ui/taskQueueButton/taskable/samples/getOne-completed.json'
+                get: '/tao/views/js/test/ui/taskQueueButton/taskable/samples/getOne-completed.json'
             });
-        }).on('error', function(){
+        }).on('error', function() {
             assert.ok(false, 'should not have any error');
         });
         var taskableConfig = {
-            taskQueue : taskQueue,
-            taskCreationUrl : '/tao/views/js/test/ui/taskQueueButton/taskable/samples/newTaskCreationResult.json',
-            taskCreationData : {some: 'data'}
+            taskQueue: taskQueue,
+            taskCreationUrl: '/tao/views/js/test/ui/taskQueueButton/taskable/samples/newTaskCreationResult.json',
+            taskCreationData: {some: 'data'}
         };
 
-        makeTaskable(componentFactory()).on('init', function(){
+        makeTaskable(componentFactory()).on('init', function() {
             assert.deepEqual(this.config, {}, 'config is intiially empty');
-        }).on('error', function(){
+        }).on('error', function() {
             assert.ok(false, 'should not have any error');
-        }).on('finished', function(){
+        }).on('finished', function() {
             assert.ok(true, 'finished !');
-            QUnit.start();
-        }).on('enqueued', function(){
+            ready();
+        }).on('enqueued', function() {
             assert.ok(false, 'should not be enqueued');
         }).init().setTaskConfig(taskableConfig).createTask();
     });
 
-    QUnit.asyncTest('taskCreationData as function', function(assert) {
+    QUnit.test('taskCreationData as function', function(assert) {
+        var ready = assert.async();
         var taskQueue = taskQueueModelFactory({
-            url : {
-                all : '/tao/views/js/test/ui/taskQueueButton/taskable/samples/getAll.json',
-                get : '/tao/views/js/test/ui/taskQueueButton/taskable/samples/getOne.json',
-                archive : '/tao/views/js/test/ui/taskQueueButton/taskable/samples/archive-success.json'
+            url: {
+                all: '/tao/views/js/test/ui/taskQueueButton/taskable/samples/getAll.json',
+                get: '/tao/views/js/test/ui/taskQueueButton/taskable/samples/getOne.json',
+                archive: '/tao/views/js/test/ui/taskQueueButton/taskable/samples/archive-success.json'
             }
-        }).on('pollSingle', function(){
-            //after the first poll, simulate a prompt completion of the task to trigger the finished even on time
+        }).on('pollSingle', function() {
+
+            //After the first poll, simulate a prompt completion of the task to trigger the finished even on time
             this.setEndpoints({
-                get : '/tao/views/js/test/ui/taskQueueButton/taskable/samples/getOne-completed.json'
+                get: '/tao/views/js/test/ui/taskQueueButton/taskable/samples/getOne-completed.json'
             });
-        }).on('error', function(){
+        }).on('error', function() {
             assert.ok(false, 'should not have any error');
         });
         var taskableConfig = {
-            taskQueue : taskQueue,
-            taskCreationUrl : '/tao/views/js/test/ui/taskQueueButton/taskable/samples/newTaskCreationResult.json',
-            taskCreationData : function(){
+            taskQueue: taskQueue,
+            taskCreationUrl: '/tao/views/js/test/ui/taskQueueButton/taskable/samples/newTaskCreationResult.json',
+            taskCreationData: function() {
                 return {some: 'data'};
             }
         };
 
-        makeTaskable(componentFactory()).on('init', function(){
+        makeTaskable(componentFactory()).on('init', function() {
             assert.deepEqual(this.config, taskableConfig, 'config is intiially empty');
-        }).on('error', function(){
+        }).on('error', function() {
             assert.ok(false, 'should not have any error');
-        }).on('finished', function(){
+        }).on('finished', function() {
             assert.ok(true, 'finished !');
-            QUnit.start();
-        }).on('enqueued', function(){
+            ready();
+        }).on('enqueued', function() {
             assert.ok(false, 'should not be enqueued');
         }).init(taskableConfig).createTask();
     });
 
     QUnit.module('Error');
 
-    QUnit.asyncTest('missing request url', function(assert) {
-        makeTaskable(componentFactory()).on('error', function(err){
+    QUnit.test('missing request url', function(assert) {
+        var ready = assert.async();
+        makeTaskable(componentFactory()).on('error', function(err) {
             assert.equal('the request url is required to create a task', err, 'error correctly catched');
-            QUnit.start();
+            ready();
         }).init().createTask();
     });
 
-    QUnit.asyncTest('task queue model', function(assert) {
-        makeTaskable(componentFactory()).on('error', function(err){
+    QUnit.test('task queue model', function(assert) {
+        var ready = assert.async();
+        makeTaskable(componentFactory()).on('error', function(err) {
             assert.equal('the taskQueue model is required to create a task', err, 'error correctly catched');
-            QUnit.start();
+            ready();
         }).init({
-            taskCreationUrl : 'someUrl'
+            taskCreationUrl: 'someUrl'
         }).createTask();
     });
 

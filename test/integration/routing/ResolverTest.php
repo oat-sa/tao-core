@@ -39,27 +39,27 @@ class ResolverTest extends GenerisPhpUnitTestRunner {
     {
         $serviceLocator = $this->getServiceManager();
 
-        $fooRequest = new common_http_Request('http://tao.com/foo/FooControllerA/index');
+        $fooRequest = new common_http_Request(ROOT_URL . 'foo/FooControllerA/index');
         $resolver = new Resolver($fooRequest);
         $resolver->setServiceLocator($serviceLocator);
         $this->assertEquals('foo', $resolver->getExtensionId());
 
-        $fooRequest = new common_http_Request('http://tao.com/legacy/LegacyController/index');
+        $fooRequest = new common_http_Request(ROOT_URL . 'legacy/LegacyController/index');
         $resolver = new Resolver($fooRequest);
         $resolver->setServiceLocator($serviceLocator);
         $this->assertEquals('legacy', $resolver->getExtensionId());
     }
-    
+
     public function testGetControllerClass()
     {
         $serviceLocator = $this->getServiceManager();
 
-        $fooRequest = new common_http_Request('http://tao.com/foo/FooControllerA/index');
+        $fooRequest = new common_http_Request(ROOT_URL . 'foo/FooControllerA/index');
         $resolver = new Resolver($fooRequest);
         $resolver->setServiceLocator($serviceLocator);
         $this->assertEquals(FooControllerA::class, $resolver->getControllerClass());
 
-        $fooRequest = new common_http_Request('http://tao.com/legacy/LegacyController/index');
+        $fooRequest = new common_http_Request(ROOT_URL . 'legacy/LegacyController/index');
         $resolver = new Resolver($fooRequest);
         $resolver->setServiceLocator($serviceLocator);
         $this->assertEquals('legacy_actions_LegacyController', $resolver->getControllerClass());
@@ -69,27 +69,27 @@ class ResolverTest extends GenerisPhpUnitTestRunner {
     {
         $serviceLocator = $this->getServiceManager();
 
-        $fooRequest = new common_http_Request('http://tao.com/foo/FooControllerA/index');
+        $fooRequest = new common_http_Request(ROOT_URL . 'foo/FooControllerA/index');
         $resolver = new Resolver($fooRequest);
         $resolver->setServiceLocator($serviceLocator);
         $this->assertEquals('index', $resolver->getMethodName());
 
-        $fooRequest = new common_http_Request('http://tao.com/legacy/LegacyController/index');
+        $fooRequest = new common_http_Request(ROOT_URL . 'legacy/LegacyController/index');
         $resolver = new Resolver($fooRequest);
         $resolver->setServiceLocator($serviceLocator);
         $this->assertEquals('index', $resolver->getMethodName());
     }
-   
+
     public function testGetControllerShortName()
     {
-         $serviceLocator = $this->getServiceManager();
+        $serviceLocator = $this->getServiceManager();
 
-        $fooRequest = new common_http_Request('http://tao.com/foo/FooControllerA/index');
+        $fooRequest = new common_http_Request(ROOT_URL . 'foo/FooControllerA/index');
         $resolver = new Resolver($fooRequest);
         $resolver->setServiceLocator($serviceLocator);
         $this->assertEquals('FooControllerA', $resolver->getControllerShortName());
 
-        $fooRequest = new common_http_Request('http://tao.com/legacy/LegacyController/index');
+        $fooRequest = new common_http_Request(ROOT_URL . 'legacy/LegacyController/index');
         $resolver = new Resolver($fooRequest);
         $resolver->setServiceLocator($serviceLocator);
         $this->assertEquals('LegacyController', $resolver->getControllerShortName());

@@ -21,12 +21,7 @@
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define([
-    'jquery',
-    'lodash',
-    'core/dataProvider/request',
-    'core/promise'
-], function ($, _, request, Promise){
+define(['jquery', 'lodash', 'core/dataProvider/request', 'core/promise'], function($, _, request, Promise) {
     'use strict';
 
     var requestCases;
@@ -70,18 +65,18 @@ define([
     QUnit.module('API');
 
     QUnit.test('module', function (assert){
-        QUnit.expect(1);
+        assert.expect(1);
 
-        assert.equal(typeof request, 'function', "The module exposes a function");
+        assert.equal(typeof request, 'function', 'The module exposes a function');
     });
 
     QUnit.module('request', {
-        setup : function(){
+        beforeEach: function(assert) {
 
             //mock the jquery ajax method
             $.ajax = function(options){
                 return {
-                    done : function(cb){
+                    done: function(cb){
                         var response = responses[options.url];
                         if (response) {
                             if (options.headers) {
@@ -95,7 +90,7 @@ define([
                         }
                         return this;
                     },
-                    fail : function(cb){
+                    fail: function(cb){
                         if (errors[options.url]) {
                             cb.apply(null, errors[options.url]);
                         }
@@ -104,7 +99,7 @@ define([
                 };
             };
         },
-        teardown : function teardown(){
+        afterEach: function teardown(assert) {
             $.ajax = $ajax;
         }
     });
@@ -112,72 +107,73 @@ define([
     requestCases = [{
         title: 'no url',
         reject: true,
-        err : new TypeError('At least give a URL...')
+        err: new TypeError('At least give a URL...')
     }, {
-        title : '200 got content',
-        url : '//200',
-        content: { foo : 'bar' }
+        title: '200 got content',
+        url: '//200',
+        content: {foo: 'bar'}
     }, {
-        title : '200 header',
-        url : '//200',
-        headers: { 'x-foo': 'bar' },
-        content: { foo : 'bar', requestHeaders: { 'x-foo': 'bar' } }
+        title: '200 header',
+        url: '//200',
+        headers: {'x-foo': 'bar'},
+        content: {foo: 'bar', requestHeaders: {'x-foo': 'bar'}}
     }, {
-        title : '204 no content',
-        url : '//204'
+        title: '204 no content',
+        url: '//204'
     }, {
-        title : '500 error',
-        url : '//500',
-        reject : true,
-        err : new Error('500 : Server Error')
+        title: '500 error',
+        url: '//500',
+        reject: true,
+        err: new Error('500 : Server Error')
     }, {
-        title : '200 error 1',
-        url : '//200/error/1',
-        reject : true,
-        err : new Error('1 : oops')
+        title: '200 error 1',
+        url: '//200/error/1',
+        reject: true,
+        err: new Error('1 : oops')
     }, {
-        title : '200 error 2',
-        url : '//200/error/2',
-        reject : true,
-        err : new Error('2 : woops')
+        title: '200 error 2',
+        url: '//200/error/2',
+        reject: true,
+        err: new Error('2 : woops')
     }, {
-        title : '200 error fallback',
-        url : '//200/error/fallback',
-        reject : true,
-        err : new Error('The server has sent an empty response')
+        title: '200 error fallback',
+        url: '//200/error/fallback',
+        reject: true,
+        err: new Error('The server has sent an empty response')
     }];
 
     QUnit
-        .cases(requestCases)
-        .asyncTest('request with ', function(data, assert){
+        .cases.init(requestCases)
+        .test('request with ', function(data, assert){
+            var ready = assert.async();
 
             var result = request(data.url, data.data, data.method, data.headers);
             assert.ok(result instanceof Promise, 'The request function returns a promise');
 
             if(data.reject){
 
-                QUnit.expect(3);
+                assert.expect(3);
 
                 result.then(function(){
                     assert.ok(false, 'Should reject');
-                    QUnit.start();
+                    ready();
                 })
                 .catch(function(err){
                     assert.equal(data.err.name, err.name, 'Reject error is the one expected');
                     assert.equal(data.err.message, err.message, 'Reject error is correct');
-                    QUnit.start();
+                    ready();
                 });
 
             } else {
-                QUnit.expect(2);
+                assert.expect(2);
 
                 result.then(function(content){
                     assert.deepEqual(content, data.content, 'The given reuslt is correct');
-                    QUnit.start();
+                    ready();
                 })
                 .catch(function(){
                     assert.ok(false, 'Should not reject');
-                    QUnit.start();
+                    ready();
                 });
             }
         });

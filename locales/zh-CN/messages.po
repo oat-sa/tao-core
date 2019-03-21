@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint94\n"
-"PO-Revision-Date: 2019-02-01T09:17:48\n"
+"Project-Id-Version: TAO 3.3.0-sprint98\n"
+"PO-Revision-Date: 2019-03-15T09:45:30\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-CN\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " and "
-msgstr "和"
-
 msgid " AND "
 msgstr ""
+
+msgid " and "
+msgstr "和"
 
 msgid " has been deleted successfully"
 msgstr "已成功删除"
@@ -148,7 +148,13 @@ msgstr ""
 msgid "A message with further instructions has been sent to your email address: %s"
 msgstr ""
 
+msgid "abs"
+msgstr ""
+
 msgid "Absolute value"
+msgstr ""
+
+msgid "AC"
 msgstr ""
 
 msgid "Access Denied"
@@ -274,6 +280,9 @@ msgstr ""
 msgid "Arguments %s and %s are mutually exclusive"
 msgstr ""
 
+msgid "Arguments separator"
+msgstr ""
+
 msgid "array"
 msgstr ""
 
@@ -341,17 +350,20 @@ msgstr "浏览文件夹："
 msgid "Browse..."
 msgstr "浏览..."
 
+msgid "C"
+msgstr ""
+
 msgid "Calculator"
 msgstr ""
 
 msgid "Calendar"
 msgstr "日历"
 
-msgid "cancel"
-msgstr ""
-
 msgid "Cancel"
 msgstr "取消"
+
+msgid "cancel"
+msgstr ""
 
 msgid "cancel the action"
 msgstr ""
@@ -368,6 +380,9 @@ msgstr ""
 msgid "Case sensitive"
 msgstr ""
 
+msgid "ceil"
+msgstr ""
+
 #, tao-public
 msgid "Change password"
 msgstr "更改密码"
@@ -378,10 +393,10 @@ msgstr "更改密码"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check All"
+msgid "Check all"
 msgstr "全部勾选"
 
-msgid "Check all"
+msgid "Check All"
 msgstr "全部勾选"
 
 msgid "Check-in"
@@ -426,10 +441,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
 msgid "Clear selection"
@@ -487,6 +502,12 @@ msgid "Copy to"
 msgstr ""
 
 msgid "Copy to clipboard"
+msgstr ""
+
+msgid "cos"
+msgstr ""
+
+msgid "cosh"
 msgstr ""
 
 msgid "Cosine"
@@ -715,6 +736,9 @@ msgstr ""
 msgid "Executing task %s failed"
 msgstr ""
 
+msgid "exp"
+msgstr ""
+
 msgid "Exponent"
 msgstr ""
 
@@ -808,6 +832,9 @@ msgid "First row column names"
 msgstr "第一列栏位名称"
 
 msgid "Fit to width"
+msgstr ""
+
+msgid "floor"
 msgstr ""
 
 msgid "Force Release"
@@ -915,10 +942,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -928,6 +955,9 @@ msgid "Index has been deleted for %s"
 msgstr ""
 
 msgid "Indexing has been run"
+msgstr ""
+
+msgid "Infinity"
 msgstr ""
 
 msgid "Injector has to contains a valid \"destination\" field."
@@ -1011,6 +1041,9 @@ msgstr "无效的正规表示式"
 msgid "Invalid values:"
 msgstr ""
 
+msgid "items per page"
+msgstr ""
+
 msgid "Label"
 msgstr "标签"
 
@@ -1047,6 +1080,9 @@ msgstr "清单-单项选择-下拉"
 msgid "List - Single choice - Radio button"
 msgstr "清单-单项选择-按钮"
 
+msgid "ln"
+msgstr ""
+
 msgid "Load more"
 msgstr ""
 
@@ -1066,6 +1102,9 @@ msgid "Loading task status ..."
 msgstr ""
 
 msgid "locked by %s"
+msgstr ""
+
+msgid "log"
 msgstr ""
 
 msgid "Log in"
@@ -1145,6 +1184,9 @@ msgstr ""
 msgid "Missing Parameters"
 msgstr ""
 
+msgid "modulo"
+msgstr ""
+
 msgid "More"
 msgstr "更多"
 
@@ -1175,6 +1217,9 @@ msgstr "当您移动这个元素时，您将会用目标类的属性取代之前
 
 msgid "Multiple values delimiter"
 msgstr "多个值分隔符"
+
+msgid "Multiply the value by 10^x"
+msgstr ""
 
 msgid "must be numeric"
 msgstr "必须是数字"
@@ -1293,10 +1338,10 @@ msgstr "的"
 msgid "Off"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr ""
 
-msgid "Ok"
+msgid "OK"
 msgstr ""
 
 msgid "Old Password"
@@ -1450,6 +1495,9 @@ msgstr ""
 msgid "Radian"
 msgstr ""
 
+msgid "random"
+msgstr ""
+
 msgid "Random value"
 msgstr ""
 
@@ -1589,6 +1637,9 @@ msgstr "角色"
 msgid "Roles library"
 msgstr "角色书库"
 
+msgid "round"
+msgstr ""
+
 msgid "Round to closest whole number"
 msgstr ""
 
@@ -1631,10 +1682,10 @@ msgstr ""
 msgid "seconds"
 msgstr "秒"
 
-msgid "select"
+msgid "Select"
 msgstr "选择"
 
-msgid "Select"
+msgid "select"
 msgstr "选择"
 
 msgid "Select a class"
@@ -1689,7 +1740,13 @@ msgstr ""
 msgid "Simple Mode"
 msgstr "简单模式"
 
+msgid "sin"
+msgstr ""
+
 msgid "Sine"
+msgstr ""
+
+msgid "sinh"
 msgstr ""
 
 msgid "Size"
@@ -1743,7 +1800,16 @@ msgstr ""
 msgid "Supported export formats"
 msgstr "支援的导出格式"
 
+msgid "Syntax error"
+msgstr ""
+
+msgid "tan"
+msgstr ""
+
 msgid "Tangent"
+msgstr ""
+
+msgid "tanh"
 msgstr ""
 
 msgid "Tao Default Theme"
@@ -1926,6 +1992,9 @@ msgstr ""
 msgid "True"
 msgstr "真"
 
+msgid "trunc"
+msgstr ""
+
 msgid "Type"
 msgstr "类型"
 
@@ -1978,6 +2047,9 @@ msgid "Unable to upload file"
 msgstr "无法上传文件"
 
 msgid "Unable to upload file %s : %s"
+msgstr ""
+
+msgid "Unary operator +"
 msgstr ""
 
 msgid "Unary operator -"
@@ -2083,6 +2155,21 @@ msgstr ""
 #, tao-public
 msgid "Users"
 msgstr "用户"
+
+msgid "Validation for field '%s' has failed. Language does not exists in the system"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. List of values expected"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Valid role expected. Given: %s"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Valid URI expected"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Valid URI expected. Given: %s"
+msgstr ""
 
 msgid "Value of E"
 msgstr ""

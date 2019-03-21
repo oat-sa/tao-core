@@ -18,56 +18,48 @@
 /**
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
  */
-define([
-    'jquery',
-    'lodash',
-    'ui/container'
-], function($, _, container) {
+define(['jquery', 'lodash', 'ui/container'], function($, _, container) {
     'use strict';
 
     var containerApi = [
-        { title : 'init' },
-        { title : 'destroy' },
-        { title : 'hasScope' },
-        { title : 'changeScope' },
-        { title : 'find' },
-        { title : 'write' },
-        { title : 'getData' },
-        { title : 'setData' },
-        { title : 'hasValue' },
-        { title : 'getValue' },
-        { title : 'setValue' },
-        { title : 'getElement' },
-        { title : 'getSelector' }
+        {title: 'init'},
+        {title: 'destroy'},
+        {title: 'hasScope'},
+        {title: 'changeScope'},
+        {title: 'find'},
+        {title: 'write'},
+        {title: 'getData'},
+        {title: 'setData'},
+        {title: 'hasValue'},
+        {title: 'getValue'},
+        {title: 'setValue'},
+        {title: 'getElement'},
+        {title: 'getSelector'}
     ];
-
 
     QUnit.module('container');
 
-
     QUnit.test('module', function(assert) {
-        QUnit.expect(3);
-        assert.equal(typeof container, 'function', "The container module exposes a function");
-        assert.equal(typeof container(), 'object', "The container factory produces an object");
-        assert.notStrictEqual(container(), container(), "The container factory provides a different object on each call");
+        assert.expect(3);
+        assert.equal(typeof container, 'function', 'The container module exposes a function');
+        assert.equal(typeof container(), 'object', 'The container factory produces an object');
+        assert.notStrictEqual(container(), container(), 'The container factory provides a different object on each call');
     });
 
-
     QUnit
-        .cases(containerApi)
+        .cases.init(containerApi)
         .test('instance API ', function(data, assert) {
             var instance = container();
-            QUnit.expect(1);
+            assert.expect(1);
             assert.equal(typeof instance[data.title], 'function', 'The container instance exposes a "' + data.title + '" function');
             instance.destroy();
         });
-
 
     QUnit.test('init', function(assert) {
 
         var instance = container();
 
-        QUnit.expect(9);
+        assert.expect(9);
 
         assert.equal(typeof instance.getElement(), 'object', 'A container object exists');
         assert.equal(instance.getElement().length, 1, 'A container has been caught');
@@ -79,11 +71,11 @@ define([
 
         assert.throws(function() {
             instance.init();
-        }, "The instance should throw an error if no selector is provided");
+        }, 'The instance should throw an error if no selector is provided');
 
         assert.throws(function() {
             instance.init(10);
-        }, "The instance should throw an error if an invalid selector is provided");
+        }, 'The instance should throw an error if an invalid selector is provided');
 
         assert.equal(instance.init('.foo'), instance, 'init() returns the instance');
         assert.equal(instance.getSelector(), '.foo', 'The container selector has been set');
@@ -91,12 +83,11 @@ define([
         instance.destroy();
     });
 
-
     QUnit.test('scope', function(assert) {
 
         var instance = container();
 
-        QUnit.expect(8);
+        assert.expect(8);
 
         assert.equal(typeof instance.getElement(), 'object', 'A container object exists');
         assert.equal(instance.getElement().length, 1, 'A container has been caught');
@@ -113,12 +104,11 @@ define([
         instance.destroy();
     });
 
-
     QUnit.test('find', function(assert) {
 
         var instance = container();
 
-        QUnit.expect(5);
+        assert.expect(5);
 
         assert.equal(typeof instance.getElement(), 'object', 'A container object exists');
         assert.equal(instance.getElement().length, 1, 'A container has been caught');
@@ -130,12 +120,11 @@ define([
         instance.destroy();
     });
 
-
     QUnit.test('write', function(assert) {
 
         var instance = container('.paper');
 
-        QUnit.expect(6);
+        assert.expect(6);
 
         assert.equal(typeof instance.getElement(), 'object', 'A container object exists');
         assert.equal(instance.getElement().length, 1, 'A container has been caught');
@@ -149,34 +138,33 @@ define([
         instance.destroy();
     });
 
-
     QUnit.test('data', function(assert) {
 
         var instance = container('.data');
 
-        QUnit.expect(14);
+        assert.expect(14);
 
         assert.equal(typeof instance.getElement(), 'object', 'A container object exists');
         assert.equal(instance.getElement().length, 1, 'A container has been caught');
 
-        assert.deepEqual(instance.getValue('list'), [1, 2, 3], "The 'list' value has been read");
-        assert.deepEqual(instance.getValue('record'), {foo: "bar"}, "The 'record' value has been read");
+        assert.deepEqual(instance.getValue('list'), [1, 2, 3], 'The "list" value has been read');
+        assert.deepEqual(instance.getValue('record'), {foo: 'bar'}, 'The "record" value has been read');
 
-        assert.equal(instance.setValue('list', ["foo"]), instance, 'The method setValue returns the instance');
-        assert.deepEqual(instance.getValue('list'), ["foo"], "The 'list' value has been changed");
+        assert.equal(instance.setValue('list', ['foo']), instance, 'The method setValue returns the instance');
+        assert.deepEqual(instance.getValue('list'), ['foo'], 'The "list" value has been changed');
 
-        assert.deepEqual(instance.getData(), {list: ["foo"], record: {foo: "bar"}}, "The values has been read");
-        assert.equal(instance.setData({foo: "bar"}), instance, 'The method setData returns the instance');
-        assert.deepEqual(instance.getData(), {foo: "bar"}, "The values has been changed");
+        assert.deepEqual(instance.getData(), {list: ['foo'], record: {foo: 'bar'}}, 'The values has been read');
+        assert.equal(instance.setData({foo: 'bar'}), instance, 'The method setData returns the instance');
+        assert.deepEqual(instance.getData(), {foo: 'bar'}, 'The values has been changed');
 
-        assert.equal(instance.hasValue('foo'), true, "The container has the value 'foo'");
-        assert.equal(instance.hasValue('bar'), false, "The container does not have the value 'bar");
+        assert.equal(instance.hasValue('foo'), true, 'The container has the value "foo"');
+        assert.equal(instance.hasValue('bar'), false, 'The container does not have the value "bar"');
 
         instance.setValue('empty', 0);
-        assert.equal(instance.hasValue('empty'), true, "The container has the value 'empty'");
+        assert.equal(instance.hasValue('empty'), true, 'The container has the value "empty"');
 
         assert.equal(instance.removeData(), instance, 'The method removeData returns the instance');
-        assert.deepEqual(instance.getData(), {}, "The values has been removed");
+        assert.deepEqual(instance.getData(), {}, 'The values has been removed');
 
         instance.destroy();
     });

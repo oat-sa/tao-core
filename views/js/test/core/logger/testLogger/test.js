@@ -18,16 +18,13 @@
 /**
  * @author Christophe Noël <christophe@taotesting.com>
  */
-define([
-    'lodash',
-    'tao/test/core/logger/testLogger'
-], function (_, testLogger) {
+define(['lodash', 'tao/test/core/logger/testLogger'], function(_, testLogger) {
     'use strict';
 
     QUnit.module('API');
 
-    QUnit.test('module', function (assert) {
-        QUnit.expect(1);
+    QUnit.test('module', function(assert) {
+        assert.expect(1);
 
         assert.ok(typeof testLogger === 'object', 'The module expose an object');
     });
@@ -35,15 +32,15 @@ define([
     QUnit.module('TestLogger');
 
     QUnit.test('can log and retrieve messages', function(assert) {
-        var trace = { level: 'trace', msg: 'trace'},
-            debug = { level: 'debug', msg: 'debug'},
-            info  = { level: 'info',  msg: 'info'},
-            warn  = { level: 'warn',  msg: 'warn'},
-            error = { level: 'error', msg: 'error'},
-            fatal = { level: 'fatal', msg: 'fatal'},
+        var trace = {level: 'trace', msg: 'trace'},
+            debug = {level: 'debug', msg: 'debug'},
+            info = {level: 'info', msg: 'info'},
+            warn = {level: 'warn', msg: 'warn'},
+            error = {level: 'error', msg: 'error'},
+            fatal = {level: 'fatal', msg: 'fatal'},
             messages;
 
-        QUnit.expect(24);
+        assert.expect(24);
 
         testLogger.log(trace);
         testLogger.log(debug);
@@ -83,8 +80,8 @@ define([
 
         assert.equal(messages.trace.length, 0, 'trace records have been reseted');
         assert.equal(messages.debug.length, 0, 'debug records have been reseted');
-        assert.equal(messages.info.length, 0,  'info records have been reseted');
-        assert.equal(messages.warn.length, 0,  'warn records have been reseted');
+        assert.equal(messages.info.length, 0, 'info records have been reseted');
+        assert.equal(messages.warn.length, 0, 'warn records have been reseted');
         assert.equal(messages.error.length, 0, 'error records have been reseted');
         assert.equal(messages.fatal.length, 0, 'fatal records have been reseted');
     });
