@@ -428,8 +428,21 @@ class tao_helpers_Http
 
             $response = $response
                 ->withHeader('Accept-Ranges', 'bytes')
-                ->withHeader('Content-Length', $contentLength)
-                ->withBody($stream);
+                ->withHeader('Content-Length', $contentLength);
+
+            if (empty($ranges)) {
+                $response->withBody($stream);
+            } else {
+                foreach ($ranges as $range) {
+                    $pos = $range->getFirstPos();
+                    $stream->seek($pos);
+                    while ($pos <= $range->getLastPos()) {
+                        $length = min((($range->getLastPos() - $pos) + 1), self::BYTES_BY_CYCLE);
+                        echo $stream->read($length);
+                        $pos += $length;
+                    }
+                }
+            }
 
         } catch (StreamRangeException $e) {
             $response = $response->withStatus(416, 'Requested Range Not Satisfiable');

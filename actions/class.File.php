@@ -123,8 +123,9 @@ class tao_actions_File extends tao_actions_CommonModule
      */
     public function accessFile()
     {
-        list($extension, $module, $action, $code, $filePath) = explode('/', tao_helpers_Request::getRelativeUrl(), 5);;
+        list($extension, $module, $action, $code, $filePath) = explode('/', tao_helpers_Request::getRelativeUrl(), 5);
         list($key, $subPath) = explode(' ', base64_decode($code), 2);
+
 
         $source = WebsourceManager::singleton()->getWebsource($key);
         if ($source instanceof ActionWebSource) {
@@ -134,7 +135,6 @@ class tao_actions_File extends tao_actions_CommonModule
                 $source->getMimetype($path),
                 $this->getPsrRequest(),
                 $this->getPsrResponse()
-
             );
             return $response;
         }
