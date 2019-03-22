@@ -26,6 +26,7 @@ use oat\tao\model\routing\ApiRoute;
 use oat\tao\model\routing\LegacyRoute;
 use oat\tao\scripts\install\AddLogFs;
 use oat\tao\scripts\install\AddTmpFsHandlers;
+use oat\tao\scripts\install\RegisterSettingsPersistence;
 use oat\tao\scripts\install\RegisterSignatureGenerator;
 use oat\tao\scripts\install\RegisterTaskQueueServices;
 use oat\tao\scripts\install\RegisterUserLockoutsEventListeners;
@@ -50,7 +51,7 @@ return array(
     'label' => 'TAO Base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '30.0.5',
+    'version' => '30.1.0',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
         'generis' => '>=9.0.0',
@@ -118,7 +119,8 @@ return array(
             RegisterUserLockoutsEventListeners::class,
             RegisterTaskQueueServices::class,
             SetUpQueueTasks::class,
-            RegisterSignatureGenerator::class
+            RegisterSignatureGenerator::class,
+            RegisterSettingsPersistence::class
         )
     ),
     'update' => 'oat\\tao\\scripts\\update\\Updater',
@@ -170,7 +172,8 @@ return array(
         array('grant', TaoRoles::TAO_MANAGER,          array('ext'=>'tao','mod' => 'TaskQueue')),
         array('grant', TaoRoles::TAO_MANAGER,          array('ext'=>'tao','mod' => 'Users')),
         array('grant', TaoRoles::TAO_MANAGER,          array('ext'=>'tao','mod' => 'WebService')),
-        array('grant', TaoRoles::REST_PUBLISHER,       array('ext'=>'tao', 'mod' => 'TaskQueue', 'act' => 'get')),
+        array('grant', TaoRoles::TAO_MANAGER,          array('ext'=>'tao','mod' => 'Security')),
+        array('grant', TaoRoles::REST_PUBLISHER,       array('ext'=>'tao','mod' => 'TaskQueue', 'act' => 'get')),
         array('grant', TaoRoles::SYSTEM_ADMINISTRATOR, array('ext'=>'tao','mod' => 'ExtensionsManager')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#LockManagerRole',     'tao_actions_Lock@forceRelease'),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#PropertyManagerRole', 'tao_actions_PropertiesAuthoring'),
