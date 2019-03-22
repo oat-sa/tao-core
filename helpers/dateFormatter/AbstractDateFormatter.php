@@ -33,7 +33,7 @@ use tao_helpers_Date as DateHelper;
  */
 class AbstractDateFormatter extends Configurable implements DateFormatterInterface
 {
-    const DATETIME_FORMATS = [];
+    protected $datetimeFormats = [];
 
     /**
      * {@inheritdoc}
@@ -55,8 +55,8 @@ class AbstractDateFormatter extends Configurable implements DateFormatterInterfa
      */
     public function getFormat($format)
     {
-        if (! isset(static::DATETIME_FORMATS[$format])) {
-            if (! isset(static::DATETIME_FORMATS[DateHelper::FORMAT_FALLBACK])) {
+        if (! isset($this->datetimeFormats[$format])) {
+            if (! isset($this->datetimeFormats[DateHelper::FORMAT_FALLBACK])) {
                 Logger::w('Unknown date format ' . $format . ' for ' . __FUNCTION__, 'TAO');
                 return '';
             }
@@ -64,7 +64,7 @@ class AbstractDateFormatter extends Configurable implements DateFormatterInterfa
             $format = DateHelper::FORMAT_FALLBACK;
         }
 
-        return static::DATETIME_FORMATS[$format];
+        return $this->datetimeFormats[$format];
     }
 
     /**

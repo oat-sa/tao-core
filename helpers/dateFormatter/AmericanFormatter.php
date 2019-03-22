@@ -28,7 +28,7 @@ use tao_helpers_Date as DateHelper;
  */
 class AmericanFormatter extends AbstractDateFormatter
 {
-    const DATETIME_FORMATS = [
+    protected $datetimeFormats = [
         DateHelper::FORMAT_FALLBACK => 'Y/m/d H:i:s',
 
         DateHelper::FORMAT_LONG => 'm/d/Y H:i:s',
