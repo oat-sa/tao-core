@@ -32,6 +32,7 @@ use oat\generis\model\kernel\persistence\file\FileIterator;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\controller\api\Users;
+use oat\tao\helpers\dateFormatter\EuropeanFormatter;
 use oat\tao\model\cliArgument\argument\implementation\Group;
 use oat\tao\model\cliArgument\argument\implementation\verbose\Debug;
 use oat\tao\model\cliArgument\argument\implementation\verbose\Error;
@@ -971,5 +972,22 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('30.0.2', '30.0.5');
+
+        if ($this->isVersion('30.0.5')) {
+            $dateTimeFormatter = new EuropeanFormatter();
+
+            $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+            $ext->setConfig(\tao_helpers_Date::CONFIG_KEY, $dateTimeFormatter);
+
+            ClientLibConfigRegistry::getRegistry()->register(
+                'util/locale', [
+                    'decimalSeparator' => '.',
+                    'thousandsSeparator' => '',
+                    'dateTimeFormat' => $dateTimeFormatter->getJavascriptFormat(\tao_helpers_Date::FORMAT_LONG),
+                ]
+            );
+
+            $this->setVersion('30.1.0');
+        }
     }
 }
