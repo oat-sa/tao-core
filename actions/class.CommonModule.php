@@ -223,7 +223,7 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
     /**
      * Return json response.
      *
-     * @param array $data
+     * @param array|\JsonSerializable $data
      * @param int $httpStatus
      */
     protected function returnJson($data, $httpStatus = 200)
