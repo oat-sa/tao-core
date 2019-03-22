@@ -21,6 +21,8 @@
 namespace oat\tao\model\security;
 
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\service\SettingsStorage;
+use oat\tao\model\settings\CspHeaderSettingsInterface;
 
 /**
  * Service that can be used to protect actions.
@@ -39,9 +41,20 @@ class ActionProtector extends ConfigurableService
      */
     public function setFrameAncestorsHeader()
     {
-        $whitelistedSources = $this->getOption('frameSourceWhitelist');
-        if (empty($whitelistedSources)) {
+        /** @var SettingsStorage $settingsStorage */
+        $settingsStorage = $this->getServiceLocator()->get(SettingsStorage::SERVICE_ID);
+        $whitelistedSources = $settingsStorage->get(CspHeaderSettingsInterface::CSP_HEADER_SETTING);
+
+        if ($whitelistedSources === null) {
             $whitelistedSources = ["'none'"];
+        }
+
+        if ($whitelistedSources === 'list') {
+            $whitelistedSources = json_decode($settingsStorage->get(CspHeaderSettingsInterface::CSP_HEADER_LIST), true);
+        }
+
+        if (!is_array($whitelistedSources)) {
+            $whitelistedSources = [$whitelistedSources];
         }
 
         header(sprintf(
