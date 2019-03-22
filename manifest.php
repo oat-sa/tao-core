@@ -42,6 +42,7 @@ use oat\tao\scripts\install\RegisterResourceEvents;
 use oat\tao\scripts\install\RegisterActionService;
 use oat\tao\model\user\TaoRoles;
 use oat\tao\scripts\install\SetUpQueueTasks;
+use oat\tao\scripts\install\SetLocaleNumbersConfig;
 
 $extpath = dirname(__FILE__) . DIRECTORY_SEPARATOR;
 
@@ -103,7 +104,7 @@ return array(
             SetServiceState::class,
             dirname(__FILE__).'/scripts/install/setJsConfig.php',
             dirname(__FILE__).'/scripts/install/registerEntryPoint.php',
-            dirname(__FILE__).'/scripts/install/setLocaleNumbersConfig.php',
+            SetLocaleNumbersConfig::class,
             AddLogFs::class,
             AddTmpFsHandlers::class,
             RegisterValidationRules::class,
