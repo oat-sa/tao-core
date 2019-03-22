@@ -4,16 +4,16 @@ define(['lodash', 'jquery', 'ui/formValidator/highlighters/highlighter'], functi
     var highlighter,
         message;
 
-    QUnit.module("Message highlighter", {
-        setup: function() {
+    QUnit.module('Message highlighter', {
+        beforeEach: function(assert) {
             highlighter = new Highlighter({
-                type : 'message',
-                errorClass : 'testErrorClass',
-                errorMessageClass : 'testErrorMessageClass'
+                type: 'message',
+                errorClass: 'testErrorClass',
+                errorMessageClass: 'testErrorMessageClass'
             });
             message = 'highlight (message)';
         },
-        teardown: function() {
+        afterEach: function(assert) {
             highlighter.destroy($('#field_1'));
         }
     });
@@ -33,22 +33,21 @@ define(['lodash', 'jquery', 'ui/formValidator/highlighters/highlighter'], functi
         assert.ok(!$('#field_1').hasClass('testErrorClass'), 'Field has no error class');
     });
 
-
-    QUnit.module("Tooltip highlighter", {
-        setup: function() {
+    QUnit.module('Tooltip highlighter', {
+        beforeEach: function(assert) {
             highlighter = new Highlighter({
-                type : 'tooltip',
-                errorClass : 'testErrorClass',
-                tooltip : {
-                    delay:{
-                        show:0,
-                        hide:0
+                type: 'tooltip',
+                errorClass: 'testErrorClass',
+                tooltip: {
+                    delay: {
+                        show: 0,
+                        hide: 0
                     }
                 }
             });
             message = 'highlight (tooltip)';
         },
-        teardown: function() {
+        afterEach: function(assert) {
             highlighter.destroy($('#field_1'));
         }
     });

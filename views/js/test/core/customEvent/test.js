@@ -18,23 +18,19 @@
 /**
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
-define([
-    'jquery',
-    'core/customEvent'
-], function($, customEvent){
+define(['jquery', 'core/customEvent'], function($, customEvent) {
     'use strict';
 
     QUnit.module('API');
 
-    QUnit.test('customEvent api', function(assert){
-        assert.ok(typeof customEvent === 'function', "The customEvent module exposes a function");
+    QUnit.test('customEvent api', function(assert) {
+        assert.ok(typeof customEvent === 'function', 'The customEvent module exposes a function');
     });
-
 
     QUnit.module('Events');
 
-
-    QUnit.asyncTest('jQuery', function(assert) {
+    QUnit.test('jQuery', function(assert) {
+        var ready = assert.async();
         var element = $('#elem1');
         var eventName = 'custom';
         var data = 'hello';
@@ -44,14 +40,14 @@ define([
             assert.equal(event.type, eventName, 'The event has the right name');
             assert.equal(event.originalEvent.detail, data, 'The event has provided the right data');
 
-            QUnit.start();
+            ready();
         });
 
         customEvent(element.get(0), eventName, data);
     });
 
-
-    QUnit.asyncTest('native', function(assert) {
+    QUnit.test('native', function(assert) {
+        var ready = assert.async();
         var element = document.getElementById('elem2');
         var eventName = 'custom';
         var data = 'hello';
@@ -61,7 +57,7 @@ define([
             assert.equal(event.type, eventName, 'The event has the right name');
             assert.equal(event.detail, data, 'The event has provided the right data');
 
-            QUnit.start();
+            ready();
         });
 
         customEvent(element, eventName, data);

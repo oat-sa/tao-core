@@ -23,6 +23,7 @@ define([
     'i18n',
     'ui/maths/calculator/defaultCalculator',
     'ui/maths/calculator/plugins/modifiers/sign',
+    'ui/maths/calculator/plugins/modifiers/pow10',
     'tpl!ui/maths/calculator/tpl/scientificKeyboard',
     'tpl!ui/maths/calculator/tpl/scientificScreen'
 ], function (
@@ -30,6 +31,7 @@ define([
     __,
     defaultCalculatorFactory,
     pluginSign,
+    pluginPow10,
     keyboardTpl,
     screenTpl
 ) {
@@ -62,7 +64,8 @@ define([
         return defaultCalculatorFactory(_.merge({
             loadedPlugins: {
                 modifiers: [
-                    pluginSign
+                    pluginSign,
+                    pluginPow10
                 ]
             },
             calculator: {

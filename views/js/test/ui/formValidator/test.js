@@ -1,68 +1,68 @@
 define(['lodash', 'jquery', 'ui/formValidator/formValidator'], function(_, $, formValidator) {
     'use strict';
 
-    //#field_1 - data-validate="$numeric"
-    //#field_2 - data-validate="$notEmpty"
-    //#field_3 - data-validate="$pattern(pattern=\w{3}\s\w{3}\sbaz, modifier=i)"
-    //#field_5 - data-validate="$length(min=4, max=10)"
+    //#field_1 - data-validate='$numeric'
+    //#field_2 - data-validate='$notEmpty'
+    //#field_3 - data-validate='$pattern(pattern=\w{3}\s\w{3}\sbaz, modifier=i)'
+    //#field_5 - data-validate='$length(min=4, max=10)'
     //#field_6 - should be ignored
-    //#field_7 - data-validate="$length(min=4, max=10, message='length should be from 4 to 10'); $numeric(message='must be numeric')"
+    //#field_7 - data-validate='$length(min=4, max=10, message='length should be from 4 to 10'); $numeric(message='must be numeric')'
 
     var casesValid = [{
-            '#field_1' : '1',
-            '#field_2' : 'str',
-            '#field_3' : 'foo bar BAZ',
-            '#field_5' : 'qwert',
-            '#field_7' : '12345'
+            '#field_1': '1',
+            '#field_2': 'str',
+            '#field_3': 'foo bar BAZ',
+            '#field_5': 'qwert',
+            '#field_7': '12345'
         }],
         casesInvalid = [{
-            '#field_1' : 'a',
-            '#field_2' : '',
-            '#field_3' : 'invalid',
-            '#field_5' : 'a',
-            '#field_7' : 'b'
+            '#field_1': 'a',
+            '#field_2': '',
+            '#field_3': 'invalid',
+            '#field_5': 'a',
+            '#field_7': 'b'
         }],
         fieldSelector = '[data-validate]:not(.ignore)',
         validator;
 
-    QUnit.module("Form Validator", {
-        setup: function() {
+    QUnit.module('Form Validator', {
+        beforeEach: function(assert) {
             validator = formValidator({
-                container : $('#form_1'),
-                event : 'change',
-                selector : fieldSelector
+                container: $('#form_1'),
+                event: 'change',
+                selector: fieldSelector
             });
         },
-        teardown: function() {
+        afterEach: function(assert) {
             validator.destroy();
         }
     });
 
-    QUnit.cases(casesValid)
+    QUnit.cases.init(casesValid)
         .test('validate valid form', function(data, assert) {
-            QUnit.expect(1);
+            assert.expect(1);
 
-            _.forEach(data, function (value, selector) {
+            _.forEach(data, function(value, selector) {
                 $(selector).val(value);
             });
 
             assert.ok(validator.validate(), 'Form is valid');
         });
 
-    QUnit.cases(casesInvalid)
+    QUnit.cases.init(casesInvalid)
         .test('validate valid form', function(data, assert) {
-            QUnit.expect(1);
+            assert.expect(1);
 
-            _.forEach(data, function (value, selector) {
+            _.forEach(data, function(value, selector) {
                 $(selector).val(value);
             });
 
             assert.ok(!validator.validate(), 'Form is mot valid');
         });
 
-    QUnit.cases(casesInvalid)
+    QUnit.cases.init(casesInvalid)
         .test('Highlight fields', function(data, assert) {
-            _.forEach(data, function (value, selector) {
+            _.forEach(data, function(value, selector) {
                 $(selector).val(value);
             });
 
@@ -71,9 +71,9 @@ define(['lodash', 'jquery', 'ui/formValidator/formValidator'], function(_, $, fo
             assert.equal($('#form_1').find('.validate-error').length, $(fieldSelector).length, 'Error messages rendered');
         });
 
-    QUnit.cases(casesValid)
+    QUnit.cases.init(casesValid)
         .test('Unhighlight fields', function(data, assert) {
-            _.forEach(data, function (value, selector) {
+            _.forEach(data, function(value, selector) {
                 $(selector).val(value);
             });
 
@@ -85,9 +85,9 @@ define(['lodash', 'jquery', 'ui/formValidator/formValidator'], function(_, $, fo
             assert.equal($('#form_1').find('.validate-error').length, 0, 'Error messages removed');
         });
 
-    QUnit.cases(casesInvalid)
+    QUnit.cases.init(casesInvalid)
         .test('getState invalid', function(data, assert) {
-            _.forEach(data, function (value, selector) {
+            _.forEach(data, function(value, selector) {
                 $(selector).val(value);
             });
 
@@ -99,9 +99,9 @@ define(['lodash', 'jquery', 'ui/formValidator/formValidator'], function(_, $, fo
             assert.ok(!!validator.getState().errors[0].validator, 'Validator name is represented in the report');
         });
 
-    QUnit.cases(casesValid)
+    QUnit.cases.init(casesValid)
         .test('getState valid', function(data, assert) {
-            _.forEach(data, function (value, selector) {
+            _.forEach(data, function(value, selector) {
                 $(selector).val(value);
             });
 

@@ -20,12 +20,12 @@
 namespace oat\tao\test\integration\user\import;
 
 use core_kernel_classes_Resource;
-use oat\generis\test\GenerisPhpUnitTestRunner;
+use oat\generis\test\TestCase;
 use oat\tao\model\user\import\RdsUserImportService;
 use oat\tao\model\user\import\UserMapperInterface;
 use Psr\Log\NullLogger;
 
-class RdsUserImportServiceTest extends GenerisPhpUnitTestRunner
+class RdsUserImportServiceTest extends TestCase
 {
     /**
      * @dataProvider provideMapperProperties

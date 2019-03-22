@@ -20,6 +20,7 @@
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
 define([
+
     'jquery',
     'lodash',
     'ui/datalist',
@@ -28,10 +29,10 @@ define([
 ], function($, _, datalist) {
     'use strict';
 
-    // toggle the sample display
+    // Toggle the sample display
     var showSample = false;
 
-    // display a sample of the component
+    // Display a sample of the component
     if (showSample) {
         datalist({
             renderTo: $('body'),
@@ -40,14 +41,14 @@ define([
                 id: 'always',
                 label: 'Always displayed',
                 action: function() {
-                    console.log('tool', arguments)
+                    console.log('tool', arguments);
                 }
             }, {
                 id: 'selection',
                 label: 'On selection',
                 massAction: true,
                 action: function() {
-                    console.log('tool', arguments)
+                    console.log('tool', arguments);
                 }
             }],
             actions: [{
@@ -57,7 +58,7 @@ define([
                     return this.id === '2';
                 },
                 action: function() {
-                    console.log('action', arguments)
+                    console.log('action', arguments);
                 }
             }]
         }, [{
@@ -74,61 +75,57 @@ define([
         });
     }
 
-
     QUnit.module('datalist');
 
-
-    QUnit.test('module', 3, function(assert) {
-        assert.equal(typeof datalist, 'function', "The datalist module exposes a function");
-        assert.equal(typeof datalist(), 'object', "The datalist factory produces an object");
-        assert.notStrictEqual(datalist(), datalist(), "The datalist factory provides a different object on each call");
+    QUnit.test('module', function(assert) {
+        assert.equal(typeof datalist, 'function', 'The datalist module exposes a function');
+        assert.equal(typeof datalist(), 'object', 'The datalist factory produces an object');
+        assert.notStrictEqual(datalist(), datalist(), 'The datalist factory provides a different object on each call');
     });
 
-
     var datalistApi = [
-        { name : 'init', title : 'init' },
-        { name : 'destroy', title : 'destroy' },
-        { name : 'render', title : 'render' },
-        { name : 'update', title : 'update' },
-        { name : 'show', title : 'show' },
-        { name : 'hide', title : 'hide' },
-        { name : 'enable', title : 'enable' },
-        { name : 'disable', title : 'disable' },
-        { name : 'is', title : 'is' },
-        { name : 'setState', title : 'setState' },
-        { name : 'setLoading', title : 'setLoading' },
-        { name : 'getSelection', title : 'getSelection' },
-        { name : 'setSelection', title : 'setSelection' },
-        { name : 'setTitle', title : 'setTitle' },
-        { name : 'setTextNumber', title : 'setTextNumber' },
-        { name : 'setTextEmpty', title : 'setTextEmpty' },
-        { name : 'setTextLoading', title : 'setTextLoading' },
-        { name : 'getContainer', title : 'getContainer' },
-        { name : 'getElement', title : 'getElement' },
-        { name : 'getTemplate', title : 'getTemplate' },
-        { name : 'setTemplate', title : 'setTemplate' }
+        {name: 'init', title: 'init'},
+        {name: 'destroy', title: 'destroy'},
+        {name: 'render', title: 'render'},
+        {name: 'update', title: 'update'},
+        {name: 'show', title: 'show'},
+        {name: 'hide', title: 'hide'},
+        {name: 'enable', title: 'enable'},
+        {name: 'disable', title: 'disable'},
+        {name: 'is', title: 'is'},
+        {name: 'setState', title: 'setState'},
+        {name: 'setLoading', title: 'setLoading'},
+        {name: 'getSelection', title: 'getSelection'},
+        {name: 'setSelection', title: 'setSelection'},
+        {name: 'setTitle', title: 'setTitle'},
+        {name: 'setTextNumber', title: 'setTextNumber'},
+        {name: 'setTextEmpty', title: 'setTextEmpty'},
+        {name: 'setTextLoading', title: 'setTextLoading'},
+        {name: 'getContainer', title: 'getContainer'},
+        {name: 'getElement', title: 'getElement'},
+        {name: 'getTemplate', title: 'getTemplate'},
+        {name: 'setTemplate', title: 'setTemplate'}
     ];
 
     QUnit
-        .cases(datalistApi)
+        .cases.init(datalistApi)
         .test('instance API ', function(data, assert) {
             var instance = datalist();
             assert.equal(typeof instance[data.name], 'function', 'The datalist instance exposes a "' + data.title + '" function');
         });
 
-
     QUnit.test('init', function(assert) {
         var config = {
             nothing: undefined,
             dummy: null,
-            keyName : 'key',
-            labelName : 'name',
-            labelText : 'A label',
+            keyName: 'key',
+            labelName: 'name',
+            labelText: 'A label',
             title: 'My Title',
             textEmpty: 'Nothing to list',
             textNumber: 'Number',
             textLoading: 'Please wait',
-            selectable : true
+            selectable: true
         };
         var instance = datalist(config);
 
@@ -148,13 +145,12 @@ define([
         instance.destroy();
     });
 
-
     var datalistConfigs = [{
         title: 'simple',
         config: {
-            keyName : 'key',
-            labelName : 'name',
-            labelText : 'A label',
+            keyName: 'key',
+            labelName: 'name',
+            labelText: 'A label',
             title: 'My Title',
             textEmpty: 'Nothing to list',
             textNumber: 'Number',
@@ -163,9 +159,9 @@ define([
     }, {
         title: 'selectable',
         config: {
-            keyName : 'key',
-            labelName : 'name',
-            labelText : 'A label',
+            keyName: 'key',
+            labelName: 'name',
+            labelText: 'A label',
             title: 'My Title',
             textEmpty: 'Nothing to list',
             textNumber: 'Number',
@@ -175,9 +171,9 @@ define([
     }, {
         title: 'tools',
         config: {
-            keyName : 'key',
-            labelName : 'name',
-            labelText : 'A label',
+            keyName: 'key',
+            labelName: 'name',
+            labelText: 'A label',
             title: 'My Title',
             textEmpty: 'Nothing to list',
             textNumber: 'Number',
@@ -196,9 +192,9 @@ define([
     }, {
         title: 'actions',
         config: {
-            keyName : 'key',
-            labelName : 'name',
-            labelText : 'A label',
+            keyName: 'key',
+            labelName: 'name',
+            labelText: 'A label',
             title: 'My Title',
             textEmpty: 'Nothing to list',
             textNumber: 'Number',
@@ -218,7 +214,7 @@ define([
     }];
 
     QUnit
-        .cases(datalistConfigs)
+        .cases.init(datalistConfigs)
         .test('render ', function(data, assert) {
             var $dummy = $('<div class="dummy" />');
             var $container = $('#fixture-1').append($dummy);
@@ -238,15 +234,15 @@ define([
             }, data.config);
             var instance;
 
-            // check place before render
+            // Check place before render
             assert.equal($container.children().length, 1, 'The container already contains an element');
             assert.equal($container.children().get(0), $dummy.get(0), 'The container contains the dummy element');
             assert.equal($container.find('.dummy').length, 1, 'The container contains an element of the class dummy');
 
-            // create an instance with auto rendering
+            // Create an instance with auto rendering
             instance = datalist(config, datalistData);
 
-            // check the rendered header
+            // Check the rendered header
             assert.equal($container.find('.dummy').length, 0, 'The container does not contain an element of the class dummy');
             assert.equal(instance.is('rendered'), true, 'The datalist instance must be rendered');
             assert.equal(typeof instance.getElement(), 'object', 'The datalist instance returns the rendered content as an object');
@@ -259,7 +255,7 @@ define([
             assert.equal(instance.getElement().find('.available-list .count').text(), datalistData.length, 'The datalist instance displays the right number of lines');
             assert.equal(instance.getElement().find('.loading').text(), config.textLoading + '...', 'The datalist instance has rendered a message to show when the component is in loading state, and set the right content');
 
-            // if tools are set in the config, check the action bar rendering
+            // If tools are set in the config, check the action bar rendering
             if (config.tools) {
                 assert.equal(instance.getElement().find('.list .action-bar').length, 1, 'The datalist instance has rendered an action bar');
 
@@ -285,7 +281,7 @@ define([
                 assert.equal(instance.getElement().find('.list .action-bar').length, 0, 'The datalist instance must not render an action bar');
             }
 
-            // check the rendered table
+            // Check the rendered table
             assert.equal(instance.getElement().find('.list table').length, 1, 'The datalist instance has rendered a table');
             assert.equal(instance.getElement().find('.list th.label').length, 1, 'The datalist instance has rendered a label header');
             assert.equal(instance.getElement().find('.list th.label').text().trim(), config.labelText, 'The datalist instance has rendered the right text in the label header');
@@ -297,7 +293,7 @@ define([
 
             assert.equal(instance.getElement().find('.list tbody tr').length, datalistData.length, 'The datalist instance has rendered the right number of lines');
 
-            // check the rendered lines
+            // Check the rendered lines
             _.forEach(datalistData, function(line) {
                 var id = line[config.keyName];
                 var label = line[config.labelName];
@@ -343,9 +339,8 @@ define([
             assert.equal(instance.getElement(), null, 'The datalist instance has removed its rendered content');
         });
 
-
     QUnit
-        .cases(datalistConfigs)
+        .cases.init(datalistConfigs)
         .test('update ', function(data, assert) {
             var $dummy = $('<div class="dummy" />');
             var $container = $('#fixture-1').append($dummy);
@@ -365,15 +360,15 @@ define([
             }, data.config);
             var instance;
 
-            // check place before render
+            // Check place before render
             assert.equal($container.children().length, 1, 'The container already contains an element');
             assert.equal($container.children().get(0), $dummy.get(0), 'The container contains the dummy element');
             assert.equal($container.find('.dummy').length, 1, 'The container contains an element of the class dummy');
 
-            // create an instance with auto rendering
+            // Create an instance with auto rendering
             instance = datalist(config);
 
-            // check the rendered header
+            // Check the rendered header
             assert.equal($container.find('.dummy').length, 0, 'The container does not contain an element of the class dummy');
             assert.equal(instance.is('rendered'), true, 'The datalist instance must be rendered');
             assert.equal(typeof instance.getElement(), 'object', 'The datalist instance returns the rendered content as an object');
@@ -386,7 +381,7 @@ define([
             assert.equal(instance.getElement().find('.available-list .count').text(), 0, 'The datalist instance displays the right number of lines');
             assert.equal(instance.getElement().find('.loading').text(), config.textLoading + '...', 'The datalist instance has rendered a message to show when the component is in loading state, and set the right content');
 
-            // if tools are set in the config, check the action bar rendering
+            // If tools are set in the config, check the action bar rendering
             if (config.tools) {
                 assert.equal(instance.getElement().find('.list .action-bar').length, 1, 'The datalist instance has rendered an action bar');
 
@@ -412,7 +407,7 @@ define([
                 assert.equal(instance.getElement().find('.list .action-bar').length, 0, 'The datalist instance must not render an action bar');
             }
 
-            // check the rendered table
+            // Check the rendered table
             assert.equal(instance.getElement().find('.list table').length, 1, 'The datalist instance has rendered a table');
             assert.equal(instance.getElement().find('.list th.label').length, 1, 'The datalist instance has rendered a label header');
             assert.equal(instance.getElement().find('.list th.label').text().trim(), config.labelText, 'The datalist instance has rendered the right text in the label header');
@@ -424,12 +419,12 @@ define([
 
             assert.equal(instance.getElement().find('.list tbody tr').length, 0, 'The datalist instance has rendered the right number of lines');
 
-            // update the list with a collection of lines and check the rendered table
+            // Update the list with a collection of lines and check the rendered table
             instance.update(datalistData);
 
             assert.equal(instance.getElement().find('.list tbody tr').length, datalistData.length, 'The datalist instance has rendered the right number of lines');
 
-            // check the rendered lines
+            // Check the rendered lines
             _.forEach(datalistData, function(line) {
                 var id = line[config.keyName];
                 var label = line[config.labelName];
@@ -468,12 +463,12 @@ define([
                 }
             });
 
-            // update the list with an empty collection and check the rendered table
+            // Update the list with an empty collection and check the rendered table
             instance.update([]);
 
             assert.equal(instance.getElement().find('.list tbody tr').length, 0, 'The datalist instance has rendered the right number of lines');
 
-            // update the list with no collection and check the rendered table
+            // Update the list with no collection and check the rendered table
             instance.update();
 
             assert.equal(instance.getElement().find('.list tbody tr').length, 0, 'The datalist instance has rendered the right number of lines');
@@ -483,7 +478,6 @@ define([
             assert.equal($container.children().length, 0, 'The container is now empty');
             assert.equal(instance.getElement(), null, 'The datalist instance has removed its rendered content');
         });
-
 
     QUnit.test('show/hide', function(assert) {
         var instance = datalist().render();
@@ -509,7 +503,6 @@ define([
         instance.destroy();
     });
 
-
     QUnit.test('enable/disable', function(assert) {
         var instance = datalist().render();
         var $component = instance.getElement();
@@ -532,7 +525,6 @@ define([
 
         instance.destroy();
     });
-
 
     QUnit.test('state', function(assert) {
         var instance = datalist().render();
@@ -557,8 +549,13 @@ define([
         instance.destroy();
     });
 
-
-    QUnit.asyncTest('events', function(assert) {
+    QUnit.test('events', function(assert) {
+        var ready6 = assert.async();
+        var ready5 = assert.async();
+        var ready4 = assert.async();
+        var ready3 = assert.async();
+        var ready2 = assert.async();
+        var ready1 = assert.async();
         var config = {
             selectable: true,
             tools: [{
@@ -584,18 +581,18 @@ define([
 
         instance.on('custom', function() {
             assert.ok(true, 'The datalist instance can handle custom events');
-            QUnit.start();
+            ready();
         });
 
         instance.on('render', function() {
             assert.ok(true, 'The datalist instance triggers event when it is rendered');
-            QUnit.start();
+            ready1();
         });
 
         instance.on('update', function(d) {
             assert.ok(true, 'The datalist instance triggers event when it is updated');
             assert.equal(d, data, 'The datalist instance provides the dataset when the update event is triggered');
-            QUnit.start();
+            ready2();
 
             instance.getElement().find('[data-control="tool1"]').click();
         });
@@ -604,7 +601,7 @@ define([
             assert.ok(true, 'The datalist instance triggers event when a tool button is clicked');
             assert.ok(_.isArray(selection), 'The datalist instance provides the current selection when a tool button is clicked');
             assert.equal(buttonId, 'tool1', 'The datalist instance provides the button identifier when a tool button is clicked');
-            QUnit.start();
+            ready3();
 
             instance.getElement().find('[data-id="1"] [data-control="action1"]').click();
         });
@@ -613,10 +610,11 @@ define([
             assert.ok(true, 'The datalist instance triggers event when an action button is clicked');
             assert.equal(lineId, '1', 'The datalist instance provides the line identifier when an action button is clicked');
             assert.equal(buttonId, 'action1', 'The datalist instance provides the button identifier when an action button is clicked');
-            QUnit.start();
+            ready4();
 
             instance.getElement().find('[data-id="1"] td.checkboxes input').on('click', function() {
-                // force the check attribute as the soft click does not do this
+
+                // Force the check attribute as the soft click does not do this
                 $(this).prop('checked', true);
             }).click();
         });
@@ -626,16 +624,16 @@ define([
             assert.ok(_.isArray(selection), 'The datalist instance provides the current selection when the select event is triggered');
             assert.equal(selection.length, 1, 'The datalist instance provides the right selection when the select event is triggered');
             assert.equal(selection[0], '1', 'The datalist instance provides the right lines identifiers when the select event is triggered');
-            QUnit.start();
+            ready5();
         });
 
         instance.on('destroy', function() {
             assert.ok(true, 'The datalist instance triggers event when it is destroyed');
-            QUnit.start();
+            ready6();
         });
 
-        QUnit.expect(15);
-        QUnit.stop(6);
+        assert.expect(15);
+        var ready = assert.async();
 
         instance
             .render()
@@ -644,8 +642,8 @@ define([
             .destroy();
     });
 
-
-    QUnit.asyncTest('selection', function(assert) {
+    QUnit.test('selection', function(assert) {
+        var ready = assert.async();
         var config = {
             selectable: true,
             tools: [{
@@ -684,7 +682,8 @@ define([
         });
 
         instance.on('update', function() {
-            // check pre-selection
+
+            // Check pre-selection
             assert.equal(instance.getElement().find('tbody tr').length, data.length, 'The datalist instance has rendered the exact number of lines');
             assert.equal(instance.getElement().find('tbody .checkboxes').length, data.length, 'The datalist instance has rendered the checkboxes');
 
@@ -695,7 +694,7 @@ define([
                 assert.ok(_.indexOf(selection, id) >= 0, 'The datalist instance has selected the right lines');
             });
 
-            // change selection
+            // Change selection
             selection = [1, 3];
             instance.setSelection(selection);
 
@@ -706,7 +705,7 @@ define([
                 assert.ok(_.indexOf(selection, id) >= 0, 'The datalist instance has selected the right lines');
             });
 
-            // empty selection
+            // Empty selection
             instance.setSelection();
 
             assert.equal(instance.getElement().find('tbody input:checked').length, 0, 'The datalist instance has cleared the selection');
@@ -716,12 +715,11 @@ define([
 
         instance.on('destroy', function() {
             assert.ok(true, 'The datalist instance triggers event when it is destroyed');
-            QUnit.start();
+            ready();
         });
 
         instance.setSelection(selection);
         instance.render();
-
     });
 
 });

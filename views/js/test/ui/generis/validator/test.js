@@ -16,15 +16,7 @@
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
  */
 
-define([
-    'jquery',
-    'lodash',
-    'ui/generis/validator/validator'
-], function(
-    $,
-    _,
-    generisValidatorFactory
-) {
+define(['jquery', 'lodash', 'ui/generis/validator/validator'], function($, _, generisValidatorFactory) {
     'use strict';
 
     var validations = [
@@ -38,7 +30,7 @@ define([
             precedence: 1
         },
         {
-            predicate: function (value) {
+            predicate: function(value) {
                 return value.indexOf('two') > -1;
             },
             message: 'two',
@@ -46,13 +38,12 @@ define([
         }
     ];
 
-
     /**
      * Api
      */
     QUnit.module('Api');
 
-    QUnit.test('module', 3, function (assert) {
+    QUnit.test('module', function(assert) {
         var obj1 = generisValidatorFactory();
         var obj2 = generisValidatorFactory();
         assert.equal(typeof generisValidatorFactory, 'function', 'The module exposes a function');
@@ -61,27 +52,26 @@ define([
     });
 
     QUnit
-    .cases([
-        { name: 'errors',            title: 'errors',            type: 'object' },
-        { name: 'validations',       title: 'validations',       type: 'object' },
-        { name: 'run',               title: 'run',               type: 'function' },
-        { name: 'clear',             title: 'clear',             type: 'function' },
-        { name: 'display',           title: 'display',           type: 'function' },
-        { name: 'addValidation',     title: 'addValidation',     type: 'function' },
-        { name: 'removeValidations', title: 'removeValidations', type: 'function' },
+    .cases.init([
+        {name: 'errors', title: 'errors', type: 'object'},
+        {name: 'validations', title: 'validations', type: 'object'},
+        {name: 'run', title: 'run', type: 'function'},
+        {name: 'clear', title: 'clear', type: 'function'},
+        {name: 'display', title: 'display', type: 'function'},
+        {name: 'addValidation', title: 'addValidation', type: 'function'},
+        {name: 'removeValidations', title: 'removeValidations', type: 'function'}
     ])
-    .test('instance', function (data, assert) {
+    .test('instance', function(data, assert) {
         var instance = generisValidatorFactory();
         assert.equal(typeof instance[data.name], data.type, 'The instance exposes a(n) "' + data.title + '" ' + data.type);
     });
-
 
     /**
      * Methods
      */
     QUnit.module('Methods');
 
-    QUnit.test('run', function (assert) {
+    QUnit.test('run', function(assert) {
         var validator = generisValidatorFactory({
             validations: validations
         });
@@ -93,7 +83,7 @@ define([
         assert.ok(!validator.errors.length, 'can find no errors');
     });
 
-    QUnit.test('clear', function (assert) {
+    QUnit.test('clear', function(assert) {
         var validator = generisValidatorFactory({
             validations: validations
         });
@@ -105,11 +95,11 @@ define([
         assert.ok(!validator.errors.length, 'then show clear removes all errors');
     });
 
-    QUnit.test('display', function (assert) {
+    QUnit.test('display', function(assert) {
         assert.ok(true, 'display is a visual test');
     });
 
-    QUnit.test('addValidation', function (assert) {
+    QUnit.test('addValidation', function(assert) {
         var validator = generisValidatorFactory({
             validations: validations
         });
@@ -118,7 +108,7 @@ define([
         assert.equal(validator.validations.length, 4, 'added validation');
     });
 
-    QUnit.test('removeValidations', function (assert) {
+    QUnit.test('removeValidations', function(assert) {
         var validator = generisValidatorFactory({
             validations: validations
         });
@@ -132,7 +122,7 @@ define([
      */
     QUnit.module('Visual Test');
 
-    QUnit.test('Display and play', function (assert) {
+    QUnit.test('Display and play', function(assert) {
         var inputOne, selectTwo;
         var validationOne, validationTwo;
 
@@ -151,7 +141,7 @@ define([
         .render('#field-2');
 
         $('form')
-        .on('submit', function (e) {
+        .on('submit', function(e) {
             e.preventDefault();
 
             validationOne.run(inputOne.val());

@@ -153,9 +153,10 @@ define([
              * Copy a resource into another class
              * @param {String} uri - the resource to copy
              * @param {String} destinationClassUri - the destination class
+             * @param {String} signature - the signature for the uri
              * @returns {Promise<Object>} resolves with the data of the new resource
              */
-            copyTo : function copyTo(uri, destinationClassUri) {
+            copyTo : function copyTo(uri, destinationClassUri, signature) {
                 if(_.isEmpty(config.copyTo.url)){
                     return Promise.reject('Please define the action URL');
                 }
@@ -167,7 +168,8 @@ define([
                 }
                 return request(config.copyTo.url, {
                     uri : uri,
-                    destinationClassUri : destinationClassUri
+                    destinationClassUri : destinationClassUri,
+                    signature: signature
                 }, 'POST');
             },
 
@@ -189,6 +191,7 @@ define([
                 }
                 if (ids.length === 1) {
                     params.uri = ids[0];
+                    params.signature = config.moveTo.signature;
                 } else {
                     params.ids = ids;
                 }

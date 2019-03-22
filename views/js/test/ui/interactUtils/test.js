@@ -1,16 +1,18 @@
 define([
+
     'jquery',
     'lodash',
     'interact',
     'tao/ui/interactUtils',
     'core/mouseEvent'
-], function($, _, interact, interactUtils, triggerMouseEvent){
+], function($, _, interact, interactUtils, triggerMouseEvent) {
     'use strict';
 
-    module('tapOn(), javascript element');
+    QUnit.module('tapOn(), javascript element');
 
-    QUnit.asyncTest('fire mousedown and mouseup events', function(assert){
-        QUnit.expect(3);
+    QUnit.test('fire mousedown and mouseup events', function(assert) {
+        var ready = assert.async();
+        assert.expect(3);
 
         var button = document.getElementById('button');
         button.addEventListener('mousedown', function mousedown() {
@@ -22,12 +24,13 @@ define([
 
         interactUtils.tapOn(button, function() {
             assert.ok(true, 'callback has been fired');
-            QUnit.start();
+            ready();
         });
     });
 
-    QUnit.asyncTest('triggers interact tap event', function(assert){
-        QUnit.expect(2);
+    QUnit.test('triggers interact tap event', function(assert) {
+        var ready = assert.async();
+        assert.expect(2);
 
         var button = document.getElementById('button');
         interact(button).on('tap', function tap() {
@@ -36,14 +39,15 @@ define([
 
         interactUtils.tapOn(button, function() {
             assert.ok(true, 'callback has been fired');
-            QUnit.start();
+            ready();
         });
     });
 
-    module('tapOn(), jquery element');
+    QUnit.module('tapOn(), jquery element');
 
-    QUnit.asyncTest('fire mousedown and mouseup events', function(assert){
-        QUnit.expect(3);
+    QUnit.test('fire mousedown and mouseup events', function(assert) {
+        var ready = assert.async();
+        assert.expect(3);
 
         var button = document.getElementById('button'),
             $button = $('#button');
@@ -57,12 +61,13 @@ define([
 
         interactUtils.tapOn($button, function() {
             assert.ok(true, 'callback has been fired');
-            QUnit.start();
+            ready();
         });
     });
 
-    QUnit.asyncTest('triggers interact tap event', function(assert){
-        QUnit.expect(2);
+    QUnit.test('triggers interact tap event', function(assert) {
+        var ready = assert.async();
+        assert.expect(2);
 
         var button = document.getElementById('button'),
             $button = $('#button');
@@ -73,14 +78,14 @@ define([
 
         interactUtils.tapOn($button, function() {
             assert.ok(true, 'callback has been fired');
-            QUnit.start();
+            ready();
         });
     });
 
     QUnit.module('moveElement(), restoreElementPosition()');
 
-    QUnit.test('move and restore js element position', function(assert){
-        QUnit.expect(4);
+    QUnit.test('move and restore js element position', function(assert) {
+        assert.expect(4);
 
         var dragged = document.getElementById('dragged');
 
@@ -88,7 +93,8 @@ define([
 
         assert.equal(dragged.getAttribute('data-x'), 5, 'data-x has been set');
         assert.equal(dragged.getAttribute('data-y'), 15, 'data-x has been set');
-        // doesn't work in PhantomJS
+
+        // Doesn\'t work in PhantomJS
         // assert.equal(dragged.style.transform, 'translate(5px, 15px)', 'element has been moved with css transform');
         // assert.equal(dragged.style.webkitTransform, 'translate(5px, 15px)', 'element has been moved with css webkitTransform');
 
@@ -96,13 +102,14 @@ define([
 
         assert.equal(dragged.getAttribute('data-x'), 0, 'data-x has been set');
         assert.equal(dragged.getAttribute('data-y'), 0, 'data-x has been set');
-        // doesn't work in PhantomJS
+
+        // Doesn\'t work in PhantomJS
         // assert.equal(dragged.style.transform, 'translate(0px, 0px)', 'element has been moved with css transform');
         // assert.equal(dragged.style.webkitTransform, 'translate(0px, 0px)', 'element has been moved with css webkitTransform');
     });
 
-    QUnit.test('move and restore jQuery element position', function(assert){
-        QUnit.expect(4);
+    QUnit.test('move and restore jQuery element position', function(assert) {
+        assert.expect(4);
 
         var dragged = document.getElementById('dragged'),
             $dragged = $('#dragged');
@@ -111,7 +118,8 @@ define([
 
         assert.equal(dragged.getAttribute('data-x'), 5, 'data-x has been set');
         assert.equal(dragged.getAttribute('data-y'), 15, 'data-x has been set');
-        // doesn't work in PhantomJS
+
+        // Doesn\'t work in PhantomJS
         // assert.equal(dragged.style.transform, 'translate(5px, 15px)', 'element has been moved with css transform');
         // assert.equal(dragged.style.webkitTransform, 'translate(5px, 15px)', 'element has been moved with css webkitTransform');
 
@@ -119,26 +127,28 @@ define([
 
         assert.equal(dragged.getAttribute('data-x'), 0, 'data-x has been set');
         assert.equal(dragged.getAttribute('data-y'), 0, 'data-x has been set');
-        // doesn't work in PhantomJS
+
+        // Doesn\'t work in PhantomJS
         // assert.equal(dragged.style.transform, 'translate(0px, 0px)', 'element has been moved with css transform');
         // assert.equal(dragged.style.webkitTransform, 'translate(0px, 0px)', 'element has been moved with css webkitTransform');
     });
 
     QUnit.module('iframe drag fix');
 
-    QUnit.asyncTest('registered callback is triggered when mouse leave browser window', function(assert) {
-        QUnit.expect(1);
+    QUnit.test('registered callback is triggered when mouse leave browser window', function(assert) {
+        var ready = assert.async();
+        assert.expect(1);
 
-       interactUtils.iFrameDragFixOn(function() {
-          assert.ok(true, 'callback has been fired');
-           QUnit.start();
-       });
+        interactUtils.iFrameDragFixOn(function() {
+            assert.ok(true, 'callback has been fired');
+            ready();
+        });
 
         triggerMouseEvent(document.body, 'mouseleave', {});
 
         interactUtils.iFrameDragFixOff();
 
-        triggerMouseEvent(document.body, 'mouseleave', {}); // triggers an error if event listener hasn't been removed
+        triggerMouseEvent(document.body, 'mouseleave', {}); // Triggers an error if event listener hasn\'t been removed
     });
 
 });

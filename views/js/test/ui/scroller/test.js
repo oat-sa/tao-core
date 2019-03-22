@@ -18,52 +18,50 @@
 /**
  * @author Christophe Noël <christophe@taotesting.com>
  */
-define([
-    'jquery',
-    'ui/scroller'
-], function ($, scroller) {
+define(['jquery', 'ui/scroller'], function($, scroller) {
     'use strict';
 
     QUnit.module('Module');
 
-    QUnit.test('Module export', function (assert) {
-        QUnit.expect(1);
+    QUnit.test('Module export', function(assert) {
+        assert.expect(1);
 
         assert.ok(typeof scroller === 'object', 'The module expose an object');
     });
 
     QUnit
-        .cases([
-            { title: 'scrollTo' },
-            { title: 'enableScrolling' },
-            { title: 'disableScrolling' }
+        .cases.init([
+            {title: 'scrollTo'},
+            {title: 'enableScrolling'},
+            {title: 'disableScrolling'}
         ])
-        .test('API', function (data, assert) {
-            QUnit.expect(1);
+        .test('API', function(data, assert) {
+            assert.expect(1);
             assert.ok(typeof scroller[data.title] === 'function', 'instance implements ' + data.title);
         });
 
     QUnit.module('ScrollTo');
 
     QUnit
-        .cases([
-            { title: 'scroll down',     selector: '.el-5', startPosition: 0,    expectedPosition: 80 },
-            { title: 'scroll up',       selector: '.el-1', startPosition: 120,  expectedPosition: 0 },
-            { title: 'no scroll',       selector: '.el-4', startPosition: 60,   expectedPosition: 60 },
-            { title: 'no element',      selector: '.el-X', startPosition: 0,    expectedPosition: 0 }
+        .cases.init([
+            {title: 'scroll down', selector: '.el-5', startPosition: 0, expectedPosition: 80},
+            {title: 'scroll up', selector: '.el-1', startPosition: 120, expectedPosition: 0},
+            {title: 'no scroll', selector: '.el-4', startPosition: 60, expectedPosition: 60},
+            {title: 'no element', selector: '.el-X', startPosition: 0, expectedPosition: 0}
         ])
-        .asyncTest('scroll to element', function(data, assert) {
+        .test('scroll to element', function(data, assert) {
             var $container = $('.container', '#qunit-fixture'),
                 $element = $container.find(data.selector);
+            var ready = assert.async();
 
-            QUnit.expect(2);
+            assert.expect(2);
 
             $container.scrollTop(data.startPosition);
             assert.equal($container.scrollTop(), data.startPosition, 'The container has the correct start position');
 
             scroller.scrollTo($element, $container).then(function() {
                 assert.equal($container.scrollTop(), data.expectedPosition, 'The container have been scroller to the right position');
-                QUnit.start();
+                ready();
             });
         });
 

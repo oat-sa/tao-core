@@ -33,33 +33,33 @@ define([
 
     QUnit.module('pageStatus');
 
-    QUnit.test('module', function (assert) {
-        QUnit.expect(1);
-        assert.equal(typeof pageStatusFactory, 'function', "The pageStatus module exposes an function");
+    QUnit.test('module', function(assert) {
+        assert.expect(1);
+        assert.equal(typeof pageStatusFactory, 'function', 'The pageStatus module exposes an function');
     });
 
-    QUnit.test('api', function (assert) {
-        QUnit.expect(5);
+    QUnit.test('api', function(assert) {
+        assert.expect(5);
         var pageStatus = pageStatusFactory();
 
-        assert.equal(typeof pageStatus, 'object', "The factory creates an object");
-        assert.notEqual(pageStatus, pageStatusFactory(), "The factory creates a new object");
-        assert.equal(typeof pageStatus.on, 'function', "The pageStatus module expose the on method");
-        assert.equal(typeof pageStatus.off, 'function', "The pageStatus module expose the off method");
-        assert.equal(typeof pageStatus.trigger, 'function', "The pageStatus module expose the trigger method");
+        assert.equal(typeof pageStatus, 'object', 'The factory creates an object');
+        assert.notEqual(pageStatus, pageStatusFactory(), 'The factory creates a new object');
+        assert.equal(typeof pageStatus.on, 'function', 'The pageStatus module expose the on method');
+        assert.equal(typeof pageStatus.off, 'function', 'The pageStatus module expose the off method');
+        assert.equal(typeof pageStatus.trigger, 'function', 'The pageStatus module expose the trigger method');
 
     });
 
 
     if (isHeadless){
-        QUnit.asyncTest('popup status', function (assert) {
-
-            var popup = window.open('/tao/views/js/test/ui/pageStatus/blank.html','test','width=300,height=300,visible=none');
+        QUnit.test('popup status', function (assert) {
+            var ready = assert.async();
+            var popup = window.open('/tao/views/js/test/ui/pageStatus/blank.html', 'test', 'width=300,height=300,visible=none');
 
             var pageStatus = pageStatusFactory({
-                window :  popup
+                window: popup
             });
-            QUnit.expect(4);
+            assert.expect(4);
 
             pageStatus
                 .on('statuschange', _.once(function(status){
@@ -78,25 +78,25 @@ define([
 
             _.delay(function() {
                 popup.close();
-            },100);
+            }, 100);
 
             setTimeout(function () {
-                QUnit.start();
-            }, 300)
+                ready();
+            }, 300);
         });
 
 
     }else{
-        QUnit.asyncTest('popup status', function (assert) {
-
-            var popup = window.open('/tao/views/js/test/ui/pageStatus/blank.html','test','width=300,height=300,visible=none');
+        QUnit.test('popup status', function (assert) {
+            var ready = assert.async();
+            var popup = window.open('/tao/views/js/test/ui/pageStatus/blank.html', 'test', 'width=300,height=300,visible=none');
             var secondPopup;
 
             var pageStatus = pageStatusFactory({
-                window :  popup
+                window: popup
             });
 
-            QUnit.expect(6);
+            assert.expect(6);
 
             pageStatus
                 .on('statuschange', _.once(function(status){
@@ -118,19 +118,18 @@ define([
                     assert.ok(true, 'The unload event is triggered');
                 }));
 
-
             _.delay(function() {
-                secondPopup = window.open('/tao/views/js/test/ui/pageStatus/blank.html','test2','width=300,height=300');
+                secondPopup = window.open('/tao/views/js/test/ui/pageStatus/blank.html', 'test2', 'width=300,height=300');
                 _.delay(function () {
                     popup.close();
 
-                },200)
-            },100);
+                }, 200);
+            }, 100);
 
             setTimeout(function () {
                 secondPopup.close();
-                QUnit.start();
-            }, 400)
+                ready();
+            }, 400);
         });
 
     }

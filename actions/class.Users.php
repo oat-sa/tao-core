@@ -24,7 +24,7 @@
 use oat\generis\Helper\UserHashForEncryption;
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyAwareTrait;
-use oat\oatbox\event\EventManagerAwareTrait;
+use oat\oatbox\event\EventManager;
 use oat\tao\helpers\ApplicationHelper;
 use oat\tao\helpers\UserHelper;
 use oat\tao\model\event\UserUpdatedEvent;
@@ -43,9 +43,16 @@ use oat\oatbox\log\LoggerAwareTrait;
  */
 class tao_actions_Users extends tao_actions_CommonModule
 {
-    use EventManagerAwareTrait;
     use OntologyAwareTrait;
     use LoggerAwareTrait;
+
+    /**
+     * @return EventManager
+     */
+    protected function getEventManager()
+    {
+        return $this->getServiceLocator()->get(EventManager::SERVICE_ID);
+    }
 
     /**
      * Show the list of users
