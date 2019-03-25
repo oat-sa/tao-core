@@ -63,12 +63,13 @@
     }
 
     .dashboard-metric_info-item {
-        padding-left: 10px;
+        padding-left: 15px;
+        position: relative;
 
         &:before {
             content: "-";
-            left: -10px;
-            position: relative;
+            left: 0;
+            position: absolute;
         }
     }
 }
