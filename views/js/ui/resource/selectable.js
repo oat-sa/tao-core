@@ -229,7 +229,7 @@ define([
                                 selection[uri] = nodes[uri];
                                 // if exist signature and class, than need to save classSignature for "instanciate" and "subClass" actions
                                 if(nodes[uri].signature && nodes[uri].classUri) {
-                                    selection[uri].classSignature = nodes[selection[uri].classUri].signature;
+                                    selection[uri].classSignature = nodes[uri].signature;
                                 }
                             }
                         });
