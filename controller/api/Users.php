@@ -228,7 +228,7 @@ class Users extends tao_actions_CommonRestModule
         } catch (common_exception_MissingParameter $e) {
             $this->returnFailure(new common_exception_RestApi($e->getMessage()));
         } catch (common_exception_ValidationFailed $e) {
-            $this->returnFailure(new common_exception_RestApi($e->getUserMessage()));
+            $this->returnFailure(new common_exception_RestApi($e->getMessage()));
         } catch (common_exception_Error $e) {
             $this->returnFailure(new common_exception_RestApi($e->getMessage()));
         } catch (core_kernel_users_Exception $e) {
@@ -245,7 +245,7 @@ class Users extends tao_actions_CommonRestModule
     protected function validateParameters(array $parameters)
     {
         if (empty($parameters[UserRdf::PROPERTY_LOGIN])) {
-            throw new \common_exception_ValidationFailed($this->reverseSearchAlias(UserRdf::PROPERTY_LOGIN));
+            throw new common_exception_ValidationFailed(null, __("Validation for field '%s' has failed. Should not be empty", $this->reverseSearchAlias(UserRdf::PROPERTY_LOGIN)));
         }
     }
 
