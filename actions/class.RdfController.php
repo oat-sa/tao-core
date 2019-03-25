@@ -33,7 +33,6 @@ use oat\tao\model\resources\ResourceService;
 use oat\tao\model\security\SecurityException;
 use oat\tao\model\security\SignatureGenerator;
 use oat\tao\model\security\SignatureValidator;
-use oat\tao\model\security\xsrf\TokenService;
 
 /**
  * The TaoModule is an abstract controller,
@@ -1042,30 +1041,6 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
     {
         $user = $this->getSession()->getUser();
         return (new DataAccessControl())->hasPrivileges($user, array($resourceId => 'WRITE'));
-    }
-
-    /**
-     * Validates csrf token and revokes token on success
-     *
-     * @return {Boolean}
-     * @throws common_exception_Unauthorized
-     */
-    public function validateCsrf()
-    {
-        $tokenService = $this->getServiceLocator()->get(TokenService::SERVICE_ID);
-
-        $tokenName = $tokenService->getTokenName();
-        $token = $this->getRequestParameter($tokenName);
-
-        if ( $tokenService->checkToken($token) ) {
-            $tokenService->revokeToken($token);
-            $newToken = $tokenService->createToken();
-            $this->setCookie($tokenName, $newToken, null, '/');
-            return true;
-        }
-
-        \common_Logger::w('Csrf validation failed');
-        throw new \common_exception_Unauthorized();
     }
 
     /**

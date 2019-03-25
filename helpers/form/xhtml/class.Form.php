@@ -187,6 +187,14 @@ class tao_helpers_form_xhtml_Form extends tao_helpers_form_Form
     /**
      * @inheritdoc
      */
+    public function setTokenHeader($token)
+    {
+        header($this->getTokenHeaderName(), $token);
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function logCsrfFailure($exceptionMessage, $token = null)
     {
         $session        = common_session_SessionManager::getSession();

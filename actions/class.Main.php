@@ -36,7 +36,6 @@ use oat\tao\model\menu\Perspective;
 use oat\tao\model\mvc\DefaultUrlService;
 use oat\tao\model\notification\NotificationInterface;
 use oat\tao\model\notification\NotificationServiceInterface;
-use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\user\UserLocks;
 use oat\oatbox\log\LoggerAwareTrait;
 

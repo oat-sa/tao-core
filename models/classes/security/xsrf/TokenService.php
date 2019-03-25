@@ -75,7 +75,9 @@ class TokenService extends ConfigurableService
      * Generates, stores and return a brand new token
      * Triggers the pool invalidation.
      *
+     * @deprecated
      * @return string the token
+     * @throws \common_Exception
      */
     public function createToken()
     {
@@ -105,22 +107,18 @@ class TokenService extends ConfigurableService
      */
     public function checkToken($token)
     {
-        $actualTime = microtime(true);
-        $timeLimit  = $this->getTimeLimit();
-
+        $valid = false;
         $pool = $this->getStore()->getTokens();
-        if(!is_null($pool)){
 
-            foreach($pool as $savedToken){
-                if($savedToken['token'] == $token){
-                    if($timeLimit > 0){
-                        return $savedToken['ts'] + $timeLimit > $actualTime;
-                    }
-                    return true;
+        if ($pool !== null) {
+            foreach ($pool as $savedToken) {
+                if ($savedToken['token'] === $token && !$this->isExpired($token)) {
+                    $valid = true;
                 }
             }
         }
-        return false;
+
+        return $valid;
     }
 
     /**
@@ -128,17 +126,17 @@ class TokenService extends ConfigurableService
      *
      * @param string $token
      * @return boolean|string
-     * @throws \common_Exception
+     * @throws \common_Exception`
      * @throws \common_exception_Unauthorized
      */
     public function validateToken($token)
     {
         $isValid = false;
         $pool = $this->getStore()->getTokens();
-        if($pool !== null){
 
+        if ($pool !== null) {
             foreach ($pool as $savedToken) {
-                if ($savedToken['token'] === $token && !$this->isExpired($token)){
+                if ($savedToken['token'] === $token && !$this->isExpired($token, true)) {
                     $isValid = true;
                     break;
                 }
@@ -150,11 +148,12 @@ class TokenService extends ConfigurableService
         }
 
         $this->revokeToken($token);
+
         return $this->addNewToken();
     }
 
     /**
-     * Check if the given token has expired. If it has, revoke it
+     * Check if the given token has expired.
      *
      * @param $token
      * @param bool $revokeIfExpired
@@ -176,22 +175,25 @@ class TokenService extends ConfigurableService
 
     /**
      * Revokes the given token
-     * @return true if the revokation succeed (if the token was found)
+     *
+     * @return true
      */
     public function revokeToken($token)
     {
         $revoked = false;
         $store = $this->getStore();
         $pool = $store->getTokens();
-        if($pool !== null){
-            foreach($pool as $key => $savedToken){
-                if($savedToken['token'] == $token){
+
+        if ($pool !== null) {
+            foreach ($pool as $key => $savedToken) {
+                if ($savedToken['token'] === $token) {
                     unset($pool[$key]);
                     $revoked = true;
                     break;
                 }
             }
         }
+
         $store->setTokens($pool);
 
         return $revoked;
@@ -344,11 +346,10 @@ class TokenService extends ConfigurableService
     private function addNewToken()
     {
         $time = microtime(true);
-
         $newToken = $this->generate();
-
         $store = $this->getStore();
         $pool = $store->getTokens();
+
         $pool[] = [
             'ts' => $time,
             'token' => $newToken

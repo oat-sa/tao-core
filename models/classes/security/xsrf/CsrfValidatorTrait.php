@@ -75,12 +75,10 @@ trait CsrfValidatorTrait
 
     /**
      * Set the X-CSRF-Token header
+     *
      * @param string $token
      */
-    public function setTokenHeader($token)
-    {
-        header($this->csrfTokenHeader . ': ' . $token);
-    }
+    abstract public function setTokenHeader($token);
 
     /**
      * @param string $exceptionMessage
@@ -89,6 +87,16 @@ trait CsrfValidatorTrait
      * @throws common_exception_Error
      */
     abstract public function logCsrfFailure($exceptionMessage, $token = null);
+
+    /**
+     * Retrieve the name of the token header.
+     *
+     * @return string
+     */
+    public function getTokenHeaderName()
+    {
+        return $this->csrfTokenHeader;
+    }
 
     /**
      * Retrieve the token header.

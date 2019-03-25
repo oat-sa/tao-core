@@ -310,6 +310,14 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
     /**
      * @inheritdoc
      */
+    public function setTokenHeader($token)
+    {
+        $this->getPsrResponse()->withAddedHeader($this->getTokenHeaderName(), $token);
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function logCsrfFailure($exceptionMessage, $token = null)
     {
         $userIdentifier = $this->getSession()->getUser()->getIdentifier();
