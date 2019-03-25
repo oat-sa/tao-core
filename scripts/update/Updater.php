@@ -987,7 +987,7 @@ class Updater extends \common_ext_ExtensionUpdater {
                 new SettingsStorage(['persistence' => 'settings'])
             );
 
-            $this->setVersion('30.1.0');
+            $this->setVersion('30.2.0');
         }
     }
 }
