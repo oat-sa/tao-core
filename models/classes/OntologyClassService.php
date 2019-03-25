@@ -4,31 +4,32 @@
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
- * Copyright (c) 2013- (original work) Open Assessment Technologies SA;
  *
+ * Copyright (c) 2019 (original work) Open Assessment Technologies SA ;
  */
 
+namespace oat\tao\model;
+
+use oat\oatbox\service\ConfigurableService;
+
 /**
- * This service represents the actions applicable from a root class
+ * Base class to implement Ontology class service which is configurable
+ * and can be registered in service manager.
  *
- * @access public
- * @author Joel Bout, <joel@taotesting.com>
- * @package tao
- *
- * @deprecated Use OntologyClassService instead.
+ * Class OntologyClassService
+ * @package oat\tao\model
  */
-abstract class tao_models_classes_ClassService
-    extends tao_models_classes_GenerisService
+abstract class OntologyClassService extends ConfigurableService
 {
-    use oat\tao\model\ClassServiceTrait;
+    use ClassServiceTrait;
+    use GenerisServiceTrait;
 }
