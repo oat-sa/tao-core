@@ -22,7 +22,6 @@ namespace oat\tao\model\security\xsrf;
 use common_Exception;
 use common_exception_Error;
 use common_exception_Unauthorized;
-use common_session_SessionManager;
 use oat\oatbox\service\ServiceManager;
 
 /**

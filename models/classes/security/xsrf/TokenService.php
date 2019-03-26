@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2017-2019 (original work) Open Assessment Technologies SA ;
  */
 
 namespace oat\tao\model\security\xsrf;
@@ -26,11 +26,13 @@ use oat\oatbox\service\exception\InvalidService;
 /**
  * This service let's you manage tokens to protect against XSRF.
  * The protection works using this workflow :
- *  1. Generate a new token `TokenService::createToken()`
- *  2. Send this token to the client, it will then send it along the HTTP request to protect
- *  3. Verify if the received token is valid `TokenService::checkToken`, and revoke it accordingly
+ *  1. Token pool gets generated and stored by front-end
+ *  2. Front-end adds a token header using the token header "X-CSRF-Token"
+ *  3. Back-end verifies the token using \oat\tao\model\security\xsrf\CsrfValidatorTrait
  *
+ * @see \oat\tao\model\security\xsrf\CsrfValidatorTrait
  * @author Bertrand Chevrier <bertrand@taotesting.com>
+ * @author Martijn Swinkels <martijn@taotesting.com>
  */
 class TokenService extends ConfigurableService
 {
@@ -39,11 +41,9 @@ class TokenService extends ConfigurableService
 
     const SERVICE_ID = 'tao/security-xsrf-token';
 
-    //options keys
+    // options keys
     const POOL_SIZE_OPT  = 'poolSize';
     const TIME_LIMIT_OPT = 'timeLimit';
-    /** @deprecated use TokenService::OPTION_STORE */
-    const STORE_OPT    = 'store';
     const OPTION_STORE = 'store';
 
     const DEFAULT_POOL_SIZE = 10;
@@ -62,11 +62,12 @@ class TokenService extends ConfigurableService
     {
         parent::__construct($options);
 
-        if($this->getPoolSize() <= 0 && $this->getTimeLimit() <= 0){
+        if ($this->getPoolSize() <= 0 && $this->getTimeLimit() <= 0) {
             \common_Logger::w('The pool size and the time limit are both unlimited. Tokens won\'t be invalidated. The store will just grow.');
         }
+
         $store = $this->getStore();
-        if(is_null($store) || !$store instanceof TokenStore){
+        if ($store === null || !$store instanceof TokenStore) {
             throw new InvalidService('The token service requires a TokenStore');
         }
     }
@@ -287,8 +288,8 @@ class TokenService extends ConfigurableService
     protected function getStore()
     {
         $store = null;
-        if($this->hasOption(self::STORE_OPT)){
-            $store = $this->getOption(self::STORE_OPT);
+        if($this->hasOption(self::OPTION_STORE)){
+            $store = $this->getOption(self::OPTION_STORE);
         }
         return $store;
     }
