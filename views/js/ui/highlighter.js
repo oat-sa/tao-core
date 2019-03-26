@@ -36,7 +36,7 @@ define([
      * Children of those nodes types cannot be highlighted
      * @type {string[]}
      */
-    var _defaultBlackList = [
+    var defaultBlackList = [
         'textarea',
         'math',
         'script',
@@ -48,7 +48,6 @@ define([
      * @param {Object} options.className - name of the class that will be used by the wrappers tags to highlight text
      * @param {Object} options.containerSelector - allows to select the root Node in which highlighting is allowed
      * @param {Object} [options.containersBlackList] - additional blacklist selectors to be added to module instance's blacklist
-     * @param {String} [options.id] - key for identification/storage
      * @returns {Object} - the highlighter instance
      */
     return function(options) {
@@ -60,7 +59,7 @@ define([
          * an optional passed-in blacklist is merged with local defaults
          * @type {Array}
          */
-        var containersBlackList = _.union(_defaultBlackList, options.containersBlackList);
+        var containersBlackList = _.union(defaultBlackList, options.containersBlackList);
 
         /**
          * used in recursive loops to decide if we should wrap or not the current node
