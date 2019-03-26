@@ -302,16 +302,12 @@ class TokenService extends ConfigurableService
      */
     public function generateTokenPool()
     {
-        $time = microtime(true);
         $store = $this->getStore();
         $pool = $store->getTokens();
-        $newPool = [];
 
         if ($this->getTimeLimit() > 0) {
             foreach ($pool as $key => $token) {
-                if ($token['ts'] + $this->getTimeLimit() < $time) {
-                    $this->revokeToken($token['token']);
-                }
+                $this->isExpired($token, true);
             }
         }
 
@@ -319,14 +315,10 @@ class TokenService extends ConfigurableService
         $remainingPoolSize = $this->getPoolSize() - count($pool);
 
         for ($i = 0; $i < $remainingPoolSize; $i++) {
-            $newPool[] = [
+            $pool[] = [
                 'ts' => microtime(true),
                 'token' => $this->generate()
             ];
-        }
-
-        foreach ($newPool as $token) {
-            $pool[] = $token;
         }
 
         while (count($pool) > $this->getPoolSize()) {
