@@ -56,7 +56,7 @@ class tao_helpers_Date
         if (is_null(self::$service)) {
             $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
             $service = $ext->getConfig(self::CONFIG_KEY);
-            self::$service = is_object($service) && $service instanceof DateFormatterInterface
+            self::$service = $service instanceof DateFormatterInterface
                 ? $service
                 : new EuropeanFormatter();
         }

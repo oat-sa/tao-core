@@ -14,9 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015-2017 (original work) Open Assessment Technologies SA;
- *
- *
+ * Copyright (c) 2015-2019 (original work) Open Assessment Technologies SA;
  */
 
 namespace oat\tao\helpers\dateFormatter;
@@ -33,6 +31,47 @@ use tao_helpers_Date as DateHelper;
  */
 class AbstractDateFormatter extends Configurable implements DateFormatterInterface
 {
+    const REPLACEMENTS = [
+        'A' => 'A',      // for the sake of escaping below
+        'a' => 'a',      // for the sake of escaping below
+        'B' => '',       // Swatch internet time (.beats), no equivalent
+        'c' => 'YYYY-MM-DD[T]HH:mm:ssZ', // ISO 8601
+        'D' => 'ddd',
+        'd' => 'DD',
+        'e' => 'zz',     // deprecated since version 1.6.0 of moment.js
+        'F' => 'MMMM',
+        'G' => 'H',
+        'g' => 'h',
+        'H' => 'HH',
+        'h' => 'hh',
+        'I' => '',       // Daylight Saving Time? => moment().isDST();
+        'i' => 'mm',
+        'j' => 'D',
+        'L' => '',       // Leap year? => moment().isLeapYear();
+        'l' => 'dddd',
+        'M' => 'MMM',
+        'm' => 'MM',
+        'N' => 'E',
+        'n' => 'M',
+        'O' => 'ZZ',
+        'o' => 'YYYY',
+        'P' => 'Z',
+        'r' => 'ddd, DD MMM YYYY HH:mm:ss ZZ', // RFC 2822
+        'S' => 'o',
+        's' => 'ss',
+        'T' => 'z',      // deprecated since version 1.6.0 of moment.js
+        't' => '',       // days in the month => moment().daysInMonth();
+        'U' => 'X',
+        'u' => 'SSSSSS', // microseconds
+        'v' => 'SSS',    // milliseconds (from PHP 7.0)
+        'W' => 'W',      // for the sake of escaping below
+        'w' => 'e',
+        'Y' => 'YYYY',
+        'y' => 'YY',
+        'Z' => '',       // time zone offset in minutes => moment().zone();
+        'z' => 'DDD',
+    ];
+
     protected $datetimeFormats = [];
 
     /**
@@ -42,7 +81,7 @@ class AbstractDateFormatter extends Configurable implements DateFormatterInterfa
     {
         // Creates DateTime with microseconds.
         $dateTime = DateTime::createFromFormat('U.u', sprintf('%.f', $timestamp));
-        if (is_null($timeZone)) {
+        if ($timeZone === null) {
             $timeZone = new DateTimeZone(SessionManager::getSession()->getTimeZone());
         }
         $dateTime->setTimezone($timeZone);
@@ -55,8 +94,8 @@ class AbstractDateFormatter extends Configurable implements DateFormatterInterfa
      */
     public function getFormat($format)
     {
-        if (! isset($this->datetimeFormats[$format])) {
-            if (! isset($this->datetimeFormats[DateHelper::FORMAT_FALLBACK])) {
+        if (!isset($this->datetimeFormats[$format])) {
+            if (!isset($this->datetimeFormats[DateHelper::FORMAT_FALLBACK])) {
                 Logger::w('Unknown date format ' . $format . ' for ' . __FUNCTION__, 'TAO');
                 return '';
             }
@@ -84,49 +123,11 @@ class AbstractDateFormatter extends Configurable implements DateFormatterInterfa
      */
     public function convertPhpToJavascriptFormat($phpFormat)
     {
-        $replacements = [
-            'A' => 'A',      // for the sake of escaping below
-            'a' => 'a',      // for the sake of escaping below
-            'B' => '',       // Swatch internet time (.beats), no equivalent
-            'c' => 'YYYY-MM-DD[T]HH:mm:ssZ', // ISO 8601
-            'D' => 'ddd',
-            'd' => 'DD',
-            'e' => 'zz',     // deprecated since version 1.6.0 of moment.js
-            'F' => 'MMMM',
-            'G' => 'H',
-            'g' => 'h',
-            'H' => 'HH',
-            'h' => 'hh',
-            'I' => '',       // Daylight Saving Time? => moment().isDST();
-            'i' => 'mm',
-            'j' => 'D',
-            'L' => '',       // Leap year? => moment().isLeapYear();
-            'l' => 'dddd',
-            'M' => 'MMM',
-            'm' => 'MM',
-            'N' => 'E',
-            'n' => 'M',
-            'O' => 'ZZ',
-            'o' => 'YYYY',
-            'P' => 'Z',
-            'r' => 'ddd, DD MMM YYYY HH:mm:ss ZZ', // RFC 2822
-            'S' => 'o',
-            's' => 'ss',
-            'T' => 'z',      // deprecated since version 1.6.0 of moment.js
-            't' => '',       // days in the month => moment().daysInMonth();
-            'U' => 'X',
-            'u' => 'SSSSSS', // microseconds
-            'v' => 'SSS',    // milliseconds (from PHP 7.0)
-            'W' => 'W',      // for the sake of escaping below
-            'w' => 'e',
-            'Y' => 'YYYY',
-            'y' => 'YY',
-            'Z' => '',       // time zone offset in minutes => moment().zone();
-            'z' => 'DDD',
-        ];
+        // Converts all the meaningful characters.
+        $replacements = self::REPLACEMENTS;
 
-        // Converts escaped characters.
-        foreach ($replacements as $from => $to) {
+        // Converts all the escaped meaningful characters.
+        foreach (self::REPLACEMENTS as $from => $to) {
             $replacements['\\' . $from] = '[' . $from . ']';
         }
 

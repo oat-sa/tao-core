@@ -976,7 +976,7 @@ class Updater extends \common_ext_ExtensionUpdater {
         if ($this->isVersion('30.0.5')) {
             $dateTimeFormatter = new EuropeanFormatter();
 
-            $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+            $ext = $this->getServiceManager()->get(\common_ext_ExtensionsManager::SERVICE_ID)->getExtensionById('tao');
             $ext->setConfig(\tao_helpers_Date::CONFIG_KEY, $dateTimeFormatter);
 
             ClientLibConfigRegistry::getRegistry()->register(

@@ -30,7 +30,6 @@ class AmericanFormatter extends AbstractDateFormatter
 {
     protected $datetimeFormats = [
         DateHelper::FORMAT_FALLBACK => 'Y/m/d H:i:s',
-
         DateHelper::FORMAT_LONG => 'm/d/Y H:i:s',
         DateHelper::FORMAT_LONG_MICROSECONDS => 'm/d/Y H:i:s.u',
         DateHelper::FORMAT_DATEPICKER => 'm-d-Y H:i',
