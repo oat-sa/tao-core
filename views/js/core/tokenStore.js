@@ -24,8 +24,9 @@
  */
 define([
     'lodash',
+    'core/promise',
     'core/store',
-], function(_, store) {
+], function(_, Promise, store) {
     'use strict';
 
     /**
@@ -229,9 +230,8 @@ define([
              * @returns {Promise<Boolean>}
              */
             checkExpiry: function checkExpiry(token) {
-                var self = this;
                 if (Date.now() - token.receivedAt > config.tokenTimeLimit) {
-                    return self.remove(token.value);
+                    return this.remove(token.value);
                 }
                 return true;
             },
@@ -244,8 +244,8 @@ define([
                 var self = this;
                 return self.getTokens().then(function(tokens) {
                     // Check each token's expiry, synchronously:
-                    return Object.values(tokens).reduce(function(previousPromise, nextToken) {
-                        return previousPromise.then(() => {
+                    return _.reduce(tokens, function(previousPromise, nextToken) {
+                        return previousPromise.then(function() {
                             return self.checkExpiry(nextToken);
                         });
                     }, Promise.resolve())

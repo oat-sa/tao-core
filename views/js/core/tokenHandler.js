@@ -23,9 +23,10 @@ define([
     'lodash',
     'module',
     'core/tokenStore',
+    'core/promise',
     'core/promiseQueue'
 ],
-function (_, module, tokenStoreFactory, promiseQueue) {
+function (_, module, tokenStoreFactory, Promise, promiseQueue) {
     'use strict';
 
     var clientConfigFetched = false;
@@ -69,6 +70,15 @@ function (_, module, tokenStoreFactory, promiseQueue) {
                 var self = this;
                 var initialToken = options.initialToken;
 
+                var getFirstTokenValue  = function getFirstTokenValue() {
+                    return tokenStore.dequeue().then(function(currentToken) {
+                        if(currentToken){
+                            return currentToken.value;
+                        }
+                        return null;
+                    });
+                };
+
                 // If set, initialToken will be provided directly, without using store:
                 if (initialToken) {
                     options.initialToken = null;
@@ -83,21 +93,12 @@ function (_, module, tokenStoreFactory, promiseQueue) {
                     .then(function(queueSize) {
                         if (queueSize > 0) {
                             // Token available, use it
-                            return tokenStore.dequeue().then(function(currentToken) {
-                                return currentToken.value;
-                            });
+                            return getFirstTokenValue();
                         }
                         else if (!clientConfigFetched) {
                             // Client Config allowed! (first and only time)
                             return self.getClientConfigTokens()
-                                .then(function() {
-                                    return tokenStore.dequeue().then(function(currentToken) {
-                                        if (currentToken) {
-                                            return currentToken.value;
-                                        }
-                                        return null;
-                                    });
-                                });
+                                .then(getFirstTokenValue);
                         }
                         else {
                             // No more token options, refresh needed
@@ -113,10 +114,7 @@ function (_, module, tokenStoreFactory, promiseQueue) {
              * @returns {Promise<Boolean>} - resolves true if successful
              */
             setToken: function setToken(newToken) {
-                return tokenStore.enqueue(newToken)
-                    .then(function(added) {
-                        return added;
-                    });
+                return tokenStore.enqueue(newToken);
             },
 
             /**

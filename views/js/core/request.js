@@ -41,6 +41,8 @@ define([
 ], function($, _, __, context, Promise, promiseQueue, tokenHandlerFactory, loggerFactory) {
     'use strict';
 
+    var tokenHeaderName = 'X-CSRF-Token';
+
     var tokenHandler = tokenHandlerFactory();
 
     var queue = promiseQueue();
@@ -102,7 +104,7 @@ define([
                 var headers = _.extend({}, options.headers);
                 if (!options.noToken) {
                     return tokenHandler.getToken().then(function(token) {
-                        headers['X-CSRF-Token'] = token || 'none';
+                        headers[tokenHeaderName] = token || 'none';
                         return headers;
                     });
                 }
@@ -118,8 +120,8 @@ define([
                 var token;
 
                 if (_.isFunction(xhr.getResponseHeader)) {
-                    token = xhr.getResponseHeader('X-CSRF-Token');
-                    logger.debug('received X-CSRF-Token header %s', token);
+                    token = xhr.getResponseHeader(tokenHeaderName);
+                    logger.debug('received %s header %s', tokenHeaderName, token);
 
                     if (token) {
                         return tokenHandler.setToken(token);
@@ -141,7 +143,7 @@ define([
                         timeout: options.timeout * 1000 || context.timeout * 1000 || 0,
                         contentType: options.contentType || noop,
                         beforeSend: function() {
-                            logger.debug('sending X-CSRF-Token header %s', customHeaders && customHeaders['X-CSRF-Token']);
+                            logger.debug('sending %s header %s', tokenHeaderName, customHeaders && customHeaders[tokenHeaderName]);
                         },
                         global: !options.background //TODO fix this with TT-260
                     })
