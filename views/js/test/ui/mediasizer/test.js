@@ -1,19 +1,19 @@
 define(['jquery', 'ui/mediasizer'], function($) {
 
+    var mode = 'nat'; // Nat (=natural size) | px (=pixels) | pc (=%)
 
-    var mode = 'nat' // nat (=natural size) | px (=pixels) | pc (=%)
-
-    $('#_' + mode).show()
+    $('#_' + mode).show();
 
     QUnit.module('MediaSizer Stand Alone Test');
 
     QUnit.test('plugin', function(assert) {
-        QUnit.expect(1);
+        assert.expect(1);
         assert.ok(typeof $.fn.mediasizer === 'function', 'The MediaSizer plugin is registered');
     });
 
-    QUnit.asyncTest('Initialization', function(assert) {
-        QUnit.expect(4);
+    QUnit.test('Initialization', function(assert) {
+        var ready = assert.async();
+        assert.expect(4);
 
         var $container = $('#qunit-fixture-tmp');
         assert.ok($container.length === 1, 'Fixture is available');
@@ -28,7 +28,7 @@ define(['jquery', 'ui/mediasizer'], function($) {
             var data = $elt.data('ui.mediasizer');
             assert.ok(typeof data === 'object', 'The element is running the plugin');
 
-            QUnit.start();
+            ready();
         });
         $elt.mediasizer({
             target: $target
@@ -37,9 +37,7 @@ define(['jquery', 'ui/mediasizer'], function($) {
         $elt.on('sizechange.mediasizer', function(e, paras) {
             console.log(paras);
 
-        })
+        });
     });
-
-
 
 });

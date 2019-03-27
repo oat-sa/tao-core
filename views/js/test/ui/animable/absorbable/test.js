@@ -16,6 +16,7 @@
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
  */
 define([
+
     'jquery',
     'lodash',
     'ui/component',
@@ -25,47 +26,49 @@ define([
 
     QUnit.module('API');
 
-    QUnit.test('module', function (assert) {
-        QUnit.expect(1);
+    QUnit.test('module', function(assert) {
+        assert.expect(1);
         assert.ok(typeof makeAbsorbable === 'function', 'The module expose a function');
     });
 
     QUnit
-        .cases([
-            { title: 'absorb', method: 'absorb' },
-            { title: 'absorbBurst', method: 'absorbBurst' },
+        .cases.init([
+            {title: 'absorb', method: 'absorb'},
+            {title: 'absorbBurst', method: 'absorbBurst'}
         ])
         .test('component API', function(data, assert) {
             var component = makeAbsorbable(componentFactory());
 
-            QUnit.expect(1);
+            assert.expect(1);
             assert.equal(typeof component[data.method], 'function', 'The component has the method ' + data.method);
         });
 
     QUnit.module('Behavior');
 
-    QUnit.asyncTest('absorb', function(assert) {
+    QUnit.test('absorb', function(assert) {
+        var ready = assert.async();
         var $container = $('#qunit-fixture');
         var $target = $('body');
         makeAbsorbable(componentFactory())
             .init()
             .render($container)
-            .absorb($target).then(function(){
-            assert.ok(true, 'absorbed');
-            QUnit.start();
-        });
+            .absorb($target).then(function() {
+                assert.ok(true, 'absorbed');
+                ready();
+            });
     });
 
-    QUnit.asyncTest('absorb burst', function(assert) {
+    QUnit.test('absorb burst', function(assert) {
+        var ready = assert.async();
         var $container = $('#qunit-fixture');
         var $target = $('body');
         makeAbsorbable(componentFactory())
             .init()
             .render($container)
-            .absorbBurst($target, [0, 100, 200]).then(function(){
-            assert.ok(true, 'burst absorbed');
-            QUnit.start();
-        });
+            .absorbBurst($target, [0, 100, 200]).then(function() {
+                assert.ok(true, 'burst absorbed');
+                ready();
+            });
     });
 
     QUnit.module('Visual');
@@ -79,11 +82,11 @@ define([
             .init()
             .render($container.find('.target'));
 
-        $trigger.click(function(){
+        $trigger.click(function() {
             var i;
             var burstTiming = [];
-            for(i = 0; i< $count.val(); i++){
-                burstTiming.push(i*300);
+            for (i = 0; i < $count.val(); i++) {
+                burstTiming.push(i * 300);
             }
             absorbable.absorbBurst($absorb, burstTiming);
         });

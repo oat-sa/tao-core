@@ -21,7 +21,10 @@
 
 use oat\generis\model\OntologyRdfs;
 use oat\generis\model\WidgetRdf;
-use oat\tao\helpers\Template;
+use oat\oatbox\service\ServiceManager;
+use oat\tao\helpers\form\validators\ResourceSignatureValidator;
+use oat\tao\model\security\SignatureGenerator;
+use oat\tao\model\security\SignatureValidator;
 use oat\tao\model\TaoOntology;
 
 /**
@@ -44,9 +47,9 @@ class tao_actions_form_CreateInstance
      * Short description of attribute classes
      *
      * @access private
-     * @var array
+     * @var core_kernel_classes_Class[]
      */
-    private $classes = array();
+    private $classes;
 
     // --- OPERATIONS ---
 
@@ -59,12 +62,11 @@ class tao_actions_form_CreateInstance
      * @param  array options
      * @return mixed
      */
-    public function __construct($classes, $options)
+    public function __construct(array $classes, $options)
     {
-        
         $this->classes = $classes;
-    	parent::__construct(array(), $options);
-        
+
+        parent::__construct([], $options);
     }
 
     /**
@@ -203,7 +205,52 @@ class tao_actions_form_CreateInstance
 		$this->form->addElement($classUriElt);
 		
 		$this->form->addElement($classUriElt);
+
+		$this->addSignature();
         
     }
 
+    /**
+     * @throws \common_Exception
+     */
+    protected function addSignature()
+    {
+        $signature = tao_helpers_form_FormFactory::getElement('signature', 'Hidden');
+
+        $signature->setValue($this->getSignature());
+        $signature->addValidator(
+            new ResourceSignatureValidator(
+                new SignatureValidator(),
+                $this->getDataToSign()
+            )
+        );
+
+        $this->form->addElement($signature, true);
+    }
+
+    /**
+     * @return string
+     * @throws \oat\tao\model\metadata\exception\InconsistencyConfigException
+     */
+    protected function getSignature()
+    {
+        /** @var SignatureGenerator $signatureGenerator */
+        $signatureGenerator = ServiceManager::getServiceManager()->get(SignatureGenerator::class);
+
+        return $signatureGenerator->generate($this->getDataToSign());
+    }
+
+    /**
+     * @return string
+     */
+    protected function getDataToSign()
+    {
+        $uris = [];
+
+        foreach ($this->classes as $class) {
+            $uris[] = $class->getUri();
+        }
+
+        return implode('', $uris);
+    }
 }

@@ -17,67 +17,69 @@
  *
  *
  */
-define(['jquery', 'iframeResizer'], function($, iframeResizer){
+define(['jquery', 'iframeResizer'], function($, iframeResizer) {
     'use strict';
 
     var $fixture = $('#qunit-fixture');
+    var fixture = 'qunit-fixture';
 
-    QUnit.test('parser structure', 2, function(assert){
+    QUnit.test('parser structure', function(assert) {
         assert.ok(typeof iframeResizer === 'object');
         assert.ok(typeof iframeResizer.autoHeight === 'function');
     });
 
-    QUnit.asyncTest('resize on load', 2, function(assert){
+    QUnit.test('resize on load', function(assert) {
+        var ready = assert.async();
+        var frame = document.getElementById(fixture).querySelector('#iframe1');
+        assert.equal($(frame).length, 1);
 
-        var $frame = $('#iframe1', $fixture);
-        assert.equal($frame.length, 1);
+        iframeResizer.autoHeight($(frame));
 
-        iframeResizer.autoHeight($frame);
-        $frame
-            .on('load', function(){
-                assert.equal(parseInt($frame.height(), 10), 500);
-                QUnit.start();
-            })
-            .attr('src', 'js/test/iframeResizer/framecontent1.html');
+        frame.src = 'js/test/iframeResizer/framecontent1.html';
+        frame.onload = function() {
+            assert.equal(parseInt($(frame).height(), 10), 500);
+            ready();
+        };
     });
 
-    QUnit.asyncTest('resize after load', 3, function(assert){
+    QUnit.test('resize after load', function(assert) {
+        var ready = assert.async();
+        var frame = document.getElementById(fixture).querySelector('#iframe2');
 
-        var $frame = $('#iframe2', $fixture);
-        assert.equal($frame.length, 1);
+        assert.equal($(frame).length, 1);
 
-        iframeResizer.autoHeight($frame);
-        $frame.on('load', function(){
-                assert.equal(parseInt($frame.height(), 10), 200);
-                setTimeout(function(){
-                    assert.equal(parseInt($frame.height(), 10), 600);
-                    QUnit.start();
-                }, 2000);
-            }).
-            attr('src', 'js/test/iframeResizer/framecontent2.html');
+        iframeResizer.autoHeight($(frame));
+        frame.src = 'js/test/iframeResizer/framecontent2.html';
+        frame.onload = function() {
+            assert.equal(parseInt($(frame).height(), 10), 200);
+            setTimeout(function() {
+                assert.equal(parseInt($(frame).height(), 10), 600);
+                ready();
+            }, 2000);
+        };
+
     });
 
-    QUnit.asyncTest('nested iframes', 2, function(assert){
+    QUnit.test('nested iframes', function(assert) {
+        var ready = assert.async();
+        var frame = document.getElementById(fixture).querySelector('#iframe3');
 
-        var $frame = $('#iframe3', $fixture);
-        assert.equal($frame.length, 1);
+        assert.equal($(frame).length, 1);
 
-        iframeResizer.autoHeight($frame, 'iframe');
-
-        $frame.on('load', function(){
-            var $nested = $frame.contents().find('iframe');
+        iframeResizer.autoHeight($(frame), 'iframe');
+        frame.src = 'js/test/iframeResizer/framecontent3.html';
+        frame.onload = function() {
+            var $nested = $(frame).contents().find('iframe');
 
             iframeResizer
                 .autoHeight($nested)
                 .attr('src', 'framecontent2.html');
 
-            setTimeout(function(){
-                assert.ok(parseInt($frame.height(), 10) >= 600);   //the div that contains the iframe has a 604 height!
-                QUnit.start();
+            setTimeout(function() {
+                assert.ok(parseInt($(frame).height(), 10) >= 600); //The div that contains the iframe has a 604 height!
+                ready();
             }, 2500);
-        }).
-        attr('src', 'js/test/iframeResizer/framecontent3.html');
+        };
     });
 });
-
 

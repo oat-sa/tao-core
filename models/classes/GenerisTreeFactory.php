@@ -32,9 +32,10 @@ namespace oat\tao\model;
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
 use oat\generis\model\kernel\persistence\smoothsql\search\filter\Filter;
-use oat\oatbox\service\ServiceManager;
 use oat\generis\model\OntologyRdfs;
+use oat\oatbox\service\ServiceManager;
 use oat\tao\helpers\TreeHelper;
+use oat\tao\model\security\SignatureGenerator;
 use tao_helpers_Uri;
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 use oat\search\helper\SupportedOperatorHelper;
@@ -224,6 +225,7 @@ class GenerisTreeFactory
     {
     	$label = $class->getLabel();
         $label = empty($label) ? __('no label') : $label;
+
         return array(
             'data' 	=> _dh($label),
             'type'	=> 'class',
@@ -232,8 +234,17 @@ class GenerisTreeFactory
                 'class' => 'node-class',
                 'data-uri' => $class->getUri(),
                 'data-classUri' => is_null($parent) ? null : $parent->getUri(),
+                'data-signature' => $this->getSignatureGenerator()->generate($class->getUri()),
             )
         );
+    }
+
+    /**
+     * @return SignatureGenerator
+     */
+    private function getSignatureGenerator()
+    {
+        return ServiceManager::getServiceManager()->get(SignatureGenerator::class);
     }
 
     /**

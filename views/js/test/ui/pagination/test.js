@@ -18,23 +18,23 @@
  * @author Alexander Zagovorichev <zagovorichev@1pt.com>
  */
 
-define(['jquery', 'lodash', 'ui/pagination'], function ($, _, paginationComponent) {
+define(['jquery', 'lodash', 'ui/pagination'], function($, _, paginationComponent) {
     'use strict';
 
     QUnit.module('API');
 
-    QUnit.test('factory', function (assert) {
-        QUnit.expect(3);
+    QUnit.test('factory', function(assert) {
+        assert.expect(3);
 
         assert.ok(typeof paginationComponent === 'function', 'the module exposes a function');
         assert.ok(typeof paginationComponent(false, []) === 'object', 'the factory creates an object');
         assert.notEqual(paginationComponent({}), paginationComponent({}), 'the factory creates new objects');
     });
 
-    QUnit.test('component', function (assert) {
+    QUnit.test('component', function(assert) {
         var pagination;
 
-        QUnit.expect(2);
+        assert.expect(2);
 
         pagination = paginationComponent({});
 
@@ -42,10 +42,10 @@ define(['jquery', 'lodash', 'ui/pagination'], function ($, _, paginationComponen
         assert.ok(typeof pagination.destroy === 'function', 'the component has a destroy method');
     });
 
-    QUnit.test('eventifier', function (assert) {
+    QUnit.test('eventifier', function(assert) {
         var pagination;
 
-        QUnit.expect(3);
+        assert.expect(3);
 
         pagination = paginationComponent({});
 
@@ -56,15 +56,15 @@ define(['jquery', 'lodash', 'ui/pagination'], function ($, _, paginationComponen
 
     QUnit.module('Simple mode');
 
-    QUnit.test('render', function (assert) {
+    QUnit.test('render', function(assert) {
         var $container;
 
-        QUnit.expect(7);
+        assert.expect(7);
 
         $container = $('#qunit-fixture');
         assert.equal($container.length, 1, 'The container exists');
 
-        paginationComponent().on('render', function () {
+        paginationComponent().on('render', function() {
             assert.equal($('.total', $container).length, 1, 'The total element exists');
             assert.equal($('.page', $container).length, 1, 'The page element exists');
             assert.equal($('.icon-backward', $container).length, 1, 'The backward button exists');
@@ -74,94 +74,96 @@ define(['jquery', 'lodash', 'ui/pagination'], function ($, _, paginationComponen
         }).render($container);
     });
 
-    QUnit.asyncTest('destroy', function (assert) {
+    QUnit.test('destroy', function(assert) {
+        var ready = assert.async();
         var $container;
         var pagination;
 
-        QUnit.expect(3);
+        assert.expect(3);
 
         $container = $('#qunit-fixture');
         assert.equal($container.length, 1, 'The container exists');
 
         pagination = paginationComponent();
         pagination
-            .on('render', function () {
+            .on('render', function() {
                 assert.equal($('.total', $container).length, 1, 'The total element exists');
                 pagination.destroy();
             })
             .on('destroy', function() {
                 assert.equal($('.total', $container).length, 0, 'The total element exists');
-                QUnit.start();
+                ready();
             })
             .render($container);
     });
 
-    QUnit.asyncTest('NextPrev', function (assert) {
+    QUnit.test('NextPrev', function(assert) {
+        var ready = assert.async();
         var $container;
         var pagination;
 
-        QUnit.expect(8);
+        assert.expect(8);
 
         $container = $('#qunit-fixture');
         assert.equal($container.length, 1, 'The container exists');
 
         pagination = paginationComponent({activePage: 3, totalPages: 7});
         pagination
-            .on('render', function () {
+            .on('render', function() {
                 assert.equal($('.total', $container).length, 1, 'The total element exists');
                 assert.equal(pagination.getActivePage(), 3, 'Current page is correct');
                 assert.equal($('.page', $container).text(), 3, 'Current page in template is correct');
                 pagination.nextPage();
             })
-            .on('next', function () {
+            .on('next', function() {
                 assert.equal(pagination.getActivePage(), 4, 'Current page is correct');
                 assert.equal($('.page', $container).text(), 4, 'Current page in template is correct');
                 pagination.previousPage();
             })
-            .on('prev', function () {
+            .on('prev', function() {
                 assert.equal(pagination.getActivePage(), 3, 'Current page is correct');
                 assert.equal($('.page', $container).text(), 3, 'Current page in template is correct');
-                QUnit.start();
+                ready();
             })
             .render($container);
     });
 
-    QUnit.test('setPage', function (assert) {
+    QUnit.test('setPage', function(assert) {
         var $container;
         var pagination;
 
-        QUnit.expect(7);
+        assert.expect(7);
 
         $container = $('#qunit-fixture');
         assert.equal($container.length, 1, 'The container exists');
 
         pagination = paginationComponent({activePage: 3, totalPages: 7});
         pagination
-            .on('render', function () {
+            .on('render', function() {
                 assert.equal($('.total', $container).length, 1, 'The total element exists');
                 assert.equal(pagination.getActivePage(), 3, 'Current page is correct');
                 pagination.setPage(7);
                 assert.equal(pagination.getActivePage(), 7, 'Current page is correct');
                 assert.equal($('.page', $container).text(), 7, 'Current page in template is correct');
             })
-            .on('change', function () {
+            .on('change', function() {
                 assert.ok('true', 'change worked');
             })
             .render($container);
     });
 
-    QUnit.test('Critical conditions', function (assert) {
+    QUnit.test('Critical conditions', function(assert) {
         var $container;
         var pagination;
 
-        QUnit.expect(14);
+        assert.expect(14);
 
         $container = $('#qunit-fixture');
         assert.equal($container.length, 1, 'The container exists');
 
         pagination = paginationComponent({activePage: 3, totalPages: 7});
         pagination
-            .on('render', function () {
+            .on('render', function() {
                 assert.equal($('.total', $container).length, 1, 'The total element exists');
                 assert.equal(pagination.getActivePage(), 3, 'Current page is correct');
 
@@ -175,7 +177,7 @@ define(['jquery', 'lodash', 'ui/pagination'], function ($, _, paginationComponen
             .on('error', function() {
                 assert.ok(true, 'Too much catched');
             })
-            .on('change', function () {
+            .on('change', function() {
                 var renderedPageNum = parseInt($('.page', $container).text(), 10);
                 assert.ok(pagination.getActivePage() <= 7 && pagination.getActivePage() >= 1, 'Current page is correct');
                 assert.ok(renderedPageNum <= 7 && renderedPageNum >= 1, 'Current page in template is correct');
@@ -183,19 +185,20 @@ define(['jquery', 'lodash', 'ui/pagination'], function ($, _, paginationComponen
             .render($container);
     });
 
-    QUnit.test('Check buttons', function (assert) {
+    QUnit.test('Check buttons', function(assert) {
         var $container;
         var pagination;
 
-        QUnit.expect(18);
+        assert.expect(18);
 
         $container = $('#qunit-fixture');
         assert.equal($container.length, 1, 'The container exists');
 
         pagination = paginationComponent({activePage: 4, totalPages: 4});
         pagination
-            .on('render', function () {
-                // buttons
+            .on('render', function() {
+
+                // Buttons
                 var $prev, $next;
 
                 assert.equal($('.total', $container).length, 1, 'The total element exists');
@@ -231,19 +234,20 @@ define(['jquery', 'lodash', 'ui/pagination'], function ($, _, paginationComponen
             .render($container);
     });
 
-    QUnit.test('Check buttons - disabled both', function (assert) {
+    QUnit.test('Check buttons - disabled both', function(assert) {
         var $container;
         var pagination;
 
-        QUnit.expect(5);
+        assert.expect(5);
 
         $container = $('#qunit-fixture');
         assert.equal($container.length, 1, 'The container exists');
 
         pagination = paginationComponent({activePage: 1, totalPages: 1});
         pagination
-            .on('render', function () {
-                // buttons
+            .on('render', function() {
+
+                // Buttons
                 var $prev, $next;
 
                 assert.equal($('.total', $container).length, 1, 'The total element exists');
@@ -258,19 +262,20 @@ define(['jquery', 'lodash', 'ui/pagination'], function ($, _, paginationComponen
             .render($container);
     });
 
-    QUnit.test('Disabled/Enabled mode', function (assert) {
+    QUnit.test('Disabled/Enabled mode', function(assert) {
         var $container;
         var pagination;
 
-        QUnit.expect(9);
+        assert.expect(9);
 
         $container = $('#qunit-fixture');
         assert.equal($container.length, 1, 'The container exists');
 
         pagination = paginationComponent({activePage: 4, totalPages: 7});
         pagination
-            .on('render', function () {
-                // buttons
+            .on('render', function() {
+
+                // Buttons
                 var $prev, $next;
 
                 assert.equal($('.total', $container).length, 1, 'The total element exists');
@@ -295,19 +300,21 @@ define(['jquery', 'lodash', 'ui/pagination'], function ($, _, paginationComponen
             .render($container);
     });
 
-    QUnit.asyncTest('Refresh', function (assert) {
+    QUnit.test('Refresh', function(assert) {
+        var ready = assert.async();
         var pagination;
         var $container;
 
-        QUnit.expect(9);
+        assert.expect(9);
 
         $container = $('#qunit-fixture');
         assert.equal($container.length, 1, 'The container exists');
 
         pagination = paginationComponent({mode: 'simple', activePage: 1, totalPages: 2});
         pagination
-            .on('render', function () {
-                // buttons
+            .on('render', function() {
+
+                // Buttons
                 var $prev, $next;
 
                 assert.equal(pagination.getActivePage(), 1, 'Current page is correct');
@@ -330,24 +337,24 @@ define(['jquery', 'lodash', 'ui/pagination'], function ($, _, paginationComponen
 
                 pagination.previousPage();
             })
-            .on('prev', function () {
+            .on('prev', function() {
                 assert.equal(pagination.getActivePage(), 1, 'Current page is correct');
-                QUnit.start();
+                ready();
             })
             .render($container);
     });
 
     QUnit.module('Pages mode');
 
-    QUnit.test('render', function (assert) {
+    QUnit.test('render', function(assert) {
         var $container;
 
-        QUnit.expect(5);
+        assert.expect(5);
 
         $container = $('#qunit-fixture');
         assert.equal($container.length, 1, 'The container exists');
 
-        paginationComponent({mode: 'pages'}).on('render', function () {
+        paginationComponent({mode: 'pages'}).on('render', function() {
             assert.equal($('.icon-backward', $container).length, 1, 'The backward button exists');
             assert.equal($('.icon-fast-backward', $container).length, 1, 'The fast backward button exists');
             assert.equal($('.icon-forward', $container).length, 1, 'The forward button exists');
@@ -355,71 +362,73 @@ define(['jquery', 'lodash', 'ui/pagination'], function ($, _, paginationComponen
         }).render($container);
     });
 
-    QUnit.asyncTest('destroy', function (assert) {
+    QUnit.test('destroy', function(assert) {
+        var ready = assert.async();
         var $container;
         var pagination;
 
-        QUnit.expect(3);
+        assert.expect(3);
 
         $container = $('#qunit-fixture');
         assert.equal($container.length, 1, 'The container exists');
 
         pagination = paginationComponent({mode: 'pages'});
         pagination
-            .on('render', function () {
+            .on('render', function() {
                 assert.equal($('.pages', $container).length, 1, 'The element exists');
                 pagination.destroy();
             })
             .on('destroy', function() {
                 assert.equal($('.pages', $container).length, 0, 'The element not exists');
-                QUnit.start();
+                ready();
             })
             .render($container);
     });
 
-    QUnit.asyncTest('NextPrev', function (assert) {
+    QUnit.test('NextPrev', function(assert) {
+        var ready = assert.async();
         var $container;
         var pagination;
 
-        QUnit.expect(9);
+        assert.expect(9);
 
         $container = $('#qunit-fixture');
         assert.equal($container.length, 1, 'The container exists');
 
         pagination = paginationComponent({mode: 'pages', activePage: 3, totalPages: 7});
         pagination
-            .on('render', function () {
+            .on('render', function() {
                 assert.equal(pagination.getActivePage(), 3, 'Current page is correct');
                 assert.equal($('.page', $container).length, 7, 'Current page in template is correct');
                 assert.equal($('.page.active', $container).text(), 3, 'Current page in template is correct');
                 pagination.nextPage();
             })
-            .on('next', function () {
+            .on('next', function() {
                 assert.equal(pagination.getActivePage(), 4, 'Current page is correct');
                 assert.equal($('.page', $container).length, 7, 'Current page in template is correct');
                 assert.equal($('.page.active', $container).text(), 4, 'Current page in template is correct');
                 pagination.previousPage();
             })
-            .on('prev', function () {
+            .on('prev', function() {
                 assert.equal(pagination.getActivePage(), 3, 'Current page is correct');
                 assert.equal($('.page.active', $container).text(), 3, 'Current page in template is correct');
-                QUnit.start();
+                ready();
             })
             .render($container);
     });
 
-    QUnit.test('setPage', function (assert) {
+    QUnit.test('setPage', function(assert) {
         var $container;
         var pagination;
 
-        QUnit.expect(7);
+        assert.expect(7);
 
         $container = $('#qunit-fixture');
         assert.equal($container.length, 1, 'The container exists');
 
         pagination = paginationComponent({mode: 'pages', activePage: 3, totalPages: 8});
         pagination
-            .on('render', function () {
+            .on('render', function() {
                 assert.equal(pagination.getActivePage(), 3, 'Current page is correct');
                 assert.equal($('.page', $container).length, 7, 'Current page in template is correct');
 
@@ -427,24 +436,24 @@ define(['jquery', 'lodash', 'ui/pagination'], function ($, _, paginationComponen
                 assert.equal(pagination.getActivePage(), 8, 'Current page is correct');
                 assert.equal($('.page', $container).length, 6, 'Current page in template is correct');
             })
-            .on('change', function () {
+            .on('change', function() {
                 assert.ok(true, 'Change was called');
             })
             .render($container);
     });
 
-    QUnit.test('Critical conditions', function (assert) {
+    QUnit.test('Critical conditions', function(assert) {
         var $container;
         var pagination;
 
-        QUnit.expect(15);
+        assert.expect(15);
 
         $container = $('#qunit-fixture');
         assert.equal($container.length, 1, 'The container exists');
 
         pagination = paginationComponent({mode: 'pages', activePage: 5, totalPages: 10});
         pagination
-            .on('render', function () {
+            .on('render', function() {
                 assert.equal(pagination.getActivePage(), 5, 'Current page is correct');
                 pagination.setPage(11);
                 assert.equal(pagination.getActivePage(), 10, 'Current page still there');
@@ -466,25 +475,26 @@ define(['jquery', 'lodash', 'ui/pagination'], function ($, _, paginationComponen
             .on('error', function() {
                 assert.ok(true, 'Error catched');
             })
-            .on('change', function () {
+            .on('change', function() {
                 assert.ok(true, 'Change was called');
             })
             .render($container);
     });
 
-    QUnit.test('Disabled/Enabled mode', function (assert) {
+    QUnit.test('Disabled/Enabled mode', function(assert) {
         var $container;
         var pagination;
 
-        QUnit.expect(8);
+        assert.expect(8);
 
         $container = $('#qunit-fixture');
         assert.equal($container.length, 1, 'The container exists');
 
         pagination = paginationComponent({mode: 'pages', activePage: 4, totalPages: 7});
         pagination
-            .on('render', function () {
-                // buttons
+            .on('render', function() {
+
+                // Buttons
                 var $prev, $next;
 
                 assert.equal(pagination.getActivePage(), 4, 'Current page is correct');
@@ -510,21 +520,22 @@ define(['jquery', 'lodash', 'ui/pagination'], function ($, _, paginationComponen
 
     QUnit.module('Multi pages');
 
-    QUnit.asyncTest('simple simple', function (assert) {
+    QUnit.test('simple simple', function(assert) {
+        var ready = assert.async();
         var $container, pagination1, pagination2, $p1Container, $p2Container;
 
-        QUnit.expect(39);
+        assert.expect(39);
 
-        $container = $('#qunit-fixture');
+        $container = $("#qunit-fixture");
         $p1Container = $('<div class="p1" />').appendTo($container);
         $p2Container = $('<div class="p2" />').appendTo($container);
-        assert.equal($container.length, 1, 'The container exists');
+        assert.equal($container.length, 1, "The container exists");
 
         pagination1 = paginationComponent({activePage: 3, totalPages: 7});
         pagination2 = paginationComponent({activePage: 17, totalPages: 22});
 
         pagination1
-            .on('render', function () {
+            .on('render', function() {
                 assert.equal($('.total', $container).length, 2, 'p1 Count of the pagination elements is correct');
                 assert.equal(pagination1.getActivePage(), 3, 'p1 Current page of p1 is correct');
                 assert.equal(pagination2.getActivePage(), 17, 'p1 Current page of p2 is correct');
@@ -532,14 +543,14 @@ define(['jquery', 'lodash', 'ui/pagination'], function ($, _, paginationComponen
                 assert.equal($('.page', $p2Container).text(), 17, 'p1 Current page in template of p2 is correct');
                 pagination1.nextPage();
             })
-            .on('next', function () {
+            .on('next', function() {
                 assert.equal(pagination1.getActivePage(), 4, 'p1n Current page is correct');
                 assert.equal(pagination2.getActivePage(), 17, 'p1n Current page is correct');
                 assert.equal($('.page', $p1Container).text(), 4, 'p1n Current page of p1 in template is correct');
                 assert.equal($('.page', $p2Container).text(), 17, 'p1n Current page of p2 in template is correct');
                 pagination1.previousPage();
             })
-            .on('prev', function () {
+            .on('prev', function() {
                 assert.equal(pagination1.getActivePage(), 3, 'p1p Current page is correct');
                 assert.equal($('.page', $p1Container).text(), 3, 'p1p Current page in template of p1 is correct');
                 assert.equal(pagination2.getActivePage(), 17, 'p1p Current page is correct');
@@ -548,21 +559,21 @@ define(['jquery', 'lodash', 'ui/pagination'], function ($, _, paginationComponen
             });
 
         pagination2
-            .on('render', function () {
+            .on('render', function() {
                 assert.equal($('.total', $container).length, 1, 'p2 Count of the pagination elements is correct');
                 assert.equal(typeof(pagination1.getActivePage()), 'undefined', 'p2 Pagination 1 have not been initialized');
                 assert.equal(pagination2.getActivePage(), 17, 'p2 Current page of p2 is correct');
                 assert.equal($('.page', $p1Container).text(), '', 'p2 Pagination 1 have not been initialized');
                 assert.equal($('.page', $p2Container).text(), 17, 'p2 Current page in template of p2 is correct');
             })
-            .on('next', function () {
+            .on('next', function() {
                 assert.equal(pagination1.getActivePage(), 3, 'p2 Current page of p1 is correct');
                 assert.equal(pagination2.getActivePage(), 18, 'p2 Current page of p2 is correct');
                 assert.equal($('.page', $p1Container).text(), 3, 'p2 Current page in template of p1 is correct');
                 assert.equal($('.page', $p2Container).text(), 18, 'p2 Current page in template of p2 is correct');
                 pagination2.previousPage();
             })
-            .on('prev', function () {
+            .on('prev', function() {
                 var $prev1, $next1, $prev2, $next2;
 
                 assert.equal(pagination1.getActivePage(), 3, 'p2 Current page of p1 is correct');
@@ -570,7 +581,7 @@ define(['jquery', 'lodash', 'ui/pagination'], function ($, _, paginationComponen
                 assert.equal($('.page', $p1Container).text(), 3, 'p2 Current page in template of p1 is correct');
                 assert.equal($('.page', $p2Container).text(), 17, 'p2 Current page in template of p2 is correct');
 
-                // checking disable/enable
+                // Checking disable/enable
                 $prev1 = $('.icon-backward', $p1Container).parents('button');
                 $next1 = $('.icon-forward', $p1Container).parents('button');
 
@@ -597,9 +608,8 @@ define(['jquery', 'lodash', 'ui/pagination'], function ($, _, paginationComponen
                 assert.notEqual($next2.attr('disabled'), 'disabled', 'p2 Next button not disabled');
                 assert.notEqual($prev2.attr('disabled'), 'disabled', 'p2 Prev button not disabled');
 
-                QUnit.start();
+                ready();
             });
-
 
         pagination2.render($p2Container);
         pagination1.render($p1Container);

@@ -1,54 +1,49 @@
-define([
-    'core/validator/validators'
-], function(validators){
+define(['core/validator/validators'], function(validators) {
     'use strict';
 
     QUnit.module('API');
 
-    QUnit.test('module', function(assert){
-        QUnit.expect(3);
+    QUnit.test('module', function(assert) {
+        assert.expect(3);
         assert.ok(typeof validators === 'object', 'The validators module exports an object');
         assert.ok(typeof validators.register === 'function', 'The validators object has a register method');
         assert.ok(typeof validators.validators === 'object', 'The validators object has a validators property');
     });
 
-
     QUnit.module('register');
 
+    QUnit.test('validtor validation', function(assert) {
+        assert.expect(5);
 
-    QUnit.test('validtor validation', function(assert){
-        QUnit.expect(5);
-
-        assert.throws(function(){
-             validators.register();
+        assert.throws(function() {
+            validators.register();
         }, Error, 'Registering a validator needs a name and a validator');
 
-        assert.throws(function(){
-             validators.register('', { message: 'foo', validate : function(){}});
+        assert.throws(function() {
+            validators.register('', {message: 'foo', validate: function() {}});
         }, Error, 'Registering a validator needs a valid name');
 
-        assert.throws(function(){
-             validators.register({ message: 'foo', validate : function(){}});
+        assert.throws(function() {
+            validators.register({message: 'foo', validate: function() {}});
         }, Error, 'Registering a validator needs a valid name');
 
-        assert.throws(function(){
-             validators.register('foo');
+        assert.throws(function() {
+            validators.register('foo');
         }, Error, 'Registering a validator object');
 
-        assert.throws(function(){
-             validators.register('foo', {});
+        assert.throws(function() {
+            validators.register('foo', {});
         }, Error, 'Registering a validator object with a message and a validate function');
     });
 
-
-    QUnit.test('name based validtor register', function(assert){
-        QUnit.expect(4);
+    QUnit.test('name based validtor register', function(assert) {
+        assert.expect(4);
 
         assert.ok(typeof validators.validators.foo === 'undefined', 'The registered validator is not yet available');
 
         validators.register('foo', {
-            message : 'foo',
-            validate : function(){
+            message: 'foo',
+            validate: function() {
                 return true;
             }
         });
@@ -58,15 +53,15 @@ define([
         assert.ok(typeof validators.validators.foo.validate === 'function', 'The registered validator has a validate method');
     });
 
-    QUnit.test('object based validtor register', function(assert){
-        QUnit.expect(4);
+    QUnit.test('object based validtor register', function(assert) {
+        assert.expect(4);
 
         assert.ok(typeof validators.validators.bar === 'undefined', 'The registered validator is not yet available');
 
         validators.register({
-            name : 'bar',
-            message : 'bar',
-            validate : function(){
+            name: 'bar',
+            message: 'bar',
+            validate: function() {
                 return true;
             }
         });
@@ -76,14 +71,14 @@ define([
         assert.ok(typeof validators.validators.bar.validate === 'function', 'The registered validator has a validate method');
     });
 
-    QUnit.test('register only once by default', function(assert){
-        QUnit.expect(7);
+    QUnit.test('register only once by default', function(assert) {
+        assert.expect(7);
 
         assert.ok(typeof validators.validators.moo === 'undefined', 'The registered validator is not yet available');
 
         validators.register('moo', {
-            message : 'moo',
-            validate : function(){
+            message: 'moo',
+            validate: function() {
                 return true;
             }
         });
@@ -93,8 +88,8 @@ define([
         assert.ok(typeof validators.validators.moo.validate === 'function', 'The registered validator has a validate method');
 
         validators.register('moo', {
-            message : 'woof',
-            validate : function(){
+            message: 'woof',
+            validate: function() {
                 return true;
             }
         });
@@ -104,14 +99,14 @@ define([
 
     });
 
-    QUnit.test('force validtor register', function(assert){
-        QUnit.expect(6);
+    QUnit.test('force validtor register', function(assert) {
+        assert.expect(6);
 
         assert.ok(typeof validators.validators.baz === 'undefined', 'The registered validator is not yet available');
 
         validators.register('baz', {
-            message : 'baz',
-            validate : function(){
+            message: 'baz',
+            validate: function() {
                 return true;
             }
         });
@@ -121,8 +116,8 @@ define([
         assert.ok(typeof validators.validators.baz.validate === 'function', 'The registered validator has a validate method');
 
         validators.register('baz', {
-            message : 'noz',
-            validate : function(){
+            message: 'noz',
+            validate: function() {
                 return true;
             }
         }, true);

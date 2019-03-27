@@ -28,32 +28,14 @@ define([
 ], function($, _, Promise, tokenHandlerFactory) {
     'use strict';
 
-
-    QUnit.module('tokenHandler');
-
-    QUnit.test('module', function(assert) {
-        QUnit.expect(3);
-
-        assert.equal(typeof tokenHandlerFactory, 'function', "The tokenHandler module exposes a function");
-        assert.equal(typeof tokenHandlerFactory(), 'object', "The tokenHandler factory produces an object");
-        assert.notStrictEqual(tokenHandlerFactory(), tokenHandlerFactory(), "The tokenHandler factory provides a different object on each call");
-    });
-
-    QUnit.cases([
+    var proxyApi = [
         { name : 'getToken' },
         { name : 'setToken' },
         { name : 'getClientConfigTokens' },
         { name : 'clearStore' },
         { name : 'getQueueLength' },
         { name : 'setMaxSize' }
-    ])
-    .test('instance API ', function(data, assert) {
-        var instance = tokenHandlerFactory();
-
-        QUnit.expect(1);
-
-        assert.equal(typeof instance[data.name], 'function', 'The tokenHandler instance exposes a "' + data.name + '" function');
-    });
+    ];
 
     function randomToken() {
         var d = Date.now() + Math.floor(5000 * Math.random());
@@ -63,13 +45,34 @@ define([
         };
     }
 
+
+    QUnit.module('tokenHandler');
+
+    QUnit.test('module', function(assert) {
+        assert.expect(3);
+
+        assert.equal(typeof tokenHandlerFactory, 'function', 'The tokenHandler module exposes a function');
+        assert.equal(typeof tokenHandlerFactory(), 'object', 'The tokenHandler factory produces an object');
+        assert.notStrictEqual(tokenHandlerFactory(), tokenHandlerFactory(), 'The tokenHandler factory provides a different object on each call');
+    });
+
+    QUnit
+        .cases.init(proxyApi)
+        .test('instance API ', function(data, assert) {
+            var instance = tokenHandlerFactory();
+            assert.expect(1);
+            assert.equal(typeof instance[data.name], 'function', 'The tokenHandler instance exposes a "' + data.name + '" function');
+        });
+
+
     QUnit.module('behaviour');
 
-    QUnit.asyncTest('set/get single token', function(assert){
+    QUnit.test('set/get single token', function(assert){
+        var ready = assert.async();
         var tokenHandler = tokenHandlerFactory();
         var expectedToken = { value: "e56fg1a3b9de2237f", receivedAt: Date.now() };
 
-        QUnit.expect(2);
+        assert.expect(2);
 
         tokenHandler.setToken(expectedToken.value)
             .then(function(result){
@@ -83,18 +86,19 @@ define([
                 return tokenHandler.clearStore();
             })
             .then(function() {
-                QUnit.start();
+                ready();
             })
             .catch(function(err){
                 assert.ok(false, err.message);
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('getQueueLength', function(assert){
+    QUnit.test('getQueueLength', function(assert){
+        var ready = assert.async();
         var tokenHandler = tokenHandlerFactory({ maxSize: 5 });
 
-        QUnit.expect(6);
+        assert.expect(6);
 
         Promise.all([
             tokenHandler.setToken(randomToken()),
@@ -144,18 +148,19 @@ define([
         .then(function(length){
             assert.equal(length, 0, 'The queue size is correct: 0');
 
-            QUnit.start();
+            ready();
         })
         .catch(function(err){
             assert.ok(false, err.message);
-            QUnit.start();
+            ready();
         });
     });
 
-    QUnit.asyncTest('getClientConfigTokens', function(assert) {
+    QUnit.test('getClientConfigTokens', function(assert) {
+        var ready = assert.async();
         var tokenHandler = tokenHandlerFactory();
 
-        QUnit.expect(3);
+        assert.expect(3);
 
         tokenHandler.getClientConfigTokens()
             .then(function(result) {
@@ -174,11 +179,11 @@ define([
                 return tokenHandler.clearStore();
             })
             .then(function() {
-                QUnit.start();
+                ready();
             })
             .catch(function(err){
                 assert.ok(false, err.message);
-                QUnit.start();
+                ready();
             });
     });
 });

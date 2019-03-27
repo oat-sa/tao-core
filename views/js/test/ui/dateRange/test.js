@@ -18,21 +18,21 @@
  * @author Alexander Zagovorichev <zagovorichev@1pt.com>
  */
 
-define(['jquery', 'ui/dateRange', 'jqueryui'], function ($, dateRange) {
+define(['jquery', 'ui/dateRange', 'jqueryui'], function($, dateRange) {
     'use strict';
 
     QUnit.module('API');
 
-    QUnit.test('factory', function (assert) {
-        QUnit.expect(3);
+    QUnit.test('factory', function(assert) {
+        assert.expect(3);
 
         assert.ok(typeof dateRange === 'function', 'the module exposes a function');
         assert.ok(typeof dateRange(false, []) === 'object', 'the factory creates an object');
         assert.notEqual(dateRange({}), dateRange({}), 'the factory creates new objects');
     });
 
-    QUnit.test('component', function (assert) {
-        QUnit.expect(2);
+    QUnit.test('component', function(assert) {
+        assert.expect(2);
 
         var range = dateRange({});
 
@@ -40,8 +40,8 @@ define(['jquery', 'ui/dateRange', 'jqueryui'], function ($, dateRange) {
         assert.ok(typeof range.destroy === 'function', 'the component has a destroy method');
     });
 
-    QUnit.test('eventifier', function (assert) {
-        QUnit.expect(3);
+    QUnit.test('eventifier', function(assert) {
+        assert.expect(3);
 
         var range = dateRange({});
 
@@ -52,9 +52,9 @@ define(['jquery', 'ui/dateRange', 'jqueryui'], function ($, dateRange) {
 
     QUnit.module('Component');
 
-    QUnit.test('render', function (assert) {
+    QUnit.test('render', function(assert) {
 
-        QUnit.expect(3);
+        assert.expect(3);
 
         var $container = $('#qunit-fixture');
         assert.equal($container.length, 1, 'The container exists');
@@ -66,7 +66,7 @@ define(['jquery', 'ui/dateRange', 'jqueryui'], function ($, dateRange) {
     });
 
     QUnit.test('destroy', function(assert) {
-        QUnit.expect(7);
+        assert.expect(7);
 
         var $container = $('#qunit-fixture');
         assert.equal($container.length, 1, 'The container exists');
@@ -87,9 +87,9 @@ define(['jquery', 'ui/dateRange', 'jqueryui'], function ($, dateRange) {
 
     QUnit.module('Attach');
 
-    QUnit.test('render', function (assert) {
+    QUnit.test('render', function(assert) {
 
-        QUnit.expect(4);
+        assert.expect(4);
 
         var $container = $('#qunit-fixture');
         assert.equal($container.length, 1, 'The container exists');
@@ -112,7 +112,7 @@ define(['jquery', 'ui/dateRange', 'jqueryui'], function ($, dateRange) {
     });
 
     QUnit.test('destroy', function(assert) {
-        QUnit.expect(7);
+        assert.expect(7);
 
         var $container = $('#qunit-fixture');
         assert.equal($container.length, 1, 'The container exists');

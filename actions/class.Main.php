@@ -313,7 +313,8 @@ class tao_actions_Main extends tao_actions_CommonModule
             $firstTime = TaoCe::isFirstTimeInTao();
             if ($firstTime == false) {
                $lastVisited = TaoCe::getLastVisitedUrl();
-               if(!is_null($lastVisited)){
+
+                if(!is_null($lastVisited)){
                    $this->redirect($lastVisited);
                }
             }

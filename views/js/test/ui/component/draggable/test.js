@@ -19,47 +19,48 @@
  * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
+
     'jquery',
     'ui/component',
     'ui/component/placeable',
     'ui/component/draggable'
-], function ($, componentFactory, makePlaceable, makeDraggable) {
+], function($, componentFactory, makePlaceable, makeDraggable) {
     'use strict';
 
     QUnit.module('API');
 
-    QUnit.test('module', function (assert) {
-        QUnit.expect(1);
+    QUnit.test('module', function(assert) {
+        assert.expect(1);
 
         assert.ok(typeof makeDraggable === 'function', 'The module expose a function');
     });
 
     QUnit.test('auto makes the component placeable', function(assert) {
         var component = makeDraggable(componentFactory());
-        QUnit.expect(1);
+        assert.expect(1);
         assert.ok(makePlaceable.isPlaceable(component), 'created component is placeable');
     });
 
     QUnit.module('Visual test');
 
-    QUnit.asyncTest('Display and play', function (assert) {
-        var component = componentFactory({}, { width: 200, height: 300 }),
+    QUnit.test('Display and play', function(assert) {
+        var ready = assert.async();
+        var component = componentFactory({}, {width: 200, height: 300}),
             $container = $('#outside');
 
-        QUnit.expect(1);
+        assert.expect(1);
 
         makeDraggable(component);
 
         component
-            .on('render', function(){
+            .on('render', function() {
                 assert.ok(true);
-                QUnit.start();
+                ready();
             })
             .init()
             .render($container)
             .center()
         ;
     });
-
 
 });

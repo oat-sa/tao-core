@@ -19,30 +19,39 @@
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
  */
 define([
+
     'jquery',
     'lodash',
     'core/promise',
     'ui/maths/calculator/core/board',
     'ui/maths/calculator/core/terms',
     'ui/maths/calculator/plugins/screen/simpleScreen/simpleScreen'
-], function ($, _, Promise, calculatorBoardFactory, registeredTerms, simpleScreenPluginFactory) {
+], function(
+
+    $,
+    _,
+    Promise,
+    calculatorBoardFactory,
+    registeredTerms,
+    simpleScreenPluginFactory
+) {
     'use strict';
 
     QUnit.module('module');
 
-    QUnit.test('simpleScreen', function (assert) {
+    QUnit.test('simpleScreen', function(assert) {
         var calculator = calculatorBoardFactory();
 
-        QUnit.expect(3);
+        assert.expect(3);
 
-        assert.equal(typeof simpleScreenPluginFactory, 'function', "The plugin module exposes a function");
-        assert.equal(typeof simpleScreenPluginFactory(calculator), 'object', "The plugin factory produces an instance");
-        assert.notStrictEqual(simpleScreenPluginFactory(calculator), simpleScreenPluginFactory(calculator), "The plugin factory provides a different instance on each call");
+        assert.equal(typeof simpleScreenPluginFactory, 'function', 'The plugin module exposes a function');
+        assert.equal(typeof simpleScreenPluginFactory(calculator), 'object', 'The plugin factory produces an instance');
+        assert.notStrictEqual(simpleScreenPluginFactory(calculator), simpleScreenPluginFactory(calculator), 'The plugin factory provides a different instance on each call');
     });
 
     QUnit.module('api');
 
-    QUnit.cases([
+    QUnit.cases.init([
         {title: 'install'},
         {title: 'init'},
         {title: 'render'},
@@ -58,111 +67,112 @@ define([
         {title: 'hide'},
         {title: 'enable'},
         {title: 'disable'}
-    ]).test('plugin API ', function (data, assert) {
+    ]).test('plugin API ', function(data, assert) {
         var calculator = calculatorBoardFactory();
         var plugin = simpleScreenPluginFactory(calculator);
-        QUnit.expect(1);
+        assert.expect(1);
         assert.equal(typeof plugin[data.title], 'function', 'The plugin instances expose a "' + data.title + '" function');
     });
 
     QUnit.module('behavior');
 
-    QUnit.asyncTest('install', function (assert) {
+    QUnit.test('install', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-install');
         var calculator = calculatorBoardFactory($container)
-            .on('ready', function () {
+            .on('ready', function() {
                 var areaBroker = calculator.getAreaBroker();
                 var plugin = simpleScreenPluginFactory(calculator, areaBroker);
 
-                QUnit.expect(1);
+                assert.expect(1);
 
                 calculator
-                    .on('plugin-install.simpleScreen', function () {
+                    .on('plugin-install.simpleScreen', function() {
                         assert.ok(true, 'The plugin has been installed');
                     })
-                    .on('destroy', function () {
-                        QUnit.start();
+                    .on('destroy', function() {
+                        ready();
                     });
 
                 plugin.install()
-                    .catch(function (err) {
+                    .catch(function(err) {
                         assert.ok(false, 'Unexpected failure : ' + err.message);
                     })
-                    .then(function () {
+                    .then(function() {
                         plugin.destroy();
                         calculator.destroy();
                     });
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
-
     });
 
-    QUnit.asyncTest('init', function (assert) {
+    QUnit.test('init', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-init');
         var calculator = calculatorBoardFactory($container)
-            .on('ready', function () {
+            .on('ready', function() {
                 var areaBroker = calculator.getAreaBroker();
                 var plugin = simpleScreenPluginFactory(calculator, areaBroker);
 
-                QUnit.expect(1);
+                assert.expect(1);
 
                 calculator
-                    .on('plugin-init.simpleScreen', function () {
+                    .on('plugin-init.simpleScreen', function() {
                         assert.ok(plugin.getState('init'), 'The plugin has been initialized');
                     })
-                    .on('destroy', function () {
-                        QUnit.start();
+                    .on('destroy', function() {
+                        ready();
                     });
 
                 plugin.install()
-                    .then(function () {
+                    .then(function() {
                         return plugin.init();
                     })
-                    .catch(function (err) {
+                    .catch(function(err) {
                         assert.ok(false, 'Unexpected failure : ' + err.message);
                     })
-                    .then(function () {
+                    .then(function() {
                         plugin.destroy();
                         calculator.destroy();
                     });
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
-
     });
 
-    QUnit.asyncTest('render', function (assert) {
+    QUnit.test('render', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-render');
         var calculator = calculatorBoardFactory($container)
-            .on('ready', function () {
+            .on('ready', function() {
                 var areaBroker = calculator.getAreaBroker();
                 var plugin = simpleScreenPluginFactory(calculator, areaBroker);
 
-                QUnit.expect(10);
+                assert.expect(10);
 
                 calculator
-                    .on('plugin-render.simpleScreen', function () {
+                    .on('plugin-render.simpleScreen', function() {
                         assert.ok(plugin.getState('ready'), 'The plugin has been rendered');
                     })
-                    .on('destroy', function () {
-                        QUnit.start();
+                    .on('destroy', function() {
+                        ready();
                     });
 
                 plugin.install()
-                    .then(function () {
+                    .then(function() {
                         return plugin.init();
                     })
-                    .then(function () {
+                    .then(function() {
                         return plugin.render();
                     })
-                    .then(function () {
+                    .then(function() {
                         var $screen = $container.find('.calculator-screen');
                         assert.equal(areaBroker.getScreenArea().find('.calculator-screen').length, 1, 'The screen layout has been inserted');
                         assert.equal(areaBroker.getScreenArea().find('.calculator-screen .history').length, 1, 'The screen layout contains area for history');
@@ -171,148 +181,148 @@ define([
                         assert.equal(calculator.getExpression(), '0', 'The expression should be set to 0');
                         assert.equal(calculator.getPosition(), 1, 'The position should be set to 1');
 
-
                         assert.equal($screen.find('.term').length, 1, 'The expected number of terms has been transformed');
 
                         assert.equal($screen.find('.term:eq(0)').data('value'), '0', 'the first operand is transformed - data-value');
                         assert.equal($screen.find('.term:eq(0)').data('token'), 'NUM0', 'the first operand is transformed - data-token');
                         assert.equal($screen.find('.term:eq(0)').text().trim(), '0', 'the first operand is transformed - content');
                     })
-                    .catch(function (err) {
+                    .catch(function(err) {
                         assert.ok(false, 'Unexpected failure : ' + err.message);
                     })
-                    .then(function () {
+                    .then(function() {
                         plugin.destroy();
                         calculator.destroy();
                     });
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
-
-
-    QUnit.asyncTest('render - failure', function (assert) {
+    QUnit.test('render - failure', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-render');
         var calculator = calculatorBoardFactory($container)
-            .on('ready', function () {
+            .on('ready', function() {
                 var areaBroker = calculator.getAreaBroker();
                 var plugin = simpleScreenPluginFactory(calculator, areaBroker);
                 plugin.setConfig({layout: 'foo'});
 
-                QUnit.expect(1);
+                assert.expect(1);
 
                 calculator
-                    .on('plugin-render.templateScreen', function () {
+                    .on('plugin-render.templateScreen', function() {
                         assert.ok(false, 'Should not reach that point!');
                     })
-                    .on('destroy', function () {
-                        QUnit.start();
+                    .on('destroy', function() {
+                        ready();
                     });
 
                 plugin.install()
-                    .then(function () {
+                    .then(function() {
                         return plugin.init();
                     })
-                    .then(function () {
+                    .then(function() {
                         return plugin.render();
                     })
-                    .then(function () {
+                    .then(function() {
                         assert.ok(false, 'Should not reach that point!');
                     })
-                    .catch(function () {
+                    .catch(function() {
                         assert.ok(true, 'The operation should fail!');
                     })
-                    .then(function () {
+                    .then(function() {
                         calculator.destroy();
                     });
             })
-            .on('error', function () {
+            .on('error', function() {
                 assert.ok(true, 'The operation should fail!');
                 calculator.destroy();
             });
     });
 
-    QUnit.asyncTest('destroy', function (assert) {
+    QUnit.test('destroy', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-destroy');
         var calculator = calculatorBoardFactory($container)
-            .on('ready', function () {
+            .on('ready', function() {
                 var areaBroker = calculator.getAreaBroker();
                 var plugin = simpleScreenPluginFactory(calculator, areaBroker);
 
-                QUnit.expect(3);
+                assert.expect(3);
 
                 calculator
-                    .on('plugin-render.simpleScreen', function () {
+                    .on('plugin-render.simpleScreen', function() {
                         assert.ok(plugin.getState('ready'), 'The plugin has been rendered');
                     })
-                    .on('destroy', function () {
-                        QUnit.start();
+                    .on('destroy', function() {
+                        ready();
                     });
 
                 plugin.install()
-                    .then(function () {
+                    .then(function() {
                         return plugin.init();
                     })
-                    .then(function () {
+                    .then(function() {
                         return plugin.render();
                     })
-                    .then(function () {
+                    .then(function() {
                         assert.equal(areaBroker.getScreenArea().find('.calculator-screen').length, 1, 'The screen layout has been inserted');
 
                         return plugin.destroy();
                     })
-                    .then(function () {
+                    .then(function() {
                         assert.equal(areaBroker.getScreenArea().find('.calculator-screen').length, 0, 'The screen layout has been removed');
                     })
-                    .catch(function (err) {
+                    .catch(function(err) {
                         assert.ok(false, 'Unexpected failure : ' + err.message);
                     })
-                    .then(function () {
+                    .then(function() {
                         calculator.destroy();
                     });
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('transform expression', function (assert) {
+    QUnit.test('transform expression', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-transform');
         var calculator = calculatorBoardFactory($container)
-            .on('ready', function () {
+            .on('ready', function() {
                 var areaBroker = calculator.getAreaBroker();
                 var plugin = simpleScreenPluginFactory(calculator, areaBroker);
 
-                QUnit.expect(51);
+                assert.expect(51);
 
                 calculator
-                    .on('plugin-render.simpleScreen', function () {
+                    .on('plugin-render.simpleScreen', function() {
                         assert.ok(plugin.getState('ready'), 'The plugin has been rendered');
                     })
-                    .on('destroy', function () {
-                        QUnit.start();
+                    .on('destroy', function() {
+                        ready();
                     });
 
                 plugin.install()
-                    .then(function () {
+                    .then(function() {
                         return plugin.init();
                     })
-                    .then(function () {
+                    .then(function() {
                         return plugin.render();
                     })
-                    .then(function () {
+                    .then(function() {
                         assert.equal(areaBroker.getScreenArea().find('.calculator-screen').length, 1, 'The screen layout has been inserted');
 
                         assert.equal(calculator.getExpression(), '0', 'The expression should be set to 0');
                         assert.equal(calculator.getPosition(), 1, 'The position should be set to 1');
                     })
-                    .then(function () {
+                    .then(function() {
                         var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
@@ -340,7 +350,7 @@ define([
                                 .replace('3+2');
                         });
                     })
-                    .then(function () {
+                    .then(function() {
                         var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
@@ -368,7 +378,7 @@ define([
                                 .replace('3+x');
                         });
                     })
-                    .then(function () {
+                    .then(function() {
                         var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
@@ -406,52 +416,53 @@ define([
                                 .replace('sqrt 3+sin PI');
                         });
                     })
-                    .catch(function (err) {
+                    .catch(function(err) {
                         assert.ok(false, 'Unexpected failure : ' + err.message);
                     })
-                    .then(function () {
+                    .then(function() {
                         plugin.destroy();
                         calculator.destroy();
                     });
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('transform all', function (assert) {
+    QUnit.test('transform all', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-transform-all');
         var expectedTokens = [];
         var expression = '';
         var calculator = calculatorBoardFactory($container)
-            .on('ready', function () {
+            .on('ready', function() {
                 var areaBroker = calculator.getAreaBroker();
                 var plugin = simpleScreenPluginFactory(calculator, areaBroker);
 
                 calculator
-                    .on('plugin-render.simpleScreen', function () {
+                    .on('plugin-render.simpleScreen', function() {
                         assert.ok(plugin.getState('ready'), 'The plugin has been rendered');
                     })
-                    .on('destroy', function () {
-                        QUnit.start();
+                    .on('destroy', function() {
+                        ready();
                     });
 
                 plugin.install()
-                    .then(function () {
+                    .then(function() {
                         return plugin.init();
                     })
-                    .then(function () {
+                    .then(function() {
                         return plugin.render();
                     })
-                    .then(function () {
+                    .then(function() {
                         assert.equal(areaBroker.getScreenArea().find('.calculator-screen').length, 1, 'The screen layout has been inserted');
 
                         assert.equal(calculator.getExpression(), '0', 'The expression should be set to 0');
                         assert.equal(calculator.getPosition(), 1, 'The position should be set to 1');
                     })
-                    .then(function () {
+                    .then(function() {
                         var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
@@ -475,18 +486,18 @@ define([
                                 .replace(expression);
                         });
                     })
-                    .catch(function (err) {
+                    .catch(function(err) {
                         assert.ok(false, 'Unexpected failure : ' + err.message);
                     })
-                    .then(function () {
+                    .then(function() {
                         plugin.destroy();
                         calculator.destroy();
                     });
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
 
         _.forEach(registeredTerms, function(term, token) {
@@ -510,34 +521,35 @@ define([
             });
         });
 
-        QUnit.expect(expectedTokens.length * 4 + 5);
+        assert.expect(expectedTokens.length * 4 + 5);
     });
 
-    QUnit.asyncTest('evaluate expression', function (assert) {
+    QUnit.test('evaluate expression', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-evaluate');
         var calculator = calculatorBoardFactory($container)
-            .on('ready', function () {
+            .on('ready', function() {
                 var areaBroker = calculator.getAreaBroker();
                 var plugin = simpleScreenPluginFactory(calculator, areaBroker);
 
-                QUnit.expect(115);
+                assert.expect(115);
 
                 calculator
-                    .on('plugin-render.simpleScreen', function () {
+                    .on('plugin-render.simpleScreen', function() {
                         assert.ok(plugin.getState('ready'), 'The plugin has been rendered');
                     })
-                    .on('destroy', function () {
-                        QUnit.start();
+                    .on('destroy', function() {
+                        ready();
                     });
 
                 plugin.install()
-                    .then(function () {
+                    .then(function() {
                         return plugin.init();
                     })
-                    .then(function () {
+                    .then(function() {
                         return plugin.render();
                     })
-                    .then(function () {
+                    .then(function() {
                         assert.equal(areaBroker.getScreenArea().find('.calculator-screen').length, 1, 'The screen layout has been inserted');
 
                         assert.equal(calculator.getExpression(), '0', 'The expression should be set to 0');
@@ -546,7 +558,7 @@ define([
                         assert.ok(calculator.hasVariable('ans'), 'A variable exists to store the last result');
                         assert.equal(calculator.getVariable('ans').value, '0', 'The last result is 0');
                     })
-                    .then(function () {
+                    .then(function() {
                         var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
@@ -576,7 +588,7 @@ define([
                                 .replace('3+2');
                         });
                     })
-                    .then(function () {
+                    .then(function() {
                         var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
@@ -627,7 +639,7 @@ define([
                                 .evaluate();
                         });
                     })
-                    .then(function () {
+                    .then(function() {
                         var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
@@ -654,7 +666,7 @@ define([
                                 .useTerm('ADD');
                         });
                     })
-                    .then(function () {
+                    .then(function() {
                         var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
@@ -686,7 +698,7 @@ define([
                                 .useTerm('NUM3');
                         });
                     })
-                    .then(function () {
+                    .then(function() {
                         var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
@@ -737,7 +749,7 @@ define([
                                 .evaluate();
                         });
                     })
-                    .then(function () {
+                    .then(function() {
                         var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
@@ -762,46 +774,47 @@ define([
                                 .useCommand('clearAll');
                         });
                     })
-                    .catch(function (err) {
+                    .catch(function(err) {
                         assert.ok(false, 'Unexpected failure : ' + err.message);
                     })
-                    .then(function () {
+                    .then(function() {
                         plugin.destroy();
                         calculator.destroy();
                     });
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('evaluate NaN', function (assert) {
+    QUnit.test('evaluate NaN', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-error-nan');
         var calculator = calculatorBoardFactory($container)
-            .on('ready', function () {
+            .on('ready', function() {
                 var areaBroker = calculator.getAreaBroker();
                 var plugin = simpleScreenPluginFactory(calculator, areaBroker);
 
-                QUnit.expect(70);
+                assert.expect(70);
 
                 calculator
-                    .on('plugin-render.simpleScreen', function () {
+                    .on('plugin-render.simpleScreen', function() {
                         assert.ok(plugin.getState('ready'), 'The plugin has been rendered');
                     })
-                    .on('destroy', function () {
-                        QUnit.start();
+                    .on('destroy', function() {
+                        ready();
                     });
 
                 plugin.install()
-                    .then(function () {
+                    .then(function() {
                         return plugin.init();
                     })
-                    .then(function () {
+                    .then(function() {
                         return plugin.render();
                     })
-                    .then(function () {
+                    .then(function() {
                         assert.equal(areaBroker.getScreenArea().find('.calculator-screen').length, 1, 'The screen layout has been inserted');
 
                         assert.equal(calculator.getExpression(), '0', 'The expression should be set to 0');
@@ -810,7 +823,7 @@ define([
                         assert.ok(calculator.hasVariable('ans'), 'A variable exists to store the last result');
                         assert.equal(calculator.getVariable('ans').value, '0', 'The last result is 0');
                     })
-                    .then(function () {
+                    .then(function() {
                         var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
@@ -840,7 +853,7 @@ define([
                                 .replace('sqrt -2');
                         });
                     })
-                    .then(function () {
+                    .then(function() {
                         var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
@@ -891,7 +904,7 @@ define([
                                 .evaluate();
                         });
                     })
-                    .then(function () {
+                    .then(function() {
                         var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
@@ -918,7 +931,7 @@ define([
                                 .useTerm('ADD');
                         });
                     })
-                    .then(function () {
+                    .then(function() {
                         var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
@@ -943,46 +956,47 @@ define([
                                 .useCommand('clearAll');
                         });
                     })
-                    .catch(function (err) {
+                    .catch(function(err) {
                         assert.ok(false, 'Unexpected failure : ' + err.message);
                     })
-                    .then(function () {
+                    .then(function() {
                         plugin.destroy();
                         calculator.destroy();
                     });
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('evaluate Infinity', function (assert) {
+    QUnit.test('evaluate Infinity', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-error-infinity');
         var calculator = calculatorBoardFactory($container)
-            .on('ready', function () {
+            .on('ready', function() {
                 var areaBroker = calculator.getAreaBroker();
                 var plugin = simpleScreenPluginFactory(calculator, areaBroker);
 
-                QUnit.expect(70);
+                assert.expect(70);
 
                 calculator
-                    .on('plugin-render.simpleScreen', function () {
+                    .on('plugin-render.simpleScreen', function() {
                         assert.ok(plugin.getState('ready'), 'The plugin has been rendered');
                     })
-                    .on('destroy', function () {
-                        QUnit.start();
+                    .on('destroy', function() {
+                        ready();
                     });
 
                 plugin.install()
-                    .then(function () {
+                    .then(function() {
                         return plugin.init();
                     })
-                    .then(function () {
+                    .then(function() {
                         return plugin.render();
                     })
-                    .then(function () {
+                    .then(function() {
                         assert.equal(areaBroker.getScreenArea().find('.calculator-screen').length, 1, 'The screen layout has been inserted');
 
                         assert.equal(calculator.getExpression(), '0', 'The expression should be set to 0');
@@ -991,7 +1005,7 @@ define([
                         assert.ok(calculator.hasVariable('ans'), 'A variable exists to store the last result');
                         assert.equal(calculator.getVariable('ans').value, '0', 'The last result is 0');
                     })
-                    .then(function () {
+                    .then(function() {
                         var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
@@ -1021,7 +1035,7 @@ define([
                                 .replace('3/0');
                         });
                     })
-                    .then(function () {
+                    .then(function() {
                         var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
@@ -1072,7 +1086,7 @@ define([
                                 .evaluate();
                         });
                     })
-                    .then(function () {
+                    .then(function() {
                         var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
@@ -1099,7 +1113,7 @@ define([
                                 .useTerm('ADD');
                         });
                     })
-                    .then(function () {
+                    .then(function() {
                         var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
@@ -1124,46 +1138,47 @@ define([
                                 .useCommand('clearAll');
                         });
                     })
-                    .catch(function (err) {
+                    .catch(function(err) {
                         assert.ok(false, 'Unexpected failure : ' + err.message);
                     })
-                    .then(function () {
+                    .then(function() {
                         plugin.destroy();
                         calculator.destroy();
                     });
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('evaluate syntax error', function (assert) {
+    QUnit.test('evaluate syntax error', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-error-syntax');
         var calculator = calculatorBoardFactory($container)
-            .on('ready', function () {
+            .on('ready', function() {
                 var areaBroker = calculator.getAreaBroker();
                 var plugin = simpleScreenPluginFactory(calculator, areaBroker);
 
-                QUnit.expect(78);
+                assert.expect(78);
 
                 calculator
-                    .on('plugin-render.simpleScreen', function () {
+                    .on('plugin-render.simpleScreen', function() {
                         assert.ok(plugin.getState('ready'), 'The plugin has been rendered');
                     })
-                    .on('destroy', function () {
-                        QUnit.start();
+                    .on('destroy', function() {
+                        ready();
                     });
 
                 plugin.install()
-                    .then(function () {
+                    .then(function() {
                         return plugin.init();
                     })
-                    .then(function () {
+                    .then(function() {
                         return plugin.render();
                     })
-                    .then(function () {
+                    .then(function() {
                         assert.equal(areaBroker.getScreenArea().find('.calculator-screen').length, 1, 'The screen layout has been inserted');
 
                         assert.equal(calculator.getExpression(), '0', 'The expression should be set to 0');
@@ -1172,7 +1187,7 @@ define([
                         assert.ok(calculator.hasVariable('ans'), 'A variable exists to store the last result');
                         assert.equal(calculator.getVariable('ans').value, '0', 'The last result is 0');
                     })
-                    .then(function () {
+                    .then(function() {
                         var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
@@ -1197,7 +1212,7 @@ define([
                                 .replace('3+');
                         });
                     })
-                    .then(function () {
+                    .then(function() {
                         var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
@@ -1238,7 +1253,7 @@ define([
                                 .evaluate();
                         });
                     })
-                    .then(function () {
+                    .then(function() {
                         var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
@@ -1270,7 +1285,7 @@ define([
                                 .useTerm('NUM2');
                         });
                     })
-                    .then(function () {
+                    .then(function() {
                         var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
@@ -1320,46 +1335,47 @@ define([
                                 .evaluate();
                         });
                     })
-                    .catch(function (err) {
+                    .catch(function(err) {
                         assert.ok(false, 'Unexpected failure : ' + err.message);
                     })
-                    .then(function () {
+                    .then(function() {
                         plugin.destroy();
                         calculator.destroy();
                     });
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('0 and operator', function (assert) {
+    QUnit.test('0 and operator', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-zero-op');
         var calculator = calculatorBoardFactory($container)
-            .on('ready', function () {
+            .on('ready', function() {
                 var areaBroker = calculator.getAreaBroker();
                 var plugin = simpleScreenPluginFactory(calculator, areaBroker);
 
-                QUnit.expect(40);
+                assert.expect(40);
 
                 calculator
-                    .on('plugin-render.simpleScreen', function () {
+                    .on('plugin-render.simpleScreen', function() {
                         assert.ok(plugin.getState('ready'), 'The plugin has been rendered');
                     })
-                    .on('destroy', function () {
-                        QUnit.start();
+                    .on('destroy', function() {
+                        ready();
                     });
 
                 plugin.install()
-                    .then(function () {
+                    .then(function() {
                         return plugin.init();
                     })
-                    .then(function () {
+                    .then(function() {
                         return plugin.render();
                     })
-                    .then(function () {
+                    .then(function() {
                         var $screen = $container.find('.calculator-screen');
                         assert.equal(areaBroker.getScreenArea().find('.calculator-screen').length, 1, 'The screen layout has been inserted');
 
@@ -1372,7 +1388,7 @@ define([
                         assert.equal($screen.find('.term:eq(0)').data('token'), 'NUM0', 'the first operand is transformed - data-token');
                         assert.equal($screen.find('.term:eq(0)').text().trim(), '0', 'the first operand is transformed - content');
                     })
-                    .then(function () {
+                    .then(function() {
                         var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
@@ -1393,7 +1409,7 @@ define([
                                 .useTerm('NUM0');
                         });
                     })
-                    .then(function () {
+                    .then(function() {
                         var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
@@ -1446,23 +1462,23 @@ define([
                                 .useTerm('ADD');
                         });
                     })
-                    .catch(function (err) {
+                    .catch(function(err) {
                         assert.ok(false, 'Unexpected failure : ' + err.message);
                     })
-                    .then(function () {
+                    .then(function() {
                         plugin.destroy();
                         calculator.destroy();
                     });
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
     QUnit
-        .cases([{
+        .cases.init([{
             title: 'PI',
             term: 'PI',
             expression: 'PI',
@@ -1491,31 +1507,32 @@ define([
             type: 'function',
             label: registeredTerms.SQRT.label
         }])
-        .asyncTest('0 and const', function (data, assert) {
+        .test('0 and const', function(data, assert) {
+            var ready = assert.async();
             var $container = $('#fixture-zero-const');
             var calculator = calculatorBoardFactory($container)
-                .on('ready', function () {
+                .on('ready', function() {
                     var areaBroker = calculator.getAreaBroker();
                     var plugin = simpleScreenPluginFactory(calculator, areaBroker);
 
-                    QUnit.expect(21);
+                    assert.expect(21);
 
                     calculator
-                        .on('plugin-render.simpleScreen', function () {
+                        .on('plugin-render.simpleScreen', function() {
                             assert.ok(plugin.getState('ready'), 'The plugin has been rendered');
                         })
-                        .on('destroy', function () {
-                            QUnit.start();
+                        .on('destroy', function() {
+                            ready();
                         });
 
                     plugin.install()
-                        .then(function () {
+                        .then(function() {
                             return plugin.init();
                         })
-                        .then(function () {
+                        .then(function() {
                             return plugin.render();
                         })
-                        .then(function () {
+                        .then(function() {
                             var $screen = $container.find('.calculator-screen');
                             assert.equal(areaBroker.getScreenArea().find('.calculator-screen').length, 1, 'The screen layout has been inserted');
 
@@ -1528,7 +1545,7 @@ define([
                             assert.equal($screen.find('.term:eq(0)').data('token'), 'NUM0', 'the first operand is transformed - data-token');
                             assert.equal($screen.find('.term:eq(0)').text().trim(), '0', 'the first operand is transformed - content');
                         })
-                        .then(function () {
+                        .then(function() {
                             var $screen = $container.find('.calculator-screen');
                             return new Promise(function(resolve) {
                                 calculator
@@ -1549,7 +1566,7 @@ define([
                                     .useTerm('NUM0');
                             });
                         })
-                        .then(function () {
+                        .then(function() {
                             var $screen = $container.find('.calculator-screen');
                             return new Promise(function(resolve) {
                                 calculator
@@ -1571,46 +1588,47 @@ define([
                                     .useTerm(data.term);
                             });
                         })
-                        .catch(function (err) {
+                        .catch(function(err) {
                             assert.ok(false, 'Unexpected failure : ' + err.message);
                         })
-                        .then(function () {
+                        .then(function() {
                             plugin.destroy();
                             calculator.destroy();
                         });
                 })
-                .on('error', function (err) {
+                .on('error', function(err) {
                     console.error(err);
                     assert.ok(false, 'The operation should not fail!');
-                    QUnit.start();
+                    ready();
                 });
         });
 
-    QUnit.asyncTest('ans and operator', function (assert) {
+    QUnit.test('ans and operator', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-ans-op');
         var calculator = calculatorBoardFactory($container)
-            .on('ready', function () {
+            .on('ready', function() {
                 var areaBroker = calculator.getAreaBroker();
                 var plugin = simpleScreenPluginFactory(calculator, areaBroker);
 
-                QUnit.expect(34);
+                assert.expect(34);
 
                 calculator
-                    .on('plugin-render.simpleScreen', function () {
+                    .on('plugin-render.simpleScreen', function() {
                         assert.ok(plugin.getState('ready'), 'The plugin has been rendered');
                     })
-                    .on('destroy', function () {
-                        QUnit.start();
+                    .on('destroy', function() {
+                        ready();
                     });
 
                 plugin.install()
-                    .then(function () {
+                    .then(function() {
                         return plugin.init();
                     })
-                    .then(function () {
+                    .then(function() {
                         return plugin.render();
                     })
-                    .then(function () {
+                    .then(function() {
                         var $screen = $container.find('.calculator-screen');
                         assert.equal(areaBroker.getScreenArea().find('.calculator-screen').length, 1, 'The screen layout has been inserted');
 
@@ -1625,7 +1643,7 @@ define([
                         assert.equal($screen.find('.term:eq(0)').data('token'), 'ANS', 'the first operand is transformed - data-token');
                         assert.equal($screen.find('.term:eq(0)').text().trim(), '0', 'the first operand is transformed - content');
                     })
-                    .then(function () {
+                    .then(function() {
                         var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
@@ -1678,23 +1696,23 @@ define([
                                 .useTerm('ADD');
                         });
                     })
-                    .catch(function (err) {
+                    .catch(function(err) {
                         assert.ok(false, 'Unexpected failure : ' + err.message);
                     })
-                    .then(function () {
+                    .then(function() {
                         plugin.destroy();
                         calculator.destroy();
                     });
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
     QUnit
-        .cases([{
+        .cases.init([{
             title: 'PI',
             term: 'PI',
             expression: 'PI',
@@ -1723,31 +1741,32 @@ define([
             type: 'function',
             label: registeredTerms.SQRT.label
         }])
-        .asyncTest('ans and const', function (data, assert) {
+        .test('ans and const', function(data, assert) {
+            var ready = assert.async();
             var $container = $('#fixture-ans-const');
             var calculator = calculatorBoardFactory($container)
-                .on('ready', function () {
+                .on('ready', function() {
                     var areaBroker = calculator.getAreaBroker();
                     var plugin = simpleScreenPluginFactory(calculator, areaBroker);
 
-                    QUnit.expect(15);
+                    assert.expect(15);
 
                     calculator
-                        .on('plugin-render.simpleScreen', function () {
+                        .on('plugin-render.simpleScreen', function() {
                             assert.ok(plugin.getState('ready'), 'The plugin has been rendered');
                         })
-                        .on('destroy', function () {
-                            QUnit.start();
+                        .on('destroy', function() {
+                            ready();
                         });
 
                     plugin.install()
-                        .then(function () {
+                        .then(function() {
                             return plugin.init();
                         })
-                        .then(function () {
+                        .then(function() {
                             return plugin.render();
                         })
-                        .then(function () {
+                        .then(function() {
                             var $screen = $container.find('.calculator-screen');
                             assert.equal(areaBroker.getScreenArea().find('.calculator-screen').length, 1, 'The screen layout has been inserted');
 
@@ -1762,7 +1781,7 @@ define([
                             assert.equal($screen.find('.term:eq(0)').data('token'), 'ANS', 'the first operand is transformed - data-token');
                             assert.equal($screen.find('.term:eq(0)').text().trim(), '0', 'the first operand is transformed - content');
                         })
-                        .then(function () {
+                        .then(function() {
                             var $screen = $container.find('.calculator-screen');
                             return new Promise(function(resolve) {
                                 calculator
@@ -1784,23 +1803,23 @@ define([
                                     .useTerm(data.term);
                             });
                         })
-                        .catch(function (err) {
+                        .catch(function(err) {
                             assert.ok(false, 'Unexpected failure : ' + err.message);
                         })
-                        .then(function () {
+                        .then(function() {
                             plugin.destroy();
                             calculator.destroy();
                         });
                 })
-                .on('error', function (err) {
+                .on('error', function(err) {
                     console.error(err);
                     assert.ok(false, 'The operation should not fail!');
-                    QUnit.start();
+                    ready();
                 });
         });
 
     QUnit
-        .cases([{
+        .cases.init([{
             title: '-3',
             expression: '-3',
             text: registeredTerms.NEG.label + '3'
@@ -1833,31 +1852,32 @@ define([
             expression: 'sin-5',
             text: 'sin' + registeredTerms.NEG.label + '5'
         }])
-        .asyncTest('treatment of minus operator', function (data, assert) {
+        .test('treatment of minus operator', function(data, assert) {
+            var ready = assert.async();
             var $container = $('#fixture-minus-operator');
             var calculator = calculatorBoardFactory($container)
-                .on('ready', function () {
+                .on('ready', function() {
                     var areaBroker = calculator.getAreaBroker();
                     var plugin = simpleScreenPluginFactory(calculator, areaBroker);
 
-                    QUnit.expect(5);
+                    assert.expect(5);
 
                     calculator
-                        .on('plugin-render.simpleScreen', function () {
+                        .on('plugin-render.simpleScreen', function() {
                             assert.ok(plugin.getState('ready'), 'The plugin has been rendered');
                         })
-                        .on('destroy', function () {
-                            QUnit.start();
+                        .on('destroy', function() {
+                            ready();
                         });
 
                     plugin.install()
-                        .then(function () {
+                        .then(function() {
                             return plugin.init();
                         })
-                        .then(function () {
+                        .then(function() {
                             return plugin.render();
                         })
-                        .then(function () {
+                        .then(function() {
                             var $screen = $container.find('.calculator-screen .expression');
                             var termsCount = calculator.getTokenizer().tokenize(data.expression).length;
                             assert.equal(areaBroker.getScreenArea().find('.calculator-screen .expression').length, 1, 'The screen layout has been inserted');
@@ -1868,29 +1888,30 @@ define([
                             assert.equal($screen.find('.term').length, termsCount, 'The expression has been splitted in ' + termsCount + ' tokens');
                             assert.equal($screen.text(), data.text, 'the expected text is set');
                         })
-                        .catch(function (err) {
+                        .catch(function(err) {
                             assert.ok(false, 'Unexpected failure : ' + err.message);
                         })
-                        .then(function () {
+                        .then(function() {
                             plugin.destroy();
                             calculator.destroy();
                         });
                 })
-                .on('error', function (err) {
+                .on('error', function(err) {
                     console.error(err);
                     assert.ok(false, 'The operation should not fail!');
-                    QUnit.start();
+                    ready();
                 });
         });
 
     QUnit.module('visual test');
 
-    QUnit.asyncTest('screen', function (assert) {
+    QUnit.test('screen', function(assert) {
+        var ready = assert.async();
         var expression = '3*sqrt 3/2+(-2+x)*4-sin PI/2';
         var $container = $('#visual-test .calculator');
         var $input = $('#visual-test .input');
         calculatorBoardFactory($container, [simpleScreenPluginFactory])
-            .on('ready', function () {
+            .on('ready', function() {
                 var self = this;
                 var areaBroker = this.getAreaBroker();
                 assert.equal(areaBroker.getScreenArea().find('.calculator-screen').length, 1, 'The screen layout has been inserted');
@@ -1902,18 +1923,17 @@ define([
                 $('#visual-test').on('click', 'button', function() {
                     if (this.classList.contains('set')) {
                         self.setExpression($input.val());
-                    }
-                    else if (this.classList.contains('execute')) {
+                    } else if (this.classList.contains('execute')) {
                         self.evaluate();
                     }
                 });
 
-                QUnit.start();
+                ready();
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 });

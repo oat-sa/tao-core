@@ -19,7 +19,7 @@
 
 namespace oat\tao\test\unit\model\security;
 
-use oat\tao\test\TaoPhpUnitTestRunner;
+use oat\generis\test\TestCase;
 use oat\tao\model\security\TokenGenerator;
 
 /**
@@ -27,7 +27,7 @@ use oat\tao\model\security\TokenGenerator;
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-class TokenGeneratorTest extends TaoPhpUnitTestRunner
+class TokenGeneratorTest extends TestCase
 {
     use TokenGenerator;
 

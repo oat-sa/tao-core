@@ -23,15 +23,13 @@ define(['core/delegator'], function(delegator) {
 
     QUnit.module('delegator');
 
-
     QUnit.test('module', function(assert) {
-        QUnit.expect(3);
-        
-        assert.equal(typeof delegator, 'function', "The delegator module exposes a function");
+        assert.expect(3);
+
+        assert.equal(typeof delegator, 'function', 'The delegator module exposes a function');
         assert.equal(typeof delegator(), 'function', 'The delegator helper returns a function');
         assert.notEqual(delegator(), delegator(), 'The delegator helper returns a different function on each call');
     });
-
 
     QUnit.test('delegate', function(assert) {
         var delegate;
@@ -57,17 +55,17 @@ define(['core/delegator'], function(delegator) {
             }
         };
 
-        QUnit.expect(8);
-        
+        assert.expect(8);
+
         delegate = delegator(api, adapter);
-        
+
         assert.equal(typeof delegate, 'function', 'The delegator helper has created a delegate function');
 
         assert.equal(api.action(expectedArg1, expectedArg2), expectedResponse, 'The action has returned the expected response');
     });
-    
 
-    QUnit.asyncTest('delegate event', function(assert) {
+    QUnit.test('delegate event', function(assert) {
+        var ready = assert.async();
         var delegate;
         var expectedResponse = 'ok';
         var expectedArg1 = 'test1';
@@ -84,7 +82,7 @@ define(['core/delegator'], function(delegator) {
                 assert.equal(response, expectedResponse, 'The delegate function has forwarded the response');
                 assert.equal(arg1, expectedArg1, 'The delegate function has forwarded the first argument');
                 assert.equal(arg2, expectedArg2, 'The delegate function has forwarded the second argument');
-                QUnit.start();
+                ready();
             }
         };
         var adapter = {
@@ -99,7 +97,7 @@ define(['core/delegator'], function(delegator) {
             }
         };
 
-        QUnit.expect(12);
+        assert.expect(12);
 
         delegate = delegator(api, adapter);
 
@@ -107,7 +105,6 @@ define(['core/delegator'], function(delegator) {
 
         assert.equal(api.action(expectedArg1, expectedArg2), expectedResponse, 'The action has returned the expected response');
     });
-
 
     QUnit.test('delegate event disabled', function(assert) {
         var delegate;
@@ -127,7 +124,7 @@ define(['core/delegator'], function(delegator) {
             }
         };
 
-        QUnit.expect(3);
+        assert.expect(3);
 
         delegate = delegator(api, adapter, {
             eventifier: false
@@ -138,11 +135,10 @@ define(['core/delegator'], function(delegator) {
         api.action();
     });
 
-
     QUnit.test('delegate errors', function(assert) {
         var delegate;
 
-        QUnit.expect(6);
+        assert.expect(6);
 
         delegate = delegator();
         assert.equal(typeof delegate, 'function', 'The delegator helper has created a delegate function');
@@ -161,11 +157,10 @@ define(['core/delegator'], function(delegator) {
         try {
             delegate('action');
             assert.ok(true, 'A default delegated function has been called');
-        } catch(e) {
+        } catch (e) {
             assert.ok(false, 'A default delegated function must be called when an unknown target is invoked while the `required` option is disabled');
         }
     });
-
 
     QUnit.test('delegate default', function(assert) {
         var delegate;
@@ -174,7 +169,7 @@ define(['core/delegator'], function(delegator) {
         var provider = {};
         var expectedResponse = 'response';
 
-        QUnit.expect(3);
+        assert.expect(3);
 
         delegate = delegator(api, provider, {
             defaultProvider: function() {
@@ -186,7 +181,6 @@ define(['core/delegator'], function(delegator) {
 
         assert.equal(delegate('test'), expectedResponse, 'The default delegated has been invoked');
     });
-
 
     QUnit.test('forward', function(assert) {
         var delegate;
@@ -212,7 +206,7 @@ define(['core/delegator'], function(delegator) {
             }
         };
 
-        QUnit.expect(8);
+        assert.expect(8);
 
         delegate = delegator(api, adapter, {
             forward: true
@@ -223,8 +217,8 @@ define(['core/delegator'], function(delegator) {
         assert.equal(api.action(expectedArg1, expectedArg2), expectedResponse, 'The action has returned the expected response');
     });
 
-
-    QUnit.asyncTest('forward event', function(assert) {
+    QUnit.test('forward event', function(assert) {
+        var ready = assert.async();
         var delegate;
         var expectedResponse = 'ok';
         var expectedArg1 = 'test1';
@@ -241,7 +235,7 @@ define(['core/delegator'], function(delegator) {
                 assert.equal(response, expectedResponse, 'The delegate function has forwarded the response');
                 assert.equal(arg1, expectedArg1, 'The delegate function has forwarded the first argument');
                 assert.equal(arg2, expectedArg2, 'The delegate function has forwarded the second argument');
-                QUnit.start();
+                ready();
             }
         };
         var adapter = {
@@ -256,7 +250,7 @@ define(['core/delegator'], function(delegator) {
             }
         };
 
-        QUnit.expect(12);
+        assert.expect(12);
 
         delegate = delegator(api, adapter, {
             forward: true
@@ -267,8 +261,8 @@ define(['core/delegator'], function(delegator) {
         assert.equal(api.action(expectedArg1, expectedArg2), expectedResponse, 'The action has returned the expected response');
     });
 
-
-    QUnit.asyncTest('wrapper', function(assert) {
+    QUnit.test('wrapper', function(assert) {
+        var ready = assert.async();
         var delegate;
         var expectedResponse = 'ok';
         var expectedWrappedResponse = expectedResponse + expectedResponse;
@@ -286,7 +280,7 @@ define(['core/delegator'], function(delegator) {
                 assert.equal(response, expectedWrappedResponse, 'The delegate function has forwarded the response');
                 assert.equal(arg1, expectedArg1, 'The delegate function has forwarded the first argument');
                 assert.equal(arg2, expectedArg2, 'The delegate function has forwarded the second argument');
-                QUnit.start();
+                ready();
             }
         };
         var adapter = {
@@ -301,7 +295,7 @@ define(['core/delegator'], function(delegator) {
             }
         };
 
-        QUnit.expect(13);
+        assert.expect(13);
 
         delegate = delegator(api, adapter, {
             wrapper: function(value) {

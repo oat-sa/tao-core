@@ -235,6 +235,16 @@ class tao_helpers_Uri
     }
 
     /**
+     * @param string $decodedUri
+     *
+     * @return bool
+     */
+    public static function isUriEncoded($decodedUri)
+    {
+        return preg_match('/^[a-z]*_2_/', $decodedUri) === 1;
+    }
+
+    /**
      * Encode the uris composing either the keys or the values of the array in
      *
      * @access public

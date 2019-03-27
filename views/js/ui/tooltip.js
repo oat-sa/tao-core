@@ -87,12 +87,15 @@ define([
                 $('[data-tooltip]', $container).each(function(){
                     var $content = DataAttrHandler.getTarget('tooltip', $(this));
                     var opt;
+                    var predefinedOptions = _.cloneDeep(defaultOptions);
                     themeName = _.contains(themes, $(this).data('tooltip-theme')) ? $(this).data('tooltip-theme') : 'default';
                     opt = {
                         template:themesMap[themeName]
                     };
                     if($content.length){
-                        opt = _.merge(defaultOptions, opt, { title: $content[0] });
+                        opt = _.merge(predefinedOptions, opt, { title: $content[0].cloneNode(true) });
+                    }else{
+                        opt = _.merge(predefinedOptions, opt);
                     }
                     setTooltip(this, new Tooltip(this, opt));
                 });
@@ -112,8 +115,9 @@ define([
             var calculatedOptions;
             var themeName;
             var template;
+            var predefinedOptions = _.cloneDeep(defaultOptions);
 
-            calculatedOptions = options ? _.merge(defaultOptions, options) : defaultOptions;
+            calculatedOptions = options ? _.merge(predefinedOptions, options) : predefinedOptions;
             themeName = _.contains(themes, calculatedOptions.theme) ? calculatedOptions.theme : 'default';
             template = {
                 template:themesMap[themeName]

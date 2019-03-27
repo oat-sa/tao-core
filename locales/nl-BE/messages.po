@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint94\n"
-"PO-Revision-Date: 2019-02-01T09:17:34\n"
+"Project-Id-Version: TAO 3.3.0-sprint98\n"
+"PO-Revision-Date: 2019-03-15T09:40:11\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nl-BE\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " and "
-msgstr " en "
-
 msgid " AND "
 msgstr ""
+
+msgid " and "
+msgstr " en "
 
 msgid " has been deleted successfully"
 msgstr " is succesvol verwijderd"
@@ -148,7 +148,13 @@ msgstr ""
 msgid "A message with further instructions has been sent to your email address: %s"
 msgstr "Een bericht met verdere instructies is gestuurd naar uw e-mail adres: %s"
 
+msgid "abs"
+msgstr ""
+
 msgid "Absolute value"
+msgstr ""
+
+msgid "AC"
 msgstr ""
 
 msgid "Access Denied"
@@ -274,6 +280,9 @@ msgstr ""
 msgid "Arguments %s and %s are mutually exclusive"
 msgstr ""
 
+msgid "Arguments separator"
+msgstr ""
+
 msgid "array"
 msgstr ""
 
@@ -341,17 +350,20 @@ msgstr "Blader mappen door:"
 msgid "Browse..."
 msgstr "Bladeren…"
 
+msgid "C"
+msgstr ""
+
 msgid "Calculator"
 msgstr ""
 
 msgid "Calendar"
 msgstr "Kalender"
 
-msgid "cancel"
-msgstr "afbreken"
-
 msgid "Cancel"
 msgstr "Afbreken"
+
+msgid "cancel"
+msgstr "afbreken"
 
 msgid "cancel the action"
 msgstr "breek de actie af"
@@ -368,6 +380,9 @@ msgstr ""
 msgid "Case sensitive"
 msgstr ""
 
+msgid "ceil"
+msgstr ""
+
 #, tao-public
 msgid "Change password"
 msgstr "Wachtwoord wijzigen"
@@ -378,10 +393,10 @@ msgstr "Wijzig het wachtwoord"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check All"
+msgid "Check all"
 msgstr "Alles selecteren"
 
-msgid "Check all"
+msgid "Check All"
 msgstr "Alles selecteren"
 
 msgid "Check-in"
@@ -426,10 +441,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
 msgid "Clear selection"
@@ -487,6 +502,12 @@ msgid "Copy to"
 msgstr ""
 
 msgid "Copy to clipboard"
+msgstr ""
+
+msgid "cos"
+msgstr ""
+
+msgid "cosh"
 msgstr ""
 
 msgid "Cosine"
@@ -715,6 +736,9 @@ msgstr ""
 msgid "Executing task %s failed"
 msgstr ""
 
+msgid "exp"
+msgstr ""
+
 msgid "Exponent"
 msgstr ""
 
@@ -808,6 +832,9 @@ msgid "First row column names"
 msgstr "Eerste rij bevat kolomnamen"
 
 msgid "Fit to width"
+msgstr ""
+
+msgid "floor"
 msgstr ""
 
 msgid "Force Release"
@@ -915,10 +942,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -929,6 +956,9 @@ msgstr ""
 
 msgid "Indexing has been run"
 msgstr "Indexering heeft gedraaid"
+
+msgid "Infinity"
+msgstr ""
 
 msgid "Injector has to contains a valid \"destination\" field."
 msgstr ""
@@ -1011,6 +1041,9 @@ msgstr "Onjuiste reguliere expressie."
 msgid "Invalid values:"
 msgstr ""
 
+msgid "items per page"
+msgstr ""
+
 msgid "Label"
 msgstr "Label"
 
@@ -1047,6 +1080,9 @@ msgstr "Lijst - Enkele keuze - Keuzelijst"
 msgid "List - Single choice - Radio button"
 msgstr "Lijst - Enkele keuze - Radioknop"
 
+msgid "ln"
+msgstr ""
+
 msgid "Load more"
 msgstr ""
 
@@ -1066,6 +1102,9 @@ msgid "Loading task status ..."
 msgstr ""
 
 msgid "locked by %s"
+msgstr ""
+
+msgid "log"
 msgstr ""
 
 msgid "Log in"
@@ -1145,6 +1184,9 @@ msgstr ""
 msgid "Missing Parameters"
 msgstr ""
 
+msgid "modulo"
+msgstr ""
+
 msgid "More"
 msgstr "Meer"
 
@@ -1175,6 +1217,9 @@ msgstr "Het verplaatsen van dit element zal de eigenschappen van de vorige klass
 
 msgid "Multiple values delimiter"
 msgstr "Scheidingsteken tussen meerdere waarden"
+
+msgid "Multiply the value by 10^x"
+msgstr ""
 
 msgid "must be numeric"
 msgstr "moet numeriek zijn"
@@ -1293,11 +1338,11 @@ msgstr "van"
 msgid "Off"
 msgstr ""
 
-msgid "OK"
-msgstr "OK"
-
 msgid "Ok"
 msgstr "Ok"
+
+msgid "OK"
+msgstr "OK"
 
 msgid "Old Password"
 msgstr "Oud wachtwoord"
@@ -1450,6 +1495,9 @@ msgstr ""
 msgid "Radian"
 msgstr ""
 
+msgid "random"
+msgstr ""
+
 msgid "Random value"
 msgstr ""
 
@@ -1589,6 +1637,9 @@ msgstr "Rollen"
 msgid "Roles library"
 msgstr "Rollen bank"
 
+msgid "round"
+msgstr ""
+
 msgid "Round to closest whole number"
 msgstr ""
 
@@ -1631,11 +1682,11 @@ msgstr ""
 msgid "seconds"
 msgstr "seconden"
 
-msgid "select"
-msgstr "selecteren"
-
 msgid "Select"
 msgstr "Selecteren"
+
+msgid "select"
+msgstr "selecteren"
 
 msgid "Select a class"
 msgstr ""
@@ -1689,7 +1740,13 @@ msgstr ""
 msgid "Simple Mode"
 msgstr "Eenvoudige modus"
 
+msgid "sin"
+msgstr ""
+
 msgid "Sine"
+msgstr ""
+
+msgid "sinh"
 msgstr ""
 
 msgid "Size"
@@ -1743,7 +1800,16 @@ msgstr ""
 msgid "Supported export formats"
 msgstr "Ondersteunde export formaten"
 
+msgid "Syntax error"
+msgstr ""
+
+msgid "tan"
+msgstr ""
+
 msgid "Tangent"
+msgstr ""
+
+msgid "tanh"
 msgstr ""
 
 msgid "Tao Default Theme"
@@ -1926,6 +1992,9 @@ msgstr "Boom - Meervoudige knooppunten keuze "
 msgid "True"
 msgstr "Waar"
 
+msgid "trunc"
+msgstr ""
+
 msgid "Type"
 msgstr "Type"
 
@@ -1979,6 +2048,9 @@ msgstr "Kan het bestand niet uploaden"
 
 msgid "Unable to upload file %s : %s"
 msgstr "Kan het bestand %s : %s niet uploaden"
+
+msgid "Unary operator +"
+msgstr ""
 
 msgid "Unary operator -"
 msgstr ""
@@ -2083,6 +2155,21 @@ msgstr ""
 #, tao-public
 msgid "Users"
 msgstr "Gebruikers"
+
+msgid "Validation for field '%s' has failed. Language does not exists in the system"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. List of values expected"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Valid role expected. Given: %s"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Valid URI expected"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Valid URI expected. Given: %s"
+msgstr ""
 
 msgid "Value of E"
 msgstr ""

@@ -19,7 +19,7 @@ $dark : #404040;
 }
 
 .popper,
-.tooltip {
+.tooltip[role="tooltip"] {
   position: absolute;
   /*background: #FFC107;*/
 

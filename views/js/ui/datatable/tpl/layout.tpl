@@ -15,6 +15,10 @@
     </h2>
     {{/with}}
 
+    {{#if options.pageSizeSelector}}
+        <div class="toolbox-container"></div>
+    {{/if}}
+
     {{#if options.tools}}
     <aside class="action-bar clearfix">
         {{#each options.tools}}

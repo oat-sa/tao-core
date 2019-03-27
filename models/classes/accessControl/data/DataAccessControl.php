@@ -19,45 +19,76 @@
  */
 namespace oat\tao\model\accessControl\data;
 
-use oat\tao\model\accessControl\AccessControl;
-use oat\tao\helpers\ControllerHelper;
 use common_Logger;
+use common_Utils;
+use oat\generis\model\data\permission\PermissionInterface;
 use oat\generis\model\data\permission\PermissionManager;
 use oat\oatbox\user\User;
-use oat\generis\model\data\permission\PermissionInterface;
-use oat\tao\model\lock\LockManager;
+use oat\tao\helpers\ControllerHelper;
+use oat\tao\model\accessControl\AccessControl;
 use oat\tao\model\controllerMap\ActionNotFoundException;
-use common_exception_MissingParameter;
+use oat\tao\model\lock\LockManager;
+use RecursiveArrayIterator;
+use RecursiveIteratorIterator;
+use tao_helpers_Uri;
 
 /**
  * Interface for data based access control
  */
 class DataAccessControl implements AccessControl
 {
+    private function flattenArray(array $multiDimensionalArray)
+    {
+        return new RecursiveIteratorIterator(
+            new RecursiveArrayIterator($multiDimensionalArray)
+        );
+    }
+
     /**
-     * (non-PHPdoc)
-     * @throws common_exception_MissingParameter
+     * @param array $requestParameters
+     * @param array $filterNames
+     *
+     * @return array
+     */
+    private function extractAndGroupUriFromParameters(array $requestParameters, array $filterNames)
+    {
+        if (empty($filterNames)) {
+            return [];
+        }
+
+        $groupedUris = [];
+
+        foreach ($this->flattenArray($requestParameters) as $key => $value) {
+            $encodedUri = $this->getEncodedUri($value);
+
+            if (in_array($key, $filterNames, true) && common_Utils::isUri($encodedUri)) {
+                $groupedUris[$key][] = $encodedUri;
+            }
+        }
+
+        return $groupedUris;
+    }
+
+    /**
+     * @param User $user
+     * @param $controller
+     * @param $action
+     * @param $requestParameters
+     *
+     * @return bool
+     *
      * @see \oat\tao\model\accessControl\AccessControl::hasAccess()
      */
-    public function hasAccess(User $user, $controller, $action, $parameters) {
+    public function hasAccess(User $user, $controller, $action, $requestParameters) {
         $required = array();
         try {
-            foreach (ControllerHelper::getRequiredRights($controller, $action) as $paramName => $privileges) {
-                if (isset($parameters[$paramName])) {
-                    if (is_array($parameters[$paramName])) {
-                        foreach ($parameters[$paramName] as $key => $paramVal) {
-                            $cleanName = $this->getCleanName($paramName, $paramVal);
+            // $rights = ServiceManager::getServiceManager()->get(RouteAnnotationService::SERVICE_ID)->getRights($controller, $action);
+            // todo use $rights when PHPDoc Annotations will be moved to the Doctrines annotations
+            $requiredRights = ControllerHelper::getRequiredRights($controller, $action);
+            $uris = $this->extractAndGroupUriFromParameters($requestParameters, array_keys($requiredRights));
 
-                            $required[$cleanName] = $privileges;
-                        }
-                    } else {
-                        $cleanName = $this->getCleanName($paramName, $parameters[$paramName]);
-
-                        $required[$cleanName] = $privileges;
-                    }
-                } else {
-                    throw new common_exception_MissingParameter($paramName);
-                }
+            foreach($uris as $name => $urisValue) {
+                $required[] = array_fill_keys($urisValue, $requiredRights[$name]);
             }
         } catch (ActionNotFoundException $e) {
             // action not found, no access
@@ -66,25 +97,19 @@ class DataAccessControl implements AccessControl
         
         return empty($required)
             ? true
-            : $this->hasPrivileges($user, $required);
+            : $this->hasPrivileges($user, array_merge(...$required));
     }
 
     /**
-     * Gets the cleaned paramName from paramValue ($cleanName)
-     *
-     * @param string $paramName just for logging purposes
-     * @param string $cleanName param to be cleared
+     * @param string $decodedUri param to be cleared
      *
      * @return string
      */
-    private function getCleanName($paramName, $cleanName)
+    private function getEncodedUri($decodedUri)
     {
-        if (preg_match('/^[a-z]*_2_/', $cleanName) != 0) {
-            common_Logger::w('url encoded parameter detected for '.$paramName);
-            $cleanName = \tao_helpers_Uri::decode($cleanName);
-        }
-
-        return $cleanName;
+        return tao_helpers_Uri::isUriEncoded($decodedUri)
+            ? tao_helpers_Uri::decode($decodedUri)
+            : $decodedUri;
     }
     
     /**

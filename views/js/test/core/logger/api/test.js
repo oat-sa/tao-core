@@ -21,20 +21,20 @@
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define(['core/logger/api'], function(loggerFactory){
+define(['core/logger/api'], function(loggerFactory) {
     'use strict';
 
     QUnit.module('API');
 
     QUnit.test('module', function(assert){
-        QUnit.expect(2);
+        assert.expect(2);
 
         assert.ok(typeof loggerFactory !== 'undefined', 'The module exports something');
         assert.ok(typeof loggerFactory === 'function', 'The module exposes a function');
     });
 
     QUnit.test('register', function(assert){
-        QUnit.expect(3);
+        assert.expect(3);
 
         assert.ok(typeof loggerFactory.register === 'function', 'The module exposes also a register method');
 
@@ -43,14 +43,14 @@ define(['core/logger/api'], function(loggerFactory){
         }, TypeError, 'A provider is an object');
 
         assert.throws(function(){
-            loggerFactory.register({ foo : function(){} });
+            loggerFactory.register({foo: function(){}});
         }, TypeError, 'A provider is an object with a log method');
 
-        loggerFactory.register({ log : function(){} });
+        loggerFactory.register({log: function(){}});
     });
 
     QUnit.test('levels', function(assert){
-        QUnit.expect(13);
+        assert.expect(13);
 
         assert.ok(typeof loggerFactory.levels === 'object', 'The module exposes the available levels');
 
@@ -70,7 +70,7 @@ define(['core/logger/api'], function(loggerFactory){
     });
 
     QUnit.test('factory', function(assert){
-        QUnit.expect(4);
+        assert.expect(4);
 
         assert.throws(function(){
             loggerFactory();
@@ -86,7 +86,7 @@ define(['core/logger/api'], function(loggerFactory){
 
     QUnit.test('logger instance', function(assert){
         var logger;
-        QUnit.expect(10);
+        assert.expect(10);
 
         logger = loggerFactory('foo');
 
@@ -105,70 +105,72 @@ define(['core/logger/api'], function(loggerFactory){
 
 
     QUnit.module('providers', {
-        setup    : function(){
+        beforeEach: function(assert) {
             loggerFactory.providers = false;
         }
     });
 
 
-    QUnit.asyncTest('load providers', function(assert){
+    QUnit.test('load providers', function(assert){
+        var ready = assert.async();
         var p;
-        QUnit.expect(5);
+        assert.expect(5);
 
         assert.equal(loggerFactory.providers, false, 'No providers');
 
-        p = loggerFactory.load({'test/core/logger/api/mlogck':{}});
+        p = loggerFactory.load({'test/core/logger/api/mlogck': {}});
         assert.ok(p instanceof Promise, 'the load method returns a Promise');
 
         p.then(function(){
             assert.equal(loggerFactory.providers.length, 1, 'A provider is registered');
             assert.equal(typeof loggerFactory.providers[0], 'object', 'The registered provider is an object');
             assert.equal(typeof loggerFactory.providers[0].log, 'function', 'The registered provider has a log function');
-            QUnit.start();
+            ready();
         }).catch(function(err){
             assert.ok(false, err.message);
         });
     });
 
-    QUnit.asyncTest('wrong providers', function(assert){
+    QUnit.test('wrong providers', function(assert){
+        var ready = assert.async();
         var p;
-        QUnit.expect(3);
+        assert.expect(3);
 
         assert.equal(loggerFactory.providers, false, 'No providers');
 
-        p = loggerFactory.load({'test/core/logger/api/test':{}});
+        p = loggerFactory.load({'test/core/logger/api/test': {}});
         assert.ok(p instanceof Promise, 'the load method returns a Promise');
 
         p.then(function(){
             assert.ok(false, 'The method should not resolve');
-            QUnit.start();
+            ready();
         }).catch(function(err){
             assert.ok(err instanceof TypeError, 'The given provider is not a logger');
-            QUnit.start();
+            ready();
         });
     });
 
 
     QUnit.module('logger behavior', {
-        setup    : function(){
+        beforeEach: function(assert) {
             loggerFactory.providers = [];
         }
     });
 
-    QUnit.cases([
-        { title: 'info text', name : 'foo', level : 'info', args : ['bar'], expected: { level : 'info', name : 'foo', msg : 'bar'} },
-        { title: 'warn format', name : 'woo', level : 'warn', args : ['holy %s', 'foo'], expected: { level : 'warn', name : 'woo', msg : 'holy foo'} },
-        { title: 'info num format', name : 'noo', level : 'info', args : [{a : true}, 'hello %d %s', 12, 'bar'], expected: { level : 'info', name : 'noo', msg : 'hello 12 bar'} },
-        { title: 'error', name : 'eoo', level : 'error', args : [new Error('oops')], expected: { level : 'error', name : 'eoo', msg : 'oops'} },
-        { title: 'error', name : 'eoo', level : 'error', args : [{a : true}, new TypeError('oops')], expected: { level : 'error', name : 'eoo', msg : 'oops'} },
-        { title: 'error', name : 'eoo', level : 'error', args : [{'a' : true}, {'object' : true}], expected: { level : 'error', name : 'eoo', msg : JSON.stringify({'object' : true})} },
+    QUnit.cases.init([
+        {title: 'info text', name: 'foo', level: 'info', args: ['bar'], expected: {level: 'info', name: 'foo', msg: 'bar'}},
+        {title: 'warn format', name: 'woo', level: 'warn', args: ['holy %s', 'foo'], expected: {level: 'warn', name: 'woo', msg: 'holy foo'}},
+        {title: 'info num format', name: 'noo', level: 'info', args: [{a: true}, 'hello %d %s', 12, 'bar'], expected: {level: 'info', name: 'noo', msg: 'hello 12 bar'}},
+        {title: 'error', name: 'eoo', level: 'error', args: [new Error('oops')], expected: {level: 'error', name: 'eoo', msg: 'oops'}},
+        {title: 'error', name: 'eoo', level: 'error', args: [{a: true}, new TypeError('oops')], expected: {level: 'error', name: 'eoo', msg: 'oops'}},
+        {title: 'error', name: 'eoo', level: 'error', args: [{'a': true}, {'object': true}], expected: {level: 'error', name: 'eoo', msg: JSON.stringify({'object': true})}},
     ])
     .test('message logs ', function(data, assert){
         var logger;
-        QUnit.expect(9);
+        assert.expect(9);
 
         loggerFactory.register({
-            log : function log(message){
+            log: function log(message){
                 assert.equal(typeof message, 'object', 'the message object is there');
                 assert.equal(typeof message.time, 'string', 'the message has a time');
                 assert.equal(message.v, 0, 'The format version is consistent');
@@ -188,10 +190,10 @@ define(['core/logger/api'], function(loggerFactory){
 
     QUnit.test('minimum level', function(assert){
         var logger;
-        QUnit.expect(3);
+        assert.expect(3);
 
         loggerFactory.register({
-            log : function log(message){
+            log: function log(message){
                 assert.equal(message.level, 'warn', 'the level match');
                 assert.equal(message.msg, 'something', 'the message match');
             }
@@ -209,10 +211,10 @@ define(['core/logger/api'], function(loggerFactory){
 
     QUnit.test('default minimum level', function(assert){
         var logger;
-        QUnit.expect(3);
+        assert.expect(3);
 
         loggerFactory.register({
-            log : function log(message){
+            log: function log(message){
                 assert.equal(message.level, 'warn', 'the level match');
                 assert.equal(message.msg, 'something', 'the message match');
             }
@@ -230,10 +232,10 @@ define(['core/logger/api'], function(loggerFactory){
 
     QUnit.test('change minimum level', function(assert){
         var logger;
-        QUnit.expect(5);
+        assert.expect(5);
 
         loggerFactory.register({
-            log : function log(message){
+            log: function log(message){
                 assert.equal(message.level, 'trace', 'the level match');
                 assert.equal(message.msg, 'something', 'the message match');
             }
@@ -255,16 +257,16 @@ define(['core/logger/api'], function(loggerFactory){
     QUnit.test('base fields', function(assert){
         var logger;
         var moo = {
-            a : true,
-            b : [1, 12],
-            c : {
-                borz : new Date()
+            a: true,
+            b: [1, 12],
+            c: {
+                borz: new Date()
             }
         };
-        QUnit.expect(3);
+        assert.expect(3);
 
         loggerFactory.register({
-            log : function log(message){
+            log: function log(message){
                 assert.equal(message.foo, 'bar', 'the foo field match');
                 assert.equal(message.msg, 'something', 'the level match');
                 assert.deepEqual(message.moo, moo, 'the moo field match');
@@ -272,8 +274,8 @@ define(['core/logger/api'], function(loggerFactory){
         });
 
         logger = loggerFactory('foo', loggerFactory.levels.debug, {
-            foo : 'bar',
-            moo : moo
+            foo: 'bar',
+            moo: moo
         });
         logger.trace('nothing');
         logger.debug('something');
@@ -282,13 +284,13 @@ define(['core/logger/api'], function(loggerFactory){
     QUnit.test('optional min level', function(assert){
         var logger;
         var moo = {
-            a : false,
-            b : [-1, -12]
+            a: false,
+            b: [-1, -12]
         };
-        QUnit.expect(3);
+        assert.expect(3);
 
         loggerFactory.register({
-            log : function log(message){
+            log: function log(message){
                 assert.equal(message.foo, 'bar', 'the foo field match');
                 assert.equal(message.msg, 'something', 'the level match');
                 assert.deepEqual(message.moo, moo, 'the moo field match');
@@ -296,8 +298,8 @@ define(['core/logger/api'], function(loggerFactory){
         });
 
         logger = loggerFactory('foo', {
-            foo : 'bar',
-            moo : moo
+            foo: 'bar',
+            moo: moo
         });
         logger.trace('nothing');
         logger.warn('something');
@@ -305,10 +307,10 @@ define(['core/logger/api'], function(loggerFactory){
 
     QUnit.test('fields override', function(assert){
         var logger;
-        QUnit.expect(4);
+        assert.expect(4);
 
         loggerFactory.register({
-            log : function log(message){
+            log: function log(message){
                 assert.equal(message.msg, 'something', 'the level match');
                 assert.equal(message.foo, 'norz', 'the foo field match');
                 assert.deepEqual(message.moo, [12], 'the moo field match');
@@ -317,26 +319,26 @@ define(['core/logger/api'], function(loggerFactory){
         });
 
         logger = loggerFactory('foo', loggerFactory.levels.debug, {
-            foo : 'bar',
-            moo : {
-                a : 24
+            foo: 'bar',
+            moo: {
+                a: 24
             }
         });
         logger.trace('nothing');
         logger.debug({
             other: 'yeah',
-            foo : 'norz',
-            moo : [12]
+            foo: 'norz',
+            moo: [12]
         }, 'something');
     });
 
     QUnit.test('child logger', function(assert){
         var logger;
         var child;
-        QUnit.expect(13);
+        assert.expect(13);
 
         loggerFactory.register({
-            log : function log(message){
+            log: function log(message){
                 assert.equal(message.msg, 'something', 'the level match');
                 assert.equal(message.foo, 'bar', 'the foo field match');
                 assert.equal(message.bar, true, 'the bar field match');
@@ -344,12 +346,12 @@ define(['core/logger/api'], function(loggerFactory){
         });
 
         logger = loggerFactory('foo', loggerFactory.levels.debug, {
-            foo : 'bar',
+            foo: 'bar',
         });
 
         logger.trace('nothing');
 
-        child = logger.child({bar : true});
+        child = logger.child({bar: true});
 
         assert.equal(typeof child, 'object', 'The child should be an object');
         assert.equal(typeof child.log, 'function', 'The child has a log method');
