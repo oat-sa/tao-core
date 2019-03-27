@@ -52,6 +52,7 @@ interface tao_models_classes_import_ImportHandler
      * 
      * @param core_kernel_classes_Class $class
      * @param tao_helpers_form_Form $form
+     * @param string|null $userId owner of the resource
      */
-    public function import($class, $form);
+    public function import($class, $form, $userId = null);
 }
