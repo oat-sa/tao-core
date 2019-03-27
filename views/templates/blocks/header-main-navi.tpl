@@ -32,7 +32,7 @@ $userLabel    = get_data('userLabel');
     </ul>
 
 
-    <div class="menu-right-block">
+    <div class="setting-menu-container">
         <div class="settings-menu rgt">
             <span class="reduced-menu-trigger">
                 <span class="icon-mobile-menu glyph"></span>
