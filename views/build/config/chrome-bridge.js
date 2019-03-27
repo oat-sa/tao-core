@@ -5,7 +5,7 @@
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-(function(){
+(function() {
     'use strict';
 
     /**
@@ -37,22 +37,26 @@
     /**
      * QUnit begins
      */
-    QUnit.begin( () => emit('qunit.begin') );
+    QUnit.begin(() => emit('qunit.begin'));
 
     /**
      * A module get started
      */
-    QUnit.moduleStart( ({name}) => emit('qunit.moduleStart', name));
+    QUnit.moduleStart(({
+        name
+    }) => emit('qunit.moduleStart', name));
 
     /**
      * A test case get started
      */
-    QUnit.testStart( ({ testName }) =>  {
+    QUnit.testStart(({
+        testName
+    }) => {
 
         //start a timeout and
         //keep it in the map under the test name
         runningTestsTimeouts.set(testName,
-            setTimeout( () => {
+            setTimeout(() => {
                 emit('fail.timeout', testName);
                 runningTestsTimeouts.delete(testName);
             }, testTimeoutMs)
@@ -64,7 +68,7 @@
      * QUnit sends some logs,
      * especially when something goes bad
      */
-    QUnit.log( logs => {
+    QUnit.log(logs => {
 
         if (!logs.result) {
             //QUnit 1<->2 compat
@@ -81,7 +85,7 @@
      */
     QUnit.testDone(logs => {
         const testName = logs.name;
-        if(runningTestsTimeouts.has(testName)){
+        if (runningTestsTimeouts.has(testName)) {
             clearTimeout(runningTestsTimeouts.get(testName));
             runningTestsTimeouts.delete(testName);
         }
@@ -92,11 +96,32 @@
     /**
      * The module is done
      */
-    QUnit.moduleDone( logs => emit('qunit.moduleDone', logs.name, logs.failed, logs.passed, logs.total));
+    QUnit.moduleDone(logs => emit('qunit.moduleDone', logs.name, logs.failed, logs.passed, logs.total));
 
     /**
      * And QUnit has finished
      */
-    QUnit.done( logs => emit('qunit.done', logs.failed, logs.passed, logs.total, logs.runtime));
+    QUnit.done(logs => {
+
+        if (window.__coverage__) {
+
+            console.log('sending coverage')
+            window.fetch('/__coverage__', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(window.__coverage__)
+            }).then(() => {
+
+                emit('qunit.done', logs.failed, logs.passed, logs.total, logs.runtime)
+            }).catch(window.console.error);
+
+        } else {
+            emit('qunit.done', logs.failed, logs.passed, logs.total, logs.runtime)
+
+        }
+    });
 
 })();
+

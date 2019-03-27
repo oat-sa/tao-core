@@ -1,16 +1,41 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2014-2018 (original work) Open Assessment Technlogies SA
+ *
+ */
+
+/**
+ * Main test configuration, as well as for the TAO extension
+ *
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
+ */
 module.exports = function(grunt) {
     'use strict';
 
-    var root           = grunt.option('root');
-    var testPort       = grunt.option('testPort');
-    var testUrl        = grunt.option('testUrl');
-    var livereloadPort = grunt.option('livereloadPort');
-    var reportOutput   = grunt.option('reports');
-    var ext            = require(root + '/tao/views/build/tasks/helpers/extensions')(grunt, root);
-    var fs             = require('fs');
-    var path           = require('path');
-    var baseUrl        = 'http://' + testUrl + ':' + testPort;
-    var testRunners    = root + '/tao/views/js/test/**/test.html';
+    const root           = grunt.option('root');
+    const testPort       = grunt.option('testPort');
+    const testUrl        = grunt.option('testUrl');
+    const livereloadPort = grunt.option('livereloadPort');
+    const reportOutput   = grunt.option('reports');
+    const ext            = require(root + '/tao/views/build/tasks/helpers/extensions')(grunt, root);
+    const fs             = require('fs');
+    const path           = require('path');
+    const im             = require('istanbul-lib-instrument');
+    const baseUrl        = 'http://' + testUrl + ':' + testPort;
+    const testRunners    = root + '/tao/views/js/test/**/test.html';
 
 
     //extract unit tests  from FS to URL
@@ -89,12 +114,14 @@ module.exports = function(grunt) {
                 base: root,
                 middleware: function(connect, options, middlewares) {
 
+                    var bodyParser = require('body-parser');
                     var rjsConfig = require('../config/requirejs.build.json');
                     rjsConfig.baseUrl = baseUrl + '/tao/views/js';
                     ext.getExtensions().forEach(function(extension){
                         rjsConfig.paths[extension] = '../../../' + extension + '/views/js';
                         rjsConfig.paths[extension + 'Css'] = '../../../' + extension + '/views/css';
                     });
+
 
                     // inject a mock for the requirejs config
                     middlewares.unshift(function(req, res, next) {
@@ -118,6 +145,41 @@ module.exports = function(grunt) {
                         return next();
                     });
 
+                    middlewares.unshift( (req, res, next) => {
+                        if(/\.js$/.test(req.url) && !/js\/lib\//.test(req.url) &&  !/js\/test\//.test(req.url) ){
+
+                            const instrumenter = im.createInstrumenter();
+                            const filepath = path.join(options.base[0], req.url);
+                            if (fs.existsSync(filepath)) {
+                                fs.readFile(filepath, 'utf-8', (err, content) => {
+                                    console.log(` ${req.url} => ${filepath} : instrumented`);
+                                    res.end(instrumenter.instrumentSync(content, filepath));
+                                });
+                                return;
+                            }
+                        }
+                        return next();
+                    });
+
+                    middlewares.unshift( (req, res, next) => {
+
+                        if (req.method.toLowerCase() === 'post' && /__coverage__/.test(req.url)) {
+                            console.log('received coverage ' + JSON.stringify(req.body));
+                            fs.writeFile(`${reportOutput}/.cov/__coverage__`,JSON.stringify(req.body), 'utf8', function(err){
+
+                                if(err){
+                                    return next(err);
+                                }
+                                res.end('{ "success" : true}');
+                            });
+                            return;
+                        }
+
+                        return next();
+                    });
+ middlewares.unshift(
+                    bodyParser.json()
+                );
 
                     return middlewares;
                 }

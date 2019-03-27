@@ -17,6 +17,7 @@
   "devDependencies": {
     "@oat-sa/grunt-tao-bundle": "^0.1.0",
     "almond": "^0.3.3",
+    "body-parser": "^1.18.3",
     "grunt": "^1.0.0",
     "grunt-aws-s3": "^0.14.0",
     "grunt-concurrent": "^2.1.0",
@@ -33,9 +34,12 @@
     "grunt-qunit-junit": "^0.3.0",
     "grunt-replace": "^1.0.1",
     "grunt-sass": "^3.0.0",
+    "istanbul-lib-instrument": "^3.1.0",
+    "istanbul-middleware": "^0.2.2",
     "load-grunt-tasks": "^3.4.0",
     "lodash": "^4.13.1",
     "node-sass": "^4.9.3",
+    "nyc": "^13.3.0",
     "time-grunt": "^1.0.0"
   }
 }
