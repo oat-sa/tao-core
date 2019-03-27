@@ -67,6 +67,7 @@ use oat\tao\model\service\ContainerService;
 use oat\tao\model\service\SettingsStorage;
 use oat\tao\model\session\restSessionFactory\builder\HttpBasicAuthBuilder;
 use oat\tao\model\session\restSessionFactory\RestSessionFactory;
+use oat\tao\model\settings\CspHeaderSettingsInterface;
 use oat\tao\model\task\ExportByHandler;
 use oat\tao\model\task\ImportByHandler;
 use oat\tao\model\taskQueue\Queue;
@@ -990,6 +991,18 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('30.1.0');
         }
 
-        $this->skip('30.1.0', '30.1.1');
+        if ($this->isVersion('30.1.0')) {
+            /** @var SettingsStorage $settingsStorage */
+            $settingsStorage = $this->getServiceManager()->get(SettingsStorage::SERVICE_ID);
+
+            if ($settingsStorage->exists(CspHeaderSettingsInterface::CSP_HEADER_SETTING) === false) {
+                $settingsStorage->set(CspHeaderSettingsInterface::CSP_HEADER_SETTING, '*');
+            }
+
+
+            $this->setVersion('30.1.1');
+        }
+
+        $this->skip('30.1.1', '30.1.2');
     }
 }
