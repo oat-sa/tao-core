@@ -199,6 +199,7 @@ class Users extends tao_actions_CommonRestModule
         try {
 
             $parameters = $this->getParameters();
+            $this->validateParameters($parameters);
 
             $roles = $this->processRoles($parameters);
             $login = $parameters[UserRdf::PROPERTY_LOGIN];
@@ -234,6 +235,17 @@ class Users extends tao_actions_CommonRestModule
             $this->returnFailure(new common_exception_RestApi($e->getMessage()));
         } catch (common_exception_RestApi $e) {
             $this->returnFailure($e);
+        }
+    }
+
+    /**
+     * @param array $parameters
+     * @throws common_exception_ValidationFailed
+     */
+    protected function validateParameters(array $parameters)
+    {
+        if (empty($parameters[UserRdf::PROPERTY_LOGIN])) {
+            throw new common_exception_ValidationFailed(null, __("Validation for field '%s' has failed. Should not be empty", $this->reverseSearchAlias(UserRdf::PROPERTY_LOGIN)));
         }
     }
 
@@ -288,7 +300,7 @@ class Users extends tao_actions_CommonRestModule
             }
 
             if (!tao_models_classes_LanguageService::getExistingLanguageUri($value)) {
-                throw new common_exception_ValidationFailed(null, __("Validation for field '%s' has failed. Language does not exists in the system", array_search($key, $uriProperties, true)));
+                throw new common_exception_ValidationFailed(null, __("Validation for field '%s' has failed. Language does not exist in the system", array_search($key, $uriProperties, true)));
             }
         }
     }
