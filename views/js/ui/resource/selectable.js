@@ -227,10 +227,6 @@ define([
                                 $node.addClass(selectedClass);
 
                                 selection[uri] = nodes[uri];
-                                // if exist signature and class, than need to save classSignature for "instanciate" and "subClass" actions
-                                if(nodes[uri].signature && nodes[uri].classUri) {
-                                    selection[uri].classSignature = nodes[selection[uri].classUri].signature;
-                                }
                             }
                         });
                     this.trigger('change', selection);
