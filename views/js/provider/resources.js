@@ -76,7 +76,7 @@ define([
      * @param {String} [signature]
      * @returns {Array|Object}
      */
-    function applyClassSignatures(resources, signature) {
+    function applyClassSignatures(resources, signature) {if(!signature) console.log(resources)
         if (_.isArray(resources)) {
             _.forEach(resources, function(resource) {
                 applyClassSignatures(resource, signature);
@@ -113,7 +113,7 @@ define([
              * @returns {Promise} that resolves with the classes
              */
             getClasses: function getClasses(classUri){
-                return request(config.getClasses.url, { classUri : classUri }).then(applyClassSignatures);
+                return request(config.getClasses.url, { classUri : classUri });
             },
 
             /**
