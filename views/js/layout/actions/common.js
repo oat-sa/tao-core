@@ -97,12 +97,16 @@ define([
          */
         binder.register('subClass', function subClass(actionContext){
             var classUri = uri.decode(actionContext.classUri);
+            var signature = actionContext.signature;
             var self = this;
+            if (actionContext.type !== 'class') {
+                signature = actionContext.classSignature;
+            }
             return new Promise( function(resolve, reject) {
                 $.ajax({
                     url: self.url,
                     type: "POST",
-                    data: {id: classUri, type: 'class', signature: actionContext.classSignature},
+                    data: {id: classUri, type: 'class', signature: signature},
                     dataType: 'json',
                     success: function(response) {
                         if (response.uri) {
@@ -146,11 +150,15 @@ define([
         binder.register('instanciate', function instanciate(actionContext){
             var self = this;
             var classUri = uri.decode(actionContext.classUri);
+            var signature = actionContext.signature;
+            if (actionContext.type !== 'class') {
+                signature = actionContext.classSignature;
+            }
             return new Promise( function(resolve, reject) {
                 $.ajax({
                     url: self.url,
                     type: "POST",
-                    data: {id: classUri, type: 'instance', signature: actionContext.classSignature},
+                    data: {id: classUri, type: 'instance', signature: signature},
                     dataType: 'json',
                     success: function(response){
                         if (response.uri) {
