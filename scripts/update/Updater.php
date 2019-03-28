@@ -65,8 +65,10 @@ use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStoreSession;
 use oat\tao\model\service\ApplicationService;
 use oat\tao\model\service\ContainerService;
+use oat\tao\model\service\SettingsStorage;
 use oat\tao\model\session\restSessionFactory\builder\HttpBasicAuthBuilder;
 use oat\tao\model\session\restSessionFactory\RestSessionFactory;
+use oat\tao\model\settings\CspHeaderSettingsInterface;
 use oat\tao\model\task\ExportByHandler;
 use oat\tao\model\task\ImportByHandler;
 use oat\tao\model\taskQueue\Queue;
@@ -974,10 +976,41 @@ class Updater extends \common_ext_ExtensionUpdater {
         $this->skip('30.0.2', '30.0.5');
 
         if ($this->isVersion('30.0.5')) {
+            AclProxy::applyRule(new AccessRule(
+                AccessRule::GRANT,
+                TaoRoles::TAO_MANAGER,
+                ['ext' => 'tao', 'mod' => 'Security']
+            ));
+
+            \common_persistence_Manager::addPersistence('settings',  ['driver' => 'phpfile']);
+
+            $this->getServiceManager()->register(
+                SettingsStorage::SERVICE_ID,
+                new SettingsStorage(['persistence' => 'settings'])
+            );
+
+            $this->setVersion('30.1.0');
+        }
+
+        if ($this->isVersion('30.1.0')) {
+            /** @var SettingsStorage $settingsStorage */
+            $settingsStorage = $this->getServiceManager()->get(SettingsStorage::SERVICE_ID);
+
+            if ($settingsStorage->exists(CspHeaderSettingsInterface::CSP_HEADER_SETTING) === false) {
+                $settingsStorage->set(CspHeaderSettingsInterface::CSP_HEADER_SETTING, '*');
+            }
+
+
+            $this->setVersion('30.1.1');
+        }
+
+        $this->skip('30.1.1', '30.1.2');
+
+        if ($this->isVersion('30.1.2')) {
             $ext = $this->getServiceManager()->get(\common_ext_ExtensionsManager::SERVICE_ID)->getExtensionById('tao');
             $ext->setConfig(\tao_helpers_Date::CONFIG_KEY, new EuropeanFormatter());
 
-            $this->setVersion('30.1.0');
+            $this->setVersion('30.2.0');
         }
     }
 }
