@@ -76,7 +76,7 @@ define([
      * @param {String} [signature]
      * @returns {Array|Object}
      */
-    function applyClassSignatures(resources, signature) {if(!signature) console.log(resources)
+    function applyClassSignatures(resources, signature) {
         if (_.isArray(resources)) {
             _.forEach(resources, function(resource) {
                 applyClassSignatures(resource, signature);
