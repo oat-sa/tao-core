@@ -955,16 +955,18 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             throw new common_exception_BadRequest('wrong request mode');
         }
 
+        $id = $this->getRequestParameter('id');
+
         // Csrf token validation
         $this->validateCsrf();
-        $this->validateInstanceRoot('id');
+        $this->validateInstanceRoot($id);
 
         $this->signatureValidator->checkSignature(
             $this->getRequestParameter('signature'),
-            $this->getRequestParameter('id')
+            $id
         );
 
-        $clazz = $this->getClass($this->getRequestParameter('id'));
+        $clazz = $this->getClass($id);
         if ($this->getRootClass()->equals($clazz)) {
             $success = false;
             $msg = __('You cannot delete the root node');
