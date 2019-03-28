@@ -102,7 +102,7 @@ define([
                 $.ajax({
                     url: self.url,
                     type: "POST",
-                    data: {id: classUri, type: 'class', signature: actionContext.classSignature},
+                    data: {id: classUri, type: 'class', signature: actionContext.classSignature || actionContext.signature},
                     dataType: 'json',
                     success: function(response) {
                         if (response.uri) {
@@ -150,7 +150,7 @@ define([
                 $.ajax({
                     url: self.url,
                     type: "POST",
-                    data: {id: classUri, type: 'instance', signature: actionContext.classSignature},
+                    data: {id: classUri, type: 'instance', signature: actionContext.classSignature || actionContext.signature},
                     dataType: 'json',
                     success: function(response){
                         if (response.uri) {
