@@ -1004,16 +1004,16 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('30.1.1');
         }
 
-        $this->skip('30.1.1', '30.1.2');
+        $this->skip('30.1.1', '30.2.0');
 
-        if ($this->isVersion('30.1.2')) {
+        if ($this->isVersion('30.2.0')) {
             // Removes previously set util/local key prior to registering it with the correct values.
             ClientLibConfigRegistry::getRegistry()->remove('util/locale');
 
             $ext = $this->getServiceManager()->get(\common_ext_ExtensionsManager::SERVICE_ID)->getExtensionById('tao');
             $ext->setConfig(\tao_helpers_Date::CONFIG_KEY, new EuropeanFormatter());
 
-            $this->setVersion('30.2.0');
+            $this->setVersion('30.3.0');
         }
     }
 }
