@@ -57,13 +57,13 @@ define([
     QUnit.module('API');
 
     QUnit.test('module', function (assert) {
-        QUnit.expect(1);
+        assert.expect(1);
 
         assert.equal(typeof tokenStoreFactory, 'function', "The module exposes a function");
     });
 
     QUnit.test('factory', function (assert) {
-        QUnit.expect(2);
+        assert.expect(2);
 
         assert.equal(typeof tokenStoreFactory(), 'object', "The factory creates an object");
         assert.notDeepEqual(tokenStoreFactory(), tokenStoreFactory(), "The factory creates a new object");
@@ -71,7 +71,7 @@ define([
 
     QUnit.test('instance', function (assert) {
         var tokenStore;
-        QUnit.expect(7);
+        assert.expect(7);
 
         tokenStore = tokenStoreFactory();
 
@@ -87,167 +87,174 @@ define([
 
     QUnit.module('behavior');
 
-    QUnit.asyncTest('basic access, enqueue/dequeue/has', function(assert) {
+    QUnit.test('basic access, enqueue/dequeue/has', function(assert) {
+        var ready = assert.async();
         var tokenStore;
-        QUnit.expect(6);
+
+        assert.expect(6);
 
         tokenStore = tokenStoreFactory();
         assert.equal(typeof tokenStore, 'object', "The store is an object");
 
         tokenStore.clear()
-        .then(function() {
-            return tokenStore.has(key1);
-        })
-        .then(function(result) {
-            assert.equal(result, false, 'The store does not contain token 1');
-            return tokenStore.dequeue();
-        })
-        .then(function(value) {
-            assert.equal(typeof value, 'undefined', 'The empty store returns undefined token');
-            return tokenStore.enqueue(token1);
-        })
-        .then(function(assigned) {
-            assert.ok(assigned, 'The value assignment is done');
-            return tokenStore.has(key1);
-        })
-        .then(function(result) {
-            assert.equal(result, true, 'The store contains token 1');
-            return tokenStore.dequeue();
-        })
-        .then(function(value) {
-            assert.deepEqual(value, token1, 'The store gives the correct token');
-
-            QUnit.start();
-        })
-        .catch(function(err) {
-            assert.ok(false, err.message);
-            QUnit.start();
-        });
+            .then(function() {
+                return tokenStore.has(key1);
+            })
+            .then(function(result) {
+                assert.equal(result, false, 'The store does not contain token 1');
+                return tokenStore.dequeue();
+            })
+            .then(function(value) {
+                assert.equal(typeof value, 'undefined', 'The empty store returns undefined token');
+                return tokenStore.enqueue(token1);
+            })
+            .then(function(assigned) {
+                assert.ok(assigned, 'The value assignment is done');
+                return tokenStore.has(key1);
+            })
+            .then(function(result) {
+                assert.equal(result, true, 'The store contains token 1');
+                return tokenStore.dequeue();
+            })
+            .then(function(value) {
+                assert.deepEqual(value, token1, 'The store gives the correct token');
+                ready();
+            })
+            .catch(function(err) {
+                assert.ok(false, err.message);
+                ready();
+            });
     });
 
-    QUnit.asyncTest('limited size', function(assert) {
+    QUnit.test('limited size', function(assert) {
+        var ready = assert.async();
         var tokenStore;
-        QUnit.expect(12);
+
+        assert.expect(12);
 
         tokenStore = tokenStoreFactory({ maxSize: 3 });
         assert.equal(typeof tokenStore, 'object', "The store is an object");
 
         tokenStore.clear()
-        .then(function() {
-            return tokenStore.enqueue(token1);
-        })
-        .then(function() {
-            return tokenStore.getTokens();
-        })
-        .then(function(tokens) {
-            assert.ok(key1 in tokens, 'The store contains token 1');
-        })
-        .then(function() {
-            return tokenStore.enqueue(token2);
-        })
-        .then(function() {
-            return tokenStore.getTokens();
-        })
-        .then(function(tokens) {
-            assert.ok(key1 in tokens, 'The store contains token 1');
-            assert.ok(key2 in tokens, 'The store contains token 2');
-        })
-        .then(function() {
-            return tokenStore.enqueue(token3);
-        })
-        .then(function() {
-            return tokenStore.getTokens();
-        })
-        .then(function(tokens) {
-            assert.ok(key1 in tokens, 'The store contains token 1');
-            assert.ok(key2 in tokens, 'The store contains token 2');
-            assert.ok(key3 in tokens, 'The store contains token 3');
-            return tokenStore.enqueue(token4);
-        })
-        .then(function() {
-            return tokenStore.getSize();
-        })
-        .then(function(size) {
-            assert.equal(size, 3, 'The store size is correct');
-        })
-        .then(function() {
-            return tokenStore.getTokens();
-        })
-        .then(function(tokens) {
-            assert.equal(false, key1 in tokens, 'The store no longer contains token 1');
-            assert.ok(key2 in tokens, 'The store contains token 2');
-            assert.ok(key3 in tokens, 'The store contains token 3');
-            assert.ok(key4 in tokens, 'The store contains token 4');
+            .then(function() {
+                return tokenStore.enqueue(token1);
+            })
+            .then(function() {
+                return tokenStore.getTokens();
+            })
+            .then(function(tokens) {
+                assert.ok(key1 in tokens, 'The store contains token 1');
+            })
+            .then(function() {
+                return tokenStore.enqueue(token2);
+            })
+            .then(function() {
+                return tokenStore.getTokens();
+            })
+            .then(function(tokens) {
+                assert.ok(key1 in tokens, 'The store contains token 1');
+                assert.ok(key2 in tokens, 'The store contains token 2');
+            })
+            .then(function() {
+                return tokenStore.enqueue(token3);
+            })
+            .then(function() {
+                return tokenStore.getTokens();
+            })
+            .then(function(tokens) {
+                assert.ok(key1 in tokens, 'The store contains token 1');
+                assert.ok(key2 in tokens, 'The store contains token 2');
+                assert.ok(key3 in tokens, 'The store contains token 3');
+                return tokenStore.enqueue(token4);
+            })
+            .then(function() {
+                return tokenStore.getSize();
+            })
+            .then(function(size) {
+                assert.equal(size, 3, 'The store size is correct');
+            })
+            .then(function() {
+                return tokenStore.getTokens();
+            })
+            .then(function(tokens) {
+                assert.equal(false, key1 in tokens, 'The store no longer contains token 1');
+                assert.ok(key2 in tokens, 'The store contains token 2');
+                assert.ok(key3 in tokens, 'The store contains token 3');
+                assert.ok(key4 in tokens, 'The store contains token 4');
 
-            QUnit.start();
-        })
-        .catch(function(err) {
-            assert.ok(false, err.message);
-            QUnit.start();
-        });
+                ready();
+            })
+            .catch(function(err) {
+                assert.ok(false, err.message);
+                ready();
+            });
     });
 
-    QUnit.asyncTest('remove', function(assert) {
+    QUnit.test('remove', function(assert) {
+        var ready = assert.async();
         var tokenStore;
-        QUnit.expect(10);
+
+        assert.expect(10);
 
         tokenStore = tokenStoreFactory({ maxSize: 3 });
 
         tokenStore.clear()
-        .then(function() {
-            return Promise.all([
-                tokenStore.enqueue(token1),
-                tokenStore.enqueue(token2),
-                tokenStore.enqueue(token3)
-            ]);
-        })
-        .then(function() {
-            assert.ok(tokenStore.has(key1), 'The store contains the given token');
-            assert.ok(tokenStore.has(key2), 'The store contains the given token');
-            assert.ok(tokenStore.has(key3), 'The store contains the given token');
-        })
-        .then(function() {
-            return tokenStore.remove(key3);
-        })
-        .then(function(removed) {
-            assert.ok(removed, 'The removal went well');
-            return tokenStore.has(key3);
-        })
-        .then(function(result) {
-            assert.ok(!result, 'The token was removed from the store');
-        })
-        .then(function() {
-            return tokenStore.has('zoobizoob');
-        })
-        .then(function(result) {
-            assert.ok(!result, 'The token does not exist');
-            return tokenStore.remove('zoobizoob');
-        })
-        .then(function(removed) {
-            assert.ok(!removed, 'Nothing to remove');
-        })
-        .then(function() {
-            return tokenStore.enqueue(token4);
-        })
-        .then(function() {
-            return tokenStore.getTokens();
-        })
-        .then(function(tokens) {
-            assert.ok(key1 in tokens, 'The store contains token 1');
-            assert.ok(key2 in tokens, 'The store contains token 2');
-            assert.ok(key4 in tokens, 'The store contains token 4');
+            .then(function() {
+                return Promise.all([
+                    tokenStore.enqueue(token1),
+                    tokenStore.enqueue(token2),
+                    tokenStore.enqueue(token3)
+                ]);
+            })
+            .then(function() {
+                assert.ok(tokenStore.has(key1), 'The store contains the given token');
+                assert.ok(tokenStore.has(key2), 'The store contains the given token');
+                assert.ok(tokenStore.has(key3), 'The store contains the given token');
+            })
+            .then(function() {
+                return tokenStore.remove(key3);
+            })
+            .then(function(removed) {
+                assert.ok(removed, 'The removal went well');
+                return tokenStore.has(key3);
+            })
+            .then(function(result) {
+                assert.ok(!result, 'The token was removed from the store');
+            })
+            .then(function() {
+                return tokenStore.has('zoobizoob');
+            })
+            .then(function(result) {
+                assert.ok(!result, 'The token does not exist');
+                return tokenStore.remove('zoobizoob');
+            })
+            .then(function(removed) {
+                assert.ok(!removed, 'Nothing to remove');
+            })
+            .then(function() {
+                return tokenStore.enqueue(token4);
+            })
+            .then(function() {
+                return tokenStore.getTokens();
+            })
+            .then(function(tokens) {
+                assert.ok(key1 in tokens, 'The store contains token 1');
+                assert.ok(key2 in tokens, 'The store contains token 2');
+                assert.ok(key4 in tokens, 'The store contains token 4');
 
-            QUnit.start();
-        })
-        .catch(function(err) {
-            assert.ok(false, err.message);
-            QUnit.start();
-        });
+                ready();
+            })
+            .catch(function(err) {
+                assert.ok(false, err.message);
+                ready();
+            });
     });
 
-    QUnit.asyncTest('clear', function(assert) {
+    QUnit.test('clear', function(assert) {
+        var ready = assert.async();
         var tokenStore;
-        QUnit.expect(7);
+
+        assert.expect(7);
 
         tokenStore = tokenStoreFactory({});
 
@@ -274,53 +281,57 @@ define([
                 assert.equal(false, key2 in tokens, 'The store does not contain token 3');
                 assert.equal(false, key3 in tokens, 'The store does not contain token 4');
 
-                QUnit.start();
+                ready();
             })
             .catch(function(err) {
                 assert.ok(false, err.message);
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('getSize/isEmpty', function(assert) {
+    QUnit.test('getSize/isEmpty', function(assert) {
+        var ready = assert.async();
         var tokenStore;
-        QUnit.expect(3);
+
+        assert.expect(3);
 
         tokenStore = tokenStoreFactory({});
 
         tokenStore.clear()
-        .then(function() {
-            return Promise.all([
-                tokenStore.enqueue(token1),
-                tokenStore.enqueue(token2),
-                tokenStore.enqueue(token3)
-            ]);
-        })
-        .then(function() {
-            return tokenStore.getSize();
-        })
-        .then(function(size) {
-            assert.equal(size, 3, 'The store size is correct: 3');
-            return tokenStore.clear();
-        })
-        .then(function(cleared) {
-            assert.ok(cleared, 'The clear went well');
-            return tokenStore.getSize();
-        })
-        .then(function(size) {
-            assert.equal(size, 0, 'The store size is correct: 0');
+            .then(function() {
+                return Promise.all([
+                    tokenStore.enqueue(token1),
+                    tokenStore.enqueue(token2),
+                    tokenStore.enqueue(token3)
+                ]);
+            })
+            .then(function() {
+                return tokenStore.getSize();
+            })
+            .then(function(size) {
+                assert.equal(size, 3, 'The store size is correct: 3');
+                return tokenStore.clear();
+            })
+            .then(function(cleared) {
+                assert.ok(cleared, 'The clear went well');
+                return tokenStore.getSize();
+            })
+            .then(function(size) {
+                assert.equal(size, 0, 'The store size is correct: 0');
 
-            QUnit.start();
-        })
-        .catch(function(err) {
-            assert.ok(false, err.message);
-            QUnit.start();
-        });
+                ready();
+            })
+            .catch(function(err) {
+                assert.ok(false, err.message);
+                ready();
+            });
     });
 
-    QUnit.asyncTest('getTokens', function(assert) {
+    QUnit.test('getTokens', function(assert) {
+        var ready = assert.async();
         var tokenStore;
-        QUnit.expect(3);
+
+        assert.expect(3);
 
         tokenStore = tokenStoreFactory({});
 
@@ -346,17 +357,19 @@ define([
             .then(function(tokens) {
                 assert.deepEqual(tokens, {}, 'Empty set of tokens is retrieved');
 
-                QUnit.start();
+                ready();
             })
             .catch(function(err) {
                 assert.ok(false, err.message);
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('getIndex', function(assert) {
+    QUnit.test('getIndex', function(assert) {
+        var ready = assert.async();
         var tokenStore;
-        QUnit.expect(3);
+
+        assert.expect(3);
 
         tokenStore = tokenStoreFactory({});
 
@@ -382,54 +395,55 @@ define([
             .then(function(tokens) {
                 assert.deepEqual(tokens, [], 'The generated index is empty');
 
-                QUnit.start();
+                ready();
             })
             .catch(function(err) {
                 assert.ok(false, err.message);
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('expireOldTokens', function(assert) {
+    QUnit.test('expireOldTokens', function(assert) {
+        var ready = assert.async();
         var tokenStore;
-        QUnit.expect(2);
+
+        assert.expect(2);
 
         tokenStore = tokenStoreFactory({ tokenTimeLimit: 100 });
 
         tokenStore.clear()
-        .then(function() {
-            return Promise.all([
-                tokenStore.enqueue(token1),
-                tokenStore.enqueue(token2),
-                tokenStore.enqueue(token3),
-                tokenStore.enqueue(token4)
-            ]);
-        })
-        .then(function() {
-            return tokenStore.getSize();
-        })
-        .then(function(size) {
-            assert.equal(size, 4, 'The store size is correct: 4');
+            .then(function() {
+                return Promise.all([
+                    tokenStore.enqueue(token1),
+                    tokenStore.enqueue(token2),
+                    tokenStore.enqueue(token3),
+                    tokenStore.enqueue(token4)
+                ]);
+            })
+            .then(function() {
+                return tokenStore.getSize();
+            })
+            .then(function(size) {
+                assert.equal(size, 4, 'The store size is correct: 4');
 
-            return new Promise(function(resolve) {
-                setTimeout(resolve, 200);
+                return new Promise(function(resolve) {
+                    setTimeout(resolve, 200);
+                });
+            })
+            .then(function() {
+                return tokenStore.expireOldTokens();
+            })
+            .then(function() {
+                return tokenStore.getSize();
+            })
+            .then(function(size) {
+                assert.equal(size, 1, 'A single token remains after small time delay');
+                ready();
+            })
+            .catch(function(err) {
+                assert.ok(false, err.message);
+                ready();
             });
-        })
-        .then(function() {
-            return tokenStore.expireOldTokens();
-        })
-        .then(function() {
-            return tokenStore.getSize();
-        })
-        .then(function(size) {
-            assert.equal(size, 1, 'A single token remains after small time delay');
-
-            QUnit.start();
-        })
-        .catch(function(err) {
-            assert.ok(false, err.message);
-            QUnit.start();
-        });
     });
 
 });

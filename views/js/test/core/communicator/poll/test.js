@@ -79,6 +79,8 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
 
     QUnit.test('create error', function(assert) {
         var ready = assert.async();
+        var instance;
+
         assert.expect(1);
 
         communicator.registerProvider('poll', poll);
@@ -93,11 +95,13 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
 
     QUnit.test('init and destroy', function(assert) {
         var ready = assert.async();
+        var instance;
+
         assert.expect(11);
 
         communicator.registerProvider('poll', poll);
 
-        var instance = communicator('poll', {service: 'service.url'})
+        instance = communicator('poll', {service: 'service.url'})
             .on('init', function() {
                 assert.ok(true, 'The communicator has fired the "init" event');
             })
@@ -137,7 +141,6 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
 
     QUnit.test('open and close', function(assert) {
         var ready = assert.async();
-        assert.expect(16);
 
         var config = {
             service: 'service.url',
@@ -208,7 +211,6 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
 
     QUnit.test('send success', function(assert) {
         var ready = assert.async();
-        assert.expect(28);
 
         var config = {
             service: 'service.url',
@@ -332,7 +334,6 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
 
     QUnit.test('send and stop', function(assert) {
         var ready = assert.async();
-        assert.expect(15);
 
         var config = {
             service: 'service.url',
@@ -433,7 +434,6 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
 
     QUnit.test('send failed #network', function(assert) {
         var ready = assert.async();
-        assert.expect(25);
 
         var config = {
             service: 'service.url',
@@ -552,7 +552,7 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
 
         communicator.registerProvider('poll', poll);
 
-        assert.expect(9);
+        assert.expect(8);
 
         instance = communicator('poll', config);
 

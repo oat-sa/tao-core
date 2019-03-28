@@ -79,9 +79,11 @@ define(['jquery', 'lodash', 'core/dataProvider/request', 'core/promise'], functi
     }];
 
     QUnit
-        .cases(requestCases)
-        .asyncTest('bad request call with ', function(caseData, assert){
-            QUnit.expect(1);
+        .cases.init(requestCases)
+        .test('bad request call with ', function(caseData, assert){
+            var ready = assert.async();
+
+            assert.expect(1);
 
             assert.throws(
                 function() {
@@ -89,12 +91,12 @@ define(['jquery', 'lodash', 'core/dataProvider/request', 'core/promise'], functi
                 },
                 "throws an error"
             );
-            QUnit.start();
+            ready();
         });
 
 
     QUnit.module('request', {
-        beforeEach: function(assert) {
+        beforeEach: function() {
 
             //mock the jquery ajax method
             $.ajax = function(options){
@@ -122,7 +124,7 @@ define(['jquery', 'lodash', 'core/dataProvider/request', 'core/promise'], functi
                 };
             };
         },
-        afterEach: function teardown(assert) {
+        afterEach: function teardown() {
             $.ajax = $ajax;
         }
     });

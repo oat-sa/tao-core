@@ -68,7 +68,7 @@ define([
     QUnit.module('API');
 
     QUnit.test('module', function (assert) {
-        QUnit.expect(1);
+        assert.expect(1);
 
         assert.equal(typeof request, 'function', "The module exposes a function");
     });
@@ -91,9 +91,11 @@ define([
     }];
 
     QUnit
-        .cases(requestCases)
-        .asyncTest('bad request call with ', function(caseData, assert){
-            QUnit.expect(1);
+        .cases.init(requestCases)
+        .test('bad request call with ', function(caseData, assert){
+            var ready = assert.async();
+
+            assert.expect(1);
 
             assert.throws(
                 function() {
@@ -101,7 +103,7 @@ define([
                 },
                 "throws an error"
             );
-            QUnit.start();
+            ready();
         });
 
 
@@ -157,8 +159,9 @@ define([
     ];
 
     QUnit
-        .cases(requestCases)
-        .asyncTest('request with ', function(caseData, assert) {
+        .cases.init(requestCases)
+        .test('request with ', function(caseData, assert) {
+            var ready = assert.async();
             var tokenHandler = tokenHandlerFactory();
 
             // mock the endpoints:
@@ -218,21 +221,21 @@ define([
                 assert.ok(result instanceof Promise, 'The request function returns a promise');
 
                 if (caseData.reject) {
-                    QUnit.expect(3);
+                    assert.expect(3);
 
                     result.then(function() {
                         assert.ok(false, 'Should reject');
-                        QUnit.start();
+                        ready();
                     })
                     .catch(function(err) {
                         assert.equal(err.name, caseData.err.name, 'Reject error is the one expected');
                         assert.equal(err.message, caseData.err.message, 'Reject error is correct');
-                        QUnit.start();
+                        ready();
                     });
 
                 }
                 else {
-                    QUnit.expect(caseData.noToken ? 2 : 3);
+                    assert.expect(caseData.noToken ? 2 : 3);
 
                     result.then(function(response) {
                         if (_.isUndefined(caseData.content)) {
@@ -245,16 +248,16 @@ define([
                         if (!caseData.noToken) {
                             tokenHandler.getToken().then(function(storedToken) {
                                 assert.equal(storedToken, 'token2', 'The token was updated with the next in sequence');
-                                QUnit.start();
+                                ready();
                             });
                         }
                         else {
-                            QUnit.start();
+                            ready();
                         }
                     })
                     .catch(function() {
                         assert.ok(false, 'Should not reject');
-                        QUnit.start();
+                        ready();
                     });
                 }
             });
