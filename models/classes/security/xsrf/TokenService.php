@@ -134,15 +134,24 @@ class TokenService extends ConfigurableService
     public function validateToken($token)
     {
         $isValid = false;
+        $expired = false;
         $pool = $this->getStore()->getTokens();
         if($pool !== null){
 
             foreach ($pool as $savedToken) {
-                if ($savedToken['token'] === $token && !$this->isExpired($token)){
+                if ($savedToken['token'] === $token) {
+                    if ($this->isExpired($token)) {
+                        $expired = true;
+                        break;
+                    }
                     $isValid = true;
                     break;
                 }
             }
+        }
+
+        if ($expired === true) {
+            $this->revokeToken($token);
         }
 
         if ($isValid !== true) {
@@ -157,10 +166,9 @@ class TokenService extends ConfigurableService
      * Check if the given token has expired. If it has, revoke it
      *
      * @param $token
-     * @param bool $revokeIfExpired
      * @return bool
      */
-    private function isExpired($token, $revokeIfExpired = false)
+    private function isExpired($token)
     {
         $expired = false;
         $actualTime = microtime(true);
@@ -168,7 +176,6 @@ class TokenService extends ConfigurableService
 
         if (($timeLimit > 0) && $token['ts'] + $timeLimit < $actualTime) {
             $expired = true;
-            !$revokeIfExpired ?: $this->revokeToken($token);
         }
 
         return $expired;
