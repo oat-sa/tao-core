@@ -42,15 +42,13 @@ class SetLocaleNumbersConfig extends InstallAction
      */
     public function __invoke($params)
     {
-        $dateTimeFormatter = new EuropeanFormatter();
         $ext = $this->getServiceManager()->get(ExtensionsManager::SERVICE_ID)->getExtensionById('tao');
-        $ext->setConfig(DateHelper::CONFIG_KEY, $dateTimeFormatter);
+        $ext->setConfig(DateHelper::CONFIG_KEY, new EuropeanFormatter());
 
         ClientLibConfigRegistry::getRegistry()->register(
             'util/locale', [
                 'decimalSeparator' => '.',
                 'thousandsSeparator' => '',
-                'dateTimeFormat' => $dateTimeFormatter->getJavascriptFormat(DateHelper::FORMAT_LONG),
             ]
         );
 

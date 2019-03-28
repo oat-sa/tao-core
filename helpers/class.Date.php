@@ -51,7 +51,12 @@ class tao_helpers_Date
 
     private static $service;
 
-    static protected function getDateFormatter()
+    /**
+     * Returns configured date formatter.
+     *
+     * @return DateFormatterInterface
+     */
+    static public function getDateFormatter()
     {
         if (is_null(self::$service)) {
             $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');

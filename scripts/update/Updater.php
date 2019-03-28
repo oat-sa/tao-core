@@ -974,18 +974,8 @@ class Updater extends \common_ext_ExtensionUpdater {
         $this->skip('30.0.2', '30.0.5');
 
         if ($this->isVersion('30.0.5')) {
-            $dateTimeFormatter = new EuropeanFormatter();
-
             $ext = $this->getServiceManager()->get(\common_ext_ExtensionsManager::SERVICE_ID)->getExtensionById('tao');
-            $ext->setConfig(\tao_helpers_Date::CONFIG_KEY, $dateTimeFormatter);
-
-            ClientLibConfigRegistry::getRegistry()->register(
-                'util/locale', [
-                    'decimalSeparator' => '.',
-                    'thousandsSeparator' => '',
-                    'dateTimeFormat' => $dateTimeFormatter->getJavascriptFormat(\tao_helpers_Date::FORMAT_LONG),
-                ]
-            );
+            $ext->setConfig(\tao_helpers_Date::CONFIG_KEY, new EuropeanFormatter());
 
             $this->setVersion('30.1.0');
         }
