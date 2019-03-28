@@ -49,6 +49,11 @@ class ActionProtector extends ConfigurableService
             $whitelistedSources = ["'none'"];
         }
 
+        // Wrap directives in quotes
+        if (in_array($whitelistedSources, ['self', 'none'])) {
+            $whitelistedSources = ["'" . $whitelistedSources . "'"];
+        }
+
         if ($whitelistedSources === 'list') {
             $whitelistedSources = json_decode($settingsStorage->get(CspHeaderSettingsInterface::CSP_HEADER_LIST), true);
         }
