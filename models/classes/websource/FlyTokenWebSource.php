@@ -96,3 +96,4 @@ class FlyTokenWebSource extends TokenWebSource
         return $taoExtension->getConstant('BASE_URL').'getFileFlysystem.php/'.$this->getId().'/'.$token.'/'.$relUrl.'*/';
     }
 }
+

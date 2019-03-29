@@ -18,19 +18,15 @@
 /**
  * @author Mikhail Kamarouski, <kamarouski@1pt.com>
  */
-define([
-    'jquery',
-    'lodash',
-    'ui/cascadingComboBox'
-], function($, _, cascadingComboBox){
+define(['jquery', 'lodash', 'ui/cascadingComboBox'], function($, _, cascadingComboBox) {
     'use strict';
 
     QUnit.module('Cascading ComboBox');
 
-    QUnit.test('render (all options)', function(assert){
+    QUnit.test('render (all options)', function(assert) {
 
         var $container = $('#fixture-1');
-        var combo =  cascadingComboBox({
+        var combo = cascadingComboBox({
             categoriesDefinitions: [
                 {
                     id: 'reason1',
@@ -45,46 +41,46 @@ define([
                     placeholder: 'Reason 3'
                 }
             ],
-            categories : [
+            categories: [
                 {
-                    id : 'optionA',
-                    label : 'option A',
-                    categories : [
+                    id: 'optionA',
+                    label: 'option A',
+                    categories: [
                         {
-                            id : 'optionA1',
-                            label : 'option A-1',
-                            categories : [
-                                {id : 'option A1a', label : 'option A-1-a'},
-                                {id : 'option A1b', label : 'option A-1-b'},
-                                {id : 'option A1c', label : 'option A-1-c'}
+                            id: 'optionA1',
+                            label: 'option A-1',
+                            categories: [
+                                {id: 'option A1a', label: 'option A-1-a'},
+                                {id: 'option A1b', label: 'option A-1-b'},
+                                {id: 'option A1c', label: 'option A-1-c'}
                             ]
                         },
                         {
-                            id : 'optionA2',
-                            label : 'option A-2',
-                            categories : [
-                                {id : 'option A2a', label : 'option A-2-a'},
-                                {id : 'option A2b', label : 'option A-2-b'}
+                            id: 'optionA2',
+                            label: 'option A-2',
+                            categories: [
+                                {id: 'option A2a', label: 'option A-2-a'},
+                                {id: 'option A2b', label: 'option A-2-b'}
                             ]
                         },
                         {
-                            label : 'option A-3'
+                            label: 'option A-3'
                         }
                     ]
                 },
                 {
-                    id : 'optionB',
-                    label : 'option B',
-                    categories : [
-                        {id : 'option B1', label : 'option B-1'},
-                        {id : 'option B2', label : 'option B-2'},
-                        {id : 'option B3', label : 'option B-3'},
-                        {id : 'option B4', label : 'option B-4'}
+                    id: 'optionB',
+                    label: 'option B',
+                    categories: [
+                        {id: 'option B1', label: 'option B-1'},
+                        {id: 'option B2', label: 'option B-2'},
+                        {id: 'option B3', label: 'option B-3'},
+                        {id: 'option B4', label: 'option B-4'}
                     ]
                 },
                 {
-                    id : 'option_C',
-                    label : 'option C'
+                    id: 'option_C',
+                    label: 'option C'
                 }
             ]
         });
@@ -95,11 +91,11 @@ define([
 
         assert.equal($container.find('.cascading-combo-box').length, 1, 'initial state ok');
 
-        $container.on('selected.cascading-combobox',function(x,val){
-            assert.equal(val.reason1,'optionA','select event fired OK');
+        $container.on('selected.cascading-combobox', function(x, val) {
+            assert.equal(val.reason1, 'optionA', 'select event fired OK');
         });
 
-        assert.equal($container.find("option[value='optionA1']").length, 0, 'Cascaded option not yet added to DOM');
+        assert.equal($container.find('option[value="optionA1"]').length, 0, 'Cascaded option not yet added to DOM');
         $container.find('select').eq(0).find('option[value=optionA]').prop('selected', 'selected');
         $container.find('select').eq(0).trigger('change');
 
@@ -109,10 +105,10 @@ define([
 
         $container.find('select').eq(1).find('option[value=optionA1]').prop('selected', 'selected');
         $container.find('select').eq(1).trigger('change');
-        assert.equal($container.find("option[value='optionA1']").length, 1, 'option added to DOM');
+        assert.equal($container.find('option[value="optionA1"]').length, 1, 'option added to DOM');
         assert.equal($container.find('.cascading-combo-box').length, 3, 'cascading OK');
 
-        $container.on('selected.cascading-combobox',function(x,val){
+        $container.on('selected.cascading-combobox', function(x, val) {
             assert.equal(_.size(val), 3, 'obtaining values OK');
         });
 
@@ -121,7 +117,7 @@ define([
 
         $container
             .off('selected.cascading-combobox')
-            .on('selected.cascading-combobox',function(x,val){
+            .on('selected.cascading-combobox', function(x, val) {
                 assert.equal(_.size(val), 2, 'obtaining values OK');
             });
 
@@ -129,7 +125,7 @@ define([
         $container.find('select').eq(0).trigger('change');
 
         assert.equal($container.find('.cascading-combo-box').length, 2, 'removing cascading OK');
-        assert.equal($container.find("option[value='optionA1']").length, 0, 'removing cascading OK');
+        assert.equal($container.find('option[value="optionA1"]').length, 0, 'removing cascading OK');
     });
 
 });

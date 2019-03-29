@@ -33,7 +33,7 @@ define([
     QUnit.test('pow10', function (assert) {
         var calculator = calculatorBoardFactory();
 
-        QUnit.expect(3);
+        assert.expect(3);
 
         assert.equal(typeof pow10PluginFactory, 'function', "The plugin module exposes a function");
         assert.equal(typeof pow10PluginFactory(calculator), 'object', "The plugin factory produces an instance");
@@ -42,7 +42,7 @@ define([
 
     QUnit.module('api');
 
-    QUnit.cases([
+    QUnit.cases.init([
         {title: 'install'},
         {title: 'init'},
         {title: 'render'},
@@ -61,20 +61,21 @@ define([
     ]).test('plugin API ', function (data, assert) {
         var calculator = calculatorBoardFactory();
         var plugin = pow10PluginFactory(calculator);
-        QUnit.expect(1);
+        assert.expect(1);
         assert.equal(typeof plugin[data.title], 'function', 'The plugin instances expose a "' + data.title + '" function');
     });
 
     QUnit.module('behavior');
 
-    QUnit.asyncTest('install', function (assert) {
+    QUnit.test('install', function (assert) {
+        var ready = assert.async();
         var $container = $('#fixture-install');
         var calculator = calculatorBoardFactory($container)
             .on('ready', function () {
                 var areaBroker = calculator.getAreaBroker();
                 var plugin = pow10PluginFactory(calculator, areaBroker);
 
-                QUnit.expect(3);
+                assert.expect(3);
 
                 assert.ok(!calculator.hasCommand('pow10'), 'The command pow10 is not yet registered');
 
@@ -83,7 +84,7 @@ define([
                         assert.ok(true, 'The plugin has been installed');
                     })
                     .on('destroy', function () {
-                        QUnit.start();
+                        ready();
                     });
 
                 plugin.install()
@@ -100,19 +101,20 @@ define([
             .on('error', function (err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
 
     });
 
-    QUnit.asyncTest('init', function (assert) {
+    QUnit.test('init', function (assert) {
+        var ready = assert.async();
         var $container = $('#fixture-init');
         var calculator = calculatorBoardFactory($container)
             .on('ready', function () {
                 var areaBroker = calculator.getAreaBroker();
                 var plugin = pow10PluginFactory(calculator, areaBroker);
 
-                QUnit.expect(3);
+                assert.expect(3);
 
                 assert.ok(!calculator.hasCommand('pow10'), 'The command pow10 is not yet registered');
 
@@ -121,7 +123,7 @@ define([
                         assert.ok(plugin.getState('init'), 'The plugin has been initialized');
                     })
                     .on('destroy', function () {
-                        QUnit.start();
+                        ready();
                     });
 
                 plugin.install()
@@ -141,24 +143,25 @@ define([
             .on('error', function (err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('destroy', function (assert) {
+    QUnit.test('destroy', function (assert) {
+        var ready = assert.async();
         var $container = $('#fixture-destroy');
         var calculator = calculatorBoardFactory($container)
             .on('ready', function () {
                 var areaBroker = calculator.getAreaBroker();
                 var plugin = pow10PluginFactory(calculator, areaBroker);
 
-                QUnit.expect(4);
+                assert.expect(4);
 
                 assert.ok(!calculator.hasCommand('pow10'), 'The command pow10 is not yet registered');
 
                 calculator
                     .on('destroy', function () {
-                        QUnit.start();
+                        ready();
                     });
 
                 plugin.install()
@@ -184,7 +187,7 @@ define([
             .on('error', function (err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
@@ -198,14 +201,15 @@ define([
      * @property {Number} position - the expected position after change
      */
 
-    QUnit.cases(testCases).asyncTest('command ', function (data, assert) {
+    QUnit.cases.init(testCases).test('command ', function (data, assert) {
+        var ready = assert.async();
         var $container = $('#fixture-command');
         var calculator = calculatorBoardFactory($container)
             .on('ready', function () {
                 var areaBroker = calculator.getAreaBroker();
                 var plugin = pow10PluginFactory(calculator, areaBroker);
 
-                QUnit.expect(5 + 2 * (data.to - data.from));
+                assert.expect(5 + 2 * (data.to - data.from));
 
                 assert.ok(!calculator.hasCommand('pow10'), 'The command pow10 is not yet registered');
 
@@ -214,7 +218,7 @@ define([
                         assert.ok(plugin.getState('init'), 'The plugin has been initialized');
                     })
                     .on('destroy', function () {
-                        QUnit.start();
+                        ready();
                     });
 
                 plugin.install()
@@ -266,7 +270,7 @@ define([
             .on('error', function (err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 

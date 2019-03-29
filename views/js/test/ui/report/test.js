@@ -16,19 +16,15 @@
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
  */
 
-define([
-    'jquery',
-    'lodash',
-    'ui/report'
-], function ($, _, report) {
+define(['jquery', 'lodash', 'ui/report'], function($, _, report) {
     'use strict';
 
     QUnit.module('API');
 
-    QUnit.test('module', 3, function (assert) {
-        assert.equal(typeof report, 'function', "The report module exposes a function");
-        assert.equal(typeof report(), 'object', "The report factory produces an object");
-        assert.notStrictEqual(report(), report(), "The report factory provides a different object on each call");
+    QUnit.test('module', function(assert) {
+        assert.equal(typeof report, 'function', 'The report module exposes a function');
+        assert.equal(typeof report(), 'object', 'The report factory produces an object');
+        assert.notStrictEqual(report(), report(), 'The report factory provides a different object on each call');
     });
 
     var reportApi = [
@@ -48,17 +44,16 @@ define([
     ];
 
     QUnit
-        .cases(reportApi)
-        .test('instance API ', function (data, assert) {
-            QUnit.expect(1);
+        .cases.init(reportApi)
+        .test('instance API ', function(data, assert) {
+            assert.expect(1);
             var instance = report();
-            assert.equal(typeof instance[data.name], 'function', 'The report instance exposes a "' + data.title + '" function');
+            assert.equal(typeof instance[data.name], "function", 'The report instance exposes a "' + data.title + '" function');
         });
 
+    QUnit.test('init', function(assert) {
 
-    QUnit.test('init', function (assert) {
-
-        QUnit.expect(12);
+        assert.expect(12);
 
         var config = {
             nothing: undefined,
@@ -92,19 +87,20 @@ define([
 
     QUnit.module('Rendering');
 
-    QUnit.asyncTest('simple report', function (assert) {
+    QUnit.test('simple report', function(assert) {
+        var ready = assert.async();
 
-        QUnit.expect(7);
+        assert.expect(7);
 
         var $fixtureContainer = $('#qunit-fixture');
         var sampleData = {
-            "type": "warning",
-            "message": "<em>Data not imported. All records are <strong>invalid.</strong></em>",
-            "data": null
+            'type': 'warning',
+            'message': '<em>Data not imported. All records are <strong>invalid.</strong></em>',
+            'data': null
         };
 
         report({}, sampleData)
-            .on('render', function () {
+            .on('render', function() {
                 var $component = $('.component-report ', $fixtureContainer);
                 assert.equal($component.length, 1, 'The component has been appended to the container');
                 assert.ok($component.hasClass('rendered'), 'The component has the rendered class');
@@ -113,19 +109,20 @@ define([
                 assert.equal($component.find('.hierarchical').length, 0, 'the report has no hierarchical report');
                 assert.equal($component.find('.leaf').length, 1, 'the report has only one leaf report');
                 assert.equal($component.find('.actions .action').length, 0, 'the report has no action button');
-                QUnit.start();
+                ready();
             }).render($fixtureContainer);
     });
 
-    QUnit.asyncTest('simple report with actions', function (assert) {
+    QUnit.test('simple report with actions', function(assert) {
+        var ready = assert.async();
 
-        QUnit.expect(9);
+        assert.expect(9);
 
         var $fixtureContainer = $('#qunit-fixture');
         var sampleData = {
-            "type": "warning",
-            "message": "<em>Data not imported. All records are <strong>invalid.</strong></em>",
-            "data": null
+            'type': 'warning',
+            'message': '<em>Data not imported. All records are <strong>invalid.</strong></em>',
+            'data': null
         };
 
         report({
@@ -141,7 +138,7 @@ define([
                 label: 'Continue'
             }]
         }, sampleData)
-            .on('render', function () {
+            .on('render', function() {
                 var $component = $('.component-report ', $fixtureContainer);
                 assert.equal($component.length, 1, 'The component has been appended to the container');
                 assert.ok($component.hasClass('rendered'), 'The component has the rendered class');
@@ -150,55 +147,55 @@ define([
                 assert.equal($component.find('.hierarchical').length, 0, 'the report has no hierarchical report');
                 assert.equal($component.find('.leaf').length, 1, 'the report has only one leaf report');
 
-                //check action buttons
-                assert.equal($component.find('.actions .action').length, 2, 'the report has 2 actions button');
-                assert.equal($component.find('.actions .action[data-trigger="rollback"]').length, 1, 'the report has one rollback button');
-                assert.equal($component.find('.actions .action[data-trigger="continue"]').length, 1, 'the report has one continue button');
+                //Check action buttons
+                assert.equal($component.find(".actions .action").length, 2, "the report has 2 actions button");
+                assert.equal($component.find('.actions .action[data-trigger="rollback"]').length, 1, "the report has one rollback button");
+                assert.equal($component.find('.actions .action[data-trigger="continue"]').length, 1, "the report has one continue button");
 
-                QUnit.start();
+                ready();
             }).render($fixtureContainer);
-
     });
 
-    QUnit.asyncTest('hierarchical report', function (assert) {
+    QUnit.test('hierarchical report', function(assert) {
+        var ready = assert.async();
 
-        QUnit.expect(6);
+        assert.expect(6);
 
         var $fixtureContainer = $('#qunit-fixture');
         var sampleData = {
-            "type": "warning",
-            "message": "<em>Data not imported. All records are <strong>invalid.</strong></em>",
-            "data": null,
-            "children": [{
-                "type": "error",
-                "message": "Row 1 Student Number Identifier: Duplicated student \"92001\"",
-                "data": null,
-                "children": [{
-                    "type": "error",
-                    "message": "This is but a sub-report Z",
-                    "data": null,
-                    "children": []
+            'type': 'warning',
+            'message': '<em>Data not imported. All records are <strong>invalid.</strong></em>',
+            'data': null,
+            'children': [{
+                'type': 'error',
+                'message': 'Row 1 Student Number Identifier: Duplicated student \"92001\"',
+                'data': null,
+                'children': [{
+                    'type': 'error',
+                    'message': 'This is but a sub-report Z',
+                    'data': null,
+                    'children': []
                 }]
             }, {
-                "type": "success",
-                "message": "Row 2 Student Number Identifier OK",
-                "data": null,
-                "children": [{
-                    "type": "success",
-                    "message": "This is but a sub-report A",
-                    "data": null,
-                    "children": []
+                'type': 'success',
+                'message': 'Row 2 Student Number Identifier OK',
+                'data': null,
+                'children': [{
+                    'type': 'success',
+                    'message': 'This is but a sub-report A',
+                    'data': null,
+                    'children': []
                 }, {
-                    "type": "info",
-                    "message": "This is but a sub-report B",
-                    "data": null,
-                    "children": []
+                    'type': 'info',
+                    'message': 'This is but a sub-report B',
+                    'data': null,
+                    'children': []
                 }]
             }]
         };
 
         report({}, sampleData)
-            .on('render', function () {
+            .on('render', function() {
                 var $component = $('.component-report ', $fixtureContainer);
                 assert.equal($component.length, 1, 'The component has been appended to the container');
                 assert.ok($component.hasClass('rendered'), 'The component has the rendered class');
@@ -207,22 +204,22 @@ define([
                 assert.equal($component.find('.hierarchical').length, 3, 'the report has 3 hierarchical reports');
                 assert.equal($component.find('.leaf').length, 3, 'the report has 3 leaf reports');
 
-                QUnit.start();
+                ready();
             }).render($fixtureContainer);
-
     });
 
     QUnit.module('Behaviour');
 
-    QUnit.asyncTest('trigger actions', function (assert) {
+    QUnit.test('trigger actions', function(assert) {
+        var ready = assert.async();
 
-        QUnit.expect(11);
+        assert.expect(11);
 
         var $fixtureContainer = $('#qunit-fixture');
         var sampleData = {
-            "type": "warning",
-            "message": "<em>Data not imported. All records are <strong>invalid.</strong></em>",
-            "data": null
+            'type': 'warning',
+            'message': '<em>Data not imported. All records are <strong>invalid.</strong></em>',
+            'data': null
         };
 
         report({
@@ -238,7 +235,7 @@ define([
                 label: 'Continue'
             }]
         }, sampleData)
-            .on('render', function () {
+            .on('render', function() {
                 var $component = $('.component-report ', $fixtureContainer);
                 assert.equal($component.length, 1, 'The component has been appended to the container');
                 assert.ok($component.hasClass('rendered'), 'The component has the rendered class');
@@ -247,63 +244,63 @@ define([
                 assert.equal($component.find('.hierarchical').length, 0, 'the report has no hierarchical report');
                 assert.equal($component.find('.leaf').length, 1, 'the report has only one leaf report');
 
-                //check action buttons
-                assert.equal($component.find('.actions .action').length, 2, 'the report has 2 actions button');
-                assert.equal($component.find('.actions .action[data-trigger="rollback"]').length, 1, 'the report has one rollback button');
-                assert.equal($component.find('.actions .action[data-trigger="continue"]').length, 1, 'the report has one continue button');
+                //Check action buttons
+                assert.equal($component.find(".actions .action").length, 2, "the report has 2 actions button");
+                assert.equal($component.find('.actions .action[data-trigger="rollback"]').length, 1, "the report has one rollback button");
+                assert.equal($component.find('.actions .action[data-trigger="continue"]').length, 1, "the report has one continue button");
 
                 $component.find('.actions .action[data-trigger="continue"]').click();
 
-            }).on('action-continue', function () {
-                var $component = $('.component-report ', $fixtureContainer);
+            }).on("action-continue", function() {
+                var $component = $(".component-report ", $fixtureContainer);
                 $component.find('.actions .action[data-trigger="rollback"]').click();
-                assert.ok(true, 'continue event triggered');
-            }).on('action-rollback', function () {
-                assert.ok(true, 'rollback event triggered');
-                QUnit.start();
+                assert.ok(true, "continue event triggered");
+            }).on("action-rollback", function() {
+                assert.ok(true, "rollback event triggered");
+                ready();
             }).render($fixtureContainer);
     });
 
+    QUnit.test('toggle details', function(assert) {
+        var ready = assert.async();
 
-    QUnit.asyncTest('toggle details', function (assert) {
-
-        QUnit.expect(14);
+        assert.expect(14);
 
         var $fixtureContainer = $('#qunit-fixture');
         var sampleData = {
-            "type": "warning",
-            "message": "<em>Data not imported. All records are <strong>invalid.</strong></em>",
-            "data": null,
-            "children": [{
-                "type": "error",
-                "message": "Row 1 Student Number Identifier: Duplicated student \"92001\"",
-                "data": null,
-                "children": [{
-                    "type": "error",
-                    "message": "This is but a sub-report Z",
-                    "data": null,
-                    "children": []
+            'type': 'warning',
+            'message': '<em>Data not imported. All records are <strong>invalid.</strong></em>',
+            'data': null,
+            'children': [{
+                'type': 'error',
+                'message': 'Row 1 Student Number Identifier: Duplicated student \"92001\"',
+                'data': null,
+                'children': [{
+                    'type': 'error',
+                    'message': 'This is but a sub-report Z',
+                    'data': null,
+                    'children': []
                 }]
             }, {
-                "type": "success",
-                "message": "Row 2 Student Number Identifier OK",
-                "data": null,
-                "children": [{
-                    "type": "success",
-                    "message": "This is but a sub-report A",
-                    "data": null,
-                    "children": []
+                'type': 'success',
+                'message': 'Row 2 Student Number Identifier OK',
+                'data': null,
+                'children': [{
+                    'type': 'success',
+                    'message': 'This is but a sub-report A',
+                    'data': null,
+                    'children': []
                 }, {
-                    "type": "info",
-                    "message": "This is but a sub-report B",
-                    "data": null,
-                    "children": []
+                    'type': 'info',
+                    'message': 'This is but a sub-report B',
+                    'data': null,
+                    'children': []
                 }]
             }]
         };
 
         report({}, sampleData)
-            .on('render', function () {
+            .on('render', function() {
                 var $component = $('.component-report ', $fixtureContainer);
                 assert.equal($component.length, 1, 'The component has been appended to the container');
                 assert.ok($component.hasClass('rendered'), 'The component has the rendered class');
@@ -312,76 +309,75 @@ define([
                 assert.equal($component.find('.hierarchical').length, 3, 'the report has 3 hierarchical reports');
                 assert.equal($component.find('.leaf').length, 3, 'the report has 3 leaf reports');
 
-                //check hierarchical report visibility
+                //Check hierarchical report visibility
                 assert.equal($component.find('.hierarchical:visible').length, 1, 'one hierarchical report is visible');
                 assert.equal($component.find('.leaf:visible').length, 0, 'no leaf report is visible');
 
-                //show details
+                //Show details
                 $component.find('.fold input').click();
 
-            }).on('showDetails', function () {
+            }).on('showDetails', function() {
 
                 var $component = $('.component-report ', $fixtureContainer);
 
                 assert.ok(true, 'showDetails event triggered');
 
-                //check hierarchical report visibility
+                //Check hierarchical report visibility
                 assert.equal($component.find('.hierarchical:visible').length, 3, 'all hierarchical reportr are visible');
                 assert.equal($component.find('.leaf:visible').length, 3, 'all leaf report are visible');
 
-                _.delay(function(){
+                _.delay(function() {
                     $component.find('.fold input').click();
                 }, 200);
 
-            }).on('hideDetails', function () {
+            }).on('hideDetails', function() {
 
                 var $component = $('.component-report ', $fixtureContainer);
                 assert.ok(true, 'hideDetails event triggered');
 
-                //check hierarchical report visibility
+                //Check hierarchical report visibility
                 assert.equal($component.find('.hierarchical:visible').length, 1, 'one hierarchical report is visible');
                 assert.equal($component.find('.leaf:visible').length, 0, 'no leaf report is visible');
 
-                QUnit.start();
+                ready();
             }).render($fixtureContainer);
-
     });
 
     QUnit.module('Playground');
 
-    QUnit.test('render and play', function () {
+    QUnit.test('render and play', function(assert) {
 
-        QUnit.expect(0);
+        assert.expect(0);
 
         var $fixtureContainer = $('#qunit-fixture-external');
         var sampleData = {
-            "type": "warning",
-            "message": "<em>Data not imported. All records are <strong>invalid.</strong></em>",
-            "data": null,
-            "children": [{
-                "type": "error",
-                "message": "Row 1 Student Number Identifier: Duplicated student \"92001\"",
-                "data": null,
-                "children": [{
-                    "type": "error",
-                    "message": "This is but a sub-report Z",
-                    "data": null,
-                    "children": []
+            'type': 'warning',
+            'message': '<em>Data not imported. All records are <strong>invalid.</strong></em>',
+            'data': null,
+            'children': [{
+                'type': 'error',
+                'message': 'Row 1 Student Number Identifier: Duplicated student \"92001\"',
+                'data': null,
+                'children': [{
+                    'type': 'error',
+                    'message': 'This is but a sub-report Z',
+                    'data': null,
+                    'children': []
                 }]
             }, {
-                "type": "success",
-                "message": "Row 2 Student Number Identifier OK",
-                "data": null,
-                "children": [{
-                    "type": "success",
-                    "message": "This is but a sub-report A",
-                    "data": null,
-                    "children": []
+                'type': 'success',
+                'message': 'Row 2 Student Number Identifier OK',
+                'data': null,
+                'children': [{
+                    'type': 'success',
+                    'message': 'This is but a sub-report A',
+                    'data': null,
+                    'children': []
                 }, {
-                    "type": "info",
-                    "message": "This is but a sub-report B",
-                    "data": null,
-                    "children": []
+                    'type': 'info',
+                    'message': 'This is but a sub-report B',
+                    'data': null,
+                    'children': []
                 }]
             }]
         };

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint98\n"
-"PO-Revision-Date: 2019-03-15T09:38:10\n"
+"Project-Id-Version: TAO 3.3.0-sprint99\n"
+"PO-Revision-Date: 2019-03-29T09:53:33\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: it-IT\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " AND "
-msgstr ""
-
 msgid " and "
 msgstr "e"
+
+msgid " AND "
+msgstr ""
 
 msgid " has been deleted successfully"
 msgstr " è stato rimosso correttamente"
@@ -229,6 +229,12 @@ msgstr "Tutti i campi sono richiesti"
 
 msgid "All rights reserved."
 msgstr "Tutti i diritti riservati"
+
+msgid "Allow for all domains"
+msgstr ""
+
+msgid "Allow for the following domains"
+msgstr ""
 
 msgid "Alpha version"
 msgstr "Versione Alfa"
@@ -440,10 +446,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
 msgid "Clear selection"
@@ -530,6 +536,9 @@ msgstr ""
 msgid "Creation At"
 msgstr ""
 
+msgid "CSP Header settings were saved successfully!"
+msgstr ""
+
 msgid "CSV"
 msgstr "CSV"
 
@@ -554,11 +563,11 @@ msgstr "Dati importati con successo"
 msgid "Data imported. Some records are invalid."
 msgstr "Dati importati. Alcuni record non sono validi."
 
-msgid "Data language"
-msgstr "Dati di lingua"
-
 msgid "Data Language"
 msgstr "Dati di lingua."
+
+msgid "Data language"
+msgstr "Dati di lingua"
 
 msgid "Data not imported. All records are invalid."
 msgstr "Dati non importati. Nessun record è valido."
@@ -679,6 +688,9 @@ msgstr "Edita la classe %s"
 
 msgid "Edit Instance"
 msgstr "Modifica Istanza"
+
+msgid "Edit sources that can embed this platform in an iFrame"
+msgstr ""
 
 msgid "Element"
 msgstr "Elemento"
@@ -835,11 +847,17 @@ msgstr "Adatta"
 msgid "floor"
 msgstr ""
 
+msgid "Forbid for all domains"
+msgstr ""
+
 msgid "Force Release"
 msgstr "Forza il rilascio"
 
 msgid "Forgot your password?"
 msgstr "Password dimenticata?"
+
+msgid "Form data not saved."
+msgstr ""
 
 msgid "From"
 msgstr ""
@@ -990,6 +1008,9 @@ msgstr "Lingua di interfaccia"
 
 msgid "Interface language"
 msgstr "Lingua di interfaccia"
+
+msgid "Invalid CSP header."
+msgstr ""
 
 msgid "Invalid date range (must be after or the same as: %s)"
 msgstr "Intervallo data non valido (deve essere successivo o lo stesso di: %s)"
@@ -1348,6 +1369,9 @@ msgstr "Vecchia password"
 msgid "On"
 msgstr ""
 
+msgid "Only allow for my own domain (%s)"
+msgstr ""
+
 msgid "Operated By "
 msgstr ""
 
@@ -1656,6 +1680,9 @@ msgstr ""
 msgid "Save"
 msgstr "Salva"
 
+msgid "Saved."
+msgstr ""
+
 msgid "Scientific Calculator"
 msgstr ""
 
@@ -1680,11 +1707,18 @@ msgstr ""
 msgid "seconds"
 msgstr "secondi"
 
-msgid "Select"
-msgstr "Seleziona"
+#, tao-public
+msgid "Security"
+msgstr ""
+
+msgid "Security settings"
+msgstr ""
 
 msgid "select"
 msgstr "seleziona"
+
+msgid "Select"
+msgstr "Seleziona"
 
 msgid "Select a class"
 msgstr ""
@@ -1751,6 +1785,9 @@ msgid "Size"
 msgstr "Dimensione"
 
 msgid "Some resources have not been moved: %s"
+msgstr ""
+
+msgid "Sources that can embed this platform in an iFrame"
 msgstr ""
 
 msgid "Square root"
@@ -2154,10 +2191,13 @@ msgstr ""
 msgid "Users"
 msgstr "Utenti"
 
-msgid "Validation for field '%s' has failed. Language does not exists in the system"
+msgid "Validation for field '%s' has failed. Language does not exist in the system"
 msgstr ""
 
 msgid "Validation for field '%s' has failed. List of values expected"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Should not be empty"
 msgstr ""
 
 msgid "Validation for field '%s' has failed. Valid role expected. Given: %s"

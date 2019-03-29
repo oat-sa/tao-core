@@ -18,27 +18,23 @@
 /**
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
-define([
-    'jquery',
-    'ui/autoscroll'
-], function($, autoscroll) {
+define(['jquery', 'ui/autoscroll'], function($, autoscroll) {
     'use strict';
 
     QUnit.module('autoscroll', {
-        setup: function(){
+        beforeEach: function(assert) {
             $('#qunit-fixture .container').scrollTop(0);
         }
     });
 
-
     QUnit.test('module', function(assert) {
-        QUnit.expect(1);
-        assert.equal(typeof autoscroll, 'function', "The autoscroll module exposes a function");
+        assert.expect(1);
+        assert.equal(typeof autoscroll, 'function', 'The autoscroll module exposes a function');
     });
 
-    
-    QUnit.asyncTest('scroll from bottom', function(assert) {
-        QUnit.expect(2);
+    QUnit.test('scroll from bottom', function(assert) {
+        var ready = assert.async();
+        assert.expect(2);
 
         var $container = $('#qunit-fixture .container');
         var $element = $('.el-1', $container);
@@ -48,13 +44,13 @@ define([
 
         autoscroll($element, $container).then(function() {
             assert.equal($container.scrollTop(), 0, 'The container must have been scrolled to display the element');
-            QUnit.start();
+            ready();
         });
     });
 
-
-    QUnit.asyncTest('scroll from top', function(assert) {
-        QUnit.expect(2);
+    QUnit.test('scroll from top', function(assert) {
+        var ready = assert.async();
+        assert.expect(2);
 
         var $container = $('#qunit-fixture .container');
         var $element = $('.el-5', $container);
@@ -64,13 +60,13 @@ define([
 
         autoscroll($element, $container).then(function() {
             assert.equal($container.scrollTop(), 80, 'The container must have been scrolled to display the element');
-            QUnit.start();
+            ready();
         });
     });
 
-
-    QUnit.asyncTest('auto detect parent', function(assert) {
-        QUnit.expect(2);
+    QUnit.test('auto detect parent', function(assert) {
+        var ready = assert.async();
+        assert.expect(2);
 
         var $container = $('#qunit-fixture .container');
         var $element = $('.el-2');
@@ -80,13 +76,13 @@ define([
 
         autoscroll($element, $container).then(function() {
             assert.equal($container.scrollTop(), 20, 'The container must have been scrolled to display the element');
-            QUnit.start();
+            ready();
         });
     });
 
-
-    QUnit.asyncTest('no scroll if visible', function(assert) {
-        QUnit.expect(2);
+    QUnit.test('no scroll if visible', function(assert) {
+        var ready = assert.async();
+        assert.expect(2);
 
         var $container = $('#qunit-fixture .container');
         var $element = $('.el-3', $container);
@@ -96,17 +92,17 @@ define([
 
         autoscroll($element, $container).then(function() {
             assert.equal($container.scrollTop(), 40, 'The container must have been scrolled to display the element');
-            QUnit.start();
+            ready();
         });
     });
 
-
-    QUnit.asyncTest('must always resolve', function(assert) {
-        QUnit.expect(1);
+    QUnit.test('must always resolve', function(assert) {
+        var ready = assert.async();
+        assert.expect(1);
 
         autoscroll().then(function() {
             assert.ok(true, 'The autoscroll resolve the promise even if no element is found');
-            QUnit.start();
+            ready();
         });
     });
 });

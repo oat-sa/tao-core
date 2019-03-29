@@ -23,16 +23,15 @@ define(['core/store', 'core/cachedStore'], function(store, cachedStore) {
 
     QUnit.module('cachedStore');
 
-
     QUnit.test('module', function(assert) {
-        QUnit.expect(1);
+        assert.expect(1);
 
-        assert.equal(typeof cachedStore, 'function', "The cachedStore module exposes a function");
+        assert.equal(typeof cachedStore, 'function', 'The cachedStore module exposes a function');
     });
 
-
-    QUnit.asyncTest('factory', function(assert) {
-        QUnit.expect(3);
+    QUnit.test('factory', function(assert) {
+        var ready = assert.async();
+        assert.expect(3);
 
         var name = 'test1';
 
@@ -43,14 +42,14 @@ define(['core/store', 'core/cachedStore'], function(store, cachedStore) {
                 assert.equal(typeof storage2, 'object', 'Another instance of the cachedStore accessor has been created');
                 assert.notEqual(storage1, storage2, 'The factory creates a new instance on each build');
 
-                QUnit.start();
+                ready();
             });
         });
     });
 
-
-    QUnit.asyncTest('data', function(assert) {
-        QUnit.expect(11);
+    QUnit.test('data', function(assert) {
+        var ready = assert.async();
+        assert.expect(11);
 
         var name = 'test2';
         var expectedName1 = 'foo';
@@ -91,7 +90,7 @@ define(['core/store', 'core/cachedStore'], function(store, cachedStore) {
                             var value2 = storage.getItem(expectedName2);
                             assert.equal(value2, undefined, 'The value2 is erased');
 
-                            QUnit.start();
+                            ready();
                         });
                     });
                 });
@@ -99,9 +98,9 @@ define(['core/store', 'core/cachedStore'], function(store, cachedStore) {
         });
     });
 
-
-    QUnit.asyncTest('persistence', function(assert) {
-        QUnit.expect(6);
+    QUnit.test('persistence', function(assert) {
+        var ready = assert.async();
+        assert.expect(6);
 
         var name = 'test3';
         var expectedName = 'foo';
@@ -126,7 +125,7 @@ define(['core/store', 'core/cachedStore'], function(store, cachedStore) {
                             var value = storage3.getItem(expectedName);
                             assert.equal(typeof value, 'undefined', 'The got value is correct');
 
-                            QUnit.start();
+                            ready();
                         });
                     });
                 });
