@@ -22,7 +22,7 @@ use oat\tao\model\ClientLibRegistry;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\clientConfig\ClientConfigService;
 use oat\tao\model\routing\Resolver;
-
+use tao_helpers_Date as DateHelper;
 /**
  * Generates client side configuration.
  *
@@ -46,6 +46,9 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule
         $this->setData('extensionsAliases', $extensionsAliases);
 
         $libConfigs = ClientLibConfigRegistry::getRegistry()->getMap();
+        // Dynamically adds the date format.
+        $formatter = DateHelper::getDateFormatter();
+        $libConfigs['util/locale']['dateTimeFormat'] = $formatter->getJavascriptFormat(DateHelper::FORMAT_LONG);
         $this->setData('libConfigs', $libConfigs);
 
         $extendedConfig = $this->getServiceLocator()->get(ClientConfigService::SERVICE_ID)->getExtendedConfig();

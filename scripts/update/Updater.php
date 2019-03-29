@@ -32,6 +32,7 @@ use oat\generis\model\kernel\persistence\file\FileIterator;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\controller\api\Users;
+use oat\tao\helpers\dateFormatter\EuropeanFormatter;
 use oat\tao\model\cliArgument\argument\implementation\Group;
 use oat\tao\model\cliArgument\argument\implementation\verbose\Debug;
 use oat\tao\model\cliArgument\argument\implementation\verbose\Error;
@@ -1004,5 +1005,21 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('30.1.1', '31.0.0');
+
+        if ($this->isVersion('31.0.0')) {
+            // Removes previously set util/local[dateTimeFormat] key prior to registering it with the correct values.
+            $registry = ClientLibConfigRegistry::getRegistry();
+            $localeValues = $registry->get('util/locale');
+            // If 'util/locale' is not set in the registry, $localeValues is '' and retrieving a string index on a string would fail.
+            if (is_array($localeValues) && isset($localeValues['dateTimeFormat'])) {
+                unset($localeValues['dateTimeFormat']);
+            }
+            $registry->register('util/locale', $localeValues);
+
+            $ext = $this->getServiceManager()->get(\common_ext_ExtensionsManager::SERVICE_ID)->getExtensionById('tao');
+            $ext->setConfig(\tao_helpers_Date::CONFIG_KEY, new EuropeanFormatter());
+
+            $this->setVersion('31.1.0');
+        }
     }
 }
