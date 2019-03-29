@@ -1891,7 +1891,7 @@ define([
             this.mute(!!this.startMuted);
             if (this.autoStartAt) {
                 this.seek(this.autoStartAt);
-            } else if (this.autoStart && this.section!="authoring") {
+            } else if (this.autoStart && this.section !== 'authoring') {
                 this.play();
             }
         },
