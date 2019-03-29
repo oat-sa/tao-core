@@ -1004,9 +1004,9 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('30.1.1');
         }
 
-        $this->skip('30.1.1', '30.2.2');
+        $this->skip('30.1.1', '31.0.0');
 
-        if ($this->isVersion('30.2.2')) {
+        if ($this->isVersion('31.0.0')) {
             // Removes previously set util/local[dateTimeFormat] key prior to registering it with the correct values.
             $registry = ClientLibConfigRegistry::getRegistry();
             $localeValues = $registry->get('util/locale');
@@ -1019,7 +1019,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $ext = $this->getServiceManager()->get(\common_ext_ExtensionsManager::SERVICE_ID)->getExtensionById('tao');
             $ext->setConfig(\tao_helpers_Date::CONFIG_KEY, new EuropeanFormatter());
 
-            $this->setVersion('30.3.0');
+            $this->setVersion('31.1.0');
         }
     }
 }
