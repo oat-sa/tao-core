@@ -29,12 +29,12 @@ define([
     QUnit.module('Module');
 
     QUnit.test('module', function (assert) {
-        QUnit.expect(1);
-        assert.equal(typeof labels, 'object', "The module exposes an object");
+        assert.expect(1);
+        assert.equal(typeof labels, 'object', 'The module exposes an object');
     });
 
     QUnit.test('labels', function (assert) {
-        QUnit.expect(1 + _.size(labels));
+        assert.expect(1 + _.size(labels));
 
         assert.ok(_.size(labels) > 0, 'A list of labels is exposed');
 
@@ -48,7 +48,7 @@ define([
     QUnit.test('labels', function (assert) {
         var $container = $('#visual-test');
 
-        QUnit.expect(2);
+        assert.expect(2);
 
         assert.equal($container.children().length, 0, 'The container is empty');
         $container.html(labelsTpl(labels));

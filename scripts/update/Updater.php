@@ -32,6 +32,7 @@ use oat\generis\model\kernel\persistence\file\FileIterator;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\controller\api\Users;
+use oat\tao\helpers\dateFormatter\EuropeanFormatter;
 use oat\tao\model\cliArgument\argument\implementation\Group;
 use oat\tao\model\cliArgument\argument\implementation\verbose\Debug;
 use oat\tao\model\cliArgument\argument\implementation\verbose\Error;
@@ -55,6 +56,7 @@ use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\resources\ResourceWatcher;
+use oat\tao\model\security\SignatureGenerator;
 use oat\tao\model\routing\AnnotationReaderService;
 use oat\tao\model\routing\ControllerService;
 use oat\tao\model\routing\RouteAnnotationService;
@@ -63,8 +65,10 @@ use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStoreSession;
 use oat\tao\model\service\ApplicationService;
 use oat\tao\model\service\ContainerService;
+use oat\tao\model\service\SettingsStorage;
 use oat\tao\model\session\restSessionFactory\builder\HttpBasicAuthBuilder;
 use oat\tao\model\session\restSessionFactory\RestSessionFactory;
+use oat\tao\model\settings\CspHeaderSettingsInterface;
 use oat\tao\model\task\ExportByHandler;
 use oat\tao\model\task\ImportByHandler;
 use oat\tao\model\taskQueue\Queue;
@@ -85,6 +89,7 @@ use oat\tao\model\user\UserLocks;
 use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\AddTmpFsHandlers;
+use oat\tao\scripts\install\RegisterSignatureGenerator;
 use oat\tao\scripts\install\RegisterTaskQueueServices;
 use oat\tao\scripts\install\UpdateRequiredActionUrl;
 use oat\tao\model\accessControl\func\AclProxy;
@@ -958,6 +963,63 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('27.4.0');
         }
 
-        $this->skip('27.4.0', '28.2.1');
+        $this->skip('27.4.0', '30.0.1');
+
+        if ($this->isVersion('30.0.1')) {
+            $register = new RegisterSignatureGenerator();
+            $register->setServiceLocator($this->getServiceManager());
+            $register->__invoke('');
+
+            $this->setVersion('30.0.2');
+        }
+
+        $this->skip('30.0.2', '30.0.5');
+
+        if ($this->isVersion('30.0.5')) {
+            AclProxy::applyRule(new AccessRule(
+                AccessRule::GRANT,
+                TaoRoles::TAO_MANAGER,
+                ['ext' => 'tao', 'mod' => 'Security']
+            ));
+
+            \common_persistence_Manager::addPersistence('settings',  ['driver' => 'phpfile']);
+
+            $this->getServiceManager()->register(
+                SettingsStorage::SERVICE_ID,
+                new SettingsStorage(['persistence' => 'settings'])
+            );
+
+            $this->setVersion('30.1.0');
+        }
+
+        if ($this->isVersion('30.1.0')) {
+            /** @var SettingsStorage $settingsStorage */
+            $settingsStorage = $this->getServiceManager()->get(SettingsStorage::SERVICE_ID);
+
+            if ($settingsStorage->exists(CspHeaderSettingsInterface::CSP_HEADER_SETTING) === false) {
+                $settingsStorage->set(CspHeaderSettingsInterface::CSP_HEADER_SETTING, '*');
+            }
+
+
+            $this->setVersion('30.1.1');
+        }
+
+        $this->skip('30.1.1', '31.0.0');
+
+        if ($this->isVersion('31.0.0')) {
+            // Removes previously set util/local[dateTimeFormat] key prior to registering it with the correct values.
+            $registry = ClientLibConfigRegistry::getRegistry();
+            $localeValues = $registry->get('util/locale');
+            // If 'util/locale' is not set in the registry, $localeValues is '' and retrieving a string index on a string would fail.
+            if (is_array($localeValues) && isset($localeValues['dateTimeFormat'])) {
+                unset($localeValues['dateTimeFormat']);
+            }
+            $registry->register('util/locale', $localeValues);
+
+            $ext = $this->getServiceManager()->get(\common_ext_ExtensionsManager::SERVICE_ID)->getExtensionById('tao');
+            $ext->setConfig(\tao_helpers_Date::CONFIG_KEY, new EuropeanFormatter());
+
+            $this->setVersion('31.1.0');
+        }
     }
 }

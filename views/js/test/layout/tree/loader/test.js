@@ -16,22 +16,21 @@
  * Copyright (c) 2017 (original work) Open Assessment Technlogies SA
  *
  */
-define(['layout/tree/loader'], function(treeLoader){
+define(['layout/tree/loader'], function(treeLoader) {
     'use strict';
 
     QUnit.module('API');
 
-    QUnit.test('module', function(assert){
+    QUnit.test('module', function(assert) {
         assert.ok(typeof treeLoader === 'function', 'The module expose a function');
     });
 
-
     QUnit.module('loader');
 
-    QUnit.test('default', function(assert){
+    QUnit.test('default', function(assert) {
         var provider;
 
-        QUnit.expect(4);
+        assert.expect(4);
 
         provider = treeLoader();
 
@@ -44,10 +43,10 @@ define(['layout/tree/loader'], function(treeLoader){
         assert.equal(provider.name, 'jstree', 'The default provider is jstree');
     });
 
-    QUnit.test('get by name', function(assert){
+    QUnit.test('get by name', function(assert) {
         var provider;
 
-        QUnit.expect(2);
+        assert.expect(2);
 
         provider = treeLoader('resource-selector');
 
@@ -55,15 +54,15 @@ define(['layout/tree/loader'], function(treeLoader){
         assert.equal(provider.name, 'resource-selector', 'The resource selector provider is loaded');
     });
 
-    QUnit.test('change the default', function(assert){
+    QUnit.test('change the default', function(assert) {
         var provider;
 
-        QUnit.expect(2);
+        assert.expect(2);
 
-        window.requirejs.config ({
+        window.requirejs.config({
             config: {
-                'layout/tree/loader' : {
-                    treeProvider : 'resource-selector'
+                'layout/tree/loader': {
+                    treeProvider: 'resource-selector'
                 }
             }
         });
@@ -74,5 +73,4 @@ define(['layout/tree/loader'], function(treeLoader){
         assert.equal(provider.name, 'resource-selector', 'The resource selector provider is loaded');
     });
 });
-
 

@@ -51,7 +51,6 @@ define(['module', 'util/locale'], function(module, locale) {
         assert.equal(locale.parseInt('6,000'), 6000, 'the valid integer value with comma as thousands separator');
         assert.equal(locale.parseInt('6,000.123'), 6000, 'the valid integer value with dot as decimal separator and comma as thousands separator');
 
-                
         // Other style
         locale.setConfig({
             decimalSeparator: ',',
@@ -74,5 +73,4 @@ define(['module', 'util/locale'], function(module, locale) {
     });
 
 });
-
 

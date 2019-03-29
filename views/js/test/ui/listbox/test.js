@@ -18,53 +18,46 @@
 /**
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
-define([
-    'jquery',
-    'lodash',
-    'ui/listbox'
-], function($, _, listBox) {
+define(['jquery', 'lodash', 'ui/listbox'], function($, _, listBox) {
     'use strict';
 
     QUnit.module('listBox');
 
-
-    QUnit.test('module', 3, function(assert) {
-        assert.equal(typeof listBox, 'function', "The listBox module exposes a function");
-        assert.equal(typeof listBox(), 'object', "The listBox factory produces an object");
-        assert.notStrictEqual(listBox(), listBox(), "The listBox factory provides a different object on each call");
+    QUnit.test('module', function(assert) {
+        assert.equal(typeof listBox, 'function', 'The listBox module exposes a function');
+        assert.equal(typeof listBox(), 'object', 'The listBox factory produces an object');
+        assert.notStrictEqual(listBox(), listBox(), 'The listBox factory provides a different object on each call');
     });
 
-
     var testReviewApi = [
-        { name : 'init', title : 'init' },
-        { name : 'destroy', title : 'destroy' },
-        { name : 'render', title : 'render' },
-        { name : 'update', title : 'update' },
-        { name : 'show', title : 'show' },
-        { name : 'hide', title : 'hide' },
-        { name : 'enable', title : 'enable' },
-        { name : 'disable', title : 'disable' },
-        { name : 'is', title : 'is' },
-        { name : 'setState', title : 'setState' },
-        { name : 'setLoading', title : 'setLoading' },
-        { name : 'setTitle', title : 'setTitle' },
-        { name : 'setTextNumber', title : 'setTextNumber' },
-        { name : 'setTextEmpty', title : 'setTextEmpty' },
-        { name : 'setTextLoading', title : 'setTextLoading' },
-        { name : 'getContainer', title : 'getContainer' },
-        { name : 'getElement', title : 'getElement' },
-        { name : 'getTemplate', title : 'getTemplate' },
-        { name : 'setTemplate', title : 'setTemplate' }
+        {name: 'init', title: 'init'},
+        {name: 'destroy', title: 'destroy'},
+        {name: 'render', title: 'render'},
+        {name: 'update', title: 'update'},
+        {name: 'show', title: 'show'},
+        {name: 'hide', title: 'hide'},
+        {name: 'enable', title: 'enable'},
+        {name: 'disable', title: 'disable'},
+        {name: 'is', title: 'is'},
+        {name: 'setState', title: 'setState'},
+        {name: 'setLoading', title: 'setLoading'},
+        {name: 'setTitle', title: 'setTitle'},
+        {name: 'setTextNumber', title: 'setTextNumber'},
+        {name: 'setTextEmpty', title: 'setTextEmpty'},
+        {name: 'setTextLoading', title: 'setTextLoading'},
+        {name: 'getContainer', title: 'getContainer'},
+        {name: 'getElement', title: 'getElement'},
+        {name: 'getTemplate', title: 'getTemplate'},
+        {name: 'setTemplate', title: 'setTemplate'}
     ];
 
     QUnit
-        .cases(testReviewApi)
+        .cases.init(testReviewApi)
         .test('instance API ', function(data, assert) {
             var instance = listBox();
             assert.equal(typeof instance[data.name], 'function', 'The listBox instance exposes a "' + data.title + '" function');
             instance.destroy();
         });
-
 
     QUnit.test('init', function(assert) {
         var config = {
@@ -88,7 +81,6 @@ define([
 
         instance.destroy();
     });
-
 
     QUnit.test('render', function(assert) {
         var $dummy = $('<div class="dummy" />');
@@ -158,7 +150,6 @@ define([
         assert.equal(instance.getElement(), null, 'The listBox instance has removed its rendered content');
     });
 
-
     QUnit.test('update', function(assert) {
         var instance = listBox().render();
         var $component = instance.getElement();
@@ -204,7 +195,6 @@ define([
         instance.destroy();
     });
 
-
     QUnit.test('show/hide', function(assert) {
         var instance = listBox().render();
         var $component = instance.getElement();
@@ -227,7 +217,6 @@ define([
 
         instance.destroy();
     });
-
 
     QUnit.test('enable/disable', function(assert) {
         var instance = listBox().render();
@@ -252,7 +241,6 @@ define([
         instance.destroy();
     });
 
-
     QUnit.test('state', function(assert) {
         var instance = listBox().render();
         var $component = instance.getElement();
@@ -260,7 +248,7 @@ define([
         assert.equal(instance.is('rendered'), true, 'The listBox instance must be rendered');
         assert.equal($component.length, 1, 'The listBox instance returns the rendered content');
 
-        // loading
+        // Loading
         assert.equal(instance.is('loading'), false, 'The listBox instance is not loading');
         assert.equal(instance.getElement().hasClass('loading'), false, 'The listBox instance does not have the loading class');
 
@@ -274,7 +262,7 @@ define([
         assert.equal(instance.is('loading'), false, 'The listBox instance is not loading');
         assert.equal(instance.getElement().hasClass('loading'), false, 'The listBox instance does not have the loading class');
 
-        // custom state
+        // Custom state
         assert.equal(instance.is('customState'), false, 'The listBox instance does not have the customState state');
         assert.equal(instance.getElement().hasClass('customState'), false, 'The listBox instance does not have the customState class');
 
@@ -290,7 +278,6 @@ define([
 
         instance.destroy();
     });
-
 
     QUnit.test('setters', function(assert) {
         var config = {
@@ -351,7 +338,6 @@ define([
         assert.equal(instance.getElement().find('.available-list .label').text(), config.textNumber, 'The listBox instance has rendered a message to show the number of boxes, and set its own content');
         assert.equal(instance.getElement().find('.loading').text(), config.textLoading + '...', 'The listBox instance has rendered a message to show when the component is in loading state, and set its own content');
     });
-
 
     QUnit.test('countRenderer', function(assert) {
         var $container = $('#fixture-1');

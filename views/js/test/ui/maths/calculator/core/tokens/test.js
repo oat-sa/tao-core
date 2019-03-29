@@ -167,12 +167,12 @@ define([
 
     QUnit.module('Factory');
 
-    QUnit.test('module', function (assert) {
-        QUnit.expect(1);
-        assert.equal(typeof tokensHelper, 'object', "The module exposes an object");
+    QUnit.test('module', function(assert) {
+        assert.expect(1);
+        assert.equal(typeof tokensHelper, 'object', 'The module exposes an object');
     });
 
-    QUnit.cases([
+    QUnit.cases.init([
         {title: 'getType'},
         {title: 'isDigit'},
         {title: 'isOperator'},
@@ -192,17 +192,17 @@ define([
         {title: 'renderSign'},
         {title: 'render'}
     ]).test('API ', function (data, assert) {
-        QUnit.expect(1);
+        assert.expect(1);
         assert.equal(typeof tokensHelper[data.title], 'function', 'The helper exposes a "' + data.title + '" function');
     });
 
     QUnit.module('API');
 
-    QUnit.test('getType', function (assert) {
+    QUnit.test('getType', function(assert) {
         var tokenizer = calculatorTokenizerFactory();
-        QUnit.expect(_.size(registeredTerms) + 6);
+        assert.expect(_.size(registeredTerms) + 6);
 
-        _.forEach(registeredTerms, function (term) {
+        _.forEach(registeredTerms, function(term) {
             assert.equal(tokensHelper.getType(tokenizer.tokenize(term.value)[0]), term.type, 'Should tell ' + term.value + ' has type ' + term.type);
         });
 
@@ -215,7 +215,7 @@ define([
     });
 
     QUnit.test('isDigit', function (assert) {
-        QUnit.expect(22);
+        assert.expect(22);
 
         assert.equal(tokensHelper.isDigit(registeredTerms.NUM0.type), true, registeredTerms.NUM0.type + ' should be a digit');
         assert.equal(tokensHelper.isDigit(registeredTerms.SUB.type), false, registeredTerms.SUB.type + ' should not be a digit');
@@ -244,7 +244,7 @@ define([
     });
 
     QUnit.test('isOperator', function (assert) {
-        QUnit.expect(22);
+        assert.expect(22);
 
         assert.equal(tokensHelper.isOperator(registeredTerms.NUM0.type), false, registeredTerms.NUM0.type + ' should not be an operator');
         assert.equal(tokensHelper.isOperator(registeredTerms.SUB.type), true, registeredTerms.SUB.type + ' should be an operator');
@@ -273,10 +273,10 @@ define([
     });
 
     QUnit.test('isOperand', function (assert) {
-        QUnit.expect(22);
+        assert.expect(22);
 
         assert.equal(tokensHelper.isOperand(registeredTerms.NUM0.type), true, registeredTerms.NUM0.type + ' should be an operand');
-        assert.equal(tokensHelper.isOperand(registeredTerms.SUB.type), false, registeredTerms.SUB.type +  ' should not be an operand');
+        assert.equal(tokensHelper.isOperand(registeredTerms.SUB.type), false, registeredTerms.SUB.type + ' should not be an operand');
         assert.equal(tokensHelper.isOperand(registeredTerms.LPAR.type), false, registeredTerms.LPAR.type + ' should not be an operand');
         assert.equal(tokensHelper.isOperand(registeredTerms.COMMA.type), false, registeredTerms.COMMA.type + ' should not be an operand');
         assert.equal(tokensHelper.isOperand(registeredTerms.NAN.type), true, registeredTerms.NAN.type + ' should be an operand');
@@ -300,9 +300,8 @@ define([
         assert.equal(tokensHelper.isOperand({type: 'ADD'}), false, 'ADD should not be an operand');
         assert.equal(tokensHelper.isOperand({type: 'FOO'}), true, 'FOO should be an operand');
     });
-
     QUnit.test('isValue', function (assert) {
-        QUnit.expect(22);
+        assert.expect(22);
 
         assert.equal(tokensHelper.isValue(registeredTerms.NUM0.type), true, registeredTerms.NUM0.type + ' should be a value');
         assert.equal(tokensHelper.isValue(registeredTerms.SUB.type), false, registeredTerms.SUB.type + ' should not be a value');
@@ -331,7 +330,7 @@ define([
     });
 
     QUnit.test('isAggregator', function (assert) {
-        QUnit.expect(22);
+        assert.expect(22);
 
         assert.equal(tokensHelper.isAggregator(registeredTerms.NUM0.type), false, registeredTerms.NUM0.type + ' should not be an aggregator');
         assert.equal(tokensHelper.isAggregator(registeredTerms.SUB.type), false, registeredTerms.SUB.type + ' should not be an aggregator');
@@ -360,7 +359,7 @@ define([
     });
 
     QUnit.test('isError', function (assert) {
-        QUnit.expect(22);
+        assert.expect(22);
 
         assert.equal(tokensHelper.isError(registeredTerms.NUM0.type), false, registeredTerms.NUM0.type + ' should not be an error');
         assert.equal(tokensHelper.isError(registeredTerms.SUB.type), false, registeredTerms.SUB.type + ' should not be an error');
@@ -389,7 +388,7 @@ define([
     });
 
     QUnit.test('isConstant', function (assert) {
-        QUnit.expect(22);
+        assert.expect(22);
 
         assert.equal(tokensHelper.isConstant(registeredTerms.NUM0.type), false, registeredTerms.NUM0.type + ' should not be a constant');
         assert.equal(tokensHelper.isConstant(registeredTerms.SUB.type), false, registeredTerms.SUB.type + ' should not be a constant');
@@ -418,7 +417,7 @@ define([
     });
 
     QUnit.test('isVariable', function (assert) {
-        QUnit.expect(22);
+        assert.expect(22);
 
         assert.equal(tokensHelper.isVariable(registeredTerms.NUM0.type), false, registeredTerms.NUM0.type + ' should not be a variable');
         assert.equal(tokensHelper.isVariable(registeredTerms.SUB.type), false, registeredTerms.SUB.type + ' should not be a variable');
@@ -447,7 +446,7 @@ define([
     });
 
     QUnit.test('isFunction', function (assert) {
-        QUnit.expect(22);
+        assert.expect(22);
 
         assert.equal(tokensHelper.isFunction(registeredTerms.NUM0.type), false, registeredTerms.NUM0.type + ' should not be a function');
         assert.equal(tokensHelper.isFunction(registeredTerms.SUB.type), false, registeredTerms.SUB.type + ' should not be a function');
@@ -476,7 +475,7 @@ define([
     });
 
     QUnit.test('isIdentifier', function (assert) {
-        QUnit.expect(22);
+        assert.expect(22);
 
         assert.equal(tokensHelper.isIdentifier(registeredTerms.NUM0.type), false, registeredTerms.NUM0.type + ' should not be an identifier');
         assert.equal(tokensHelper.isIdentifier(registeredTerms.SUB.type), false, registeredTerms.SUB.type + ' should not be an identifier');
@@ -505,7 +504,7 @@ define([
     });
 
     QUnit.test('isSeparator', function (assert) {
-        QUnit.expect(22);
+        assert.expect(22);
 
         assert.equal(tokensHelper.isSeparator(registeredTerms.NUM0.type), false, registeredTerms.NUM0.type + ' should not be a separator');
         assert.equal(tokensHelper.isSeparator(registeredTerms.SUB.type), true, registeredTerms.SUB.type + ' should be a separator');
@@ -534,7 +533,7 @@ define([
     });
 
     QUnit.test('isModifier', function (assert) {
-        QUnit.expect(22);
+        assert.expect(22);
 
         assert.equal(tokensHelper.isModifier(registeredTerms.NUM0.type), false, registeredTerms.NUM0.type + ' should not be a modifier');
         assert.equal(tokensHelper.isModifier(registeredTerms.SUB.type), true, registeredTerms.SUB.type + ' should be a modifier');
@@ -562,7 +561,7 @@ define([
         assert.equal(tokensHelper.isModifier({type: 'FOO'}), false, 'FOO should not be a modifier');
     });
 
-    QUnit.cases([{
+    QUnit.cases.init([{
         title: 'Normal expression',
         expression: '3*4',
         expected: '3*4'
@@ -603,13 +602,13 @@ define([
         expected: '2.5900200641113513'
     }])
         .test('stringValue', function (data, assert) {
-            QUnit.expect(1);
+            assert.expect(1);
 
             assert.equal(tokensHelper.stringValue(data.expression), data.expected, 'Should cast the value ' + data.expression);
 
         });
 
-    QUnit.cases([{
+    QUnit.cases.init([{
         title: 'Normal expression',
         expression: '3*4',
         expected: '3*4'
@@ -678,15 +677,15 @@ define([
         expression: 'ans',
         expected: '0'
     }])
-        .test('renderLastResult', function (data, assert) {
-            QUnit.expect(1);
+        .test('renderLastResult', function(data, assert) {
+            assert.expect(1);
 
             assert.equal(tokensHelper.renderLastResult(data.expression, data.value), data.expected, 'Should render the last result variable from ' + data.expression + ' to ' + data.expected);
 
         });
 
     QUnit.test('renderSign', function (assert) {
-        QUnit.expect(6);
+        assert.expect(6);
 
         assert.equal(tokensHelper.renderSign(), '', 'Missing value');
         assert.equal(tokensHelper.renderSign(''), '', 'Empty value');
@@ -696,8 +695,8 @@ define([
         assert.equal(tokensHelper.renderSign('3-4+2'), '3' + registeredTerms.NEG.label + '4' + registeredTerms.POS.label + '2', 'Simple expression');
     });
 
-    QUnit.test('containsError', function (assert) {
-        QUnit.expect(12);
+    QUnit.test('containsError', function(assert) {
+        assert.expect(12);
 
         assert.equal(tokensHelper.containsError('3*4'), false, 'Should not contain an error');
         assert.equal(tokensHelper.containsError('NaN'), true, 'Should contain an error');
@@ -713,7 +712,7 @@ define([
         assert.equal(tokensHelper.containsError({value: '0'}), false, 'Should not contain an error');
     });
 
-    QUnit.cases([{
+    QUnit.cases.init([{
         title: 'Undefined list',
         expected: ''
     }, {
@@ -2457,7 +2456,7 @@ define([
         ].join('')
     }])
         .test('render', function (data, assert) {
-            QUnit.expect(1);
+            assert.expect(1);
 
             assert.equal(tokensHelper.render(data.tokens, data.variables), data.expected, 'Should render the tokens properly');
         });

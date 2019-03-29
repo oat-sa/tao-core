@@ -65,6 +65,7 @@
         <icon id="icon-settings" src=""/>
         <sections>
             <section id="settings_ext_mng" name="Extensions manager" url="/tao/ExtensionsManager/index"/>
+            <section id="settings_security" name="Security" url="/tao/Security/index"/>
         </sections>
     </structure>
 

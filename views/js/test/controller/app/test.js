@@ -20,94 +20,90 @@
  */
 define([
     'jquery',
+    'lodash',
     'controller/app',
     'core/historyRouter',
     'core/logger',
     'ui/feedback'
-], function ($, appController, historyRouterFactory, loggerFactory, feedback) {
+], function($, _, appController, historyRouterFactory, loggerFactory, feedback) {
     'use strict';
 
     var appControllerApi = [
-        // core
+
+        // Core
         {title: 'start'},
         {title: 'apply'},
         {title: 'getRouter'},
         {title: 'getLogger'},
         {title: 'onError'},
 
-        // eventifier
+        // Eventifier
         {title: 'trigger'},
         {title: 'on'},
         {title: 'off'},
 
-        // statifier
+        // Statifier
         {title: 'getState'},
         {title: 'setState'}
     ];
 
-
     QUnit.module('API', {
-        teardown: function() {
+        afterEach: function(assert) {
             loggerFactory.removeAllListeners();
             feedback.removeAllListeners();
             appController.removeAllListeners();
         }
     });
 
+    QUnit.test('module', function(assert) {
+        assert.expect(1);
 
-    QUnit.test('module', function (assert) {
-        QUnit.expect(1);
-
-        assert.equal(typeof appController, 'object', "The appController module exposes an object");
+        assert.equal(typeof appController, 'object', 'The appController module exposes an object');
     });
 
-
     QUnit
-        .cases(appControllerApi)
-        .test('module API ', function (data, assert) {
-            QUnit.expect(1);
+        .cases.init(appControllerApi)
+        .test('module API ', function(data, assert) {
+            assert.expect(1);
             assert.equal(typeof appController[data.title], 'function', 'The appController exposes a "' + data.title + '" function');
         });
 
-
     QUnit.test('getRouter', function(assert) {
-        QUnit.expect(1);
-         assert.equal(appController.getRouter(), historyRouterFactory(), 'The appController returns the history router');
+        assert.expect(1);
+        assert.equal(appController.getRouter(), historyRouterFactory(), 'The appController returns the history router');
     });
 
-
     QUnit.test('getLogger', function(assert) {
-        QUnit.expect(3);
-        assert.equal(typeof appController.getLogger(), "object", 'The appController returns a logger');
+        assert.expect(3);
+        assert.equal(typeof appController.getLogger(), 'object', 'The appController returns a logger');
         assert.equal(typeof appController.getLogger().log, 'function', 'The logger has a log method');
         assert.equal(typeof appController.getLogger().error, 'function', 'The logger has an error method');
     });
 
-
-    QUnit.asyncTest('onError', function(assert) {
+    QUnit.test('onError', function(assert) {
         var expectedError = new Error('Test');
+        var ready = assert.async();
+        var ready2 = assert.async();
 
-        QUnit.expect(3);
-        QUnit.stop(1);
+        assert.expect(3);
 
         loggerFactory.on('error', function(err) {
             assert.equal(err, expectedError, 'Should log the error');
-            QUnit.start();
+            ready();
         });
         feedback.on('error', function(err) {
             assert.equal(err, expectedError.message, 'Should display the error');
-            QUnit.start();
+            ready2();
         });
 
         assert.equal(appController.onError(expectedError), appController, 'Should return the appController');
     });
 
-
-    QUnit.asyncTest('apply', function(assert) {
+    QUnit.test('apply', function(assert) {
         var $target = $('#qunit-fixture');
 
-        QUnit.expect(5);
-        QUnit.stop(1);
+        var ready = assert.async();
+        assert.expect(5);
 
         appController.on('change', function(url) {
             assert.ok(appController.getState('dispatching'), 'The controller is dispatching: ' + url);
@@ -115,23 +111,26 @@ define([
 
         appController.on('started', function(url) {
             assert.ok(!appController.getState('dispatching'), 'The controller has dispatched: ' + url);
-            QUnit.start();
         });
 
         assert.equal(appController.apply('.fixture', $target), appController, 'Should return the appController');
 
         $target.find('a').click();
+
+        _.delay(function () {
+            ready();
+        }, 300);
     });
 
+    QUnit.test('start', function(assert) {
+        var ready = assert.async();
 
-    QUnit.asyncTest('start', function(assert) {
-
-        QUnit.expect(2);
+        assert.expect(2);
 
         historyRouterFactory().on('forward', function(url) {
             assert.ok(true, 'The historyRouter has forwarded the route');
             assert.equal(url, window.location.href, 'The right url has been forwarded');
-            QUnit.start();
+            ready();
         });
 
         appController.start();

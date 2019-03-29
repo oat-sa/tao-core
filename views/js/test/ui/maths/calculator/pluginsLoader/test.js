@@ -29,7 +29,8 @@ define([
     'ui/maths/calculator/plugins/core/stepNavigation',
     'test/ui/maths/calculator/pluginsLoader/plugin1',
     'test/ui/maths/calculator/pluginsLoader/plugin2'
-], function (
+], function(
+
     _,
     Promise,
     pluginFactory,
@@ -52,55 +53,58 @@ define([
 
     QUnit.module('loader');
 
-    QUnit.test('module', function (assert) {
-        QUnit.expect(3);
-        assert.equal(typeof loadPlugins, 'function', "The module exposes a function");
-        assert.ok(loadPlugins() instanceof Promise, "The loader produces a promise");
-        assert.notStrictEqual(loadPlugins(), loadPlugins(), "The loader provides a different object on each call");
+    QUnit.test('module', function(assert) {
+        assert.expect(3);
+        assert.equal(typeof loadPlugins, 'function', 'The module exposes a function');
+        assert.ok(loadPlugins() instanceof Promise, 'The loader produces a promise');
+        assert.notStrictEqual(loadPlugins(), loadPlugins(), 'The loader provides a different object on each call');
     });
 
-    QUnit.asyncTest('default', function (assert) {
-        QUnit.expect(1);
+    QUnit.test('default', function(assert) {
+        var ready = assert.async();
+        assert.expect(1);
 
         loadPlugins()
-            .then(function (plugins) {
+            .then(function(plugins) {
                 assert.deepEqual(plugins, defaultPlugins, 'Default plugins are loaded');
-                QUnit.start();
+                ready();
             })
-            .catch(function (err) {
+            .catch(function(err) {
                 console.error(err);
                 assert.ok(false, 'Should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('static plugins', function (assert) {
+    QUnit.test('static plugins', function(assert) {
+        var ready = assert.async();
         var loadedPlugins = [
             plugin1, plugin2
         ];
 
-        QUnit.expect(1);
+        assert.expect(1);
 
         loadPlugins({
             test: loadedPlugins
         })
-            .then(function (plugins) {
+            .then(function(plugins) {
                 assert.deepEqual(plugins, defaultPlugins.concat(loadedPlugins), 'All plugins are loaded');
-                QUnit.start();
+                ready();
             })
-            .catch(function (err) {
+            .catch(function(err) {
                 console.error(err);
                 assert.ok(false, 'Should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('dynamic plugins', function (assert) {
+    QUnit.test('dynamic plugins', function(assert) {
+        var ready = assert.async();
         var loadedPlugins = [
             plugin1, plugin2
         ];
 
-        QUnit.expect(1);
+        assert.expect(1);
 
         loadPlugins(null, [{
             category: 'test',
@@ -111,14 +115,14 @@ define([
             module: 'test/ui/maths/calculator/pluginsLoader/plugin2',
             bundle: 'test/ui/maths/calculator/pluginsLoader/bundle'
         }])
-            .then(function (plugins) {
+            .then(function(plugins) {
                 assert.deepEqual(plugins, defaultPlugins.concat(loadedPlugins), 'All plugins are loaded');
-                QUnit.start();
+                ready();
             })
-            .catch(function (err) {
+            .catch(function(err) {
                 console.error(err);
                 assert.ok(false, 'Should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 });

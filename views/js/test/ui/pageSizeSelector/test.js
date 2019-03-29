@@ -33,14 +33,15 @@ define([
 
     QUnit.module('pageSizeSelector');
 
-    QUnit.test('module', 3, function (assert) {
+    QUnit.test('module', function (assert) {
+        assert.expect(3);
         assert.equal(typeof pageSizeSelector, 'function', "The dropdown module exposes a function");
         assert.equal(typeof pageSizeSelector(), 'object', "The dropdown factory produces an object");
         assert.notStrictEqual(pageSizeSelector(), pageSizeSelector(), "The dropdown factory provides a different object on each call");
     });
 
     QUnit
-        .cases([
+        .cases.init([
             { title: 'init' },
             { title: 'destroy' },
             { title: 'render' },
@@ -62,6 +63,7 @@ define([
         var instance = pageSizeSelector({
             renderTo: '#fixture-render',
         });
+        assert.expect(5);
 
         assert.equal(typeof instance, 'object', "The dropdown instance is an object");
         assert.ok(instance.getElement() instanceof $, "The dropdown instance gets a DOM element");
@@ -79,6 +81,7 @@ define([
             options: options,
             defaultSize: defaultSize,
         });
+        assert.expect(5);
 
         assert.equal(typeof instance, 'object', "The dropdown instance is an object");
         assert.ok(instance.getElement() instanceof $, "The dropdown instance gets a DOM element");
@@ -95,15 +98,17 @@ define([
             renderTo: '#fixture-default-option',
             defaultSize: 1000,
         });
+        assert.expect(1);
 
         assert.equal(instance.getElement().find('select').val(), '25', "The default page size option is selected");
 
         instance.destroy();
     });
 
-    QUnit.asyncTest('trigger change event', function (assert) {
-        QUnit.expect(2);
-        QUnit.stop(1);
+    QUnit.test('trigger change event', function (assert) {
+        var ready = assert.async(2);
+        assert.expect(2);
+
 
         var instance = pageSizeSelector({
             renderTo: '#fixture-change-event'
@@ -113,8 +118,7 @@ define([
 
         instance.on('change', function () {
             assert.ok(true, "The component fires a specific event when a page option is selected");
-
-            QUnit.start();
+            ready();
         });
 
         select2Instance.trigger('change');
@@ -122,8 +126,9 @@ define([
         instance.destroy();
     });
 
-    QUnit.asyncTest('trigger change event after render to notify about selected value', function (assert) {
-        QUnit.expect(1);
+    QUnit.test('trigger change event after render to notify about selected value', function (assert) {
+        var ready = assert.async();
+        assert.expect(1);
 
         var instance = pageSizeSelector({
             renderTo: '#fixture-change-event-after-render'
@@ -131,8 +136,7 @@ define([
 
         instance.on('change', function () {
             assert.ok(true, "The component fires a specific event when a page option is selected");
-
-            QUnit.start();
+            ready();
         });
 
         instance.destroy();
@@ -148,6 +152,7 @@ define([
             options: options,
             defaultSize: defaultSize,
         });
+        assert.expect(1);
 
         assert.ok(true, 'started');
     });

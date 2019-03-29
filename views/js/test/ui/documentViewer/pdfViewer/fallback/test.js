@@ -19,40 +19,38 @@
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
 define([
+
     'jquery',
     'core/promise',
     'ui/documentViewer/providers/pdfViewer/fallback/viewer'
-], function ($, Promise, fallbackFactory) {
+], function($, Promise, fallbackFactory) {
     'use strict';
 
     var headless = /HeadlessChrome/.test(window.navigator.userAgent);
     var pdfUrl = location.href.replace('/pdfViewer/fallback/test.html', '/sample/demo.pdf');
 
-
     QUnit.module('pdfViewer Fallback factory');
 
-
-    QUnit.test('module', function (assert) {
+    QUnit.test('module', function(assert) {
         var $container = $('#qunit-fixture');
         var instance;
 
-        QUnit.expect(5);
+        assert.expect(5);
 
-        assert.equal(typeof fallbackFactory, 'function', "The pdfViewer Fallback module exposes a function");
+        assert.equal(typeof fallbackFactory, 'function', 'The pdfViewer Fallback module exposes a function');
 
         instance = fallbackFactory($container);
 
-        assert.equal(typeof instance, 'object', "The pdfViewer Fallback factory provides an object");
-        assert.equal(typeof instance.load, 'function', "The pdfViewer Fallback instance exposes a function load()");
-        assert.equal(typeof instance.unload, 'function', "The pdfViewer Fallback instance exposes a function unload()");
-        assert.equal(typeof instance.setSize, 'function', "The pdfViewer Fallback instance exposes a function setSize()");
+        assert.equal(typeof instance, 'object', 'The pdfViewer Fallback factory provides an object');
+        assert.equal(typeof instance.load, 'function', 'The pdfViewer Fallback instance exposes a function load()');
+        assert.equal(typeof instance.unload, 'function', 'The pdfViewer Fallback instance exposes a function unload()');
+        assert.equal(typeof instance.setSize, 'function', 'The pdfViewer Fallback instance exposes a function setSize()');
     });
-
 
     QUnit.module('pdfViewer Fallback implementation');
 
-
-    QUnit.asyncTest('render', function (assert) {
+    QUnit.test('render', function(assert) {
+        var ready = assert.async();
         var $container = $('#qunit-fixture');
         var expectedWidth = 256;
         var expectedHeight = 128;
@@ -78,7 +76,7 @@ define([
             assert.equal($container.children().length, 0, 'The container does not contain any children');
         }
 
-        QUnit.expect(13);
+        assert.expect(13);
 
         assert.equal($container.children().length, 0, 'The container does not contain any children');
 
@@ -91,15 +89,15 @@ define([
         if (headless) {
             assert.ok(true, 'Using a headless browser, the check for PDF load is disabled');
             checkRenderedStuff();
-            QUnit.start();
+            ready();
         } else {
-            promise.then(function () {
+            promise.then(function() {
                 assert.ok(true, 'The PDF file has been loaded');
                 checkRenderedStuff();
-                QUnit.start();
+                ready();
             }).catch(function() {
-                assert.ok('false', 'The PDF file should be loaded');
-                QUnit.start();
+                assert.ok(false, 'The PDF file should be loaded');
+                ready();
             });
         }
     });

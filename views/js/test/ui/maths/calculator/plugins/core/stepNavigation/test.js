@@ -24,24 +24,24 @@ define([
     'core/promise',
     'ui/maths/calculator/core/board',
     'ui/maths/calculator/plugins/core/stepNavigation'
-], function ($, _, Promise, calculatorBoardFactory, stepNavigationPluginFactory) {
+], function($, _, Promise, calculatorBoardFactory, stepNavigationPluginFactory) {
     'use strict';
 
     QUnit.module('module');
 
-    QUnit.test('stepNavigation', function (assert) {
+    QUnit.test('stepNavigation', function(assert) {
         var calculator = calculatorBoardFactory();
 
-        QUnit.expect(3);
+        assert.expect(3);
 
-        assert.equal(typeof stepNavigationPluginFactory, 'function', "The plugin module exposes a function");
-        assert.equal(typeof stepNavigationPluginFactory(calculator), 'object', "The plugin factory produces an instance");
-        assert.notStrictEqual(stepNavigationPluginFactory(calculator), stepNavigationPluginFactory(calculator), "The plugin factory provides a different instance on each call");
+        assert.equal(typeof stepNavigationPluginFactory, 'function', 'The plugin module exposes a function');
+        assert.equal(typeof stepNavigationPluginFactory(calculator), 'object', 'The plugin factory produces an instance');
+        assert.notStrictEqual(stepNavigationPluginFactory(calculator), stepNavigationPluginFactory(calculator), 'The plugin factory provides a different instance on each call');
     });
 
     QUnit.module('api');
 
-    QUnit.cases([
+    QUnit.cases.init([
         {title: 'install'},
         {title: 'init'},
         {title: 'render'},
@@ -57,23 +57,24 @@ define([
         {title: 'hide'},
         {title: 'enable'},
         {title: 'disable'}
-    ]).test('plugin API ', function (data, assert) {
+    ]).test('plugin API ', function(data, assert) {
         var calculator = calculatorBoardFactory();
         var plugin = stepNavigationPluginFactory(calculator);
-        QUnit.expect(1);
+        assert.expect(1);
         assert.equal(typeof plugin[data.title], 'function', 'The plugin instances expose a "' + data.title + '" function');
     });
 
     QUnit.module('behavior');
 
-    QUnit.asyncTest('install', function (assert) {
+    QUnit.test('install', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-install');
         var calculator = calculatorBoardFactory($container)
-            .on('ready', function () {
+            .on('ready', function() {
                 var areaBroker = calculator.getAreaBroker();
                 var plugin = stepNavigationPluginFactory(calculator, areaBroker);
 
-                QUnit.expect(9);
+                assert.expect(9);
 
                 assert.ok(!calculator.hasCommand('stepMoveLeft'), 'The command stepMoveLeft is not yet registered');
                 assert.ok(!calculator.hasCommand('stepMoveRight'), 'The command stepMoveRight is not yet registered');
@@ -81,43 +82,43 @@ define([
                 assert.ok(!calculator.hasCommand('stepDeleteRight'), 'The command stepDeleteRight is not yet registered');
 
                 calculator
-                    .on('plugin-install.stepNavigation', function () {
+                    .on('plugin-install.stepNavigation', function() {
                         assert.ok(true, 'The plugin has been installed');
                     })
-                    .on('destroy', function () {
-                        QUnit.start();
+                    .on('destroy', function() {
+                        ready();
                     });
 
                 plugin.install()
-                    .then(function () {
+                    .then(function() {
                         assert.ok(calculator.hasCommand('stepMoveLeft'), 'The command stepMoveLeft is now registered');
                         assert.ok(calculator.hasCommand('stepMoveRight'), 'The command stepMoveRight is now registered');
                         assert.ok(calculator.hasCommand('stepDeleteLeft'), 'The command stepDeleteLeft is now registered');
                         assert.ok(calculator.hasCommand('stepDeleteRight'), 'The command stepDeleteRight is now registered');
                     })
-                    .catch(function (err) {
+                    .catch(function(err) {
                         assert.ok(false, 'Unexpected failure : ' + err.message);
                     })
-                    .then(function () {
+                    .then(function() {
                         calculator.destroy();
                     });
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
-
     });
 
-    QUnit.asyncTest('init', function (assert) {
+    QUnit.test('init', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-init');
         var calculator = calculatorBoardFactory($container)
-            .on('ready', function () {
+            .on('ready', function() {
                 var areaBroker = calculator.getAreaBroker();
                 var plugin = stepNavigationPluginFactory(calculator, areaBroker);
 
-                QUnit.expect(9);
+                assert.expect(9);
 
                 assert.ok(!calculator.hasCommand('stepMoveLeft'), 'The command stepMoveLeft is not yet registered');
                 assert.ok(!calculator.hasCommand('stepMoveRight'), 'The command stepMoveRight is not yet registered');
@@ -125,45 +126,46 @@ define([
                 assert.ok(!calculator.hasCommand('stepDeleteRight'), 'The command stepDeleteRight is not yet registered');
 
                 calculator
-                    .on('plugin-init.stepNavigation', function () {
+                    .on('plugin-init.stepNavigation', function() {
                         assert.ok(plugin.getState('init'), 'The plugin has been initialized');
                     })
-                    .on('destroy', function () {
-                        QUnit.start();
+                    .on('destroy', function() {
+                        ready();
                     });
 
                 plugin.install()
-                    .then(function () {
+                    .then(function() {
                         return plugin.init();
                     })
-                    .then(function () {
+                    .then(function() {
                         assert.ok(calculator.hasCommand('stepMoveLeft'), 'The command stepMoveLeft is now registered');
                         assert.ok(calculator.hasCommand('stepMoveRight'), 'The command stepMoveRight is now registered');
                         assert.ok(calculator.hasCommand('stepDeleteLeft'), 'The command stepDeleteLeft is now registered');
                         assert.ok(calculator.hasCommand('stepDeleteRight'), 'The command stepDeleteRight is now registered');
                     })
-                    .catch(function (err) {
+                    .catch(function(err) {
                         assert.ok(false, 'Unexpected failure : ' + err.message);
                     })
-                    .then(function () {
+                    .then(function() {
                         calculator.destroy();
                     });
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('destroy', function (assert) {
+    QUnit.test('destroy', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-destroy');
         var calculator = calculatorBoardFactory($container)
-            .on('ready', function () {
+            .on('ready', function() {
                 var areaBroker = calculator.getAreaBroker();
                 var plugin = stepNavigationPluginFactory(calculator, areaBroker);
 
-                QUnit.expect(12);
+                assert.expect(12);
 
                 assert.ok(!calculator.hasCommand('stepMoveLeft'), 'The command stepMoveLeft is not yet registered');
                 assert.ok(!calculator.hasCommand('stepMoveRight'), 'The command stepMoveRight is not yet registered');
@@ -171,15 +173,15 @@ define([
                 assert.ok(!calculator.hasCommand('stepDeleteRight'), 'The command stepDeleteRight is not yet registered');
 
                 calculator
-                    .on('destroy', function () {
-                        QUnit.start();
+                    .on('destroy', function() {
+                        ready();
                     });
 
                 plugin.install()
-                    .then(function () {
+                    .then(function() {
                         return plugin.init();
                     })
-                    .then(function () {
+                    .then(function() {
                         assert.ok(calculator.hasCommand('stepMoveLeft'), 'The command stepMoveLeft is now registered');
                         assert.ok(calculator.hasCommand('stepMoveRight'), 'The command stepMoveRight is now registered');
                         assert.ok(calculator.hasCommand('stepDeleteLeft'), 'The command stepDeleteLeft is now registered');
@@ -187,35 +189,36 @@ define([
 
                         return plugin.destroy();
                     })
-                    .then(function () {
+                    .then(function() {
                         assert.ok(!calculator.hasCommand('stepMoveLeft'), 'The command stepMoveLeft is removed');
                         assert.ok(!calculator.hasCommand('stepMoveRight'), 'The command stepMoveRight is removed');
                         assert.ok(!calculator.hasCommand('stepDeleteLeft'), 'The command stepDeleteLeft is removed');
                         assert.ok(!calculator.hasCommand('stepDeleteRight'), 'The command stepDeleteRight is removed');
                     })
-                    .catch(function (err) {
+                    .catch(function(err) {
                         assert.ok(false, 'Unexpected failure : ' + err.message);
                     })
-                    .then(function () {
+                    .then(function() {
                         calculator.destroy();
                     });
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('navigation', function (assert) {
+    QUnit.test('navigation', function(assert) {
+        var ready = assert.async();
         var expression = ' (.1+.2) * 10^3 / cos PI - sin sqrt 2';
         var $container = $('#fixture-navigation');
         var calculator = calculatorBoardFactory($container)
-            .on('ready', function () {
+            .on('ready', function() {
                 var areaBroker = calculator.getAreaBroker();
                 var plugin = stepNavigationPluginFactory(calculator, areaBroker);
 
-                QUnit.expect(38);
+                assert.expect(38);
 
                 assert.ok(!calculator.hasCommand('stepMoveLeft'), 'The command stepMoveLeft is not yet registered');
                 assert.ok(!calculator.hasCommand('stepMoveRight'), 'The command stepMoveRight is not yet registered');
@@ -223,18 +226,18 @@ define([
                 assert.ok(!calculator.hasCommand('stepDeleteRight'), 'The command stepDeleteRight is not yet registered');
 
                 calculator
-                    .on('plugin-init.stepNavigation', function () {
+                    .on('plugin-init.stepNavigation', function() {
                         assert.ok(plugin.getState('init'), 'The plugin has been initialized');
                     })
-                    .on('destroy', function () {
-                        QUnit.start();
+                    .on('destroy', function() {
+                        ready();
                     });
 
                 plugin.install()
-                    .then(function () {
+                    .then(function() {
                         return plugin.init();
                     })
-                    .then(function () {
+                    .then(function() {
                         assert.ok(calculator.hasCommand('stepMoveLeft'), 'The command stepMoveLeft is now registered');
                         assert.ok(calculator.hasCommand('stepMoveRight'), 'The command stepMoveRight is now registered');
                         assert.ok(calculator.hasCommand('stepDeleteLeft'), 'The command stepDeleteLeft is now registered');
@@ -243,8 +246,8 @@ define([
                         calculator.replace(expression);
                         assert.equal(calculator.getExpression(), expression, 'The expression is properly set');
                     })
-                    .then(function () {
-                        return new Promise(function (resolve) {
+                    .then(function() {
+                        return new Promise(function(resolve) {
                             var tokens = calculator.getTokens();
 
                             assert.ok(_.isArray(tokens), 'Got a lis of tokens');
@@ -253,7 +256,7 @@ define([
                             assert.equal(calculator.getTokenIndex(), tokens.length - 1, 'Current token is the last one');
 
                             calculator
-                                .after('command-stepMoveLeft.test', function () {
+                                .after('command-stepMoveLeft.test', function() {
                                     calculator.off('command-stepMoveLeft.test');
                                     assert.equal(calculator.getPosition(), expression.length - 1, 'The position has been moved a term back');
                                     assert.equal(calculator.getTokenIndex(), tokens.length - 1, 'The current token is still the same');
@@ -263,12 +266,12 @@ define([
                                 .useCommand('stepMoveLeft');
                         });
                     })
-                    .then(function () {
-                        return new Promise(function (resolve) {
+                    .then(function() {
+                        return new Promise(function(resolve) {
                             var tokens = calculator.getTokens();
 
                             calculator
-                                .after('command-stepMoveLeft.test', function () {
+                                .after('command-stepMoveLeft.test', function() {
                                     calculator.off('command-stepMoveLeft.test');
                                     assert.equal(calculator.getPosition(), expression.length - 6, 'The position has been again moved a term back');
                                     assert.equal(calculator.getTokenIndex(), tokens.length - 2, 'The current token should now have changed');
@@ -282,10 +285,10 @@ define([
                                 .useCommand('stepMoveLeft');
                         });
                     })
-                    .then(function () {
-                        return new Promise(function (resolve) {
+                    .then(function() {
+                        return new Promise(function(resolve) {
                             calculator
-                                .after('command-stepMoveLeft.test', function () {
+                                .after('command-stepMoveLeft.test', function() {
                                     calculator.off('command-stepMoveLeft.test');
                                     assert.equal(calculator.getPosition(), 1, 'The position should have been moved 1 step back');
                                     assert.equal(calculator.getTokenIndex(), 0, 'The current token should have moved 1 step back');
@@ -295,10 +298,10 @@ define([
                                 .useCommand('stepMoveLeft');
                         });
                     })
-                    .then(function () {
-                        return new Promise(function (resolve) {
+                    .then(function() {
+                        return new Promise(function(resolve) {
                             calculator
-                                .after('command-stepMoveLeft.test', function () {
+                                .after('command-stepMoveLeft.test', function() {
                                     calculator.off('command-stepMoveLeft.test');
                                     assert.equal(calculator.getPosition(), 0, 'The position should be now at the beginning');
                                     assert.equal(calculator.getTokenIndex(), 0, 'The current token should be the first');
@@ -308,10 +311,10 @@ define([
                                 .useCommand('stepMoveLeft');
                         });
                     })
-                    .then(function () {
-                        return new Promise(function (resolve) {
+                    .then(function() {
+                        return new Promise(function(resolve) {
                             calculator
-                                .after('command-stepMoveLeft.test', function () {
+                                .after('command-stepMoveLeft.test', function() {
                                     calculator.off('command-stepMoveLeft.test');
                                     assert.equal(calculator.getPosition(), 0, 'The position should not have changed');
                                     assert.equal(calculator.getTokenIndex(), 0, 'The current token should not have changed');
@@ -321,10 +324,10 @@ define([
                                 .useCommand('stepMoveLeft');
                         });
                     })
-                    .then(function () {
-                        return new Promise(function (resolve) {
+                    .then(function() {
+                        return new Promise(function(resolve) {
                             calculator
-                                .after('command-stepMoveRight.test', function () {
+                                .after('command-stepMoveRight.test', function() {
                                     calculator.off('command-stepMoveRight.test');
                                     assert.equal(calculator.getPosition(), 2, 'The position should be moved 1 step forward');
                                     assert.equal(calculator.getTokenIndex(), 1, 'The current token should be moved 1 step forward');
@@ -334,12 +337,12 @@ define([
                                 .useCommand('stepMoveRight');
                         });
                     })
-                    .then(function () {
-                        return new Promise(function (resolve) {
+                    .then(function() {
+                        return new Promise(function(resolve) {
                             var tokens = calculator.getTokens();
 
                             calculator
-                                .after('command-stepMoveRight.test', function () {
+                                .after('command-stepMoveRight.test', function() {
                                     calculator.off('command-stepMoveRight.test');
                                     assert.equal(calculator.getPosition(), 3, 'The position should be moved again 1 step forward');
                                     assert.equal(calculator.getTokenIndex(), 2, 'The current token should be moved again 1 step forward');
@@ -353,12 +356,12 @@ define([
                                 .useCommand('stepMoveRight');
                         });
                     })
-                    .then(function () {
-                        return new Promise(function (resolve) {
+                    .then(function() {
+                        return new Promise(function(resolve) {
                             var tokens = calculator.getTokens();
 
                             calculator
-                                .after('command-stepMoveRight.test', function () {
+                                .after('command-stepMoveRight.test', function() {
                                     calculator.off('command-stepMoveRight.test');
                                     assert.equal(calculator.getPosition(), expression.length - 1, 'The position should have been set the last term');
                                     assert.equal(calculator.getTokenIndex(), tokens.length - 1, 'The current token should be the last one');
@@ -368,12 +371,12 @@ define([
                                 .useCommand('stepMoveRight');
                         });
                     })
-                    .then(function () {
-                        return new Promise(function (resolve) {
+                    .then(function() {
+                        return new Promise(function(resolve) {
                             var tokens = calculator.getTokens();
 
                             calculator
-                                .after('command-stepMoveRight.test', function () {
+                                .after('command-stepMoveRight.test', function() {
                                     calculator.off('command-stepMoveRight.test');
                                     assert.equal(calculator.getPosition(), expression.length, 'The position should have been set the end');
                                     assert.equal(calculator.getTokenIndex(), tokens.length - 1, 'The current token should not have changed');
@@ -383,12 +386,12 @@ define([
                                 .useCommand('stepMoveRight');
                         });
                     })
-                    .then(function () {
-                        return new Promise(function (resolve) {
+                    .then(function() {
+                        return new Promise(function(resolve) {
                             var tokens = calculator.getTokens();
 
                             calculator
-                                .after('command-stepMoveRight.test', function () {
+                                .after('command-stepMoveRight.test', function() {
                                     calculator.off('command-stepMoveRight.test');
                                     assert.equal(calculator.getPosition(), expression.length, 'The position should not have changed');
                                     assert.equal(calculator.getTokenIndex(), tokens.length - 1, 'The current token should not have changed');
@@ -397,29 +400,30 @@ define([
                                 .useCommand('stepMoveRight');
                         });
                     })
-                    .catch(function (err) {
+                    .catch(function(err) {
                         assert.ok(false, 'Unexpected failure : ' + err.message);
                     })
-                    .then(function () {
+                    .then(function() {
                         calculator.destroy();
                     });
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('deletion', function (assert) {
+    QUnit.test('deletion', function(assert) {
+        var ready = assert.async();
         var expression = ' (.1+.2) * 10^3 / cos PI - sin sqrt 2';
         var $container = $('#fixture-deletion');
         var calculator = calculatorBoardFactory($container)
-            .on('ready', function () {
+            .on('ready', function() {
                 var areaBroker = calculator.getAreaBroker();
                 var plugin = stepNavigationPluginFactory(calculator, areaBroker);
 
-                QUnit.expect(56);
+                assert.expect(56);
 
                 assert.ok(!calculator.hasCommand('stepMoveLeft'), 'The command stepMoveLeft is not yet registered');
                 assert.ok(!calculator.hasCommand('stepMoveRight'), 'The command stepMoveRight is not yet registered');
@@ -427,18 +431,18 @@ define([
                 assert.ok(!calculator.hasCommand('stepDeleteRight'), 'The command stepDeleteRight is not yet registered');
 
                 calculator
-                    .on('plugin-init.stepNavigation', function () {
+                    .on('plugin-init.stepNavigation', function() {
                         assert.ok(plugin.getState('init'), 'The plugin has been initialized');
                     })
-                    .on('destroy', function () {
-                        QUnit.start();
+                    .on('destroy', function() {
+                        ready();
                     });
 
                 plugin.install()
-                    .then(function () {
+                    .then(function() {
                         return plugin.init();
                     })
-                    .then(function () {
+                    .then(function() {
                         assert.ok(calculator.hasCommand('stepMoveLeft'), 'The command stepMoveLeft is now registered');
                         assert.ok(calculator.hasCommand('stepMoveRight'), 'The command stepMoveRight is now registered');
                         assert.ok(calculator.hasCommand('stepDeleteLeft'), 'The command stepDeleteLeft is now registered');
@@ -447,8 +451,8 @@ define([
                         calculator.replace(expression);
                         assert.equal(calculator.getExpression(), expression, 'The expression is properly set');
                     })
-                    .then(function () {
-                        return new Promise(function (resolve) {
+                    .then(function() {
+                        return new Promise(function(resolve) {
                             var tokens = calculator.getTokens();
 
                             assert.ok(_.isArray(tokens), 'Got a lis of tokens');
@@ -459,7 +463,7 @@ define([
                             assert.equal(calculator.getTokenIndex(), 16, 'Current token is at index 16');
 
                             calculator
-                                .after('command-stepDeleteLeft.test', function () {
+                                .after('command-stepDeleteLeft.test', function() {
                                     calculator.off('command-stepDeleteLeft.test');
                                     expression = ' (.1+.2) * 10^3 / cos PI - sqrt 2';
                                     assert.equal(calculator.getExpression(), expression, 'The term SIN should have been removed from the expression');
@@ -476,10 +480,10 @@ define([
                                 .useCommand('stepDeleteLeft');
                         });
                     })
-                    .then(function () {
-                        return new Promise(function (resolve) {
+                    .then(function() {
+                        return new Promise(function(resolve) {
                             calculator
-                                .after('command-stepDeleteRight.test', function () {
+                                .after('command-stepDeleteRight.test', function() {
                                     calculator.off('command-stepDeleteRight.test');
                                     expression = ' (.1+.2) * 10^3 / cos PI - 2';
                                     assert.equal(calculator.getExpression(), expression, 'The term SQRT should have been removed from the expression');
@@ -492,10 +496,10 @@ define([
                                 .useCommand('stepDeleteRight');
                         });
                     })
-                    .then(function () {
-                        return new Promise(function (resolve) {
+                    .then(function() {
+                        return new Promise(function(resolve) {
                             calculator
-                                .after('command-stepDeleteLeft.test', function () {
+                                .after('command-stepDeleteLeft.test', function() {
                                     calculator.off('command-stepDeleteLeft.test');
                                     expression = ' (.1+.2) * 10^3 / cos PI 2';
                                     assert.equal(calculator.getExpression(), expression, 'The term SUB should have been removed from the expression');
@@ -508,10 +512,10 @@ define([
                                 .useCommand('stepDeleteLeft');
                         });
                     })
-                    .then(function () {
-                        return new Promise(function (resolve) {
+                    .then(function() {
+                        return new Promise(function(resolve) {
                             calculator
-                                .after('command-stepDeleteRight.test', function () {
+                                .after('command-stepDeleteRight.test', function() {
                                     calculator.off('command-stepDeleteRight.test');
                                     expression = ' (.1+.2) * 10^3 / cos PI ';
                                     assert.equal(calculator.getExpression(), expression, 'The term NUM2 should have been removed from the expression');
@@ -524,10 +528,10 @@ define([
                                 .useCommand('stepDeleteRight');
                         });
                     })
-                    .then(function () {
-                        return new Promise(function (resolve) {
+                    .then(function() {
+                        return new Promise(function(resolve) {
                             calculator
-                                .after('command-stepDeleteLeft.test', function () {
+                                .after('command-stepDeleteLeft.test', function() {
                                     calculator.off('command-stepDeleteLeft.test');
                                     expression = ' (.1+.2) * 10^3 / cos ';
                                     assert.equal(calculator.getExpression(), expression, 'The term PI should have been removed from the expression');
@@ -540,10 +544,10 @@ define([
                                 .useCommand('stepDeleteLeft');
                         });
                     })
-                    .then(function () {
-                        return new Promise(function (resolve) {
+                    .then(function() {
+                        return new Promise(function(resolve) {
                             calculator
-                                .after('command-stepDeleteRight.test', function () {
+                                .after('command-stepDeleteRight.test', function() {
                                     calculator.off('command-stepDeleteRight.test');
                                     assert.equal(calculator.getExpression(), expression, 'Nothing should have changed');
                                     assert.equal(calculator.getPosition(), expression.length, 'The position should not have changed');
@@ -559,10 +563,10 @@ define([
                                 .useCommand('stepDeleteRight');
                         });
                     })
-                    .then(function () {
-                        return new Promise(function (resolve) {
+                    .then(function() {
+                        return new Promise(function(resolve) {
                             calculator
-                                .after('command-stepDeleteLeft.test', function () {
+                                .after('command-stepDeleteLeft.test', function() {
                                     calculator.off('command-stepDeleteLeft.test');
                                     expression = '(.1+.2) * 10^3 / cos ';
                                     assert.equal(calculator.getExpression(), expression, 'The leading space should have been removed');
@@ -575,10 +579,10 @@ define([
                                 .useCommand('stepDeleteLeft');
                         });
                     })
-                    .then(function () {
-                        return new Promise(function (resolve) {
+                    .then(function() {
+                        return new Promise(function(resolve) {
                             calculator
-                                .after('command-stepDeleteLeft.test', function () {
+                                .after('command-stepDeleteLeft.test', function() {
                                     calculator.off('command-stepDeleteLeft.test');
                                     assert.equal(calculator.getExpression(), expression, 'Nothing should have changed');
                                     assert.equal(calculator.getPosition(), 0, 'The position should not have changed');
@@ -594,10 +598,10 @@ define([
                                 .useCommand('stepDeleteLeft');
                         });
                     })
-                    .then(function () {
-                        return new Promise(function (resolve) {
+                    .then(function() {
+                        return new Promise(function(resolve) {
                             calculator
-                                .after('command-stepDeleteRight.test', function () {
+                                .after('command-stepDeleteRight.test', function() {
                                     calculator.off('command-stepDeleteRight.test');
                                     expression = '(.1+.2) * 1^3 / cos ';
                                     assert.equal(calculator.getExpression(), expression, 'The term NUM0 should have been removed from the expression');
@@ -610,17 +614,17 @@ define([
                                 .useCommand('stepDeleteRight');
                         });
                     })
-                    .catch(function (err) {
+                    .catch(function(err) {
                         assert.ok(false, 'Unexpected failure : ' + err.message);
                     })
-                    .then(function () {
+                    .then(function() {
                         calculator.destroy();
                     });
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 });

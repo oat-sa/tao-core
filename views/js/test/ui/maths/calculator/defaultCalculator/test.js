@@ -24,19 +24,19 @@ define([
     'core/promise',
     'ui/maths/calculator/core/plugin',
     'ui/maths/calculator/defaultCalculator'
-], function ($, _, Promise, pluginFactory, defaultCalculatorFactory) {
+], function($, _, Promise, pluginFactory, defaultCalculatorFactory) {
     'use strict';
 
     QUnit.module('Factory');
 
-    QUnit.test('module', function (assert) {
-        QUnit.expect(3);
-        assert.equal(typeof defaultCalculatorFactory, 'function', "The module exposes a function");
-        assert.equal(typeof defaultCalculatorFactory(), 'object', "The factory produces an object");
-        assert.notStrictEqual(defaultCalculatorFactory(), defaultCalculatorFactory(), "The factory provides a different object on each call");
+    QUnit.test('module', function(assert) {
+        assert.expect(3);
+        assert.equal(typeof defaultCalculatorFactory, 'function', 'The module exposes a function');
+        assert.equal(typeof defaultCalculatorFactory(), 'object', 'The factory produces an object');
+        assert.notStrictEqual(defaultCalculatorFactory(), defaultCalculatorFactory(), 'The factory provides a different object on each call');
     });
 
-    QUnit.cases([
+    QUnit.cases.init([
         {title: 'init'},
         {title: 'destroy'},
         {title: 'render'},
@@ -52,73 +52,75 @@ define([
         {title: 'getTemplate'},
         {title: 'setTemplate'},
         {title: 'getConfig'}
-    ]).test('inherited API ', function (data, assert) {
+    ]).test('inherited API ', function(data, assert) {
         var instance = defaultCalculatorFactory();
-        QUnit.expect(1);
+        assert.expect(1);
         assert.equal(typeof instance[data.title], 'function', 'The instance exposes a "' + data.title + '" function');
     });
 
-    QUnit.cases([
+    QUnit.cases.init([
         {title: 'on'},
         {title: 'off'},
         {title: 'trigger'},
         {title: 'spread'}
-    ]).test('event API ', function (data, assert) {
+    ]).test('event API ', function(data, assert) {
         var instance = defaultCalculatorFactory();
-        QUnit.expect(1);
+        assert.expect(1);
         assert.equal(typeof instance[data.title], 'function', 'The instance exposes a "' + data.title + '" function');
     });
 
-
     QUnit.module('Life cycle');
 
-    QUnit.asyncTest('init', function (assert) {
+    QUnit.test('init', function(assert) {
+        var ready = assert.async();
         var instance;
-        QUnit.expect(1);
+        assert.expect(1);
 
         instance = defaultCalculatorFactory()
-            .after('init', function () {
+            .after('init', function() {
                 assert.equal(this, instance, 'The instance has been initialized');
                 this.destroy();
             })
-            .on('destroy', function () {
-                QUnit.start();
+            .on('destroy', function() {
+                ready();
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('render', function (assert) {
+    QUnit.test('render', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-render');
         var instance;
 
-        QUnit.expect(3);
+        assert.expect(3);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
         instance = defaultCalculatorFactory({renderTo: $container})
-            .on('init', function () {
+            .on('init', function() {
                 assert.equal(this, instance, 'The instance has been initialized');
             })
-            .on('ready', function () {
+            .on('ready', function() {
                 assert.equal($container.children().length, 1, 'The container contains an element');
 
                 this.destroy();
             })
-            .on('destroy', function () {
-                QUnit.start();
+            .on('destroy', function() {
+                ready();
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('render templates', function (assert) {
+    QUnit.test('render templates', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-template');
         var instance;
 
@@ -129,7 +131,7 @@ define([
             return '<div class="calculator-keyboard mock-screen"></div>';
         }
 
-        QUnit.expect(5);
+        assert.expect(5);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
@@ -138,10 +140,10 @@ define([
             screenLayout: screenTpl,
             renderTo: $container
         })
-            .on('init', function () {
+            .on('init', function() {
                 assert.equal(this, instance, 'The instance has been initialized');
             })
-            .on('ready', function () {
+            .on('ready', function() {
                 assert.equal($container.children().length, 1, 'The container contains an element');
 
                 assert.equal($container.find('.mock-keyboard').length, 1, 'The provided keyboard layout has been utilized');
@@ -149,17 +151,18 @@ define([
 
                 this.destroy();
             })
-            .on('destroy', function () {
-                QUnit.start();
+            .on('destroy', function() {
+                ready();
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('additional plugins', function (assert) {
+    QUnit.test('additional plugins', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-plugin');
         var instance;
 
@@ -182,7 +185,7 @@ define([
             }
         });
 
-        QUnit.expect(7);
+        assert.expect(7);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
@@ -195,76 +198,78 @@ define([
             },
             renderTo: $container
         })
-            .on('init', function () {
+            .on('init', function() {
                 assert.equal(this, instance, 'The instance has been initialized');
             })
-            .on('ready', function () {
+            .on('ready', function() {
                 assert.equal($container.children().length, 1, 'The container contains an element');
 
                 this.destroy();
             })
-            .on('destroy', function () {
-                QUnit.start();
+            .on('destroy', function() {
+                ready();
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('destroy', function (assert) {
+    QUnit.test('destroy', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-destroy');
         var instance;
 
-        QUnit.expect(4);
+        assert.expect(4);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
         instance = defaultCalculatorFactory({renderTo: $container})
-            .on('init', function () {
+            .on('init', function() {
                 assert.equal(this, instance, 'The instance has been initialized');
             })
-            .on('ready', function () {
+            .on('ready', function() {
                 assert.equal($container.children().length, 1, 'The container contains an element');
 
                 this.destroy();
             })
-            .after('destroy', function () {
+            .after('destroy', function() {
                 assert.equal($container.children().length, 0, 'The container is now empty');
 
-                QUnit.start();
+                ready();
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
     QUnit.module('visual test');
 
-    QUnit.asyncTest('defaultCalculator', function (assert) {
+    QUnit.test('defaultCalculator', function(assert) {
+        var ready = assert.async();
         var $container = $('#visual-test');
         var instance;
 
-        QUnit.expect(3);
+        assert.expect(3);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
         instance = defaultCalculatorFactory({renderTo: $container})
-            .on('init', function () {
+            .on('init', function() {
                 assert.equal(this, instance, 'The instance has been initialized');
             })
-            .on('ready', function () {
+            .on('ready', function() {
                 assert.equal($container.children().length, 1, 'The container contains an element');
 
-                QUnit.start();
+                ready();
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 });

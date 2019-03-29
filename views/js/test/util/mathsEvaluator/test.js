@@ -29,34 +29,33 @@ define([
 
     QUnit.module('API');
 
-    QUnit.test('module', function (assert) {
-        QUnit.expect(3);
+    QUnit.test('module', function(assert) {
+        assert.expect(3);
 
-        assert.equal(typeof mathsEvaluatorFactory, 'function', "The module exposes a function");
-        assert.equal(typeof mathsEvaluatorFactory(), 'function', "The factory produces a function");
-        assert.notStrictEqual(mathsEvaluatorFactory(), mathsEvaluatorFactory(), "The factory provides a different function on each call");
+        assert.equal(typeof mathsEvaluatorFactory, 'function', 'The module exposes a function');
+        assert.equal(typeof mathsEvaluatorFactory(), 'function', 'The factory produces a function');
+        assert.notStrictEqual(mathsEvaluatorFactory(), mathsEvaluatorFactory(), 'The factory provides a different function on each call');
     });
-
 
     QUnit.module('Behavior');
 
     QUnit
-        .cases(testCases)
+        .cases.init(testCases)
         .test('expression ', function (data, assert) {
             var evaluate = mathsEvaluatorFactory(data.config);
             var output = evaluate(data.expression, data.variables);
 
-            QUnit.expect(4);
+            assert.expect(4);
             if (!_.isBoolean(output.value)) {
                 output.value = String(output.value);
             }
-            assert.equal(output.value, data.expected, "The expression " + data.expression + " is correctly computed to " + data.expected);
-            assert.equal(output.expression, data.expression, "The expression is provided in the output");
-            assert.equal(output.variables, data.variables, "The variables are provided in the output");
-            assert.notEqual(typeof output.result, 'undefined', "The internal result is provided in the output");
+            assert.equal(output.value, data.expected, 'The expression ' + data.expression + ' is correctly computed to ' + data.expected);
+            assert.equal(output.expression, data.expression, 'The expression is provided in the output');
+            assert.equal(output.variables, data.variables, 'The variables are provided in the output');
+            assert.notEqual(typeof output.result, 'undefined', 'The internal result is provided in the output');
         });
 
-    QUnit.test('expression as object', function (assert) {
+    QUnit.test('expression as object', function(assert) {
         var evaluate = mathsEvaluatorFactory();
         var mathsExpression = {
             expression: '3*x + 1',
@@ -70,20 +69,19 @@ define([
 
         var output = evaluate(mathsExpression);
 
-        QUnit.expect(8);
+        assert.expect(8);
 
-        assert.equal(output.value, '7', "The expression " + mathsExpression.expression + " is correctly computed to 7");
-        assert.equal(output.expression, mathsExpression.expression, "The expression is provided in the output");
-        assert.equal(output.variables, mathsExpression.variables, "The variables are provided in the output");
-        assert.notEqual(typeof output.result, 'undefined', "The internal result is provided in the output");
-
+        assert.equal(output.value, '7', 'The expression ' + mathsExpression.expression + ' is correctly computed to 7');
+        assert.equal(output.expression, mathsExpression.expression, 'The expression is provided in the output');
+        assert.equal(output.variables, mathsExpression.variables, 'The variables are provided in the output');
+        assert.notEqual(typeof output.result, 'undefined', 'The internal result is provided in the output');
 
         output = evaluate(mathsExpression, variables);
 
-        assert.equal(output.value, '10', "The expression " + mathsExpression.expression + " is correctly computed to 10");
-        assert.equal(output.expression, mathsExpression.expression, "The expression is provided in the output");
-        assert.equal(output.variables, variables, "The variables are provided in the output");
-        assert.notEqual(typeof output.result, 'undefined', "The internal result is provided in the output");
+        assert.equal(output.value, '10', 'The expression ' + mathsExpression.expression + ' is correctly computed to 10');
+        assert.equal(output.expression, mathsExpression.expression, 'The expression is provided in the output');
+        assert.equal(output.variables, variables, 'The variables are provided in the output');
+        assert.notEqual(typeof output.result, 'undefined', 'The internal result is provided in the output');
     });
 
     /** Visual Test **/
@@ -95,16 +93,18 @@ define([
          * @param {String} myValue
          * @returns {jQuery}
          */
-        insertAtCaret: function (myValue) {
-            return this.each(function () {
+        insertAtCaret: function(myValue) {
+            return this.each(function() {
                 var sel, startPos, endPos, scrollTop;
                 if (document.selection) {
+
                     //For browsers like Internet Explorer
                     this.focus();
                     sel = document.selection.createRange();
                     sel.text = myValue;
                     this.focus();
                 } else if (this.selectionStart || this.selectionStart === '0') {
+
                     //For browsers like Firefox and Webkit based
                     startPos = this.selectionStart;
                     endPos = this.selectionEnd;
@@ -122,7 +122,7 @@ define([
         }
     });
 
-    QUnit.test('Visual test', function (assert) {
+    QUnit.test('Visual test', function(assert) {
         var evaluate = mathsEvaluatorFactory();
         var $container = $('#visual-test');
         var $screen = $container.find('.screen');
@@ -146,8 +146,8 @@ define([
         }
 
         function showResult(expression, result) {
-            var $expr = $('<p class="expression">' + expression + '</p>');
-            var $res = $('<p class="result">' + result + '</p>');
+            var $expr = $('<p class="expression">' + expression + "</p>");
+            var $res = $('<p class="result">' + result + "</p>");
             $screen.append($expr);
             $screen.append($res);
             scrollHelper.scrollTo($expr, $screen);
@@ -158,7 +158,7 @@ define([
             var parts = input.split('$');
             var expression = (parts.shift() || '').trim();
             var lines = [];
-            var variables = _.reduce(parts, function (acc, part) {
+            var variables = _.reduce(parts, function(acc, part) {
                 var s = part.split('=');
                 var name = (s[0] || '').trim();
                 var value = (s[1] || '').trim();
@@ -180,14 +180,14 @@ define([
         $keyboard.find('[data-switch="radian"]').click();
 
         $keyboard
-            .on('change', 'input', function () {
+            .on('change', 'input', function() {
                 switch (this.name) {
                     case 'degree':
                         degree = !!parseInt(this.value, 10);
                         setupMathsEvaluator();
                 }
             })
-            .on('click', 'button', function () {
+            .on('click', 'button', function() {
                 switch (this.dataset.action) {
                     case 'compute':
                         compute();
@@ -199,7 +199,7 @@ define([
                 }
             });
 
-        $input.on('keydown', function (e) {
+        $input.on('keydown', function(e) {
             switch (e.keyCode) {
                 case 13:
                     e.preventDefault();
@@ -213,7 +213,7 @@ define([
             }
         });
 
-        QUnit.expect(1);
+        assert.expect(1);
         assert.ok(true, 'Visual test ready');
     });
 
