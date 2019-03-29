@@ -27,6 +27,7 @@
     $calculatorScreenTxt: $textColor;
     $calculatorScreenBorder: $info;
     $calculatorScreenSpecialTxt: $uiClickableHoverBg;
+    $calculatorScreenSpecialBg: whiten($uiClickableHoverBg, .9);
     $calculatorHistoryBorder: $uiGeneralContentBorder;
     $calculatorHistoryTxt: whiten($textColor, .2);
 
@@ -336,6 +337,37 @@
             &.term-variable {
                 font-weight: bold;
                 color: $calculatorScreenSpecialTxt;
+            }
+            &.term-variable[data-token="ANS"] {
+                background: $calculatorScreenSpecialBg;
+                padding: 0;
+                margin: 0 #{$calculatorTermSpace * 2};
+                position: relative;
+                &::before, &::after {
+                    background: $calculatorScreenSpecialBg;
+                    content: '';
+                    border-radius: 50%;
+                    border: 1px none;
+                    position: absolute;
+                    z-index: 0;
+                    top: 0;
+                    bottom: 0;
+                    width: #{$calculatorTermSpace * 2};
+                }
+                &::before {
+                    border-left-style: solid;
+                    border-left-color: $calculatorScreenSpecialTxt;
+                    left: #{-$calculatorTermSpace};
+                }
+                &::after {
+                    border-right-style: solid;
+                    border-right-color: $calculatorScreenSpecialTxt;
+                    right: #{-$calculatorTermSpace};
+                }
+                * {
+                    position: relative;
+                    z-index: 1;
+                }
             }
             &.term-unknown {
                 color: $warning;
