@@ -70,6 +70,29 @@ define([
     };
 
     /**
+     * Enforces signature to classSignature in every child resources
+     *
+     * @param {Array|Object} resources
+     * @param {String} [signature]
+     * @returns {Array|Object}
+     */
+    function applyClassSignatures(resources, signature) {
+        if (_.isArray(resources)) {
+            _.forEach(resources, function(resource) {
+                applyClassSignatures(resource, signature);
+            });
+        } else if (resources) {
+            if (signature) {
+                resources.classSignature = signature;
+            }
+            if (resources.children) {
+                applyClassSignatures(resources.children, resources.signature || signature);
+            }
+        }
+        return resources;
+    }
+
+    /**
      * Creates a configured provider
      *
      * @param {Object} [config] - to override the default config
@@ -137,7 +160,7 @@ define([
                         }
                     }
                     return resources;
-                });
+                }).then(applyClassSignatures);
             },
 
             /**

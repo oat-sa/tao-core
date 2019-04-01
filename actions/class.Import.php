@@ -80,7 +80,8 @@ class tao_actions_Import extends tao_actions_CommonModule
                 [
                     ImportByHandler::PARAM_IMPORT_HANDLER => get_class($importer),
                     ImportByHandler::PARAM_FORM_VALUES => $importer instanceof TaskParameterProviderInterface ? $importer->getTaskParameters($importForm) : [],
-                    ImportByHandler::PARAM_PARENT_CLASS => $this->getCurrentClass()->getUri()
+                    ImportByHandler::PARAM_PARENT_CLASS => $this->getCurrentClass()->getUri(),
+                    ImportByHandler::PARAM_OWNER => \common_session_SessionManager::getSession()->getUser()->getIdentifier(),
                 ],
                 __('Import a %s into "%s"', $importer->getLabel(), $this->getCurrentClass()->getLabel()));
 

@@ -62,11 +62,12 @@ class tao_models_classes_import_RdfImporter implements tao_models_classes_import
     /**
      * @param core_kernel_classes_Class $class
      * @param tao_helpers_form_Form|array $form
+     * @param string|null $userId owner of the resource
      * @return common_report_Report
      * @throws common_Exception
      * @throws common_exception_Error
      */
-    public function import($class, $form)
+    public function import($class, $form, $userId = null)
     {
         $parser = new tao_models_classes_Parser($this->fetchUploadedFile($form), ['extension' => 'rdf']);
         $parser->validate();
