@@ -53,46 +53,48 @@ define([
         warn: 90,
     };
 
-
     QUnit.module('dashboard');
 
-    QUnit.test('module', 3, function (assert) {
-        assert.equal(typeof dashboard, 'function', "The dashboard module exposes a function");
-        assert.equal(typeof dashboard(), 'object', "The dashboard factory produces an object");
-        assert.notStrictEqual(dashboard(), dashboard(), "The dashboard factory provides a different object on each call");
+    QUnit.test('module', function (assert) {
+        assert.equal(typeof dashboard, 'function', 'The dashboard module exposes a function');
+        assert.equal(typeof dashboard(), 'object', 'The dashboard factory produces an object');
+        assert.notStrictEqual(dashboard(), dashboard(), 'The dashboard factory provides a different object on each call');
     });
 
-    QUnit
-        .cases([
-            { title: 'init' },
-            { title: 'destroy' },
-            { title: 'render' },
-            { title: 'show' },
-            { title: 'hide' },
-            { title: 'trigger' },
-            { title: 'on' },
-            { title: 'off' },
-            { title: 'getElement' },
+    QUnit.test('instance API ', function (assert) {
+        var componentApi = [
+            'init',
+            'destroy',
+            'render',
+            'show',
+            'hide',
+            'trigger',
+            'on',
+            'off',
+            'getElement',
 
-            { title: 'clearDashboard' },
-            { title: 'mapScoreToState' },
-            { title: 'renderMetrics' },
-            { title: 'toggleLoadingBar' },
-            { title: 'toggleWarningMessage' },
-        ])
-        .test('instance API ', function (data, assert) {
-            var instance = dashboard();
-            assert.equal(typeof instance[data.title], 'function', 'The dashboard instance exposes a "' + data.title + '" function');
+            'clearDashboard',
+            'mapScoreToState',
+            'renderMetrics',
+            'toggleLoadingBar',
+            'toggleWarningMessage',
+        ]
+
+        var instance = dashboard();
+
+        componentApi.forEach(function (method){
+            assert.equal(typeof instance[method], 'function', 'The dashboard instance exposes a "' + data.title + '" function');
         });
+    });
 
     QUnit.test('render with default config', function (assert) {
         var instance = dashboard({
             renderTo: '#fixture-render',
         });
 
-        assert.equal(typeof instance, 'object', "The dashboard instance is an object");
-        assert.ok(instance.getElement() instanceof $, "The dashboard instance gets a DOM element");
-        assert.equal(instance.getElement().length, 1, "The dashboard instance gets a single element");
+        assert.equal(typeof instance, 'object', 'The dashboard instance is an object');
+        assert.ok(instance.getElement() instanceof $, 'The dashboard instance gets a DOM element');
+        assert.equal(instance.getElement().length, 1, 'The dashboard instance gets a single element');
 
         instance.destroy();
     });
@@ -223,7 +225,7 @@ define([
         instance.destroy();
     });
 
-    QUnit.test('playground', function(assert) {
+    QUnit.test('playground', function (assert) {
         dashboard({
             data: data,
             renderTo: '#visual-test'
