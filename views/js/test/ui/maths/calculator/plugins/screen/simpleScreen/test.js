@@ -27,7 +27,8 @@ define([
     'ui/maths/calculator/core/tokens',
     'ui/maths/calculator/core/expression',
     'ui/maths/calculator/core/tokenizer',
-    'ui/maths/calculator/plugins/screen/simpleScreen/simpleScreen'
+    'ui/maths/calculator/plugins/screen/simpleScreen/simpleScreen',
+    'util/mathsEvaluator'
 ], function(
     $,
     _,
@@ -37,11 +38,13 @@ define([
     tokensHelper,
     expressionHelper,
     tokenizerFactory,
-    simpleScreenPluginFactory
+    simpleScreenPluginFactory,
+    mathsEvaluatorFactory
 ) {
     'use strict';
 
     var tokenizer = tokenizerFactory();
+    var mathsEvaluator = mathsEvaluatorFactory();
 
     QUnit.module('module');
 
@@ -1945,6 +1948,86 @@ define([
 
                             assert.equal(calculator.getExpression(), data.expression, 'The expression should be set to ' + data.expression);
                             assert.equal($screen.find('.term').length, termsCount, 'The expression has been splitted in ' + termsCount + ' tokens');
+                            assert.equal($screen.text(), data.text, 'the expected text is set');
+                        })
+                        .catch(function(err) {
+                            assert.ok(false, 'Unexpected failure : ' + err.message);
+                        })
+                        .then(function() {
+                            plugin.destroy();
+                            calculator.destroy();
+                        });
+                })
+                .on('error', function(err) {
+                    console.error(err);
+                    assert.ok(false, 'The operation should not fail!');
+                    ready();
+                });
+        });
+
+    QUnit
+        .cases.init([{
+            title: '42',
+            expression: 'ans',
+            variables: {
+                ans: mathsEvaluator('42')
+            },
+            text: '42'
+        }, {
+            title: '1/3',
+            expression: 'ans',
+            variables: {
+                ans: mathsEvaluator('1/3')
+            },
+            text: '0.33333' + registeredTerms.ELLIPSIS.label
+        }, {
+            title: '2/3',
+            expression: 'ans',
+            variables: {
+                ans: mathsEvaluator('2/3')
+            },
+            text: '0.66667' + registeredTerms.ELLIPSIS.label
+        }, {
+            title: 'PI',
+            expression: 'ans',
+            variables: {
+                ans: mathsEvaluator('PI')
+            },
+            text: '3.14159' + registeredTerms.ELLIPSIS.label
+        }])
+        .test('treatment of ellipsis', function(data, assert) {
+            var ready = assert.async();
+            var $container = $('#fixture-ellipsis');
+            var calculator = calculatorBoardFactory($container)
+                .on('ready', function() {
+                    var areaBroker = calculator.getAreaBroker();
+                    var plugin = simpleScreenPluginFactory(calculator, areaBroker);
+
+                    assert.expect(4);
+
+                    calculator
+                        .on('plugin-render.simpleScreen', function() {
+                            assert.ok(plugin.getState('ready'), 'The plugin has been rendered');
+                        })
+                        .on('destroy', function() {
+                            ready();
+                        });
+
+                    plugin.install()
+                        .then(function() {
+                            return plugin.init();
+                        })
+                        .then(function() {
+                            return plugin.render();
+                        })
+                        .then(function() {
+                            var $screen = $container.find('.calculator-screen .expression');
+                            assert.equal(areaBroker.getScreenArea().find('.calculator-screen .expression').length, 1, 'The screen layout has been inserted');
+
+                            calculator.setVariables(data.variables);
+                            calculator.replace(data.expression);
+
+                            assert.equal(calculator.getExpression(), data.expression, 'The expression should be set to ' + data.expression);
                             assert.equal($screen.text(), data.text, 'the expected text is set');
                         })
                         .catch(function(err) {

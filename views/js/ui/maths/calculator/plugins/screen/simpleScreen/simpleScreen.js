@@ -59,7 +59,11 @@ define([
      * @type {Object}
      */
     var defaultConfig = {
-        layout: defaultScreenTpl
+        // the layout of the screen
+        layout: defaultScreenTpl,
+
+        // number of decimal digits shown for decimal numbers
+        decimalDigits: 5
     };
 
     return pluginFactory({
@@ -114,13 +118,24 @@ define([
             }
 
             /**
+             * Renders the expression into a string
+             * @param {String|Object|token[]} expression
+             * @returns {String}
+             */
+            function renderExpression(expression) {
+                var variables = expressionHelper.roundLastResultVariable(
+                    calculator.getVariables(),
+                    pluginConfig.decimalDigits
+                );
+                return expressionHelper.render(expression, variables, tokenizer);
+            }
+
+            /**
              * Updates the expression area
              * @param {String|Object|token[]} tokens
              */
             function showExpression(tokens) {
-                self.controls.$expression.html(
-                    expressionHelper.render(tokens, calculator.getVariables(), tokenizer)
-                );
+                self.controls.$expression.html(renderExpression(tokens));
                 autoScroll(self.controls.$expression);
             }
 
@@ -129,7 +144,7 @@ define([
             }
 
             this.$layout = $(pluginConfig.layout(_.defaults({
-                expression: expressionHelper.render(calculator.getTokens(), calculator.getVariables(), tokenizer)
+                expression: renderExpression(calculator.getTokens())
             }, pluginConfig)));
 
             this.controls = {
@@ -147,8 +162,8 @@ define([
                 })
                 .on(nsHelper.namespaceAll('evaluate', pluginName), function (result) {
                     self.controls.$history.html(historyTpl({
-                        expression: expressionHelper.render(calculator.getTokens(), calculator.getVariables(), tokenizer),
-                        result: expressionHelper.render(result, calculator.getVariables(), tokenizer)
+                        expression: renderExpression(calculator.getTokens()),
+                        result: renderExpression(result)
                     }));
                     autoScroll(self.controls.$history, '.history-result');
                 })
@@ -159,7 +174,7 @@ define([
                 })
                 .on(nsHelper.namespaceAll('syntaxerror', pluginName), function () {
                     calculator.setState('error', true);
-                    showExpression(calculator.getExpression() + '#');
+                    showExpression(calculator.getExpression() + registeredTerms.ERROR.value);
                 });
 
             areaBroker.getScreenArea().append(this.$layout);
