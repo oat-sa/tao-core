@@ -154,8 +154,6 @@ define([
                                 .after('evaluate.test', function(r1) {
                                     calculator.off('evaluate.test');
 
-                                    r1.tokens = calculator.getTokenizer().tokenize(r1);
-
                                     assert.ok(!calculator.hasVariable('mem'), 'The remind variable still does not exist');
                                     assert.ok(calculator.hasVariable('last'), 'The remind last variable should now exist');
                                     assert.deepEqual(calculator.getVariable('last'), r1, 'The remind last variable is equal to the last result');
@@ -278,8 +276,6 @@ define([
                                 .after('evaluate.test', function(result) {
                                     calculator.off('evaluate.test');
 
-                                    result.tokens = calculator.getTokenizer().tokenize(result);
-
                                     assert.ok(!calculator.hasVariable('mem'), 'The remind variable still does not exist');
                                     assert.ok(calculator.hasVariable('last'), 'The remind last variable should now exist');
                                     assert.deepEqual(calculator.getVariable('last'), result, 'The remind last variable is equal to the last result');
@@ -296,8 +292,6 @@ define([
                             calculator
                                 .after('evaluate.test', function(result) {
                                     calculator.off('evaluate.test');
-
-                                    result.tokens = calculator.getTokenizer().tokenize(result);
 
                                     assert.ok(!calculator.hasVariable('mem'), 'The remind variable still does not exist');
                                     assert.ok(calculator.hasVariable('last'), 'The remind last variable should now exist');
@@ -346,8 +340,6 @@ define([
                                 .after('evaluate.test', function(result) {
                                     calculator.off('evaluate.test');
 
-                                    result.tokens = calculator.getTokenizer().tokenize(result);
-
                                     assert.ok(calculator.hasVariable('mem'), 'The remind variable still exist');
                                     assert.ok(calculator.hasVariable('last'), 'The remind last variable still exist');
                                     assert.equal(calculator.getVariable('mem').value, '20', 'The remind variable contains the correct value');
@@ -364,8 +356,6 @@ define([
                             calculator
                                 .after('evaluate.test', function(result) {
                                     calculator.off('evaluate.test');
-
-                                    result.tokens = calculator.getTokenizer().tokenize(result);
 
                                     assert.equal(calculator.getExpression(), 'last+mem', 'The expression has been properly updated');
                                     assert.ok(calculator.hasVariable('mem'), 'The remind variable still exist');

@@ -25,6 +25,7 @@ define([
     'ui/maths/calculator/core/board',
     'ui/maths/calculator/core/terms',
     'ui/maths/calculator/core/tokens',
+    'ui/maths/calculator/core/expression',
     'ui/maths/calculator/core/tokenizer',
     'ui/maths/calculator/plugins/screen/simpleScreen/simpleScreen'
 ], function(
@@ -34,6 +35,7 @@ define([
     calculatorBoardFactory,
     registeredTerms,
     tokensHelper,
+    expressionHelper,
     tokenizerFactory,
     simpleScreenPluginFactory
 ) {
@@ -477,7 +479,7 @@ define([
                                     _.forEach(expectedTokens, function(term, index) {
                                         var el = $screen.find('.expression .term[data-token="' + term.token + '"]').get(0);
                                         if (term.token === 'ANS') {
-                                            term.label = tokensHelper.render(tokenizer.tokenize(calculator.getLastResult()));
+                                            term.label = expressionHelper.render(calculator.getLastResult());
                                         }
                                         assert.equal(el.dataset.value, term.value, 'the term ' + index + ' is transformed - data-value');
                                         assert.equal(el.dataset.token, term.token, 'the term ' + index + ' is transformed - data-token');

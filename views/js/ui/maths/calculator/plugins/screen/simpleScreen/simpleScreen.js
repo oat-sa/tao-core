@@ -27,10 +27,23 @@ define([
     'ui/scroller',
     'ui/maths/calculator/core/terms',
     'ui/maths/calculator/core/tokens',
+    'ui/maths/calculator/core/expression',
     'ui/maths/calculator/core/plugin',
     'tpl!ui/maths/calculator/plugins/screen/simpleScreen/history',
     'tpl!ui/maths/calculator/plugins/screen/simpleScreen/defaultTemplate'
-], function ($, _, __, nsHelper, scrollHelper, registeredTerms, tokensHelper, pluginFactory, historyTpl, defaultScreenTpl) {
+], function (
+    $,
+    _,
+    __,
+    nsHelper,
+    scrollHelper,
+    registeredTerms,
+    tokensHelper,
+    expressionHelper,
+    pluginFactory,
+    historyTpl,
+    defaultScreenTpl
+) {
     'use strict';
 
     var pluginName = 'simpleScreen';
@@ -102,11 +115,11 @@ define([
 
             /**
              * Updates the expression area
-             * @param {token[]} tokens
+             * @param {String|Object|token[]} tokens
              */
             function showExpression(tokens) {
                 self.controls.$expression.html(
-                    tokensHelper.render(tokens, calculator.getVariables())
+                    expressionHelper.render(tokens, calculator.getVariables(), tokenizer)
                 );
                 autoScroll(self.controls.$expression);
             }
@@ -116,7 +129,7 @@ define([
             }
 
             this.$layout = $(pluginConfig.layout(_.defaults({
-                expression: tokensHelper.render(calculator.getTokens(), calculator.getVariables())
+                expression: expressionHelper.render(calculator.getTokens(), calculator.getVariables(), tokenizer)
             }, pluginConfig)));
 
             this.controls = {
@@ -134,19 +147,19 @@ define([
                 })
                 .on(nsHelper.namespaceAll('evaluate', pluginName), function (result) {
                     self.controls.$history.html(historyTpl({
-                        expression: tokensHelper.render(calculator.getTokens(), calculator.getVariables()),
-                        result: tokensHelper.render(tokenizer.tokenize(result), calculator.getVariables())
+                        expression: expressionHelper.render(calculator.getTokens(), calculator.getVariables(), tokenizer),
+                        result: expressionHelper.render(result, calculator.getVariables(), tokenizer)
                     }));
                     autoScroll(self.controls.$history, '.history-result');
                 })
                 .after(nsHelper.namespaceAll('evaluate', pluginName), function(result) {
-                    if (tokensHelper.containsError(result.value)) {
-                        showExpression(tokenizer.tokenize(result));
+                    if (expressionHelper.containsError(result.value)) {
+                        showExpression(result);
                     }
                 })
                 .on(nsHelper.namespaceAll('syntaxerror', pluginName), function () {
                     calculator.setState('error', true);
-                    showExpression(tokenizer.tokenize(calculator.getExpression() + '#'));
+                    showExpression(calculator.getExpression() + '#');
                 });
 
             areaBroker.getScreenArea().append(this.$layout);
