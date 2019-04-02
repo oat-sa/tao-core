@@ -76,7 +76,7 @@ define([
      * Default number of significant digits used to round displayed variables
      * @type {Number}
      */
-    var defaultSignificantDigits = 8;
+    var defaultDecimalDigits = 5;
 
     /**
      * List of helpers that apply on expression
@@ -103,19 +103,43 @@ define([
         },
 
         /**
-         * Rounds the value of the last result variable, and casts it to String
+         * Rounds the value of a variable
+         * @param {Object} variable
+         * @param {Number} [decimalDigits=5]
+         * @returns {String}
+         */
+        roundVariable: function roundVariable(variable, decimalDigits) {
+            var resultString = tokensHelper.stringValue(variable);
+            var fullString = resultString;
+            var value = variable && variable.result;
+
+            decimalDigits = decimalDigits || defaultDecimalDigits;
+
+            if ('undefined' !== typeof value) {
+                if (value.toExponential && resultString.indexOf(registeredTerms.EXP10.value) > 0) {
+                    resultString = value.toExponential(decimalDigits).toString();
+                } else if (value.toDecimalPlaces && resultString.indexOf(registeredTerms.DOT.value) > 0) {
+                    resultString = value.toDecimalPlaces(decimalDigits).toString();
+                }
+
+                if (resultString.length < fullString.length) {
+                    resultString += registeredTerms.ELLIPSIS.value;
+                } else {
+                    resultString = fullString;
+                }
+            }
+            return resultString;
+        },
+
+        /**
+         * Rounds the value of the last result variable
          * @param {Object} variables
-         * @param {Number} [significantDigits=8]
+         * @param {Number} [decimalDigits=5]
          * @returns {Object}
          */
-        roundLastResultVariable: function roundLastResultVariable(variables, significantDigits) {
-            var lastResult;
+        roundLastResultVariable: function roundLastResultVariable(variables, decimalDigits) {
             if (variables && 'undefined' !== typeof variables[lastResultVariableName]) {
-                lastResult = variables[lastResultVariableName];
-                if (lastResult.result && lastResult.result.toSD) {
-                    lastResult = lastResult.result.toSD(significantDigits || defaultSignificantDigits);
-                    variables[lastResultVariableName] = lastResult.toString();
-                }
+                variables[lastResultVariableName] = expressionHelper.roundVariable(variables[lastResultVariableName], decimalDigits);
             }
             return variables;
         },

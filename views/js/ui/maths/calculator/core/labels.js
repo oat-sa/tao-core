@@ -53,6 +53,7 @@ define([
 
         // Separator
         COMMA: ',',
+        ELLIPSIS: '\u2026',
         SPACER: '',
 
         // Operators

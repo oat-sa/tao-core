@@ -172,6 +172,7 @@ define([
     QUnit.cases.init([
         {title: 'containsError'},
         {title: 'replaceLastResult'},
+        {title: 'roundVariable'},
         {title: 'roundLastResultVariable'},
         {title: 'renderSign'},
         {title: 'render'}
@@ -276,6 +277,64 @@ define([
         });
 
     QUnit.cases.init([{
+        title: 'Undefined variable',
+        expected: ''
+    }, {
+        title: 'Empty variable',
+        variable: {},
+        expected: ''
+    }, {
+        title: 'Native number',
+        variable: 5,
+        decimalDigits: 8,
+        expected: '5'
+    }, {
+        title: 'String value',
+        variable: '3.14159265358979323846264',
+        decimalDigits: 8,
+        expected: '3.14159265358979323846264'
+    }, {
+        title: 'Regular integer result',
+        variable: mathsEvaluator('3*4'),
+        expected: '12'
+    }, {
+        title: 'Regular decimal result',
+        variable: mathsEvaluator('PI'),
+        expected: '3.14159~'
+    }, {
+        title: '5 significant digits',
+        variable: mathsEvaluator('PI'),
+        decimalDigits: 3,
+        expected: '3.142~'
+    }, {
+        title: '10 significant digits',
+        variable: mathsEvaluator('PI'),
+        decimalDigits: 10,
+        expected: '3.1415926536~'
+    }, {
+        title: 'Irrational 1/3',
+        variable: mathsEvaluator('1/3'),
+        expected: '0.33333~'
+    }, {
+        title: 'Irrational 2/3',
+        variable:mathsEvaluator('2/3'),
+        expected: '0.66667~'
+    }, {
+        title: 'Exponential integer',
+        variable: mathsEvaluator('123e50'),
+        expected: '1.23e+52'
+    }, {
+        title: 'Exponential decimal',
+        variable: mathsEvaluator('PI*10^50'),
+        expected: '3.14159e+50~'
+    }])
+        .test('roundLastResultVariable', function(data, assert) {
+            assert.expect(1);
+
+            assert.equal(expressionHelper.roundVariable(data.variable, data.decimalDigits), data.expected, 'Should round the last result variable');
+        });
+
+    QUnit.cases.init([{
         title: 'Undefined list of variables'
     }, {
         title: 'Empty list of variables',
@@ -286,44 +345,52 @@ define([
         variables: {
             ans: 5
         },
-        significantDigits: 8,
+        decimalDigits: 8,
         expected: {
-            ans: 5
+            ans: '5'
         }
     }, {
         title: 'String value',
         variables: {
             ans: '3.14159265358979323846264'
         },
-        significantDigits: 8,
+        decimalDigits: 8,
         expected: {
             ans: '3.14159265358979323846264'
         }
     }, {
-        title: 'Regular result',
+        title: 'Regular integer result',
+        variables: {
+            ans: mathsEvaluator('3*4')
+        },
+        expected: {
+            ans: '12'
+        }
+    }, {
+        title: 'Regular decimal result',
         variables: {
             ans: mathsEvaluator('PI')
         },
         expected: {
-            ans: '3.1415927'
+            ans: '3.14159~'
         }
     }, {
         title: '5 significant digits',
         variables: {
             ans: mathsEvaluator('PI')
         },
-        significantDigits: 5,
+        decimalDigits: 3,
         expected: {
-            ans: '3.1416'
+            ans: '3.142~'
         }
     }, {
-        title: '15 significant digits',
+        title: '10 significant digits',
         variables: {
             ans: mathsEvaluator('PI')
         },
-        significantDigits: 15,
+        decimalDigits: 10,
         expected: {
-            ans: '3.14159265358979'
+            ans: '3.1415926536~'
         }
     }, {
         title: 'Irrational 1/3',
@@ -331,7 +398,7 @@ define([
             ans: mathsEvaluator('1/3')
         },
         expected: {
-            ans: '0.33333333'
+            ans: '0.33333~'
         }
     }, {
         title: 'Irrational 2/3',
@@ -339,13 +406,29 @@ define([
             ans: mathsEvaluator('2/3')
         },
         expected: {
-            ans: '0.66666667'
+            ans: '0.66667~'
+        }
+    }, {
+        title: 'Exponential integer',
+        variables: {
+            ans: mathsEvaluator('123e50')
+        },
+        expected: {
+            ans: '1.23e+52'
+        }
+    }, {
+        title: 'Exponential decimal',
+        variables: {
+            ans: mathsEvaluator('PI*10^50')
+        },
+        expected: {
+            ans: '3.14159e+50~'
         }
     }])
         .test('roundLastResultVariable', function(data, assert) {
             assert.expect(1);
 
-            assert.deepEqual(expressionHelper.roundLastResultVariable(data.variables, data.significantDigits), data.expected, 'Should round the last result variable');
+            assert.deepEqual(expressionHelper.roundLastResultVariable(data.variables, data.decimalDigits), data.expected, 'Should round the last result variable');
         });
 
     QUnit.test('renderSign', function (assert) {
