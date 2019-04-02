@@ -36,6 +36,7 @@ class ImportByHandler extends AbstractAction
     const PARAM_IMPORT_HANDLER = 'import_handler';
     const PARAM_FORM_VALUES = 'form_values';
     const PARAM_PARENT_CLASS = 'parent_class_uri';
+    const PARAM_OWNER = 'owner';
 
     /**
      * @param array $params
@@ -52,6 +53,6 @@ class ImportByHandler extends AbstractAction
 
         $this->propagate($importer);
 
-        return $importer->import($this->getClass($params[self::PARAM_PARENT_CLASS]), $params[self::PARAM_FORM_VALUES]);
+        return $importer->import($this->getClass($params[self::PARAM_PARENT_CLASS]), $params[self::PARAM_FORM_VALUES], $params[self::PARAM_OWNER]);
     }
 }

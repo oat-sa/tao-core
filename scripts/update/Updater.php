@@ -32,6 +32,7 @@ use oat\generis\model\kernel\persistence\file\FileIterator;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\controller\api\Users;
+use oat\tao\helpers\dateFormatter\EuropeanFormatter;
 use oat\tao\model\cliArgument\argument\implementation\Group;
 use oat\tao\model\cliArgument\argument\implementation\verbose\Debug;
 use oat\tao\model\cliArgument\argument\implementation\verbose\Error;
@@ -67,6 +68,7 @@ use oat\tao\model\service\ContainerService;
 use oat\tao\model\service\SettingsStorage;
 use oat\tao\model\session\restSessionFactory\builder\HttpBasicAuthBuilder;
 use oat\tao\model\session\restSessionFactory\RestSessionFactory;
+use oat\tao\model\settings\CspHeaderSettingsInterface;
 use oat\tao\model\task\ExportByHandler;
 use oat\tao\model\task\ImportByHandler;
 use oat\tao\model\taskQueue\Queue;
@@ -990,6 +992,36 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('30.1.0');
         }
 
-        $this->skip('30.1.0', '30.2.0');
+        if ($this->isVersion('30.1.0')) {
+            /** @var SettingsStorage $settingsStorage */
+            $settingsStorage = $this->getServiceManager()->get(SettingsStorage::SERVICE_ID);
+
+            if ($settingsStorage->exists(CspHeaderSettingsInterface::CSP_HEADER_SETTING) === false) {
+                $settingsStorage->set(CspHeaderSettingsInterface::CSP_HEADER_SETTING, '*');
+            }
+
+
+            $this->setVersion('30.1.1');
+        }
+
+        $this->skip('30.1.1', '31.0.0');
+
+        if ($this->isVersion('31.0.0')) {
+            // Removes previously set util/local[dateTimeFormat] key prior to registering it with the correct values.
+            $registry = ClientLibConfigRegistry::getRegistry();
+            $localeValues = $registry->get('util/locale');
+            // If 'util/locale' is not set in the registry, $localeValues is '' and retrieving a string index on a string would fail.
+            if (is_array($localeValues) && isset($localeValues['dateTimeFormat'])) {
+                unset($localeValues['dateTimeFormat']);
+            }
+            $registry->register('util/locale', $localeValues);
+
+            $ext = $this->getServiceManager()->get(\common_ext_ExtensionsManager::SERVICE_ID)->getExtensionById('tao');
+            $ext->setConfig(\tao_helpers_Date::CONFIG_KEY, new EuropeanFormatter());
+
+            $this->setVersion('31.1.0');
+        }
+
+        $this->skip('31.1.0', '31.2.0');
     }
 }
