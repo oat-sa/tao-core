@@ -153,7 +153,7 @@ define([
                      * @event history
                      * @param {Array} history - The current history list
                      */
-                    calculator.trigger('history', _.pluck(history, 'expression'));
+                    calculator.trigger('history', _.map(history, 'expression'));
                 });
         },
 
