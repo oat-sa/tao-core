@@ -55,17 +55,6 @@ class tao_helpers_form_elements_xhtml_Calendar extends tao_helpers_form_elements
             $returnValue .= ' value="' . _dh(tao_helpers_Date::displayeDate($timeStamp, tao_helpers_Date::FORMAT_DATEPICKER)) . '"';
         }
         $returnValue .= ' /></div>';
-       /*
-        $returnValue .= "<script type=\"text/javascript\">
-			require(['jquery','jqueryui','jquery.timePicker'], function($){
-				$(\"#$elementId\").datetimepicker({
-                                        dateFormat: 'yy-mm-dd',
-                                        beforeShow: function (textbox, instance) {
-                                            $(textbox).parent().append(instance.dpDiv);
-                                        }
-				});
-
-            });</script>";*/
 
         return (string) $returnValue;
     }

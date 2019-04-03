@@ -34,7 +34,8 @@ define([
     'util/encode',
     'ckeditor',
     'ui/ckeditor/ckConfigurator',
-    'lib/jsTree/plugins/jquery.tree.contextmenu'
+    'ui/datetime/picker',
+    'lib/jsTree/plugins/jquery.tree.contextmenu',
 ], function (
     module,
     $,
@@ -46,7 +47,8 @@ define([
     postRenderProps,
     encode,
     ckeditor,
-    ckConfigurator ) {
+    ckConfigurator,
+    dateTimePicker) {
     'use strict';
 
     /**
@@ -327,10 +329,10 @@ define([
             });
 
             $('.datepicker-input').each(function(){
-                dateTimePickerComponentFactory($(this).parent(), {
+                dateTimePicker($(this).parent(), {
                     replaceField : this,
                     setup : 'datetime',
-                    triggerButton : true
+                    controlButtons : true
                 });
             });
 
