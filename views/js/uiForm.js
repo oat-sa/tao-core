@@ -900,7 +900,7 @@ define([
          * Ajax form submit -> post the form data and display back the form into the container
          * @param myForm
          * @param serialize
-         * @return boolean
+         * @returns boolean
          */
         submitForm: function submitForm(myForm, serialize) {
             var self = this;
@@ -938,8 +938,9 @@ define([
         /**
          * Submits a form via AJAX (using core/request) with a CSRF token attached
          * core/request fetches that token behind-the-scenes
+         * Expects JSON response
          * @param {jQuery} $form
-         * @param {*} serialize - serialized form data
+         * @param {*} serialized - serialized form data
          */
         submitFormTokenized: function submitFormTokenized($form, serialized) {
             if (_.isUndefined(serialized)) {
@@ -949,10 +950,12 @@ define([
                 url: $form.attr('action'),
                 method: $form.attr('method'),
                 data: serialized,
+                //contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                dataType: 'html',
                 noToken: false
             })
             .then(function(response) {
-                feedback().success();
+                feedback().success('OK');
                 console.log('response', response);
             })
             .catch(function(err) {

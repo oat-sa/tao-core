@@ -25,6 +25,8 @@ define([
     'i18n',
     'lodash',
     'context',
+    'core/promise',
+    'core/request',
     'layout/section',
     'layout/actions/binder',
     'layout/permissions',
@@ -34,7 +36,7 @@ define([
     'ui/feedback',
     'ui/dialog/confirm',
     'util/httpErrorParser'
-], function(module, $, __, _, appContext, section, binder, permissionsManager, resourceProviderFactory, destinationSelectorFactory, uri, feedback, confirmDialog, httpErrorParser) {
+], function(module, $, __, _, appContext, Promise, request, section, binder, permissionsManager, resourceProviderFactory, destinationSelectorFactory, uri, feedback, confirmDialog, httpErrorParser) {
     'use strict';
 
     var messages = {
@@ -250,40 +252,66 @@ define([
         binder.register('removeNode', function remove(actionContext){
             var self = this;
             var data = {};
-            var tokenName = module.config().xsrfTokenName;
+            // var tokenName = module.config().xsrfTokenName;
 
             data.uri        = uri.decode(actionContext.uri);
             data.classUri   = uri.decode(actionContext.classUri);
             data.id         = actionContext.id;
-            data[tokenName] = $.cookie(tokenName);
+            // data[tokenName] = $.cookie(tokenName);
             data.signature  = actionContext.signature;
 
             return new Promise( function (resolve, reject){
-                confirmDialog(__("Please confirm deletion"), function accept(){
-                    $.ajax({
+                confirmDialog(__("Please confirm deletion:"), function accept(){
+                    request({
                         url: self.url,
-                        type: "POST",
+                        method: "POST",
                         data: data,
                         dataType: 'json',
-                        success: function(response){
-                            if (response.deleted) {
-                                if(actionContext.tree){
-                                    $(actionContext.tree).trigger('removenode.taotree', [{
-                                        id : actionContext.uri || actionContext.classUri
-                                    }]);
-                                }
-                                return resolve({
-                                    uri : actionContext.uri || actionContext.classUri
-                                });
-
-                            } else {
-                                reject(response.msg || __("Unable to delete the selected resource"));
+                    })
+                    .then(function(response) {
+                        if (response.deleted) {
+                            if (actionContext.tree){
+                                $(actionContext.tree).trigger('removenode.taotree', [{
+                                    id : actionContext.uri || actionContext.classUri
+                                }]);
                             }
-                        },
-                        error : function (xhr, options, err){
-                            reject(httpErrorParser.parse(xhr, options, err));
+                            return resolve({
+                                uri : actionContext.uri || actionContext.classUri
+                            });
+
+                        } else {
+                            reject(response.msg || __("Unable to delete the selected resource"));
                         }
+                        $('#user-list').datatable('refresh');
+                    })
+                    .catch(function(error) {
+                        debugger
+                        reject(error.message);
                     });
+
+                    // $.ajax({
+                    //     url: self.url,
+                    //     type: "POST",
+                    //     data: data,
+                    //     dataType: 'json',
+                    //     success: function(response){
+                    //         if (response.deleted) {
+                    //             if(actionContext.tree){
+                    //                 $(actionContext.tree).trigger('removenode.taotree', [{
+                    //                     id : actionContext.uri || actionContext.classUri
+                    //                 }]);
+                    //             }
+                    //             return resolve({
+                    //                 uri : actionContext.uri || actionContext.classUri
+                    //             });
+                    //         } else {
+                    //             reject(response.msg || __("Unable to delete the selected resource"));
+                    //         }
+                    //     },
+                    //     error : function (xhr, options, err){
+                    //         reject(httpErrorParser.parse(xhr, options, err));
+                    //     }
+                    // });
                 }, function cancel(){
                     reject({ cancel : true });
                 });
@@ -320,7 +348,7 @@ define([
             });
 
             if(actionContexts.length === 1){
-                confirmMessage = __('Please confirm deletion');
+                confirmMessage = __('please confirm deletion');
             } else if(actionContexts.length > 1){
                 if(instances.length){
                     if(instances.length === 1){
