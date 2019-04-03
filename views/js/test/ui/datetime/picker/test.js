@@ -27,7 +27,7 @@ define([
 
     QUnit.module('API');
 
-    QUnit.cases([
+    QUnit.cases.init([
         { title : 'init' },
         { title : 'destroy' },
         { title : 'render' },
@@ -42,22 +42,22 @@ define([
         { title : 'getTemplate' },
         { title : 'setTemplate' },
     ]).test('Component API ', function(data, assert) {
-        QUnit.expect(1);
+        assert.expect(1);
         assert.equal(typeof dateTimePicker()[data.title], 'function', 'The picker exposes the component method "' + data.title);
     });
 
-    QUnit.cases([
+    QUnit.cases.init([
         { title : 'on' },
         { title : 'off' },
         { title : 'trigger' },
         { title : 'before' },
         { title : 'after' },
     ]).test('Eventifier API ', function(data, assert) {
-        QUnit.expect(1);
+        assert.expect(1);
         assert.equal(typeof dateTimePicker()[data.title], 'function', 'The picker exposes the eventifie method "' + data.title);
     });
 
-    QUnit.cases([
+    QUnit.cases.init([
         { title : 'clear' },
         { title : 'close' },
         { title : 'getFormat' },
@@ -65,17 +65,18 @@ define([
         { title : 'open' },
         { title : 'toggle' },
     ]).test('Picker API ', function(data, assert) {
-        QUnit.expect(1);
+        assert.expect(1);
         assert.equal(typeof dateTimePicker()[data.title], 'function', 'The picker exposes the method "' + data.title);
     });
 
 
     QUnit.module('Behavior');
 
-    QUnit.asyncTest('Lifecycle', function(assert) {
-        var container  = document.getElementById('qunit-fixture');
+    QUnit.test('Lifecycle', function(assert) {
+        var container = document.querySelector('#qunit-fixture > div');
+        var done      = assert.async();
 
-        QUnit.expect(4);
+        assert.expect(4);
 
         dateTimePicker(container)
             .on('init', function(){
@@ -88,15 +89,14 @@ define([
 
                 this.destroy();
             })
-            .on('destroy', function(){
-                QUnit.start();
-            });
+            .on('destroy', done);
     });
 
-    QUnit.asyncTest('Default Input field', function(assert) {
+    QUnit.test('Default Input field', function(assert) {
         var container = document.querySelector('#qunit-fixture > div');
+        var done      = assert.async();
 
-        QUnit.expect(6);
+        assert.expect(6);
 
         dateTimePicker(container, {
             setup: 'date',
@@ -116,14 +116,15 @@ define([
             assert.ok(field instanceof HTMLInputElement, 'The input field has been created');
             assert.equal(field.disabled, false, 'The input field is enabled once ready');
 
-            QUnit.start();
+            done();
         });
     });
 
-    QUnit.asyncTest('Customized Input field', function(assert) {
+    QUnit.test('Customized Input field', function(assert) {
         var container = document.querySelector('#qunit-fixture > div');
+        var done      = assert.async();
 
-        QUnit.expect(9);
+        assert.expect(9);
 
         dateTimePicker(container, {
             setup: 'time',
@@ -151,14 +152,15 @@ define([
             assert.equal(field.pattern, '[0-9]{2}:[0-9]{2}', 'The input field pattern has the configured value');
             assert.equal(field.getAttribute('aria-label'), 'Usual lunch time', 'The input field label has the configured value');
 
-            QUnit.start();
+            done();
         });
     });
 
-    QUnit.asyncTest('Input field with controls', function(assert) {
+    QUnit.test('Input field with controls', function(assert) {
         var container = document.querySelector('#qunit-fixture > div');
+        var done      = assert.async();
 
-        QUnit.expect(8);
+        assert.expect(8);
 
         dateTimePicker(container, {
             setup: 'datetime',
@@ -183,15 +185,16 @@ define([
             assert.equal(element.querySelectorAll('.picker-toggle').length, 1, 'The toggle button is added');
             assert.equal(element.querySelectorAll('.picker-clear').length, 1, 'The clear button is added');
 
-            QUnit.start();
+            done();
         });
     });
 
-    QUnit.asyncTest('Replace Input field', function(assert) {
-        var container  = document.querySelector('#qunit-fixture form fieldset');
+    QUnit.test('Replace Input field', function(assert) {
+        var container = document.querySelector('#qunit-fixture form fieldset');
+        var done      = assert.async();
         var originalField = container.querySelector('input');
 
-        QUnit.expect(12);
+        assert.expect(12);
 
         assert.ok(originalField instanceof HTMLInputElement, 'The original field exists');
         assert.ok(originalField.parentNode instanceof HTMLElement, 'The original field is attached');
@@ -216,14 +219,15 @@ define([
             assert.equal(field.placeholder, 'Enter today\'s date', 'The placeholder has been taken from the original field');
             assert.equal(field.value, '03/04/2019', 'The value has been taken from the original field');
 
-            QUnit.start();
+            done();
         });
     });
 
-    QUnit.asyncTest('Open the picker', function(assert) {
+    QUnit.test('Open the picker', function(assert) {
         var container = document.querySelector('#qunit-fixture > div');
+        var done      = assert.async();
 
-        QUnit.expect(4);
+        assert.expect(4);
 
         dateTimePicker(container)
             .on('init', function(){
@@ -240,14 +244,15 @@ define([
                 var picker = this.getElement()[0].querySelector('.flatpickr-calendar');
                 assert.ok(picker.classList.contains('open'), 'The picker is open');
 
-                QUnit.start();
+                done();
             });
     });
 
-    QUnit.asyncTest('Open / Close the picker', function(assert) {
+    QUnit.test('Open / Close the picker', function(assert) {
         var container = document.querySelector('#qunit-fixture > div');
+        var done      = assert.async();
 
-        QUnit.expect(5);
+        assert.expect(5);
 
         dateTimePicker(container)
             .on('init', function(){
@@ -270,14 +275,15 @@ define([
                 var picker = this.getElement()[0].querySelector('.flatpickr-calendar');
                 assert.ok(!picker.classList.contains('open'), 'The picker is closed');
 
-                QUnit.start();
+                done();
             });
     });
 
-    QUnit.asyncTest('Toggle the picker', function(assert) {
+    QUnit.test('Toggle the picker', function(assert) {
         var container = document.querySelector('#qunit-fixture > div');
+        var done      = assert.async();
 
-        QUnit.expect(5);
+        assert.expect(5);
 
         dateTimePicker(container)
             .on('init', function(){
@@ -300,11 +306,11 @@ define([
                 var picker = this.getElement()[0].querySelector('.flatpickr-calendar');
                 assert.ok(!picker.classList.contains('open'), 'The picker is closed');
 
-                QUnit.start();
+                done();
             });
     });
 
-    QUnit.cases([{
+    QUnit.cases.init([{
         title : 'default date format and locale',
         config : {
             setup: 'date'
@@ -358,23 +364,25 @@ define([
             format : 'HH:mm'
         },
         format : 'HH:mm'
-    }]).asyncTest('format ', function(data, assert) {
+    }]).test('format ', function(data, assert) {
         var container = document.querySelector('#qunit-fixture > div');
+        var done      = assert.async();
 
-        QUnit.expect(1);
+        assert.expect(1);
 
         dateTimePicker(container, data.config)
             .on('render', function(){
 
                 assert.equal(this.getFormat(), data.format, 'The format is correct');
-                QUnit.start();
+                done();
             });
     });
 
-    QUnit.asyncTest('Select a date in picker', function(assert) {
+    QUnit.test('Select a date in picker', function(assert) {
         var container = document.querySelector('#qunit-fixture > div');
+        var done      = assert.async();
 
-        QUnit.expect(7);
+        assert.expect(7);
 
         dateTimePicker(container)
             .on('ready', function(){
@@ -405,14 +413,15 @@ define([
                 var field  = this.getElement()[0].querySelector('input');
                 assert.ok(field.value.length > 0, 'A value is set');
 
-                QUnit.start();
+                done();
             });
     });
 
-    QUnit.asyncTest('Enter the selected date', function(assert) {
+    QUnit.test('Enter the selected date', function(assert) {
         var container = document.querySelector('#qunit-fixture > div');
+        var done      = assert.async();
 
-        QUnit.expect(9);
+        assert.expect(9);
 
         dateTimePicker(container, {
             setup: 'date',
@@ -447,14 +456,15 @@ define([
 
             assert.equal(today.getAttribute('aria-label'), '03/04/2019', 'The aria date label is correct');
 
-            QUnit.start();
+            done();
         });
     });
 
-    QUnit.asyncTest('Get value on change', function(assert) {
+    QUnit.test('Get value on change', function(assert) {
         var container = document.querySelector('#qunit-fixture > div');
+        var done      = assert.async();
 
-        QUnit.expect(6);
+        assert.expect(6);
 
         dateTimePicker(container, {
             setup: 'date',
@@ -485,14 +495,15 @@ define([
             assert.equal(this.getValue(), '04.01.2015', 'The method value is correct');
             assert.equal(value, '04.01.2015', 'The event parameter value is correct');
 
-            QUnit.start();
+            done();
         });
     });
 
-    QUnit.asyncTest('Clearing', function(assert) {
+    QUnit.test('Clearing', function(assert) {
         var container = document.querySelector('#qunit-fixture > div');
+        var done      = assert.async();
 
-        QUnit.expect(6);
+        assert.expect(6);
 
         dateTimePicker(container, {
             setup: 'datetime',
@@ -525,14 +536,15 @@ define([
             assert.equal(field.value, '', 'The field value has been cleared');
             assert.equal(this.getValue(), '', 'The method value is correct');
 
-            QUnit.start();
+            done();
         });
     });
 
-    QUnit.asyncTest('Toggle via control button', function(assert) {
+    QUnit.test('Toggle via control button', function(assert) {
         var container = document.querySelector('#qunit-fixture > div');
+        var done      = assert.async();
 
-        QUnit.expect(5);
+        assert.expect(5);
 
         dateTimePicker(container, {
             setup: 'time',
@@ -569,14 +581,15 @@ define([
 
             assert.ok(!picker.classList.contains('open'), 'The picker is now closed');
 
-            QUnit.start();
+            done();
         });
     });
 
-    QUnit.asyncTest('Clear via control button', function(assert) {
+    QUnit.test('Clear via control button', function(assert) {
         var container = document.querySelector('#qunit-fixture > div');
+        var done      = assert.async();
 
-        QUnit.expect(6);
+        assert.expect(6);
 
         dateTimePicker(container, {
             setup: 'time',
@@ -608,14 +621,15 @@ define([
             assert.equal(field.value, '', 'The field value has been cleared');
             assert.equal(this.getValue(), '', 'The method value is correct');
 
-            QUnit.start();
+            done();
         });
     });
 
-    QUnit.asyncTest('Disable the component', function(assert) {
+    QUnit.test('Disable the component', function(assert) {
         var container = document.querySelector('#qunit-fixture > div');
+        var done      = assert.async();
 
-        QUnit.expect(9);
+        assert.expect(9);
 
         dateTimePicker(container, {
             setup: 'date',
@@ -648,71 +662,78 @@ define([
             assert.equal(toggle.disabled, true, 'The toggle control is now disabled');
             assert.equal(clear.disabled, true, 'The clear control is now disabled');
 
-            QUnit.start();
+            done();
         });
     });
 
+
     QUnit.module('Visual');
 
-    QUnit.asyncTest('date range', function(assert) {
-        QUnit.expect(1);
+    QUnit.test('date range', function(assert) {
+        var done = assert.async();
+        assert.expect(1);
 
         dateTimePicker(document.querySelector('#visual .date-range'), {
             setup : 'date-range'
         })
         .on('render', function(){
             assert.ok(true);
-            QUnit.start();
+            done();
         });
     });
 
-    QUnit.asyncTest('date time range', function(assert) {
-        QUnit.expect(1);
+    QUnit.test('date time range', function(assert) {
+        var done = assert.async();
+        assert.expect(1);
 
         dateTimePicker(document.querySelector('#visual .datetime-range'), {
             setup : 'datetime-range'
         })
         .on('render', function(){
             assert.ok(true);
-            QUnit.start();
+            done();
         });
     });
 
-    QUnit.asyncTest('date', function(assert) {
-        QUnit.expect(1);
+    QUnit.test('date', function(assert) {
+        var done = assert.async();
+        assert.expect(1);
 
         dateTimePicker(document.querySelector('#visual .date'), {
             setup : 'date'
         })
         .on('render', function(){
             assert.ok(true);
-            QUnit.start();
+            done();
         });
     });
-    QUnit.asyncTest('time', function(assert) {
-        QUnit.expect(1);
+    QUnit.test('time', function(assert) {
+        var done = assert.async();
+        assert.expect(1);
 
         dateTimePicker(document.querySelector('#visual .time'), {
             setup : 'time'
         })
         .on('render', function(){
             assert.ok(true);
-            QUnit.start();
+            done();
         });
     });
-    QUnit.asyncTest('datetime', function(assert) {
-        QUnit.expect(1);
+    QUnit.test('datetime', function(assert) {
+        var done = assert.async();
+        assert.expect(1);
 
         dateTimePicker('#visual .datetime', {
             setup : 'datetime'
         })
         .on('render', function(){
             assert.ok(true);
-            QUnit.start();
+            done();
         });
     });
-    QUnit.asyncTest('trigger', function(assert) {
-        QUnit.expect(1);
+    QUnit.test('trigger', function(assert) {
+        var done = assert.async();
+        assert.expect(1);
 
         dateTimePicker(document.querySelector('#visual .date-controls'), {
             setup : 'date',
@@ -720,16 +741,16 @@ define([
         })
         .on('render', function(){
             assert.ok(true);
-            QUnit.start();
+            done();
         });
     });
 
     QUnit.test('manual', function(assert) {
-        var form = document.querySelector('#visual form');
-        var dest = document.querySelector('#visual .destination');
-        var value = document.querySelector('#visual .value');
+        var form                 = document.querySelector('#visual form');
+        var destinationContainer = document.querySelector('#visual .destination');
+        var currentValue         = document.querySelector('#visual .value');
 
-        QUnit.expect(1);
+        assert.expect(1);
 
         form.addEventListener('submit', function(e){
             var formData;
@@ -737,26 +758,22 @@ define([
 
             formData = new FormData(form);
 
-            dest.innerHTML = '';
-            value.textContent = '';
+            destinationContainer.innerHTML = '';
+            currentValue.textContent = '';
 
-            dateTimePicker(dest, {
-                setup : formData.get('setup'),
-                controlButtons: formData.has('control-buttons'),
-                //locale : formData.get('locale'),
-                //field : {
-                    //value : formData.get('default-value')
-                //}
+            dateTimePicker(destinationContainer, {
+                setup:              formData.get('setup'),
+                controlButtons:     formData.has('control-buttons'),
+                locale:             formData.get('locale'),
+                useLocalizedFormat: !!formData.get('locale')
             })
-            .on('change', function(dates, dateStr){
-                console.log('change', dates, dateStr);
-                value.textContent = this.getValue();
+            .on('change', function(value){
+                currentValue.textContent = value;
             });
             return false;
         });
 
         assert.ok(true);
-        //form.submit();
     });
 
 });
