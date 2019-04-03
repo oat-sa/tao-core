@@ -37,7 +37,21 @@ module.exports = function(grunt) {
     // load all grunt tasks matching the `grunt-*` pattern
     require('load-grunt-tasks')(grunt);
 
+    const retireInputFiles = extensionHelper.getExtensions().map(item => `${root}/${item}/**/*.js`);
+
+    grunt.initConfig({
+      retire: {
+          js: [retireInputFiles], /** Which js-files to scan. **/
+          options: {
+              outputFile: './retire-output.json',
+              jsRepository: 'https://raw.github.com/RetireJS/retire.js/master/repository/jsrepository.json',
+              nodeRepository: 'https://raw.github.com/RetireJS/retire.js/master/repository/npmrepository.json',
+          }
+      }
+    });
+
     grunt.loadNpmTasks('@oat-sa/grunt-tao-bundle');
+    grunt.loadNpmTasks('grunt-retire');
 
     /*
      * Load separated configs into each extension
