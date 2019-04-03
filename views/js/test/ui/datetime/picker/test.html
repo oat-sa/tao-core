@@ -53,7 +53,16 @@
 
 <body>
     <div id="qunit"></div>
-    <div id="qunit-fixture"></div>
+    <div id="qunit-fixture">
+        <div></div>
+        <form>
+            <fieldset>
+                <legend>Date</legend>
+                <label for="today"></label>
+                <input type="text" id="today-12" name="today" placeholder="Enter today's date" value="03/04/2019" />
+            </fieldset>
+        </form>
+    </div>
     <div id="visual">
         <hr>
         <section class="samples">
@@ -77,8 +86,8 @@
                 <h1>Date time picker</h1>
             </article>
 
-            <article class="trigger">
-                <h1>Date time picker with trigger</h1>
+            <article class="date-controls">
+                <h1>Date time picker with controls</h1>
             </article>
         </section>
         <hr>
@@ -106,8 +115,12 @@
                         </select>
                     </div>
                     <div>
-                        <label for="trigger">trigger mode</label>
-                        <input type="checkbox" name="trigger" />
+                        <label for="control-buttons">add controls</label>
+                        <input type="checkbox" name="control-buttons" />
+                    </div>
+                    <div>
+                        <label for="default-value">default value</label>
+                        <input type="text" name="default-value" />
                     </div>
                     <div>
                         <input type="submit" value="Generate picker" />

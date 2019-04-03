@@ -18,8 +18,24 @@
  */
 
 /**
+ * Date/Time picker component.
+ * It supports different setups : date-range, datetime-range, date, time and datetime
+ * It supports localized format.
+ * It supports either hooking a field, replacing it and adding controls.
  *
- * This component represents the app dateTimePicker form
+ * It wraps the library Flatpickr  (https://flatpickr.js.org)
+ *
+ * @example
+ *      dateTimePicker(container, {
+ *          setup: 'date',
+ *          format : 'YYYY-MM-DD',
+ *          controlButtons: true
+ *      })
+ *      .on('change', function(value){
+ *         if (value === '1983-04-03'){
+ *              //...
+ *         }
+ *      });
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
@@ -36,39 +52,93 @@ define([
 ], function(_, __, moment, component, flatpickr, flatpickrLocalization, dateTimePickerTpl){
     'use strict';
 
-    var setups = {
-        'date-range' : {
-            mode : 'range',
-            localizedFormat : 'L',
-            fieldFormat  : 'YYYY-MM-DD'
-        },
-        'datetime-range' : {
-            mode : 'range',
-            enableTime : true,
-            localizedFormat : 'L LT',
-            fieldFormat  : 'YYYY-MM-DD HH:mm'
-        },
+    /**
+     * The supported formats
+     */
+    var formats = {
         date : {
-            localizedFormat : 'L',
-            fieldFormat  : 'YYYY-MM-DD'
+            default: 'YYYY-MM-DD',
+            localized  : 'L'
         },
         time : {
-            enableTime : true,
-            noCalendar : true,
-            localizedFormat : 'LT',
-            fieldFormat  : 'HH:mm'
+            default :  'HH:mm',
+            localized : 'LT'
         },
         datetime : {
-            enableTime : true,
-            localizedFormat : 'L LT',
-            fieldFormat  : 'YYYY-MM-DD HH:mm'
+            default : 'YYYY-MM-DD HH:mm',
+            localized : 'L LT'
         }
     };
 
+    /**
+     * Possible setups for the picker
+     */
+    var setups = {
+        'date-range' : {
+            mode : 'range',
+            label: __('date range'),
+            format: formats.date
+        },
+        'datetime-range' : {
+            mode : 'range',
+            label: __('date time range'),
+            enableTime : true,
+            format: formats.datetime
+        },
+        date : {
+            mode: 'single',
+            format: formats.date
+        },
+        time : {
+            mode: 'single',
+            enableTime : true,
+            label: __('time'),
+            noCalendar : true,
+            format: formats.time
+        },
+        datetime : {
+            mode: 'single',
+            enableTime : true,
+            label: __('date time'),
+            format: formats.datetime
+        }
+    };
+
+    /**
+     * The default configuration
+     */
     var defaultConfig = {
         setup: 'date',
-        triggerButton : false,
-        locale : false
+        controlButtons:  false,
+        locale : false,
+        useLocalizedFormat : false
+    };
+
+    /**
+     * Get the long date/time format from the localized format (LT to 'DD/MM/YYYY HH:mm')
+     * @param {String} locale - 2 digits locale code (en, fr, de, etc.)
+     * @param {String} localizedFormat - see moment's localized format (L, LT, LLLL, ...)
+     * @returns {String} the long date/time format
+     */
+    var getLongLocalizedFormat = function getLongLocalizedFormat(locale, localizedFormat) {
+        if (/[LT]+/.test(localizedFormat) && locale) {
+            return localizedFormat.split(' ').map( function(format){
+                return moment(new Date())
+                    .locale(locale)
+                    .localeData()
+                    .longDateFormat(format);
+            }).join(' ');
+        }
+        return false;
+    };
+
+    /**
+     * Does the given date/time format uses the am/pm pattern ?
+     * @param {String} format - moment format
+     * @returns {Boolean} true if the contains am/pm
+     */
+    var isFormatAmPm = function isFormatAmPm(format) {
+        return format && /a$/i.test(format);
     };
 
     /**
@@ -76,76 +146,101 @@ define([
      *
      * @param {HTMLElement|jQuery} container - where to append the component
      * @param {Object} [config]
-     * @param {String} [config.setup = date] - the picker setup
-     * @param {String} [config.local = en]
-     * @param {String} [config.dateTimeFormat = '']
-     * @param {Boolean} [config.triggerButton = false] - does the field have a button on it's right to trigger the calendar opening
+     * @param {String} [config.setup = date] - the picker setup in date-range, datetime-range, date, time and datetime
+     * @param {String} [config.locale] - the picker local
+     * @param {String} [config.useLocalzedFormat = false] - does the locale is used to define the format
+     * @param {String} [config.format] - define your own date/time format for the instance
+     * @param {Boolean} [config.controlButtons = false] - does the field have controls to trigger opening and reset
+     * @param {HTMLInputElement} [config.replaceField] - an input field to replace. The field attr are taken instead of config.field
      * @param {Object} [config.field] - the input field configuration
      * @param {String} [config.field.name] - the input field name
      * @param {String} [config.field.id] - the input field id
      * @param {String} [config.field.placeholder] - the input field placeholder
      * @param {String} [config.field.pattern] - the input field pattern mask
+     * @param {String} [config.field.value] - the input field value
+     * @param {String} [config.field.label] - label the field for a11y
+     *
      * @returns {dateTimePickerComponent} the component instance
      */
-    return function dateTimePickerComponentFactory(container, options) {
+    return function dateTimePickerFactory(container, options) {
+        var format = '';
 
         /**
-         * @typedef {Object} dateTimePickerComponent
+         * @typedef {Object} dateTimePicker
          */
-        var dateTimePickerComponent = component({
+        var dateTimePicker = component({
 
-            getValue : function getValue(){
-                if(this.is('rendered')){
+            /**
+             * Get the current value
+             * @returns {String} the field value, null if none
+             */
+            getValue : function getValue() {
+                if (this.is('rendered')) {
                     return this.controls.input.value;
                 }
                 return null;
             },
 
-            getFormat : function getFormat(){
-                var self = this;
-                if( this.pickerConfig ){
-                    if( this.pickerConfig.locale && this.pickerConfig.localizedFormat ){
-
-                        return this.pickerConfig.localizedFormat.split(' ').map( function(format){
-                            return moment(new Date())
-                                .locale(self.pickerConfig.locale)
-                                .localeData()
-                                .longDateFormat(format).toLowerCase();
-                        }).join(' ');
-                    }
-
-                    return this.pickerConfig.fieldFormat;
-                }
-
-                return '';
+            /**
+             * Get the date/time format description, ie. 'YYYY-MM-DD'
+             * @returns {String} the format
+             */
+            getFormat : function getFormat() {
+                return format;
             },
 
-            isAmPm : function isAmPm(){
-                var expendedFormat = this.getFormat();
-                return expendedFormat && /a$/.test(expendedFormat);
-            },
-
-            open : function open(){
-                if(this.is('rendered')){
+            /**
+             * Open the picker
+             * @returns {dateTimePicker} chains
+             * @fires dateTimePicker#open
+             */
+            open : function open() {
+                if (this.is('ready')) {
                     this.picker.open();
                 }
                 return this;
             },
-            close : function close(){
-                if(this.is('rendered')){
+
+            /**
+             * Close the picker
+             * @returns {dateTimePicker} chains
+             * @fires dateTimePicker#close
+             */
+            close : function close() {
+                if (this.is('ready')) {
                     this.picker.close();
                 }
                 return this;
             },
-            clear : function clear(){
-                if(this.is('rendered')){
+
+            /**
+             * Clear the field content and close the picker
+             * @returns {dateTimePicker} chains
+             * @fires dateTimePicker#close
+             * @fires dateTimePicker#clear
+             */
+            clear : function clear() {
+                if (this.is('ready')) {
                     this.picker.close();
                     this.picker.clear();
+
+                    /**
+                      * The picker get cleared
+                      * @event dateTimePicker#clear
+                      */
+                    this.trigger('clear');
                 }
                 return this;
             },
-            toggle : function toogle(){
-                if(this.is('rendered')){
+
+            /**
+             * Clear the field content and close the picker
+             * @returns {dateTimePicker} chains
+             * @fires dateTimePicker#open
+             * @fires dateTimePicker#close
+             */
+            toggle : function toogle() {
+                if (this.is('ready')) {
                     this.picker.toggle();
                 }
                 return this;
@@ -153,13 +248,38 @@ define([
 
         }, defaultConfig);
 
-        dateTimePickerComponent
+        dateTimePicker
             .setTemplate(dateTimePickerTpl)
             .on('init', function(){
                 var self = this;
+
+                var locale;
+                var setup = setups[this.config.setup] || setups.datetime;
+
+                //map the locale from the options to the picker locale
+                if (this.config.locale && _.isObject(flatpickrLocalization.default[this.config.locale])) {
+                    locale = this.config.locale;
+                }
+
+                //date/time format
+                if (locale && this.config.useLocalizedFormat) {
+
+                    //get the format from the locale
+                    format = getLongLocalizedFormat(locale, setup.format.localized);
+
+                } else {
+
+                    //get the format from the config
+                    format = this.config.format || setup.format.default;
+                }
+
+                //input field configuration
                 this.config.field = this.config.field || {};
 
-                if(this.config.replaceField && this.config.replaceField instanceof HTMLInputElement){
+                // replace a field by the date picker input field
+                //TODO consider replacing data-attr and classes
+                if (this.config.replaceField && this.config.replaceField instanceof HTMLInputElement) {
+                    this.config.field.id          = this.config.replaceField.id;
                     this.config.field.name        = this.config.replaceField.name;
                     this.config.field.placeholder = this.config.replaceField.placeholder;
                     this.config.field.value       = this.config.replaceField.value;
@@ -168,41 +288,76 @@ define([
                     this.config.replaceField.parentNode.removeChild(this.config.replaceField);
                 }
 
-                this.pickerConfig = _.defaults(setups[this.config.setup] || setups.datetime, {
-                    allowInput : true
-                });
-
-                if(this.config.locale && _.isObject(flatpickrLocalization.default[this.config.locale])){
-                    this.pickerConfig.locale = this.config.locale;
+                if (!this.config.field.placeholder && format && setup.mode === 'single') {
+                    this.config.field.placeholder = format.toLowerCase();
+                }
+                if (!this.config.field.label) {
+                    this.config.field.label = setup.label;
                 }
 
-                this.pickerConfig['time_24hr'] = !this.isAmPm();
+                /**
+                 * Build the configuration of the picker
+                 * @see https://flatpickr.js.org/options/
+                 */
+                this.pickerConfig = {
+                    mode : setup.mode,
+                    enableTime : !!setup.enableTime,
+                    noCalendar : !!setup.noCalendar,
+                    'time_24hr' : !isFormatAmPm(format),
+                    allowInput : true,
+                    clickOpens : !this.config.controlButtons,
 
-                this.pickerConfig.formatDate = function formatDate(date){
-                    var localizedMoment = moment(date);
-                    var format = self.pickerConfig.fieldFormat;
-                    if(self.pickerConfig.locale){
-                        localizedMoment.locale(self.config.locale);
-                        format = self.pickerConfig.localizedFormat;
+                    /**
+                     * How flatpicker will format the given date
+                     * @param {Date} date
+                     * @returns {String} the formatted date
+                     */
+                    formatDate : function formatDate(date) {
+                        return moment(date).format(format);
+                    },
+
+                    /**
+                     * How flatpicker parse the given input
+                     * @param {String} dateString
+                     * @returns {Date}
+                     */
+                    parseDate : function parseDate(dateString) {
+                        return moment(dateString, format).toDate();
+                    },
+
+                    /**
+                     * When the picker is opened
+                     * @fires dateTimePicker#open
+                     */
+                    onOpen : function onOpen(){
+
+                        /**
+                         * The picker get opened
+                         * @event dateTimePicker#open
+                         */
+                        self.trigger('open');
+                    },
+
+                    /**
+                     * When the picker is opened
+                     * @fires dateTimePicker#close
+                     */
+                    onClose : function onClose(){
+
+                        /**
+                         * The picker get closed
+                         * @event dateTimePicker#close
+                         */
+                        self.trigger('close');
                     }
-                    return localizedMoment.format(format);
                 };
-                this.pickerConfig.parseDate = function parseDate(dateString){
-                    if(self.pickerConfig.locale){
-                        return moment(dateString, self.pickerConfig.localizedFormat, self.config.locale).toDate();
-                    }
-                    return moment(dateString, self.pickerConfig.fieldFormat).toDate();
-                };
-
-                if(this.config.triggerButton){
-                    this.setState('triggerMode', true);
-                    this.pickerConfig.clickOpens = false;
+                //locale should be defined only if set...
+                if(locale){
+                    this.pickerConfig.locale = locale;
                 }
 
-                if(!this.config.field.placeholder){
-                    this.config.field.placeholder = this.getFormat();
-                }
 
+                //render into the container
                 if(container){
                     setTimeout(function(){
                         self.render(container);
@@ -218,10 +373,12 @@ define([
                     input : element.querySelector('input'),
                 };
 
+                //always scope the picker to the component container
+                //in order to scope and style each instance
                 this.pickerConfig.appendTo = element;
 
-
-                if(this.is('triggerMode')){
+                //behavior of the right buttons if configured
+                if(this.config.controlButtons){
 
                     this.controls.toggleButton = element.querySelector('.picker-toggle'),
                     this.controls.clearButton  = element.querySelector('.picker-clear'),
@@ -240,16 +397,48 @@ define([
                 }
 
                 this.controls.input.addEventListener('change', function(){
+
+                    /**
+                      * A value get changed
+                      * @event dateTimePicker#change
+                      * @param {String} value - the date/time value
+                      */
                     self.trigger('change', self.getValue());
                 });
 
-                this.picker = flatpickr(this.controls.input, this.pickerConfig);
+                //instantiate the picker
+                _.defer(function(){
+                    self.picker = flatpickr(self.controls.input, self.pickerConfig);
+
+                    self.enable()
+                        .setState('ready', true)
+                        .trigger('ready');
+                });
+            })
+            .on('enable', function(){
+                if(this.controls){
+                    this.controls.input.disabled = false;
+                    if(this.config.controlButtons){
+                        this.controls.toggleButton.disabled = false;
+                        this.controls.clearButton.disabled  = false;
+                    }
+                }
+            })
+            .on('disable', function(){
+                if(this.controls){
+                    this.controls.input.disabled = true;
+                    if(this.config.controlButtons){
+                        this.controls.toggleButton.disabled = true;
+                        this.controls.clearButton.disabled  = true;
+                    }
+                }
             });
 
+        //defered init to catch the event
         setTimeout(function(){
-            dateTimePickerComponent.init(options);
+            dateTimePicker.init(options);
         }, 0);
 
-        return  dateTimePickerComponent;
+        return  dateTimePicker;
     };
 });
