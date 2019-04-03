@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint96\n"
-"PO-Revision-Date: 2019-03-01T11:07:23\n"
+"Project-Id-Version: TAO 3.3.0-sprint99\n"
+"PO-Revision-Date: 2019-03-29T09:53:53\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: uk-UA\n"
@@ -230,6 +230,12 @@ msgstr ""
 msgid "All rights reserved."
 msgstr ""
 
+msgid "Allow for all domains"
+msgstr ""
+
+msgid "Allow for the following domains"
+msgstr ""
+
 msgid "Alpha version"
 msgstr ""
 
@@ -392,10 +398,10 @@ msgstr ""
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check All"
+msgid "Check all"
 msgstr ""
 
-msgid "Check all"
+msgid "Check All"
 msgstr ""
 
 msgid "Check-in"
@@ -440,10 +446,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
 msgid "Clear selection"
@@ -530,6 +536,9 @@ msgstr ""
 msgid "Creation At"
 msgstr ""
 
+msgid "CSP Header settings were saved successfully!"
+msgstr ""
+
 msgid "CSV"
 msgstr ""
 
@@ -554,10 +563,10 @@ msgstr ""
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data language"
+msgid "Data Language"
 msgstr ""
 
-msgid "Data Language"
+msgid "Data language"
 msgstr ""
 
 msgid "Data not imported. All records are invalid."
@@ -678,6 +687,9 @@ msgid "Edit class %s"
 msgstr ""
 
 msgid "Edit Instance"
+msgstr ""
+
+msgid "Edit sources that can embed this platform in an iFrame"
 msgstr ""
 
 msgid "Element"
@@ -835,10 +847,16 @@ msgstr ""
 msgid "floor"
 msgstr ""
 
+msgid "Forbid for all domains"
+msgstr ""
+
 msgid "Force Release"
 msgstr ""
 
 msgid "Forgot your password?"
+msgstr ""
+
+msgid "Form data not saved."
 msgstr ""
 
 msgid "From"
@@ -991,6 +1009,9 @@ msgstr ""
 msgid "Interface language"
 msgstr ""
 
+msgid "Invalid CSP header."
+msgstr ""
+
 msgid "Invalid date range (must be after or the same as: %s)"
 msgstr ""
 
@@ -1037,6 +1058,9 @@ msgid "invalid regular expression"
 msgstr ""
 
 msgid "Invalid values:"
+msgstr ""
+
+msgid "items per page"
 msgstr ""
 
 msgid "Label"
@@ -1213,6 +1237,9 @@ msgstr ""
 msgid "Multiple values delimiter"
 msgstr ""
 
+msgid "Multiply the value by 10^x"
+msgstr ""
+
 msgid "must be numeric"
 msgstr ""
 
@@ -1275,10 +1302,10 @@ msgstr ""
 msgid "no label"
 msgstr ""
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr ""
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr ""
 
 msgid "No results found"
@@ -1330,16 +1357,19 @@ msgstr ""
 msgid "Off"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr ""
 
-msgid "Ok"
+msgid "OK"
 msgstr ""
 
 msgid "Old Password"
 msgstr ""
 
 msgid "On"
+msgstr ""
+
+msgid "Only allow for my own domain (%s)"
 msgstr ""
 
 msgid "Operated By "
@@ -1650,6 +1680,9 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
+msgid "Saved."
+msgstr ""
+
 msgid "Scientific Calculator"
 msgstr ""
 
@@ -1672,6 +1705,13 @@ msgid "second"
 msgstr ""
 
 msgid "seconds"
+msgstr ""
+
+#, tao-public
+msgid "Security"
+msgstr ""
+
+msgid "Security settings"
 msgstr ""
 
 msgid "select"
@@ -1745,6 +1785,9 @@ msgid "Size"
 msgstr ""
 
 msgid "Some resources have not been moved: %s"
+msgstr ""
+
+msgid "Sources that can embed this platform in an iFrame"
 msgstr ""
 
 msgid "Square root"
@@ -2148,10 +2191,13 @@ msgstr ""
 msgid "Users"
 msgstr ""
 
-msgid "Validation for field '%s' has failed. Language does not exists in the system"
+msgid "Validation for field '%s' has failed. Language does not exist in the system"
 msgstr ""
 
 msgid "Validation for field '%s' has failed. List of values expected"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Should not be empty"
 msgstr ""
 
 msgid "Validation for field '%s' has failed. Valid role expected. Given: %s"

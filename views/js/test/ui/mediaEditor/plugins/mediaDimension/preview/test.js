@@ -18,10 +18,11 @@
  */
 
 define([
+
     'jquery',
     'lodash',
     'ui/mediaEditor/plugins/mediaDimension/mediaDimensionComponent'
-], function ($, _, mediaDimensionComponent) {
+], function($, _, mediaDimensionComponent) {
     'use strict';
 
     var workingConfiguration = {
@@ -62,7 +63,7 @@ define([
 
     QUnit.module('Demo');
 
-    QUnit.test('Response mode preview', function () {
+    QUnit.test('Response mode preview', function(assert) {
         var $tmplContainer = $('.template .response-test');
         var $visibleContainer = $tmplContainer.clone().appendTo('.sandbox'),
             conf = _.cloneDeep(workingConfiguration),
@@ -81,10 +82,10 @@ define([
         conf.responsive = true;
         conf.syncDimensions = true;
         mediaDimensionComponent($toolsContainer, media, conf);
-        QUnit.ok(true);
+        assert.ok(true);
     });
 
-    QUnit.test('Strict mode preview', function () {
+    QUnit.test('Strict mode preview', function(assert) {
         var $tmplContainer = $('.template .strict-test');
         var $visibleContainer = $tmplContainer.clone().appendTo('.sandbox'),
             conf = _.cloneDeep(workingConfiguration),
@@ -103,10 +104,10 @@ define([
         conf.responsive = false;
         conf.syncDimensions = true;
         mediaDimensionComponent($toolsContainer, media, conf);
-        QUnit.ok(true);
+        assert.ok(true);
     });
 
-    QUnit.test('Strict mode without sync preview', function () {
+    QUnit.test('Strict mode without sync preview', function(assert) {
         var $tmplContainer = $('.template .strict-no-sync-test');
         var $visibleContainer = $tmplContainer.clone().appendTo('.sandbox'),
             conf = _.cloneDeep(workingConfiguration),
@@ -125,6 +126,6 @@ define([
         conf.responsive = false;
         conf.syncDimensions = false;
         mediaDimensionComponent($toolsContainer, media, conf);
-        QUnit.ok(true);
+        assert.ok(true);
     });
 });

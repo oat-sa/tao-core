@@ -1,8 +1,4 @@
-define([
-    'lodash',
-    'jquery',
-    'ui/themes'
-], function(_, $, themesHandler){
+define(['lodash', 'jquery', 'ui/themes'], function(_, $, themesHandler) {
     'use strict';
 
     var config = {
@@ -52,21 +48,21 @@ define([
 
     function mockThemeConfig(themeConfig) {
         require.config({
-            config : {
-                'ui/themes' : themeConfig
+            config: {
+                'ui/themes': themeConfig
             }
         });
     }
 
     QUnit.module('Themes config');
 
-    QUnit.test('module', function(assert){
+    QUnit.test('module', function(assert) {
         assert.ok(typeof themesHandler !== 'undefined', 'The module exports something');
         assert.ok(typeof themesHandler === 'object', 'The module exports an object');
     });
 
-    QUnit.test('get(what)', function(assert){
-        QUnit.expect(7);
+    QUnit.test('get(what)', function(assert) {
+        assert.expect(7);
 
         config.activeNamespace = undefined;
         mockThemeConfig(config);
@@ -88,17 +84,17 @@ define([
         assert.deepEqual(themesHandler.get('items'), config.items, 'returns item themes if specified namespace is not found');
     });
 
-    QUnit.test('get(what, ns)', function(assert){
-        QUnit.expect(2);
+    QUnit.test('get(what, ns)', function(assert) {
+        assert.expect(2);
 
         config.activeNamespace = 'ns2';
         mockThemeConfig(config);
-        assert.deepEqual(themesHandler.get('items', 'ns1'), config[itemsNs1], 'returns "items_ns" entry if namespace is specified, ignoring active namespace');
-        assert.deepEqual(themesHandler.get('items', 'unknown'), undefined, 'returns undefined if namespace is not found');
+        assert.deepEqual(themesHandler.get("items", "ns1"), config[itemsNs1], 'returns "items_ns" entry if namespace is specified, ignoring active namespace');
+        assert.deepEqual(themesHandler.get("items", "unknown"), undefined, "returns undefined if namespace is not found");
     });
 
-    QUnit.test('getAvailable(what)', function(assert){
-        QUnit.expect(6);
+    QUnit.test('getAvailable(what)', function(assert) {
+        assert.expect(6);
 
         config.activeNamespace = undefined;
         mockThemeConfig(config);
@@ -119,25 +115,25 @@ define([
         assert.deepEqual(themesHandler.getAvailable('items'), config.items.available, 'returns items entry if active namespace is not found');
     });
 
-    QUnit.test('getAvailable(what, ns)', function(assert){
-        QUnit.expect(2);
+    QUnit.test('getAvailable(what, ns)', function(assert) {
+        assert.expect(2);
 
         mockThemeConfig(config);
-        themesHandler.setActiveNamespace('ns2');
-        assert.deepEqual(themesHandler.getAvailable('items', 'ns1'), config[itemsNs1].available, 'returns available items themes of entry "items_ns1"');
-        assert.deepEqual(themesHandler.getAvailable('items', 'unknown'), [], 'returns empty array if namespace is not found');
+        themesHandler.setActiveNamespace("ns2");
+        assert.deepEqual(themesHandler.getAvailable("items", "ns1"), config[itemsNs1].available, 'returns available items themes of entry "items_ns1"');
+        assert.deepEqual(themesHandler.getAvailable("items", "unknown"), [], "returns empty array if namespace is not found");
     });
 
-    QUnit.test('getActiveNamespace()', function(assert){
-        QUnit.expect(1);
+    QUnit.test('getActiveNamespace()', function(assert) {
+        assert.expect(1);
 
         config.activeNamespace = 'ns2';
         mockThemeConfig(config);
         assert.deepEqual(themesHandler.getActiveNamespace(), 'ns2', 'Returns active namespace from the config');
     });
 
-    QUnit.test('setActiveNamespace(ns)', function(assert){
-        QUnit.expect(1);
+    QUnit.test('setActiveNamespace(ns)', function(assert) {
+        assert.expect(1);
 
         config.activeNamespace = itemsNs2;
         mockThemeConfig(config);
@@ -145,8 +141,8 @@ define([
         assert.deepEqual(themesHandler.getActiveNamespace(), itemsNs1, 'Returns items_ns1 as it was just set through setActiveNamespace call');
     });
 
-    QUnit.test('getCurrentThemeData(what)', function(assert){
-        QUnit.expect(3);
+    QUnit.test('getCurrentThemeData(what)', function(assert) {
+        assert.expect(3);
 
         mockThemeConfig(config);
         themesHandler.setActiveNamespace('');

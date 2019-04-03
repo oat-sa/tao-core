@@ -25,24 +25,24 @@ define([
     'ui/maths/calculator/core/board',
     'ui/maths/calculator/plugins/modifiers/sign',
     'json!test/ui/maths/calculator/plugins/modifiers/sign/testCases.json'
-], function ($, _, Promise, calculatorBoardFactory, signPluginFactory, testCases) {
+], function($, _, Promise, calculatorBoardFactory, signPluginFactory, testCases) {
     'use strict';
 
     QUnit.module('module');
 
-    QUnit.test('sign', function (assert) {
+    QUnit.test('sign', function(assert) {
         var calculator = calculatorBoardFactory();
 
-        QUnit.expect(3);
+        assert.expect(3);
 
-        assert.equal(typeof signPluginFactory, 'function', "The plugin module exposes a function");
-        assert.equal(typeof signPluginFactory(calculator), 'object', "The plugin factory produces an instance");
-        assert.notStrictEqual(signPluginFactory(calculator), signPluginFactory(calculator), "The plugin factory provides a different instance on each call");
+        assert.equal(typeof signPluginFactory, 'function', 'The plugin module exposes a function');
+        assert.equal(typeof signPluginFactory(calculator), 'object', 'The plugin factory produces an instance');
+        assert.notStrictEqual(signPluginFactory(calculator), signPluginFactory(calculator), 'The plugin factory provides a different instance on each call');
     });
 
     QUnit.module('api');
 
-    QUnit.cases([
+    QUnit.cases.init([
         {title: 'install'},
         {title: 'init'},
         {title: 'render'},
@@ -58,133 +58,135 @@ define([
         {title: 'hide'},
         {title: 'enable'},
         {title: 'disable'}
-    ]).test('plugin API ', function (data, assert) {
+    ]).test('plugin API ', function(data, assert) {
         var calculator = calculatorBoardFactory();
         var plugin = signPluginFactory(calculator);
-        QUnit.expect(1);
+        assert.expect(1);
         assert.equal(typeof plugin[data.title], 'function', 'The plugin instances expose a "' + data.title + '" function');
     });
 
     QUnit.module('behavior');
 
-    QUnit.asyncTest('install', function (assert) {
+    QUnit.test('install', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-install');
         var calculator = calculatorBoardFactory($container)
-            .on('ready', function () {
+            .on('ready', function() {
                 var areaBroker = calculator.getAreaBroker();
                 var plugin = signPluginFactory(calculator, areaBroker);
 
-                QUnit.expect(3);
+                assert.expect(3);
 
                 assert.ok(!calculator.hasCommand('sign'), 'The command sign is not yet registered');
 
                 calculator
-                    .on('plugin-install.sign', function () {
+                    .on('plugin-install.sign', function() {
                         assert.ok(true, 'The plugin has been installed');
                     })
-                    .on('destroy', function () {
-                        QUnit.start();
+                    .on('destroy', function() {
+                        ready();
                     });
 
                 plugin.install()
-                    .then(function () {
+                    .then(function() {
                         assert.ok(calculator.hasCommand('sign'), 'The command sign is now registered');
                     })
-                    .catch(function (err) {
+                    .catch(function(err) {
                         assert.ok(false, 'Unexpected failure : ' + err.message);
                     })
-                    .then(function () {
+                    .then(function() {
                         calculator.destroy();
                     });
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
-
     });
 
-    QUnit.asyncTest('init', function (assert) {
+    QUnit.test('init', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-init');
         var calculator = calculatorBoardFactory($container)
-            .on('ready', function () {
+            .on('ready', function() {
                 var areaBroker = calculator.getAreaBroker();
                 var plugin = signPluginFactory(calculator, areaBroker);
 
-                QUnit.expect(3);
+                assert.expect(3);
 
                 assert.ok(!calculator.hasCommand('sign'), 'The command sign is not yet registered');
 
                 calculator
-                    .on('plugin-init.sign', function () {
+                    .on('plugin-init.sign', function() {
                         assert.ok(plugin.getState('init'), 'The plugin has been initialized');
                     })
-                    .on('destroy', function () {
-                        QUnit.start();
+                    .on('destroy', function() {
+                        ready();
                     });
 
                 plugin.install()
-                    .then(function () {
+                    .then(function() {
                         return plugin.init();
                     })
-                    .then(function () {
+                    .then(function() {
                         assert.ok(calculator.hasCommand('sign'), 'The command sign is now registered');
                     })
-                    .catch(function (err) {
+                    .catch(function(err) {
                         assert.ok(false, 'Unexpected failure : ' + err.message);
                     })
-                    .then(function () {
+                    .then(function() {
                         calculator.destroy();
                     });
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('destroy', function (assert) {
+    QUnit.test('destroy', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-destroy');
         var calculator = calculatorBoardFactory($container)
-            .on('ready', function () {
+            .on('ready', function() {
                 var areaBroker = calculator.getAreaBroker();
                 var plugin = signPluginFactory(calculator, areaBroker);
 
-                QUnit.expect(4);
+                assert.expect(4);
 
                 assert.ok(!calculator.hasCommand('sign'), 'The command sign is not yet registered');
 
                 calculator
-                    .on('destroy', function () {
-                        QUnit.start();
+                    .on('destroy', function() {
+                        ready();
                     });
 
                 plugin.install()
-                    .then(function () {
+                    .then(function() {
                         return plugin.init();
                     })
-                    .then(function () {
+                    .then(function() {
                         assert.ok(plugin.getState('init'), 'The plugin has been initialized');
                         assert.ok(calculator.hasCommand('sign'), 'The command sign is now registered');
 
                         return plugin.destroy();
                     })
-                    .then(function () {
+                    .then(function() {
                         assert.ok(!calculator.hasCommand('sign'), 'The command sign is removed');
                     })
-                    .catch(function (err) {
+                    .catch(function(err) {
                         assert.ok(false, 'Unexpected failure : ' + err.message);
                     })
-                    .then(function () {
+                    .then(function() {
                         calculator.destroy();
                     });
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
@@ -195,35 +197,37 @@ define([
      * @property {Number} from - the start position from which the result is expected
      * @property {Number} to - the end position until which the result is expected
      * @property {Number} move - the expected move in the position after change
+     * @property {Number} position - the expected position after change
      */
 
-    QUnit.cases(testCases).asyncTest('toggle', function (data, assert) {
-        var $container = $('#fixture-sign');
+    QUnit.cases.init(testCases).test('command', function(data, assert) {
+        var ready = assert.async();
+        var $container = $('#fixture-command');
         var calculator = calculatorBoardFactory($container)
-            .on('ready', function () {
+            .on('ready', function() {
                 var areaBroker = calculator.getAreaBroker();
                 var plugin = signPluginFactory(calculator, areaBroker);
 
-                QUnit.expect(5 + 2 * (data.to - data.from));
+                assert.expect(5 + 2 * (data.to - data.from));
 
                 assert.ok(!calculator.hasCommand('sign'), 'The command sign is not yet registered');
 
                 calculator
-                    .on('plugin-init.sign', function () {
+                    .on('plugin-init.sign', function() {
                         assert.ok(plugin.getState('init'), 'The plugin has been initialized');
                     })
-                    .on('destroy', function () {
-                        QUnit.start();
+                    .on('destroy', function() {
+                        ready();
                     });
 
                 plugin.install()
-                    .then(function () {
+                    .then(function() {
                         return plugin.init();
                     })
-                    .then(function () {
+                    .then(function() {
                         assert.ok(calculator.hasCommand('sign'), 'The command sign is now registered');
                     })
-                    .then(function () {
+                    .then(function() {
                         var position = data.from;
 
                         calculator.setLastResult(data.lastResult || 0);
@@ -231,8 +235,8 @@ define([
                         // apply the command on successive positions with respect to the provided data
                         function applyCommand() {
                             return Promise.resolve()
-                                .then(function () {
-                                    return new Promise(function (resolve) {
+                                .then(function() {
+                                    return new Promise(function(resolve) {
                                         calculator
                                             .setExpression(data.expression)
                                             .setPosition(position)
@@ -241,9 +245,9 @@ define([
                                     });
                                 })
                                 .then(function () {
-                                    var pos =  'undefined' !== typeof data.position ? data.position : Math.max(0, position + data.move);
+                                    var pos = 'undefined' !== typeof data.position ? data.position : Math.max(0, position + data.move);
 
-                                    assert.equal(calculator.getExpression(), data.expected, 'Applying the sign change on ' + data.expression + ' at position ' + position + ' produced ' + data.expected);
+                                    assert.equal(calculator.getExpression(), data.expected, 'Applying the sign command on ' + data.expression + ' at position ' + position + ' produced ' + data.expected);
                                     assert.equal(calculator.getPosition(), pos, 'The position has changed from ' + position + ' to ' + pos);
                                 })
                                 .then(function () {
@@ -255,17 +259,17 @@ define([
 
                         return applyCommand();
                     })
-                    .catch(function (err) {
+                    .catch(function(err) {
                         assert.ok(false, 'Unexpected failure : ' + err.message);
                     })
-                    .then(function () {
+                    .then(function() {
                         calculator.destroy();
                     });
             })
             .on('error', function (err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 

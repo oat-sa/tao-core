@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint96\n"
-"PO-Revision-Date: 2019-03-01T11:06:31\n"
+"Project-Id-Version: TAO 3.3.0-sprint99\n"
+"PO-Revision-Date: 2019-03-29T09:53:19\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: es-ES\n"
@@ -230,6 +230,12 @@ msgstr "Todos los campos son obligatorios"
 msgid "All rights reserved."
 msgstr ""
 
+msgid "Allow for all domains"
+msgstr ""
+
+msgid "Allow for the following domains"
+msgstr ""
+
 msgid "Alpha version"
 msgstr "Versión alpha"
 
@@ -393,11 +399,11 @@ msgstr "Cambiar la contraseña"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check All"
-msgstr "Seleccionar Todo"
-
 msgid "Check all"
 msgstr "Seleccionar todo"
+
+msgid "Check All"
+msgstr "Seleccionar Todo"
 
 msgid "Check-in"
 msgstr "Registrarse"
@@ -441,10 +447,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
 msgid "Clear selection"
@@ -531,6 +537,9 @@ msgstr ""
 msgid "Creation At"
 msgstr ""
 
+msgid "CSP Header settings were saved successfully!"
+msgstr ""
+
 msgid "CSV"
 msgstr "CSV"
 
@@ -555,11 +564,11 @@ msgstr "Datos importados exitosamente"
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data language"
-msgstr "Idioma de datos"
-
 msgid "Data Language"
 msgstr "Idioma de Datos"
+
+msgid "Data language"
+msgstr "Idioma de datos"
 
 msgid "Data not imported. All records are invalid."
 msgstr ""
@@ -681,6 +690,9 @@ msgstr "Editar clase %s"
 
 msgid "Edit Instance"
 msgstr "Editar instancia"
+
+msgid "Edit sources that can embed this platform in an iFrame"
+msgstr ""
 
 msgid "Element"
 msgstr ""
@@ -837,11 +849,17 @@ msgstr ""
 msgid "floor"
 msgstr ""
 
+msgid "Forbid for all domains"
+msgstr ""
+
 msgid "Force Release"
 msgstr "Forzar liberación"
 
 msgid "Forgot your password?"
 msgstr "¿Olvidaste tu contraseña?"
+
+msgid "Form data not saved."
+msgstr ""
 
 msgid "From"
 msgstr ""
@@ -993,6 +1011,9 @@ msgstr "Lenguaje de interface"
 msgid "Interface language"
 msgstr "Lenguaje de interface"
 
+msgid "Invalid CSP header."
+msgstr ""
+
 msgid "Invalid date range (must be after or the same as: %s)"
 msgstr ""
 
@@ -1039,6 +1060,9 @@ msgid "invalid regular expression"
 msgstr "expresión regular invalida"
 
 msgid "Invalid values:"
+msgstr ""
+
+msgid "items per page"
 msgstr ""
 
 msgid "Label"
@@ -1215,6 +1239,9 @@ msgstr "Mover este elemento reemplazará las propiedades de la clase anterior po
 msgid "Multiple values delimiter"
 msgstr "Delimitador de múltiples valores"
 
+msgid "Multiply the value by 10^x"
+msgstr ""
+
 msgid "must be numeric"
 msgstr "debe ser númerico"
 
@@ -1277,10 +1304,10 @@ msgstr "Sin archivos"
 msgid "no label"
 msgstr "sin etiqueta"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr ""
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr ""
 
 msgid "No results found"
@@ -1332,16 +1359,19 @@ msgstr ""
 msgid "Off"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr ""
 
-msgid "Ok"
+msgid "OK"
 msgstr ""
 
 msgid "Old Password"
 msgstr "Contraseña antigua"
 
 msgid "On"
+msgstr ""
+
+msgid "Only allow for my own domain (%s)"
 msgstr ""
 
 msgid "Operated By "
@@ -1652,6 +1682,9 @@ msgstr ""
 msgid "Save"
 msgstr "Guardar"
 
+msgid "Saved."
+msgstr ""
+
 msgid "Scientific Calculator"
 msgstr ""
 
@@ -1675,6 +1708,13 @@ msgstr ""
 
 msgid "seconds"
 msgstr "segundos"
+
+#, tao-public
+msgid "Security"
+msgstr ""
+
+msgid "Security settings"
+msgstr ""
 
 msgid "select"
 msgstr "seleccionar"
@@ -1747,6 +1787,9 @@ msgid "Size"
 msgstr "Tamaño"
 
 msgid "Some resources have not been moved: %s"
+msgstr ""
+
+msgid "Sources that can embed this platform in an iFrame"
 msgstr ""
 
 msgid "Square root"
@@ -2150,10 +2193,13 @@ msgstr ""
 msgid "Users"
 msgstr "Usuarios"
 
-msgid "Validation for field '%s' has failed. Language does not exists in the system"
+msgid "Validation for field '%s' has failed. Language does not exist in the system"
 msgstr ""
 
 msgid "Validation for field '%s' has failed. List of values expected"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Should not be empty"
 msgstr ""
 
 msgid "Validation for field '%s' has failed. Valid role expected. Given: %s"

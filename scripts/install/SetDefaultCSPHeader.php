@@ -14,23 +14,31 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2019 (original work) Open Assessment Technologies SA
  *
  */
 
+namespace oat\tao\scripts\install;
+
+use oat\oatbox\extension\InstallAction;
+use oat\tao\model\service\SettingsStorage;
+use oat\tao\model\settings\CspHeaderSettingsInterface;
+
 /**
- * @author Ivan Klimchuk <klimchuk@1pt.com>
+ * Set the default CSP Header value during install
+ *
+ * @author Martijn Swinkels <m.swinkels@taotesting.com>
  */
+class SetDefaultCSPHeader extends InstallAction
+{
 
-use oat\tao\model\ClientLibConfigRegistry;
-
-ClientLibConfigRegistry::getRegistry()->register(
-    'util/locale', [
-        'decimalSeparator' => '.',
-        'thousandsSeparator' => '',
-        'dateTimeFormat' => 'DD/MM/YYYY HH:mm:ss',
-        'dateFormat' => 'DD/MM/YYY',
-        'timeFormat' => 'HH:mm',
-        'amPm' => false
-    ]
-);
+    /**
+     * @inheritdoc
+     */
+    public function __invoke($params)
+    {
+        /** @var SettingsStorage $settingsStorage */
+        $settingsStorage = $this->getServiceLocator()->get(SettingsStorage::SERVICE_ID);
+        $settingsStorage->set(CspHeaderSettingsInterface::CSP_HEADER_SETTING, 'self');
+    }
+}

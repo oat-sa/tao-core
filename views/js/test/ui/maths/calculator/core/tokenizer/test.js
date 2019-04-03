@@ -22,39 +22,39 @@ define([
     'lodash',
     'ui/maths/calculator/core/tokenizer',
     'ui/maths/calculator/core/terms'
-], function (_, calculatorTokenizerFactory, registeredTerms) {
+], function(_, calculatorTokenizerFactory, registeredTerms) {
     'use strict';
 
     QUnit.module('Factory');
 
-    QUnit.test('module', function (assert) {
-        QUnit.expect(3);
-        assert.equal(typeof calculatorTokenizerFactory, 'function', "The module exposes a function");
-        assert.equal(typeof calculatorTokenizerFactory(), 'object', "The factory produces an object");
-        assert.notStrictEqual(calculatorTokenizerFactory(), calculatorTokenizerFactory(), "The factory provides a different object on each call");
+    QUnit.test('module', function(assert) {
+        assert.expect(3);
+        assert.equal(typeof calculatorTokenizerFactory, 'function', 'The module exposes a function');
+        assert.equal(typeof calculatorTokenizerFactory(), 'object', 'The factory produces an object');
+        assert.notStrictEqual(calculatorTokenizerFactory(), calculatorTokenizerFactory(), 'The factory provides a different object on each call');
     });
 
-    QUnit.cases([
+    QUnit.cases.init([
         {title: 'iterator'},
         {title: 'tokenize'}
-    ]).test('API ', function (data, assert) {
+    ]).test('API ', function(data, assert) {
         var instance = calculatorTokenizerFactory();
-        QUnit.expect(1);
+        assert.expect(1);
         assert.equal(typeof instance[data.title], 'function', 'The instance exposes a "' + data.title + '" function');
     });
 
     QUnit.module('API');
 
-    QUnit.test('tokenize - success', function (assert) {
+    QUnit.test('tokenize - success', function(assert) {
         var tokenizer, tokens;
 
-        QUnit.expect(34);
+        assert.expect(38);
 
         tokenizer = calculatorTokenizerFactory();
-        tokens = tokenizer.tokenize('(.1 + .2) * 10^8 + 4 @nthrt 8');
+        tokens = tokenizer.tokenize('(.1 + .2) * 10^8 + 4 @nthrt 8e5');
 
         assert.ok(_.isArray(tokens), 'Got a list of tokens');
-        assert.equal(tokens.length, 16, 'The expression has been tokenized in 16 tokens');
+        assert.equal(tokens.length, 18, 'The expression has been tokenized in 18 tokens');
         assert.equal(tokens[0].type, 'LPAR', 'The expected token is found at position 0');
         assert.equal(tokens[0].offset, 0, 'The expected token is found at offset 0');
         assert.equal(tokens[1].type, 'DOT', 'The expected token is found at position 1');
@@ -87,12 +87,16 @@ define([
         assert.equal(tokens[14].offset, 21, 'The expected token is found at offset 21');
         assert.equal(tokens[15].type, 'NUM8', 'The expected token is found at position 15');
         assert.equal(tokens[15].offset, 28, 'The expected token is found at offset 28');
+        assert.equal(tokens[16].type, 'EXP10', 'The expected token is found at position 16');
+        assert.equal(tokens[16].offset, 29, 'The expected token is found at offset 29');
+        assert.equal(tokens[17].type, 'NUM5', 'The expected token is found at position 17');
+        assert.equal(tokens[17].offset, 30, 'The expected token is found at offset 30');
     });
 
-    QUnit.test('tokenize - error', function (assert) {
+    QUnit.test('tokenize - error', function(assert) {
         var tokenizer, tokens;
 
-        QUnit.expect(4);
+        assert.expect(4);
 
         tokenizer = calculatorTokenizerFactory();
         tokens = tokenizer.tokenize(' 3+4 *$foo + sinh 1');
@@ -102,10 +106,10 @@ define([
         assert.equal(tokens[4].offset, 6, 'The expected error has been found at offset 6');
     });
 
-    QUnit.test('tokenize - additional', function (assert) {
+    QUnit.test('tokenize - additional', function(assert) {
         var tokenizer, tokens;
 
-        QUnit.expect(20);
+        assert.expect(20);
 
         tokenizer = calculatorTokenizerFactory({
             symbols: {
@@ -139,7 +143,7 @@ define([
         assert.equal(tokens[8].offset, 18, 'The expected token is found at offset 18');
     });
 
-    QUnit.test('tokenize - all', function (assert) {
+    QUnit.test('tokenize - all', function(assert) {
         var tokenizer, tokens;
 
         var expectedTokens = [];
@@ -149,7 +153,7 @@ define([
             expectedTokens.push(token);
         });
 
-        QUnit.expect(expectedTokens.length + 2);
+        assert.expect(expectedTokens.length + 2);
 
         tokenizer = calculatorTokenizerFactory();
         tokens = tokenizer.tokenize(expression);
@@ -162,13 +166,13 @@ define([
         });
     });
 
-    QUnit.test('iterator - success', function (assert) {
+    QUnit.test('iterator - success', function(assert) {
         var tokenizer, next, token;
 
-        QUnit.expect(34);
+        assert.expect(38);
 
         tokenizer = calculatorTokenizerFactory();
-        next = tokenizer.iterator('(.1 + .2) * 10^8 + 4 @nthrt 8');
+        next = tokenizer.iterator('(.1 + .2) * 10^8 + 4 @nthrt 8e5');
         assert.ok(_.isFunction(next), 'Got a function');
 
         token = next();
@@ -220,13 +224,19 @@ define([
         assert.equal(token.type, 'NUM8', 'The expected token is found at position 15');
         assert.equal(token.offset, 28, 'The expected token is found at offset 28');
         token = next();
+        assert.equal(token.type, 'EXP10', 'The expected token is found at position 16');
+        assert.equal(token.offset, 29, 'The expected token is found at offset 29');
+        token = next();
+        assert.equal(token.type, 'NUM5', 'The expected token is found at position 17');
+        assert.equal(token.offset, 30, 'The expected token is found at offset 30');
+        token = next();
         assert.equal(typeof token, 'undefined', 'The iterator has completed the expression');
     });
 
-    QUnit.test('iterator - error', function (assert) {
+    QUnit.test('iterator - error', function(assert) {
         var tokenizer, next, token;
 
-        QUnit.expect(12);
+        assert.expect(12);
 
         tokenizer = calculatorTokenizerFactory();
         next = tokenizer.iterator(' 3+4 *$foo + sinh 1');
@@ -251,10 +261,10 @@ define([
         assert.equal(typeof token, 'undefined', 'The iterator has completed the expression');
     });
 
-    QUnit.test('iterator - additional', function (assert) {
+    QUnit.test('iterator - additional', function(assert) {
         var tokenizer, next, token;
 
-        QUnit.expect(20);
+        assert.expect(20);
 
         tokenizer = calculatorTokenizerFactory({
             symbols: {

@@ -21,13 +21,14 @@
 
 namespace oat\tao\test\unit\model\routing;
 
+use oat\generis\test\TestCase;
 use oat\tao\model\routing\AnnotationReaderService;
 use oat\tao\model\routing\RouteAnnotationService;
 use Prophecy\Argument;
 use Psr\Log\LoggerInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class RouteAnnotationServiceTest extends \PHPUnit_Framework_TestCase
+class RouteAnnotationServiceTest extends TestCase
 {
     /**
      * @var RouteAnnotationService

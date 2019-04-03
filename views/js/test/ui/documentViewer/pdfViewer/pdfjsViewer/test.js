@@ -19,61 +19,58 @@
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
 define([
+
     'jquery',
     'core/promise',
     'lib/simulator/jquery.keystroker',
     'ui/documentViewer/providers/pdfViewer/pdfjs/wrapper',
     'ui/documentViewer/providers/pdfViewer/pdfjs/viewer',
     'pdfjs-dist/build/pdf'
-], function ($, Promise, keystroker, wrapperFactory, viewerFactory, pdfjs) {
+], function($, Promise, keystroker, wrapperFactory, viewerFactory, pdfjs) {
     'use strict';
 
     var pdfUrl = location.href.replace('/pdfViewer/pdfjsViewer/test.html', '/sample/demo.pdf');
 
-
     QUnit.module('pdfViewer PDF.js factory');
 
-
-    QUnit.test('module', function (assert) {
+    QUnit.test('module', function(assert) {
         var $container = $('#qunit-fixture');
         var config = {
             PDFJS: pdfjs
         };
         var instance;
 
-        QUnit.expect(5);
+        assert.expect(5);
 
-        assert.equal(typeof viewerFactory, 'function', "The pdfViewer PDF.js module exposes a function");
+        assert.equal(typeof viewerFactory, 'function', 'The pdfViewer PDF.js module exposes a function');
 
         instance = viewerFactory($container, config);
 
-        assert.equal(typeof instance, 'object', "The pdfViewer PDF.js factory provides an object");
-        assert.equal(typeof instance.load, 'function', "The pdfViewer PDF.js instance exposes a function load()");
-        assert.equal(typeof instance.unload, 'function', "The pdfViewer PDF.js instance exposes a function unload()");
-        assert.equal(typeof instance.setSize, 'function', "The pdfViewer PDF.js instance exposes a function setSize()");
+        assert.equal(typeof instance, 'object', 'The pdfViewer PDF.js factory provides an object');
+        assert.equal(typeof instance.load, 'function', 'The pdfViewer PDF.js instance exposes a function load()');
+        assert.equal(typeof instance.unload, 'function', 'The pdfViewer PDF.js instance exposes a function unload()');
+        assert.equal(typeof instance.setSize, 'function', 'The pdfViewer PDF.js instance exposes a function setSize()');
     });
 
-
     QUnit.module('pdfViewer PDF.js implementation', {
-        teardown: function () {
+        afterEach: function(assert) {
             pdfjs.removeAllListeners();
         }
     });
 
-
-    QUnit.test('error', function (assert) {
+    QUnit.test('error', function(assert) {
         var $container = $('#qunit-fixture');
         var config = {};
 
-        QUnit.expect(1);
+        assert.expect(1);
 
-        assert.throws(function () {
+        assert.throws(function() {
             viewerFactory($container, config);
-        }, "The pdfViewer PDF.js factory triggers an error if PDF.js is missing");
+        }, 'The pdfViewer PDF.js factory triggers an error if PDF.js is missing');
     });
 
-
-    QUnit.asyncTest('render', function (assert) {
+    QUnit.test('render', function(assert) {
+        var ready = assert.async();
         var $container = $('#qunit-fixture');
         var config = {
             PDFJS: pdfjs,
@@ -86,7 +83,7 @@ define([
         var instance;
         var promise;
 
-        QUnit.expect(18);
+        assert.expect(18);
 
         assert.equal($container.children().length, 0, 'The container does not contain any children');
 
@@ -96,14 +93,14 @@ define([
         assert.equal(typeof promise, 'object', 'The load() function returns an object');
         assert.ok(promise instanceof Promise, 'The object returned by the load() function is a promise');
 
-        promise.then(function () {
+        promise.then(function() {
             var $pagePrev = $container.find('[data-control="pdf-page-prev"]'),
                 $pageNext = $container.find('[data-control="pdf-page-next"]'),
                 $pageNum = $container.find('[data-control="pdf-page-num"]'),
                 $pageCount = $container.find('[data-control="pdf-page-count"]'),
                 $fitToWidth = $container.find('[data-control="fit-to-width"]'),
-                $pdfBar = $container.find('.pdf-bar'),
-                $pdfContainer = $container.find('.pdf-container');
+                $pdfBar = $container.find(".pdf-bar"),
+                $pdfContainer = $container.find(".pdf-container");
 
             assert.ok(true, 'The PDF file has been loaded');
 
@@ -133,15 +130,15 @@ define([
             assert.equal($container.find('.pdf-container').length, 0, 'The viewer has been removed from the container');
             assert.equal($container.children().length, 0, 'The container does not contain any children');
 
-            QUnit.start();
+            ready();
         }).catch(function() {
-            assert.ok('false', 'No error should be triggered');
-            QUnit.start();
+            assert.ok(false, 'No error should be triggered');
+            ready();
         });
     });
 
-
-    QUnit.asyncTest('navigation single page', function (assert) {
+    QUnit.test('navigation single page', function(assert) {
+        var ready = assert.async();
         var $container = $('#qunit-fixture');
         var config = {
             PDFJS: pdfjs,
@@ -152,7 +149,7 @@ define([
         var page = 1;
         var count = 1;
 
-        QUnit.expect(29);
+        assert.expect(29);
 
         assert.equal($container.children().length, 0, 'The container does not contain any children');
 
@@ -164,14 +161,14 @@ define([
         assert.equal(typeof promise, 'object', 'The load() function returns an object');
         assert.ok(promise instanceof Promise, 'The object returned by the load() function is a promise');
 
-        promise.then(function () {
+        promise.then(function() {
             var $pagePrev = $container.find('[data-control="pdf-page-prev"]'),
                 $pageNext = $container.find('[data-control="pdf-page-next"]'),
                 $pageNum = $container.find('[data-control="pdf-page-num"]'),
                 $pageCount = $container.find('[data-control="pdf-page-count"]'),
                 $fitToWidth = $container.find('[data-control="fit-to-width"]'),
-                $pdfBar = $container.find('.pdf-bar'),
-                $pdfContainer = $container.find('.pdf-container');
+                $pdfBar = $container.find(".pdf-bar"),
+                $pdfContainer = $container.find(".pdf-container");
 
             assert.ok(true, 'The PDF file has been loaded');
 
@@ -217,18 +214,18 @@ define([
                         instance.unload();
                         assert.equal($container.children().length, 0, 'The viewer has been removed from the container');
 
-                        QUnit.start();
+                        ready();
                     }, 100);
                 }, 100);
             }, 100);
         }).catch(function() {
-            assert.ok('false', 'No error should be triggered');
-            QUnit.start();
+            assert.ok(false, 'No error should be triggered');
+            ready();
         });
     });
 
-
-    QUnit.asyncTest('navigation multi pages', function (assert) {
+    QUnit.test('navigation multi pages', function(assert) {
+        var ready = assert.async();
         var $container = $('#qunit-fixture');
         var config = {
             PDFJS: pdfjs,
@@ -239,7 +236,7 @@ define([
         var page = 1;
         var count = 10;
 
-        QUnit.expect(27);
+        assert.expect(27);
 
         assert.equal($container.children().length, 0, 'The container does not contain any children');
 
@@ -251,14 +248,14 @@ define([
         assert.equal(typeof promise, 'object', 'The load() function returns an object');
         assert.ok(promise instanceof Promise, 'The object returned by the load() function is a promise');
 
-        promise.then(function () {
+        promise.then(function() {
             var $pagePrev = $container.find('[data-control="pdf-page-prev"]'),
                 $pageNext = $container.find('[data-control="pdf-page-next"]'),
                 $pageNum = $container.find('[data-control="pdf-page-num"]'),
                 $pageCount = $container.find('[data-control="pdf-page-count"]'),
                 $fitToWidth = $container.find('[data-control="fit-to-width"]'),
-                $pdfBar = $container.find('.pdf-bar'),
-                $pdfContainer = $container.find('.pdf-container');
+                $pdfBar = $container.find(".pdf-bar"),
+                $pdfContainer = $container.find(".pdf-container");
 
             assert.ok(true, 'The PDF file has been loaded');
 
@@ -275,14 +272,14 @@ define([
             assert.equal($pagePrev.is(':disabled'), true, 'The previous page button is disabled');
 
             $pageNext.click();
-            page ++;
+            page++;
 
             setTimeout(function() {
                 assert.equal($pageNum.val(), page, 'The current page is ' + page);
                 assert.equal($pagePrev.is(':disabled'), false, 'The previous page button is enabled');
 
                 $pagePrev.click();
-                page --;
+                page--;
 
                 setTimeout(function() {
                     assert.equal($pageNum.val(), page, 'The current page is ' + page);
@@ -297,7 +294,7 @@ define([
                         assert.equal($pageNext.is(':disabled'), true, 'The next page button is disabled');
 
                         keystroker.keystroke($pageNum, keystroker.keyCode.DOWN);
-                        page --;
+                        page--;
 
                         setTimeout(function() {
                             assert.equal($pageNum.val(), page, 'The current page is ' + page);
@@ -305,7 +302,7 @@ define([
                             assert.equal($pageNext.is(':disabled'), false, 'The next page button is enabled');
 
                             keystroker.keystroke($pageNum, keystroker.keyCode.UP);
-                            page ++;
+                            page++;
 
                             setTimeout(function() {
                                 assert.equal($pageNum.val(), page, 'The current page is ' + page);
@@ -315,20 +312,20 @@ define([
                                 instance.unload();
                                 assert.equal($container.children().length, 0, 'The viewer has been removed from the container');
 
-                                QUnit.start();
+                                ready();
                             }, 100);
                         }, 100);
                     }, 100);
                 }, 100);
             }, 100);
         }).catch(function() {
-            assert.ok('false', 'No error should be triggered');
-            QUnit.start();
+            assert.ok(false, 'No error should be triggered');
+            ready();
         });
     });
 
-
-    QUnit.asyncTest('options', function (assert) {
+    QUnit.test('options', function(assert) {
+        var ready = assert.async();
         var $container = $('#qunit-fixture');
         var config = {
             PDFJS: pdfjs,
@@ -337,7 +334,7 @@ define([
         var instance;
         var promise;
 
-        QUnit.expect(15);
+        assert.expect(15);
 
         assert.equal($container.children().length, 0, 'The container does not contain any children');
 
@@ -347,14 +344,14 @@ define([
         assert.equal(typeof promise, 'object', 'The load() function returns an object');
         assert.ok(promise instanceof Promise, 'The object returned by the load() function is a promise');
 
-        promise.then(function () {
+        promise.then(function() {
             var $pagePrev = $container.find('[data-control="pdf-page-prev"]'),
                 $pageNext = $container.find('[data-control="pdf-page-next"]'),
                 $pageNum = $container.find('[data-control="pdf-page-num"]'),
                 $pageCount = $container.find('[data-control="pdf-page-count"]'),
                 $fitToWidth = $container.find('[data-control="fit-to-width"]'),
-                $pdfBar = $container.find('.pdf-bar'),
-                $pdfContainer = $container.find('.pdf-container');
+                $pdfBar = $container.find(".pdf-bar"),
+                $pdfContainer = $container.find(".pdf-container");
 
             assert.ok(true, 'The PDF file has been loaded');
 
@@ -381,56 +378,55 @@ define([
                     instance.unload();
                     assert.equal($container.children().length, 0, 'The viewer has been removed from the container');
 
-                    QUnit.start();
+                    ready();
                 }, 100);
             }, 100);
         }).catch(function() {
-            assert.ok('false', 'No error should be triggered');
-            QUnit.start();
+            assert.ok(false, 'No error should be triggered');
+            ready();
         });
     });
 
-
-    QUnit.asyncTest('findBar', function (assert) {
+    QUnit.test('findBar', function(assert) {
+        var ready = assert.async();
         var $container = $('#qunit-fixture');
         var config = {
             PDFJS: pdfjs
         };
         var instance;
 
-        QUnit.expect(9);
+        assert.expect(9);
 
         assert.equal($container.children().length, 0, 'The container does not contain any children');
 
         instance = viewerFactory($container, config);
-        instance.load(pdfUrl).then(function () {
+        instance.load(pdfUrl).then(function() {
             assert.ok(true, 'The PDF file has been loaded');
 
-            assert.equal($container.find('[data-control="pdf-search"]').length, 0, 'There is no search button');
-            assert.equal($container.find('.pdf-find-bar').length, 0, 'There is no find bar');
+            assert.equal($container.find('[data-control="pdf-search"]').length, 0, "There is no search button");
+            assert.equal($container.find(".pdf-find-bar").length, 0, "There is no find bar");
 
             instance.unload();
 
             assert.equal($container.children().length, 0, 'The viewer has been removed from the container');
 
-            config.allowSearch= true;
+            config.allowSearch = true;
             instance = viewerFactory($container, config);
-            return instance.load(pdfUrl).then(function () {
+            return instance.load(pdfUrl).then(function() {
                 assert.ok(true, 'The PDF file has been loaded');
 
-                assert.equal($container.find('[data-control="pdf-search"]').length, 1, 'The search button has been added');
-                assert.equal($container.find('.pdf-find-bar').length, 1, 'The find bar has been added');
+                assert.equal($container.find('[data-control="pdf-search"]').length, 1, "The search button has been added");
+                assert.equal($container.find(".pdf-find-bar").length, 1, "The find bar has been added");
 
                 instance.unload();
 
                 assert.equal($container.children().length, 0, 'The viewer has been removed from the container');
-                QUnit.start();
+                ready();
             });
         }).catch(function() {
-            assert.ok('false', 'No error should be triggered');
-            QUnit.start();
+            assert.ok(false, 'No error should be triggered');
+            ready();
         });
     });
-
 
 });

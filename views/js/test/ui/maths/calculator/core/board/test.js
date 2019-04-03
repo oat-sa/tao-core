@@ -24,8 +24,16 @@ define([
     'core/promise',
     'ui/maths/calculator/core/plugin',
     'ui/maths/calculator/core/board',
-    'ui/maths/calculator/core/terms'
-], function ($, _, Promise, pluginFactory, calculatorBoardFactory, registeredTerms) {
+    'ui/maths/calculator/core/terms',
+    'ui/maths/calculator/core/tokenizer'
+], function(
+    $,
+    _,
+    Promise,
+    pluginFactory,
+    calculatorBoardFactory,
+    registeredTerms
+) {
     'use strict';
 
     var builtInCommands = {
@@ -58,14 +66,14 @@ define([
 
     QUnit.module('Factory');
 
-    QUnit.test('module', function (assert) {
-        QUnit.expect(3);
-        assert.equal(typeof calculatorBoardFactory, 'function', "The module exposes a function");
-        assert.equal(typeof calculatorBoardFactory('#fixture-api'), 'object', "The factory produces an object");
-        assert.notStrictEqual(calculatorBoardFactory('#fixture-api'), calculatorBoardFactory('#fixture-api'), "The factory provides a different object on each call");
+    QUnit.test('module', function(assert) {
+        assert.expect(3);
+        assert.equal(typeof calculatorBoardFactory, 'function', 'The module exposes a function');
+        assert.equal(typeof calculatorBoardFactory('#fixture-api'), 'object', 'The factory produces an object');
+        assert.notStrictEqual(calculatorBoardFactory('#fixture-api'), calculatorBoardFactory('#fixture-api'), 'The factory provides a different object on each call');
     });
 
-    QUnit.cases([
+    QUnit.cases.init([
         {title: 'init'},
         {title: 'destroy'},
         {title: 'render'},
@@ -81,24 +89,24 @@ define([
         {title: 'getTemplate'},
         {title: 'setTemplate'},
         {title: 'getConfig'}
-    ]).test('inherited API ', function (data, assert) {
+    ]).test('inherited API ', function(data, assert) {
         var instance = calculatorBoardFactory('#fixture-api');
-        QUnit.expect(1);
+        assert.expect(1);
         assert.equal(typeof instance[data.title], 'function', 'The instance exposes a "' + data.title + '" function');
     });
 
-    QUnit.cases([
+    QUnit.cases.init([
         {title: 'on'},
         {title: 'off'},
         {title: 'trigger'},
         {title: 'spread'}
-    ]).test('event API ', function (data, assert) {
+    ]).test('event API ', function(data, assert) {
         var instance = calculatorBoardFactory('#fixture-api');
-        QUnit.expect(1);
+        assert.expect(1);
         assert.equal(typeof instance[data.title], 'function', 'The instance exposes a "' + data.title + '" function');
     });
 
-    QUnit.cases([
+    QUnit.cases.init([
         {title: 'getExpression'},
         {title: 'setExpression'},
         {title: 'getPosition'},
@@ -136,15 +144,16 @@ define([
         {title: 'getAreaBroker'},
         {title: 'setupMathsEvaluator'},
         {title: 'getMathsEvaluator'}
-    ]).test('calculatorBoard API ', function (data, assert) {
+    ]).test('calculatorBoard API ', function(data, assert) {
         var instance = calculatorBoardFactory('#fixture-api');
-        QUnit.expect(1);
+        assert.expect(1);
         assert.equal(typeof instance[data.title], 'function', 'The instance exposes a "' + data.title + '" function');
     });
 
     QUnit.module('Life cycle');
 
-    QUnit.asyncTest('init', function (assert) {
+    QUnit.test('init', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-init');
         var initExpression = '.1+.2';
         var instance = calculatorBoardFactory($container, null, {
@@ -152,28 +161,29 @@ define([
             position: initExpression.length
         });
 
-        QUnit.expect(3);
+        assert.expect(3);
 
         instance
-            .after('init', function () {
+            .after('init', function() {
                 assert.equal(this, instance, 'The instance has been initialized');
                 assert.equal(this.getExpression(), initExpression, 'The expression is initialized');
                 assert.equal(this.getPosition(), initExpression.length, 'The expression is initialized');
             })
-            .after('render', function () {
+            .after('render', function() {
                 this.destroy();
             })
-            .on('destroy', function () {
-                QUnit.start();
+            .on('destroy', function() {
+                ready();
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('render', function (assert) {
+    QUnit.test('render', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-render');
 
         var plugin1 = pluginFactory({
@@ -191,17 +201,17 @@ define([
 
         var instance;
 
-        QUnit.expect(17);
+        assert.expect(17);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
         instance = calculatorBoardFactory($container, [plugin1]);
         instance
-            .on('init', function () {
+            .on('init', function() {
                 assert.equal(this, instance, 'The instance has been initialized');
                 assert.equal(typeof areaBroker, 'undefined', 'The area broker is not yet created');
             })
-            .on('ready', function () {
+            .on('ready', function() {
                 var areaBroker = this.getAreaBroker();
 
                 assert.equal($container.children().length, 1, 'The container contains an element');
@@ -221,17 +231,18 @@ define([
 
                 this.destroy();
             })
-            .on('destroy', function () {
-                QUnit.start();
+            .on('destroy', function() {
+                ready();
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('destroy', function (assert) {
+    QUnit.test('destroy', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-destroy');
         var plugin1 = pluginFactory({
             name: 'plugin1',
@@ -250,38 +261,39 @@ define([
         });
         var instance;
 
-        QUnit.expect(11);
+        assert.expect(11);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
         instance = calculatorBoardFactory($container, [plugin1]);
         instance
-            .on('init', function () {
+            .on('init', function() {
                 assert.equal(this, instance, 'The instance has been initialized');
                 assert.equal(typeof areaBroker, 'undefined', 'The area broker is not yet created');
             })
-            .after('ready', function () {
+            .after('ready', function() {
                 assert.equal($container.children().length, 1, 'The container contains an element');
                 assert.equal(typeof this.getAreaBroker(), 'object', 'The area broker is created');
 
                 this.destroy();
             })
-            .after('destroy', function () {
+            .after('destroy', function() {
                 assert.equal($container.children().length, 0, 'The container is now empty');
                 assert.equal(this.getAreaBroker(), null, 'The area broker is destroyed');
 
-                QUnit.start();
+                ready();
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
     QUnit.module('API');
 
-    QUnit.asyncTest('plugins', function (assert) {
+    QUnit.test('plugins', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-plugins');
         var config = {
             plugins: {
@@ -339,16 +351,16 @@ define([
         ];
         var instance;
 
-        QUnit.expect(22);
+        assert.expect(22);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
         instance = calculatorBoardFactory($container, plugins, config);
         instance
-            .on('init', function () {
+            .on('init', function() {
                 assert.equal(this, instance, 'The instance has been initialized');
             })
-            .on('ready', function () {
+            .on('ready', function() {
                 var self = this;
                 assert.equal($container.children().length, 1, 'The container contains an element');
                 assert.equal(this.getPlugins().length, 2, 'Plugins are registered');
@@ -358,30 +370,31 @@ define([
                 assert.deepEqual(this.getPlugin('plugin2').getConfig(), config.plugins.plugin2, 'Plugin2 has the expected config');
 
                 this.runPlugins('disable')
-                    .then(function () {
-                        assert.ok(_.every(self.getPlugins(), function (plugin) {
+                    .then(function() {
+                        assert.ok(_.every(self.getPlugins(), function(plugin) {
                             return !plugin.getState('enabled');
                         }), 'Plugins have been disabled');
                         return self.runPlugins('enable');
                     })
-                    .then(function () {
-                        assert.ok(_.every(self.getPlugins(), function (plugin) {
+                    .then(function() {
+                        assert.ok(_.every(self.getPlugins(), function(plugin) {
                             return plugin.getState('enabled');
                         }), 'Plugins have been enabled');
                         self.destroy();
                     });
             })
-            .after('destroy', function () {
-                QUnit.start();
+            .after('destroy', function() {
+                ready();
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('plugins - failure', function (assert) {
+    QUnit.test('plugins - failure', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-plugins');
         var pluginError = new TypeError('Should break here');
         var plugins = [
@@ -418,44 +431,45 @@ define([
         ];
         var instance;
 
-        QUnit.expect(9);
+        assert.expect(9);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
         instance = calculatorBoardFactory($container, plugins);
         instance
-            .on('init', function () {
+            .on('init', function() {
                 assert.equal(this, instance, 'The instance has been initialized');
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 assert.equal(err, pluginError, 'The error has been catch!');
                 this.destroy();
             })
-            .after('destroy', function () {
-                QUnit.start();
+            .after('destroy', function() {
+                ready();
             });
     });
 
-    QUnit.asyncTest('expression', function (assert) {
+    QUnit.test('expression', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-expression');
         var instance;
 
-        QUnit.expect(7);
+        assert.expect(7);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
         instance = calculatorBoardFactory($container);
         instance
-            .on('init', function () {
+            .on('init', function() {
                 var self = this;
                 var newExpression = '3+1';
                 assert.equal(this, instance, 'The instance has been initialized');
                 assert.equal(this.getExpression(), '', 'The expression is empty');
                 this.setExpression();
                 assert.equal(this.getExpression(), '', 'The expression is still empty');
-                return new Promise(function (resolve) {
+                return new Promise(function(resolve) {
                     self
-                        .on('expressionchange.set1', function (expression) {
+                        .on('expressionchange.set1', function(expression) {
                             self.off('expressionchange.set1');
                             assert.equal(expression, newExpression, 'New expression as been provided');
                             assert.equal(self.getExpression(), newExpression, 'New expression has been set');
@@ -464,31 +478,32 @@ define([
                         .setExpression(newExpression);
                 });
             })
-            .after('ready', function () {
+            .after('ready', function() {
                 assert.equal($container.children().length, 1, 'The container contains an element');
                 this.destroy();
             })
-            .after('destroy', function () {
-                QUnit.start();
+            .after('destroy', function() {
+                ready();
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('position', function (assert) {
+    QUnit.test('position', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-position');
         var instance;
 
-        QUnit.expect(10);
+        assert.expect(10);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
         instance = calculatorBoardFactory($container);
         instance
-            .on('init', function () {
+            .on('init', function() {
                 var self = this;
                 var newExpression = '3+1';
                 var newPosition = 2;
@@ -497,9 +512,9 @@ define([
                 assert.equal(this.getPosition(), 0, 'The position is 0');
                 this.setPosition();
                 assert.equal(this.getPosition(), 0, 'The position is still 0');
-                return new Promise(function (resolve) {
+                return new Promise(function(resolve) {
                     self
-                        .on('positionchange.set1', function (position) {
+                        .on('positionchange.set1', function(position) {
                             self.off('positionchange.set1');
 
                             assert.equal(position, newPosition, 'New position has been provided');
@@ -517,31 +532,32 @@ define([
                         .setPosition(newPosition);
                 });
             })
-            .after('ready', function () {
+            .after('ready', function() {
                 assert.equal($container.children().length, 1, 'The container contains an element');
                 this.destroy();
             })
-            .after('destroy', function () {
-                QUnit.start();
+            .after('destroy', function() {
+                ready();
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('tokens', function (assert) {
+    QUnit.test('tokens', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-tokens');
         var instance;
 
-        QUnit.expect(52);
+        assert.expect(52);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
         instance = calculatorBoardFactory($container);
         instance
-            .on('init', function () {
+            .on('init', function() {
                 var tokens;
 
                 assert.equal(this, instance, 'The instance has been initialized');
@@ -598,7 +614,6 @@ define([
                 assert.equal(this.getTokenIndex(), 11, 'Token index at position 16 is 11');
                 assert.equal(this.getToken().type, 'NUM8', 'Token is NUM8');
 
-
                 this.setExpression(' 3+4 *$foo + sinh 1');
                 tokens = this.getTokens();
                 assert.ok(_.isArray(tokens), 'Got a lis of terms');
@@ -619,44 +634,45 @@ define([
                 assert.equal(this.getToken().type, 'ADD', 'Token is ADD');
 
             })
-            .after('ready', function () {
+            .after('ready', function() {
                 this.destroy();
             })
-            .after('destroy', function () {
-                QUnit.start();
+            .after('destroy', function() {
+                ready();
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('command', function (assert) {
+    QUnit.test('command', function(assert) {
+        var ready = assert.async();
         var expectedCommand = {
             name: 'FOO',
             label: 'bar',
             description: 'Command FOO bar'
-        }
+        };
         var $container = $('#fixture-command');
         var instance;
 
-        QUnit.expect(14);
+        assert.expect(14);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
         instance = calculatorBoardFactory($container);
         instance
-            .on('init', function () {
+            .on('init', function() {
                 var self = this;
                 assert.equal(this, instance, 'The instance has been initialized');
                 assert.equal(this.getExpression(), '', 'The expression is empty');
-                return new Promise(function (resolve) {
+                return new Promise(function(resolve) {
                     assert.equal(typeof self.getCommand('FOO'), 'undefined', 'The command FOO does not exist');
                     assert.ok(!self.hasCommand('FOO'), 'The command FOO is not registered');
                     assert.deepEqual(self.getCommands(), builtInCommands, 'Only builtin commands registered');
                     self
-                        .on('commandadd', function (name) {
+                        .on('commandadd', function(name) {
                             assert.equal(name, 'FOO', 'Command FOO added');
                             assert.ok(self.hasCommand('FOO'), 'The command FOO is now registered');
                             assert.deepEqual(self.getCommand('FOO'), expectedCommand, 'A descriptor is defined for command FOO');
@@ -664,7 +680,7 @@ define([
 
                             self.deleteCommand('FOO');
                         })
-                        .on('commanddelete', function (name) {
+                        .on('commanddelete', function(name) {
                             assert.equal(name, 'FOO', 'Command FOO deleted');
                             assert.equal(typeof self.getCommand('FOO'), 'undefined', 'The command FOO does not exist anymore');
                             assert.ok(!self.hasCommand('FOO'), 'The command FOO is not registered');
@@ -674,39 +690,40 @@ define([
                         .setCommand(expectedCommand.name, expectedCommand.label, expectedCommand.description);
                 });
             })
-            .after('ready', function () {
+            .after('ready', function() {
                 assert.equal($container.children().length, 1, 'The container contains an element');
                 this.destroy();
             })
-            .after('destroy', function () {
-                QUnit.start();
+            .after('destroy', function() {
+                ready();
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('variable', function (assert) {
+    QUnit.test('variable', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-variable');
         var instance;
 
-        QUnit.expect(17);
+        assert.expect(17);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
         instance = calculatorBoardFactory($container);
         instance
-            .on('init', function () {
+            .on('init', function() {
                 var self = this;
                 assert.equal(this, instance, 'The instance has been initialized');
                 assert.equal(this.getExpression(), '', 'The expression is empty');
-                return new Promise(function (resolve) {
+                return new Promise(function(resolve) {
                     assert.ok(!self.hasVariable('x'), 'The variable x is not registered');
                     assert.equal(typeof self.getVariable('x'), 'undefined', 'The variable x does not exist');
                     self
-                        .on('variableadd', function (name, value) {
+                        .on('variableadd', function(name, value) {
                             assert.equal(name, 'x', 'Variable x added');
                             assert.equal(typeof value, 'object', 'Value descriptor of variable x provided');
                             assert.equal(value.expression, '42', 'Expression of variable x provided');
@@ -718,7 +735,7 @@ define([
 
                             self.deleteVariable('x');
                         })
-                        .on('variabledelete', function (name) {
+                        .on('variabledelete', function(name) {
                             assert.equal(name, 'x', 'Variable x deleted');
                             assert.equal(typeof self.getVariable('x'), 'undefined', 'The variable x does not exist anymore');
                             assert.ok(!self.hasVariable('x'), 'The variable x is not registered anymore');
@@ -728,23 +745,30 @@ define([
                         .setVariable('x', '42');
                 });
             })
-            .after('ready', function () {
+            .after('ready', function() {
                 assert.equal($container.children().length, 1, 'The container contains an element');
                 this.destroy();
             })
-            .after('destroy', function () {
-                QUnit.start();
+            .after('destroy', function() {
+                ready();
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('variables', function (assert) {
+    QUnit.test('variables', function(assert) {
+        var noop;
+        var ready = assert.async();
         var defaultVariables = {
-            'ans': 0
+            ans: {
+                expression: '0',
+                result: 0,
+                value: 0,
+                variables: noop
+            }
         };
         var expectedVariables = {
             'foo': 'bar',
@@ -752,29 +776,49 @@ define([
             'y': '3'
         };
         var expectedResults = {
-            'ans': 0,
-            'foo': 0,
-            'x': 42,
-            'y': 3
+            ans: {
+                expression: '0',
+                result: 0,
+                value: 0,
+                variables: noop
+            },
+            foo: {
+                expression: 'bar',
+                result: 0,
+                value: 0,
+                variables: noop
+            },
+            x: {
+                expression: '42',
+                result: 42,
+                value: 42,
+                variables: noop
+            },
+            y: {
+                expression: '3',
+                result: 3,
+                value: 3,
+                variables: noop
+            }
         };
         var $container = $('#fixture-variables');
         var instance;
 
-        QUnit.expect(20);
+        assert.expect(20);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
         instance = calculatorBoardFactory($container);
         instance
-            .on('init', function () {
+            .on('init', function() {
                 var self = this;
                 var addedVariables = 0;
                 assert.equal(this, instance, 'The instance has been initialized');
                 assert.equal(this.getExpression(), '', 'The expression is empty');
-                return new Promise(function (resolve) {
+                return new Promise(function(resolve) {
                     assert.deepEqual(self.getVariables(), defaultVariables, 'Only default variables set for now');
                     self
-                        .on('variableadd.set', function (name, value) {
+                        .on('variableadd.set', function(name, value) {
                             assert.equal(typeof expectedVariables[name], 'string', 'Variable ' + name + ' added');
                             assert.equal(value.expression, expectedVariables[name], 'Value of variable ' + name + ' provided');
                             assert.equal(self.getVariable(name).expression, expectedVariables[name], 'The variable ' + name + ' now exists');
@@ -784,12 +828,12 @@ define([
                                 self.deleteVariables();
                             }
                         })
-                        .on('variabledelete', function (name) {
+                        .on('variabledelete', function(name) {
                             self.off('.set');
                             assert.equal(name, null, 'Variables deleted');
                             assert.deepEqual(self.getVariables(), {}, 'No variable set anymore');
 
-                            self.on('variableadd.reset', function (name, value) {
+                            self.on('variableadd.reset', function(name, value) {
                                 self.off('.reset');
                                 assert.equal(name, registeredTerms.ANS.value, 'Variable ans added');
                                 assert.equal(value.expression, '0', 'Variable ans reset');
@@ -801,21 +845,22 @@ define([
                         .setVariables(expectedVariables);
                 });
             })
-            .after('ready', function () {
+            .after('ready', function() {
                 assert.equal($container.children().length, 1, 'The container contains an element');
                 this.destroy();
             })
-            .after('destroy', function () {
-                QUnit.start();
+            .after('destroy', function() {
+                ready();
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('addTerm - success', function (assert) {
+    QUnit.test('addTerm - success', function(assert) {
+        var ready = assert.async();
         var expectedTermName = 'FOO';
         var expectedTerm = {
             label: 'Foo',
@@ -824,21 +869,21 @@ define([
         var $container = $('#fixture-addterm');
         var instance;
 
-        QUnit.expect(13);
+        assert.expect(13);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
         instance = calculatorBoardFactory($container);
         instance
-            .on('init', function () {
+            .on('init', function() {
                 var self = this;
                 assert.equal(this, instance, 'The instance has been initialized');
                 assert.equal(this.getExpression(), '', 'The expression is empty');
                 assert.equal(this.getPosition(), 0, 'The position is at the beginning');
 
-                return new Promise(function (resolve) {
+                return new Promise(function(resolve) {
                     self
-                        .on('termadd-FOO.test', function (term1) {
+                        .on('termadd-FOO.test', function(term1) {
                             self.off('termadd-FOO.test');
 
                             assert.ok(true, 'The term FOO has been received');
@@ -846,7 +891,7 @@ define([
                             assert.equal(self.getExpression(), expectedTerm.value, 'Expression has been properly updated');
                             assert.equal(self.getPosition(), expectedTerm.value.length, 'New position has been set');
                         })
-                        .on('termadd.test', function (n1, term1) {
+                        .on('termadd.test', function(n1, term1) {
                             self.off('termadd.test');
 
                             assert.equal(n1, expectedTermName, 'The right term has been received');
@@ -859,51 +904,52 @@ define([
                         .addTerm(expectedTermName, expectedTerm);
                 });
             })
-            .after('ready', function () {
+            .after('ready', function() {
                 assert.equal($container.children().length, 1, 'The container contains an element');
                 this.destroy();
             })
-            .after('destroy', function () {
-                QUnit.start();
+            .after('destroy', function() {
+                ready();
             })
-            .on('error termerror', function (err) {
+            .on('error termerror', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('addTerm - failure', function (assert) {
+    QUnit.test('addTerm - failure', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-addterm');
         var instance;
 
-        QUnit.expect(6);
+        assert.expect(6);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
         instance = calculatorBoardFactory($container);
         instance
-            .on('init', function () {
+            .on('init', function() {
                 var self = this;
                 assert.equal(this, instance, 'The instance has been initialized');
                 assert.equal(this.getExpression(), '', 'The expression is empty');
 
-                return new Promise(function (resolve) {
+                return new Promise(function(resolve) {
                     self
-                        .on('termadd.test', function () {
+                        .on('termadd.test', function() {
                             self.off('termadd.test');
 
                             assert.ok(false, 'The term should not be added!');
 
                             resolve();
                         })
-                        .on('termerror.test', function (err) {
+                        .on('termerror.test', function(err) {
                             self.off('termerror.test');
 
                             assert.ok(err instanceof TypeError, 'An error is triggered: the term is invalid');
 
                             self
-                                .on('termerror.test', function (err) {
+                                .on('termerror.test', function(err) {
                                     self.off('termerror.test');
 
                                     assert.ok(err instanceof TypeError, 'An error is triggered: the term is invalid');
@@ -915,62 +961,63 @@ define([
                         .addTerm('FOO', 'BAR');
                 });
             })
-            .after('ready', function () {
+            .after('ready', function() {
                 assert.equal($container.children().length, 1, 'The container contains an element');
                 this.destroy();
             })
-            .after('destroy', function () {
-                QUnit.start();
+            .after('destroy', function() {
+                ready();
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('useTerm - success', function (assert) {
+    QUnit.test('useTerm - success', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-useterm');
         var instance;
 
-        QUnit.expect(36);
+        assert.expect(36);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
         instance = calculatorBoardFactory($container);
         instance
-            .on('init', function () {
+            .on('init', function() {
                 var self = this;
                 assert.equal(this, instance, 'The instance has been initialized');
                 assert.equal(this.getExpression(), '', 'The expression is empty');
 
-                return new Promise(function (resolve) {
+                return new Promise(function(resolve) {
                     self
-                        .on('termadd-NUM2.test', function (term) {
+                        .on('termadd-NUM2.test', function(term) {
                             self.off('termadd-NUM2.test');
 
                             assert.ok(true, 'The term NUM2 has been added');
                             assert.equal(term, registeredTerms.NUM2, 'The right term descriptor has been received for NUM2');
                         })
-                        .on('termadd-NUM4.test', function (term) {
+                        .on('termadd-NUM4.test', function(term) {
                             self.off('termadd-NUM4.test');
 
                             assert.ok(true, 'The term NUM4 has been added');
                             assert.equal(term, registeredTerms.NUM4, 'The right term descriptor has been received for NUM4');
                         })
-                        .on('termadd-SUB.test', function (term) {
+                        .on('termadd-SUB.test', function(term) {
                             self.off('termadd-SUB.test');
 
                             assert.ok(true, 'The term SUB has been added');
                             assert.equal(term, registeredTerms.SUB, 'The right term descriptor has been received for SUB');
                         })
-                        .on('termadd-SIN.test', function (term) {
+                        .on('termadd-SIN.test', function(term) {
                             self.off('termadd-SIN.test');
 
                             assert.ok(true, 'The term SIN has been added');
                             assert.equal(term, registeredTerms.SIN, 'The right term descriptor has been received for SIN');
                         })
-                        .on('termadd.NUM4', function (n1, term1) {
+                        .on('termadd.NUM4', function(n1, term1) {
                             self.off('termadd.NUM4');
 
                             assert.equal(n1, 'NUM4', 'The term NUM4 has been received');
@@ -979,7 +1026,7 @@ define([
                             assert.equal(self.getPosition(), 1, 'New position has been set');
 
                             self
-                                .on('termadd.NUM2', function (n2, term2) {
+                                .on('termadd.NUM2', function(n2, term2) {
                                     self.off('termadd.NUM2');
 
                                     assert.equal(n2, 'NUM2', 'The term NUM2 has been received');
@@ -988,7 +1035,7 @@ define([
                                     assert.equal(self.getPosition(), 2, 'New position has been set');
 
                                     self
-                                        .on('termadd.SUB', function (n3, term3) {
+                                        .on('termadd.SUB', function(n3, term3) {
                                             self.off('termadd.SUB');
 
                                             assert.equal(n3, 'SUB', 'The term SUB has been received');
@@ -997,7 +1044,7 @@ define([
                                             assert.equal(self.getPosition(), 1, 'New position has been set');
 
                                             self
-                                                .on('termadd.SIN', function (n4, term4) {
+                                                .on('termadd.SIN', function(n4, term4) {
                                                     self.off('termadd.SIN');
 
                                                     assert.equal(n4, 'SIN', 'The term SIN has been received');
@@ -1046,34 +1093,35 @@ define([
                 assert.equal($container.children().length, 1, 'The container contains an element');
                 this.destroy();
             })
-            .after('destroy', function () {
-                QUnit.start();
+            .after('destroy', function() {
+                ready();
             })
-            .on('error termerror', function (err) {
+            .on('error termerror', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('useTerm - failure', function (assert) {
+    QUnit.test('useTerm - failure', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-useterm');
         var instance;
 
-        QUnit.expect(11);
+        assert.expect(11);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
         instance = calculatorBoardFactory($container);
         instance
-            .on('init', function () {
+            .on('init', function() {
                 var self = this;
                 assert.equal(this, instance, 'The instance has been initialized');
                 assert.equal(this.getExpression(), '', 'The expression is empty');
 
-                return new Promise(function (resolve) {
+                return new Promise(function(resolve) {
                     self
-                        .on('termadd.NUM4', function (name, term) {
+                        .on('termadd.NUM4', function(name, term) {
                             self.off('termadd.NUM4');
 
                             assert.equal(name, 'NUM4', 'The term NUM4 has been received');
@@ -1082,7 +1130,7 @@ define([
                             assert.equal(self.getPosition(), 1, 'New position has been set');
 
                             self
-                                .on('termadd.foo', function (n) {
+                                .on('termadd.foo', function(n) {
                                     self.off('termadd.foo');
 
                                     assert.equal(n, 'foo', 'The term foo has been received');
@@ -1090,7 +1138,7 @@ define([
 
                                     resolve();
                                 })
-                                .on('termerror.foo', function (e) {
+                                .on('termerror.foo', function(e) {
                                     self.off('.foo');
 
                                     assert.ok(e instanceof TypeError, 'The term foo cannot be added');
@@ -1104,31 +1152,32 @@ define([
                         .useTerm('NUM4');
                 });
             })
-            .after('ready', function () {
+            .after('ready', function() {
                 assert.equal($container.children().length, 1, 'The container contains an element');
                 this.destroy();
             })
-            .after('destroy', function () {
-                QUnit.start();
+            .after('destroy', function() {
+                ready();
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('useTerms - success', function (assert) {
+    QUnit.test('useTerms - success', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-useterms');
         var instance;
 
-        QUnit.expect(41);
+        assert.expect(41);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
         instance = calculatorBoardFactory($container);
         instance
-            .on('init', function () {
+            .on('init', function() {
                 var self = this;
                 assert.equal(this, instance, 'The instance has been initialized');
 
@@ -1136,27 +1185,27 @@ define([
                     .then(function() {
                         self.clear();
                         assert.equal(self.getExpression(), '', 'The expression is empty');
-                        return new Promise(function (resolve) {
+                        return new Promise(function(resolve) {
                             self
-                                .on('termadd-NUM4.test', function (term) {
+                                .on('termadd-NUM4.test', function(term) {
                                     self.off('termadd-NUM4.test');
 
                                     assert.ok(true, 'The term NUM4 has been added');
                                     assert.equal(term, registeredTerms.NUM4, 'The right term descriptor has been received for NUM4');
                                 })
-                                .on('termadd-SUB.test', function (term) {
+                                .on('termadd-SUB.test', function(term) {
                                     self.off('termadd-SUB.test');
 
                                     assert.ok(true, 'The term SUB has been added');
                                     assert.equal(term, registeredTerms.SUB, 'The right term descriptor has been received for SUB');
                                 })
-                                .on('termadd-NUM2.test', function (term) {
+                                .on('termadd-NUM2.test', function(term) {
                                     self.off('termadd-NUM2.test');
 
                                     assert.ok(true, 'The term NUM2 has been added');
                                     assert.equal(term, registeredTerms.NUM2, 'The right term descriptor has been received for NUM2');
                                 })
-                                .on('termadd.NUM4', function (n1, term1) {
+                                .on('termadd.NUM4', function(n1, term1) {
                                     self.off('termadd.NUM4');
 
                                     assert.equal(n1, 'NUM4', 'The term NUM4 has been received');
@@ -1164,7 +1213,7 @@ define([
                                     assert.equal(self.getExpression(), '4', 'Expression has been properly updated');
                                     assert.equal(self.getPosition(), 1, 'New position has been set');
 
-                                    self.on('termadd.SUB', function (n2, term2) {
+                                    self.on('termadd.SUB', function(n2, term2) {
                                         self.off('termadd.SUB');
 
                                         assert.equal(n2, 'SUB', 'The term SUB has been received');
@@ -1172,7 +1221,7 @@ define([
                                         assert.equal(self.getExpression(), '4-', 'Expression has been properly updated');
                                         assert.equal(self.getPosition(), 2, 'New position has been set');
 
-                                        self.on('termadd.NUM2', function (n3, term3) {
+                                        self.on('termadd.NUM2', function(n3, term3) {
                                             self.off('termadd.NUM2');
 
                                             assert.equal(n3, 'NUM2', 'The term NUM2 has been received');
@@ -1190,27 +1239,27 @@ define([
                     .then(function() {
                         self.clear();
                         assert.equal(self.getExpression(), '', 'The expression is empty');
-                        return new Promise(function (resolve) {
+                        return new Promise(function(resolve) {
                             self
-                                .on('termadd-NUM3.test', function (term) {
+                                .on('termadd-NUM3.test', function(term) {
                                     self.off('termadd-NUM3.test');
 
                                     assert.ok(true, 'The term NUM3 has been added');
                                     assert.equal(term, registeredTerms.NUM3, 'The right term descriptor has been received for NUM3');
                                 })
-                                .on('termadd-ADD.test', function (term) {
+                                .on('termadd-ADD.test', function(term) {
                                     self.off('termadd-ADD.test');
 
                                     assert.ok(true, 'The term ADD has been added');
                                     assert.equal(term, registeredTerms.ADD, 'The right term descriptor has been received for ADD');
                                 })
-                                .on('termadd-NUM5.test', function (term) {
+                                .on('termadd-NUM5.test', function(term) {
                                     self.off('termadd-NUM5.test');
 
                                     assert.ok(true, 'The term NUM5 has been added');
                                     assert.equal(term, registeredTerms.NUM5, 'The right term descriptor has been received for NUM5');
                                 })
-                                .on('termadd.NUM3', function (n1, term1) {
+                                .on('termadd.NUM3', function(n1, term1) {
                                     self.off('termadd.NUM3');
 
                                     assert.equal(n1, 'NUM3', 'The term NUM3 has been received');
@@ -1218,7 +1267,7 @@ define([
                                     assert.equal(self.getExpression(), '3', 'Expression has been properly updated');
                                     assert.equal(self.getPosition(), 1, 'New position has been set');
 
-                                    self.on('termadd.ADD', function (n2, term2) {
+                                    self.on('termadd.ADD', function(n2, term2) {
                                         self.off('termadd.ADD');
 
                                         assert.equal(n2, 'ADD', 'The term ADD has been received');
@@ -1226,7 +1275,7 @@ define([
                                         assert.equal(self.getExpression(), '3+', 'Expression has been properly updated');
                                         assert.equal(self.getPosition(), 2, 'New position has been set');
 
-                                        self.on('termadd.NUM5', function (n3, term3) {
+                                        self.on('termadd.NUM5', function(n3, term3) {
                                             self.off('termadd.NUM5');
 
                                             assert.equal(n3, 'NUM5', 'The term NUM5 has been received');
@@ -1242,31 +1291,32 @@ define([
                         });
                     });
             })
-            .after('ready', function () {
+            .after('ready', function() {
                 assert.equal($container.children().length, 1, 'The container contains an element');
                 this.destroy();
             })
-            .after('destroy', function () {
-                QUnit.start();
+            .after('destroy', function() {
+                ready();
             })
-            .on('error termerror', function (err) {
+            .on('error termerror', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('useTerms - failure', function (assert) {
+    QUnit.test('useTerms - failure', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-useterms');
         var instance;
 
-        QUnit.expect(19);
+        assert.expect(19);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
         instance = calculatorBoardFactory($container);
         instance
-            .on('init', function () {
+            .on('init', function() {
                 var self = this;
                 assert.equal(this, instance, 'The instance has been initialized');
 
@@ -1274,9 +1324,9 @@ define([
                     .then(function() {
                         self.clear();
                         assert.equal(self.getExpression(), '', 'The expression is empty');
-                        return new Promise(function (resolve) {
+                        return new Promise(function(resolve) {
                             self
-                                .on('termadd.NUM4', function (name, term) {
+                                .on('termadd.NUM4', function(name, term) {
                                     self.off('termadd.NUM4');
 
                                     assert.equal(name, 'NUM4', 'The term NUM4 has been received');
@@ -1285,7 +1335,7 @@ define([
                                     assert.equal(self.getPosition(), 1, 'Position has been set to 1');
 
                                     self
-                                        .on('termadd.foo', function (n) {
+                                        .on('termadd.foo', function(n) {
                                             self.off('termadd.foo');
 
                                             assert.equal(n, 'foo', 'The term foo has been received');
@@ -1293,7 +1343,7 @@ define([
 
                                             resolve();
                                         })
-                                        .on('termerror.foo', function (e) {
+                                        .on('termerror.foo', function(e) {
                                             self.off('.foo');
 
                                             assert.ok(e instanceof TypeError, 'The term foo cannot be added');
@@ -1309,9 +1359,9 @@ define([
                     .then(function() {
                         self.clear();
                         assert.equal(self.getExpression(), '', 'The expression is empty');
-                        return new Promise(function (resolve) {
+                        return new Promise(function(resolve) {
                             self
-                                .on('termadd.NUM2', function (name, term) {
+                                .on('termadd.NUM2', function(name, term) {
                                     self.off('termadd.NUM2');
 
                                     assert.equal(name, 'NUM2', 'The term NUM2 has been received');
@@ -1320,7 +1370,7 @@ define([
                                     assert.equal(self.getPosition(), 1, 'Position has been set to 1');
 
                                     self
-                                        .on('termadd.bar', function (n) {
+                                        .on('termadd.bar', function(n) {
                                             self.off('termadd.bar');
 
                                             assert.equal(n, 'bar', 'The term bar has been received');
@@ -1328,7 +1378,7 @@ define([
 
                                             resolve();
                                         })
-                                        .on('termerror.bar', function (e) {
+                                        .on('termerror.bar', function(e) {
                                             self.off('.bar');
 
                                             assert.ok(e instanceof TypeError, 'The term bar cannot be added');
@@ -1342,23 +1392,30 @@ define([
                         });
                     });
             })
-            .after('ready', function () {
+            .after('ready', function() {
                 assert.equal($container.children().length, 1, 'The container contains an element');
                 this.destroy();
             })
-            .after('destroy', function () {
-                QUnit.start();
+            .after('destroy', function() {
+                ready();
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('useVariable - success', function (assert) {
+    QUnit.test('useVariable - success', function(assert) {
+        var noop;
+        var ready = assert.async();
         var defaultVariables = {
-            'ans': 0
+            ans: {
+                expression: '0',
+                result: 0,
+                value: 0,
+                variables: noop
+            }
         };
         var expectedVariables = {
             'foo': 'bar',
@@ -1366,21 +1423,41 @@ define([
             'y': '3'
         };
         var expectedResults = {
-            'ans': 0,
-            'foo': 0,
-            'x': 42,
-            'y': 3
+            ans: {
+                expression: '0',
+                result: 0,
+                value: 0,
+                variables: noop
+            },
+            foo: {
+                expression: 'bar',
+                result: 0,
+                value: 0,
+                variables: noop
+            },
+            x: {
+                expression: '42',
+                result: 42,
+                value: 42,
+                variables: noop
+            },
+            y: {
+                expression: '3',
+                result: 3,
+                value: 3,
+                variables: noop
+            }
         };
         var $container = $('#fixture-usevariable');
         var instance;
 
-        QUnit.expect(35);
+        assert.expect(35);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
         instance = calculatorBoardFactory($container);
         instance
-            .on('init', function () {
+            .on('init', function() {
                 var self = this;
                 assert.equal(this, instance, 'The instance has been initialized');
                 assert.equal(this.getExpression(), '', 'The expression is empty');
@@ -1389,9 +1466,9 @@ define([
                 self.setVariables(expectedVariables);
                 assert.deepEqual(self.getVariables(), expectedResults, 'All expected variables now set');
 
-                return new Promise(function (resolve) {
+                return new Promise(function(resolve) {
                     self
-                        .on('termadd-VAR_X.test', function (term) {
+                        .on('termadd-VAR_X.test', function(term) {
                             self.off('termadd-VAR_X.test');
 
                             assert.ok(true, 'The term VAR_X has been added');
@@ -1399,7 +1476,7 @@ define([
                             assert.equal(term.label, 'x', 'The expected term has been added');
                             assert.equal(term.value, 'x', 'The expected term value has been added');
                         })
-                        .on('termadd-VAR_Y.test', function (term) {
+                        .on('termadd-VAR_Y.test', function(term) {
                             self.off('termadd-VAR_Y.test');
 
                             assert.ok(true, 'The term VAR_Y has been added');
@@ -1407,7 +1484,7 @@ define([
                             assert.equal(term.label, 'y', 'The expected term has been added');
                             assert.equal(term.value, 'y', 'The expected term value has been added');
                         })
-                        .on('termadd-VAR_FOO.test', function (term) {
+                        .on('termadd-VAR_FOO.test', function(term) {
                             self.off('termadd-VAR_FOO.test');
 
                             assert.ok(true, 'The term VAR_FOO has been added');
@@ -1415,7 +1492,7 @@ define([
                             assert.equal(term.label, 'foo', 'The expected term has been added');
                             assert.equal(term.value, 'foo', 'The expected term value has been added');
                         })
-                        .on('termadd.VAR_X', function (n1, term1) {
+                        .on('termadd.VAR_X', function(n1, term1) {
                             self.off('termadd.VAR_X');
 
                             assert.equal(n1, 'VAR_X', 'The right term has been received');
@@ -1426,7 +1503,7 @@ define([
                             assert.equal(self.getPosition(), 1, 'New position has been set');
 
                             self
-                                .on('termadd.VAR_Y', function (n2, term2) {
+                                .on('termadd.VAR_Y', function(n2, term2) {
                                     self.off('termadd.VAR_Y');
 
                                     assert.equal(n2, 'VAR_Y', 'The right term has been received');
@@ -1437,7 +1514,7 @@ define([
                                     assert.equal(self.getPosition(), 3, 'New position has been set');
 
                                     self
-                                        .on('termadd.VAR_FOO', function (n3, term3) {
+                                        .on('termadd.VAR_FOO', function(n3, term3) {
                                             self.off('termadd.VAR_FOO');
 
                                             assert.equal(n3, 'VAR_FOO', 'The right term has been received');
@@ -1456,42 +1533,49 @@ define([
                         .useVariable('x');
                 });
             })
-            .after('ready', function () {
+            .after('ready', function() {
                 assert.equal($container.children().length, 1, 'The container contains an element');
                 this.destroy();
             })
-            .after('destroy', function () {
-                QUnit.start();
+            .after('destroy', function() {
+                ready();
             })
-            .on('error termerror', function (err) {
+            .on('error termerror', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('useVariable - failure', function (assert) {
+    QUnit.test('useVariable - failure', function(assert) {
+        var noop;
+        var ready = assert.async();
         var defaultVariables = {
-            'ans': 0
+            ans: {
+                expression: '0',
+                result: 0,
+                value: 0,
+                variables: noop
+            }
         };
         var $container = $('#fixture-usevariable');
         var instance;
 
-        QUnit.expect(8);
+        assert.expect(8);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
         instance = calculatorBoardFactory($container);
         instance
-            .on('init', function () {
+            .on('init', function() {
                 var self = this;
                 assert.equal(this, instance, 'The instance has been initialized');
                 assert.equal(this.getExpression(), '', 'The expression is empty');
                 assert.deepEqual(self.getVariables(), defaultVariables, 'Only default variables set for now');
 
-                return new Promise(function (resolve) {
+                return new Promise(function(resolve) {
                     self
-                        .on('termadd.varx', function (name) {
+                        .on('termadd.varx', function(name) {
                             self.off('termadd.varx');
 
                             assert.equal(name, 'VAR_X', 'The term foo has been received');
@@ -1499,7 +1583,7 @@ define([
 
                             resolve();
                         })
-                        .on('termerror.varx', function (e) {
+                        .on('termerror.varx', function(e) {
                             self.off('.varx');
 
                             assert.ok(e instanceof TypeError, 'The term cannot be added');
@@ -1511,49 +1595,50 @@ define([
                         .useVariable('x');
                 });
             })
-            .after('ready', function () {
+            .after('ready', function() {
                 assert.equal($container.children().length, 1, 'The container contains an element');
                 this.destroy();
             })
-            .after('destroy', function () {
-                QUnit.start();
+            .after('destroy', function() {
+                ready();
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('useCommand - success', function (assert) {
+    QUnit.test('useCommand - success', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-command');
         var instance;
 
-        QUnit.expect(21);
+        assert.expect(21);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
         instance = calculatorBoardFactory($container);
         instance
-            .on('init', function () {
+            .on('init', function() {
                 var self = this;
                 assert.equal(this, instance, 'The instance has been initialized');
                 assert.equal(this.getExpression(), '', 'The expression is empty');
                 assert.equal(this.getPosition(), 0, 'Position is at beginning');
 
-                return new Promise(function (resolve) {
+                return new Promise(function(resolve) {
                     self
-                        .on('command-foo', function (p) {
+                        .on('command-foo', function(p) {
                             assert.ok(true, 'The foo command has been called');
                             assert.equal(typeof p, 'undefined', 'No command parameter');
                         })
-                        .on('command-bar', function (p1, p2, p3) {
+                        .on('command-bar', function(p1, p2, p3) {
                             assert.ok(true, 'The bar command has been called');
                             assert.equal(p1, 'tip', 'The first parameter is correct');
                             assert.equal(p2, 'top', 'The second parameter is correct');
                             assert.equal(p3, 42, 'The third parameter is correct');
                         })
-                        .on('command.test', function (n1, p) {
+                        .on('command.test', function(n1, p) {
                             self.off('command.test');
 
                             assert.equal(n1, 'foo', 'The right command has been received');
@@ -1562,7 +1647,7 @@ define([
                             assert.equal(self.getPosition(), 0, 'Position did not change');
 
                             self
-                                .on('command.test', function (n2, p1, p2, p3) {
+                                .on('command.test', function(n2, p1, p2, p3) {
                                     self.off('command.test');
 
                                     assert.equal(n2, 'bar', 'The right command has been received');
@@ -1581,39 +1666,40 @@ define([
                         .useCommand('foo');
                 });
             })
-            .after('ready', function () {
+            .after('ready', function() {
                 assert.equal($container.children().length, 1, 'The container contains an element');
                 this.destroy();
             })
-            .after('destroy', function () {
-                QUnit.start();
+            .after('destroy', function() {
+                ready();
             })
-            .on('error commanderror', function (err) {
+            .on('error commanderror', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('useCommand - failure', function (assert) {
+    QUnit.test('useCommand - failure', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-command');
         var instance;
 
-        QUnit.expect(8);
+        assert.expect(8);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
         instance = calculatorBoardFactory($container);
         instance
-            .on('init', function () {
+            .on('init', function() {
                 var self = this;
                 assert.equal(this, instance, 'The instance has been initialized');
                 assert.equal(this.getExpression(), '', 'The expression is empty');
                 assert.equal(this.getPosition(), 0, 'Position is at beginning');
 
-                return new Promise(function (resolve) {
+                return new Promise(function(resolve) {
                     self
-                        .on('command.test', function (name) {
+                        .on('command.test', function(name) {
                             self.off('command.test');
 
                             assert.equal(name, 'foo', 'The command foo should not be received!');
@@ -1621,7 +1707,7 @@ define([
 
                             resolve();
                         })
-                        .on('commanderror.test', function (e) {
+                        .on('commanderror.test', function(e) {
                             self.off('commanderror.test');
 
                             assert.ok(e instanceof TypeError, 'The command cannot be called');
@@ -1633,31 +1719,32 @@ define([
                         .useCommand('foo');
                 });
             })
-            .after('ready', function () {
+            .after('ready', function() {
                 assert.equal($container.children().length, 1, 'The container contains an element');
                 this.destroy();
             })
-            .after('destroy', function () {
-                QUnit.start();
+            .after('destroy', function() {
+                ready();
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('clear', function (assert) {
+    QUnit.test('clear', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-clear');
         var instance;
 
-        QUnit.expect(10);
+        assert.expect(10);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
         instance = calculatorBoardFactory($container);
         instance
-            .on('init', function () {
+            .on('init', function() {
                 var self = this;
                 var newExpression = '3+1';
                 assert.equal(this, instance, 'The instance has been initialized');
@@ -1670,9 +1757,9 @@ define([
                 assert.equal(this.getExpression(), newExpression, 'The expression is set');
                 assert.equal(this.getPosition(), newExpression.length, 'The position is set');
 
-                return new Promise(function (resolve) {
+                return new Promise(function(resolve) {
                     self
-                        .on('clear.test', function () {
+                        .on('clear.test', function() {
                             self.off('clear.test');
 
                             assert.ok(true, 'The expression is cleared');
@@ -1683,31 +1770,32 @@ define([
                         .clear();
                 });
             })
-            .after('ready', function () {
+            .after('ready', function() {
                 assert.equal($container.children().length, 1, 'The container contains an element');
                 this.destroy();
             })
-            .after('destroy', function () {
-                QUnit.start();
+            .after('destroy', function() {
+                ready();
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('replace', function (assert) {
+    QUnit.test('replace', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-replace');
         var instance;
 
-        QUnit.expect(21);
+        assert.expect(21);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
         instance = calculatorBoardFactory($container);
         instance
-            .on('init', function () {
+            .on('init', function() {
                 var self = this;
                 var oldExpression = '3+1';
                 var newExpression = '4*(4+1)';
@@ -1723,17 +1811,17 @@ define([
 
                 return Promise.resolve()
                     .then(function() {
-                        return new Promise(function (resolve) {
+                        return new Promise(function(resolve) {
                             self
-                                .on('expressionchange.test', function (expr) {
+                                .on('expressionchange.test', function(expr) {
                                     self.off('expressionchange.test');
                                     assert.equal(expr, newExpression, 'The new expression is set');
                                 })
-                                .on('positionchange.test', function (pos) {
+                                .on('positionchange.test', function(pos) {
                                     self.off('positionchange.test');
                                     assert.equal(pos, newExpression.length, 'The new position is set');
                                 })
-                                .on('replace.test', function (oldExpr, oldPos) {
+                                .on('replace.test', function(oldExpr, oldPos) {
                                     self.off('replace.test');
 
                                     assert.ok(true, 'The expression is replaced');
@@ -1748,17 +1836,17 @@ define([
                         });
                     })
                     .then(function() {
-                        return new Promise(function (resolve) {
+                        return new Promise(function(resolve) {
                             self
-                                .on('expressionchange.test', function (expr) {
+                                .on('expressionchange.test', function(expr) {
                                     self.off('expressionchange.test');
                                     assert.equal(expr, oldExpression, 'The old expression is set');
                                 })
-                                .on('positionchange.test', function (pos) {
+                                .on('positionchange.test', function(pos) {
                                     self.off('positionchange.test');
                                     assert.equal(pos, 1, 'The arbitrary position is set');
                                 })
-                                .on('replace.test', function (oldExpr, oldPos) {
+                                .on('replace.test', function(oldExpr, oldPos) {
                                     self.off('replace.test');
 
                                     assert.ok(true, 'The expression is replaced');
@@ -1773,31 +1861,32 @@ define([
                         });
                     });
             })
-            .after('ready', function () {
+            .after('ready', function() {
                 assert.equal($container.children().length, 1, 'The container contains an element');
                 this.destroy();
             })
-            .after('destroy', function () {
-                QUnit.start();
+            .after('destroy', function() {
+                ready();
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('insert', function (assert) {
+    QUnit.test('insert', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-insert');
         var instance;
 
-        QUnit.expect(14);
+        assert.expect(14);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
         instance = calculatorBoardFactory($container);
         instance
-            .on('init', function () {
+            .on('init', function() {
                 var self = this;
                 var oldExpression = '3+1';
                 var oldPosition = oldExpression.length - 1;
@@ -1813,15 +1902,15 @@ define([
                 assert.equal(this.getExpression(), oldExpression, 'The old expression is set');
                 assert.equal(this.getPosition(), oldPosition, 'The old position is set');
 
-                return new Promise(function (resolve) {
+                return new Promise(function(resolve) {
                     self
-                        .on('expressionchange.test', function (expr) {
+                        .on('expressionchange.test', function(expr) {
                             assert.equal(expr, newExpression, 'The new expression is set');
                         })
-                        .on('positionchange.test', function (pos) {
+                        .on('positionchange.test', function(pos) {
                             assert.equal(pos, oldPosition + insertedExpression.length, 'The new position is set');
                         })
-                        .on('insert.test', function (oldExpr, oldPos) {
+                        .on('insert.test', function(oldExpr, oldPos) {
                             self.off('insert.test');
 
                             assert.ok(true, 'The expression is inserted');
@@ -1835,27 +1924,28 @@ define([
                         .insert(insertedExpression);
                 });
             })
-            .after('ready', function () {
+            .after('ready', function() {
                 assert.equal($container.children().length, 1, 'The container contains an element');
                 this.destroy();
             })
-            .after('destroy', function () {
-                QUnit.start();
+            .after('destroy', function() {
+                ready();
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('evaluate - success', function (assert) {
+    QUnit.test('evaluate - success', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-evaluate');
         var initExpression = '.1+.2';
         var expectedResult = '0.3';
         var instance;
 
-        QUnit.expect(10);
+        assert.expect(10);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
@@ -1864,15 +1954,15 @@ define([
             position: initExpression.length
         });
         instance
-            .on('init', function () {
+            .on('init', function() {
                 var self = this;
                 assert.equal(this, instance, 'The instance has been initialized');
                 assert.equal(this.getExpression(), initExpression, 'The expression is initialized');
                 assert.equal(this.getPosition(), initExpression.length, 'The expression is initialized');
                 return Promise.resolve()
                     .then(function() {
-                        return new Promise(function (resolve) {
-                            self.on('evaluate.expr', function (result) {
+                        return new Promise(function(resolve) {
+                            self.on('evaluate.expr', function(result) {
                                 self.off('evaluate.expr');
                                 assert.equal(result.value, expectedResult, 'The expression has been properly evaluated');
                                 resolve();
@@ -1881,10 +1971,10 @@ define([
                         });
                     })
                     .then(function() {
-                        return new Promise(function (resolve) {
+                        return new Promise(function(resolve) {
                             self.clear();
                             assert.equal(self.getExpression(), '', 'The expression is cleared');
-                            self.on('evaluate.empty', function (result) {
+                            self.on('evaluate.empty', function(result) {
                                 self.off('evaluate.empty');
                                 assert.equal(result.value, '0', 'An empty expression should be evaluated as 0');
                                 resolve();
@@ -1893,26 +1983,27 @@ define([
                         });
                     });
             })
-            .after('ready', function () {
+            .after('ready', function() {
                 assert.equal($container.children().length, 1, 'The container contains an element');
                 this.destroy();
             })
-            .after('destroy', function () {
-                QUnit.start();
+            .after('destroy', function() {
+                ready();
             })
-            .on('error syntaxerror', function (err) {
+            .on('error syntaxerror', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('evaluate - error', function (assert) {
+    QUnit.test('evaluate - error', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-evaluate');
         var initExpression = '.1+*.2';
         var instance;
 
-        QUnit.expect(7);
+        assert.expect(7);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
@@ -1921,45 +2012,46 @@ define([
             position: initExpression.length
         });
         instance
-            .on('init', function () {
+            .on('init', function() {
                 var self = this;
                 assert.equal(this, instance, 'The instance has been initialized');
                 assert.equal(this.getExpression(), initExpression, 'The expression is initialized');
                 assert.equal(this.getPosition(), initExpression.length, 'The expression is initialized');
-                return new Promise(function (resolve) {
+                return new Promise(function(resolve) {
                     self
-                        .on('evaluate', function () {
+                        .on('evaluate', function() {
                             assert.ok(false, 'The expression should not be evaluated');
                             resolve();
                         })
-                        .on('syntaxerror', function (e) {
+                        .on('syntaxerror', function(e) {
                             assert.ok(e instanceof Error, 'The evaluation of the expression has failed');
                             resolve();
                         });
                     assert.equal(self.evaluate(), null, 'The expression cannot be evaluated');
                 });
             })
-            .after('ready', function () {
+            .after('ready', function() {
                 assert.equal($container.children().length, 1, 'The container contains an element');
                 this.destroy();
             })
-            .after('destroy', function () {
-                QUnit.start();
+            .after('destroy', function() {
+                ready();
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('evaluate variable - success', function (assert) {
+    QUnit.test('evaluate variable - success', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-evaluate');
         var initExpression = '(.1+.2)*x';
         var expectedResult = '0.9';
         var instance;
 
-        QUnit.expect(7);
+        assert.expect(7);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
@@ -1968,13 +2060,13 @@ define([
             position: initExpression.length
         });
         instance
-            .on('init', function () {
+            .on('init', function() {
                 var self = this;
                 assert.equal(this, instance, 'The instance has been initialized');
                 assert.equal(this.getExpression(), initExpression, 'The expression is initialized');
                 assert.equal(this.getPosition(), initExpression.length, 'The expression is initialized');
-                return new Promise(function (resolve) {
-                    self.on('evaluate', function (result) {
+                return new Promise(function(resolve) {
+                    self.on('evaluate', function(result) {
                         assert.equal(result.value, expectedResult, 'The expression has been properly evaluated');
                         resolve();
                     });
@@ -1982,26 +2074,27 @@ define([
                     assert.equal(self.evaluate().value, expectedResult, 'The expression is successfully evaluated');
                 });
             })
-            .after('ready', function () {
+            .after('ready', function() {
                 assert.equal($container.children().length, 1, 'The container contains an element');
                 this.destroy();
             })
-            .after('destroy', function () {
-                QUnit.start();
+            .after('destroy', function() {
+                ready();
             })
-            .on('error syntaxerror', function (err) {
+            .on('error syntaxerror', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('evaluate variable - failure', function (assert) {
+    QUnit.test('evaluate variable - failure', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-evaluate');
         var initExpression = '(.1+.2)*x';
         var instance;
 
-        QUnit.expect(7);
+        assert.expect(7);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
@@ -2010,42 +2103,43 @@ define([
             position: initExpression.length
         });
         instance
-            .on('init', function () {
+            .on('init', function() {
                 var self = this;
                 assert.equal(this, instance, 'The instance has been initialized');
                 assert.equal(this.getExpression(), initExpression, 'The expression is initialized');
                 assert.equal(this.getPosition(), initExpression.length, 'The expression is initialized');
-                return new Promise(function (resolve) {
+                return new Promise(function(resolve) {
                     self
-                        .on('evaluate', function () {
+                        .on('evaluate', function() {
                             assert.ok(false, 'The expression should not be evaluated');
                             resolve();
                         })
-                        .on('syntaxerror', function (e) {
+                        .on('syntaxerror', function(e) {
                             assert.ok(e instanceof Error, 'The evaluation of the expression has failed');
                             resolve();
                         });
                     assert.equal(self.evaluate(), null, 'The expression cannot be evaluated');
                 });
             })
-            .after('ready', function () {
+            .after('ready', function() {
                 assert.equal($container.children().length, 1, 'The container contains an element');
                 this.destroy();
             })
-            .after('destroy', function () {
-                QUnit.start();
+            .after('destroy', function() {
+                ready();
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('ans variable', function (assert) {
+    QUnit.test('ans variable', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-ans');
         var calculator = calculatorBoardFactory($container)
-            .on('ready', function () {
+            .on('ready', function() {
                 function evaluatePromise(expression) {
                     return new Promise(function(resolve, reject) {
                         calculator
@@ -2063,92 +2157,93 @@ define([
                 }
 
                 Promise.resolve()
-                    .then(function () {
+                    .then(function() {
                         assert.equal(calculator.hasVariable('ans'), true, 'The variable ans is defined');
                         assert.equal(calculator.getVariable('ans').value, '0', 'The variable ans contains 0');
                         assert.equal(calculator.getLastResult().value, '0', 'The last result contains 0');
 
                         return evaluatePromise('ans');
                     })
-                    .then(function (result) {
+                    .then(function(result) {
                         assert.equal(result.value, '0', 'The expression "ans" is evaluated to 0');
                         assert.equal(calculator.getVariable('ans').value, '0', 'The variable ans now contains 0');
                         assert.equal(calculator.getLastResult().value, '0', 'The last result now contains 0');
 
                         return evaluatePromise('40+2');
                     })
-                    .then(function (result) {
+                    .then(function(result) {
                         assert.equal(result.value, '42', 'The expression "40+2" is evaluated to 42');
                         assert.equal(calculator.getVariable('ans').value, '42', 'The variable ans now contains 42');
                         assert.equal(calculator.getLastResult().value, '42', 'The last result now contains 42');
 
                         return evaluatePromise('ans*2');
                     })
-                    .then(function (result) {
+                    .then(function(result) {
                         assert.equal(result.value, '84', 'The expression "ans*2" is evaluated to 84');
                         assert.equal(calculator.getVariable('ans').value, '84', 'The variable ans now contains 84');
                         assert.equal(calculator.getLastResult().value, '84', 'The last result now contains 84');
 
                         return evaluatePromise('3*2');
                     })
-                    .then(function (result) {
+                    .then(function(result) {
                         assert.equal(result.value, '6', 'The expression "3*2" is evaluated to 6');
                         assert.equal(calculator.getVariable('ans').value, '6', 'The variable ans now contains 6');
                         assert.equal(calculator.getLastResult().value, '6', 'The last result now contains 6');
 
                         return evaluatePromise('sqrt -2');
                     })
-                    .then(function (result) {
+                    .then(function(result) {
                         assert.equal(String(result.value), 'NaN', 'The expression "sqrt -2" is evaluated to NaN');
                         assert.equal(calculator.getVariable('ans').value, '0', 'The variable ans now contains 0');
                         assert.equal(calculator.getLastResult().value, '0', 'The last result now contains 0');
                     })
-                    .then(function () {
+                    .then(function() {
                         calculator.setLastResult('42');
                         assert.equal(calculator.getVariable('ans').value, '42', 'The variable ans now contains 42');
                         assert.equal(calculator.getLastResult().value, '42', 'The last result now contains 42');
                     })
-                    .then(function () {
+                    .then(function() {
                         calculator.setLastResult('Infinity');
                         assert.equal(calculator.getVariable('ans').value, '0', 'The variable ans now contains 0');
                         assert.equal(calculator.getLastResult().value, '0', 'The last result now contains 0');
                     })
-                    .then(function () {
+                    .then(function() {
                         calculator.setLastResult('NaN');
                         assert.equal(calculator.getVariable('ans').value, '0', 'The variable ans now contains 0');
                         assert.equal(calculator.getLastResult().value, '0', 'The last result now contains 0');
                     })
-                    .catch(function (err) {
+                    .catch(function(err) {
                         assert.ok(false, 'Unexpected failure : ' + err.message);
                     })
-                    .then(function () {
+                    .then(function() {
                         calculator.destroy();
                     });
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             })
-            .after('destroy', function () {
+            .after('destroy', function() {
                 assert.equal(calculator.hasVariable('ans'), false, 'The variable ans has been removed');
-                QUnit.start();
+                ready();
             });
 
-        QUnit.expect(25);
+        assert.expect(25);
     });
 
-    QUnit.asyncTest('built-in commands - clear', function (assert) {
+    QUnit.test('built-in commands - clear', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-builtin');
         var instance;
 
-        QUnit.expect(10);
+        assert.expect(10);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
         instance = calculatorBoardFactory($container);
         instance
-            .on('init', function () {
+            .on('init', function() {
                 var self = this;
                 var newExpression = '3+1';
                 assert.equal(this, instance, 'The instance has been initialized');
@@ -2161,9 +2256,9 @@ define([
                 assert.equal(this.getExpression(), newExpression, 'The expression is set');
                 assert.equal(this.getPosition(), newExpression.length, 'The position is set');
 
-                return new Promise(function (resolve) {
+                return new Promise(function(resolve) {
                     self
-                        .on('clear.test', function () {
+                        .on('clear.test', function() {
                             self.off('clear.test');
 
                             assert.ok(true, 'The expression is cleared');
@@ -2174,31 +2269,32 @@ define([
                         .useCommand('clear');
                 });
             })
-            .after('ready', function () {
+            .after('ready', function() {
                 assert.equal($container.children().length, 1, 'The container contains an element');
                 this.destroy();
             })
-            .after('destroy', function () {
-                QUnit.start();
+            .after('destroy', function() {
+                ready();
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('built-in commands - clearAll', function (assert) {
+    QUnit.test('built-in commands - clearAll', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-builtin');
         var instance;
 
-        QUnit.expect(10);
+        assert.expect(10);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
         instance = calculatorBoardFactory($container);
         instance
-            .on('init', function () {
+            .on('init', function() {
                 var self = this;
                 var newExpression = '3+1';
                 assert.equal(this, instance, 'The instance has been initialized');
@@ -2211,9 +2307,9 @@ define([
                 assert.equal(this.getExpression(), newExpression, 'The expression is set');
                 assert.equal(this.getPosition(), newExpression.length, 'The position is set');
 
-                return new Promise(function (resolve) {
+                return new Promise(function(resolve) {
                     self
-                        .on('clear.test', function () {
+                        .on('clear.test', function() {
                             self.off('clear.test');
 
                             assert.ok(true, 'The expression is cleared');
@@ -2224,27 +2320,28 @@ define([
                         .useCommand('clearAll');
                 });
             })
-            .after('ready', function () {
+            .after('ready', function() {
                 assert.equal($container.children().length, 1, 'The container contains an element');
                 this.destroy();
             })
-            .after('destroy', function () {
-                QUnit.start();
+            .after('destroy', function() {
+                ready();
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('built-in commands - execute', function (assert) {
+    QUnit.test('built-in commands - execute', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-builtin');
         var initExpression = '.1+.2';
         var expectedResult = '0.3';
         var instance;
 
-        QUnit.expect(6);
+        assert.expect(6);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
@@ -2253,42 +2350,43 @@ define([
             position: initExpression.length
         });
         instance
-            .on('init', function () {
+            .on('init', function() {
                 var self = this;
                 assert.equal(this, instance, 'The instance has been initialized');
                 assert.equal(this.getExpression(), initExpression, 'The expression is initialized');
                 assert.equal(this.getPosition(), initExpression.length, 'The expression is initialized');
-                return new Promise(function (resolve) {
+                return new Promise(function(resolve) {
                     self
-                        .on('evaluate', function (result) {
+                        .on('evaluate', function(result) {
                             assert.equal(result.value, expectedResult, 'The expression has been properly evaluated');
                             resolve();
                         })
                         .useCommand('execute');
                 });
             })
-            .after('ready', function () {
+            .after('ready', function() {
                 assert.equal($container.children().length, 1, 'The container contains an element');
                 this.destroy();
             })
-            .after('destroy', function () {
-                QUnit.start();
+            .after('destroy', function() {
+                ready();
             })
-            .on('error syntaxerror', function (err) {
+            .on('error syntaxerror', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('built-in commands - var and term', function (assert) {
+    QUnit.test('built-in commands - var and term', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-builtin');
         var initExpression = '.1+.2';
         var expectedExpression = '.1+.2+x^2';
         var expectedResult = '9.3';
         var instance;
 
-        QUnit.expect(8);
+        assert.expect(8);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
@@ -2297,14 +2395,14 @@ define([
             position: initExpression.length
         });
         instance
-            .on('init', function () {
+            .on('init', function() {
                 var self = this;
                 assert.equal(this, instance, 'The instance has been initialized');
                 assert.equal(this.getExpression(), initExpression, 'The expression is initialized');
                 assert.equal(this.getPosition(), initExpression.length, 'The expression is initialized');
-                return new Promise(function (resolve) {
+                return new Promise(function(resolve) {
                     self
-                        .after('evaluate.test', function (result) {
+                        .after('evaluate.test', function(result) {
                             self.off('evaluate.test');
                             assert.equal(self.getExpression(), expectedExpression, 'The expression has been updated');
                             assert.equal(self.getPosition(), expectedExpression.length, 'The position has been updated');
@@ -2318,31 +2416,32 @@ define([
                         .evaluate();
                 });
             })
-            .after('ready', function () {
+            .after('ready', function() {
                 assert.equal($container.children().length, 1, 'The container contains an element');
                 this.destroy();
             })
-            .after('destroy', function () {
-                QUnit.start();
+            .after('destroy', function() {
+                ready();
             })
-            .on('error syntaxerror', function (err) {
+            .on('error syntaxerror', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('mathsEvaluator', function (assert) {
+    QUnit.test('mathsEvaluator', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-evaluator');
         var instance;
 
-        QUnit.expect(11);
+        assert.expect(11);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
         instance = calculatorBoardFactory($container);
         instance
-            .on('init', function () {
+            .on('init', function() {
                 var mathsEvaluator = this.getMathsEvaluator();
                 assert.equal(this, instance, 'The instance has been initialized');
                 assert.equal(this.getExpression(), '', 'The expression is initialized');
@@ -2357,24 +2456,25 @@ define([
                 assert.notEqual(mathsEvaluator('sin(PI/2)').value, '1', 'The mathsEvaluator should not work in radian anymore');
                 assert.equal(mathsEvaluator('sin 90').value, '1', 'The mathsEvaluator now works in degree');
             })
-            .after('ready', function () {
+            .after('ready', function() {
                 assert.equal($container.children().length, 1, 'The container contains an element');
                 this.destroy();
             })
-            .after('destroy', function () {
-                QUnit.start();
+            .after('destroy', function() {
+                ready();
             })
-            .on('error syntaxerror', function (err) {
+            .on('error syntaxerror', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('0 and operator', function (assert) {
+    QUnit.test('0 and operator', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-zero-op');
         var calculator = calculatorBoardFactory($container)
-            .on('ready', function () {
+            .on('ready', function() {
                 function addTermPromise(term) {
                     return new Promise(function(resolve, reject) {
                         calculator
@@ -2393,46 +2493,46 @@ define([
                 calculator.replace('0');
 
                 Promise.resolve()
-                    .then(function () {
+                    .then(function() {
                         assert.equal(calculator.getExpression(), '0', 'The expression should be set to 0');
                         assert.equal(calculator.getPosition(), 1, 'The position should be set to 1');
                         return addTermPromise('NUM0');
                     })
-                    .then(function () {
+                    .then(function() {
                         assert.equal(calculator.getExpression(), '0', 'The expression should still be 0');
                         assert.equal(calculator.getPosition(), 1, 'The position should still be 1');
                         return addTermPromise('ADD');
                     })
-                    .then(function () {
+                    .then(function() {
                         assert.equal(calculator.getExpression(), '0+', 'The expression should be now 0+');
                         assert.equal(calculator.getPosition(), 2, 'The position should be now 2');
                         return addTermPromise('NUM5');
                     })
-                    .then(function () {
+                    .then(function() {
                         assert.equal(calculator.getExpression(), '0+5', 'The expression should be now 0+5');
                         assert.equal(calculator.getPosition(), 3, 'The position should be now 3');
                     })
-                    .catch(function (err) {
+                    .catch(function(err) {
                         assert.ok(false, 'Unexpected failure : ' + err.message);
                     })
-                    .then(function () {
+                    .then(function() {
                         calculator.destroy();
                     });
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             })
-            .on('destroy', function () {
-                QUnit.start();
+            .on('destroy', function() {
+                ready();
             });
 
-        QUnit.expect(8);
+        assert.expect(8);
     });
 
     QUnit
-        .cases([{
+        .cases.init([{
             title: 'PI',
             term: 'PI',
             expression: 'PI',
@@ -2468,7 +2568,8 @@ define([
             type: 'function',
             label: registeredTerms.NTHRT.label
         }])
-        .asyncTest('0 and const', function (data, assert) {
+        .test('0 and const', function (data, assert) {
+            var ready = assert.async();
             var $container = $('#fixture-zero-const');
             var calculator = calculatorBoardFactory($container)
                 .on('ready', function () {
@@ -2490,43 +2591,44 @@ define([
                     calculator.replace('0');
 
                     Promise.resolve()
-                        .then(function () {
+                        .then(function() {
                             assert.equal(calculator.getExpression(), '0', 'The expression should be set to 0');
                             assert.equal(calculator.getPosition(), 1, 'The position should be set to 1');
                             return addTermPromise('NUM0');
                         })
-                        .then(function () {
+                        .then(function() {
                             assert.equal(calculator.getExpression(), '0', 'The expression should still be 0');
                             assert.equal(calculator.getPosition(), 1, 'The position should still be 1');
                             return addTermPromise(data.term);
                         })
-                        .then(function () {
+                        .then(function() {
                             assert.equal(calculator.getExpression(), data.expression, 'The expression should be ' + data.expression);
                             assert.equal(calculator.getPosition(), data.expression.length, 'The position should be ' + data.expression.length);
                         })
-                        .catch(function (err) {
+                        .catch(function(err) {
                             assert.ok(false, 'Unexpected failure : ' + err.message);
                         })
-                        .then(function () {
+                        .then(function() {
                             calculator.destroy();
                         });
                 })
-                .on('error', function (err) {
+                .on('error', function(err) {
                     console.error(err);
                     assert.ok(false, 'The operation should not fail!');
-                    QUnit.start();
+                    ready();
                 })
-                .on('destroy', function () {
-                    QUnit.start();
+                .on('destroy', function() {
+                    ready();
                 });
 
-            QUnit.expect(6);
+            assert.expect(6);
         });
 
-    QUnit.asyncTest('ans and operator', function (assert) {
+    QUnit.test('ans and operator', function(assert) {
+        var ready = assert.async();
         var $container = $('#fixture-ans-op');
         var calculator = calculatorBoardFactory($container)
-            .on('ready', function () {
+            .on('ready', function() {
                 function addTermPromise(term) {
                     return new Promise(function(resolve, reject) {
                         calculator
@@ -2545,46 +2647,46 @@ define([
                 calculator.replace('ans');
 
                 Promise.resolve()
-                    .then(function () {
+                    .then(function() {
                         assert.equal(calculator.getExpression(), 'ans', 'The expression should be set to ans');
                         assert.equal(calculator.getPosition(), 3, 'The position should be set to 3');
                         return addTermPromise('ANS');
                     })
-                    .then(function () {
+                    .then(function() {
                         assert.equal(calculator.getExpression(), 'ans', 'The expression should still be ans');
                         assert.equal(calculator.getPosition(), 3, 'The position should still be 3');
                         return addTermPromise('ADD');
                     })
-                    .then(function () {
+                    .then(function() {
                         assert.equal(calculator.getExpression(), 'ans+', 'The expression should be now ans+');
                         assert.equal(calculator.getPosition(), 4, 'The position should be now 4');
                         return addTermPromise('NUM8');
                     })
-                    .then(function () {
+                    .then(function() {
                         assert.equal(calculator.getExpression(), 'ans+8', 'The expression should be now ans+8');
                         assert.equal(calculator.getPosition(), 5, 'The position should be now 5');
                     })
-                    .catch(function (err) {
+                    .catch(function(err) {
                         assert.ok(false, 'Unexpected failure : ' + err.message);
                     })
-                    .then(function () {
+                    .then(function() {
                         calculator.destroy();
                     });
             })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
-                QUnit.start();
+                ready();
             })
-            .on('destroy', function () {
-                QUnit.start();
+            .on('destroy', function() {
+                ready();
             });
 
-        QUnit.expect(8);
+        assert.expect(8);
     });
 
     QUnit
-        .cases([{
+        .cases.init([{
             title: 'PI',
             term: 'PI',
             expression: 'PI',
@@ -2620,7 +2722,8 @@ define([
             type: 'function',
             label: registeredTerms.NTHRT.label
         }])
-        .asyncTest('ans and const', function (data, assert) {
+        .test('ans and const', function (data, assert) {
+            var ready = assert.async();
             var $container = $('#fixture-ans-const');
             var calculator = calculatorBoardFactory($container)
                 .on('ready', function () {
@@ -2642,36 +2745,36 @@ define([
                     calculator.replace('ans');
 
                     Promise.resolve()
-                        .then(function () {
+                        .then(function() {
                             assert.equal(calculator.getExpression(), 'ans', 'The expression should be set to ans');
                             assert.equal(calculator.getPosition(), 3, 'The position should be set to 3');
                             return addTermPromise('ANS');
                         })
-                        .then(function () {
+                        .then(function() {
                             assert.equal(calculator.getExpression(), 'ans', 'The expression should still be ans');
                             assert.equal(calculator.getPosition(), 3, 'The position should still be 3');
                             return addTermPromise(data.term);
                         })
-                        .then(function () {
+                        .then(function() {
                             assert.equal(calculator.getExpression(), data.expression, 'The expression should be ' + data.expression);
                             assert.equal(calculator.getPosition(), data.expression.length, 'The position should be ' + data.expression.length);
                         })
-                        .catch(function (err) {
+                        .catch(function(err) {
                             assert.ok(false, 'Unexpected failure : ' + err.message);
                         })
-                        .then(function () {
+                        .then(function() {
                             calculator.destroy();
                         });
                 })
-                .on('error', function (err) {
+                .on('error', function(err) {
                     console.error(err);
                     assert.ok(false, 'The operation should not fail!');
-                    QUnit.start();
+                    ready();
                 })
-                .on('destroy', function () {
-                    QUnit.start();
+                .on('destroy', function() {
+                    ready();
                 });
 
-            QUnit.expect(6);
+            assert.expect(6);
         });
 });

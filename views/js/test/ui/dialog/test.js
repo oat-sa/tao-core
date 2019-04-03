@@ -18,45 +18,42 @@
 /**
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
-define([
-    'jquery',
-    'lodash',
-    'core/promise',
-    'ui/dialog'
-], function($, _, Promise, dialog) {
+define(['jquery', 'lodash', 'core/promise', 'ui/dialog'], function($, _, Promise, dialog) {
     'use strict';
 
     QUnit.module('dialog');
 
-
-    QUnit.test('module', 3, function(assert) {
-        assert.equal(typeof dialog, 'function', "The dialog module exposes a function");
-        assert.equal(typeof dialog(), 'object', "The dialog factory produces an object");
-        assert.notStrictEqual(dialog(), dialog(), "The dialog factory provides a different object on each call");
+    QUnit.test('module', function(assert) {
+        assert.equal(typeof dialog, 'function', 'The dialog module exposes a function');
+        assert.equal(typeof dialog(), 'object', 'The dialog factory produces an object');
+        assert.notStrictEqual(dialog(), dialog(), 'The dialog factory provides a different object on each call');
     });
 
 
+    var dialogApi = [
+        {title: 'init'},
+        {title: 'destroy'},
+        {title: 'setButtons'},
+        {title: 'render'},
+        {title: 'show'},
+        {title: 'hide'},
+        {title: 'trigger'},
+        {title: 'on'},
+        {title: 'off'},
+        {title: 'getDom'},
+        {title: 'focus'}
+    ];
+
     QUnit
-        .cases([
-            {title: 'init'},
-            {title: 'destroy'},
-            {title: 'setButtons'},
-            {title: 'render'},
-            {title: 'show'},
-            {title: 'hide'},
-            {title: 'trigger'},
-            {title: 'on'},
-            {title: 'off'},
-            {title: 'getDom'},
-            {title: 'focus'}
-        ])
+        .cases.init(dialogApi)
         .test('instance API ', function(data, assert) {
             var instance = dialog();
             assert.equal(typeof instance[data.title], 'function', 'The dialog instance exposes a "' + data.title + '" function');
         });
 
-
-    QUnit.asyncTest('install', function(assert) {
+    QUnit.test('install', function(assert) {
+        var ready1 = assert.async();
+        var ready = assert.async(4);
         var heading = 'heading';
         var message = 'test';
         var content = '12345';
@@ -71,6 +68,7 @@ define([
         var resolvers = [];
         var promises = _.times(expectedEvents, function() {
             return new Promise(function(resolve) {
+
                 // Extract the resolve function to an array of resolvers
                 // because some promised events will occur more than one time.
                 // So we need to use anonymous promises, only the quantity matters.
@@ -78,88 +76,94 @@ define([
             });
         });
         var resolve = function() {
-            // just resolve one promise
+
+            // Just resolve one promise
             (resolvers.pop())();
-            QUnit.start();
+            ready();
         };
 
         Promise.all(promises).then(function() {
             modal.destroy();
-            assert.ok(null === modal.getDom(), "The dialog instance does not have a DOM element anymore");
-            assert.equal($(renderTo).children().length, 0, "The container does not contains the dialog box anymore");
+            assert.ok(null === modal.getDom(), 'The dialog instance does not have a DOM element anymore');
+            assert.equal($(renderTo).children().length, 0, 'The container does not contains the dialog box anymore');
 
-            QUnit.start();
+            ready1();
         });
 
-        QUnit.stop(expectedEvents);
-
         modal.on('opened.modal', function() {
-            // this should occur twice
-            assert.ok(true, "The dialog box is now visible");
+
+            // This should occur twice
+            assert.ok(true, 'The dialog box is now visible');
             resolve();
         });
         modal.on('closed.modal', function() {
-            // this should occur only once
-            assert.ok(true, "The dialog box is now hidden");
+
+            // This should occur only once
+            assert.ok(true, 'The dialog box is now hidden');
             resolve();
         });
         modal.on('create.modal', function() {
-            // this should occur only once
-            assert.ok(modal.getDom().parent().is(renderTo), "When rendered, the dialog box is rendered into target element");
+
+            // This should occur only once
+            assert.ok(modal.getDom().parent().is(renderTo), 'When rendered, the dialog box is rendered into target element');
             resolve();
         });
 
-        assert.equal(typeof modal, 'object', "The dialog instance is an object");
-        assert.equal(typeof modal.getDom(), 'object', "The dialog instance gets a DOM element");
-        assert.ok(!!modal.getDom().length, "The dialog instance gets a DOM element");
-        assert.equal(modal.getDom().parent().length, 0, "The dialog box is not rendered by default");
-        assert.equal(modal.getDom().find('h4').text(), heading, "The dialog box displays the heading");
-        assert.equal(modal.getDom().find('.message').text(), message, "The dialog box displays the message");
-        assert.equal(modal.getDom().find('.content').text(), content, "The dialog box displays an additional content");
+        assert.equal(typeof modal, 'object', 'The dialog instance is an object');
+        assert.equal(typeof modal.getDom(), 'object', 'The dialog instance gets a DOM element');
+        assert.ok(!!modal.getDom().length, 'The dialog instance gets a DOM element');
+        assert.equal(modal.getDom().parent().length, 0, 'The dialog box is not rendered by default');
+        assert.equal(modal.getDom().find('h4').text(), heading, 'The dialog box displays the heading');
+        assert.equal(modal.getDom().find('.message').text(), message, 'The dialog box displays the message');
+        assert.equal(modal.getDom().find('.content').text(), content, 'The dialog box displays an additional content');
 
         modal.render();
         modal.hide();
         modal.show();
     });
 
-
-    QUnit.asyncTest('events', function(assert) {
+    QUnit.test('events', function(assert) {
+        var ready1 = assert.async();
         var message = 'test';
         var eventRemoved = false;
         var modal = dialog({
             message: message
         });
 
-        QUnit.stop(1);
+        var ready = assert.async();
 
         modal.on('custom', function() {
             if (eventRemoved) {
-                assert.ok(false, "The dialog box has triggered a removed event");
+                assert.ok(false, 'The dialog box has triggered a removed event');
             } else {
-                assert.ok(true, "The dialog box has triggered the custom event");
+                assert.ok(true, 'The dialog box has triggered the custom event');
                 modal.off('custom');
                 eventRemoved = true;
                 setTimeout(function() {
-                    assert.ok(true, "The dialog box has not triggered the remove event");
-                    QUnit.start();
+                    assert.ok(true, 'The dialog box has not triggered the remove event');
+                    ready();
 
                 }, 250);
                 modal.trigger('custom');
             }
-            QUnit.start();
+            ready1();
         });
 
-        assert.equal(typeof modal, 'object', "The dialog instance is an object");
-        assert.equal(typeof modal.getDom(), 'object', "The dialog instance gets a DOM element");
-        assert.ok(!!modal.getDom().length, "The dialog instance gets a DOM element");
-        assert.equal(modal.getDom().parent().length, 0, "The dialog box is not rendered by default");
-        assert.equal(modal.getDom().find('.message').text(), message, "The dialog box displays the message");
+        assert.equal(typeof modal, 'object', 'The dialog instance is an object');
+        assert.equal(typeof modal.getDom(), 'object', 'The dialog instance gets a DOM element');
+        assert.ok(!!modal.getDom().length, 'The dialog instance gets a DOM element');
+        assert.equal(modal.getDom().parent().length, 0, 'The dialog box is not rendered by default');
+        assert.equal(modal.getDom().find('.message').text(), message, 'The dialog box displays the message');
 
         modal.trigger('custom');
     });
 
-
-    QUnit.asyncTest('buttons', function(assert) {
+    QUnit.test('buttons', function(assert) {
+        var ready5 = assert.async();
+        var ready4 = assert.async();
+        var ready3 = assert.async();
+        var ready2 = assert.async(2);
+        var ready1 = assert.async();
         var message = 'test';
         var modal = dialog({
             message: message,
@@ -169,7 +173,7 @@ define([
                 assert.equal(typeof btn, 'object', '[yes button] The button descriptor is provided');
                 assert.equal(btn.id, 'yes', '[yes button] The right button descriptor is provided');
 
-                QUnit.start();
+                ready();
             },
 
             onNoBtn: function(event, btn) {
@@ -177,7 +181,7 @@ define([
                 assert.equal(typeof btn, 'object', '[no button] The button descriptor is provided');
                 assert.equal(btn.id, 'no', '[no button] The right button descriptor is provided');
 
-                QUnit.start();
+                ready1();
             },
 
             onOkBtn: function(event, btn) {
@@ -185,7 +189,7 @@ define([
                 assert.equal(typeof btn, 'object', '[ok button] The button descriptor is provided');
                 assert.equal(btn.id, 'ok', '[ok button] The right button descriptor is provided');
 
-                QUnit.start();
+                ready2();
             },
 
             onCancelBtn: function(event, btn) {
@@ -193,19 +197,19 @@ define([
                 assert.equal(typeof btn, 'object', '[cancel button] The button descriptor is provided');
                 assert.equal(btn.id, 'cancel', '[cancel button] The right button descriptor is provided');
 
-                QUnit.start();
+                ready3();
             }
         });
 
-        QUnit.stop(6);
+        var ready = assert.async();
 
-        assert.equal(typeof modal, 'object', "The dialog instance is an object");
-        assert.equal(typeof modal.getDom(), 'object', "The dialog instance gets a DOM element");
-        assert.ok(!!modal.getDom().length, "The dialog instance gets a DOM element");
-        assert.equal(modal.getDom().parent().length, 0, "The dialog box is not rendered by default");
-        assert.equal(modal.getDom().find('.message').text(), message, "The dialog box displays the message");
+        assert.equal(typeof modal, 'object', 'The dialog instance is an object');
+        assert.equal(typeof modal.getDom(), 'object', 'The dialog instance gets a DOM element');
+        assert.ok(!!modal.getDom().length, 'The dialog instance gets a DOM element');
+        assert.equal(modal.getDom().parent().length, 0, 'The dialog box is not rendered by default');
+        assert.equal(modal.getDom().find('.message').text(), message, 'The dialog box displays the message');
 
-        assert.equal(modal.getDom().find('button').length, 4, "The dialog box displays 4 buttons");
+        assert.equal(modal.getDom().find("button").length, 4, "The dialog box displays 4 buttons");
         assert.equal(modal.getDom().find('button[data-control="yes"]').length, 1, "The dialog box displays a 'yes' button");
         assert.equal(modal.getDom().find('button[data-control="no"]').length, 1, "The dialog box displays a 'no' button");
         assert.equal(modal.getDom().find('button[data-control="ok"]').length, 1, "The dialog box displays a 'ok' button");
@@ -226,18 +230,17 @@ define([
             assert.equal(typeof btn, 'object', '[test button] The button descriptor is provided');
             assert.equal(btn.id, 'test', '[test button] The right button descriptor is provided');
 
-            QUnit.start();
+            ready4();
         });
 
-        assert.equal(modal.getDom().find('button').length, 1, "The dialog box displays only 1 button");
+        assert.equal(modal.getDom().find("button").length, 1, "The dialog box displays only 1 button");
         assert.equal(modal.getDom().find('button[data-control="test"]').length, 1, "The dialog box displays a 'test' button");
-        assert.equal(modal.getDom().find('button[data-control="test"]').text().trim(), 'test', "The dialog box displays has a 'test' label");
-        assert.ok(modal.getDom().find('button[data-control="test"]').hasClass('btn-info'), "The 'test' button has the 'info' class");
-        assert.ok(modal.getDom().find('button[data-control="test"]').hasClass('test'), "The 'test' button has the 'test' class");
-        assert.equal(modal.getDom().find('button .icon-test').length, 1, "The 'test' button has a 'test' icon");
+        assert.equal(modal.getDom().find('button[data-control="test"]').text().trim(), "test", "The dialog box displays has a 'test' label");
+        assert.ok(modal.getDom().find('button[data-control="test"]').hasClass("btn-info"), "The 'test' button has the 'info' class");
+        assert.ok(modal.getDom().find('button[data-control="test"]').hasClass("test"), "The 'test' button has the 'test' class");
+        assert.equal(modal.getDom().find("button .icon-test").length, 1, "The 'test' button has a 'test' icon");
 
         modal.getDom().find('button[data-control="test"]').click();
-
 
         modal.setButtons(['ok', {
             id: 'done',
@@ -249,23 +252,21 @@ define([
             assert.equal(typeof btn, 'object', '[done button] The button descriptor is provided');
             assert.equal(btn.id, 'done', '[done button] The right button descriptor is provided');
 
-            QUnit.start();
+            ready5();
         });
 
-        assert.equal(modal.getDom().find('button').length, 2, "The dialog box displays 2 buttons");
+        assert.equal(modal.getDom().find("button").length, 2, "The dialog box displays 2 buttons");
         assert.equal(modal.getDom().find('button[data-control="ok"]').length, 1, "The dialog box displays a 'ok' button");
         assert.equal(modal.getDom().find('button[data-control="done"]').length, 1, "The dialog box displays a 'done' button");
-        assert.equal(modal.getDom().find('button[data-control="done"]').text().trim(), 'done', "The dialog box displays has a 'done' label");
-        assert.ok(modal.getDom().find('button[data-control="done"]').hasClass('btn-info'), "The 'done' button has the 'info' class");
-        assert.ok(modal.getDom().find('button[data-control="done"]').hasClass('done'), "The 'done' button has the 'done' class");
-        assert.equal(modal.getDom().find('button .icon-done').length, 1, "The 'done' button has a 'done' icon");
+        assert.equal(modal.getDom().find('button[data-control="done"]').text().trim(), "done", "The dialog box displays has a 'done' label");
+        assert.ok(modal.getDom().find('button[data-control="done"]').hasClass("btn-info"), "The 'done' button has the 'info' class");
+        assert.ok(modal.getDom().find('button[data-control="done"]').hasClass("done"), "The 'done' button has the 'done' class");
+        assert.equal(modal.getDom().find("button .icon-done").length, 1, "The 'done' button has a 'done' icon");
 
         modal.getDom().find('button[data-control="ok"]').click();
         modal.getDom().find('button[data-control="done"]').click();
     });
-
-
-    QUnit.cases([{
+    QUnit.cases.init([{
         title: '1st button',
         focus: 'yes',
         buttons: 'yes,no,ok,cancel'
@@ -281,7 +282,8 @@ define([
         title: '4th button',
         focus: 'ok',
         buttons: 'yes,no,ok,cancel'
-    }]).asyncTest('focus', function(data, assert) {
+    }]).test('focus', function(data, assert) {
+        var ready = assert.async();
         var renderTo = '#fixture-focus';
         var message = 'test';
         var buttons = data.buttons.split(',');
@@ -312,11 +314,11 @@ define([
             assert.equal(modal.getDom().find('button[data-control="' + data.focus + '"]:focus').length, 1, "The button '" + data.focus + "' should be focused now");
 
             modal.destroy();
-            QUnit.start();
+            ready();
         }).render(renderTo);
     });
-
-    QUnit.asyncTest('destroy', function(assert) {
+    QUnit.test("destroy", function(assert) {
+        var ready = assert.async();
 
         var message = 'foo';
         var content = 'bar';
@@ -328,7 +330,7 @@ define([
             renderTo: renderTo
         });
 
-        QUnit.expect(4);
+        assert.expect(4);
 
         modal.on('create.modal', function() {
             assert.equal($(renderTo + ' .modal').length, 1, 'The modal element is created');
@@ -341,11 +343,10 @@ define([
             assert.equal($(renderTo + ' .modal').length, 1, 'The modal element is still there due to the way the modal works');
             assert.equal(modal.destroyed, true, 'The dialog has the destroyed state');
 
-
-            QUnit.start();
+            ready();
         });
-
 
         modal.render();
     });
 });
+

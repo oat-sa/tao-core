@@ -1963,7 +1963,7 @@ define([
              * Triggers a media playback event
              * @event mediaplayer#play
              */
-            this.trigger('play');
+            this.trigger('play', this.$media[0]);
         },
 
         /**

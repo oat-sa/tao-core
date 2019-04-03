@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint96\n"
-"PO-Revision-Date: 2019-03-01T11:07:05\n"
+"Project-Id-Version: TAO 3.3.0-sprint99\n"
+"PO-Revision-Date: 2019-03-29T09:53:41\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nl-NL\n"
@@ -230,6 +230,12 @@ msgstr "Alle velden zijn verplicht"
 msgid "All rights reserved."
 msgstr "Alle rechten voorbehouden"
 
+msgid "Allow for all domains"
+msgstr ""
+
+msgid "Allow for the following domains"
+msgstr ""
+
 msgid "Alpha version"
 msgstr "Alpha versie "
 
@@ -393,10 +399,10 @@ msgstr "Wijzig het wachtwoord"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check All"
+msgid "Check all"
 msgstr "Alles selecteren"
 
-msgid "Check all"
+msgid "Check All"
 msgstr "Alles selecteren"
 
 msgid "Check-in"
@@ -441,10 +447,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
 msgid "Clear selection"
@@ -531,6 +537,9 @@ msgstr ""
 msgid "Creation At"
 msgstr ""
 
+msgid "CSP Header settings were saved successfully!"
+msgstr ""
+
 msgid "CSV"
 msgstr "CSV"
 
@@ -555,10 +564,10 @@ msgstr "Data is succesvol geïmporteerd"
 msgid "Data imported. Some records are invalid."
 msgstr "Data is geïmporteerd. Sommige records zijn ongeldig."
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "Data taal"
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "Data taal"
 
 msgid "Data not imported. All records are invalid."
@@ -681,6 +690,9 @@ msgstr "Pas klasse %s aan"
 
 msgid "Edit Instance"
 msgstr "Pas instantie aan"
+
+msgid "Edit sources that can embed this platform in an iFrame"
+msgstr ""
 
 msgid "Element"
 msgstr "Element"
@@ -837,11 +849,17 @@ msgstr ""
 msgid "floor"
 msgstr ""
 
+msgid "Forbid for all domains"
+msgstr ""
+
 msgid "Force Release"
 msgstr "Forceer het uitgeven"
 
 msgid "Forgot your password?"
 msgstr "Uw wachtwoord vergeten?"
+
+msgid "Form data not saved."
+msgstr ""
 
 msgid "From"
 msgstr ""
@@ -993,6 +1011,9 @@ msgstr "Taal van de omgeving"
 msgid "Interface language"
 msgstr "Taal van de omgeving"
 
+msgid "Invalid CSP header."
+msgstr ""
+
 msgid "Invalid date range (must be after or the same as: %s)"
 msgstr "Onjuist datum bereik (moet liggen na of op: %s)"
 
@@ -1039,6 +1060,9 @@ msgid "invalid regular expression"
 msgstr "Onjuiste reguliere expressie."
 
 msgid "Invalid values:"
+msgstr ""
+
+msgid "items per page"
 msgstr ""
 
 msgid "Label"
@@ -1215,6 +1239,9 @@ msgstr "Het verplaatsen van dit element zal de eigenschappen van de vorige klass
 msgid "Multiple values delimiter"
 msgstr "Scheidingsteken tussen meerdere waarden"
 
+msgid "Multiply the value by 10^x"
+msgstr ""
+
 msgid "must be numeric"
 msgstr "moet numeriek zijn"
 
@@ -1277,10 +1304,10 @@ msgstr "Geen bestanden"
 msgid "no label"
 msgstr "geen label"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "Geen voorbeeld beschikbaar"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "Geen voorbeeld beschikbaar"
 
 msgid "No results found"
@@ -1332,16 +1359,19 @@ msgstr "van"
 msgid "Off"
 msgstr ""
 
-msgid "OK"
-msgstr "OK"
-
 msgid "Ok"
 msgstr "Ok"
+
+msgid "OK"
+msgstr "OK"
 
 msgid "Old Password"
 msgstr "Oud wachtwoord"
 
 msgid "On"
+msgstr ""
+
+msgid "Only allow for my own domain (%s)"
 msgstr ""
 
 msgid "Operated By "
@@ -1652,6 +1682,9 @@ msgstr ""
 msgid "Save"
 msgstr "Opslaan"
 
+msgid "Saved."
+msgstr ""
+
 msgid "Scientific Calculator"
 msgstr ""
 
@@ -1675,6 +1708,13 @@ msgstr ""
 
 msgid "seconds"
 msgstr "seconden"
+
+#, tao-public
+msgid "Security"
+msgstr ""
+
+msgid "Security settings"
+msgstr ""
 
 msgid "select"
 msgstr "selecteren"
@@ -1747,6 +1787,9 @@ msgid "Size"
 msgstr "Grootte"
 
 msgid "Some resources have not been moved: %s"
+msgstr ""
+
+msgid "Sources that can embed this platform in an iFrame"
 msgstr ""
 
 msgid "Square root"
@@ -2150,10 +2193,13 @@ msgstr ""
 msgid "Users"
 msgstr "Gebruikers"
 
-msgid "Validation for field '%s' has failed. Language does not exists in the system"
+msgid "Validation for field '%s' has failed. Language does not exist in the system"
 msgstr ""
 
 msgid "Validation for field '%s' has failed. List of values expected"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Should not be empty"
 msgstr ""
 
 msgid "Validation for field '%s' has failed. Valid role expected. Given: %s"

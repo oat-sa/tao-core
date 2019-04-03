@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint96\n"
-"PO-Revision-Date: 2019-03-01T11:07:33\n"
+"Project-Id-Version: TAO 3.3.0-sprint99\n"
+"PO-Revision-Date: 2019-03-29T09:53:59\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-TW\n"
@@ -230,6 +230,12 @@ msgstr "所有都是必填欄位"
 msgid "All rights reserved."
 msgstr "保留所有權利。"
 
+msgid "Allow for all domains"
+msgstr ""
+
+msgid "Allow for the following domains"
+msgstr ""
+
 msgid "Alpha version"
 msgstr "Alpha版本"
 
@@ -393,10 +399,10 @@ msgstr "更改密碼"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check All"
+msgid "Check all"
 msgstr "全部勾選"
 
-msgid "Check all"
+msgid "Check All"
 msgstr "全部勾選"
 
 msgid "Check-in"
@@ -441,10 +447,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
 msgid "Clear selection"
@@ -531,6 +537,9 @@ msgstr ""
 msgid "Creation At"
 msgstr ""
 
+msgid "CSP Header settings were saved successfully!"
+msgstr ""
+
 msgid "CSV"
 msgstr "CSV (以逗號分隔)"
 
@@ -555,10 +564,10 @@ msgstr "數據已成功匯入"
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "數據語言"
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "數據語言"
 
 msgid "Data not imported. All records are invalid."
@@ -681,6 +690,9 @@ msgstr ""
 
 msgid "Edit Instance"
 msgstr "編輯實例"
+
+msgid "Edit sources that can embed this platform in an iFrame"
+msgstr ""
 
 msgid "Element"
 msgstr "元素"
@@ -837,11 +849,17 @@ msgstr ""
 msgid "floor"
 msgstr ""
 
+msgid "Forbid for all domains"
+msgstr ""
+
 msgid "Force Release"
 msgstr "強制釋放"
 
 msgid "Forgot your password?"
 msgstr "忘了您的密碼嗎？"
+
+msgid "Form data not saved."
+msgstr ""
 
 msgid "From"
 msgstr ""
@@ -993,6 +1011,9 @@ msgstr "介面語言"
 msgid "Interface language"
 msgstr "介面語言"
 
+msgid "Invalid CSP header."
+msgstr ""
+
 msgid "Invalid date range (must be after or the same as: %s)"
 msgstr ""
 
@@ -1039,6 +1060,9 @@ msgid "invalid regular expression"
 msgstr "無效的正規表示式"
 
 msgid "Invalid values:"
+msgstr ""
+
+msgid "items per page"
 msgstr ""
 
 msgid "Label"
@@ -1215,6 +1239,9 @@ msgstr "當您移動此元素時，您將會用目標類的屬性取代之前類
 msgid "Multiple values delimiter"
 msgstr "多個值分隔符"
 
+msgid "Multiply the value by 10^x"
+msgstr ""
+
 msgid "must be numeric"
 msgstr "必須是數字"
 
@@ -1277,10 +1304,10 @@ msgstr "無檔案"
 msgid "no label"
 msgstr "無標籤"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "沒有可用的預覽"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "沒有可用的預覽"
 
 msgid "No results found"
@@ -1332,16 +1359,19 @@ msgstr "的"
 msgid "Off"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr ""
 
-msgid "Ok"
+msgid "OK"
 msgstr ""
 
 msgid "Old Password"
 msgstr "舊密碼"
 
 msgid "On"
+msgstr ""
+
+msgid "Only allow for my own domain (%s)"
 msgstr ""
 
 msgid "Operated By "
@@ -1652,6 +1682,9 @@ msgstr ""
 msgid "Save"
 msgstr "儲存"
 
+msgid "Saved."
+msgstr ""
+
 msgid "Scientific Calculator"
 msgstr ""
 
@@ -1675,6 +1708,13 @@ msgstr ""
 
 msgid "seconds"
 msgstr "秒"
+
+#, tao-public
+msgid "Security"
+msgstr ""
+
+msgid "Security settings"
+msgstr ""
 
 msgid "select"
 msgstr "選擇"
@@ -1747,6 +1787,9 @@ msgid "Size"
 msgstr "大小"
 
 msgid "Some resources have not been moved: %s"
+msgstr ""
+
+msgid "Sources that can embed this platform in an iFrame"
 msgstr ""
 
 msgid "Square root"
@@ -2150,10 +2193,13 @@ msgstr ""
 msgid "Users"
 msgstr "用戶"
 
-msgid "Validation for field '%s' has failed. Language does not exists in the system"
+msgid "Validation for field '%s' has failed. Language does not exist in the system"
 msgstr ""
 
 msgid "Validation for field '%s' has failed. List of values expected"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Should not be empty"
 msgstr ""
 
 msgid "Validation for field '%s' has failed. Valid role expected. Given: %s"

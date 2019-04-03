@@ -22,50 +22,50 @@
 define([
     'tpl!test/tpl/samples/dompurify_script',
     'tpl!test/tpl/samples/join_keyvalue',
-    'tpl!test/tpl/samples/join_array',
-], function (tplDomPurifyScript, tplJoinKeyValue, tplJoinArray){
+    'tpl!test/tpl/samples/join_array'
+], function(tplDomPurifyScript, tplJoinKeyValue, tplJoinArray) {
     'use strict';
 
     QUnit.module('registered handlers');
 
-    QUnit.cases([{
-        title : 'try to inject a script',
-        html  : '<b>bold</b><script>alert("dirty!")</script><a href="#">link</a>',
-        expected : '<b>bold</b><a href="#">link</a>'
+    QUnit.cases.init([{
+        title: 'try to inject a script',
+        html: '<b>bold</b><script>alert("dirty!")</script><a href="#">link</a>',
+        expected: '<b>bold</b><a href="#">link</a>'
     }, {
-        title : 'try to inject a tpl var',
-        html  : '<b>bold</b><span>{{foo}}</span>',
-        expected : '<b>bold</b><span>{{foo}}</span>'
+        title: 'try to inject a tpl var',
+        html: '<b>bold</b><span>{{foo}}</span>',
+        expected: '<b>bold</b><span>{{foo}}</span>'
     }, {
-        title : 'try to inject an html var',
-        html  : '<b>bold</b><span>{{{moo}}}</span>',
-        expected : '<b>bold</b><span>{{{moo}}}</span>'
+        title: 'try to inject an html var',
+        html: '<b>bold</b><span>{{{moo}}}</span>',
+        expected: '<b>bold</b><span>{{{moo}}}</span>'
     }, {
-        title : 'keep data-attr remove onEvent',
-        html  : '<button data-action="yolo" onclick="hijack()">Hello</button>',
-        expected : '<button data-action="yolo">Hello</button>'
+        title: 'keep data-attr remove onEvent',
+        html: '<button data-action="yolo" onclick="hijack()">Hello</button>',
+        expected: '<button data-action="yolo">Hello</button>'
     }]).test('dompurify - script', function (data, assert) {
 
         var rendering = tplDomPurifyScript({
-            dirtyHtml : data.html,
-            foo : 'bar',
-            moo : '<strong>bar</strong>'
+            dirtyHtml: data.html,
+            foo: 'bar',
+            moo: '<strong>bar</strong>'
         });
         assert.equal(rendering, '<div>' + data.expected + '</div>', 'purified dom rendering ok');
     });
 
-    QUnit.test('join - key value', function (assert){
-        var values = {a:'v1', b:'v2', c:'v3'};
+    QUnit.test('join - key value', function(assert) {
+        var values = {a: 'v1', b: 'v2', c: 'v3'};
         var rendering = tplJoinKeyValue({
-            values : values
+            values: values
         });
-        assert.equal(rendering, 'a="v1" b="v2" c="v3"', 'join key value rendering ok');
+        assert.equal(rendering, 'a="v1" b="v2" c="v3"', "join key value rendering ok");
     });
 
-    QUnit.test('join - array value', function (assert){
-        var values = {a:'v1', b:'v2', c:'v3'};
+    QUnit.test('join - array value', function(assert) {
+        var values = {a: 'v1', b: 'v2', c: 'v3'};
         var rendering = tplJoinArray({
-            values : values
+            values: values
         });
         assert.equal(rendering, '*v1* or *v2* or *v3*', 'join array rendering ok');
     });

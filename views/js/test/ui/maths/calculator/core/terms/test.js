@@ -18,10 +18,7 @@
 /**
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
  */
-define([
-    'lodash',
-    'ui/maths/calculator/core/terms'
-], function (_, registeredTerms) {
+define(['lodash', 'ui/maths/calculator/core/terms'], function(_, registeredTerms) {
     'use strict';
 
     var termTypes = [
@@ -37,17 +34,17 @@ define([
 
     QUnit.module('Module');
 
-    QUnit.test('module', function (assert) {
-        QUnit.expect(1);
-        assert.equal(typeof registeredTerms, 'object', "The module exposes an object");
+    QUnit.test('module', function(assert) {
+        assert.expect(1);
+        assert.equal(typeof registeredTerms, 'object', 'The module exposes an object');
     });
 
-    QUnit.test('terms', function (assert) {
-        QUnit.expect(1 + _.size(registeredTerms) * 9);
+    QUnit.test('terms', function(assert) {
+        assert.expect(1 + _.size(registeredTerms) * 9);
 
         assert.ok(_.size(registeredTerms) > 0, 'A list of terms is exposed');
 
-        _.forEach(registeredTerms, function (term, id) {
+        _.forEach(registeredTerms, function(term, id) {
             assert.equal(typeof term.label, 'string', 'The term ' + id + ' has a property label');
             assert.equal(typeof term.value, 'string', 'The term ' + id + ' has a property value');
             assert.equal(typeof term.type, 'string', 'The term ' + id + ' has a property type');

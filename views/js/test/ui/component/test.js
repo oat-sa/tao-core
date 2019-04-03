@@ -18,49 +18,43 @@
 /**
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
-define([
-    'jquery',
-    'lodash',
-    'ui/component'
-], function($, _, componentFactory) {
+define(['jquery', 'lodash', 'ui/component'], function($, _, componentFactory) {
     'use strict';
 
     QUnit.module('component');
 
     QUnit.test('module', function(assert) {
-        QUnit.expect(3);
-        assert.equal(typeof componentFactory, 'function', "The component module exposes a function");
-        assert.equal(typeof componentFactory(), 'object', "The component factory produces an object");
-        assert.notStrictEqual(componentFactory(), componentFactory(), "The component factory provides a different object on each call");
+        assert.expect(3);
+        assert.equal(typeof componentFactory, 'function', 'The component module exposes a function');
+        assert.equal(typeof componentFactory(), 'object', 'The component factory produces an object');
+        assert.notStrictEqual(componentFactory(), componentFactory(), 'The component factory provides a different object on each call');
     });
 
-
-    QUnit.cases([
-        { title : 'init' },
-        { title : 'destroy' },
-        { title : 'render' },
-        { title : 'setSize' },
-        { title : 'show' },
-        { title : 'hide' },
-        { title : 'enable' },
-        { title : 'disable' },
-        { title : 'is' },
-        { title : 'setState' },
-        { title : 'getContainer' },
-        { title : 'getElement' },
-        { title : 'getTemplate' },
-        { title : 'setTemplate' },
-        { title : 'getConfig' }
+    QUnit.cases.init([
+        {title: 'init'},
+        {title: 'destroy'},
+        {title: 'render'},
+        {title: 'setSize'},
+        {title: 'show'},
+        {title: 'hide'},
+        {title: 'enable'},
+        {title: 'disable'},
+        {title: 'is'},
+        {title: 'setState'},
+        {title: 'getContainer'},
+        {title: 'getElement'},
+        {title: 'getTemplate'},
+        {title: 'setTemplate'},
+        {title: 'getConfig'}
     ]).test('instance API ', function(data, assert) {
         var instance = componentFactory();
-        QUnit.expect(1);
+        assert.expect(1);
         assert.equal(typeof instance[data.title], 'function', 'The component instance exposes a "' + data.title + '" function');
     });
 
-
     QUnit.test('init', function(assert) {
         var specs = {
-            value : 10,
+            value: 10,
             method: function() {
 
             }
@@ -75,7 +69,7 @@ define([
         };
         var instance = componentFactory(specs, defaults).init(config);
 
-        QUnit.expect(10);
+        assert.expect(10);
 
         assert.notEqual(instance, specs, 'The component instance must not be the same obect as the list of specs');
         assert.notEqual(instance.config, config, 'The component instance must duplicate the config set');
@@ -91,7 +85,6 @@ define([
         instance.destroy();
     });
 
-
     QUnit.test('render', function(assert) {
         var $dummy1 = $('<div class="dummy" />');
         var $dummy2 = $('<div class="dummy" />');
@@ -102,9 +95,9 @@ define([
         var $container3 = $('#fixture-3');
         var instance;
 
-        QUnit.expect(30);
+        assert.expect(30);
 
-        // auto render at init
+        // Auto render at init
         assert.equal($container1.children().length, 1, 'The container1 already contains an element');
         assert.equal($container1.children().get(0), $dummy1.get(0), 'The container1 contains the dummy element');
         assert.equal($container1.find('.dummy').length, 1, 'The container1 contains an element of the class dummy');
@@ -125,7 +118,7 @@ define([
         assert.equal($container1.children().length, 0, 'The container1 is now empty');
         assert.equal(instance.getElement(), null, 'The component instance has removed its rendered content');
 
-        // explicit render
+        // Explicit render
         assert.equal($container2.children().length, 1, 'The container2 already contains an element');
         assert.equal($container2.children().get(0), $dummy2.get(0), 'The container2 contains the dummy element');
         assert.equal($container2.find('.dummy').length, 1, 'The container2 contains an element of the class dummy');
@@ -165,7 +158,6 @@ define([
         assert.equal(instance.getElement(), null, 'The component instance has removed its rendered content');
     });
 
-
     QUnit.test('setSize', function(assert) {
         var $dummy1 = $('<div class="dummy" />');
         var $dummy2 = $('<div class="dummy" />');
@@ -179,9 +171,9 @@ define([
         var instance;
         var getSizeResult;
 
-        QUnit.expect(42);
+        assert.expect(42);
 
-        // auto render at init
+        // Auto render at init
         assert.equal($container1.children().length, 1, 'The container1 already contains an element');
         assert.equal($container1.children().get(0), $dummy1.get(0), 'The container1 contains the dummy element');
         assert.equal($container1.find('.dummy').length, 1, 'The container1 contains an element of the class dummy');
@@ -211,7 +203,7 @@ define([
         assert.equal($container1.children().length, 0, 'The container1 is now empty');
         assert.equal(instance.getElement(), null, 'The component instance has removed its rendered content');
 
-        // explicit render
+        // Explicit render
         assert.equal($container2.children().length, 1, 'The container2 already contains an element');
         assert.equal($container2.children().get(0), $dummy2.get(0), 'The container2 contains the dummy element');
         assert.equal($container2.find('.dummy').length, 1, 'The container2 contains an element of the class dummy');
@@ -278,7 +270,7 @@ define([
     });
 
     QUnit
-        .cases([
+        .cases.init([
             {
                 title: 'content-box, no extra size, margin not included',
                 boxSizing: 'content-box', width: 100, height: 100, margin: 0, padding: 0, border: 0, includeMargin: false,
@@ -321,11 +313,11 @@ define([
                 outerWidth: 120, outerHeight: 120
             }
         ])
-        .asyncTest('getOuterSize()', function(data, assert) {
+        .test('getOuterSize()', function(data, assert) {
             var template = '<div>TEST</div>',
                 $container1 = $('#fixture-1');
-
-            QUnit.expect(2);
+            var ready = assert.async();
+            assert.expect(2);
 
             componentFactory()
                 .setTemplate(template)
@@ -344,7 +336,7 @@ define([
                     assert.equal(outerSize.width, data.outerWidth, 'getOuterSize() returns the correct width');
                     assert.equal(outerSize.height, data.outerHeight, 'getOuterSize() returns the correct height');
 
-                    QUnit.start();
+                    ready();
                 })
                 .init({
                     renderTo: $container1,
@@ -354,7 +346,6 @@ define([
                 });
         });
 
-
     QUnit.test('show/hide', function(assert) {
         var instance = componentFactory()
                         .init()
@@ -362,7 +353,7 @@ define([
 
         var $component = instance.getElement();
 
-        QUnit.expect(8);
+        assert.expect(8);
 
         assert.equal(instance.is('rendered'), true, 'The component instance must be rendered');
         assert.equal($component.length, 1, 'The component instance returns the rendered content');
@@ -383,14 +374,13 @@ define([
         instance.destroy();
     });
 
-
     QUnit.test('enable/disable', function(assert) {
         var instance = componentFactory()
                         .init()
                         .render();
         var $component = instance.getElement();
 
-        QUnit.expect(8);
+        assert.expect(8);
 
         assert.equal(instance.is('rendered'), true, 'The component instance must be rendered');
         assert.equal($component.length, 1, 'The component instance returns the rendered content');
@@ -411,14 +401,13 @@ define([
         instance.destroy();
     });
 
-
     QUnit.test('state', function(assert) {
         var instance = componentFactory()
                         .init()
                         .render();
         var $component = instance.getElement();
 
-        QUnit.expect(8);
+        assert.expect(8);
 
         assert.equal(instance.is('rendered'), true, 'The component instance must be rendered');
         assert.equal($component.length, 1, 'The component instance returns the rendered content');
@@ -439,40 +428,43 @@ define([
         instance.destroy();
     });
 
-
-    QUnit.asyncTest('events', function(assert) {
+    QUnit.test('events', function(assert) {
+        var ready4 = assert.async();
+        var ready3 = assert.async();
+        var ready2 = assert.async();
+        var ready1 = assert.async();
         var instance = componentFactory();
         var expectedWidth = 200;
         var expectedHeight = 100;
 
-        QUnit.expect(7);
-        QUnit.stop(4);
+        assert.expect(7);
+        var ready = assert.async();
 
         instance.on('custom', function() {
             assert.ok(true, 'The component instance can handle custom events');
-            QUnit.start();
+            ready();
         });
 
         instance.on('init', function() {
             assert.ok(true, 'The component instance triggers event when it is initialized');
-            QUnit.start();
+            ready1();
         });
 
         instance.on('render', function() {
             assert.ok(true, 'The component instance triggers event when it is rendered');
-            QUnit.start();
+            ready2();
         });
 
         instance.on('setsize', function(width, height) {
             assert.ok(true, 'The component instance triggers event when it is resized');
             assert.equal(width, expectedWidth, 'The right width has been provided');
             assert.equal(height, expectedHeight, 'The right height has been provided');
-            QUnit.start();
+            ready3();
         });
 
         instance.on('destroy', function() {
             assert.ok(true, 'The component instance triggers event when it is destroyed');
-            QUnit.start();
+            ready4();
         });
 
         instance
@@ -483,33 +475,34 @@ define([
             .destroy();
     });
 
-    QUnit.asyncTest('extends', function (assert) {
+    QUnit.test('extends', function(assert) {
+        var ready = assert.async();
         var expectedValue = 'pouet!';
         var instance = componentFactory({
             yolo: function(val) {
                 assert.ok(true, 'The additional method has been called');
                 assert.equal(val, expectedValue, 'The expected value has been provided');
-                QUnit.start();
+                ready();
             }
         });
 
-        QUnit.expect(2);
+        assert.expect(2);
 
         instance.yolo(expectedValue);
     });
 
     QUnit.test('getConfig', function(assert) {
         var defaults = {
-            label : 'default',
-            value : 12
+            label: 'default',
+            value: 12
         };
         var config = {
             label: 'config',
-            init  : true
+            init: true
         };
         var instance;
 
-        QUnit.expect(2);
+        assert.expect(2);
 
         instance = componentFactory({}, defaults);
         assert.deepEqual(instance.getConfig(), defaults, 'The component contains the default config');
@@ -517,9 +510,9 @@ define([
         instance.init(config);
 
         assert.deepEqual(instance.getConfig(), {
-            label : 'config',
-            init  : true,
-            value : 12
+            label: 'config',
+            init: true,
+            value: 12
         }, 'The component contains the init config');
     });
 });
