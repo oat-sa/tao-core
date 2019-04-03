@@ -557,6 +557,31 @@ define(['jquery', 'lodash', 'ui/highlighter'], function($, _, highlighterFactory
             highlightIndex: []
         },
 
+        {
+            title: "do not highlight blacklisted container children",
+            blacklisted: ['.qti-include'],
+            input: '<p>We <strong>all</strong> live in a </p>' +
+                    '<div class="qti-include">blacklisted</div>' +
+                    '<p>highlighted group</p>',
+            selection: '<p>We <strong>all</strong> live in a </p>' +
+                        '<div class="qti-include">blacklisted</div>' +
+                        '<p>highlighted group</p>',
+            output: '<p><span class="hl" data-hl-group="1">We </span>' +
+                    '<strong><span class="hl" data-hl-group="1">all</span></strong>' +
+                    '<span class="hl" data-hl-group="1"> live in a </span></p>' +
+                    '<div class="qti-include">blacklisted</div>' +
+                    '<p><span class="hl" data-hl-group="1">highlighted group</span></p>',
+            buildRange: function(range, fixtureContainer) {
+                range.selectNodeContents(fixtureContainer);
+            },
+            highlightIndex: [
+                {highlighted: true, groupId: '1'},
+                {highlighted: true, groupId: '1'},
+                {highlighted: true, groupId: '1'},
+                {highlighted: true, groupId: '1'}
+            ]
+        },
+
         // ===========================
         // Groups & overlapping ranges
         // ===========================
@@ -804,7 +829,8 @@ define(['jquery', 'lodash', 'ui/highlighter'], function($, _, highlighterFactory
             // Setup test
             var highlighter = highlighterFactory({
                 className: 'hl',
-                containerSelector: '#qunit-fixture'
+                containerSelector: '#qunit-fixture',
+                containersBlackList: data.blacklisted
             });
             var range = document.createRange();
             var highlightIndex;
