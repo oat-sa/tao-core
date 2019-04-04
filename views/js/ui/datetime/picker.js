@@ -27,9 +27,9 @@
  *
  * @example
  *      dateTimePicker(container, {
- *          setup: 'date',
+ *          setup : 'date',
  *          format : 'YYYY-MM-DD',
- *          controlButtons: true
+ *          controlButtons : true
  *      })
  *      .on('change', function(value){
  *         if (value === '1983-04-03'){
@@ -57,8 +57,8 @@ define([
      */
     var formats = {
         date : {
-            default: 'YYYY-MM-DD',
-            localized  : 'L'
+            default : 'YYYY-MM-DD',
+            localized : 'L'
         },
         time : {
             default :  'HH:mm',
@@ -76,31 +76,31 @@ define([
     var setups = {
         'date-range' : {
             mode : 'range',
-            label: __('date range'),
-            format: formats.date
+            label : __('date range'),
+            format : formats.date
         },
         'datetime-range' : {
             mode : 'range',
-            label: __('date time range'),
+            label : __('date time range'),
             enableTime : true,
-            format: formats.datetime
+            format : formats.datetime
         },
         date : {
-            mode: 'single',
-            format: formats.date
+            mode : 'single',
+            format : formats.date
         },
         time : {
-            mode: 'single',
+            mode : 'single',
             enableTime : true,
-            label: __('time'),
+            label : __('time'),
             noCalendar : true,
-            format: formats.time
+            format : formats.time
         },
         datetime : {
-            mode: 'single',
+            mode : 'single',
             enableTime : true,
-            label: __('date time'),
-            format: formats.datetime
+            label : __('date time'),
+            format : formats.datetime
         }
     };
 
@@ -114,12 +114,11 @@ define([
      * @see dateTimePickerFactory
      */
     var defaultConfig = {
-        setup: 'date',
-        controlButtons:  false,
+        setup : 'date',
+        controlButtons : false,
         locale : false,
         useLocalizedFormat : false,
-        constraints : {
-        }
+        constraints : {}
     };
 
     /**
@@ -353,14 +352,14 @@ define([
                  * @see https://flatpickr.js.org/options/
                  */
                 this.pickerConfig = {
-                    mode:          setup.mode,
-                    enableTime:    !!setup.enableTime,
-                    noCalendar:    !!setup.noCalendar,
-                    time_24hr:     !isFormatAmPm(format),
-                    enableSeconds: setup.enableTime && isFormatInSeconds(format),
-                    allowInput:    true,
-                    clickOpens:    !this.config.controlButtons,
-                    disableMobile: true,
+                    mode :          setup.mode,
+                    enableTime :    !!setup.enableTime,
+                    noCalendar :    !!setup.noCalendar,
+                    time_24hr :     !isFormatAmPm(format),
+                    enableSeconds : setup.enableTime && isFormatInSeconds(format),
+                    allowInput :    true,
+                    clickOpens :    !this.config.controlButtons,
+                    disableMobile : true,
 
                     /**
                      * How flatpickr will format the given date
