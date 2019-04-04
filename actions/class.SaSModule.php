@@ -164,14 +164,14 @@ abstract class tao_actions_SaSModule extends tao_actions_RdfController
 
 		$formContainer = new tao_actions_form_Instance($clazz, $instance);
 		$myForm = $formContainer->getForm();
+		$myForm->addCsrfTokenProtection();
 
-		if($myForm->isSubmited()){
-			if($myForm->isValid()){
-				$binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($instance);
-				$instance = $binder->bind($myForm->getValues());
-				$this->setData('message', __('Resource saved'));
-			}
-		}
+		if($myForm->isSubmited() && $myForm->isValid()) {
+		    $this->validateCsrf();
+            $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($instance);
+            $instance = $binder->bind($myForm->getValues());
+            $this->setData('message', __('Resource saved'));
+        }
 
 		$this->setData('uri', tao_helpers_Uri::encode($instance->getUri()));
 		$this->setData('classUri', tao_helpers_Uri::encode($clazz->getUri()));

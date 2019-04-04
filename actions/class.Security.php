@@ -34,8 +34,10 @@ class tao_actions_Security extends tao_actions_CommonModule
 
         $formFactory = new tao_actions_form_CspHeader(['serviceLocator' => $this->getServiceLocator()]);
         $cspHeaderForm = $formFactory->getForm();
+        $cspHeaderForm->addCsrfTokenProtection();
 
         if ($cspHeaderForm->isSubmited() && $cspHeaderForm->isValid()) {
+            $this->validateCsrf();
             $formFactory->saveSettings();
             $this->setData('cspHeaderFormSuccess', __('CSP Header settings were saved successfully!'));
 

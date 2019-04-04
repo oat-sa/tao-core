@@ -425,15 +425,15 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         );
 
         $myForm = $editClassLabelForm->getForm();
+        $myForm->addCsrfTokenProtection();
 
-        if ($myForm->isSubmited()) {
-            if ($myForm->isValid()) {
-                $clazz->setLabel($myForm->getValue(tao_helpers_Uri::encode(OntologyRdfs::RDFS_LABEL)));
+        if ($myForm->isSubmited() && $myForm->isValid()) {
+            $this->validateCsrf();
+            $clazz->setLabel($myForm->getValue(tao_helpers_Uri::encode(OntologyRdfs::RDFS_LABEL)));
 
-                $this->setData("selectNode", tao_helpers_Uri::encode($clazz->getUri()));
-                $this->setData('message', __('%s Class saved', $clazz->getLabel()));
-                $this->setData('reload', true);
-            }
+            $this->setData('selectNode', tao_helpers_Uri::encode($clazz->getUri()));
+            $this->setData('message', __('%s Class saved', $clazz->getLabel()));
+            $this->setData('reload', true);
         }
 
         $this->setData('formTitle', __('Edit class %s', \tao_helpers_Display::htmlize($clazz->getLabel())));
@@ -529,8 +529,10 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         $clazz = $this->getCurrentClass();
         $formContainer = new tao_actions_form_CreateInstance(array($clazz), array());
         $myForm = $formContainer->getForm();
+        $myForm->addCsrfTokenProtection();
 
         if ($myForm->isSubmited() && $myForm->isValid()) {
+            $this->validateCsrf();
             $properties = $myForm->getValues();
             $instance = $this->createInstance(array($clazz), $properties);
 
@@ -567,18 +569,17 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         $myFormContainer = new SignedFormInstance($clazz, $instance);
 
         $myForm = $myFormContainer->getForm();
-        if($myForm->isSubmited()){
-            if($myForm->isValid()){
+        $myForm->addCsrfTokenProtection();
+        if ($myForm->isSubmited() && $myForm->isValid()) {
+            $this->validateCsrf();
+            $values = $myForm->getValues();
+            // save properties
+            $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($instance);
+            $instance = $binder->bind($values);
+            $message = __('Instance saved');
 
-                $values = $myForm->getValues();
-                // save properties
-                $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($instance);
-                $instance = $binder->bind($values);
-                $message = __('Instance saved');
-
-                $this->setData('message',$message);
-                $this->setData('reload', true);
-            }
+            $this->setData('message',$message);
+            $this->setData('reload', true);
         }
 
         $this->setData('formTitle', __('Edit Instance'));
@@ -807,6 +808,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
 
         $formContainer = new tao_actions_form_Translate($this->getCurrentClass(), $instance);
         $myForm = $formContainer->getForm();
+        $myForm->addCsrfTokenProtection();
 
         if ($this->hasRequestParameter('target_lang')) {
 
@@ -820,39 +822,37 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
                 $trData = $this->getClassService()->getTranslatedProperties($instance, $targetLang);
                 foreach($trData as $key => $value){
                     $element = $myForm->getElement(tao_helpers_Uri::encode($key));
-                    if(!is_null($element)){
+                    if($element !== null){
                         $element->setValue($value);
                     }
                 }
             }
         }
 
-        if($myForm->isSubmited()){
-            if($myForm->isValid()){
+        if ($myForm->isSubmited() && $myForm->isValid()) {
+            $this->validateCsrf();
+            $values = $myForm->getValues();
+            if (isset($values['translate_lang'])) {
+                $datalang = $this->getSession()->getDataLanguage();
+                $lang = $values['translate_lang'];
 
-                $values = $myForm->getValues();
-                if(isset($values['translate_lang'])){
-                    $datalang = $this->getSession()->getDataLanguage();
-                    $lang = $values['translate_lang'];
-
-                    $translated = 0;
-                    foreach($values as $key => $value){
-                        if(preg_match("/^http/", $key)){
-                            $value = trim($value);
-                            $property = $this->getProperty($key);
-                            if(empty($value)){
-                                if($datalang != $lang && $lang != ''){
-                                    $instance->removePropertyValueByLg($property, $lang);
-                                }
-                            }
-                            else if($instance->editPropertyValueByLg($property, $value, $lang)){
-                                $translated++;
+                $translated = 0;
+                foreach($values as $key => $value){
+                    if(0 === strpos($key, "http")){
+                        $value = trim($value);
+                        $property = $this->getProperty($key);
+                        if(empty($value)){
+                            if($datalang !== $lang && $lang !== ''){
+                                $instance->removePropertyValueByLg($property, $lang);
                             }
                         }
+                        else if($instance->editPropertyValueByLg($property, $value, $lang)){
+                            $translated++;
+                        }
                     }
-                    if($translated > 0){
-                        $this->setData('message', __('Translation saved'));
-                    }
+                }
+                if($translated > 0){
+                    $this->setData('message', __('Translation saved'));
                 }
             }
         }

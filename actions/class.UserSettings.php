@@ -49,13 +49,13 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
         } else {
             $myFormContainer = new tao_actions_form_UserPassword();
             $myForm = $myFormContainer->getForm();
-            if($myForm->isSubmited()){
-                if($myForm->isValid()){
-                    $user = $this->getUserService()->getCurrentUser();
-                    $this->getServiceLocator()->get(tao_models_classes_UserService::SERVICE_ID)
-                        ->setPassword($user, $myForm->getValue('newpassword'));
-                    $this->setData('message', __('Password changed'));
-                }
+            $myForm->addCsrfTokenProtection();
+            if($myForm->isSubmited() && $myForm->isValid()) {
+                $this->validateCsrf();
+                $user = $this->getUserService()->getCurrentUser();
+                $this->getServiceLocator()->get(tao_models_classes_UserService::SERVICE_ID)
+                    ->setPassword($user, $myForm->getValue('newpassword'));
+                $this->setData('message', __('Password changed'));
             }
             $this->setData('myForm', $myForm->render());
         }
@@ -70,7 +70,9 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
     {
         $myFormContainer = new tao_actions_form_UserSettings($this->getUserSettings());
         $myForm = $myFormContainer->getForm();
+        $myForm->addCsrfTokenProtection();
         if ($myForm->isSubmited() && $myForm->isValid()) {
+            $this->validateCsrf();
             $userLangService = $this->getServiceLocator()->get(UserLanguageServiceInterface::class);
 
             $currentUser = $this->getUserService()->getCurrentUser();
@@ -100,7 +102,7 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
             }
         }
         $userLabel = $this->getUserService()->getCurrentUser()->getLabel();
-        $this->setData('formTitle', __("My settings (%s)", $userLabel));
+        $this->setData('formTitle', __('My settings (%s)', $userLabel));
         $this->setData('myForm', $myForm->render());
 
         //$this->setView('form.tpl');
