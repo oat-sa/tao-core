@@ -61,6 +61,14 @@
 /* flatpickr theme */
    .flatpickr-calendar {
 
+        .flatpickr-month {
+            height: 37px;
+
+            .cur-month {
+                margin: 0 .5ch;
+            }
+        }
+
         .flatpickr-day {
 
             &.inRange,
@@ -149,7 +157,7 @@
         input {
             width: 100%;
             line-height: 37px;
-            height:auto;
+            height: 37px;
         }
    }
 }
