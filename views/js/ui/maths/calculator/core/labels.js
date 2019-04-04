@@ -44,7 +44,7 @@ define([
         NUM8: '8',
         NUM9: '9',
         DOT: '.',
-        EXP10: 'e',
+        EXP10: '\u00D710',
         POW10: '10<sup>x</sup>',
 
         // Aggregators
@@ -53,6 +53,7 @@ define([
 
         // Separator
         COMMA: ',',
+        ELLIPSIS: '\u2026',
         SPACER: '',
 
         // Operators

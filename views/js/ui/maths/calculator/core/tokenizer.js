@@ -46,6 +46,12 @@ define([
     var reKeyword = /[a-zA-Z_]\w*/;
 
     /**
+     * Match numbers
+     * @type {RegExp}
+     */
+    var reNumber =  /[-+]?\d*\.?\d+(?:[eE][-+]?\d+)?/;
+
+    /**
      * Match keywords prefixed with @
      * @type {RegExp}
      */
@@ -70,6 +76,12 @@ define([
     var symbols = _.omit(registeredTerms, filterKeyword);
 
     /**
+     * List of digits and related symbols
+     * @type {Object}
+     */
+    var digits = _.pick(registeredTerms, filterDigit);
+
+    /**
      * Filter function that checks if the provided term is a keyword.
      * Keywords are all terms that have alphanumeric non digit value from the list of terms.
      * @param term
@@ -77,6 +89,15 @@ define([
      */
     function filterKeyword(term) {
         return term.value.match(reKeywordOnly);
+    }
+
+    /**
+     * Filter function that checks if the provided term is a digit or a related symbol.
+     * @param term
+     * @returns {boolean}
+     */
+    function filterDigit(term) {
+        return tokensHelper.isDigit(term.type) || term.value === '-' || term.value === '+';
     }
 
     /**
@@ -119,7 +140,75 @@ define([
      * @returns {calculatorTokenizer}
      */
     function calculatorTokenizerFactory(config) {
-        var keywordsTransform, lexer;
+        var keywordsTransform, lexer, digitLexer, digitContext;
+
+        /**
+         * Extracts a token from the current position in the expression
+         * @returns {token}
+         */
+        var next = function next() {
+            var term;
+
+            if (digitContext) {
+                term = digitLexer.next();
+                if (term) {
+                    term.offset += digitContext.offset;
+                }
+            }
+
+            if (!term) {
+                digitContext = null;
+
+                do {
+                    term = lexer.next();
+                } while (term && ignoredTokens[term.type]);
+
+                // rely on a specific lexer to tokenize numbers
+                // this is required to properly identify numbers like 42e15 without colliding with regular identifiers
+                if (term && term.type === 'number') {
+                    digitContext = term;
+                    digitLexer.reset(term.value);
+                    term = next();
+                }
+            }
+
+            return term;
+        };
+
+        /**
+         * @typedef {Object} calculatorTokenizer
+         */
+        var tokenizer = {
+            /**
+             * Gets an iterator that will returns tokens from the provided expression
+             * @param {String} expression
+             * @returns {function(): token}
+             */
+            iterator: function iterator(expression) {
+                lexer.reset(tokensHelper.stringValue(expression));
+                return next;
+            },
+
+            /**
+             * Tokenizes the expression
+             * @param {String} expression
+             * @returns {token[]}
+             */
+            tokenize: function tokenize(expression) {
+                var iterator = tokenizer.iterator(expression);
+                var terms = [];
+                var term;
+
+                do {
+                    term = iterator();
+                    if (term) {
+                        terms.push(term);
+                    }
+                } while (term);
+
+                return terms;
+            }
+        };
 
         config = config || {};
         config.keywords = _.defaults(_.mapValues(keywords, 'value'), config.keywords);
@@ -128,6 +217,7 @@ define([
 
         // Lexer used to tokenize the expression
         lexer = moo.compile(_.defaults({}, ignoredTokens, {
+            number: reNumber,
             prefixed: {
                 match: rePrefixedKeyword,
                 type: function(token) {
@@ -142,45 +232,10 @@ define([
             syntaxError: moo.error
         }, config.symbols));
 
-        /**
-         * @typedef {Object} calculatorTokenizer
-         */
-        return {
-            /**
-             * Gets an iterator that will returns tokens from the provided expression
-             * @param {String} expression
-             * @returns {function(): String}
-             */
-            iterator: function iterator(expression) {
-                lexer.reset(tokensHelper.stringValue(expression));
+        // Lexer used to tokenize numbers
+        digitLexer = moo.compile(_.mapValues(digits, 'value'));
 
-                return function next() {
-                    var term;
-                    do {
-                        term = lexer.next();
-                    } while (term && ignoredTokens[term.type]);
-                    return term;
-                };
-            },
-
-            /**
-             * Tokenizes the expression
-             * @param {String} expression
-             * @returns {Array}
-             */
-            tokenize: function tokenize(expression) {
-                var terms = [];
-                var term;
-                lexer.reset(tokensHelper.stringValue(expression));
-                do {
-                    term = lexer.next();
-                    if (term && !ignoredTokens[term.type]) {
-                        terms.push(term);
-                    }
-                } while (term);
-                return terms;
-            }
-        };
+        return tokenizer;
     }
 
     return calculatorTokenizerFactory;

@@ -29,6 +29,7 @@ define([
     'ui/maths/calculator/core/areaBroker',
     'ui/maths/calculator/core/terms',
     'ui/maths/calculator/core/tokens',
+    'ui/maths/calculator/core/expression',
     'ui/maths/calculator/core/tokenizer',
     'util/mathsEvaluator',
     'tpl!ui/maths/calculator/core/tpl/board'
@@ -42,6 +43,7 @@ define([
     areaBrokerFactory,
     registeredTerms,
     tokensHelper,
+    expressionHelper,
     tokenizerFactory,
     mathsEvaluatorFactory,
     boardTpl
@@ -56,6 +58,12 @@ define([
         expression: '',
         position: 0
     };
+
+    /**
+     * Name of the variable that contains the last result
+     * @type {String}
+     */
+    var lastResultVariableName = registeredTerms.ANS.value;
 
     /**
      * Regex that matches the prefixed function operators
@@ -298,7 +306,7 @@ define([
             getVariables: function getVariables() {
                 var defs = {};
                 variables.forEach(function (value, name) {
-                    defs[name] = value.result;
+                    defs[name] = value;
                 });
                 return defs;
             },
@@ -339,10 +347,10 @@ define([
              * @returns {calculator}
              */
             setLastResult: function setLastResult(result) {
-                if (!result || tokensHelper.containsError(result)) {
+                if (!result || expressionHelper.containsError(result)) {
                     result = '0';
                 }
-                this.setVariable(registeredTerms.ANS.value, result);
+                this.setVariable(lastResultVariableName, result);
                 return this;
             },
 
@@ -351,7 +359,7 @@ define([
              * @returns {mathsExpression}
              */
             getLastResult: function getLastResult() {
-                return this.getVariable(registeredTerms.ANS.value);
+                return this.getVariable(lastResultVariableName);
             },
 
             /**
@@ -671,7 +679,7 @@ define([
                 var result = null;
                 try {
                     if (expression.trim()) {
-                        result = mathsEvaluator(expression, this.getVariables());
+                        result = mathsEvaluator(expression, _.mapValues(this.getVariables(), 'result'));
                     } else {
                         result = mathsEvaluator('0');
                     }
