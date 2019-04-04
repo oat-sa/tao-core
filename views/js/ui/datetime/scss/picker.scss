@@ -1,5 +1,7 @@
 @import "inc/bootstrap";
 
+$picker-field-height: 37px;
+
 .datetime-picker {
 
     .flatpickr-calendar {
@@ -61,12 +63,20 @@
 /* flatpickr theme */
    .flatpickr-calendar {
 
-        //@include font-size(16);
+        .flatpickr-month {
+            height: $picker-field-height;
+
+            .flatpickr-current-month {
+                padding: 0;
+                height: $picker-field-height;
+                line-height: $picker-field-height;
+                .cur-month {
+                    margin: 0 .5ch;
+                }
+            }
+        }
+
         .flatpickr-day {
-            //height: 37px;
-            //line-height: 37px;
-            //max-width: 37px;
-            //margin-left: 3px;
 
             &.inRange,
             &.prevMonthDay.inRange,
@@ -153,8 +163,8 @@
 
         input {
             width: 100%;
-            line-height: 37px;
-            height:auto;
+            line-height: $picker-field-height;
+            height: $picker-field-height;
         }
    }
 }

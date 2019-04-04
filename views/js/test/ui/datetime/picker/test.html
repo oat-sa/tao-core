@@ -47,7 +47,9 @@
         #visual .manual article {
             flex: 1 1 50%;
         }
-
+        #visual .manual form label {
+            width: 150px;
+        }
     </style>
 </head>
 
@@ -64,7 +66,9 @@
         </form>
     </div>
     <div id="visual">
+        <h1>Playground</h1>
         <hr>
+        <h2>Setup samples</h2>
         <section class="samples">
             <article class="date-range">
                 <h1>Date range picker</h1>
@@ -91,6 +95,7 @@
             </article>
         </section>
         <hr>
+        <h2>Generate a picker</h2>
         <section class="manual">
             <article>
                 <form>
@@ -105,7 +110,7 @@
                         </select>
                     </div>
                     <div>
-                        <label for="setup">setup</label>
+                        <label for="setup">Setup</label>
                         <select name="setup">
                             <option name="date" value="date">date picker</option>
                             <option name="datetime" value="datetime">date time picker</option>
@@ -115,15 +120,11 @@
                         </select>
                     </div>
                     <div>
-                        <label for="control-buttons">add controls</label>
+                        <label for="control-buttons">Add controls ?</label>
                         <input type="checkbox" name="control-buttons" />
                     </div>
                     <div>
-                        <label for="default-value">default value</label>
-                        <input type="text" name="default-value" />
-                    </div>
-                    <div>
-                        <input type="submit" value="Generate picker" />
+                        <input type="submit" class="small btn-info" value="Generate picker" />
                     </div>
                 </form>
             </article>
