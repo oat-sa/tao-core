@@ -1,5 +1,7 @@
 @import "inc/bootstrap";
 
+$picker-field-height: 37px;
+
 .datetime-picker {
 
     .flatpickr-calendar {
@@ -62,10 +64,15 @@
    .flatpickr-calendar {
 
         .flatpickr-month {
-            height: 37px;
+            height: $picker-field-height;
 
-            .cur-month {
-                margin: 0 .5ch;
+            .flatpickr-current-month {
+                padding: 0;
+                height: $picker-field-height;
+                line-height: $picker-field-height;
+                .cur-month {
+                    margin: 0 .5ch;
+                }
             }
         }
 
@@ -156,8 +163,8 @@
 
         input {
             width: 100%;
-            line-height: 37px;
-            height: 37px;
+            line-height: $picker-field-height;
+            height: $picker-field-height;
         }
    }
 }
