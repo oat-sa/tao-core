@@ -17,7 +17,8 @@
  */
 
 /**
- * Test the date time picker
+ * Test the date time picker component
+ *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
@@ -364,6 +365,13 @@ define([
             format : 'HH:mm'
         },
         format : 'HH:mm'
+    }, {
+        title : 'given date time format with seconds',
+        config : {
+            setup: 'datetime',
+            format : 'YYYY-MM-DD HH:mm:SS'
+        },
+        format : 'YYYY-MM-DD HH:mm:SS'
     }]).test('format ', function(data, assert) {
         var container = document.querySelector('#qunit-fixture > div');
         var done      = assert.async();
@@ -438,23 +446,83 @@ define([
             assert.ok(field instanceof HTMLElement,  'The field is attached to the element');
             assert.equal(field.value, '', 'The field has no value');
 
-            field.value = '03/04/2019';
+            field.dispatchEvent(new MouseEvent('mousedown', {bubbles: true}));
+        })
+        .on('open', function(){
+            var element = this.getElement()[0];
+            var field   = element.querySelector('input');
 
-            this.picker.open();
+            this.on('change', function(){
+                var picker = element.querySelector('.flatpickr-calendar');
+                var day    = picker.querySelector('.flatpickr-day.selected');
+                var month  = picker.querySelector('.flatpickr-current-month .cur-month');
+                var year   = picker.querySelector('.flatpickr-current-month .cur-year');
+
+                this.off('change');
+
+                assert.ok(picker.classList.contains('open'), 'The picker is now open');
+                assert.equal(day.textContent.trim(), '3', 'The selected date is correct');
+                assert.equal(month.textContent.trim(), 'April', 'The selected month is correct');
+                assert.equal(year.value.trim(), '2019', 'The selected year is correct');
+
+                assert.equal(day.getAttribute('aria-label'), '03/04/2019', 'The aria date label is correct');
+
+                done();
+            });
+
+            field.value = '03/04/2019';
+            field.dispatchEvent(new KeyboardEvent('keydown',{
+                code: 'Enter',
+                key: 'Enter',
+                charKode: 13,
+                keyCode: 13,
+                bubbles : true
+            }));
+        });
+    });
+
+    QUnit.test('Set the value', function(assert) {
+        var container = document.querySelector('#qunit-fixture > div');
+        var done      = assert.async();
+
+        assert.expect(12);
+
+        dateTimePicker(container, {
+            setup: 'date',
+            format: 'YYYY-MM-DD'
+        })
+        .on('ready', function(){
+            var element =  this.getElement()[0];
+            var picker = element.querySelector('.flatpickr-calendar');
+            var field  = element.querySelector('input');
+
+            assert.ok(picker instanceof HTMLElement,  'The picker is attached to the element');
+            assert.ok(!picker.classList.contains('open'), 'The picker is closed');
+
+            assert.ok(field instanceof HTMLElement,  'The field is attached to the element');
+            assert.equal(field.value, '', 'The field has no value');
+            assert.equal(this.getValue(), '', 'The current value is empty');
+
+            this.setValue('2019-05-01');
+
+            assert.equal(field.value, '2019-05-01', 'The field has been updated');
+            assert.equal(this.getValue(), '2019-05-01', 'The current value has been updated');
+
+            this.open();
         })
         .on('open', function(){
             var element = this.getElement()[0];
             var picker  = element.querySelector('.flatpickr-calendar');
-            var today   = picker.querySelector('.flatpickr-day.today');
+            var day     = picker.querySelector('.flatpickr-day.selected');
             var month   = picker.querySelector('.flatpickr-current-month .cur-month');
             var year    = picker.querySelector('.flatpickr-current-month .cur-year');
 
             assert.ok(picker.classList.contains('open'), 'The picker is now open');
-            assert.equal(today.textContent.trim(), '3', 'The selected date is correct');
-            assert.equal(month.textContent.trim(), 'April', 'The selected month is correct');
+            assert.equal(day.textContent.trim(), '1', 'The selected date is correct');
+            assert.equal(month.textContent.trim(), 'May', 'The selected month is correct');
             assert.equal(year.value.trim(), '2019', 'The selected year is correct');
 
-            assert.equal(today.getAttribute('aria-label'), '03/04/2019', 'The aria date label is correct');
+            assert.equal(day.getAttribute('aria-label'), '2019-05-01', 'The aria date label is correct');
 
             done();
         });
@@ -464,7 +532,7 @@ define([
         var container = document.querySelector('#qunit-fixture > div');
         var done      = assert.async();
 
-        assert.expect(6);
+        assert.expect(7);
 
         dateTimePicker(container, {
             setup: 'date',
@@ -474,8 +542,11 @@ define([
                 value : '04.30.2015'
             }
         })
+        .on('init', function(){
+            assert.equal(this.getValue(), null, 'The value is not yet set');
+        })
         .on('ready', function(){
-            assert.equal(this.getValue(), '04.30.2015', 'No value set');
+            assert.equal(this.getValue(), '04.30.2015', 'The default value is set');
             this.open();
         })
         .on('open', function(){
@@ -603,7 +674,7 @@ define([
         .on('ready', function(){
             var element = this.getElement()[0];
             var picker  = element.querySelector('.flatpickr-calendar');
-            var clear  = element.querySelector('.picker-clear');
+            var clear   = element.querySelector('.picker-clear');
 
             assert.ok(picker instanceof HTMLElement,  'The picker is attached to the element');
             assert.ok(!picker.classList.contains('open'), 'The picker is closed');
@@ -618,7 +689,7 @@ define([
             var element = this.getElement()[0];
             var field   = element.querySelector('input');
 
-            assert.equal(field.value, '', 'The field value has been cleared');
+            assert.equal(field.value, '',     'The field value has been cleared');
             assert.equal(this.getValue(), '', 'The method value is correct');
 
             done();
@@ -638,17 +709,17 @@ define([
         })
         .on('ready', function(){
             var element = this.getElement()[0];
-            var field  = element.querySelector('input');
+            var field   = element.querySelector('input');
             var toggle  = element.querySelector('.picker-toggle');
-            var clear  = element.querySelector('.picker-clear');
+            var clear   = element.querySelector('.picker-clear');
 
-            assert.ok(field instanceof HTMLInputElement, 'The input field has been created');
+            assert.ok(field instanceof HTMLInputElement,   'The input field has been created');
             assert.ok(toggle instanceof HTMLButtonElement, 'The toggle control button has been created');
-            assert.ok(clear instanceof HTMLButtonElement, 'The clear control button has been created');
+            assert.ok(clear instanceof HTMLButtonElement,  'The clear control button has been created');
 
-            assert.equal(field.disabled, false, 'The input field starts enabled');
+            assert.equal(field.disabled, false,  'The input field starts enabled');
             assert.equal(toggle.disabled, false, 'The toggle control starts enabled');
-            assert.equal(clear.disabled, false, 'The clear control starts enabled');
+            assert.equal(clear.disabled, false,  'The clear control starts enabled');
 
             this.disable();
         })
@@ -658,14 +729,95 @@ define([
             var toggle  = element.querySelector('.picker-toggle');
             var clear  = element.querySelector('.picker-clear');
 
-            assert.equal(field.disabled, true, 'The input field is now disabled');
+            assert.equal(field.disabled, true,  'The input field is now disabled');
             assert.equal(toggle.disabled, true, 'The toggle control is now disabled');
-            assert.equal(clear.disabled, true, 'The clear control is now disabled');
+            assert.equal(clear.disabled, true,  'The clear control is now disabled');
 
             done();
         });
     });
 
+    QUnit.test('Date constraints', function(assert) {
+        var container = document.querySelector('#qunit-fixture > div');
+        var done      = assert.async();
+
+        assert.expect(10);
+
+        dateTimePicker(container, {
+            setup: 'date',
+            format: 'YYYY-MM-DD',
+            constraints : {
+                minDate : '2019-04-05',
+                maxDate : '2019-04-10'
+            }
+        })
+        .on('ready', function(){
+            this.open();
+        })
+        .on('open', function(){
+            var element = this.getElement()[0];
+            var picker  = element.querySelector('.flatpickr-calendar');
+            var month   = picker.querySelector('.flatpickr-current-month .cur-month');
+            var year    = picker.querySelector('.flatpickr-current-month .cur-year');
+
+            var firstOfApril        = picker.querySelector('.flatpickr-day[aria-label="2019-04-01"]');
+            var forthOfApril        = picker.querySelector('.flatpickr-day[aria-label="2019-04-04"]');
+            var fifthOfApril        = picker.querySelector('.flatpickr-day[aria-label="2019-04-05"]');
+            var seventhOfApril      = picker.querySelector('.flatpickr-day[aria-label="2019-04-07"]');
+            var teenthOfApril       = picker.querySelector('.flatpickr-day[aria-label="2019-04-10"]');
+            var eleventhOfApril     = picker.querySelector('.flatpickr-day[aria-label="2019-04-11"]');
+            var twentysecondOfApril = picker.querySelector('.flatpickr-day[aria-label="2019-04-22"]');
+
+            assert.ok(picker.classList.contains('open'), 'The picker is now open');
+            assert.equal(month.textContent.trim(), 'April', 'The selected month is correct');
+            assert.equal(year.value.trim(), '2019', 'The selected year is correct');
+
+            assert.ok(firstOfApril.classList.contains('disabled'),        'The 1st of April is disbaled');
+            assert.ok(forthOfApril.classList.contains('disabled'),        'The 4th of April is disbaled');
+            assert.ok( ! fifthOfApril.classList.contains('disabled'),     'The 5th of April is NOT disbaled');
+            assert.ok( ! seventhOfApril.classList.contains('disabled'),   'The r75th of April is NOT disbaled');
+            assert.ok( ! teenthOfApril.classList.contains('disabled'),    'The 10th of April is NOT disbaled');
+            assert.ok(eleventhOfApril.classList.contains('disabled'),     'The 11th of April is disbaled');
+            assert.ok(twentysecondOfApril.classList.contains('disabled'), 'The 22nd of April is disbaled');
+
+            done();
+        });
+    });
+
+    QUnit.test('Update constraints', function(assert) {
+        var container = document.querySelector('#qunit-fixture > div');
+        var done      = assert.async();
+
+        assert.expect(6);
+
+        dateTimePicker(container, {
+            setup: 'date',
+            format: 'YYYY-MM-DD'
+        })
+        .on('ready', function(){
+            this.open();
+        })
+        .on('open', function(){
+            var element = this.getElement()[0];
+            var picker  = element.querySelector('.flatpickr-calendar');
+            var month   = picker.querySelector('.flatpickr-current-month .cur-month');
+            var year    = picker.querySelector('.flatpickr-current-month .cur-year');
+
+            assert.ok(picker.classList.contains('open'), 'The picker is now open');
+            assert.equal(month.textContent.trim(), 'April', 'The selected month is correct');
+            assert.equal(year.value.trim(), '2019', 'The selected year is correct');
+
+            assert.equal(picker.querySelectorAll('.flatpickr-day.disabled').length, 0, 'All dates can be selected');
+
+            this.updateConstraints('minDate', '2019-04-12');
+            this.updateConstraints('maxDate', '2019-04-13');
+
+            assert.ok(picker.querySelectorAll('.flatpickr-day.disabled').length > 0, 'Some Dates are now disabled');
+            assert.equal(picker.querySelectorAll('.flatpickr-day:not(.disabled)').length, 2, 'Ony 3 dates can be seleted');
+
+            done();
+        });
+    });
 
     QUnit.module('Visual');
 

@@ -105,13 +105,21 @@ define([
     };
 
     /**
+     * List of supported constraints
+     */
+    var supportedConstraints = ['minDate', 'maxDate', 'enable', 'disable'];
+
+    /**
      * The default configuration
+     * @see dateTimePickerFactory
      */
     var defaultConfig = {
         setup: 'date',
         controlButtons:  false,
         locale : false,
-        useLocalizedFormat : false
+        useLocalizedFormat : false,
+        constraints : {
+        }
     };
 
     /**
@@ -142,6 +150,15 @@ define([
     };
 
     /**
+     * Does the given date/time format contains seconds ?
+     * @param {String} format - moment format
+     * @returns {Boolean} true if the format contains seconds
+     */
+    var isFormatInSeconds = function isFormatInSeconds(format) {
+        return format && /(:ss)+/i.test(format);
+    };
+
+    /**
      * The component factory
      *
      * @param {HTMLElement|jQuery} container - where to append the component
@@ -151,6 +168,13 @@ define([
      * @param {String} [config.useLocalzedFormat = false] - does the locale is used to define the format
      * @param {String} [config.format] - define your own date/time format for the instance
      * @param {Boolean} [config.controlButtons = false] - does the field have controls to trigger opening and reset
+     * @param {Object} [config.constraints] - date time selection constraints
+     * @param {Object} [config.constraints] - date time selection constraints
+     * @param {Array<String|Date>} [config.constraints.disable] - list of dates to disable
+     * @param {Array<String|Date>} [config.constraints.enable] - list of dates to enable (if some are disabled)
+     * @param {String|Date} [config.constraints.minDate] - minimum date to start picking from
+     * @param {String|Date} [config.constraints.maxDate] - maximum date to start picking from
+     *
      * @param {HTMLInputElement} [config.replaceField] - an input field to replace. The field attr are taken instead of config.field
      * @param {Object} [config.field] - the input field configuration
      * @param {String} [config.field.name] - the input field name
@@ -177,6 +201,18 @@ define([
             getValue : function getValue() {
                 if (this.is('rendered')) {
                     return this.controls.input.value;
+                }
+                return null;
+            },
+
+            /**
+             * Set the current value
+             * @param {String} value - the new value matching the format
+             */
+            setValue : function setValue(value) {
+                if (this.is('ready')) {
+                    this.controls.input.value = value;
+                    this.picker.setDate(value,  true);
                 }
                 return null;
             },
@@ -244,6 +280,23 @@ define([
                     this.picker.toggle();
                 }
                 return this;
+            },
+
+            /**
+             * Update constraints on a running instance
+             * @param {String} constraint - the constraint name in minDate, maxDate, enable, disable
+             * @param {*} vlaue - the constraint value to update
+             * @returns {dateTimePicker} chains
+             * @fires dateTimePicker#open
+             * @fires dateTimePicker#close
+             */
+            updateConstraints : function updateConstraints(constraint, value){
+                if (this.is('ready')) {
+                    if (_.contains(supportedConstraints, constraint)) {
+                        this.picker.set(constraint, value);
+                    }
+                }
+                return this;
             }
 
         }, defaultConfig);
@@ -300,15 +353,17 @@ define([
                  * @see https://flatpickr.js.org/options/
                  */
                 this.pickerConfig = {
-                    mode : setup.mode,
-                    enableTime : !!setup.enableTime,
-                    noCalendar : !!setup.noCalendar,
-                    'time_24hr' : !isFormatAmPm(format),
-                    allowInput : true,
-                    clickOpens : !this.config.controlButtons,
+                    mode:          setup.mode,
+                    enableTime:    !!setup.enableTime,
+                    noCalendar:    !!setup.noCalendar,
+                    time_24hr:     !isFormatAmPm(format),
+                    enableSeconds: setup.enableTime && isFormatInSeconds(format),
+                    allowInput:    true,
+                    clickOpens:    !this.config.controlButtons,
+                    disableMobile: true,
 
                     /**
-                     * How flatpicker will format the given date
+                     * How flatpickr will format the given date
                      * @param {Date} date
                      * @returns {String} the formatted date
                      */
@@ -317,7 +372,7 @@ define([
                     },
 
                     /**
-                     * How flatpicker parse the given input
+                     * How flatpickr parse the given input
                      * @param {String} dateString
                      * @returns {Date}
                      */
@@ -349,12 +404,43 @@ define([
                          * @event dateTimePicker#close
                          */
                         self.trigger('close');
+                    },
+
+                    /**
+                     * Hook flatpickr error handler
+                     * @param {Error} err - the thrown error
+                     */
+                    errorHandler : function errorHandler(err){
+                        if(err instanceof Error){
+                            //if an invalid date is provided
+                            //add a visual feedback indicating why the field get emptied
+                            if(/^Invalid date/.test(err.message)){
+                                self.controls.input.classList.add('error');
+                                _.delay(function(){
+                                    self.controls.input.classList.remove('error');
+                                }, 1000);
+                            } else {
+
+                                /**
+                                 * Unexpected error
+                                 * @event dateTimePicker#error
+                                 * @param {Error} err
+                                 */
+                                self.trigger('error', err);
+                            }
+                        }
                     }
                 };
                 //locale should be defined only if set...
                 if(locale){
                     this.pickerConfig.locale = locale;
                 }
+
+                _.forEach(this.config.constraints, function(value, constraint){
+                    if(_.contains(supportedConstraints, constraint) && value){
+                        self.pickerConfig[constraint] = value;
+                    }
+                });
 
 
                 //render into the container
