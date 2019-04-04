@@ -313,7 +313,7 @@ define([
                 }
             );
             */
-            this.startPicker = dateTimePicker($('label.start', $form), {
+            this.startPicker = dateTimePicker($('.start', $form), {
                 setup: 'datetime',
                 format : 'YYYY-MM-DD HH:mm:SS',
                 field : {
@@ -324,7 +324,7 @@ define([
             .on('change', function(value){
                 self.trigger('close', 'start', value);
             });
-            this.endPicker = dateTimePicker($('label.end', $form), {
+            this.endPicker = dateTimePicker($('.end', $form), {
                 setup: 'datetime',
                 format : 'YYYY-MM-DD HH:mm:SS',
                 field : {
@@ -333,7 +333,7 @@ define([
                 }
             })
             .on('change', function(value){
-                self.trigger('close', 'end', value);
+                self.trigger('change', 'end', value);
             });
 
             if ($filterBtn && $filterBtn.length) {
