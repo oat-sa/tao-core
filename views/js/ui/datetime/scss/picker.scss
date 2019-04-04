@@ -10,6 +10,9 @@ $picker-field-height: 37px;
             max-width: inherit;
             width: inherit;
         }
+        .numInputWrapper {
+            height: $picker-field-height;
+        }
     }
     &.control-buttons {
         position: static;
@@ -72,8 +75,19 @@ $picker-field-height: 37px;
                 line-height: $picker-field-height;
                 .cur-month {
                     margin: 0 .5ch;
+
+                    &:hover {
+                        background:inherit;
+                    }
+                }
+                .cur-year{
+                    height: $picker-field-height;
                 }
             }
+        }
+        .flatpickr-months .flatpickr-next-month:hover svg,
+        .flatpickr-months .flatpickr-prev-month:hover svg {
+            fill: $info;
         }
 
         .flatpickr-day {
@@ -160,7 +174,8 @@ $picker-field-height: 37px;
         }
    }
    .flatpickr-time {
-
+        line-height: $picker-field-height;
+        height: $picker-field-height;
         input {
             width: 100%;
             line-height: $picker-field-height;
