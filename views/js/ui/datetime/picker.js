@@ -492,6 +492,7 @@ define([
                     self.trigger('change', self.getValue());
                 });
 
+
                 //instantiate the picker
                 _.defer(function(){
                     self.picker = flatpickr(self.controls.input, self.pickerConfig);
