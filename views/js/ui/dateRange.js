@@ -52,9 +52,10 @@ define([
     'jquery',
     'lodash',
     'ui/component',
+    'ui/datetime/picker',
     'tpl!ui/dateRange/tpl/select',
-    'jquery.timePicker'
-], function ($, _, component, formTpl) {
+    'lib/jquery.timePicker'
+], function ($, _, component, dateTimePicker, formTpl) {
     'use strict';
 
     /**
@@ -185,6 +186,7 @@ define([
                          * @param {String} property
                          * @param {String} value
                          */
+                        console.log('close', 'start', periodStart);
                         self.trigger('close', 'start', periodStart);
                     },
                     onSelect: function (selectedDateTime) {
@@ -194,6 +196,8 @@ define([
                          * @param {String} property
                          * @param {String} value
                          */
+
+                        console.log('change', 'start', selectedDateTime);
                         self.trigger('change', 'start', selectedDateTime);
 
                         selected($(this), endTime, 'minDate', true);
@@ -208,6 +212,8 @@ define([
                          * @param {String} property
                          * @param {String} value
                          */
+
+                        console.log('close', 'end', periodEnd);
                         self.trigger('close', 'end', periodEnd);
                     },
                     onSelect: function (selectedDateTime) {
@@ -217,6 +223,7 @@ define([
                          * @param {String} property
                          * @param {String} value
                          */
+                        console.log('change', 'end', selectedDateTime);
                         self.trigger('change', 'end', selectedDateTime);
 
                         selected($(this), startTime, 'maxDate', false);
@@ -295,7 +302,7 @@ define([
 
                 return $([startTime.get(0), endTime.get(0)]);
             };
-
+/*
             $.timepicker.triggeredHandleRange(
                 initConfig.pickerType,
                 $periodStart,
@@ -305,13 +312,36 @@ define([
                     end: initConfig.pickerConfig
                 }
             );
+            */
+            this.startPicker = dateTimePicker($('label.start', $form), {
+                setup: 'datetime',
+                format : 'YYYY-MM-DD HH:mm:SS',
+                field : {
+                    name : 'periodStart',
+                    value : periodStart
+                }
+            })
+            .on('change', function(value){
+                self.trigger('close', 'start', value);
+            });
+            this.endPicker = dateTimePicker($('label.end', $form), {
+                setup: 'datetime',
+                format : 'YYYY-MM-DD HH:mm:SS',
+                field : {
+                    name : 'periodEnd',
+                    value : periodEnd
+                }
+            })
+            .on('change', function(value){
+                self.trigger('close', 'end', value);
+            });
 
             if ($filterBtn && $filterBtn.length) {
                 $filterBtn.on('click', function (event) {
                     event.preventDefault();
 
-                    periodStart = $periodStart.val();
-                    periodEnd = $periodEnd.val();
+                    periodStart = self.startPicker.getValue();
+                    periodEnd   = self.endPicker.getValue();
 
                     /**
                      * @event submit
@@ -324,8 +354,11 @@ define([
                 $resetBtn.on('click', function (event) {
                     event.preventDefault();
 
-                    $periodStart.val('');
-                    $periodEnd.val('');
+                    //$periodStart.val('');
+                    //$periodEnd.val('');
+                    self.startPicker.clear();
+                    self.endPicker.clear();
+
                     $filterBtn.click();
                 });
             }
@@ -333,8 +366,10 @@ define([
         }).on('destroy', function () {
             if (hasInputs()) {
                 // detach timePicker
-                $periodStart.datepicker('destroy');
-                $periodEnd.datepicker('destroy');
+                //$periodStart.datepicker('destroy');
+                //$periodEnd.datepicker('destroy');
+                 this.startPicker.destroy();
+                 this.endPicker.destroy();
             }
         }).init(initConfig);
 
