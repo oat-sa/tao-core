@@ -76,6 +76,7 @@ require.config({
         'ckeditor-jquery'       : ['ckeditor'],
         'class'                 : { exports : 'Class'},
         'c3'                    : { deps : ['d3', 'css!lib/c3js/c3.css']},
+	'lib/flatpickr/l10n/index' : { deps: ['lib/flatpickr/flatpickr'] },
         'mathJax' : {
             exports : "MathJax",
             init : function(){
