@@ -31,12 +31,14 @@ class BasicAuthType extends AbstractAuthType implements BasicAuth
      * Call a request through basic client
      *
      * @param RequestInterface $request
+     * @param array $clientOptions Http client options
      * @return mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \common_exception_InvalidArgumentType
      */
-    public function call(RequestInterface $request)
+    public function call(RequestInterface $request, array $clientOptions = [])
     {
-        return (new Client())->send($request, ['auth' => $this->getCredentials(), 'verify' => false]);
+        return (new Client($clientOptions))->send($request, ['auth' => $this->getCredentials(), 'verify' => false]);
     }
 
     /**
