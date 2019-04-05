@@ -42,8 +42,10 @@ class tao_actions_PasswordRecovery extends tao_actions_CommonModule
         $this->defaultData();
         $formContainer = new tao_actions_form_PasswordRecovery();
         $form = $formContainer->getForm();
+        $form->addCsrfTokenProtection();
 
         if ($form->isSubmited() && $form->isValid()) {
+            $this->validateCsrf();
             $mail = $form->getValue('userMail');
             $user = $this->getPasswordRecovery()->getUser(GenerisRdf::PROPERTY_USER_MAIL, $mail);
 
@@ -77,6 +79,7 @@ class tao_actions_PasswordRecovery extends tao_actions_CommonModule
 
         $formContainer = new tao_actions_form_ResetUserPassword();
         $form = $formContainer->getForm();
+        $form->addCsrfTokenProtection();
 
         $form->setValues(array('token'=>$token));
 
@@ -86,16 +89,15 @@ class tao_actions_PasswordRecovery extends tao_actions_CommonModule
             $this->setData('header', __('User not found'));
             $this->setData('error', __('This password reset link is no longer valid. It may have already been used. If you still wish to reset your password please request a new link'));
             $this->setData('content-template', array('passwordRecovery/password-recovery-info.tpl', 'tao'));
+        } else if ($form->isSubmited() && $form->isValid()) {
+            $this->validateCsrf();
+            $this->getPasswordRecovery()->setPassword($user, $form->getValue('newpassword'));
+            $this->logInfo("User {$user->getUri()} has changed the password.");
+            $this->setData('info', __('Password successfully changed'));
+            $this->setData('content-template', array('passwordRecovery/password-recovery-info.tpl', 'tao'));
         } else {
-            if ($form->isSubmited() && $form->isValid()) {
-                $this->getPasswordRecovery()->setPassword($user, $form->getValue('newpassword'));
-                $this->logInfo("User {$user->getUri()} has changed the password.");
-                $this->setData('info', __("Password successfully changed"));
-                $this->setData('content-template', array('passwordRecovery/password-recovery-info.tpl', 'tao'));
-            } else {
-                $this->setData('form', $form->render());
-                $this->setData('content-template', array('passwordRecovery/password-reset.tpl', 'tao'));
-            }
+            $this->setData('form', $form->render());
+            $this->setData('content-template', array('passwordRecovery/password-reset.tpl', 'tao'));
         }
 
         $this->setView('layout.tpl', 'tao');

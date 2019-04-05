@@ -34,8 +34,8 @@ use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\exception\InvalidServiceManagerException;
 use oat\oatbox\log\LoggerAwareTrait;
 use function GuzzleHttp\Psr7\stream_for;
-use oat\tao\model\security\xsrf\CsrfValidatorTrait;
 use oat\tao\model\routing\AnnotationReader\security;
+use oat\tao\model\security\xsrf\TokenService;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
@@ -57,7 +57,6 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
     use LoggerAwareTrait;
     use RendererTrait { setView as protected setRendererView; }
     use LegacySessionUtils;
-    use CsrfValidatorTrait;
 
     /**
      * The Modules access the models through the service instance
@@ -308,11 +307,32 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
     }
 
     /**
-     * @inheritdoc
+     * Set content-type by setting the HTTP response header "content-type"
+     *
+     * @return void
+     * @throws common_Exception
+     * @throws common_exception_Unauthorized
      */
-    public function setTokenHeader($token)
+    protected function validateCsrf()
     {
-        $this->getPsrResponse()->withAddedHeader($this->getTokenHeaderName(), $token);
+        $csrfTokenHeader = $this->getPsrRequest()->getHeader('X-CSRF-Token');
+        $csrfToken = current($csrfTokenHeader);
+
+        if (empty($csrfToken)) {
+            $this->logCsrfFailure('Missing X-CSRF-Token header.');
+        }
+
+        /** @var TokenService $tokenService */
+        $tokenService = ServiceManager::getServiceManager()->get(TokenService::SERVICE_ID);
+        $newToken = null;
+
+        try {
+            $newToken = $tokenService->validateToken($csrfToken);
+        } catch (common_exception_Unauthorized $e) {
+            $this->logCsrfFailure($e->getMessage(), $csrfToken);
+        }
+
+        $this->response = $this->getPsrResponse()->withHeader('X-CSRF-Token', $newToken);
     }
 
     /**
@@ -321,8 +341,8 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
     public function logCsrfFailure($exceptionMessage, $token = null)
     {
         $userIdentifier = $this->getSession()->getUser()->getIdentifier();
-        $requestMethod  = $this->getRequestMethod();
-        $requestUri     = $this->getRequestURI();
+        $requestMethod  = $this->getPsrRequest()->getMethod();
+        $requestUri     = $this->getPsrRequest()->getUri();
         $requestHeaders = $this->getHeaders();
 
         $this->logWarning('Failed to validate CSRF token. The following exception occurred: ' . $exceptionMessage);

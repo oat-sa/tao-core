@@ -20,7 +20,6 @@
  */
 
 use oat\oatbox\log\LoggerAwareTrait;
-use oat\tao\model\security\xsrf\CsrfValidatorTrait;
 
 /**
  * Short description of class tao_helpers_form_xhtml_Form
@@ -34,7 +33,6 @@ class tao_helpers_form_xhtml_Form extends tao_helpers_form_Form
 {
 
     use LoggerAwareTrait;
-    use CsrfValidatorTrait;
 
     // --- ASSOCIATIONS ---
 
@@ -128,7 +126,7 @@ class tao_helpers_form_xhtml_Form extends tao_helpers_form_Form
             $returnValue .= "enctype='multipart/form-data' ";
         }
 
-        if($this->isCsrfTokenRequired() === true){
+        if ($this->isCsrfTokenRequired() === true) {
             $returnValue .= "data-use-csrf-token='true' ";
         }
 
@@ -168,10 +166,6 @@ class tao_helpers_form_xhtml_Form extends tao_helpers_form_Form
     {
         $returnValue = false;
 
-        if ($this->isCsrfTokenRequired()) {
-            $this->validateCsrf();
-        }
-
         $this->valid = true;
 
         /** @var tao_helpers_form_FormElement $element */
@@ -183,37 +177,4 @@ class tao_helpers_form_xhtml_Form extends tao_helpers_form_Form
 
         return $returnValue;
     }
-
-    /**
-     * @inheritdoc
-     */
-    public function setTokenHeader($token)
-    {
-        header($this->getTokenHeaderName(), $token);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function logCsrfFailure($exceptionMessage, $token = null)
-    {
-        $session        = common_session_SessionManager::getSession();
-        $userIdentifier = $session->getUser()->getIdentifier();
-        $requestMethod  = $_SERVER['REQUEST_METHOD'];
-        $requestUri     = $_SERVER['REQUEST_URI'];
-        $requestHeaders = $this->getRequestHeaders();
-
-        $this->logWarning('Failed to validate CSRF token. The following exception occurred: ' . $exceptionMessage);
-        $this->logWarning(
-            "CSRF validation information: \n" .
-            'Provided token: ' . ($token ?: 'none')  . " \n" .
-            'User identifier: ' . $userIdentifier  . " \n" .
-            'Request: [' . $requestMethod . '] ' . $requestUri   . " \n" .
-            "Request Headers : \n" .
-            urldecode(http_build_query($requestHeaders, '', "\n"))
-        );
-
-        throw new common_exception_Unauthorized($exceptionMessage);
-    }
-
 }

@@ -67,44 +67,43 @@ class tao_actions_Roles extends tao_actions_RdfController
 
 		$formContainer = new tao_actions_form_Role($clazz, $role);
 		$myForm = $formContainer->getForm();
-		if($myForm->isSubmited()){
-			if($myForm->isValid()){
+        $myForm->addCsrfTokenProtection();
+		if ($myForm->isSubmited() && $myForm->isValid()) {
+		    $this->validateCsrf();
+            $formValues = $myForm->getValues();
+            $roleService = tao_models_classes_RoleService::singleton();
+            $includedRolesProperty = $this->getProperty(GenerisRdf::PROPERTY_ROLE_INCLUDESROLE);
 
-				$formValues = $myForm->getValues();
-				$roleService = tao_models_classes_RoleService::singleton();
-				$includedRolesProperty = $this->getProperty(GenerisRdf::PROPERTY_ROLE_INCLUDESROLE);
+            // We have to make the difference between the old list
+            // of included roles and the new ones.
+            $oldIncludedRolesUris = $role->getPropertyValues($includedRolesProperty);
+            $newIncludedRolesUris = $formValues[GenerisRdf::PROPERTY_ROLE_INCLUDESROLE];
+            $removeIncludedRolesUris = array_diff($oldIncludedRolesUris, $newIncludedRolesUris);
+            $addIncludedRolesUris = array_diff($newIncludedRolesUris, $oldIncludedRolesUris);
 
-				// We have to make the difference between the old list
-				// of included roles and the new ones.
-				$oldIncludedRolesUris = $role->getPropertyValues($includedRolesProperty);
-				$newIncludedRolesUris = $formValues[GenerisRdf::PROPERTY_ROLE_INCLUDESROLE];
-				$removeIncludedRolesUris = array_diff($oldIncludedRolesUris, $newIncludedRolesUris);
-				$addIncludedRolesUris = array_diff($newIncludedRolesUris, $oldIncludedRolesUris);
+            // Make the changes according to the detected differences.
+            foreach ($removeIncludedRolesUris as $rU){
+                $r = $this->getResource($rU);
+                $roleService->unincludeRole($role, $r);
+            }
 
-				// Make the changes according to the detected differences.
-				foreach ($removeIncludedRolesUris as $rU){
-					$r = $this->getResource($rU);
-					$roleService->unincludeRole($role, $r);
-				}
+            foreach ($addIncludedRolesUris as $aU){
+                $r = $this->getResource($aU);
+                $roleService->includeRole($role, $r);
+            }
 
-				foreach ($addIncludedRolesUris as $aU){
-					$r = $this->getResource($aU);
-					$roleService->includeRole($role, $r);
-				}
+            // Let's deal with other properties the usual way.
+            unset($formValues[$includedRolesProperty->getUri()]);
 
-				// Let's deal with other properties the usual way.
-				unset($formValues[$includedRolesProperty->getUri()]);
+            $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($role);
+            $role = $binder->bind($myForm->getValues());
 
-				$binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($role);
-				$role = $binder->bind($myForm->getValues());
+            core_kernel_users_Cache::removeIncludedRoles($role); // flush cache for this role.
 
-				core_kernel_users_Cache::removeIncludedRoles($role); // flush cache for this role.
-
-				$this->setData('selectNode', tao_helpers_Uri::encode($role->getUri()));
-				$this->setData('message', __('Role saved'));
-				$this->setData('reload', true);
-			}
-		}
+            $this->setData('selectNode', tao_helpers_Uri::encode($role->getUri()));
+            $this->setData('message', __('Role saved'));
+            $this->setData('reload', true);
+        }
 
 		$this->setData('uri', tao_helpers_Uri::encode($role->getUri()));
 		$this->setData('classUri', tao_helpers_Uri::encode($clazz->getUri()));

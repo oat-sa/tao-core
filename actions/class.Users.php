@@ -232,8 +232,10 @@ class tao_actions_Users extends tao_actions_CommonModule
         $this->defaultData();
         $container = new tao_actions_form_Users($this->getClass(TaoOntology::CLASS_URI_TAO_USER));
         $form = $container->getForm();
+        $form->addCsrfTokenProtection();
 
         if ($form->isSubmited() && $form->isValid()) {
+            $this->validateCsrf();
             $values = $form->getValues();
             $values[GenerisRdf::PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($values['password1']);
             $plainPassword = $values['password1'];
@@ -272,16 +274,15 @@ class tao_actions_Users extends tao_actions_CommonModule
         $clazz = $this->getClass(TaoOntology::CLASS_URI_TAO_USER);
         $formContainer = new tao_actions_form_CreateInstance(array($clazz), array());
         $form = $formContainer->getForm();
+        $form->addCsrfTokenProtection();
 
-        if ($form->isSubmited()) {
-            if ($form->isValid()) {
+        if ($form->isSubmited() && $form->isValid()) {
+            $this->validateCsrf();
+            $properties = $form->getValues();
+            $instance = $this->createInstance(array($clazz), $properties);
 
-                $properties = $form->getValues();
-                $instance = $this->createInstance(array($clazz), $properties);
-
-                $this->setData('message', __('%s created', $instance->getLabel()));
-                $this->setData('selectTreeNode', $instance->getUri());
-            }
+            $this->setData('message', __('%s created', $instance->getLabel()));
+            $this->setData('selectTreeNode', $instance->getUri());
         }
 
         $this->setData('formTitle', __('Create instance of ') . $clazz->getLabel());
@@ -330,46 +331,45 @@ class tao_actions_Users extends tao_actions_CommonModule
         $types = $user->getTypes();
         $myFormContainer = new tao_actions_form_Users(reset($types), $user);
         $myForm = $myFormContainer->getForm();
+        $myForm->addCsrfTokenProtection();
 
-        if ($myForm->isSubmited()) {
-            if ($myForm->isValid()) {
-                $values = $myForm->getValues();
-                if (!empty($values['password2']) && !empty($values['password3'])) {
-                    $plainPassword =  $values['password2'];
-                    $values[GenerisRdf::PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($values['password2']);
+        if ($myForm->isSubmited() && $myForm->isValid()) {
+            $this->validateCsrf();
+            $values = $myForm->getValues();
+            if (!empty($values['password2']) && !empty($values['password3'])) {
+                $plainPassword =  $values['password2'];
+                $values[GenerisRdf::PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($values['password2']);
+            }
+
+            unset($values['password2'], $values['password3']);
+
+            if (!preg_match('/[A-Z]{2,4}$/', trim($values[GenerisRdf::PROPERTY_USER_UILG]))) {
+                unset($values[GenerisRdf::PROPERTY_USER_UILG]);
+            }
+            if (!preg_match('/[A-Z]{2,4}$/', trim($values[GenerisRdf::PROPERTY_USER_DEFLG]))) {
+                unset($values[GenerisRdf::PROPERTY_USER_DEFLG]);
+            }
+
+            $userService->checkCurrentUserAccess($values[GenerisRdf::PROPERTY_USER_ROLES]);
+
+            // leave roles which are not in the allowed list for current user
+            $oldRoles = $userService->getUserRoles($user);
+            $allowedRoles = $userService->getPermittedRoles($userService->getCurrentUser(), $oldRoles, false);
+            $staticRoles = array_diff($oldRoles, $allowedRoles);
+            $values[GenerisRdf::PROPERTY_USER_ROLES] = array_merge($values[GenerisRdf::PROPERTY_USER_ROLES], $staticRoles);
+
+            $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($user);
+
+            if ($binder->bind($values)) {
+                $data = [];
+                if (isset($plainPassword)){
+                    $data = ['hashForKey' => UserHashForEncryption::hash($plainPassword)];
                 }
-
-                unset($values['password2']);
-                unset($values['password3']);
-
-                if (!preg_match("/[A-Z]{2,4}$/", trim($values[GenerisRdf::PROPERTY_USER_UILG]))) {
-                    unset($values[GenerisRdf::PROPERTY_USER_UILG]);
-                }
-                if (!preg_match("/[A-Z]{2,4}$/", trim($values[GenerisRdf::PROPERTY_USER_DEFLG]))) {
-                    unset($values[GenerisRdf::PROPERTY_USER_DEFLG]);
-                }
-
-                $userService->checkCurrentUserAccess($values[GenerisRdf::PROPERTY_USER_ROLES]);
-
-                // leave roles which are not in the allowed list for current user
-                $oldRoles = $userService->getUserRoles($user);
-                $allowedRoles = $userService->getPermittedRoles($userService->getCurrentUser(), $oldRoles, false);
-                $staticRoles = array_diff($oldRoles, $allowedRoles);
-                $values[GenerisRdf::PROPERTY_USER_ROLES] = array_merge($values[GenerisRdf::PROPERTY_USER_ROLES], $staticRoles);
-
-                $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($user);
-
-                if ($binder->bind($values)) {
-                    $data = [];
-                    if (isset($plainPassword)){
-                        $data = ['hashForKey' => UserHashForEncryption::hash($plainPassword)];
-                    }
-                    $this->getEventManager()->trigger(new UserUpdatedEvent(
-                        $user,
-                        array_merge($values, $data))
-                    );
-                    $this->setData('message', __('User saved'));
-                }
+                $this->getEventManager()->trigger(new UserUpdatedEvent(
+                    $user,
+                    array_merge($values, $data))
+                );
+                $this->setData('message', __('User saved'));
             }
         }
 
