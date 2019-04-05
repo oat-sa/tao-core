@@ -214,10 +214,10 @@ class tao_actions_Users extends tao_actions_CommonModule
                 $message = __('User deleted successfully');
             }
         }
-        $this->returnJson(array(
+        $this->returnJson([
             'success' => $deleted,
             'message' => $message
-        ));
+        ]);
     }
 
     /**
@@ -251,6 +251,12 @@ class tao_actions_Users extends tao_actions_CommonModule
                 );
                 $this->setData('message', __('User added'));
                 $this->setData('exit', true);
+
+                $this->returnJson([
+                    'success' => true,
+                    'message' => __('User added')
+                ]);
+                return;
             }
         }
 
@@ -283,6 +289,11 @@ class tao_actions_Users extends tao_actions_CommonModule
 
             $this->setData('message', __('%s created', $instance->getLabel()));
             $this->setData('selectTreeNode', $instance->getUri());
+            $this->returnJson([
+                'success' => true,
+                'message' => __('%s created', $instance->getLabel())
+            ]);
+            return;
         }
 
         $this->setData('formTitle', __('Create instance of ') . $clazz->getLabel());
@@ -370,6 +381,11 @@ class tao_actions_Users extends tao_actions_CommonModule
                     array_merge($values, $data))
                 );
                 $this->setData('message', __('User saved'));
+                $this->returnJson([
+                    'success' => true,
+                    'message' => __('User saved')
+                ]);
+                return;
             }
         }
 

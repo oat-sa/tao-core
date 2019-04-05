@@ -434,6 +434,11 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             $this->setData('selectNode', tao_helpers_Uri::encode($clazz->getUri()));
             $this->setData('message', __('%s Class saved', $clazz->getLabel()));
             $this->setData('reload', true);
+            $this->returnJson([
+                'success' => true,
+                'message' => __('%s Class saved', $clazz->getLabel())
+            ]);
+            return;
         }
 
         $this->setData('formTitle', __('Edit class %s', \tao_helpers_Display::htmlize($clazz->getLabel())));
@@ -538,6 +543,11 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
 
             $this->setData('message', __('%s created', $instance->getLabel()));
             $this->setData('reload', true);
+            $this->returnJson([
+                'success' => true,
+                'message' => __('%s created', $instance->getLabel())
+            ]);
+            return;
         }
 
         $this->setData('formTitle', __('Create instance of ').$clazz->getLabel());
@@ -580,6 +590,12 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
 
             $this->setData('message',$message);
             $this->setData('reload', true);
+
+            $this->returnJson([
+                'success' => true,
+                'message' => $message
+            ]);
+            return;
         }
 
         $this->setData('formTitle', __('Edit Instance'));
@@ -853,6 +869,12 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
                 }
                 if($translated > 0){
                     $this->setData('message', __('Translation saved'));
+
+                    $this->returnJson([
+                        'success' => true,
+                        'message' => __('Translation saved')
+                    ]);
+                    return;
                 }
             }
         }
@@ -936,9 +958,10 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
 
         $resource = $this->getResource($this->getRequestParameter('id'));
         $deleted = $this->getClassService()->deleteResource($resource);
-        return $this->returnJson(array(
-            'deleted' => $deleted
-        ));
+        return $this->returnJson([
+            'success' => $deleted,
+            'message' => __('Successfully deleted %s', $resource->getLabel())
+        ]);
     }
 
     /**
@@ -975,8 +998,8 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             $msg = $success ? __('%s has been deleted', $label) : __('Unable to delete %s', $label);
         }
         return $this->returnJson(array(
-            'deleted' => $success,
-            'msg' => $msg
+            'success' => $success,
+            'message' => $msg
         ));
     }
 
@@ -1013,12 +1036,16 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
 
         foreach ($ids as $id) {
             $deleted = false;
+            $deletedResourceLabel = '';
             try {
                 if ($this->hasWriteAccess($id)) {
                     $resource = new \core_kernel_classes_Resource($id);
                     if ($resource->isClass()) {
-                        $deleted = $this->getClassService()->deleteClass(new \core_kernel_classes_Class($id));
+                        $class = new \core_kernel_classes_Class($id);
+                        $deletedResourceLabel = $class->getLabel();
+                        $deleted = $this->getClassService()->deleteClass($class);
                     } else {
+                        $deletedResourceLabel = $resource->getLabel();
                         $deleted = $this->getClassService()->deleteResource($resource);
                     }
                 }
@@ -1028,6 +1055,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             if ($deleted) {
                 $response['deleted'][] = $id;
             }
+            $response['message'] = __('Successfully deleted %s', $deletedResourceLabel);
         }
 
         return $this->returnJson($response);

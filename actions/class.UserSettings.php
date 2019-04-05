@@ -56,6 +56,11 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
                 $this->getServiceLocator()->get(tao_models_classes_UserService::SERVICE_ID)
                     ->setPassword($user, $myForm->getValue('newpassword'));
                 $this->setData('message', __('Password changed'));
+                $this->returnJson([
+                    'success' => true,
+                    'message' => __('Password changed')
+                ]);
+                return;
             }
             $this->setData('myForm', $myForm->render());
         }
@@ -99,6 +104,12 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
                 $this->setData('message', __('Settings updated'));
 
                 $this->setData('reload', true);
+
+                $this->returnJson([
+                    'success' => true,
+                    'message' => __('Settings updated')
+                ]);
+                return;
             }
         }
         $userLabel = $this->getUserService()->getCurrentUser()->getLabel();
