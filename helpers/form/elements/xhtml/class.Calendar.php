@@ -39,47 +39,36 @@ class tao_helpers_form_elements_xhtml_Calendar extends tao_helpers_form_elements
     public function render()
     {
         $returnValue = $this->renderLabel();
-        
+
         $uniqueId = uniqid('calendar_');
         $elementId = tao_helpers_Display::TextCleaner($this->getDescription()) . '_' . $uniqueId;
-        
+
         if (! isset($this->attributes['size'])) {
             $this->attributes['size'] = 20;
         }
-        
-        $returnValue .= "<input class='datepicker-input' type='text' name='{$this->name}' id='$elementId' ";
+
+        $returnValue .= "<div class='form-elt-container'><input class='datepicker-input' type='text' name='{$this->name}' id='$elementId' ";
         $returnValue .= $this->renderAttributes();
-        
+
         if (! empty($this->value)) {
             $timeStamp = is_numeric($this->getRawValue()) ? $this->getRawValue() : $this->getEvaluatedValue();
             $returnValue .= ' value="' . _dh(tao_helpers_Date::displayeDate($timeStamp, tao_helpers_Date::FORMAT_DATEPICKER)) . '"';
         }
-        $returnValue .= ' />';
-        
-        $returnValue .= "<script type=\"text/javascript\">
-			require(['jquery','jqueryui','jquery.timePicker'], function($){
-				$(\"#$elementId\").datetimepicker({
-                                        dateFormat: 'yy-mm-dd',
-                                        beforeShow: function (textbox, instance) {
-                                            $(textbox).parent().append(instance.dpDiv);
-                                        }
-				});
-                                
-			});</script>";
-        
+        $returnValue .= ' /></div>';
+
         return (string) $returnValue;
     }
 
     public function getEvaluatedValue()
     {
         $returnValue = $this->getRawValue();
-        
+
         if (! empty($returnValue)) {
             $tz = new DateTimeZone(common_session_SessionManager::getSession()->getTimeZone());
             $dt = new DateTime($returnValue, $tz);
             $returnValue = $dt->getTimestamp() . '';
         }
-        
+
         return $returnValue;
     }
 }
