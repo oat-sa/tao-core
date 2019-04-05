@@ -18,26 +18,7 @@
  * 
  */
 
-
-                                     /*
-                                    /  \
-                                   |    |
-                                 --:'''':--
-   THIS CODE IS GENERATED          :*_* :
-                                   _:"":\___
-   AUTOMAGICALLY    * *      ____.' :::     '._
-                   * *=====<<=)           \    :
-   DO NOT EDIT!     * *      '-'-'\_      /'._.'
-                                     \====:_ ""
-                                    .'     \\
-                                   :       :
-                                  /   :    \
-                                 :   .      '.
-                                 :  : :      :
-                                 :__:-:__.;--'
-                                <*_/   <*/
-
-
+/* Do not edit */
 
 /**
  * Icon helper for tao - helpers/class.Icon.php
@@ -46,7 +27,7 @@
  *
  * @access public
  * @author Dieter Raber, <dieter@taotesting.com>
- * @date   2019-04-04 17:34:56
+ * @date   2019-04-05 11:42:10
  * @package tao
  * @subpackage helpers
  */
