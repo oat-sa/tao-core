@@ -317,11 +317,6 @@ define([
 
             // applies a sign change based on strategies
             calculator
-                .before(nsHelper.namespaceAll('command-sign', pluginName), function () {
-                    if (calculator.getExpression() === registeredTerms.ANS.value) {
-                        calculator.replace(tokensHelper.stringValue(calculator.getLastResult()));
-                    }
-                })
                 .on(nsHelper.namespaceAll('command-sign', pluginName), function () {
                     var tokens = calculator.getTokens();
                     var index = calculator.getTokenIndex();

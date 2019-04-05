@@ -744,30 +744,57 @@
         "move": 1
     },
     {
-        "title": "Previous result with negative number",
+        "title": "Last result contains negative number",
         "expression": "ans",
         "lastResult": "-2",
-        "expected": "2",
+        "expected": "-ans",
         "from": 0,
         "to": 3,
-        "position": 1
+        "move": 1
     },
     {
-        "title": "Previous result with positive number",
+        "title": "Last result contains positive number",
         "expression": "ans",
         "lastResult": "2",
-        "expected": "-2",
+        "expected": "-ans",
         "from": 0,
         "to": 3,
-        "position": 2
+        "move": 1
     },
     {
-        "title": "Previous result with explicit positive number",
+        "title": "Last result contains explicit positive number",
         "expression": "ans",
         "lastResult": "+2",
-        "expected": "-2",
+        "expected": "-ans",
         "from": 0,
         "to": 3,
-        "position": 2
+        "move": 1
+    },
+    {
+        "title": "Negated last result containing negative number",
+        "expression": "-ans",
+        "lastResult": "-2",
+        "expected": "ans",
+        "from": 0,
+        "to": 4,
+        "move": -1
+    },
+    {
+        "title": "Negated last result containing positive number",
+        "expression": "-ans",
+        "lastResult": "2",
+        "expected": "ans",
+        "from": 0,
+        "to": 4,
+        "move": -1
+    },
+    {
+        "title": "Negated last result containing explicit positive number",
+        "expression": "-ans",
+        "lastResult": "+2",
+        "expected": "ans",
+        "from": 0,
+        "to": 3,
+        "move": -1
     }
 ]
