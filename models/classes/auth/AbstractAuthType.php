@@ -37,10 +37,11 @@ abstract class AbstractAuthType implements PhpSerializable
      * Call a request through current authenticator
      *
      * @param RequestInterface $request
+     * @param array $clientOptions Http client options
      * @return ResponseInterface
      * @throws \common_exception_InvalidArgumentType
      */
-    abstract public function call(RequestInterface $request);
+    abstract public function call(RequestInterface $request, array $clientOptions = []);
 
     /**
      * RDF class of the AuthType
