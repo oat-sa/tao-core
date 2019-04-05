@@ -234,6 +234,11 @@
 .numInputWrapper input::-ms-clear {
   display: none;
 }
+.numInputWrapper input::-webkit-outer-spin-button,
+.numInputWrapper input::-webkit-inner-spin-button {
+  margin: 0;
+  -webkit-appearance: none;
+}
 .numInputWrapper span {
   position: absolute;
   right: 0;
@@ -345,6 +350,9 @@
   border: 0;
   border-radius: 0;
   vertical-align: initial;
+  -webkit-appearance: textfield;
+  -moz-appearance: textfield;
+  appearance: textfield;
 }
 .flatpickr-current-month input.cur-year:focus {
   outline: 0;
@@ -670,6 +678,9 @@ span.flatpickr-weekday {
   position: relative;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
+  -webkit-appearance: textfield;
+  -moz-appearance: textfield;
+  appearance: textfield;
 }
 .flatpickr-time input.flatpickr-hour {
   font-weight: bold;
@@ -710,7 +721,7 @@ span.flatpickr-weekday {
 .flatpickr-time .flatpickr-am-pm:hover,
 .flatpickr-time input:focus,
 .flatpickr-time .flatpickr-am-pm:focus {
-  background: #f3f3f3;
+  background: #eee;
 }
 .flatpickr-input[readonly] {
   cursor: pointer;

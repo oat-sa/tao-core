@@ -55,7 +55,7 @@ define([
         { title : 'after' },
     ]).test('Eventifier API ', function(data, assert) {
         assert.expect(1);
-        assert.equal(typeof dateTimePicker()[data.title], 'function', 'The picker exposes the eventifie method "' + data.title);
+        assert.equal(typeof dateTimePicker()[data.title], 'function', 'The picker exposes the eventifier method "' + data.title);
     });
 
     QUnit.cases.init([
@@ -100,7 +100,7 @@ define([
         assert.expect(6);
 
         dateTimePicker(container, {
-            setup: 'date',
+            setup : 'date',
             format : 'DD/MM/YYYY'
         })
         .on('init', function(){
@@ -128,14 +128,14 @@ define([
         assert.expect(9);
 
         dateTimePicker(container, {
-            setup: 'time',
-            field:  {
-                id:          'lunch-time-12',
-                name:        'lunch-time',
-                placeholder: 'Enter lunch time',
-                value:       '11:55',
-                pattern:     '[0-9]{2}:[0-9]{2}',
-                label:       'Usual lunch time'
+            setup : 'time',
+            field :  {
+                id :          'lunch-time-12',
+                name :        'lunch-time',
+                placeholder : 'Enter lunch time',
+                value :       '11 :55',
+                pattern :     '[0-9]{2}:[0-9]{2}',
+                label :       'Usual lunch time'
             }
         })
         .on('init', function(){
@@ -164,10 +164,10 @@ define([
         assert.expect(8);
 
         dateTimePicker(container, {
-            setup: 'datetime',
-            controlButtons: true,
-            field:  {
-                name:        'arrival'
+            setup : 'datetime',
+            controlButtons : true,
+            field :  {
+                name : 'arrival'
             }
         })
         .on('init', function(){
@@ -205,8 +205,8 @@ define([
         assert.equal(originalField.value, '03/04/2019', 'The original field value is defined');
 
         dateTimePicker(container, {
-            setup: 'date',
-            format: 'DD/MM/YYYY',
+            setup : 'date',
+            format : 'DD/MM/YYYY',
             replaceField : originalField
         })
         .on('ready', function(){
@@ -314,13 +314,13 @@ define([
     QUnit.cases.init([{
         title : 'default date format and locale',
         config : {
-            setup: 'date'
+            setup : 'date'
         },
         format : 'YYYY-MM-DD'
     }, {
         title : 'default date format and "en" locale',
         config : {
-            setup: 'date',
+            setup : 'date',
             locale : 'en',
             useLocalizedFormat : true
         },
@@ -328,7 +328,7 @@ define([
     }, {
         title : 'given date format and "en" locale',
         config : {
-            setup: 'date',
+            setup : 'date',
             locale : 'en',
             format : 'MM-DD-YYYY'
         },
@@ -336,7 +336,7 @@ define([
     }, {
         title : 'default datetime format and "de" locale',
         config : {
-            setup: 'datetime',
+            setup : 'datetime',
             locale : 'de',
             useLocalizedFormat : true
         },
@@ -344,7 +344,7 @@ define([
     }, {
         title : 'given datetime format and "fr" locale',
         config : {
-            setup: 'datetime',
+            setup : 'datetime',
             locale : 'fr',
             format : 'DD/MM/YYYY HH:mm'
         },
@@ -352,7 +352,7 @@ define([
     }, {
         title : 'default time format and "en" locale (ampm)',
         config : {
-            setup: 'time',
+            setup : 'time',
             locale : 'en',
             useLocalizedFormat : true
         },
@@ -360,7 +360,7 @@ define([
     }, {
         title : 'given time format and "en" locale (no ampm)',
         config : {
-            setup: 'time',
+            setup : 'time',
             locale : 'en',
             format : 'HH:mm'
         },
@@ -368,7 +368,7 @@ define([
     }, {
         title : 'given date time format with seconds',
         config : {
-            setup: 'datetime',
+            setup : 'datetime',
             format : 'YYYY-MM-DD HH:mm:SS'
         },
         format : 'YYYY-MM-DD HH:mm:SS'
@@ -404,7 +404,7 @@ define([
                 assert.ok(field instanceof HTMLElement,  'The field is attached to the element');
                 assert.equal(field.value, '', 'The field has no value');
 
-                field.dispatchEvent(new MouseEvent('mousedown', {bubbles: true}));
+                field.dispatchEvent(new MouseEvent('mousedown', {bubbles : true}));
             })
             .on('open', function(){
                 var element =  this.getElement()[0];
@@ -415,7 +415,7 @@ define([
 
                 picker
                     .querySelector('.flatpickr-day.today')
-                    .dispatchEvent(new MouseEvent('mousedown', {bubbles: true}));
+                    .dispatchEvent(new MouseEvent('mousedown', {bubbles : true}));
             })
             .on('close', function(){
                 var field  = this.getElement()[0].querySelector('input');
@@ -432,8 +432,8 @@ define([
         assert.expect(9);
 
         dateTimePicker(container, {
-            setup: 'date',
-            format: 'DD/MM/YYYY'
+            setup : 'date',
+            format : 'DD/MM/YYYY'
         })
         .on('ready', function(){
             var element =  this.getElement()[0];
@@ -446,7 +446,7 @@ define([
             assert.ok(field instanceof HTMLElement,  'The field is attached to the element');
             assert.equal(field.value, '', 'The field has no value');
 
-            field.dispatchEvent(new MouseEvent('mousedown', {bubbles: true}));
+            field.dispatchEvent(new MouseEvent('mousedown', {bubbles : true}));
         })
         .on('open', function(){
             var element = this.getElement()[0];
@@ -472,11 +472,11 @@ define([
 
             field.value = '03/04/2019';
             field.dispatchEvent(new KeyboardEvent('keydown',{
-                code: 'Enter',
-                key: 'Enter',
-                charKode: 13,
-                keyCode: 13,
-                bubbles : true
+                code : 'Enter',
+                key : 'Enter',
+                charKode : 13,
+                keyCode : 13,
+                bubbles  : true
             }));
         });
     });
@@ -488,8 +488,8 @@ define([
         assert.expect(12);
 
         dateTimePicker(container, {
-            setup: 'date',
-            format: 'YYYY-MM-DD'
+            setup : 'date',
+            format : 'YYYY-MM-DD'
         })
         .on('ready', function(){
             var element =  this.getElement()[0];
@@ -535,8 +535,8 @@ define([
         assert.expect(7);
 
         dateTimePicker(container, {
-            setup: 'date',
-            format: 'MM.DD.YYYY',
+            setup : 'date',
+            format : 'MM.DD.YYYY',
             field : {
                 name : 'easter',
                 value : '04.30.2015'
@@ -558,7 +558,7 @@ define([
 
             picker
                 .querySelector('.flatpickr-day:not(.prevMonthDay)') //04.01.2015
-                .dispatchEvent(new MouseEvent('mousedown', {bubbles: true}));
+                .dispatchEvent(new MouseEvent('mousedown', {bubbles : true}));
         })
         .on('change', function(value){
             var field  = this.getElement()[0].querySelector('input[name="easter"]');
@@ -577,7 +577,7 @@ define([
         assert.expect(6);
 
         dateTimePicker(container, {
-            setup: 'datetime',
+            setup : 'datetime',
             locale : 'fr',
             useLocalizedFormat : true,
             field : {
@@ -618,10 +618,10 @@ define([
         assert.expect(5);
 
         dateTimePicker(container, {
-            setup: 'time',
+            setup : 'time',
             locale : 'en',
             useLocalizedFormat : true,
-            controlButtons: true
+            controlButtons : true
         })
         .on('ready', function(){
             var element = this.getElement()[0];
@@ -663,12 +663,12 @@ define([
         assert.expect(6);
 
         dateTimePicker(container, {
-            setup: 'time',
+            setup : 'time',
             locale : 'de',
-            format: 'HH:mm',
-            controlButtons: true,
-            field: {
-                value: '14:15'
+            format : 'HH:mm',
+            controlButtons : true,
+            field : {
+                value : '14:15'
             }
         })
         .on('ready', function(){
@@ -703,9 +703,9 @@ define([
         assert.expect(9);
 
         dateTimePicker(container, {
-            setup: 'date',
+            setup : 'date',
             format : 'YYYY-MM-DD',
-            controlButtons: true
+            controlButtons : true
         })
         .on('ready', function(){
             var element = this.getElement()[0];
@@ -744,8 +744,8 @@ define([
         assert.expect(10);
 
         dateTimePicker(container, {
-            setup: 'date',
-            format: 'YYYY-MM-DD',
+            setup : 'date',
+            format : 'YYYY-MM-DD',
             constraints : {
                 minDate : '2019-04-05',
                 maxDate : '2019-04-10'
@@ -791,8 +791,8 @@ define([
         assert.expect(6);
 
         dateTimePicker(container, {
-            setup: 'date',
-            format: 'YYYY-MM-DD'
+            setup : 'date',
+            format : 'YYYY-MM-DD'
         })
         .on('ready', function(){
             this.open();
@@ -889,7 +889,7 @@ define([
 
         dateTimePicker(document.querySelector('#visual .date-controls'), {
             setup : 'date',
-            controlButtons: true
+            controlButtons : true
         })
         .on('render', function(){
             assert.ok(true);
@@ -914,10 +914,10 @@ define([
             currentValue.textContent = '';
 
             dateTimePicker(destinationContainer, {
-                setup:              formData.get('setup'),
-                controlButtons:     formData.has('control-buttons'),
-                locale:             formData.get('locale'),
-                useLocalizedFormat: !!formData.get('locale')
+                setup :              formData.get('setup'),
+                controlButtons :     formData.has('control-buttons'),
+                locale :             formData.get('locale'),
+                useLocalizedFormat : !!formData.get('locale')
             })
             .on('change', function(value){
                 currentValue.textContent = value;
