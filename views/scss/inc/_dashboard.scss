@@ -16,6 +16,13 @@
         justify-content: space-between;
         list-style: none;
         padding-left: 0;
+
+        &.list {
+            .dashboard-metric {
+                height: auto;
+                width: 100%;
+            }
+        }
     }
 
     .dashboard-metric {

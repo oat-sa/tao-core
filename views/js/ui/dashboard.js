@@ -17,6 +17,39 @@
  */
 
 /**
+ * Dashboard component to display metricts in pass/fail way
+ *
+ * @example
+ *    dashboard({
+ *        data: [
+ *                  {
+ *                      title: 'Virtual machine version:',
+ *                      score: 100,
+ *                      info: [
+ *                          { text: 'Version: XXXXXX' },
+ *                      ]
+ *                  },
+ *                  {
+ *                      title: 'Disk & DB space:',
+ *                      score: 65,
+ *                      info: [
+ *                          { text: 'Disk: X of X used' },
+ *                          { text: 'DB: X of X used' },
+ *                      ],
+ *                  },
+ *                  {
+ *                      title: 'Connectivity:',
+ *                      score: 32,
+ *                      info: [
+ *                          { text: 'Download: 80 MBit/s' },
+ *                          { text: 'Upload: 72 MBit/s' },
+ *                          { text: 'Synchronization would take 03m30s' },
+ *                      ]
+ *                  },
+ *              ],
+ *        renderTo: '#visual-test'
+ *    });
+ *
  * @author Anton Tsymuk <anton@taotesting.com>
  */
 define([
@@ -37,7 +70,8 @@ define([
         scoreState: { // score borders of different metrics states
             error: 32,
             warn: 65,
-        }
+        },
+        layoutType: "tiles",
     }
 
     /**
@@ -49,6 +83,7 @@ define([
      * @param {String} [config.loadingText]
      * @param {String} [config.warningText]
      * @param {Boolean} [config.loading] - should display loading screen
+     * @param {string} [config.layoutType] - Type of the component layout. Possible values: 'tiles'|'list'
      * @param {Array} [config.data] - metricts that should be displayed
      * @param {String} data[].title - metric title
      * @param {Number} data[].score - metric score
@@ -103,7 +138,7 @@ define([
                         function (item) { return item.score <= self.config.scoreState.warn; }
                     ));
 
-                    var $metricsList = $(metricsListTpl({ data: data }));
+                    var $metricsList = $(metricsListTpl({ data: data, layoutType: self.config.layoutType }));
 
                     $listContainer.append($metricsList);
                 }

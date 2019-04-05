@@ -1,4 +1,4 @@
-<ul class="dashboard-metrics_list">
+<ul class="dashboard-metrics_list {{layoutType}}">
     {{#each data}}
         <li class="dashboard-metric">
             <h4 class="dashboard-metric_title">{{title}}</h4>
