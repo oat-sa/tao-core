@@ -48,6 +48,7 @@ define([
      * @param {Object} options.className - name of the class that will be used by the wrappers tags to highlight text
      * @param {Object} options.containerSelector - allows to select the root Node in which highlighting is allowed
      * @param {Object} [options.containersBlackList] - additional blacklist selectors to be added to module instance's blacklist
+     * @param {Object} [options.clearOnClick] - clear single higlighted node on click
      * @returns {Object} - the highlighter instance
      */
     return function(options) {
@@ -140,6 +141,10 @@ define([
                 reindexGroups(getContainer());
                 mergeAdjacentWrappingNodes(getContainer());
             });
+
+            if (options.clearOnClick) {
+                $(containerSelector + ' .' + className).off('click').on('click', clearSingleHighlight);
+            }
         }
 
         /**
@@ -298,6 +303,15 @@ define([
             });
         }
 
+        /**
+         * Remove unwrap dom node
+         */
+        function clearSingleHighlight(e) {
+            var target = e.target;
+
+            var $wrapped = $(target);
+            $wrapped.replaceWith($wrapped.text());
+        }
 
         /**
          * Index-related functions:
@@ -552,7 +566,6 @@ define([
         function isHotNode(node) {
             return isWrappingNode(node) || isWrappable(node);
         }
-
 
         /**
          * Public API of the highlighter helper
