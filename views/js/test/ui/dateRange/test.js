@@ -13,130 +13,102 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016  (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2016-2019  (original work) Open Assessment Technologies SA;
  *
- * @author Alexander Zagovorichev <zagovorichev@1pt.com>
  */
 
-define(['jquery', 'ui/dateRange', 'jqueryui'], function($, dateRange) {
+/**
+ * Test the dateRange component
+ *
+ *
+ * @author Alexander Zagovorichev <zagovorichev@1pt.com>
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
+ */
+define(['ui/dateRange/dateRange'], function(dateRangeFactory) {
     'use strict';
 
     QUnit.module('API');
 
-    QUnit.test('factory', function(assert) {
-        assert.expect(3);
-
-        assert.ok(typeof dateRange === 'function', 'the module exposes a function');
-        assert.ok(typeof dateRange(false, []) === 'object', 'the factory creates an object');
-        assert.notEqual(dateRange({}), dateRange({}), 'the factory creates new objects');
+    QUnit.cases.init([
+        { title : 'init' },
+        { title : 'destroy' },
+        { title : 'render' },
+        { title : 'show' },
+        { title : 'hide' },
+        { title : 'enable' },
+        { title : 'disable' },
+        { title : 'is' },
+        { title : 'setState' },
+        { title : 'getContainer' },
+        { title : 'getElement' },
+        { title : 'getTemplate' },
+        { title : 'setTemplate' },
+    ]).test('Component API ', function(data, assert) {
+        assert.expect(1);
+        assert.equal(typeof dateRangeFactory()[data.title], 'function', 'The range component exposes the component method "' + data.title);
     });
 
-    QUnit.test('component', function(assert) {
+    QUnit.cases.init([
+        { title : 'on' },
+        { title : 'off' },
+        { title : 'trigger' },
+        { title : 'before' },
+        { title : 'after' },
+    ]).test('Eventifier API ', function(data, assert) {
+        assert.expect(1);
+        assert.equal(typeof dateRangeFactory()[data.title], 'function', 'The range component exposes the eventifier method "' + data.title);
+    });
+
+    QUnit.cases.init([
+        { title : 'getStart' },
+        { title : 'getEnd' },
+    ]).test('Picker API ', function(data, assert) {
+        assert.expect(1);
+        assert.equal(typeof dateRangeFactory()[data.title], 'function', 'The range component exposes the method "' + data.title);
+    });
+
+
+    QUnit.module('Behavior');
+
+    QUnit.test('Lifecycle', function(assert) {
+        var container = document.querySelector('#qunit-fixture');
+        var done      = assert.async();
+
         assert.expect(2);
 
-        var range = dateRange({});
+        dateRangeFactory(container)
+            .on('init', function(){
+                assert.ok(!this.is('rendered'), 'The component is not yet rendered');
+            })
+            .on('render', function(){
+                assert.ok(this.is('rendered'), 'The component is now rendered');
 
-        assert.ok(typeof range.render === 'function', 'the component has a render method');
-        assert.ok(typeof range.destroy === 'function', 'the component has a destroy method');
+                this.destroy();
+            })
+            .on('destroy', done);
     });
 
-    QUnit.test('eventifier', function(assert) {
-        assert.expect(3);
+    QUnit.test('Default configuration', function(assert) {
+        var container = document.querySelector('#qunit-fixture > div');
+        var done      = assert.async();
 
-        var range = dateRange({});
+        assert.expect(6);
 
-        assert.ok(typeof range.on === 'function', 'the component has a on method');
-        assert.ok(typeof range.off === 'function', 'the component has a off method');
-        assert.ok(typeof range.trigger === 'function', 'the component has a trigger method');
-    });
+        dateRangeFactory(container)
+        .on('init', function(){
+            assert.equal(container.querySelectorAll('input').length, 0, 'No input field found');
+            assert.equal(container.querySelectorAll('button').length, 0, 'No button field found');
+        })
+        .on('render', function(){
+            var element = this.getElement()[0];
 
-    QUnit.module('Component');
+            assert.ok(element.querySelector('input[name="periodStart"]') instanceof HTMLInputElement, 'The start field is attached');
+            assert.ok(element.querySelector('input[name="periodEnd"]') instanceof HTMLInputElement, 'The end field is attached');
 
-    QUnit.test('render', function(assert) {
+            assert.ok(element.querySelector('button[data-control="filter"]') instanceof HTMLButtonElement, 'The apply button is attached');
+            assert.ok(element.querySelector('button[data-control="reset"]') instanceof HTMLButtonElement, 'The reset button is attached');
 
-        assert.expect(3);
-
-        var $container = $('#qunit-fixture');
-        assert.equal($container.length, 1, 'The container exists');
-
-        dateRange().on('render', function() {
-            assert.equal($('input[name="periodStart"]', $container).length, 1, 'periodStart have been created');
-            assert.equal($('input[name="periodEnd"]', $container).length, 1, 'periodEnd have been created');
-        }).render($container);
-    });
-
-    QUnit.test('destroy', function(assert) {
-        assert.expect(7);
-
-        var $container = $('#qunit-fixture');
-        assert.equal($container.length, 1, 'The container exists');
-
-        var $range = dateRange().on('render', function() {
-            assert.equal($('input[name="periodStart"]', $container).length, 1, 'periodStart have been created');
-            assert.equal($('input[name="periodEnd"]', $container).length, 1, 'periodEnd have been created');
-        }).render($container);
-
-        assert.equal($('input[name="periodStart"]', $container).length, 1, 'periodStart have been created');
-        assert.equal($('input[name="periodEnd"]', $container).length, 1, 'periodEnd have been created');
-
-        $range.destroy();
-
-        assert.equal($('input[name="periodStart"]', $container).length, 0, 'periodStart have been deleted');
-        assert.equal($('input[name="periodEnd"]', $container).length, 0, 'periodEnd have been deleted');
-    });
-
-    QUnit.module('Attach');
-
-    QUnit.test('render', function(assert) {
-
-        assert.expect(4);
-
-        var $container = $('#qunit-fixture');
-        assert.equal($container.length, 1, 'The container exists');
-
-        var $inputFrom = $('<input type="text" name="from">');
-        var $inputTo = $('<input type="text" name="to">');
-
-        $container.append($inputFrom);
-        $container.append($inputTo);
-
-        assert.equal($('.hasDatepicker', $container).length, 0, 'DateTime have not been attached');
-
-        dateRange({
-            startInput: $inputFrom,
-            endInput: $inputTo
-        }).on('render', function() {
-            assert.equal($('input', $container).length, 2, 'DateTime have been created');
-            assert.equal($('.hasDatepicker', $container).length, 2, 'DateTime have been attached');
-        }).render($container);
-    });
-
-    QUnit.test('destroy', function(assert) {
-        assert.expect(7);
-
-        var $container = $('#qunit-fixture');
-        assert.equal($container.length, 1, 'The container exists');
-
-        var $inputFrom = $('<input type="text" name="from">');
-        var $inputTo = $('<input type="text" name="to">');
-
-        $container.append($inputFrom);
-        $container.append($inputTo);
-
-        assert.equal($('.hasDatepicker', $container).length, 0, 'DateTime have not been attached');
-
-        var $range = dateRange({
-            startInput: $inputFrom,
-            endInput: $inputTo
-        }).on('render', function() {
-            assert.equal($('input', $container).length, 2, 'DateTime have been created');
-            assert.equal($('.hasDatepicker', $container).length, 2, 'DateTime have been attached');
-        }).render($container);
-
-        $range.destroy();
-
-        assert.equal($('.hasDatepicker', $container).length, 0, 'DateTime have been deleted');
-        assert.equal($('input', $container).length, 2, 'Template still exists');
-        assert.equal($('.component', $container).length, 0, 'Component have been deleted');
+            done();
+        });
     });
 });
