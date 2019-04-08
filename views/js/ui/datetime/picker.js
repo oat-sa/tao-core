@@ -41,14 +41,20 @@
  */
 define([
     'lodash',
+
     'i18n',
+
     'moment',
+
     'ui/component',
     'lib/flatpickr/flatpickr',
     'lib/flatpickr/l10n/index',
+
     'tpl!ui/datetime/tpl/picker',
+
     'css!lib/flatpickr/flatpickr.css',
     'css!ui/datetime/css/picker.css'
+
 ], function(_, __, moment, component, flatpickr, flatpickrLocalization, dateTimePickerTpl){
     'use strict';
 
@@ -210,10 +216,19 @@ define([
              */
             setValue : function setValue(value) {
                 if (this.is('ready')) {
-                    this.controls.input.value = value;
+                    if (_.isString(value)) {
+                        this.controls.input.value = value;
+                    }
                     this.picker.setDate(value,  true);
                 }
                 return null;
+            },
+
+            getRangeValues : function getRangeValues() {
+                if (this.is('ready') && this.pickerConfig.mode === 'range') {
+                    return this.picker.selectedDates;
+                }
+                return false;
             },
 
             /**
