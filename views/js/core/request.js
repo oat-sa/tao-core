@@ -161,7 +161,7 @@ define([
                                     reject(createError(response, xhr.status + ' : ' + xhr.statusText, xhr.status));
                                 }
 
-                                if (xhr.status === 200 || (response && response.success === true)) {
+                                if (response && response.success === true) {
                                     // there's some data
                                     resolve(response);
                                 }

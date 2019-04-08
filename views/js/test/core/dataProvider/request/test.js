@@ -130,10 +130,6 @@ define(['jquery', 'lodash', 'core/dataProvider/request', 'core/promise'], functi
     });
 
     requestCases = [{
-        title: 'no url',
-        reject: true,
-        err: new TypeError('At least give a URL...')
-    }, {
         title: '200 got content',
         url: '//200',
         content: {foo: 'bar'},
