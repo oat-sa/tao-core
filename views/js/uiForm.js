@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2015-2019 (original work) Open Assessment Technologies SA ;
  *
  */
 
@@ -36,7 +36,8 @@ define([
     'ui/feedback',
     'ckeditor',
     'ui/ckeditor/ckConfigurator',
-    'lib/jsTree/plugins/jquery.tree.contextmenu'
+    'ui/datetime/picker',
+    'lib/jsTree/plugins/jquery.tree.contextmenu',
 ], function (
     module,
     $,
@@ -50,7 +51,8 @@ define([
     request,
     feedback,
     ckeditor,
-    ckConfigurator ) {
+    ckConfigurator,
+    dateTimePicker) {
     'use strict';
 
     /**
@@ -332,6 +334,14 @@ define([
                 var editor = ckeditor.replace(this);
                 editor.config = ckConfigurator.getConfig(editor, 'htmlField', {resize_enabled : false });
                 self.htmlEditors[propertyUri] = editor;
+            });
+
+            $('.datepicker-input').each(function(){
+                dateTimePicker($(this).parent(), {
+                    replaceField : this,
+                    setup : 'datetime',
+                    controlButtons : true
+                });
             });
 
             $('.box-checker').off('click').on('click', function () {
