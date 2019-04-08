@@ -13,38 +13,29 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2016-2019 (original work) Open Assessment Technologies SA ;
+ *
+ */
+
+/**
+ * Component that let's you get a date range with 2 fields and the buttons to submit the value
  *
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  * @author Alexander Zagovorichev <zagovorichev@1pt.com>
- */
-
-
-/**
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
  *
- * Examples:
+ * This component is left for backward compatibility only, please
+ * consider using {@link ui/datetime/picker} instead with the range modes.
+ *
+ *
+ * @example
  *
  * # Create new dateRange container
- * dateRangeFactory({
- *    pickerType: 'datetimepicker',
- *    renderTo: $dateRange,
- *    pickerConfig: {
- *        // configurations from lib/jquery.timePicker.js
- *        dateFormat: 'yy-mm-dd',
- *        timeFormat: 'HH:mm:ss'
- *    }
- * });
- *
- * # attach to exists form
- * <div class="container">
- *   <input type="text" name="from">
- *   <input type="text" name="to">
- * </div>
- *
- * dateRange({
- *     startInput: $inputFrom,
- *     endInput: $inputTo
- * }).render($container)j
+ * dateRangeFactory($dateRange)
+ *      .on('submit', function(){
+ *            var start = this.getStart();
+ *            var end   = this.getEnd();
+ *       });
  *
  */
 
@@ -60,9 +51,8 @@ define([
     'use strict';
 
     /**
-     * Default config (by default works like DatePicker, without time)
+     * Default configuration
      * @type {Object}
-     * @private
      */
     var defaults = {
         resetButton : {
@@ -94,15 +84,30 @@ define([
     /**
      * Creates a dates range with date pickers
      *
-     * @param {Object} config
-     * @fires change when any date is changed
-     * @fires submit when the submit button is clicked
+     * @param {HTMLElement|jQuery} container - where to append the component
+     * @param {Object} [config]
+     * @param {Object} [config.resetButton]
+     * @param {Boolean} [config.resetButton.enable] - enable or not the reset button
+     * @param {String} [config.resetButton.label] - the reset button label
+     * @param {String} [config.resetButton.title] - the reset button title (HTML title)
+     * @param {Boolean} [config.applyButton.enable] - enable or not the apply button
+     * @param {String} [config.applyButton.label] - the apply button label
+     * @param {String} [config.applyButton.title] - the apply button title (HTML title)
+     * @param {Object} [config.startPicker] - the configuration sent to the start picker, see ui/datetime/picker
+     * @param {Object} [config.startPicker] - the configuration sent to the end picker ,s see ui/datetime/picker
+     * @fires dateRange#change when any date is changed
+     * @fires dateRange#close when a picker is closed
+     * @fires dateRange#submit when the submit button is clicked
      */
     function dateRangeFactory(container, config) {
 
+        // if the picker replace fields we don't use the component template
         var useTemplate = !config ||
                 (!config.startPicker.replaceField && !config.endPicker.replaceField);
 
+        /**
+         * @typedef {Object} dateRange
+         */
         var dateRange = component({
             /**
              * Gets the start date of the range
@@ -131,7 +136,6 @@ define([
 
         dateRange
             .on('init', function(){
-
                 if(container){
                     this.render(container);
                 }
@@ -156,173 +160,31 @@ define([
                     this.endPicker   = dateTimePicker(element, this.config.endPicker);
                 }
 
-                /**
-                * Extend lib/jquery.timePicker for triggering events
-                *
-                * Calls `method` on the `startTime` and `endTime` elements, and configures them to
-                * enforce date range limits.
-                * @param  string method Can be used to specify the type of picker to be added
-                * @param  Element startTime
-                * @param  Element endTime
-                * @param  obj options Options for the `timepicker()` call. Also supports `reformat`,
-                *   a boolean value that can be used to reformat the input values to the `dateFormat`.
-                * @return jQuery
-                */
-                //$.timepicker.triggeredHandleRange = function triggeredHandleRange(method, startTime, endTime, options) {
-                    //options = $.extend({}, {
-                        //minInterval: 0, // min allowed interval in milliseconds
-                        //maxInterval: 0, // max allowed interval in milliseconds
-                        //start: {},      // options for start picker
-                        //end: {}         // options for end picker
-                    //}, options);
-
-                    //$.fn[method].call(startTime, $.extend({
-                        //onClose: function (dateText, inst) {
-                            //checkDates($(this), endTime);
-
-                            /**
-                            * @event close
-                            * @param {String} property
-                            * @param {String} value
-                            */
-                            //console.log('close', 'start', periodStart);
-                            //self.trigger('close', 'start', periodStart);
-                        //},
-                        //onSelect: function (selectedDateTime) {
-
-                            /**
-                            * @event change
-                            * @param {String} property
-                            * @param {String} value
-                            */
-
-                            //console.log('change', 'start', selectedDateTime);
-                            //self.trigger('change', 'start', selectedDateTime);
-
-                            //selected($(this), endTime, 'minDate', true);
-                        //}
-                    //}, options, options.start));
-                    //$.fn[method].call(endTime, $.extend({
-                        //onClose: function (dateText, inst) {
-                            //checkDates($(this), startTime);
-
-                            /**
-                            * @event close
-                            * @param {String} property
-                            * @param {String} value
-                            */
-
-                            //console.log('close', 'end', periodEnd);
-                            //self.trigger('close', 'end', periodEnd);
-                        //},
-                        //onSelect: function (selectedDateTime) {
-
-                            /**
-                            * @event change
-                            * @param {String} property
-                            * @param {String} value
-                            */
-                            //console.log('change', 'end', selectedDateTime);
-                            //self.trigger('change', 'end', selectedDateTime);
-
-                            //selected($(this), startTime, 'maxDate', false);
-                        //}
-                    //}, options, options.end));
-
-                    //checkDates(startTime, endTime);
-                    //selected(startTime, endTime, 'minDate', true);
-                    //selected(endTime, startTime, 'maxDate', false);
-
-                    /**
-                    * startTime should be before the endTime
-                    * @param changed
-                    * @param other
-                    */
-                    //function checkDates(changed, other) {
-                        //var startdt = startTime[method]('getDate'),
-                            //enddt = endTime[method]('getDate'),
-                            //changeddt = changed[method]('getDate');
-
-                        //if (startdt !== null) {
-                            //var minDate = new Date(startdt.getTime()),
-                                //maxDate = new Date(startdt.getTime());
-
-                            //minDate.setMilliseconds(minDate.getMilliseconds() + options.minInterval);
-                            //maxDate.setMilliseconds(maxDate.getMilliseconds() + options.maxInterval);
-
-                            //if (options.minInterval > 0 && minDate > enddt) { // minInterval check
-                                //endTime[method]('setDate', minDate);
-                            //}
-                            //else if (options.maxInterval > 0 && maxDate < enddt) { // max interval check
-                                //endTime[method]('setDate', maxDate);
-                            //}
-                            //else if (startdt > enddt) {
-                                //other[method]('setDate', changeddt);
-                            //}
-                        //}
-                    //}
-
-                    /**
-                    * Select new date
-                    * @param changed
-                    * @param other
-                    * @param option
-                    * @param isStart - if changed startTime
-                    */
-                /*    function selected(changed, other, option, isStart) {
-                        var date;
-
-                        if (!changed.val()) {
-                            return;
-                        }
-                        date = changed[method].call(changed, 'getDate');
-                        if (isStart) {
-                            periodStart = changed.val();
-                        } else {
-                            periodEnd = changed.val();
-                        }
-                        if (date !== null && options.minInterval > 0) {
-                            if (option == 'minDate') {
-                                date.setMilliseconds(date.getMilliseconds() + options.minInterval);
-                            }
-                            if (option == 'maxDate') {
-                                date.setMilliseconds(date.getMilliseconds() - options.minInterval);
-                            }
-                        }
-                        if (date.getTime) {
-                            other[method].call(other, 'option', option, date);
-                            if (isStart) {
-                                periodEnd = other.val();
-                            } else {
-                                periodStart = other.val();
-                            }
-                        }
-                    }
-
-                    return $([startTime.get(0), endTime.get(0)]);
-                };*/
-    /*
-                $.timepicker.triggeredHandleRange(
-                    initConfig.pickerType,
-                    $periodStart,
-                    $periodEnd,
-                    {
-                        start: initConfig.pickerConfig,
-                        end: initConfig.pickerConfig
-                    }
-                );
-                */
                 this.startPicker
                     .on('change', function(value){
                         if(value && self.endPicker && self.endPicker.is('ready')){
                             self.endPicker.updateConstraints('minDate', value);
                         }
 
+                        /**
+                         * The values get changed
+                         * @event dateRange#change
+                         * @param {String} target - start or end
+                         * @param {String} value - the changed value
+                         */
                         self.trigger('change', 'start', value);
                     })
                     .on('close', function(){
+
+                        /**
+                         * The picker get closed
+                         * @event dateRange#close
+                         * @param {String} target - start or end
+                         * @param {String} value - the changed value
+                         */
                         self.trigger('close', 'start', this.getValue());
-                    });
+                    })
+                    .spread('error', this);
 
                 this.endPicker
                     .on('change', function(value){
@@ -330,11 +192,19 @@ define([
                             self.startPicker.updateConstraints('maxDate', value);
                         }
 
+                        /**
+                         * @see dateRange#change
+                         */
                         self.trigger('change', 'end', value);
                     })
                     .on('close', function(){
+
+                        /**
+                         * @see dateRange#close
+                         */
                         self.trigger('close', 'end', this.getValue());
-                    });
+                    })
+                    .spread('error', this);
 
                 if (useTemplate && this.controls.filter) {
 
@@ -342,9 +212,12 @@ define([
                         e.preventDefault();
 
                         /**
-                        * @event dateRange#submit
-                        */
-                        self.trigger('submit');
+                         * The values get submitted
+                         * @event dateRange#submit
+                         * @param {String} start - the start/from date
+                         * @param {String} end - the end/to date
+                         */
+                        self.trigger('submit', this.getStart(), this.getEnd());
                     });
                 }
                 if (useTemplate && this.controls.reset) {
@@ -360,9 +233,9 @@ define([
                             .clear();
 
                         /**
-                        * @event dateRange#submit
-                        */
-                        self.trigger('submit');
+                         * @see dateRange#submit
+                         */
+                        self.trigger('submit', '', '');
                     });
                 }
 
