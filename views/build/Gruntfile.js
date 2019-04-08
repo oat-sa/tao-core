@@ -22,6 +22,7 @@ module.exports = function(grunt) {
     var testTasks   = [];
 
     grunt.option('root', root);
+    grunt.option('extensionHelper', extensionHelper);
     grunt.option('currentExtension', currentExtension);
     grunt.option('testPort', testPort);
     grunt.option('testUrl', testUrl);
@@ -37,21 +38,8 @@ module.exports = function(grunt) {
     // load all grunt tasks matching the `grunt-*` pattern
     require('load-grunt-tasks')(grunt);
 
-    const retireInputFiles = extensionHelper.getExtensions().map(item => `${root}/${item}/**/*.js`);
-
-    grunt.initConfig({
-      retire: {
-          js: [retireInputFiles], /** Which js-files to scan. **/
-          options: {
-              outputFile: './retire-output.json',
-              jsRepository: 'https://raw.github.com/RetireJS/retire.js/master/repository/jsrepository.json',
-              nodeRepository: 'https://raw.github.com/RetireJS/retire.js/master/repository/npmrepository.json',
-          }
-      }
-    });
-
     grunt.loadNpmTasks('@oat-sa/grunt-tao-bundle');
-    grunt.loadNpmTasks('grunt-retire');
+    grunt.loadNpmTasks('@oat-sa/grunt-tao-bundle');
 
     /*
      * Load separated configs into each extension
@@ -96,4 +84,5 @@ module.exports = function(grunt) {
     grunt.registerTask('bundleall', "Compile all js files", bundleTasks);
     grunt.registerTask('testall', "Run all tests", ['connect:test', 'qunit_junit'].concat(testTasks));
     grunt.registerTask('build', "The full build sequence", ['concurrent:build']);
+    grunt.registerTask('retire', "Sart retire.js search", ['retire:js']);
 };
