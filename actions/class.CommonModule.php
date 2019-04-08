@@ -314,15 +314,15 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
      */
     protected function validateCsrf()
     {
-        $csrfTokenHeader = $this->getPsrRequest()->getHeader(TokenService::CSRF_TOKEN_HEADER);
-        $csrfToken = current($csrfTokenHeader);
-
-        if (empty($csrfToken)) {
+        if ($this->getPsrRequest()->hasHeader(TokenService::CSRF_TOKEN_HEADER) === false) {
             $this->logCsrfFailure('Missing X-CSRF-Token header.');
         }
 
+        $csrfTokenHeader = $this->getPsrRequest()->getHeader(TokenService::CSRF_TOKEN_HEADER);
+        $csrfToken = current($csrfTokenHeader);
+
         /** @var TokenService $tokenService */
-        $tokenService = ServiceManager::getServiceManager()->get(TokenService::SERVICE_ID);
+        $tokenService = $this->getServiceLocator()->get(TokenService::SERVICE_ID);
         $newToken = null;
 
         try {
@@ -337,8 +337,10 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
     /**
      * Logs a CSRF validation error
      *
-     * @throws common_exception_Unauthorized
+     * @param string $exceptionMessage
+     * @param null $token
      * @throws common_exception_Error
+     * @throws common_exception_Unauthorized
      */
     public function logCsrfFailure($exceptionMessage, $token = null)
     {
