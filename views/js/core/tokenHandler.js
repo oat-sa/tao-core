@@ -23,9 +23,10 @@ define([
     'lodash',
     'module',
     'core/tokenStore',
+    'core/promise',
     'core/promiseQueue'
 ],
-function (_, module, tokenStoreFactory, promiseQueue) {
+function (_, module, tokenStoreFactory, Promise, promiseQueue) {
     'use strict';
 
     var clientConfigFetched = false;
@@ -57,10 +58,6 @@ function (_, module, tokenStoreFactory, promiseQueue) {
         // Initialise storage for tokens:
         tokenStore = tokenStoreFactory(options);
 
-        if (options.initialToken) {
-            tokenStore.push(options.initialToken);
-        }
-
         return {
             /**
              * Gets the next security token from the token queue
@@ -71,6 +68,22 @@ function (_, module, tokenStoreFactory, promiseQueue) {
              */
             getToken: function getToken() {
                 var self = this;
+                var initialToken = options.initialToken;
+
+                var getFirstTokenValue  = function getFirstTokenValue() {
+                    return tokenStore.dequeue().then(function(currentToken) {
+                        if(currentToken){
+                            return currentToken.value;
+                        }
+                        return null;
+                    });
+                };
+
+                // If set, initialToken will be provided directly, without using store:
+                if (initialToken) {
+                    options.initialToken = null;
+                    return Promise.resolve(initialToken);
+                }
 
                 // Some async checks before we go for the token:
                 return tokenStore.expireOldTokens()
@@ -80,18 +93,12 @@ function (_, module, tokenStoreFactory, promiseQueue) {
                     .then(function(queueSize) {
                         if (queueSize > 0) {
                             // Token available, use it
-                            return tokenStore.pop().then(function(currentToken) {
-                                return currentToken.value;
-                            });
+                            return getFirstTokenValue();
                         }
                         else if (!clientConfigFetched) {
                             // Client Config allowed! (first and only time)
                             return self.getClientConfigTokens()
-                                .then(function() {
-                                    return tokenStore.pop().then(function(currentToken) {
-                                        return currentToken.value;
-                                    });
-                                });
+                                .then(getFirstTokenValue);
                         }
                         else {
                             // No more token options, refresh needed
@@ -107,21 +114,14 @@ function (_, module, tokenStoreFactory, promiseQueue) {
              * @returns {Promise<Boolean>} - resolves true if successful
              */
             setToken: function setToken(newToken) {
-                return tokenStore.push(newToken)
-                    .then(function(added) {
-                        return added;
-                    })
-                    .then(function(added) { // just logs - remove later
-                        tokenStore.log('tokenHandler.getToken');
-                        return added;
-                    });
+                return tokenStore.enqueue(newToken);
             },
 
             /**
              * Extracts tokens from the Client Config which should be received on every page load
              * @returns {Promise<Boolean>} - resolves true when completed
              */
-            getClientConfigTokens() {
+            getClientConfigTokens: function getClientConfigTokens() {
                 var self = this;
                 var clientTokens = _.map(module.config().tokens, function(serverToken) {
                     return {

@@ -39,7 +39,7 @@ define([
     ];
 
     QUnit.module('ajaxProvider', {
-        beforeEach: function(assert) {
+        beforeEach: function() {
             proxyFactory.clearProviders();
             proxyFactory.registerProvider('ajax', ajaxProvider);
             requestMock.api.removeAllListeners();

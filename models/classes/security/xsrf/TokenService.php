@@ -49,6 +49,8 @@ class TokenService extends ConfigurableService
     const DEFAULT_POOL_SIZE = 10;
     const DEFAULT_TIME_LIMIT = 0;
 
+    const CSRF_TOKEN_HEADER = 'X-CSRF-Token';
+
     /**
      * Create a new TokenService
      *
@@ -133,15 +135,24 @@ class TokenService extends ConfigurableService
     public function validateToken($token)
     {
         $isValid = false;
+        $expired = false;
         $pool = $this->getStore()->getTokens();
 
         if ($pool !== null) {
             foreach ($pool as $savedToken) {
-                if ($savedToken['token'] === $token && !$this->isExpired($token, true)) {
+                if ($savedToken['token'] === $token) {
+                    if ($this->isExpired($token)) {
+                        $expired = true;
+                        break;
+                    }
                     $isValid = true;
                     break;
                 }
             }
+        }
+
+        if ($expired === true) {
+            $this->revokeToken($token);
         }
 
         if ($isValid !== true) {
@@ -157,10 +168,9 @@ class TokenService extends ConfigurableService
      * Check if the given token has expired.
      *
      * @param $token
-     * @param bool $revokeIfExpired
      * @return bool
      */
-    private function isExpired($token, $revokeIfExpired = false)
+    private function isExpired($token)
     {
         $expired = false;
         $actualTime = microtime(true);
@@ -168,7 +178,6 @@ class TokenService extends ConfigurableService
 
         if (($timeLimit > 0) && $token['ts'] + $timeLimit < $actualTime) {
             $expired = true;
-            !$revokeIfExpired ?: $this->revokeToken($token);
         }
 
         return $expired;

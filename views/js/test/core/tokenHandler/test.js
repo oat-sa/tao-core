@@ -28,6 +28,24 @@ define([
 ], function($, _, Promise, tokenHandlerFactory) {
     'use strict';
 
+    var proxyApi = [
+        { name : 'getToken' },
+        { name : 'setToken' },
+        { name : 'getClientConfigTokens' },
+        { name : 'clearStore' },
+        { name : 'getQueueLength' },
+        { name : 'setMaxSize' }
+    ];
+
+    function randomToken() {
+        var d = Date.now() + Math.floor(5000 * Math.random());
+        return {
+            value: 'someToken' + ('' + d).slice(9),
+            receivedAt: d
+        };
+    }
+
+
     QUnit.module('tokenHandler');
 
     QUnit.test('module', function(assert) {
@@ -38,33 +56,19 @@ define([
         assert.notStrictEqual(tokenHandlerFactory(), tokenHandlerFactory(), 'The tokenHandler factory provides a different object on each call');
     });
 
-    QUnit.cases([
-        { name : 'getToken' },
-        { name : 'setToken' },
-        { name : 'getClientConfigTokens' },
-        { name : 'clearStore' },
-        { name : 'getQueueLength' },
-        { name : 'setMaxSize' }
-    ])
-    .test('instance API ', function(data, assert) {
-        var instance = tokenHandlerFactory();
+    QUnit
+        .cases.init(proxyApi)
+        .test('instance API ', function(data, assert) {
+            var instance = tokenHandlerFactory();
+            assert.expect(1);
+            assert.equal(typeof instance[data.name], 'function', 'The tokenHandler instance exposes a "' + data.name + '" function');
+        });
 
-        assert.expect(1);
-
-        assert.equal(typeof instance[data.name], 'function', 'The tokenHandler instance exposes a "' + data.name + '" function');
-    });
-
-    function randomToken() {
-        var d = Date.now() + Math.floor(5000 * Math.random());
-        return {
-            value: 'someToken' + ('' + d).slice(9),
-            receivedAt: d
-        };
-    }
 
     QUnit.module('behaviour');
 
-    QUnit.asyncTest('set/get single token', function(assert){
+    QUnit.test('set/get single token', function(assert){
+        var ready = assert.async();
         var tokenHandler = tokenHandlerFactory();
         var expectedToken = { value: "e56fg1a3b9de2237f", receivedAt: Date.now() };
 
@@ -82,15 +86,16 @@ define([
                 return tokenHandler.clearStore();
             })
             .then(function() {
-                QUnit.start();
+                ready();
             })
             .catch(function(err){
                 assert.ok(false, err.message);
-                QUnit.start();
+                ready();
             });
     });
 
-    QUnit.asyncTest('getQueueLength', function(assert){
+    QUnit.test('getQueueLength', function(assert){
+        var ready = assert.async();
         var tokenHandler = tokenHandlerFactory({ maxSize: 5 });
 
         assert.expect(6);
@@ -143,15 +148,16 @@ define([
         .then(function(length){
             assert.equal(length, 0, 'The queue size is correct: 0');
 
-            QUnit.start();
+            ready();
         })
         .catch(function(err){
             assert.ok(false, err.message);
-            QUnit.start();
+            ready();
         });
     });
 
-    QUnit.asyncTest('getClientConfigTokens', function(assert) {
+    QUnit.test('getClientConfigTokens', function(assert) {
+        var ready = assert.async();
         var tokenHandler = tokenHandlerFactory();
         var expectedToken = 'e56fg1a3b9de2237f';
 
@@ -174,11 +180,11 @@ define([
                 return tokenHandler.clearStore();
             })
             .then(function() {
-                QUnit.start();
+                ready();
             })
             .catch(function(err){
                 assert.ok(false, err.message);
-                QUnit.start();
+                ready();
             });
     });
 });
