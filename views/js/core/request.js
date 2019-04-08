@@ -37,9 +37,8 @@ define([
     'core/promise',
     'core/promiseQueue',
     'core/tokenHandler',
-    'ui/feedback',
     'core/logger'
-], function($, _, __, context, Promise, promiseQueue, tokenHandlerFactory, feedback, loggerFactory) {
+], function($, _, __, context, Promise, promiseQueue, tokenHandlerFactory, loggerFactory) {
     'use strict';
 
     var tokenHandler = tokenHandlerFactory();
@@ -76,7 +75,8 @@ define([
      * @param {String} [options.method = 'GET'] - the HTTP method
      * @param {Object} [options.data] - additional parameters (if method is 'POST')
      * @param {Object} [options.headers] - the HTTP headers
-     * @param {String} [options.contentType] - will usually be 'json'
+     * @param {String} [options.contentType] - what kind of data we're sending - usually 'json'
+     * @param {String} [options.dataType] - what kind of data expected in response
      * @param {Boolean} [options.noToken = false] - if true, disables the token requirement
      * @param {Boolean} [options.background] - if true, the request should be done in the background, which in practice does not trigger the global handlers like ajaxStart or ajaxStop
      * @param {Boolean} [options.sequential] - if true, the request must join a queue to be run sequentially
@@ -134,13 +134,13 @@ define([
                     var noop;
                     $.ajax({
                         url: options.url,
-                        type: options.method || 'GET',
-                        dataType: 'json',
+                        method: options.method || 'GET',
                         headers: customHeaders,
                         data: options.data,
+                        contentType: options.contentType || noop,
+                        dataType: options.dataType || 'json',
                         async: true,
                         timeout: options.timeout * 1000 || context.timeout * 1000 || 0,
-                        contentType: options.contentType || noop,
                         beforeSend: function() {
                             logger.debug('sending X-CSRF-Token header %s', customHeaders && customHeaders['X-CSRF-Token']);
                         },
@@ -159,7 +159,7 @@ define([
                                     reject(createError(response, xhr.status + ' : ' + xhr.statusText, xhr.status));
                                 }
 
-                                if (response && response.success === true) {
+                                if (xhr.status === 200 || (response && response.success === true)) {
                                     // there's some data
                                     resolve(response);
                                 }

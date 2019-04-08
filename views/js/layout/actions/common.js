@@ -260,16 +260,14 @@ define([
         binder.register('removeNode', function remove(actionContext){
             var self = this;
             var data = {};
-            // var tokenName = module.config().xsrfTokenName;
 
             data.uri        = uri.decode(actionContext.uri);
             data.classUri   = uri.decode(actionContext.classUri);
             data.id         = actionContext.id;
-            // data[tokenName] = $.cookie(tokenName);
             data.signature  = actionContext.signature;
 
             return new Promise( function (resolve, reject){
-                confirmDialog(__("Please confirm deletion:"), function accept(){
+                confirmDialog(__("Please confirm deletion"), function accept(){
                     request({
                         url: self.url,
                         method: "POST",
@@ -277,7 +275,7 @@ define([
                         dataType: 'json',
                     })
                     .then(function(response) {
-                        if (response.deleted) {
+                        if (response.success && response.deleted) {
                             if (actionContext.tree){
                                 $(actionContext.tree).trigger('removenode.taotree', [{
                                     id : actionContext.uri || actionContext.classUri
@@ -293,33 +291,8 @@ define([
                         $('#user-list').datatable('refresh');
                     })
                     .catch(function(error) {
-                        debugger
                         reject(error.message);
                     });
-
-                    // $.ajax({
-                    //     url: self.url,
-                    //     type: "POST",
-                    //     data: data,
-                    //     dataType: 'json',
-                    //     success: function(response){
-                    //         if (response.deleted) {
-                    //             if(actionContext.tree){
-                    //                 $(actionContext.tree).trigger('removenode.taotree', [{
-                    //                     id : actionContext.uri || actionContext.classUri
-                    //                 }]);
-                    //             }
-                    //             return resolve({
-                    //                 uri : actionContext.uri || actionContext.classUri
-                    //             });
-                    //         } else {
-                    //             reject(response.msg || __("Unable to delete the selected resource"));
-                    //         }
-                    //     },
-                    //     error : function (xhr, options, err){
-                    //         reject(httpErrorParser.parse(xhr, options, err));
-                    //     }
-                    // });
                 }, function cancel(){
                     reject({ cancel : true });
                 });
@@ -336,7 +309,6 @@ define([
          */
         binder.register('removeNodes', function removeNodes(actionContexts){
             var self = this;
-            var tokenName = module.config().xsrfTokenName;
             var confirmMessage = '';
             var data = {};
             var classes;
@@ -349,14 +321,12 @@ define([
             classes = _.filter(actionContexts, { type : 'class' });
             instances = _.filter(actionContexts, { type : 'instance' });
 
-            //TODO do not use cookies !
-            data[tokenName] = $.cookie(tokenName);
             data.ids = _.map(actionContexts, function (elem) {
                 return {id: elem.id, signature: elem.signature};
             });
 
             if(actionContexts.length === 1){
-                confirmMessage = __('please confirm deletion');
+                confirmMessage = __('Please confirm deletion');
             } else if(actionContexts.length > 1){
                 if(instances.length){
                     if(instances.length === 1){
@@ -379,22 +349,24 @@ define([
             }
 
             return new Promise( function (resolve, reject){
+
                 confirmDialog(confirmMessage, function accept(){
-                    $.ajax({
+                    request({
                         url: self.url,
-                        type: "POST",
+                        method: "POST",
                         data: data,
                         dataType: 'json',
-                        success: function(response){
-                            if (response.success && response.deleted) {
-                                resolve(response.deleted);
-                            } else {
-                                reject(new Error(response.msg || __("Unable to delete the selected resources")));
-                            }
-                        },
-                        error : function (xhr, options, err){
-                            reject(httpErrorParser.parse(xhr, options, err));
+                    })
+                    .then(function(response) {
+                        if (response.success && response.deleted) {
+                            resolve(response.deleted);
+                        } else {
+                            reject(new Error(response.message || __("Unable to delete the selected resources")));
                         }
+                        $('#user-list').datatable('refresh');
+                    })
+                    .catch(function(error) {
+                        reject(error);
                     });
                 }, function cancel(){
                     reject({ cancel : true });

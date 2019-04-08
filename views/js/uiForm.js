@@ -950,13 +950,15 @@ define([
                 url: $form.attr('action'),
                 method: $form.attr('method'),
                 data: serialized,
-                //contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-                dataType: 'html',
                 noToken: false
             })
-            .then(function(response) {
-                feedback().success('OK');
-                console.log('response', response);
+            .then(function(response) { // response is sometimes html, sometimes json
+                if (response.success) {
+                    feedback().success(response.message || __('OK'));
+                }
+                else {
+                    feedback().error(response.message || __('An error occurred'));
+                }
             })
             .catch(function(err) {
                 feedback().error(err);

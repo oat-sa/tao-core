@@ -15,6 +15,12 @@ define([
 ], function ($, _, __, urlHelper, section, request, feedback, dialogConfirm) {
     'use strict';
 
+    /**
+     * Make a request to the server for a token-protected user action
+     * @param {String} uri - the user uri
+     * @param {String} action
+     * @param {String} confirmMessage
+     */
     var runUserAction = function runUserAction(uri, action, confirmMessage) {
         var data = {
             uri: uri
