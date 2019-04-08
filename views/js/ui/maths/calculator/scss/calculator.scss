@@ -27,6 +27,7 @@
     $calculatorScreenTxt: $textColor;
     $calculatorScreenBorder: $info;
     $calculatorScreenSpecialTxt: $uiClickableHoverBg;
+    $calculatorScreenSpecialBg: whiten($uiClickableHoverBg, .9);
     $calculatorHistoryBorder: $uiGeneralContentBorder;
     $calculatorHistoryTxt: whiten($textColor, .2);
 
@@ -309,14 +310,16 @@
         .term {
             padding: 0;
 
-            &.term-operator:not([data-token="POW"]):not([data-token="FAC"]):not([data-token="NEG"]):not([data-token="POS"]) {
+            &.term-operator:not([data-token="POW"]):not([data-token="FAC"]):not([data-token="NEG"]) {
                 padding: 0 $calculatorTermSpace;
             }
             &.term-operator[data-token="FAC"],
-            &.term-operator[data-token="NEG"],
-            &.term-operator[data-token="POS"] {
+            &.term-operator[data-token="NEG"] {
                 margin-left: -$calculatorTermSpace / 2;
                 margin-right: -$calculatorTermSpace / 2;
+            }
+            &.term-operator[data-token="POS"] {
+                display: none;
             }
             &.term-function:not([data-token="SQRT"]):not([data-token="CBRT"]) {
                 padding-right: $calculatorTermSpace;
@@ -334,6 +337,37 @@
             &.term-variable {
                 font-weight: bold;
                 color: $calculatorScreenSpecialTxt;
+            }
+            &.term-variable[data-token="ANS"] {
+                background: $calculatorScreenSpecialBg;
+                padding: 0;
+                margin: 0 #{$calculatorTermSpace * 2};
+                position: relative;
+                &::before, &::after {
+                    background: $calculatorScreenSpecialBg;
+                    content: '';
+                    border-radius: 50%;
+                    border: 2px none;
+                    position: absolute;
+                    z-index: 0;
+                    top: 0;
+                    bottom: 0;
+                    width: #{$calculatorTermSpace * 2};
+                }
+                &::before {
+                    border-left-style: solid;
+                    border-left-color: $calculatorScreenSpecialTxt;
+                    left: #{-$calculatorTermSpace};
+                }
+                &::after {
+                    border-right-style: solid;
+                    border-right-color: $calculatorScreenSpecialTxt;
+                    right: #{-$calculatorTermSpace};
+                }
+                * {
+                    position: relative;
+                    z-index: 1;
+                }
             }
             &.term-unknown {
                 color: $warning;

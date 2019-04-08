@@ -84,13 +84,13 @@ define(['module', 'moment'], function (module, moment) {
             if (thousandsSeparator.length) {
                 numStr = numStr.replace(new RegExp('\\' + thousandsSeparator, 'g'), '');
             }
-        
+
             // standardise the decimal separator as '.':
             if (decimalSeparator !== '.') {
                 numStr = numStr.replace(new RegExp('\\' + '.', 'g'), '_')
                                .replace(new RegExp('\\' + decimalSeparator, 'g'), '.');
             }
-        
+
             // now the numeric string can be correctly parsed with the native parseFloat:
             return parseFloat(numStr);
         },
@@ -119,7 +119,7 @@ define(['module', 'moment'], function (module, moment) {
          */
         formatDateTime: function (timestamp) {
             return moment(timestamp, 'X').format(this.getDateTimeFormat());
-        }
+        },
     };
 
 });

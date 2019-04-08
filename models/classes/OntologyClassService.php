@@ -14,16 +14,22 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
+ * Copyright (c) 2019 (original work) Open Assessment Technologies SA ;
  */
+
+namespace oat\tao\model;
+
+use oat\oatbox\service\ConfigurableService;
 
 /**
- * @author Ivan Klimchuk <klimchuk@1pt.com>
+ * Base class to implement Ontology class service which is configurable
+ * and can be registered in service manager.
+ *
+ * Class OntologyClassService
+ * @package oat\tao\model
  */
-
-use oat\tao\model\ClientLibConfigRegistry;
-
-ClientLibConfigRegistry::getRegistry()->register(
-    'util/locale', ['decimalSeparator' => '.', 'thousandsSeparator' => '', 'dateTimeFormat' => 'DD/MM/YYYY HH:mm:ss']
-);
+abstract class OntologyClassService extends ConfigurableService
+{
+    use ClassServiceTrait;
+    use GenerisServiceTrait;
+}
