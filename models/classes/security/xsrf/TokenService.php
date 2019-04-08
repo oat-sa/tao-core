@@ -49,6 +49,8 @@ class TokenService extends ConfigurableService
     const DEFAULT_POOL_SIZE = 10;
     const DEFAULT_TIME_LIMIT = 0;
 
+    const CSRF_TOKEN_HEADER = 'X-CSRF-Token';
+
     /**
      * Create a new TokenService
      *

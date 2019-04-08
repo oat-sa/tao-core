@@ -33,9 +33,9 @@ use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\exception\InvalidServiceManagerException;
 use oat\oatbox\log\LoggerAwareTrait;
-use oat\tao\model\security\xsrf\CsrfValidatorTrait;
 use function GuzzleHttp\Psr7\stream_for;
 use oat\tao\model\routing\AnnotationReader\security;
+use oat\tao\model\security\xsrf\TokenService;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
@@ -55,7 +55,6 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
         setServiceLocator as protected setOriginalServiceLocator;
     }
     use LoggerAwareTrait;
-    use CsrfValidatorTrait;
     use RendererTrait { setView as protected setRendererView; }
     use LegacySessionUtils;
 
@@ -308,22 +307,46 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
     }
 
     /**
-     * @inheritdoc
+     * Validate a CSRF token, based on the CSRF header.
+     *
+     * @throws common_Exception
+     * @throws common_exception_Unauthorized
      */
-    public function setTokenHeader($token)
+    protected function validateCsrf()
     {
-        $this->getPsrResponse()->withAddedHeader($this->getTokenHeaderName(), $token);
+        $csrfTokenHeader = $this->getPsrRequest()->getHeader(TokenService::CSRF_TOKEN_HEADER);
+        $csrfToken = current($csrfTokenHeader);
+
+        if (empty($csrfToken)) {
+            $this->logCsrfFailure('Missing X-CSRF-Token header.');
+        }
+
+        /** @var TokenService $tokenService */
+        $tokenService = ServiceManager::getServiceManager()->get(TokenService::SERVICE_ID);
+        $newToken = null;
+
+        try {
+            $newToken = $tokenService->validateToken($csrfToken);
+        } catch (common_exception_Unauthorized $e) {
+            $this->logCsrfFailure($e->getMessage(), $csrfToken);
+        }
+
+        $this->response = $this->getPsrResponse()->withHeader(TokenService::CSRF_TOKEN_HEADER, $newToken);
     }
 
     /**
-     * @inheritdoc
+     * Logs a CSRF validation error
+     *
+     * @throws common_exception_Unauthorized
+     * @throws common_exception_Error
      */
     public function logCsrfFailure($exceptionMessage, $token = null)
     {
         $userIdentifier = $this->getSession()->getUser()->getIdentifier();
-        $requestMethod  = $this->getRequestMethod();
-        $requestUri     = $this->getRequestURI();
+        $requestMethod  = $this->getPsrRequest()->getMethod();
+        $requestUri     = $this->getPsrRequest()->getUri();
         $requestHeaders = $this->getHeaders();
+
         $this->logWarning('Failed to validate CSRF token. The following exception occurred: ' . $exceptionMessage);
         $this->logWarning(
             "CSRF validation information: \n" .
@@ -333,6 +356,7 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
             "Request Headers : \n" .
             urldecode(http_build_query($requestHeaders, '', "\n"))
         );
+
         throw new common_exception_Unauthorized($exceptionMessage);
     }
 }
