@@ -148,6 +148,13 @@ define([
             description: __('Arguments separator'),
             exponent: null
         },
+        ELLIPSIS: {
+            label: labels.ELLIPSIS,
+            value: '~',
+            type: 'separator',
+            description: __('Value ellipsis'),
+            exponent: null
+        },
 
         // Operators
         SUB: {
