@@ -35,7 +35,6 @@ class tao_actions_PasswordRecovery extends tao_actions_CommonModule
      * Show password recovery request form
      *
      * @author Aleh Hutnikau <hutnikau@1pt.com>
-     * @return void
      */
     public function index()
     {
@@ -52,12 +51,21 @@ class tao_actions_PasswordRecovery extends tao_actions_CommonModule
             if ($user !== null) {
                 $this->logInfo("User requests a password (user URI: {$user->getUri()})");
                 $this->sendMessage($user);
+                return $this->returnJson([
+                    'success' => true,
+                    'message' => __('A message with further instructions has been sent to your email address: %s', $mail)
+                ]);
             } else {
                 $this->logInfo("Unsuccessful recovery password. Entered e-mail address: {$mail}.");
                 $this->setData('header', __('An email has been sent'));
                 $this->setData('info', __('A message with further instructions has been sent to your email address: %s', $mail));
+                $this->setData('content-template', array('passwordRecovery/password-recovery-info.tpl', 'tao'));
+
+                return $this->returnJson([
+                    'success' => false,
+                    'message' => __('Unable to reset password for user with email address: %s', $mail)
+                ]);
             }
-            $this->setData('content-template', array('passwordRecovery/password-recovery-info.tpl', 'tao'));
         } else {
             $this->setData('form', $form->render());
             $this->setData('content-template', array('passwordRecovery/index.tpl', 'tao'));
@@ -70,7 +78,6 @@ class tao_actions_PasswordRecovery extends tao_actions_CommonModule
      * Password resrt form
      *
      * @author Aleh Hutnikau <hutnikau@1pt.com>
-     * @return void
      */
     public function resetPassword()
     {
@@ -95,6 +102,10 @@ class tao_actions_PasswordRecovery extends tao_actions_CommonModule
             $this->logInfo("User {$user->getUri()} has changed the password.");
             $this->setData('info', __('Password successfully changed'));
             $this->setData('content-template', array('passwordRecovery/password-recovery-info.tpl', 'tao'));
+            return $this->returnJson([
+                'success' => true,
+                'message' => __('Password successfully changed')
+            ]);
         } else {
             $this->setData('form', $form->render());
             $this->setData('content-template', array('passwordRecovery/password-reset.tpl', 'tao'));

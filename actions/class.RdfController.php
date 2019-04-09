@@ -965,7 +965,8 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         $deleted = $this->getClassService()->deleteResource($resource);
         return $this->returnJson([
             'success' => $deleted,
-            'message' => __('Successfully deleted %s', $resource->getLabel())
+            'message' => __('Successfully deleted %s', $resource->getLabel()),
+            'deleted' => $deleted
         ]);
     }
 
@@ -1003,10 +1004,11 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             $msg = $success ? __('%s has been deleted', $label) : __('Unable to delete %s', $label);
         }
 
-        $this->returnJson(array(
+        $this->returnJson([
             'success' => $success,
-            'message' => $msg
-        ));
+            'message' => $msg,
+            'deleted' => $success
+        ]);
     }
 
     /**
