@@ -48,7 +48,7 @@ define([
      * @param {Object} options.className - name of the class that will be used by the wrappers tags to highlight text
      * @param {Object} options.containerSelector - allows to select the root Node in which highlighting is allowed
      * @param {Object} [options.containersBlackList] - additional blacklist selectors to be added to module instance's blacklist
-     * @param {Object} [options.clearOnClick] - clear single higlighted node on click
+     * @param {Object} [options.clearOnClick] - clear single highlight node on click
      * @returns {Object} - the highlighter instance
      */
     return function(options) {
