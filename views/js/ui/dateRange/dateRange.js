@@ -66,19 +66,34 @@ define([
             title : __('Apply date range')
         },
         startPicker : {
-            setup: 'datetime',
+            setup : 'datetime',
             format : 'YYYY-MM-DD HH:mm:SS',
             field : {
                 name : 'periodStart',
             }
         },
         endPicker : {
-            setup: 'datetime',
+            setup : 'datetime',
             format : 'YYYY-MM-DD HH:mm:SS',
             field : {
                 name : 'periodEnd',
             }
         },
+    };
+
+    /**
+     * Setup a datetime picker on an element
+     * @param {HTMLElement|jQuery} element - the element to append to the picker to
+     * @param {Object} [config] - the picker configuration$
+     * @returns {Promise<dateTimePicker>} resolves when the picker is "ready"
+     */
+    var setupDateTimePicker = function setupDateTimePicker(element, config) {
+        return new Promise(function(resolve) {
+            dateTimePicker(element, config)
+                .on('ready', function() {
+                    resolve(this);
+                });
+        });
     };
 
     /**
@@ -95,23 +110,27 @@ define([
      * @param {String} [config.applyButton.title] - the apply button title (HTML title)
      * @param {Object} [config.startPicker] - the configuration sent to the start picker, see ui/datetime/picker
      * @param {Object} [config.startPicker] - the configuration sent to the end picker ,s see ui/datetime/picker
+     * @fires dateRange#ready the picker is ready
      * @fires dateRange#change when any date is changed
      * @fires dateRange#close when a picker is closed
      * @fires dateRange#submit when the submit button is clicked
      */
     function dateRangeFactory(container, config) {
 
-        // if the picker replace fields we don't use the component template
-        var useTemplate = !config ||
-                (!config.startPicker.replaceField && !config.endPicker.replaceField);
 
+        // if the picker replace fields we don't use the component template
+        // NOTE this is used for backward compatibility only...
+        var preConfig = _.defaults(config || {}, defaults);
+        var useTemplate = preConfig.startPicker && !preConfig.startPicker.replaceField &&
+                          preConfig.endPicker && !preConfig.endPicker.replaceField;
         /**
+         * The date range component
          * @typedef {Object} dateRange
          */
         var dateRange = component({
             /**
              * Gets the start date of the range
-             * @returns {String}
+             * @returns {String} the start date value
              */
             getStart : function getStart() {
                 if (this.is('ready')) {
@@ -121,13 +140,54 @@ define([
 
             /**
              * Gets the end date of the range
-             * @returns {String}
+             * @returns {String} the end date value
              */
             getEnd : function getEnd() {
                 if (this.is('ready')) {
                     return this.endPicker.getValue();
                 }
-            }
+            },
+
+            /**
+             * Reset the values
+             * @returns {dateRange} chains
+             * @fires dateRange#reset
+             */
+            reset : function reset() {
+                if (this.is('ready')) {
+                    this.startPicker
+                        .updateConstraints('maxDate', null)
+                        .clear();
+                    this.endPicker
+                        .updateConstraints('minDate', null)
+                        .clear();
+
+                    /**
+                     * The values get cleared out
+                     * @event dateRange#reset
+                     */
+                    this.trigger('reset');
+                }
+                return this;
+            },
+
+            /**
+             * Apply and submit the values
+             * @returns {dateRange} chains
+             * @fires dateRange#submit
+             */
+            submit : function submit() {
+                if (this.is('ready')) {
+
+                    /**
+                     * The values get submitted
+                     * @event dateRange#submit
+                     * @param {String} start - the start/from date
+                     * @param {String} end - the end/to date
+                     */
+                    this.trigger('submit', this.getStart(), this.getEnd());
+                }
+            },
         }, defaults);
 
         if (useTemplate) {
@@ -135,13 +195,15 @@ define([
         }
 
         dateRange
-            .on('init', function(){
+            .on('init', function() {
                 if(container){
                     this.render(container);
                 }
             })
             .on('render', function () {
                 var self = this;
+                var startElement;
+                var endElement;
                 var element = this.getElement()[0];
 
                 if (useTemplate) {
@@ -152,43 +214,50 @@ define([
                         end    : element.querySelector('.end')
                     };
 
-                    this.startPicker = dateTimePicker(this.controls.start, this.config.startPicker);
-                    this.endPicker   = dateTimePicker(this.controls.end, this.config.endPicker);
-
+                    startElement = this.controls.start;
+                    endElement   = this.controls.end;
                 } else {
-                    this.startPicker = dateTimePicker(element, this.config.startPicker);
-                    this.endPicker   = dateTimePicker(element, this.config.endPicker);
+                    startElement = element;
+                    endElement   = element;
                 }
 
-                this.startPicker
-                    .on('change', function(value){
-                        if(value && self.endPicker && self.endPicker.is('ready')){
-                            self.endPicker.updateConstraints('minDate', value);
-                        }
+                Promise.all([
+                    setupDateTimePicker(startElement, this.config.startPicker),
+                    setupDateTimePicker(endElement, this.config.endPicker)
+                ]).then(function(pickers){
 
-                        /**
-                         * The values get changed
-                         * @event dateRange#change
-                         * @param {String} target - start or end
-                         * @param {String} value - the changed value
-                         */
-                        self.trigger('change', 'start', value);
-                    })
-                    .on('close', function(){
+                    self.startPicker = pickers[0];
+                    self.endPicker   = pickers[1];
 
-                        /**
-                         * The picker get closed
-                         * @event dateRange#close
-                         * @param {String} target - start or end
-                         * @param {String} value - the changed value
-                         */
-                        self.trigger('close', 'start', this.getValue());
-                    })
-                    .spread('error', this);
+                    self.startPicker
+                        .on('change', function(value) {
+                            if (value && self.endPicker && self.endPicker.is('ready')) {
+                                self.endPicker.updateConstraints('minDate', value);
+                            }
 
-                this.endPicker
-                    .on('change', function(value){
-                        if(value && self.startPicker && self.startPicker.is('ready')){
+                            /**
+                             * The values get changed
+                             * @event dateRange#change
+                             * @param {String} target - start or end
+                             * @param {String} value - the changed value
+                             */
+                            self.trigger('change', 'start', value);
+                        })
+                        .on('close', function(){
+
+                            /**
+                             * The picker get closed
+                             * @event dateRange#close
+                             * @param {String} target - start or end
+                             * @param {String} value - the changed value
+                             */
+                            self.trigger('close', 'start', this.getValue());
+                        })
+                        .spread('error', self);
+
+                self.endPicker
+                    .on('change', function(value) {
+                        if (value && self.startPicker && self.startPicker.is('ready')) {
                             self.startPicker.updateConstraints('maxDate', value);
                         }
 
@@ -197,54 +266,54 @@ define([
                          */
                         self.trigger('change', 'end', value);
                     })
-                    .on('close', function(){
+                    .on('close', function() {
 
                         /**
                          * @see dateRange#close
                          */
                         self.trigger('close', 'end', this.getValue());
                     })
-                    .spread('error', this);
+                    .spread('error', self);
+
+                }).then(function() {
+
+                    self.setState('ready', true);
+
+                    /**
+                     * The component is fully ready to get used
+                     * @event dateRange#ready
+                     */
+                    self.trigger('ready');
+                })
+                .catch(function(err) {
+                    self.trigger('error', err);
+                });
 
                 if (useTemplate && this.controls.filter) {
 
                     this.controls.filter.addEventListener('click', function(e) {
                         e.preventDefault();
 
-                        /**
-                         * The values get submitted
-                         * @event dateRange#submit
-                         * @param {String} start - the start/from date
-                         * @param {String} end - the end/to date
-                         */
-                        self.trigger('submit', this.getStart(), this.getEnd());
+                        self.submit();
                     });
                 }
+
                 if (useTemplate && this.controls.reset) {
 
                     this.controls.reset.addEventListener('click', function(e) {
                         e.preventDefault();
 
-                        self.startPicker
-                            .updateConstraints('maxDate', null)
-                            .clear();
-                        self.endPicker
-                            .updateConstraints('minDate', null)
-                            .clear();
-
-                        /**
-                         * @see dateRange#submit
-                         */
-                        self.trigger('submit', '', '');
+                        self.reset();
                     });
                 }
-
-                this.setState('ready', true);
-                this.trigger('ready');
             })
             .on('destroy', function () {
-                this.startPicker.destroy();
-                this.endPicker.destroy();
+                if (this.startPicker) {
+                    this.startPicker.destroy();
+                }
+                if (this.endPicker) {
+                    this.endPicker.destroy();
+                }
             });
 
         _.defer(function(){
