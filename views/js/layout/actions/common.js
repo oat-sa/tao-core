@@ -20,11 +20,9 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'module',
     'jquery',
     'i18n',
     'lodash',
-    'context',
     'core/promise',
     'core/request',
     'layout/section',
@@ -35,8 +33,7 @@ define([
     'uri',
     'ui/feedback',
     'ui/dialog/confirm',
-    'util/httpErrorParser'
-], function(module, $, __, _, appContext, Promise, request, section, binder, permissionsManager, resourceProviderFactory, destinationSelectorFactory, uri, feedback, confirmDialog, httpErrorParser) {
+], function($, __, _, Promise, request, section, binder, permissionsManager, resourceProviderFactory, destinationSelectorFactory, uri, feedback, confirmDialog) {
     'use strict';
 
     var messages = {
@@ -105,35 +102,37 @@ define([
                 signature = actionContext.classSignature;
             }
             return new Promise( function(resolve, reject) {
-                $.ajax({
+                request({
                     url: self.url,
-                    type: "POST",
+                    method: "POST",
                     data: {id: classUri, type: 'class', signature: signature},
                     dataType: 'json',
-                    success: function(response) {
-                        if (response.uri) {
-                            if (actionContext.tree) {
-                                $(actionContext.tree).trigger('addnode.taotree', [{
-                                    uri       : uri.decode(response.uri),
-                                    label     : response.label,
-                                    parent    : uri.decode(actionContext.classUri),
-                                    cssClass  : 'node-class'
-                                }]);
-                            }
-
-                            //resolve format (resourceSelector)
-                            return resolve({
+                })
+                .then(function(response) {
+                    if (response.success && response.uri) {
+                        if (actionContext.tree) {
+                            $(actionContext.tree).trigger('addnode.taotree', [{
                                 uri       : uri.decode(response.uri),
                                 label     : response.label,
-                                classUri  : uri.decode(actionContext.classUri),
-                                type      : 'class'
-                            });
+                                parent    : uri.decode(actionContext.classUri),
+                                cssClass  : 'node-class'
+                            }]);
                         }
-                        return reject(new Error(__('Adding the new class has failed')));
-                    },
-                    error : function (xhr, options, err){
-                        reject(httpErrorParser.parse(xhr, options, err));
+
+                        //resolve format (resourceSelector)
+                        resolve({
+                            uri       : uri.decode(response.uri),
+                            label     : response.label,
+                            classUri  : uri.decode(actionContext.classUri),
+                            type      : 'class'
+                        });
+                    } else {
+                        reject(new Error(__('Adding the new class has failed')));
                     }
+                    $('#user-list').datatable('refresh');
+                })
+                .catch(function(error) {
+                    reject(error.message);
                 });
             });
         });
@@ -157,37 +156,38 @@ define([
                 signature = actionContext.classSignature;
             }
             return new Promise( function(resolve, reject) {
-                $.ajax({
+                request({
                     url: self.url,
-                    type: "POST",
+                    method: "POST",
                     data: {id: classUri, type: 'instance', signature: signature},
-                    dataType: 'json',
-                    success: function(response){
-                        if (response.uri) {
-
-                            //backward compat format for jstree
-                            if(actionContext.tree){
-                                $(actionContext.tree).trigger('addnode.taotree', [{
-                                    uri       : uri.decode(response.uri),
-                                    label     : response.label,
-                                    parent    : uri.decode(actionContext.classUri),
-                                    cssClass  : 'node-instance'
-                                }]);
-                            }
-
-                            //resolve format (resourceSelector)
-                            return resolve({
+                    dataType: 'json'
+                })
+                .then(function(response) {
+                    if (response.success && response.uri) {
+                        //backward compat format for jstree
+                        if(actionContext.tree){
+                            $(actionContext.tree).trigger('addnode.taotree', [{
                                 uri       : uri.decode(response.uri),
                                 label     : response.label,
-                                classUri  : uri.decode(actionContext.classUri),
-                                type      : 'instance'
-                            });
+                                parent    : uri.decode(actionContext.classUri),
+                                cssClass  : 'node-instance'
+                            }]);
                         }
-                        return reject(new Error(__('Adding the new resource has failed')));
-                    },
-                    error : function (xhr, options, err){
-                        reject(httpErrorParser.parse(xhr, options, err));
+
+                        //resolve format (resourceSelector)
+                        resolve({
+                            uri       : uri.decode(response.uri),
+                            label     : response.label,
+                            classUri  : uri.decode(actionContext.classUri),
+                            type      : 'instance'
+                        });
+                    } else {
+                        reject(new Error(__('Adding the new resource has failed')));
                     }
+                    $('#user-list').datatable('refresh');
+                })
+                .catch(function(error) {
+                    reject(error.message);
                 });
             });
         });
@@ -207,41 +207,42 @@ define([
         binder.register('duplicateNode', function duplicateNode(actionContext){
             var self = this;
             return new Promise( function(resolve, reject) {
-                $.ajax({
+                request({
                     url: self.url,
-                    type: "POST",
+                    method: "POST",
                     data: {
                         uri: actionContext.id,
                         classUri: uri.decode(actionContext.classUri),
                         signature: actionContext.signature
                     },
                     dataType: 'json',
-                    success: function(response){
-                        if (response.uri) {
-
-                            //backward compat format for jstree
-                            if(actionContext.tree){
-                                $(actionContext.tree).trigger('addnode.taotree', [{
-                                    uri       : uri.decode(response.uri),
-                                    label     : response.label,
-                                    parent    : uri.decode(actionContext.classUri),
-                                    cssClass  : 'node-instance'
-                                }]);
-                            }
-
-                            //resolve format (resourceSelector)
-                            return resolve({
+                })
+                .then(function(response) {
+                    if (response.success && response.uri) {
+                        //backward compat format for jstree
+                        if(actionContext.tree){
+                            $(actionContext.tree).trigger('addnode.taotree', [{
                                 uri       : uri.decode(response.uri),
                                 label     : response.label,
-                                classUri  : uri.decode(actionContext.classUri),
-                                type      : 'instance'
-                            });
+                                parent    : uri.decode(actionContext.classUri),
+                                cssClass  : 'node-instance'
+                            }]);
                         }
-                        return reject(new Error(__('Node duplication has failed')));
-                    },
-                    error : function (xhr, options, err){
-                        reject(httpErrorParser.parse(xhr, options, err));
+
+                        //resolve format (resourceSelector)
+                        resolve({
+                            uri       : uri.decode(response.uri),
+                            label     : response.label,
+                            classUri  : uri.decode(actionContext.classUri),
+                            type      : 'instance'
+                        });
+                    } else {
+                        reject(new Error(__('Node duplication has failed')));
                     }
+                    $('#user-list').datatable('refresh');
+                })
+                .catch(function(error) {
+                    reject(error.message);
                 });
             });
         });
@@ -388,40 +389,40 @@ define([
 
             //wrap into a private function for recusion calls
             var _moveNode = function _moveNode(url){
-                $.ajax({
+                request({
                     url: url,
-                    type: "POST",
+                    method: "POST",
                     data: data,
                     dataType: 'json',
-                    success: function(response){
-                        var message;
-                        var i;
-                        if (response && response.status === 'diff') {
-                            message = __("Moving this element will replace the properties of the previous class by those of the destination class :");
-                            message += "\n";
-                            for (i = 0; i < response.data.length; i++) {
-                                if (response.data[i].label) {
-                                    message += "- " + response.data[i].label + "\n";
-                                }
+                })
+                .then(function(response) {
+                    var message;
+                    var i;
+                    if (response && response.status === 'diff') {
+                        message = __("Moving this element will replace the properties of the previous class by those of the destination class :");
+                        message += "\n";
+                        for (i = 0; i < response.data.length; i++) {
+                            if (response.data[i].label) {
+                                message += "- " + response.data[i].label + "\n";
                             }
-                            message += __("Please confirm this operation.") + "\n";
-
-                            // eslint-disable-next-line no-alert
-                            if (window.confirm(message)) {
-                                data.confirmed = true;
-                                return  _moveNode(url, data);
-                            }
-                        } else if (response && response.status === true) {
-                            //open the destination branch
-                            $(actionContext.tree).trigger('openbranch.taotree', [{
-                                id : actionContext.destinationClassUri
-                            }]);
-                            return;
                         }
+                        message += __("Please confirm this operation.") + "\n";
 
-                        //ask to rollback the tree
-                        $(actionContext.tree).trigger('rollback.taotree');
+                        // eslint-disable-next-line no-alert
+                        if (window.confirm(message)) {
+                            data.confirmed = true;
+                            return  _moveNode(url, data);
+                        }
+                    } else if (response && response.status === true) {
+                        //open the destination branch
+                        $(actionContext.tree).trigger('openbranch.taotree', [{
+                            id : actionContext.destinationClassUri
+                        }]);
+                        return;
                     }
+
+                    //ask to rollback the tree
+                    $(actionContext.tree).trigger('rollback.taotree');
                 });
             };
             _moveNode(this.url, data);
@@ -443,26 +444,26 @@ define([
             var data = _.pick(actionContext, ['id']);
             var wideDifferenciator = '[data-content-target="wide"]';
 
-            $.ajax({
+            request({
                 url: this.url,
-                type: "GET",
+                method: "GET",
                 data: data,
                 dataType: 'html',
-                success: function(response){
-                    var $response = $($.parseHTML(response, document, true));
-                    //check if the editor should be displayed widely or in the content area
-                    if($response.is(wideDifferenciator) || $response.find(wideDifferenciator).length){
-                        section.create({
-                            id : 'authoring',
-                            name : __('Authoring'),
-                            url : this.url,
-                            content : $response,
-                            visible : false
-                        })
-                        .show();
-                    } else {
-                        section.updateContentBlock($response);
-                    }
+            })
+            .then(function(response) {
+                var $response = $($.parseHTML(response, document, true));
+                //check if the editor should be displayed widely or in the content area
+                if($response.is(wideDifferenciator) || $response.find(wideDifferenciator).length){
+                    section.create({
+                        id : 'authoring',
+                        name : __('Authoring'),
+                        url : this.url,
+                        content : $response,
+                        visible : false
+                    })
+                    .show();
+                } else {
+                    section.updateContentBlock($response);
                 }
             });
         });
