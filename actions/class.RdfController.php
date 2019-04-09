@@ -508,6 +508,8 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             $classId
         );
 
+        $this->validateCsrf();
+
         $this->validateInstanceRoot($classId);
 
         $parent = $this->getClass($classId);
@@ -630,13 +632,14 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             $uri
         );
 
+        $this->validateCsrf();
         $this->validateInstanceRoot($uri);
 
         $clone = $this->getClassService()->cloneInstance($this->getCurrentInstance(), $this->getCurrentClass());
-        if(!is_null($clone)){
+        if($clone !== null){
             $this->returnJson(array(
-                'label' => $clone->getLabel(),
-                'uri'   => tao_helpers_Uri::encode($clone->getUri())
+                'success' => true,
+                'message' => __('Successfully cloned instance to %s', $clone->getLabel())
             ));
         }
     }
@@ -653,6 +656,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             && $this->hasRequestParameter('uri')
             && common_Utils::isUri($this->getRequestParameter('destinationClassUri'))
         ) {
+            $this->validateCsrf();
             $this->validateInstanceRoot(
                 $this->getRequestParameter('uri')
             );
@@ -708,7 +712,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         if($this->hasRequestParameter('destinationClassUri') && $this->hasRequestParameter('uri')){
 
             $id = $this->getRequestParameter('uri');
-
+            $this->validateCsrf();
             $this->validateInstanceRoot($id);
 
             $this->signatureValidator->checkSignature($this->getRequestParameter('signature'), $id);
@@ -759,6 +763,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             $data = $this->getRequestParameter('uri');
             $id = $data['id'];
 
+            $this->validateCsrf();
             $this->validateUri($id);
             $this->validateInstanceRoot($id);
 
@@ -997,7 +1002,8 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             $success = $this->getClassService()->deleteClass($clazz);
             $msg = $success ? __('%s has been deleted', $label) : __('Unable to delete %s', $label);
         }
-        return $this->returnJson(array(
+
+        $this->returnJson(array(
             'success' => $success,
             'message' => $msg
         ));

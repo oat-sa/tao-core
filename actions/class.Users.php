@@ -234,29 +234,37 @@ class tao_actions_Users extends tao_actions_CommonModule
         $form = $container->getForm();
         $form->addCsrfTokenProtection();
 
-        if ($form->isSubmited() && $form->isValid()) {
-            $this->validateCsrf();
-            $values = $form->getValues();
-            $values[GenerisRdf::PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($values['password1']);
-            $plainPassword = $values['password1'];
-            unset($values['password1'], $values['password2']);
-
-            $user = $container->getUser();
-            $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($container->getUser());
-
-            if ($binder->bind($values)) {
-                $this->getEventManager()->trigger(new UserUpdatedEvent(
-                        $user,
-                        array_merge($values, ['hashForKey' => UserHashForEncryption::hash($plainPassword)]))
-                );
-                $this->setData('message', __('User added'));
-                $this->setData('exit', true);
-
+        if ($form->isSubmited()) {
+            if (!$form->isValid()) {
                 $this->returnJson([
-                    'success' => true,
-                    'message' => __('User added')
+                    'success' => false,
+                    'message' => __('User could not be added. Please verify your form input.')
                 ]);
                 return;
+            } else {
+                $this->validateCsrf();
+                $values = $form->getValues();
+                $values[GenerisRdf::PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($values['password1']);
+                $plainPassword = $values['password1'];
+                unset($values['password1'], $values['password2']);
+
+                $user = $container->getUser();
+                $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($container->getUser());
+
+                if ($binder->bind($values)) {
+                    $this->getEventManager()->trigger(new UserUpdatedEvent(
+                            $user,
+                            array_merge($values, ['hashForKey' => UserHashForEncryption::hash($plainPassword)]))
+                    );
+                    $this->setData('message', __('User added'));
+                    $this->setData('exit', true);
+
+                    $this->returnJson([
+                        'success' => true,
+                        'message' => __('User added')
+                    ]);
+                    return;
+                }
             }
         }
 
@@ -400,6 +408,7 @@ class tao_actions_Users extends tao_actions_CommonModule
      */
     public function unlock()
     {
+        $this->validateCsrf();
         $user = UserHelper::getUser($this->getUserResource());
 
         if ($this->getUserLocksService()->unlockUser($user)) {
@@ -415,6 +424,7 @@ class tao_actions_Users extends tao_actions_CommonModule
      */
     public function lock()
     {
+        $this->validateCsrf();
         $user = UserHelper::getUser($this->getUserResource());
 
         if ($this->getUserLocksService()->lockUser($user)) {
