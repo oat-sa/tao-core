@@ -46,7 +46,6 @@ class CspHeaderValidatorTest extends GenerisPhpUnitTestRunner
      */
     private function getMockValues($type = 'both')
     {
-        $returnMockValues = [];
         $mockValues['valid'] = [
             'http://www.google.com/',
             'yahoo.org',
