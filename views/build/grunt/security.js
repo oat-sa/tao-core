@@ -23,30 +23,26 @@
  * @author Aliaksandr Katovich <aliaksandr@taotesting.com>
  */
 module.exports = function(grunt) {
-  'use strict';
-  const root = grunt.option('root');
-  const extensionHelper = grunt.option('extensionHelper');
+    'use strict';
+    const root = grunt.option('root');
+    const extensionHelper = grunt.option('extensionHelper'); // return all ext names
 
-  const retireInputFiles = extensionHelper.getExtensions().map(item => `${root}/${item}/**/*.js`);
-//  console.log(grunt.initConfig());
-  // grunt.initConfig.merge({
-  //   retire: {
-  //       js: [retireInputFiles], /** Which js-files to scan. **/
-  //       options: {
-  //           outputFile: './retire-output.json',
-  //       }
-  //   }
-  // });
+    grunt.loadNpmTasks('grunt-retire');
 
-  grunt.config.merge({
-    retire: {
-        js: [retireInputFiles], /** Which js-files to scan. **/
-        options: {
-            outputFile: './retire-output.json',
-        }
-    }
-  });
+    extensionHelper.getExtensions().forEach(extName => {
+        const lowerCaseExtName = extName.toLowerCase();
 
-  // bundle task alias
-  grunt.registerTask('taobundle', ['bundle:tao']);
+        grunt.registerTask(`retire${lowerCaseExtName}`, `Retire check for ${extName} extension`, function() {
+            grunt.config.merge({
+                retire: {
+                    js: `${root}/${extName}/**/*.js`, /** Which js-files to scan. **/
+                    options: {
+                        outputFile: `./reports/${extName}-reports.json`,
+                    }
+                }
+            });
+
+            grunt.task.run(['retire']);
+        });
+    });
 };

@@ -39,7 +39,6 @@ module.exports = function(grunt) {
     require('load-grunt-tasks')(grunt);
 
     grunt.loadNpmTasks('@oat-sa/grunt-tao-bundle');
-    grunt.loadNpmTasks('@oat-sa/grunt-tao-bundle');
 
     /*
      * Load separated configs into each extension
@@ -84,5 +83,4 @@ module.exports = function(grunt) {
     grunt.registerTask('bundleall', "Compile all js files", bundleTasks);
     grunt.registerTask('testall', "Run all tests", ['connect:test', 'qunit_junit'].concat(testTasks));
     grunt.registerTask('build', "The full build sequence", ['concurrent:build']);
-    grunt.registerTask('retire', "Sart retire.js search", ['retire:js']);
 };
