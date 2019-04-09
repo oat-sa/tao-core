@@ -26,8 +26,9 @@ define([
     'i18n',
     'module',
     'ui/feedback',
-    'layout/version-warning'
-], function ($, __, module, feedback,  versionWarning) {
+    'layout/version-warning',
+    'core/request'
+], function ($, __, module, feedback, versionWarning, request) {
     'use strict';
     var conf = module.config(),
         feedbackType;
@@ -40,4 +41,29 @@ define([
             }
         }
     }
+
+    return {
+        start: function start() {
+            // email address submisssion via AJAX with token:
+            $('#passwordRecoveryForm').on('submit', function(e) {
+                var $form = $(this);
+                e.preventDefault();
+
+                request({
+                    url: $form.attr('action'),
+                    method: $form.attr('method'),
+                    data: $form.serialize(),
+                    noToken: false
+                })
+                .then(function(response) {
+                    if (response.success) {
+                        feedback().success(response.message || __('OK'));
+                    }
+                })
+                .catch(function(err) {
+                    feedback().error(err);
+                });
+            });
+        }
+    };
 });
