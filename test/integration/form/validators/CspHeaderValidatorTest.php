@@ -1,6 +1,6 @@
 <?php
 
-namespace oat\tao\test\unit\form\validators;
+namespace oat\tao\test\integration\form\validators;
 
 use oat\generis\test\GenerisPhpUnitTestRunner;
 use oat\tao\helpers\form\validators\CspHeaderValidator;
