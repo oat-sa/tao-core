@@ -1,8 +1,4 @@
 <?php
-
-use oat\generis\model\OntologyAwareTrait;
-use oat\oatbox\service\ServiceManagerAwareTrait;
-
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,7 +17,7 @@ use oat\oatbox\service\ServiceManagerAwareTrait;
  * Copyright (c) 2013-2014 (original work) Open Assessment Technologies SA
  * 
  */
-
+use oat\generis\model\OntologyAwareTrait;
 
 /**
  *
