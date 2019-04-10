@@ -7,12 +7,12 @@
     </span>
     {{#if applyButton.enable}}
     <button class="small btn-info" data-control="filter" title="{{applyButton.title}}">
-        <span class="icon icon-filter"></span> {{applyButton.label}}
+        <span class="icon icon-{{applyButton.icon}}"></span> {{applyButton.label}}
     </button>
     {{/if}}
     {{#if resetButton.enable}}
     <button class="small" data-control="reset" title="{{resetButton.title}}">
-        <span class="icon icon-reset"></span> {{resetButton.label}}
+        <span class="icon icon-{{resetButton.icon}}"></span> {{resetButton.label}}
     </button>
     {{/if}}
 </div>

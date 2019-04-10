@@ -43,11 +43,12 @@ define([
     'jquery',
     'lodash',
     'i18n',
+    'moment',
     'ui/component',
     'ui/datetime/picker',
     'tpl!ui/dateRange/tpl/select',
     'css!ui/dateRange/css/dateRange.css'
-], function ($, _, __, component, dateTimePicker, formTpl) {
+], function ($, _, __, moment, component, dateTimePicker, formTpl) {
     'use strict';
 
     /**
@@ -55,15 +56,18 @@ define([
      * @type {Object}
      */
     var defaults = {
+        maxRangeDays : false,
         resetButton : {
             enable : true,
             label : __('Reset'),
-            title : __('Reset the range values')
+            title : __('Reset the range values'),
+            icon : 'reset'
         },
         applyButton : {
             enable : true,
             label : __('Apply'),
-            title : __('Apply date range')
+            title : __('Apply date range'),
+            icon: 'filter'
         },
         startPicker : {
             setup : 'datetime',
@@ -233,6 +237,14 @@ define([
                         .on('change', function(value) {
                             if (value && self.endPicker && self.endPicker.is('ready')) {
                                 self.endPicker.updateConstraints('minDate', value);
+
+
+                                if (self.config.maxRangeDays > 0){
+                                    self.endPicker.updateConstraints(
+                                        'maxDate',
+                                        moment(value).add(self.config.maxRangeDays, 'd').toDate()
+                                    );
+                                }
                             }
 
                             /**
@@ -255,27 +267,27 @@ define([
                         })
                         .spread('error', self);
 
-                self.endPicker
-                    .on('change', function(value) {
-                        if (value && self.startPicker && self.startPicker.is('ready')) {
-                            self.startPicker.updateConstraints('maxDate', value);
-                        }
+                    self.endPicker
+                        .on('change', function(value) {
+                            if (value && self.startPicker && self.startPicker.is('ready')) {
+                                self.startPicker.updateConstraints('maxDate', value);
+                            }
 
-                        /**
-                         * @see dateRange#change
-                         */
-                        self.trigger('change', 'end', value);
-                    })
-                    .on('close', function() {
+                            /**
+                            * @see dateRange#change
+                            */
+                            self.trigger('change', 'end', value);
+                        })
+                        .on('close', function() {
 
-                        /**
-                         * @see dateRange#close
-                         */
-                        self.trigger('close', 'end', this.getValue());
-                    })
-                    .spread('error', self);
-
-                }).then(function() {
+                            /**
+                            * @see dateRange#close
+                            */
+                            self.trigger('close', 'end', this.getValue());
+                        })
+                        .spread('error', self);
+                })
+                .then(function() {
 
                     self.setState('ready', true);
 
