@@ -60,6 +60,8 @@ define(['ui/dateRange/dateRange'], function(dateRangeFactory) {
     });
 
     QUnit.cases.init([
+        { title : 'submit' },
+        { title : 'reset' },
         { title : 'getStart' },
         { title : 'getEnd' },
     ]).test('Picker API ', function(data, assert) {

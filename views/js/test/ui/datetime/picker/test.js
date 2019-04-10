@@ -61,10 +61,12 @@ define([
     QUnit.cases.init([
         { title : 'clear' },
         { title : 'close' },
-        { title : 'getFormat' },
-        { title : 'getValue' },
         { title : 'open' },
         { title : 'toggle' },
+        { title : 'getFormat' },
+        { title : 'getValue' },
+        { title : 'setValue' },
+        { title : 'updateConstraints' },
     ]).test('Picker API ', function(data, assert) {
         assert.expect(1);
         assert.equal(typeof dateTimePicker()[data.title], 'function', 'The picker exposes the method "' + data.title);
@@ -818,6 +820,7 @@ define([
             done();
         });
     });
+
 
     QUnit.module('Visual');
 

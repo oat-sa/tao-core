@@ -33,7 +33,7 @@ module.exports = function(grunt) {
                 files : [{
                     expand: true,
                     src: '../js/ui/**/scss/*.scss',
-                    rename : function(dest, src){
+                    rename : function rename(dest, src){
                         return src.replace(/scss/g, 'css');
                     }
                 }, {

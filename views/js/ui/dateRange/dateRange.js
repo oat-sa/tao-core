@@ -88,7 +88,7 @@ define([
     /**
      * Setup a datetime picker on an element
      * @param {HTMLElement|jQuery} element - the element to append to the picker to
-     * @param {Object} [config] - the picker configuration$
+     * @param {Object} [config] - the picker configuration
      * @returns {Promise<dateTimePicker>} resolves when the picker is "ready"
      */
     var setupDateTimePicker = function setupDateTimePicker(element, config) {
@@ -114,6 +114,7 @@ define([
      * @param {String} [config.applyButton.title] - the apply button title (HTML title)
      * @param {Object} [config.startPicker] - the configuration sent to the start picker, see ui/datetime/picker
      * @param {Object} [config.startPicker] - the configuration sent to the end picker ,s see ui/datetime/picker
+     * @param {Number} [config.maxRangeDays] - if > 0 limits the max number of days in the range
      * @fires dateRange#ready the picker is ready
      * @fires dateRange#change when any date is changed
      * @fires dateRange#close when a picker is closed
@@ -237,7 +238,6 @@ define([
                         .on('change', function(value) {
                             if (value && self.endPicker && self.endPicker.is('ready')) {
                                 self.endPicker.updateConstraints('minDate', value);
-
 
                                 if (self.config.maxRangeDays > 0){
                                     self.endPicker.updateConstraints(
