@@ -36,7 +36,6 @@ use oat\oatbox\service\exception\InvalidService;
  */
 class TokenService extends ConfigurableService
 {
-
     use TokenGenerator;
 
     const SERVICE_ID = 'tao/security-xsrf-token';
@@ -50,6 +49,7 @@ class TokenService extends ConfigurableService
     const DEFAULT_TIME_LIMIT = 0;
 
     const CSRF_TOKEN_HEADER = 'X-CSRF-Token';
+    const FORM_POOL = 'form_pool';
 
     /**
      * Create a new TokenService
@@ -186,6 +186,7 @@ class TokenService extends ConfigurableService
     /**
      * Revokes the given token
      *
+     * @param string $token
      * @return true
      */
     public function revokeToken($token)
@@ -211,7 +212,7 @@ class TokenService extends ConfigurableService
 
     /**
      * Gets this session's name for token
-     * @return {String}
+     * @return string
      */
     public function getTokenName()
     {
@@ -238,28 +239,28 @@ class TokenService extends ConfigurableService
         $actualTime = microtime(true);
         $timeLimit  = $this->getTimeLimit();
 
-        $reduced = array_filter($pool, function($token) use($actualTime, $timeLimit){
-            if(!isset($token['ts']) || !isset($token['token'])){
+        $reduced = array_filter($pool, function ($token) use ($actualTime, $timeLimit) {
+            if (!isset($token['ts'], $token['token'])) {
                 return false;
             }
-            if($timeLimit > 0){
+            if ($timeLimit > 0) {
                 return $token['ts'] + $timeLimit > $actualTime;
             }
             return true;
         });
 
-        if($this->getPoolSize() > 0 && count($reduced) > 0){
-            usort($reduced, function($a, $b){
-                if($a['ts'] == $b['ts']){
+        if ($this->getPoolSize() > 0 && count($reduced) > 0) {
+            usort($reduced, function ($a, $b) {
+                if ($a['ts'] === $b['ts']) {
                     return 0;
                 }
                 return $a['ts'] < $b['ts'] ? -1 : 1;
             });
 
             //remove the elements at the begining to fit the pool size
-            while(count($reduced) >= $this->getPoolSize()){
+            while (count($reduced) >= $this->getPoolSize()) {
                 array_shift($reduced);
-           }
+            }
         }
         return $reduced;
     }
@@ -271,7 +272,7 @@ class TokenService extends ConfigurableService
     public function getPoolSize()
     {
         $poolSize = self::DEFAULT_POOL_SIZE;
-        if($this->hasOption(self::POOL_SIZE_OPT)){
+        if ($this->hasOption(self::POOL_SIZE_OPT)) {
             $poolSize = (int)$this->getOption(self::POOL_SIZE_OPT);
         }
         return $poolSize;
@@ -284,7 +285,7 @@ class TokenService extends ConfigurableService
     protected function getTimeLimit()
     {
         $timeLimit = self::DEFAULT_TIME_LIMIT;
-        if($this->hasOption(self::TIME_LIMIT_OPT)){
+        if ($this->hasOption(self::TIME_LIMIT_OPT)) {
             $timeLimit = (int)$this->getOption(self::TIME_LIMIT_OPT);
         }
         return $timeLimit;
@@ -297,7 +298,7 @@ class TokenService extends ConfigurableService
     protected function getStore()
     {
         $store = null;
-        if($this->hasOption(self::OPTION_STORE)){
+        if ($this->hasOption(self::OPTION_STORE)) {
             $store = $this->getOption(self::OPTION_STORE);
         }
         return $store;
@@ -316,7 +317,9 @@ class TokenService extends ConfigurableService
 
         if ($this->getTimeLimit() > 0) {
             foreach ($pool as $key => $token) {
-                $this->isExpired($token, true);
+                if ($this->isExpired($token)) {
+                    $this->revokeToken($token);
+                }
             }
         }
 
@@ -330,9 +333,10 @@ class TokenService extends ConfigurableService
             ];
         }
 
-        while (count($pool) > $this->getPoolSize()) {
-            array_shift($pool);
-        }
+        $pool[self::FORM_POOL] = [
+        'ts' => microtime(true),
+        'token' => $this->generate()
+    ];
 
         $store->setTokens($pool);
 

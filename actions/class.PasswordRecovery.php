@@ -44,7 +44,6 @@ class tao_actions_PasswordRecovery extends tao_actions_CommonModule
         $form->addCsrfTokenProtection();
 
         if ($form->isSubmited() && $form->isValid()) {
-            $this->validateCsrf();
             $mail = $form->getValue('userMail');
             $user = $this->getPasswordRecovery()->getUser(GenerisRdf::PROPERTY_USER_MAIL, $mail);
 
@@ -97,15 +96,10 @@ class tao_actions_PasswordRecovery extends tao_actions_CommonModule
             $this->setData('error', __('This password reset link is no longer valid. It may have already been used. If you still wish to reset your password please request a new link'));
             $this->setData('content-template', array('passwordRecovery/password-recovery-info.tpl', 'tao'));
         } else if ($form->isSubmited() && $form->isValid()) {
-            $this->validateCsrf();
             $this->getPasswordRecovery()->setPassword($user, $form->getValue('newpassword'));
             $this->logInfo("User {$user->getUri()} has changed the password.");
             $this->setData('info', __('Password successfully changed'));
             $this->setData('content-template', array('passwordRecovery/password-recovery-info.tpl', 'tao'));
-            return $this->returnJson([
-                'success' => true,
-                'message' => __('Password successfully changed')
-            ]);
         } else {
             $this->setData('form', $form->render());
             $this->setData('content-template', array('passwordRecovery/password-reset.tpl', 'tao'));

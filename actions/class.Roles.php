@@ -69,7 +69,6 @@ class tao_actions_Roles extends tao_actions_RdfController
 		$myForm = $formContainer->getForm();
         $myForm->addCsrfTokenProtection();
 		if ($myForm->isSubmited() && $myForm->isValid()) {
-		    $this->validateCsrf();
             $formValues = $myForm->getValues();
             $roleService = tao_models_classes_RoleService::singleton();
             $includedRolesProperty = $this->getProperty(GenerisRdf::PROPERTY_ROLE_INCLUDESROLE);
@@ -103,12 +102,6 @@ class tao_actions_Roles extends tao_actions_RdfController
             $this->setData('selectNode', tao_helpers_Uri::encode($role->getUri()));
             $this->setData('message', __('Role saved'));
             $this->setData('reload', true);
-
-            $this->returnJson([
-                'success' => true,
-                'message' => __('Role saved')
-            ]);
-            return;
         }
 
 		$this->setData('uri', tao_helpers_Uri::encode($role->getUri()));

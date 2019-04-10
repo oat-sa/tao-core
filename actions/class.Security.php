@@ -37,13 +37,8 @@ class tao_actions_Security extends tao_actions_CommonModule
         $cspHeaderForm->addCsrfTokenProtection();
 
         if ($cspHeaderForm->isSubmited() && $cspHeaderForm->isValid()) {
-            $this->validateCsrf();
             $formFactory->saveSettings();
-            $this->returnJson([
-                'success' => true,
-                'message' => __('CSP Header settings were saved successfully!')
-            ]);
-            return;
+            $this->setData('cspHeaderFormSuccess', __('CSP Header settings were saved successfully!'));
         }
 
         $this->setData('formTitle', __('Edit sources that can embed this platform in an iFrame'));

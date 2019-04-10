@@ -22,24 +22,30 @@ namespace oat\tao\model\security\xsrf;
 use common_persistence_KeyValuePersistence;
 use oat\oatbox\service\ConfigurableService;
 
+/**
+ * Class to store tokens in a key value storage
+ *
+ * @author Martijn Swinkels <m.swinkels@taotesting.com>
+ */
 class TokenStoreKeyValue extends ConfigurableService implements TokenStore
 {
-    const OPTION_PERSISTENCE = 'persistence';
 
+    const OPTION_PERSISTENCE = 'persistence';
     const TOKENS_STORAGE_KEY = 'tao_tokens';
 
-    /** @var common_persistence_KeyValuePersistence */
+    /**
+     * @var common_persistence_KeyValuePersistence
+     */
     private $persistence;
 
     /**
-     * @return array|mixed
+     * @return array
+     * @throws \common_exception_Error
      */
     public function getTokens()
     {
         $value = $this->getPersistence()->get($this->getKey());
-        $pool = (string)$value === '' ? [] : json_decode($value, true);
-
-        return $pool;
+        return ((string) $value === '') ? [] : json_decode($value, true);
     }
 
     /**
@@ -53,6 +59,7 @@ class TokenStoreKeyValue extends ConfigurableService implements TokenStore
 
     /**
      * @return bool
+     * @throws \common_exception_Error
      */
     public function removeTokens()
     {
@@ -64,8 +71,10 @@ class TokenStoreKeyValue extends ConfigurableService implements TokenStore
      */
     protected function getPersistence()
     {
-        if (is_null($this->persistence)) {
-            $this->persistence = common_persistence_KeyValuePersistence::getPersistence($this->getOption(self::OPTION_PERSISTENCE));
+        if ($this->persistence === null) {
+            $this->persistence = common_persistence_KeyValuePersistence::getPersistence(
+                $this->getOption(self::OPTION_PERSISTENCE)
+            );
         }
         return $this->persistence;
     }
