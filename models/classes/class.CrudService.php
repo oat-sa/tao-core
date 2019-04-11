@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,7 +17,7 @@
  * Copyright (c) 2013-2014 (original work) Open Assessment Technologies SA
  * 
  */
-
+use oat\generis\model\OntologyAwareTrait;
 
 /**
  *
@@ -33,6 +32,7 @@
 abstract class tao_models_classes_CrudService extends tao_models_classes_Service
 {
 
+    use OntologyAwareTrait;
     /**
      *
      * @author Patrick Plichart, patrick@taotesting.com
@@ -45,7 +45,7 @@ abstract class tao_models_classes_CrudService extends tao_models_classes_Service
         if (!(common_Utils::isUri($uri))) {
             throw new common_exception_InvalidArgumentType();
         }
-        $resource = new core_kernel_classes_Resource($uri);
+        $resource = $this->getClass($uri);
         return $resource->hasType($this->getRootClass());
     }
 
@@ -81,7 +81,7 @@ abstract class tao_models_classes_CrudService extends tao_models_classes_Service
         if (!($this->isInScope($uri))) {
             throw new common_exception_PreConditionFailure("The URI must be a valid resource under the root Class");
         }
-        $resource = new core_kernel_classes_Resource($uri);
+        $resource = $this->getResource($uri);
         $formater = new core_kernel_classes_ResourceFormatter();
         return $formater->getResourceDescription($resource,false);
     }
@@ -117,7 +117,7 @@ abstract class tao_models_classes_CrudService extends tao_models_classes_Service
         if (!($this->isInScope($uri))) {
             throw new common_exception_PreConditionFailure("The URI must be a valid resource under the root Class");
         }
-        $resource = new core_kernel_classes_Resource($uri);
+        $resource = $this->getResource($uri);
         // if the resource does not exist, indicate a not found exception
         if (count($resource->getRdfTriples()->sequence) == 0) {
             throw new common_exception_NoContent();
@@ -131,7 +131,6 @@ abstract class tao_models_classes_CrudService extends tao_models_classes_Service
      */
     public function deleteAll()
     {
-        $resources = array();
         foreach ($this->getRootClass()->getInstances(true) as $resource) {
             $resource->delete();
         }
@@ -147,7 +146,7 @@ abstract class tao_models_classes_CrudService extends tao_models_classes_Service
      */
     public function create($label = "", $type = null, $propertiesValues = array())
     {
-        $type = (isset($type)) ? new core_kernel_classes_Class($type) : $this->getRootClass();
+        $type = (isset($type)) ? $this->getClass($type) : $this->getRootClass();
         
         $resource = $this->getClassService()->createInstance($type, $label);
         $resource->setPropertiesValues($propertiesValues);
@@ -172,13 +171,13 @@ abstract class tao_models_classes_CrudService extends tao_models_classes_Service
         if(!($this->isInScope($uri))) {
             throw new common_exception_PreConditionFailure("The URI must be a valid resource under the root Class");
         }
-        $resource = new core_kernel_classes_Resource($uri);
+        $resource = $this->getResource($uri);
         // if the resource does not exist, indicate a not found exception
         if(count($resource->getRdfTriples()->sequence) == 0) {
             throw new common_exception_NoContent();
         }
         foreach($propertiesValues as $uri => $parameterValue) {
-            $resource->editPropertyValues(new core_kernel_classes_Property($uri), $parameterValue);
+            $resource->editPropertyValues($this->getProperty($uri), $parameterValue);
         }
         return $resource;
     }
