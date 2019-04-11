@@ -481,6 +481,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
 
         if ($instance instanceof core_kernel_classes_Resource) {
             $response = [
+                'success' => true,
                 'label' => $instance->getLabel(),
                 'uri'   => $instance->getUri()
             ];

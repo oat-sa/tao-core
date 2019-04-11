@@ -31,13 +31,15 @@ define([
                 url: urlHelper.route(action, 'Users', 'tao'),
                 data: data,
                 method: 'POST'
-            }).then(function(response) {
+            })
+            .then(function(response) {
                 if (response.success) {
                     feedback().success(response.message);
-                } else {
-                    feedback().error(response.message);
                 }
                 $('#user-list').datatable('refresh');
+            })
+            .catch(function(err) {
+                feedback().error(err);
             });
         });
     };

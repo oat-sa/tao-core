@@ -26,7 +26,7 @@ $hasVersionWarning = empty($_COOKIE['versionWarning'])
 
     <?= tao_helpers_Scriptloader::render() ?>
 
-    <?= Layout::getAmdLoader(Template::js('loader/tao.min.js', 'tao'), 'controller/backoffice', null, get_data('allowAnonymous')) ?>
+    <?= Layout::getAmdLoader(Template::js('loader/tao.min.js', 'tao'), 'controller/backoffice') ?>
     <link rel="stylesheet" href="<?= Layout::getThemeStylesheet(Theme::CONTEXT_BACKOFFICE) ?>" />
 </head>
 
@@ -34,7 +34,7 @@ $hasVersionWarning = empty($_COOKIE['versionWarning'])
 <?php Template::inc('blocks/requirement-check.tpl', 'tao'); ?>
 
 <div class="content-wrap">
-    
+
     <?php /* alpha|beta|sandbox message */
     if($hasVersionWarning) {
         Template::inc('blocks/version-warning.tpl', 'tao');
