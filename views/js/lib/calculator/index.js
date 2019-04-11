@@ -67,7 +67,11 @@ define(['jquery', 'lodash', 'tpl!lib/calculator/template', 'i18n', 'lib/gamp/gam
          * Gives the focus to the input
          */
         function setFocus() {
-            display.focus();
+            var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+            if (!isMobile) {
+                display.focus();
+            }
         }
 
         /**

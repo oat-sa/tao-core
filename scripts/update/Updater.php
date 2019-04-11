@@ -1019,7 +1019,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $ext = $this->getServiceManager()->get(\common_ext_ExtensionsManager::SERVICE_ID)->getExtensionById('tao');
             $ext->setConfig(\tao_helpers_Date::CONFIG_KEY, new EuropeanFormatter());
 
-            $this->setVersion('31.1.0');
+            $this->setVersion('31.1.1');
         }
     }
 }
