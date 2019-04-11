@@ -1,23 +1,4 @@
-
-                                     /*
-                                    /  \
-                                   |    |
-                                 --:'''':--
-   THIS CODE IS GENERATED          :*_* :
-                                   _:"":\___
-   AUTOMAGICALLY    * *      ____.' :::     '._
-                   * *=====<<=)           \    :
-   DO NOT EDIT!     * *      '-'-'\_      /'._.'
-                                     \====:_ ""
-                                    .'     \\
-                                   :       :
-                                  /   :    \
-                                 :   .      '.
-                                 :  : :      :
-                                 :__:-:__.;--'
-                                <*_/   <*/
-                                 
-@import "inc/bootstrap";
+/* Do not edit */@import "inc/bootstrap";
 .cke_button_icon, .cke_button { @include tao-icon-setup;}
 .cke_button__anchor_icon:before { @include icon-anchor;}
 .cke_button__bgcolor_icon:before { @include icon-background-color;}
