@@ -365,4 +365,15 @@ class TokenService extends ConfigurableService
 
         return $newToken;
     }
+
+    /**
+     * Get the token used for the form.
+     *
+     * @return string[]
+     */
+    public function getFormToken()
+    {
+        $tokenPool = $this->getStore()->getTokens();
+        return isset($tokenPool[self::FORM_POOL]) ? $tokenPool[self::FORM_POOL] : [];
+    }
 }

@@ -43,8 +43,10 @@ class CsrfToken extends tao_helpers_form_elements_xhtml_Hidden
     {
         /** @var TokenService $tokenService */
         $tokenService = ServiceManager::getServiceManager()->get(TokenService::SERVICE_ID);
-        $tokenPool = $tokenService->getStore()->getTokens();
-        $this->setValue($tokenPool[TokenService::FORM_POOL]['token']);
+        $formToken = $tokenService->getFormToken();
+        if (!isset($formToken['token'])) {
+            $this->setValue($formToken['token']);
+        }
         $this->setName(TokenService::CSRF_TOKEN_HEADER);
 
         return parent::render();
