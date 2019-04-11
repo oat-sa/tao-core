@@ -277,6 +277,8 @@ define([
                     })
                     .then(function(response) {
                         if (response.success && response.deleted) {
+                            feedback().success(response.message);
+
                             if (actionContext.tree){
                                 $(actionContext.tree).trigger('removenode.taotree', [{
                                     id : actionContext.uri || actionContext.classUri
@@ -360,6 +362,8 @@ define([
                     })
                     .then(function(response) {
                         if (response.success && response.deleted) {
+                            feedback().success(response.message);
+
                             resolve(response.deleted);
                         } else {
                             reject(new Error(response.message || __("Unable to delete the selected resources")));
@@ -449,6 +453,7 @@ define([
                 method: "GET",
                 data: data,
                 dataType: 'html',
+                noToken: true
             })
             .then(function(response) {
                 var $response = $($.parseHTML(response, document, true));

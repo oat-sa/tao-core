@@ -70,6 +70,7 @@ class tao_actions_PasswordRecovery extends tao_actions_CommonModule
             $this->setData('content-template', array('passwordRecovery/index.tpl', 'tao'));
         }
 
+        $this->setData('allowAnonymous', true);
         $this->setView('layout.tpl', 'tao');
     }
 
@@ -105,6 +106,7 @@ class tao_actions_PasswordRecovery extends tao_actions_CommonModule
             $this->setData('content-template', array('passwordRecovery/password-reset.tpl', 'tao'));
         }
 
+        $this->setData('allowAnonymous', true);
         $this->setView('layout.tpl', 'tao');
     }
 

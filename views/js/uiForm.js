@@ -32,8 +32,6 @@ define([
     'form/property',
     'form/post-render-props',
     'util/encode',
-    'core/request',
-    'ui/feedback',
     'ckeditor',
     'ui/ckeditor/ckConfigurator',
     'ui/datetime/picker',
@@ -48,8 +46,6 @@ define([
     property,
     postRenderProps,
     encode,
-    request,
-    feedback,
     ckeditor,
     ckConfigurator,
     dateTimePicker) {
@@ -81,7 +77,7 @@ define([
             this.initTranslationFormPattern = /translate/;
             this.htmlEditors = {};
 
-            $(document).ajaxComplete(function (_event, _request, settings) {
+            $(document).ajaxComplete(function (event, request, settings) {
                 var testedUrl;
 
                 //initialize regarding the requested action
@@ -167,11 +163,7 @@ define([
                 var $form = $(this);
                 e.preventDefault();
 
-                // Handle submit of tokenized form (TAO-7306)
-                if ($form.attr('data-use-csrf-token')) {
-                    return self.submitFormTokenized($form, self.getFormData($form));
-                }
-                return self.submitForm($form, self.getFormData($form));
+                return self.submitForm($form,  self.getFormData($form));
             });
 
             $('.form-submitter').off('click').on('click', function (e) {
@@ -910,7 +902,7 @@ define([
          * Ajax form submit -> post the form data and display back the form into the container
          * @param myForm
          * @param serialize
-         * @returns boolean
+         * @return boolean
          */
         submitForm: function submitForm(myForm, serialize) {
             var self = this;
@@ -943,36 +935,6 @@ define([
                 return false;
             }
             return false;
-        },
-
-        /**
-         * Submits a form via AJAX (using core/request) with a CSRF token attached
-         * core/request fetches that token behind-the-scenes
-         * Expects JSON response
-         * @param {jQuery} $form
-         * @param {*} serialized - serialized form data
-         */
-        submitFormTokenized: function submitFormTokenized($form, serialized) {
-            if (_.isUndefined(serialized)) {
-                serialized = $form.serialize();
-            }
-            request({
-                url: $form.attr('action'),
-                method: $form.attr('method'),
-                data: serialized,
-                noToken: false
-            })
-            .then(function(response) { // response is sometimes html, sometimes json
-                if (response.success) {
-                    feedback().success(response.message || __('OK'));
-                }
-                else {
-                    feedback().error(response.message || __('An error occurred'));
-                }
-            })
-            .catch(function(err) {
-                feedback().error(err);
-            });
         }
     };
 
