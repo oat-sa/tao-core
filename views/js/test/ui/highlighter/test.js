@@ -873,4 +873,95 @@ define(['jquery', 'lodash', 'ui/highlighter'], function($, _, highlighterFactory
             assert.equal(fixtureContainer.innerHTML, data.output, 'highlight has been restored');
         });
 
+    QUnit.test('clearHighlights', function(assert) {
+        // Setup test
+        var highlighter = highlighterFactory({
+            className: 'hl',
+            containerSelector: '#qunit-fixture',
+            containersBlackList: [],
+        });
+        var range = document.createRange();
+
+        var fixtureContainer = document.getElementById('qunit-fixture');
+
+        assert.expect(2);
+
+        fixtureContainer.innerHTML = "<div>lorem</div>ipsum<div>dolor</div>sit<div>amet</div>";
+
+        // Create three separated higlights
+        range.setStart(fixtureContainer.childNodes[0].firstChild, 0);
+        range.setEnd(fixtureContainer.childNodes[0].firstChild, 5);
+        highlighter.highlightRanges([range]);
+
+        range.setStart(fixtureContainer.childNodes[2].firstChild, 0);
+        range.setEnd(fixtureContainer.childNodes[2].firstChild, 5);
+        highlighter.highlightRanges([range]);
+
+        range.setStart(fixtureContainer.childNodes[4].firstChild, 0);
+        range.setEnd(fixtureContainer.childNodes[4].firstChild, 4);
+        highlighter.highlightRanges([range]);
+
+        // Get higlighted node attributes
+        var highlightsAttributes = $(fixtureContainer).find('.hl')
+            .map(function (index, node) { return $(node).attr('data-hl-group'); }).toArray();
+
+        assert.deepEqual(highlightsAttributes, ["1", "2", "3"], 'Three separated higlights has been created');
+
+        // Clear all highlits
+        highlighter.clearHighlights();
+
+        assert.equal($(fixtureContainer).find('.hl').length, 0, 'All higlights has been discarded');
+    });
+
+    QUnit.test('clearSingleHighlight', function(assert) {
+        // Setup test
+        var highlighter = highlighterFactory({
+            className: 'hl',
+            containerSelector: '#qunit-fixture',
+            containersBlackList: [],
+            clearOnClick: true,
+        });
+        var range = document.createRange();
+
+        var fixtureContainer = document.getElementById('qunit-fixture');
+
+        assert.expect(4);
+
+        fixtureContainer.innerHTML = "<div>lorem</div>ipsum<div>dolor</div>sit<div>amet</div>";
+
+        // Create three separated higlights
+        range.setStart(fixtureContainer.childNodes[0].firstChild, 0);
+        range.setEnd(fixtureContainer.childNodes[0].firstChild, 5);
+        highlighter.highlightRanges([range]);
+
+        range.setStart(fixtureContainer.childNodes[2].firstChild, 0);
+        range.setEnd(fixtureContainer.childNodes[2].firstChild, 5);
+        highlighter.highlightRanges([range]);
+
+        range.setStart(fixtureContainer.childNodes[4].firstChild, 0);
+        range.setEnd(fixtureContainer.childNodes[4].firstChild, 4);
+        highlighter.highlightRanges([range]);
+
+        // Get higlighted node attributes
+        var highlightsAttributes = $(fixtureContainer).find('.hl')
+            .map(function (index, node) { return $(node).attr('data-hl-group'); }).toArray();
+
+        assert.deepEqual(highlightsAttributes, ["1", "2", "3"], 'Three separated higlights has been created');
+        var higlights = $(fixtureContainer).find('.hl');
+
+        // Clear first higlight
+        higlights[0].click();
+
+        assert.equal($(fixtureContainer).find('.hl').length, 2, 'First higlight has been discarded');
+
+        // Clear second higlight
+        higlights[1].click();
+
+        assert.equal($(fixtureContainer).find('.hl').length, 1, 'Second higlight has been discarded');
+
+        // Clear third higlight
+        higlights[2].click();
+
+        assert.equal($(fixtureContainer).find('.hl').length, 0, 'Third higlight has been discarded');
+    });
 });
