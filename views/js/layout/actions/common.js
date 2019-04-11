@@ -448,27 +448,26 @@ define([
             var data = _.pick(actionContext, ['id']);
             var wideDifferenciator = '[data-content-target="wide"]';
 
-            request({
+            $.ajax({
                 url: this.url,
-                method: "GET",
+                type: "GET",
                 data: data,
                 dataType: 'html',
-                noToken: true
-            })
-            .then(function(response) {
-                var $response = $($.parseHTML(response, document, true));
-                //check if the editor should be displayed widely or in the content area
-                if($response.is(wideDifferenciator) || $response.find(wideDifferenciator).length){
-                    section.create({
-                        id : 'authoring',
-                        name : __('Authoring'),
-                        url : this.url,
-                        content : $response,
-                        visible : false
-                    })
-                    .show();
-                } else {
-                    section.updateContentBlock($response);
+                success: function(response){
+                    var $response = $($.parseHTML(response, document, true));
+                    //check if the editor should be displayed widely or in the content area
+                    if($response.is(wideDifferenciator) || $response.find(wideDifferenciator).length){
+                        section.create({
+                            id : 'authoring',
+                            name : __('Authoring'),
+                            url : this.url,
+                            content : $response,
+                            visible : false
+                        })
+                        .show();
+                    } else {
+                        section.updateContentBlock($response);
+                    }
                 }
             });
         });

@@ -512,6 +512,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         $clazz = $this->getClassService()->createSubClass($parent);
         if ($clazz instanceof core_kernel_classes_Class) {
             $this->returnJson([
+                'success' => true,
                 'label' => $clazz->getLabel(),
                 'uri'   => tao_helpers_Uri::encode($clazz->getUri())
             ]);
