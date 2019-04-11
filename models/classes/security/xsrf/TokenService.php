@@ -333,11 +333,6 @@ class TokenService extends ConfigurableService
             ];
         }
 
-        $pool[self::FORM_POOL] = [
-        'ts' => microtime(true),
-        'token' => $this->generate()
-    ];
-
         $store->setTokens($pool);
 
         return $pool;
@@ -367,13 +362,22 @@ class TokenService extends ConfigurableService
     }
 
     /**
-     * Get the token used for the form.
-     *
+     * Add and return a token that can be used for forms.
      * @return string[]
+     * @throws \common_Exception
      */
-    public function getFormToken()
+    public function addFormToken()
     {
-        $tokenPool = $this->getStore()->getTokens();
-        return isset($tokenPool[self::FORM_POOL]) ? $tokenPool[self::FORM_POOL] : [];
+        $store = $this->getStore();
+        $tokenPool = $store->getTokens();
+
+        $tokenPool[self::FORM_POOL] = [
+            'ts' => microtime(true),
+            'token' => $this->generate()
+        ];
+
+        $store->setTokens($tokenPool);
+
+        return $tokenPool[self::FORM_POOL];
     }
 }

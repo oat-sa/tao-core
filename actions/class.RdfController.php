@@ -433,11 +433,6 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             $this->setData('selectNode', tao_helpers_Uri::encode($clazz->getUri()));
             $this->setData('message', __('%s Class saved', $clazz->getLabel()));
             $this->setData('reload', true);
-            $this->returnJson([
-                'success' => true,
-                'message' => __('%s Class saved', $clazz->getLabel())
-            ]);
-            return;
         }
 
         $this->setData('formTitle', __('Edit class %s', \tao_helpers_Display::htmlize($clazz->getLabel())));
@@ -808,13 +803,14 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
     }
 
     /**
-     * Render the  form to translate a Resource instance
+     * Render the form to translate a Resource instance
      * @return void
+     * @throws common_exception_Error
+     * @throws tao_models_classes_MissingRequestParameterException
      * @requiresRight id WRITE
      */
     public function translateInstance()
     {
-
         $instance = $this->getCurrentInstance();
 
         $formContainer = new tao_actions_form_Translate($this->getCurrentClass(), $instance);
@@ -822,18 +818,20 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         $myForm->addCsrfTokenProtection();
 
         if ($this->hasRequestParameter('target_lang')) {
-
             $targetLang = $this->getRequestParameter('target_lang');
+            $availableLanguages = tao_helpers_I18n::getAvailableLangsByUsage(
+                $this->getResource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA)
+            );
 
-            if(in_array($targetLang, tao_helpers_I18n::getAvailableLangsByUsage($this->getResource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA)))){
+            if (in_array($targetLang, $availableLanguages)) {
                 $langElt = $myForm->getElement('translate_lang');
                 $langElt->setValue($targetLang);
                 $langElt->setAttribute('readonly', 'true');
 
                 $trData = $this->getClassService()->getTranslatedProperties($instance, $targetLang);
-                foreach($trData as $key => $value){
+                foreach ($trData as $key => $value) {
                     $element = $myForm->getElement(tao_helpers_Uri::encode($key));
-                    if($element !== null){
+                    if ($element !== null) {
                         $element->setValue($value);
                     }
                 }
@@ -841,35 +839,27 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         }
 
         if ($myForm->isSubmited() && $myForm->isValid()) {
-
             $values = $myForm->getValues();
             if (isset($values['translate_lang'])) {
                 $datalang = $this->getSession()->getDataLanguage();
                 $lang = $values['translate_lang'];
 
                 $translated = 0;
-                foreach($values as $key => $value){
-                    if(0 === strpos($key, "http")){
+                foreach ($values as $key => $value) {
+                    if (0 === strpos($key, 'http')) {
                         $value = trim($value);
                         $property = $this->getProperty($key);
-                        if(empty($value)){
-                            if($datalang !== $lang && $lang !== ''){
+                        if (empty($value)) {
+                            if ($datalang !== $lang && $lang !== '') {
                                 $instance->removePropertyValueByLg($property, $lang);
                             }
-                        }
-                        else if($instance->editPropertyValueByLg($property, $value, $lang)){
+                        } elseif ($instance->editPropertyValueByLg($property, $value, $lang)) {
                             $translated++;
                         }
                     }
                 }
-                if($translated > 0){
+                if ($translated > 0) {
                     $this->setData('message', __('Translation saved'));
-
-                    $this->returnJson([
-                        'success' => true,
-                        'message' => __('Translation saved')
-                    ]);
-                    return;
                 }
             }
         }
