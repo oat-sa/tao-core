@@ -234,37 +234,22 @@ class tao_actions_Users extends tao_actions_CommonModule
         $form = $container->getForm();
         $form->addCsrfTokenProtection();
 
-        if ($form->isSubmited()) {
-            if (!$form->isValid()) {
-                $this->returnJson([
-                    'success' => false,
-                    'message' => __('User could not be added. Please verify your form input.')
-                ]);
-                return;
-            } else {
-                $this->validateCsrf();
-                $values = $form->getValues();
-                $values[GenerisRdf::PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($values['password1']);
-                $plainPassword = $values['password1'];
-                unset($values['password1'], $values['password2']);
+        if ($form->isSubmited() && !$form->isValid()) {
+            $values = $form->getValues();
+            $values[GenerisRdf::PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($values['password1']);
+            $plainPassword = $values['password1'];
+            unset($values['password1'], $values['password2']);
 
-                $user = $container->getUser();
-                $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($container->getUser());
+            $user = $container->getUser();
+            $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($container->getUser());
 
-                if ($binder->bind($values)) {
-                    $this->getEventManager()->trigger(new UserUpdatedEvent(
-                            $user,
-                            array_merge($values, ['hashForKey' => UserHashForEncryption::hash($plainPassword)]))
-                    );
-                    $this->setData('message', __('User added'));
-                    $this->setData('exit', true);
-
-                    $this->returnJson([
-                        'success' => true,
-                        'message' => __('User added')
-                    ]);
-                    return;
-                }
+            if ($binder->bind($values)) {
+                $this->getEventManager()->trigger(new UserUpdatedEvent(
+                        $user,
+                        array_merge($values, ['hashForKey' => UserHashForEncryption::hash($plainPassword)]))
+                );
+                $this->setData('message', __('User added'));
+                $this->setData('exit', true);
             }
         }
 
@@ -291,17 +276,11 @@ class tao_actions_Users extends tao_actions_CommonModule
         $form->addCsrfTokenProtection();
 
         if ($form->isSubmited() && $form->isValid()) {
-            $this->validateCsrf();
             $properties = $form->getValues();
             $instance = $this->createInstance(array($clazz), $properties);
 
             $this->setData('message', __('%s created', $instance->getLabel()));
             $this->setData('selectTreeNode', $instance->getUri());
-            $this->returnJson([
-                'success' => true,
-                'message' => __('%s created', $instance->getLabel())
-            ]);
-            return;
         }
 
         $this->setData('formTitle', __('Create instance of ') . $clazz->getLabel());
@@ -353,7 +332,6 @@ class tao_actions_Users extends tao_actions_CommonModule
         $myForm->addCsrfTokenProtection();
 
         if ($myForm->isSubmited() && $myForm->isValid()) {
-            $this->validateCsrf();
             $values = $myForm->getValues();
             if (!empty($values['password2']) && !empty($values['password3'])) {
                 $plainPassword =  $values['password2'];
@@ -389,11 +367,6 @@ class tao_actions_Users extends tao_actions_CommonModule
                     array_merge($values, $data))
                 );
                 $this->setData('message', __('User saved'));
-                $this->returnJson([
-                    'success' => true,
-                    'message' => __('User saved')
-                ]);
-                return;
             }
         }
 

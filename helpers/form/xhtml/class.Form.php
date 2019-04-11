@@ -20,6 +20,8 @@
  */
 
 use oat\oatbox\log\LoggerAwareTrait;
+use oat\oatbox\service\ServiceManager;
+use oat\tao\model\security\xsrf\TokenService;
 
 /**
  * Short description of class tao_helpers_form_xhtml_Form
@@ -31,7 +33,6 @@ use oat\oatbox\log\LoggerAwareTrait;
  */
 class tao_helpers_form_xhtml_Form extends tao_helpers_form_Form
 {
-
     use LoggerAwareTrait;
 
     // --- ASSOCIATIONS ---
@@ -54,14 +55,13 @@ class tao_helpers_form_xhtml_Form extends tao_helpers_form_Form
     {
         $returnValue = array();
 
-        foreach($this->elements as $element){
+        foreach ($this->elements as $element) {
             if (!empty($this->systemElements) && in_array($element->getName(), $this->systemElements)) {
                 continue;
             }
-            if(empty($groupName)
+            if (empty($groupName)
                     || !isset($this->groups[$groupName])
                     || in_array($element->getName(), $this->groups[$groupName]['elements'])) {
-
                 $returnValue[tao_helpers_Uri::decode($element->getName())] = $element->getEvaluatedValue();
             }
         }
@@ -79,24 +79,18 @@ class tao_helpers_form_xhtml_Form extends tao_helpers_form_Form
      */
     public function evaluate()
     {
-
-
         $this->initElements();
 
-        if(isset($_POST["{$this->name}_sent"])){
-
+        if (isset($_POST["{$this->name}_sent"])) {
             $this->submited = true;
 
             //set posted values
-            foreach($this->elements as $id => $element){
+            foreach ($this->elements as $id => $element) {
                 $this->elements[$id]->feed();
             }
 
             $this->validate();
-
         }
-
-
     }
 
     /**
@@ -108,21 +102,20 @@ class tao_helpers_form_xhtml_Form extends tao_helpers_form_Form
      */
     public function render()
     {
-        $returnValue = (string) '';
+        $returnValue = '';
 
-
-
-        (strpos($_SERVER['REQUEST_URI'], '?') > 0) ? $action = substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], '?')) : $action = $_SERVER['REQUEST_URI'];
+        $requestUri = $_SERVER['REQUEST_URI'];
+        $action = strpos($requestUri, '?') > 0 ? substr($requestUri, 0, strpos($requestUri, '?')) : $requestUri;
 
         // Defensive code, prevent double leading slashes issue.
-        if (substr($action, 0, 2) == '//'){
+        if (strpos($action, '//') === 0) {
             $action = substr($action, 1);
         }
 
         $returnValue .= "<div class='xhtml_form'>\n";
 
         $returnValue .= "<form method='post' id='{$this->name}' name='{$this->name}' action='$action' ";
-        if($this->hasFileUpload()){
+        if ($this->hasFileUpload()) {
             $returnValue .= "enctype='multipart/form-data' ";
         }
 
@@ -134,23 +127,20 @@ class tao_helpers_form_xhtml_Form extends tao_helpers_form_Form
 
         $returnValue .= "<input type='hidden' class='global' name='{$this->name}_sent' value='1' />\n";
 
-
-        //$returnValue .= $this->renderActions('top');
-
-        if(!empty($this->error)){
+        if (!empty($this->error)) {
             $returnValue .= '<div class="xhtml_form_error">'.$this->error.'</div>';
         }
 
         $returnValue .= $this->renderElements();
 
-        $returnValue .= $this->renderActions('bottom');
+        $returnValue .= $this->renderActions();
 
         $returnValue .= "</form>\n";
         $returnValue .= "</div>\n";
 
 
 
-        return (string) $returnValue;
+        return $returnValue;
     }
 
     /**
@@ -158,14 +148,10 @@ class tao_helpers_form_xhtml_Form extends tao_helpers_form_Form
      *
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return bool
-     * @throws common_Exception
-     * @throws common_exception_Error
-     * @throws common_exception_Unauthorized
      */
     protected function validate()
     {
         $returnValue = false;
-
         $this->valid = true;
 
         /** @var tao_helpers_form_FormElement $element */
