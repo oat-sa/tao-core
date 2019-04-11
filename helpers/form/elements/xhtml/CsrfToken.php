@@ -21,6 +21,7 @@
 namespace oat\tao\helpers\form\elements\xhtml;
 
 use common_exception_Unauthorized;
+use common_session_SessionManager;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\security\xsrf\TokenService;
@@ -44,10 +45,9 @@ class CsrfToken extends tao_helpers_form_elements_xhtml_Hidden
         /** @var TokenService $tokenService */
         $tokenService = ServiceManager::getServiceManager()->get(TokenService::SERVICE_ID);
         $formToken = $tokenService->getFormToken();
-        if (!isset($formToken['token'])) {
+        if (isset($formToken['token'])) {
             $this->setValue($formToken['token']);
         }
-        $this->setName(TokenService::CSRF_TOKEN_HEADER);
 
         return parent::render();
     }
@@ -78,10 +78,11 @@ class CsrfToken extends tao_helpers_form_elements_xhtml_Hidden
      *
      * @param string $exceptionMessage
      * @param string|null $csrfToken
+     * @throws \common_exception_Error
      */
     private function logCsrfFailure($exceptionMessage, $csrfToken = null)
     {
-        $userIdentifier = $this->getSession()->getUser()->getIdentifier();
+        $userIdentifier = common_session_SessionManager::getSession()->getUser()->getIdentifier();
         $requestHeaders = $this->getHeaders();
 
         $this->logWarning('Failed to validate CSRF token. The following exception occurred: ' . $exceptionMessage);
