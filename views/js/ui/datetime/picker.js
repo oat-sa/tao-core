@@ -220,6 +220,23 @@ define([
             },
 
             /**
+             * Get the dates currently selected.
+             * Usefull for the range mode to get the date list
+             * @returns {Array<[Date|String]} the selected dates
+             */
+            getSelectedDates : function getSelectedDates() {
+                var selection;
+                if (this.is('ready') && this.picker) {
+                    selection = this.picker.selectedDates;
+                    if (selection && !_.isArray(selection)) {
+                        return [selection];
+                    }
+                    return selection;
+                }
+                return false;
+            },
+
+            /**
              * Get the date/time format description, ie. 'YYYY-MM-DD'
              * @returns {String} the format
              */

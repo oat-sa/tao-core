@@ -66,6 +66,7 @@ define([
         { title : 'getFormat' },
         { title : 'getValue' },
         { title : 'setValue' },
+        { title : 'getSelectedDates' },
         { title : 'updateConstraints' },
     ]).test('Picker API ', function(data, assert) {
         assert.expect(1);
@@ -816,6 +817,46 @@ define([
 
             assert.ok(picker.querySelectorAll('.flatpickr-day.disabled').length > 0, 'Some Dates are now disabled');
             assert.equal(picker.querySelectorAll('.flatpickr-day:not(.disabled)').length, 2, 'Ony 3 dates can be seleted');
+
+            done();
+        });
+    });
+
+    QUnit.test('Get selected dates', function(assert) {
+        var container = document.querySelector('#qunit-fixture > div');
+        var done      = assert.async();
+
+        assert.expect(10);
+
+        dateTimePicker(container, {
+            setup : 'date',
+            format : 'YYYY-MM-DD'
+        })
+        .on('ready', function(){
+            assert.equal(this.getSelectedDates(), false, 'No date is currently selected');
+
+            this.setValue('2019-05-01');
+            this.open();
+        })
+        .on('open', function(){
+            var element = this.getElement()[0];
+            var selection;
+            var picker  = element.querySelector('.flatpickr-calendar');
+            var month   = picker.querySelector('.flatpickr-current-month .cur-month');
+            var year    = picker.querySelector('.flatpickr-current-month .cur-year');
+            var day     = picker.querySelector('.flatpickr-day.selected');
+
+            assert.ok(picker.classList.contains('open'), 'The picker is now open');
+            assert.equal(month.textContent.trim(), 'May', 'The selected month is correct');
+            assert.equal(year.value.trim(), '2019', 'The selected year is correct');
+            assert.equal(day.textContent.trim(), '1', 'The selected day is correct');
+
+            selection = this.getSelectedDates();
+            assert.equal(selection.length, 1, 'The selection contains one date');
+            assert.ok(selection[0] instanceof Date, 'The selection contains a Date');
+            assert.equal(selection[0].getFullYear(), 2019, 'The selection year is correct');
+            assert.equal(selection[0].getMonth(), 4, 'The selection month (index) is correct');
+            assert.equal(selection[0].getDate(), 1, 'The selection day is correct');
 
             done();
         });
