@@ -234,7 +234,7 @@ class tao_actions_Users extends tao_actions_CommonModule
         $form = $container->getForm();
         $form->addCsrfTokenProtection();
 
-        if ($form->isSubmited() && !$form->isValid()) {
+        if ($form->isSubmited() && $form->isValid()) {
             $values = $form->getValues();
             $values[GenerisRdf::PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($values['password1']);
             $plainPassword = $values['password1'];
