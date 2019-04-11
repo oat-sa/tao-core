@@ -126,6 +126,8 @@ define([
                             classUri  : uri.decode(actionContext.classUri),
                             type      : 'class'
                         });
+
+                        feedback().success(response.message || __('Successfully added new class'));
                     } else {
                         reject(new Error(__('Adding the new class has failed')));
                     }
@@ -181,6 +183,8 @@ define([
                             classUri  : uri.decode(actionContext.classUri),
                             type      : 'instance'
                         });
+
+                        feedback().success(response.message || __('Successfully added new resource'));
                     } else {
                         reject(new Error(__('Adding the new resource has failed')));
                     }
@@ -236,6 +240,8 @@ define([
                             classUri  : uri.decode(actionContext.classUri),
                             type      : 'instance'
                         });
+
+                        feedback().success(response.message || __('Resource duplicated'));
                     } else {
                         reject(new Error(__('Node duplication has failed')));
                     }
@@ -277,7 +283,7 @@ define([
                     })
                     .then(function(response) {
                         if (response.success && response.deleted) {
-                            feedback().success(response.message);
+                            feedback().success(response.message || __('Resource deleted'));
 
                             if (actionContext.tree){
                                 $(actionContext.tree).trigger('removenode.taotree', [{
@@ -362,7 +368,7 @@ define([
                     })
                     .then(function(response) {
                         if (response.success && response.deleted) {
-                            feedback().success(response.message);
+                            feedback().success(response.message || __('Resources deleted'));
 
                             resolve(response.deleted);
                         } else {
