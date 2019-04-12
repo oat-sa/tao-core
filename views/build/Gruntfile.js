@@ -22,7 +22,6 @@ module.exports = function(grunt) {
     var testTasks   = [];
 
     grunt.option('root', root);
-    grunt.option('extensionHelper', extensionHelper);
     grunt.option('currentExtension', currentExtension);
     grunt.option('testPort', testPort);
     grunt.option('testUrl', testUrl);
