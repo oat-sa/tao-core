@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint99\n"
-"PO-Revision-Date: 2019-03-29T09:53:35\n"
+"Project-Id-Version: TAO 3.3.0-sprint100\n"
+"PO-Revision-Date: 2019-04-12T08:48:02\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-JP\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " and "
-msgstr " と "
-
 msgid " AND "
 msgstr ""
+
+msgid " and "
+msgstr " と "
 
 msgid " has been deleted successfully"
 msgstr " 削除しました。"
@@ -260,6 +260,9 @@ msgstr ""
 msgid "Apply"
 msgstr ""
 
+msgid "Apply date range"
+msgstr ""
+
 msgid "Arc cosine"
 msgstr ""
 
@@ -447,10 +450,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
 msgid "Clear selection"
@@ -534,6 +537,9 @@ msgstr "のインスタンスを作成します"
 msgid "Created"
 msgstr ""
 
+msgid "Creating report ..."
+msgstr ""
+
 msgid "Creation At"
 msgstr ""
 
@@ -575,6 +581,15 @@ msgstr "データはインポートされませんでした。すべてのレコ
 
 msgid "Date"
 msgstr "日付"
+
+msgid "date range"
+msgstr ""
+
+msgid "date time"
+msgstr ""
+
+msgid "date time range"
+msgstr ""
 
 msgid "Default search"
 msgstr "デフォルト検索"
@@ -960,10 +975,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1304,10 +1319,10 @@ msgstr "ファイルが有りません"
 msgid "no label"
 msgstr "ラベルがありません"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "プレビューは利用できません"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "プレビューは利用できません"
 
 msgid "No results found"
@@ -1380,6 +1395,9 @@ msgstr ""
 msgid "or"
 msgstr "或は"
 
+msgid "Outlook on the next Synchronization"
+msgstr ""
+
 msgid "Page"
 msgstr "ページ番号"
 
@@ -1441,6 +1459,9 @@ msgid "Please contact %s or an administrator to release it"
 msgstr "それを解放するには、%s或は、管理者にお問い合わせください"
 
 msgid "Please contact your administrator."
+msgstr ""
+
+msgid "Please contact your system administrator."
 msgstr ""
 
 msgid "Please download the track and listen offline."
@@ -1606,6 +1627,9 @@ msgstr "リセット"
 msgid "Reset the original size"
 msgstr ""
 
+msgid "Reset the range values"
+msgstr ""
+
 msgid "Resource"
 msgstr "リソース"
 
@@ -1716,10 +1740,10 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "select"
+msgid "Select"
 msgstr "選択"
 
-msgid "Select"
+msgid "select"
 msgstr "選択"
 
 msgid "Select a class"
@@ -1978,6 +2002,9 @@ msgstr "これは、%sと等しくなければなりません"
 msgid "This should not equal %s"
 msgstr "これは、%sと等しくてはいけません"
 
+msgid "time"
+msgstr ""
+
 msgid "Time zone"
 msgstr "タイムゾーン"
 
@@ -1994,6 +2021,9 @@ msgid "to translate"
 msgstr "翻訳"
 
 msgid "Toggle multiple/single selection"
+msgstr ""
+
+msgid "Toggle the date time picker"
 msgstr ""
 
 msgid "Tokenizer"
@@ -2092,10 +2122,10 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "全て無効"
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "全て無効"
 
 msgid "Undefined amount of the pages for pagination"
@@ -2209,6 +2239,9 @@ msgid "Validation for field '%s' has failed. Valid URI expected"
 msgstr ""
 
 msgid "Validation for field '%s' has failed. Valid URI expected. Given: %s"
+msgstr ""
+
+msgid "Value ellipsis"
 msgstr ""
 
 msgid "Value of E"
