@@ -323,12 +323,13 @@ define([
          * Set the transformation origin to another value
          *
          * @param $elem
-         * @param value
+         * @param {Number} valueX
+         * @param {Number} [valueY]
          * @private
          */
-        setTransformOrigin: function($elem, value) {
+        setTransformOrigin: function($elem, valueX, valueY) {
             var cssObj = {};
-            cssObj[prefix + 'transform-origin'] = value;
+            cssObj[prefix + 'transform-origin'] = !valueY && valueY !== 0 ? valueX : valueX + ' ' + valueY;
             $elem.css(cssObj);
         }
     };
