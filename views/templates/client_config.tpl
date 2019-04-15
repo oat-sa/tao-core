@@ -31,7 +31,6 @@ require.config({
         'tpl'               : 'tpl',
 //jquery and plugins
         'jquery'            : 'lib/jquery-1.9.1',
-        'jqueryui'          : 'lib/jquery-ui-1.9.2.custom.min',
         'select2'           : 'lib/select2/select2.min',
         'jquery.autocomplete'  : 'lib/jquery.autocomplete/jquery.autocomplete',
         'jquery.tree'       : 'lib/jsTree/jquery.tree',
