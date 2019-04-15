@@ -26,6 +26,8 @@ define(['jquery', 'lodash', 'tpl!lib/calculator/template', 'i18n', 'lib/gamp/gam
         return check;
     };
 
+    var isMobile = isMobileCheck();
+
     /**
      * the JSCALC "namespace"
      *
@@ -77,7 +79,7 @@ define(['jquery', 'lodash', 'tpl!lib/calculator/template', 'i18n', 'lib/gamp/gam
          * Gives the focus to the input
          */
         function setFocus() {
-            if(!isMobileCheck()) {
+            if(!isMobile) {
                 display.focus();
             }
         }
