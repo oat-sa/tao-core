@@ -236,10 +236,10 @@ define([
 
                     self.startPicker
                         .on('change', function(value) {
-                            if (value && self.endPicker && self.endPicker.is('ready')) {
+                            if (self.endPicker && self.endPicker.is('ready')) {
                                 self.endPicker.updateConstraints('minDate', value);
 
-                                if (self.config.maxRangeDays > 0){
+                                if (value && self.config.maxRangeDays > 0){
                                     self.endPicker.updateConstraints(
                                         'maxDate',
                                         moment(value).add(self.config.maxRangeDays, 'd').toDate()
@@ -269,7 +269,7 @@ define([
 
                     self.endPicker
                         .on('change', function(value) {
-                            if (value && self.startPicker && self.startPicker.is('ready')) {
+                            if (self.startPicker && self.startPicker.is('ready')) {
                                 self.startPicker.updateConstraints('maxDate', value);
                             }
 
