@@ -49,6 +49,7 @@ define([
     'tpl!ui/datetime/tpl/picker',
     'css!lib/flatpickr/flatpickr.css',
     'css!ui/datetime/css/picker.css'
+
 ], function(_, __, moment, component, flatpickr, flatpickrLocalization, dateTimePickerTpl){
     'use strict';
 
@@ -210,10 +211,29 @@ define([
              */
             setValue : function setValue(value) {
                 if (this.is('ready')) {
-                    this.controls.input.value = value;
+                    if (_.isString(value)) {
+                        this.controls.input.value = value;
+                    }
                     this.picker.setDate(value,  true);
                 }
                 return null;
+            },
+
+            /**
+             * Get the dates currently selected.
+             * Usefull for the range mode to get the date list
+             * @returns {Array<[Date|String]} the selected dates
+             */
+            getSelectedDates : function getSelectedDates() {
+                var selection;
+                if (this.is('ready') && this.picker) {
+                    selection = this.picker.selectedDates;
+                    if (selection && !_.isArray(selection)) {
+                        return [selection];
+                    }
+                    return selection;
+                }
+                return false;
             },
 
             /**
