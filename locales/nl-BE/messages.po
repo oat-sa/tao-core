@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint99\n"
-"PO-Revision-Date: 2019-03-29T09:53:39\n"
+"Project-Id-Version: TAO 3.3.0-sprint100\n"
+"PO-Revision-Date: 2019-04-12T08:48:05\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nl-BE\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " and "
-msgstr " en "
-
 msgid " AND "
 msgstr ""
+
+msgid " and "
+msgstr " en "
 
 msgid " has been deleted successfully"
 msgstr " is succesvol verwijderd"
@@ -260,6 +260,9 @@ msgstr ""
 msgid "Apply"
 msgstr ""
 
+msgid "Apply date range"
+msgstr ""
+
 msgid "Arc cosine"
 msgstr ""
 
@@ -447,10 +450,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
 msgid "Clear selection"
@@ -534,6 +537,9 @@ msgstr "Maak een instantie aan van "
 msgid "Created"
 msgstr ""
 
+msgid "Creating report ..."
+msgstr ""
+
 msgid "Creation At"
 msgstr ""
 
@@ -575,6 +581,15 @@ msgstr "Data is niet geïmporteerd. Alle records zijn ongeldig."
 
 msgid "Date"
 msgstr "Datum"
+
+msgid "date range"
+msgstr ""
+
+msgid "date time"
+msgstr ""
+
+msgid "date time range"
+msgstr ""
 
 msgid "Default search"
 msgstr "Standaard zoekopdracht"
@@ -960,10 +975,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1304,10 +1319,10 @@ msgstr "Geen bestanden"
 msgid "no label"
 msgstr "geen label"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "Geen voorbeeld beschikbaar"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "Geen voorbeeld beschikbaar"
 
 msgid "No results found"
@@ -1380,6 +1395,9 @@ msgstr ""
 msgid "or"
 msgstr "of"
 
+msgid "Outlook on the next Synchronization"
+msgstr ""
+
 msgid "Page"
 msgstr "Pagina"
 
@@ -1441,6 +1459,9 @@ msgid "Please contact %s or an administrator to release it"
 msgstr "Neem a.u.b. contact op met %s of een administrator om het uit te geven"
 
 msgid "Please contact your administrator."
+msgstr ""
+
+msgid "Please contact your system administrator."
 msgstr ""
 
 msgid "Please download the track and listen offline."
@@ -1606,6 +1627,9 @@ msgstr "Resetten"
 msgid "Reset the original size"
 msgstr ""
 
+msgid "Reset the range values"
+msgstr ""
+
 msgid "Resource"
 msgstr "Bron"
 
@@ -1716,11 +1740,11 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "select"
-msgstr "selecteren"
-
 msgid "Select"
 msgstr "Selecteren"
+
+msgid "select"
+msgstr "selecteren"
 
 msgid "Select a class"
 msgstr ""
@@ -1978,6 +2002,9 @@ msgstr "Dit zou gelijk moeten zijn aan %s"
 msgid "This should not equal %s"
 msgstr "Dit moet niet gelijk zijn aan %s"
 
+msgid "time"
+msgstr ""
+
 msgid "Time zone"
 msgstr "Tijdzone"
 
@@ -1994,6 +2021,9 @@ msgid "to translate"
 msgstr "vertalen"
 
 msgid "Toggle multiple/single selection"
+msgstr ""
+
+msgid "Toggle the date time picker"
 msgstr ""
 
 msgid "Tokenizer"
@@ -2092,10 +2122,10 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "Alles uitvinken"
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "Alles uitvinken"
 
 msgid "Undefined amount of the pages for pagination"
@@ -2209,6 +2239,9 @@ msgid "Validation for field '%s' has failed. Valid URI expected"
 msgstr ""
 
 msgid "Validation for field '%s' has failed. Valid URI expected. Given: %s"
+msgstr ""
+
+msgid "Value ellipsis"
 msgstr ""
 
 msgid "Value of E"

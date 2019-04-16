@@ -27,16 +27,16 @@ $picker-field-height : 37px;
             display : block;
             height : inherit;
 
-            & :last-of-type {
+            &:last-of-type {
                 margin-left : -1px;
                 border-top-right-radius : 2px;
                 border-bottom-right-radius : 2px;
             }
-            & :hover, & :focus {
+            &:hover, &:focus {
                 background : whiten($uiHeaderBg, .45);
                 z-index : 100;
             }
-            & :focus {
+            &:focus {
                 border : 1px solid $info;
                 outline : none;
             }
@@ -92,12 +92,12 @@ $picker-field-height : 37px;
             &.today.inRange,
             &.prevMonthDay.today.inRange,
             &.nextMonthDay.today.inRange,
-            & :hover,
-            &.prevMonthDay :hover,
-            &.nextMonthDay :hover,
-            & :focus,
-            &.prevMonthDay :focus,
-            &.nextMonthDay :focus {
+            &:hover,
+            &.prevMonthDay:hover,
+            &.nextMonthDay:hover,
+            &:focus,
+            &.prevMonthDay:focus,
+            &.nextMonthDay:focus {
                 background : whiten($uiHeaderBg, .45);
                 border-color : whiten($uiHeaderBg, .45);
             }
@@ -105,8 +105,8 @@ $picker-field-height : 37px;
                 border-color : $info;
                 color : $textColor;
             }
-            &.today :hover,
-            &.today :focus {
+            &.today:hover,
+            &.today:focus {
                 background : whiten($uiHeaderBg, .45);
                 border-color : $info;
                 color : $textColor;
@@ -117,12 +117,12 @@ $picker-field-height : 37px;
             &.selected.inRange,
             &.startRange.inRange,
             &.endRange.inRange,
-            &.selected :focus,
-            &.startRange :focus,
-            &.endRange :focus,
-            &.selected :hover,
-            &.startRange :hover,
-            &.endRange :hover,
+            &.selected:focus,
+            &.startRange:focus,
+            &.endRange:focus,
+            &.selected:hover,
+            &.startRange:hover,
+            &.endRange:hover,
             &.selected.prevMonthDay,
             &.startRange.prevMonthDay,
             &.endRange.prevMonthDay,
@@ -143,9 +143,9 @@ $picker-field-height : 37px;
             &.endRange.endRange {
                 background : $uiClickableHoverBg;
             }
-            &.selected.startRange + .endRange :not( :nth-child(7n+1)),
-            &.startRange.startRange + .endRange :not( :nth-child(7n+1)),
-            &.endRange.startRange + .endRange :not( :nth-child(7n+1)) {
+            &.selected.startRange + .endRange:not(:nth-child(7n+1)),
+            &.startRange.startRange + .endRange:not(:nth-child(7n+1)),
+            &.endRange.startRange + .endRange:not(:nth-child(7n+1)) {
                 -webkit-box-shadow :  -10px 0 0  $uiClickableHoverBg;
                         box-shadow :  -10px 0 0 $uiClickableHoverBg;
             }
@@ -155,7 +155,7 @@ $picker-field-height : 37px;
                 border-radius : 50px;
             }
             &.disabled,
-            &.disabled :hover,
+            &.disabled:hover,
             &.prevMonthDay,
             &.nextMonthDay,
             &.notAllowed,

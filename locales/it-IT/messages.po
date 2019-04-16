@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint99\n"
-"PO-Revision-Date: 2019-03-29T09:53:33\n"
+"Project-Id-Version: TAO 3.3.0-sprint100\n"
+"PO-Revision-Date: 2019-04-12T08:48:00\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: it-IT\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " and "
-msgstr "e"
-
 msgid " AND "
 msgstr ""
+
+msgid " and "
+msgstr "e"
 
 msgid " has been deleted successfully"
 msgstr " è stato rimosso correttamente"
@@ -260,6 +260,9 @@ msgstr ""
 msgid "Apply"
 msgstr ""
 
+msgid "Apply date range"
+msgstr ""
+
 msgid "Arc cosine"
 msgstr ""
 
@@ -446,10 +449,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
 msgid "Clear selection"
@@ -533,6 +536,9 @@ msgstr "Creare domanda di"
 msgid "Created"
 msgstr ""
 
+msgid "Creating report ..."
+msgstr ""
+
 msgid "Creation At"
 msgstr ""
 
@@ -574,6 +580,15 @@ msgstr "Dati non importati. Nessun record è valido."
 
 msgid "Date"
 msgstr "Data"
+
+msgid "date range"
+msgstr ""
+
+msgid "date time"
+msgstr ""
+
+msgid "date time range"
+msgstr ""
 
 msgid "Default search"
 msgstr "Ricerca di default"
@@ -958,10 +973,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1302,10 +1317,10 @@ msgstr "Nessun file"
 msgid "no label"
 msgstr "nessuna etichetta"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "Nessuna anteprima disponibile"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "Nessuna anteprima disponibile"
 
 msgid "No results found"
@@ -1378,6 +1393,9 @@ msgstr ""
 msgid "or"
 msgstr "o"
 
+msgid "Outlook on the next Synchronization"
+msgstr ""
+
 msgid "Page"
 msgstr "Pagina"
 
@@ -1439,6 +1457,9 @@ msgid "Please contact %s or an administrator to release it"
 msgstr "Prego contatta l'amministratore per rilasciarlo"
 
 msgid "Please contact your administrator."
+msgstr ""
+
+msgid "Please contact your system administrator."
 msgstr ""
 
 msgid "Please download the track and listen offline."
@@ -1604,6 +1625,9 @@ msgstr "Reimposta"
 msgid "Reset the original size"
 msgstr ""
 
+msgid "Reset the range values"
+msgstr ""
+
 msgid "Resource"
 msgstr "Risorsa"
 
@@ -1714,11 +1738,11 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "select"
-msgstr "seleziona"
-
 msgid "Select"
 msgstr "Seleziona"
+
+msgid "select"
+msgstr "seleziona"
 
 msgid "Select a class"
 msgstr ""
@@ -1976,6 +2000,9 @@ msgstr "Questo deve eguagliare %s"
 msgid "This should not equal %s"
 msgstr "Questo non deve eguagliare %s"
 
+msgid "time"
+msgstr ""
+
 msgid "Time zone"
 msgstr "Fuso orario"
 
@@ -1992,6 +2019,9 @@ msgid "to translate"
 msgstr "tradurre"
 
 msgid "Toggle multiple/single selection"
+msgstr ""
+
+msgid "Toggle the date time picker"
 msgstr ""
 
 msgid "Tokenizer"
@@ -2090,10 +2120,10 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "Deseleziona tutto"
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "Deseleziona tutto"
 
 msgid "Undefined amount of the pages for pagination"
@@ -2207,6 +2237,9 @@ msgid "Validation for field '%s' has failed. Valid URI expected"
 msgstr ""
 
 msgid "Validation for field '%s' has failed. Valid URI expected. Given: %s"
+msgstr ""
+
+msgid "Value ellipsis"
 msgstr ""
 
 msgid "Value of E"
