@@ -219,4 +219,26 @@ define(['jquery', 'ui/transformer'], function($, transformer) {
         assert.ok(rect.width === rect.height && rect.width === 450, 'scale(3) on top of existing 1.5');
     });
 
+    QUnit.test('Transform origin', function(assert) {
+        var $container = resetContainer('transform-origin');
+
+        assert.expect(4);
+
+        $container.css('transform-origin', '50px 50px');
+
+        assert.equal($container.css('transform-origin'), '50px 50px', 'original value');
+
+        transformer.setTransformOrigin($container, '10px 10px');
+
+        assert.equal($container.css('transform-origin'), '10px 10px', 'value set as a single parameter');
+
+        transformer.setTransformOrigin($container, '40px');
+
+        assert.equal($container.css('transform-origin'), '40px 50px', 'half value set as a single parameter');
+
+        transformer.setTransformOrigin($container, '20px', '30px');
+
+        assert.equal($container.css('transform-origin'), '20px 30px', 'value set as a separate parameter');
+    });
+
 });
