@@ -28,35 +28,25 @@
 module.exports = function(grunt) {
     'use strict';
     const root = grunt.option('root');
-    const extensionHelper = require('../tasks/helpers/extensions')(grunt, root);
+    const currentExtension = grunt.option('currentExtension');
+    const reportOutput = grunt.option('reports') || 'reports';
 
-    extensionHelper.getExtensions().forEach(extName => {
-        const lowerCaseExtName = extName.toLowerCase();
+    const retireCheckPath = `${root}/${currentExtension.toLowerCase() === 'all' ? '' : currentExtension}/**/*.js`;
+    const retireOutputFilePath = `./${reportOutput}/${currentExtension.toLowerCase() === 'all' ? 'all' : currentExtension}-retire.json`;
 
-        grunt.registerTask(`retire${lowerCaseExtName}`, `Retire check for ${extName} extension`, function() {
-            grunt.config.merge({
-                retire: {
-                    js: `${root}/${extName}/**/*.js`, /** Which js-files to scan. **/
-                    options: {
-                        outputFile: `./reports/${extName}-reports.json`,
-                    }
-                }
-            });
-
-            grunt.task.run(['retire']);
-        });
+    grunt.config.merge({
+        retire: {
+            js: retireCheckPath,
+            options: {
+                outputFile: retireOutputFilePath,
+            },
+        }
     });
 
-    grunt.registerTask(`retireall`, `Retire check for all extension`, function() {
-      grunt.config.merge({
-          retire: {
-              js: `${root}/**/*.js`, /** Which js-files to scan. **/
-              options: {
-                  outputFile: `./reports/all-reports.json`,
-              }
-          }
-      });
-
-      grunt.task.run(['retire']);
-  });
+    grunt.registerTask(
+      'retire',
+      'Scanner detecting the use of JavaScript libraries with known vulnerabilities. ' +
+      'Use it with flag "--extension=extensionName" or "--extension=all" for checking all extensions.',
+      ['retire']
+    );
 };
