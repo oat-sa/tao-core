@@ -53,8 +53,6 @@ class tao_actions_form_Instance
 
         $this->form = tao_helpers_form_FormFactory::getForm($name, $this->options);
 
-        $this->form->addCsrfTokenProtection();
-
         //add translate action in toolbar
         $actions = tao_helpers_form_FormFactory::getCommonActions();
 

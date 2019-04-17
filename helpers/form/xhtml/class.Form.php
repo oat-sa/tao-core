@@ -20,6 +20,9 @@
  */
 
 use oat\oatbox\log\LoggerAwareTrait;
+use oat\tao\helpers\form\elements\xhtml\CsrfToken;
+use oat\tao\model\security\xsrf\TokenService;
+use \tao_helpers_form_FormFactory as FormFactory;
 
 /**
  * Short description of class tao_helpers_form_xhtml_Form
@@ -69,20 +72,17 @@ class tao_helpers_form_xhtml_Form extends tao_helpers_form_Form
     }
 
     /**
-     * Short description of method evaluate
-     *
-     * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @return mixed
+     * Evaluate the form
      */
     public function evaluate()
     {
         $this->initElements();
+        $submitKey = $this->name . '_sent';
 
-        if (isset($_POST["{$this->name}_sent"])) {
+        if (isset($_POST[$submitKey])) {
             $this->submited = true;
 
-            //set posted values
+            // Set posted values
             foreach ($this->elements as $id => $element) {
                 $this->elements[$id]->feed();
             }
@@ -117,10 +117,6 @@ class tao_helpers_form_xhtml_Form extends tao_helpers_form_Form
             $returnValue .= "enctype='multipart/form-data' ";
         }
 
-        if ($this->isCsrfTokenRequired() === true) {
-            $returnValue .= "data-use-csrf-token='true' ";
-        }
-
         $returnValue .= ">\n";
 
         $returnValue .= "<input type='hidden' class='global' name='{$this->name}_sent' value='1' />\n";
@@ -149,7 +145,7 @@ class tao_helpers_form_xhtml_Form extends tao_helpers_form_Form
      */
     protected function validate()
     {
-        $returnValue = false;
+        $returnValue = true;
         $this->valid = true;
 
         /** @var tao_helpers_form_FormElement $element */

@@ -20,6 +20,7 @@
  *
  */
 use oat\tao\model\GenerisTreeFactory;
+use tao_helpers_form_FormContainer as FormContainer;
 
 /**
  * This controller provides backward compatibility for legacy
@@ -161,9 +162,12 @@ abstract class tao_actions_SaSModule extends tao_actions_RdfController
         $clazz = $this->getCurrentClass();
         $instance = $this->getCurrentInstance();
 
-        $formContainer = new tao_actions_form_Instance($clazz, $instance);
+        $formContainer = new tao_actions_form_Instance(
+            $clazz,
+            $instance,
+            [FormContainer::CSRF_PROTECTION_OPTION => true]
+        );
         $myForm = $formContainer->getForm();
-        $myForm->addCsrfTokenProtection();
 
         if ($myForm->isSubmited() && $myForm->isValid()) {
             $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($instance);

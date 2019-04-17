@@ -19,9 +19,6 @@
  *
  */
 
-use oat\tao\helpers\form\elements\xhtml\CsrfToken;
-use oat\tao\model\security\xsrf\TokenService;
-
 /**
  * Represents a form. It provides the default behavior for form management and
  * be overridden for any rendering mode.
@@ -121,11 +118,6 @@ abstract class tao_helpers_form_Form
      * @var array
      */
     protected $systemElements = [];
-
-    /**
-     * @var bool
-     */
-    private $useCsrfToken = false;
 
     /**
      * the form constructor
@@ -603,9 +595,6 @@ abstract class tao_helpers_form_Form
      */
     protected function initElements()
     {
-        if ($this->isCsrfTokenRequired()) {
-            $this->addElement(new CsrfToken(TokenService::CSRF_TOKEN_HEADER), true);
-        }
     }
 
     /**
@@ -627,22 +616,6 @@ abstract class tao_helpers_form_Form
         }
 
         return $returnValue;
-    }
-
-    /**
-     * @return bool
-     */
-    protected function isCsrfTokenRequired()
-    {
-        return $this->useCsrfToken;
-    }
-
-    /**
-     * Add usage of a CSRF token for this form.
-     */
-    public function addCsrfTokenProtection()
-    {
-        $this->useCsrfToken = true;
     }
 
     /**

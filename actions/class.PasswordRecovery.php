@@ -21,6 +21,7 @@
 use oat\generis\model\GenerisRdf;
 use oat\tao\model\passwordRecovery\PasswordRecoveryService;
 use oat\oatbox\log\LoggerAwareTrait;
+use tao_helpers_form_FormContainer as FormContainer;
 
 /**
  * Controller provide actions to reset user password
@@ -39,9 +40,9 @@ class tao_actions_PasswordRecovery extends tao_actions_CommonModule
     public function index()
     {
         $this->defaultData();
-        $formContainer = new tao_actions_form_PasswordRecovery();
+        $formContainer = new tao_actions_form_PasswordRecovery([], [FormContainer::CSRF_PROTECTION_OPTION => true]);
+
         $form = $formContainer->getForm();
-        $form->addCsrfTokenProtection();
 
         if ($form->isSubmited() && $form->isValid()) {
             $mail = $form->getValue('userMail');
@@ -75,9 +76,9 @@ class tao_actions_PasswordRecovery extends tao_actions_CommonModule
         $this->defaultData();
         $token = $this->getRequestParameter('token');
 
-        $formContainer = new tao_actions_form_ResetUserPassword();
+        $formContainer = new tao_actions_form_ResetUserPassword([], [FormContainer::CSRF_PROTECTION_OPTION => true]);
+
         $form = $formContainer->getForm();
-        $form->addCsrfTokenProtection();
 
         $form->setValues(array('token'=>$token));
 

@@ -33,6 +33,7 @@ use oat\tao\model\resources\ResourceService;
 use oat\tao\model\security\SecurityException;
 use oat\tao\model\security\SignatureGenerator;
 use oat\tao\model\security\SignatureValidator;
+use tao_helpers_form_FormContainer as FormContainer;
 
 /**
  * The TaoModule is an abstract controller,
@@ -421,11 +422,11 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         $editClassLabelForm = new tao_actions_form_EditClassLabel(
             $class,
             $this->getRequestParameters(),
-            $signature
+            $signature,
+            [FormContainer::CSRF_PROTECTION_OPTION => true]
         );
 
         $myForm = $editClassLabelForm->getForm();
-        $myForm->addCsrfTokenProtection();
 
         if ($myForm->isSubmited() && $myForm->isValid()) {
             $class->setLabel($myForm->getValue(tao_helpers_Uri::encode(OntologyRdfs::RDFS_LABEL)));
@@ -531,9 +532,8 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         }
 
         $class = $this->getCurrentClass();
-        $formContainer = new tao_actions_form_CreateInstance([$class], []);
+        $formContainer = new tao_actions_form_CreateInstance([$class], [FormContainer::CSRF_PROTECTION_OPTION => true]);
         $addInstanceForm = $formContainer->getForm();
-        $addInstanceForm->addCsrfTokenProtection();
 
         if ($addInstanceForm->isSubmited() && $addInstanceForm->isValid()) {
             $properties = $addInstanceForm->getValues();
@@ -571,10 +571,9 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
     {
         $class = $this->getCurrentClass();
         $instance = $this->getCurrentInstance();
-        $myFormContainer = new SignedFormInstance($class, $instance);
+        $myFormContainer = new SignedFormInstance($class, $instance, [FormContainer::CSRF_PROTECTION_OPTION => true]);
 
         $myForm = $myFormContainer->getForm();
-        $myForm->addCsrfTokenProtection();
         if ($myForm->isSubmited() && $myForm->isValid()) {
             $values = $myForm->getValues();
             // save properties
@@ -816,9 +815,10 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
     {
         $instance = $this->getCurrentInstance();
 
-        $formContainer = new tao_actions_form_Translate($this->getCurrentClass(), $instance);
+        $formContainer = new tao_actions_form_Translate(
+            $this->getCurrentClass(), $instance, [FormContainer::CSRF_PROTECTION_OPTION => true]
+        );
         $myForm = $formContainer->getForm();
-        $myForm->addCsrfTokenProtection();
 
         if ($this->hasRequestParameter('target_lang')) {
             $targetLang = $this->getRequestParameter('target_lang');

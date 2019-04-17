@@ -32,6 +32,7 @@ use oat\tao\model\TaoOntology;
 use oat\tao\model\user\UserLocks;
 use oat\oatbox\user\UserLanguageServiceInterface;
 use oat\oatbox\log\LoggerAwareTrait;
+use tao_helpers_form_FormContainer as FormContainer;
 
 /**
  * This controller provide the actions to manage the application users (list/add/edit/delete)
@@ -230,9 +231,13 @@ class tao_actions_Users extends tao_actions_CommonModule
     public function add()
     {
         $this->defaultData();
-        $container = new tao_actions_form_Users($this->getClass(TaoOntology::CLASS_URI_TAO_USER));
+        $container = new tao_actions_form_Users($this->getClass(
+            TaoOntology::CLASS_URI_TAO_USER),
+            null,
+            false,
+            [FormContainer::CSRF_PROTECTION_OPTION => true]
+        );
         $form = $container->getForm();
-        $form->addCsrfTokenProtection();
 
         if ($form->isSubmited() && $form->isValid()) {
             $values = $form->getValues();
@@ -271,9 +276,8 @@ class tao_actions_Users extends tao_actions_CommonModule
         }
 
         $clazz = $this->getClass(TaoOntology::CLASS_URI_TAO_USER);
-        $formContainer = new tao_actions_form_CreateInstance(array($clazz), array());
+        $formContainer = new tao_actions_form_CreateInstance([$clazz], [FormContainer::CSRF_PROTECTION_OPTION => true]);
         $form = $formContainer->getForm();
-        $form->addCsrfTokenProtection();
 
         if ($form->isSubmited() && $form->isValid()) {
             $properties = $form->getValues();
@@ -327,9 +331,13 @@ class tao_actions_Users extends tao_actions_CommonModule
         $user = $this->getUserResource();
 
         $types = $user->getTypes();
-        $myFormContainer = new tao_actions_form_Users(reset($types), $user);
+        $myFormContainer = new tao_actions_form_Users(
+            reset($types),
+            $user,
+            false,
+            [FormContainer::CSRF_PROTECTION_OPTION => true]
+        );
         $myForm = $myFormContainer->getForm();
-        $myForm->addCsrfTokenProtection();
 
         if ($myForm->isSubmited() && $myForm->isValid()) {
             $values = $myForm->getValues();
