@@ -20,7 +20,6 @@
 
 namespace oat\tao\helpers\form\elements\xhtml;
 
-use common_exception_Unauthorized;
 use common_session_SessionManager;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\service\ServiceManager;
@@ -71,7 +70,11 @@ class CsrfToken extends tao_helpers_form_elements_xhtml_Hidden
         }
 
         $tokenService->revokeToken($csrfToken);
-        $tokenService->addFormToken();
+        try {
+            $tokenService->addFormToken();
+        } catch (\common_Exception $e) {
+            return false;
+        }
 
         return parent::validate();
     }

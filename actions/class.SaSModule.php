@@ -33,216 +33,215 @@ use oat\tao\model\GenerisTreeFactory;
  */
 abstract class tao_actions_SaSModule extends tao_actions_RdfController
 {
-	/**
-	 * Whenever or not the call was made in standAlone mode
-	 *
-	 * @var boolean
-	 */
-	private $isStandAlone = null;
+    /**
+     * Whenever or not the call was made in standAlone mode
+     *
+     * @var boolean
+     */
+    private $isStandAlone;
 
-	public function setView($path, $extensionID = null)
+    public function setView($path, $extensionID = null)
     {
-		// override non AJAX calls for SAS
-		if(!$this->isStandAlone() || $this->isXmlHttpRequest()){
-			parent::setView($path, $extensionID);
-		} else {
-		    $this->setData('client_config_url', $this->getClientConfigUrl());
-		    $this->setData('includeTemplate', $path);
-			$this->setData('includeExtension', $extensionID);
-			parent::setView('sas.tpl', 'tao');
-		}
+        // override non AJAX calls for SAS
+        if (!$this->isStandAlone() || $this->isXmlHttpRequest()) {
+            parent::setView($path, $extensionID);
+        } else {
+            $this->setData('client_config_url', $this->getClientConfigUrl());
+            $this->setData('includeTemplate', $path);
+            $this->setData('includeExtension', $extensionID);
+            parent::setView('sas.tpl', 'tao');
+        }
     }
 
-	/**
-	 * Returns the root class of the module
-	 * @return core_kernel_classes_Class
-	 */
-	protected function getRootClass()
+    /**
+     * Returns the root class of the module
+     * @return core_kernel_classes_Class
+     */
+    protected function getRootClass()
     {
-		return $this->getClassService()->getRootClass();
-	}
+        return $this->getClassService()->getRootClass();
+    }
 
-	protected function getDataKind()
-	{
-		return Camelizer::camelize(explode(' ', strtolower(trim($this->getRootClass()->getLabel()))), false);
-	}
+    protected function getDataKind()
+    {
+        return Camelizer::camelize(explode(' ', strtolower(trim($this->getRootClass()->getLabel()))), false);
+    }
 
-	/**
-	 * Service of class or instance selection with a tree.
-	 * @return void
-	 */
-	public function sasSelect()
-	{
-		$context = Context::getInstance();
-		$module = $context->getModuleName();
+    /**
+     * Service of class or instance selection with a tree.
+     * @return void
+     */
+    public function sasSelect()
+    {
+        $context = Context::getInstance();
+        $module = $context->getModuleName();
 
-		$this->setData('treeName', __('Select'));
-		$this->setData('dataUrl', _url('sasGetOntologyData'));
-		$this->setData('editClassUrl', tao_helpers_Uri::url('sasSet', $module));
+        $this->setData('treeName', __('Select'));
+        $this->setData('dataUrl', _url('sasGetOntologyData'));
+        $this->setData('editClassUrl', tao_helpers_Uri::url('sasSet', $module));
 
-		if($this->getRequestParameter('selectInstance') == 'true'){
-			$this->setData('editInstanceUrl', tao_helpers_Uri::url('sasSet', $module));
-			$this->setData('editClassUrl', false);
-		}
-		else{
-			$this->setData('editInstanceUrl', false);
-			$this->setData('editClassUrl', tao_helpers_Uri::url('sasSet', $module));
-		}
+        if ($this->getRequestParameter('selectInstance') == 'true') {
+            $this->setData('editInstanceUrl', tao_helpers_Uri::url('sasSet', $module));
+            $this->setData('editClassUrl', false);
+        } else {
+            $this->setData('editInstanceUrl', false);
+            $this->setData('editClassUrl', tao_helpers_Uri::url('sasSet', $module));
+        }
 
-		$this->setData('classLabel', $this->getRootClass()->getLabel());
+        $this->setData('classLabel', $this->getRootClass()->getLabel());
 
-		$this->setView("sas/select.tpl", 'tao');
-	}
+        $this->setView("sas/select.tpl", 'tao');
+    }
 
-	/**
-	 * Save the uri or the classUri in parameter into the workflow engine by using the dedicated seervice
-	 * @return void
-	 */
-	public function sasSet()
-	{
-		$message = __('Error');
+    /**
+     * Save the uri or the classUri in parameter into the workflow engine by using the dedicated seervice
+     * @return void
+     */
+    public function sasSet()
+    {
+        $message = __('Error');
 
-		//set the class uri
-		if($this->hasRequestParameter('classUri')){
-			$clazz = $this->getCurrentClass();
-			if(!is_null($clazz)){
-				$this->setVariables(array($this->getDataKind().'ClassUri' => $clazz->getUri()));
-				$message = $clazz->getLabel().' '.__('class selected');
-			}
-		}
+        //set the class uri
+        if ($this->hasRequestParameter('classUri')) {
+            $clazz = $this->getCurrentClass();
+            if (!is_null($clazz)) {
+                $this->setVariables(array($this->getDataKind().'ClassUri' => $clazz->getUri()));
+                $message = $clazz->getLabel().' '.__('class selected');
+            }
+        }
 
-		//set the instance uri
-		if($this->hasRequestParameter('uri')){
-			$instance = $this->getCurrentInstance();
-			if(!is_null($instance)){
-				$this->setVariables(array($this->getDataKind().'Uri' => $instance->getUri()));
-				$message = __('%s %s selected', $instance->getLabel(), $this->getDataKind());
-			}
-		}
-		$this->setData('message', $message);
+        //set the instance uri
+        if ($this->hasRequestParameter('uri')) {
+            $instance = $this->getCurrentInstance();
+            if (!is_null($instance)) {
+                $this->setVariables(array($this->getDataKind().'Uri' => $instance->getUri()));
+                $message = __('%s %s selected', $instance->getLabel(), $this->getDataKind());
+            }
+        }
+        $this->setData('message', $message);
 
-		//only for the notification
-		$this->setView('messages.tpl', 'tao');
-	}
+        //only for the notification
+        $this->setView('messages.tpl', 'tao');
+    }
 
-	/**
-	 * Add a new instance
-	 * @return void
-	 */
-	public function sasAddInstance()
-	{
-		try {
-			$clazz = $this->getCurrentClass();
-		} catch (common_Exception $e) {
-			$clazz = $this->getRootClass();
-		}
-		// @todo call the correct service
-		$instance = $this->getClassService()->createInstance($clazz);
-		if(!is_null($instance) && $instance instanceof core_kernel_classes_Resource){
+    /**
+     * Add a new instance
+     * @return void
+     */
+    public function sasAddInstance()
+    {
+        try {
+            $clazz = $this->getCurrentClass();
+        } catch (common_Exception $e) {
+            $clazz = $this->getRootClass();
+        }
+        // @todo call the correct service
+        $instance = $this->getClassService()->createInstance($clazz);
+        if (!is_null($instance) && $instance instanceof core_kernel_classes_Resource) {
 
-			//init variable service:
-			$this->setVariables(array($this->getDataKind().'Uri' => $instance->getUri()));
+            //init variable service:
+            $this->setVariables(array($this->getDataKind().'Uri' => $instance->getUri()));
 
-			$params = array(
-				'uri'		=> tao_helpers_Uri::encode($instance->getUri()),
-				'classUri'	=> tao_helpers_Uri::encode($clazz->getUri()),
-				'standalone' => $this->isStandAlone()
-			);
-			$this->redirect(_url('sasEditInstance', null, null, $params));
-		}
-	}
+            $params = array(
+                'uri'		=> tao_helpers_Uri::encode($instance->getUri()),
+                'classUri'	=> tao_helpers_Uri::encode($clazz->getUri()),
+                'standalone' => $this->isStandAlone()
+            );
+            $this->redirect(_url('sasEditInstance', null, null, $params));
+        }
+    }
 
 
-	/**
-	 * Edit an instances
-	 * @return void
-	 */
-	public function sasEditInstance()
-	{
-		$clazz = $this->getCurrentClass();
-		$instance = $this->getCurrentInstance();
+    /**
+     * Edit an instances
+     * @return void
+     */
+    public function sasEditInstance()
+    {
+        $clazz = $this->getCurrentClass();
+        $instance = $this->getCurrentInstance();
 
-		$formContainer = new tao_actions_form_Instance($clazz, $instance);
-		$myForm = $formContainer->getForm();
-		$myForm->addCsrfTokenProtection();
+        $formContainer = new tao_actions_form_Instance($clazz, $instance);
+        $myForm = $formContainer->getForm();
+        $myForm->addCsrfTokenProtection();
 
-		if($myForm->isSubmited() && $myForm->isValid()) {
+        if ($myForm->isSubmited() && $myForm->isValid()) {
             $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($instance);
             $instance = $binder->bind($myForm->getValues());
             $this->setData('message', __('Resource saved'));
         }
 
-		$this->setData('uri', tao_helpers_Uri::encode($instance->getUri()));
-		$this->setData('classUri', tao_helpers_Uri::encode($clazz->getUri()));
-		$this->setData('formTitle', __('Edit'));
-		$this->setData('myForm', $myForm->render());
-		$this->setView('form.tpl', 'tao');
-	}
+        $this->setData('uri', tao_helpers_Uri::encode($instance->getUri()));
+        $this->setData('classUri', tao_helpers_Uri::encode($clazz->getUri()));
+        $this->setData('formTitle', __('Edit'));
+        $this->setData('myForm', $myForm->render());
+        $this->setView('form.tpl', 'tao');
+    }
 
-	/**
-	 * Delete an instance
-	 * @return void
-	 */
-	public function sasDeleteInstance()
-	{
-		$clazz = $this->getCurrentClass();
-		$instance = $this->getCurrentInstance();
-
-		$this->setData('label', $instance->getLabel());
-
-		$this->setData('uri', tao_helpers_Uri::encode($instance->getUri()));
-		$this->setData('classUri', tao_helpers_Uri::encode($clazz->getUri()));
-		$this->setView('sas/delete.tpl', 'tao');
-	}
-
-	// Below this line, basic functionalities copied from TaoModule
-
-	/**
-	 * get the current item class regarding the classUri' request parameter
-	 * prevent exception by returning the root class if no class is selected
-	 *
-	 * @return core_kernel_classes_Class the item class
-	 */
-	protected function getCurrentClass()
-	{
-		$classUri = tao_helpers_Uri::decode($this->getRequestParameter('classUri'));
-		if ($this->isStandAlone() && (is_null($classUri) || empty($classUri))) {
-			return $this->getRootClass();
-		} else {
-			return parent::getCurrentClass();
-		}
-	}
-
-	/**
-	 * simplified Version of TaoModule function
-	 *
-	 * @return void
-	 */
-	public function sasGetOntologyData()
+    /**
+     * Delete an instance
+     * @return void
+     */
+    public function sasDeleteInstance()
     {
-		if(!$this->isXmlHttpRequest()){
-			throw new common_exception_IsAjaxAction(__FUNCTION__);
-		}
+        $clazz = $this->getCurrentClass();
+        $instance = $this->getCurrentInstance();
 
-		$showInstances = $this->hasRequestParameter('hideInstances')
-			? !(bool)$this->getRequestParameter('hideInstances')
-			: true;
+        $this->setData('label', $instance->getLabel());
 
-		$hideNode = $this->hasRequestParameter('classUri');
-		$clazz = $this->hasRequestParameter('classUri') ? $this->getCurrentClass() : $this->getRootClass();
+        $this->setData('uri', tao_helpers_Uri::encode($instance->getUri()));
+        $this->setData('classUri', tao_helpers_Uri::encode($clazz->getUri()));
+        $this->setView('sas/delete.tpl', 'tao');
+    }
 
-		if($this->hasRequestParameter('offset')){
-			$options['offset'] = $this->getRequestParameter('offset');
-		}
-		$limit = $this->hasRequestParameter('limit') ? $this->getRequestParameter('limit') : 0;
-		$offset = $this->hasRequestParameter('offset') ? $this->getRequestParameter('offset') : 0;
+    // Below this line, basic functionalities copied from TaoModule
 
-		$factory = new GenerisTreeFactory($showInstances, array($clazz->getUri()), $limit, $offset);
-		$tree = $factory->buildTree($clazz);
+    /**
+     * get the current item class regarding the classUri' request parameter
+     * prevent exception by returning the root class if no class is selected
+     *
+     * @return core_kernel_classes_Class the item class
+     */
+    protected function getCurrentClass()
+    {
+        $classUri = tao_helpers_Uri::decode($this->getRequestParameter('classUri'));
+        if ($this->isStandAlone() && (is_null($classUri) || empty($classUri))) {
+            return $this->getRootClass();
+        } else {
+            return parent::getCurrentClass();
+        }
+    }
 
-		$returnValue = $hideNode ? ($tree['children']) : $tree;
-		$this->returnJson($returnValue);
-	}
+    /**
+     * simplified Version of TaoModule function
+     *
+     * @return void
+     */
+    public function sasGetOntologyData()
+    {
+        if (!$this->isXmlHttpRequest()) {
+            throw new common_exception_IsAjaxAction(__FUNCTION__);
+        }
+
+        $showInstances = $this->hasRequestParameter('hideInstances')
+            ? !(bool)$this->getRequestParameter('hideInstances')
+            : true;
+
+        $hideNode = $this->hasRequestParameter('classUri');
+        $clazz = $this->hasRequestParameter('classUri') ? $this->getCurrentClass() : $this->getRootClass();
+
+        if ($this->hasRequestParameter('offset')) {
+            $options['offset'] = $this->getRequestParameter('offset');
+        }
+        $limit = $this->hasRequestParameter('limit') ? $this->getRequestParameter('limit') : 0;
+        $offset = $this->hasRequestParameter('offset') ? $this->getRequestParameter('offset') : 0;
+
+        $factory = new GenerisTreeFactory($showInstances, array($clazz->getUri()), $limit, $offset);
+        $tree = $factory->buildTree($clazz);
+
+        $returnValue = $hideNode ? ($tree['children']) : $tree;
+        $this->returnJson($returnValue);
+    }
 
     protected function setVariables($variables)
     {
@@ -250,11 +249,11 @@ abstract class tao_actions_SaSModule extends tao_actions_RdfController
 
         $variableService = wfEngine_models_classes_VariableService::singleton();
 
-    	$cleaned = array();
-    	foreach ($variables as $key => $value) {
-    		$cleaned[$key] = (is_object($value) && $value instanceof core_kernel_classes_Resource) ? $value->getUri() : $value;
-    	}
-		return $variableService->save($cleaned);
+        $cleaned = array();
+        foreach ($variables as $key => $value) {
+            $cleaned[$key] = (is_object($value) && $value instanceof core_kernel_classes_Resource) ? $value->getUri() : $value;
+        }
+        return $variableService->save($cleaned);
     }
 
     /**

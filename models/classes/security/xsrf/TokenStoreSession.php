@@ -41,7 +41,7 @@ class TokenStoreSession extends Configurable implements TokenStore
      */
     public function getTokens()
     {
-        $pool = null;
+        $pool = [];
         $session = $this->getSession();
 
         if ($session->hasAttribute(self::TOKEN_KEY)) {

@@ -50,6 +50,11 @@ class TokenService extends ConfigurableService
 
     const CSRF_TOKEN_HEADER = 'X-CSRF-Token';
     const FORM_POOL = 'form_pool';
+    const JS_TOKEN_KEY = 'tokens';
+
+
+    const TIME_STAMP_KEY = 'ts';
+    const TOKEN_KEY = 'token';
 
     /**
      * Create a new TokenService
@@ -78,7 +83,7 @@ class TokenService extends ConfigurableService
      * Generates, stores and return a brand new token
      * Triggers the pool invalidation.
      *
-     * @deprecated
+     * @deprecated Please use generate() to generate a token pool, or addNewToken() to add a token to the existing pool.
      * @return string the token
      * @throws \common_Exception
      */
@@ -92,8 +97,8 @@ class TokenService extends ConfigurableService
         $pool = $this->invalidate($store->getTokens());
 
         $pool[] = [
-            'ts' => $time,
-            'token' => $token
+            self::TIME_STAMP_KEY => $time,
+            self::TOKEN_KEY => $token
         ];
 
         $store->setTokens($pool);
@@ -115,8 +120,9 @@ class TokenService extends ConfigurableService
 
         if ($pool !== null) {
             foreach ($pool as $savedToken) {
-                if ($savedToken['token'] === $token && !$this->isExpired($token)) {
+                if ($savedToken[self::TOKEN_KEY] === $token && !$this->isExpired($token)) {
                     $valid = true;
+                    break;
                 }
             }
         }
@@ -128,7 +134,7 @@ class TokenService extends ConfigurableService
      * Check if the given token is valid
      *
      * @param string $token
-     * @return boolean|string
+     * @return boolean
      * @throws \common_Exception`
      * @throws \common_exception_Unauthorized
      */
@@ -140,7 +146,7 @@ class TokenService extends ConfigurableService
 
         if ($pool !== null) {
             foreach ($pool as $savedToken) {
-                if ($savedToken['token'] === $token) {
+                if ($savedToken[self::TOKEN_KEY] === $token) {
                     if ($this->isExpired($token)) {
                         $expired = true;
                         break;
@@ -155,13 +161,13 @@ class TokenService extends ConfigurableService
             $this->revokeToken($token);
         }
 
-        if ($isValid !== true) {
+        if (!$isValid) {
             throw new \common_exception_Unauthorized();
         }
 
         $this->revokeToken($token);
 
-        return $this->addNewToken();
+        return $isValid;
     }
 
     /**
@@ -176,7 +182,7 @@ class TokenService extends ConfigurableService
         $actualTime = microtime(true);
         $timeLimit  = $this->getTimeLimit();
 
-        if (($timeLimit > 0) && $token['ts'] + $timeLimit < $actualTime) {
+        if (($timeLimit > 0) && $token[self::TIME_STAMP_KEY] + $timeLimit < $actualTime) {
             $expired = true;
         }
 
@@ -197,7 +203,7 @@ class TokenService extends ConfigurableService
 
         if ($pool !== null) {
             foreach ($pool as $key => $savedToken) {
-                if ($savedToken['token'] === $token) {
+                if ($savedToken[self::TOKEN_KEY] === $token) {
                     unset($pool[$key]);
                     $revoked = true;
                     break;
@@ -240,21 +246,21 @@ class TokenService extends ConfigurableService
         $timeLimit  = $this->getTimeLimit();
 
         $reduced = array_filter($pool, function ($token) use ($actualTime, $timeLimit) {
-            if (!isset($token['ts'], $token['token'])) {
+            if (!isset($token[self::TIME_STAMP_KEY], $token[self::TOKEN_KEY])) {
                 return false;
             }
             if ($timeLimit > 0) {
-                return $token['ts'] + $timeLimit > $actualTime;
+                return $token[self::TIME_STAMP_KEY] + $timeLimit > $actualTime;
             }
             return true;
         });
 
         if ($this->getPoolSize() > 0 && count($reduced) > 0) {
             usort($reduced, function ($a, $b) {
-                if ($a['ts'] === $b['ts']) {
+                if ($a[self::TIME_STAMP_KEY] === $b[self::TIME_STAMP_KEY]) {
                     return 0;
                 }
-                return $a['ts'] < $b['ts'] ? -1 : 1;
+                return $a[self::TIME_STAMP_KEY] < $b[self::TIME_STAMP_KEY] ? -1 : 1;
             });
 
             //remove the elements at the begining to fit the pool size
@@ -328,8 +334,8 @@ class TokenService extends ConfigurableService
 
         for ($i = 0; $i < $remainingPoolSize; $i++) {
             $pool[] = [
-                'ts' => microtime(true),
-                'token' => $this->generate()
+                self::TIME_STAMP_KEY => microtime(true),
+                self::TOKEN_KEY => $this->generate()
             ];
         }
 
@@ -344,7 +350,7 @@ class TokenService extends ConfigurableService
      * @return string
      * @throws \common_Exception
      */
-    private function addNewToken()
+    public function addNewToken()
     {
         $time = microtime(true);
         $newToken = $this->generate();
@@ -352,8 +358,8 @@ class TokenService extends ConfigurableService
         $pool = $store->getTokens();
 
         $pool[] = [
-            'ts' => $time,
-            'token' => $newToken
+            self::TIME_STAMP_KEY => $time,
+            self::TOKEN_KEY => $newToken
         ];
 
         $store->setTokens($pool);
@@ -372,8 +378,8 @@ class TokenService extends ConfigurableService
         $tokenPool = $store->getTokens();
 
         $tokenPool[self::FORM_POOL] = [
-            'ts' => microtime(true),
-            'token' => $this->generate()
+            self::TIME_STAMP_KEY => microtime(true),
+            self::TOKEN_KEY => $this->generate()
         ];
 
         $store->setTokens($tokenPool);

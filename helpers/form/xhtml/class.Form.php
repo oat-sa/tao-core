@@ -20,8 +20,6 @@
  */
 
 use oat\oatbox\log\LoggerAwareTrait;
-use oat\oatbox\service\ServiceManager;
-use oat\tao\model\security\xsrf\TokenService;
 
 /**
  * Short description of class tao_helpers_form_xhtml_Form
@@ -60,8 +58,8 @@ class tao_helpers_form_xhtml_Form extends tao_helpers_form_Form
                 continue;
             }
             if (empty($groupName)
-                    || !isset($this->groups[$groupName])
-                    || in_array($element->getName(), $this->groups[$groupName]['elements'])) {
+                || in_array($element->getName(), $this->groups[$groupName]['elements'])
+            ) {
                 $returnValue[tao_helpers_Uri::decode($element->getName())] = $element->getEvaluatedValue();
             }
         }

@@ -314,8 +314,8 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
      */
     protected function validateCsrf()
     {
-        if ($this->getPsrRequest()->hasHeader(TokenService::CSRF_TOKEN_HEADER) === false) {
-            $this->logCsrfFailure('Missing X-CSRF-Token header.');
+        if (!$this->getPsrRequest()->hasHeader(TokenService::CSRF_TOKEN_HEADER)) {
+            $this->logCsrfFailure(sprintf('Missing %s header.', TokenService::CSRF_TOKEN_HEADER));
         }
 
         $csrfTokenHeader = $this->getPsrRequest()->getHeader(TokenService::CSRF_TOKEN_HEADER);
@@ -326,7 +326,9 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
         $newToken = null;
 
         try {
-            $newToken = $tokenService->validateToken($csrfToken);
+            if ($tokenService->validateToken($csrfToken)) {
+                $newToken = $tokenService->addNewToken();
+            }
         } catch (common_exception_Unauthorized $e) {
             $this->logCsrfFailure($e->getMessage(), $csrfToken);
         }
