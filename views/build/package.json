@@ -17,8 +17,8 @@
   "devDependencies": {
     "@oat-sa/grunt-tao-bundle": "^0.1.0",
     "almond": "^0.3.3",
-    "grunt": "^1.0.0",
-    "grunt-aws-s3": "^0.14.0",
+    "grunt": "^1.0.4",
+    "grunt-aws-s3": "^2.0.0",
     "grunt-concurrent": "^2.1.0",
     "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-compress": "^1.0.0",
@@ -32,6 +32,7 @@
     "grunt-notify": "^0.4.3",
     "grunt-qunit-junit": "^0.3.0",
     "grunt-replace": "^1.0.1",
+    "grunt-retire": "^1.0.8",
     "grunt-sass": "^3.0.0",
     "load-grunt-tasks": "^3.4.0",
     "lodash": "^4.13.1",
