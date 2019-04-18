@@ -49,7 +49,11 @@ trait FilesystemAwareTrait
      */
     protected function saveFileToStorage($localFilePath, $newFileName = null)
     {
-        if (!file_exists($localFilePath)) {
+        if (is_array($localFilePath) && isset($localFilePath['path'])) {
+            $localFilePath = $localFilePath['path'];
+        }
+
+        if (!is_string($localFilePath) || !file_exists($localFilePath)) {
             return '';
         }
 
