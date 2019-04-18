@@ -198,7 +198,12 @@ class tao_actions_Users extends tao_actions_CommonModule
      */
     public function delete()
     {
-        $this->validateCsrf();
+        try {
+            $this->validateCsrf();
+        } catch (common_exception_Unauthorized $e) {
+            $this->response = $this->getPsrResponse()->withStatus('412', _('CSRF validation failed'));
+            return;
+        }
 
         $userService = $this->getServiceLocator()->get(tao_models_classes_UserService::class);
 
@@ -389,7 +394,12 @@ class tao_actions_Users extends tao_actions_CommonModule
      */
     public function unlock()
     {
-        $this->validateCsrf();
+        try {
+            $this->validateCsrf();
+        } catch (common_exception_Unauthorized $e) {
+            $this->response = $this->getPsrResponse()->withStatus('412', _('CSRF validation failed'));
+            return;
+        }
         $user = UserHelper::getUser($this->getUserResource());
 
         if ($this->getUserLocksService()->unlockUser($user)) {
@@ -405,7 +415,13 @@ class tao_actions_Users extends tao_actions_CommonModule
      */
     public function lock()
     {
-        $this->validateCsrf();
+        try {
+            $this->validateCsrf();
+        } catch (common_exception_Unauthorized $e) {
+            $this->response = $this->getPsrResponse()->withStatus('412', _('CSRF validation failed'));
+            return;
+        }
+
         $user = UserHelper::getUser($this->getUserResource());
 
         if ($this->getUserLocksService()->lockUser($user)) {

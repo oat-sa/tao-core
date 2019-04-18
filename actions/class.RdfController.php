@@ -445,8 +445,6 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
      * Add an instance of the selected class
      * @requiresRight id WRITE
      *
-     * @return void
-     *
      * @throws SecurityException
      * @throws \oat\tao\model\metadata\exception\InconsistencyConfigException
      * @throws common_exception_BadRequest
@@ -461,7 +459,13 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         $id = $this->getRequestParameter('id');
 
         $this->validateInstanceRoot($id);
-        $this->validateCsrf();
+
+        try {
+            $this->validateCsrf();
+        } catch (common_exception_Unauthorized $e) {
+            $this->response = $this->getPsrResponse()->withStatus('412', _('CSRF validation failed'));
+            return;
+        }
 
         $this->signatureValidator->checkSignature(
             $this->getRequestParameter('signature'),
@@ -505,7 +509,12 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             $classId
         );
 
-        $this->validateCsrf();
+        try {
+            $this->validateCsrf();
+        } catch (common_exception_Unauthorized $e) {
+            $this->response = $this->getPsrResponse()->withStatus('412', _('CSRF validation failed'));
+            return;
+        }
 
         $this->validateInstanceRoot($classId);
 
@@ -617,7 +626,12 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             $uri
         );
 
-        $this->validateCsrf();
+        try {
+            $this->validateCsrf();
+        } catch (common_exception_Unauthorized $e) {
+            $this->response = $this->getPsrResponse()->withStatus('412', _('CSRF validation failed'));
+            return;
+        }
         $this->validateInstanceRoot($uri);
 
         $clone = $this->getClassService()->cloneInstance($this->getCurrentInstance(), $this->getCurrentClass());
@@ -643,7 +657,12 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             && $this->hasRequestParameter('uri')
             && common_Utils::isUri($this->getRequestParameter('destinationClassUri'))
         ) {
-            $this->validateCsrf();
+            try {
+                $this->validateCsrf();
+            } catch (common_exception_Unauthorized $e) {
+                $this->response = $this->getPsrResponse()->withStatus('412', _('CSRF validation failed'));
+                return;
+            }
             $this->validateInstanceRoot(
                 $this->getRequestParameter('uri')
             );
@@ -699,7 +718,13 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         if($this->hasRequestParameter('destinationClassUri') && $this->hasRequestParameter('uri')){
 
             $id = $this->getRequestParameter('uri');
-            $this->validateCsrf();
+            try {
+                $this->validateCsrf();
+            } catch (common_exception_Unauthorized $e) {
+                $this->response = $this->getPsrResponse()->withStatus('412', _('CSRF validation failed'));
+                return;
+            }
+
             $this->validateInstanceRoot($id);
 
             $this->signatureValidator->checkSignature($this->getRequestParameter('signature'), $id);
@@ -750,7 +775,13 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             $data = $this->getRequestParameter('uri');
             $id = $data['id'];
 
-            $this->validateCsrf();
+            try {
+                $this->validateCsrf();
+            } catch (common_exception_Unauthorized $e) {
+                $this->response = $this->getPsrResponse()->withStatus('412', _('CSRF validation failed'));
+                return;
+            }
+
             $this->validateUri($id);
             $this->validateInstanceRoot($id);
 
@@ -936,7 +967,13 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         $id = $this->getRequestParameter('id');
 
         // Csrf token validation
-        $this->validateCsrf();
+        try {
+            $this->validateCsrf();
+        } catch (common_exception_Unauthorized $e) {
+            $this->response = $this->getPsrResponse()->withStatus('412', _('CSRF validation failed'));
+            return;
+        }
+
         $this->validateInstanceRoot($id);
 
         $this->signatureValidator->checkSignature(
@@ -969,7 +1006,13 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         $id = $this->getRequestParameter('id');
 
         // Csrf token validation
-        $this->validateCsrf();
+        try {
+            $this->validateCsrf();
+        } catch (common_exception_Unauthorized $e) {
+            $this->response = $this->getPsrResponse()->withStatus('412', _('CSRF validation failed'));
+            return;
+        }
+
         $this->validateInstanceRoot($id);
 
         $this->signatureValidator->checkSignature(
@@ -1013,7 +1056,12 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         }
 
         // Csrf token validation
-        $this->validateCsrf();
+        try {
+            $this->validateCsrf();
+        } catch (common_exception_Unauthorized $e) {
+            $this->response = $this->getPsrResponse()->withStatus('412', _('CSRF validation failed'));
+            return;
+        }
 
         $ids = [];
 
@@ -1240,12 +1288,13 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
      * Return a formatted error message with code 406
      *
      * @param $message
+     * @param int $httpStatusCode
      */
-    protected function returnJsonError($message)
+    protected function returnJsonError($message, $httpStatusCode = 406)
     {
         $response = [
             'success'  => false,
-            'errorCode' => 406,
+            'errorCode' => $httpStatusCode,
             'errorMessage' =>  $message
         ];
         $this->returnJson($response, 406);

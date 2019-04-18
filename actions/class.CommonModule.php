@@ -309,7 +309,6 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
     /**
      * Validate a CSRF token, based on the CSRF header.
      *
-     * @throws common_Exception
      * @throws common_exception_Unauthorized
      */
     protected function validateCsrf()
@@ -341,12 +340,17 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
      *
      * @param string $exceptionMessage
      * @param null $token
-     * @throws common_exception_Error
      * @throws common_exception_Unauthorized
      */
     public function logCsrfFailure($exceptionMessage, $token = null)
     {
-        $userIdentifier = $this->getSession()->getUser()->getIdentifier();
+        try {
+            $userIdentifier = $this->getSession()->getUser()->getIdentifier();
+        } catch (common_exception_Error $e) {
+            $this->logError('Unable to retrieve session! ' . $e->getMessage());
+            throw new common_exception_Unauthorized($exceptionMessage);
+        }
+
         $requestMethod  = $this->getPsrRequest()->getMethod();
         $requestUri     = $this->getPsrRequest()->getUri();
         $requestHeaders = $this->getHeaders();
