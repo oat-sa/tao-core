@@ -34,15 +34,37 @@ module.exports = function(grunt) {
     grunt.registerTask(
       'retire:extension',
       'Scanner detecting the use of JavaScript libraries with known vulnerabilities. ' +
-      'Use it with flag "--extension=extensionName" or "--extension=all" for checking all extensions.', function () {
-        const retireCheckPath = `${root}/${currentExtension.toLowerCase() === 'all' ? '' : currentExtension}/**/*.js`;
-        const retireOutputFilePath = `./${reportOutput}/${currentExtension.toLowerCase() === 'all' ? 'all' : currentExtension}-retire.json`;
+      'Use it with flag "--extension=extensionName".', function () {
+        const retireCheckPath = `${root}/${currentExtension}/**/*.js`;
+        const retireOutputFilePath = `./${reportOutput}/${currentExtension}-retire.json`;
 
         grunt.config.merge({
             retire: {
                 js: retireCheckPath,
                 options: {
                     outputFile: retireOutputFilePath,
+                    verbose: false,
+                },
+            }
+        });
+
+        grunt.task.run(['retire']);
+      }
+    );
+
+    grunt.registerTask(
+      'retire:all',
+      'Scanner detecting the use of JavaScript libraries with known vulnerabilities. ' +
+      'Use it for checking all extensions.', function () {
+        const retireCheckPath = ``;
+
+
+        grunt.config.merge({
+            retire: {
+                js: `${root}/**/*.js`,
+                options: {
+                    outputFile: `./${reportOutput}/all-retire.json`,
+                    verbose: false,
                 },
             }
         });
