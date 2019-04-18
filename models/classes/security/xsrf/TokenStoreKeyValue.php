@@ -39,17 +39,25 @@ class TokenStoreKeyValue extends ConfigurableService implements TokenStore
     private $persistence;
 
     /**
-     * @return array
+     * @return Token[]
      * @throws \common_exception_Error
+     * @throws \common_Exception
      */
     public function getTokens()
     {
         $value = $this->getPersistence()->get($this->getKey());
-        return ((string) $value === '') ? [] : json_decode($value, true);
+        $storedTokens = json_decode($value, true);
+        $pool = [];
+
+        foreach ($storedTokens as $storedToken) {
+            $pool[] = new Token($storedToken);
+        }
+
+        return $pool;
     }
 
     /**
-     * @param array $tokens
+     * @param Token[] $tokens
      * @throws \common_Exception
      */
     public function setTokens(array $tokens = [])

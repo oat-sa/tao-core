@@ -37,7 +37,7 @@ class TokenStoreSession extends Configurable implements TokenStore
 
     /**
      * Retrieve the pool of tokens
-     * @return array
+     * @return Token[]
      */
     public function getTokens()
     {
@@ -53,7 +53,7 @@ class TokenStoreSession extends Configurable implements TokenStore
 
     /**
      * Set the pool of tokens
-     * @param array $tokens
+     * @param Token[] $tokens
      */
     public function setTokens(array $tokens = [])
     {

@@ -30,13 +30,13 @@ interface TokenStore
     const TOKEN_NAME = 'XSRF_TOKEN_NAME';
     /**
      * Retrieve the pool of tokens
-     * @return array the tokens
+     * @return Token[]
      */
     public function getTokens();
 
     /**
      * Set the pool of tokens
-     * @param array $tokens the poll
+     * @param Token[]
      */
     public function setTokens(array $tokens = []);
 

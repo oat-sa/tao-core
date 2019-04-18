@@ -327,7 +327,7 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
 
         try {
             if ($tokenService->validateToken($csrfToken)) {
-                $newToken = $tokenService->addNewToken();
+                $newToken = $tokenService->addNewToken()->getValue();
             }
         } catch (common_exception_Unauthorized $e) {
             $this->logCsrfFailure($e->getMessage(), $csrfToken);
