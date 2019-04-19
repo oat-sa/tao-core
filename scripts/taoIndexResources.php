@@ -16,6 +16,7 @@
  *
  * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
  *
+ * @deprecated use \oat\tao\scripts\IndexResourcesAction instead
  *
  */
 use oat\tao\model\search\SearchService;
