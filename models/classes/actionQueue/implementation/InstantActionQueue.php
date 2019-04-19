@@ -29,6 +29,7 @@ use oat\tao\model\actionQueue\ActionQueueException;
 use oat\oatbox\user\User;
 use oat\tao\model\actionQueue\restriction\basicRestriction;
 use oat\tao\model\actionQueue\event\InstantActionOnQueueEvent;
+use oat\tao\model\actionQueue\event\ActionQueueTrendEvent;
 
 /**
  *
@@ -145,6 +146,7 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
         $this->getPersistence()->set($key, json_encode($positions));
         $this->getEventManager()->trigger(new InstantActionOnQueueEvent($key, $user, $positions, 'queue', $action));
         if ($this->getTrend($action) >= 0) {
+            $this->getEventManager()->trigger(new ActionQueueTrendEvent($action, true));
             $this->getPersistence()->set(get_class($action) . self::QUEUE_TREND, -1);
         }
     }
@@ -165,6 +167,7 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
             $this->getPersistence()->set($key, json_encode($positions));
             
             if ($this->getTrend($action) <= 0) {
+                $this->getEventManager()->trigger(new ActionQueueTrendEvent($action, false));
                 $this->getPersistence()->set(get_class($action) . self::QUEUE_TREND, 1);
             }
         }
