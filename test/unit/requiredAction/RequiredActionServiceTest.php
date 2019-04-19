@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
  *
  *
  */
@@ -37,8 +37,8 @@ class RequiredActionServiceTest extends TestCase
         $requiredActionService->setServiceLocator($serviceManager);
 
         $requiredActionService->attachAction($this->getTestRequiredAction());
-        $requiredAction = $requiredActionService->getRequiredAction('codeOfConduct');
-        $this->assertEquals($requiredAction->getName(), 'codeOfConduct');
+        $requiredAction = $requiredActionService->getRequiredAction('testRequiredAction');
+        $this->assertEquals($requiredAction->getName(), 'testRequiredAction');
     }
 
 
@@ -49,11 +49,11 @@ class RequiredActionServiceTest extends TestCase
         $requiredActionService->setServiceLocator($serviceManager);
 
         $requiredActionService->attachAction($this->getTestRequiredAction());
-        $requiredAction = $requiredActionService->getRequiredAction('codeOfConduct');
-        $this->assertEquals($requiredAction->getName(), 'codeOfConduct');
+        $requiredAction = $requiredActionService->getRequiredAction('testRequiredAction');
+        $this->assertEquals($requiredAction->getName(), 'testRequiredAction');
 
-        $requiredActionService->detachAction('codeOfConduct');
-        $requiredAction = $requiredActionService->getRequiredAction('codeOfConduct');
+        $requiredActionService->detachAction('testRequiredAction');
+        $requiredAction = $requiredActionService->getRequiredAction('testRequiredAction');
         $this->assertNull($requiredAction);
 
     }
@@ -61,7 +61,7 @@ class RequiredActionServiceTest extends TestCase
     private function getTestRequiredAction()
     {
         return new RequiredActionRedirectUrlPart(
-            'codeOfConduct',
+            'testRequiredAction',
             [
                 new TimeRule(),
             ],
