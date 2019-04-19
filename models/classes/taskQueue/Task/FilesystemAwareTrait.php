@@ -43,13 +43,18 @@ trait FilesystemAwareTrait
      * - user downloading an export file
      * - saving a file for importing it later
      *
-     * @param string $localFilePath
+     * @param string|array $localFilePath The file path or an array containing 'path' key
      * @param string|null $newFileName New name of the file under task queue filesystem
      * @return string File name (prefix) of the filesystem file
+     * @throws \common_Exception
      */
     protected function saveFileToStorage($localFilePath, $newFileName = null)
     {
-        if (!file_exists($localFilePath)) {
+        if (is_array($localFilePath) && isset($localFilePath['path'])) {
+            $localFilePath = $localFilePath['path'];
+        }
+
+        if (!is_string($localFilePath) || !file_exists($localFilePath)) {
             return '';
         }
 
