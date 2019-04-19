@@ -23,6 +23,7 @@ namespace oat\tao\helpers\form\elements\xhtml;
 use common_session_SessionManager;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\service\ServiceManager;
+use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\tao\model\security\xsrf\TokenService;
 use tao_helpers_form_elements_xhtml_Hidden;
 
@@ -35,6 +36,7 @@ class CsrfToken extends tao_helpers_form_elements_xhtml_Hidden
 {
 
     use LoggerAwareTrait;
+    use ServiceManagerAwareTrait;
 
     /**
      * @inheritdoc
@@ -54,13 +56,14 @@ class CsrfToken extends tao_helpers_form_elements_xhtml_Hidden
      */
     public function validate()
     {
-        if (!isset($_POST[TokenService::CSRF_TOKEN_HEADER])) {
+        $csrfToken = $this->getEvaluatedValue();
+        if (!$csrfToken) {
             $this->logCsrfFailure('No CSRF token provided in form');
             return false;
         }
+
         /** @var TokenService $tokenService */
         $tokenService = ServiceManager::getServiceManager()->get(TokenService::SERVICE_ID);
-        $csrfToken = $_POST[TokenService::CSRF_TOKEN_HEADER];
 
         if (!$tokenService->checkToken($csrfToken)) {
             $this->logCsrfFailure('Invalid token received', $csrfToken);
@@ -68,6 +71,7 @@ class CsrfToken extends tao_helpers_form_elements_xhtml_Hidden
         }
 
         $tokenService->revokeToken($csrfToken);
+
         try {
             $tokenService->addFormToken();
         } catch (\common_Exception $e) {

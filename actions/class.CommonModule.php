@@ -342,7 +342,7 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
      * @param null $token
      * @throws common_exception_Unauthorized
      */
-    public function logCsrfFailure($exceptionMessage, $token = null)
+    private function logCsrfFailure($exceptionMessage, $token = null)
     {
         try {
             $userIdentifier = $this->getSession()->getUser()->getIdentifier();
@@ -355,8 +355,9 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
         $requestUri     = $this->getPsrRequest()->getUri();
         $requestHeaders = $this->getHeaders();
 
-        $this->logWarning('Failed to validate CSRF token. The following exception occurred: ' . $exceptionMessage);
+        $this->logWarning('[CSRF] - Failed to validate CSRF token. The following exception occurred: ' . $exceptionMessage);
         $this->logWarning(
+            "[CSRF] \n" .
             "CSRF validation information: \n" .
             'Provided token: ' . ($token ?: 'none')  . " \n" .
             'User identifier: ' . $userIdentifier  . " \n" .
