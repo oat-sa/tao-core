@@ -239,7 +239,7 @@ define([
                 $modalContainer.modal({
                     width : 400,
                     height : 300,
-                    top: 300,
+                    top : 150,
                     disableEscape : true,
                     disableClosing : true
                 });
