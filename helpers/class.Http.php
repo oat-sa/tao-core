@@ -400,7 +400,7 @@ class tao_helpers_Http
      * @param ResponseInterface|null $response
      * @return ResponseInterface
      */
-    public static function getStream(
+    public static function addHttpResponseStream(
         StreamInterface $stream,
         $mimeType = null,
         ServerRequestInterface $request = null,
@@ -431,7 +431,7 @@ class tao_helpers_Http
                 ->withHeader('Content-Length', $contentLength);
 
             if (empty($ranges)) {
-                $response->withBody($stream);
+                $response = $response->withBody($stream);
             } else {
                 foreach ($ranges as $range) {
                     $pos = $range->getFirstPos();

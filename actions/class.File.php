@@ -129,13 +129,14 @@ class tao_actions_File extends tao_actions_CommonModule
 
         $source = WebsourceManager::singleton()->getWebsource($key);
         if ($source instanceof ActionWebSource) {
-            $path = $subPath.(empty($filePath) ? '' : DIRECTORY_SEPARATOR . $filePath);
-            $response = tao_helpers_Http::getStream(
+            $path = $subPath . (empty($filePath) ? '' : DIRECTORY_SEPARATOR . $filePath);
+            $response = tao_helpers_Http::addHttpResponseStream(
                 $source->getFileStream($path),
                 $source->getMimetype($path),
                 $this->getPsrRequest(),
                 $this->getPsrResponse()
             );
+
             return $response;
         }
     }
