@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint98\n"
-"PO-Revision-Date: 2019-03-15T09:37:28\n"
+"Project-Id-Version: TAO 3.3.0-sprint100\n"
+"PO-Revision-Date: 2019-04-12T08:47:58\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: is-IS\n"
@@ -230,6 +230,12 @@ msgstr "Öll svæði þurfa að vera til staðar"
 msgid "All rights reserved."
 msgstr "Allur réttur áskilinn."
 
+msgid "Allow for all domains"
+msgstr ""
+
+msgid "Allow for the following domains"
+msgstr ""
+
 msgid "Alpha version"
 msgstr "Alpha útgáfa"
 
@@ -252,6 +258,9 @@ msgid "Ans"
 msgstr ""
 
 msgid "Apply"
+msgstr ""
+
+msgid "Apply date range"
 msgstr ""
 
 msgid "Arc cosine"
@@ -527,7 +536,13 @@ msgstr ""
 msgid "Created"
 msgstr ""
 
+msgid "Creating report ..."
+msgstr ""
+
 msgid "Creation At"
+msgstr ""
+
+msgid "CSP Header settings were saved successfully!"
 msgstr ""
 
 msgid "CSV"
@@ -554,17 +569,26 @@ msgstr "Innflutningur gagna tókst"
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data language"
-msgstr "Tungumál gagna"
-
 msgid "Data Language"
 msgstr "Tungumál Gagna"
+
+msgid "Data language"
+msgstr "Tungumál gagna"
 
 msgid "Data not imported. All records are invalid."
 msgstr ""
 
 msgid "Date"
 msgstr "Dagsetning"
+
+msgid "date range"
+msgstr ""
+
+msgid "date time"
+msgstr ""
+
+msgid "date time range"
+msgstr ""
 
 msgid "Default search"
 msgstr "Sjálfgefin leit"
@@ -680,6 +704,9 @@ msgstr ""
 
 msgid "Edit Instance"
 msgstr "Breyta tilviki"
+
+msgid "Edit sources that can embed this platform in an iFrame"
+msgstr ""
 
 msgid "Element"
 msgstr ""
@@ -836,11 +863,17 @@ msgstr ""
 msgid "floor"
 msgstr ""
 
+msgid "Forbid for all domains"
+msgstr ""
+
 msgid "Force Release"
 msgstr ""
 
 msgid "Forgot your password?"
 msgstr "Gleymt aðgangsorð?"
+
+msgid "Form data not saved."
+msgstr ""
 
 msgid "From"
 msgstr ""
@@ -941,10 +974,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -990,6 +1023,9 @@ msgid "Interface Language"
 msgstr ""
 
 msgid "Interface language"
+msgstr ""
+
+msgid "Invalid CSP header."
 msgstr ""
 
 msgid "Invalid date range (must be after or the same as: %s)"
@@ -1282,10 +1318,10 @@ msgstr "Engar skrár"
 msgid "no label"
 msgstr "ekkert merki"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr ""
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr ""
 
 msgid "No results found"
@@ -1349,11 +1385,17 @@ msgstr "Gamalt lykilorð"
 msgid "On"
 msgstr ""
 
+msgid "Only allow for my own domain (%s)"
+msgstr ""
+
 msgid "Operated By "
 msgstr ""
 
 msgid "or"
 msgstr "eða"
+
+msgid "Outlook on the next Synchronization"
+msgstr ""
 
 msgid "Page"
 msgstr "Síða"
@@ -1416,6 +1458,9 @@ msgid "Please contact %s or an administrator to release it"
 msgstr ""
 
 msgid "Please contact your administrator."
+msgstr ""
+
+msgid "Please contact your system administrator."
 msgstr ""
 
 msgid "Please download the track and listen offline."
@@ -1581,6 +1626,9 @@ msgstr "Endurstilla"
 msgid "Reset the original size"
 msgstr ""
 
+msgid "Reset the range values"
+msgstr ""
+
 msgid "Resource"
 msgstr "Tilfang"
 
@@ -1657,6 +1705,9 @@ msgstr ""
 msgid "Save"
 msgstr "Vista"
 
+msgid "Saved."
+msgstr ""
+
 msgid "Scientific Calculator"
 msgstr ""
 
@@ -1680,6 +1731,13 @@ msgstr ""
 
 msgid "seconds"
 msgstr "sekúndur"
+
+#, tao-public
+msgid "Security"
+msgstr ""
+
+msgid "Security settings"
+msgstr ""
 
 msgid "Select"
 msgstr "Velja"
@@ -1752,6 +1810,9 @@ msgid "Size"
 msgstr "Stærð"
 
 msgid "Some resources have not been moved: %s"
+msgstr ""
+
+msgid "Sources that can embed this platform in an iFrame"
 msgstr ""
 
 msgid "Square root"
@@ -1940,6 +2001,9 @@ msgstr ""
 msgid "This should not equal %s"
 msgstr ""
 
+msgid "time"
+msgstr ""
+
 msgid "Time zone"
 msgstr "Tímabelti"
 
@@ -1956,6 +2020,9 @@ msgid "to translate"
 msgstr "að þýða"
 
 msgid "Toggle multiple/single selection"
+msgstr ""
+
+msgid "Toggle the date time picker"
 msgstr ""
 
 msgid "Tokenizer"
@@ -2054,10 +2121,10 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr ""
 
 msgid "Undefined amount of the pages for pagination"
@@ -2155,10 +2222,13 @@ msgstr ""
 msgid "Users"
 msgstr "Notendur"
 
-msgid "Validation for field '%s' has failed. Language does not exists in the system"
+msgid "Validation for field '%s' has failed. Language does not exist in the system"
 msgstr ""
 
 msgid "Validation for field '%s' has failed. List of values expected"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Should not be empty"
 msgstr ""
 
 msgid "Validation for field '%s' has failed. Valid role expected. Given: %s"
@@ -2168,6 +2238,9 @@ msgid "Validation for field '%s' has failed. Valid URI expected"
 msgstr ""
 
 msgid "Validation for field '%s' has failed. Valid URI expected. Given: %s"
+msgstr ""
+
+msgid "Value ellipsis"
 msgstr ""
 
 msgid "Value of E"

@@ -36,7 +36,7 @@ define([
      * Children of those nodes types cannot be highlighted
      * @type {string[]}
      */
-    var containersBlackList = [
+    var defaultBlackList = [
         'textarea',
         'math',
         'script',
@@ -47,10 +47,20 @@ define([
      * @param {Object} options
      * @param {Object} options.className - name of the class that will be used by the wrappers tags to highlight text
      * @param {Object} options.containerSelector - allows to select the root Node in which highlighting is allowed
+     * @param {Object} [options.containersBlackList] - additional blacklist selectors to be added to module instance's blacklist
+     * @param {Object} [options.clearOnClick] - clear single highlight node on click
+     * @returns {Object} - the highlighter instance
      */
     return function(options) {
         var className = options.className;
         var containerSelector = options.containerSelector;
+
+        /**
+         * list of node selectors which should NOT receive any highlighting from this instance
+         * an optional passed-in blacklist is merged with local defaults
+         * @type {Array}
+         */
+        var containersBlackList = _.union(defaultBlackList, options.containersBlackList);
 
         /**
          * used in recursive loops to decide if we should wrap or not the current node
@@ -131,6 +141,10 @@ define([
                 reindexGroups(getContainer());
                 mergeAdjacentWrappingNodes(getContainer());
             });
+
+            if (options.clearOnClick) {
+                $(containerSelector + ' .' + className).off('click').on('click', clearSingleHighlight);
+            }
         }
 
         /**
@@ -139,11 +153,17 @@ define([
          * @returns {boolean}
          */
         function isRangeValid(range) {
-            var rangeInContainer =
-                $.contains(getContainer(), range.commonAncestorContainer)
-                || getContainer().isSameNode(range.commonAncestorContainer);
+            var rangeInContainer;
+            try {
+                rangeInContainer =
+                    $.contains(getContainer(), range.commonAncestorContainer)
+                    || getContainer().isSameNode(range.commonAncestorContainer);
 
-            return (rangeInContainer && !range.collapsed);
+                return (rangeInContainer && !range.collapsed);
+            }
+            catch (e) {
+                return false;
+            }
         }
 
         /**
@@ -283,6 +303,15 @@ define([
             });
         }
 
+        /**
+         * Remove unwrap dom node
+         */
+        function clearSingleHighlight(e) {
+            var target = e.target;
+
+            var $wrapped = $(target);
+            $wrapped.replaceWith($wrapped.text());
+        }
 
         /**
          * Index-related functions:
@@ -326,8 +355,12 @@ define([
             for (i = 0; i < childNodes.length; i++) {
                 currentNode = childNodes[i];
 
+                // Skip blacklisted nodes
+                if (isBlacklisted(currentNode)) {
+                    continue;
+                }
                 // A simple node not highlighted and isolated (= not followed by an wrapped text)
-                if (isWrappable(currentNode) && !isWrappingNode(currentNode.nextSibling)) {
+                else if (isWrappable(currentNode) && !isWrappingNode(currentNode.nextSibling)) {
                     highlightIndex[textNodesIndex] = { highlighted: false };
                     textNodesIndex++;
 
@@ -409,7 +442,10 @@ define([
             for (i = 0; i < childNodes.length; i++) {
                 currentNode = childNodes[i];
 
-                if (isWrappable(currentNode)) {
+                if (isBlacklisted(currentNode)) {
+                    continue;
+                }
+                else if (isWrappable(currentNode)) {
                     parent = currentNode.parentNode;
                     initialChildCount = parent.childNodes.length;
 
@@ -466,8 +502,18 @@ define([
          */
         function isWrappable(node) {
             return isText(node)
-                && $(node).closest(containersBlackList.join(',')).length === 0
+                && !isBlacklisted(node)
                 && node.textContent.trim().length > 0;
+        }
+
+        /**
+         * Check if the given node is, or is within, a blacklisted container
+         * @param {Node} node
+         * @returns {boolean}
+         */
+        function isBlacklisted(node) {
+            var closestBlackListed = $(node).closest(containersBlackList.join(','));
+            return closestBlackListed.length > 0;
         }
 
         /**
@@ -520,7 +566,6 @@ define([
         function isHotNode(node) {
             return isWrappingNode(node) || isWrappable(node);
         }
-
 
         /**
          * Public API of the highlighter helper

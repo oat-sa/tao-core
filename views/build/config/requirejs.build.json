@@ -6,11 +6,9 @@
     "css": "lib/require-css/css",
     "tpl": "tpl",
     "jquery": "lib/jquery-1.9.1",
-    "jqueryui": "lib/jquery-ui-1.9.2.custom.min",
     "select2": "lib/select2/select2.min",
     "jquery.autocomplete": "lib/jquery.autocomplete/jquery.autocomplete",
     "jquery.tree": "lib/jsTree/jquery.tree",
-    "jquery.timePicker": "lib/jquery.timePicker",
     "jquery.cookie": "lib/jquery.cookie",
     "nouislider": "lib/sliders/jquery.nouislider",
     "jquery.fileDownload": "lib/jquery.fileDownload",
@@ -49,6 +47,9 @@
     },
     "c3": {
       "deps": ["d3", "css!lib/c3js/c3.css"]
+    },
+    "lib/flatpickr/l10n/index" : {
+        "deps": ["lib/flatpickr/flatpickr"]
     }
   },
   "vendor" : [

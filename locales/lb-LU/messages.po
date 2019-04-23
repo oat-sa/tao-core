@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint98\n"
-"PO-Revision-Date: 2019-03-15T09:39:31\n"
+"Project-Id-Version: TAO 3.3.0-sprint100\n"
+"PO-Revision-Date: 2019-04-12T08:48:03\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lb-LU\n"
@@ -230,6 +230,12 @@ msgstr ""
 msgid "All rights reserved."
 msgstr ""
 
+msgid "Allow for all domains"
+msgstr ""
+
+msgid "Allow for the following domains"
+msgstr ""
+
 msgid "Alpha version"
 msgstr ""
 
@@ -252,6 +258,9 @@ msgid "Ans"
 msgstr ""
 
 msgid "Apply"
+msgstr ""
+
+msgid "Apply date range"
 msgstr ""
 
 msgid "Arc cosine"
@@ -527,7 +536,13 @@ msgstr ""
 msgid "Created"
 msgstr ""
 
+msgid "Creating report ..."
+msgstr ""
+
 msgid "Creation At"
+msgstr ""
+
+msgid "CSP Header settings were saved successfully!"
 msgstr ""
 
 msgid "CSV"
@@ -554,16 +569,25 @@ msgstr ""
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data language"
-msgstr "Daten Sprooch"
-
 msgid "Data Language"
 msgstr ""
+
+msgid "Data language"
+msgstr "Daten Sprooch"
 
 msgid "Data not imported. All records are invalid."
 msgstr ""
 
 msgid "Date"
+msgstr ""
+
+msgid "date range"
+msgstr ""
+
+msgid "date time"
+msgstr ""
+
+msgid "date time range"
 msgstr ""
 
 msgid "Default search"
@@ -678,6 +702,9 @@ msgid "Edit class %s"
 msgstr ""
 
 msgid "Edit Instance"
+msgstr ""
+
+msgid "Edit sources that can embed this platform in an iFrame"
 msgstr ""
 
 msgid "Element"
@@ -835,10 +862,16 @@ msgstr ""
 msgid "floor"
 msgstr ""
 
+msgid "Forbid for all domains"
+msgstr ""
+
 msgid "Force Release"
 msgstr ""
 
 msgid "Forgot your password?"
+msgstr ""
+
+msgid "Form data not saved."
 msgstr ""
 
 msgid "From"
@@ -940,10 +973,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -990,6 +1023,9 @@ msgstr ""
 
 msgid "Interface language"
 msgstr "Interface Sprooch"
+
+msgid "Invalid CSP header."
+msgstr ""
 
 msgid "Invalid date range (must be after or the same as: %s)"
 msgstr ""
@@ -1281,10 +1317,10 @@ msgstr ""
 msgid "no label"
 msgstr ""
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr ""
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr ""
 
 msgid "No results found"
@@ -1348,10 +1384,16 @@ msgstr "Aalt Passwuert"
 msgid "On"
 msgstr ""
 
+msgid "Only allow for my own domain (%s)"
+msgstr ""
+
 msgid "Operated By "
 msgstr ""
 
 msgid "or"
+msgstr ""
+
+msgid "Outlook on the next Synchronization"
 msgstr ""
 
 msgid "Page"
@@ -1415,6 +1457,9 @@ msgid "Please contact %s or an administrator to release it"
 msgstr ""
 
 msgid "Please contact your administrator."
+msgstr ""
+
+msgid "Please contact your system administrator."
 msgstr ""
 
 msgid "Please download the track and listen offline."
@@ -1580,6 +1625,9 @@ msgstr ""
 msgid "Reset the original size"
 msgstr ""
 
+msgid "Reset the range values"
+msgstr ""
+
 msgid "Resource"
 msgstr ""
 
@@ -1656,6 +1704,9 @@ msgstr ""
 msgid "Save"
 msgstr "Späicheren"
 
+msgid "Saved."
+msgstr ""
+
 msgid "Scientific Calculator"
 msgstr ""
 
@@ -1678,6 +1729,13 @@ msgid "second"
 msgstr ""
 
 msgid "seconds"
+msgstr ""
+
+#, tao-public
+msgid "Security"
+msgstr ""
+
+msgid "Security settings"
 msgstr ""
 
 msgid "Select"
@@ -1751,6 +1809,9 @@ msgid "Size"
 msgstr ""
 
 msgid "Some resources have not been moved: %s"
+msgstr ""
+
+msgid "Sources that can embed this platform in an iFrame"
 msgstr ""
 
 msgid "Square root"
@@ -1939,6 +2000,9 @@ msgstr ""
 msgid "This should not equal %s"
 msgstr ""
 
+msgid "time"
+msgstr ""
+
 msgid "Time zone"
 msgstr ""
 
@@ -1955,6 +2019,9 @@ msgid "to translate"
 msgstr ""
 
 msgid "Toggle multiple/single selection"
+msgstr ""
+
+msgid "Toggle the date time picker"
 msgstr ""
 
 msgid "Tokenizer"
@@ -2053,10 +2120,10 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr ""
 
 msgid "Undefined amount of the pages for pagination"
@@ -2154,10 +2221,13 @@ msgstr ""
 msgid "Users"
 msgstr "Useren"
 
-msgid "Validation for field '%s' has failed. Language does not exists in the system"
+msgid "Validation for field '%s' has failed. Language does not exist in the system"
 msgstr ""
 
 msgid "Validation for field '%s' has failed. List of values expected"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Should not be empty"
 msgstr ""
 
 msgid "Validation for field '%s' has failed. Valid role expected. Given: %s"
@@ -2167,6 +2237,9 @@ msgid "Validation for field '%s' has failed. Valid URI expected"
 msgstr ""
 
 msgid "Validation for field '%s' has failed. Valid URI expected. Given: %s"
+msgstr ""
+
+msgid "Value ellipsis"
 msgstr ""
 
 msgid "Value of E"

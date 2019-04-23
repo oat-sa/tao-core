@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint98\n"
-"PO-Revision-Date: 2019-03-15T09:46:52\n"
+"Project-Id-Version: TAO 3.3.0-sprint100\n"
+"PO-Revision-Date: 2019-04-12T08:48:24\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-TW\n"
@@ -230,6 +230,12 @@ msgstr "所有都是必填欄位"
 msgid "All rights reserved."
 msgstr "保留所有權利。"
 
+msgid "Allow for all domains"
+msgstr ""
+
+msgid "Allow for the following domains"
+msgstr ""
+
 msgid "Alpha version"
 msgstr "Alpha版本"
 
@@ -252,6 +258,9 @@ msgid "Ans"
 msgstr ""
 
 msgid "Apply"
+msgstr ""
+
+msgid "Apply date range"
 msgstr ""
 
 msgid "Arc cosine"
@@ -528,7 +537,13 @@ msgstr "建立實例"
 msgid "Created"
 msgstr ""
 
+msgid "Creating report ..."
+msgstr ""
+
 msgid "Creation At"
+msgstr ""
+
+msgid "CSP Header settings were saved successfully!"
 msgstr ""
 
 msgid "CSV"
@@ -555,10 +570,10 @@ msgstr "數據已成功匯入"
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "數據語言"
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "數據語言"
 
 msgid "Data not imported. All records are invalid."
@@ -566,6 +581,15 @@ msgstr ""
 
 msgid "Date"
 msgstr "日期"
+
+msgid "date range"
+msgstr ""
+
+msgid "date time"
+msgstr ""
+
+msgid "date time range"
+msgstr ""
 
 msgid "Default search"
 msgstr "預設搜索"
@@ -681,6 +705,9 @@ msgstr ""
 
 msgid "Edit Instance"
 msgstr "編輯實例"
+
+msgid "Edit sources that can embed this platform in an iFrame"
+msgstr ""
 
 msgid "Element"
 msgstr "元素"
@@ -837,11 +864,17 @@ msgstr ""
 msgid "floor"
 msgstr ""
 
+msgid "Forbid for all domains"
+msgstr ""
+
 msgid "Force Release"
 msgstr "強制釋放"
 
 msgid "Forgot your password?"
 msgstr "忘了您的密碼嗎？"
+
+msgid "Form data not saved."
+msgstr ""
 
 msgid "From"
 msgstr ""
@@ -942,10 +975,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -992,6 +1025,9 @@ msgstr "介面語言"
 
 msgid "Interface language"
 msgstr "介面語言"
+
+msgid "Invalid CSP header."
+msgstr ""
 
 msgid "Invalid date range (must be after or the same as: %s)"
 msgstr ""
@@ -1283,10 +1319,10 @@ msgstr "無檔案"
 msgid "no label"
 msgstr "無標籤"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "沒有可用的預覽"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "沒有可用的預覽"
 
 msgid "No results found"
@@ -1350,11 +1386,17 @@ msgstr "舊密碼"
 msgid "On"
 msgstr ""
 
+msgid "Only allow for my own domain (%s)"
+msgstr ""
+
 msgid "Operated By "
 msgstr ""
 
 msgid "or"
 msgstr "或"
+
+msgid "Outlook on the next Synchronization"
+msgstr ""
 
 msgid "Page"
 msgstr "頁面"
@@ -1417,6 +1459,9 @@ msgid "Please contact %s or an administrator to release it"
 msgstr ""
 
 msgid "Please contact your administrator."
+msgstr ""
+
+msgid "Please contact your system administrator."
 msgstr ""
 
 msgid "Please download the track and listen offline."
@@ -1582,6 +1627,9 @@ msgstr "重設"
 msgid "Reset the original size"
 msgstr ""
 
+msgid "Reset the range values"
+msgstr ""
+
 msgid "Resource"
 msgstr "資源"
 
@@ -1658,6 +1706,9 @@ msgstr ""
 msgid "Save"
 msgstr "儲存"
 
+msgid "Saved."
+msgstr ""
+
 msgid "Scientific Calculator"
 msgstr ""
 
@@ -1681,6 +1732,13 @@ msgstr ""
 
 msgid "seconds"
 msgstr "秒"
+
+#, tao-public
+msgid "Security"
+msgstr ""
+
+msgid "Security settings"
+msgstr ""
 
 msgid "Select"
 msgstr "選擇"
@@ -1753,6 +1811,9 @@ msgid "Size"
 msgstr "大小"
 
 msgid "Some resources have not been moved: %s"
+msgstr ""
+
+msgid "Sources that can embed this platform in an iFrame"
 msgstr ""
 
 msgid "Square root"
@@ -1941,6 +2002,9 @@ msgstr ""
 msgid "This should not equal %s"
 msgstr ""
 
+msgid "time"
+msgstr ""
+
 msgid "Time zone"
 msgstr "時區"
 
@@ -1957,6 +2021,9 @@ msgid "to translate"
 msgstr "翻譯"
 
 msgid "Toggle multiple/single selection"
+msgstr ""
+
+msgid "Toggle the date time picker"
 msgstr ""
 
 msgid "Tokenizer"
@@ -2055,10 +2122,10 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "全部取消勾選"
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "全部取消勾選"
 
 msgid "Undefined amount of the pages for pagination"
@@ -2156,10 +2223,13 @@ msgstr ""
 msgid "Users"
 msgstr "用戶"
 
-msgid "Validation for field '%s' has failed. Language does not exists in the system"
+msgid "Validation for field '%s' has failed. Language does not exist in the system"
 msgstr ""
 
 msgid "Validation for field '%s' has failed. List of values expected"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Should not be empty"
 msgstr ""
 
 msgid "Validation for field '%s' has failed. Valid role expected. Given: %s"
@@ -2169,6 +2239,9 @@ msgid "Validation for field '%s' has failed. Valid URI expected"
 msgstr ""
 
 msgid "Validation for field '%s' has failed. Valid URI expected. Given: %s"
+msgstr ""
+
+msgid "Value ellipsis"
 msgstr ""
 
 msgid "Value of E"

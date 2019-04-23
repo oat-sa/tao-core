@@ -31,7 +31,6 @@ require.config({
         'tpl'               : 'tpl',
 //jquery and plugins
         'jquery'            : 'lib/jquery-1.9.1',
-        'jqueryui'          : 'lib/jquery-ui-1.9.2.custom.min',
         'select2'           : 'lib/select2/select2.min',
         'jquery.autocomplete'  : 'lib/jquery.autocomplete/jquery.autocomplete',
         'jquery.tree'       : 'lib/jsTree/jquery.tree',
@@ -76,6 +75,7 @@ require.config({
         'ckeditor-jquery'       : ['ckeditor'],
         'class'                 : { exports : 'Class'},
         'c3'                    : { deps : ['d3', 'css!lib/c3js/c3.css']},
+	'lib/flatpickr/l10n/index' : { deps: ['lib/flatpickr/flatpickr'] },
         'mathJax' : {
             exports : "MathJax",
             init : function(){

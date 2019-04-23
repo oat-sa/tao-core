@@ -1,0 +1,183 @@
+@import "inc/bootstrap";
+
+$picker-field-height : 37px;
+
+.datetime-picker {
+
+    &.control-buttons {
+        position : static;
+        display : flex;
+        flex-flow : row nowrap;
+        align-items : stretch;
+
+        & > input {
+            flex : 1 0 auto;
+            border-top-right-radius : 0;
+            border-bottom-right-radius : 0;
+            border-right-width : 0;
+        }
+        & > button {
+            flex : 0 0 30px;
+            background : whiten($uiHeaderBg, .3);
+            @include simple-border();
+            border-radius : 0;
+            cursor : pointer;
+            text-align :center;
+            padding : 4px 5px;
+            display : block;
+            height : inherit;
+
+            &:last-of-type {
+                margin-left : -1px;
+                border-top-right-radius : 2px;
+                border-bottom-right-radius : 2px;
+            }
+            &:hover, &:focus {
+                background : whiten($uiHeaderBg, .45);
+                z-index : 100;
+            }
+            &:focus {
+                border : 1px solid $info;
+                outline : none;
+            }
+            span {
+                color : $textColor;
+                text-shadow : none;
+                padding : 0;
+            }
+        }
+    }
+
+/* flatpickr theme */
+   .flatpickr-calendar {
+
+        .numInput {
+            min-width : inherit;
+            max-width : inherit;
+            width : inherit;
+        }
+
+        .numInputWrapper {
+            height : $picker-field-height;
+        }
+
+        .flatpickr-month {
+            height : $picker-field-height;
+
+            .flatpickr-current-month {
+                padding : 0;
+                height : $picker-field-height;
+                line-height : $picker-field-height;
+                .cur-month {
+                    margin : 0 .5ch;
+
+                    & :hover {
+                        background : inherit;
+                    }
+                }
+                .cur-year {
+                    height : $picker-field-height;
+                }
+            }
+        }
+        .flatpickr-months .flatpickr-next-month :hover svg,
+        .flatpickr-months .flatpickr-prev-month :hover svg {
+            fill : $info;
+        }
+
+        .flatpickr-day {
+            &.inRange,
+            &.prevMonthDay.inRange,
+            &.nextMonthDay.inRange,
+            &.today.inRange,
+            &.prevMonthDay.today.inRange,
+            &.nextMonthDay.today.inRange,
+            &:hover,
+            &.prevMonthDay:hover,
+            &.nextMonthDay:hover,
+            &:focus,
+            &.prevMonthDay:focus,
+            &.nextMonthDay:focus {
+                background : whiten($uiHeaderBg, .45);
+                border-color : whiten($uiHeaderBg, .45);
+            }
+            &.today {
+                border-color : $info;
+                color : $textColor;
+            }
+            &.today:hover,
+            &.today:focus {
+                background : whiten($uiHeaderBg, .45);
+                border-color : $info;
+                color : $textColor;
+            }
+            &.selected,
+            &.startRange,
+            &.endRange,
+            &.selected.inRange,
+            &.startRange.inRange,
+            &.endRange.inRange,
+            &.selected:focus,
+            &.startRange:focus,
+            &.endRange:focus,
+            &.selected:hover,
+            &.startRange:hover,
+            &.endRange:hover,
+            &.selected.prevMonthDay,
+            &.startRange.prevMonthDay,
+            &.endRange.prevMonthDay,
+            &.selected.nextMonthDay,
+            &.startRange.nextMonthDay,
+            &.endRange.nextMonthDay {
+                background : $uiClickableHoverBg;
+                border-color : $uiClickableHoverBg;
+                color : $textHighlight;
+            }
+            &.selected.startRange,
+            &.startRange.startRange,
+            &.endRange.startRange {
+                background : $uiClickableHoverBg;
+            }
+            &.selected.endRange,
+            &.startRange.endRange,
+            &.endRange.endRange {
+                background : $uiClickableHoverBg;
+            }
+            &.selected.startRange + .endRange:not(:nth-child(7n+1)),
+            &.startRange.startRange + .endRange:not(:nth-child(7n+1)),
+            &.endRange.startRange + .endRange:not(:nth-child(7n+1)) {
+                -webkit-box-shadow :  -10px 0 0  $uiClickableHoverBg;
+                        box-shadow :  -10px 0 0 $uiClickableHoverBg;
+            }
+            &.selected.startRange.endRange,
+            &.startRange.startRange.endRange,
+            &.endRange.startRange.endRange {
+                border-radius : 50px;
+            }
+            &.disabled,
+            &.disabled:hover,
+            &.prevMonthDay,
+            &.nextMonthDay,
+            &.notAllowed,
+            &.notAllowed.prevMonthDay,
+            &.notAllowed.nextMonthDay {
+                background : transparent;
+                border-color : transparent;
+                cursor : default;
+            }
+        }
+        &.showTimeInput.hasTime .flatpickr-time {
+            height : $picker-field-height + 1px;
+        }
+        .flatpickr-time {
+            line-height : $picker-field-height;
+            height : $picker-field-height;
+            .numInput {
+                width : 100%;
+                line-height : $picker-field-height;
+                height : $picker-field-height;
+            }
+        }
+    }
+}
+
