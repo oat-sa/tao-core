@@ -45,6 +45,18 @@ module.exports = function(grunt) {
             }
         },
 
+        postcss: {
+            options: {
+                map: false,
+                processors: [
+                    require('autoprefixer')({browsers: 'last 4 versions'})
+                ]
+            },
+            dist: {
+                src: '../css/test.css'
+            }
+        },
+
         watch: {
             options: {
                 livereload: livereloadPort
@@ -75,6 +87,8 @@ module.exports = function(grunt) {
         }
     });
 
+    grunt.loadNpmTasks('grunt-postcss');
+
     //register an alias for main build
-    grunt.registerTask('taosass', ['sass:tao', 'sass:component']);
+    grunt.registerTask('taosass', ['sass:tao', 'sass:component', 'postcss']);
 };
