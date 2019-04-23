@@ -19,6 +19,7 @@
 
 namespace oat\tao\model\security\xsrf;
 
+use common_exception_Unauthorized;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\security\TokenGenerator;
 use oat\oatbox\service\exception\InvalidService;
@@ -82,8 +83,7 @@ class TokenService extends ConfigurableService
      * Generates, stores and return a brand new token
      * Triggers the pool invalidation.
      *
-     * @deprecated Please use generate() to generate a token pool, or addNewToken() to add a token to the existing pool.
-     * @return string the token
+     * @return Token
      * @throws \common_Exception
      */
     public function createToken()
@@ -102,13 +102,17 @@ class TokenService extends ConfigurableService
      * Check if the given token is valid
      * (does not revoke)
      *
-     * @param string $token The given token to validate
+     * @param string|Token $token The given token to validate
      * @return boolean
      */
     public function checkToken($token)
     {
         $valid = false;
         $pool = $this->getStore()->getTokens();
+
+        if (is_object($token) && $token instanceof Token) {
+            $token = $token->getValue();
+        }
 
         if ($pool !== null) {
             foreach ($pool as $savedToken) {
@@ -125,16 +129,20 @@ class TokenService extends ConfigurableService
     /**
      * Check if the given token is valid
      *
-     * @param string $token
+     * @param string |Token $token
      * @return boolean
      * @throws \common_Exception`
-     * @throws \common_exception_Unauthorized
+     * @throws common_exception_Unauthorized
      */
     public function validateToken($token)
     {
         $isValid = false;
         $expired = false;
         $pool = $this->getStore()->getTokens();
+
+        if (is_object($token) && $token instanceof Token) {
+            $token = $token->getValue();
+        }
 
         if ($pool !== null) {
             foreach ($pool as $savedToken) {
@@ -154,7 +162,7 @@ class TokenService extends ConfigurableService
         }
 
         if (!$isValid) {
-            throw new \common_exception_Unauthorized();
+            throw new common_exception_Unauthorized();
         }
 
         $this->revokeToken($token);
@@ -184,7 +192,7 @@ class TokenService extends ConfigurableService
     /**
      * Revokes the given token
      *
-     * @param string $token
+     * @param string|Token $token
      * @return true
      */
     public function revokeToken($token)
@@ -192,6 +200,10 @@ class TokenService extends ConfigurableService
         $revoked = false;
         $store = $this->getStore();
         $pool = $store->getTokens();
+
+        if (is_object($token) && $token instanceof Token) {
+            $token = $token->getValue();
+        }
 
         if ($pool !== null) {
             foreach ($pool as $key => $savedToken) {
@@ -330,25 +342,6 @@ class TokenService extends ConfigurableService
         $store->setTokens($pool);
 
         return $pool;
-    }
-
-    /**
-     * Add a new token, and return it.
-     *
-     * @return Token
-     * @throws \common_Exception
-     */
-    public function addNewToken()
-    {
-        $store = $this->getStore();
-        $pool = $store->getTokens();
-
-        $newToken = new Token();
-        $pool[] = $newToken;
-
-        $store->setTokens($pool);
-
-        return $newToken;
     }
 
     /**
