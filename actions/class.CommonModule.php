@@ -355,7 +355,9 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
         $requestUri     = $this->getPsrRequest()->getUri();
         $requestHeaders = $this->getHeaders();
 
-        $this->logWarning('[CSRF] - Failed to validate CSRF token. The following exception occurred: ' . $exceptionMessage);
+        $this->logWarning(
+            '[CSRF] - Failed to validate CSRF token. The following exception occurred: ' . $exceptionMessage
+        );
         $this->logWarning(
             "[CSRF] \n" .
             "CSRF validation information: \n" .

@@ -36,7 +36,6 @@ class CsrfToken extends tao_helpers_form_elements_xhtml_Hidden
 {
 
     use LoggerAwareTrait;
-    use ServiceManagerAwareTrait;
 
     /**
      * @inheritdoc
@@ -91,40 +90,16 @@ class CsrfToken extends tao_helpers_form_elements_xhtml_Hidden
     private function logCsrfFailure($exceptionMessage, $csrfToken = null)
     {
         $userIdentifier = common_session_SessionManager::getSession()->getUser()->getIdentifier();
-        $requestHeaders = $this->getHeaders();
 
-        $this->logWarning('Failed to validate CSRF token. The following exception occurred: ' . $exceptionMessage);
         $this->logWarning(
+            '[CSRF] - Failed to validate CSRF token. The following exception occurred: ' . $exceptionMessage
+        );
+        $this->logWarning(
+            "[CSRF] \n" .
             "CSRF validation information: \n" .
-            'Provided token: ' . ($csrfToken ?: 'none')  . " \n" .
-            'User identifier: ' . $userIdentifier  . " \n" .
-            'Form: ' . $this->name   . " \n" .
-            "Request Headers : \n" .
-            urldecode(http_build_query($requestHeaders, '', "\n"))
+            'Provided token: ' . ($csrfToken ?: 'none') . " \n" .
+            'User identifier: ' . $userIdentifier . " \n" .
+            'Form: ' . $this->name
         );
     }
-
-    /**
-     * @return array
-     */
-    private function getHeaders()
-    {
-        if (function_exists('apache_request_headers')) {
-            $headers = [];
-            foreach (apache_request_headers() as $key => $value) {
-                $headers[strtolower($key)] = $value;
-            }
-        } else {
-            $headers = [];
-            foreach ($_SERVER as $name => $value) {
-                if (strpos($name, 'HTTP_') === 0) {
-                    $headers[str_replace(' ', '-', strtolower(str_replace('_', ' ', substr($name, 5))))] = $value;
-                }
-            }
-        }
-
-        return $headers;
-    }
-
-
 }

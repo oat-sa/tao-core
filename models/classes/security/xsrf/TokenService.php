@@ -20,6 +20,7 @@
 namespace oat\tao\model\security\xsrf;
 
 use common_exception_Unauthorized;
+use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\security\TokenGenerator;
 use oat\oatbox\service\exception\InvalidService;
@@ -38,6 +39,7 @@ use oat\oatbox\service\exception\InvalidService;
 class TokenService extends ConfigurableService
 {
     use TokenGenerator;
+    use LoggerAwareTrait;
 
     const SERVICE_ID = 'tao/security-xsrf-token';
 
@@ -67,7 +69,7 @@ class TokenService extends ConfigurableService
         parent::__construct($options);
 
         if ($this->getPoolSize() <= 0 && $this->getTimeLimit() <= 0) {
-            \common_Logger::w(
+            $this->logWarning(
                 'The pool size and the time limit are both unlimited.
                 Tokens won\'t be invalidated. The store will just grow.'
             );
@@ -370,6 +372,7 @@ class TokenService extends ConfigurableService
 
         if (!isset($tokenPool[self::FORM_POOL])) {
             $this->addFormToken();
+            $tokenPool = $store->getTokens();
         }
 
         return $tokenPool[self::FORM_POOL];

@@ -463,7 +463,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         try {
             $this->validateCsrf();
         } catch (common_exception_Unauthorized $e) {
-            $this->response = $this->getPsrResponse()->withStatus('412', _('CSRF validation failed'));
+            $this->response = $this->getPsrResponse()->withStatus('412', _('Unable to process your request'));
             return;
         }
 
@@ -512,7 +512,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         try {
             $this->validateCsrf();
         } catch (common_exception_Unauthorized $e) {
-            $this->response = $this->getPsrResponse()->withStatus('412', _('CSRF validation failed'));
+            $this->response = $this->getPsrResponse()->withStatus('412', _('Unable to process your request'));
             return;
         }
 
@@ -629,7 +629,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         try {
             $this->validateCsrf();
         } catch (common_exception_Unauthorized $e) {
-            $this->response = $this->getPsrResponse()->withStatus('412', _('CSRF validation failed'));
+            $this->response = $this->getPsrResponse()->withStatus('412', _('Unable to process your request'));
             return;
         }
         $this->validateInstanceRoot($uri);
@@ -660,7 +660,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             try {
                 $this->validateCsrf();
             } catch (common_exception_Unauthorized $e) {
-                $this->response = $this->getPsrResponse()->withStatus('412', _('CSRF validation failed'));
+                $this->response = $this->getPsrResponse()->withStatus('412', _('Unable to process your request'));
                 return;
             }
             $this->validateInstanceRoot(
@@ -721,7 +721,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             try {
                 $this->validateCsrf();
             } catch (common_exception_Unauthorized $e) {
-                $this->response = $this->getPsrResponse()->withStatus('412', _('CSRF validation failed'));
+                $this->response = $this->getPsrResponse()->withStatus('412', _('Unable to process your request'));
                 return;
             }
 
@@ -778,7 +778,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             try {
                 $this->validateCsrf();
             } catch (common_exception_Unauthorized $e) {
-                $this->response = $this->getPsrResponse()->withStatus('412', _('CSRF validation failed'));
+                $this->response = $this->getPsrResponse()->withStatus('412', _('Unable to process your request'));
                 return;
             }
 
@@ -970,7 +970,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         try {
             $this->validateCsrf();
         } catch (common_exception_Unauthorized $e) {
-            $this->response = $this->getPsrResponse()->withStatus('412', _('CSRF validation failed'));
+            $this->response = $this->getPsrResponse()->withStatus('412', _('Unable to process your request'));
             return;
         }
 
@@ -1009,7 +1009,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         try {
             $this->validateCsrf();
         } catch (common_exception_Unauthorized $e) {
-            $this->response = $this->getPsrResponse()->withStatus('412', _('CSRF validation failed'));
+            $this->response = $this->getPsrResponse()->withStatus('412', _('Unable to process your request'));
             return;
         }
 
@@ -1059,7 +1059,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         try {
             $this->validateCsrf();
         } catch (common_exception_Unauthorized $e) {
-            $this->response = $this->getPsrResponse()->withStatus('412', _('CSRF validation failed'));
+            $this->response = $this->getPsrResponse()->withStatus('412', _('Unable to process your request'));
             return;
         }
 
