@@ -100,7 +100,7 @@ define([
                     throw new TypeError('config.url.status is not configured while getStatus() is being called');
                 }
 
-                status = request(config.url.status, {taskId: taskId})
+                status = request(config.url.status, {taskId: taskId}, 'GET', null, true, true)
                     .then(function(taskData){
                         //check taskData
                         if(taskData && taskData.status){
@@ -202,7 +202,7 @@ define([
                     throw new TypeError('config.url.remove is not configured while remove is being called');
                 }
 
-                status = request(config.url.remove, {taskId : taskId})
+                status = request(config.url.remove, {taskId : taskId}, 'GET', null, true, true)
                     .then(function(taskData){
                         if(taskData && taskData.status === 'archived'){
                             return Promise.resolve(taskData);
