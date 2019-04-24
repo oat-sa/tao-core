@@ -20,25 +20,34 @@
  */
 namespace oat\tao\model\search;
 
-use oat\oatbox\Configurable;
-use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\search\SearchService;
-use oat\oatbox\action\Action;
+use oat\oatbox\extension\AbstractAction;
+use oat\tao\model\search\index\IndexService;
+use common_report_Report as Report;
+
 /**
  * Command to reindex all resources
  *
  * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
  */
-class RunIndexing extends ConfigurableService implements Action
+class RunIndexing extends AbstractAction
 {
     /**
-     * 
-     * @param unknown $params
+     * @param $params
+     * @return mixed
+     * @throws \oat\oatbox\service\exception\InvalidServiceManagerException
      */
-    public function __invoke($params) {
-        SearchService::runIndexing();
-        return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, __('Indexing has been run'));
+    public function __invoke($params)
+    {
+        /** @var IndexService $indexService */
+        $indexService = $this->getServiceManager()->get(IndexService::SERVICE_ID);
+
+        $this->logInfo('Run resources indexing');
+        if ($indexService->runIndexing()) {
+            return new Report(Report::TYPE_SUCCESS, __('Resources successfully indexed'));
+        }
+
+        return new Report(Report::TYPE_WARNING, __('Resources was not indexed'));
     }
 
 }
