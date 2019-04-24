@@ -444,7 +444,7 @@ define([
              */
             create : function create(url, data){
                 var taskCreate, self = this;
-                taskCreate = request(url, data, 'POST', {}, true)
+                taskCreate = request(url, data, 'POST', {}, true, true, true)
                     .then(function(creationResult){
                         //poll short result:
                         if(creationResult && creationResult.task && creationResult.task.id){
