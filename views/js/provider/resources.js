@@ -113,18 +113,17 @@ define([
              * @returns {Promise} that resolves with the classes
              */
             getClasses: function getClasses(classUri){
-                return request(config.getClasses.url, { classUri : classUri }, 'GET', null, true, true);
+                return request(config.getClasses.url, { classUri : classUri });
             },
 
             /**
              * Get QTI Items in different formats
              * @param {Object} [params] - the parameters to pass through the request
-             * @param {Boonlean} [computePermissions=false] - do we compute the resources permissions
+             * @param {Boolean} [computePermissions=false] - do we compute the resource's permissions?
              * @returns {Promise} that resolves with the classes
              */
             getResources : function getResources(params, computePermissions){
-                return request(config.getResources.url, params, 'GET', null, true, true)
-                .then(function(results){
+                return request(config.getResources.url, params).then(function(results){
                     var resources;
                     var currentRights;
 
@@ -170,7 +169,7 @@ define([
              * @returns {Promise} that resolves with the classes
              */
             getClassProperties: function getClassProperties(classUri) {
-                return request(config.getClassProperties.url, { classUri : classUri }, 'GET', null, true, true);
+                return request(config.getClassProperties.url, { classUri : classUri });
             },
 
             /**

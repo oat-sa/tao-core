@@ -132,40 +132,33 @@ define(['jquery', 'lodash', 'core/dataProvider/request', 'core/promise'], functi
     requestCases = [{
         title: '200 got content',
         url: '//200',
-        content: {foo: 'bar'},
-        noToken: true
+        content: {foo: 'bar'}
     }, {
         title: '200 header',
         url: '//200',
         headers: {'x-foo': 'bar'},
-        content: {foo: 'bar', requestHeaders: {'x-foo': 'bar'}},
-        noToken: true
+        content: {foo: 'bar', requestHeaders: {'x-foo': 'bar'}}
     }, {
         title: '204 no content',
-        url: '//204',
-        noToken: true
+        url: '//204'
     }, {
         title: '500 error',
         url: '//500',
-        noToken: true,
         reject: true,
         err: new Error('500 : Server Error')
     }, {
         title: '200 error 1',
         url: '//200/error/1',
-        noToken: true,
         reject: true,
         err: new Error('1 : oops')
     }, {
         title: '200 error 2',
         url: '//200/error/2',
-        noToken: true,
         reject: true,
         err: new Error('2 : woops')
     }, {
         title: '200 error fallback',
         url: '//200/error/fallback',
-        noToken: true,
         reject: true,
         err: new Error('The server has sent an empty response')
     }];

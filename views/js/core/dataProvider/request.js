@@ -43,7 +43,7 @@ define([
      * @param {String} [method='GET'] - the HTTP method
      * @param {Object} [headers] - the HTTP header
      * @param {Boolean} [background] - tells if the request should be done in the background, which in practice does not trigger the global handlers like ajaxStart or ajaxStop
-     * @param {Boolean} [noToken=false] - to disable the token
+     * @param {Boolean} [noToken=true] - the default is a request with no token, set this to false to require a token
      * @returns {Promise} that resolves with data or reject if something went wrong
      */
     return function request(url, data, method, headers, background, noToken) {
@@ -53,7 +53,7 @@ define([
             method: method,
             headers: headers,
             background: background,
-            noToken: noToken
+            noToken: noToken === false ? false : true
         })
         .then(function(response) {
             if (!_.isUndefined(response)) {
