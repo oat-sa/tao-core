@@ -189,11 +189,12 @@ define([
                 if(_.isEmpty(destinationClassUri)){
                     return Promise.reject('The URI of the destination class must be defined');
                 }
+                // dataProvider request must be tokenised in this case (noToken=false)
                 return request(config.copyTo.url, {
                     uri : uri,
                     destinationClassUri : destinationClassUri,
                     signature: signature
-                }, 'POST');
+                }, 'POST', null, true, false);
             },
 
             /**
@@ -229,7 +230,8 @@ define([
                     return Promise.reject('The URI of the destination class must be defined');
                 }
 
-                return request(config.moveTo.url, params, 'POST');
+                // dataProvider request must be tokenised in this case (noToken=false)
+                return request(config.moveTo.url, params, 'POST', null, true, false);
             }
         };
     };
