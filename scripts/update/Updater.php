@@ -62,6 +62,7 @@ use oat\tao\model\routing\ControllerService;
 use oat\tao\model\routing\RouteAnnotationService;
 use oat\tao\model\security\ActionProtector;
 use oat\tao\model\security\xsrf\TokenService;
+use oat\tao\model\security\xsrf\TokenStore;
 use oat\tao\model\security\xsrf\TokenStoreSession;
 use oat\tao\model\service\ApplicationService;
 use oat\tao\model\service\ContainerService;
@@ -1023,5 +1024,15 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('31.1.0', '33.4.1');
+
+        if ($this->isVersion('31.4.1')) {
+            /** @var TokenService $tokenService */
+            $tokenService = $this->getServiceManager()->get(TokenService::SERVICE_ID);
+
+            /** @var TokenStore $tokenStore */
+            $tokenStore = $tokenService->getOption(TokenService::OPTION_STORE);
+            $tokenStore->removeTokens();
+            $this->setVersion('34.0.0');
+        }
     }
 }
