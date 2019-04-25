@@ -151,7 +151,7 @@ define([
                     throw new TypeError('config.url.get is not configured while get() is being called');
                 }
 
-                status = request(config.url.get, {taskId: taskId}, 'GET', {}, true, true)
+                status = request(config.url.get, {taskId: taskId}, 'GET', {}, true)
                     .then(function(taskData){
                         //check taskData
                         if(taskData && taskData.status){
@@ -202,7 +202,7 @@ define([
                     throw new TypeError('config.url.all is not configured while getAll() is being called');
                 }
 
-                status = request(config.url.all, {limit: 100}, 'GET', {}, true, true)
+                status = request(config.url.all, {limit: 100}, 'GET', {}, true)
                     .then(function(taskData){
                         var newCache = {};
                         //check taskData
@@ -256,7 +256,7 @@ define([
                     throw new TypeError('config.url.archive is not configured while archive() is being called');
                 }
 
-                status = request(config.url.archive, {taskId : taskId}, 'GET', {}, true, true);
+                status = request(config.url.archive, {taskId : taskId}, 'GET', {}, true);
 
                 status.catch(function(res){
                     model.trigger('error', res);
@@ -444,7 +444,7 @@ define([
              */
             create : function create(url, data){
                 var taskCreate, self = this;
-                taskCreate = request(url, data, 'POST', {}, true, true, true)
+                taskCreate = request(url, data, 'POST', {}, true)
                     .then(function(creationResult){
                         //poll short result:
                         if(creationResult && creationResult.task && creationResult.task.id){

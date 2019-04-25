@@ -74,12 +74,12 @@ define([
      * Request content from a TAO endpoint
      * @param {Object} options
      * @param {String} options.url - the endpoint full url
-     * @param {String} [options.method = 'GET'] - the HTTP method
+     * @param {String} [options.method='GET'] - the HTTP method
      * @param {Object} [options.data] - additional parameters (if method is 'POST')
      * @param {Object} [options.headers] - the HTTP headers
      * @param {String} [options.contentType] - what kind of data we're sending - usually 'json'
      * @param {String} [options.dataType] - what kind of data expected in response
-     * @param {Boolean} [options.noToken = false] - if true, disables the token requirement
+     * @param {Boolean} [options.noToken=false] - by default, a token is always sent. If noToken=true, disables the token requirement
      * @param {Boolean} [options.background] - if true, the request should be done in the background, which in practice does not trigger the global handlers like ajaxStart or ajaxStop
      * @param {Boolean} [options.sequential] - if true, the request must join a queue to be run sequentially
      * @param {Number}  [options.timeout] - timeout in seconds for the AJAX request
@@ -144,7 +144,9 @@ define([
                         async: true,
                         timeout: options.timeout * 1000 || context.timeout * 1000 || 0,
                         beforeSend: function() {
-                            logger.debug('sending %s header %s', tokenHeaderName, customHeaders && customHeaders[tokenHeaderName]);
+                            if (!_.isEmpty(customHeaders)) {
+                                logger.debug('sending %s header %s', tokenHeaderName, customHeaders && customHeaders[tokenHeaderName]);
+                            }
                         },
                         global: !options.background //TODO fix this with TT-260
                     })
