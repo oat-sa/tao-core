@@ -62,6 +62,12 @@ define([
             status: 200
         }],
 
+        '//500': [{
+            success: false
+        }, 'Error', {
+            status: 500
+        }],
+
         '//204': [null, 'No Content', {status: 204}]
     };
 
@@ -109,14 +115,10 @@ define([
 
     QUnit.module('request');
 
-    requestCases = [
+
+    QUnit.cases.init([
         {
             title : '200 got content',
-            url : '//200',
-            content: { foo : 'bar' }
-        },
-        {
-            title : '200 no token required',
             url : '//200',
             noToken: true,
             content: { foo : 'bar' }
@@ -127,11 +129,195 @@ define([
             headers: { 'x-foo': 'bar' },
             noToken: true,
             content: { foo : 'bar', requestHeaders: { 'x-foo': 'bar' } }
+        }
+    ])
+    .test('tokenless request with ', function(caseData, assert) {
+        var ready = assert.async();
+        var tokenHandler = tokenHandlerFactory();
+
+        // mock the endpoints:
+        $.mockjax([
+            {
+                url: /^\/\/200.*$/,
+                status: 200,
+                headers: {
+                },
+                response: function(settings) {
+                    var response = responses[settings.url][0];
+                    var content;
+                    if (response) {
+                        content = response.data;
+                        if (caseData.headers) {
+                            response = _.cloneDeep(response);
+                            if (!content) {
+                                content = {};
+                            }
+                            content.requestHeaders = settings.headers;
+                        }
+                        if (response.success === false) {
+                            this.responseText = JSON.stringify(response);
+                        }
+                        else {
+                            this.responseText = JSON.stringify({
+                                success: true,
+                                content: content
+                            });
+                        }
+                    }
+                }
+            }
+        ]);
+
+        tokenHandler.clearStore()
+        .then(function() {
+            return tokenHandler.setToken('token1');
+        })
+        .then(function() {
+            var result = request(caseData);
+
+            assert.expect(2);
+
+            assert.ok(result instanceof Promise, 'The request function returns a promise');
+
+            result.then(function(response) {
+                assert.deepEqual(response.content, caseData.content, 'The given result is correct');
+
+                ready();
+            })
+            .catch(function() {
+                assert.ok(false, 'Should not reject');
+                ready();
+            });
+        });
+    });
+
+
+    QUnit.cases.init([
+        {
+            title : '200 got content',
+            url : '//200',
+            content: { foo : 'bar' }
         },
         {
+            title : '200 with custom header',
+            url : '//200',
+            headers: { 'x-foo': 'bar' },
+            content: { foo : 'bar', requestHeaders: { 'x-foo': 'bar', 'X-CSRF-Token': 'token1' } }
+        }
+    ])
+    .test('tokenised request with ', function(caseData, assert) {
+        var ready = assert.async();
+        var tokenHandler = tokenHandlerFactory();
+
+        // mock the endpoints:
+        $.mockjax([
+            {
+                url: /^\/\/200.*$/,
+                status: 200,
+                headers: {
+                    // respond with:
+                    'X-CSRF-Token': 'token2'
+                },
+                response: function(settings) {
+                    var response = responses[settings.url][0];
+                    var content;
+                    if (response) {
+                        content = response.data;
+                        if (caseData.headers) {
+                            response = _.cloneDeep(response);
+                            if (!content) {
+                                content = {};
+                            }
+                            content.requestHeaders = settings.headers;
+                        }
+                        if (response.success === false) {
+                            this.responseText = JSON.stringify(response);
+                        }
+                        else {
+                            this.responseText = JSON.stringify({
+                                success: true,
+                                content: content
+                            });
+                        }
+                    }
+                }
+            }
+        ]);
+
+        tokenHandler.clearStore()
+        .then(function() {
+            return tokenHandler.setToken('token1');
+        })
+        .then(function() {
+            var result = request(caseData);
+
+            assert.expect(3);
+
+            assert.ok(result instanceof Promise, 'The request function returns a promise');
+
+            result.then(function(response) {
+
+                assert.deepEqual(response.content, caseData.content, 'The given result is correct');
+
+                tokenHandler.getToken().then(function(storedToken) {
+                    assert.equal(storedToken, 'token2', 'The token was updated with the next in sequence');
+                    ready();
+                });
+            })
+            .catch(function() {
+                assert.ok(false, 'Should not reject');
+                ready();
+            });
+        });
+    });
+
+
+    QUnit.test('empty response [204]', function(assert) {
+        var data =  {
             title : '204 no content',
             url : '//204'
-        },
+        };
+
+        var ready = assert.async();
+        var tokenHandler = tokenHandlerFactory();
+
+        // mock the endpoints:
+        $.mockjax([
+            {
+                url: "//204",
+                status: 204,
+                headers: {
+                    'X-CSRF-Token': 'token2'
+                }
+            }
+        ]);
+
+        tokenHandler.clearStore()
+        .then(function() {
+            return tokenHandler.setToken('token1');
+        })
+        .then(function() {
+            var result = request(data);
+
+            assert.expect(2);
+
+            assert.ok(result instanceof Promise, 'The request function returns a promise');
+
+            result.then(function(response) {
+                if (_.isUndefined(data.content)) {
+                    assert.ok(_.isUndefined(response), 'No content encountered in empty response');
+                }
+                ready();
+            })
+            .catch(function() {
+                assert.ok(false, 'Should not reject');
+                ready();
+            });
+        });
+    });
+
+
+    QUnit.cases.init([
         {
             title : '500 error',
             url : '//500',
@@ -156,110 +342,71 @@ define([
             reject : true,
             err : new Error('The server has sent an empty response')
         }
-    ];
+    ])
+    .test('request failure with ', function(caseData, assert) {
+        var ready = assert.async();
+        var tokenHandler = tokenHandlerFactory();
 
-    QUnit
-        .cases.init(requestCases)
-        .test('request with ', function(caseData, assert) {
-            var ready = assert.async();
-            var tokenHandler = tokenHandlerFactory();
-
-            // mock the endpoints:
-            $.mockjax([
-                {
-                    url: /^\/\/200.*$/,
-                    status: 200,
-                    headers: {
-                        // respond with:
-                        'X-CSRF-Token': 'token2'
-                    },
-                    response: function(settings) {
-                        var response = responses[settings.url][0];
-                        var content;
-                        if (response) {
-                            content = response.data;
-                            if (caseData.headers) {
-                                response = _.cloneDeep(response);
-                                if (!content) {
-                                    content = {};
-                                }
-                                content.requestHeaders = settings.headers;
+        // mock the endpoints:
+        $.mockjax([
+            {
+                url: /^\/\/200.*$/,
+                status: 200,
+                headers: {
+                    // respond with:
+                    'X-CSRF-Token': 'token2'
+                },
+                response: function(settings) {
+                    var response = responses[settings.url][0];
+                    var content;
+                    if (response) {
+                        content = response.data;
+                        if (caseData.headers) {
+                            response = _.cloneDeep(response);
+                            if (!content) {
+                                content = {};
                             }
-                            if (response.success === false) {
-                                this.responseText = JSON.stringify(response);
-                            }
-                            else {
-                                this.responseText = JSON.stringify({
-                                    success: true,
-                                    content: content
-                                });
-                            }
+                            content.requestHeaders = settings.headers;
                         }
-                    }
-                },
-                {
-                    url: "//204",
-                    status: 204,
-                    headers: {
-                        'X-CSRF-Token': 'token2'
-                    }
-                },
-                {
-                    url: "//500",
-                    status: 500,
-                    statusText: 'Server Error',
-                }
-            ]);
-
-            tokenHandler.clearStore()
-            .then(function() {
-                return tokenHandler.setToken('token1');
-            })
-            .then(function() {
-                var result = request(caseData);
-
-                assert.ok(result instanceof Promise, 'The request function returns a promise');
-
-                if (caseData.reject) {
-                    assert.expect(3);
-
-                    result.then(function() {
-                        assert.ok(false, 'Should reject');
-                        ready();
-                    })
-                    .catch(function(err) {
-                        assert.equal(err.name, caseData.err.name, 'Reject error is the one expected');
-                        assert.equal(err.message, caseData.err.message, 'Reject error is correct');
-                        ready();
-                    });
-
-                }
-                else {
-                    assert.expect(caseData.noToken ? 2 : 3);
-
-                    result.then(function(response) {
-                        if (_.isUndefined(caseData.content)) {
-                            assert.ok(_.isUndefined(response), 'No content encountered in empty response');
+                        if (response.success === false) {
+                            this.responseText = JSON.stringify(response);
                         }
                         else {
-                            assert.deepEqual(response.content, caseData.content, 'The given result is correct');
-                        }
-
-                        if (!caseData.noToken) {
-                            tokenHandler.getToken().then(function(storedToken) {
-                                assert.equal(storedToken, 'token2', 'The token was updated with the next in sequence');
-                                ready();
+                            this.responseText = JSON.stringify({
+                                success: true,
+                                content: content
                             });
                         }
-                        else {
-                            ready();
-                        }
-                    })
-                    .catch(function() {
-                        assert.ok(false, 'Should not reject');
-                        ready();
-                    });
+                    }
                 }
+            },
+            {
+                url: "//500",
+                status: 500,
+                statusText: 'Server Error',
+            }
+        ]);
+
+        tokenHandler.clearStore()
+        .then(function() {
+            return tokenHandler.setToken('token1');
+        })
+        .then(function() {
+            var result = request(caseData);
+
+            assert.expect(3);
+
+            assert.ok(result instanceof Promise, 'The request function returns a promise');
+
+            result.then(function() {
+                assert.ok(false, 'Should reject, but hasn\'t');
+                ready();
+            })
+            .catch(function(err) {
+                assert.equal(err.name, caseData.err.name, 'Reject error is the one expected');
+                assert.equal(err.message, caseData.err.message, 'Reject error is correct');
+                ready();
             });
         });
+    });
 });

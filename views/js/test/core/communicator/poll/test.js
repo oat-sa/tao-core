@@ -222,21 +222,17 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
         var requestMessage = 'hello';
 
         var testPath = [{
-            token: 'token1',
             request: [],
             response: {
-                token: 'token2',
                 messages: [],
                 responses: []
             }
         }, {
-            token: 'token2',
             request: [{
                 channel: requestChannel,
                 message: requestMessage
             }],
             response: {
-                token: 'token3',
                 messages: [{
                     channel: requestChannel,
                     message: 'bar'
@@ -249,7 +245,6 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
 
         var currentStep = 0;
 
-        var expectedToken = testPath[currentStep].token;
         var expectedRequest = testPath[currentStep].request;
         var expectedResponse = testPath[currentStep].response;
 
@@ -257,13 +252,10 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
             promise.resolve(expectedResponse);
 
             currentStep = Math.min(currentStep + 1, testPath.length - 1);
-            expectedToken = testPath[currentStep].token;
             expectedRequest = testPath[currentStep].request;
             expectedResponse = testPath[currentStep].response;
         }, function(ajaxConfig) {
             assert.equal(ajaxConfig.url, config.service, 'The provider has called the right service');
-            // Following assertion disabled because response header cannot be checked with current ajaxMock:
-            // assert.equal(ajaxConfig.headers['X-CSRF-Token'], expectedToken, 'The provider has set the right security token');
             assert.deepEqual(JSON.parse(ajaxConfig.data), expectedRequest, 'The provider has sent the request');
         });
 
@@ -344,21 +336,17 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
         var requestMessage = 'hello';
 
         var testPath = [{
-            token: 'token1',
             request: [],
             response: {
-                token: 'token2',
                 messages: [],
                 responses: []
             }
         }, {
-            token: 'token2',
             request: [{
                 channel: requestChannel,
                 message: requestMessage
             }],
             response: {
-                token: 'token3',
                 messages: [{
                     channel: requestChannel,
                     message: 'bar'
@@ -371,7 +359,6 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
 
         var currentStep = 0;
 
-        var expectedToken = testPath[currentStep].token;
         var expectedRequest = testPath[currentStep].request;
         var expectedResponse = testPath[currentStep].response;
         var instance;
@@ -381,12 +368,10 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
             promise.resolve(expectedResponse);
 
             currentStep = Math.min(currentStep + 1, testPath.length - 1);
-            expectedToken = testPath[currentStep].token;
             expectedRequest = testPath[currentStep].request;
             expectedResponse = testPath[currentStep].response;
         }, function(ajaxConfig) {
             assert.equal(ajaxConfig.url, config.service, 'The provider has called the right service');
-            // assert.equal(ajaxConfig.headers['X-CSRF-Token'], expectedToken, 'The provider has set the right security token');
             assert.deepEqual(JSON.parse(ajaxConfig.data), expectedRequest, 'The provider has sent the request');
         });
 
@@ -445,15 +430,12 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
         var requestMessage = 'hello';
 
         var testPath = [{
-            token: 'token1',
             request: [],
             response: {
-                token: 'token2',
                 messages: [],
                 responses: []
             }
         }, {
-            token: 'token2',
             request: [{
                 channel: requestChannel,
                 message: requestMessage
@@ -463,7 +445,6 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
 
         var currentStep = 0;
 
-        var expectedToken = testPath[currentStep].token;
         var expectedRequest = testPath[currentStep].request;
         var expectedResponse = testPath[currentStep].response;
         var mustFail = false;
@@ -490,12 +471,10 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
             }
 
             currentStep = Math.min(currentStep + 1, testPath.length - 1);
-            expectedToken = testPath[currentStep].token;
             expectedRequest = testPath[currentStep].request;
             expectedResponse = testPath[currentStep].response;
         }, function(ajaxConfig) {
             assert.equal(ajaxConfig.url, config.service, 'The provider has called the right service');
-            // assert.equal(ajaxConfig.headers['X-CSRF-Token'], expectedToken, 'The provider has set the right security token');
             assert.deepEqual(JSON.parse(ajaxConfig.data), expectedRequest, 'The provider has sent the request');
         });
 
@@ -560,7 +539,6 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
             promise.resolve(expectedResponse);
         }, function(ajaxConfig) {
             assert.equal(ajaxConfig.url, config.service, 'The provider has called the right service');
-            // assert.equal(typeof ajaxConfig.headers['X-CSRF-Token'], 'undefined', 'The provider has not set any security token');
             assert.deepEqual(JSON.parse(ajaxConfig.data), [], 'The provider has sent the request with no data');
         });
 

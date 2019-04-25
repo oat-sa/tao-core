@@ -20,12 +20,10 @@
  * @author Martin Nicholson <martin@taotesting.com>
  */
 define([
-    'jquery',
-    'lodash',
     'core/promise',
     'core/tokenHandler',
     'lib/jquery.mockjax/jquery.mockjax'
-], function($, _, Promise, tokenHandlerFactory) {
+], function(Promise, tokenHandlerFactory) {
     'use strict';
 
     var proxyApi = [
@@ -36,14 +34,6 @@ define([
         { name : 'getQueueLength' },
         { name : 'setMaxSize' }
     ];
-
-    function randomToken() {
-        var d = Date.now() + Math.floor(5000 * Math.random());
-        return {
-            value: 'someToken' + ('' + d).slice(9),
-            receivedAt: d
-        };
-    }
 
 
     QUnit.module('tokenHandler');
@@ -101,11 +91,11 @@ define([
         assert.expect(6);
 
         Promise.all([
-            tokenHandler.setToken(randomToken()),
-            tokenHandler.setToken(randomToken()),
-            tokenHandler.setToken(randomToken()),
-            tokenHandler.setToken(randomToken()),
-            tokenHandler.setToken(randomToken())
+            tokenHandler.setToken('token1'),
+            tokenHandler.setToken('token2'),
+            tokenHandler.setToken('token3'),
+            tokenHandler.setToken('token4'),
+            tokenHandler.setToken('token5'),
         ])
         .then(function(){
             return tokenHandler.getQueueLength();
@@ -159,7 +149,6 @@ define([
     QUnit.test('getClientConfigTokens', function(assert) {
         var ready = assert.async();
         var tokenHandler = tokenHandlerFactory();
-        var expectedToken = 'e56fg1a3b9de2237f';
 
         assert.expect(3);
 
