@@ -22,11 +22,10 @@
 define([
     'jquery',
     'i18n',
-    'context',
-    'helpers',
+    'util/url',
     'ui/feedback',
     'ui/modal'
-], function($, __, context, helpers, feedback){
+], function($, __, urlUtil, feedback){
     'use strict';
 
     var ext_installed = [];
@@ -67,11 +66,11 @@ define([
         progressConsole(__('Installing extension %s...').replace('%s', ext));
         $.ajax({
             type: "POST",
-            url: helpers._url('install', 'ExtensionsManager', 'tao'),
+            url: urlUtil.route('install', 'ExtensionsManager', 'tao'),
             data: 'id='+ext,
             dataType: 'json',
-            success: function(data) {
-                helpers.loaded();
+            success: function success(data) {
+
                 if (data.success) {
                     progressConsole(__('> Extension %s succesfully installed.').replace('%s', ext));
 
@@ -120,7 +119,7 @@ define([
         progressConsole(__('Post install processing'));
         return $.ajax({
             type: "GET",
-            url: helpers._url('postInstall', 'ExtensionsManager', 'tao')
+            url: urlUtil.route('postInstall', 'ExtensionsManager', 'tao')
         });
     }
 
@@ -130,7 +129,7 @@ define([
             $('#installProgress .bar').animate({backgroundColor:'#bb6',width:'100%'}, 1000);
 
             postInstall().done(function() {
-                helpers.loaded();
+
                 $('#installProgress .bar').animate({backgroundColor:'#6b6'}, 1000);
                 $('#installProgress p.status').text(__('Installation done.'));
                 progressConsole(__('> Installation done.'));
