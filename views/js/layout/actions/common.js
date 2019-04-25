@@ -101,41 +101,39 @@ define([
             if (actionContext.type !== 'class') {
                 signature = actionContext.classSignature;
             }
-            return new Promise( function(resolve, reject) {
-                request({
-                    url: self.url,
-                    method: "POST",
-                    data: {id: classUri, type: 'class', signature: signature},
-                    dataType: 'json',
-                })
-                .then(function(response) {
-                    if (response.success && response.uri) {
-                        if (actionContext.tree) {
-                            $(actionContext.tree).trigger('addnode.taotree', [{
-                                uri       : uri.decode(response.uri),
-                                label     : response.label,
-                                parent    : uri.decode(actionContext.classUri),
-                                cssClass  : 'node-class'
-                            }]);
-                        }
-
-                        //resolve format (resourceSelector)
-                        resolve({
+            return request({
+                url: self.url,
+                method: "POST",
+                data: {id: classUri, type: 'class', signature: signature},
+                dataType: 'json',
+            })
+            .then(function(response) {
+                if (response.success && response.uri) {
+                    if (actionContext.tree) {
+                        $(actionContext.tree).trigger('addnode.taotree', [{
                             uri       : uri.decode(response.uri),
                             label     : response.label,
-                            classUri  : uri.decode(actionContext.classUri),
-                            type      : 'class'
-                        });
-
-                        feedback().success(response.message || __('Successfully added new class'));
-                    } else {
-                        reject(new Error(__('Adding the new class has failed')));
+                            parent    : uri.decode(actionContext.classUri),
+                            cssClass  : 'node-class'
+                        }]);
                     }
-                    $('#user-list').datatable('refresh');
-                })
-                .catch(function(error) {
-                    reject(error.message);
-                });
+
+                    feedback().success(response.message || __('Successfully added new class'));
+
+                    //return format (resourceSelector)
+                    return {
+                        uri       : uri.decode(response.uri),
+                        label     : response.label,
+                        classUri  : uri.decode(actionContext.classUri),
+                        type      : 'class'
+                    };
+
+                } else {
+                    throw new Error(__('Adding the new class has failed'));
+                }
+            })
+            .catch(function(error) {
+                feedback().error(error.message);
             });
         });
 
@@ -157,41 +155,38 @@ define([
             if (actionContext.type !== 'class') {
                 signature = actionContext.classSignature;
             }
-            return new Promise( function(resolve, reject) {
-                request({
-                    url: self.url,
-                    method: "POST",
-                    data: {id: classUri, type: 'instance', signature: signature},
-                    dataType: 'json'
-                })
-                .then(function(response) {
-                    if (response.success && response.uri) {
-                        //backward compat format for jstree
-                        if(actionContext.tree){
-                            $(actionContext.tree).trigger('addnode.taotree', [{
-                                uri       : uri.decode(response.uri),
-                                label     : response.label,
-                                parent    : uri.decode(actionContext.classUri),
-                                cssClass  : 'node-instance'
-                            }]);
-                        }
-
-                        //resolve format (resourceSelector)
-                        resolve({
+            return request({
+                url: self.url,
+                method: "POST",
+                data: {id: classUri, type: 'instance', signature: signature},
+                dataType: 'json'
+            })
+            .then(function(response) {
+                if (response.success && response.uri) {
+                    //backward compat format for jstree
+                    if(actionContext.tree){
+                        $(actionContext.tree).trigger('addnode.taotree', [{
                             uri       : uri.decode(response.uri),
                             label     : response.label,
-                            classUri  : uri.decode(actionContext.classUri),
-                            type      : 'instance'
-                        });
-
-                    } else {
-                        reject(new Error(__('Adding the new resource has failed')));
+                            parent    : uri.decode(actionContext.classUri),
+                            cssClass  : 'node-instance'
+                        }]);
                     }
-                    $('#user-list').datatable('refresh');
-                })
-                .catch(function(error) {
-                    reject(error.message);
-                });
+
+                    //return format (resourceSelector)
+                    return {
+                        uri       : uri.decode(response.uri),
+                        label     : response.label,
+                        classUri  : uri.decode(actionContext.classUri),
+                        type      : 'instance'
+                    };
+
+                } else {
+                    throw new Error(__('Adding the new resource has failed'));
+                }
+            })
+            .catch(function(error) {
+                feedback().error(error.message);
             });
         });
 
@@ -209,46 +204,44 @@ define([
          */
         binder.register('duplicateNode', function duplicateNode(actionContext){
             var self = this;
-            return new Promise( function(resolve, reject) {
-                request({
-                    url: self.url,
-                    method: "POST",
-                    data: {
-                        uri: actionContext.id,
-                        classUri: uri.decode(actionContext.classUri),
-                        signature: actionContext.signature
-                    },
-                    dataType: 'json',
-                })
-                .then(function(response) {
-                    if (response.success && response.uri) {
-                        //backward compat format for jstree
-                        if(actionContext.tree){
-                            $(actionContext.tree).trigger('addnode.taotree', [{
-                                uri       : uri.decode(response.uri),
-                                label     : response.label,
-                                parent    : uri.decode(actionContext.classUri),
-                                cssClass  : 'node-instance'
-                            }]);
-                        }
-
-                        //resolve format (resourceSelector)
-                        resolve({
+            return request({
+                url: self.url,
+                method: "POST",
+                data: {
+                    uri: actionContext.id,
+                    classUri: uri.decode(actionContext.classUri),
+                    signature: actionContext.signature
+                },
+                dataType: 'json',
+            })
+            .then(function(response) {
+                if (response.success && response.uri) {
+                    //backward compat format for jstree
+                    if(actionContext.tree){
+                        $(actionContext.tree).trigger('addnode.taotree', [{
                             uri       : uri.decode(response.uri),
                             label     : response.label,
-                            classUri  : uri.decode(actionContext.classUri),
-                            type      : 'instance'
-                        });
-
-                        feedback().success(response.message || __('Resource duplicated'));
-                    } else {
-                        reject(new Error(__('Node duplication has failed')));
+                            parent    : uri.decode(actionContext.classUri),
+                            cssClass  : 'node-instance'
+                        }]);
                     }
-                    $('#user-list').datatable('refresh');
-                })
-                .catch(function(error) {
-                    reject(error.message);
-                });
+
+                    feedback().success(response.message || __('Resource duplicated'));
+
+                    //return format (resourceSelector)
+                    return {
+                        uri       : uri.decode(response.uri),
+                        label     : response.label,
+                        classUri  : uri.decode(actionContext.classUri),
+                        type      : 'instance'
+                    };
+
+                } else {
+                    throw new Error(__('Node duplication has failed'));
+                }
+            })
+            .catch(function(error) {
+                feedback().error(error.message);
             });
         });
 
@@ -296,7 +289,6 @@ define([
                         } else {
                             reject(response.msg || __("Unable to delete the selected resource"));
                         }
-                        $('#user-list').datatable('refresh');
                     })
                     .catch(function(error) {
                         reject(error.message);
@@ -373,7 +365,6 @@ define([
                         } else {
                             reject(new Error(response.message || __("Unable to delete the selected resources")));
                         }
-                        $('#user-list').datatable('refresh');
                     })
                     .catch(function(error) {
                         reject(error);
