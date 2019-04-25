@@ -48,7 +48,8 @@ define([
 
         var config = _.defaults(options || {}, defaultConfig);
 
-        //in memory storage
+        // In memory storage
+        // For security reasons, this is preferred over the indexeddb or localStorage implementations
         var getStore = function getStore() {
             return store('tokenStore.tokens', store.backends.memory);
         };

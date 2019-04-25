@@ -26,6 +26,7 @@
  *      { success : true, data : [the results]}
  *      { success : false, data : {Exception}, message : 'Something went wrong' }
  *   - 204 for empty content
+ *   - 412 if CSRF token validation fails
  *
  * @author Martin Nicholson <martin@taotesting.com>
  */
@@ -159,7 +160,7 @@ define([
                                 }
 
                                 // handle case where token expired or invalid
-                                if (xhr.status === 401 || (response && response.errorCode === 401)) {
+                                if (xhr.status === 412 || (response && response.errorCode === 412)) {
                                     reject(createError(response, xhr.status + ' : ' + xhr.statusText, xhr.status));
                                 }
 

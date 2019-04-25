@@ -184,7 +184,6 @@ define([
                             type      : 'instance'
                         });
 
-                        feedback().success(response.message || __('Successfully added new resource'));
                     } else {
                         reject(new Error(__('Adding the new resource has failed')));
                     }
