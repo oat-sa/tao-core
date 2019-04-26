@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.3.0-sprint100\n"
-"PO-Revision-Date: 2019-04-12T08:47:42\n"
+"PO-Revision-Date: 2019-04-26T09:07:48\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: de-DE\n"
@@ -368,11 +368,11 @@ msgstr ""
 msgid "Calendar"
 msgstr "Kalender"
 
-msgid "Cancel"
-msgstr "Abbrechen"
-
 msgid "cancel"
 msgstr "abbrechen"
+
+msgid "Cancel"
+msgstr "Abbrechen"
 
 msgid "cancel the action"
 msgstr "Aktion abbrechen"
@@ -402,11 +402,11 @@ msgstr "Passwort ändern"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check all"
-msgstr "Alles markieren"
-
 msgid "Check All"
 msgstr "Alle markieren"
+
+msgid "Check all"
+msgstr "Alles markieren"
 
 msgid "Check-in"
 msgstr "Check-In"
@@ -570,10 +570,10 @@ msgstr "Daten erfolgreich importiert"
 msgid "Data imported. Some records are invalid."
 msgstr "Daten importiert. Einige Einträge sind ungültig."
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "Datensprache"
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "Datensprache"
 
 msgid "Data not imported. All records are invalid."
@@ -975,10 +975,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -986,9 +986,6 @@ msgstr "Inklusiv (UND)"
 
 msgid "Index has been deleted for %s"
 msgstr ""
-
-msgid "Indexing has been run"
-msgstr "Indizierung wurde ausgeführt"
 
 msgid "Infinity"
 msgstr ""
@@ -1020,10 +1017,10 @@ msgstr "Installieren der Erweiterung %s..."
 msgid "Instance saved"
 msgstr "Instanz gespeichert"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "Sprache der Benutzeroberfläche"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "Sprache der Benutzeroberfläche"
 
 msgid "Invalid CSP header."
@@ -1660,6 +1657,12 @@ msgstr ""
 msgid "Resources moved"
 msgstr ""
 
+msgid "Resources successfully indexed"
+msgstr ""
+
+msgid "Resources was not indexed"
+msgstr ""
+
 msgid "Responsive mode"
 msgstr "Antwort Modus"
 
@@ -1740,11 +1743,11 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "Select"
-msgstr "Auswählen"
-
 msgid "select"
 msgstr "auswählen"
+
+msgid "Select"
+msgstr "Auswählen"
 
 msgid "Select a class"
 msgstr ""

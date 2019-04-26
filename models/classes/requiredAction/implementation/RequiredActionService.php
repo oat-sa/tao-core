@@ -60,6 +60,23 @@ class RequiredActionService extends ConfigurableService implements RequiredActio
     }
 
     /**
+     * Detach old action by name
+     * @param  string $name name of action
+     */
+    public function detachAction($name)
+    {
+        $actions = $this->getRequiredActions();
+
+        foreach ($actions as $key => $action) {
+            if ($action->getName() === $name) {
+                unset($actions[$key]);
+            }
+        }
+
+        $this->setOption(self::OPTION_REQUIRED_ACTIONS, $actions);
+    }
+
+    /**
      * Get required action by name
      * @param  string $name name of action
      * @return RequiredActionInterface array of required action instances
