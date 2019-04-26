@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.3.0-sprint100\n"
-"PO-Revision-Date: 2019-04-12T08:48:20\n"
+"PO-Revision-Date: 2019-04-26T09:08:27\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-CN\n"
@@ -368,11 +368,11 @@ msgstr ""
 msgid "Calendar"
 msgstr "日历"
 
-msgid "Cancel"
-msgstr "取消"
-
 msgid "cancel"
 msgstr ""
+
+msgid "Cancel"
+msgstr "取消"
 
 msgid "cancel the action"
 msgstr ""
@@ -402,10 +402,10 @@ msgstr "更改密码"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check all"
+msgid "Check All"
 msgstr "全部勾选"
 
-msgid "Check All"
+msgid "Check all"
 msgstr "全部勾选"
 
 msgid "Check-in"
@@ -570,11 +570,11 @@ msgstr "数据已成功导入"
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data Language"
-msgstr "资料语言"
-
 msgid "Data language"
 msgstr "数据语言"
+
+msgid "Data Language"
+msgstr "资料语言"
 
 msgid "Data not imported. All records are invalid."
 msgstr ""
@@ -975,19 +975,16 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
 msgstr "包容(和)"
 
 msgid "Index has been deleted for %s"
-msgstr ""
-
-msgid "Indexing has been run"
 msgstr ""
 
 msgid "Infinity"
@@ -1020,10 +1017,10 @@ msgstr "正在安装扩展程序%s..."
 msgid "Instance saved"
 msgstr "实体已储存"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "介面语言"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "介面语言"
 
 msgid "Invalid CSP header."
@@ -1660,6 +1657,12 @@ msgstr ""
 msgid "Resources moved"
 msgstr ""
 
+msgid "Resources successfully indexed"
+msgstr ""
+
+msgid "Resources was not indexed"
+msgstr ""
+
 msgid "Responsive mode"
 msgstr "回应模式"
 
@@ -1740,10 +1743,10 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "Select"
+msgid "select"
 msgstr "选择"
 
-msgid "select"
+msgid "Select"
 msgstr "选择"
 
 msgid "Select a class"
