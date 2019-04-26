@@ -33,7 +33,6 @@ define([
     'use strict';
 
     var _defaults = {
-        title : '',
         resizable : true,
         draggable : true,
         width : 240,
@@ -47,7 +46,8 @@ define([
         draggableContainer : 'parent',
         preserveAspectRatio : true,
         top : 0,
-        left : 0
+        left : 0,
+        proportionalResize: false,
     };
 
     /**
@@ -198,6 +198,7 @@ define([
      * @param {Number} [defaults.top] - the initial position top absolute to the relative positioned container
      * @param {Number} [defaults.left] - the initial position left absolute to the relative positioned container
      * @param {Number} [defaults.stackingScope] - in which scope to stack the component
+     * @param {Boolean} [defaults.proportionalResize] - resize proportionally in both dimensions
      * @returns {component}
      */
     var dynComponentFactory = function dynComponentFactory(specs, defaults){
@@ -220,6 +221,7 @@ define([
                 var $content        = $('.dynamic-component-content', $element);
                 var $titleBar       = $('.dynamic-component-title-bar', $element);
                 var $contentOverlay = $('.dynamic-component-layer', $element);
+                var $resizeControll = $('.dynamic-component-resize-wrapper', $element);
                 var pixelRatio      = window.devicePixelRatio;
                 var interactElement;
 
@@ -312,17 +314,24 @@ define([
                         preserveAspectRatio : config.preserveAspectRatio,
                         autoScroll : true,
                         restrict : getRestriction(),
-                        edges : {left : true, right : true, bottom : true, top : true},
+                        edges : {left : false, right : '.dynamic-component-resize-wrapper', bottom : '.dynamic-component-resize-wrapper', top : false},
                         onmove : _resizeItem
                     });
                 }
 
                 interactElement
-                    .on('dragstart resizeinertiastart resizestart', function() {
+                    .on('dragstart resizeinertiastart', function() {
                         $contentOverlay.addClass('dragging-active');
                     })
                     .on('dragend resizeend', function(){
                         $contentOverlay.removeClass('dragging-active');
+                    })
+                    .on('resizestart', function() {
+                        $contentOverlay.addClass('dragging-active');
+                        $resizeControll.addClass('resizing');
+                    }).on('resizeend', function() {
+                        $contentOverlay.removeClass('dragging-active');
+                        $resizeControll.removeClass('resizing');
                     });
 
                 //interact sometimes doesn't trigger the start event if the move is quick and ends over an iframe...
@@ -359,11 +368,55 @@ define([
                  * @param {Object} e - the interact event object
                  */
                 function _resizeItem(e){
+                    var width = e.rect.width;
+                    var height = e.rect.height;
+                    var $parent = config.draggableContainer || $element.parent();
+                    var elementOffset = $element.offset();
+                    var parentOffset = $parent.offset();
 
-                    var width  = e.rect.width < config.minWidth ? config.minWidth : e.rect.width > config.maxWidth ? config.maxWidth : e.rect.width;
-                    var height = e.rect.height < config.minHeight ? config.minHeight : e.rect.height > config.maxHeight ? config.maxHeight : e.rect.height;
+                    // if proportional resize enabled calculate scale rate
+                    // and apply it to width and height
+                    if (config.proportionalResize) {
+                        var scaleRate = Math.max(
+                            width / config.minWidth,
+                            height / config.minHeight,
+                        );
 
-                    if(width <= config.smallWidthThreshold) {
+                        width = config.minWidth * scaleRate;
+                        height = config.minHeight * scaleRate;
+                    }
+
+                    if (width < config.minWidth) {
+                        width = config.minWidth;
+                    } else if (width > config.maxWidth) {
+                        width = config.maxWidth;
+                    }
+
+                    // make sure that component is inside the container
+                    if (elementOffset.left + width > parentOffset.left + $parent.width()) {
+                        if (config.proportionalResize) {
+                            return;
+                        } else {
+                            width -= (width + elementOffset.left) - (parentOffset.left + $parent.width());
+                        }
+                    }
+
+                    if (height < config.minHeight) {
+                        height = config.minHeight;
+                    } else if (height > config.maxHeight) {
+                        height = config.maxWidth;
+                    }
+
+                    // make sure that component is inside the container
+                    if (elementOffset.top + height > parentOffset.top + $parent.height()) {
+                        if (config.proportionalResize) {
+                            return;
+                        } else {
+                            height -= (height + elementOffset.top) - (parentOffset.top + $parent.height());
+                        }
+                    }
+
+                    if (width <= config.smallWidthThreshold) {
                         $element.addClass('small').removeClass('large');
                     } else if(width >= config.largeWidthThreshold) {
                         $element.addClass('large').removeClass('small');

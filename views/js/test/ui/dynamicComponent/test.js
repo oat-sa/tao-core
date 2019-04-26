@@ -91,16 +91,14 @@ define(['jquery', 'lodash', 'ui/dynamicComponent'], function($, _, dynamicCompon
         var $content1 = $('<div class="my-custom-content">BBB</div>');
         var $container1 = $("#fixture-1").append($dummy1);
 
-        assert.expect(19);
+        assert.expect(18);
 
         // Auto render at init
         assert.equal($container1.children().length, 1, 'The container1 already contains an element');
         assert.equal($container1.children().get(0), $dummy1.get(0), 'The container1 contains the dummy element');
         assert.equal($container1.find('.dummy').length, 1, 'The container1 contains an element of the class dummy');
 
-        dynamicComponent({}, {
-            title: 'AAA'
-        }).on('rendercontent', function($content) {
+        dynamicComponent({}, {}).on('rendercontent', function($content) {
 
             //Init the calculator
             $content.append($content1);
@@ -113,7 +111,6 @@ define(['jquery', 'lodash', 'ui/dynamicComponent'], function($, _, dynamicCompon
 
             assert.equal($container1.find('.dynamic-component-container').length, 1, 'Dynamic component container ok');
             assert.equal($container1.find('.dynamic-component-container .dynamic-component-title-bar').length, 1, 'Dynamic component title ok');
-            assert.equal($container1.find('.dynamic-component-container .dynamic-component-title-bar h3').text(), 'AAA', 'Dynamic component title is empty');
             assert.equal($container1.find('.dynamic-component-container .dynamic-component-title-bar .closer').length, 1, 'Dynamic component title has closer');
             assert.equal($container1.find('.dynamic-component-container .dynamic-component-content').length, 1, 'Dynamic component has content');
             assert.equal($container1.find('.dynamic-component-container .dynamic-component-content .my-custom-content').length, 1, 'Dynamic component has content');
@@ -146,9 +143,7 @@ define(['jquery', 'lodash', 'ui/dynamicComponent'], function($, _, dynamicCompon
 
         var $content1 = $('<div class="my-custom-content">BBB</div>');
         var $container1 = $("#fixture-1");
-        var instance = dynamicComponent({}, {
-            title: 'AAA'
-        }).on('rendercontent', function($content) {
+        var instance = dynamicComponent({}, {}).on('rendercontent', function($content) {
 
             //Init the calculator
             $content.append($content1);
@@ -163,7 +158,6 @@ define(['jquery', 'lodash', 'ui/dynamicComponent'], function($, _, dynamicCompon
 
         assert.equal($container1.find('.dynamic-component-container').length, 1, 'Dynamic component container ok');
         assert.equal($container1.find('.dynamic-component-container .dynamic-component-title-bar').length, 1, 'Dynamic component title ok');
-        assert.equal($container1.find('.dynamic-component-container .dynamic-component-title-bar h3').text(), 'AAA', 'Dynamic component title is empty');
         assert.equal($container1.find('.dynamic-component-container .dynamic-component-title-bar .closer').length, 1, 'Dynamic component title has closer');
         assert.equal($container1.find('.dynamic-component-container .dynamic-component-content').length, 1, 'Dynamic component has content');
         assert.equal($container1.find('.dynamic-component-container .dynamic-component-content .my-custom-content').length, 1, 'Dynamic component has content');
@@ -211,9 +205,7 @@ define(['jquery', 'lodash', 'ui/dynamicComponent'], function($, _, dynamicCompon
         var $content1 = $('<div class="my-custom-content">BBB</div>');
         var $container1 = $("#fixture-1");
 
-        dynamicComponent({}, {
-            title: 'AAA'
-        }).after('rendercontent', function($content) {
+        dynamicComponent({}, {}).after('rendercontent', function($content) {
             var $element = this.getElement();
             var diffWidth = $element.outerWidth() - $element.width();
             var diffHeight = $element.outerHeight() - $element.height() + $element.find('.dynamic-component-title-bar').outerHeight();
@@ -223,7 +215,6 @@ define(['jquery', 'lodash', 'ui/dynamicComponent'], function($, _, dynamicCompon
 
             assert.equal($container1.find('.dynamic-component-container').length, 1, 'Dynamic component container ok');
             assert.equal($container1.find('.dynamic-component-container .dynamic-component-title-bar').length, 1, 'Dynamic component title ok');
-            assert.equal($container1.find('.dynamic-component-container .dynamic-component-title-bar h3').text(), 'AAA', 'Dynamic component title is empty');
             assert.equal($container1.find('.dynamic-component-container .dynamic-component-title-bar .closer').length, 1, 'Dynamic component title has closer');
             assert.equal($container1.find('.dynamic-component-container .dynamic-component-content').length, 1, 'Dynamic component has content');
             assert.equal($container1.find('.dynamic-component-container .dynamic-component-content .my-custom-content').length, 1, 'Dynamic component has content');
