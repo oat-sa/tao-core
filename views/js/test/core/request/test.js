@@ -31,7 +31,6 @@ define([
 ], function ($, _, request, Promise, tokenHandlerFactory) {
     'use strict';
 
-    var requestCases;
     var responses = {
         '//200': [{
             success: true,
@@ -89,31 +88,24 @@ define([
     });
 
 
-    QUnit.module('Missed params');
-
-    requestCases = [{
-        title: 'no url',
-        err : new TypeError('At least give a URL...')
-    }];
-
-    QUnit
-        .cases.init(requestCases)
-        .test('bad request call with ', function(caseData, assert){
-            var ready = assert.async();
-
-            assert.expect(1);
-
-            assert.throws(
-                function() {
-                    request(caseData.url, caseData.data, caseData.method, caseData.headers, caseData.background, caseData.noToken);
-                },
-                "throws an error"
-            );
-            ready();
-        });
-
-
     QUnit.module('request');
+
+    QUnit.test('bad request call with ', function(assert){
+        var caseData = {
+            title: 'no url',
+            err : new TypeError('At least give a URL...')
+        };
+
+        assert.expect(1);
+
+        assert.throws(
+            function() {
+                request(caseData);
+            },
+            caseData.err,
+            "The correct error is thrown 1"
+        );
+    });
 
 
     QUnit.cases.init([
@@ -140,18 +132,12 @@ define([
             {
                 url: /^\/\/200.*$/,
                 status: 200,
-                headers: {
-                },
                 response: function(settings) {
-                    var response = responses[settings.url][0];
+                    var response = _.cloneDeep(responses[settings.url][0]);
                     var content;
                     if (response) {
-                        content = response.data;
+                        content = response.data || {};
                         if (caseData.headers) {
-                            response = _.cloneDeep(response);
-                            if (!content) {
-                                content = {};
-                            }
                             content.requestHeaders = settings.headers;
                         }
                         if (response.success === false) {
@@ -219,15 +205,12 @@ define([
                     'X-CSRF-Token': 'token2'
                 },
                 response: function(settings) {
-                    var response = responses[settings.url][0];
+                    var response = _.cloneDeep(responses[settings.url][0]);
                     var content;
+
                     if (response) {
-                        content = response.data;
+                        content = response.data || {};
                         if (caseData.headers) {
-                            response = _.cloneDeep(response);
-                            if (!content) {
-                                content = {};
-                            }
                             content.requestHeaders = settings.headers;
                         }
                         if (response.success === false) {
@@ -357,15 +340,11 @@ define([
                     'X-CSRF-Token': 'token2'
                 },
                 response: function(settings) {
-                    var response = responses[settings.url][0];
+                    var response = _.cloneDeep(responses[settings.url][0]);
                     var content;
                     if (response) {
-                        content = response.data;
+                        content = response.data || {};
                         if (caseData.headers) {
-                            response = _.cloneDeep(response);
-                            if (!content) {
-                                content = {};
-                            }
                             content.requestHeaders = settings.headers;
                         }
                         if (response.success === false) {
