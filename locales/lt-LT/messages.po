@@ -1,0 +1,2200 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: TAO 3.3.0-sprint96\n"
+"PO-Revision-Date: 2019-04-25T01:14:00\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
+"MIME-Version: 1.0\n"
+"Language: lt-LT\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: lt-LT\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Basepath: ../../\n"
+"X-Poedit-KeywordsList: __\n"
+"X-Poedit-SearchPath-0: .\n"
+
+msgid ""
+msgstr ""
+
+msgid " AND "
+msgstr " IR "
+
+msgid " and "
+msgstr " ir "
+
+msgid " has been deleted successfully"
+msgstr " sėkmingai ištrintas"
+
+msgid " is "
+msgstr " yra "
+
+msgid " next"
+msgstr " kitas"
+
+msgid " requires a subgrid adapter"
+msgstr ""
+
+msgid "%1$s expected but %2$s detected"
+msgstr "%1$s tikėtasi, bet %2$s aptikta"
+
+msgid "%d attempts left before your account is locked."
+msgstr ""
+
+msgid "%d day"
+msgstr "%d diena"
+
+msgid "%d days"
+msgstr "%d dienos(–ų)"
+
+msgid "%h hour"
+msgstr "%h valanda"
+
+msgid "%h hours"
+msgstr "%h valandos(–ų)"
+
+msgid "%i minute"
+msgstr "%i minutės"
+
+msgid "%i minutes"
+msgstr "%i minutės(–čių)"
+
+msgid "%m month"
+msgstr "%m mėnesis"
+
+msgid "%m months"
+msgstr "%m mėnesiai(–ių)"
+
+msgid "%s %s selected"
+msgstr ""
+
+msgid "%s (%s kb)"
+msgstr "%s (%s kb)"
+
+msgid "%s Class saved"
+msgstr "%s Klasė išsaugota"
+
+msgid "%s classes"
+msgstr ""
+
+msgid "%s Confirmation"
+msgstr "%s Patvirtinimas"
+
+msgid "%s could not be released"
+msgstr "%s negali būti išleistas"
+
+msgid "%s created"
+msgstr ""
+
+msgid "%s extension(s) to install."
+msgstr "%s plėtinys(–iai) įdiegimui."
+
+msgid "%s has been deleted"
+msgstr "%s buvo ištrintas"
+
+msgid "%s has been released"
+msgstr "%s buvo išleistas"
+
+msgid "%s instances"
+msgstr ""
+
+msgid "%s is of a type that cannot be published"
+msgstr "%s tipas, kuris negali būti paskelbtas"
+
+msgid "%s Locked"
+msgstr "%s Užrakintas"
+
+msgid "%s\" is not a valid index identifier. It must start with a letter and contain letters, numbers or underscores only"
+msgstr "%s\" nėra teisingas indekso identifikatorius. Turi prasidėti su raide ir turi būti sudarytas tik iš raidžių, skaičių arba pabraukimo simbolio"
+
+msgid "%y year"
+msgstr "%y metai"
+
+msgid "%y years"
+msgstr "%y metai(–ų)"
+
+msgid "(empty)"
+msgstr "(tuščia)"
+
+msgid "... reloading page."
+msgstr "... perkraunamas puslapis."
+
+msgid "<del>Filters</del>"
+msgstr "<del>Filtrai</del>"
+
+msgid "<del>Options</del>"
+msgstr "<del>Pasirinkimai</del>"
+
+msgid "<strong> %s </strong> has been moved to the background."
+msgstr ""
+
+msgid "> Extension %s succesfully installed."
+msgstr "> Plėtinys %s sėkmingai įdiegtas."
+
+msgid "> Installation done."
+msgstr "> Diegimas baigtas."
+
+msgid "a class"
+msgstr ""
+
+msgid "A date has to be a Datetime or timestamp"
+msgstr "Data turi būti Datos laikas arba laiko antspaudas."
+
+msgid "A fatal error occured during the installation process."
+msgstr "Įvyko kritinė klaida įdiegimo procese."
+
+msgid "A maintenance status must have a STATUS: \"%s\" or \"%s"
+msgstr "Priežiūros būsena turi turėti STATUSĄ: \"%s\" arba \"%s"
+
+msgid "A message with further instructions has been sent to your email address: %s"
+msgstr "Pranešimas su tolimesnėm instrukcijomis buvo nusiųstas į jūsų el. pašto adresą: %s"
+
+msgid "abs"
+msgstr ""
+
+msgid "Absolute value"
+msgstr ""
+
+msgid "AC"
+msgstr ""
+
+msgid "Access Denied"
+msgstr "Prieiga Atmesta"
+
+msgid "Access denied. Please renew your authentication!"
+msgstr "Prieiga atmesta. Prašome atnaujinti savo autentifikaciją!"
+
+msgid "Account status"
+msgstr ""
+
+msgid "Action"
+msgstr "Veiksmas"
+
+msgid "Action %s - removed %s positions"
+msgstr ""
+
+msgid "Action `%s` is not configured in the action queue service"
+msgstr ""
+
+msgid "Action was not executed yet"
+msgstr ""
+
+msgid "Actions"
+msgstr "Veiksmai"
+
+msgid "Add"
+msgstr "Pridėti"
+
+msgid "Add a CSV file"
+msgstr "Pridėti CSV failą"
+
+#, tao-public
+msgid "Add a user"
+msgstr "Pridėti vartotoją"
+
+msgid "Add an RDF/XML file"
+msgstr "Pridėti RDF/XML failą"
+
+msgid "Add file(s)"
+msgstr "Pridėti failą(–us)"
+
+msgid "Add property"
+msgstr "Pridėti ypatybę"
+
+msgid "Adding search index for %s"
+msgstr ""
+
+msgid "Adding the new class has failed"
+msgstr ""
+
+msgid "Adding the new resource has failed"
+msgstr ""
+
+msgid "Advanced Mode"
+msgstr "Pažengęs Režimas"
+
+msgid "Advanced search, add filters"
+msgstr "Pažengusi paieška, pridėti filtrus"
+
+msgid "all"
+msgstr "viskas"
+
+msgid "All data will be removed in %s"
+msgstr "Visi duomenys bus panaikinti po %s"
+
+msgid "All fields are required"
+msgstr "Visi laukai yra privalomi"
+
+msgid "All rights reserved."
+msgstr "Visos teisės saugomos."
+
+msgid "Alpha version"
+msgstr "Alfa versija"
+
+msgid "An email has been sent"
+msgstr "El. laiškas buvo išsiųstas"
+
+msgid "An error occurred during user deletion"
+msgstr ""
+
+msgid "An error occurred!"
+msgstr "Įvyko klaida!"
+
+msgid "An exception occured while running \"%s"
+msgstr "Įvyko klaida vykdant \"%s"
+
+msgid "an instance"
+msgstr ""
+
+msgid "Ans"
+msgstr ""
+
+msgid "Apply"
+msgstr "Taikyti"
+
+msgid "Arc cosine"
+msgstr ""
+
+msgid "Arc sine"
+msgstr ""
+
+msgid "Arc tangent"
+msgstr ""
+
+msgid "Archived"
+msgstr ""
+
+msgid "Are you sure to delete the versioned resource?\n"
+"The history will be lost as well."
+msgstr "Ar jūs tikrai norite ištrinti resursą su versija?\n"
+"Istorija bus ištrinta taip pat."
+
+msgid "Are you sure you want to delete it?"
+msgstr "Ar tikrai norite ištrinti?"
+
+msgid "Arguments separator"
+msgstr ""
+
+msgid "Assign"
+msgstr ""
+
+msgid "Assign User to role"
+msgstr "Paskirti varotoją rolei"
+
+#, tao-public
+msgid "Assign Users"
+msgstr "Paskirti vartotojus"
+
+msgid "Author"
+msgstr "Autorius"
+
+msgid "Author Item"
+msgstr "Redaguoti Dalį"
+
+msgid "Authoring"
+msgstr "Tvarkymas"
+
+msgid "auto unlocked in %s"
+msgstr ""
+
+msgid "Available"
+msgstr "Galimas"
+
+msgid "Available Extensions"
+msgstr "Galimi Plėtiniai"
+
+msgid "Back"
+msgstr "Atgal"
+
+msgid "Back to listing"
+msgstr "Grįžti į sąrašą"
+
+msgid "Base-10 logarithm"
+msgstr ""
+
+msgid "Beta version"
+msgstr "Beta versija"
+
+msgid "Binary operator *"
+msgstr ""
+
+msgid "Binary operator +"
+msgstr ""
+
+msgid "Binary operator -"
+msgstr ""
+
+msgid "Binary operator /"
+msgstr ""
+
+msgid "Binary operator modulo"
+msgstr ""
+
+msgid "Browse folders:"
+msgstr "Naršyti aplankus:"
+
+msgid "Browse..."
+msgstr "Naršyti..."
+
+msgid "C"
+msgstr ""
+
+msgid "Calculator"
+msgstr "Skaičiuotuvas"
+
+msgid "Calendar"
+msgstr "Kalendorius"
+
+msgid "Cancel"
+msgstr "Atšaukti"
+
+msgid "cancel"
+msgstr "atšaukti"
+
+msgid "cancel the action"
+msgstr "atšaukti veiksmą"
+
+msgid "Cancelled"
+msgstr ""
+
+msgid "Cannot be edited"
+msgstr "Negali būti redaguotas"
+
+msgid "Cannot divide by zero"
+msgstr "Negalima padalinti iš nulio"
+
+msgid "Case sensitive"
+msgstr ""
+
+msgid "ceil"
+msgstr ""
+
+#, tao-public
+msgid "Change password"
+msgstr "Pakeisti slaptažodį"
+
+msgid "Change the password"
+msgstr "Pakeisti slaptažodį"
+
+msgid "Change the sign of the current operand"
+msgstr ""
+
+msgid "Check All"
+msgstr "Pažymėti Visus"
+
+msgid "Check all"
+msgstr "Pažymėti visus"
+
+msgid "Check-in"
+msgstr "Pasižymėti"
+
+msgid "Choose a value..."
+msgstr "Pasirinkti reikšmę..."
+
+msgid "Choose export format"
+msgstr "Pasirinkti eksportavimo formatą"
+
+msgid "Choose import format"
+msgstr "Pasirinkti importavimo formatą"
+
+msgid "City"
+msgstr ""
+
+msgid "class selected"
+msgstr "pasirinktos klasės"
+
+msgid "Class uri provided is not a valid class."
+msgstr "Pateikta klasės uri nėra teisinga klasė."
+
+msgid "Cleaning up tmp space complete"
+msgstr "Laikinos atminties valymas atliktas"
+
+msgid "Cleaning up tmp space started"
+msgstr "Laikinos atminties valymas pradėtas"
+
+msgid "Clear"
+msgstr ""
+
+msgid "Clear All"
+msgstr ""
+
+msgid "Clear all data"
+msgstr ""
+
+msgid "Clear expression"
+msgstr ""
+
+msgid "Clear History"
+msgstr ""
+
+msgid "Clear history"
+msgstr ""
+
+msgid "Clear selection"
+msgstr "Išvalyti pasirinimą"
+
+msgid "Clear the stored variables"
+msgstr ""
+
+msgid "Close"
+msgstr "Uždaryti"
+
+msgid "Close message"
+msgstr "Uždaryti pranešimą"
+
+msgid "Code Version"
+msgstr "Kodo Versija"
+
+msgid "Collecting of abandoned actions in the action queue ..."
+msgstr ""
+
+msgid "Column"
+msgstr "Stulpelis"
+
+msgid "comment..."
+msgstr "komentaras..."
+
+msgid "Commit"
+msgstr ""
+
+msgid "Completed"
+msgstr "Atlikta"
+
+msgid "Completed - Error"
+msgstr "Atlikta – Klaida"
+
+msgid "Compute the expression"
+msgstr ""
+
+msgid "Confirm"
+msgstr "Patvirtinti"
+
+msgid "Connect to the TAO platform"
+msgstr "Prisijungti prie TAO platformos"
+
+msgid "Continue"
+msgstr "Tęsti"
+
+msgid "Copy"
+msgstr ""
+
+msgid "Copy to"
+msgstr ""
+
+msgid "Copy to clipboard"
+msgstr ""
+
+msgid "cos"
+msgstr ""
+
+msgid "cosh"
+msgstr ""
+
+msgid "Cosine"
+msgstr ""
+
+msgid "Country"
+msgstr ""
+
+msgid "Create"
+msgstr "Sukurti"
+
+msgid "Create instance of "
+msgstr "Sukurti instanciją"
+
+msgid "Created"
+msgstr "Sukurta"
+
+msgid "Creation At"
+msgstr ""
+
+msgid "CSV"
+msgstr "CSV"
+
+msgid "CSV Options"
+msgstr "CSV Pasirinkimai"
+
+msgid "Cube root"
+msgstr ""
+
+msgid "Current language"
+msgstr "Dabartinė kalba"
+
+msgid "Current playback position"
+msgstr "Dabartinė atkūrimo vieta"
+
+msgid "Data imported"
+msgstr "Duomenys importuoti"
+
+msgid "Data imported successfully"
+msgstr "Duomenys importuoti sėkmingai"
+
+msgid "Data imported. Some records are invalid."
+msgstr "Duomenys importuoti. Kaikurie įrašai yra blogi."
+
+msgid "Data language"
+msgstr "Duomenų kalba"
+
+msgid "Data Language"
+msgstr "Duomenų Kalba"
+
+msgid "Data not imported. All records are invalid."
+msgstr "Duomenys neimportuoti. Visi įrašai yra blogi."
+
+msgid "Date"
+msgstr "Data"
+
+msgid "Default search"
+msgstr "Numatyta paieška"
+
+msgid "Define the default values"
+msgstr "Nustatyti numatytas reikšmes"
+
+msgid "Deg"
+msgstr ""
+
+msgid "Degree"
+msgstr ""
+
+#, tao-public
+msgid "Delete"
+msgstr "Ištrinti"
+
+msgid "Delete Left"
+msgstr ""
+
+msgid "Delete Right"
+msgstr ""
+
+msgid "Delete the term on the left side of the cursor"
+msgstr ""
+
+msgid "Delete the term on the right side of the cursor"
+msgstr ""
+
+msgid "Deleting search index for %s"
+msgstr ""
+
+msgid "Demo Sandbox"
+msgstr "Smėlio dėžė"
+
+msgid "Digit 0"
+msgstr ""
+
+msgid "Digit 1"
+msgstr ""
+
+msgid "Digit 2"
+msgstr ""
+
+msgid "Digit 3"
+msgstr ""
+
+msgid "Digit 4"
+msgstr ""
+
+msgid "Digit 5"
+msgstr ""
+
+msgid "Digit 6"
+msgstr ""
+
+msgid "Digit 7"
+msgstr ""
+
+msgid "Digit 8"
+msgstr ""
+
+msgid "Digit 9"
+msgstr ""
+
+msgid "Disabled %s"
+msgstr "Išjungtas %s"
+
+msgid "Do you wish to install the following extension(s):\n"
+"%s?"
+msgstr "Ar norite įdiegti šiuos plėtinius:\n"
+"%s?"
+
+msgid "does not match"
+msgstr "nesutampa"
+
+msgid "Don't set"
+msgstr "Nenustatyti"
+
+msgid "Dot"
+msgstr ""
+
+msgid "Download"
+msgstr "Atsiųsti"
+
+msgid "Download this file"
+msgstr "Atsiųsti failą"
+
+msgid "Drag file here"
+msgstr "Tempti failą į čia"
+
+msgid "Drag files here"
+msgstr "Tempti failus į čia"
+
+msgid "Drop the files to upload"
+msgstr "Tempti failus, kad įkeltum"
+
+msgid "Edit"
+msgstr "Redaguoti"
+
+#, tao-public
+msgid "Edit a user"
+msgstr "Redaguoti vartotoją"
+
+msgid "Edit class %s"
+msgstr "Redaguoti klasę %s"
+
+msgid "Edit Instance"
+msgstr "Redaguoti Instanciją"
+
+msgid "Element"
+msgstr "Elementas"
+
+msgid "Element deleted."
+msgstr "Elementas ištrintas."
+
+msgid "Email"
+msgstr "El. Paštas"
+
+msgid "Email address"
+msgstr ""
+
+msgid "enabled"
+msgstr ""
+
+msgid "Enabled %s"
+msgstr ""
+
+msgid "End of document reached. Continuing from the beginning."
+msgstr "Dokumento pabaiga pasiekta. Tęsiama nuo pradžios."
+
+msgid "Enter"
+msgstr "Eiti į aplinką – "
+
+msgid "Error"
+msgstr "Klaida"
+
+msgid "Error adding search index for %s with message %s"
+msgstr ""
+
+msgid "Error during file import"
+msgstr "Klaida importuojant failą"
+
+msgid "Error in result"
+msgstr ""
+
+msgid "Error in syntax"
+msgstr ""
+
+msgid "Error in value"
+msgstr ""
+
+msgid "Exclusive (OR)"
+msgstr ""
+
+msgid "Execute"
+msgstr ""
+
+msgid "Executing task %s failed"
+msgstr ""
+
+msgid "exp"
+msgstr ""
+
+msgid "Exponent"
+msgstr ""
+
+#, tao-public
+msgid "Export"
+msgstr "Eksportuoti"
+
+msgid "Export "
+msgstr "Eksportuoti"
+
+msgid "Export \"%s\" in %s"
+msgstr ""
+
+msgid "Export CSV"
+msgstr ""
+
+msgid "Export failed."
+msgstr ""
+
+msgid "Export Metadata as RDF/XML file"
+msgstr "Eksportuoti metaduomenis RDF/XML failu"
+
+msgid "Export succeeded."
+msgstr ""
+
+msgid "Extension \"%s\" has been installed"
+msgstr ""
+
+#, tao-public
+msgid "Extensions manager"
+msgstr "Plėtinių valdymas"
+
+msgid "Factorial"
+msgstr ""
+
+msgid "Failed"
+msgstr ""
+
+msgid "Failed to delete index for %s"
+msgstr ""
+
+msgid "False"
+msgstr ""
+
+msgid "Field delimiter"
+msgstr "Lauko atskyriklis"
+
+msgid "Field encloser"
+msgstr "Lauko padėklas"
+
+msgid "Fields must match"
+msgstr "Laukai privalo sutapti"
+
+msgid "File"
+msgstr "Failas"
+
+msgid "File download failed"
+msgstr "Failo atsiuntimas nepavyko"
+
+msgid "File name"
+msgstr "Failo pavadinimas"
+
+msgid "File Properties"
+msgstr "Failo savybės"
+
+msgid "file selected"
+msgstr "failas pasirinktas"
+
+msgid "File Uploader"
+msgstr "Failų Įkėlimas"
+
+msgid "files selected"
+msgstr "pasirinkti failai"
+
+msgid "Filter"
+msgstr "Filtras"
+
+msgid "Filter by value"
+msgstr "Filtras pagal reikšmę"
+
+msgid "Filtering mode"
+msgstr "Filtravimo režimas"
+
+msgid "First Name"
+msgstr "Vardas"
+
+msgid "First page"
+msgstr "Pirmas puslapis"
+
+msgid "First row column names"
+msgstr "Pirmos eilės stulpelio pavadinimai"
+
+msgid "Fit to width"
+msgstr "Tilpti į plotį"
+
+msgid "floor"
+msgstr ""
+
+msgid "Force Release"
+msgstr "Priverstinis Išleidimas"
+
+msgid "Forgot your password?"
+msgstr "Pamiršote slaptažodį?"
+
+msgid "From"
+msgstr "Iš"
+
+msgid "Fuzzy Matching"
+msgstr "Apytikslis Atitikimas"
+
+msgid "Generis Form"
+msgstr ""
+
+msgid "Get History"
+msgstr ""
+
+msgid "Get the history list"
+msgstr ""
+
+msgid "Go Back"
+msgstr "Grįžti Atgal"
+
+msgid "Height"
+msgstr "Aukštis"
+
+msgid "Hi, %s<br>You indicated that you have forgotten your TAO password."
+msgstr "Labas, %s<br>Jūs nurodėte, kad pamiršote savo TAO slaptažodį."
+
+msgid "Hide detailed report"
+msgstr "Slėpti detalią ataskaitą"
+
+msgid "Highlight all"
+msgstr "Pažymėti visus"
+
+msgid "hours"
+msgstr "valandos(–ų)"
+
+msgid "Hyperbolic arc cosine"
+msgstr ""
+
+msgid "Hyperbolic arc sine"
+msgstr ""
+
+msgid "Hyperbolic arc tangent"
+msgstr ""
+
+msgid "Hyperbolic cosine"
+msgstr ""
+
+msgid "Hyperbolic sine"
+msgstr ""
+
+msgid "Hyperbolic tangent"
+msgstr ""
+
+msgid "Identifier"
+msgstr "Identifikatorius"
+
+msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
+msgstr "Jeigu jūs nenori atstatyti savo slaptažodžio, tiesiog ignoruokite šį el. laišką ir jūsų slaptažodis liks toks pat."
+
+msgid "Import"
+msgstr "Importuoti"
+
+msgid "Import "
+msgstr "Importuoti"
+
+msgid "Import a %s into \"%s"
+msgstr ""
+
+msgid "Import Completed"
+msgstr ""
+
+msgid "Import failed."
+msgstr ""
+
+msgid "Import Metadata from CSV file"
+msgstr "Importuoti Metaduomenis iš CSV failo"
+
+msgid "Import Metadata from RDF file"
+msgstr "Importuoti Metaduomenis iš RDF failo"
+
+msgid "Import succeeded."
+msgstr ""
+
+msgid "Imported %1$d/%2$d. Some records are invalid."
+msgstr "Importuoti %1$d/%2$d. Kaikurie įrašai yra blogi."
+
+msgid "Imported %d resources"
+msgstr "Importuoti %d resursai"
+
+msgid "Imported resource \"%s"
+msgstr "Importuotas resursas \"%s"
+
+msgid "impossible to update task status"
+msgstr "neįmanoma atnaujinti užduoties būsenos"
+
+msgid "In progress"
+msgstr "Vykdoma"
+
+msgid "In Progress"
+msgstr ""
+
+msgid "Inclusive (AND)"
+msgstr ""
+
+msgid "Index has been deleted for %s"
+msgstr ""
+
+msgid "Indexing has been run"
+msgstr "Indeksavimas buvo pradėtas"
+
+msgid "Infinity"
+msgstr ""
+
+msgid "Injector has to contains a valid \"destination\" field."
+msgstr ""
+
+msgid "Injector has to contains a valid \"source\" field."
+msgstr ""
+
+msgid "Install"
+msgstr "Įdiegti"
+
+msgid "Installation done."
+msgstr "Įdiegimas baigtas."
+
+msgid "Installation..."
+msgstr "Įdiegimas..."
+
+msgid "Installed Extensions"
+msgstr "Įdiegti Plėtiniai"
+
+msgid "Installed Version"
+msgstr "Įdiegta Versija"
+
+msgid "Installing extension %s..."
+msgstr "Įdiegiamas plėtinys %s..."
+
+msgid "Instance saved"
+msgstr "Instancija išsaugota"
+
+msgid "Interface language"
+msgstr "Sąsajos kalba"
+
+msgid "Interface Language"
+msgstr "Sąsajos Kalba"
+
+msgid "Invalid date range (must be after or the same as: %s)"
+msgstr "Blogas datos intervalas (privalo būti paskui arba toks pat kaip: %s)"
+
+msgid "Invalid date range (must be after: %s)"
+msgstr "Blogas datos intervalas (privalo būti paskui: %s)"
+
+msgid "Invalid date range (must be before or the same as: %s)"
+msgstr "Blogas datos intervalas (privalo būti prieš arba toks pat kaip: %s)"
+
+msgid "Invalid date range (must be before: %s)"
+msgstr "Blogas datos intervalas (privalo būti prieš: %s)"
+
+msgid "Invalid field length"
+msgstr "Blogas lauko ilgis"
+
+msgid "Invalid field range (maximum value: %s)"
+msgstr "Blogas lauko intervalas (maksimali reikšmė: %s)"
+
+msgid "Invalid field range (minimum value: %1$s, maximum value: %2$s)"
+msgstr "Blogas lauko intervalas (minimali reikšmė: %1$s, maksimali reikšmė: %2$s)"
+
+msgid "Invalid field range (minimum value: %s)"
+msgstr "Blogas lauko intervalas (minimali reikšmė: %s)"
+
+msgid "Invalid file size (minimum %1$s bytes, maximum %2$s bytes)"
+msgstr "Blogas failo dydis (minimalus %1$s baitai, maksimalus %2$s baitai)"
+
+msgid "Invalid file type!"
+msgstr "Blogas failo tipas!"
+
+msgid "Invalid input for function"
+msgstr "Bloga įvestis funkcijai"
+
+msgid "Invalid login or password. Please try again."
+msgstr "Blogas prisijungimo vardas arba slaptažodis. Prašome bandyti dar kartą."
+
+msgid "Invalid login or password. Your account has been locked, please contact your administrator."
+msgstr ""
+
+msgid "invalid regular expression"
+msgstr "bloga įprasta išraiška"
+
+msgid "Label"
+msgstr "Pavadinimas"
+
+msgid "Language"
+msgstr "Kalba"
+
+msgid "Last attempt before your account is locked."
+msgstr ""
+
+msgid "Last Name"
+msgstr "Pavardė"
+
+msgid "Last page"
+msgstr "Paskutinis puslapis"
+
+msgid "Last result"
+msgstr ""
+
+msgid "Left parenthesis"
+msgstr ""
+
+msgid "less than a minute"
+msgstr "trumpiau negu minutę"
+
+msgid "List"
+msgstr "Sąrašas"
+
+msgid "List - Multiple choice - Check box"
+msgstr "Sąrašas - Keli variantai - Langelis"
+
+msgid "List - Single choice - Drop down"
+msgstr "Sąrašas - Vienas variantas - Sąrašas"
+
+msgid "List - Single choice - Radio button"
+msgstr "Sąrašas - Vienas variantas - Skritulinis mygtukas"
+
+msgid "ln"
+msgstr ""
+
+msgid "Load more"
+msgstr "Įkelti daugiau"
+
+msgid "Loaded"
+msgstr "Įkelta"
+
+msgid "Loaded at Startup"
+msgstr "Įkelta paleidimo metu"
+
+msgid "Loading"
+msgstr "Įkeliama"
+
+msgid "Loading status"
+msgstr "Įkėlimo būsena"
+
+msgid "Loading task status ..."
+msgstr "Įkeliama užduoties būsena ..."
+
+msgid "locked by %s"
+msgstr ""
+
+msgid "log"
+msgstr ""
+
+msgid "Log in"
+msgstr "Prisijungti"
+
+msgid "Log Out"
+msgstr "Atsijungti"
+
+msgid "Login"
+msgstr "Prisijungimas"
+
+msgid "Login available"
+msgstr "Prisijungimas laisvas"
+
+msgid "Login is already in use."
+msgstr "Prisijungimas yra jau naudojamas."
+
+msgid "Login is empty."
+msgstr ""
+
+msgid "Logout"
+msgstr "Atsijungti"
+
+msgid "Maintenance service must have a persistence option."
+msgstr ""
+
+msgid "Maintenance storage driver is not set"
+msgstr ""
+
+msgid "Manage class schema"
+msgstr ""
+
+msgid "Manage data list"
+msgstr "Tvarkyti duomenų sąrašą"
+
+#, tao-public
+msgid "Manage roles"
+msgstr "Tvarkyti roles"
+
+msgid "Manage Roles and apply them to users."
+msgstr "Tvarkyti Roles ir pritaikyti vartotojams."
+
+#, tao-public
+msgid "Manage users"
+msgstr "Tvarkyti vartotojus"
+
+msgid "Manage Versioned File"
+msgstr "Tvarkyti Versijuojamą Failą"
+
+msgid "Map the properties to the CSV columns"
+msgstr ""
+
+msgid "Maximum selection reached"
+msgstr "Pasiektas maksimalus pasirinkimas"
+
+msgid "Media resize along with their container, e.g. 50% means half of the container size not half of the media size."
+msgstr ""
+
+msgid "Message"
+msgstr "Pranešimas"
+
+msgid "Messages"
+msgstr "Pranešimai"
+
+msgid "Metadata export is not available for the selected resource."
+msgstr "Negalimas metaduomenų eksportavimas pasirinktam resursui."
+
+msgid "Method"
+msgstr ""
+
+msgid "minutes"
+msgstr "minutės"
+
+msgid "missing config %s for the service %s"
+msgstr "trūksta konfigūracijos %s servisui %s"
+
+msgid "Missing Parameters"
+msgstr ""
+
+msgid "modulo"
+msgstr ""
+
+msgid "More"
+msgstr "Daugiau"
+
+msgid "Move"
+msgstr ""
+
+msgid "Move Left"
+msgstr ""
+
+msgid "Move Right"
+msgstr ""
+
+#, tao-public
+msgid "Move role"
+msgstr "Perkelti rolę"
+
+msgid "Move the cursor one step on the left"
+msgstr ""
+
+msgid "Move the cursor one step on the right"
+msgstr ""
+
+msgid "Move to"
+msgstr "Perkelti į"
+
+msgid "Moving this element will replace the properties of the previous class by those of the destination class :"
+msgstr "Perkeliant šį elementą, bus pakeičiamos praeitos klasės savybės pagal nurodytą klasę :"
+
+msgid "Multiple values delimiter"
+msgstr "Keli reikšmių dalikliai"
+
+msgid "must be numeric"
+msgstr "privalo būti skaitmeninis"
+
+msgid "Mute"
+msgstr "Nutildyti"
+
+msgid "My custom text translation"
+msgstr "Mano nustatytas teksto vertimas"
+
+#, tao-public
+msgid "My settings"
+msgstr "Mano nustatymai"
+
+msgid "My settings (%s)"
+msgstr "Mano nustatymai (%s)"
+
+msgid "Name"
+msgstr "Pavadinimas"
+
+msgid "Natural logarithm"
+msgstr ""
+
+msgid "New password"
+msgstr "Naujas slaptažodis"
+
+#, tao-public
+msgid "New role"
+msgstr "Nauja rolė"
+
+msgid "Next"
+msgstr "Tęsti"
+
+msgid "Next match"
+msgstr "Kitas atitikmuo"
+
+msgid "Next page"
+msgstr "Kitas puslapis"
+
+msgid "No"
+msgstr "Ne"
+
+msgid "No action specified"
+msgstr "Veiksmas nenurodytas"
+
+msgid "No client translation bundles updated"
+msgstr "Jokie kliento vertimų rinkiniai nebuvo atnaujinti"
+
+msgid "No extensions available."
+msgstr "Nėra jokių galimų plėtinių."
+
+msgid "no file not found in this location"
+msgstr "failas nerastas šioje vietoje"
+
+msgid "No file selected"
+msgstr "Joks failas nepasirinktas"
+
+msgid "No files"
+msgstr "Nėra failų"
+
+msgid "no label"
+msgstr "nėra pavadinimo"
+
+msgid "No Preview available"
+msgstr "Peržiūra negalima"
+
+msgid "No preview available"
+msgstr "Peržiūra negalima"
+
+msgid "No results found"
+msgstr "Nieko nerasta"
+
+msgid "No Task yet"
+msgstr "Nėra jokios Užduoties"
+
+msgid "Node duplication has failed"
+msgstr ""
+
+msgid "Not started"
+msgstr "Dar nepradėta"
+
+msgid "Nothing imported"
+msgstr "Niekas neimportuota"
+
+msgid "Nothing to install !"
+msgstr "Nieko nėra įdiegti !"
+
+msgid "Nothing to list!"
+msgstr "Tusčias sąrašas!"
+
+#, tao-public
+msgid "Notifications"
+msgstr "Pranešimai"
+
+msgid "notifications drivers aren\'t persistent. use a persistent database storage driver"
+msgstr ""
+
+msgid "Nth root"
+msgstr ""
+
+msgid "Number of elements"
+msgstr "Elementų kiekis"
+
+msgid "of"
+msgstr "iš"
+
+msgid "Off"
+msgstr ""
+
+msgid "OK"
+msgstr "Gerai"
+
+msgid "Ok"
+msgstr "Gerai"
+
+msgid "Old Password"
+msgstr "Senas Slaptažodis"
+
+msgid "On"
+msgstr ""
+
+msgid "Operated By "
+msgstr "Valdomas"
+
+msgid "or"
+msgstr "arba"
+
+msgid "Page"
+msgstr "Puslapis"
+
+msgid "Parameters"
+msgstr ""
+
+msgid "Password"
+msgstr "Slaptažodis"
+
+msgid "Password changed"
+msgstr "Slaptažodis pakeistas"
+
+msgid "Password is empty."
+msgstr "Slaptažodis tuščias."
+
+msgid "Password reset"
+msgstr "Slaptažodžio atstatymas"
+
+msgid "Password successfully changed"
+msgstr "Slaptažodis pakeistas sėkmingai"
+
+msgid "Passwords are not matching"
+msgstr "Slaptažodžiai nesutampa"
+
+msgid "Pause"
+msgstr "Pristabdyti"
+
+msgid "Permission denied to write in the selected class"
+msgstr ""
+
+msgid "Phone number"
+msgstr ""
+
+msgid "Play"
+msgstr "Paleisti"
+
+msgid "Please confirm deletion"
+msgstr "Prašome patvirtinti ištrynimą"
+
+msgid "Please confirm deletion of %s."
+msgstr ""
+
+msgid "Please confirm deletion of user %s"
+msgstr ""
+
+msgid "Please confirm locking of account %s"
+msgstr ""
+
+msgid "Please confirm property deletion!"
+msgstr "Prašome patvirtinti savybės šalinimą!"
+
+msgid "Please confirm this operation."
+msgstr "Prašome patvirtinti šį veiksmą."
+
+msgid "Please confirm unlocking of account %s"
+msgstr ""
+
+msgid "Please contact %s or an administrator to release it"
+msgstr "Prašome pranešti %s arba administratorių, kad išleistumėte"
+
+msgid "Please contact your administrator."
+msgstr ""
+
+msgid "Please download the track and listen offline."
+msgstr "Prašome atsisiųsti įrašą, kad paleistumėte neprisijungę."
+
+msgid "Please download the video and view offline."
+msgstr "Prašome atsisiųsti video, kad peržiūrėtumėte neprisijungę."
+
+msgid "Please give a message to your commit"
+msgstr ""
+
+msgid "Please provide a reason"
+msgstr "Prašome pateikti priežastį"
+
+msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
+msgstr "Prašome pranešti spragas, idėjas, komentarus arba atsiliepimus TAO Forume"
+
+msgid "Please try in %s."
+msgstr ""
+
+msgid "Please wait"
+msgstr "Prašome palaukti"
+
+msgid "Please wait while ..."
+msgstr "Prašome palaukti kol..."
+
+msgid "Post install processing"
+msgstr "Vykdymas po įdiegimo"
+
+msgid "Power of"
+msgstr ""
+
+msgid "Power of 10"
+msgstr ""
+
+msgid "Preparing installation..."
+msgstr "Ruošiamas įdiegimas..."
+
+msgid "Preview"
+msgstr "Peržiūra"
+
+msgid "Previous"
+msgstr "Grįžti"
+
+msgid "Previous match"
+msgstr "Ankstesnis atitikmuo"
+
+msgid "Previous page"
+msgstr "Ankstesnis puslapis"
+
+msgid "Proceed"
+msgstr "Tęsti"
+
+#, tao-public
+msgid "Properties"
+msgstr "Savybės"
+
+msgid "Property\'s label field is required"
+msgstr ""
+
+msgid "Provided URL is not valid"
+msgstr "Pateiktas URL nėra teisingas"
+
+msgid "Publish"
+msgstr ""
+
+msgid "Publish the test"
+msgstr ""
+
+msgid "Queued"
+msgstr ""
+
+msgid "Rad"
+msgstr ""
+
+msgid "Radian"
+msgstr ""
+
+msgid "random"
+msgstr ""
+
+msgid "Random value"
+msgstr ""
+
+msgid "Range field is required"
+msgstr "Intervalo laukas yra būtinas"
+
+msgid "RDF"
+msgstr "RDF"
+
+msgid "Refresh"
+msgstr "Atnaujinti"
+
+msgid "Release"
+msgstr "Išleidimas"
+
+msgid "Releasing the lock might cause the work in progress by %s to be lost."
+msgstr ""
+
+msgid "Remind"
+msgstr ""
+
+msgid "Remind Last"
+msgstr ""
+
+msgid "Remind the last value"
+msgstr ""
+
+msgid "Remind the next expression in the history"
+msgstr ""
+
+msgid "Remind the previous expression in the history"
+msgstr ""
+
+msgid "Remind the recorded value"
+msgstr ""
+
+msgid "Remove"
+msgstr "Ištrinti"
+
+msgid "Remove Message"
+msgstr "Ištrinti Pranešimą"
+
+msgid "Remove this file"
+msgstr "Ištrinti šį failą"
+
+msgid "Removed %s directories"
+msgstr "Ištrinti %s aplankai"
+
+msgid "Removed %s files"
+msgstr "Ištrinti %s failai"
+
+msgid "Removing: %s"
+msgstr "Ištrinama: %s"
+
+msgid "Rename"
+msgstr "Pervadinti"
+
+msgid "Repeat new password"
+msgstr "Pakartoti naują slaptažodį"
+
+msgid "Repeat password"
+msgstr "Pakartoti slaptažodį"
+
+msgid "Request a password reset via Email."
+msgstr "Slaptažodžio atstatymo užklausa per El. paštą."
+
+msgid "require notification ID"
+msgstr "reikalingas pranešimo ID"
+
+msgid "required length"
+msgstr "reikalaujamas ilgis"
+
+msgid "Requires"
+msgstr "Reikalauja"
+
+msgid "Reset"
+msgstr "Atstatyti"
+
+msgid "Reset the original size"
+msgstr "Atstatyti originalų dydį"
+
+msgid "Resource"
+msgstr "Resursas"
+
+msgid "Resource copied"
+msgstr ""
+
+msgid "Resource Identifier"
+msgstr ""
+
+msgid "Resource Identifier could not be copied to the clipboard"
+msgstr ""
+
+msgid "Resource Identifier has been copied to the clipboard"
+msgstr ""
+
+msgid "Resource not imported due to multiple super classes"
+msgstr "Resursas nebuvo importuotas, dėl daugkartinių super klasių"
+
+msgid "Resource not imported due to multiple types"
+msgstr "Resursas nebuvo importuotas, dėl daugkartinių tipų"
+
+msgid "Resource saved"
+msgstr "Resursas išsaugotas"
+
+msgid "resources"
+msgstr "resursai"
+
+msgid "Resources moved"
+msgstr ""
+
+msgid "Responsive mode"
+msgstr "Reaktyvus režimas"
+
+msgid "Restore sound"
+msgstr "Atstatyti garsą"
+
+msgid "Return to sign in page"
+msgstr "Grįžti į prisijungimo puslapį"
+
+msgid "Right click the tree to manage your lists"
+msgstr ""
+
+msgid "Right parenthesis"
+msgstr ""
+
+msgid "Role saved"
+msgstr "Rolė išsaugota"
+
+msgid "Roles"
+msgstr "Rolės"
+
+#, tao-public
+msgid "Roles library"
+msgstr "Rolių biblioteka"
+
+msgid "round"
+msgstr ""
+
+msgid "Round to closest whole number"
+msgstr ""
+
+msgid "Round to lower whole number"
+msgstr ""
+
+msgid "Round to upper whole number"
+msgstr ""
+
+msgid "Row %s"
+msgstr "Eilutė %s"
+
+msgid "Running task %s"
+msgstr ""
+
+msgid "Save"
+msgstr "Išsaugoti"
+
+msgid "Scientific Calculator"
+msgstr ""
+
+msgid "Scope"
+msgstr "Apimtis"
+
+msgid "Search"
+msgstr "Ieškoti"
+
+msgid "Search %s"
+msgstr "Ieškoti %s"
+
+msgid "Search by properties"
+msgstr "Ieškoti pagal savybes"
+
+msgid "Search sub-classes"
+msgstr "Ieškoti poklasiuose"
+
+msgid "second"
+msgstr ""
+
+msgid "seconds"
+msgstr "sekundės"
+
+msgid "select"
+msgstr "pasirinkti"
+
+msgid "Select"
+msgstr "Pasirinkti"
+
+msgid "Select a class"
+msgstr "Pasirinkti klasę"
+
+msgid "Select a destination"
+msgstr ""
+
+msgid "Select a language"
+msgstr "Pasirinkti kalbą"
+
+msgid "Select loaded %s"
+msgstr "Pasirinkimas įkeltas %s"
+
+msgid "Select this file"
+msgstr "Pasirinkti šį failą"
+
+msgid "select..."
+msgstr "pasirinkti..."
+
+msgid "Selected"
+msgstr "Pasirinkta"
+
+msgid "Selected file:"
+msgstr "Pasirinktas failas:"
+
+msgid "Selection saved successfully"
+msgstr "Pasirinkimas sėkmingai išsaugotas"
+
+msgid "self-locked"
+msgstr ""
+
+msgid "Set the trigonometric function to work in degrees"
+msgstr ""
+
+msgid "Set the trigonometric function to work in radians"
+msgstr ""
+
+#, tao-public
+msgid "Settings"
+msgstr "Nustatymai"
+
+msgid "Settings updated"
+msgstr "Nustatymai atnaujinti"
+
+msgid "Show detailed report"
+msgstr "Rodytį detalią ataskaitą"
+
+msgid "Sign change"
+msgstr ""
+
+msgid "Simple Mode"
+msgstr "Paprastas Režimas"
+
+msgid "sin"
+msgstr ""
+
+msgid "Sine"
+msgstr ""
+
+msgid "sinh"
+msgstr ""
+
+msgid "Size"
+msgstr "Dydis"
+
+msgid "Some resources have not been moved: %s"
+msgstr ""
+
+msgid "Square root"
+msgstr ""
+
+msgid "Start of document reached. Continuing from the end."
+msgstr "Dokumento pradžia pasiekta. Tęsiama nuo pabaigos."
+
+msgid "State"
+msgstr ""
+
+msgid "Status"
+msgstr "Būsena"
+
+msgid "Status of"
+msgstr "Būsena"
+
+msgid "Store"
+msgstr ""
+
+msgid "Store the value a variable"
+msgstr ""
+
+msgid "Street"
+msgstr ""
+
+msgid "Success"
+msgstr "Pavyko"
+
+msgid "Successfully imported \"%s"
+msgstr "Sėkmingai importuota \"%s"
+
+msgid "Successfully imported %s tripples"
+msgstr "Sėkmingai importuota \"%s trigubi"
+
+msgid "Successfully imported class \"%s"
+msgstr "Klasė sėkmingai importuota \"%s"
+
+msgid "Successfully updated %s client translation bundles"
+msgstr "Sėkmingai atnaujinta %s kliento vertimo rinkiniai"
+
+msgid "Supported export formats"
+msgstr "Palaikomi eksportavimo formatai"
+
+msgid "Syntax error"
+msgstr ""
+
+msgid "tan"
+msgstr ""
+
+msgid "Tangent"
+msgstr ""
+
+msgid "tanh"
+msgstr ""
+
+msgid "Tao Default Theme"
+msgstr "Tao Numatyta Tema"
+
+msgid "TAO Home"
+msgstr "TAO Namai"
+
+msgid "TAO Login"
+msgstr "TAO Prisijungimas"
+
+msgid "Task %s has been cancelled, message was not processed."
+msgstr ""
+
+msgid "task created"
+msgstr "užduotis sukurta"
+
+msgid "Task Listing"
+msgstr "Užduoties Sąrašas"
+
+msgid "Task Name"
+msgstr "Užduoties Pavadinimas"
+
+msgid "Task not found"
+msgstr "Užduotis nerasta"
+
+msgid "Task not returned any report."
+msgstr ""
+
+msgid "Term"
+msgstr ""
+
+msgid "Text - Long - Box"
+msgstr "Tekstas - Ilgas - Plotas"
+
+msgid "Text - Long - HTML editor"
+msgstr "Tekstas - Ilgas - HTML redaguoklis"
+
+msgid "Text - Short - Field"
+msgstr "Tekstas - Trumpas - Laukelis"
+
+msgid "The action will be applied to"
+msgstr "Veiksmas bus priskirtas į"
+
+msgid "The action will be applied to the following"
+msgstr "Veiksmas bus priskirtas sekančiam "
+
+msgid "The action will not be applied to "
+msgstr "Veiksmas nebus priskirtas į"
+
+msgid "The action will not be applied to the following"
+msgstr "Veiksmas nebus priskirtas sekančiam"
+
+msgid "The column "
+msgstr "Stulpelis"
+
+msgid "The format of this field is not valid."
+msgstr "Šio lauko formatas yra neteisingas."
+
+msgid "The imported file is not properly UTF-8 encoded."
+msgstr "Importuotas failas nėra teisingas UTF-8 koduotas."
+
+msgid "The index identifier should not be empty"
+msgstr "Indekso identifikatorius neturi būti tuščias"
+
+msgid "The lock has been released"
+msgstr "Užraktas buvo paleistas"
+
+msgid "The properties of the source class will be replaced by those of the destination class. This might result in a loss of metadata. Continue anyway?"
+msgstr ""
+
+msgid "The server has sent an empty response"
+msgstr ""
+
+msgid "The uploaded file is too large (maximum %s bytes)"
+msgstr "Įkeltas failas yra per didelis (maksimum %s baitų)"
+
+msgid "The value for the property \"%s\" must be unique."
+msgstr "Reikšmė šiai savybei \"%s\" turi būti unikali."
+
+msgid "The value of this field must be a valide date format, e.g. YYYY-MM-DD"
+msgstr "Šio laukelio reikšmė turi būti teisingu datos formatu, pvz.:YYYY-MM-DD"
+
+msgid "The value of this field must be an integer"
+msgstr "Laukelio reikšmė privalo būti sveikasis skaičius"
+
+msgid "The value of this field must be numeric"
+msgstr "Laukelio reikšmė privalo būti skaitinis"
+
+msgid "There is nothing to list!"
+msgstr "Sąrašas tuščias!"
+
+msgid "This %s is currently checked out"
+msgstr ""
+
+msgid "This field is required"
+msgstr "Šis laukelis privalomas"
+
+msgid "This field is too long"
+msgstr "Laukelis per ilgas"
+
+msgid "This field is too short"
+msgstr "Laukelis per trumpas"
+
+msgid "This is not a valid email address."
+msgstr "Neteisingas el. pašto adresas."
+
+msgid "this is required"
+msgstr "privaloma"
+
+msgid "This Login is already in use"
+msgstr "Prisijungimo vardas užimtas"
+
+msgid "This media cannot be played!"
+msgstr "Medija negali būti paleista!"
+
+msgid "This password reset link is no longer valid. It may have already been used. If you still wish to reset your password please request a new link"
+msgstr "Slaptažodžio atstatymo nuoroda yra nebegaliojanti. Gali būti, kad jau panaudota. Jeigu vistiek norite atstatyti savo slaptažodį, paprašykite naujos nuorodos"
+
+msgid "This resource is locked"
+msgstr "Šis resursas užrakintas"
+
+msgid "This role is still given to one or more users. Please remove the role to these users first."
+msgstr "Šį rolė vis dar priskirta vienam ar daugiau vartotojų. Prašome pirma pašalinti šią rolę iš vartotojų."
+
+msgid "This should equal %s"
+msgstr "Tai turėtų būti lygu %s"
+
+msgid "This should not equal %s"
+msgstr "Tai turėtų būti nelygu %s"
+
+msgid "Time zone"
+msgstr "Laiko zona"
+
+msgid "Title"
+msgstr "Pavadinimas"
+
+msgid "to"
+msgstr "į"
+
+msgid "To reset your password, click the link below, or paste it into your browser. You will then be prompted to create a new password."
+msgstr "Norint atstatyti slaptažodį, paspauskite ant nuorodos apačioje, arba nukopijuokite ir įklijuokite į savo naršyklę. Jūsų bus prašoma įvesti naują slaptažodį."
+
+msgid "to translate"
+msgstr "išversti"
+
+msgid "Toggle multiple/single selection"
+msgstr ""
+
+msgid "Tokenizer"
+msgstr "Antspaudėjas"
+
+msgid "Too many suggestions match your query. Only a few are listed"
+msgstr "Perdaug pasiūlymų sutampa su jūsų užklausa. Tik keli yra pateikti sąraše"
+
+msgid "Total duration"
+msgstr "Bendra trukmė"
+
+msgid "Total:"
+msgstr "Iš viso:"
+
+msgid "Translate"
+msgstr "Išversti"
+
+msgid "Translate to"
+msgstr "Išversti į"
+
+msgid "Translation parameters"
+msgstr "Vertimo pasirinkimai"
+
+msgid "Translation saved"
+msgstr "Vertimas išsaugotas"
+
+msgid "Tree - Multiple node choice "
+msgstr ""
+
+msgid "True"
+msgstr "Teisingas"
+
+msgid "trunc"
+msgstr ""
+
+msgid "Type"
+msgstr "Tipas"
+
+msgid "Type your search"
+msgstr "Įveskite paiešką"
+
+msgid "Unable to access your account?"
+msgstr "Napvyksta pasiekti savo paskyros?"
+
+msgid "Unable to change passwords in demo mode"
+msgstr "Nepavyko pakeisti slaptažodžio bandomąjame režime"
+
+msgid "Unable to copy the resource"
+msgstr ""
+
+msgid "Unable to delete %s"
+msgstr "Nepavyko ištrinti %s"
+
+msgid "Unable to delete the selected resource"
+msgstr "Nepavyko ištrinti pasirinkto resurso"
+
+msgid "Unable to delete the selected resources"
+msgstr ""
+
+msgid "Unable to move the resources"
+msgstr ""
+
+msgid "Unable to open file %s"
+msgstr "Nepavyko atidaryti failo %s"
+
+msgid "Unable to release the lock"
+msgstr "Nepavyko paleisti užrakto"
+
+msgid "Unable to remove the property."
+msgstr "Nepavyko pašalinti savybės."
+
+msgid "Unable to save resource."
+msgstr "Nepavyko išsaugoti resurso."
+
+msgid "unable to search into notification."
+msgstr ""
+
+msgid "Unable to send the password reset request"
+msgstr "Nepavyko išsiųsti slaptažodžio atstatymo prašymo"
+
+msgid "Unable to update the asset service"
+msgstr "Nepavyko atnaujinti turinio serviso"
+
+msgid "Unable to upload file"
+msgstr "Nepavyko įkelti failo"
+
+msgid "Unable to upload file %s : %s"
+msgstr "Nepavyko įkelti failo %s : %s"
+
+msgid "Unary operator +"
+msgstr ""
+
+msgid "Unary operator -"
+msgstr ""
+
+msgid "Uncheck all"
+msgstr "Atžymėti visus"
+
+msgid "Uncheck All"
+msgstr "Atžymėti visus"
+
+msgid "Undefined amount of the pages for pagination"
+msgstr "Nenurodytas puslapių kiekis puslapiavimui."
+
+msgid "Undefined amount of the totalPages for pagination"
+msgstr "Nenurodytas visų puslapių kiekis puslapiavimui."
+
+msgid "Undo"
+msgstr "Anuliuoti"
+
+msgid "Unexpected error. Please contact administrator"
+msgstr "Netikėta klaida. Prašome pranešti administratoriui"
+
+msgid "Uninstall of %s failed"
+msgstr "%s išdiegimas nepavyko"
+
+msgid "Uninstalled %s"
+msgstr "Išdiegtas %s"
+
+msgid "unknown"
+msgstr "nežinoma"
+
+msgid "Unknown Error"
+msgstr "Nežinoma Klaida"
+
+msgid "unkown task id %s"
+msgstr "nežinomas užduoties id %s"
+
+msgid "Update"
+msgstr "Atnaujinti"
+
+msgid "Update ID : %s"
+msgstr "Atnaujinimo ID : %s"
+
+msgid "Upload"
+msgstr "Įkelti"
+
+msgid "Upload into:"
+msgstr "Įkelti į:"
+
+msgid "URL"
+msgstr ""
+
+msgid "Usage: ImportRdf RDF_FILE [MODEL_ID]"
+msgstr "Naudojimas: ImportRdf RDF_FILE [MODEL_ID]"
+
+msgid "Use a term"
+msgstr ""
+
+msgid "Use a variable"
+msgstr ""
+
+msgid "Use default value"
+msgstr "Naudoti numatytą reikšmę"
+
+msgid "User"
+msgstr "Vartotojas"
+
+msgid "User %s can not be locked"
+msgstr ""
+
+msgid "User %s can not be unlocked"
+msgstr ""
+
+msgid "User %s successfully locked"
+msgstr ""
+
+msgid "User %s successfully unlocked"
+msgstr ""
+
+msgid "User added"
+msgstr "Varototojas pridėtas"
+
+msgid "User deleted successfully"
+msgstr "Vartotojas sėkmingai ištrintas"
+
+msgid "User deletion not permitted on a demo instance"
+msgstr ""
+
+msgid "User not found"
+msgstr "Vartotojas nerastas"
+
+msgid "User saved"
+msgstr "Vartotojas išsaugotas"
+
+#, tao-public
+msgid "User Settings"
+msgstr "Vartotojo Nustatymai"
+
+msgid "Username"
+msgstr ""
+
+#, tao-public
+msgid "Users"
+msgstr "Vartotojai"
+
+msgid "Validation for field '%s' has failed. Language does not exists in the system"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. List of values expected"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Valid role expected. Given: %s"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Valid URI expected"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Valid URI expected. Given: %s"
+msgstr ""
+
+msgid "Value of E"
+msgstr ""
+
+msgid "Value of PI"
+msgstr ""
+
+msgid "Variable"
+msgstr ""
+
+msgid "Variable %s"
+msgstr ""
+
+msgid "Version"
+msgstr "Versija"
+
+msgid "View report"
+msgstr "Peržiūrėti ataskaitą"
+
+msgid "View resources as a list"
+msgstr "Peržiūrėti resursus, kaip sąrašą"
+
+msgid "View resources as a tree"
+msgstr "Peržiūrėti resursus, kaip medį"
+
+msgid "Wait is over"
+msgstr "Laukimas baigtas"
+
+msgid "Waiting"
+msgstr "Laukiama"
+
+msgid "Whole number part"
+msgstr ""
+
+msgid "Width"
+msgstr "Plotis"
+
+msgid "Wrong or missing parameter extension, module or action"
+msgstr ""
+
+msgid "Wrong parameter shownExtension"
+msgstr ""
+
+msgid "Yes"
+msgstr "Taip"
+
+msgid "You are not allowed to write in the class %s"
+msgstr ""
+
+msgid "You are not authorised to remove this lock"
+msgstr "Jūs esate neautorizuotas ištrinti šį užraktą"
+
+msgid "You cannot delete the root node"
+msgstr "Jūs negalite ištrinti pagrindinio mazgo"
+
+msgid "You cannot move the selected resources in the class %s"
+msgstr ""
+
+msgid "You currently have no access to the platform"
+msgstr "Jūs šiuo metu neturite prieigos prie platformos"
+
+msgid "You do not have the required rights to edit this resource."
+msgstr "Jūs neturite reikalaujamų teisių redaguotį šį resursą."
+
+msgid "You have been locked due to too many failed login attempts. "
+msgstr ""
+
+msgid "You have been logged out. Please login again"
+msgstr "Jūs esate atsijungę. Prašome prisijungti dar kartą"
+
+msgid "You must activate JavaScript in your browser to run this application."
+msgstr "Jūs privalote aktyvuoti JavaScript savo naršyklėje, kad paleistumėte programą."
+
+msgid "Your account has been locked, please contact your administrator."
+msgstr ""
+
+msgid "Your browser does not meet the technical requirements to run TAO."
+msgstr "Jūsų naršyklė neatitinka techninių reikalavimų paleisti TAO."
+
+msgid "Your browser does not support copying to the clipboard"
+msgstr ""
+
+msgid "Your browser doesn’t support the audio player."
+msgstr "Jūsų naršyklė nepalaiko audio grotuvo."
+
+msgid "Your browser doesn’t support the video player."
+msgstr "Jūsų naršyklė nepalaiko vaizdo grotuvo."
+
+msgid "Your mail"
+msgstr "Jūsų paštas"
+
+msgid "Your TAO Password"
+msgstr "Jūsų TAO Slaptažodis"
+
+msgid "Zip Code"
+msgstr ""
+

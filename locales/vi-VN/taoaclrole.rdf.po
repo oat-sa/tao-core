@@ -1,0 +1,22 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: TAO 3.3.0-sprint96\n"
+"PO-Revision-Date: 2019-04-25T01:07:37\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
+"MIME-Version: 1.0\n"
+"Language: vi-VN\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: vi-VN\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Base User"
+msgstr "Người dùng cơ bản"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Base User Role"
+msgstr "Vai trò người dùng cơ bản"
+

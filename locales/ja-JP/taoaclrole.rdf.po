@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint94\n"
-"PO-Revision-Date: 2019-02-01T09:17:30\n"
+"Project-Id-Version: TAO 3.3.0-sprint96\n"
+"PO-Revision-Date: 2019-04-25T01:06:29\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-JP\n"
@@ -13,10 +13,10 @@ msgstr ""
 # http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Base User"
-msgstr "基本ユーザ"
+msgstr "基本ユーザー"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Base User Role"
-msgstr "基本ユーザロール"
+msgstr "基本ユーザー権限"
 

@@ -1,0 +1,92 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: TAO 3.3.0-sprint96\n"
+"PO-Revision-Date: 2019-04-25T01:14:00\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
+"MIME-Version: 1.0\n"
+"Language: lt-LT\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: lt-LT\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#AbstractModel
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Abstract Model"
+msgstr "Abstraktus Modelis"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#AbstractModel
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "An abstract model to differentiate implementations of resources of the same type"
+msgstr "Abstraktus modelis diferencijuoti panaudojimus resursams tokiam pačiam tipui"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#ModelImplementation
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Model implementation"
+msgstr "Modelio panaudojimas"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#ModelStatus
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Model Status"
+msgstr "Modelio Būsena"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusStable
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Stable"
+msgstr "Stabilus"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusStable
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "This model can be used in production"
+msgstr "Šis modulis gali būti naudojamas produkcijoje"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusDeprecated
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Deprecated"
+msgstr "Nebenaudojamas"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusDeprecated
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "This model is not supported anymore, we advise to migrate"
+msgstr "Šis modelis nebepalaikomas, siūlome migruoti"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusDevelopment
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Development"
+msgstr "Kūrimas"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusDevelopment
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "this model has not been tested in a production environment, we advise to be carefull with it"
+msgstr "šis modelis nebuvo išbandytas leidimo aplinkoje, todėl patariame būti atsargiems su juo."
+
+# http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusExperimental
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Experimental"
+msgstr "Eksperimentinis"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusExperimental
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "this model is still in conception, but you can try it, give your feedback and it will be improved."
+msgstr "šis modelis vis dar yra koncepcijoje, bet jūs galite išbandyti, pateikite atsiliepimą ir bus patobulinta."
+
+# http://www.tao.lu/Ontologies/TAO.rdf#ModelAbstractModelStatus
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Status"
+msgstr "Būsena"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#ModelAbstractModelStatus
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "The status of a model"
+msgstr "Modelio būsena"
+
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ModelSelector
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Model"
+msgstr "Modelis"
+
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ModelSelector
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Select the associated model"
+msgstr "Pasirinkti susietą modelį"
+

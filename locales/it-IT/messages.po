@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.3.0-sprint96\n"
-"PO-Revision-Date: 2019-02-19T07:46:59\n"
+"PO-Revision-Date: 2019-04-25T01:04:22\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: it-IT\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " and "
-msgstr "e"
-
 msgid " AND "
 msgstr ""
+
+msgid " and "
+msgstr "e"
 
 msgid " has been deleted successfully"
 msgstr " è stato rimosso correttamente"
@@ -47,7 +47,7 @@ msgid "%d days"
 msgstr "%d giorni"
 
 msgid "%h hour"
-msgstr "%d ora"
+msgstr "%h ora"
 
 msgid "%h hours"
 msgstr "%h ore"
@@ -119,10 +119,10 @@ msgid "... reloading page."
 msgstr "... caricamento pagina"
 
 msgid "<del>Filters</del>"
-msgstr "Filtri"
+msgstr "<del>Filtri</del>"
 
 msgid "<del>Options</del>"
-msgstr "Opzioni"
+msgstr "<del>Opzioni</del>"
 
 msgid "<strong> %s </strong> has been moved to the background."
 msgstr ""
@@ -215,9 +215,6 @@ msgstr "Modalità Avanzata"
 msgid "Advanced search, add filters"
 msgstr ""
 
-msgid "aliases:"
-msgstr ""
-
 msgid "all"
 msgstr "tutto"
 
@@ -240,10 +237,10 @@ msgid "An error occurred during user deletion"
 msgstr ""
 
 msgid "An error occurred!"
-msgstr ""
+msgstr "Si è verificato un errore!"
 
 msgid "An exception occured while running \"%s"
-msgstr ""
+msgstr "Si è verificata un'eccezione durante l'esecuzione \"%s"
 
 msgid "an instance"
 msgstr ""
@@ -268,21 +265,13 @@ msgstr ""
 
 msgid "Are you sure to delete the versioned resource?\n"
 "The history will be lost as well."
-msgstr "Sei sicuro di eliminare la risorsa? Si perderanno tutti i dati."
+msgstr "Sicuro di voler eliminare la risorsa versionata?\n"
+"Si perderà anche la cronologia."
 
 msgid "Are you sure you want to delete it?"
 msgstr "Sei sicuro di voler cancellare?"
 
-msgid "Argument check failed: %s"
-msgstr ""
-
-msgid "Arguments %s and %s are mutually exclusive"
-msgstr ""
-
 msgid "Arguments separator"
-msgstr ""
-
-msgid "array"
 msgstr ""
 
 msgid "Assign"
@@ -340,9 +329,6 @@ msgstr ""
 msgid "Binary operator modulo"
 msgstr ""
 
-msgid "boolean"
-msgstr ""
-
 msgid "Browse folders:"
 msgstr "Sfoglia le cartelle"
 
@@ -353,7 +339,7 @@ msgid "C"
 msgstr ""
 
 msgid "Calculator"
-msgstr ""
+msgstr "Calcolatrice"
 
 msgid "Calendar"
 msgstr "Calendario"
@@ -374,10 +360,10 @@ msgid "Cannot be edited"
 msgstr "Non può essere editato"
 
 msgid "Cannot divide by zero"
-msgstr ""
+msgstr "Impossibile dividere per zero"
 
 msgid "Case sensitive"
-msgstr ""
+msgstr "Distinzione tra maiuscole e minuscole"
 
 msgid "ceil"
 msgstr ""
@@ -392,17 +378,14 @@ msgstr "Cambia la password"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check all"
-msgstr "Verifica tutto"
-
 msgid "Check All"
 msgstr "Controlla Tutti"
 
+msgid "Check all"
+msgstr "Verifica tutto"
+
 msgid "Check-in"
 msgstr "Check-in"
-
-msgid "choices:"
-msgstr ""
 
 msgid "Choose a value..."
 msgstr ""
@@ -440,10 +423,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
 msgid "Clear selection"
@@ -453,10 +436,10 @@ msgid "Clear the stored variables"
 msgstr ""
 
 msgid "Close"
-msgstr ""
+msgstr "Chiudi"
 
 msgid "Close message"
-msgstr ""
+msgstr "Chiudi messaggio"
 
 msgid "Code Version"
 msgstr ""
@@ -466,9 +449,6 @@ msgstr ""
 
 msgid "Column"
 msgstr "Colonna"
-
-msgid "Commands:"
-msgstr ""
 
 msgid "comment..."
 msgstr "commento..."
@@ -512,9 +492,6 @@ msgstr ""
 msgid "Cosine"
 msgstr ""
 
-msgid "count"
-msgstr ""
-
 msgid "Country"
 msgstr ""
 
@@ -543,7 +520,7 @@ msgid "Current language"
 msgstr "Lingua corrente"
 
 msgid "Current playback position"
-msgstr ""
+msgstr "Posizione di riproduzione corrente"
 
 msgid "Data imported"
 msgstr "Importazione di dati"
@@ -554,11 +531,11 @@ msgstr "Dati importati con successo"
 msgid "Data imported. Some records are invalid."
 msgstr "Dati importati. Alcuni record non sono validi."
 
-msgid "Data Language"
-msgstr "Dati di lingua."
-
 msgid "Data language"
 msgstr "Dati di lingua"
+
+msgid "Data Language"
+msgstr "Dati di lingua."
 
 msgid "Data not imported. All records are invalid."
 msgstr "Dati non importati. Nessun record è valido."
@@ -568,9 +545,6 @@ msgstr "Data"
 
 msgid "Default search"
 msgstr "Ricerca di default"
-
-msgid "default:"
-msgstr ""
 
 msgid "Define the default values"
 msgstr "Definisci i valori di default"
@@ -602,9 +576,6 @@ msgstr ""
 
 msgid "Demo Sandbox"
 msgstr "Demo Sandbox"
-
-msgid "Did you mean %s?"
-msgstr ""
 
 msgid "Digit 0"
 msgstr ""
@@ -641,7 +612,8 @@ msgstr "Disabilitata %s"
 
 msgid "Do you wish to install the following extension(s):\n"
 "%s?"
-msgstr "Vuoi istallare la seguente estensione?"
+msgstr "Installare le seguenti estensioni:\n"
+"%s?"
 
 msgid "does not match"
 msgstr "non corrisponde"
@@ -699,7 +671,7 @@ msgid "Enabled %s"
 msgstr ""
 
 msgid "End of document reached. Continuing from the beginning."
-msgstr ""
+msgstr "Fine del documento raggiunto. Si continua dall'inizio."
 
 msgid "Enter"
 msgstr "Invio"
@@ -720,9 +692,6 @@ msgid "Error in syntax"
 msgstr ""
 
 msgid "Error in value"
-msgstr ""
-
-msgid "Examples:"
 msgstr ""
 
 msgid "Exclusive (OR)"
@@ -824,7 +793,7 @@ msgid "First Name"
 msgstr "Nome"
 
 msgid "First page"
-msgstr ""
+msgstr "Prima pagina"
 
 msgid "First row column names"
 msgstr "Nomi prima riga colonna"
@@ -842,13 +811,10 @@ msgid "Forgot your password?"
 msgstr "Password dimenticata?"
 
 msgid "From"
-msgstr ""
+msgstr "Da"
 
 msgid "Fuzzy Matching"
 msgstr "Accoppiamento sfocato"
-
-msgid "generated-value"
-msgstr ""
 
 msgid "Generis Form"
 msgstr ""
@@ -901,9 +867,6 @@ msgstr "Identificatore"
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
 msgstr "Se non desideri reimpostare la tua password, ignora questa mail. La password resterà la stessa."
 
-msgid "Implications failed:"
-msgstr ""
-
 msgid "Import"
 msgstr "Importa"
 
@@ -929,13 +892,13 @@ msgid "Import succeeded."
 msgstr ""
 
 msgid "Imported %1$d/%2$d. Some records are invalid."
-msgstr ""
+msgstr "Importato %1$d/%2$d. Alcuni record non sono validi."
 
 msgid "Imported %d resources"
-msgstr ""
+msgstr "importate %d risorse"
 
 msgid "Imported resource \"%s"
-msgstr ""
+msgstr "importate risorse \"%s"
 
 msgid "impossible to update task status"
 msgstr ""
@@ -956,13 +919,13 @@ msgid "Indexing has been run"
 msgstr "L'indicizzazione è stata richiamata"
 
 msgid "Infinity"
-msgstr "Infinito"
+msgstr ""
 
 msgid "Injector has to contains a valid \"destination\" field."
-msgstr ""
+msgstr "L'iniettore deve contenere un campo \"destination\" valido."
 
 msgid "Injector has to contains a valid \"source\" field."
-msgstr ""
+msgstr "L'iniettore deve contenere un campo \"source\" valido."
 
 msgid "Install"
 msgstr "Installa"
@@ -985,10 +948,10 @@ msgstr "Installazione delle estensioni %s"
 msgid "Instance saved"
 msgstr "Istanza salvata"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "Lingua di interfaccia"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "Lingua di interfaccia"
 
 msgid "Invalid date range (must be after or the same as: %s)"
@@ -1010,7 +973,7 @@ msgid "Invalid field range (maximum value: %s)"
 msgstr "Intervallo di campo non valido (valore massimo:%s)"
 
 msgid "Invalid field range (minimum value: %1$s, maximum value: %2$s)"
-msgstr "Intervallo di campo non valido (deve essere successivo o lo stesso di: %s)"
+msgstr "Intervallo di campo non valido (valore minimo: %1$s, valore massimo: %2$s)"
 
 msgid "Invalid field range (minimum value: %s)"
 msgstr "Intervallo di campo non valido (valore minimo: %s)"
@@ -1022,10 +985,7 @@ msgid "Invalid file type!"
 msgstr "Tipo di file non valido"
 
 msgid "Invalid input for function"
-msgstr ""
-
-msgid "Invalid JSON config file: %s"
-msgstr ""
+msgstr "Input non valido per la funzione"
 
 msgid "Invalid login or password. Please try again."
 msgstr "Password di login non valida. Riprovare"
@@ -1035,9 +995,6 @@ msgstr ""
 
 msgid "invalid regular expression"
 msgstr "espressione regolare non valida"
-
-msgid "Invalid values:"
-msgstr ""
 
 msgid "Label"
 msgstr "Etichetta"
@@ -1052,7 +1009,7 @@ msgid "Last Name"
 msgstr "Cognome"
 
 msgid "Last page"
-msgstr ""
+msgstr "Ultima pagina"
 
 msgid "Last result"
 msgstr ""
@@ -1153,7 +1110,7 @@ msgid "Map the properties to the CSV columns"
 msgstr "Mappa le proprietà alle colonne CSV"
 
 msgid "Maximum selection reached"
-msgstr ""
+msgstr "Selezione massima raggiunta"
 
 msgid "Media resize along with their container, e.g. 50% means half of the container size not half of the media size."
 msgstr ""
@@ -1165,7 +1122,7 @@ msgid "Messages"
 msgstr ""
 
 msgid "Metadata export is not available for the selected resource."
-msgstr ""
+msgstr "L'esportazione dei metadati non è disponibile per la risorsa selezionata."
 
 msgid "Method"
 msgstr ""
@@ -1217,7 +1174,7 @@ msgid "must be numeric"
 msgstr "deve essere numerico"
 
 msgid "Mute"
-msgstr ""
+msgstr "Muto"
 
 msgid "My custom text translation"
 msgstr ""
@@ -1246,10 +1203,10 @@ msgid "Next"
 msgstr "Successivo"
 
 msgid "Next match"
-msgstr ""
+msgstr "Prossima corrispondenza"
 
 msgid "Next page"
-msgstr ""
+msgstr "Pagina successiva"
 
 msgid "No"
 msgstr "No"
@@ -1258,7 +1215,7 @@ msgid "No action specified"
 msgstr "Nessun azione specificata."
 
 msgid "No client translation bundles updated"
-msgstr ""
+msgstr "Nessun pacchetto di traduzione client aggiornato"
 
 msgid "No extensions available."
 msgstr "Nessuna estensione disponibile"
@@ -1290,12 +1247,6 @@ msgstr ""
 msgid "Node duplication has failed"
 msgstr ""
 
-msgid "Not enough arguments following: %s"
-msgstr ""
-
-msgid "Not enough non-option arguments: got %s, need at least %s"
-msgstr ""
-
 msgid "Not started"
 msgstr ""
 
@@ -1316,9 +1267,6 @@ msgid "notifications drivers aren\'t persistent. use a persistent database stora
 msgstr ""
 
 msgid "Nth root"
-msgstr ""
-
-msgid "number"
 msgstr ""
 
 msgid "Number of elements"
@@ -1373,7 +1321,7 @@ msgid "Passwords are not matching"
 msgstr "Le password non corrispondono"
 
 msgid "Pause"
-msgstr ""
+msgstr "Pausa"
 
 msgid "Permission denied to write in the selected class"
 msgstr ""
@@ -1382,7 +1330,7 @@ msgid "Phone number"
 msgstr ""
 
 msgid "Play"
-msgstr ""
+msgstr "Esegui"
 
 msgid "Please confirm deletion"
 msgstr "Prego, conferma l'eliminazione"
@@ -1406,16 +1354,16 @@ msgid "Please confirm unlocking of account %s"
 msgstr ""
 
 msgid "Please contact %s or an administrator to release it"
-msgstr "Prego contatta l'amministratore per rilasciarlo"
+msgstr "Contattare %s o un amministratore per rilasciarlo"
 
 msgid "Please contact your administrator."
 msgstr ""
 
 msgid "Please download the track and listen offline."
-msgstr ""
+msgstr "Si prega di scaricare la traccia e ascoltare offline."
 
 msgid "Please download the video and view offline."
-msgstr ""
+msgstr "Si prega di scaricare il video e visualizzare offline."
 
 msgid "Please give a message to your commit"
 msgstr "Prego dare un messaggio alla tua consegna"
@@ -1454,10 +1402,10 @@ msgid "Previous"
 msgstr "Precedente"
 
 msgid "Previous match"
-msgstr ""
+msgstr "Corrispondenza precedente"
 
 msgid "Previous page"
-msgstr ""
+msgstr "Pagina precedente"
 
 msgid "Proceed"
 msgstr ""
@@ -1467,7 +1415,7 @@ msgid "Properties"
 msgstr "Proprietà"
 
 msgid "Property\'s label field is required"
-msgstr "Proprietà\\'s è richiesto il campo etichetta"
+msgstr ""
 
 msgid "Provided URL is not valid"
 msgstr "URL fornito non valido"
@@ -1494,7 +1442,7 @@ msgid "Random value"
 msgstr ""
 
 msgid "Range field is required"
-msgstr ""
+msgstr "Campo intervallo obbligatorio"
 
 msgid "RDF"
 msgstr "RDF"
@@ -1551,15 +1499,12 @@ msgid "Repeat new password"
 msgstr "Ripeti la nuova password"
 
 msgid "Repeat password"
-msgstr ""
+msgstr "Ripeti la password"
 
 msgid "Request a password reset via Email."
 msgstr "Richiesta via Email di reset della password"
 
 msgid "require notification ID"
-msgstr ""
-
-msgid "required"
 msgstr ""
 
 msgid "required length"
@@ -1572,7 +1517,7 @@ msgid "Reset"
 msgstr "Reimposta"
 
 msgid "Reset the original size"
-msgstr ""
+msgstr "Ripristina le dimensioni originali"
 
 msgid "Resource"
 msgstr "Risorsa"
@@ -1608,7 +1553,7 @@ msgid "Responsive mode"
 msgstr "Modalità di risposta"
 
 msgid "Restore sound"
-msgstr ""
+msgstr "Ripristina suono"
 
 msgid "Return to sign in page"
 msgstr "Riaccedi alla pagina"
@@ -1642,7 +1587,7 @@ msgid "Round to upper whole number"
 msgstr ""
 
 msgid "Row %s"
-msgstr ""
+msgstr "Riga %s"
 
 msgid "Running task %s"
 msgstr ""
@@ -1751,7 +1696,7 @@ msgid "Square root"
 msgstr ""
 
 msgid "Start of document reached. Continuing from the end."
-msgstr ""
+msgstr "Inizio del documento raggiunto. Si continua dalla fine."
 
 msgid "State"
 msgstr ""
@@ -1771,9 +1716,6 @@ msgstr ""
 msgid "Street"
 msgstr ""
 
-msgid "string"
-msgstr ""
-
 msgid "Success"
 msgstr "Riuscito"
 
@@ -1787,13 +1729,13 @@ msgid "Successfully imported class \"%s"
 msgstr "Classe importata con successo \"%s"
 
 msgid "Successfully updated %s client translation bundles"
-msgstr ""
+msgstr "Pacchetti di traduzione client %s aggiornati con successo"
 
 msgid "Supported export formats"
 msgstr "Formati di esportazione supportati"
 
 msgid "Syntax error"
-msgstr "Errore di sintassi"
+msgstr ""
 
 msgid "tan"
 msgstr ""
@@ -1826,7 +1768,7 @@ msgid "Task Name"
 msgstr ""
 
 msgid "Task not found"
-msgstr ""
+msgstr "Attività non trovata"
 
 msgid "Task not returned any report."
 msgstr ""
@@ -1850,10 +1792,10 @@ msgid "The action will be applied to the following"
 msgstr "L' azione verrà applicata al seguente"
 
 msgid "The action will not be applied to "
-msgstr ""
+msgstr "L'azione non verrà applicata a "
 
 msgid "The action will not be applied to the following"
-msgstr ""
+msgstr "L'azione non sarà applicata ai seguenti"
 
 msgid "The column "
 msgstr "La colonna "
@@ -1880,7 +1822,7 @@ msgid "The uploaded file is too large (maximum %s bytes)"
 msgstr "Il file caricato è troppo grande (massimo %s byte)"
 
 msgid "The value for the property \"%s\" must be unique."
-msgstr "Il valore della proprietà \"%\" deve essere unico"
+msgstr "Il valore della proprietà \"%s\" deve essere unico."
 
 msgid "The value of this field must be a valide date format, e.g. YYYY-MM-DD"
 msgstr "Il valore di questo campo deve avere un formato valido, es. AAAA-MM-GG"
@@ -1916,7 +1858,7 @@ msgid "This Login is already in use"
 msgstr "Questo login è già in uso"
 
 msgid "This media cannot be played!"
-msgstr ""
+msgstr "Questo media non può essere eseguito!"
 
 msgid "This password reset link is no longer valid. It may have already been used. If you still wish to reset your password please request a new link"
 msgstr "Il collegamento al link di modifica password non è più valido. Se vuoi ancora modificare la tua password, prego richiedi un nuovo link"
@@ -1940,7 +1882,7 @@ msgid "Title"
 msgstr ""
 
 msgid "to"
-msgstr ""
+msgstr "a"
 
 msgid "To reset your password, click the link below, or paste it into your browser. You will then be prompted to create a new password."
 msgstr "Per resettare la password, clicca sul link seguente, oppure incollalo nel tuo browser. Potrai poi creare una nuova password."
@@ -1954,14 +1896,11 @@ msgstr ""
 msgid "Tokenizer"
 msgstr "Tokenizer"
 
-msgid "Too many non-option arguments: got %s, maximum of %s"
-msgstr ""
-
 msgid "Too many suggestions match your query. Only a few are listed"
 msgstr "La tua richiesta contiene troppe proposte. Solo alcune sono elencate"
 
 msgid "Total duration"
-msgstr ""
+msgstr "Durata totale"
 
 msgid "Total:"
 msgstr ""
@@ -2054,16 +1993,16 @@ msgid "Uncheck All"
 msgstr "Deseleziona tutto"
 
 msgid "Undefined amount of the pages for pagination"
-msgstr ""
+msgstr "Quantità indefinita di pagine per l'impaginazione"
 
 msgid "Undefined amount of the totalPages for pagination"
-msgstr ""
+msgstr "Quantità non definita di totalPages per l'impaginazione"
 
 msgid "Undo"
 msgstr "Annulla"
 
 msgid "Unexpected error. Please contact administrator"
-msgstr ""
+msgstr "Errore imprevisto. Si prega di contattare l'amministratore"
 
 msgid "Uninstall of %s failed"
 msgstr "Disinstallazione di %s fallita"
@@ -2148,6 +2087,21 @@ msgstr ""
 msgid "Users"
 msgstr "Utenti"
 
+msgid "Validation for field '%s' has failed. Language does not exists in the system"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. List of values expected"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Valid role expected. Given: %s"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Valid URI expected"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Valid URI expected. Given: %s"
+msgstr ""
+
 msgid "Value of E"
 msgstr ""
 
@@ -2215,7 +2169,7 @@ msgid "You have been locked due to too many failed login attempts. "
 msgstr ""
 
 msgid "You have been logged out. Please login again"
-msgstr ""
+msgstr "Sei stato disconnesso. Si prega di accedere di nuovo"
 
 msgid "You must activate JavaScript in your browser to run this application."
 msgstr "Devi attivare JavaScript nel tuo browser per utilizzare questa applicazione"
@@ -2224,16 +2178,16 @@ msgid "Your account has been locked, please contact your administrator."
 msgstr ""
 
 msgid "Your browser does not meet the technical requirements to run TAO."
-msgstr ""
+msgstr "Il tuo browser non soddisfa i requisiti tecnici per l'esecuzione di TAO."
 
 msgid "Your browser does not support copying to the clipboard"
 msgstr ""
 
 msgid "Your browser doesn’t support the audio player."
-msgstr ""
+msgstr "Il tuo browser non supporta il lettore audio."
 
 msgid "Your browser doesn’t support the video player."
-msgstr ""
+msgstr "Il tuo browser non supporta il lettore video."
 
 msgid "Your mail"
 msgstr "La tua mail"

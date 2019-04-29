@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint94\n"
-"PO-Revision-Date: 2019-02-01T09:17:41\n"
+"Project-Id-Version: TAO 3.3.0-sprint96\n"
+"PO-Revision-Date: 2019-04-25T01:12:42\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ru-RU\n"
@@ -16,59 +16,59 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " and "
-msgstr ""
-
 msgid " AND "
 msgstr ""
 
+msgid " and "
+msgstr " и "
+
 msgid " has been deleted successfully"
-msgstr ""
+msgstr " успешно удален"
 
 msgid " is "
 msgstr ""
 
 msgid " next"
-msgstr ""
+msgstr " следующее"
 
 msgid " requires a subgrid adapter"
-msgstr ""
+msgstr " требуется переходный адаптер"
 
 msgid "%1$s expected but %2$s detected"
-msgstr ""
+msgstr "ожидалось %1$s, но обнаружено %2$s"
 
 msgid "%d attempts left before your account is locked."
 msgstr ""
 
 msgid "%d day"
-msgstr ""
+msgstr "%d день"
 
 msgid "%d days"
-msgstr ""
+msgstr "%d дней"
 
 msgid "%h hour"
-msgstr ""
+msgstr "%h час"
 
 msgid "%h hours"
-msgstr ""
+msgstr "%h часы"
 
 msgid "%i minute"
-msgstr ""
+msgstr "%i минута"
 
 msgid "%i minutes"
-msgstr ""
+msgstr "%i минуты"
 
 msgid "%m month"
-msgstr ""
+msgstr "%m месяц"
 
 msgid "%m months"
-msgstr ""
+msgstr "%m месяцы"
 
 msgid "%s %s selected"
 msgstr ""
 
 msgid "%s (%s kb)"
-msgstr ""
+msgstr "%s (%s Кб)"
 
 msgid "%s Class saved"
 msgstr ""
@@ -89,49 +89,49 @@ msgid "%s extension(s) to install."
 msgstr ""
 
 msgid "%s has been deleted"
-msgstr ""
+msgstr "%s был удален"
 
 msgid "%s has been released"
-msgstr ""
+msgstr "%s было освобождено"
 
 msgid "%s instances"
 msgstr ""
 
 msgid "%s is of a type that cannot be published"
-msgstr ""
+msgstr "%s относится к типу, который не может быть опубликован"
 
 msgid "%s Locked"
-msgstr ""
+msgstr "%s заблокирован"
 
 msgid "%s\" is not a valid index identifier. It must start with a letter and contain letters, numbers or underscores only"
 msgstr ""
 
 msgid "%y year"
-msgstr ""
+msgstr "%y год"
 
 msgid "%y years"
 msgstr ""
 
 msgid "(empty)"
-msgstr ""
+msgstr "(пустой)"
 
 msgid "... reloading page."
-msgstr ""
+msgstr "... перезагрузка страницы."
 
 msgid "<del>Filters</del>"
-msgstr ""
+msgstr "<del>Фильтры</del>"
 
 msgid "<del>Options</del>"
-msgstr ""
+msgstr "<del>Опции</del>"
 
 msgid "<strong> %s </strong> has been moved to the background."
 msgstr ""
 
 msgid "> Extension %s succesfully installed."
-msgstr ""
+msgstr "> Расширение %s успешно установлено."
 
 msgid "> Installation done."
-msgstr ""
+msgstr "> Установление завершено."
 
 msgid "a class"
 msgstr ""
@@ -140,28 +140,34 @@ msgid "A date has to be a Datetime or timestamp"
 msgstr ""
 
 msgid "A fatal error occured during the installation process."
-msgstr ""
+msgstr "Во время установки произошла фатальная ошибка."
 
 msgid "A maintenance status must have a STATUS: \"%s\" or \"%s"
 msgstr ""
 
 msgid "A message with further instructions has been sent to your email address: %s"
+msgstr "На ваш адрес электронной почты отправлено сообщение с дополнительными инструкциями: %s"
+
+msgid "abs"
 msgstr ""
 
 msgid "Absolute value"
 msgstr ""
 
-msgid "Access Denied"
+msgid "AC"
 msgstr ""
 
+msgid "Access Denied"
+msgstr "Доступ закрыт"
+
 msgid "Access denied. Please renew your authentication!"
-msgstr ""
+msgstr "Доступ закрыт. Пожалуйста, обновите свою аутентификацию!"
 
 msgid "Account status"
 msgstr ""
 
 msgid "Action"
-msgstr ""
+msgstr "Действие"
 
 msgid "Action %s - removed %s positions"
 msgstr ""
@@ -173,26 +179,26 @@ msgid "Action was not executed yet"
 msgstr ""
 
 msgid "Actions"
-msgstr ""
+msgstr "Действия"
 
 msgid "Add"
-msgstr ""
+msgstr "Добавить"
 
 msgid "Add a CSV file"
-msgstr ""
+msgstr "Добавление CSV-файла"
 
 #, tao-public
 msgid "Add a user"
-msgstr ""
+msgstr "Добавить пользователя"
 
 msgid "Add an RDF/XML file"
-msgstr ""
+msgstr "Добавить RDF/XML файл"
 
 msgid "Add file(s)"
-msgstr ""
+msgstr "Добавить файл (-ы)"
 
 msgid "Add property"
-msgstr ""
+msgstr "Добавить свойство"
 
 msgid "Adding search index for %s"
 msgstr ""
@@ -204,31 +210,28 @@ msgid "Adding the new resource has failed"
 msgstr ""
 
 msgid "Advanced Mode"
-msgstr ""
+msgstr "Расширенный режим"
 
 msgid "Advanced search, add filters"
 msgstr ""
 
-msgid "aliases:"
-msgstr ""
-
 msgid "all"
-msgstr ""
+msgstr "все"
 
 msgid "All data will be removed in %s"
-msgstr ""
+msgstr "Все данные будут удалены в %s"
 
 msgid "All fields are required"
-msgstr ""
+msgstr "Все поля обязательны для заполнения"
 
 msgid "All rights reserved."
-msgstr ""
+msgstr "Все права защищены."
 
 msgid "Alpha version"
-msgstr ""
+msgstr "Альфа-версия"
 
 msgid "An email has been sent"
-msgstr ""
+msgstr "Письмо было отправлено на электронную почту."
 
 msgid "An error occurred during user deletion"
 msgstr ""
@@ -262,18 +265,13 @@ msgstr ""
 
 msgid "Are you sure to delete the versioned resource?\n"
 "The history will be lost as well."
-msgstr ""
+msgstr "Вы действительно хотите удалить версионный ресурс?\n"
+"История также будет утеряна."
 
 msgid "Are you sure you want to delete it?"
-msgstr ""
+msgstr "Вы уверены, что хотите это удалить?"
 
-msgid "Argument check failed: %s"
-msgstr ""
-
-msgid "Arguments %s and %s are mutually exclusive"
-msgstr ""
-
-msgid "array"
+msgid "Arguments separator"
 msgstr ""
 
 msgid "Assign"
@@ -284,37 +282,37 @@ msgstr ""
 
 #, tao-public
 msgid "Assign Users"
-msgstr ""
+msgstr "Назначить пользователей"
 
 msgid "Author"
-msgstr ""
+msgstr "Автор"
 
 msgid "Author Item"
 msgstr ""
 
 msgid "Authoring"
-msgstr ""
+msgstr "Авторство"
 
 msgid "auto unlocked in %s"
 msgstr ""
 
 msgid "Available"
-msgstr ""
+msgstr "Доступный"
 
 msgid "Available Extensions"
-msgstr ""
+msgstr "Доступные расширения"
 
 msgid "Back"
 msgstr ""
 
 msgid "Back to listing"
-msgstr ""
+msgstr "Вернуться к списку"
 
 msgid "Base-10 logarithm"
 msgstr ""
 
 msgid "Beta version"
-msgstr ""
+msgstr "Бета-версия"
 
 msgid "Binary operator *"
 msgstr ""
@@ -331,35 +329,35 @@ msgstr ""
 msgid "Binary operator modulo"
 msgstr ""
 
-msgid "boolean"
-msgstr ""
-
 msgid "Browse folders:"
-msgstr ""
+msgstr "Просматривать папки:"
 
 msgid "Browse..."
+msgstr "Просматривать..."
+
+msgid "C"
 msgstr ""
 
 msgid "Calculator"
 msgstr ""
 
 msgid "Calendar"
-msgstr ""
-
-msgid "cancel"
-msgstr ""
+msgstr "Календарь"
 
 msgid "Cancel"
-msgstr ""
+msgstr "Отменить"
+
+msgid "cancel"
+msgstr "отменить"
 
 msgid "cancel the action"
-msgstr ""
+msgstr "отменить действие"
 
 msgid "Cancelled"
 msgstr ""
 
 msgid "Cannot be edited"
-msgstr ""
+msgstr "Невозможно отредактировать"
 
 msgid "Cannot divide by zero"
 msgstr ""
@@ -367,42 +365,42 @@ msgstr ""
 msgid "Case sensitive"
 msgstr ""
 
-#, tao-public
-msgid "Change password"
+msgid "ceil"
 msgstr ""
 
+#, tao-public
+msgid "Change password"
+msgstr "Изменить пароль"
+
 msgid "Change the password"
-msgstr ""
+msgstr "Изменить пароль"
 
 msgid "Change the sign of the current operand"
 msgstr ""
 
 msgid "Check All"
-msgstr ""
+msgstr "Проверить все"
 
 msgid "Check all"
-msgstr ""
+msgstr "Проверить все"
 
 msgid "Check-in"
-msgstr ""
-
-msgid "choices:"
-msgstr ""
+msgstr "Регистрироваться"
 
 msgid "Choose a value..."
 msgstr ""
 
 msgid "Choose export format"
-msgstr ""
+msgstr "Выбрать формат экспорта"
 
 msgid "Choose import format"
-msgstr ""
+msgstr "Выберите формат импорта"
 
 msgid "City"
 msgstr ""
 
 msgid "class selected"
-msgstr ""
+msgstr "класс выбран"
 
 msgid "Class uri provided is not a valid class."
 msgstr ""
@@ -450,16 +448,13 @@ msgid "Collecting of abandoned actions in the action queue ..."
 msgstr ""
 
 msgid "Column"
-msgstr ""
-
-msgid "Commands:"
-msgstr ""
+msgstr "Столбец"
 
 msgid "comment..."
-msgstr ""
+msgstr "комментировать..."
 
 msgid "Commit"
-msgstr ""
+msgstr "Cовершить"
 
 msgid "Completed"
 msgstr ""
@@ -471,13 +466,13 @@ msgid "Compute the expression"
 msgstr ""
 
 msgid "Confirm"
-msgstr ""
+msgstr "Подтвердить"
 
 msgid "Connect to the TAO platform"
-msgstr ""
+msgstr "Подключить к платформе TAO"
 
 msgid "Continue"
-msgstr ""
+msgstr "Продолжить"
 
 msgid "Copy"
 msgstr ""
@@ -488,20 +483,23 @@ msgstr ""
 msgid "Copy to clipboard"
 msgstr ""
 
-msgid "Cosine"
+msgid "cos"
 msgstr ""
 
-msgid "count"
+msgid "cosh"
+msgstr ""
+
+msgid "Cosine"
 msgstr ""
 
 msgid "Country"
 msgstr ""
 
 msgid "Create"
-msgstr ""
+msgstr "Создать"
 
 msgid "Create instance of "
-msgstr ""
+msgstr "Создать пример"
 
 msgid "Created"
 msgstr ""
@@ -510,49 +508,46 @@ msgid "Creation At"
 msgstr ""
 
 msgid "CSV"
-msgstr ""
+msgstr "CSV"
 
 msgid "CSV Options"
-msgstr ""
+msgstr "Опции CSV"
 
 msgid "Cube root"
 msgstr ""
 
 msgid "Current language"
-msgstr ""
+msgstr "Текущий язык"
 
 msgid "Current playback position"
 msgstr ""
 
 msgid "Data imported"
-msgstr ""
+msgstr "Данные импортированы"
 
 msgid "Data imported successfully"
-msgstr ""
+msgstr "Данные импортированы успешно"
 
 msgid "Data imported. Some records are invalid."
-msgstr ""
+msgstr "Данные импортированы. Некоторые записи являются неверными."
 
 msgid "Data language"
-msgstr ""
+msgstr "Язык данных"
 
 msgid "Data Language"
-msgstr ""
+msgstr "Язык данных"
 
 msgid "Data not imported. All records are invalid."
-msgstr ""
+msgstr "Данные не импортированы. Все записи являются неверными."
 
 msgid "Date"
-msgstr ""
+msgstr "Дата"
 
 msgid "Default search"
-msgstr ""
-
-msgid "default:"
-msgstr ""
+msgstr "Поиск по умолчанию"
 
 msgid "Define the default values"
-msgstr ""
+msgstr "Определить значения по умолчанию"
 
 msgid "Deg"
 msgstr ""
@@ -562,7 +557,7 @@ msgstr ""
 
 #, tao-public
 msgid "Delete"
-msgstr ""
+msgstr "Удалить"
 
 msgid "Delete Left"
 msgstr ""
@@ -580,9 +575,6 @@ msgid "Deleting search index for %s"
 msgstr ""
 
 msgid "Demo Sandbox"
-msgstr ""
-
-msgid "Did you mean %s?"
 msgstr ""
 
 msgid "Digit 0"
@@ -616,57 +608,57 @@ msgid "Digit 9"
 msgstr ""
 
 msgid "Disabled %s"
-msgstr ""
+msgstr "Отключенные %s"
 
 msgid "Do you wish to install the following extension(s):\n"
 "%s?"
 msgstr ""
 
 msgid "does not match"
-msgstr ""
+msgstr "не совпадает"
 
 msgid "Don't set"
-msgstr ""
+msgstr "Не устанавливать"
 
 msgid "Dot"
 msgstr ""
 
 msgid "Download"
-msgstr ""
+msgstr "Скачать"
 
 msgid "Download this file"
-msgstr ""
+msgstr "Скачать этот файл"
 
 msgid "Drag file here"
-msgstr ""
+msgstr "Перетащить файл сюда"
 
 msgid "Drag files here"
-msgstr ""
+msgstr "Перетащить файлы сюда"
 
 msgid "Drop the files to upload"
-msgstr ""
+msgstr "Перетащить файлы для загрузки"
 
 msgid "Edit"
-msgstr ""
+msgstr "Редактировать"
 
 #, tao-public
 msgid "Edit a user"
-msgstr ""
+msgstr "Изменение пользователя"
 
 msgid "Edit class %s"
 msgstr ""
 
 msgid "Edit Instance"
-msgstr ""
+msgstr "Редактировать пример"
 
 msgid "Element"
-msgstr ""
+msgstr "Элемент"
 
 msgid "Element deleted."
-msgstr ""
+msgstr "Элемент удален."
 
 msgid "Email"
-msgstr ""
+msgstr "Отправить по почте"
 
 msgid "Email address"
 msgstr ""
@@ -681,16 +673,16 @@ msgid "End of document reached. Continuing from the beginning."
 msgstr ""
 
 msgid "Enter"
-msgstr ""
+msgstr "Введите"
 
 msgid "Error"
-msgstr ""
+msgstr "Ошибка"
 
 msgid "Error adding search index for %s with message %s"
 msgstr ""
 
 msgid "Error during file import"
-msgstr ""
+msgstr "Ошибка при импортировании файла"
 
 msgid "Error in result"
 msgstr ""
@@ -701,11 +693,8 @@ msgstr ""
 msgid "Error in value"
 msgstr ""
 
-msgid "Examples:"
-msgstr ""
-
 msgid "Exclusive (OR)"
-msgstr ""
+msgstr "Эксклюзивный (ИЛИ)"
 
 msgid "Execute"
 msgstr ""
@@ -713,15 +702,18 @@ msgstr ""
 msgid "Executing task %s failed"
 msgstr ""
 
+msgid "exp"
+msgstr ""
+
 msgid "Exponent"
 msgstr ""
 
 #, tao-public
 msgid "Export"
-msgstr ""
+msgstr "Экспортировать"
 
 msgid "Export "
-msgstr ""
+msgstr "Экспортировать"
 
 msgid "Export \"%s\" in %s"
 msgstr ""
@@ -733,7 +725,7 @@ msgid "Export failed."
 msgstr ""
 
 msgid "Export Metadata as RDF/XML file"
-msgstr ""
+msgstr "Экспортировать метаданные как RDF/XML файл"
 
 msgid "Export succeeded."
 msgstr ""
@@ -743,7 +735,7 @@ msgstr ""
 
 #, tao-public
 msgid "Extensions manager"
-msgstr ""
+msgstr "Менеджер расширений"
 
 msgid "Factorial"
 msgstr ""
@@ -755,10 +747,10 @@ msgid "Failed to delete index for %s"
 msgstr ""
 
 msgid "False"
-msgstr ""
+msgstr "Неверно"
 
 msgid "Field delimiter"
-msgstr ""
+msgstr "Разделитель полей"
 
 msgid "Field encloser"
 msgstr ""
@@ -767,60 +759,60 @@ msgid "Fields must match"
 msgstr ""
 
 msgid "File"
-msgstr ""
+msgstr "Файл"
 
 msgid "File download failed"
 msgstr ""
 
 msgid "File name"
-msgstr ""
+msgstr "Название файла"
 
 msgid "File Properties"
-msgstr ""
+msgstr "Свойства файла"
 
 msgid "file selected"
-msgstr ""
+msgstr "файл выбран"
 
 msgid "File Uploader"
-msgstr ""
+msgstr "Загрузчик файлов"
 
 msgid "files selected"
-msgstr ""
+msgstr "выбраны файлы"
 
 msgid "Filter"
-msgstr ""
+msgstr "Фильтр"
 
 msgid "Filter by value"
 msgstr ""
 
 msgid "Filtering mode"
-msgstr ""
+msgstr "Режим фильтрации"
 
 msgid "First Name"
-msgstr ""
+msgstr "Имя"
 
 msgid "First page"
 msgstr ""
 
 msgid "First row column names"
-msgstr ""
+msgstr "Названия столбцов первой строки"
 
 msgid "Fit to width"
+msgstr ""
+
+msgid "floor"
 msgstr ""
 
 msgid "Force Release"
 msgstr ""
 
 msgid "Forgot your password?"
-msgstr ""
+msgstr "Забыли пароль?"
 
 msgid "From"
 msgstr ""
 
 msgid "Fuzzy Matching"
-msgstr ""
-
-msgid "generated-value"
 msgstr ""
 
 msgid "Generis Form"
@@ -833,22 +825,22 @@ msgid "Get the history list"
 msgstr ""
 
 msgid "Go Back"
-msgstr ""
+msgstr "Вернуться"
 
 msgid "Height"
-msgstr ""
+msgstr "Высота"
 
 msgid "Hi, %s<br>You indicated that you have forgotten your TAO password."
 msgstr ""
 
 msgid "Hide detailed report"
-msgstr ""
+msgstr "Скрыть подробный отчет"
 
 msgid "Highlight all"
 msgstr ""
 
 msgid "hours"
-msgstr ""
+msgstr "часы"
 
 msgid "Hyperbolic arc cosine"
 msgstr ""
@@ -869,19 +861,16 @@ msgid "Hyperbolic tangent"
 msgstr ""
 
 msgid "Identifier"
-msgstr ""
+msgstr "Идентификатор"
 
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
-msgstr ""
-
-msgid "Implications failed:"
-msgstr ""
+msgstr "Если вы не хотите сбросить пароль, просто игнорируйте это письмо и ваш пароль останется прежним"
 
 msgid "Import"
-msgstr ""
+msgstr "Импортировать"
 
 msgid "Import "
-msgstr ""
+msgstr "Импортировать "
 
 msgid "Import a %s into \"%s"
 msgstr ""
@@ -893,7 +882,7 @@ msgid "Import failed."
 msgstr ""
 
 msgid "Import Metadata from CSV file"
-msgstr ""
+msgstr "Импортировать метаданные из CSV файла"
 
 msgid "Import Metadata from RDF file"
 msgstr ""
@@ -913,10 +902,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -928,6 +917,9 @@ msgstr ""
 msgid "Indexing has been run"
 msgstr ""
 
+msgid "Infinity"
+msgstr ""
+
 msgid "Injector has to contains a valid \"destination\" field."
 msgstr ""
 
@@ -935,16 +927,16 @@ msgid "Injector has to contains a valid \"source\" field."
 msgstr ""
 
 msgid "Install"
-msgstr ""
+msgstr "Установить"
 
 msgid "Installation done."
-msgstr ""
+msgstr "Установка завершена"
 
 msgid "Installation..."
-msgstr ""
+msgstr "Установка..."
 
 msgid "Installed Extensions"
-msgstr ""
+msgstr "Установленные расширения"
 
 msgid "Installed Version"
 msgstr ""
@@ -953,13 +945,13 @@ msgid "Installing extension %s..."
 msgstr ""
 
 msgid "Instance saved"
-msgstr ""
-
-msgid "Interface Language"
-msgstr ""
+msgstr "Пример сохранен"
 
 msgid "Interface language"
-msgstr ""
+msgstr "Язык интерфейса"
+
+msgid "Interface Language"
+msgstr "Язык интерфейса"
 
 msgid "Invalid date range (must be after or the same as: %s)"
 msgstr ""
@@ -989,37 +981,31 @@ msgid "Invalid file size (minimum %1$s bytes, maximum %2$s bytes)"
 msgstr ""
 
 msgid "Invalid file type!"
-msgstr ""
+msgstr "Неверный тип файла!"
 
 msgid "Invalid input for function"
 msgstr ""
 
-msgid "Invalid JSON config file: %s"
-msgstr ""
-
 msgid "Invalid login or password. Please try again."
-msgstr ""
+msgstr "Неверный логин или пароль. Пожалуйста, попробуйте еще раз."
 
 msgid "Invalid login or password. Your account has been locked, please contact your administrator."
 msgstr ""
 
 msgid "invalid regular expression"
-msgstr ""
-
-msgid "Invalid values:"
-msgstr ""
+msgstr "недопустимое регулярное выражение"
 
 msgid "Label"
-msgstr ""
+msgstr "Метки"
 
 msgid "Language"
-msgstr ""
+msgstr "Язык"
 
 msgid "Last attempt before your account is locked."
 msgstr ""
 
 msgid "Last Name"
-msgstr ""
+msgstr "Фамилия"
 
 msgid "Last page"
 msgstr ""
@@ -1031,10 +1017,10 @@ msgid "Left parenthesis"
 msgstr ""
 
 msgid "less than a minute"
-msgstr ""
+msgstr "менее чем за минуту"
 
 msgid "List"
-msgstr ""
+msgstr "Список"
 
 msgid "List - Multiple choice - Check box"
 msgstr ""
@@ -1045,17 +1031,20 @@ msgstr ""
 msgid "List - Single choice - Radio button"
 msgstr ""
 
+msgid "ln"
+msgstr ""
+
 msgid "Load more"
 msgstr ""
 
 msgid "Loaded"
-msgstr ""
+msgstr "Загружен"
 
 msgid "Loaded at Startup"
-msgstr ""
+msgstr "Загружен при запуске"
 
 msgid "Loading"
-msgstr ""
+msgstr "Загружается"
 
 msgid "Loading status"
 msgstr ""
@@ -1066,14 +1055,17 @@ msgstr ""
 msgid "locked by %s"
 msgstr ""
 
-msgid "Log in"
+msgid "log"
 msgstr ""
+
+msgid "Log in"
+msgstr "Войти"
 
 msgid "Log Out"
-msgstr ""
+msgstr "Выход"
 
 msgid "Login"
-msgstr ""
+msgstr "Логин"
 
 msgid "Login available"
 msgstr ""
@@ -1097,18 +1089,18 @@ msgid "Manage class schema"
 msgstr ""
 
 msgid "Manage data list"
-msgstr ""
+msgstr "Управление списком данных"
 
 #, tao-public
 msgid "Manage roles"
-msgstr ""
+msgstr "Управление ролями"
 
 msgid "Manage Roles and apply them to users."
-msgstr ""
+msgstr "Управлять ролями и применить их к пользователям."
 
 #, tao-public
 msgid "Manage users"
-msgstr ""
+msgstr "Управление пользователями"
 
 msgid "Manage Versioned File"
 msgstr ""
@@ -1123,7 +1115,7 @@ msgid "Media resize along with their container, e.g. 50% means half of the conta
 msgstr ""
 
 msgid "Message"
-msgstr ""
+msgstr "Сообщение"
 
 msgid "Messages"
 msgstr ""
@@ -1135,7 +1127,7 @@ msgid "Method"
 msgstr ""
 
 msgid "minutes"
-msgstr ""
+msgstr "минут"
 
 msgid "missing config %s for the service %s"
 msgstr ""
@@ -1143,8 +1135,11 @@ msgstr ""
 msgid "Missing Parameters"
 msgstr ""
 
-msgid "More"
+msgid "modulo"
 msgstr ""
+
+msgid "More"
+msgstr "Больше"
 
 msgid "Move"
 msgstr ""
@@ -1157,7 +1152,7 @@ msgstr ""
 
 #, tao-public
 msgid "Move role"
-msgstr ""
+msgstr "Переместить роль"
 
 msgid "Move the cursor one step on the left"
 msgstr ""
@@ -1166,16 +1161,16 @@ msgid "Move the cursor one step on the right"
 msgstr ""
 
 msgid "Move to"
-msgstr ""
+msgstr "Переместить в"
 
 msgid "Moving this element will replace the properties of the previous class by those of the destination class :"
-msgstr ""
+msgstr "При перемещении этого элемента свойства предыдущего класса будут заменены свойствами конечного класса:"
 
 msgid "Multiple values delimiter"
-msgstr ""
+msgstr "Разделитель нескольких значений"
 
 msgid "must be numeric"
-msgstr ""
+msgstr "должен быть числовым"
 
 msgid "Mute"
 msgstr ""
@@ -1185,26 +1180,26 @@ msgstr ""
 
 #, tao-public
 msgid "My settings"
-msgstr ""
+msgstr "Мои настройки"
 
 msgid "My settings (%s)"
 msgstr ""
 
 msgid "Name"
-msgstr ""
+msgstr "Имя"
 
 msgid "Natural logarithm"
 msgstr ""
 
 msgid "New password"
-msgstr ""
+msgstr "Новый пароль"
 
 #, tao-public
 msgid "New role"
-msgstr ""
+msgstr "Новая роль"
 
 msgid "Next"
-msgstr ""
+msgstr "Следующее"
 
 msgid "Next match"
 msgstr ""
@@ -1213,37 +1208,37 @@ msgid "Next page"
 msgstr ""
 
 msgid "No"
-msgstr ""
+msgstr "Нет"
 
 msgid "No action specified"
-msgstr ""
+msgstr "Не указано никаких действий"
 
 msgid "No client translation bundles updated"
 msgstr ""
 
 msgid "No extensions available."
-msgstr ""
+msgstr "Нет доступных расширений."
 
 msgid "no file not found in this location"
-msgstr ""
+msgstr "файл не найден в этом местоположении"
 
 msgid "No file selected"
-msgstr ""
+msgstr "Файл не выбран"
 
 msgid "No files"
-msgstr ""
+msgstr "Нет файлов"
 
 msgid "no label"
-msgstr ""
-
-msgid "No preview available"
-msgstr ""
+msgstr "нет метки"
 
 msgid "No Preview available"
-msgstr ""
+msgstr "Предварительный просмотр недоступен"
+
+msgid "No preview available"
+msgstr "Предварительный просмотр недоступен"
 
 msgid "No results found"
-msgstr ""
+msgstr "Результаты не найдены"
 
 msgid "No Task yet"
 msgstr ""
@@ -1251,17 +1246,11 @@ msgstr ""
 msgid "Node duplication has failed"
 msgstr ""
 
-msgid "Not enough arguments following: %s"
-msgstr ""
-
-msgid "Not enough non-option arguments: got %s, need at least %s"
-msgstr ""
-
 msgid "Not started"
 msgstr ""
 
 msgid "Nothing imported"
-msgstr ""
+msgstr "Ничего не импортировано"
 
 msgid "Nothing to install !"
 msgstr ""
@@ -1279,14 +1268,11 @@ msgstr ""
 msgid "Nth root"
 msgstr ""
 
-msgid "number"
-msgstr ""
-
 msgid "Number of elements"
-msgstr ""
+msgstr "Количество элементов"
 
 msgid "of"
-msgstr ""
+msgstr "из"
 
 msgid "Off"
 msgstr ""
@@ -1298,7 +1284,7 @@ msgid "Ok"
 msgstr ""
 
 msgid "Old Password"
-msgstr ""
+msgstr "Старый пароль"
 
 msgid "On"
 msgstr ""
@@ -1307,31 +1293,31 @@ msgid "Operated By "
 msgstr ""
 
 msgid "or"
-msgstr ""
+msgstr "или"
 
 msgid "Page"
-msgstr ""
+msgstr "Страница"
 
 msgid "Parameters"
 msgstr ""
 
 msgid "Password"
-msgstr ""
+msgstr "Пароль"
 
 msgid "Password changed"
-msgstr ""
+msgstr "Пароль изменен"
 
 msgid "Password is empty."
 msgstr ""
 
 msgid "Password reset"
-msgstr ""
+msgstr "Сброс пароля"
 
 msgid "Password successfully changed"
-msgstr ""
+msgstr "Пароль успешно изменен"
 
 msgid "Passwords are not matching"
-msgstr ""
+msgstr "Пароли не совпадают"
 
 msgid "Pause"
 msgstr ""
@@ -1346,7 +1332,7 @@ msgid "Play"
 msgstr ""
 
 msgid "Please confirm deletion"
-msgstr ""
+msgstr "Пожалуйста, подтвердите удаление"
 
 msgid "Please confirm deletion of %s."
 msgstr ""
@@ -1358,10 +1344,10 @@ msgid "Please confirm locking of account %s"
 msgstr ""
 
 msgid "Please confirm property deletion!"
-msgstr ""
+msgstr "Пожалуйста, подтвердите удаление свойства!"
 
 msgid "Please confirm this operation."
-msgstr ""
+msgstr "Пожалуйста, подтвердите эту операцию."
 
 msgid "Please confirm unlocking of account %s"
 msgstr ""
@@ -1382,7 +1368,7 @@ msgid "Please give a message to your commit"
 msgstr ""
 
 msgid "Please provide a reason"
-msgstr ""
+msgstr "Просьба указать причину"
 
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
 msgstr ""
@@ -1397,7 +1383,7 @@ msgid "Please wait while ..."
 msgstr ""
 
 msgid "Post install processing"
-msgstr ""
+msgstr "Обработка после установки"
 
 msgid "Power of"
 msgstr ""
@@ -1406,13 +1392,13 @@ msgid "Power of 10"
 msgstr ""
 
 msgid "Preparing installation..."
-msgstr ""
+msgstr "Подготовка установки..."
 
 msgid "Preview"
-msgstr ""
+msgstr "Предварительный просмотр"
 
 msgid "Previous"
-msgstr ""
+msgstr "Предыдущей"
 
 msgid "Previous match"
 msgstr ""
@@ -1425,13 +1411,13 @@ msgstr ""
 
 #, tao-public
 msgid "Properties"
-msgstr ""
+msgstr "Свойства"
 
 msgid "Property\'s label field is required"
 msgstr ""
 
 msgid "Provided URL is not valid"
-msgstr ""
+msgstr "Предоставленный URL-адрес неверный"
 
 msgid "Publish"
 msgstr ""
@@ -1448,6 +1434,9 @@ msgstr ""
 msgid "Radian"
 msgstr ""
 
+msgid "random"
+msgstr ""
+
 msgid "Random value"
 msgstr ""
 
@@ -1455,16 +1444,16 @@ msgid "Range field is required"
 msgstr ""
 
 msgid "RDF"
-msgstr ""
+msgstr "RDF (среда описания ресурса)"
 
 msgid "Refresh"
 msgstr ""
 
 msgid "Release"
-msgstr ""
+msgstr "Выпуск"
 
 msgid "Releasing the lock might cause the work in progress by %s to be lost."
-msgstr ""
+msgstr "Освобождение блокировки может привести к потере работы в ходе выполнения %s."
 
 msgid "Remind"
 msgstr ""
@@ -1485,13 +1474,13 @@ msgid "Remind the recorded value"
 msgstr ""
 
 msgid "Remove"
-msgstr ""
+msgstr "Удалить"
 
 msgid "Remove Message"
-msgstr ""
+msgstr "Удалить сообщение"
 
 msgid "Remove this file"
-msgstr ""
+msgstr "Удалить этот файл"
 
 msgid "Removed %s directories"
 msgstr ""
@@ -1503,37 +1492,34 @@ msgid "Removing: %s"
 msgstr ""
 
 msgid "Rename"
-msgstr ""
+msgstr "Переименовать"
 
 msgid "Repeat new password"
-msgstr ""
+msgstr "Повторить новый пароль"
 
 msgid "Repeat password"
 msgstr ""
 
 msgid "Request a password reset via Email."
-msgstr ""
+msgstr "Запросить сброс пароля по электронной почте."
 
 msgid "require notification ID"
 msgstr ""
 
-msgid "required"
-msgstr ""
-
 msgid "required length"
-msgstr ""
+msgstr "требуемая длина"
 
 msgid "Requires"
-msgstr ""
+msgstr "требует"
 
 msgid "Reset"
-msgstr ""
+msgstr "Сброс"
 
 msgid "Reset the original size"
 msgstr ""
 
 msgid "Resource"
-msgstr ""
+msgstr "Ресурс"
 
 msgid "Resource copied"
 msgstr ""
@@ -1548,13 +1534,13 @@ msgid "Resource Identifier has been copied to the clipboard"
 msgstr ""
 
 msgid "Resource not imported due to multiple super classes"
-msgstr ""
+msgstr "Ресурс не импортирован из-за множественных супер классов"
 
 msgid "Resource not imported due to multiple types"
-msgstr ""
+msgstr "Ресурс не импортирован из-за множественных типов"
 
 msgid "Resource saved"
-msgstr ""
+msgstr "Ресурс сохранен"
 
 msgid "resources"
 msgstr ""
@@ -1563,28 +1549,31 @@ msgid "Resources moved"
 msgstr ""
 
 msgid "Responsive mode"
-msgstr ""
+msgstr "Адаптивный режим"
 
 msgid "Restore sound"
 msgstr ""
 
 msgid "Return to sign in page"
-msgstr ""
+msgstr "Вернуться на страницу входа"
 
 msgid "Right click the tree to manage your lists"
-msgstr ""
+msgstr "Щелкните правой кнопкой мыши на дереве, чтобы управлять своими списками"
 
 msgid "Right parenthesis"
 msgstr ""
 
 msgid "Role saved"
-msgstr ""
+msgstr "Роль сохранена"
 
 msgid "Roles"
-msgstr ""
+msgstr "Роли"
 
 #, tao-public
 msgid "Roles library"
+msgstr "Библиотека ролей"
+
+msgid "round"
 msgstr ""
 
 msgid "Round to closest whole number"
@@ -1603,16 +1592,16 @@ msgid "Running task %s"
 msgstr ""
 
 msgid "Save"
-msgstr ""
+msgstr "Сохранить"
 
 msgid "Scientific Calculator"
 msgstr ""
 
 msgid "Scope"
-msgstr ""
+msgstr "Объем"
 
 msgid "Search"
-msgstr ""
+msgstr "Поиск"
 
 msgid "Search %s"
 msgstr ""
@@ -1621,19 +1610,19 @@ msgid "Search by properties"
 msgstr ""
 
 msgid "Search sub-classes"
-msgstr ""
+msgstr "Поиск суб-классов"
 
 msgid "second"
 msgstr ""
 
 msgid "seconds"
-msgstr ""
+msgstr "секунд"
 
 msgid "select"
-msgstr ""
+msgstr "выберите"
 
 msgid "Select"
-msgstr ""
+msgstr "Выберите"
 
 msgid "Select a class"
 msgstr ""
@@ -1642,25 +1631,25 @@ msgid "Select a destination"
 msgstr ""
 
 msgid "Select a language"
-msgstr ""
+msgstr "Выберите язык"
 
 msgid "Select loaded %s"
 msgstr ""
 
 msgid "Select this file"
-msgstr ""
+msgstr "Выберите этот файл"
 
 msgid "select..."
-msgstr ""
+msgstr "выберите..."
 
 msgid "Selected"
 msgstr ""
 
 msgid "Selected file:"
-msgstr ""
+msgstr "Выбранный файл:"
 
 msgid "Selection saved successfully"
-msgstr ""
+msgstr "Выбор сохранен успешно"
 
 msgid "self-locked"
 msgstr ""
@@ -1673,25 +1662,31 @@ msgstr ""
 
 #, tao-public
 msgid "Settings"
-msgstr ""
+msgstr "Параметры"
 
 msgid "Settings updated"
-msgstr ""
+msgstr "Параметры обновлены"
 
 msgid "Show detailed report"
-msgstr ""
+msgstr "Показать подробный отчет"
 
 msgid "Sign change"
 msgstr ""
 
 msgid "Simple Mode"
+msgstr "Простой режим"
+
+msgid "sin"
 msgstr ""
 
 msgid "Sine"
 msgstr ""
 
-msgid "Size"
+msgid "sinh"
 msgstr ""
+
+msgid "Size"
+msgstr "Размер"
 
 msgid "Some resources have not been moved: %s"
 msgstr ""
@@ -1720,14 +1715,11 @@ msgstr ""
 msgid "Street"
 msgstr ""
 
-msgid "string"
-msgstr ""
-
 msgid "Success"
-msgstr ""
+msgstr "Успех"
 
 msgid "Successfully imported \"%s"
-msgstr ""
+msgstr "Успешно импортирован \"%s"
 
 msgid "Successfully imported %s tripples"
 msgstr ""
@@ -1739,19 +1731,28 @@ msgid "Successfully updated %s client translation bundles"
 msgstr ""
 
 msgid "Supported export formats"
+msgstr "Поддерживаемые форматы экспорта"
+
+msgid "Syntax error"
+msgstr ""
+
+msgid "tan"
 msgstr ""
 
 msgid "Tangent"
 msgstr ""
 
-msgid "Tao Default Theme"
+msgid "tanh"
 msgstr ""
+
+msgid "Tao Default Theme"
+msgstr "ТAO тема по умолчанию"
 
 msgid "TAO Home"
-msgstr ""
+msgstr "ТАО Главная"
 
 msgid "TAO Login"
-msgstr ""
+msgstr "Логин ТАО"
 
 msgid "Task %s has been cancelled, message was not processed."
 msgstr ""
@@ -1784,10 +1785,10 @@ msgid "Text - Short - Field"
 msgstr ""
 
 msgid "The action will be applied to"
-msgstr ""
+msgstr "Действие будет применено к"
 
 msgid "The action will be applied to the following"
-msgstr ""
+msgstr "Действие будет применено к следующему"
 
 msgid "The action will not be applied to "
 msgstr ""
@@ -1796,19 +1797,19 @@ msgid "The action will not be applied to the following"
 msgstr ""
 
 msgid "The column "
-msgstr ""
+msgstr "Колонка"
 
 msgid "The format of this field is not valid."
-msgstr ""
+msgstr "Формат этого поля неверный."
 
 msgid "The imported file is not properly UTF-8 encoded."
-msgstr ""
+msgstr "Импортированный файл неправильно закодирован в UTF-8."
 
 msgid "The index identifier should not be empty"
-msgstr ""
+msgstr "Идентификатор индекса не должен быть пустым"
 
 msgid "The lock has been released"
-msgstr ""
+msgstr "Блокировка была выпущена"
 
 msgid "The properties of the source class will be replaced by those of the destination class. This might result in a loss of metadata. Continue anyway?"
 msgstr ""
@@ -1823,58 +1824,58 @@ msgid "The value for the property \"%s\" must be unique."
 msgstr ""
 
 msgid "The value of this field must be a valide date format, e.g. YYYY-MM-DD"
-msgstr ""
+msgstr "Значение этого поля должно быть допустимым форматом даты, например ГГГГ-ММ-ДД"
 
 msgid "The value of this field must be an integer"
-msgstr ""
+msgstr "Значение этого поля должно быть целым числом"
 
 msgid "The value of this field must be numeric"
-msgstr ""
+msgstr "Значение этого поля должно быть числовым"
 
 msgid "There is nothing to list!"
-msgstr ""
+msgstr "Нет ничего, чтобы перечислить!"
 
 msgid "This %s is currently checked out"
 msgstr ""
 
 msgid "This field is required"
-msgstr ""
+msgstr "Это поле является обязательным"
 
 msgid "This field is too long"
-msgstr ""
+msgstr "Это поле слишком длинное"
 
 msgid "This field is too short"
-msgstr ""
+msgstr "Это поле слишком короткое"
 
 msgid "This is not a valid email address."
-msgstr ""
+msgstr "Это неверный адрес электронной почты."
 
 msgid "this is required"
-msgstr ""
+msgstr "это необходимо"
 
 msgid "This Login is already in use"
-msgstr ""
+msgstr "Этот логин уже используется"
 
 msgid "This media cannot be played!"
 msgstr ""
 
 msgid "This password reset link is no longer valid. It may have already been used. If you still wish to reset your password please request a new link"
-msgstr ""
+msgstr "Эта ссылка сброса пароля больше не действительна. Возможно, он уже использовался. Если вы все еще хотите сбросить пароль, пожалуйста, запросите новую ссылку."
 
 msgid "This resource is locked"
-msgstr ""
+msgstr "Этот ресурс заблокирован"
 
 msgid "This role is still given to one or more users. Please remove the role to these users first."
-msgstr ""
+msgstr "Эта роль также предоставляется одному или нескольким пользователям. Сначала удалите роль для этих пользователей."
 
 msgid "This should equal %s"
-msgstr ""
+msgstr "Это должно равняться %s"
 
 msgid "This should not equal %s"
-msgstr ""
+msgstr "Это не должно равняться %s"
 
 msgid "Time zone"
-msgstr ""
+msgstr "Часовой пояс"
 
 msgid "Title"
 msgstr ""
@@ -1883,22 +1884,19 @@ msgid "to"
 msgstr ""
 
 msgid "To reset your password, click the link below, or paste it into your browser. You will then be prompted to create a new password."
-msgstr ""
+msgstr "Чтобы сбросить пароль, нажмите на ссылку ниже или вставьте его в свой браузер. Вам будет предложено создать новый пароль."
 
 msgid "to translate"
-msgstr ""
+msgstr "перевести"
 
 msgid "Toggle multiple/single selection"
 msgstr ""
 
 msgid "Tokenizer"
-msgstr ""
-
-msgid "Too many non-option arguments: got %s, maximum of %s"
-msgstr ""
+msgstr "Разметчик (токенайзер)"
 
 msgid "Too many suggestions match your query. Only a few are listed"
-msgstr ""
+msgstr "Слишком много предложений соответствует запросу. Только некоторые из них перечислены."
 
 msgid "Total duration"
 msgstr ""
@@ -1907,43 +1905,46 @@ msgid "Total:"
 msgstr ""
 
 msgid "Translate"
-msgstr ""
+msgstr "Перевести"
 
 msgid "Translate to"
-msgstr ""
+msgstr "Перевести в"
 
 msgid "Translation parameters"
-msgstr ""
+msgstr "Параметры перевода"
 
 msgid "Translation saved"
-msgstr ""
+msgstr "Перевод сохранен"
 
 msgid "Tree - Multiple node choice "
-msgstr ""
+msgstr "Дерево - Выбор нескольких узлов"
 
 msgid "True"
+msgstr "Истинный"
+
+msgid "trunc"
 msgstr ""
 
 msgid "Type"
-msgstr ""
+msgstr "Тип"
 
 msgid "Type your search"
 msgstr ""
 
 msgid "Unable to access your account?"
-msgstr ""
+msgstr "Не удается получить доступ к учетной записи?"
 
 msgid "Unable to change passwords in demo mode"
-msgstr ""
+msgstr "Не удается изменить пароли в демо-режиме"
 
 msgid "Unable to copy the resource"
 msgstr ""
 
 msgid "Unable to delete %s"
-msgstr ""
+msgstr "Не удается удалить %s"
 
 msgid "Unable to delete the selected resource"
-msgstr ""
+msgstr "Не удается удалить выбранный ресурс"
 
 msgid "Unable to delete the selected resources"
 msgstr ""
@@ -1952,13 +1953,13 @@ msgid "Unable to move the resources"
 msgstr ""
 
 msgid "Unable to open file %s"
-msgstr ""
+msgstr "Не удается открыть файл %s"
 
 msgid "Unable to release the lock"
-msgstr ""
+msgstr "Не удается освободить блокировку"
 
 msgid "Unable to remove the property."
-msgstr ""
+msgstr "Не удается удалить свойство."
 
 msgid "Unable to save resource."
 msgstr ""
@@ -1967,25 +1968,28 @@ msgid "unable to search into notification."
 msgstr ""
 
 msgid "Unable to send the password reset request"
-msgstr ""
+msgstr "Не удается отправить запрос на сброс пароля"
 
 msgid "Unable to update the asset service"
 msgstr ""
 
 msgid "Unable to upload file"
-msgstr ""
+msgstr "Не удается загрузить файл"
 
 msgid "Unable to upload file %s : %s"
+msgstr ""
+
+msgid "Unary operator +"
 msgstr ""
 
 msgid "Unary operator -"
 msgstr ""
 
 msgid "Uncheck all"
-msgstr ""
+msgstr "Снимите все флажки"
 
 msgid "Uncheck All"
-msgstr ""
+msgstr "Снимите все флажки"
 
 msgid "Undefined amount of the pages for pagination"
 msgstr ""
@@ -1994,7 +1998,7 @@ msgid "Undefined amount of the totalPages for pagination"
 msgstr ""
 
 msgid "Undo"
-msgstr ""
+msgstr "Отменить"
 
 msgid "Unexpected error. Please contact administrator"
 msgstr ""
@@ -2006,25 +2010,25 @@ msgid "Uninstalled %s"
 msgstr ""
 
 msgid "unknown"
-msgstr ""
+msgstr "неизвестный"
 
 msgid "Unknown Error"
-msgstr ""
+msgstr "Неизвестная ошибка"
 
 msgid "unkown task id %s"
 msgstr ""
 
 msgid "Update"
-msgstr ""
+msgstr "Обновление"
 
 msgid "Update ID : %s"
 msgstr ""
 
 msgid "Upload"
-msgstr ""
+msgstr "Загрузить"
 
 msgid "Upload into:"
-msgstr ""
+msgstr "Загрузить в:"
 
 msgid "URL"
 msgstr ""
@@ -2039,10 +2043,10 @@ msgid "Use a variable"
 msgstr ""
 
 msgid "Use default value"
-msgstr ""
+msgstr "Использовать значение по умолчанию"
 
 msgid "User"
-msgstr ""
+msgstr "Пользователь"
 
 msgid "User %s can not be locked"
 msgstr ""
@@ -2057,29 +2061,44 @@ msgid "User %s successfully unlocked"
 msgstr ""
 
 msgid "User added"
-msgstr ""
+msgstr "Пользователь добавлен"
 
 msgid "User deleted successfully"
-msgstr ""
+msgstr "Пользователь успешно удален"
 
 msgid "User deletion not permitted on a demo instance"
 msgstr ""
 
 msgid "User not found"
-msgstr ""
+msgstr "Пользователь не найден"
 
 msgid "User saved"
-msgstr ""
+msgstr "Пользователь сохранен"
 
 #, tao-public
 msgid "User Settings"
-msgstr ""
+msgstr "Настройки пользователя"
 
 msgid "Username"
 msgstr ""
 
 #, tao-public
 msgid "Users"
+msgstr "Пользователи"
+
+msgid "Validation for field '%s' has failed. Language does not exists in the system"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. List of values expected"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Valid role expected. Given: %s"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Valid URI expected"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Valid URI expected. Given: %s"
 msgstr ""
 
 msgid "Value of E"
@@ -2095,7 +2114,7 @@ msgid "Variable %s"
 msgstr ""
 
 msgid "Version"
-msgstr ""
+msgstr "Версия"
 
 msgid "View report"
 msgstr ""
@@ -2116,7 +2135,7 @@ msgid "Whole number part"
 msgstr ""
 
 msgid "Width"
-msgstr ""
+msgstr "Ширина"
 
 msgid "Wrong or missing parameter extension, module or action"
 msgstr ""
@@ -2125,25 +2144,25 @@ msgid "Wrong parameter shownExtension"
 msgstr ""
 
 msgid "Yes"
-msgstr ""
+msgstr "Да"
 
 msgid "You are not allowed to write in the class %s"
 msgstr ""
 
 msgid "You are not authorised to remove this lock"
-msgstr ""
+msgstr "Вы не авторизованы для удаления этой блокировки"
 
 msgid "You cannot delete the root node"
-msgstr ""
+msgstr "Вы не можете удалить корневой узел"
 
 msgid "You cannot move the selected resources in the class %s"
 msgstr ""
 
 msgid "You currently have no access to the platform"
-msgstr ""
+msgstr "В настоящее время у вас нет доступа к платформе"
 
 msgid "You do not have the required rights to edit this resource."
-msgstr ""
+msgstr "У вас нет необходимых прав для редактирования этого ресурса."
 
 msgid "You have been locked due to too many failed login attempts. "
 msgstr ""
@@ -2152,7 +2171,7 @@ msgid "You have been logged out. Please login again"
 msgstr ""
 
 msgid "You must activate JavaScript in your browser to run this application."
-msgstr ""
+msgstr "Для запуска этого приложения необходимо активировать JavaScript в браузере."
 
 msgid "Your account has been locked, please contact your administrator."
 msgstr ""
@@ -2170,10 +2189,10 @@ msgid "Your browser doesn’t support the video player."
 msgstr ""
 
 msgid "Your mail"
-msgstr ""
+msgstr "Ваша почта"
 
 msgid "Your TAO Password"
-msgstr ""
+msgstr "Ваш ТАО пароль"
 
 msgid "Zip Code"
 msgstr ""

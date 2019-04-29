@@ -1,0 +1,127 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: TAO 3.3.0-sprint96\n"
+"PO-Revision-Date: 2019-04-25T01:15:19\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
+"MIME-Version: 1.0\n"
+"Language: pt-BR\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: pt-BR\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#Index
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Index"
+msgstr "Índice"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#Index
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Index class"
+msgstr "Classe de índice"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#IndexIdentifier
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Identifier"
+msgstr "Identificador"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#IndexIdentifier
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Humanreadable identifier of the index"
+msgstr "Identificador humano do índice"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#IndexTokenizer
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Tokenizer of index"
+msgstr "Sinalizador de índice"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#IndexTokenizer
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Tokenizer to be used to extract search strings"
+msgstr "Sinalizador a ser usado para extrair caracteres da busca"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#IndexFuzzyMatching
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Fuzzy matching"
+msgstr "Correspondência difusa"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#IndexFuzzyMatching
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Should the string matching be exact or fuzzy"
+msgstr "Os caracteres devem ter correspondência exata ou difusa"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#IndexDefaultSearch
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Use by default"
+msgstr "Utilizar como padrão"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#IndexDefaultSearch
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Should this property be used implicitly in the defautl search"
+msgstr "Esta propriedade deve ser utilizada implicitamente na busca padrão"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#Tokenizer
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Tokenizer"
+msgstr "Sinalização"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#Tokenizer
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Tokenizer class"
+msgstr "Classe de sinalização"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#TokenizerClass
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Tokenizer implementation"
+msgstr "Implementação de sinalização"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#TokenizerClass
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Classname of the tokenizer implementation"
+msgstr "Nome de classe da implementação de sinalização"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#PropertyIndex
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Property Indexation"
+msgstr "Indexação de propriedades"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#PropertyIndex
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "How a property should be indexed"
+msgstr "Como uma propriedade deve ser indexada"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#RawValueTokenizer
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Raw Value Tokenizer"
+msgstr "Valor bruto de sinalização"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#RawValueTokenizer
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Tokenizer using the raw property value"
+msgstr "Sinalização utilizando a propriedade de valor bruto"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#LabelTokenizer
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Label Tokenizer"
+msgstr "Sinalização de rótulo"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#LabelTokenizer
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Tokenizer using the resource labels"
+msgstr "Sinalização utilizando o recurso de rótulos"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#LabelIndex
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Label Index"
+msgstr "Índice de rótulo"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#TypeIndex
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Type Index"
+msgstr "Índice de tipo"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#LoginIndex
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Login Index"
+msgstr "Índice de autenticação"
+

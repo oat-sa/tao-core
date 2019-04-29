@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint94\n"
-"PO-Revision-Date: 2019-02-01T09:17:41\n"
+"Project-Id-Version: TAO 3.3.0-sprint96\n"
+"PO-Revision-Date: 2019-04-25T01:12:42\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ru-RU\n"
@@ -13,7 +13,7 @@ msgstr ""
 # http://www.tao.lu/Ontologies/TAO.rdf#OauthConsumer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Oauth Credentials"
-msgstr ""
+msgstr "Учетные данные Oauth"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#OauthKey
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -33,7 +33,7 @@ msgstr ""
 # http://www.tao.lu/Ontologies/TAO.rdf#OauthSecret
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Secret used for signatures"
-msgstr ""
+msgstr "Секрет, используемый для подписей"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#OauthCallbackUrl
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -43,5 +43,5 @@ msgstr ""
 # http://www.tao.lu/Ontologies/TAO.rdf#OauthCallbackUrl
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "URL to call after autentification"
-msgstr ""
+msgstr "URL-адрес для вызова после проверки подлинности"
 

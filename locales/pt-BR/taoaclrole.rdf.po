@@ -1,0 +1,22 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: TAO 3.3.0-sprint96\n"
+"PO-Revision-Date: 2019-04-25T01:15:19\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
+"MIME-Version: 1.0\n"
+"Language: pt-BR\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: pt-BR\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Base User"
+msgstr "Usuário Base"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Base User Role"
+msgstr "Função de usuário base"
+

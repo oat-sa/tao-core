@@ -1,0 +1,32 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: TAO 3.3.0-sprint96\n"
+"PO-Revision-Date: 2019-04-25T01:10:54\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
+"MIME-Version: 1.0\n"
+"Language: ca-ES-valencia\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: ca-ES-valencia\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TreeBox
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "A Tree Box"
+msgstr "Una caixa d'arbre"
+
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TreeBox
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "A particular tree box"
+msgstr "Una caixa d'arbre específica"
+
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#JsonObject
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Json Object"
+msgstr "Objecte Json"
+
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#JsonObject
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Display a Json Object stored as a literal value as a collection of key/value pairs."
+msgstr "Mostra un objecte Json emmagatzemat com a valor literal com una col·lecció de parells de claus/valors"
+

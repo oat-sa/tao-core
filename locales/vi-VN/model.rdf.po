@@ -1,0 +1,92 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: TAO 3.3.0-sprint96\n"
+"PO-Revision-Date: 2019-04-25T01:07:37\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
+"MIME-Version: 1.0\n"
+"Language: vi-VN\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: vi-VN\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#AbstractModel
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Abstract Model"
+msgstr "Tóm tắt mô hình"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#AbstractModel
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "An abstract model to differentiate implementations of resources of the same type"
+msgstr "Mô hình tóm tắt để triển khai của các kiểu tài nguyên going nhau"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#ModelImplementation
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Model implementation"
+msgstr "Mô hình thực hiện"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#ModelStatus
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Model Status"
+msgstr "Trạng thái mô hình"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusStable
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Stable"
+msgstr "Ổn định"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusStable
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "This model can be used in production"
+msgstr "Mô hình này có thể sử dụng trong sản phẩm"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusDeprecated
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Deprecated"
+msgstr "Không chấp nhận"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusDeprecated
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "This model is not supported anymore, we advise to migrate"
+msgstr "Mô hình này không được hỗ trợ nữa, nên di chuyển"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusDevelopment
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Development"
+msgstr "Phát triển"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusDevelopment
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "this model has not been tested in a production environment, we advise to be carefull with it"
+msgstr "Mô hình này chưa được thử nghiệm trong môi trường sản xuất, chúng tôi khuyên bạn nên cẩn thận với nó"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusExperimental
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Experimental"
+msgstr "Thử nghiệm"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusExperimental
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "this model is still in conception, but you can try it, give your feedback and it will be improved."
+msgstr "Mô hình này vẫn còn mới, nhưng bạn có thể thử nó, hãy phản hồi thông tin để nó sẽ được cải thiện hơn"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#ModelAbstractModelStatus
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Status"
+msgstr "Trạng thái"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#ModelAbstractModelStatus
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "The status of a model"
+msgstr "Trạng thái của một mô hình"
+
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ModelSelector
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Model"
+msgstr "Mô hình"
+
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ModelSelector
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Select the associated model"
+msgstr "Chọn mô hình liên quan"
+

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint94\n"
-"PO-Revision-Date: 2019-02-01T09:17:36\n"
+"Project-Id-Version: TAO 3.3.0-sprint96\n"
+"PO-Revision-Date: 2019-04-25T01:04:42\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nl-NL\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " and "
-msgstr " en "
-
 msgid " AND "
 msgstr ""
+
+msgid " and "
+msgstr " en "
 
 msgid " has been deleted successfully"
 msgstr " is succesvol verwijderd"
@@ -148,7 +148,13 @@ msgstr ""
 msgid "A message with further instructions has been sent to your email address: %s"
 msgstr "Een bericht met verdere instructies is gestuurd naar uw e-mail adres: %s"
 
+msgid "abs"
+msgstr ""
+
 msgid "Absolute value"
+msgstr ""
+
+msgid "AC"
 msgstr ""
 
 msgid "Access Denied"
@@ -209,9 +215,6 @@ msgstr "Geavanceerde modus"
 msgid "Advanced search, add filters"
 msgstr ""
 
-msgid "aliases:"
-msgstr ""
-
 msgid "all"
 msgstr "Alle"
 
@@ -268,13 +271,7 @@ msgstr "Weet u zeker dat u de bron met deze versie wilt verwijderen?\n"
 msgid "Are you sure you want to delete it?"
 msgstr "Weet u zeker dat u het wilt verwijderen?"
 
-msgid "Argument check failed: %s"
-msgstr ""
-
-msgid "Arguments %s and %s are mutually exclusive"
-msgstr ""
-
-msgid "array"
+msgid "Arguments separator"
 msgstr ""
 
 msgid "Assign"
@@ -332,14 +329,14 @@ msgstr ""
 msgid "Binary operator modulo"
 msgstr ""
 
-msgid "boolean"
-msgstr ""
-
 msgid "Browse folders:"
 msgstr "Blader mappen door:"
 
 msgid "Browse..."
 msgstr "Bladeren…"
+
+msgid "C"
+msgstr ""
 
 msgid "Calculator"
 msgstr ""
@@ -347,11 +344,11 @@ msgstr ""
 msgid "Calendar"
 msgstr "Kalender"
 
-msgid "cancel"
-msgstr "afbreken"
-
 msgid "Cancel"
 msgstr "Afbreken"
+
+msgid "cancel"
+msgstr "afbreken"
 
 msgid "cancel the action"
 msgstr "breek de actie af"
@@ -366,6 +363,9 @@ msgid "Cannot divide by zero"
 msgstr ""
 
 msgid "Case sensitive"
+msgstr ""
+
+msgid "ceil"
 msgstr ""
 
 #, tao-public
@@ -386,9 +386,6 @@ msgstr "Alles selecteren"
 
 msgid "Check-in"
 msgstr "Inchecken"
-
-msgid "choices:"
-msgstr ""
 
 msgid "Choose a value..."
 msgstr ""
@@ -453,9 +450,6 @@ msgstr ""
 msgid "Column"
 msgstr "Kolom"
 
-msgid "Commands:"
-msgstr ""
-
 msgid "comment..."
 msgstr "Commentaar..."
 
@@ -489,10 +483,13 @@ msgstr ""
 msgid "Copy to clipboard"
 msgstr ""
 
-msgid "Cosine"
+msgid "cos"
 msgstr ""
 
-msgid "count"
+msgid "cosh"
+msgstr ""
+
+msgid "Cosine"
 msgstr ""
 
 msgid "Country"
@@ -549,9 +546,6 @@ msgstr "Datum"
 msgid "Default search"
 msgstr "Standaard zoekopdracht"
 
-msgid "default:"
-msgstr ""
-
 msgid "Define the default values"
 msgstr "Definieer de standaardwaarden"
 
@@ -582,9 +576,6 @@ msgstr ""
 
 msgid "Demo Sandbox"
 msgstr "Demo Sandbox"
-
-msgid "Did you mean %s?"
-msgstr ""
 
 msgid "Digit 0"
 msgstr ""
@@ -703,9 +694,6 @@ msgstr ""
 msgid "Error in value"
 msgstr ""
 
-msgid "Examples:"
-msgstr ""
-
 msgid "Exclusive (OR)"
 msgstr "Exclusive (OR)"
 
@@ -713,6 +701,9 @@ msgid "Execute"
 msgstr ""
 
 msgid "Executing task %s failed"
+msgstr ""
+
+msgid "exp"
 msgstr ""
 
 msgid "Exponent"
@@ -810,6 +801,9 @@ msgstr "Eerste rij bevat kolomnamen"
 msgid "Fit to width"
 msgstr ""
 
+msgid "floor"
+msgstr ""
+
 msgid "Force Release"
 msgstr "Forceer het uitgeven"
 
@@ -821,9 +815,6 @@ msgstr ""
 
 msgid "Fuzzy Matching"
 msgstr "Fuzzy matching"
-
-msgid "generated-value"
-msgstr ""
 
 msgid "Generis Form"
 msgstr ""
@@ -876,9 +867,6 @@ msgstr "Naam"
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
 msgstr "Als u uw wachtwoord niet wilt resetten, negeer dan deze e-mail en uw wachtwoord zal ongewijzigd blijven."
 
-msgid "Implications failed:"
-msgstr ""
-
 msgid "Import"
 msgstr "Import"
 
@@ -915,10 +903,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -929,6 +917,9 @@ msgstr ""
 
 msgid "Indexing has been run"
 msgstr "Indexering heeft gedraaid"
+
+msgid "Infinity"
+msgstr ""
 
 msgid "Injector has to contains a valid \"destination\" field."
 msgstr ""
@@ -957,10 +948,10 @@ msgstr "Geïnstalleerde extensie %s..."
 msgid "Instance saved"
 msgstr "Instantie is opgeslagen"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "Taal van de omgeving"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "Taal van de omgeving"
 
 msgid "Invalid date range (must be after or the same as: %s)"
@@ -996,9 +987,6 @@ msgstr "Onjuiste bestandstype!"
 msgid "Invalid input for function"
 msgstr ""
 
-msgid "Invalid JSON config file: %s"
-msgstr ""
-
 msgid "Invalid login or password. Please try again."
 msgstr "Onjuiste login of wachtwoord. Probeer het opnieuw."
 
@@ -1007,9 +995,6 @@ msgstr ""
 
 msgid "invalid regular expression"
 msgstr "Onjuiste reguliere expressie."
-
-msgid "Invalid values:"
-msgstr ""
 
 msgid "Label"
 msgstr "Label"
@@ -1047,6 +1032,9 @@ msgstr "Lijst - Enkele keuze - Keuzelijst"
 msgid "List - Single choice - Radio button"
 msgstr "Lijst - Enkele keuze - Radioknop"
 
+msgid "ln"
+msgstr ""
+
 msgid "Load more"
 msgstr ""
 
@@ -1066,6 +1054,9 @@ msgid "Loading task status ..."
 msgstr ""
 
 msgid "locked by %s"
+msgstr ""
+
+msgid "log"
 msgstr ""
 
 msgid "Log in"
@@ -1143,6 +1134,9 @@ msgid "missing config %s for the service %s"
 msgstr ""
 
 msgid "Missing Parameters"
+msgstr ""
+
+msgid "modulo"
 msgstr ""
 
 msgid "More"
@@ -1238,10 +1232,10 @@ msgstr "Geen bestanden"
 msgid "no label"
 msgstr "geen label"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "Geen voorbeeld beschikbaar"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "Geen voorbeeld beschikbaar"
 
 msgid "No results found"
@@ -1251,12 +1245,6 @@ msgid "No Task yet"
 msgstr ""
 
 msgid "Node duplication has failed"
-msgstr ""
-
-msgid "Not enough arguments following: %s"
-msgstr ""
-
-msgid "Not enough non-option arguments: got %s, need at least %s"
 msgstr ""
 
 msgid "Not started"
@@ -1279,9 +1267,6 @@ msgid "notifications drivers aren\'t persistent. use a persistent database stora
 msgstr ""
 
 msgid "Nth root"
-msgstr ""
-
-msgid "number"
 msgstr ""
 
 msgid "Number of elements"
@@ -1450,6 +1435,9 @@ msgstr ""
 msgid "Radian"
 msgstr ""
 
+msgid "random"
+msgstr ""
+
 msgid "Random value"
 msgstr ""
 
@@ -1519,9 +1507,6 @@ msgstr "Vraag een wachtwoord reset aan per e-mail."
 msgid "require notification ID"
 msgstr ""
 
-msgid "required"
-msgstr ""
-
 msgid "required length"
 msgstr "benodigde lengte"
 
@@ -1588,6 +1573,9 @@ msgstr "Rollen"
 #, tao-public
 msgid "Roles library"
 msgstr "Rollen bank"
+
+msgid "round"
+msgstr ""
 
 msgid "Round to closest whole number"
 msgstr ""
@@ -1689,7 +1677,13 @@ msgstr ""
 msgid "Simple Mode"
 msgstr "Eenvoudige modus"
 
+msgid "sin"
+msgstr ""
+
 msgid "Sine"
+msgstr ""
+
+msgid "sinh"
 msgstr ""
 
 msgid "Size"
@@ -1722,9 +1716,6 @@ msgstr ""
 msgid "Street"
 msgstr ""
 
-msgid "string"
-msgstr ""
-
 msgid "Success"
 msgstr "Succes"
 
@@ -1743,7 +1734,16 @@ msgstr ""
 msgid "Supported export formats"
 msgstr "Ondersteunde export formaten"
 
+msgid "Syntax error"
+msgstr ""
+
+msgid "tan"
+msgstr ""
+
 msgid "Tangent"
+msgstr ""
+
+msgid "tanh"
 msgstr ""
 
 msgid "Tao Default Theme"
@@ -1896,9 +1896,6 @@ msgstr ""
 msgid "Tokenizer"
 msgstr "Tokenizer"
 
-msgid "Too many non-option arguments: got %s, maximum of %s"
-msgstr ""
-
 msgid "Too many suggestions match your query. Only a few are listed"
 msgstr "Er komen te veel suggesties overeen met uw zoekopdracht. Er worden er slechts een beperkt aantal getoond."
 
@@ -1925,6 +1922,9 @@ msgstr "Boom - Meervoudige knooppunten keuze "
 
 msgid "True"
 msgstr "Waar"
+
+msgid "trunc"
+msgstr ""
 
 msgid "Type"
 msgstr "Type"
@@ -1979,6 +1979,9 @@ msgstr "Kan het bestand niet uploaden"
 
 msgid "Unable to upload file %s : %s"
 msgstr "Kan het bestand %s : %s niet uploaden"
+
+msgid "Unary operator +"
+msgstr ""
 
 msgid "Unary operator -"
 msgstr ""
@@ -2083,6 +2086,21 @@ msgstr ""
 #, tao-public
 msgid "Users"
 msgstr "Gebruikers"
+
+msgid "Validation for field '%s' has failed. Language does not exists in the system"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. List of values expected"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Valid role expected. Given: %s"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Valid URI expected"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Valid URI expected. Given: %s"
+msgstr ""
 
 msgid "Value of E"
 msgstr ""

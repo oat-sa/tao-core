@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint94\n"
-"PO-Revision-Date: 2019-02-01T09:17:16\n"
+"Project-Id-Version: TAO 3.3.0-sprint96\n"
+"PO-Revision-Date: 2019-04-25T01:11:19\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: es-ES\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " and "
-msgstr " y "
-
 msgid " AND "
 msgstr ""
+
+msgid " and "
+msgstr " y "
 
 msgid " has been deleted successfully"
 msgstr " ha sido borrado exitosamente"
@@ -148,7 +148,13 @@ msgstr ""
 msgid "A message with further instructions has been sent to your email address: %s"
 msgstr "Un mensaje con instrucciones adicionales ha sido enviada a su e-mail: %s"
 
+msgid "abs"
+msgstr ""
+
 msgid "Absolute value"
+msgstr ""
+
+msgid "AC"
 msgstr ""
 
 msgid "Access Denied"
@@ -209,9 +215,6 @@ msgstr "Modo avanzado"
 msgid "Advanced search, add filters"
 msgstr ""
 
-msgid "aliases:"
-msgstr ""
-
 msgid "all"
 msgstr "todos"
 
@@ -268,13 +271,7 @@ msgstr "Está seguro de borrar este recurso versionado?\n"
 msgid "Are you sure you want to delete it?"
 msgstr "Está seguro de querer borrarlo?"
 
-msgid "Argument check failed: %s"
-msgstr ""
-
-msgid "Arguments %s and %s are mutually exclusive"
-msgstr ""
-
-msgid "array"
+msgid "Arguments separator"
 msgstr ""
 
 msgid "Assign"
@@ -332,13 +329,13 @@ msgstr ""
 msgid "Binary operator modulo"
 msgstr ""
 
-msgid "boolean"
-msgstr ""
-
 msgid "Browse folders:"
 msgstr "Examinar las carpetas:"
 
 msgid "Browse..."
+msgstr ""
+
+msgid "C"
 msgstr ""
 
 msgid "Calculator"
@@ -347,10 +344,10 @@ msgstr ""
 msgid "Calendar"
 msgstr "Calendario"
 
-msgid "cancel"
+msgid "Cancel"
 msgstr ""
 
-msgid "Cancel"
+msgid "cancel"
 msgstr ""
 
 msgid "cancel the action"
@@ -366,6 +363,9 @@ msgid "Cannot divide by zero"
 msgstr ""
 
 msgid "Case sensitive"
+msgstr ""
+
+msgid "ceil"
 msgstr ""
 
 #, tao-public
@@ -386,9 +386,6 @@ msgstr "Seleccionar todo"
 
 msgid "Check-in"
 msgstr "Registrarse"
-
-msgid "choices:"
-msgstr ""
 
 msgid "Choose a value..."
 msgstr ""
@@ -453,9 +450,6 @@ msgstr ""
 msgid "Column"
 msgstr "Columna"
 
-msgid "Commands:"
-msgstr ""
-
 msgid "comment..."
 msgstr ""
 
@@ -489,10 +483,13 @@ msgstr ""
 msgid "Copy to clipboard"
 msgstr ""
 
-msgid "Cosine"
+msgid "cos"
 msgstr ""
 
-msgid "count"
+msgid "cosh"
+msgstr ""
+
+msgid "Cosine"
 msgstr ""
 
 msgid "Country"
@@ -549,9 +546,6 @@ msgstr "Fecha"
 msgid "Default search"
 msgstr "Búsqueda por defecto"
 
-msgid "default:"
-msgstr ""
-
 msgid "Define the default values"
 msgstr "Define los valores por defecto"
 
@@ -582,9 +576,6 @@ msgstr ""
 
 msgid "Demo Sandbox"
 msgstr "Demo Sanbox"
-
-msgid "Did you mean %s?"
-msgstr ""
 
 msgid "Digit 0"
 msgstr ""
@@ -703,9 +694,6 @@ msgstr ""
 msgid "Error in value"
 msgstr ""
 
-msgid "Examples:"
-msgstr ""
-
 msgid "Exclusive (OR)"
 msgstr "(OR) exclusivo"
 
@@ -713,6 +701,9 @@ msgid "Execute"
 msgstr ""
 
 msgid "Executing task %s failed"
+msgstr ""
+
+msgid "exp"
 msgstr ""
 
 msgid "Exponent"
@@ -810,6 +801,9 @@ msgstr "Nombre de columnas en primer renglón"
 msgid "Fit to width"
 msgstr ""
 
+msgid "floor"
+msgstr ""
+
 msgid "Force Release"
 msgstr "Forzar liberación"
 
@@ -821,9 +815,6 @@ msgstr ""
 
 msgid "Fuzzy Matching"
 msgstr "Coincidencia confusa"
-
-msgid "generated-value"
-msgstr ""
 
 msgid "Generis Form"
 msgstr ""
@@ -876,9 +867,6 @@ msgstr "Identificador"
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
 msgstr "Si usted no desea restablecer su contraseña, simplemente ignore este correo electrónico y su contraseña seguirá siendo la misma."
 
-msgid "Implications failed:"
-msgstr ""
-
 msgid "Import"
 msgstr "Importar"
 
@@ -915,10 +903,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -928,6 +916,9 @@ msgid "Index has been deleted for %s"
 msgstr ""
 
 msgid "Indexing has been run"
+msgstr ""
+
+msgid "Infinity"
 msgstr ""
 
 msgid "Injector has to contains a valid \"destination\" field."
@@ -957,10 +948,10 @@ msgstr "Instalando extensión %s..."
 msgid "Instance saved"
 msgstr "Instancia guardada"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "Lenguaje de interface"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "Lenguaje de interface"
 
 msgid "Invalid date range (must be after or the same as: %s)"
@@ -996,9 +987,6 @@ msgstr "Tipo de archivo inválido!"
 msgid "Invalid input for function"
 msgstr ""
 
-msgid "Invalid JSON config file: %s"
-msgstr ""
-
 msgid "Invalid login or password. Please try again."
 msgstr "Usuario o contraseña invalida. Por favor intente nuevamente."
 
@@ -1007,9 +995,6 @@ msgstr ""
 
 msgid "invalid regular expression"
 msgstr "expresión regular invalida"
-
-msgid "Invalid values:"
-msgstr ""
 
 msgid "Label"
 msgstr "Etiqueta"
@@ -1047,6 +1032,9 @@ msgstr "Lista - Opción sencilla - Lista de selección"
 msgid "List - Single choice - Radio button"
 msgstr "Lista - Opción sencilla - Selección única"
 
+msgid "ln"
+msgstr ""
+
 msgid "Load more"
 msgstr ""
 
@@ -1066,6 +1054,9 @@ msgid "Loading task status ..."
 msgstr ""
 
 msgid "locked by %s"
+msgstr ""
+
+msgid "log"
 msgstr ""
 
 msgid "Log in"
@@ -1143,6 +1134,9 @@ msgid "missing config %s for the service %s"
 msgstr ""
 
 msgid "Missing Parameters"
+msgstr ""
+
+msgid "modulo"
 msgstr ""
 
 msgid "More"
@@ -1238,10 +1232,10 @@ msgstr "Sin archivos"
 msgid "no label"
 msgstr "sin etiqueta"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr ""
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr ""
 
 msgid "No results found"
@@ -1251,12 +1245,6 @@ msgid "No Task yet"
 msgstr ""
 
 msgid "Node duplication has failed"
-msgstr ""
-
-msgid "Not enough arguments following: %s"
-msgstr ""
-
-msgid "Not enough non-option arguments: got %s, need at least %s"
 msgstr ""
 
 msgid "Not started"
@@ -1279,9 +1267,6 @@ msgid "notifications drivers aren\'t persistent. use a persistent database stora
 msgstr ""
 
 msgid "Nth root"
-msgstr ""
-
-msgid "number"
 msgstr ""
 
 msgid "Number of elements"
@@ -1393,7 +1378,7 @@ msgid "Please try in %s."
 msgstr ""
 
 msgid "Please wait"
-msgstr "Espera"
+msgstr ""
 
 msgid "Please wait while ..."
 msgstr ""
@@ -1430,7 +1415,7 @@ msgid "Properties"
 msgstr "Propiedades"
 
 msgid "Property\'s label field is required"
-msgstr "La etiqueta del campo propiedades es requerida"
+msgstr ""
 
 msgid "Provided URL is not valid"
 msgstr ""
@@ -1448,6 +1433,9 @@ msgid "Rad"
 msgstr ""
 
 msgid "Radian"
+msgstr ""
+
+msgid "random"
 msgstr ""
 
 msgid "Random value"
@@ -1519,9 +1507,6 @@ msgstr ""
 msgid "require notification ID"
 msgstr ""
 
-msgid "required"
-msgstr ""
-
 msgid "required length"
 msgstr "longitud requerida"
 
@@ -1588,6 +1573,9 @@ msgstr "Roles"
 #, tao-public
 msgid "Roles library"
 msgstr "Libreria de roles"
+
+msgid "round"
+msgstr ""
 
 msgid "Round to closest whole number"
 msgstr ""
@@ -1689,7 +1677,13 @@ msgstr ""
 msgid "Simple Mode"
 msgstr "Modo simple"
 
+msgid "sin"
+msgstr ""
+
 msgid "Sine"
+msgstr ""
+
+msgid "sinh"
 msgstr ""
 
 msgid "Size"
@@ -1722,9 +1716,6 @@ msgstr ""
 msgid "Street"
 msgstr ""
 
-msgid "string"
-msgstr ""
-
 msgid "Success"
 msgstr "Correcto"
 
@@ -1743,7 +1734,16 @@ msgstr ""
 msgid "Supported export formats"
 msgstr "Formatos exportados soportados"
 
+msgid "Syntax error"
+msgstr ""
+
+msgid "tan"
+msgstr ""
+
 msgid "Tangent"
+msgstr ""
+
+msgid "tanh"
 msgstr ""
 
 msgid "Tao Default Theme"
@@ -1896,9 +1896,6 @@ msgstr ""
 msgid "Tokenizer"
 msgstr "Marcador"
 
-msgid "Too many non-option arguments: got %s, maximum of %s"
-msgstr ""
-
 msgid "Too many suggestions match your query. Only a few are listed"
 msgstr "Demasiadas sugerencias coinciden con tu consulta. Sólo unas pocas son listadas"
 
@@ -1925,6 +1922,9 @@ msgstr ""
 
 msgid "True"
 msgstr "Verdadero"
+
+msgid "trunc"
+msgstr ""
 
 msgid "Type"
 msgstr "Tipo"
@@ -1979,6 +1979,9 @@ msgstr "No es posible subir el archivo"
 
 msgid "Unable to upload file %s : %s"
 msgstr "No es posible subir el archivo %s : %s"
+
+msgid "Unary operator +"
+msgstr ""
 
 msgid "Unary operator -"
 msgstr ""
@@ -2083,6 +2086,21 @@ msgstr ""
 #, tao-public
 msgid "Users"
 msgstr "Usuarios"
+
+msgid "Validation for field '%s' has failed. Language does not exists in the system"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. List of values expected"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Valid role expected. Given: %s"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Valid URI expected"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Valid URI expected. Given: %s"
+msgstr ""
 
 msgid "Value of E"
 msgstr ""

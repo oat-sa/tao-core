@@ -1,1 +1,1 @@
-[]
+{"Delete":"Zmaza\u0165","Deliveries":"Doru\u010denia","Deliveries library":"Kni\u017enica doru\u010den\u00ed","LTI":"LTI","Manage Access Rights":"Spr\u00e1va pr\u00edstupov\u00fdch pr\u00e1v","Move":"Presun\u00fa\u0165","New class":"Nov\u00e1 trieda","New delivery":"Nov\u00e9 doru\u010denie","Prepare, publish deliveries sessions.":"Pripravte a publikujte rel\u00e1cie doru\u010den\u00ed.","Properties":"Vlastnosti","Users":"U\u017e\u00edvatelia"}

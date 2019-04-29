@@ -1,0 +1,2200 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: TAO 3.3.0-sprint96\n"
+"PO-Revision-Date: 2019-04-25T01:10:54\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
+"MIME-Version: 1.0\n"
+"Language: ca-ES-valencia\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: ca-ES-valencia\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Basepath: ../../\n"
+"X-Poedit-KeywordsList: __\n"
+"X-Poedit-SearchPath-0: .\n"
+
+msgid ""
+msgstr ""
+
+msgid " AND "
+msgstr ""
+
+msgid " and "
+msgstr " i"
+
+msgid " has been deleted successfully"
+msgstr " s'ha eliminat correctament"
+
+msgid " is "
+msgstr ""
+
+msgid " next"
+msgstr " següent"
+
+msgid " requires a subgrid adapter"
+msgstr " requereix un adaptador de subgraella"
+
+msgid "%1$s expected but %2$s detected"
+msgstr "S'esperava %1$s però s'ha detectat %2$s"
+
+msgid "%d attempts left before your account is locked."
+msgstr ""
+
+msgid "%d day"
+msgstr "%d dia"
+
+msgid "%d days"
+msgstr "%d dies"
+
+msgid "%h hour"
+msgstr "%h hora"
+
+msgid "%h hours"
+msgstr "%h hores"
+
+msgid "%i minute"
+msgstr "%i minut"
+
+msgid "%i minutes"
+msgstr "%i minuts"
+
+msgid "%m month"
+msgstr "%m mes"
+
+msgid "%m months"
+msgstr "%m mesos"
+
+msgid "%s %s selected"
+msgstr ""
+
+msgid "%s (%s kb)"
+msgstr "%s (%s kb)"
+
+msgid "%s Class saved"
+msgstr "%s classe guardada"
+
+msgid "%s classes"
+msgstr ""
+
+msgid "%s Confirmation"
+msgstr ""
+
+msgid "%s could not be released"
+msgstr "%s no s'ha pogut alliberar"
+
+msgid "%s created"
+msgstr ""
+
+msgid "%s extension(s) to install."
+msgstr "%s extension(s) que s'han d'instal·lar."
+
+msgid "%s has been deleted"
+msgstr "%s s'ha eliminat"
+
+msgid "%s has been released"
+msgstr "%s s'ha alliberat"
+
+msgid "%s instances"
+msgstr ""
+
+msgid "%s is of a type that cannot be published"
+msgstr "%s és un tipus de fitxer que no es pot publicar"
+
+msgid "%s Locked"
+msgstr "%s bloquejat"
+
+msgid "%s\" is not a valid index identifier. It must start with a letter and contain letters, numbers or underscores only"
+msgstr "%s\" no és un identificador d'índex vàlid. Aquest ha de començar amb una lletra i contindre només lletres, xifres o ratlles baixes"
+
+msgid "%y year"
+msgstr "%y any"
+
+msgid "%y years"
+msgstr "%y anys"
+
+msgid "(empty)"
+msgstr "(buit)"
+
+msgid "... reloading page."
+msgstr "... s'està tornant a carregar la pàgina."
+
+msgid "<del>Filters</del>"
+msgstr "<del>Filtres</del>"
+
+msgid "<del>Options</del>"
+msgstr "<del>Opcions</del>"
+
+msgid "<strong> %s </strong> has been moved to the background."
+msgstr ""
+
+msgid "> Extension %s succesfully installed."
+msgstr "> L'extensió %s s'ha instal·lat correctament."
+
+msgid "> Installation done."
+msgstr "> Instal·lació finalitzada."
+
+msgid "a class"
+msgstr ""
+
+msgid "A date has to be a Datetime or timestamp"
+msgstr "Una data ha de ser de tipus «Datetime» o «timestamp»"
+
+msgid "A fatal error occured during the installation process."
+msgstr "S'ha produït un error fatal durant el procés d'instal·lació."
+
+msgid "A maintenance status must have a STATUS: \"%s\" or \"%s"
+msgstr "Un estat de manteniment ha de tindre un ESTAT: \"%s\" o \"%s"
+
+msgid "A message with further instructions has been sent to your email address: %s"
+msgstr "Un missatge amb instruccions addicionals s'ha enviat al seu correu electrònic: %s"
+
+msgid "abs"
+msgstr ""
+
+msgid "Absolute value"
+msgstr ""
+
+msgid "AC"
+msgstr ""
+
+msgid "Access Denied"
+msgstr "Accés denegat"
+
+msgid "Access denied. Please renew your authentication!"
+msgstr "Accés denegat. Renoveu l'autenticació."
+
+msgid "Account status"
+msgstr ""
+
+msgid "Action"
+msgstr "Acció"
+
+msgid "Action %s - removed %s positions"
+msgstr ""
+
+msgid "Action `%s` is not configured in the action queue service"
+msgstr ""
+
+msgid "Action was not executed yet"
+msgstr ""
+
+msgid "Actions"
+msgstr "Accions"
+
+msgid "Add"
+msgstr "Afig"
+
+msgid "Add a CSV file"
+msgstr "Afig un fitxer CSV"
+
+#, tao-public
+msgid "Add a user"
+msgstr "Afig un usuari"
+
+msgid "Add an RDF/XML file"
+msgstr "Afig un fitxer RDF/XML"
+
+msgid "Add file(s)"
+msgstr "Afig fitxers"
+
+msgid "Add property"
+msgstr "Afig una propietat"
+
+msgid "Adding search index for %s"
+msgstr ""
+
+msgid "Adding the new class has failed"
+msgstr ""
+
+msgid "Adding the new resource has failed"
+msgstr ""
+
+msgid "Advanced Mode"
+msgstr "Mode avançat"
+
+msgid "Advanced search, add filters"
+msgstr ""
+
+msgid "all"
+msgstr "tot"
+
+msgid "All data will be removed in %s"
+msgstr "Totes les dades se suprimiran en %s"
+
+msgid "All fields are required"
+msgstr "Tots els camps són obligatoris"
+
+msgid "All rights reserved."
+msgstr "Tots els drets reservats"
+
+msgid "Alpha version"
+msgstr "Versió alfa"
+
+msgid "An email has been sent"
+msgstr "S'ha enviat un correu electrònic."
+
+msgid "An error occurred during user deletion"
+msgstr ""
+
+msgid "An error occurred!"
+msgstr "S'ha produït un error."
+
+msgid "An exception occured while running \"%s"
+msgstr "S'ha produït un error mentre s'executava %s"
+
+msgid "an instance"
+msgstr ""
+
+msgid "Ans"
+msgstr ""
+
+msgid "Apply"
+msgstr ""
+
+msgid "Arc cosine"
+msgstr ""
+
+msgid "Arc sine"
+msgstr ""
+
+msgid "Arc tangent"
+msgstr ""
+
+msgid "Archived"
+msgstr ""
+
+msgid "Are you sure to delete the versioned resource?\n"
+"The history will be lost as well."
+msgstr "Esteu segur que voleu eliminar el recurs versionat?\n"
+"També es perdrà l'historial."
+
+msgid "Are you sure you want to delete it?"
+msgstr "Esteu segur que voleu eliminar-lo?"
+
+msgid "Arguments separator"
+msgstr ""
+
+msgid "Assign"
+msgstr ""
+
+msgid "Assign User to role"
+msgstr "Assigna l'usuari a un rol"
+
+#, tao-public
+msgid "Assign Users"
+msgstr "Assigna usuaris"
+
+msgid "Author"
+msgstr "Autor"
+
+msgid "Author Item"
+msgstr "Element d'autor"
+
+msgid "Authoring"
+msgstr "Autoria"
+
+msgid "auto unlocked in %s"
+msgstr ""
+
+msgid "Available"
+msgstr "Disponible"
+
+msgid "Available Extensions"
+msgstr "Extensions disponibles"
+
+msgid "Back"
+msgstr "Arrere"
+
+msgid "Back to listing"
+msgstr "Torna a la llista"
+
+msgid "Base-10 logarithm"
+msgstr ""
+
+msgid "Beta version"
+msgstr "Versió beta"
+
+msgid "Binary operator *"
+msgstr ""
+
+msgid "Binary operator +"
+msgstr ""
+
+msgid "Binary operator -"
+msgstr ""
+
+msgid "Binary operator /"
+msgstr ""
+
+msgid "Binary operator modulo"
+msgstr ""
+
+msgid "Browse folders:"
+msgstr "Navega per les carpetes:"
+
+msgid "Browse..."
+msgstr "Navega..."
+
+msgid "C"
+msgstr ""
+
+msgid "Calculator"
+msgstr "Calculadora"
+
+msgid "Calendar"
+msgstr "Calendari"
+
+msgid "Cancel"
+msgstr "Cancel·la"
+
+msgid "cancel"
+msgstr "cancel·la"
+
+msgid "cancel the action"
+msgstr "cancel·la l'acció"
+
+msgid "Cancelled"
+msgstr ""
+
+msgid "Cannot be edited"
+msgstr "No es pot editar"
+
+msgid "Cannot divide by zero"
+msgstr "No es pot dividir per zero"
+
+msgid "Case sensitive"
+msgstr "Distingeix majúscules i minúscules"
+
+msgid "ceil"
+msgstr ""
+
+#, tao-public
+msgid "Change password"
+msgstr "Canvia la contrasenya"
+
+msgid "Change the password"
+msgstr "Canvia la contrasenya"
+
+msgid "Change the sign of the current operand"
+msgstr ""
+
+msgid "Check All"
+msgstr "Selecciona-ho tot"
+
+msgid "Check all"
+msgstr "Selecciona-ho tot"
+
+msgid "Check-in"
+msgstr "Registre"
+
+msgid "Choose a value..."
+msgstr ""
+
+msgid "Choose export format"
+msgstr "Trieu el format d'exportació"
+
+msgid "Choose import format"
+msgstr "Trieu el format d'importació"
+
+msgid "City"
+msgstr ""
+
+msgid "class selected"
+msgstr "classe seleccionada"
+
+msgid "Class uri provided is not a valid class."
+msgstr ""
+
+msgid "Cleaning up tmp space complete"
+msgstr "S'ha completat la neteja d'espai temporal"
+
+msgid "Cleaning up tmp space started"
+msgstr "S'ha iniciat la neteja d'espai temporal"
+
+msgid "Clear"
+msgstr ""
+
+msgid "Clear All"
+msgstr ""
+
+msgid "Clear all data"
+msgstr ""
+
+msgid "Clear expression"
+msgstr ""
+
+msgid "Clear History"
+msgstr ""
+
+msgid "Clear history"
+msgstr ""
+
+msgid "Clear selection"
+msgstr ""
+
+msgid "Clear the stored variables"
+msgstr ""
+
+msgid "Close"
+msgstr "Tanca"
+
+msgid "Close message"
+msgstr "Tanca el missatge"
+
+msgid "Code Version"
+msgstr ""
+
+msgid "Collecting of abandoned actions in the action queue ..."
+msgstr ""
+
+msgid "Column"
+msgstr "Columna"
+
+msgid "comment..."
+msgstr "comentari..."
+
+msgid "Commit"
+msgstr "Realitza"
+
+msgid "Completed"
+msgstr "Completat"
+
+msgid "Completed - Error"
+msgstr "Completat - Error"
+
+msgid "Compute the expression"
+msgstr ""
+
+msgid "Confirm"
+msgstr "Confirma"
+
+msgid "Connect to the TAO platform"
+msgstr "Connexió a la plataforma TAO"
+
+msgid "Continue"
+msgstr "Continua"
+
+msgid "Copy"
+msgstr ""
+
+msgid "Copy to"
+msgstr ""
+
+msgid "Copy to clipboard"
+msgstr ""
+
+msgid "cos"
+msgstr ""
+
+msgid "cosh"
+msgstr ""
+
+msgid "Cosine"
+msgstr ""
+
+msgid "Country"
+msgstr ""
+
+msgid "Create"
+msgstr "Crea"
+
+msgid "Create instance of "
+msgstr "Crea una instància de"
+
+msgid "Created"
+msgstr "Creat"
+
+msgid "Creation At"
+msgstr ""
+
+msgid "CSV"
+msgstr "CSV"
+
+msgid "CSV Options"
+msgstr "Opcions CSV"
+
+msgid "Cube root"
+msgstr ""
+
+msgid "Current language"
+msgstr "Idioma actual"
+
+msgid "Current playback position"
+msgstr "Posició actual de reproducció"
+
+msgid "Data imported"
+msgstr "Dades importades"
+
+msgid "Data imported successfully"
+msgstr "Les dades s'han importat correctament"
+
+msgid "Data imported. Some records are invalid."
+msgstr "Dades importades. Alguns registres són incorrectes."
+
+msgid "Data language"
+msgstr "Idioma de les dades"
+
+msgid "Data Language"
+msgstr "Idioma de les dades"
+
+msgid "Data not imported. All records are invalid."
+msgstr "Dades no importades. Tots els registres són incorrectes."
+
+msgid "Date"
+msgstr "Data"
+
+msgid "Default search"
+msgstr "Cerca per defecte"
+
+msgid "Define the default values"
+msgstr "Defineix els valors per defecte"
+
+msgid "Deg"
+msgstr ""
+
+msgid "Degree"
+msgstr ""
+
+#, tao-public
+msgid "Delete"
+msgstr "Suprimeix"
+
+msgid "Delete Left"
+msgstr ""
+
+msgid "Delete Right"
+msgstr ""
+
+msgid "Delete the term on the left side of the cursor"
+msgstr ""
+
+msgid "Delete the term on the right side of the cursor"
+msgstr ""
+
+msgid "Deleting search index for %s"
+msgstr ""
+
+msgid "Demo Sandbox"
+msgstr "Demostració"
+
+msgid "Digit 0"
+msgstr ""
+
+msgid "Digit 1"
+msgstr ""
+
+msgid "Digit 2"
+msgstr ""
+
+msgid "Digit 3"
+msgstr ""
+
+msgid "Digit 4"
+msgstr ""
+
+msgid "Digit 5"
+msgstr ""
+
+msgid "Digit 6"
+msgstr ""
+
+msgid "Digit 7"
+msgstr ""
+
+msgid "Digit 8"
+msgstr ""
+
+msgid "Digit 9"
+msgstr ""
+
+msgid "Disabled %s"
+msgstr "S'ha inhabilitat %s"
+
+msgid "Do you wish to install the following extension(s):\n"
+"%s?"
+msgstr "Voleu instal·lar les extensions següents:\n"
+"%s?"
+
+msgid "does not match"
+msgstr "no coincideix"
+
+msgid "Don't set"
+msgstr "No configurat"
+
+msgid "Dot"
+msgstr ""
+
+msgid "Download"
+msgstr "Baixa"
+
+msgid "Download this file"
+msgstr "Baixa aquest fitxer"
+
+msgid "Drag file here"
+msgstr "Arrossegueu el fitxer ací"
+
+msgid "Drag files here"
+msgstr "Arrossegueu els fitxers ací"
+
+msgid "Drop the files to upload"
+msgstr "Deixeu anar els fitxers per pujar"
+
+msgid "Edit"
+msgstr "Edita"
+
+#, tao-public
+msgid "Edit a user"
+msgstr "Edita un usuari"
+
+msgid "Edit class %s"
+msgstr "Edita la classe %s"
+
+msgid "Edit Instance"
+msgstr "Edita una instància"
+
+msgid "Element"
+msgstr "Element"
+
+msgid "Element deleted."
+msgstr "Element eliminat"
+
+msgid "Email"
+msgstr "Correu electrònic"
+
+msgid "Email address"
+msgstr ""
+
+msgid "enabled"
+msgstr ""
+
+msgid "Enabled %s"
+msgstr ""
+
+msgid "End of document reached. Continuing from the beginning."
+msgstr "S'ha arribat al final del document. Voleu continuar des del començament?"
+
+msgid "Enter"
+msgstr "Entrada"
+
+msgid "Error"
+msgstr "Error"
+
+msgid "Error adding search index for %s with message %s"
+msgstr ""
+
+msgid "Error during file import"
+msgstr "S'ha produït un error durant la importació del fitxer"
+
+msgid "Error in result"
+msgstr ""
+
+msgid "Error in syntax"
+msgstr ""
+
+msgid "Error in value"
+msgstr ""
+
+msgid "Exclusive (OR)"
+msgstr "Exclusiu (O)"
+
+msgid "Execute"
+msgstr ""
+
+msgid "Executing task %s failed"
+msgstr ""
+
+msgid "exp"
+msgstr ""
+
+msgid "Exponent"
+msgstr ""
+
+#, tao-public
+msgid "Export"
+msgstr "Exporta"
+
+msgid "Export "
+msgstr "Exporta"
+
+msgid "Export \"%s\" in %s"
+msgstr ""
+
+msgid "Export CSV"
+msgstr ""
+
+msgid "Export failed."
+msgstr ""
+
+msgid "Export Metadata as RDF/XML file"
+msgstr "Exporta les metadades com a un fitxer RDF/XML"
+
+msgid "Export succeeded."
+msgstr ""
+
+msgid "Extension \"%s\" has been installed"
+msgstr ""
+
+#, tao-public
+msgid "Extensions manager"
+msgstr "Gestor d'extensions"
+
+msgid "Factorial"
+msgstr ""
+
+msgid "Failed"
+msgstr ""
+
+msgid "Failed to delete index for %s"
+msgstr ""
+
+msgid "False"
+msgstr "Fals"
+
+msgid "Field delimiter"
+msgstr "Separador de camps"
+
+msgid "Field encloser"
+msgstr "Delimitador de camps"
+
+msgid "Fields must match"
+msgstr ""
+
+msgid "File"
+msgstr "Fitxer"
+
+msgid "File download failed"
+msgstr "La baixada del fitxer ha fallat"
+
+msgid "File name"
+msgstr "Nom del fitxer"
+
+msgid "File Properties"
+msgstr "Propietats del fitxer"
+
+msgid "file selected"
+msgstr "fitxer seleccionat"
+
+msgid "File Uploader"
+msgstr "Carregador de fitxers"
+
+msgid "files selected"
+msgstr "fitxers seleccionats"
+
+msgid "Filter"
+msgstr "Filtre"
+
+msgid "Filter by value"
+msgstr "Filtra per valor"
+
+msgid "Filtering mode"
+msgstr "Mode de filtratge"
+
+msgid "First Name"
+msgstr "Nom"
+
+msgid "First page"
+msgstr "Primera pàgina"
+
+msgid "First row column names"
+msgstr "Noms de les columnes en la primera fila"
+
+msgid "Fit to width"
+msgstr "Ajusta a l'amplària"
+
+msgid "floor"
+msgstr ""
+
+msgid "Force Release"
+msgstr "Imposa la publicació"
+
+msgid "Forgot your password?"
+msgstr "Heu oblidat la contrasenya?"
+
+msgid "From"
+msgstr "De"
+
+msgid "Fuzzy Matching"
+msgstr "Coincidència de manera difusa"
+
+msgid "Generis Form"
+msgstr ""
+
+msgid "Get History"
+msgstr ""
+
+msgid "Get the history list"
+msgstr ""
+
+msgid "Go Back"
+msgstr "Vés arrere"
+
+msgid "Height"
+msgstr "Alçària"
+
+msgid "Hi, %s<br>You indicated that you have forgotten your TAO password."
+msgstr "Hola, %s<br>Heu indicat que heu oblidat la contrasenya per al TAO."
+
+msgid "Hide detailed report"
+msgstr "Oculta l'informe detallat"
+
+msgid "Highlight all"
+msgstr "Ressalta-ho tot"
+
+msgid "hours"
+msgstr "hores"
+
+msgid "Hyperbolic arc cosine"
+msgstr ""
+
+msgid "Hyperbolic arc sine"
+msgstr ""
+
+msgid "Hyperbolic arc tangent"
+msgstr ""
+
+msgid "Hyperbolic cosine"
+msgstr ""
+
+msgid "Hyperbolic sine"
+msgstr ""
+
+msgid "Hyperbolic tangent"
+msgstr ""
+
+msgid "Identifier"
+msgstr "Identificador"
+
+msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
+msgstr "Si no voleu reinicialitzar la vostra contrasenya, simplement ignoreu aquest correu i la contrasenya continuarà sent la mateixa."
+
+msgid "Import"
+msgstr "Importa"
+
+msgid "Import "
+msgstr "Importa"
+
+msgid "Import a %s into \"%s"
+msgstr ""
+
+msgid "Import Completed"
+msgstr ""
+
+msgid "Import failed."
+msgstr ""
+
+msgid "Import Metadata from CSV file"
+msgstr "Importa les metadades des del fitxer CSV"
+
+msgid "Import Metadata from RDF file"
+msgstr "Importa les metadades des del fitxer RDF"
+
+msgid "Import succeeded."
+msgstr ""
+
+msgid "Imported %1$d/%2$d. Some records are invalid."
+msgstr "S'ha importat %1$d/%2$d. Alguns registres són incorrectes."
+
+msgid "Imported %d resources"
+msgstr "S'han importat %d recursos"
+
+msgid "Imported resource \"%s"
+msgstr "S'ha importat el recurs \"%s"
+
+msgid "impossible to update task status"
+msgstr ""
+
+msgid "In progress"
+msgstr "En curs..."
+
+msgid "In Progress"
+msgstr ""
+
+msgid "Inclusive (AND)"
+msgstr "Inclusiu (I)"
+
+msgid "Index has been deleted for %s"
+msgstr ""
+
+msgid "Indexing has been run"
+msgstr "S'ha executat la indexació"
+
+msgid "Infinity"
+msgstr ""
+
+msgid "Injector has to contains a valid \"destination\" field."
+msgstr "L'injector ha de contindre un camp \"destinació\" vàlid."
+
+msgid "Injector has to contains a valid \"source\" field."
+msgstr "L'injector ha de contindre un camp \"origen\" vàlid."
+
+msgid "Install"
+msgstr "Instal·la"
+
+msgid "Installation done."
+msgstr "Instal·lació finalitzada"
+
+msgid "Installation..."
+msgstr "Instal·lació..."
+
+msgid "Installed Extensions"
+msgstr "Extensions instal·lades"
+
+msgid "Installed Version"
+msgstr ""
+
+msgid "Installing extension %s..."
+msgstr "S'està instal·lant l'extensió %s..."
+
+msgid "Instance saved"
+msgstr "Instància guardada"
+
+msgid "Interface language"
+msgstr "Idioma de la interfície"
+
+msgid "Interface Language"
+msgstr "Idioma de la interfície"
+
+msgid "Invalid date range (must be after or the same as: %s)"
+msgstr "L'interval de dates no és vàlid (ha de ser posterior o igual a: %s)"
+
+msgid "Invalid date range (must be after: %s)"
+msgstr "L'interval de dates no és vàlid (ha de ser posterior a: %s)"
+
+msgid "Invalid date range (must be before or the same as: %s)"
+msgstr "L'interval de dates no és vàlid (ha de ser anterior o igual a: %s)"
+
+msgid "Invalid date range (must be before: %s)"
+msgstr "L'interval de dates no és vàlid (ha de ser anterior a: %s)"
+
+msgid "Invalid field length"
+msgstr "La longitud del camp no és vàlida"
+
+msgid "Invalid field range (maximum value: %s)"
+msgstr "L'interval de camp no és vàlid (valor màxim: %s)"
+
+msgid "Invalid field range (minimum value: %1$s, maximum value: %2$s)"
+msgstr "L'interval de camp no és vàlid (valor mínim: %1$s, valor màxim: %2$s)"
+
+msgid "Invalid field range (minimum value: %s)"
+msgstr "L'interval de camp no és vàlid (valor mínim: %s)"
+
+msgid "Invalid file size (minimum %1$s bytes, maximum %2$s bytes)"
+msgstr "La mida del fitxer no és vàlida (mínim %1$s bytes, màxim %2$s bytes)"
+
+msgid "Invalid file type!"
+msgstr "El tipus de fitxer no és vàlid"
+
+msgid "Invalid input for function"
+msgstr "L'entrada no és vàlida per a la funció"
+
+msgid "Invalid login or password. Please try again."
+msgstr "L'usuari o la contrasenya no són vàlids. Torneu-ho a provar"
+
+msgid "Invalid login or password. Your account has been locked, please contact your administrator."
+msgstr ""
+
+msgid "invalid regular expression"
+msgstr "l'expressió regular no és vàlida"
+
+msgid "Label"
+msgstr "Etiqueta"
+
+msgid "Language"
+msgstr "Idioma"
+
+msgid "Last attempt before your account is locked."
+msgstr ""
+
+msgid "Last Name"
+msgstr "Cognom"
+
+msgid "Last page"
+msgstr "Última pàgina"
+
+msgid "Last result"
+msgstr ""
+
+msgid "Left parenthesis"
+msgstr ""
+
+msgid "less than a minute"
+msgstr "menys d'un minut"
+
+msgid "List"
+msgstr "Llista"
+
+msgid "List - Multiple choice - Check box"
+msgstr "Llista - Opcions múltiples - Casella de selecció"
+
+msgid "List - Single choice - Drop down"
+msgstr "Llista - Opció única - Llista desplegable"
+
+msgid "List - Single choice - Radio button"
+msgstr "Llista - Opció única - Botó d'opció"
+
+msgid "ln"
+msgstr ""
+
+msgid "Load more"
+msgstr ""
+
+msgid "Loaded"
+msgstr "Carregat"
+
+msgid "Loaded at Startup"
+msgstr "Carregat a l'inici"
+
+msgid "Loading"
+msgstr "Càrrega"
+
+msgid "Loading status"
+msgstr "Estat de la càrrega"
+
+msgid "Loading task status ..."
+msgstr "S'està carregant l'estat de la tasca..."
+
+msgid "locked by %s"
+msgstr ""
+
+msgid "log"
+msgstr ""
+
+msgid "Log in"
+msgstr "Inicia la sessió"
+
+msgid "Log Out"
+msgstr "Tanca la sessió"
+
+msgid "Login"
+msgstr "Inici de sessió"
+
+msgid "Login available"
+msgstr "Inici de sessió disponible"
+
+msgid "Login is already in use."
+msgstr ""
+
+msgid "Login is empty."
+msgstr ""
+
+msgid "Logout"
+msgstr "Tancament de sessió"
+
+msgid "Maintenance service must have a persistence option."
+msgstr "El servei de manteniment ha de tindre una opció de persistència"
+
+msgid "Maintenance storage driver is not set"
+msgstr "No està definit el controlador d'emmagatzematge de manteniment"
+
+msgid "Manage class schema"
+msgstr ""
+
+msgid "Manage data list"
+msgstr "Gestiona la llista dades"
+
+#, tao-public
+msgid "Manage roles"
+msgstr "Gestiona els rols"
+
+msgid "Manage Roles and apply them to users."
+msgstr "Gestiona els rols i els aplica als usuaris"
+
+#, tao-public
+msgid "Manage users"
+msgstr "Gestiona els usuaris"
+
+msgid "Manage Versioned File"
+msgstr "Gestiona els fitxers versionats"
+
+msgid "Map the properties to the CSV columns"
+msgstr "Mapa les propietats a les columnes CSV"
+
+msgid "Maximum selection reached"
+msgstr "S'ha arribat a la selecció màxima"
+
+msgid "Media resize along with their container, e.g. 50% means half of the container size not half of the media size."
+msgstr ""
+
+msgid "Message"
+msgstr "Missatge"
+
+msgid "Messages"
+msgstr "Missatges"
+
+msgid "Metadata export is not available for the selected resource."
+msgstr "L'exportació de metadades no està disponible per al recurs seleccionat."
+
+msgid "Method"
+msgstr ""
+
+msgid "minutes"
+msgstr "minuts"
+
+msgid "missing config %s for the service %s"
+msgstr ""
+
+msgid "Missing Parameters"
+msgstr ""
+
+msgid "modulo"
+msgstr ""
+
+msgid "More"
+msgstr "Més"
+
+msgid "Move"
+msgstr ""
+
+msgid "Move Left"
+msgstr ""
+
+msgid "Move Right"
+msgstr ""
+
+#, tao-public
+msgid "Move role"
+msgstr "Mou el rol"
+
+msgid "Move the cursor one step on the left"
+msgstr ""
+
+msgid "Move the cursor one step on the right"
+msgstr ""
+
+msgid "Move to"
+msgstr "Mou a"
+
+msgid "Moving this element will replace the properties of the previous class by those of the destination class :"
+msgstr "Si es mou aquest element les propietats de la classe anterior es reemplaçaran per les de la classe de destinació:"
+
+msgid "Multiple values delimiter"
+msgstr "Delimitador de valors múltiples"
+
+msgid "must be numeric"
+msgstr "ha de ser numèric"
+
+msgid "Mute"
+msgstr "Silenci"
+
+msgid "My custom text translation"
+msgstr ""
+
+#, tao-public
+msgid "My settings"
+msgstr "Els meus paràmetres"
+
+msgid "My settings (%s)"
+msgstr "Els meus paràmetres (%s)"
+
+msgid "Name"
+msgstr "Nom"
+
+msgid "Natural logarithm"
+msgstr ""
+
+msgid "New password"
+msgstr "La meua contrasenya"
+
+#, tao-public
+msgid "New role"
+msgstr "Rol nou"
+
+msgid "Next"
+msgstr "Següent"
+
+msgid "Next match"
+msgstr "Coincidència següent"
+
+msgid "Next page"
+msgstr "Pàgina següent"
+
+msgid "No"
+msgstr "No"
+
+msgid "No action specified"
+msgstr "No s'ha especificat cap acció"
+
+msgid "No client translation bundles updated"
+msgstr "No s'han actualitzat els paquets de traducció del client"
+
+msgid "No extensions available."
+msgstr "No hi ha extensions disponibles"
+
+msgid "no file not found in this location"
+msgstr "no s'ha trobat cap fitxer en aquesta ubicació"
+
+msgid "No file selected"
+msgstr "No s'ha seleccionat cap fitxer"
+
+msgid "No files"
+msgstr "Cap fitxer"
+
+msgid "no label"
+msgstr "sense etiqueta"
+
+msgid "No Preview available"
+msgstr "No hi ha cap previsualització disponible"
+
+msgid "No preview available"
+msgstr "No hi ha cap previsualització disponible"
+
+msgid "No results found"
+msgstr "No s'ha trobat cap resultat"
+
+msgid "No Task yet"
+msgstr "Encara no hi ha tasques"
+
+msgid "Node duplication has failed"
+msgstr ""
+
+msgid "Not started"
+msgstr "No iniciat"
+
+msgid "Nothing imported"
+msgstr "No s'ha importat res"
+
+msgid "Nothing to install !"
+msgstr "No hi ha res per instal·lar"
+
+msgid "Nothing to list!"
+msgstr "No hi ha res per llistar"
+
+#, tao-public
+msgid "Notifications"
+msgstr "Notificacions"
+
+msgid "notifications drivers aren\'t persistent. use a persistent database storage driver"
+msgstr ""
+
+msgid "Nth root"
+msgstr ""
+
+msgid "Number of elements"
+msgstr "Nombre d'elements"
+
+msgid "of"
+msgstr "de"
+
+msgid "Off"
+msgstr ""
+
+msgid "OK"
+msgstr "D'acord"
+
+msgid "Ok"
+msgstr "D'acord"
+
+msgid "Old Password"
+msgstr "Contrasenya antiga"
+
+msgid "On"
+msgstr ""
+
+msgid "Operated By "
+msgstr "Operat per"
+
+msgid "or"
+msgstr "o"
+
+msgid "Page"
+msgstr "Pàgina"
+
+msgid "Parameters"
+msgstr ""
+
+msgid "Password"
+msgstr "Contrasenya"
+
+msgid "Password changed"
+msgstr "S'ha canviat la contrasenya"
+
+msgid "Password is empty."
+msgstr ""
+
+msgid "Password reset"
+msgstr "S'ha reinicialitzat la contrasenya"
+
+msgid "Password successfully changed"
+msgstr "La contrasenya s'ha canviat correctament"
+
+msgid "Passwords are not matching"
+msgstr "Les contrasenyes no coincideixen"
+
+msgid "Pause"
+msgstr "Para"
+
+msgid "Permission denied to write in the selected class"
+msgstr ""
+
+msgid "Phone number"
+msgstr ""
+
+msgid "Play"
+msgstr "Reprodueix"
+
+msgid "Please confirm deletion"
+msgstr "Confirmeu l'eliminació"
+
+msgid "Please confirm deletion of %s."
+msgstr ""
+
+msgid "Please confirm deletion of user %s"
+msgstr ""
+
+msgid "Please confirm locking of account %s"
+msgstr ""
+
+msgid "Please confirm property deletion!"
+msgstr "Confirmeu l'eliminació de la propietat"
+
+msgid "Please confirm this operation."
+msgstr "Confirmeu aquesta operació"
+
+msgid "Please confirm unlocking of account %s"
+msgstr ""
+
+msgid "Please contact %s or an administrator to release it"
+msgstr "Poseu-vos en contacte amb %s o un administrador per a publicar-lo"
+
+msgid "Please contact your administrator."
+msgstr ""
+
+msgid "Please download the track and listen offline."
+msgstr "Baixeu la pista i escolteu-la fora de línia"
+
+msgid "Please download the video and view offline."
+msgstr "Baixeu el vídeo i visualitzeu-lo fora de línia"
+
+msgid "Please give a message to your commit"
+msgstr "Afegiu un missatge al vostre enviament"
+
+msgid "Please provide a reason"
+msgstr "Indiqueu un motiu"
+
+msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
+msgstr "Informeu d'errors, aporteu idees, comentaris o suggeriments en el fòrum del TAO"
+
+msgid "Please try in %s."
+msgstr ""
+
+msgid "Please wait"
+msgstr ""
+
+msgid "Please wait while ..."
+msgstr ""
+
+msgid "Post install processing"
+msgstr "Tractament postinstal·lació"
+
+msgid "Power of"
+msgstr ""
+
+msgid "Power of 10"
+msgstr ""
+
+msgid "Preparing installation..."
+msgstr "S'està preparant la instal·lació..."
+
+msgid "Preview"
+msgstr "Previsualització"
+
+msgid "Previous"
+msgstr "Anterior"
+
+msgid "Previous match"
+msgstr "Coincidència anterior"
+
+msgid "Previous page"
+msgstr "Pàgina anterior"
+
+msgid "Proceed"
+msgstr ""
+
+#, tao-public
+msgid "Properties"
+msgstr "Propietats"
+
+msgid "Property\'s label field is required"
+msgstr ""
+
+msgid "Provided URL is not valid"
+msgstr "L'URL proporcionat no és vàlid"
+
+msgid "Publish"
+msgstr ""
+
+msgid "Publish the test"
+msgstr ""
+
+msgid "Queued"
+msgstr ""
+
+msgid "Rad"
+msgstr ""
+
+msgid "Radian"
+msgstr ""
+
+msgid "random"
+msgstr ""
+
+msgid "Random value"
+msgstr ""
+
+msgid "Range field is required"
+msgstr "El camp interval és obligatori"
+
+msgid "RDF"
+msgstr "RDF"
+
+msgid "Refresh"
+msgstr "Actualitza"
+
+msgid "Release"
+msgstr "Allibera"
+
+msgid "Releasing the lock might cause the work in progress by %s to be lost."
+msgstr "L'alliberament del bloqueig pot provocar que es perda el treball sense finalitzar de %s"
+
+msgid "Remind"
+msgstr ""
+
+msgid "Remind Last"
+msgstr ""
+
+msgid "Remind the last value"
+msgstr ""
+
+msgid "Remind the next expression in the history"
+msgstr ""
+
+msgid "Remind the previous expression in the history"
+msgstr ""
+
+msgid "Remind the recorded value"
+msgstr ""
+
+msgid "Remove"
+msgstr "Suprimeix"
+
+msgid "Remove Message"
+msgstr "Suprimeix el missatge"
+
+msgid "Remove this file"
+msgstr "Suprimeix el fitxer"
+
+msgid "Removed %s directories"
+msgstr "S'han suprimit %s directoris"
+
+msgid "Removed %s files"
+msgstr "S'han suprimit %s fitxers"
+
+msgid "Removing: %s"
+msgstr "S'està suprimint: %s"
+
+msgid "Rename"
+msgstr "Reanomena"
+
+msgid "Repeat new password"
+msgstr "Repetiu la contrasenya nova"
+
+msgid "Repeat password"
+msgstr "Repetiu la contrasenya"
+
+msgid "Request a password reset via Email."
+msgstr "Sol·liciteu una reinicialització de la contrasenya per correu electrònic"
+
+msgid "require notification ID"
+msgstr "cal un ID de notificació"
+
+msgid "required length"
+msgstr "longitud requerida"
+
+msgid "Requires"
+msgstr "Requereix"
+
+msgid "Reset"
+msgstr "Reinicialitza"
+
+msgid "Reset the original size"
+msgstr "Reinicialitza la mida original"
+
+msgid "Resource"
+msgstr "Recurs"
+
+msgid "Resource copied"
+msgstr ""
+
+msgid "Resource Identifier"
+msgstr ""
+
+msgid "Resource Identifier could not be copied to the clipboard"
+msgstr ""
+
+msgid "Resource Identifier has been copied to the clipboard"
+msgstr ""
+
+msgid "Resource not imported due to multiple super classes"
+msgstr "El recurs no s'ha importat a causa de la presència de diverses superclasses"
+
+msgid "Resource not imported due to multiple types"
+msgstr "El recurs no s'ha importat a causa de la presència de diversos tipus"
+
+msgid "Resource saved"
+msgstr "Recurs guardat"
+
+msgid "resources"
+msgstr ""
+
+msgid "Resources moved"
+msgstr ""
+
+msgid "Responsive mode"
+msgstr "Mode responsiu"
+
+msgid "Restore sound"
+msgstr "Restaura el so"
+
+msgid "Return to sign in page"
+msgstr "Torna a la pàgina de connexió"
+
+msgid "Right click the tree to manage your lists"
+msgstr "Feu clic dret en l'arbre per a gestionar les vostres llistes"
+
+msgid "Right parenthesis"
+msgstr ""
+
+msgid "Role saved"
+msgstr "Rol guardat"
+
+msgid "Roles"
+msgstr "Rols"
+
+#, tao-public
+msgid "Roles library"
+msgstr "Biblioteca de rols "
+
+msgid "round"
+msgstr ""
+
+msgid "Round to closest whole number"
+msgstr ""
+
+msgid "Round to lower whole number"
+msgstr ""
+
+msgid "Round to upper whole number"
+msgstr ""
+
+msgid "Row %s"
+msgstr "Fila %s"
+
+msgid "Running task %s"
+msgstr ""
+
+msgid "Save"
+msgstr "Guarda"
+
+msgid "Scientific Calculator"
+msgstr ""
+
+msgid "Scope"
+msgstr "Àmbit"
+
+msgid "Search"
+msgstr "Cerca"
+
+msgid "Search %s"
+msgstr "Cerca %s"
+
+msgid "Search by properties"
+msgstr ""
+
+msgid "Search sub-classes"
+msgstr "Cerca subclasses"
+
+msgid "second"
+msgstr ""
+
+msgid "seconds"
+msgstr "segons"
+
+msgid "select"
+msgstr "selecciona"
+
+msgid "Select"
+msgstr "Selecciona"
+
+msgid "Select a class"
+msgstr ""
+
+msgid "Select a destination"
+msgstr ""
+
+msgid "Select a language"
+msgstr "Selecciona un idioma"
+
+msgid "Select loaded %s"
+msgstr ""
+
+msgid "Select this file"
+msgstr "Selecciona aquest fitxer"
+
+msgid "select..."
+msgstr "selecciona..."
+
+msgid "Selected"
+msgstr ""
+
+msgid "Selected file:"
+msgstr "Fitxer seleccionat:"
+
+msgid "Selection saved successfully"
+msgstr "La selecció s'ha guardat correctament"
+
+msgid "self-locked"
+msgstr ""
+
+msgid "Set the trigonometric function to work in degrees"
+msgstr ""
+
+msgid "Set the trigonometric function to work in radians"
+msgstr ""
+
+#, tao-public
+msgid "Settings"
+msgstr "Configuració"
+
+msgid "Settings updated"
+msgstr "Configuració actualitzada"
+
+msgid "Show detailed report"
+msgstr "Mostra l'informe detallat"
+
+msgid "Sign change"
+msgstr ""
+
+msgid "Simple Mode"
+msgstr "Mode simple"
+
+msgid "sin"
+msgstr ""
+
+msgid "Sine"
+msgstr ""
+
+msgid "sinh"
+msgstr ""
+
+msgid "Size"
+msgstr "Mida"
+
+msgid "Some resources have not been moved: %s"
+msgstr ""
+
+msgid "Square root"
+msgstr ""
+
+msgid "Start of document reached. Continuing from the end."
+msgstr "S'ha arribat al començament del document. Voleu continuar des del final?"
+
+msgid "State"
+msgstr ""
+
+msgid "Status"
+msgstr "Estat"
+
+msgid "Status of"
+msgstr "Estat de"
+
+msgid "Store"
+msgstr ""
+
+msgid "Store the value a variable"
+msgstr ""
+
+msgid "Street"
+msgstr ""
+
+msgid "Success"
+msgstr "Correcte"
+
+msgid "Successfully imported \"%s"
+msgstr "S'ha importat \"%s correctament"
+
+msgid "Successfully imported %s tripples"
+msgstr "S'han importat \"%s triples correctament"
+
+msgid "Successfully imported class \"%s"
+msgstr "S'ha importat classe \"%s correctament"
+
+msgid "Successfully updated %s client translation bundles"
+msgstr "S'han actualitzat correctament %s paquets de traducció del client"
+
+msgid "Supported export formats"
+msgstr "Formats d'exportació admesos"
+
+msgid "Syntax error"
+msgstr ""
+
+msgid "tan"
+msgstr ""
+
+msgid "Tangent"
+msgstr ""
+
+msgid "tanh"
+msgstr ""
+
+msgid "Tao Default Theme"
+msgstr "Tema per defecte del TAO"
+
+msgid "TAO Home"
+msgstr "Inici del TAO"
+
+msgid "TAO Login"
+msgstr "Inici de sessió TAO"
+
+msgid "Task %s has been cancelled, message was not processed."
+msgstr ""
+
+msgid "task created"
+msgstr ""
+
+msgid "Task Listing"
+msgstr "Llista de tasques"
+
+msgid "Task Name"
+msgstr "Nom de la tasca"
+
+msgid "Task not found"
+msgstr "No s'ha trobat la tasca"
+
+msgid "Task not returned any report."
+msgstr ""
+
+msgid "Term"
+msgstr ""
+
+msgid "Text - Long - Box"
+msgstr "Text - Llarg - Caixa"
+
+msgid "Text - Long - HTML editor"
+msgstr "Text - Llarg - Editor d'HTML"
+
+msgid "Text - Short - Field"
+msgstr "Text - Curt - Camp"
+
+msgid "The action will be applied to"
+msgstr "L'acció s'aplicarà a"
+
+msgid "The action will be applied to the following"
+msgstr "L'acció s'aplicarà al següent"
+
+msgid "The action will not be applied to "
+msgstr "L'acció no s'aplicarà a"
+
+msgid "The action will not be applied to the following"
+msgstr "L'acció no s'aplicarà al següent"
+
+msgid "The column "
+msgstr "La columna"
+
+msgid "The format of this field is not valid."
+msgstr "El format del camp no és vàlid."
+
+msgid "The imported file is not properly UTF-8 encoded."
+msgstr "El fitxer importat no està codificat correctament en UTF-8."
+
+msgid "The index identifier should not be empty"
+msgstr "L'identificador d'índex no pot estar buit"
+
+msgid "The lock has been released"
+msgstr "El bloqueig s'ha eliminat"
+
+msgid "The properties of the source class will be replaced by those of the destination class. This might result in a loss of metadata. Continue anyway?"
+msgstr ""
+
+msgid "The server has sent an empty response"
+msgstr ""
+
+msgid "The uploaded file is too large (maximum %s bytes)"
+msgstr "El fitxer pujat és massa gran (màxim %s bytes)"
+
+msgid "The value for the property \"%s\" must be unique."
+msgstr "El valor de la propietat \"%s\" ha de ser únic."
+
+msgid "The value of this field must be a valide date format, e.g. YYYY-MM-DD"
+msgstr "El valor d'aquest camp ha de ser un format de data vàlid, p. ex. YYYY-MM-DD"
+
+msgid "The value of this field must be an integer"
+msgstr "El valor d'aquest camp ha de ser un enter"
+
+msgid "The value of this field must be numeric"
+msgstr "El valor d'aquest camp ha de ser numèric"
+
+msgid "There is nothing to list!"
+msgstr "No hi ha res per llistar"
+
+msgid "This %s is currently checked out"
+msgstr "Aquest %s està actualment comprovat"
+
+msgid "This field is required"
+msgstr "Aquest camp és obligatori"
+
+msgid "This field is too long"
+msgstr "Aquest camp és massa llarg"
+
+msgid "This field is too short"
+msgstr "Aquest camp és massa curt"
+
+msgid "This is not a valid email address."
+msgstr "Aquesta no és una adreça electrònica vàlida"
+
+msgid "this is required"
+msgstr "això és obligatori"
+
+msgid "This Login is already in use"
+msgstr "Aquest identificador d'inici de sessió ja està en ús"
+
+msgid "This media cannot be played!"
+msgstr "Aquest multimèdia no es pot reproduir"
+
+msgid "This password reset link is no longer valid. It may have already been used. If you still wish to reset your password please request a new link"
+msgstr "Aquest enllaç de reinicialització de contrasenya ja no és vàlid. Potser ja s'ha utilitzat. Si encara voleu reinicialitzar la contrasenya sol·liciteu un nou enllaç"
+
+msgid "This resource is locked"
+msgstr "Aquest recurs està bloquejat"
+
+msgid "This role is still given to one or more users. Please remove the role to these users first."
+msgstr "Aquest rol encara es dóna a un o més usuaris. Heu de suprimir primer el rol a aquest usuaris"
+
+msgid "This should equal %s"
+msgstr "Això ha de ser igual a %s"
+
+msgid "This should not equal %s"
+msgstr "Això no ha de ser igual a %s"
+
+msgid "Time zone"
+msgstr "Zona horària"
+
+msgid "Title"
+msgstr "Títol"
+
+msgid "to"
+msgstr "a"
+
+msgid "To reset your password, click the link below, or paste it into your browser. You will then be prompted to create a new password."
+msgstr "Per a reinicialitzar la contrasenya, feu clic en l'enllaç que hi ha a continuació, o apegueu-lo en el navegador. Aleshores se us demanarà que creeu una contrasenya nova."
+
+msgid "to translate"
+msgstr "tradueix a"
+
+msgid "Toggle multiple/single selection"
+msgstr ""
+
+msgid "Tokenizer"
+msgstr "Marcador"
+
+msgid "Too many suggestions match your query. Only a few are listed"
+msgstr "Hi ha massa suggeriments que coincideixen amb la vostra cerca. Només se'n llisten uns quants."
+
+msgid "Total duration"
+msgstr "Duració total"
+
+msgid "Total:"
+msgstr "Total:"
+
+msgid "Translate"
+msgstr "Traducció"
+
+msgid "Translate to"
+msgstr "Tradueix a"
+
+msgid "Translation parameters"
+msgstr "Paràmetres de traducció"
+
+msgid "Translation saved"
+msgstr "Traducció guardada"
+
+msgid "Tree - Multiple node choice "
+msgstr "Arbre - Selecció múltiple de node"
+
+msgid "True"
+msgstr "Cert"
+
+msgid "trunc"
+msgstr ""
+
+msgid "Type"
+msgstr "Escriviu"
+
+msgid "Type your search"
+msgstr "Escriviu la cadena de cerca"
+
+msgid "Unable to access your account?"
+msgstr "No podeu accedir al vostre compte?"
+
+msgid "Unable to change passwords in demo mode"
+msgstr "No es pot canviar la contrasenya en mode de demostració"
+
+msgid "Unable to copy the resource"
+msgstr ""
+
+msgid "Unable to delete %s"
+msgstr "No es pot eliminar %s"
+
+msgid "Unable to delete the selected resource"
+msgstr "No es pot eliminar el recurs seleccionat"
+
+msgid "Unable to delete the selected resources"
+msgstr ""
+
+msgid "Unable to move the resources"
+msgstr ""
+
+msgid "Unable to open file %s"
+msgstr "No es pot obrir el fitxer %s"
+
+msgid "Unable to release the lock"
+msgstr "No es pot eliminar el bloqueig"
+
+msgid "Unable to remove the property."
+msgstr "No es pot eliminar la propietat."
+
+msgid "Unable to save resource."
+msgstr ""
+
+msgid "unable to search into notification."
+msgstr "no es pot cercar en la notificació."
+
+msgid "Unable to send the password reset request"
+msgstr "No es pot enviar la sol·licitud de reinicialització de contrasenya"
+
+msgid "Unable to update the asset service"
+msgstr "No es pot actualitzar el servei d'actius"
+
+msgid "Unable to upload file"
+msgstr "No es pot pujar el fitxer"
+
+msgid "Unable to upload file %s : %s"
+msgstr "No es pot pujar el fitxer %s: %s"
+
+msgid "Unary operator +"
+msgstr ""
+
+msgid "Unary operator -"
+msgstr ""
+
+msgid "Uncheck all"
+msgstr "Desmarca-ho tot"
+
+msgid "Uncheck All"
+msgstr "Desmarca-ho tot"
+
+msgid "Undefined amount of the pages for pagination"
+msgstr "No s'ha definit la quantitat de pàgines per a la paginació"
+
+msgid "Undefined amount of the totalPages for pagination"
+msgstr "No s'ha definit la quantitat de totalPages per a la paginació"
+
+msgid "Undo"
+msgstr "Desfés"
+
+msgid "Unexpected error. Please contact administrator"
+msgstr "S'ha produït un error inesperat. Poseu-vos en contacte amb l'administrador"
+
+msgid "Uninstall of %s failed"
+msgstr "La desinstal·lació de %s ha fallat"
+
+msgid "Uninstalled %s"
+msgstr "S'ha desinstal·lat %s"
+
+msgid "unknown"
+msgstr "desconegut"
+
+msgid "Unknown Error"
+msgstr "Hi ha un error desconegut"
+
+msgid "unkown task id %s"
+msgstr ""
+
+msgid "Update"
+msgstr "Actualitza"
+
+msgid "Update ID : %s"
+msgstr "Actualitza l'ID: %s"
+
+msgid "Upload"
+msgstr "Puja"
+
+msgid "Upload into:"
+msgstr "Puja a:"
+
+msgid "URL"
+msgstr ""
+
+msgid "Usage: ImportRdf RDF_FILE [MODEL_ID]"
+msgstr "Ús: ImportRdf RDF_FILE [MODEL_ID]"
+
+msgid "Use a term"
+msgstr ""
+
+msgid "Use a variable"
+msgstr ""
+
+msgid "Use default value"
+msgstr "Utilitza el valor per defecte"
+
+msgid "User"
+msgstr "Usuari"
+
+msgid "User %s can not be locked"
+msgstr ""
+
+msgid "User %s can not be unlocked"
+msgstr ""
+
+msgid "User %s successfully locked"
+msgstr ""
+
+msgid "User %s successfully unlocked"
+msgstr ""
+
+msgid "User added"
+msgstr "S'ha afegit l'usuari"
+
+msgid "User deleted successfully"
+msgstr "L'usuari s'ha eliminat correctament"
+
+msgid "User deletion not permitted on a demo instance"
+msgstr ""
+
+msgid "User not found"
+msgstr "No s'ha trobat l'usuari"
+
+msgid "User saved"
+msgstr "Usuari guardat"
+
+#, tao-public
+msgid "User Settings"
+msgstr "Paràmetres de l'usuari"
+
+msgid "Username"
+msgstr ""
+
+#, tao-public
+msgid "Users"
+msgstr "Usuaris"
+
+msgid "Validation for field '%s' has failed. Language does not exists in the system"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. List of values expected"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Valid role expected. Given: %s"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Valid URI expected"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Valid URI expected. Given: %s"
+msgstr ""
+
+msgid "Value of E"
+msgstr ""
+
+msgid "Value of PI"
+msgstr ""
+
+msgid "Variable"
+msgstr ""
+
+msgid "Variable %s"
+msgstr ""
+
+msgid "Version"
+msgstr "Versió"
+
+msgid "View report"
+msgstr "Visualitza l'informe"
+
+msgid "View resources as a list"
+msgstr ""
+
+msgid "View resources as a tree"
+msgstr ""
+
+msgid "Wait is over"
+msgstr ""
+
+msgid "Waiting"
+msgstr ""
+
+msgid "Whole number part"
+msgstr ""
+
+msgid "Width"
+msgstr "Amplària"
+
+msgid "Wrong or missing parameter extension, module or action"
+msgstr "L'extensió del paràmetre, el mòdul o l'acció són incorrectes o no hi són"
+
+msgid "Wrong parameter shownExtension"
+msgstr "Paràmetre incorrecte shownExtension"
+
+msgid "Yes"
+msgstr "Sí"
+
+msgid "You are not allowed to write in the class %s"
+msgstr ""
+
+msgid "You are not authorised to remove this lock"
+msgstr "No esteu autoritzat a eliminar aquest bloqueig"
+
+msgid "You cannot delete the root node"
+msgstr "No podeu eliminar el node arrel"
+
+msgid "You cannot move the selected resources in the class %s"
+msgstr ""
+
+msgid "You currently have no access to the platform"
+msgstr "Actualment, no teniu accés a la plataforma"
+
+msgid "You do not have the required rights to edit this resource."
+msgstr "No teniu els drets necessaris per a editar aquest recurs."
+
+msgid "You have been locked due to too many failed login attempts. "
+msgstr ""
+
+msgid "You have been logged out. Please login again"
+msgstr "Heu eixit de la sessió; torneu a iniciar sessió"
+
+msgid "You must activate JavaScript in your browser to run this application."
+msgstr "Heu d'activar el JavaScript en el navegador per a executar aquesta aplicació"
+
+msgid "Your account has been locked, please contact your administrator."
+msgstr ""
+
+msgid "Your browser does not meet the technical requirements to run TAO."
+msgstr "El vostre navagador no compleix els requeriments tècnics per a executar el TAO."
+
+msgid "Your browser does not support copying to the clipboard"
+msgstr ""
+
+msgid "Your browser doesn’t support the audio player."
+msgstr "El vostre navegador no admet el reproductor d'àudio."
+
+msgid "Your browser doesn’t support the video player."
+msgstr "El vostre navegador no admet el reproductor de vídeo."
+
+msgid "Your mail"
+msgstr "El vostre correu electrònic"
+
+msgid "Your TAO Password"
+msgstr "La vostra contrasenya del TAO"
+
+msgid "Zip Code"
+msgstr ""
+

@@ -1,0 +1,1 @@
+{"Authoring":"Innhold","Delete":"Slett","Export":"Eksporter","Import":"Importer","Move":"Flytt","New test":"Ny test","New test-taker":"Ny testkandidat","Properties":"Egenskaper","Users":"Brukere"}

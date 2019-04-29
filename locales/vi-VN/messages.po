@@ -1,0 +1,2198 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: TAO 3.3.0-sprint96\n"
+"PO-Revision-Date: 2019-04-25T01:07:37\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
+"MIME-Version: 1.0\n"
+"Language: vi-VN\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: vi-VN\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Basepath: ../../\n"
+"X-Poedit-KeywordsList: __\n"
+"X-Poedit-SearchPath-0: .\n"
+
+msgid ""
+msgstr ""
+
+msgid " AND "
+msgstr ""
+
+msgid " and "
+msgstr "và"
+
+msgid " has been deleted successfully"
+msgstr "đã xóa thành công"
+
+msgid " is "
+msgstr ""
+
+msgid " next"
+msgstr "kế tiếp"
+
+msgid " requires a subgrid adapter"
+msgstr ""
+
+msgid "%1$s expected but %2$s detected"
+msgstr ""
+
+msgid "%d attempts left before your account is locked."
+msgstr ""
+
+msgid "%d day"
+msgstr "%d ngày"
+
+msgid "%d days"
+msgstr ""
+
+msgid "%h hour"
+msgstr "%h giờ"
+
+msgid "%h hours"
+msgstr ""
+
+msgid "%i minute"
+msgstr "%i phút"
+
+msgid "%i minutes"
+msgstr ""
+
+msgid "%m month"
+msgstr ""
+
+msgid "%m months"
+msgstr ""
+
+msgid "%s %s selected"
+msgstr ""
+
+msgid "%s (%s kb)"
+msgstr ""
+
+msgid "%s Class saved"
+msgstr ""
+
+msgid "%s classes"
+msgstr ""
+
+msgid "%s Confirmation"
+msgstr ""
+
+msgid "%s could not be released"
+msgstr ""
+
+msgid "%s created"
+msgstr ""
+
+msgid "%s extension(s) to install."
+msgstr ""
+
+msgid "%s has been deleted"
+msgstr ""
+
+msgid "%s has been released"
+msgstr ""
+
+msgid "%s instances"
+msgstr ""
+
+msgid "%s is of a type that cannot be published"
+msgstr ""
+
+msgid "%s Locked"
+msgstr ""
+
+msgid "%s\" is not a valid index identifier. It must start with a letter and contain letters, numbers or underscores only"
+msgstr ""
+
+msgid "%y year"
+msgstr ""
+
+msgid "%y years"
+msgstr ""
+
+msgid "(empty)"
+msgstr "(rỗng)"
+
+msgid "... reloading page."
+msgstr "... tải lại trang."
+
+msgid "<del>Filters</del>"
+msgstr ""
+
+msgid "<del>Options</del>"
+msgstr ""
+
+msgid "<strong> %s </strong> has been moved to the background."
+msgstr ""
+
+msgid "> Extension %s succesfully installed."
+msgstr ""
+
+msgid "> Installation done."
+msgstr ""
+
+msgid "a class"
+msgstr ""
+
+msgid "A date has to be a Datetime or timestamp"
+msgstr "Ngày phải là một Datetime hoặc timestamp"
+
+msgid "A fatal error occured during the installation process."
+msgstr "Đã xảy ra lỗi nghiêm trọng trong quá trình cài đặt."
+
+msgid "A maintenance status must have a STATUS: \"%s\" or \"%s"
+msgstr ""
+
+msgid "A message with further instructions has been sent to your email address: %s"
+msgstr ""
+
+msgid "abs"
+msgstr ""
+
+msgid "Absolute value"
+msgstr ""
+
+msgid "AC"
+msgstr ""
+
+msgid "Access Denied"
+msgstr "Truy cập bị từ chối"
+
+msgid "Access denied. Please renew your authentication!"
+msgstr "Quyền truy cập đã bị từ chối. Hãy làm mới xác thực của bạn!"
+
+msgid "Account status"
+msgstr ""
+
+msgid "Action"
+msgstr "Hoạt động"
+
+msgid "Action %s - removed %s positions"
+msgstr ""
+
+msgid "Action `%s` is not configured in the action queue service"
+msgstr ""
+
+msgid "Action was not executed yet"
+msgstr ""
+
+msgid "Actions"
+msgstr "Hành động"
+
+msgid "Add"
+msgstr "Thêm"
+
+msgid "Add a CSV file"
+msgstr "Thâm vào một tệp CSV"
+
+#, tao-public
+msgid "Add a user"
+msgstr "Thêm người dùng"
+
+msgid "Add an RDF/XML file"
+msgstr "Thêm tệp RDF/XML"
+
+msgid "Add file(s)"
+msgstr "Thêm các tệp"
+
+msgid "Add property"
+msgstr "Thêm thuộc tính"
+
+msgid "Adding search index for %s"
+msgstr ""
+
+msgid "Adding the new class has failed"
+msgstr ""
+
+msgid "Adding the new resource has failed"
+msgstr ""
+
+msgid "Advanced Mode"
+msgstr "Chế độ nâng cao"
+
+msgid "Advanced search, add filters"
+msgstr ""
+
+msgid "all"
+msgstr "tất cả"
+
+msgid "All data will be removed in %s"
+msgstr "Tất cả dữ liệu sẽ bị xóa sau %s"
+
+msgid "All fields are required"
+msgstr "Tất cả trường dữ liệu yêu cầu"
+
+msgid "All rights reserved."
+msgstr "Tất cả các quyền được bảo lưu."
+
+msgid "Alpha version"
+msgstr "Phiên bản alpha"
+
+msgid "An email has been sent"
+msgstr "email đã được gửi đi"
+
+msgid "An error occurred during user deletion"
+msgstr ""
+
+msgid "An error occurred!"
+msgstr "Đã xảy ra lỗi!"
+
+msgid "An exception occured while running \"%s"
+msgstr ""
+
+msgid "an instance"
+msgstr ""
+
+msgid "Ans"
+msgstr ""
+
+msgid "Apply"
+msgstr ""
+
+msgid "Arc cosine"
+msgstr ""
+
+msgid "Arc sine"
+msgstr ""
+
+msgid "Arc tangent"
+msgstr ""
+
+msgid "Archived"
+msgstr ""
+
+msgid "Are you sure to delete the versioned resource?\n"
+"The history will be lost as well."
+msgstr ""
+
+msgid "Are you sure you want to delete it?"
+msgstr "Bạn chắc chắn muốn xóa nó?"
+
+msgid "Arguments separator"
+msgstr ""
+
+msgid "Assign"
+msgstr ""
+
+msgid "Assign User to role"
+msgstr "Chỉ định vai trò người dùng"
+
+#, tao-public
+msgid "Assign Users"
+msgstr "Chỉ định người dùng"
+
+msgid "Author"
+msgstr "Tác giả"
+
+msgid "Author Item"
+msgstr "Tác giả mục"
+
+msgid "Authoring"
+msgstr "Tác giả"
+
+msgid "auto unlocked in %s"
+msgstr ""
+
+msgid "Available"
+msgstr "Có sẵn"
+
+msgid "Available Extensions"
+msgstr "Tiện ích có sẵn"
+
+msgid "Back"
+msgstr "Trở lại"
+
+msgid "Back to listing"
+msgstr "Trở lại danh sách"
+
+msgid "Base-10 logarithm"
+msgstr ""
+
+msgid "Beta version"
+msgstr "Phiên bản Beta"
+
+msgid "Binary operator *"
+msgstr ""
+
+msgid "Binary operator +"
+msgstr ""
+
+msgid "Binary operator -"
+msgstr ""
+
+msgid "Binary operator /"
+msgstr ""
+
+msgid "Binary operator modulo"
+msgstr ""
+
+msgid "Browse folders:"
+msgstr "Duyệt thư mục"
+
+msgid "Browse..."
+msgstr "Duyệt..."
+
+msgid "C"
+msgstr ""
+
+msgid "Calculator"
+msgstr "Máy tính"
+
+msgid "Calendar"
+msgstr "Lịch"
+
+msgid "Cancel"
+msgstr "Hủy"
+
+msgid "cancel"
+msgstr "hủy"
+
+msgid "cancel the action"
+msgstr "hủy hành động"
+
+msgid "Cancelled"
+msgstr ""
+
+msgid "Cannot be edited"
+msgstr "Không thể chỉnh sửa"
+
+msgid "Cannot divide by zero"
+msgstr "Không thể chia cho số không"
+
+msgid "Case sensitive"
+msgstr "Trường hợp nhạy cảm"
+
+msgid "ceil"
+msgstr ""
+
+#, tao-public
+msgid "Change password"
+msgstr "Đổi mật khẩu"
+
+msgid "Change the password"
+msgstr "Thay đổi mật khẩu"
+
+msgid "Change the sign of the current operand"
+msgstr ""
+
+msgid "Check All"
+msgstr ""
+
+msgid "Check all"
+msgstr ""
+
+msgid "Check-in"
+msgstr ""
+
+msgid "Choose a value..."
+msgstr ""
+
+msgid "Choose export format"
+msgstr "Chọn định dạng xuất"
+
+msgid "Choose import format"
+msgstr "Chọn định dạng nhập"
+
+msgid "City"
+msgstr ""
+
+msgid "class selected"
+msgstr "lớp đã chọn"
+
+msgid "Class uri provided is not a valid class."
+msgstr ""
+
+msgid "Cleaning up tmp space complete"
+msgstr "Hoàn thành làm sạch không gian tmp "
+
+msgid "Cleaning up tmp space started"
+msgstr "Bắt đầu làm sạch không gian tmp"
+
+msgid "Clear"
+msgstr ""
+
+msgid "Clear All"
+msgstr ""
+
+msgid "Clear all data"
+msgstr ""
+
+msgid "Clear expression"
+msgstr ""
+
+msgid "Clear History"
+msgstr ""
+
+msgid "Clear history"
+msgstr ""
+
+msgid "Clear selection"
+msgstr ""
+
+msgid "Clear the stored variables"
+msgstr ""
+
+msgid "Close"
+msgstr "Đóng"
+
+msgid "Close message"
+msgstr "Đóng tin nhắn"
+
+msgid "Code Version"
+msgstr ""
+
+msgid "Collecting of abandoned actions in the action queue ..."
+msgstr ""
+
+msgid "Column"
+msgstr "Cột"
+
+msgid "comment..."
+msgstr "bình luận..."
+
+msgid "Commit"
+msgstr "Cam kết"
+
+msgid "Completed"
+msgstr "Hoàn thành"
+
+msgid "Completed - Error"
+msgstr "Đã hoàn thành - Lỗi"
+
+msgid "Compute the expression"
+msgstr ""
+
+msgid "Confirm"
+msgstr "Cấu hình"
+
+msgid "Connect to the TAO platform"
+msgstr "Kết nối đến TAO platform"
+
+msgid "Continue"
+msgstr "Tiếp tục"
+
+msgid "Copy"
+msgstr ""
+
+msgid "Copy to"
+msgstr ""
+
+msgid "Copy to clipboard"
+msgstr ""
+
+msgid "cos"
+msgstr ""
+
+msgid "cosh"
+msgstr ""
+
+msgid "Cosine"
+msgstr ""
+
+msgid "Country"
+msgstr ""
+
+msgid "Create"
+msgstr "Tạo"
+
+msgid "Create instance of "
+msgstr "Tạo yêu cầu của"
+
+msgid "Created"
+msgstr "Tạo"
+
+msgid "Creation At"
+msgstr ""
+
+msgid "CSV"
+msgstr "CSV"
+
+msgid "CSV Options"
+msgstr "Tùy chọn CSV"
+
+msgid "Cube root"
+msgstr ""
+
+msgid "Current language"
+msgstr "Ngôn ngữ sử dụng"
+
+msgid "Current playback position"
+msgstr "Vị trí phát lại hiện tại"
+
+msgid "Data imported"
+msgstr "Nhập dữ liệu"
+
+msgid "Data imported successfully"
+msgstr "Nhập dữ liệu thành công"
+
+msgid "Data imported. Some records are invalid."
+msgstr "Dữ liệu được nhập. Một số bản ghi không hợp lệ."
+
+msgid "Data language"
+msgstr "Dữ liệu ngôn ngữ"
+
+msgid "Data Language"
+msgstr "Dữ liệu ngôn ngữ"
+
+msgid "Data not imported. All records are invalid."
+msgstr "Dữ liệu chưa nhập. Tất cả bản ghi không hợp lệ."
+
+msgid "Date"
+msgstr "Ngày"
+
+msgid "Default search"
+msgstr "Tìm mặc định"
+
+msgid "Define the default values"
+msgstr "Xác định các giá trị mặc định"
+
+msgid "Deg"
+msgstr ""
+
+msgid "Degree"
+msgstr ""
+
+#, tao-public
+msgid "Delete"
+msgstr "Xóa"
+
+msgid "Delete Left"
+msgstr ""
+
+msgid "Delete Right"
+msgstr ""
+
+msgid "Delete the term on the left side of the cursor"
+msgstr ""
+
+msgid "Delete the term on the right side of the cursor"
+msgstr ""
+
+msgid "Deleting search index for %s"
+msgstr ""
+
+msgid "Demo Sandbox"
+msgstr "Demo Sandbox"
+
+msgid "Digit 0"
+msgstr ""
+
+msgid "Digit 1"
+msgstr ""
+
+msgid "Digit 2"
+msgstr ""
+
+msgid "Digit 3"
+msgstr ""
+
+msgid "Digit 4"
+msgstr ""
+
+msgid "Digit 5"
+msgstr ""
+
+msgid "Digit 6"
+msgstr ""
+
+msgid "Digit 7"
+msgstr ""
+
+msgid "Digit 8"
+msgstr ""
+
+msgid "Digit 9"
+msgstr ""
+
+msgid "Disabled %s"
+msgstr ""
+
+msgid "Do you wish to install the following extension(s):\n"
+"%s?"
+msgstr ""
+
+msgid "does not match"
+msgstr "không hiển thị"
+
+msgid "Don't set"
+msgstr ""
+
+msgid "Dot"
+msgstr ""
+
+msgid "Download"
+msgstr "Tải xuống"
+
+msgid "Download this file"
+msgstr "Tải tệp"
+
+msgid "Drag file here"
+msgstr "Kéo tệp vào đây"
+
+msgid "Drag files here"
+msgstr "Kéo các tệp vào đây"
+
+msgid "Drop the files to upload"
+msgstr "Thả tệp để tải lên"
+
+msgid "Edit"
+msgstr "Sửa"
+
+#, tao-public
+msgid "Edit a user"
+msgstr "Sửa người dùng"
+
+msgid "Edit class %s"
+msgstr ""
+
+msgid "Edit Instance"
+msgstr "Sửa ví dụ"
+
+msgid "Element"
+msgstr "Thành phần"
+
+msgid "Element deleted."
+msgstr "Đã xóa phần tử."
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Email address"
+msgstr ""
+
+msgid "enabled"
+msgstr ""
+
+msgid "Enabled %s"
+msgstr ""
+
+msgid "End of document reached. Continuing from the beginning."
+msgstr "Đã kết thúc tài liệu. Tiếp tục từ đầu."
+
+msgid "Enter"
+msgstr "Enter"
+
+msgid "Error"
+msgstr "Lỗi"
+
+msgid "Error adding search index for %s with message %s"
+msgstr ""
+
+msgid "Error during file import"
+msgstr "Lỗi trong khi nhập tệp"
+
+msgid "Error in result"
+msgstr ""
+
+msgid "Error in syntax"
+msgstr ""
+
+msgid "Error in value"
+msgstr ""
+
+msgid "Exclusive (OR)"
+msgstr "Độc quyền (OR)"
+
+msgid "Execute"
+msgstr ""
+
+msgid "Executing task %s failed"
+msgstr ""
+
+msgid "exp"
+msgstr ""
+
+msgid "Exponent"
+msgstr ""
+
+#, tao-public
+msgid "Export"
+msgstr "Xuất ra"
+
+msgid "Export "
+msgstr "Xuất ra"
+
+msgid "Export \"%s\" in %s"
+msgstr ""
+
+msgid "Export CSV"
+msgstr ""
+
+msgid "Export failed."
+msgstr ""
+
+msgid "Export Metadata as RDF/XML file"
+msgstr "Xuất siêu dữ liệu dạng tệp RDF/XML"
+
+msgid "Export succeeded."
+msgstr ""
+
+msgid "Extension \"%s\" has been installed"
+msgstr ""
+
+#, tao-public
+msgid "Extensions manager"
+msgstr "Quản lý mở rộng"
+
+msgid "Factorial"
+msgstr ""
+
+msgid "Failed"
+msgstr ""
+
+msgid "Failed to delete index for %s"
+msgstr ""
+
+msgid "False"
+msgstr "Sai"
+
+msgid "Field delimiter"
+msgstr ""
+
+msgid "Field encloser"
+msgstr ""
+
+msgid "Fields must match"
+msgstr ""
+
+msgid "File"
+msgstr "Tệp"
+
+msgid "File download failed"
+msgstr "Không tải được tệp"
+
+msgid "File name"
+msgstr "Tên tệp"
+
+msgid "File Properties"
+msgstr "Thuộc tính tệp"
+
+msgid "file selected"
+msgstr "lựa chọn tệp"
+
+msgid "File Uploader"
+msgstr "Trình tải tệp lên"
+
+msgid "files selected"
+msgstr "tập tin đã chọn"
+
+msgid "Filter"
+msgstr "Bộ lọc"
+
+msgid "Filter by value"
+msgstr "Lọc theo giá trị"
+
+msgid "Filtering mode"
+msgstr "Chế độ lọc"
+
+msgid "First Name"
+msgstr ""
+
+msgid "First page"
+msgstr "Trang đầu"
+
+msgid "First row column names"
+msgstr "Tên dòng cột đầu tiên"
+
+msgid "Fit to width"
+msgstr ""
+
+msgid "floor"
+msgstr ""
+
+msgid "Force Release"
+msgstr ""
+
+msgid "Forgot your password?"
+msgstr "Quên mật khẩu?"
+
+msgid "From"
+msgstr ""
+
+msgid "Fuzzy Matching"
+msgstr ""
+
+msgid "Generis Form"
+msgstr ""
+
+msgid "Get History"
+msgstr ""
+
+msgid "Get the history list"
+msgstr ""
+
+msgid "Go Back"
+msgstr "Quay lại"
+
+msgid "Height"
+msgstr ""
+
+msgid "Hi, %s<br>You indicated that you have forgotten your TAO password."
+msgstr ""
+
+msgid "Hide detailed report"
+msgstr ""
+
+msgid "Highlight all"
+msgstr ""
+
+msgid "hours"
+msgstr ""
+
+msgid "Hyperbolic arc cosine"
+msgstr ""
+
+msgid "Hyperbolic arc sine"
+msgstr ""
+
+msgid "Hyperbolic arc tangent"
+msgstr ""
+
+msgid "Hyperbolic cosine"
+msgstr ""
+
+msgid "Hyperbolic sine"
+msgstr ""
+
+msgid "Hyperbolic tangent"
+msgstr ""
+
+msgid "Identifier"
+msgstr "Định danh"
+
+msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
+msgstr "Nếu bạn không muốn đặt lại mật khẩu, chỉ cần bỏ qua email này và mật khẩu của bạn sẽ vẫn như cũ."
+
+msgid "Import"
+msgstr "Nhập vào"
+
+msgid "Import "
+msgstr "Nhập vào"
+
+msgid "Import a %s into \"%s"
+msgstr ""
+
+msgid "Import Completed"
+msgstr ""
+
+msgid "Import failed."
+msgstr ""
+
+msgid "Import Metadata from CSV file"
+msgstr "Nhập vào siêu dữ liệu từ tệp CSV"
+
+msgid "Import Metadata from RDF file"
+msgstr "Nhập vào siêu dữ liệu từ tệp RDF"
+
+msgid "Import succeeded."
+msgstr ""
+
+msgid "Imported %1$d/%2$d. Some records are invalid."
+msgstr ""
+
+msgid "Imported %d resources"
+msgstr ""
+
+msgid "Imported resource \"%s"
+msgstr ""
+
+msgid "impossible to update task status"
+msgstr ""
+
+msgid "In progress"
+msgstr "Trong tiến trình"
+
+msgid "In Progress"
+msgstr ""
+
+msgid "Inclusive (AND)"
+msgstr ""
+
+msgid "Index has been deleted for %s"
+msgstr ""
+
+msgid "Indexing has been run"
+msgstr ""
+
+msgid "Infinity"
+msgstr ""
+
+msgid "Injector has to contains a valid \"destination\" field."
+msgstr ""
+
+msgid "Injector has to contains a valid \"source\" field."
+msgstr ""
+
+msgid "Install"
+msgstr "Cài đặt"
+
+msgid "Installation done."
+msgstr "Hoàn tất cài đạt."
+
+msgid "Installation..."
+msgstr "Cài đặt..."
+
+msgid "Installed Extensions"
+msgstr "Các phần mở rộng đã cài đặt"
+
+msgid "Installed Version"
+msgstr ""
+
+msgid "Installing extension %s..."
+msgstr ""
+
+msgid "Instance saved"
+msgstr ""
+
+msgid "Interface language"
+msgstr "Ngôn ngữ giao diện"
+
+msgid "Interface Language"
+msgstr "Ngôn ngữ giao diện"
+
+msgid "Invalid date range (must be after or the same as: %s)"
+msgstr ""
+
+msgid "Invalid date range (must be after: %s)"
+msgstr ""
+
+msgid "Invalid date range (must be before or the same as: %s)"
+msgstr ""
+
+msgid "Invalid date range (must be before: %s)"
+msgstr ""
+
+msgid "Invalid field length"
+msgstr ""
+
+msgid "Invalid field range (maximum value: %s)"
+msgstr ""
+
+msgid "Invalid field range (minimum value: %1$s, maximum value: %2$s)"
+msgstr ""
+
+msgid "Invalid field range (minimum value: %s)"
+msgstr ""
+
+msgid "Invalid file size (minimum %1$s bytes, maximum %2$s bytes)"
+msgstr ""
+
+msgid "Invalid file type!"
+msgstr "Loại tệp không hợp lệ!"
+
+msgid "Invalid input for function"
+msgstr ""
+
+msgid "Invalid login or password. Please try again."
+msgstr ""
+
+msgid "Invalid login or password. Your account has been locked, please contact your administrator."
+msgstr ""
+
+msgid "invalid regular expression"
+msgstr ""
+
+msgid "Label"
+msgstr "Nhãn"
+
+msgid "Language"
+msgstr "Ngôn ngữ"
+
+msgid "Last attempt before your account is locked."
+msgstr ""
+
+msgid "Last Name"
+msgstr ""
+
+msgid "Last page"
+msgstr "Trang cuối"
+
+msgid "Last result"
+msgstr ""
+
+msgid "Left parenthesis"
+msgstr ""
+
+msgid "less than a minute"
+msgstr "ít hơn một phút"
+
+msgid "List"
+msgstr "Danh sách"
+
+msgid "List - Multiple choice - Check box"
+msgstr ""
+
+msgid "List - Single choice - Drop down"
+msgstr ""
+
+msgid "List - Single choice - Radio button"
+msgstr ""
+
+msgid "ln"
+msgstr ""
+
+msgid "Load more"
+msgstr ""
+
+msgid "Loaded"
+msgstr "Nạp vào"
+
+msgid "Loaded at Startup"
+msgstr "Tải lúc khởi động"
+
+msgid "Loading"
+msgstr "Đang tải"
+
+msgid "Loading status"
+msgstr "Trạng thái tải"
+
+msgid "Loading task status ..."
+msgstr "Đang tải trạng thái công việc ..."
+
+msgid "locked by %s"
+msgstr ""
+
+msgid "log"
+msgstr ""
+
+msgid "Log in"
+msgstr "Đăng nhập"
+
+msgid "Log Out"
+msgstr "Đăng xuất"
+
+msgid "Login"
+msgstr "Đăng nhập"
+
+msgid "Login available"
+msgstr "Đăng nhập có sẵn"
+
+msgid "Login is already in use."
+msgstr ""
+
+msgid "Login is empty."
+msgstr ""
+
+msgid "Logout"
+msgstr "Đăng xuất"
+
+msgid "Maintenance service must have a persistence option."
+msgstr ""
+
+msgid "Maintenance storage driver is not set"
+msgstr ""
+
+msgid "Manage class schema"
+msgstr ""
+
+msgid "Manage data list"
+msgstr "Quản lý danh sách dữ liệu"
+
+#, tao-public
+msgid "Manage roles"
+msgstr "Quản lý các vai trò"
+
+msgid "Manage Roles and apply them to users."
+msgstr "Quản lý Vai trò và áp dụng chúng cho người dùng."
+
+#, tao-public
+msgid "Manage users"
+msgstr "Quản lý người dùng"
+
+msgid "Manage Versioned File"
+msgstr "Quản lý tệp phiên bản"
+
+msgid "Map the properties to the CSV columns"
+msgstr "Lập bản đồ các thuộc tính cho các cột CSV"
+
+msgid "Maximum selection reached"
+msgstr "Đã đạt đến mức tối đa"
+
+msgid "Media resize along with their container, e.g. 50% means half of the container size not half of the media size."
+msgstr ""
+
+msgid "Message"
+msgstr "Thông điệp"
+
+msgid "Messages"
+msgstr "Tin nhắn"
+
+msgid "Metadata export is not available for the selected resource."
+msgstr "Xuất siêu dữ liệu không có sẵn cho tài nguyên đã chọn."
+
+msgid "Method"
+msgstr ""
+
+msgid "minutes"
+msgstr ""
+
+msgid "missing config %s for the service %s"
+msgstr ""
+
+msgid "Missing Parameters"
+msgstr ""
+
+msgid "modulo"
+msgstr ""
+
+msgid "More"
+msgstr ""
+
+msgid "Move"
+msgstr ""
+
+msgid "Move Left"
+msgstr ""
+
+msgid "Move Right"
+msgstr ""
+
+#, tao-public
+msgid "Move role"
+msgstr "Di chuyển vai trò"
+
+msgid "Move the cursor one step on the left"
+msgstr ""
+
+msgid "Move the cursor one step on the right"
+msgstr ""
+
+msgid "Move to"
+msgstr "Di chuyển đến"
+
+msgid "Moving this element will replace the properties of the previous class by those of the destination class :"
+msgstr "Di chuyển phần tử này sẽ thay thế các thuộc tính của lớp trước bằng các thuộc tính của lớp đích:"
+
+msgid "Multiple values delimiter"
+msgstr "Dấu phân cách nhiều giá trị"
+
+msgid "must be numeric"
+msgstr "Phải là số"
+
+msgid "Mute"
+msgstr "Tắt tiếng"
+
+msgid "My custom text translation"
+msgstr ""
+
+#, tao-public
+msgid "My settings"
+msgstr "Cài đặt của tôi"
+
+msgid "My settings (%s)"
+msgstr ""
+
+msgid "Name"
+msgstr "Tên"
+
+msgid "Natural logarithm"
+msgstr ""
+
+msgid "New password"
+msgstr "Mật khẩu mới"
+
+#, tao-public
+msgid "New role"
+msgstr "Vai trò mới"
+
+msgid "Next"
+msgstr "Kế tiếp"
+
+msgid "Next match"
+msgstr ""
+
+msgid "Next page"
+msgstr "Trang kế tiếp"
+
+msgid "No"
+msgstr "Không"
+
+msgid "No action specified"
+msgstr ""
+
+msgid "No client translation bundles updated"
+msgstr "Không có gói dịch nào được cập nhật"
+
+msgid "No extensions available."
+msgstr "Không có tiện ích mở rộng khả dụng."
+
+msgid "no file not found in this location"
+msgstr ""
+
+msgid "No file selected"
+msgstr ""
+
+msgid "No files"
+msgstr "Không tệp"
+
+msgid "no label"
+msgstr "không nhãn"
+
+msgid "No Preview available"
+msgstr ""
+
+msgid "No preview available"
+msgstr ""
+
+msgid "No results found"
+msgstr "Không tìm thấy kết quả"
+
+msgid "No Task yet"
+msgstr "Chưa có Nhiệm vụ"
+
+msgid "Node duplication has failed"
+msgstr ""
+
+msgid "Not started"
+msgstr "Chưa bắt đầu"
+
+msgid "Nothing imported"
+msgstr "Không có gì được nhập vào"
+
+msgid "Nothing to install !"
+msgstr "Không có gì để cài đặt!"
+
+msgid "Nothing to list!"
+msgstr "Không có gì để liệt kê!"
+
+#, tao-public
+msgid "Notifications"
+msgstr "Thông báo"
+
+msgid "notifications drivers aren\'t persistent. use a persistent database storage driver"
+msgstr ""
+
+msgid "Nth root"
+msgstr ""
+
+msgid "Number of elements"
+msgstr ""
+
+msgid "of"
+msgstr ""
+
+msgid "Off"
+msgstr ""
+
+msgid "OK"
+msgstr ""
+
+msgid "Ok"
+msgstr ""
+
+msgid "Old Password"
+msgstr "Mật khẩu cũ"
+
+msgid "On"
+msgstr ""
+
+msgid "Operated By "
+msgstr "Điều hành bởi"
+
+msgid "or"
+msgstr ""
+
+msgid "Page"
+msgstr "Trang"
+
+msgid "Parameters"
+msgstr ""
+
+msgid "Password"
+msgstr "Mật khẩu"
+
+msgid "Password changed"
+msgstr "Đổi mật khẩu"
+
+msgid "Password is empty."
+msgstr ""
+
+msgid "Password reset"
+msgstr "Đặt lại mật khẩu"
+
+msgid "Password successfully changed"
+msgstr "Đổi mật khẩu thành công"
+
+msgid "Passwords are not matching"
+msgstr "Mật khẩu không khớp"
+
+msgid "Pause"
+msgstr "Dừng"
+
+msgid "Permission denied to write in the selected class"
+msgstr ""
+
+msgid "Phone number"
+msgstr ""
+
+msgid "Play"
+msgstr ""
+
+msgid "Please confirm deletion"
+msgstr "Vui lòng xác nhận xóa"
+
+msgid "Please confirm deletion of %s."
+msgstr ""
+
+msgid "Please confirm deletion of user %s"
+msgstr ""
+
+msgid "Please confirm locking of account %s"
+msgstr ""
+
+msgid "Please confirm property deletion!"
+msgstr "Vui lòng xác nhận việc xóa!"
+
+msgid "Please confirm this operation."
+msgstr "Vui lòng xác nhận thao tác này."
+
+msgid "Please confirm unlocking of account %s"
+msgstr ""
+
+msgid "Please contact %s or an administrator to release it"
+msgstr ""
+
+msgid "Please contact your administrator."
+msgstr ""
+
+msgid "Please download the track and listen offline."
+msgstr "Hãy tải xuống bản nhạc và nghe ngoại tuyến."
+
+msgid "Please download the video and view offline."
+msgstr "Vui lòng tải video và xem ngoại tuyến."
+
+msgid "Please give a message to your commit"
+msgstr "Vui lòng gửi một thông điệp đến cam kết của bạn"
+
+msgid "Please provide a reason"
+msgstr "Hãy cung cấp lý do"
+
+msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
+msgstr "Vui lòng báo cáo lỗi, ý tưởng, nhận xét hoặc phản hồi về Diễn đàn TAO"
+
+msgid "Please try in %s."
+msgstr ""
+
+msgid "Please wait"
+msgstr ""
+
+msgid "Please wait while ..."
+msgstr ""
+
+msgid "Post install processing"
+msgstr ""
+
+msgid "Power of"
+msgstr ""
+
+msgid "Power of 10"
+msgstr ""
+
+msgid "Preparing installation..."
+msgstr "Đang chuẩn bị cài đặt ..."
+
+msgid "Preview"
+msgstr "Xem trước"
+
+msgid "Previous"
+msgstr "Trước"
+
+msgid "Previous match"
+msgstr ""
+
+msgid "Previous page"
+msgstr "Trang trước"
+
+msgid "Proceed"
+msgstr ""
+
+#, tao-public
+msgid "Properties"
+msgstr "Thuộc tính"
+
+msgid "Property\'s label field is required"
+msgstr ""
+
+msgid "Provided URL is not valid"
+msgstr ""
+
+msgid "Publish"
+msgstr ""
+
+msgid "Publish the test"
+msgstr ""
+
+msgid "Queued"
+msgstr ""
+
+msgid "Rad"
+msgstr ""
+
+msgid "Radian"
+msgstr ""
+
+msgid "random"
+msgstr ""
+
+msgid "Random value"
+msgstr ""
+
+msgid "Range field is required"
+msgstr ""
+
+msgid "RDF"
+msgstr "RDF"
+
+msgid "Refresh"
+msgstr "Làm mới"
+
+msgid "Release"
+msgstr "Giải phóng"
+
+msgid "Releasing the lock might cause the work in progress by %s to be lost."
+msgstr ""
+
+msgid "Remind"
+msgstr ""
+
+msgid "Remind Last"
+msgstr ""
+
+msgid "Remind the last value"
+msgstr ""
+
+msgid "Remind the next expression in the history"
+msgstr ""
+
+msgid "Remind the previous expression in the history"
+msgstr ""
+
+msgid "Remind the recorded value"
+msgstr ""
+
+msgid "Remove"
+msgstr "Loại bỏ"
+
+msgid "Remove Message"
+msgstr "Xóa Tin nhắn"
+
+msgid "Remove this file"
+msgstr "Xóa tệp này"
+
+msgid "Removed %s directories"
+msgstr ""
+
+msgid "Removed %s files"
+msgstr ""
+
+msgid "Removing: %s"
+msgstr ""
+
+msgid "Rename"
+msgstr "Đổi tên"
+
+msgid "Repeat new password"
+msgstr "Lặp lại mật khẩu mới"
+
+msgid "Repeat password"
+msgstr "Lặp lại mật khẩu"
+
+msgid "Request a password reset via Email."
+msgstr "Yêu cầu đặt lại mật khẩu qua Email."
+
+msgid "require notification ID"
+msgstr "Yêu cầu thông báo ID"
+
+msgid "required length"
+msgstr "Chiều dài yêu cầu"
+
+msgid "Requires"
+msgstr ""
+
+msgid "Reset"
+msgstr ""
+
+msgid "Reset the original size"
+msgstr "Đặt lại kích thước ban đầu"
+
+msgid "Resource"
+msgstr "Tài nguyên"
+
+msgid "Resource copied"
+msgstr ""
+
+msgid "Resource Identifier"
+msgstr ""
+
+msgid "Resource Identifier could not be copied to the clipboard"
+msgstr ""
+
+msgid "Resource Identifier has been copied to the clipboard"
+msgstr ""
+
+msgid "Resource not imported due to multiple super classes"
+msgstr "Tài nguyên không được nhập vào do nhiều lớp"
+
+msgid "Resource not imported due to multiple types"
+msgstr "Tài nguyên không được nhập vào do nhiều kiểu"
+
+msgid "Resource saved"
+msgstr "Tài nguyên đã lưu"
+
+msgid "resources"
+msgstr ""
+
+msgid "Resources moved"
+msgstr ""
+
+msgid "Responsive mode"
+msgstr "Chế độ phản hồi"
+
+msgid "Restore sound"
+msgstr "Phục hồi âm thanh"
+
+msgid "Return to sign in page"
+msgstr "Quay lại trang đăng nhập"
+
+msgid "Right click the tree to manage your lists"
+msgstr "Nhấp chuột phải vào cây để quản lý danh sách của bạn"
+
+msgid "Right parenthesis"
+msgstr ""
+
+msgid "Role saved"
+msgstr "Vai trò được lưu"
+
+msgid "Roles"
+msgstr "Vai trò"
+
+#, tao-public
+msgid "Roles library"
+msgstr ""
+
+msgid "round"
+msgstr ""
+
+msgid "Round to closest whole number"
+msgstr ""
+
+msgid "Round to lower whole number"
+msgstr ""
+
+msgid "Round to upper whole number"
+msgstr ""
+
+msgid "Row %s"
+msgstr ""
+
+msgid "Running task %s"
+msgstr ""
+
+msgid "Save"
+msgstr "Lưu"
+
+msgid "Scientific Calculator"
+msgstr ""
+
+msgid "Scope"
+msgstr "Phạm vi"
+
+msgid "Search"
+msgstr "Tìm kiếm"
+
+msgid "Search %s"
+msgstr ""
+
+msgid "Search by properties"
+msgstr ""
+
+msgid "Search sub-classes"
+msgstr ""
+
+msgid "second"
+msgstr ""
+
+msgid "seconds"
+msgstr ""
+
+msgid "select"
+msgstr "Lựa chọn"
+
+msgid "Select"
+msgstr "Lựa chọn"
+
+msgid "Select a class"
+msgstr ""
+
+msgid "Select a destination"
+msgstr ""
+
+msgid "Select a language"
+msgstr "Lựa chọn một ngôn ngữ"
+
+msgid "Select loaded %s"
+msgstr ""
+
+msgid "Select this file"
+msgstr "Lựa chọn tệp này"
+
+msgid "select..."
+msgstr ""
+
+msgid "Selected"
+msgstr ""
+
+msgid "Selected file:"
+msgstr ""
+
+msgid "Selection saved successfully"
+msgstr "Đã lưu thành công lựa chọn"
+
+msgid "self-locked"
+msgstr ""
+
+msgid "Set the trigonometric function to work in degrees"
+msgstr ""
+
+msgid "Set the trigonometric function to work in radians"
+msgstr ""
+
+#, tao-public
+msgid "Settings"
+msgstr "Cài đặt"
+
+msgid "Settings updated"
+msgstr "Cài đặt đã cập nhật"
+
+msgid "Show detailed report"
+msgstr ""
+
+msgid "Sign change"
+msgstr ""
+
+msgid "Simple Mode"
+msgstr "Chế độ đơn giản"
+
+msgid "sin"
+msgstr ""
+
+msgid "Sine"
+msgstr ""
+
+msgid "sinh"
+msgstr ""
+
+msgid "Size"
+msgstr ""
+
+msgid "Some resources have not been moved: %s"
+msgstr ""
+
+msgid "Square root"
+msgstr ""
+
+msgid "Start of document reached. Continuing from the end."
+msgstr ""
+
+msgid "State"
+msgstr ""
+
+msgid "Status"
+msgstr "Trạng thái"
+
+msgid "Status of"
+msgstr ""
+
+msgid "Store"
+msgstr ""
+
+msgid "Store the value a variable"
+msgstr ""
+
+msgid "Street"
+msgstr ""
+
+msgid "Success"
+msgstr "Sự thành công"
+
+msgid "Successfully imported \"%s"
+msgstr ""
+
+msgid "Successfully imported %s tripples"
+msgstr ""
+
+msgid "Successfully imported class \"%s"
+msgstr ""
+
+msgid "Successfully updated %s client translation bundles"
+msgstr ""
+
+msgid "Supported export formats"
+msgstr ""
+
+msgid "Syntax error"
+msgstr ""
+
+msgid "tan"
+msgstr ""
+
+msgid "Tangent"
+msgstr ""
+
+msgid "tanh"
+msgstr ""
+
+msgid "Tao Default Theme"
+msgstr ""
+
+msgid "TAO Home"
+msgstr "Trang chủ TAO"
+
+msgid "TAO Login"
+msgstr "Đăng nhập TAO"
+
+msgid "Task %s has been cancelled, message was not processed."
+msgstr ""
+
+msgid "task created"
+msgstr ""
+
+msgid "Task Listing"
+msgstr "Danh sách nhiệm vụ"
+
+msgid "Task Name"
+msgstr "Tên nhiệm vụ"
+
+msgid "Task not found"
+msgstr "Nhiệm vụ không tìm thấy"
+
+msgid "Task not returned any report."
+msgstr ""
+
+msgid "Term"
+msgstr ""
+
+msgid "Text - Long - Box"
+msgstr ""
+
+msgid "Text - Long - HTML editor"
+msgstr ""
+
+msgid "Text - Short - Field"
+msgstr ""
+
+msgid "The action will be applied to"
+msgstr "Tác vụ sẽ được áp dụng cho"
+
+msgid "The action will be applied to the following"
+msgstr "Hành động sẽ được áp dụng cho"
+
+msgid "The action will not be applied to "
+msgstr "Hành động sẽ không được áp dụng cho"
+
+msgid "The action will not be applied to the following"
+msgstr "Hành động sẽ không được áp dụng cho những điều sau"
+
+msgid "The column "
+msgstr ""
+
+msgid "The format of this field is not valid."
+msgstr "Định dạng của trường này không hợp lệ."
+
+msgid "The imported file is not properly UTF-8 encoded."
+msgstr ""
+
+msgid "The index identifier should not be empty"
+msgstr ""
+
+msgid "The lock has been released"
+msgstr "Khóa đã được phát hành"
+
+msgid "The properties of the source class will be replaced by those of the destination class. This might result in a loss of metadata. Continue anyway?"
+msgstr ""
+
+msgid "The server has sent an empty response"
+msgstr ""
+
+msgid "The uploaded file is too large (maximum %s bytes)"
+msgstr ""
+
+msgid "The value for the property \"%s\" must be unique."
+msgstr ""
+
+msgid "The value of this field must be a valide date format, e.g. YYYY-MM-DD"
+msgstr "Giá trị của trường này phải là định dạng ngày hợp lệ, Ví dụ: YYYY-MM-DD"
+
+msgid "The value of this field must be an integer"
+msgstr ""
+
+msgid "The value of this field must be numeric"
+msgstr ""
+
+msgid "There is nothing to list!"
+msgstr "Không có gì để liệt kê!"
+
+msgid "This %s is currently checked out"
+msgstr ""
+
+msgid "This field is required"
+msgstr "Trường này bắt buộc"
+
+msgid "This field is too long"
+msgstr "Trường này quá dài"
+
+msgid "This field is too short"
+msgstr "Trường này quá ngắn"
+
+msgid "This is not a valid email address."
+msgstr "Đây không phải là địa chỉ email hợp lệ."
+
+msgid "this is required"
+msgstr "đây là bắt buộc"
+
+msgid "This Login is already in use"
+msgstr "Đăng nhập này đã được sử dụng"
+
+msgid "This media cannot be played!"
+msgstr "Phương tiện này không thể phát được!"
+
+msgid "This password reset link is no longer valid. It may have already been used. If you still wish to reset your password please request a new link"
+msgstr "Liên kết đặt lại mật khẩu này không còn hợp lệ. Nó có thể đã được sử dụng. Nếu bạn vẫn muốn đặt lại mật khẩu, vui lòng yêu cầu một liên kết mới"
+
+msgid "This resource is locked"
+msgstr "Tài nguyên này bị khóa"
+
+msgid "This role is still given to one or more users. Please remove the role to these users first."
+msgstr "Vai trò này vẫn được trao cho một hoặc nhiều người dùng. Vui lòng loại bỏ vai trò này cho những người dùng này trước."
+
+msgid "This should equal %s"
+msgstr ""
+
+msgid "This should not equal %s"
+msgstr ""
+
+msgid "Time zone"
+msgstr ""
+
+msgid "Title"
+msgstr "Tieu đề"
+
+msgid "to"
+msgstr ""
+
+msgid "To reset your password, click the link below, or paste it into your browser. You will then be prompted to create a new password."
+msgstr "Để đặt lại mật khẩu của bạn, hãy nhấp vào liên kết dưới đây hoặc dán vào trình duyệt của bạn. Sau đó bạn sẽ được nhắc tạo một mật khẩu mới."
+
+msgid "to translate"
+msgstr "để dịch"
+
+msgid "Toggle multiple/single selection"
+msgstr ""
+
+msgid "Tokenizer"
+msgstr ""
+
+msgid "Too many suggestions match your query. Only a few are listed"
+msgstr ""
+
+msgid "Total duration"
+msgstr "Tổng thời gian"
+
+msgid "Total:"
+msgstr "Tổng:"
+
+msgid "Translate"
+msgstr "Dịch"
+
+msgid "Translate to"
+msgstr "Dịch sang"
+
+msgid "Translation parameters"
+msgstr "Các tham số dịch"
+
+msgid "Translation saved"
+msgstr ""
+
+msgid "Tree - Multiple node choice "
+msgstr ""
+
+msgid "True"
+msgstr "Đúng"
+
+msgid "trunc"
+msgstr ""
+
+msgid "Type"
+msgstr "Kiểu"
+
+msgid "Type your search"
+msgstr "Kiểu tìm kiếm của bạn"
+
+msgid "Unable to access your account?"
+msgstr "Không thể truy cập tài khoản của bạn"
+
+msgid "Unable to change passwords in demo mode"
+msgstr "Không thể thay đổi mật khẩu trong chế độ demo"
+
+msgid "Unable to copy the resource"
+msgstr ""
+
+msgid "Unable to delete %s"
+msgstr ""
+
+msgid "Unable to delete the selected resource"
+msgstr "Không thể xóa tài nguyên đã chọn"
+
+msgid "Unable to delete the selected resources"
+msgstr ""
+
+msgid "Unable to move the resources"
+msgstr ""
+
+msgid "Unable to open file %s"
+msgstr ""
+
+msgid "Unable to release the lock"
+msgstr "Không thể giải phóng khóa"
+
+msgid "Unable to remove the property."
+msgstr "Không thể xóa thuộc tính."
+
+msgid "Unable to save resource."
+msgstr ""
+
+msgid "unable to search into notification."
+msgstr "Không thể tìm kiếm thông báo."
+
+msgid "Unable to send the password reset request"
+msgstr "Không thể gửi yêu cầu đặt lại mật khẩu"
+
+msgid "Unable to update the asset service"
+msgstr ""
+
+msgid "Unable to upload file"
+msgstr ""
+
+msgid "Unable to upload file %s : %s"
+msgstr ""
+
+msgid "Unary operator +"
+msgstr ""
+
+msgid "Unary operator -"
+msgstr ""
+
+msgid "Uncheck all"
+msgstr ""
+
+msgid "Uncheck All"
+msgstr ""
+
+msgid "Undefined amount of the pages for pagination"
+msgstr ""
+
+msgid "Undefined amount of the totalPages for pagination"
+msgstr ""
+
+msgid "Undo"
+msgstr ""
+
+msgid "Unexpected error. Please contact administrator"
+msgstr "Lỗi không mong đợi. Vui lòng liên hệ với quản trị viên"
+
+msgid "Uninstall of %s failed"
+msgstr ""
+
+msgid "Uninstalled %s"
+msgstr ""
+
+msgid "unknown"
+msgstr ""
+
+msgid "Unknown Error"
+msgstr ""
+
+msgid "unkown task id %s"
+msgstr ""
+
+msgid "Update"
+msgstr "Cập nhật"
+
+msgid "Update ID : %s"
+msgstr ""
+
+msgid "Upload"
+msgstr "Tải lên"
+
+msgid "Upload into:"
+msgstr ""
+
+msgid "URL"
+msgstr ""
+
+msgid "Usage: ImportRdf RDF_FILE [MODEL_ID]"
+msgstr ""
+
+msgid "Use a term"
+msgstr ""
+
+msgid "Use a variable"
+msgstr ""
+
+msgid "Use default value"
+msgstr "Sử dung giá trị mặc định"
+
+msgid "User"
+msgstr "Người dùng"
+
+msgid "User %s can not be locked"
+msgstr ""
+
+msgid "User %s can not be unlocked"
+msgstr ""
+
+msgid "User %s successfully locked"
+msgstr ""
+
+msgid "User %s successfully unlocked"
+msgstr ""
+
+msgid "User added"
+msgstr "Thêm người dùng"
+
+msgid "User deleted successfully"
+msgstr "Xóa người dung thành công"
+
+msgid "User deletion not permitted on a demo instance"
+msgstr ""
+
+msgid "User not found"
+msgstr "Không tìm thấy người dùng"
+
+msgid "User saved"
+msgstr ""
+
+#, tao-public
+msgid "User Settings"
+msgstr "Cài đặt người dùng"
+
+msgid "Username"
+msgstr ""
+
+#, tao-public
+msgid "Users"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Language does not exists in the system"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. List of values expected"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Valid role expected. Given: %s"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Valid URI expected"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Valid URI expected. Given: %s"
+msgstr ""
+
+msgid "Value of E"
+msgstr ""
+
+msgid "Value of PI"
+msgstr ""
+
+msgid "Variable"
+msgstr ""
+
+msgid "Variable %s"
+msgstr ""
+
+msgid "Version"
+msgstr ""
+
+msgid "View report"
+msgstr ""
+
+msgid "View resources as a list"
+msgstr ""
+
+msgid "View resources as a tree"
+msgstr ""
+
+msgid "Wait is over"
+msgstr ""
+
+msgid "Waiting"
+msgstr ""
+
+msgid "Whole number part"
+msgstr ""
+
+msgid "Width"
+msgstr ""
+
+msgid "Wrong or missing parameter extension, module or action"
+msgstr ""
+
+msgid "Wrong parameter shownExtension"
+msgstr ""
+
+msgid "Yes"
+msgstr ""
+
+msgid "You are not allowed to write in the class %s"
+msgstr ""
+
+msgid "You are not authorised to remove this lock"
+msgstr "Bạn không được phép xóa khóa này"
+
+msgid "You cannot delete the root node"
+msgstr ""
+
+msgid "You cannot move the selected resources in the class %s"
+msgstr ""
+
+msgid "You currently have no access to the platform"
+msgstr ""
+
+msgid "You do not have the required rights to edit this resource."
+msgstr ""
+
+msgid "You have been locked due to too many failed login attempts. "
+msgstr ""
+
+msgid "You have been logged out. Please login again"
+msgstr ""
+
+msgid "You must activate JavaScript in your browser to run this application."
+msgstr "Bạn phải kích hoạt JavaScript trong trình duyệt để chạy ứng dụng này."
+
+msgid "Your account has been locked, please contact your administrator."
+msgstr ""
+
+msgid "Your browser does not meet the technical requirements to run TAO."
+msgstr "Trình duyệt của bạn không đáp ứng các yêu cầu kỹ thuật để chạy TAO."
+
+msgid "Your browser does not support copying to the clipboard"
+msgstr ""
+
+msgid "Your browser doesn’t support the audio player."
+msgstr "Trình duyệt của bạn không hỗ trợ trình phát âm thanh."
+
+msgid "Your browser doesn’t support the video player."
+msgstr "Trình duyệt của bạn không hỗ trợ trình phát video."
+
+msgid "Your mail"
+msgstr "Email của bạn"
+
+msgid "Your TAO Password"
+msgstr "Mật khẩu TAO của bạn"
+
+msgid "Zip Code"
+msgstr ""
+

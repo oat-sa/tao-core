@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint94\n"
-"PO-Revision-Date: 2019-02-01T09:17:23\n"
+"Project-Id-Version: TAO 3.3.0-sprint96\n"
+"PO-Revision-Date: 2019-04-25T01:06:07\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: hu-HU\n"
@@ -16,62 +16,62 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " and "
-msgstr ""
-
 msgid " AND "
 msgstr ""
 
+msgid " and "
+msgstr " és "
+
 msgid " has been deleted successfully"
-msgstr ""
+msgstr "sikeresen eltávolítva"
 
 msgid " is "
 msgstr ""
 
 msgid " next"
-msgstr ""
+msgstr " következő"
 
 msgid " requires a subgrid adapter"
 msgstr ""
 
 msgid "%1$s expected but %2$s detected"
-msgstr ""
+msgstr "%1$s az elvárt, de %2$s található"
 
 msgid "%d attempts left before your account is locked."
 msgstr ""
 
 msgid "%d day"
-msgstr ""
+msgstr "%d nap"
 
 msgid "%d days"
-msgstr ""
+msgstr "%d nap"
 
 msgid "%h hour"
-msgstr ""
+msgstr "%h óra"
 
 msgid "%h hours"
-msgstr ""
+msgstr "%h óra"
 
 msgid "%i minute"
-msgstr ""
+msgstr "%i perc"
 
 msgid "%i minutes"
-msgstr ""
+msgstr "%i perc"
 
 msgid "%m month"
-msgstr ""
+msgstr "%m hónap"
 
 msgid "%m months"
-msgstr ""
+msgstr "%m hónap"
 
 msgid "%s %s selected"
 msgstr ""
 
 msgid "%s (%s kb)"
-msgstr ""
+msgstr "%s (%s kb)"
 
 msgid "%s Class saved"
-msgstr ""
+msgstr "%s Osztály mentve"
 
 msgid "%s classes"
 msgstr ""
@@ -80,58 +80,58 @@ msgid "%s Confirmation"
 msgstr ""
 
 msgid "%s could not be released"
-msgstr ""
+msgstr "%s nem megvalósítható"
 
 msgid "%s created"
 msgstr ""
 
 msgid "%s extension(s) to install."
-msgstr ""
+msgstr "%s kiterjesztés installálásra"
 
 msgid "%s has been deleted"
-msgstr ""
+msgstr "'%s törölve"
 
 msgid "%s has been released"
-msgstr ""
+msgstr "%s megvalósítva"
 
 msgid "%s instances"
 msgstr ""
 
 msgid "%s is of a type that cannot be published"
-msgstr ""
+msgstr "%s nem publikálható típus"
 
 msgid "%s Locked"
-msgstr ""
+msgstr "%s zárolva"
 
 msgid "%s\" is not a valid index identifier. It must start with a letter and contain letters, numbers or underscores only"
-msgstr ""
+msgstr "%s\" nem érvényes index azonosító. Betűvel kell kezdődjön és betűket, számokat és aláhúzást karaktert tartalmazhat csak. (az ékezet nem biztos hogy betű!!!)"
 
 msgid "%y year"
-msgstr ""
+msgstr "%y év"
 
 msgid "%y years"
-msgstr ""
+msgstr "%y év"
 
 msgid "(empty)"
-msgstr ""
+msgstr "(üres)"
 
 msgid "... reloading page."
-msgstr ""
+msgstr ".... az oldal újratöltődik"
 
 msgid "<del>Filters</del>"
-msgstr ""
+msgstr "<del>Filters(szűrők)</del>"
 
 msgid "<del>Options</del>"
-msgstr ""
+msgstr "<del>Options(opciók)</del>"
 
 msgid "<strong> %s </strong> has been moved to the background."
 msgstr ""
 
 msgid "> Extension %s succesfully installed."
-msgstr ""
+msgstr "> A %s kiterjesztés sikeresen települt"
 
 msgid "> Installation done."
-msgstr ""
+msgstr "> Telepítés vége."
 
 msgid "a class"
 msgstr ""
@@ -140,15 +140,21 @@ msgid "A date has to be a Datetime or timestamp"
 msgstr ""
 
 msgid "A fatal error occured during the installation process."
-msgstr ""
+msgstr "Végzetes hiba történt az installálás közben."
 
 msgid "A maintenance status must have a STATUS: \"%s\" or \"%s"
 msgstr ""
 
 msgid "A message with further instructions has been sent to your email address: %s"
+msgstr "A további instrukciókat tartalmazó üzenetet elküldtük az ön következő email címére: %s"
+
+msgid "abs"
 msgstr ""
 
 msgid "Absolute value"
+msgstr ""
+
+msgid "AC"
 msgstr ""
 
 msgid "Access Denied"
@@ -209,9 +215,6 @@ msgstr ""
 msgid "Advanced search, add filters"
 msgstr ""
 
-msgid "aliases:"
-msgstr ""
-
 msgid "all"
 msgstr ""
 
@@ -267,13 +270,7 @@ msgstr ""
 msgid "Are you sure you want to delete it?"
 msgstr ""
 
-msgid "Argument check failed: %s"
-msgstr ""
-
-msgid "Arguments %s and %s are mutually exclusive"
-msgstr ""
-
-msgid "array"
+msgid "Arguments separator"
 msgstr ""
 
 msgid "Assign"
@@ -331,13 +328,13 @@ msgstr ""
 msgid "Binary operator modulo"
 msgstr ""
 
-msgid "boolean"
-msgstr ""
-
 msgid "Browse folders:"
 msgstr ""
 
 msgid "Browse..."
+msgstr ""
+
+msgid "C"
 msgstr ""
 
 msgid "Calculator"
@@ -346,10 +343,10 @@ msgstr ""
 msgid "Calendar"
 msgstr ""
 
-msgid "cancel"
+msgid "Cancel"
 msgstr ""
 
-msgid "Cancel"
+msgid "cancel"
 msgstr ""
 
 msgid "cancel the action"
@@ -365,6 +362,9 @@ msgid "Cannot divide by zero"
 msgstr ""
 
 msgid "Case sensitive"
+msgstr ""
+
+msgid "ceil"
 msgstr ""
 
 #, tao-public
@@ -384,9 +384,6 @@ msgid "Check all"
 msgstr ""
 
 msgid "Check-in"
-msgstr ""
-
-msgid "choices:"
 msgstr ""
 
 msgid "Choose a value..."
@@ -452,9 +449,6 @@ msgstr ""
 msgid "Column"
 msgstr ""
 
-msgid "Commands:"
-msgstr ""
-
 msgid "comment..."
 msgstr ""
 
@@ -488,10 +482,13 @@ msgstr ""
 msgid "Copy to clipboard"
 msgstr ""
 
-msgid "Cosine"
+msgid "cos"
 msgstr ""
 
-msgid "count"
+msgid "cosh"
+msgstr ""
+
+msgid "Cosine"
 msgstr ""
 
 msgid "Country"
@@ -548,9 +545,6 @@ msgstr ""
 msgid "Default search"
 msgstr ""
 
-msgid "default:"
-msgstr ""
-
 msgid "Define the default values"
 msgstr ""
 
@@ -580,9 +574,6 @@ msgid "Deleting search index for %s"
 msgstr ""
 
 msgid "Demo Sandbox"
-msgstr ""
-
-msgid "Did you mean %s?"
 msgstr ""
 
 msgid "Digit 0"
@@ -701,9 +692,6 @@ msgstr ""
 msgid "Error in value"
 msgstr ""
 
-msgid "Examples:"
-msgstr ""
-
 msgid "Exclusive (OR)"
 msgstr ""
 
@@ -711,6 +699,9 @@ msgid "Execute"
 msgstr ""
 
 msgid "Executing task %s failed"
+msgstr ""
+
+msgid "exp"
 msgstr ""
 
 msgid "Exponent"
@@ -808,6 +799,9 @@ msgstr ""
 msgid "Fit to width"
 msgstr ""
 
+msgid "floor"
+msgstr ""
+
 msgid "Force Release"
 msgstr ""
 
@@ -818,9 +812,6 @@ msgid "From"
 msgstr ""
 
 msgid "Fuzzy Matching"
-msgstr ""
-
-msgid "generated-value"
 msgstr ""
 
 msgid "Generis Form"
@@ -874,9 +865,6 @@ msgstr ""
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
 msgstr ""
 
-msgid "Implications failed:"
-msgstr ""
-
 msgid "Import"
 msgstr ""
 
@@ -913,10 +901,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -926,6 +914,9 @@ msgid "Index has been deleted for %s"
 msgstr ""
 
 msgid "Indexing has been run"
+msgstr ""
+
+msgid "Infinity"
 msgstr ""
 
 msgid "Injector has to contains a valid \"destination\" field."
@@ -955,10 +946,10 @@ msgstr ""
 msgid "Instance saved"
 msgstr ""
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr ""
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr ""
 
 msgid "Invalid date range (must be after or the same as: %s)"
@@ -994,9 +985,6 @@ msgstr ""
 msgid "Invalid input for function"
 msgstr ""
 
-msgid "Invalid JSON config file: %s"
-msgstr ""
-
 msgid "Invalid login or password. Please try again."
 msgstr ""
 
@@ -1004,9 +992,6 @@ msgid "Invalid login or password. Your account has been locked, please contact y
 msgstr ""
 
 msgid "invalid regular expression"
-msgstr ""
-
-msgid "Invalid values:"
 msgstr ""
 
 msgid "Label"
@@ -1045,6 +1030,9 @@ msgstr ""
 msgid "List - Single choice - Radio button"
 msgstr ""
 
+msgid "ln"
+msgstr ""
+
 msgid "Load more"
 msgstr ""
 
@@ -1064,6 +1052,9 @@ msgid "Loading task status ..."
 msgstr ""
 
 msgid "locked by %s"
+msgstr ""
+
+msgid "log"
 msgstr ""
 
 msgid "Log in"
@@ -1141,6 +1132,9 @@ msgid "missing config %s for the service %s"
 msgstr ""
 
 msgid "Missing Parameters"
+msgstr ""
+
+msgid "modulo"
 msgstr ""
 
 msgid "More"
@@ -1236,10 +1230,10 @@ msgstr ""
 msgid "no label"
 msgstr ""
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr ""
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr ""
 
 msgid "No results found"
@@ -1249,12 +1243,6 @@ msgid "No Task yet"
 msgstr ""
 
 msgid "Node duplication has failed"
-msgstr ""
-
-msgid "Not enough arguments following: %s"
-msgstr ""
-
-msgid "Not enough non-option arguments: got %s, need at least %s"
 msgstr ""
 
 msgid "Not started"
@@ -1277,9 +1265,6 @@ msgid "notifications drivers aren\'t persistent. use a persistent database stora
 msgstr ""
 
 msgid "Nth root"
-msgstr ""
-
-msgid "number"
 msgstr ""
 
 msgid "Number of elements"
@@ -1448,6 +1433,9 @@ msgstr ""
 msgid "Radian"
 msgstr ""
 
+msgid "random"
+msgstr ""
+
 msgid "Random value"
 msgstr ""
 
@@ -1517,9 +1505,6 @@ msgstr ""
 msgid "require notification ID"
 msgstr ""
 
-msgid "required"
-msgstr ""
-
 msgid "required length"
 msgstr ""
 
@@ -1585,6 +1570,9 @@ msgstr ""
 
 #, tao-public
 msgid "Roles library"
+msgstr ""
+
+msgid "round"
 msgstr ""
 
 msgid "Round to closest whole number"
@@ -1687,7 +1675,13 @@ msgstr ""
 msgid "Simple Mode"
 msgstr ""
 
+msgid "sin"
+msgstr ""
+
 msgid "Sine"
+msgstr ""
+
+msgid "sinh"
 msgstr ""
 
 msgid "Size"
@@ -1720,9 +1714,6 @@ msgstr ""
 msgid "Street"
 msgstr ""
 
-msgid "string"
-msgstr ""
-
 msgid "Success"
 msgstr ""
 
@@ -1741,7 +1732,16 @@ msgstr ""
 msgid "Supported export formats"
 msgstr ""
 
+msgid "Syntax error"
+msgstr ""
+
+msgid "tan"
+msgstr ""
+
 msgid "Tangent"
+msgstr ""
+
+msgid "tanh"
 msgstr ""
 
 msgid "Tao Default Theme"
@@ -1894,9 +1894,6 @@ msgstr ""
 msgid "Tokenizer"
 msgstr ""
 
-msgid "Too many non-option arguments: got %s, maximum of %s"
-msgstr ""
-
 msgid "Too many suggestions match your query. Only a few are listed"
 msgstr ""
 
@@ -1922,6 +1919,9 @@ msgid "Tree - Multiple node choice "
 msgstr ""
 
 msgid "True"
+msgstr ""
+
+msgid "trunc"
 msgstr ""
 
 msgid "Type"
@@ -1976,6 +1976,9 @@ msgid "Unable to upload file"
 msgstr ""
 
 msgid "Unable to upload file %s : %s"
+msgstr ""
+
+msgid "Unary operator +"
 msgstr ""
 
 msgid "Unary operator -"
@@ -2080,6 +2083,21 @@ msgstr ""
 
 #, tao-public
 msgid "Users"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Language does not exists in the system"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. List of values expected"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Valid role expected. Given: %s"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Valid URI expected"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Valid URI expected. Given: %s"
 msgstr ""
 
 msgid "Value of E"

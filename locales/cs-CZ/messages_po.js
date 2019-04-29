@@ -1,0 +1,1 @@
+{" and ":"a","%d day":"%d den","%d days":"%d dn\u016f","%h hour":"%h hodin","%h hours":"%h hodin","%i minute":"%i minuta","%i minutes":"%i minut","%m month":"%m m\u011bs\u00edc","%m months":"%m m\u011bs\u00edc\u016f","%s (%s kb)":"%s (%s kb)"}
