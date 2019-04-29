@@ -322,16 +322,22 @@ define([
                 interactElement
                     .on('dragstart resizeinertiastart', function() {
                         $contentOverlay.addClass('dragging-active');
+                        $content.addClass('moving');
+                        $titleBar.addClass('moving');
                     })
-                    .on('dragend resizeend', function(){
+                    .on('dragend', function(){
                         $contentOverlay.removeClass('dragging-active');
+                        $content.removeClass('moving');
+                        $titleBar.removeClass('moving');
                     })
                     .on('resizestart', function() {
                         $contentOverlay.addClass('dragging-active');
                         $resizeControll.addClass('resizing');
+                        $content.addClass('sizing');
                     }).on('resizeend', function() {
                         $contentOverlay.removeClass('dragging-active');
                         $resizeControll.removeClass('resizing');
+                        $content.removeClass('sizing');
                     });
 
                 //interact sometimes doesn't trigger the start event if the move is quick and ends over an iframe...
