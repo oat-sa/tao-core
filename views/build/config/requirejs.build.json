@@ -60,7 +60,6 @@
     "tpl",
     "jquery",
     "jquery.cookie",
-    "jqueryui",
     "select2",
     "nouislider",
     "lodash",
