@@ -404,7 +404,7 @@ define([
                     if (height < config.minHeight) {
                         height = config.minHeight;
                     } else if (height > config.maxHeight) {
-                        height = config.maxWidth;
+                        height = config.maxHeight;
                     }
 
                     // make sure that component is inside the container
