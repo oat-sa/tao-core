@@ -16,7 +16,7 @@ define(['jquery', 'lodash', 'tpl!lib/calculator/template', 'i18n', 'lib/gamp/gam
 
     'use strict';
 
-    var isTouchScreen = "ontouchstart" in window || navigator.maxTouchPoints
+    var isTouchScreen = "ontouchstart" in window || navigator.maxTouchPoints;
 
     /**
      * the JSCALC "namespace"
