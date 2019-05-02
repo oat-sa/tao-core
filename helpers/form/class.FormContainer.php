@@ -19,7 +19,9 @@
  *
  */
 
-use oat\oatbox\service\ServiceManagerAwareTrait;
+use oat\tao\helpers\form\elements\xhtml\CsrfToken;
+use oat\tao\model\security\xsrf\TokenService;
+use tao_helpers_form_FormFactory as FormFactory;
 
 /**
  * This class provide a container for a specific form instance.
@@ -29,6 +31,7 @@ use oat\oatbox\service\ServiceManagerAwareTrait;
  */
 abstract class tao_helpers_form_FormContainer
 {
+    const CSRF_PROTECTION_OPTION = 'csrf_protection';
 
     /**
      * the form instance contained
@@ -92,6 +95,10 @@ abstract class tao_helpers_form_FormContainer
 
         // initialize the elements of the form
         $this->initElements();
+
+        if (isset($options[self::CSRF_PROTECTION_OPTION]) && $options[self::CSRF_PROTECTION_OPTION] === true) {
+            $this->initCsrfProtection();
+        }
 
         // set the values in case of default values
         if (count($this->data) > 0) {
@@ -180,5 +187,15 @@ abstract class tao_helpers_form_FormContainer
     protected function getPostData()
     {
         return $this->postData;
+    }
+
+    /**
+     * Initialize the CSRF protection element for the form.
+     * @throws common_Exception
+     */
+    private function initCsrfProtection()
+    {
+        $csrfTokenElement = FormFactory::getElement(TokenService::CSRF_TOKEN_HEADER, CsrfToken::class);
+        $this->form->addElement($csrfTokenElement, true);
     }
 }
