@@ -1,4 +1,9 @@
 .datatable-wrapper {
+    .datatable-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
     h2 {
         font-family: $headingFont;
         @include font-size(18);
@@ -48,12 +53,6 @@
     .datatable-pagination-bottom,
     .datatable-pagination-top {
         overflow-x: hidden;
-    }
-
-    .page-size-selector-container {
-        position: absolute;
-        right: 20px;
-        top: 130px;
     }
 }
 
