@@ -186,7 +186,7 @@ define([
                     px: {
                         min: minWidth,
                         max: maxWidth,
-                        start: options.width
+                        start: +options.width
                     }
                 },
                 currentUnit: '%'
@@ -577,7 +577,9 @@ define([
                 options.naturalWidth  = options.naturalWidth  || options.width;
                 options.naturalHeight = options.naturalHeight || options.height;
 
-                options.hasSize = options.width && options.height && _.isNumber(options.width) && _.isNumber(options.height);
+                options.hasSize = options.width && options.height
+                    && (_.isNumber(options.width) || /^\d+$/.test(options.width))
+                    && (_.isNumber(options.height) || /^\d+$/.test(options.height));
 
                 // incomplete or conflicting configurations
                 // no target provided, also no width and/or no height
