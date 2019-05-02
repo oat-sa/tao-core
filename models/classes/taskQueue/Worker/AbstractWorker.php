@@ -79,7 +79,7 @@ abstract class AbstractWorker implements WorkerInterface
                 // execute the task
                 $taskReport = $task();
 
-                $this->logWarning('Task ' . $task->getId() . ' has been processed.', $this->getLogContext());
+                $this->logInfo('Task ' . $task->getId() . ' has been processed.', $this->getLogContext());
 
                 if (!$taskReport instanceof Report) {
                     $this->logWarning('Task ' . $task->getId() . ' should return a report object.', $this->getLogContext());
