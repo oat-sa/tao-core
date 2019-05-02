@@ -118,8 +118,6 @@ define([
                         }]);
                     }
 
-                    feedback().success(response.message || __('Successfully added new class'));
-
                     //return format (resourceSelector)
                     return {
                         uri       : uri.decode(response.uri),
@@ -131,9 +129,6 @@ define([
                 } else {
                     throw new Error(__('Adding the new class has failed'));
                 }
-            })
-            .catch(function(error) {
-                feedback().error(error.message);
             });
         });
 
@@ -184,9 +179,6 @@ define([
                 } else {
                     throw new Error(__('Adding the new resource has failed'));
                 }
-            })
-            .catch(function(error) {
-                feedback().error(error.message);
             });
         });
 
@@ -226,8 +218,6 @@ define([
                         }]);
                     }
 
-                    feedback().success(response.message || __('Resource duplicated'));
-
                     //return format (resourceSelector)
                     return {
                         uri       : uri.decode(response.uri),
@@ -239,9 +229,6 @@ define([
                 } else {
                     throw new Error(__('Node duplication has failed'));
                 }
-            })
-            .catch(function(error) {
-                feedback().error(error.message);
             });
         });
 
@@ -289,9 +276,6 @@ define([
                         } else {
                             reject(response.msg || __("Unable to delete the selected resource"));
                         }
-                    })
-                    .catch(function(error) {
-                        reject(error.message);
                     });
                 }, function cancel(){
                     reject({ cancel : true });
@@ -359,15 +343,10 @@ define([
                     })
                     .then(function(response) {
                         if (response.success && response.deleted) {
-                            feedback().success(response.message || __('Resources deleted'));
-
                             resolve(response.deleted);
                         } else {
                             reject(new Error(response.message || __("Unable to delete the selected resources")));
                         }
-                    })
-                    .catch(function(error) {
-                        reject(error);
                     });
                 }, function cancel(){
                     reject({ cancel : true });
