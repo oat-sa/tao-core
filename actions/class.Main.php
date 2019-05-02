@@ -36,7 +36,6 @@ use oat\tao\model\menu\Perspective;
 use oat\tao\model\mvc\DefaultUrlService;
 use oat\tao\model\notification\NotificationInterface;
 use oat\tao\model\notification\NotificationServiceInterface;
-use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\user\UserLocks;
 use oat\oatbox\log\LoggerAwareTrait;
 
@@ -352,13 +351,6 @@ class tao_actions_Main extends tao_actions_CommonModule
         $this->setData('shownStructure', $structure);
 
         $this->setData('current-section', $this->getRequestParameter('section'));
-
-        // Add csrf token
-        $tokenService = $this->getServiceLocator()->get(TokenService::SERVICE_ID);
-        $tokenName = $tokenService->getTokenName();
-        $token = $tokenService->createToken();
-        $this->setCookie($tokenName, $token, null, '/');
-        $this->setData('xsrf-token-name', $tokenName);
 
         //creates the URL of the action used to configure the client side
         $clientConfigParams = array(

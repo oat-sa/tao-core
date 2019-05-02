@@ -45,13 +45,14 @@ class tao_actions_form_EditClassLabel
      * @param core_kernel_classes_Class $clazz
      * @param array $classData
      * @param string $signature
+     * @param array $options
      */
-    public function __construct( \core_kernel_classes_Class $clazz, $classData, $signature)
+    public function __construct(\core_kernel_classes_Class $clazz, $classData, $signature, $options = [])
     {
         $this->clazz = $clazz;
         $this->signature = $signature;
 
-        parent::__construct($classData);
+        parent::__construct($classData, $options);
     }
 
     /**

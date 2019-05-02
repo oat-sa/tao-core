@@ -102,16 +102,3 @@ $sections = get_data('sections');
         </aside>
     </div>
 <?php endif; ?>
-
-<script>
-    requirejs.config({
-        config: {
-            'layout/actions/common': {
-                xsrfTokenName: "<?= $xsrfTokenName ?>"
-            },
-            'controller/users/index': {
-                xsrfTokenName: "<?= $xsrfTokenName ?>"
-            }
-        }
-    });
-</script>
