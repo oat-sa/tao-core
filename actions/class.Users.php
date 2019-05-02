@@ -201,7 +201,7 @@ class tao_actions_Users extends tao_actions_CommonModule
         try {
             $this->validateCsrf();
         } catch (common_exception_Unauthorized $e) {
-            $this->response = $this->getPsrResponse()->withStatus('412', __('Unable to process your request'));
+            $this->response = $this->getPsrResponse()->withStatus('403', __('Unable to process your request'));
             return;
         }
 
@@ -397,7 +397,7 @@ class tao_actions_Users extends tao_actions_CommonModule
         try {
             $this->validateCsrf();
         } catch (common_exception_Unauthorized $e) {
-            $this->response = $this->getPsrResponse()->withStatus('412', __('Unable to process your request'));
+            $this->response = $this->getPsrResponse()->withStatus('403', __('Unable to process your request'));
             return;
         }
         $user = UserHelper::getUser($this->getUserResource());
@@ -418,7 +418,7 @@ class tao_actions_Users extends tao_actions_CommonModule
         try {
             $this->validateCsrf();
         } catch (common_exception_Unauthorized $e) {
-            $this->response = $this->getPsrResponse()->withStatus('412', __('Unable to process your request'));
+            $this->response = $this->getPsrResponse()->withStatus('403', __('Unable to process your request'));
             return;
         }
 
