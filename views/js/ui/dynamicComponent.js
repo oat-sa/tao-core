@@ -268,6 +268,8 @@ define([
                         }),
                         onmove : function(event) {
                             interactUtils.moveElement($element, event.dx, event.dy);
+                            self.setCoords();
+                            self.trigger('move', self.position);
                         },
                         onend : function() {
                             self.setCoords();
