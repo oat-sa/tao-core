@@ -1023,9 +1023,9 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('31.1.0');
         }
 
-        $this->skip('31.1.0', '33.4.2');
+        $this->skip('31.1.0', '33.6.0');
 
-        if ($this->isVersion('33.4.2')) {
+        if ($this->isVersion('33.6.0')) {
             /** @var TokenService $tokenService */
             $tokenService = $this->getServiceManager()->get(TokenService::SERVICE_ID);
 

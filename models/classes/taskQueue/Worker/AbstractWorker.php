@@ -63,13 +63,13 @@ abstract class AbstractWorker implements WorkerInterface
             $report = Report::createInfo(__('Running task %s', $task->getId()));
 
             try {
-                $this->logDebug('Processing task ' . $task->getId(), $this->getLogContext());
+                $this->logInfo('Processing task ' . $task->getId(), $this->getLogContext());
 
                 $rowsTouched = $this->taskLog->setStatus($task->getId(), TaskLogInterface::STATUS_RUNNING, TaskLogInterface::STATUS_DEQUEUED);
 
                 // if the task is being executed by another worker, just return, no report needs to be saved
                 if (!$rowsTouched) {
-                    $this->logDebug('Task ' . $task->getId() . ' seems to be processed by another worker.', $this->getLogContext());
+                    $this->logInfo('Task ' . $task->getId() . ' seems to be processed by another worker.', $this->getLogContext());
                     return TaskLogInterface::STATUS_UNKNOWN;
                 }
 
@@ -79,6 +79,8 @@ abstract class AbstractWorker implements WorkerInterface
                 // execute the task
                 $taskReport = $task();
 
+                $this->logInfo('Task ' . $task->getId() . ' has been processed.', $this->getLogContext());
+
                 if (!$taskReport instanceof Report) {
                     $this->logWarning('Task ' . $task->getId() . ' should return a report object.', $this->getLogContext());
                     $taskReport = Report::createInfo(__('Task not returned any report.'));
@@ -87,6 +89,9 @@ abstract class AbstractWorker implements WorkerInterface
                 $report->add($taskReport);
 
                 unset($taskReport, $rowsTouched);
+            } catch (\Error $e) {
+                $this->logCritical('Executing task ' . $task->getId() . ' failed with MSG: ' . $e->getMessage(), $this->getLogContext());
+                $report = Report::createFailure(__('Executing task %s failed', $task->getId()));
             } catch (\Exception $e) {
                 $this->logError('Executing task ' . $task->getId() . ' failed with MSG: ' . $e->getMessage(), $this->getLogContext());
                 $report = Report::createFailure(__('Executing task %s failed', $task->getId()));
