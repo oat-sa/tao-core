@@ -79,7 +79,7 @@ abstract class AbstractWorker implements WorkerInterface
                 // execute the task
                 $taskReport = $task();
 
-                $this->logWarning('Task ' . $task->getId() . ' has been processed.', $this->getLogContext());
+                $this->logInfo('Task ' . $task->getId() . ' has been processed.', $this->getLogContext());
 
                 if (!$taskReport instanceof Report) {
                     $this->logWarning('Task ' . $task->getId() . ' should return a report object.', $this->getLogContext());
@@ -89,11 +89,11 @@ abstract class AbstractWorker implements WorkerInterface
                 $report->add($taskReport);
 
                 unset($taskReport, $rowsTouched);
-            } catch (\Exception $e) {
-                $this->logError('Executing task ' . $task->getId() . ' failed with MSG: ' . $e->getMessage(), $this->getLogContext());
-                $report = Report::createFailure(__('Executing task %s failed', $task->getId()));
             } catch (\Error $e) {
                 $this->logCritical('Executing task ' . $task->getId() . ' failed with MSG: ' . $e->getMessage(), $this->getLogContext());
+                $report = Report::createFailure(__('Executing task %s failed', $task->getId()));
+            } catch (\Exception $e) {
+                $this->logError('Executing task ' . $task->getId() . ' failed with MSG: ' . $e->getMessage(), $this->getLogContext());
                 $report = Report::createFailure(__('Executing task %s failed', $task->getId()));
             }
 
