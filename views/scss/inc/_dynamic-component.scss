@@ -18,6 +18,8 @@
         line-height: 1.4;
         min-height : 30px;
         text-align: center;
+        border-top-right-radius: 5px;
+        border-top-left-radius: 5px;
         @include font-size(14);
         .closer {
             color: $textColor;
