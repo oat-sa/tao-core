@@ -26,7 +26,7 @@
  *      { success : true, data : [the results]}
  *      { success : false, data : {Exception}, message : 'Something went wrong' }
  *   - 204 for empty content
- *   - 412 if CSRF token validation fails
+ *   - 403 if CSRF token validation fails
  *
  * CAUTION! By default this request does NOT have a token attached (for backwards compatibility reasons)
  * If you need a token on a request, you must set noToken=false
