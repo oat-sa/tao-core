@@ -1227,11 +1227,12 @@ define([
         var ready = assert.async();
         var $container = $('#container-1');
 
-        assert.expect(2);
+        assert.expect(3);
 
         var url = 'js/test/ui/datatable/largedata.json';
 
         $container.one('create.datatable', function(){
+            assert.ok($container.find('.datatable-header').length === 1, 'datatableHeader is rendered');
             assert.ok($container.find('.toolbox-container').length === 1, 'pageSizeSelector is rendered');
             assert.equal($container.find('.toolbox-container select').val(), 50, 'rows option is used as default value for pageSizeSelector');
 
