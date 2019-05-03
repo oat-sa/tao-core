@@ -20,6 +20,7 @@
 namespace oat\tao\model\security\xsrf;
 
 use oat\oatbox\Configurable;
+use PHPSession;
 
 /**
  * TokenStore into the PHP session
@@ -28,19 +29,23 @@ use oat\oatbox\Configurable;
  */
 class TokenStoreSession extends Configurable implements TokenStore
 {
+
+    /**
+     * @var PHPSession
+     */
+    private $session;
+
     /**
      * Retrieve the pool of tokens
-     * @return array the tokens
+     * @return Token[]
      */
     public function getTokens()
     {
-        $pool = null;
-        $session = \PHPSession::singleton();
-        if($session->hasAttribute(self::TOKEN_KEY)){
-            $pool = $session->getAttribute(self::TOKEN_KEY);
-        }
-        if(is_null($pool)){
-            $pool = [];
+        $pool = [];
+        $session = $this->getSession();
+
+        if ($session->hasAttribute(self::TOKEN_KEY)) {
+            $pool = $session->getAttribute(self::TOKEN_KEY) ?: [];
         }
 
         return $pool;
@@ -48,11 +53,11 @@ class TokenStoreSession extends Configurable implements TokenStore
 
     /**
      * Set the pool of tokens
-     * @param array $tokens the poll
+     * @param Token[] $tokens
      */
     public function setTokens(array $tokens = [])
     {
-        $session = \PHPSession::singleton();
+        $session = $this->getSession();
         $session->setAttribute(self::TOKEN_KEY, $tokens);
     }
 
@@ -61,7 +66,18 @@ class TokenStoreSession extends Configurable implements TokenStore
      */
     public function removeTokens()
     {
-        $session = \PHPSession::singleton();
+        $session = $this->getSession();
         $session->setAttribute(self::TOKEN_KEY, []);
+    }
+
+    /**
+     * @return PHPSession
+     */
+    private function getSession()
+    {
+        if ($this->session === null) {
+            $this->session = PHPSession::singleton();
+        }
+        return $this->session;
     }
 }

@@ -22,7 +22,9 @@ use oat\tao\model\ClientLibRegistry;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\clientConfig\ClientConfigService;
 use oat\tao\model\routing\Resolver;
+use oat\tao\model\security\xsrf\TokenService;
 use tao_helpers_Date as DateHelper;
+
 /**
  * Generates client side configuration.
  *
@@ -40,6 +42,12 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule
     public function config()
     {
         $this->setContentHeader('application/javascript');
+
+        /** @var TokenService $tokenService */
+        $tokenService = $this->getServiceLocator()->get(TokenService::SERVICE_ID);
+        $tokenPool = $tokenService->generateTokenPool();
+        $jsTokenPool = array_map(function($token) { return $token->getValue(); }, $tokenPool);
+        $this->setData('tokens', json_encode([TokenService::JS_TOKEN_KEY => $jsTokenPool]));
 
         //get extension paths to set up aliases dynamically
         $extensionsAliases = ClientLibRegistry::getRegistry()->getLibAliasMap();

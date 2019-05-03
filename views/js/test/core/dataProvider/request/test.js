@@ -70,8 +70,33 @@ define(['jquery', 'lodash', 'core/dataProvider/request', 'core/promise'], functi
         assert.equal(typeof request, 'function', 'The module exposes a function');
     });
 
+
+    QUnit.module('Missed params');
+
+    requestCases = [{
+        title: 'no url',
+        err : new TypeError('At least give a URL...')
+    }];
+
+    QUnit
+        .cases.init(requestCases)
+        .test('bad request call with ', function(caseData, assert){
+            var ready = assert.async();
+
+            assert.expect(1);
+
+            assert.throws(
+                function() {
+                    request(caseData.url, caseData.data, caseData.method, caseData.headers, caseData.background, caseData.noToken);
+                },
+                "throws an error"
+            );
+            ready();
+        });
+
+
     QUnit.module('request', {
-        beforeEach: function(assert) {
+        beforeEach: function() {
 
             //mock the jquery ajax method
             $.ajax = function(options){
@@ -79,7 +104,7 @@ define(['jquery', 'lodash', 'core/dataProvider/request', 'core/promise'], functi
                     done: function(cb){
                         var response = responses[options.url];
                         if (response) {
-                            if (options.headers) {
+                            if (options.headers && !_.isEmpty(options.headers)) {
                                 response = _.cloneDeep(response);
                                 if (!response[0].data) {
                                     response[0].data = {};
@@ -99,16 +124,12 @@ define(['jquery', 'lodash', 'core/dataProvider/request', 'core/promise'], functi
                 };
             };
         },
-        afterEach: function teardown(assert) {
+        afterEach: function teardown() {
             $.ajax = $ajax;
         }
     });
 
     requestCases = [{
-        title: 'no url',
-        reject: true,
-        err: new TypeError('At least give a URL...')
-    }, {
         title: '200 got content',
         url: '//200',
         content: {foo: 'bar'}
@@ -147,7 +168,7 @@ define(['jquery', 'lodash', 'core/dataProvider/request', 'core/promise'], functi
         .test('request with ', function(data, assert){
             var ready = assert.async();
 
-            var result = request(data.url, data.data, data.method, data.headers);
+            var result = request(data.url, data.data, data.method, data.headers, data.background, data.noToken);
             assert.ok(result instanceof Promise, 'The request function returns a promise');
 
             if(data.reject){
@@ -159,8 +180,8 @@ define(['jquery', 'lodash', 'core/dataProvider/request', 'core/promise'], functi
                     ready();
                 })
                 .catch(function(err){
-                    assert.equal(data.err.name, err.name, 'Reject error is the one expected');
-                    assert.equal(data.err.message, err.message, 'Reject error is correct');
+                    assert.equal(err.name, data.err.name, 'Reject error is the one expected');
+                    assert.equal(err.message, data.err.message, 'Reject error is correct');
                     ready();
                 });
 
@@ -168,7 +189,7 @@ define(['jquery', 'lodash', 'core/dataProvider/request', 'core/promise'], functi
                 assert.expect(2);
 
                 result.then(function(content){
-                    assert.deepEqual(content, data.content, 'The given reuslt is correct');
+                    assert.deepEqual(content, data.content, 'The given result is correct');
                     ready();
                 })
                 .catch(function(){

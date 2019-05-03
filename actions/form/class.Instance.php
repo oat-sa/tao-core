@@ -21,7 +21,6 @@
  */
 
 use oat\generis\model\OntologyRdfs;
-use oat\tao\helpers\form\validators\XsrfTokenValidator;
 use oat\tao\model\TaoOntology;
 
 /**
@@ -40,9 +39,9 @@ class tao_actions_form_Instance
     /**
      * Initialize the form
      *
-     * @access protected
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return mixed
+     * @throws common_Exception
      */
     protected function initForm()
     {
@@ -61,11 +60,6 @@ class tao_actions_form_Instance
         $instanceElt = tao_helpers_form_FormFactory::getElement('tao.forms.instance', 'Hidden');
         $instanceElt->setValue('1');
         $this->form->addElement($instanceElt, true);
-
-        //add a token to protect against xsrf
-        $tokenElt = tao_helpers_form_FormFactory::getElement('token', 'Token');
-        $tokenElt->addValidator(new XsrfTokenValidator());
-        $this->form->addElement($tokenElt, true);
 
         $this->form->setActions($actions, 'top');
         $this->form->setActions($actions, 'bottom');

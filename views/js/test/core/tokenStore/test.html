@@ -2,13 +2,13 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Core - DataProvider AJAX Proxy</title>
-        <base href="../../../../../../" />
+        <title>Test - TokenStore</title>
+        <base href="../../../../../../tao/views/" />
         <link rel="stylesheet" type="text/css" href="js/lib/qunit/qunit.css">
         <script type="text/javascript" src="js/lib/qunit/qunit.js"></script>
         <script type="text/javascript" src="js/lib/require.js"></script>
         <script type="text/javascript" src="js/lib/qunit/qunit-parameterize.js"></script>
-        <script type="text/javascript" src="js/lib/blanket/blanket.min.js" data-cover-flag="branchTracking" data-cover-only="core/dataProvider/proxy/ajax.js"></script>
+        <script type="text/javascript" src="js/lib/blanket/blanket.min.js" data-cover-flag="branchTracking" data-cover-only="core/tokenStore.js"></script>
 
         <script  type="text/javascript">
 
@@ -18,20 +18,8 @@
             //load the config
             require(['/tao/ClientConfig/config'], function(){
 
-                //some mocks
-                requirejs.config({
-                    "paths": {
-                        "core/dataProvider/request" : "test/core/dataProvider/mocks/requestMock"
-                    },
-                    "config": {
-                        "core/tokenHandler" : {
-                            tokens: ['token1', 'token2', 'token3', 'token4', 'token5']
-                        }
-                    }
-                });
-
                 //load the test
-                require(['test/core/dataProvider/proxy/ajax/test'], function(){
+                require(['tao/test/core/tokenStore/test'], function(){
 
                     //Tests loaded, run tests
                     QUnit.start();

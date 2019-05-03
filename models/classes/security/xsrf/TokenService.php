@@ -14,11 +14,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2017-2019 (original work) Open Assessment Technologies SA ;
  */
 
 namespace oat\tao\model\security\xsrf;
 
+use common_exception_Unauthorized;
+use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\security\TokenGenerator;
 use oat\oatbox\service\exception\InvalidService;
@@ -26,28 +28,32 @@ use oat\oatbox\service\exception\InvalidService;
 /**
  * This service let's you manage tokens to protect against XSRF.
  * The protection works using this workflow :
- *  1. Generate a new token `TokenService::createToken()`
- *  2. Send this token to the client, it will then send it along the HTTP request to protect
- *  3. Verify if the received token is valid `TokenService::checkToken`, and revoke it accordingly
+ *  1. Token pool gets generated and stored by front-end
+ *  2. Front-end adds a token header using the token header "X-CSRF-Token"
+ *  3. Back-end verifies the token using \oat\tao\model\security\xsrf\CsrfValidatorTrait
  *
+ * @see \oat\tao\model\security\xsrf\CsrfValidatorTrait
  * @author Bertrand Chevrier <bertrand@taotesting.com>
+ * @author Martijn Swinkels <martijn@taotesting.com>
  */
 class TokenService extends ConfigurableService
 {
-
     use TokenGenerator;
+    use LoggerAwareTrait;
 
     const SERVICE_ID = 'tao/security-xsrf-token';
 
-    //options keys
+    // options keys
     const POOL_SIZE_OPT  = 'poolSize';
     const TIME_LIMIT_OPT = 'timeLimit';
-    /** @deprecated use TokenService::OPTION_STORE */
-    const STORE_OPT    = 'store';
     const OPTION_STORE = 'store';
 
     const DEFAULT_POOL_SIZE = 10;
     const DEFAULT_TIME_LIMIT = 0;
+
+    const CSRF_TOKEN_HEADER = 'X-CSRF-Token';
+    const FORM_POOL = 'form_pool';
+    const JS_TOKEN_KEY = 'tokens';
 
     /**
      * Create a new TokenService
@@ -62,11 +68,15 @@ class TokenService extends ConfigurableService
     {
         parent::__construct($options);
 
-        if($this->getPoolSize() <= 0 && $this->getTimeLimit() <= 0){
-            \common_Logger::w('The pool size and the time limit are both unlimited. Tokens won\'t be invalidated. The store will just grow.');
+        if ($this->getPoolSize() <= 0 && $this->getTimeLimit() <= 0) {
+            $this->logWarning(
+                'The pool size and the time limit are both unlimited.
+                Tokens won\'t be invalidated. The store will just grow.'
+            );
         }
+
         $store = $this->getStore();
-        if(is_null($store) || !$store instanceof TokenStore){
+        if ($store === null || !$store instanceof TokenStore) {
             throw new InvalidService('The token service requires a TokenStore');
         }
     }
@@ -75,22 +85,16 @@ class TokenService extends ConfigurableService
      * Generates, stores and return a brand new token
      * Triggers the pool invalidation.
      *
-     * @return string the token
+     * @return Token
+     * @throws \common_Exception
      */
     public function createToken()
     {
-        $time = microtime(true);
-        $token = $this->generate();
-
         $store = $this->getStore();
-
         $pool = $this->invalidate($store->getTokens());
 
-        $pool[] = [
-            'ts' => $time,
-            'token' => $token
-        ];
-
+        $token = new Token();
+        $pool[] = $token;
         $store->setTokens($pool);
 
         return $token;
@@ -100,47 +104,119 @@ class TokenService extends ConfigurableService
      * Check if the given token is valid
      * (does not revoke)
      *
-     * @param string $token The given token to validate
+     * @param string|Token $token The given token to validate
      * @return boolean
      */
     public function checkToken($token)
     {
-        $actualTime = microtime(true);
-        $timeLimit  = $this->getTimeLimit();
-
+        $valid = false;
         $pool = $this->getStore()->getTokens();
-        if(!is_null($pool)){
 
-            foreach($pool as $savedToken){
-                if($savedToken['token'] == $token){
-                    if($timeLimit > 0){
-                        return $savedToken['ts'] + $timeLimit > $actualTime;
-                    }
-                    return true;
+        if (is_object($token) && $token instanceof Token) {
+            $token = $token->getValue();
+        }
+
+        if ($pool !== null) {
+            foreach ($pool as $savedToken) {
+                if ($savedToken->getValue() === $token && !$this->isExpired($savedToken)) {
+                    $valid = true;
+                    break;
                 }
             }
         }
-        return false;
+
+        return $valid;
+    }
+
+    /**
+     * Check if the given token is valid
+     *
+     * @param string |Token $token
+     * @return boolean
+     * @throws \common_Exception`
+     * @throws common_exception_Unauthorized
+     */
+    public function validateToken($token)
+    {
+        $isValid = false;
+        $expired = false;
+        $pool = $this->getStore()->getTokens();
+
+        if (is_object($token) && $token instanceof Token) {
+            $token = $token->getValue();
+        }
+
+        if ($pool !== null) {
+            foreach ($pool as $savedToken) {
+                if ($savedToken->getValue() === $token) {
+                    if ($this->isExpired($savedToken)) {
+                        $expired = true;
+                        break;
+                    }
+                    $isValid = true;
+                    break;
+                }
+            }
+        }
+
+        if ($expired === true) {
+            $this->revokeToken($token);
+        }
+
+        if (!$isValid) {
+            throw new common_exception_Unauthorized();
+        }
+
+        $this->revokeToken($token);
+
+        return $isValid;
+    }
+
+    /**
+     * Check if the given token has expired.
+     *
+     * @param Token $token
+     * @return bool
+     */
+    private function isExpired(Token $token)
+    {
+        $expired = false;
+        $actualTime = microtime(true);
+        $timeLimit  = $this->getTimeLimit();
+
+        if (($timeLimit > 0) && $token->getCreatedAt() + $timeLimit < $actualTime) {
+            $expired = true;
+        }
+
+        return $expired;
     }
 
     /**
      * Revokes the given token
-     * @return true if the revokation succeed (if the token was found)
+     *
+     * @param string|Token $token
+     * @return true
      */
     public function revokeToken($token)
     {
         $revoked = false;
         $store = $this->getStore();
         $pool = $store->getTokens();
-        if(!is_null($pool)){
-            foreach($pool as $key => $savedToken){
-                if($savedToken['token'] == $token){
+
+        if (is_object($token) && $token instanceof Token) {
+            $token = $token->getValue();
+        }
+
+        if ($pool !== null) {
+            foreach ($pool as $key => $savedToken) {
+                if ($savedToken->getValue() === $token) {
                     unset($pool[$key]);
                     $revoked = true;
                     break;
                 }
             }
         }
+
         $store->setTokens($pool);
 
         return $revoked;
@@ -148,7 +224,7 @@ class TokenService extends ConfigurableService
 
     /**
      * Gets this session's name for token
-     * @return {String}
+     * @return string
      */
     public function getTokenName()
     {
@@ -168,6 +244,7 @@ class TokenService extends ConfigurableService
      * Invalidate the tokens in the pool :
      *  - remove the oldest if the pool raises it's size limit
      *  - remove the expired tokens
+     * @param Token[] $pool
      * @return array the invalidated pool
      */
     protected function invalidate($pool)
@@ -175,29 +252,27 @@ class TokenService extends ConfigurableService
         $actualTime = microtime(true);
         $timeLimit  = $this->getTimeLimit();
 
-        $reduced = array_filter($pool, function($token) use($actualTime, $timeLimit){
-            if(!isset($token['ts']) || !isset($token['token'])){
-                return false;
-            }
-            if($timeLimit > 0){
-                return $token['ts'] + $timeLimit > $actualTime;
+        $reduced = array_filter($pool, function ($token) use ($actualTime, $timeLimit) {
+            if ($timeLimit > 0) {
+                return $token->getCreatedAt() + $timeLimit > $actualTime;
             }
             return true;
         });
 
-        if($this->getPoolSize() > 0 && count($reduced) > 0){
-            usort($reduced, function($a, $b){
-                if($a['ts'] == $b['ts']){
+        if ($this->getPoolSize() > 0 && count($reduced) > 0) {
+            usort($reduced, function ($a, $b) {
+                if ($a->getCreatedAt() === $b->getCreatedAt()) {
                     return 0;
                 }
-                return $a['ts'] < $b['ts'] ? -1 : 1;
+                return $a->getCreatedAt() < $b->getCreatedAt() ? -1 : 1;
             });
 
-            //remove the elements at the begining to fit the pool size
-            while(count($reduced) >= $this->getPoolSize()){
+            //remove the elements at the beginning to fit the pool size
+            while (count($reduced) >= $this->getPoolSize()) {
                 array_shift($reduced);
-           }
+            }
         }
+
         return $reduced;
     }
 
@@ -205,10 +280,10 @@ class TokenService extends ConfigurableService
      * Get the configured pool size
      * @return int the pool size, 10 by default
      */
-    protected function getPoolSize()
+    public function getPoolSize()
     {
         $poolSize = self::DEFAULT_POOL_SIZE;
-        if($this->hasOption(self::POOL_SIZE_OPT)){
+        if ($this->hasOption(self::POOL_SIZE_OPT)) {
             $poolSize = (int)$this->getOption(self::POOL_SIZE_OPT);
         }
         return $poolSize;
@@ -221,7 +296,7 @@ class TokenService extends ConfigurableService
     protected function getTimeLimit()
     {
         $timeLimit = self::DEFAULT_TIME_LIMIT;
-        if($this->hasOption(self::TIME_LIMIT_OPT)){
+        if ($this->hasOption(self::TIME_LIMIT_OPT)) {
             $timeLimit = (int)$this->getOption(self::TIME_LIMIT_OPT);
         }
         return $timeLimit;
@@ -234,9 +309,72 @@ class TokenService extends ConfigurableService
     protected function getStore()
     {
         $store = null;
-        if($this->hasOption(self::STORE_OPT)){
-            $store = $this->getOption(self::STORE_OPT);
+        if ($this->hasOption(self::OPTION_STORE)) {
+            $store = $this->getOption(self::OPTION_STORE);
         }
         return $store;
+    }
+
+    /**
+     * Generate a token pool, and return it.
+     *
+     * @return Token[]
+     * @throws \common_Exception
+     */
+    public function generateTokenPool()
+    {
+        $store = $this->getStore();
+        $pool = $store->getTokens();
+
+        if ($this->getTimeLimit() > 0) {
+            foreach ($pool as $key => $token) {
+                if ($this->isExpired($token)) {
+                    $this->revokeToken($token->getValue());
+                }
+            }
+        }
+
+        $pool = $store->getTokens();
+        $remainingPoolSize = $this->getPoolSize() - count($pool);
+
+        for ($i = 0; $i < $remainingPoolSize; $i++) {
+            $pool[] = new Token();
+        }
+
+        $store->setTokens($pool);
+
+        return $pool;
+    }
+
+    /**
+     * Add a token that can be used for forms.
+     * @throws \common_Exception
+     */
+    public function addFormToken()
+    {
+        $store = $this->getStore();
+        $tokenPool = $store->getTokens();
+
+        $tokenPool[self::FORM_POOL] = new Token();
+
+        $store->setTokens($tokenPool);
+    }
+
+    /**
+     * Get a token from the pool, which can be used for forms.
+     * @return Token
+     * @throws \common_Exception
+     */
+    public function getFormToken()
+    {
+        $store = $this->getStore();
+        $tokenPool = $store->getTokens();
+
+        if (!isset($tokenPool[self::FORM_POOL])) {
+            $this->addFormToken();
+            $tokenPool = $store->getTokens();
+        }
+
+        return $tokenPool[self::FORM_POOL];
     }
 }
