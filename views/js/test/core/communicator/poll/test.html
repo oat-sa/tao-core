@@ -18,6 +18,15 @@
             //load the config
             require(['/tao/ClientConfig/config'], function(){
 
+                //some mocks
+                requirejs.config({
+                    "config": {
+                        "core/tokenHandler" : {
+                            tokens: ['mytoken1', 'mytoken2', 'mytoken3', 'mytoken4', 'mytoken5']
+                        }
+                    }
+                });
+
                 //load the test
                 require(['tao/test/core/communicator/poll/test'], function(){
 

@@ -15,6 +15,16 @@
         <script  type="text/javascript">
             QUnit.config.autostart = false;
             require(['/tao/ClientConfig/config'], function(){
+
+                //some mocks
+                requirejs.config({
+                    "config": {
+                        "core/tokenHandler" : {
+                            tokens: ['token1', 'token2', 'token3', 'token4', 'token5']
+                        }
+                    }
+                });
+
                 require(['test/core/taskQueue/test'], function(){
                     QUnit.start();
                 });
