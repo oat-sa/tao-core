@@ -174,6 +174,7 @@ define(['ui/dateRange/dateRange'], function(dateRangeFactory) {
             startField.value = '2019-01-01 12:00:00';
             endField.value = '2019-01-02 00:00:00';
 
+
             applyButton.click();
         })
         .on('submit', function(start, end){
