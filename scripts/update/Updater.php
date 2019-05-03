@@ -1032,7 +1032,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             /** @var TokenStore $tokenStore */
             $tokenStore = $tokenService->getOption(TokenService::OPTION_STORE);
             $tokenStore->removeTokens();
-            $this->setVersion('34.0.1');
+            $this->setVersion('34.0.0');
         }
 
         $this->skip('34.0.0', '34.0.1');
