@@ -577,7 +577,7 @@ define([
                 options.naturalWidth  = options.naturalWidth  || options.width;
                 options.naturalHeight = options.naturalHeight || options.height;
 
-                options.hasSize = options.width && options.height && _.isFinite(+options.width) && _.isFinite(options.height);
+                options.hasSize = options.width && options.height && _.isFinite(+options.width) && _.isFinite(+options.height);
 
                 // incomplete or conflicting configurations
                 // no target provided, also no width and/or no height
