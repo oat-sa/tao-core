@@ -4,9 +4,6 @@
         @include vendor-prefix(flex-direction, column, property, (-ms-, -webkit-, ''));
         @include vendor-prefix(align-items, center, property, (-ms-, -webkit-, ''));
         @include vendor-prefix(justify-content, space-between, property, (-ms-, -webkit-, ''));
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
     }
     h2 {
         font-family: $headingFont;
