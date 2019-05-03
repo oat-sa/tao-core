@@ -236,10 +236,10 @@ define([
 
                     self.startPicker
                         .on('change', function(value) {
-                            if (self.endPicker && self.endPicker.is('ready')) {
+                            if (value && self.endPicker && self.endPicker.is('ready')) {
                                 self.endPicker.updateConstraints('minDate', value);
 
-                                if (value && self.config.maxRangeDays > 0){
+                                if (self.config.maxRangeDays > 0){
                                     self.endPicker.updateConstraints(
                                         'maxDate',
                                         moment(value).add(self.config.maxRangeDays, 'd').toDate()
@@ -255,6 +255,12 @@ define([
                              */
                             self.trigger('change', 'start', value);
                         })
+                        .on('clear', function(){
+                            if (self.endPicker && self.endPicker.is('ready')) {
+                                self.endPicker.updateConstraints('minDate', '');
+                                self.endPicker.updateConstraints('maxDate', '');
+                            }
+                        })
                         .on('close', function(){
 
                             /**
@@ -269,7 +275,7 @@ define([
 
                     self.endPicker
                         .on('change', function(value) {
-                            if (self.startPicker && self.startPicker.is('ready')) {
+                            if (value && self.startPicker && self.startPicker.is('ready')) {
                                 self.startPicker.updateConstraints('maxDate', value);
                             }
 
@@ -277,6 +283,12 @@ define([
                             * @see dateRange#change
                             */
                             self.trigger('change', 'end', value);
+                        })
+                        .on('clear', function(){
+                            if (self.startPicker && self.startPicker.is('ready')) {
+                                self.startPicker.updateConstraints('minDate', '');
+                                self.startPicker.updateConstraints('maxDate', '');
+                            }
                         })
                         .on('close', function() {
 
