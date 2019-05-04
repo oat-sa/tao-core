@@ -2,30 +2,26 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Task Queue Model</title>
+        <title>Core - Request</title>
         <base href="../../../../" />
         <link rel="stylesheet" type="text/css" href="js/lib/qunit/qunit.css">
-        <link rel="stylesheet" type="text/css" href="css/tao-main-style.css">
-        <link rel="stylesheet" type="text/css" href="js/ui/resource/css/selector.css">
         <script type="text/javascript" src="js/lib/qunit/qunit.js"></script>
         <script type="text/javascript" src="js/lib/require.js"></script>
         <script type="text/javascript" src="js/lib/qunit/qunit-parameterize.js"></script>
-        <script type="text/javascript" src="js/lib/blanket/blanket.min.js" data-cover-flag="branchTracking" data-cover-only="taskQueue.js"></script>
+        <script type="text/javascript" src="js/lib/blanket/blanket.min.js"  data-cover-flag="branchTracking"  data-cover-only="core/request.js"></script>
 
         <script  type="text/javascript">
+
+             //don't start the test now
             QUnit.config.autostart = false;
+
+            //load the config
             require(['/tao/ClientConfig/config'], function(){
 
-                //some mocks
-                requirejs.config({
-                    "config": {
-                        "core/tokenHandler" : {
-                            tokens: ['token1', 'token2', 'token3', 'token4', 'token5']
-                        }
-                    }
-                });
+                //load the test
+                require(['test/core/request/test'], function(){
 
-                require(['test/core/taskQueue/test'], function(){
+                    //Tests loaded, run tests
                     QUnit.start();
                 });
             });
@@ -34,7 +30,5 @@
     <body>
         <div id="qunit"></div>
         <div id="qunit-fixture"></div>
-        <div id="visual">
-        </div>
     </body>
 </html>
