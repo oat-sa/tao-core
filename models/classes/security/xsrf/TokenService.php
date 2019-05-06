@@ -48,7 +48,7 @@ class TokenService extends ConfigurableService
     const TIME_LIMIT_OPT = 'timeLimit';
     const OPTION_STORE = 'store';
 
-    const DEFAULT_POOL_SIZE = 10;
+    const DEFAULT_POOL_SIZE = 6;
     const DEFAULT_TIME_LIMIT = 0;
 
     const CSRF_TOKEN_HEADER = 'X-CSRF-Token';
@@ -251,6 +251,7 @@ class TokenService extends ConfigurableService
     {
         $actualTime = microtime(true);
         $timeLimit  = $this->getTimeLimit();
+        $poolSize = $this->getPoolSize();
 
         $reduced = array_filter($pool, function ($token) use ($actualTime, $timeLimit) {
             if ($timeLimit > 0) {
@@ -259,8 +260,8 @@ class TokenService extends ConfigurableService
             return true;
         });
 
-        if ($this->getPoolSize() > 0 && count($reduced) > 0) {
-            usort($reduced, function ($a, $b) {
+        if ($poolSize > 0 && count($reduced) > 0) {
+            uasort($reduced, function ($a, $b) {
                 if ($a->getCreatedAt() === $b->getCreatedAt()) {
                     return 0;
                 }
@@ -268,7 +269,7 @@ class TokenService extends ConfigurableService
             });
 
             //remove the elements at the beginning to fit the pool size
-            while (count($reduced) >= $this->getPoolSize()) {
+            while (count($reduced) >= $poolSize) {
                 array_shift($reduced);
             }
         }
@@ -285,6 +286,13 @@ class TokenService extends ConfigurableService
         $poolSize = self::DEFAULT_POOL_SIZE;
         if ($this->hasOption(self::POOL_SIZE_OPT)) {
             $poolSize = (int)$this->getOption(self::POOL_SIZE_OPT);
+        }
+
+        $store = $this->getStore();
+        $pool = $store->getTokens();
+
+        if ($poolSize> 0 && isset($pool[self::FORM_POOL])) {
+            $poolSize++;
         }
         return $poolSize;
     }
