@@ -742,6 +742,7 @@ define([
                     $selectCtrlLabel.attr('title', __('Select loaded %s', this.config.type));
                     $selectCtrl.prop('checked', false)
                                .prop('indeterminate', false);
+                // if all of the nodes are selected (or more in the closed subclasses)
                 } else if (selectedCount >= nodesCount) {
                     $selectCtrlLabel.attr('title', __('Clear selection'));
                     $selectCtrl.prop('checked', true)
