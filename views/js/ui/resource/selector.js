@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2017-2019 (original work) Open Assessment Technologies SA ;
  */
 
 /**
@@ -731,7 +731,7 @@ define([
             })
             .on('change', function(selected){
 
-                var nodesCount = _.size(this.selectionComponent.getNodes());
+                var nodesCount = _.size(this.selectionComponent.getVisibleNodes());
                 var selectedCount = _.size(selected);
 
                 //the number selected at the bottom
@@ -742,7 +742,7 @@ define([
                     $selectCtrlLabel.attr('title', __('Select loaded %s', this.config.type));
                     $selectCtrl.prop('checked', false)
                                .prop('indeterminate', false);
-                } else if (selectedCount === nodesCount) {
+                } else if (selectedCount >= nodesCount) {
                     $selectCtrlLabel.attr('title', __('Clear selection'));
                     $selectCtrl.prop('checked', true)
                                .prop('indeterminate', false);

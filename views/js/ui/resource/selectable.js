@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2017-2019 (original work) Open Assessment Technologies SA ;
  */
 
 /**
@@ -267,13 +267,68 @@ define([
             },
 
             /**
+             * Get all visible nodes
+             * @returns {Object[]} nodes
+             */
+            getVisibleNodes: function getVisibleNodes(){
+                var $component = this.getElement();
+                var result = {};
+                var classes = {};
+
+                // recursive parent status finder
+                var getParentStatus = function(signature){
+                    var parentStatus;
+                    signature = signature || 'root';
+
+                    if(classes[signature]) {
+                        if (classes[signature].closed) {
+                            return true;
+                        } else {
+                            //find parent status and apply to children
+                            parentStatus = getParentStatus(classes[signature].parent);
+                            classes[signature].closed = parentStatus;
+                            return parentStatus;
+                        }
+                    } else {
+                        return false;
+                    }
+                };
+
+                // find all classes and their status
+                _.forEach(nodes, function (node) {
+                    if(node.type === 'class'){
+                        classes[node.signature || 'root'] = {
+                            parent: node.classSignature,
+                            closed: $('[data-uri="' + node.uri + '"]', $component).hasClass('closed')
+                        };
+                    }
+                });
+
+                //
+                _.forEach(classes, function (node) {
+                    if(!node.closed){
+                        node.closed = getParentStatus(node.parent);
+                    }
+                });
+
+                _.forEach(nodes, function (node, index) {
+                    if(!classes[node.classSignature]){
+                        result[index] = node;
+                    } else if(!classes[node.classSignature].closed){
+                        result[index] = node;
+                    }
+                });
+
+                return result;
+            },
+            /**
              * Select all nodes.
              * @returns {selectable} chains
              * @fires selectable#change
              */
             selectAll : function selectAll(){
-                return this.select(_.keys(nodes));
-            },
+                return this.select(_.keys(this.getVisibleNodes()));
+            }
         });
     };
 });
