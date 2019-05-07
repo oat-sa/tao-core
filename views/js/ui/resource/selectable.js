@@ -272,7 +272,6 @@ define([
              */
             getVisibleNodes: function getVisibleNodes(){
                 var $component = this.getElement();
-                var result = {};
                 var classes = {};
 
                 // recursive parent status finder
