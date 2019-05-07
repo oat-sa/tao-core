@@ -126,7 +126,7 @@ define([
      * Get the long date/time format from the localized format (LT to 'DD/MM/YYYY HH:mm')
      * @param {String} locale - 2 digits locale code (en, fr, de, etc.)
      * @param {String} localizedFormat - see moment's localized format (L, LT, LLLL, ...)
-     * @returns {String} the long date/time format
+     * @returns {String|boolean} the long date/time format
      */
     var getLongLocalizedFormat = function getLongLocalizedFormat(locale, localizedFormat) {
         if (/[LT]+/.test(localizedFormat) && locale) {
@@ -227,7 +227,7 @@ define([
             /**
              * Get the dates currently selected.
              * Usefull for the range mode to get the date list
-             * @returns {Array<[Date|String]} the selected dates
+             * @returns {Array<[Date|String]>|boolean} the selected dates
              */
             getSelectedDates : function getSelectedDates() {
                 var selection;
@@ -483,7 +483,7 @@ define([
                 var element = this.getElement()[0];
 
                 this.controls = {
-                    input : element.querySelector('input'),
+                    input : element.querySelector('input')
                 };
 
                 //always scope the picker to the component container
