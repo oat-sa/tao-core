@@ -11,7 +11,7 @@
     <button type="button" disabled class="picker-toggle" title="{{__ 'Toggle the date time picker'}}" aria-label="{{__ 'Toggle the date time picker'}}" >
         <span class="icon-calendar" role="img"></span>
     </button>
-    <button type="button" disabled class="picker-clear" title="{{__ 'Toggle the date time picker'}}" aria-label="{{__ 'Toggle the date time picker'}}">
+    <button type="button" disabled class="picker-clear" title="{{__ 'Clear the date time picker'}}" aria-label="{{__ 'Clear the date time picker'}}">
         <span class="icon-reset" role="img"></span>
     </button>
     {{/if}}

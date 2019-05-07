@@ -1,23 +1,28 @@
 <?php
-/**  
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
+ *
  */
+
+use oat\oatbox\log\LoggerAwareTrait;
+use oat\tao\helpers\form\elements\xhtml\CsrfToken;
+use oat\tao\model\security\xsrf\TokenService;
+use \tao_helpers_form_FormFactory as FormFactory;
 
 /**
  * Short description of class tao_helpers_form_xhtml_Form
@@ -25,11 +30,12 @@
  * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
- 
+
  */
-class tao_helpers_form_xhtml_Form
-    extends tao_helpers_form_Form
+class tao_helpers_form_xhtml_Form extends tao_helpers_form_Form
 {
+    use LoggerAwareTrait;
+
     // --- ASSOCIATIONS ---
 
 
@@ -49,50 +55,40 @@ class tao_helpers_form_xhtml_Form
     public function getValues($groupName = '')
     {
         $returnValue = array();
-        
-		foreach($this->elements as $element){
+
+        foreach ($this->elements as $element) {
             if (!empty($this->systemElements) && in_array($element->getName(), $this->systemElements)) {
                 continue;
             }
-			if(empty($groupName)
-					|| !isset($this->groups[$groupName])
-					|| in_array($element->getName(), $this->groups[$groupName]['elements'])) {
-				
-				$returnValue[tao_helpers_Uri::decode($element->getName())] = $element->getEvaluatedValue();
-			}
-		}
-        
+            if (empty($groupName)
+                || in_array($element->getName(), $this->groups[$groupName]['elements'])
+            ) {
+                $returnValue[tao_helpers_Uri::decode($element->getName())] = $element->getEvaluatedValue();
+            }
+        }
+
 
         return (array) $returnValue;
     }
 
     /**
-     * Short description of method evaluate
-     *
-     * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @return mixed
+     * Evaluate the form
      */
     public function evaluate()
     {
-        
-		
-		$this->initElements();
-		
-		if(isset($_POST["{$this->name}_sent"])){
-			
-			$this->submited = true;
-			
-			//set posted values
-			foreach($this->elements as $id => $element){
-				$this->elements[$id]->feed();
-			}
-			
-			$this->validate();
-			
-		}
-			
-        
+        $this->initElements();
+        $submitKey = $this->name . '_sent';
+
+        if (isset($_POST[$submitKey])) {
+            $this->submited = true;
+
+            // Set posted values
+            foreach ($this->elements as $id => $element) {
+                $this->elements[$id]->feed();
+            }
+
+            $this->validate();
+        }
     }
 
     /**
@@ -104,70 +100,61 @@ class tao_helpers_form_xhtml_Form
      */
     public function render()
     {
-        $returnValue = (string) '';
+        $returnValue = '';
 
-        
-		
-		(strpos($_SERVER['REQUEST_URI'], '?') > 0) ? $action = substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], '?')) : $action = $_SERVER['REQUEST_URI'];
-		
-		// Defensive code, prevent double leading slashes issue.
-		if (substr($action, 0, 2) == '//'){
-			$action = substr($action, 1);
-		}
-		
-		$returnValue .= "<div class='xhtml_form'>\n";
-		
-		$returnValue .= "<form method='post' id='{$this->name}' name='{$this->name}' action='$action' ";
-		if($this->hasFileUpload()){
-			$returnValue .= "enctype='multipart/form-data' ";
-		}
-		$returnValue .= ">\n";
-		
-		$returnValue .= "<input type='hidden' class='global' name='{$this->name}_sent' value='1' />\n";
-		
-		
-		//$returnValue .= $this->renderActions('top');
-		
-		if(!empty($this->error)){
-			$returnValue .= '<div class="xhtml_form_error">'.$this->error.'</div>';
-		}
-		
-		$returnValue .= $this->renderElements();
-		
-		$returnValue .= $this->renderActions('bottom');
-		
-		$returnValue .= "</form>\n";
+        $requestUri = $_SERVER['REQUEST_URI'];
+        $action = strpos($requestUri, '?') > 0 ? substr($requestUri, 0, strpos($requestUri, '?')) : $requestUri;
+
+        // Defensive code, prevent double leading slashes issue.
+        if (strpos($action, '//') === 0) {
+            $action = substr($action, 1);
+        }
+
+        $returnValue .= "<div class='xhtml_form'>\n";
+
+        $returnValue .= "<form method='post' id='{$this->name}' name='{$this->name}' action='$action' ";
+        if ($this->hasFileUpload()) {
+            $returnValue .= "enctype='multipart/form-data' ";
+        }
+
+        $returnValue .= ">\n";
+
+        $returnValue .= "<input type='hidden' class='global' name='{$this->name}_sent' value='1' />\n";
+
+        if (!empty($this->error)) {
+            $returnValue .= '<div class="xhtml_form_error">'.$this->error.'</div>';
+        }
+
+        $returnValue .= $this->renderElements();
+
+        $returnValue .= $this->renderActions();
+
+        $returnValue .= "</form>\n";
         $returnValue .= "</div>\n";
-		
-        
 
-        return (string) $returnValue;
+
+
+        return $returnValue;
     }
 
     /**
-     * Short description of method validate
+     * Validate the form
      *
-     * @access protected
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @return boolean
+     * @return bool
      */
     protected function validate()
     {
-        $returnValue = (bool) false;
+        $returnValue = true;
+        $this->valid = true;
 
-        
-		
-		$this->valid = true;
-		
-		foreach($this->elements as $element){
-			if(!$element->validate()){
-				$this->valid = false;
-			}
-		}
-		
-        
+        /** @var tao_helpers_form_FormElement $element */
+        foreach ($this->elements as $element) {
+            if (!$element->validate()) {
+                $this->valid = false;
+            }
+        }
 
-        return (bool) $returnValue;
+        return $returnValue;
     }
-
 }
