@@ -277,18 +277,15 @@ define([
 
                 // recursive parent status finder
                 var getParentStatus = function(signature){
-                    var parentStatus;
                     signature = signature || 'root';
 
                     if(classes[signature]) {
-                        if (classes[signature].closed) {
-                            return true;
-                        } else {
+                        if (!classes[signature].closed) {
                             //find parent status and apply to children
-                            parentStatus = getParentStatus(classes[signature].parent);
-                            classes[signature].closed = parentStatus;
-                            return parentStatus;
+                            classes[signature].closed = getParentStatus(classes[signature].parent);
                         }
+
+                        return classes[signature].closed;
                     } else {
                         return false;
                     }
@@ -304,22 +301,19 @@ define([
                     }
                 });
 
-                //
+                // iterate through all classes and get closed status
                 _.forEach(classes, function (node) {
                     if(!node.closed){
                         node.closed = getParentStatus(node.parent);
                     }
                 });
 
-                _.forEach(nodes, function (node, index) {
-                    if(!classes[node.classSignature]){
-                        result[index] = node;
-                    } else if(!classes[node.classSignature].closed){
-                        result[index] = node;
+                // get all nodes with not closed classes and root
+                return _.pick(nodes, function (node) {
+                    if(!classes[node.classSignature] || !classes[node.classSignature].closed){
+                        return node;
                     }
                 });
-
-                return result;
             },
             /**
              * Select all nodes.
