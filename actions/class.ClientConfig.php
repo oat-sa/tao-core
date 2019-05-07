@@ -46,7 +46,13 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule
         /** @var TokenService $tokenService */
         $tokenService = $this->getServiceLocator()->get(TokenService::SERVICE_ID);
         $tokenPool = $tokenService->generateTokenPool();
-        $jsTokenPool = array_map(function($token) { return $token->getValue(); }, $tokenPool);
+        $jsTokenPool = [];
+        foreach ($tokenPool as $key => $token) {
+            if ($key !== TokenService::FORM_POOL) {
+                $jsTokenPool[] = $token->getValue();
+
+            }
+        }
         $this->setData('tokens', json_encode([TokenService::JS_TOKEN_KEY => $jsTokenPool]));
 
         //get extension paths to set up aliases dynamically
