@@ -255,6 +255,12 @@ define([
                              */
                             self.trigger('change', 'start', value);
                         })
+                        .on('clear', function(){
+                            if (self.endPicker && self.endPicker.is('ready')) {
+                                self.endPicker.updateConstraints('minDate', '');
+                                self.endPicker.updateConstraints('maxDate', '');
+                            }
+                        })
                         .on('close', function(){
 
                             /**
@@ -277,6 +283,12 @@ define([
                             * @see dateRange#change
                             */
                             self.trigger('change', 'end', value);
+                        })
+                        .on('clear', function(){
+                            if (self.startPicker && self.startPicker.is('ready')) {
+                                self.startPicker.updateConstraints('minDate', '');
+                                self.startPicker.updateConstraints('maxDate', '');
+                            }
                         })
                         .on('close', function() {
 
