@@ -51,11 +51,11 @@ class TokenGeneratorTest extends TestCase
     public function testCollide()
     {
         $tokens = [];
-        for($i = 0; $i < 10000; $i++){
+        for ($i = 0; $i < 10000; $i++) {
             $tokens[] = $this->generate();
         }
         //if 2 values are identical the distribution size will be lower than the number of tokens
         $distribution = array_count_values($tokens);
-        $this->assertEquals(count($tokens), count($distribution), "The tokens are uniques");
+        $this->assertCount(count($tokens), $distribution, 'The tokens are uniques');
     }
 }

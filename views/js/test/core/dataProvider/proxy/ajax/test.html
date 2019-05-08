@@ -22,6 +22,11 @@
                 requirejs.config({
                     "paths": {
                         "core/dataProvider/request" : "test/core/dataProvider/mocks/requestMock"
+                    },
+                    "config": {
+                        "core/tokenHandler" : {
+                            tokens: ['token1', 'token2', 'token3', 'token4', 'token5']
+                        }
                     }
                 });
 

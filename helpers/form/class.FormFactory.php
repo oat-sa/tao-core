@@ -1,22 +1,22 @@
 <?php
-/**  
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
+ *
  */
 
 use oat\tao\helpers\form\WidgetRegistry;
@@ -56,9 +56,7 @@ class tao_helpers_form_FormFactory
      */
     public static function setRenderMode($renderMode)
     {
-        
-		self::$renderMode = $renderMode;
-        
+        self::$renderMode = $renderMode;
     }
 
     /**
@@ -71,38 +69,30 @@ class tao_helpers_form_FormFactory
      * @return tao_helpers_form_Form
      * @throws common_Exception
      */
-    public static function getForm($name = '', array $options = array())
+    public static function getForm($name = '', array $options = [])
     {
         $returnValue = null;
 
-        
-		
-		//use the right implementation (depending the render mode)
-		//@todo refactor this and use a FormElementFactory
-		switch(self::$renderMode){
-			case 'xhtml':
-				
-				$myForm = new tao_helpers_form_xhtml_Form($name, $options);
-				
-				$myForm->setDecorators(array(
-					'element'			=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div')),
-					'group'				=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-group')),
-					'error'				=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-error')),
-					'actions-bottom'	=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-toolbar')),
-					//'actions-top'		=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-toolbar'))
-				));
-				
-				$myForm->setActions(self::getCommonActions(), 'bottom');
-				
-				break;
-			
-			default: 
-				throw new common_Exception("render mode {self::$renderMode} not yet supported");
-		}
-		
-		$returnValue = $myForm;
-		
-        
+        //use the right implementation (depending the render mode)
+        //@todo refactor this and use a FormElementFactory
+        if (self::$renderMode === 'xhtml') {
+            $myForm = new tao_helpers_form_xhtml_Form($name, $options);
+
+            $myForm->setDecorators([
+                'element' => new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div']),
+                'group' => new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div', 'cssClass' => 'form-group']),
+                'error' => new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div', 'cssClass' => 'form-error']),
+                'actions-bottom' => new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div', 'cssClass' => 'form-toolbar'])
+            ]);
+
+            $myForm->setActions(self::getCommonActions());
+        } else {
+            throw new common_Exception(sprintf('render mode {%s} not yet supported', self::$renderMode));
+        }
+
+        $returnValue = $myForm;
+
+
 
         return $returnValue;
     }
@@ -121,45 +111,61 @@ class tao_helpers_form_FormFactory
     public static function getElement($name = '', $widgetId = '')
     {
         $eltClass = null;
-        
         $definition = WidgetRegistry::getWidgetDefinitionById($widgetId);
-        if (is_null($definition) || !isset($definition['renderers'][self::$renderMode])) {
-            
+
+        if ($definition === null || !isset($definition['renderers'][self::$renderMode])) {
             // could be a "pseudo" widget that has not been registered
-            $candidate = "tao_helpers_form_elements_xhtml_{$widgetId}";
-            if (class_exists($candidate)) {
-                $eltClass = $candidate;
+            $candidates = [
+                'tao_helpers_form_elements_xhtml_' . $widgetId,
+                $widgetId
+            ];
+
+            foreach ($candidates as $candidate) {
+                if (class_exists($candidate)) {
+                    $eltClass = $candidate;
+                    break;
+                }
             }
         } else {
             $eltClass = $definition['renderers'][self::$renderMode];
         }
-        
-        if (!is_null($eltClass)) {
+
+        if ($eltClass !== null) {
             $returnValue = new $eltClass($name);
-            if(!$returnValue instanceof tao_helpers_form_FormElement){
-                throw new common_Exception("$eltClass must be a tao_helpers_form_FormElement");
+            if (!$returnValue instanceof tao_helpers_form_FormElement) {
+                throw new common_Exception(sprintf('%s must be a tao_helpers_form_FormElement', $eltClass));
             }
         } else {
             $returnValue = null;
-            common_Logger::w("Widget type with id ".$widgetId." not yet supported", array('FORM'));
+            common_Logger::w(sprintf('Widget type with id %s not yet supported', $widgetId), ['FORM']);
         }
-                
+
         return $returnValue;
     }
-    
-    public static function getElementByWidget($name, core_kernel_classes_Resource $widget) {
+
+    /**
+     * @param $name
+     * @param core_kernel_classes_Resource $widget
+     * @return mixed
+     * @throws common_Exception
+     * @throws common_exception_Error
+     */
+    public static function getElementByWidget($name, core_kernel_classes_Resource $widget)
+    {
         $definition = WidgetRegistry::getWidgetDefinition($widget);
-	    if (is_null($definition) || !isset($definition['renderers'][self::$renderMode])) {
-			throw new common_exception_Error("Widget ".$widget->getUri()." not supported in render mode ".self::$renderMode);
-	    }
-	    
-	    $eltClass = $definition['renderers'][self::$renderMode];
+        if ($definition === null || !isset($definition['renderers'][self::$renderMode])) {
+            throw new common_exception_Error(
+                sprintf('Widget %s not supported in render mode %s', $widget->getUri(), self::$renderMode)
+            );
+        }
+
+        $eltClass = $definition['renderers'][self::$renderMode];
         $returnValue = new $eltClass($name);
-			
-		if(!$returnValue instanceof tao_helpers_form_FormElement){
-			throw new common_Exception("$eltClass must be a tao_helpers_form_FormElement");
-		}
-		return $returnValue;
+
+        if (!$returnValue instanceof tao_helpers_form_FormElement) {
+            throw new common_Exception("$eltClass must be a tao_helpers_form_FormElement");
+        }
+        return $returnValue;
     }
 
     /**
@@ -171,20 +177,18 @@ class tao_helpers_form_FormFactory
      * @param  array $options
      * @return tao_helpers_form_Validator
      */
-    public static function getValidator($name, $options = array())
+    public static function getValidator($name, $options = [])
     {
         $returnValue = null;
 
-        
-		
-		$clazz = 'tao_helpers_form_validators_'.$name;
-		if(class_exists($clazz)){
-			$returnValue = new $clazz($options);
-		} else {
-			common_Logger::w('Unknown validator '.$name, array('TAO', 'FORM'));
-		}
-		
-        
+        $class = 'tao_helpers_form_validators_' . $name;
+        if (class_exists($class)) {
+            $returnValue = new $class($options);
+        } else {
+            common_Logger::w('Unknown validator ' . $name, ['TAO', 'FORM']);
+        }
+
+
 
         return $returnValue;
     }
@@ -197,35 +201,32 @@ class tao_helpers_form_FormFactory
      * @param  string $context
      * @param  boolean $save
      * @return array
+     * @throws common_Exception
      */
     public static function getCommonActions($context = 'bottom', $save = true)
     {
-        $returnValue = array();
+        $returnValue = [];
 
-		switch($context){
-			
-			case 'top':
-			case 'bottom':
-			default:
-				$actions = tao_helpers_form_FormFactory::getElement('save', 'Free');
-				$value = '';
-				if($save){
-                    $button =  tao_helpers_form_FormFactory::getElement('Save','Button');
+        switch ($context) {
+            case 'top':
+            case 'bottom':
+            default:
+                $actions = tao_helpers_form_FormFactory::getElement('save', 'Free');
+                $value = '';
+                if ($save) {
+                    $button =  tao_helpers_form_FormFactory::getElement('Save', 'Button');
                     $button->setIcon('icon-save');
                     $button->setValue(__('Save'));
                     $button->setType('submit');
                     $button->addClass('form-submitter btn-success small');
                     $value .= $button->render();
-				}
-					
-				$actions->setValue($value);
-				$returnValue[] = $actions;
-				break;
-		}
-		
-        
+                }
+
+                $actions->setValue($value);
+                $returnValue[] = $actions;
+                break;
+        }
 
         return $returnValue;
     }
-
 }

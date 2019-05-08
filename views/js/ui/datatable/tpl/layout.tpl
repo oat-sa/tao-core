@@ -7,17 +7,19 @@
     </aside>
     {{/if}}
 
-    {{#with options.status}}
-    <h2>
-        <span class="empty-list hidden">{{#if empty}}{{empty}}{{else}}{{../../options.labels.empty}}{{/if}}</span>
-        <span class="available-list hidden"><span class="text">{{#if available}}{{available}}{{else}}{{../../options.labels.available}}{{/if}}</span>: <span class="count">{{count}}</span></span>
-        <span class="loading">{{#if loading}}{{loading}}{{else}}{{../../options.labels.loading}}{{/if}}...</span>
-    </h2>
-    {{/with}}
+    <div class="datatable-header">
+        {{#with options.status}}
+        <h2>
+            <span class="empty-list hidden">{{#if empty}}{{empty}}{{else}}{{../../options.labels.empty}}{{/if}}</span>
+            <span class="available-list hidden"><span class="text">{{#if available}}{{available}}{{else}}{{../../options.labels.available}}{{/if}}</span>: <span class="count">{{count}}</span></span>
+            <span class="loading">{{#if loading}}{{loading}}{{else}}{{../../options.labels.loading}}{{/if}}...</span>
+        </h2>
+        {{/with}}
 
-    {{#if options.pageSizeSelector}}
+        {{#if options.pageSizeSelector}}
         <div class="toolbox-container"></div>
-    {{/if}}
+        {{/if}}
+    </div>
 
     {{#if options.tools}}
     <aside class="action-bar clearfix">

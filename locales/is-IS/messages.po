@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.3.0-sprint100\n"
-"PO-Revision-Date: 2019-04-12T08:47:58\n"
+"PO-Revision-Date: 2019-04-26T09:08:04\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: is-IS\n"
@@ -367,11 +367,11 @@ msgstr ""
 msgid "Calendar"
 msgstr "Dagatal"
 
-msgid "Cancel"
-msgstr "Hætta við"
-
 msgid "cancel"
 msgstr ""
+
+msgid "Cancel"
+msgstr "Hætta við"
 
 msgid "cancel the action"
 msgstr ""
@@ -401,10 +401,10 @@ msgstr "Breyta lykilorðinu"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check all"
+msgid "Check All"
 msgstr "Merkja við allt"
 
-msgid "Check All"
+msgid "Check all"
 msgstr "Merkja við allt"
 
 msgid "Check-in"
@@ -569,11 +569,11 @@ msgstr "Innflutningur gagna tókst"
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data Language"
-msgstr "Tungumál Gagna"
-
 msgid "Data language"
 msgstr "Tungumál gagna"
+
+msgid "Data Language"
+msgstr "Tungumál Gagna"
 
 msgid "Data not imported. All records are invalid."
 msgstr ""
@@ -974,19 +974,16 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
 msgstr ""
 
 msgid "Index has been deleted for %s"
-msgstr ""
-
-msgid "Indexing has been run"
 msgstr ""
 
 msgid "Infinity"
@@ -1019,10 +1016,10 @@ msgstr "Set upp viðbætur %s..."
 msgid "Instance saved"
 msgstr "Tilvik vistað"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr ""
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr ""
 
 msgid "Invalid CSP header."
@@ -1659,6 +1656,12 @@ msgstr ""
 msgid "Resources moved"
 msgstr ""
 
+msgid "Resources successfully indexed"
+msgstr ""
+
+msgid "Resources was not indexed"
+msgstr ""
+
 msgid "Responsive mode"
 msgstr "Svarhamur"
 
@@ -1739,11 +1742,11 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "Select"
-msgstr "Velja"
-
 msgid "select"
 msgstr "velja"
+
+msgid "Select"
+msgstr "Velja"
 
 msgid "Select a class"
 msgstr ""

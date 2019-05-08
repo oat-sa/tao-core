@@ -35,6 +35,7 @@ use oat\oatbox\service\exception\InvalidServiceManagerException;
 use oat\oatbox\log\LoggerAwareTrait;
 use function GuzzleHttp\Psr7\stream_for;
 use oat\tao\model\routing\AnnotationReader\security;
+use oat\tao\model\security\xsrf\TokenService;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
@@ -303,5 +304,70 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
     public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
     {
         return $this->setOriginalServiceLocator($serviceLocator);
+    }
+
+    /**
+     * Validate a CSRF token, based on the CSRF header.
+     *
+     * @throws common_exception_Unauthorized
+     */
+    protected function validateCsrf()
+    {
+        if (!$this->getPsrRequest()->hasHeader(TokenService::CSRF_TOKEN_HEADER)) {
+            $this->logCsrfFailure(sprintf('Missing %s header.', TokenService::CSRF_TOKEN_HEADER));
+        }
+
+        $csrfTokenHeader = $this->getPsrRequest()->getHeader(TokenService::CSRF_TOKEN_HEADER);
+        $csrfToken = current($csrfTokenHeader);
+
+        /** @var TokenService $tokenService */
+        $tokenService = $this->getServiceLocator()->get(TokenService::SERVICE_ID);
+        $newToken = null;
+
+        try {
+            if ($tokenService->validateToken($csrfToken)) {
+                $newToken = $tokenService->createToken()->getValue();
+            }
+        } catch (common_exception_Unauthorized $e) {
+            $this->logCsrfFailure($e->getMessage(), $csrfToken);
+        }
+
+        $this->response = $this->getPsrResponse()->withHeader(TokenService::CSRF_TOKEN_HEADER, $newToken);
+    }
+
+    /**
+     * Logs a CSRF validation error
+     *
+     * @param string $exceptionMessage
+     * @param null $token
+     * @throws common_exception_Unauthorized
+     */
+    private function logCsrfFailure($exceptionMessage, $token = null)
+    {
+        try {
+            $userIdentifier = $this->getSession()->getUser()->getIdentifier();
+        } catch (common_exception_Error $e) {
+            $this->logError('Unable to retrieve session! ' . $e->getMessage());
+            throw new common_exception_Unauthorized($exceptionMessage);
+        }
+
+        $requestMethod  = $this->getPsrRequest()->getMethod();
+        $requestUri     = $this->getPsrRequest()->getUri();
+        $requestHeaders = $this->getHeaders();
+
+        $this->logWarning(
+            '[CSRF] - Failed to validate CSRF token. The following exception occurred: ' . $exceptionMessage
+        );
+        $this->logWarning(
+            "[CSRF] \n" .
+            "CSRF validation information: \n" .
+            'Provided token: ' . ($token ?: 'none')  . " \n" .
+            'User identifier: ' . $userIdentifier  . " \n" .
+            'Request: [' . $requestMethod . '] ' . $requestUri   . " \n" .
+            "Request Headers : \n" .
+            urldecode(http_build_query($requestHeaders, '', "\n"))
+        );
+
+        throw new common_exception_Unauthorized($exceptionMessage);
     }
 }

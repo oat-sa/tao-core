@@ -180,6 +180,7 @@ class Queue implements QueueInterface, TaskLogAwareInterface
         if ($task = $this->getBroker()->pop()) {
             if ($this->canDequeueTask($task)) {
                 $this->getTaskLog()->setStatus($task->getId(), TaskLogInterface::STATUS_DEQUEUED);
+                $this->logInfo('Task ' . $task->getId() . ' has been dequeued', $this->getLogContext());
             }
 
             return $task;
@@ -229,5 +230,18 @@ class Queue implements QueueInterface, TaskLogAwareInterface
     protected function canDequeueTask(TaskInterface $task)
     {
         return $this->getTaskLog()->getStatus($task->getId()) != TaskLogInterface::STATUS_CANCELLED;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getLogContext()
+    {
+        $rs = [
+            'PID' => getmypid(),
+            'QueueName' => $this->getName()
+        ];
+
+        return $rs;
     }
 }
