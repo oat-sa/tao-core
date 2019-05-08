@@ -729,10 +729,10 @@ define([
                     self.query();
                 });
             })
-            .on('change', function(selected){
+            .on('change', function(selected, onlyVisible){
 
-                var nodesCount = _.size(this.selectionComponent.getVisibleNodes());
                 var selectedCount = _.size(selected);
+                var nodesCount = onlyVisible ? selectedCount : _.size(this.selectionComponent.getNodes());
 
                 //the number selected at the bottom
                 $selectNum.text(selectedCount);
