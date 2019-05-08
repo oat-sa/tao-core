@@ -103,7 +103,7 @@ define([
         return _(resources)
             .filter({ type : nodeTypes.class })
             .map(function(resource){
-                var classNode = _.pick(resource, ['uri', 'label']);
+                var classNode = _.pick(resource, ['uri', 'label', 'signature', 'state']);
 
                 if(resource.children){
                     classNode.children = filterClasses(resource.children);
@@ -531,7 +531,7 @@ define([
                         $resource = this.getElement().find('.' + nodeTypes.instance);
                         if(!$resource.length){
                             $resource = this.getElement().find('.' + nodeTypes.class);
-                    }
+                        }
                         if($resource.length){
                             this.select( $resource.first().data('uri') );
                         }

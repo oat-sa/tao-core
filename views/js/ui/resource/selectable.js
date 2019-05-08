@@ -240,7 +240,7 @@ define([
              * @returns {Object[]} nodes
              */
             selectVisible: function selectVisible(){
-                var $component = this.getElement();
+                var self = this;
                 var classes = {};
 
                 // recursive parent status finder
@@ -264,7 +264,7 @@ define([
                     if(node.type === 'class'){
                         classes[node.signature || 'root'] = {
                             parent: node.classSignature,
-                            closed: $('[data-uri="' + node.uri + '"]', $component).hasClass('closed')
+                            closed: node.state === 'closed'
                         };
                     }
                 });
@@ -278,10 +278,13 @@ define([
 
                 // get all nodes with not closed classes and root
                 this.select(_.map(nodes, function (node, key) {
+                    if(!self.config.selectClass && node.type === 'class'){
+                        return;
+                    }
                     if(!classes[node.classSignature] || !classes[node.classSignature].closed){
                         return key;
                     }
-                }), true, true);
+                }), false, true);
             },
 
             /**
@@ -321,7 +324,7 @@ define([
              * @fires selectable#change
              */
             selectAll : function selectAll(){
-                return this.selectVisible(_.keys(nodes));
+                return this.selectVisible();
             }
         });
     };

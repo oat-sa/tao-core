@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2017-2019 (original work) Open Assessment Technologies SA ;
  */
 
 /**
@@ -173,21 +173,21 @@ define([
 
                     //filter already added nodes or classes when loading "more"
                     if(self.hasNode(node.uri) || (params && params.offset > 0 && node.type === 'class') ||
-                        (node.type === 'class' && !node.state && !self.config.selectClass) ){
+                        (node.type === 'class' && !node.state) ){
                         return acc;
                     }
 
-                    if(node.type === 'class' && self.config.selectClass){
+                    if(node.type === 'class'){
                         node.classUri = node.uri;
                         node.selectable = true;
                         if(!node.state){
                             node.state = 'empty';
                         }
-                        self.addNode(node.uri,  _.omit(node, ['count', 'state', 'children']));
+                        self.addNode(node.uri,  _.omit(node, ['count', 'children']));
                     }
                     if(node.type === 'instance'){
                         node.selectable = true;
-                        self.addNode(node.uri,  _.omit(node, ['count', 'state', 'children']));
+                        self.addNode(node.uri,  _.omit(node, ['count', 'children']));
                         node.icon = config.icon;
                     }
                     if(node.children && node.children.length){
@@ -258,13 +258,14 @@ define([
                  * @param {jQueryElement} $class
                  */
                 var openClass = function openClass($class){
-                    if($class.hasClass('closed')){
-                        if(!$class.children('ul').children('li').length){
-                            self.query({ classUri : $class.data('uri') });
-                        }  else {
-                            $class.removeClass('closed');
-                        }
+                    var node = self.getNode($class.data('uri'));
+
+                    if(!$class.children('ul').children('li').length){
+                        self.query({ classUri : $class.data('uri') });
                     }
+                    node.state = 'open';
+                    self.update([node]);
+                    $class.removeClass('closed');
                 };
 
                 /**
@@ -272,6 +273,9 @@ define([
                  * @param {jQueryElement} $class
                  */
                 var closeClass = function closeClass($class){
+                    var node = self.getNode($class.data('uri'));
+                    node.state = 'closed';
+                    self.update([node]);
                     $class.addClass('closed');
                 };
 
