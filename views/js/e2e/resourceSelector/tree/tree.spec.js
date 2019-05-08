@@ -17,14 +17,10 @@
  */
 
 import classData from '../class/classData';
+import * as selectors from '../resourceTree';
 
 describe('ResourceSelector Tree', () => {
     const newClassName = classData.name;
-
-    const itemTreeSelector = '.resource-tree';
-    const togglerSelector  = '.class-toggler';
-    const rootClassSelector = '.class[data-uri="http://www.tao.lu/Ontologies/TAOItem.rdf#Item"]';
-    const deleteClassAction = '.action[data-action="removeNode"][data-context="class"]';
 
     /**
      * - Set up the server & routes
@@ -55,7 +51,7 @@ describe('ResourceSelector Tree', () => {
      */
     beforeEach(() => {
         // select the root Item class
-        cy.selectTreeNode(rootClassSelector);
+        cy.selectTreeNode(selectors.itemsRootClass);
 
         // create a class
         cy.contains('New class').click();
@@ -74,14 +70,13 @@ describe('ResourceSelector Tree', () => {
      */
     afterEach(() => {
         // select the created class
-        // cy.selectTreeNode(rootClassSelector);
-        cy.get(itemTreeSelector).within(() => {
-            cy.get(rootClassSelector).click('top', {force: true});
+        cy.get(selectors.resourceTree).within(() => {
+            cy.get(selectors.itemsRootClass).click('top', {force: true});
             cy.contains(newClassName).click('top', {force: true});
         });
 
         // delete created nodes
-        cy.get(deleteClassAction).click('center');
+        cy.get(selectors.deleteClassAction).click('center');
         cy.get('.modal-body [data-control="ok"]').click();
 
         cy.wait('@deleteClass');
@@ -94,28 +89,28 @@ describe('ResourceSelector Tree', () => {
 
         it.only('can open and close the root node', function() {
             // close via toggler
-            cy.get(rootClassSelector)
-                .find(togglerSelector).first()
+            cy.get(selectors.itemsRootClass)
+                .find(selectors.toggler).first()
                 .click({force: true});
 
             // is root closed?
-            cy.get(rootClassSelector)
+            cy.get(selectors.itemsRootClass)
                 .should('have.class', 'closed');
-            cy.get(rootClassSelector)
+            cy.get(selectors.itemsRootClass)
                 .find('.instance, .class')
                 .should(($children) => {
                     expect($children).to.be.hidden;
                 });
 
             // open via toggler
-            cy.get(rootClassSelector)
-                .find(togglerSelector).first()
+            cy.get(selectors.itemsRootClass)
+                .find(selectors.toggler).first()
                 .click({force: true});
 
             // is root open?
-            cy.get(rootClassSelector)
+            cy.get(selectors.itemsRootClass)
                 .should.not('have.class', 'closed');
-            cy.get(rootClassSelector)
+            cy.get(selectors.itemsRootClass)
                 .find('.instance, .class')
                 .should(($children) => {
                     expect($children).to.not.be.hidden;
@@ -124,16 +119,16 @@ describe('ResourceSelector Tree', () => {
 
         it.only('can open and close a subnode of the root node', function() {
             // close via toggler
-            cy.get(rootClassSelector)
+            cy.get(selectors.itemsRootClass)
                 .find('.class:not(.closed):first')
-                .find(togglerSelector).first()
+                .find(selectors.toggler).first()
                 .click({force: true});
 
             // is class closed?
-            cy.get(rootClassSelector)
+            cy.get(selectors.itemsRootClass)
                 .find('.class:first')
                 .should('have.class', 'closed');
-            cy.get(rootClassSelector)
+            cy.get(selectors.itemsRootClass)
                 .find('.class:first')
                 .find('.instance, .class')
                 .should.not('be.visible');
@@ -142,20 +137,20 @@ describe('ResourceSelector Tree', () => {
                 // });
 
             // is root class still open?
-            cy.get(rootClassSelector)
+            cy.get(selectors.itemsRootClass)
                 .should.not('have.class', 'closed');
 
             // open via toggler
-            cy.get(rootClassSelector)
+            cy.get(selectors.itemsRootClass)
                 .find('.class:not(.closed):first')
-                .find(togglerSelector).first()
+                .find(selectors.toggler).first()
                 .click({force: true});
 
             // is class open?
-            cy.get(rootClassSelector)
+            cy.get(selectors.itemsRootClass)
                 .find('.class:first')
                 .should.not('have.class', 'closed');
-            cy.get(rootClassSelector)
+            cy.get(selectors.itemsRootClass)
                 .find('.class:first')
                 .find('.instance, .class')
                 .should(($children) => {
@@ -164,7 +159,7 @@ describe('ResourceSelector Tree', () => {
         });
 
         it('cannot open or close an empty class', function() {
-            cy.get(rootClassSelector)
+            cy.get(selectors.itemsRootClass)
                 .find('.class.empty:first() a')
                 .should(($el) => {
                     expect($el).to.not.have.class('class-toggler');

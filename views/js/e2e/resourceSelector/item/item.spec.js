@@ -17,13 +17,11 @@
  */
 
 import itemData from './itemData';
+import * as selectors from '../resourceTree';
 
 describe('Items', () => {
     const newItemName = itemData.name;
     const modifiedItemName = `renamed ${itemData.name}`;
-    const itemTreeSelector = '.resource-tree';
-    const actionsContainer = '.tree-action-bar';
-    const contentContainer = '.content-container';
 
     /**
      * - Set up the server & routes
@@ -52,7 +50,7 @@ describe('Items', () => {
 
     describe('Item creation, edit and delete', () => {
         it('items page loads', function() {
-            cy.get(itemTreeSelector);
+            cy.get(selectors.resourceTree);
         });
 
         it('can create a new item', function() {
@@ -60,7 +58,7 @@ describe('Items', () => {
 
             cy.wait('@editResource').wait(300); // re-rendering time buffer :(
 
-            cy.get(contentContainer).within(() => {
+            cy.get(selectors.contentContainer).within(() => {
                 cy.contains('Edit Item').should('be.visible'); // doesn't guarantee latest content :(
 
                 cy.contains('label', 'Label')
@@ -76,12 +74,12 @@ describe('Items', () => {
 
             cy.wait('@editResource');
 
-            cy.get(itemTreeSelector)
+            cy.get(selectors.resourceTree)
                 .contains(newItemName).should.exist;
         });
 
         it('can rename previously created item', function() {
-            cy.get(itemTreeSelector).within(() => {
+            cy.get(selectors.resourceTree).within(() => {
                 // don't continue if previous test did not create item
                 cy.contains(newItemName).should.exist;
                 cy.contains(newItemName).click({ force: true });
@@ -89,7 +87,7 @@ describe('Items', () => {
 
             cy.wait('@editResource').wait(300); // re-rendering time buffer :(
 
-            cy.get(contentContainer).within(() => {
+            cy.get(selectors.contentContainer).within(() => {
                 cy.contains('Edit Item').should('be.visible'); // doesn't guarantee latest content :(
 
                 cy.contains('label', 'Label')
@@ -105,12 +103,12 @@ describe('Items', () => {
 
             cy.wait('@editResource');
 
-            cy.get(itemTreeSelector)
+            cy.get(selectors.resourceTree)
                 .contains(modifiedItemName).should.exist;
         });
 
         it('can delete previously created item', function() {
-            cy.get(itemTreeSelector).within(() => {
+            cy.get(selectors.resourceTree).within(() => {
                 // don't continue if previous test did not modify item
                 cy.contains(modifiedItemName).should.exist;
                 cy.contains(modifiedItemName).click({ force: true });
@@ -126,11 +124,11 @@ describe('Items', () => {
 
         it('has correct action buttons when item is selected', function() {
             // select first unselected item
-            cy.get(itemTreeSelector).find('li.instance.selectable:not(.selected)').first().click({ force: true });
+            cy.get(selectors.resourceTree).find('li.instance.selectable:not(.selected)').first().click({ force: true });
 
             cy.wait('@editResource');
 
-            cy.get(actionsContainer).within(() => {
+            cy.get(selectors.actionsContainer).within(() => {
                 Cypress._.forEach([
                     'New class',
                     'Delete',
@@ -149,9 +147,9 @@ describe('Items', () => {
 
         it('has correct action buttons when nothing is selected', function() {
             // deselect selected list item
-            cy.get(itemTreeSelector).find('li.instance.selected').first().click({ force: true });
+            cy.get(selectors.resourceTree).find('li.instance.selected').first().click({ force: true });
 
-            cy.get(actionsContainer).within(() => {
+            cy.get(selectors.actionsContainer).within(() => {
                 Cypress._.forEach([
                     'New class',
                     'Delete',

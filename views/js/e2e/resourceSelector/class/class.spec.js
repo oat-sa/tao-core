@@ -18,19 +18,12 @@
 
 import classData from './classData';
 import subClassData from './subClassData';
-import { selectors } from '../resourceTree';
+import * as selectors from '../resourceTree';
 
 describe('Classes', () => {
     const newClassName = classData.name;
     const newSubClassName = subClassData.name;
     const modifiedClassName = `renamed ${classData.name}`;
-
-    // const itemTreeSelector = '.resource-tree';
-    // const actionsContainer = '.tree-action-bar';
-    // const contentContainer = '.content-container';
-    const rootClassSelector = '.class[data-uri="http://www.tao.lu/Ontologies/TAOItem.rdf#Item"]';
-    const deleteClassAction = '.action[data-action="removeNode"][data-context="class"]';
-    const togglerSelector  = '.class-toggler';
 
     /**
      * - Set up the server & routes
@@ -55,18 +48,18 @@ describe('Classes', () => {
      */
     afterEach(() => {
         // maybe the tree is already empty?
-        if (Cypress.$(rootClassSelector).find('.class, .instance').length === 0) {
+        if (Cypress.$(selectors.itemsRootClass).find('.class, .instance').length === 0) {
             return;
         }
 
         // select the created class
-        cy.get(itemTreeSelector).within(() => {
-            cy.get(rootClassSelector).click('top', {force: true});
+        cy.get(selectors.resourceTree).within(() => {
+            cy.get(selectors.itemsRootClass).click('top', {force: true});
             cy.contains(newClassName).click('top', {force: true});
         });
 
         // delete created nodes
-        cy.get(deleteClassAction).click({force: true});
+        cy.get(selectors.deleteClassAction).click({force: true});
         cy.get('.modal-body [data-control="ok"]').click();
 
         cy.wait('@deleteClass');
@@ -77,41 +70,41 @@ describe('Classes', () => {
      */
     describe('Class creation, edit and delete', () => {
         it('items page loads', function() {
-            cy.get(itemTreeSelector);
+            cy.get(selectors.resourceTree);
         });
 
         it('can create and rename a new class from the root class', function() {
-            cy.addClass(rootClassSelector);
+            cy.addClass(selectors.itemsRootClass);
 
             cy.renameSelectedNode(newClassName);
 
             cy.wait('@editResource').wait(300); // re-rendering time buffer :(
 
-            cy.get(itemTreeSelector)
+            cy.get(selectors.resourceTree)
                 .contains('Item_1')
                 .should('exist')
                 .and('be.visible');
         });
 
         it('can delete previously created class', function() {
-            cy.addClass(rootClassSelector);
+            cy.addClass(selectors.itemsRootClass);
 
             cy.renameSelectedNode(newClassName);
 
             cy.wait('@editResource').wait(300);
 
-            cy.get(deleteClassAction).click('center');
+            cy.get(selectors.deleteClassAction).click('center');
             cy.get('.modal-body [data-control="ok"]').click();
 
             cy.wait('@deleteClass');
 
-            cy.get(itemTreeSelector)
+            cy.get(selectors.resourceTree)
                 .contains(newClassName)
                 .should.not('exist');
         });
 
         it.only('can create a new subclass from created class', function() {
-            cy.addClass(rootClassSelector);
+            cy.addClass(selectors.itemsRootClass);
 
             cy.renameSelectedNode(newClassName);
 
@@ -119,7 +112,7 @@ describe('Classes', () => {
 
             cy.wait('@editResource').wait(300);
 
-            cy.get(contentContainer).within(() => {
+            cy.get(selectors.contentContainer).within(() => {
                 cy.get('.section-header')
                     .should('exist')
                     .and('be.visible')
@@ -134,10 +127,10 @@ describe('Classes', () => {
 
             cy.wait('@editResource');
 
-            cy.get(itemTreeSelector).within(() => {
+            cy.get(selectors.resourceTree).within(() => {
                 // reopen tree branch
                 cy.get(`[title="${newClassName}"]`)
-                    .find(togglerSelector).first()
+                    .find(selectors.toggler).first()
                     .click({force: true});
 
                 cy.wait(300);
@@ -149,12 +142,12 @@ describe('Classes', () => {
 
         it('has correct action buttons when class is selected', function() {
             // select the root Item class
-            cy.selectTreeNode(rootClassSelector);
+            cy.selectTreeNode(selectors.itemsRootClass);
 
             cy.wait('@editResource');
 
             // check the visible action buttons
-            cy.get(actionsContainer).within(() => {
+            cy.get(selectors.actionsContainer).within(() => {
                 Cypress._.forEach([
                     'New class',
                     'Delete',
