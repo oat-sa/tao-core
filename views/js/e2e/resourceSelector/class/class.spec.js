@@ -78,7 +78,7 @@ describe('Classes', () => {
 
             cy.renameSelectedNode(newClassName);
 
-            cy.wait('@editResource').wait(300); // re-rendering time buffer :(
+            cy.wait('@editResource').wait(300);
 
             cy.get(selectors.resourceTree)
                 .contains('Item_1')
@@ -100,10 +100,10 @@ describe('Classes', () => {
 
             cy.get(selectors.resourceTree)
                 .contains(newClassName)
-                .should.not('exist');
+                .should('not.exist');
         });
 
-        it.only('can create a new subclass from created class', function() {
+        it('can create a new subclass from created class', function() {
             cy.addClass(selectors.itemsRootClass);
 
             cy.renameSelectedNode(newClassName);
@@ -131,9 +131,7 @@ describe('Classes', () => {
                 // reopen tree branch
                 cy.get(`[title="${newClassName}"]`)
                     .find(selectors.toggler).first()
-                    .click({force: true});
-
-                cy.wait(300);
+                    .click({force: true}); // doesn't seem to open node
 
                 cy.contains(newSubClassName)
                     .should('exist');
@@ -160,7 +158,8 @@ describe('Classes', () => {
                     // so we have to be careful to select the right ones
                     cy.get('.action:not(.hidden)')
                         .contains(buttonText)
-                        .should('exist').and('be.visible');
+                        .should('exist')
+                        .and('be.visible');
                 });
             });
         });

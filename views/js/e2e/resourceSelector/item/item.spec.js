@@ -45,78 +45,50 @@ describe('Items', () => {
      * Destroy everything we created, leaving the environment clean for next time.
      */
     afterEach(() => {
-        //TODO
+        // maybe the tree is already empty?
+        if (Cypress.$(selectors.itemsRootClass).find('.class, .instance').length === 0) {
+            return;
+        }
+
+        // select the created item
+        cy.get(selectors.resourceTree).within(() => {
+            cy.get(selectors.itemsRootClass).click('top', {force: true});
+            cy.contains(newItemName).click('top', {force: true});
+        });
+
+        // delete created nodes
+        cy.get(selectors.deleteItemAction).click({force: true});
+        cy.get('.modal-body [data-control="ok"]').click();
+
+        cy.wait('@deleteItem');
     });
 
     describe('Item creation, edit and delete', () => {
-        it('items page loads', function() {
+        it.only('items page loads', function() {
             cy.get(selectors.resourceTree);
         });
 
-        it('can create a new item', function() {
-            cy.contains('New item').click();
+        it('can create and rename a new item', function() {
+            cy.addItem(selectors.itemsRootClass);
 
-            cy.wait('@editResource').wait(300); // re-rendering time buffer :(
+            cy.renameSelectedNode(newItemName);
 
-            cy.get(selectors.contentContainer).within(() => {
-                cy.contains('Edit Item').should('be.visible'); // doesn't guarantee latest content :(
-
-                cy.contains('label', 'Label')
-                    .siblings('input')
-                    .should('be.visible')
-                    .clear()
-                    .type(newItemName)
-                    .should('have.value', newItemName);
-
-                cy.contains('Save')
-                    .click();
-            });
-
-            cy.wait('@editResource');
+            cy.wait('@editResource').wait(300);
 
             cy.get(selectors.resourceTree)
-                .contains(newItemName).should.exist;
-        });
-
-        it('can rename previously created item', function() {
-            cy.get(selectors.resourceTree).within(() => {
-                // don't continue if previous test did not create item
-                cy.contains(newItemName).should.exist;
-                cy.contains(newItemName).click({ force: true });
-            });
-
-            cy.wait('@editResource').wait(300); // re-rendering time buffer :(
-
-            cy.get(selectors.contentContainer).within(() => {
-                cy.contains('Edit Item').should('be.visible'); // doesn't guarantee latest content :(
-
-                cy.contains('label', 'Label')
-                    .siblings('input')
-                    .should('be.visible')
-                    .clear()
-                    .type(modifiedItemName)
-                    .should('have.value', modifiedItemName);
-
-                cy.contains('Save')
-                    .click();
-            });
-
-            cy.wait('@editResource');
-
-            cy.get(selectors.resourceTree)
-                .contains(modifiedItemName).should.exist;
+                .contains(newItemName)
+                .should('exist')
+                .and('be.visible');
         });
 
         it('can delete previously created item', function() {
-            cy.get(selectors.resourceTree).within(() => {
-                // don't continue if previous test did not modify item
-                cy.contains(modifiedItemName).should.exist;
-                cy.contains(modifiedItemName).click({ force: true });
-            });
+            cy.addItem(selectors.itemsRootClass);
 
-            cy.wait('@editResource').wait(300); // re-rendering time buffer :(
+            cy.renameSelectedNode(newItemName);
 
-            cy.contains('Delete').click();
+            cy.wait('@editResource').wait(300);
+
+            cy.get(selectors.deleteItemAction).click();
             cy.get('.modal-body [data-control="ok"]').click();
 
             cy.wait('@deleteItem');
@@ -124,7 +96,9 @@ describe('Items', () => {
 
         it('has correct action buttons when item is selected', function() {
             // select first unselected item
-            cy.get(selectors.resourceTree).find('li.instance.selectable:not(.selected)').first().click({ force: true });
+            cy.get(selectors.resourceTree)
+                .find('li.instance.selectable:not(.selected)').first()
+                .click({ force: true });
 
             cy.wait('@editResource');
 
@@ -139,7 +113,9 @@ describe('Items', () => {
                     'Move To',
                     'New item'
                 ], (buttonText) => {
-                    cy.contains(buttonText).should('exist').and('be.visible');
+                    cy.contains(buttonText)
+                        .should('exist')
+                        .and('be.visible');
                 });
             });
 
@@ -147,7 +123,9 @@ describe('Items', () => {
 
         it('has correct action buttons when nothing is selected', function() {
             // deselect selected list item
-            cy.get(selectors.resourceTree).find('li.instance.selected').first().click({ force: true });
+            cy.get(selectors.resourceTree)
+                .find('li.selected').first()
+                .click({ force: true });
 
             cy.get(selectors.actionsContainer).within(() => {
                 Cypress._.forEach([
@@ -160,7 +138,8 @@ describe('Items', () => {
                     'Move To',
                     'New item'
                 ], (buttonText) => {
-                    cy.contains(buttonText).should('not.be.visible');
+                    cy.contains(buttonText)
+                        .should('not.be.visible');
                 });
             });
         });

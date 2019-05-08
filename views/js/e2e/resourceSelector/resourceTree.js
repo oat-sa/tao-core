@@ -16,8 +16,6 @@
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA ;
  */
 
-console.warn("hi");
-
 Cypress.Commands.add('addTreeRoutes', () => {
     cy.route('POST', '**/edit*').as('editResource');
     cy.route('POST', '**/deleteItem').as('deleteItem');
@@ -62,11 +60,23 @@ Cypress.Commands.add('addClass', (selector) => {
     cy.wait('@editResource').wait(300);
 });
 
+Cypress.Commands.add('addItem', (selector) => {
+    cy.selectTreeNode(selector);
+
+    cy.contains('New item').click();
+
+    cy.wait('@editResource').wait(300);
+});
+
+/**
+ * CSS Selectors
+ */
 export default {
-    resourceTree: '.resource-tree',
-    actionsContainer: '.tree-action-bar',
-    contentContainer: '.content-container',
-    itemsRootClass: '.class[data-uri="http://www.tao.lu/Ontologies/TAOItem.rdf#Item"]',
+    resourceTree:      '.resource-tree',
+    actionsContainer:  '.tree-action-bar',
+    contentContainer:  '.content-container',
+    itemsRootClass:    '.class[data-uri="http://www.tao.lu/Ontologies/TAOItem.rdf#Item"]',
     deleteClassAction: '.action[data-action="removeNode"][data-context="class"]',
-    toggler: '.class-toggler'
+    deleteItemAction:  '.action[data-action="removeNode"][data-context="instance"]',
+    toggler:           '.class-toggler'
 };
