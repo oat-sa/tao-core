@@ -59,3 +59,9 @@ Cypress.Commands.add('addClass', (selector) => {
 
     cy.wait('@editResource').wait(300);
 });
+
+export default selectors = {
+    itemTreeSelector: '.resource-tree',
+    actionsContainer: '.tree-action-bar',
+    contentContainer: '.content-container'
+};

@@ -18,15 +18,16 @@
 
 import classData from './classData';
 import subClassData from './subClassData';
+import { selectors } from '../resourceTree';
 
 describe('Classes', () => {
     const newClassName = classData.name;
     const newSubClassName = subClassData.name;
     const modifiedClassName = `renamed ${classData.name}`;
 
-    const itemTreeSelector = '.resource-tree';
-    const actionsContainer = '.tree-action-bar';
-    const contentContainer = '.content-container';
+    // const itemTreeSelector = '.resource-tree';
+    // const actionsContainer = '.tree-action-bar';
+    // const contentContainer = '.content-container';
     const rootClassSelector = '.class[data-uri="http://www.tao.lu/Ontologies/TAOItem.rdf#Item"]';
     const deleteClassAction = '.action[data-action="removeNode"][data-context="class"]';
     const togglerSelector  = '.class-toggler';

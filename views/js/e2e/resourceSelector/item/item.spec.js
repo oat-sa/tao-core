@@ -21,7 +21,7 @@ import itemData from './itemData';
 describe('Items', () => {
     const newItemName = itemData.name;
     const modifiedItemName = `renamed ${itemData.name}`;
-    const itemTreeSelector = '#tree-manage_items';
+    const itemTreeSelector = '.resource-tree';
     const actionsContainer = '.tree-action-bar';
     const contentContainer = '.content-container';
 

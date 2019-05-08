@@ -16,9 +16,7 @@
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA ;
  */
 
-import classData from './classData';
-
-console.log(Cypress.env());
+import classData from '../class/classData';
 
 describe('ResourceSelector Tree', () => {
     const newClassName = classData.name;
