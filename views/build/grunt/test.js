@@ -63,19 +63,20 @@ module.exports = function(grunt) {
             options : {
                 dest : reportOutput,
 
-                fileNamer : function(url){
+                fileNamer : function fileNamer(url){
                     return url
-                    .replace(testUrl + '/', '')
-                    .replace('/test.html', '')
-                    .replace(/\//g, '.');
+                        .replace(baseUrl + '/', '')
+                        .replace('views/js/test/', '')
+                        .replace('/test.html', '')
+                        .replace(/\//g, '-');
                 },
 
-                classNamer : function (moduleName, url) {
+                classNamer : function classNamer(moduleName, url) {
                     return url
-                    .replace(testUrl + '/', '')
-                    .replace('views/js/test/', '')
-                    .replace('/test.html', '')
-                    .replace(/\//g, '.');
+                        .replace(baseUrl + '/', '')
+                        .replace('views/js/test/', '')
+                        .replace('/test.html', '')
+                        .replace(/\//g, '.');
                 }
             }
         },
