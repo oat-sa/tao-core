@@ -186,10 +186,11 @@ define([
              * Apply the selection to the given URIs.
              * @param {String[]} uris - the list of URIs to select
              * @param {Boolean} [only=false] - if true the selection is done "only" on the given URIs (unselect previous)
+             * @param {Boolean} [onlyVisible=true] - if true the selection was done "only" for visible nodes.
              * @returns {selectable} chains
              * @fires selectable#change
              */
-            select : function select(uris, only){
+            select : function select(uris, only, onlyVisible){
                 var $component;
                 var currentConfig  = getConfig();
 
@@ -229,48 +230,16 @@ define([
                                 selection[uri] = nodes[uri];
                             }
                         });
-                    this.trigger('change', selection);
+                    this.trigger('change', selection, onlyVisible);
                 }
                 return this;
             },
 
             /**
-             * Removes the given URIs from the selection.
-             * @param {String[]} uris - the list of URIs to select
-             * @returns {selectable} chains
-             * @fires selectable#change
-             */
-            unselect : function unselect(uris){
-                var $component;
-
-                if(this.is('rendered')){
-                    $component = this.getElement();
-
-                    if(!_.isArray(uris)){
-                        uris = [uris];
-                    }
-                    _(uris)
-                        .filter(function(uri){
-                            return typeof selection[uri] !== 'undefined' || !nodes[uri];
-                        })
-                        .forEach(function(uri){
-                            var $node = $('[data-uri="' + uri + '"]', $component);
-                            if($node.length){
-                                $node.removeClass(selectedClass);
-
-                                selection = _.omit(selection, uri);
-                            }
-                        });
-                    this.trigger('change', selection);
-                }
-                return this;
-            },
-
-            /**
-             * Get all visible nodes
+             * Select only all visible nodes.
              * @returns {Object[]} nodes
              */
-            getVisibleNodes: function getVisibleNodes(){
+            selectVisible: function selectVisible(){
                 var $component = this.getElement();
                 var classes = {};
 
@@ -308,11 +277,43 @@ define([
                 });
 
                 // get all nodes with not closed classes and root
-                return _.pick(nodes, function (node) {
+                this.select(_.map(nodes, function (node, key) {
                     if(!classes[node.classSignature] || !classes[node.classSignature].closed){
-                        return node;
+                        return key;
                     }
-                });
+                }), true, true);
+            },
+
+            /**
+             * Removes the given URIs from the selection.
+             * @param {String[]} uris - the list of URIs to select
+             * @returns {selectable} chains
+             * @fires selectable#change
+             */
+            unselect : function unselect(uris){
+                var $component;
+
+                if(this.is('rendered')){
+                    $component = this.getElement();
+
+                    if(!_.isArray(uris)){
+                        uris = [uris];
+                    }
+                    _(uris)
+                        .filter(function(uri){
+                            return typeof selection[uri] !== 'undefined' || !nodes[uri];
+                        })
+                        .forEach(function(uri){
+                            var $node = $('[data-uri="' + uri + '"]', $component);
+                            if($node.length){
+                                $node.removeClass(selectedClass);
+
+                                selection = _.omit(selection, uri);
+                            }
+                        });
+                    this.trigger('change', selection);
+                }
+                return this;
             },
             /**
              * Select all nodes.
@@ -320,7 +321,7 @@ define([
              * @fires selectable#change
              */
             selectAll : function selectAll(){
-                return this.select(_.keys(this.getVisibleNodes()));
+                return this.selectVisible(_.keys(nodes));
             }
         });
     };
