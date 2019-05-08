@@ -377,8 +377,8 @@ define([
                             }
                             self.trigger('update');
                         })
-                        .on('change', function(selected){
-                            self.trigger('change', selected);
+                        .on('change', function(selected, onlyVisible){
+                            self.trigger('change', selected, onlyVisible);
                         })
                         .on('error', function(err){
                             self.trigger('error', err);
