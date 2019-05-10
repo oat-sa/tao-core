@@ -34,12 +34,13 @@ define([
     'jquery',
     'lodash',
     'i18n',
+    'module',
     'context',
     'core/promise',
     'core/promiseQueue',
     'core/tokenHandler',
     'core/logger'
-], function($, _, __, context, Promise, promiseQueue, tokenHandlerFactory, loggerFactory) {
+], function($, _, __, module, context, Promise, promiseQueue, tokenHandlerFactory, loggerFactory) {
     'use strict';
 
     var tokenHeaderName = 'X-CSRF-Token';
@@ -87,6 +88,10 @@ define([
      * @returns {Promise} resolves with response, or reject if something went wrong
      */
     return function request(options) {
+        // Allow external config to override user option
+        if (module.config().noToken) {
+            options.noToken = true;
+        }
 
         if (_.isEmpty(options.url)) {
             throw new TypeError('At least give a URL...');
