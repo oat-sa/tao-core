@@ -286,7 +286,7 @@ define([
              * @fires selectable#change
              */
             selectAll : function selectAll(){
-                return this.selectVisible();
+                return this.select(_.keys(nodes));
             }
         });
     };
