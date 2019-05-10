@@ -93,6 +93,7 @@ class ExceptionInterpretor implements ServiceLocatorAwareInterface {
             break;
             case 'ActionEnforcingException':
             case 'tao_models_classes_FileNotFoundException':
+            case 'common_exception_NotFound':
                 $this->returnHttpCode    = 404;
                 $this->responseClassName = 'MainResponse';
             break;
