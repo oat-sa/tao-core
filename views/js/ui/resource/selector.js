@@ -103,7 +103,7 @@ define([
         return _(resources)
             .filter({ type : nodeTypes.class })
             .map(function(resource){
-                var classNode = _.pick(resource, ['uri', 'label', 'signature', 'state']);
+                var classNode = _.pick(resource, ['uri', 'label', 'state']);
 
                 if(resource.children){
                     classNode.children = filterClasses(resource.children);
@@ -656,7 +656,7 @@ define([
                         if($(this).prop('checked') === false){
                             self.selectionComponent.clearSelection();
                         } else {
-                            self.selectionComponent.selectAll();
+                            self.selectionComponent.selectVisible();
                         }
                     });
 
