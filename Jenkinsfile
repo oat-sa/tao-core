@@ -3,8 +3,8 @@ pipeline {
     stages {
         stage('Initialization') {
             steps {
-                def scmUrl = scm.getUserRemoteConfigs()[0].getUrl()
-                echo scmUrl
+                echo scm.getUserRemoteConfigs()[0].getUrl()
+
                 sh(
                     label : 'Create build build directory',
                     script: 'mkdir -p build'
