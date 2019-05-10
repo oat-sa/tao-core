@@ -246,7 +246,7 @@ define([
                 });
                 this.select(_.map($elements, function (element) {
                     return $(element).data('uri');
-                }));
+                }), false, true);
             },
 
             /**
