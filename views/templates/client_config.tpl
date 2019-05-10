@@ -71,7 +71,10 @@ require.config({
     <?php endforeach?>
         'core/areaBroker'   : 'ui/areaBroker',
         'core/validator'    : 'ui/validator',
-        'core/taskQueue'    : 'ui/taskQueue'
+        'core/taskQueue'    : 'ui/taskQueue',
+        'urlParser'         : 'util/urlParser',
+        'core'              : '../node_modules/@oat-sa/tao-core-sdk/dist/core',
+        'util'              : '../node_modules/@oat-sa/tao-core-sdk/dist/util'
    },
    shim : {
         'jqueryui'              : { deps : ['jquery'] },
