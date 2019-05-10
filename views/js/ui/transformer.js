@@ -196,7 +196,7 @@ define([
          * @param {Number} valueX
          * @param {Number} [valueY], defaults to valueX
          */
-        translate: function ($elem, valueX, valueY) {
+        translate: function translate($elem, valueX, valueY) {
             valueY = valueY || valueX;
             _transform($elem, { translateX: valueX, translateY: valueY });
         },
@@ -208,7 +208,7 @@ define([
          * @param {Number} valueX
          * @param {Number} valueY, does not default to valueX
          */
-        translateXY: function ($elem, valueX, valueY) {
+        translateXY: function translateXY($elem, valueX, valueY) {
             _transform($elem, { translateX: valueX, translateY: valueY });
         },
 
@@ -218,7 +218,7 @@ define([
          * @param $elem
          * @param value
          */
-        translateX: function ($elem, value) {
+        translateX: function translateX($elem, value) {
             _transform($elem, { translateX: value });
         },
 
@@ -228,7 +228,7 @@ define([
          * @param $elem
          * @param value
          */
-        translateY: function ($elem, value) {
+        translateY: function translateY($elem, value) {
             _transform($elem, { translateY: value });
         },
 
@@ -238,7 +238,7 @@ define([
          * @param $elem
          * @param value
          */
-        rotate: function ($elem, value) {
+        rotate: function rotate($elem, value) {
             _transform($elem, { rotate: value });
         },
 
@@ -248,7 +248,7 @@ define([
          * @param $elem
          * @param value
          */
-        skew: function ($elem, value) {
+        skew: function skew($elem, value) {
             _transform($elem, { skew: value });
         },
 
@@ -259,7 +259,7 @@ define([
          * @param {Number} valueX
          * @param {Number} [valueY], defaults to valueX
          */
-        scale: function ($elem, valueX, valueY) {
+        scale: function scale($elem, valueX, valueY) {
             valueY = valueY || valueX;
             _transform($elem, { scaleX: valueX, scaleY: valueY });
         },
@@ -270,7 +270,7 @@ define([
          * @param $elem
          * @param value
          */
-        scaleX: function ($elem, value) {
+        scaleX: function scaleX($elem, value) {
             _transform($elem, { scaleX: value });
         },
 
@@ -280,7 +280,7 @@ define([
          * @param $elem
          * @param value
          */
-        scaleY: function ($elem, value) {
+        scaleY: function scaleY($elem, value) {
             _transform($elem, { scaleY: value });
         },
 
@@ -290,7 +290,7 @@ define([
          * @param $elem
          * @param value
          */
-        reset: function ($elem) {
+        reset: function reset($elem) {
             var cssObj = {};
 
             // when called on a container that has never been transformed
@@ -312,7 +312,7 @@ define([
          * @param {DomElement|jQueryElement} elem
          * @returns {{matrix: string, obj: obj}}
          */
-        getTransformation: function (elem) {
+        getTransformation: function getTransformation(elem) {
             if (elem instanceof $) {
                 elem = elem[0];
             }
@@ -323,12 +323,13 @@ define([
          * Set the transformation origin to another value
          *
          * @param $elem
-         * @param value
+         * @param {String|Number} valueX
+         * @param {String|Number} [valueY]
          * @private
          */
-        setTransformOrigin: function($elem, value) {
+        setTransformOrigin: function setTransformOrigin($elem, valueX, valueY) {
             var cssObj = {};
-            cssObj[prefix + 'transform-origin'] = value;
+            cssObj[prefix + 'transform-origin'] = !valueY && valueY !== 0 ? valueX : valueX + ' ' + valueY;
             $elem.css(cssObj);
         }
     };

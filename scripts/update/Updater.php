@@ -1034,7 +1034,6 @@ class Updater extends \common_ext_ExtensionUpdater {
             $tokenStore->removeTokens();
             $this->setVersion('34.0.0');
         }
-
-        $this->skip('34.0.0', '34.1.0');
+        $this->skip('34.0.0', '34.3.0');
     }
 }

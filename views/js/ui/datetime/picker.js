@@ -126,7 +126,7 @@ define([
      * Get the long date/time format from the localized format (LT to 'DD/MM/YYYY HH:mm')
      * @param {String} locale - 2 digits locale code (en, fr, de, etc.)
      * @param {String} localizedFormat - see moment's localized format (L, LT, LLLL, ...)
-     * @returns {String} the long date/time format
+     * @returns {String|boolean} the long date/time format
      */
     var getLongLocalizedFormat = function getLongLocalizedFormat(locale, localizedFormat) {
         if (/[LT]+/.test(localizedFormat) && locale) {
@@ -187,7 +187,9 @@ define([
      * @returns {dateTimePickerComponent} the component instance
      */
     return function dateTimePickerFactory(container, options) {
+
         var format = '';
+        var value  = '';
 
         /**
          * @typedef {Object} dateTimePicker
@@ -207,10 +209,13 @@ define([
 
             /**
              * Set the current value
-             * @param {String} value - the new value matching the format
+             * @param {String|Date} newValue - the new value matching the format
              */
-            setValue : function setValue(value) {
+            setValue : function setValue(newValue) {
                 if (this.is('ready')) {
+
+                    value = newValue;
+
                     if (_.isString(value)) {
                         this.controls.input.value = value;
                     }
@@ -222,7 +227,7 @@ define([
             /**
              * Get the dates currently selected.
              * Usefull for the range mode to get the date list
-             * @returns {Array<[Date|String]} the selected dates
+             * @returns {Array<[Date|String]>|boolean} the selected dates
              */
             getSelectedDates : function getSelectedDates() {
                 var selection;
@@ -276,6 +281,9 @@ define([
              */
             clear : function clear() {
                 if (this.is('ready')) {
+
+                    value = '';
+
                     this.picker.close();
                     this.picker.clear();
 
@@ -304,15 +312,15 @@ define([
             /**
              * Update constraints on a running instance
              * @param {String} constraint - the constraint name in minDate, maxDate, enable, disable
-             * @param {*} vlaue - the constraint value to update
+             * @param {*} constraintValue - the constraint value to update
              * @returns {dateTimePicker} chains
              * @fires dateTimePicker#open
              * @fires dateTimePicker#close
              */
-            updateConstraints : function updateConstraints(constraint, value){
+            updateConstraints : function updateConstraints(constraint, constraintValue){
                 if (this.is('ready')) {
                     if (_.contains(supportedConstraints, constraint)) {
-                        this.picker.set(constraint, value);
+                        this.picker.set(constraint, constraintValue);
                     }
                 }
                 return this;
@@ -455,9 +463,9 @@ define([
                     this.pickerConfig.locale = locale;
                 }
 
-                _.forEach(this.config.constraints, function(value, constraint){
-                    if(_.contains(supportedConstraints, constraint) && value){
-                        self.pickerConfig[constraint] = value;
+                _.forEach(this.config.constraints, function(constraintValue, constraint){
+                    if(_.contains(supportedConstraints, constraint) && constraintValue){
+                        self.pickerConfig[constraint] = constraintValue;
                     }
                 });
 
@@ -475,7 +483,7 @@ define([
                 var element = this.getElement()[0];
 
                 this.controls = {
-                    input : element.querySelector('input'),
+                    input : element.querySelector('input')
                 };
 
                 //always scope the picker to the component container
@@ -485,8 +493,8 @@ define([
                 //behavior of the right buttons if configured
                 if(this.config.controlButtons){
 
-                    this.controls.toggleButton = element.querySelector('.picker-toggle'),
-                    this.controls.clearButton  = element.querySelector('.picker-clear'),
+                    this.controls.toggleButton = element.querySelector('.picker-toggle');
+                    this.controls.clearButton  = element.querySelector('.picker-clear');
 
                     this.controls.toggleButton.addEventListener('click', function(e){
                         e.preventDefault();
@@ -503,14 +511,28 @@ define([
 
                 this.controls.input.addEventListener('change', function(){
 
-                    /**
-                      * A value get changed
-                      * @event dateTimePicker#change
-                      * @param {String} value - the date/time value
-                      */
-                    self.trigger('change', self.getValue());
+                    var newValue = self.controls.input.value;
+
+                    if (value && _.isString(newValue) && _.isEmpty(newValue)) {
+
+                        //if someone remove the value from the field
+                        //it's considered a propert clean (resets everything)
+                        self.clear();
+
+                    } else if (value !== newValue) {
+
+                        value = newValue;
+
+                        /**
+                          * A value get changed
+                          * @event dateTimePicker#change
+                          * @param {String} value - the date/time value
+                          */
+                        self.trigger('change', value);
+                    }
                 });
 
+                value = this.controls.input.value;
 
                 //instantiate the picker
                 _.defer(function(){
