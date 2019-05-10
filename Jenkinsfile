@@ -7,13 +7,16 @@ pipeline {
                     label : 'Create build build directory',
                     script: 'mkdir -p build/resolved'
                 )
+                sh '''
+echo BRANCH_NAME :  "$BRANCH_NAME"
+                '''
             }
         }
         stage('Resolve dependencies') {
                 agent {
                     docker {
                         image 'tao/dependency-resolver'
-                        registryUrl 'http://registry.service.consul:4444'
+                        registryUrl 'https://registry.service.consul:4444'
                         reuseNode true
                     }
                 }
