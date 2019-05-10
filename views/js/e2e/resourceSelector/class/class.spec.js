@@ -18,19 +18,18 @@
 
 import classData from './classData';
 import subClassData from './subClassData';
-import * as selectors from '../resourceTree';
+import { selectors}  from '../resourceTree';
 
 describe('Classes', () => {
     const newClassName = classData.name;
     const newSubClassName = subClassData.name;
-    const modifiedClassName = `renamed ${classData.name}`;
 
     /**
      * - Set up the server & routes
      * - Log in
      * - Visit the page
      */
-    before(() => {
+    beforeEach(() => {
         cy.setupServer();
         cy.addTreeRoutes();
 
@@ -69,6 +68,7 @@ describe('Classes', () => {
      * Class tests
      */
     describe('Class creation, edit and delete', () => {
+
         it('items page loads', function() {
             cy.get(selectors.resourceTree);
         });
@@ -76,12 +76,10 @@ describe('Classes', () => {
         it('can create and rename a new class from the root class', function() {
             cy.addClass(selectors.itemsRootClass);
 
-            cy.renameSelectedNode(newClassName);
-
-            cy.wait('@editResource').wait(300);
+            cy.renameSelectedClass(newClassName);
 
             cy.get(selectors.resourceTree)
-                .contains('Item_1')
+                .contains(newClassName)
                 .should('exist')
                 .and('be.visible');
         });
@@ -89,9 +87,7 @@ describe('Classes', () => {
         it('can delete previously created class', function() {
             cy.addClass(selectors.itemsRootClass);
 
-            cy.renameSelectedNode(newClassName);
-
-            cy.wait('@editResource').wait(300);
+            cy.renameSelectedClass(newClassName);
 
             cy.get(selectors.deleteClassAction).click('center');
             cy.get('.modal-body [data-control="ok"]').click();
@@ -103,29 +99,14 @@ describe('Classes', () => {
                 .should('not.exist');
         });
 
-        it('can create a new subclass from created class', function() {
+        it.skip('can create a new subclass from created class', function() {
             cy.addClass(selectors.itemsRootClass);
 
-            cy.renameSelectedNode(newClassName);
+            cy.renameSelectedClass(newClassName);
 
-            cy.contains('New class').click();
+            cy.addClass(`[title="${newClassName}"]`);
 
-            cy.wait('@editResource').wait(300);
-
-            cy.get(selectors.contentContainer).within(() => {
-                cy.get('.section-header')
-                    .should('exist')
-                    .and('be.visible')
-                    .and(($el) => {
-                        // standard 'contains' selector won't work because of dynamic string value,
-                        // so let's use regex to partially match
-                        expect($el.html()).to.match(/Edit class/);
-                    });
-            });
-
-            cy.renameSelectedNode(newSubClassName); // causes tree to close (bug?)
-
-            cy.wait('@editResource');
+            cy.renameSelectedClass(newSubClassName); // causes tree to close (bug?)
 
             cy.get(selectors.resourceTree).within(() => {
                 // reopen tree branch
@@ -141,8 +122,6 @@ describe('Classes', () => {
         it('has correct action buttons when class is selected', function() {
             // select the root Item class
             cy.selectTreeNode(selectors.itemsRootClass);
-
-            cy.wait('@editResource');
 
             // check the visible action buttons
             cy.get(selectors.actionsContainer).within(() => {

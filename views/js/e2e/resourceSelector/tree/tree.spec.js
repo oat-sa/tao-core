@@ -17,7 +17,7 @@
  */
 
 import classData from '../class/classData';
-import * as selectors from '../resourceTree';
+import { selectors}  from '../resourceTree';
 
 describe('ResourceSelector Tree', () => {
     const newClassName = classData.name;
@@ -27,48 +27,53 @@ describe('ResourceSelector Tree', () => {
      * - Log in
      * - Visit the page
      */
-    before(() => {
+    beforeEach(() => {
         cy.setupServer();
         cy.addTreeRoutes();
 
         cy.login('admin');
 
+        // visit page
         cy.fixture('urls')
             .as('urls')
             .then(urls => {
                 cy.visit(`${urls.index}?structure=items&ext=taoItems`);
             });
-    });
 
-    /**
-     * The Items tree should always have a root class, 'Item'.
-     * So without assuming anything about other nodes, let's aim to create
-     * and test a structure like the following:
-     *
-     * [root] Item class
-     *   - [L1] Temporary class
-     *     - [L2] Temporary subclass
-     */
-    beforeEach(() => {
+        /**
+         * The Items tree should always have a root class, 'Item'.
+         * So without assuming anything about other nodes, let's aim to create
+         * and test a structure like the following:
+         *
+         * [root] Item class
+         *   - [L1] Temporary class
+         *     - [L2] Temporary subclass
+         */
+
         // select the root Item class
         cy.selectTreeNode(selectors.itemsRootClass);
 
         // create a class
         cy.contains('New class').click();
-        cy.wait('@editResource').wait(300); // re-rendering time buffer :(
+        cy.wait('@editClass').wait(300);
         // rename it
-        cy.renameSelectedNode(newClassName);
-        cy.wait('@editResource').wait(300);
+        cy.renameSelectedClass(newClassName);
+        cy.wait('@editClass').wait(300);
 
         // create a subclass
         cy.contains('New class').click();
-        cy.wait('@editResource').wait(300);
+        cy.wait('@editClass').wait(300);
     });
 
     /**
      * Destroy everything we created, leaving the environment clean for next time.
      */
     afterEach(() => {
+        // maybe the tree is already empty?
+        if (Cypress.$(selectors.itemsRootClass).find('.class, .instance').length === 0) {
+            return;
+        }
+
         // select the created class
         cy.get(selectors.resourceTree).within(() => {
             cy.get(selectors.itemsRootClass).click('top', {force: true});
@@ -95,11 +100,9 @@ describe('ResourceSelector Tree', () => {
 
             // @test: is root closed?
             cy.get(selectors.itemsRootClass)
-                .should('have.class', 'closed');
-            cy.get(selectors.itemsRootClass)
+                .should('have.class', 'closed')
                 .find('.instance, .class')
                 .should('not.be.visible');
-
 
             // @action: open via toggler
             cy.get(selectors.itemsRootClass)
@@ -108,28 +111,22 @@ describe('ResourceSelector Tree', () => {
 
             // @test: is root open?
             cy.get(selectors.itemsRootClass)
-                .should('not.have.class', 'closed');
-            cy.get(selectors.itemsRootClass)
+                .should('not.have.class', 'closed')
                 .find('.instance, .class')
                 .should('be.visible');
-
         });
 
         it('can open and close a subnode of the root node', function() {
             cy.get(selectors.resourceTree).within(() => {
                 // @action: close via toggler
-                cy.get(selectors.itemsRootClass)
-                    .find('.class:not(.closed):first')
+                cy.get(`[title="${newClassName}"]`)
                     .find(selectors.toggler).first()
                     .click({force: true});
-                cy.log('closed subnode');
 
                 // @test: is class closed?
-                cy.get(selectors.itemsRootClass)
-                    .find('.class:first')
-                    .should('have.class', 'closed');
-                cy.get(selectors.itemsRootClass)
-                    .find('.class:first')
+                cy.get(`[title="${newClassName}"]`)
+                    .parent()
+                    .should('have.class', 'closed')
                     .find('.instance, .class')
                     .should('not.be.visible');
 
@@ -138,18 +135,14 @@ describe('ResourceSelector Tree', () => {
                     .should('not.have.class', 'closed');
 
                 // @action: open via toggler
-                cy.get(selectors.itemsRootClass)
-                    .find('.class:not(.closed):first')
+                cy.get(`[title="${newClassName}"]`)
                     .find(selectors.toggler).first()
                     .click({force: true});
-                cy.log('opened subnode');
 
                 // @test: is class open?
-                cy.get(selectors.itemsRootClass)
-                    .find('.class:first')
-                    .should('not.have.class', 'closed');
-                cy.get(selectors.itemsRootClass)
-                    .find('.class:first')
+                cy.get(`[title="${newClassName}"]`)
+                    .parent()
+                    .should('not.have.class', 'closed')
                     .find('.instance, .class')
                     .should('be.visible');
             });
@@ -160,6 +153,5 @@ describe('ResourceSelector Tree', () => {
                 .find('.class.empty:first() a')
                 .should('not.have.class', 'class-toggler');
         });
-
     });
 });

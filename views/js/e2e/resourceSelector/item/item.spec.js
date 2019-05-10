@@ -17,18 +17,17 @@
  */
 
 import itemData from './itemData';
-import * as selectors from '../resourceTree';
+import { selectors}  from '../resourceTree';
 
 describe('Items', () => {
     const newItemName = itemData.name;
-    const modifiedItemName = `renamed ${itemData.name}`;
 
     /**
      * - Set up the server & routes
      * - Log in
      * - Visit the page
      */
-    before(() => {
+    beforeEach(() => {
         cy.setupServer();
         cy.addTreeRoutes();
 
@@ -63,17 +62,19 @@ describe('Items', () => {
         cy.wait('@deleteItem');
     });
 
+    /**
+     * Item tests
+     */
     describe('Item creation, edit and delete', () => {
-        it.only('items page loads', function() {
+
+        it('items page loads', function() {
             cy.get(selectors.resourceTree);
         });
 
         it('can create and rename a new item', function() {
             cy.addItem(selectors.itemsRootClass);
 
-            cy.renameSelectedNode(newItemName);
-
-            cy.wait('@editResource').wait(300);
+            cy.renameSelectedItem(newItemName);
 
             cy.get(selectors.resourceTree)
                 .contains(newItemName)
@@ -84,9 +85,7 @@ describe('Items', () => {
         it('can delete previously created item', function() {
             cy.addItem(selectors.itemsRootClass);
 
-            cy.renameSelectedNode(newItemName);
-
-            cy.wait('@editResource').wait(300);
+            cy.renameSelectedItem(newItemName);
 
             cy.get(selectors.deleteItemAction).click();
             cy.get('.modal-body [data-control="ok"]').click();
@@ -95,12 +94,13 @@ describe('Items', () => {
         });
 
         it('has correct action buttons when item is selected', function() {
-            // select first unselected item
-            cy.get(selectors.resourceTree)
-                .find('li.instance.selectable:not(.selected)').first()
-                .click({ force: true });
+            cy.addItem(selectors.itemsRootClass);
 
-            cy.wait('@editResource');
+            cy.renameSelectedItem(newItemName);
+
+            cy.get(`[title="${newItemName}"]`)
+                .parent()
+                .should('not.have.class', 'closed');
 
             cy.get(selectors.actionsContainer).within(() => {
                 Cypress._.forEach([
@@ -118,13 +118,12 @@ describe('Items', () => {
                         .and('be.visible');
                 });
             });
-
         });
 
         it('has correct action buttons when nothing is selected', function() {
             // deselect selected list item
             cy.get(selectors.resourceTree)
-                .find('li.selected').first()
+                .find('.selected').first()
                 .click({ force: true });
 
             cy.get(selectors.actionsContainer).within(() => {
