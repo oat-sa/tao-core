@@ -3,8 +3,7 @@ pipeline {
     stages {
         stage('Initialization') {
             steps {
-                echo scm.getUserRemoteConfigs()[0].getUrl()
-
+                sh 'printenv'
                 sh(
                     label : 'Create build build directory',
                     script: 'mkdir -p build'
