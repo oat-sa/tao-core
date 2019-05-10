@@ -1,4 +1,4 @@
-define(['lodash', 'async', 'core/validator/Report', 'core/validator/validators'], function(_, async, Report, validators){
+define(['lodash', 'async', 'ui/validator/Report', 'ui/validator/validators'], function(_, async, Report, validators){
     'use strict';
 
     var _buildRule = function(rule){

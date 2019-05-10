@@ -17,7 +17,7 @@
  */
 define([
     'util/url',
-    'core/taskQueue/taskQueueModel'
+    'ui/taskQueue/taskQueueModel'
 ], function (urlHelper, taskQueueModelFactory) {
     'use strict';
 

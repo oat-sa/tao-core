@@ -32,10 +32,6 @@
     "normalize": "lib/require-css/normalize",
     "i18ntr": "../locales/en-US",
     "router": "core/router",
-    "core/areaBroker": "ui/areaBroker",
-    "core/validator": "ui/validator",
-    "core/taskQueue": "ui/taskQueue",
-    "urlParser": "util/urlParser",
     "core": "../node_modules/@oat-sa/tao-core-sdk/dist/core",
     "util": "../node_modules/@oat-sa/tao-core-sdk/dist/util"
   },
