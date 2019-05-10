@@ -13,45 +13,166 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2016-2019 (original work) Open Assessment Technologies SA ;
  */
 /**
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
+ * @author Martin Nicholson <martin@taotesting.com>
  */
-define(function () {
+define([
+    'lodash',
+    'module',
+    'core/tokenStore',
+    'core/promise',
+    'core/promiseQueue'
+],
+function (_, module, tokenStoreFactory, Promise, promiseQueue) {
     'use strict';
 
+    var clientConfigFetched = false;
+
+    var defaults = {
+        maxSize: 6,
+        tokenTimeLimit: 1000 * 60 * 24
+    };
+
     /**
-     * Stores the security token
-     * @param {String} initialToken
+     * Stores the security token queue
+     * @param {Object} [options]
+     * @param {String} [options.maxSize]
+     * @param {String} [options.tokenTimeLimit]
+     * @param {String} [options.initialToken]
      * @returns {tokenHandler}
      */
-    function tokenHandlerFactory(initialToken) {
-        var token = initialToken || null;
+    return function tokenHandlerFactory(options) {
+
+        var tokenStore;
+
+        // Convert legacy parameter:
+        if (_.isString(options)) {
+            options = {
+                initialToken: options
+            };
+        }
+        options = _.defaults({}, options, defaults);
+        // Initialise storage for tokens:
+        tokenStore = tokenStoreFactory(options);
 
         return {
             /**
-             * Gets the current security token.
-             * Once the token is got, it is erased from the memory and a new token must be provided.
-             * @returns {String}
+             * Gets the next security token from the token queue
+             * If none are available, it can check the ClientConfig (once only per page)
+             * Once the token is got, it is erased from the store (because they are single-use by design)
+             *
+             * @returns {Promise<String>} the token value
              */
             getToken: function getToken() {
-                var currentToken = token;
-                token = null;
-                return currentToken;
+                var self = this;
+                var initialToken = options.initialToken;
+
+                var getFirstTokenValue  = function getFirstTokenValue() {
+                    return tokenStore.dequeue().then(function(currentToken) {
+                        if(currentToken){
+                            return currentToken.value;
+                        }
+                        return null;
+                    });
+                };
+
+                // If set, initialToken will be provided directly, without using store:
+                if (initialToken) {
+                    options.initialToken = null;
+                    return Promise.resolve(initialToken);
+                }
+
+                // Some async checks before we go for the token:
+                return tokenStore.expireOldTokens()
+                    .then (function() {
+                        return tokenStore.getSize();
+                    })
+                    .then(function(queueSize) {
+                        if (queueSize > 0) {
+                            // Token available, use it
+                            return getFirstTokenValue();
+                        }
+                        else if (!clientConfigFetched) {
+                            // Client Config allowed! (first and only time)
+                            return self.getClientConfigTokens()
+                                .then(getFirstTokenValue);
+                        }
+                        else {
+                            // No more token options, refresh needed
+                            return Promise.reject(new Error('No tokens available. Please refresh the page.'));
+                        }
+                    });
             },
 
             /**
-             * Sets the current security token
+             * Adds a new security token to the token queue
+             * Internally, old tokens are deleted to keep queue within maximum pool size
              * @param {String} newToken
-             * @returns {Object} - this
+             * @returns {Promise<Boolean>} - resolves true if successful
              */
             setToken: function setToken(newToken) {
-                token = newToken;
-                return this;
+                return tokenStore.enqueue(newToken);
+            },
+
+            /**
+             * Extracts tokens from the Client Config which should be received on every page load
+             * @returns {Promise<Boolean>} - resolves true when completed
+             */
+            getClientConfigTokens: function getClientConfigTokens() {
+                var self = this;
+                var clientTokens = _.map(module.config().tokens, function(serverToken) {
+                    return {
+                        value: serverToken,
+                        receivedAt: Date.now()
+                    };
+                });
+
+                // Record that this function ran:
+                clientConfigFetched = true;
+
+                return Promise.resolve(clientTokens).then(function(newTokens) {
+                    // Add the fetched tokens to the store
+                    // Uses a promiseQueue to ensure synchronous adding
+                    var setTokenQueue = promiseQueue();
+
+                    _.forEach(newTokens, function(token){
+                        setTokenQueue.serie(function(){
+                            return self.setToken(token);
+                        });
+                    });
+
+                    return setTokenQueue.serie(function() {
+                        return true;
+                    });
+                });
+            },
+
+            /**
+             * Clears the token store
+             * @returns {Promise<Boolean>} - resolves to true when cleared
+             */
+            clearStore: function clearStore() {
+                return tokenStore.clear();
+            },
+
+            /**
+             * Getter for the current queue length
+             * @returns {Promise<Integer>}
+             */
+            getQueueLength: function getQueueLength() {
+                return tokenStore.getSize();
+            },
+
+            /**
+             * Setter for maximum pool size
+             * @param {Integer} size
+             */
+            setMaxSize: function setMaxSize(size) {
+                tokenStore.setMaxSize(size);
             }
         };
-    }
-
-    return tokenHandlerFactory;
+    };
 });

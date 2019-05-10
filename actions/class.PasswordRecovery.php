@@ -21,6 +21,7 @@
 use oat\generis\model\GenerisRdf;
 use oat\tao\model\passwordRecovery\PasswordRecoveryService;
 use oat\oatbox\log\LoggerAwareTrait;
+use tao_helpers_form_FormContainer as FormContainer;
 
 /**
  * Controller provide actions to reset user password
@@ -35,12 +36,12 @@ class tao_actions_PasswordRecovery extends tao_actions_CommonModule
      * Show password recovery request form
      *
      * @author Aleh Hutnikau <hutnikau@1pt.com>
-     * @return void
      */
     public function index()
     {
         $this->defaultData();
-        $formContainer = new tao_actions_form_PasswordRecovery();
+        $formContainer = new tao_actions_form_PasswordRecovery([], [FormContainer::CSRF_PROTECTION_OPTION => true]);
+
         $form = $formContainer->getForm();
 
         if ($form->isSubmited() && $form->isValid()) {
@@ -54,8 +55,8 @@ class tao_actions_PasswordRecovery extends tao_actions_CommonModule
                 $this->logInfo("Unsuccessful recovery password. Entered e-mail address: {$mail}.");
                 $this->setData('header', __('An email has been sent'));
                 $this->setData('info', __('A message with further instructions has been sent to your email address: %s', $mail));
+                $this->setData('content-template', array('passwordRecovery/password-recovery-info.tpl', 'tao'));
             }
-            $this->setData('content-template', array('passwordRecovery/password-recovery-info.tpl', 'tao'));
         } else {
             $this->setData('form', $form->render());
             $this->setData('content-template', array('passwordRecovery/index.tpl', 'tao'));
@@ -68,14 +69,14 @@ class tao_actions_PasswordRecovery extends tao_actions_CommonModule
      * Password resrt form
      *
      * @author Aleh Hutnikau <hutnikau@1pt.com>
-     * @return void
      */
     public function resetPassword()
     {
         $this->defaultData();
         $token = $this->getRequestParameter('token');
 
-        $formContainer = new tao_actions_form_ResetUserPassword();
+        $formContainer = new tao_actions_form_ResetUserPassword([], [FormContainer::CSRF_PROTECTION_OPTION => true]);
+
         $form = $formContainer->getForm();
 
         $form->setValues(array('token'=>$token));
@@ -86,16 +87,14 @@ class tao_actions_PasswordRecovery extends tao_actions_CommonModule
             $this->setData('header', __('User not found'));
             $this->setData('error', __('This password reset link is no longer valid. It may have already been used. If you still wish to reset your password please request a new link'));
             $this->setData('content-template', array('passwordRecovery/password-recovery-info.tpl', 'tao'));
+        } elseif ($form->isSubmited() && $form->isValid()) {
+            $this->getPasswordRecovery()->setPassword($user, $form->getValue('newpassword'));
+            $this->logInfo("User {$user->getUri()} has changed the password.");
+            $this->setData('info', __('Password successfully changed'));
+            $this->setData('content-template', array('passwordRecovery/password-recovery-info.tpl', 'tao'));
         } else {
-            if ($form->isSubmited() && $form->isValid()) {
-                $this->getPasswordRecovery()->setPassword($user, $form->getValue('newpassword'));
-                $this->logInfo("User {$user->getUri()} has changed the password.");
-                $this->setData('info', __("Password successfully changed"));
-                $this->setData('content-template', array('passwordRecovery/password-recovery-info.tpl', 'tao'));
-            } else {
-                $this->setData('form', $form->render());
-                $this->setData('content-template', array('passwordRecovery/password-reset.tpl', 'tao'));
-            }
+            $this->setData('form', $form->render());
+            $this->setData('content-template', array('passwordRecovery/password-reset.tpl', 'tao'));
         }
 
         $this->setView('layout.tpl', 'tao');
