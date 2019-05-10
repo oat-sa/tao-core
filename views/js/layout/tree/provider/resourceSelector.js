@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014-2019 Open Assessment Technologies SA;
+ * Copyright (c) 2014-2017 Open Assessment Technologies SA;
  */
 
 /**
@@ -187,7 +187,8 @@ define([
 
                                             if(selectedContext.type === 'class'){
                                                 actionManager.exec(options.actions.selectClass, selectedContext);
-                                            } else if(selectedContext.type === 'instance'){
+                                            }
+                                            if(selectedContext.type === 'instance'){
                                                 actionManager.exec(options.actions.selectInstance, selectedContext);
                                             }
 
