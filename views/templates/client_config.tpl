@@ -69,6 +69,9 @@ require.config({
     <?php foreach (get_data('extensionsAliases') as $name => $path) :?>
         '<?=$name?>'        : '<?=$path?>',
     <?php endforeach?>
+        'core/areaBroker'   : 'ui/areaBroker',
+        'core/validator'    : 'ui/validator',
+        'core/taskQueue'    : 'ui/taskQueue'
    },
    shim : {
         'jqueryui'              : { deps : ['jquery'] },

@@ -31,7 +31,10 @@
     "css-builder": "lib/require-css/css-builder",
     "normalize": "lib/require-css/normalize",
     "i18ntr": "../locales/en-US",
-    "router": "core/router"
+    "router": "core/router",
+    "core/areaBroker"   : "ui/areaBroker",
+    "core/validator"    : "ui/validator",
+    "core/taskQueue"    : "ui/taskQueue"
   },
 
   "shim": {
