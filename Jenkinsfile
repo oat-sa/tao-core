@@ -2,9 +2,6 @@ pipeline {
     agent any
     stages {
         stage('Initialization') {
-            environment {
-                JENKINS_TOKEN = credentials('JENKINS_TOKEN')
-            }
             steps {
                 sh 'printenv'
                 sh(
