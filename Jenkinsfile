@@ -19,7 +19,7 @@ pipeline {
                 }
                 environment {
                     GITHUB_ORGANIZATION='oat-sa'
-                    BRANCH_NAME=env.BRANCH_NAME
+                    BRANCH_NAME='$BRANCH_NAME'
                 }
                 options {
                     skipDefaultCheckout()
