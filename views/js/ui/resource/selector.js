@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2017-2019 (original work) Open Assessment Technologies SA ;
  */
 
 /**
@@ -103,7 +103,7 @@ define([
         return _(resources)
             .filter({ type : nodeTypes.class })
             .map(function(resource){
-                var classNode = _.pick(resource, ['uri', 'label']);
+                var classNode = _.pick(resource, ['uri', 'label', 'signature', 'state']);
 
                 if(resource.children){
                     classNode.children = filterClasses(resource.children);
@@ -120,7 +120,7 @@ define([
      * @param {String} config.classUri - the root Class URI
      * @param {Object|[]} [config.classes] - the classes hierarchy for the class selector
      * @param {Object[]} config.formats - the definition of the supported viewer/selector component
-     * @param {Objet[]} [config.nodes] - the nodes to preload, the format is up to the formatComponent
+     * @param {Object[]} [config.nodes] - the nodes to preload, the format is up to the formatComponent
      * @param {String} [config.icon] - the icon class that represents a resource
      * @param {String} [config.type] - describes the resource type
      * @param {Boolean} [config.selectionMode] - multiple or single selection mode
@@ -377,8 +377,8 @@ define([
                             }
                             self.trigger('update');
                         })
-                        .on('change', function(selected){
-                            self.trigger('change', selected);
+                        .on('change', function(selected, onlyVisible){
+                            self.trigger('change', selected, onlyVisible);
                         })
                         .on('error', function(err){
                             self.trigger('error', err);
@@ -531,7 +531,7 @@ define([
                         $resource = this.getElement().find('.' + nodeTypes.instance);
                         if(!$resource.length){
                             $resource = this.getElement().find('.' + nodeTypes.class);
-                    }
+                        }
                         if($resource.length){
                             this.select( $resource.first().data('uri') );
                         }
@@ -729,10 +729,10 @@ define([
                     self.query();
                 });
             })
-            .on('change', function(selected){
+            .on('change', function(selected, onlyVisible){
 
-                var nodesCount = _.size(this.selectionComponent.getNodes());
                 var selectedCount = _.size(selected);
+                var nodesCount = onlyVisible ? selectedCount : _.size(this.selectionComponent.getNodes());
 
                 //the number selected at the bottom
                 $selectNum.text(selectedCount);
@@ -742,7 +742,8 @@ define([
                     $selectCtrlLabel.attr('title', __('Select loaded %s', this.config.type));
                     $selectCtrl.prop('checked', false)
                                .prop('indeterminate', false);
-                } else if (selectedCount === nodesCount) {
+                // if all of the nodes are selected (or more in the closed subclasses)
+                } else if (selectedCount >= nodesCount) {
                     $selectCtrlLabel.attr('title', __('Clear selection'));
                     $selectCtrl.prop('checked', true)
                                .prop('indeterminate', false);

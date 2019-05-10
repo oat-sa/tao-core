@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2017-2019 (original work) Open Assessment Technologies SA ;
  */
 
 /**
@@ -186,10 +186,11 @@ define([
              * Apply the selection to the given URIs.
              * @param {String[]} uris - the list of URIs to select
              * @param {Boolean} [only=false] - if true the selection is done "only" on the given URIs (unselect previous)
+             * @param {Boolean} [onlyVisible=true] - if true the selection was done "only" for visible nodes.
              * @returns {selectable} chains
              * @fires selectable#change
              */
-            select : function select(uris, only){
+            select : function select(uris, only, onlyVisible){
                 var $component;
                 var currentConfig  = getConfig();
 
@@ -229,9 +230,23 @@ define([
                                 selection[uri] = nodes[uri];
                             }
                         });
-                    this.trigger('change', selection);
+                    this.trigger('change', selection, onlyVisible);
                 }
                 return this;
+            },
+
+            /**
+             * Select only all visible nodes.
+             * @returns {Object[]} nodes
+             */
+            selectVisible: function selectVisible(){
+                var $component = this.getElement();
+                var $elements = $component.find('[data-uri]').filter(function () {
+                    return $(this).parents('.closed').length === 0;
+                });
+                this.select(_.map($elements, function (element) {
+                    return $(element).data('uri');
+                }), false, true);
             },
 
             /**
@@ -265,15 +280,14 @@ define([
                 }
                 return this;
             },
-
             /**
              * Select all nodes.
              * @returns {selectable} chains
              * @fires selectable#change
              */
             selectAll : function selectAll(){
-                return this.select(_.keys(nodes));
-            },
+                return this.selectVisible();
+            }
         });
     };
 });
