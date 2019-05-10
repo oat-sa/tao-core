@@ -355,7 +355,7 @@ define([
         };
         var clickState = 0;
 
-        assert.expect(29);
+        assert.expect(30);
 
         assert.equal($('.resource-selector', container).length, 0, 'No resource tree in the container');
 
@@ -410,6 +410,8 @@ define([
                     //deselect everything
                     $control.click();
                     selection = this.getSelection();
+                    assert.ok(!selection.length, 'Everything is deselected');
+
 
                     assert.ok(!$node1.hasClass('selected'), 'node1 is deselected');
                     assert.equal(typeof selection[$node1.data('uri')], 'undefined', 'The selection doesnt contain node1');
