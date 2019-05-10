@@ -9,7 +9,7 @@ pipeline {
                     script: 'mkdir -p build'
                 )
 
-                withCredentials([usernamePassword(credentialsId: 'jenkins_github_token', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_TOKEN',)]) {
+                withCredentials([usernamePassword(credentialsId: 'tmpaccess', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_TOKEN',)]) {
                     sh '''
 changeBranch=$CHANGE_BRANCH
 branch="${noz:-$BRANCH_NAME}"
