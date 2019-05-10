@@ -173,11 +173,11 @@ define([
 
                     //filter already added nodes or classes when loading "more"
                     if(self.hasNode(node.uri) || (params && params.offset > 0 && node.type === 'class') ||
-                        (node.type === 'class' && !node.state) ){
+                        (node.type === 'class' && !node.state && !self.config.selectClass) ){
                         return acc;
                     }
 
-                    if(node.type === 'class'){
+                    if(node.type === 'class' && self.config.selectClass){
                         node.classUri = node.uri;
                         node.selectable = true;
                         if(!node.state){
@@ -263,8 +263,10 @@ define([
                     if(!$class.children('ul').children('li').length){
                         self.query({ classUri : $class.data('uri') });
                     }
-                    node.state = 'open';
-                    self.update([node]);
+                    if(node) {
+                        node.state = 'open';
+                        self.update([node]);
+                    }
                     $class.removeClass('closed');
                 };
 
@@ -274,8 +276,10 @@ define([
                  */
                 var closeClass = function closeClass($class){
                     var node = self.getNode($class.data('uri'));
-                    node.state = 'closed';
-                    self.update([node]);
+                    if(node) {
+                        node.state = 'closed';
+                        self.update([node]);
+                    }
                     $class.addClass('closed');
                 };
 
