@@ -120,7 +120,7 @@ define([
      * @param {String} config.classUri - the root Class URI
      * @param {Object|[]} [config.classes] - the classes hierarchy for the class selector
      * @param {Object[]} config.formats - the definition of the supported viewer/selector component
-     * @param {Objet[]} [config.nodes] - the nodes to preload, the format is up to the formatComponent
+     * @param {Object[]} [config.nodes] - the nodes to preload, the format is up to the formatComponent
      * @param {String} [config.icon] - the icon class that represents a resource
      * @param {String} [config.type] - describes the resource type
      * @param {Boolean} [config.selectionMode] - multiple or single selection mode

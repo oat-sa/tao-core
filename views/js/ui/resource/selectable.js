@@ -240,51 +240,13 @@ define([
              * @returns {Object[]} nodes
              */
             selectVisible: function selectVisible(){
-                var self = this;
-                var classes = {};
-
-                // recursive parent status finder
-                var getParentStatus = function(signature){
-                    signature = signature || 'root';
-
-                    if(classes[signature]) {
-                        if (!classes[signature].closed) {
-                            //find parent status and apply to children
-                            classes[signature].closed = getParentStatus(classes[signature].parent);
-                        }
-
-                        return classes[signature].closed;
-                    } else {
-                        return false;
-                    }
-                };
-
-                // find all classes and their status
-                _.forEach(nodes, function (node) {
-                    if(node.type === 'class'){
-                        classes[node.signature || 'root'] = {
-                            parent: node.classSignature,
-                            closed: node.state === 'closed'
-                        };
-                    }
+                var $component = this.getElement();
+                var $elements = $component.find('[data-uri]').filter(function () {
+                    return $(this).parents('.closed').length === 0;
                 });
-
-                // iterate through all classes and get closed status
-                _.forEach(classes, function (node) {
-                    if(!node.closed){
-                        node.closed = getParentStatus(node.parent);
-                    }
-                });
-
-                // get all nodes with not closed classes and root
-                this.select(_.map(nodes, function (node, key) {
-                    if(!self.config.selectClass && node.type === 'class'){
-                        return;
-                    }
-                    if(!classes[node.classSignature] || !classes[node.classSignature].closed){
-                        return key;
-                    }
-                }), false, true);
+                this.select(_.map($elements, function (element) {
+                    return $(element).data('uri');
+                }));
             },
 
             /**
