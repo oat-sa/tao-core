@@ -9,7 +9,7 @@
 *   http://www.opensource.org/licenses/mit-license.php
 */
 
-define(['jquery'], function($){
+define(['jquery', 'ui/feedback'], function($, feedback){
 
 $.extend({
     //
@@ -18,7 +18,7 @@ $.extend({
     fileDownload: function (fileUrl, options) {
 
         var defaultFailCallback = function (responseHtml, url) {
-            alert("A file download error has occurred, please try again.");
+            feedback().error("A file download error has occurred, please try again.");
         };
 
         //provide some reasonable defaults to any unspecified options below
@@ -135,20 +135,17 @@ $.extend({
         if (isAndroid && httpMethodUpper != "GET") {
             //the stock android browser straight up doesn't support file downloads initiated by non GET requests: http://code.google.com/p/android/issues/detail?id=1780
 
-            if ($().dialog) {
-                $("<div>").html(settings.androidPostUnsupportedMessageHtml).dialog(settings.dialogOptions);
-            } else {
-                alert(settings.androidPostUnsupportedMessageHtml);
-            }
+            feedback().error(settings.androidPostUnsupportedMessageHtml, [], { encodeHtml : false });
+
 
             return;
         }
 
         //wire up a jquery dialog to display the preparing message if specified
-        var $preparingDialog = null;
+        var preparingDialog = null;
         if (settings.preparingMessageHtml) {
 
-            $preparingDialog = $("<div>").html(settings.preparingMessageHtml).dialog(settings.dialogOptions);
+            preparingDialog = feedback().info(settings.preparingMessageHtml, [], { encodeHtml : false });
 
         }
 
@@ -157,9 +154,11 @@ $.extend({
             onSuccess: function (url) {
 
                 //remove the perparing message if it was specified
-                if ($preparingDialog) {
-                    $preparingDialog.dialog('close');
-                };
+                if (preparingDialog) {
+                    setTimeout(function(){
+                        preparingDialog.close();
+                    }, 300);
+                }
 
                 settings.successCallback(url);
 
@@ -168,14 +167,16 @@ $.extend({
             onFail: function (responseHtml, url) {
 
                 //remove the perparing message if it was specified
-                if ($preparingDialog) {
-                    $preparingDialog.dialog('close');
-                };
+                if (preparingDialog) {
+                    setTimeout(function(){
+                        preparingDialog.close();
+                    }, 300);
+                }
 
                 //wire up a jquery dialog to display the fail message if specified
                 if (settings.failMessageHtml) {
 
-                    $("<div>").html(settings.failMessageHtml).dialog(settings.dialogOptions);
+                    feedback().error(settings.failMessageHtml, [], { encodeHtml : false });
 
                     //only run the fallcallback if the developer specified something different than default
                     //otherwise we would see two messages about how the file download failed
