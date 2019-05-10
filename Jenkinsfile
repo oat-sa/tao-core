@@ -9,10 +9,13 @@ pipeline {
                     script: 'mkdir -p build'
                 )
                 sh '''
+changeBranch=$CHANGE_BRANCH
+branch="${noz:-$BRANCH_NAME}"
+echo "using ${branch}"
 docker run --rm  \\
 -e "GITHUB_ORGANIZATION=oat-sa" \\
 -e "GITHUB_SECRET=${gitHubToken}"  \\
-registry.service.consul:4444/tao/dependency-resolver oat:dependencies:resolve --main-branch $BRANCH_NAME --repository-name tao-core > build/composer.json
+registry.service.consul:4444/tao/dependency-resolver oat:dependencies:resolve --main-branch ${branch} --repository-name oat-sa/tao-core > build/composer.json
                 '''
                 sh ''' 
     cat build/composer.json
