@@ -5,36 +5,18 @@ pipeline {
             steps {
                 sh(
                     label : 'Create build build directory',
-                    script: 'mkdir -p build/resolved'
+                    script: 'mkdir -p build'
                 )
                 sh '''
-echo BRANCH_NAME :  "$BRANCH_NAME"
+docker run --rm  \\
+-e "GITHUB_ORGANIZATION=oat-sa" \\
+-e "GITHUB_SECRET=${gitHubToken}"  \\
+registry.service.consul:4444/tao/dependency-resolver oat:dependencies:resolve --main-branch $BRANCH_NAME --repository-name tao-core > build/composer.json
                 '''
             }
-        }
-        stage('Resolve dependencies') {
-                agent {
-                    docker {
-                        image 'tao/dependency-resolver'
-                        registryUrl 'https://registry.service.consul:4444'
-                        reuseNode true
-                    }
-                }
-                environment {
-                    GITHUB_ORGANIZATION='oat-sa'
-                }
-                options {
-                    skipDefaultCheckout()
-                }
-                steps {
-                    sh '''
-pwd
-ls -alh
-echo "$GITHUB_ORGANIZATION"
-echo "$BRANCH_NAME"
-                    '''
-
-                }
+            sh ''' 
+cat build/composer.json
+            '''
         }
     }
 }
