@@ -29,29 +29,61 @@ registry.service.consul:4444/tao/dependency-resolver oat:dependencies:resolve --
                 }
             }
         }
+
         stage('Tests') {
-            agent {
-                docker {
-                    image 'alexwijn/docker-git-php-composer'
-                    reuseNode true
+            parallel {
+                stage('Backend Tests') {
+                    agent {
+                        docker {
+                            image 'alexwijn/docker-git-php-composer'
+                            reuseNode true
+                        }
+                    }
+                    options {
+                        skipDefaultCheckout()
+                    }
+                    steps {
+                        sh(
+                            label: 'Install/Update sources from Composer',
+                            script: 'cd build && composer update --no-interaction --no-ansi --no-progress'
+                        )
+                        sh(
+                            label: 'Add phpunit',
+                            script: 'cd build && composer require phpunit/phpunit:^4.8'
+                        )
+                        sh(
+                            label: 'Run backend tests',
+                            script: 'cd build && ./vendor/bin/phpunit tao/test/unit'
+                        )
+                    }
                 }
-            }
-            options {
-                skipDefaultCheckout()
-            }
-            steps {
-                sh(
-                    label: 'Install/Update sources from Composer',
-                    script: 'cd build && composer update --no-interaction --no-ansi --no-progress'
-                )
-                sh(
-                    label: 'Add phpunit',
-                    script: 'cd build && composer require phpunit/phpunit:^4.8'
-                )
-                sh(
-                    label: 'Run backend tests',
-                    script: 'cd build && ./vendor/bin/phpunit tao/test/unit'
-                )
+                stage('Frontend Tests') {
+                    agent {
+                        docker {
+                            image 'alekzonder/puppeteer'
+                            reuseNode true
+                        }
+                    }
+                    environment {
+                        HOME = '.'
+                    }
+                    options {
+                        skipDefaultCheckout()
+                    }
+                    steps {
+                        sh(
+                            label: 'Setup frontend toolchain',
+                            script: 'cd build/tao/views/build && npm install'
+                        )
+                        sh (
+                            label : 'Run frontend tests',
+                            script: '''
+cd build/tao/views/build
+npx grunt connect:test taotest
+                            '''
+                        )
+                    }
+                }
             }
         }
     }
