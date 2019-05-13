@@ -4,7 +4,6 @@ pipeline {
         stage('Initialization') {
             environment {
                 GITHUB_ORGANIZATION='oat-sa'
-                GITHUB_REPO='oat-sa/tao-core'
             }
             steps {
                 sh(
@@ -13,6 +12,7 @@ pipeline {
                 )
 
                 withCredentials([usernamePassword(credentialsId: 'tmpaccess', passwordVariable: 'GIT_SECRET')]) {
+                    sh 'printenv'
                     sh(
                         label : 'Run the Dependency Resolver',
                         script: '''
