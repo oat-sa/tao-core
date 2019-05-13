@@ -11,7 +11,7 @@ pipeline {
                     script: 'mkdir -p build'
                 )
 
-                withCredentials([usernamePassword(credentialsId: 'tmpaccess', passwordVariable: 'GIT_SECRET')]) {
+                withCredentials([usernamePassword(credentialsId: 'tmpaccess', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_SECRET')]) {
                     sh 'printenv'
                     sh(
                         label : 'Run the Dependency Resolver',
@@ -27,10 +27,10 @@ docker run --rm  registry.service.consul:4444/tao/dependency-resolver oat:depend
         }
         stage('Tests') {
             agent {
-                    docker {
-                        image 'alexwijn/docker-git-php-composer'
-                        reuseNode true
-                    }
+                docker {
+                    image 'alexwijn/docker-git-php-composer'
+                    reuseNode true
+                }
             }
             options {
                 skipDefaultCheckout()
@@ -42,7 +42,7 @@ docker run --rm  registry.service.consul:4444/tao/dependency-resolver oat:depend
                 )
                 sh(
                     label: 'Run backend tests',
-                    script: './vendor/bin/phpunit tao/test/unit'
+                    script: 'cd build && ./vendor/bin/phpunit tao/test/unit'
                 )
             }
         }
