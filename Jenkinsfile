@@ -4,6 +4,7 @@ pipeline {
         stage('Initialization') {
             environment {
                 GITHUB_ORGANIZATION='oat-sa'
+                REPO_NAME='oat-sa/tao-core'
             }
             steps {
                 sh(
@@ -17,9 +18,12 @@ pipeline {
                         label : 'Run the Dependency Resolver',
                         script: '''
 changeBranch=$CHANGE_BRANCH
-branch="${changeBranch:-$BRANCH_NAME}"
-echo "select branch : $branch"
-docker run --rm  registry.service.consul:4444/tao/dependency-resolver oat:dependencies:resolve --main-branch ${branch} --repository-name oat-sa/tao-core > build/composer.json
+TEST_BRANCH="${changeBranch:-$BRANCH_NAME}"
+echo "select branch : ${TEST_BRANCH}"
+docker run --rm  \\
+-e "GITHUB_ORGANIZATION=${GITHUB_ORGANIZATION}" \\
+-e "GITHUB_SECRET=${GIT_TOKEN}"  \\
+registry.service.consul:4444/tao/dependency-resolver oat:dependencies:resolve --main-branch ${TEST_BRANCH} --repository-name ${REPO_NAME} > build/composer.json
                         '''
                     )
                 }
