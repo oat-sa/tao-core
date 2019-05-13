@@ -43,7 +43,10 @@ registry.service.consul:4444/tao/dependency-resolver oat:dependencies:resolve --
             steps {
                 sh(
                     label: 'Install/Update sources from Composer',
-                    script: 'cd build && composer update --no-interaction --no-ansi --no-progress'
+                    script: '''
+cd build
+COMPOSER_DISCARD_CHANGES=true composer update --no-interaction --no-ansi --no-progress
+                    '''
                 )
                 sh(
                     label: 'Add phpunit',
