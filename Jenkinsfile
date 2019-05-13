@@ -12,7 +12,7 @@ pipeline {
                     script: 'mkdir -p build'
                 )
 
-                withCredentials([usernamePassword(credentialsId: 'tmpaccess', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_SECRET')]) {
+                withCredentials([usernamePassword(credentialsId: 'tmpaccess', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_TOKEN')]) {
                     sh 'printenv'
                     sh(
                         label : 'Run the Dependency Resolver',
