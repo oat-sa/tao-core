@@ -18,6 +18,7 @@ pipeline {
                         script: '''
 changeBranch=$CHANGE_BRANCH
 branch="${changeBranch:-$BRANCH_NAME}"
+echo "select branch : $branch"
 docker run --rm  registry.service.consul:4444/tao/dependency-resolver oat:dependencies:resolve --main-branch ${branch} --repository-name oat-sa/tao-core > build/composer.json
                         '''
                     )
@@ -30,24 +31,20 @@ docker run --rm  registry.service.consul:4444/tao/dependency-resolver oat:depend
                         image 'alexwijn/docker-git-php-composer'
                         reuseNode true
                     }
-                }
-                options {
-                    skipDefaultCheckout()
-                }
-                steps {
-                    sh(
-                        label: 'Install/Update sources from Composer',
-                        script: '''
-                        cd build
-                        composer update --no-interaction --no-ansi --no-progress
-                        '''
-                    )
-                    sh(
-                        label: 'Run backend tests',
-                        script: './vendor/bin/phpunit tao/test/unit'
-                    )
-                }
-
             }
+            options {
+                skipDefaultCheckout()
+            }
+            steps {
+                sh(
+                    label: 'Install/Update sources from Composer',
+                    script: 'cd build && composer update --no-interaction --no-ansi --no-progress'
+                )
+                sh(
+                    label: 'Run backend tests',
+                    script: './vendor/bin/phpunit tao/test/unit'
+                )
+            }
+        }
     }
 }
