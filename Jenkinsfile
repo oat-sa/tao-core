@@ -45,6 +45,10 @@ registry.service.consul:4444/tao/dependency-resolver oat:dependencies:resolve --
                     script: 'cd build && composer update --no-interaction --no-ansi --no-progress'
                 )
                 sh(
+                    label: 'Add phpunit',
+                    script: 'cd build && composer require phpunit/phpunit:^4.8'
+                )
+                sh(
                     label: 'Run backend tests',
                     script: 'cd build && ./vendor/bin/phpunit tao/test/unit'
                 )
