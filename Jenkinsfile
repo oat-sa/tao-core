@@ -80,7 +80,7 @@ registry.service.consul:4444/tao/dependency-resolver oat:dependencies:resolve --
                             script: '''
 cd build/tao/views/build
 ls -l
-npx grunt connect:test taotest  --no-color --force
+npx grunt connect:test taotest  --no-color --force --testPort=8883
                             '''
                         )
                     }
