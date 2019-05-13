@@ -15,6 +15,7 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "@oat-sa/browserslist-config-tao": "^0.1.0",
     "@oat-sa/grunt-tao-bundle": "^0.1.0",
     "almond": "^0.3.3",
     "eslint-plugin-es": "^1.4.0",
@@ -40,5 +41,8 @@
     "node-sass": "^4.9.3",
     "sass-lint": "^1.12.1",
     "time-grunt": "^2.0.0"
-  }
+  },
+  "browserslist" : [
+      "extends @oat-sa/browserslist-config-tao"
+  ]
 }
