@@ -13,7 +13,6 @@ pipeline {
                 )
 
                 withCredentials([usernamePassword(credentialsId: 'tmpaccess', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_TOKEN')]) {
-                    sh 'printenv'
                     sh(
                         label : 'Run the Dependency Resolver',
                         script: '''
