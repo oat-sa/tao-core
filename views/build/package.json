@@ -15,6 +15,7 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "@oat-sa/tao-e2e-runner": "^0.2.0",
     "@oat-sa/grunt-tao-bundle": "^0.1.0",
     "almond": "^0.3.3",
     "grunt": "^1.0.4",
