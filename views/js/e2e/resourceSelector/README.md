@@ -7,7 +7,7 @@ Please note that the resourceSelector looks and behaves differently from the **j
 To install the resourceSelector, run the following command from your instance root:
 
 ```
-php index.php \oat\tao\scripts\install\SetResourceSelector
+php index.php "\\oat\\tao\\scripts\\install\\SetResourceSelector"
 ```
 
 You should find the configuration in `/config/tao/client_lib_config_registry.conf.php` has been updated with a new value of `treeProvider`.

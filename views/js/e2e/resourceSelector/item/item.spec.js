@@ -33,15 +33,7 @@ describe('Items', () => {
 
         cy.login('admin');
 
-        cy.fixture('urls')
-            .as('urls')
-            .then(urls => {
-                // Provide the URL parameter 'uri' to guarantee a predictable tree
-                // with the 'Item' root class selected
-                cy.visit(`${urls.index}?structure=items&ext=taoItems&uri=http%3A%2F%2Fwww.tao.lu%2FOntologies%2FTAOItem.rdf%23Item`);
-                // Important to register this first response, or it will mess up future "wait"s:
-                cy.wait('@editClass');
-            });
+        cy.loadItemsPage();
     });
 
     /**

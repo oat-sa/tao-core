@@ -44,6 +44,18 @@ Cypress.Commands.add('addTreeRoutes', () => {
     cy.route('POST', '**/deleteClass').as('deleteClass');
 });
 
+Cypress.Commands.add('loadItemsPage', () => {
+    cy.fixture('urls')
+    .as('urls')
+    .then(urls => {
+        // Provide the full URL parameters including 'uri'
+        // to guarantee a predictable tree with the 'Item' root class selected
+        cy.visit(`${urls.index}?${urls.taoItemsRoot}&${urls.nosplashParam}`);
+        // Important to register this first response, or it will mess up future "wait"s:
+        cy.wait('@editClass');
+    });
+});
+
 Cypress.Commands.add('selectTreeNode', (cssSelector) => {
     cy.log('COMMAND: selectTreeNode', cssSelector);
 
