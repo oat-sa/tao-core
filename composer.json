@@ -53,8 +53,8 @@
                 "version": "0.1.0",
                 "source": {
                     "type": "git",
-                    "reference": "presentation",
-                    "url": "git@github.com:oat-sa/tao-core-sdk-fe.git#fd9fa246cf1b4dd97c869cc9af7b948e51bd5968"
+                    "reference": "fd9fa246cf1b4dd97c869cc9af7b948e51bd5968",
+                    "url": "git@github.com:oat-sa/tao-core-sdk-fe.git"
                 }
             }
         }
@@ -72,7 +72,8 @@
         "pimple/pimple": "^3.0",
         "imsglobal/lti": "^3.0",
         "paragonie/random_compat": "^2.0",
-        "oomphinc/composer-installers-extender": "^1.1"
+        "oomphinc/composer-installers-extender": "^1.1",
+        "oat-sa/tao-core-sdk-fe": "^0.1.0"
     },
     "autoload": {
         "psr-4": {

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "95e4dbc774f04155c4c9f52709867ac0",
+    "content-hash": "9b7bf764a516a74c924702dcddbaf689",
     "packages": [
         {
             "name": "composer/installers",
@@ -627,6 +627,16 @@
                 "oatbox"
             ],
             "time": "2015-11-23T11:35:13+00:00"
+        },
+        {
+            "name": "oat-sa/tao-core-sdk-fe",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:oat-sa/tao-core-sdk-fe.git",
+                "reference": "fd9fa246cf1b4dd97c869cc9af7b948e51bd5968"
+            },
+            "type": "npm-package"
         },
         {
             "name": "oomphinc/composer-installers-extender",
