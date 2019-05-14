@@ -749,6 +749,9 @@ define([
         dateTimePicker(container, {
             setup : 'date',
             format : 'YYYY-MM-DD',
+            field : {
+                value : '2019-04-06'
+            },
             constraints : {
                 minDate : '2019-04-05',
                 maxDate : '2019-04-10'
@@ -795,7 +798,10 @@ define([
 
         dateTimePicker(container, {
             setup : 'date',
-            format : 'YYYY-MM-DD'
+            format : 'YYYY-MM-DD',
+            field : {
+                value : '2019-04-06'
+            }
         })
         .on('ready', function(){
             this.open();
