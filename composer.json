@@ -38,8 +38,27 @@
     ],
     "type": "tao-extension",
     "extra": {
-        "tao-extension-name": "tao"
+        "tao-extension-name": "tao",
+        "installer-types": ["npm-package"],
+        "installer-paths": {
+            "views/node_modules/{$name}": ["type:npm-package"]
+        }
     },
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "oat-sa/tao-core-sdk-fe",
+                "type": "npm-package",
+                "version": "0.1.0",
+                "source": {
+                    "type": "git",
+                    "reference": "presentation",
+                    "url": "git@github.com:oat-sa/tao-core-sdk-fe.git#fd9fa246cf1b4dd97c869cc9af7b948e51bd5968"
+                }
+            }
+        }
+    ],
     "require": {
         "php": ">=5.6",
         "phpdocumentor/reflection-docblock": "2.*",
@@ -52,18 +71,17 @@
         "justinrainbow/json-schema": "5.2.1",
         "pimple/pimple": "^3.0",
         "imsglobal/lti": "^3.0",
-        "paragonie/random_compat": "^2.0"
+        "paragonie/random_compat": "^2.0",
+        "oomphinc/composer-installers-extender": "^1.1"
     },
     "autoload": {
         "psr-4": {
             "oat\\tao\\controller\\": "controller",
             "oat\\tao\\model\\": "models/classes/",
-            "oat\\tao\\controller\\": "controller",
             "oat\\tao\\helpers\\": "helpers",
             "oat\\tao\\test\\": "test",
             "oat\\tao\\scripts\\": "scripts",
-            "oat\\tao\\install\\": "install",
-            "oat\\tao\\controller\\": "controller"
+            "oat\\tao\\install\\": "install"
         },
         "files": [
             "includes/globalHelpers.php"
