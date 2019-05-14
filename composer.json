@@ -73,7 +73,7 @@
         "imsglobal/lti": "^3.0",
         "paragonie/random_compat": "^2.0",
         "oomphinc/composer-installers-extender": "^1.1",
-        "oat-sa/tao-core-sdk-fe": "^0.1.0"
+        "oat-sa/tao-core-sdk-fe": "0.1.0"
     },
     "autoload": {
         "psr-4": {
