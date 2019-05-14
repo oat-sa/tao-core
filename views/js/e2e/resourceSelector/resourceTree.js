@@ -26,7 +26,8 @@ const selectors = {
     itemsRootClass:    '.class[data-uri="http://www.tao.lu/Ontologies/TAOItem.rdf#Item"]',
     deleteClassAction: '.action[data-action="removeNode"][data-context="class"]',
     deleteItemAction:  '.action[data-action="removeNode"][data-context="instance"]',
-    toggler:           '.class-toggler'
+    toggler:           '.class-toggler',
+    treeNode:          '.instance, .class'
 };
 
 export default {
@@ -43,25 +44,30 @@ Cypress.Commands.add('addTreeRoutes', () => {
     cy.route('POST', '**/deleteClass').as('deleteClass');
 });
 
-Cypress.Commands.add('selectTreeNode', (selector) => {
-    cy.log('COMMAND: selectTreeNode', selector);
+Cypress.Commands.add('selectTreeNode', (cssSelector) => {
+    cy.log('COMMAND: selectTreeNode', cssSelector);
 
     cy.get(selectors.resourceTree).within(() => {
-        cy.get(selector)
-            .then(($treeNode) => {
+        cy.get(cssSelector)
+            .then(($el) => {
+                const $treeNode = $el.closest(selectors.treeNode);
+
+                // click the node only if it isn't selected:
                 if (!$treeNode.hasClass('selected')) {
                     // it can be offscreen due to scrollable panel (so let's force click)
-                    cy.get($treeNode).find('a').first().click('top', {force: true});
-                }
-                // 2 possible events can indicate loading happened:
-                if ($treeNode.hasClass('class')) {
-                    cy.wait('@editClass').wait(300);
-                }
-                else {
-                    cy.wait('@editItem').wait(300);
+                    cy.wrap($treeNode)
+                        .should('not.have.class', 'selected')
+                        .click('top', {force: true});
+
+                    // 1 of 2 possible events indicates the clicked node's form loaded:
+                    if ($treeNode.hasClass('class')) {
+                        cy.wait('@editClass');
+                    }
+                    else {
+                        cy.wait('@editItem');
+                    }
                 }
             });
-
     });
 });
 
@@ -79,7 +85,8 @@ Cypress.Commands.add('renameSelectedClass', (newName) => {
         cy.contains('Save')
             .click();
     });
-    cy.wait('@editClass').wait(300);
+    // this event needs to fire twice before proceeding
+    cy.wait('@editClass').wait('@editClass').wait(300);
 });
 
 Cypress.Commands.add('renameSelectedItem', (newName) => {
@@ -96,25 +103,50 @@ Cypress.Commands.add('renameSelectedItem', (newName) => {
         cy.contains('Save')
             .click();
     });
-    cy.wait('@editItem').wait(300);
+    // this event needs to fire twice before proceeding
+    cy.wait(['@editItem', '@editItem']).wait(300);
 });
 
-Cypress.Commands.add('addClass', (selector) => {
-    cy.log('COMMAND: addClass', selector);
+Cypress.Commands.add('addClass', (cssSelector) => {
+    cy.log('COMMAND: addClass', cssSelector);
 
-    cy.selectTreeNode(selector);
+    cy.selectTreeNode(cssSelector);
 
     cy.contains('New class').click();
 
-    cy.wait(['@editClass', '@editClass']).wait(300); // this event needs to fire twice before proceeding
+    // this event needs to fire twice before proceeding
+    cy.wait('@editClass').wait('@editClass');
 });
 
-Cypress.Commands.add('addItem', (selector) => {
-    cy.log('COMMAND: addItem', selector);
+Cypress.Commands.add('addItem', (cssSelector) => {
+    cy.log('COMMAND: addItem', cssSelector);
 
-    cy.selectTreeNode(selector);
+    cy.selectTreeNode(cssSelector);
 
     cy.contains('New item').click();
 
-    cy.wait(['@editItem', '@editClass']).wait(300); // 2 different events must fire before proceeding
+    // 2 different events must fire before proceeding
+    cy.wait('@editClass').wait('@editItem');
+});
+
+Cypress.Commands.add('deleteClass', (cssSelector) => {
+    cy.log('COMMAND: deleteClass', cssSelector);
+
+    cy.selectTreeNode(cssSelector);
+
+    cy.get(selectors.deleteClassAction).click({force: true});
+    cy.get('.modal-body [data-control="ok"]').click();
+
+    cy.wait('@deleteClass');
+});
+
+Cypress.Commands.add('deleteItem', (cssSelector) => {
+    cy.log('COMMAND: deleteItem', cssSelector);
+
+    cy.selectTreeNode(cssSelector);
+
+    cy.get(selectors.deleteItemAction).click({force: true});
+    cy.get('.modal-body [data-control="ok"]').click();
+
+    cy.wait('@deleteItem');
 });

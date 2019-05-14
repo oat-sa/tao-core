@@ -36,7 +36,11 @@ describe('Items', () => {
         cy.fixture('urls')
             .as('urls')
             .then(urls => {
-                cy.visit(`${urls.index}?structure=items&ext=taoItems`);
+                // Provide the URL parameter 'uri' to guarantee a predictable tree
+                // with the 'Item' root class selected
+                cy.visit(`${urls.index}?structure=items&ext=taoItems&uri=http%3A%2F%2Fwww.tao.lu%2FOntologies%2FTAOItem.rdf%23Item`);
+                // Important to register this first response, or it will mess up future "wait"s:
+                cy.wait('@editClass');
             });
     });
 
@@ -44,22 +48,9 @@ describe('Items', () => {
      * Destroy everything we created, leaving the environment clean for next time.
      */
     afterEach(() => {
-        // maybe the tree is already empty?
-        if (Cypress.$(selectors.itemsRootClass).find('.class, .instance').length === 0) {
-            return;
+        if (Cypress.$(`[title="${newItemName}"]`).length > 0) {
+            cy.deleteItem(`[title="${newItemName}"]`);
         }
-
-        // select the created item
-        cy.get(selectors.resourceTree).within(() => {
-            cy.get(selectors.itemsRootClass).click('top', {force: true});
-            cy.contains(newItemName).click('top', {force: true});
-        });
-
-        // delete created nodes
-        cy.get(selectors.deleteItemAction).click({force: true});
-        cy.get('.modal-body [data-control="ok"]').click();
-
-        cy.wait('@deleteItem');
     });
 
     /**
@@ -79,7 +70,7 @@ describe('Items', () => {
             cy.get(selectors.resourceTree)
                 .contains(newItemName)
                 .should('exist')
-                .and('be.visible');
+                // .and('be.visible');
         });
 
         it('can delete previously created item', function() {
@@ -99,7 +90,7 @@ describe('Items', () => {
             cy.renameSelectedItem(newItemName);
 
             cy.get(`[title="${newItemName}"]`)
-                .parent()
+                .closest(selectors.treeNode)
                 .should('not.have.class', 'closed');
 
             cy.get(selectors.actionsContainer).within(() => {

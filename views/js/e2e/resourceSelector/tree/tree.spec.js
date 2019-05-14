@@ -37,7 +37,11 @@ describe('ResourceSelector Tree', () => {
         cy.fixture('urls')
             .as('urls')
             .then(urls => {
-                cy.visit(`${urls.index}?structure=items&ext=taoItems`);
+                // Provide the URL parameter 'uri' to guarantee a predictable tree
+                // with the 'Item' root class selected
+                cy.visit(`${urls.index}?structure=items&ext=taoItems&uri=http%3A%2F%2Fwww.tao.lu%2FOntologies%2FTAOItem.rdf%23Item`);
+                // Important to register this first response, or it will mess up future "wait"s:
+                cy.wait('@editClass');
             });
 
         /**
@@ -54,37 +58,21 @@ describe('ResourceSelector Tree', () => {
         cy.selectTreeNode(selectors.itemsRootClass);
 
         // create a class
-        cy.contains('New class').click();
-        cy.wait('@editClass').wait(300);
-        // rename it
+        cy.addClass(selectors.itemsRootClass);
+        // // rename it
         cy.renameSelectedClass(newClassName);
-        cy.wait('@editClass').wait(300);
 
         // create a subclass
-        cy.contains('New class').click();
-        cy.wait('@editClass').wait(300);
+        cy.addClass(`[title="${newClassName}"]`);
     });
 
     /**
      * Destroy everything we created, leaving the environment clean for next time.
      */
     afterEach(() => {
-        // maybe the tree is already empty?
-        if (Cypress.$(selectors.itemsRootClass).find('.class, .instance').length === 0) {
-            return;
+        if (Cypress.$(`[title="${newClassName}"]`).length > 0) {
+            cy.deleteClass(`[title="${newClassName}"]`);
         }
-
-        // select the created class
-        cy.get(selectors.resourceTree).within(() => {
-            cy.get(selectors.itemsRootClass).click('top', {force: true});
-            cy.contains(newClassName).click('top', {force: true});
-        });
-
-        // delete created nodes
-        cy.get(selectors.deleteClassAction).click({force: true});
-        cy.get('.modal-body [data-control="ok"]').click();
-
-        cy.wait('@deleteClass');
     });
 
     /**
@@ -125,7 +113,7 @@ describe('ResourceSelector Tree', () => {
 
                 // @test: is class closed?
                 cy.get(`[title="${newClassName}"]`)
-                    .parent()
+                    .closest(selectors.treeNode)
                     .should('have.class', 'closed')
                     .find('.instance, .class')
                     .should('not.be.visible');
@@ -141,7 +129,7 @@ describe('ResourceSelector Tree', () => {
 
                 // @test: is class open?
                 cy.get(`[title="${newClassName}"]`)
-                    .parent()
+                    .closest(selectors.treeNode)
                     .should('not.have.class', 'closed')
                     .find('.instance, .class')
                     .should('be.visible');

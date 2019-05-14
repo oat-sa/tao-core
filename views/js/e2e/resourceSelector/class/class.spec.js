@@ -38,7 +38,11 @@ describe('Classes', () => {
         cy.fixture('urls')
             .as('urls')
             .then(urls => {
-                cy.visit(`${urls.index}?structure=items&ext=taoItems`);
+                // Provide the URL parameter 'uri' to guarantee a predictable tree
+                // with the 'Item' root class selected
+                cy.visit(`${urls.index}?structure=items&ext=taoItems&uri=http%3A%2F%2Fwww.tao.lu%2FOntologies%2FTAOItem.rdf%23Item`);
+                // Important to register this first response, or it will mess up future "wait"s:
+                cy.wait('@editClass');
             });
     });
 
@@ -46,28 +50,15 @@ describe('Classes', () => {
      * Destroy everything we created, leaving the environment clean for next time.
      */
     afterEach(() => {
-        // maybe the tree is already empty?
-        if (Cypress.$(selectors.itemsRootClass).find('.class, .instance').length === 0) {
-            return;
+        if (Cypress.$(`[title="${newClassName}"]`).length > 0) {
+            cy.deleteClass(`[title="${newClassName}"]`);
         }
-
-        // select the created class
-        cy.get(selectors.resourceTree).within(() => {
-            cy.get(selectors.itemsRootClass).click('top', {force: true});
-            cy.contains(newClassName).click('top', {force: true});
-        });
-
-        // delete created nodes
-        cy.get(selectors.deleteClassAction).click({force: true});
-        cy.get('.modal-body [data-control="ok"]').click();
-
-        cy.wait('@deleteClass');
     });
 
     /**
      * Class tests
      */
-    describe('Class creation, edit and delete', () => {
+    describe('Class creation, editing and deletion', () => {
 
         it('items page loads', function() {
             cy.get(selectors.resourceTree);
@@ -99,6 +90,7 @@ describe('Classes', () => {
                 .should('not.exist');
         });
 
+        // Following test skipped pending fix of BRS behaviour
         it.skip('can create a new subclass from created class', function() {
             cy.addClass(selectors.itemsRootClass);
 
@@ -106,21 +98,15 @@ describe('Classes', () => {
 
             cy.addClass(`[title="${newClassName}"]`);
 
-            cy.renameSelectedClass(newSubClassName); // causes tree to close (bug?)
+            cy.renameSelectedClass(newSubClassName); // rename causes tree to close (BRS bug)
 
             cy.get(selectors.resourceTree).within(() => {
-                // reopen tree branch
-                cy.get(`[title="${newClassName}"]`)
-                    .find(selectors.toggler).first()
-                    .click({force: true}); // doesn't seem to open node
-
                 cy.contains(newSubClassName)
                     .should('exist');
             });
         });
 
         it('has correct action buttons when class is selected', function() {
-            // select the root Item class
             cy.selectTreeNode(selectors.itemsRootClass);
 
             // check the visible action buttons
