@@ -18,11 +18,7 @@
 /**
  * @author Christophe Noël <christophe@taotesting.com>
  */
-define([
-    'lodash',
-    'jquery',
-    'layout/generisRouter'
-], function (_, $, generisRouter) {
+define(['lodash', 'jquery', 'layout/generisRouter'], function(_, $, generisRouter) {
     'use strict';
 
     var location = window.history.location || window.location;
@@ -34,41 +30,41 @@ define([
 
     QUnit.module('Module');
 
-    QUnit.test('Module export', function (assert) {
-        QUnit.expect(1);
+    QUnit.test('Module export', function(assert) {
+        assert.expect(1);
 
         assert.ok(typeof generisRouter === 'object', 'The module expose an object');
     });
 
     QUnit
-        .cases([
+        .cases.init([
             {title: 'pushSectionState'},
             {title: 'pushNodeState'},
             {title: 'restoreState'},
             {title: 'hasRestorableState'},
 
-            // eventifier
+            // Eventifier
             {title: 'on'},
             {title: 'off'},
             {title: 'trigger'}
         ])
-        .test('Instance API', function (data, assert) {
-            QUnit.expect(1);
+        .test('Instance API', function(data, assert) {
+            assert.expect(1);
 
             assert.ok(typeof generisRouter[data.title] === 'function', 'instance implements ' + data.title);
         });
 
     QUnit.module('.pushSectionState()', {
-        setup: function() {
+        beforeEach: function(assert) {
             window.history.replaceState(null, '', testerUrl);
         },
-        teardown: function() {
+        afterEach: function(assert) {
             window.history.replaceState(null, '', testerUrl);
         }
     });
 
     QUnit
-        .cases([
+        .cases.init([
             {
                 title: 'change the section parameter',
                 baseUrl: baseUrlAbs + '&section=manage_items',
@@ -84,10 +80,11 @@ define([
                 expectedUrl: baseUrlRel + '&section=authoring'
             }
         ])
-        .asyncTest('Push new state in history when section parameter already exists', function(data, assert) {
+        .test('Push new state in history when section parameter already exists', function(data, assert) {
             var state = window.history.state;
+            var ready = assert.async();
 
-            QUnit.expect(6);
+            assert.expect(6);
 
             generisRouter
                 .off('.test')
@@ -98,11 +95,11 @@ define([
                     assert.equal(state.sectionId, data.sectionId, 'section id param has been correctly set');
                     assert.equal(state.restoreWith, data.restoreWith, 'restoreWith param has been correctly set');
                     assert.equal(state.nodeUri, data.nodeUri, 'nodeUri param has been correctly set');
-                    QUnit.start();
+                    ready();
                 })
                 .on('replacesectionstate.test', function() {
                     assert.ok(false, 'I should not be called');
-                    QUnit.start();
+                    ready();
                 });
 
             assert.equal(state, null, 'state is null');
@@ -111,7 +108,7 @@ define([
         });
 
     QUnit
-        .cases([
+        .cases.init([
             {
                 title: 'add the section parameter',
                 baseUrl: baseUrlAbs,
@@ -128,16 +125,16 @@ define([
                 expectedUrl: baseUrlRel + '&uri=http%3A%2F%2Ftao%2Fmytao.rdf%23i555555555555555' + '&section=authoring'
             }
         ])
-        .asyncTest('Replace current state when section does not exists', function(data, assert) {
+        .test('Replace current state when section does not exists', function(data, assert) {
             var state = window.history.state;
-
-            QUnit.expect(6);
+            var ready = assert.async();
+            assert.expect(6);
 
             generisRouter
                 .off('.test')
                 .on('pushsectionstate.test', function() {
                     assert.ok(false, 'I should not be called');
-                    QUnit.start();
+                    ready();
                 })
                 .on('replacesectionstate.test', function(stateUrl) {
                     state = window.history.state;
@@ -146,7 +143,7 @@ define([
                     assert.equal(state.sectionId, data.sectionId, 'section id param has been correctly set');
                     assert.equal(state.restoreWith, data.restoreWith, 'restoreWith param has been correctly set');
                     assert.equal(state.nodeUri, data.nodeUri, 'nodeUri param has been correctly set');
-                    QUnit.start();
+                    ready();
                 });
 
             assert.equal(state, null, 'state is null');
@@ -154,9 +151,8 @@ define([
             generisRouter.pushSectionState(data.baseUrl, data.sectionId, data.restoreWith);
         });
 
-
     QUnit
-        .cases([
+        .cases.init([
             {
                 title: 'SectionId is the same as the existing section',
                 baseUrl: baseUrlAbs + '&section=authoring',
@@ -167,37 +163,36 @@ define([
                 baseUrl: baseUrlAbs + '&section=authoring'
             }
         ])
-        .asyncTest('Does not change state', function(data, assert) {
-
+        .test('Does not change state', function(data, assert) {
+            var ready = assert.async();
             generisRouter
                 .off('.test')
                 .on('pushsectionstate.test', function() {
                     assert.ok(false, 'I should not be called');
-                    QUnit.start();
+                    ready();
                 })
                 .on('replacesectionstate.test', function() {
                     assert.ok(false, 'I should not be called');
-                    QUnit.start();
+                    ready();
                 });
 
             generisRouter.pushSectionState(data.baseUrl, data.sectionId);
 
             assert.ok(_.isNull(window.history.state), 'state has not been updated');
-            QUnit.start();
+            ready();
         });
 
-
     QUnit.module('.pushNodeState()', {
-        setup: function() {
+        beforeEach: function(assert) {
             window.history.replaceState(null, '', testerUrl);
         },
-        teardown: function() {
+        afterEach: function(assert) {
             window.history.replaceState(null, '', testerUrl);
         }
     });
 
     QUnit
-        .cases([
+        .cases.init([
             {
                 title: 'Change the uri parameter. No section param, no existing state.',
                 baseUrl: baseUrlAbs + '&uri=http%3A%2F%2Ftao%2Fmytao.rdf%23i555555555555555',
@@ -243,10 +238,11 @@ define([
                 }
             }
         ])
-        .asyncTest('Push new state in history when uri parameter already exists', function(data, assert) {
+        .test('Push new state in history when uri parameter already exists', function(data, assert) {
             var state = window.history.state;
+            var ready = assert.async();
 
-            QUnit.expect(6);
+            assert.expect(6);
 
             generisRouter
                 .off('.test')
@@ -257,11 +253,11 @@ define([
                     assert.equal(state.sectionId, data.expectedSectionId, 'section id param has been correctly set');
                     assert.equal(state.restoreWith, data.expectedRestoreWith, 'restoreWith param has been correctly set');
                     assert.equal(state.nodeUri, data.expectedNodeUri, 'nodeUri param has been correctly set');
-                    QUnit.start();
+                    ready();
                 })
                 .on('replacenodestate.test', function() {
                     assert.ok(false, 'I should not be called');
-                    QUnit.start();
+                    ready();
                 });
 
             assert.equal(state, null, 'state is null');
@@ -272,7 +268,7 @@ define([
         });
 
     QUnit
-        .cases([
+        .cases.init([
             {
                 title: 'Add the uri parameter. No section param, no existing state.',
                 baseUrl: baseUrlAbs,
@@ -318,16 +314,16 @@ define([
                 }
             }
         ])
-        .asyncTest('Replace current state when uri parameter does not exists', function(data, assert) {
+        .test('Replace current state when uri parameter does not exists', function(data, assert) {
             var state = window.history.state;
-
-            QUnit.expect(6);
+            var ready = assert.async();
+            assert.expect(6);
 
             generisRouter
                 .off('.test')
                 .on('pushnodestate.test', function() {
                     assert.ok(false, 'I should not be called');
-                    QUnit.start();
+                    ready();
                 })
                 .on('replacenodestate.test', function(stateUrl) {
                     state = window.history.state;
@@ -336,7 +332,7 @@ define([
                     assert.equal(state.sectionId, data.expectedSectionId, 'section id param has been correctly set');
                     assert.equal(state.restoreWith, data.expectedRestoreWith, 'restoreWith param has been correctly set');
                     assert.equal(state.nodeUri, data.expectedNodeUri, 'nodeUri param has been correctly set');
-                    QUnit.start();
+                    ready();
                 });
 
             assert.equal(state, null, 'state is null');
@@ -347,7 +343,7 @@ define([
         });
 
     QUnit
-        .cases([
+        .cases.init([
             {
                 title: 'Uri parameter is the same',
                 baseUrl: baseUrlAbs + '&uri=http%3A%2F%2Ftao%2Fmytao.rdf%23i888888888888888',
@@ -358,110 +354,113 @@ define([
                 baseUrl: baseUrlAbs + '&uri=http%3A%2F%2Ftao%2Fmytao.rdf%23i888888888888888'
             }
         ])
-        .asyncTest('Does not change state', function(data, assert) {
+        .test('Does not change state', function(data, assert) {
+            var ready = assert.async();
             generisRouter
                 .off('.test')
                 .on('pushnodestate.test', function() {
                     assert.ok(false, 'I should not be called');
-                    QUnit.start();
+                    ready();
                 })
                 .on('replacenodestate.test', function() {
                     assert.ok(false, 'I should not be called');
-                    QUnit.start();
+                    ready();
                 });
 
             generisRouter.pushNodeState(data.baseUrl, data.nodeUri);
 
             assert.ok(_.isNull(window.history.state), 'state has not been updated');
-            QUnit.start();
+            ready();
         });
 
     QUnit.module('Back, same extension (popstate)', {
-        setup: function() {
+        beforeEach: function(assert) {
             window.history.replaceState(null, '', testerUrl);
         },
-        teardown: function() {
+        afterEach: function(assert) {
             window.history.replaceState(null, '', testerUrl);
         }
     });
 
-
-    QUnit.asyncTest('On move back with a section change, trigger the sectionactivate event if previous state was pushed with the "activate" param', function(assert) {
+    QUnit.test('On move back with a section change, trigger the sectionactivate event if previous state was pushed with the "activate" param', function(assert) {
+        var ready = assert.async();
         var url1 = 'http://tao/tao/Main/index?structure=items&ext=taoItems&section=authoring';
         var url2 = 'http://tao/tao/Main/index?structure=items&ext=taoItems&section=manage_items';
 
-        QUnit.expect(2);
+        assert.expect(2);
 
         generisRouter
             .off('.test')
             .on('sectionactivate.test', function(sectionId) {
                 assert.ok(true, 'sectionactivate has been called');
                 assert.equal(sectionId, 'manage_items', 'correct param is passed to the callback');
-                QUnit.start();
+                ready();
             })
             .on('sectionshow.test', function() {
                 assert.ok(false, 'sectionshow should not be called');
-                QUnit.start();
+                ready();
             })
             .on('urichange.test', function() {
                 assert.ok(false, 'urichange should not be called');
-                QUnit.start();
+                ready();
             });
 
-        generisRouter.pushSectionState(url1, 'manage_items','activate');
-        generisRouter.pushSectionState(url2, 'authoring','activate');
+        generisRouter.pushSectionState(url1, 'manage_items', 'activate');
+        generisRouter.pushSectionState(url2, 'authoring', 'activate');
 
         window.history.back();
     });
 
-    QUnit.asyncTest('On move back with a section change, trigger the sectionshow event if previous state was pushed with the "show" param', function(assert) {
+    QUnit.test('On move back with a section change, trigger the sectionshow event if previous state was pushed with the "show" param', function(assert) {
+        var ready = assert.async();
         var url1 = 'http://tao/tao/Main/index?structure=items&ext=taoItems&section=authoring';
         var url2 = 'http://tao/tao/Main/index?structure=items&ext=taoItems&section=manage_items';
 
-        QUnit.expect(2);
+        assert.expect(2);
 
         generisRouter
             .off('.test')
             .on('sectionactivate.test', function() {
                 assert.ok(false, 'sectionactivate should not be called');
-                QUnit.start();
+                ready();
             })
             .on('sectionshow.test', function(sectionId) {
                 assert.ok(true, 'sectionshow has been called');
                 assert.equal(sectionId, 'manage_items', 'correct param is passed to the callback');
-                QUnit.start();
+                ready();
             })
             .on('urichange.test', function() {
                 assert.ok(false, 'urichange should not be called');
-                QUnit.start();
+                ready();
             });
 
-        generisRouter.pushSectionState(url1, 'manage_items','show');
-        generisRouter.pushSectionState(url2, 'authoring','show');
+        generisRouter.pushSectionState(url1, 'manage_items', 'show');
+        generisRouter.pushSectionState(url2, 'authoring', 'show');
 
         window.history.back();
     });
 
-    QUnit.asyncTest('On move back with uri change and no section change, trigger the urichange event', function(assert) {
+    QUnit.test('On move back with uri change and no section change, trigger the urichange event', function(assert) {
+        var ready = assert.async();
         var url1 = 'http://tao/tao/Main/index?structure=items&ext=taoItems&section=manage_items';
         var url2 = 'http://tao/tao/Main/index?structure=items&ext=taoItems&section=manage_items&uri=http%3A%2F%2Ftao%2Fmytao.rdf%23i555555555555555';
 
-        QUnit.expect(2);
+        assert.expect(2);
 
         generisRouter
             .off('.test')
             .on('sectionshow.test', function() {
                 assert.ok(false, 'sectionshow should not be called');
-                QUnit.start();
+                ready();
             })
             .on('sectionactivate.test', function() {
                 assert.ok(false, 'sectionactivate should not be called');
-                QUnit.start();
+                ready();
             })
             .on('urichange.test', function(uri) {
                 assert.ok(true, 'urichange has been called');
                 assert.equal(uri, 'http://tao/mytao.rdf#i111111111111111', 'correct param is passed to the callback');
-                QUnit.start();
+                ready();
             });
 
         generisRouter.pushNodeState(url1, 'http://tao/mytao.rdf#i111111111111111');
@@ -471,34 +470,35 @@ define([
     });
 
     QUnit.module('Back, different extension', {
-        setup: function() {
+        beforeEach: function(assert) {
             window.history.replaceState(null, '', testerUrl);
         },
-        teardown: function() {
+        afterEach: function(assert) {
             window.history.replaceState(null, '', testerUrl);
         }
     });
 
-    QUnit.asyncTest('On move back with a page reload (= different extension), trigger sectionactivate ', function(assert) {
+    QUnit.test('On move back with a page reload (= different extension), trigger sectionactivate ', function(assert) {
+        var ready = assert.async();
         var url = '/tao/Main/index?structure=tests&ext=taoItems&section=manage_tests';
 
-        QUnit.expect(2);
+        assert.expect(2);
 
         generisRouter
             .off('.test')
             .on('sectionshow.test', function() {
                 assert.ok(false, 'sectionshow should not be called');
-                QUnit.start();
+                ready();
             })
             .on('sectionactivate.test', function(sectionId) {
                 assert.ok(true, 'sectionactivate has been called');
                 assert.equal(sectionId, 'manage_tests', 'correct param is passed to the callback');
-                QUnit.start();
+                ready();
             })
             .on('urichange.test', function() {
 
                 assert.ok(false, 'urichange should not be called');
-                QUnit.start();
+                ready();
             });
 
         window.history.pushState({
@@ -506,7 +506,7 @@ define([
             restoreWith: 'activate'
         }, '', url);
 
-        // when page reloads and there is a restorable state, then .restoreState() gets called
+        // When page reloads and there is a restorable state, then .restoreState() gets called
         generisRouter.restoreState();
     });
 

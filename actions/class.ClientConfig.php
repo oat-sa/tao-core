@@ -22,6 +22,8 @@ use oat\tao\model\ClientLibRegistry;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\clientConfig\ClientConfigService;
 use oat\tao\model\routing\Resolver;
+use oat\tao\model\security\xsrf\TokenService;
+use tao_helpers_Date as DateHelper;
 
 /**
  * Generates client side configuration.
@@ -41,11 +43,26 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule
     {
         $this->setContentHeader('application/javascript');
 
+        /** @var TokenService $tokenService */
+        $tokenService = $this->getServiceLocator()->get(TokenService::SERVICE_ID);
+        $tokenPool = $tokenService->generateTokenPool();
+        $jsTokenPool = [];
+        foreach ($tokenPool as $key => $token) {
+            if ($key !== TokenService::FORM_POOL) {
+                $jsTokenPool[] = $token->getValue();
+
+            }
+        }
+        $this->setData('tokens', json_encode([TokenService::JS_TOKEN_KEY => $jsTokenPool]));
+
         //get extension paths to set up aliases dynamically
         $extensionsAliases = ClientLibRegistry::getRegistry()->getLibAliasMap();
         $this->setData('extensionsAliases', $extensionsAliases);
 
         $libConfigs = ClientLibConfigRegistry::getRegistry()->getMap();
+        // Dynamically adds the date format.
+        $formatter = DateHelper::getDateFormatter();
+        $libConfigs['util/locale']['dateTimeFormat'] = $formatter->getJavascriptFormat(DateHelper::FORMAT_LONG);
         $this->setData('libConfigs', $libConfigs);
 
         $extendedConfig = $this->getServiceLocator()->get(ClientConfigService::SERVICE_ID)->getExtendedConfig();

@@ -20,12 +20,12 @@
  */
 #forms_content{
 	position: absolute;
-	top: 190px;
+	top: 160px;
 	margin-left: 200px;
 }
 
 ul{
-	height: 230px;
+	height: 260px;
 }
 
 #submitForm.disabled{
@@ -38,6 +38,19 @@ ul{
 
 #formComment{
 	width: 330px;
+}
+
+#server-setup{
+	position: absolute;
+	visibility: hidden;
+	line-height: 20px;
+}
+
+#server-setup > span{
+	font-size: 10px;
+	font-weight: bold;
+	font-style: italic;
+	margin-left: 20px;
 }
 
 p#comments {

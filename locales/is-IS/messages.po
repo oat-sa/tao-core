@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint91\n"
-"PO-Revision-Date: 2018-12-14T15:15:33\n"
+"Project-Id-Version: TAO 3.3.0-sprint101\n"
+"PO-Revision-Date: 2019-05-10T14:58:12\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: is-IS\n"
@@ -148,7 +148,13 @@ msgstr ""
 msgid "A message with further instructions has been sent to your email address: %s"
 msgstr ""
 
+msgid "abs"
+msgstr ""
+
 msgid "Absolute value"
+msgstr ""
+
+msgid "AC"
 msgstr ""
 
 msgid "Access Denied"
@@ -224,6 +230,12 @@ msgstr "Öll svæði þurfa að vera til staðar"
 msgid "All rights reserved."
 msgstr "Allur réttur áskilinn."
 
+msgid "Allow for all domains"
+msgstr ""
+
+msgid "Allow for the following domains"
+msgstr ""
+
 msgid "Alpha version"
 msgstr "Alpha útgáfa"
 
@@ -246,6 +258,9 @@ msgid "Ans"
 msgstr ""
 
 msgid "Apply"
+msgstr ""
+
+msgid "Apply date range"
 msgstr ""
 
 msgid "Arc cosine"
@@ -271,6 +286,9 @@ msgid "Argument check failed: %s"
 msgstr ""
 
 msgid "Arguments %s and %s are mutually exclusive"
+msgstr ""
+
+msgid "Arguments separator"
 msgstr ""
 
 msgid "array"
@@ -340,19 +358,25 @@ msgstr "Vafra í möppum:"
 msgid "Browse..."
 msgstr "Vafra..."
 
+msgid "C"
+msgstr ""
+
 msgid "Calculator"
 msgstr ""
 
 msgid "Calendar"
 msgstr "Dagatal"
 
-msgid "Cancel"
-msgstr "Hætta við"
-
 msgid "cancel"
 msgstr ""
 
+msgid "Cancel"
+msgstr "Hætta við"
+
 msgid "cancel the action"
+msgstr ""
+
+msgid "Cancelled"
 msgstr ""
 
 msgid "Cannot be edited"
@@ -364,6 +388,9 @@ msgstr ""
 msgid "Case sensitive"
 msgstr ""
 
+msgid "ceil"
+msgstr ""
+
 #, tao-public
 msgid "Change password"
 msgstr "Breyta lykilorði"
@@ -371,10 +398,13 @@ msgstr "Breyta lykilorði"
 msgid "Change the password"
 msgstr "Breyta lykilorðinu"
 
-msgid "Check all"
-msgstr "Merkja við allt"
+msgid "Change the sign of the current operand"
+msgstr ""
 
 msgid "Check All"
+msgstr "Merkja við allt"
+
+msgid "Check all"
 msgstr "Merkja við allt"
 
 msgid "Check-in"
@@ -426,6 +456,9 @@ msgid "Clear History"
 msgstr ""
 
 msgid "Clear selection"
+msgstr ""
+
+msgid "Clear the date time picker"
 msgstr ""
 
 msgid "Clear the stored variables"
@@ -482,6 +515,12 @@ msgstr ""
 msgid "Copy to clipboard"
 msgstr ""
 
+msgid "cos"
+msgstr ""
+
+msgid "cosh"
+msgstr ""
+
 msgid "Cosine"
 msgstr ""
 
@@ -500,7 +539,13 @@ msgstr ""
 msgid "Created"
 msgstr ""
 
+msgid "Creating report ..."
+msgstr ""
+
 msgid "Creation At"
+msgstr ""
+
+msgid "CSP Header settings were saved successfully!"
 msgstr ""
 
 msgid "CSV"
@@ -538,6 +583,15 @@ msgstr ""
 
 msgid "Date"
 msgstr "Dagsetning"
+
+msgid "date range"
+msgstr ""
+
+msgid "date time"
+msgstr ""
+
+msgid "date time range"
+msgstr ""
 
 msgid "Default search"
 msgstr "Sjálfgefin leit"
@@ -654,6 +708,9 @@ msgstr ""
 msgid "Edit Instance"
 msgstr "Breyta tilviki"
 
+msgid "Edit sources that can embed this platform in an iFrame"
+msgstr ""
+
 msgid "Element"
 msgstr ""
 
@@ -706,6 +763,9 @@ msgid "Execute"
 msgstr ""
 
 msgid "Executing task %s failed"
+msgstr ""
+
+msgid "exp"
 msgstr ""
 
 msgid "Exponent"
@@ -803,11 +863,20 @@ msgstr ""
 msgid "Fit to width"
 msgstr ""
 
+msgid "floor"
+msgstr ""
+
+msgid "Forbid for all domains"
+msgstr ""
+
 msgid "Force Release"
 msgstr ""
 
 msgid "Forgot your password?"
 msgstr "Gleymt aðgangsorð?"
+
+msgid "Form data not saved."
+msgstr ""
 
 msgid "From"
 msgstr ""
@@ -908,10 +977,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -920,7 +989,7 @@ msgstr ""
 msgid "Index has been deleted for %s"
 msgstr ""
 
-msgid "Indexing has been run"
+msgid "Infinity"
 msgstr ""
 
 msgid "Injector has to contains a valid \"destination\" field."
@@ -950,10 +1019,13 @@ msgstr "Set upp viðbætur %s..."
 msgid "Instance saved"
 msgstr "Tilvik vistað"
 
+msgid "Interface Language"
+msgstr ""
+
 msgid "Interface language"
 msgstr ""
 
-msgid "Interface Language"
+msgid "Invalid CSP header."
 msgstr ""
 
 msgid "Invalid date range (must be after or the same as: %s)"
@@ -1004,6 +1076,9 @@ msgstr "ógild regluleg segð"
 msgid "Invalid values:"
 msgstr ""
 
+msgid "items per page"
+msgstr ""
+
 msgid "Label"
 msgstr "Merki"
 
@@ -1017,6 +1092,9 @@ msgid "Last Name"
 msgstr "Eftirnafn"
 
 msgid "Last page"
+msgstr ""
+
+msgid "Last result"
 msgstr ""
 
 msgid "Left parenthesis"
@@ -1037,6 +1115,9 @@ msgstr "Listi - Einfalt val - Felligluggi"
 msgid "List - Single choice - Radio button"
 msgstr "Listi - Einfalt val - "
 
+msgid "ln"
+msgstr ""
+
 msgid "Load more"
 msgstr ""
 
@@ -1056,6 +1137,9 @@ msgid "Loading task status ..."
 msgstr ""
 
 msgid "locked by %s"
+msgstr ""
+
+msgid "log"
 msgstr ""
 
 msgid "Log in"
@@ -1135,6 +1219,9 @@ msgstr ""
 msgid "Missing Parameters"
 msgstr ""
 
+msgid "modulo"
+msgstr ""
+
 msgid "More"
 msgstr "Meira"
 
@@ -1163,10 +1250,10 @@ msgstr "Færa í"
 msgid "Moving this element will replace the properties of the previous class by those of the destination class :"
 msgstr ""
 
-msgid "Moving this element will replace the properties of the previous class by those of the destination class:"
+msgid "Multiple values delimiter"
 msgstr ""
 
-msgid "Multiple values delimiter"
+msgid "Multiply the value by 10^x"
 msgstr ""
 
 msgid "must be numeric"
@@ -1231,10 +1318,10 @@ msgstr "Engar skrár"
 msgid "no label"
 msgstr "ekkert merki"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr ""
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr ""
 
 msgid "No results found"
@@ -1298,11 +1385,17 @@ msgstr "Gamalt lykilorð"
 msgid "On"
 msgstr ""
 
+msgid "Only allow for my own domain (%s)"
+msgstr ""
+
 msgid "Operated By "
 msgstr ""
 
 msgid "or"
 msgstr "eða"
+
+msgid "Outlook on the next Synchronization"
+msgstr ""
 
 msgid "Page"
 msgstr "Síða"
@@ -1365,6 +1458,9 @@ msgid "Please contact %s or an administrator to release it"
 msgstr ""
 
 msgid "Please contact your administrator."
+msgstr ""
+
+msgid "Please contact your system administrator."
 msgstr ""
 
 msgid "Please download the track and listen offline."
@@ -1441,6 +1537,9 @@ msgid "Rad"
 msgstr ""
 
 msgid "Radian"
+msgstr ""
+
+msgid "random"
 msgstr ""
 
 msgid "Random value"
@@ -1527,10 +1626,16 @@ msgstr "Endurstilla"
 msgid "Reset the original size"
 msgstr ""
 
+msgid "Reset the range values"
+msgstr ""
+
 msgid "Resource"
 msgstr "Tilfang"
 
 msgid "Resource copied"
+msgstr ""
+
+msgid "Resource deleted"
 msgstr ""
 
 msgid "Resource Identifier"
@@ -1555,6 +1660,12 @@ msgid "resources"
 msgstr ""
 
 msgid "Resources moved"
+msgstr ""
+
+msgid "Resources successfully indexed"
+msgstr ""
+
+msgid "Resources was not indexed"
 msgstr ""
 
 msgid "Responsive mode"
@@ -1582,6 +1693,9 @@ msgstr "Hlutverk"
 msgid "Roles library"
 msgstr "Hlutverkasafn"
 
+msgid "round"
+msgstr ""
+
 msgid "Round to closest whole number"
 msgstr ""
 
@@ -1599,6 +1713,9 @@ msgstr ""
 
 msgid "Save"
 msgstr "Vista"
+
+msgid "Saved."
+msgstr ""
 
 msgid "Scientific Calculator"
 msgstr ""
@@ -1624,11 +1741,18 @@ msgstr ""
 msgid "seconds"
 msgstr "sekúndur"
 
-msgid "Select"
-msgstr "Velja"
+#, tao-public
+msgid "Security"
+msgstr ""
+
+msgid "Security settings"
+msgstr ""
 
 msgid "select"
 msgstr "velja"
+
+msgid "Select"
+msgstr "Velja"
 
 msgid "Select a class"
 msgstr ""
@@ -1641,9 +1765,6 @@ msgstr "Veldu tungumál"
 
 msgid "Select loaded %s"
 msgstr ""
-
-msgid "Select the element destination"
-msgstr "Veldu hvert þáttur á að fara"
 
 msgid "Select this file"
 msgstr "Veldu þessa skrá"
@@ -1679,16 +1800,28 @@ msgstr "Stillingar uppfærðar"
 msgid "Show detailed report"
 msgstr "Sýna nákvæma skýrslu"
 
+msgid "Sign change"
+msgstr ""
+
 msgid "Simple Mode"
 msgstr "Einfaldur hamur"
 
+msgid "sin"
+msgstr ""
+
 msgid "Sine"
+msgstr ""
+
+msgid "sinh"
 msgstr ""
 
 msgid "Size"
 msgstr "Stærð"
 
 msgid "Some resources have not been moved: %s"
+msgstr ""
+
+msgid "Sources that can embed this platform in an iFrame"
 msgstr ""
 
 msgid "Square root"
@@ -1721,6 +1854,12 @@ msgstr ""
 msgid "Success"
 msgstr "Í lagi"
 
+msgid "Successfully cloned instance as %s"
+msgstr ""
+
+msgid "Successfully deleted %s"
+msgstr ""
+
 msgid "Successfully imported \"%s"
 msgstr ""
 
@@ -1736,7 +1875,16 @@ msgstr ""
 msgid "Supported export formats"
 msgstr "Þekkt snið útflutnings"
 
+msgid "Syntax error"
+msgstr ""
+
+msgid "tan"
+msgstr ""
+
 msgid "Tangent"
+msgstr ""
+
+msgid "tanh"
 msgstr ""
 
 msgid "Tao Default Theme"
@@ -1747,6 +1895,9 @@ msgstr "Tao Heimasvæði"
 
 msgid "TAO Login"
 msgstr "TAO Innskráning"
+
+msgid "Task %s has been cancelled, message was not processed."
+msgstr ""
 
 msgid "task created"
 msgstr ""
@@ -1865,6 +2016,9 @@ msgstr ""
 msgid "This should not equal %s"
 msgstr ""
 
+msgid "time"
+msgstr ""
+
 msgid "Time zone"
 msgstr "Tímabelti"
 
@@ -1881,6 +2035,9 @@ msgid "to translate"
 msgstr "að þýða"
 
 msgid "Toggle multiple/single selection"
+msgstr ""
+
+msgid "Toggle the date time picker"
 msgstr ""
 
 msgid "Tokenizer"
@@ -1916,6 +2073,9 @@ msgstr ""
 msgid "True"
 msgstr "Satt"
 
+msgid "trunc"
+msgstr ""
+
 msgid "Type"
 msgstr "Gerð"
 
@@ -1946,6 +2106,9 @@ msgstr ""
 msgid "Unable to open file %s"
 msgstr ""
 
+msgid "Unable to process your request"
+msgstr ""
+
 msgid "Unable to release the lock"
 msgstr "Ekki hægt að taka lás af"
 
@@ -1968,6 +2131,12 @@ msgid "Unable to upload file"
 msgstr "Get ekki hlaðið upp skrá"
 
 msgid "Unable to upload file %s : %s"
+msgstr ""
+
+msgid "Unary operator +"
+msgstr ""
+
+msgid "Unary operator -"
 msgstr ""
 
 msgid "Uncheck All"
@@ -2070,6 +2239,27 @@ msgstr ""
 #, tao-public
 msgid "Users"
 msgstr "Notendur"
+
+msgid "Validation for field '%s' has failed. Language does not exist in the system"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. List of values expected"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Should not be empty"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Valid role expected. Given: %s"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Valid URI expected"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Valid URI expected. Given: %s"
+msgstr ""
+
+msgid "Value ellipsis"
+msgstr ""
 
 msgid "Value of E"
 msgstr ""

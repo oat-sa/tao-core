@@ -139,11 +139,12 @@ class tao_models_classes_import_CsvImporter extends CsvAbstractImporter implemen
      * @see tao_models_classes_import_ImportHandler::import()
      * @param core_kernel_classes_Class $class
      * @param tao_helpers_form_Form|array $form
+     * @param string|null $userId owner of the resource
      * @return common_report_Report
      * @throws \oat\oatbox\service\ServiceNotFoundException
      * @throws \common_Exception
      */
-    public function import($class, $form)
+    public function import($class, $form, $userId = null)
     {
         // for backward compatibility
         $options = $form instanceof \tao_helpers_form_Form ? $form->getValues() : $form;
@@ -183,7 +184,7 @@ class tao_models_classes_import_CsvImporter extends CsvAbstractImporter implemen
         }
         $options['staticMap'] = array_merge($staticMap, $this->getStaticData());
 
-        $report = parent::importFile($class, $options);
+        $report = parent::importFile($class, $options, $userId);
 
         if ($report->getType() == common_report_Report::TYPE_SUCCESS) {
             $this->getEventManager()->trigger(new CsvImportEvent($report));

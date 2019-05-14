@@ -155,6 +155,13 @@ $footerHeight: 34;
             position: relative;
         }
 
+        .setting-menu-container {
+            position: relative;
+            top: 0;
+            right: 0;
+            background: inherit;
+        }
+
         .main-menu, .settings-menu, .persistent-menu {
 
             background:inherit;
@@ -271,6 +278,7 @@ $footerHeight: 34;
 .content-wrap > header, body > header {
     position: relative;
     border-bottom: 1px $uiGeneralContentBorder solid;
+    z-index: 1000;
 }
 
 // Footer

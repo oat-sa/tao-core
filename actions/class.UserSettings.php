@@ -25,6 +25,7 @@ use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\user\UserLanguageServiceInterface;
 use oat\tao\model\service\ApplicationService;
+use tao_helpers_form_FormContainer as FormContainer;
 
 /**
  * This controller provide the actions to manage the user settings
@@ -47,15 +48,13 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
         if ($this->getServiceLocator()->get(ApplicationService::SERVICE_ID)->isDemo()) {
             $this->setData('myForm', __('Unable to change passwords in demo mode'));
         } else {
-            $myFormContainer = new tao_actions_form_UserPassword();
+            $myFormContainer = new tao_actions_form_UserPassword([], [FormContainer::CSRF_PROTECTION_OPTION => true]);
             $myForm = $myFormContainer->getForm();
-            if($myForm->isSubmited()){
-                if($myForm->isValid()){
-                    $user = $this->getUserService()->getCurrentUser();
-                    $this->getServiceLocator()->get(tao_models_classes_UserService::SERVICE_ID)
-                        ->setPassword($user, $myForm->getValue('newpassword'));
-                    $this->setData('message', __('Password changed'));
-                }
+            if ($myForm->isSubmited() && $myForm->isValid()) {
+                $user = $this->getUserService()->getCurrentUser();
+                $this->getServiceLocator()->get(tao_models_classes_UserService::SERVICE_ID)
+                    ->setPassword($user, $myForm->getValue('newpassword'));
+                $this->setData('message', __('Password changed'));
             }
             $this->setData('myForm', $myForm->render());
         }
@@ -68,7 +67,10 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
      */
     public function properties()
     {
-        $myFormContainer = new tao_actions_form_UserSettings($this->getUserSettings());
+        $myFormContainer = new tao_actions_form_UserSettings(
+            $this->getUserSettings(),
+            [FormContainer::CSRF_PROTECTION_OPTION => true]
+        );
         $myForm = $myFormContainer->getForm();
         if ($myForm->isSubmited() && $myForm->isValid()) {
             $userLangService = $this->getServiceLocator()->get(UserLanguageServiceInterface::class);
@@ -100,7 +102,7 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
             }
         }
         $userLabel = $this->getUserService()->getCurrentUser()->getLabel();
-        $this->setData('formTitle', __("My settings (%s)", $userLabel));
+        $this->setData('formTitle', __('My settings (%s)', $userLabel));
         $this->setData('myForm', $myForm->render());
 
         //$this->setView('form.tpl');

@@ -26,42 +26,45 @@ define([
     'util/namespace',
     'ui/scroller',
     'ui/maths/calculator/core/terms',
+    'ui/maths/calculator/core/tokens',
+    'ui/maths/calculator/core/expression',
     'ui/maths/calculator/core/plugin',
-    'tpl!ui/maths/calculator/plugins/screen/simpleScreen/term',
     'tpl!ui/maths/calculator/plugins/screen/simpleScreen/history',
     'tpl!ui/maths/calculator/plugins/screen/simpleScreen/defaultTemplate'
-], function ($, _, __, nsHelper, scrollHelper, registeredTerms, pluginFactory, termTpl, historyTpl, defaultScreenTpl) {
+], function (
+    $,
+    _,
+    __,
+    nsHelper,
+    scrollHelper,
+    registeredTerms,
+    tokensHelper,
+    expressionHelper,
+    pluginFactory,
+    historyTpl,
+    defaultScreenTpl
+) {
     'use strict';
 
     var pluginName = 'simpleScreen';
-    var varAnsName = 'ans';
-    var reLeadingSpace = /^\s+/;
-    var reErrorValue = /(NaN|[+-]?Infinity)/;
-    var reAnsVar = new RegExp('\\b' + varAnsName + '\\b', 'g');
 
     /**
      * Default displayed value
-     * @type {mathsExpression}
+     * @type {String}
      */
-    var defaultValue = {
-        expression: '0',
-        variables: {},
-        value: '0',
-        result: 0
-    };
-
-    var defaultConfig = {
-        layout: defaultScreenTpl
-    };
+    var defaultExpression = '0';
 
     /**
-     * Checks if an expression contains an error value
-     * @param {String} expression
-     * @returns {Boolean}
+     * Default plugin config
+     * @type {Object}
      */
-    function containsError(expression) {
-        return reErrorValue.test(expression);
-    }
+    var defaultConfig = {
+        // the layout of the screen
+        layout: defaultScreenTpl,
+
+        // number of decimal digits shown for decimal numbers
+        decimalDigits: 5
+    };
 
     return pluginFactory({
         name: pluginName,
@@ -70,79 +73,29 @@ define([
          * Called when the plugin should be initialized.
          */
         init: function init() {
-            var self = this;
             var calculator = this.getCalculator();
 
             /**
              * Reset the current expression
              */
             function reset() {
-                calculator.replace(defaultValue.expression);
-            }
-
-            /**
-             * Update the variable containing the last result, and keep track of the source expression.
-             * @param {mathsExpression} result
-             */
-            function store(result) {
-                self.previous = calculator.getExpression();
-                if (calculator.hasVariable(varAnsName)) {
-                    self.previous = self.previous.replace(reAnsVar, calculator.getVariable(varAnsName).value);
-                }
-                calculator.setVariable(varAnsName, containsError(result.value) ? defaultValue : result);
-            }
-
-            /**
-             * Erase the current expression and the history
-             */
-            function erase() {
-                store(defaultValue);
-                self.previous = defaultValue.expression;
+                calculator.replace(calculator.getConfig().expression || defaultExpression);
             }
 
             reset();
-            erase();
 
             calculator
-                .on(nsHelper.namespaceAll('termadd', pluginName), function (name, term) {
-                    var expression, tokens;
-                    // will replace the current term if:
-                    // - it is a 0, and the term to add is not an operator nor a dot
-                    // - it is the last result, and the term to add is not an operator
-                    if (term.type !== 'operator') {
-                        expression = calculator.getExpression().replace(reLeadingSpace, '');
-                        tokens = calculator.getTokens();
-
-                        if (tokens.length === 2 && tokens[0].type === 'NUM0' && name !== 'DOT') {
-                            calculator.replace(expression.substr(1));
-                        }
-                        else if (
-                            (tokens.length === 2 && tokens[0].value === varAnsName) ||
-                            (tokens.length === 1 && tokens[0].type === 'term' &&
-                                tokens[0].value !== varAnsName &&
-                                tokens[0].value.substr(0, varAnsName.length) === varAnsName)) {
-                            calculator.replace(expression.substr(varAnsName.length));
-                        }
-                    }
-                })
                 .after(nsHelper.namespaceAll('expressionchange', pluginName), function (expression) {
                     // ensure the displayed expression is at least a 0 (never be an empty string)
                     if (!expression.trim()) {
                         _.defer(reset);
                     }
                 })
-                .before(nsHelper.namespaceAll('evaluate', pluginName), function(ev, result) {
-                    // when the expression is computed, we store the result as the last value
-                    // then we replace the expression with a refined version (last value variable replaced)
-                    store(result);
-                    calculator.replace(self.previous);
-                })
                 .after(nsHelper.namespaceAll('evaluate', pluginName), function() {
                     // when the expression is computed, replace it with the result as a variable
-                    calculator.replace(varAnsName);
+                    calculator.replace(registeredTerms.ANS.value);
                 })
-                .on(nsHelper.namespaceAll('clear', pluginName), reset)
-                .on(nsHelper.namespaceAll('command-clearAll', pluginName), erase);
+                .on(nsHelper.namespaceAll('clear', pluginName), reset);
         },
 
         /**
@@ -156,44 +109,6 @@ define([
             var tokenizer = calculator.getTokenizer();
 
             /**
-             * Transforms a tokenized expression, replacing values by the related labels.
-             * @param {Array} tokens
-             * @returns {String}
-             */
-            function transformTokens(tokens) {
-                var expression = '';
-
-                _.forEach(tokens, function (token) {
-                    var term = {
-                        type: token.type,
-                        token: token.type,
-                        value: token.value,
-                        label: token.value
-                    };
-
-                    if (registeredTerms[token.type]) {
-                        term.type = registeredTerms[token.type].type;
-                        term.label = registeredTerms[token.type].label;
-                    }
-                    else if (token.type === 'term') {
-                        if (calculator.hasVariable(token.value)) {
-                            term.type = 'variable';
-                            // always display the actual value of the last result variable
-                            if (token.value === varAnsName) {
-                                term.label = calculator.getVariable(varAnsName).value;
-                            }
-                        } else {
-                            term.type = 'unknown';
-                        }
-                    }
-
-                    expression += termTpl(term);
-                });
-
-                return expression;
-            }
-
-            /**
              * Auto scroll to the last child of a container
              * @param {jQuery} $container
              * @param {String} [sel]
@@ -203,13 +118,24 @@ define([
             }
 
             /**
+             * Renders the expression into a string
+             * @param {String|Object|token[]} expression
+             * @returns {String}
+             */
+            function renderExpression(expression) {
+                var variables = expressionHelper.roundLastResultVariable(
+                    calculator.getVariables(),
+                    pluginConfig.decimalDigits
+                );
+                return expressionHelper.render(expression, variables, tokenizer);
+            }
+
+            /**
              * Updates the expression area
-             * @param {Array} tokens
+             * @param {String|Object|token[]} tokens
              */
             function showExpression(tokens) {
-                self.controls.$expression.html(
-                    transformTokens(tokens)
-                );
+                self.controls.$expression.html(renderExpression(tokens));
                 autoScroll(self.controls.$expression);
             }
 
@@ -218,7 +144,7 @@ define([
             }
 
             this.$layout = $(pluginConfig.layout(_.defaults({
-                expression: transformTokens(calculator.getTokens())
+                expression: renderExpression(calculator.getTokens())
             }, pluginConfig)));
 
             this.controls = {
@@ -236,19 +162,19 @@ define([
                 })
                 .on(nsHelper.namespaceAll('evaluate', pluginName), function (result) {
                     self.controls.$history.html(historyTpl({
-                        expression: transformTokens(tokenizer.tokenize(self.previous)),
-                        result: transformTokens(tokenizer.tokenize(String(result.value)))
+                        expression: renderExpression(calculator.getTokens()),
+                        result: renderExpression(result)
                     }));
                     autoScroll(self.controls.$history, '.history-result');
                 })
                 .after(nsHelper.namespaceAll('evaluate', pluginName), function(result) {
-                    if (containsError(result.value)) {
-                        showExpression(tokenizer.tokenize(String(result.value)));
+                    if (expressionHelper.containsError(result.value)) {
+                        showExpression(result);
                     }
                 })
                 .on(nsHelper.namespaceAll('syntaxerror', pluginName), function () {
                     calculator.setState('error', true);
-                    showExpression(tokenizer.tokenize(calculator.getExpression() + '#'));
+                    showExpression(calculator.getExpression() + registeredTerms.ERROR.value);
                 });
 
             areaBroker.getScreenArea().append(this.$layout);
@@ -264,9 +190,7 @@ define([
                 this.$layout = null;
             }
             this.controls = null;
-            calculator
-                .off('.' + pluginName)
-                .deleteVariable(varAnsName);
+            calculator.off('.' + pluginName);
         }
     }, defaultConfig);
 });

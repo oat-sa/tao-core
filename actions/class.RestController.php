@@ -19,6 +19,7 @@
  */
 
 use oat\generis\model\OntologyAwareTrait;
+use oat\tao\model\routing\AnnotationReader\security;
 
 abstract class tao_actions_RestController extends \tao_actions_CommonModule
 {
@@ -34,6 +35,7 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
      * Check response encoding requested
      *
      * tao_actions_RestModule constructor.
+     * @security("hide");
      */
     public function __construct()
     {
@@ -49,6 +51,21 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
     }
 
     /**
+     * @OA\Schema(
+     *     schema="tao.GenerisClass.Search",
+     *     type="object",
+     *     @OA\Property(
+     *         property="class-uri",
+     *         type="string",
+     *         description="Target class uri"
+     *     ),
+     *     @OA\Property(
+     *         property="class-label",
+     *         type="string",
+     *         description="Target class label. If label is not unique first match will be used"
+     *     )
+     * )
+     *
      * Get class instance from request parameters
      * If more than one class with given label exists the first open will be picked up.
      * @param core_kernel_classes_Class $rootClass
@@ -64,8 +81,18 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
             );
         }
 
+        if (!$this->hasRequestParameter(self::CLASS_URI_PARAM) && !$this->hasRequestParameter(self::CLASS_LABEL_PARAM)) {
+            $class = $rootClass;
+        }
+
         if ($this->hasRequestParameter(self::CLASS_URI_PARAM)) {
-            $class = $this->getClass($this->getRequestParameter(self::CLASS_URI_PARAM));
+            $classUriParam = $this->getRequestParameter(self::CLASS_URI_PARAM);
+            if (!$classUriParam) {
+                throw new \common_exception_RestApi(
+                    self::CLASS_URI_PARAM .  ' is not valid.'
+                );
+            }
+            $class = $this->getClass($classUriParam);
         }
         if ($this->hasRequestParameter(self::CLASS_LABEL_PARAM)) {
             $label = $this->getRequestParameter(self::CLASS_LABEL_PARAM);
@@ -77,24 +104,46 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
             }
         }
         if ($class === null || !$class->exists()) {
-            $class = $rootClass;
+            throw new \common_exception_RestApi(
+                'Class does not exist. Please use valid '.self::CLASS_URI_PARAM . ' or '.self::CLASS_LABEL_PARAM
+            );
         }
         return $class;
     }
 
     /**
+     * @OA\Schema(
+     *     schema="tao.GenerisClass.New",
+     *     type="object",
+     *     @OA\Property(
+     *         property="class-label",
+     *         type="string",
+     *         description="Class label"
+     *     ),
+     *     @OA\Property(
+     *         property="class-comment",
+     *         type="string",
+     *         description="Class comment"
+     *     ),
+     *     @OA\Property(
+     *         property="parent-class-uri",
+     *         type="string",
+     *         description="Parent class uri, root class by default"
+     *     )
+     * )
+     *
      * Create sub class of given root class.
      *
      * @param core_kernel_classes_Class $rootClass
-     * @throws \common_exception_MissingParameter
      * @throws \common_Exception
      * @throws \common_exception_InconsistentData
+     * @throws \common_exception_ClassAlreadyExists
      * @return \core_kernel_classes_Class
      */
     protected function createSubClass(\core_kernel_classes_Class $rootClass)
     {
         if (!$this->hasRequestParameter(static::CLASS_LABEL_PARAM)) {
-            throw new \common_exception_MissingParameter(static::CLASS_LABEL_PARAM, $this->getRequestURI());
+            throw new \common_exception_RestApi('Missed required parameter: ' . static::CLASS_LABEL_PARAM);
         }
         $label = $this->getRequestParameter(static::CLASS_LABEL_PARAM);
 

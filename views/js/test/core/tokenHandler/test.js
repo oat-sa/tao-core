@@ -13,50 +13,167 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2016-19 (original work) Open Assessment Technologies SA ;
  */
 /**
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
+ * @author Martin Nicholson <martin@taotesting.com>
  */
-define(['lodash', 'core/tokenHandler'], function(_, tokenHandlerFactory) {
+define([
+    'core/promise',
+    'core/tokenHandler',
+    'lib/jquery.mockjax/jquery.mockjax'
+], function(Promise, tokenHandlerFactory) {
     'use strict';
+
+    var proxyApi = [
+        { name : 'getToken' },
+        { name : 'setToken' },
+        { name : 'getClientConfigTokens' },
+        { name : 'clearStore' },
+        { name : 'getQueueLength' },
+        { name : 'setMaxSize' }
+    ];
+
 
     QUnit.module('tokenHandler');
 
     QUnit.test('module', function(assert) {
-        QUnit.expect(3);
+        assert.expect(3);
 
-        assert.equal(typeof tokenHandlerFactory, 'function', "The tokenHandler module exposes a function");
-        assert.equal(typeof tokenHandlerFactory(), 'object', "The tokenHandler factory produces an object");
-        assert.notStrictEqual(tokenHandlerFactory(), tokenHandlerFactory(), "The tokenHandler factory provides a different object on each call");
+        assert.equal(typeof tokenHandlerFactory, 'function', 'The tokenHandler module exposes a function');
+        assert.equal(typeof tokenHandlerFactory(), 'object', 'The tokenHandler factory produces an object');
+        assert.notStrictEqual(tokenHandlerFactory(), tokenHandlerFactory(), 'The tokenHandler factory provides a different object on each call');
     });
 
-    var proxyApi = [
-        { name : 'getToken', title : 'getToken' },
-        { name : 'setToken', title : 'setToken' }
-    ];
-
     QUnit
-        .cases(proxyApi)
+        .cases.init(proxyApi)
         .test('instance API ', function(data, assert) {
-            QUnit.expect(1);
-
             var instance = tokenHandlerFactory();
+            assert.expect(1);
             assert.equal(typeof instance[data.name], 'function', 'The tokenHandler instance exposes a "' + data.name + '" function');
         });
 
 
-    QUnit.test('setters', function(assert) {
-        QUnit.expect(4);
+    QUnit.module('behaviour');
 
+    QUnit.test('set/get single token', function(assert){
+        var ready = assert.async();
         var tokenHandler = tokenHandlerFactory();
-        var expectedToken ="e56fg1a3b9de2237f";
+        var expectedToken = { value: "e56fg1a3b9de2237f", receivedAt: Date.now() };
 
-        assert.equal(tokenHandler.getToken(), undefined, 'There is no registered token in a fresh instance');
+        assert.expect(2);
 
-        assert.equal(tokenHandler.setToken(expectedToken), tokenHandler, 'The setToken method return the chain instance');
+        tokenHandler.setToken(expectedToken.value)
+            .then(function(result){
+                assert.ok(result, 'The setToken method returns true');
 
-        assert.equal(tokenHandler.getToken(), expectedToken, 'The getToken method returns the right token');
-        assert.equal(tokenHandler.getToken(), null, 'The getToken method returns the token only once');
+                return tokenHandler.getToken();
+            })
+            .then(function(returnedToken){
+                assert.equal(returnedToken, expectedToken.value, 'The getToken method returns the right token');
+
+                return tokenHandler.clearStore();
+            })
+            .then(function() {
+                ready();
+            })
+            .catch(function(err){
+                assert.ok(false, err.message);
+                ready();
+            });
+    });
+
+    QUnit.test('getQueueLength', function(assert){
+        var ready = assert.async();
+        var tokenHandler = tokenHandlerFactory({ maxSize: 5 });
+
+        assert.expect(6);
+
+        Promise.all([
+            tokenHandler.setToken('token1'),
+            tokenHandler.setToken('token2'),
+            tokenHandler.setToken('token3'),
+            tokenHandler.setToken('token4'),
+            tokenHandler.setToken('token5'),
+        ])
+        .then(function(){
+            return tokenHandler.getQueueLength();
+        })
+        .then(function(length){
+            assert.equal(length, 5, 'The queue size is correct: 5');
+            return tokenHandler.getToken()
+                .then(function(){
+                    return tokenHandler.getQueueLength();
+                });
+        })
+        .then(function(length){
+            assert.equal(length, 4, 'The queue size is correct: 4');
+            return tokenHandler.getToken()
+                .then(function(){
+                    return tokenHandler.getQueueLength();
+                });
+        })
+        .then(function(length){
+            assert.equal(length, 3, 'The queue size is correct: 3');
+            return tokenHandler.getToken()
+                .then(function(){
+                    return tokenHandler.getQueueLength();
+                });
+        })
+        .then(function(length){
+            assert.equal(length, 2, 'The queue size is correct: 2');
+            return tokenHandler.getToken()
+                .then(function(){
+                    return tokenHandler.getQueueLength();
+                });
+        })
+        .then(function(length){
+            assert.equal(length, 1, 'The queue size is correct: 1');
+            return tokenHandler.getToken()
+                .then(function(){
+                    return tokenHandler.getQueueLength();
+                });
+        })
+        .then(function(length){
+            assert.equal(length, 0, 'The queue size is correct: 0');
+
+            ready();
+        })
+        .catch(function(err){
+            assert.ok(false, err.message);
+            ready();
+        });
+    });
+
+    QUnit.test('getClientConfigTokens', function(assert) {
+        var ready = assert.async();
+        var tokenHandler = tokenHandlerFactory();
+
+        assert.expect(3);
+
+        tokenHandler.getClientConfigTokens()
+            .then(function(result) {
+                assert.ok(result, 'The method returned true');
+
+                return tokenHandler.getQueueLength();
+            })
+            .then(function(length) {
+                assert.equal(length, 5, 'The queue size is correct: 5');
+
+                return tokenHandler.getToken();
+            })
+            .then(function(token){
+                assert.equal(typeof token, 'string', 'A token string was fetched');
+
+                return tokenHandler.clearStore();
+            })
+            .then(function() {
+                ready();
+            })
+            .catch(function(err){
+                assert.ok(false, err.message);
+                ready();
+            });
     });
 });

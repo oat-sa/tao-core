@@ -17,18 +17,26 @@
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *
+ *               2013-2019 (update and modification) Open Assessment Technologies SA;
  */
 
+use oat\tao\model\http\LegacyController;
+use oat\tao\helpers\LegacySessionUtils;
+use oat\tao\model\action\CommonModuleInterface;
+use oat\tao\model\mvc\RendererTrait;
+use oat\tao\model\security\ActionProtector;
 use oat\tao\helpers\Template;
 use oat\tao\helpers\JavaScript;
-use oat\tao\model\routing\FlowController;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\accessControl\AclProxy;
 use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\exception\InvalidServiceManagerException;
 use oat\oatbox\log\LoggerAwareTrait;
+use function GuzzleHttp\Psr7\stream_for;
+use oat\tao\model\routing\AnnotationReader\security;
+use oat\tao\model\security\xsrf\TokenService;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Top level controller
@@ -39,24 +47,39 @@ use oat\oatbox\log\LoggerAwareTrait;
  * @package tao
  *
  */
-abstract class tao_actions_CommonModule extends Module implements ServiceManagerAwareInterface
+abstract class tao_actions_CommonModule extends LegacyController implements ServiceManagerAwareInterface, CommonModuleInterface
 {
-    use ServiceManagerAwareTrait { getServiceManager as protected getOriginalServiceManager; }
+    use ServiceManagerAwareTrait {
+        getServiceManager as protected getOriginalServiceManager;
+        getServiceLocator as protected getOriginalServiceLocator;
+        setServiceLocator as protected setOriginalServiceLocator;
+    }
     use LoggerAwareTrait;
+    use RendererTrait { setView as protected setRendererView; }
+    use LegacySessionUtils;
 
     /**
      * The Modules access the models through the service instance
      *
      * @var tao_models_classes_Service
+     * @deprecated
      */
-    protected $service = null;
+    protected $service;
 
     /**
      * tao_actions_CommonModule constructor.
+     * @security("hide");
      */
-    public function __construct()
+    public function __construct() {}
+
+    /**
+     * @inheritdoc
+     */
+    public function initialize()
     {
-        $this->setIframeHeaders();
+        /** @var ActionProtector $actionProtector */
+        $actionProtector = $this->getServiceLocator()->get(ActionProtector::SERVICE_ID);
+        $actionProtector->setFrameAncestorsHeader();
     }
 
     /**
@@ -85,7 +108,7 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
      */
     public function setView($path, $extensionID = null)
     {
-        parent::setView(Template::getTemplate($path, $extensionID));
+        $this->setRendererView(Template::getTemplate($path, $extensionID));
     }
 
     /**
@@ -98,26 +121,16 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
     {
         $context = Context::getInstance();
 
-        $this->setData('extension', context::getInstance()->getExtensionName());
+        $this->setData('extension', $context->getExtensionName());
         $this->setData('module', $context->getModuleName());
         $this->setData('action', $context->getActionName());
 
         if ($this->hasRequestParameter('uri')) {
-
-            // @todo stop using session to manage uri/classUri
-            $this->setSessionAttribute('uri', $this->getRequestParameter('uri'));
-
             // inform the client of new classUri
             $this->setData('uri', $this->getRequestParameter('uri'));
         }
+
         if ($this->hasRequestParameter('classUri')) {
-
-            // @todo stop using session to manage uri/classUri
-            $this->setSessionAttribute('classUri', $this->getRequestParameter('classUri'));
-            if (! $this->hasRequestParameter('uri')) {
-                $this->removeSessionAttribute('uri');
-            }
-
             // inform the client of new classUri
             $this->setData('uri', $this->getRequestParameter('classUri'));
         }
@@ -147,15 +160,15 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
         if ($this->isXmlHttpRequest()) {
             $this->logWarning('Called '.__FUNCTION__.' in an unsupported AJAX context');
             throw new common_Exception($description);
-        } else {
-            $this->setData('message', $description);
-            $this->setData('returnLink', $returnLink);
+        }
 
-            if(!is_null($httpStatus) && file_exists(Template::getTemplate("error/error${httpStatus}.tpl"))){
-                $this->setView("error/error${httpStatus}.tpl", 'tao');
-            } else {
-                $this->setView('error/user_error.tpl', 'tao');
-            }
+        $this->setData('message', $description);
+        $this->setData('returnLink', $returnLink);
+
+        if($httpStatus !== null && file_exists(Template::getTemplate("error/error${httpStatus}.tpl"))){
+            $this->setView("error/error${httpStatus}.tpl", 'tao');
+        } else {
+            $this->setView('error/user_error.tpl', 'tao');
         }
     }
 
@@ -170,15 +183,15 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
      */
     protected static function getTemplatePath($identifier, $extensionID = null)
     {
-    	if ($extensionID === true) {
-			$extensionID = 'tao';
-			common_Logger::d('Deprecated use of setView() using a boolean');
-		}
-    	if(is_null($extensionID) || empty($extensionID)) {
-    		$extensionID = Context::getInstance()->getExtensionName();
-    	}
-    	$ext = common_ext_ExtensionsManager::singleton()->getExtensionById($extensionID);
-    	return $ext->getConstant('DIR_VIEWS').'templates'.DIRECTORY_SEPARATOR.$identifier;
+        if ($extensionID === true) {
+            $extensionID = 'tao';
+            common_Logger::d('Deprecated use of setView() using a boolean');
+        }
+        if($extensionID === null) {
+            $extensionID = Context::getInstance()->getExtensionName();
+        }
+        $ext = common_ext_ExtensionsManager::singleton()->getExtensionById($extensionID);
+        return $ext->getConstant('DIR_VIEWS').'templates'.DIRECTORY_SEPARATOR.$identifier;
     }
 
     /**
@@ -187,7 +200,8 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
      * @param array $extraParameters additional parameters to append to the URL
      * @return string the URL
      */
-    protected function getClientConfigUrl($extraParameters = []){
+    protected function getClientConfigUrl($extraParameters = [])
+    {
         return JavaScript::getClientConfigUrl($extraParameters);
     }
 
@@ -197,10 +211,11 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
      * @return int the timeout value in seconds
      * @throws common_ext_ExtensionException
      */
-    protected function getClientTimeout(){
+    protected function getClientTimeout()
+    {
         $ext = $this->getServiceManager()->get(common_ext_ExtensionsManager::SERVICE_ID)->getExtensionById('tao');
         $config = $ext->getConfig('js');
-        if($config != null && isset($config['timeout'])){
+        if($config !== null && isset($config['timeout'])){
             return (int)$config['timeout'];
         }
         return 30;
@@ -209,13 +224,14 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
     /**
      * Return json response.
      *
-     * @param array $data
+     * @param array|\JsonSerializable $data
      * @param int $httpStatus
      */
-    protected function returnJson($data, $httpStatus = 200) {
+    protected function returnJson($data, $httpStatus = 200)
+    {
         header(HTTPToolkit::statusCodeHeader($httpStatus));
         Context::getInstance()->getResponse()->setContentHeader('application/json');
-        echo json_encode($data);
+        $this->response = $this->getPsrResponse()->withBody(stream_for(json_encode($data)));
     }
 
     /**
@@ -223,67 +239,23 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
      *
      * @param common_report_Report $report
      */
-    protected function returnReport(common_report_Report $report) {
+    protected function returnReport(common_report_Report $report)
+    {
         $data = $report->getData();
         $successes = $report->getSuccesses();
 
         // if report has no data, try to get it from the sub report
-        while (is_null($data) && count($successes) > 0) {
+        while ($data === null && count($successes) > 0) {
             $firstSubReport = current($successes);
             $data = $firstSubReport->getData();
             $successes = $firstSubReport->getSuccesses();
         }
 
-        if (!is_null($data) && $data instanceof core_kernel_classes_Resource) {
+        if ($data !== null && $data instanceof core_kernel_classes_Resource) {
             $this->setData('selectNode', tao_helpers_Uri::encode($data->getUri()));
         }
         $this->setData('report', $report);
         $this->setView('report.tpl', 'tao');
-    }
-
-    /**
-     * Forward using the TAO FlowController implementation
-     * @see {@link oat\model\routing\FlowController}
-     */
-	public function forward($action, $controller = null, $extension = null, $params = array())
-    {
-        $this->getFlowController()->forward($action, $controller, $extension, $params);
-    }
-
-    /**
-     * Forward using the TAO FlowController implementation
-     * @see {@link oat\model\routing\FlowController}
-     */
-    public function forwardUrl($url)
-    {
-        $this->getFlowController()->forwardUrl($url);
-    }
-
-    /**
-     * Redirect using the TAO FlowController implementation
-     * @see {@link oat\model\routing\FlowController}
-     * @param string $url
-     * @param int $statusCode
-     */
-    public function redirect($url, $statusCode = 302)
-    {
-        $this->getFlowController()->redirect($url, $statusCode);
-    }
-
-    /**
-     * Returns a request parameter unencoded
-     *
-     * @param string $paramName
-     * @throws common_exception_MissingParameter
-     * @return string
-     */
-    protected function getRawParameter($paramName)
-    {
-        $raw = $this->getRequest()->getRawParameters();
-        if (!isset($raw[$paramName])) {
-            throw new common_exception_MissingParameter($paramName);
-        }
-        return $raw[$paramName];
     }
 
     /**
@@ -295,28 +267,6 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
     protected function getSession()
     {
         return common_session_SessionManager::getSession();
-    }
-
-    /**
-     * Check if the current request is using AJAX
-     *
-     * @return bool
-     */
-    protected function isXmlHttpRequest()
-    {
-        return tao_helpers_Request::isAjax();
-    }
-
-    /**
-     * Get the flow controller
-     *
-     * Propagate the service (logger and service manager)
-     *
-     * @return mixed
-     */
-    protected function getFlowController()
-    {
-        return $this->propagate(new FlowController());
     }
 
     /**
@@ -338,10 +288,86 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
     }
 
     /**
-     * Set headers for iFrame security
+     * @return ServiceLocatorInterface
+     * @security("hide");
      */
-    protected function setIframeHeaders()
+    public function getServiceLocator()
     {
-        header('X-Frame-Options: sameorigin');
+        return $this->getOriginalServiceLocator();
+    }
+
+    /**
+     * @param ServiceLocatorInterface $serviceLocator
+     * @return mixed
+     * @security("hide");
+     */
+    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
+    {
+        return $this->setOriginalServiceLocator($serviceLocator);
+    }
+
+    /**
+     * Validate a CSRF token, based on the CSRF header.
+     *
+     * @throws common_exception_Unauthorized
+     */
+    protected function validateCsrf()
+    {
+        if (!$this->getPsrRequest()->hasHeader(TokenService::CSRF_TOKEN_HEADER)) {
+            $this->logCsrfFailure(sprintf('Missing %s header.', TokenService::CSRF_TOKEN_HEADER));
+        }
+
+        $csrfTokenHeader = $this->getPsrRequest()->getHeader(TokenService::CSRF_TOKEN_HEADER);
+        $csrfToken = current($csrfTokenHeader);
+
+        /** @var TokenService $tokenService */
+        $tokenService = $this->getServiceLocator()->get(TokenService::SERVICE_ID);
+        $newToken = null;
+
+        try {
+            if ($tokenService->validateToken($csrfToken)) {
+                $newToken = $tokenService->createToken()->getValue();
+            }
+        } catch (common_exception_Unauthorized $e) {
+            $this->logCsrfFailure($e->getMessage(), $csrfToken);
+        }
+
+        $this->response = $this->getPsrResponse()->withHeader(TokenService::CSRF_TOKEN_HEADER, $newToken);
+    }
+
+    /**
+     * Logs a CSRF validation error
+     *
+     * @param string $exceptionMessage
+     * @param null $token
+     * @throws common_exception_Unauthorized
+     */
+    private function logCsrfFailure($exceptionMessage, $token = null)
+    {
+        try {
+            $userIdentifier = $this->getSession()->getUser()->getIdentifier();
+        } catch (common_exception_Error $e) {
+            $this->logError('Unable to retrieve session! ' . $e->getMessage());
+            throw new common_exception_Unauthorized($exceptionMessage);
+        }
+
+        $requestMethod  = $this->getPsrRequest()->getMethod();
+        $requestUri     = $this->getPsrRequest()->getUri();
+        $requestHeaders = $this->getHeaders();
+
+        $this->logWarning(
+            '[CSRF] - Failed to validate CSRF token. The following exception occurred: ' . $exceptionMessage
+        );
+        $this->logWarning(
+            "[CSRF] \n" .
+            "CSRF validation information: \n" .
+            'Provided token: ' . ($token ?: 'none')  . " \n" .
+            'User identifier: ' . $userIdentifier  . " \n" .
+            'Request: [' . $requestMethod . '] ' . $requestUri   . " \n" .
+            "Request Headers : \n" .
+            urldecode(http_build_query($requestHeaders, '', "\n"))
+        );
+
+        throw new common_exception_Unauthorized($exceptionMessage);
     }
 }

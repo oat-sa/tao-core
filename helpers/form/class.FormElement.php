@@ -1,23 +1,25 @@
 <?php
-/*  
+/*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
+ *
  */
+
+use oat\oatbox\validator\ValidatorInterface;
 
 /**
  * Represents a form. It provides the default behavior for form management and
@@ -31,7 +33,6 @@
  *
  * @author Joel Bout, <joel@taotesting.com>
  * @package tao
- 
  */
 abstract class tao_helpers_form_FormElement
 {
@@ -202,7 +203,7 @@ abstract class tao_helpers_form_FormElement
         $existingClasses[] = $className;
         $this->attributes['class'] = implode(' ', array_unique($existingClasses));
     }
-    
+
 
     /**
      * Remove a CSS class jQuery style
@@ -218,7 +219,7 @@ abstract class tao_helpers_form_FormElement
         unset($existingClasses[array_search($className, $existingClasses)]);
         $this->attributes['class'] = implode(' ', $existingClasses);
     }
-    
+
 
     /**
      * Short description of method addAttribute
@@ -270,7 +271,7 @@ abstract class tao_helpers_form_FormElement
         $returnValue = '';
 
 		foreach($this->attributes as $key => $value){
-			$returnValue .= " {$key}='{$value}' "; 
+			$returnValue .= " {$key}='{$value}' ";
 		}
 
         return $returnValue;
@@ -357,9 +358,9 @@ abstract class tao_helpers_form_FormElement
      * Short description of method addValidator
      *
      * @author Joel Bout, <joel@taotesting.com>
-     * @param  tao_helpers_form_Validator $validator
+     * @param ValidatorInterface $validator
      */
-    public function addValidator( tao_helpers_form_Validator $validator)
+    public function addValidator(ValidatorInterface $validator)
     {
         if ($validator instanceof tao_helpers_form_validators_NotEmpty) {
             $this->addAttribute('required', true);
@@ -401,7 +402,7 @@ abstract class tao_helpers_form_FormElement
     public function validate()
     {
 		$returnValue = true;
-		
+
 		if(!$this->forcedValid){
 			foreach($this->validators as $validator){
 				if(!$validator->evaluate($this->getRawValue())){
@@ -537,7 +538,7 @@ abstract class tao_helpers_form_FormElement
 
     /**
      * Will render the Form Element.
-     * 
+     *
      */
     public abstract function render();
 

@@ -139,11 +139,26 @@ interface TaskLogBrokerInterface extends ServiceLocatorAwareInterface
      */
     public function archive(EntityInterface $entity);
 
+
+    /**
+     * Setting the status to cancelled, the record is kept. (Soft Delete)
+     *
+     * @param EntityInterface $entity
+     * @return bool
+     */
+    public function cancel(EntityInterface $entity);
+
     /**
      * @param CollectionInterface $collection
      * @return int
      */
     public function archiveCollection(CollectionInterface $collection);
+
+    /**
+     * @param CollectionInterface $collection
+     * @return int
+     */
+    public function cancelCollection(CollectionInterface $collection);
 
     /**
      * Delete the task log by id. (Hard Delete)

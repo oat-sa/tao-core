@@ -18,8 +18,9 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+
 use oat\tao\helpers\dateFormatter\EuropeanFormatter;
-use oat\tao\helpers\dateFormatter\Formatter;
+use oat\tao\helpers\dateFormatter\DateFormatterInterface;
 
 /**
  * Utility to display dates.
@@ -45,15 +46,22 @@ class tao_helpers_Date
     const FORMAT_INTERVAL_LONG = 100;
 
     const FORMAT_INTERVAL_SHORT = 101;
-    
+
+    const FORMAT_FALLBACK = -1;
+
     private static $service;
 
-    static protected function getDateFormatter()
+    /**
+     * Returns configured date formatter.
+     *
+     * @return DateFormatterInterface
+     */
+    static public function getDateFormatter()
     {
         if (is_null(self::$service)) {
             $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
             $service = $ext->getConfig(self::CONFIG_KEY);
-            self::$service = is_object($service) && $service instanceof Formatter
+            self::$service = $service instanceof DateFormatterInterface
                 ? $service
                 : new EuropeanFormatter();
         }
@@ -107,7 +115,7 @@ class tao_helpers_Date
         $newDate = new \DateTime();
         $intervalObj = $intervalObj instanceof DateTimeInterface ? $newDate->diff($intervalObj, true) : $intervalObj;
         if (! $intervalObj instanceof DateInterval) {
-            common_Logger::w('Unknown interval format ' . get_class($interval) . ' for ' . __FUNCTION__, 'TAO');
+            common_Logger::w('Unknown interval format ' . get_class($interval) . ' for ' . __FUNCTION__);
             return '';
         }
         
@@ -124,7 +132,7 @@ class tao_helpers_Date
                     $returnValue = self::formatElapsed($intervalObj, $formatStrings);
                     break;
                 default:
-                    common_Logger::w('Unknown date format ' . $format . ' for ' . __FUNCTION__, 'TAO');
+                    common_Logger::w('Unknown date format ' . $format . ' for ' . __FUNCTION__);
             }
         }
         return $returnValue;

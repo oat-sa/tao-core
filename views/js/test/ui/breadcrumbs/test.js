@@ -18,47 +18,40 @@
 /**
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
-define([
-    'jquery',
-    'lodash',
-    'ui/breadcrumbs'
-], function($, _, breadcrumbs) {
+define(['jquery', 'lodash', 'ui/breadcrumbs'], function($, _, breadcrumbs) {
     'use strict';
 
     QUnit.module('breadcrumbs');
 
-
-    QUnit.test('module', 3, function(assert) {
-        assert.equal(typeof breadcrumbs, 'function', "The breadcrumbs module exposes a function");
-        assert.equal(typeof breadcrumbs(), 'object', "The breadcrumbs factory produces an object");
-        assert.notStrictEqual(breadcrumbs(), breadcrumbs(), "The breadcrumbs factory provides a different object on each call");
+    QUnit.test('module', function(assert) {
+        assert.equal(typeof breadcrumbs, 'function', 'The breadcrumbs module exposes a function');
+        assert.equal(typeof breadcrumbs(), 'object', 'The breadcrumbs factory produces an object');
+        assert.notStrictEqual(breadcrumbs(), breadcrumbs(), 'The breadcrumbs factory provides a different object on each call');
     });
 
-
     var testReviewApi = [
-        { name : 'init', title : 'init' },
-        { name : 'destroy', title : 'destroy' },
-        { name : 'render', title : 'render' },
-        { name : 'show', title : 'show' },
-        { name : 'hide', title : 'hide' },
-        { name : 'enable', title : 'enable' },
-        { name : 'disable', title : 'disable' },
-        { name : 'is', title : 'is' },
-        { name : 'setState', title : 'setState' },
-        { name : 'getElement', title : 'getElement' },
-        { name : 'getContainer', title : 'getContainer' },
-        { name : 'getTemplate', title : 'getTemplate' },
-        { name : 'setTemplate', title : 'setTemplate' }
+        {name: 'init', title: 'init'},
+        {name: 'destroy', title: 'destroy'},
+        {name: 'render', title: 'render'},
+        {name: 'show', title: 'show'},
+        {name: 'hide', title: 'hide'},
+        {name: 'enable', title: 'enable'},
+        {name: 'disable', title: 'disable'},
+        {name: 'is', title: 'is'},
+        {name: 'setState', title: 'setState'},
+        {name: 'getElement', title: 'getElement'},
+        {name: 'getContainer', title: 'getContainer'},
+        {name: 'getTemplate', title: 'getTemplate'},
+        {name: 'setTemplate', title: 'setTemplate'}
     ];
 
     QUnit
-        .cases(testReviewApi)
+        .cases.init(testReviewApi)
         .test('instance API ', function(data, assert) {
             var instance = breadcrumbs();
             assert.equal(typeof instance[data.name], 'function', 'The breadcrumbs instance exposes a "' + data.title + '" function');
             instance.destroy();
         });
-
 
     QUnit.test('init', function(assert) {
         var config = {
@@ -78,7 +71,6 @@ define([
 
         instance.destroy();
     });
-
 
     var breadcrumbsEntries = [{
         id: 'home',
@@ -127,7 +119,6 @@ define([
         label: 'Other',
         data: 'context'
     }];
-
 
     QUnit.test('render', function(assert) {
         var $dummy = $('<div class="dummy" />');
@@ -184,7 +175,6 @@ define([
         assert.equal($container.children().length, 0, 'The container is now empty');
         assert.equal(instance.getElement(), null, 'The breadcrumbs instance has removed its rendered content');
     });
-
 
     QUnit.test('update', function(assert) {
         var $container = $('#fixture-2');
@@ -268,7 +258,6 @@ define([
 
         instance.destroy();
 
-
         /*** 3RD PASS - INSIDE CONTAINER - IMPLICIT RENDERING ***/
         assert.equal($container.children().length, 0, '[3rd pass] The container does not contain any element');
 
@@ -351,7 +340,6 @@ define([
         assert.equal(instance.getElement(), null, '[4th pass] The breadcrumbs instance has removed its rendered content');
     });
 
-
     QUnit.test('show/hide', function(assert) {
         var instance = breadcrumbs()
                         .render();
@@ -376,7 +364,6 @@ define([
         instance.destroy();
     });
 
-
     QUnit.test('enable/disable', function(assert) {
         var instance = breadcrumbs()
                         .render();
@@ -400,7 +387,6 @@ define([
 
         instance.destroy();
     });
-
 
     QUnit.test('state', function(assert) {
         var instance = breadcrumbs()

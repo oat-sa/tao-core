@@ -73,7 +73,6 @@ class tao_install_Installator {
 		
 	}
 
-
 	/**
 	 * Run the TAO install from the given data
 	 * @throws tao_install_utils_Exception
@@ -96,7 +95,7 @@ class tao_install_Installator {
 			$this->log('i', "Checking install data");
 			self::checkInstallData($installData);
 			
-			$this->log('i', "Starting TAO install", 'INSTALL');
+			$this->log('i', "Starting TAO install");
 	        
 			// Sanitize $installData if needed.
 			if(!preg_match("/\/$/", $installData['module_url'])){
@@ -142,7 +141,7 @@ class tao_install_Installator {
 			 *  X - Setup Oatbox
 			 */
 			
-			$this->log('d', 'Removing old config', 'INSTALL');
+			$this->log('d', 'Removing old config');
 			$consistentOptions = array_merge($installData, $this->options);
             $consistentOptions['config_path'] = $this->getConfigPath();
 			$this->oatBoxInstall->setOptions($consistentOptions);
@@ -154,7 +153,7 @@ class tao_install_Installator {
 			/*
 			 *  2 - Test DB connection (done by the constructor)
 			 */
-			$this->log('i', "Spawning DbCreator", 'INSTALL');
+			$this->log('i', "Spawning DbCreator");
 			$dbName = $installData['db_name'];
 			if($installData['db_driver'] == 'pdo_oci'){
 				$installData['db_name'] = $installData['db_host'];
@@ -185,7 +184,7 @@ class tao_install_Installator {
 				
 			$dbCreator = new tao_install_utils_DbalDbCreator($dbConnectionParams);
 			
-			$this->log('d', "DbCreator spawned", 'INSTALL');
+			$this->log('d', "DbCreator spawned");
 
 			/*
 			 *   3 - Load the database schema
@@ -209,14 +208,14 @@ class tao_install_Installator {
 						$this->log('i', 'isssue during db cleaning : ' . $e->getMessage());
 					}
 				}
-				$this->log('i', "Dropped all tables", 'INSTALL');
+				$this->log('i', "Dropped all tables");
 			}
 			// Else create it
 			else {
 				try {
 
 					$dbCreator->createDatabase($installData['db_name']);
-					$this->log('i', "Created database ".$installData['db_name'], 'INSTALL');
+					$this->log('i', "Created database ".$installData['db_name']);
 				} catch (Exception $e){
 					throw new tao_install_utils_Exception('Unable to create the database, make sure that '.$installData['db_user'].' is granted to create databases. Otherwise create the database with your super user and give to  '.$installData['db_user'].' the right to use it.');
 				}
@@ -235,11 +234,11 @@ class tao_install_Installator {
 	
 			// Create tao tables
 			$dbCreator->initTaoDataBase();	
-            $this->log('i', 'Created tables', 'INSTALL');
+            $this->log('i', 'Created tables');
             
             $storedProcedureFile = __DIR__ . DIRECTORY_SEPARATOR . 'db' . DIRECTORY_SEPARATOR . 'tao_stored_procedures_' . str_replace('pdo_', '', $installData['db_driver']) . '.sql';
 			if (file_exists($storedProcedureFile) && is_readable($storedProcedureFile)){
-				$this->log('i', 'Installing stored procedures for ' . $installData['db_driver'] . ' from file: ' . $storedProcedureFile, 'INSTALL');
+				$this->log('i', 'Installing stored procedures for ' . $installData['db_driver'] . ' from file: ' . $storedProcedureFile);
 				$dbCreator->loadProc($storedProcedureFile);
 			}
 			else {
@@ -250,7 +249,7 @@ class tao_install_Installator {
 			 *  4 - Create the generis config files
 			 */
 			
-			$this->log('d', 'Writing generis config', 'INSTALL');
+			$this->log('d', 'Writing generis config');
 			$generisConfigWriter = new tao_install_utils_ConfigWriter(
 				$this->options['root_path'].'generis/config/sample/generis.conf.php',
                 $this->getGenerisConfig()
@@ -307,7 +306,7 @@ class tao_install_Installator {
 			/*
 			 * 5 - Run the extensions bootstrap
 			 */
-			$this->log('d', 'Running the extensions bootstrap', 'INSTALL');
+			$this->log('d', 'Running the extensions bootstrap');
 			common_Config::load($this->getGenerisConfig());
 			
 			/*
@@ -346,7 +345,7 @@ class tao_install_Installator {
 			$models = $modelCreator->getLanguageModels();
                         foreach ($models as $ns => $modelFiles){
                             foreach ($modelFiles as $file){
-                                $this->log('d', "Inserting language description model '".$file."'", 'INSTALL');
+                                $this->log('d', "Inserting language description model '".$file."'");
                                 $modelCreator->insertLocalModel($file);
                             }
                         }
@@ -372,14 +371,14 @@ class tao_install_Installator {
             /*
              *  8b - Generates client side translation bundles (depends on extension install)
              */
-			$this->log('i', 'Generates client side translation bundles', 'INSTALL');
+			$this->log('i', 'Generates client side translation bundles');
             
 			$files = tao_models_classes_LanguageService::singleton()->generateAll();
 
 			/*
 			 *  9 - Insert Super User
 			 */
-			$this->log('i', 'Spawning SuperUser '.$installData['user_login'], 'INSTALL');
+			$this->log('i', 'Spawning SuperUser '.$installData['user_login']);
 			$modelCreator->insertSuperUser(array(
 				'login'			=> $installData['user_login'],
 				'password'		=> core_kernel_users_Service::getPasswordHash()->encrypt($installData['user_pass1']),
@@ -397,7 +396,7 @@ class tao_install_Installator {
 			 */
 			if($installData['module_mode'] == 'production'){
 				$extensions = common_ext_ExtensionsManager::singleton()->getInstalledExtensions();
-				$this->log('i', 'Securing tao for production', 'INSTALL');
+				$this->log('i', 'Securing tao for production');
 				
 				// 11.1 Remove Generis User
 				$dbCreator->removeGenerisUser();
@@ -416,13 +415,13 @@ class tao_install_Installator {
 			/*
 			 *  11 - Create the version file
 			 */
-			$this->log('d', 'Creating TAO version file', 'INSTALL');
+			$this->log('d', 'Creating TAO version file');
 			file_put_contents($installData['file_path'].'version', TAO_VERSION);
             
             /*
              * 12 - Register Information about organization operating the system
              */
-            $this->log('t', 'Registering information about the organization operating the system', 'INSTALL');
+            $this->log('t', 'Registering information about the organization operating the system');
             $operatedByService = $this->getServiceManager()->get(OperatedByService::SERVICE_ID);
             
             if (!empty($installData['operated_by_name'])) {
@@ -443,7 +442,7 @@ class tao_install_Installator {
 
 			// In any case, we transmit a single exception type (at the moment)
 			// for a clearer API for client code.
-            $this->log('e', 'Error Occurs : ' . $e->getMessage() . PHP_EOL . $e->getTraceAsString(), 'INSTALL');
+            $this->log('e', 'Error Occurs : ' . $e->getMessage() . PHP_EOL . $e->getTraceAsString());
 			throw new tao_install_utils_Exception($e->getMessage(), 0, $e);
 		}
 	}
@@ -467,7 +466,7 @@ class tao_install_Installator {
 			 * '192K' on 32bit windows
 			 */
 
-            $this->log('e', 'Error Occurs : ' . $err . PHP_EOL . $exception->getTraceAsString(), 'INSTALL');
+            $this->log('e', 'Error Occurs : ' . $err . PHP_EOL . $exception->getTraceAsString());
 			throw new tao_install_utils_Exception("Error in mysql system variable 'thread_stack':<br>It is required to change its value in my.ini as following<br>'192K' on 32bit windows<br>'256K' on 64bit windows.<br><br>Note that such configuration changes will only take effect after server restart.<br><br>", 0, $exception);
 		}
 
@@ -582,6 +581,9 @@ class tao_install_Installator {
      */
     public function log($logLevel, $message, $tags = array())
     {
+        if (!is_array($tags)) {
+            $tags = [$tags];
+        }
         if ($this->getLogger() instanceof \Psr\Log\LoggerInterface) {
             if ($logLevel === 'ext') {
                 $this->logNotice('Installed extensions: ' . implode(', ', $message));

@@ -28,7 +28,7 @@ define(['jquery', 'lodash'], function($, _) {
             //internal event to set the file-selector content
             $('.file-browser').find('li.active').removeClass('active');
             $('li.root',$folderContainer).addClass('active');
-            $rootNode.attr('data-path', content.path).html(content.label);
+            $rootNode.attr('data-path', content.path).text(content.label);
             $container.trigger('folderselect.' + ns , [content.label, content.children, content.path]);
         });
 

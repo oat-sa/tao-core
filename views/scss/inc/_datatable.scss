@@ -1,4 +1,9 @@
 .datatable-wrapper {
+    .datatable-header {
+        @include vendor-prefix(display, flex, value, (-ms-, -webkit-, ''));
+        @include vendor-prefix(align-items, center, property, (-ms-, -webkit-, ''));
+        @include vendor-prefix(justify-content, space-between, property, (-ms-, -webkit-, ''));
+    }
     h2 {
         font-family: $headingFont;
         @include font-size(18);
@@ -50,6 +55,7 @@
         overflow-x: hidden;
     }
 }
+
 .datatable-container {
     overflow-y: auto;
     .empty {

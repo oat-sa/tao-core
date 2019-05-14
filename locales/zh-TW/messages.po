@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint91\n"
-"PO-Revision-Date: 2018-12-14T15:15:48\n"
+"Project-Id-Version: TAO 3.3.0-sprint101\n"
+"PO-Revision-Date: 2019-05-10T14:58:29\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-TW\n"
@@ -148,7 +148,13 @@ msgstr ""
 msgid "A message with further instructions has been sent to your email address: %s"
 msgstr ""
 
+msgid "abs"
+msgstr ""
+
 msgid "Absolute value"
+msgstr ""
+
+msgid "AC"
 msgstr ""
 
 msgid "Access Denied"
@@ -224,6 +230,12 @@ msgstr "所有都是必填欄位"
 msgid "All rights reserved."
 msgstr "保留所有權利。"
 
+msgid "Allow for all domains"
+msgstr ""
+
+msgid "Allow for the following domains"
+msgstr ""
+
 msgid "Alpha version"
 msgstr "Alpha版本"
 
@@ -246,6 +258,9 @@ msgid "Ans"
 msgstr ""
 
 msgid "Apply"
+msgstr ""
+
+msgid "Apply date range"
 msgstr ""
 
 msgid "Arc cosine"
@@ -272,6 +287,9 @@ msgid "Argument check failed: %s"
 msgstr ""
 
 msgid "Arguments %s and %s are mutually exclusive"
+msgstr ""
+
+msgid "Arguments separator"
 msgstr ""
 
 msgid "array"
@@ -341,19 +359,25 @@ msgstr "瀏覽資料夾："
 msgid "Browse..."
 msgstr "瀏覽..."
 
+msgid "C"
+msgstr ""
+
 msgid "Calculator"
 msgstr ""
 
 msgid "Calendar"
 msgstr "日曆"
 
-msgid "Cancel"
-msgstr "取消"
-
 msgid "cancel"
 msgstr ""
 
+msgid "Cancel"
+msgstr "取消"
+
 msgid "cancel the action"
+msgstr ""
+
+msgid "Cancelled"
 msgstr ""
 
 msgid "Cannot be edited"
@@ -365,6 +389,9 @@ msgstr ""
 msgid "Case sensitive"
 msgstr ""
 
+msgid "ceil"
+msgstr ""
+
 #, tao-public
 msgid "Change password"
 msgstr "更改密碼"
@@ -372,10 +399,13 @@ msgstr "更改密碼"
 msgid "Change the password"
 msgstr "更改密碼"
 
-msgid "Check all"
-msgstr "全部勾選"
+msgid "Change the sign of the current operand"
+msgstr ""
 
 msgid "Check All"
+msgstr "全部勾選"
+
+msgid "Check all"
 msgstr "全部勾選"
 
 msgid "Check-in"
@@ -427,6 +457,9 @@ msgid "Clear History"
 msgstr ""
 
 msgid "Clear selection"
+msgstr ""
+
+msgid "Clear the date time picker"
 msgstr ""
 
 msgid "Clear the stored variables"
@@ -483,6 +516,12 @@ msgstr ""
 msgid "Copy to clipboard"
 msgstr ""
 
+msgid "cos"
+msgstr ""
+
+msgid "cosh"
+msgstr ""
+
 msgid "Cosine"
 msgstr ""
 
@@ -501,7 +540,13 @@ msgstr "建立實例"
 msgid "Created"
 msgstr ""
 
+msgid "Creating report ..."
+msgstr ""
+
 msgid "Creation At"
+msgstr ""
+
+msgid "CSP Header settings were saved successfully!"
 msgstr ""
 
 msgid "CSV"
@@ -539,6 +584,15 @@ msgstr ""
 
 msgid "Date"
 msgstr "日期"
+
+msgid "date range"
+msgstr ""
+
+msgid "date time"
+msgstr ""
+
+msgid "date time range"
+msgstr ""
 
 msgid "Default search"
 msgstr "預設搜索"
@@ -655,6 +709,9 @@ msgstr ""
 msgid "Edit Instance"
 msgstr "編輯實例"
 
+msgid "Edit sources that can embed this platform in an iFrame"
+msgstr ""
+
 msgid "Element"
 msgstr "元素"
 
@@ -707,6 +764,9 @@ msgid "Execute"
 msgstr ""
 
 msgid "Executing task %s failed"
+msgstr ""
+
+msgid "exp"
 msgstr ""
 
 msgid "Exponent"
@@ -804,11 +864,20 @@ msgstr "第一列欄位名稱"
 msgid "Fit to width"
 msgstr ""
 
+msgid "floor"
+msgstr ""
+
+msgid "Forbid for all domains"
+msgstr ""
+
 msgid "Force Release"
 msgstr "強制釋放"
 
 msgid "Forgot your password?"
 msgstr "忘了您的密碼嗎？"
+
+msgid "Form data not saved."
+msgstr ""
 
 msgid "From"
 msgstr ""
@@ -909,10 +978,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -921,7 +990,7 @@ msgstr "包容 (和)"
 msgid "Index has been deleted for %s"
 msgstr ""
 
-msgid "Indexing has been run"
+msgid "Infinity"
 msgstr ""
 
 msgid "Injector has to contains a valid \"destination\" field."
@@ -951,11 +1020,14 @@ msgstr "正在安裝擴展程序 %s..."
 msgid "Instance saved"
 msgstr "實體已儲存"
 
+msgid "Interface Language"
+msgstr "介面語言"
+
 msgid "Interface language"
 msgstr "介面語言"
 
-msgid "Interface Language"
-msgstr "介面語言"
+msgid "Invalid CSP header."
+msgstr ""
 
 msgid "Invalid date range (must be after or the same as: %s)"
 msgstr ""
@@ -1005,6 +1077,9 @@ msgstr "無效的正規表示式"
 msgid "Invalid values:"
 msgstr ""
 
+msgid "items per page"
+msgstr ""
+
 msgid "Label"
 msgstr "標籤"
 
@@ -1018,6 +1093,9 @@ msgid "Last Name"
 msgstr "姓氏"
 
 msgid "Last page"
+msgstr ""
+
+msgid "Last result"
 msgstr ""
 
 msgid "Left parenthesis"
@@ -1038,6 +1116,9 @@ msgstr "清單 - 單項選擇 - 下拉"
 msgid "List - Single choice - Radio button"
 msgstr "清單 - 單項選擇 - 按鈕"
 
+msgid "ln"
+msgstr ""
+
 msgid "Load more"
 msgstr ""
 
@@ -1057,6 +1138,9 @@ msgid "Loading task status ..."
 msgstr ""
 
 msgid "locked by %s"
+msgstr ""
+
+msgid "log"
 msgstr ""
 
 msgid "Log in"
@@ -1136,6 +1220,9 @@ msgstr ""
 msgid "Missing Parameters"
 msgstr ""
 
+msgid "modulo"
+msgstr ""
+
 msgid "More"
 msgstr "更多"
 
@@ -1164,11 +1251,11 @@ msgstr "移動到"
 msgid "Moving this element will replace the properties of the previous class by those of the destination class :"
 msgstr "當您移動此元素時，您將會用目標類的屬性取代之前類別的屬性:"
 
-msgid "Moving this element will replace the properties of the previous class by those of the destination class:"
-msgstr "當您移動此元素時，您將會用目標類的屬性取代之前類別的屬性:"
-
 msgid "Multiple values delimiter"
 msgstr "多個值分隔符"
+
+msgid "Multiply the value by 10^x"
+msgstr ""
 
 msgid "must be numeric"
 msgstr "必須是數字"
@@ -1232,10 +1319,10 @@ msgstr "無檔案"
 msgid "no label"
 msgstr "無標籤"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "沒有可用的預覽"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "沒有可用的預覽"
 
 msgid "No results found"
@@ -1299,11 +1386,17 @@ msgstr "舊密碼"
 msgid "On"
 msgstr ""
 
+msgid "Only allow for my own domain (%s)"
+msgstr ""
+
 msgid "Operated By "
 msgstr ""
 
 msgid "or"
 msgstr "或"
+
+msgid "Outlook on the next Synchronization"
+msgstr ""
 
 msgid "Page"
 msgstr "頁面"
@@ -1366,6 +1459,9 @@ msgid "Please contact %s or an administrator to release it"
 msgstr ""
 
 msgid "Please contact your administrator."
+msgstr ""
+
+msgid "Please contact your system administrator."
 msgstr ""
 
 msgid "Please download the track and listen offline."
@@ -1442,6 +1538,9 @@ msgid "Rad"
 msgstr ""
 
 msgid "Radian"
+msgstr ""
+
+msgid "random"
 msgstr ""
 
 msgid "Random value"
@@ -1528,10 +1627,16 @@ msgstr "重設"
 msgid "Reset the original size"
 msgstr ""
 
+msgid "Reset the range values"
+msgstr ""
+
 msgid "Resource"
 msgstr "資源"
 
 msgid "Resource copied"
+msgstr ""
+
+msgid "Resource deleted"
 msgstr ""
 
 msgid "Resource Identifier"
@@ -1556,6 +1661,12 @@ msgid "resources"
 msgstr ""
 
 msgid "Resources moved"
+msgstr ""
+
+msgid "Resources successfully indexed"
+msgstr ""
+
+msgid "Resources was not indexed"
 msgstr ""
 
 msgid "Responsive mode"
@@ -1583,6 +1694,9 @@ msgstr "角色"
 msgid "Roles library"
 msgstr "角色書庫"
 
+msgid "round"
+msgstr ""
+
 msgid "Round to closest whole number"
 msgstr ""
 
@@ -1600,6 +1714,9 @@ msgstr ""
 
 msgid "Save"
 msgstr "儲存"
+
+msgid "Saved."
+msgstr ""
 
 msgid "Scientific Calculator"
 msgstr ""
@@ -1625,10 +1742,17 @@ msgstr ""
 msgid "seconds"
 msgstr "秒"
 
-msgid "Select"
-msgstr "選擇"
+#, tao-public
+msgid "Security"
+msgstr ""
+
+msgid "Security settings"
+msgstr ""
 
 msgid "select"
+msgstr "選擇"
+
+msgid "Select"
 msgstr "選擇"
 
 msgid "Select a class"
@@ -1642,9 +1766,6 @@ msgstr "選擇語言"
 
 msgid "Select loaded %s"
 msgstr ""
-
-msgid "Select the element destination"
-msgstr "選擇元素的目的地"
 
 msgid "Select this file"
 msgstr "選擇此檔案"
@@ -1680,16 +1801,28 @@ msgstr "設定值已更新"
 msgid "Show detailed report"
 msgstr "顯示詳細回報"
 
+msgid "Sign change"
+msgstr ""
+
 msgid "Simple Mode"
 msgstr "簡單模式"
 
+msgid "sin"
+msgstr ""
+
 msgid "Sine"
+msgstr ""
+
+msgid "sinh"
 msgstr ""
 
 msgid "Size"
 msgstr "大小"
 
 msgid "Some resources have not been moved: %s"
+msgstr ""
+
+msgid "Sources that can embed this platform in an iFrame"
 msgstr ""
 
 msgid "Square root"
@@ -1722,6 +1855,12 @@ msgstr ""
 msgid "Success"
 msgstr "完成"
 
+msgid "Successfully cloned instance as %s"
+msgstr ""
+
+msgid "Successfully deleted %s"
+msgstr ""
+
 msgid "Successfully imported \"%s"
 msgstr ""
 
@@ -1737,7 +1876,16 @@ msgstr ""
 msgid "Supported export formats"
 msgstr "支援的匯出格式"
 
+msgid "Syntax error"
+msgstr ""
+
+msgid "tan"
+msgstr ""
+
 msgid "Tangent"
+msgstr ""
+
+msgid "tanh"
 msgstr ""
 
 msgid "Tao Default Theme"
@@ -1748,6 +1896,9 @@ msgstr "TAO 首頁"
 
 msgid "TAO Login"
 msgstr "TAO 登入"
+
+msgid "Task %s has been cancelled, message was not processed."
+msgstr ""
 
 msgid "task created"
 msgstr ""
@@ -1866,6 +2017,9 @@ msgstr ""
 msgid "This should not equal %s"
 msgstr ""
 
+msgid "time"
+msgstr ""
+
 msgid "Time zone"
 msgstr "時區"
 
@@ -1882,6 +2036,9 @@ msgid "to translate"
 msgstr "翻譯"
 
 msgid "Toggle multiple/single selection"
+msgstr ""
+
+msgid "Toggle the date time picker"
 msgstr ""
 
 msgid "Tokenizer"
@@ -1917,6 +2074,9 @@ msgstr ""
 msgid "True"
 msgstr "真"
 
+msgid "trunc"
+msgstr ""
+
 msgid "Type"
 msgstr "類型"
 
@@ -1947,6 +2107,9 @@ msgstr ""
 msgid "Unable to open file %s"
 msgstr ""
 
+msgid "Unable to process your request"
+msgstr ""
+
 msgid "Unable to release the lock"
 msgstr "無法解除鎖定"
 
@@ -1969,6 +2132,12 @@ msgid "Unable to upload file"
 msgstr "無法上傳檔案"
 
 msgid "Unable to upload file %s : %s"
+msgstr ""
+
+msgid "Unary operator +"
+msgstr ""
+
+msgid "Unary operator -"
 msgstr ""
 
 msgid "Uncheck All"
@@ -2071,6 +2240,27 @@ msgstr ""
 #, tao-public
 msgid "Users"
 msgstr "用戶"
+
+msgid "Validation for field '%s' has failed. Language does not exist in the system"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. List of values expected"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Should not be empty"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Valid role expected. Given: %s"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Valid URI expected"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Valid URI expected. Given: %s"
+msgstr ""
+
+msgid "Value ellipsis"
+msgstr ""
 
 msgid "Value of E"
 msgstr ""

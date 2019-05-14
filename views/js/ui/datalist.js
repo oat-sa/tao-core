@@ -179,12 +179,12 @@ define([
 
             if ($list) {
                 // be sure to discard existing selection
-                controls.$checkboxes.removeAttr('checked');
+                controls.$checkboxes.prop('checked', false);
 
                 if (selection) {
                     // find each line and check it according to the provided selection
                     _.forEach(selection, function(id) {
-                        $list.find('[data-id="' + id + '"] input[type="checkbox"]').attr('checked', 'checked');
+                        $list.find('[data-id="' + id + '"] input[type="checkbox"]').prop('checked', true);
                     });
                 }
 
@@ -214,9 +214,9 @@ define([
 
             // update the checkAll button
             if ($checked.length === $checkboxes.length) {
-                $checkAll.attr('checked', 'checked');
+                $checkAll.prop('checked', true);
             } else {
-                $checkAll.removeAttr('checked');
+                $checkAll.prop('checked', false);
             }
 
             // show/hide the mass actions tools
@@ -450,10 +450,10 @@ define([
                         $checkbox = $(this).closest('tr').find('input[type="checkbox"]');
 
                         // toggle the line selection
-                        if ($checkbox.attr('checked')) {
-                            $checkbox.removeAttr('checked');
+                        if ($checkbox.prop('checked')) {
+                            $checkbox.prop('checked', false);
                         } else {
-                            $checkbox.attr('checked', 'checked');
+                            $checkbox.prop('checked', true);
                         }
 
                         // takes care of the new selection
@@ -473,9 +473,9 @@ define([
 
                     // select/unselect all lines
                     if (this.checked) {
-                        $checkboxes.attr('checked', 'checked');
+                        $checkboxes.prop('checked', true);
                     } else {
-                        $checkboxes.removeAttr('checked');
+                        $checkboxes.prop('checked', false);
                     }
 
                     // takes care of the new selection

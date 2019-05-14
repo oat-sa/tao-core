@@ -20,12 +20,19 @@
  *               2013-     (update and modification) Open Assessment Technologies SA;
  *
  */
+
+use oat\tao\model\accessControl\func\AccessRule;
+use oat\tao\model\routing\ApiRoute;
+use oat\tao\model\routing\LegacyRoute;
 use oat\tao\scripts\install\AddLogFs;
 use oat\tao\scripts\install\AddTmpFsHandlers;
+use oat\tao\scripts\install\RegisterSettingsPersistence;
+use oat\tao\scripts\install\RegisterSignatureGenerator;
 use oat\tao\scripts\install\RegisterTaskQueueServices;
 use oat\tao\scripts\install\RegisterUserLockoutsEventListeners;
 use oat\tao\scripts\install\SetClientLoggerConfig;
 use oat\tao\scripts\install\SetContainerService;
+use oat\tao\scripts\install\SetDefaultCSPHeader;
 use oat\tao\scripts\install\SetServiceFileStorage;
 use oat\tao\scripts\install\RegisterValidationRules;
 use oat\tao\scripts\install\InstallNotificationTable;
@@ -37,6 +44,7 @@ use oat\tao\scripts\install\RegisterResourceEvents;
 use oat\tao\scripts\install\RegisterActionService;
 use oat\tao\model\user\TaoRoles;
 use oat\tao\scripts\install\SetUpQueueTasks;
+use oat\tao\scripts\install\SetLocaleNumbersConfig;
 
 $extpath = dirname(__FILE__) . DIRECTORY_SEPARATOR;
 
@@ -45,10 +53,10 @@ return array(
     'label' => 'TAO Base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '23.0.0',
+    'version' => '35.0.0',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
-        'generis' => '>=8.1.2',
+        'generis' => '>=10.2.0',
     ),
     'models' => array(
         'http://www.tao.lu/Ontologies/TAO.rdf',
@@ -84,7 +92,6 @@ return array(
                 array('type' => 'CheckCustom',      'value' => array('id' => 'tao_ini_opcache_load_comments', 'name' => 'opcache_load_comments', 'extension' => 'tao', 'dependsOn' => array('tao_extension_opcache'))),
                 array('type' => 'CheckPHPINIValue', 'value' => array('id' => 'tao_ini_suhosin_post_max_name_length', 'name' => 'suhosin.post.max_name_length', 'value' => '128', 'dependsOn' => array('tao_extension_suhosin'))),
                 array('type' => 'CheckPHPINIValue', 'value' => array('id' => 'tao_ini_suhosin_request_max_varname_length', 'name' => 'suhosin.request.max_varname_length', 'value' => '128', 'dependsOn' => array('tao_extension_suhosin'))),
-                array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_data', 'location' => 'data', 'rights' => 'rw', 'recursive' => true)),
                 array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_generis_common_conf', 'location' => 'config', 'rights' => 'rw', 'recursive' => true)),
                 array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_tao_client_locales', 'location' => 'tao/views/locales', 'rights' => 'rw')),
                 array('type' => 'CheckCustom', 'value' => array('id' => 'tao_custom_not_nginx', 'name' => 'not_nginx', 'extension' => 'tao', "optional" => true, 'dependsOn' => array('tao_extension_curl'))),
@@ -99,7 +106,7 @@ return array(
             SetServiceState::class,
             dirname(__FILE__).'/scripts/install/setJsConfig.php',
             dirname(__FILE__).'/scripts/install/registerEntryPoint.php',
-            dirname(__FILE__).'/scripts/install/setLocaleNumbersConfig.php',
+            SetLocaleNumbersConfig::class,
             AddLogFs::class,
             AddTmpFsHandlers::class,
             RegisterValidationRules::class,
@@ -113,7 +120,10 @@ return array(
             RegisterActionService::class,
             RegisterUserLockoutsEventListeners::class,
             RegisterTaskQueueServices::class,
-            SetUpQueueTasks::class
+            SetUpQueueTasks::class,
+            RegisterSignatureGenerator::class,
+            RegisterSettingsPersistence::class,
+            SetDefaultCSPHeader::class
         )
     ),
     'update' => 'oat\\tao\\scripts\\update\\Updater',
@@ -130,6 +140,7 @@ return array(
         array('grant', TaoRoles::ANONYMOUS,            array('ext'=>'tao','mod' => 'PasswordRecovery', 'act' => 'resetPassword')),
         array('grant', TaoRoles::ANONYMOUS,            array('ext'=>'tao','mod' => 'ClientConfig')),
         array('grant', TaoRoles::ANONYMOUS,            array('ext'=>'tao','mod' => 'Health')),
+        array('grant', TaoRoles::ANONYMOUS,            array('ext'=>'tao','mod' => 'RestVersion', 'act' => 'index')),
         array('grant', TaoRoles::BASE_USER,            array('ext'=>'tao','mod' => 'ServiceModule')),
         array('grant', TaoRoles::BASE_USER,            array('ext'=>'tao','mod' => 'Notification')),
         array('grant', TaoRoles::BASE_USER,            array('ext'=>'tao','mod' => 'File', 'act' => 'accessFile')),
@@ -164,16 +175,23 @@ return array(
         array('grant', TaoRoles::TAO_MANAGER,          array('ext'=>'tao','mod' => 'TaskQueue')),
         array('grant', TaoRoles::TAO_MANAGER,          array('ext'=>'tao','mod' => 'Users')),
         array('grant', TaoRoles::TAO_MANAGER,          array('ext'=>'tao','mod' => 'WebService')),
-        array('grant', TaoRoles::REST_PUBLISHER,       array('ext'=>'tao', 'mod' => 'TaskQueue', 'act' => 'get')),
+        array('grant', TaoRoles::TAO_MANAGER,          array('ext'=>'tao','mod' => 'Security')),
+        array('grant', TaoRoles::REST_PUBLISHER,       array('ext'=>'tao','mod' => 'TaskQueue', 'act' => 'get')),
         array('grant', TaoRoles::SYSTEM_ADMINISTRATOR, array('ext'=>'tao','mod' => 'ExtensionsManager')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#LockManagerRole',     'tao_actions_Lock@forceRelease'),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#PropertyManagerRole', 'tao_actions_PropertiesAuthoring'),
+        array(AccessRule::GRANT, TaoRoles::SYSTEM_ADMINISTRATOR, oat\tao\controller\api\Users::class),
+        array(AccessRule::GRANT, TaoRoles::GLOBAL_MANAGER, oat\tao\controller\api\Users::class),
     ),
+    'routes' => [
+        '/tao/api'  => ['class' => ApiRoute::class],
+        '/tao'      => ['class' => LegacyRoute::class],
+    ],
     'constants' => array(
         #TAO version number
-        'TAO_VERSION' => '3.3.0-sprint92.1',
+        'TAO_VERSION' => '3.3.0-sprint102',
         #TAO version label
-        'TAO_VERSION_NAME' => '3.3.0-sprint92.1',
+        'TAO_VERSION_NAME' => '3.3.0-sprint102',
         #the name to display
         'PRODUCT_NAME' => 'TAO',
         #TAO release status, use to add specific footer to TAO, available alpha, beta, demo, stable

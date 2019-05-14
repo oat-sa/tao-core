@@ -22,70 +22,115 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
+    'lodash',
     'jquery',
     'ui/pageStatus'
-], function ($, pageStatusFactory) {
+], function (_, $, pageStatusFactory) {
     'use strict';
+
+    var isHeadless = /HeadlessChrome/.test(navigator.userAgent);
+
 
     QUnit.module('pageStatus');
 
-    QUnit.test('module', function (assert) {
-        QUnit.expect(1);
-        assert.equal(typeof pageStatusFactory, 'function', "The pageStatus module exposes an function");
+    QUnit.test('module', function(assert) {
+        assert.expect(1);
+        assert.equal(typeof pageStatusFactory, 'function', 'The pageStatus module exposes an function');
     });
 
-    QUnit.test('api', function (assert) {
-        QUnit.expect(5);
+    QUnit.test('api', function(assert) {
+        assert.expect(5);
         var pageStatus = pageStatusFactory();
 
-        assert.equal(typeof pageStatus, 'object', "The factory creates an object");
-        assert.notEqual(pageStatus, pageStatusFactory(), "The factory creates a new object");
-        assert.equal(typeof pageStatus.on, 'function', "The pageStatus module expose the on method");
-        assert.equal(typeof pageStatus.off, 'function', "The pageStatus module expose the off method");
-        assert.equal(typeof pageStatus.trigger, 'function', "The pageStatus module expose the trigger method");
+        assert.equal(typeof pageStatus, 'object', 'The factory creates an object');
+        assert.notEqual(pageStatus, pageStatusFactory(), 'The factory creates a new object');
+        assert.equal(typeof pageStatus.on, 'function', 'The pageStatus module expose the on method');
+        assert.equal(typeof pageStatus.off, 'function', 'The pageStatus module expose the off method');
+        assert.equal(typeof pageStatus.trigger, 'function', 'The pageStatus module expose the trigger method');
 
     });
 
-    QUnit.asyncTest('popup status', function (assert) {
-        QUnit.expect(8);
 
-        var popup = window.open('/','test','width=300,height=300,visible=none');
+    if (isHeadless){
+        QUnit.test('popup status', function (assert) {
+            var ready = assert.async();
+            var popup = window.open('/tao/views/js/test/ui/pageStatus/blank.html', 'test', 'width=300,height=300,visible=none');
 
-        var pageStatus = pageStatusFactory({
-            window :  popup
+            var pageStatus = pageStatusFactory({
+                window: popup
+            });
+            assert.expect(4);
+
+            pageStatus
+                .on('statuschange', _.once(function(status){
+                    assert.ok(true, 'The statuschange event is triggered');
+                }))
+                .on('hide', _.once(function(){
+                    assert.ok(true, 'The hide event is triggered');
+                }))
+                .on('load', _.once(function(){
+                    assert.ok(true, 'The load event is triggered');
+                }))
+                .on('unload', _.once(function(){
+                    assert.ok(true, 'The unload event is triggered');
+                }));
+
+
+            _.delay(function() {
+                popup.close();
+            }, 100);
+
+            setTimeout(function () {
+                ready();
+            }, 300);
         });
 
-        var counter = 0;
 
-        pageStatus
-            .on('statuschange', function(status){
-                switch(counter){
-                    case 0: assert.equal(status, 'focus', 'The first event is focus'); break;
-                    case 1: assert.ok(status === 'hide' || status === 'blur', 'The second event is either hide or blur'); break;
-                    case 2: assert.ok(status === 'hide' || status === 'blur', 'The third event is either hide or blur'); break;
-                    case 3: assert.equal(status, 'unload', 'The forth event is unload'); break;
-                }
+    }else{
+        QUnit.test('popup status', function (assert) {
+            var ready = assert.async();
+            var popup = window.open('/tao/views/js/test/ui/pageStatus/blank.html', 'test', 'width=300,height=300,visible=none');
+            var secondPopup;
 
-                counter++;
-            })
-            .on('focus', function(){
-                assert.ok(true, 'The focus event is triggered');
-            })
-            .on('hide', function(){
-                assert.ok(true, 'The blur event is triggered');
-            })
-            .on('blur', function(){
-                assert.ok(true, 'The blur event is triggered');
-            })
-            .on('unload', function(){
-                assert.ok(true, 'The unload event is triggered');
-                QUnit.start();
+            var pageStatus = pageStatusFactory({
+                window: popup
             });
 
-        popup.focus();
+            assert.expect(6);
 
-        setTimeout(function() {
-            popup.close();
-        }, 10);
-    });
+            pageStatus
+                .on('statuschange', _.once(function(status){
+                    assert.ok(true, 'The statuschange event is triggered');
+                }))
+                .on('focus', _.once(function(){
+                    assert.ok(true, 'The focus event is triggered');
+                }))
+                .on('hide', _.once(function(){
+                    assert.ok(true, 'The hide event is triggered');
+                }))
+                .on('load', _.once(function(){
+                    assert.ok(true, 'The load event is triggered');
+                }))
+                .on('blur', _.once(function(){
+                    assert.ok(true, 'The blur event is triggered');
+                }))
+                .on('unload', _.once(function(){
+                    assert.ok(true, 'The unload event is triggered');
+                }));
+
+            _.delay(function() {
+                secondPopup = window.open('/tao/views/js/test/ui/pageStatus/blank.html', 'test2', 'width=300,height=300');
+                _.delay(function () {
+                    popup.close();
+
+                }, 200);
+            }, 100);
+
+            setTimeout(function () {
+                secondPopup.close();
+                ready();
+            }, 400);
+        });
+
+    }
 });

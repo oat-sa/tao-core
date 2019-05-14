@@ -18,8 +18,9 @@
  *
  */
 
-use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyRdfs;
+use oat\tao\helpers\form\validators\ResourceSignatureValidator;
+use oat\tao\model\security\SignatureValidator;
 
 /**
  *
@@ -34,18 +35,24 @@ class tao_actions_form_EditClassLabel
      * @var core_kernel_classes_Class
      */
     protected $clazz;
+    /**
+     * @var string
+     */
+    private $signature;
 
 
     /**
      * @param core_kernel_classes_Class $clazz
      * @param array $classData
-     * @param array $propertyData
-     * @param string $propertyMode
+     * @param string $signature
+     * @param array $options
      */
-    public function __construct( \core_kernel_classes_Class $clazz, $classData )
+    public function __construct(\core_kernel_classes_Class $clazz, $classData, $signature, $options = [])
     {
         $this->clazz = $clazz;
-        parent::__construct($classData);
+        $this->signature = $signature;
+
+        parent::__construct($classData, $options);
     }
 
     /**
@@ -120,10 +127,24 @@ class tao_actions_form_EditClassLabel
         $classUriElt->addClass('global');
         $this->form->addElement($classUriElt);
 
-        $hiddenId = tao_helpers_form_FormFactory::getElement('id', 'Hidden');
-        $hiddenId->setValue($clazz->getUri());
-        $hiddenId->addClass('global');
-        $this->form->addElement($hiddenId);
+        $this->addSignature();
     }
 
+    /**
+     * @throws \common_Exception
+     */
+    protected function addSignature()
+    {
+        $signature = tao_helpers_form_FormFactory::getElement('signature', 'Hidden');
+
+        $signature->setValue($this->signature);
+        $signature->addValidator(
+            new ResourceSignatureValidator(
+                new SignatureValidator(),
+                tao_helpers_Uri::encode($this->clazz->getUri())
+            )
+        );
+
+        $this->form->addElement($signature, true);
+    }
 }

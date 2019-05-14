@@ -31,6 +31,8 @@ use oat\generis\model\data\ModelManager;
 use oat\generis\model\kernel\persistence\file\FileIterator;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\controller\api\Users;
+use oat\tao\helpers\dateFormatter\EuropeanFormatter;
 use oat\tao\model\cliArgument\argument\implementation\Group;
 use oat\tao\model\cliArgument\argument\implementation\verbose\Debug;
 use oat\tao\model\cliArgument\argument\implementation\verbose\Error;
@@ -54,12 +56,20 @@ use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\resources\ResourceWatcher;
+use oat\tao\model\security\SignatureGenerator;
+use oat\tao\model\routing\AnnotationReaderService;
+use oat\tao\model\routing\ControllerService;
+use oat\tao\model\routing\RouteAnnotationService;
+use oat\tao\model\security\ActionProtector;
 use oat\tao\model\security\xsrf\TokenService;
+use oat\tao\model\security\xsrf\TokenStore;
 use oat\tao\model\security\xsrf\TokenStoreSession;
 use oat\tao\model\service\ApplicationService;
 use oat\tao\model\service\ContainerService;
+use oat\tao\model\service\SettingsStorage;
 use oat\tao\model\session\restSessionFactory\builder\HttpBasicAuthBuilder;
 use oat\tao\model\session\restSessionFactory\RestSessionFactory;
+use oat\tao\model\settings\CspHeaderSettingsInterface;
 use oat\tao\model\task\ExportByHandler;
 use oat\tao\model\task\ImportByHandler;
 use oat\tao\model\taskQueue\Queue;
@@ -80,6 +90,7 @@ use oat\tao\model\user\UserLocks;
 use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\AddTmpFsHandlers;
+use oat\tao\scripts\install\RegisterSignatureGenerator;
 use oat\tao\scripts\install\RegisterTaskQueueServices;
 use oat\tao\scripts\install\UpdateRequiredActionUrl;
 use oat\tao\model\accessControl\func\AclProxy;
@@ -107,6 +118,7 @@ use oat\tao\model\resources\TreeResourceLookup;
 use oat\tao\model\user\TaoRoles;
 use oat\generis\model\data\event\ResourceDeleted;
 use oat\tao\model\search\index\IndexService;
+use tao_models_classes_UserService;
 
 /**
  *
@@ -874,6 +886,155 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('21.5.0');
         }
 
-        $this->skip('21.5.0', '23.0.0');
+        $this->skip('21.5.0', '22.9.1');
+
+        if ($this->isVersion('22.9.1')) {
+            OntologyUpdater::syncModels();
+
+            $iterator = new FileIterator(__DIR__ . '/../../locales/nl-BE/lang.rdf');
+            $rdf = ModelManager::getModel()->getRdfInterface();
+
+            /* @var \core_kernel_classes_Triple $triple */
+            foreach ($iterator as $triple) {
+                $rdf->add($triple);
+            }
+
+            $this->setVersion('22.10.2');
+        }
+
+        $this->skip('22.10.0', '22.12.0');
+
+        if ($this->isVersion('22.12.0')) {
+            $this->getServiceManager()->register(
+                ActionProtector::SERVICE_ID,
+                new ActionProtector(['frameSourceWhitelist' => ['self']])
+            );
+            $this->setVersion('22.13.0');
+        }
+
+        if ($this->isVersion('22.13.0')) {
+            $this->getServiceManager()->register(
+                ActionProtector::SERVICE_ID,
+                new ActionProtector(['frameSourceWhitelist' => ["'self'"]])
+            );
+            $this->setVersion('22.13.1');
+        }
+
+        $this->skip('22.13.1', '26.1.7');
+
+        if ($this->isVersion('26.1.7')) {
+
+            AclProxy::applyRule(new AccessRule(AccessRule::GRANT,  TaoRoles::SYSTEM_ADMINISTRATOR, Users::class));
+            AclProxy::applyRule(new AccessRule(AccessRule::GRANT,  TaoRoles::GLOBAL_MANAGER, Users::class));
+
+            $userService = $this->getServiceManager()->get(tao_models_classes_UserService::SERVICE_ID);
+            $userService->setOption(tao_models_classes_UserService::OPTION_ALLOW_API, false);
+            $this->getServiceManager()->register(tao_models_classes_UserService::SERVICE_ID, $userService);
+
+            $this->setVersion('27.0.0');
+        }
+
+        $this->skip('27.0.0', '27.1.2');
+
+        if ($this->isVersion('27.1.2')) {
+
+            if (!$this->getServiceManager()->has(RouteAnnotationService::SERVICE_ID)) {
+                $annotationService = new RouteAnnotationService();
+                $this->getServiceManager()->register(RouteAnnotationService::SERVICE_ID, $annotationService);
+            }
+
+            if (!$this->getServiceManager()->has(AnnotationReaderService::SERVICE_ID)) {
+                $readerService = new AnnotationReaderService();
+                $this->getServiceManager()->register(AnnotationReaderService::SERVICE_ID, $readerService);
+            }
+
+            if (!$this->getServiceManager()->has(ControllerService::SERVICE_ID)) {
+                $controllerService = new ControllerService();
+                $this->getServiceManager()->register(ControllerService::SERVICE_ID, $controllerService);
+            }
+
+            $this->setVersion('27.2.0');
+        }
+
+        $this->skip('27.2.0', '27.3.0');
+
+        if ($this->isVersion('27.3.0')) {
+            AclProxy::applyRule(new AccessRule('grant', TaoRoles::ANONYMOUS, ['ext' => 'tao', 'mod' => 'RestVersion', 'act' => 'index']));
+
+            $this->setVersion('27.4.0');
+        }
+
+        $this->skip('27.4.0', '30.0.1');
+
+        if ($this->isVersion('30.0.1')) {
+            $register = new RegisterSignatureGenerator();
+            $register->setServiceLocator($this->getServiceManager());
+            $register->__invoke('');
+
+            $this->setVersion('30.0.2');
+        }
+
+        $this->skip('30.0.2', '30.0.5');
+
+        if ($this->isVersion('30.0.5')) {
+            AclProxy::applyRule(new AccessRule(
+                AccessRule::GRANT,
+                TaoRoles::TAO_MANAGER,
+                ['ext' => 'tao', 'mod' => 'Security']
+            ));
+
+            \common_persistence_Manager::addPersistence('settings',  ['driver' => 'phpfile']);
+
+            $this->getServiceManager()->register(
+                SettingsStorage::SERVICE_ID,
+                new SettingsStorage(['persistence' => 'settings'])
+            );
+
+            $this->setVersion('30.1.0');
+        }
+
+        if ($this->isVersion('30.1.0')) {
+            /** @var SettingsStorage $settingsStorage */
+            $settingsStorage = $this->getServiceManager()->get(SettingsStorage::SERVICE_ID);
+
+            if ($settingsStorage->exists(CspHeaderSettingsInterface::CSP_HEADER_SETTING) === false) {
+                $settingsStorage->set(CspHeaderSettingsInterface::CSP_HEADER_SETTING, '*');
+            }
+
+
+            $this->setVersion('30.1.1');
+        }
+
+        $this->skip('30.1.1', '31.0.0');
+
+        if ($this->isVersion('31.0.0')) {
+            // Removes previously set util/local[dateTimeFormat] key prior to registering it with the correct values.
+            $registry = ClientLibConfigRegistry::getRegistry();
+            $localeValues = $registry->get('util/locale');
+            // If 'util/locale' is not set in the registry, $localeValues is '' and retrieving a string index on a string would fail.
+            if (is_array($localeValues) && isset($localeValues['dateTimeFormat'])) {
+                unset($localeValues['dateTimeFormat']);
+            }
+            $registry->register('util/locale', $localeValues);
+
+            $ext = $this->getServiceManager()->get(\common_ext_ExtensionsManager::SERVICE_ID)->getExtensionById('tao');
+            $ext->setConfig(\tao_helpers_Date::CONFIG_KEY, new EuropeanFormatter());
+
+            $this->setVersion('31.1.0');
+        }
+
+        $this->skip('31.1.0', '33.6.0');
+
+        if ($this->isVersion('33.6.0')) {
+            /** @var TokenService $tokenService */
+            $tokenService = $this->getServiceManager()->get(TokenService::SERVICE_ID);
+
+            /** @var TokenStore $tokenStore */
+            $tokenStore = $tokenService->getOption(TokenService::OPTION_STORE);
+            $tokenStore->removeTokens();
+            $this->setVersion('34.0.0');
+        }
+
+        $this->skip('34.0.0', '35.0.0');
     }
 }

@@ -1,23 +1,4 @@
-
-                                     /*
-                                    /  \
-                                   |    |
-                                 --:'''':--
-   THIS CODE IS GENERATED          :*_* :
-                                   _:"":\___
-   AUTOMAGICALLY    * *      ____.' :::     '._
-                   * *=====<<=)           \    :
-   DO NOT EDIT!     * *      '-'-'\_      /'._.'
-                                     \====:_ ""
-                                    .'     \\
-                                   :       :
-                                  /   :    \
-                                 :   .      '.
-                                 :  : :      :
-                                 :__:-:__.;--'
-                                <*_/   <*/
-                                 
-@mixin tao-icon-setup {
+/* Do not edit */@mixin tao-icon-setup {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'tao' !important;
   speak: none;
@@ -243,3 +224,6 @@
 @mixin icon-map-o { content: "\f278"; }
 @mixin icon-variable { content: "\e908"; }
 @mixin icon-tooltip { content: "\e90c"; }
+@mixin icon-globe { content: "\e9c9"; }
+@mixin icon-highlighter { content: "\e90f"; }
+@mixin icon-eliminate-crossed { content: "\e911"; }

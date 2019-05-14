@@ -1,1 +1,0 @@
-<span class="term term-{{type}}" data-value="{{value}}" data-token="{{token}}" data-type="{{type}}">{{{label}}}</span>

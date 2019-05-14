@@ -103,7 +103,7 @@ class tao_install_services_InstallService extends tao_install_services_Service{
     }
     
     public static function onError($errno, $errstr, $errfile, $errline){
-    	common_Logger::w($errfile . ':' . $errline . ' - ' . $errstr, 'INSTALL');
+    	common_Logger::w($errfile . ':' . $errline . ' - ' . $errstr);
         switch ($errno) {
             case E_ERROR:
                 throw new tao_install_utils_Exception($errfile . ':' .$errline . ' - ' . $errstr);

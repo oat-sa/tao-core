@@ -19,31 +19,27 @@
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  * @author Christophe Noël <christophe@taotesting.com>
  */
-define([
-    'jquery',
-    'core/mouseEvent'
-], function($, triggerMouseEvent){
+define(['jquery', 'core/mouseEvent'], function($, triggerMouseEvent) {
     'use strict';
 
     QUnit.module('API');
 
-    QUnit.test('mouseEvent api', function(assert){
-        assert.ok(typeof triggerMouseEvent === 'function', "The mouseEvent module exposes a function");
+    QUnit.test('mouseEvent api', function(assert) {
+        assert.ok(typeof triggerMouseEvent === 'function', 'The mouseEvent module exposes a function');
     });
-
 
     QUnit.module('Events');
 
-    QUnit.test('invalid event', function(assert){
+    QUnit.test('invalid event', function(assert) {
         var element = document.getElementById('elem1');
         var eventName = 'custom';
         var eventOptions = {};
 
-        assert.ok(! triggerMouseEvent(element, eventName, eventOptions), "returns false if event is invalid");
+        assert.ok(!triggerMouseEvent(element, eventName, eventOptions), 'returns false if event is invalid');
     });
 
-
-    QUnit.asyncTest('jQuery', function(assert) {
+    QUnit.test('jQuery', function(assert) {
+        var ready = assert.async();
         var element = $('#elem1');
         var eventName = 'click';
         var eventOptions = {
@@ -62,14 +58,14 @@ define([
             assert.strictEqual(event.screenX, eventOptions.screenX, 'The event has the right screenX option');
             assert.strictEqual(event.screenY, eventOptions.screenY, 'The event has the right screenY option');
 
-            QUnit.start();
+            ready();
         });
 
         triggerMouseEvent(element.get(0), eventName, eventOptions);
     });
 
-
-    QUnit.asyncTest('native', function(assert) {
+    QUnit.test('native', function(assert) {
+        var ready = assert.async();
         var element = document.getElementById('elem2');
         var eventName = 'dblclick';
         var eventOptions = {
@@ -88,7 +84,7 @@ define([
             assert.strictEqual(event.screenX, eventOptions.screenX, 'The event has the right screenX option');
             assert.strictEqual(event.screenY, eventOptions.screenY, 'The event has the right screenY option');
 
-            QUnit.start();
+            ready();
         });
 
         triggerMouseEvent(element, eventName, eventOptions);

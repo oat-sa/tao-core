@@ -36,25 +36,24 @@ define([
     'use strict';
 
     /**
-     * List of default plugins
-     * @type {Object}
-     */
-    var defaultPlugins = {
-        core: [
-            pluginDegradFactory,
-            pluginHistoryFactory,
-            pluginRemindFactory,
-            pluginStepNavigationFactory
-        ]
-    };
-
-    /**
      * Load the plugins dynamically
      * @param {Object} loadedPlugins - a collection of already loaded plugins
      * @param {Object} dynamicPlugins - a collection of plugins to load
      * @returns {Promise} resolves with the list of loaded plugins
      */
     return function loadPlugins(loadedPlugins, dynamicPlugins) {
+        // The list of default plugins is directly built here instead of using a module variable to ensure the object
+        // is unique to the instance. This wil avoid global polluting by successive instances, as nested objects and
+        // arrays might be simply copied.
+        var defaultPlugins = {
+            core: [
+                pluginDegradFactory,
+                pluginHistoryFactory,
+                pluginRemindFactory,
+                pluginStepNavigationFactory
+            ]
+        };
+
         return pluginLoaderFactory(_.merge({}, defaultPlugins, loadedPlugins))
             .addList(dynamicPlugins)
             .load(context.bundle);

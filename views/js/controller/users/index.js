@@ -2,28 +2,44 @@
  * @author Jérôme Bogaert <jerome@taotesting.com>
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define(['module', 'jquery', 'i18n', 'util/url', 'layout/section', 'ui/feedback', 'ui/dialog/confirm', 'ui/datatable'], function (module, $, __, urlHelper, section, feedback, dialogConfirm) {
+define([
+    'jquery',
+    'lodash',
+    'i18n',
+    'util/url',
+    'layout/section',
+    'core/request',
+    'ui/feedback',
+    'ui/dialog/confirm',
+    'ui/datatable'
+], function ($, _, __, urlHelper, section, request, feedback, dialogConfirm) {
     'use strict';
 
+    /**
+     * Make a request to the server for a token-protected user action
+     * @param {String} uri - the user uri
+     * @param {String} action
+     * @param {String} confirmMessage
+     */
     var runUserAction = function runUserAction(uri, action, confirmMessage) {
-        var tokenName = module.config().xsrfTokenName;
-        var data = {};
+        var data = {
+            uri: uri
+        };
 
-        data.uri = uri;
-        data[tokenName] = $.cookie(tokenName);
-
-        dialogConfirm(confirmMessage, function () {
-            $.ajax({
+        dialogConfirm(confirmMessage, function() {
+            request({
                 url: urlHelper.route(action, 'Users', 'tao'),
                 data: data,
-                type: 'POST'
-            }).done(function(response) {
+                method: 'POST'
+            })
+            .then(function(response) {
                 if (response.success) {
                     feedback().success(response.message);
-                } else {
-                    feedback().error(response.message);
                 }
                 $('#user-list').datatable('refresh');
+            })
+            .catch(function(err) {
+                feedback().error(err);
             });
         });
     };

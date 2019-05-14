@@ -19,7 +19,8 @@
 
 namespace oat\tao\test\unit\model\security\xsrf;
 
-use oat\tao\test\TaoPhpUnitTestRunner;
+use oat\generis\test\TestCase;
+use oat\tao\model\security\xsrf\Token;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStore;
 use oat\oatbox\service\exception\InvalidService;
@@ -30,22 +31,17 @@ use Prophecy\Argument;
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-class TokenServiceTest extends TaoPhpUnitTestRunner
+class TokenServiceTest extends TestCase
 {
-
-    /**
-     * @expectedException  oat\oatbox\service\exception\InvalidService
-     */
-    public function testInstantianteNoStore()
+    public function testInstantiateNoStore()
     {
+        $this->expectException(InvalidService::class);
         new TokenService();
     }
 
-    /**
-     * @expectedException  oat\oatbox\service\exception\InvalidService
-     */
-    public function testInstantianteBadStore()
+    public function testInstantiateBadStore()
     {
+        $this->expectException(InvalidService::class);
         new TokenService([
             'store' =>  []
         ]);
@@ -60,22 +56,70 @@ class TokenServiceTest extends TaoPhpUnitTestRunner
 
         $this->assertEquals(0, count($store->getTokens()), 'The store is empty');
 
+        /** @var Token $token */
         $token = $service->createToken();
-        $this->assertEquals(40, strlen($token), 'The token has the expected length');
-        $this->assertRegExp('/^[0-9a-f]{40}$/', $token, 'The token is correctly formatted');
-        $this->assertEquals($store->getTokens()[0]['token'], $token, 'The store contains the correct token');
+        $tokenValue = $token->getValue();
+        $this->assertEquals(40, strlen($tokenValue), 'The token has the expected length');
+        $this->assertRegExp('/^[0-9a-f]{40}$/', $tokenValue, 'The token is correctly formatted');
+        $this->assertEquals($store->getTokens()[0]->getValue(), $tokenValue, 'The store contains the correct token');
 
-        $this->assertEquals(1, count($store->getTokens()), 'The store contains now one token');
+        $this->assertCount(1, $store->getTokens(), 'The store contains now one token');
 
+        /** @var Token $token2 */
         $token2 = $service->createToken();
+        $token2Value = $token2->getValue();
 
-        $this->assertEquals(40, strlen($token2), 'The token has the expected length');
-        $this->assertRegExp('/^[0-9a-f]{40}$/', $token2, 'The token is correctly formatted');
-        $this->assertEquals($store->getTokens()[1]['token'], $token2, 'The store contains the correct token');
+        $this->assertEquals(40, strlen($token2Value), 'The token has the expected length');
+        $this->assertRegExp('/^[0-9a-f]{40}$/', $token2Value, 'The token is correctly formatted');
+        $this->assertEquals($store->getTokens()[1]->getValue(), $token2Value, 'The store contains the correct token');
 
-        $this->assertEquals(2, count($store->getTokens()), 'The store contains now two tokens');
+        $this->assertCount(2, $store->getTokens(), 'The store contains now two tokens');
 
-        $this->assertFalse($token == $token2, 'The tokens are differents');
+        $this->assertNotEquals($tokenValue, $token2Value, 'The tokens are differents');
+    }
+
+    public function testGenerateTokenPool()
+    {
+        $store = $this->getStoreMock();
+        $service = new TokenService([
+            'store' =>  $store,
+            TokenService::POOL_SIZE_OPT => 15
+        ]);
+
+        $this->assertCount(0, $store->getTokens(), 'The store is empty');
+
+        $tokenPool = $service->generateTokenPool();
+        $this->assertCount(15, $tokenPool, 'The token pool has the expected size');
+
+        $tokens = $store->getTokens();
+        $this->assertCount(15, $tokens, 'The token pool contains the expected amount of tokens');
+
+        /** @var Token $firstToken */
+        $firstToken  = $tokens[0];
+
+        /** @var Token $secondToken */
+        $secondToken = $tokens[1];
+
+        $this->assertInstanceOf(Token::class, $firstToken, 'The first token is a Token object');
+        $this->assertInstanceOf(Token::class, $secondToken, 'The second token is a Token object');
+
+        $this->assertNotNull($firstToken->getCreatedAt(), 'The first token contains a timestamp');
+        $this->assertNotNull($firstToken->getValue(), 'The first token contains a token value');
+
+        $this->assertNotNull($secondToken->getCreatedAt(), 'The second token contains a timestamp');
+        $this->assertNotNull($secondToken->getValue(), 'The second token contains a token value');
+
+
+        $this->assertNotSame(
+            $firstToken->getValue(),
+            $secondToken->getValue(),
+            'The first and second token are different'
+        );
+
+        $this->assertTrue($service->validateToken($firstToken->getValue()), 'The first token is valid');
+        $this->assertTrue($service->validateToken($secondToken), 'The second token is passed as an object, and is valid');
+
+        $this->assertCount(13, $store->getTokens(), '2 tokens were validated, and revoked. The store contains 13 tokens');
     }
 
     public function testPoolSize()
@@ -86,25 +130,25 @@ class TokenServiceTest extends TaoPhpUnitTestRunner
             'poolSize' => 4
         ]);
 
-        $this->assertEquals(0, count($store->getTokens()), 'The store is empty');
+        $this->assertCount(0, $store->getTokens(), 'The store is empty');
 
         $service->createToken();
-        $this->assertEquals(1, count($store->getTokens()), 'The store contains now one token');
+        $this->assertCount(1, $store->getTokens(), 'The store contains now one token');
 
         $service->createToken();
-        $this->assertEquals(2, count($store->getTokens()), 'The store contains now two tokens');
+        $this->assertCount(2, $store->getTokens(), 'The store contains now two tokens');
 
         $service->createToken();
-        $this->assertEquals(3, count($store->getTokens()), 'The store contains now three tokens');
+        $this->assertCount(3, $store->getTokens(), 'The store contains now three tokens');
 
         $service->createToken();
-        $this->assertEquals(4, count($store->getTokens()), 'The store contains now four tokens');
+        $this->assertCount(4, $store->getTokens(), 'The store contains now four tokens');
 
         $service->createToken();
-        $this->assertEquals(4, count($store->getTokens()), 'The store remains at four tokens, the max pool size');
+        $this->assertCount(4, $store->getTokens(), 'The store remains at four tokens, the max pool size');
 
         $service->createToken();
-        $this->assertEquals(4, count($store->getTokens()), 'The store remains at four tokens, the max pool size');
+        $this->assertCount(4, $store->getTokens(), 'The store remains at four tokens, the max pool size');
     }
 
     public function testRevokeToken()
@@ -114,18 +158,25 @@ class TokenServiceTest extends TaoPhpUnitTestRunner
             'store' =>  $store
         ]);
 
-        $this->assertEquals(0, count($store->getTokens()), 'The store is empty');
+        $this->assertCount(0, $store->getTokens(), 'The store is empty');
 
+        /** @var Token $token */
         $token = $service->createToken();
 
-        $this->assertEquals(1, count($store->getTokens()), 'The store contains now one token');
-        $this->assertEquals($store->getTokens()[0]['token'], $token, 'The store contains the correct token');
+        $this->assertCount(1, $store->getTokens(), 'The store contains now one token');
+        $this->assertEquals($store->getTokens()[0]->getValue(), $token->getValue(), 'The store contains the correct token');
 
-        $this->assertFalse($service->revokeToken('this is not a token'), 'If the token doen\'t exists it is not revoked');
-        $this->assertEquals(1, count($store->getTokens()), 'The store still contains one token');
+        $this->assertFalse($service->revokeToken('not a token'), 'If the token doesn\'t exist it is not revoked');
+        $this->assertCount(1, $store->getTokens(), 'The store still contains one token');
 
-        $this->assertTrue($service->revokeToken($token), 'The token has been revoked');
-        $this->assertEquals(0, count($store->getTokens()), 'The store doesn\'t contain the token anymore');
+        $this->assertTrue($service->revokeToken($token->getValue()), 'The token has been revoked');
+        $this->assertCount(0, $store->getTokens(), 'The store doesn\'t contain the token anymore');
+
+        /** @var Token $token */
+        $token = $service->createToken();
+
+        $this->assertTrue($service->revokeToken($token), 'Token object can be used to revoke a token');
+        $this->assertCount(0, $store->getTokens(), 'Token was revoked, and store is empty');
     }
 
     public function testCheckToken()
@@ -135,21 +186,21 @@ class TokenServiceTest extends TaoPhpUnitTestRunner
             'store' =>  $store
         ]);
 
-        $this->assertEquals(0, count($store->getTokens()), 'The store is empty');
+        $this->assertCount(0, $store->getTokens(), 'The store is empty');
 
         $token1 = $service->createToken();
         $token2 = $service->createToken();
-        $this->assertEquals(2, count($store->getTokens()), 'The store contains the created tokens');
+        $this->assertCount(2, $store->getTokens(), 'The store contains the created tokens');
 
         $this->assertFalse($service->checkToken('wooch'), 'This token is not a token so it cannot be valid');
-        $this->assertTrue($service->checkToken($token1), 'This token is valid');
-        $this->assertTrue($service->checkToken($token1), 'This token is still valid');
-        $this->assertTrue($service->checkToken($token2), 'This second token is also valid');
+        $this->assertTrue($service->checkToken($token1->getValue()), 'This token is valid');
+        $this->assertTrue($service->checkToken($token1->getValue()), 'This token is still valid');
+        $this->assertTrue($service->checkToken($token2->getValue()), 'This second token is also valid');
 
-        $this->assertTrue($service->revokeToken($token1), 'The token has been revoked');
+        $this->assertTrue($service->revokeToken($token1->getValue()), 'The token has been revoked');
 
-        $this->assertFalse($service->checkToken($token1), 'This token has been revoked');
-        $this->assertTrue($service->checkToken($token2), 'This second token is still valid');
+        $this->assertFalse($service->checkToken($token1->getValue()), 'This token has been revoked');
+        $this->assertTrue($service->checkToken($token2->getValue()), 'This second token is still valid');
     }
 
     public function testInvalidateTimeLimit()
@@ -160,24 +211,29 @@ class TokenServiceTest extends TaoPhpUnitTestRunner
             'timeLimit' => 1
         ]);
 
-        $this->assertEquals(0, count($store->getTokens()), 'The store is empty');
+        $this->assertCount(0, $store->getTokens(), 'The store is empty');
 
+        /** @var Token $token1 */
         $token1 = $service->createToken();
 
-        $this->assertEquals(1, count($store->getTokens()), 'The store contains now one token');
-        $this->assertTrue($service->checkToken($token1), 'This first token is valid');
+        $this->assertCount(1, $store->getTokens(), 'The store contains now one token');
+        $this->assertTrue($service->checkToken($token1->getValue()), 'This first token is valid');
 
         sleep(1);
 
         $token2 = $service->createToken();
-        $this->assertEquals(1, count($store->getTokens()), 'The store contains only one token, the 1st has been invalidated');
-        $this->assertFalse($service->checkToken($token1), 'This token has been revoked');
+        $this->assertCount(1, $store->getTokens(), 'The store contains only one token, the 1st has been invalidated');
+        $this->assertFalse($service->checkToken($token1->getValue()), 'This token has been revoked');
 
         sleep(1);
 
-        $this->assertFalse($service->checkToken($token2), 'This token is not valid anymore');
+        $this->assertFalse($service->checkToken($token2->getValue()), 'This token is not valid anymore');
     }
 
+    /**
+     * @throws InvalidService
+     * @throws \common_Exception
+     */
     public function testTimeLimit()
     {
         $store = $this->getStoreMock();
@@ -186,34 +242,37 @@ class TokenServiceTest extends TaoPhpUnitTestRunner
             'timeLimit' => 2
         ]);
 
-        $this->assertEquals(0, count($store->getTokens()), 'The store is empty');
+        $this->assertCount(0, $store->getTokens(), 'The store is empty');
 
+        /** @var Token $token1 */
         $token1 = $service->createToken();
 
-        $this->assertEquals(1, count($store->getTokens()), 'The store contains now one token');
-        $this->assertTrue($service->checkToken($token1), 'This first token is valid');
+        $this->assertCount(1, $store->getTokens(), 'The store contains now one token');
+        $this->assertTrue($service->checkToken($token1->getValue()), 'This first token is valid');
 
         sleep(1);
 
+        /** @var Token $token2 */
         $token2 = $service->createToken();
-        $this->assertEquals(2, count($store->getTokens()), 'The store contains the two tokens');
-        $this->assertTrue($service->checkToken($token1), 'This first token is valid');
-        $this->assertTrue($service->checkToken($token2), 'This second token is also valid');
+        $this->assertCount(2, $store->getTokens(), 'The store contains the two tokens');
+        $this->assertTrue($service->checkToken($token1->getValue()), 'This first token is valid');
+        $this->assertTrue($service->checkToken($token2->getValue()), 'This second token is also valid');
 
         sleep(1);
 
-        $this->assertFalse($service->checkToken($token1), 'This first token is not valid anymore');
-        $this->assertTrue($service->checkToken($token2), 'This second token is still valid');
+        $this->assertFalse($service->checkToken($token1->getValue()), 'This first token is not valid anymore');
+        $this->assertTrue($service->checkToken($token2->getValue()), 'This second token is still valid');
 
         sleep(1);
 
-        $this->assertFalse($service->checkToken($token1), 'This first token is not valid');
-        $this->assertFalse($service->checkToken($token2), 'This second token is not valid');
+        $this->assertFalse($service->checkToken($token1->getValue()), 'This first token is not valid');
+        $this->assertFalse($service->checkToken($token2->getValue()), 'This second token is not valid');
     }
 
     protected function getStoreMock()
     {
-        $storeMock = $this->prophesize('oat\tao\model\security\xsrf\TokenStore');
+        /** @var TokenStore $storeMock */
+        $storeMock = $this->prophesize(TokenStore::class);
         $storeMock->getTokens()->willReturn([]);
         $storeMock->setTokens(Argument::any())->will(function ($args) use ($storeMock){
             $storeMock->getTokens()->willReturn($args[0]);

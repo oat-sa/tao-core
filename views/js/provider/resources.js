@@ -70,6 +70,29 @@ define([
     };
 
     /**
+     * Enforces signature to classSignature in every child resources
+     *
+     * @param {Array|Object} resources
+     * @param {String} [signature]
+     * @returns {Array|Object}
+     */
+    function applyClassSignatures(resources, signature) {
+        if (_.isArray(resources)) {
+            _.forEach(resources, function(resource) {
+                applyClassSignatures(resource, signature);
+            });
+        } else if (resources) {
+            if (signature) {
+                resources.classSignature = signature;
+            }
+            if (resources.children) {
+                applyClassSignatures(resources.children, resources.signature || signature);
+            }
+        }
+        return resources;
+    }
+
+    /**
      * Creates a configured provider
      *
      * @param {Object} [config] - to override the default config
@@ -96,7 +119,7 @@ define([
             /**
              * Get QTI Items in different formats
              * @param {Object} [params] - the parameters to pass through the request
-             * @param {Boonlean} [computePermissions = false] - do we compute the resources permissions
+             * @param {Boolean} [computePermissions=false] - do we compute the resource's permissions?
              * @returns {Promise} that resolves with the classes
              */
             getResources : function getResources(params, computePermissions){
@@ -137,7 +160,7 @@ define([
                         }
                     }
                     return resources;
-                });
+                }).then(applyClassSignatures);
             },
 
             /**
@@ -153,9 +176,10 @@ define([
              * Copy a resource into another class
              * @param {String} uri - the resource to copy
              * @param {String} destinationClassUri - the destination class
+             * @param {String} signature - the signature for the uri
              * @returns {Promise<Object>} resolves with the data of the new resource
              */
-            copyTo : function copyTo(uri, destinationClassUri) {
+            copyTo : function copyTo(uri, destinationClassUri, signature) {
                 if(_.isEmpty(config.copyTo.url)){
                     return Promise.reject('Please define the action URL');
                 }
@@ -165,10 +189,12 @@ define([
                 if(_.isEmpty(destinationClassUri)){
                     return Promise.reject('The URI of the destination class must be defined');
                 }
+                // dataProvider request must be tokenised in this case (noToken=false)
                 return request(config.copyTo.url, {
                     uri : uri,
-                    destinationClassUri : destinationClassUri
-                }, 'POST');
+                    destinationClassUri : destinationClassUri,
+                    signature: signature
+                }, 'POST', null, true, false);
             },
 
             /**
@@ -189,6 +215,7 @@ define([
                 }
                 if (ids.length === 1) {
                     params.uri = ids[0];
+                    params.signature = config.moveTo.signature;
                 } else {
                     params.ids = ids;
                 }
@@ -203,7 +230,8 @@ define([
                     return Promise.reject('The URI of the destination class must be defined');
                 }
 
-                return request(config.moveTo.url, params, 'POST');
+                // dataProvider request must be tokenised in this case (noToken=false)
+                return request(config.moveTo.url, params, 'POST', null, true, false);
             }
         };
     };

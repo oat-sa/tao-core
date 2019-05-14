@@ -19,7 +19,7 @@
 
 namespace oat\tao\test\unit\model\security;
 
-use oat\tao\test\TaoPhpUnitTestRunner;
+use oat\generis\test\TestCase;
 use oat\tao\model\security\TokenGenerator;
 
 /**
@@ -27,7 +27,7 @@ use oat\tao\model\security\TokenGenerator;
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-class TokenGeneratorTest extends TaoPhpUnitTestRunner
+class TokenGeneratorTest extends TestCase
 {
     use TokenGenerator;
 
@@ -51,11 +51,11 @@ class TokenGeneratorTest extends TaoPhpUnitTestRunner
     public function testCollide()
     {
         $tokens = [];
-        for($i = 0; $i < 10000; $i++){
+        for ($i = 0; $i < 10000; $i++) {
             $tokens[] = $this->generate();
         }
         //if 2 values are identical the distribution size will be lower than the number of tokens
         $distribution = array_count_values($tokens);
-        $this->assertEquals(count($tokens), count($distribution), "The tokens are uniques");
+        $this->assertCount(count($tokens), $distribution, 'The tokens are uniques');
     }
 }

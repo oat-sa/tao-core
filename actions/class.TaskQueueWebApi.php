@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2019 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 
@@ -43,19 +43,17 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
     const PARAMETER_TASK_ID = 'taskId';
     const PARAMETER_LIMIT = 'limit';
     const PARAMETER_OFFSET = 'offset';
-    const ARCHIVE_ALL = 'all';
+    const ALL = 'all';
 
     /**
      * @throws \common_exception_NotImplemented
+     * @throws \Exception
      */
     public function getAll()
     {
-        if (!$this->isXmlHttpRequest()) {
-            throw new \Exception('Only ajax call allowed.');
-        }
+        $this->checkIfIsXmlHttpRequest();
 
-        /** @var TaskLogInterface $taskLogService */
-        $taskLogService = $this->getServiceLocator()->get(TaskLogInterface::SERVICE_ID);
+        $taskLogService = $this->getTaskLogService();
         $limit = $offset = null;
 
         if ($this->hasRequestParameter(self::PARAMETER_LIMIT)) {
@@ -82,18 +80,16 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
 
     /**
      * @throws \common_exception_NotImplemented
+     * @throws \Exception
      */
     public function get()
     {
-        if (!$this->isXmlHttpRequest()) {
-            throw new \Exception('Only ajax call allowed.');
-        }
-
-        /** @var TaskLogInterface $taskLogService */
-        $taskLogService = $this->getServiceLocator()->get(TaskLogInterface::SERVICE_ID);
+        $this->checkIfIsXmlHttpRequest();
 
         try {
-            $this->assertTaskIdExists();
+            $this->checkIfTaskIdExists();
+
+            $taskLogService = $this->getTaskLogService();
 
             $entity = $taskLogService->getByIdAndUser(
                 $this->getRequestParameter(self::PARAMETER_TASK_ID),
@@ -123,19 +119,15 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
 
     /**
      * @throws \common_exception_NotImplemented
+     * @throws \Exception
      */
     public function stats()
     {
-        if (!$this->isXmlHttpRequest()) {
-            throw new \Exception('Only ajax call allowed.');
-        }
-
-        /** @var TaskLogInterface $taskLogService */
-        $taskLogService = $this->getServiceLocator()->get(TaskLogInterface::SERVICE_ID);
+        $this->checkIfIsXmlHttpRequest();
 
         return $this->returnJson([
             'success' => true,
-            'data' => $taskLogService->getStats($this->getSessionUserUri())->toArray()
+            'data' => $this->getTaskLogService()->getStats($this->getSessionUserUri())->toArray()
         ]);
     }
 
@@ -145,28 +137,49 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
      */
     public function archive()
     {
-        if (!$this->isXmlHttpRequest()) {
-            throw new \Exception('Only ajax call allowed.');
-        }
+        $this->checkIfIsXmlHttpRequest();
 
         try {
-            $this->assertTaskIdExists();
+            $this->checkIfTaskIdExists();
             $taskIds = $this->detectTaskIds();
 
-            /** @var TaskLogInterface $taskLogService */
-            $taskLogService = $this->getServiceLocator()->get(TaskLogInterface::SERVICE_ID);
+            $taskLogService = $this->getTaskLogService();
 
-            if ($taskIds === static::ARCHIVE_ALL) {
-                $filter = (new TaskLogFilter())->availableForArchived($this->getSessionUserUri());
-                $taskLogCollection = $taskLogService->search($filter);
-            } else {
-                $filter = (new TaskLogFilter())->addAvailableFilters($this->getSessionUserUri())->in(TaskLogBrokerInterface::COLUMN_ID, $taskIds);
-                $taskLogCollection = $taskLogService->search($filter);
-            }
+            $filter = $taskIds === static::ALL
+                ? (new TaskLogFilter())->availableForArchived($this->getSessionUserUri())
+                : (new TaskLogFilter())->addAvailableFilters($this->getSessionUserUri())->in(TaskLogBrokerInterface::COLUMN_ID, $taskIds);
 
-            $hasBeenArchive = $taskLogService->archiveCollection($taskLogCollection);
             return $this->returnJson([
-                'success' => (bool)$hasBeenArchive
+                'success' => (bool) $taskLogService->archiveCollection($taskLogService->search($filter))
+            ]);
+        } catch (\Exception $e) {
+            return $this->returnJson([
+                'success' => false,
+                'errorMsg' => $e instanceof \common_exception_UserReadableException ? $e->getUserMessage() : $e->getMessage(),
+                'errorCode' => $e instanceof \common_exception_NotFound ? 404 : $e->getCode(),
+            ]);
+        }
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function cancel()
+    {
+        $this->checkIfIsXmlHttpRequest();
+
+        try {
+            $this->checkIfTaskIdExists();
+            $taskIds = $this->detectTaskIds();
+
+            $taskLogService = $this->getTaskLogService();
+
+            $filter = $taskIds === static::ALL
+                ? (new TaskLogFilter())->availableForCancelled($this->getSessionUserUri())
+                : (new TaskLogFilter())->addAvailableFilters($this->getSessionUserUri())->in(TaskLogBrokerInterface::COLUMN_ID, $taskIds);
+
+            return $this->returnJson([
+                'success' => (bool) $taskLogService->cancelCollection($taskLogService->search($filter))
             ]);
         } catch (\Exception $e) {
             return $this->returnJson([
@@ -183,12 +196,12 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
     public function download()
     {
         try{
-            $this->assertTaskIdExists();
+            $this->checkIfTaskIdExists();
 
-            /** @var TaskLogInterface $taskLogService */
-            $taskLogService = $this->getServiceLocator()->get(TaskLogInterface::SERVICE_ID);
-
-            $taskLogEntity = $taskLogService->getByIdAndUser($this->getRequestParameter(self::PARAMETER_TASK_ID), $this->getSessionUserUri());
+            $taskLogEntity = $this->getTaskLogService()->getByIdAndUser(
+                $this->getRequestParameter(self::PARAMETER_TASK_ID),
+                $this->getSessionUserUri()
+            );
 
             if (!$taskLogEntity->getStatus()->isCompleted()) {
                 throw new \common_Exception('Task "'. $taskLogEntity->getId() .'" is not downloadable.');
@@ -231,10 +244,20 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
     /**
      * @throws \common_exception_MissingParameter
      */
-    protected function assertTaskIdExists()
+    protected function checkIfTaskIdExists()
     {
         if (!$this->hasRequestParameter(self::PARAMETER_TASK_ID)) {
             throw new \common_exception_MissingParameter(self::PARAMETER_TASK_ID, $this->getRequestURI());
+        }
+    }
+
+    /**
+     * @throws \Exception
+     */
+    protected function checkIfIsXmlHttpRequest()
+    {
+        if (!$this->isXmlHttpRequest()) {
+            throw new \Exception('Only ajax call allowed.');
         }
     }
 
@@ -247,8 +270,8 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
 
         if (is_array($taskIdsParams)) {
             return $taskIdsParams;
-        } else if ($taskIdsParams === static::ARCHIVE_ALL) {
-            return static::ARCHIVE_ALL;
+        } else if ($taskIdsParams === static::ALL) {
+            return static::ALL;
         } else {
             return [$taskIdsParams];
         }
@@ -279,5 +302,13 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
     protected function getFileSystemService()
     {
         return $this->getServiceLocator()->get(FileSystemService::SERVICE_ID);
+    }
+
+    /**
+     * @return TaskLogInterface|object
+     */
+    protected function getTaskLogService()
+    {
+        return $this->getServiceLocator()->get(TaskLogInterface::SERVICE_ID);
     }
 }

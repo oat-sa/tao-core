@@ -35,8 +35,7 @@ define([
     'layout/permissions',
     'ui/feedback',
     'uri',
-    'jquery.tree',
-    'lib/jsTree/plugins/jquery.tree.contextmenu'
+    'jquery.tree'
 ], function($, _, __, context, store, Promise, urlUtil, generisRouter, actionManager, sectionManager, permissionsManager, feedback, uri){
     'use strict';
 
@@ -85,6 +84,7 @@ define([
                 extension       : context.shownExtension,
                 perspective     : context.shownStructure,
                 section         : context.section,
+                // eslint-disable-next-line no-undefined
                 classUri        : options.rootClassUri ? options.rootClassUri : undefined,
                 hideInstances   : options.hideInstances || 0,
                 filter          : '*',
@@ -457,7 +457,8 @@ define([
                         var nodeUri         = $node.data('uri');
                         var $parentNode     = tree.parent($node);
                         var nodeContext     =  {
-                            rootClassUri :  options.rootClassUri
+                            rootClassUri:  options.rootClassUri,
+                            signature: $node.data('signature')
                         };
 
                         //mark all unselected
@@ -478,6 +479,7 @@ define([
                                 tree.open_branch($node);
                             }
                             nodeContext.classUri = nodeId;
+                            nodeContext.classSignature = $node.data('signature');
                             nodeContext.id = nodeUri;
                             nodeContext.context = ['class', 'resource'];
 
@@ -493,6 +495,7 @@ define([
                         if ($node.hasClass('node-instance')){
                             nodeContext.uri = nodeId;
                             nodeContext.classUri = $parentNode.attr('id');
+                            nodeContext.classSignature = $parentNode.data('signature');
                             nodeContext.id = nodeUri;
                             nodeContext.context = ['instance', 'resource'];
 
@@ -544,7 +547,8 @@ define([
                         //execute the selectInstance action
                         actionManager.exec(options.actions.moveInstance, {
                             uri: $(node).data('uri'),
-                            destinationClassUri: $(refNode).data('uri')
+                            destinationClassUri: $(refNode).data('uri'),
+                            signature: $(node).data('signature')
                         });
 
                         $container.trigger('change.taotree');

@@ -1,4 +1,32 @@
-define(['jquery', 'i18n', 'context', 'helpers', 'ui/feedback'], function($, __, context, helpers, feedback){
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2013-2019 (original work) Open Assessment Technologies SA ;
+ */
+
+/**
+ * Extension manager controller
+ */
+define([
+    'jquery',
+    'i18n',
+    'util/url',
+    'ui/feedback',
+    'ui/modal'
+], function($, __, urlUtil, feedback){
+    'use strict';
 
     var ext_installed = [];
     var toInstall = [];
@@ -20,7 +48,8 @@ define(['jquery', 'i18n', 'context', 'helpers', 'ui/feedback'], function($, __, 
     //Give an array with unique values
     function getUnique(orig){
         var a = [];
-        for (var i = 0; i < orig.length; i++) {
+        var i;
+        for (i = 0; i < orig.length; i++) {
             if ($.inArray(orig[i], a) < 0) a.push(orig[i]);
         }
         return a;
@@ -37,11 +66,11 @@ define(['jquery', 'i18n', 'context', 'helpers', 'ui/feedback'], function($, __, 
         progressConsole(__('Installing extension %s...').replace('%s', ext));
         $.ajax({
             type: "POST",
-            url: helpers._url('install', 'ExtensionsManager', 'tao'),
+            url: urlUtil.route('install', 'ExtensionsManager', 'tao'),
             data: 'id='+ext,
             dataType: 'json',
-            success: function(data) {
-                helpers.loaded();
+            success: function success(data) {
+
                 if (data.success) {
                     progressConsole(__('> Extension %s succesfully installed.').replace('%s', ext));
 
@@ -62,7 +91,7 @@ define(['jquery', 'i18n', 'context', 'helpers', 'ui/feedback'], function($, __, 
 
                             // If the available extensions table is empty,
                             // just inform the user.
-                            if ($('#available-extensions-container table tbody tr').length == 0){
+                            if ($('#available-extensions-container table tbody tr').length === 0){
                                 noAvailableExtensions();
                             }
 
@@ -90,7 +119,7 @@ define(['jquery', 'i18n', 'context', 'helpers', 'ui/feedback'], function($, __, 
         progressConsole(__('Post install processing'));
         return $.ajax({
             type: "GET",
-            url: helpers._url('postInstall', 'ExtensionsManager', 'tao')
+            url: urlUtil.route('postInstall', 'ExtensionsManager', 'tao')
         });
     }
 
@@ -99,8 +128,8 @@ define(['jquery', 'i18n', 'context', 'helpers', 'ui/feedback'], function($, __, 
             toInstall = [];
             $('#installProgress .bar').animate({backgroundColor:'#bb6',width:'100%'}, 1000);
 
-            postInstall().done(function(data) {
-                helpers.loaded();
+            postInstall().done(function() {
+
                 $('#installProgress .bar').animate({backgroundColor:'#6b6'}, 1000);
                 $('#installProgress p.status').text(__('Installation done.'));
                 progressConsole(__('> Installation done.'));
@@ -135,7 +164,7 @@ define(['jquery', 'i18n', 'context', 'helpers', 'ui/feedback'], function($, __, 
     }
 
     return {
-        start : function(){
+        start : function start(){
 
             // Table styling.
             styleTables();
@@ -164,6 +193,10 @@ define(['jquery', 'i18n', 'context', 'helpers', 'ui/feedback'], function($, __, 
             });
 
             $('#available-extensions-container #installButton').click(function(event) {
+                var $modalContainer = $('#installProgress');
+
+                event.preventDefault();
+
                 //Prepare the list of extension to install in the order of dependency
                 toInstall = [];
                 $('#available-extensions-container input:checked').each(function() {
@@ -183,36 +216,33 @@ define(['jquery', 'i18n', 'context', 'helpers', 'ui/feedback'], function($, __, 
                 percentByExt = 100 / toInstall.length;
 
                 //Show the dialog with the result
-                $('#installProgress p.status').text(__('%s extension(s) to install.').replace('%s', toInstall.length));
-                $('#installProgress .bar').width(0);
-                $('#installProgress .console').empty();
+                $('.status', $modalContainer).text(__('%s extension(s) to install.').replace('%s', toInstall.length));
+                $('.bar', $modalContainer).width(0);
+                $('.console', $modalContainer).empty();
+
                 progressConsole(__('Do you wish to install the following extension(s):\n%s?').replace('%s', toInstall.join(', ')));
-                $('#installProgress').dialog({
-                    modal: true,
-                    width: 400,
-                    height: 300,
-                    buttons: [{
-                        text: __('No'),
-                        click: function() {
-                            $(this).dialog('close');
-                        }
-                    },{
-                        text: __('Yes'),
-                        click: function() {
-                            //Run the install one by one
-                            progressConsole(__('Preparing installation...'));
-                            $('.ui-widget-overlay').css({"height":"100%","width":"100%", "position":"fixed"});
-                            $('.ui-dialog-buttonpane').remove();
-                            installError = 0;
-                            indexCurrentToInstall = 0;
-                            installNextExtension();
-                        }
-                    }]
+
+                $('[data-control=cancel]', $modalContainer).on('click', function(e){
+                    e.preventDefault();
+                    $modalContainer.modal('close');
                 });
-                $('.ui-dialog').css({"position":"fixed","top":"33%"});
-                event.preventDefault();
+                $('[data-control=confirm]', $modalContainer).on('click', function(e){
+                    e.preventDefault();
+                    progressConsole(__('Preparing installation...'));
+                    $('.buttons', $modalContainer).remove();
+                    installError = 0;
+                    indexCurrentToInstall = 0;
+                    installNextExtension();
+                });
+
+                $modalContainer.modal({
+                    width : 400,
+                    height : 300,
+                    top : 150,
+                    disableEscape : true,
+                    disableClosing : true
+                });
             });
         }
     };
-
 });

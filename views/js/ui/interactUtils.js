@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2016-2019 (original work) Open Assessment Technologies SA ;
  */
 /**
  * Helpers for interact library
@@ -58,6 +58,16 @@ define([
             document.body.removeEventListener('mouseleave', iFrameDragFixCb);
         },
 
+        /**
+         * Calculate element zoom due css transform scale to apply scale on move event.
+         *
+         * @param e {Event} event
+         */
+        calculateScale: function calculateScale(e){
+            var scaleX = e.getBoundingClientRect().width / e.offsetWidth;
+            var scaleY = e.getBoundingClientRect().height / e.offsetHeight;
+            return [scaleX, scaleY];
+        },
         /**
          * triggers an interact 'tap' event
          * @param {HtmlElement|jQueryElement} element
