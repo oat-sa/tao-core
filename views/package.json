@@ -1,0 +1,8 @@
+{
+  "name": "@oat-sa/tao",
+  "version": "0.1.0",
+  "license": "GPL-2.0",
+  "dependencies": {
+    "@oat-sa/tao-core-sdk": "oat-sa/tao-core-sdk-fe#fd9fa246cf1b4dd97c869cc9af7b948e51bd5968"
+  }
+}

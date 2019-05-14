@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6b81408a93cb761cbead6f456b355542",
+    "content-hash": "9732b8dfe1d645719a1f77d5e8593222",
     "packages": [
         {
             "name": "composer/installers",
@@ -630,7 +630,7 @@
         },
         {
             "name": "oat-sa/tao-core-sdk-fe",
-            "version": "0.1.0",
+            "version": "2.5.6",
             "source": {
                 "type": "git",
                 "url": "git@github.com:oat-sa/tao-core-sdk-fe.git",
