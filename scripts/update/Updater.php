@@ -119,6 +119,7 @@ use oat\tao\model\user\TaoRoles;
 use oat\generis\model\data\event\ResourceDeleted;
 use oat\tao\model\search\index\IndexService;
 use tao_models_classes_UserService;
+use oat\tao\model\mutex\LockService;
 
 /**
  *
@@ -1036,5 +1037,13 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('34.0.0', '35.0.0');
+
+        if ($this->isVersion('35.0.0')) {
+            $service = new LockService([
+                LockService::OPTION_PERSISTENCE => 'default',
+            ]);
+            $this->getServiceManager()->register(LockService::SERVICE_ID, $service);
+            $this->setVersion('35.1.0');
+        }
     }
 }

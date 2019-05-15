@@ -52,6 +52,7 @@
         "justinrainbow/json-schema": "5.2.1",
         "pimple/pimple": "^3.0",
         "imsglobal/lti": "^3.0",
+        "symfony/lock": "^4.4@dev",
         "paragonie/random_compat": "^2.0"
     },
     "autoload": {
