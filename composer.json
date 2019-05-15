@@ -36,7 +36,7 @@
         "oat",
         "computer-based-assessment"
     ],
-    "type": "tao-extension",
+    "type": "library",
     "extra": {
         "tao-extension-name": "tao"
     },
