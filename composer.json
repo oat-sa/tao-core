@@ -38,8 +38,15 @@
     ],
     "type": "tao-extension",
     "extra": {
-        "tao-extension-name": "tao"
+        "tao-extension-name": "tao",
+        "npm-bridge": {
+            "arguments": ["--prefix", "views"]
+        }
     },
+    "repositories": [{
+        "type": "vcs",
+        "url": "git@github.com:btamas/composer-npm-bridge.git"
+    }],
     "require": {
         "php": ">=5.6",
         "phpdocumentor/reflection-docblock": "2.*",
@@ -53,13 +60,7 @@
         "pimple/pimple": "^3.0",
         "imsglobal/lti": "^3.0",
         "paragonie/random_compat": "^2.0",
-        "foxy/foxy": "^1.0.0"
-    },
-    "config": {
-        "foxy": {
-            "manager": "npm",
-            "manager-options": "--prefix tao/views"
-        }
+        "eloquent/composer-npm-bridge": "dev-feature/NEX-89_add-prefix-parameter"
     },
     "autoload": {
         "psr-4": {

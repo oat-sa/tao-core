@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1a526acd52ef54995d87082f1a1aeda9",
+    "content-hash": "618bbcd3ba2e38e1515e799cd2dbad68",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -36,6 +36,65 @@
             "description": "Promoting the interoperability of container objects (DIC, SL, etc.)",
             "homepage": "https://github.com/container-interop/container-interop",
             "time": "2017-02-14T19:40:03+00:00"
+        },
+        {
+            "name": "eloquent/composer-npm-bridge",
+            "version": "dev-feature/NEX-89_add-prefix-parameter",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/btamas/composer-npm-bridge.git",
+                "reference": "ab9228a9d12d207e3c61ea17b1be405944e2da89"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/btamas/composer-npm-bridge/zipball/ab9228a9d12d207e3c61ea17b1be405944e2da89",
+                "reference": "ab9228a9d12d207e3c61ea17b1be405944e2da89",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^1",
+                "php": ">=7"
+            },
+            "require-dev": {
+                "composer/composer": "dev-master",
+                "eloquent/phony-phpunit": "^3",
+                "errors/exceptions": "^0.2",
+                "phpunit/phpunit": "^6"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "Eloquent\\Composer\\NpmBridge\\NpmBridgePlugin"
+            },
+            "autoload": {
+                "psr-4": {
+                    "Eloquent\\Composer\\NpmBridge\\": "src"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Erin Millard",
+                    "email": "ezzatron@gmail.com",
+                    "homepage": "http://ezzatron.com/"
+                }
+            ],
+            "description": "NPM integration for Composer packages.",
+            "homepage": "https://github.com/eloquent/composer-npm-bridge",
+            "keywords": [
+                "bridge",
+                "composer",
+                "composer-plugin",
+                "integration",
+                "npm",
+                "package",
+                "plugin"
+            ],
+            "support": {
+                "source": "https://github.com/btamas/composer-npm-bridge/tree/feature/NEX-89_add-prefix-parameter"
+            },
+            "time": "2019-05-15T11:44:58+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",
@@ -83,66 +142,6 @@
                 "html"
             ],
             "time": "2018-02-23T01:58:20+00:00"
-        },
-        {
-            "name": "foxy/foxy",
-            "version": "v1.0.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/fxpio/foxy.git",
-                "reference": "619679404d04cbd50a50df0b028430413c86c665"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/fxpio/foxy/zipball/619679404d04cbd50a50df0b028430413c86c665",
-                "reference": "619679404d04cbd50a50df0b028430413c86c665",
-                "shasum": ""
-            },
-            "require": {
-                "composer-plugin-api": "^1.1",
-                "php": ">=5.3.3"
-            },
-            "require-dev": {
-                "composer/composer": "^1.5.0"
-            },
-            "type": "composer-plugin",
-            "extra": {
-                "class": "Foxy\\Foxy",
-                "branch-alias": {
-                    "dev-master": "1.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Foxy\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "François Pluchino",
-                    "email": "francois.pluchino@gmail.com"
-                }
-            ],
-            "description": "Fast, reliable, and secure NPM/Yarn bridge for Composer",
-            "homepage": "https://github.com/fxpio/foxy",
-            "keywords": [
-                "Bridge",
-                "asset",
-                "composer",
-                "dependency manager",
-                "nodejs",
-                "npm",
-                "package",
-                "yarn"
-            ],
-            "time": "2019-05-01T12:06:25+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -931,7 +930,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "oat-sa/oatbox-extension-installer": 20
+        "oat-sa/oatbox-extension-installer": 20,
+        "eloquent/composer-npm-bridge": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
