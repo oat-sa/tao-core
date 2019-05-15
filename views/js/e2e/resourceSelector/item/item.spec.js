@@ -70,7 +70,7 @@ describe('Items', () => {
 
             cy.renameSelectedItem(newItemName);
 
-            cy.get(selectors.deleteItemAction).click();
+            cy.get(selectors.actions.deleteItem).click();
             cy.get('.modal-body [data-control="ok"]').click();
 
             cy.wait('@deleteItem');

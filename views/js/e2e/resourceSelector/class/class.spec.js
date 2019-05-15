@@ -72,7 +72,7 @@ describe('Classes', () => {
 
             cy.renameSelectedClass(newClassName);
 
-            cy.get(selectors.deleteClassAction).click('center');
+            cy.get(selectors.actions.deleteClass).click('center');
             cy.get('.modal-body [data-control="ok"]').click();
 
             cy.wait('@deleteClass');
@@ -104,17 +104,14 @@ describe('Classes', () => {
             // check the visible action buttons
             cy.get(selectors.actionsContainer).within(() => {
                 Cypress._.forEach([
-                    'New class',
-                    'Delete',
-                    'Import',
-                    'Export',
-                    'Move To',
-                    'New item'
-                ], (buttonText) => {
-                    // there are multiple buttons with the same name, hidden and not hidden
-                    // so we have to be careful to select the right ones
-                    cy.get('.action:not(.hidden)')
-                        .contains(buttonText)
+                    'newClass',
+                    'deleteClass',
+                    'import',
+                    'export',
+                    'moveTo',
+                    'newItem'
+                ], (action) => {
+                    cy.get(selectors.actions[action])
                         .should('exist')
                         .and('be.visible');
                 });
