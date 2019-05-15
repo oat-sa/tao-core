@@ -17,7 +17,7 @@
  */
 
 import itemData from './itemData';
-import { selectors}  from '../resourceTree';
+import { selectors }  from '../resourceTree';
 
 describe('Items', () => {
     const newItemName = itemData.name;
@@ -61,8 +61,7 @@ describe('Items', () => {
 
             cy.get(selectors.resourceTree)
                 .contains(newItemName)
-                .should('exist')
-                // .and('be.visible');
+                .should('exist');
         });
 
         it('can delete previously created item', function() {
@@ -87,16 +86,16 @@ describe('Items', () => {
 
             cy.get(selectors.actionsContainer).within(() => {
                 Cypress._.forEach([
-                    'New class',
-                    'Delete',
-                    'Import',
-                    'Export',
-                    'Duplicate',
-                    'Copy To',
-                    'Move To',
-                    'New item'
-                ], (buttonText) => {
-                    cy.contains(buttonText)
+                    'newClass',
+                    'deleteItem',
+                    'import',
+                    'export',
+                    'moveTo',
+                    'copyTo',
+                    'duplicate',
+                    'newItem'
+                ], (action) => {
+                    cy.get(selectors.actions[action])
                         .should('exist')
                         .and('be.visible');
                 });
@@ -110,19 +109,8 @@ describe('Items', () => {
                 .click({ force: true });
 
             cy.get(selectors.actionsContainer).within(() => {
-                Cypress._.forEach([
-                    'New class',
-                    'Delete',
-                    'Import',
-                    'Export',
-                    'Duplicate',
-                    'Copy To',
-                    'Move To',
-                    'New item'
-                ], (buttonText) => {
-                    cy.contains(buttonText)
-                        .should('not.be.visible');
-                });
+                cy.get(selectors.actionBtn)
+                    .should('not.be.visible');
             });
         });
 

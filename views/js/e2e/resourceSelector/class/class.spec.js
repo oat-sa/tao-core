@@ -18,7 +18,7 @@
 
 import classData from './classData';
 import subClassData from './subClassData';
-import { selectors}  from '../resourceTree';
+import { selectors }  from '../resourceTree';
 
 describe('Classes', () => {
     const newClassName = classData.name;

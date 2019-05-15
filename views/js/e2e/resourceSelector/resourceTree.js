@@ -27,6 +27,7 @@ const selectors = {
     toggler:           '.class-toggler',
     treeNode:          '.instance, .class',
     saveBtn:           '#Save',
+    actionBtn:         '.action',
     actions: {
         newItem: '.action[data-action="instanciate"]',
         newClass: '.action[data-action="subClass"]',
@@ -62,6 +63,7 @@ Cypress.Commands.add('loadItemsPage', () => {
         // to guarantee a predictable tree with the 'Item' root class selected
         cy.visit(`${urls.index}?${urls.taoItemsRoot}&${urls.nosplashParam}`);
         // Important to register this first response, or it will mess up future "wait"s:
+        // Extended timeout because some envs can be slow to load all resources
         cy.wait('@editClass', { timeout: 10000 });
     });
 });

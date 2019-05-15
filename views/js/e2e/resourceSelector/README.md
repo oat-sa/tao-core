@@ -10,4 +10,10 @@ To install the resourceSelector, run the following command from your instance ro
 php index.php "\\oat\\tao\\scripts\\install\\SetResourceSelector"
 ```
 
+If using a Docker container to run TAO:
+
+```
+docker exec -it {taocontainername} php index.php "\\oat\\tao\\scripts\\install\\SetResourceSelector"
+```
+
 You should find the configuration in `/config/tao/client_lib_config_registry.conf.php` has been updated with a new value of `treeProvider`.

@@ -17,7 +17,7 @@
  */
 
 import classData from '../class/classData';
-import { selectors}  from '../resourceTree';
+import { selectors }  from '../resourceTree';
 
 describe('ResourceSelector Tree', () => {
     const newClassName = classData.name;
