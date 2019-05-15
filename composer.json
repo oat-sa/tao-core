@@ -58,7 +58,7 @@
     "config": {
         "foxy": {
             "manager": "npm",
-            "manager-install-options": "--prefix ./views"
+            "manager-options": "--prefix tao/views"
         }
     },
     "autoload": {
