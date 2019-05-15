@@ -45,7 +45,7 @@
     },
     "repositories": [{
         "type": "vcs",
-        "url": "git@github.com:btamas/composer-npm-bridge.git"
+        "url": "git@github.com:oat-sa/composer-npm-bridge.git"
     }],
     "require": {
         "php": ">=5.6",
@@ -60,7 +60,7 @@
         "pimple/pimple": "^3.0",
         "imsglobal/lti": "^3.0",
         "paragonie/random_compat": "^2.0",
-        "eloquent/composer-npm-bridge": "dev-feature/NEX-89_add-prefix-parameter"
+        "eloquent/composer-npm-bridge": "dev-feature/NEX-89_add-npm-arguments"
     },
     "autoload": {
         "psr-4": {
