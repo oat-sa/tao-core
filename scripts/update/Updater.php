@@ -1043,6 +1043,7 @@ class Updater extends \common_ext_ExtensionUpdater {
                 LockService::OPTION_PERSISTENCE => 'default',
             ]);
             $this->getServiceManager()->register(LockService::SERVICE_ID, $service);
+            $service->install();
             $this->setVersion('35.1.0');
         }
     }

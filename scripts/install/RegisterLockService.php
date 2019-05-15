@@ -43,7 +43,7 @@ class RegisterLockService extends InstallAction
         ]);
 
         $this->getServiceManager()->register(LockService::SERVICE_ID, $service);
-
+        $service->install();
         return new common_report_Report(common_report_Report::TYPE_SUCCESS, 'LockService service is registered');
     }
 }

@@ -34,7 +34,7 @@ use Symfony\Component\Lock\Store\RetryTillSaveStore;
  * See https://symfony.com/doc/current/components/lock.html for more details
  *
  * @package oat\tao\model\mutex
- * @author Aleh Hutnikau, <goodnickoff@gmail.com>
+ * @author Aleh Hutnikau, <hutnikau@1pt.com>
  */
 class LockService extends ConfigurableService
 {

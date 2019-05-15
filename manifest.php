@@ -45,6 +45,7 @@ use oat\tao\scripts\install\RegisterActionService;
 use oat\tao\model\user\TaoRoles;
 use oat\tao\scripts\install\SetUpQueueTasks;
 use oat\tao\scripts\install\SetLocaleNumbersConfig;
+use oat\tao\scripts\install\RegisterLockService;
 
 $extpath = dirname(__FILE__) . DIRECTORY_SEPARATOR;
 
@@ -123,7 +124,8 @@ return array(
             SetUpQueueTasks::class,
             RegisterSignatureGenerator::class,
             RegisterSettingsPersistence::class,
-            SetDefaultCSPHeader::class
+            SetDefaultCSPHeader::class,
+            RegisterLockService::class
         )
     ),
     'update' => 'oat\\tao\\scripts\\update\\Updater',
