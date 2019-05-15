@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "618bbcd3ba2e38e1515e799cd2dbad68",
+    "content-hash": "4517df6b3dd8c9deed97e7f620c2f156",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -39,16 +39,16 @@
         },
         {
             "name": "eloquent/composer-npm-bridge",
-            "version": "dev-feature/NEX-89_add-prefix-parameter",
+            "version": "dev-feature/NEX-89_add-npm-arguments",
             "source": {
                 "type": "git",
-                "url": "https://github.com/btamas/composer-npm-bridge.git",
-                "reference": "ab9228a9d12d207e3c61ea17b1be405944e2da89"
+                "url": "https://github.com/oat-sa/composer-npm-bridge.git",
+                "reference": "8f80b31d7e32fc19b41b1f9e15d59c0812f4fc44"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/btamas/composer-npm-bridge/zipball/ab9228a9d12d207e3c61ea17b1be405944e2da89",
-                "reference": "ab9228a9d12d207e3c61ea17b1be405944e2da89",
+                "url": "https://api.github.com/repos/oat-sa/composer-npm-bridge/zipball/8f80b31d7e32fc19b41b1f9e15d59c0812f4fc44",
+                "reference": "8f80b31d7e32fc19b41b1f9e15d59c0812f4fc44",
                 "shasum": ""
             },
             "require": {
@@ -92,9 +92,9 @@
                 "plugin"
             ],
             "support": {
-                "source": "https://github.com/btamas/composer-npm-bridge/tree/feature/NEX-89_add-prefix-parameter"
+                "source": "https://github.com/oat-sa/composer-npm-bridge/tree/feature/NEX-89_add-npm-arguments"
             },
-            "time": "2019-05-15T11:44:58+00:00"
+            "time": "2019-05-15T13:03:43+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",
