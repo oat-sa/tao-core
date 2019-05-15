@@ -26,6 +26,7 @@ const selectors = {
     itemsRootClass:    '.class[data-uri="http://www.tao.lu/Ontologies/TAOItem.rdf#Item"]',
     toggler:           '.class-toggler',
     treeNode:          '.instance, .class',
+    labelInput:        'input[name$="label"]',
     saveBtn:           '#Save',
     actionBtn:         '.action',
     actions: {
@@ -101,17 +102,14 @@ Cypress.Commands.add('renameSelectedClass', (newName) => {
 
     // assumes that editing form has already been rendered
     cy.get(selectors.contentContainer).within(() => {
-        cy.contains('label', 'Label')
-            .siblings('input')
-            .should('be.visible')
+        cy.get(selectors.labelInput)
             .clear()
             .type(newName);
 
-        cy.contains('Save')
-            .click();
+        cy.get(selectors.saveBtn).click();
     });
     // this event needs to fire twice before proceeding
-    cy.wait('@editClass').wait('@editClass').wait(300);
+    cy.wait('@editClass').wait('@editClass');
 });
 
 Cypress.Commands.add('renameSelectedItem', (newName) => {
@@ -119,17 +117,14 @@ Cypress.Commands.add('renameSelectedItem', (newName) => {
 
     // assumes that editing form has already been rendered
     cy.get(selectors.contentContainer).within(() => {
-        cy.contains('label', 'Label')
-            .siblings('input')
-            .should('be.visible')
+        cy.get(selectors.labelInput)
             .clear()
             .type(newName);
 
-        cy.contains('Save')
-            .click();
+        cy.get(selectors.saveBtn).click();
     });
     // this event needs to fire twice before proceeding
-    cy.wait(['@editItem', '@editItem']).wait(300);
+    cy.wait('@editItem').wait('@editItem');
 });
 
 Cypress.Commands.add('addClass', (cssSelector) => {
@@ -137,7 +132,7 @@ Cypress.Commands.add('addClass', (cssSelector) => {
 
     cy.selectTreeNode(cssSelector);
 
-    cy.contains('New class').click();
+    cy.get(selectors.actions.newClass).click();
 
     // this event needs to fire twice before proceeding
     cy.wait('@editClass').wait('@editClass');
@@ -148,7 +143,7 @@ Cypress.Commands.add('addItem', (cssSelector) => {
 
     cy.selectTreeNode(cssSelector);
 
-    cy.contains('New item').click();
+    cy.get(selectors.actions.newItem).click();
 
     // 2 different events must fire before proceeding
     cy.wait('@editClass').wait('@editItem');
