@@ -52,7 +52,14 @@
         "justinrainbow/json-schema": "5.2.1",
         "pimple/pimple": "^3.0",
         "imsglobal/lti": "^3.0",
-        "paragonie/random_compat": "^2.0"
+        "paragonie/random_compat": "^2.0",
+        "foxy/foxy": "^1.0.0"
+    },
+    "config": {
+        "foxy": {
+            "manager": "npm",
+            "manager-install-options": "--prefix views"
+        }
     },
     "autoload": {
         "psr-4": {
@@ -66,9 +73,5 @@
         "files": [
             "includes/globalHelpers.php"
         ]
-    },
-    "scripts": {
-        "post-install-cmd": "cd views && npm install",
-        "post-update-cmd": "cd views && npm install"
     }
 }
