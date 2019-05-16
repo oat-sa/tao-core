@@ -85,7 +85,7 @@ describe('Items', () => {
                 .should('not.have.class', 'closed');
 
             cy.get(selectors.actionsContainer).within(() => {
-                Cypress._.forEach([
+                [
                     'newClass',
                     'deleteItem',
                     'import',
@@ -94,7 +94,7 @@ describe('Items', () => {
                     'copyTo',
                     'duplicate',
                     'newItem'
-                ], (action) => {
+                ].forEach((action) => {
                     cy.get(selectors.actions[action])
                         .should('exist')
                         .and('be.visible');

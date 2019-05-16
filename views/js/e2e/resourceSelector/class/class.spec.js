@@ -103,14 +103,14 @@ describe('Classes', () => {
 
             // check the visible action buttons
             cy.get(selectors.actionsContainer).within(() => {
-                Cypress._.forEach([
+                [
                     'newClass',
                     'deleteClass',
                     'import',
                     'export',
                     'moveTo',
                     'newItem'
-                ], (action) => {
+                ].forEach((action) => {
                     cy.get(selectors.actions[action])
                         .should('exist')
                         .and('be.visible');
