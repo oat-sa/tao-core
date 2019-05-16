@@ -32,7 +32,6 @@ require.config({
         'css'               : 'lib/require-css/css',
         'tpl'               : 'tpl',
 //jquery and plugins
-        'jquery'            : 'lib/jquery-1.9.1',
         'select2'           : 'lib/select2/select2.min',
         'jquery.autocomplete'  : 'lib/jquery.autocomplete/jquery.autocomplete',
         'jquery.tree'       : 'lib/jsTree/jquery.tree',
@@ -43,10 +42,7 @@ require.config({
 //polyfills
         'polyfill'          : 'lib/polyfill',
 //libs
-        'lodash'            : 'lib/lodash.min',
         'async'             : 'lib/async',
-        'moment'            : 'lib/moment-with-locales.min',
-        'handlebars'        : 'lib/handlebars',
         'class'             : 'lib/class',
         'raphael'           : 'lib/raphael/raphael',
         'scale.raphael'     : 'lib/raphael/scale.raphael',
@@ -70,7 +66,11 @@ require.config({
         '<?=$name?>'        : '<?=$path?>',
     <?php endforeach?>
         'core'              : '../node_modules/@oat-sa/tao-core-sdk/dist/core',
-        'util'              : '../node_modules/@oat-sa/tao-core-sdk/dist/util'
+        'util'              : '../node_modules/@oat-sa/tao-core-sdk/dist/util',
+        "moment": "../node_modules/moment/min/moment-with-locales.min",
+        "jquery": "../node_modules/jquery/dist/jquery.min",
+        "lodash": "../node_modules/lodash/dist/lodash.min",
+        "handlebars": "../node_modules/handlebars/dist/handlebars.amd.min"
    },
    shim : {
         'jqueryui'              : { deps : ['jquery'] },

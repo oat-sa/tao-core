@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "license": "GPL-2.0",
   "dependencies": {
-    "@oat-sa/tao-core-sdk": "oat-sa/tao-core-sdk-fe#fd9fa246cf1b4dd97c869cc9af7b948e51bd5968"
+    "@oat-sa/tao-core-sdk": "oat-sa/tao-core-sdk-fe#fd9fa246cf1b4dd97c869cc9af7b948e51bd5968",
+    "handlebars": "^1.3.0",
+    "jquery": "^1.9.1",
+    "lodash": "^2.4.1",
+    "moment": "^2.11.1"
   }
 }
