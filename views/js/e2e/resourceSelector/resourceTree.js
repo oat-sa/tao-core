@@ -57,12 +57,18 @@ Cypress.Commands.add('addTreeRoutes', () => {
 });
 
 Cypress.Commands.add('loadItemsPage', () => {
-    cy.fixture('urls')
-    .as('urls')
-    .then(urls => {
+    const fixtures = [];
+
+    Cypress.Promise.all([
+        cy.fixture('urls').then(fx => fixtures.push(fx)),
+        cy.fixture('urlParams').then(fx => fixtures.push(fx)),
+    ])
+    .then(() => {
+        const [urls, urlParams] = fixtures;
+
         // Provide the full URL parameters including 'uri'
         // to guarantee a predictable tree with the 'Item' root class selected
-        cy.visit(`${urls.index}?${urls.taoItemsRoot}&${urls.nosplashParam}`);
+        cy.visit(`${urls.index}?${urlParams.taoItemsRoot}&${urlParams.nosplash}`);
         // Important to register this first response, or it will mess up future "wait"s:
         // Extended timeout because some envs can be slow to load all resources
         cy.wait('@editClass', { timeout: 10000 });
