@@ -126,7 +126,7 @@ define([
                         dataType: 'json',
                         contentType: 'application/json',
                         sequential: true,
-                        noToken: true, // TODO: tokens disabled here as temporary fix for TAO-8315
+                        noToken: false,
                         timeout: config.timeout
                     })
                     .then(function(response) {
