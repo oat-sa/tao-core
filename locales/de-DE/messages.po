@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint100\n"
-"PO-Revision-Date: 2019-04-26T09:07:48\n"
+"Project-Id-Version: TAO 3.3.0-sprint101\n"
+"PO-Revision-Date: 2019-05-10T14:58:02\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: de-DE\n"
@@ -459,6 +459,9 @@ msgstr ""
 msgid "Clear selection"
 msgstr ""
 
+msgid "Clear the date time picker"
+msgstr ""
+
 msgid "Clear the stored variables"
 msgstr ""
 
@@ -570,10 +573,10 @@ msgstr "Daten erfolgreich importiert"
 msgid "Data imported. Some records are invalid."
 msgstr "Daten importiert. Einige Einträge sind ungültig."
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "Datensprache"
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "Datensprache"
 
 msgid "Data not imported. All records are invalid."
@@ -1017,10 +1020,10 @@ msgstr "Installieren der Erweiterung %s..."
 msgid "Instance saved"
 msgstr "Instanz gespeichert"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "Sprache der Benutzeroberfläche"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "Sprache der Benutzeroberfläche"
 
 msgid "Invalid CSP header."
@@ -1316,10 +1319,10 @@ msgstr "keine Dateien"
 msgid "no label"
 msgstr "keine Beschriftung"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "keine Vorschau verfügbar"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "keine Vorschau verfügbar"
 
 msgid "No results found"
@@ -1633,6 +1636,9 @@ msgstr "Ressource"
 msgid "Resource copied"
 msgstr ""
 
+msgid "Resource deleted"
+msgstr ""
+
 msgid "Resource Identifier"
 msgstr ""
 
@@ -1848,6 +1854,12 @@ msgstr ""
 
 msgid "Success"
 msgstr "Erfolg"
+
+msgid "Successfully cloned instance as %s"
+msgstr ""
+
+msgid "Successfully deleted %s"
+msgstr ""
 
 msgid "Successfully imported \"%s"
 msgstr "Erfolgreich importiert \"%s"
@@ -2094,6 +2106,9 @@ msgstr ""
 
 msgid "Unable to open file %s"
 msgstr "Datei kann nicht geöffnet werden%s"
+
+msgid "Unable to process your request"
+msgstr ""
 
 msgid "Unable to release the lock"
 msgstr "Die Sperre kann nicht aufgehoben werden"
