@@ -34,18 +34,66 @@ define([
     };
 
     /**
-     * Builds a simple button component
+     * @typedef {Object} buttonConfig Defines the config entries available to setup a button
+     * @property {String} id - The identifier of the button
+     * @property {String} label - The caption of the button
+     * @property {String} [title] - An optional tooltip for the button
+     * @property {String} [icon] - An optional icon for the button
+     * @property {String} [type] - The type of button to build
+     * @property {Boolean} [small] - Whether build a small button (default: true)
+     * @property {String} [cls] - An additional CSS class name
+     */
+
+    /**
+     * Builds a simple button component.
      *
-     * @param {Object} config
-     * @param {String} config.id - The id of the button
-     * @param {String} config.label - The id of the button
-     * @param {String} [config.title] - An optional title of the button
-     * @param {String} [config.icon] - An optional icon of the button
+     * @example
+     *  // button with simple action
+     *  var button = buttonFactory({
+     *      id: 'foo',
+     *      label: 'Foo',
+     *      title: 'Foo Bar',
+     *      icon: 'globe',
+     *      type: 'info'
+     *  })
+     *      .on('click', function() {
+     *          // do something
+     *      })
+     *      .render(container);
+     *
+     *  // button with handling of async action
+     *  var button = buttonFactory({
+     *      id: 'foo',
+     *      label: 'Foo',
+     *      title: 'Foo Bar',
+     *      icon: 'globe',
+     *      type: 'info'
+     *  })
+     *      .before('click', function(){
+     *          this.disable();
+     *      })
+     *      .on('click', function() {
+     *          return new Promise(function(resolve) {
+     *              // do something
+     *              resolve();
+     *          });
+     *      })
+     *      .after('click', function(){
+     *          this.enable();
+     *      })
+     *      .render(container);
+     *
+     * @param {buttonConfig} config
+     * @param {String} config.id - The identifier of the button
+     * @param {String} config.label - The caption of the button
+     * @param {String} [config.title] - An optional tooltip for the button
+     * @param {String} [config.icon] - An optional icon for the button
      * @param {String} [config.type] - The type of button to build
      * @param {Boolean} [config.small] - Whether build a small button (default: true)
      * @param {String} [config.cls] - An additional CSS class name
      * @returns {button}
      * @fires click - When the button is clicked
+     * @fires ready - When the button is ready to work
      */
     function buttonFactory(config) {
         return component({
@@ -58,32 +106,6 @@ define([
             }
         }, defaults)
             .setTemplate(buttonTpl)
-
-            /**
-             * @todo We should support within the component async actions in order to disable the button while
-             * the action is running. In order to do this we should support Promises within events (TT-36)
-             * in order to do something like :
-             *
-             * ```
-             *  component()
-             *      .before('click', function(){
-             *          this.disable();
-             *      })
-             *      .after('click', function(){
-             *          this.enable();
-             *      })
-             * ```
-             *
-             * So when someone use the component with
-             *
-             * ```
-             *  var myAwesomeButton = button().on('click', function(){
-             *      return aPromise;
-             *  });
-             * ```
-             *
-             * the button state changes accordingly
-             */
 
             // renders the component
             .on('render', function () {
@@ -99,7 +121,21 @@ define([
                      */
                     self.trigger('click', self.config.id);
                 });
+
+                /**
+                 * @event ready
+                 */
+                self.trigger('ready');
             })
+
+            // take care of the disable state
+            .on('disable', function () {
+                this.getElement().prop('disabled', true);
+            })
+            .on('enable', function () {
+                this.getElement().prop('disabled', false);
+            })
+
             .init(config);
     }
 

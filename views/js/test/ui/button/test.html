@@ -26,12 +26,29 @@
                 });
             });
         </script>
+
+        <style>
+            #visual-test {
+                background: #EEE;
+                position: relative;
+                margin: 10px;
+                padding: 10px;
+            }
+            #visual-test button {
+                margin: 10px;
+            }
+        </style>
     </head>
     <body>
         <div id="qunit"></div>
         <div id="qunit-fixture">
-            <div id=fixture-1></div>
+            <div id="fixture-render">
+                <div class="dummy"></div>
+            </div>
         </div>
-        <div id="outside"></div>
+        <div id="visual-test">
+            <div class="test"></div>
+            <div class="output"></div>
+        </div>
     </body>
 </html>
