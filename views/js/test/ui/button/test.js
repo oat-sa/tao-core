@@ -363,10 +363,10 @@ define([
                 .before('click', function() {
                     this.disable();
                 })
-                .on('click', function(id) {
+                .on('click', function(buttonId) {
                     return new Promise(function(resolve) {
                         var $text = $(clickTpl({
-                            id: id,
+                            id: buttonId,
                             occurrence: ++occurrence
                         }));
                         $output.append($text);
