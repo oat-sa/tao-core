@@ -24,7 +24,7 @@ define([
     'lodash',
     'core/promise',
     'ui/button',
-    'tpl!test/ui/form/form/click',
+    'tpl!test/ui/button/click',
     'css!taoCss/tao-3.css',
     'css!taoCss/tao-main-style.css'
 ], function($, _, Promise, button, clickTpl) {
