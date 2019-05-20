@@ -91,7 +91,7 @@ define(['jquery', 'lodash', 'ui/dynamicComponent'], function($, _, dynamicCompon
         var $content1 = $('<div class="my-custom-content">BBB</div>');
         var $container1 = $("#fixture-1").append($dummy1);
 
-        assert.expect(18);
+        assert.expect(19);
 
         // Auto render at init
         assert.equal($container1.children().length, 1, 'The container1 already contains an element');
@@ -115,6 +115,7 @@ define(['jquery', 'lodash', 'ui/dynamicComponent'], function($, _, dynamicCompon
             assert.equal($container1.find('.dynamic-component-container .dynamic-component-content').length, 1, 'Dynamic component has content');
             assert.equal($container1.find('.dynamic-component-container .dynamic-component-content .my-custom-content').length, 1, 'Dynamic component has content');
             assert.equal($container1.find('.dynamic-component-container .dynamic-component-content .my-custom-content').text(), 'BBB', 'content ok');
+            assert.equal($container1.find('.dynamic-component-container .dynamic-component-resize-container .dynamic-component-resize').length, 1, 'resize control is rendered');
 
             //Check configured size
             assert.equal($container1.find('.dynamic-component-container').outerWidth(), 300, 'width ok');
