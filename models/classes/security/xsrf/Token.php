@@ -88,7 +88,7 @@ class Token implements JsonSerializable
     public function jsonSerialize()
     {
         return [
-            self::TOKEN_KEY     => $this->getToken(),
+            self::TOKEN_KEY     => $this->getValue(),
             self::TIMESTAMP_KEY => $this->getCreatedAt(),
         ];
     }
