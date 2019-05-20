@@ -141,6 +141,7 @@ define([
             // assign default values and options
             _.defaults(this, initOptions, _defaults);
 
+
             // pre-render the dialog box
             this.$html = $(bodyTpl(this));
             this.$buttons = this.$html.find('.buttons');
@@ -411,9 +412,20 @@ define([
             var self = this, $buttons;
 
             if(!this.destroyed){
-                $buttons = this.$buttons.find('button');
 
-                //creates the navigator to manage the key navigation
+                this.$html.modal({
+                    width: this.width,
+                    animate: this.animate,
+                    disableClosing: this.disableClosing,
+                    disableEscape: this.disableEscape
+                }).on('closed' + _scope, function() {
+                    if (self.autoDestroy) {
+                        self.destroy();
+                    }
+                });
+
+                $buttons = $(_scope).find('button');
+
                 this.navigator = keyNavigator({
                     elements : navigableDomElement.createFromDoms($buttons)
                 }).on('right down', function(){
@@ -444,17 +456,6 @@ define([
                         }
                     });
             }
-
-            this.$html.modal({
-                width: this.width,
-                animate: this.animate,
-                disableClosing: this.disableClosing,
-                disableEscape: this.disableEscape
-            }).on('closed' + _scope, function() {
-                if (self.autoDestroy) {
-                    self.destroy();
-                }
-            });
         },
 
         /**

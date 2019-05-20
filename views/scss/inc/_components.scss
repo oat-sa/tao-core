@@ -206,10 +206,19 @@ ul.listbox {
         top: 10px;
         cursor: pointer;
         font-weight: bold;
-        color: $textColor;
+        color: $textColor !important;
+        background-color: transparent;
         @include font-size(20);
         &:hover{
             opacity: 0.6;
+        }
+        &:focus{
+            box-shadow: 0 0 0px 3px #003664;
+        }
+
+        span {
+            padding: 0;
+            left: 0px;
         }
     }
 
@@ -235,8 +244,12 @@ ul.listbox {
                 text-transform: uppercase;
                 color: $info !important;
                 background: none;
-                &:focus, &:hover{
+                &:hover{
                     background: whiten($info, .85);
+                }
+                &:focus{
+                    background: whiten($info, .85);
+                    box-shadow: 0 0 0px 3px #003664;
                 }
             }
         }
