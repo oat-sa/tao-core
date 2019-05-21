@@ -213,7 +213,7 @@ ul.listbox {
             opacity: 0.6;
         }
         &:focus{
-            box-shadow: 0 0 0px 3px #003664;
+            box-shadow: 0 0 0 3px $focusedButton;
         }
 
         span {

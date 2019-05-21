@@ -409,7 +409,7 @@ define([
          * @private
          */
         _install : function _install() {
-            var self = this, $buttons;
+            var self = this, $buttons, closeButton;
 
             if(!this.destroyed){
 
@@ -423,9 +423,13 @@ define([
                         self.destroy();
                     }
                 });
-                $buttons = this.$buttons.find('button');
 
-                $buttons.push($(_scope).find('.modal-close')[0]);
+                $buttons = this.$buttons.find('button');
+                closeButton = $(_scope).find('#modal-close-btn')[0];
+
+                if (closeButton) {
+                    $buttons.push(closeButton);
+                }
 
                 //creates the navigator to manage the key navigation
                 this.navigator = keyNavigator({
