@@ -423,9 +423,11 @@ define([
                         self.destroy();
                     }
                 });
+                $buttons = this.$buttons.find('button');
 
-                $buttons = $(_scope).find('button');
+                $buttons.push($(_scope).find('.modal-close')[0]);
 
+                //creates the navigator to manage the key navigation
                 this.navigator = keyNavigator({
                     elements : navigableDomElement.createFromDoms($buttons)
                 }).on('right down', function(){
