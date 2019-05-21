@@ -23,14 +23,22 @@ define([
     'jquery',
     'lodash',
     'core/promise',
-    'ui/form/form'
+    'ui/form/form',
+    'ui/form/widget/widget'
 ], function (
     $,
     _,
     Promise,
-    formFactory
+    formFactory,
+    widgetFactory
 ) {
     'use strict';
+
+    widgetFactory.registerProvider('text', {
+        init: function init() {
+
+        }
+    });
 
     QUnit.module('Factory');
 
@@ -128,11 +136,11 @@ define([
     QUnit.test('init', function (assert) {
         var ready = assert.async();
         var $container = $('#fixture-init');
-        var instance = formFactory($container);
+        var instance;
 
         assert.expect(1);
 
-        instance
+        instance = formFactory($container)
             .after('init', function () {
                 assert.equal(this, instance, 'The instance has been initialized');
             })
@@ -161,8 +169,8 @@ define([
         title: 'widgets',
         config: {
             widgets: [{
-                type: 'text',
-                name: 'text',
+                widget: 'text',
+                uri: 'text',
                 label: 'Text'
             }],
             buttons: [{
@@ -184,8 +192,7 @@ define([
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
-        instance = formFactory($container, data.config);
-        instance
+        instance = formFactory($container, data.config)
             .on('init', function () {
                 assert.equal(this, instance, 'The instance has been initialized');
             })
@@ -199,7 +206,7 @@ define([
                 assert.equal($container.find('.form-component .toolbar').children().length, _.size(buttons), 'The component contains the expected amount of buttons');
 
                 _.forEach(widgets, function (widget) {
-                    assert.equal($container.find('.form-component fieldset [name="' + widget.name + '"]').length, 1, 'The component contains the widget ' + widget.name);
+                    assert.equal($container.find('.form-component fieldset [name="' + widget.uri + '"]').length, 1, 'The component contains the widget ' + widget.uri);
                 });
 
                 _.forEach(buttons, function (button) {
@@ -234,7 +241,7 @@ define([
 
         instance = formFactory($container, {
             widgets: [{
-                name: 'text',
+                uri: 'text',
                 label: 'Text'
             }],
             buttons: [{
@@ -244,6 +251,7 @@ define([
                 text: 'foo'
             }
         });
+
         instance
             .on('init', function () {
                 assert.equal(this, instance, 'The instance has been initialized');
@@ -281,16 +289,15 @@ define([
 
         instance = formFactory($container, {
             widgets: [{
-                type: 'text',
-                name: 'text',
+                widget: 'text',
+                uri: 'text',
                 label: 'Text'
             }],
             buttons: [{
                 id: 'submit',
                 label: 'Submit'
             }]
-        });
-        instance
+        })
             .on('init', function () {
                 assert.equal(this, instance, 'The instance has been initialized');
             })
@@ -348,8 +355,8 @@ define([
 
         instance = formFactory($container, {
             widgets: [{
-                type: 'text',
-                name: 'text',
+                widget: 'text',
+                uri: 'text',
                 label: 'Text'
             }],
             buttons: [{
@@ -357,6 +364,7 @@ define([
                 label: 'Submit'
             }]
         });
+
         instance
             .on('init', function () {
                 assert.equal(this, instance, 'The instance has been initialized');
@@ -433,8 +441,7 @@ define([
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
-        instance = formFactory($container);
-        instance
+        instance = formFactory($container)
             .on('init', function () {
                 assert.equal(this, instance, 'The instance has been initialized');
             })
@@ -498,8 +505,7 @@ define([
 
         assert.expect(5);
 
-        instance = formFactory($container, data.config);
-        instance
+        instance = formFactory($container, data.config)
             .on('init', function () {
                 assert.equal(this, instance, 'The instance has been initialized');
                 assert.equal(this.getFormAction(), data.expected.formAction, 'The expected formAction is returned');
@@ -546,8 +552,7 @@ define([
 
         assert.expect(11);
 
-        instance = formFactory($container, data.config);
-        instance
+        instance = formFactory($container, data.config)
             .on('init', function () {
                 assert.equal(this, instance, 'The instance has been initialized');
             })
@@ -618,7 +623,7 @@ define([
         widget: {value: 'test'}
     }, {
         title: 'empty name',
-        widget: {name: ''}
+        widget: {uri: ''}
     }]).test('add widget error ', function (data, assert) {
         var ready = assert.async();
         var $container = $('#fixture-widget-error');
@@ -669,8 +674,8 @@ define([
 
         instance = formFactory($container, {
             widgets: [{
-                type: 'text',
-                name: 'text',
+                widget: 'text',
+                uri: 'text',
                 label: 'Text',
                 range: 'range1'
             }],
@@ -679,8 +684,8 @@ define([
 
         instance
             .addWidget({
-                type: 'text',
-                name: 'foo',
+                widget: 'text',
+                uri: 'foo',
                 label: 'Foo',
                 range: 'range2'
             })
@@ -733,8 +738,8 @@ define([
 
         instance = formFactory($container, {
             widgets: [{
-                type: 'text',
-                name: 'text',
+                widget: 'text',
+                uri: 'text',
                 label: 'Text'
             }]
         });
@@ -759,8 +764,8 @@ define([
                             new Promise(function (resolve) {
                                 instance
                                     .off('.test')
-                                    .on('widgetadd.test', function (name, widget) {
-                                        assert.equal(name, 'foo', 'The widgetadd event has been triggered');
+                                    .on('widgetadd.test', function (uri, widget) {
+                                        assert.equal(uri, 'foo', 'The widgetadd event has been triggered');
                                         assert.notEqual(widget, null, 'The widget is provided');
                                         assert.equal(typeof widget, 'object', 'The widget is an object');
                                         resolve();
@@ -768,8 +773,8 @@ define([
                             }),
                             instance
                                 .addWidget({
-                                    type: 'text',
-                                    name: 'foo',
+                                    widget: 'text',
+                                    uri: 'foo',
                                     label: 'Foo'
                                 })
                                 .then(function (widget) {
@@ -785,8 +790,8 @@ define([
                             assert.notEqual(instance.getWidget('text'), null, 'The widget text exists');
                             instance
                                 .off('.test')
-                                .on('widgetremove.test', function (name) {
-                                    assert.equal(name, 'text', 'The widgetremove event has been triggered');
+                                .on('widgetremove.test', function (uri) {
+                                    assert.equal(uri, 'text', 'The widgetremove event has been triggered');
                                     assert.equal($container.find('.form-component fieldset [name="text"]').length, 0, 'The component does not contain the widget text anymore');
                                     assert.equal(instance.getWidget('text'), null, 'The widget text does not exist anymore');
                                     resolve();
@@ -831,16 +836,16 @@ define([
 
         instance = formFactory($container, {
             widgets: [{
-                type: 'text',
-                name: 'text',
+                widget: 'text',
+                uri: 'text',
                 label: 'Text'
             }]
         });
 
         instance
             .setWidgets([{
-                type: 'text',
-                name: 'foo',
+                widget: 'text',
+                uri: 'foo',
                 label: 'Foo'
             }])
             .then(function (widgets) {
@@ -892,8 +897,8 @@ define([
 
         instance = formFactory($container, {
             widgets: [{
-                type: 'text',
-                name: 'text',
+                widget: 'text',
+                uri: 'text',
                 label: 'Text'
             }]
         });
@@ -925,21 +930,21 @@ define([
                                 assert.notEqual(instance.getWidget('text'), null, 'The widget text exists');
                                 instance
                                     .off('.test')
-                                    .on('widgetremove.test', function (name) {
-                                        assert.equal(name, 'text', 'The widgetremove event has been triggered');
+                                    .on('widgetremove.test', function (uri) {
+                                        assert.equal(uri, 'text', 'The widgetremove event has been triggered');
                                         assert.equal($container.find('.form-component fieldset [name="text"]').length, 0, 'The component does not contain the widget text anymore');
                                         assert.equal(instance.getWidget('text'), null, 'The widget text does not exist anymore');
                                     })
-                                    .on('widgetadd.test', function (name, widget) {
-                                        assert.equal(name, 'foo', 'The widgetadd event has been triggered');
+                                    .on('widgetadd.test', function (uri, widget) {
+                                        assert.equal(uri, 'foo', 'The widgetadd event has been triggered');
                                         assert.equal(typeof widget, 'object', 'The widget is provided');
                                         resolve();
                                     });
                             }),
                             instance
                                 .setWidgets([{
-                                    type: 'text',
-                                    name: 'foo',
+                                    widget: 'text',
+                                    uri: 'foo',
                                     label: 'Foo'
                                 }])
                                 .then(function () {
@@ -954,8 +959,8 @@ define([
                             assert.notEqual(instance.getWidget('foo'), null, 'The widget foo exists');
                             instance
                                 .off('.test')
-                                .on('widgetremove.test', function (name) {
-                                    assert.equal(name, 'foo', 'The widgetremove event has been triggered');
+                                .on('widgetremove.test', function (uri) {
+                                    assert.equal(uri, 'foo', 'The widgetremove event has been triggered');
                                     assert.equal($container.find('.form-component fieldset [name="foo"]').length, 0, 'The component does not contain the widget foo anymore');
                                     assert.equal(instance.getWidget('foo'), null, 'The widget foo does not exist anymore');
                                     assert.equal($container.find('.form-component fieldset').children().length, 0, 'The component does not contains form widgets anymore');
@@ -1008,9 +1013,7 @@ define([
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
-        instance = formFactory($container);
-
-        instance
+        instance = formFactory($container)
             .on('ready', function () {
                 instance.addButton(data.button)
                     .then(function () {
@@ -1129,8 +1132,8 @@ define([
                             new Promise(function (resolve) {
                                 instance
                                     .off('.test')
-                                    .on('buttonadd.test', function (name, button) {
-                                        assert.equal(name, 'foo', 'The buttonadd event has been triggered');
+                                    .on('buttonadd.test', function (id, button) {
+                                        assert.equal(id, 'foo', 'The buttonadd event has been triggered');
                                         assert.notEqual(button, null, 'The button is provided');
                                         assert.equal(typeof button, 'object', 'The button is an object');
                                         resolve();
@@ -1154,8 +1157,8 @@ define([
                             assert.notEqual(instance.getButton('text'), null, 'The button text exists');
                             instance
                                 .off('.test')
-                                .on('buttonremove.test', function (name) {
-                                    assert.equal(name, 'text', 'The buttonremove event has been triggered');
+                                .on('buttonremove.test', function (id) {
+                                    assert.equal(id, 'text', 'The buttonremove event has been triggered');
                                     assert.equal($container.find('.form-component .toolbar [data-control="text"]').length, 0, 'The component does not contain the button text anymore');
                                     assert.equal(instance.getButton('text'), null, 'The button text does not exist anymore');
                                     resolve();
@@ -1291,13 +1294,13 @@ define([
                                 assert.notEqual(instance.getButton('text'), null, 'The button text exists');
                                 instance
                                     .off('.test')
-                                    .on('buttonremove.test', function (name) {
-                                        assert.equal(name, 'text', 'The buttonremove event has been triggered');
+                                    .on('buttonremove.test', function (id) {
+                                        assert.equal(id, 'text', 'The buttonremove event has been triggered');
                                         assert.equal($container.find('.form-component .toolbar [data-control="text"]').length, 0, 'The component does not contain the button text anymore');
                                         assert.equal(instance.getButton('text'), null, 'The button text does not exist anymore');
                                     })
-                                    .on('buttonadd.test', function (name, button) {
-                                        assert.equal(name, 'foo', 'The buttonadd event has been triggered');
+                                    .on('buttonadd.test', function (id, button) {
+                                        assert.equal(id, 'foo', 'The buttonadd event has been triggered');
                                         assert.equal(typeof button, 'object', 'The button is provided');
                                         resolve();
                                     });
@@ -1319,8 +1322,8 @@ define([
                             assert.notEqual(instance.getButton('foo'), null, 'The button foo exists');
                             instance
                                 .off('.test')
-                                .on('buttonremove.test', function (name) {
-                                    assert.equal(name, 'foo', 'The buttonremove event has been triggered');
+                                .on('buttonremove.test', function (id) {
+                                    assert.equal(id, 'foo', 'The buttonremove event has been triggered');
                                     assert.equal($container.find('.form-component .toolbar [data-control="foo"]').length, 0, 'The component does not contain the button foo anymore');
                                     assert.equal(instance.getButton('foo'), null, 'The button foo does not exist anymore');
                                     assert.equal($container.find('.form-component .toolbar').children().length, 0, 'The component does not contains form buttons anymore');
@@ -1459,15 +1462,16 @@ define([
 
         instance = formFactory($container, {
             widgets: [{
-                type: 'text',
-                name: 'text',
+                widget: 'text',
+                uri: 'text',
                 label: 'Text'
             }, {
-                type: 'text',
-                name: 'foo',
+                widget: 'text',
+                uri: 'foo',
                 label: 'Foo'
             }]
         });
+
         instance
             .on('init', function () {
                 assert.equal(this, instance, 'The instance has been initialized');
@@ -1498,8 +1502,8 @@ define([
                             }),
                             new Promise(function (resolve) {
                                 instance
-                                    .on('change.test', function (name, value) {
-                                        assert.equal(name, 'text', 'The change event has been triggered');
+                                    .on('change.test', function (uri, value) {
+                                        assert.equal(uri, 'text', 'The change event has been triggered');
                                         assert.equal(value, 'test', 'The expected value is there');
                                         resolve();
                                     })
@@ -1521,8 +1525,8 @@ define([
                             new Promise(function (resolve) {
                                 assert.equal(instance.getValue('foo'), '', 'The foo widget is empty');
                                 instance
-                                    .on('change.test', function (name, value) {
-                                        assert.equal(name, 'foo', 'The change event has been triggered');
+                                    .on('change.test', function (uri, value) {
+                                        assert.equal(uri, 'foo', 'The change event has been triggered');
                                         assert.equal(value, 'top', 'The expected value is there');
                                         resolve();
                                     });
@@ -1536,11 +1540,11 @@ define([
                             var count = 0;
                             instance
                                 .off('.test')
-                                .on('change.test', function (name, value) {
+                                .on('change.test', function (uri, value) {
                                     assert.ok(true, 'The change event has been triggered');
-                                    if (name === 'text') {
+                                    if (uri === 'text') {
                                         assert.equal(value, 'top', 'The expected value is there');
-                                    } else if (name === 'foo') {
+                                    } else if (uri === 'foo') {
                                         assert.equal(value, 'bar', 'The expected value is there');
                                     } else {
                                         assert.ok(false, 'The expected value is not there');
@@ -1591,8 +1595,7 @@ define([
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
-        instance = formFactory($container);
-        instance
+        instance = formFactory($container)
             .on('init', function () {
                 assert.equal(this, instance, 'The instance has been initialized');
             })
@@ -1608,12 +1611,12 @@ define([
                         assert.equal(instance.getValue('foo'), '', 'The widget foo is unknown and has no value');
 
                         return instance.setWidgets([{
-                            type: 'text',
-                            name: 'text',
+                            widget: 'text',
+                            uri: 'text',
                             label: 'Text'
                         }, {
-                            type: 'text',
-                            name: 'foo',
+                            widget: 'text',
+                            uri: 'foo',
                             label: 'Foo'
                         }]);
                     })
@@ -1688,8 +1691,7 @@ define([
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
-        instance = formFactory($container);
-        instance
+        instance = formFactory($container)
             .on('init', function () {
                 assert.equal(this, instance, 'The instance has been initialized');
             })
@@ -1705,12 +1707,12 @@ define([
                         assert.equal(instance.getValue('foo'), '', 'The widget foo is unknown and has no value');
 
                         return instance.setWidgets([{
-                            type: 'text',
-                            name: 'text',
+                            widget: 'text',
+                            uri: 'text',
                             label: 'Text'
                         }, {
-                            type: 'text',
-                            name: 'foo',
+                            widget: 'text',
+                            uri: 'foo',
                             label: 'Foo'
                         }]);
                     })
@@ -1818,8 +1820,8 @@ define([
                     })
                     .then(function () {
                         return instance.setWidgets([{
-                            type: 'text',
-                            name: 'foo',
+                            widget: 'text',
+                            uri: 'foo',
                             label: 'Foo'
                         }]);
                     })
@@ -1906,8 +1908,8 @@ define([
                     })
                     .then(function () {
                         return instance.setWidgets([{
-                            type: 'text',
-                            name: 'foo',
+                            widget: 'text',
+                            uri: 'foo',
                             label: 'Foo'
                         }]);
                     })
@@ -2035,8 +2037,8 @@ define([
                     })
                     .then(function () {
                         return instance.setWidgets([{
-                            type: 'text',
-                            name: 'foo',
+                            widget: 'text',
+                            uri: 'foo',
                             label: 'Foo'
                         }]);
                     })
@@ -2123,8 +2125,8 @@ define([
         var $outputSubmit = $('#visual-test .submit-output');
         var instance = formFactory($container, {
             widgets: [{
-                type: 'text',
-                name: 'text',
+                widget: 'text',
+                uri: 'text',
                 label: 'Text'
             }],
             buttons: [{
@@ -2148,8 +2150,8 @@ define([
                 assert.equal($container.children().length, 1, 'The container contains an element');
                 ready();
             })
-            .on('change', function (name, value) {
-                $outputChange.val('value of [' + name + '] changed to "' + value + '"\n' + $outputChange.val());
+            .on('change', function (uri, value) {
+                $outputChange.val('value of [' + uri + '] changed to "' + value + '"\n' + $outputChange.val());
             })
             .on('button-clear', function () {
                 this.setValues({

@@ -29,7 +29,7 @@ define([
     'ui/component',
     'ui/button',
     'ui/hider',
-    'ui/form/elementFactory',
+    'ui/form/widget/widget',
     'tpl!ui/form/tpl/form',
     'css!ui/form/css/form.css'
 ], function (
@@ -131,18 +131,18 @@ define([
      * Builds a form component.
      *
      * @example
-     *  var container = $('.my-form', $container);
+     *  var container = $('.my-container', $container);
      *
      *  var config = {
      *      title: 'My fancy form',
      *      widgets: [{
-     *          type: 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox'
-     *          name: 'nickname',
+     *          widget: 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox'
+     *          uri: 'nickname',
      *          label: 'Name',
      *          required: true
      *      }, {
-     *          type: 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextArea'
-     *          name: 'comment',
+     *          widget: 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextArea'
+     *          uri: 'comment',
      *          label: 'Comment',
      *          required: true
      *      }],
@@ -237,13 +237,13 @@ define([
             },
 
             /**
-             * Gets a widget by its name
-             * @param {String} name
+             * Gets a widget by its uri
+             * @param {String} uri
              * @returns {formWidget}
              */
-            getWidget: function getWidget(name) {
-                if (widgets.has(name)) {
-                    return widgets.get(name);
+            getWidget: function getWidget(uri) {
+                if (widgets.has(uri)) {
+                    return widgets.get(uri);
                 }
                 return null;
             },
@@ -254,12 +254,12 @@ define([
              * @returns {Promise<formWidget>}
              * @throws TypeError if the widget definition is invalid
              * @fires change when the widget's value changes
-             * @fires change-<name> when the widget's value changes
+             * @fires change-<uri> when the widget's value changes
              * @fires widgetadd after the widget has been added
              */
             addWidget: function addWidget(definition) {
                 var self = this;
-                return validateDefinition(this, definition, 'name')
+                return validateDefinition(this, definition, 'uri')
                     .then(function() {
                         var ranges = self.getRanges();
                         if (definition.range && 'string' === typeof definition.range) {
@@ -267,30 +267,30 @@ define([
                         }
 
                         return new Promise(function (resolve) {
-                            var widget = widgetFactory(definition, controls.$widgets);
-                            widgets.set(definition.name, widget);
+                            var widget = widgetFactory(controls.$widgets, definition);
+                            widgets.set(definition.uri, widget);
                             widget
                                 .on('change.form', function (value) {
                                     /**
                                      * @event change
-                                     * @param {String} name
+                                     * @param {String} uri
                                      * @param {String} value
                                      */
-                                    self.trigger('change', definition.name, value);
+                                    self.trigger('change', definition.uri, value);
 
                                     /**
-                                     * @event change-<name>
+                                     * @event change-<uri>
                                      * @param {String} value
                                      */
-                                    self.trigger('change-' + definition.name, value);
+                                    self.trigger('change-' + definition.uri, value);
                                 })
                                 .on('ready.form', function () {
                                     /**
                                      * @event widgetadd
-                                     * @param {String} name
+                                     * @param {String} uri
                                      * @param {formWidget} widget
                                      */
-                                    self.trigger('widgetadd', definition.name, this);
+                                    self.trigger('widgetadd', definition.uri, this);
 
                                     resolve(this);
                                 });
@@ -300,22 +300,22 @@ define([
 
             /**
              * Removes a widget
-             * @param {String} name
+             * @param {String} uri
              * @returns {form}
              * @fires widgetremove after the widget has been removed
              */
-            removeWidget: function removeWidget(name) {
-                if (widgets.has(name)) {
-                    widgets.get(name)
+            removeWidget: function removeWidget(uri) {
+                if (widgets.has(uri)) {
+                    widgets.get(uri)
                         .off('.form')
                         .destroy();
-                    widgets.delete(name);
+                    widgets.delete(uri);
 
                     /**
                      * @event widgetremove
-                     * @param {String} name
+                     * @param {String} uri
                      */
-                    this.trigger('widgetremove', name);
+                    this.trigger('widgetremove', uri);
                 }
                 return this;
             },
@@ -326,8 +326,8 @@ define([
              */
             getWidgets: function getWidgets() {
                 var list = {};
-                widgets.forEach(function (widget, name) {
-                    list[name] = widget;
+                widgets.forEach(function (widget, uri) {
+                    list[uri] = widget;
                 });
                 return list;
             },
@@ -351,8 +351,8 @@ define([
              */
             removeWidgets: function removeWidgets() {
                 var self = this;
-                widgets.forEach(function (widget, name) {
-                    self.removeWidget(name);
+                widgets.forEach(function (widget, uri) {
+                    self.removeWidget(uri);
                 });
                 widgets.clear();
                 return this;
@@ -429,7 +429,7 @@ define([
 
                     /**
                      * @event buttonremove
-                     * @param {String} name
+                     * @param {String} id
                      */
                     this.trigger('buttonremove', id);
                 }
@@ -476,25 +476,25 @@ define([
 
             /**
              * Gets the value of a widget
-             * @param {String} name
+             * @param {String} uri
              * @returns {String}
              */
-            getValue: function getValue(name) {
-                if (widgets.has(name)) {
-                    return widgets.get(name).getValue();
+            getValue: function getValue(uri) {
+                if (widgets.has(uri)) {
+                    return widgets.get(uri).getValue();
                 }
                 return '';
             },
 
             /**
              * Sets the value of a widget
-             * @param {String} name
+             * @param {String} uri
              * @param {String} value
              * @returns {form}
              */
-            setValue: function setValue(name, value) {
-                if (widgets.has(name)) {
-                    widgets.get(name).setValue(value);
+            setValue: function setValue(uri, value) {
+                if (widgets.has(uri)) {
+                    widgets.get(uri).setValue(value);
                 }
                 return this;
             },
@@ -505,8 +505,8 @@ define([
              */
             getValues: function getValues() {
                 var values = {};
-                widgets.forEach(function (widget, name) {
-                    values[name] = widget.getValue();
+                widgets.forEach(function (widget, uri) {
+                    values[uri] = widget.getValue();
                 });
                 return values;
             },
@@ -517,9 +517,9 @@ define([
              * @returns {form}
              */
             setValues: function setValues(values) {
-                _.forEach(values, function (value, name) {
-                    if (widgets.has(name)) {
-                        widgets.get(name).setValue(value);
+                _.forEach(values, function (value, uri) {
+                    if (widgets.has(uri)) {
+                        widgets.get(uri).setValue(value);
                     }
                 });
                 return this;
@@ -527,7 +527,7 @@ define([
 
             /**
              * Serializes form values to an array of name/value objects
-             * @returns {Object[]}
+             * @returns {widgetValue[]}
              */
             serialize: function serialize() {
                 var values = [];
