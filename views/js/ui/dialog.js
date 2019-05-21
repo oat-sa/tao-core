@@ -140,7 +140,7 @@ define([
 
             // assign default values and options
             _.defaults(this, initOptions, _defaults);
-            
+
             // pre-render the dialog box
             this.$html = $(bodyTpl(this));
             this.$buttons = this.$html.find('.buttons');

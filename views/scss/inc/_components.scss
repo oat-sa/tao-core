@@ -249,7 +249,7 @@ ul.listbox {
                 }
                 &:focus{
                     background: whiten($info, .85);
-                    box-shadow: 0 0 0px 3px #003664;
+                    box-shadow: 0 0 0 3px $focusedButton;
                 }
             }
         }
