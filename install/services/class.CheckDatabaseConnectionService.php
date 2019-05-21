@@ -151,19 +151,9 @@ class tao_install_services_CheckDatabaseConnectionService
 				restore_error_handler();
             }
             catch(Exception $e){
-                
-                if ($e instanceof PDOException && $driver === 'pdo_mysql' && $e->getCode() === 1049) {
-                    // mysql -> 1049 = unknown DB -> let the last step of the installer create it if possible.
-                    $message = "Database unknown, database creation process delayed.";
-                    $status = 'valid';
-                }
-                else {
-                    $message = "Unable to connect to database '${database}' at '${host}' using driver '${driver}': " . $e->getMessage();
-                    $status = 'invalid-noconnection';
-                }
-                
-                
-                
+                $message = "Unable to connect to database '${database}' at '${host}' using driver '${driver}': " . $e->getMessage();
+                $status = 'invalid-noconnection';
+
                 restore_error_handler();
             }
         }
