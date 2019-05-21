@@ -42,20 +42,21 @@ $installDetails = [
 			'description'	=> 'The Database name corresponds to the Module name.'
 		],
 		[
-			'name'			=> 'db_pass',
-			'type' 			=> 'string',
-			'required'		=> false,
-			'description'	=> 'Password to access to the database.'
-		],
-		[
 			'name'			=> 'db_user',
 			'type' 			=> 'string',
 			'required'		=> true,
 			'description'	=> 'Login to access to the database.'
 		],
+		[
+			'name'			=> 'db_pass',
+			'type' 			=> 'string',
+			'required'		=> false,
+			'description'	=> 'Password to access to the database.'
+		],
 	    [
 	        'name'			=> 'file_path',
 	        'type'			=> 'string',
+            	'required'		=> true,
 	        'shortcut'		=> 'f',
 	        'description'	=> 'Path to where files should be stored.'
 	    ],
@@ -147,3 +148,4 @@ $installDetails = [
 // Running the service.
 $container->offsetSet(tao_scripts_TaoInstall::CONTAINER_INDEX, $installDetails);
 new tao_scripts_TaoInstall($container);
+
