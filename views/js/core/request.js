@@ -34,12 +34,13 @@ define([
     'jquery',
     'lodash',
     'i18n',
+    'module',
     'context',
     'core/promise',
     'core/promiseQueue',
     'core/tokenHandler',
     'core/logger'
-], function($, _, __, context, Promise, promiseQueue, tokenHandlerFactory, loggerFactory) {
+], function($, _, __, module, context, Promise, promiseQueue, tokenHandlerFactory, loggerFactory) {
     'use strict';
 
     var tokenHeaderName = 'X-CSRF-Token';
@@ -55,9 +56,10 @@ define([
      * @param {Object} response - the server body response as plain object
      * @param {String} fallbackMessage - the error message in case the response isn't correct
      * @param {Number} httpCode - the response HTTP code
+     * @param {Boolean} httpSent - the sent status
      * @returns {Error} the new error
      */
-    var createError = function createError(response, fallbackMessage, httpCode) {
+    var createError = function createError(response, fallbackMessage, httpCode, httpSent) {
         var err;
         if (response && response.errorCode) {
             err = new Error(response.errorCode + ' : ' + (response.errorMsg || response.errorMessage || response.error));
@@ -65,6 +67,8 @@ define([
             err = new Error(fallbackMessage);
         }
         err.response = response;
+        err.sent = httpSent;
+
         if (httpCode) {
             err.code = httpCode;
         }
@@ -87,6 +91,10 @@ define([
      * @returns {Promise} resolves with response, or reject if something went wrong
      */
     return function request(options) {
+        // Allow external config to override user option
+        if (module.config().noToken) {
+            options.noToken = true;
+        }
 
         if (_.isEmpty(options.url)) {
             throw new TypeError('At least give a URL...');
@@ -156,25 +164,25 @@ define([
                             .then(function() {
                                 if (xhr.status === 204 || (response && response.errorCode === 204) || status === 'nocontent') {
                                     // no content, so resolve with empty data.
-                                    resolve();
+                                    return resolve();
                                 }
 
                                 // handle case where token expired or invalid
                                 if (xhr.status === 403 || (response && response.errorCode === 403)) {
-                                    reject(createError(response, xhr.status + ' : ' + xhr.statusText, xhr.status));
+                                    return reject(createError(response, xhr.status + ' : ' + xhr.statusText, xhr.status, xhr.readyState > 0));
                                 }
 
                                 if (response && response.success === true) {
                                     // there's some data
-                                    resolve(response);
+                                    return resolve(response);
                                 }
 
                                 //the server has handled the error
-                                reject(createError(response, __('The server has sent an empty response'), xhr.status));
+                                reject(createError(response, __('The server has sent an empty response'), xhr.status, xhr.readyState > 0));
                             })
                             .catch(function(error) {
                                 logger.error(error);
-                                reject(createError(response, error, xhr.status));
+                                reject(createError(response, error, xhr.status, xhr.readyState > 0));
                             });
                     })
                     .fail(function(xhr, textStatus, errorThrown) {
@@ -199,11 +207,11 @@ define([
 
                         setTokenFromXhr(xhr)
                             .then(function () {
-                                reject(createError(response, xhr.status + ' : ' + xhr.statusText, xhr.status));
+                                reject(createError(response, xhr.status + ' : ' + xhr.statusText, xhr.status, xhr.readyState > 0));
                             })
                             .catch(function(error) {
                                 logger.error(error);
-                                reject(createError(response, error, xhr.status));
+                                reject(createError(response, error, xhr.status, xhr.readyState > 0));
                             });
                     });
                 });
