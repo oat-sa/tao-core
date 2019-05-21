@@ -94,4 +94,12 @@ abstract class AbstractAuthType implements PhpSerializable
         return $this->instance;
     }
 
+    /**
+     * @param array $values
+     * @return array
+     */
+    public function prepareAuthRequestValues(array $values)
+    {
+        return $values;
+    }
 }

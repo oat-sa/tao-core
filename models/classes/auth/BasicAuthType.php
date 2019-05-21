@@ -120,4 +120,13 @@ class BasicAuthType extends AbstractAuthType implements BasicAuth
             $credentials[self::PROPERTY_PASSWORD],
         ];
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function prepareAuthRequestValues(array $values)
+    {
+        $values[self::PROPERTY_PASSWORD] = html_entity_decode($values[self::PROPERTY_PASSWORD]);
+        return $values;
+    }
 }
