@@ -27,15 +27,15 @@ class Perspective extends MenuElement implements PhpSerializable
 {
 
     const GROUP_DEFAULT = 'main';
-    
+
     const GROUP_SETTINGS = 'settings';
-    
+
     const GROUP_INVISIBLE = 'invisible';
 
     private $data = array();
-    
+
     private $children = array();
-    
+
     /**
      * @param \SimpleXMLElement $node
      * @param $structureExtensionId
@@ -63,10 +63,10 @@ class Perspective extends MenuElement implements PhpSerializable
         }
         return new static($data, $sections);
     }
-    
+
     /**
      * Generate a Perspective from a legacy ToolbarAction
-     * 
+     *
      * @param \SimpleXMLElement $node
      * @param $structureExtensionId
      * @return static
@@ -88,9 +88,9 @@ class Perspective extends MenuElement implements PhpSerializable
             $children = array();
             // (string)$node['structure']
         }
-        return new static($data, $children); 
+        return new static($data, $children);
     }
-    
+
     /**
      * @param $data
      * @param $sections
@@ -102,7 +102,7 @@ class Perspective extends MenuElement implements PhpSerializable
         $this->data = $data;
         $this->children = $sections;
     }
-    
+
     /**
      * @param Section $section
      */
@@ -118,12 +118,20 @@ class Perspective extends MenuElement implements PhpSerializable
         if ($existingKey !== false) {
 
             switch ($section->getPolicy()) {
-            	case Section::POLICY_MERGE :
-            	    $currentSection = $this->children[$existingKey];
-            	    foreach($section->getTrees() as $tree){
-            	        $currentSection->addTree($tree);
-            	    }
-            	    foreach($section->getActions() as $action){
+                case Section::POLICY_MERGE :
+                    $currentSection = $this->children[$existingKey];
+                    foreach ($section->getTrees() as $tree) {
+                        $currentSection->addTree($tree);
+                    }
+                    /** @var Action $action */
+                    foreach ($section->getActions() as $action) {
+                        /** @var Action $currentAction */
+                        foreach ($currentSection->getActions() as $currentAction) {
+                            if ($currentAction->getId() == $action->getId()) {
+                                $currentSection->removeAction($currentAction);
+                                break;
+                            }
+                        }
             	        $currentSection->addAction($action);
             	    }
             	    break;
@@ -133,13 +141,11 @@ class Perspective extends MenuElement implements PhpSerializable
             	default:
             	    throw new \common_exception_Error();
             }
-            //merge the section
-
         } else {
             $this->children[] = $section;
         }
     }
-    
+
     /**
      * @return mixed
      */
@@ -160,7 +166,7 @@ class Perspective extends MenuElement implements PhpSerializable
     {
         return $this->data['description'];
     }
-    
+
     /**
      * @return Icon
      */
