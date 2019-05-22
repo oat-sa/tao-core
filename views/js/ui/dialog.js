@@ -452,7 +452,7 @@ define([
                 }).on('activate', function(cursor){
                     cursor.navigable.getElement().click();
                 });
-
+                self.navigator.last();
                 //added a global shortcut to enable setting focus on tab
                 this.globalShortcut = shortcutRegistry($('body'))
                     .add('tab shift+tab', function(){
