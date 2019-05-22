@@ -36,15 +36,17 @@ class TokenServiceTest extends TestCase
     public function testInstantiateNoStore()
     {
         $this->expectException(InvalidService::class);
-        new TokenService();
+        $service = new TokenService();
+        $service->checkToken('unusedString');
     }
 
     public function testInstantiateBadStore()
     {
         $this->expectException(InvalidService::class);
-        new TokenService([
+        $service = new TokenService([
             'store' =>  []
         ]);
+        $service->checkToken('unusedString');
     }
 
     public function testCreateToken()
