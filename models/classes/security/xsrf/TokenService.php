@@ -23,7 +23,6 @@ use common_exception_Unauthorized;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\security\TokenGenerator;
-use oat\oatbox\service\exception\InvalidService;
 
 /**
  * This service let's you manage tokens to protect against XSRF.
@@ -54,32 +53,6 @@ class TokenService extends ConfigurableService
     const CSRF_TOKEN_HEADER = 'X-CSRF-Token';
     const FORM_POOL = 'form_pool';
     const JS_TOKEN_KEY = 'tokens';
-
-    /**
-     * Create a new TokenService
-     *
-     * @param array $options the configurations options
-     *              - `poolSize` to limit the number of active tokens (0 means unlimited - default to 10)
-     *              - `timeLimit` to limit the validity of tokens, in seconds (0 means unlimited - default 0)
-     *              - `store` the TokenStore where the tokens are stored
-     * @throws InvalidService
-     */
-    public function __construct($options = [])
-    {
-        parent::__construct($options);
-
-        if ($this->getPoolSize() <= 0 && $this->getTimeLimit() <= 0) {
-            $this->logWarning(
-                'The pool size and the time limit are both unlimited.
-                Tokens won\'t be invalidated. The store will just grow.'
-            );
-        }
-
-        $store = $this->getStore();
-        if ($store === null || !$store instanceof TokenStore) {
-            throw new InvalidService('The token service requires a TokenStore');
-        }
-    }
 
     /**
      * Generates, stores and return a brand new token
@@ -316,11 +289,7 @@ class TokenService extends ConfigurableService
      */
     protected function getStore()
     {
-        $store = null;
-        if ($this->hasOption(self::OPTION_STORE)) {
-            $store = $this->getOption(self::OPTION_STORE);
-        }
-        return $store;
+        return $this->getSubService(self::OPTION_STORE);
     }
 
     /**
