@@ -67,6 +67,7 @@ define([
      * @param {Boolean} [config.off.active = true] - the default state
      * @param {String} [config.title] - the component title tooltip
      * @param {String} [config.name] - the component name (used by the element)
+     * @param {Boolean} [config.monoStyle] - true if the styling should match for off & on
      * @returns {switchComponent} the component
      */
     return function switchFactory($container, config){

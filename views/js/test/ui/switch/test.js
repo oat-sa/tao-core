@@ -259,4 +259,25 @@ define(['jquery', 'ui/switch/switch'], function($, switchFactory) {
                 ready();
             });
     });
+
+    QUnit.test('monoStyle button', function(assert) {
+        var ready = assert.async();
+        var container = document.getElementById('outside');
+
+        assert.expect(1);
+        switchFactory(container, {
+            on: {
+                label: 'style'
+            },
+            off: {
+                label: 'mono',
+                active: true
+            },
+            monoStyle: true
+        })
+            .on('render', function() {
+                assert.ok(true);
+                ready();
+            });
+    });
 });
