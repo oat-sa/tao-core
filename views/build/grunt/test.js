@@ -120,8 +120,7 @@ module.exports = function(grunt) {
                     //moduleName is a sentence so make it camelcase
                     const moduleNameSuffix = moduleName
                         .toLowerCase()
-                        .replace(/ (.)/g, match => match.toUpperCase())
-                        .replace( / /g, '' );
+                        .replace(/ (.)/g, (fullMatch,firstMatch) => firstMatch.toUpperCase() );
 
                     return testUrlToNamespace(url, '.', moduleNameSuffix);
                 }
