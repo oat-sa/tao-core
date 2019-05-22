@@ -1,4 +1,4 @@
-<div class="switch" title="{{title}}">
+<div class="switch {{#if monoStyle}}monostyle{{/if}}" title="{{title}}">
     <input type="checkbox" name="{{name}}" {{#if on.active}}checked{{/if}}>
     <label>
         <span class="off {{#if off.active}}active{{/if}}">{{off.label}}</span>
