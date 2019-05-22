@@ -55,7 +55,32 @@ define([
     };
 
     /**
-     * Builds a dropdown form component
+     * Builds a dropdown form component.
+     *
+     * @example
+     *  var container = $('.my-container', $container);
+     *
+     *  var config = {
+     *      title: 'My fancy form',
+     *      triggerText: 'Comment',
+     *      submitText: 'Publish',
+     *      widgets: [{
+     *          widget: widgetDefinitions.TEXTBOX
+     *          uri: 'nickname',
+     *          label: 'Name',
+     *          required: true
+     *      }, {
+     *          widget: widgetDefinitions.TEXTAREA
+     *          uri: 'comment',
+     *          label: 'Comment',
+     *          required: true
+     *      }]
+     *  };
+     *
+     *  var form = dropdownFormFactory(container, config)
+     *      .on('submit', function(values) {
+     *          // ...
+     *      });
      *
      * @param {HTMLElement|String} container
      * @param {dropdownFormConfig} config
