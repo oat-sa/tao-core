@@ -56,32 +56,6 @@ class TokenService extends ConfigurableService
     const JS_TOKEN_KEY = 'tokens';
 
     /**
-     * Create a new TokenService
-     *
-     * @param array $options the configurations options
-     *              - `poolSize` to limit the number of active tokens (0 means unlimited - default to 10)
-     *              - `timeLimit` to limit the validity of tokens, in seconds (0 means unlimited - default 0)
-     *              - `store` the TokenStore where the tokens are stored
-     * @throws InvalidService
-     */
-    public function __construct($options = [])
-    {
-        parent::__construct($options);
-
-        if ($this->getPoolSize() <= 0 && $this->getTimeLimit() <= 0) {
-            $this->logWarning(
-                'The pool size and the time limit are both unlimited.
-                Tokens won\'t be invalidated. The store will just grow.'
-            );
-        }
-
-        $store = $this->getStore();
-        if ($store === null || !$store instanceof TokenStore) {
-            throw new InvalidService('The token service requires a TokenStore');
-        }
-    }
-
-    /**
      * Generates, stores and return a brand new token
      * Triggers the pool invalidation.
      *
@@ -316,11 +290,11 @@ class TokenService extends ConfigurableService
      */
     protected function getStore()
     {
-        $store = null;
-        if ($this->hasOption(self::OPTION_STORE)) {
-            $store = $this->getOption(self::OPTION_STORE);
+        $store = $this->getOption(self::OPTION_STORE);
+        if (!$store instanceof TokenStore) {
+            throw new InvalidService('Unexpected store for '.__CLASS__);
         }
-        return $store;
+        return $this->propagate($store);
     }
 
     /**
@@ -335,7 +309,7 @@ class TokenService extends ConfigurableService
         $pool = $store->getTokens();
 
         if ($this->getTimeLimit() > 0) {
-            foreach ($pool as $key => $token) {
+            foreach ($pool as $token) {
                 if ($this->isExpired($token)) {
                     $this->revokeToken($token->getValue());
                 }
