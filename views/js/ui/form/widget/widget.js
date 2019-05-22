@@ -61,6 +61,7 @@ define([
      * @type {widgetConfig}
      */
     var defaults = {
+        widgetType: 'input-box',
         required: false,
         label: __('Label'),
         value: ''
@@ -226,6 +227,10 @@ define([
                 });
             })
             .on('render', function () {
+                // reflect the type of widget
+                this.setState(this.getConfig().widgetType, true);
+
+                // react to data change
                 this.getWidgetElement().on('change blur', function() {
                     var value = widget.getValue();
                     if (value !== widget.getConfig().value) {
@@ -256,6 +261,8 @@ define([
 
         return widget;
     }
+
+    // @todo - add validators
 
     // expose a partial that can be used by every form widget to inject the label markup
     Handlebars.registerPartial('ui-form-widget-label', labelTpl);

@@ -1,4 +1,4 @@
-<div class="form-widget">
+<div class="form-widget {{widgetType}}">
     <div class="widget-label">
         {{> ui-form-widget-label }}
     </div>

@@ -263,7 +263,7 @@ define([
         };
         var instance;
 
-        assert.expect(12);
+        assert.expect(14);
 
         widgetFactory.registerProvider(config.widget, {
             init: function init() {
@@ -285,6 +285,8 @@ define([
             .on('ready', function () {
                 assert.equal($container.children().length, 1, 'The container contains an element');
                 assert.equal($container.children().is('.form-widget'), true, 'The container contains the expected element');
+                assert.equal($container.children().is('.input-box'), true, 'The default type is set');
+                assert.ok(instance.is('input-box'), 'The widget type is reflected');
                 assert.equal($container.find('.form-widget .widget-label').length, 1, 'The component contains an area for the label');
                 assert.equal($container.find('.form-widget .widget-field').length, 1, 'The component contains an area for the field');
                 assert.equal($container.find('.form-widget .widget-label label').text().trim(), config.label, 'The component contains the expected label');
@@ -306,18 +308,75 @@ define([
             });
     });
 
-    QUnit.test('render partial', function (assert) {
+    QUnit.test('render type', function (assert) {
         var ready = assert.async();
         var $container = $('#fixture-render');
         var config = {
-            widget: 'renderPartial',
+            widgetType: 'text-box',
+            widget: 'render',
             uri: 'foo',
             label: 'Foo',
             value: 10
         };
         var instance;
 
-        assert.expect(11);
+        assert.expect(14);
+
+        widgetFactory.registerProvider(config.widget, {
+            init: function init() {
+                assert.ok(true, 'The provider init() method is called');
+                assert.equal(typeof this.is, 'function', 'The lexical scope is the widget');
+
+                this.on('render', function() {
+                    assert.ok(true, 'The listener has been called');
+                });
+            }
+        });
+
+        assert.equal($container.children().length, 0, 'The container is empty');
+
+        instance = widgetFactory($container, config)
+            .on('init', function () {
+                assert.equal(this, instance, 'The instance has been initialized');
+            })
+            .on('ready', function () {
+                assert.equal($container.children().length, 1, 'The container contains an element');
+                assert.equal($container.children().is('.form-widget'), true, 'The container contains the expected element');
+                assert.equal($container.children().is('.text-box'), true, 'The widget type is set');
+                assert.ok(instance.is(config.widgetType), 'The widget type is reflected');
+                assert.equal($container.find('.form-widget .widget-label').length, 1, 'The component contains an area for the label');
+                assert.equal($container.find('.form-widget .widget-field').length, 1, 'The component contains an area for the field');
+                assert.equal($container.find('.form-widget .widget-label label').text().trim(), config.label, 'The component contains the expected label');
+                assert.equal($container.find('.form-widget .widget-field input').attr('name'), config.uri, 'The component contains the expected field');
+                assert.equal($container.find('.form-widget .widget-field input').val(), config.value, 'The component contains the expected value');
+
+                this.destroy();
+            })
+            .on('destroy', function () {
+                ready();
+            })
+            .on('error', function (err) {
+                assert.ok(false, 'The operation should not fail!');
+                assert.pushResult({
+                    result: false,
+                    message: err
+                });
+                ready();
+            });
+    });
+
+    QUnit.test('render template', function (assert) {
+        var ready = assert.async();
+        var $container = $('#fixture-render');
+        var config = {
+            widget: 'renderTemplate',
+            uri: 'foo',
+            label: 'Foo',
+            value: 10
+        };
+        var instance;
+
+        assert.expect(13);
 
         widgetFactory.registerProvider(config.widget, {
             init: function init() {
@@ -344,6 +403,8 @@ define([
                 assert.equal($container.children().length, 1, 'The container contains an element');
                 assert.equal($container.children().is('.form-widget'), false, 'The container does not contain a form-widget element');
                 assert.equal($container.children().is('.foo'), true, 'The container contains the expected element');
+                assert.equal($container.children().is('.input-box'), true, 'The default type is set');
+                assert.ok(instance.is('input-box'), 'The widget type is reflected');
                 assert.equal($container.find('.form-widget .widget-label').length, 0, 'The component does not contain an area for the label');
                 assert.equal($container.find('.form-widget .widget-field').length, 0, 'The component does not contain an area for the field');
 
