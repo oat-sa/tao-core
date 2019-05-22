@@ -68,6 +68,12 @@ define([
         both : 'both'
     };
 
+    var selectAllPolicies = {
+        all: 'all',         // should select 100% of the nodes, but currently not implementable due to lazy loading
+        loaded: 'loaded',   // selects all loaded nodes, whether visible or not
+        visible: 'visible'  // selects only visible nodes
+    };
+
     var defaultConfig = {
         type : __('resources'),
         noResultsText : _('No resources found'),
@@ -75,6 +81,7 @@ define([
         icon : 'item',
         selectionMode : selectionModes.single,
         selectClass : false,
+        selectAllPolicy: selectAllPolicies.loaded,
         filters: false,
         showContext : true,
         showSelection : true,
@@ -503,6 +510,7 @@ define([
              */
             select: function select(node){
                 var uri = _.isString(node) ? node : node.uri;
+
                 if(this.hasNode(uri)){
                     if(!this.is('multiple')){
                         this.selectionComponent.clearSelection();
@@ -519,11 +527,12 @@ define([
              *
              * @param {Object|String} node - the node to select or directly the URI
              * @param {String} [node.uri]
-             * @param {Boolean} [fallback = true] - apply the fallback ?
+             * @param {Boolean} [fallback=true] - apply the fallback ?
              * @returns {resourceSelector} chains
              */
             selectDefaultNode : function selectDefaultNode(node, fallback){
                 var $resource;
+
                 if(this.is('rendered')){
                     if(this.hasNode(node)){
                         this.select(node);
@@ -573,7 +582,6 @@ define([
         var resourceSelector = component(resourceSelectorApi, defaultConfig)
             .setTemplate(selectorTpl)
             .on('init', function(){
-
                 this.searchQuery = {};
                 this.classUri    = this.config.classUri;
                 this.format      = this.config.format || _.findKey(this.config.formats, { active : true });
@@ -655,8 +663,12 @@ define([
                     $selectCtrl.on('change', function(){
                         if($(this).prop('checked') === false){
                             self.selectionComponent.clearSelection();
-                        } else {
+                        }
+                        else if (self.config.selectAllPolicy === selectAllPolicies.visible) {
                             self.selectionComponent.selectVisible();
+                        }
+                        else if (self.config.selectAllPolicy === selectAllPolicies.loaded) {
+                            self.selectionComponent.selectAll();
                         }
                     });
 
@@ -730,7 +742,6 @@ define([
                 });
             })
             .on('change', function(selected, onlyVisible){
-
                 var selectedCount = _.size(selected);
                 var nodesCount = onlyVisible ? selectedCount : _.size(this.selectionComponent.getNodes());
 
@@ -762,6 +773,9 @@ define([
 
     //Exposes the selection modes
     resourceSelectorFactory.selectionModes = selectionModes;
+
+    //Exposes the selectAllPolicies
+    resourceSelectorFactory.selectAllPolicies = selectAllPolicies;
 
     //Exposes the node types
     resourceSelectorFactory.nodeTypes = nodeTypes;
