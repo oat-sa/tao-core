@@ -23,6 +23,7 @@ use common_exception_Unauthorized;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\security\TokenGenerator;
+use oat\oatbox\service\exception\InvalidService;
 
 /**
  * This service let's you manage tokens to protect against XSRF.
@@ -289,7 +290,11 @@ class TokenService extends ConfigurableService
      */
     protected function getStore()
     {
-        return $this->getSubService(self::OPTION_STORE);
+        $store = $this->getOption(self::OPTION_STORE);
+        if (!$store instanceof TokenStore) {
+            throw new InvalidService('Unexpected store for '.__CLASS__);
+        }
+        return $this->propagate($store);
     }
 
     /**
@@ -304,7 +309,7 @@ class TokenService extends ConfigurableService
         $pool = $store->getTokens();
 
         if ($this->getTimeLimit() > 0) {
-            foreach ($pool as $key => $token) {
+            foreach ($pool as $token) {
                 if ($this->isExpired($token)) {
                     $this->revokeToken($token->getValue());
                 }
