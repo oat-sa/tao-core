@@ -350,18 +350,17 @@ define([
     QUnit.test('simple button', function(assert) {
         var $container = $('#visual-test .test');
         var $output = $('#visual-test .output');
+        var showDuration = 2000;
         var occurrence = 0;
 
-        function createInstance(id, label) {
-            button({
+        function createInstance(id, label, type, delay) {
+            return button({
                 id: id,
+                type: type,
                 label: label
             })
                 .on('render', function() {
                     assert.ok(true, 'Button "' + id + '" is rendered');
-                })
-                .before('click', function() {
-                    this.disable();
                 })
                 .on('click', function(buttonId) {
                     return new Promise(function(resolve) {
@@ -373,20 +372,29 @@ define([
                         window.setTimeout(function() {
                             $text.remove();
                             resolve();
-                        }, 2000);
+                        }, delay);
                     });
-                })
-                .after('click', function() {
-                    this.enable();
                 })
                 .render($container);
         }
 
-        assert.expect(3);
+        function createAsyncInstance(id, label, type, delay) {
+            return createInstance(id, label, type, delay)
+                .before('click', function() {
+                    this.disable();
+                })
+                .after('click', function() {
+                    this.enable();
+                });
+        }
 
-        createInstance('button-1', 'Button 1');
-        createInstance('button-2', 'Button 2');
-        createInstance('button-3', 'Button 3');
+        assert.expect(5);
+
+        createInstance('button-1', 'Button 1', 'info', showDuration);
+        createInstance('button-2', 'Button 2', 'warning', showDuration);
+        createInstance('button-3', 'Button 3', 'error', showDuration);
+        createInstance('button-4', 'Button 4', 'neutral', showDuration);
+        createAsyncInstance('async-button', 'Async Button', 'success', showDuration * 2);
     });
 
 });
