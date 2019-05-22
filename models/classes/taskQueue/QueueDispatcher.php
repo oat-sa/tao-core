@@ -329,8 +329,9 @@ class QueueDispatcher extends ConfigurableService implements QueueDispatcherInte
 
         // if we need to run the task straightaway, then run a worker on-the-fly for one round.
         if ($isEnqueued && $queue->isSync()) {
-            (new OneTimeWorker($queue, $this->getTaskLog()))
-                ->run();
+            $oneTimeWorker = new OneTimeWorker($queue, $this->getTaskLog());
+            $oneTimeWorker->setServiceLocator($this->getServiceLocator());
+            $oneTimeWorker->run();
         }
 
         return $isEnqueued;

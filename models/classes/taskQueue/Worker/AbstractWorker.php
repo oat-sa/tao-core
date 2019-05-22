@@ -29,10 +29,16 @@ use oat\tao\model\taskQueue\Task\TaskInterface;
 use oat\tao\model\taskQueue\TaskLog\CategorizedStatus;
 use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
 use oat\tao\model\taskQueue\TaskLogInterface;
+use oat\oatbox\service\ServiceManagerAwareInterface;
+use oat\oatbox\service\ServiceManagerAwareTrait;
+use oat\generis\model\user\UserFactoryServiceInterface;
+use oat\generis\model\OntologyAwareTrait;
 
-abstract class AbstractWorker implements WorkerInterface
+abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInterface
 {
     use LoggerAwareTrait;
+    use ServiceManagerAwareTrait;
+    use OntologyAwareTrait;
 
     /**
      * @var QueuerInterface
@@ -61,8 +67,9 @@ abstract class AbstractWorker implements WorkerInterface
     {
         if ($this->taskLog->getStatus($task->getId()) != TaskLogInterface::STATUS_CANCELLED) {
             $report = Report::createInfo(__('Running task %s', $task->getId()));
-
+            $this->startUserSession($task);
             try {
+                //$this->startUserSession($task);
                 $this->logInfo('Processing task ' . $task->getId(), $this->getLogContext());
 
                 $rowsTouched = $this->taskLog->setStatus($task->getId(), TaskLogInterface::STATUS_RUNNING, TaskLogInterface::STATUS_DEQUEUED);
@@ -163,6 +170,22 @@ abstract class AbstractWorker implements WorkerInterface
     protected function getLogContext()
     {
         return [];
+    }
+
+    /**
+     * @param TaskInterface $task
+     * @throws \common_exception_Error
+     * @throws \oat\oatbox\service\exception\InvalidServiceManagerException
+     */
+    private function startUserSession(TaskInterface $task)
+    {
+        if (\common_session_SessionManager::getSession()->getUser()->getIdentifier() !== $task->getOwner()) {
+            /** @var UserFactoryServiceInterface $userFactory */
+            $userFactory = $this->getServiceManager()->get(UserFactoryServiceInterface::SERVICE_ID);
+            $user = $userFactory->createUser($this->getResource($task->getOwner()));
+            $session = new \common_session_DefaultSession($user);
+            \common_session_SessionManager::startSession($session);
+        }
     }
 
     /**
