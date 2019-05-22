@@ -23,7 +23,7 @@ define([
     'jquery',
     'lodash',
     'core/promise',
-    'ui/form/form',
+    'ui/form/simpleForm',
     'ui/form/widget/widget'
 ], function (
     $,
@@ -174,12 +174,25 @@ define([
                 label: 'Text'
             }],
             buttons: [{
-                id: 'submit',
-                label: 'Submit'
+                id: 'foo',
+                label: 'Foo'
             }],
             values: {
                 text: 'foo 1'
             }
+        }
+    }, {
+        title: 'no reset',
+        config: {
+            widgets: [{
+                widget: 'text',
+                uri: 'text',
+                label: 'Text'
+            }],
+            values: {
+                text: 'foo 2'
+            },
+            reset: false
         }
     }, {
         title: 'default widget',
@@ -189,20 +202,27 @@ define([
                 label: 'Text'
             }],
             buttons: [{
-                id: 'submit',
-                label: 'Submit'
+                id: 'foo',
+                label: 'Foo'
             }],
             values: {
-                text: 'foo 2'
+                text: 'foo 3'
             }
         }
     }]).test('render', function (data, assert) {
         var ready = assert.async();
         var $container = $('#fixture-render');
         var widgets = data.config && data.config.widgets;
-        var buttons = data.config && data.config.buttons;
+        var buttons = [{
+            id: 'reset'
+        }, {
+            id: 'submit'
+        }].concat(data.config && data.config.buttons || []);
         var instance;
 
+        if (data.config && data.config.reset === false) {
+            buttons.shift();
+        }
         assert.expect(9 + _.size(widgets) + _.size(buttons));
 
         assert.equal($container.children().length, 0, 'The container is empty');
@@ -284,7 +304,7 @@ define([
                 assert.equal($container.find('.form-component fieldset').length, 1, 'The component contains an area for the form widgets');
                 assert.equal($container.find('.form-component .toolbar').length, 1, 'The component contains an area for the buttons');
                 assert.equal($container.find('.form-component fieldset').children().length, 0, 'The component should not contain any form widgets');
-                assert.equal($container.find('.form-component .toolbar').children().length, 0, 'The component should not contain any form buttons');
+                assert.equal($container.find('.form-component .toolbar').children().length, 2, 'The component should only contain the default form buttons');
 
                 this.destroy();
             })
@@ -308,10 +328,7 @@ define([
                 uri: 'text',
                 label: 'Text'
             }],
-            buttons: [{
-                id: 'submit',
-                label: 'Submit'
-            }]
+            reset: false
         })
             .on('init', function () {
                 assert.equal(this, instance, 'The instance has been initialized');
@@ -374,10 +391,7 @@ define([
                 uri: 'text',
                 label: 'Text'
             }],
-            buttons: [{
-                id: 'submit',
-                label: 'Submit'
-            }]
+            reset: false
         });
 
         instance
@@ -716,8 +730,8 @@ define([
                 assert.equal($container.find('.form-component fieldset [name="foo"]').length, 1, 'The component contains the widget foo');
                 assert.notEqual(instance.getWidget('text'), null, 'The widget text exists');
                 assert.notEqual(instance.getWidget('foo'), null, 'The widget foo exists');
-                assert.equal(instance.getWidget('text').getConfig().range, ranges.range1, 'The widget text got the expected range');
-                assert.equal(instance.getWidget('foo').getConfig().range, ranges.range2, 'The widget foo got the expected range');
+                assert.deepEqual(instance.getWidget('text').getConfig().range, ranges.range1, 'The widget text got the expected range');
+                assert.deepEqual(instance.getWidget('foo').getConfig().range, ranges.range2, 'The widget foo got the expected range');
                 instance.destroy();
             })
             .catch(function () {
@@ -1059,7 +1073,7 @@ define([
         var $container = $('#fixture-button-add-before');
         var instance;
 
-        assert.expect(13);
+        assert.expect(15);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
@@ -1082,7 +1096,9 @@ define([
                 assert.equal($container.children().is('.form-component'), true, 'The container contains the expected element');
                 assert.equal($container.find('.form-component fieldset').length, 1, 'The component contains an area for the form widgets');
                 assert.equal($container.find('.form-component .toolbar').length, 1, 'The component contains an area for the buttons');
-                assert.equal($container.find('.form-component .toolbar').children().length, 2, 'The component contains the expected initial amount of buttons');
+                assert.equal($container.find('.form-component .toolbar').children().length, 4, 'The component contains the expected initial amount of buttons');
+                assert.equal($container.find('.form-component .toolbar [data-control="submit"]').length, 1, 'The component contains the button submit');
+                assert.equal($container.find('.form-component .toolbar [data-control="reset"]').length, 1, 'The component contains the button reset');
                 assert.equal($container.find('.form-component .toolbar [data-control="text"]').length, 1, 'The component contains the button text');
                 assert.equal($container.find('.form-component .toolbar [data-control="foo"]').length, 1, 'The component contains the button foo');
                 assert.notEqual(instance.getButton('text'), null, 'The button text exists');
@@ -1116,7 +1132,7 @@ define([
         var $container = $('#fixture-button-add-after');
         var instance;
 
-        assert.expect(21);
+        assert.expect(23);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
@@ -1138,7 +1154,9 @@ define([
                         assert.equal($container.children().is('.form-component'), true, 'The container contains the expected element');
                         assert.equal($container.find('.form-component fieldset').length, 1, 'The component contains an area for the form buttons');
                         assert.equal($container.find('.form-component .toolbar').length, 1, 'The component contains an area for the buttons');
-                        assert.equal($container.find('.form-component .toolbar').children().length, 1, 'The component contains the expected initial amount of buttons');
+                        assert.equal($container.find('.form-component .toolbar').children().length, 3, 'The component contains the expected initial amount of buttons');
+                        assert.equal($container.find('.form-component .toolbar [data-control="submit"]').length, 1, 'The component contains the button submit');
+                        assert.equal($container.find('.form-component .toolbar [data-control="reset"]').length, 1, 'The component contains the button reset');
                         assert.equal($container.find('.form-component .toolbar [data-control="text"]').length, 1, 'The component contains the button text');
                         assert.equal($container.find('.form-component .toolbar [data-control="foo"]').length, 0, 'The component does not contain yet the button foo');
                         assert.equal(instance.getButton('foo'), null, 'The button does not exist');
@@ -1163,7 +1181,7 @@ define([
                                     assert.equal(button, instance.getButton('foo'), 'The button is provided');
                                     assert.notEqual(instance.getButton('foo'), null, 'The button foo now exists');
                                     assert.equal($container.find('.form-component .toolbar [data-control="foo"]').length, 1, 'The component now contains the button foo');
-                                    assert.equal($container.find('.form-component .toolbar').children().length, 2, 'The component now contains 2 form buttons');
+                                    assert.equal($container.find('.form-component .toolbar').children().length, 4, 'The component now contains 4 form buttons');
                                 })
                         ]);
                     })
@@ -1212,7 +1230,7 @@ define([
         var $container = $('#fixture-button-set-before');
         var instance;
 
-        assert.expect(14);
+        assert.expect(16);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
@@ -1237,7 +1255,9 @@ define([
                 assert.equal($container.children().is('.form-component'), true, 'The container contains the expected element');
                 assert.equal($container.find('.form-component fieldset').length, 1, 'The component contains an area for the form buttons');
                 assert.equal($container.find('.form-component .toolbar').length, 1, 'The component contains an area for the buttons');
-                assert.equal($container.find('.form-component .toolbar').children().length, 2, 'The component contains the expected initial amount of buttons');
+                assert.equal($container.find('.form-component .toolbar').children().length, 4, 'The component contains the expected initial amount of buttons');
+                assert.equal($container.find('.form-component .toolbar [data-control="submit"]').length, 1, 'The component contains the button submit');
+                assert.equal($container.find('.form-component .toolbar [data-control="reset"]').length, 1, 'The component contains the button reset');
                 assert.equal($container.find('.form-component .toolbar [data-control="text"]').length, 1, 'The component contains the button text');
                 assert.equal($container.find('.form-component .toolbar [data-control="foo"]').length, 1, 'The component contains the button foo');
                 assert.notEqual(instance.getButton('text'), null, 'The button text exists');
@@ -1271,7 +1291,7 @@ define([
         var $container = $('#fixture-button-set-after');
         var instance;
 
-        assert.expect(28);
+        assert.expect(33);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
@@ -1294,10 +1314,12 @@ define([
                         assert.equal($container.children().is('.form-component'), true, 'The container contains the expected element');
                         assert.equal($container.find('.form-component fieldset').length, 1, 'The component contains an area for the form buttons');
                         assert.equal($container.find('.form-component .toolbar').length, 1, 'The component contains an area for the buttons');
-                        assert.equal($container.find('.form-component .toolbar').children().length, 1, 'The component contains the expected initial amount of buttons');
+                        assert.equal($container.find('.form-component .toolbar').children().length, 3, 'The component contains the expected initial amount of buttons');
+                        assert.equal($container.find('.form-component .toolbar [data-control="submit"]').length, 1, 'The component contains the button submit');
+                        assert.equal($container.find('.form-component .toolbar [data-control="reset"]').length, 1, 'The component contains the button reset');
                         assert.equal($container.find('.form-component .toolbar [data-control="text"]').length, 1, 'The component contains the button text');
 
-                        assert.equal(_.size(buttons), 1, 'The expected amount of buttons is returned');
+                        assert.equal(_.size(buttons), 3, 'The expected amount of buttons is returned');
                         assert.notEqual(buttons.text, null, 'The button text is returned');
                         assert.equal(typeof buttons.text, 'object', 'The button text is an object');
                     })
@@ -1310,9 +1332,8 @@ define([
                                 instance
                                     .off('.test')
                                     .on('buttonremove.test', function (id) {
-                                        assert.equal(id, 'text', 'The buttonremove event has been triggered');
-                                        assert.equal($container.find('.form-component .toolbar [data-control="text"]').length, 0, 'The component does not contain the button text anymore');
-                                        assert.equal(instance.getButton('text'), null, 'The button text does not exist anymore');
+                                        assert.equal($container.find('.form-component .toolbar [data-control="' + id + '"]').length, 0, 'The component does not contain the button text anymore');
+                                        assert.equal(instance.getButton(id), null, 'The button text does not exist anymore');
                                     })
                                     .on('buttonadd.test', function (id, button) {
                                         assert.equal(id, 'foo', 'The buttonadd event has been triggered');
@@ -1379,14 +1400,14 @@ define([
         var $container = $('#fixture-button-click');
         var instance;
 
-        assert.expect(16);
+        assert.expect(18);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
         instance = formFactory($container, {
             buttons: [{
-                id: 'submit',
-                label: 'Submit'
+                id: 'ok',
+                label: 'Ok'
             }]
         });
 
@@ -1401,8 +1422,10 @@ define([
                         assert.equal($container.children().is('.form-component'), true, 'The container contains the expected element');
                         assert.equal($container.find('.form-component fieldset').length, 1, 'The component contains an area for the form widgets');
                         assert.equal($container.find('.form-component .toolbar').length, 1, 'The component contains an area for the buttons');
-                        assert.equal($container.find('.form-component .toolbar').children().length, 1, 'The component contains the expected initial amount of buttons');
+                        assert.equal($container.find('.form-component .toolbar').children().length, 3, 'The component contains the expected initial amount of buttons');
                         assert.equal($container.find('.form-component .toolbar [data-control="submit"]').length, 1, 'The component contains the button submit');
+                        assert.equal($container.find('.form-component .toolbar [data-control="reset"]').length, 1, 'The component contains the button reset');
+                        assert.equal($container.find('.form-component .toolbar [data-control="ok"]').length, 1, 'The component contains the button ok');
                         assert.equal($container.find('.form-component .toolbar [data-control="foo"]').length, 0, 'The component does not contain yet the button foo');
                         assert.equal(instance.getButton('foo'), null, 'The button foo does not exist');
                         return instance.addButton({
@@ -1412,17 +1435,17 @@ define([
                     })
                     .then(function () {
                         return new Promise(function (resolve) {
-                            assert.notEqual(instance.getButton('submit'), null, 'The button submit exists');
+                            assert.notEqual(instance.getButton('ok'), null, 'The button ok exists');
                             instance
                                 .off('.test')
                                 .on('button.test', function (id) {
-                                    assert.equal(id, 'submit', 'The button event has been triggered');
+                                    assert.equal(id, 'ok', 'The button event has been triggered');
                                 })
-                                .on('button-submit.test', function () {
-                                    assert.ok(true, 'The button-submit event has been triggered');
+                                .on('button-ok.test', function () {
+                                    assert.ok(true, 'The button-ok event has been triggered');
                                     resolve();
                                 });
-                            $container.find('.form-component .toolbar [data-control="submit"]').click();
+                            $container.find('.form-component .toolbar [data-control="ok"]').click();
                         });
                     })
                     .then(function () {
@@ -1890,7 +1913,7 @@ define([
         var $container = $('#fixture-submit');
         var instance = formFactory($container);
 
-        assert.expect(13);
+        assert.expect(17);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
@@ -1903,6 +1926,8 @@ define([
                 assert.equal($container.children().is('.form-component'), true, 'The container contains the expected element');
                 assert.equal($container.find('.form-component fieldset').length, 1, 'The component contains an area for the form widgets');
                 assert.equal($container.find('.form-component .toolbar').length, 1, 'The component contains an area for the buttons');
+                assert.equal($container.find('.form-component .toolbar [data-control="submit"]').length, 1, 'The component contains the button submit');
+                assert.equal($container.find('.form-component .toolbar [data-control="reset"]').length, 1, 'The component contains the button reset');
 
                 Promise.resolve()
                     .then(function () {
@@ -1972,6 +1997,27 @@ define([
                     })
                     .then(function () {
                         return new Promise(function (resolve) {
+                            instance
+                                .off('.test')
+                                .setValues({
+                                    foo: 'bar'
+                                })
+                                .on('invalid.test', function () {
+                                    assert.ok(false, 'The invalid event should not be emitted');
+                                    resolve();
+                                })
+                                .on('submit.test', function (values) {
+                                    assert.ok(true, 'The submit event has been emitted');
+                                    assert.deepEqual(values, {
+                                        foo: 'bar'
+                                    }, 'The list of values is provided');
+                                    resolve();
+                                });
+                            $container.find('[data-control="submit"]').click();
+                        });
+                    })
+                    .then(function () {
+                        return new Promise(function (resolve) {
                             instance.getWidget('foo').validate = function () {
                                 return Promise.reject(false);
                             };
@@ -2019,7 +2065,7 @@ define([
         var $container = $('#fixture-reset');
         var instance = formFactory($container);
 
-        assert.expect(14);
+        assert.expect(19);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
@@ -2032,6 +2078,8 @@ define([
                 assert.equal($container.children().is('.form-component'), true, 'The container contains the expected element');
                 assert.equal($container.find('.form-component fieldset').length, 1, 'The component contains an area for the form widgets');
                 assert.equal($container.find('.form-component .toolbar').length, 1, 'The component contains an area for the buttons');
+                assert.equal($container.find('.form-component .toolbar [data-control="submit"]').length, 1, 'The component contains the button submit');
+                assert.equal($container.find('.form-component .toolbar [data-control="reset"]').length, 1, 'The component contains the button reset');
 
                 Promise.resolve()
                     .then(function () {
@@ -2105,6 +2153,30 @@ define([
                             $container.find('form').get(0).reset();
                         });
                     })
+                    .then(function () {
+                        instance.setValues({
+                            foo: 'bar'
+                        });
+                        assert.deepEqual(instance.getValues(), {
+                            foo: 'bar'
+                        }, 'The values are set');
+                        return new Promise(function (resolve) {
+                            instance
+                                .off('.test')
+                                .on('invalid.test', function () {
+                                    assert.ok(false, 'The invalid event should not be emitted');
+                                    resolve();
+                                })
+                                .on('reset.test', function () {
+                                    assert.ok(true, 'The reset event has been emitted');
+                                    assert.deepEqual(instance.getValues(), {
+                                        foo: ''
+                                    }, 'The list of values is reset');
+                                    resolve();
+                                });
+                            $container.find('[data-control="reset"]').click();
+                        });
+                    })
                     .catch(function (err) {
                         assert.ok(false, 'The operation should not fail!');
                         assert.pushResult({
@@ -2139,17 +2211,11 @@ define([
         var $outputChange = $('#visual-test .change-output');
         var $outputSubmit = $('#visual-test .submit-output');
         var instance = formFactory($container, {
+            title: 'Simple Form',
             widgets: [{
                 widget: 'text',
                 uri: 'text',
                 label: 'Text'
-            }],
-            buttons: [{
-                id: 'submit',
-                label: 'Submit'
-            }, {
-                id: 'clear',
-                label: 'Clear'
             }]
         });
 
@@ -2167,12 +2233,6 @@ define([
             })
             .on('change', function (uri, value) {
                 $outputChange.val('value of [' + uri + '] changed to "' + value + '"\n' + $outputChange.val());
-            })
-            .on('button-clear', function () {
-                this.reset();
-            })
-            .on('button-submit', function () {
-                this.submit();
             })
             .on('reset', function () {
                 $outputChange.val('');
