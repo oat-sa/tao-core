@@ -192,6 +192,7 @@ define([
              * @fires selectable#change
              */
             select : function select(uris, only, onlyVisible, withChildren){
+                var self = this;
                 var $component;
                 var currentConfig  = getConfig();
 
@@ -230,7 +231,7 @@ define([
 
                                 selection[uri] = nodes[uri];
                             }
-                            if (withChildren) {
+                            if (withChildren && self.is('multiple')) {
                                 // add children to selection object
                                 $node.find('[data-uri]')
                                     .each(function(i, child) {

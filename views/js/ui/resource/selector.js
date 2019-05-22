@@ -335,7 +335,7 @@ define([
                     /**
                      * The selection mode has changed
                      * @event resourceSelector#selectionmodechange
-                     * @param {String} mode - the new selection mode
+                     * @param {String} newMode - the new selection mode
                      */
                     this.trigger('selectionmodechange', newMode);
                 }
