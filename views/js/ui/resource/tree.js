@@ -312,7 +312,7 @@ define([
                             if($class.hasClass('selected')){
                                 self.unselect($class.data('uri'));
                             } else if ($class.data('access') !== 'denied') {
-                                self.select($class.data('uri'), !self.is('multiple'));
+                                self.select($class.data('uri'), !self.is('multiple'), false, true); // include children
                             }
                         }
                     });

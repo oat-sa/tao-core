@@ -187,10 +187,11 @@ define([
              * @param {String[]} uris - the list of URIs to select
              * @param {Boolean} [only=false] - if true the selection is done "only" on the given URIs (unselect previous)
              * @param {Boolean} [onlyVisible=true] - if true the selection was done "only" for visible nodes.
+             * @param {Boolean} [withChildren=false] - if true, all loaded children of selected node(s) get selected
              * @returns {selectable} chains
              * @fires selectable#change
              */
-            select : function select(uris, only, onlyVisible){
+            select : function select(uris, only, onlyVisible, withChildren){
                 var $component;
                 var currentConfig  = getConfig();
 
@@ -229,6 +230,19 @@ define([
 
                                 selection[uri] = nodes[uri];
                             }
+                            if (withChildren) {
+                                // add children to selection object
+                                $node.find('[data-uri]')
+                                    .each(function(i, child) {
+                                        $(child).addClass(selectedClass);
+                                    })
+                                    .map(function() {
+                                        return $(this).data('uri');
+                                    })
+                                    .each(function(i, childUri) {
+                                        selection[childUri] = nodes[childUri];
+                                    });
+                            }
                         });
                     this.trigger('change', selection, onlyVisible);
                 }
@@ -244,6 +258,7 @@ define([
                 var $elements = $component.find('[data-uri]').filter(function () {
                     return $(this).parents('.closed').length === 0;
                 });
+
                 this.select(_.map($elements, function (element) {
                     return $(element).data('uri');
                 }), false, true);
@@ -275,6 +290,17 @@ define([
 
                                 selection = _.omit(selection, uri);
                             }
+                            // always unselect children
+                            $node.find('[data-uri]')
+                                .each(function(i, child) {
+                                    $(child).removeClass(selectedClass);
+                                })
+                                .map(function() {
+                                    return $(this).data('uri');
+                                })
+                                .each(function(i, childUri) {
+                                    selection = _.omit(selection, childUri);
+                                });
                         });
                     this.trigger('change', selection);
                 }
