@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint100\n"
-"PO-Revision-Date: 2019-04-26T09:07:52\n"
+"Project-Id-Version: TAO 3.3.0-sprint101\n"
+"PO-Revision-Date: 2019-05-10T14:58:04\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: en-US\n"
@@ -458,6 +458,9 @@ msgstr ""
 msgid "Clear selection"
 msgstr ""
 
+msgid "Clear the date time picker"
+msgstr ""
+
 msgid "Clear the stored variables"
 msgstr ""
 
@@ -569,10 +572,10 @@ msgstr ""
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data language"
+msgid "Data Language"
 msgstr ""
 
-msgid "Data Language"
+msgid "Data language"
 msgstr ""
 
 msgid "Data not imported. All records are invalid."
@@ -1015,10 +1018,10 @@ msgstr ""
 msgid "Instance saved"
 msgstr ""
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr ""
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr ""
 
 msgid "Invalid CSP header."
@@ -1314,10 +1317,10 @@ msgstr ""
 msgid "no label"
 msgstr ""
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr ""
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr ""
 
 msgid "No results found"
@@ -1631,6 +1634,9 @@ msgstr ""
 msgid "Resource copied"
 msgstr ""
 
+msgid "Resource deleted"
+msgstr ""
+
 msgid "Resource Identifier"
 msgstr ""
 
@@ -1845,6 +1851,12 @@ msgid "string"
 msgstr ""
 
 msgid "Success"
+msgstr ""
+
+msgid "Successfully cloned instance as %s"
+msgstr ""
+
+msgid "Successfully deleted %s"
 msgstr ""
 
 msgid "Successfully imported \"%s"
@@ -2091,6 +2103,9 @@ msgid "Unable to move the resources"
 msgstr ""
 
 msgid "Unable to open file %s"
+msgstr ""
+
+msgid "Unable to process your request"
 msgstr ""
 
 msgid "Unable to release the lock"
