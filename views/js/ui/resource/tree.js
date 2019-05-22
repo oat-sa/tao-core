@@ -265,9 +265,9 @@ define([
                     }
                     if(node) {
                         node.state = 'open';
-                        self.update([node]);
                     }
-                    $class.removeClass('closed');
+                    $class.addClass('open')
+                        .removeClass('closed');
                 };
 
                 /**
@@ -278,9 +278,9 @@ define([
                     var node = self.getNode($class.data('uri'));
                     if(node) {
                         node.state = 'closed';
-                        self.update([node]);
                     }
-                    $class.addClass('closed');
+                    $class.removeClass('open')
+                        .addClass('closed');
                 };
 
                 /**
