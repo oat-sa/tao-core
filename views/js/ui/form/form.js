@@ -29,7 +29,8 @@ define([
     'ui/component',
     'ui/button',
     'ui/hider',
-    'ui/form/widget/widget',
+    'ui/form/widget/definitions',
+    'ui/form/widget/loader',
     'tpl!ui/form/tpl/form',
     'css!ui/form/css/form.css'
 ], function (
@@ -41,6 +42,7 @@ define([
     componentFactory,
     buttonFactory,
     hider,
+    widgetDefinitions,
     widgetFactory,
     formTpl
 ) {
@@ -136,12 +138,12 @@ define([
      *  var config = {
      *      title: 'My fancy form',
      *      widgets: [{
-     *          widget: 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox'
+     *          widget: widgetDefinitions.TEXTBOX
      *          uri: 'nickname',
      *          label: 'Name',
      *          required: true
      *      }, {
-     *          widget: 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextArea'
+     *          widget: widgetDefinitions.TEXTAREA
      *          uri: 'comment',
      *          label: 'Comment',
      *          required: true
@@ -264,6 +266,10 @@ define([
                         var ranges = self.getRanges();
                         if (definition.range && 'string' === typeof definition.range) {
                             definition.range = ranges[definition.range];
+                        }
+
+                        if (!definition.widget) {
+                            definition.widget = widgetDefinitions.DEFAULT;
                         }
 
                         return new Promise(function (resolve) {
@@ -642,14 +648,15 @@ define([
                 }
 
                 Promise.all(initPromises)
-                    .catch(function (err) {
-                        self.trigger('error', err);
-                    })
                     .then(function () {
                         if (_.size(initConfig.values)) {
                             self.setValues(initConfig.values);
                         }
-
+                    })
+                    .catch(function (err) {
+                        self.trigger('error', err);
+                    })
+                    .then(function () {
                         /**
                          * @event ready
                          */

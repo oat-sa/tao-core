@@ -178,7 +178,22 @@ define([
                 label: 'Submit'
             }],
             values: {
-                text: 'foo'
+                text: 'foo 1'
+            }
+        }
+    }, {
+        title: 'default widget',
+        config: {
+            widgets: [{
+                uri: 'text',
+                label: 'Text'
+            }],
+            buttons: [{
+                id: 'submit',
+                label: 'Submit'
+            }],
+            values: {
+                text: 'foo 2'
             }
         }
     }]).test('render', function (data, assert) {
