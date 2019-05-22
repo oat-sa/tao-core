@@ -67,9 +67,8 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
     {
         if ($this->taskLog->getStatus($task->getId()) != TaskLogInterface::STATUS_CANCELLED) {
             $report = Report::createInfo(__('Running task %s', $task->getId()));
-            $this->startUserSession($task);
             try {
-                //$this->startUserSession($task);
+                $this->startUserSession($task);
                 $this->logInfo('Processing task ' . $task->getId(), $this->getLogContext());
 
                 $rowsTouched = $this->taskLog->setStatus($task->getId(), TaskLogInterface::STATUS_RUNNING, TaskLogInterface::STATUS_DEQUEUED);
