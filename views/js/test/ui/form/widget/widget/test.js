@@ -987,6 +987,79 @@ define([
             });
     });
 
+    QUnit.test('reset provider', function (assert) {
+        var ready = assert.async();
+        var $container = $('#fixture-reset');
+        var instance;
+
+        assert.expect(13);
+
+        widgetFactory.registerProvider('reset', {
+            init: function init() {
+                assert.ok(true, 'The provider init() method is called');
+            },
+            reset: function reset() {
+                assert.ok(true, 'The provider reset() method is called');
+                this.setValue('');
+            }
+        });
+
+        assert.equal($container.children().length, 0, 'The container is empty');
+
+        instance = widgetFactory($container, {widget: 'reset', uri: 'foo', value: 'bar'})
+            .on('init', function () {
+                assert.equal(this, instance, 'The instance has been initialized');
+            })
+            .on('ready', function () {
+                Promise.resolve()
+                    .then(function () {
+                        assert.equal($container.children().length, 1, 'The container contains an element');
+                        assert.equal($container.children().is('.form-widget'), true, 'The container contains the expected element');
+                        assert.equal($container.find('.form-widget .widget-label').length, 1, 'The component contains an area for the label');
+                        assert.equal($container.find('.form-widget .widget-field').length, 1, 'The component contains an area for the field');
+                        assert.equal($container.find('.form-widget .widget-field input').attr('name'), 'foo', 'The component contains the expected field');
+                        assert.equal(instance.getValue(), 'bar', 'Init value');
+
+                        return new Promise(function (resolve) {
+                            instance
+                                .off('.test')
+                                .on('change.test', function (value, uri) {
+                                    assert.equal(uri, 'foo', 'The change event has been triggered');
+                                    assert.equal(value, '', 'The expected value is there');
+                                    resolve();
+                                })
+                                .reset();
+                        });
+                    })
+                    .then(function () {
+                        assert.equal(instance.getValue(), '', 'The value has been reset');
+                    })
+                    .catch(function (err) {
+                        assert.ok(false, 'The operation should not fail!');
+                        assert.pushResult({
+                            result: false,
+                            message: err
+                        });
+                    })
+                    .then(function () {
+                        instance
+                            .off('.test')
+                            .destroy();
+                    });
+            })
+            .on('destroy', function () {
+                ready();
+            })
+            .on('error', function (err) {
+                assert.ok(false, 'The operation should not fail!');
+                assert.pushResult({
+                    result: false,
+                    message: err
+                });
+                ready();
+            });
+    });
+
     QUnit.module('Visual');
 
     QUnit.test('Visual test', function (assert) {

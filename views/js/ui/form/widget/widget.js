@@ -168,7 +168,11 @@ define([
              * @returns {widgetForm}
              */
             reset: function reset() {
-                this.setValue('');
+                if (_.isFunction(provider.reset)) {
+                    provider.reset.call(this);
+                } else {
+                    this.setValue('');
+                }
                 return this;
             },
 
