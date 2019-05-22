@@ -1,3 +1,3 @@
-.form-component{border:1px solid #ddd;border-radius:2px;-webkit-border-radius:2px;background-color:#f3f1ef;padding:20px;position:relative;margin:20px;width:500px}.form-component h2{margin-top:0}.form-component .toolbar{margin-top:30px;text-align:right}.form-component .toolbar button:not(:first-child){margin-left:10px}
+.form-component{border:1px solid #ddd;border-radius:2px;-webkit-border-radius:2px;background-color:#f3f1ef;padding:20px;position:relative;margin:20px;width:500px}.form-component>h2{margin-top:0}.form-component .form-actions{margin-top:30px;text-align:right}.form-component .form-actions button:not(:first-child){margin-left:10px}
 
 /*# sourceMappingURL=form.css.map */

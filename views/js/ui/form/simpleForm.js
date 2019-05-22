@@ -26,12 +26,23 @@ define([
     'use strict';
 
     /**
+     * @typedef {formConfig} simpleFormConfig Defines the config entries available to setup a form
+     * @property {String} [submitText] - The caption of the submit button
+     * @property {String} [submitIcon] - The icon of the submit button
+     * @property {String} [resetText] - The caption of the reset button
+     * @property {String} [resetIcon] - The icon of the reset button
+     * @property {Boolean} [reset] - Activate the reset button
+     */
+
+    /**
      * Default config values
-     * @type {Object}
+     * @type {simpleFormConfig}
      */
     var defaultConfig = {
         submitText: __('Save'),
+        submitIcon: 'save',
         resetText: __('Reset'),
+        resetIcon: 'reset',
         reset: true
     };
 
@@ -63,7 +74,12 @@ define([
      *      });
      *
      * @param {HTMLElement|String} container
-     * @param {formConfig} config
+     * @param {simpleFormConfig} config
+     * @param {String} [config.submitText] - The caption of the submit button
+     * @param {String} [config.submitIcon] - The icon of the submit button
+     * @param {String} [config.resetText] - The caption of the reset button
+     * @param {String} [config.resetIcon] - The icon of the reset button
+     * @param {Boolean} [config.reset] - Activate the reset button
      * @param {String} [config.title] - An optional title for the form (default none)
      * @param {String} [config.formAction] - The url the form is targeting (default '#')
      * @param {String} [config.formMethod] - The HTTP method the form should use (default 'get')
@@ -83,7 +99,7 @@ define([
                 type: 'neutral',
                 id: 'reset',
                 label: config.resetText,
-                icon: 'reset'
+                icon: config.resetIcon
             });
         }
 
@@ -91,7 +107,7 @@ define([
             type: 'info',
             id: 'submit',
             label: config.submitText,
-            icon: 'save'
+            icon: config.submitIcon
         });
 
         return formFactory(container, config)

@@ -623,7 +623,7 @@ define([
                     $title: $element.find('h2'),
                     $form: $element.find('form'),
                     $widgets: $element.find('fieldset'),
-                    $buttons: $element.find('.toolbar')
+                    $buttons: $element.find('.form-actions')
                 };
 
                 // prevent the default behavior of the form for submitting
