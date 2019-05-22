@@ -1,0 +1,56 @@
+@import "inc/bootstrap";
+
+.dropdown-form {
+    position: relative;
+
+    .trigger-button {
+        button {
+            span:after {
+                @include tao-icon-setup;
+                @include icon-down;
+                padding-left: 1rem;
+            }
+        }
+    }
+
+    .form-panel {
+        display: none;
+        position: absolute;
+        z-index: 10000001;
+
+        padding: 0;
+        background: $canvas;
+        @include simple-border($uiGeneralContentBorder);
+        border-top: 2px solid $uiGeneralContentBorder;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+
+        .form-component {
+            border: none;
+            margin: 0;
+
+            fieldset {
+                max-height: calc(100vh - 40px);
+                overflow-y: auto;
+            }
+        }
+    }
+    &.open-on-left .form-panel {
+        left: 0;
+    }
+    &.open-on-right .form-panel {
+        right: 0;
+    }
+    &.open {
+        .trigger-button {
+            button {
+                span:after {
+                    @include icon-up;
+                }
+            }
+        }
+        .form-panel {
+            display: block;
+        }
+    }
+}
