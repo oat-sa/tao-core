@@ -33,6 +33,7 @@ use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\generis\model\user\UserFactoryServiceInterface;
 use oat\generis\model\OntologyAwareTrait;
+use oat\oatbox\session\SessionService;
 
 abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInterface
 {
@@ -178,7 +179,8 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
      */
     private function startUserSession(TaskInterface $task)
     {
-        if (\common_session_SessionManager::getSession()->getUser()->getIdentifier() !== $task->getOwner()) {
+        $session = $this->getServiceLocator->get(SessionService::class)->getSession();
+        if ($session->getUser()->getIdentifier() !== $task->getOwner()) {
             /** @var UserFactoryServiceInterface $userFactory */
             $userFactory = $this->getServiceManager()->get(UserFactoryServiceInterface::SERVICE_ID);
             $user = $userFactory->createUser($this->getResource($task->getOwner()));

@@ -20,6 +20,7 @@
 
 namespace oat\tao\test\integration\model\taskQueue;
 
+use oat\oatbox\service\ServiceManager;
 use oat\tao\model\taskQueue\Queue;
 use oat\tao\model\taskQueue\Queue\Broker\InMemoryQueueBroker;
 use oat\tao\model\taskQueue\QueueDispatcher;
@@ -41,6 +42,19 @@ class QueueDispatcherTest extends \PHPUnit_Framework_TestCase
     public function testDispatcherWhenQueuesAreEmptyThenThrowException()
     {
         new QueueDispatcher([]);
+    }
+
+    /**
+     * @expectedException \common_exception_Error
+     * @expectedExceptionMessage  Task Log service needs to be set.
+     */
+    public function testDispatcherNoTaskLogThenThrowException()
+    {
+        new QueueDispatcher([
+            QueueDispatcher::OPTION_QUEUES =>[
+                new Queue('queueA', new InMemoryQueueBroker())
+            ]
+        ]);
     }
 
     /**
@@ -104,5 +118,31 @@ class QueueDispatcherTest extends \PHPUnit_Framework_TestCase
             ->willReturn($this->returnValue(true));
 
         $this->assertInstanceOf(CallbackTaskInterface::class, $queueMock->createTask([CallableFixture::class, 'exampleStatic'], []) );
+    }
+
+
+    public function testOneTimeWorkerHasServiceLocator()
+    {
+        $taskMock = $this->getMockForAbstractClass(AbstractTask::class, [], "", false);
+        $taskLogMock = $this->getMockBuilder(\oat\tao\model\taskQueue\TaskLog::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $config = new \common_persistence_KeyValuePersistence([], new \common_persistence_InMemoryKvDriver());
+        $serviceManager = new ServiceManager($config);
+        $serviceManager->register('tao/taskLog', $taskLogMock);
+        $serviceManager->register('generis/log', $this->getMock(\oat\oatbox\log\LoggerService::class));
+        $serviceManager->register('tao/TaskSerializer', $this->getMock(\oat\tao\model\taskQueue\Task\TaskSerializerService::class));
+
+        $dispatcher = new QueueDispatcher([
+            QueueDispatcher::OPTION_QUEUES => [
+                new Queue('queueA', new InMemoryQueueBroker())
+            ],
+            QueueDispatcher::OPTION_TASK_LOG => 'tao/taskLog',
+        ]);
+
+        $serviceManager->propagate($dispatcher);
+
+        $this->assertTrue($dispatcher->enqueue($taskMock));
+
     }
 }
