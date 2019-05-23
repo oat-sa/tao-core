@@ -22,6 +22,7 @@ namespace oat\tao\model\taskQueue\Worker;
 
 use common_report_Report as Report;
 use oat\oatbox\log\LoggerAwareTrait;
+use oat\oatbox\session\StatelessSession;
 use oat\tao\model\taskQueue\QueuerInterface;
 use oat\tao\model\taskQueue\Task\CallbackTaskInterface;
 use oat\tao\model\taskQueue\Task\RemoteTaskSynchroniserInterface;
@@ -174,18 +175,17 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
 
     /**
      * @param TaskInterface $task
-     * @throws \common_exception_Error
      * @throws \oat\oatbox\service\exception\InvalidServiceManagerException
      */
     private function startUserSession(TaskInterface $task)
     {
-        $session = $this->getServiceLocator->get(SessionService::class)->getSession();
-        if ($session->getUser()->getIdentifier() !== $task->getOwner()) {
+        $sessionService = $this->getServiceLocator()->get(SessionService::class);
+        if ($sessionService->getCurrentSession()->getUser()->getIdentifier() !== $task->getOwner()) {
             /** @var UserFactoryServiceInterface $userFactory */
             $userFactory = $this->getServiceManager()->get(UserFactoryServiceInterface::SERVICE_ID);
             $user = $userFactory->createUser($this->getResource($task->getOwner()));
-            $session = new \common_session_DefaultSession($user);
-            \common_session_SessionManager::startSession($session);
+            $session = new StatelessSession($user);
+            $sessionService->setSession($session);
         }
     }
 
