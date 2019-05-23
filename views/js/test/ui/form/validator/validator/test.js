@@ -213,7 +213,6 @@ define([
                 precedence: 1
             }, {
                 id: 'domain',
-                message: 'This value must not be greater than 10',
                 predicate: function (value) {
                     value = parseInt(value, 10) || 0;
                     return Promise.resolve(value <= 10);
@@ -259,7 +258,7 @@ define([
                         })
                         .catch(function(messages) {
                             assert.ok(true, 'The value is not valid');
-                            assert.deepEqual(messages, ['This value must not be greater than 10'], 'The expected messages are returned');
+                            assert.deepEqual(messages, [defaultMessage], 'The expected messages are returned');
                         })
                         .then(function() {
                             resolve();
@@ -385,7 +384,6 @@ define([
             defaultMessage: defaultMessage,
             validations: [{
                 id: 'precise',
-                message: 'This field must be yes or no',
                 predicate: ['yes', 'no']
             }]
         });
@@ -401,7 +399,7 @@ define([
                         })
                         .catch(function(messages) {
                             assert.ok(true, 'The value is not valid');
-                            assert.deepEqual(messages, ['This field must be yes or no'], 'The expected messages are returned');
+                            assert.deepEqual(messages, [defaultMessage], 'The expected messages are returned');
                         })
                         .then(function() {
                             resolve();
@@ -414,7 +412,7 @@ define([
                         })
                         .catch(function(messages) {
                             assert.ok(true, 'The value is not valid');
-                            assert.deepEqual(messages, ['This field must be yes or no'], 'The expected messages are returned');
+                            assert.deepEqual(messages, [defaultMessage], 'The expected messages are returned');
                         })
                         .then(function() {
                             resolve();
@@ -427,7 +425,7 @@ define([
                         })
                         .catch(function(messages) {
                             assert.ok(true, 'The value is not valid');
-                            assert.deepEqual(messages, ['This field must be yes or no'], 'The expected messages are returned');
+                            assert.deepEqual(messages, [defaultMessage], 'The expected messages are returned');
                         })
                         .then(function() {
                             resolve();
