@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2017-2019 (original work) Open Assessment Technologies SA ;
  */
 
 /**
@@ -67,6 +67,7 @@ define([
      * @param {Boolean} [config.off.active = true] - the default state
      * @param {String} [config.title] - the component title tooltip
      * @param {String} [config.name] - the component name (used by the element)
+     * @param {Boolean} [config.monoStyle] - true if the styling should match for off & on
      * @returns {switchComponent} the component
      */
     return function switchFactory($container, config){
