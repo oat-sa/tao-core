@@ -412,7 +412,7 @@ class QueueDispatcher extends ConfigurableService implements QueueDispatcherInte
      */
     protected function propagateServices(QueueInterface $queue)
     {
-        $this->getServiceManager()->propagate($queue);
+        $this->propagate($queue);
 
         if ($queue instanceof TaskLogAwareInterface) {
             $queue->setTaskLog($this->getTaskLog());

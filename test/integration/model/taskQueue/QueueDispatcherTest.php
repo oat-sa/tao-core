@@ -20,15 +20,19 @@
 
 namespace oat\tao\test\integration\model\taskQueue;
 
-use oat\oatbox\service\ServiceManager;
+use oat\generis\test\TestCase;
+use oat\tao\model\taskQueue\Task\TaskSerializerService;
 use oat\tao\model\taskQueue\Queue;
 use oat\tao\model\taskQueue\Queue\Broker\InMemoryQueueBroker;
 use oat\tao\model\taskQueue\QueueDispatcher;
 use oat\tao\model\taskQueue\Task\AbstractTask;
 use oat\tao\model\taskQueue\Task\CallbackTaskInterface;
 use oat\tao\test\Asset\CallableFixture;
+use oat\oatbox\log\LoggerService;
+use oat\tao\model\taskQueue\TaskLogInterface;
+use oat\tao\model\taskQueue\TaskLog;
 
-class QueueDispatcherTest extends \PHPUnit_Framework_TestCase
+class QueueDispatcherTest extends TestCase
 {
     public function setUp()
     {
@@ -120,18 +124,23 @@ class QueueDispatcherTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(CallbackTaskInterface::class, $queueMock->createTask([CallableFixture::class, 'exampleStatic'], []) );
     }
 
-
     public function testOneTimeWorkerHasServiceLocator()
     {
         $taskMock = $this->getMockForAbstractClass(AbstractTask::class, [], "", false);
-        $taskLogMock = $this->getMockBuilder(\oat\tao\model\taskQueue\TaskLog::class)
+        $taskLogMock = $this->getMockBuilder(TaskLog::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $config = new \common_persistence_KeyValuePersistence([], new \common_persistence_InMemoryKvDriver());
-        $serviceManager = new ServiceManager($config);
-        $serviceManager->register('tao/taskLog', $taskLogMock);
-        $serviceManager->register('generis/log', $this->getMock(\oat\oatbox\log\LoggerService::class));
-        $serviceManager->register('tao/TaskSerializer', $this->getMock(\oat\tao\model\taskQueue\Task\TaskSerializerService::class));
+//        $config = new \common_persistence_KeyValuePersistence([], new \common_persistence_InMemoryKvDriver());
+//        $serviceManager = new ServiceManager($config);
+//        $serviceManager->register('tao/taskLog', $taskLogMock);
+//        $serviceManager->register('generis/log', $this->getMock(\oat\oatbox\log\LoggerService::class));
+//        $serviceManager->register('tao/TaskSerializer', $this->getMock(\oat\tao\model\taskQueue\Task\TaskSerializerService::class));
+
+        $serviceManager = $this->getServiceLocatorMock([
+            TaskLogInterface::SERVICE_ID => $taskLogMock,
+            LoggerService::SERVICE_ID => $this->getMock(LoggerService::class),
+            TaskSerializerService::SERVICE_ID => $this->getMock(TaskSerializerService::class),
+        ]);
 
         $dispatcher = new QueueDispatcher([
             QueueDispatcher::OPTION_QUEUES => [
@@ -140,7 +149,7 @@ class QueueDispatcherTest extends \PHPUnit_Framework_TestCase
             QueueDispatcher::OPTION_TASK_LOG => 'tao/taskLog',
         ]);
 
-        $serviceManager->propagate($dispatcher);
+        $dispatcher->setServiceLocator($serviceManager);
 
         $this->assertTrue($dispatcher->enqueue($taskMock));
 
