@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Test - Form Validator Renderer</title>
+        <base href="../../../../../../" />
+        <link rel="stylesheet" type="text/css" href="js/lib/qunit/qunit.css">
+        <link rel="stylesheet" href="css/tao-main-style.css"/>
+        <link rel="stylesheet" href="css/tao-3.css"/>
+        <script type="text/javascript" src="js/lib/qunit/qunit.js"></script>
+        <script type="text/javascript" src="js/lib/require.js"></script>
+        <script type="text/javascript" src="js/lib/qunit/qunit-parameterize.js"></script>
+        <script type="text/javascript" src="js/lib/blanket/blanket.min.js" data-cover-flag="branchTracking" data-cover-only="ui/form/validator/renderer.js"></script>
+
+        <script  type="text/javascript">
+
+             //don't start the test now
+            QUnit.config.autostart = false;
+
+            //load the config
+            require(['/tao/ClientConfig/config'], function(){
+
+                //load the test
+                require(['test/ui/form/validator/renderer/test'], function(){
+
+                    //Tests loaded, run tests
+                    QUnit.start();
+                });
+            });
+        </script>
+
+        <style>
+            #visual-test {
+                background: #EEE;
+                position: relative;
+                display: flex;
+                margin: 10px;
+                padding: 10px;
+                flex-direction: row;
+                justify-content: space-between;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="qunit"></div>
+        <div id="qunit-fixture">
+            <div id="fixture-api"></div>
+            <div id="fixture-init"></div>
+            <div id="fixture-render"></div>
+            <div id="fixture-show"></div>
+            <div id="fixture-destroy"></div>
+            <div id="fixture-messages"></div>
+        </div>
+        <div id="visual-test"></div>
+    </body>
+</html>
