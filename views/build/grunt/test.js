@@ -1,23 +1,76 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2014-2019 (original work) Open Assessment Technlogies SA
+ *
+ */
+
+
+const fs      = require('fs');
+const path    = require('path');
+const { URL } = require('url');
+
+/**
+ * Main configuration to run tests
+ *
+ * grunt connect:test qunit:extension --extension=taoQtiTest
+ * grunt connect:test qunit:single --text=/taoQtiTest/views/js/test/runner/qti/test.html
+ */
 module.exports = function(grunt) {
     'use strict';
 
-    var root           = grunt.option('root');
-    var testPort       = grunt.option('testPort');
-    var testUrl        = grunt.option('testUrl');
-    var livereloadPort = grunt.option('livereloadPort');
-    var reportOutput   = grunt.option('reports');
-    var ext            = require(root + '/tao/views/build/tasks/helpers/extensions')(grunt, root);
-    var fs             = require('fs');
-    var path           = require('path');
-    var baseUrl        = 'http://' + testUrl + ':' + testPort;
-    var testRunners    = root + '/tao/views/js/test/**/test.html';
+    const root           = grunt.option('root');
+    const testPort       = grunt.option('testPort');
+    const testUrl        = grunt.option('testUrl');
+    const livereloadPort = grunt.option('livereloadPort');
+    const reportOutput   = grunt.option('reports');
+    const ext            = require(`${root}/tao/views/build/tasks/helpers/extensions`)(grunt, root);
+    const baseUrl        = `http://${testUrl}:${testPort}`;
+    const testRunners    = `${root}/tao/views/js/test/**/test.html`;
 
 
     //extract unit tests  from FS to URL
-    var extractTests = function extractTests(){
+    const extractTests = function extractTests(){
         return grunt.file.expand([testRunners]).map(function(testPath){
             return testPath.replace(root, baseUrl);
         });
+    };
+
+    /**
+     * Creates a namespace from the test url (the reports needs namspaces)
+     * For example :
+     * From 'http://127.0.0.1:8082/tao/views/js/test/core/eventifier/test.html'
+     * To   'tao.core.eventifier'
+     * Expecting the following URL pattern '${baseUrl}/${extensionName}/views/js/test/${path}/test.html'
+     *
+     * @param {String} url - the URl of the test
+     * @param {String} [joinWith=.] - the glue character for the namespace, replacing the slashes
+     * @param {String} [suffix] - namespace suffix
+     * @returns {String} the test namespace
+     */
+    const testUrlToNamespace = function testUrlToNamespace(url = '', joinWith = '.', suffix) {
+
+        const namespaceChunks = path.dirname(new URL(url).pathname)
+                .replace('views/js/test', '')
+                .split('/')
+                .filter( entry => !!entry );
+
+        if(suffix){
+            namespaceChunks.push(suffix);
+        }
+        return namespaceChunks.join(joinWith);
     };
 
     grunt.config.merge({
@@ -62,20 +115,14 @@ module.exports = function(grunt) {
         'qunit_junit' : {
             options : {
                 dest : reportOutput,
+                fileNamer : url => testUrlToNamespace(url, '-'),
+                classNamer : (moduleName, url) => {
+                    //moduleName is a sentence so make it camelcase
+                    const moduleNameSuffix = moduleName
+                        .toLowerCase()
+                        .replace(/ (.)/g, (fullMatch,firstMatch) => firstMatch.toUpperCase() );
 
-                fileNamer : function(url){
-                    return url
-                    .replace(testUrl + '/', '')
-                    .replace('/test.html', '')
-                    .replace(/\//g, '.');
-                },
-
-                classNamer : function (moduleName, url) {
-                    return url
-                    .replace(testUrl + '/', '')
-                    .replace('views/js/test/', '')
-                    .replace('/test.html', '')
-                    .replace(/\//g, '.');
+                    return testUrlToNamespace(url, '.', moduleNameSuffix);
                 }
             }
         },
