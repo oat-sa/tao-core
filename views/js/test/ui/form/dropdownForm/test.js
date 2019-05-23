@@ -1070,12 +1070,12 @@ define([
                     widget: widgetDefinitions.TEXTBOX,
                     uri: 'subject',
                     label: 'Subject',
-                    resuired: true
+                    required: true
                 }, {
                     widget: widgetDefinitions.TEXTAREA,
                     uri: 'text',
                     label: 'Text',
-                    resuired: true
+                    required: true
                 }]
             }),
             getInstance({
@@ -1084,12 +1084,12 @@ define([
                     widget: widgetDefinitions.TEXTBOX,
                     uri: 'subject',
                     label: 'Subject',
-                    resuired: true
+                    required: true
                 }, {
                     widget: widgetDefinitions.TEXTAREA,
                     uri: 'text',
                     label: 'Text',
-                    resuired: true
+                    required: true
                 }]
             })
         ])
