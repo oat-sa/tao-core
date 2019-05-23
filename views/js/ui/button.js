@@ -125,7 +125,7 @@ define([
                 /**
                  * @event ready
                  */
-                self.trigger('ready');
+                this.trigger('ready');
             })
 
             // take care of the disable state
