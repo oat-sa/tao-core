@@ -1068,6 +1068,11 @@ define([
                 triggerLabel: 'Validate',
                 widgets: [{
                     widget: widgetDefinitions.TEXTBOX,
+                    uri: 'subject',
+                    label: 'Subject',
+                    resuired: true
+                }, {
+                    widget: widgetDefinitions.TEXTAREA,
                     uri: 'text',
                     label: 'Text',
                     resuired: true
@@ -1077,9 +1082,14 @@ define([
                 triggerLabel: 'Comment',
                 widgets: [{
                     widget: widgetDefinitions.TEXTBOX,
+                    uri: 'subject',
+                    label: 'Subject',
+                    resuired: true
+                }, {
+                    widget: widgetDefinitions.TEXTAREA,
                     uri: 'text',
                     label: 'Text',
-                    required: true
+                    resuired: true
                 }]
             })
         ])

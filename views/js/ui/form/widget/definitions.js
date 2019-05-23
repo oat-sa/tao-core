@@ -27,7 +27,21 @@ define(function () {
      * @type {Object}
      */
     var widgetDefinitions = {
-        TEXTBOX: 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox'
+        TEXTBOX: 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox',
+        TEXTAREA: 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextArea',
+        HIDDENBOX: 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#HiddenBox',
+        RADIOBOX: 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#RadioBox',
+        COMBOBOX: 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboBox',
+        CHECKBOX: 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#CheckBox'
+
+        /* @todo */
+        // HTMLAREA: 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#HTMLArea',
+        // PASSWORD: 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Password',
+        // CALENDAR: 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Calendar',
+        // TREEBOX: 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TreeBox',
+        // FILE: 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#AsyncFile',
+        // VERSIONEDFILE: 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#VersionedFile',
+        // JSONOBJECT: 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#JsonObject',
     };
 
     /**
