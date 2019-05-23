@@ -51,9 +51,9 @@ class Queue implements QueueInterface, TaskLogAwareInterface
     private $weight;
 
     /**
-     * @param string              $name
+     * @param string               $name
      * @param QueueBrokerInterface $broker
-     * @param int $weight
+     * @param int                  $weight
      */
     public function __construct($name, QueueBrokerInterface $broker, $weight = 1)
     {
@@ -79,13 +79,13 @@ class Queue implements QueueInterface, TaskLogAwareInterface
      */
     public function __toPhpCode()
     {
-        return 'new '. get_called_class() .'('
+        return 'new ' . get_called_class() . '('
             . \common_Utils::toHumanReadablePhpString($this->name)
-            .', '
+            . ', '
             . \common_Utils::toHumanReadablePhpString($this->broker)
-            .', '
+            . ', '
             . \common_Utils::toHumanReadablePhpString($this->weight)
-            .')';
+            . ')';
     }
 
     /**
@@ -106,6 +106,7 @@ class Queue implements QueueInterface, TaskLogAwareInterface
 
     /**
      * @param int $weight
+     *
      * @return Queue
      */
     public function setWeight($weight)
@@ -166,7 +167,7 @@ class Queue implements QueueInterface, TaskLogAwareInterface
 
             return $isEnqueued;
         } catch (\Exception $e) {
-            $this->logError('Enqueueing '. $task .' failed with MSG: '. $e->getMessage());
+            $this->logError('Enqueueing ' . $task . ' failed with MSG: ' . $e->getMessage());
         }
 
         return false;
@@ -177,16 +178,17 @@ class Queue implements QueueInterface, TaskLogAwareInterface
      */
     public function dequeue()
     {
-        if ($task = $this->getBroker()->pop()) {
-            if ($this->canDequeueTask($task)) {
-                $this->getTaskLog()->setStatus($task->getId(), TaskLogInterface::STATUS_DEQUEUED);
-                $this->logInfo('Task ' . $task->getId() . ' has been dequeued', $this->getLogContext());
-            }
-
-            return $task;
+        $task = $this->getBroker()->pop();
+        if (!$task) {
+            return null;
         }
 
-        return null;
+        if ($this->canDequeueTask($task)) {
+            $this->getTaskLog()->setStatus($task->getId(), TaskLogInterface::STATUS_DEQUEUED);
+            $this->logInfo(sprintf('Task %s has been dequeued', $task->getId()), $this->getLogContext());
+        }
+
+        return $task;
     }
 
     /**
@@ -225,6 +227,7 @@ class Queue implements QueueInterface, TaskLogAwareInterface
 
     /**
      * @param TaskInterface $task
+     *
      * @return bool
      */
     protected function canDequeueTask(TaskInterface $task)
@@ -237,11 +240,9 @@ class Queue implements QueueInterface, TaskLogAwareInterface
      */
     protected function getLogContext()
     {
-        $rs = [
+        return [
             'PID' => getmypid(),
-            'QueueName' => $this->getName()
+            'QueueName' => $this->getName(),
         ];
-
-        return $rs;
     }
 }
