@@ -1076,6 +1076,21 @@ define([
                     uri: 'text',
                     label: 'Text',
                     required: true
+                }, {
+                    widget: widgetDefinitions.COMBOBOX,
+                    uri: 'publish',
+                    label: 'Publish',
+                    range: [{
+                        uri: 'yes',
+                        label: 'Yes'
+                    }, {
+                        uri: 'no',
+                        label: 'No'
+                    }]
+                }, {
+                    widget: widgetDefinitions.HIDDENBOX,
+                    uri: 'password',
+                    label: 'Password'
                 }]
             }),
             getInstance({
@@ -1090,6 +1105,17 @@ define([
                     uri: 'text',
                     label: 'Text',
                     required: true
+                }, {
+                    widget: widgetDefinitions.CHECKBOX,
+                    uri: 'publish',
+                    label: 'Publish',
+                    range: [{
+                        uri: 'yes',
+                        label: 'Yes'
+                    }, {
+                        uri: 'no',
+                        label: 'No'
+                    }]
                 }]
             })
         ])
