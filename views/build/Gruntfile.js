@@ -1,3 +1,5 @@
+const getPort = require('get-port-sync');
+
 module.exports = function(grunt) {
     'use strict';
 
@@ -14,7 +16,7 @@ module.exports = function(grunt) {
     var reportOutput        = grunt.option('reports') || 'reports';                     //where reports are saved
     var buildOutput         = grunt.option('output')   || 'output';
     var testUrl             = grunt.option('testUrl') || '127.0.0.1';                   //the port to run test web server, override with "--testPort value" to CLI if needed
-    var testPort            = parseInt(grunt.option('testPort'), 10) || 8082;                         //the port to run test web server, override with "--testPort value" to CLI if needed
+    var testPort            = parseInt(grunt.option('testPort'), 10) || getPort();                         //the port to run test web server, override with "--testPort value" to CLI if needed
     var livereloadPort      = parseInt(grunt.option('livereloadPort'), 10) || true;     //the livereload port, override with "--livereloadPort 35729" to CLI if needed
 
     var sassTasks   = [];
