@@ -18,6 +18,15 @@
             //load the config
             require(['/tao/ClientConfig/config'], function(){
 
+                //some mocks
+                requirejs.config({
+                    "config": {
+                        "core/request" : {
+                            noToken: true
+                        }
+                    }
+                });
+
                 //load the test
                 require(['tao/test/core/communicator/poll/test'], function(){
 

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint100\n"
-"PO-Revision-Date: 2019-04-12T08:48:20\n"
+"Project-Id-Version: TAO 3.3.0-sprint101\n"
+"PO-Revision-Date: 2019-05-10T14:58:27\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-CN\n"
@@ -368,11 +368,11 @@ msgstr ""
 msgid "Calendar"
 msgstr "日历"
 
-msgid "Cancel"
-msgstr "取消"
-
 msgid "cancel"
 msgstr ""
+
+msgid "Cancel"
+msgstr "取消"
 
 msgid "cancel the action"
 msgstr ""
@@ -402,10 +402,10 @@ msgstr "更改密码"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check all"
+msgid "Check All"
 msgstr "全部勾选"
 
-msgid "Check All"
+msgid "Check all"
 msgstr "全部勾选"
 
 msgid "Check-in"
@@ -457,6 +457,9 @@ msgid "Clear History"
 msgstr ""
 
 msgid "Clear selection"
+msgstr ""
+
+msgid "Clear the date time picker"
 msgstr ""
 
 msgid "Clear the stored variables"
@@ -975,19 +978,16 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
 msgstr "包容(和)"
 
 msgid "Index has been deleted for %s"
-msgstr ""
-
-msgid "Indexing has been run"
 msgstr ""
 
 msgid "Infinity"
@@ -1319,10 +1319,10 @@ msgstr "没有文件"
 msgid "no label"
 msgstr "无标签"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "没有可用的预览"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "没有可用的预览"
 
 msgid "No results found"
@@ -1636,6 +1636,9 @@ msgstr "资源"
 msgid "Resource copied"
 msgstr ""
 
+msgid "Resource deleted"
+msgstr ""
+
 msgid "Resource Identifier"
 msgstr ""
 
@@ -1658,6 +1661,12 @@ msgid "resources"
 msgstr ""
 
 msgid "Resources moved"
+msgstr ""
+
+msgid "Resources successfully indexed"
+msgstr ""
+
+msgid "Resources was not indexed"
 msgstr ""
 
 msgid "Responsive mode"
@@ -1740,10 +1749,10 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "Select"
+msgid "select"
 msgstr "选择"
 
-msgid "select"
+msgid "Select"
 msgstr "选择"
 
 msgid "Select a class"
@@ -1845,6 +1854,12 @@ msgstr ""
 
 msgid "Success"
 msgstr "完成"
+
+msgid "Successfully cloned instance as %s"
+msgstr ""
+
+msgid "Successfully deleted %s"
+msgstr ""
 
 msgid "Successfully imported \"%s"
 msgstr ""
@@ -2090,6 +2105,9 @@ msgid "Unable to move the resources"
 msgstr ""
 
 msgid "Unable to open file %s"
+msgstr ""
+
+msgid "Unable to process your request"
 msgstr ""
 
 msgid "Unable to release the lock"

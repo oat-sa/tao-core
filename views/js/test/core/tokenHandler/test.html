@@ -18,6 +18,15 @@
             //load the config
             require(['/tao/ClientConfig/config'], function(){
 
+                // mock Client Config data:
+                requirejs.config({
+                    "config": {
+                        "core/tokenHandler" : {
+                            tokens: ['token1', 'token2', 'token3', 'token4', 'token5']
+                        },
+                    }
+                });
+
                 //load the test
                 require(['tao/test/core/tokenHandler/test'], function(){
 
@@ -28,6 +37,7 @@
         </script>
     </head>
     <body>
+        <div id="feedback-box"></div>
         <div id="qunit"></div>
         <div id="qunit-fixture"></div>
     </body>

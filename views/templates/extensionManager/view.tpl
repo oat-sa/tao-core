@@ -86,8 +86,18 @@ use oat\tao\helpers\Template;
     </div>
 
 </div>
-<div id="installProgress" title="<?= __('Installation...') ?>">
-    <div class="progress"><div class="bar"></div></div>
-    <p class="status">...</p>
-    <div class="console"></div>
+<div id="installProgress" class="modal" title="<?= __('Installation...') ?>">
+    <div class="modal-body">
+        <div class="progress"><div class="bar"></div></div>
+        <p class="status">...</p>
+        <div class="console"></div>
+        <div class="buttons rgt">
+            <button class="btn-info small key-navigation-highlight" data-control="cancel" type="button">
+                <span class="label"><?= __('No') ?></span>
+            </button>
+            <button class="btn-info small key-navigation-highlight" data-control="confirm" type="button">
+                <span class="label"><?= __('Yes') ?></span>
+            </button>
+        </div>
+    </div>
 </div>
