@@ -400,7 +400,7 @@ class QueueDispatcher extends ConfigurableService implements QueueDispatcherInte
     protected function getTaskLog()
     {
         if (is_null($this->taskLog)) {
-            $this->taskLog = $this->getServiceManager()->get($this->getOption(self::OPTION_TASK_LOG));
+            $this->taskLog = $this->getServiceLocator()->get($this->getOption(self::OPTION_TASK_LOG));
         }
 
         return $this->taskLog;

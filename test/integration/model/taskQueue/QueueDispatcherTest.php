@@ -130,11 +130,6 @@ class QueueDispatcherTest extends TestCase
         $taskLogMock = $this->getMockBuilder(TaskLog::class)
             ->disableOriginalConstructor()
             ->getMock();
-//        $config = new \common_persistence_KeyValuePersistence([], new \common_persistence_InMemoryKvDriver());
-//        $serviceManager = new ServiceManager($config);
-//        $serviceManager->register('tao/taskLog', $taskLogMock);
-//        $serviceManager->register('generis/log', $this->getMock(\oat\oatbox\log\LoggerService::class));
-//        $serviceManager->register('tao/TaskSerializer', $this->getMock(\oat\tao\model\taskQueue\Task\TaskSerializerService::class));
 
         $serviceManager = $this->getServiceLocatorMock([
             TaskLogInterface::SERVICE_ID => $taskLogMock,
