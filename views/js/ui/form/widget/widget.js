@@ -318,14 +318,11 @@ define([
                     }
                 });
 
+                /**
+                 * @event ready
+                 */
                 validatorRenderer = validatorRendererFactory(this.getElement())
-                    .spread(this, 'error')
-                    .on('ready', function() {
-                        /**
-                         * @event ready
-                         */
-                        self.trigger('ready');
-                    });
+                    .spread(this, 'error ready');
             })
             .on('disable', function () {
                 if (this.is('rendered')) {
