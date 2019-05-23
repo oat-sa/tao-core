@@ -28,7 +28,6 @@ module.exports = function(grunt) {
             options : {
                 inject: './config/chrome-bridge.js',
                 timeout: 30000,
-                force: true,
                 puppeteer : {
                     ignoreHTTPSErrors: true,
                     timeout: 30000,
