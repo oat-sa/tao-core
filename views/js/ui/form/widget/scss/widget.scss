@@ -45,7 +45,8 @@
         }
     }
 
-    &.error {
+    &.error,
+    &.invalid{
         > .widget-field {
             input,
             select,

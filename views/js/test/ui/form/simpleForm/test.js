@@ -2220,7 +2220,8 @@ define([
             widgets: [{
                 widget: 'text',
                 uri: 'text',
-                label: 'Text'
+                label: 'Text',
+                required: true
             }]
         });
 

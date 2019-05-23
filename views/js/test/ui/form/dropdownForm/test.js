@@ -1069,7 +1069,8 @@ define([
                 widgets: [{
                     widget: widgetDefinitions.TEXTBOX,
                     uri: 'text',
-                    label: 'Text'
+                    label: 'Text',
+                    resuired: true
                 }]
             }),
             getInstance({
@@ -1077,7 +1078,8 @@ define([
                 widgets: [{
                     widget: widgetDefinitions.TEXTBOX,
                     uri: 'text',
-                    label: 'Text'
+                    label: 'Text',
+                    required: true
                 }]
             })
         ])

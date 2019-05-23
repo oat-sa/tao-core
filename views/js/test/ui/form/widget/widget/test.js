@@ -868,7 +868,7 @@ define([
         var $container = $('#fixture-validate');
         var instance;
 
-        assert.expect(8);
+        assert.expect(9);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
@@ -889,6 +889,7 @@ define([
                     })
                     .catch(function () {
                         assert.ok(instance.is('invalid'), 'The field has been rejected');
+                        assert.equal($container.find('.form-validator .validation-error').length, 1, 'The validation messages are displayed');
                     })
                     .then(function () {
                         instance.destroy();
@@ -912,7 +913,7 @@ define([
         var $container = $('#fixture-validate');
         var instance;
 
-        assert.expect(9);
+        assert.expect(11);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
@@ -930,6 +931,7 @@ define([
                 instance.validate()
                     .then(function () {
                         assert.ok(!instance.is('invalid'), 'The field is valid');
+                        assert.equal($container.find('.form-validator .validation-error').length, 0, 'No validation messages are displayed');
                     })
                     .catch(function () {
                         assert.ok(!instance.is('invalid'), 'The field should be valid');
@@ -947,6 +949,7 @@ define([
                             })
                             .catch(function () {
                                 assert.ok(instance.is('invalid'), 'The field has been rejected');
+                                assert.equal($container.find('.form-validator .validation-error').length, 1, 'The validation messages are displayed');
                             });
                     })
                     .catch(function (err) {
@@ -1184,7 +1187,8 @@ define([
             widget: 'text',
             uri: 'foo',
             value: 'bar',
-            label: 'Test'
+            label: 'Test',
+            required: true
         });
 
         assert.expect(3);
@@ -1200,7 +1204,12 @@ define([
                 ready();
             })
             .on('change', function (value, uri) {
-                $outputChange.val('value of [' + uri + '] changed to "' + value + '"\n' + $outputChange.val());
+                this.validate()
+                    .catch(function() {
+                    })
+                    .then(function() {
+                        $outputChange.val('value of [' + uri + '] changed to "' + value + '"\n' + $outputChange.val());
+                    });
             })
             .on('error', function (err) {
                 assert.ok(false, 'The operation should not fail!');

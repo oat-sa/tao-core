@@ -26,6 +26,7 @@ define([
     'core/providerRegistry',
     'ui/component',
     'ui/form/validator/validator',
+    'ui/form/validator/renderer',
     'tpl!ui/form/widget/tpl/widget',
     'tpl!ui/form/widget/tpl/label',
     'css!ui/form/widget/css/widget'
@@ -37,6 +38,7 @@ define([
     providerRegistry,
     componentFactory,
     validatorFactory,
+    validatorRendererFactory,
     widgetTpl,
     labelTpl
 ) {
@@ -122,6 +124,7 @@ define([
      */
     function widgetFactory(container, config) {
         var validator;
+        var validatorRenderer;
         var provider = getWidgetProvider(config);
 
         /**
@@ -240,10 +243,16 @@ define([
                     .validate(this.getValue())
                     .then(function (res) {
                         self.setState('invalid', false);
+                        if (validatorRenderer) {
+                            validatorRenderer.clear();
+                        }
                         return res;
                     })
                     .catch(function (err) {
                         self.setState('invalid', true);
+                        if (validatorRenderer) {
+                            validatorRenderer.display(err);
+                        }
                         return Promise.reject(err);
                     });
             },
@@ -295,6 +304,8 @@ define([
                 });
             })
             .on('render', function () {
+                var self = this;
+
                 // reflect the type of widget
                 this.setState(this.getConfig().widgetType, true);
 
@@ -307,10 +318,14 @@ define([
                     }
                 });
 
-                /**
-                 * @event ready
-                 */
-                this.trigger('ready');
+                validatorRenderer = validatorRendererFactory(this.getElement())
+                    .spread(this, 'error')
+                    .on('ready', function() {
+                        /**
+                         * @event ready
+                         */
+                        self.trigger('ready');
+                    });
             })
             .on('disable', function () {
                 if (this.is('rendered')) {
@@ -320,6 +335,12 @@ define([
             .on('enable', function () {
                 if (this.is('rendered')) {
                     this.getWidgetElement().prop('disabled', false);
+                }
+            })
+            .on('destroy', function() {
+                if (validatorRenderer) {
+                    validatorRenderer.destroy();
+                    validatorRenderer = null;
                 }
             });
 
