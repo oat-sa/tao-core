@@ -406,6 +406,7 @@ define([
         /**
          * Installs the dialog box
          * @private
+         * #fires dialog#create.dialog
          */
         _install : function _install() {
             var self = this, $buttons, closeButton;
@@ -417,12 +418,12 @@ define([
                     animate: this.animate,
                     disableClosing: this.disableClosing,
                     disableEscape: this.disableEscape
-                }).on('closed' + _scope, function() {
-                    if (self.autoDestroy) {
-                        self.destroy();
-                    }
-                });
-
+                })
+                    .on('closed' + _scope, function() {
+                        if (self.autoDestroy) {
+                            self.destroy();
+                        }
+                    });
                 $buttons = this.$buttons.find('button');
                 closeButton = $(_scope).find('#modal-close-btn')[0];
 
@@ -460,6 +461,8 @@ define([
                             self.navigator.focus();
                         }
                     });
+
+                self.trigger('create.dialog');
             }
         },
 
