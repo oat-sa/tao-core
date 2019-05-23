@@ -300,7 +300,7 @@ define(['jquery', 'lodash', 'core/promise', 'ui/dialog'], function($, _, Promise
 
         assert.equal(modal.getDom().find('button').length, buttons.length, "The dialog box displays " + buttons.length + " buttons");
 
-        modal.on('create.modal', function() {
+        modal.on('create.dialog', function() {
             modal.getDom().click();
             buttons.forEach(function(button) {
                 assert.equal(modal.getDom().find('button[data-control="' + button + '"]').length, 1, "The dialog box displays a '" + button + "' button");
@@ -332,7 +332,7 @@ define(['jquery', 'lodash', 'core/promise', 'ui/dialog'], function($, _, Promise
 
         assert.expect(4);
 
-        modal.on('create.modal', function() {
+        modal.on('create.dialog', function() {
             assert.equal($(renderTo + ' .modal').length, 1, 'The modal element is created');
             assert.equal($(renderTo + ' .message').text(), message, 'The modal message is correct');
 

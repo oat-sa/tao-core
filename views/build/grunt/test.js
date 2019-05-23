@@ -37,7 +37,7 @@ module.exports = function(grunt) {
     const livereloadPort = grunt.option('livereloadPort');
     const reportOutput   = grunt.option('reports');
     const ext            = require(`${root}/tao/views/build/tasks/helpers/extensions`)(grunt, root);
-    let baseUrl          = `http://${testUrl}:${testPort}`;
+    const baseUrl          = `http://${testUrl}:${testPort}`;
     const testRunners    = `${root}/tao/views/js/test/**/test.html`;
 
 
