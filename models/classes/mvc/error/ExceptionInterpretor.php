@@ -22,6 +22,7 @@ namespace oat\tao\model\mvc\error;
 use Exception;
 use common_exception_MissingParameter;
 use common_exception_BadRequest;
+use common_exception_ResourceNotFound;
 use tao_models_classes_MissingRequestParameterException;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
@@ -93,6 +94,7 @@ class ExceptionInterpretor implements ServiceLocatorAwareInterface {
             break;
             case 'ActionEnforcingException':
             case 'tao_models_classes_FileNotFoundException':
+            case common_exception_ResourceNotFound::class:
                 $this->returnHttpCode    = 404;
                 $this->responseClassName = 'MainResponse';
             break;

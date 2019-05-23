@@ -41,6 +41,7 @@
         }
         form {
             height: 100%;
+            padding: 0 20px 20px;
             width: 100%;
             /*
             * the font-size of the parent element of the calculator will serve as the reference for the children.
@@ -106,11 +107,13 @@
                     }
                     font-family: monospace;
                     text-align: right;
-                    width: 100%;
+                    width: calc(100% + 40px);
                     max-width: none;
                     padding: 0 0.2em;
                     height: 16%;
                     font-size: 2.8em;
+                    position: relative;
+                    left: -20px;
                 }
                 &.calcInput {
                     font-weight: bold;
