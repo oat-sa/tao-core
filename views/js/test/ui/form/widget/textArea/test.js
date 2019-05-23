@@ -30,11 +30,11 @@ define([
     _,
     Promise,
     widgetFactory,
-    widgetTextBoxProvider
+    widgetTextAreaProvider
 ) {
     'use strict';
 
-    widgetFactory.registerProvider('text', widgetTextBoxProvider);
+    widgetFactory.registerProvider('text', widgetTextAreaProvider);
 
     QUnit.module('Factory');
 
