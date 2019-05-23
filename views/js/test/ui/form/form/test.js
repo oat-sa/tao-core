@@ -1812,7 +1812,7 @@ define([
         var $container = $('#fixture-validate');
         var instance = formFactory($container);
 
-        assert.expect(9);
+        assert.expect(10);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
@@ -1853,6 +1853,7 @@ define([
                         instance.getWidget('foo')
                             .setValidator({
                                 id: 'required',
+                                message: 'Oops!',
                                 predicate: function() {
                                     return false;
                                 }
@@ -1862,8 +1863,12 @@ define([
                             .then(function () {
                                 assert.ok(instance.is('invalid'), 'The form should not be valid');
                             })
-                            .catch(function () {
+                            .catch(function (reason) {
                                 assert.ok(instance.is('invalid'), 'The form has been rejected');
+                                assert.deepEqual(reason, [{
+                                    name: 'foo',
+                                    messages: ['Oops!']
+                                }], 'The expected reason has been received');
                             });
                     })
                     .catch(function (err) {

@@ -551,16 +551,29 @@ define([
                 var self = this;
                 var promises = [];
                 widgets.forEach(function (widget) {
-                    promises.push(widget.validate());
+                    promises.push(
+                        widget.validate()
+                            .catch(function(messages) {
+                                return Promise.resolve({
+                                    name: widget.getUri(),
+                                    messages: messages
+                                });
+                            })
+                    );
                 });
                 return Promise.all(promises)
-                    .then(function(res) {
-                        self.setState('invalid', false);
-                        return res;
-                    })
-                    .catch(function(err) {
-                        self.setState('invalid', true);
-                        return Promise.reject(err);
+                    .then(function(result) {
+                        var invalid = false;
+
+                        result = _.compact(result);
+
+                        if (result.length) {
+                            result = Promise.reject(result);
+                            invalid = true;
+                        }
+
+                        self.setState('invalid', invalid);
+                        return result;
                     });
             },
 
