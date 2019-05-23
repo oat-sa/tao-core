@@ -47,7 +47,7 @@ class RestExceptionHandler
 				break;
 
 			case \common_exception_NotFound::class:
-			case \common_exception_RestNotFound::class:
+			case \common_exception_ResourceNotFound::class:
 				header("HTTP/1.0 404 Not Found");
 				break;
 

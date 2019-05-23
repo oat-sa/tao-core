@@ -21,6 +21,7 @@ namespace oat\tao\model\security\xsrf;
 
 use common_persistence_KeyValuePersistence;
 use oat\oatbox\service\ConfigurableService;
+use oat\oatbox\session\SessionService;
 
 /**
  * Class to store tokens in a key value storage
@@ -46,11 +47,11 @@ class TokenStoreKeyValue extends ConfigurableService implements TokenStore
     public function getTokens()
     {
         $value = $this->getPersistence()->get($this->getKey());
-        $storedTokens = json_decode($value, true);
+        $storedTokens = json_decode($value, true) ?: [];
         $pool = [];
 
-        foreach ($storedTokens as $storedToken) {
-            $pool[] = new Token($storedToken);
+        foreach ($storedTokens as $key => $storedToken) {
+            $pool[$key] = new Token($storedToken);
         }
 
         return $pool;
@@ -80,9 +81,8 @@ class TokenStoreKeyValue extends ConfigurableService implements TokenStore
     protected function getPersistence()
     {
         if ($this->persistence === null) {
-            $this->persistence = common_persistence_KeyValuePersistence::getPersistence(
-                $this->getOption(self::OPTION_PERSISTENCE)
-            );
+            $persistenceManager = $this->getServiceLocator()->get(\common_persistence_Manager::class);
+            $this->persistence = $persistenceManager->getPersistenceById($this->getOption(self::OPTION_PERSISTENCE));
         }
         return $this->persistence;
     }
@@ -93,6 +93,7 @@ class TokenStoreKeyValue extends ConfigurableService implements TokenStore
      */
     protected function getKey()
     {
-        return \common_session_SessionManager::getSession()->getUser()->getIdentifier() . '_' . static::TOKENS_STORAGE_KEY;
+        $user = $this->getServiceLocator()->get(SessionService::class)->getCurrentUser();
+        return $user->getIdentifier() . '_' . static::TOKENS_STORAGE_KEY;
     }
 }
