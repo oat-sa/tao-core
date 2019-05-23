@@ -635,6 +635,53 @@ define([
             });
     });
 
+    QUnit.test('properties from provider', function (assert) {
+        var ready = assert.async();
+        var $container = $('#fixture-properties');
+        var config = {
+            widget: 'properties',
+            uri: 'foo',
+            value: 'bar'
+        };
+        var instance;
+
+        assert.expect(8);
+
+        widgetFactory.registerProvider('properties', {
+            init: function init() {
+                assert.ok(true, 'The provider init() method is called');
+            },
+            getWidgetElement: function getWidgetElement() {
+                assert.ok(true, 'The provider getWidgetElement() method is called');
+                return this.getElement()
+                    .find('[name="' + this.getUri() + '"]');
+            }
+        });
+
+        instance = widgetFactory($container, config)
+            .on('init', function () {
+                assert.equal(this, instance, 'The instance has been initialized');
+                assert.equal(this.getUri(), config.uri, 'The expected uri is returned');
+                assert.equal(this.getValue(), config.value, 'The expected value is returned');
+                assert.equal(this.getWidgetElement(), null, 'There is no form element yet');
+            })
+            .on('ready', function () {
+                assert.ok(this.getWidgetElement().is($container.find('[name="' + config.uri + '"]')), 'The expected form element is returned');
+                this.destroy();
+            })
+            .after('destroy', function () {
+                ready();
+            })
+            .on('error', function (err) {
+                assert.ok(false, 'The operation should not fail!');
+                assert.pushResult({
+                    result: false,
+                    message: err
+                });
+                ready();
+            });
+    });
+
     QUnit.test('change', function (assert) {
         var ready = assert.async();
         var $container = $('#fixture-change');
@@ -834,6 +881,58 @@ define([
         assert.equal($container.children().length, 0, 'The container is empty');
 
         instance = widgetFactory($container, {widget: 'text', uri: 'foo'})
+            .on('init', function () {
+                assert.equal(this, instance, 'The instance has been initialized');
+            })
+            .on('ready', function () {
+                assert.equal($container.children().length, 1, 'The container contains an element');
+                assert.equal($container.children().is('.form-widget'), true, 'The container contains the expected element');
+                assert.equal($container.find('.form-widget .widget-label').length, 1, 'The component contains an area for the label');
+                assert.equal($container.find('.form-widget .widget-field').length, 1, 'The component contains an area for the field');
+                assert.equal($container.find('.form-widget .widget-field input').attr('name'), 'foo', 'The component contains the expected field');
+
+                assert.deepEqual(instance.serialize(), {name: 'foo', value: ''}, 'Empty value');
+                instance.setValue('top');
+                assert.deepEqual(instance.serialize(), {name: 'foo', value: 'top'}, 'New value');
+
+                instance.destroy();
+            })
+            .on('destroy', function () {
+                ready();
+            })
+            .on('error', function (err) {
+                assert.ok(false, 'The operation should not fail!');
+                assert.pushResult({
+                    result: false,
+                    message: err
+                });
+                ready();
+            });
+    });
+
+    QUnit.test('serialize from provider', function (assert) {
+        var ready = assert.async();
+        var $container = $('#fixture-serialize');
+        var instance;
+
+        assert.expect(12);
+
+        widgetFactory.registerProvider('serialize', {
+            init: function init() {
+                assert.ok(true, 'The provider init() method is called');
+            },
+            serialize: function serialize() {
+                assert.ok(true, 'The provider serialize() method is called');
+                return {
+                    name: this.getUri(),
+                    value: this.getValue()
+                };
+            }
+        });
+
+        assert.equal($container.children().length, 0, 'The container is empty');
+
+        instance = widgetFactory($container, {widget: 'serialize', uri: 'foo'})
             .on('init', function () {
                 assert.equal(this, instance, 'The instance has been initialized');
             })

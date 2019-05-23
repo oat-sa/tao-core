@@ -227,10 +227,14 @@ define([
              * @returns {widgetValue}
              */
             serialize: function serialize() {
-                return {
-                    name: this.getUri(),
-                    value: this.getValue()
-                };
+                if (_.isFunction(provider.serialize)) {
+                    return provider.serialize.call(this);
+                } else {
+                    return {
+                        name: this.getUri(),
+                        value: this.getValue()
+                    };
+                }
             },
 
             /**
@@ -278,6 +282,9 @@ define([
              */
             getWidgetElement: function getWidgetElement() {
                 if (this.is('rendered')) {
+                    if (_.isFunction(provider.getWidgetElement)) {
+                        return provider.getWidgetElement.call(this);
+                    }
                     return this.getElement()
                         .find('[name="' + this.getUri() + '"]');
                 }
@@ -288,24 +295,11 @@ define([
         var widget = componentFactory(widgetApi, defaults)
             .setTemplate(provider.template || widgetTpl)
             .on('init', function () {
-                if (this.getConfig().required) {
-                    this.getValidator().addValidation({
-                        id: 'required',
-                        message: __('This field is required'),
-                        predicate: function (value) {
-                            return value && value.length > 0;
-                        },
-                        precedence: 1
-                    });
-                }
-
                 _.defer(function () {
                     widget.render(container);
                 });
             })
             .on('render', function () {
-                var self = this;
-
                 // reflect the type of widget
                 this.setState(this.getConfig().widgetType, true);
 
@@ -342,6 +336,15 @@ define([
             });
 
         widget.setValidator(config && config.validator);
+
+        if (config && config.required) {
+            widget.getValidator().addValidation({
+                id: 'required',
+                message: __('This field is required'),
+                predicate: /\S+/,
+                precedence: 1
+            });
+        }
 
         _.defer(function () {
             widget.init(provider.init.call(widget, config) || config);
