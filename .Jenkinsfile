@@ -51,6 +51,7 @@ registry.service.consul:4444/tao/dependency-resolver oat:dependencies:resolve --
                         script: 'composer require phpunit/phpunit:^4.8'
                     )
                 }
+            }
         }
         stage('Tests') {
             parallel {
