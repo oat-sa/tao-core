@@ -43,8 +43,8 @@
     }
     &.open {
         .trigger-button {
-            button {
-                span:after {
+            [data-control="trigger"] {
+                .label:after {
                     @include icon-up;
                 }
             }

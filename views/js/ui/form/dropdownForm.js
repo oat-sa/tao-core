@@ -128,13 +128,11 @@ define([
              * @returns {Object}
              */
             getFormValues: function getFormValues() {
-                var values = {};
-
                 if (this.is('rendered')) {
                     return form.getValues();
                 }
 
-                return values;
+                return {};
             },
 
             /**
