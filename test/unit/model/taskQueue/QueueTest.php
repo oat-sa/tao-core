@@ -25,6 +25,7 @@ use oat\tao\model\taskQueue\Queue;
 use oat\tao\model\taskQueue\Queue\Broker\QueueBrokerInterface;
 use oat\tao\model\taskQueue\Task\AbstractTask;
 use oat\tao\model\taskQueue\TaskLogInterface;
+use oat\oatbox\log\LoggerService;
 
 class QueueTest extends TestCase
 {
@@ -119,6 +120,10 @@ class QueueTest extends TestCase
             ->disableOriginalConstructor()
             ->setMethods(['getBroker', 'getTaskLog'])
             ->getMock();
+
+        $queueMock->setServiceLocator($this->getServiceLocatorMock([
+            LoggerService::SERVICE_ID => $this->createMock(LoggerService::class)
+        ]));
 
         $queueMock->expects($this->once())
             ->method('getBroker')
