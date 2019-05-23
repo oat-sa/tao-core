@@ -548,11 +548,20 @@ define([
              * @returns {Promise}
              */
             validate: function validate() {
+                var self = this;
                 var promises = [];
                 widgets.forEach(function (widget) {
                     promises.push(widget.validate());
                 });
-                return Promise.all(promises);
+                return Promise.all(promises)
+                    .then(function(res) {
+                        self.setState('invalid', false);
+                        return res;
+                    })
+                    .catch(function(err) {
+                        self.setState('invalid', true);
+                        return Promise.reject(err);
+                    });
             },
 
             /**

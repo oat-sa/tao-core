@@ -668,9 +668,12 @@ define([
                         assert.ok(false, 'The form should be valid');
                     })
                     .then(function () {
-                        instance.validate = function () {
-                            return Promise.reject(false);
-                        };
+                        instance.setValidator({
+                            id: 'required',
+                            predicate: function() {
+                                return false;
+                            }
+                        });
                         return instance.validate()
                             .then(function () {
                                 assert.ok(false, 'The form should not be valid');

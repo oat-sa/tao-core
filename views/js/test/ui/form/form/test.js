@@ -1843,22 +1843,27 @@ define([
                     .then(function () {
                         return instance.validate()
                             .then(function () {
-                                assert.ok(true, 'The form is valid');
+                                assert.ok(!instance.is('invalid'), 'The form is valid');
                             })
                             .catch(function () {
-                                assert.ok(false, 'The form should be valid');
+                                assert.ok(!instance.is('invalid'), 'The form should be valid');
                             });
                     })
                     .then(function () {
-                        instance.getWidget('foo').validate = function () {
-                            return Promise.reject(false);
-                        };
+                        instance.getWidget('foo')
+                            .setValidator({
+                                id: 'required',
+                                predicate: function() {
+                                    return false;
+                                }
+                            })
+                            .setValue('');
                         return instance.validate()
                             .then(function () {
-                                assert.ok(false, 'The form should not be valid');
+                                assert.ok(instance.is('invalid'), 'The form should not be valid');
                             })
                             .catch(function () {
-                                assert.ok(true, 'The form has been rejected');
+                                assert.ok(instance.is('invalid'), 'The form has been rejected');
                             });
                     })
                     .catch(function (err) {

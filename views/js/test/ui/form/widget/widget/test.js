@@ -98,6 +98,8 @@ define([
         {title: 'getUri'},
         {title: 'getValue'},
         {title: 'setValue'},
+        {title: 'getValidator'},
+        {title: 'setValidator'},
         {title: 'reset'},
         {title: 'serialize'},
         {title: 'validate'},
@@ -861,7 +863,51 @@ define([
             });
     });
 
-    QUnit.test('validate', function (assert) {
+    QUnit.test('validate with predefined validator', function (assert) {
+        var ready = assert.async();
+        var $container = $('#fixture-validate');
+        var instance;
+
+        assert.expect(8);
+
+        assert.equal($container.children().length, 0, 'The container is empty');
+
+        instance = widgetFactory($container, {widget: 'text', uri: 'foo', required: true})
+            .on('init', function () {
+                assert.equal(this, instance, 'The instance has been initialized');
+            })
+            .on('ready', function () {
+                assert.equal($container.children().length, 1, 'The container contains an element');
+                assert.equal($container.children().is('.form-widget'), true, 'The container contains the expected element');
+                assert.equal($container.find('.form-widget .widget-label').length, 1, 'The component contains an area for the label');
+                assert.equal($container.find('.form-widget .widget-field').length, 1, 'The component contains an area for the field');
+                assert.equal($container.find('.form-widget .widget-field input').attr('name'), 'foo', 'The component contains the expected field');
+
+                instance.validate()
+                    .then(function () {
+                        assert.ok(instance.is('invalid'), 'The field should not be valid');
+                    })
+                    .catch(function () {
+                        assert.ok(instance.is('invalid'), 'The field has been rejected');
+                    })
+                    .then(function () {
+                        instance.destroy();
+                    });
+            })
+            .on('destroy', function () {
+                ready();
+            })
+            .on('error', function (err) {
+                assert.ok(false, 'The operation should not fail!');
+                assert.pushResult({
+                    result: false,
+                    message: err
+                });
+                ready();
+            });
+    });
+
+    QUnit.test('validate with redefined validator', function (assert) {
         var ready = assert.async();
         var $container = $('#fixture-validate');
         var instance;
@@ -883,21 +929,89 @@ define([
 
                 instance.validate()
                     .then(function () {
-                        assert.ok(true, 'The field is valid');
+                        assert.ok(!instance.is('invalid'), 'The field is valid');
                     })
                     .catch(function () {
-                        assert.ok(false, 'The form should be valid');
+                        assert.ok(!instance.is('invalid'), 'The field should be valid');
                     })
                     .then(function () {
-                        instance.validate = function () {
-                            return Promise.reject(false);
-                        };
+                        instance.setValidator({
+                            id: 'required',
+                            predicate: function() {
+                                return false;
+                            }
+                        });
                         return instance.validate()
                             .then(function () {
-                                assert.ok(false, 'The form should not be valid');
+                                assert.ok(instance.is('invalid'), 'The field should not be valid');
                             })
                             .catch(function () {
-                                assert.ok(true, 'The form has been rejected');
+                                assert.ok(instance.is('invalid'), 'The field has been rejected');
+                            });
+                    })
+                    .catch(function (err) {
+                        assert.ok(false, 'The operation should not fail!');
+                        assert.pushResult({
+                            result: false,
+                            message: err
+                        });
+                    })
+                    .then(function () {
+                        instance.destroy();
+                    });
+            })
+            .on('destroy', function () {
+                ready();
+            })
+            .on('error', function (err) {
+                assert.ok(false, 'The operation should not fail!');
+                assert.pushResult({
+                    result: false,
+                    message: err
+                });
+                ready();
+            });
+    });
+
+    QUnit.test('validate with object validator', function (assert) {
+        var ready = assert.async();
+        var $container = $('#fixture-validate');
+        var instance;
+
+        assert.expect(9);
+
+        assert.equal($container.children().length, 0, 'The container is empty');
+
+        instance = widgetFactory($container, {widget: 'text', uri: 'foo'})
+            .on('init', function () {
+                assert.equal(this, instance, 'The instance has been initialized');
+            })
+            .on('ready', function () {
+                assert.equal($container.children().length, 1, 'The container contains an element');
+                assert.equal($container.children().is('.form-widget'), true, 'The container contains the expected element');
+                assert.equal($container.find('.form-widget .widget-label').length, 1, 'The component contains an area for the label');
+                assert.equal($container.find('.form-widget .widget-field').length, 1, 'The component contains an area for the field');
+                assert.equal($container.find('.form-widget .widget-field input').attr('name'), 'foo', 'The component contains the expected field');
+
+                instance.validate()
+                    .then(function () {
+                        assert.ok(!instance.is('invalid'), 'The field is valid');
+                    })
+                    .catch(function () {
+                        assert.ok(!instance.is('invalid'), 'The field should be valid');
+                    })
+                    .then(function () {
+                        instance.setValidator({
+                            validate: function() {
+                                return Promise.reject(false);
+                            }
+                        });
+                        return instance.validate()
+                            .then(function () {
+                                assert.ok(instance.is('invalid'), 'The field should not be valid');
+                            })
+                            .catch(function () {
+                                assert.ok(instance.is('invalid'), 'The field has been rejected');
                             });
                     })
                     .catch(function (err) {

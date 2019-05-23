@@ -1873,9 +1873,14 @@ define([
                             });
                     })
                     .then(function () {
-                        instance.getWidget('foo').validate = function () {
-                            return Promise.reject(false);
-                        };
+                        instance.getWidget('foo')
+                            .setValidator({
+                                id: 'required',
+                                predicate: function() {
+                                    return false;
+                                }
+                            })
+                            .setValue('');
                         return instance.validate()
                             .then(function () {
                                 assert.ok(false, 'The form should not be valid');

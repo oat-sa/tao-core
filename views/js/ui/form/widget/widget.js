@@ -25,6 +25,7 @@ define([
     'core/promise',
     'core/providerRegistry',
     'ui/component',
+    'ui/form/validator/validator',
     'tpl!ui/form/widget/tpl/widget',
     'tpl!ui/form/widget/tpl/label',
     'css!ui/form/widget/css/widget'
@@ -34,7 +35,8 @@ define([
     Handlebars,
     Promise,
     providerRegistry,
-    component,
+    componentFactory,
+    validatorFactory,
     widgetTpl,
     labelTpl
 ) {
@@ -44,10 +46,11 @@ define([
      * @typedef {Object} widgetConfig Defines the config entries available to setup a form widget
      * @property {String} widget - The type of widget
      * @property {String} uri - The identifier of the widget
-     * @property {String} label - The label of the widget
-     * @property {String} value - The value of the widget
-     * @property {String[]} range -
-     * @property {Boolean} required - Tells if the value is required
+     * @property {String} [label] - The label of the widget
+     * @property {String} [value] - The value of the widget
+     * @property {String[]} [range] -
+     * @property {Boolean} [required] - Tells if the value is required
+     * @property {validationRule|validationRule[]|validator} [validation]
      */
 
     /**
@@ -107,10 +110,18 @@ define([
      *
      * @param {HTMLElement|String} container
      * @param {widgetConfig} config
+     * @param {String} config.widget - The type of widget
+     * @param {String} config.uri - The identifier of the widget
+     * @param {String} [config.label] - The label of the widget
+     * @param {String} [config.value] - The value of the widget
+     * @param {String[]} [config.range] -
+     * @param {Boolean} [config.required] - Tells if the value is required
+     * @param {validationRule|validationRule[]|validator} [config.validation]
      * @returns {widgetForm}
      * @fires ready - When the component is ready to work
      */
     function widgetFactory(container, config) {
+        var validator;
         var provider = getWidgetProvider(config);
 
         /**
@@ -164,6 +175,38 @@ define([
             },
 
             /**
+             * Gets access to the validation engine
+             * @returns {validator}
+             */
+            getValidator: function getValidator() {
+                return validator;
+            },
+
+            /**
+             * Sets the validation engine
+             * @param {validationRule|validationRule[]|validator} validation
+             * @returns {widgetForm}
+             */
+            setValidator: function setValidator(validation) {
+                if (validation && _.isFunction(validation.validate)) {
+                    validator = validation;
+                } else {
+                    if (validation && !validation.validations) {
+                        if (!_.isArray(validation)) {
+                            validation = [validation];
+                        }
+                        validation = {
+                            validations: validation
+                        };
+                    }
+
+                    validator = validatorFactory(validation);
+                }
+
+                return this;
+            },
+
+            /**
              * Resets the widget to its default value
              * @returns {widgetForm}
              */
@@ -192,7 +235,17 @@ define([
              * @returns {Promise}
              */
             validate: function validate() {
-                return Promise.resolve(true);
+                var self = this;
+                return this.getValidator()
+                    .validate(this.getValue())
+                    .then(function (res) {
+                        self.setState('invalid', false);
+                        return res;
+                    })
+                    .catch(function (err) {
+                        self.setState('invalid', true);
+                        return Promise.reject(err);
+                    });
             },
 
             /**
@@ -200,7 +253,7 @@ define([
              * @returns {widgetForm}
              * @fires change
              */
-            notify : function notify() {
+            notify: function notify() {
                 /**
                  * @event change
                  * @param {String} value
@@ -223,9 +276,20 @@ define([
             }
         };
 
-        var widget =  component(widgetApi, defaults)
+        var widget = componentFactory(widgetApi, defaults)
             .setTemplate(provider.template || widgetTpl)
             .on('init', function () {
+                if (this.getConfig().required) {
+                    this.getValidator().addValidation({
+                        id: 'required',
+                        message: __('This field is required'),
+                        predicate: function (value) {
+                            return value && value.length > 0;
+                        },
+                        precedence: 1
+                    });
+                }
+
                 _.defer(function () {
                     widget.render(container);
                 });
@@ -235,7 +299,7 @@ define([
                 this.setState(this.getConfig().widgetType, true);
 
                 // react to data change
-                this.getWidgetElement().on('change blur', function() {
+                this.getWidgetElement().on('change blur', function () {
                     var value = widget.getValue();
                     if (value !== widget.getConfig().value) {
                         widget.getConfig().value = value;
@@ -259,6 +323,8 @@ define([
                 }
             });
 
+        widget.setValidator(config && config.validator);
+
         _.defer(function () {
             widget.init(provider.init.call(widget, config) || config);
         });
@@ -266,7 +332,6 @@ define([
         return widget;
     }
 
-    // @todo - add validators
 
     // expose a partial that can be used by every form widget to inject the label markup
     Handlebars.registerPartial('ui-form-widget-label', labelTpl);
