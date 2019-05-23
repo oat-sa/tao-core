@@ -133,8 +133,8 @@ class QueueDispatcherTest extends TestCase
 
         $serviceManager = $this->getServiceLocatorMock([
             TaskLogInterface::SERVICE_ID => $taskLogMock,
-            LoggerService::SERVICE_ID => $this->getMock(LoggerService::class),
-            TaskSerializerService::SERVICE_ID => $this->getMock(TaskSerializerService::class),
+            LoggerService::SERVICE_ID => $this->createMock(LoggerService::class),
+            TaskSerializerService::SERVICE_ID => $this->createMock(TaskSerializerService::class),
         ]);
 
         $dispatcher = new QueueDispatcher([
