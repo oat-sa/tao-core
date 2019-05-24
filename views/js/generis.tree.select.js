@@ -269,6 +269,8 @@ define(['jquery', 'lodash', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/fe
             options = $.extend(options, pOptions);
 
             $.post(this.dataUrl, options, (function(instance) {return function(DATA) {
+                var countClass = 0;
+
                 if(instance.checkResourcePermissions){
                     DATA = instance.convertDataWithPermissions(DATA);
                 }
@@ -283,9 +285,17 @@ define(['jquery', 'lodash', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/fe
                         instance.checkedNodes.push(DATA[i].attributes.id);
                     }
                 }
+
+                // Counting the number of classes in the data array
+                for (var j = 0; j < DATA.length; j++) {
+                    if (DATA[j].type === 'class') {
+                        countClass++;
+                    }
+                }
+
                 // Update meta data
-                instance.setMeta(nodeId, "displayed", instance.getMeta(nodeId, "displayed")+DATA.length);
-                instance.setMeta(nodeId, "position", instance.getMeta(nodeId, "position")+DATA.length);
+                instance.setMeta(nodeId, "displayed", instance.getMeta(nodeId, "displayed")+DATA.length - countClass);
+                instance.setMeta(nodeId, "position", instance.getMeta(nodeId, "position")+DATA.length - countClass);
 
                 //refresh pagination options
                 instance.refreshPaginate(NODE, TREE_OBJ);
