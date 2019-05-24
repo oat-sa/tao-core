@@ -270,6 +270,7 @@ define(['jquery', 'lodash', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/fe
 
             $.post(this.dataUrl, options, (function(instance) {return function(DATA) {
                 var countClass = 0;
+                var i = 0, j = 0;
 
                 if(instance.checkResourcePermissions){
                     DATA = instance.convertDataWithPermissions(DATA);
@@ -277,7 +278,7 @@ define(['jquery', 'lodash', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/fe
                 //Hide paginate options
                 instance.hidePaginate(NODE, TREE_OBJ);
                 //Display incoming nodes
-                for (var i=0; i<DATA.length; i++) {
+                for (i; i<DATA.length; i++) {
                     DATA[i].attributes['class'] = instance.options.instanceClass+" node-instance node-draggable";
                     if (!$('#'+DATA[i].attributes['id'], $(TREE_OBJ.container)).length) TREE_OBJ.create(DATA[i], TREE_OBJ.get_node(NODE[0]));
                     // If the check all options. Add the incoming nodes to the list of node to check
@@ -287,7 +288,7 @@ define(['jquery', 'lodash', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/fe
                 }
 
                 // Counting the number of classes in the data array
-                for (var j = 0; j < DATA.length; j++) {
+                for (j; j < DATA.length; j++) {
                     if (DATA[j].type === 'class') {
                         countClass++;
                     }
