@@ -1145,11 +1145,11 @@ define([
         var $container = $('#fixture-reset');
         var instance;
 
-        assert.expect(11);
+        assert.expect(14);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
-        instance = widgetFactory($container, {widget: 'text', uri: 'foo', value: 'bar'})
+        instance = widgetFactory($container, {widget: 'text', uri: 'foo', value: 'bar', required: true})
             .on('init', function () {
                 assert.equal(this, instance, 'The instance has been initialized');
             })
@@ -1176,6 +1176,20 @@ define([
                     })
                     .then(function () {
                         assert.equal(instance.getValue(), '', 'The value has been reset');
+                        return instance
+                            .off('.test')
+                            .validate()
+                            .then(function () {
+                                assert.ok(instance.is('invalid'), 'The field should not be valid');
+                            })
+                            .catch(function () {
+                                assert.ok(instance.is('invalid'), 'The field has been rejected');
+                            });
+                    })
+                    .then(function () {
+                        assert.ok(instance.is('invalid'), 'The field is invalid');
+                        instance.reset();
+                        assert.ok(!instance.is('invalid'), 'The field is now reset to valid state');
                     })
                     .catch(function (err) {
                         assert.ok(false, 'The operation should not fail!');

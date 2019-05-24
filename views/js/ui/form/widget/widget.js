@@ -99,10 +99,10 @@ define([
      *  var container = $('.my-container', $container);
      *
      *  var config = {
- *          widget: 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox'
- *          uri: 'nickname',
- *          label: 'Name',
- *          required: true
+     *          widget: 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox'
+     *          uri: 'nickname',
+     *          label: 'Name',
+     *          required: true
      *  };
      *
      *  var widget = widgetFactory(container, config)
@@ -123,9 +123,26 @@ define([
      * @fires ready - When the component is ready to work
      */
     function widgetFactory(container, config) {
+        var widget;
         var validator;
         var validatorRenderer;
         var provider = getWidgetProvider(config);
+
+        /**
+         * Reflects the invalid state to the component
+         * @param {Boolean} invalid
+         * @param {String[]} [messages]
+         */
+        var setInvalidState = function setInvalidState(invalid, messages) {
+            widget.setState('invalid', invalid);
+            if (validatorRenderer) {
+                if (invalid) {
+                    validatorRenderer.display(messages);
+                } else {
+                    validatorRenderer.clear();
+                }
+            }
+        };
 
         /**
          * @typedef {component} widgetForm
@@ -219,6 +236,7 @@ define([
                 } else {
                     this.setValue('');
                 }
+                setInvalidState(false);
                 return this;
             },
 
@@ -246,17 +264,11 @@ define([
                 return this.getValidator()
                     .validate(this.getValue())
                     .then(function (res) {
-                        self.setState('invalid', false);
-                        if (validatorRenderer) {
-                            validatorRenderer.clear();
-                        }
+                        setInvalidState(false);
                         return res;
                     })
                     .catch(function (err) {
-                        self.setState('invalid', true);
-                        if (validatorRenderer) {
-                            validatorRenderer.display(err);
-                        }
+                        setInvalidState(true, err);
                         return Promise.reject(err);
                     });
             },
@@ -292,7 +304,7 @@ define([
             }
         };
 
-        var widget = componentFactory(widgetApi, defaults)
+        widget = componentFactory(widgetApi, defaults)
             .setTemplate(provider.template || widgetTpl)
             .on('init', function () {
                 _.defer(function () {
@@ -328,7 +340,7 @@ define([
                     this.getWidgetElement().prop('disabled', false);
                 }
             })
-            .on('destroy', function() {
+            .on('destroy', function () {
                 if (validatorRenderer) {
                     validatorRenderer.destroy();
                     validatorRenderer = null;
