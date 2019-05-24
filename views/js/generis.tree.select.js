@@ -270,7 +270,7 @@ define(['jquery', 'lodash', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/fe
 
             $.post(this.dataUrl, options, (function(instance) {return function(DATA) {
                 var countClass = 0;
-                var i = 0, j = 0;
+                var i = 0;
 
                 if(instance.checkResourcePermissions){
                     DATA = instance.convertDataWithPermissions(DATA);
@@ -285,13 +285,7 @@ define(['jquery', 'lodash', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/fe
                     if (options.checkedNodes === "*") {
                         instance.checkedNodes.push(DATA[i].attributes.id);
                     }
-                }
-
-                // Counting the number of classes in the data array
-                for (j; j < DATA.length; j++) {
-                    if (DATA[j].type === 'class') {
-                        countClass++;
-                    }
+                    countClass += DATA[i].type === 'class';
                 }
 
                 // Update meta data
