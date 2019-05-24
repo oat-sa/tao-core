@@ -112,7 +112,7 @@ define(['jquery', 'i18n', 'class'], function($, __, Class) {
 			}
 
 			//Extract meta from children
-			if (nodes) {
+			if (nodes.length !== 0) {
 				//Number of classes found
 				var countClass =0;
 				for (var i=0; i < nodes.length; i++) {
