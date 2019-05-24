@@ -20,6 +20,7 @@
  */
 namespace oat\tao\test\unit\service;
 
+use oat\tao\model\entryPoint\Entrypoint;
 use oat\tao\model\entryPoint\EntryPointService;
 
 class EntryPointServiceTest extends \PHPUnit_Framework_TestCase
@@ -42,15 +43,38 @@ class EntryPointServiceTest extends \PHPUnit_Framework_TestCase
         $options = $this->service->getOptions();
         $json = json_encode($options);
 
-        self::assertEquals('{"existing":{"passwordreset":{},"deliveryServer":{},"guestaccess":{},"proctoringDelivery":{}},"postlogin":["deliveryServer","backoffice","proctoring","childOrganization","scoreReport","exam","testingLocationList","proctoringDelivery"],"prelogin":["guestaccess","proctoringDelivery"],"new_tag":["proctoringDelivery"]}',
+        self::assertEquals('{"existing":{"passwordreset":{},"dummy":{}},"postlogin":["passwordreset","dummy"],"prelogin":["passwordreset","dummy"],"new_tag":["passwordreset","dummy"]}',
             $json);
 
-        $this->service->removeEntryPoint('proctoringDelivery');
+        $this->service->removeEntryPoint('passwordreset');
 
         $options = $this->service->getOptions();
         $json = json_encode($options);
 
-        self::assertEquals('{"existing":{"passwordreset":{},"deliveryServer":{},"guestaccess":{}},"postlogin":["deliveryServer","backoffice","proctoring","childOrganization","scoreReport","exam","testingLocationList"],"prelogin":["guestaccess"],"new_tag":[]}',
+        self::assertEquals('{"existing":{"dummy":{}},"postlogin":["dummy"],"prelogin":["dummy"],"new_tag":["dummy"]}',
             $json);
+    }
+}
+
+class DummyEntryPoint implements Entrypoint
+{
+    public function getId()
+    {
+    }
+
+    public function getTitle()
+    {
+    }
+
+    public function getLabel()
+    {
+    }
+
+    public function getDescription()
+    {
+    }
+
+    public function getUrl()
+    {
     }
 }
