@@ -642,6 +642,7 @@ define([
         var $container = $('#fixture-validate');
         var config = {
             widget: 'hidden',
+            required: true,
             uri: 'foo'
         };
         var instance;
@@ -664,24 +665,19 @@ define([
 
                 instance.validate()
                     .then(function () {
-                        assert.ok(true, 'The field is valid');
+                        assert.ok(false, 'The form should not be valid');
                     })
                     .catch(function () {
-                        assert.ok(false, 'The form should be valid');
+                        assert.ok(true, 'The form has been rejected');
                     })
                     .then(function () {
-                        instance.setValidator({
-                            id: 'required',
-                            predicate: function() {
-                                return false;
-                            }
-                        });
+                        instance.getValidator().removeValidation('required');
                         return instance.validate()
                             .then(function () {
-                                assert.ok(false, 'The form should not be valid');
+                                assert.ok(true, 'The field is valid');
                             })
                             .catch(function () {
-                                assert.ok(true, 'The form has been rejected');
+                                assert.ok(false, 'The form should be valid');
                             });
                     })
                     .catch(function (err) {

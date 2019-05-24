@@ -408,15 +408,13 @@ define([
             widget: 'cb',
             uri: 'foo',
             value: 'yes',
-            range: [{
+            range: {
                 uri: 'yes'
-            }, {
-                uri: 'no'
-            }]
+            }
         };
         var instance;
 
-        assert.expect(5);
+        assert.expect(6);
 
         instance = widgetFactory($container, config)
             .on('init', function () {
@@ -424,6 +422,7 @@ define([
                 assert.equal(this.getUri(), config.uri, 'The expected uri is returned');
                 assert.equal(this.getValue(), config.value, 'The expected value is returned');
                 assert.equal(this.getWidgetElement(), null, 'There is no form element yet');
+                assert.deepEqual(this.getConfig().range, [{uri: 'yes'}], 'The range is fixed');
             })
             .on('ready', function () {
                 assert.ok(this.getWidgetElement().is('select'), 'The expected form element is returned');
