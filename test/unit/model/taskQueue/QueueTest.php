@@ -25,6 +25,7 @@ use oat\tao\model\taskQueue\Queue;
 use oat\tao\model\taskQueue\Queue\Broker\QueueBrokerInterface;
 use oat\tao\model\taskQueue\Task\AbstractTask;
 use oat\tao\model\taskQueue\TaskLogInterface;
+use Psr\Log\LoggerInterface;
 
 class QueueTest extends TestCase
 {
@@ -38,7 +39,6 @@ class QueueTest extends TestCase
 
         new Queue('', $brokerMock);
     }
-
 
     public function testGetNameShouldReturnTheValueOfQueueName()
     {
@@ -106,47 +106,80 @@ class QueueTest extends TestCase
      */
     public function testDequeueWhenTaskPoppedOrNot($dequeuedElem, $expected)
     {
-        $queueBrokerMock = $this->getMockForAbstractClass(QueueBrokerInterface::class);
+        /** @var QueueBrokerInterface|\PHPUnit_Framework_MockObject_MockObject $queueBrokerMock */
+        $queueBrokerMock = $this->getMockBuilder(QueueBrokerInterface::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['pop', 'setServiceLocator'])
+            ->getMockForAbstractClass();
 
-        $queueBrokerMock->expects($this->once())
+        $queueBrokerMock
             ->method('pop')
             ->willReturn($dequeuedElem);
 
-        $taskLogMock = $this->getMockForAbstractClass(TaskLogInterface::class);
+        $queueName = 'name of the queue';
+        $subject = new Queue($queueName, $queueBrokerMock);
 
-        /** @var Queue|\PHPUnit_Framework_MockObject_MockObject $queueMock */
-        $queueMock = $this->getMockBuilder(Queue::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['getBroker', 'getTaskLog'])
-            ->getMock();
+        if ($dequeuedElem instanceof AbstractTask) {
+            /** @var TaskLogInterface|\PHPUnit_Framework_MockObject_MockObject $taskLogMock */
+            $taskLogMock = $this->getMockForAbstractClass(TaskLogInterface::class);
+            $taskLogMock
+                ->method('getStatus')
+                ->willReturnArgument(0);
 
-        $queueMock->expects($this->once())
-            ->method('getBroker')
-            ->willReturn($queueBrokerMock);
+            if ($dequeuedElem->getId() !== TaskLogInterface::STATUS_CANCELLED) {
+                $taskLogMock->expects($this->once())
+                    ->method('setStatus')
+                    ->with($dequeuedElem->getId(), TaskLogInterface::STATUS_DEQUEUED);
 
-        if ($dequeuedElem) {
-            $taskLogMock->expects($this->once())
-                ->method('getStatus');
+                /** @var LoggerInterface|\PHPUnit_Framework_MockObject_MockObject $loggerMock */
+                $loggerMock = $this->getMockBuilder(LoggerInterface::class)
+                    ->disableOriginalConstructor()
+                    ->setMethods(['info'])
+                    ->getMockForAbstractClass();
+                $loggerMock
+                    ->expects($this->once())
+                    ->method('info')
+                    ->with(
+                        sprintf('Task %s has been dequeued', $dequeuedElem->getId()),
+                        [
+                            'PID' => getmypid(),
+                            'QueueName' => $queueName,
+                        ]
+                    );
 
-            $taskLogMock->expects($this->once())
-                ->method('setStatus');
+                $subject->setLogger($loggerMock);
+            }
 
-            $queueMock->expects($this->exactly(2))
-                ->method('getTaskLog')
-                ->willReturn($taskLogMock);
+            $subject->setTaskLog($taskLogMock);
         }
 
-        $this->assertEquals($expected, $queueMock->dequeue());
+        $this->assertEquals($expected, $subject->dequeue());
     }
 
     public function provideDequeueOptions()
     {
-        $taskMock = $this->getMockForAbstractClass(AbstractTask::class, [], "", false, false);
+        $validId = 'a valid id';
+
+        $canceledTask = $this->createTaskMock(TaskLogInterface::STATUS_CANCELLED);
+        $dequeuedTask = $this->createTaskMock($validId);
 
         return [
-            'ShouldBeSuccessful' => [$taskMock, $taskMock],
-            'ShouldBeFailed' => [null, null],
+            'empty queue' => [null, null],
+            'canceled task' => [$canceledTask, $canceledTask],
+            'dequeued task' => [$dequeuedTask, $dequeuedTask],
         ];
+    }
+
+    public function createTaskMock($id)
+    {
+        $taskMock = $this->getMockBuilder(AbstractTask::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getId'])
+            ->getMockForAbstractClass();
+
+        $taskMock->method('getId')->willReturn($id);
+
+        return $taskMock;
     }
 
     public function testAcknowledgeShouldCallDeleteOnBroker()
