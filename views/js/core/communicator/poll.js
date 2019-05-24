@@ -25,8 +25,8 @@ define([
     'core/communicator',
     'core/polling',
     'core/promise',
-    'core/tokenHandler'
-], function ($, _, __, communicator, pollingFactory, Promise, tokenHandlerFactory) {
+    'core/request'
+], function ($, _, __, communicator, pollingFactory, Promise, coreRequest) {
     'use strict';
 
     /**
@@ -92,9 +92,6 @@ define([
         init: function init() {
             var self = this;
             var config = _.defaults(this.getConfig(), defaults);
-            var tokenHandler = tokenHandlerFactory({
-                initialToken: config.token
-            });
 
             // validate the config
             if (!config.service) {
@@ -121,90 +118,51 @@ define([
                     });
                     self.messagesQueue = [];
 
-                    tokenHandler.getToken().then(function(token) {
-                        if (token) {
-                            headers['X-CSRF-Token'] = token;
+                    coreRequest({
+                        url: config.service,
+                        method: 'POST',
+                        headers: headers,
+                        data: JSON.stringify(req),
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        sequential: true,
+                        noToken: false,
+                        timeout: config.timeout
+                    })
+                    .then(function(response) {
+                        // resolve each message promises
+                        _.forEach(promises, function (promise, idx) {
+                            promise.resolve(response.responses && response.responses[idx]);
+                        });
+
+                        if (!self.polling.is('stopped')) {
+                            // receive server messages
+                            _.forEach(response.messages, function (msg) {
+                                if (msg.channel) {
+                                    self.trigger('message', msg.channel, msg.message);
+                                } else {
+                                    self.trigger('message', 'malformed', msg);
+                                }
+                            });
                         }
 
-                        // send messages to the remote service
-                        $.ajax({
-                            url: config.service,
-                            type: 'POST',
-                            cache: false,
-                            headers: headers,
-                            data: JSON.stringify(req),
-                            async: true,
-                            dataType: 'json',
-                            contentType: 'application/json',
-                            timeout: config.timeout
-                        })
-                        // when the request succeeds...
-                        .done(function (response, status, xhr) {
-                            response = response || {};
+                        self.trigger('receive', response);
 
-                            // resolve each message promises
-                            _.forEach(promises, function (promise, idx) {
-                                promise.resolve(response.responses && response.responses[idx]);
-                            });
+                        resolve();
+                    })
+                    .catch(function(error) {
+                        error.source = 'network';
+                        error.purpose = 'communicator';
 
-                            if (!self.polling.is('stopped')) {
-                                // receive server messages
-                                _.forEach(response.messages, function (msg) {
-                                    if (msg.channel) {
-                                        self.trigger('message', msg.channel, msg.message);
-                                    } else {
-                                        self.trigger('message', 'malformed', msg);
-                                    }
-                                });
-                            }
-
-                            self.trigger('receive', response);
-
-                            // receive optional security token
-                            if (xhr && _.isFunction(xhr.getResponseHeader)) {
-                                response.token = xhr.getResponseHeader('X-CSRF-Token');
-                                if (response.token) {
-                                    tokenHandler.setToken(response.token)
-                                    .then(function() {
-                                        resolve();
-                                    });
-                                }
-                            }
-                            resolve();
-                        })
-
-                        // when the request fails...
-                        .fail(function (jqXHR, textStatus, errorThrown) {
-                            var error = {
-                                source: 'network',
-                                purpose: 'communicator',
-                                context: this,
-                                sent: jqXHR.readyState > 0,
-                                code: jqXHR.status,
-                                type: textStatus || 'error',
-                                message: errorThrown || __('An error occurred!')
-                            };
-
-                            // reject all message promises
-                            _.forEach(promises, function (promise) {
-                                promise.reject(error);
-                            });
-
-                            self.trigger('error', error);
-
-                            // the request promise must be resolved, even if failed, to continue the polling
-                            // reset the security token on error
-                            if (token) {
-                                tokenHandler.setToken(token)
-                                .then(function() {
-                                    resolve();
-                                });
-                            }
-                            resolve();
+                        // reject all message promises
+                        _.forEach(promises, function (promise) {
+                            promise.reject(error);
                         });
+
+                        self.trigger('error', error);
+
+                        resolve();
                     });
-
-
                 });
             };
 
