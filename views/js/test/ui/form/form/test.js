@@ -24,13 +24,15 @@ define([
     'lodash',
     'core/promise',
     'ui/form/form',
-    'ui/form/widget/widget'
+    'ui/form/widget/widget',
+    'ui/form/widget/definitions'
 ], function (
     $,
     _,
     Promise,
     formFactory,
-    widgetFactory
+    widgetFactory,
+    widgetDefinitions
 ) {
     'use strict';
 
@@ -2150,17 +2152,60 @@ define([
         var $outputSubmit = $('#visual-test .submit-output');
         var instance = formFactory($container, {
             widgets: [{
-                widget: 'text',
+                widget: widgetDefinitions.TEXTBOX,
+                uri: 'subject',
+                label: 'Subject',
+                required: true
+            }, {
+                widget: widgetDefinitions.TEXTAREA,
                 uri: 'text',
                 label: 'Text',
                 required: true
+            }, {
+                widget: widgetDefinitions.COMBOBOX,
+                uri: 'category',
+                label: 'Category',
+                required: true,
+                range: [{
+                    uri: 'comment',
+                    label: 'Comment'
+                }, {
+                    uri: 'appprove',
+                    label: 'Approve'
+                }, {
+                    uri: 'request',
+                    label: 'Request changes'
+                }]
+            }, {
+                widget: widgetDefinitions.CHECKBOX,
+                uri: 'publish',
+                label: 'Publish',
+                required: true,
+                range: [{
+                    uri: 'yes',
+                    label: 'Yes'
+                }, {
+                    uri: 'no',
+                    label: 'No'
+                }]
+            }, {
+                widget: widgetDefinitions.HIDDENBOX,
+                uri: 'password',
+                label: 'Password'
             }],
             buttons: [{
-                id: 'submit',
-                label: 'Submit'
-            }, {
                 id: 'clear',
                 label: 'Clear'
+            }, {
+                id: 'reset',
+                type: 'warning',
+                icon: 'reset',
+                label: 'Reset'
+            }, {
+                type: 'info',
+                icon: 'save',
+                id: 'submit',
+                label: 'Submit'
             }]
         });
 
@@ -2179,13 +2224,13 @@ define([
             .on('change', function (uri, value) {
                 $outputChange.val('value of [' + uri + '] changed to "' + value + '"\n' + $outputChange.val());
             })
-            .on('button-clear', function () {
+            .on('button-reset', function () {
                 this.reset();
             })
             .on('button-submit', function () {
                 this.submit();
             })
-            .on('reset', function () {
+            .on('reset button-clear', function () {
                 $outputChange.val('');
                 $outputSubmit.val('');
             })

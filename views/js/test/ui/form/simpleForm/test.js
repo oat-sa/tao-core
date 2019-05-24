@@ -24,13 +24,15 @@ define([
     'lodash',
     'core/promise',
     'ui/form/simpleForm',
-    'ui/form/widget/widget'
+    'ui/form/widget/widget',
+    'ui/form/widget/definitions'
 ], function (
     $,
     _,
     Promise,
     formFactory,
-    widgetFactory
+    widgetFactory,
+    widgetDefinitions
 ) {
     'use strict';
 
@@ -2218,10 +2220,46 @@ define([
         var instance = formFactory($container, {
             title: 'Simple Form',
             widgets: [{
-                widget: 'text',
+                widget: widgetDefinitions.TEXTBOX,
+                uri: 'subject',
+                label: 'Subject',
+                required: true
+            }, {
+                widget: widgetDefinitions.TEXTAREA,
                 uri: 'text',
                 label: 'Text',
                 required: true
+            }, {
+                widget: widgetDefinitions.COMBOBOX,
+                uri: 'category',
+                label: 'Category',
+                required: true,
+                range: [{
+                    uri: 'comment',
+                    label: 'Comment'
+                }, {
+                    uri: 'appprove',
+                    label: 'Approve'
+                }, {
+                    uri: 'request',
+                    label: 'Request changes'
+                }]
+            }, {
+                widget: widgetDefinitions.CHECKBOX,
+                uri: 'publish',
+                label: 'Publish',
+                required: true,
+                range: [{
+                    uri: 'yes',
+                    label: 'Yes'
+                }, {
+                    uri: 'no',
+                    label: 'No'
+                }]
+            }, {
+                widget: widgetDefinitions.HIDDENBOX,
+                uri: 'password',
+                label: 'Password'
             }]
         });
 
