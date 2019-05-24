@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2019 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  *
  */
@@ -25,9 +25,9 @@ define(['jquery', 'util/clipboard'], function($, clipboard) {
     QUnit.test('eventifier', function(assert) {
         assert.expect(3);
 
-        assert.ok(typeof clipboard.on === 'function', 'the component has a on method');
-        assert.ok(typeof clipboard.off === 'function', 'the component has a off method');
-        assert.ok(typeof clipboard.trigger === 'function', 'the component has a trigger method');
+        assert.ok(typeof clipboard.on === 'function', 'the eventifier has a on method');
+        assert.ok(typeof clipboard.off === 'function', 'the eventifier has a off method');
+        assert.ok(typeof clipboard.trigger === 'function', 'the eventifier has a trigger method');
     });
 
     QUnit.module('Methods');

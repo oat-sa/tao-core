@@ -57,6 +57,7 @@ $installDetails = [
 	        'name'			=> 'file_path',
 	        'type'			=> 'string',
 	        'shortcut'		=> 'f',
+            'required'		=> true,
 	        'description'	=> 'Path to where files should be stored.'
 	    ],
 	    [
