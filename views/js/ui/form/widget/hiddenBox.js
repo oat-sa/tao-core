@@ -20,11 +20,10 @@
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
  */
 define([
-    'jquery',
     'lodash',
     'i18n',
     'tpl!ui/form/widget/tpl/hiddenBox'
-], function ($, _, __, hiddenBoxTpl) {
+], function (_, __, hiddenBoxTpl) {
     'use strict';
 
     /**
@@ -122,11 +121,8 @@ define([
          * @returns {jQuery|null}
          */
         getWidgetElement: function getWidgetElement() {
-            if (this.is('rendered')) {
-                return this.getElement()
-                    .find('input');
-            }
-            return null;
+            return this.getElement()
+                .find('input');
         },
 
         /**

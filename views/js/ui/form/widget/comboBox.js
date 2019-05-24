@@ -20,11 +20,9 @@
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
  */
 define([
-    'jquery',
     'lodash',
-    'i18n',
     'tpl!ui/form/widget/tpl/comboBox'
-], function ($, _, __, comboBoxTpl) {
+], function (_, comboBoxTpl) {
     'use strict';
 
     /**

@@ -135,11 +135,8 @@ define([
          * @returns {jQuery|null}
          */
         getWidgetElement: function getWidgetElement() {
-            if (this.is('rendered')) {
-                return this.getElement()
-                    .find('.option input');
-            }
-            return null;
+            return this.getElement()
+                .find('.option input');
         },
 
         /**
