@@ -69,7 +69,7 @@ define(['ui/dialog/alert'], function(dialogAlert) {
         assert.equal(modal.getDom().parent().length, 1, 'The dialogAlert box is rendered by default');
         assert.equal(modal.getDom().find('.message').text(), message, 'The dialogAlert box displays the message');
 
-        assert.equal(modal.getDom().find("button").length, 1, "The dialogAlert box displays a unique button");
+        assert.equal(modal.getDom().find("button").length, 2, "The dialogAlert box displays a unique button");
         assert.equal(modal.getDom().find('button[data-control="ok"]').length, 1, "The dialogAlert box displays a 'ok' button");
 
         modal.getDom().find('button[data-control="ok"]').click();
