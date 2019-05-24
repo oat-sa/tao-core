@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint101\n"
-"PO-Revision-Date: 2019-05-10T14:58:10\n"
+"Project-Id-Version: TAO 3.3.0-sprint102\n"
+"PO-Revision-Date: 2019-05-24T10:49:15\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: hu-HU\n"
@@ -1317,10 +1317,10 @@ msgstr ""
 msgid "no label"
 msgstr ""
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr ""
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr ""
 
 msgid "No results found"
@@ -1622,9 +1622,6 @@ msgstr ""
 msgid "Reset"
 msgstr ""
 
-msgid "Reset the original size"
-msgstr ""
-
 msgid "Reset the range values"
 msgstr ""
 
@@ -1714,9 +1711,6 @@ msgid "Save"
 msgstr ""
 
 msgid "Saved."
-msgstr ""
-
-msgid "Scientific Calculator"
 msgstr ""
 
 msgid "Scope"
@@ -2138,10 +2132,10 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr ""
 
 msgid "Undefined amount of the pages for pagination"

@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2017-2019 (original work) Open Assessment Technologies SA ;
  */
 
 /**
@@ -253,6 +253,27 @@ define(['jquery', 'ui/switch/switch'], function($, switchFactory) {
                 label: 'night'
             }
 
+        })
+            .on('render', function() {
+                assert.ok(true);
+                ready();
+            });
+    });
+
+    QUnit.test('monoStyle button', function(assert) {
+        var ready = assert.async();
+        var container = document.getElementById('outside');
+
+        assert.expect(1);
+        switchFactory(container, {
+            on: {
+                label: 'style'
+            },
+            off: {
+                label: 'mono',
+                active: true
+            },
+            monoStyle: true
         })
             .on('render', function() {
                 assert.ok(true);

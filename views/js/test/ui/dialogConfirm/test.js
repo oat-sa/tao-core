@@ -92,7 +92,7 @@ define(['ui/dialog/confirm'], function(dialogConfirm) {
             assert.equal(modal.getDom().parent().length, 1, 'The dialogConfirm box is rendered by default');
             assert.equal(modal.getDom().find('.message').text(), data.message, 'The dialogConfirm box displays the message');
 
-            assert.equal(modal.getDom().find("button").length, 2, "The dialogConfirm box displays 2 buttons");
+            assert.equal(modal.getDom().find("button").length, 3, "The dialogConfirm box displays 2 buttons");
             assert.equal(modal.getDom().find('button[data-control="ok"]').length, 1, "The dialogConfirm box displays a 'ok' button");
             assert.equal(modal.getDom().find('button[data-control="cancel"]').length, 1, "The dialogConfirm box displays a 'cancel' button");
 

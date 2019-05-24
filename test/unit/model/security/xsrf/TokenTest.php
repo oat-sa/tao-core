@@ -30,7 +30,7 @@ class TokenTest extends TestCase
     public function testJsonSerialize()
     {
         $key = 'a token key';
-        $timeStamp = microtime(true);
+        $timeStamp = 1234567890.123456;
 
         $data = [
             Token::TOKEN_KEY => $key,

@@ -43,13 +43,12 @@ define([
      * @type {Object}
      */
     var defaultConfig = {
-        title: __('Calculator'),
         preserveAspectRatio: false,
         width: 240,
         height: 360,
-        minWidth : 150,
-        minHeight : 220,
-        alternativeTemplate: null
+        minWidth : 190,
+        minHeight : 240,
+        alternativeTemplate: null,
     };
 
     /**
