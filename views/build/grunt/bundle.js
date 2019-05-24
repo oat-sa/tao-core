@@ -48,11 +48,13 @@ module.exports = function(grunt) {
                     }, {
                         name      : 'login',
                         bootstrap : true,
+                        babel     : true,
                         entryPoint: 'controller/login'
                     }, {
                         name      : 'tao',
                         bootstrap : true,
                         default   : true,
+                        babel     : true,
                         include   : [
                             'layout/**/*',
                             'form/**/*',
