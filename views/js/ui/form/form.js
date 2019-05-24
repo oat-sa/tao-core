@@ -588,9 +588,9 @@ define([
                     .then(function() {
                         /**
                          * @event submit
-                         * @param {Object} values
+                         * @param {widgetValue[]} values
                          */
-                        self.trigger('submit', self.getValues());
+                        self.trigger('submit', self.serialize());
                     })
                     .catch(function(reason) {
                         /**

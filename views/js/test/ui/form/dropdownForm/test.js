@@ -862,7 +862,14 @@ define([
     QUnit.test('submit', function (assert) {
         var ready = assert.async();
         var $container = $('#fixture-submit');
-        var instance = dropdownFormFactory($container);
+        var instance = dropdownFormFactory($container, {
+            widgets: [{
+                widget: 'text',
+                uri: 'foo',
+                label: 'Foo',
+                value: 'bar'
+            }]
+        });
 
         assert.expect(12);
 
@@ -910,7 +917,10 @@ define([
                             new Promise(function(resolve) {
                                 instance
                                     .on('submit.test', function(values) {
-                                        assert.deepEqual(values, {}, 'The values are submitted');
+                                        assert.deepEqual(values, [{
+                                            name: 'foo',
+                                            value: 'bar'
+                                        }], 'The values are submitted');
                                         resolve();
                                     });
                             })

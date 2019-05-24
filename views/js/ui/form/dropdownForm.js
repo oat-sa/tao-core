@@ -234,19 +234,18 @@ define([
                     })
                     .render(controls.$trigger);
 
+                /**
+                 * @event ready
+                 */
                 form = formFactory(controls.$form, formConfig)
-                    .spread(this, 'change submit invalid error')
-                    .on('ready', function() {
-                        // init state
-                        if (self.is('open')) {
-                            self.openForm();
-                        }
+                    .spread(this, 'ready change submit invalid error');
+            })
 
-                        /**
-                         * @event ready
-                         */
-                        self.trigger('ready');
-                    });
+            .on('ready', function() {
+                // init state
+                if (this.is('open')) {
+                    this.openForm();
+                }
             })
 
             .on('submit', function () {

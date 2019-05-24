@@ -1927,7 +1927,7 @@ define([
                                 })
                                 .on('submit.test', function (values) {
                                     assert.ok(true, 'The submit event has been emitted');
-                                    assert.deepEqual(values, {}, 'The list of values is empty');
+                                    assert.deepEqual(values, [], 'The list of values is empty');
                                     resolve();
                                 })
                                 .submit();
@@ -1953,9 +1953,10 @@ define([
                                 })
                                 .on('submit.test', function (values) {
                                     assert.ok(true, 'The submit event has been emitted');
-                                    assert.deepEqual(values, {
-                                        foo: 'bar'
-                                    }, 'The list of values is provided');
+                                    assert.deepEqual(values, [{
+                                        name: 'foo',
+                                        value: 'bar'
+                                    }], 'The list of values is provided');
                                     resolve();
                                 })
                                 .submit();
@@ -1974,9 +1975,10 @@ define([
                                 })
                                 .on('submit.test', function (values) {
                                     assert.ok(true, 'The submit event has been emitted');
-                                    assert.deepEqual(values, {
-                                        foo: 'bar'
-                                    }, 'The list of values is provided');
+                                    assert.deepEqual(values, [{
+                                        name: 'foo',
+                                        value: 'bar'
+                                    }], 'The list of values is provided');
                                     resolve();
                                 });
                             $container.find('form').submit();
