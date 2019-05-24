@@ -55,8 +55,7 @@ define([
         init: function init(config) {
             var self = this;
 
-            // Simply set the type.
-            // The default template is already a text input.
+            // the type will be reflected to the HTML markup
             config.widgetType = 'check-box';
 
             // the value must be an array
@@ -79,6 +78,7 @@ define([
             // change event
             this.on('render', function() {
                 this.getElement().on('click', '.option input', function() {
+                    self.getConfig().value = self.getValue();
                     self.notify();
                 });
             });

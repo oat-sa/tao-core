@@ -53,8 +53,7 @@ define([
          * @param {widgetConfig} config
          */
         init: function init(config) {
-            // Simply set the type.
-            // The default template is already a text input.
+            // the type will be reflected to the HTML markup
             config.widgetType = 'combo-box';
 
             // the value must be an array
