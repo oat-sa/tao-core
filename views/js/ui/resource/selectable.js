@@ -77,6 +77,7 @@ define([
 
             /**
              * Get a given node
+             * @param {String} uri - the key
              * @returns {Object?} the node
              */
             getNode : function getNode(uri){
@@ -85,7 +86,7 @@ define([
 
             /**
              * Set the selectable nodes
-             * @param {Object[]} nodes
+             * @param {Object[]} newNodes
              */
             setNodes : function setNodes(newNodes){
                 if(_.isArray(newNodes)){
