@@ -406,12 +406,30 @@ define([
         /**
          * Installs the dialog box
          * @private
+         * #fires dialog#create.dialog
          */
         _install : function _install() {
-            var self = this, $buttons;
+            var self = this, $buttons, closeButton;
 
             if(!this.destroyed){
+
+                this.$html.modal({
+                    width: this.width,
+                    animate: this.animate,
+                    disableClosing: this.disableClosing,
+                    disableEscape: this.disableEscape
+                })
+                    .on('closed' + _scope, function() {
+                        if (self.autoDestroy) {
+                            self.destroy();
+                        }
+                    });
                 $buttons = this.$buttons.find('button');
+                closeButton = $(_scope).find('#modal-close-btn')[0];
+
+                if (closeButton) {
+                    $buttons.push(closeButton);
+                }
 
                 //creates the navigator to manage the key navigation
                 this.navigator = keyNavigator({
@@ -435,7 +453,7 @@ define([
                 }).on('activate', function(cursor){
                     cursor.navigable.getElement().click();
                 });
-
+                self.navigator.last();
                 //added a global shortcut to enable setting focus on tab
                 this.globalShortcut = shortcutRegistry($('body'))
                     .add('tab shift+tab', function(){
@@ -443,18 +461,9 @@ define([
                             self.navigator.focus();
                         }
                     });
-            }
 
-            this.$html.modal({
-                width: this.width,
-                animate: this.animate,
-                disableClosing: this.disableClosing,
-                disableEscape: this.disableEscape
-            }).on('closed' + _scope, function() {
-                if (self.autoDestroy) {
-                    self.destroy();
-                }
-            });
+                self.trigger('create.dialog');
+            }
         },
 
         /**
