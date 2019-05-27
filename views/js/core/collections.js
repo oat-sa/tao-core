@@ -20,17 +20,20 @@
 /**
  * Wrap the ES6 Collections polyfill
  *
+ * @deprecated You can use directly the collections,
+ * the polyfill will be loaded in the bundles
+ *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define(['lib/polyfill/es6-collections'], function(){
+define([], function(){
     'use strict';
 
     //window should have beend feed by the polyfill
     //
     return {
-        Map :     window.Map,
-        Set :     window.Set,
-        WeakMap : window.WeakMap,
-        WeakSet : window.WeakSet
+        Map : Map,
+        Set : Set,
+        WeakMap : WeakMap,
+        WeakSet : WeakSet
     };
 });
