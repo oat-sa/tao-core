@@ -19,14 +19,16 @@
 
 /**
  * Wrap the Promise Polyfill
+ * @deprecated You can Promise from the global scope,
+ * the polyfill is loaded in the bundle
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define(['lib/polyfill/es6-promise'], function(es6Promise){
+define([], function(){
     'use strict';
 
     /**
      * @exports core/promise
      */
-    return window.Promise || es6Promise.Promise;
+    return Promise;
 });
