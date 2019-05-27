@@ -6,25 +6,18 @@
 return new oat\tao\model\entryPoint\EntryPointService(array(
     'existing' => array(
         'passwordreset' => new oat\tao\model\entryPoint\PasswordReset(),
-        'deliveryServer' => new oat\taoProctoring\model\entrypoint\ProctoringDeliveryServer(),
-        'guestaccess' => new oat\taoDeliveryRdf\model\guest\GuestAccess(),
-        'proctoringDelivery' => new oat\taoProctoring\model\entrypoint\ProctoringDeliveryServer(),
+        'dummy' => new oat\tao\test\unit\service\DummyEntryPoint(),
     ),
     'postlogin' => array(
-        'deliveryServer',
-        'backoffice',
-        'proctoring',
-        'childOrganization',
-        'scoreReport',
-        'exam',
-        'testingLocationList',
-        'proctoringDelivery'
+        'passwordreset',
+        'dummy',
     ),
     'prelogin' => array(
-        'guestaccess',
-        'proctoringDelivery'
+        'passwordreset',
+        'dummy',
     ),
     'new_tag' => [
-        'proctoringDelivery'
+        'passwordreset',
+        'dummy',
     ]
 ));
