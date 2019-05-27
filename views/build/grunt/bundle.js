@@ -24,6 +24,7 @@
  */
 module.exports = function(grunt) {
     'use strict';
+
     const root        = grunt.option('root');
     const workDir     = grunt.option('output');
 
