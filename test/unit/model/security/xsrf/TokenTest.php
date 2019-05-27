@@ -19,8 +19,8 @@
 
 namespace oat\tao\test\unit\model\security\xsrf;
 
-use PHPUnit\Framework\TestCase;
 use oat\tao\model\security\xsrf\Token;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Unit Tests for oat\tao\model\security\Token
@@ -30,7 +30,7 @@ class TokenTest extends TestCase
     public function testJsonSerialize()
     {
         $key = 'a token key';
-        $timeStamp = 1234567890.123456;
+        $timeStamp = round(1234567890.123, 3);
 
         $data = [
             Token::TOKEN_KEY => $key,
