@@ -241,7 +241,7 @@ define([
             /**
              * Gets a widget by its uri
              * @param {String} uri
-             * @returns {formWidget}
+             * @returns {widgetForm}
              */
             getWidget: function getWidget(uri) {
                 if (widgets.has(uri)) {
@@ -253,7 +253,7 @@ define([
             /**
              * Adds a widget to the form
              * @param {widgetConfig} definition
-             * @returns {Promise<formWidget>}
+             * @returns {Promise<widgetForm>}
              * @throws TypeError if the widget definition is invalid
              * @fires change when the widget's value changes
              * @fires change-<uri> when the widget's value changes
@@ -294,7 +294,7 @@ define([
                                     /**
                                      * @event widgetadd
                                      * @param {String} uri
-                                     * @param {formWidget} widget
+                                     * @param {widgetForm} widget
                                      */
                                     self.trigger('widgetadd', definition.uri, this);
 
@@ -341,7 +341,7 @@ define([
             /**
              * Replace the widgets
              * @param {widgetConfig[]} definitions
-             * @returns {Promise<formWidget[]>}
+             * @returns {Promise<widgetForm[]>}
              */
             setWidgets: function setWidgets(definitions) {
                 var self = this;
