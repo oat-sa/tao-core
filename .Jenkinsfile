@@ -33,7 +33,7 @@ registry.service.consul:4444/tao/dependency-resolver oat:dependencies:resolve --
         stage('Install') {
             agent {
                 docker {
-                    image 'krampstudio/php-70-composer-node8:0.1.1'
+                    image 'krampstudio/php-70-composer-node8:0.1.2'
                     reuseNode true
                 }
             }
@@ -67,7 +67,7 @@ mkdir -p tao/views/locales/en-US/
                 stage('Backend Tests') {
                     agent {
                         docker {
-                            image 'krampstudio/php-70-composer-node8:0.1.1'
+                            image 'krampstudio/php-70-composer-node8:0.1.2'
                             reuseNode true
                         }
                     }
