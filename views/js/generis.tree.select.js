@@ -276,7 +276,7 @@ define(['jquery', 'lodash', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/fe
                     DATA = instance.convertDataWithPermissions(DATA);
                 }
                 //Hide paginate options
-                instance.hidePaginate(NODE, TREE_OBJ);
+                instance.hidePaginate(nodeId);
                 //Display incoming nodes
                 for (i; i<DATA.length; i++) {
                     DATA[i].attributes['class'] = instance.options.instanceClass+" node-instance node-draggable";
