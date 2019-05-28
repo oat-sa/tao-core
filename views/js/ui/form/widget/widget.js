@@ -260,7 +260,6 @@ define([
              * @returns {Promise}
              */
             validate: function validate() {
-                var self = this;
                 return this.getValidator()
                     .validate(this.getValue())
                     .then(function (res) {
