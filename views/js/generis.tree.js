@@ -200,13 +200,11 @@ define(['jquery', 'i18n', 'class'], function($, __, Class) {
 		},
 
 		/**
-		 * Hide paginate options
-		 * @param NODE
-		 * @param TREE_OBJ
-		 * @private
+		 * Hide pagination
+		 * @param nodeId
 		 */
-		hidePaginate: function(NODE, TREE_OBJ) {
-			$(NODE).find('.paginate').each(function(){
+		hidePaginate: function(nodeId) {
+			$('#' + nodeId + ' > ul > li.paginate').each(function(){
 				$(this).remove();
 			});
 		},
@@ -219,7 +217,7 @@ define(['jquery', 'i18n', 'class'], function($, __, Class) {
 		 */
 		refreshPaginate: function(NODE, TREE_OBJ) {
 			var nodeId = $(NODE)[0].id;
-			this.hidePaginate (NODE, TREE_OBJ);
+			this.hidePaginate (nodeId);
 			if (this.getMeta(nodeId, "displayed") < this.getMeta(nodeId, "count")) {
 				this.showPaginate(NODE, TREE_OBJ);
 			}
