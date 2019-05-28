@@ -33,7 +33,7 @@ registry.service.consul:4444/tao/dependency-resolver oat:dependencies:resolve --
         stage('Install') {
             agent {
                 docker {
-                    image 'alexwijn/docker-git-php-composer'
+                    image 'vyuldashev/docker-ci-php-node'
                     reuseNode true
                 }
             }
@@ -67,7 +67,7 @@ mkdir -p tao/views/locales/en-US/
                 stage('Backend Tests') {
                     agent {
                         docker {
-                            image 'alexwijn/docker-git-php-composer'
+                            image 'vyuldashev/docker-ci-php-node'
                             reuseNode true
                         }
                     }
