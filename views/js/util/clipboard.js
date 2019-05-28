@@ -1,13 +1,48 @@
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2019  (original work) Open Assessment Technologies SA;
+ *
+ * @author Oleksandr Zagovorychev <zagovorichev@gmail.com>
+ */
+
 define([
     'jquery',
     'core/eventifier'
 ], function ($, eventifier){
     'use strict';
 
+    /**
+     * System clipboard manager
+     *
+     * System clipboard can't be changed without real users action (safety restriction)
+     *
+     * @typedef {Object} clipboard
+     */
     return eventifier({
+        /**
+         * Cleans system clipboard
+         * rewrites everything with space symbol (because some browsers don't replace content with empty string)
+         */
         clean: function clean () {
             this.copy(' ');
         },
+        /**
+         * Place text to the system clipboard
+         * @param text
+         */
         copy: function copy (text) {
             // create new el to copy from
             var textAreaToSelContent;
@@ -21,6 +56,12 @@ define([
             this.copyFromEl(textAreaToSelContent);
             document.body.removeChild(textAreaToSelContent);                  // Remove the <textarea> element
         },
+        /**
+         * Copy text from the element (js or jquery element)
+         * @param elem
+         * @fires clipboard#copied - content successfully stored in clipboard
+         * @fires clipboard#copyError - content was not stored, returns reason
+         */
         copyFromEl: function copyFromEl(elem) {
             var textRange, editable, readOnly, range, sel, successful, el;
 
@@ -81,6 +122,8 @@ define([
          * doesn't work for many browsers
          * can be useful article to use it (if required): https://developers.google.com/web/updates/2018/03/clipboardapi
          * @param elem
+         * @fires clipboard#pasted - content from clipboard pasted
+         * @fires clipboard#pasteError - content wasn't pasted
          */
         paste: function paste(elem) {
             var el, editable, readOnly, range, sel, successful;

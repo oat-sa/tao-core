@@ -329,8 +329,9 @@ class QueueDispatcher extends ConfigurableService implements QueueDispatcherInte
 
         // if we need to run the task straightaway, then run a worker on-the-fly for one round.
         if ($isEnqueued && $queue->isSync()) {
-            (new OneTimeWorker($queue, $this->getTaskLog()))
-                ->run();
+            $oneTimeWorker = new OneTimeWorker($queue, $this->getTaskLog());
+            $this->propagate($oneTimeWorker);
+            $oneTimeWorker->run();
         }
 
         return $isEnqueued;
@@ -399,7 +400,7 @@ class QueueDispatcher extends ConfigurableService implements QueueDispatcherInte
     protected function getTaskLog()
     {
         if (is_null($this->taskLog)) {
-            $this->taskLog = $this->getServiceManager()->get($this->getOption(self::OPTION_TASK_LOG));
+            $this->taskLog = $this->getServiceLocator()->get($this->getOption(self::OPTION_TASK_LOG));
         }
 
         return $this->taskLog;
@@ -411,7 +412,7 @@ class QueueDispatcher extends ConfigurableService implements QueueDispatcherInte
      */
     protected function propagateServices(QueueInterface $queue)
     {
-        $this->getServiceManager()->propagate($queue);
+        $this->propagate($queue);
 
         if ($queue instanceof TaskLogAwareInterface) {
             $queue->setTaskLog($this->getTaskLog());
