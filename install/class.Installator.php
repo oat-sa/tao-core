@@ -118,7 +118,7 @@ class tao_install_Installator {
 			 *  1 - Check configuration with checks described in the manifest.
 			 */
 			$configChecker = tao_install_utils_ChecksHelper::getConfigChecker($extensionIDs);
-			
+
 			// Silence checks to have to be escaped.
 			foreach ($configChecker->getComponents() as $c){
 				if (method_exists($c, 'getName') && in_array($c->getName(), $this->getEscapedChecks())){
@@ -175,6 +175,7 @@ class tao_install_Installator {
 				
 			if($installData['db_driver'] == 'pdo_mysql'){
 			    $dbConnectionParams['dbname'] = '';
+			    $dbConnectionParams['charset'] = 'utf8';
 			}
 			if($installData['db_driver'] == 'pdo_oci'){
 				$dbConnectionParams['wrapperClass'] = 'Doctrine\DBAL\Portability\Connection';
