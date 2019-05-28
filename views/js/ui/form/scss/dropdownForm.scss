@@ -4,8 +4,8 @@
     position: relative;
 
     .trigger-button {
-        button {
-            span:after {
+        [data-control="trigger"] {
+            .label:after {
                 @include tao-icon-setup;
                 @include icon-down;
                 padding-left: 1rem;
@@ -29,18 +29,21 @@
             border: none;
             margin: 0;
 
-            fieldset {
+            .fieldset {
                 max-height: calc(100vh - 40px);
                 overflow-y: auto;
             }
         }
     }
+
     &.open-on-left .form-panel {
         left: 0;
     }
+
     &.open-on-right .form-panel {
         right: 0;
     }
+
     &.open {
         .trigger-button {
             [data-control="trigger"] {
@@ -49,6 +52,7 @@
                 }
             }
         }
+
         .form-panel {
             display: block;
         }
