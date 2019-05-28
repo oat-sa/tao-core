@@ -1,45 +1,45 @@
 @import 'inc/bootstrap';
 
 .form-widget {
-    margin: 10px 0px;
+    margin: 10px 0;
 
-    > .widget-label {
+    .widget-label {
         display: inline-block;
         margin-top: 8px;
         width: 34%;
         vertical-align: top;
     }
 
-    > .widget-field {
+    .widget-field {
         display: inline-block;
         min-width: 150px;
         width: 65%;
 
-        > input,
-        > select,
-        > textarea {
-            background-color: white;
+        input,
+        select,
+        textarea {
             @include simple-border();
+            background-color: white;
             color: $textColor;
             font-family: $regularFont;
             padding: 8px;
             width: 100%;
         }
 
-        > input,
-        > select {
+        input,
+        select {
             font: inherit;
             height: 36px;
         }
 
-        > .check-box-input {
+        .check-box-input {
             color: $textColor;
             display: inline-block;
             font-family: $regularFont;
             padding: 4px;
             width: 100%;
 
-            > .option {
+            .option {
                 padding-top: 4px;
             }
         }
@@ -47,7 +47,7 @@
 
     &.error,
     &.invalid{
-        > .widget-field {
+        .widget-field {
             input,
             select,
             textarea,
