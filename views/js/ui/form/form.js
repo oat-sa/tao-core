@@ -642,7 +642,7 @@ define([
                 var initPromises = [];
 
                 controls = {
-                    $title: $element.find('h2'),
+                    $title: $element.find('.form-title'),
                     $form: $element.find('form'),
                     $widgets: $element.find('fieldset'),
                     $buttons: $element.find('.form-actions')
