@@ -42,11 +42,10 @@ define([
      * @type {Object}
      */
     var defaultConfig = {
-        title: __('Scientific Calculator'),
         width: 450,
         height: 400,
-        minWidth : 250,
-        minHeight : 220
+        minWidth : 290,
+        minHeight : 260
     };
 
     /**

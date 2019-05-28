@@ -66,4 +66,18 @@
     input:focus ~ label {
         border: solid 1px $info;
     }
+
+    // optional class which makes 'off' appearance match 'on'
+    &.monostyle {
+        input ~ label {
+            .off{
+                @include switch-active-on;
+            }
+        }
+        input:checked ~ label {
+            .off{
+                @include switch-default;
+            }
+        }
+    }
 }

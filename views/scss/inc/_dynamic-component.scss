@@ -1,62 +1,57 @@
-.dynamic-component-container{
+.dynamic-component-container {
     display:inline-block;
     background: $canvas;
-    padding: 5px;
+    border: 1px solid $websiteBorder;
+    border-radius: 5px;
+    cursor: auto;
+    padding: 0px;
     position: absolute;
     left: 0;
     top: 0;
-    @include vendor-prefix(box-shadow, 0 0 2px 2px rgba($websiteBorder,.75), property, (-webkit-, -moz-, ''));
     z-index: 15000;
-    .dynamic-component-title-bar{
+    .dynamic-component-title-bar {
         position: relative;
-        color: $darkBarTxt;
-        background: $darkBar;
+        background: $uiClickableDefaultBg;
+        border-bottom: 1px solid $websiteBorder;
         cursor: move;
         text-shadow: none;
         line-height: 1.4;
-        min-height : 23px;
+        min-height : 30px;
+        text-align: center;
+        border-top-right-radius: 5px;
+        border-top-left-radius: 5px;
         @include font-size(14);
-        .reset  {
-            color: $darkBarTxt;
-            position: absolute;
-            top: 0;
-            right: 24px;
-            text-decoration: none;
-            padding: 2px 0 3px 5px;
-            &:before{
-                @include tao-icon-setup;
-                @include icon-compress;
-                margin : 0;
-                padding-right: 5px;
-                top: 1px;
-                position: relative;
-                @include font-size(14);
-            }
-        }
         .closer {
-            color: $darkBarTxt;
+            color: $textColor;
             position: absolute;
-            top: 0;
+            top: 2px;
             right: 0;
             text-decoration: none;
             padding: 2px 2px 2px 4px;
             &:before{
                 margin : 0;
                 padding-right: 1px;
-                top: 1px;
+                top: 0;
                 position: relative;
+                @include icon-result-nok;
+                @include font-size(22);
+            }
+        }
+        .title-bar-icon {
+            &:before{
+                margin : 0;
+                padding-right: 1px;
+                top: 6px;
+                position: relative;
+                @include tao-icon-setup;
+                @include icon-mobile-menu;
                 @include font-size(16);
             }
         }
-        h3 {
-            padding : 0 5px;
-            margin : 0;
-            text-align: left;
-        }
     }
-    .dynamic-component-content{
+    .dynamic-component-content {
         position:relative;
-        .dynamic-component-layer{
+        .dynamic-component-layer {
             position: absolute;
             opacity: 0;
             top: 0;
@@ -64,6 +59,38 @@
             &.dragging-active{
                 width: 100%;
                 height: 100%;
+            }
+        }
+    }
+    .dynamic-component-resize-container {
+        height: 0px;
+        text-align: right;
+
+        .dynamic-component-resize-wrapper {
+            cursor: nwse-resize;
+            display: inline-block;
+            position: relative;
+            bottom: 30px;
+            z-index: 15001;
+
+            .dynamic-component-resize {
+                width: 20px;
+                height: 20px;
+                margin-bottom: 10px;
+                margin-right: 10px;
+                border-right: 1px solid $textColor;
+                border-bottom: 1px solid $textColor;
+            }
+
+            &:hover, &.resizing {
+                bottom: 50px;
+
+                .dynamic-component-resize {
+                    border-right: 2px solid $textColor;
+                    border-bottom: 2px solid $textColor;
+                    width: 40px;
+                    height: 40px;
+                }
             }
         }
     }
