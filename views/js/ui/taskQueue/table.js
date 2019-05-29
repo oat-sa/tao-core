@@ -35,7 +35,7 @@ define([
     'lodash',
     'i18n',
     'moment',
-    'core/taskQueue',
+    'ui/taskQueue',
     'ui/component',
     'ui/taskQueue/status',
     'tpl!ui/taskQueue/tpl/report',

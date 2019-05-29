@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2017-2019 (original work) Open Assessment Technologies SA ;
  */
 
 /**
@@ -44,6 +44,7 @@ define([
 
     var labelUri = 'http://www.w3.org/2000/01/rdf-schema#label';
     var modes = resourceSelectorFactory.selectionModes;
+    var policies = resourceSelectorFactory.selectAllPolicies;
 
     QUnit.module('API');
 
@@ -341,6 +342,229 @@ define([
             })
             .on('query', function(params) {
                 this.update(listData, params);
+            });
+    });
+
+    QUnit.test('selectAll policy: visible', function(assert) {
+        var ready = assert.async();
+        var $container = $('#qunit-fixture');
+        var config = {
+            classUri: 'http://www.tao.lu/Ontologies/TAOItem.rdf#Item',
+            selectionMode: modes.multiple,
+            selectClass : true,
+            classes: classesData,
+            format: 'tree',
+            selectAllPolicy: policies.visible
+        };
+        var clickState = 0;
+
+        assert.expect(30);
+
+        assert.equal($('.resource-selector', $container).length, 0, 'No resource tree in the container');
+
+        resourceSelectorFactory($container, config)
+            .on("update", function() {
+                var $control = $(".selection-control input", this.getElement());
+                var $node1 = $('[data-uri="http://bertao/tao.rdf#i1491898771637894"]', this.getElement());
+                var $node2 = $('[data-uri="http://bertao/tao.rdf#i1491898801542197"]', this.getElement());
+                var $node3 = $('[data-uri="http://bertao/tao.rdf#i14918988061562101"]', this.getElement());
+
+                var $subnode1 = $('[data-uri="http://bertao/tao.rdf#i1491898694361231"]', this.getElement());
+                var $subnode2 = $('[data-uri="http://bertao/tao.rdf#i1491898694361232"]', this.getElement());
+                var $subnode3 = $('[data-uri="http://bertao/tao.rdf#i1491898694361233"]', this.getElement());
+
+                var $subclass = $('.class [data-uri="http://bertao/tao.rdf#i1491898712953393"]', this.getElement());
+                var selection;
+
+                clickState++;
+                if(clickState === 1) {
+                    $control.click();
+                    selection = this.getSelection();
+
+                    assert.equal($control.prop('indeterminate'), false, 'The selection control says all  values');
+                    assert.equal($control.prop('checked'), true, 'The selection control says all values');
+
+                    // root class nodes are selected
+                    assert.ok($node1.hasClass('selected'), 'node1 is now selected');
+                    assert.equal(typeof selection[$node1.data('uri')], 'object', 'The selection contains node1');
+
+                    assert.ok($node2.hasClass('selected'), 'node2 is now selected');
+                    assert.equal(typeof selection[$node2.data('uri')], 'object', 'The selection contains node2');
+
+                    assert.ok($node3.hasClass('selected'), 'node3 is now selected');
+                    assert.equal(typeof selection[$node3.data('uri')], 'object', 'The selection contains node3');
+
+                    // root class nodes are not selected
+                    assert.ok(!$subnode1.hasClass('selected'), 'subnode1 is deselected');
+                    assert.equal(typeof selection[$subnode1.data('uri')], 'undefined', 'The selection doesnt contain subnode1');
+
+                    assert.ok(!$subnode2.hasClass('selected'), 'subnode2 is deselected');
+                    assert.equal(typeof selection[$subnode2.data('uri')], 'undefined', 'The selection doesnt contain subnode2');
+
+                    assert.ok(!$subnode3.hasClass('selected'), 'subnode3 is deselected');
+                    assert.equal(typeof selection[$subnode3.data('uri')], 'undefined', 'The selection doesnt contain subnode3');
+
+
+                    assert.ok($subclass.hasClass('selected'), 'subclass is selected');
+                    assert.equal(typeof selection[$subclass.data('uri')], 'object', 'The selection contains subclass');
+
+                    // open closed subclass
+                    $subclass.find('.class-toggler').click();
+                } else if(clickState === 2) {
+                    //deselect everything
+                    $control.click();
+                    selection = this.getSelection();
+                    assert.ok(!selection.length, 'Everything is deselected');
+
+
+                    assert.ok(!$node1.hasClass('selected'), 'node1 is deselected');
+                    assert.equal(typeof selection[$node1.data('uri')], 'undefined', 'The selection doesnt contain node1');
+
+                    assert.ok(!$node2.hasClass('selected'), 'node2 is deselected');
+                    assert.equal(typeof selection[$node2.data('uri')], 'undefined', 'The selection doesnt contain node2');
+
+                    assert.ok(!$node3.hasClass('selected'), 'node3 is deselected');
+                    assert.equal(typeof selection[$node3.data('uri')], 'undefined', 'The selection doesnt contain node3');
+
+                    //select everything
+                    $control.click();
+                    selection = this.getSelection();
+
+                    //now subnodes are selected
+                    assert.ok($subnode1.hasClass('selected'), 'subnode1 is selected');
+                    assert.equal(typeof selection[$subnode1.data('uri')], 'object', 'The selection contains subnode1');
+
+                    assert.ok($subnode2.hasClass('selected'), 'subnode2 is selected');
+                    assert.equal(typeof selection[$subnode2.data('uri')], 'object', 'The selection contains subnode2');
+
+                    assert.ok($subnode3.hasClass('selected'), 'subnode3 is selected');
+                    assert.equal(typeof selection[$subnode3.data('uri')], 'object', 'The selection contains subnode3');
+
+                    ready();
+                }
+            })
+            .on('query', function(params) {
+                if (params.format === 'tree') {
+                    if (config.classUri === params.classUri) {
+                        this.update(treeRootData, params);
+                    } else {
+                        this.update(treeNodeData, params);
+                    }
+                }
+                if (params.format === 'list') {
+                    this.update(listData, params);
+                }
+            });
+    });
+
+    QUnit.test('selectAll policy: loaded', function(assert) {
+        var ready = assert.async();
+        var $container = $('#qunit-fixture');
+        var config = {
+            classUri: 'http://www.tao.lu/Ontologies/TAOItem.rdf#Item',
+            selectionMode: modes.multiple,
+            selectClass : true,
+            classes: classesData,
+            format: 'tree',
+            selectAllPolicy: policies.loaded
+        };
+        var clickState = 0;
+
+        assert.expect(30);
+
+        assert.equal($('.resource-selector', $container).length, 0, 'No resource tree in the container');
+
+        resourceSelectorFactory($container, config)
+            .on("update", function() {
+                var $control = $(".selection-control input", this.getElement());
+                var $node1 = $('[data-uri="http://bertao/tao.rdf#i1491898771637894"]', this.getElement());
+                var $node2 = $('[data-uri="http://bertao/tao.rdf#i1491898801542197"]', this.getElement());
+                var $node3 = $('[data-uri="http://bertao/tao.rdf#i14918988061562101"]', this.getElement());
+
+                var $subnode1 = $('[data-uri="http://bertao/tao.rdf#i1491898694361231"]', this.getElement());
+                var $subnode2 = $('[data-uri="http://bertao/tao.rdf#i1491898694361232"]', this.getElement());
+                var $subnode3 = $('[data-uri="http://bertao/tao.rdf#i1491898694361233"]', this.getElement());
+
+                var $subclass = $('.class [data-uri="http://bertao/tao.rdf#i1491898712953393"]', this.getElement());
+                var selection;
+
+                clickState++;
+                if(clickState === 1) {
+                    $control.click();
+                    selection = this.getSelection();
+
+                    assert.equal($control.prop('indeterminate'), false, 'The selection control says all  values');
+                    assert.equal($control.prop('checked'), true, 'The selection control says all values');
+
+                    // root class nodes are selected
+                    assert.ok($node1.hasClass('selected'), 'node1 is now selected');
+                    assert.equal(typeof selection[$node1.data('uri')], 'object', 'The selection contains node1');
+
+                    assert.ok($node2.hasClass('selected'), 'node2 is now selected');
+                    assert.equal(typeof selection[$node2.data('uri')], 'object', 'The selection contains node2');
+
+                    assert.ok($node3.hasClass('selected'), 'node3 is now selected');
+                    assert.equal(typeof selection[$node3.data('uri')], 'object', 'The selection contains node3');
+
+                    // root class nodes are not selected
+                    assert.ok(!$subnode1.hasClass('selected'), 'subnode1 is deselected');
+                    assert.equal(typeof selection[$subnode1.data('uri')], 'undefined', 'The selection doesnt contain subnode1');
+
+                    assert.ok(!$subnode2.hasClass('selected'), 'subnode2 is deselected');
+                    assert.equal(typeof selection[$subnode2.data('uri')], 'undefined', 'The selection doesnt contain subnode2');
+
+                    assert.ok(!$subnode3.hasClass('selected'), 'subnode3 is deselected');
+                    assert.equal(typeof selection[$subnode3.data('uri')], 'undefined', 'The selection doesnt contain subnode3');
+
+                    assert.ok($subclass.hasClass('selected'), 'subclass is selected');
+                    assert.equal(typeof selection[$subclass.data('uri')], 'object', 'The selection contains subclass');
+
+                    // open closed subclass
+                    $subclass.find('.class-toggler').click();
+                } else if(clickState === 2) {
+                    //deselect everything
+                    $control.click();
+                    selection = this.getSelection();
+
+                    assert.ok(!selection.length, 'Everything is deselected');
+
+                    assert.ok(!$node1.hasClass('selected'), 'node1 is deselected');
+                    assert.equal(typeof selection[$node1.data('uri')], 'undefined', 'The selection doesnt contain node1');
+
+                    assert.ok(!$node2.hasClass('selected'), 'node2 is deselected');
+                    assert.equal(typeof selection[$node2.data('uri')], 'undefined', 'The selection doesnt contain node2');
+
+                    assert.ok(!$node3.hasClass('selected'), 'node3 is deselected');
+                    assert.equal(typeof selection[$node3.data('uri')], 'undefined', 'The selection doesnt contain node3');
+
+                    //select everything again
+                    $control.click();
+                    selection = this.getSelection();
+
+                    //now subnodes are selected
+                    assert.ok($subnode1.hasClass('selected'), 'subnode1 is selected');
+                    assert.equal(typeof selection[$subnode1.data('uri')], 'object', 'The selection contains subnode1');
+
+                    assert.ok($subnode2.hasClass('selected'), 'subnode2 is selected');
+                    assert.equal(typeof selection[$subnode2.data('uri')], 'object', 'The selection contains subnode2');
+
+                    assert.ok($subnode3.hasClass('selected'), 'subnode3 is selected');
+                    assert.equal(typeof selection[$subnode3.data('uri')], 'object', 'The selection contains subnode3');
+
+                    ready();
+                }
+            })
+            .on('query', function(params) {
+                if (params.format === 'tree') {
+                    if (config.classUri === params.classUri) {
+                        this.update(treeRootData, params);
+                    } else {
+                        this.update(treeNodeData, params);
+                    }
+                }
+                if (params.format === 'list') {
+                    this.update(listData, params);
+                }
             });
     });
 
@@ -900,14 +1124,44 @@ define([
 
     QUnit.module('Visual');
 
-    QUnit.test('playground', function(assert) {
+    QUnit.test('playground 1', function(assert) {
         var ready = assert.async();
-        var container = document.getElementById('visual');
+        var container = document.getElementById('visual1');
         var config = {
             classUri: 'http://www.tao.lu/Ontologies/TAOItem.rdf#Item',
             classes: classesData,
             selectClass: true,
             selectionMode: 'both'
+        };
+
+        resourceSelectorFactory(container, config)
+            .on('render', function() {
+                assert.ok(true);
+                ready();
+            })
+            .on('query', function(params) {
+                if (params.format === 'tree') {
+                    if (config.classUri === params.classUri) {
+                        this.update(treeRootData, params);
+                    } else {
+                        this.update(treeNodeData, params);
+                    }
+                }
+                if (params.format === 'list') {
+                    this.update(listData, params);
+                }
+            });
+    });
+
+    QUnit.test('playground 2', function(assert) {
+        var ready = assert.async();
+        var container = document.getElementById('visual2');
+        var config = {
+            classUri: 'http://www.tao.lu/Ontologies/TAOItem.rdf#Item',
+            classes: classesData,
+            selectClass: false,
+            selectionMode: 'both',
+            selectAllPolicy: policies.visible
         };
 
         resourceSelectorFactory(container, config)

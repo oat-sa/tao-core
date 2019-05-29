@@ -32,7 +32,9 @@
     "normalize": "lib/require-css/normalize",
     "i18ntr": "../locales/en-US",
     "router": "core/router",
-    "babel-polyfill": "../build/node_modules/@babel/polyfill/browser"
+    "core": "../node_modules/@oat-sa/tao-core-sdk/dist/core",
+    "util": "../node_modules/@oat-sa/tao-core-sdk/dist/util",
+    "babel-polyfill": "../node_modules/@babel/polyfill/browser"
   },
 
   "shim": {
@@ -82,7 +84,6 @@
     "ui/**/*",
     "util/**/*",
     "uri",
-    "urlParser",
     "context",
     "iframeResizer",
     "iframeNotifier",

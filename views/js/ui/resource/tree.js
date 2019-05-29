@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2017-2019 (original work) Open Assessment Technologies SA ;
  */
 
 /**
@@ -117,7 +117,7 @@ define([
      * @param {jQueryElement} $container - where to append the component
      * @param {Object} config - the component config
      * @param {String} config.classUri - the root Class URI
-     * @param {Objet[]} [config.nodes] - the nodes to preload
+     * @param {Object[]} [config.nodes] - the nodes to preload
      * @param {String} [config.icon] - the icon class to show close to the resources
      * @param {Boolean} [config.multiple = true] - multiple vs unique selection
      * @returns {resourceTree} the component
@@ -183,11 +183,11 @@ define([
                         if(!node.state){
                             node.state = 'empty';
                         }
-                        self.addNode(node.uri,  _.omit(node, ['count', 'state', 'children']));
+                        self.addNode(node.uri,  _.omit(node, ['count', 'children']));
                     }
                     if(node.type === 'instance'){
                         node.selectable = true;
-                        self.addNode(node.uri,  _.omit(node, ['count', 'state', 'children']));
+                        self.addNode(node.uri,  _.omit(node, ['count', 'children']));
                         node.icon = config.icon;
                     }
                     if(node.children && node.children.length){
@@ -258,13 +258,16 @@ define([
                  * @param {jQueryElement} $class
                  */
                 var openClass = function openClass($class){
-                    if($class.hasClass('closed')){
-                        if(!$class.children('ul').children('li').length){
-                            self.query({ classUri : $class.data('uri') });
-                        }  else {
-                            $class.removeClass('closed');
-                        }
+                    var node = self.getNode($class.data('uri'));
+
+                    if(!$class.children('ul').children('li').length){
+                        self.query({ classUri : $class.data('uri') });
                     }
+                    if(node) {
+                        node.state = 'open';
+                    }
+                    $class.addClass('open')
+                        .removeClass('closed');
                 };
 
                 /**
@@ -272,7 +275,12 @@ define([
                  * @param {jQueryElement} $class
                  */
                 var closeClass = function closeClass($class){
-                    $class.addClass('closed');
+                    var node = self.getNode($class.data('uri'));
+                    if(node) {
+                        node.state = 'closed';
+                    }
+                    $class.removeClass('open')
+                        .addClass('closed');
                 };
 
                 /**
@@ -304,7 +312,7 @@ define([
                             if($class.hasClass('selected')){
                                 self.unselect($class.data('uri'));
                             } else if ($class.data('access') !== 'denied') {
-                                self.select($class.data('uri'), !self.is('multiple'));
+                                self.select($class.data('uri'), !self.is('multiple'), false, true); // include children
                             }
                         }
                     });
