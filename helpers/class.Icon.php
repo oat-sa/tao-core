@@ -27,7 +27,7 @@
  *
  * @access public
  * @author Dieter Raber, <dieter@taotesting.com>
- * @date   2019-04-26 10:09:50
+ * @date   2019-05-29 07:20:13
  * @package tao
  * @subpackage helpers
  */
@@ -270,6 +270,8 @@ class tao_helpers_Icon {
     const CLASS_GLOBE = 'icon-globe';
     const CLASS_HIGHLIGHTER = 'icon-highlighter';
     const CLASS_ELIMINATE_CROSSED = 'icon-eliminate-crossed';
+    const CLASS_TEMPLATE = 'icon-template';
+    const CLASS_TEMPLATE_FROM = 'icon-template-from';
 
 	
     /**
@@ -1130,6 +1132,14 @@ class tao_helpers_Icon {
 
     public static function iconEliminateCrossed($options=array()){
         return self::buildIcon(self::CLASS_ELIMINATE_CROSSED, $options);
+    }
+
+    public static function iconTemplate($options=array()){
+        return self::buildIcon(self::CLASS_TEMPLATE, $options);
+    }
+
+    public static function iconTemplateFrom($options=array()){
+        return self::buildIcon(self::CLASS_TEMPLATE_FROM, $options);
     }
 
 
