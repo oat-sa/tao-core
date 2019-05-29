@@ -40,7 +40,7 @@
     "extra": {
         "tao-extension-name": "tao",
         "npm-bridge": {
-            "arguments": ["--prefix", "views"]
+            "arguments": ["--no-cache", "--prefix", "views"]
         }
     },
     "require": {
