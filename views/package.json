@@ -1,0 +1,13 @@
+{
+  "name": "@oat-sa/tao",
+  "version": "0.1.0",
+  "license": "GPL-2.0",
+  "description": "tao core dependencies",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oat-sa/tao-core.git"
+  },
+  "dependencies": {
+    "@oat-sa/tao-core-sdk": "^0.1.1"
+  }
+}
