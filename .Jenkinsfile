@@ -37,6 +37,9 @@ registry.service.consul:4444/tao/dependency-resolver oat:dependencies:resolve --
                     reuseNode true
                 }
             }
+            environment {
+                HOME = '.'
+            }
             options {
                 skipDefaultCheckout()
             }

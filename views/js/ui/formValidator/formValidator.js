@@ -45,7 +45,7 @@
  *   <li>fileExists(baseUrl, [message])</li>
  *   <li>validRegex([message])</li>
  * </ul>
- * For more information see 'core/validator/validators' module
+ * For more information see 'ui/validator/validators' module
  *
  * JavaScript:
  * <pre>
