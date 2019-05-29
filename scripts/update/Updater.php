@@ -1063,7 +1063,7 @@ class Updater extends \common_ext_ExtensionUpdater {
                 $rdf->remove($triple);
                 $rdf->add($triple);
             }
-            $this->setVersion('35.8.2');
+            $this->setVersion('35.9.0');
         }
     }
 }
