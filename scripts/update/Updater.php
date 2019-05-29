@@ -1066,6 +1066,22 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('35.8.2');
         }
 
-        $this->skip('35.8.2', '35.8.3');
+        if ($this->isVersion('35.8.2')) {
+            /** @var \common_persistence_Manager $pm */
+            $persistenceManager = $this->getServiceManager()->get(\common_persistence_Manager::SERVICE_ID);
+            $persistenceManagerConfig = $persistenceManager->getOption('persistences');
+
+            if (isset($persistenceManagerConfig['default']['connection'])
+                && $persistenceManagerConfig['default']['connection']['driver'] === 'pdo_mysql'
+                && !isset($persistenceManagerConfig['default']['connection']['charset'])) {
+
+                $persistenceManagerConfig['default']['connection']['charset'] = 'utf8';
+            }
+
+            $persistenceManager->setOption('persistences', $persistenceManagerConfig);
+            $this->getServiceManager()->register(\common_persistence_Manager::SERVICE_ID, $persistenceManager);
+            $this->setVersion('35.8.3');
+        }
+
     }
 }
