@@ -36,6 +36,9 @@ registry.service.consul:4444/tao/dependency-resolver oat:dependencies:resolve --
                     image 'alexwijn/docker-git-php-composer'
                     reuseNode true
                 }
+                environment {
+                    HOME = '.'
+                }
             }
             options {
                 skipDefaultCheckout()
