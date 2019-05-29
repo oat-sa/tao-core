@@ -36,7 +36,7 @@ define([
     'i18n',
     'core/dataProvider/request',
     'core/polling',
-    'core/taskQueue',
+    'ui/taskQueue',
     'ui/component',
     'ui/report',
     'tpl!ui/taskQueue/tpl/status',

@@ -69,6 +69,8 @@ require.config({
     <?php foreach (get_data('extensionsAliases') as $name => $path) :?>
         '<?=$name?>'        : '<?=$path?>',
     <?php endforeach?>
+        'core'              : '../node_modules/@oat-sa/tao-core-sdk/dist/core',
+        'util'              : '../node_modules/@oat-sa/tao-core-sdk/dist/util'
    },
    shim : {
         'jqueryui'              : { deps : ['jquery'] },
