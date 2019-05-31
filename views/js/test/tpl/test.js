@@ -22,8 +22,9 @@
 define([
     'tpl!test/tpl/samples/dompurify_script',
     'tpl!test/tpl/samples/join_keyvalue',
+    'tpl!test/tpl/samples/property',
     'tpl!test/tpl/samples/join_array'
-], function(tplDomPurifyScript, tplJoinKeyValue, tplJoinArray) {
+], function(tplDomPurifyScript, tplJoinKeyValue, tplProperty,  tplJoinArray) {
     'use strict';
 
     QUnit.module('registered handlers');
@@ -68,6 +69,14 @@ define([
             values: values
         });
         assert.equal(rendering, '*v1* or *v2* or *v3*', 'join array rendering ok');
+    });
+
+    QUnit.test('property helper', function(assert) {
+        var rendering = tplProperty({
+            data: {id: 0}
+        });
+        console.log(rendering);
+        assert.equal(rendering, '<span>0</span>', 'property helper rendering ok');
     });
 
 });
