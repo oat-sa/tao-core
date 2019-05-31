@@ -102,7 +102,7 @@ mkdir -p tao/views/locales/en-US/
                     steps {
                         dir('build/tao/views'){
                             sh(
-                                label: 'Ensure FE resource are available'
+                                label: 'Ensure FE resource are available',
                                 script: 'npm install --production'
                             )
                         }
