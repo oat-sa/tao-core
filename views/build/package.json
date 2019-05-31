@@ -45,8 +45,5 @@
   },
   "browserslist": [
     "extends @oat-sa/browserslist-config-tao"
-  ],
-  "dependencies": {
-    "@babel/polyfill": "^7.4.4"
-  }
+  ]
 }
