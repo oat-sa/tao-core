@@ -186,6 +186,14 @@ require(['config'], function() {
                     validifyNotMandatory(this);
                     break;
 
+                case 'file_path':
+                    install.getValidator(this, {
+                        dataType: 'string',
+                        mandatory: false
+                    });
+                    validifyNotMandatory(this);
+                    break;
+
                 default:
                     install.getValidator(this);
                     break;
