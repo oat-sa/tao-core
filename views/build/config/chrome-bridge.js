@@ -80,7 +80,7 @@
      * The test case is done
      */
     QUnit.testDone(function(logs) {
-        const testId = logs.name;
+        const testId = logs.testId;
         if(runningTestsTimeouts.has(testId)){
             clearTimeout(runningTestsTimeouts.get(testId));
             runningTestsTimeouts.delete(testId);
