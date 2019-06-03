@@ -20,8 +20,8 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'jquery', 'lodash', 'i18n', 'context', 'helpers', 'core/router', 'ui', 'core/history', 'ui/feedback', 'layout/logout-event'
-], function ($, _, __, context, helpers, router, ui, history, feedback, logoutEvent) {
+    'jquery', 'lodash', 'i18n', 'context', 'helpers', 'core/router', 'uikitloader', 'core/history', 'ui/feedback', 'layout/logout-event'
+], function ($, _, __, context, helpers, router, uikitloader, history, feedback, logoutEvent) {
     'use strict';
 
     /**
@@ -53,7 +53,7 @@ define([
                     }
 
                     router.dispatch(urls, function(){
-                        ui.startDomComponent($container);
+                        uikitLoader.startDomComponent($container);
                     });
                 }
             });
@@ -102,7 +102,7 @@ define([
             });
 
             //initialize new components
-            ui.startEventComponents($container);
+            uikitLoader.startEventComponents($container);
         }
     };
 });

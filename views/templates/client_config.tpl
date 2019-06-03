@@ -70,7 +70,8 @@ require.config({
         '<?=$name?>'        : '<?=$path?>',
     <?php endforeach?>
         'core'              : '../node_modules/@oat-sa/tao-core-sdk/dist/core',
-        'util'              : '../node_modules/@oat-sa/tao-core-sdk/dist/util'
+        'util'              : '../node_modules/@oat-sa/tao-core-sdk/dist/util',
+        'ui'                : '../node_modules/@oat-sa/tao-core-ui/dist'
    },
    shim : {
         'jqueryui'              : { deps : ['jquery'] },

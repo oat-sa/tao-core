@@ -33,7 +33,8 @@
     "i18ntr": "../locales/en-US",
     "router": "core/router",
     "core": "../node_modules/@oat-sa/tao-core-sdk/dist/core",
-    "util": "../node_modules/@oat-sa/tao-core-sdk/dist/util"
+    "util": "../node_modules/@oat-sa/tao-core-sdk/dist/util",
+    "ui" : "../node_modules/@oat-sa/tao-core-ui/dist"
   },
 
   "shim": {
