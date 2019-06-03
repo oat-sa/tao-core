@@ -1,1 +1,0 @@
-<span class="viewable-hiddenbox">{{{elements}}}<span class="viewable-hiddenbox-toggle" tabindex="0"><span class="icon-preview"></span><span class="icon-eye-slash" style="display: none;"></span></span></span>
