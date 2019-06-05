@@ -44,7 +44,7 @@ define([
 ], function(module, $, _, context, router, helpers, uiForm, urlUtil, loggerFactory, feedback, generisRouter, sections, actionManager,versionWarning, loadingBar, nav, search, treeLoader, sectionHeight){
     'use strict';
 
-    var logger = loggerFactory('controller/main');
+    const logger = loggerFactory('controller/main');
 
     /**
      * Loads and set up the given tree for a section, based on the tree provider
@@ -54,24 +54,23 @@ define([
      * @param {String} [section.defaultUri] - the URI of the node to select by default
      * @returns {Promise} that resolves once rendered
      */
-    var sectionTree = function sectionTree($container, section) {
-        var treeProvider;
+    const sectionTree = function sectionTree($container, section) {
 
         //get the tree actions
-        var treeActions  = _.reduce($container.data('actions'), function(acc, id, key){
-            var action = actionManager.getBy(id);
+        const treeActions  = _.reduce($container.data('actions'), (acc, id, key) => {
+            const action = actionManager.getBy(id);
             if(action){
                 acc[key] = action;
             }
             return acc;
         }, {});
 
-        var treeUrl = urlUtil.build([context.root_url, $container.data('url')]);
+        const treeUrl = urlUtil.build([context.root_url, $container.data('url')]);
 
-        var treeType = $container.data('type');
+        const treeType = $container.data('type');
 
         //get the current tree based on the type attr, or fallback to jstree
-        treeProvider = treeLoader(treeType);
+        const treeProvider = treeLoader(treeType);
 
         if(!treeType){
             //fill with the default value
@@ -90,36 +89,41 @@ define([
     };
 
     /**
+     * Handle errors by displaying an entry in the logger
+     * and a message to the user
+     *
+     * @param {Error} err - the caught error
+     */
+    const handleError = function handleError(err) {
+        logger.error(err);
+        feedback().error(err);
+    };
+
+    /**
      * This controller initialize all the layout components used by the backend : sections, actions, tree, loader, etc.
      * @exports tao/controller/main
      */
     return {
-        start: function start() {
+        start() {
 
-            var config = module.config();
-            var $doc = $(document);
+            const config = module.config();
+            const $doc = $(document);
 
             versionWarning.init();
             generisRouter.init();
 
             //just before an ajax request
-            $doc.ajaxSend(function() {
-                loadingBar.start();
-            });
+            $doc.ajaxSend( () => loadingBar.start() );
 
             //when an ajax request complete
-            $doc.ajaxComplete(function() {
-                loadingBar.stop();
-            });
+            $doc.ajaxComplete( () => loadingBar.stop() );
 
             //navigation bindings
             nav.init();
 
-            actionManager.on('error', function(err){
-                logger.error(err);
-                feedback().error(err);
-            });
-            actionManager.on('contextchange', function(actionContext) {
+            actionManager.on('error', handleError);
+
+            actionManager.on('contextchange', actionContext => {
                 // in case of multi selection, the main panel should be empty
                 if (_.isArray(actionContext) && actionContext.length !== 1) {
                     sections.current().updateContentBlock('<div class="main-container flex-container-form-main"></div>');
@@ -127,7 +131,7 @@ define([
             });
 
             //initialize sections
-            sections.on('activate', function(section) {
+            sections.on('activate', section => {
                 window.scrollTo(0, 0);
 
                 // quick work around issue in IE11
@@ -153,17 +157,15 @@ define([
 
                         //set up the tree
                         $('.taotree', section.panel).each(function() {
-                            var $treeElt = $(this);
-                            var $actionBar = $('.tree-action-bar-box', section.panel);
+                            const $treeElt = $(this);
+                            const $actionBar = $('.tree-action-bar-box', section.panel);
 
                             sectionTree($treeElt, section)
-                                .then(function(){
+                                .then(() => {
                                     $actionBar.addClass('active');
                                     sectionHeight.setHeights(section.panel);
                                 })
-                                .catch(function(err){
-                                    logger.error(err);
-                                });
+                                .catch(handleError);
                         });
 
                         $('.navi-container', section.panel).show();
@@ -171,7 +173,7 @@ define([
                     case 'content':
 
                         //or load the content block
-                        this.loadContentBlock();
+                        sections.loadContentBlock();
                         break;
                 }
             })

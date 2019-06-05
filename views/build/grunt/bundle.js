@@ -24,6 +24,7 @@
  */
 module.exports = function(grunt) {
     'use strict';
+
     const root        = grunt.option('root');
     const workDir     = grunt.option('output');
 
@@ -48,11 +49,13 @@ module.exports = function(grunt) {
                     }, {
                         name      : 'login',
                         bootstrap : true,
+                        babel     : true,
                         entryPoint: 'controller/login'
                     }, {
                         name      : 'tao',
                         bootstrap : true,
                         default   : true,
+                        babel     : true,
                         include   : [
                             'layout/**/*',
                             'form/**/*',
