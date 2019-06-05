@@ -69,6 +69,7 @@ require.config({
     <?php foreach (get_data('extensionsAliases') as $name => $path) :?>
         '<?=$name?>'        : '<?=$path?>',
     <?php endforeach?>
+        'lib/uuid'          : '../node_modules/@oat-sa/tao-core-libs/dist/uuid',
         'core'              : '../node_modules/@oat-sa/tao-core-sdk/dist/core',
         'util'              : '../node_modules/@oat-sa/tao-core-sdk/dist/util'
    },

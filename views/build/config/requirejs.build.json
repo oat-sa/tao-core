@@ -5,7 +5,7 @@
     "json": "lib/text/json",
     "css": "lib/require-css/css",
     "tpl": "tpl",
-    "jquery": "lib/jquery-1.9.1",
+    "jquery": "../node_modules/jquery/jquery",
     "select2": "lib/select2/select2.min",
     "jquery.autocomplete": "lib/jquery.autocomplete/jquery.autocomplete",
     "jquery.tree": "lib/jsTree/jquery.tree",
@@ -13,10 +13,10 @@
     "nouislider": "lib/sliders/jquery.nouislider",
     "jquery.fileDownload": "lib/jquery.fileDownload",
     "polyfill": "lib/polyfill",
-    "lodash": "lib/lodash.min",
+    "lodash": "../node_modules/lodash/lodash",
     "async": "lib/async",
-    "moment": "lib/moment-with-locales.min",
-    "handlebars": "lib/handlebars",
+    "moment": "../node_modules/moment/min/moment-with-locales",
+    "handlebars": "../node_modules/handlebars/dist/handlebars",
     "class": "lib/class",
     "raphael": "lib/raphael/raphael",
     "scale.raphael": "lib/raphael/scale.raphael",
@@ -32,6 +32,7 @@
     "normalize": "lib/require-css/normalize",
     "i18ntr": "../locales/en-US",
     "router": "core/router",
+    "lib/uuid" : "../node_modules/@oat-sa/tao-core-libs/dist/uuid",
     "core": "../node_modules/@oat-sa/tao-core-sdk/dist/core",
     "util": "../node_modules/@oat-sa/tao-core-sdk/dist/util",
     "babel-polyfill": "../node_modules/@babel/polyfill/browser"
@@ -40,6 +41,9 @@
   "shim": {
     "moment": {
       "exports": "moment"
+    },
+    "handlebars" : {
+      "exports": "Handlebars"
     },
     "ckeditor": {
       "exports": "CKEDITOR"
