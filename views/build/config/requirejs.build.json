@@ -33,7 +33,8 @@
     "i18ntr": "../locales/en-US",
     "router": "core/router",
     "core": "../node_modules/@oat-sa/tao-core-sdk/dist/core",
-    "util": "../node_modules/@oat-sa/tao-core-sdk/dist/util"
+    "util": "../node_modules/@oat-sa/tao-core-sdk/dist/util",
+    "babel-polyfill": "../node_modules/@babel/polyfill/browser"
   },
 
   "shim": {
@@ -85,7 +86,8 @@
     "uri",
     "context",
     "iframeResizer",
-    "iframeNotifier"
+    "iframeNotifier",
+    "babel-polyfill"
   ],
   "exclude" : ["json!i18ntr/messages.json",  "mathJax", "ckeditor", "pdfjs-dist/build/pdf", "pdfjs-dist/build/pdf.worker", "normalize"],
   "bootstrap" : ["loader/bootstrap"],

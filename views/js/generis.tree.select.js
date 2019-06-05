@@ -425,12 +425,16 @@ define(['jquery', 'lodash', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/fe
 				type: "POST",
 				data: toSend,
 				dataType: 'json',
-				success: function(response) {
+				success: function (response) {
 					if (response.saved) {
 						if (instance.options.saveCallback) {
 							instance.options.saveCallback(toSend);
 						}
 						feedback().info(__('Selection saved successfully'));
+					} else {
+						if (instance.options.saveErrorCallback) {
+							instance.options.saveErrorCallback(response, instance);
+						}
 					}
 				},
 				complete: function() {

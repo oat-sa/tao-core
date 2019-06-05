@@ -47,7 +47,7 @@ registry.service.consul:4444/tao/dependency-resolver oat:dependencies:resolve --
                 dir('build') {
                     sh(
                         label: 'Install/Update sources from Composer',
-                        script: 'COMPOSER_DISCARD_CHANGES=true composer update --no-interaction --no-ansi --no-progress'
+                        script: 'COMPOSER_DISCARD_CHANGES=true composer update --no-interaction --no-ansi --no-progress --no-scripts'
                     )
                     sh(
                         label: 'Add phpunit',
@@ -100,6 +100,12 @@ mkdir -p tao/views/locales/en-US/
                         skipDefaultCheckout()
                     }
                     steps {
+                        dir('build/tao/views'){
+                            sh(
+                                label: 'Ensure FE resource are available',
+                                script: 'npm install --production'
+                            )
+                        }
                         dir('build/tao/views/build') {
                             sh(
                                 label: 'Setup frontend toolchain',
