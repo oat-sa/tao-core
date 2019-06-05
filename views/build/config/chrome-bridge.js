@@ -79,7 +79,7 @@
     /**
      * The test case is done
      */
-    QUnit.testDone(function(logs) {
+    QUnit.testDone( logs => {
         const testId = logs.testId;
         if(runningTestsTimeouts.has(testId)){
             clearTimeout(runningTestsTimeouts.get(testId));
