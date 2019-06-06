@@ -8,7 +8,8 @@
     "url": "git+https://github.com/oat-sa/tao-core.git"
   },
   "dependencies": {
-    "@oat-sa/tao-core-sdk": "^0.1.1",
-    "@oat-sa/tao-core-ui": "github:oat-sa/tao-core-ui-fe#feature/NEX-90_initial-tao-core-ui-extraction"
+    "@oat-sa/tao-core-sdk": "~0.2.0",
+    "@oat-sa/tao-core-ui": "github:oat-sa/tao-core-ui-fe#feature/NEX-90_initial-tao-core-ui-extraction",
+    "@babel/polyfill": "^7.4.4"
   }
 }
