@@ -21,7 +21,7 @@
  */
 define([
     'jquery', 'lodash', 'i18n', 'context', 'helpers', 'core/router', 'uikitLoader', 'core/history', 'ui/feedback', 'layout/logout-event'
-], function ($, _, __, context, helpers, router, uikitloader, history, feedback, logoutEvent) {
+], function ($, _, __, context, helpers, router, uikitLoader, history, feedback, logoutEvent) {
     'use strict';
 
     /**
