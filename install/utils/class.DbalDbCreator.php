@@ -145,7 +145,7 @@ class tao_install_utils_DbalDbCreator {
      */
     private function createStatementsSchena(){
     	$table = $this->schema->createTable('statements');
-        $table->addColumn('id', 'string', ['length' => 25, 'notnull' => true]);
+    	$table->addColumn('id', 'string', ['length' => 25, 'notnull' => true]);
 
     	$table->addColumn('modelid', 'string', ['length' => 25, 'notnull' => true]);
     	$table->addColumn('subject', 'string', ['length' => 255]);
@@ -158,7 +158,7 @@ class tao_install_utils_DbalDbCreator {
         $table->addColumn('l_language', 'string', ['length' => 255]);
 
     	$table->addColumn('author', 'string', ['length' => 255]);
-        $table->addColumn('epoch', 'string' , ['notnull' => true]);
+    	$table->addColumn('epoch', 'string' , ['notnull' => true]);
 
     	$table->setPrimaryKey(['id']);
 
