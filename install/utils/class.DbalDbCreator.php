@@ -134,47 +134,44 @@ class tao_install_utils_DbalDbCreator {
      * @author "Lionel Lecaque, <lionel@taotesting.com>"
      */
     private function createModelsSchema(){
-	    $table = $this->schema->createTable("models");
-	    $table->addColumn('modelid', "integer",array("notnull" => true,"autoincrement" => true));
-	    $table->addColumn('modeluri', "string", array("length" => 255,"default" => null));
-	    $table->addOption('engine' , 'MyISAM');
-	    $table->setPrimaryKey(array('modelid'));
+	    $table = $this->schema->createTable('models');
+	    $table->addColumn('modelid', 'string', ['length' => 25, 'notnull' => true]);
+	    $table->addColumn('modeluri', 'string', ['length' => 255]);
+        $table->setPrimaryKey(array('modelid'));
+        $table->addOption('engine' , 'MyISAM');
     }
     /**
-     * @author "Lionel Lecaque, <lionel@taotesting.com>"
+     * @author 'Lionel Lecaque, <lionel@taotesting.com>'
      */
     private function createStatementsSchena(){
-    	$table = $this->schema->createTable("statements");
-    	$table->addColumn("modelid", "integer",array("notnull" => true,"default" => 0));
-    	$table->addColumn("subject", "string",array("length" => 255,"default" => null));
-    	$table->addColumn("predicate", "string",array("length" => 255,"default" => null));
+    	$table = $this->schema->createTable('statements');
+        $table->addColumn('id', 'string', ['length' => 25, 'notnull' => true]);
+
+    	$table->addColumn('modelid', 'string', ['length' => 25, 'notnull' => true]);
+    	$table->addColumn('subject', 'string', ['length' => 255]);
+    	$table->addColumn('predicate', 'string', ['length' => 255]);
     	if($this->dbConfiguration['driver'] == 'pdo_oci' ) {
-    		$table->addColumn("object", "string", array("length" => 4000,"default" => null,"notnull" => false));
+    		$table->addColumn('object', 'string', ['length' => 4000]);
+    	} else {
+    		$table->addColumn('object', 'text', []);
     	}
-    		else {
-    			$table->addColumn("object", "text", array("default" => null,"notnull" => false)); 		
-    	
-    	}
-    	$table->addColumn("l_language", "string",array("length" => 255,"default" => null,"notnull" => false));
-    	$table->addColumn("id", "integer",array("notnull" => true,"autoincrement" => true));
-    	$table->addColumn("author", "string",array("length" => 255,"default" => null,"notnull" => false));
-//     	$table->addColumn("stread", "string",array("length" => 255,"default" => null,"notnull" => false));
-//     	$table->addColumn("stedit", "string",array("length" => 255,"default" => null,"notnull" => false));
-//     	$table->addColumn("stdelete", "string",array("length" => 255,"default" => null,"notnull" => false));
-    	$table->setPrimaryKey(array("id"));
-    	$table->addOption('engine' , 'MyISAM');
-    	$table->addColumn("epoch", "string" , array("notnull" => null));
+        $table->addColumn('l_language', 'string', ['length' => 255]);
+
+    	$table->addColumn('author', 'string', ['length' => 255]);
+        $table->addColumn('epoch', 'string' , ['notnull' => true]);
+
+    	$table->setPrimaryKey(['id']);
 
     	if($this->dbConfiguration['driver'] != 'pdo_mysql'){
-    	   	$table->addIndex(array("subject","predicate"),"k_sp");
+    	   	$table->addIndex(['subject', 'predicate'], 'k_sp');
     		common_Logger::d('driver is ' . $this->dbConfiguration['driver']);
     	   	if($this->dbConfiguration['driver'] != 'pdo_sqlsrv' 
     	   			&& $this->dbConfiguration['driver'] != 'pdo_oci'){
-    	   		$table->addIndex(array("predicate","object"),"k_po");
+    	   		$table->addIndex(['predicate', 'object'], 'k_po');
     	   	}
-    	} 	
+    	}
 
-    
+        $table->addOption('engine' , 'MyISAM');
     }
     
 
