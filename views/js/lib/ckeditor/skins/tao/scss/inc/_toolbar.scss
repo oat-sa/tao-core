@@ -60,6 +60,13 @@ Special outer level classes used in this file:
   float: right;
 }
 
+@media (pointer:coarse) {
+  .cke .cke_toolbar .cke_button_off.cke_button_off:hover {
+    background: white !important;
+    color: $textColor !important;
+  }
+}
+
 /* The box that holds buttons. */
 .cke_toolgroup {
   float: left;
