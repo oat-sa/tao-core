@@ -23,6 +23,7 @@
 namespace oat\tao\scripts\update;
 
 use AppendIterator;
+use common_exception_MissingParameter;
 use oat\generis\model\kernel\persistence\file\FileModel;
 use oat\generis\model\data\ModelManager;
 use helpers_RdfDiff;
@@ -31,6 +32,7 @@ use common_persistence_SqlPersistence;
 use common_ext_ExtensionsManager;
 use core_kernel_persistence_smoothsql_SmoothIterator;
 use oat\tao\model\extension\ExtensionModel;
+use tao_models_classes_LanguageService;
 
 class OntologyUpdater
 {
@@ -38,7 +40,11 @@ class OntologyUpdater
     public static function syncModels()
     {
         $currentModel = ModelManager::getModel();
-        $modelIds = array_diff($currentModel->getReadableModels(), ['1']);
+
+        // Excludes the writable model.
+        $modelFactory = new \core_kernel_api_ModelFactory();
+        $writableModelId = $modelFactory->getModelId(LOCAL_NAMESPACE);
+        $modelIds = array_diff($currentModel->getReadableModels(), [$writableModelId]);
         
         $persistence = common_persistence_SqlPersistence::getPersistence('default');
         
@@ -48,15 +54,20 @@ class OntologyUpdater
         foreach (common_ext_ExtensionsManager::singleton()->getInstalledExtensions() as $ext) {
             $nominalModel->append(new ExtensionModel($ext));
         }
-        $langModel = \tao_models_classes_LanguageService::singleton()->getLanguageDefinition();
+        $langModel = tao_models_classes_LanguageService::singleton()->getLanguageDefinition();
         $nominalModel->append($langModel);
-        
+
         $diff = helpers_RdfDiff::create($smoothIterator, $nominalModel);
         self::logDiff($diff);
         
         $diff->applyTo($currentModel);
     }
-    
+
+    /**
+     * @param $rdfFile
+     *
+     * @throws common_exception_MissingParameter
+     */
     public static function correctModelId($rdfFile)
     {
         $modelFile = new FileModel(['file' => $rdfFile]);
@@ -67,7 +78,7 @@ class OntologyUpdater
         }
     }
     
-    protected static function logDiff(\helpers_RdfDiff $diff)
+    protected static function logDiff(helpers_RdfDiff $diff)
     {
         $folder = FILES_PATH . 'updates' . DIRECTORY_SEPARATOR;
         $updateId = time();
