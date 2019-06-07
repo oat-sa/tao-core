@@ -69,6 +69,11 @@ require(['config'], function() {
 
             setTimeout(function() { // Fake additional delay for user - 500ms.
                 var file_path = install.getData('file_path');
+                // Fixing file_path default value.
+                if (file_path === null) {
+                    file_path = '/var/data/';
+                    $('#file_path').val(file_path);
+                }
                 var file_path_overwrite = install.getData('file_path_overwrite');
 
                 var check = {
