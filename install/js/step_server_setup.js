@@ -71,7 +71,7 @@ require(['config'], function() {
                 var file_path = install.getData('file_path');
                 // Fixing file_path default value.
                 if (file_path === null) {
-                    file_path = '/var/data/';
+                    file_path = 'data';
                     $('#file_path').val(file_path);
                 }
                 var file_path_overwrite = install.getData('file_path_overwrite');
