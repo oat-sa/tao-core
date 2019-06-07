@@ -23,19 +23,19 @@
 /**
  * A Service implementation aiming at checking the existence and the validity of rights
  * of file system components, in other words files and directorties.
- * 
+ *
  * Please refer to tao/install/api.php for more information about how to call this service.
  *
  * @access public
  * @author Jerome Bogaerts, <jerome@taotesting.com>
  * @package tao
- 
+
  */
-class tao_install_services_CheckFileSystemComponentService 
+class tao_install_services_CheckFileSystemComponentService
 	extends tao_install_services_Service
 	implements tao_install_services_CheckService
 	{
-    
+
     /**
      * Creates a new instance of the service.
      * @param tao_install_services_Data $data The input data to be handled by the service.
@@ -44,18 +44,18 @@ class tao_install_services_CheckFileSystemComponentService
     public function __construct(tao_install_services_Data $data){
         parent::__construct($data);
     }
-    
+
     /**
      * Executes the main logic of the service.
      * @return tao_install_services_Data The result of the service execution.
      */
     public function execute(){
-    	
+
         $fsc = self::buildComponent($this->getData());
-        $report = $fsc->check();                       
+        $report = $fsc->check();
         $this->setResult(self::buildResult($this->getData(), $report, $fsc));
     }
-    
+
     protected function checkData(){
     	$content = json_decode($this->getData()->getContent(), true);
         if (!isset($content['type']) || empty($content['type'])){
@@ -77,10 +77,21 @@ class tao_install_services_CheckFileSystemComponentService
             throw new InvalidArgumentException("Missing data: 'location' must be provided.");
         }
     }
-    
+
     public static function buildComponent(tao_install_services_Data $data){
     	$content = json_decode($data->getContent(), true);
         $location = $content['value']['location'];
+
+        if ($content['value']['id'] === 'fs_data') {
+            if ($location === '') {
+                $location = 'data';
+            }
+            if (substr($location, 0, 1) !== '/') {
+                $location = __DIR__ . '/../../../' . $location;
+            }
+            $location = realpath($location);
+        }
+
         $rights = $content['value']['rights'];
         $recursive = isset($content['value']['recursive']) && (bool) $content['value']['recursive'];
     	if (isset($content['value']['optional'])) {
@@ -95,10 +106,10 @@ class tao_install_services_CheckFileSystemComponentService
         } else {
             $mustCheckIfEmpty = false;
         }
-        
+
         return common_configuration_ComponentFactory::buildFileSystemComponent($location, $rights, $optional, $recursive, $mustCheckIfEmpty);
     }
-    
+
     public static function buildResult(
         tao_install_services_Data $data,
         common_configuration_Report $report,
@@ -107,7 +118,7 @@ class tao_install_services_CheckFileSystemComponentService
 		$content = json_decode($data->getContent(), true);
         $rights = $content['value']['rights'];
         $id = $content['value']['id'];
-        
+
         $data = array('type' => 'FileSystemComponentReport',
                       'value' => array(
                            'status' => $report->getStatusAsString(),
@@ -124,8 +135,8 @@ class tao_install_services_CheckFileSystemComponentService
                            'location' => $component->getLocation()
                       )
         );
-        
-        return new tao_install_services_Data(json_encode($data));						   	
+
+        return new tao_install_services_Data(json_encode($data));
 	}
 }
 ?>
