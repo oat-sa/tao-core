@@ -52,7 +52,7 @@ return array(
     'name' => 'tao',
     'label' => 'TAO Base',
     'description' => 'TAO meta-extension',
-zsh:1: command not found: q
+    'license' => 'GPL-2.0',
     'version' => '36.2.1',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
