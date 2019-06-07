@@ -80,7 +80,17 @@ class tao_install_services_CheckFileSystemComponentService
     
     public static function buildComponent(tao_install_services_Data $data){
     	$content = json_decode($data->getContent(), true);
-        $location = $content['value']['location'];
+    	$location = $content['value']['location'];
+
+        if ($content['value']['id'] === 'fs_data') {
+            if ($location === '') {
+                $location = 'data';
+            }
+            if (substr($location, 0, 1) !== '/') {
+                $location = dirname(dirname(dirname(__DIR__))) . '/' . $location;
+            }
+        }
+
         $rights = $content['value']['rights'];
         $recursive = isset($content['value']['recursive']) && (bool) $content['value']['recursive'];
     	if (isset($content['value']['optional'])) {
