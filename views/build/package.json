@@ -13,22 +13,23 @@
   "engines": {
     "node": ">=8.12.0"
   },
-  "dependencies": {},
   "devDependencies": {
-    "@oat-sa/grunt-tao-bundle": "^0.1.0",
+    "@oat-sa/browserslist-config-tao": "^0.1.0",
+    "@oat-sa/grunt-tao-bundle": "^0.2.0",
     "@oat-sa/tao-e2e-runner": "^0.2.1",
     "almond": "^0.3.3",
+    "eslint-plugin-es": "^1.4.0",
+    "eslint-plugin-jsdoc": "^4.8.3",
     "get-port-sync": "^1.0.0",
     "grunt": "^1.0.4",
     "grunt-aws-s3": "^2.0.0",
     "grunt-concurrent": "^2.1.0",
-    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-clean": "^2.0.0",
     "grunt-contrib-compress": "^1.0.0",
     "grunt-contrib-connect": "^2.0.0",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-qunit": "^3.0.1",
     "grunt-contrib-requirejs": "^1.0.0",
-    "grunt-contrib-uglify": "^1.0.1",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-eslint": "^21.0.0",
     "grunt-notify": "^0.4.3",
@@ -39,6 +40,10 @@
     "load-grunt-tasks": "^3.4.0",
     "lodash": "^4.13.1",
     "node-sass": "^4.9.3",
-    "time-grunt": "^1.0.0"
-  }
+    "sass-lint": "^1.12.1",
+    "time-grunt": "^2.0.0"
+  },
+  "browserslist": [
+    "extends @oat-sa/browserslist-config-tao"
+  ]
 }
