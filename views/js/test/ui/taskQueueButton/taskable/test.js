@@ -16,11 +16,10 @@
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
  */
 define([
-
     'jquery',
     'lodash',
     'ui/component',
-    'core/taskQueue/taskQueueModel',
+    'ui/taskQueue/taskQueueModel',
     'ui/taskQueueButton/taskable'
 ], function($, _, componentFactory, taskQueueModelFactory, makeTaskable) {
     'use strict';

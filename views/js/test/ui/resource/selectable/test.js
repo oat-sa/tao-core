@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2017-2019 (original work) Open Assessment Technologies SA ;
  */
 
 /**
@@ -21,7 +21,10 @@
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define(['jquery', 'ui/resource/selectable'], function($, selectable) {
+define([
+    'jquery',
+    'ui/resource/selectable',
+], function($, selectable) {
     'use strict';
 
     var noop = function() {};
@@ -44,6 +47,12 @@ define(['jquery', 'ui/resource/selectable'], function($, selectable) {
         {uri: 'item-1', num: 1},
         {uri: 'item-2', num: 2},
         {uri: 'item-3', num: 3}
+    ];
+    var treeMock = [
+        {uri: 'class-1'},
+        {uri: 'child-1'},
+        {uri: 'child-2'},
+        {uri: 'child-3'}
     ];
 
     QUnit.module('API');
@@ -273,5 +282,47 @@ define(['jquery', 'ui/resource/selectable'], function($, selectable) {
         assert.equal(typeof selection['item-1'], 'undefined', 'The item-1 node is not in the selection anymore');
         assert.equal(typeof selection['item-2'], 'undefined', 'The item-2 node is not in the selection');
         assert.deepEqual(selection['item-3'], nodesMock[2], 'The item-3 node is in the selection');
+    });
+
+    QUnit.test('select class with & without children', function(assert) {
+        var instance;
+        var selection;
+        assert.expect(16);
+
+        instance = selectable(componentMock);
+        instance.setNodes(treeMock);
+
+        selection = instance.getSelection();
+
+        assert.equal(typeof selection['class-1'], 'undefined', 'The class-1 node is not in the selection');
+        assert.equal(typeof selection['child-1'], 'undefined', 'The child-1 node is not in the selection');
+        assert.equal(typeof selection['child-2'], 'undefined', 'The child-2 node is not in the selection');
+        assert.equal(typeof selection['child-3'], 'undefined', 'The child-3 node is not in the selection');
+
+        // withChildren true
+        instance.select(['class-1'], false, false, true);
+        selection = instance.getSelection();
+
+        assert.deepEqual(selection['class-1'], treeMock[0], 'The class-1 node is in the selection');
+        assert.deepEqual(selection['child-1'], treeMock[1], 'The child-1 node is in the selection');
+        assert.deepEqual(selection['child-2'], treeMock[2], 'The child-2 node is in the selection');
+        assert.deepEqual(selection['child-3'], treeMock[3], 'The child-3 node is in the selection');
+
+        instance.unselect(['class-1']);
+        selection = instance.getSelection();
+
+        assert.equal(typeof selection['class-1'], 'undefined', 'The class-1 node is not in the selection anymore');
+        assert.equal(typeof selection['child-1'], 'undefined', 'The child-1 node is not in the selection anymore');
+        assert.equal(typeof selection['child-2'], 'undefined', 'The child-2 node is not in the selection anymore');
+        assert.equal(typeof selection['child-3'], 'undefined', 'The child-3 node is not in the selection anymore');
+
+        // withChildren false
+        instance.select(['class-1'], false, false, false);
+        selection = instance.getSelection();
+
+        assert.deepEqual(selection['class-1'], treeMock[0], 'The class-1 node is in the selection');
+        assert.equal(typeof selection['child-1'], 'undefined', 'The child-1 node is not in the selection');
+        assert.equal(typeof selection['child-2'], 'undefined', 'The child-2 node is not in the selection');
+        assert.equal(typeof selection['child-3'], 'undefined', 'The child-3 node is not in the selection');
     });
 });

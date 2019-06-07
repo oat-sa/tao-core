@@ -31,7 +31,10 @@
     "css-builder": "lib/require-css/css-builder",
     "normalize": "lib/require-css/normalize",
     "i18ntr": "../locales/en-US",
-    "router": "core/router"
+    "router": "core/router",
+    "core": "../node_modules/@oat-sa/tao-core-sdk/dist/core",
+    "util": "../node_modules/@oat-sa/tao-core-sdk/dist/util",
+    "babel-polyfill": "../node_modules/@babel/polyfill/browser"
   },
 
   "shim": {
@@ -81,10 +84,10 @@
     "ui/**/*",
     "util/**/*",
     "uri",
-    "urlParser",
     "context",
     "iframeResizer",
-    "iframeNotifier"
+    "iframeNotifier",
+    "babel-polyfill"
   ],
   "exclude" : ["json!i18ntr/messages.json",  "mathJax", "ckeditor", "pdfjs-dist/build/pdf", "pdfjs-dist/build/pdf.worker", "normalize"],
   "bootstrap" : ["loader/bootstrap"],

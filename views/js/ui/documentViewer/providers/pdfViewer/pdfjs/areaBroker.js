@@ -20,7 +20,7 @@
  */
 define([
     'lodash',
-    'core/areaBroker'
+    'ui/areaBroker'
 ], function (_, areaBroker) {
     'use strict';
 

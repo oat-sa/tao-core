@@ -52,7 +52,7 @@ define([
      * @param {jQueryElement} $container - where to append the component
      * @param {Object} config - the component config
      * @param {String} config.classUri - the root Class URI
-     * @param {Objet[]} [config.nodes] - the nodes to preload
+     * @param {Object[]} [config.nodes] - the nodes to preload
      * @param {String} [config.icon] - the icon class to show close to the resources
      * @param {Boolean} [config.multiple = true] - multiple vs unique selection
      * @returns {resourceList} the component

@@ -1050,6 +1050,22 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('35.4.0');
         }
 
-        $this->skip('35.4.0', '35.8.0');
+        $this->skip('35.4.0', '35.8.1');
+
+        if ($this->isVersion('35.8.1')) {
+            OntologyUpdater::syncModels();
+
+            $iterator = new FileIterator(__DIR__ . '/../../locales/en-GB/lang.rdf');
+            $rdf = ModelManager::getModel()->getRdfInterface();
+
+            /* @var \core_kernel_classes_Triple $triple */
+            foreach ($iterator as $triple) {
+                $rdf->remove($triple);
+                $rdf->add($triple);
+            }
+            $this->setVersion('35.8.2');
+        }
+
+        $this->skip('35.8.2', '36.2.3');
     }
 }
