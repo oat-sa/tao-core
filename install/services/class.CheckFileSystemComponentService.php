@@ -87,9 +87,8 @@ class tao_install_services_CheckFileSystemComponentService
                 $location = 'data';
             }
             if (substr($location, 0, 1) !== '/') {
-                $location = __DIR__ . '/../../../' . $location;
+                $location = dirname(dirname(dirname(__DIR__))) . '/' . $location;
             }
-            $location = realpath($location);
         }
 
         $rights = $content['value']['rights'];
