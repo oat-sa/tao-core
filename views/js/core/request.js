@@ -172,6 +172,7 @@ define([
                                     return reject(createError(response, xhr.status + ' : ' + xhr.statusText, xhr.status, xhr.readyState > 0));
                                 }
 
+                                //hotfix for TAO-8469. Was added because if we terminate a test response.success === false but xhr.status === 200
                                 if (xhr.status === 200 || ( response && response.success === true)) {
                                     // there's some data
                                     return resolve(response);
