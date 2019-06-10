@@ -316,20 +316,17 @@ class tao_models_classes_LanguageService
      */
     public static function filterLanguage($value)
     {
-        if (filter_var($value, FILTER_VALIDATE_URL) === true) {
-            $language = new core_kernel_classes_Resource($value);
-            if ($language->exists()) {
-                return $value;
-            } else {
-                $value = DEFAULT_LANG;
-            }
+        if (filter_var($value, FILTER_VALIDATE_URL) !== false) {
+            $langByUri = new \core_kernel_classes_Resource($value);
+            return $langByUri->exists()
+                ? $value
+                : null;
         }
 
-        if (is_null($langUri = \tao_models_classes_LanguageService::singleton()->getLanguageByCode($value))) {
-            $langUri = \tao_models_classes_LanguageService::singleton()->getLanguageByCode(DEFAULT_LANG);
-        }
-
-        return $langUri;
+        $langByCode = self::singleton()->getLanguageByCode($value);
+        return $langByCode !== null
+            ? $langByCode->getUri()
+            : null;
     }
 
 }
