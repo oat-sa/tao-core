@@ -27,6 +27,11 @@ define([
     'use strict';
 
     /**
+     * @typedef {widgetConfig} hiddenBoxConfig Defines the config entries available to setup a hiddenBox form widget
+     * @property {Object} [confirmation] - confirmation label, uri and value
+     */
+
+    /**
      * Defines the provider for a hiddenBox widget.
      *
      * @example
@@ -35,7 +40,7 @@ define([
     return {
         /**
          * Initialize the widget.
-         * @param {widgetConfig} config
+         * @param {hiddenBoxConfig} config
          */
         init: function init(config) {
             // the type will be reflected to the HTML markup

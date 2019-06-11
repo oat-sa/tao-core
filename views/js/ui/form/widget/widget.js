@@ -46,15 +46,22 @@ define([
 
     /**
      * @typedef {Object} widgetConfig Defines the config entries available to setup a form widget
-     * @property {String} widget - Widget Definition, the URI of the widget
+     * @property {String} widget - The type of widget.
+     *                             It will be used by the main factory to retrieve
+     *                             the implementation from the internal registry.
+     * @property {String} widgetType - The internal type of widget
      * @property {String} uri - The identifier of the widget
      * @property {String} [label] - The label of the widget
      * @property {String} [value] - The value of the widget
-     * @property {String[]} [range] - Array of values to add to combo and checkbox
+     * @property {widgetRangeValue[]} [range] - Array of values used in multi-elements widgets (like combo or checkbox)
      * @property {Boolean} [required] - Tells if the value is required
-     * @property {Object} [confirmation] - confirmation label, uri and value
-     * @property {String} [widgetType] - The type of widget
      * @property {validationRule|validationRule[]|validator} [validation]
+     */
+
+    /**
+     * @typedef {Object} widgetRangeValue Defines a value to use in a widget range
+     * @property {String} uri - The identifier of the value
+     * @property {String} label - The label for the value
      */
 
     /**
