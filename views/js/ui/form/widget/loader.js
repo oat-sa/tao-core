@@ -25,7 +25,7 @@ define([
     'ui/form/widget/checkBox',
     'ui/form/widget/comboBox',
     'ui/form/widget/hiddenBox',
-    // 'ui/form/widget/radioBox',
+    'ui/form/widget/radioBox',
     'ui/form/widget/textArea',
     'ui/form/widget/textBox'
 ], function (
@@ -34,7 +34,7 @@ define([
     widgetCheckBoxProvider,
     widgetComboBoxProvider,
     widgetHiddenBoxProvider,
-    // widgetRadioBoxProvider,
+    widgetRadioBoxProvider,
     widgetTextAreaProvider,
     widgetTextBoxProvider
 ) {
@@ -43,7 +43,7 @@ define([
     widgetFactory.registerProvider(widgetDefinitions.CHECKBOX, widgetCheckBoxProvider);
     widgetFactory.registerProvider(widgetDefinitions.COMBOBOX, widgetComboBoxProvider);
     widgetFactory.registerProvider(widgetDefinitions.HIDDENBOX, widgetHiddenBoxProvider);
-    // widgetFactory.registerProvider(widgetDefinitions.RADIOBOX, widgetRadioBoxProvider);
+    widgetFactory.registerProvider(widgetDefinitions.RADIOBOX, widgetRadioBoxProvider);
     widgetFactory.registerProvider(widgetDefinitions.TEXTAREA, widgetTextAreaProvider);
     widgetFactory.registerProvider(widgetDefinitions.TEXTBOX, widgetTextBoxProvider);
 
