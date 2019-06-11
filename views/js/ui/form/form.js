@@ -89,6 +89,31 @@ define([
     }
 
     /**
+     * Remove and destroy a component from a collection.
+     * @param {Map} collection
+     * @param {String} key
+     */
+    function removeComponent(collection, key) {
+        collection.get(key)
+            .off('.form')
+            .destroy();
+        collection.delete(key);
+    }
+
+    /**
+     * Gets indexed components from a collection.
+     * @param {Map} collection
+     * @returns {Object}
+     */
+    function getComponents(collection) {
+        var components = {};
+        collection.forEach(function getComponent(component, id) {
+            components[id] = component;
+        });
+        return components;
+    }
+
+    /**
      * Wait for a component to be ready
      * @param {component} component - The target component
      * @returns {Promise<component>}
@@ -115,18 +140,14 @@ define([
      * @returns {Promise<component>}
      */
     function validateDefinition(component, definition, key) {
-        return new Promise(function definitionValidator(resolve, reject) {
-            if (!_.isPlainObject(definition)) {
-                return reject(new TypeError('The definition must be an object'));
-            }
-            if (!definition[key] || !_.isString(definition[key])) {
-                return reject(new TypeError('The definition must contain an identifier'));
-            }
+        if (!_.isPlainObject(definition)) {
+            return Promise.reject(new TypeError('The definition must be an object'));
+        }
+        if (!definition[key] || !_.isString(definition[key])) {
+            return Promise.reject(new TypeError('The definition must contain an identifier'));
+        }
 
-            waitForRender(component)
-                .then(resolve)
-                .catch(reject);
-        });
+        return waitForRender(component);
     }
 
     /**
@@ -312,10 +333,7 @@ define([
              */
             removeWidget: function removeWidget(uri) {
                 if (widgets.has(uri)) {
-                    widgets.get(uri)
-                        .off('.form')
-                        .destroy();
-                    widgets.delete(uri);
+                    removeComponent(widgets, uri);
 
                     /**
                      * @event widgetremove
@@ -331,11 +349,7 @@ define([
              * @returns {Object}
              */
             getWidgets: function getWidgets() {
-                var list = {};
-                widgets.forEach(function (widget, uri) {
-                    list[uri] = widget;
-                });
-                return list;
+                return getComponents(widgets);
             },
 
             /**
@@ -428,10 +442,7 @@ define([
              */
             removeButton: function removeButton(id) {
                 if (buttons.has(id)) {
-                    buttons.get(id)
-                        .off('.form')
-                        .destroy();
-                    buttons.delete(id);
+                    removeComponent(buttons, id);
 
                     /**
                      * @event buttonremove
@@ -447,11 +458,7 @@ define([
              * @returns {Object}
              */
             getButtons: function getButtons() {
-                var list = {};
-                buttons.forEach(function (button, id) {
-                    list[id] = button;
-                });
-                return list;
+                return getComponents(buttons);
             },
 
             /**
