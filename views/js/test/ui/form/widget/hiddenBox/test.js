@@ -145,7 +145,7 @@ define([
         assert.expect(1);
 
         assert.throws(function() {
-            widgetFactory($container, data.config)
+            widgetFactory($container, data.config);
         }, 'The factory should raise an error');
     });
 

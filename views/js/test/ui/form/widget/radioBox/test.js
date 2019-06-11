@@ -145,7 +145,7 @@ define([
         assert.expect(1);
 
         assert.throws(function() {
-            widgetFactory($container, data.config)
+            widgetFactory($container, data.config);
         }, 'The factory should raise an error');
     });
 
@@ -500,7 +500,6 @@ define([
                                 .on('change.test', function (value, uri) {
                                     assert.equal(uri, 'foo', 'The change event has been triggered');
                                     assert.equal(value, 'no', 'The value is set to "no"');
-                                    console.log(this.getValue())
                                     resolve();
                                 });
 
