@@ -38,6 +38,11 @@ class TokenTest extends TestCase
         ];
 
         $subject = new Token($data);
-        $this->assertEquals($data, json_decode(json_encode($subject), true));
+        $encodedTokenData = json_decode(json_encode($subject), true);
+
+        // Applying rounding on float because of the limited precision.
+        // See: https://www.php.net/manual/en/language.types.float.php
+        $this->assertEquals(round($timeStamp, 2), round($encodedTokenData[Token::TIMESTAMP_KEY], 2));
+        $this->assertEquals($key, $encodedTokenData[Token::TOKEN_KEY]);
     }
 }
