@@ -461,7 +461,7 @@ define([
         };
         var instance;
 
-        assert.expect(16);
+        assert.expect(14);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 

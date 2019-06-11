@@ -53,8 +53,6 @@ define([
          * @param {widgetConfig} config
          */
         init: function init(config) {
-            var self = this;
-
             // the type will be reflected to the HTML markup
             config.widgetType = 'check-box';
 
@@ -74,14 +72,6 @@ define([
                         precedence: 1
                     });
             }
-
-            // change event
-            this.on('render', function() {
-                this.getElement().on('click', '.option input', function() {
-                    self.getConfig().value = self.getValue();
-                    self.notify();
-                });
-            });
         },
 
         /**
@@ -118,8 +108,7 @@ define([
                         .prop('checked', true);
                 });
             }
-        }
-        ,
+        },
 
         /**
          * Resets the widget to its default value
