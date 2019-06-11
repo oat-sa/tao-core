@@ -1,7 +1,5 @@
 pipeline {
-    agent {
-        label 'master'
-    }
+    agent any
     stages {
         stage('Resolve TAO dependencies') {
             environment {
@@ -47,7 +45,7 @@ registry.service.consul:4444/tao/dependency-resolver oat:dependencies:resolve --
                 dir('build') {
                     sh(
                         label: 'Install/Update sources from Composer',
-                        script: 'COMPOSER_DISCARD_CHANGES=true composer update --no-interaction --no-ansi --no-progress --no-scripts'
+                        script: 'COMPOSER_DISCARD_CHANGES=true composer update --no-interaction --no-ansi --no-progress --no-scripts --prefer-source'
                     )
                     sh(
                         label: 'Add phpunit',
