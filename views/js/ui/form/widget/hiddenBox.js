@@ -52,30 +52,33 @@ define([
                 uri: config.uri + '_confirmation',
                 value: config.value || ''
             });
+        },
 
-            // replace the default validation
-            if (config.required) {
-                this.getValidator()
-                    .addValidation({
-                        id: 'required',
-                        message: __('This field is required'),
-                        predicate: function (value) {
-                            return /\S+/.test(value.value);
-                        },
-                        precedence: 1
-                    });
+        /**
+         * Resets the widget to the default validators
+         */
+        setDefaultValidators: function setDefaultValidators() {
+            // set default validator if the field is required
+            if (this.getConfig().required) {
+                this.getValidator().addValidation({
+                    id: 'required',
+                    message: __('This field is required'),
+                    predicate: function (value) {
+                        return /\S+/.test(value.value);
+                    },
+                    precedence: 1
+                });
             }
 
             // add validation for the confirmation field
-            this.getValidator()
-                .addValidation({
-                    id: 'confirmation',
-                    message: __('Fields must match'),
-                    predicate: function (value) {
-                        return value.value === value.confirmation;
-                    },
-                    precedence: 2
-                });
+            this.getValidator().addValidation({
+                id: 'confirmation',
+                message: __('Fields must match'),
+                predicate: function (value) {
+                    return value.value === value.confirmation;
+                },
+                precedence: 2
+            });
         },
 
         /**

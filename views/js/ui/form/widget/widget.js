@@ -252,6 +252,32 @@ define([
             },
 
             /**
+             * Resets the widget to the default validators
+             * @returns {widgetForm}
+             */
+            setDefaultValidators: function setDefaultValidators() {
+                // restore factory default validators
+                this.setValidator(this.getConfig().validator);
+
+                // then apply provider default validators
+                if (_.isFunction(provider.setDefaultValidators)) {
+                    provider.setDefaultValidators.call(this);
+                } else {
+                    // set default validator if the field is required
+                    if (this.getConfig().required) {
+                        this.getValidator().addValidation({
+                            id: 'required',
+                            message: __('This field is required'),
+                            predicate: /\S+/,
+                            precedence: 1
+                        });
+                    }
+                }
+
+                return this;
+            },
+
+            /**
              * Resets the widget to its default value
              * @returns {widgetForm}
              */
@@ -331,6 +357,8 @@ define([
         widget = componentFactory(widgetApi, defaults)
             .setTemplate(provider.template || widgetTpl)
             .on('init', function () {
+                this.setDefaultValidators();
+
                 _.defer(function () {
                     widget.render(container);
                 });
@@ -371,25 +399,13 @@ define([
                 }
             });
 
-        widget.setValidator(config && config.validator);
-
         if (config) {
             // the range must be an array
             config.range = forceArray(config.range);
-
-            // set default validator if the field is required
-            if (config.required) {
-                widget.getValidator().addValidation({
-                    id: 'required',
-                    message: __('This field is required'),
-                    predicate: /\S+/,
-                    precedence: 1
-                });
-            }
         }
 
         _.defer(function () {
-            widget.init(provider.init.call(widget, config) || config);
+            widget.init(provider.init.call(widget, config || {}) || config);
         });
 
         return widget;

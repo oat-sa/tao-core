@@ -102,6 +102,7 @@ define([
         {title: 'setValue'},
         {title: 'getValidator'},
         {title: 'setValidator'},
+        {title: 'setDefaultValidators'},
         {title: 'reset'},
         {title: 'serialize'},
         {title: 'validate'},
@@ -1077,12 +1078,72 @@ define([
             });
     });
 
-    QUnit.test('validate with redefined validator', function (assert) {
+    QUnit.test('validate with provider validator', function (assert) {
         var ready = assert.async();
         var $container = $('#fixture-validate');
         var instance;
 
         assert.expect(11);
+
+        widgetFactory.registerProvider('validator', {
+            init: function init() {
+                assert.ok(true, 'The provider init() method is called');
+            },
+            setDefaultValidators: function setDefaultValidators() {
+                assert.ok(true, 'The provider setDefaultValidators() method is called');
+                this.setValidator({
+                    id: 'required',
+                    predicate: function() {
+                        return false;
+                    }
+                });
+            }
+        });
+
+        assert.equal($container.children().length, 0, 'The container is empty');
+
+        instance = widgetFactory($container, {widget: 'validator', uri: 'foo', required: true})
+            .on('init', function () {
+                assert.equal(this, instance, 'The instance has been initialized');
+            })
+            .on('ready', function () {
+                assert.equal($container.children().length, 1, 'The container contains an element');
+                assert.equal($container.children().is('.form-widget'), true, 'The container contains the expected element');
+                assert.equal($container.find('.form-widget .widget-label').length, 1, 'The component contains an area for the label');
+                assert.equal($container.find('.form-widget .widget-field').length, 1, 'The component contains an area for the field');
+                assert.equal($container.find('.form-widget .widget-field input').attr('name'), 'foo', 'The component contains the expected field');
+
+                instance.validate()
+                    .then(function () {
+                        assert.ok(instance.is('invalid'), 'The field should not be valid');
+                    })
+                    .catch(function () {
+                        assert.ok(instance.is('invalid'), 'The field has been rejected');
+                        assert.equal($container.find('.form-validator .validation-error').length, 1, 'The validation messages are displayed');
+                    })
+                    .then(function () {
+                        instance.destroy();
+                    });
+            })
+            .on('destroy', function () {
+                ready();
+            })
+            .on('error', function (err) {
+                assert.ok(false, 'The operation should not fail!');
+                assert.pushResult({
+                    result: false,
+                    message: err
+                });
+                ready();
+            });
+    });
+
+    QUnit.test('validate with redefined validator', function (assert) {
+        var ready = assert.async();
+        var $container = $('#fixture-validate');
+        var instance;
+
+        assert.expect(12);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
@@ -1107,7 +1168,7 @@ define([
                     })
                     .then(function () {
                         instance.setValidator({
-                            id: 'required',
+                            id: 'required2',
                             predicate: function() {
                                 return false;
                             }
@@ -1119,6 +1180,16 @@ define([
                             .catch(function () {
                                 assert.ok(instance.is('invalid'), 'The field has been rejected');
                                 assert.equal($container.find('.form-validator .validation-error').length, 1, 'The validation messages are displayed');
+                            });
+                    })
+                    .then(function () {
+                        instance.setDefaultValidators();
+                        return instance.validate()
+                            .then(function () {
+                                assert.ok(!instance.is('invalid'), 'The field should be valid');
+                            })
+                            .catch(function () {
+                                assert.ok(false, 'The field should not be rejected');
                             });
                     })
                     .catch(function (err) {

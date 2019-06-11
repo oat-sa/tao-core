@@ -41,26 +41,6 @@ define([
         init: function init(config) {
             // the type will be reflected to the HTML markup
             config.widgetType = 'radio-box';
-
-            // the value must be an array
-            if (config.value && !_.isArray(config.value)) {
-                config.value = [config.value];
-            } else {
-                config.value = config.value || [];
-            }
-
-            // replace the default validation
-            if (config.required) {
-                this.getValidator()
-                    .addValidation({
-                        id: 'required',
-                        message: __('This field is required'),
-                        predicate: function (value) {
-                            return value.length > 0;
-                        },
-                        precedence: 1
-                    });
-            }
         },
 
         /**

@@ -48,18 +48,22 @@ define([
             } else {
                 config.value = config.value || [];
             }
+        },
 
-            // replace the default validation
-            if (config.required) {
-                this.getValidator()
-                    .addValidation({
-                        id: 'required',
-                        message: __('This field is required'),
-                        predicate: function (value) {
-                            return value.length > 0;
-                        },
-                        precedence: 1
-                    });
+        /**
+         * Resets the widget to the default validators
+         */
+        setDefaultValidators: function setDefaultValidators() {
+            // set default validator if the field is required
+            if (this.getConfig().required) {
+                this.getValidator().addValidation({
+                    id: 'required',
+                    message: __('This field is required'),
+                    predicate: function (value) {
+                        return value.length > 0;
+                    },
+                    precedence: 1
+                });
             }
         },
 

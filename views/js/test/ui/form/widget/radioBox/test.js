@@ -413,6 +413,7 @@ define([
         var config = {
             widget: 'rb',
             uri: 'foo',
+            value: 'yes',
             range: [{
                 uri: 'yes'
             }, {
