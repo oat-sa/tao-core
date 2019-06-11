@@ -807,9 +807,11 @@ define([
             widget: 'cb',
             uri: 'foo',
             range: [{
-                uri: 'yes'
+                uri: 'yes',
+                label: 'Yes'
             }, {
-                uri: 'no'
+                uri: 'no',
+                label: 'No'
             }],
             label: 'Test'
         });
