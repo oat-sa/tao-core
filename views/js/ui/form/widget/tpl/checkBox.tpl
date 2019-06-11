@@ -8,6 +8,7 @@
             <div class="option">
                 <label>
                     <input
+                        class="widget-input-inline"
                         type="checkbox"
                         name="{{this.uri}}"
                         value="{{this.uri}}"

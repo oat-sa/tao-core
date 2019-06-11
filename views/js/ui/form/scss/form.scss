@@ -16,7 +16,7 @@
         margin-top: 30px;
         text-align: right;
 
-        button {
+        [data-control] {
             &:not(:first-child) {
                 margin-left: 10px;
             }

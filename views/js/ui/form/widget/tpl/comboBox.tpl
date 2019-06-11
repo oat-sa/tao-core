@@ -3,7 +3,7 @@
         {{> ui-form-widget-label }}
     </div>
     <div class="widget-field">
-        <select name="{{uri}}">
+        <select class="widget-input-inline" name="{{uri}}">
             <option value="">{{__ 'Choose a value...'}}</option>
             {{#each range}}
             <option value="{{this.uri}}">{{this.label}}</option>

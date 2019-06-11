@@ -15,9 +15,7 @@
         min-width: 150px;
         width: 65%;
 
-        input,
-        select,
-        textarea {
+        .widget-input, .widget-input-inline {
             @include simple-border();
             background-color: white;
             color: $textColor;
@@ -25,9 +23,7 @@
             padding: 8px;
             width: 100%;
         }
-
-        input,
-        select {
+        .widget-input-inline {
             font: inherit;
             height: 36px;
         }
@@ -46,21 +42,14 @@
     }
 
     &.error,
-    &.invalid{
+    &.invalid {
         .widget-field {
-            input,
-            select,
-            textarea,
+            .widget-input,
+            .widget-input-inline,
             .check-box-input {
                 border-color: $error;
                 color: $error;
             }
         }
-    }
-
-    .validation-container {
-        color: $error;
-        text-align: right;
-        width: 99%;
     }
 }

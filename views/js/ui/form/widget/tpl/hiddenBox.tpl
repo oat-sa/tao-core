@@ -3,7 +3,7 @@
         {{> ui-form-widget-label }}
     </div>
     <div class="widget-field">
-        <input type="password" name="{{uri}}" />
+        <input class="widget-input-inline" type="password" name="{{uri}}" />
     </div>
 </div>
 
@@ -12,6 +12,6 @@
         {{> ui-form-widget-label confirmation}}
     </div>
     <div class="widget-field">
-        <input type="password" name="{{confirmation.uri}}" />
+        <input class="widget-input-inline" type="password" name="{{confirmation.uri}}" />
     </div>
 </div>
