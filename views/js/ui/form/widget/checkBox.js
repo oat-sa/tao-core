@@ -28,20 +28,6 @@ define([
     'use strict';
 
     /**
-     * Makes sure a value is an array
-     * @param {*} value
-     * @returns {Array}
-     */
-    function forceArray(value) {
-        if (value && !_.isArray(value)) {
-            value = [value];
-        } else {
-            value = value || [];
-        }
-        return value;
-    }
-
-    /**
      * Defines the provider for a checkBox widget.
      *
      * @example
@@ -57,8 +43,11 @@ define([
             config.widgetType = 'check-box';
 
             // the value must be an array
-            config.value = forceArray(config.value);
-            config.range = forceArray(config.range);
+            if (config.value && !_.isArray(config.value)) {
+                config.value = [config.value];
+            } else {
+                config.value = config.value || [];
+            }
 
             // replace the default validation
             if (config.required) {

@@ -26,20 +26,6 @@ define([
     'use strict';
 
     /**
-     * Makes sure a value is an array
-     * @param {*} value
-     * @returns {Array}
-     */
-    function forceArray(value) {
-        if (value && !_.isArray(value)) {
-            value = [value];
-        } else {
-            value = value || [];
-        }
-        return value;
-    }
-
-    /**
      * Defines the provider for a comboBox widget.
      *
      * @example
@@ -53,9 +39,6 @@ define([
         init: function init(config) {
             // the type will be reflected to the HTML markup
             config.widgetType = 'combo-box';
-
-            // the value must be an array
-            config.range = forceArray(config.range);
 
             // initial value
             this.on('render', function() {

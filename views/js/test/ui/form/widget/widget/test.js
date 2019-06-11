@@ -22,11 +22,13 @@
 define([
     'jquery',
     'lodash',
+    'i18n',
     'core/promise',
     'ui/form/widget/widget'
 ], function (
     $,
     _,
+    __,
     Promise,
     widgetFactory
 ) {
@@ -153,16 +155,84 @@ define([
         }, 'The factory should raise an error');
     });
 
-    QUnit.test('init default', function (assert) {
+    QUnit.cases.init([{
+        title: 'default',
+        config: {
+            widget: 'text',
+            uri: 'foo'
+        },
+        expected: {
+            widgetType: 'input-box',
+            required: false,
+            label: __('Label'),
+            value: '',
+            widget: 'text',
+            uri: 'foo',
+            range: []
+        }
+    }, {
+        title: 'explicit values',
+        config: {
+            widgetType: 'input-box-foo',
+            required: false,
+            label: 'FOO',
+            value: 'bar',
+            widget: 'text',
+            uri: 'foo',
+            range: [{
+                uri: 'bar',
+                label: 'Bar'
+            }]
+        },
+        expected: {
+            widgetType: 'input-box-foo',
+            required: false,
+            label: 'FOO',
+            value: 'bar',
+            widget: 'text',
+            uri: 'foo',
+            range: [{
+                uri: 'bar',
+                label: 'Bar'
+            }]
+        }
+    }, {
+        title: 'single range',
+        config: {
+            widgetType: 'input-box-foo',
+            required: false,
+            label: 'FOO',
+            value: 'bar',
+            widget: 'text',
+            uri: 'foo',
+            range: {
+                uri: 'bar',
+                label: 'Bar'
+            }
+        },
+        expected: {
+            widgetType: 'input-box-foo',
+            required: false,
+            label: 'FOO',
+            value: 'bar',
+            widget: 'text',
+            uri: 'foo',
+            range: [{
+                uri: 'bar',
+                label: 'Bar'
+            }]
+        }
+    }]).test('init ', function (data, assert) {
         var ready = assert.async();
         var $container = $('#fixture-init');
-        var instance = widgetFactory($container, {widget: 'text', uri: 'foo'});
+        var instance = widgetFactory($container, data.config);
 
-        assert.expect(1);
+        assert.expect(2);
 
         instance
             .after('init', function () {
                 assert.equal(this, instance, 'The instance has been initialized');
+                assert.deepEqual(this.getConfig(), data.expected, 'The config is as expected');
             })
             .on('ready', function () {
                 this.destroy();

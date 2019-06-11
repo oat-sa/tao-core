@@ -52,7 +52,8 @@ define([
      * @property {String} widgetType - The internal type of widget
      * @property {String} uri - The identifier of the widget
      * @property {String} [label] - The label of the widget
-     * @property {String} [value] - The value of the widget
+     * @property {String|String[]} [value] - The value of the widget. Depending on the widget's type,
+     *                                       it can be a single or a multiple value
      * @property {widgetRangeValue[]} [range] - Array of values used in multi-elements widgets (like combo or checkbox)
      * @property {Boolean} [required] - Tells if the value is required
      * @property {validationRule|validationRule[]|validator} [validation]
@@ -78,7 +79,8 @@ define([
         widgetType: 'input-box',
         required: false,
         label: __('Label'),
-        value: ''
+        value: '',
+        range: []
     };
 
     /**
@@ -99,6 +101,20 @@ define([
         }
 
         return widgetFactory.getProvider(config.widget);
+    }
+
+    /**
+     * Makes sure a value is an array
+     * @param {*} value
+     * @returns {Array}
+     */
+    function forceArray(value) {
+        if (value && !_.isArray(value)) {
+            value = [value];
+        } else {
+            value = value || [];
+        }
+        return value;
     }
 
     /**
@@ -167,7 +183,7 @@ define([
 
             /**
              * Gets the value of the widget
-             * @returns {String}
+             * @returns {String|String[]}
              */
             getValue: function getValue() {
                 if (_.isFunction(provider.getValue)) {
@@ -183,7 +199,7 @@ define([
 
             /**
              * Sets the value of the widget
-             * @param {String} value
+             * @param {String|String[]} value
              * @returns {widgetForm}
              * @fires change after the value has been changed
              */
@@ -289,7 +305,7 @@ define([
             notify: function notify() {
                 /**
                  * @event change
-                 * @param {String} value
+                 * @param {String|String[]} value
                  * @param {String} uri
                  */
                 this.trigger('change', this.getValue(), this.getUri());
@@ -357,13 +373,19 @@ define([
 
         widget.setValidator(config && config.validator);
 
-        if (config && config.required) {
-            widget.getValidator().addValidation({
-                id: 'required',
-                message: __('This field is required'),
-                predicate: /\S+/,
-                precedence: 1
-            });
+        if (config) {
+            // the range must be an array
+            config.range = forceArray(config.range);
+
+            // set default validator if the field is required
+            if (config.required) {
+                widget.getValidator().addValidation({
+                    id: 'required',
+                    message: __('This field is required'),
+                    predicate: /\S+/,
+                    precedence: 1
+                });
+            }
         }
 
         _.defer(function () {
