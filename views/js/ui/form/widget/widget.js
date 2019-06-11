@@ -84,6 +84,75 @@ define([
     };
 
     /**
+     * Default implementation for the provider overridable API
+     * @type {Object}
+     */
+    var defaultProvider = {
+        /**
+         * Gets the value of the widget
+         * @returns {String}
+         */
+        getValue: function getValue() {
+            if (this.is('rendered')) {
+                return this.getWidgetElement().val() || '';
+            }
+
+            return this.getConfig().value || '';
+        },
+
+        /**
+         * Sets the value of the widget
+         * @param {String} value
+         */
+        setValue: function setValue(value) {
+            if (this.is('rendered')) {
+                this.getWidgetElement().val(value);
+            }
+        },
+
+        /**
+         * Resets the widget to the default validators
+         */
+        setDefaultValidators: function setDefaultValidators() {
+            // set default validator if the field is required
+            if (this.getConfig().required) {
+                this.getValidator().addValidation({
+                    id: 'required',
+                    message: __('This field is required'),
+                    predicate: /\S+/,
+                    precedence: 1
+                });
+            }
+        },
+
+        /**
+         * Resets the widget to its default value
+         */
+        reset: function reset() {
+            this.setValue('');
+        },
+
+        /**
+         * Serializes the value of the widget
+         * @returns {widgetValue}
+         */
+        serialize: function serialize() {
+            return {
+                name: this.getUri(),
+                value: this.getValue()
+            };
+        },
+
+        /**
+         * Gets access to the actual form element
+         * @returns {jQuery}
+         */
+        getWidgetElement: function getWidgetElement() {
+            return this.getElement().find('[name="' + this.getUri() + '"]');
+        }
+    };
+
+    /**
      * Gets the provider with respect to the provided config
      * @param {widgetConfig} config
      * @returns {Object}
@@ -170,6 +239,20 @@ define([
         };
 
         /**
+         * Delegate a call to the provider, or fallback to the default implementation
+         * @param {String} method - The name of the method to call.
+         * @param ... - Extra parameters
+         * @returns {*}
+         */
+        var delegate = function delegate(method) {
+            var args = Array.prototype.slice.call(arguments, 1);
+            if (_.isFunction(provider[method])) {
+                return provider[method].apply(widget, args);
+            }
+            return defaultProvider[method].apply(widget, args);
+        };
+
+        /**
          * @typedef {component} widgetForm
          */
         var widgetApi = {
@@ -186,15 +269,7 @@ define([
              * @returns {String|String[]}
              */
             getValue: function getValue() {
-                if (_.isFunction(provider.getValue)) {
-                    return provider.getValue.call(this);
-                }
-
-                if (this.is('rendered')) {
-                    return this.getWidgetElement().val();
-                }
-
-                return this.getConfig().value || '';
+                return delegate('getValue');
             },
 
             /**
@@ -205,15 +280,7 @@ define([
              */
             setValue: function setValue(value) {
                 this.getConfig().value = value;
-
-                if (_.isFunction(provider.setValue)) {
-                    provider.setValue.call(this, value);
-                } else {
-                    if (this.is('rendered')) {
-                        this.getWidgetElement().val(value);
-                    }
-                }
-
+                delegate('setValue', value);
                 this.notify();
 
                 return this;
@@ -260,19 +327,7 @@ define([
                 this.setValidator(this.getConfig().validator);
 
                 // then apply provider default validators
-                if (_.isFunction(provider.setDefaultValidators)) {
-                    provider.setDefaultValidators.call(this);
-                } else {
-                    // set default validator if the field is required
-                    if (this.getConfig().required) {
-                        this.getValidator().addValidation({
-                            id: 'required',
-                            message: __('This field is required'),
-                            predicate: /\S+/,
-                            precedence: 1
-                        });
-                    }
-                }
+                delegate('setDefaultValidators');
 
                 return this;
             },
@@ -282,11 +337,7 @@ define([
              * @returns {widgetForm}
              */
             reset: function reset() {
-                if (_.isFunction(provider.reset)) {
-                    provider.reset.call(this);
-                } else {
-                    this.setValue('');
-                }
+                delegate('reset');
                 setInvalidState(false);
                 return this;
             },
@@ -296,14 +347,7 @@ define([
              * @returns {widgetValue}
              */
             serialize: function serialize() {
-                if (_.isFunction(provider.serialize)) {
-                    return provider.serialize.call(this);
-                } else {
-                    return {
-                        name: this.getUri(),
-                        value: this.getValue()
-                    };
-                }
+                return delegate('serialize');
             },
 
             /**
@@ -344,11 +388,7 @@ define([
              */
             getWidgetElement: function getWidgetElement() {
                 if (this.is('rendered')) {
-                    if (_.isFunction(provider.getWidgetElement)) {
-                        return provider.getWidgetElement.call(this);
-                    }
-                    return this.getElement()
-                        .find('[name="' + this.getUri() + '"]');
+                    return delegate('getWidgetElement');
                 }
                 return null;
             }
