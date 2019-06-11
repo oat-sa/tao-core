@@ -269,23 +269,28 @@ define(['jquery', 'lodash', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/fe
             options = $.extend(options, pOptions);
 
             $.post(this.dataUrl, options, (function(instance) {return function(DATA) {
+                var countClass = 0;
+                var i = 0;
+
                 if(instance.checkResourcePermissions){
                     DATA = instance.convertDataWithPermissions(DATA);
                 }
                 //Hide paginate options
-                instance.hidePaginate(NODE, TREE_OBJ);
+                instance.hidePaginate(nodeId);
                 //Display incoming nodes
-                for (var i=0; i<DATA.length; i++) {
+                for (i; i<DATA.length; i++) {
                     DATA[i].attributes['class'] = instance.options.instanceClass+" node-instance node-draggable";
                     if (!$('#'+DATA[i].attributes['id'], $(TREE_OBJ.container)).length) TREE_OBJ.create(DATA[i], TREE_OBJ.get_node(NODE[0]));
                     // If the check all options. Add the incoming nodes to the list of node to check
                     if (options.checkedNodes === "*") {
                         instance.checkedNodes.push(DATA[i].attributes.id);
                     }
+                    countClass += DATA[i].type === 'class';
                 }
+
                 // Update meta data
-                instance.setMeta(nodeId, "displayed", instance.getMeta(nodeId, "displayed")+DATA.length);
-                instance.setMeta(nodeId, "position", instance.getMeta(nodeId, "position")+DATA.length);
+                instance.setMeta(nodeId, "displayed", instance.getMeta(nodeId, "displayed")+DATA.length - countClass);
+                instance.setMeta(nodeId, "position", instance.getMeta(nodeId, "position")+DATA.length - countClass);
 
                 //refresh pagination options
                 instance.refreshPaginate(NODE, TREE_OBJ);
@@ -420,12 +425,16 @@ define(['jquery', 'lodash', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/fe
 				type: "POST",
 				data: toSend,
 				dataType: 'json',
-				success: function(response) {
+				success: function (response) {
 					if (response.saved) {
 						if (instance.options.saveCallback) {
 							instance.options.saveCallback(toSend);
 						}
 						feedback().info(__('Selection saved successfully'));
+					} else {
+						if (instance.options.saveErrorCallback) {
+							instance.options.saveErrorCallback(response, instance);
+						}
 					}
 				},
 				complete: function() {

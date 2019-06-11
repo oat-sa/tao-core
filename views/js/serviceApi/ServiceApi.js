@@ -15,7 +15,7 @@
  *
  * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
-define(['jquery', 'urlParser'], function($, UrlParser){
+define(['jquery', 'util/urlParser'], function($, UrlParser){
     'use strict';
 
     /**

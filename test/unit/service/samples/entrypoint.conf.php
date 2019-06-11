@@ -2,13 +2,14 @@
 /**
  * Default config header created during install
  */
+use oat\tao\model\entryPoint\Entrypoint;
 
 return new oat\tao\model\entryPoint\EntryPointService(array(
     'existing' => array(
         'passwordreset' => new oat\tao\model\entryPoint\PasswordReset(),
-        'deliveryServer' => new oat\taoProctoring\model\entrypoint\ProctoringDeliveryServer(),
-        'guestaccess' => new oat\taoDeliveryRdf\model\guest\GuestAccess(),
-        'proctoringDelivery' => new oat\taoProctoring\model\entrypoint\ProctoringDeliveryServer(),
+        'deliveryServer' => $this->getMockBuilder(Entrypoint::class)->getMock(),
+        'guestaccess' => $this->getMockBuilder(Entrypoint::class)->getMock(),
+        'proctoringDelivery' => $this->getMockBuilder(Entrypoint::class)->getMock(),
     ),
     'postlogin' => array(
         'deliveryServer',

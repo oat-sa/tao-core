@@ -32,12 +32,13 @@ define(['lodash', 'ui/dialog'], function (_, dialog) {
         var dlg = dialog({
             message: message,
             buttons: 'ok',
-            autoDestroy: true
+            autoDestroy: true,
+            autoRender: true
         }).on('create.dialog', function(){
             if (onCreateDialog) {
                 onCreateDialog();
             }
-        }).render();
+        });
 
         if (_.isFunction(action)) {
             dlg.on('closed.modal', action);

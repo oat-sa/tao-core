@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint101\n"
-"PO-Revision-Date: 2019-05-10T14:58:27\n"
+"Project-Id-Version: TAO 3.3.0-sprint103\n"
+"PO-Revision-Date: 2019-06-07T08:58:43\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-CN\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " AND "
-msgstr ""
-
 msgid " and "
 msgstr "和"
+
+msgid " AND "
+msgstr ""
 
 msgid " has been deleted successfully"
 msgstr "已成功删除"
@@ -402,10 +402,10 @@ msgstr "更改密码"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check All"
+msgid "Check all"
 msgstr "全部勾选"
 
-msgid "Check all"
+msgid "Check All"
 msgstr "全部勾选"
 
 msgid "Check-in"
@@ -450,10 +450,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
 msgid "Clear selection"
@@ -573,11 +573,11 @@ msgstr "数据已成功导入"
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data Language"
-msgstr "资料语言"
-
 msgid "Data language"
 msgstr "数据语言"
+
+msgid "Data Language"
+msgstr "资料语言"
 
 msgid "Data not imported. All records are invalid."
 msgstr ""
@@ -1319,10 +1319,10 @@ msgstr "没有文件"
 msgid "no label"
 msgstr "无标签"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "没有可用的预览"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "没有可用的预览"
 
 msgid "No results found"
@@ -1374,10 +1374,10 @@ msgstr "的"
 msgid "Off"
 msgstr ""
 
-msgid "Ok"
+msgid "OK"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr ""
 
 msgid "Old Password"
@@ -1624,9 +1624,6 @@ msgstr "需要"
 msgid "Reset"
 msgstr "重设"
 
-msgid "Reset the original size"
-msgstr ""
-
 msgid "Reset the range values"
 msgstr ""
 
@@ -1716,9 +1713,6 @@ msgid "Save"
 msgstr "储存"
 
 msgid "Saved."
-msgstr ""
-
-msgid "Scientific Calculator"
 msgstr ""
 
 msgid "Scope"
@@ -2140,10 +2134,10 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "全部取消勾选"
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "全部取消勾选"
 
 msgid "Undefined amount of the pages for pagination"

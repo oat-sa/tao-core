@@ -23,7 +23,7 @@ define([
     'lodash',
     'i18n',
     'async',
-    'urlParser',
+    'util/urlParser',
     'core/eventifier',
     'core/mimetype',
     'core/store',

@@ -1,8 +1,8 @@
 define([
     'jquery',
     'lodash',
-    'core/validator/Report',
-    'core/validator/Validator'
+    'ui/validator/Report',
+    'ui/validator/Validator'
 ], function($, _, Report, Validator) {
     'use strict';
 
