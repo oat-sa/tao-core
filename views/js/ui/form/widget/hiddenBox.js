@@ -42,7 +42,7 @@ define([
          * Initialize the widget.
          * @param {hiddenBoxConfig} config
          */
-        init: function init(config) {
+        init(config) {
             // the type will be reflected to the HTML markup
             config.widgetType = 'hidden-box';
 
@@ -57,15 +57,13 @@ define([
         /**
          * Resets the widget to the default validators
          */
-        setDefaultValidators: function setDefaultValidators() {
+        setDefaultValidators() {
             // set default validator if the field is required
             if (this.getConfig().required) {
                 this.getValidator().addValidation({
                     id: 'required',
                     message: __('This field is required'),
-                    predicate: function (value) {
-                        return /\S+/.test(value.value);
-                    },
+                    predicate: value => /\S+/.test(value.value),
                     precedence: 1
                 });
             }
@@ -74,9 +72,7 @@ define([
             this.getValidator().addValidation({
                 id: 'confirmation',
                 message: __('Fields must match'),
-                predicate: function (value) {
-                    return value.value === value.confirmation;
-                },
+                predicate: value => value.value === value.confirmation,
                 precedence: 2
             });
         },
@@ -85,15 +81,15 @@ define([
          * Gets the value of the widget
          * @returns {Object}
          */
-        getValue: function getValue() {
-            var value = {
+        getValue() {
+            const value = {
                 value: this.getConfig().value,
                 confirmation: this.getConfig().confirmation.value
             };
 
             if (this.is('rendered')) {
-                value.value = this.getElement().find('[name="' + this.getUri() + '"]').val();
-                value.confirmation = this.getElement().find('[name="' + this.getConfig().confirmation.uri + '"]').val();
+                value.value = this.getElement().find(`[name="${this.getUri()}"]`).val();
+                value.confirmation = this.getElement().find(`[name="${this.getConfig().confirmation.uri}"]`).val();
             }
 
             return value;
@@ -103,13 +99,13 @@ define([
          * Sets the value of the widget
          * @param {String} value
          */
-        setValue: function setValue(value) {
+        setValue(value) {
             this.getConfig().value = value;
             this.getConfig().confirmation.value = value;
 
             if (this.is('rendered')) {
-                this.getElement().find('[name="' + this.getUri() + '"]').val(value);
-                this.getElement().find('[name="' + this.getConfig().confirmation.uri + '"]').val(value);
+                this.getElement().find(`[name="${this.getUri()}"]`).val(value);
+                this.getElement().find(`[name="${this.getConfig().confirmation.uri}"]`).val(value);
             }
         },
 
@@ -117,7 +113,7 @@ define([
          * Overrides serialize method
          * @returns {Object}
          */
-        serialize: function serialize() {
+        serialize() {
             return {
                 name: this.getUri(),
                 value: this.getValue().value
@@ -128,7 +124,7 @@ define([
          * Gets access to the actual form element
          * @returns {jQuery|null}
          */
-        getWidgetElement: function getWidgetElement() {
+        getWidgetElement() {
             return this.getElement()
                 .find('input');
         },

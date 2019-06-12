@@ -21,11 +21,9 @@
  */
 define([
     'lodash',
-    'core/promise',
     'ui/form/validator/validator'
 ], function (
     _,
-    Promise,
     validatorFactory
 ) {
     'use strict';

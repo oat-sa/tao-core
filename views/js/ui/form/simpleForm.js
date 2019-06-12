@@ -38,7 +38,7 @@ define([
      * Default config values
      * @type {simpleFormConfig}
      */
-    var defaultConfig = {
+    const defaultConfig = {
         submitText: __('Save'),
         submitIcon: 'save',
         resetText: __('Reset'),
@@ -50,9 +50,9 @@ define([
      * Builds a simple form component, that contains at least a submit button
      *
      * @example
-     *  var container = $('.my-container', $container);
+     *  const container = $('.my-container', $container);
      *
-     *  var config = {
+     *  const config = {
      *      title: 'My fancy form',
      *      submitText: 'Publish',
      *      widgets: [{
@@ -68,7 +68,7 @@ define([
      *      }]
      *  };
      *
-     *  var form = formFactory(container, config)
+     *  const form = formFactory(container, config)
      *      .on('submit', function(values) {
      *          // ...
      *      });
@@ -86,7 +86,7 @@ define([
      * @param {widgetConfig[]} [config.widgets] - The list of widgets to set in the form (default none)
      * @param {buttonConfig[]} [config.buttons] - The list of buttons to set in the form (default none)
      * @param {Object} [config.values] - Initial values for the widgets
-     * @param {Object} [config.ranges] - An optional list of ranges for the widgets (generis related, default none)
+     * @param {Object} [config.ranges] - An optional list of ranges for the widgets (@see widgetConfig.range)
      * @returns {form}
      * @fires ready - When the component is ready to work
      */
@@ -111,10 +111,10 @@ define([
         });
 
         return formFactory(container, config)
-            .on('button-submit', function() {
+            .on('button-submit', function onButtonSubmit() {
                 this.submit();
             })
-            .on('button-reset', function() {
+            .on('button-reset', function onButtonReset() {
                 this.reset();
             });
     };

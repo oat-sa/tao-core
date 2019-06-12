@@ -38,7 +38,7 @@ define([
          * Initialize the widget.
          * @param {widgetConfig} config
          */
-        init: function init(config) {
+        init(config) {
             // the type will be reflected to the HTML markup
             config.widgetType = 'radio-box';
         },
@@ -47,12 +47,12 @@ define([
          * Gets the value of the widget
          * @returns {String}
          */
-        getValue: function getValue() {
-            var value = this.getConfig().value || '';
+        getValue() {
+            let value = this.getConfig().value || '';
 
             if (this.is('rendered')) {
                 value = this.getElement()
-                    .find('.option input[name="' + this.getUri() + '"]:checked')
+                    .find(`.option input[name="${this.getUri()}"]:checked`)
                     .val() || '';
             }
 
@@ -63,12 +63,12 @@ define([
          * Sets the value of the widget
          * @param {String} value
          */
-        setValue: function setValue(value) {
+        setValue(value) {
             if (this.is('rendered')) {
                 this.getWidgetElement()
                     .prop('checked', false);
                 this.getElement()
-                    .find('.option input[value="' + value + '"]')
+                    .find(`.option input[value="${value}"]`)
                     .prop('checked', true);
             }
         },
@@ -77,7 +77,7 @@ define([
          * Gets access to the actual form element
          * @returns {jQuery|null}
          */
-        getWidgetElement: function getWidgetElement() {
+        getWidgetElement() {
             return this.getElement()
                 .find('.option input');
         },

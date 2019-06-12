@@ -22,13 +22,11 @@
 define([
     'jquery',
     'lodash',
-    'core/promise',
     'ui/form/widget/widget',
     'ui/form/widget/radioBox'
 ], function (
     $,
     _,
-    Promise,
     widgetFactory,
     widgetRadioBoxProvider
 ) {

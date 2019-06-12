@@ -31,7 +31,7 @@ define([
      * Some default config
      * @type {Object}
      */
-    var defaults = {};
+    const defaults = {};
 
     /**
      * Builds a renderer component for the validation messages.
@@ -42,23 +42,21 @@ define([
      * @fires ready - When the component is ready to work
      */
     function validatorRendererFactory(container, config) {
-        var api = {
+        const api = {
             /**
              * Displays messages
              * @param {String|String[]} messages
              * @returns {component}
              */
-            display: function display(messages) {
-                var $element = this.getElement();
+            display(messages) {
+                const $element = this.getElement();
 
                 if (this.is('rendered')) {
                     this.clear();
                     if (messages && !_.isArray(messages)) {
                         messages = [messages];
                     }
-                    _.forEach(messages, function (message) {
-                        $element.append(messageTpl({message: message}));
-                    });
+                    _.forEach(messages, message => $element.append(messageTpl({message})));
                 }
 
                 return this;
@@ -68,7 +66,7 @@ define([
              * Clears all messages
              * @returns {component}
              */
-            clear: function clear() {
+            clear() {
                 if (this.is('rendered')) {
                     this.getElement().empty();
                 }
@@ -76,15 +74,13 @@ define([
             }
         };
 
-        var validatorRenderer = componentFactory(api, defaults)
+        const validatorRenderer = componentFactory(api, defaults)
             .setTemplate(validatorTpl)
 
             // auto render on init
             .on('init', function () {
                 // auto render on init
-                _.defer(function () {
-                    validatorRenderer.render(container);
-                });
+                _.defer(() => this.render(container));
             })
 
             // renders the component
@@ -101,9 +97,7 @@ define([
 
         // initialize the component with the provided config
         // defer the call to allow to listen to the init event
-        _.defer(function () {
-            validatorRenderer.init(config);
-        });
+        _.defer(() => validatorRenderer.init(config));
 
         return validatorRenderer;
     }

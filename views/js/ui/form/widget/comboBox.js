@@ -36,14 +36,12 @@ define([
          * Initialize the widget.
          * @param {widgetConfig} config
          */
-        init: function init(config) {
+        init(config) {
             // the type will be reflected to the HTML markup
             config.widgetType = 'combo-box';
 
             // initial value
-            this.on('render', function() {
-                this.getWidgetElement().val(this.getConfig().value);
-            });
+            this.on('render', () => this.getWidgetElement().val(this.getConfig().value));
         },
 
         /**

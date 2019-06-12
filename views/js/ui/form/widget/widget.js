@@ -22,7 +22,6 @@ define([
     'lodash',
     'i18n',
     'handlebars',
-    'core/promise',
     'core/providerRegistry',
     'ui/component',
     'ui/form/validator/validator',
@@ -34,7 +33,6 @@ define([
     _,
     __,
     Handlebars,
-    Promise,
     providerRegistry,
     componentFactory,
     validatorFactory,
@@ -75,7 +73,7 @@ define([
      * Some default config
      * @type {widgetConfig}
      */
-    var defaults = {
+    const defaults = {
         widgetType: 'input-box',
         required: false,
         label: __('Label'),
@@ -87,12 +85,12 @@ define([
      * Default implementation for the provider overridable API
      * @type {Object}
      */
-    var defaultProvider = {
+    const defaultProvider = {
         /**
          * Gets the value of the widget
          * @returns {String}
          */
-        getValue: function getValue() {
+        getValue() {
             if (this.is('rendered')) {
                 return this.getWidgetElement().val() || '';
             }
@@ -104,7 +102,7 @@ define([
          * Sets the value of the widget
          * @param {String} value
          */
-        setValue: function setValue(value) {
+        setValue(value) {
             if (this.is('rendered')) {
                 this.getWidgetElement().val(value);
             }
@@ -113,7 +111,7 @@ define([
         /**
          * Resets the widget to the default validators
          */
-        setDefaultValidators: function setDefaultValidators() {
+        setDefaultValidators() {
             // set default validator if the field is required
             if (this.getConfig().required) {
                 this.getValidator().addValidation({
@@ -128,7 +126,7 @@ define([
         /**
          * Resets the widget to its default value
          */
-        reset: function reset() {
+        reset() {
             this.setValue('');
         },
 
@@ -136,7 +134,7 @@ define([
          * Serializes the value of the widget
          * @returns {widgetValue}
          */
-        serialize: function serialize() {
+        serialize() {
             return {
                 name: this.getUri(),
                 value: this.getValue()
@@ -147,8 +145,8 @@ define([
          * Gets access to the actual form element
          * @returns {jQuery}
          */
-        getWidgetElement: function getWidgetElement() {
-            return this.getElement().find('[name="' + this.getUri() + '"]');
+        getWidgetElement() {
+            return this.getElement().find(`[name="${this.getUri()}"]`);
         }
     };
 
@@ -190,16 +188,16 @@ define([
      * Factory that builds a form element based on its config.
      *
      * * @example
-     *  var container = $('.my-container', $container);
+     *  const container = $('.my-container', $container);
      *
-     *  var config = {
+     *  const config = {
      *          widget: 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox'
      *          uri: 'nickname',
      *          label: 'Name',
      *          required: true
      *  };
      *
-     *  var widget = widgetFactory(container, config)
+     *  const widget = widgetFactory(container, config)
      *      .on('change', function(value) {
      *          // ...
      *      });
@@ -217,17 +215,17 @@ define([
      * @fires ready - When the component is ready to work
      */
     function widgetFactory(container, config) {
-        var widget;
-        var validator;
-        var validatorRenderer;
-        var provider = getWidgetProvider(config);
+        let widget;
+        let validator;
+        let validatorRenderer;
+        const provider = getWidgetProvider(config);
 
         /**
          * Reflects the invalid state to the component
          * @param {Boolean} invalid
          * @param {String[]} [messages]
          */
-        var setInvalidState = function setInvalidState(invalid, messages) {
+        const setInvalidState = (invalid, messages) => {
             widget.setState('invalid', invalid);
             if (validatorRenderer) {
                 if (invalid) {
@@ -241,11 +239,10 @@ define([
         /**
          * Delegate a call to the provider, or fallback to the default implementation
          * @param {String} method - The name of the method to call.
-         * @param ... - Extra parameters
+         * @param {...} args - Extra parameters
          * @returns {*}
          */
-        var delegate = function delegate(method) {
-            var args = Array.prototype.slice.call(arguments, 1);
+        const delegate = (method, ...args) => {
             if (_.isFunction(provider[method])) {
                 return provider[method].apply(widget, args);
             }
@@ -255,12 +252,12 @@ define([
         /**
          * @typedef {component} widgetForm
          */
-        var widgetApi = {
+        const widgetApi = {
             /**
              * Gets the widget's URI
              * @returns {String}
              */
-            getUri: function getUri() {
+            getUri() {
                 return this.getConfig().uri;
             },
 
@@ -268,7 +265,7 @@ define([
              * Gets the value of the widget
              * @returns {String|String[]}
              */
-            getValue: function getValue() {
+            getValue() {
                 return delegate('getValue');
             },
 
@@ -278,7 +275,7 @@ define([
              * @returns {widgetForm}
              * @fires change after the value has been changed
              */
-            setValue: function setValue(value) {
+            setValue(value) {
                 this.getConfig().value = value;
                 delegate('setValue', value);
                 this.notify();
@@ -290,7 +287,7 @@ define([
              * Gets access to the validation engine
              * @returns {validator}
              */
-            getValidator: function getValidator() {
+            getValidator() {
                 return validator;
             },
 
@@ -299,7 +296,7 @@ define([
              * @param {validationRule|validationRule[]|validator} validation
              * @returns {widgetForm}
              */
-            setValidator: function setValidator(validation) {
+            setValidator(validation) {
                 if (validation && _.isFunction(validation.validate)) {
                     validator = validation;
                 } else {
@@ -322,7 +319,7 @@ define([
              * Resets the widget to the default validators
              * @returns {widgetForm}
              */
-            setDefaultValidators: function setDefaultValidators() {
+            setDefaultValidators() {
                 // restore factory default validators
                 this.setValidator(this.getConfig().validator);
 
@@ -336,7 +333,7 @@ define([
              * Resets the widget to its default value
              * @returns {widgetForm}
              */
-            reset: function reset() {
+            reset() {
                 delegate('reset');
                 setInvalidState(false);
                 return this;
@@ -346,7 +343,7 @@ define([
              * Serializes the value of the widget
              * @returns {widgetValue}
              */
-            serialize: function serialize() {
+            serialize() {
                 return delegate('serialize');
             },
 
@@ -354,14 +351,14 @@ define([
              * Validates the widget
              * @returns {Promise}
              */
-            validate: function validate() {
+            validate() {
                 return this.getValidator()
                     .validate(this.getValue())
-                    .then(function (res) {
+                    .then(res => {
                         setInvalidState(false);
                         return res;
                     })
-                    .catch(function (err) {
+                    .catch(err => {
                         setInvalidState(true, err);
                         return Promise.reject(err);
                     });
@@ -372,7 +369,7 @@ define([
              * @returns {widgetForm}
              * @fires change
              */
-            notify: function notify() {
+            notify() {
                 /**
                  * @event change
                  * @param {String|String[]} value
@@ -386,7 +383,7 @@ define([
              * Gets access to the actual form element
              * @returns {jQuery|null}
              */
-            getWidgetElement: function getWidgetElement() {
+            getWidgetElement() {
                 if (this.is('rendered')) {
                     return delegate('getWidgetElement');
                 }
@@ -396,23 +393,21 @@ define([
 
         widget = componentFactory(widgetApi, defaults)
             .setTemplate(provider.template || widgetTpl)
-            .on('init', function () {
+            .on('init', function onWidgetInit() {
                 this.setDefaultValidators();
 
-                _.defer(function () {
-                    widget.render(container);
-                });
+                _.defer(() => this.render(container));
             })
-            .on('render', function () {
+            .on('render', function onWidgetRender() {
                 // reflect the type of widget
                 this.setState(this.getConfig().widgetType, true);
 
                 // react to data change
-                this.getWidgetElement().on('change blur', function () {
-                    var value = widget.getValue();
-                    if (value !== widget.getConfig().value) {
-                        widget.getConfig().value = value;
-                        widget.notify();
+                this.getWidgetElement().on('change blur', () => {
+                    const value = this.getValue();
+                    if (value !== this.getConfig().value) {
+                        this.getConfig().value = value;
+                        this.notify();
                     }
                 });
 
@@ -422,17 +417,17 @@ define([
                 validatorRenderer = validatorRendererFactory(this.getElement())
                     .spread(this, 'error ready');
             })
-            .on('disable', function () {
+            .on('disable', function onWidgetDisable() {
                 if (this.is('rendered')) {
                     this.getWidgetElement().prop('disabled', true);
                 }
             })
-            .on('enable', function () {
+            .on('enable', function onWidgetEnable() {
                 if (this.is('rendered')) {
                     this.getWidgetElement().prop('disabled', false);
                 }
             })
-            .on('destroy', function () {
+            .on('destroy', function onWidgetDestroy() {
                 if (validatorRenderer) {
                     validatorRenderer.destroy();
                     validatorRenderer = null;
@@ -444,13 +439,10 @@ define([
             config.range = forceArray(config.range);
         }
 
-        _.defer(function () {
-            widget.init(provider.init.call(widget, config || {}) || config);
-        });
+        _.defer(() => widget.init(provider.init.call(widget, config || {}) || config));
 
         return widget;
     }
-
 
     // expose a partial that can be used by every form widget to inject the label markup
     Handlebars.registerPartial('ui-form-widget-label', labelTpl);

@@ -22,12 +22,10 @@
 define([
     'jquery',
     'lodash',
-    'core/promise',
     'ui/form/validator/renderer'
 ], function (
     $,
     _,
-    Promise,
     validatorRendererFactory
 ) {
     'use strict';

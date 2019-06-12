@@ -33,7 +33,7 @@ define(function () {
          * Initialize the widget.
          * @param {widgetConfig} config
          */
-        init: function init(config) {
+        init(config) {
             // Simply set the type.
             // The default template is already a text input.
             config.widgetType = 'text-box';

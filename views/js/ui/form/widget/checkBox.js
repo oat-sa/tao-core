@@ -38,7 +38,7 @@ define([
          * Initialize the widget.
          * @param {widgetConfig} config
          */
-        init: function init(config) {
+        init(config) {
             // the type will be reflected to the HTML markup
             config.widgetType = 'check-box';
 
@@ -53,15 +53,13 @@ define([
         /**
          * Resets the widget to the default validators
          */
-        setDefaultValidators: function setDefaultValidators() {
+        setDefaultValidators() {
             // set default validator if the field is required
             if (this.getConfig().required) {
                 this.getValidator().addValidation({
                     id: 'required',
                     message: __('This field is required'),
-                    predicate: function (value) {
-                        return value.length > 0;
-                    },
+                    predicate: value => value.length > 0,
                     precedence: 1
                 });
             }
@@ -71,14 +69,14 @@ define([
          * Gets the value of the widget
          * @returns {String[]}
          */
-        getValue: function getValue() {
-            var value = this.getConfig().value || [];
+        getValue() {
+            let value = this.getConfig().value || [];
 
             if (this.is('rendered')) {
                 value = [];
                 this.getElement()
                     .find('.option input:checked')
-                    .map(function () {
+                    .map(function mapElement() {
                         value.push($(this).val());
                     });
             }
@@ -90,14 +88,13 @@ define([
          * Sets the value of the widget
          * @param {String[]} value
          */
-        setValue: function setValue(value) {
-            var self = this;
+        setValue(value) {
             if (this.is('rendered')) {
                 this.getWidgetElement()
                     .prop('checked', false);
-                _.forEach(value, function (v) {
-                    self.getElement()
-                        .find('input[name="' + v + '"]')
+                _.forEach(value, v => {
+                    this.getElement()
+                        .find(`input[name="${v}"]`)
                         .prop('checked', true);
                 });
             }
@@ -107,7 +104,7 @@ define([
          * Resets the widget to its default value
          * @returns {widgetForm}
          */
-        reset: function reset() {
+        reset() {
             this.setValue([]);
             return this;
         },
@@ -116,7 +113,7 @@ define([
          * Gets access to the actual form element
          * @returns {jQuery|null}
          */
-        getWidgetElement: function getWidgetElement() {
+        getWidgetElement() {
             return this.getElement()
                 .find('.option input');
         },

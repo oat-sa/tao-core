@@ -22,14 +22,12 @@
 define([
     'jquery',
     'lodash',
-    'core/promise',
     'ui/form/simpleForm',
     'ui/form/widget/widget',
     'ui/form/widget/definitions'
 ], function (
     $,
     _,
-    Promise,
     formFactory,
     widgetFactory,
     widgetDefinitions

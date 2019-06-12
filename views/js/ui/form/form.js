@@ -24,8 +24,6 @@ define([
     'jquery',
     'lodash',
     'i18n',
-    'core/collections',
-    'core/promise',
     'ui/component',
     'ui/button',
     'ui/hider',
@@ -37,8 +35,6 @@ define([
     $,
     _,
     __,
-    collections,
-    Promise,
     componentFactory,
     buttonFactory,
     hider,
@@ -56,36 +52,36 @@ define([
      * @property {widgetConfig[]} [widgets] - The list of widgets to set in the form (default none)
      * @property {buttonConfig[]} [buttons] - The list of buttons to set in the form (default none)
      * @property {Object} [values] - Initial values for the widgets
-     * @property {Object} [ranges] - An optional list of ranges for the widgets (generis related, default none)
+     * @property {Object} [ranges] - An optional list of ranges for the widgets (@see widgetConfig.range)
      */
 
     /**
      * Some default config
      * @type {formConfig}
      */
-    var defaults = {
+    const defaults = {
         formAction: '#',
         formMethod: 'get'
     };
 
     /**
      * Enables all components from the list
-     * @param {Map} list
+     * @param {Map} collection
      */
-    function enableComponents(list) {
-        list.forEach(function enableComponent(component) {
+    function enableComponents(collection) {
+        for (let component of collection.values()) {
             component.enable();
-        });
+        }
     }
 
     /**
      * Disables all components from the list
-     * @param {Map} list
+     * @param {Map} collection
      */
-    function disableComponents(list) {
-        list.forEach(function disableComponent(component) {
+    function disableComponents(collection) {
+        for (let component of collection.values()) {
             component.disable();
-        });
+        }
     }
 
     /**
@@ -106,10 +102,10 @@ define([
      * @returns {Object}
      */
     function getComponents(collection) {
-        var components = {};
-        collection.forEach(function getComponent(component, id) {
+        const components = {};
+        for (let [id, component] of collection) {
             components[id] = component;
-        });
+        }
         return components;
     }
 
@@ -120,9 +116,7 @@ define([
      */
     function waitForRender(component) {
         return new Promise(function renderPromise(resolve) {
-            function resolveRender() {
-                resolve(component);
-            }
+            const resolveRender = () => resolve(component);
 
             if (component.is('rendered')) {
                 resolveRender();
@@ -154,9 +148,9 @@ define([
      * Builds a form component.
      *
      * @example
-     *  var container = $('.my-container', $container);
+     *  const container = $('.my-container', $container);
      *
-     *  var config = {
+     *  const config = {
      *      title: 'My fancy form',
      *      widgets: [{
      *          widget: widgetDefinitions.TEXTBOX
@@ -176,15 +170,11 @@ define([
      *      }]
      *  };
      *
-     *  var form = formFactory(container, config)
-     *      .on('button-publish', function() {
+     *  const form = formFactory(container, config)
+     *      .on('button-publish', () => {
      *          this.submit()
-     *              .then(function(values) {
-     *                  dataProvider('comment').send(values);
-     *              })
-     *              .catch(function(reason) {
-     *                  feedback().error('Invalid input!');
-     *              })
+     *              .then(values => dataProvider('comment').send(values))
+     *              .catch(reason => feedback().error('Invalid input!'))
      *      });
      *
      * @param {HTMLElement|String} container
@@ -195,28 +185,28 @@ define([
      * @param {widgetConfig[]} [config.widgets] - The list of widgets to set in the form (default none)
      * @param {buttonConfig[]} [config.buttons] - The list of buttons to set in the form (default none)
      * @param {Object} [config.values] - Initial values for the widgets
-     * @param {Object} [config.ranges] - An optional list of ranges for the widgets (generis related, default none)
+     * @param {Object} [config.ranges] - An optional list of ranges for the widgets (@see widgetConfig.range)
      * @returns {form}
      * @fires ready - When the component is ready to work
      */
     function formFactory(container, config) {
-        var widgets = new collections.Map();
-        var buttons = new collections.Map();
-        var controls = null;
+        const widgets = new Map();
+        const buttons = new Map();
+        let controls = null;
 
-        var api = {
+        const api = {
             /**
              * Gets the url the form is targeting.
              * @returns {String}
              */
-            getFormAction: function getFormAction() {
+            getFormAction() {
                 return this.getConfig().formAction;
             },
             /**
              * Gets the HTTP method the form should use.
              * @returns {String}
              */
-            getFormMethod: function getFormMethod() {
+            getFormMethod() {
                 return this.getConfig().formMethod;
             },
 
@@ -224,7 +214,7 @@ define([
              * Gets access to the ranges set for the widgets (generis related)
              * @returns {Object}
              */
-            getRanges: function getRanges() {
+            getRanges() {
                 return this.getConfig().ranges || {};
             },
 
@@ -232,7 +222,7 @@ define([
              * Gets the title set to the form.
              * @returns {String}
              */
-            getTitle: function getTitle() {
+            getTitle() {
                 return this.getConfig().title;
             },
 
@@ -242,7 +232,7 @@ define([
              * @returns {form}
              * @fires titlechange after the title has been changed
              */
-            setTitle: function setTitle(title) {
+            setTitle(title) {
                 this.getConfig().title = title;
 
                 if (this.is('rendered')) {
@@ -264,7 +254,7 @@ define([
              * @param {String} uri
              * @returns {widgetForm}
              */
-            getWidget: function getWidget(uri) {
+            getWidget(uri) {
                 if (widgets.has(uri)) {
                     return widgets.get(uri);
                 }
@@ -280,11 +270,10 @@ define([
              * @fires change-<uri> when the widget's value changes
              * @fires widgetadd after the widget has been added
              */
-            addWidget: function addWidget(definition) {
-                var self = this;
+            addWidget(definition) {
                 return validateDefinition(this, definition, 'uri')
-                    .then(function() {
-                        var ranges = self.getRanges();
+                    .then(() => {
+                        const ranges = this.getRanges();
                         if (definition.range && 'string' === typeof definition.range) {
                             definition.range = ranges[definition.range];
                         }
@@ -293,33 +282,33 @@ define([
                             definition.widget = widgetDefinitions.DEFAULT;
                         }
 
-                        return new Promise(function (resolve) {
-                            var widget = widgetFactory(controls.$widgets, definition);
+                        return new Promise(resolve => {
+                            const widget = widgetFactory(controls.$widgets, definition);
                             widgets.set(definition.uri, widget);
                             widget
-                                .on('change.form', function (value) {
+                                .on('change.form', value => {
                                     /**
                                      * @event change
                                      * @param {String} uri
                                      * @param {String} value
                                      */
-                                    self.trigger('change', definition.uri, value);
+                                    this.trigger('change', definition.uri, value);
 
                                     /**
                                      * @event change-<uri>
                                      * @param {String} value
                                      */
-                                    self.trigger('change-' + definition.uri, value);
+                                    this.trigger(`change-${definition.uri}`, value);
                                 })
-                                .on('ready.form', function () {
+                                .on('ready.form', () => {
                                     /**
                                      * @event widgetadd
                                      * @param {String} uri
                                      * @param {widgetForm} widget
                                      */
-                                    self.trigger('widgetadd', definition.uri, this);
+                                    this.trigger('widgetadd', definition.uri, widget);
 
-                                    resolve(this);
+                                    resolve(widget);
                                 });
                         });
                     });
@@ -331,7 +320,7 @@ define([
              * @returns {form}
              * @fires widgetremove after the widget has been removed
              */
-            removeWidget: function removeWidget(uri) {
+            removeWidget(uri) {
                 if (widgets.has(uri)) {
                     removeComponent(widgets, uri);
 
@@ -348,7 +337,7 @@ define([
              * Gets the list of widgets.
              * @returns {Object}
              */
-            getWidgets: function getWidgets() {
+            getWidgets() {
                 return getComponents(widgets);
             },
 
@@ -357,23 +346,19 @@ define([
              * @param {widgetConfig[]} definitions
              * @returns {Promise<widgetForm[]>}
              */
-            setWidgets: function setWidgets(definitions) {
-                var self = this;
+            setWidgets(definitions) {
                 this.removeWidgets();
-                return Promise.all(_.map(definitions, function (definition) {
-                    return self.addWidget(definition);
-                }));
+                return Promise.all(_.map(definitions, definition => this.addWidget(definition)));
             },
 
             /**
              * Removes all widgets
              * @returns {form}
              */
-            removeWidgets: function removeWidgets() {
-                var self = this;
-                widgets.forEach(function (widget, uri) {
-                    self.removeWidget(uri);
-                });
+            removeWidgets() {
+                for (let uri of widgets.keys()) {
+                    this.removeWidget(uri);
+                }
                 widgets.clear();
                 return this;
             },
@@ -383,7 +368,7 @@ define([
              * @param {String} id
              * @returns {button}
              */
-            getButton: function getButton(id) {
+            getButton(id) {
                 if (buttons.has(id)) {
                     return buttons.get(id);
                 }
@@ -399,39 +384,36 @@ define([
              * @fires button-<id> when the button is triggered
              * @fires buttonadd after the button has been added
              */
-            addButton: function addButton(definition) {
-                var self = this;
+            addButton(definition) {
                 return validateDefinition(this, definition, 'id')
-                    .then(function() {
-                        return new Promise(function (resolve) {
-                            var button = buttonFactory(definition);
-                            buttons.set(definition.id, button);
-                            button
-                                .on('click.form', function () {
-                                    /**
-                                     * @event button
-                                     * @param {String} id
-                                     */
-                                    self.trigger('button', definition.id);
+                    .then(() => new Promise(resolve => {
+                        const button = buttonFactory(definition);
+                        buttons.set(definition.id, button);
+                        button
+                            .on('click.form', () => {
+                                /**
+                                 * @event button
+                                 * @param {String} id
+                                 */
+                                this.trigger('button', definition.id);
 
-                                    /**
-                                     * @event button-<id>
-                                     */
-                                    self.trigger('button-' + definition.id);
-                                })
-                                .on('ready.form', function () {
-                                    /**
-                                     * @event buttonadd
-                                     * @param {String} id
-                                     * @param {button} button
-                                     */
-                                    self.trigger('buttonadd', definition.id, this);
+                                /**
+                                 * @event button-<id>
+                                 */
+                                this.trigger(`button-${definition.id}`);
+                            })
+                            .on('ready.form', () => {
+                                /**
+                                 * @event buttonadd
+                                 * @param {String} id
+                                 * @param {button} button
+                                 */
+                                this.trigger('buttonadd', definition.id, button);
 
-                                    resolve(this);
-                                })
-                                .render(controls.$buttons);
-                        });
-                    });
+                                resolve(button);
+                            });
+                        button.render(controls.$buttons);
+                    }));
             },
 
             /**
@@ -440,7 +422,7 @@ define([
              * @returns {form}
              * @fires buttonremove after the button has been removed
              */
-            removeButton: function removeButton(id) {
+            removeButton(id) {
                 if (buttons.has(id)) {
                     removeComponent(buttons, id);
 
@@ -457,7 +439,7 @@ define([
              * Gets the list of buttons.
              * @returns {Object}
              */
-            getButtons: function getButtons() {
+            getButtons() {
                 return getComponents(buttons);
             },
 
@@ -466,23 +448,19 @@ define([
              * @param {buttonConfig[]} definitions
              * @returns {Promise<button[]>}
              */
-            setButtons: function setButtons(definitions) {
-                var self = this;
+            setButtons(definitions) {
                 this.removeButtons();
-                return Promise.all(_.map(definitions, function (definition) {
-                    return self.addButton(definition);
-                }));
+                return Promise.all(_.map(definitions, definition => this.addButton(definition)));
             },
 
             /**
              * Removes all buttons
              * @returns {form}
              */
-            removeButtons: function removeButtons() {
-                var self = this;
-                buttons.forEach(function (button, id) {
-                    self.removeButton(id);
-                });
+            removeButtons() {
+                for (let id of buttons.keys()) {
+                    this.removeButton(id);
+                }
                 buttons.clear();
                 return this;
             },
@@ -492,7 +470,7 @@ define([
              * @param {String} uri
              * @returns {String}
              */
-            getValue: function getValue(uri) {
+            getValue(uri) {
                 if (widgets.has(uri)) {
                     return widgets.get(uri).getValue();
                 }
@@ -505,7 +483,7 @@ define([
              * @param {String} value
              * @returns {form}
              */
-            setValue: function setValue(uri, value) {
+            setValue(uri, value) {
                 if (widgets.has(uri)) {
                     widgets.get(uri).setValue(value);
                 }
@@ -516,11 +494,11 @@ define([
              * Gets the values from all the form widgets
              * @returns {Object}
              */
-            getValues: function getValues() {
-                var values = {};
-                widgets.forEach(function (widget, uri) {
+            getValues() {
+                const values = {};
+                for (let [uri, widget] of widgets) {
                     values[uri] = widget.getValue();
-                });
+                }
                 return values;
             },
 
@@ -529,8 +507,8 @@ define([
              * @param {Object} values
              * @returns {form}
              */
-            setValues: function setValues(values) {
-                _.forEach(values, function (value, uri) {
+            setValues(values) {
+                _.forEach(values, (value, uri) => {
                     if (widgets.has(uri)) {
                         widgets.get(uri).setValue(value);
                     }
@@ -542,11 +520,11 @@ define([
              * Serializes form values to an array of name/value objects
              * @returns {widgetValue[]}
              */
-            serialize: function serialize() {
-                var values = [];
-                widgets.forEach(function (widget) {
+            serialize() {
+                const values = [];
+                for (let widget of widgets.values()) {
                     values.push(widget.serialize());
-                });
+                }
                 return values;
             },
 
@@ -554,23 +532,17 @@ define([
              * Validate the form widgets
              * @returns {Promise}
              */
-            validate: function validate() {
-                var self = this;
-                var promises = [];
-                widgets.forEach(function (widget) {
+            validate() {
+                const promises = [];
+                for (let [uri, widget] of widgets) {
                     promises.push(
                         widget.validate()
-                            .catch(function(messages) {
-                                return Promise.resolve({
-                                    name: widget.getUri(),
-                                    messages: messages
-                                });
-                            })
+                            .catch(messages => Promise.resolve({uri, messages}))
                     );
-                });
+                };
                 return Promise.all(promises)
-                    .then(function(result) {
-                        var invalid = false;
+                    .then(result => {
+                        let invalid = false;
 
                         result = _.compact(result);
 
@@ -579,7 +551,7 @@ define([
                             invalid = true;
                         }
 
-                        self.setState('invalid', invalid);
+                        this.setState('invalid', invalid);
                         return result;
                     });
             },
@@ -589,22 +561,21 @@ define([
              * @returns {form}
              * @fires submit
              */
-            submit: function submit() {
-                var self = this;
+            submit() {
                 this.validate()
-                    .then(function() {
+                    .then(() => {
                         /**
                          * @event submit
                          * @param {widgetValue[]} values
                          */
-                        self.trigger('submit', self.serialize());
+                        this.trigger('submit', this.serialize());
                     })
-                    .catch(function(reason) {
+                    .catch(reason => {
                         /**
                          * @event invalid
                          * @param {Object} reason
                          */
-                        self.trigger('invalid', reason);
+                        this.trigger('invalid', reason);
                     });
 
                 return this;
@@ -615,10 +586,10 @@ define([
              * @returns {form}
              * @fires reset
              */
-            reset: function reset() {
-                widgets.forEach(function (widget) {
+            reset() {
+                for (let widget of widgets.values()) {
                     widget.reset();
-                });
+                }
 
                 /**
                  * @event reset
@@ -629,24 +600,21 @@ define([
             }
         };
 
-        var form = componentFactory(api, defaults)
-            // set the component's layout
+        const form = componentFactory(api, defaults)
+        // set the component's layout
             .setTemplate(formTpl)
 
             // auto render on init
-            .on('init', function () {
+            .on('init', function onFormInit() {
                 // auto render on init
-                _.defer(function () {
-                    form.render(container);
-                });
+                _.defer(() => this.render(container));
             })
 
             // renders the component
-            .on('render', function () {
-                var self = this;
-                var $element = this.getElement();
-                var initConfig = this.getConfig();
-                var initPromises = [];
+            .on('render', function onFormRender() {
+                const $element = this.getElement();
+                const initConfig = this.getConfig();
+                const initPromises = [];
 
                 controls = {
                     $title: $element.find('.form-title'),
@@ -656,13 +624,13 @@ define([
                 };
 
                 // prevent the default behavior of the form for submitting
-                controls.$form.on('submit', function doSubmit(e) {
+                controls.$form.on('submit', e => {
                     e.preventDefault();
-                    self.submit();
+                    this.submit();
                 });
-                controls.$form.on('reset', function doReset(e) {
+                controls.$form.on('reset', e => {
                     e.preventDefault();
-                    self.reset();
+                    this.reset();
                 });
 
                 // hide the title if empty
@@ -677,47 +645,42 @@ define([
                 }
 
                 Promise.all(initPromises)
-                    .then(function () {
+                    .then(() => {
                         if (_.size(initConfig.values)) {
-                            self.setValues(initConfig.values);
+                            this.setValues(initConfig.values);
                         }
                     })
-                    .catch(function (err) {
-                        self.trigger('error', err);
+                    .catch(err => {
+                        this.trigger('error', err);
                     })
-                    .then(function () {
+                    .then(() => {
                         /**
                          * @event ready
                          */
-                        self.trigger('ready');
+                        this.trigger('ready');
                     });
             })
 
             // take care of the disable state
-            .on('disable', function () {
+            .on('disable', () => {
                 disableComponents(widgets);
                 disableComponents(buttons);
             })
-            .on('enable', function () {
+            .on('enable', () => {
                 enableComponents(widgets);
                 enableComponents(buttons);
             })
 
             // cleanup the place
-            .on('destroy', function () {
+            .on('destroy', function onFormDestroy() {
                 this.removeButtons();
                 this.removeWidgets();
-                widgets = null;
-                buttons = null;
                 controls = null;
-                form = null;
             });
 
         // initialize the component with the provided config
         // defer the call to allow to listen to the init event
-        _.defer(function () {
-            form.init(config);
-        });
+        _.defer(() => form.init(config));
 
         return form;
     }

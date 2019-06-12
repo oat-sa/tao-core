@@ -35,7 +35,7 @@ define([
          * Initialize the widget.
          * @param {widgetConfig} config
          */
-        init: function init(config) {
+        init(config) {
             // the type will be reflected to the HTML markup
             config.widgetType = 'text-area';
         },

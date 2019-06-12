@@ -21,14 +21,10 @@
  */
 define([
     'lodash',
-    'i18n',
-    'core/collections',
-    'core/promise'
+    'i18n'
 ], function (
     _,
-    __,
-    collections,
-    Promise
+    __
 ) {
     'use strict';
 
@@ -53,7 +49,7 @@ define([
      * Defaults config for the validator
      * @type {validatorConfig}
      */
-    var defaults = {
+    const defaults = {
         defaultMessage: __('Invalid input')
     };
 
@@ -94,27 +90,25 @@ define([
      * @returns {validator}
      */
     return function validatorFactory(config) {
-        var validations = new collections.Map();
+        const validations = new Map();
 
         /**
          * @typedef {Object} validator
          */
-        var validator = {
+        const validator = {
             /**
              * Runs all validation rules on a value
              * @param {String} value
              * @returns {Promise} Will provide the list of error messages if the validation failed.
              */
-            validate: function validate(value) {
-                var rules = this.getValidations();
+            validate(value) {
+                const rules = this.getValidations();
                 rules.sort(compareRule);
 
                 return Promise
-                    .all(rules.map(function (validation) {
-                        return Promise.resolve(validateValue(value, validation));
-                    }))
-                    .then(function (results) {
-                        var errors = _.reduce(results, function (list, result, index) {
+                    .all(rules.map(validation => Promise.resolve(validateValue(value, validation))))
+                    .then(results => {
+                        const errors = _.reduce(results, (list, result, index) => {
                             if (!result) {
                                 list.push(rules[index].message || config.defaultMessage);
                             }
@@ -133,7 +127,7 @@ define([
              * @returns {validator}
              * @throws {TypeError} if the validation object is not valid
              */
-            addValidation: function addValidation(validation) {
+            addValidation(validation) {
                 if (!_.isPlainObject(validation)) {
                     throw new TypeError('The validation must be an object');
                 }
@@ -157,7 +151,7 @@ define([
              * @param {String} id
              * @returns {validationRule|null}
              */
-            getValidation: function getValidation(id) {
+            getValidation(id) {
                 if (validations.has(id)) {
                     return validations.get(id);
                 }
@@ -168,11 +162,11 @@ define([
              * Gets the list of validation rules.
              * @returns {validationRule[]}
              */
-            getValidations: function getValidations() {
-                var list = [];
-                validations.forEach(function (validation) {
+            getValidations() {
+                const list = [];
+                for(let validation of validations.values()) {
                     list.push(validation);
-                });
+                }
                 return list;
             },
 
@@ -181,7 +175,7 @@ define([
              * @param {String} id
              * @returns {validator}
              */
-            removeValidation: function removeValidation(id) {
+            removeValidation(id) {
                 if (validations.has(id)) {
                     validations.delete(id);
                 }
@@ -192,7 +186,7 @@ define([
              * Removes all validation rules
              * @returns {validator}
              */
-            removeValidations: function removeValidations() {
+            removeValidations() {
                 validations.clear();
 
                 return this;

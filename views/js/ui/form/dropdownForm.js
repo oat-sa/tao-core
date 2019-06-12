@@ -22,13 +22,12 @@ define([
     'jquery',
     'lodash',
     'i18n',
-    'core/promise',
     'ui/component',
     'ui/button',
     'ui/form/simpleForm',
     'tpl!ui/form/tpl/dropdownForm',
     'css!ui/form/css/dropdownForm.css'
-], function ($, _, __, Promise, componentFactory, buttonFactory, formFactory, dropdownFormTpl) {
+], function ($, _, __, componentFactory, buttonFactory, formFactory, dropdownFormTpl) {
     'use strict';
 
     /**
@@ -40,14 +39,14 @@ define([
      * @property {widgetConfig[]} [widgets] - The list of widgets to set in the form (default none)
      * @property {buttonConfig[]} [buttons] - The list of buttons to set in the form (default none)
      * @property {Object} [values] - Initial values for the widgets
-     * @property {Object} [ranges] - An optional list of ranges for the widgets (generis related, default none)
+     * @property {Object} [ranges] - An optional list of ranges for the widgets (@see widgetConfig.range)
      */
 
     /**
      * Some default config
      * @type {Object}
      */
-    var defaults = {
+    const defaults = {
         triggerIcon: null,
         triggerText: __('Form'),
         submitIcon: null,
@@ -58,9 +57,9 @@ define([
      * Builds a dropdown form component.
      *
      * @example
-     *  var container = $('.my-container', $container);
+     *  const container = $('.my-container', $container);
      *
-     *  var config = {
+     *  const config = {
      *      title: 'My fancy form',
      *      triggerText: 'Comment',
      *      submitText: 'Publish',
@@ -77,7 +76,7 @@ define([
      *      }]
      *  };
      *
-     *  var form = dropdownFormFactory(container, config)
+     *  const form = dropdownFormFactory(container, config)
      *      .on('submit', function(values) {
      *          // ...
      *      });
@@ -91,21 +90,21 @@ define([
      * @param {widgetConfig[]} [config.widgets] - The list of widgets to set in the form (default none)
      * @param {buttonConfig[]} [config.buttons] - The list of buttons to set in the form (default none)
      * @param {Object} [config.values] - Initial values for the widgets
-     * @param {Object} [config.ranges] - An optional list of ranges for the widgets (generis related, default none)
+     * @param {Object} [config.ranges] - An optional list of ranges for the widgets (@see widgetConfig.range)
      * @returns {dropdownForm}
      * @fires ready - When the component is ready to work
      */
     function dropdownFormFactory(container, config) {
-        var form = null;
-        var button = null;
-        var controls = null;
+        let form = null;
+        let button = null;
+        let controls = null;
 
-        var api = {
+        const api = {
             /**
              * Gets access to the form
              * @returns {form}
              */
-            getForm: function getForm() {
+            getForm() {
                 return form;
             },
 
@@ -115,7 +114,7 @@ define([
              * @returns {Promise}
              * @throws {Error} if the form is not yet rendered
              */
-            setFormWidgets: function setFormWidgets(widgets) {
+            setFormWidgets(widgets) {
                 if (!this.is('rendered') || !form) {
                     return Promise.reject(new Error('The form is not rendered'));
                 }
@@ -127,7 +126,7 @@ define([
              * Gets the values from the form widgets
              * @returns {Object}
              */
-            getFormValues: function getFormValues() {
+            getFormValues() {
                 if (this.is('rendered')) {
                     return form.getValues();
                 }
@@ -140,7 +139,7 @@ define([
              * @param {Object} values
              * @returns {dropdownForm}
              */
-            setFormValues: function setFormValues(values) {
+            setFormValues(values) {
                 if (this.is('rendered')) {
                     form.setValues(values);
                 }
@@ -152,7 +151,7 @@ define([
              * @returns {dropdownForm}
              * @fires open - When the form is open
              */
-            openForm: function openForm() {
+            openForm() {
                 this.setState('open', true);
 
                 // the event is emitted only if the component is rendered.
@@ -179,7 +178,7 @@ define([
              * @returns {dropdownForm}
              * @fires close - When the form is closed
              */
-            closeForm: function closeForm() {
+            closeForm() {
                 this.setState('open', false);
                 this.setState('open-on-left', false);
                 this.setState('open-on-right', false);
@@ -195,24 +194,21 @@ define([
                 return this;
             }
         };
-        var dropdownForm = componentFactory(api, defaults)
+        const dropdownForm = componentFactory(api, defaults)
             // set the component's layout
             .setTemplate(dropdownFormTpl)
 
             // auto render on init
-            .on('init', function () {
+            .on('init', function onDropdownFormInit() {
                 // auto render on init
-                _.defer(function () {
-                    dropdownForm.render(container);
-                });
+                _.defer(() => this.render(container));
             })
 
             // renders the component
-            .on('render', function () {
-                var self = this;
-                var initConfig = this.getConfig();
-                var formConfig = _.defaults({reset: false}, initConfig);
-                var buttonConfig = {
+            .on('render', function onDropdownFormRender() {
+                const initConfig = this.getConfig();
+                const formConfig = _.defaults({reset: false}, initConfig);
+                const buttonConfig = {
                     id: 'trigger',
                     type: 'info',
                     label: initConfig.triggerText,
@@ -225,11 +221,11 @@ define([
 
                 // toggle the form when clicking the dropdown button
                 button = buttonFactory(buttonConfig)
-                    .on('click', function () {
-                        if (self.is('open')) {
-                            self.closeForm();
+                    .on('click', () => {
+                        if (this.is('open')) {
+                            this.closeForm();
                         } else {
-                            self.openForm();
+                            this.openForm();
                         }
                     })
                     .render(controls.$trigger);
@@ -241,19 +237,19 @@ define([
                     .spread(this, 'ready change submit invalid error');
             })
 
-            .on('ready', function() {
+            .on('ready', function onDropdownFormReady() {
                 // init state
                 if (this.is('open')) {
                     this.openForm();
                 }
             })
 
-            .on('submit', function () {
+            .on('submit', function onDropdownFormSubmit() {
                 this.closeForm();
             })
 
             // take care of the disable state
-            .on('disable', function () {
+            .on('disable', function onDropdownFormDisable() {
                 if (this.is('open')) {
                     this.closeForm();
                 }
@@ -262,7 +258,7 @@ define([
                     form.disable();
                 }
             })
-            .on('enable', function () {
+            .on('enable', function onDropdownFormEnable() {
                 if (this.is('rendered')) {
                     button.enable();
                     form.enable();
@@ -270,7 +266,7 @@ define([
             })
 
             // cleanup the place
-            .on('destroy', function () {
+            .on('destroy', function onDropdownFormDestroy() {
                 button.destroy();
                 form.destroy();
                 button = null;
@@ -280,9 +276,7 @@ define([
 
         // initialize the component with the provided config
         // defer the call to allow to listen to the init event
-        _.defer(function () {
-            dropdownForm.init(config);
-        });
+        _.defer(() => dropdownForm.init(config));
 
         return dropdownForm;
     }

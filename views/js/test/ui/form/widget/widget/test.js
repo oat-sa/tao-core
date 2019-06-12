@@ -23,13 +23,11 @@ define([
     'jquery',
     'lodash',
     'i18n',
-    'core/promise',
     'ui/form/widget/widget'
 ], function (
     $,
     _,
     __,
-    Promise,
     widgetFactory
 ) {
     'use strict';

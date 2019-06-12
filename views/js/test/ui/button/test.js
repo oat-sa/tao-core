@@ -22,12 +22,11 @@
 define([
     'jquery',
     'lodash',
-    'core/promise',
     'ui/button',
     'tpl!test/ui/button/click',
     'css!taoCss/tao-3.css',
     'css!taoCss/tao-main-style.css'
-], function($, _, Promise, button, clickTpl) {
+], function($, _, button, clickTpl) {
     'use strict';
 
     QUnit.module('Factory');

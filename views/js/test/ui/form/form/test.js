@@ -22,14 +22,12 @@
 define([
     'jquery',
     'lodash',
-    'core/promise',
     'ui/form/form',
     'ui/form/widget/widget',
     'ui/form/widget/definitions'
 ], function (
     $,
     _,
-    Promise,
     formFactory,
     widgetFactory,
     widgetDefinitions
@@ -1868,7 +1866,7 @@ define([
                             .catch(function (reason) {
                                 assert.ok(instance.is('invalid'), 'The form has been rejected');
                                 assert.deepEqual(reason, [{
-                                    name: 'foo',
+                                    uri: 'foo',
                                     messages: ['Oops!']
                                 }], 'The expected reason has been received');
                             });

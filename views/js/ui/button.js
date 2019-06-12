@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2017-2019 (original work) Open Assessment Technologies SA ;
  */
 /**
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
@@ -29,7 +29,7 @@ define([
      * Some default config
      * @type {Object}
      */
-    var defaults = {
+    const defaults = {
         small: true
     };
 
@@ -49,7 +49,7 @@ define([
      *
      * @example
      *  // button with simple action
-     *  var button = buttonFactory({
+     *  const button = buttonFactory({
      *      id: 'foo',
      *      label: 'Foo',
      *      title: 'Foo Bar',
@@ -62,7 +62,7 @@ define([
      *      .render(container);
      *
      *  // button with handling of async action
-     *  var button = buttonFactory({
+     *  const button = buttonFactory({
      *      id: 'foo',
      *      label: 'Foo',
      *      title: 'Foo Bar',
@@ -73,7 +73,7 @@ define([
      *          this.disable();
      *      })
      *      .on('click', function() {
-     *          return new Promise(function(resolve) {
+     *          return new Promise(resolve => {
      *              // do something
      *              resolve();
      *          });
@@ -101,25 +101,22 @@ define([
              * Gets the identifier of the button
              * @returns {String}
              */
-            getId: function getId() {
-                return this.config.id;
+            getId() {
+                return this.getConfig().id;
             }
         }, defaults)
             .setTemplate(buttonTpl)
 
             // renders the component
-            .on('render', function () {
-                var self = this;
-                var $component = this.getElement();
-
-                $component.on('click', function(e) {
+            .on('render', function onButtonRender() {
+                this.getElement().on('click', e => {
                     e.preventDefault();
 
                     /**
                      * @event click
                      * @param {String} buttonId
                      */
-                    self.trigger('click', self.config.id);
+                    this.trigger('click', this.getId());
                 });
 
                 /**
@@ -129,10 +126,10 @@ define([
             })
 
             // take care of the disable state
-            .on('disable', function () {
+            .on('disable', function onButtonDisable() {
                 this.getElement().prop('disabled', true);
             })
-            .on('enable', function () {
+            .on('enable', function onButtonEnable() {
                 this.getElement().prop('disabled', false);
             })
 

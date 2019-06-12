@@ -26,7 +26,7 @@ define(function () {
      * Defines the URI of each available widget
      * @type {Object}
      */
-    var widgetDefinitions = {
+    const widgetDefinitions = {
         TEXTBOX: 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox',
         TEXTAREA: 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextArea',
         HIDDENBOX: 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#HiddenBox',
