@@ -8,7 +8,7 @@
     "url": "git+https://github.com/oat-sa/tao-core.git"
   },
   "dependencies": {
-    "@oat-sa/tao-core-sdk": "oat-sa/tao-core-sdk-fe#fix/TAO-8468_detect-indexeddb2-correctly",
+    "@oat-sa/tao-core-sdk": "~0.3.1",
     "@babel/polyfill": "^7.4.4"
   }
 }
