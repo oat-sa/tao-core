@@ -69,6 +69,11 @@ require(['config'], function() {
 
             setTimeout(function() { // Fake additional delay for user - 500ms.
                 var file_path = install.getData('file_path');
+                // Fixing file_path default value.
+                if (file_path === null) {
+                    file_path = 'data';
+                    $('#file_path').val(file_path);
+                }
                 var file_path_overwrite = install.getData('file_path_overwrite');
 
                 var check = {
@@ -181,6 +186,14 @@ require(['config'], function() {
                 case 'operated_by_email':
                     install.getValidator(this, {
                         dataType: 'email',
+                        mandatory: false
+                    });
+                    validifyNotMandatory(this);
+                    break;
+
+                case 'file_path':
+                    install.getValidator(this, {
+                        dataType: 'string',
                         mandatory: false
                     });
                     validifyNotMandatory(this);
