@@ -180,7 +180,7 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
     private function startUserSession(TaskInterface $task)
     {
         $sessionService = $this->getServiceLocator()->get(SessionService::class);
-        if ($sessionService->getCurrentSession()->getUser()->getIdentifier() !== $task->getOwner()) {
+        if ($task->getOwner() && $sessionService->getCurrentSession()->getUser()->getIdentifier() !== $task->getOwner()) {
             /** @var UserFactoryServiceInterface $userFactory */
             $userFactory = $this->getServiceManager()->get(UserFactoryServiceInterface::SERVICE_ID);
             $user = $userFactory->createUser($this->getResource($task->getOwner()));
