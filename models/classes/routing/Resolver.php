@@ -52,6 +52,11 @@ class Resolver implements ServiceLocatorAwareInterface
 
     private $action;
 
+    /**
+     * @var string[]|null
+     */
+    private $pathVariables;
+
     /** @var array array of available routes indexed by extension identifier */
     private static $extRoutes = [];
 
@@ -135,6 +140,20 @@ class Resolver implements ServiceLocatorAwareInterface
     }
 
     /**
+     * @return null
+     * @throws \ResolverException
+     * @throws \common_exception_InconsistentData
+     * @throws \common_ext_ManifestNotFoundException
+     */
+    public function getPathVariables()
+    {
+        if ($this->pathVariables === null) {
+            $this->resolve();
+        }
+        return $this->pathVariables;
+    }
+
+    /**
      * Get the controller short name as used into the URL
      * @return string the name
      * @throws \ResolverException
@@ -180,6 +199,10 @@ class Resolver implements ServiceLocatorAwareInterface
                     $this->controller = $controller;
                     $this->action = $action;
                     $this->extensionId = $entry['extId'];
+
+                    if ($route instanceof RouteWithPathVariables) {
+                        $this->pathVariables = $route->getPathVariables();
+                    }
 
                     return true;
                 }
@@ -236,6 +259,10 @@ class Resolver implements ServiceLocatorAwareInterface
             throw new \common_exception_InconsistentData('Invalid route '.$routeId);
         }
         $className = $routeData['class'];
-        return new $className($extension, trim($routeId, '/'), $routeData);
+        $route = new $className($extension, trim($routeId, '/'), $routeData);
+        if ($route instanceof ServiceLocatorAwareInterface) {
+            $route->setServiceLocator($this->getServiceLocator());
+        }
+        return $route;
     }
 }

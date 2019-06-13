@@ -114,6 +114,9 @@ trait HttpFlowTrait
         $context->setActionName($resolver->getMethodName());
 
         $context->getRequest()->addParameters($queryParams);
+        $context->getRequest()->addParameters($resolver->getPathVariables());
+
+        $params = array_merge($params, $resolver->getPathVariables());
 
         $request = $request
             ->withAttribute('extension', $resolver->getExtensionId())

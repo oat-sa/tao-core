@@ -46,6 +46,12 @@ abstract class ResponseAbstract implements ResponseInterface, ServiceLocatorAwar
      * @var string 
      */
     protected $contentType = '';
+
+    /**
+     * Allowed methods for 405 response
+     * @var string[]
+     */
+    protected $allowMethodsHeader;
     
     /**
      * @var Exception
@@ -103,6 +109,9 @@ abstract class ResponseAbstract implements ResponseInterface, ServiceLocatorAwar
         $context = Context::getInstance();
         $context->getResponse()->setContentHeader($this->contentType);
         header(HTTPToolkit::statusCodeHeader($this->httpCode));
+        if (!empty($this->allowMethodsHeader)) {
+            header('Allow: ' . implode(', ', $this->allowMethodsHeader));
+        }
         return $this;
     }
     /**
@@ -114,6 +123,15 @@ abstract class ResponseAbstract implements ResponseInterface, ServiceLocatorAwar
         $this->httpCode = $code;
         return $this;
     }
+
+    /**
+     * @param string[]|null $allowedMethods
+     * @return $this
+     */
+    public function setAllowedMethods($allowedMethods) {
+        $this->allowMethodsHeader = $allowedMethods;
+        return $this;
+    }
     
     /**
      * @inherit
@@ -123,7 +141,12 @@ abstract class ResponseAbstract implements ResponseInterface, ServiceLocatorAwar
         $accept = array_key_exists('HTTP_ACCEPT', $_SERVER) ? explode(',' , $_SERVER['HTTP_ACCEPT']) : [];
         $renderer = $this->chooseRenderer($accept);
 
-        return $renderer->setException($this->exception)->setHttpCode($this->httpCode)->sendHeaders()->send();
+        return $renderer
+            ->setException($this->exception)
+            ->setHttpCode($this->httpCode)
+            ->setAllowedMethods($this->allowMethodsHeader)
+            ->sendHeaders()
+            ->send();
     }
     
     /**

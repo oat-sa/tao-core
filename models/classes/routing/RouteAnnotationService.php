@@ -98,6 +98,26 @@ class RouteAnnotationService extends ConfigurableService
         return $res;
     }
 
+    /**
+     * @param string $className
+     * @param string|null $methodName
+     * @return array
+     */
+    public function getRouteInfo($className, $methodName = null) {
+        $res = [];
+        try {
+            $annotations = $this->getAnnotations($className, '');
+            if (array_key_exists(AnnotationReaderService::PROP_ROUTE, $annotations)) {
+                foreach ($annotations[AnnotationReaderService::PROP_ROUTE] as $rule) {
+                    if ($methodName === null || $rule['target'] === $methodName) {
+                        $res[] = $rule;
+                    }
+                }
+            }
+        } catch (\Exception $e) { }
+        return $res;
+    }
+
     private function getAnnotations($className, $methodName)
     {
         return $this->getServiceLocator()

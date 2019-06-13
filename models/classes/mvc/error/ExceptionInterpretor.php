@@ -19,6 +19,7 @@
 
 namespace oat\tao\model\mvc\error;
 
+use common_exception_MethodNotAllowed;
 use Exception;
 use common_exception_MissingParameter;
 use common_exception_BadRequest;
@@ -47,6 +48,11 @@ class ExceptionInterpretor implements ServiceLocatorAwareInterface {
      * @var integer
      */
     protected $returnHttpCode;
+
+    /**
+     * @var string[]|null
+     */
+    protected $allowedRequestMethods;
     
     /**
      *
@@ -82,26 +88,33 @@ class ExceptionInterpretor implements ServiceLocatorAwareInterface {
             case common_exception_BadRequest::class:
                 $this->returnHttpCode = 400;
                 $this->responseClassName = 'MainResponse';
-            break;
+                break;
             case 'tao_models_classes_AccessDeniedException':
             case 'ResolverException':
                 $this->returnHttpCode    = 403;
                 $this->responseClassName = 'RedirectResponse';
-            break;
+                break;
             case 'tao_models_classes_UserException':
                 $this->returnHttpCode    = 403;
                 $this->responseClassName = 'MainResponse';
-            break;
+                break;
             case 'ActionEnforcingException':
             case 'tao_models_classes_FileNotFoundException':
             case common_exception_ResourceNotFound::class:
                 $this->returnHttpCode    = 404;
                 $this->responseClassName = 'MainResponse';
-            break;
+                break;
+            case common_exception_MethodNotAllowed::class:
+                $this->returnHttpCode    = 405;
+                $this->responseClassName = 'MainResponse';
+                /** @var common_exception_MethodNotAllowed $exception */
+                $exception = $this->exception;
+                $this->allowedRequestMethods = $exception->getAllowedMethods();
+                break;
             default :
                 $this->responseClassName = 'MainResponse';
                 $this->returnHttpCode    = 500;
-            break;
+                break;
             
         }
         return $this;
@@ -136,6 +149,7 @@ class ExceptionInterpretor implements ServiceLocatorAwareInterface {
         $response->setServiceLocator($this->getServiceLocator());
         $response->setException($this->exception)
             ->setHttpCode($this->returnHttpCode)
+            ->setAllowedMethods($this->allowedRequestMethods)
             ->trace();
 
         return $response;

@@ -81,6 +81,8 @@ class FlowController extends ClearFwFlowController implements ServiceManagerAwar
         $context->setExtensionName($resolver->getExtensionId());
         $context->setModuleName($resolver->getControllerShortName());
 		$context->setActionName($resolver->getMethodName());
+
+		$params = array_merge($params, $resolver->getPathVariables());
         if(count($params) > 0){
             $context->getRequest()->addParameters($params);
         }

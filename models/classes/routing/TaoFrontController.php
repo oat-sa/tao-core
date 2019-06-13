@@ -94,6 +94,7 @@ class TaoFrontController implements ServiceManagerAwareInterface
             } else {
                 $parameters = $request->getParsedBody();
             }
+            $parameters = array_merge($parameters, $resolver->getPathVariables());
             $enforcer = new ActionEnforcer($resolver->getExtensionId(), $resolver->getControllerClass(), $resolver->getMethodName(), $parameters);
             $this->propagate($enforcer);
             $enforcer($request, $response);

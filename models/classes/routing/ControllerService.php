@@ -23,6 +23,7 @@ namespace oat\tao\model\routing;
 
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\http\Controller;
+use Psr\Http\Message\ServerRequestInterface;
 use ReflectionClass;
 use ReflectionMethod;
 
@@ -35,7 +36,7 @@ class ControllerService extends ConfigurableService
      * @param string $action
      * @throws RouterException
      */
-    private function checkAnnotations ($controllerClass, $action = '') {
+    private function checkAnnotations ($controllerClass, $action = '', $httpRequestMethod = '') {
         /** @var RouteAnnotationService $routeAnnotationService */
         $routeAnnotationService = $this->getServiceLocator()->get(RouteAnnotationService::SERVICE_ID);
         // extra layer of the security - to not launch action if denied
@@ -45,6 +46,15 @@ class ControllerService extends ConfigurableService
                 . $action . "' in '" . $controllerClass
                 . "', blocked by route annotations." : "Class '$controllerClass' blocked by route annotation";
             throw new RouterException($message);
+        }
+
+        if ($action && $httpRequestMethod) {
+            $routeInfo = $routeAnnotationService->getRouteInfo($controllerClass, $action);
+            if (array_key_exists($httpRequestMethod, $routeInfo)) {
+                $message = "Unable to run the action '$action' in '$controllerClass', "
+                    . "method $httpRequestMethod is not allowed.";
+                throw new RouterException($message);
+            }
         }
     }
 
@@ -99,17 +109,18 @@ class ControllerService extends ConfigurableService
     }
 
     /**
+     * @param string $httpRequestMethod
      * @param string $controllerClass
      * @param string $action
-     * @throws RouterException
      * @return string
+     * @throws RouterException
      */
-    public function getAction($controllerClass = '', $action = '')
+    public function getAction($httpRequestMethod, $controllerClass = '', $action = '')
     {
         // method needs to be public
         $this->checkPublic($controllerClass, $action);
         // check if blocked by annotations
-        $this->checkAnnotations($controllerClass, $action);
+        $this->checkAnnotations($controllerClass, $action, $httpRequestMethod);
 
         return $action;
     }
