@@ -75,7 +75,9 @@ define(['jquery', 'lodash', 'lib/jquery.mockjax/jquery.mockjax','uri', 'generis.
                 rootNode : rootNode
             },
             paginate : 10,
-            checkResourcePermissions: options.isDacEnabled
+            checkResourcePermissions: options.isDacEnabled,
+            saveErrorCallback: {},
+            saveCallback: {},
         });
         var tree1000 = new GenerisTreeSelectClass(treeContainerSelectorPaginated, options.dataUrl1000, {
             actionId : 'treeOptions.actionId',
@@ -89,7 +91,7 @@ define(['jquery', 'lodash', 'lib/jquery.mockjax/jquery.mockjax','uri', 'generis.
             paginate : 10,
             checkResourcePermissions: options.isDacEnabled
         });
-        assert.expect(29);
+        assert.expect(31);
         assert.ok(tree10,  'tree was initialized and prepared');
         assert.ok(tree1000,  ' paginated tree was initialized and prepared');
 
@@ -107,6 +109,8 @@ define(['jquery', 'lodash', 'lib/jquery.mockjax/jquery.mockjax','uri', 'generis.
         assert.ok(tree10.treeOptions.callback.onload,  'onload callback is defined');
         assert.ok(tree10.treeOptions.callback.onopen,  'onopen callback is defined');
         assert.ok(tree10.treeOptions.callback.onselect,  'onselect callback is defined');
+        assert.ok(tree10.options.saveCallback,  'saveCallback method is defined');
+        assert.ok(tree10.options.saveErrorCallback,  'saveCallback method is defined');
 
         assert.ok(tree10.__proto__.check,  'check method is defined');
         assert.ok(tree10.__proto__.checkPermissionsRecursively,  'checkPermissionsRecursively method is defined');
