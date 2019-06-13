@@ -21,6 +21,9 @@
  *               2013-2017 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
+use OAT\Library\DBALSpanner\SpannerConnection;
+use OAT\Library\DBALSpanner\SpannerDriver;
+use OAT\Library\DBALSpanner\SpannerPlatform;
 use oat\tao\helpers\InstallHelper;
 use oat\oatbox\install\Installer;
 use oat\oatbox\service\ServiceManager;
@@ -100,9 +103,9 @@ class tao_install_Installator
              */
             $this->log('i', "Checking install data");
             self::checkInstallData($installData);
-            
+
             $this->log('i', "Starting TAO install");
-            
+
             // Sanitize $installData if needed.
             if (!preg_match("/\/$/", $installData['module_url'])) {
                 $installData['module_url'] .= '/';
@@ -119,19 +122,19 @@ class tao_install_Installator
             $this->log('d', 'Extensions to be installed: ' . var_export($extensionIDs, true));
 
             $installData['file_path'] = rtrim($installData['file_path'], DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
-    
+
             /*
              *  1 - Check configuration with checks described in the manifest.
              */
             $configChecker = tao_install_utils_ChecksHelper::getConfigChecker($extensionIDs);
-            
+
             // Silence checks to have to be escaped.
             foreach ($configChecker->getComponents() as $c) {
                 if (method_exists($c, 'getName') && in_array($c->getName(), $this->getEscapedChecks())) {
                     $configChecker->silent($c);
                 }
             }
-            
+
             $reports = $configChecker->check();
             foreach ($reports as $r) {
                 $msg = $r->getMessage();
@@ -142,11 +145,11 @@ class tao_install_Installator
                     throw new tao_install_utils_Exception($msg);
                 }
             }
-            
+
             /*
              *  X - Setup Oatbox
              */
-            
+
             $this->log('d', 'Removing old config');
             $consistentOptions = array_merge($installData, $this->options);
             $consistentOptions['config_path'] = $this->getConfigPath();
@@ -164,15 +167,51 @@ class tao_install_Installator
             $dbalConfigCreator = new tao_install_utils_DbalConfigCreator();
             $persistenceManager->registerPersistence('default', $dbalConfigCreator->createDbalConfig($installData));
             $this->getServiceManager()->register(PersistenceManager::SERVICE_ID, $persistenceManager);
-            
-            $dbCreator = new SetupDb();
+			if($installData['db_driver'] == 'pdo_oci'){
+				$installData['db_name'] = $installData['db_host'];
+				$installData['db_host'] = '';
+			}
+			$dbConnectionParams = array(
+						'driver' => $installData['db_driver'],
+						'host' => $installData['db_host'],
+						'dbname' => $installData['db_name'],
+						'user' => $installData['db_user'],
+						'password' => $installData['db_pass'],
+
+			);
+			$hostParts = explode(':', $installData['db_host']);
+			if (count($hostParts) == 2) {
+                $dbConnectionParams['host'] = $hostParts[0];
+			    $dbConnectionParams['port'] = $hostParts[1];
+			}
+
+			if($installData['db_driver'] == 'pdo_mysql'){
+			    $dbConnectionParams['dbname'] = '';
+			}
+			if($installData['db_driver'] == 'pdo_oci'){
+				$dbConnectionParams['wrapperClass'] = 'Doctrine\DBAL\Portability\Connection';
+				$dbConnectionParams['portability'] = \Doctrine\DBAL\Portability\Connection::PORTABILITY_ALL;
+				$dbConnectionParams['fetch_case'] = PDO::CASE_LOWER;
+			}
+            if($installData['db_driver'] == 'gcp-spanner') {
+                $dbConnectionParams = [
+                    'dbname' => $installData['db_name'],
+                    'instance' => $installData['db_host'],
+                    'driverClass' => SpannerDriver::class,
+                    'wrapperClass' => SpannerConnection::class,
+                    'platform' => new SpannerPlatform(),
+                ];
+            }
+
+            $dbCreator = new tao_install_utils_DbalDbCreator($dbConnectionParams);
+
             $dbCreator->setLogger($this->logger);
             $dbCreator->setupDatabase($persistenceManager->getPersistenceById('default'));
-            
+
             /*
              *  4 - Create the generis config files
              */
-            
+
             $this->log('d', 'Writing generis config');
             $generisConfigWriter = new tao_install_utils_ConfigWriter(
                 $this->options['root_path'] . 'generis/config/sample/generis.conf.php',
@@ -189,7 +228,7 @@ class tao_install_Installator
                 'FILES_PATH'                => $installData['file_path'],
                 'ROOT_URL'                  => $installData['module_url'],
                 'DEFAULT_LANG'              => $installData['module_lang'],
-                'DEBUG_MODE'                => ($installData['module_mode'] == 'debug') ? true : false,
+                'DEBUG_MODE'                => ($installData['module_mode'] === 'debug') ? true : false,
                 'TIME_ZONE'                 => $installData['timezone']
             ];
 
@@ -232,7 +271,7 @@ class tao_install_Installator
              */
             $this->log('d', 'Running the extensions bootstrap');
             common_Config::load($this->getGenerisConfig());
-            
+
             /*
              * 5b - Create cache persistence
             */
@@ -309,10 +348,10 @@ class tao_install_Installator
             /*
              *  10 - Secure the install for production mode
              */
-            if ($installData['module_mode'] == 'production') {
+            if ($installData['module_mode'] === 'production') {
                 $extensions = common_ext_ExtensionsManager::singleton()->getInstalledExtensions();
                 $this->log('i', 'Securing tao for production');
-                
+
                 // 11.0 Protect TAO dist
                 $shield = new tao_install_utils_Shield(array_keys($extensions));
                 $shield->disableRewritePattern(["!/test/", "!/doc/"]);
@@ -392,7 +431,7 @@ class tao_install_Installator
 
     private function isWindows()
     {
-        return strtoupper(substr(PHP_OS, 0, 3)) == 'WIN';
+        return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
     }
 
     /**
@@ -432,7 +471,7 @@ class tao_install_Installator
             throw new tao_install_utils_MalformedParameterException($msg);
         }
     }
-    
+
     /**
      * Tell the Installator instance to not take into account
      * a Configuration Check with ID = $id.
@@ -446,7 +485,7 @@ class tao_install_Installator
         $checks = array_unique($checks);
         $this->setEscapedChecks($checks);
     }
-    
+
     /**
      * Obtain an array of Configuration Check IDs to be escaped by
      * the Installator.
@@ -457,7 +496,7 @@ class tao_install_Installator
     {
         return $this->escapedChecks;
     }
-    
+
     /**
      * Set the array of Configuration Check IDs to be escaped by
      * the Installator.
@@ -469,7 +508,7 @@ class tao_install_Installator
     {
         $this->escapedChecks = $escapedChecks;
     }
-    
+
     /**
      * Informs you if a given Configuration Check ID corresponds
      * to a Check that has to be escaped.
