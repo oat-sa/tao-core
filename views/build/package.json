@@ -28,7 +28,7 @@
     "grunt-contrib-compress": "^1.0.0",
     "grunt-contrib-connect": "^2.0.0",
     "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-qunit": "^3.0.1",
+    "grunt-contrib-qunit": "^3.1.0",
     "grunt-contrib-requirejs": "^1.0.0",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-eslint": "^21.0.0",
