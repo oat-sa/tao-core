@@ -71,7 +71,8 @@ require.config({
     <?php endforeach?>
         'lib/uuid'          : '../node_modules/@oat-sa/tao-core-libs/dist/uuid',
         'core'              : '../node_modules/@oat-sa/tao-core-sdk/dist/core',
-        'util'              : '../node_modules/@oat-sa/tao-core-sdk/dist/util'
+        'util'              : '../node_modules/@oat-sa/tao-core-sdk/dist/util',
+        'ui'                : '../node_modules/@oat-sa/tao-core-ui/dist'
    },
    shim : {
         'jqueryui'              : { deps : ['jquery'] },

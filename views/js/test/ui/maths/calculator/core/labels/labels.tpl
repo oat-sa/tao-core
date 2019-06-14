@@ -1,1 +1,0 @@
-{{#each .}}<div><span class="id">{{@key}}</span><span class="label">{{{.}}}</span></div>{{/each}}
