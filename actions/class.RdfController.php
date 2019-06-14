@@ -34,6 +34,7 @@ use oat\tao\model\security\SecurityException;
 use oat\tao\model\security\SignatureGenerator;
 use oat\tao\model\security\SignatureValidator;
 use tao_helpers_form_FormContainer as FormContainer;
+use oat\oatbox\user\User;
 
 /**
  * The TaoModule is an abstract controller,
@@ -205,11 +206,10 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         }
     }
 
-    /**
-     * get the main class
-     * @return core_kernel_classes_Class
-     */
-    abstract protected function getRootClass();
+    protected function getRootClass()
+    {
+        return $this->getClassService()->getRootClass();
+    }
 
     public function editClassProperties()
     {

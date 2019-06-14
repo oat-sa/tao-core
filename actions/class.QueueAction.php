@@ -18,7 +18,6 @@
  *
  */
 
-use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\filesystem\File;
 use oat\oatbox\task\Task;
 use oat\tao\model\TaskQueueActionTrait;
@@ -28,7 +27,7 @@ use oat\oatbox\task\implementation\SyncQueue;
 /**
  * @deprecated since version 21.7.0, to be removed in 22.0.
  */
-class tao_actions_QueueAction extends \tao_actions_SaSModule
+class tao_actions_QueueAction extends \tao_actions_CommonModule
 {
 
     use TaskQueueActionTrait;
