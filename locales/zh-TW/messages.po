@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint102\n"
-"PO-Revision-Date: 2019-05-24T10:49:36\n"
+"Project-Id-Version: TAO 3.3.0-sprint103\n"
+"PO-Revision-Date: 2019-06-07T08:58:47\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-TW\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " AND "
-msgstr ""
-
 msgid " and "
 msgstr " 和 "
+
+msgid " AND "
+msgstr ""
 
 msgid " has been deleted successfully"
 msgstr " 已成功刪除"
@@ -402,10 +402,10 @@ msgstr "更改密碼"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check All"
+msgid "Check all"
 msgstr "全部勾選"
 
-msgid "Check all"
+msgid "Check All"
 msgstr "全部勾選"
 
 msgid "Check-in"
@@ -450,10 +450,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
 msgid "Clear selection"
@@ -573,10 +573,10 @@ msgstr "數據已成功匯入"
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "數據語言"
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "數據語言"
 
 msgid "Data not imported. All records are invalid."
@@ -1374,10 +1374,10 @@ msgstr "的"
 msgid "Off"
 msgstr ""
 
-msgid "Ok"
+msgid "OK"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr ""
 
 msgid "Old Password"
