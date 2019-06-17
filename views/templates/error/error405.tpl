@@ -22,7 +22,7 @@
     <div class="section-container">
     	<div class="error-code">405</div>
     	<div class="error-text">
-	    	<p>HTTP method is not unauthorized to access this resource.</p>
+	    	<p>HTTP method is not authorized to access this resource.</p>
 			<ul>
 			    <li>Verify the address you entered in your web browser is valid.</li>
 			    <li>If you are sure that the address is correct but this page is still displayed contact your TAO administrator.</li>

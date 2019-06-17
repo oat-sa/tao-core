@@ -23,6 +23,7 @@ namespace oat\tao\model\routing;
 
 
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\routing\AnnotationReader\route;
 
 class RouteAnnotationService extends ConfigurableService
 {
@@ -103,14 +104,17 @@ class RouteAnnotationService extends ConfigurableService
      * @param string|null $methodName
      * @return array
      */
-    public function getRouteInfo($className, $methodName = null) {
+    public function getRoutesInfo($className, $methodName = null) {
         $res = [];
         try {
-            $annotations = $this->getAnnotations($className, '');
+            $annotations = $this->getAnnotations($className, AnnotationReaderService::METHODS_PUBLIC, route::class);
             if (array_key_exists(AnnotationReaderService::PROP_ROUTE, $annotations)) {
-                foreach ($annotations[AnnotationReaderService::PROP_ROUTE] as $rule) {
-                    if ($methodName === null || $rule['target'] === $methodName) {
-                        $res[] = $rule;
+                foreach ($annotations[AnnotationReaderService::PROP_ROUTE] as $annotationKey => $rules) {
+                    $methodKey = AnnotationReaderService::getMethodNameFromKey($annotationKey);
+                    // don't consider duplicated routes rules
+                    $rule = reset($rules);
+                    if ($methodName === null || $methodKey === $methodName) {
+                        $res[$methodKey] = $rule;
                     }
                 }
             }
@@ -118,10 +122,16 @@ class RouteAnnotationService extends ConfigurableService
         return $res;
     }
 
-    private function getAnnotations($className, $methodName)
+    /**
+     * @param string $className
+     * @param string $methodName
+     * @param string|null $annotationClass
+     * @return mixed
+     */
+    private function getAnnotations($className, $methodName, $annotationClass = null)
     {
         return $this->getServiceLocator()
             ->get(AnnotationReaderService::SERVICE_ID)
-            ->getAnnotations($className, $methodName);
+            ->getAnnotations($className, $methodName, $annotationClass);
     }
 }

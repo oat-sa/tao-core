@@ -23,6 +23,7 @@ namespace oat\tao\test\unit\model\routing;
 
 use common_cache_Cache;
 use oat\tao\model\routing\AnnotationReader\requiredRights;
+use oat\tao\model\routing\AnnotationReader\route;
 use oat\tao\model\routing\AnnotationReader\security;
 use oat\tao\model\routing\AnnotationReaderService;
 use oat\tao\model\routing\RouteAnnotationService;
@@ -42,6 +43,7 @@ class TestingClass {
      * @requiredRights(key="uri", permission="WRITE")
      * @security("hide")
      * @security("allow")
+     * @route(relativePath="/p", method="GET")
      */
     public function someAction() {}
 
@@ -90,6 +92,12 @@ class AnnotationReaderServiceTest extends \PHPUnit_Framework_TestCase
                 ],
             ],
             'security' => [RouteAnnotationService::SECURITY_HIDE, RouteAnnotationService::SECURITY_ALLOW],
+            'route' => [
+                [
+                    'method' => 'GET',
+                    'relativePath' => '/p'
+                ]
+            ]
         ], $annotations);
     }
 
@@ -99,6 +107,7 @@ class AnnotationReaderServiceTest extends \PHPUnit_Framework_TestCase
         self::assertSame([
             'required_rights' => [],
             'security' => [],
+            'route' => [],
         ], $annotations);
     }
 
@@ -111,6 +120,24 @@ class AnnotationReaderServiceTest extends \PHPUnit_Framework_TestCase
                 'permission' => 'READ',
             ]],
             'security' => ['allow'],
+            'route' => [],
+        ], $annotations);
+    }
+
+    public function testGetPublicMethodsAnnotations() {
+        $annotations = $this->service->getAnnotations(
+            TestingClass::class, AnnotationReaderService::METHODS_PUBLIC, route::class);
+        self::assertSame([
+            'required_rights' => [],
+            'security' => [],
+            'route' => [
+                AnnotationReaderService::METHOD_KEY_PREFIX . 'someAction' => [
+                    [
+                        'method' => 'GET',
+                        'relativePath' => '/p'
+                    ]
+                ]
+            ],
         ], $annotations);
     }
 }

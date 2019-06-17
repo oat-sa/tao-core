@@ -32,11 +32,11 @@ class ControllerService extends ConfigurableService
     const SERVICE_ID = 'tao/controllerService';
 
     /**
-     * @param $controllerClass
+     * @param string $controllerClass
      * @param string $action
      * @throws RouterException
      */
-    private function checkAnnotations ($controllerClass, $action = '', $httpRequestMethod = '') {
+    private function checkAnnotations ($controllerClass, $action = '') {
         /** @var RouteAnnotationService $routeAnnotationService */
         $routeAnnotationService = $this->getServiceLocator()->get(RouteAnnotationService::SERVICE_ID);
         // extra layer of the security - to not launch action if denied
@@ -46,15 +46,6 @@ class ControllerService extends ConfigurableService
                 . $action . "' in '" . $controllerClass
                 . "', blocked by route annotations." : "Class '$controllerClass' blocked by route annotation";
             throw new RouterException($message);
-        }
-
-        if ($action && $httpRequestMethod) {
-            $routeInfo = $routeAnnotationService->getRouteInfo($controllerClass, $action);
-            if (array_key_exists($httpRequestMethod, $routeInfo)) {
-                $message = "Unable to run the action '$action' in '$controllerClass', "
-                    . "method $httpRequestMethod is not allowed.";
-                throw new RouterException($message);
-            }
         }
     }
 
@@ -109,18 +100,17 @@ class ControllerService extends ConfigurableService
     }
 
     /**
-     * @param string $httpRequestMethod
      * @param string $controllerClass
      * @param string $action
      * @return string
      * @throws RouterException
      */
-    public function getAction($httpRequestMethod, $controllerClass = '', $action = '')
+    public function getAction($controllerClass = '', $action = '')
     {
         // method needs to be public
         $this->checkPublic($controllerClass, $action);
         // check if blocked by annotations
-        $this->checkAnnotations($controllerClass, $action, $httpRequestMethod);
+        $this->checkAnnotations($controllerClass, $action);
 
         return $action;
     }

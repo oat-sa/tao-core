@@ -19,7 +19,7 @@
 
 namespace oat\tao\model\routing;
 
-interface RouteWithPathVariables extends Route {
+interface PathVariablesProvidingRoute extends Route {
     /**
      * @return string[]
      */

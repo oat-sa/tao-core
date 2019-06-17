@@ -23,16 +23,23 @@ namespace oat\tao\model\routing\AnnotationReader;
 
 
 /**
+ * Attach this annotation to controller's public methods to use FastRoute features
+ * To make it work use ControllerAnnotationsRoute in your manifest
+ * @see ControllerAnnotationsRoute
  * @Annotation
  */
 class route
 {
-    /** @var string */
+    /**
+     * Allowed HTTP request method, if not specified any method is allowed
+     * @var string
+     */
     public $method;
 
-    /** @var string */
-    public $path;
-
-    /** @var string */
-    public $target;
+    /**
+     * Path pattern relative to controller path, path variables could be specified using FastRoute syntax
+     * @see \FastRoute\Route
+     * @var string
+     */
+    public $relativePath;
 }

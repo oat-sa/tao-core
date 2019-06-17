@@ -198,7 +198,7 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
         $controllerService = $this->getServiceLocator()->get(ControllerService::SERVICE_ID);
         try {
             $controllerService->checkController($this->getControllerClass());
-            $action = $controllerService->getAction($request->getMethod(), $this->getControllerClass(), $this->getAction());
+            $action = $controllerService->getAction($this->getControllerClass(), $this->getAction());
         } catch (RouterException $e) {
             throw new ActionEnforcingException($e->getMessage(), $this->getControllerClass(), $this->getAction());
         }

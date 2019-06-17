@@ -25,7 +25,6 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use GuzzleHttp\Psr7\ServerRequest;
 use Psr\Http\Message\ServerRequestInterface;
-use oat\tao\model\routing\NamespaceRoute;
 
 /**
  * Resolves a http request to a controller and method
@@ -200,9 +199,9 @@ class Resolver implements ServiceLocatorAwareInterface
                     $this->action = $action;
                     $this->extensionId = $entry['extId'];
 
-                    if ($route instanceof RouteWithPathVariables) {
-                        $this->pathVariables = $route->getPathVariables();
-                    }
+                    $this->pathVariables = $route instanceof PathVariablesProvidingRoute
+                        ? $route->getPathVariables()
+                        : [];
 
                     return true;
                 }
@@ -259,6 +258,7 @@ class Resolver implements ServiceLocatorAwareInterface
             throw new \common_exception_InconsistentData('Invalid route '.$routeId);
         }
         $className = $routeData['class'];
+        /** @var Route $route */
         $route = new $className($extension, trim($routeId, '/'), $routeData);
         if ($route instanceof ServiceLocatorAwareInterface) {
             $route->setServiceLocator($this->getServiceLocator());
