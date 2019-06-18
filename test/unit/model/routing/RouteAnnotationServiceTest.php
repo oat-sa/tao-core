@@ -42,7 +42,8 @@ class RouteAnnotationServiceTest extends TestCase
         $logger = $this->prophesize(LoggerInterface::class);
         $this->service->setLogger($logger->reveal());
         $annotationReaderService = $this->prophesize(AnnotationReaderService::class);
-        $annotationReaderService->getAnnotations(Argument::type('string'), Argument::type('string'))->will(function ($args) {
+        $annotationReaderService->getAnnotations(
+            Argument::type('string'), Argument::type('string'), Argument::any())->will(function ($args) {
             if ($args[0] === 'class') {
                 switch ($args[1]) {
                     case 'notFoundAnnotation':
@@ -62,6 +63,15 @@ class RouteAnnotationServiceTest extends TestCase
                             ],
                         ];
                         break;
+                    case AnnotationReaderService::METHODS_PUBLIC:
+                        return [
+                            'route' => [
+                                AnnotationReaderService::METHOD_KEY_PREFIX . 'withRoute' => [[
+                                    'relativePath' => '/test/path',
+                                    'method' => 'GET'
+                                ]]
+                            ]
+                        ];
                     case 'withoutAnnotation':
                         return [];
                         break;
@@ -102,5 +112,13 @@ class RouteAnnotationServiceTest extends TestCase
     public function testHasAccessRights()
     {
         self::assertTrue($this->service->hasAccess('class', 'requiresRightRead'));
+    }
+
+    public function testGetRoutesInfo()
+    {
+        self::assertEquals(
+            ['withRoute' => ['relativePath' => '/test/path', 'method' => 'GET']],
+            $this->service->getRoutesInfo('class')
+        );
     }
 }
