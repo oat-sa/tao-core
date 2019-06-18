@@ -16,7 +16,7 @@
  *
  * Copyright (c) 2019  (original work) Open Assessment Technologies SA;
  *
- * @author Alexander Zagovorichev <zagovorichev@1pt.com>
+ * @author Siarhei Baradzin <siarhei.baradzin@1pt.com>
  */
 
 namespace oat\tao\model\routing\AnnotationReader;
