@@ -22,6 +22,11 @@
     const testTimeoutMs = 30 * 1000;
 
     /**
+     * Max time to wait between the page loads and the first test to run
+     */
+    const pageLoadTimeoutMs = 5 * 1000;
+
+    /**
      * Emit an event to the grunt task (report and control)
      * @param {String} eventName
      * @param {...*}   [args]
@@ -30,6 +35,10 @@
         self.__grunt_contrib_qunit__(eventName, ...args);
     }
 
+    const pageLoadTimer = setTimeout(() => {
+        emit('fail.load', window.location.href);
+    }, pageLoadTimeoutMs);
+
     //Keep test other and run them in serie.
     QUnit.config.reorder = false;
     QUnit.config.autorun = false;
@@ -37,7 +46,10 @@
     /**
      * QUnit begins
      */
-    QUnit.begin( () => emit('qunit.begin') );
+    QUnit.begin( () => {
+        clearTimeout(pageLoadTimer);
+        emit('qunit.begin');
+    });
 
     /**
      * A module get started
