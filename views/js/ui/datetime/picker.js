@@ -516,7 +516,7 @@ define([
                     if (value && _.isString(newValue) && _.isEmpty(newValue)) {
 
                         //if someone remove the value from the field
-                        //it's considered a propert clean (resets everything)
+                        //it's considered a property clean (resets everything)
                         self.clear();
 
                     } else if (value !== newValue) {
@@ -528,8 +528,9 @@ define([
                           * @event dateTimePicker#change
                           * @param {String} value - the date/time value
                           */
-                        self.trigger('change', value);
                     }
+
+                    self.trigger('change', value);
                 });
 
                 value = this.controls.input.value;
