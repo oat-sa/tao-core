@@ -22,6 +22,7 @@
 namespace oat\tao\model\taskQueue\TaskLog\Broker;
 
 use Doctrine\DBAL\Connection;
+use OAT\Library\DBALSpanner\SpannerPlatform;
 use oat\oatbox\PhpSerializable;
 use common_report_Report as Report;
 use Doctrine\DBAL\Query\QueryBuilder;
@@ -148,6 +149,8 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
      */
     public function add(TaskInterface $task, $status, $label = null)
     {
+        $platform = $this->getPersistence()->getPlatForm();
+
         $this->getPersistence()->insert($this->getTableName(), [
             self::COLUMN_ID   => (string) $task->getId(),
             self::COLUMN_PARENT_ID  => $task->getParentId() ? (string) $task->getParentId() : null,
@@ -156,9 +159,9 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
             self::COLUMN_LABEL => (string) $label,
             self::COLUMN_STATUS => (string) $status,
             self::COLUMN_OWNER => (string) $task->getOwner(),
-            self::COLUMN_CREATED_AT => $task->getCreatedAt()->format($this->getPersistence()->getPlatForm()->getDateTimeFormatString()),
-            self::COLUMN_UPDATED_AT => $this->getPersistence()->getPlatForm()->getNowExpression(),
-            self::COLUMN_MASTER_STATUS => (int) $task->isMasterStatus(),
+            self::COLUMN_CREATED_AT => $task->getCreatedAt()->format($platform->getDateTimeTzFormatString()),
+            self::COLUMN_UPDATED_AT => $platform->getNowExpression(),
+            self::COLUMN_MASTER_STATUS => (integer) $task->isMasterStatus(),
         ]);
     }
 
@@ -261,7 +264,7 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
 
             $filter->applyFilters($qb);
 
-            $collection = TaskLogCollection::createFromArray($qb->execute()->fetchAll());
+            $collection = TaskLogCollection::createFromArray($qb->execute()->fetchAll(), $this->getPersistence()->getPlatForm()->getDateTimeTzFormatString());
         } catch (\Exception $exception) {
             $this->logError('Searching for task logs failed with MSG: ' . $exception->getMessage());
 

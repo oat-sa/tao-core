@@ -114,6 +114,8 @@ class RedirectUrlEntityDecoratorTest extends TestCase
         $this->createdAt = new \DateTime('2017-11-16 14:11:42', new \DateTimeZone('UTC'));
         $this->updatedAt = new \DateTime('2017-11-16 17:12:30', new \DateTimeZone('UTC'));
 
+        $dateFormat = 'Y-m-d H:i:s';
+
         return TaskLogEntity::createFromArray([
             'id' => 'rdf#i1508337970199318643',
             'parent_id' => 'parentFake0002525',
@@ -122,8 +124,8 @@ class RedirectUrlEntityDecoratorTest extends TestCase
             'label' => 'Task label',
             'status' => $status,
             'owner' => 'userId',
-            'created_at' => $this->createdAt->format('Y-m-d H:i:s'),
-            'updated_at' => $this->updatedAt->format('Y-m-d H:i:s'),
+            'created_at' => $this->createdAt->format($dateFormat),
+            'updated_at' => $this->updatedAt->format($dateFormat),
             'report' => [
                 'type' => 'info',
                 'message' => 'Running task http://www.taoinstance.dev/ontologies/tao.rdf#i1508337970199318643',
@@ -131,7 +133,7 @@ class RedirectUrlEntityDecoratorTest extends TestCase
                 'children' => []
             ],
             'master_status' => true
-        ]);
+        ], $dateFormat);
     }
 
     protected function getFixtureEntityData($status = TaskLogInterface::STATUS_COMPLETED)

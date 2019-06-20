@@ -34,6 +34,8 @@ class TaskLogEntityTest extends TestCase
         $createdAt = new \DateTime('2017-11-16 14:11:42', new \DateTimeZone('UTC'));
         $updatedAt = new \DateTime('2017-11-16 17:12:30', new \DateTimeZone('UTC'));
 
+        $dateFormat = 'Y-m-d H:i:s';
+
         $entity = TaskLogEntity::createFromArray([
             'id' => 'rdf#i1508337970199318643',
             'parent_id' => 'parentFake0002525',
@@ -42,8 +44,8 @@ class TaskLogEntityTest extends TestCase
             'label' => 'Task label',
             'status' => TaskLogInterface::STATUS_COMPLETED,
             'owner' => 'userId',
-            'created_at' => $createdAt->format('Y-m-d H:i:s'),
-            'updated_at' => $updatedAt->format('Y-m-d H:i:s'),
+            'created_at' => $createdAt->format($dateFormat),
+            'updated_at' => $updatedAt->format($dateFormat),
             'report' => [
                 'type' => 'info',
                 'message' => 'Running task http://www.taoinstance.dev/ontologies/tao.rdf#i1508337970199318643',
@@ -51,7 +53,7 @@ class TaskLogEntityTest extends TestCase
                 'children' => []
             ],
             'master_status' => true
-        ]);
+        ], $dateFormat);
 
         $this->assertInstanceOf(TaskLogEntity::class, $entity);
         $this->assertInstanceOf(CategorizedStatus::class, $entity->getStatus());
@@ -97,7 +99,7 @@ class TaskLogEntityTest extends TestCase
             'created_at' => '2017-02-01 12:00:01',
             'updated_at' => '2017-02-01 14:00:01',
             'report' => [],
-        ]);
+        ], 'Y-m-d H:i:s');
 
         $this->assertNull($entity->getReport());
     }
