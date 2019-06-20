@@ -67,7 +67,14 @@ class tao_install_utils_DbalDbCreator
    		}
    	}
 
-   	protected function findDriverName() {
+    /**
+     * Finds the driver name, without changing the original configuration.
+     *
+     * @return string
+     * @throws tao_install_utils_Exception when no or an unknown driver is provided.
+     */
+   	protected function findDriverName()
+    {
         if (isset($this->dbConfiguration['driver'])) {
             return $this->dbConfiguration['driver'];
         }
@@ -93,7 +100,7 @@ class tao_install_utils_DbalDbCreator
      */
     public function dbExists($dbName){
         $sm = $this->getSchemaManager();
-		common_Logger::d('Check if database with name \'' .$dbName. '\' exists for driver ' . $this->driverName);
+		common_Logger::d(sprintf('Check if database with name "%s" exists for driver "%s".', $dbName, $this->driverName));
         if($this->driverName == 'pdo_oci'){
         	common_Logger::d('Oracle special query dbExist');
         	return in_array(strtoupper($dbName),$sm->listDatabases());
