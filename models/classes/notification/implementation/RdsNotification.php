@@ -77,23 +77,20 @@ class RdsNotification
 
         $platform = $this->getPersistence()->getPlatForm();
 
-        $sqlQuery    = 'INSERT INTO ' . self::NOTIF_TABLE .
-            ' (' . self::NOTIF_FIELD_ID . ' , ' . $this->getAllFieldString() . ') 
-                            VALUES ( ? , ? , ? , ? , ? , ? , ? , ? )';
-
-        $data = [
-            $this->getUniquePrimaryKey(),
-            $notification->getRecipient(),
-            $notification->getStatus(),
-            $notification->getSenderId(),
-            $notification->getSenderName(),
-            $notification->getTitle(),
-            $notification->getMessage(),
-            $platform->getNowExpression(),
-            $platform->getNowExpression()
-        ];
-
-        $persistence->exec($sqlQuery , $data);
+        $persistence->insert(
+            self::NOTIF_TABLE,
+            [
+                self::NOTIF_FIELD_ID => $this->getUniquePrimaryKey(),
+                self::NOTIF_FIELD_RECIPIENT => $notification->getRecipient(),
+                self::NOTIF_FIELD_STATUS => $notification->getStatus(),
+                self::NOTIF_FIELD_SENDER => $notification->getSenderId(),
+                self::NOTIF_FIELD_SENDER_NANE => $notification->getSenderName(),
+                self::NOTIF_FIELD_TITLE => $notification->getTitle(),
+                self::NOTIF_FIELD_MESSAGE => $notification->getMessage(),
+                self::NOTIF_FIELD_CREATION => $platform->getNowExpression(),
+                self::NOTIF_FIELD_UPDATED => $platform->getNowExpression(),
+            ]
+        );
 
         return $notification;
     }
