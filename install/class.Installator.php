@@ -193,12 +193,11 @@ class tao_install_Installator
 				$dbConnectionParams['portability'] = \Doctrine\DBAL\Portability\Connection::PORTABILITY_ALL;
 				$dbConnectionParams['fetch_case'] = PDO::CASE_LOWER;
 			}
-            if($installData['db_driver'] == 'gcp-spanner') {
+            if($installData['db_driver'] == SpannerDriver::DRIVER_NAME) {
                 $dbConnectionParams = [
                     'dbname' => $installData['db_name'],
                     'instance' => $installData['db_host'],
                     'driverClass' => SpannerDriver::class,
-//                    'wrapperClass' => SpannerConnection::class,
                     'platform' => new SpannerPlatform(),
                 ];
             }
