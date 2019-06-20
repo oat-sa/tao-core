@@ -149,7 +149,7 @@ class tao_install_utils_DbalDbCreator
      */
     private function createModelsSchema(){
 	    $table = $this->schema->createTable('models');
-	    $table->addColumn('modelid', 'string', ['length' => 25, 'notnull' => true]);
+	    $table->addColumn('modelid', 'string', ['length' => 23]);
 	    $table->addColumn('modeluri', 'string', ['length' => 255]);
         $table->setPrimaryKey(array('modelid'));
         $table->addOption('engine' , 'MyISAM');
@@ -159,20 +159,20 @@ class tao_install_utils_DbalDbCreator
      */
     private function createStatementsSchena(){
     	$table = $this->schema->createTable('statements');
-    	$table->addColumn('id', 'string', ['length' => 25, 'notnull' => true]);
+    	$table->addColumn('id', 'string', ['length' => 23]);
 
-    	$table->addColumn('modelid', 'string', ['length' => 25, 'notnull' => true]);
+    	$table->addColumn('modelid', 'string', ['length' => 23]);
     	$table->addColumn('subject', 'string', ['length' => 255]);
     	$table->addColumn('predicate', 'string', ['length' => 255]);
     	if($this->driverName == 'pdo_oci' ) {
-    		$table->addColumn('object', 'string', ['length' => 4000]);
+    		$table->addColumn('object', 'string', ['length' => 4000, 'notnull' => false]);
     	} else {
-    		$table->addColumn('object', 'text', []);
+    		$table->addColumn('object', 'text', [ 'notnull' => false]);
     	}
-        $table->addColumn('l_language', 'string', ['length' => 255]);
+        $table->addColumn('l_language', 'string', ['length' => 255, 'notnull' => false]);
 
-    	$table->addColumn('author', 'string', ['length' => 255]);
-    	$table->addColumn('epoch', 'string' , ['notnull' => true]);
+    	$table->addColumn('author', 'string', ['length' => 255, 'notnull' => false]);
+    	$table->addColumn('epoch', 'string' , []);
 
     	$table->setPrimaryKey(['id']);
 
