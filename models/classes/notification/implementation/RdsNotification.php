@@ -19,6 +19,7 @@
  */
 namespace oat\tao\model\notification\implementation;
 
+use oat\generis\Helper\UuidPrimaryKeyTrait;
 use oat\tao\model\notification\AbstractNotificationService;
 use oat\tao\model\notification\NotificationInterface;
 
@@ -26,6 +27,7 @@ class RdsNotification
     extends AbstractNotificationService
 
 {
+    use UuidPrimaryKeyTrait;
 
     const NOTIF_TABLE = 'notifications';
 
@@ -211,15 +213,5 @@ class RdsNotification
 
         return $count;
 
-    }
-
-    /**
-     * Generates a unique, not auto-increment based, primary key.
-     *
-     * @return string
-     */
-    public function getUniquePrimaryKey()
-    {
-        return strrev(uniqid('', true));
     }
 }
