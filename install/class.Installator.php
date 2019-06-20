@@ -189,7 +189,7 @@ class tao_install_Installator {
                     'dbname' => $installData['db_name'],
                     'instance' => $installData['db_host'],
                     'driverClass' => SpannerDriver::class,
-                    'wrapperClass' => SpannerConnection::class,
+//                    'wrapperClass' => SpannerConnection::class,
                     'platform' => new SpannerPlatform(),
                 ];
             }

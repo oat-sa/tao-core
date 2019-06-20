@@ -23,37 +23,28 @@
  */
 
 use Doctrine\DBAL\DBALException;
+use OAT\Library\DBALSpanner\SpannerDriver;
 
-class tao_install_utils_DbalDbCreator {
-
-
+class tao_install_utils_DbalDbCreator
+{
     /**
      * @var array
      */
     private $dbConfiguration;
+
+    /** @var string */
+    private $driverName;
+
     /**
      * @var Doctrine\DBAL\Connection
      */
     private $connection;
+
 	/**
 	 * @var Doctrine\DBAL\Schema\Schema
 	 */
 	private $schema = null;
-	
 
-	/**
-	 * @author "Lionel Lecaque, <lionel@taotesting.com>"
-	 */
-	private function createMysqlStatementsIndex(){
-	    $index = new \Doctrine\DBAL\Schema\Index('k_po',array('predicate(164)','object(164)'));
-	    $table = new \Doctrine\DBAL\Schema\Table('statements');
-	    $this->getSchemaManager()->createIndex($index,$table);
-	    $index = new \Doctrine\DBAL\Schema\Index('k_sp',array('predicate(164)','subject(164)'));
-	    $this->getSchemaManager()->createIndex($index,$table);
-	}
-	
-	
-	
     /**
      * @author "Lionel Lecaque, <lionel@taotesting.com>"
      * @param array $params
@@ -63,9 +54,12 @@ class tao_install_utils_DbalDbCreator {
    		try{
             $this->connection = $this->buildDbalConnection($params);
             $this->dbConfiguration = $params;
+            $this->driverName = $this->findDriverName();
             $this->buildSchema();
-
-   		}
+            if ($this->driverName === 'gcp-spanner') {
+                $this->connection->connect();
+            }
+        }
    		catch(Exception $e){
    			$this->connection = null;
             common_Logger::e($e->getMessage() . $e->getTraceAsString());
@@ -73,14 +67,34 @@ class tao_install_utils_DbalDbCreator {
    		}
    	}
 
+   	protected function findDriverName() {
+        if (isset($this->dbConfiguration['driver'])) {
+            return $this->dbConfiguration['driver'];
+        }
+
+        $driverNames = [
+            SpannerDriver::class => 'gcp-spanner',
+        ];
+
+        if (isset($this->dbConfiguration['driverClass'])) {
+            $driverClass = $this->dbConfiguration['driverClass'];
+            if (isset($driverNames[$driverClass])) {
+                return $driverNames[$driverClass];
+            }
+            throw new tao_install_utils_Exception('Unknown database driver "' . $driverClass . '".');
+        }
+
+        throw new tao_install_utils_Exception('No database driver found. Please specify either "driver" or "driverClass" key in DBAL configuration array.');
+    }
+
     /**
      * @author "Lionel Lecaque, <lionel@taotesting.com>"
      * @param string $dbName
      */
     public function dbExists($dbName){
         $sm = $this->getSchemaManager();
-		common_Logger::d('Check if database with name \'' .$dbName. '\' exists for driver ' . $this->dbConfiguration['driver']);
-        if($this->dbConfiguration['driver'] == 'pdo_oci'){
+		common_Logger::d('Check if database with name \'' .$dbName. '\' exists for driver ' . $this->driverName);
+        if($this->driverName == 'pdo_oci'){
         	common_Logger::d('Oracle special query dbExist');
         	return in_array(strtoupper($dbName),$sm->listDatabases());
         }
@@ -96,8 +110,8 @@ class tao_install_utils_DbalDbCreator {
     	$sm = $this->getSchemaManager();
     	return $sm->tableExists($tableName);
     }
-    
-    
+
+
     /**
      * @author "Lionel Lecaque, <lionel@taotesting.com>"
      * @param string $name
@@ -107,7 +121,7 @@ class tao_install_utils_DbalDbCreator {
         common_Logger::d('Switch to database ' . $name);
         $this->dbConfiguration['dbname'] = $name;
         $this->connection = $this->buildDbalConnection($this->dbConfiguration);
-        
+
     }
 
     /**
@@ -120,7 +134,7 @@ class tao_install_utils_DbalDbCreator {
         return  \Doctrine\DBAL\DriverManager::getConnection($params, $config);
     }
 
-    
+
     /**
      * @author "Lionel Lecaque, <lionel@taotesting.com>"
      */
@@ -129,7 +143,7 @@ class tao_install_utils_DbalDbCreator {
     	return $sm->listDatabases();
 
     }
-    
+
     /**
      * @author "Lionel Lecaque, <lionel@taotesting.com>"
      */
@@ -150,7 +164,7 @@ class tao_install_utils_DbalDbCreator {
     	$table->addColumn('modelid', 'string', ['length' => 25, 'notnull' => true]);
     	$table->addColumn('subject', 'string', ['length' => 255]);
     	$table->addColumn('predicate', 'string', ['length' => 255]);
-    	if($this->dbConfiguration['driver'] == 'pdo_oci' ) {
+    	if($this->driverName == 'pdo_oci' ) {
     		$table->addColumn('object', 'string', ['length' => 4000]);
     	} else {
     		$table->addColumn('object', 'text', []);
@@ -162,21 +176,21 @@ class tao_install_utils_DbalDbCreator {
 
     	$table->setPrimaryKey(['id']);
 
-    	if($this->dbConfiguration['driver'] != 'pdo_mysql'){
+    	if($this->driverName != 'pdo_mysql'){
     	   	$table->addIndex(['subject', 'predicate'], 'k_sp');
-    		common_Logger::d('driver is ' . $this->dbConfiguration['driver']);
-    	   	if($this->dbConfiguration['driver'] != 'pdo_sqlsrv' 
-    	   			&& $this->dbConfiguration['driver'] != 'pdo_oci'){
+    		common_Logger::d('driver is ' . $this->driverName);
+    	   	if($this->driverName != 'pdo_sqlsrv'
+    	   			&& $this->driverName != 'pdo_oci'){
     	   		$table->addIndex(['predicate', 'object'], 'k_po');
     	   	}
     	}
 
         $table->addOption('engine' , 'MyISAM');
     }
-    
+
 
     /**
-     * 
+     *
      * @author "Lionel Lecaque, <lionel@taotesting.com>"
      */
     private function createKeyValueStoreTable(){
@@ -188,7 +202,7 @@ class tao_install_utils_DbalDbCreator {
         $table->addOption('engine' , 'MyISAM');
     }
 
-    
+
     /**
      * @author "Lionel Lecaque, <lionel@taotesting.com>"
      */
@@ -197,10 +211,10 @@ class tao_install_utils_DbalDbCreator {
     	$table->addColumn("uri_sequence", "integer",array("notnull" => true,"autoincrement" => true));
     	$table->addOption('engine' , 'MyISAM');
     	$table->setPrimaryKey(array("uri_sequence"));
-    	
+
     	//$this->schema->createSequence('sequence_uri_provider_uri_sequence_seq');
     }
-    
+
     /**
      * @author "Lionel Lecaque, <lionel@taotesting.com>"
      * @return Doctrine\DBAL\Schema\Schema
@@ -219,27 +233,27 @@ class tao_install_utils_DbalDbCreator {
 			$this->createKeyValueStoreTable();
     	}
     	return $this->schema;
-    	
-    	
+
+
     }
-    
+
     /**
      * @author "Lionel Lecaque, <lionel@taotesting.com>"
      * @param unknown $file
      */
     public function loadProc($file){
-        
-        $procedureCreator = new tao_install_utils_ProceduresCreator($this->dbConfiguration['driver'],$this->connection);
+
+        $procedureCreator = new tao_install_utils_ProceduresCreator($this->driverName, $this->connection);
         $procedureCreator->load($file);
 
     }
-    
+
 
     public function addModel($modelId,$namespace){
         common_Logger::d('add modelid :' . $k . ' with NS :' . $v);
         $this->connection->insert("models" , array('modelid' => $k , 'modeluri' => $v ));
     }
-    
+
     /**
      * @author "Lionel Lecaque, <lionel@taotesting.com>"
      */
@@ -247,16 +261,16 @@ class tao_install_utils_DbalDbCreator {
         foreach ($this->modelArray as $k => $v){
             $this->addModel();
         }
-    } 
-    
-    
+    }
+
+
     /**
      * @author "Lionel Lecaque, <lionel@taotesting.com>"
      */
     public function removeGenerisUser(){
-       $this->connection->executeUpdate("DELETE FROM statements WHERE subject = ?" , array('http://www.tao.lu/Ontologies/TAO.rdf#installator'));    
+       $this->connection->executeUpdate("DELETE FROM statements WHERE subject = ?" , array('http://www.tao.lu/Ontologies/TAO.rdf#installator'));
     }
-    
+
     /**
      * @author "Lionel Lecaque, <lionel@taotesting.com>"
      */
@@ -264,13 +278,24 @@ class tao_install_utils_DbalDbCreator {
     	$platform = $this->connection->getDatabasePlatform();
     	$queries = $this->schema->toSql($platform);
     	foreach ($queries as $query){
-    	   	$this->connection->executeUpdate($query);
+    	   	$this->connection->exec($query);
     	}
-    	if($this->dbConfiguration['driver'] == 'pdo_mysql'){
+    	if($this->driverName == 'pdo_mysql'){
     	    $this->createMysqlStatementsIndex();
     	}
     }
-    
+
+    /**
+     * @author "Lionel Lecaque, <lionel@taotesting.com>"
+     */
+    private function createMysqlStatementsIndex(){
+        $index = new \Doctrine\DBAL\Schema\Index('k_po',array('predicate(164)','object(164)'));
+        $table = new \Doctrine\DBAL\Schema\Table('statements');
+        $this->getSchemaManager()->createIndex($index,$table);
+        $index = new \Doctrine\DBAL\Schema\Index('k_sp',array('predicate(164)','subject(164)'));
+        $this->getSchemaManager()->createIndex($index,$table);
+    }
+
     /**
      * @author "Lionel Lecaque, <lionel@taotesting.com>"
      */
@@ -286,19 +311,19 @@ class tao_install_utils_DbalDbCreator {
     	foreach($sequences as $name){
     		$sm->dropSequence($name);
     	}
-    	
-    	
+
+
     }
-    
+
     /**
      * @author "Lionel Lecaque, <lionel@taotesting.com>"
      */
     public function listTables(){
     	$sm = $this->getSchemaManager();
     	return $sm->listTableNames();
-    
+
     }
-    
+
     /**
      * @author "Lionel Lecaque, <lionel@taotesting.com>"
      * @param unknown $database
@@ -310,7 +335,7 @@ class tao_install_utils_DbalDbCreator {
     }
 
     /**
-     * 
+     *
      * @author Lionel Lecaque, lionel@taotesting.com
      * @param string $database
      */
@@ -319,16 +344,16 @@ class tao_install_utils_DbalDbCreator {
         $escapedName = $sm->getDatabasePlatform()->quoteIdentifier($database);
         return $sm->createDatabase($escapedName);
     }
-    
+
     /**
-     * 
+     *
      * @author Lionel Lecaque, lionel@taotesting.com
      */
     public function cleanDb(){
         $sm = $this->getSchemaManager();
         $platform = $this->connection->getDatabasePlatform();
         $tables = $sm->listTableNames();
-        
+
         while (!empty($tables)) {
             $oldCount = count($tables);
             foreach(array_keys($tables) as $id){
