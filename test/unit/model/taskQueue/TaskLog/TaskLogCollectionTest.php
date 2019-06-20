@@ -54,7 +54,7 @@ class TaskLogCollectionTest extends \PHPUnit_Framework_TestCase
      */
     protected function createCollection()
     {
-       return TaskLogCollection::createFromArray([
+        return TaskLogCollection::createFromArray([
             [
                 'id' => 'rdf#i1508337970199318643',
                 'parent_id' => 'parentFake0002525',
@@ -89,23 +89,23 @@ class TaskLogCollectionTest extends \PHPUnit_Framework_TestCase
                     'children' => []
                 ],
             ],
-           [
-               'id' => 'rdf#i150833797019931864322223',
-               'parent_id' => 'parentFake0002525',
-               'task_name' => 'Task Name 3',
-               'label' => 'Task label  3',
-               'status' => TaskLogInterface::STATUS_RUNNING,
-               'owner' => 'userId',
-               'parameters' => json_encode([]),
-               'created_at' => '2017-02-01 16:00:01',
-               'updated_at' => '2017-02-01 18:00:01',
-               'report' => [
-                   'type' => 'info',
-                   'message' => 'Running task #i15083379701993186433333',
-                   'data' => NULL,
-                   'children' => []
-               ],
-           ],
-        ]);
+            [
+                'id' => 'rdf#i150833797019931864322223',
+                'parent_id' => 'parentFake0002525',
+                'task_name' => 'Task Name 3',
+                'label' => 'Task label  3',
+                'status' => TaskLogInterface::STATUS_RUNNING,
+                'owner' => 'userId',
+                'parameters' => json_encode([]),
+                'created_at' => '2017-02-01 16:00:01',
+                'updated_at' => '2017-02-01 18:00:01',
+                'report' => [
+                    'type' => 'info',
+                    'message' => 'Running task #i15083379701993186433333',
+                    'data' => NULL,
+                    'children' => []
+                ],
+            ],
+        ], 'Y-m-d H:i:s');
     }
 }
