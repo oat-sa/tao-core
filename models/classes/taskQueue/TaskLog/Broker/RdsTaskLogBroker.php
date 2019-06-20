@@ -246,6 +246,8 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
      */
     public function search(TaskLogFilter $filter)
     {
+        $platform = $this->getPersistence()->getPlatForm();
+
         try {
             $qb = $this->getQueryBuilder()
                 ->select($filter->getColumns())
@@ -260,7 +262,7 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
 
             $filter->applyFilters($qb);
 
-            $collection = TaskLogCollection::createFromArray($qb->execute()->fetchAll(), $this->getPersistence()->getPlatForm()->getDateTimeTzFormatString());
+            $collection = TaskLogCollection::createFromArray($qb->execute()->fetchAll(), $platform->getDateTimeTzFormatString());
         } catch (\Exception $exception) {
             $this->logError('Searching for task logs failed with MSG: ' . $exception->getMessage());
 
