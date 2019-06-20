@@ -108,6 +108,6 @@ class TaskLogCollectionTest extends TestCase
                    'children' => []
                ],
             ],
-        ]);
+        ], 'Y-m-d H:i:s');
     }
 }
