@@ -78,10 +78,11 @@ class RdsNotification
         $platform = $this->getPersistence()->getPlatForm();
 
         $sqlQuery    = 'INSERT INTO ' . self::NOTIF_TABLE .
-                        ' (' . $this->getAllFieldString() . ') 
+            ' (' . self::NOTIF_FIELD_ID . ' , ' . $this->getAllFieldString() . ') 
                             VALUES ( ? , ? , ? , ? , ? , ? , ? , ? )';
 
         $data = [
+            $this->getUniquePrimaryKey(),
             $notification->getRecipient(),
             $notification->getStatus(),
             $notification->getSenderId(),
@@ -103,10 +104,10 @@ class RdsNotification
         $persistence = $this->getPersistence();
 
         $selectQuery = 'SELECT ' . self::NOTIF_FIELD_ID . ' , ' . $this->getAllFieldString() .
-                       ' FROM ' . self::NOTIF_TABLE . ' WHERE ' .
-                        self::NOTIF_FIELD_RECIPIENT . ' = ? ' .
-                        'ORDER BY ' . self::NOTIF_FIELD_CREATION . ' DESC ' .
-                        'LIMIT 20';
+            ' FROM ' . self::NOTIF_TABLE . ' WHERE ' .
+            self::NOTIF_FIELD_RECIPIENT . ' = ? ' .
+            'ORDER BY ' . self::NOTIF_FIELD_CREATION . ' DESC ' .
+            'LIMIT 20';
 
         $params      = [
             $userId
@@ -169,9 +170,9 @@ class RdsNotification
     public function changeStatus(NotificationInterface $notification)
     {
         $updateQuery = 'UPDATE ' . self::NOTIF_TABLE . ' SET ' .
-                            self::NOTIF_FIELD_UPDATED . ' = ? ,' .
-                            self::NOTIF_FIELD_STATUS . ' = ? ' .
-                            ' WHERE ' . self::NOTIF_FIELD_ID . ' = ? ';
+            self::NOTIF_FIELD_UPDATED . ' = ? ,' .
+            self::NOTIF_FIELD_STATUS . ' = ? ' .
+            ' WHERE ' . self::NOTIF_FIELD_ID . ' = ? ';
 
         $persistence = $this->getPersistence();
         $platform = $this->getPersistence()->getPlatForm();
@@ -215,6 +216,13 @@ class RdsNotification
 
     }
 
-
-
+    /**
+     * Generates a unique, not auto-increment based, primary key.
+     *
+     * @return string
+     */
+    public function getUniquePrimaryKey()
+    {
+        return strrev(uniqid('', true));
+    }
 }
