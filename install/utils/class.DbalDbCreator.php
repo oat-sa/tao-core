@@ -56,7 +56,7 @@ class tao_install_utils_DbalDbCreator
             $this->dbConfiguration = $params;
             $this->driverName = $this->findDriverName();
             $this->buildSchema();
-            if ($this->driverName === 'gcp-spanner') {
+            if ($this->driverName === SpannerDriver::DRIVER_NAME) {
                 $this->connection->connect();
             }
         }
@@ -73,7 +73,7 @@ class tao_install_utils_DbalDbCreator
         }
 
         $driverNames = [
-            SpannerDriver::class => 'gcp-spanner',
+            SpannerDriver::class => SpannerDriver::DRIVER_NAME,
         ];
 
         if (isset($this->dbConfiguration['driverClass'])) {
