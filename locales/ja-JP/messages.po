@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint103\n"
-"PO-Revision-Date: 2019-06-07T08:58:22\n"
+"Project-Id-Version: TAO 3.3.0-sprint105\n"
+"PO-Revision-Date: 2019-06-21T08:52:46\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-JP\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " and "
-msgstr " と "
-
 msgid " AND "
 msgstr ""
+
+msgid " and "
+msgstr " と "
 
 msgid " has been deleted successfully"
 msgstr " 削除しました。"
@@ -368,10 +368,10 @@ msgstr ""
 msgid "Calendar"
 msgstr "カレンダー"
 
-msgid "cancel"
+msgid "Cancel"
 msgstr "キャンセル"
 
-msgid "Cancel"
+msgid "cancel"
 msgstr "キャンセル"
 
 msgid "cancel the action"
@@ -422,9 +422,6 @@ msgstr "エクスポート形式の選択"
 
 msgid "Choose import format"
 msgstr "インポート形式の選択"
-
-msgid "City"
-msgstr ""
 
 msgid "class selected"
 msgstr "選択されたクラス"
@@ -528,9 +525,6 @@ msgstr ""
 msgid "count"
 msgstr ""
 
-msgid "Country"
-msgstr ""
-
 msgid "Create"
 msgstr "作成"
 
@@ -541,9 +535,6 @@ msgid "Created"
 msgstr ""
 
 msgid "Creating report ..."
-msgstr ""
-
-msgid "Creation At"
 msgstr ""
 
 msgid "CSP Header settings were saved successfully!"
@@ -720,9 +711,6 @@ msgstr "要素が削除されました"
 
 msgid "Email"
 msgstr "E-メール"
-
-msgid "Email address"
-msgstr ""
 
 msgid "enabled"
 msgstr ""
@@ -978,10 +966,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1208,9 +1196,6 @@ msgstr ""
 msgid "Metadata export is not available for the selected resource."
 msgstr ""
 
-msgid "Method"
-msgstr ""
-
 msgid "minutes"
 msgstr "分"
 
@@ -1374,10 +1359,10 @@ msgstr "の"
 msgid "Off"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr "OK"
 
-msgid "Ok"
+msgid "OK"
 msgstr "OK"
 
 msgid "Old Password"
@@ -1401,9 +1386,6 @@ msgstr ""
 msgid "Page"
 msgstr "ページ番号"
 
-msgid "Parameters"
-msgstr ""
-
 msgid "Password"
 msgstr "パスワード"
 
@@ -1426,9 +1408,6 @@ msgid "Pause"
 msgstr ""
 
 msgid "Permission denied to write in the selected class"
-msgstr ""
-
-msgid "Phone number"
 msgstr ""
 
 msgid "Play"
@@ -1715,6 +1694,9 @@ msgstr "保存"
 msgid "Saved."
 msgstr ""
 
+msgid "Scientific Calculator"
+msgstr ""
+
 msgid "Scope"
 msgstr "範囲"
 
@@ -1825,9 +1807,6 @@ msgstr ""
 msgid "Start of document reached. Continuing from the end."
 msgstr ""
 
-msgid "State"
-msgstr ""
-
 msgid "Status"
 msgstr ""
 
@@ -1838,9 +1817,6 @@ msgid "Store"
 msgstr ""
 
 msgid "Store the value a variable"
-msgstr ""
-
-msgid "Street"
 msgstr ""
 
 msgid "string"
@@ -2179,9 +2155,6 @@ msgstr "アップロード"
 msgid "Upload into:"
 msgstr "アップロード先:"
 
-msgid "URL"
-msgstr ""
-
 msgid "Usage: ImportRdf RDF_FILE [MODEL_ID]"
 msgstr "使用法：ImportRdf RDF_FILE [MODEL_ID]"
 
@@ -2227,9 +2200,6 @@ msgstr "ユーザを保存しました"
 #, tao-public
 msgid "User Settings"
 msgstr "ユーザ設定"
-
-msgid "Username"
-msgstr ""
 
 #, tao-public
 msgid "Users"
@@ -2348,7 +2318,4 @@ msgstr "メールアドレス"
 
 msgid "Your TAO Password"
 msgstr "TAO パスワード"
-
-msgid "Zip Code"
-msgstr ""
 

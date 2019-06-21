@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint103\n"
-"PO-Revision-Date: 2019-06-07T08:58:07\n"
+"Project-Id-Version: TAO 3.3.0-sprint105\n"
+"PO-Revision-Date: 2019-06-21T08:52:29\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fi-FI\n"
@@ -16,10 +16,10 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " and "
+msgid " AND "
 msgstr ""
 
-msgid " AND "
+msgid " and "
 msgstr ""
 
 msgid " has been deleted successfully"
@@ -367,10 +367,10 @@ msgstr ""
 msgid "Calendar"
 msgstr ""
 
-msgid "cancel"
+msgid "Cancel"
 msgstr ""
 
-msgid "Cancel"
+msgid "cancel"
 msgstr ""
 
 msgid "cancel the action"
@@ -420,9 +420,6 @@ msgid "Choose export format"
 msgstr ""
 
 msgid "Choose import format"
-msgstr ""
-
-msgid "City"
 msgstr ""
 
 msgid "class selected"
@@ -527,9 +524,6 @@ msgstr ""
 msgid "count"
 msgstr ""
 
-msgid "Country"
-msgstr ""
-
 msgid "Create"
 msgstr ""
 
@@ -540,9 +534,6 @@ msgid "Created"
 msgstr ""
 
 msgid "Creating report ..."
-msgstr ""
-
-msgid "Creation At"
 msgstr ""
 
 msgid "CSP Header settings were saved successfully!"
@@ -717,9 +708,6 @@ msgid "Element deleted."
 msgstr ""
 
 msgid "Email"
-msgstr ""
-
-msgid "Email address"
 msgstr ""
 
 msgid "enabled"
@@ -976,10 +964,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1206,9 +1194,6 @@ msgstr ""
 msgid "Metadata export is not available for the selected resource."
 msgstr ""
 
-msgid "Method"
-msgstr ""
-
 msgid "minutes"
 msgstr ""
 
@@ -1372,10 +1357,10 @@ msgstr ""
 msgid "Off"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr ""
 
-msgid "Ok"
+msgid "OK"
 msgstr ""
 
 msgid "Old Password"
@@ -1397,9 +1382,6 @@ msgid "Outlook on the next Synchronization"
 msgstr ""
 
 msgid "Page"
-msgstr ""
-
-msgid "Parameters"
 msgstr ""
 
 msgid "Password"
@@ -1424,9 +1406,6 @@ msgid "Pause"
 msgstr ""
 
 msgid "Permission denied to write in the selected class"
-msgstr ""
-
-msgid "Phone number"
 msgstr ""
 
 msgid "Play"
@@ -1713,6 +1692,9 @@ msgstr ""
 msgid "Saved."
 msgstr ""
 
+msgid "Scientific Calculator"
+msgstr ""
+
 msgid "Scope"
 msgstr ""
 
@@ -1823,9 +1805,6 @@ msgstr ""
 msgid "Start of document reached. Continuing from the end."
 msgstr ""
 
-msgid "State"
-msgstr ""
-
 msgid "Status"
 msgstr ""
 
@@ -1836,9 +1815,6 @@ msgid "Store"
 msgstr ""
 
 msgid "Store the value a variable"
-msgstr ""
-
-msgid "Street"
 msgstr ""
 
 msgid "string"
@@ -2177,9 +2153,6 @@ msgstr ""
 msgid "Upload into:"
 msgstr ""
 
-msgid "URL"
-msgstr ""
-
 msgid "Usage: ImportRdf RDF_FILE [MODEL_ID]"
 msgstr ""
 
@@ -2224,9 +2197,6 @@ msgstr ""
 
 #, tao-public
 msgid "User Settings"
-msgstr ""
-
-msgid "Username"
 msgstr ""
 
 #, tao-public
@@ -2345,8 +2315,5 @@ msgid "Your mail"
 msgstr ""
 
 msgid "Your TAO Password"
-msgstr ""
-
-msgid "Zip Code"
 msgstr ""
 
