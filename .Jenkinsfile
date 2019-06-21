@@ -89,7 +89,7 @@ mkdir -p tao/views/locales/en-US/
                 stage('Frontend Tests') {
                     agent {
                         docker {
-                            image 'alekzonder/puppeteer'
+                            image 'btamas/puppeteer-git'
                             reuseNode true
                         }
                     }
