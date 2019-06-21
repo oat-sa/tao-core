@@ -3,10 +3,10 @@
 	"file": "layout.css",
 	"sources": [
 		"../scss/layout.scss",
-		"../scss/inc/_bootstrap.scss",
-		"../scss/inc/_variables.scss",
-		"../scss/inc/_functions.scss",
-		"../scss/inc/_colors.scss",
+		"../node_modules/@oat-sa/tao-core-ui/scss/inc/_bootstrap.scss",
+		"../node_modules/@oat-sa/tao-core-ui/scss/inc/_variables.scss",
+		"../node_modules/@oat-sa/tao-core-ui/scss/inc/_functions.scss",
+		"../node_modules/@oat-sa/tao-core-ui/scss/inc/_colors.scss",
 		"../scss/inc/fonts/_tao-icon-vars.scss"
 	],
 	"names": [],
