@@ -998,7 +998,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $settingsStorage = $this->getServiceManager()->get(SettingsStorage::SERVICE_ID);
 
             if ($settingsStorage->exists(CspHeaderSettingsInterface::CSP_HEADER_SETTING) === false) {
-                $settingsStorage->set(CspHeaderSettingsInterface::CSP_HEADER_SETTING, '*');
+                $settingsStorage->set(CspHeaderSettingsInterface::CSP_HEADER_SETTING, 'self');
             }
 
 
