@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint103\n"
-"PO-Revision-Date: 2019-06-07T08:58:17\n"
+"Project-Id-Version: TAO 3.3.0-sprint105\n"
+"PO-Revision-Date: 2019-06-21T08:52:41\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: is-IS\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " and "
-msgstr " og "
-
 msgid " AND "
 msgstr ""
+
+msgid " and "
+msgstr " og "
 
 msgid " has been deleted successfully"
 msgstr " hefur tekist að eyða"
@@ -367,11 +367,11 @@ msgstr ""
 msgid "Calendar"
 msgstr "Dagatal"
 
-msgid "cancel"
-msgstr ""
-
 msgid "Cancel"
 msgstr "Hætta við"
+
+msgid "cancel"
+msgstr ""
 
 msgid "cancel the action"
 msgstr ""
@@ -421,9 +421,6 @@ msgstr "Veldu útflutningssnið"
 
 msgid "Choose import format"
 msgstr "Veldu innflutningssnið"
-
-msgid "City"
-msgstr ""
 
 msgid "class selected"
 msgstr "flokkur valinn"
@@ -527,9 +524,6 @@ msgstr ""
 msgid "count"
 msgstr ""
 
-msgid "Country"
-msgstr ""
-
 msgid "Create"
 msgstr "Búa til"
 
@@ -540,9 +534,6 @@ msgid "Created"
 msgstr ""
 
 msgid "Creating report ..."
-msgstr ""
-
-msgid "Creation At"
 msgstr ""
 
 msgid "CSP Header settings were saved successfully!"
@@ -719,9 +710,6 @@ msgstr ""
 
 msgid "Email"
 msgstr "Netfang"
-
-msgid "Email address"
-msgstr ""
 
 msgid "enabled"
 msgstr ""
@@ -977,10 +965,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1207,9 +1195,6 @@ msgstr ""
 msgid "Metadata export is not available for the selected resource."
 msgstr ""
 
-msgid "Method"
-msgstr ""
-
 msgid "minutes"
 msgstr "mínútur"
 
@@ -1373,10 +1358,10 @@ msgstr ""
 msgid "Off"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr ""
 
-msgid "Ok"
+msgid "OK"
 msgstr ""
 
 msgid "Old Password"
@@ -1400,9 +1385,6 @@ msgstr ""
 msgid "Page"
 msgstr "Síða"
 
-msgid "Parameters"
-msgstr ""
-
 msgid "Password"
 msgstr "Lykilorð"
 
@@ -1425,9 +1407,6 @@ msgid "Pause"
 msgstr ""
 
 msgid "Permission denied to write in the selected class"
-msgstr ""
-
-msgid "Phone number"
 msgstr ""
 
 msgid "Play"
@@ -1714,6 +1693,9 @@ msgstr "Vista"
 msgid "Saved."
 msgstr ""
 
+msgid "Scientific Calculator"
+msgstr ""
+
 msgid "Scope"
 msgstr "Umfang"
 
@@ -1824,9 +1806,6 @@ msgstr ""
 msgid "Start of document reached. Continuing from the end."
 msgstr ""
 
-msgid "State"
-msgstr ""
-
 msgid "Status"
 msgstr ""
 
@@ -1837,9 +1816,6 @@ msgid "Store"
 msgstr ""
 
 msgid "Store the value a variable"
-msgstr ""
-
-msgid "Street"
 msgstr ""
 
 msgid "string"
@@ -2178,9 +2154,6 @@ msgstr "Hlaða upp"
 msgid "Upload into:"
 msgstr "Senda til:"
 
-msgid "URL"
-msgstr ""
-
 msgid "Usage: ImportRdf RDF_FILE [MODEL_ID]"
 msgstr ""
 
@@ -2226,9 +2199,6 @@ msgstr "Notandi vistaður"
 #, tao-public
 msgid "User Settings"
 msgstr "Notandastillingar"
-
-msgid "Username"
-msgstr ""
 
 #, tao-public
 msgid "Users"
@@ -2347,7 +2317,4 @@ msgstr "Pósturinn þinn"
 
 msgid "Your TAO Password"
 msgstr "TAO Lykilorðið þitt"
-
-msgid "Zip Code"
-msgstr ""
 
