@@ -134,12 +134,17 @@ module.exports = function(grunt) {
                 port: testPort,
                 base: root,
                 middleware: function(connect, options, middlewares) {
-
+                    var npmPaths;
                     var rjsConfig = require('../config/requirejs.build.json');
                     rjsConfig.baseUrl = baseUrl + '/tao/views/js';
                     ext.getExtensions().forEach(function(extension){
                         rjsConfig.paths[extension] = '../../../' + extension + '/views/js';
                         rjsConfig.paths[extension + 'Css'] = '../../../' + extension + '/views/css';
+                    });
+
+                    npmPaths = ext.getExtensionsNpmPaths();
+                    Object.entries(npmPaths).forEach(([key, value]) => {
+                        rjsConfig.paths[key] = value;
                     });
 
                     // inject a mock for the requirejs config

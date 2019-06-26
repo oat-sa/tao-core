@@ -43,23 +43,43 @@ module.exports = function(grunt, root){
             return sources;
         },
 
-       getExtensionsPaths : function getExtensionsPaths(extensions){
-           var self = this;
-           var paths = { };
-           extensions = extensions || self.getExtensions(true);
-           extensions.forEach(function(extension){
-               var jsPath = self.getExtensionPath(extension) + '/views/js';
-               var cssPath = self.getExtensionPath(extension) + '/views/css';
-               if(grunt.file.exists(jsPath)){
-                   paths[extension] = path.relative('../js', jsPath);
-               }
-               if(grunt.file.exists(cssPath)){
-                   paths[extension + 'Css'] = path.relative('../js', cssPath);
-               }
-           });
-           return paths;
-       },
+        getExtensionsPaths : function getExtensionsPaths(extensions){
+            var self = this;
+            var paths = { };
+            extensions = extensions || self.getExtensions(true);
+            extensions.forEach(function(extension){
+                var jsPath = self.getExtensionPath(extension) + '/views/js';
+                var cssPath = self.getExtensionPath(extension) + '/views/css';
+                if(grunt.file.exists(jsPath)){
+                    paths[extension] = path.relative('../js', jsPath);
+                }
+                if(grunt.file.exists(cssPath)){
+                    paths[extension + 'Css'] = path.relative('../js', cssPath);
+                }
+            });
+            return paths;
+        },
 
+        // parse a 'npmpaths.json' file in each extension, and if it exists,
+        // append its contents to a flat object
+        getExtensionsNpmPaths : function getExtensionsNpmPaths(extensions){
+            var self = this;
+            var npmPaths = {};
+            extensions = extensions || self.getExtensions(true);
+            extensions.forEach(function(extension){
+                var paths = {};
+                try {
+                    paths = require(self.getExtensionPath(extension) + '/views/build/grunt/npmpaths.json');
+                }
+                catch (e) {
+                    // file doesn't exist: ok
+                }
+                Object.entries(paths).forEach(([key, value]) => {
+                    npmPaths[key] = value;
+                });
+            });
+            return npmPaths;
+        },
 
         // OUT OF DATE !!!
 
