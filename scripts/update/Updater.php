@@ -1067,5 +1067,13 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('35.8.2', '37.1.1');
+
+        if ($this->isVersion('37.1.1')) {
+            $settingsStorage = $this->getServiceManager()->get(SettingsStorage::SERVICE_ID);
+            if ($settingsStorage->exists(CspHeaderSettingsInterface::CSP_HEADER_SETTING) === false) {
+                $settingsStorage->set(CspHeaderSettingsInterface::CSP_HEADER_SETTING, 'self');
+            }
+            $this->setVersion('37.1.2');
+        }
     }
 }
