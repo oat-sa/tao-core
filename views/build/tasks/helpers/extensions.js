@@ -60,16 +60,16 @@ module.exports = function(grunt, root){
             return paths;
         },
 
-        // parse a 'npmpaths.json' file in each extension, and if it exists,
+        // parse a 'paths.json' file in each extension, and if it exists,
         // append its contents to a flat object
-        getExtensionsNpmPaths : function getExtensionsNpmPaths(extensions){
+        getExtensionsExtraPaths : function getExtensionsExtraPaths(extensions){
             var self = this;
             var npmPaths = {};
             extensions = extensions || self.getExtensions(true);
             extensions.forEach(function(extension){
                 var paths = {};
                 try {
-                    paths = require(self.getExtensionPath(extension) + '/views/build/grunt/npmpaths.json');
+                    paths = require(self.getExtensionPath(extension) + '/views/build/grunt/paths.json');
                 }
                 catch (e) {
                     // file doesn't exist: ok

@@ -134,7 +134,7 @@ module.exports = function(grunt) {
                 port: testPort,
                 base: root,
                 middleware: function(connect, options, middlewares) {
-                    var npmPaths;
+                    var extraPaths;
                     var rjsConfig = require('../config/requirejs.build.json');
                     rjsConfig.baseUrl = baseUrl + '/tao/views/js';
                     ext.getExtensions().forEach(function(extension){
@@ -142,8 +142,8 @@ module.exports = function(grunt) {
                         rjsConfig.paths[extension + 'Css'] = '../../../' + extension + '/views/css';
                     });
 
-                    npmPaths = ext.getExtensionsNpmPaths();
-                    Object.entries(npmPaths).forEach(([key, value]) => {
+                    extraPaths = ext.getExtensionsExtraPaths();
+                    Object.entries(extraPaths).forEach(([key, value]) => {
                         rjsConfig.paths[key] = value;
                     });
 
