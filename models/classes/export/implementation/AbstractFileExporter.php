@@ -67,31 +67,6 @@ abstract class AbstractFileExporter implements Exporter
     }
 
     /**
-     * Implements old logic which writes headers and data directly to output
-     * @deprecated Responses should be emitted in a centralized way using ResponseEmitter
-     * @param ResponseInterface $response
-     */
-    protected function legacyEmitResponse(ResponseInterface $response)
-    {
-        while (ob_get_level() > 0) {
-            ob_end_flush();
-        }
-
-        foreach ($response->getHeaders() as $name => $values) {
-            foreach ($values as $value) {
-                header("$name: $value");
-            }
-        }
-        $stream = $response->getBody();
-        if ($stream->isSeekable()) {
-            $stream->rewind();
-        }
-        while (!$stream->eof()) {
-            echo $stream->read(1024 * 8);
-        }
-    }
-
-    /**
      * @param ResponseInterface $response
      * @param string $data Data to be exported
      * @param string|null $fileName if null timestamp will be used as file name
@@ -108,5 +83,52 @@ abstract class AbstractFileExporter implements Exporter
             ->withHeader('Content-Disposition', 'attachment; fileName="' . $fileName .'"')
             ->withHeader('Content-Length', strlen($data))
             ->withBody(\GuzzleHttp\Psr7\stream_for($data));
+    }
+
+    /**
+     * Implements old logic which writes headers and data directly to output
+     * @deprecated Responses should be emitted in a centralized way using ResponseEmitter
+     * @param ResponseInterface $response
+     */
+    private function legacyEmitResponse(ResponseInterface $response)
+    {
+        $this->flushOutputBuffer();
+        $this->emitHeaders($response);
+        $this->emitBody($response);
+    }
+
+    /**
+     * @deprecated
+     */
+    private function flushOutputBuffer() {
+        while (ob_get_level() > 0) {
+            ob_end_flush();
+        }
+    }
+
+    /**
+     * @deprecated
+     * @param ResponseInterface $response
+     */
+    private function emitHeaders(ResponseInterface $response) {
+        foreach ($response->getHeaders() as $name => $values) {
+            foreach ($values as $value) {
+                header("$name: $value");
+            }
+        }
+    }
+
+    /**
+     * @deprecated
+     * @param ResponseInterface $response
+     */
+    private function emitBody(ResponseInterface $response) {
+        $stream = $response->getBody();
+        if ($stream->isSeekable()) {
+            $stream->rewind();
+        }
+        while (!$stream->eof()) {
+            echo $stream->read(1024 * 8);
+        }
     }
 }
