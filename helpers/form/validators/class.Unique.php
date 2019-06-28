@@ -26,10 +26,15 @@
  * @author Joel Bout, <joel@taotesting.com>
  * @package tao
  */
-class tao_helpers_form_validators_Unique
-    extends tao_helpers_form_Validator
+
+use oat\oatbox\validator\ExtendedValidatorInterface;
+
+class tao_helpers_form_validators_Unique extends tao_helpers_form_Validator implements ExtendedValidatorInterface
 {
-    private $property;
+    const PROPERTY_PARAM = 'property';
+
+    const CURRENT_ENTITY_ID_PARAM = 'currentEntityId';
+
     /**
      * (non-PHPdoc)
      * @see tao_helpers_form_Validator::getDefaultMessage()
@@ -39,13 +44,19 @@ class tao_helpers_form_validators_Unique
         return __('The value for the property "%s" must be unique.', $this->getProperty()->getLabel());
     }
 
-    public function setOptions(array $options)
+    /**
+     * @inheritDoc
+     */
+    public function populateAdditionValues(array $elements, tao_helpers_form_FormElement $currentElement)
     {
-        unset($this->property);
+        $this->setOption(self::PROPERTY_PARAM, tao_helpers_Uri::decode($currentElement->getName()));
 
-        parent::setOptions($options);
+        foreach ($elements as $element) {
+            if ($element->getName() == 'id') {
+                $this->setOption(self::CURRENT_ENTITY_ID_PARAM, $element->getValue());
+            }
+        }
     }
-
 
     /**
      * @return core_kernel_classes_Property
@@ -53,33 +64,43 @@ class tao_helpers_form_validators_Unique
      */
     protected function getProperty()
     {
-        if( !isset($this->property) || empty($this->property) ){
-            if (!$this->hasOption('property')) {
-                throw new common_exception_Error('Property not set');
-            }
-
-            $this->property = ($this->getOption('property') instanceof core_kernel_classes_Property)
-                ? $this->getOption('property')
-                : new core_kernel_classes_Property($this->getOption('property'));
+        if (!$this->hasOption(self::PROPERTY_PARAM)) {
+            throw new common_exception_Error('Property not set');
         }
 
-        return $this->property;
+        return ($this->getOption(self::PROPERTY_PARAM) instanceof core_kernel_classes_Property)
+            ? $this->getOption(self::PROPERTY_PARAM)
+            : new core_kernel_classes_Property($this->getOption('property'));
     }
 
     /**
-     * (non-PHPdoc)
-     * @see tao_helpers_form_Validator::evaluate()
+     * @param mixed $values
+     * @return bool
+     * @throws common_Exception
      */
     public function evaluate($values)
     {
         $domain = $this->getProperty()->getDomain();
+
         foreach ($domain as $class) {
-            $resources = $class->searchInstances(array($this->getProperty()->getUri() => $values), array('recursive' => true, 'like' => false));
+
+            $resources = $class->searchInstances(
+                [$this->getProperty()->getUri() => $values],
+                ['recursive' => true, 'like' => false]
+            );
+
+            if ($this->getOption(self::CURRENT_ENTITY_ID_PARAM)) {
+                $resources = array_filter(
+                    $resources,
+                    function (core_kernel_classes_Resource $resource) {
+                        return $resource->getUri() !== $this->getOption(self::CURRENT_ENTITY_ID_PARAM);
+                    }
+                );
+            }
             if (count($resources) > 0) {
                 return false;
             }
         }
         return true;
     }
-
 }

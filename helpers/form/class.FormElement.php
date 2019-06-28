@@ -20,6 +20,7 @@
  */
 
 use oat\oatbox\validator\ValidatorInterface;
+use oat\oatbox\validator\ExtendedValidatorInterface;
 
 /**
  * Represents a form. It provides the default behavior for form management and
@@ -355,6 +356,14 @@ abstract class tao_helpers_form_FormElement
     }
 
     /**
+     * @return ValidatorInterface[]
+     */
+    public function getValidators()
+    {
+        return $this->validators;
+    }
+
+    /**
      * Short description of method addValidator
      *
      * @author Joel Bout, <joel@taotesting.com>
@@ -391,6 +400,18 @@ abstract class tao_helpers_form_FormElement
     public function setForcedValid()
     {
 		$this->forcedValid = true;
+    }
+
+    /**
+     * @param tao_helpers_form_FormElement[] $elements
+     */
+    public function populateValidators(array $elements)
+    {
+        foreach($this->validators as $validator){
+            if ($validator instanceof ExtendedValidatorInterface) {
+                $validator->populateAdditionValues($elements, $this);
+            }
+        }
     }
 
     /**

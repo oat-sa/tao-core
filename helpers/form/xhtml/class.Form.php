@@ -150,6 +150,9 @@ class tao_helpers_form_xhtml_Form extends tao_helpers_form_Form
 
         /** @var tao_helpers_form_FormElement $element */
         foreach ($this->elements as $element) {
+
+            $element->populateValidators($this->elements);
+
             if (!$element->validate()) {
                 $this->valid = false;
             }

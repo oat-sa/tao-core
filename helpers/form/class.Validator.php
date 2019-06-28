@@ -33,8 +33,7 @@ use oat\oatbox\Configurable;
  * @package tao
  
  */
-abstract class tao_helpers_form_Validator extends Configurable
-    implements ValidatorInterface
+abstract class tao_helpers_form_Validator extends Configurable implements ValidatorInterface
 {
     /**
      * Message to the user
