@@ -147,6 +147,8 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
      */
     public function add(TaskInterface $task, $status, $label = null)
     {
+        $dateFormat = $this->getPersistence()->getPlatForm()->getDateTimeTzFormatString();
+
         $this->getPersistence()->insert($this->getTableName(), [
             self::COLUMN_ID   => (string) $task->getId(),
             self::COLUMN_PARENT_ID  => $task->getParentId() ? (string) $task->getParentId() : null,
@@ -155,8 +157,8 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
             self::COLUMN_LABEL => (string) $label,
             self::COLUMN_STATUS => (string) $status,
             self::COLUMN_OWNER => (string) $task->getOwner(),
-            self::COLUMN_CREATED_AT => $task->getCreatedAt()->format('Y-m-d H:i:s'),
-            self::COLUMN_UPDATED_AT => $this->getPersistence()->getPlatForm()->getNowExpression(),
+            self::COLUMN_CREATED_AT => $task->getCreatedAt()->format($dateFormat),
+            self::COLUMN_UPDATED_AT => (new \DateTime())->setTimezone(new \DateTimeZone('UTC'))->format($dateFormat),
             self::COLUMN_MASTER_STATUS => (integer) $task->isMasterStatus(),
         ]);
     }
