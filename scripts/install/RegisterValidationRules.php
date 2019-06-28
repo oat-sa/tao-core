@@ -22,6 +22,7 @@ namespace oat\tao\scripts\install;
 use oat\oatbox\extension\InstallAction;
 use oat\tao\helpers\form\ValidationRuleRegistry;
 use oat\generis\model\OntologyAwareTrait;
+use tao_helpers_form_validators_Unique;
 
 /**
  * This post-installation script creates a new local file source for services
@@ -33,8 +34,9 @@ class RegisterValidationRules extends InstallAction
     public function __invoke($params)
     {
         ValidationRuleRegistry::getRegistry()->set('notEmpty', new \tao_helpers_form_validators_NotEmpty());
+        ValidationRuleRegistry::getRegistry()->set('unique', new tao_helpers_form_validators_Unique());
 
-        return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'validator registered');
+        return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'validators registered');
     }
     
     protected function addValidator($propertyUri, $validationRuleId)

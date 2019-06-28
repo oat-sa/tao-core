@@ -118,6 +118,7 @@ use oat\tao\model\resources\TreeResourceLookup;
 use oat\tao\model\user\TaoRoles;
 use oat\generis\model\data\event\ResourceDeleted;
 use oat\tao\model\search\index\IndexService;
+use tao_helpers_form_validators_Unique;
 use tao_models_classes_UserService;
 
 /**
@@ -1067,5 +1068,10 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('35.8.2', '37.1.1');
+
+        if ($this->isVersion('37.1.1')) {
+            ValidationRuleRegistry::getRegistry()->set('unique', new tao_helpers_form_validators_Unique());
+            $this->setVersion('37.2.0');
+        }
     }
 }
