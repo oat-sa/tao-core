@@ -65,11 +65,11 @@ module.exports = function(grunt, root){
         getExtensionsExtraPaths : function getExtensionsExtraPaths(extensions = this.getExtensions(true)) {
             return extensions.reduce((extraPaths, extension) => {
                 try {
-                  return {...extraPaths, ...require(path.join(this.getExtensionPath(extension), 'views', 'build', 'grunt', 'paths.json'))};
+                    return {...extraPaths, ...require(path.join(this.getExtensionPath(extension), 'views', 'build', 'grunt', 'paths.json'))};
                 } catch(e) {
-                  return extraPaths;
+                    return extraPaths;
                 }
-              }, {});
+            }, {});
         },
 
         // OUT OF DATE !!!
