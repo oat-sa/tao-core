@@ -64,12 +64,12 @@ class CsvExporterTest extends TaoPhpUnitTestRunner
      * @param boolean $columnNames
      * @throws \common_exception_InvalidArgumentType
      */
-    public function testExportFileResponse(SplFileInfo $file, array $data, $columnNames)
+    public function testGetFileExportResponse(SplFileInfo $file, array $data, $columnNames)
     {
         $exporter = new CsvExporter($data);
         /** @var ResponseInterface $originResponse */
         $originResponse = (new Response())->withHeader('X-Old-Header', 'old_header_val');
-        $response = $exporter->exportFileResponse($originResponse, $columnNames);
+        $response = $exporter->getFileExportResponse($originResponse, $columnNames);
         $this->assertInstanceOf(ResponseInterface::class, $response);
 
         $exportedData = $this->normalizeLineEndings($response->getBody()->getContents());

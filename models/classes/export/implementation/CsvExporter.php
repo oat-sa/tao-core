@@ -43,7 +43,7 @@ class CsvExporter extends AbstractFileExporter implements PsrResponseExporter
 
     /**
      * @param boolean $columnNames array keys will be used in the first line of CSV data as column names.
-     * @param boolean $download Deprecated: use exportFileResponse() and setResponse() in controller
+     * @param boolean $download Deprecated: use getFileExportResponse() and setResponse() in controller
      * @param string $delimiter sets the field delimiter (one character only).
      * @param string $enclosure sets the field enclosure (one character only).
      * @return string|null
@@ -92,7 +92,7 @@ class CsvExporter extends AbstractFileExporter implements PsrResponseExporter
      * @return ResponseInterface
      * @throws \common_exception_InvalidArgumentType
      */
-    public function exportFileResponse(
+    public function getFileExportResponse(
         ResponseInterface $originResponse = null,
         $columnNames = false,
         $delimiter = ',',
