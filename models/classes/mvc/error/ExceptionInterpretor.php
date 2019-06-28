@@ -24,6 +24,7 @@ use Exception;
 use common_exception_MissingParameter;
 use common_exception_BadRequest;
 use common_exception_ResourceNotFound;
+use Slim\Http\StatusCode;
 use tao_models_classes_MissingRequestParameterException;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
@@ -86,26 +87,26 @@ class ExceptionInterpretor implements ServiceLocatorAwareInterface {
             case tao_models_classes_MissingRequestParameterException::class:
             case common_exception_MissingParameter::class:
             case common_exception_BadRequest::class:
-                $this->returnHttpCode = 400;
+                $this->returnHttpCode = StatusCode::HTTP_BAD_REQUEST;
                 $this->responseClassName = 'MainResponse';
                 break;
             case 'tao_models_classes_AccessDeniedException':
             case 'ResolverException':
-                $this->returnHttpCode    = 403;
+                $this->returnHttpCode    = StatusCode::HTTP_FORBIDDEN;
                 $this->responseClassName = 'RedirectResponse';
                 break;
             case 'tao_models_classes_UserException':
-                $this->returnHttpCode    = 403;
+                $this->returnHttpCode    = StatusCode::HTTP_FORBIDDEN;
                 $this->responseClassName = 'MainResponse';
                 break;
             case 'ActionEnforcingException':
             case 'tao_models_classes_FileNotFoundException':
             case common_exception_ResourceNotFound::class:
-                $this->returnHttpCode    = 404;
+                $this->returnHttpCode    = StatusCode::HTTP_NOT_FOUND;
                 $this->responseClassName = 'MainResponse';
                 break;
             case common_exception_MethodNotAllowed::class:
-                $this->returnHttpCode    = 405;
+                $this->returnHttpCode    = StatusCode::HTTP_METHOD_NOT_ALLOWED;
                 $this->responseClassName = 'MainResponse';
                 /** @var common_exception_MethodNotAllowed $exception */
                 $exception = $this->exception;
@@ -113,7 +114,7 @@ class ExceptionInterpretor implements ServiceLocatorAwareInterface {
                 break;
             default :
                 $this->responseClassName = 'MainResponse';
-                $this->returnHttpCode    = 500;
+                $this->returnHttpCode    = StatusCode::HTTP_INTERNAL_SERVER_ERROR;
                 break;
 
         }
