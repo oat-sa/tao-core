@@ -20,6 +20,9 @@
 
 namespace oat\tao\model\export\implementation;
 
+use GuzzleHttp\Psr7\Response;
+use oat\tao\model\export\PsrResponseExporter;
+use Psr\Http\Message\ResponseInterface;
 use SPLTempFileObject;
 use Traversable;
 
@@ -28,22 +31,25 @@ use Traversable;
  * @author Aleh Hutnikau <hutnikau@1pt.com>
  * @package oat\tao\model\export
  */
-class CsvExporter extends AbstractFileExporter
+class CsvExporter extends AbstractFileExporter implements PsrResponseExporter
 {
+    const FILE_NAME = 'export.csv';
+    const CSV_CONTENT_TYPE = 'text/csv; charset=UTF-8';
+
     /**
      * @var string value of `Content-Type` header
      */
-    protected $contentType = 'text/csv; charset=UTF-8';
+    protected $contentType = self::CSV_CONTENT_TYPE;
 
     /**
      * @param boolean $columnNames array keys will be used in the first line of CSV data as column names.
-     * @param boolean $download
+     * @param boolean $download Deprecated: use getFileExportResponse() and setResponse() in controller
      * @param string $delimiter sets the field delimiter (one character only).
      * @param string $enclosure sets the field enclosure (one character only).
-     * @return string
+     * @return string|null
      * @throws \common_exception_InvalidArgumentType
      */
-    public function export($columnNames = false, $download = false, $delimiter = ",", $enclosure = '"')
+    public function export($columnNames = false, $download = false, $delimiter = ',', $enclosure = '"')
     {
         $data = $this->data;
 
@@ -67,9 +73,35 @@ class CsvExporter extends AbstractFileExporter
         $exportData = trim($exportData);
 
         if ($download) {
-            $this->download($exportData, 'export.csv');
-        } else {
-            return $exportData;
+            $this->download($exportData, self::FILE_NAME);
+            return null;
         }
+
+        return $exportData;
+    }
+
+    /**
+     * Returns Psr Response with exported data and proper headers for file download
+     * You can use obtained response to pass it to $this->setResponse() in controller or
+     * emit directly using ResponseEmitter (for special cases)
+     *
+     * @param ResponseInterface|null $originResponse
+     * @param boolean $columnNames array keys will be used in the first line of CSV data as column names.
+     * @param string $delimiter sets the field delimiter (one character only).
+     * @param string $enclosure sets the field enclosure (one character only).
+     * @return ResponseInterface
+     * @throws \common_exception_InvalidArgumentType
+     */
+    public function getFileExportResponse(
+        ResponseInterface $originResponse = null,
+        $columnNames = false,
+        $delimiter = ',',
+        $enclosure = '"'
+    ) {
+        if ($originResponse === null) {
+            $originResponse = new Response();
+        }
+        $exportedString = $this->export($columnNames, false, $delimiter, $enclosure);
+        return $this->preparePsrResponse($originResponse, $exportedString, self::FILE_NAME);
     }
 }

@@ -14,22 +14,21 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
- *
+ * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
  */
 
 namespace oat\tao\model\export;
 
+use Psr\Http\Message\ResponseInterface;
+
 /**
- * Interface Exporter
- * @package oat\tao\model\export
- * @author Aleh Hutnikau <hutnikau@1pt.com>
+ * @method string|ResponseInterface export()
  */
-interface Exporter
+interface PsrResponseExporter extends Exporter
 {
     /**
-     * Export data as string
-     * @return string
+     * @param ResponseInterface|null $originResponse base result on response
+     * @return ResponseInterface
      */
-    public function export();
+    public function getFileExportResponse(ResponseInterface $originResponse = null);
 }
