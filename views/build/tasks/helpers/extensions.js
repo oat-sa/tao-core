@@ -14,7 +14,7 @@ module.exports = function(grunt, root){
             return grunt.file.expand(options, '*');
         },
 
-        getExtensionPath: function getExtensionPath(extension) {
+        getExtensionPath : function getExtensionPath(extension) {
             extension = extension || 'tao';
             return root + '/' + extension;
         },
@@ -62,23 +62,14 @@ module.exports = function(grunt, root){
 
         // parse a 'paths.json' file in each extension, and if it exists,
         // append its contents to a flat object
-        getExtensionsExtraPaths : function getExtensionsExtraPaths(extensions){
-            var self = this;
-            var npmPaths = {};
-            extensions = extensions || self.getExtensions(true);
-            extensions.forEach(function(extension){
-                var paths = {};
+        getExtensionsExtraPaths : function getExtensionsExtraPaths(extensions = this.getExtensions(true)) {
+            return extensions.reduce((extraPaths, extension) => {
                 try {
-                    paths = require(self.getExtensionPath(extension) + '/views/build/grunt/paths.json');
+                  return {...extraPaths, ...require(path.join(this.getExtensionPath(extension), 'views', 'build', 'grunt', 'paths.json'))};
+                } catch(e) {
+                  return extraPaths;
                 }
-                catch (e) {
-                    // file doesn't exist: ok
-                }
-                Object.entries(paths).forEach(([key, value]) => {
-                    npmPaths[key] = value;
-                });
-            });
-            return npmPaths;
+              }, {});
         },
 
         // OUT OF DATE !!!
