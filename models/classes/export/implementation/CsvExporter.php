@@ -46,7 +46,7 @@ class CsvExporter extends AbstractFileExporter implements PsrResponseExporter
      * @param boolean $download Deprecated: use exportFileResponse() and setResponse() in controller
      * @param string $delimiter sets the field delimiter (one character only).
      * @param string $enclosure sets the field enclosure (one character only).
-     * @return null|string|ResponseInterface
+     * @return string|null
      * @throws \common_exception_InvalidArgumentType
      */
     public function export($columnNames = false, $download = false, $delimiter = ',', $enclosure = '"')
