@@ -27,9 +27,11 @@ const { URL } = require('url');
  *
  * grunt connect:test qunit:extension --extension=taoQtiTest
  * grunt connect:test qunit:single --text=/taoQtiTest/views/js/test/runner/qti/test.html
+ *
+ * @param {Object} grunt - grunt instance
+ * @returns {void}
  */
 module.exports = function(grunt) {
-    'use strict';
 
     const root           = grunt.option('root');
     const testPort       = grunt.option('testPort');
@@ -135,7 +137,7 @@ module.exports = function(grunt) {
                 base: root,
                 middleware: function(connect, options, middlewares) {
                     const rjsConfig = require('../config/requirejs.build.json');
-                    rjsConfig.baseUrl = baseUrl + '/tao/views/js';
+                    rjsConfig.baseUrl = `${baseUrl}/tao/views/js`;
                     ext.getExtensions().forEach(function(extension){
                         rjsConfig.paths[extension] = `../../../${extension}/views/js`;
                         rjsConfig.paths[`${extension}Css`] = `../../../${extension}/views/css`;
@@ -143,7 +145,6 @@ module.exports = function(grunt) {
 
                     const extraPaths = ext.getExtensionsExtraPaths();
                     rjsConfig.path = {...rjsConfig.path, ...extraPaths};
-                    
 
                     // inject a mock for the requirejs config
                     middlewares.unshift(function(req, res, next) {
