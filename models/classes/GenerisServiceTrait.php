@@ -177,23 +177,24 @@ trait GenerisServiceTrait
             $clazz = current($types);
         }
 
-        $returnValue = $this->createInstance($clazz);
+        $label = $instance->getLabel();
+        $cloneLabel = "$label bis";
+        if (preg_match("/bis(\s[0-9]+)?$/", $label)) {
+            $cloneNumber = (int)preg_replace("/^(.?)*bis/", "", $label);
+            $cloneNumber++;
+            $cloneLabel = preg_replace("/bis(\s[0-9]+)?$/", "", $label)."bis $cloneNumber" ;
+        }
+        $returnValue = $this->createInstance($clazz, $cloneLabel);
+
         if (!is_null($returnValue)) {
             $properties = $clazz->getProperties(true);
             foreach ($properties as $property) {
-                $this->cloneInstanceProperty($instance, $returnValue, $property);
-            }
-            $label = $instance->getLabel();
-            $cloneLabel = "$label bis";
-            if (preg_match("/bis(\s[0-9]+)?$/", $label)) {
-                $cloneNumber = (int)preg_replace("/^(.?)*bis/", "", $label);
-                $cloneNumber++;
-                $cloneLabel = preg_replace("/bis(\s[0-9]+)?$/", "", $label)."bis $cloneNumber" ;
-            }
+                if ($property->getUri() !== OntologyRdfs::RDFS_LABEL) {
+                    $this->cloneInstanceProperty($instance, $returnValue, $property);
+                }
 
-            $returnValue->setLabel($cloneLabel);
+            }
         }
-
         return $returnValue;
     }
 
