@@ -463,7 +463,7 @@ msgid "Clear the stored variables"
 msgstr ""
 
 msgid "Close"
-msgstr ""
+msgstr "Cerrar"
 
 msgid "Close message"
 msgstr ""
