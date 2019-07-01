@@ -144,7 +144,7 @@ module.exports = function(grunt) {
                     });
 
                     const extraPaths = ext.getExtensionsExtraPaths();
-                    rjsConfig.path = {...rjsConfig.path, ...extraPaths};
+                    rjsConfig.paths = {...rjsConfig.paths, ...extraPaths};
 
                     // inject a mock for the requirejs config
                     middlewares.unshift(function(req, res, next) {
