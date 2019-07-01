@@ -1,3 +1,4 @@
+<?php
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -13,13 +14,21 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2018 Open Assessment Technologies SA ;
+ * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
  */
+
+namespace oat\tao\model\export;
+
+use Psr\Http\Message\ResponseInterface;
+
 /**
- * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
+ * @method string|ResponseInterface export()
  */
-define([
-    'test/ui/maths/calculator/pluginsLoader/plugin1',
-    'test/ui/maths/calculator/pluginsLoader/plugin2'
-], function (plugin1, plugin2) {
-});
+interface PsrResponseExporter extends Exporter
+{
+    /**
+     * @param ResponseInterface|null $originResponse base result on response
+     * @return ResponseInterface
+     */
+    public function getFileExportResponse(ResponseInterface $originResponse = null);
+}

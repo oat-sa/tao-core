@@ -1,1 +1,0 @@
-<div class="task-queue-status"></div>

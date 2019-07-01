@@ -1,1 +1,0 @@
-<div class="form loginForm fakeForm">{{{form}}}</div>
