@@ -14,30 +14,21 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2019 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
  */
 
-namespace oat\tao\model;
+namespace oat\tao\model\export;
 
-use oat\oatbox\service\ConfigurableService;
-use oat\oatbox\service\ServiceManager;
+use Psr\Http\Message\ResponseInterface;
 
 /**
- * Base class to implement Ontology class service which is configurable
- * and can be registered in service manager.
- *
- * Class OntologyClassService
- * @package oat\tao\model
+ * @method string|ResponseInterface export()
  */
-abstract class OntologyClassService extends ConfigurableService
+interface PsrResponseExporter extends Exporter
 {
-    use ClassServiceTrait;
-    use GenerisServiceTrait;
-
     /**
-     * @deprecated please initialise from servicelocator
+     * @param ResponseInterface|null $originResponse base result on response
+     * @return ResponseInterface
      */
-    public static function singleton() {
-        return ServiceManager::getServiceManager()->get(static::class);
-    }
+    public function getFileExportResponse(ResponseInterface $originResponse = null);
 }

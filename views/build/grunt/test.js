@@ -27,9 +27,11 @@ const { URL } = require('url');
  *
  * grunt connect:test qunit:extension --extension=taoQtiTest
  * grunt connect:test qunit:single --text=/taoQtiTest/views/js/test/runner/qti/test.html
+ *
+ * @param {Object} grunt - grunt instance
+ * @returns {void}
  */
 module.exports = function(grunt) {
-    'use strict';
 
     const root           = grunt.option('root');
     const testPort       = grunt.option('testPort');
@@ -37,7 +39,7 @@ module.exports = function(grunt) {
     const livereloadPort = grunt.option('livereloadPort');
     const reportOutput   = grunt.option('reports');
     const ext            = require(`${root}/tao/views/build/tasks/helpers/extensions`)(grunt, root);
-    const baseUrl          = `http://${testUrl}:${testPort}`;
+    const baseUrl        = `http://${testUrl}:${testPort}`;
     const testRunners    = `${root}/tao/views/js/test/**/test.html`;
 
 
@@ -134,28 +136,29 @@ module.exports = function(grunt) {
                 port: testPort,
                 base: root,
                 middleware: function(connect, options, middlewares) {
-
-                    var rjsConfig = require('../config/requirejs.build.json');
-                    rjsConfig.baseUrl = baseUrl + '/tao/views/js';
+                    const rjsConfig = require('../config/requirejs.build.json');
+                    rjsConfig.baseUrl = `${baseUrl}/tao/views/js`;
                     ext.getExtensions().forEach(function(extension){
-                        rjsConfig.paths[extension] = '../../../' + extension + '/views/js';
-                        rjsConfig.paths[extension + 'Css'] = '../../../' + extension + '/views/css';
+                        rjsConfig.paths[extension] = `../../../${extension}/views/js`;
+                        rjsConfig.paths[`${extension}Css`] = `../../../${extension}/views/css`;
                     });
+
+                    const extraPaths = ext.getExtensionsExtraPaths();
+                    rjsConfig.path = {...rjsConfig.path, ...extraPaths};
 
                     // inject a mock for the requirejs config
                     middlewares.unshift(function(req, res, next) {
                         if (/\/tao\/ClientConfig\/config/.test(req.url)){
                             res.writeHead(200, { 'Content-Type' : 'application/javascript'});
-                            return res.end('require.config(' + JSON.stringify(rjsConfig) + ')');
+                            return res.end(`require.config(${JSON.stringify(rjsConfig)})`);
                         }
                         return next();
                     });
 
                     //allow post requests
                     middlewares.unshift(function(req, res, next) {
-                        var filepath;
                         if (req.method.toLowerCase() === 'post') {
-                            filepath = path.join(options.base[0], req.url);
+                            const filepath = path.join(options.base[0], req.url);
                             if (fs.existsSync(filepath)) {
                                 fs.createReadStream(filepath).pipe(res);
                                 return;
@@ -163,7 +166,6 @@ module.exports = function(grunt) {
                         }
                         return next();
                     });
-
 
                     return middlewares;
                 }
