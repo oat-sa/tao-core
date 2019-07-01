@@ -1066,7 +1066,7 @@ msgid "Invalid values:"
 msgstr ""
 
 msgid "items per page"
-msgstr ""
+msgstr "objets par page"
 
 msgid "Label"
 msgstr "Libellé"
