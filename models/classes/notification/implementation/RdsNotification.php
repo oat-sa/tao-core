@@ -60,7 +60,7 @@ class RdsNotification
                 $persistence = $this->getOption(self::OPTION_PERSISTENCE);
             }
 
-            $persistenceManager = $this->getServiceManager()->get(\common_persistence_Manager::SERVICE_ID);
+            $persistenceManager = $this->getServiceLocator()->get(\common_persistence_Manager::SERVICE_ID);
             $this->persistence  = $persistenceManager->getPersistenceById($persistence);
         }
         return $this->persistence;
