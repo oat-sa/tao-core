@@ -21,10 +21,10 @@ namespace oat\tao\test\unit\model\notification\implementation;
 
 use common_persistence_Manager as PersistenceManager;
 use oat\generis\test\TestCase;
+use oat\oatbox\service\ServiceManager;
 use oat\tao\model\notification\implementation\Notification;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\scripts\install\InstallNotificationTable;
-use oat\oatbox\service\ServiceManager;
 
 /**
  * Tests for RdsNotification class
@@ -34,10 +34,10 @@ class RdsNotificationTest extends TestCase
     /**
      * @var RdsNotification
      */
-    protected $subject;
+    private $subject;
 
     /** @var \common_persistence_Persistence */
-    protected $persistence;
+    private $persistence;
 
     public function setUp()
     {
@@ -46,9 +46,9 @@ class RdsNotificationTest extends TestCase
         $this->persistence = $databaseMock->getPersistenceById($persistenceId);
 
         $persistenceManager = $this->getMockBuilder(PersistenceManager::class)
-        ->disableOriginalConstructor()
-        ->setMethods(['getPersistenceById'])
-        ->getMock();
+            ->disableOriginalConstructor()
+            ->setMethods(['getPersistenceById'])
+            ->getMock();
         $persistenceManager->method('getPersistenceById')->willReturn($this->persistence);
 
         $serviceManagerMock = $this->getServiceLocatorMock([
@@ -71,11 +71,6 @@ class RdsNotificationTest extends TestCase
         $tableCreator([]);
     }
 
-    public function tearDown()
-    {
-        $this->subject = null;
-    }
-
     public function testGetNotificationsWithoutLinesReturnsEmptyArray()
     {
         $userId = 'id of the user';
@@ -94,7 +89,7 @@ class RdsNotificationTest extends TestCase
         $updatedAt = $this->persistence->getPlatform()->getNowExpression();
         $status = 12;
 
-        $notification = new Notification($recipientId, $title , $message , $senderId , $senderName, $id, $createdAt, $updatedAt, $status);
+        $notification = new Notification($recipientId, $title, $message, $senderId, $senderName, $id, $createdAt, $updatedAt, $status);
         $this->subject->sendNotification($notification);
         $this->assertEquals([$notification], $this->subject->getNotifications($recipientId));
     }
