@@ -78,10 +78,11 @@ class RdsNotification
         $platform = $this->getPersistence()->getPlatForm();
 
         $sqlQuery    = 'INSERT INTO ' . self::NOTIF_TABLE .
-                        ' (' . $this->getAllFieldString() . ') 
-                            VALUES ( ? , ? , ? , ? , ? , ? , ? , ? )';
+                        ' (id, ' . $this->getAllFieldString() . ') 
+                            VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? )';
 
         $data = [
+            $persistence->getUniquePrimaryKey(),
             $notification->getRecipient(),
             $notification->getStatus(),
             $notification->getSenderId(),

@@ -89,13 +89,23 @@ class RdsNotificationTest extends TestCase
         $message = 'this is the message';
         $senderId = 'id of the sender';
         $senderName = 'name of the sender';
-        $id = 1;
+        $id = 'whatever';
         $createdAt = $this->persistence->getPlatform()->getNowExpression();
         $updatedAt = $this->persistence->getPlatform()->getNowExpression();
         $status = 12;
 
         $notification = new Notification($recipientId, $title , $message , $senderId , $senderName, $id, $createdAt, $updatedAt, $status);
         $this->subject->sendNotification($notification);
-        $this->assertEquals([$notification], $this->subject->getNotifications($recipientId));
+        $notifications = $this->subject->getNotifications($recipientId);
+        $storedNotification = array_pop($notifications);
+        $this->assertInstanceOf(Notification::class, $storedNotification);
+        $this->assertEquals($recipientId, $storedNotification->getRecipient());
+        $this->assertEquals($title, $storedNotification->getTitle());
+        $this->assertEquals($message, $storedNotification->getMessage());
+        $this->assertEquals($senderId, $storedNotification->getSenderId());
+        $this->assertEquals($senderName, $storedNotification->getSenderName());
+        $this->assertEquals((new \DateTime($createdAt))->getTimestamp(), $storedNotification->getCreatedAt());
+        $this->assertEquals((new \DateTime($updatedAt))->getTimestamp(), $storedNotification->getUpdatedAt());
+        $this->assertEquals($status, $storedNotification->getStatus());
     }
 }
