@@ -20,18 +20,20 @@
 namespace oat\tao\test\unit\model\notification\implementation;
 
 use common_persistence_Manager as PersistenceManager;
+use common_persistence_Persistence as Persistence;
 use oat\generis\test\TestCase;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\notification\implementation\Notification;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\scripts\install\InstallNotificationTable;
+use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 class RdsNotificationTest extends TestCase
 {
     /** @var RdsNotification */
     private $subject;
 
-    /** @var \common_persistence_Persistence */
+    /** @var Persistence */
     private $persistence;
 
     public function setUp()
@@ -53,7 +55,7 @@ class RdsNotificationTest extends TestCase
         $this->subject = new RdsNotification([RdsNotification::OPTION_PERSISTENCE => $persistenceId]);
         $this->subject->setServiceLocator($serviceManagerMock);
 
-        /** @var ServiceManager|\PHPUnit_Framework_MockObject_MockObject $serviceLocator */
+        /** @var ServiceManager|MockObject $serviceLocator */
         $serviceLocator = $this->getMockBuilder(ServiceManager::class)
             ->disableOriginalConstructor()
             ->setMethods(['get', 'register'])
@@ -84,7 +86,16 @@ class RdsNotificationTest extends TestCase
         $updatedAt = $this->persistence->getPlatform()->getNowExpression();
         $status = 12;
 
-        $notification = new Notification($recipientId, $title, $message, $senderId, $senderName, $id, $createdAt, $updatedAt, $status);
+        $notification = new Notification($recipientId,
+            $title,
+            $message,
+            $senderId,
+            $senderName,
+            $id,
+            $createdAt,
+            $updatedAt,
+            $status
+        );
         $this->subject->sendNotification($notification);
         $this->assertEquals([$notification], $this->subject->getNotifications($recipientId));
     }
