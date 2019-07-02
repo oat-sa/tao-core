@@ -31,7 +31,8 @@ class InstallNotificationTable extends InstallAction
 
     public function __invoke($params)
     {
-        $persistence = $this->getServiceLocator()->get(\common_persistence_Manager::SERVICE_ID)->getPersistenceById(RdsNotification::DEFAULT_PERSISTENCE);
+        $persistence = $this->getServiceLocator()->get(\common_persistence_Manager::SERVICE_ID)
+            ->getPersistenceById(RdsNotification::DEFAULT_PERSISTENCE);
         $schemaManager = $persistence->getDriver()->getSchemaManager();
         $schema = $schemaManager->createSchema();
         /**
