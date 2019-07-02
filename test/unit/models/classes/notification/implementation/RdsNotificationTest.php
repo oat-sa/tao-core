@@ -26,14 +26,9 @@ use oat\tao\model\notification\implementation\Notification;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\scripts\install\InstallNotificationTable;
 
-/**
- * Tests for RdsNotification class
- */
 class RdsNotificationTest extends TestCase
 {
-    /**
-     * @var RdsNotification
-     */
+    /** @var RdsNotification */
     private $subject;
 
     /** @var \common_persistence_Persistence */
@@ -59,7 +54,7 @@ class RdsNotificationTest extends TestCase
         $this->subject->setServiceLocator($serviceManagerMock);
 
         /** @var ServiceManager|\PHPUnit_Framework_MockObject_MockObject $serviceLocator */
-        $serviceLocator = $this->getMockBuilder(\oat\oatbox\service\ServiceManager::class)
+        $serviceLocator = $this->getMockBuilder(ServiceManager::class)
             ->disableOriginalConstructor()
             ->setMethods(['get', 'register'])
             ->getMock();
