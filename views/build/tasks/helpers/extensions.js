@@ -14,7 +14,7 @@ module.exports = function(grunt, root){
             return grunt.file.expand(options, '*');
         },
 
-        getExtensionPath: function getExtensionPath(extension) {
+        getExtensionPath : function getExtensionPath(extension) {
             extension = extension || 'tao';
             return root + '/' + extension;
         },
@@ -43,23 +43,34 @@ module.exports = function(grunt, root){
             return sources;
         },
 
-       getExtensionsPaths : function getExtensionsPaths(extensions){
-           var self = this;
-           var paths = { };
-           extensions = extensions || self.getExtensions(true);
-           extensions.forEach(function(extension){
-               var jsPath = self.getExtensionPath(extension) + '/views/js';
-               var cssPath = self.getExtensionPath(extension) + '/views/css';
-               if(grunt.file.exists(jsPath)){
-                   paths[extension] = path.relative('../js', jsPath);
-               }
-               if(grunt.file.exists(cssPath)){
-                   paths[extension + 'Css'] = path.relative('../js', cssPath);
-               }
-           });
-           return paths;
-       },
+        getExtensionsPaths : function getExtensionsPaths(extensions){
+            var self = this;
+            var paths = { };
+            extensions = extensions || self.getExtensions(true);
+            extensions.forEach(function(extension){
+                var jsPath = self.getExtensionPath(extension) + '/views/js';
+                var cssPath = self.getExtensionPath(extension) + '/views/css';
+                if(grunt.file.exists(jsPath)){
+                    paths[extension] = path.relative('../js', jsPath);
+                }
+                if(grunt.file.exists(cssPath)){
+                    paths[extension + 'Css'] = path.relative('../js', cssPath);
+                }
+            });
+            return paths;
+        },
 
+        // parse a 'paths.json' file in each extension, and if it exists,
+        // append its contents to a flat object
+        getExtensionsExtraPaths : function getExtensionsExtraPaths(extensions = this.getExtensions(true)) {
+            return extensions.reduce((extraPaths, extension) => {
+                try {
+                    return {...extraPaths, ...require(path.join(this.getExtensionPath(extension), 'views', 'build', 'grunt', 'paths.json'))};
+                } catch(e) {
+                    return extraPaths;
+                }
+            }, {});
+        },
 
         // OUT OF DATE !!!
 
