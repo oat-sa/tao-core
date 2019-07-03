@@ -228,7 +228,7 @@ msgid "All fields are required"
 msgstr ""
 
 msgid "All rights reserved."
-msgstr ""
+msgstr "Все права защищены."
 
 msgid "Allow for all domains"
 msgstr ""
@@ -462,7 +462,7 @@ msgid "Clear the stored variables"
 msgstr ""
 
 msgid "Close"
-msgstr ""
+msgstr "Закрыть"
 
 msgid "Close message"
 msgstr ""
