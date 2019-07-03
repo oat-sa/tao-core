@@ -39,8 +39,8 @@ class RdsTaskLogBrokerTest extends TestCase
     public function setUp()
     {
         $persistenceId = 'rds_result_storage_test';
-        $databaseMock = $this->getSqlMock('rds_result_storage_test');
-        $persistence = $databaseMock->getPersistenceById('rds_result_storage_test');
+        $databaseMock = $this->getSqlMock($persistenceId);
+        $persistence = $databaseMock->getPersistenceById($persistenceId);
 
         $persistenceManager = $this->getMockBuilder(PersistenceManager::class)
         ->disableOriginalConstructor()
