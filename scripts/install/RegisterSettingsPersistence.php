@@ -20,7 +20,10 @@
 
 namespace oat\tao\scripts\install;
 
+use Exception;
 use common_persistence_Manager;
+use common_persistence_SqlKvDriver;
+use common_report_Report;
 use oat\oatbox\extension\InstallAction;
 
 /**
@@ -36,7 +39,25 @@ class RegisterSettingsPersistence extends InstallAction
      */
     public function __invoke($params)
     {
-        common_persistence_Manager::addPersistence('settings',  ['driver' => 'phpfile']);
-        return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'Settings persistence registered');
+        try {
+            /** @var common_persistence_Manager $persistenceManager */
+            $persistenceManager = $this->getServiceLocator()->get(common_persistence_Manager::SERVICE_ID);
+            if ($persistenceManager->hasPersistence('default_kv')) {
+                return common_report_Report::createInfo('"default_kv" persistence is used by default.');
+            } else {
+                $persistenceConfig = [
+                    'driver' => common_persistence_SqlKvDriver::class,
+                    common_persistence_SqlKvDriver::OPTION_PERSISTENCE_SQL => 'default'
+                ];
+                $persistenceManager->registerPersistence('default_kv', $persistenceConfig);
+                $this->getServiceManager()->register(common_persistence_Manager::SERVICE_ID, $persistenceManager);
+
+                return common_report_Report::createInfo('RDS KeyValue implementation was registered as "default_kv" persistence');
+            }
+        } catch (Exception $e) {
+            $this->logError($e->getMessage());
+
+            return common_report_Report::createFailure($e->getMessage());
+        }
     }
 }

@@ -70,6 +70,7 @@ use oat\tao\model\service\SettingsStorage;
 use oat\tao\model\session\restSessionFactory\builder\HttpBasicAuthBuilder;
 use oat\tao\model\session\restSessionFactory\RestSessionFactory;
 use oat\tao\model\settings\CspHeaderSettingsInterface;
+use oat\tao\model\settings\SettingsStorageInterface;
 use oat\tao\model\task\ExportByHandler;
 use oat\tao\model\task\ImportByHandler;
 use oat\tao\model\taskQueue\Queue;
@@ -90,6 +91,7 @@ use oat\tao\model\user\UserLocks;
 use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\AddTmpFsHandlers;
+use oat\tao\scripts\install\RegisterSettingsPersistence;
 use oat\tao\scripts\install\RegisterSignatureGenerator;
 use oat\tao\scripts\install\RegisterTaskQueueServices;
 use oat\tao\scripts\install\UpdateRequiredActionUrl;
@@ -983,11 +985,11 @@ class Updater extends \common_ext_ExtensionUpdater {
                 ['ext' => 'tao', 'mod' => 'Security']
             ));
 
-            \common_persistence_Manager::addPersistence('settings',  ['driver' => 'phpfile']);
+            $this->runExtensionScript(RegisterSettingsPersistence::class);
 
             $this->getServiceManager()->register(
                 SettingsStorage::SERVICE_ID,
-                new SettingsStorage(['persistence' => 'settings'])
+                new SettingsStorage([SettingsStorageInterface::OPTION_PERSISTENCE => 'default_kv'])
             );
 
             $this->setVersion('30.1.0');
