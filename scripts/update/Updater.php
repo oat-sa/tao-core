@@ -22,6 +22,7 @@
 namespace oat\tao\scripts\update;
 
 use common_Exception;
+use common_report_Report as Report;
 use oat\funcAcl\models\ModuleAccessService;
 use oat\generis\model\data\event\ResourceCreated;
 use oat\generis\model\data\event\ResourceUpdated;
@@ -116,6 +117,7 @@ use oat\tao\model\resources\TreeResourceLookup;
 use oat\tao\model\user\TaoRoles;
 use oat\generis\model\data\event\ResourceDeleted;
 use oat\tao\model\search\index\IndexService;
+use oat\tao\scripts\tools\SwitchSettingsStoragePersistence;
 use tao_models_classes_UserService;
 
 /**
@@ -1067,10 +1069,12 @@ class Updater extends \common_ext_ExtensionUpdater {
         $this->skip('35.8.2', '37.8.0');
 
         if ($this->isVersion('37.8.0')) {
-            $settingsStorage = $this->getServiceManager()->get(SettingsStorage::SERVICE_ID);
-            if ($settingsStorage->exists(CspHeaderSettingsInterface::CSP_HEADER_SETTING) === false) {
-                $settingsStorage->set(CspHeaderSettingsInterface::CSP_HEADER_SETTING, 'self');
-            }
+            $msg = 'Execute %s script to switch settings storage persistence to KeyValue implementation and migrate settings' . PHP_EOL;
+            $msg .= 'The script may be executed with dry/wet run options to see which config will be used and which settings will be migrated.';
+            $msg = sprintf($msg, SwitchSettingsStoragePersistence::class);
+
+            $this->addReport(new Report(Report::TYPE_WARNING, $msg));
+
             $this->setVersion('37.8.1');
         }
     }
