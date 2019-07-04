@@ -22,6 +22,7 @@
 namespace oat\tao\scripts\update;
 
 use common_Exception;
+use common_report_Report as Report;
 use oat\funcAcl\models\ModuleAccessService;
 use oat\generis\model\data\event\ResourceCreated;
 use oat\generis\model\data\event\ResourceUpdated;
@@ -118,6 +119,7 @@ use oat\tao\model\resources\TreeResourceLookup;
 use oat\tao\model\user\TaoRoles;
 use oat\generis\model\data\event\ResourceDeleted;
 use oat\tao\model\search\index\IndexService;
+use oat\tao\scripts\tools\MigrateSecuritySettings;
 use tao_models_classes_UserService;
 
 /**
@@ -1068,5 +1070,13 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         $this->skip('35.8.2', '37.8.2');
 
+        if ($this->isVersion('37.8.2')) {
+            $msg = 'Execute %s script to configure SettingsStorage to use default_kv persistence and migrate security settings to ' . PHP_EOL;
+            $msg .= 'The script may be executed with dry/wet run options to see which config will be used and which settings will be migrated.';
+            $msg = sprintf($msg, MigrateSecuritySettings::class);
+            $this->addReport(new Report(Report::TYPE_WARNING, $msg));
+
+            $this->setVersion('37.9.0');
+        }
     }
 }
