@@ -56,7 +56,6 @@ use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\resources\ResourceWatcher;
-use oat\tao\model\security\SignatureGenerator;
 use oat\tao\model\routing\AnnotationReaderService;
 use oat\tao\model\routing\ControllerService;
 use oat\tao\model\routing\RouteAnnotationService;
@@ -70,7 +69,6 @@ use oat\tao\model\service\SettingsStorage;
 use oat\tao\model\session\restSessionFactory\builder\HttpBasicAuthBuilder;
 use oat\tao\model\session\restSessionFactory\RestSessionFactory;
 use oat\tao\model\settings\CspHeaderSettingsInterface;
-use oat\tao\model\settings\SettingsStorageInterface;
 use oat\tao\model\task\ExportByHandler;
 use oat\tao\model\task\ImportByHandler;
 use oat\tao\model\taskQueue\Queue;
@@ -81,7 +79,6 @@ use oat\tao\model\taskQueue\QueueDispatcherInterface;
 use oat\tao\model\taskQueue\Task\TaskSerializerService;
 use oat\tao\model\taskQueue\TaskLog;
 use oat\tao\model\taskQueue\TaskLog\Broker\RdsTaskLogBroker;
-use oat\tao\model\taskQueue\TaskLog\Broker\TaskLogBrokerInterface;
 use oat\tao\model\taskQueue\TaskLogInterface;
 use oat\tao\model\Tree\GetTreeService;
 use oat\tao\model\user\implementation\NoUserLocksService;
@@ -93,7 +90,6 @@ use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\AddTmpFsHandlers;
 use oat\tao\scripts\install\RegisterSettingsPersistence;
 use oat\tao\scripts\install\RegisterSignatureGenerator;
-use oat\tao\scripts\install\RegisterTaskQueueServices;
 use oat\tao\scripts\install\UpdateRequiredActionUrl;
 use oat\tao\model\accessControl\func\AclProxy;
 use oat\tao\model\accessControl\func\AccessRule;
@@ -989,7 +985,7 @@ class Updater extends \common_ext_ExtensionUpdater {
 
             $this->getServiceManager()->register(
                 SettingsStorage::SERVICE_ID,
-                new SettingsStorage([SettingsStorageInterface::OPTION_PERSISTENCE => 'default_kv'])
+                new SettingsStorage([SettingsStorage::OPTION_PERSISTENCE => 'default_kv'])
             );
 
             $this->setVersion('30.1.0');
