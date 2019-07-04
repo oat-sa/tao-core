@@ -31,6 +31,8 @@ use oat\tao\model\settings\SettingsStorageInterface;
  */
 class SettingsStorage extends ConfigurableService implements SettingsStorageInterface
 {
+    const OPTION_PERSISTENCE = 'persistence';
+    const OPTION_KEY_NAMESPACE = 'key_namespace';
 
     /**
      * @var common_persistence_KeyValuePersistence
@@ -43,7 +45,7 @@ class SettingsStorage extends ConfigurableService implements SettingsStorageInte
     public function set($settingId, $data)
     {
         try {
-            return $this->getPersistence()->set($settingId, $data);
+            return $this->getPersistence()->set($this->getKey($settingId), $data);
         } catch (common_Exception $e) {
             return false;
         }
@@ -54,7 +56,7 @@ class SettingsStorage extends ConfigurableService implements SettingsStorageInte
      */
     public function get($settingId)
     {
-        return $this->getPersistence()->get($settingId);
+        return $this->getPersistence()->get($this->getKey($settingId));
     }
 
     /**
@@ -62,7 +64,7 @@ class SettingsStorage extends ConfigurableService implements SettingsStorageInte
      */
     public function exists($settingId)
     {
-        return $this->getPersistence()->exists($settingId);
+        return $this->getPersistence()->exists($this->getKey($settingId));
     }
 
     /**
@@ -70,7 +72,7 @@ class SettingsStorage extends ConfigurableService implements SettingsStorageInte
      */
     public function del($settingId)
     {
-        return $this->getPersistence()->del($settingId);
+        return $this->getPersistence()->del($this->getKey($settingId));
     }
 
     /**
@@ -84,5 +86,12 @@ class SettingsStorage extends ConfigurableService implements SettingsStorageInte
             );
         }
         return $this->persistence;
+    }
+
+    private function getKey($settingId)
+    {
+        $namespace = $this->hasOption(self::OPTION_KEY_NAMESPACE) ? $this->getOption(self::OPTION_KEY_NAMESPACE) : '';
+
+        return $namespace . $settingId;
     }
 }

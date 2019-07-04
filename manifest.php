@@ -26,7 +26,6 @@ use oat\tao\model\routing\ApiRoute;
 use oat\tao\model\routing\LegacyRoute;
 use oat\tao\scripts\install\AddLogFs;
 use oat\tao\scripts\install\AddTmpFsHandlers;
-use oat\tao\scripts\install\RegisterSettingsPersistence;
 use oat\tao\scripts\install\RegisterSignatureGenerator;
 use oat\tao\scripts\install\RegisterTaskQueueServices;
 use oat\tao\scripts\install\RegisterUserLockoutsEventListeners;
@@ -56,7 +55,7 @@ return array(
     'version' => '37.8.2',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
-        'generis' => '>=11.5.0',
+        'generis' => '>=11.6.0',
     ),
     'models' => array(
         'http://www.tao.lu/Ontologies/TAO.rdf',
@@ -122,7 +121,6 @@ return array(
             RegisterTaskQueueServices::class,
             SetUpQueueTasks::class,
             RegisterSignatureGenerator::class,
-            RegisterSettingsPersistence::class,
             SetDefaultCSPHeader::class
         )
     ),
