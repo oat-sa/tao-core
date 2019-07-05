@@ -1084,7 +1084,9 @@ class Updater extends \common_ext_ExtensionUpdater {
             $settingsStorage->set(CspHeaderSettingsInterface::CSP_HEADER_SETTING, $defaultHeaderSetting);
             $settingsStorage->set(CspHeaderSettingsInterface::CSP_HEADER_LIST, $defaultHeaderList);
 
-            $msg = 'Execute %s script to migrate existing security settings to new persistence' . PHP_EOL;
+            $this->runExtensionScript(MigrateSecuritySettings::class);
+
+            $msg = 'If you have more than one server execute %s script on all servers to migrate existing security settings from file to new persistence' . PHP_EOL;
             $msg .= 'The script may be executed with dry/wet run options to see which settings will be migrated.';
             $msg = sprintf($msg, MigrateSecuritySettings::class);
             $this->addReport(new Report(Report::TYPE_WARNING, $msg));
