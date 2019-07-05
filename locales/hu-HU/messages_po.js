@@ -1,1 +1,1 @@
-[]
+{"Manage Access Rights":"Jogosults\u00e1gok karbantart\u00e1sa","Users":"Felhaszn\u00e1l\u00f3k"}
