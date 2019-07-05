@@ -463,7 +463,7 @@ msgid "Clear the stored variables"
 msgstr ""
 
 msgid "Close"
-msgstr ""
+msgstr "Fermer"
 
 msgid "Close message"
 msgstr ""
@@ -1066,7 +1066,7 @@ msgid "Invalid values:"
 msgstr ""
 
 msgid "items per page"
-msgstr ""
+msgstr "objets par page"
 
 msgid "Label"
 msgstr "Libellé"

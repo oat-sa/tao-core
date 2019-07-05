@@ -53,10 +53,10 @@ return array(
     'label' => 'TAO Base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '37.0.1',
+    'version' => '37.8.2',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
-        'generis' => '>=11.3.0',
+        'generis' => '>=11.5.0',
     ),
     'models' => array(
         'http://www.tao.lu/Ontologies/TAO.rdf',
@@ -189,9 +189,9 @@ return array(
     ],
     'constants' => array(
         #TAO version number
-        'TAO_VERSION' => '3.3.0-sprint105',
+        'TAO_VERSION' => '3.3.0-sprint106',
         #TAO version label
-        'TAO_VERSION_NAME' => '3.3.0-sprint105',
+        'TAO_VERSION_NAME' => '3.3.0-sprint106',
         #the name to display
         'PRODUCT_NAME' => 'TAO',
         #TAO release status, use to add specific footer to TAO, available alpha, beta, demo, stable
