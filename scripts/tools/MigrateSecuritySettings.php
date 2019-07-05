@@ -30,7 +30,12 @@ class MigrateSecuritySettings extends AbstractAction
     /**
      * @var boolean
      */
-    protected $wetRun = true;
+    protected $wetRun = false;
+
+    /**
+     * @var SettingsStorageInterface
+     */
+    protected $oldSettingsStorage;
 
     /**
      * @var Report
@@ -39,34 +44,34 @@ class MigrateSecuritySettings extends AbstractAction
 
     public function __invoke($params)
     {
-        if (isset($params[0])) {
-            $this->wetRun = (bool) $params[0];
+        if (count($params) == 0) {
+            return new Report(
+                Report::TYPE_ERROR,
+                "Usage: MigrateSecuritySettings OLD_PERSISTENCE_ID [--wet]"
+            );
         }
+        $this->oldSettingsStorage = new SettingsStorage([
+            SettingsStorage::OPTION_PERSISTENCE => $params[0]
+        ]);
+        $this->propagate($this->oldSettingsStorage);
 
-        $wetInfo = ($this->wetRun === false) ? 'dry' : 'wet';
+        $this->wetRun = in_array('--wet', $params);
+        $wetInfo = $this->wetRun ? 'wet' : 'dry';
+
         $this->report = new Report(
             Report::TYPE_INFO,
             "Migrate Security Settings to the 'default_kv' persistence (${wetInfo} run)..."
         );
 
-        $currentHeaderSetting = 'self';
-        $currentHeaderList = [];
         try {
-            /** @var SettingsStorageInterface $settingsStorage */
-            $settingsStorage = $this->getServiceManager()->get(SettingsStorageInterface::SERVICE_ID);
-            if ($settingsStorage->exists(CspHeaderSettingsInterface::CSP_HEADER_SETTING) !== false)
-            {
-                $currentHeaderSetting = $settingsStorage->get(CspHeaderSettingsInterface::CSP_HEADER_SETTING);
+            $settingsToMigrate = [
+                CspHeaderSettingsInterface::CSP_HEADER_SETTING,
+                CspHeaderSettingsInterface::CSP_HEADER_LIST
+            ];
+
+            foreach ($settingsToMigrate as $setting) {
+                $this->migrateSetting($setting);
             }
-
-            if ($settingsStorage->exists(CspHeaderSettingsInterface::CSP_HEADER_LIST) !== false)
-            {
-                $currentHeaderList = $settingsStorage->get(CspHeaderSettingsInterface::CSP_HEADER_LIST);
-            }
-
-            $this->setDefaultKvPersistence();
-
-            $this->migrateConfigs($currentHeaderSetting, $currentHeaderList);
 
             return $this->report;
         } catch (\Exception $e) {
@@ -75,48 +80,18 @@ class MigrateSecuritySettings extends AbstractAction
         }
     }
 
+    private function migrateSetting($settingName) {
+        if ($this->oldSettingsStorage->exists($settingName))
+        {
+            $settingValue = $this->oldSettingsStorage->get($settingName);
+            if ($this->wetRun) {
+                $settingsStorage = $this->getServiceLocator()->get(SettingsStorageInterface::SERVICE_ID);
+                $settingsStorage->set($settingName, $settingValue);
+            }
 
-    /**
-     * @throws \common_Exception
-     */
-    private function setDefaultKvPersistence()
-    {
-        $options = [
-            SettingsStorage::OPTION_PERSISTENCE => 'default_kv',
-            SettingsStorage::OPTION_KEY_NAMESPACE => 'tao:settings:'
-        ];
-
-        if ($this->wetRun) {
-            $this->getServiceManager()->unregister(SettingsStorageInterface::SERVICE_ID);
-            $settingsStorage = new SettingsStorage($options);
-            $this->getServiceManager()->register(SettingsStorageInterface::SERVICE_ID, $settingsStorage);
-            $this->report->add(Report::createInfo('SettingsStorage registered with new options: ' . print_r($options, true)));
-        } else {
-            $this->report->add(Report::createInfo('SettingsStorage will be registered with new options: ' . print_r($options, true)));
-        }
-    }
-
-    /**
-     * @param string $currentHeaderSetting
-     * @param string $currentHeaderList
-     * @throws \common_exception_Error
-     */
-    private function migrateConfigs($currentHeaderSetting, $currentHeaderList)
-    {
-        /** @var SettingsStorageInterface $settingsStorage */
-        $settingsStorage = $this->getServiceLocator()->get(SettingsStorageInterface::SERVICE_ID);
-        if ($this->wetRun) {
-            $settingsStorage->set(CspHeaderSettingsInterface::CSP_HEADER_SETTING, $currentHeaderSetting);
-            $settingsStorage->set(CspHeaderSettingsInterface::CSP_HEADER_LIST, $currentHeaderList);
-
-            $this->report->add(Report::createSuccess('Settings set to: ' . print_r([
-                    CspHeaderSettingsInterface::CSP_HEADER_SETTING => $currentHeaderSetting,
-                    CspHeaderSettingsInterface::CSP_HEADER_LIST => $currentHeaderList
-                ], true)));
-        } else {
-            $this->report->add(Report::createInfo('Settings will be set to: ' . print_r([
-                    CspHeaderSettingsInterface::CSP_HEADER_SETTING => $currentHeaderSetting,
-                    CspHeaderSettingsInterface::CSP_HEADER_LIST => $currentHeaderList
+            $msg = $this->wetRun ? 'Settings set to: ' : 'Settings will be set to: ';
+            $this->report->add(Report::createSuccess($msg . print_r([
+                    $settingName => $settingValue
                 ], true)));
         }
     }

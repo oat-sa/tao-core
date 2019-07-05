@@ -71,6 +71,7 @@ use oat\tao\model\service\SettingsStorage;
 use oat\tao\model\session\restSessionFactory\builder\HttpBasicAuthBuilder;
 use oat\tao\model\session\restSessionFactory\RestSessionFactory;
 use oat\tao\model\settings\CspHeaderSettingsInterface;
+use oat\tao\model\settings\SettingsStorageInterface;
 use oat\tao\model\task\ExportByHandler;
 use oat\tao\model\task\ImportByHandler;
 use oat\tao\model\taskQueue\Queue;
@@ -1071,8 +1072,20 @@ class Updater extends \common_ext_ExtensionUpdater {
         $this->skip('35.8.2', '37.8.2');
 
         if ($this->isVersion('37.8.2')) {
-            $msg = 'Execute %s script to configure SettingsStorage to use default_kv persistence and migrate security settings to ' . PHP_EOL;
-            $msg .= 'The script may be executed with dry/wet run options to see which config will be used and which settings will be migrated.';
+            $options = [
+                SettingsStorage::OPTION_PERSISTENCE => 'default_kv',
+                SettingsStorage::OPTION_KEY_NAMESPACE => 'tao:settings:'
+            ];
+            $settingsStorage = new SettingsStorage($options);
+            $this->getServiceManager()->register(SettingsStorageInterface::SERVICE_ID, $settingsStorage);
+
+            $defaultHeaderSetting = 'self';
+            $defaultHeaderList = [];
+            $settingsStorage->set(CspHeaderSettingsInterface::CSP_HEADER_SETTING, $defaultHeaderSetting);
+            $settingsStorage->set(CspHeaderSettingsInterface::CSP_HEADER_LIST, $defaultHeaderList);
+
+            $msg = 'Execute %s script to migrate existing security settings to new persistence' . PHP_EOL;
+            $msg .= 'The script may be executed with dry/wet run options to see which settings will be migrated.';
             $msg = sprintf($msg, MigrateSecuritySettings::class);
             $this->addReport(new Report(Report::TYPE_WARNING, $msg));
 
