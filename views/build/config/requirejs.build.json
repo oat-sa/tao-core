@@ -92,7 +92,9 @@
     "context",
     "iframeResizer",
     "iframeNotifier",
-    "babel-polyfill"
+    "babel-polyfill",
+    "lib/uuid",
+    "lib/moment-timezone.min"
   ],
   "exclude": [
     "json!i18ntr/messages.json",
