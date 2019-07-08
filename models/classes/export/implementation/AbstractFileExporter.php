@@ -21,10 +21,9 @@
 namespace oat\tao\model\export\implementation;
 
 use oat\tao\model\export\Exporter;
-use SplFileObject;
+use Psr\Http\Message\ResponseInterface;
 
 /**
- * Class AbstractExporter
  * @package oat\tao\model\export
  * @author Aleh Hutnikau <hutnikau@1pt.com>
  */
@@ -41,7 +40,6 @@ abstract class AbstractFileExporter implements Exporter
     protected $data;
 
     /**
-     * AbstractExporter constructor.
      * @param array $data Data to be exported
      */
     public function __construct($data)
@@ -57,24 +55,80 @@ abstract class AbstractFileExporter implements Exporter
 
     /**
      * Send exported data to end user
+     * @deprecated implement PsrResponseExporter to get Psr Response
+     * @see CsvExporter
      * @param string $data Data to be exported
      * @param string|null $fileName
-     * @return mixed
      */
     protected function download($data, $fileName = null)
     {
+        $response = $this->preparePsrResponse(new \GuzzleHttp\Psr7\Response(), $data, $fileName);
+        $this->legacyEmitResponse($response);
+    }
+
+    /**
+     * @param ResponseInterface $response
+     * @param string $data Data to be exported
+     * @param string|null $fileName if null timestamp will be used as file name
+     * @return ResponseInterface
+     */
+    protected function preparePsrResponse(ResponseInterface $response, $data, $fileName = null)
+    {
         if ($fileName === null) {
-            $fileName = time();
+            $fileName = (string) time();
         }
 
+        return $response
+            ->withHeader('Content-Type', $this->contentType)
+            ->withHeader('Content-Disposition', 'attachment; fileName="' . $fileName .'"')
+            ->withHeader('Content-Length', strlen($data))
+            ->withBody(\GuzzleHttp\Psr7\stream_for($data));
+    }
+
+    /**
+     * Implements old logic which writes headers and data directly to output
+     * @deprecated Responses should be emitted in a centralized way using ResponseEmitter
+     * @param ResponseInterface $response
+     */
+    private function legacyEmitResponse(ResponseInterface $response)
+    {
+        $this->flushOutputBuffer();
+        $this->emitHeaders($response);
+        $this->emitBody($response);
+    }
+
+    /**
+     * @deprecated
+     */
+    private function flushOutputBuffer() {
         while (ob_get_level() > 0) {
             ob_end_flush();
         }
+    }
 
-        header('Content-Type: ' . $this->contentType);
-        header('Content-Disposition: attachment; fileName="' . $fileName .'"');
-        header("Content-Length: " . strlen($data));
+    /**
+     * @deprecated
+     * @param ResponseInterface $response
+     */
+    private function emitHeaders(ResponseInterface $response) {
+        foreach ($response->getHeaders() as $name => $values) {
+            foreach ($values as $value) {
+                header("$name: $value");
+            }
+        }
+    }
 
-        echo $data;
+    /**
+     * @deprecated
+     * @param ResponseInterface $response
+     */
+    private function emitBody(ResponseInterface $response) {
+        $stream = $response->getBody();
+        if ($stream->isSeekable()) {
+            $stream->rewind();
+        }
+        while (!$stream->eof()) {
+            echo $stream->read(1024 * 8);
+        }
     }
 }

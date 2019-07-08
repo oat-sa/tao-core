@@ -1067,11 +1067,13 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('35.8.2');
         }
 
-        $this->skip('35.8.2', '37.1.1');
 
-        if ($this->isVersion('37.1.1')) {
+        $this->skip('35.8.2', '37.9.0');
+
+        if ($this->isVersion('37.9.0')) {
             ValidationRuleRegistry::getRegistry()->set('unique', new tao_helpers_form_validators_Unique());
-            $this->setVersion('37.2.0');
+            $this->setVersion('37.10.0');
         }
+
     }
 }
