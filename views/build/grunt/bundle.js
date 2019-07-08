@@ -33,13 +33,13 @@ module.exports = function(grunt) {
             //options that apply for all extensions
             options: {
                 rootExtension        : 'tao',
+                rootPath             : root,
                 getExtensionPath     : extension => `${root}/${extension}/views/js`,
                 getExtensionCssPath  : extension => `${root}/${extension}/views/css`,
                 amd                  : require('../config/requirejs.build.json'),
                 workDir              : workDir,
                 outputDir            : 'loader'
             },
-
             tao : {
                 options : {
                     extension : 'tao',
