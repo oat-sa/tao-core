@@ -33,6 +33,8 @@ class tao_helpers_form_validators_Unique extends tao_helpers_form_Validator impl
 {
     const PROPERTY_PARAM = 'property';
 
+    const URI_PARAM = 'uri';
+
     const CURRENT_ENTITY_ID_PARAM = 'currentEntityId';
 
     /**
@@ -47,13 +49,13 @@ class tao_helpers_form_validators_Unique extends tao_helpers_form_Validator impl
     /**
      * @inheritDoc
      */
-    public function populateAdditionValues(array $elements, tao_helpers_form_FormElement $currentElement)
+    public function populateAdditionValues(array $values, $currentPropertyUri)
     {
-        $this->setOption(self::PROPERTY_PARAM, tao_helpers_Uri::decode($currentElement->getName()));
+        $this->setOption(self::PROPERTY_PARAM, $currentPropertyUri);
 
-        foreach ($elements as $element) {
-            if ($element->getName() == 'id') {
-                $this->setOption(self::CURRENT_ENTITY_ID_PARAM, $element->getValue());
+        foreach ($values as $name => $value) {
+            if ($name == self::URI_PARAM) {
+                $this->setOption(self::CURRENT_ENTITY_ID_PARAM, $value);
             }
         }
     }
@@ -65,12 +67,21 @@ class tao_helpers_form_validators_Unique extends tao_helpers_form_Validator impl
     protected function getProperty()
     {
         if (!$this->hasOption(self::PROPERTY_PARAM)) {
-            throw new common_exception_Error('Property not set');
+            throw new common_exception_Error(__('Property not set'));
         }
 
-        return ($this->getOption(self::PROPERTY_PARAM) instanceof core_kernel_classes_Property)
-            ? $this->getOption(self::PROPERTY_PARAM)
-            : new core_kernel_classes_Property($this->getOption('property'));
+        if ($this->getOption(self::PROPERTY_PARAM) instanceof core_kernel_classes_Property) {
+            return $this->getOption(self::PROPERTY_PARAM);
+        }
+        $property = new core_kernel_classes_Property($this->getOption(self::PROPERTY_PARAM));
+
+        if (!$property->exists()) {
+            throw new common_exception_Error(
+                sprintf(__('Property %s not exist'), $this->getOption(self::PROPERTY_PARAM))
+            );
+        }
+
+        return $property;
     }
 
     /**
@@ -81,11 +92,12 @@ class tao_helpers_form_validators_Unique extends tao_helpers_form_Validator impl
     public function evaluate($values)
     {
         $domain = $this->getProperty()->getDomain();
+        $propertyUri = $this->getProperty()->getUri();
 
         foreach ($domain as $class) {
 
             $resources = $class->searchInstances(
-                [$this->getProperty()->getUri() => $values],
+                [$propertyUri => $values],
                 ['recursive' => true, 'like' => false]
             );
 

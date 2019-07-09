@@ -409,7 +409,7 @@ abstract class tao_helpers_form_FormElement
     {
         foreach($this->validators as $validator){
             if ($validator instanceof ExtendedValidatorInterface) {
-                $validator->populateAdditionValues($elements, $this);
+                $validator->populateAdditionValues($elements, tao_helpers_Uri::decode($this->getName()));
             }
         }
     }

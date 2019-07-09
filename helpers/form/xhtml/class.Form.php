@@ -20,9 +20,6 @@
  */
 
 use oat\oatbox\log\LoggerAwareTrait;
-use oat\tao\helpers\form\elements\xhtml\CsrfToken;
-use oat\tao\model\security\xsrf\TokenService;
-use \tao_helpers_form_FormFactory as FormFactory;
 
 /**
  * Short description of class tao_helpers_form_xhtml_Form
@@ -49,7 +46,6 @@ class tao_helpers_form_xhtml_Form extends tao_helpers_form_Form
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string $groupName
-     * @param  array $filterProperties List of properties which values are unneeded and must be filtered
      * @return array
      */
     public function getValues($groupName = '')
@@ -67,8 +63,21 @@ class tao_helpers_form_xhtml_Form extends tao_helpers_form_Form
             }
         }
 
-
         return (array) $returnValue;
+    }
+
+    /**
+     * @return array
+     */
+    private function getAllValues()
+    {
+        $returnValue = [];
+
+        foreach ($this->elements as $element) {
+            $returnValue[tao_helpers_Uri::decode($element->getName())] = $element->getEvaluatedValue();
+        }
+
+        return $returnValue;
     }
 
     /**
@@ -151,7 +160,7 @@ class tao_helpers_form_xhtml_Form extends tao_helpers_form_Form
         /** @var tao_helpers_form_FormElement $element */
         foreach ($this->elements as $element) {
 
-            $element->populateValidators($this->elements);
+            $element->populateValidators($this->getAllValues());
 
             if (!$element->validate()) {
                 $this->valid = false;
