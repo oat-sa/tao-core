@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint100\n"
-"PO-Revision-Date: 2019-04-12T08:48:12\n"
+"Project-Id-Version: TAO 3.3.0-sprint105\n"
+"PO-Revision-Date: 2019-06-21T08:52:59\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ru-RU\n"
@@ -228,7 +228,7 @@ msgid "All fields are required"
 msgstr ""
 
 msgid "All rights reserved."
-msgstr ""
+msgstr "Все права защищены."
 
 msgid "Allow for all domains"
 msgstr ""
@@ -422,9 +422,6 @@ msgstr ""
 msgid "Choose import format"
 msgstr ""
 
-msgid "City"
-msgstr ""
-
 msgid "class selected"
 msgstr ""
 
@@ -449,20 +446,23 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear history"
-msgstr ""
-
 msgid "Clear History"
 msgstr ""
 
+msgid "Clear history"
+msgstr ""
+
 msgid "Clear selection"
+msgstr ""
+
+msgid "Clear the date time picker"
 msgstr ""
 
 msgid "Clear the stored variables"
 msgstr ""
 
 msgid "Close"
-msgstr ""
+msgstr "Закрыть"
 
 msgid "Close message"
 msgstr ""
@@ -524,9 +524,6 @@ msgstr ""
 msgid "count"
 msgstr ""
 
-msgid "Country"
-msgstr ""
-
 msgid "Create"
 msgstr ""
 
@@ -537,9 +534,6 @@ msgid "Created"
 msgstr ""
 
 msgid "Creating report ..."
-msgstr ""
-
-msgid "Creation At"
 msgstr ""
 
 msgid "CSP Header settings were saved successfully!"
@@ -569,10 +563,10 @@ msgstr ""
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data Language"
+msgid "Data language"
 msgstr ""
 
-msgid "Data language"
+msgid "Data Language"
 msgstr ""
 
 msgid "Data not imported. All records are invalid."
@@ -714,9 +708,6 @@ msgid "Element deleted."
 msgstr ""
 
 msgid "Email"
-msgstr ""
-
-msgid "Email address"
 msgstr ""
 
 msgid "enabled"
@@ -985,9 +976,6 @@ msgstr ""
 msgid "Index has been deleted for %s"
 msgstr ""
 
-msgid "Indexing has been run"
-msgstr ""
-
 msgid "Infinity"
 msgstr ""
 
@@ -1206,9 +1194,6 @@ msgstr ""
 msgid "Metadata export is not available for the selected resource."
 msgstr ""
 
-msgid "Method"
-msgstr ""
-
 msgid "minutes"
 msgstr ""
 
@@ -1399,9 +1384,6 @@ msgstr ""
 msgid "Page"
 msgstr ""
 
-msgid "Parameters"
-msgstr ""
-
 msgid "Password"
 msgstr ""
 
@@ -1424,9 +1406,6 @@ msgid "Pause"
 msgstr ""
 
 msgid "Permission denied to write in the selected class"
-msgstr ""
-
-msgid "Phone number"
 msgstr ""
 
 msgid "Play"
@@ -1622,9 +1601,6 @@ msgstr ""
 msgid "Reset"
 msgstr ""
 
-msgid "Reset the original size"
-msgstr ""
-
 msgid "Reset the range values"
 msgstr ""
 
@@ -1632,6 +1608,9 @@ msgid "Resource"
 msgstr ""
 
 msgid "Resource copied"
+msgstr ""
+
+msgid "Resource deleted"
 msgstr ""
 
 msgid "Resource Identifier"
@@ -1656,6 +1635,12 @@ msgid "resources"
 msgstr ""
 
 msgid "Resources moved"
+msgstr ""
+
+msgid "Resources successfully indexed"
+msgstr ""
+
+msgid "Resources was not indexed"
 msgstr ""
 
 msgid "Responsive mode"
@@ -1738,10 +1723,10 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "Select"
+msgid "select"
 msgstr ""
 
-msgid "select"
+msgid "Select"
 msgstr ""
 
 msgid "Select a class"
@@ -1820,9 +1805,6 @@ msgstr ""
 msgid "Start of document reached. Continuing from the end."
 msgstr ""
 
-msgid "State"
-msgstr ""
-
 msgid "Status"
 msgstr ""
 
@@ -1835,13 +1817,16 @@ msgstr ""
 msgid "Store the value a variable"
 msgstr ""
 
-msgid "Street"
-msgstr ""
-
 msgid "string"
 msgstr ""
 
 msgid "Success"
+msgstr ""
+
+msgid "Successfully cloned instance as %s"
+msgstr ""
+
+msgid "Successfully deleted %s"
 msgstr ""
 
 msgid "Successfully imported \"%s"
@@ -2090,6 +2075,9 @@ msgstr ""
 msgid "Unable to open file %s"
 msgstr ""
 
+msgid "Unable to process your request"
+msgstr ""
+
 msgid "Unable to release the lock"
 msgstr ""
 
@@ -2120,10 +2108,10 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr ""
 
 msgid "Undefined amount of the pages for pagination"
@@ -2163,9 +2151,6 @@ msgid "Upload"
 msgstr ""
 
 msgid "Upload into:"
-msgstr ""
-
-msgid "URL"
 msgstr ""
 
 msgid "Usage: ImportRdf RDF_FILE [MODEL_ID]"
@@ -2212,9 +2197,6 @@ msgstr ""
 
 #, tao-public
 msgid "User Settings"
-msgstr ""
-
-msgid "Username"
 msgstr ""
 
 #, tao-public
@@ -2333,8 +2315,5 @@ msgid "Your mail"
 msgstr ""
 
 msgid "Your TAO Password"
-msgstr ""
-
-msgid "Zip Code"
 msgstr ""
 

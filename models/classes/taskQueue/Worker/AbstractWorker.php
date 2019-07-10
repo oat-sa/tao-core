@@ -22,6 +22,7 @@ namespace oat\tao\model\taskQueue\Worker;
 
 use common_report_Report as Report;
 use oat\oatbox\log\LoggerAwareTrait;
+use oat\oatbox\session\StatelessSession;
 use oat\tao\model\taskQueue\QueuerInterface;
 use oat\tao\model\taskQueue\Task\CallbackTaskInterface;
 use oat\tao\model\taskQueue\Task\RemoteTaskSynchroniserInterface;
@@ -29,10 +30,17 @@ use oat\tao\model\taskQueue\Task\TaskInterface;
 use oat\tao\model\taskQueue\TaskLog\CategorizedStatus;
 use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
 use oat\tao\model\taskQueue\TaskLogInterface;
+use oat\oatbox\service\ServiceManagerAwareInterface;
+use oat\oatbox\service\ServiceManagerAwareTrait;
+use oat\generis\model\user\UserFactoryServiceInterface;
+use oat\generis\model\OntologyAwareTrait;
+use oat\oatbox\session\SessionService;
 
-abstract class AbstractWorker implements WorkerInterface
+abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInterface
 {
     use LoggerAwareTrait;
+    use ServiceManagerAwareTrait;
+    use OntologyAwareTrait;
 
     /**
      * @var QueuerInterface
@@ -61,15 +69,15 @@ abstract class AbstractWorker implements WorkerInterface
     {
         if ($this->taskLog->getStatus($task->getId()) != TaskLogInterface::STATUS_CANCELLED) {
             $report = Report::createInfo(__('Running task %s', $task->getId()));
-
             try {
-                $this->logDebug('Processing task ' . $task->getId(), $this->getLogContext());
+                $this->startUserSession($task);
+                $this->logInfo('Processing task ' . $task->getId(), $this->getLogContext());
 
                 $rowsTouched = $this->taskLog->setStatus($task->getId(), TaskLogInterface::STATUS_RUNNING, TaskLogInterface::STATUS_DEQUEUED);
 
                 // if the task is being executed by another worker, just return, no report needs to be saved
                 if (!$rowsTouched) {
-                    $this->logDebug('Task ' . $task->getId() . ' seems to be processed by another worker.', $this->getLogContext());
+                    $this->logInfo('Task ' . $task->getId() . ' seems to be processed by another worker.', $this->getLogContext());
                     return TaskLogInterface::STATUS_UNKNOWN;
                 }
 
@@ -79,6 +87,8 @@ abstract class AbstractWorker implements WorkerInterface
                 // execute the task
                 $taskReport = $task();
 
+                $this->logInfo('Task ' . $task->getId() . ' has been processed.', $this->getLogContext());
+
                 if (!$taskReport instanceof Report) {
                     $this->logWarning('Task ' . $task->getId() . ' should return a report object.', $this->getLogContext());
                     $taskReport = Report::createInfo(__('Task not returned any report.'));
@@ -87,6 +97,9 @@ abstract class AbstractWorker implements WorkerInterface
                 $report->add($taskReport);
 
                 unset($taskReport, $rowsTouched);
+            } catch (\Error $e) {
+                $this->logCritical('Executing task ' . $task->getId() . ' failed with MSG: ' . $e->getMessage(), $this->getLogContext());
+                $report = Report::createFailure(__('Executing task %s failed', $task->getId()));
             } catch (\Exception $e) {
                 $this->logError('Executing task ' . $task->getId() . ' failed with MSG: ' . $e->getMessage(), $this->getLogContext());
                 $report = Report::createFailure(__('Executing task %s failed', $task->getId()));
@@ -158,6 +171,22 @@ abstract class AbstractWorker implements WorkerInterface
     protected function getLogContext()
     {
         return [];
+    }
+
+    /**
+     * @param TaskInterface $task
+     * @throws \oat\oatbox\service\exception\InvalidServiceManagerException
+     */
+    private function startUserSession(TaskInterface $task)
+    {
+        $sessionService = $this->getServiceLocator()->get(SessionService::class);
+        if ($task->getOwner() && $sessionService->getCurrentSession()->getUser()->getIdentifier() !== $task->getOwner()) {
+            /** @var UserFactoryServiceInterface $userFactory */
+            $userFactory = $this->getServiceManager()->get(UserFactoryServiceInterface::SERVICE_ID);
+            $user = $userFactory->createUser($this->getResource($task->getOwner()));
+            $session = new StatelessSession($user);
+            $sessionService->setSession($session);
+        }
     }
 
     /**

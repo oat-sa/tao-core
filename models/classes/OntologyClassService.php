@@ -20,6 +20,7 @@
 namespace oat\tao\model;
 
 use oat\oatbox\service\ConfigurableService;
+use oat\oatbox\service\ServiceManager;
 
 /**
  * Base class to implement Ontology class service which is configurable
@@ -32,4 +33,11 @@ abstract class OntologyClassService extends ConfigurableService
 {
     use ClassServiceTrait;
     use GenerisServiceTrait;
+
+    /**
+     * @deprecated please initialise from servicelocator
+     */
+    public static function singleton() {
+        return ServiceManager::getServiceManager()->get(static::class);
+    }
 }

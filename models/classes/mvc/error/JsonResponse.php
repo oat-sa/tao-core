@@ -29,12 +29,16 @@ class JsonResponse extends ResponseAbstract {
     protected $contentType = 'application/json';
     
     public function send() {
-        
+
+        $message = $this->exception instanceof \common_exception_UserReadableException
+            ? $this->exception->getUserMessage()
+            : '';
+
         $response = [
             'success'   => false,
             'version'   => \TAO_VERSION,
             'errorCode' => $this->httpCode,
-            'errorMsg'  => '',
+            'errorMsg'  => $message,
         ];
 
         //write the response

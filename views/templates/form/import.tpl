@@ -29,7 +29,7 @@ $msg .= '<ul>';
         'ui/feedback',
         'util/url',
         'layout/actions',
-        'core/taskQueue/taskQueue',
+        'ui/taskQueue/taskQueue',
         'ui/taskQueueButton/standardButton'
     ], function($, __, feedback, urlHelper, actionManager, taskQueue, taskCreationButtonFactory) {
 

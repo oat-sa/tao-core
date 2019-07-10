@@ -16,7 +16,7 @@
             'uiForm',
             'ui/tooltip',
             'ui/feedback',
-            'core/taskQueue/taskQueue',
+            'ui/taskQueue/taskQueue',
             'ui/taskQueueButton/standardButton',
             'jquery.fileDownload'
         ],

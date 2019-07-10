@@ -117,77 +117,91 @@ define(['jquery', 'lodash', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/fe
 					},
 					//when a node is selected
 					onselect: function(NODE, TREE_OBJ) {
+						var servOptions = {};
+						if (instance.serverParameters.hasOwnProperty('order')) {
+							servOptions.order = instance.serverParameters.order;
+						}
+						if (instance.serverParameters.hasOwnProperty('orderdir')) {
+							servOptions.orderdir = instance.serverParameters.orderdir;
+						}
 						if ($(NODE).hasClass('paginate-more')) {
-							instance.paginateInstances($(NODE).parent().parent(), TREE_OBJ);
+							instance.paginateInstances($(NODE).parent().parent(), TREE_OBJ, servOptions);
 							return;
 						}
 						if ($(NODE).hasClass('paginate-all')) {
 							var parentNodeId = $(NODE).parent().parent().prop('id');
-							var limit = instance.getMeta(parentNodeId, 'count') - instance.getMeta(parentNodeId, 'displayed');
-							instance.paginateInstances($(NODE).parent().parent(), TREE_OBJ, {'limit': limit});
+							servOptions.limit = instance.getMeta(parentNodeId, 'count') - instance.getMeta(parentNodeId, 'displayed');
+							instance.paginateInstances($(NODE).parent().parent(), TREE_OBJ, servOptions);
 							return;
 						}
 
 						return true;
 					},
-					//
-					ondata: function(DATA, TREE_OBJ) {
-                        if (instance.checkResourcePermissions) {
-                            var children;
-                            var filteredChildren = [];
-                            var permissions = DATA.permissions;
-
-                            if (DATA.tree.children) {
-                                children = DATA.tree.children;
-                            } else {
-                                children = DATA.tree;
-                            }
-                            //checking all the permissions recursively to check if inner classes/instances should be hidden
-                            filteredChildren = instance.checkPermissionsRecursively(children, permissions);
-
-                            //setting filtered children back
-                            if (DATA.tree.children) {
-                                DATA.tree.children = filteredChildren;
-                            } else {
-                                DATA.tree = filteredChildren;
-                            }
-                            DATA = DATA.tree;
+                    ondata: function(DATA, TREE_OBJ) {
+                        if (instance.checkResourcePermissions && DATA.permissions) {
+                            DATA = instance.convertDataWithPermissions(DATA);
                         }
 
-						//automatically open the children of the received node
-						if (DATA.children) {
-							DATA.state = 'open';
-						}
+                        //automatically open the children of the received node
+                        if (DATA.children) {
+                            DATA.state = 'open';
+                        }
 
-						//saving response data
-						instance.loadedData = DATA;
+                        //saving response data
+                        instance.loadedData = DATA;
 
-						//extract meta data from children
-						instance.extractMeta(DATA);
+                        //extract meta data from children
+                        instance.extractMeta(DATA);
 
                         //remove hidden nodes from the data
                         instance.removeHiddenNodes(DATA.children || DATA);
 
-						return DATA;
-					}
-				},
-				plugins : {
-					checkbox : {three_state : true}
-				}
-			};
+                        return DATA;
+                    }
+                },
+                plugins : {
+                    checkbox : {three_state : true}
+                }
+            };
 
-			//Add server parameters to the treeOptions variable
-			for (var i in this.serverParameters) {
-				treeOptions.data.opts[i] = this.serverParameters[i];
-			}
+            //Add server parameters to the treeOptions variable
+            for (var i in this.serverParameters) {
+                treeOptions.data.opts[i] = this.serverParameters[i];
+            }
 
-			//create the tree
-			this._super(selector, dataUrl, options, treeOptions);
+            //create the tree
+            this._super(selector, dataUrl, options, treeOptions);
 
-			$("#saver-action-" + this.options.actionId).click({instance: this}, function(e){
-				e.data.instance.saveData();
-			});
-		},
+            $("#saver-action-" + this.options.actionId).click({instance: this}, function(e){
+                e.data.instance.saveData();
+            });
+        },
+        /**
+		 * converts and filter raw data to common format to use it with jquery.tree.js component
+		 * @returns {Array} - list of tree nodes to form a checkbox list from it
+		 */
+        convertDataWithPermissions : function convertDataWithPermissions(rawData) {
+            var converted = rawData;
+            var children;
+            var filteredChildren;
+            var permissions = converted.permissions;
+
+            if (converted.tree.children) {
+                children = converted.tree.children;
+            } else {
+                children = converted.tree;
+            }
+            //checking all the permissions recursively to check if inner classes/instances should be hidden
+            filteredChildren = this.checkPermissionsRecursively(children, permissions);
+
+            //setting filtered children back
+            if (converted.tree.children) {
+                converted.tree.children = filteredChildren;
+            } else {
+                converted.tree = filteredChildren;
+            }
+            return converted.tree;
+        },
 
         /**
 		 * Check permissions (if applicable) on the tree members
@@ -250,62 +264,71 @@ define(['jquery', 'lodash', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/fe
 		/**
 		 * Paginate function, display more instances
 		 */
-		paginateInstances: function(NODE, TREE_OBJ, pOptions, callback) {
-			var nodeId = NODE[0].id;
-			var instancesLeft = this.getMeta(nodeId, "count") - this.getMeta(nodeId, "displayed");
-			var options = {
-				"classUri": nodeId,
-				"subclasses": 0,
-				"offset": this.getMeta(nodeId, "position"),
-				"limit": instancesLeft < this.paginate ? instancesLeft : this.paginate
-			};
-			options = $.extend(options, pOptions);
+        paginateInstances: function(NODE, TREE_OBJ, pOptions, callback) {
+            var nodeId = NODE[0].id;
+            var instancesLeft = this.getMeta(nodeId, "count") - this.getMeta(nodeId, "displayed");
+            var options = {
+                "classUri": nodeId,
+                "subclasses": 0,
+                "offset": this.getMeta(nodeId, "position"),
+                "limit": instancesLeft < this.paginate ? instancesLeft : this.paginate
+            };
+            options = $.extend(options, pOptions);
 
-			$.post(this.dataUrl, options, (function(instance) {return function(DATA) {
-				//Hide paginate options
-				instance.hidePaginate(NODE, TREE_OBJ);
-				//Display incoming nodes
-				for (var i=0; i<DATA.length; i++) {
-					DATA[i].attributes['class'] = instance.options.instanceClass+" node-instance node-draggable";
-					if (!$('#'+DATA[i].attributes['id'], $(TREE_OBJ.container)).length) TREE_OBJ.create(DATA[i], TREE_OBJ.get_node(NODE[0]));
-					// If the check all options. Add the incoming nodes to the list of node to check
-					if (options.checkedNodes == "*") {
-						instance.checkedNodes.push(DATA[i].attributes.id);
-					}
-				}
-				// Update meta data
-				instance.setMeta(nodeId, "displayed", instance.getMeta(nodeId, "displayed")+DATA.length);
-				instance.setMeta(nodeId, "position", instance.getMeta(nodeId, "position")+DATA.length);
-				//refresh pagination options
-				instance.refreshPaginate(NODE, TREE_OBJ);
+            $.post(this.dataUrl, options, (function(instance) {return function(DATA) {
+                var countClass = 0;
+                var i = 0;
 
-				//If options checked nodes
-				if (options.checkedNodes) {
-					// If options check all, check not checked nodes
-					if (options.checkedNodes == "*") {
-						$(NODE).find('ul:first').children().each(function(){
-							if ($(this).hasClass('node-instance')) {
-								$(this).find("a:not(.checked, .undetermined)").each(function (){
-									instance.checkedNodes.push($(this).parent().prop('id'));
-								});
-							}
-						});
-					} else {
-						instance.checkedNodes = options.checkedNodes;
-					}
-				}
+                if(instance.checkResourcePermissions){
+                    DATA = instance.convertDataWithPermissions(DATA);
+                }
+                //Hide paginate options
+                instance.hidePaginate(nodeId);
+                //Display incoming nodes
+                for (i; i<DATA.length; i++) {
+                    DATA[i].attributes['class'] = instance.options.instanceClass+" node-instance node-draggable";
+                    if (!$('#'+DATA[i].attributes['id'], $(TREE_OBJ.container)).length) TREE_OBJ.create(DATA[i], TREE_OBJ.get_node(NODE[0]));
+                    // If the check all options. Add the incoming nodes to the list of node to check
+                    if (options.checkedNodes === "*") {
+                        instance.checkedNodes.push(DATA[i].attributes.id);
+                    }
+                    countClass += DATA[i].type === 'class';
+                }
 
-				instance.check(instance.checkedNodes);
+                // Update meta data
+                instance.setMeta(nodeId, "displayed", instance.getMeta(nodeId, "displayed")+DATA.length - countClass);
+                instance.setMeta(nodeId, "position", instance.getMeta(nodeId, "position")+DATA.length - countClass);
 
-				//Execute callback;
-				if (callback) {
-					callback(NODE, TREE_OBJ);
-				}
-				if (instance.checkPaginate) {
-					instance.checkPaginate(NODE, TREE_OBJ);
-				}
-			};})(this), "json");
-		},
+                //refresh pagination options
+                instance.refreshPaginate(NODE, TREE_OBJ);
+
+                //If options checked nodes
+                if (options.checkedNodes) {
+                    // If options check all, check not checked nodes
+                    if (options.checkedNodes === "*") {
+                        $(NODE).find('ul:first').children().each(function(){
+                            if ($(this).hasClass('node-instance')) {
+                                $(this).find("a:not(.checked, .undetermined)").each(function (){
+                                    instance.checkedNodes.push($(this).parent().prop('id'));
+                                });
+                            }
+                        });
+                    } else {
+                        instance.checkedNodes = options.checkedNodes;
+                    }
+                }
+
+                instance.check(instance.checkedNodes);
+
+                //Execute callback;
+                if (callback) {
+                    callback(NODE, TREE_OBJ);
+                }
+                if (instance.checkPaginate) {
+                    instance.checkPaginate(NODE, TREE_OBJ);
+                }
+            };})(this), "json");
+        },
 
 		/**
 		 * Check the tree instances
@@ -409,12 +432,16 @@ define(['jquery', 'lodash', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/fe
 				type: "POST",
 				data: toSend,
 				dataType: 'json',
-				success: function(response) {
+				success: function (response) {
 					if (response.saved) {
 						if (instance.options.saveCallback) {
 							instance.options.saveCallback(toSend);
 						}
 						feedback().info(__('Selection saved successfully'));
+					} else {
+						if (instance.options.saveErrorCallback) {
+							instance.options.saveErrorCallback(response, instance);
+						}
 					}
 				},
 				complete: function() {

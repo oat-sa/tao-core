@@ -24,6 +24,7 @@
  */
 module.exports = function(grunt) {
     'use strict';
+
     const root        = grunt.option('root');
     const workDir     = grunt.option('output');
 
@@ -32,13 +33,13 @@ module.exports = function(grunt) {
             //options that apply for all extensions
             options: {
                 rootExtension        : 'tao',
+                rootPath             : root,
                 getExtensionPath     : extension => `${root}/${extension}/views/js`,
                 getExtensionCssPath  : extension => `${root}/${extension}/views/css`,
                 amd                  : require('../config/requirejs.build.json'),
                 workDir              : workDir,
                 outputDir            : 'loader'
             },
-
             tao : {
                 options : {
                     extension : 'tao',
@@ -48,11 +49,13 @@ module.exports = function(grunt) {
                     }, {
                         name      : 'login',
                         bootstrap : true,
+                        babel     : true,
                         entryPoint: 'controller/login'
                     }, {
                         name      : 'tao',
                         bootstrap : true,
                         default   : true,
+                        babel     : true,
                         include   : [
                             'layout/**/*',
                             'form/**/*',

@@ -13,6 +13,8 @@ require.config({
             useXhr: function(){ return true; },
         },
         'ui/themes' : <?= get_data('themesAvailable') ?>,
+        'core/tokenHandler' : <?=get_data('tokens')?>,
+
 //dynamic lib config
     <?php foreach (get_data('libConfigs') as $name => $config) :?>
         '<?=$name?>'        : <?=json_encode($config)?>,
@@ -30,7 +32,7 @@ require.config({
         'css'               : 'lib/require-css/css',
         'tpl'               : 'tpl',
 //jquery and plugins
-        'jquery'            : 'lib/jquery-1.9.1',
+        'jquery'            : '../node_modules/jquery/jquery',
         'select2'           : 'lib/select2/select2.min',
         'jquery.autocomplete'  : 'lib/jquery.autocomplete/jquery.autocomplete',
         'jquery.tree'       : 'lib/jsTree/jquery.tree',
@@ -41,10 +43,10 @@ require.config({
 //polyfills
         'polyfill'          : 'lib/polyfill',
 //libs
-        'lodash'            : 'lib/lodash.min',
+        'lodash'            : '../node_modules/lodash/lodash',
         'async'             : 'lib/async',
-        'moment'            : 'lib/moment-with-locales.min',
-        'handlebars'        : 'lib/handlebars',
+        'moment'            : '../node_modules/moment/min/moment-with-locales',
+        'handlebars'        : '../node_modules/handlebars/dist/handlebars',
         'class'             : 'lib/class',
         'raphael'           : 'lib/raphael/raphael',
         'scale.raphael'     : 'lib/raphael/scale.raphael',
@@ -67,10 +69,15 @@ require.config({
     <?php foreach (get_data('extensionsAliases') as $name => $path) :?>
         '<?=$name?>'        : '<?=$path?>',
     <?php endforeach?>
+        'lib/uuid'          : '../node_modules/@oat-sa/tao-core-libs/dist/uuid',
+        'core'              : '../node_modules/@oat-sa/tao-core-sdk/dist/core',
+        'util'              : '../node_modules/@oat-sa/tao-core-sdk/dist/util',
+        'ui'                : '../node_modules/@oat-sa/tao-core-ui/dist'
    },
    shim : {
         'jqueryui'              : { deps : ['jquery'] },
         'moment'                : { exports : 'moment' },
+        'handlebars'            : { exports : 'Handlebars' },
         'ckeditor'              : { exports : 'CKEDITOR' },
         'ckeditor-jquery'       : ['ckeditor'],
         'class'                 : { exports : 'Class'},

@@ -5,7 +5,7 @@
     "json": "lib/text/json",
     "css": "lib/require-css/css",
     "tpl": "tpl",
-    "jquery": "lib/jquery-1.9.1",
+    "jquery": "../node_modules/jquery/jquery",
     "select2": "lib/select2/select2.min",
     "jquery.autocomplete": "lib/jquery.autocomplete/jquery.autocomplete",
     "jquery.tree": "lib/jsTree/jquery.tree",
@@ -13,10 +13,10 @@
     "nouislider": "lib/sliders/jquery.nouislider",
     "jquery.fileDownload": "lib/jquery.fileDownload",
     "polyfill": "lib/polyfill",
-    "lodash": "lib/lodash.min",
+    "lodash": "../node_modules/lodash/lodash",
     "async": "lib/async",
-    "moment": "lib/moment-with-locales.min",
-    "handlebars": "lib/handlebars",
+    "moment": "../node_modules/moment/min/moment-with-locales",
+    "handlebars": "../node_modules/handlebars/dist/handlebars",
     "class": "lib/class",
     "raphael": "lib/raphael/raphael",
     "scale.raphael": "lib/raphael/scale.raphael",
@@ -31,12 +31,20 @@
     "css-builder": "lib/require-css/css-builder",
     "normalize": "lib/require-css/normalize",
     "i18ntr": "../locales/en-US",
-    "router": "core/router"
+    "router": "core/router",
+    "babel-polyfill": "../../../tao/views/node_modules/@babel/polyfill/browser",
+    "lib/uuid" : "../../../tao/views/node_modules/@oat-sa/tao-core-libs/dist/uuid",
+    "core": "../../../tao/views/node_modules/@oat-sa/tao-core-sdk/dist/core",
+    "util": "../../../tao/views/node_modules/@oat-sa/tao-core-sdk/dist/util",
+    "ui": "../../../tao/views/node_modules/@oat-sa/tao-core-ui/dist"
   },
 
   "shim": {
     "moment": {
       "exports": "moment"
+    },
+    "handlebars" : {
+      "exports": "Handlebars"
     },
     "ckeditor": {
       "exports": "CKEDITOR"
@@ -48,11 +56,11 @@
     "c3": {
       "deps": ["d3", "css!lib/c3js/c3.css"]
     },
-    "lib/flatpickr/l10n/index" : {
-        "deps": ["lib/flatpickr/flatpickr"]
+    "lib/flatpickr/l10n/index": {
+      "deps": ["lib/flatpickr/flatpickr"]
     }
   },
-  "vendor" : [
+  "vendor": [
     "lib/require",
     "text",
     "json",
@@ -60,7 +68,6 @@
     "tpl",
     "jquery",
     "jquery.cookie",
-    "jqueryui",
     "select2",
     "nouislider",
     "lodash",
@@ -82,12 +89,26 @@
     "ui/**/*",
     "util/**/*",
     "uri",
-    "urlParser",
     "context",
     "iframeResizer",
-    "iframeNotifier"
+    "iframeNotifier",
+    "babel-polyfill",
+    "lib/uuid",
+    "lib/moment-timezone.min"
   ],
-  "exclude" : ["json!i18ntr/messages.json",  "mathJax", "ckeditor", "pdfjs-dist/build/pdf", "pdfjs-dist/build/pdf.worker", "normalize"],
-  "bootstrap" : ["loader/bootstrap"],
-  "default" : ["controller/**/*", "component/**/*", "provider/**/*", "service/**/*"]
+  "exclude": [
+    "json!i18ntr/messages.json",
+    "mathJax",
+    "ckeditor",
+    "pdfjs-dist/build/pdf",
+    "pdfjs-dist/build/pdf.worker",
+    "normalize"
+  ],
+  "bootstrap": ["loader/bootstrap"],
+  "default": [
+    "controller/**/*",
+    "component/**/*",
+    "provider/**/*",
+    "service/**/*"
+  ]
 }

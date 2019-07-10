@@ -17,6 +17,8 @@
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
+use tao_helpers_form_FormContainer as FormContainer;
+
 /**
  * Class Security
  *
@@ -32,13 +34,16 @@ class tao_actions_Security extends tao_actions_CommonModule
     {
         $this->setView('security/view.tpl');
 
-        $formFactory = new tao_actions_form_CspHeader(['serviceLocator' => $this->getServiceLocator()]);
+        $formFactory = new tao_actions_form_CspHeader(
+            ['serviceLocator' => $this->getServiceLocator()],
+            [FormContainer::CSRF_PROTECTION_OPTION => true]
+        );
+
         $cspHeaderForm = $formFactory->getForm();
 
         if ($cspHeaderForm->isSubmited() && $cspHeaderForm->isValid()) {
             $formFactory->saveSettings();
             $this->setData('cspHeaderFormSuccess', __('CSP Header settings were saved successfully!'));
-
         }
 
         $this->setData('formTitle', __('Edit sources that can embed this platform in an iFrame'));

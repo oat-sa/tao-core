@@ -119,7 +119,7 @@ define([
     // register a "get property" helper
     // it gets the named property from the provided context
     hb.registerHelper('property', function(name, context){
-        return context[name] || '';
+        return (typeof (context[name]) !== "undefined") ? new hb.SafeString(context[name]) : '';
     });
 
     // register an 'includes' helper

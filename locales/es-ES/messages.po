@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint100\n"
-"PO-Revision-Date: 2019-04-12T08:47:47\n"
+"Project-Id-Version: TAO 3.3.0-sprint105\n"
+"PO-Revision-Date: 2019-06-21T08:52:27\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: es-ES\n"
@@ -423,9 +423,6 @@ msgstr "Elegir formato para exportar"
 msgid "Choose import format"
 msgstr "Elegir formato para importar"
 
-msgid "City"
-msgstr ""
-
 msgid "class selected"
 msgstr "clase seleccionada"
 
@@ -450,13 +447,16 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear history"
-msgstr ""
-
 msgid "Clear History"
 msgstr ""
 
+msgid "Clear history"
+msgstr ""
+
 msgid "Clear selection"
+msgstr ""
+
+msgid "Clear the date time picker"
 msgstr ""
 
 msgid "Clear the stored variables"
@@ -525,9 +525,6 @@ msgstr ""
 msgid "count"
 msgstr ""
 
-msgid "Country"
-msgstr ""
-
 msgid "Create"
 msgstr "Crear"
 
@@ -538,9 +535,6 @@ msgid "Created"
 msgstr ""
 
 msgid "Creating report ..."
-msgstr ""
-
-msgid "Creation At"
 msgstr ""
 
 msgid "CSP Header settings were saved successfully!"
@@ -570,11 +564,11 @@ msgstr "Datos importados exitosamente"
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data Language"
-msgstr "Idioma de Datos"
-
 msgid "Data language"
 msgstr "Idioma de datos"
+
+msgid "Data Language"
+msgstr "Idioma de Datos"
 
 msgid "Data not imported. All records are invalid."
 msgstr ""
@@ -717,9 +711,6 @@ msgstr "Elemento eliminado."
 
 msgid "Email"
 msgstr "Elemnto no eliminado"
-
-msgid "Email address"
-msgstr ""
 
 msgid "enabled"
 msgstr ""
@@ -987,9 +978,6 @@ msgstr "Inclusivo (AND)"
 msgid "Index has been deleted for %s"
 msgstr ""
 
-msgid "Indexing has been run"
-msgstr ""
-
 msgid "Infinity"
 msgstr ""
 
@@ -1208,9 +1196,6 @@ msgstr ""
 msgid "Metadata export is not available for the selected resource."
 msgstr ""
 
-msgid "Method"
-msgstr ""
-
 msgid "minutes"
 msgstr "minutos"
 
@@ -1401,9 +1386,6 @@ msgstr ""
 msgid "Page"
 msgstr "Página"
 
-msgid "Parameters"
-msgstr ""
-
 msgid "Password"
 msgstr "Contraseña"
 
@@ -1426,9 +1408,6 @@ msgid "Pause"
 msgstr ""
 
 msgid "Permission denied to write in the selected class"
-msgstr ""
-
-msgid "Phone number"
 msgstr ""
 
 msgid "Play"
@@ -1624,9 +1603,6 @@ msgstr "Requiere"
 msgid "Reset"
 msgstr "Reiniciar"
 
-msgid "Reset the original size"
-msgstr ""
-
 msgid "Reset the range values"
 msgstr ""
 
@@ -1634,6 +1610,9 @@ msgid "Resource"
 msgstr "Recurso"
 
 msgid "Resource copied"
+msgstr ""
+
+msgid "Resource deleted"
 msgstr ""
 
 msgid "Resource Identifier"
@@ -1658,6 +1637,12 @@ msgid "resources"
 msgstr ""
 
 msgid "Resources moved"
+msgstr ""
+
+msgid "Resources successfully indexed"
+msgstr ""
+
+msgid "Resources was not indexed"
 msgstr ""
 
 msgid "Responsive mode"
@@ -1740,11 +1725,11 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "Select"
-msgstr "Seleccionar"
-
 msgid "select"
 msgstr "seleccionar"
+
+msgid "Select"
+msgstr "Seleccionar"
 
 msgid "Select a class"
 msgstr ""
@@ -1822,9 +1807,6 @@ msgstr ""
 msgid "Start of document reached. Continuing from the end."
 msgstr ""
 
-msgid "State"
-msgstr ""
-
 msgid "Status"
 msgstr ""
 
@@ -1837,14 +1819,17 @@ msgstr ""
 msgid "Store the value a variable"
 msgstr ""
 
-msgid "Street"
-msgstr ""
-
 msgid "string"
 msgstr ""
 
 msgid "Success"
 msgstr "Correcto"
+
+msgid "Successfully cloned instance as %s"
+msgstr ""
+
+msgid "Successfully deleted %s"
+msgstr ""
 
 msgid "Successfully imported \"%s"
 msgstr "%s Importado satisfactoriamente\""
@@ -2092,6 +2077,9 @@ msgstr ""
 msgid "Unable to open file %s"
 msgstr ""
 
+msgid "Unable to process your request"
+msgstr ""
+
 msgid "Unable to release the lock"
 msgstr "No es posible liberar el bloqueo"
 
@@ -2122,10 +2110,10 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr ""
 
 msgid "Undefined amount of the pages for pagination"
@@ -2166,9 +2154,6 @@ msgstr "Subir"
 
 msgid "Upload into:"
 msgstr "Subir en:"
-
-msgid "URL"
-msgstr ""
 
 msgid "Usage: ImportRdf RDF_FILE [MODEL_ID]"
 msgstr ""
@@ -2214,9 +2199,6 @@ msgstr "Usuario guardado"
 
 #, tao-public
 msgid "User Settings"
-msgstr ""
-
-msgid "Username"
 msgstr ""
 
 #, tao-public
@@ -2336,7 +2318,4 @@ msgstr "Tu email"
 
 msgid "Your TAO Password"
 msgstr "Tu contraseña TAO"
-
-msgid "Zip Code"
-msgstr ""
 

@@ -33,7 +33,7 @@ use oat\tao\model\resources\ResourceService;
 use oat\tao\model\security\SecurityException;
 use oat\tao\model\security\SignatureGenerator;
 use oat\tao\model\security\SignatureValidator;
-use oat\tao\model\security\xsrf\TokenService;
+use tao_helpers_form_FormContainer as FormContainer;
 
 /**
  * The TaoModule is an abstract controller,
@@ -160,16 +160,16 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         $classUri = tao_helpers_Uri::decode($this->getRequestParameter('classUri'));
         if(is_null($classUri) || empty($classUri)){
 
-            $clazz = null;
+            $class = null;
             $resource = $this->getCurrentInstance();
             foreach($resource->getTypes() as $type){
-                $clazz = $type;
+                $class = $type;
                 break;
             }
-            if(is_null($clazz)){
+            if(is_null($class)){
                 throw new Exception("No valid class uri found");
             }
-            $returnValue = $clazz;
+            $returnValue = $class;
         }
         else{
             if (!common_Utils::isUri($classUri)) {
@@ -221,15 +221,15 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
      *
      * @deprecated
      */
-    protected function editClass(core_kernel_classes_Class $clazz, core_kernel_classes_Resource $resource, core_kernel_classes_Class $topclass = null)
+    protected function editClass(core_kernel_classes_Class $class, core_kernel_classes_Resource $resource, core_kernel_classes_Class $topclass = null)
     {
-        return $this->getClassForm($clazz, $resource, $topclass);
+        return $this->getClassForm($class, $resource, $topclass);
     }
 
-    protected function getClassForm($clazz, $resource, $topclass  = null)
+    protected function getClassForm($class, $resource, $topclass  = null)
     {
         $controller = new tao_actions_PropertiesAuthoring();
-        return $controller->getClassForm($clazz);
+        return $controller->getClassForm($class);
     }
 
     /*
@@ -410,7 +410,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
      */
     public function editClassLabel()
     {
-        $clazz = $this->getCurrentClass();
+        $class = $this->getCurrentClass();
 
         /** @var SignatureGenerator $signatureGenerator */
         $signatureGenerator = ServiceManager::getServiceManager()->get(SignatureGenerator::class);
@@ -420,24 +420,23 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         );
 
         $editClassLabelForm = new tao_actions_form_EditClassLabel(
-            $clazz,
+            $class,
             $this->getRequestParameters(),
-            $signature
+            $signature,
+            [FormContainer::CSRF_PROTECTION_OPTION => true]
         );
 
         $myForm = $editClassLabelForm->getForm();
 
-        if ($myForm->isSubmited()) {
-            if ($myForm->isValid()) {
-                $clazz->setLabel($myForm->getValue(tao_helpers_Uri::encode(OntologyRdfs::RDFS_LABEL)));
+        if ($myForm->isSubmited() && $myForm->isValid()) {
+            $class->setLabel($myForm->getValue(tao_helpers_Uri::encode(OntologyRdfs::RDFS_LABEL)));
 
-                $this->setData("selectNode", tao_helpers_Uri::encode($clazz->getUri()));
-                $this->setData('message', __('%s Class saved', $clazz->getLabel()));
-                $this->setData('reload', true);
-            }
+            $this->setData('selectNode', tao_helpers_Uri::encode($class->getUri()));
+            $this->setData('message', __('%s Class saved', $class->getLabel()));
+            $this->setData('reload', true);
         }
 
-        $this->setData('formTitle', __('Edit class %s', \tao_helpers_Display::htmlize($clazz->getLabel())));
+        $this->setData('formTitle', __('Edit class %s', \tao_helpers_Display::htmlize($class->getLabel())));
         $this->setData('myForm', $myForm->render());
         $this->setView('form.tpl', 'tao');
     }
@@ -445,8 +444,6 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
     /**
      * Add an instance of the selected class
      * @requiresRight id WRITE
-     *
-     * @return void
      *
      * @throws SecurityException
      * @throws \oat\tao\model\metadata\exception\InconsistencyConfigException
@@ -463,6 +460,13 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
 
         $this->validateInstanceRoot($id);
 
+        try {
+            $this->validateCsrf();
+        } catch (common_exception_Unauthorized $e) {
+            $this->response = $this->getPsrResponse()->withStatus(403, __('Unable to process your request'));
+            return;
+        }
+
         $this->signatureValidator->checkSignature(
             $this->getRequestParameter('signature'),
             $id
@@ -470,13 +474,14 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
 
         $response = [];
 
-        $clazz = $this->getClass($id);
-        $label = $this->getClassService()->createUniqueLabel($clazz);
+        $class = $this->getClass($id);
+        $label = $this->getClassService()->createUniqueLabel($class);
 
-        $instance = $this->getClassService()->createInstance($clazz, $label);
+        $instance = $this->getClassService()->createInstance($class, $label);
 
-        if(!is_null($instance) && $instance instanceof core_kernel_classes_Resource){
+        if ($instance instanceof core_kernel_classes_Resource) {
             $response = [
+                'success' => true,
                 'label' => $instance->getLabel(),
                 'uri'   => $instance->getUri()
             ];
@@ -504,15 +509,23 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             $classId
         );
 
+        try {
+            $this->validateCsrf();
+        } catch (common_exception_Unauthorized $e) {
+            $this->response = $this->getPsrResponse()->withStatus(403, __('Unable to process your request'));
+            return;
+        }
+
         $this->validateInstanceRoot($classId);
 
         $parent = $this->getClass($classId);
-        $clazz = $this->getClassService()->createSubClass($parent);
-        if(!is_null($clazz) && $clazz instanceof core_kernel_classes_Class){
-            $this->returnJson(array(
-                'label' => $clazz->getLabel(),
-                'uri'   => tao_helpers_Uri::encode($clazz->getUri())
-            ));
+        $class = $this->getClassService()->createSubClass($parent);
+        if ($class instanceof core_kernel_classes_Class) {
+            $this->returnJson([
+                'success' => true,
+                'label' => $class->getLabel(),
+                'uri'   => tao_helpers_Uri::encode($class->getUri())
+            ]);
         }
     }
 
@@ -523,24 +536,24 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
      */
     public function addInstanceForm()
     {
-        if(!$this->isXmlHttpRequest()){
+        if (!$this->isXmlHttpRequest()) {
             throw new common_exception_BadRequest('wrong request mode');
         }
 
-        $clazz = $this->getCurrentClass();
-        $formContainer = new tao_actions_form_CreateInstance(array($clazz), array());
-        $myForm = $formContainer->getForm();
+        $class = $this->getCurrentClass();
+        $formContainer = new tao_actions_form_CreateInstance([$class], [FormContainer::CSRF_PROTECTION_OPTION => true]);
+        $addInstanceForm = $formContainer->getForm();
 
-        if ($myForm->isSubmited() && $myForm->isValid()) {
-            $properties = $myForm->getValues();
-            $instance = $this->createInstance(array($clazz), $properties);
+        if ($addInstanceForm->isSubmited() && $addInstanceForm->isValid()) {
+            $properties = $addInstanceForm->getValues();
+            $instance = $this->createInstance([$class], $properties);
 
             $this->setData('message', __('%s created', $instance->getLabel()));
             $this->setData('reload', true);
         }
 
-        $this->setData('formTitle', __('Create instance of ').$clazz->getLabel());
-        $this->setData('myForm', $myForm->render());
+        $this->setData('formTitle', __('Create instance of ') . $class->getLabel());
+        $this->setData('myForm', $addInstanceForm->render());
 
         $this->setView('form.tpl', 'tao');
     }
@@ -552,7 +565,8 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
      * @param array $properties
      * @return core_kernel_classes_Resource
      */
-    protected function createInstance($classes, $properties) {
+    protected function createInstance($classes, $properties)
+    {
         $first = array_shift($classes);
         $instance = $first->createInstanceWithProperties($properties);
         foreach ($classes as $class) {
@@ -562,24 +576,22 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         return $instance;
     }
 
-    public function editInstance() {
-        $clazz = $this->getCurrentClass();
+    public function editInstance()
+    {
+        $class = $this->getCurrentClass();
         $instance = $this->getCurrentInstance();
-        $myFormContainer = new SignedFormInstance($clazz, $instance);
+        $myFormContainer = new SignedFormInstance($class, $instance, [FormContainer::CSRF_PROTECTION_OPTION => true]);
 
         $myForm = $myFormContainer->getForm();
-        if($myForm->isSubmited()){
-            if($myForm->isValid()){
+        if ($myForm->isSubmited() && $myForm->isValid()) {
+            $values = $myForm->getValues();
+            // save properties
+            $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($instance);
+            $binder->bind($values);
+            $message = __('Instance saved');
 
-                $values = $myForm->getValues();
-                // save properties
-                $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($instance);
-                $instance = $binder->bind($values);
-                $message = __('Instance saved');
-
-                $this->setData('message',$message);
-                $this->setData('reload', true);
-            }
+            $this->setData('message', $message);
+            $this->setData('reload', true);
         }
 
         $this->setData('formTitle', __('Edit Instance'));
@@ -603,7 +615,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
      */
     public function cloneInstance()
     {
-        if(!$this->isXmlHttpRequest()){
+        if (!$this->isXmlHttpRequest()) {
             throw new common_exception_BadRequest('wrong request mode');
         }
 
@@ -614,14 +626,22 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             $uri
         );
 
+        try {
+            $this->validateCsrf();
+        } catch (common_exception_Unauthorized $e) {
+            $this->response = $this->getPsrResponse()->withStatus(403, __('Unable to process your request'));
+            return;
+        }
         $this->validateInstanceRoot($uri);
 
         $clone = $this->getClassService()->cloneInstance($this->getCurrentInstance(), $this->getCurrentClass());
-        if(!is_null($clone)){
-            $this->returnJson(array(
+        if ($clone !== null) {
+            $this->returnJson([
+                'success' => true,
+                'message' => __('Successfully cloned instance as %s', $clone->getLabel()),
                 'label' => $clone->getLabel(),
                 'uri'   => tao_helpers_Uri::encode($clone->getUri())
-            ));
+            ]);
         }
     }
 
@@ -637,6 +657,12 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             && $this->hasRequestParameter('uri')
             && common_Utils::isUri($this->getRequestParameter('destinationClassUri'))
         ) {
+            try {
+                $this->validateCsrf();
+            } catch (common_exception_Unauthorized $e) {
+                $this->response = $this->getPsrResponse()->withStatus(403, __('Unable to process your request'));
+                return;
+            }
             $this->validateInstanceRoot(
                 $this->getRequestParameter('uri')
             );
@@ -692,6 +718,12 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         if($this->hasRequestParameter('destinationClassUri') && $this->hasRequestParameter('uri')){
 
             $id = $this->getRequestParameter('uri');
+            try {
+                $this->validateCsrf();
+            } catch (common_exception_Unauthorized $e) {
+                $this->response = $this->getPsrResponse()->withStatus(403, __('Unable to process your request'));
+                return;
+            }
 
             $this->validateInstanceRoot($id);
 
@@ -699,16 +731,16 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
 
             $instance = $this->getResource($id);
             $types = $instance->getTypes();
-            $clazz = reset($types);
+            $class = reset($types);
             $destinationUri = tao_helpers_Uri::decode($this->getRequestParameter('destinationClassUri'));
 
-            if(!empty($destinationUri) && $destinationUri != $clazz->getUri()){
+            if(!empty($destinationUri) && $destinationUri != $class->getUri()){
                 $destinationClass = $this->getClass($destinationUri);
 
                 $confirmed = $this->getRequestParameter('confirmed');
                 if(empty($confirmed) || $confirmed == 'false' || $confirmed ===  false){
 
-                    $diff = $this->getClassService()->getPropertyDiff($clazz, $destinationClass);
+                    $diff = $this->getClassService()->getPropertyDiff($class, $destinationClass);
                     if(count($diff) > 0){
                         return $this->returnJson(array(
                             'status'        => 'diff',
@@ -742,6 +774,13 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
 
             $data = $this->getRequestParameter('uri');
             $id = $data['id'];
+
+            try {
+                $this->validateCsrf();
+            } catch (common_exception_Unauthorized $e) {
+                $this->response = $this->getPsrResponse()->withStatus(403, __('Unable to process your request'));
+                return;
+            }
 
             $this->validateUri($id);
             $this->validateInstanceRoot($id);
@@ -797,63 +836,64 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
     }
 
     /**
-     * Render the  form to translate a Resource instance
+     * Render the form to translate a Resource instance
      * @return void
+     * @throws common_exception_Error
+     * @throws tao_models_classes_MissingRequestParameterException
      * @requiresRight id WRITE
      */
     public function translateInstance()
     {
-
         $instance = $this->getCurrentInstance();
 
-        $formContainer = new tao_actions_form_Translate($this->getCurrentClass(), $instance);
+        $formContainer = new tao_actions_form_Translate(
+            $this->getCurrentClass(), $instance, [FormContainer::CSRF_PROTECTION_OPTION => true]
+        );
         $myForm = $formContainer->getForm();
 
         if ($this->hasRequestParameter('target_lang')) {
-
             $targetLang = $this->getRequestParameter('target_lang');
+            $availableLanguages = tao_helpers_I18n::getAvailableLangsByUsage(
+                $this->getResource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA)
+            );
 
-            if(in_array($targetLang, tao_helpers_I18n::getAvailableLangsByUsage($this->getResource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA)))){
+            if (in_array($targetLang, $availableLanguages)) {
                 $langElt = $myForm->getElement('translate_lang');
                 $langElt->setValue($targetLang);
                 $langElt->setAttribute('readonly', 'true');
 
                 $trData = $this->getClassService()->getTranslatedProperties($instance, $targetLang);
-                foreach($trData as $key => $value){
+                foreach ($trData as $key => $value) {
                     $element = $myForm->getElement(tao_helpers_Uri::encode($key));
-                    if(!is_null($element)){
+                    if ($element !== null) {
                         $element->setValue($value);
                     }
                 }
             }
         }
 
-        if($myForm->isSubmited()){
-            if($myForm->isValid()){
+        if ($myForm->isSubmited() && $myForm->isValid()) {
+            $values = $myForm->getValues();
+            if (isset($values['translate_lang'])) {
+                $datalang = $this->getSession()->getDataLanguage();
+                $lang = $values['translate_lang'];
 
-                $values = $myForm->getValues();
-                if(isset($values['translate_lang'])){
-                    $datalang = $this->getSession()->getDataLanguage();
-                    $lang = $values['translate_lang'];
-
-                    $translated = 0;
-                    foreach($values as $key => $value){
-                        if(preg_match("/^http/", $key)){
-                            $value = trim($value);
-                            $property = $this->getProperty($key);
-                            if(empty($value)){
-                                if($datalang != $lang && $lang != ''){
-                                    $instance->removePropertyValueByLg($property, $lang);
-                                }
+                $translated = 0;
+                foreach ($values as $key => $value) {
+                    if (0 === strpos($key, 'http')) {
+                        $value = trim($value);
+                        $property = $this->getProperty($key);
+                        if (empty($value)) {
+                            if ($datalang !== $lang && $lang !== '') {
+                                $instance->removePropertyValueByLg($property, $lang);
                             }
-                            else if($instance->editPropertyValueByLg($property, $value, $lang)){
-                                $translated++;
-                            }
+                        } elseif ($instance->editPropertyValueByLg($property, $value, $lang)) {
+                            $translated++;
                         }
                     }
-                    if($translated > 0){
-                        $this->setData('message', __('Translation saved'));
-                    }
+                }
+                if ($translated > 0) {
+                    $this->setData('message', __('Translation saved'));
                 }
             }
         }
@@ -927,7 +967,13 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         $id = $this->getRequestParameter('id');
 
         // Csrf token validation
-        $this->validateCsrf();
+        try {
+            $this->validateCsrf();
+        } catch (common_exception_Unauthorized $e) {
+            $this->response = $this->getPsrResponse()->withStatus(403, __('Unable to process your request'));
+            return;
+        }
+
         $this->validateInstanceRoot($id);
 
         $this->signatureValidator->checkSignature(
@@ -937,9 +983,11 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
 
         $resource = $this->getResource($this->getRequestParameter('id'));
         $deleted = $this->getClassService()->deleteResource($resource);
-        return $this->returnJson(array(
+        return $this->returnJson([
+            'success' => $deleted,
+            'message' => __('Successfully deleted %s', $resource->getLabel()),
             'deleted' => $deleted
-        ));
+        ]);
     }
 
     /**
@@ -958,7 +1006,13 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         $id = $this->getRequestParameter('id');
 
         // Csrf token validation
-        $this->validateCsrf();
+        try {
+            $this->validateCsrf();
+        } catch (common_exception_Unauthorized $e) {
+            $this->response = $this->getPsrResponse()->withStatus(403, __('Unable to process your request'));
+            return;
+        }
+
         $this->validateInstanceRoot($id);
 
         $this->signatureValidator->checkSignature(
@@ -966,19 +1020,21 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             $id
         );
 
-        $clazz = $this->getClass($id);
-        if ($this->getRootClass()->equals($clazz)) {
+        $class = $this->getClass($id);
+        if ($this->getRootClass()->equals($class)) {
             $success = false;
             $msg = __('You cannot delete the root node');
         } else {
-            $label = $clazz->getLabel();
-            $success = $this->getClassService()->deleteClass($clazz);
+            $label = $class->getLabel();
+            $success = $this->getClassService()->deleteClass($class);
             $msg = $success ? __('%s has been deleted', $label) : __('Unable to delete %s', $label);
         }
-        return $this->returnJson(array(
-            'deleted' => $success,
-            'msg' => $msg
-        ));
+
+        $this->returnJson([
+            'success' => $success,
+            'message' => $msg,
+            'deleted' => $success
+        ]);
     }
 
     /**
@@ -1000,7 +1056,12 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         }
 
         // Csrf token validation
-        $this->validateCsrf();
+        try {
+            $this->validateCsrf();
+        } catch (common_exception_Unauthorized $e) {
+            $this->response = $this->getPsrResponse()->withStatus(403, __('Unable to process your request'));
+            return;
+        }
 
         $ids = [];
 
@@ -1014,12 +1075,16 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
 
         foreach ($ids as $id) {
             $deleted = false;
+            $deletedResourceLabel = '';
             try {
                 if ($this->hasWriteAccess($id)) {
                     $resource = new \core_kernel_classes_Resource($id);
                     if ($resource->isClass()) {
-                        $deleted = $this->getClassService()->deleteClass(new \core_kernel_classes_Class($id));
+                        $class = new \core_kernel_classes_Class($id);
+                        $deletedResourceLabel = $class->getLabel();
+                        $deleted = $this->getClassService()->deleteClass($class);
                     } else {
+                        $deletedResourceLabel = $resource->getLabel();
                         $deleted = $this->getClassService()->deleteResource($resource);
                     }
                 }
@@ -1029,6 +1094,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             if ($deleted) {
                 $response['deleted'][] = $id;
             }
+            $response['message'] = __('Successfully deleted %s', $deletedResourceLabel);
         }
 
         return $this->returnJson($response);
@@ -1044,30 +1110,6 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
     {
         $user = $this->getSession()->getUser();
         return (new DataAccessControl())->hasPrivileges($user, array($resourceId => 'WRITE'));
-    }
-
-    /**
-     * Validates csrf token and revokes token on success
-     *
-     * @return {Boolean}
-     * @throws common_exception_Unauthorized
-     */
-    public function validateCsrf()
-    {
-        $tokenService = $this->getServiceLocator()->get(TokenService::SERVICE_ID);
-
-        $tokenName = $tokenService->getTokenName();
-        $token = $this->getRequestParameter($tokenName);
-
-        if ( $tokenService->checkToken($token) ) {
-            $tokenService->revokeToken($token);
-            $newToken = $tokenService->createToken();
-            $this->setCookie($tokenName, $newToken, null, '/');
-            return true;
-        }
-
-        \common_Logger::w('Csrf validation failed');
-        throw new \common_exception_Unauthorized();
     }
 
     /**
@@ -1246,12 +1288,13 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
      * Return a formatted error message with code 406
      *
      * @param $message
+     * @param int $httpStatusCode
      */
-    protected function returnJsonError($message)
+    protected function returnJsonError($message, $httpStatusCode = 406)
     {
         $response = [
             'success'  => false,
-            'errorCode' => 406,
+            'errorCode' => $httpStatusCode,
             'errorMessage' =>  $message
         ];
         $this->returnJson($response, 406);

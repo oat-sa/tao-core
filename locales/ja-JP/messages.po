@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint100\n"
-"PO-Revision-Date: 2019-04-12T08:48:02\n"
+"Project-Id-Version: TAO 3.3.0-sprint105\n"
+"PO-Revision-Date: 2019-06-21T08:52:46\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-JP\n"
@@ -423,9 +423,6 @@ msgstr "エクスポート形式の選択"
 msgid "Choose import format"
 msgstr "インポート形式の選択"
 
-msgid "City"
-msgstr ""
-
 msgid "class selected"
 msgstr "選択されたクラス"
 
@@ -450,13 +447,16 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear history"
-msgstr ""
-
 msgid "Clear History"
 msgstr ""
 
+msgid "Clear history"
+msgstr ""
+
 msgid "Clear selection"
+msgstr ""
+
+msgid "Clear the date time picker"
 msgstr ""
 
 msgid "Clear the stored variables"
@@ -525,9 +525,6 @@ msgstr ""
 msgid "count"
 msgstr ""
 
-msgid "Country"
-msgstr ""
-
 msgid "Create"
 msgstr "作成"
 
@@ -538,9 +535,6 @@ msgid "Created"
 msgstr ""
 
 msgid "Creating report ..."
-msgstr ""
-
-msgid "Creation At"
 msgstr ""
 
 msgid "CSP Header settings were saved successfully!"
@@ -570,10 +564,10 @@ msgstr "データインポートに成功しました"
 msgid "Data imported. Some records are invalid."
 msgstr "データインポート終了。いくつかのレコードは無効です。"
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "データ言語"
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "データ言語"
 
 msgid "Data not imported. All records are invalid."
@@ -717,9 +711,6 @@ msgstr "要素が削除されました"
 
 msgid "Email"
 msgstr "E-メール"
-
-msgid "Email address"
-msgstr ""
 
 msgid "enabled"
 msgstr ""
@@ -987,9 +978,6 @@ msgstr "包括（AND)"
 msgid "Index has been deleted for %s"
 msgstr ""
 
-msgid "Indexing has been run"
-msgstr "インデキシングは、実行されています"
-
 msgid "Infinity"
 msgstr ""
 
@@ -1208,9 +1196,6 @@ msgstr ""
 msgid "Metadata export is not available for the selected resource."
 msgstr ""
 
-msgid "Method"
-msgstr ""
-
 msgid "minutes"
 msgstr "分"
 
@@ -1401,9 +1386,6 @@ msgstr ""
 msgid "Page"
 msgstr "ページ番号"
 
-msgid "Parameters"
-msgstr ""
-
 msgid "Password"
 msgstr "パスワード"
 
@@ -1426,9 +1408,6 @@ msgid "Pause"
 msgstr ""
 
 msgid "Permission denied to write in the selected class"
-msgstr ""
-
-msgid "Phone number"
 msgstr ""
 
 msgid "Play"
@@ -1624,9 +1603,6 @@ msgstr "必要"
 msgid "Reset"
 msgstr "リセット"
 
-msgid "Reset the original size"
-msgstr ""
-
 msgid "Reset the range values"
 msgstr ""
 
@@ -1634,6 +1610,9 @@ msgid "Resource"
 msgstr "リソース"
 
 msgid "Resource copied"
+msgstr ""
+
+msgid "Resource deleted"
 msgstr ""
 
 msgid "Resource Identifier"
@@ -1658,6 +1637,12 @@ msgid "resources"
 msgstr ""
 
 msgid "Resources moved"
+msgstr ""
+
+msgid "Resources successfully indexed"
+msgstr ""
+
+msgid "Resources was not indexed"
 msgstr ""
 
 msgid "Responsive mode"
@@ -1740,10 +1725,10 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "Select"
+msgid "select"
 msgstr "選択"
 
-msgid "select"
+msgid "Select"
 msgstr "選択"
 
 msgid "Select a class"
@@ -1822,9 +1807,6 @@ msgstr ""
 msgid "Start of document reached. Continuing from the end."
 msgstr ""
 
-msgid "State"
-msgstr ""
-
 msgid "Status"
 msgstr ""
 
@@ -1837,14 +1819,17 @@ msgstr ""
 msgid "Store the value a variable"
 msgstr ""
 
-msgid "Street"
-msgstr ""
-
 msgid "string"
 msgstr ""
 
 msgid "Success"
 msgstr "成功"
+
+msgid "Successfully cloned instance as %s"
+msgstr ""
+
+msgid "Successfully deleted %s"
+msgstr ""
 
 msgid "Successfully imported \"%s"
 msgstr "\"%s のインポートに成功しました"
@@ -2092,6 +2077,9 @@ msgstr ""
 msgid "Unable to open file %s"
 msgstr "ファイル %s を開けません"
 
+msgid "Unable to process your request"
+msgstr ""
+
 msgid "Unable to release the lock"
 msgstr "ロックを解除することができません"
 
@@ -2122,10 +2110,10 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "全て無効"
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "全て無効"
 
 msgid "Undefined amount of the pages for pagination"
@@ -2166,9 +2154,6 @@ msgstr "アップロード"
 
 msgid "Upload into:"
 msgstr "アップロード先:"
-
-msgid "URL"
-msgstr ""
 
 msgid "Usage: ImportRdf RDF_FILE [MODEL_ID]"
 msgstr "使用法：ImportRdf RDF_FILE [MODEL_ID]"
@@ -2215,9 +2200,6 @@ msgstr "ユーザを保存しました"
 #, tao-public
 msgid "User Settings"
 msgstr "ユーザ設定"
-
-msgid "Username"
-msgstr ""
 
 #, tao-public
 msgid "Users"
@@ -2336,7 +2318,4 @@ msgstr "メールアドレス"
 
 msgid "Your TAO Password"
 msgstr "TAO パスワード"
-
-msgid "Zip Code"
-msgstr ""
 

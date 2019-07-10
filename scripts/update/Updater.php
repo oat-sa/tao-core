@@ -62,6 +62,7 @@ use oat\tao\model\routing\ControllerService;
 use oat\tao\model\routing\RouteAnnotationService;
 use oat\tao\model\security\ActionProtector;
 use oat\tao\model\security\xsrf\TokenService;
+use oat\tao\model\security\xsrf\TokenStore;
 use oat\tao\model\security\xsrf\TokenStoreSession;
 use oat\tao\model\service\ApplicationService;
 use oat\tao\model\service\ContainerService;
@@ -1022,6 +1023,50 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('31.1.0');
         }
 
-        $this->skip('31.1.0', '33.4.1');
+        $this->skip('31.1.0', '33.6.0');
+
+        if ($this->isVersion('33.6.0')) {
+            /** @var TokenService $tokenService */
+            $tokenService = $this->getServiceManager()->get(TokenService::SERVICE_ID);
+
+            /** @var TokenStore $tokenStore */
+            $tokenStore = $tokenService->getOption(TokenService::OPTION_STORE);
+            $tokenStore->removeTokens();
+            $this->setVersion('34.0.0');
+        }
+
+        $this->skip('34.0.0', '35.3.0');
+
+        if ($this->isVersion('35.3.0')) {
+            OntologyUpdater::syncModels();
+
+            $iterator = new FileIterator(__DIR__ . '/../../locales/en-GB/lang.rdf');
+            $rdf = ModelManager::getModel()->getRdfInterface();
+
+            /* @var \core_kernel_classes_Triple $triple */
+            foreach ($iterator as $triple) {
+                $rdf->add($triple);
+            }
+            $this->setVersion('35.4.0');
+        }
+
+        $this->skip('35.4.0', '35.8.1');
+
+        if ($this->isVersion('35.8.1')) {
+            OntologyUpdater::syncModels();
+
+            $iterator = new FileIterator(__DIR__ . '/../../locales/en-GB/lang.rdf');
+            $rdf = ModelManager::getModel()->getRdfInterface();
+
+            /* @var \core_kernel_classes_Triple $triple */
+            foreach ($iterator as $triple) {
+                $rdf->remove($triple);
+                $rdf->add($triple);
+            }
+            $this->setVersion('35.8.2');
+        }
+
+        $this->skip('35.8.2', '37.9.1');
+
     }
 }

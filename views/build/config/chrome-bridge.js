@@ -22,6 +22,11 @@
     const testTimeoutMs = 30 * 1000;
 
     /**
+     * Max time to wait between the page loads and the first test to run
+     */
+    const pageLoadTimeoutMs = 5 * 1000;
+
+    /**
      * Emit an event to the grunt task (report and control)
      * @param {String} eventName
      * @param {...*}   [args]
@@ -30,6 +35,10 @@
         self.__grunt_contrib_qunit__(eventName, ...args);
     }
 
+    const pageLoadTimer = setTimeout(() => {
+        emit('fail.load', window.location.href);
+    }, pageLoadTimeoutMs);
+
     //Keep test other and run them in serie.
     QUnit.config.reorder = false;
     QUnit.config.autorun = false;
@@ -37,7 +46,10 @@
     /**
      * QUnit begins
      */
-    QUnit.begin( () => emit('qunit.begin') );
+    QUnit.begin( () => {
+        clearTimeout(pageLoadTimer);
+        emit('qunit.begin');
+    });
 
     /**
      * A module get started
@@ -47,17 +59,17 @@
     /**
      * A test case get started
      */
-    QUnit.testStart( ({ testName }) =>  {
-
+    QUnit.testStart( ({testId}) => {
         //start a timeout and
         //keep it in the map under the test name
-        runningTestsTimeouts.set(testName,
+        runningTestsTimeouts.set(testId,
             setTimeout( () => {
-                emit('fail.timeout', testName);
-                runningTestsTimeouts.delete(testName);
+                emit('fail.timeout', testId);
+                runningTestsTimeouts.delete(testId);
             }, testTimeoutMs)
         );
-        emit('qunit.testStart', testName);
+
+        emit('qunit.testStart', testId);
     });
 
     /**
@@ -79,11 +91,11 @@
     /**
      * The test case is done
      */
-    QUnit.testDone(logs => {
-        const testName = logs.name;
-        if(runningTestsTimeouts.has(testName)){
-            clearTimeout(runningTestsTimeouts.get(testName));
-            runningTestsTimeouts.delete(testName);
+    QUnit.testDone( logs => {
+        const testId = logs.testId;
+        if(runningTestsTimeouts.has(testId)){
+            clearTimeout(runningTestsTimeouts.get(testId));
+            runningTestsTimeouts.delete(testId);
         }
 
         emit('qunit.testDone', logs.name, logs.failed, logs.passed, logs.total, logs.runtime, logs.skipped, 0);

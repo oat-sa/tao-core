@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint100\n"
-"PO-Revision-Date: 2019-04-12T08:47:53\n"
+"Project-Id-Version: TAO 3.3.0-sprint105\n"
+"PO-Revision-Date: 2019-06-21T08:52:34\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-FR\n"
@@ -423,9 +423,6 @@ msgstr "Format d'export"
 msgid "Choose import format"
 msgstr "Format d'import"
 
-msgid "City"
-msgstr ""
-
 msgid "class selected"
 msgstr "classe sélectionnée"
 
@@ -450,20 +447,23 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear history"
-msgstr ""
-
 msgid "Clear History"
 msgstr ""
 
+msgid "Clear history"
+msgstr ""
+
 msgid "Clear selection"
+msgstr ""
+
+msgid "Clear the date time picker"
 msgstr ""
 
 msgid "Clear the stored variables"
 msgstr ""
 
 msgid "Close"
-msgstr ""
+msgstr "Fermer"
 
 msgid "Close message"
 msgstr ""
@@ -525,9 +525,6 @@ msgstr ""
 msgid "count"
 msgstr ""
 
-msgid "Country"
-msgstr ""
-
 msgid "Create"
 msgstr "Créer"
 
@@ -538,9 +535,6 @@ msgid "Created"
 msgstr ""
 
 msgid "Creating report ..."
-msgstr ""
-
-msgid "Creation At"
 msgstr ""
 
 msgid "CSP Header settings were saved successfully!"
@@ -570,10 +564,10 @@ msgstr "Données importées avec succès."
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "Langue des données"
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "Langue des données"
 
 msgid "Data not imported. All records are invalid."
@@ -717,9 +711,6 @@ msgstr "Élément supprimé."
 
 msgid "Email"
 msgstr "Email"
-
-msgid "Email address"
-msgstr ""
 
 msgid "enabled"
 msgstr ""
@@ -987,9 +978,6 @@ msgstr "Inclusif (ET)"
 msgid "Index has been deleted for %s"
 msgstr ""
 
-msgid "Indexing has been run"
-msgstr ""
-
 msgid "Infinity"
 msgstr ""
 
@@ -1078,7 +1066,7 @@ msgid "Invalid values:"
 msgstr ""
 
 msgid "items per page"
-msgstr ""
+msgstr "objets par page"
 
 msgid "Label"
 msgstr "Libellé"
@@ -1206,9 +1194,6 @@ msgid "Messages"
 msgstr ""
 
 msgid "Metadata export is not available for the selected resource."
-msgstr ""
-
-msgid "Method"
 msgstr ""
 
 msgid "minutes"
@@ -1401,9 +1386,6 @@ msgstr ""
 msgid "Page"
 msgstr "Page"
 
-msgid "Parameters"
-msgstr ""
-
 msgid "Password"
 msgstr "Mot de passe"
 
@@ -1426,9 +1408,6 @@ msgid "Pause"
 msgstr ""
 
 msgid "Permission denied to write in the selected class"
-msgstr ""
-
-msgid "Phone number"
 msgstr ""
 
 msgid "Play"
@@ -1624,9 +1603,6 @@ msgstr "Nécessite"
 msgid "Reset"
 msgstr "Réinitialiser"
 
-msgid "Reset the original size"
-msgstr ""
-
 msgid "Reset the range values"
 msgstr ""
 
@@ -1634,6 +1610,9 @@ msgid "Resource"
 msgstr "Ressource"
 
 msgid "Resource copied"
+msgstr ""
+
+msgid "Resource deleted"
 msgstr ""
 
 msgid "Resource Identifier"
@@ -1658,6 +1637,12 @@ msgid "resources"
 msgstr ""
 
 msgid "Resources moved"
+msgstr ""
+
+msgid "Resources successfully indexed"
+msgstr ""
+
+msgid "Resources was not indexed"
 msgstr ""
 
 msgid "Responsive mode"
@@ -1740,11 +1725,11 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "Select"
-msgstr "Choisir"
-
 msgid "select"
 msgstr "choisir"
+
+msgid "Select"
+msgstr "Choisir"
 
 msgid "Select a class"
 msgstr ""
@@ -1822,9 +1807,6 @@ msgstr ""
 msgid "Start of document reached. Continuing from the end."
 msgstr ""
 
-msgid "State"
-msgstr ""
-
 msgid "Status"
 msgstr ""
 
@@ -1837,14 +1819,17 @@ msgstr ""
 msgid "Store the value a variable"
 msgstr ""
 
-msgid "Street"
-msgstr ""
-
 msgid "string"
 msgstr ""
 
 msgid "Success"
 msgstr "Succès"
+
+msgid "Successfully cloned instance as %s"
+msgstr ""
+
+msgid "Successfully deleted %s"
+msgstr ""
 
 msgid "Successfully imported \"%s"
 msgstr ""
@@ -2092,6 +2077,9 @@ msgstr ""
 msgid "Unable to open file %s"
 msgstr ""
 
+msgid "Unable to process your request"
+msgstr ""
+
 msgid "Unable to release the lock"
 msgstr "Autoriser la publication de la serrure"
 
@@ -2122,10 +2110,10 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "Décocher tout"
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "Décocher tout"
 
 msgid "Undefined amount of the pages for pagination"
@@ -2166,9 +2154,6 @@ msgstr "Téléverser"
 
 msgid "Upload into:"
 msgstr "Envoyer vers :"
-
-msgid "URL"
-msgstr ""
 
 msgid "Usage: ImportRdf RDF_FILE [MODEL_ID]"
 msgstr ""
@@ -2215,9 +2200,6 @@ msgstr "Utilisateur enregistré"
 #, tao-public
 msgid "User Settings"
 msgstr "Paramètres Utilisateur"
-
-msgid "Username"
-msgstr ""
 
 #, tao-public
 msgid "Users"
@@ -2335,8 +2317,5 @@ msgid "Your mail"
 msgstr ""
 
 msgid "Your TAO Password"
-msgstr ""
-
-msgid "Zip Code"
 msgstr ""
 
