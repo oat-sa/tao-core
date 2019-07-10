@@ -29,6 +29,8 @@ use Psr\Http\Message\ResponseInterface;
  */
 class ResponseEmitter
 {
+    const BYTES_BY_CYCLE =  5242880; //1024 * 1024 * 5
+
     /**
      * Emit a Http Response to client
      *
@@ -53,7 +55,7 @@ class ResponseEmitter
             $stream->rewind();
         }
         while (!$stream->eof()) {
-            echo $stream->read(1024 * 8);
+            echo $stream->read(self::BYTES_BY_CYCLE);
         }
     }
 }

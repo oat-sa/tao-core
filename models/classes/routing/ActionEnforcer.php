@@ -231,10 +231,9 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
         $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
         $eventManager->trigger(new BeforeAction());
 
-        call_user_func_array(array($controller, $action), $tabParam);
+        $response = call_user_func_array(array($controller, $action), $tabParam);
+        $response = $response instanceof ResponseInterface ? $response : $controller->getPsrResponse();
 
-        /** @var ResponseInterface $response */
-        $response = $controller->getPsrResponse();
         // Render the view if selected.
         if ($controller->hasView()) {
             $response = $response->withBody(stream_for($controller->getRenderer()->render()));
