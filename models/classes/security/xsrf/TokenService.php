@@ -54,6 +54,8 @@ class TokenService extends ConfigurableService
     const CSRF_TOKEN_HEADER = 'X-CSRF-Token';
     const FORM_POOL = 'form_pool';
     const JS_TOKEN_KEY = 'tokens';
+    const JS_TOKEN_POOL_SIZE_KEY = 'maxSize';
+    const JS_TOKEN_TIME_LIMIT_KEY = 'tokenTimeLimit';
 
     /**
      * Generates, stores and return a brand new token
@@ -253,20 +255,24 @@ class TokenService extends ConfigurableService
 
     /**
      * Get the configured pool size
+     * @param bool $withForm - Takes care of the FORM_POOL
      * @return int the pool size, 10 by default
+     * @throws InvalidService
      */
-    public function getPoolSize()
+    public function getPoolSize($withForm = true)
     {
         $poolSize = self::DEFAULT_POOL_SIZE;
         if ($this->hasOption(self::POOL_SIZE_OPT)) {
             $poolSize = (int)$this->getOption(self::POOL_SIZE_OPT);
         }
 
-        $store = $this->getStore();
-        $pool = $store->getTokens();
+        if ($withForm) {
+            $store = $this->getStore();
+            $pool = $store->getTokens();
 
-        if ($poolSize> 0 && isset($pool[self::FORM_POOL])) {
-            $poolSize++;
+            if ($poolSize> 0 && isset($pool[self::FORM_POOL])) {
+                $poolSize++;
+            }
         }
         return $poolSize;
     }
@@ -326,6 +332,28 @@ class TokenService extends ConfigurableService
         $store->setTokens($pool);
 
         return $pool;
+    }
+
+    /**
+     * Gets the client configuration
+     * @return array
+     * @throws \common_Exception
+     */
+    public function getClientConfig()
+    {
+        $tokenPool = $this->generateTokenPool();
+        $jsTokenPool = [];
+        foreach ($tokenPool as $key => $token) {
+            if ($key !== self::FORM_POOL) {
+                $jsTokenPool[] = $token->getValue();
+            }
+        }
+
+        return [
+            self::JS_TOKEN_TIME_LIMIT_KEY => $this->getTimeLimit(),
+            self::JS_TOKEN_POOL_SIZE_KEY => $this->getPoolSize(false),
+            self::JS_TOKEN_KEY => $jsTokenPool
+        ];
     }
 
     /**
