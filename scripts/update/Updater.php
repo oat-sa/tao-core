@@ -56,7 +56,6 @@ use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\resources\ResourceWatcher;
-use oat\tao\model\security\SignatureGenerator;
 use oat\tao\model\routing\AnnotationReaderService;
 use oat\tao\model\routing\ControllerService;
 use oat\tao\model\routing\RouteAnnotationService;
@@ -67,6 +66,7 @@ use oat\tao\model\security\xsrf\TokenStoreSession;
 use oat\tao\model\service\ApplicationService;
 use oat\tao\model\service\ContainerService;
 use oat\tao\model\service\SettingsStorage;
+use oat\tao\model\service\ValidatorsService;
 use oat\tao\model\session\restSessionFactory\builder\HttpBasicAuthBuilder;
 use oat\tao\model\session\restSessionFactory\RestSessionFactory;
 use oat\tao\model\settings\CspHeaderSettingsInterface;
@@ -1072,6 +1072,12 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         if ($this->isVersion('37.9.0')) {
             ValidationRuleRegistry::getRegistry()->set('unique', new tao_helpers_form_validators_Unique());
+            $this->getServiceManager()->register(
+                ValidatorsService::SERVICE_ID,
+                new ValidatorsService(
+                    [ValidatorsService::VALIDATION_RULE_REGISTRY_PARAM => ValidationRuleRegistry::getRegistry()]
+                )
+            );
             $this->setVersion('37.10.0');
         }
 
