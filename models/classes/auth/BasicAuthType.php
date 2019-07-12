@@ -38,7 +38,7 @@ class BasicAuthType extends AbstractAuthType implements BasicAuth
      */
     public function call(RequestInterface $request, array $clientOptions = [])
     {
-        return (new Client($clientOptions))->send($request, ['auth' => $this->getCredentials(), 'verify' => false]);
+        return $this->getClient($clientOptions)->send($request, ['auth' => $this->getCredentials(), 'verify' => false]);
     }
 
     /**
@@ -77,6 +77,7 @@ class BasicAuthType extends AbstractAuthType implements BasicAuth
     }
 
     /**
+     * @deprecated
      * Fetch the credentials for the current resource.
      *
      * Contains login and password or with null value if empty
@@ -114,10 +115,34 @@ class BasicAuthType extends AbstractAuthType implements BasicAuth
      */
     protected function getCredentials()
     {
-        $credentials = $this->loadCredentials();
-        return [
-            $credentials[self::PROPERTY_LOGIN],
-            $credentials[self::PROPERTY_PASSWORD],
-        ];
+        // TODO All logic with getting credentials from RDF should be deleted
+        if ($this->getInstance()) {
+            $credentials = $this->loadCredentials();
+            return [
+                $credentials[self::PROPERTY_LOGIN],
+                $credentials[self::PROPERTY_PASSWORD],
+            ];
+        }
+
+        return $this->getCredentialsData();
+
     }
+
+    /**
+     * @return string
+     */
+    public function getCredentialsClassName()
+    {
+        return BasicAuthCredentials::class;
+    }
+
+    /**
+     * @param $clientOptions
+     * @return mixed
+     */
+    protected function getClient($clientOptions = [])
+    {
+        return new Client($clientOptions);
+    }
+
 }

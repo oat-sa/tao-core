@@ -14,21 +14,51 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2018  (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2019  (original work) Open Assessment Technologies SA;
  *
- * @author Alexander Zagovorichev <olexander.zagovorychev@1pt.com>
  */
 
 namespace oat\tao\model\auth;
 
 /**
- * @deprecated
- * Interface BasicAuth
+ * Class BasicAuthCredentials
  * @package oat\tao\model\auth
  */
-interface BasicAuth
+class BasicAuthCredentials extends AbstractCredentials
 {
-    const CLASS_BASIC_AUTH = 'http://www.tao.lu/Ontologies/TAO.rdf#BasicAuthConsumer';
-    const PROPERTY_LOGIN = 'http://www.tao.lu/Ontologies/TAO.rdf#BasicAuthLogin';
-    const PROPERTY_PASSWORD = 'http://www.tao.lu/Ontologies/TAO.rdf#BasicAuthPassword';
+    const LOGIN = 'login';
+    const PASSWORD = 'password';
+
+    /** @var string */
+    protected $login;
+
+    /** @var string */
+    protected $password;
+
+    /**
+     * @return string
+     */
+    public function login()
+    {
+        return $this->login;
+    }
+
+    /**
+     * @return string
+     */
+    public function password()
+    {
+        return $this->password;
+    }
+
+    /**
+     * @return array
+     */
+    public function getProperties()
+    {
+        return [
+            self::LOGIN,
+            self::PASSWORD
+        ];
+    }
 }

@@ -33,6 +33,9 @@ abstract class AbstractAuthType implements PhpSerializable
     /** @var \core_kernel_classes_Resource The resource which has authorizations */
     private $instance = null;
 
+    /** @var array */
+    private $credentials;
+
     /**
      * Call a request through current authenticator
      *
@@ -44,6 +47,7 @@ abstract class AbstractAuthType implements PhpSerializable
     abstract public function call(RequestInterface $request, array $clientOptions = []);
 
     /**
+     * @deprecated
      * RDF class of the AuthType
      *
      * @return \core_kernel_classes_Class
@@ -66,6 +70,11 @@ abstract class AbstractAuthType implements PhpSerializable
     abstract public function getTemplate();
 
     /**
+     * @return mixed
+     */
+    abstract protected function getClient();
+
+    /**
      * (non-PHPdoc)
      * @see \oat\oatbox\PhpSerializable::__toPhpCode()
      */
@@ -75,6 +84,7 @@ abstract class AbstractAuthType implements PhpSerializable
     }
 
     /**
+     * @deprecated Please use loadCredentialsData
      * Set the instance that contain authentication options
      *
      * @param \core_kernel_classes_Resource $instance
@@ -85,6 +95,7 @@ abstract class AbstractAuthType implements PhpSerializable
     }
 
     /**
+     * @deprecated Please use getCredentialsData
      * Get the instance that contain authentication options
      *
      * @return \core_kernel_classes_Resource
@@ -93,5 +104,38 @@ abstract class AbstractAuthType implements PhpSerializable
     {
         return $this->instance;
     }
+
+    public function loadCredentialsData(array $credentials)
+    {
+        $this->credentials = $credentials;
+    }
+
+    /**
+     * @param bool $withKyes
+     * @return array
+     */
+    public function getCredentialsData($withKeys = false)
+    {
+        $credentialsClassName = $this->getCredentialsClassName();
+        /** @var AbstractCredentials $credentialsClass */
+        $credentialsClass = new $credentialsClassName($this->credentials);
+        $data = [];
+        array_walk($this->credentials, function($value, $key) use ($credentialsClass, &$data) {
+            if ($value && method_exists($credentialsClass, $key)) {
+                $data[$key] = $credentialsClass->$key();
+            }
+        });
+        if (!$withKeys) {
+            $data = array_values($data);
+        }
+
+        return $data;
+
+    }
+
+    /**
+     * @return AbstractCredentials
+     */
+    abstract public function getCredentialsClassName();
 
 }
