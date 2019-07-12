@@ -577,20 +577,23 @@ define([
             function showPropertyListValues() {
                 var $this = $(this);
                 var elt = $this.parent("div");
-                var dialogComp;
+                var treeDialog;
+                var rangeId;
+                var dialogData;
+                var classUri;
 
                 /**
                  * Creates the jsTree list manager and attaches behaviours
                  * @param {String} treeId
-                 * @returns {*}
+                 * @returns {jQuery}
                  */
                 function createListsTree(treeId) {
-                    const url = context.root_url + 'taoBackOffice/Lists/';
-                    const dataUrl = url + 'getListsData';
-                    const renameUrl = url + 'rename';
-                    const createUrl = url + 'create';
-                    const removeListUrl = url + 'removeList';
-                    const removeListEltUrl = url + 'removeListElement';
+                    var url = context.root_url + 'taoBackOffice/Lists/';
+                    var dataUrl = url + 'getListsData';
+                    var renameUrl = url + 'rename';
+                    var createUrl = url + 'create';
+                    var removeListUrl = url + 'removeList';
+                    var removeListEltUrl = url + 'removeListElement';
 
                     return $(`#${treeId}`).tree({
                         data: {
@@ -770,81 +773,37 @@ define([
 
                 if ($this.val() === 'new') {
                     //Open the list editor: a tree in a dialog popup
-                    var rangeId = $this.prop('id');
-                    var dialogId = rangeId.replace('_range', '_dialog');
-                    var treeId = rangeId.replace('_range', '_tree');
-                    var closerId = rangeId.replace('_range', '_closer');
-                    var hintLabel = __('Right click the tree to manage your lists');
-                    var saveLabel = __('Save');
+                    rangeId = $this.prop('id');
+                    dialogData = {
+                        dialogId: rangeId.replace('_range', '_dialog'),
+                        treeId: rangeId.replace('_range', '_tree') + '_' + uuid(4),
+                        hintLabel: __('Right click the tree to manage your lists')
+                    };
 
-                    //dialog content to embed the list tree
-                    // var blah ="<div id='" + dialogId + "' style='display:none;' > " +
-                    //     "<span class='ui-state-highlight' style='margin:15px;'>" + __('Right click the tree to manage your lists') + "</span><br /><br />" +
-                    //     "<div id='" + treeId + "' ></div> " +
-                    //     "<div style='text-align:center;margin-top:30px;'> " +
-                    //     "<a id='" + closerId + "' class='ui-state-default ui-corner-all' href='#'>" + __('Save') + "</a> " +
-                    //     "</div> " +
-                    //     "</div>";
-                    //elt.append(blah);
-
-                    dialogComp = dialog({
+                    treeDialog = dialog({
                         heading: __('Manage data list'),
-                        content: dialogTpl({
-                            dialogId,
-                            treeId,
-                            closerId,
-                            hintLabel,
-                            saveLabel
-                        }),
-                        width: 350,
-                        buttons: [],
+                        content: dialogTpl(dialogData),
+                        width: 400,
+                        buttons: [{
+                            id: 'save',
+                            type: 'info',
+                            label: __('Save'),
+                            close: true
+                        }],
                         autoRender: true,
-                        autoDestroy: true
+                        autoDestroy: false // allow jstree to be destroyed before dialog
                     })
-                    .on('close', function() {
-                        console.log('dialog close');
-                        $.tree.reference("#" + treeId).destroy();
-                    })
-                    .on('destroy', function() {
-                        console.log('dialog destroy');
-                        $.tree.reference("#" + treeId).destroy();
-                    })
-                    .on('populate', function() {
-                        console.log('dialog populate');
-                        createListsTree(treeId);
-                    })
-                    .trigger('populate');
+                    .on('closed.modal', function() {
+                        $.tree.reference("#" + dialogData.treeId).destroy();
+                        treeDialog.trigger('destroy');
+                    });
 
-                    //init dialog events
-                    //var $dialogElm = $("#" + dialogId);
-                    // $dialogElm.dialog({
-                    //     width: 350,
-                    //     height: 400,
-                    //     autoOpen: false,
-                    //     title: __('Manage data list')
-                    // });
-
-                    //destroy dialog on close
-                    // $dialogElm.bind('dialogclose', function (event, ui) {
-                    //     $.tree.reference("#" + treeId).destroy();
-                    //     $dialogElm.dialog('destroy');
-                    //     $dialogElm.remove();
-                    // });
-
-                    // $("#" + closerId).click(function () {
-                    //     $("#" + dialogId).dialog('close');
-                    // });
-
-                    // $dialogElm.bind('dialogopen', function (event, ui) {
-                    // });
-
-                    //open the dialog window
-                    //$dialogElm.dialog('open');
+                    createListsTree(dialogData.treeId);
                 }
                 else {
                     //load the instances and display them (the list items)
                     $(elt).parent("div").children("ul.form-elt-list").remove();
-                    var classUri = $this.val();
+                    classUri = $this.val();
                     if (classUri !== '' && classUri !== ' ') {
                         $this.parent("div").children("div.form-error").remove();
                         //var elt = this;
