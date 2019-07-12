@@ -70,11 +70,6 @@ abstract class AbstractAuthType implements PhpSerializable
     abstract public function getTemplate();
 
     /**
-     * @return mixed
-     */
-    abstract protected function getClient();
-
-    /**
      * (non-PHPdoc)
      * @see \oat\oatbox\PhpSerializable::__toPhpCode()
      */
