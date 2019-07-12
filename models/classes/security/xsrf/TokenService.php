@@ -44,7 +44,7 @@ class TokenService extends ConfigurableService
     const SERVICE_ID = 'tao/security-xsrf-token';
 
     // options keys
-    const POOL_SIZE_OPT  = 'poolSize';
+    const POOL_SIZE_OPT = 'poolSize';
     const TIME_LIMIT_OPT = 'timeLimit';
     const OPTION_STORE = 'store';
 
@@ -158,7 +158,7 @@ class TokenService extends ConfigurableService
     {
         $expired = false;
         $actualTime = microtime(true);
-        $timeLimit  = $this->getTimeLimit();
+        $timeLimit = $this->getTimeLimit();
 
         if (($timeLimit > 0) && $token->getCreatedAt() + $timeLimit < $actualTime) {
             $expired = true;
@@ -226,7 +226,7 @@ class TokenService extends ConfigurableService
     protected function invalidate($pool)
     {
         $actualTime = microtime(true);
-        $timeLimit  = $this->getTimeLimit();
+        $timeLimit = $this->getTimeLimit();
         $poolSize = $this->getPoolSize();
 
         $reduced = array_filter($pool, function ($token) use ($actualTime, $timeLimit) {
@@ -270,7 +270,7 @@ class TokenService extends ConfigurableService
             $store = $this->getStore();
             $pool = $store->getTokens();
 
-            if ($poolSize> 0 && isset($pool[self::FORM_POOL])) {
+            if ($poolSize > 0 && isset($pool[self::FORM_POOL])) {
                 $poolSize++;
             }
         }
@@ -298,7 +298,7 @@ class TokenService extends ConfigurableService
     {
         $store = $this->getOption(self::OPTION_STORE);
         if (!$store instanceof TokenStore) {
-            throw new InvalidService('Unexpected store for '.__CLASS__);
+            throw new InvalidService('Unexpected store for ' . __CLASS__);
         }
         return $this->propagate($store);
     }
