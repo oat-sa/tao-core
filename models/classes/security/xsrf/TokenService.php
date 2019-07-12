@@ -53,6 +53,7 @@ class TokenService extends ConfigurableService
 
     const CSRF_TOKEN_HEADER = 'X-CSRF-Token';
     const FORM_POOL = 'form_pool';
+    const JS_DATA_KEY = 'tokenHandler';
     const JS_TOKEN_KEY = 'tokens';
     const JS_TOKEN_POOL_SIZE_KEY = 'maxSize';
     const JS_TOKEN_TIME_LIMIT_KEY = 'tokenTimeLimit';
