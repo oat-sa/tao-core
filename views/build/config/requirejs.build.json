@@ -32,11 +32,11 @@
     "normalize": "lib/require-css/normalize",
     "i18ntr": "../locales/en-US",
     "router": "core/router",
-    "lib/uuid" : "../node_modules/@oat-sa/tao-core-libs/dist/uuid",
-    "core": "../node_modules/@oat-sa/tao-core-sdk/dist/core",
-    "util": "../node_modules/@oat-sa/tao-core-sdk/dist/util",
-    "babel-polyfill": "../node_modules/@babel/polyfill/browser",
-    "ui": "../node_modules/@oat-sa/tao-core-ui/dist"
+    "babel-polyfill": "../../../tao/views/node_modules/@babel/polyfill/browser",
+    "lib/uuid" : "../../../tao/views/node_modules/@oat-sa/tao-core-libs/dist/uuid",
+    "core": "../../../tao/views/node_modules/@oat-sa/tao-core-sdk/dist/core",
+    "util": "../../../tao/views/node_modules/@oat-sa/tao-core-sdk/dist/util",
+    "ui": "../../../tao/views/node_modules/@oat-sa/tao-core-ui/dist"
   },
 
   "shim": {
@@ -92,7 +92,9 @@
     "context",
     "iframeResizer",
     "iframeNotifier",
-    "babel-polyfill"
+    "babel-polyfill",
+    "lib/uuid",
+    "lib/moment-timezone.min"
   ],
   "exclude": [
     "json!i18ntr/messages.json",
