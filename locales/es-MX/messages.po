@@ -228,7 +228,7 @@ msgid "All fields are required"
 msgstr "Todos los campos son obligatorios"
 
 msgid "All rights reserved."
-msgstr ""
+msgstr "Todos los derechos reservados."
 
 msgid "Allow for all domains"
 msgstr ""
