@@ -4,8 +4,8 @@ namespace oat\tao\test\unit\auth;
 
 use GuzzleHttp\Psr7\Request;
 use oat\generis\test\TestCase;
-use oat\tao\model\auth\BasicAuthType;
 use GuzzleHttp\Client;
+use oat\tao\model\auth\BasicType;
 
 /**
  * Class AuthTypeTest
@@ -21,7 +21,7 @@ class AuthTypeTest extends TestCase
             'login' => 'testLogin',
             'password' => 'testPassword'
         ];
-        $authType->loadCredentialsData($credentials);
+        $authType->setCredentials($credentials);
 
         /** @var Request $requestMock */
         $requestMock = $this->createMock(Request::class);
@@ -45,7 +45,7 @@ class AuthTypeTest extends TestCase
             'loginFaild' => 'testLogin',
             'password' => 'testPassword'
         ];
-        $authType->loadCredentialsData($credentials);
+        $authType->setCredentials($credentials);
 
         /** @var Request $requestMock */
         $requestMock = $this->createMock(Request::class);
@@ -59,7 +59,7 @@ class AuthTypeTest extends TestCase
     }
 }
 
-class TestBasicAuthType extends BasicAuthType
+class TestBasicAuthType extends BasicType
 {
     private $client;
 

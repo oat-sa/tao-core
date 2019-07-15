@@ -18,23 +18,20 @@
  *
  * @author Alexander Zagovorichev <olexander.zagovorychev@1pt.com>
  */
-
 namespace oat\tao\model\auth;
-
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\PhpSerializable;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-
 abstract class AbstractAuthType implements PhpSerializable
 {
-    use OntologyAwareTrait;
 
+    use OntologyAwareTrait;
     /** @var \core_kernel_classes_Resource The resource which has authorizations */
     private $instance = null;
 
-    /** @var array */
-    private $credentials;
+    /** @var array  */
+    protected $credentials = [];
 
     /**
      * Call a request through current authenticator
@@ -47,12 +44,11 @@ abstract class AbstractAuthType implements PhpSerializable
     abstract public function call(RequestInterface $request, array $clientOptions = []);
 
     /**
-     * @deprecated
-     * RDF class of the AuthType
-     *
-     * @return \core_kernel_classes_Class
+     * RDF class or AbstractCredentials of the AuthType
+     * @param array $parameters
+     * @return \core_kernel_classes_Class | AbstractCredentials
      */
-    abstract public function getAuthClass();
+    abstract public function getAuthClass($parameters = []);
 
     /**
      * All fields to configure current authenticator
@@ -60,7 +56,6 @@ abstract class AbstractAuthType implements PhpSerializable
      * @return array
      */
     abstract public function getAuthProperties();
-
     /**
      * Returns template for the current instance (or empty template for the default authorization) with credentials
      *
@@ -68,7 +63,6 @@ abstract class AbstractAuthType implements PhpSerializable
      * @throws \common_exception_InvalidArgumentType
      */
     abstract public function getTemplate();
-
     /**
      * (non-PHPdoc)
      * @see \oat\oatbox\PhpSerializable::__toPhpCode()
@@ -77,9 +71,7 @@ abstract class AbstractAuthType implements PhpSerializable
     {
         return 'new '.get_class($this).'()';
     }
-
     /**
-     * @deprecated Please use loadCredentialsData
      * Set the instance that contain authentication options
      *
      * @param \core_kernel_classes_Resource $instance
@@ -90,7 +82,14 @@ abstract class AbstractAuthType implements PhpSerializable
     }
 
     /**
-     * @deprecated Please use getCredentialsData
+     * @param array $credentials
+     */
+    public function setCredentials($credentials = [])
+    {
+        $this->credentials = $credentials;
+    }
+
+    /**
      * Get the instance that contain authentication options
      *
      * @return \core_kernel_classes_Resource
@@ -100,24 +99,12 @@ abstract class AbstractAuthType implements PhpSerializable
         return $this->instance;
     }
 
-    public function loadCredentialsData(array $credentials)
-    {
-        $this->credentials = $credentials;
-    }
-
     /**
      * @return array
      */
-    public function getCredentialsData()
+    protected function getCredentials()
     {
-        $credentialsClass = $this->getCredentialsClass($this->credentials);
+        $credentialsClass = $this->getAuthClass($this->credentials);
         return $credentialsClass->getProperties();
     }
-
-    /**
-     * @param array $parameters
-     * @return AbstractCredentials
-     */
-    abstract public function getCredentialsClass($parameters = []);
-
 }
