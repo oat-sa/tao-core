@@ -11,10 +11,10 @@ use oat\tao\model\auth\BasicType;
  * Class BasicAuthTypeTest
  * @package oat\tao\test\unit\auth
  */
-class BasicAuthTypeTest extends TestCase
+class BasicTypeTest extends TestCase
 {
 
-    public function testBasicAuthType()
+    public function testBasicType()
     {
         $authType = new TestBasicAuthType;
         $credentials = [
@@ -38,7 +38,7 @@ class BasicAuthTypeTest extends TestCase
         $authType->call($requestMock);
     }
 
-    public function testFailedValidationBasicAuthType()
+    public function testFailedValidationBasicType()
     {
         $authType = new TestBasicAuthType;
         $credentials = [
