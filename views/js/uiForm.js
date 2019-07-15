@@ -29,7 +29,6 @@ define([
     'i18n',
     'helpers',
     'context',
-    'lib/uuid',
     'form/property',
     'form/post-render-props',
     'util/encode',
@@ -46,7 +45,6 @@ define([
     __,
     helpers,
     context,
-    uuid,
     property,
     postRenderProps,
     encode,
@@ -579,7 +577,6 @@ define([
             function showPropertyListValues() {
                 var $this = $(this);
                 var elt = $this.parent("div");
-                var treeDialog;
                 var rangeId;
                 var dialogData;
                 var classUri;
@@ -778,11 +775,11 @@ define([
                     rangeId = $this.prop('id');
                     dialogData = {
                         dialogId: rangeId.replace('_range', '_dialog'),
-                        treeId: rangeId.replace('_range', '_tree') + '_' + uuid(4),
+                        treeId: rangeId.replace('_range', '_tree'),
                         hintLabel: __('Right click the tree to manage your lists')
                     };
 
-                    treeDialog = dialog({
+                    dialog({
                         heading: __('Manage data list'),
                         content: dialogTpl(dialogData),
                         width: 400,
@@ -793,11 +790,10 @@ define([
                             close: true
                         }],
                         autoRender: true,
-                        autoDestroy: false // allow jstree to be destroyed before dialog
+                        autoDestroy: true
                     })
-                    .on('closed.modal', function() {
+                    .on('destroyed.modal', function() {
                         $.tree.reference("#" + dialogData.treeId).destroy();
-                        treeDialog.trigger('destroy');
                     });
 
                     createListsTree(dialogData.treeId);
@@ -808,7 +804,6 @@ define([
                     classUri = $this.val();
                     if (classUri !== '' && classUri !== ' ') {
                         $this.parent("div").children("div.form-error").remove();
-                        //var elt = this;
                         $.ajax({
                             url: context.root_url + 'taoBackOffice/Lists/getListElements',
                             type: "POST",
