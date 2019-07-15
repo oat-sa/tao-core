@@ -1064,7 +1064,7 @@ msgid "Invalid values:"
 msgstr ""
 
 msgid "items per page"
-msgstr ""
+msgstr "элементов на странице"
 
 msgid "Label"
 msgstr ""
