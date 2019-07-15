@@ -48,8 +48,8 @@ abstract class AbstractCredentials
      */
     protected function validate($properties)
     {
+        $validatedProperties = array_keys($this->getProperties());
         foreach ($properties as $key => $value) {
-            $validatedProperties = array_keys($this->getProperties());
             if (!in_array($key, $validatedProperties, false)) {
                 throw new \common_exception_ValidationFailed($key);
             }

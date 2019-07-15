@@ -8,10 +8,10 @@ use GuzzleHttp\Client;
 use oat\tao\model\auth\BasicType;
 
 /**
- * Class AuthTypeTest
+ * Class BasicAuthTypeTest
  * @package oat\tao\test\unit\auth
  */
-class AuthTypeTest extends TestCase
+class BasicAuthTypeTest extends TestCase
 {
 
     public function testBasicAuthType()
