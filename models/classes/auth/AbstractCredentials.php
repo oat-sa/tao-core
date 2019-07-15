@@ -22,6 +22,10 @@ namespace oat\tao\model\auth;
 
 abstract class AbstractCredentials
 {
+
+    /** @var array  */
+    protected $properties;
+
     /**
      * @return array
      */
@@ -35,21 +39,20 @@ abstract class AbstractCredentials
     public function __construct($properties = [])
     {
         $this->validate($properties);
-        foreach ($properties as $key => $value) {
-            if (method_exists($this, $key)) {
-                $this->{$key} = $value;
-            }
-        }
+        $this->properties = $properties;
     }
 
+    /**
+     * @param $properties
+     * @throws \common_exception_ValidationFailed
+     */
     protected function validate($properties)
     {
         foreach ($properties as $key => $value) {
-            $validatedProperties = $this->getProperties();
+            $validatedProperties = array_keys($this->getProperties());
             if (!in_array($key, $validatedProperties, false)) {
                 throw new \common_exception_ValidationFailed($key);
             }
         }
-        return true;
     }
 }

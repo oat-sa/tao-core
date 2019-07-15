@@ -29,36 +29,14 @@ class BasicAuthCredentials extends AbstractCredentials
     const LOGIN = 'login';
     const PASSWORD = 'password';
 
-    /** @var string */
-    protected $login;
-
-    /** @var string */
-    protected $password;
-
-    /**
-     * @return string
-     */
-    public function login()
-    {
-        return $this->login;
-    }
-
-    /**
-     * @return string
-     */
-    public function password()
-    {
-        return $this->password;
-    }
-
     /**
      * @return array
      */
     public function getProperties()
     {
         return [
-            self::LOGIN,
-            self::PASSWORD
+            self::LOGIN => $this->properties[self::LOGIN],
+            self::PASSWORD => $this->properties[self::PASSWORD],
         ];
     }
 }

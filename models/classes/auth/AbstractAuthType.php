@@ -106,31 +106,18 @@ abstract class AbstractAuthType implements PhpSerializable
     }
 
     /**
-     * @param bool $withKyes
      * @return array
      */
-    public function getCredentialsData($withKeys = false)
+    public function getCredentialsData()
     {
-        $credentialsClassName = $this->getCredentialsClassName();
-        /** @var AbstractCredentials $credentialsClass */
-        $credentialsClass = new $credentialsClassName($this->credentials);
-        $data = [];
-        array_walk($this->credentials, function($value, $key) use ($credentialsClass, &$data) {
-            if ($value && method_exists($credentialsClass, $key)) {
-                $data[$key] = $credentialsClass->$key();
-            }
-        });
-        if (!$withKeys) {
-            $data = array_values($data);
-        }
-
-        return $data;
-
+        $credentialsClass = $this->getCredentialsClass($this->credentials);
+        return $credentialsClass->getProperties();
     }
 
     /**
+     * @param array $parameters
      * @return AbstractCredentials
      */
-    abstract public function getCredentialsClassName();
+    abstract public function getCredentialsClass($parameters = []);
 
 }

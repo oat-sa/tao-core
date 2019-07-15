@@ -124,16 +124,18 @@ class BasicAuthType extends AbstractAuthType implements BasicAuth
             ];
         }
 
-        return $this->getCredentialsData();
+        return array_values($this->getCredentialsData());
 
     }
 
     /**
-     * @return string
+     * @param array $parameters
+     * @return mixed|BasicAuthCredentials
+     * @throws \common_exception_ValidationFailed
      */
-    public function getCredentialsClassName()
+    public function getCredentialsClass($parameters = [])
     {
-        return BasicAuthCredentials::class;
+        return new BasicAuthCredentials($parameters);
     }
 
     /**

@@ -38,7 +38,7 @@ class AuthTypeTest extends TestCase
         $authType->call($requestMock);
     }
 
-    public function testFaildValidationBasicAuthType()
+    public function testFailedValidationBasicAuthType()
     {
         $authType = new TestBasicAuthType;
         $credentials = [
