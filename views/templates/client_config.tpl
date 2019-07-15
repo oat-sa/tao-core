@@ -1,3 +1,6 @@
+<?php
+use oat\tao\model\security\xsrf\TokenService;
+?>
 require.config({
 
     baseUrl : '<?=get_data('tao_base_www')?>js',
@@ -13,7 +16,7 @@ require.config({
             useXhr: function(){ return true; },
         },
         'ui/themes' : <?= get_data('themesAvailable') ?>,
-        'core/tokenHandler' : <?=get_data('tokens')?>,
+        'core/tokenHandler' : <?=get_data(TokenService::JS_DATA_KEY)?>,
 
 //dynamic lib config
     <?php foreach (get_data('libConfigs') as $name => $config) :?>
