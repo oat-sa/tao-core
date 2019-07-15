@@ -480,7 +480,7 @@ msgid "Commands:"
 msgstr ""
 
 msgid "comment..."
-msgstr ""
+msgstr "комментарий..."
 
 msgid "Commit"
 msgstr ""
@@ -1352,7 +1352,7 @@ msgid "Number of elements"
 msgstr ""
 
 msgid "of"
-msgstr ""
+msgstr "из"
 
 msgid "Off"
 msgstr ""
@@ -1382,7 +1382,7 @@ msgid "Outlook on the next Synchronization"
 msgstr ""
 
 msgid "Page"
-msgstr ""
+msgstr "Страница"
 
 msgid "Password"
 msgstr ""
@@ -1451,7 +1451,7 @@ msgid "Please give a message to your commit"
 msgstr ""
 
 msgid "Please provide a reason"
-msgstr ""
+msgstr "Пожалуйста, укажите причину"
 
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
 msgstr ""
@@ -1896,7 +1896,7 @@ msgid "Text - Short - Field"
 msgstr ""
 
 msgid "The action will be applied to"
-msgstr ""
+msgstr "Действие будет применено к"
 
 msgid "The action will be applied to the following"
 msgstr ""

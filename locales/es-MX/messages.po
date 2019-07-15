@@ -481,7 +481,7 @@ msgid "Commands:"
 msgstr ""
 
 msgid "comment..."
-msgstr ""
+msgstr "comentario..."
 
 msgid "Commit"
 msgstr "Efectuar"
@@ -1354,7 +1354,7 @@ msgid "Number of elements"
 msgstr "Número de elementos"
 
 msgid "of"
-msgstr ""
+msgstr "de"
 
 msgid "Off"
 msgstr ""
@@ -1453,7 +1453,7 @@ msgid "Please give a message to your commit"
 msgstr "Por favor dejar un mensaje a su compromiso"
 
 msgid "Please provide a reason"
-msgstr ""
+msgstr "Por favor proporcione una razón"
 
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
 msgstr ""
@@ -1898,7 +1898,7 @@ msgid "Text - Short - Field"
 msgstr "Texto - Short - Campo"
 
 msgid "The action will be applied to"
-msgstr ""
+msgstr "La acción se aplicará a"
 
 msgid "The action will be applied to the following"
 msgstr ""
