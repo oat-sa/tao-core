@@ -82,7 +82,6 @@ class BasicType extends AbstractAuthType
     }
 
     /**
-     * @deprecated
      * @return \core_kernel_classes_Resource|void
      */
     public function getInstance()
@@ -91,7 +90,6 @@ class BasicType extends AbstractAuthType
     }
 
     /**
-     * @deprecated
      * @param \core_kernel_classes_Resource|null $instance
      */
     public function setInstance(\core_kernel_classes_Resource $instance = null)

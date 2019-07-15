@@ -20,6 +20,12 @@
 
 namespace oat\tao\model\auth;
 
+/**
+ * Abstract class for a credential object
+ *
+ * Class AbstractCredentials
+ * @package oat\tao\model\auth
+ */
 abstract class AbstractCredentials
 {
 

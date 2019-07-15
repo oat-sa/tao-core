@@ -23,6 +23,11 @@ use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\PhpSerializable;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+
+/**
+ * Class AbstractAuthType
+ * @package oat\tao\model\auth
+ */
 abstract class AbstractAuthType implements PhpSerializable
 {
 
@@ -72,6 +77,7 @@ abstract class AbstractAuthType implements PhpSerializable
         return 'new '.get_class($this).'()';
     }
     /**
+     * @deprecated
      * Set the instance that contain authentication options
      *
      * @param \core_kernel_classes_Resource $instance
@@ -90,6 +96,7 @@ abstract class AbstractAuthType implements PhpSerializable
     }
 
     /**
+     * @deprecated
      * Get the instance that contain authentication options
      *
      * @return \core_kernel_classes_Resource
