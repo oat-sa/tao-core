@@ -466,7 +466,7 @@ msgid "Close"
 msgstr "Cerrar"
 
 msgid "Close message"
-msgstr ""
+msgstr "Cerrar mensaje"
 
 msgid "Code Version"
 msgstr ""
@@ -844,7 +844,7 @@ msgid "First Name"
 msgstr "Nombre"
 
 msgid "First page"
-msgstr ""
+msgstr "Primera página"
 
 msgid "First row column names"
 msgstr "Nombre de columnas en primer renglón"
@@ -868,7 +868,7 @@ msgid "Form data not saved."
 msgstr ""
 
 msgid "From"
-msgstr ""
+msgstr "De"
 
 msgid "Fuzzy Matching"
 msgstr "Coincidencia confusa"
@@ -1081,7 +1081,7 @@ msgid "Last Name"
 msgstr "Apellido"
 
 msgid "Last page"
-msgstr ""
+msgstr "Última página"
 
 msgid "Last result"
 msgstr ""
@@ -1997,7 +1997,7 @@ msgid "Title"
 msgstr ""
 
 msgid "to"
-msgstr ""
+msgstr "a"
 
 msgid "To reset your password, click the link below, or paste it into your browser. You will then be prompted to create a new password."
 msgstr "Para restablecer su contraseña, haga clic en el enlace de abajo, o pegarlo en su navegador. A continuación se le pedirá que cree una nueva contraseña."
