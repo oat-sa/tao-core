@@ -35,6 +35,8 @@ define([
     'ckeditor',
     'ui/ckeditor/ckConfigurator',
     'ui/datetime/picker',
+    'ui/dialog',
+    'tpl!form/tpl/list_tree_dialog',
     'lib/jsTree/plugins/jquery.tree.contextmenu',
 ], function (
     module,
@@ -48,7 +50,10 @@ define([
     encode,
     ckeditor,
     ckConfigurator,
-    dateTimePicker) {
+    dateTimePicker,
+    dialog,
+    dialogTpl
+) {
     'use strict';
 
     /**
@@ -572,236 +577,233 @@ define([
             function showPropertyListValues() {
                 var $this = $(this);
                 var elt = $this.parent("div");
-                if ($this.val() === 'new') {
-                    //Open the list editor: a tree in a dialog popup
-                    var rangeId = $this.prop('id');
-                    var dialogId = rangeId.replace('_range', '_dialog');
-                    var treeId = rangeId.replace('_range', '_tree');
-                    var closerId = rangeId.replace('_range', '_closer');
+                var rangeId;
+                var dialogData;
+                var classUri;
 
-                    //dialog content to embed the list tree
-                    elt.append("<div id='" + dialogId + "' style='display:none;' > " +
-                        "<span class='ui-state-highlight' style='margin:15px;'>" + __('Right click the tree to manage your lists') + "</span><br /><br />" +
-                        "<div id='" + treeId + "' ></div> " +
-                        "<div style='text-align:center;margin-top:30px;'> " +
-                        "<a id='" + closerId + "' class='ui-state-default ui-corner-all' href='#'>" + __('Save') + "</a> " +
-                        "</div> " +
-                        "</div>");
+                /**
+                 * Creates the jsTree list manager and attaches behaviours
+                 * @param {String} treeId
+                 * @returns {jQuery}
+                 */
+                function createListsTree(treeId) {
+                    var url = context.root_url + 'taoBackOffice/Lists/';
+                    var dataUrl = url + 'getListsData';
+                    var renameUrl = url + 'rename';
+                    var createUrl = url + 'create';
+                    var removeListUrl = url + 'removeList';
+                    var removeListEltUrl = url + 'removeListElement';
 
-                    //init dialog events
-                    var $dialogElm = $("#" + dialogId);
-                    $dialogElm.dialog({
-                        width: 350,
-                        height: 400,
-                        autoOpen: false,
-                        title: __('Manage data list')
-                    });
-
-                    //destroy dialog on close
-                    $dialogElm.bind('dialogclose', function (event, ui) {
-                        $.tree.reference("#" + treeId).destroy();
-                        $dialogElm.dialog('destroy');
-                        $dialogElm.remove();
-                    });
-
-                    $("#" + closerId).click(function () {
-                        $("#" + dialogId).dialog('close');
-                    });
-
-                    $dialogElm.bind('dialogopen', function (event, ui) {
-                        var url = context.root_url + 'taoBackOffice/Lists/';
-                        var dataUrl = url + 'getListsData';
-                        var renameUrl = url + 'rename';
-                        var createUrl = url + 'create';
-                        var removeListUrl = url + 'removeList';
-                        var removeListEltUrl = url + 'removeListElement';
-
-                        //create tree to manage lists
-                        $("#" + treeId).tree({
-                            data: {
-                                type: "json",
-                                async: true,
-                                opts: {
-                                    method: "POST",
-                                    url: dataUrl
+                    return $(`#${treeId}`).tree({
+                        data: {
+                            type: "json",
+                            async: true,
+                            opts: {
+                                method: "POST",
+                                url: dataUrl
+                            }
+                        },
+                        types: {
+                            "default": {
+                                renameable: true,
+                                deletable: true,
+                                creatable: true,
+                                draggable: false
+                            }
+                        },
+                        ui: {
+                            theme_name: "custom"
+                        },
+                        callback: {
+                            onrename: function (NODE, TREE_OBJ) {
+                                var data = {
+                                    uri: $(NODE).prop('id'),
+                                    newName: TREE_OBJ.get_text(NODE)
+                                };
+                                if ($(NODE).hasClass('node-instance')) {
+                                    data.classUri = $(TREE_OBJ.parent(NODE)).prop('id');
                                 }
-                            },
-                            types: {
-                                "default": {
-                                    renameable: true,
-                                    deletable: true,
-                                    creatable: true,
-                                    draggable: false
-                                }
-                            },
-                            ui: {
-                                theme_name: "custom"
-                            },
-                            callback: {
-                                onrename: function (NODE, TREE_OBJ) {
-                                    var data = {
-                                        uri: $(NODE).prop('id'),
-                                        newName: TREE_OBJ.get_text(NODE)
-                                    };
-                                    if ($(NODE).hasClass('node-instance')) {
-                                        data.classUri = $(TREE_OBJ.parent(NODE)).prop('id');
+
+                                $.ajax({
+                                    url: renameUrl,
+                                    type: 'POST',
+                                    data: data,
+                                    dataType: 'json',
+                                    success: function(response){
+                                        if (!response.renamed) {
+                                            TREE_OBJ.rename(NODE, response.oldName);
+                                        }
                                     }
+                                });
 
-                                    $.ajax({
-                                        url: renameUrl,
-                                        type: 'POST',
-                                        data: data,
-                                        dataType: 'json',
-                                        success: function(response){
-                                            if (!response.renamed) {
-                                                TREE_OBJ.rename(NODE, response.oldName);
-                                            }
-                                        }
-                                    });
-
-                                },
-                                ondestroy: function (TREE_OBJ) {
-                                    var $rangeElm = $("#" + rangeId);
-
-                                    //empty and build again the list drop down on tree destroying
-                                    $rangeElm.find('option').each(function () {
-                                        var $option = $(this);
-                                        if ($option.val() !== "" && $option.val() !== "new") {
-                                            $option.remove();
-                                        }
-                                    });
-                                    $("#" + treeId + " .node-root .node-class").each(function () {
-                                        $rangeElm.find("option[value='new']").before("<option value='" + $(this).prop('id') + "'>" + $(this).children("a:first").text() + "</option>");
-                                    });
-                                    $rangeElm.parent("div").children("ul.form-elt-list").remove();
-                                    $rangeElm.val('');
-                                }
                             },
-                            plugins: {
-                                //tree right click menu
-                                contextmenu: {
-                                    items: {
+                            ondestroy: function (TREE_OBJ) {
+                                var $rangeElm = $("#" + rangeId);
 
-                                        //create a new list or a list item
-                                        create: {
-                                            label: __("Create"),
-                                            icon: context.taobase_www + "img/add.png",
-                                            visible: function (NODE, TREE_OBJ) {
-                                                if ($(NODE).hasClass('node-instance')) {
-                                                    return false;
-                                                }
-                                                return TREE_OBJ.check("creatable", NODE);
-                                            },
-                                            action: function (NODE, TREE_OBJ) {
-                                                if ($(NODE).hasClass('node-class')) {
-                                                    var cssClass = 'node-instance';
-                                                    $.ajax({
-                                                        url: createUrl,
-                                                        type: "POST",
-                                                        data: {classUri: $(NODE).prop('id'), type: 'instance'},
-                                                        dataType: 'json',
-                                                        success: function (response) {
-                                                            if (response.uri) {
-                                                                TREE_OBJ.select_branch(TREE_OBJ.create({
-                                                                    data: response.label,
-                                                                    attributes: {
-                                                                        id: response.uri,
-                                                                        'class': cssClass
-                                                                    }
-                                                                }, TREE_OBJ.get_node(NODE[0])));
-                                                            }
-                                                        }
-                                                    });
-                                                }
-                                                if ($(NODE).hasClass('node-root')) {
-                                                    //create list
-                                                    $.ajax({
-                                                        url: createUrl,
-                                                        type: "POST",
-                                                        data: {classUri: 'root', type: 'class'},
-                                                        dataType: 'json',
-                                                        success: function (response) {
-                                                            if (response.uri) {
-                                                                TREE_OBJ.select_branch(
-                                                                    TREE_OBJ.create({
-                                                                        data: response.label,
-                                                                        attributes: {
-                                                                            id: response.uri,
-                                                                            'class': 'node-class'
-                                                                        }
-                                                                    }, TREE_OBJ.get_node(NODE[0])));
-                                                            }
-                                                        }
-                                                    });
-                                                }
+                                //empty and build again the list drop down on tree destroying
+                                $rangeElm.find('option').each(function () {
+                                    var $option = $(this);
+                                    if ($option.val() !== "" && $option.val() !== "new") {
+                                        $option.remove();
+                                    }
+                                });
+                                $("#" + treeId + " .node-root .node-class").each(function () {
+                                    $rangeElm.find("option[value='new']").before("<option value='" + $(this).prop('id') + "'>" + $(this).children("a:first").text() + "</option>");
+                                });
+                                $rangeElm.parent("div").children("ul.form-elt-list").remove();
+                                $rangeElm.val('');
+                            }
+                        },
+                        plugins: {
+                            //tree right click menu
+                            contextmenu: {
+                                items: {
+
+                                    //create a new list or a list item
+                                    create: {
+                                        label: __("Create"),
+                                        icon: context.taobase_www + "img/add.png",
+                                        visible: function (NODE, TREE_OBJ) {
+                                            if ($(NODE).hasClass('node-instance')) {
                                                 return false;
                                             }
+                                            return TREE_OBJ.check("creatable", NODE);
                                         },
-
-                                        //rename a node
-                                        rename: {
-                                            label: __("Rename"),
-                                            icon: context.taobase_www + "img/rename.png",
-                                            visible: function (NODE, TREE_OBJ) {
-                                                if ($(NODE).hasClass('node-root')) {
-                                                    return false;
-                                                }
-                                                return TREE_OBJ.check("renameable", NODE);
-                                            }
-                                        },
-
-                                        //remove a node
-                                        remove: {
-                                            label: __("Remove"),
-                                            icon: context.taobase_www + "img/delete.png",
-                                            visible: function (NODE, TREE_OBJ) {
-                                                if ($(NODE).hasClass('node-root')) {
-                                                    return false;
-                                                }
-                                                return TREE_OBJ.check("deletable", NODE);
-                                            },
-                                            action: function (NODE, TREE_OBJ) {
-                                                var removeUrl;
-                                                if ($(NODE).hasClass('node-root')) {
-                                                    return false;
-                                                }
-                                                if ($(NODE).hasClass('node-class')) {
-                                                    removeUrl = removeListUrl;
-                                                }
-                                                if ($(NODE).hasClass('node-instance')) {
-                                                    removeUrl = removeListEltUrl;
-                                                }
-                                                //remove list
+                                        action: function (NODE, TREE_OBJ) {
+                                            var cssClass;
+                                            if ($(NODE).hasClass('node-class')) {
+                                                cssClass = 'node-instance';
                                                 $.ajax({
-                                                    url: removeUrl,
+                                                    url: createUrl,
                                                     type: "POST",
-                                                    data: {uri: $(NODE).prop('id')},
+                                                    data: {classUri: $(NODE).prop('id'), type: 'instance'},
                                                     dataType: 'json',
                                                     success: function (response) {
-                                                        if (response.deleted) {
-                                                            TREE_OBJ.remove(NODE);
+                                                        if (response.uri) {
+                                                            TREE_OBJ.select_branch(TREE_OBJ.create({
+                                                                data: response.label,
+                                                                attributes: {
+                                                                    id: response.uri,
+                                                                    'class': cssClass
+                                                                }
+                                                            }, TREE_OBJ.get_node(NODE[0])));
                                                         }
                                                     }
                                                 });
+                                            }
+                                            if ($(NODE).hasClass('node-root')) {
+                                                //create list
+                                                $.ajax({
+                                                    url: createUrl,
+                                                    type: "POST",
+                                                    data: {classUri: 'root', type: 'class'},
+                                                    dataType: 'json',
+                                                    success: function (response) {
+                                                        if (response.uri) {
+                                                            TREE_OBJ.select_branch(
+                                                                TREE_OBJ.create({
+                                                                    data: response.label,
+                                                                    attributes: {
+                                                                        id: response.uri,
+                                                                        'class': 'node-class'
+                                                                    }
+                                                                }, TREE_OBJ.get_node(NODE[0])));
+                                                        }
+                                                    }
+                                                });
+                                            }
+                                            return false;
+                                        }
+                                    },
+
+                                    //rename a node
+                                    rename: {
+                                        label: __("Rename"),
+                                        icon: context.taobase_www + "img/rename.png",
+                                        visible: function (NODE, TREE_OBJ) {
+                                            if ($(NODE).hasClass('node-root')) {
                                                 return false;
                                             }
+                                            return TREE_OBJ.check("renameable", NODE);
+                                        }
+                                    },
+
+                                    //remove a node
+                                    remove: {
+                                        label: __("Remove"),
+                                        icon: context.taobase_www + "img/delete.png",
+                                        visible: function (NODE, TREE_OBJ) {
+                                            if ($(NODE).hasClass('node-root')) {
+                                                return false;
+                                            }
+                                            return TREE_OBJ.check("deletable", NODE);
+                                        },
+                                        action: function (NODE, TREE_OBJ) {
+                                            var removeUrl;
+                                            if ($(NODE).hasClass('node-root')) {
+                                                return false;
+                                            }
+                                            if ($(NODE).hasClass('node-class')) {
+                                                removeUrl = removeListUrl;
+                                            }
+                                            if ($(NODE).hasClass('node-instance')) {
+                                                removeUrl = removeListEltUrl;
+                                            }
+                                            //remove list
+                                            $.ajax({
+                                                url: removeUrl,
+                                                type: "POST",
+                                                data: {uri: $(NODE).prop('id')},
+                                                dataType: 'json',
+                                                success: function (response) {
+                                                    if (response.deleted) {
+                                                        TREE_OBJ.remove(NODE);
+                                                    }
+                                                }
+                                            });
+                                            return false;
                                         }
                                     }
                                 }
                             }
-                        });
+                        }
+                    });
+                }
+
+                if ($this.val() === 'new') {
+                    //Open the list editor: a tree in a dialog popup
+                    rangeId = $this.prop('id');
+                    dialogData = {
+                        dialogId: rangeId.replace('_range', '_dialog'),
+                        treeId: rangeId.replace('_range', '_tree'),
+                        hintLabel: __('Right click the tree to manage your lists')
+                    };
+
+                    dialog({
+                        heading: __('Manage data list'),
+                        content: dialogTpl(dialogData),
+                        width: 400,
+                        buttons: [{
+                            id: 'save',
+                            type: 'info',
+                            label: __('Save'),
+                            close: true
+                        }],
+                        autoRender: true,
+                        autoDestroy: true
+                    })
+                    .on('destroyed.modal', function() {
+                        $.tree.reference("#" + dialogData.treeId).destroy();
                     });
 
-                    //open the dialog window
-                    $dialogElm.dialog('open');
+                    createListsTree(dialogData.treeId);
                 }
                 else {
                     //load the instances and display them (the list items)
                     $(elt).parent("div").children("ul.form-elt-list").remove();
-                    var classUri = $this.val();
+                    classUri = $this.val();
                     if (classUri !== '' && classUri !== ' ') {
                         $this.parent("div").children("div.form-error").remove();
-                        //var elt = this;
                         $.ajax({
                             url: context.root_url + 'taoBackOffice/Lists/getListElements',
                             type: "POST",
