@@ -32,6 +32,7 @@ abstract class AbstractAuthType implements PhpSerializable
 {
 
     use OntologyAwareTrait;
+
     /** @var \core_kernel_classes_Resource The resource which has authorizations */
     private $instance = null;
 
@@ -77,7 +78,7 @@ abstract class AbstractAuthType implements PhpSerializable
         return 'new '.get_class($this).'()';
     }
     /**
-     * @deprecated
+     * @deprecated Please use setCredentials method with array of credentials for current auth type
      * Set the instance that contain authentication options
      *
      * @param \core_kernel_classes_Resource $instance
@@ -96,7 +97,7 @@ abstract class AbstractAuthType implements PhpSerializable
     }
 
     /**
-     * @deprecated
+     * @deprecated Please use getCredentials for getting credentials for current auth type
      * Get the instance that contain authentication options
      *
      * @return \core_kernel_classes_Resource
