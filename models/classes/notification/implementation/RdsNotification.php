@@ -22,6 +22,7 @@ namespace oat\tao\model\notification\implementation;
 use oat\generis\Helper\UuidPrimaryKeyTrait;
 use oat\tao\model\notification\AbstractNotificationService;
 use oat\tao\model\notification\NotificationInterface;
+use common_persistence_Manager as PersistenceManager;
 
 class RdsNotification
     extends AbstractNotificationService
@@ -62,7 +63,7 @@ class RdsNotification
                 $persistence = $this->getOption(self::OPTION_PERSISTENCE);
             }
 
-            $persistenceManager = $this->getServiceManager()->get(\common_persistence_Manager::SERVICE_ID);
+            $persistenceManager = $this->getServiceLocator()->get(PersistenceManager::SERVICE_ID);
             $this->persistence  = $persistenceManager->getPersistenceById($persistence);
         }
         return $this->persistence;

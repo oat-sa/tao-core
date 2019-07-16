@@ -117,14 +117,21 @@ define(['jquery', 'lodash', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/fe
 					},
 					//when a node is selected
 					onselect: function(NODE, TREE_OBJ) {
+						var servOptions = {};
+						if (instance.serverParameters.hasOwnProperty('order')) {
+							servOptions.order = instance.serverParameters.order;
+						}
+						if (instance.serverParameters.hasOwnProperty('orderdir')) {
+							servOptions.orderdir = instance.serverParameters.orderdir;
+						}
 						if ($(NODE).hasClass('paginate-more')) {
-							instance.paginateInstances($(NODE).parent().parent(), TREE_OBJ);
+							instance.paginateInstances($(NODE).parent().parent(), TREE_OBJ, servOptions);
 							return;
 						}
 						if ($(NODE).hasClass('paginate-all')) {
 							var parentNodeId = $(NODE).parent().parent().prop('id');
-							var limit = instance.getMeta(parentNodeId, 'count') - instance.getMeta(parentNodeId, 'displayed');
-							instance.paginateInstances($(NODE).parent().parent(), TREE_OBJ, {'limit': limit});
+							servOptions.limit = instance.getMeta(parentNodeId, 'count') - instance.getMeta(parentNodeId, 'displayed');
+							instance.paginateInstances($(NODE).parent().parent(), TREE_OBJ, servOptions);
 							return;
 						}
 

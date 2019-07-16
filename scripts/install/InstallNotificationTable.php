@@ -25,13 +25,15 @@ use oat\oatbox\extension\InstallAction;
 use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\notification\implementation\RdsNotification;
+use common_persistence_Manager as PersistenceManager;
 
 class InstallNotificationTable extends InstallAction
 {
 
     public function __invoke($params)
     {
-        $persistence = \common_persistence_Manager::getPersistence(RdsNotification::DEFAULT_PERSISTENCE);
+        $persistence = $this->getServiceLocator()->get(PersistenceManager::SERVICE_ID)
+            ->getPersistenceById(RdsNotification::DEFAULT_PERSISTENCE);
         $schemaManager = $persistence->getDriver()->getSchemaManager();
         $schema = $schemaManager->createSchema();
         /**
