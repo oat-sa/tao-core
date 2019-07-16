@@ -465,7 +465,7 @@ msgid "Close"
 msgstr "Закрыть"
 
 msgid "Close message"
-msgstr ""
+msgstr "Закрыть сообщение"
 
 msgid "Code Version"
 msgstr ""
@@ -842,7 +842,7 @@ msgid "First Name"
 msgstr ""
 
 msgid "First page"
-msgstr ""
+msgstr "Первая страница"
 
 msgid "First row column names"
 msgstr ""
@@ -866,7 +866,7 @@ msgid "Form data not saved."
 msgstr ""
 
 msgid "From"
-msgstr ""
+msgstr "С"
 
 msgid "Fuzzy Matching"
 msgstr ""
@@ -1079,7 +1079,7 @@ msgid "Last Name"
 msgstr ""
 
 msgid "Last page"
-msgstr ""
+msgstr "Последняя страница"
 
 msgid "Last result"
 msgstr ""
@@ -1995,7 +1995,7 @@ msgid "Title"
 msgstr ""
 
 msgid "to"
-msgstr ""
+msgstr "по"
 
 msgid "To reset your password, click the link below, or paste it into your browser. You will then be prompted to create a new password."
 msgstr ""
