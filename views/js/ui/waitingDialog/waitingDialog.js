@@ -94,7 +94,7 @@ define([
                     this.setState('waiting', true);
 
                     $content
-                        .text(this.config.waitContent);
+                        .html(this.config.waitContent);
 
                     $button
                         .prop('disabled', true)
@@ -130,7 +130,7 @@ define([
                     this.setState('waiting', false);
 
                     $content
-                        .text(this.config.proceedContent);
+                        .html(this.config.proceedContent);
 
                     $button
                         .removeProp('disabled')
