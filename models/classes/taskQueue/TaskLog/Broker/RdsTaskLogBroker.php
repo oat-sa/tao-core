@@ -158,9 +158,9 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
             self::COLUMN_LABEL => (string) $label,
             self::COLUMN_STATUS => (string) $status,
             self::COLUMN_OWNER => (string) $task->getOwner(),
-            self::COLUMN_CREATED_AT => $task->getCreatedAt()->format($this->getPersistence()->getPlatForm()->getDateTimeFormatString()),
-            self::COLUMN_UPDATED_AT => $this->getPersistence()->getPlatForm()->getNowExpression(),
-            self::COLUMN_MASTER_STATUS => (integer) $task->isMasterStatus(),
+            self::COLUMN_CREATED_AT => $task->getCreatedAt()->format($platform->getDateTimeFormatString()),
+            self::COLUMN_UPDATED_AT => $platform->getNowExpression(),
+            self::COLUMN_MASTER_STATUS => $task->isMasterStatus(),
         ]);
     }
 
@@ -428,6 +428,8 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
             $this->getPersistence()->getPlatform()->commit();
 
         } catch (\Exception $e) {
+            $this->logError($e->getMessage());
+            $this->logError($e->getTraceAsString());
             $this->getPersistence()->getPlatform()->rollBack();
             $this->logDebug($e->getMessage());
 
