@@ -160,7 +160,7 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
             self::COLUMN_OWNER => (string) $task->getOwner(),
             self::COLUMN_CREATED_AT => $task->getCreatedAt()->format($this->getPersistence()->getPlatForm()->getDateTimeFormatString()),
             self::COLUMN_UPDATED_AT => $this->getPersistence()->getPlatForm()->getNowExpression(),
-            self::COLUMN_MASTER_STATUS => (integer) $task->isMasterStatus(),
+            self::COLUMN_MASTER_STATUS => $task->isMasterStatus(),
         ]);
     }
 
