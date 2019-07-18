@@ -481,7 +481,7 @@ msgid "Commands:"
 msgstr ""
 
 msgid "comment..."
-msgstr ""
+msgstr "commentaire..."
 
 msgid "Commit"
 msgstr ""
@@ -1453,7 +1453,7 @@ msgid "Please give a message to your commit"
 msgstr ""
 
 msgid "Please provide a reason"
-msgstr ""
+msgstr "S'il vous plaît fournir une raison"
 
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
 msgstr ""
@@ -1898,7 +1898,7 @@ msgid "Text - Short - Field"
 msgstr "Texte - Long - Champ"
 
 msgid "The action will be applied to"
-msgstr ""
+msgstr "L'action sera appliquée à"
 
 msgid "The action will be applied to the following"
 msgstr ""
