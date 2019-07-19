@@ -321,4 +321,8 @@
     @include icon-test;
 }
 
+.modal .content .tree-custom {
+    max-height: 50vh;
+}
+
 @import './inc/extension-icons';

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint105\n"
-"PO-Revision-Date: 2019-06-21T08:52:46\n"
+"Project-Id-Version: TAO 3.3.0-sprint106\n"
+"PO-Revision-Date: 2019-07-19T08:49:33\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-JP\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " AND "
-msgstr ""
-
 msgid " and "
 msgstr " と "
+
+msgid " AND "
+msgstr ""
 
 msgid " has been deleted successfully"
 msgstr " 削除しました。"
@@ -368,10 +368,10 @@ msgstr ""
 msgid "Calendar"
 msgstr "カレンダー"
 
-msgid "Cancel"
+msgid "cancel"
 msgstr "キャンセル"
 
-msgid "cancel"
+msgid "Cancel"
 msgstr "キャンセル"
 
 msgid "cancel the action"
@@ -447,10 +447,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
 msgid "Clear selection"
@@ -864,6 +864,9 @@ msgstr "強制リリース"
 msgid "Forgot your password?"
 msgstr "パスワードをお忘れですか?"
 
+msgid "Form"
+msgstr ""
+
 msgid "Form data not saved."
 msgstr ""
 
@@ -966,10 +969,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1046,6 +1049,9 @@ msgstr "無効なファイルサイズ（最小%1$sバイト、最大%2$sバイ�
 
 msgid "Invalid file type!"
 msgstr "不正なファイルタイプです"
+
+msgid "Invalid input"
+msgstr ""
 
 msgid "Invalid input for function"
 msgstr ""
@@ -1304,10 +1310,10 @@ msgstr "ファイルが有りません"
 msgid "no label"
 msgstr "ラベルがありません"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "プレビューは利用できません"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "プレビューは利用できません"
 
 msgid "No results found"
@@ -1359,10 +1365,10 @@ msgstr "の"
 msgid "Off"
 msgstr ""
 
-msgid "Ok"
+msgid "OK"
 msgstr "OK"
 
-msgid "OK"
+msgid "Ok"
 msgstr "OK"
 
 msgid "Old Password"
@@ -1822,6 +1828,9 @@ msgstr ""
 msgid "string"
 msgstr ""
 
+msgid "Submit"
+msgstr ""
+
 msgid "Success"
 msgstr "成功"
 
@@ -2110,10 +2119,10 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "全て無効"
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "全て無効"
 
 msgid "Undefined amount of the pages for pagination"
