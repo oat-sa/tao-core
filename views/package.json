@@ -10,7 +10,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
     "@oat-sa/tao-core-libs": "~0.1.0",
-    "@oat-sa/tao-core-sdk": "~0.6.0",
+    "@oat-sa/tao-core-sdk": "oat-sa/tao-core-sdk-fe#fix/TAO-8749-8750-8751-offline-test-runner-file-downloading-problems",
     "@oat-sa/tao-core-ui": "~0.19.0",
     "handlebars": "1.3.0",
     "jquery": "1.9.1",
