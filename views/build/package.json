@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "@oat-sa/browserslist-config-tao": "^0.1.0",
-    "@oat-sa/grunt-tao-bundle": "^0.3.0",
+    "@oat-sa/grunt-tao-bundle": "^0.3.1",
     "@oat-sa/tao-e2e-runner": "^0.2.1",
     "almond": "^0.3.3",
     "eslint-plugin-es": "^1.4.0",
