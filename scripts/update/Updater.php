@@ -1106,7 +1106,7 @@ class Updater extends \common_ext_ExtensionUpdater {
 
             OntologyUpdater::syncModels();
 
-            $this->setVersion('38.1.3');
+            $this->setVersion('38.1.4');
         }
 
     }
