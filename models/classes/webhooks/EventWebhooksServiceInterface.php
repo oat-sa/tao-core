@@ -48,5 +48,10 @@ interface EventWebhooksServiceInterface
      */
     public function isEventRegistered($eventName);
 
+    /**
+     * @return string[]
+     */
+    public function getRegisteredEvents();
+
     public function handleEvent(Event $event);
 }

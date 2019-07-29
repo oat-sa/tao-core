@@ -39,7 +39,7 @@ class EventWebhooksService extends ConfigurableService implements EventWebhooksS
      */
     public function registerEvent($eventName, EventManager $eventManager)
     {
-        $supportedEvents = $this->getOption(self::OPTION_SUPPORTED_EVENTS);
+        $supportedEvents = $this->getRegisteredEvents();
         $supportedEvents[$eventName] = true;
         $this->setOption(self::OPTION_SUPPORTED_EVENTS, $supportedEvents);
 
@@ -51,7 +51,7 @@ class EventWebhooksService extends ConfigurableService implements EventWebhooksS
      */
     public function unregisterEvent($eventName, EventManager $eventManager)
     {
-        $supportedEvents = $this->getOption(self::OPTION_SUPPORTED_EVENTS);
+        $supportedEvents = $this->getRegisteredEvents();
         unset($supportedEvents[$eventName]);
         $this->setOption(self::OPTION_SUPPORTED_EVENTS, $supportedEvents);
 
@@ -63,7 +63,7 @@ class EventWebhooksService extends ConfigurableService implements EventWebhooksS
      */
     public function isEventRegistered($eventName)
     {
-        $supportedEvents = $this->getOption(self::OPTION_SUPPORTED_EVENTS);
+        $supportedEvents = $this->getRegisteredEvents();
         return isset($supportedEvents[$eventName]);
     }
 
@@ -127,5 +127,16 @@ class EventWebhooksService extends ConfigurableService implements EventWebhooksS
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->getServiceLocator()->get(WebhookTaskServiceInterface::SERVICE_ID);
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getRegisteredEvents()
+    {
+        $events = $this->getOption(self::OPTION_SUPPORTED_EVENTS);
+        return $events !== null
+            ? $events
+            : [];
     }
 }
