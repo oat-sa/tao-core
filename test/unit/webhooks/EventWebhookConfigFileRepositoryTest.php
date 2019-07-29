@@ -20,20 +20,20 @@
 namespace oat\tao\test\unit\webhooks;
 
 use oat\generis\test\TestCase;
-use oat\tao\model\webhooks\WebhookConfigFileRepository;
+use oat\tao\model\webhooks\EventWebhookConfigFileRepository;
 
-class WebhookConfigFileRepositoryTest extends TestCase
+class EventWebhookConfigFileRepositoryTest extends TestCase
 {
-    /** @var WebhookConfigFileRepository */
+    /** @var EventWebhookConfigFileRepository */
     private $repository;
 
     protected function setUp()
     {
-        $this->repository = new WebhookConfigFileRepository([
-            WebhookConfigFileRepository::OPTION_EVENTS => [
+        $this->repository = new EventWebhookConfigFileRepository([
+            EventWebhookConfigFileRepository::OPTION_EVENTS => [
                 'TestEvent' => ['wh1']
             ],
-            WebhookConfigFileRepository::OPTION_WEBHOOKS => [
+            EventWebhookConfigFileRepository::OPTION_WEBHOOKS => [
                 'wh1' => [
                     'id' => 'wh1',
                     'url' => 'http://url.com',

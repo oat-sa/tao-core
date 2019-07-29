@@ -23,7 +23,7 @@ use oat\generis\test\TestCase;
 use oat\oatbox\event\Event;
 use oat\oatbox\event\EventManager;
 use oat\tao\model\webhooks\EventWebhooksService;
-use oat\tao\model\webhooks\WebhookConfigRepositoryInterface;
+use oat\tao\model\webhooks\EventWebhookConfigRepositoryInterface;
 use oat\tao\model\webhooks\WebhookSerializableInterface;
 use oat\tao\model\webhooks\WebhookTaskMetadata;
 use oat\tao\model\webhooks\WebhookTaskServiceInterface;
@@ -34,7 +34,7 @@ class EventWebhooksServiceTest extends TestCase
     /** @var EventManager|\PHPUnit_Framework_MockObject_MockObject */
     private $eventManagerMock;
 
-    /** @var WebhookConfigRepositoryInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var EventWebhookConfigRepositoryInterface|\PHPUnit_Framework_MockObject_MockObject */
     private $whConfigRepositoryMock;
 
     /** @var WebhookTaskServiceInterface|\PHPUnit_Framework_MockObject_MockObject */
@@ -47,7 +47,7 @@ class EventWebhooksServiceTest extends TestCase
     {
         $this->eventManagerMock = $this->createMock(EventManager::class);
 
-        $this->whConfigRepositoryMock = $this->createMock(WebhookConfigRepositoryInterface::class);
+        $this->whConfigRepositoryMock = $this->createMock(EventWebhookConfigRepositoryInterface::class);
 
         $this->whConfigRepositoryMock
             ->method('getWebhookConfigIds')
@@ -201,7 +201,7 @@ class EventWebhooksServiceTest extends TestCase
         ]);
 
         $serviceLocator = $this->getServiceLocatorMock([
-            WebhookConfigRepositoryInterface::SERVICE_ID => $this->whConfigRepositoryMock,
+            EventWebhookConfigRepositoryInterface::SERVICE_ID => $this->whConfigRepositoryMock,
             WebhookTaskServiceInterface::SERVICE_ID => $this->whTaskServiceMock
         ]);
 

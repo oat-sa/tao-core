@@ -85,7 +85,7 @@ class EventWebhooksService extends ConfigurableService implements EventWebhooksS
             return;
         }
 
-        $webhookConfigIds = $this->getWebhookConfigRepository()->getWebhookConfigIds($eventName);
+        $webhookConfigIds = $this->getEventWebhookConfigRepository()->getWebhookConfigIds($eventName);
         if (count($webhookConfigIds) === 0) {
             return;
         }
@@ -112,12 +112,12 @@ class EventWebhooksService extends ConfigurableService implements EventWebhooksS
     }
 
     /**
-     * @return WebhookConfigRepositoryInterface
+     * @return EventWebhookConfigRepositoryInterface
      */
-    protected function getWebhookConfigRepository()
+    protected function getEventWebhookConfigRepository()
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
-        return $this->getServiceLocator()->get(WebhookConfigRepositoryInterface::SERVICE_ID);
+        return $this->getServiceLocator()->get(EventWebhookConfigRepositoryInterface::SERVICE_ID);
     }
 
     /**

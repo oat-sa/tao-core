@@ -24,8 +24,20 @@ use oat\tao\model\webhooks\ConfigEntity\Webhook;
 
 /**
  * Implementation which uses own (service) configuration to store webhooks configuration
+ *
+ * Options:
+ * `events` is array with:
+ *      key: name of event
+ *      value: array of string ids of connected webhooks
+ *
+ * `webhooks` is array with:
+ *      key: webhook unique id
+ *      value: array representation of ConfigEntry\Webhook
+ *
+ * See tao/test/unit/webhooks/WebhookConfigFileRepositoryTest.php
+ * for example of configuration
  */
-class WebhookConfigFileRepository extends ConfigurableService implements WebhookConfigRepositoryInterface
+class EventWebhookConfigFileRepository extends ConfigurableService implements EventWebhookConfigRepositoryInterface
 {
     const OPTION_WEBHOOKS = 'webhooks';
     const OPTION_EVENTS = 'events';

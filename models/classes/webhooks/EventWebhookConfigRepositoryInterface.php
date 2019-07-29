@@ -25,9 +25,9 @@ use oat\tao\model\webhooks\ConfigEntity\WebhookInterface;
  * Represents webhooks config entries storage. We will add 'set' methods here if we are going to implement
  * dynamic configuration for webhooks (admin web panel)
  */
-interface WebhookConfigRepositoryInterface
+interface EventWebhookConfigRepositoryInterface
 {
-    const SERVICE_ID = 'tao/WebhookConfigRepository';
+    const SERVICE_ID = 'tao/eventWebhookConfigRepository';
 
     /**
      * @param string $id
