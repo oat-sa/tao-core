@@ -1112,9 +1112,9 @@ class Updater extends \common_ext_ExtensionUpdater {
 
             $this->setVersion('38.1.3');
         }
-        $this->skip('38.1.3', '38.2.0');
+        $this->skip('38.1.3', '38.2.1');
 
-        if ($this->isVersion('38.2.0')) {
+        if ($this->isVersion('38.2.1')) {
             $this->getServiceManager()->register(
                 EventWebhooksServiceInterface::SERVICE_ID,
                 new EventWebhooksService([EventWebhooksService::OPTION_SUPPORTED_EVENTS => []])
