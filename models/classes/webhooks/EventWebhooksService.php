@@ -69,11 +69,31 @@ class EventWebhooksService extends ConfigurableService implements EventWebhooksS
 
     public function handleEvent(Event $event)
     {
+        if (!$this->checkEventIsSupported($event)) {
+            return;
+        }
+
+        /** @var Event|WebhookSerializableInterface $event */
+
+        $webhookConfigIds = $this->getEventWebhookConfigRepository()->getWebhookConfigIds($event->getName());
+        if (count($webhookConfigIds) === 0) {
+            return;
+        }
+
+        $this->createTasksForEvent($event, $webhookConfigIds);
+    }
+
+    /**
+     * @param Event $event
+     * @return bool
+     */
+    protected function checkEventIsSupported(Event $event)
+    {
         $eventName = $event->getName();
 
         if (!$this->isEventRegistered($eventName)) {
             $this->logError("Event '$eventName' is not supported by " . self::class);
-            return;
+            return false;
         }
 
         if (!($event instanceof WebhookSerializableInterface)) {
@@ -82,22 +102,26 @@ class EventWebhooksService extends ConfigurableService implements EventWebhooksS
                 self::class,
                 WebhookSerializableInterface::class
             ));
-            return;
+            return false;
         }
 
-        $webhookConfigIds = $this->getEventWebhookConfigRepository()->getWebhookConfigIds($eventName);
-        if (count($webhookConfigIds) === 0) {
-            return;
-        }
+        return true;
+    }
 
+    /**
+     * @param Event|WebhookSerializableInterface $event
+     * @param string[] $webhookConfigIds
+     */
+    protected function createTasksForEvent(Event $event, $webhookConfigIds) {
         $eventData = $event->serializeForWebhook();
+        $eventName = $event->getName();
 
         foreach ($webhookConfigIds as $webhookConfigId) {
             $webhookTaskMetadata = new WebhookTaskMetadata(
                 $eventName,
                 $eventData,
                 $webhookConfigId
-                );
+            );
 
             $this->getWebhookTaskService()->createTask($webhookTaskMetadata);
         }
