@@ -113,8 +113,15 @@ class EventWebhooksService extends ConfigurableService implements EventWebhooksS
      * @param string[] $webhookConfigIds
      */
     protected function createTasksForEvent(Event $event, $webhookConfigIds) {
-        $eventData = $event->serializeForWebhook();
         $eventName = $event->getName();
+
+        try {
+            $eventData = $event->serializeForWebhook();
+        }
+        catch (\Exception $exception) {
+            $this->logError("Error during '$eventName' event serialization for webhook. " . $exception->getMessage());
+            return;
+        }
 
         foreach ($webhookConfigIds as $webhookConfigId) {
             $webhookTaskMetadata = new WebhookTaskMetadata(
@@ -123,7 +130,16 @@ class EventWebhooksService extends ConfigurableService implements EventWebhooksS
                 $webhookConfigId
             );
 
-            $this->getWebhookTaskService()->createTask($webhookTaskMetadata);
+            try {
+                $this->getWebhookTaskService()->createTask($webhookTaskMetadata);
+            }
+            catch (\Exception $exception) {
+                $this->logError(
+                    "Can't create webhook task for '$eventName'" . $exception->getMessage(),
+                    $webhookTaskMetadata
+                );
+                continue;
+            }
         }
     }
 
