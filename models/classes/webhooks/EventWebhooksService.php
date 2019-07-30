@@ -97,7 +97,7 @@ class EventWebhooksService extends ConfigurableService implements EventWebhooksS
         }
 
         if (!($event instanceof WebhookSerializableInterface)) {
-            $this->logError(sprintf('Event "%s" passed to "%s" is not "%s"',
+            $this->logError(sprintf('Event "%s" passed to "%s" is not implementing "%s"',
                 $eventName,
                 self::class,
                 WebhookSerializableInterface::class
