@@ -57,7 +57,7 @@
         "imsglobal/lti": "^3.0",
         "paragonie/random_compat": "^2.0",
         "oat-sa/composer-npm-bridge": "^0.3.0",
-        "symfony/dotenv": "^5.0@dev"
+        "symfony/dotenv": "^4.0"
     },
     "autoload": {
         "psr-4": {
