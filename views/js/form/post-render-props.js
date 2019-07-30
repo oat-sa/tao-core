@@ -391,7 +391,7 @@ define([
                 var $parentHeadingLabel = $(this).find('.property-heading-label');
                 var $editBlockLabel = $(this).find('.property-edit-container input[name$="_label"]');
 
-                if (editBlockLabel.val() !== '') {
+                if ($editBlockLabel.val() !== '') {
                     $parentHeadingLabel.text($editBlockLabel.val());
                 }
             }
