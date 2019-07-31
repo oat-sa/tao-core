@@ -90,7 +90,8 @@ class Bootstrap implements ServiceManagerAwareInterface
      */
     public function __construct($configuration)
     {
-        $envFile = ROOT_PATH . '.env';
+        $envFile = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR
+            . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '.env';
         if (file_exists($envFile)) {
             $dotenv = new Dotenv();
             $dotenv->loadEnv($envFile);
