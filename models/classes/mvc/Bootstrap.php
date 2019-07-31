@@ -94,7 +94,7 @@ class Bootstrap implements ServiceManagerAwareInterface
         $envFile = $envDir. '.env';
         if (file_exists($envFile)) {
             $dotenv = new Dotenv();
-            $dotenv->load($envFile);
+            $dotenv->loadEnv($envFile);
         }
 
         if (! is_string($configuration) || ! is_readable($configuration)) {
