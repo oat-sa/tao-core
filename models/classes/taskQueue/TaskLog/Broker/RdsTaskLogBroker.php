@@ -428,8 +428,6 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
             $this->getPersistence()->getPlatform()->commit();
 
         } catch (\Exception $e) {
-            $this->logError($e->getMessage());
-            $this->logError($e->getTraceAsString());
             $this->getPersistence()->getPlatform()->rollBack();
             $this->logDebug($e->getMessage());
 
