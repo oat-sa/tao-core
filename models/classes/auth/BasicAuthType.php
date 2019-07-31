@@ -18,13 +18,16 @@
  *
  * @author Alexander Zagovorichev <olexander.zagovorychev@1pt.com>
  */
-
 namespace oat\tao\model\auth;
-
 use GuzzleHttp\Client;
 use oat\tao\helpers\Template;
 use Psr\Http\Message\RequestInterface;
 
+/**
+ * @deprecated Please use BasicType
+ * Class BasicAuthType
+ * @package oat\tao\model\auth
+ */
 class BasicAuthType extends AbstractAuthType implements BasicAuth
 {
     /**
@@ -43,14 +46,13 @@ class BasicAuthType extends AbstractAuthType implements BasicAuth
 
     /**
      * RDF class of the AuthType
-     *
-     * @return \core_kernel_classes_Class
+     * @param array $parameters
+     * @return \core_kernel_classes_Class|AbstractCredentials
      */
-    public function getAuthClass()
+    public function getAuthClass($parameters = [])
     {
         return $this->getClass(self::CLASS_BASIC_AUTH);
     }
-
     /**
      * All fields to configure current authenticator
      *
@@ -63,7 +65,6 @@ class BasicAuthType extends AbstractAuthType implements BasicAuth
             $this->getProperty(self::PROPERTY_PASSWORD),
         ];
     }
-
     /**
      * Returns template for the current instance (or empty template for the default authorization) with credentials
      *
@@ -75,7 +76,6 @@ class BasicAuthType extends AbstractAuthType implements BasicAuth
         $data = $this->loadCredentials();
         return Template::inc('auth/basicAuthForm.tpl', 'tao', $data);
     }
-
     /**
      * Fetch the credentials for the current resource.
      *
@@ -88,12 +88,10 @@ class BasicAuthType extends AbstractAuthType implements BasicAuth
     {
         $instance = $this->getInstance();
         if ($instance && $instance->exists()) {
-
             $props = $instance->getPropertiesValues([
                 $this->getProperty(self::PROPERTY_LOGIN),
                 $this->getProperty(self::PROPERTY_PASSWORD)
             ]);
-
             $data = [
                 self::PROPERTY_LOGIN => (string)current($props[self::PROPERTY_LOGIN]),
                 self::PROPERTY_PASSWORD => (string)current($props[self::PROPERTY_PASSWORD]),
@@ -104,10 +102,8 @@ class BasicAuthType extends AbstractAuthType implements BasicAuth
                 self::PROPERTY_PASSWORD => '',
             ];
         }
-
         return $data;
     }
-
     /**
      * @return array
      * @throws \common_exception_InvalidArgumentType
@@ -120,4 +116,5 @@ class BasicAuthType extends AbstractAuthType implements BasicAuth
             $credentials[self::PROPERTY_PASSWORD],
         ];
     }
+
 }

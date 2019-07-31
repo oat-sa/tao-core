@@ -21,7 +21,11 @@
 
 namespace oat\tao\model\auth;
 
-
+/**
+ * @deprecated
+ * Interface BasicAuth
+ * @package oat\tao\model\auth
+ */
 interface BasicAuth
 {
     const CLASS_BASIC_AUTH = 'http://www.tao.lu/Ontologies/TAO.rdf#BasicAuthConsumer';

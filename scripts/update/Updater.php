@@ -1069,29 +1069,49 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('35.8.2');
         }
 
-        $this->skip('35.8.2', '37.8.2');
+        $this->skip('35.8.2', '38.0.0');
 
-        if ($this->isVersion('37.8.2')) {
-            $options = [
-                SettingsStorage::OPTION_PERSISTENCE => 'default_kv',
-                SettingsStorage::OPTION_KEY_NAMESPACE => 'tao:settings:'
-            ];
-            $settingsStorage = new SettingsStorage($options);
-            $this->getServiceManager()->register(SettingsStorageInterface::SERVICE_ID, $settingsStorage);
+        if ($this->isVersion('38.0.0')) {
+            OntologyUpdater::syncModels();
 
-            $defaultHeaderSetting = 'self';
-            $defaultHeaderList = [];
-            $settingsStorage->set(CspHeaderSettingsInterface::CSP_HEADER_SETTING, $defaultHeaderSetting);
-            $settingsStorage->set(CspHeaderSettingsInterface::CSP_HEADER_LIST, $defaultHeaderList);
+            $iterator = new FileIterator(__DIR__ . '/../../locales/ru-RU/lang.rdf');
+            $rdf = ModelManager::getModel()->getRdfInterface();
 
-            $this->runExtensionScript(MigrateSecuritySettings::class, ['settings', '--wet']);
-
-            $msg = 'If you have more than one server execute %s script on all servers to migrate existing security settings from file to new persistence' . PHP_EOL;
-            $msg .= 'The script may be executed with dry/wet run options to see which settings will be migrated.';
-            $msg = sprintf($msg, MigrateSecuritySettings::class);
-            $this->addReport(new Report(Report::TYPE_WARNING, $msg));
-
-            $this->setVersion('37.9.0');
+            /* @var \core_kernel_classes_Triple $triple */
+            foreach ($iterator as $triple) {
+                $rdf->remove($triple);
+                $rdf->add($triple);
+            }
+            $this->setVersion('38.0.1');
         }
+
+        $this->skip('38.0.1', '38.1.2');
+
+        if ($this->isVersion('38.1.2')) {
+
+            $iterator = new FileIterator(__DIR__ . '/../../locales/ru-RU/lang.rdf');
+            $rdf = ModelManager::getModel()->getRdfInterface();
+
+            /* @var \core_kernel_classes_Triple $triple */
+            foreach ($iterator as $triple) {
+                $rdf->remove($triple);
+                $rdf->add($triple);
+            }
+
+            $iterator = new FileIterator(__DIR__ . '/../../locales/es-MX/lang.rdf');
+            $rdf = ModelManager::getModel()->getRdfInterface();
+
+            /* @var \core_kernel_classes_Triple $triple */
+            foreach ($iterator as $triple) {
+                $rdf->remove($triple);
+                $rdf->add($triple);
+            }
+
+            OntologyUpdater::syncModels();
+
+            $this->setVersion('38.1.3');
+        }
+
+        $this->skip('38.1.3', '38.3.0');
     }
 }

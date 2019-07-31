@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint105\n"
-"PO-Revision-Date: 2019-06-21T08:52:59\n"
+"Project-Id-Version: TAO 3.3.0-sprint106\n"
+"PO-Revision-Date: 2019-07-19T08:51:00\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ru-RU\n"
@@ -16,10 +16,10 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " AND "
+msgid " and "
 msgstr ""
 
-msgid " and "
+msgid " AND "
 msgstr ""
 
 msgid " has been deleted successfully"
@@ -367,10 +367,10 @@ msgstr ""
 msgid "Calendar"
 msgstr ""
 
-msgid "Cancel"
+msgid "cancel"
 msgstr ""
 
-msgid "cancel"
+msgid "Cancel"
 msgstr ""
 
 msgid "cancel the action"
@@ -446,10 +446,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
 msgid "Clear selection"
@@ -465,7 +465,7 @@ msgid "Close"
 msgstr "Закрыть"
 
 msgid "Close message"
-msgstr ""
+msgstr "Закрыть сообщение"
 
 msgid "Code Version"
 msgstr ""
@@ -480,7 +480,7 @@ msgid "Commands:"
 msgstr ""
 
 msgid "comment..."
-msgstr ""
+msgstr "комментарий..."
 
 msgid "Commit"
 msgstr ""
@@ -842,7 +842,7 @@ msgid "First Name"
 msgstr ""
 
 msgid "First page"
-msgstr ""
+msgstr "Первая страница"
 
 msgid "First row column names"
 msgstr ""
@@ -862,11 +862,14 @@ msgstr ""
 msgid "Forgot your password?"
 msgstr ""
 
+msgid "Form"
+msgstr ""
+
 msgid "Form data not saved."
 msgstr ""
 
 msgid "From"
-msgstr ""
+msgstr "С"
 
 msgid "Fuzzy Matching"
 msgstr ""
@@ -964,10 +967,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1045,6 +1048,9 @@ msgstr ""
 msgid "Invalid file type!"
 msgstr ""
 
+msgid "Invalid input"
+msgstr ""
+
 msgid "Invalid input for function"
 msgstr ""
 
@@ -1064,7 +1070,7 @@ msgid "Invalid values:"
 msgstr ""
 
 msgid "items per page"
-msgstr ""
+msgstr "элементов на странице"
 
 msgid "Label"
 msgstr ""
@@ -1079,7 +1085,7 @@ msgid "Last Name"
 msgstr ""
 
 msgid "Last page"
-msgstr ""
+msgstr "Последняя страница"
 
 msgid "Last result"
 msgstr ""
@@ -1302,10 +1308,10 @@ msgstr ""
 msgid "no label"
 msgstr ""
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr ""
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr ""
 
 msgid "No results found"
@@ -1352,15 +1358,15 @@ msgid "Number of elements"
 msgstr ""
 
 msgid "of"
-msgstr ""
+msgstr "из"
 
 msgid "Off"
 msgstr ""
 
-msgid "Ok"
+msgid "OK"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr ""
 
 msgid "Old Password"
@@ -1382,7 +1388,7 @@ msgid "Outlook on the next Synchronization"
 msgstr ""
 
 msgid "Page"
-msgstr ""
+msgstr "Страница"
 
 msgid "Password"
 msgstr ""
@@ -1451,7 +1457,7 @@ msgid "Please give a message to your commit"
 msgstr ""
 
 msgid "Please provide a reason"
-msgstr ""
+msgstr "Пожалуйста, укажите причину"
 
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
 msgstr ""
@@ -1820,6 +1826,9 @@ msgstr ""
 msgid "string"
 msgstr ""
 
+msgid "Submit"
+msgstr ""
+
 msgid "Success"
 msgstr ""
 
@@ -1896,7 +1905,7 @@ msgid "Text - Short - Field"
 msgstr ""
 
 msgid "The action will be applied to"
-msgstr ""
+msgstr "Действие будет применено к"
 
 msgid "The action will be applied to the following"
 msgstr ""
@@ -1995,7 +2004,7 @@ msgid "Title"
 msgstr ""
 
 msgid "to"
-msgstr ""
+msgstr "по"
 
 msgid "To reset your password, click the link below, or paste it into your browser. You will then be prompted to create a new password."
 msgstr ""
@@ -2108,10 +2117,10 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr ""
 
 msgid "Undefined amount of the pages for pagination"

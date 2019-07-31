@@ -1442,6 +1442,10 @@ html, body {
 /* Highlight */
 .ui-state-highlight {
     @extend .feedback-warning;
+    &.tree-hint {
+        margin: 15px;
+        padding: 2px 4px;
+    }
 }
 
 /* Error */

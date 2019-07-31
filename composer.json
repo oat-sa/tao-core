@@ -56,7 +56,8 @@
         "pimple/pimple": "^3.0",
         "imsglobal/lti": "^3.0",
         "paragonie/random_compat": "^2.0",
-        "oat-sa/composer-npm-bridge": "^0.3.0"
+        "oat-sa/composer-npm-bridge": "^0.3.0",
+        "symfony/dotenv": "~4.3"
     },
     "autoload": {
         "psr-4": {
