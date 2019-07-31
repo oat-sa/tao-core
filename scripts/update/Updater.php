@@ -1113,5 +1113,27 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('38.1.3', '38.3.0');
+        if ($this->isVersion('38.3.0')) {
+            $options = [
+                SettingsStorage::OPTION_PERSISTENCE => 'default_kv',
+                SettingsStorage::OPTION_KEY_NAMESPACE => 'tao:settings:'
+            ];
+            $settingsStorage = new SettingsStorage($options);
+            $this->getServiceManager()->register(SettingsStorageInterface::SERVICE_ID, $settingsStorage);
+
+            $defaultHeaderSetting = 'self';
+            $defaultHeaderList = '';
+            $settingsStorage->set(CspHeaderSettingsInterface::CSP_HEADER_SETTING, $defaultHeaderSetting);
+            $settingsStorage->set(CspHeaderSettingsInterface::CSP_HEADER_LIST, $defaultHeaderList);
+
+            $this->runExtensionScript(MigrateSecuritySettings::class, ['settings', '--wet']);
+
+            $msg = 'If you have more than one server execute %s script on all servers to migrate existing security settings from file to new persistence' . PHP_EOL;
+            $msg .= 'The script may be executed with dry/wet run options to see which settings will be migrated.';
+            $msg = sprintf($msg, MigrateSecuritySettings::class);
+            $this->addReport(new Report(Report::TYPE_WARNING, $msg));
+
+            $this->setVersion('38.4.0');
+        }
     }
 }
