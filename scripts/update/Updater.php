@@ -87,6 +87,10 @@ use oat\tao\model\user\implementation\NoUserLocksService;
 use oat\tao\model\user\import\OntologyUserMapper;
 use oat\tao\model\user\import\UserCsvImporterFactory;
 use oat\tao\model\user\UserLocks;
+use oat\tao\model\webhooks\WebhookEventsService;
+use oat\tao\model\webhooks\WebhookEventsServiceInterface;
+use oat\tao\model\webhooks\WebhookFileRegistry;
+use oat\tao\model\webhooks\WebhookRegistryInterface;
 use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\AddTmpFsHandlers;
@@ -1110,5 +1114,20 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('38.1.3', '38.3.0');
+
+        if ($this->isVersion('38.3.0')) {
+            $this->getServiceManager()->register(
+                WebhookEventsServiceInterface::SERVICE_ID,
+                new WebhookEventsService([WebhookEventsService::OPTION_SUPPORTED_EVENTS => []])
+            );
+            $this->getServiceManager()->register(
+                WebhookRegistryInterface::SERVICE_ID,
+                new WebhookFileRegistry([
+                    WebhookFileRegistry::OPTION_WEBHOOKS => [],
+                    WebhookFileRegistry::OPTION_EVENTS => [],
+                ])
+            );
+            $this->setVersion('38.3.1');
+        }
     }
 }
