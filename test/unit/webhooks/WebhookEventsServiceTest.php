@@ -72,8 +72,12 @@ class WebhookEventsServiceTest extends TestCase
             WebhookEventsService::OPTION_SUPPORTED_EVENTS => []
         ]);
 
+        $service->setServiceLocator($this->getServiceLocatorMock([
+            EventManager::SERVICE_ID => $this->eventManagerMock
+        ]));
+
         $this->assertFalse($service->isEventRegistered($eventName));
-        $service->registerEvent($eventName, $this->eventManagerMock);
+        $service->registerEvent($eventName);
         $this->assertTrue($service->isEventRegistered($eventName));
     }
 
@@ -90,8 +94,12 @@ class WebhookEventsServiceTest extends TestCase
             ]
         ]);
 
+        $service->setServiceLocator($this->getServiceLocatorMock([
+            EventManager::SERVICE_ID => $this->eventManagerMock
+        ]));
+
         $this->assertTrue($service->isEventRegistered($eventName));
-        $service->unregisterEvent($eventName, $this->eventManagerMock);
+        $service->unregisterEvent($eventName);
         $this->assertFalse($service->isEventRegistered($eventName));
     }
 

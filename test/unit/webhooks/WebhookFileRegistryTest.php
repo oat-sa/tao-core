@@ -98,7 +98,20 @@ class WebhookFileRegistryTest extends TestCase
             WebhookFileRegistry::OPTION_WEBHOOKS => ['wh1' => []]
         ]);
 
-        $this->assertEquals(['wh1'], $this->registry->getWebhookConfigIds('TestEvent'));
+        $result = $this->registry->getWebhookConfigIds('TestEvent');
+        $this->assertEquals(['wh1'], $result);
         $this->assertEquals([], $this->registry->getWebhookConfigIds('AnotherEvent'));
+    }
+
+    public function testGetUnexistingWebhookConfigIds() {
+        $this->registry = new WebhookFileRegistry([
+            WebhookFileRegistry::OPTION_EVENTS => [
+                'TestEvent' => ['wh1']
+            ],
+            WebhookFileRegistry::OPTION_WEBHOOKS => ['wh1' => []]
+        ]);
+
+        $result = $this->registry->getWebhookConfigIds('AnotherEvent');
+        $this->assertEquals([], $result);
     }
 }

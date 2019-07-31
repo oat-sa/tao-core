@@ -20,7 +20,6 @@
 namespace oat\tao\model\webhooks;
 
 use oat\oatbox\event\Event;
-use oat\oatbox\event\EventManager;
 
 interface WebhookEventsServiceInterface
 {
@@ -28,19 +27,19 @@ interface WebhookEventsServiceInterface
 
     /**
      * Save new supported event to service config and attach listener to eventManager
+     * Don't forget to re-register EventManager after this call!
      *
      * @param string $eventName
-     * @param EventManager $eventManager
      */
-    public function registerEvent($eventName, EventManager $eventManager);
+    public function registerEvent($eventName);
 
     /**
      * Remove event from list of supported events and detach listener in eventManager
+     * Don't forget to re-register EventManager after this call!
      *
      * @param string $eventName
-     * @param EventManager $eventManager
      */
-    public function unregisterEvent($eventName, EventManager $eventManager);
+    public function unregisterEvent($eventName);
 
     /**
      * @param string $eventName

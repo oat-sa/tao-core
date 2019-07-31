@@ -37,25 +37,25 @@ class WebhookEventsService extends ConfigurableService implements WebhookEventsS
     /**
      * @inheritDoc
      */
-    public function registerEvent($eventName, EventManager $eventManager)
+    public function registerEvent($eventName)
     {
         $supportedEvents = $this->getRegisteredEvents();
         $supportedEvents[$eventName] = true;
         $this->setOption(self::OPTION_SUPPORTED_EVENTS, $supportedEvents);
 
-        $eventManager->attach($eventName, $this->getEventHandlerCallback());
+        $this->getEventManager()->attach($eventName, $this->getEventHandlerCallback());
     }
 
     /**
      * @inheritDoc
      */
-    public function unregisterEvent($eventName, EventManager $eventManager)
+    public function unregisterEvent($eventName)
     {
         $supportedEvents = $this->getRegisteredEvents();
         unset($supportedEvents[$eventName]);
         $this->setOption(self::OPTION_SUPPORTED_EVENTS, $supportedEvents);
 
-        $eventManager->detach($eventName, $this->getEventHandlerCallback());
+        $this->getEventManager()->detach($eventName, $this->getEventHandlerCallback());
     }
 
     /**
@@ -91,7 +91,8 @@ class WebhookEventsService extends ConfigurableService implements WebhookEventsS
             return;
         }
 
-        $this->createTasksForEvent($event, $webhookConfigIds);
+        $tasksMetadata = $this->prepareTasksMetadata($event, $webhookConfigIds);
+        $this->createWebhookTasks($tasksMetadata);
     }
 
     /**
@@ -122,32 +123,49 @@ class WebhookEventsService extends ConfigurableService implements WebhookEventsS
     /**
      * @param WebhookSerializableEventInterface $event
      * @param string[] $webhookConfigIds
+     * @return WebhookTaskMetadata[]
      */
-    private function createTasksForEvent(WebhookSerializableEventInterface $event, $webhookConfigIds) {
-        $eventName = $event->getName();
-
+    private function prepareTasksMetadata(WebhookSerializableEventInterface $event, $webhookConfigIds)
+    {
         try {
             $eventData = $event->serializeForWebhook();
         }
         catch (\Exception $exception) {
-            $this->logError("Error during '$eventName' event serialization for webhook. " . $exception->getMessage());
-            return;
+            $this->logError(sprintf('Error during "%s" event serialization for webhook. %s',
+                $event->getName(),
+                $exception->getMessage()
+            ));
+            return [];
         }
 
+        $result = [];
+
         foreach ($webhookConfigIds as $webhookConfigId) {
-            $webhookTaskMetadata = new WebhookTaskMetadata(
-                $eventName,
+            $result[] = new WebhookTaskMetadata(
+                $event->getName(),
                 $eventData,
                 $webhookConfigId
             );
+        }
 
+        return $result;
+    }
+
+    /**
+     * @param WebhookTaskMetadata[] $tasksMetadata
+     */
+    private function createWebhookTasks($tasksMetadata)
+    {
+        foreach ($tasksMetadata as $taskMetadata) {
             try {
-                $this->getWebhookTaskService()->createTask($webhookTaskMetadata);
-            }
-            catch (\Exception $exception) {
+                $this->getWebhookTaskService()->createTask($taskMetadata);
+            } catch (\Exception $exception) {
                 $this->logError(
-                    "Can't create webhook task for '$eventName'" . $exception->getMessage(),
-                    $webhookTaskMetadata
+                    sprintf("Can't create webhook task for %s. %s",
+                        $taskMetadata[WebhookTaskMetadata::EVENT_NAME],
+                        $exception->getMessage()
+                    ),
+                    $taskMetadata
                 );
                 continue;
             }
@@ -178,5 +196,14 @@ class WebhookEventsService extends ConfigurableService implements WebhookEventsS
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->getServiceLocator()->get(WebhookTaskServiceInterface::SERVICE_ID);
+    }
+
+    /**
+     * @return EventManager
+     */
+    private function getEventManager()
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return $this->getServiceLocator()->get(EventManager::SERVICE_ID);
     }
 }
