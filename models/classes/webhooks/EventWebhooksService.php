@@ -67,6 +67,17 @@ class EventWebhooksService extends ConfigurableService implements EventWebhooksS
         return isset($supportedEvents[$eventName]);
     }
 
+    /**
+     * @return string[]
+     */
+    public function getRegisteredEvents()
+    {
+        $events = $this->getOption(self::OPTION_SUPPORTED_EVENTS);
+        return $events !== null
+            ? $events
+            : [];
+    }
+
     public function handleEvent(Event $event)
     {
         if (!$this->checkEventIsSupported($event)) {
@@ -87,7 +98,7 @@ class EventWebhooksService extends ConfigurableService implements EventWebhooksS
      * @param Event $event
      * @return bool
      */
-    protected function checkEventIsSupported(Event $event)
+    private function checkEventIsSupported(Event $event)
     {
         $eventName = $event->getName();
 
@@ -112,7 +123,7 @@ class EventWebhooksService extends ConfigurableService implements EventWebhooksS
      * @param WebhookSerializableEventInterface $event
      * @param string[] $webhookConfigIds
      */
-    protected function createTasksForEvent(WebhookSerializableEventInterface $event, $webhookConfigIds) {
+    private function createTasksForEvent(WebhookSerializableEventInterface $event, $webhookConfigIds) {
         $eventName = $event->getName();
 
         try {
@@ -146,7 +157,7 @@ class EventWebhooksService extends ConfigurableService implements EventWebhooksS
     /**
      * @return array|callable
      */
-    protected function getEventHandlerCallback()
+    private function getEventHandlerCallback()
     {
         return [self::SERVICE_ID, 'handleEvent'];
     }
@@ -154,7 +165,7 @@ class EventWebhooksService extends ConfigurableService implements EventWebhooksS
     /**
      * @return EventWebhookConfigRepositoryInterface
      */
-    protected function getEventWebhookConfigRepository()
+    private function getEventWebhookConfigRepository()
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->getServiceLocator()->get(EventWebhookConfigRepositoryInterface::SERVICE_ID);
@@ -163,20 +174,9 @@ class EventWebhooksService extends ConfigurableService implements EventWebhooksS
     /**
      * @return WebhookTaskServiceInterface
      */
-    protected function getWebhookTaskService()
+    private function getWebhookTaskService()
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->getServiceLocator()->get(WebhookTaskServiceInterface::SERVICE_ID);
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getRegisteredEvents()
-    {
-        $events = $this->getOption(self::OPTION_SUPPORTED_EVENTS);
-        return $events !== null
-            ? $events
-            : [];
     }
 }

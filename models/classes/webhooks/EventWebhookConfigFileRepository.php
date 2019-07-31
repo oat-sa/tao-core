@@ -73,7 +73,7 @@ class EventWebhookConfigFileRepository extends ConfigurableService implements Ev
     /**
      * @return WebhookEntryFactory
      */
-    protected function getWebhookEntryFactory() {
+    private function getWebhookEntryFactory() {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->getServiceLocator()->get(WebhookEntryFactory::class);
     }
