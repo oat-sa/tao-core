@@ -19,7 +19,9 @@
 
 namespace oat\tao\model\webhooks;
 
-interface WebhookSerializableInterface
+use oat\oatbox\event\Event;
+
+interface WebhookSerializableEventInterface extends Event
 {
     /**
      * @return array

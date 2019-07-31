@@ -20,12 +20,18 @@
 namespace oat\tao\test\unit\webhooks;
 
 use oat\generis\test\TestCase;
+use oat\tao\model\webhooks\ConfigEntity\Webhook;
+use oat\tao\model\webhooks\ConfigEntity\WebhookAuth;
+use oat\tao\model\webhooks\ConfigEntity\WebhookEntryFactory;
 use oat\tao\model\webhooks\EventWebhookConfigFileRepository;
 
 class EventWebhookConfigFileRepositoryTest extends TestCase
 {
     /** @var EventWebhookConfigFileRepository */
     private $repository;
+
+    /** @var WebhookEntryFactory|\PHPUnit_Framework_MockObject_MockObject */
+    private $webhookEntryFactoryMock;
 
     protected function setUp()
     {
@@ -47,16 +53,37 @@ class EventWebhookConfigFileRepositoryTest extends TestCase
                 ]
             ]
         ]);
+
+        $this->webhookEntryFactoryMock = $this->createMock(WebhookEntryFactory::class);
+
+        $serviceLocator = $this->getServiceLocatorMock([
+            WebhookEntryFactory::class => $this->webhookEntryFactoryMock
+        ]);
+
+        $this->repository->setServiceLocator($serviceLocator);
     }
 
     public function testGetWebhookConfig() {
-        $whConfig = $this->repository->getWebhookConfig('wh1');
+        $returnValue = new Webhook('wh1', 'http://url.com', 'POST', new WebhookAuth('SomeClass', [
+            'p1' => 'v1'
+        ]));
+        $this->webhookEntryFactoryMock->expects($this->once())
+            ->method('createEntryFromArray')
+            ->with([
+                'id' => 'wh1',
+                'url' => 'http://url.com',
+                'httpMethod' => 'POST',
+                'auth' => [
+                    'authClass' => 'SomeClass',
+                    'properties' => [
+                        'p1' => 'v1'
+                    ]
+                ]
+            ])
+            ->willReturn($returnValue);
 
-        $this->assertEquals('wh1', $whConfig->getId());
-        $this->assertEquals('http://url.com', $whConfig->getUrl());
-        $this->assertEquals('POST', $whConfig->getHttpMethod());
-        $this->assertEquals('SomeClass', $whConfig->getAuth()->getAuthClass());
-        $this->assertEquals(['p1' => 'v1'], $whConfig->getAuth()->getProperties());
+        $whConfig = $this->repository->getWebhookConfig('wh1');
+        $this->assertSame($returnValue, $whConfig);
 
         $this->assertNull($this->repository->getWebhookConfig('wh2'));
     }

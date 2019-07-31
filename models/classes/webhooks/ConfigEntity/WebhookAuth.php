@@ -36,19 +36,6 @@ class WebhookAuth implements WebhookAuthInterface
     private $properties;
 
     /**
-     * @param array $array
-     * @return WebhookAuth
-     */
-    public static function fromArray(array $array)
-    {
-        return new WebhookAuth(
-            $array[self::AUTH_CLASS],
-            $array[self::PROPERTIES]
-        );
-    }
-
-    /**
-     * WebhookAuth constructor.
      * @param string $authClass
      * @param array $properties
      */

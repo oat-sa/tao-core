@@ -73,7 +73,7 @@ class EventWebhooksService extends ConfigurableService implements EventWebhooksS
             return;
         }
 
-        /** @var Event|WebhookSerializableInterface $event */
+        /** @var WebhookSerializableEventInterface $event */
 
         $webhookConfigIds = $this->getEventWebhookConfigRepository()->getWebhookConfigIds($event->getName());
         if (count($webhookConfigIds) === 0) {
@@ -96,11 +96,11 @@ class EventWebhooksService extends ConfigurableService implements EventWebhooksS
             return false;
         }
 
-        if (!($event instanceof WebhookSerializableInterface)) {
+        if (!($event instanceof WebhookSerializableEventInterface)) {
             $this->logError(sprintf('Event "%s" passed to "%s" is not implementing "%s"',
                 $eventName,
                 self::class,
-                WebhookSerializableInterface::class
+                WebhookSerializableEventInterface::class
             ));
             return false;
         }
@@ -109,10 +109,10 @@ class EventWebhooksService extends ConfigurableService implements EventWebhooksS
     }
 
     /**
-     * @param Event|WebhookSerializableInterface $event
+     * @param WebhookSerializableEventInterface $event
      * @param string[] $webhookConfigIds
      */
-    protected function createTasksForEvent(Event $event, $webhookConfigIds) {
+    protected function createTasksForEvent(WebhookSerializableEventInterface $event, $webhookConfigIds) {
         $eventName = $event->getName();
 
         try {

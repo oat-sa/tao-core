@@ -21,6 +21,7 @@ namespace oat\tao\model\webhooks;
 
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\webhooks\ConfigEntity\Webhook;
+use oat\tao\model\webhooks\ConfigEntity\WebhookEntryFactory;
 
 /**
  * Implementation which uses own (service) configuration to store webhooks configuration
@@ -53,7 +54,7 @@ class EventWebhookConfigFileRepository extends ConfigurableService implements Ev
             return null;
         }
 
-        return Webhook::fromArray($webhooks[$id]);
+        return $this->getWebhookEntryFactory()->createEntryFromArray($webhooks[$id]);
     }
 
     /**
@@ -67,5 +68,13 @@ class EventWebhookConfigFileRepository extends ConfigurableService implements Ev
         return isset($events[$eventName])
             ? $events[$eventName]
             : [];
+    }
+
+    /**
+     * @return WebhookEntryFactory
+     */
+    protected function getWebhookEntryFactory() {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return $this->getServiceLocator()->get(WebhookEntryFactory::class);
     }
 }

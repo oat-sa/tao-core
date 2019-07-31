@@ -24,7 +24,7 @@ use oat\oatbox\event\Event;
 use oat\oatbox\event\EventManager;
 use oat\tao\model\webhooks\EventWebhooksService;
 use oat\tao\model\webhooks\EventWebhookConfigRepositoryInterface;
-use oat\tao\model\webhooks\WebhookSerializableInterface;
+use oat\tao\model\webhooks\WebhookSerializableEventInterface;
 use oat\tao\model\webhooks\WebhookTaskMetadata;
 use oat\tao\model\webhooks\WebhookTaskServiceInterface;
 use Psr\Log\LoggerInterface;
@@ -92,9 +92,8 @@ class EventWebhooksServiceTest extends TestCase
     public function testHandleEventPositive() {
         $eventName = 'TestEvent';
 
-        /** @var Event|WebhookSerializableInterface|\PHPUnit_Framework_MockObject_MockObject $event */
-        /** @noinspection PhpParamsInspection */
-        $event = $this->createMock([Event::class, WebhookSerializableInterface::class]);
+        /** @var WebhookSerializableEventInterface|\PHPUnit_Framework_MockObject_MockObject $event */
+        $event = $this->createMock(WebhookSerializableEventInterface::class);
         $event->method('getName')->willReturn($eventName);
         $event->method('serializeForWebhook')->willReturn(['d' => 2]);
 
@@ -125,9 +124,8 @@ class EventWebhooksServiceTest extends TestCase
     }
 
     public function testHandleEventNotSupportedEvent() {
-        /** @var Event|WebhookSerializableInterface|\PHPUnit_Framework_MockObject_MockObject $event */
-        /** @noinspection PhpParamsInspection */
-        $event = $this->createMock([Event::class, WebhookSerializableInterface::class]);
+        /** @var WebhookSerializableEventInterface|\PHPUnit_Framework_MockObject_MockObject $event */
+        $event = $this->createMock(WebhookSerializableEventInterface::class);
         $event->method('getName')->willReturn('TestEvent');
         $event->expects($this->never())->method('serializeForWebhook');
 
@@ -169,9 +167,8 @@ class EventWebhooksServiceTest extends TestCase
     public function testHandleEventNoWebhooks() {
         $eventName = 'TestEvent';
 
-        /** @var Event|WebhookSerializableInterface|\PHPUnit_Framework_MockObject_MockObject $event */
-        /** @noinspection PhpParamsInspection */
-        $event = $this->createMock([Event::class, WebhookSerializableInterface::class]);
+        /** @var WebhookSerializableEventInterface|\PHPUnit_Framework_MockObject_MockObject $event */
+        $event = $this->createMock(WebhookSerializableEventInterface::class);
         $event->method('getName')->willReturn($eventName);
         $event->expects($this->never())->method('serializeForWebhook');
 
