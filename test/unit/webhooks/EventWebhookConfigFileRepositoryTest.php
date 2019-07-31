@@ -35,6 +35,11 @@ class EventWebhookConfigFileRepositoryTest extends TestCase
 
     protected function setUp()
     {
+        $this->webhookEntryFactoryMock = $this->createMock(WebhookEntryFactory::class);
+    }
+
+    public function testGetWebhookConfig()
+    {
         $this->repository = new EventWebhookConfigFileRepository([
             EventWebhookConfigFileRepository::OPTION_EVENTS => [
                 'TestEvent' => ['wh1']
@@ -54,19 +59,16 @@ class EventWebhookConfigFileRepositoryTest extends TestCase
             ]
         ]);
 
-        $this->webhookEntryFactoryMock = $this->createMock(WebhookEntryFactory::class);
-
         $serviceLocator = $this->getServiceLocatorMock([
             WebhookEntryFactory::class => $this->webhookEntryFactoryMock
         ]);
 
         $this->repository->setServiceLocator($serviceLocator);
-    }
 
-    public function testGetWebhookConfig() {
         $returnValue = new Webhook('wh1', 'http://url.com', 'POST', new WebhookAuth('SomeClass', [
             'p1' => 'v1'
         ]));
+
         $this->webhookEntryFactoryMock->expects($this->once())
             ->method('createEntryFromArray')
             ->with([
@@ -89,6 +91,13 @@ class EventWebhookConfigFileRepositoryTest extends TestCase
     }
 
     public function testGetWebhookConfigIds() {
+        $this->repository = new EventWebhookConfigFileRepository([
+            EventWebhookConfigFileRepository::OPTION_EVENTS => [
+                'TestEvent' => ['wh1']
+            ],
+            EventWebhookConfigFileRepository::OPTION_WEBHOOKS => ['wh1' => []]
+        ]);
+
         $this->assertEquals(['wh1'], $this->repository->getWebhookConfigIds('TestEvent'));
         $this->assertEquals([], $this->repository->getWebhookConfigIds('AnotherEvent'));
     }

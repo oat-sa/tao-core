@@ -68,7 +68,10 @@ class EventWebhooksServiceTest extends TestCase
             ->method('attach')
             ->with($eventName, [EventWebhooksService::SERVICE_ID, 'handleEvent']);
 
-        $service = $this->getService();
+        $service = new EventWebhooksService([
+            EventWebhooksService::OPTION_SUPPORTED_EVENTS => []
+        ]);
+
         $this->assertFalse($service->isEventRegistered($eventName));
         $service->registerEvent($eventName, $this->eventManagerMock);
         $this->assertTrue($service->isEventRegistered($eventName));
@@ -81,9 +84,12 @@ class EventWebhooksServiceTest extends TestCase
             ->method('detach')
             ->with($eventName, [EventWebhooksService::SERVICE_ID, 'handleEvent']);
 
-        $service = $this->getService([
-            $eventName => true
+        $service = new EventWebhooksService([
+            EventWebhooksService::OPTION_SUPPORTED_EVENTS => [
+                $eventName => true
+            ]
         ]);
+
         $this->assertTrue($service->isEventRegistered($eventName));
         $service->unregisterEvent($eventName, $this->eventManagerMock);
         $this->assertFalse($service->isEventRegistered($eventName));
@@ -101,17 +107,25 @@ class EventWebhooksServiceTest extends TestCase
             $eventName => ['wh1', 'wh2']
         ];
 
+        $service = new EventWebhooksService([
+            EventWebhooksService::OPTION_SUPPORTED_EVENTS => [
+                $eventName => true
+            ]
+        ]);
+
+        $service->setServiceLocator($this->getServiceLocatorMock([
+            EventWebhookConfigRepositoryInterface::SERVICE_ID => $this->whConfigRepositoryMock,
+            WebhookTaskServiceInterface::SERVICE_ID => $this->whTaskServiceMock
+        ]));
+
         $prepareCheckMetadataCallback = function ($whId) use ($eventName) {
             return $this->callback(static function (WebhookTaskMetadata $whMetadata) use ($eventName, $whId) {
                 return $whMetadata[WebhookTaskMetadata::EVENT_NAME] === $eventName &&
                     $whMetadata[WebhookTaskMetadata::WEBHOOK_CONFIG_ID] === $whId &&
                     $whMetadata[WebhookTaskMetadata::EVENT_DATA] === ['d' => 2];
-                });
+            });
         };
 
-        $service = $this->getService([
-            $eventName => true
-        ]);
         $this->whTaskServiceMock
             ->expects($this->exactly(2))
             ->method('createTask')
@@ -129,16 +143,16 @@ class EventWebhooksServiceTest extends TestCase
         $event->method('getName')->willReturn('TestEvent');
         $event->expects($this->never())->method('serializeForWebhook');
 
-        $service = $this->getService([
-            'AnotherEvent' => true
+        $service = new EventWebhooksService([
+            EventWebhooksService::OPTION_SUPPORTED_EVENTS => [
+                'AnotherEvent' => true
+            ]
         ]);
+
         /** @var LoggerInterface|\PHPUnit_Framework_MockObject_MockObject $logger */
         $logger = $this->createMock(LoggerInterface::class);
         $logger->expects($this->atLeast(1))->method('error');
         $service->setLogger($logger);
-
-        $this->whConfigRepositoryMock->expects($this->never())->method('getWebhookConfigIds');
-        $this->whTaskServiceMock->expects($this->never())->method('createTask');
 
         $service->handleEvent($event);
     }
@@ -150,16 +164,22 @@ class EventWebhooksServiceTest extends TestCase
         $event->method('getName')->willReturn('TestEvent');
         $event->expects($this->never())->method('serializeForWebhook');
 
-        $service = $this->getService([
-            'TestEvent' => true
+        $service = new EventWebhooksService([
+            EventWebhooksService::OPTION_SUPPORTED_EVENTS => [
+                'TestEvent' => true
+            ]
         ]);
+
+        $service->setServiceLocator($this->getServiceLocatorMock([
+            WebhookTaskServiceInterface::SERVICE_ID => $this->whTaskServiceMock
+        ]));
+
         /** @var LoggerInterface|\PHPUnit_Framework_MockObject_MockObject $logger */
         $logger = $this->createMock(LoggerInterface::class);
         $logger->expects($this->atLeast(1))->method('error');
         $service->setLogger($logger);
 
         $this->whConfigRepositoryMock->expects($this->never())->method('getWebhookConfigIds');
-        $this->whTaskServiceMock->expects($this->never())->method('createTask');
 
         $service->handleEvent($event);
     }
@@ -176,34 +196,16 @@ class EventWebhooksServiceTest extends TestCase
             $eventName => []
         ];
 
-        $service = $this->getService([
-            $eventName => true
+        $service = new EventWebhooksService([
+            EventWebhooksService::OPTION_SUPPORTED_EVENTS => [
+                $eventName => true
+            ]
         ]);
 
-        $this->whTaskServiceMock
-            ->expects($this->never())
-            ->method('createTask');
+        $service->setServiceLocator($this->getServiceLocatorMock([
+            EventWebhookConfigRepositoryInterface::SERVICE_ID => $this->whConfigRepositoryMock
+        ]));
 
         $service->handleEvent($event);
-    }
-
-    /**
-     * @param string[] $supportedEvents
-     * @return EventWebhooksService
-     */
-    protected function getService($supportedEvents = [])
-    {
-        $service = new EventWebhooksService([
-            EventWebhooksService::OPTION_SUPPORTED_EVENTS => $supportedEvents
-        ]);
-
-        $serviceLocator = $this->getServiceLocatorMock([
-            EventWebhookConfigRepositoryInterface::SERVICE_ID => $this->whConfigRepositoryMock,
-            WebhookTaskServiceInterface::SERVICE_ID => $this->whTaskServiceMock
-        ]);
-
-        $service->setServiceLocator($serviceLocator);
-
-        return $service;
     }
 }
