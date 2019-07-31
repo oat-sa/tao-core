@@ -3,7 +3,7 @@
  * Default config header created during install
  */
 
-return new oat\tao\model\webhooks\EventWebhooksService(array(
+return new oat\tao\model\webhooks\WebhookEventsService(array(
     'supportedEvents' => array(
     )
 ));

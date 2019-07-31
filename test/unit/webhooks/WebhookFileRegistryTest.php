@@ -23,12 +23,12 @@ use oat\generis\test\TestCase;
 use oat\tao\model\webhooks\ConfigEntity\Webhook;
 use oat\tao\model\webhooks\ConfigEntity\WebhookAuth;
 use oat\tao\model\webhooks\ConfigEntity\WebhookEntryFactory;
-use oat\tao\model\webhooks\EventWebhookConfigFileRepository;
+use oat\tao\model\webhooks\WebhookFileRegistry;
 
-class EventWebhookConfigFileRepositoryTest extends TestCase
+class WebhookFileRegistryTest extends TestCase
 {
-    /** @var EventWebhookConfigFileRepository */
-    private $repository;
+    /** @var WebhookFileRegistry */
+    private $registry;
 
     /** @var WebhookEntryFactory|\PHPUnit_Framework_MockObject_MockObject */
     private $webhookEntryFactoryMock;
@@ -40,11 +40,11 @@ class EventWebhookConfigFileRepositoryTest extends TestCase
 
     public function testGetWebhookConfig()
     {
-        $this->repository = new EventWebhookConfigFileRepository([
-            EventWebhookConfigFileRepository::OPTION_EVENTS => [
+        $this->registry = new WebhookFileRegistry([
+            WebhookFileRegistry::OPTION_EVENTS => [
                 'TestEvent' => ['wh1']
             ],
-            EventWebhookConfigFileRepository::OPTION_WEBHOOKS => [
+            WebhookFileRegistry::OPTION_WEBHOOKS => [
                 'wh1' => [
                     'id' => 'wh1',
                     'url' => 'http://url.com',
@@ -63,7 +63,7 @@ class EventWebhookConfigFileRepositoryTest extends TestCase
             WebhookEntryFactory::class => $this->webhookEntryFactoryMock
         ]);
 
-        $this->repository->setServiceLocator($serviceLocator);
+        $this->registry->setServiceLocator($serviceLocator);
 
         $returnValue = new Webhook('wh1', 'http://url.com', 'POST', new WebhookAuth('SomeClass', [
             'p1' => 'v1'
@@ -84,21 +84,21 @@ class EventWebhookConfigFileRepositoryTest extends TestCase
             ])
             ->willReturn($returnValue);
 
-        $whConfig = $this->repository->getWebhookConfig('wh1');
+        $whConfig = $this->registry->getWebhookConfig('wh1');
         $this->assertSame($returnValue, $whConfig);
 
-        $this->assertNull($this->repository->getWebhookConfig('wh2'));
+        $this->assertNull($this->registry->getWebhookConfig('wh2'));
     }
 
     public function testGetWebhookConfigIds() {
-        $this->repository = new EventWebhookConfigFileRepository([
-            EventWebhookConfigFileRepository::OPTION_EVENTS => [
+        $this->registry = new WebhookFileRegistry([
+            WebhookFileRegistry::OPTION_EVENTS => [
                 'TestEvent' => ['wh1']
             ],
-            EventWebhookConfigFileRepository::OPTION_WEBHOOKS => ['wh1' => []]
+            WebhookFileRegistry::OPTION_WEBHOOKS => ['wh1' => []]
         ]);
 
-        $this->assertEquals(['wh1'], $this->repository->getWebhookConfigIds('TestEvent'));
-        $this->assertEquals([], $this->repository->getWebhookConfigIds('AnotherEvent'));
+        $this->assertEquals(['wh1'], $this->registry->getWebhookConfigIds('TestEvent'));
+        $this->assertEquals([], $this->registry->getWebhookConfigIds('AnotherEvent'));
     }
 }

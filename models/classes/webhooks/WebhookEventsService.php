@@ -24,7 +24,7 @@ use oat\oatbox\event\EventManager;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 
-class EventWebhooksService extends ConfigurableService implements EventWebhooksServiceInterface
+class WebhookEventsService extends ConfigurableService implements WebhookEventsServiceInterface
 {
     use LoggerAwareTrait;
 
@@ -86,7 +86,7 @@ class EventWebhooksService extends ConfigurableService implements EventWebhooksS
 
         /** @var WebhookSerializableEventInterface $event */
 
-        $webhookConfigIds = $this->getEventWebhookConfigRepository()->getWebhookConfigIds($event->getName());
+        $webhookConfigIds = $this->getWebhookRegistry()->getWebhookConfigIds($event->getName());
         if (count($webhookConfigIds) === 0) {
             return;
         }
@@ -163,12 +163,12 @@ class EventWebhooksService extends ConfigurableService implements EventWebhooksS
     }
 
     /**
-     * @return EventWebhookConfigRepositoryInterface
+     * @return WebhookRegistryInterface
      */
-    private function getEventWebhookConfigRepository()
+    private function getWebhookRegistry()
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
-        return $this->getServiceLocator()->get(EventWebhookConfigRepositoryInterface::SERVICE_ID);
+        return $this->getServiceLocator()->get(WebhookRegistryInterface::SERVICE_ID);
     }
 
     /**

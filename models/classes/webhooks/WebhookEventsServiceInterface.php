@@ -22,9 +22,9 @@ namespace oat\tao\model\webhooks;
 use oat\oatbox\event\Event;
 use oat\oatbox\event\EventManager;
 
-interface EventWebhooksServiceInterface
+interface WebhookEventsServiceInterface
 {
-    const SERVICE_ID = 'tao/eventWebhooksService';
+    const SERVICE_ID = 'tao/webhookEventsService';
 
     /**
      * Save new supported event to service config and attach listener to eventManager

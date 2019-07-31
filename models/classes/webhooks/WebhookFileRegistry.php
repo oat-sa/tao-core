@@ -38,7 +38,7 @@ use oat\tao\model\webhooks\ConfigEntity\WebhookEntryFactory;
  * See tao/test/unit/webhooks/WebhookConfigFileRepositoryTest.php
  * for example of configuration
  */
-class EventWebhookConfigFileRepository extends ConfigurableService implements EventWebhookConfigRepositoryInterface
+class WebhookFileRegistry extends ConfigurableService implements WebhookRegistryInterface
 {
     const OPTION_WEBHOOKS = 'webhooks';
     const OPTION_EVENTS = 'events';

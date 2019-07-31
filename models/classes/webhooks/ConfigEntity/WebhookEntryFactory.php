@@ -19,7 +19,9 @@
 
 namespace oat\tao\model\webhooks\ConfigEntity;
 
-class WebhookEntryFactory
+use oat\oatbox\service\ConfigurableService;
+
+class WebhookEntryFactory extends ConfigurableService
 {
     /**
      * @param array $data
