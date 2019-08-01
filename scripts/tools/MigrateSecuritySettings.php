@@ -20,6 +20,7 @@
 namespace oat\tao\scripts\tools;
 
 use common_report_Report as Report;
+use common_Exception;
 use oat\oatbox\extension\AbstractAction;
 use oat\tao\model\service\SettingsStorage;
 use oat\tao\model\settings\CspHeaderSettingsInterface;
@@ -42,6 +43,11 @@ class MigrateSecuritySettings extends AbstractAction
      */
     protected $report;
 
+    /**
+     * @param array $params
+     * @return Report
+     * @throws common_Exception
+     */
     public function __invoke($params)
     {
         if (count($params) == 0) {
@@ -58,9 +64,13 @@ class MigrateSecuritySettings extends AbstractAction
         $this->wetRun = in_array('--wet', $params);
         $wetInfo = $this->wetRun ? 'wet' : 'dry';
 
+        $currentPersistence = $this->getServiceLocator()
+            ->get(SettingsStorageInterface::SERVICE_ID)
+            ->getOption(SettingsStorage::OPTION_PERSISTENCE);
+
         $this->report = new Report(
             Report::TYPE_INFO,
-            "Migrate Security Settings to the 'default_kv' persistence (${wetInfo} run)..."
+            "Migrate Security Settings to the '$currentPersistence' persistence (${wetInfo} run)..."
         );
 
         try {
@@ -80,6 +90,10 @@ class MigrateSecuritySettings extends AbstractAction
         }
     }
 
+    /**
+     * @param string $settingName
+     * @throws common_Exception
+     */
     private function migrateSetting($settingName) {
         if ($this->oldSettingsStorage->exists($settingName))
         {

@@ -21,6 +21,7 @@ namespace oat\tao\model\service;
 
 use common_Exception;
 use common_persistence_KeyValuePersistence;
+use common_persistence_Persistence;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\settings\SettingsStorageInterface;
 
@@ -76,7 +77,7 @@ class SettingsStorage extends ConfigurableService implements SettingsStorageInte
     }
 
     /**
-     * Get the persistence
+     * @return common_persistence_Persistence
      */
     private function getPersistence()
     {
@@ -88,6 +89,10 @@ class SettingsStorage extends ConfigurableService implements SettingsStorageInte
         return $this->persistence;
     }
 
+    /**
+     * @param string $settingId
+     * @return string
+     */
     private function getKey($settingId)
     {
         $namespace = $this->hasOption(self::OPTION_KEY_NAMESPACE) ? $this->getOption(self::OPTION_KEY_NAMESPACE) : '';
