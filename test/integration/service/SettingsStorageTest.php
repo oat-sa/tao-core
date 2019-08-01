@@ -20,10 +20,8 @@
 namespace oat\tao\test\integration\service;
 
 use common_persistence_Manager;
-use common_persistence_Persistence;
 use oat\generis\test\TestCase;
 use oat\tao\model\service\SettingsStorage;
-use PHPUnit_Framework_MockObject_MockObject;
 
 class SettingsStorageTest extends TestCase
 {
@@ -31,16 +29,6 @@ class SettingsStorageTest extends TestCase
      * @var SettingsStorage
      */
     private $object;
-
-    /**
-     * @var SettingsStorage|PHPUnit_Framework_MockObject_MockObject
-     */
-    private $objectMock;
-
-    /**
-     * @var common_persistence_Persistence|PHPUnit_Framework_MockObject_MockObject
-     */
-    private $persistenceMock;
 
     protected function setUp()
     {
@@ -50,13 +38,6 @@ class SettingsStorageTest extends TestCase
             SettingsStorage::OPTION_PERSISTENCE => 'default_kv',
             SettingsStorage::OPTION_KEY_NAMESPACE => 'settings:namespace',
         ]);
-
-        $this->objectMock = $this->getMockBuilder(get_class($this->object))->setMethods(['getPersistence'])->getMock();
-
-        $this->persistenceMock = $this->getMockBuilder(common_persistence_Persistence::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['set', 'get', 'del', 'exists'])
-            ->getMock();
 
         $persistenceManager = new common_persistence_Manager([
             common_persistence_Manager::OPTION_PERSISTENCES => [
@@ -77,58 +58,5 @@ class SettingsStorageTest extends TestCase
 
         $result = $this->object->set('DUMMY_KEY', 'DUMMY_VALUE');
         $this->assertFalse($result, 'Result must be as expected when service uses not existing persistence');
-    }
-
-    public function testDel()
-    {
-        $this->objectMock->expects($this->once())
-            ->method('getPersistence')
-            ->willReturn($this->persistenceMock);
-
-        $this->persistenceMock->expects($this->once())
-            ->method('del')
-            ->willReturn(true);
-
-        $this->assertTrue($this->objectMock->del('id'));
-    }
-
-    public function testGet()
-    {
-        $this->objectMock->expects($this->once())
-            ->method('getPersistence')
-            ->willReturn($this->persistenceMock);
-
-        $this->persistenceMock->expects($this->once())
-            ->method('get')
-            ->willReturn('id');
-
-        $this->assertEquals('id', $this->objectMock->get('id'));
-    }
-
-    public function testSet()
-    {
-        $this->objectMock->expects($this->once())
-            ->method('getPersistence')
-            ->willReturn($this->persistenceMock);
-
-        $this->persistenceMock->expects($this->once())
-            ->method('set')
-            ->with('id', 'val')
-            ->willReturn(true);
-
-        $this->assertTrue($this->objectMock->set('id', 'val'));
-    }
-
-    public function testExists()
-    {
-        $this->objectMock->expects($this->once())
-            ->method('getPersistence')
-            ->willReturn($this->persistenceMock);
-
-        $this->persistenceMock->expects($this->once())
-            ->method('exists')
-            ->willReturn(true);
-
-        $this->assertTrue($this->objectMock->exists('id'));
     }
 }
