@@ -41,6 +41,7 @@ use tao_helpers_Request;
 use tao_helpers_Uri;
 use Exception;
 use oat\tao\model\mvc\error\ExceptionInterpreterService;
+use Symfony\Component\Dotenv\Dotenv;
 
 /**
  * The Bootstrap Class enables you to drive the application flow for a given extenstion.
@@ -89,6 +90,13 @@ class Bootstrap implements ServiceManagerAwareInterface
      */
     public function __construct($configuration)
     {
+        $envFile = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR
+            . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '.env';
+        if (file_exists($envFile)) {
+            $dotenv = new Dotenv();
+            $dotenv->loadEnv($envFile);
+        }
+
         if (! is_string($configuration) || ! is_readable($configuration)) {
             throw new \common_exception_PreConditionFailure('TAO platform seems to be not installed.');
         }
