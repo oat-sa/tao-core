@@ -7,7 +7,7 @@
 		"../node_modules/@oat-sa/tao-core-ui/scss/inc/_variables.scss",
 		"../node_modules/@oat-sa/tao-core-ui/scss/inc/_functions.scss",
 		"../node_modules/@oat-sa/tao-core-ui/scss/inc/_colors.scss",
-		"../node_modules/@oat-sa/tao-core-ui/scss/inc/fonts/_tao-icon-vars.scss",
+		"../scss/inc/fonts/_tao-icon-vars.scss",
 		"../scss/inc/_requirement-check.scss",
 		"../scss/inc/_header-footer.scss",
 		"../scss/inc/_login.scss",
