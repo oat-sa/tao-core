@@ -1127,7 +1127,7 @@ class Updater extends \common_ext_ExtensionUpdater {
                     WebhookFileRegistry::OPTION_EVENTS => [],
                 ])
             );
-            $this->setVersion('38.3.1');
+            $this->setVersion('38.3.2');
         }
     }
 }
