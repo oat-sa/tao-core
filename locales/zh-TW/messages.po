@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint105\n"
-"PO-Revision-Date: 2019-06-21T08:53:13\n"
+"Project-Id-Version: TAO 3.3.0-sprint108\n"
+"PO-Revision-Date: 2019-08-02T09:29:25\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-TW\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " AND "
-msgstr ""
-
 msgid " and "
 msgstr " 和 "
+
+msgid " AND "
+msgstr ""
 
 msgid " has been deleted successfully"
 msgstr " 已成功刪除"
@@ -368,11 +368,11 @@ msgstr ""
 msgid "Calendar"
 msgstr "日曆"
 
-msgid "Cancel"
-msgstr "取消"
-
 msgid "cancel"
 msgstr ""
+
+msgid "Cancel"
+msgstr "取消"
 
 msgid "cancel the action"
 msgstr ""
@@ -447,10 +447,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
 msgid "Clear selection"
@@ -864,6 +864,9 @@ msgstr "強制釋放"
 msgid "Forgot your password?"
 msgstr "忘了您的密碼嗎？"
 
+msgid "Form"
+msgstr ""
+
 msgid "Form data not saved."
 msgstr ""
 
@@ -966,10 +969,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1046,6 +1049,9 @@ msgstr ""
 
 msgid "Invalid file type!"
 msgstr "無效的檔案型態!"
+
+msgid "Invalid input"
+msgstr ""
 
 msgid "Invalid input for function"
 msgstr ""
@@ -1304,10 +1310,10 @@ msgstr "無檔案"
 msgid "no label"
 msgstr "無標籤"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "沒有可用的預覽"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "沒有可用的預覽"
 
 msgid "No results found"
@@ -1359,10 +1365,10 @@ msgstr "的"
 msgid "Off"
 msgstr ""
 
-msgid "Ok"
+msgid "OK"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr ""
 
 msgid "Old Password"
@@ -1822,6 +1828,9 @@ msgstr ""
 msgid "string"
 msgstr ""
 
+msgid "Submit"
+msgstr ""
+
 msgid "Success"
 msgstr "完成"
 
@@ -2110,10 +2119,10 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "全部取消勾選"
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "全部取消勾選"
 
 msgid "Undefined amount of the pages for pagination"

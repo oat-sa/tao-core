@@ -1129,10 +1129,12 @@ class Updater extends \common_ext_ExtensionUpdater {
                     WebhookFileRegistry::OPTION_EVENTS => [],
                 ])
             );
-            $this->setVersion('38.3.1');
+            $this->setVersion('38.3.2');
         }
 
-        if ($this->isVersion('38.3.1')) {
+        $this->skip('38.3.2', '38.3.3');
+
+        if ($this->isVersion('38.3.3')) {
             $options = [
                 SettingsStorage::OPTION_PERSISTENCE => 'default_kv',
                 SettingsStorage::OPTION_KEY_NAMESPACE => 'tao:settings:'
