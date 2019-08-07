@@ -25,9 +25,6 @@ namespace oat\tao\model\settings;
 interface SettingsStorageInterface
 {
     const SERVICE_ID = 'tao/settingsStorage';
-    const PERSISTENCE_ID = 'settings';
-    const KEY_NAMESPACE = 'tao:settings:';
-    const OPTION_PERSISTENCE = 'persistence';
 
     /**
      * Store the given setting

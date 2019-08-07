@@ -26,7 +26,6 @@ use oat\tao\model\routing\ApiRoute;
 use oat\tao\model\routing\LegacyRoute;
 use oat\tao\scripts\install\AddLogFs;
 use oat\tao\scripts\install\AddTmpFsHandlers;
-use oat\tao\scripts\install\RegisterSettingsPersistence;
 use oat\tao\scripts\install\RegisterSignatureGenerator;
 use oat\tao\scripts\install\RegisterTaskQueueServices;
 use oat\tao\scripts\install\RegisterUserLockoutsEventListeners;
@@ -53,10 +52,10 @@ return array(
     'label' => 'TAO Base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '37.10.2',
+    'version' => '38.4.0',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
-        'generis' => '>=11.5.0',
+        'generis' => '>=12.1.0',
     ),
     'models' => array(
         'http://www.tao.lu/Ontologies/TAO.rdf',
@@ -122,7 +121,6 @@ return array(
             RegisterTaskQueueServices::class,
             SetUpQueueTasks::class,
             RegisterSignatureGenerator::class,
-            RegisterSettingsPersistence::class,
             SetDefaultCSPHeader::class
         )
     ),
@@ -189,9 +187,9 @@ return array(
     ],
     'constants' => array(
         #TAO version number
-        'TAO_VERSION' => '3.3.0-sprint106',
+        'TAO_VERSION' => '3.3.0-sprint108',
         #TAO version label
-        'TAO_VERSION_NAME' => '3.3.0-sprint106',
+        'TAO_VERSION_NAME' => '3.3.0-sprint108',
         #the name to display
         'PRODUCT_NAME' => 'TAO',
         #TAO release status, use to add specific footer to TAO, available alpha, beta, demo, stable

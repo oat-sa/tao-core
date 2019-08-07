@@ -22,6 +22,7 @@
 namespace oat\tao\scripts\update;
 
 use common_Exception;
+use common_report_Report as Report;
 use oat\funcAcl\models\ModuleAccessService;
 use oat\generis\model\data\event\ResourceCreated;
 use oat\generis\model\data\event\ResourceUpdated;
@@ -70,6 +71,7 @@ use oat\tao\model\service\SettingsStorage;
 use oat\tao\model\session\restSessionFactory\builder\HttpBasicAuthBuilder;
 use oat\tao\model\session\restSessionFactory\RestSessionFactory;
 use oat\tao\model\settings\CspHeaderSettingsInterface;
+use oat\tao\model\settings\SettingsStorageInterface;
 use oat\tao\model\task\ExportByHandler;
 use oat\tao\model\task\ImportByHandler;
 use oat\tao\model\taskQueue\Queue;
@@ -87,6 +89,10 @@ use oat\tao\model\user\implementation\NoUserLocksService;
 use oat\tao\model\user\import\OntologyUserMapper;
 use oat\tao\model\user\import\UserCsvImporterFactory;
 use oat\tao\model\user\UserLocks;
+use oat\tao\model\webhooks\WebhookEventsService;
+use oat\tao\model\webhooks\WebhookEventsServiceInterface;
+use oat\tao\model\webhooks\WebhookFileRegistry;
+use oat\tao\model\webhooks\WebhookRegistryInterface;
 use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\AddTmpFsHandlers;
@@ -118,6 +124,7 @@ use oat\tao\model\resources\TreeResourceLookup;
 use oat\tao\model\user\TaoRoles;
 use oat\generis\model\data\event\ResourceDeleted;
 use oat\tao\model\search\index\IndexService;
+use oat\tao\scripts\tools\MigrateSecuritySettings;
 use tao_models_classes_UserService;
 
 /**
@@ -1066,6 +1073,88 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('35.8.2');
         }
 
-        $this->skip('35.8.2', '37.10.2');
+        $this->skip('35.8.2', '38.0.0');
+
+        if ($this->isVersion('38.0.0')) {
+            OntologyUpdater::syncModels();
+
+            $iterator = new FileIterator(__DIR__ . '/../../locales/ru-RU/lang.rdf');
+            $rdf = ModelManager::getModel()->getRdfInterface();
+
+            /* @var \core_kernel_classes_Triple $triple */
+            foreach ($iterator as $triple) {
+                $rdf->remove($triple);
+                $rdf->add($triple);
+            }
+            $this->setVersion('38.0.1');
+        }
+
+        $this->skip('38.0.1', '38.1.2');
+
+        if ($this->isVersion('38.1.2')) {
+
+            $iterator = new FileIterator(__DIR__ . '/../../locales/ru-RU/lang.rdf');
+            $rdf = ModelManager::getModel()->getRdfInterface();
+
+            /* @var \core_kernel_classes_Triple $triple */
+            foreach ($iterator as $triple) {
+                $rdf->remove($triple);
+                $rdf->add($triple);
+            }
+
+            $iterator = new FileIterator(__DIR__ . '/../../locales/es-MX/lang.rdf');
+            $rdf = ModelManager::getModel()->getRdfInterface();
+
+            /* @var \core_kernel_classes_Triple $triple */
+            foreach ($iterator as $triple) {
+                $rdf->remove($triple);
+                $rdf->add($triple);
+            }
+
+            OntologyUpdater::syncModels();
+
+            $this->setVersion('38.1.3');
+        }
+
+        $this->skip('38.1.3', '38.3.0');
+        if ($this->isVersion('38.3.0')) {
+            $this->getServiceManager()->register(
+                WebhookEventsServiceInterface::SERVICE_ID,
+                new WebhookEventsService([WebhookEventsService::OPTION_SUPPORTED_EVENTS => []])
+            );
+            $this->getServiceManager()->register(
+                WebhookRegistryInterface::SERVICE_ID,
+                new WebhookFileRegistry([
+                    WebhookFileRegistry::OPTION_WEBHOOKS => [],
+                    WebhookFileRegistry::OPTION_EVENTS => [],
+                ])
+            );
+            $this->setVersion('38.3.2');
+        }
+
+        $this->skip('38.3.2', '38.3.3');
+
+        if ($this->isVersion('38.3.3')) {
+            $options = [
+                SettingsStorage::OPTION_PERSISTENCE => 'default_kv',
+                SettingsStorage::OPTION_KEY_NAMESPACE => 'tao:settings:'
+            ];
+            $settingsStorage = new SettingsStorage($options);
+            $this->getServiceManager()->register(SettingsStorageInterface::SERVICE_ID, $settingsStorage);
+
+            $defaultHeaderSetting = 'self';
+            $defaultHeaderList = '';
+            $settingsStorage->set(CspHeaderSettingsInterface::CSP_HEADER_SETTING, $defaultHeaderSetting);
+            $settingsStorage->set(CspHeaderSettingsInterface::CSP_HEADER_LIST, $defaultHeaderList);
+
+            $this->runExtensionScript(MigrateSecuritySettings::class, ['settings', '--wet']);
+
+            $msg = 'If you have more than one server execute %s script on all servers to migrate existing security settings from file to new persistence' . PHP_EOL;
+            $msg .= 'The script may be executed with dry/wet run options to see which settings will be migrated.';
+            $msg = sprintf($msg, MigrateSecuritySettings::class);
+            $this->addReport(new Report(Report::TYPE_WARNING, $msg));
+
+            $this->setVersion('38.4.0');
+        }
     }
 }

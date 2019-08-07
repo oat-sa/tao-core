@@ -14,29 +14,33 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2019 (original work) Open Assessment Technologies SA
- *
+ * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
  */
 
-namespace oat\tao\scripts\install;
+namespace oat\tao\model\webhooks;
 
-use common_persistence_Manager;
-use oat\oatbox\extension\InstallAction;
+use ArrayObject;
 
 /**
- * Class RegisterResourceWatcherService
- *
- * @author Martijn Swinkels <m.swinkels@taotesting.com>
+ * Traversable object with described keys which could be passed to task as metadata
  */
-class RegisterSettingsPersistence extends InstallAction
+class WebhookTaskMetadata extends ArrayObject
 {
+    const EVENT_NAME = 'eventName';
+    const EVENT_DATA = 'eventData';
+    const WEBHOOK_CONFIG_ID = 'webhookConfigId';
 
     /**
-     * @inheritdoc
+     * @param string $eventName
+     * @param array $eventData
+     * @param string $webhookConfigId
      */
-    public function __invoke($params)
+    public function __construct($eventName, array $eventData, $webhookConfigId)
     {
-        common_persistence_Manager::addPersistence('settings',  ['driver' => 'phpfile']);
-        return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'Settings persistence registered');
+        parent::__construct([
+            self::EVENT_NAME => $eventName,
+            self::EVENT_DATA => $eventData,
+            self::WEBHOOK_CONFIG_ID => $webhookConfigId
+        ]);
     }
 }
