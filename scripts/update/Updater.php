@@ -1156,5 +1156,6 @@ class Updater extends \common_ext_ExtensionUpdater {
 
             $this->setVersion('38.4.0');
         }
+        $this->skip('38.4.0', '38.5.0');
     }
 }
