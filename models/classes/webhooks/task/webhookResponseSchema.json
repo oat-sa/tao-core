@@ -1,0 +1,48 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/schema#",
+  "$id": "http://www.tao.lu/tao/webhookResponse.json",
+  "type": "object",
+  "title": "Event webhook response",
+  "required": [
+    "events"
+  ],
+  "properties": {
+    "events": {
+      "$id": "#/properties/events",
+      "type": "array",
+      "title": "Events processing result",
+      "items": {
+        "$id": "#/properties/events/items",
+        "type": "object",
+        "title": "Event processing result",
+        "required": [
+          "eventId",
+          "status"
+        ],
+        "properties": {
+          "eventId": {
+            "$id": "#/properties/events/items/properties/eventId",
+            "type": "string",
+            "title": "Event id from request",
+            "default": "",
+            "examples": [
+              "52a3de8dd0f270fd193f9f4bff05232f"
+            ],
+            "pattern": "^([a-z0-9]{32})$"
+          },
+          "status": {
+            "$id": "#/properties/events/items/properties/status",
+            "type": "string",
+            "title": "Event processing result",
+            "default": "",
+            "examples": [
+              "accepted"
+            ],
+            "enum": ["accepted", "ignored", "error"]
+          }
+        }
+      }
+    }
+  }
+}
