@@ -498,38 +498,28 @@ class tao_helpers_File
             if (!$archiveFile->exists()) {
                 throw new \common_Exception('Unable to open archive ' . '/' . $archiveFile->getPrefix());
             }
-            $tmpDir = \tao_helpers_File::createTempDir();
+            $tmpDir = static::createTempDir();
             $tmpFilePath = $tmpDir . uniqid($archiveFile->getBasename(), true) . '.zip';
             $tmpFile = fopen($tmpFilePath, 'w');
             $originalPackage = $archiveFile->readStream();
             stream_copy_to_stream($originalPackage, $tmpFile);
             fclose($originalPackage);
             fclose($tmpFile);
-
             $archiveFile = $tmpFilePath;
         }
 
-        $archiveDir = \tao_helpers_File::createTempDir();
         $archiveObj = new \ZipArchive();
-
-        if ($archiveFile instanceof File) {
-            // get a local copy of zip
-            $tmpName = \tao_helpers_File::concat([\tao_helpers_File::createTempDir(), $archiveFile->getBasename()]);
-            if (($resource = fopen($tmpName, 'wb')) !== false) {
-                stream_copy_to_stream($archiveFile->readStream(), $resource);
-                fclose($resource);
-            }
-
-            $archiveFile = $tmpName;
-        }
-
         $archiveHandle = $archiveObj->open($archiveFile);
+
         if (true !== $archiveHandle) {
             throw new \common_Exception('Unable to open archive ' . $archiveFile);
         }
+
         if (static::checkWhetherArchiveIsBomb($archiveObj)) {
             throw new \common_Exception(sprintf('Source "%s" seems to be a ZIP bomb', $archiveFile));
         }
+
+        $archiveDir = static::createTempDir();
         if (!$archiveObj->extractTo($archiveDir)) {
             $archiveObj->close();
             throw new \common_Exception('Unable to extract to ' . $archiveDir);
