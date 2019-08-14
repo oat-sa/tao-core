@@ -28,6 +28,15 @@ class ArrayValidator
     const ARR = 'array';
     const OBJ = 'object';
 
+    private static $typeCheckFunctions = [
+        self::STR => 'is_string',
+        self::INT => 'is_int',
+        self::FLOAT => 'is_float',
+        self::BOOL => 'is_bool',
+        self::ARR => 'is_array',
+        self::OBJ => 'is_object'
+    ];
+
     /**
      * @var array[]
      */
@@ -213,29 +222,54 @@ class ArrayValidator
      */
     private function validateKey($data, $key, $rule)
     {
-        if (!array_key_exists($key, $data)) {
-            if ($rule['req']) {
-                $this->missedKeys[] = $key;
-            }
-            return;
-        }
-
-        if ($rule['type'] === null) {
-            return;
-        }
-
-        $val = $data[$key];
-        if ($val === null) {
-            if (!$rule['nullable']) {
-                $this->typeMismatchKeys[$key] = 'is null';
-            }
+        if (!$this->validateKeyExistence($data, $key, $rule) ||
+            !$this->validateIfKeyTypeCanBeChecked($data, $key, $rule))
+        {
             return;
         }
 
         $type = $rule['type'];
-        if (!$this->isType($val, $type)) {
+        if (!$this->isType($data[$key], $type)) {
             $this->typeMismatchKeys[$key] = "is not $type";
         }
+    }
+
+    /**
+     * @param array $data
+     * @param string|int $key
+     * @param array $rule
+     * @return bool should continue validation
+     */
+    private function validateKeyExistence($data, $key, $rule)
+    {
+        if (!array_key_exists($key, $data)) {
+            if ($rule['req']) {
+                $this->missedKeys[] = $key;
+            }
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * @param array $data
+     * @param string|int $key
+     * @param array $rule
+     * @return bool should continue validation
+     */
+    private function validateIfKeyTypeCanBeChecked($data, $key, $rule)
+    {
+        if ($rule['type'] === null) {
+            return false;
+        }
+
+        if ($data[$key] === null) {
+            if (!$rule['nullable']) {
+                $this->typeMismatchKeys[$key] = 'is null';
+            }
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -261,14 +295,10 @@ class ArrayValidator
      */
     private function isType($value, $type)
     {
-        switch ($type) {
-            case self::STR: return is_string($value);
-            case self::INT: return is_int($value);
-            case self::FLOAT: return is_float($value);
-            case self::BOOL: return is_bool($value);
-            case self::ARR: return is_array($value);
-            case self::OBJ: return is_object($value);
-            default: throw new \InvalidArgumentException('Unsupported type: ' . $type);
+        if (!isset(self::$typeCheckFunctions[$type])) {
+            throw new \InvalidArgumentException('Unsupported type: ' . $type);
         }
+        $func = self::$typeCheckFunctions[$type];
+        return $func($value);
     }
 }
