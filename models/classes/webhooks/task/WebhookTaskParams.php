@@ -33,24 +33,6 @@ class WebhookTaskParams extends ArrayObject
     const WEBHOOK_CONFIG_ID = 'webhookConfigId';
 
     /**
-     * @param string $eventName
-     * @param string $eventId
-     * @param int $triggeredTimestamp
-     * @param array $eventData
-     * @param string $webhookConfigId
-     */
-    public function __construct($eventName, $eventId, $triggeredTimestamp, array $eventData, $webhookConfigId)
-    {
-        parent::__construct([
-            self::EVENT_NAME => $eventName,
-            self::EVENT_ID => $eventId,
-            self::TRIGGERED_TIMESTAMP => $triggeredTimestamp,
-            self::EVENT_DATA => $eventData,
-            self::WEBHOOK_CONFIG_ID => $webhookConfigId
-        ]);
-    }
-
-    /**
      * @return string
      */
     public function getEventName()

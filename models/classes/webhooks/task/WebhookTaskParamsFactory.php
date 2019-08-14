@@ -19,8 +19,8 @@
 
 namespace oat\tao\model\webhooks\task;
 
-
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\helpers\ArrayValidator;
 
 class WebhookTaskParamsFactory extends ConfigurableService
 {
@@ -31,60 +31,24 @@ class WebhookTaskParamsFactory extends ConfigurableService
      */
     public function createFromArray(array $array)
     {
-        $this->validateKeys($array);
-        $this->validateTypes($array);
+        $validator = $this->getValidator();
+        if (!$validator->validate($array)) {
+            throw new \InvalidArgumentException($validator->getErrorMessage());
+        }
 
-        return new WebhookTaskParams(
-            $array[WebhookTaskParams::EVENT_NAME],
-            $array[WebhookTaskParams::EVENT_ID],
-            $array[WebhookTaskParams::TRIGGERED_TIMESTAMP],
-            $array[WebhookTaskParams::EVENT_DATA],
-            $array[WebhookTaskParams::WEBHOOK_CONFIG_ID]
-        );
+        return new WebhookTaskParams($array);
     }
 
-    private function validateKeys(array $array)
+    private function getValidator()
     {
-        $requiredParams = [
-            WebhookTaskParams::EVENT_NAME,
-            WebhookTaskParams::WEBHOOK_CONFIG_ID,
-            WebhookTaskParams::EVENT_DATA,
-            WebhookTaskParams::EVENT_ID,
-            WebhookTaskParams::TRIGGERED_TIMESTAMP
-        ];
-        $missedParams = array_diff($requiredParams, array_keys($array));
-
-        if (count($missedParams) > 0) {
-            throw new \InvalidArgumentException('Params '. implode(', ', $missedParams) . ' not found');
-        }
-    }
-
-    private function validateTypes(array $array)
-    {
-        $errors = [];
-
-        if (!is_string($array[WebhookTaskParams::EVENT_NAME])) {
-            $errors[] = WebhookTaskParams::EVENT_NAME . ' is not a string';
-        }
-
-        if (!is_string($array[WebhookTaskParams::WEBHOOK_CONFIG_ID])) {
-            $errors[] = WebhookTaskParams::WEBHOOK_CONFIG_ID . ' is not a string';
-        }
-
-        if (!is_array($array[WebhookTaskParams::EVENT_DATA])) {
-            $errors[] = WebhookTaskParams::EVENT_DATA . ' is not an array';
-        }
-
-        if (!is_string($array[WebhookTaskParams::EVENT_ID])) {
-            $errors[] = WebhookTaskParams::EVENT_ID . ' is not a string';
-        }
-
-        if (!is_int($array[WebhookTaskParams::TRIGGERED_TIMESTAMP])) {
-            $errors[] = WebhookTaskParams::TRIGGERED_TIMESTAMP . ' is not an integer';
-        }
-
-        if (count($errors) > 0) {
-            throw new \InvalidArgumentException('Invalid params types: ' . implode(', ', $errors));
-        }
+        return (new ArrayValidator())
+            ->assertString([
+                WebhookTaskParams::EVENT_NAME,
+                WebhookTaskParams::WEBHOOK_CONFIG_ID,
+                WebhookTaskParams::EVENT_ID
+            ])
+            ->assertArray(WebhookTaskParams::EVENT_DATA)
+            ->assertInt(WebhookTaskParams::TRIGGERED_TIMESTAMP)
+            ->allowExtraKeys();
     }
 }

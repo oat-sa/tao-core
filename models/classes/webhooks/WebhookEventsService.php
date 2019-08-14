@@ -145,13 +145,13 @@ class WebhookEventsService extends ConfigurableService implements WebhookEventsS
         $result = [];
 
         foreach ($webhookConfigIds as $webhookConfigId) {
-            $result[] = new WebhookTaskParams(
-                $event->getWebhookEventName(),
-                $eventId,
-                $triggeredTimestamp,
-                $eventData,
-                $webhookConfigId
-            );
+            $result[] = new WebhookTaskParams([
+                WebhookTaskParams::EVENT_NAME => $event->getWebhookEventName(),
+                WebhookTaskParams::EVENT_ID => $eventId,
+                WebhookTaskParams::TRIGGERED_TIMESTAMP => $triggeredTimestamp,
+                WebhookTaskParams::EVENT_DATA => $eventData,
+                WebhookTaskParams::WEBHOOK_CONFIG_ID => $webhookConfigId
+            ]);
         }
 
         return $result;
