@@ -187,7 +187,7 @@ class WebhookEventsService extends ConfigurableService implements WebhookEventsS
             microtime() .
             mt_rand() .
             $eventName .
-            LOCAL_NAMESPACE
+            gethostname()
         );
     }
 

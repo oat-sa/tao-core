@@ -42,7 +42,7 @@ class JsonWebhookPayloadFactory extends ConfigurableService implements WebhookPa
     public function createPayload($eventName, $eventId, $triggeredTimestamp, $eventData)
     {
         $data = [
-            self::SOURCE => ROOT_URL,
+            self::SOURCE => $this->getSourceUrl(),
             self::EVENTS => [
                 [
                     self::EVENT_ID => $eventId,
@@ -67,5 +67,15 @@ class JsonWebhookPayloadFactory extends ConfigurableService implements WebhookPa
     public function getContentType()
     {
         return 'application/json';
+    }
+
+    /**
+     * @return string
+     */
+    private function getSourceUrl()
+    {
+        return defined(ROOT_URL)
+            ? ROOT_URL
+            : gethostname();
     }
 }
