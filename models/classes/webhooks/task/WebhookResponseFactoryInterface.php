@@ -17,27 +17,22 @@
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
  */
 
-namespace oat\tao\model\webhooks\configEntity;
+namespace oat\tao\model\webhooks\task;
 
-interface WebhookInterface
+use Psr\Http\Message\ResponseInterface;
+
+interface WebhookResponseFactoryInterface
 {
+    const SERVICE_ID = 'tao/webhookResponseFactory';
+
     /**
-     * @return string
+     * @param ResponseInterface $response
+     * @return WebhookResponse
      */
-    public function getId();
+    public function create(ResponseInterface $response);
 
     /**
      * @return string
      */
-    public function getUrl();
-
-    /**
-     * @return string
-     */
-    public function getHttpMethod();
-
-    /**
-     * @return WebhookAuthInterface|null
-     */
-    public function getAuth();
+    public function getAcceptedContentType();
 }

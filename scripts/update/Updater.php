@@ -87,10 +87,16 @@ use oat\tao\model\user\implementation\NoUserLocksService;
 use oat\tao\model\user\import\OntologyUserMapper;
 use oat\tao\model\user\import\UserCsvImporterFactory;
 use oat\tao\model\user\UserLocks;
+use oat\tao\model\webhooks\task\JsonWebhookPayloadFactory;
+use oat\tao\model\webhooks\task\JsonWebhookResponseFactory;
+use oat\tao\model\webhooks\task\WebhookPayloadFactoryInterface;
+use oat\tao\model\webhooks\task\WebhookResponseFactoryInterface;
 use oat\tao\model\webhooks\WebhookEventsService;
 use oat\tao\model\webhooks\WebhookEventsServiceInterface;
 use oat\tao\model\webhooks\WebhookFileRegistry;
 use oat\tao\model\webhooks\WebhookRegistryInterface;
+use oat\tao\model\webhooks\WebhookTaskService;
+use oat\tao\model\webhooks\WebhookTaskServiceInterface;
 use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\AddTmpFsHandlers;
@@ -1130,5 +1136,21 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('38.3.2');
         }
         $this->skip('38.3.2', '38.3.3');
+
+        if ($this->isVersion('38.3.3')) {
+            $this->getServiceManager()->register(
+                WebhookTaskServiceInterface::SERVICE_ID,
+                new WebhookTaskService()
+            );
+            $this->getServiceManager()->register(
+                WebhookPayloadFactoryInterface::SERVICE_ID,
+                new JsonWebhookPayloadFactory()
+            );
+            $this->getServiceManager()->register(
+                WebhookResponseFactoryInterface::SERVICE_ID,
+                new JsonWebhookResponseFactory()
+            );
+            $this->setVersion('38.3.4');
+        }
     }
 }

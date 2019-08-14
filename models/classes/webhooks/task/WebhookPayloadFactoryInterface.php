@@ -17,30 +17,25 @@
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
  */
 
-namespace oat\tao\model\webhooks;
+namespace oat\tao\model\webhooks\task;
 
-use ArrayObject;
 
-/**
- * Traversable object with described keys which could be passed to task as metadata
- */
-class WebhookTaskMetadata extends ArrayObject
+interface WebhookPayloadFactoryInterface
 {
-    const EVENT_NAME = 'eventName';
-    const EVENT_DATA = 'eventData';
-    const WEBHOOK_CONFIG_ID = 'webhookConfigId';
+    const SERVICE_ID = 'tao/webhookPayloadFactory';
 
     /**
      * @param string $eventName
+     * @param string $eventId
+     * @param int $triggeredTimestamp
      * @param array $eventData
-     * @param string $webhookConfigId
+     * @return string
+     * @throws \common_Exception
      */
-    public function __construct($eventName, array $eventData, $webhookConfigId)
-    {
-        parent::__construct([
-            self::EVENT_NAME => $eventName,
-            self::EVENT_DATA => $eventData,
-            self::WEBHOOK_CONFIG_ID => $webhookConfigId
-        ]);
-    }
+    public function createPayload($eventName, $eventId, $triggeredTimestamp, $eventData);
+
+    /**
+     * @return string
+     */
+    public function getContentType();
 }

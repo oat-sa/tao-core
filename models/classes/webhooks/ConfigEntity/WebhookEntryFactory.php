@@ -17,7 +17,7 @@
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
  */
 
-namespace oat\tao\model\webhooks\ConfigEntity;
+namespace oat\tao\model\webhooks\configEntity;
 
 use oat\oatbox\service\ConfigurableService;
 
@@ -49,7 +49,7 @@ class WebhookEntryFactory extends ConfigurableService
     {
         return new WebhookAuth(
             $data[WebhookAuth::AUTH_CLASS],
-            $data[WebhookAuth::PROPERTIES]
+            $data[WebhookAuth::CREDENTIALS]
         );
     }
 }

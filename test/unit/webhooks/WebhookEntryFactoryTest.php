@@ -20,8 +20,8 @@
 namespace oat\tao\test\unit\webhooks;
 
 use oat\generis\test\TestCase;
-use oat\tao\model\webhooks\ConfigEntity\WebhookEntryFactory;
-use oat\tao\model\webhooks\ConfigEntity\WebhookInterface;
+use oat\tao\model\webhooks\configEntity\WebhookEntryFactory;
+use oat\tao\model\webhooks\configEntity\WebhookInterface;
 
 class WebhookEntryFactoryTest extends TestCase
 {
@@ -33,7 +33,7 @@ class WebhookEntryFactoryTest extends TestCase
             'httpMethod' => 'POST',
             'auth' => [
                 'authClass' => 'SomeClass',
-                'properties' => [
+                'credentials' => [
                     'p1' => 'v1'
                 ]
             ]
@@ -45,7 +45,7 @@ class WebhookEntryFactoryTest extends TestCase
         $this->assertEquals('http://url.com', $webhook->getUrl());
         $this->assertEquals('POST', $webhook->getHttpMethod());
         $this->assertEquals('SomeClass', $webhook->getAuth()->getAuthClass());
-        $this->assertEquals(['p1' => 'v1'], $webhook->getAuth()->getProperties());
+        $this->assertEquals(['p1' => 'v1'], $webhook->getAuth()->getCredentials());
     }
 
     public function testCreateEntryFromArrayWithoutAuth() {
