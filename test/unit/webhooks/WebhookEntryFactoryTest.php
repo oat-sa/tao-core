@@ -25,7 +25,8 @@ use oat\tao\model\webhooks\configEntity\WebhookInterface;
 
 class WebhookEntryFactoryTest extends TestCase
 {
-    public function testCreateEntryFromArray() {
+    public function testCreateEntryFromArray()
+    {
         $factory = new WebhookEntryFactory();
         $webhook = $factory->createEntryFromArray([
             'id' => 'wh1',
@@ -48,7 +49,8 @@ class WebhookEntryFactoryTest extends TestCase
         $this->assertEquals(['p1' => 'v1'], $webhook->getAuth()->getCredentials());
     }
 
-    public function testCreateEntryFromArrayWithoutAuth() {
+    public function testCreateEntryFromArrayWithoutAuth()
+    {
         $factory = new WebhookEntryFactory();
         $webhook = $factory->createEntryFromArray([
             'id' => 'wh1',
@@ -62,5 +64,50 @@ class WebhookEntryFactoryTest extends TestCase
         $this->assertEquals('http://url.com', $webhook->getUrl());
         $this->assertEquals('POST', $webhook->getHttpMethod());
         $this->assertNull($webhook->getAuth());
+    }
+
+    public function testInvalidConfig()
+    {
+        $factory = new WebhookEntryFactory();
+        $this->expectException(\InvalidArgumentException::class);
+        try {
+            $factory->createEntryFromArray([
+                'id' => 'wh1',
+                'httpMethod' => 123,
+                'auth' => [
+                    'authClass' => 'SomeClass',
+                    'credentials' => [
+                        'p1' => 'v1'
+                    ]
+                ]
+            ]);
+        }
+        catch (\InvalidArgumentException $exception) {
+            $this->assertContains('httpMethod', $exception->getMessage());
+            $this->assertContains('url', $exception->getMessage());
+            throw $exception;
+        }
+    }
+
+    public function testInvalidAuthConfig()
+    {
+        $factory = new WebhookEntryFactory();
+        $this->expectException(\InvalidArgumentException::class);
+        try {
+            $factory->createEntryFromArray([
+                'id' => 'wh1',
+                'url' => 'http://url.com',
+                'httpMethod' => 'POST',
+                'auth' => [
+                    'credentials' => [
+                        'p1' => 'v1'
+                    ]
+                ]
+            ]);
+        }
+        catch (\InvalidArgumentException $exception) {
+            $this->assertContains('authClass', $exception->getMessage());
+            throw $exception;
+        }
     }
 }
