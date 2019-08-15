@@ -17,30 +17,27 @@
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
  */
 
-namespace oat\tao\model\webhooks;
+namespace oat\tao\model\webhooks\configEntity;
 
-use ArrayObject;
-
-/**
- * Traversable object with described keys which could be passed to task as metadata
- */
-class WebhookTaskMetadata extends ArrayObject
+interface WebhookInterface
 {
-    const EVENT_NAME = 'eventName';
-    const EVENT_DATA = 'eventData';
-    const WEBHOOK_CONFIG_ID = 'webhookConfigId';
+    /**
+     * @return string
+     */
+    public function getId();
 
     /**
-     * @param string $eventName
-     * @param array $eventData
-     * @param string $webhookConfigId
+     * @return string
      */
-    public function __construct($eventName, array $eventData, $webhookConfigId)
-    {
-        parent::__construct([
-            self::EVENT_NAME => $eventName,
-            self::EVENT_DATA => $eventData,
-            self::WEBHOOK_CONFIG_ID => $webhookConfigId
-        ]);
-    }
+    public function getUrl();
+
+    /**
+     * @return string
+     */
+    public function getHttpMethod();
+
+    /**
+     * @return WebhookAuthInterface|null
+     */
+    public function getAuth();
 }

@@ -17,27 +17,17 @@
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
  */
 
-namespace oat\tao\model\webhooks;
+namespace oat\tao\model\webhooks\configEntity;
 
-use oat\tao\model\webhooks\task\WebhookTaskParams;
-
-/**
- * TODO: should be implemented in TAO-8498
- */
-interface WebhookTaskServiceInterface
+interface WebhookAuthInterface
 {
-    const SERVICE_ID = 'tao/webhookTaskService';
+    /**
+     * @return string
+     */
+    public function getAuthClass();
 
     /**
-     * Should be called in updater/install script for specific env to
-     * link webhook tasks to specific queue which is already registered in queue dispatcher
-     * @param string $queueName
+     * @return array
      */
-    public function linkTaskToQueue($queueName);
-
-    /**
-     * Create and enqueue task for performing webhook
-     * @param WebhookTaskParams $webhookTaskParams
-     */
-    public function createTask(WebhookTaskParams $webhookTaskParams);
+    public function getCredentials();
 }

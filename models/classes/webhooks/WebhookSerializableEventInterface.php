@@ -24,6 +24,11 @@ use oat\oatbox\event\Event;
 interface WebhookSerializableEventInterface extends Event
 {
     /**
+     * @return string
+     */
+    public function getWebhookEventName();
+
+    /**
      * @return array
      */
     public function serializeForWebhook();
