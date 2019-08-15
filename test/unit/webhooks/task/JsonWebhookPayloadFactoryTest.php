@@ -58,7 +58,7 @@ class JsonWebhookPayloadFactoryTest extends TestCase
         $payload = $factory->createPayload('TestEvent', '52a3de8dd0f270fd193f9f4bff05232f', 1237435, ['d' => 4]);
         $payloadObject = json_decode($payload, true);
 
-        $sourceUrl = defined(ROOT_URL) ? ROOT_URL : gethostname();
+        $sourceUrl = defined('ROOT_URL') ? ROOT_URL : gethostname();
         self::assertSame($sourceUrl, $payloadObject[JsonWebhookPayloadFactory::SOURCE]);
 
         $events = $payloadObject[JsonWebhookPayloadFactory::EVENTS];

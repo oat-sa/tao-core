@@ -74,7 +74,7 @@ class JsonWebhookPayloadFactory extends ConfigurableService implements WebhookPa
      */
     private function getSourceUrl()
     {
-        return defined(ROOT_URL)
+        return defined('ROOT_URL')
             ? ROOT_URL
             : gethostname();
     }
