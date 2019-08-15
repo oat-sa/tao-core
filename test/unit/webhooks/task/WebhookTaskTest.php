@@ -142,6 +142,104 @@ class WebhookTaskTest extends TestCase
     }
 
     /**
+     * @throws GuzzleException
+     */
+    public function testEventNotDelivered()
+    {
+        $whConfig = new Webhook('wh1', 'http://myurl', 'HMETHOD', new WebhookAuth('authClass', []));
+        $webhookRegistry = $this->createWebhookRegistryMock(
+            ['Test\Event' => ['wh1']],
+            [
+                'wh1' =>  $whConfig
+            ]
+        );
+
+        $payloadFactory = $this->createWebhookPayloadFactoryMock('payloadCT', 'pay-load');
+
+        $taskParamsFactory = $this->createWebhookTaskParamsFactoryMock(new WebhookTaskParams([
+            WebhookTaskParams::EVENT_NAME => 'eventName',
+            WebhookTaskParams::EVENT_ID => 'eventId',
+            WebhookTaskParams::TRIGGERED_TIMESTAMP => 1234565,
+            WebhookTaskParams::EVENT_DATA => ['d' => 4],
+            WebhookTaskParams::WEBHOOK_CONFIG_ID => 'wh1'
+        ]));
+
+        $webhookResponse = new WebhookResponse(['eventId' => 'error']);
+        $webhookResponseFactory = $this->createWebhookResponseFactory('accCT', $webhookResponse);
+
+        $psrResponse = new Response(200, ['Content-Type' => 'accCT'], 'resp_body');
+        $webhookSender = $this->createWebhookSenderMock($psrResponse);
+        $queueTask = $this->createTaskMock('queueTaskId');
+        $loggerMock = $this->createLoggerMock();
+
+        $task = new WebhookTask();
+
+        $task->setServiceLocator($this->getServiceLocatorMock([
+            WebhookRegistryInterface::SERVICE_ID => $webhookRegistry,
+            WebhookPayloadFactoryInterface::SERVICE_ID => $payloadFactory,
+            WebhookTaskParamsFactory::class => $taskParamsFactory,
+            WebhookResponseFactoryInterface::SERVICE_ID => $webhookResponseFactory,
+            WebhookSender::class => $webhookSender
+        ]));
+        $task->setTask($queueTask);
+        $task->setLogger($loggerMock);
+        $loggerMock->expects($this->once())->method('error');
+
+        $report = $task(['ppp']);
+
+        $this->assertSame(\common_report_Report::TYPE_ERROR, $report->getType());
+    }
+
+    /**
+     * @throws GuzzleException
+     */
+    public function testWrongResponse()
+    {
+        $whConfig = new Webhook('wh1', 'http://myurl', 'HMETHOD', new WebhookAuth('authClass', []));
+        $webhookRegistry = $this->createWebhookRegistryMock(
+            ['Test\Event' => ['wh1']],
+            [
+                'wh1' =>  $whConfig
+            ]
+        );
+
+        $payloadFactory = $this->createWebhookPayloadFactoryMock('payloadCT', 'pay-load');
+
+        $taskParamsFactory = $this->createWebhookTaskParamsFactoryMock(new WebhookTaskParams([
+            WebhookTaskParams::EVENT_NAME => 'eventName',
+            WebhookTaskParams::EVENT_ID => 'eventId',
+            WebhookTaskParams::TRIGGERED_TIMESTAMP => 1234565,
+            WebhookTaskParams::EVENT_DATA => ['d' => 4],
+            WebhookTaskParams::WEBHOOK_CONFIG_ID => 'wh1'
+        ]));
+
+        $webhookResponse = new WebhookResponse([], 'parseError');
+        $webhookResponseFactory = $this->createWebhookResponseFactory('accCT', $webhookResponse);
+
+        $psrResponse = new Response(200, ['Content-Type' => 'WRONG_CC'], 'resp_body');
+        $webhookSender = $this->createWebhookSenderMock($psrResponse);
+        $queueTask = $this->createTaskMock('queueTaskId');
+        $loggerMock = $this->createLoggerMock();
+
+        $task = new WebhookTask();
+
+        $task->setServiceLocator($this->getServiceLocatorMock([
+            WebhookRegistryInterface::SERVICE_ID => $webhookRegistry,
+            WebhookPayloadFactoryInterface::SERVICE_ID => $payloadFactory,
+            WebhookTaskParamsFactory::class => $taskParamsFactory,
+            WebhookResponseFactoryInterface::SERVICE_ID => $webhookResponseFactory,
+            WebhookSender::class => $webhookSender
+        ]));
+        $task->setTask($queueTask);
+        $task->setLogger($loggerMock);
+        $loggerMock->expects($this->once())->method('error');
+
+        $report = $task(['ppp']);
+
+        $this->assertSame(\common_report_Report::TYPE_ERROR, $report->getType());
+    }
+
+    /**
      * @param array $events
      * @param Webhook[] $whConfigs
      * @return \PHPUnit_Framework_MockObject_MockObject|WebhookRegistryInterface
