@@ -24,6 +24,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Request;
 use oat\oatbox\extension\AbstractAction;
 use oat\oatbox\log\LoggerAwareTrait;
+use oat\tao\model\taskQueue\Task\TaskAwareInterface;
 use oat\tao\model\taskQueue\Task\TaskAwareTrait;
 use oat\tao\model\webhooks\configEntity\WebhookAuthInterface;
 use oat\tao\model\webhooks\configEntity\WebhookInterface;
@@ -31,7 +32,7 @@ use oat\tao\model\webhooks\WebhookRegistryInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
-class WebhookTask extends AbstractAction
+class WebhookTask extends AbstractAction implements TaskAwareInterface
 {
     use LoggerAwareTrait;
     use TaskAwareTrait;
