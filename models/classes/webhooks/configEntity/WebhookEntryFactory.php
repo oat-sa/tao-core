@@ -17,9 +17,10 @@
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
  */
 
-namespace oat\tao\model\webhooks\ConfigEntity;
+namespace oat\tao\model\webhooks\configEntity;
 
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\helpers\ArrayValidator;
 
 class WebhookEntryFactory extends ConfigurableService
 {
@@ -29,6 +30,11 @@ class WebhookEntryFactory extends ConfigurableService
      */
     public function createEntryFromArray(array $data)
     {
+        $validator = $this->getWebhookEntryValidator();
+        if (!$validator->validate($data)) {
+            throw new \InvalidArgumentException($validator->getErrorMessage());
+        }
+
         $auth = isset($data[Webhook::AUTH])
             ? $this->createAuthEntryFromArray($data[Webhook::AUTH])
             : null;
@@ -47,9 +53,36 @@ class WebhookEntryFactory extends ConfigurableService
      */
     protected function createAuthEntryFromArray(array $data)
     {
+        $validator = $this->getWebhookAuthValidator();
+        if (!$validator->validate($data)) {
+            throw new \InvalidArgumentException(
+                'Invalid ' . Webhook::AUTH . ' config: ' . $validator->getErrorMessage()
+            );
+        }
+
         return new WebhookAuth(
             $data[WebhookAuth::AUTH_CLASS],
-            $data[WebhookAuth::PROPERTIES]
+            $data[WebhookAuth::CREDENTIALS]
         );
+    }
+
+    /**
+     * @return ArrayValidator
+     */
+    private function getWebhookEntryValidator()
+    {
+        return (new ArrayValidator())
+            ->assertString([Webhook::ID, Webhook::URL, Webhook::HTTP_METHOD])
+            ->assertArray(Webhook::AUTH, false, true);
+    }
+
+    /**
+     * @return ArrayValidator
+     */
+    private function getWebhookAuthValidator()
+    {
+        return (new ArrayValidator())
+            ->assertString(WebhookAuth::AUTH_CLASS)
+            ->assertArray(WebhookAuth::CREDENTIALS);
     }
 }

@@ -25,7 +25,7 @@ use oat\oatbox\event\EventManager;
 use oat\tao\model\webhooks\WebhookEventsService;
 use oat\tao\model\webhooks\WebhookRegistryInterface;
 use oat\tao\model\webhooks\WebhookSerializableEventInterface;
-use oat\tao\model\webhooks\WebhookTaskMetadata;
+use oat\tao\model\webhooks\task\WebhookTaskParams;
 use oat\tao\model\webhooks\WebhookTaskServiceInterface;
 use Psr\Log\LoggerInterface;
 
@@ -105,10 +105,12 @@ class WebhookEventsServiceTest extends TestCase
 
     public function testHandleEventPositive() {
         $eventName = 'TestEvent';
+        $whEventName = 'WhTestEvent';
 
         /** @var WebhookSerializableEventInterface|\PHPUnit_Framework_MockObject_MockObject $event */
         $event = $this->createMock(WebhookSerializableEventInterface::class);
         $event->method('getName')->willReturn($eventName);
+        $event->method('getWebhookEventName')->willReturn($whEventName);
         $event->method('serializeForWebhook')->willReturn(['d' => 2]);
 
         $this->whRegistryData = [
@@ -126,29 +128,34 @@ class WebhookEventsServiceTest extends TestCase
             WebhookTaskServiceInterface::SERVICE_ID => $this->whTaskServiceMock
         ]));
 
-        $prepareCheckMetadataCallback = function ($whId) use ($eventName) {
-            return $this->callback(static function (WebhookTaskMetadata $whMetadata) use ($eventName, $whId) {
-                return $whMetadata[WebhookTaskMetadata::EVENT_NAME] === $eventName &&
-                    $whMetadata[WebhookTaskMetadata::WEBHOOK_CONFIG_ID] === $whId &&
-                    $whMetadata[WebhookTaskMetadata::EVENT_DATA] === ['d' => 2];
-            });
-        };
-
+        $passedParams = [];
         $this->whTaskServiceMock
             ->expects($this->exactly(2))
             ->method('createTask')
-            ->withConsecutive(
-                $prepareCheckMetadataCallback('wh1'),
-                $prepareCheckMetadataCallback('wh2')
-                );
+            ->willReturnCallback(static function(WebhookTaskParams $whParams) use (&$passedParams) {
+                $passedParams[] = $whParams;
+            });
 
+        $timestampStart = time();
         $service->handleEvent($event);
+        $timestampEnd = time();
+
+        foreach (['wh1', 'wh2'] as $index => $whId) {
+            $whParams = $passedParams[$index];
+            $this->assertSame($whParams[WebhookTaskParams::EVENT_NAME], $whEventName);
+            $this->assertSame($whParams[WebhookTaskParams::WEBHOOK_CONFIG_ID], $whId);
+            $this->assertSame($whParams[WebhookTaskParams::EVENT_DATA], ['d' => 2]);
+            $this->assertGreaterThanOrEqual($whParams[WebhookTaskParams::TRIGGERED_TIMESTAMP], $timestampStart);
+            $this->assertLessThanOrEqual($whParams[WebhookTaskParams::TRIGGERED_TIMESTAMP], $timestampEnd);
+            $this->assertRegExp('/^([a-z0-9]{32})$/', $whParams[WebhookTaskParams::EVENT_ID]);
+        }
     }
 
     public function testHandleEventNotSupportedEvent() {
         /** @var WebhookSerializableEventInterface|\PHPUnit_Framework_MockObject_MockObject $event */
         $event = $this->createMock(WebhookSerializableEventInterface::class);
         $event->method('getName')->willReturn('TestEvent');
+        $event->method('getWebhookEventName')->willReturn('WhTestEvent');
         $event->expects($this->never())->method('serializeForWebhook');
 
         $service = new WebhookEventsService([
@@ -170,6 +177,7 @@ class WebhookEventsServiceTest extends TestCase
         /** @noinspection PhpParamsInspection */
         $event = $this->createMock(Event::class);
         $event->method('getName')->willReturn('TestEvent');
+        $event->method('getWebhookEventName')->willReturn('WhTestEvent');
         $event->expects($this->never())->method('serializeForWebhook');
 
         $service = new WebhookEventsService([

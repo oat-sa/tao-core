@@ -14,29 +14,28 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2019 (original work) Open Assessment Technologies SA
- *
+ * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
  */
 
-namespace oat\tao\scripts\install;
+namespace oat\tao\model\webhooks\task;
 
-use common_persistence_Manager;
-use oat\oatbox\extension\InstallAction;
 
-/**
- * Class RegisterResourceWatcherService
- *
- * @author Martijn Swinkels <m.swinkels@taotesting.com>
- */
-class RegisterSettingsPersistence extends InstallAction
+interface WebhookPayloadFactoryInterface
 {
+    const SERVICE_ID = 'tao/webhookPayloadFactory';
 
     /**
-     * @inheritdoc
+     * @param string $eventName
+     * @param string $eventId
+     * @param int $triggeredTimestamp
+     * @param array $eventData
+     * @return string
+     * @throws \common_Exception
      */
-    public function __invoke($params)
-    {
-        common_persistence_Manager::addPersistence('settings',  ['driver' => 'phpfile']);
-        return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'Settings persistence registered');
-    }
+    public function createPayload($eventName, $eventId, $triggeredTimestamp, $eventData);
+
+    /**
+     * @return string
+     */
+    public function getContentType();
 }

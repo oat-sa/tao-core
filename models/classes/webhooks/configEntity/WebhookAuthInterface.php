@@ -17,27 +17,17 @@
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
  */
 
-namespace oat\tao\model\webhooks\ConfigEntity;
+namespace oat\tao\model\webhooks\configEntity;
 
-interface WebhookInterface
+interface WebhookAuthInterface
 {
     /**
      * @return string
      */
-    public function getId();
+    public function getAuthClass();
 
     /**
-     * @return string
+     * @return array
      */
-    public function getUrl();
-
-    /**
-     * @return string
-     */
-    public function getHttpMethod();
-
-    /**
-     * @return WebhookAuthInterface|null
-     */
-    public function getAuth();
+    public function getCredentials();
 }

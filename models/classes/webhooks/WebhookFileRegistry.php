@@ -20,8 +20,8 @@
 namespace oat\tao\model\webhooks;
 
 use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\webhooks\ConfigEntity\Webhook;
-use oat\tao\model\webhooks\ConfigEntity\WebhookEntryFactory;
+use oat\tao\model\webhooks\configEntity\Webhook;
+use oat\tao\model\webhooks\configEntity\WebhookEntryFactory;
 
 /**
  * Implementation which uses own (service) configuration to store webhooks configuration
@@ -54,7 +54,12 @@ class WebhookFileRegistry extends ConfigurableService implements WebhookRegistry
             return null;
         }
 
-        return $this->getWebhookEntryFactory()->createEntryFromArray($webhooks[$id]);
+        try {
+            return $this->getWebhookEntryFactory()->createEntryFromArray($webhooks[$id]);
+        }
+        catch (\InvalidArgumentException $exception) {
+            throw new \InvalidArgumentException("Invalid '$id' webhook config. " . $exception->getMessage());
+        }
     }
 
     /**

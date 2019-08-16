@@ -20,9 +20,9 @@
 namespace oat\tao\test\unit\webhooks;
 
 use oat\generis\test\TestCase;
-use oat\tao\model\webhooks\ConfigEntity\Webhook;
-use oat\tao\model\webhooks\ConfigEntity\WebhookAuth;
-use oat\tao\model\webhooks\ConfigEntity\WebhookEntryFactory;
+use oat\tao\model\webhooks\configEntity\Webhook;
+use oat\tao\model\webhooks\configEntity\WebhookAuth;
+use oat\tao\model\webhooks\configEntity\WebhookEntryFactory;
 use oat\tao\model\webhooks\WebhookFileRegistry;
 
 class WebhookFileRegistryTest extends TestCase
