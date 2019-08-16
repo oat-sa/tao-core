@@ -17,7 +17,7 @@
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
  */
 
-namespace oat\tao\model\webhooks\ConfigEntity;
+namespace oat\tao\model\webhooks\configEntity;
 
 class Webhook implements WebhookInterface
 {

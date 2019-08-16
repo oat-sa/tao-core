@@ -17,27 +17,22 @@
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
  */
 
-namespace oat\tao\model\webhooks;
+namespace oat\tao\model\webhooks\task;
 
-use oat\tao\model\webhooks\task\WebhookTaskParams;
+use Psr\Http\Message\ResponseInterface;
 
-/**
- * TODO: should be implemented in TAO-8498
- */
-interface WebhookTaskServiceInterface
+interface WebhookResponseFactoryInterface
 {
-    const SERVICE_ID = 'tao/webhookTaskService';
+    const SERVICE_ID = 'tao/webhookResponseFactory';
 
     /**
-     * Should be called in updater/install script for specific env to
-     * link webhook tasks to specific queue which is already registered in queue dispatcher
-     * @param string $queueName
+     * @param ResponseInterface $response
+     * @return WebhookResponse
      */
-    public function linkTaskToQueue($queueName);
+    public function create(ResponseInterface $response);
 
     /**
-     * Create and enqueue task for performing webhook
-     * @param WebhookTaskParams $webhookTaskParams
+     * @return string
      */
-    public function createTask(WebhookTaskParams $webhookTaskParams);
+    public function getAcceptedContentType();
 }

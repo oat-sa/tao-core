@@ -17,12 +17,12 @@
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
  */
 
-namespace oat\tao\model\webhooks\ConfigEntity;
+namespace oat\tao\model\webhooks\configEntity;
 
 class WebhookAuth implements WebhookAuthInterface
 {
     const AUTH_CLASS = 'authClass';
-    const PROPERTIES = 'properties';
+    const CREDENTIALS = 'credentials';
 
     /**
      * @var string
@@ -33,7 +33,7 @@ class WebhookAuth implements WebhookAuthInterface
     /**
      * @var array
      */
-    private $properties;
+    private $credentials;
 
     /**
      * @param string $authClass
@@ -42,7 +42,7 @@ class WebhookAuth implements WebhookAuthInterface
     public function __construct($authClass, array $properties)
     {
         $this->authClass = $authClass;
-        $this->properties = $properties;
+        $this->credentials = $properties;
     }
 
     /**
@@ -56,9 +56,9 @@ class WebhookAuth implements WebhookAuthInterface
     /**
      * @return array
      */
-    public function getProperties()
+    public function getCredentials()
     {
-        return $this->properties;
+        return $this->credentials;
     }
 
     /**
@@ -68,7 +68,7 @@ class WebhookAuth implements WebhookAuthInterface
     {
         return [
             self::AUTH_CLASS => $this->getAuthClass(),
-            self::PROPERTIES => $this->getProperties()
+            self::CREDENTIALS => $this->getCredentials()
         ];
     }
 }

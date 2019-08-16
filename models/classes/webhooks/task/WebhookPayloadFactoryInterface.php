@@ -17,17 +17,25 @@
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
  */
 
-namespace oat\tao\model\webhooks\ConfigEntity;
+namespace oat\tao\model\webhooks\task;
 
-interface WebhookAuthInterface
+
+interface WebhookPayloadFactoryInterface
 {
+    const SERVICE_ID = 'tao/webhookPayloadFactory';
+
+    /**
+     * @param string $eventName
+     * @param string $eventId
+     * @param int $triggeredTimestamp
+     * @param array $eventData
+     * @return string
+     * @throws \common_Exception
+     */
+    public function createPayload($eventName, $eventId, $triggeredTimestamp, $eventData);
+
     /**
      * @return string
      */
-    public function getAuthClass();
-
-    /**
-     * @return array
-     */
-    public function getProperties();
+    public function getContentType();
 }
