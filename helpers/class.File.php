@@ -26,6 +26,9 @@
  * @package tao
  
  */
+
+use oat\oatbox\filesystem\File;
+
 class tao_helpers_File
     extends helpers_File
 {
@@ -479,6 +482,58 @@ class tao_helpers_File
         $returnValue = $done;
     
         return $returnValue;
+    }
+
+    /**
+     * Unzip archive file
+     *
+     * @param string|File $archiveFile
+     * @return string path to temporary directory zipfile was extracted to
+     *
+     * @throws \common_Exception
+     */
+    public static function extractArchive($archiveFile)
+    {
+        if ($archiveFile instanceof File) {
+            if (!$archiveFile->exists()) {
+                throw new \common_Exception('Unable to open archive ' . '/' . $archiveFile->getPrefix());
+            }
+            $tmpDir = static::createTempDir();
+            $tmpFilePath = $tmpDir . uniqid($archiveFile->getBasename(), true) . '.zip';
+            $tmpFile = fopen($tmpFilePath, 'w');
+            $originalPackage = $archiveFile->readStream();
+            stream_copy_to_stream($originalPackage, $tmpFile);
+            fclose($originalPackage);
+            fclose($tmpFile);
+            $archiveFile = $tmpFilePath;
+        }
+
+        $archiveObj = new \ZipArchive();
+        $archiveHandle = $archiveObj->open($archiveFile);
+
+        if (true !== $archiveHandle) {
+            throw new \common_Exception('Unable to open archive ' . $archiveFile);
+        }
+
+        if (static::checkWhetherArchiveIsBomb($archiveObj)) {
+            throw new \common_Exception(sprintf('Source "%s" seems to be a ZIP bomb', $archiveFile));
+        }
+
+        $archiveDir = static::createTempDir();
+        if (!$archiveObj->extractTo($archiveDir)) {
+            $archiveObj->close();
+            throw new \common_Exception('Unable to extract to ' . $archiveDir);
+        }
+        $archiveObj->close();
+
+        if (isset($tmpFilePath) && file_exists($tmpFilePath)) {
+            unlink($tmpFilePath);
+        }
+        if (isset($tmpDir) && file_exists($tmpDir)) {
+            rmdir($tmpDir);
+        }
+
+        return $archiveDir;
     }
 
     /**

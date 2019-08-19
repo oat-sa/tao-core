@@ -23,6 +23,7 @@ use oat\oatbox\event\Event;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\webhooks\task\WebhookTaskParams;
 
 class WebhookEventsService extends ConfigurableService implements WebhookEventsServiceInterface
 {
@@ -91,8 +92,8 @@ class WebhookEventsService extends ConfigurableService implements WebhookEventsS
             return;
         }
 
-        $tasksMetadata = $this->prepareTasksMetadata($event, $webhookConfigIds);
-        $this->createWebhookTasks($tasksMetadata);
+        $tasksParams = $this->prepareTasksParams($event, $webhookConfigIds);
+        $this->createWebhookTasks($tasksParams);
     }
 
     /**
@@ -123,9 +124,9 @@ class WebhookEventsService extends ConfigurableService implements WebhookEventsS
     /**
      * @param WebhookSerializableEventInterface $event
      * @param string[] $webhookConfigIds
-     * @return WebhookTaskMetadata[]
+     * @return WebhookTaskParams[]
      */
-    private function prepareTasksMetadata(WebhookSerializableEventInterface $event, $webhookConfigIds)
+    private function prepareTasksParams(WebhookSerializableEventInterface $event, $webhookConfigIds)
     {
         try {
             $eventData = $event->serializeForWebhook();
@@ -138,38 +139,56 @@ class WebhookEventsService extends ConfigurableService implements WebhookEventsS
             return [];
         }
 
+        $triggeredTimestamp = time();
+        $eventId = $this->generateEventId($event->getName());
+
         $result = [];
 
         foreach ($webhookConfigIds as $webhookConfigId) {
-            $result[] = new WebhookTaskMetadata(
-                $event->getName(),
-                $eventData,
-                $webhookConfigId
-            );
+            $result[] = new WebhookTaskParams([
+                WebhookTaskParams::EVENT_NAME => $event->getWebhookEventName(),
+                WebhookTaskParams::EVENT_ID => $eventId,
+                WebhookTaskParams::TRIGGERED_TIMESTAMP => $triggeredTimestamp,
+                WebhookTaskParams::EVENT_DATA => $eventData,
+                WebhookTaskParams::WEBHOOK_CONFIG_ID => $webhookConfigId
+            ]);
         }
 
         return $result;
     }
 
     /**
-     * @param WebhookTaskMetadata[] $tasksMetadata
+     * @param WebhookTaskParams[] $tasksParams
      */
-    private function createWebhookTasks($tasksMetadata)
+    private function createWebhookTasks($tasksParams)
     {
-        foreach ($tasksMetadata as $taskMetadata) {
+        foreach ($tasksParams as $taskParams) {
             try {
-                $this->getWebhookTaskService()->createTask($taskMetadata);
+                $this->getWebhookTaskService()->createTask($taskParams);
             } catch (\Exception $exception) {
                 $this->logError(
                     sprintf("Can't create webhook task for %s. %s",
-                        $taskMetadata[WebhookTaskMetadata::EVENT_NAME],
+                        $taskParams[WebhookTaskParams::EVENT_ID],
                         $exception->getMessage()
                     ),
-                    $taskMetadata
+                    (array) $taskParams
                 );
                 continue;
             }
         }
+    }
+
+    /**
+     * @param string $eventName
+     * @return string
+     */
+    private function generateEventId($eventName) {
+        return md5(
+            microtime() .
+            mt_rand() .
+            $eventName .
+            gethostname()
+        );
     }
 
     /**

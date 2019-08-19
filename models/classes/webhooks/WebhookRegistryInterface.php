@@ -19,7 +19,7 @@
 
 namespace oat\tao\model\webhooks;
 
-use oat\tao\model\webhooks\ConfigEntity\WebhookInterface;
+use oat\tao\model\webhooks\configEntity\WebhookInterface;
 
 /**
  * Represents webhooks config entries storage. We will add 'set' methods here if we are going to implement

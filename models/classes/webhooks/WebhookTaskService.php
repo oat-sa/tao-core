@@ -19,25 +19,42 @@
 
 namespace oat\tao\model\webhooks;
 
+use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\taskQueue\QueueDispatcherInterface;
+use oat\tao\model\webhooks\task\WebhookTask;
 use oat\tao\model\webhooks\task\WebhookTaskParams;
 
-/**
- * TODO: should be implemented in TAO-8498
- */
-interface WebhookTaskServiceInterface
+class WebhookTaskService extends ConfigurableService implements WebhookTaskServiceInterface
 {
-    const SERVICE_ID = 'tao/webhookTaskService';
-
     /**
      * Should be called in updater/install script for specific env to
      * link webhook tasks to specific queue which is already registered in queue dispatcher
      * @param string $queueName
      */
-    public function linkTaskToQueue($queueName);
+    public function linkTaskToQueue($queueName)
+    {
+        $this->getQueueDispatcher()->linkTaskToQueue(WebhookTask::class, $queueName);
+    }
 
     /**
      * Create and enqueue task for performing webhook
      * @param WebhookTaskParams $webhookTaskParams
      */
-    public function createTask(WebhookTaskParams $webhookTaskParams);
+    public function createTask(WebhookTaskParams $webhookTaskParams)
+    {
+        $task = new WebhookTask();
+        $task->setServiceLocator($this->getServiceLocator());
+
+        /** @var QueueDispatcherInterface $queueDispatcher */
+        $this->getQueueDispatcher()->createTask($task, (array) $webhookTaskParams, 'Event Webhook');
+    }
+
+    /**
+     * @return QueueDispatcherInterface
+     */
+    private function getQueueDispatcher()
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return $this->getServiceLocator()->get(QueueDispatcherInterface::SERVICE_ID);
+    }
 }

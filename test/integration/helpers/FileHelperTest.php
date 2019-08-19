@@ -200,4 +200,15 @@ class FileHelperTest extends TaoPhpUnitTestRunner {
         $this->assertEquals(['path/to/data/text.txt', 'path/to/log.log'], tao_helpers_File::getAllZipNames($zipArchive));
         $zipArchive->close();
     }
+
+    public function testExtractArchive()
+    {
+        $path = realpath('./samples/samples.zip');
+        $dir = tao_helpers_File::extractArchive($path);
+        $this->assertTrue(is_dir($dir));
+        $files = scandir($dir, SCANDIR_SORT_ASCENDING);
+        $this->assertCount(4, $files);
+        $this->assertContains('bar.json', $files);
+        $this->assertContains('foo.txt', $files);
+    }
 }
