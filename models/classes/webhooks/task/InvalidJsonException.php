@@ -17,27 +17,34 @@
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
  */
 
-namespace oat\tao\model\webhooks\ConfigEntity;
+namespace oat\tao\model\webhooks\task;
 
-interface WebhookInterface
+use Throwable;
+
+class InvalidJsonException extends \Exception
 {
     /**
-     * @return string
+     * @var string[]
      */
-    public function getId();
+    private $validationErrors;
 
     /**
-     * @return string
+     * @param string $message
+     * @param int $code
+     * @param string[] $validationErrors
+     * @param Throwable|null $previous
      */
-    public function getUrl();
+    public function __construct($message = '', $code = 0, $validationErrors = [], Throwable $previous = null)
+    {
+        parent::__construct($message, $code, $previous);
+        $this->validationErrors = $validationErrors;
+    }
 
     /**
-     * @return string
+     * @return string[]
      */
-    public function getHttpMethod();
-
-    /**
-     * @return WebhookAuthInterface|null
-     */
-    public function getAuth();
+    public function getValidationErrors()
+    {
+        return $this->validationErrors;
+    }
 }
