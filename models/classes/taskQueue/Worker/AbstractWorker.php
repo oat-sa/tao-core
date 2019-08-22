@@ -67,12 +67,13 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
      */
     public function processTask(TaskInterface $task)
     {
-        if ($this->taskLog->getStatus($task->getId()) != TaskLogInterface::STATUS_CANCELLED) {
+        if ($this->isTaskCancelled($task)) {
             $report = Report::createInfo(__('Running task %s', $task->getId()));
             try {
                 $this->startUserSession($task);
                 $this->logInfo('Processing task ' . $task->getId(), $this->getLogContext());
 
+                //Database operation in task log
                 $rowsTouched = $this->taskLog->setStatus($task->getId(), TaskLogInterface::STATUS_RUNNING, TaskLogInterface::STATUS_DEQUEUED);
 
                 // if the task is being executed by another worker, just return, no report needs to be saved
@@ -105,7 +106,7 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
                 $report = Report::createFailure(__('Executing task %s failed', $task->getId()));
             }
 
-            // Initial status
+            // Initializing status
             $status = $report->getType() == Report::TYPE_ERROR || $report->containsError()
                 ? TaskLogInterface::STATUS_FAILED
                 : TaskLogInterface::STATUS_COMPLETED;
@@ -176,14 +177,14 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
     /**
      * @param TaskInterface $task
      * @throws \oat\oatbox\service\exception\InvalidServiceManagerException
+     * @throws \Exception
      */
     private function startUserSession(TaskInterface $task)
     {
+        /** @var SessionService $sessionService */
         $sessionService = $this->getServiceLocator()->get(SessionService::class);
         if ($task->getOwner() && $sessionService->getCurrentSession()->getUser()->getIdentifier() !== $task->getOwner()) {
-            /** @var UserFactoryServiceInterface $userFactory */
-            $userFactory = $this->getServiceManager()->get(UserFactoryServiceInterface::SERVICE_ID);
-            $user = $userFactory->createUser($this->getResource($task->getOwner()));
+            $user = $this->getUserFactoryService()->createUser($this->getResource($task->getOwner()));
             $session = new StatelessSession($user);
             $sessionService->setSession($session);
         }
@@ -205,5 +206,22 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
     private function getRemoteStatus(TaskInterface $task)
     {
         return $task instanceof CallbackTaskInterface ? $task->getCallable()->getRemoteStatus() : $task->getRemoteStatus();
+    }
+
+    /**
+     * @param TaskInterface $task
+     * @return bool
+     */
+    private function isTaskCancelled(TaskInterface $task): bool
+    {
+        return $this->taskLog->getStatus($task->getId()) != TaskLogInterface::STATUS_CANCELLED;
+    }
+
+    /**
+     * @return UserFactoryServiceInterface
+     */
+    private function getUserFactoryService()
+    {
+        return $this->getServiceLocator()->get(UserFactoryServiceInterface::SERVICE_ID);
     }
 }
