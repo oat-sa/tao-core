@@ -22,6 +22,7 @@ namespace oat\tao\model\webhooks;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\webhooks\configEntity\Webhook;
 use oat\tao\model\webhooks\configEntity\WebhookEntryFactory;
+use oat\tao\model\webhooks\task\WebhookTaskParams;
 
 /**
  * Implementation which uses own (service) configuration to store webhooks configuration
@@ -81,5 +82,16 @@ class WebhookFileRegistry extends ConfigurableService implements WebhookRegistry
     private function getWebhookEntryFactory() {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->getServiceLocator()->get(WebhookEntryFactory::class);
+    }
+
+    /**
+     * @param string $webhookConfigId
+     * @return int
+     */
+    public function getMaxRetries($webhookConfigId)
+    {
+        $webhooks = $this->getOption(self::OPTION_WEBHOOKS);
+
+        return $webhooks[$webhookConfigId][WebhookTaskParams::RETRY_MAX];
     }
 }

@@ -31,6 +31,7 @@ class WebhookTaskParams extends ArrayObject
     const TRIGGERED_TIMESTAMP = 'triggeredTimestamp';
     const EVENT_DATA = 'eventData';
     const WEBHOOK_CONFIG_ID = 'webhookConfigId';
+    const RETRY_MAX = 'retryMax';
 
     /**
      * @return string
@@ -70,5 +71,13 @@ class WebhookTaskParams extends ArrayObject
     public function getWebhookConfigId()
     {
         return $this[self::WEBHOOK_CONFIG_ID];
+    }
+
+    /**
+     * @return string
+     */
+    public function getRetryMax()
+    {
+        return $this[self::RETRY_MAX];
     }
 }

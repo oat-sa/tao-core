@@ -25,7 +25,7 @@ namespace oat\tao\model\taskQueue\Task;
  * Interface RetriableTaskInterface
  * @package oat\tao\model\taskQueue\Task
  */
-interface RetriableTaskInterface
+interface RetriableTaskInterface extends ChildTaskAwareInterface
 {
     /**
      * @return int
@@ -40,6 +40,5 @@ interface RetriableTaskInterface
     /**
      * @return bool
      */
-    public function isRetryCountReachedLimit();
-
+    public function isRetryCountReachedLimit($webhookConfigId);
 }

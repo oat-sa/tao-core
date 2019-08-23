@@ -150,7 +150,8 @@ class WebhookEventsService extends ConfigurableService implements WebhookEventsS
                 WebhookTaskParams::EVENT_ID => $eventId,
                 WebhookTaskParams::TRIGGERED_TIMESTAMP => $triggeredTimestamp,
                 WebhookTaskParams::EVENT_DATA => $eventData,
-                WebhookTaskParams::WEBHOOK_CONFIG_ID => $webhookConfigId
+                WebhookTaskParams::WEBHOOK_CONFIG_ID => $webhookConfigId,
+                WebhookTaskParams::RETRY_MAX => $this->getWebhookRegistry()->getMaxRetries($webhookConfigId)
             ]);
         }
 

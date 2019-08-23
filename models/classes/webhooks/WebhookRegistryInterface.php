@@ -40,4 +40,9 @@ interface WebhookRegistryInterface
      * @return string[]
      */
     public function getWebhookConfigIds($eventName);
+
+    /**
+     * @return int
+     */
+    public function getMaxRetries($webhookConfigId);
 }

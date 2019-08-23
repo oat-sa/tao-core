@@ -43,7 +43,7 @@ class WebhookTaskService extends ConfigurableService implements WebhookTaskServi
     public function createTask(WebhookTaskParams $webhookTaskParams)
     {
         $task = new WebhookTask();
-        $task->setServiceLocator($this->getServiceLocator());
+        $this->propagate($task);
 
         /** @var QueueDispatcherInterface $queueDispatcher */
         $this->getQueueDispatcher()->createTask($task, (array) $webhookTaskParams, 'Event Webhook');

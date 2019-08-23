@@ -26,6 +26,7 @@ use oat\oatbox\session\StatelessSession;
 use oat\tao\model\taskQueue\QueuerInterface;
 use oat\tao\model\taskQueue\Task\CallbackTaskInterface;
 use oat\tao\model\taskQueue\Task\RemoteTaskSynchroniserInterface;
+use oat\tao\model\taskQueue\Task\RetriableTaskInterface;
 use oat\tao\model\taskQueue\Task\TaskInterface;
 use oat\tao\model\taskQueue\TaskLog\CategorizedStatus;
 use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
@@ -92,6 +93,7 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
 
                 if (!$taskReport instanceof Report) {
                     $this->logWarning('Task ' . $task->getId() . ' should return a report object.', $this->getLogContext());
+                    //todo: isn't this message confusinig?
                     $taskReport = Report::createInfo(__('Task not returned any report.'));
                 }
 
@@ -152,6 +154,10 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
                 }
             }
 
+            if ($status === TaskLogInterface::STATUS_FAILED && $task instanceof CallbackTaskInterface) {
+                $this->retryMechanism($task);
+            }
+
             unset($report);
         } else {
             $this->taskLog->setReport(
@@ -206,6 +212,16 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
     private function getRemoteStatus(TaskInterface $task)
     {
         return $task instanceof CallbackTaskInterface ? $task->getCallable()->getRemoteStatus() : $task->getRemoteStatus();
+    }
+
+
+    private function retryMechanism(CallbackTaskInterface $task)
+    {
+        $callableTask = $task->getCallable();
+        if ($callableTask instanceof RetriableTaskInterface) {
+            $callableTask->retryCountIncrease();
+
+        }
     }
 
     /**
