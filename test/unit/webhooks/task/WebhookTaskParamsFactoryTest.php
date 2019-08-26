@@ -44,6 +44,7 @@ class WebhookTaskParamsFactoryTest extends TestCase
         $this->assertSame('EventName', $params->getEventName());
         $this->assertSame('wh1', $params->getWebhookConfigId());
         $this->assertSame(['d' => 4], $params->getEventData());
+        $this->assertSame(5, $params->getRetryMax());
     }
 
     public function testCreateFromArrayMissedKeys()
