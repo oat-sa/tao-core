@@ -220,14 +220,7 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
     {
         $callableTask = $task->getCallable();
         if ($retryMax = $task->getParameter(WebhookTaskParams::RETRY_MAX)) {
-            $retryCount = $task->getParameter(WebhookTaskParams::RETRY_COUNT);
-            if ($retryCount === null) {
-                $retryCount = 1;
-                $task->setParameter(WebhookTaskParams::RETRY_COUNT, $retryCount);
-            } else {
-                $retryCount++;
-                $task->setParameter(WebhookTaskParams::RETRY_COUNT, $retryCount);
-            }
+            $retryCount = $this->setRetryCountParam($task);
             if ($retryMax >= $retryCount) {
                 $this->getQueueDispatcher()->createTask($callableTask, $task->getParameters(), $task->getLabel(), $task, true);
             }
@@ -258,5 +251,23 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
     private function getQueueDispatcher()
     {
         return $this->getServiceLocator()->get(QueueDispatcherInterface::SERVICE_ID);
+    }
+
+    /**
+     * @param CallbackTaskInterface $task
+     * @return int
+     */
+    private function setRetryCountParam(CallbackTaskInterface $task)
+    {
+        $retryCount = $task->getParameter(WebhookTaskParams::RETRY_COUNT);
+        if ($retryCount === null) {
+            $retryCount = 1;
+            $task->setParameter(WebhookTaskParams::RETRY_COUNT, $retryCount);
+        } else {
+            $retryCount++;
+            $task->setParameter(WebhookTaskParams::RETRY_COUNT, $retryCount);
+        }
+
+        return $retryCount;
     }
 }
