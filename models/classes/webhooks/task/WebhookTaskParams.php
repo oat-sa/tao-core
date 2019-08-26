@@ -32,6 +32,7 @@ class WebhookTaskParams extends ArrayObject
     const EVENT_DATA = 'eventData';
     const WEBHOOK_CONFIG_ID = 'webhookConfigId';
     const RETRY_MAX = 'retryMax';
+    const RETRY_COUNT = 'retryCount';
 
     /**
      * @return string

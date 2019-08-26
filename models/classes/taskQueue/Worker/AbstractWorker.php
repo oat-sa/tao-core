@@ -36,6 +36,7 @@ use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\generis\model\user\UserFactoryServiceInterface;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\session\SessionService;
+use oat\tao\model\webhooks\task\WebhookTaskParams;
 
 abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInterface
 {
@@ -218,14 +219,14 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
     private function retryMechanism(CallbackTaskInterface $task)
     {
         $callableTask = $task->getCallable();
-        if ($retryMax = $task->getParameter('retryMax')) {
-            $retryCount = $task->getParameter('retryCount');
+        if ($retryMax = $task->getParameter(WebhookTaskParams::RETRY_MAX)) {
+            $retryCount = $task->getParameter(WebhookTaskParams::RETRY_COUNT);
             if ($retryCount === null) {
                 $retryCount = 1;
-                $task->setParameter('retryCount', $retryCount);
+                $task->setParameter(WebhookTaskParams::RETRY_COUNT, $retryCount);
             } else {
                 $retryCount++;
-                $task->setParameter('retryCount', $retryCount);
+                $task->setParameter(WebhookTaskParams::RETRY_COUNT, $retryCount);
             }
             if ($retryMax >= $retryCount) {
                 $this->getQueueDispatcher()->createTask($callableTask, $task->getParameters(), $task->getLabel(), $task, true);
