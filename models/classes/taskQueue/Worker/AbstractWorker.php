@@ -68,7 +68,7 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
      */
     public function processTask(TaskInterface $task)
     {
-        if ($this->isTaskCancelled($task)) {
+        if (!$this->isTaskCancelled($task)) {
             $report = Report::createInfo(__('Running task %s', $task->getId()));
             try {
                 $this->startUserSession($task);
@@ -240,7 +240,7 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
      */
     private function isTaskCancelled(TaskInterface $task): bool
     {
-        return $this->taskLog->getStatus($task->getId()) != TaskLogInterface::STATUS_CANCELLED;
+        return $this->taskLog->getStatus($task->getId()) === TaskLogInterface::STATUS_CANCELLED;
     }
 
     /**
