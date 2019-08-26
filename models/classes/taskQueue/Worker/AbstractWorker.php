@@ -23,10 +23,10 @@ namespace oat\tao\model\taskQueue\Worker;
 use common_report_Report as Report;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\session\StatelessSession;
+use oat\tao\model\taskQueue\QueueDispatcherInterface;
 use oat\tao\model\taskQueue\QueuerInterface;
 use oat\tao\model\taskQueue\Task\CallbackTaskInterface;
 use oat\tao\model\taskQueue\Task\RemoteTaskSynchroniserInterface;
-use oat\tao\model\taskQueue\Task\RetriableTaskInterface;
 use oat\tao\model\taskQueue\Task\TaskInterface;
 use oat\tao\model\taskQueue\TaskLog\CategorizedStatus;
 use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
@@ -218,8 +218,18 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
     private function retryMechanism(CallbackTaskInterface $task)
     {
         $callableTask = $task->getCallable();
-        if ($callableTask instanceof RetriableTaskInterface) {
-            $callableTask->retryCountIncrease();
+        if ($retryMax = $task->getParameter('retryMax')) {
+            $retryCount = $task->getParameter('retryCount');
+            if ($retryCount === null) {
+                $retryCount = 1;
+                $task->setParameter('retryCount', $retryCount);
+            } else {
+                $retryCount++;
+                $task->setParameter('retryCount', $retryCount);
+            }
+            if ($retryMax >= $retryCount) {
+                $this->getQueueDispatcher()->createTask($callableTask, $task->getParameters(), $task->getLabel(), $task, true);
+            }
 
         }
     }
@@ -239,5 +249,13 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
     private function getUserFactoryService()
     {
         return $this->getServiceLocator()->get(UserFactoryServiceInterface::SERVICE_ID);
+    }
+
+    /**
+     * @return QueueDispatcherInterface
+     */
+    private function getQueueDispatcher()
+    {
+        return $this->getServiceLocator()->get(QueueDispatcherInterface::SERVICE_ID);
     }
 }

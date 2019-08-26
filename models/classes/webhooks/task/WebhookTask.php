@@ -24,8 +24,8 @@ use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Request;
 use oat\oatbox\extension\AbstractAction;
 use oat\oatbox\log\LoggerAwareTrait;
+use oat\tao\model\taskQueue\Task\ChildTaskAwareInterface;
 use oat\tao\model\taskQueue\Task\ChildTaskAwareTrait;
-use oat\tao\model\taskQueue\Task\RetriableTaskInterface;
 use oat\tao\model\taskQueue\Task\TaskAwareInterface;
 use oat\tao\model\taskQueue\Task\TaskAwareTrait;
 use oat\tao\model\webhooks\configEntity\WebhookAuthInterface;
@@ -34,7 +34,7 @@ use oat\tao\model\webhooks\WebhookRegistryInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
-class WebhookTask extends AbstractAction implements TaskAwareInterface, RetriableTaskInterface
+class WebhookTask extends AbstractAction implements TaskAwareInterface, ChildTaskAwareInterface
 {
     use LoggerAwareTrait;
     use TaskAwareTrait;
@@ -44,11 +44,6 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface, Retriabl
      * @var WebhookTaskParams
      */
     private $params;
-
-    /**
-     * @var int
-     */
-    private $retryCount;
 
     /**
      * @param array $paramsArray
@@ -261,29 +256,5 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface, Retriabl
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->getServiceLocator()->get(WebhookSender::class);
-    }
-
-    /**
-     * @return int
-     */
-    public function retryCountIncrease()
-    {
-        return $this->retryCount++;
-    }
-
-    /**
-     * @return int
-     */
-    public function getRetryCount()
-    {
-        return $this->retryCount;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isRetryCountReachedLimit($webhookConfigId)
-    {
-        return $this->getWebhookRegistry()->getMaxRetries($webhookConfigId) === $this->retryCount;
     }
 }
