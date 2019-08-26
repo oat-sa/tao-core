@@ -35,6 +35,7 @@ class WebhookTaskParamsFactoryTest extends TestCase
             WebhookTaskParams::WEBHOOK_CONFIG_ID => 'wh1',
             WebhookTaskParams::EVENT_NAME => 'EventName',
             WebhookTaskParams::EVENT_DATA => ['d' => 4],
+            WebhookTaskParams::RETRY_MAX => 5
         ];
         $params = $factory->createFromArray($params);
         $this->assertInstanceOf(WebhookTaskParams::class, $params);
