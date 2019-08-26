@@ -44,19 +44,28 @@ class WebhookLogRepository extends ConfigurableService implements WebhookLogRepo
     const COLUMN_RESULT = 'result';
     const COLUMN_RESULT_MESSAGE = 'result_message';
 
-    private function getPersistence(): \common_persistence_Persistence
+    /**
+     * @return \common_persistence_Persistence
+     */
+    private function getPersistence()
     {
         $persistenceId = $this->getOption(self::OPTION_PERSISTENCE) ?: 'default';
         return $this->getServiceLocator()->get(\common_persistence_Manager::SERVICE_ID)->getPersistenceById($persistenceId);
     }
 
-    private function getQueryBuilder(): QueryBuilder
+    /**
+     * @return QueryBuilder
+     */
+    private function getQueryBuilder()
     {
         /**@var \common_persistence_sql_pdo_mysql_Driver $driver */
         return $this->getPersistence()->getPlatForm()->getQueryBuilder();
     }
 
-    public function storeLog(WebhookEventLogRecord $webhookEventLog): void
+    /**
+     * @inheritDoc
+     */
+    public function storeLog(WebhookEventLogRecord $webhookEventLog)
     {
         $this->getPersistence()->insert(self::TABLE_NAME, [
             self::COLUMN_EVENT_ID => $webhookEventLog->getEventId(),

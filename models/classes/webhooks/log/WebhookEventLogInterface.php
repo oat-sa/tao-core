@@ -23,15 +23,15 @@ interface WebhookEventLogInterface
 {
     const SERVICE_ID = 'tao/webhookEventLog';
 
-    public function storeNetworkErrorLog(string $eventId, string $taskId, string $parentTaskId, ?string $networkError): void;
+    public function storeNetworkErrorLog($eventId, $taskId, $parentTaskId, $networkError = null);
 
-    public function storeInvalidHttpStatusLog(string $eventId, string $taskId, string $parentTaskId, int $actualHttpStatusCode): void;
+    public function storeInvalidHttpStatusLog($eventId, $taskId, $parentTaskId, $actualHttpStatusCode);
 
-    public function storeInvalidBodyFormat(string $eventId, string $taskId, string $parentTaskId, string $responseBody): void;
+    public function storeInvalidBodyFormat($eventId, $taskId, $parentTaskId, $responseBody = null);
 
-    public function storeInvalidAcknowledgementLog($eventId, $taskId, $parentTaskId, string $responseBody, $actualAcknowledgement): void;
+    public function storeInvalidAcknowledgementLog($eventId, $taskId, $parentTaskId, $responseBody, $actualAcknowledgement = null);
 
-    public function storeSuccessfulLog($eventId, $taskId, $parentTaskId, string $responseBody, string $acknowledgement): void;
+    public function storeSuccessfulLog($eventId, $taskId, $parentTaskId, $responseBody, $acknowledgement);
 
-    public function storeInternalErrorLog(string $eventId, string $taskId, string $parentTaskId, ?string $internalError): void;
+    public function storeInternalErrorLog($eventId, $taskId, $parentTaskId, $internalError = null);
 }

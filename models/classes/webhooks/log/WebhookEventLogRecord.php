@@ -63,7 +63,7 @@ class WebhookEventLogRecord
     /**
      * @return string|null
      */
-    public function getEventId(): ?string
+    public function getEventId()
     {
         return $this->eventId;
     }
@@ -72,7 +72,7 @@ class WebhookEventLogRecord
      * @param string $eventId
      * @return $this
      */
-    public function setEventId(string $eventId)
+    public function setEventId($eventId)
     {
         $this->eventId = $eventId;
 
@@ -82,7 +82,7 @@ class WebhookEventLogRecord
     /**
      * @return string|null
      */
-    public function getTaskId(): ?string
+    public function getTaskId()
     {
         return $this->taskId;
     }
@@ -91,7 +91,7 @@ class WebhookEventLogRecord
      * @param string|null $taskId
      * @return $this
      */
-    public function setTaskId(?string $taskId)
+    public function setTaskId($taskId)
     {
         $this->taskId = $taskId;
 
@@ -101,7 +101,7 @@ class WebhookEventLogRecord
     /**
      * @return string|null
      */
-    public function getParentTaskId(): ?string
+    public function getParentTaskId()
     {
         return $this->parentTaskId;
     }
@@ -110,7 +110,7 @@ class WebhookEventLogRecord
      * @param string|null $parentTaskId
      * @return $this
      */
-    public function setParentTaskId(?string $parentTaskId)
+    public function setParentTaskId($parentTaskId)
     {
         $this->parentTaskId = $parentTaskId;
 
@@ -120,7 +120,7 @@ class WebhookEventLogRecord
     /**
      * @return string|null
      */
-    public function getResultMessage(): ?string
+    public function getResultMessage()
     {
         return $this->resultMessage;
     }
@@ -129,7 +129,7 @@ class WebhookEventLogRecord
      * @param string $resultMessage
      * @return $this
      */
-    public function setResultMessage(string $resultMessage)
+    public function setResultMessage($resultMessage)
     {
         $this->resultMessage = $resultMessage;
 
@@ -139,7 +139,7 @@ class WebhookEventLogRecord
     /**
      * @return int|null
      */
-    public function getHttpStatusCode(): ?int
+    public function getHttpStatusCode()
     {
         return $this->httpStatusCode;
     }
@@ -148,7 +148,7 @@ class WebhookEventLogRecord
      * @param int $httpStatusCode
      * @return $this
      */
-    public function setHttpStatusCode(int $httpStatusCode)
+    public function setHttpStatusCode($httpStatusCode)
     {
         $this->httpStatusCode = $httpStatusCode;
 
@@ -158,7 +158,7 @@ class WebhookEventLogRecord
     /**
      * @return string|null
      */
-    public function getResponseBody(): ?string
+    public function getResponseBody()
     {
         return $this->responseBody;
     }
@@ -167,7 +167,7 @@ class WebhookEventLogRecord
      * @param string|null $responseBody
      * @return $this
      */
-    public function setResponseBody(?string $responseBody)
+    public function setResponseBody($responseBody)
     {
         $this->responseBody = $responseBody;
 
@@ -177,7 +177,7 @@ class WebhookEventLogRecord
     /**
      * @return string|null
      */
-    public function getAcknowledgementStatus(): ?string
+    public function getAcknowledgementStatus()
     {
         return $this->acknowledgementStatus;
     }
@@ -186,7 +186,7 @@ class WebhookEventLogRecord
      * @param string $acknowledgementStatus
      * @return $this
      */
-    public function setAcknowledgementStatus(string $acknowledgementStatus)
+    public function setAcknowledgementStatus($acknowledgementStatus)
     {
         $this->acknowledgementStatus = $acknowledgementStatus;
 
@@ -205,7 +205,7 @@ class WebhookEventLogRecord
      * @param string $result
      * @return $this
      */
-    public function setResult(string $result)
+    public function setResult($result)
     {
         $this->result = $result;
 
@@ -215,7 +215,7 @@ class WebhookEventLogRecord
     /**
      * @return int|null
      */
-    public function getCreatedAt(): ?int
+    public function getCreatedAt()
     {
         return $this->createdAt;
     }
