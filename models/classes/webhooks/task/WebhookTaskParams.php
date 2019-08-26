@@ -74,7 +74,7 @@ class WebhookTaskParams extends ArrayObject
     }
 
     /**
-     * @return string
+     * @return int
      */
     public function getRetryMax()
     {
