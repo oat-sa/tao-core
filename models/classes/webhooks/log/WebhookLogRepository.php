@@ -61,8 +61,7 @@ class WebhookLogRepository extends ConfigurableService implements WebhookLogRepo
      */
     private function getQueryBuilder()
     {
-        /**@var \common_persistence_sql_pdo_mysql_Driver $driver */
-        return $this->getPersistence()->getPlatForm()->getQueryBuilder();
+        return $this->getPersistence()->getPlatform()->getQueryBuilder();
     }
 
     /**

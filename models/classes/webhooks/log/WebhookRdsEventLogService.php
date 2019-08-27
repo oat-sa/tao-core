@@ -21,11 +21,10 @@ namespace oat\tao\model\webhooks\log;
 
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\webhooks\task\WebhookTaskContext;
+use Slim\Http\StatusCode;
 
 class WebhookRdsEventLogService extends ConfigurableService implements WebhookEventLogInterface
 {
-    const HTTP_OK_STATUS_CODE = 200;
-
     /**
      * @inheritDoc
      * @throws \Exception
@@ -60,7 +59,7 @@ class WebhookRdsEventLogService extends ConfigurableService implements WebhookEv
     public function storeInvalidBodyFormat(WebhookTaskContext $webhookTaskContext, $responseBody = null)
     {
         $record = $this->applyContext($webhookTaskContext)
-            ->setHttpStatusCode(self::HTTP_OK_STATUS_CODE)
+            ->setHttpStatusCode(StatusCode::HTTP_OK)
             ->setResultMessage(sprintf('Invalid body format'))
             ->setResponseBody($responseBody)
             ->setResult(WebhookEventLogRecord::RESULT_INVALID_BODY_FORMAT);
@@ -75,7 +74,7 @@ class WebhookRdsEventLogService extends ConfigurableService implements WebhookEv
     public function storeInvalidAcknowledgementLog(WebhookTaskContext $webhookTaskContext, $responseBody, $actualAcknowledgement = null)
     {
         $record = $this->applyContext($webhookTaskContext)
-            ->setHttpStatusCode(self::HTTP_OK_STATUS_CODE)
+            ->setHttpStatusCode(StatusCode::HTTP_OK)
             ->setResponseBody($responseBody)
             ->setAcknowledgementStatus($actualAcknowledgement)
             ->setResultMessage(sprintf('Acknowledgement "%s" unexpected', $actualAcknowledgement))
@@ -91,7 +90,7 @@ class WebhookRdsEventLogService extends ConfigurableService implements WebhookEv
     public function storeSuccessfulLog(WebhookTaskContext $webhookTaskContext, $responseBody, $acknowledgement)
     {
         $record = $this->applyContext($webhookTaskContext)
-            ->setHttpStatusCode(self::HTTP_OK_STATUS_CODE)
+            ->setHttpStatusCode(StatusCode::HTTP_OK)
             ->setResponseBody($responseBody)
             ->setAcknowledgementStatus($acknowledgement)
             ->setResultMessage('OK')
@@ -146,6 +145,7 @@ class WebhookRdsEventLogService extends ConfigurableService implements WebhookEv
      */
     private function getRepository()
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->getServiceLocator()->get(WebhookLogRepository::SERVICE_ID);
     }
 }
