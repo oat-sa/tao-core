@@ -81,4 +81,26 @@ class WebhookTaskParams extends ArrayObject
     {
         return $this[self::RETRY_MAX];
     }
+
+    /**
+     * increase retry counter
+     */
+    public function increaseRetryCount()
+    {
+        $this[self::RETRY_COUNT]++;
+    }
+
+    /**
+     * Check if retry counter reached max retry value
+     * @return bool
+     */
+    public function isMaxRetryCountReached()
+    {
+        return $this[self::RETRY_COUNT] >= $this[self::RETRY_MAX];
+    }
+
+    public function getRetryCount()
+    {
+        return $this[self::RETRY_COUNT];
+    }
 }

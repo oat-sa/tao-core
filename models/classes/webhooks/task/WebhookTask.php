@@ -20,12 +20,12 @@
 namespace oat\tao\model\webhooks\task;
 
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Request;
 use oat\oatbox\extension\AbstractAction;
 use oat\oatbox\log\LoggerAwareTrait;
-use oat\tao\model\taskQueue\Task\ChildTaskAwareInterface;
-use oat\tao\model\taskQueue\Task\ChildTaskAwareTrait;
+use oat\tao\model\taskQueue\QueueDispatcher;
 use oat\tao\model\taskQueue\Task\TaskAwareInterface;
 use oat\tao\model\taskQueue\Task\TaskAwareTrait;
 use oat\tao\model\webhooks\configEntity\WebhookAuthInterface;
@@ -34,11 +34,10 @@ use oat\tao\model\webhooks\WebhookRegistryInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
-class WebhookTask extends AbstractAction implements TaskAwareInterface, ChildTaskAwareInterface
+class WebhookTask extends AbstractAction implements TaskAwareInterface
 {
     use LoggerAwareTrait;
     use TaskAwareTrait;
-    use ChildTaskAwareTrait;
 
     /**
      * @var WebhookTaskParams
@@ -106,6 +105,9 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface, ChildTas
                 'Client exception: ' . $clientException->getMessage(),
                 $clientException->getResponse()
             );
+        } catch (ConnectException $exception) {
+            $this->retryMechanism();
+            return $this->reportError('Connection exception: ' . $exception->getMessage());
         }
 
         return $this->handleResponse($response);
@@ -115,6 +117,7 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface, ChildTas
     {
         $statusCode = $response->getStatusCode();
         if (!$this->isAcceptableResponseStatusCode($statusCode)) {
+            $this->retryMechanism();
             return $this->reportError("Response status code is $statusCode", $response);
         }
 
@@ -256,5 +259,25 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface, ChildTas
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->getServiceLocator()->get(WebhookSender::class);
+    }
+
+    /**
+     * @return QueueDispatcher
+     */
+    private function getQueueDispatcher()
+    {
+        return $this->getServiceLocator()->get(QueueDispatcher::SERVICE_ID);
+    }
+
+    private function retryMechanism()
+    {
+        if (!$this->params->isMaxRetryCountReached()) {
+            $this->params->increaseRetryCount();
+            $this->getQueueDispatcher()->createTask(
+                $this,
+                (array) $this->params,
+                'Retry Iteration #' . $this->params->getRetryCount()
+            );
+        }
     }
 }
