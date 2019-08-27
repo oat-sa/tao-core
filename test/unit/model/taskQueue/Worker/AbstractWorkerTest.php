@@ -116,18 +116,9 @@ class AbstractWorkerTest extends TestCase
     private $taskLogBrokerMock;
 
     /**
-     * @var WebhookTask | PHPUnit_Framework_MockObject_MockObject
-     */
-    private $webhookTaskMock;
-
-    /**
      * @var QueueDispatcherInterface | PHPUnit_Framework_MockObject_MockObject
      */
     private $queueDispatcherMock;
-    /**
-     * @var common_report_Report | PHPUnit_Framework_MockObject_MockObject
-     */
-    private $infoReportMock;
 
     protected function setUp()
     {
@@ -138,85 +129,19 @@ class AbstractWorkerTest extends TestCase
         $this->sessionServiceMock = $this->createMock(SessionService::class);
         $this->userFactoryServiceMock = $this->createMock(UserFactoryServiceInterface::class);
         $this->loggerServiceMock = $this->createMock(LoggerService::class);
-        $this->queueDispatcherMock = $this->createMock(QueueDispatcherInterface::class);
         $this->serviceLocatorMock = $this->getServiceLocatorMock([
             SessionService::class => $this->sessionServiceMock,
             UserFactoryServiceInterface::SERVICE_ID => $this->userFactoryServiceMock,
             LoggerService::SERVICE_ID => $this->loggerServiceMock,
-            QueueDispatcherInterface::SERVICE_ID => $this->queueDispatcherMock
         ]);
 
         $this->modelMock = $this->createMock(Ontology::class);
-
         $this->taskMock = $this->createMock(TaskInterface::class);
-
         $this->reportMock = $this->createMock(\common_report_Report::class);
 
         $this->subject = new DummyWorker($this->queue, $this->taskLog);
         $this->subject->setServiceLocator($this->serviceLocatorMock);
         $this->subject->setModel($this->modelMock);
-    }
-
-    public function testProcessTaskretRetryMechanismReachedMax()
-    {
-        $this->taskMock = $this->createMock(CallbackTaskInterface::class);
-        $this->taskLog->method('setStatus')->willReturn(1);
-        $this->reportMock->method('getType')->willReturn(\common_report_Report::TYPE_ERROR);
-        $this->taskMock->method('__invoke')->willReturn($this->reportMock);
-        $this->webhookTaskMock = $this->createMock(WebhookTask::class);
-        $this->infoReportMock = $this->createMock(\common_report_Report::class);
-        $this->infoReportMock->method('getType')->willReturn(\common_report_Report::TYPE_INFO);
-        $this->webhookTaskMock->method('__invoke')->willReturn($this->infoReportMock);
-        $this->taskMock->method('getCallable')->willReturn($this->webhookTaskMock);
-
-        $this->taskMock
-            ->method('getParameter')
-            ->withConsecutive(
-                ['retryMax'],
-                ['retryCount']
-            )
-            ->will($this->onConsecutiveCalls(5, 5));
-
-        $this->taskMock->expects($this->once())->method('setParameter')->with('retryCount', 6);
-        $this->queueDispatcherMock->expects($this->never())->method('createTask');
-
-        $result = $this->subject->processTask($this->taskMock);
-        $this->assertSame(TaskLogInterface::STATUS_FAILED, $result);
-    }
-
-    public function testProcessTaskretRetryMechanism()
-    {
-        $this->taskMock = $this->createMock(CallbackTaskInterface::class);
-        $this->taskLog->method('setStatus')->willReturn(1);
-
-        $this->reportMock->method('getType')->willReturn(\common_report_Report::TYPE_ERROR);
-        $this->taskMock->method('__invoke')->willReturn($this->reportMock);
-
-        $this->webhookTaskMock = $this->createMock(WebhookTask::class);
-        $this->infoReportMock = $this->createMock(\common_report_Report::class);
-        $this->infoReportMock->method('getType')->willReturn(\common_report_Report::TYPE_INFO);
-        $this->webhookTaskMock->method('__invoke')->willReturn($this->infoReportMock);
-        $this->taskMock->method('getCallable')->willReturn($this->webhookTaskMock);
-        $this->taskMock
-            ->method('getParameter')
-            ->withConsecutive(
-                ['retryMax'],
-                ['retryCount']
-            )
-            ->will($this->onConsecutiveCalls(5, null));
-
-        $this->taskMock->method('getParameters')->willReturn([]);
-        $this->taskMock->method('getLabel')->willReturn('task label');
-        $this->taskMock->method('getParameter')->willReturn(2);
-        $childCallbackNterface = $this->createMock(CallbackTaskInterface::class);
-        $this->webhookTaskMock->method('addChildId');
-        $this->queue->method('enqueue');
-
-        $this->taskMock->expects($this->once())->method('setParameter')->with('retryCount', 1);
-        $this->queueDispatcherMock->expects($this->once())->method('createTask')->willReturn($childCallbackNterface);
-
-        $result = $this->subject->processTask($this->taskMock);
-        $this->assertSame(TaskLogInterface::STATUS_FAILED, $result);
     }
 
     public function testProcessTaskCancelled()

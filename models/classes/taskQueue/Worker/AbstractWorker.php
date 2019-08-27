@@ -23,7 +23,6 @@ namespace oat\tao\model\taskQueue\Worker;
 use common_report_Report as Report;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\session\StatelessSession;
-use oat\tao\model\taskQueue\QueueDispatcherInterface;
 use oat\tao\model\taskQueue\QueuerInterface;
 use oat\tao\model\taskQueue\Task\CallbackTaskInterface;
 use oat\tao\model\taskQueue\Task\RemoteTaskSynchroniserInterface;
@@ -36,7 +35,6 @@ use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\generis\model\user\UserFactoryServiceInterface;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\session\SessionService;
-use oat\tao\model\webhooks\task\WebhookTaskParams;
 
 abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInterface
 {
@@ -155,10 +153,6 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
                 }
             }
 
-            if ($status === TaskLogInterface::STATUS_FAILED && $task instanceof CallbackTaskInterface) {
-                $this->retryMechanism($task);
-            }
-
             unset($report);
         } else {
             $this->taskLog->setReport(
@@ -215,19 +209,6 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
         return $task instanceof CallbackTaskInterface ? $task->getCallable()->getRemoteStatus() : $task->getRemoteStatus();
     }
 
-
-    private function retryMechanism(CallbackTaskInterface $task)
-    {
-        $callableTask = $task->getCallable();
-        if ($retryMax = $task->getParameter(WebhookTaskParams::RETRY_MAX)) {
-            $retryCount = $this->setRetryCountParam($task);
-            if ($retryMax >= $retryCount) {
-                $this->getQueueDispatcher()->createTask($callableTask, $task->getParameters(), $task->getLabel(), $task, true);
-            }
-
-        }
-    }
-
     /**
      * @param TaskInterface $task
      * @return bool
@@ -243,31 +224,5 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
     private function getUserFactoryService()
     {
         return $this->getServiceLocator()->get(UserFactoryServiceInterface::SERVICE_ID);
-    }
-
-    /**
-     * @return QueueDispatcherInterface
-     */
-    private function getQueueDispatcher()
-    {
-        return $this->getServiceLocator()->get(QueueDispatcherInterface::SERVICE_ID);
-    }
-
-    /**
-     * @param CallbackTaskInterface $task
-     * @return int
-     */
-    private function setRetryCountParam(CallbackTaskInterface $task)
-    {
-        $retryCount = $task->getParameter(WebhookTaskParams::RETRY_COUNT);
-        if ($retryCount === null) {
-            $retryCount = 1;
-            $task->setParameter(WebhookTaskParams::RETRY_COUNT, $retryCount);
-        } else {
-            $retryCount++;
-            $task->setParameter(WebhookTaskParams::RETRY_COUNT, $retryCount);
-        }
-
-        return $retryCount;
     }
 }
