@@ -135,8 +135,6 @@ class WebhookTaskTest extends TestCase
         $this->webhookTaskParamsMock = $this->createMock(WebhookTaskParams::class);
         $this->webhookTaskParamsMock->method('getWebhookConfigId')->willReturn('WebhookConfigId');
         $this->webhookTaskParamsFactoryMock->method('createFromArray')->willReturn($this->webhookTaskParamsMock);
-
-
         $this->webhookConfigMock = $this->createMock(WebhookInterface::class);
         $this->webhookRegistryMock->method('getWebhookConfig')->willReturn($this->webhookConfigMock);
         $this->webhookPayloadFactoryInterfaceMock->method('createPayload')->willReturn('body string');
@@ -149,14 +147,13 @@ class WebhookTaskTest extends TestCase
         $this->webhookSenderMock
             ->method('performRequest')
             ->willReturn($this->responseMock);
-
         $this->responseMock->method('getStatusCode')->willReturn(302);
-
         $this->webhookTaskParamsMock->method('isMaxRetryCountReached')->willReturn(false);
-        $this->webhookTaskParamsMock->expects($this->once())->method('increaseRetryCount');
-        $this->queueDispatcherMock->expects($this->once())->method('createTask');
         $this->webhookResponseMock = $this->createMock(WebhookResponse::class);
         $this->webhookResponseFactoryInterfaceMock->method('create')->willReturn($this->webhookResponseMock);
+
+        $this->webhookTaskParamsMock->expects($this->once())->method('increaseRetryCount');
+        $this->queueDispatcherMock->expects($this->once())->method('createTask');
 
         $paramArray = [];
         $webhookTask = new WebhookTask();
@@ -174,8 +171,6 @@ class WebhookTaskTest extends TestCase
         $this->webhookTaskParamsMock = $this->createMock(WebhookTaskParams::class);
         $this->webhookTaskParamsMock->method('getWebhookConfigId')->willReturn('WebhookConfigId');
         $this->webhookTaskParamsFactoryMock->method('createFromArray')->willReturn($this->webhookTaskParamsMock);
-
-
         $this->webhookConfigMock = $this->createMock(WebhookInterface::class);
         $this->webhookRegistryMock->method('getWebhookConfig')->willReturn($this->webhookConfigMock);
         $this->webhookPayloadFactoryInterfaceMock->method('createPayload')->willReturn('body string');
@@ -187,12 +182,12 @@ class WebhookTaskTest extends TestCase
         $this->webhookSenderMock
             ->method('performRequest')
             ->willThrowException(new ConnectException('timeout', $this->requestMock));
-
         $this->webhookTaskParamsMock->method('isMaxRetryCountReached')->willReturn(false);
-        $this->webhookTaskParamsMock->expects($this->once())->method('increaseRetryCount');
-        $this->queueDispatcherMock->expects($this->once())->method('createTask');
         $this->webhookResponseMock = $this->createMock(WebhookResponse::class);
         $this->webhookResponseFactoryInterfaceMock->method('create')->willReturn($this->webhookResponseMock);
+
+        $this->webhookTaskParamsMock->expects($this->once())->method('increaseRetryCount');
+        $this->queueDispatcherMock->expects($this->once())->method('createTask');
 
         $paramArray = [];
         $webhookTask = new WebhookTask();
