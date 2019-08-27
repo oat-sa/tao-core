@@ -23,7 +23,7 @@ use oat\oatbox\service\ConfigurableService;
 
 class WebhookRdsEventLogService extends ConfigurableService implements WebhookEventLogInterface
 {
-    const HTTP_OK_STATUS_CODE = '200';
+    const HTTP_OK_STATUS_CODE = 200;
 
     /**
      * @param string $eventId
