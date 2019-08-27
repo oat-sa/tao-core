@@ -27,9 +27,6 @@ class WebhookEventLogRecord
     /** @var string|null */
     private $taskId;
 
-    /** @var string|null */
-    private $parentTaskId;
-
     /**
      * @var string|null
      * @example port refused (in case of network error)
@@ -94,25 +91,6 @@ class WebhookEventLogRecord
     public function setTaskId($taskId)
     {
         $this->taskId = $taskId;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getParentTaskId()
-    {
-        return $this->parentTaskId;
-    }
-
-    /**
-     * @param string|null $parentTaskId
-     * @return $this
-     */
-    public function setParentTaskId($parentTaskId)
-    {
-        $this->parentTaskId = $parentTaskId;
 
         return $this;
     }

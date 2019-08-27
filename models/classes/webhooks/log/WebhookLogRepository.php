@@ -36,7 +36,6 @@ class WebhookLogRepository extends ConfigurableService implements WebhookLogRepo
     const COLUMN_ID = 'id';
     const COLUMN_EVENT_ID = 'event_id';
     const COLUMN_TASK_ID = 'task_id';
-    const COLUMN_PARENT_TASK_ID = 'parent_task_id';
     const COLUMN_HTTP_STATUS_CODE = 'http_status_code';
     const COLUMN_RESPONSE_BODY = 'response_body';
     const COLUMN_ACKNOWLEDGEMENT_STATUS = 'acknowledgement_status';
@@ -70,7 +69,6 @@ class WebhookLogRepository extends ConfigurableService implements WebhookLogRepo
         $this->getPersistence()->insert(self::TABLE_NAME, [
             self::COLUMN_EVENT_ID => $webhookEventLog->getEventId(),
             self::COLUMN_TASK_ID => $webhookEventLog->getTaskId(),
-            self::COLUMN_PARENT_TASK_ID => $webhookEventLog->getParentTaskId(),
             self::COLUMN_HTTP_STATUS_CODE => $webhookEventLog->getHttpStatusCode(),
             self::COLUMN_RESPONSE_BODY => $webhookEventLog->getResponseBody(),
             self::COLUMN_ACKNOWLEDGEMENT_STATUS => $webhookEventLog->getAcknowledgementStatus(),

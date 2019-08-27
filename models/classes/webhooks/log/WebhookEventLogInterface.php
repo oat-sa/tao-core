@@ -23,15 +23,15 @@ interface WebhookEventLogInterface
 {
     const SERVICE_ID = 'tao/webhookEventLog';
 
-    public function storeNetworkErrorLog($eventId, $taskId, $parentTaskId, $networkError = null);
+    public function storeNetworkErrorLog($eventId, $taskId, $networkError = null);
 
-    public function storeInvalidHttpStatusLog($eventId, $taskId, $parentTaskId, $actualHttpStatusCode);
+    public function storeInvalidHttpStatusLog($eventId, $taskId, $actualHttpStatusCode);
 
-    public function storeInvalidBodyFormat($eventId, $taskId, $parentTaskId, $responseBody = null);
+    public function storeInvalidBodyFormat($eventId, $taskId, $responseBody = null);
 
-    public function storeInvalidAcknowledgementLog($eventId, $taskId, $parentTaskId, $responseBody, $actualAcknowledgement = null);
+    public function storeInvalidAcknowledgementLog($eventId, $taskId, $responseBody, $actualAcknowledgement = null);
 
-    public function storeSuccessfulLog($eventId, $taskId, $parentTaskId, $responseBody, $acknowledgement);
+    public function storeSuccessfulLog($eventId, $taskId, $responseBody, $acknowledgement);
 
-    public function storeInternalErrorLog($eventId, $taskId, $parentTaskId, $internalError = null);
+    public function storeInternalErrorLog($eventId, $taskId, $internalError = null);
 }

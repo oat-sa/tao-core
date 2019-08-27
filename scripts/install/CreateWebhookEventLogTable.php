@@ -60,7 +60,6 @@ class CreateWebhookEventLogTable extends AbstractAction
         $logTable->addColumn(WebhookLogRepository::COLUMN_ID, Type::INTEGER, array('autoincrement' => true));
         $logTable->addColumn(WebhookLogRepository::COLUMN_EVENT_ID, Type::STRING, array('notnull' => false, 'length' => 255));
         $logTable->addColumn(WebhookLogRepository::COLUMN_TASK_ID, Type::STRING, array('notnull' => false, 'length' => 255));
-        $logTable->addColumn(WebhookLogRepository::COLUMN_PARENT_TASK_ID, Type::STRING, array('notnull' => true, 'length' => 255));
         $logTable->addColumn(WebhookLogRepository::COLUMN_HTTP_STATUS_CODE, Type::SMALLINT, array('notnull' => false));
         $logTable->addColumn(WebhookLogRepository::COLUMN_RESPONSE_BODY, Type::TEXT, array('notnull' => false));
         $logTable->addColumn(WebhookLogRepository::COLUMN_ACKNOWLEDGEMENT_STATUS, Type::STRING, array('notnull' => false, 'length' => 255));

@@ -28,13 +28,12 @@ class WebhookRdsEventLogService extends ConfigurableService implements WebhookEv
     /**
      * @param string $eventId
      * @param string $taskId
-     * @param string $parentTaskId
      * @param string|null $networkError
      * @throws \Exception
      */
-    public function storeNetworkErrorLog($eventId, $taskId, $parentTaskId, $networkError = null)
+    public function storeNetworkErrorLog($eventId, $taskId, $networkError = null)
     {
-        $record = $this->createRecordSkeleton($eventId, $taskId, $parentTaskId)
+        $record = $this->createRecordSkeleton($eventId, $taskId)
             ->setResultMessage(sprintf('Network error: %s', $networkError))
             ->setResult(WebhookEventLogRecord::RESULT_NETWORK_ERROR);
 
@@ -44,13 +43,12 @@ class WebhookRdsEventLogService extends ConfigurableService implements WebhookEv
     /**
      * @param string $eventId
      * @param string $taskId
-     * @param string $parentTaskId
      * @param int $actualHttpStatusCode
      * @throws \Exception
      */
-    public function storeInvalidHttpStatusLog($eventId, $taskId, $parentTaskId, $actualHttpStatusCode)
+    public function storeInvalidHttpStatusLog($eventId, $taskId, $actualHttpStatusCode)
     {
-        $record = $this->createRecordSkeleton($eventId, $taskId, $parentTaskId)
+        $record = $this->createRecordSkeleton($eventId, $taskId)
             ->setHttpStatusCode($actualHttpStatusCode)
             ->setResultMessage(sprintf('HTTP status code %d unexpected', $actualHttpStatusCode))
             ->setResult(WebhookEventLogRecord::RESULT_INVALID_HTTP_STATUS);
@@ -61,13 +59,12 @@ class WebhookRdsEventLogService extends ConfigurableService implements WebhookEv
     /**
      * @param string $eventId
      * @param string $taskId
-     * @param string $parentTaskId
      * @param string|null $responseBody
      * @throws \Exception
      */
-    public function storeInvalidBodyFormat($eventId, $taskId, $parentTaskId, $responseBody = null)
+    public function storeInvalidBodyFormat($eventId, $taskId, $responseBody = null)
     {
-        $record = $this->createRecordSkeleton($eventId, $taskId, $parentTaskId)
+        $record = $this->createRecordSkeleton($eventId, $taskId)
             ->setHttpStatusCode(self::HTTP_OK_STATUS_CODE)
             ->setResultMessage(sprintf('Invalid body format'))
             ->setResponseBody($responseBody)
@@ -79,14 +76,13 @@ class WebhookRdsEventLogService extends ConfigurableService implements WebhookEv
     /**
      * @param string $eventId
      * @param string $taskId
-     * @param string $parentTaskId
      * @param string $responseBody
      * @param string|null $actualAcknowledgement
      * @throws \Exception
      */
-    public function storeInvalidAcknowledgementLog($eventId, $taskId, $parentTaskId, $responseBody, $actualAcknowledgement = null)
+    public function storeInvalidAcknowledgementLog($eventId, $taskId, $responseBody, $actualAcknowledgement = null)
     {
-        $record = $this->createRecordSkeleton($eventId, $taskId, $parentTaskId)
+        $record = $this->createRecordSkeleton($eventId, $taskId)
             ->setHttpStatusCode(self::HTTP_OK_STATUS_CODE)
             ->setResponseBody($responseBody)
             ->setAcknowledgementStatus($actualAcknowledgement)
@@ -99,14 +95,13 @@ class WebhookRdsEventLogService extends ConfigurableService implements WebhookEv
     /**
      * @param string $eventId
      * @param string $taskId
-     * @param string $parentTaskId
      * @param string $responseBody
      * @param string $acknowledgement
      * @throws \Exception
      */
-    public function storeSuccessfulLog($eventId, $taskId, $parentTaskId, $responseBody, $acknowledgement)
+    public function storeSuccessfulLog($eventId, $taskId, $responseBody, $acknowledgement)
     {
-        $record = $this->createRecordSkeleton($eventId, $taskId, $parentTaskId)
+        $record = $this->createRecordSkeleton($eventId, $taskId)
             ->setHttpStatusCode(self::HTTP_OK_STATUS_CODE)
             ->setResponseBody($responseBody)
             ->setAcknowledgementStatus($acknowledgement)
@@ -119,13 +114,12 @@ class WebhookRdsEventLogService extends ConfigurableService implements WebhookEv
     /**
      * @param string $eventId
      * @param string $taskId
-     * @param string $parentTaskId
      * @param string|null $internalError
      * @throws \Exception
      */
-    public function storeInternalErrorLog($eventId, $taskId, $parentTaskId, $internalError = null)
+    public function storeInternalErrorLog($eventId, $taskId, $internalError = null)
     {
-        $record = $this->createRecordSkeleton($eventId, $taskId, $parentTaskId)
+        $record = $this->createRecordSkeleton($eventId, $taskId)
             ->setResultMessage(sprintf('Internal error: %s', $internalError))
             ->setResult(WebhookEventLogRecord::RESULT_INTERNAL_ERROR);
 
@@ -135,11 +129,10 @@ class WebhookRdsEventLogService extends ConfigurableService implements WebhookEv
     /**
      * @param string $eventId
      * @param string $taskId
-     * @param string $parentTaskId
      * @return WebhookEventLogRecord
      * @throws \Exception
      */
-    private function createRecordSkeleton($eventId, $taskId, $parentTaskId)
+    private function createRecordSkeleton($eventId, $taskId)
     {
         $record = new WebhookEventLogRecord();
 
@@ -148,7 +141,6 @@ class WebhookRdsEventLogService extends ConfigurableService implements WebhookEv
         $record
             ->setEventId($eventId)
             ->setTaskId($taskId)
-            ->setParentTaskId($parentTaskId)
             ->setCreatedAt($createdAt->getTimestamp());
 
         return $record;
