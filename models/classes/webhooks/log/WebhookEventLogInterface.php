@@ -19,19 +19,47 @@
 
 namespace oat\tao\model\webhooks\log;
 
+use oat\tao\model\webhooks\task\WebhookTaskContext;
+
 interface WebhookEventLogInterface
 {
     const SERVICE_ID = 'tao/webhookEventLog';
 
-    public function storeNetworkErrorLog($eventId, $taskId, $networkError = null);
+    /**
+     * @param WebhookTaskContext $webhookTaskContext
+     * @param string|null $networkError
+     */
+    public function storeNetworkErrorLog(WebhookTaskContext $webhookTaskContext, $networkError = null);
 
-    public function storeInvalidHttpStatusLog($eventId, $taskId, $actualHttpStatusCode);
+    /**
+     * @param WebhookTaskContext $webhookTaskContext
+     * @param int $actualHttpStatusCode
+     */
+    public function storeInvalidHttpStatusLog(WebhookTaskContext $webhookTaskContext, $actualHttpStatusCode);
 
-    public function storeInvalidBodyFormat($eventId, $taskId, $responseBody = null);
+    /**
+     * @param WebhookTaskContext $webhookTaskContext
+     * @param string|null $responseBody
+     */
+    public function storeInvalidBodyFormat(WebhookTaskContext $webhookTaskContext, $responseBody = null);
 
-    public function storeInvalidAcknowledgementLog($eventId, $taskId, $responseBody, $actualAcknowledgement = null);
+    /**
+     * @param WebhookTaskContext $webhookTaskContext
+     * @param string $responseBody
+     * @param string|null $actualAcknowledgement
+     */
+    public function storeInvalidAcknowledgementLog(WebhookTaskContext $webhookTaskContext, $responseBody, $actualAcknowledgement = null);
 
-    public function storeSuccessfulLog($eventId, $taskId, $responseBody, $acknowledgement);
+    /**
+     * @param WebhookTaskContext $webhookTaskContext
+     * @param string $responseBody
+     * @param string $acknowledgement
+     */
+    public function storeSuccessfulLog(WebhookTaskContext $webhookTaskContext, $responseBody, $acknowledgement);
 
-    public function storeInternalErrorLog($eventId, $taskId, $internalError = null);
+    /**
+     * @param WebhookTaskContext $webhookTaskContext
+     * @param string|null $internalError
+     */
+    public function storeInternalErrorLog(WebhookTaskContext $webhookTaskContext, $internalError = null);
 }
