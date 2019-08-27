@@ -162,6 +162,7 @@ class WebhookTaskTest extends TestCase
         $webhookTask = new WebhookTask();
         $webhookTask->setTask($this->createTaskMock('someId'));
         $webhookTask->setServiceLocator($this->serviceLocatorMock);
+        /* @noinspection PhpUnhandledExceptionInspection */
         $result = $webhookTask($paramArray);
         $this->assertInstanceOf(\common_report_Report::class, $result);
         $this->assertSame('error', $result->getType());
@@ -197,6 +198,7 @@ class WebhookTaskTest extends TestCase
         $webhookTask = new WebhookTask();
         $webhookTask->setTask($this->createTaskMock('someId'));
         $webhookTask->setServiceLocator($this->serviceLocatorMock);
+        /* @noinspection PhpUnhandledExceptionInspection */
         $result = $webhookTask($paramArray);
         $this->assertInstanceOf(\common_report_Report::class, $result);
         $this->assertSame('error', $result->getType());
