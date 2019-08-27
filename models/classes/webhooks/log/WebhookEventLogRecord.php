@@ -27,6 +27,18 @@ class WebhookEventLogRecord
     /** @var string|null */
     private $taskId;
 
+    /** @var string|null */
+    private $webhookId;
+
+    /** @var string|null */
+    private $httpMethod;
+
+    /** @var string|null */
+    private $endpointUrl;
+
+    /** @var string|null */
+    private $eventName;
+
     /**
      * @var string|null
      * @example port refused (in case of network error)
@@ -174,7 +186,7 @@ class WebhookEventLogRecord
     /**
      * @return string|null
      */
-    public function getResult(): ?string
+    public function getResult()
     {
         return $this->result;
     }
@@ -202,10 +214,74 @@ class WebhookEventLogRecord
      * @param int $createdAt
      * @return $this
      */
-    public function setCreatedAt(int $createdAt)
+    public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
 
         return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getWebhookId()
+    {
+        return $this->webhookId;
+    }
+
+    /**
+     * @param string|null $webhookId
+     */
+    public function setWebhookId($webhookId)
+    {
+        $this->webhookId = $webhookId;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getHttpMethod()
+    {
+        return $this->httpMethod;
+    }
+
+    /**
+     * @param string|null $httpMethod
+     */
+    public function setHttpMethod($httpMethod)
+    {
+        $this->httpMethod = $httpMethod;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getEndpointUrl()
+    {
+        return $this->endpointUrl;
+    }
+
+    /**
+     * @param string|null $endpointUrl
+     */
+    public function setEndpointUrl($endpointUrl)
+    {
+        $this->endpointUrl = $endpointUrl;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getEventName()
+    {
+        return $this->eventName;
+    }
+
+    /**
+     * @param string|null $eventName
+     */
+    public function setEventName($eventName)
+    {
+        $this->eventName = $eventName;
     }
 }

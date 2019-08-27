@@ -32,7 +32,7 @@ class WebhookRdsEventLogService extends ConfigurableService implements WebhookEv
      */
     public function storeNetworkErrorLog(WebhookTaskContext $webhookTaskContext, $networkError = null)
     {
-        $record = $this->createRecordSkeleton($webhookTaskContext)
+        $record = $this->applyContext($webhookTaskContext)
             ->setResultMessage(sprintf('Network error: %s', $networkError))
             ->setResult(WebhookEventLogRecord::RESULT_NETWORK_ERROR);
 
@@ -45,7 +45,7 @@ class WebhookRdsEventLogService extends ConfigurableService implements WebhookEv
      */
     public function storeInvalidHttpStatusLog(WebhookTaskContext $webhookTaskContext, $actualHttpStatusCode)
     {
-        $record = $this->createRecordSkeleton($webhookTaskContext)
+        $record = $this->applyContext($webhookTaskContext)
             ->setHttpStatusCode($actualHttpStatusCode)
             ->setResultMessage(sprintf('HTTP status code %d unexpected', $actualHttpStatusCode))
             ->setResult(WebhookEventLogRecord::RESULT_INVALID_HTTP_STATUS);
@@ -59,7 +59,7 @@ class WebhookRdsEventLogService extends ConfigurableService implements WebhookEv
      */
     public function storeInvalidBodyFormat(WebhookTaskContext $webhookTaskContext, $responseBody = null)
     {
-        $record = $this->createRecordSkeleton($webhookTaskContext)
+        $record = $this->applyContext($webhookTaskContext)
             ->setHttpStatusCode(self::HTTP_OK_STATUS_CODE)
             ->setResultMessage(sprintf('Invalid body format'))
             ->setResponseBody($responseBody)
@@ -74,7 +74,7 @@ class WebhookRdsEventLogService extends ConfigurableService implements WebhookEv
      */
     public function storeInvalidAcknowledgementLog(WebhookTaskContext $webhookTaskContext, $responseBody, $actualAcknowledgement = null)
     {
-        $record = $this->createRecordSkeleton($webhookTaskContext)
+        $record = $this->applyContext($webhookTaskContext)
             ->setHttpStatusCode(self::HTTP_OK_STATUS_CODE)
             ->setResponseBody($responseBody)
             ->setAcknowledgementStatus($actualAcknowledgement)
@@ -90,7 +90,7 @@ class WebhookRdsEventLogService extends ConfigurableService implements WebhookEv
      */
     public function storeSuccessfulLog(WebhookTaskContext $webhookTaskContext, $responseBody, $acknowledgement)
     {
-        $record = $this->createRecordSkeleton($webhookTaskContext)
+        $record = $this->applyContext($webhookTaskContext)
             ->setHttpStatusCode(self::HTTP_OK_STATUS_CODE)
             ->setResponseBody($responseBody)
             ->setAcknowledgementStatus($acknowledgement)
@@ -106,7 +106,7 @@ class WebhookRdsEventLogService extends ConfigurableService implements WebhookEv
      */
     public function storeInternalErrorLog(WebhookTaskContext $webhookTaskContext, $internalError = null)
     {
-        $record = $this->createRecordSkeleton($webhookTaskContext)
+        $record = $this->applyContext($webhookTaskContext)
             ->setResultMessage(sprintf('Internal error: %s', $internalError))
             ->setResult(WebhookEventLogRecord::RESULT_INTERNAL_ERROR);
 
@@ -118,7 +118,7 @@ class WebhookRdsEventLogService extends ConfigurableService implements WebhookEv
      * @return WebhookEventLogRecord
      * @throws \Exception
      */
-    private function createRecordSkeleton(WebhookTaskContext $webhookTaskContext)
+    private function applyContext(WebhookTaskContext $webhookTaskContext)
     {
         $record = new WebhookEventLogRecord();
 
@@ -128,8 +128,14 @@ class WebhookRdsEventLogService extends ConfigurableService implements WebhookEv
             ->setTaskId($webhookTaskContext->getTaskId())
             ->setCreatedAt($createdAt->getTimestamp());
 
-        if ($webhookTaskContext->getWebhookTaskParams()) {
-            $record->setEventId($webhookTaskContext->getWebhookTaskParams()->getEventId());
+        if ($taskParams = $webhookTaskContext->getWebhookTaskParams()) {
+            $record->setEventId($taskParams->getEventId());
+            $record->setEventName($taskParams->getEventName());
+        }
+
+        if ($webhookConfig = $webhookTaskContext->getWebhookConfig()) {
+            $record->setHttpMethod($webhookConfig->getHttpMethod());
+            $record->setEndpointUrl($webhookConfig->getUrl());
         }
 
         return $record;
