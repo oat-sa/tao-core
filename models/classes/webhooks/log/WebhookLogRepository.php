@@ -19,6 +19,7 @@
 
 namespace oat\tao\model\webhooks\log;
 
+use common_persistence_Manager;
 use Doctrine\DBAL\Query\QueryBuilder;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\service\ConfigurableService;
@@ -53,7 +54,9 @@ class WebhookLogRepository extends ConfigurableService implements WebhookLogRepo
     private function getPersistence()
     {
         $persistenceId = $this->getOption(self::OPTION_PERSISTENCE) ?: 'default';
-        return $this->getServiceLocator()->get(\common_persistence_Manager::SERVICE_ID)->getPersistenceById($persistenceId);
+        /** @var common_persistence_Manager $persistenceManager */
+        $persistenceManager = $this->getServiceManager()->get(common_persistence_Manager::SERVICE_ID);
+        $this->persistence = $persistenceManager->getPersistenceById($persistenceId);
     }
 
     /**
