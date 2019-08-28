@@ -75,6 +75,11 @@ class CreateWebhookEventLogTable extends AbstractAction
             [WebhookLogRepository::COLUMN_EVENT_ID],
             'IDX_' . WebhookLogRepository::TABLE_NAME . '_event_id');
 
+
+        $logTable->addIndex(
+            [WebhookLogRepository::COLUMN_WEBHOOK_ID],
+            'IDX_' . WebhookLogRepository::TABLE_NAME . '_webhook_id');
+
         $logTable->addIndex(
             [WebhookLogRepository::COLUMN_CREATED_AT],
             'IDX_' . WebhookLogRepository::TABLE_NAME . '_created_at');
