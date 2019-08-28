@@ -147,7 +147,7 @@ class WebhookEventsService extends ConfigurableService implements WebhookEventsS
         $result = [];
 
         foreach ($webhookConfigIds as $webhookConfigId) {
-            if ($this->getWebhookRegistry()->getWebhookConfig($webhookConfigId) === null) {
+            if (($webhookConfig = $this->getWebhookRegistry()->getWebhookConfig($webhookConfigId)) === null) {
                 throw new WebhookConfigMissingException(sprintf('Webhook config for id %s not found', $webhookConfigId));
             }
             $result[] = new WebhookTaskParams([
@@ -157,7 +157,7 @@ class WebhookEventsService extends ConfigurableService implements WebhookEventsS
                 WebhookTaskParams::EVENT_DATA => $eventData,
                 WebhookTaskParams::WEBHOOK_CONFIG_ID => $webhookConfigId,
                 WebhookTaskParams::RETRY_COUNT => 1,
-                WebhookTaskParams::RETRY_MAX => $this->getWebhookRegistry()->getWebhookConfig($webhookConfigId)->getMaxRetries()
+                WebhookTaskParams::RETRY_MAX => $webhookConfig->getMaxRetries()
             ]);
         }
 
