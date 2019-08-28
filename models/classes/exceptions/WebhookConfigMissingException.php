@@ -17,27 +17,10 @@
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
  */
 
-namespace oat\tao\model\webhooks;
 
-use oat\tao\model\webhooks\configEntity\WebhookInterface;
+namespace oat\tao\model\exceptions;
 
-/**
- * Represents webhooks config entries storage. We will add 'set' methods here if we are going to implement
- * dynamic configuration for webhooks (admin web panel)
- */
-interface WebhookRegistryInterface
+
+class WebhookConfigMissingException extends \common_Exception
 {
-    const SERVICE_ID = 'tao/webhookRegistry';
-
-    /**
-     * @param string $id
-     * @return WebhookInterface|null
-     */
-    public function getWebhookConfig($id);
-
-    /**
-     * @param string $eventName
-     * @return string[]
-     */
-    public function getWebhookConfigIds($eventName);
 }

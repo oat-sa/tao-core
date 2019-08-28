@@ -83,15 +83,4 @@ class WebhookFileRegistry extends ConfigurableService implements WebhookRegistry
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->getServiceLocator()->get(WebhookEntryFactory::class);
     }
-
-    /**
-     * @param string $webhookConfigId
-     * @return int
-     */
-    public function getMaxRetries($webhookConfigId)
-    {
-        $webhooks = $this->getOption(self::OPTION_WEBHOOKS);
-
-        return $webhooks[$webhookConfigId][WebhookTaskParams::RETRY_MAX];
-    }
 }

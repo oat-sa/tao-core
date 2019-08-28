@@ -40,4 +40,9 @@ interface WebhookInterface
      * @return WebhookAuthInterface|null
      */
     public function getAuth();
+
+    /**
+     * @return int
+     */
+    public function getMaxRetries();
 }
