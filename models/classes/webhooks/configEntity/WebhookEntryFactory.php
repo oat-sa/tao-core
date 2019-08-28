@@ -74,6 +74,7 @@ class WebhookEntryFactory extends ConfigurableService
     {
         return (new ArrayValidator())
             ->assertString([Webhook::ID, Webhook::URL, Webhook::HTTP_METHOD])
+            ->assertInt([Webhook::RETRY_MAX])
             ->assertArray(Webhook::AUTH, false, true);
     }
 
