@@ -213,7 +213,7 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
      * @param TaskInterface $task
      * @return bool
      */
-    private function isTaskCancelled(TaskInterface $task): bool
+    private function isTaskCancelled(TaskInterface $task)
     {
         return $this->taskLog->getStatus($task->getId()) === TaskLogInterface::STATUS_CANCELLED;
     }
