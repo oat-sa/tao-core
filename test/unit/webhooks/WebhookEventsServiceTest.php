@@ -22,6 +22,7 @@ namespace oat\tao\test\unit\webhooks;
 use oat\generis\test\TestCase;
 use oat\oatbox\event\Event;
 use oat\oatbox\event\EventManager;
+use oat\tao\model\exceptions\WebhookConfigMissingException;
 use oat\tao\model\webhooks\configEntity\WebhookInterface;
 use oat\tao\model\webhooks\WebhookEventsService;
 use oat\tao\model\webhooks\WebhookRegistryInterface;
@@ -66,6 +67,36 @@ class WebhookEventsServiceTest extends TestCase
                 });
 
         $this->whTaskServiceMock = $this->createMock(WebhookTaskServiceInterface::class);
+    }
+
+    public function testHandleEventMissingWebhookConfig()
+    {
+        $eventName = 'TestEvent';
+
+        $service = new WebhookEventsService([
+            WebhookEventsService::OPTION_SUPPORTED_EVENTS => [
+                $eventName => true
+            ]
+        ]);
+
+        $service->setServiceLocator($this->getServiceLocatorMock([
+            WebhookRegistryInterface::SERVICE_ID => $this->whConfigRegistryMock,
+            WebhookTaskServiceInterface::SERVICE_ID => $this->whTaskServiceMock
+        ]));
+
+        $this->whRegistryData = [
+            $eventName => ['wh1', 'wh2']
+        ];
+
+        $this->whConfigRegistryMock->method('getWebhookConfigIds')->willReturn(['wh1', 'wh2']);
+        $this->whConfigRegistryMock->method('getWebhookConfig')->willReturn(null);
+
+        $this->expectException(WebhookConfigMissingException::class);
+
+        /** @var Event|PHPUnit_Framework_MockObject_MockObject $eventMock */
+        $eventMock = $this->createMock(WebhookSerializableEventInterface::class);
+        $eventMock->method('getName')->willReturn($eventName);
+        $service->handleEvent($eventMock);
     }
 
     public function testRegisterEvent()
