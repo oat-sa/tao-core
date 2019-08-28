@@ -48,11 +48,11 @@ class SetServiceFileStorage extends \common_ext_action_InstallAction
         $options = $fsService->getOptions();
         $adapters = $options[FileSystemService::OPTION_ADAPTERS];
         $toRegistered = false;
-        if (! array_key_exists('public', $adapters)) {
+        if (!$fsService->hasDirectory('public')) {
             $fsService->createFileSystem('public', 'tao/public');
             $toRegistered = true;
         }
-        if (! array_key_exists('private', $adapters)) {
+        if (!$fsService->hasDirectory('private')) {
             $fsService->createFileSystem('private', 'tao/private');
             $toRegistered = true;
         }
