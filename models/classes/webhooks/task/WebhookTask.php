@@ -25,12 +25,12 @@ use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Request;
 use oat\oatbox\extension\AbstractAction;
 use oat\oatbox\log\LoggerAwareTrait;
-use oat\tao\model\taskQueue\QueueDispatcher;
 use oat\tao\model\taskQueue\Task\TaskAwareInterface;
 use oat\tao\model\taskQueue\Task\TaskAwareTrait;
 use oat\tao\model\webhooks\configEntity\WebhookAuthInterface;
 use oat\tao\model\webhooks\configEntity\WebhookInterface;
 use oat\tao\model\webhooks\WebhookRegistryInterface;
+use oat\tao\model\webhooks\WebhookTaskServiceInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -262,22 +262,18 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
     }
 
     /**
-     * @return QueueDispatcher
+     * @return WebhookTaskServiceInterface
      */
-    private function getQueueDispatcher()
+    private function getWebhookTaskService()
     {
-        return $this->getServiceLocator()->get(QueueDispatcher::SERVICE_ID);
+        return $this->getServiceLocator()->get(WebhookTaskServiceInterface::SERVICE_ID);
     }
 
     private function retryTask()
     {
         if (!$this->params->isMaxRetryCountReached()) {
             $this->params->increaseRetryCount();
-            $this->getQueueDispatcher()->createTask(
-                $this,
-                (array) $this->params,
-                'Retry Iteration #' . $this->params->getRetryCount()
-            );
+            $this->getWebhookTaskService()->createTask($this->params);
         }
     }
 }

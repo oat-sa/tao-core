@@ -39,6 +39,7 @@ use oat\tao\model\webhooks\task\WebhookTask;
 use oat\tao\model\webhooks\task\WebhookTaskParams;
 use oat\tao\model\webhooks\task\WebhookTaskParamsFactory;
 use oat\tao\model\webhooks\WebhookRegistryInterface;
+use oat\tao\model\webhooks\WebhookTaskServiceInterface;
 use PHPUnit_Framework_MockObject_MockObject;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -75,9 +76,9 @@ class WebhookTaskTest extends TestCase
     private $webhookSenderMock;
 
     /**
-     * @var QueueDispatcher | PHPUnit_Framework_MockObject_MockObject
+     * @var WebhookTaskServiceInterface | PHPUnit_Framework_MockObject_MockObject
      */
-    private $queueDispatcherMock;
+    private $webhookTaskServiceMock;
 
     /**
      * @var WebhookInterface | PHPUnit_Framework_MockObject_MockObject
@@ -116,7 +117,7 @@ class WebhookTaskTest extends TestCase
         $this->webhookTaskParamsFactoryMock = $this->createMock(WebhookTaskParamsFactory::class);
         $this->webhookResponseFactoryInterfaceMock = $this->createMock(WebhookResponseFactoryInterface::class);
         $this->webhookSenderMock = $this->createMock(WebhookSender::class);
-        $this->queueDispatcherMock = $this->createMock(QueueDispatcher::class);
+        $this->webhookTaskServiceMock = $this->createMock(WebhookTaskServiceInterface::class);
         $this->logerMock = $this->createMock(LoggerService::class);
 
         $this->serviceLocatorMock = $this->getServiceLocatorMock([
@@ -125,7 +126,7 @@ class WebhookTaskTest extends TestCase
             WebhookTaskParamsFactory::class => $this->webhookTaskParamsFactoryMock,
             WebhookResponseFactoryInterface::SERVICE_ID => $this->webhookResponseFactoryInterfaceMock,
             WebhookSender::class => $this->webhookSenderMock,
-            QueueDispatcher::SERVICE_ID => $this->queueDispatcherMock,
+            WebhookTaskServiceInterface::SERVICE_ID => $this->webhookTaskServiceMock,
             LoggerService::SERVICE_ID => $this->logerMock
         ]);
     }
@@ -153,7 +154,7 @@ class WebhookTaskTest extends TestCase
         $this->webhookResponseFactoryInterfaceMock->method('create')->willReturn($this->webhookResponseMock);
 
         $this->webhookTaskParamsMock->expects($this->once())->method('increaseRetryCount');
-        $this->queueDispatcherMock->expects($this->once())->method('createTask');
+        $this->webhookTaskServiceMock->expects($this->once())->method('createTask');
 
         $paramArray = [];
         $webhookTask = new WebhookTask();
@@ -187,7 +188,7 @@ class WebhookTaskTest extends TestCase
         $this->webhookResponseFactoryInterfaceMock->method('create')->willReturn($this->webhookResponseMock);
 
         $this->webhookTaskParamsMock->expects($this->once())->method('increaseRetryCount');
-        $this->queueDispatcherMock->expects($this->once())->method('createTask');
+        $this->webhookTaskServiceMock->expects($this->once())->method('createTask');
 
         $paramArray = [];
         $webhookTask = new WebhookTask();
