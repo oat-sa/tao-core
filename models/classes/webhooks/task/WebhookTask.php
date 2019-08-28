@@ -106,7 +106,7 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
                 $clientException->getResponse()
             );
         } catch (ConnectException $exception) {
-            $this->retryMechanism();
+            $this->retryTask();
             return $this->reportError('Connection exception: ' . $exception->getMessage());
         }
 
@@ -117,7 +117,7 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
     {
         $statusCode = $response->getStatusCode();
         if (!$this->isAcceptableResponseStatusCode($statusCode)) {
-            $this->retryMechanism();
+            $this->retryTask();
             return $this->reportError("Response status code is $statusCode", $response);
         }
 
@@ -269,7 +269,7 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
         return $this->getServiceLocator()->get(QueueDispatcher::SERVICE_ID);
     }
 
-    private function retryMechanism()
+    private function retryTask()
     {
         if (!$this->params->isMaxRetryCountReached()) {
             $this->params->increaseRetryCount();
