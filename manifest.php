@@ -44,6 +44,7 @@ use oat\tao\scripts\install\RegisterActionService;
 use oat\tao\model\user\TaoRoles;
 use oat\tao\scripts\install\SetUpQueueTasks;
 use oat\tao\scripts\install\SetLocaleNumbersConfig;
+use \oat\tao\scripts\install\CreateWebhookEventLogTable;
 
 $extpath = dirname(__FILE__) . DIRECTORY_SEPARATOR;
 
@@ -121,7 +122,8 @@ return array(
             RegisterTaskQueueServices::class,
             SetUpQueueTasks::class,
             RegisterSignatureGenerator::class,
-            SetDefaultCSPHeader::class
+            SetDefaultCSPHeader::class,
+            CreateWebhookEventLogTable::class,
         )
     ),
     'update' => 'oat\\tao\\scripts\\update\\Updater',

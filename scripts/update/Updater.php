@@ -89,6 +89,10 @@ use oat\tao\model\user\implementation\NoUserLocksService;
 use oat\tao\model\user\import\OntologyUserMapper;
 use oat\tao\model\user\import\UserCsvImporterFactory;
 use oat\tao\model\user\UserLocks;
+use oat\tao\model\webhooks\log\WebhookEventLogInterface;
+use oat\tao\model\webhooks\log\WebhookLogRepository;
+use oat\tao\model\webhooks\log\WebhookLogRepositoryInterface;
+use oat\tao\model\webhooks\log\WebhookRdsEventLogService;
 use oat\tao\model\webhooks\task\JsonWebhookPayloadFactory;
 use oat\tao\model\webhooks\task\JsonWebhookResponseFactory;
 use oat\tao\model\webhooks\task\WebhookPayloadFactoryInterface;
@@ -100,6 +104,7 @@ use oat\tao\model\webhooks\WebhookRegistryInterface;
 use oat\tao\model\webhooks\WebhookTaskService;
 use oat\tao\model\webhooks\WebhookTaskServiceInterface;
 use oat\tao\scripts\install\AddArchiveService;
+use oat\tao\scripts\install\CreateWebhookEventLogTable;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\AddTmpFsHandlers;
 use oat\tao\scripts\install\RegisterSignatureGenerator;
@@ -1181,6 +1186,24 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('38.9.0');
         }
 
-        $this->skip('38.9.0', '38.10.0');
+        $this->skip('38.9.0', '38.9.5');
+
+        if ($this->isVersion('38.9.5')) {
+            $notifInstaller = new CreateWebhookEventLogTable();
+            $notifInstaller->setServiceLocator($this->getServiceManager());
+            $notifInstaller->__invoke([]);
+
+            $this->getServiceManager()->register(
+                WebhookLogRepositoryInterface::SERVICE_ID,
+                new WebhookLogRepository([WebhookLogRepository::OPTION_PERSISTENCE => 'default'])
+            );
+            $this->getServiceManager()->register(
+                WebhookEventLogInterface::SERVICE_ID,
+                new WebhookRdsEventLogService()
+            );
+            $this->setVersion('38.10.0');
+        }
+
+        $this->skip('38.10.0', '38.11.0');
     }
 }
