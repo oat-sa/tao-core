@@ -1215,11 +1215,14 @@ class Updater extends \common_ext_ExtensionUpdater {
             $fromSchema = clone $schema;
 
             $logTable = $schema->getTable(WebhookLogRepository::TABLE_NAME);
-            $logTable->setPrimaryKey([WebhookLogRepository::COLUMN_ID]);
 
-            $queries = $persistence->getPlatform()->getMigrateSchemaSql($fromSchema, $schema);
-            foreach ($queries as $query) {
-                $persistence->exec($query);
+            if ($logTable->getPrimaryKey()->getColumns() === 0) {
+                $logTable->setPrimaryKey([WebhookLogRepository::COLUMN_ID]);
+
+                $queries = $persistence->getPlatform()->getMigrateSchemaSql($fromSchema, $schema);
+                foreach ($queries as $query) {
+                    $persistence->exec($query);
+                }
             }
 
             $this->setVersion('38.11.1');
