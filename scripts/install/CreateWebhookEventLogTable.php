@@ -71,10 +71,11 @@ class CreateWebhookEventLogTable extends AbstractAction
         $logTable->addColumn(WebhookLogRepository::COLUMN_RESULT, Type::STRING, array('notnull' => true, 'length' => 255));
         $logTable->addColumn(WebhookLogRepository::COLUMN_RESULT_MESSAGE, Type::TEXT, array('notnull' => false));
 
+        $logTable->setPrimaryKey([WebhookLogRepository::COLUMN_ID]);
+
         $logTable->addIndex(
             [WebhookLogRepository::COLUMN_EVENT_ID],
             'IDX_' . WebhookLogRepository::TABLE_NAME . '_event_id');
-
 
         $logTable->addIndex(
             [WebhookLogRepository::COLUMN_WEBHOOK_ID],
