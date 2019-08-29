@@ -1216,7 +1216,7 @@ class Updater extends \common_ext_ExtensionUpdater {
 
             $logTable = $schema->getTable(WebhookLogRepository::TABLE_NAME);
 
-            if ($logTable->getPrimaryKey()->getColumns() === 0) {
+            if ($logTable->getPrimaryKey() === null) {
                 $logTable->setPrimaryKey([WebhookLogRepository::COLUMN_ID]);
 
                 $queries = $persistence->getPlatform()->getMigrateSchemaSql($fromSchema, $schema);
