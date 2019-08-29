@@ -1189,9 +1189,9 @@ class Updater extends \common_ext_ExtensionUpdater {
         $this->skip('38.9.0', '38.9.5');
 
         if ($this->isVersion('38.9.5')) {
-            $notifInstaller = new CreateWebhookEventLogTable();
-            $notifInstaller->setServiceLocator($this->getServiceManager());
-            $notifInstaller->__invoke([]);
+            $webhookEventLogTableCreator = new CreateWebhookEventLogTable();
+            $webhookEventLogTableCreator->setServiceLocator($this->getServiceManager());
+            $webhookEventLogTableCreator->__invoke([]);
 
             $this->getServiceManager()->register(
                 WebhookLogRepositoryInterface::SERVICE_ID,
@@ -1205,5 +1205,27 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('38.10.0', '38.11.0');
+
+        if ($this->isVersion('38.11.0')) {
+            /** @var \common_persistence_Persistence $persistence */
+            $persistence = \common_persistence_Manager::getPersistence('default');
+            /** @var \common_persistence_sql_dbal_SchemaManager $schemaManager */
+            $schemaManager = $persistence->getDriver()->getSchemaManager();
+            $schema = $schemaManager->createSchema();
+            $fromSchema = clone $schema;
+
+            $logTable = $schema->getTable(WebhookLogRepository::TABLE_NAME);
+
+            if ($logTable->getPrimaryKey() === null) {
+                $logTable->setPrimaryKey([WebhookLogRepository::COLUMN_ID]);
+
+                $queries = $persistence->getPlatform()->getMigrateSchemaSql($fromSchema, $schema);
+                foreach ($queries as $query) {
+                    $persistence->exec($query);
+                }
+            }
+
+            $this->setVersion('38.11.1');
+        }
     }
 }
