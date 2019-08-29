@@ -20,6 +20,7 @@
 namespace oat\tao\model\webhooks\task;
 
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Request;
 use oat\oatbox\extension\AbstractAction;
@@ -29,6 +30,7 @@ use oat\tao\model\taskQueue\Task\TaskAwareTrait;
 use oat\tao\model\webhooks\configEntity\WebhookAuthInterface;
 use oat\tao\model\webhooks\configEntity\WebhookInterface;
 use oat\tao\model\webhooks\WebhookRegistryInterface;
+use oat\tao\model\webhooks\WebhookTaskServiceInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -54,8 +56,7 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
             $webhookConfig = $this->getWebhookConfig();
             $request = $this->prepareRequest($webhookConfig);
             return $this->performRequest($request, $webhookConfig->getAuth());
-        }
-        catch (\Exception $exception) {
+        } catch (\Exception $exception) {
             $this->logException($exception);
             return \common_report_Report::createFailure($exception->getMessage());
         }
@@ -99,12 +100,14 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
     {
         try {
             $response = $this->getWebhookSender()->performRequest($request, $authConfig);
-        }
-        catch (ClientException $clientException) {
+        } catch (ClientException $clientException) {
             return $this->reportError(
                 'Client exception: ' . $clientException->getMessage(),
                 $clientException->getResponse()
             );
+        } catch (ConnectException $exception) {
+            $this->retryTask();
+            return $this->reportError('Connection exception: ' . $exception->getMessage());
         }
 
         return $this->handleResponse($response);
@@ -114,6 +117,7 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
     {
         $statusCode = $response->getStatusCode();
         if (!$this->isAcceptableResponseStatusCode($statusCode)) {
+            $this->retryTask();
             return $this->reportError("Response status code is $statusCode", $response);
         }
 
@@ -255,5 +259,21 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->getServiceLocator()->get(WebhookSender::class);
+    }
+
+    /**
+     * @return WebhookTaskServiceInterface
+     */
+    private function getWebhookTaskService()
+    {
+        return $this->getServiceLocator()->get(WebhookTaskServiceInterface::SERVICE_ID);
+    }
+
+    private function retryTask()
+    {
+        if (!$this->params->isMaxRetryCountReached()) {
+            $this->params->increaseRetryCount();
+            $this->getWebhookTaskService()->createTask($this->params);
+        }
     }
 }

@@ -14,38 +14,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
+ * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
  */
 
-namespace oat\tao\model\taskQueue\Task;
 
-/**
- * @author Gyula Szucs <gyula@taotesting.com>
- */
-trait TaskAwareTrait
+namespace oat\tao\model\exceptions;
+
+
+class WebhookConfigMissingException extends \common_Exception
 {
-    /**
-     * @var TaskInterface
-     */
-    private $task;
-
-    /**
-     * @param TaskInterface $task
-     * @return $this
-     */
-    public function setTask(TaskInterface $task)
-    {
-        $this->task = $task;
-
-        return $this;
-    }
-
-    /**
-     * @return TaskInterface
-     */
-    public function getTask()
-    {
-        return $this->task;
-    }
 }

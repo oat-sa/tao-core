@@ -22,6 +22,7 @@ namespace oat\tao\model\webhooks;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\webhooks\configEntity\Webhook;
 use oat\tao\model\webhooks\configEntity\WebhookEntryFactory;
+use oat\tao\model\webhooks\task\WebhookTaskParams;
 
 /**
  * Implementation which uses own (service) configuration to store webhooks configuration
