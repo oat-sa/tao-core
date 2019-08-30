@@ -18,6 +18,9 @@
  * 
  */
 use oat\generis\model\OntologyAwareTrait;
+use oat\oatbox\service\ServiceManager;
+use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\OntologyClassService;
 
 /**
  *
@@ -29,9 +32,8 @@ use oat\generis\model\OntologyAwareTrait;
  * @author Patrick Plichart, patrick@taotesting.com
  *        
  */
-abstract class tao_models_classes_CrudService extends tao_models_classes_Service
+abstract class tao_models_classes_CrudService extends ConfigurableService
 {
-
     use OntologyAwareTrait;
     /**
      *
@@ -45,14 +47,14 @@ abstract class tao_models_classes_CrudService extends tao_models_classes_Service
         if (!(common_Utils::isUri($uri))) {
             throw new common_exception_InvalidArgumentType();
         }
-        $resource = $this->getClass($uri);
-        return $resource->hasType($this->getRootClass());
+        $resource = $this->getResource($uri);
+        return $resource->isInstanceOf($this->getRootClass());
     }
 
     /**
      *
      * @author Patrick Plichart, patrick@taotesting.com
-     * return tao_models_classes_ClassService
+     * return OntologyClassService
      */
     protected abstract function getClassService();
 
@@ -181,6 +183,11 @@ abstract class tao_models_classes_CrudService extends tao_models_classes_Service
         }
         return $resource;
     }
-}
 
-?>
+    /**
+     * @deprecated please initialise from servicelocator
+     */
+    public static function singleton() {
+        return ServiceManager::getServiceManager()->get(static::class);
+    }
+}
