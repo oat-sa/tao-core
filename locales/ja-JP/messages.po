@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint108\n"
-"PO-Revision-Date: 2019-08-02T09:26:42\n"
+"Project-Id-Version: TAO 3.3.0-sprint110\n"
+"PO-Revision-Date: 2019-08-30T08:32:32\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-JP\n"
@@ -368,10 +368,10 @@ msgstr ""
 msgid "Calendar"
 msgstr "カレンダー"
 
-msgid "cancel"
+msgid "Cancel"
 msgstr "キャンセル"
 
-msgid "Cancel"
+msgid "cancel"
 msgstr "キャンセル"
 
 msgid "cancel the action"
@@ -1248,9 +1248,6 @@ msgstr "複数の値の区切り文字"
 msgid "Multiply the value by 10^x"
 msgstr ""
 
-msgid "must be numeric"
-msgstr "数値でなければなりません"
-
 msgid "Mute"
 msgstr ""
 
@@ -1731,10 +1728,10 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "select"
+msgid "Select"
 msgstr "選択"
 
-msgid "Select"
+msgid "select"
 msgstr "選択"
 
 msgid "Select a class"
