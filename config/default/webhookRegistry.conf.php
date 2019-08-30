@@ -11,6 +11,7 @@
             'id' => 'testwh',
             'url' => 'https://webhookurl',
             'httpMethod' => 'PUT',
+            'maxRetry' => 5,
             'auth' => array(
                 'authClass' => '\\oat\\taoOauth\\model\\bootstrap\\OAuth2AuthType',
                 'credentials' => array(

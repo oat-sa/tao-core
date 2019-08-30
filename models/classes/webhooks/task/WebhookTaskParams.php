@@ -31,6 +31,8 @@ class WebhookTaskParams extends ArrayObject
     const TRIGGERED_TIMESTAMP = 'triggeredTimestamp';
     const EVENT_DATA = 'eventData';
     const WEBHOOK_CONFIG_ID = 'webhookConfigId';
+    const RETRY_MAX = 'retryMax';
+    const RETRY_COUNT = 'retryCount';
 
     /**
      * @return string
@@ -70,5 +72,35 @@ class WebhookTaskParams extends ArrayObject
     public function getWebhookConfigId()
     {
         return $this[self::WEBHOOK_CONFIG_ID];
+    }
+
+    /**
+     * @return int
+     */
+    public function getRetryMax()
+    {
+        return $this[self::RETRY_MAX];
+    }
+
+    /**
+     * increase retry counter
+     */
+    public function increaseRetryCount()
+    {
+        $this[self::RETRY_COUNT]++;
+    }
+
+    /**
+     * Check if retry counter reached max retry value
+     * @return bool
+     */
+    public function isMaxRetryCountReached()
+    {
+        return $this[self::RETRY_COUNT] >= $this[self::RETRY_MAX];
+    }
+
+    public function getRetryCount()
+    {
+        return $this[self::RETRY_COUNT];
     }
 }

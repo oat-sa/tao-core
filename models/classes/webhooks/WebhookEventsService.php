@@ -23,6 +23,7 @@ use oat\oatbox\event\Event;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\exceptions\WebhookConfigMissingException;
 use oat\tao\model\webhooks\task\WebhookTaskParams;
 
 class WebhookEventsService extends ConfigurableService implements WebhookEventsServiceInterface
@@ -125,6 +126,7 @@ class WebhookEventsService extends ConfigurableService implements WebhookEventsS
      * @param WebhookSerializableEventInterface $event
      * @param string[] $webhookConfigIds
      * @return WebhookTaskParams[]
+     * @throws WebhookConfigMissingException
      */
     private function prepareTasksParams(WebhookSerializableEventInterface $event, $webhookConfigIds)
     {
@@ -145,12 +147,17 @@ class WebhookEventsService extends ConfigurableService implements WebhookEventsS
         $result = [];
 
         foreach ($webhookConfigIds as $webhookConfigId) {
+            if (($webhookConfig = $this->getWebhookRegistry()->getWebhookConfig($webhookConfigId)) === null) {
+                throw new WebhookConfigMissingException(sprintf('Webhook config for id %s not found', $webhookConfigId));
+            }
             $result[] = new WebhookTaskParams([
                 WebhookTaskParams::EVENT_NAME => $event->getWebhookEventName(),
                 WebhookTaskParams::EVENT_ID => $eventId,
                 WebhookTaskParams::TRIGGERED_TIMESTAMP => $triggeredTimestamp,
                 WebhookTaskParams::EVENT_DATA => $eventData,
-                WebhookTaskParams::WEBHOOK_CONFIG_ID => $webhookConfigId
+                WebhookTaskParams::WEBHOOK_CONFIG_ID => $webhookConfigId,
+                WebhookTaskParams::RETRY_COUNT => 1,
+                WebhookTaskParams::RETRY_MAX => $webhookConfig->getMaxRetries()
             ]);
         }
 

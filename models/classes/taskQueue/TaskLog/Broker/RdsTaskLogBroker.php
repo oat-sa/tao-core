@@ -253,6 +253,8 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
 
             if ($filter->getSortBy()) {
                 $qb->orderBy($filter->getSortBy(), $filter->getSortOrder());
+            } else {
+                $qb->orderBy(TaskLogBrokerInterface::COLUMN_CREATED_AT, 'DESC');
             }
 
             $filter->applyFilters($qb);

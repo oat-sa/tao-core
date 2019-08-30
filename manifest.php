@@ -44,6 +44,7 @@ use oat\tao\scripts\install\RegisterActionService;
 use oat\tao\model\user\TaoRoles;
 use oat\tao\scripts\install\SetUpQueueTasks;
 use oat\tao\scripts\install\SetLocaleNumbersConfig;
+use \oat\tao\scripts\install\CreateWebhookEventLogTable;
 
 $extpath = dirname(__FILE__) . DIRECTORY_SEPARATOR;
 
@@ -52,7 +53,7 @@ return array(
     'label' => 'TAO Base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '38.9.2',
+    'version' => '38.12.0',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
         'generis' => '>=12.1.0',
@@ -121,7 +122,8 @@ return array(
             RegisterTaskQueueServices::class,
             SetUpQueueTasks::class,
             RegisterSignatureGenerator::class,
-            SetDefaultCSPHeader::class
+            SetDefaultCSPHeader::class,
+            CreateWebhookEventLogTable::class,
         )
     ),
     'update' => 'oat\\tao\\scripts\\update\\Updater',
@@ -187,9 +189,9 @@ return array(
     ],
     'constants' => array(
         #TAO version number
-        'TAO_VERSION' => '3.3.0-sprint109',
+        'TAO_VERSION' => '3.3.0-sprint110',
         #TAO version label
-        'TAO_VERSION_NAME' => '3.3.0-sprint109',
+        'TAO_VERSION_NAME' => '3.3.0-sprint110',
         #the name to display
         'PRODUCT_NAME' => 'TAO',
         #TAO release status, use to add specific footer to TAO, available alpha, beta, demo, stable
