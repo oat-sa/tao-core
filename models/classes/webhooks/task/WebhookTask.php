@@ -318,8 +318,14 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
     {
         $context = new WebhookTaskContext();
         $context->setTaskId($this->getTask()->getId());
-        $context->setWebhookConfig($this->getWebhookConfig());
-        $context->setWebhookTaskParams($this->params);
+        try {
+            $context->setWebhookConfig($this->getWebhookConfig());
+        } catch (\Exception $e) {
+        }
+        try {
+            $context->setWebhookTaskParams($this->params);
+        } catch (\Exception $e) {
+        }
         return $context;
     }
 
