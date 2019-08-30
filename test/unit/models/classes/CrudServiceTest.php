@@ -59,3 +59,4 @@ class CrudServiceTestClass extends \tao_models_classes_CrudService
         };
     }   
 }
+
