@@ -45,8 +45,8 @@ abstract class tao_models_classes_CrudService extends tao_models_classes_Service
         if (!(common_Utils::isUri($uri))) {
             throw new common_exception_InvalidArgumentType();
         }
-        $resource = $this->getClass($uri);
-        return $resource->hasType($this->getRootClass());
+        $resource = $this->getResource($uri);
+        return $resource->isInstanceOf($this->getRootClass());
     }
 
     /**
