@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint108\n"
-"PO-Revision-Date: 2019-08-02T09:26:23\n"
+"Project-Id-Version: TAO 3.3.0-sprint110\n"
+"PO-Revision-Date: 2019-08-30T08:32:08\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: is-IS\n"
@@ -367,11 +367,11 @@ msgstr ""
 msgid "Calendar"
 msgstr "Dagatal"
 
-msgid "cancel"
-msgstr ""
-
 msgid "Cancel"
 msgstr "Hætta við"
+
+msgid "cancel"
+msgstr ""
 
 msgid "cancel the action"
 msgstr ""
@@ -1247,9 +1247,6 @@ msgstr ""
 msgid "Multiply the value by 10^x"
 msgstr ""
 
-msgid "must be numeric"
-msgstr "verður að vera tölulegt"
-
 msgid "Mute"
 msgstr ""
 
@@ -1730,11 +1727,11 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "select"
-msgstr "velja"
-
 msgid "Select"
 msgstr "Velja"
+
+msgid "select"
+msgstr "velja"
 
 msgid "Select a class"
 msgstr ""

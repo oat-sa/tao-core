@@ -31,6 +31,7 @@ use oat\tao\model\webhooks\configEntity\Webhook;
 use oat\tao\model\webhooks\configEntity\WebhookAuth;
 use oat\tao\model\webhooks\configEntity\WebhookAuthInterface;
 use oat\tao\model\webhooks\configEntity\WebhookInterface;
+use oat\tao\model\webhooks\log\WebhookEventLogInterface;
 use oat\tao\model\webhooks\task\WebhookPayloadFactoryInterface;
 use oat\tao\model\webhooks\task\WebhookResponse;
 use oat\tao\model\webhooks\task\WebhookResponseFactoryInterface;
@@ -104,6 +105,12 @@ class WebhookTaskTest extends TestCase
      * @var LoggerService | PHPUnit_Framework_MockObject_MockObject
      */
     private $logerMock;
+
+    /**
+     * @var WebhookEventLogInterface | PHPUnit_Framework_MockObject_MockObject
+     */
+    private $webhookLogServiceMock;
+
     /**
      * @var ResponseInterface
      */
@@ -119,6 +126,7 @@ class WebhookTaskTest extends TestCase
         $this->webhookSenderMock = $this->createMock(WebhookSender::class);
         $this->webhookTaskServiceMock = $this->createMock(WebhookTaskServiceInterface::class);
         $this->logerMock = $this->createMock(LoggerService::class);
+        $this->webhookLogServiceMock = $this->createMock(WebhookEventLogInterface::class);
 
         $this->serviceLocatorMock = $this->getServiceLocatorMock([
             WebhookRegistryInterface::SERVICE_ID => $this->webhookRegistryMock,
@@ -127,7 +135,8 @@ class WebhookTaskTest extends TestCase
             WebhookResponseFactoryInterface::SERVICE_ID => $this->webhookResponseFactoryInterfaceMock,
             WebhookSender::class => $this->webhookSenderMock,
             WebhookTaskServiceInterface::SERVICE_ID => $this->webhookTaskServiceMock,
-            LoggerService::SERVICE_ID => $this->logerMock
+            LoggerService::SERVICE_ID => $this->logerMock,
+            WebhookEventLogInterface::SERVICE_ID => $this->webhookLogServiceMock,
         ]);
     }
 
@@ -156,6 +165,8 @@ class WebhookTaskTest extends TestCase
         $this->webhookTaskParamsMock->expects($this->once())->method('increaseRetryCount');
         $this->webhookTaskServiceMock->expects($this->once())->method('createTask');
 
+        $this->webhookLogServiceMock->expects($this->once())->method('storeInvalidHttpStatusLog');
+
         $paramArray = [];
         $webhookTask = new WebhookTask();
         $webhookTask->setTask($this->createTaskMock('someId'));
@@ -168,7 +179,6 @@ class WebhookTaskTest extends TestCase
 
     public function testInvokeRetryMechanismConnectionException()
     {
-
         $this->webhookTaskParamsMock = $this->createMock(WebhookTaskParams::class);
         $this->webhookTaskParamsMock->method('getWebhookConfigId')->willReturn('WebhookConfigId');
         $this->webhookTaskParamsFactoryMock->method('createFromArray')->willReturn($this->webhookTaskParamsMock);
@@ -189,6 +199,8 @@ class WebhookTaskTest extends TestCase
 
         $this->webhookTaskParamsMock->expects($this->once())->method('increaseRetryCount');
         $this->webhookTaskServiceMock->expects($this->once())->method('createTask');
+
+        $this->webhookLogServiceMock->expects($this->once())->method('storeNetworkErrorLog');
 
         $paramArray = [];
         $webhookTask = new WebhookTask();
@@ -237,7 +249,8 @@ class WebhookTaskTest extends TestCase
             WebhookPayloadFactoryInterface::SERVICE_ID => $payloadFactory,
             WebhookTaskParamsFactory::class => $taskParamsFactory,
             WebhookResponseFactoryInterface::SERVICE_ID => $webhookResponseFactory,
-            WebhookSender::class => $webhookSender
+            WebhookSender::class => $webhookSender,
+            WebhookEventLogInterface::SERVICE_ID => $this->webhookLogServiceMock,
         ]));
         $task->setTask($queueTask);
 
@@ -254,6 +267,7 @@ class WebhookTaskTest extends TestCase
                 return $auth === $whConfig->getAuth();
             })
         );
+        $this->webhookLogServiceMock->expects($this->once())->method('storeSuccessfulLog');
 
         $report = $task(['ppp']);
 
@@ -286,13 +300,16 @@ class WebhookTaskTest extends TestCase
 
         $task->setServiceLocator($this->getServiceLocatorMock([
             WebhookRegistryInterface::SERVICE_ID => $webhookRegistry,
-            WebhookTaskParamsFactory::class => $taskParamsFactory
+            WebhookTaskParamsFactory::class => $taskParamsFactory,
+            WebhookEventLogInterface::SERVICE_ID => $this->webhookLogServiceMock,
         ]));
         $task->setTask($queueTask);
         $task->setLogger($loggerMock);
 
         $taskParamsFactory->method('createFromArray')->with(['ppp']);
         $loggerMock->expects($this->once())->method('error');
+        $this->webhookLogServiceMock->expects($this->once())->method('storeInternalErrorLog');
+
         $report = $task(['ppp']);
 
         $this->assertSame(\common_report_Report::TYPE_ERROR, $report->getType());
@@ -336,11 +353,13 @@ class WebhookTaskTest extends TestCase
             WebhookPayloadFactoryInterface::SERVICE_ID => $payloadFactory,
             WebhookTaskParamsFactory::class => $taskParamsFactory,
             WebhookResponseFactoryInterface::SERVICE_ID => $webhookResponseFactory,
-            WebhookSender::class => $webhookSender
+            WebhookSender::class => $webhookSender,
+            WebhookEventLogInterface::SERVICE_ID => $this->webhookLogServiceMock,
         ]));
         $task->setTask($queueTask);
         $task->setLogger($loggerMock);
         $loggerMock->expects($this->once())->method('error');
+        $this->webhookLogServiceMock->expects($this->once())->method('storeInvalidAcknowledgementLog');
 
         $report = $task(['ppp']);
 
@@ -385,11 +404,14 @@ class WebhookTaskTest extends TestCase
             WebhookPayloadFactoryInterface::SERVICE_ID => $payloadFactory,
             WebhookTaskParamsFactory::class => $taskParamsFactory,
             WebhookResponseFactoryInterface::SERVICE_ID => $webhookResponseFactory,
-            WebhookSender::class => $webhookSender
+            WebhookSender::class => $webhookSender,
+            WebhookEventLogInterface::SERVICE_ID => $this->webhookLogServiceMock,
         ]));
         $task->setTask($queueTask);
         $task->setLogger($loggerMock);
         $loggerMock->expects($this->once())->method('error');
+
+        $this->webhookLogServiceMock->expects($this->once())->method('storeInvalidBodyFormat');
 
         $report = $task(['ppp']);
 
