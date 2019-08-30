@@ -17,7 +17,7 @@
       "examples": [
         "https://someinstance.taocloud.org/"
       ],
-      "minLength": 8
+      "minLength": 1
     },
     "events": {
       "$id": "#/properties/events",
