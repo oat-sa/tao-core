@@ -19,9 +19,10 @@
 
 namespace oat\tao\model\webhooks\task;
 
-use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Psr7\Request;
 use oat\oatbox\extension\AbstractAction;
 use oat\oatbox\log\LoggerAwareTrait;
@@ -49,7 +50,6 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
      * @param array $paramsArray
      * @return \common_report_Report
      * @throws GuzzleException
-     * @throws \common_exception_NotFound
      */
     public function __invoke($paramsArray)
     {
@@ -102,27 +102,50 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
     {
         try {
             $response = $this->getWebhookSender()->performRequest($request, $authConfig);
-        } catch (ClientException $clientException) {
-            $this->getWebhookEventLog()->storeInvalidHttpStatusLog($this->getTaskContext());
-
-            return $this->reportError(
-                'Client exception: ' . $clientException->getMessage(),
-                $clientException->getResponse()
-            );
-        } catch (ConnectException $exception) {
-            $this->getWebhookEventLog()->storeNetworkErrorLog($this->getTaskContext(), $exception->getMessage());
-
-            $this->retryTask();
-            return $this->reportError('Connection exception: ' . $exception->getMessage());
+        } catch (BadResponseException $badResponseException) {
+            return $this->handleBadResponseException($badResponseException);
+        } catch (ConnectException $connectException) {
+            return $this->handleConnectException($connectException);
         }
 
         return $this->handleResponse($response);
     }
 
     /**
+     * @param ConnectException $exception
+     * @return \common_report_Report
+     */
+    private function handleConnectException(ConnectException $exception)
+    {
+        $this->getWebhookEventLog()->storeNetworkErrorLog($this->getTaskContext(), $exception->getMessage());
+        $this->retryTask();
+        return $this->reportError('Connection exception: ' . $exception->getMessage());
+    }
+
+    /**
+     * @param BadResponseException $badResponseException
+     * @return \common_report_Report
+     */
+    private function handleBadResponseException(BadResponseException $badResponseException)
+    {
+        $statusCode = $badResponseException->getResponse()
+            ? $badResponseException->getResponse()->getStatusCode()
+            : 0;
+        $this->getWebhookEventLog()->storeInvalidHttpStatusLog($this->getTaskContext(), $statusCode);
+
+        if ($badResponseException instanceof ServerException) {
+            $this->retryTask();
+        }
+
+        return $this->reportError(
+            'Bad response: ' . $badResponseException->getMessage(),
+            $badResponseException->getResponse()
+        );
+    }
+
+    /**
      * @param ResponseInterface $response
      * @return \common_report_Report
-     * @throws \common_exception_NotFound
      */
     private function handleResponse(ResponseInterface $response)
     {
@@ -208,7 +231,6 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
 
     /**
      * @param \Exception $exception
-     * @throws \common_exception_NotFound
      */
     private function logException(\Exception $exception)
     {
@@ -299,6 +321,7 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
      */
     private function getWebhookTaskService()
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->getServiceLocator()->get(WebhookTaskServiceInterface::SERVICE_ID);
     }
 
@@ -307,12 +330,12 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
      */
     private function getWebhookEventLog()
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->getServiceLocator()->get(WebhookEventLogInterface::SERVICE_ID);
     }
 
     /**
      * @return WebhookTaskContext
-     * @throws \common_exception_NotFound
      */
     private function getTaskContext()
     {
