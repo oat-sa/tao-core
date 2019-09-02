@@ -23,6 +23,7 @@
  */
 
 use Doctrine\DBAL\DBALException;
+use OAT\Library\DBALSpanner\SpannerDriver;
 
 class tao_install_utils_DbalDbCreator
 {
@@ -55,6 +56,9 @@ class tao_install_utils_DbalDbCreator
             $this->dbConfiguration = $params;
             $this->driverName = $this->findDriverName();
             $this->buildSchema();
+            if ($this->driverName === SpannerDriver::DRIVER_NAME) {
+                $this->connection->connect();
+            }
         } catch(Exception $e){
    			$this->connection = null;
             common_Logger::e($e->getMessage() . $e->getTraceAsString());
@@ -75,6 +79,7 @@ class tao_install_utils_DbalDbCreator
         }
 
         $driverNames = [
+            SpannerDriver::class => SpannerDriver::DRIVER_NAME,
         ];
 
         if (isset($this->dbConfiguration['driverClass'])) {
