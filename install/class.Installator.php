@@ -20,9 +20,6 @@
  *               2013-2017 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
-use OAT\Library\DBALSpanner\SpannerConnection;
-use OAT\Library\DBALSpanner\SpannerDriver;
-use OAT\Library\DBALSpanner\SpannerPlatform;
 use oat\tao\helpers\InstallHelper;
 use oat\oatbox\install\Installer;
 use oat\oatbox\service\ServiceManager;
@@ -184,14 +181,6 @@ class tao_install_Installator {
 				$dbConnectionParams['portability'] = \Doctrine\DBAL\Portability\Connection::PORTABILITY_ALL;
 				$dbConnectionParams['fetch_case'] = PDO::CASE_LOWER;
 			}
-            if($installData['db_driver'] == SpannerDriver::DRIVER_NAME) {
-                $dbConnectionParams = [
-                    'dbname' => $installData['db_name'],
-                    'instance' => $installData['db_host'],
-                    'driverClass' => SpannerDriver::class,
-                    'platform' => new SpannerPlatform(),
-                ];
-            }
 
 			$dbCreator = new tao_install_utils_DbalDbCreator($dbConnectionParams);
 			
