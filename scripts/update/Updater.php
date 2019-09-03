@@ -89,6 +89,10 @@ use oat\tao\model\user\implementation\NoUserLocksService;
 use oat\tao\model\user\import\OntologyUserMapper;
 use oat\tao\model\user\import\UserCsvImporterFactory;
 use oat\tao\model\user\UserLocks;
+use oat\tao\model\webhooks\log\WebhookEventLogInterface;
+use oat\tao\model\webhooks\log\WebhookLogRepository;
+use oat\tao\model\webhooks\log\WebhookLogRepositoryInterface;
+use oat\tao\model\webhooks\log\WebhookRdsEventLogService;
 use oat\tao\model\webhooks\task\JsonWebhookPayloadFactory;
 use oat\tao\model\webhooks\task\JsonWebhookResponseFactory;
 use oat\tao\model\webhooks\task\WebhookPayloadFactoryInterface;
@@ -100,6 +104,7 @@ use oat\tao\model\webhooks\WebhookRegistryInterface;
 use oat\tao\model\webhooks\WebhookTaskService;
 use oat\tao\model\webhooks\WebhookTaskServiceInterface;
 use oat\tao\scripts\install\AddArchiveService;
+use oat\tao\scripts\install\CreateWebhookEventLogTable;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\AddTmpFsHandlers;
 use oat\tao\scripts\install\RegisterSignatureGenerator;
@@ -1181,6 +1186,49 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('38.9.0');
         }
 
-        $this->skip('38.9.0', '38.9.1');
+        $this->skip('38.9.0', '38.9.5');
+
+        if ($this->isVersion('38.9.5')) {
+            $webhookEventLogTableCreator = new CreateWebhookEventLogTable();
+            $webhookEventLogTableCreator->setServiceLocator($this->getServiceManager());
+            $webhookEventLogTableCreator->__invoke([]);
+
+            $this->getServiceManager()->register(
+                WebhookLogRepositoryInterface::SERVICE_ID,
+                new WebhookLogRepository([WebhookLogRepository::OPTION_PERSISTENCE => 'default'])
+            );
+            $this->getServiceManager()->register(
+                WebhookEventLogInterface::SERVICE_ID,
+                new WebhookRdsEventLogService()
+            );
+            $this->setVersion('38.10.0');
+        }
+
+        $this->skip('38.10.0', '38.11.0');
+
+        if ($this->isVersion('38.11.0')) {
+            /** @var \common_persistence_Persistence $persistence */
+            $persistence = \common_persistence_Manager::getPersistence('default');
+            /** @var \common_persistence_sql_dbal_SchemaManager $schemaManager */
+            $schemaManager = $persistence->getDriver()->getSchemaManager();
+            $schema = $schemaManager->createSchema();
+            $fromSchema = clone $schema;
+
+            $logTable = $schema->getTable(WebhookLogRepository::TABLE_NAME);
+
+            if ($logTable->getPrimaryKey() === null) {
+                $logTable->setPrimaryKey([WebhookLogRepository::COLUMN_ID]);
+
+                $queries = $persistence->getPlatform()->getMigrateSchemaSql($fromSchema, $schema);
+                foreach ($queries as $query) {
+                    $persistence->exec($query);
+                }
+            }
+
+            $this->setVersion('38.11.1');
+        }
+
+        $this->skip('38.11.1', '38.12.1');
+
     }
 }

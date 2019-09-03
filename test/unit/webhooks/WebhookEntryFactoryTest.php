@@ -32,6 +32,7 @@ class WebhookEntryFactoryTest extends TestCase
             'id' => 'wh1',
             'url' => 'http://url.com',
             'httpMethod' => 'POST',
+            'retryMax' => 5,
             'auth' => [
                 'authClass' => 'SomeClass',
                 'credentials' => [
@@ -45,6 +46,7 @@ class WebhookEntryFactoryTest extends TestCase
         $this->assertEquals('wh1', $webhook->getId());
         $this->assertEquals('http://url.com', $webhook->getUrl());
         $this->assertEquals('POST', $webhook->getHttpMethod());
+        $this->assertEquals(5, $webhook->getMaxRetries());
         $this->assertEquals('SomeClass', $webhook->getAuth()->getAuthClass());
         $this->assertEquals(['p1' => 'v1'], $webhook->getAuth()->getCredentials());
     }
@@ -56,6 +58,7 @@ class WebhookEntryFactoryTest extends TestCase
             'id' => 'wh1',
             'url' => 'http://url.com',
             'httpMethod' => 'POST',
+            'retryMax' => 5
         ]);
 
         $this->assertInstanceOf(WebhookInterface::class, $webhook);
@@ -74,6 +77,7 @@ class WebhookEntryFactoryTest extends TestCase
             $factory->createEntryFromArray([
                 'id' => 'wh1',
                 'httpMethod' => 123,
+                'retryMax' => 5,
                 'auth' => [
                     'authClass' => 'SomeClass',
                     'credentials' => [
@@ -98,6 +102,7 @@ class WebhookEntryFactoryTest extends TestCase
                 'id' => 'wh1',
                 'url' => 'http://url.com',
                 'httpMethod' => 'POST',
+                'retryMax' => 5,
                 'auth' => [
                     'credentials' => [
                         'p1' => 'v1'
