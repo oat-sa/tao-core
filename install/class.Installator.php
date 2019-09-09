@@ -26,6 +26,7 @@ use oat\oatbox\service\ServiceManager;
 use oat\tao\model\OperatedByService;
 use oat\generis\persistence\sql\DbCreator;
 use oat\generis\persistence\sql\SetupDb;
+use oat\generis\persistence\PersistenceManager;
 
 /**
  *
@@ -78,8 +79,7 @@ class tao_install_Installator {
 	/**
 	 * Run the TAO install from the given data
 	 * @throws tao_install_utils_Exception
-	 * @param $installData data coming from the install form
-	 * @see tao_install_form_Settings
+	 * @param $installData array data coming from the install form
 	 */
 	public function install(array $installData)
 	{
@@ -156,10 +156,10 @@ class tao_install_Installator {
 			 *  2 - Test DB connection (done by the constructor)
 			 */
 			$this->log('i', "Spawning DbCreator");
-			$persistenceManager = new common_persistence_Manager();
+			$persistenceManager = new PersistenceManager();
 			$dbalConfigCreator = new tao_install_utils_DbalConfigCreator();
 			$persistenceManager->registerPersistence('default', $dbalConfigCreator->createDbalConfig($installData));
-			$this->getServiceManager()->register(common_persistence_Manager::SERVICE_ID, $persistenceManager);
+			$this->getServiceManager()->register(PersistenceManager::SERVICE_ID, $persistenceManager);
 			
 			$dbCreator = new SetupDb();
 			$dbCreator->setLogger($this->logger);
@@ -220,7 +220,7 @@ class tao_install_Installator {
             }
 
             foreach ((array)$installData['extra_persistences'] as $k => $persistence) {
-                common_persistence_Manager::addPersistence($k, $persistence);
+                $persistenceManager->registerPersistence($k, $persistence);
             }
 
 			/*
@@ -233,10 +233,11 @@ class tao_install_Installator {
 			 * 5b - Create cache persistence
 			*/
 			$this->log('d', 'Creating cache persistence..');
-			common_persistence_Manager::addPersistence('cache', array(
+			$persistenceManager->registerPersistence('cache', array(
                 'driver' => 'phpfile'
 			));
-			common_persistence_KeyValuePersistence::getPersistence('cache')->purge();
+			$persistenceManager->getPersistenceById('cache')->purge();
+			$this->getServiceManager()->register(PersistenceManager::SERVICE_ID, $persistenceManager);
 
 			/*
 			 * 5d - Create generis user
@@ -282,7 +283,7 @@ class tao_install_Installator {
              */
 			$this->log('i', 'Generates client side translation bundles');
             
-			$files = tao_models_classes_LanguageService::singleton()->generateAll();
+			tao_models_classes_LanguageService::singleton()->generateAll();
 
 			/*
 			 *  9 - Insert Super User
