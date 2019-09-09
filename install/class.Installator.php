@@ -25,6 +25,7 @@ use oat\oatbox\install\Installer;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\OperatedByService;
 use oat\generis\persistence\sql\DbCreator;
+use oat\generis\persistence\sql\SetupDb;
 
 /**
  *
@@ -160,7 +161,7 @@ class tao_install_Installator {
 			$persistenceManager->registerPersistence('default', $dbalConfigCreator->createDbalConfig($installData));
 			$this->getServiceManager()->register(common_persistence_Manager::SERVICE_ID, $persistenceManager);
 			
-			$dbCreator = new DbCreator();
+			$dbCreator = new SetupDb();
 			$dbCreator->setLogger($this->logger);
 			$dbCreator->setupDatabase($persistenceManager->getPersistenceById('default'));
 			
