@@ -21,6 +21,7 @@
 namespace oat\tao\model\taskQueue\TaskLog\Broker;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use oat\oatbox\PhpSerializable;
 use common_report_Report as Report;
 use Doctrine\DBAL\Query\QueryBuilder;
@@ -160,6 +161,17 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
             self::COLUMN_CREATED_AT => $task->getCreatedAt()->format($platform->getDateTimeFormatString()),
             self::COLUMN_UPDATED_AT => $platform->getNowExpression(),
             self::COLUMN_MASTER_STATUS => $task->isMasterStatus(),
+        ], [
+            ParameterType::STRING,
+            ParameterType::STRING,
+            ParameterType::STRING,
+            ParameterType::STRING,
+            ParameterType::STRING,
+            ParameterType::STRING,
+            ParameterType::STRING,
+            ParameterType::STRING,
+            ParameterType::STRING,
+            ParameterType::BOOLEAN,
         ]);
     }
 
