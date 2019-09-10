@@ -14,9 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
- *
- *
+ * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
  */
 
 namespace oat\tao\helpers;
@@ -24,10 +22,9 @@ namespace oat\tao\helpers;
 use tao_helpers_Uri;
 
 /**
- * Utility class to render a User
+ * Utility class to encapsulate the _url global function for unit tests.
  *
- * @author Joel Bout <joel@taotesting.com>
- * @package tao
+ * @author Julien Sébire <julien@taotesting.com>
  */
 class UrlHelper
 {
