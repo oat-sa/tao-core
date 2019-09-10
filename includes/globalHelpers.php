@@ -26,7 +26,7 @@
  * @param  string module the targeted module name
  * @param  string extension the targeted extension name
  * @param  array params an array of additionnal key/value query parameters
- * @return the URI
+ * @return string
  */
 function _url($action = null, $module = null, $extension = null, $params = array()){
     return tao_helpers_Uri::url($action, $module, $extension, $params);
