@@ -17,8 +17,20 @@
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
-namespace oat\tao\model\tusUpload\exception;
 
-class ConnectionException extends \common_Exception
+namespace oat\tao\model\tusUpload;
+
+
+interface TusUploadClientServiceInterface extends TusInterface
 {
+    const SERVICE_ID = 'tao/tusUploadClient';
+
+
+    /**
+     * @param string $filePath
+     * @param string $fileName
+     * @param string $key
+     */
+    public function upload($filePath = '', $fileName = '', $key = '');
+
 }

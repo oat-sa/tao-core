@@ -23,9 +23,9 @@ namespace oat\tao\model\tusUpload;
 use oat\oatbox\filesystem\Directory;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\tusUpload\exception\ConnectionException;
-use oat\tao\model\tusUpload\exception\FileException;
-use oat\tao\model\tusUpload\exception\OutOfRangeException;
+use OutOfRangeException;
+use Exception;
+use RuntimeException;
 
 class TusFileStorageService extends ConfigurableService
 {
@@ -49,11 +49,9 @@ class TusFileStorageService extends ConfigurableService
 
 
     /**
-     *  Cache persistence
+     * file offset
      */
-    protected $cachePersistence;
-
-
+    protected $offset;
     /**
      * @return FileSystemService|array
      */
@@ -74,6 +72,9 @@ class TusFileStorageService extends ConfigurableService
 
     }
 
+    public function getOffset(){
+        return $this->offset;
+    }
     /**
      *
      */
@@ -93,38 +94,21 @@ class TusFileStorageService extends ConfigurableService
         return $this->getStorageDir()->getPrefix() . $path;
     }
 
-
-    /**
-     * @param $cachePersistence
-     */
-    public function setCachePersistence($cachePersistence)
-    {
-        $this->cachePersistence = $cachePersistence;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCachePersistence()
-    {
-        return $this->cachePersistence;
-    }
-
     /**
      * @param array $meta
      *
      * @return int
-     * @throws ConnectionException
+     * @throws Exception
      *
      * Upload file to server.
      *
      */
-    public function upload($meta)
+    public function writeChunk($meta)
     {
         if ($meta['offset'] === $meta['totalBytes']) {
             return $meta['offset'];
         }
-
+        $this->offset = $meta['offset'];
         //open input stream and output file
         $input = $this->open(self::INPUT_STREAM, self::READ_BINARY);
         $output = $this->open($this->getFilePath($meta['fileName'] . $meta['key']), self::APPEND_BINARY);
@@ -135,25 +119,20 @@ class TusFileStorageService extends ConfigurableService
 
             while (!feof($input)) {
                 if (CONNECTION_NORMAL !== connection_status()) {
-                    throw new ConnectionException('Connection aborted by user.');
+                    throw new Exception('Connection aborted by user.');
                 }
 
                 //read and write by chunks
                 $data = $this->read($input, self::CHUNK_SIZE);
                 $bytes = $this->write($output, $data, self::CHUNK_SIZE);
-
                 //incrementing offsets
-                $meta['offset'] += $bytes;
-
-                //incrementing cache offset to be able resume correct uploading
-                $this->updateCache($meta['key'], ['offset' => $meta['offset']]);
-
+                $this->offset += $bytes;
                 //somehow system writes more bytes then file size.
-                if ($meta['offset'] > $meta['totalBytes']) {
+                if ($this->offset > $meta['totalBytes']) {
                     throw new OutOfRangeException('The uploaded file is corrupt.');
                 }
 
-                if ($meta['offset'] === $meta['totalBytes']) {
+                if ($this->offset === $meta['totalBytes']) {
                     break;
                 }
             }
@@ -161,8 +140,25 @@ class TusFileStorageService extends ConfigurableService
             $this->close($input);
             $this->close($output);
         }
+        return $this->offset;
+    }
 
-        return $meta['offset'];
+    /**
+     * @param array $meta
+     *
+     * @return int
+     * @throws Exception
+     *
+     * Upload file to server.
+     *
+     */
+    public function readChunk($filePath, $offset, $bytes)
+    {
+        $fileHandler = $this->open($filePath, self::READ_BINARY);
+        $this->seek($fileHandler, $offset);
+        $data = $this->read($fileHandler, $bytes);
+        $this->close($fileHandler);
+        return $data;
     }
 
     /**
@@ -171,16 +167,16 @@ class TusFileStorageService extends ConfigurableService
      * @param string $mode
      *
      * @return resource
-     * @throws FileException
+     * @throws RuntimeException
      *
      * Open file in given mode.
      *
      */
-    public function open(string $filePath, string $mode)
+    protected function open($filePath, $mode)
     {
         $ptr = @fopen($filePath, $mode);
         if (false === $ptr) {
-            throw new FileException("Unable to open $filePath.");
+            throw new RuntimeException("Unable to open $filePath.");
         }
         return $ptr;
     }
@@ -192,17 +188,17 @@ class TusFileStorageService extends ConfigurableService
      * @param int $whence
      *
      * @return int
-     * @throws FileException
+     * @throws RuntimeException
      *
      * Move file pointer to given offset.
      * //Looks like useless. ab+ mode will start writing to the end of file
      *
      */
-    public function seek($handle, int $offset, int $whence = SEEK_SET)
+    protected function seek($handle, $offset, $whence = SEEK_SET)
     {
         $position = fseek($handle, $offset, $whence);
         if (-1 === $position) {
-            throw new FileException('Cannot move pointer to desired position.');
+            throw new RuntimeException('Cannot move pointer to desired position.');
         }
         return $position;
     }
@@ -214,14 +210,14 @@ class TusFileStorageService extends ConfigurableService
      * @param int $chunkSize
      *
      * @return string
-     * @throws FileException
+     * @throws RuntimeException
      *
      */
-    public function read($handle, int $chunkSize): string
+    protected function read($handle, $chunkSize)
     {
         $data = fread($handle, $chunkSize);
         if (false === $data) {
-            throw new FileException('Cannot read file.');
+            throw new RuntimeException('Cannot read file.');
         }
         return (string)$data;
     }
@@ -233,16 +229,16 @@ class TusFileStorageService extends ConfigurableService
      * @param int|null $length
      *
      * @return int
-     * @throws FileException
+     * @throws RuntimeException
      *
      * Write data to file.
      *
      */
-    public function write($handle, string $data, $length = null)
+    protected function write($handle, $data, $length = null)
     {
         $bytesWritten = is_int($length) ? fwrite($handle, $data, $length) : fwrite($handle, $data);
         if (false === $bytesWritten) {
-            throw new FileException('Cannot write to a file.');
+            throw new RuntimeException('Cannot write to a file.');
         }
         return $bytesWritten;
     }
@@ -254,22 +250,10 @@ class TusFileStorageService extends ConfigurableService
      *
      * @return bool
      */
-    public function close($handle)
+    protected function close($handle)
     {
         return fclose($handle);
     }
 
-    /**
-     * Update one key in cache
-     * @param $updateKey
-     * @param $data
-     */
-    protected function updateCache($updateKey, $data)
-    {
-        $cache = json_decode($this->getCachePersistence()->get($updateKey), true);
-        foreach ($data as $key => $value) {
-            $cache[$key] = $value;
-        }
-        $this->getCachePersistence()->set($updateKey, json_encode($cache));
-    }
+
 }

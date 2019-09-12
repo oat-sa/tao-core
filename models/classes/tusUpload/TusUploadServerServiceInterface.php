@@ -22,10 +22,11 @@ namespace oat\tao\model\tusUpload;
 
 use Psr\Http\Message\ServerRequestInterface;
 
-interface TusUploadServerServiceInterface
+interface TusUploadServerServiceInterface extends TusInterface
 {
-    const SERVICE_ID = 'tao/tusUpload';
+    const SERVICE_ID = 'tao/tusUploadServer';
 
+    /** @param ServerRequestInterface $request */
     public function setRequest($request);
 
     /**
@@ -35,8 +36,23 @@ interface TusUploadServerServiceInterface
      */
     public function getRequest();
 
+    /**
+     * Unique identifier of uploading.
+     * @return string
+     */
     public function getUploadKey();
 
+    /**
+     * Main entrypoint for server uploading.
+     * @param ServerRequestInterface $request
+     * @return array
+     * [
+     *   'status' => Response status,
+     *   'content'=> Response body,
+     *   'headers'=> Response headers[],
+     *   'completed'=> Upload completion status
+     * ]
+     */
     public function serve(ServerRequestInterface $request);
 
 }

@@ -24,8 +24,4 @@ class UploadProgressEvent extends TusEvent
 {
     const EVENT_NAME = __CLASS__;
 
-    public function getName()
-    {
-        return self::EVENT_NAME;
-    }
 }

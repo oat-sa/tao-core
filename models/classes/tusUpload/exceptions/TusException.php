@@ -17,8 +17,11 @@
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
+
 namespace oat\tao\model\tusUpload\exception;
 
-class TusException extends \Exception
+use Exception;
+
+class TusException extends Exception
 {
 }

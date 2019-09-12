@@ -17,14 +17,10 @@
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
+
 namespace oat\tao\model\tusUpload\Events;
 
 class UploadCompleteEvent extends TusEvent
 {
     const EVENT_NAME = __CLASS__;
-
-    public function getName()
-    {
-        return self::EVENT_NAME;
-    }
 }

@@ -25,16 +25,19 @@ use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\tusUpload\Events\UploadCompleteEvent;
 use oat\tao\model\tusUpload\Events\UploadCreatedEvent;
 use oat\tao\model\tusUpload\Events\UploadProgressEvent;
-use oat\tao\model\tusUpload\exception\ConnectionException;
-use oat\tao\model\tusUpload\exception\FileException;
-use oat\tao\model\tusUpload\exception\OutOfRangeException;
+use OutOfRangeException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Exception;
+use RuntimeException;
 
 class TusUploadServerService extends AbstractTus implements TusUploadServerServiceInterface
 {
-    /** @const string cache persistance to save temporary file meta data(not file) */
-    const OPTION_CACHE_PERSISTANCE = 'cache';
+    /** @const string cache persistence to save temporary file meta data(not file) */
+    const OPTION_CACHE_PERSISTENCE = 'cache';
+
+    /** @const string upload max size */
+    const OPTION_UPLOAD_MAX_SIZE = 'upload_max_size';
 
     /** @const string  not common storage that can append file. */
     const OPTION_FILE_STORAGE = 'file_storage';
@@ -59,8 +62,8 @@ class TusUploadServerService extends AbstractTus implements TusUploadServerServi
         self::TUS_EXTENSION_CREATION,
         self::TUS_EXTENSION_TERMINATION,
         self::TUS_EXTENSION_CHECKSUM,
-        self::TUS_EXTENSION_EXPIRATION,
-        self::TUS_EXTENSION_CONCATENATION,
+        //self::TUS_EXTENSION_EXPIRATION,
+        //self::TUS_EXTENSION_CONCATENATION,
     ];
 
     /** @const int 460 Checksum Mismatch */
@@ -75,16 +78,11 @@ class TusUploadServerService extends AbstractTus implements TusUploadServerServi
     /** @var string */
     protected $uploadKey;
 
-    protected $cachePersistance;
+    protected $cachePersistence;
     /** @var TusFileStorageService */
     protected $tusFileStorageService;
     protected $eventManager;
 
-    /**
-     * @var int Max upload size in bytes
-     *          Default 0, no restriction.
-     */
-    protected $maxUploadSize = 0;
 
     /**
      * @param ServerRequestInterface $request
@@ -111,24 +109,15 @@ class TusUploadServerService extends AbstractTus implements TusUploadServerServi
      *
      * @return string
      */
-    public function getServerChecksum(string $filePath)
-    {
-        return hash_file($this->getChecksumAlgorithm(), $filePath);
-    }
-
-    /**
-     * Get checksum algorithm.
-     *
-     * @return string|null
-     */
-    public function getChecksumAlgorithm()
+    protected function getServerChecksum($filePath)
     {
         $checksumHeader = $this->getRequest()->header('Upload-Checksum');
         if (empty($checksumHeader)) {
-            return self::DEFAULT_CHECKSUM_ALGORITHM;
+            $checksumAlgorithm = self::DEFAULT_CHECKSUM_ALGORITHM;
+        } else {
+            list($checksumAlgorithm, /* $checksum */) = explode(' ', $checksumHeader);
         }
-        list($checksumAlgorithm, /* $checksum */) = explode(' ', $checksumHeader);
-        return $checksumAlgorithm;
+        return hash_file($checksumAlgorithm, $filePath);
     }
 
     /**
@@ -140,54 +129,27 @@ class TusUploadServerService extends AbstractTus implements TusUploadServerServi
      */
     public function getUploadKey()
     {
-        if (!empty($this->uploadKey)) {
-            return $this->uploadKey;
+        if (empty($this->uploadKey)) {
+            $this->uploadKey = $this->getRequest()->getHeader('Upload-Key');
         }
-        $key = $this->getRequest()->getHeader('Upload-Key') ?? mt_rand(234);
-        if (empty($key)) {
-            return $this->prepareResponseData(null, TusResponse::HTTP_BAD_REQUEST);
-        }
-        $this->uploadKey = $key;
-        return $this->uploadKey;
-    }
-
-    /**
-     * Set max upload size.
-     *
-     * @param int $uploadSize
-     *
-     * @return TusUploadServerService
-     */
-    public function setMaxUploadSize(int $uploadSize)
-    {
-        $this->maxUploadSize = $uploadSize;
-
-        return $this;
-    }
-
-    /**
-     * Get max upload size.
-     *
-     * @return int
-     */
-    public function getMaxUploadSize()
-    {
-        return $this->maxUploadSize;
+        return !empty($this->uploadKey) ? $this->uploadKey : '';
     }
 
     /**
      * main entry point that will handle all requests.
      * @param ServerRequestInterface $request
-     * @return ResponseInterface
+     * @return array
      */
     public function serve(ServerRequestInterface $request)
     {
         $this->setRequest($request);
         $requestMethod = $this->getRequest()->getMethod();
         if (!in_array($requestMethod, $this->allowedHttpVerbs())) {
-            return $this->prepareResponseData(null, TusResponse::HTTP_METHOD_NOT_ALLOWED);
+            return $this->prepareResponseData(null, self::HTTP_METHOD_NOT_ALLOWED);
         }
-
+        if ($requestMethod != self::METHOD_HEAD && !$this->getUploadKey()) {
+            return $this->prepareResponseData(null, self::HTTP_BAD_REQUEST);
+        }
         $clientVersion = $this->getRequest()->getHeader('Tus-Resumable');
 
         if ($clientVersion && $clientVersion !== self::TUS_PROTOCOL_VERSION) {
@@ -213,7 +175,7 @@ class TusUploadServerService extends AbstractTus implements TusUploadServerServi
             'Tus-Checksum-Algorithm' => $this->getSupportedHashAlgorithms(),
         ];
 
-        $maxUploadSize = $this->getMaxUploadSize();
+        $maxUploadSize = $this->getOption(self::OPTION_UPLOAD_MAX_SIZE);
 
         if ($maxUploadSize > 0) {
             $headers['Tus-Max-Size'] = $maxUploadSize;
@@ -230,13 +192,23 @@ class TusUploadServerService extends AbstractTus implements TusUploadServerServi
     protected function handleHead()
     {
         $headers = [];
-        if (!$fileMeta = json_decode($this->getCachePersistance()->get($this->getUploadKey()), true)) {
+        if (!$fileMeta = json_decode($this->getCachePersistence()->get($this->getUploadKey()), true)) {
             $status = self::HTTP_NOT_FOUND;
         } elseif (empty($fileMeta['offset'])) {
             $status = self::HTTP_GONE;
         } else {
             $status = self::HTTP_OK;
-            $headers = $this->getHeadersForHeadRequest($fileMeta);
+            $headers = [
+                'Upload-Length' => (int)$fileMeta['size'],
+                'Upload-Offset' => (int)$fileMeta['offset'],
+                'Cache-Control' => 'no-store',
+            ];
+            if (self::UPLOAD_TYPE_FINAL === $fileMeta['upload_type'] && $fileMeta['size'] !== $fileMeta['offset']) {
+                unset($headers['Upload-Offset']);
+            }
+            if (self::UPLOAD_TYPE_NORMAL !== $fileMeta['upload_type']) {
+                $headers += ['Upload-Concat' => $fileMeta['upload_type']];
+            }
         }
         return $this->prepareResponseData(null, $status, $headers);
     }
@@ -250,38 +222,24 @@ class TusUploadServerService extends AbstractTus implements TusUploadServerServi
     protected function handlePost()
     {
         $fileName = $this->extractMeta('name') ?: $this->extractMeta('filename');
-        $uploadType = self::UPLOAD_TYPE_NORMAL;
         if (empty($fileName)) {
             return $this->prepareResponseData(null, self::HTTP_BAD_REQUEST);
         }
-        if (!$this->verifyUploadSize()) {
+        $maxUploadSize = $this->getOption(self::OPTION_UPLOAD_MAX_SIZE);
+        if (!($maxUploadSize > 0 && $this->getRequest()->getHeader('Upload-Length') > $maxUploadSize)) {
             return $this->prepareResponseData(null, self::HTTP_REQUEST_ENTITY_TOO_LARGE);
         }
-        $uploadKey = $this->getUploadKey();
-        if (self::UPLOAD_TYPE_PARTIAL === $this->getRequest()->getHeader('Upload-Concat')) {
-            $uploadType = self::UPLOAD_TYPE_PARTIAL;
-        }
-        $checksum = $this->getClientChecksum();
         $data = [
             'name'        => $fileName,
             'offset'      => 0,
             'size'        => $this->getRequest()->getHeader('Upload-Length'),
-            //'file_path'   => $filePath,
-            'key'         => $uploadKey,
-            'checksum'    => $checksum,
-            'upload_type' => $uploadType
+            'key'         => $this->getUploadKey(),
+            'checksum'    => $this->getClientChecksum(),
+            'upload_type' => self::UPLOAD_TYPE_NORMAL
         ];
-        $this->getCachePersistance()->set($uploadKey, json_encode($data));
+        $this->setCacheData($this->getUploadKey(), $data);
         $this->getEventManager()->trigger(new UploadCreatedEvent($data, $this->getRequest()));
-
-        return $this->prepareResponseData(
-            null,
-            self::HTTP_CREATED,
-            [
-                'Location'       => $this->getUploadKey(), //todo: rewrite to key\path. location used in original library.
-                'Upload-Expires' => $data['expires_at'],
-            ]
-        );
+        return $this->prepareResponseData(null, self::HTTP_CREATED, ['Location' => $this->getUploadKey()]);
     }
 
 
@@ -294,41 +252,47 @@ class TusUploadServerService extends AbstractTus implements TusUploadServerServi
      */
     protected function handlePatch()
     {
-        $uploadKey = $this->getUploadKey();
-        if (!$meta = json_decode($this->getCachePersistance()->get($uploadKey), true)) {
+        $uploadComplete = false;
+        if (!$meta = json_decode($this->getCachePersistence()->get($this->getUploadKey()), true)) {
             return $this->prepareResponseData(null, self::HTTP_GONE);
         }
+        $responseData = [];
         $status = $this->verifyPatchRequest($meta);
 
         if (self::HTTP_OK !== $status) {
             return $this->prepareResponseData(null, $status);
         }
         try {
-            //todo: recheck offset usage in original library
             $fs = $this->getTusFileStorageService();
-            $offset = $fs->upload($meta);
+            $offset = $fs->writeChunk($meta);
             // If upload is done, verify checksum.
             if ($offset === $meta['fileSize']) {
                 if ($meta['checksum'] !== $this->getServerChecksum($meta['file_path'])) {
-                    return $this->prepareResponseData(null, self::HTTP_CHECKSUM_MISMATCH);
+                    $responseData = $this->prepareResponseData(null, self::HTTP_CHECKSUM_MISMATCH);
+                } else {
+                    $this->getEventManager()->trigger(new UploadCompleteEvent($meta, $this->getRequest()));
+                    $uploadComplete = true;
                 }
-                $this->getEventManager()->trigger(new UploadCompleteEvent($meta, $this->getRequest()));
             } else {
                 $this->getEventManager()->trigger(new UploadProgressEvent($meta, $this->getRequest()));
             }
-        } catch (FileException $e) {
-            return $this->prepareResponseData($e->getMessage(), self::HTTP_UNPROCESSABLE_ENTITY);
+        } catch (RuntimeException $e) {
+            $responseData = $this->prepareResponseData($e->getMessage(), self::HTTP_UNPROCESSABLE_ENTITY);
         } catch (OutOfRangeException $e) {
-            return $this->prepareResponseData(null, self::HTTP_REQUESTED_RANGE_NOT_SATISFIABLE);
-        } catch (ConnectionException $e) {
-            return $this->prepareResponseData(null, self::HTTP_CONTINUE);
+            $responseData = $this->prepareResponseData(null, self::HTTP_REQUESTED_RANGE_NOT_SATISFIABLE);
+        } catch (Exception $e) {
+            $responseData = $this->prepareResponseData(null, self::HTTP_CONTINUE);
         }
+        $this->setCacheData($meta['key'], ['offset' => $fs->getOffset()]);
 
-        return $this->prepareResponseData(null, self::HTTP_NO_CONTENT, [
-            'Content-Type'   => self::HEADER_CONTENT_TYPE,
-            'Upload-Expires' => $meta['expires_at'],
-            'Upload-Offset'  => $offset,
-        ]);
+        if (!$responseData) {
+            $responseData = $this->prepareResponseData(null, self::HTTP_NO_CONTENT, [
+                'Content-Type'   => self::HEADER_CONTENT_TYPE,
+                'Upload-Expires' => $meta['expires_at'],
+                'Upload-Offset'  => $offset,
+            ], $uploadComplete);
+        }
+        return $responseData;
     }
 
     /**
@@ -338,76 +302,21 @@ class TusUploadServerService extends AbstractTus implements TusUploadServerServi
      *
      * @return int
      */
-    protected function verifyPatchRequest(array $meta)
+    protected function verifyPatchRequest($meta)
     {
+        $status = self::HTTP_OK;
         if (self::UPLOAD_TYPE_FINAL === $meta['upload_type']) {
-            return self::HTTP_FORBIDDEN;
+            $status = self::HTTP_FORBIDDEN;
         }
         $uploadOffset = $this->getRequest()->getHeader('upload-offset');
         if ($uploadOffset && $uploadOffset !== (string)$meta['offset']) {
-            return self::HTTP_CONFLICT;
+            $status = self::HTTP_CONFLICT;
         }
         $contentType = $this->getRequest()->getHeader('Content-Type');
         if ($contentType !== self::HEADER_CONTENT_TYPE) {
-            return self::HTTP_UNSUPPORTED_MEDIA_TYPE;
+            $status = self::HTTP_UNSUPPORTED_MEDIA_TYPE;
         }
-        return self::HTTP_OK;
-    }
-
-
-    /**
-     * @return ResponseInterface
-     *
-     * Handle DELETE request.
-     *
-     * @todo : rewrite unlink
-     */
-    protected function handleDelete()
-    {
-        $key = $this->getUploadKey();
-        $fileMeta = $this->getCachePersistance()->get($key);
-        $resource = $fileMeta['file_path'] ?? null;
-
-        if (!$resource) {
-            return $this->prepareResponseData(null, self::HTTP_NOT_FOUND);
-        }
-
-        $isDeleted = $this->getCachePersistance()->delete($key);// todo: find how delete on KV_Storage works
-
-        if (!$isDeleted || !file_exists($resource)) {
-            return $this->prepareResponseData(null, self::HTTP_GONE);
-        }
-
-        unlink($resource);
-        return $this->prepareResponseData(null, self::HTTP_NO_CONTENT, [
-            'Tus-Extension' => self::TUS_EXTENSION_TERMINATION,
-        ]);
-    }
-
-    /**
-     * Get required headers for head request.
-     *
-     * @param array $fileMeta
-     *
-     * @return array
-     */
-    protected function getHeadersForHeadRequest(array $fileMeta)
-    {
-        $headers = [
-            'Upload-Length' => (int)$fileMeta['size'],
-            'Upload-Offset' => (int)$fileMeta['offset'],
-            'Cache-Control' => 'no-store',
-        ];
-
-        if (self::UPLOAD_TYPE_FINAL === $fileMeta['upload_type'] && $fileMeta['size'] !== $fileMeta['offset']) {
-            unset($headers['Upload-Offset']);
-        }
-
-        if (self::UPLOAD_TYPE_NORMAL !== $fileMeta['upload_type']) {
-            $headers += ['Upload-Concat' => $fileMeta['upload_type']];
-        }
-
-        return $headers;
+        return $status;
     }
 
     /**
@@ -439,31 +348,14 @@ class TusUploadServerService extends AbstractTus implements TusUploadServerServi
     protected function getClientChecksum()
     {
         $checksumHeader = $this->getRequest()->getHeader('Upload-Checksum');
-
-        if (empty($checksumHeader)) {
-            return '';
+        if (!empty($checksumHeader)) {
+            list($checksumAlgorithm, $checksum) = explode(' ', $checksumHeader);
+            $checksum = base64_decode($checksum);
+            if (!in_array($checksumAlgorithm, hash_algos()) || false === $checksum) {
+                return $this->prepareResponseData(null, self::HTTP_BAD_REQUEST);
+            }
         }
-
-        list($checksumAlgorithm, $checksum) = explode(' ', $checksumHeader);
-
-        $checksum = base64_decode($checksum);
-
-        if (!in_array($checksumAlgorithm, hash_algos()) || false === $checksum) {
-            return $this->prepareResponseData(null, self::HTTP_BAD_REQUEST);
-        }
-
-        return $checksum;
-    }
-
-    /**
-     * Verify max upload size.
-     *
-     * @return bool
-     */
-    protected function verifyUploadSize()
-    {
-        $maxUploadSize = $this->getMaxUploadSize();
-        return !($maxUploadSize > 0 && $this->getRequest()->getHeader('Upload-Length') > $maxUploadSize);
+        return $checksum ?: '';
     }
 
     /**
@@ -474,22 +366,11 @@ class TusUploadServerService extends AbstractTus implements TusUploadServerServi
      *
      * @return ResponseInterface
      */
-    public function __call(string $method, array $params)
+    public function __call($method, $params)
     {
         return $this->prepareResponseData(null, self::HTTP_BAD_REQUEST);
     }
 
-    /**
-     * @return \common_persistence_KeyValuePersistence
-     */
-    public function getCachePersistance()
-    {
-        if ($this->cachePersistance == null) {
-            $persistenceId = $this->getOption(self::OPTION_CACHE_PERSISTANCE);
-            $this->cachePersistance = $this->getServiceManager()->get(\common_persistence_Manager::SERVICE_ID)->getPersistenceById($persistenceId);
-        }
-        return $this->cachePersistance;
-    }
 
     /**
      * @return ConfigurableService
@@ -504,21 +385,32 @@ class TusUploadServerService extends AbstractTus implements TusUploadServerServi
     }
 
     /**
-     * Getting path to the folder with Generated packages for synchronization
-     * @return TusFileStorageService
+     * Supported http requests.
+     *
+     * @return array
      */
-    private function getTusFileStorageService()
+    public function allowedHttpVerbs()
     {
-        if (!$this->tusFileStorageService) {
-            $this->tusFileStorageService = $this->propagate($this->getOption(self::OPTION_FILE_STORAGE));
-            $this->tusFileStorageService->setCachePersistence($this->getCachePersistance());
-        }
-        return $this->tusFileStorageService;
+        return [
+            self::METHOD_GET,
+            self::METHOD_POST,
+            self::METHOD_PATCH,
+            self::METHOD_DELETE,
+            self::METHOD_HEAD,
+            self::METHOD_OPTIONS,
+        ];
     }
 
-    protected function prepareResponseData($content, int $status = self::HTTP_OK, array $headers = [])
+    /**
+     * @param $content
+     * @param int $status
+     * @param array $headers
+     * @param bool $uploadComplete
+     * @return array
+     */
+    protected function prepareResponseData($content, $status = self::HTTP_OK, $headers = [], $uploadComplete = false)
     {
-        return ['content' => $content, 'status' => $status, 'headers' => $headers];
+        return ['content' => $content, 'status' => $status, 'headers' => $headers, 'uploadComplete' => $uploadComplete];
     }
 
     /**
@@ -528,20 +420,46 @@ class TusUploadServerService extends AbstractTus implements TusUploadServerServi
      *
      * @return string
      */
-    public function extractMeta(string $requestedKey)
+    protected function extractMeta($requestedKey)
     {
+        $value = '';
         $uploadMetaData = $this->request->getHeader('Upload-Metadata');
-        if (empty($uploadMetaData)) {
-            return '';
-        }
-        $uploadMetaDataChunks = explode(',', $uploadMetaData);
-        foreach ($uploadMetaDataChunks as $chunk) {
-            list($key, $value) = explode(' ', $chunk);
-            if ($key === $requestedKey) {
-                return base64_decode($value);
+        if (!empty($uploadMetaData)) {
+            $uploadMetaDataChunks = explode(',', $uploadMetaData);
+            foreach ($uploadMetaDataChunks as $chunk) {
+                list($key, $value) = explode(' ', $chunk);
+                if ($key === $requestedKey) {
+                    $value = base64_decode($value);
+                    break;
+                }
             }
         }
-        return '';
+        return $value;
     }
 
+    /**
+     * @return \common_persistence_KeyValuePersistence
+     */
+    protected function getCachePersistence()
+    {
+        if ($this->cachePersistence == null) {
+            $persistenceId = $this->getOption(static::OPTION_CACHE_PERSISTENCE);
+            $this->cachePersistence = $this->getServiceManager()->get(\common_persistence_Manager::SERVICE_ID)->getPersistenceById($persistenceId);
+        }
+        return $this->cachePersistence;
+    }
+
+    /**
+     * @param $key
+     * @param $data
+     * @throws \common_Exception
+     */
+    protected function setCacheData($key, $data)
+    {
+        $previous = json_decode($this->getCachePersistence()->get($key), true);
+        if ($previous) {
+            $data = array_merge($previous, $data);
+        }
+        $this->getCachePersistence()->set($key, json_encode($data));
+    }
 }

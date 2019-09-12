@@ -17,6 +17,7 @@
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
+
 namespace oat\tao\model\tusUpload\Events;
 
 use oat\oatbox\event\Event;
@@ -24,6 +25,8 @@ use Psr\Http\Message\ServerRequestInterface;
 
 abstract class TusEvent implements Event
 {
+    const EVENT_NAME = __CLASS__;
+
     /** @var array */
     protected $data;
 
@@ -32,13 +35,13 @@ abstract class TusEvent implements Event
 
     /**
      * @param array $data
-     * @param ServerRequestInterface  $request
+     * @param ServerRequestInterface $request
      *
      */
     public function __construct(array $data, ServerRequestInterface $request)
     {
-        $this->data     = $data;
-        $this->request  = $request;
+        $this->data = $data;
+        $this->request = $request;
     }
 
     /**
@@ -59,5 +62,13 @@ abstract class TusEvent implements Event
     public function getRequest()
     {
         return $this->request;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return static::EVENT_NAME;
     }
 }

@@ -23,18 +23,29 @@ use function GuzzleHttp\Psr7\stream_for;
 
 abstract class tao_actions_TusUpload extends \tao_actions_CommonModule
 {
+
+    /**
+     * Main entry point for all requests.
+     */
     public function index()
     {
         /** @var TusUploadServerService $tusUploadService */
         $tusUploadService = $this->getServiceLocator()->get(TusUploadServerService::SERVICE_ID);
         $responseData = $tusUploadService->serve($this->getPsrRequest());
-        if (!empty($responseData['something']) && $responseData['something'] == 'mission complete') {
-            $this->uploadComplete($responseData);
+
+        if ($responseData['uploadComplete']) {
+            $this->completeAction($responseData);
         }
         $this->prepareResponse($responseData['content'], $responseData['status'], $responseData['headers']);
     }
 
-    protected function prepareResponse($content, int $status = 200, array $headers = [])
+    /**
+     *
+     * @param $content
+     * @param int $status
+     * @param array $headers
+     */
+    protected function prepareResponse($content, $status = 200, $headers = [])
     {
         $response = $this->getPsrResponse();
 
@@ -47,5 +58,19 @@ abstract class tao_actions_TusUpload extends \tao_actions_CommonModule
         $response->withBody(stream_for($content))->withStatus($status);
     }
 
-    abstract protected function uploadComplete(array $responseData);
+    /**
+     *  Additional method to implement TUS protocol in TAO.
+     *  Generate and send unique key that will be used instead of `path/filename`.
+     *
+     */
+    public function getKey()
+    {
+        //not implemented yet.
+    }
+
+    /**
+     * @param array $responseData
+     * @return mixed
+     */
+    abstract protected function completeAction($responseData);
 }

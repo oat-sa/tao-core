@@ -17,8 +17,42 @@
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
-namespace oat\tao\model\tusUpload\exception;
 
-class FileException extends \RuntimeException
+namespace oat\tao\model\tusUpload\Clients;
+
+interface ClientAdapterInterface
 {
+    /**
+     * @param $headers
+     * @return mixed
+     */
+    public function setDefaultHeaders($headers);
+
+    /**
+     * @param $url
+     * @param array $options
+     * @return mixed
+     */
+    public function post($url, $options = []);
+
+    /**
+     * @param $url
+     * @param array $options
+     * @return mixed
+     */
+    public function head($url, $options = []);
+
+    /**
+     * @param $url
+     * @param array $options
+     * @return mixed
+     */
+    public function patch($url, $options = []);
+
+    /**
+     * @param $url
+     * @param array $options
+     * @return mixed
+     */
+    public function get($url, $options = []);
 }
