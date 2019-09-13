@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint108\n"
-"PO-Revision-Date: 2019-08-02T09:25:47\n"
+"Project-Id-Version: TAO 3.3.0-sprint109\n"
+"PO-Revision-Date: 2019-09-13T16:00:50\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-FR\n"
@@ -368,11 +368,11 @@ msgstr ""
 msgid "Calendar"
 msgstr "Calendrier"
 
-msgid "cancel"
-msgstr ""
-
 msgid "Cancel"
 msgstr "Annuler"
+
+msgid "cancel"
+msgstr ""
 
 msgid "cancel the action"
 msgstr ""
@@ -535,7 +535,7 @@ msgid "Created"
 msgstr ""
 
 msgid "Creating report ..."
-msgstr ""
+msgstr "Créer un rapport ..."
 
 msgid "CSP Header settings were saved successfully!"
 msgstr ""
@@ -1248,9 +1248,6 @@ msgstr "Délimiteur de valeurs multiples"
 msgid "Multiply the value by 10^x"
 msgstr ""
 
-msgid "must be numeric"
-msgstr "Doit être numérique"
-
 msgid "Mute"
 msgstr ""
 
@@ -1387,7 +1384,7 @@ msgid "or"
 msgstr "ou"
 
 msgid "Outlook on the next Synchronization"
-msgstr ""
+msgstr "Perspectives sur la prochaine synchronisation"
 
 msgid "Page"
 msgstr "Page"
@@ -1447,7 +1444,7 @@ msgid "Please contact your administrator."
 msgstr ""
 
 msgid "Please contact your system administrator."
-msgstr ""
+msgstr "Veuillez contacter votre administrateur système."
 
 msgid "Please download the track and listen offline."
 msgstr ""
@@ -1731,11 +1728,11 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "select"
-msgstr "choisir"
-
 msgid "Select"
 msgstr "Choisir"
+
+msgid "select"
+msgstr "choisir"
 
 msgid "Select a class"
 msgstr ""
