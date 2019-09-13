@@ -37,6 +37,10 @@ class ResponseEmitter
      */
     public function __invoke(ResponseInterface $response)
     {
+        if (headers_sent()) {
+            return;
+        }
+
         $http_line = sprintf('HTTP/%s %s %s',
             $response->getProtocolVersion(),
             $response->getStatusCode(),
