@@ -14,9 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
- *
- *
+ * Copyright (c) 2015-2019 (original work) Open Assessment Technologies SA;
  */
 
 /**
@@ -26,7 +24,7 @@
  * @param  string module the targeted module name
  * @param  string extension the targeted extension name
  * @param  array params an array of additionnal key/value query parameters
- * @return the URI
+ * @return string
  */
 function _url($action = null, $module = null, $extension = null, $params = array()){
     return tao_helpers_Uri::url($action, $module, $extension, $params);
