@@ -19,6 +19,7 @@
 
 namespace oat\tao\helpers;
 
+use oat\oatbox\service\ConfigurableService;
 use tao_helpers_Uri;
 
 /**
@@ -26,7 +27,7 @@ use tao_helpers_Uri;
  *
  * @author Julien Sébire <julien@taotesting.com>
  */
-class UrlHelper
+class UrlHelper extends ConfigurableService
 {
     public function buildUrl($action = null, $module = null, $extension = null, $params = array()){
         return tao_helpers_Uri::url($action, $module, $extension, $params);
