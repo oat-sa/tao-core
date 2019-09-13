@@ -535,7 +535,7 @@ msgid "Created"
 msgstr ""
 
 msgid "Creating report ..."
-msgstr ""
+msgstr "Créer un rapport ..."
 
 msgid "CSP Header settings were saved successfully!"
 msgstr ""
@@ -1387,7 +1387,7 @@ msgid "or"
 msgstr "ou"
 
 msgid "Outlook on the next Synchronization"
-msgstr ""
+msgstr "Perspectives sur la prochaine synchronisation"
 
 msgid "Page"
 msgstr "Page"
@@ -1447,7 +1447,7 @@ msgid "Please contact your administrator."
 msgstr ""
 
 msgid "Please contact your system administrator."
-msgstr ""
+msgstr "Veuillez contacter votre administrateur système."
 
 msgid "Please download the track and listen offline."
 msgstr ""
