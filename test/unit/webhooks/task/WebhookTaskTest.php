@@ -19,9 +19,12 @@
 
 namespace oat\tao\test\unit\webhooks\task;
 
+use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Exception\ServerException;
+use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use oat\generis\test\TestCase;
 use oat\oatbox\log\LoggerService;
@@ -419,6 +422,66 @@ class WebhookTaskTest extends TestCase
     }
 
     /**
+     * @throws GuzzleException
+     */
+    public function testHttpError()
+    {
+        $this->webhookTaskParamsMock = $this->createMock(WebhookTaskParams::class);
+        $whConfig = new Webhook('wh1', 'http://myurl', 'HMETHOD', 1, new WebhookAuth('authClass', []));
+        $webhookRegistry = $this->createWebhookRegistryMock(
+            ['Test\Event' => ['wh1']],
+            [
+                'wh1' => $whConfig
+            ]
+        );
+
+        $payloadFactory = $this->createWebhookPayloadFactoryMock('payloadCT', 'pay-load');
+
+        $taskParamsFactory = $this->createWebhookTaskParamsFactoryMock(new WebhookTaskParams([
+            WebhookTaskParams::EVENT_NAME => 'eventName',
+            WebhookTaskParams::EVENT_ID => 'eventId',
+            WebhookTaskParams::TRIGGERED_TIMESTAMP => 1234565,
+            WebhookTaskParams::EVENT_DATA => ['d' => 4],
+            WebhookTaskParams::WEBHOOK_CONFIG_ID => 'wh1',
+            WebhookTaskParams::RETRY_COUNT => 0,
+            WebhookTaskParams::RETRY_MAX => 1,
+        ]));
+
+        $webhookResponse = new WebhookResponse([], 'parseError');
+        $webhookResponseFactory = $this->createWebhookResponseFactory('accCT', $webhookResponse);
+
+        $webhookSender = $this->createWebhookSenderMock(null, new ServerException(
+            's_exc_m',
+            new Request('POST', 'http://myurl'),
+            new Response(500)
+        ));
+        $queueTask = $this->createTaskMock('queueTaskId');
+        $loggerMock = $this->createLoggerMock();
+
+        $task = new WebhookTask();
+
+        $task->setServiceLocator($this->getServiceLocatorMock([
+            WebhookRegistryInterface::SERVICE_ID => $webhookRegistry,
+            WebhookPayloadFactoryInterface::SERVICE_ID => $payloadFactory,
+            WebhookTaskParamsFactory::class => $taskParamsFactory,
+            WebhookTaskServiceInterface::SERVICE_ID => $this->webhookTaskServiceMock,
+            WebhookResponseFactoryInterface::SERVICE_ID => $webhookResponseFactory,
+            WebhookSender::class => $webhookSender,
+            WebhookEventLogInterface::SERVICE_ID => $this->webhookLogServiceMock,
+        ]));
+        $task->setTask($queueTask);
+        $task->setLogger($loggerMock);
+        $loggerMock->expects($this->once())->method('error');
+
+        $this->webhookLogServiceMock->expects($this->once())->method('storeInvalidHttpStatusLog');
+        $this->webhookTaskServiceMock->expects($this->once())->method('createTask');
+
+        $report = $task(['ppp']);
+
+        $this->assertSame(\common_report_Report::TYPE_ERROR, $report->getType());
+    }
+
+    /**
      * @param array $events
      * @param Webhook[] $whConfigs
      * @return \PHPUnit_Framework_MockObject_MockObject|WebhookRegistryInterface
@@ -483,12 +546,12 @@ class WebhookTaskTest extends TestCase
 
     /**
      * @param ResponseInterface|null $response
-     * @param ClientException|null $exception
+     * @param BadResponseException|null $exception
      * @return \PHPUnit_Framework_MockObject_MockObject|WebhookSender
      */
     private function createWebhookSenderMock(
         ResponseInterface $response = null,
-        ClientException $exception = null
+        BadResponseException $exception = null
     )
     {
         $sender = $this->createMock(WebhookSender::class);

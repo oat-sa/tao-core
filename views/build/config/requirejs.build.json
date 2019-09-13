@@ -25,7 +25,7 @@
     "pdfjs-dist/build/pdf.worker": "lib/pdfjs/build/pdf.worker",
     "mathJax": "../../../taoQtiItem/views/js/mathjax/MathJax",
     "ckeditor": "lib/ckeditor/ckeditor",
-    "interact": "lib/interact",
+    "interact": "../../../tao/views/node_modules/interactjs/dist/interact",
     "d3": "lib/d3js/d3",
     "c3": "lib/c3js/c3",
     "css-builder": "lib/require-css/css-builder",
