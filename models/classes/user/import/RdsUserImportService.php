@@ -27,6 +27,7 @@ use oat\tao\model\event\UserUpdatedEvent;
 use oat\tao\model\import\service\AbstractImportService;
 use oat\tao\model\import\service\ImportMapperInterface;
 use oat\tao\model\TaoOntology;
+use oat\taoTestCenter\scripts\tools\TmpKvTable;
 
 class RdsUserImportService extends AbstractImportService
 {
@@ -47,25 +48,17 @@ class RdsUserImportService extends AbstractImportService
 
         $plainPassword = $userMapper->getPlainPassword();
         $properties    = $userMapper->getProperties();
+        $class         = $this->getUserClass($properties);
 
-        $class = $this->getUserClass($properties);
+        $resource = $class->createInstanceWithProperties($properties);
 
-        $results = $class->searchInstances(
-            [
-                UserRdf::PROPERTY_LOGIN => $properties[UserRdf::PROPERTY_LOGIN]
-            ],
-            [
-                'like' => false,
-                'recursive' => true
-            ]
-        );
+        $tmpkvTable = new TmpKvTable();
+        $this->propagate($tmpkvTable);
 
-        if(count($results) > 0){
-            $resource = $this->mergeUserProperties(current($results), $properties);
-        } else {
-            $resource = $class->createInstanceWithProperties($properties);
-        }
+        $key   = $properties[UserRdf::PROPERTY_LOGIN];
+        $value = $resource->getUri();
 
+        $tmpkvTable->add($key, $value);
         $this->triggerUserUpdated($resource, $properties, $plainPassword);
 
         return $resource;
