@@ -20,8 +20,25 @@
 /**
  * Upload assets to an s3 bucket
  *
- * Please ensure the file `tao/views/build/config/aws.json` contains the
- * correct bucket access configuration
+ * Configure the bucket:
+ * Using either  env variables :
+ *  AWS_S3_ACESS_KEY,
+ *  AWS_S3_SECRET_KEY,
+ *  AWS_S3_REGION,
+ *  AWS_S3_BUCKET,
+ *  AWS_S3_PATH
+ * Or
+ *  copy tao/views/build/config/aws.json.sample to tao/views/build/config/aws.json
+ *  and fill the configuration
+ *
+ * How to upload assets on S3 :
+ *  cd tao/views/build
+ *  npm ci
+ *  npx grunt clean:s3 compress:s3 awsS3:upload
+ *
+ * The upload concurrency can be changed using
+ *  npx grunt clean:s3 compress:s3 awsS3:upload --s3-concurrency=N
+ *
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  *
@@ -30,17 +47,26 @@
 module.exports = function(grunt) {
     'use strict';
 
-    const awsConfig  = require('../config/aws.json');
-
-    const compress = grunt.config('compress') || {};
-    const awsS3    = grunt.config('aws_s3') || {};
-    const clean    = grunt.config('clean') || {};
     const root     = grunt.option('root');
-    const concurrency = grunt.option('s3-concurrency') || 20;                  // run the cli with --s3-concurrency=N
+
     const ext      = require('../tasks/helpers/extensions')(grunt, root);   //extension helper
     const out      = 'output';
 
-    clean.s3 = [out];
+    let awsConfig = { s3 : {} };
+    try {
+        awsConfig  = require('../config/aws.json');
+    } catch(err){
+        grunt.log.debug('AWS configuration file not found');
+    }
+
+    const s3Config = {
+        accessKeyId : process.env.AWS_S3_ACESS_KEY || awsConfig.s3.accessKeyId,
+        secretAccessKey :  process.env.AWS_S3_SECRET_KEY || awsConfig.s3.secretKey,
+        region :  process.env.AWS_S3_REGION || awsConfig.s3.region,
+        bucket : process.env.AWS_S3_BUCKET || awsConfig.s3.bucket,
+        path : process.env.AWS_S3_PATH || awsConfig.s3.path
+    };
+    const uploadConcurrency = grunt.option('s3-concurrency') || 20;
 
     const patterns = [];
     ext.getExtensions().forEach(function(extension){
@@ -53,50 +79,53 @@ module.exports = function(grunt) {
         patterns.push(`!${extension}/views/js/tessalutt/**/*`);
     });
 
-    compress.s3 = {
-        options: {
-            mode: 'gzip',
-            pretty: true
+    grunt.config.merge({
+        clean : {
+            s3 : [out]
         },
-        cwd : root,
-        expand: true,
-        src: patterns,
-        dest: out
-    };
 
-    awsS3.options = {
-        accessKeyId: awsConfig.s3.accessKeyId,
-        secretAccessKey: awsConfig.s3.secretKey,
-        region: awsConfig.s3.region,
-        uploadConcurrency: concurrency,
-        bucket: awsConfig.s3.bucket
-    };
-    awsS3.clean = {
-        files: [{
-            dest: `${awsConfig.s3.path}**/*`,
-            action: 'delete'
-        }]
-    };
-    awsS3.upload = {
-        files: [{
-            expand: true,
-            cwd: out,
-            src: patterns,
-            dest : awsConfig.s3.path,
-            params: {
-                ContentEncoding: 'gzip'
+        compress: {
+            s3 : {
+                options: {
+                    mode: 'gzip',
+                    pretty: true
+                },
+                cwd : root,
+                expand: true,
+                src: patterns,
+                dest: out
             }
-        }, {
-            expand: true,
-            cwd: root,
-            src: patterns,
-            dest : awsConfig.s3.path
-        }]
-    };
+        },
+
+        awsS3 : {
+            options : {
+                uploadConcurrency,
+                ...s3Config
+            },
+            clean : {
+                files: [{
+                    dest: `${s3Config.path}**/*`,
+                    action: 'delete'
+                }]
+            },
+            upload : {
+                files: [{
+                    expand: true,
+                    cwd: out,
+                    src: patterns,
+                    dest : s3Config.path,
+                    params: {
+                        ContentEncoding: 'gzip'
+                    }
+                }, {
+                    expand: true,
+                    cwd: root,
+                    src: patterns,
+                    dest : s3Config.path
+                }]
+            }
+        }
+    });
 
     grunt.loadNpmTasks('grunt-aws-s3');
-
-    grunt.config('clean', clean);
-    grunt.config('aws_s3', awsS3);
-    grunt.config('compress', compress);
 };
