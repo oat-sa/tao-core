@@ -34,10 +34,10 @@
  * How to upload assets on S3 :
  *  cd tao/views/build
  *  npm ci
- *  npx grunt clean:s3 compress:s3 awsS3:upload
+ *  npx grunt clean:s3 compress:s3 aws_s3:upload
  *
  * The upload concurrency can be changed using
- *  npx grunt clean:s3 compress:s3 awsS3:upload --s3-concurrency=N
+ *  npx grunt clean:s3 compress:s3 aws_s3:upload --s3-concurrency=N
  *
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
@@ -97,7 +97,7 @@ module.exports = function(grunt) {
             }
         },
 
-        awsS3 : {
+        aws_s3 : {
             options : {
                 uploadConcurrency,
                 ...s3Config
