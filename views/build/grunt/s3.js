@@ -22,7 +22,7 @@
  *
  * Configure the bucket:
  * Using either  env variables :
- *  AWS_S3_ACESS_KEY,
+ *  AWS_S3_ACCESS_KEY,
  *  AWS_S3_SECRET_KEY,
  *  AWS_S3_REGION,
  *  AWS_S3_BUCKET,
@@ -60,7 +60,7 @@ module.exports = function(grunt) {
     }
 
     const s3Config = {
-        accessKeyId : process.env.AWS_S3_ACESS_KEY || awsConfig.s3.accessKeyId,
+        accessKeyId : process.env.AWS_S3_ACCESS_KEY || awsConfig.s3.accessKeyId,
         secretAccessKey :  process.env.AWS_S3_SECRET_KEY || awsConfig.s3.secretKey,
         region :  process.env.AWS_S3_REGION || awsConfig.s3.region,
         bucket : process.env.AWS_S3_BUCKET || awsConfig.s3.bucket,
