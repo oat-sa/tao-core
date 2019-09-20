@@ -1,13 +1,4 @@
 <?php
-
-use oat\generis\model\GenerisRdf;
-use oat\generis\model\OntologyRdfs;
-use oat\oatbox\user\LoginService;
-use oat\tao\model\event\UserCreatedEvent;
-use oat\tao\model\event\UserRemovedEvent;
-use oat\tao\model\TaoOntology;
-use oat\tao\model\user\TaoRoles;
-
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -29,6 +20,13 @@ use oat\tao\model\user\TaoRoles;
  *               2013-2014 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
+use oat\generis\model\GenerisRdf;
+use oat\generis\model\OntologyRdfs;
+use oat\oatbox\user\LoginService;
+use oat\tao\model\event\UserCreatedEvent;
+use oat\tao\model\event\UserRemovedEvent;
+use oat\tao\model\TaoOntology;
+use oat\tao\model\user\TaoRoles;
 use oat\oatbox\service\ServiceManager;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\ClassServiceTrait;
