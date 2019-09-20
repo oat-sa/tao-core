@@ -29,6 +29,7 @@ use common_exception_ValidationFailed;
 use common_Utils;
 use core_kernel_classes_Resource;
 use core_kernel_users_Exception;
+use oat\generis\model\OntologyRdfs;
 use oat\generis\model\user\UserRdf;
 use oat\oatbox\service\ServiceManager;
 use tao_actions_CommonRestModule;
@@ -217,6 +218,12 @@ class Users extends tao_actions_CommonRestModule
 
             foreach ($roles as $role) {
                 $userService->attachRole($user, $this->getResource($role));
+            }
+
+            if (array_key_exists(OntologyRdfs::RDFS_LABEL, $parameters)) {
+                $label = $parameters[OntologyRdfs::RDFS_LABEL];
+                unset($parameters[OntologyRdfs::RDFS_LABEL]);
+                $user->setLabel($label);
             }
 
             $user->setPropertiesValues($parameters);
