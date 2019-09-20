@@ -1150,5 +1150,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->addReport(new Report(Report::TYPE_WARNING, $msg));
             $this->setVersion('38.3.2.1');
         }
+
+        $this->skip('38.3.2.1', '38.3.2.2');
     }
 }
