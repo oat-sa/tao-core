@@ -220,13 +220,7 @@ class Users extends tao_actions_CommonRestModule
                 $userService->attachRole($user, $this->getResource($role));
             }
 
-            if (array_key_exists(OntologyRdfs::RDFS_LABEL, $parameters)) {
-                $label = $parameters[OntologyRdfs::RDFS_LABEL];
-                unset($parameters[OntologyRdfs::RDFS_LABEL]);
-                $user->setLabel($label);
-            }
-
-            $user->setPropertiesValues($parameters);
+            $userService->attachProperties($user, $parameters);
 
             $this->returnSuccess([
                 'success' => true,
