@@ -24,6 +24,9 @@ use oat\tao\helpers\InstallHelper;
 use oat\oatbox\install\Installer;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\OperatedByService;
+use oat\generis\persistence\sql\DbCreator;
+use oat\generis\persistence\sql\SetupDb;
+use oat\generis\persistence\PersistenceManager;
 
 /**
  *
@@ -76,8 +79,7 @@ class tao_install_Installator {
 	/**
 	 * Run the TAO install from the given data
 	 * @throws tao_install_utils_Exception
-	 * @param $installData data coming from the install form
-	 * @see tao_install_form_Settings
+	 * @param $installData array data coming from the install form
 	 */
 	public function install(array $installData)
 	{
@@ -154,96 +156,14 @@ class tao_install_Installator {
 			 *  2 - Test DB connection (done by the constructor)
 			 */
 			$this->log('i', "Spawning DbCreator");
-			$dbName = $installData['db_name'];
-			if($installData['db_driver'] == 'pdo_oci'){
-				$installData['db_name'] = $installData['db_host'];
-				$installData['db_host'] = '';
-			}
-			$dbConnectionParams = array(
-						'driver' => $installData['db_driver'],
-						'host' => $installData['db_host'],
-						'dbname' => $installData['db_name'],
-						'user' => $installData['db_user'],
-						'password' => $installData['db_pass'],
-	
-			);
-			$hostParts = explode(':', $installData['db_host']);
-			if (count($hostParts) == 2) {
-                $dbConnectionParams['host'] = $hostParts[0];
-			    $dbConnectionParams['port'] = $hostParts[1];
-			}
-				
-			if($installData['db_driver'] == 'pdo_mysql'){
-			    $dbConnectionParams['dbname'] = '';
-			}
-			if($installData['db_driver'] == 'pdo_oci'){
-				$dbConnectionParams['wrapperClass'] = 'Doctrine\DBAL\Portability\Connection';
-				$dbConnectionParams['portability'] = \Doctrine\DBAL\Portability\Connection::PORTABILITY_ALL;
-				$dbConnectionParams['fetch_case'] = PDO::CASE_LOWER;
-			}
-				
-			$dbCreator = new tao_install_utils_DbalDbCreator($dbConnectionParams);
+			$persistenceManager = new PersistenceManager();
+			$dbalConfigCreator = new tao_install_utils_DbalConfigCreator();
+			$persistenceManager->registerPersistence('default', $dbalConfigCreator->createDbalConfig($installData));
+			$this->getServiceManager()->register(PersistenceManager::SERVICE_ID, $persistenceManager);
 			
-			$this->log('d', "DbCreator spawned");
-
-			/*
-			 *   3 - Load the database schema
-			 */
-
-			// If the database already exists, drop all tables
-			if ($dbCreator->dbExists($dbName)) {
-
-				try {
-				    //If the target Sgbd is mysql select the database after creating it
-				    if ($installData['db_driver'] == 'pdo_mysql'){
-				        $dbCreator->setDatabase($installData['db_name']);
-				    }
-					$dbCreator->cleanDb($dbName);
-					
-				} catch (Exception $e){
-					$this->log('i', 'Problem cleaning db will try to erase the whole db: '.$e->getMessage());
-					try {
-					$dbCreator->destroyTaoDatabase($dbName);
-					} catch (Exception $e){
-						$this->log('i', 'isssue during db cleaning : ' . $e->getMessage());
-					}
-				}
-				$this->log('i', "Dropped all tables");
-			}
-			// Else create it
-			else {
-				try {
-
-					$dbCreator->createDatabase($installData['db_name']);
-					$this->log('i', "Created database ".$installData['db_name']);
-				} catch (Exception $e){
-					throw new tao_install_utils_Exception('Unable to create the database, make sure that '.$installData['db_user'].' is granted to create databases. Otherwise create the database with your super user and give to  '.$installData['db_user'].' the right to use it.');
-				}
-				
-				//If the target Sgbd is mysql select the database after creating it
-				if ($installData['db_driver'] == 'pdo_mysql'){
-				    $dbCreator->setDatabase($installData['db_name']);
-				}
-
-			}
-			
-			// reset db name for mysql
-			if ($installData['db_driver'] == 'pdo_mysql'){
-			    $dbConnectionParams['dbname'] = $installData['db_name'];
-			}
-	
-			// Create tao tables
-			$dbCreator->initTaoDataBase();	
-            $this->log('i', 'Created tables');
-            
-            $storedProcedureFile = __DIR__ . DIRECTORY_SEPARATOR . 'db' . DIRECTORY_SEPARATOR . 'tao_stored_procedures_' . str_replace('pdo_', '', $installData['db_driver']) . '.sql';
-			if (file_exists($storedProcedureFile) && is_readable($storedProcedureFile)){
-				$this->log('i', 'Installing stored procedures for ' . $installData['db_driver'] . ' from file: ' . $storedProcedureFile);
-				$dbCreator->loadProc($storedProcedureFile);
-			}
-			else {
-			    $this->log('e', 'Could not find storefile : ' . $storedProcedureFile);
-			}
+			$dbCreator = new SetupDb();
+			$dbCreator->setLogger($this->logger);
+			$dbCreator->setupDatabase($persistenceManager->getPersistenceById('default'));
 			
 			/*
 			 *  4 - Create the generis config files
@@ -300,7 +220,7 @@ class tao_install_Installator {
             }
 
             foreach ((array)$installData['extra_persistences'] as $k => $persistence) {
-                common_persistence_Manager::addPersistence($k, $persistence);
+                $persistenceManager->registerPersistence($k, $persistence);
             }
 
 			/*
@@ -313,21 +233,11 @@ class tao_install_Installator {
 			 * 5b - Create cache persistence
 			*/
 			$this->log('d', 'Creating cache persistence..');
-			common_persistence_Manager::addPersistence('cache', array(
+			$persistenceManager->registerPersistence('cache', array(
                 'driver' => 'phpfile'
 			));
-			common_persistence_KeyValuePersistence::getPersistence('cache')->purge();
-			
-			/*
-			 * 5c - Create generis persistence 
-			 */
-            $this->log('d', 'Creating generis persistence..');
-
-            $dbConfiguration = array(
-                'driver' => 'dbal',
-                'connection' => $dbConnectionParams,
-            );
-			common_persistence_Manager::addPersistence('default', $dbConfiguration);
+			$persistenceManager->getPersistenceById('cache')->purge();
+			$this->getServiceManager()->register(PersistenceManager::SERVICE_ID, $persistenceManager);
 
 			/*
 			 * 5d - Create generis user
@@ -373,7 +283,7 @@ class tao_install_Installator {
              */
 			$this->log('i', 'Generates client side translation bundles');
             
-			$files = tao_models_classes_LanguageService::singleton()->generateAll();
+			tao_models_classes_LanguageService::singleton()->generateAll();
 
 			/*
 			 *  9 - Insert Super User
