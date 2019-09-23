@@ -135,7 +135,7 @@ class tao_install_services_CheckDatabaseConnectionService
                     'db_host' => $host,
                     'db_name' => $database,
                     'db_user' => $user,
-                    'db_password' => $password
+                    'db_pass' => $password
                 );
                 
                 $dbalConfigCreator = new tao_install_utils_DbalConfigCreator();
