@@ -1229,6 +1229,5 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('38.11.1', '39.0.0');
-
     }
 }
