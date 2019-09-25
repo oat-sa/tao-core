@@ -18,10 +18,12 @@
  *
  *
  */
+
 use oat\tao\model\tusUpload\TusFileStorageService;
 use oat\tao\model\tusUpload\TusUploadServerService;
 
 return new TusUploadServerService([
     TusUploadServerService::OPTION_FILE_STORAGE      => new TusFileStorageService(),
-    TusUploadServerService::OPTION_CACHE_PERSISTANCE => 'default'
+    TusUploadServerService::OPTION_CACHE_PERSISTENCE => 'cache',
+    TusUploadServerService::OPTION_UPLOAD_MAX_SIZE   => 2000
 ]);

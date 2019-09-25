@@ -29,6 +29,7 @@ abstract class tao_actions_TusUpload extends \tao_actions_CommonModule
      */
     public function index()
     {
+        die('asdf');
         /** @var TusUploadServerService $tusUploadService */
         $tusUploadService = $this->getServiceLocator()->get(TusUploadServerService::SERVICE_ID);
         $responseData = $tusUploadService->serve($this->getPsrRequest());

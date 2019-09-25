@@ -14,25 +14,19 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2019 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
+ *
  *
  */
 
-namespace oat\tao\model\tusUpload;
+use oat\tao\model\tusUpload\Clients\GuzzleClientAdapter;
+use oat\tao\model\tusUpload\TusFileStorageService;
+use oat\tao\model\tusUpload\TusUploadClientService;
 
-
-use League\Flysystem\File;
-
-interface TusUploadClientServiceInterface extends TusInterface
-{
-    const SERVICE_ID = 'tao/tusUploadClient';
-
-
-    /**
-     * @param File $file
-     * @param string $fileName
-     * @param string $key
-     */
-    public function upload($filePath = '', $relativeUrl, $key = '');
-
-}
+return new TusUploadClientService([
+    TusUploadClientService::OPTION_FILE_STORAGE        => new TusFileStorageService(),
+    TusUploadClientService::OPTION_CLIENT              => new GuzzleClientAdapter(),
+    TusUploadClientService::OPTION_CHUNK_SIZE          => 2000,
+    TusUploadClientService::OPTION_SERVER_DOMAIN       => '',
+    TusUploadClientService::OPTION_SERVER_RELATIVE_URL => ''
+]);

@@ -22,6 +22,8 @@ namespace oat\tao\model\tusUpload;
 
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ConnectException;
+use League\Flysystem\File;
+use oat\oatbox\Configurable;
 use oat\tao\model\tusUpload\Clients\ClientAdapterInterface;
 use oat\tao\model\tusUpload\exception\TusException;
 use RuntimeException;
@@ -62,16 +64,19 @@ class TusUploadClientService extends AbstractTus implements TusUploadClientServi
     protected $metadata = [];
 
     /**
-     * @param string $filePath
+     * @param File $file
      * @param string $fileName
      * @param string $key
      * @throws TusException
      */
-    public function upload($filePath = '', $fileName = '', $key = '')
+    public function upload($filePath = '', $url = '', $key = '')
     {
-        $this->addMetadata('filename', $fileName);
-        $this->checksum = self::CHECKSUM_ALGORITHM . ' ' . base64_encode(hash_file(self::CHECKSUM_ALGORITHM, $filePath . $fileName));
-        $this->fileSize = filesize($filePath . $fileName);
+        if(!empty($url)){
+            $this->url = $url;
+        }
+        $this->addMetadata('filename', basename($filePath));
+        $this->checksum = self::CHECKSUM_ALGORITHM . ' ' . base64_encode(hash_file(self::CHECKSUM_ALGORITHM, $filePath));
+        $this->fileSize = filesize($filePath);
         try {
             // Check if this upload exists with HEAD request.
             $responseData = $this->sendHeadRequest($key);
@@ -89,7 +94,7 @@ class TusUploadClientService extends AbstractTus implements TusUploadClientServi
         }
 
         $fs = $this->getTusFileStorageService();
-        while ($fileChunk = $fs->readChunk($filePath . $fileName, $offset, $this->getOption(self::OPTION_CHUNK_SIZE))) {
+        while ($fileChunk = $fs->readChunk($filePath, $offset, $this->getOption(self::OPTION_CHUNK_SIZE))) {
             // Continue upload with PATCH request.
             $this->sendPatchRequest($offset, $fileChunk, $key);
         }
@@ -245,6 +250,9 @@ class TusUploadClientService extends AbstractTus implements TusUploadClientServi
     {
         if (!$this->client) {
             $this->client = $this->getOption(self::OPTION_CLIENT);
+            if ($this->client instanceof Configurable) {
+                $this->client = $this->propagate($this->client);
+            }
             $this->client->setDefaultHeaders(['Tus-Resumable' => self::TUS_PROTOCOL_VERSION]);
         }
         return $this->client;

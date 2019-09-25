@@ -254,6 +254,12 @@ class TusFileStorageService extends ConfigurableService
     {
         return fclose($handle);
     }
-
+    /**
+     * @return string
+     */
+    public function getStorageName()
+    {
+        return static::FILESYSTEM_ID;
+    }
 
 }

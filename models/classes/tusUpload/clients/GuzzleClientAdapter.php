@@ -18,12 +18,13 @@
  *
  */
 
-namespace oat\tao\model\tusUpload\Clients;
+namespace oat\tao\model\tusUpload\clients;
 
 use GuzzleHttp\Client as GuzzleClient;
+use oat\oatbox\Configurable;
 use Psr\Http\Message\ResponseInterface;
 
-class GuzzleClientAdapter implements ClientAdapterInterface
+class GuzzleClientAdapter extends Configurable implements ClientAdapterInterface
 {
     /** @var GuzzleClient $client */
     private $client;
@@ -32,6 +33,7 @@ class GuzzleClientAdapter implements ClientAdapterInterface
     public function __construct()
     {
         $this->client = new GuzzleClient();
+        parent::__construct();
     }
 
     public function setDefaultHeaders($headers)

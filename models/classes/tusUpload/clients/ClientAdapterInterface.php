@@ -18,7 +18,7 @@
  *
  */
 
-namespace oat\tao\model\tusUpload\Clients;
+namespace oat\tao\model\tusUpload\clients;
 
 interface ClientAdapterInterface
 {
