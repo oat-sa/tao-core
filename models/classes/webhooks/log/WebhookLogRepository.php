@@ -19,14 +19,17 @@
 
 namespace oat\tao\model\webhooks\log;
 
-use common_persistence_Manager;
-use Doctrine\DBAL\Query\QueryBuilder;
+use oat\generis\persistence\PersistenceManager;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\metadata\exception\InconsistencyConfigException;
 
 class WebhookLogRepository extends ConfigurableService implements WebhookLogRepositoryInterface
 {
     use LoggerAwareTrait;
+
+    /** @var \common_persistence_SqlPersistence|null */
+    private $persistence;
 
     const OPTION_PERSISTENCE = 'persistence';
 
@@ -49,26 +52,29 @@ class WebhookLogRepository extends ConfigurableService implements WebhookLogRepo
     const COLUMN_RESULT_MESSAGE = 'result_message';
 
     /**
-     * @return \common_persistence_Persistence
+     * @return \common_persistence_SqlPersistence
+     * @throws InconsistencyConfigException
      */
     private function getPersistence()
     {
-        $persistenceId = $this->getOption(self::OPTION_PERSISTENCE) ?: 'default';
-        /** @var common_persistence_Manager $persistenceManager */
-        $persistenceManager = $this->getServiceManager()->get(common_persistence_Manager::SERVICE_ID);
-        $this->persistence = $persistenceManager->getPersistenceById($persistenceId);
-    }
-
-    /**
-     * @return QueryBuilder
-     */
-    private function getQueryBuilder()
-    {
-        return $this->getPersistence()->getPlatform()->getQueryBuilder();
+        if (!$this->persistence) {
+            $persistenceId = $this->getOption(self::OPTION_PERSISTENCE) ?: 'default';
+            /** @var PersistenceManager $persistenceManager */
+            $persistenceManager = $this->getServiceLocator()->get(PersistenceManager::SERVICE_ID);
+            $persistence = $persistenceManager->getPersistenceById($persistenceId);
+            if (!($persistence instanceof \common_persistence_SqlPersistence)) {
+                throw new InconsistencyConfigException(
+                    "Configured persistence '$persistenceId' is not sql persistence"
+                );
+            }
+            $this->persistence = $persistence;
+        }
+        return $this->persistence;
     }
 
     /**
      * @inheritDoc
+     * @throws InconsistencyConfigException
      */
     public function storeLog(WebhookEventLogRecord $webhookEventLog)
     {
