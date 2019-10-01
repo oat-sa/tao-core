@@ -223,7 +223,7 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
             $context['responseBody'] = (string)$response->getBody();
         }
 
-        $this->logErrorWithTaskContext(implode(PHP_EOL, $errors), $context);
+        $this->logErrorWithTaskContext(implode('; ', $errors), $context);
 
         unset($errors['parse']);
         return \common_report_Report::createFailure(implode(PHP_EOL, $errors));
