@@ -22,6 +22,7 @@ namespace oat\tao\model\webhooks\task;
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Psr7\Request;
 use oat\oatbox\extension\AbstractAction;
@@ -60,7 +61,7 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
             return $this->performRequest($request, $webhookConfig->getAuth());
         } catch (\Exception $exception) {
             $this->logException($exception);
-            return \common_report_Report::createFailure($exception->getMessage());
+            return \common_report_Report::createFailure($this->getExceptionMessage($exception));
         }
     }
 
@@ -106,6 +107,8 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
             return $this->handleBadResponseException($badResponseException);
         } catch (ConnectException $connectException) {
             return $this->handleConnectException($connectException);
+        } catch (RequestException $requestException) {
+            return $this->handleRequestException($requestException);
         }
 
         return $this->handleResponse($response);
@@ -120,6 +123,26 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
         $this->getWebhookEventLog()->storeNetworkErrorLog($this->getTaskContext(), $exception->getMessage());
         $this->retryTask();
         return $this->reportError('Connection exception: ' . $exception->getMessage());
+    }
+
+    /**
+     * @param RequestException $exception
+     * @return \common_report_Report
+     */
+    private function handleRequestException(RequestException $exception)
+    {
+        $message = $exception->getMessage();
+        if ($response = $exception->getResponse()) {
+            $this->getWebhookEventLog()->storeInvalidHttpStatusLog(
+                $this->getTaskContext(),
+                $response->getStatusCode(),
+                $response->getBody()
+            );
+            return $this->reportError('Request exception: ' . $exception->getMessage(), $response);
+        }
+
+        $this->getWebhookEventLog()->storeNetworkErrorLog($this->getTaskContext(), $message);
+        return $this->reportError('Request exception: ' . $exception->getMessage());
     }
 
     /**
@@ -239,12 +262,31 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
             get_class($exception),
             $exception->getFile(),
             $exception->getLine(),
-            $exception->getMessage()
+            $this->getExceptionMessage($exception)
         );
 
         $this->getWebhookEventLog()->storeInternalErrorLog($this->getTaskContext(), $exceptionString);
 
         $this->logErrorWithTaskContext($exceptionString);
+    }
+
+    /**
+     * Get exception message, append UserMessage if exception is common_exception_ClientException
+     * @param \Exception|\common_exception_ClientException $exception
+     * @return string|null
+     */
+    private function getExceptionMessage(\Exception $exception) {
+        $messages = [];
+        if ($exception->getMessage() !== null) {
+            $messages[] = $exception->getMessage();
+        }
+        if ($exception instanceof \common_exception_ClientException) {
+            $messages[] = 'User message: ' . $exception->getUserMessage();
+        }
+        if (count($messages) > 0) {
+            return implode('. ', $messages);
+        }
+        return null;
     }
 
     /**

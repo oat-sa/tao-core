@@ -42,10 +42,14 @@ class WebhookRdsEventLogService extends ConfigurableService implements WebhookEv
      * @inheritDoc
      * @throws \Exception
      */
-    public function storeInvalidHttpStatusLog(WebhookTaskContext $webhookTaskContext, $actualHttpStatusCode)
-    {
+    public function storeInvalidHttpStatusLog(
+        WebhookTaskContext $webhookTaskContext,
+        $actualHttpStatusCode,
+        $responseBody = null
+    ) {
         $record = $this->applyContext($webhookTaskContext)
             ->setHttpStatusCode($actualHttpStatusCode)
+            ->setResponseBody($responseBody)
             ->setResultMessage(sprintf('HTTP status code %d unexpected', $actualHttpStatusCode))
             ->setResult(WebhookEventLogRecord::RESULT_INVALID_HTTP_STATUS);
 
