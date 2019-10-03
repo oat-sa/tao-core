@@ -21,6 +21,7 @@
 namespace oat\tao\test\integration\model\taskQueue;
 
 use oat\generis\test\TestCase;
+use oat\oatbox\mutex\LockService;
 use oat\tao\model\taskQueue\Task\TaskSerializerService;
 use oat\tao\model\taskQueue\Queue;
 use oat\tao\model\taskQueue\Queue\Broker\InMemoryQueueBroker;
@@ -31,6 +32,8 @@ use oat\tao\test\Asset\CallableFixture;
 use oat\oatbox\log\LoggerService;
 use oat\tao\model\taskQueue\TaskLogInterface;
 use oat\tao\model\taskQueue\TaskLog;
+use Symfony\Component\Lock\Factory;
+use Symfony\Component\Lock\LockInterface;
 
 class QueueDispatcherTest extends TestCase
 {
@@ -130,12 +133,22 @@ class QueueDispatcherTest extends TestCase
         $taskLogMock = $this->getMockBuilder(TaskLog::class)
             ->disableOriginalConstructor()
             ->getMock();
+        $lock = $this->getMockBuilder(LockInterface::class)->disableOriginalConstructor()->getMock();
+        $lock->method('acquire')->willReturn(true);
+        $lock->method('release')->willReturn(true);
 
+        $lockFactory = $this->getMockBuilder(Factory::class)->disableOriginalConstructor()->getMock();
+        $lockFactory->method('createLock')->willReturn($lock);
+
+        $lockService = $this->getMockBuilder(LockService::class)->disableOriginalConstructor()->getMock();
+        $lockService->method('getLockFactory')->willReturn($lockFactory);
         $serviceManager = $this->getServiceLocatorMock([
             TaskLogInterface::SERVICE_ID => $taskLogMock,
             LoggerService::SERVICE_ID => $this->createMock(LoggerService::class),
             TaskSerializerService::SERVICE_ID => $this->createMock(TaskSerializerService::class),
+            LockService::SERVICE_ID => $lockService
         ]);
+
 
         $dispatcher = new QueueDispatcher([
             QueueDispatcher::OPTION_QUEUES => [
