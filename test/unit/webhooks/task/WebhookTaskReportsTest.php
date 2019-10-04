@@ -30,49 +30,64 @@ use oat\tao\model\webhooks\task\WebhookResponse;
 use oat\tao\model\webhooks\task\WebhookTaskContext;
 use oat\tao\model\webhooks\task\WebhookTaskParams;
 use oat\tao\model\webhooks\task\WebhookTaskReports;
+use PHPUnit_Framework_MockObject_MockObject;
 use Psr\Log\LoggerInterface;
 
 class WebhookTaskReportsTest extends TestCase
 {
     /**
-     * @var WebhookEventLogInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var WebhookEventLogInterface|PHPUnit_Framework_MockObject_MockObject
      */
     private $webhookEventLogMock;
 
     /**
-     * @var LoggerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var LoggerInterface|PHPUnit_Framework_MockObject_MockObject
      */
     private $loggerMock;
+
+    /**
+     * @var LoggerInterface|PHPUnit_Framework_MockObject_MockObject
+     */
+    private $serviceLocatorMock;
+
+    /**
+     * @var WebhookTaskParams|PHPUnit_Framework_MockObject_MockObject
+     */
+    private $taskParamsMock;
+
+    /**
+     * @var WebhookTaskContext|PHPUnit_Framework_MockObject_MockObject
+     */
+    private $taskContextMock;
 
     public function setUp()
     {
         $this->webhookEventLogMock = $this->createMock(WebhookEventLogInterface::class);
         $this->loggerMock = $this->createMock(LoggerInterface::class);
+        $this->serviceLocatorMock = $this->getServiceLocatorMock([
+            WebhookEventLogInterface::SERVICE_ID => $this->webhookEventLogMock,
+        ]);
+        
+        $this->taskParamsMock = $this->createMock(WebhookTaskParams::class);
+        $this->taskParamsMock->method('getEventId')->willReturn('eventId');
+        
+        $this->taskContextMock = $this->createMock(WebhookTaskContext::class);
+        $this->taskContextMock->method('getTaskId')->willReturn('taskId');
+        $this->taskContextMock->method('getWebhookTaskParams')->willReturn($this->taskParamsMock);
     }
 
     public function testReportInternalException()
     {
         $reports = new WebhookTaskReports();
-        $reports->setServiceLocator($this->getServiceLocatorMock([
-            WebhookEventLogInterface::SERVICE_ID => $this->webhookEventLogMock,
-        ]));
+        $reports->setServiceLocator($this->serviceLocatorMock);
         $reports->setLogger($this->loggerMock);
-
-        /** @var WebhookTaskParams|\PHPUnit_Framework_MockObject_MockObject $taskParamsMock */
-        $taskParamsMock = $this->createMock(WebhookTaskParams::class);
-        $taskParamsMock->method('getEventId')->willReturn('eventId');
-
-        /** @var WebhookTaskContext|\PHPUnit_Framework_MockObject_MockObject $taskContextMock */
-        $taskContextMock = $this->createMock(WebhookTaskContext::class);
-        $taskContextMock->method('getTaskId')->willReturn('taskId');
-        $taskContextMock->method('getWebhookTaskParams')->willReturn($taskParamsMock);
-
+        
         $exception = new \Exception('e_msg');
 
         $this->webhookEventLogMock->expects($this->once())
             ->method('storeInternalErrorLog')
             ->with(
-                $taskContextMock,
+                $this->taskContextMock,
                 $this->callback(function ($message) {
                     return strpos($message, 'e_msg') !== false &&
                         strpos($message, 'Exception') !== false;
@@ -92,7 +107,7 @@ class WebhookTaskReportsTest extends TestCase
                 })
             );
 
-        $report = $reports->reportInternalException($taskContextMock, $exception);
+        $report = $reports->reportInternalException($this->taskContextMock, $exception);
 
         $this->assertSame(\common_report_Report::TYPE_ERROR, $report->getType());
         $this->assertContains('e_msg', $report->getMessage());
@@ -103,25 +118,14 @@ class WebhookTaskReportsTest extends TestCase
     public function testReportConnectException()
     {
         $reports = new WebhookTaskReports();
-        $reports->setServiceLocator($this->getServiceLocatorMock([
-            WebhookEventLogInterface::SERVICE_ID => $this->webhookEventLogMock,
-        ]));
+        $reports->setServiceLocator($this->serviceLocatorMock);
         $reports->setLogger($this->loggerMock);
-
-        /** @var WebhookTaskParams|\PHPUnit_Framework_MockObject_MockObject $taskParamsMock */
-        $taskParamsMock = $this->createMock(WebhookTaskParams::class);
-        $taskParamsMock->method('getEventId')->willReturn('eventId');
-
-        /** @var WebhookTaskContext|\PHPUnit_Framework_MockObject_MockObject $taskContextMock */
-        $taskContextMock = $this->createMock(WebhookTaskContext::class);
-        $taskContextMock->method('getTaskId')->willReturn('taskId');
-        $taskContextMock->method('getWebhookTaskParams')->willReturn($taskParamsMock);
 
         $exception = new ConnectException('e_msg', new Request('POST', 'uru'));
 
         $this->webhookEventLogMock->expects($this->once())
             ->method('storeNetworkErrorLog')
-            ->with($taskContextMock, 'e_msg');
+            ->with($this->taskContextMock, 'e_msg');
 
         $this->loggerMock->expects($this->once())
             ->method('error')
@@ -135,7 +139,7 @@ class WebhookTaskReportsTest extends TestCase
                 })
             );
 
-        $report = $reports->reportConnectException($taskContextMock, $exception);
+        $report = $reports->reportConnectException($this->taskContextMock, $exception);
         $this->assertSame(\common_report_Report::TYPE_ERROR, $report->getType());
         $this->assertContains('e_msg', $report->getMessage());
     }
@@ -143,19 +147,8 @@ class WebhookTaskReportsTest extends TestCase
     public function testRequestExceptionWithResponse()
     {
         $reports = new WebhookTaskReports();
-        $reports->setServiceLocator($this->getServiceLocatorMock([
-            WebhookEventLogInterface::SERVICE_ID => $this->webhookEventLogMock,
-        ]));
+        $reports->setServiceLocator($this->serviceLocatorMock);
         $reports->setLogger($this->loggerMock);
-
-        /** @var WebhookTaskParams|\PHPUnit_Framework_MockObject_MockObject $taskParamsMock */
-        $taskParamsMock = $this->createMock(WebhookTaskParams::class);
-        $taskParamsMock->method('getEventId')->willReturn('eventId');
-
-        /** @var WebhookTaskContext|\PHPUnit_Framework_MockObject_MockObject $taskContextMock */
-        $taskContextMock = $this->createMock(WebhookTaskContext::class);
-        $taskContextMock->method('getTaskId')->willReturn('taskId');
-        $taskContextMock->method('getWebhookTaskParams')->willReturn($taskParamsMock);
 
         $exception = new RequestException(
             'e_msg',
@@ -165,7 +158,7 @@ class WebhookTaskReportsTest extends TestCase
 
         $this->webhookEventLogMock->expects($this->once())
             ->method('storeInvalidHttpStatusLog')
-            ->with($taskContextMock, 400, 'resp_body');
+            ->with($this->taskContextMock, 400, 'resp_body');
 
         $this->loggerMock->expects($this->once())
             ->method('error')
@@ -181,7 +174,7 @@ class WebhookTaskReportsTest extends TestCase
                 })
             );
 
-        $report = $reports->reportRequestException($taskContextMock, $exception);
+        $report = $reports->reportRequestException($this->taskContextMock, $exception);
         $this->assertSame(\common_report_Report::TYPE_ERROR, $report->getType());
         $this->assertContains('e_msg', $report->getMessage());
     }
@@ -189,25 +182,14 @@ class WebhookTaskReportsTest extends TestCase
     public function testRequestExceptionWithoutResponse()
     {
         $reports = new WebhookTaskReports();
-        $reports->setServiceLocator($this->getServiceLocatorMock([
-            WebhookEventLogInterface::SERVICE_ID => $this->webhookEventLogMock,
-        ]));
+        $reports->setServiceLocator($this->serviceLocatorMock);
         $reports->setLogger($this->loggerMock);
 
-        /** @var WebhookTaskParams|\PHPUnit_Framework_MockObject_MockObject $taskParamsMock */
-        $taskParamsMock = $this->createMock(WebhookTaskParams::class);
-        $taskParamsMock->method('getEventId')->willReturn('eventId');
-
-        /** @var WebhookTaskContext|\PHPUnit_Framework_MockObject_MockObject $taskContextMock */
-        $taskContextMock = $this->createMock(WebhookTaskContext::class);
-        $taskContextMock->method('getTaskId')->willReturn('taskId');
-        $taskContextMock->method('getWebhookTaskParams')->willReturn($taskParamsMock);
-
-        $exception = new RequestException('e_msg', new Request('POST', 'uru'), null);
+        $exception = new RequestException('e_msg', new Request('POST', 'uri'), null);
 
         $this->webhookEventLogMock->expects($this->once())
             ->method('storeNetworkErrorLog')
-            ->with($taskContextMock, 'e_msg');
+            ->with($this->taskContextMock, 'e_msg');
 
         $this->loggerMock->expects($this->once())
             ->method('error')
@@ -221,7 +203,7 @@ class WebhookTaskReportsTest extends TestCase
                 })
             );
 
-        $report = $reports->reportRequestException($taskContextMock, $exception);
+        $report = $reports->reportRequestException($this->taskContextMock, $exception);
         $this->assertSame(\common_report_Report::TYPE_ERROR, $report->getType());
         $this->assertContains('e_msg', $report->getMessage());
     }
@@ -229,19 +211,8 @@ class WebhookTaskReportsTest extends TestCase
     public function testReportBadResponseException()
     {
         $reports = new WebhookTaskReports();
-        $reports->setServiceLocator($this->getServiceLocatorMock([
-            WebhookEventLogInterface::SERVICE_ID => $this->webhookEventLogMock,
-        ]));
+        $reports->setServiceLocator($this->serviceLocatorMock);
         $reports->setLogger($this->loggerMock);
-
-        /** @var WebhookTaskParams|\PHPUnit_Framework_MockObject_MockObject $taskParamsMock */
-        $taskParamsMock = $this->createMock(WebhookTaskParams::class);
-        $taskParamsMock->method('getEventId')->willReturn('eventId');
-
-        /** @var WebhookTaskContext|\PHPUnit_Framework_MockObject_MockObject $taskContextMock */
-        $taskContextMock = $this->createMock(WebhookTaskContext::class);
-        $taskContextMock->method('getTaskId')->willReturn('taskId');
-        $taskContextMock->method('getWebhookTaskParams')->willReturn($taskParamsMock);
 
         $exception = new BadResponseException(
             'e_msg',
@@ -251,7 +222,7 @@ class WebhookTaskReportsTest extends TestCase
 
         $this->webhookEventLogMock->expects($this->once())
             ->method('storeInvalidHttpStatusLog')
-            ->with($taskContextMock, 403);
+            ->with($this->taskContextMock, 403);
 
         $this->loggerMock->expects($this->once())
             ->method('error')
@@ -267,7 +238,7 @@ class WebhookTaskReportsTest extends TestCase
                 })
             );
 
-        $report = $reports->reportBadResponseException($taskContextMock, $exception);
+        $report = $reports->reportBadResponseException($this->taskContextMock, $exception);
         $this->assertSame(\common_report_Report::TYPE_ERROR, $report->getType());
         $this->assertContains('e_msg', $report->getMessage());
     }
@@ -275,25 +246,14 @@ class WebhookTaskReportsTest extends TestCase
     public function testReportInvalidStatusCode()
     {
         $reports = new WebhookTaskReports();
-        $reports->setServiceLocator($this->getServiceLocatorMock([
-            WebhookEventLogInterface::SERVICE_ID => $this->webhookEventLogMock,
-        ]));
+        $reports->setServiceLocator($this->serviceLocatorMock);
         $reports->setLogger($this->loggerMock);
-
-        /** @var WebhookTaskParams|\PHPUnit_Framework_MockObject_MockObject $taskParamsMock */
-        $taskParamsMock = $this->createMock(WebhookTaskParams::class);
-        $taskParamsMock->method('getEventId')->willReturn('eventId');
-
-        /** @var WebhookTaskContext|\PHPUnit_Framework_MockObject_MockObject $taskContextMock */
-        $taskContextMock = $this->createMock(WebhookTaskContext::class);
-        $taskContextMock->method('getTaskId')->willReturn('taskId');
-        $taskContextMock->method('getWebhookTaskParams')->willReturn($taskParamsMock);
 
         $response = new Response(301, [], 'resp_body');
 
         $this->webhookEventLogMock->expects($this->once())
             ->method('storeInvalidHttpStatusLog')
-            ->with($taskContextMock, 301);
+            ->with($this->taskContextMock, 301);
 
         $this->loggerMock->expects($this->once())
             ->method('error')
@@ -309,7 +269,7 @@ class WebhookTaskReportsTest extends TestCase
                 })
             );
 
-        $report = $reports->reportInvalidStatusCode($taskContextMock, $response);
+        $report = $reports->reportInvalidStatusCode($this->taskContextMock, $response);
         $this->assertSame(\common_report_Report::TYPE_ERROR, $report->getType());
         $this->assertContains('301', $report->getMessage());
     }
@@ -317,25 +277,14 @@ class WebhookTaskReportsTest extends TestCase
     public function testReportInvalidBodyFormat()
     {
         $reports = new WebhookTaskReports();
-        $reports->setServiceLocator($this->getServiceLocatorMock([
-            WebhookEventLogInterface::SERVICE_ID => $this->webhookEventLogMock,
-        ]));
+        $reports->setServiceLocator($this->serviceLocatorMock);
         $reports->setLogger($this->loggerMock);
-
-        /** @var WebhookTaskParams|\PHPUnit_Framework_MockObject_MockObject $taskParamsMock */
-        $taskParamsMock = $this->createMock(WebhookTaskParams::class);
-        $taskParamsMock->method('getEventId')->willReturn('eventId');
-
-        /** @var WebhookTaskContext|\PHPUnit_Framework_MockObject_MockObject $taskContextMock */
-        $taskContextMock = $this->createMock(WebhookTaskContext::class);
-        $taskContextMock->method('getTaskId')->willReturn('taskId');
-        $taskContextMock->method('getWebhookTaskParams')->willReturn($taskParamsMock);
 
         $response = new Response(200, [], 'resp_body');
 
         $this->webhookEventLogMock->expects($this->once())
             ->method('storeInvalidBodyFormat')
-            ->with($taskContextMock, 'resp_body');
+            ->with($this->taskContextMock, 'resp_body');
 
         $this->loggerMock->expects($this->once())
             ->method('error')
@@ -351,7 +300,7 @@ class WebhookTaskReportsTest extends TestCase
                 })
             );
 
-        $report = $reports->reportInvalidBodyFormat($taskContextMock, $response);
+        $report = $reports->reportInvalidBodyFormat($this->taskContextMock, $response);
         $this->assertSame(\common_report_Report::TYPE_ERROR, $report->getType());
         $this->assertContains('eventId', $report->getMessage());
     }
@@ -359,19 +308,8 @@ class WebhookTaskReportsTest extends TestCase
     public function testReportInvalidAcknowledgement()
     {
         $reports = new WebhookTaskReports();
-        $reports->setServiceLocator($this->getServiceLocatorMock([
-            WebhookEventLogInterface::SERVICE_ID => $this->webhookEventLogMock,
-        ]));
+        $reports->setServiceLocator($this->serviceLocatorMock);
         $reports->setLogger($this->loggerMock);
-
-        /** @var WebhookTaskParams|\PHPUnit_Framework_MockObject_MockObject $taskParamsMock */
-        $taskParamsMock = $this->createMock(WebhookTaskParams::class);
-        $taskParamsMock->method('getEventId')->willReturn('eventId');
-
-        /** @var WebhookTaskContext|\PHPUnit_Framework_MockObject_MockObject $taskContextMock */
-        $taskContextMock = $this->createMock(WebhookTaskContext::class);
-        $taskContextMock->method('getTaskId')->willReturn('taskId');
-        $taskContextMock->method('getWebhookTaskParams')->willReturn($taskParamsMock);
 
         $response = new Response(200, [], 'resp_body');
 
@@ -379,7 +317,7 @@ class WebhookTaskReportsTest extends TestCase
 
         $this->webhookEventLogMock->expects($this->once())
             ->method('storeInvalidAcknowledgementLog')
-            ->with($taskContextMock, WebhookResponse::STATUS_ERROR);
+            ->with($this->taskContextMock, WebhookResponse::STATUS_ERROR);
 
         $this->loggerMock->expects($this->once())
             ->method('error')
@@ -395,7 +333,7 @@ class WebhookTaskReportsTest extends TestCase
                 })
             );
 
-        $report = $reports->reportInvalidAcknowledgement($taskContextMock, $response, $parsedResponse);
+        $report = $reports->reportInvalidAcknowledgement($this->taskContextMock, $response, $parsedResponse);
         $this->assertSame(\common_report_Report::TYPE_ERROR, $report->getType());
         $this->assertContains('eventId', $report->getMessage());
         $this->assertContains('error', $report->getMessage());
@@ -404,27 +342,16 @@ class WebhookTaskReportsTest extends TestCase
     public function testReportSuccess()
     {
         $reports = new WebhookTaskReports();
-        $reports->setServiceLocator($this->getServiceLocatorMock([
-            WebhookEventLogInterface::SERVICE_ID => $this->webhookEventLogMock,
-        ]));
+        $reports->setServiceLocator($this->serviceLocatorMock);
         $reports->setLogger($this->loggerMock);
-
-        /** @var WebhookTaskParams|\PHPUnit_Framework_MockObject_MockObject $taskParamsMock */
-        $taskParamsMock = $this->createMock(WebhookTaskParams::class);
-        $taskParamsMock->method('getEventId')->willReturn('eventId');
-
-        /** @var WebhookTaskContext|\PHPUnit_Framework_MockObject_MockObject $taskContextMock */
-        $taskContextMock = $this->createMock(WebhookTaskContext::class);
-        $taskContextMock->method('getTaskId')->willReturn('taskId');
-        $taskContextMock->method('getWebhookTaskParams')->willReturn($taskParamsMock);
 
         $response = new Response(200, [], 'resp_body');
 
         $this->webhookEventLogMock->expects($this->once())
             ->method('storeSuccessfulLog')
-            ->with($taskContextMock, 'resp_body', WebhookResponse::STATUS_ACCEPTED);
+            ->with($this->taskContextMock, 'resp_body', WebhookResponse::STATUS_ACCEPTED);
 
-        $report = $reports->reportSuccess($taskContextMock, $response, WebhookResponse::STATUS_ACCEPTED);
+        $report = $reports->reportSuccess($this->taskContextMock, $response, WebhookResponse::STATUS_ACCEPTED);
         $this->assertSame(\common_report_Report::TYPE_SUCCESS, $report->getType());
     }
 }
