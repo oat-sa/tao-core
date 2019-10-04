@@ -98,7 +98,7 @@ class WebhookTaskReports extends ConfigurableService
      * @param ResponseInterface $response
      * @return \common_report_Report
      */
-    public function reportInvalidStatusCode(WebhookTaskContext $taskContext, $response)
+    public function reportInvalidStatusCode(WebhookTaskContext $taskContext, ResponseInterface $response)
     {
         $statusCode = $response->getStatusCode();
         $this->getWebhookEventLog()->storeInvalidHttpStatusLog($taskContext, $statusCode);
@@ -110,7 +110,7 @@ class WebhookTaskReports extends ConfigurableService
      * @param ResponseInterface $response
      * @return \common_report_Report
      */
-    public function reportInvalidBodyFormat(WebhookTaskContext $taskContext, $response)
+    public function reportInvalidBodyFormat(WebhookTaskContext $taskContext, ResponseInterface $response)
     {
         $this->getWebhookEventLog()->storeInvalidBodyFormat($taskContext, $response->getBody());
         return $this->reportError(
