@@ -224,7 +224,8 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
     /**
      * @return WebhookTaskReports
      */
-    private function getWebhookTaskReports() {
+    private function getWebhookTaskReports()
+    {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->getServiceLocator()->get(WebhookTaskReports::class);
     }
