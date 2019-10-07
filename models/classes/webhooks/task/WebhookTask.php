@@ -97,26 +97,32 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
      */
     private function performRequest(RequestInterface $request, WebhookAuthInterface $authConfig = null)
     {
+        $errorReport = $response =null;
         try {
             $response = $this->getWebhookSender()->performRequest($request, $authConfig);
-        }
-        catch (ServerException $connectException) {
+        } catch (ServerException $connectException) {
             $this->retryTask();
-            return $this->getWebhookTaskReports()->reportBadResponseException(
+            $errorReport = $this->getWebhookTaskReports()->reportBadResponseException(
                 $this->getTaskContext(), $connectException
             );
         } catch (BadResponseException $badResponseException) {
-            return $this->getWebhookTaskReports()->reportBadResponseException(
+            $errorReport = $this->getWebhookTaskReports()->reportBadResponseException(
                 $this->getTaskContext(), $badResponseException
             );
         } catch (ConnectException $connectException) {
             $this->retryTask();
-            return $this->getWebhookTaskReports()->reportConnectException($this->getTaskContext(), $connectException);
+            $errorReport = $this->getWebhookTaskReports()->reportConnectException(
+                $this->getTaskContext(), $connectException
+            );
         } catch (RequestException $requestException) {
-            return $this->getWebhookTaskReports()->reportRequestException($this->getTaskContext(), $requestException);
+            $errorReport = $this->getWebhookTaskReports()->reportRequestException(
+                $this->getTaskContext(), $requestException
+            );
         }
 
-        return $this->handleResponse($response);
+        return $response
+            ? $this->handleResponse($response)
+            : $errorReport;
     }
 
     /**
