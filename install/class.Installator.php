@@ -308,10 +308,7 @@ class tao_install_Installator {
 				$extensions = common_ext_ExtensionsManager::singleton()->getInstalledExtensions();
 				$this->log('i', 'Securing tao for production');
 				
-				// 11.1 Remove Generis User
-				$dbCreator->removeGenerisUser();
-				
-				// 11.2 Protect TAO dist
+				// 11.0 Protect TAO dist
 	 			$shield = new tao_install_utils_Shield(array_keys($extensions));
 	 			$shield->disableRewritePattern(array("!/test/", "!/doc/"));
                                 $shield->denyAccessTo(array(
