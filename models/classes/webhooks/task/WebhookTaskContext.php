@@ -42,10 +42,12 @@ class WebhookTaskContext
 
     /**
      * @param string|null $taskId
+     * @return $this
      */
     public function setTaskId($taskId)
     {
         $this->taskId = $taskId;
+        return $this;
     }
 
     /**
@@ -58,10 +60,12 @@ class WebhookTaskContext
 
     /**
      * @param WebhookTaskParams|null $webhookTaskParams
+     * @return $this
      */
     public function setWebhookTaskParams($webhookTaskParams)
     {
         $this->webhookTaskParams = $webhookTaskParams;
+        return $this;
     }
 
     /**
@@ -74,9 +78,11 @@ class WebhookTaskContext
 
     /**
      * @param WebhookInterface|null $webhookConfig
+     * @return $this
      */
     public function setWebhookConfig($webhookConfig)
     {
         $this->webhookConfig = $webhookConfig;
+        return $this;
     }
 }
