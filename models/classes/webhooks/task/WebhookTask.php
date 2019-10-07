@@ -26,7 +26,6 @@ use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Psr7\Request;
 use oat\oatbox\extension\AbstractAction;
-use oat\oatbox\log\LoggerAwareTrait;
 use oat\tao\model\taskQueue\Task\TaskAwareInterface;
 use oat\tao\model\taskQueue\Task\TaskAwareTrait;
 use oat\tao\model\webhooks\configEntity\WebhookAuthInterface;
@@ -100,10 +99,13 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
     {
         try {
             $response = $this->getWebhookSender()->performRequest($request, $authConfig);
+        }
+        catch (ServerException $connectException) {
+            $this->retryTask();
+            return $this->getWebhookTaskReports()->reportBadResponseException(
+                $this->getTaskContext(), $connectException
+            );
         } catch (BadResponseException $badResponseException) {
-            if ($badResponseException instanceof ServerException) {
-                $this->retryTask();
-            }
             return $this->getWebhookTaskReports()->reportBadResponseException(
                 $this->getTaskContext(), $badResponseException
             );
