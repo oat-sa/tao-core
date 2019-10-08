@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint111\n"
-"PO-Revision-Date: 2019-09-27T08:31:50\n"
+"Project-Id-Version: TAO 3.4.0-sprint112\n"
+"PO-Revision-Date: 2019-10-07T18:34:42\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: da-DK\n"
@@ -447,10 +447,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
 msgid "Clear selection"
@@ -969,10 +969,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1011,10 +1011,10 @@ msgstr "Installer udvidelser %s..."
 msgid "Instance saved"
 msgstr "Forekomst gemt"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "Interface sprog"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "Interface sprog"
 
 msgid "Invalid CSP header."
@@ -1362,10 +1362,10 @@ msgstr ""
 msgid "Off"
 msgstr ""
 
-msgid "Ok"
+msgid "OK"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr ""
 
 msgid "Old Password"
