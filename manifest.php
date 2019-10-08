@@ -21,6 +21,7 @@
  *
  */
 
+use oat\tao\install\services\SetupSettingsStorage;
 use oat\tao\model\accessControl\func\AccessRule;
 use oat\tao\model\routing\ApiRoute;
 use oat\tao\model\routing\LegacyRoute;
@@ -124,6 +125,7 @@ return array(
             RegisterSignatureGenerator::class,
             SetDefaultCSPHeader::class,
             CreateWebhookEventLogTable::class,
+            SetupSettingsStorage::class,
         )
     ),
     'update' => 'oat\\tao\\scripts\\update\\Updater',
