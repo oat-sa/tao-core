@@ -20,28 +20,80 @@
 
 namespace oat\tao\scripts\install;
 
-use oat\oatbox\extension\InstallAction;
+use oat\generis\persistence\PersistenceManager;
+use oat\oatbox\extension\script\ScriptAction;
 use oat\oatbox\mutex\LockService;
 use oat\oatbox\service\ServiceNotFoundException;
 use Symfony\Component\Lock\Store\RedisStore;
 
 /**
  * This post-installation script configure lockService to use redis as store.
+ * - Must have `--persistence` option as redis persistence for lock service
+ *
  */
-class SetUpLockService extends InstallAction
+class SetUpLockService extends ScriptAction
 {
-    public function __invoke($params)
+    public function run()
     {
         try {
             $this->getServiceManager()->get(LockService::SERVICE_ID);
         } catch (ServiceNotFoundException $e) {
+            $this->checkPersistance();
             $service = new LockService([
                 LockService::OPTION_PERSISTENCE_CLASS => RedisStore::class,
-                LockService::OPTION_PERSISTENCE_OPTIONS => 'redis',
+                LockService::OPTION_PERSISTENCE_OPTIONS => $this->getOption('persistence'),
             ]);
             $this->getServiceManager()->register(LockService::SERVICE_ID, $service);
         }
 
         return \common_report_Report::createSuccess('LockService successfully configured.');
+    }
+
+    /**
+     * Provides option of script
+     *
+     * @return array
+     */
+    protected function provideOptions()
+    {
+        return [
+            'persistence' => array(
+                'prefix' => 'p',
+                'longPrefix' => 'persistence',
+                'required' => true,
+                'description' => 'Redis persistence for lock service',
+            ),
+            'verbose' => array(
+                'prefix' => 'v',
+                'longPrefix' => 'verbose',
+                'flag' => true,
+                'description' => 'Output the log as command output.',
+            ),
+        ];
+    }
+
+    /**
+     * Check option and persistence existence
+     *
+     */
+    private function checkPersistance(){
+        if (empty($this->getOption('persistence'))) {
+            throw new \common_Exception('No persistence specified');
+        }
+        $persistenceManager = $this->getServiceManager()->get(PersistenceManager::SERVICE_ID);
+        $persistence = $this->getOption('persistence');
+        if (!$persistenceManager->hasPersistence($persistence)) {
+            throw new \common_Exception('Persistence not exists');
+        }
+    }
+
+    /**
+     * Provides description of the script
+     *
+     * @return string
+     */
+    protected function provideDescription()
+    {
+        return 'Setup lock service with redis persistence';
     }
 }
