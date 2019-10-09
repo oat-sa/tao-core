@@ -1228,9 +1228,9 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('38.11.1');
         }
 
-        $this->skip('38.11.1', '39.0.5');
+        $this->skip('38.11.1', '39.0.6');
 
-        if ($this->isVersion('39.0.5')) {
+        if ($this->isVersion('39.0.6')) {
             OntologyUpdater::syncModels();
             $iterator = new FileIterator(__DIR__ . '/../../locales/lt-LT/lang.rdf');
             $rdf = ModelManager::getModel()->getRdfInterface();
