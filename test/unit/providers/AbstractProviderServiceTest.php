@@ -24,6 +24,7 @@ use oat\tao\model\modules\AbstractModuleRegistry;
 use oat\tao\model\providers\AbstractProviderService;
 use oat\tao\model\providers\ProviderModule;
 use Prophecy\Prophet;
+use oat\generis\test\TestCase;
 
 /**
  * Concrete class ProviderRegistry
@@ -67,7 +68,7 @@ class ProviderService extends AbstractProviderService
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
  */
-class AbstractProviderServiceTest extends \PHPUnit_Framework_TestCase
+class AbstractProviderServiceTest extends TestCase
 {
     //data to stub the registry content
     private static $providerData = [

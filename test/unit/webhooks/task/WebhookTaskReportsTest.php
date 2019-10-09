@@ -30,33 +30,33 @@ use oat\tao\model\webhooks\task\WebhookResponse;
 use oat\tao\model\webhooks\task\WebhookTaskContext;
 use oat\tao\model\webhooks\task\WebhookTaskParams;
 use oat\tao\model\webhooks\task\WebhookTaskReports;
-use PHPUnit_Framework_MockObject_MockObject;
+use oat\generis\test\MockObject;
 use Psr\Log\LoggerInterface;
 
 class WebhookTaskReportsTest extends TestCase
 {
     /**
-     * @var WebhookEventLogInterface|PHPUnit_Framework_MockObject_MockObject
+     * @var WebhookEventLogInterface|MockObject
      */
     private $webhookEventLogMock;
 
     /**
-     * @var LoggerInterface|PHPUnit_Framework_MockObject_MockObject
+     * @var LoggerInterface|MockObject
      */
     private $loggerMock;
 
     /**
-     * @var LoggerInterface|PHPUnit_Framework_MockObject_MockObject
+     * @var LoggerInterface|MockObject
      */
     private $serviceLocatorMock;
 
     /**
-     * @var WebhookTaskParams|PHPUnit_Framework_MockObject_MockObject
+     * @var WebhookTaskParams|MockObject
      */
     private $taskParamsMock;
 
     /**
-     * @var WebhookTaskContext|PHPUnit_Framework_MockObject_MockObject
+     * @var WebhookTaskContext|MockObject
      */
     private $taskContextMock;
 

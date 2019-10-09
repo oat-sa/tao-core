@@ -26,7 +26,10 @@ use Slim\Http\Stream;
  * @package tao
  * @author Aleh Hutnikau <hutnikau@1pt.com>
  */
-class StreamRangeTest extends \PHPUnit_Framework_TestCase
+
+use oat\generis\test\TestCase;
+
+class StreamRangeTest extends TestCase
 {
 
 

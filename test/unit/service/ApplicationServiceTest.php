@@ -26,6 +26,7 @@ use common_ext_Extension;
 use common_ext_ExtensionsManager;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use common_exception_Error;
+use oat\generis\test\MockObject;
 
 /**
  * Class ApplicationServiceTest
@@ -39,7 +40,7 @@ class ApplicationServiceTest extends TestCase
     private $instance;
 
     /**
-     * @var common_ext_Extension|\PHPUnit_Framework_MockObject_MockObject
+     * @var common_ext_Extension|MockObject
      */
     private $extensionMock;
 
