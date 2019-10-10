@@ -24,6 +24,7 @@ use oat\generis\test\TestCase;
 use oat\tao\model\webhooks\configEntity\WebhookAuthInterface;
 use oat\tao\model\webhooks\task\WebhookSender;
 use Psr\Http\Message\RequestInterface;
+use oat\generis\test\MockObject;
 
 class WebhookSenderTest extends TestCase
 {
@@ -33,10 +34,10 @@ class WebhookSenderTest extends TestCase
      */
     public function testPerformRequestWithAuth()
     {
-        /** @var \PHPUnit_Framework_MockObject_MockObject|RequestInterface $request */
+        /** @var MockObject|RequestInterface $request */
         $request = $this->createMock(RequestInterface::class);
 
-        /** @var \PHPUnit_Framework_MockObject_MockObject|WebhookAuthInterface $authConfig */
+        /** @var MockObject|WebhookAuthInterface $authConfig */
         $authConfig = $this->createMock(WebhookAuthInterface::class);
         $authConfig->method('getAuthClass')->willReturn(AuthTypeFake::class);
         $authConfig->method('getCredentials')->willReturn(['c' => 'v']);

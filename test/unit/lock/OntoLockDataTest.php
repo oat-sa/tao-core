@@ -21,8 +21,9 @@
 namespace  oat\tao\test\unit\lock;
 
 use oat\tao\model\lock\implementation\OntoLockData;
+use oat\generis\test\TestCase;
 
-class OntoLockDataTest extends \PHPUnit_Framework_TestCase
+class OntoLockDataTest extends TestCase
 {
 
     /**

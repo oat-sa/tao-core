@@ -31,6 +31,7 @@ use oat\tao\test\Asset\CallableFixture;
 use oat\oatbox\log\LoggerService;
 use oat\tao\model\taskQueue\TaskLogInterface;
 use oat\tao\model\taskQueue\TaskLog;
+use oat\generis\test\MockObject;
 
 class QueueDispatcherTest extends TestCase
 {
@@ -96,7 +97,7 @@ class QueueDispatcherTest extends TestCase
     {
         $taskMock = $this->getMockForAbstractClass(AbstractTask::class, [], "", false);
 
-        /** @var QueueDispatcher|\PHPUnit_Framework_MockObject_MockObject $queueMock */
+        /** @var QueueDispatcher|MockObject $queueMock */
         $queueMock = $this->getMockBuilder(QueueDispatcher::class)
             ->disableOriginalConstructor()
             ->setMethods(['enqueue'])
@@ -111,7 +112,7 @@ class QueueDispatcherTest extends TestCase
 
     public function testCreateTaskWhenUsingStaticClassMethodCallShouldReturnCallbackTask()
     {
-        /** @var QueueDispatcher|\PHPUnit_Framework_MockObject_MockObject $queueMock */
+        /** @var QueueDispatcher|MockObject $queueMock */
         $queueMock = $this->getMockBuilder(QueueDispatcher::class)
             ->disableOriginalConstructor()
             ->setMethods(['enqueue'])
