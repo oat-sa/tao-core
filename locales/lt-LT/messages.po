@@ -13,9 +13,6 @@ msgstr ""
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
 
-msgid ""
-msgstr ""
-
 msgid " and "
 msgstr " ir "
 
@@ -1293,7 +1290,7 @@ msgstr "Tusčias sąrašas!"
 msgid "Notifications"
 msgstr "Pranešimai"
 
-msgid "notifications drivers aren\'t persistent. use a persistent database storage driver"
+msgid "notifications drivers aren't persistent. use a persistent database storage driver"
 msgstr ""
 
 msgid "Nth root"
@@ -1447,8 +1444,8 @@ msgstr "Tęsti"
 msgid "Properties"
 msgstr "Savybės"
 
-msgid "Property\'s label field is required"
-msgstr ""
+msgid "Property's label field is required"
+msgstr "Savybės pavadinimo laukas yra privalomas"
 
 msgid "Provided URL is not valid"
 msgstr "Pateiktas URL nėra teisingas"
