@@ -245,7 +245,7 @@ class tao_install_utils_DbalDbCreator
 
     /**
      * @author "Lionel Lecaque, <lionel@taotesting.com>"
-     * @param unknown $file
+     * @param string $file
      */
     public function loadProc($file){
 
