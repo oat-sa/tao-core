@@ -29,6 +29,7 @@ use common_exception_ValidationFailed;
 use common_Utils;
 use core_kernel_classes_Resource;
 use core_kernel_users_Exception;
+use oat\generis\model\OntologyRdfs;
 use oat\generis\model\user\UserRdf;
 use oat\oatbox\service\ServiceManager;
 use tao_actions_CommonRestModule;
@@ -219,7 +220,7 @@ class Users extends tao_actions_CommonRestModule
                 $userService->attachRole($user, $this->getResource($role));
             }
 
-            $user->setPropertiesValues($parameters);
+            $userService->attachProperties($user, $parameters);
 
             $this->returnSuccess([
                 'success' => true,

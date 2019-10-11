@@ -21,6 +21,7 @@
  *
  */
 
+use oat\tao\install\services\SetupSettingsStorage;
 use oat\tao\model\accessControl\func\AccessRule;
 use oat\tao\model\routing\ApiRoute;
 use oat\tao\model\routing\LegacyRoute;
@@ -44,6 +45,7 @@ use oat\tao\scripts\install\RegisterActionService;
 use oat\tao\model\user\TaoRoles;
 use oat\tao\scripts\install\SetUpQueueTasks;
 use oat\tao\scripts\install\SetLocaleNumbersConfig;
+use \oat\tao\scripts\install\CreateWebhookEventLogTable;
 
 $extpath = dirname(__FILE__) . DIRECTORY_SEPARATOR;
 
@@ -52,10 +54,10 @@ return array(
     'label' => 'TAO Base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '38.9.2',
+    'version' => '39.2.0',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
-        'generis' => '>=12.1.0',
+        'generis' => '>=12.5.0',
     ),
     'models' => array(
         'http://www.tao.lu/Ontologies/TAO.rdf',
@@ -121,7 +123,9 @@ return array(
             RegisterTaskQueueServices::class,
             SetUpQueueTasks::class,
             RegisterSignatureGenerator::class,
-            SetDefaultCSPHeader::class
+            SetDefaultCSPHeader::class,
+            CreateWebhookEventLogTable::class,
+            SetupSettingsStorage::class,
         )
     ),
     'update' => 'oat\\tao\\scripts\\update\\Updater',
@@ -187,9 +191,9 @@ return array(
     ],
     'constants' => array(
         #TAO version number
-        'TAO_VERSION' => '3.3.0-sprint109',
+        'TAO_VERSION' => '3.4.0-sprint112',
         #TAO version label
-        'TAO_VERSION_NAME' => '3.3.0-sprint109',
+        'TAO_VERSION_NAME' => '3.4.0-sprint112',
         #the name to display
         'PRODUCT_NAME' => 'TAO',
         #TAO release status, use to add specific footer to TAO, available alpha, beta, demo, stable

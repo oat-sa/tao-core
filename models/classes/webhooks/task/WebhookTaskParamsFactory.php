@@ -48,7 +48,11 @@ class WebhookTaskParamsFactory extends ConfigurableService
                 WebhookTaskParams::EVENT_ID
             ])
             ->assertArray(WebhookTaskParams::EVENT_DATA)
-            ->assertInt(WebhookTaskParams::TRIGGERED_TIMESTAMP)
+            ->assertInt([
+                WebhookTaskParams::TRIGGERED_TIMESTAMP,
+                WebhookTaskParams::RETRY_MAX,
+                WebhookTaskParams::RETRY_COUNT
+            ])
             ->allowExtraKeys();
     }
 }

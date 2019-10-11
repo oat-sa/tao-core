@@ -25,6 +25,7 @@ class Webhook implements WebhookInterface
     const URL = 'url';
     const HTTP_METHOD = 'httpMethod';
     const AUTH = 'auth';
+    const RETRY_MAX = 'retryMax';
 
     /**
      * @var string
@@ -47,17 +48,24 @@ class Webhook implements WebhookInterface
     private $auth;
 
     /**
+     * @var int
+     */
+    private $retryMax;
+
+    /**
      * @param string $id
      * @param string $url
      * @param string $httpMethod
+     * @param int $retryMax
      * @param WebhookAuth|null $auth
      */
-    public function __construct($id, $url, $httpMethod, WebhookAuth $auth = null)
+    public function __construct($id, $url, $httpMethod, $retryMax, WebhookAuth $auth = null)
     {
         $this->id = $id;
         $this->url = $url;
         $this->httpMethod = $httpMethod;
         $this->auth = $auth;
+        $this->retryMax = $retryMax;
     }
 
     /**
@@ -105,5 +113,13 @@ class Webhook implements WebhookInterface
                 ? $this->getAuth()->toArray()
                 : null
         ];
+    }
+
+    /**
+     * @return int
+     */
+    public function getMaxRetries()
+    {
+        return $this->retryMax;
     }
 }

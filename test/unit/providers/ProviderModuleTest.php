@@ -21,6 +21,7 @@ namespace oat\tao\test\unit\providers;
 
 use common_exception_InconsistentData;
 use oat\tao\model\providers\ProviderModule;
+use oat\generis\test\TestCase;
 
 /**
  * Test the ProviderModule pojo
@@ -28,7 +29,7 @@ use oat\tao\model\providers\ProviderModule;
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
  */
-class ProviderModuleTest extends \PHPUnit_Framework_TestCase
+class ProviderModuleTest extends TestCase
 {
 
     /**

@@ -24,8 +24,9 @@ use common_report_Report as Report;
 use oat\tao\model\taskQueue\TaskLog\CategorizedStatus;
 use oat\tao\model\taskQueue\TaskLog\Entity\TaskLogEntity;
 use oat\tao\model\taskQueue\TaskLogInterface;
+use oat\generis\test\TestCase;
 
-class TaskLogEntityTest extends \PHPUnit_Framework_TestCase
+class TaskLogEntityTest extends TestCase
 {
     public function testEntityCreated()
     {

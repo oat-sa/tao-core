@@ -28,6 +28,7 @@ use oat\tao\model\routing\AnnotationReaderService;
 use oat\tao\model\routing\RouteAnnotationService;
 use Prophecy\Argument;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use oat\generis\test\TestCase;
 
 /**
  * Class TestingClass
@@ -49,7 +50,7 @@ class TestingClass {
 }
 
 
-class AnnotationReaderServiceTest extends \PHPUnit_Framework_TestCase
+class AnnotationReaderServiceTest extends TestCase
 {
     /**
      * @var AnnotationReaderService

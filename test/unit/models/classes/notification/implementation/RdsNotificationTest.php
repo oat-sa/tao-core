@@ -26,7 +26,7 @@ use oat\oatbox\service\ServiceManager;
 use oat\tao\model\notification\implementation\Notification;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\scripts\install\InstallNotificationTable;
-use PHPUnit_Framework_MockObject_MockObject as MockObject;
+use oat\generis\test\MockObject;
 
 class RdsNotificationTest extends TestCase
 {
