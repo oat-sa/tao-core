@@ -95,7 +95,8 @@
     "iframeNotifier",
     "babel-polyfill",
     "lib/uuid",
-    "lib/moment-timezone.min"
+    "lib/moment-timezone.min",
+    "url-polyfill"
   ],
   "exclude": [
     "json!i18ntr/messages.json",
