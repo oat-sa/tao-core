@@ -156,7 +156,6 @@ class tao_install_Installator {
 			 *  2 - Test DB connection (done by the constructor)
 			 */
 			$this->log('i', "Spawning DbCreator");
-
 			$persistenceManager = new PersistenceManager();
 			$dbalConfigCreator = new tao_install_utils_DbalConfigCreator();
 			$persistenceManager->registerPersistence('default', $dbalConfigCreator->createDbalConfig($installData));
