@@ -20,6 +20,8 @@
  *               2013-2017 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
+use OAT\Library\DBALSpanner\SpannerDriver;
+use OAT\Library\DBALSpanner\SpannerPlatform;
 use oat\tao\helpers\InstallHelper;
 use oat\oatbox\install\Installer;
 use oat\oatbox\service\ServiceManager;
@@ -181,6 +183,14 @@ class tao_install_Installator {
 				$dbConnectionParams['portability'] = \Doctrine\DBAL\Portability\Connection::PORTABILITY_ALL;
 				$dbConnectionParams['fetch_case'] = PDO::CASE_LOWER;
 			}
+            if($installData['db_driver'] == SpannerDriver::DRIVER_NAME) {
+                $dbConnectionParams = [
+                    'dbname' => $installData['db_name'],
+                    'instance' => $installData['db_host'],
+                    'driverClass' => SpannerDriver::class,
+                    'platform' => new SpannerPlatform(),
+                ];
+            }
 
 			$dbCreator = new tao_install_utils_DbalDbCreator($dbConnectionParams);
 			
@@ -192,7 +202,6 @@ class tao_install_Installator {
 
 			// If the database already exists, drop all tables
 			if ($dbCreator->dbExists($dbName)) {
-
 				try {
 				    //If the target Sgbd is mysql select the database after creating it
 				    if ($installData['db_driver'] == 'pdo_mysql'){
@@ -236,14 +245,7 @@ class tao_install_Installator {
 			$dbCreator->initTaoDataBase();	
             $this->log('i', 'Created tables');
             
-            $storedProcedureFile = __DIR__ . DIRECTORY_SEPARATOR . 'db' . DIRECTORY_SEPARATOR . 'tao_stored_procedures_' . str_replace('pdo_', '', $installData['db_driver']) . '.sql';
-			if (file_exists($storedProcedureFile) && is_readable($storedProcedureFile)){
-				$this->log('i', 'Installing stored procedures for ' . $installData['db_driver'] . ' from file: ' . $storedProcedureFile);
-				$dbCreator->loadProc($storedProcedureFile);
-			}
-			else {
-			    $this->log('e', 'Could not find storefile : ' . $storedProcedureFile);
-			}
+            $this->loadStoredProcedures($installData['db_driver'], $dbCreator);
 			
 			/*
 			 *  4 - Create the generis config files
@@ -637,6 +639,25 @@ class tao_install_Installator {
             return $this->options['installation_config_path'];
         } else {
             return $this->options['root_path'] . 'config' . DIRECTORY_SEPARATOR;
+        }
+    }
+
+    /**
+     * @param array                           $driverName
+     * @param tao_install_utils_DbalDbCreator $dbCreator
+     */
+    private function loadStoredProcedures($driverName, tao_install_utils_DbalDbCreator $dbCreator)
+    {
+        if ($driverName == SpannerDriver::DRIVER_NAME) {
+            return;
+        }
+        
+        $storedProcedureFile = __DIR__ . DIRECTORY_SEPARATOR . 'db' . DIRECTORY_SEPARATOR . 'tao_stored_procedures_' . str_replace('pdo_', '', $driverName) . '.sql';
+        if (file_exists($storedProcedureFile) && is_readable($storedProcedureFile)) {
+            $this->log('i', 'Installing stored procedures for ' . $driverName . ' from file: ' . $storedProcedureFile);
+            $dbCreator->loadProc($storedProcedureFile);
+        } else {
+            $this->log('e', 'Could not find storefile : ' . $storedProcedureFile);
         }
     }
 }
