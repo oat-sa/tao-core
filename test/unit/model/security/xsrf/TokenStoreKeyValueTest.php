@@ -19,10 +19,10 @@
 
 namespace oat\tao\test\unit\model\security\xsrf;
 
+use oat\generis\test\TestCase;
 use oat\oatbox\session\SessionService;
 use oat\tao\model\security\xsrf\Token;
 use oat\tao\model\security\xsrf\TokenStoreKeyValue;
-use PHPUnit\Framework\TestCase;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use oat\generis\test\MockObject;
 
