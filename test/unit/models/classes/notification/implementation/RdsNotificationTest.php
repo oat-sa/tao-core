@@ -24,13 +24,13 @@ use common_persistence_Persistence as Persistence;
 use oat\generis\test\TestCase;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\notification\implementation\Notification;
-use oat\tao\model\notification\implementation\RdsNotification;
+use oat\tao\model\notification\implementation\AbstractRdsNotification;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\generis\test\MockObject;
 
 class RdsNotificationTest extends TestCase
 {
-    /** @var RdsNotification */
+    /** @var AbstractRdsNotification */
     private $subject;
 
     /** @var Persistence */
@@ -52,7 +52,7 @@ class RdsNotificationTest extends TestCase
             PersistenceManager::SERVICE_ID => $persistenceManager,
         ]);
 
-        $this->subject = new RdsNotification([RdsNotification::OPTION_PERSISTENCE => $persistenceId]);
+        $this->subject = new AbstractRdsNotification([AbstractRdsNotification::OPTION_PERSISTENCE => $persistenceId]);
         $this->subject->setServiceLocator($serviceManagerMock);
 
         /** @var ServiceManager|MockObject $serviceLocator */

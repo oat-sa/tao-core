@@ -24,7 +24,7 @@ use oat\tao\model\notification\AbstractNotificationService;
 use oat\tao\model\notification\NotificationInterface;
 use common_persistence_Manager as PersistenceManager;
 
-class RdsNotification
+class AbstractRdsNotification
     extends AbstractNotificationService
 
 {
