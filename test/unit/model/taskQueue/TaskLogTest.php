@@ -30,6 +30,7 @@ use oat\tao\model\taskQueue\TaskLog\TaskLogCollection;
 use oat\tao\model\taskQueue\TaskLog\TasksLogsStats;
 use oat\tao\model\taskQueue\TaskLogInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use oat\generis\test\MockObject;
 
 class TaskLogTest extends TestCase
 {
@@ -236,7 +237,7 @@ class TaskLogTest extends TestCase
      * @param bool $notFound
      * @param bool $shouldArchive
      * @param bool $taskRunning
-     * @return \PHPUnit_Framework_MockObject_MockObject|TaskLogInterface
+     * @return MockObject|TaskLogInterface
      */
     protected function getTaskLogMock($notFound = false, $shouldArchive = true, $taskRunning = false, $shouldCancel = true)
     {

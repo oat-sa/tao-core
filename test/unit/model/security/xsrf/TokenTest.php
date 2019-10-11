@@ -19,7 +19,8 @@
 
 namespace oat\tao\test\unit\model\security\xsrf;
 
-use PHPUnit\Framework\TestCase;
+
+use oat\generis\test\TestCase;
 use oat\tao\model\security\xsrf\Token;
 
 /**

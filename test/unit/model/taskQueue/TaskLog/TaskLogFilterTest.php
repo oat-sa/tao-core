@@ -23,8 +23,9 @@ namespace oat\tao\test\unit\model\taskQueue\TaskLog;
 use oat\tao\model\taskQueue\TaskLog\Broker\TaskLogBrokerInterface;
 use oat\tao\model\taskQueue\TaskLog\TaskLogFilter;
 use oat\tao\model\taskQueue\TaskLogInterface;
+use oat\generis\test\TestCase;
 
-class TaskLogFilterTest extends \PHPUnit_Framework_TestCase
+class TaskLogFilterTest extends TestCase
 {
     /** @var  TaskLogFilter */
     private $filter;

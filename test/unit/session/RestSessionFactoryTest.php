@@ -23,8 +23,9 @@ namespace oat\tao\test\unit\session;
 use oat\tao\model\routing\Resolver;
 use oat\tao\model\session\restSessionFactory\RestSessionFactory;
 use oat\tao\model\session\restSessionFactory\SessionBuilder;
+use oat\generis\test\TestCase;
 
-class RestSessionFactoryTest extends \PHPUnit_Framework_TestCase
+class RestSessionFactoryTest extends TestCase
 {
     public function testCreateSessionFromRequest()
     {

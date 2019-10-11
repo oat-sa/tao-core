@@ -21,12 +21,13 @@
 use oat\tao\model\messaging\MessagingService;
 use oat\tao\model\messaging\Message;
 use Prophecy\Prediction\CallTimesPrediction;
+use oat\generis\test\TestCase;
 
 /**
  * @author Aleh Hutnikau <hutnikau@1pt.com>
  * @package tao
  */
-class MessagingServiceTest extends \PHPUnit_Framework_TestCase
+class MessagingServiceTest extends TestCase
 {
     /**
      * 

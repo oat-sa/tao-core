@@ -21,8 +21,9 @@
 namespace oat\tao\test\unit\model\taskQueue\TaskLog;
 
 use oat\tao\model\taskQueue\TaskLog\TasksLogsStats;
+use oat\generis\test\TestCase;
 
-class TasksLogsStatsTest extends \PHPUnit_Framework_TestCase
+class TasksLogsStatsTest extends TestCase
 {
     public function testCreateStats()
     {
