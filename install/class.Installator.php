@@ -24,9 +24,9 @@ use oat\tao\helpers\InstallHelper;
 use oat\oatbox\install\Installer;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\OperatedByService;
-use oat\generis\persistence\sql\DbCreator;
 use oat\generis\persistence\sql\SetupDb;
 use oat\generis\persistence\PersistenceManager;
+use oat\oatbox\service\ServiceNotFoundException;
 
 /**
  *
@@ -147,24 +147,30 @@ class tao_install_Installator {
 			$consistentOptions = array_merge($installData, $this->options);
             $consistentOptions['config_path'] = $this->getConfigPath();
 			$this->oatBoxInstall->setOptions($consistentOptions);
-			$this->oatBoxInstall->install();
+            $this->oatBoxInstall->install();
             $this->log('d', 'Oatbox was installed!');
 
             ServiceManager::setServiceManager($this->getServiceManager());
 
-			/*
-			 *  2 - Test DB connection (done by the constructor)
-			 */
-			$this->log('i', "Spawning DbCreator");
-			$persistenceManager = new PersistenceManager();
-			$dbalConfigCreator = new tao_install_utils_DbalConfigCreator();
-			$persistenceManager->registerPersistence('default', $dbalConfigCreator->createDbalConfig($installData));
-			$this->getServiceManager()->register(PersistenceManager::SERVICE_ID, $persistenceManager);
-			
+            /*
+             * 2 - Test DB connection (done by the constructor)
+             */
+            try {
+                $persistenceManager = $this->getServiceManager()->get(PersistenceManager::SERVICE_ID);
+            } catch (ServiceNotFoundException $e) {
+                $persistenceManager = new PersistenceManager();
+                $this->log('i', "Spawning new PersistenceManager");
+            }
+            if (! $persistenceManager->hasPersistence('default')) {
+                $dbalConfigCreator = new tao_install_utils_DbalConfigCreator();
+                $persistenceManager->registerPersistence('default', $dbalConfigCreator->createDbalConfig($installData));
+                $this->log('i', "Register default Persistence");
+            }
+            $this->getServiceManager()->register(PersistenceManager::SERVICE_ID, $persistenceManager);
 			$dbCreator = new SetupDb();
 			$dbCreator->setLogger($this->logger);
 			$dbCreator->setupDatabase($persistenceManager->getPersistenceById('default'));
-			
+
 			/*
 			 *  4 - Create the generis config files
 			 */
@@ -220,6 +226,7 @@ class tao_install_Installator {
             }
 
             foreach ((array)$installData['extra_persistences'] as $k => $persistence) {
+                var_dump($persistence);
                 $persistenceManager->registerPersistence($k, $persistence);
             }
 

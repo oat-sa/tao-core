@@ -148,48 +148,55 @@ class tao_install_Setup implements Action
             throw new InvalidArgumentException('Your config should have a \'generis\' key under \'configuration\'');
         }
 
-        if(!isset($persistences)){
+        if (! isset($persistences)) {
             throw new InvalidArgumentException('Your config should have a \'persistence\' key under \'generis\'');
         }
 
-        if(!isset($persistences['default'])){
-            throw new InvalidArgumentException('Your config should have a \'default\' key under \'persistences\'');
-        }
+        if (! isset($persistences['type'])) {
 
-        $persistence = $persistences['default'];
+            if (! isset($persistences['default'])) {
+                throw new InvalidArgumentException('Your config should have a \'default\' key under \'persistences\'');
+            }
 
-        if(isset($persistence['connection'])){
-            if(isset($persistence['connection']['wrapperClass']) && $persistence['connection']['wrapperClass'] == '\\Doctrine\\DBAL\\Connections\\MasterSlaveConnection'){
-                $options['db_driver'] = $persistence['connection']['driver'];
-                $options['db_host'] = $persistence['connection']['master']['host'];
-                $options['db_name'] = $persistence['connection']['master']['dbname'];
-                if(isset($persistence['connection']['master']['user'])){
-                    $options['db_user'] = $persistence['connection']['master']['user'];
-                }
-                if(isset($persistence['connection']['master']['password'])){
-                    $options['db_pass'] = $persistence['connection']['master']['password'];
+            $persistence = $persistences['default'];
+
+            if (isset($persistence['connection'])) {
+                if (isset($persistence['connection']['wrapperClass']) && $persistence['connection']['wrapperClass'] == '\\Doctrine\\DBAL\\Connections\\MasterSlaveConnection') {
+                    $options['db_driver'] = $persistence['connection']['driver'];
+                    $options['db_host'] = $persistence['connection']['master']['host'];
+                    $options['db_name'] = $persistence['connection']['master']['dbname'];
+                    if (isset($persistence['connection']['master']['user'])) {
+                        $options['db_user'] = $persistence['connection']['master']['user'];
+                    }
+                    if (isset($persistence['connection']['master']['password'])) {
+                        $options['db_pass'] = $persistence['connection']['master']['password'];
+                    }
+                } else {
+                    $options['db_driver'] = $persistence['connection']['driver'];
+                    $options['db_host'] = $persistence['connection']['host'];
+                    $options['db_name'] = $persistence['connection']['dbname'];
+                    if (isset($persistence['connection']['user'])) {
+                        $options['db_user'] = $persistence['connection']['user'];
+                    }
+                    if (isset($persistence['connection']['password'])) {
+                        $options['db_pass'] = $persistence['connection']['password'];
+                    }
                 }
             } else {
-                $options['db_driver'] = $persistence['connection']['driver'];
-                $options['db_host'] = $persistence['connection']['host'];
-                $options['db_name'] = $persistence['connection']['dbname'];
-                if(isset($persistence['connection']['user'])){
-                    $options['db_user'] = $persistence['connection']['user'];
+                $options['db_driver'] = $persistence['driver'];
+                $options['db_host'] = $persistence['host'];
+                $options['db_name'] = $persistence['dbname'];
+                if (isset($persistence['user'])) {
+                    $options['db_user'] = $persistence['user'];
                 }
-                if(isset($persistence['connection']['password'])){
-                    $options['db_pass'] = $persistence['connection']['password'];
+                if (isset($persistence['password'])) {
+                    $options['db_pass'] = $persistence['password'];
                 }
             }
-        } else {
-            $options['db_driver'] = $persistence['driver'];
-            $options['db_host'] = $persistence['host'];
-            $options['db_name'] = $persistence['dbname'];
-            if(isset($persistence['user'])){
-                $options['db_user'] = $persistence['user'];
-            }
-            if(isset($persistence['password'])){
-                $options['db_pass'] = $persistence['password'];
-            }
+            // configure persistences
+            $options['extra_persistences'] = $persistences;
+            // prevent default to be overwritten
+            unset($options['extra_persistences']['default']);
         }
 
         if(!isset($parameters['configuration']['global'])){
@@ -283,12 +290,6 @@ class tao_install_Setup implements Action
 
         // mod rewrite cannot be detected in CLI Mode.
         $installator->escapeCheck('custom_tao_ModRewrite');
-
-        // configure persistences
-        $options['extra_persistences'] = $persistences;
-        // prevent default to be overwritten
-        unset($options['extra_persistences']['default']);
-
 
         $installator->install($options);
 
