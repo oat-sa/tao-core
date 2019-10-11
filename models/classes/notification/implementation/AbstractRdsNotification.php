@@ -19,17 +19,16 @@
  */
 namespace oat\tao\model\notification\implementation;
 
-use oat\generis\Helper\UuidPrimaryKeyTrait;
+use Doctrine\DBAL\Schema\Schema;
+use Doctrine\DBAL\Schema\Table;
 use oat\tao\model\notification\AbstractNotificationService;
 use oat\tao\model\notification\NotificationInterface;
 use common_persistence_Manager as PersistenceManager;
 
-class AbstractRdsNotification
+abstract class AbstractRdsNotification
     extends AbstractNotificationService
 
 {
-    use UuidPrimaryKeyTrait;
-
     const NOTIF_TABLE = 'notifications';
 
     const NOTIF_FIELD_ID           = 'id';
@@ -53,7 +52,7 @@ class AbstractRdsNotification
     /**
      * @return \common_persistence_SqlPersistence
      */
-    protected function getPersistence()
+    public function getPersistence()
     {
         if(is_null($this->persistence)) {
 
@@ -76,28 +75,19 @@ class AbstractRdsNotification
 
     public function sendNotification(NotificationInterface $notification)
     {
-        $persistence = $this->getPersistence();
-
-        $platform = $this->getPersistence()->getPlatForm();
-
-        $persistence->insert(
-            self::NOTIF_TABLE,
-            [
-                self::NOTIF_FIELD_ID => $this->getUniquePrimaryKey(),
-                self::NOTIF_FIELD_RECIPIENT => $notification->getRecipient(),
-                self::NOTIF_FIELD_STATUS => $notification->getStatus(),
-                self::NOTIF_FIELD_SENDER => $notification->getSenderId(),
-                self::NOTIF_FIELD_SENDER_NANE => $notification->getSenderName(),
-                self::NOTIF_FIELD_TITLE => $notification->getTitle(),
-                self::NOTIF_FIELD_MESSAGE => $notification->getMessage(),
-                self::NOTIF_FIELD_CREATION => $platform->getNowExpression(),
-                self::NOTIF_FIELD_UPDATED => $platform->getNowExpression(),
-            ]
-        );
+        $this->getPersistence()->insert(self::NOTIF_TABLE, $this->prepareNotification($notification));
 
         return $notification;
     }
 
+    /**
+     * Prepares the fields to insert according to db engine.
+     * @param NotificationInterface $notification
+     *
+     * @return array
+     */
+    abstract public function prepareNotification(NotificationInterface $notification);
+    
     public function getNotifications($userId)
     {
         $notification = [];
@@ -215,4 +205,11 @@ class AbstractRdsNotification
         return $count;
 
     }
+
+    /**
+     * Creates the table according to the db engine.
+     * @param Schema $schema
+     * @return Table
+     */
+    abstract public function createNotificationTable(Schema $schema);
 }

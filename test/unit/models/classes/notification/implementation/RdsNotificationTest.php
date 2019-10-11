@@ -25,6 +25,7 @@ use oat\generis\test\TestCase;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\notification\implementation\Notification;
 use oat\tao\model\notification\implementation\AbstractRdsNotification;
+use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\generis\test\MockObject;
 
@@ -44,27 +45,21 @@ class RdsNotificationTest extends TestCase
 
         $persistenceManager = $this->getMockBuilder(PersistenceManager::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getPersistenceById'])
+            ->setMethods(['getPersistence'])
             ->getMock();
-        $persistenceManager->method('getPersistenceById')->willReturn($this->persistence);
+        $persistenceManager->method('getPersistence')->willReturn($this->persistence);
+
+        $this->subject = new RdsNotification([AbstractRdsNotification::OPTION_PERSISTENCE => $persistenceId]);
 
         $serviceManagerMock = $this->getServiceLocatorMock([
             PersistenceManager::SERVICE_ID => $persistenceManager,
+            AbstractRdsNotification::SERVICE_ID => $this->subject,
         ]);
 
-        $this->subject = new AbstractRdsNotification([AbstractRdsNotification::OPTION_PERSISTENCE => $persistenceId]);
         $this->subject->setServiceLocator($serviceManagerMock);
 
-        /** @var ServiceManager|MockObject $serviceLocator */
-        $serviceLocator = $this->getMockBuilder(ServiceManager::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['get', 'register'])
-            ->getMock();
-        $serviceLocator->method('get')->willReturn($persistenceManager);
-        $serviceLocator->expects($this->once())->method('register');
-
         $tableCreator = new InstallNotificationTable();
-        $tableCreator->setServiceLocator($serviceLocator);
+        $tableCreator->setServiceLocator($serviceManagerMock);
         $tableCreator([]);
     }
 

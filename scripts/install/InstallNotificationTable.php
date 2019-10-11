@@ -32,30 +32,20 @@ class InstallNotificationTable extends InstallAction
 
     public function __invoke($params)
     {
-        $persistence = $this->getServiceLocator()->get(PersistenceManager::SERVICE_ID)
-            ->getPersistenceById(AbstractRdsNotification::DEFAULT_PERSISTENCE);
+        /** @var AbstractRdsNotification $notification */
+        $notification = $this->getServiceLocator()->get(AbstractRdsNotification::SERVICE_ID);
+        $persistence = $notification->getPersistence();
+
         $schemaManager = $persistence->getDriver()->getSchemaManager();
         $schema = $schemaManager->createSchema();
+
         /**
          * @var \Doctrine\DBAL\Schema\Schema $fromSchema
          */
         $fromSchema = clone $schema;
 
         try {
-
-            $queueTable = $schema->createtable(AbstractRdsNotification::NOTIF_TABLE);
-
-            $queueTable->addOption('engine', 'MyISAM');
-            $queueTable->addColumn(AbstractRdsNotification::NOTIF_FIELD_ID           , 'string'   , ['length' => 23, 'notnull' => true,]);
-            $queueTable->addColumn(AbstractRdsNotification::NOTIF_FIELD_RECIPIENT    , 'string'   , ['length' => 255, 'notnull' => true ]);
-            $queueTable->addColumn(AbstractRdsNotification::NOTIF_FIELD_STATUS       , 'integer'  , ['length' => 255]);
-            $queueTable->addColumn(AbstractRdsNotification::NOTIF_FIELD_TITLE        , 'string'   , ['length' => 255]);
-            $queueTable->addColumn(AbstractRdsNotification::NOTIF_FIELD_MESSAGE      , 'text'     , []);
-            $queueTable->addColumn(AbstractRdsNotification::NOTIF_FIELD_SENDER       , 'string'   , ['length' => 255]);
-            $queueTable->addColumn(AbstractRdsNotification::NOTIF_FIELD_SENDER_NANE  , 'string'   , ['length' => 255]);
-            $queueTable->addColumn(AbstractRdsNotification::NOTIF_FIELD_CREATION     , 'datetime' , ['notnull' => true]);
-            $queueTable->addColumn(AbstractRdsNotification::NOTIF_FIELD_UPDATED      , 'datetime' , ['notnull' => true]);
-            $queueTable->setPrimaryKey(array(AbstractRdsNotification::NOTIF_FIELD_ID));
+            $notification->createNotificationTable($schema);
 
             $queries = $persistence->getPlatform()->getMigrateSchemaSql($fromSchema, $schema);
 
