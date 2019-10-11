@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint112\n"
-"PO-Revision-Date: 2019-10-09T09:02:23\n"
+"Project-Id-Version: TAO 3.4.0-sprint113\n"
+"PO-Revision-Date: 2019-10-11T09:39:22\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lt-LT\n"
@@ -12,6 +12,9 @@ msgstr ""
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
+
+msgid ""
+msgstr ""
 
 msgid " and "
 msgstr " ir "
@@ -212,6 +215,9 @@ msgstr "Pažengęs Režimas"
 msgid "Advanced search, add filters"
 msgstr "Pažengusi paieška, pridėti filtrus"
 
+msgid "aliases:"
+msgstr ""
+
 msgid "all"
 msgstr "viskas"
 
@@ -277,8 +283,17 @@ msgstr "Ar jūs tikrai norite ištrinti resursą su versija?\n"
 msgid "Are you sure you want to delete it?"
 msgstr "Ar tikrai norite ištrinti?"
 
+msgid "Argument check failed: %s"
+msgstr ""
+
+msgid "Arguments %s and %s are mutually exclusive"
+msgstr ""
+
 msgid "Arguments separator"
 msgstr "Argumentų skirtukas"
+
+msgid "array"
+msgstr ""
 
 msgid "Assign"
 msgstr "Paskirti"
@@ -335,6 +350,9 @@ msgstr "Dvejetainis operatorius /"
 msgid "Binary operator modulo"
 msgstr "Dvejetainis operatorius modulo"
 
+msgid "boolean"
+msgstr ""
+
 msgid "Browse folders:"
 msgstr "Naršyti aplankus:"
 
@@ -384,14 +402,17 @@ msgstr "Pakeisti slaptažodį"
 msgid "Change the sign of the current operand"
 msgstr "Keisti ženklą dabartinio operando"
 
-msgid "Check All"
-msgstr "Pažymėti Visus"
-
 msgid "Check all"
 msgstr "Pažymėti visus"
 
+msgid "Check All"
+msgstr "Pažymėti Visus"
+
 msgid "Check-in"
 msgstr "Pasižymėti"
+
+msgid "choices:"
+msgstr ""
 
 msgid "Choose a value..."
 msgstr "Pasirinkti reikšmę..."
@@ -456,6 +477,9 @@ msgstr "Renkami apleisti veiksmai veiksmų eilėje ..."
 msgid "Column"
 msgstr "Stulpelis"
 
+msgid "Commands:"
+msgstr ""
+
 msgid "comment..."
 msgstr "komentaras..."
 
@@ -498,6 +522,9 @@ msgstr "cosh"
 msgid "Cosine"
 msgstr "Kosinusas"
 
+msgid "count"
+msgstr ""
+
 msgid "Create"
 msgstr "Sukurti"
 
@@ -537,11 +564,11 @@ msgstr "Duomenys importuoti sėkmingai"
 msgid "Data imported. Some records are invalid."
 msgstr "Duomenys importuoti. Kaikurie įrašai yra blogi."
 
-msgid "Data Language"
-msgstr "Duomenų Kalba"
-
 msgid "Data language"
 msgstr "Duomenų kalba"
+
+msgid "Data Language"
+msgstr "Duomenų Kalba"
 
 msgid "Data not imported. All records are invalid."
 msgstr "Duomenys neimportuoti. Visi įrašai yra blogi."
@@ -560,6 +587,9 @@ msgstr ""
 
 msgid "Default search"
 msgstr "Numatyta paieška"
+
+msgid "default:"
+msgstr ""
 
 msgid "Define the default values"
 msgstr "Nustatyti numatytas reikšmes"
@@ -591,6 +621,9 @@ msgstr "Šalinamas paieškos indeksas %s"
 
 msgid "Demo Sandbox"
 msgstr "Smėlio dėžė"
+
+msgid "Did you mean %s?"
+msgstr ""
 
 msgid "Digit 0"
 msgstr "Skaitmuo 0"
@@ -708,6 +741,9 @@ msgstr "Klaida sintaksėje"
 
 msgid "Error in value"
 msgstr "Klaida reikšmėje"
+
+msgid "Examples:"
+msgstr ""
 
 msgid "Exclusive (OR)"
 msgstr ""
@@ -840,6 +876,9 @@ msgstr "Iš"
 msgid "Fuzzy Matching"
 msgstr "Apytikslis Atitikimas"
 
+msgid "generated-value"
+msgstr ""
+
 msgid "Generis Form"
 msgstr ""
 
@@ -891,6 +930,9 @@ msgstr "Identifikatorius"
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
 msgstr "Jeigu jūs nenori atstatyti savo slaptažodžio, tiesiog ignoruokite šį el. laišką ir jūsų slaptažodis liks toks pat."
 
+msgid "Implications failed:"
+msgstr ""
+
 msgid "Import"
 msgstr "Importuoti"
 
@@ -927,10 +969,10 @@ msgstr "Importuotas resursas \"%s"
 msgid "impossible to update task status"
 msgstr "neįmanoma atnaujinti užduoties būsenos"
 
-msgid "In Progress"
+msgid "In progress"
 msgstr "Vykdoma"
 
-msgid "In progress"
+msgid "In Progress"
 msgstr "Vykdoma"
 
 msgid "Inclusive (AND)"
@@ -969,11 +1011,11 @@ msgstr "Įdiegiamas plėtinys %s..."
 msgid "Instance saved"
 msgstr "Instancija išsaugota"
 
-msgid "Interface language"
-msgstr "Sąsajos kalba"
-
 msgid "Interface Language"
 msgstr "Sąsajos Kalba"
+
+msgid "Interface language"
+msgstr "Sąsajos kalba"
 
 msgid "Invalid CSP header."
 msgstr ""
@@ -1014,6 +1056,9 @@ msgstr ""
 msgid "Invalid input for function"
 msgstr "Bloga įvestis funkcijai"
 
+msgid "Invalid JSON config file: %s"
+msgstr ""
+
 msgid "Invalid login or password. Please try again."
 msgstr "Blogas prisijungimo vardas arba slaptažodis. Prašome bandyti dar kartą."
 
@@ -1022,6 +1067,9 @@ msgstr "Neteisingas prisijungimas arba slaptažodis. Jūsų paskyra buvo užraki
 
 msgid "invalid regular expression"
 msgstr "bloga įprasta išraiška"
+
+msgid "Invalid values:"
+msgstr ""
 
 msgid "items per page"
 msgstr ""
@@ -1259,10 +1307,10 @@ msgstr "Nėra failų"
 msgid "no label"
 msgstr "nėra pavadinimo"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "Peržiūra negalima"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "Peržiūra negalima"
 
 msgid "No results found"
@@ -1272,6 +1320,12 @@ msgid "No Task yet"
 msgstr "Nėra jokios Užduoties"
 
 msgid "Node duplication has failed"
+msgstr ""
+
+msgid "Not enough arguments following: %s"
+msgstr ""
+
+msgid "Not enough non-option arguments: got %s, need at least %s"
 msgstr ""
 
 msgid "Not started"
@@ -1290,11 +1344,14 @@ msgstr "Tusčias sąrašas!"
 msgid "Notifications"
 msgstr "Pranešimai"
 
-msgid "notifications drivers aren't persistent. use a persistent database storage driver"
+msgid "notifications drivers aren\'t persistent. use a persistent database storage driver"
 msgstr ""
 
 msgid "Nth root"
 msgstr "N šaknis"
+
+msgid "number"
+msgstr ""
 
 msgid "Number of elements"
 msgstr "Elementų kiekis"
@@ -1444,8 +1501,8 @@ msgstr "Tęsti"
 msgid "Properties"
 msgstr "Savybės"
 
-msgid "Property's label field is required"
-msgstr "Savybės pavadinimo laukas yra privalomas"
+msgid "Property\'s label field is required"
+msgstr ""
 
 msgid "Provided URL is not valid"
 msgstr "Pateiktas URL nėra teisingas"
@@ -1536,6 +1593,9 @@ msgstr "Slaptažodžio atstatymo užklausa per El. paštą."
 
 msgid "require notification ID"
 msgstr "reikalingas pranešimo ID"
+
+msgid "required"
+msgstr ""
 
 msgid "required length"
 msgstr "reikalaujamas ilgis"
@@ -1762,6 +1822,9 @@ msgstr "Saugoti"
 msgid "Store the value a variable"
 msgstr "Saugoti reikšmę, kaip kintamąjį"
 
+msgid "string"
+msgstr ""
+
 msgid "Submit"
 msgstr ""
 
@@ -1956,6 +2019,9 @@ msgstr ""
 
 msgid "Tokenizer"
 msgstr "Antspaudėjas"
+
+msgid "Too many non-option arguments: got %s, maximum of %s"
+msgstr ""
 
 msgid "Too many suggestions match your query. Only a few are listed"
 msgstr "Perdaug pasiūlymų sutampa su jūsų užklausa. Tik keli yra pateikti sąraše"
