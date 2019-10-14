@@ -20,8 +20,6 @@
  * 
  */
 
-use core_kernel_api_ModelFactory as ModelFactory;
-use oat\oatbox\service\ServiceManager;
 
 /**
  * The ModelCreator enables you to import Ontologies into a TAO module
@@ -144,14 +142,15 @@ class tao_install_utils_ModelCreator{
 	 */
 	public function insertModel($namespace, $model){
 
+		$returnValue = false;
 		if(!preg_match("/#$/", $namespace)){
 			$namespace .= '#';
 		}
 
-        $serviceManager = ServiceManager::getServiceManager();
-        /** @var ModelFactory $modelFactory */
-        $modelFactory = $serviceManager->get(ModelFactory::SERVICE_ID);
-        $returnValue = $modelFactory->createModel($namespace, $model);
+		
+        $modFactory = new core_kernel_api_ModelFactory();
+        $returnValue = $modFactory->createModel($namespace, $model);
+               
 
         return $returnValue;
 	}
@@ -195,3 +194,4 @@ class tao_install_utils_ModelCreator{
         }
     }
 }
+?>
