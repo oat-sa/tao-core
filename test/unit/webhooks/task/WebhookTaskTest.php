@@ -44,7 +44,7 @@ use oat\tao\model\webhooks\task\WebhookTaskParamsFactory;
 use oat\tao\model\webhooks\task\WebhookTaskReports;
 use oat\tao\model\webhooks\WebhookRegistryInterface;
 use oat\tao\model\webhooks\WebhookTaskServiceInterface;
-use PHPUnit_Framework_MockObject_MockObject;
+use oat\generis\test\MockObject;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
@@ -54,37 +54,37 @@ class WebhookTaskTest extends TestCase
     private $serviceLocatorMock;
 
     /**
-     * @var WebhookRegistryInterface | PHPUnit_Framework_MockObject_MockObject
+     * @var WebhookRegistryInterface | MockObject
      */
     private $webhookRegistryMock;
 
     /**
-     * @var WebhookPayloadFactoryInterface | PHPUnit_Framework_MockObject_MockObject
+     * @var WebhookPayloadFactoryInterface | MockObject
      */
     private $webhookPayloadFactoryInterfaceMock;
 
     /**
-     * @var WebhookTaskParamsFactory | PHPUnit_Framework_MockObject_MockObject
+     * @var WebhookTaskParamsFactory | MockObject
      */
     private $webhookTaskParamsFactoryMock;
 
     /**
-     * @var WebhookResponseFactoryInterface | PHPUnit_Framework_MockObject_MockObject
+     * @var WebhookResponseFactoryInterface | MockObject
      */
     private $webhookResponseFactoryInterfaceMock;
 
     /**
-     * @var WebhookSender | PHPUnit_Framework_MockObject_MockObject
+     * @var WebhookSender | MockObject
      */
     private $webhookSenderMock;
 
     /**
-     * @var WebhookTaskServiceInterface | PHPUnit_Framework_MockObject_MockObject
+     * @var WebhookTaskServiceInterface | MockObject
      */
     private $webhookTaskServiceMock;
 
     /**
-     * @var WebhookInterface | PHPUnit_Framework_MockObject_MockObject
+     * @var WebhookInterface | MockObject
      */
     private $webhookConfigMock;
 
@@ -94,32 +94,32 @@ class WebhookTaskTest extends TestCase
     private $webhookTaskParamsMock;
 
     /**
-     * @var RequestInterface | PHPUnit_Framework_MockObject_MockObject
+     * @var RequestInterface | MockObject
      */
     private $requestMock;
 
     /**
-     * @var WebhookResponse | PHPUnit_Framework_MockObject_MockObject
+     * @var WebhookResponse | MockObject
      */
     private $webhookResponseMock;
 
     /**
-     * @var LoggerService | PHPUnit_Framework_MockObject_MockObject
+     * @var LoggerService | MockObject
      */
     private $logerMock;
 
     /**
-     * @var WebhookEventLogInterface | PHPUnit_Framework_MockObject_MockObject
+     * @var WebhookEventLogInterface | MockObject
      */
     private $webhookLogServiceMock;
 
     /**
-     * @var ResponseInterface | PHPUnit_Framework_MockObject_MockObject
+     * @var ResponseInterface | MockObject
      */
     private $responseMock;
 
     /**
-     * @var WebhookTaskReports | PHPUnit_Framework_MockObject_MockObject
+     * @var WebhookTaskReports | MockObject
      */
     private $webhookTaskReports;
 
@@ -632,7 +632,7 @@ class WebhookTaskTest extends TestCase
     /**
      * @param array $events
      * @param Webhook[] $whConfigs
-     * @return \PHPUnit_Framework_MockObject_MockObject|WebhookRegistryInterface
+     * @return MockObject|WebhookRegistryInterface
      */
     private function createWebhookRegistryMock($events, $whConfigs)
     {
@@ -658,7 +658,7 @@ class WebhookTaskTest extends TestCase
     /**
      * @param string $contentType
      * @param string $payload
-     * @return \PHPUnit_Framework_MockObject_MockObject|WebhookPayloadFactoryInterface
+     * @return MockObject|WebhookPayloadFactoryInterface
      */
     private function createWebhookPayloadFactoryMock($contentType, $payload)
     {
@@ -670,7 +670,7 @@ class WebhookTaskTest extends TestCase
 
     /**
      * @param WebhookTaskParams $resultParams
-     * @return \PHPUnit_Framework_MockObject_MockObject|WebhookTaskParamsFactory
+     * @return MockObject|WebhookTaskParamsFactory
      */
     private function createWebhookTaskParamsFactoryMock(WebhookTaskParams $resultParams)
     {
@@ -682,7 +682,7 @@ class WebhookTaskTest extends TestCase
     /**
      * @param string $acceptedContentType
      * @param WebhookResponse $webhookResponse
-     * @return \PHPUnit_Framework_MockObject_MockObject|WebhookResponseFactoryInterface
+     * @return MockObject|WebhookResponseFactoryInterface
      */
     private function createWebhookResponseFactory($acceptedContentType, WebhookResponse $webhookResponse)
     {
@@ -695,7 +695,7 @@ class WebhookTaskTest extends TestCase
     /**
      * @param ResponseInterface|null $response
      * @param \Exception|null $exception
-     * @return \PHPUnit_Framework_MockObject_MockObject|WebhookSender
+     * @return MockObject|WebhookSender
      */
     private function createWebhookSenderMock(
         ResponseInterface $response = null,
@@ -713,7 +713,7 @@ class WebhookTaskTest extends TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|LoggerInterface
+     * @return MockObject|LoggerInterface
      */
     private function createLoggerMock()
     {
@@ -722,7 +722,7 @@ class WebhookTaskTest extends TestCase
 
     /**
      * @param string $taskId
-     * @return \PHPUnit_Framework_MockObject_MockObject|TaskInterface
+     * @return MockObject|TaskInterface
      */
     private function createTaskMock($taskId)
     {

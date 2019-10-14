@@ -45,6 +45,7 @@ require.config({
         'jquery.fileDownload'  : 'lib/jquery.fileDownload',
 //polyfills
         'polyfill'          : 'lib/polyfill',
+        'url-polyfill'      : '../node_modules/url-polyfill/url-polyfill',
 //libs
         'lodash'            : '../node_modules/lodash/lodash',
         'async'             : 'lib/async',

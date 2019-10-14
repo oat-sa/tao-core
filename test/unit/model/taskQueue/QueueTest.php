@@ -27,6 +27,7 @@ use oat\tao\model\taskQueue\Task\AbstractTask;
 use oat\tao\model\taskQueue\TaskLogInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Lock\LockInterface;
+use oat\generis\test\MockObject;
 
 class QueueTest extends TestCase
 {
@@ -74,7 +75,7 @@ class QueueTest extends TestCase
 
         $taskLogMock = $this->getMockForAbstractClass(TaskLogInterface::class);
 
-        /** @var Queue|\PHPUnit_Framework_MockObject_MockObject $queueMock */
+        /** @var Queue|MockObject $queueMock */
         $queueMock = $this->getMockBuilder(Queue::class)
             ->disableOriginalConstructor()
             ->setMethods(['getBroker', 'getTaskLog', 'createLock'])
@@ -114,7 +115,7 @@ class QueueTest extends TestCase
         $lockMock = $this->getMockBuilder(LockInterface::class)->disableOriginalConstructor()->getMock();
         $lockMock->method('acquire')->willReturn(true);
         $lockMock->method('release')->willReturn(true);
-        /** @var QueueBrokerInterface|\PHPUnit_Framework_MockObject_MockObject $queueBrokerMock */
+        /** @var QueueBrokerInterface|MockObject $queueBrokerMock */
         $queueBrokerMock = $this->getMockBuilder(QueueBrokerInterface::class)
             ->disableOriginalConstructor()
             ->setMethods(['pop', 'setServiceLocator'])
@@ -133,7 +134,7 @@ class QueueTest extends TestCase
             ->willReturn($lockMock);
 
         if ($dequeuedElem instanceof AbstractTask) {
-            /** @var TaskLogInterface|\PHPUnit_Framework_MockObject_MockObject $taskLogMock */
+            /** @var TaskLogInterface|MockObject $taskLogMock */
             $taskLogMock = $this->getMockForAbstractClass(TaskLogInterface::class);
             $taskLogMock
                 ->method('getStatus')
@@ -144,7 +145,7 @@ class QueueTest extends TestCase
                     ->method('setStatus')
                     ->with($dequeuedElem->getId(), TaskLogInterface::STATUS_DEQUEUED);
 
-                /** @var LoggerInterface|\PHPUnit_Framework_MockObject_MockObject $loggerMock */
+                /** @var LoggerInterface|MockObject $loggerMock */
                 $loggerMock = $this->getMockBuilder(LoggerInterface::class)
                     ->disableOriginalConstructor()
                     ->setMethods(['info'])
@@ -204,7 +205,7 @@ class QueueTest extends TestCase
         $queueBrokerMock->expects($this->once())
             ->method('delete');
 
-        /** @var Queue|\PHPUnit_Framework_MockObject_MockObject $queueMock */
+        /** @var Queue|MockObject $queueMock */
         $queueMock = $this->getMockBuilder(Queue::class)
             ->disableOriginalConstructor()
             ->setMethods(['getBroker'])
@@ -224,7 +225,7 @@ class QueueTest extends TestCase
         $queueBrokerMock->expects($this->once())
             ->method('count');
 
-        /** @var Queue|\PHPUnit_Framework_MockObject_MockObject $queueMock */
+        /** @var Queue|MockObject $queueMock */
         $queueMock = $this->getMockBuilder(Queue::class)
             ->disableOriginalConstructor()
             ->setMethods(['getBroker'])
@@ -244,7 +245,7 @@ class QueueTest extends TestCase
         $queueBrokerMock->expects($this->once())
             ->method('createQueue');
 
-        /** @var Queue|\PHPUnit_Framework_MockObject_MockObject $queueMock */
+        /** @var Queue|MockObject $queueMock */
         $queueMock = $this->getMockBuilder(Queue::class)
             ->disableOriginalConstructor()
             ->setMethods(['getBroker'])
