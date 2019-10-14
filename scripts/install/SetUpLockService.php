@@ -35,17 +35,13 @@ class SetUpLockService extends ScriptAction
 {
     public function run()
     {
-        try {
-            $this->getServiceManager()->get(LockService::SERVICE_ID);
-        } catch (ServiceNotFoundException $e) {
-            $this->checkPersistance();
-            $service = new LockService([
-                LockService::OPTION_PERSISTENCE_CLASS => RedisStore::class,
-                LockService::OPTION_PERSISTENCE_OPTIONS => $this->getOption('persistence'),
-            ]);
-            $this->getServiceManager()->register(LockService::SERVICE_ID, $service);
-        }
 
+        $this->checkPersistance();
+        $service = new LockService([
+            LockService::OPTION_PERSISTENCE_CLASS   => RedisStore::class,
+            LockService::OPTION_PERSISTENCE_OPTIONS => $this->getOption('persistence'),
+        ]);
+        $this->getServiceManager()->register(LockService::SERVICE_ID, $service);
         return \common_report_Report::createSuccess('LockService successfully configured.');
     }
 
@@ -58,15 +54,15 @@ class SetUpLockService extends ScriptAction
     {
         return [
             'persistence' => array(
-                'prefix' => 'p',
-                'longPrefix' => 'persistence',
-                'required' => true,
+                'prefix'      => 'p',
+                'longPrefix'  => 'persistence',
+                'required'    => true,
                 'description' => 'Redis persistence for lock service',
             ),
-            'verbose' => array(
-                'prefix' => 'v',
-                'longPrefix' => 'verbose',
-                'flag' => true,
+            'verbose'     => array(
+                'prefix'      => 'v',
+                'longPrefix'  => 'verbose',
+                'flag'        => true,
                 'description' => 'Output the log as command output.',
             ),
         ];
@@ -76,14 +72,19 @@ class SetUpLockService extends ScriptAction
      * Check option and persistence existence
      *
      */
-    private function checkPersistance(){
+    private function checkPersistance()
+    {
         if (empty($this->getOption('persistence'))) {
             throw new \common_Exception('No persistence specified');
         }
         $persistenceManager = $this->getServiceManager()->get(PersistenceManager::SERVICE_ID);
-        $persistence = $this->getOption('persistence');
-        if (!$persistenceManager->hasPersistence($persistence)) {
+        $persistenceId = $this->getOption('persistence');
+        if (!$persistenceManager->hasPersistence($persistenceId)) {
             throw new \common_Exception('Persistence not exists');
+        }
+        $persistence = $persistenceManager->getPersistenceById($persistenceId);
+        if (!$persistence->getDriver() instanceof \common_persistence_PhpRedisDriver) {
+            throw new \common_exception_InconsistentData('Not redis persistence id configured for RedisStore');
         }
     }
 

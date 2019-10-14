@@ -167,10 +167,12 @@ class Queue implements QueueInterface, TaskLogAwareInterface
                 $this->getTaskLog()
                     ->add($task, TaskLogInterface::STATUS_ENQUEUED, $label);
             }
-            $lock->release();
+
             return $isEnqueued;
         } catch (\Exception $e) {
             $this->logError('Enqueueing ' . $task . ' failed with MSG: ' . $e->getMessage());
+        } finally {
+            $lock->release();
         }
 
         return false;
