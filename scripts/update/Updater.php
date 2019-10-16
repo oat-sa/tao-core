@@ -1240,6 +1240,6 @@ class Updater extends \common_ext_ExtensionUpdater {
             }
             $this->setVersion('39.1.0');
         }
-        $this->skip('39.1.0', '39.2.2');
+        $this->skip('39.1.0', '39.3.0');
     }
 }

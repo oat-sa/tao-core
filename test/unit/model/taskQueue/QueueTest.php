@@ -26,6 +26,7 @@ use oat\tao\model\taskQueue\Queue\Broker\QueueBrokerInterface;
 use oat\tao\model\taskQueue\Task\AbstractTask;
 use oat\tao\model\taskQueue\TaskLogInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Lock\LockInterface;
 use oat\generis\test\MockObject;
 
 class QueueTest extends TestCase
@@ -63,7 +64,9 @@ class QueueTest extends TestCase
     public function testEnqueueWhenTaskPushedOrNot($isEnqueued, $expected)
     {
         $taskMock = $this->getMockForAbstractClass(AbstractTask::class, [], "", false);
-
+        $lockMock = $this->getMockBuilder(LockInterface::class)->disableOriginalConstructor()->getMock();
+        $lockMock->method('acquire')->willReturn(true);
+        $lockMock->method('release')->willReturn(true);
         $queueBrokerMock = $this->getMockForAbstractClass(QueueBrokerInterface::class);
 
         $queueBrokerMock->expects($this->once())
@@ -75,13 +78,15 @@ class QueueTest extends TestCase
         /** @var Queue|MockObject $queueMock */
         $queueMock = $this->getMockBuilder(Queue::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getBroker', 'getTaskLog'])
+            ->setMethods(['getBroker', 'getTaskLog', 'createLock'])
             ->getMock();
 
         $queueMock->expects($this->once())
             ->method('getBroker')
             ->willReturn($queueBrokerMock);
-
+        $queueMock->expects($this->once())
+            ->method('createLock')
+            ->willReturn($lockMock);
         if ($isEnqueued) {
             $taskLogMock->expects($this->once())
                 ->method('add');
@@ -107,6 +112,9 @@ class QueueTest extends TestCase
      */
     public function testDequeueWhenTaskPoppedOrNot($dequeuedElem, $expected)
     {
+        $lockMock = $this->getMockBuilder(LockInterface::class)->disableOriginalConstructor()->getMock();
+        $lockMock->method('acquire')->willReturn(true);
+        $lockMock->method('release')->willReturn(true);
         /** @var QueueBrokerInterface|MockObject $queueBrokerMock */
         $queueBrokerMock = $this->getMockBuilder(QueueBrokerInterface::class)
             ->disableOriginalConstructor()
@@ -118,7 +126,12 @@ class QueueTest extends TestCase
             ->willReturn($dequeuedElem);
 
         $queueName = 'name of the queue';
-        $subject = new Queue($queueName, $queueBrokerMock);
+        $subject = $this->getMockBuilder(Queue::class)
+            ->setConstructorArgs([$queueName, $queueBrokerMock])
+            ->setMethods(['createLock'])
+            ->getMock();
+        $subject->method('createLock')
+            ->willReturn($lockMock);
 
         if ($dequeuedElem instanceof AbstractTask) {
             /** @var TaskLogInterface|MockObject $taskLogMock */
