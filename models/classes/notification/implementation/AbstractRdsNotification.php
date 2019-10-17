@@ -19,14 +19,17 @@
  */
 namespace oat\tao\model\notification\implementation;
 
+use Doctrine\DBAL\Schema\Schema;
+use Doctrine\DBAL\Schema\Table;
 use oat\tao\model\notification\AbstractNotificationService;
 use oat\tao\model\notification\NotificationInterface;
 use common_persistence_Manager as PersistenceManager;
 
-class RdsNotification
+abstract class AbstractRdsNotification
     extends AbstractNotificationService
 
 {
+    const SERVICE_ID = __CLASS__;
 
     const NOTIF_TABLE = 'notifications';
 
@@ -51,7 +54,7 @@ class RdsNotification
     /**
      * @return \common_persistence_SqlPersistence
      */
-    protected function getPersistence()
+    public function getPersistence()
     {
         if(is_null($this->persistence)) {
 
@@ -74,30 +77,18 @@ class RdsNotification
 
     public function sendNotification(NotificationInterface $notification)
     {
-        $persistence = $this->getPersistence();
-
-        $platform = $this->getPersistence()->getPlatForm();
-
-        $sqlQuery    = 'INSERT INTO ' . self::NOTIF_TABLE .
-                        ' (' . $this->getAllFieldString() . ') 
-                            VALUES ( ? , ? , ? , ? , ? , ? , ? , ? )';
-
-        $data = [
-            $notification->getRecipient(),
-            $notification->getStatus(),
-            $notification->getSenderId(),
-            $notification->getSenderName(),
-            $notification->getTitle(),
-            $notification->getMessage(),
-            $platform->getNowExpression(),
-            $platform->getNowExpression()
-        ];
-
-        $persistence->exec($sqlQuery , $data);
-
+        $this->getPersistence()->insert(self::NOTIF_TABLE, $this->prepareNotification($notification));
         return $notification;
     }
 
+    /**
+     * Prepares the fields to insert according to db engine.
+     * @param NotificationInterface $notification
+     *
+     * @return array
+     */
+    abstract public function prepareNotification(NotificationInterface $notification);
+    
     public function getNotifications($userId)
     {
         $notification = [];
@@ -117,7 +108,6 @@ class RdsNotification
         $result = $stmt->fetchAll();
 
         foreach($result as $notificationDetail) {
-
             $userId     = $notificationDetail[self::NOTIF_FIELD_RECIPIENT];
             $title      = $notificationDetail[self::NOTIF_FIELD_TITLE];
             $message    = $notificationDetail[self::NOTIF_FIELD_MESSAGE];
@@ -185,12 +175,10 @@ class RdsNotification
             ];
 
         return $persistence->exec($updateQuery , $data);
-
     }
 
     public function notificationCount($userId)
     {
-
         $persistence = $this->getPersistence();
         $count = [ NotificationInterface::CREATED_STATUS => 0 ];
 
@@ -213,9 +201,12 @@ class RdsNotification
         }
 
         return $count;
-
     }
 
-
-
+    /**
+     * Creates the table according to the db engine.
+     * @param Schema $schema
+     * @return Table
+     */
+    abstract public function createNotificationTable(Schema $schema);
 }
