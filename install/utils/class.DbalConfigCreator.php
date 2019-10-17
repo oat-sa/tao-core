@@ -20,6 +20,10 @@
  * @license GPLv2
  */
 
+use Doctrine\DBAL\Portability\Connection;
+use OAT\Library\DBALSpanner\SpannerDriver;
+use OAT\Library\DBALSpanner\SpannerPlatform;
+
 /**
  * The class is a helper to generate the persistence config
  * based on command line parameters or web installer parameters
@@ -49,13 +53,23 @@ class tao_install_utils_DbalConfigCreator {
         }
         if($installData['db_driver'] == 'pdo_oci'){
             $dbConnectionParams['wrapperClass'] = 'Doctrine\DBAL\Portability\Connection';
-            $dbConnectionParams['portability'] = \Doctrine\DBAL\Portability\Connection::PORTABILITY_ALL;
+            $dbConnectionParams['portability'] = Connection::PORTABILITY_ALL;
             $dbConnectionParams['fetch_case'] = PDO::CASE_LOWER;
         }
         // reset db name for mysql
         if ($installData['db_driver'] == 'pdo_mysql'){
             $dbConnectionParams['dbname'] = $installData['db_name'];
         }
+
+        if(SpannerDriver::DRIVER_NAME == $installData['db_driver']) {
+            $dbConnectionParams = [
+                'dbname' => $installData['db_name'],
+                'instance' => $installData['db_host'],
+                'driverClass' => SpannerDriver::class,
+                'platform' => new SpannerPlatform(),
+            ];
+        }
+
         return array(
             'driver' => 'dbal',
             'connection' => $dbConnectionParams,
