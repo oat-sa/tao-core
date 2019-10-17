@@ -20,8 +20,6 @@
  *               2013-2017 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
-use OAT\Library\DBALSpanner\SpannerDriver;
-use OAT\Library\DBALSpanner\SpannerPlatform;
 use oat\tao\helpers\InstallHelper;
 use oat\oatbox\install\Installer;
 use oat\oatbox\service\ServiceManager;
