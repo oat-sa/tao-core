@@ -16,49 +16,63 @@
  *
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
- * @author Lionel Lecaque  <lionel@taotesting.com>
+ * @author  Lionel Lecaque  <lionel@taotesting.com>
  * @license GPLv2
  */
+
+use OAT\Library\DBALSpanner\SpannerDriver;
+use OAT\Library\DBALSpanner\SpannerPlatform;
 
 /**
  * The class is a helper to generate the persistence config
  * based on command line parameters or web installer parameters
  */
-class tao_install_utils_DbalConfigCreator {
-
+class tao_install_utils_DbalConfigCreator
+{
     public function createDbalConfig($installData)
     {
-        if($installData['db_driver'] == 'pdo_oci'){
+        // Oracle driver stores db host as db name.
+        if ($installData['db_driver'] == 'pdo_oci') {
             $installData['db_name'] = $installData['db_host'];
             $installData['db_host'] = '';
         }
-        $dbConnectionParams = array(
+
+        // Default configuration.
+        $dbConnectionParams = [
             'driver' => $installData['db_driver'],
             'host' => $installData['db_host'],
             'dbname' => $installData['db_name'],
             'user' => $installData['db_user'],
             'password' => $installData['db_pass'],
-        );
+        ];
+
+        // Split host and port if port is present.
         $hostParts = explode(':', $installData['db_host']);
         if (count($hostParts) == 2) {
             $dbConnectionParams['host'] = $hostParts[0];
             $dbConnectionParams['port'] = $hostParts[1];
         }
-        if($installData['db_driver'] == 'pdo_mysql'){
-            $dbConnectionParams['dbname'] = '';
-        }
-        if($installData['db_driver'] == 'pdo_oci'){
+        
+        // Oracle driver uses portability construct
+        if ($installData['db_driver'] == 'pdo_oci') {
             $dbConnectionParams['wrapperClass'] = 'Doctrine\DBAL\Portability\Connection';
             $dbConnectionParams['portability'] = \Doctrine\DBAL\Portability\Connection::PORTABILITY_ALL;
             $dbConnectionParams['fetch_case'] = PDO::CASE_LOWER;
         }
-        // reset db name for mysql
-        if ($installData['db_driver'] == 'pdo_mysql'){
-            $dbConnectionParams['dbname'] = $installData['db_name'];
+        
+        // Spanner driver is not registere in DBAL, so needs the correct classes for driver and platform.
+        if ($installData['db_driver'] == SpannerDriver::DRIVER_NAME) {
+            $dbConnectionParams = [
+                'dbname' => $installData['db_name'],
+                'instance' => $installData['db_host'],
+                'driverClass' => SpannerDriver::class,
+                'platform' => new SpannerPlatform(),
+            ];
         }
-        return array(
+        
+        return [
             'driver' => 'dbal',
             'connection' => $dbConnectionParams,
-        );
+        ];
     }
 }
