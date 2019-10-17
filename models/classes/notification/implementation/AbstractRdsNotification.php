@@ -29,6 +29,8 @@ abstract class AbstractRdsNotification
     extends AbstractNotificationService
 
 {
+    const SERVICE_ID = __CLASS__;
+
     const NOTIF_TABLE = 'notifications';
 
     const NOTIF_FIELD_ID           = 'id';
