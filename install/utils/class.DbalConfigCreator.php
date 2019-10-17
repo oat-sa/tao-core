@@ -20,9 +20,6 @@
  * @license GPLv2
  */
 
-use OAT\Library\DBALSpanner\SpannerDriver;
-use OAT\Library\DBALSpanner\SpannerPlatform;
-
 /**
  * The class is a helper to generate the persistence config
  * based on command line parameters or web installer parameters
@@ -58,14 +55,6 @@ class tao_install_utils_DbalConfigCreator {
         // reset db name for mysql
         if ($installData['db_driver'] == 'pdo_mysql'){
             $dbConnectionParams['dbname'] = $installData['db_name'];
-        }
-        if($installData['db_driver'] == SpannerDriver::DRIVER_NAME) {
-            $dbConnectionParams = [
-                'dbname' => $installData['db_name'],
-                'instance' => $installData['db_host'],
-                'driverClass' => SpannerDriver::class,
-                'platform' => new SpannerPlatform(),
-            ];
         }
         return array(
             'driver' => 'dbal',
