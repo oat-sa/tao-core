@@ -278,6 +278,7 @@ class TokenServiceTest extends TestCase
 
     public function testInvalidateTimeLimit()
     {
+        $this->markTestSkipped('Rewrite this with Carbon to avoid waiting.');
         $store = $this->getStoreMock();
         $service = new TokenService([
             TokenService::OPTION_STORE => $store,
@@ -309,6 +310,8 @@ class TokenServiceTest extends TestCase
      */
     public function testTimeLimit()
     {
+        $this->markTestSkipped('Rewrite this with Carbon to avoid waiting.');
+        
         $store = $this->getStoreMock();
         $service = new TokenService([
             TokenService::OPTION_STORE => $store,

@@ -63,7 +63,8 @@ abstract class tao_models_classes_CrudService extends tao_models_classes_Service
      */
     protected function getRootClass()
     {
-        return $this->getClassService()->getRootClass();
+        $rootClass = $this->getClassService()->getRootClass();
+        return $rootClass;
     }
 
     /**
