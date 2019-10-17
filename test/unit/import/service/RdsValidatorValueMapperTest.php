@@ -21,8 +21,10 @@ namespace oat\tao\test\unit\import\service;
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
 use oat\tao\model\import\service\RdsValidatorValueMapper;
+use oat\generis\test\TestCase;
+use oat\generis\test\MockObject;
 
-class RdsValidatorValueMapperTest extends \PHPUnit_Framework_TestCase
+class RdsValidatorValueMapperTest extends TestCase
 {
     public function testMap()
     {
@@ -96,7 +98,7 @@ class RdsValidatorValueMapperTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param $instanceOf
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return MockObject
      */
     protected function mockResource($instanceOf)
     {

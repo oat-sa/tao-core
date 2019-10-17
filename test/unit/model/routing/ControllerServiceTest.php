@@ -25,6 +25,7 @@ use oat\tao\model\routing\ControllerService;
 use oat\tao\model\routing\RouteAnnotationService;
 use Prophecy\Argument;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use oat\generis\test\TestCase;
 
 
 abstract class AbsCl {}
@@ -42,7 +43,7 @@ class RouteAnnotationExample {
     public function withoutAnnotation(){}
 }
 
-class ControllerServiceTest extends \PHPUnit_Framework_TestCase
+class ControllerServiceTest extends TestCase
 {
 
     /**

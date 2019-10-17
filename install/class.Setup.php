@@ -286,6 +286,8 @@ class tao_install_Setup implements Action
 
         // configure persistences
         $options['extra_persistences'] = $persistences;
+        // prevent default to be overwritten
+        unset($options['extra_persistences']['default']);
 
 
         $installator->install($options);

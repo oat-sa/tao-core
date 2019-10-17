@@ -25,6 +25,9 @@ namespace oat\tao\model\taskQueue\Task;
  */
 trait TaskAwareTrait
 {
+    /**
+     * @var TaskInterface
+     */
     private $task;
 
     /**

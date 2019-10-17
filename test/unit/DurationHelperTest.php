@@ -25,7 +25,11 @@ use oat\tao\helpers\DateIntervalMS;
  * @package tao
  
  */
-class DurationHelperTest extends \PHPUnit_Framework_TestCase {
+
+use oat\generis\test\TestCase;
+
+class DurationHelperTest extends TestCase
+{
     
     /**
      * Data provider for the testTimetoDuration method

@@ -19,22 +19,24 @@
 
 namespace oat\tao\model\webhooks\task;
 
-use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\BadResponseException;
+use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Psr7\Request;
 use oat\oatbox\extension\AbstractAction;
-use oat\oatbox\log\LoggerAwareTrait;
 use oat\tao\model\taskQueue\Task\TaskAwareInterface;
 use oat\tao\model\taskQueue\Task\TaskAwareTrait;
 use oat\tao\model\webhooks\configEntity\WebhookAuthInterface;
 use oat\tao\model\webhooks\configEntity\WebhookInterface;
 use oat\tao\model\webhooks\WebhookRegistryInterface;
+use oat\tao\model\webhooks\WebhookTaskServiceInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
 class WebhookTask extends AbstractAction implements TaskAwareInterface
 {
-    use LoggerAwareTrait;
     use TaskAwareTrait;
 
     /**
@@ -54,10 +56,8 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
             $webhookConfig = $this->getWebhookConfig();
             $request = $this->prepareRequest($webhookConfig);
             return $this->performRequest($request, $webhookConfig->getAuth());
-        }
-        catch (\Exception $exception) {
-            $this->logException($exception);
-            return \common_report_Report::createFailure($exception->getMessage());
+        } catch (\Exception $exception) {
+            return $this->getWebhookTaskReports()->reportInternalException($this->getTaskContext(), $exception);
         }
     }
 
@@ -97,38 +97,60 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
      */
     private function performRequest(RequestInterface $request, WebhookAuthInterface $authConfig = null)
     {
+        $errorReport = $response =null;
         try {
             $response = $this->getWebhookSender()->performRequest($request, $authConfig);
-        }
-        catch (ClientException $clientException) {
-            return $this->reportError(
-                'Client exception: ' . $clientException->getMessage(),
-                $clientException->getResponse()
+        } catch (ServerException $connectException) {
+            $this->retryTask();
+            $errorReport = $this->getWebhookTaskReports()->reportBadResponseException(
+                $this->getTaskContext(), $connectException
+            );
+        } catch (BadResponseException $badResponseException) {
+            $errorReport = $this->getWebhookTaskReports()->reportBadResponseException(
+                $this->getTaskContext(), $badResponseException
+            );
+        } catch (ConnectException $connectException) {
+            $this->retryTask();
+            $errorReport = $this->getWebhookTaskReports()->reportConnectException(
+                $this->getTaskContext(), $connectException
+            );
+        } catch (RequestException $requestException) {
+            $errorReport = $this->getWebhookTaskReports()->reportRequestException(
+                $this->getTaskContext(), $requestException
             );
         }
 
-        return $this->handleResponse($response);
+        return $response
+            ? $this->handleResponse($response)
+            : $errorReport;
     }
 
+    /**
+     * @param ResponseInterface $response
+     * @return \common_report_Report
+     */
     private function handleResponse(ResponseInterface $response)
     {
-        $statusCode = $response->getStatusCode();
-        if (!$this->isAcceptableResponseStatusCode($statusCode)) {
-            return $this->reportError("Response status code is $statusCode", $response);
+        if (!$this->isAcceptableResponseStatusCode($response->getStatusCode())) {
+            $this->retryTask();
+            return $this->getWebhookTaskReports()->reportInvalidStatusCode($this->getTaskContext(), $response);
         }
 
         $parsedResponse = $this->getWebhookResponseFactory()->create($response);
+        if ($parsedResponse->getParseError()) {
+            return $this->getWebhookTaskReports()->reportInvalidBodyFormat($this->getTaskContext(), $response);
+        }
 
-        if (!$parsedResponse->isDelivered($this->params->getEventId())) {
-            return $this->reportError(
-                "Event '" . $this->params->getEventId() . "' wasn't delivered.",
-                $response,
-                $parsedResponse
+        $eventId = $this->params->getEventId();
+        if (!$parsedResponse->isDelivered($eventId)) {
+            return $this->getWebhookTaskReports()->reportInvalidAcknowledgement(
+                $this->getTaskContext(), $response, $parsedResponse
             );
         }
 
-        $eventStatus = $parsedResponse->getStatus($this->params->getEventId());
-        return \common_report_Report::createSuccess("Event delivered with '$eventStatus' status");
+        return $this->getWebhookTaskReports()->reportSuccess(
+            $this->getTaskContext(), $response, $parsedResponse->getStatus($eventId)
+        );
     }
 
     /**
@@ -138,65 +160,6 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
     private function isAcceptableResponseStatusCode($httpStatusCode)
     {
         return $httpStatusCode >= 200 && $httpStatusCode < 300;
-    }
-
-    /**
-     * @param string $message
-     * @param ResponseInterface|null $response
-     * @param WebhookResponse|null $parsedResponse
-     * @return \common_report_Report
-     */
-    private function reportError(
-        $message,
-        ResponseInterface $response = null,
-        WebhookResponse $parsedResponse = null
-    ) {
-        $errors = [
-            'message' => $message
-        ];
-        $context = [];
-
-        if ($parsedResponse) {
-            if ($parsedResponse->getParseError()) {
-                $errors['parse'] = 'Parse error: ' . $parsedResponse->getParseError();
-            }
-            $status = $parsedResponse->getStatus($this->params->getEventId());
-            $errors['status'] = $status !== null
-                ? "Event status: '$status'"
-                : 'eventId not found in response';
-        }
-
-        if ($response) {
-            $context['httpStatus'] = $response->getStatusCode();
-            $context['responseBody'] = (string) $response->getBody();
-        }
-
-        $this->logErrorWithTaskContext(implode(PHP_EOL, $errors), $context);
-
-        unset($errors['parse']);
-        return \common_report_Report::createFailure(implode(PHP_EOL, $errors));
-    }
-
-    private function logException(\Exception $exception)
-    {
-        $this->logErrorWithTaskContext(sprintf(
-            '%s exception in %s:%d: %s',
-            get_class($exception),
-            $exception->getFile(),
-            $exception->getLine(),
-            $exception->getMessage()
-        ));
-    }
-
-    /**
-     * @param string $message
-     * @param array $context
-     */
-    private function logErrorWithTaskContext($message, $context = [])
-    {
-        $context['taskId'] = $this->getTask()->getId();
-        $context['eventId'] = $this->params->getEventId();
-        $this->logError($message, $context);
     }
 
     /**
@@ -255,5 +218,49 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->getServiceLocator()->get(WebhookSender::class);
+    }
+
+    /**
+     * @return WebhookTaskServiceInterface
+     */
+    private function getWebhookTaskService()
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return $this->getServiceLocator()->get(WebhookTaskServiceInterface::SERVICE_ID);
+    }
+
+    /**
+     * @return WebhookTaskReports
+     */
+    private function getWebhookTaskReports()
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return $this->getServiceLocator()->get(WebhookTaskReports::class);
+    }
+
+    /**
+     * @return WebhookTaskContext
+     */
+    private function getTaskContext()
+    {
+        $context = new WebhookTaskContext();
+        $context->setTaskId($this->getTask()->getId());
+        try {
+            $context->setWebhookConfig($this->getWebhookConfig());
+        } catch (\Exception $e) {
+        }
+        try {
+            $context->setWebhookTaskParams($this->params);
+        } catch (\Exception $e) {
+        }
+        return $context;
+    }
+
+    private function retryTask()
+    {
+        if (!$this->params->isMaxRetryCountReached()) {
+            $this->params->increaseRetryCount();
+            $this->getWebhookTaskService()->createTask($this->params);
+        }
     }
 }

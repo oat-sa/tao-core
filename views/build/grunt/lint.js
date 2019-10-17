@@ -49,7 +49,8 @@ module.exports = function(grunt) {
         `!${extensionRoot}/views/js/portableLib/**/*.js`,
         `!${extensionRoot}/views/js/pciCreator/dev/**/*.js`,
         `!${extensionRoot}/views/js/picCreator/dev/**/*.js`,
-        `!${extensionRoot}/views/js/**/jquery.*.js`
+        `!${extensionRoot}/views/js/**/jquery.*.js`,
+        `!${extensionRoot}/views/js/e2e/**/*.js`
     ];
 
     grunt.config.merge({
