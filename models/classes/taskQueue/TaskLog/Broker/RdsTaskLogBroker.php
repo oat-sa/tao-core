@@ -263,7 +263,7 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
 
             $collection = TaskLogCollection::createFromArray(
                 $qb->execute()->fetchAll(),
-                $this->getPersistence()->getPlatForm()->getDateTimeTzFormatString()
+                $this->getPersistence()->getPlatForm()->getDateTimeFormatString()
             );
         } catch (\Exception $exception) {
             $this->logError('Searching for task logs failed with MSG: ' . $exception->getMessage());
