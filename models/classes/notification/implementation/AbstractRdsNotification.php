@@ -21,16 +21,14 @@ namespace oat\tao\model\notification\implementation;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\Table;
+use oat\generis\persistence\PersistenceManager;
 use oat\tao\model\notification\AbstractNotificationService;
 use oat\tao\model\notification\NotificationInterface;
-use common_persistence_Manager as PersistenceManager;
 
 abstract class AbstractRdsNotification
     extends AbstractNotificationService
 
 {
-    const SERVICE_ID = __CLASS__;
-
     const NOTIF_TABLE = 'notifications';
 
     const NOTIF_FIELD_ID           = 'id';
@@ -57,15 +55,12 @@ abstract class AbstractRdsNotification
     public function getPersistence()
     {
         if(is_null($this->persistence)) {
-
-            $persistence = self::DEFAULT_PERSISTENCE;
-
-            if($this->hasOption(self::OPTION_PERSISTENCE)) {
-                $persistence = $this->getOption(self::OPTION_PERSISTENCE);
-            }
+            $persistenceId = $this->hasOption(self::OPTION_PERSISTENCE)
+                ? $this->getOption(self::OPTION_PERSISTENCE)
+                : self::DEFAULT_PERSISTENCE;
 
             $persistenceManager = $this->getServiceLocator()->get(PersistenceManager::SERVICE_ID);
-            $this->persistence  = $persistenceManager->getPersistenceById($persistence);
+            $this->persistence  = $persistenceManager->getPersistenceById($persistenceId);
         }
         return $this->persistence;
     }
