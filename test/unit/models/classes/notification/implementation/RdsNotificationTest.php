@@ -39,14 +39,8 @@ class RdsNotificationTest extends TestCase
     public function setUp()
     {
         $persistenceId = 'rds_notification_test';
-        $databaseMock = $this->getSqlMock($persistenceId);
-        $this->persistence = $databaseMock->getPersistenceById($persistenceId);
-
-        $persistenceManager = $this->getMockBuilder(PersistenceManager::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['getPersistence'])
-            ->getMock();
-        $persistenceManager->method('getPersistence')->willReturn($this->persistence);
+        $persistenceManager = $this->getSqlMock($persistenceId);
+        $this->persistence = $persistenceManager->getPersistenceById($persistenceId);
 
         $this->subject = new RdsNotification([AbstractRdsNotification::OPTION_PERSISTENCE => $persistenceId]);
 
