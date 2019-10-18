@@ -22,18 +22,15 @@ namespace oat\tao\scripts\install;
 
 use Doctrine\DBAL\Schema\SchemaException;
 use oat\oatbox\extension\InstallAction;
-use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\notification\implementation\AbstractRdsNotification;
-use common_persistence_Manager as PersistenceManager;
 
 class InstallNotificationTable extends InstallAction
 {
-
     public function __invoke($params)
     {
         /** @var AbstractRdsNotification $notification */
-        $notification = $this->getServiceLocator()->get(AbstractRdsNotification::SERVICE_ID);
+        $notification = $this->getServiceLocator()->get(NotificationServiceInterface::SERVICE_ID);
         $persistence = $notification->getPersistence();
 
         $schemaManager = $persistence->getDriver()->getSchemaManager();
@@ -56,21 +53,5 @@ class InstallNotificationTable extends InstallAction
         } catch(SchemaException $e) {
             \common_Logger::i('Database Schema already up to date.');
         }
-
-        $queue = new NotificationServiceAggregator();
-        $queue->setServiceLocator($this->getServiceManager());
-        $queue->setOption('rds' ,
-            [
-                'class'   => AbstractRdsNotification::class,
-                'options' => [
-                    AbstractRdsNotification::OPTION_PERSISTENCE => AbstractRdsNotification::DEFAULT_PERSISTENCE,
-                    'visibility'  => false,
-                ],
-            ]
-        );
-
-        $this->getServiceManager()->register(NotificationServiceInterface::SERVICE_ID, $queue);
-
     }
-
 }
