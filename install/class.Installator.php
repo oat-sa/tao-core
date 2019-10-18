@@ -246,6 +246,7 @@ class tao_install_Installator {
 			// Init model creator and create the Generis User.
             $this->log('d', 'Creating generis user..');
 			$modelCreator = new tao_install_utils_ModelCreator(LOCAL_NAMESPACE);
+            $modelCreator->setServiceLocator($this->getServiceManager());
 			$modelCreator->insertGenerisUser(helpers_Random::generateString(8));
 
 			/*
