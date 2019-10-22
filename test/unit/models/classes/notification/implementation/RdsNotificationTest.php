@@ -19,18 +19,18 @@
 
 namespace oat\tao\test\unit\model\notification\implementation;
 
-use common_persistence_Manager as PersistenceManager;
 use common_persistence_Persistence as Persistence;
+use oat\generis\persistence\PersistenceManager;
+use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
-use oat\oatbox\service\ServiceManager;
+use oat\tao\model\notification\implementation\AbstractRdsNotification;
 use oat\tao\model\notification\implementation\Notification;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\scripts\install\InstallNotificationTable;
-use oat\generis\test\MockObject;
 
 class RdsNotificationTest extends TestCase
 {
-    /** @var RdsNotification */
+    /** @var AbstractRdsNotification */
     private $subject;
 
     /** @var Persistence */
@@ -39,32 +39,20 @@ class RdsNotificationTest extends TestCase
     public function setUp()
     {
         $persistenceId = 'rds_notification_test';
-        $databaseMock = $this->getSqlMock($persistenceId);
-        $this->persistence = $databaseMock->getPersistenceById($persistenceId);
+        $persistenceManager = $this->getSqlMock($persistenceId);
+        $this->persistence = $persistenceManager->getPersistenceById($persistenceId);
 
-        $persistenceManager = $this->getMockBuilder(PersistenceManager::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['getPersistenceById'])
-            ->getMock();
-        $persistenceManager->method('getPersistenceById')->willReturn($this->persistence);
+        $this->subject = new RdsNotification([AbstractRdsNotification::OPTION_PERSISTENCE => $persistenceId]);
 
         $serviceManagerMock = $this->getServiceLocatorMock([
             PersistenceManager::SERVICE_ID => $persistenceManager,
+            AbstractRdsNotification::SERVICE_ID => $this->subject,
         ]);
 
-        $this->subject = new RdsNotification([RdsNotification::OPTION_PERSISTENCE => $persistenceId]);
         $this->subject->setServiceLocator($serviceManagerMock);
 
-        /** @var ServiceManager|MockObject $serviceLocator */
-        $serviceLocator = $this->getMockBuilder(ServiceManager::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['get', 'register'])
-            ->getMock();
-        $serviceLocator->method('get')->willReturn($persistenceManager);
-        $serviceLocator->expects($this->once())->method('register');
-
         $tableCreator = new InstallNotificationTable();
-        $tableCreator->setServiceLocator($serviceLocator);
+        $tableCreator->setServiceLocator($serviceManagerMock);
         $tableCreator([]);
     }
 
@@ -81,22 +69,24 @@ class RdsNotificationTest extends TestCase
         $message = 'this is the message';
         $senderId = 'id of the sender';
         $senderName = 'name of the sender';
-        $id = 1;
+        $id = 'whatever';
         $createdAt = $this->persistence->getPlatform()->getNowExpression();
         $updatedAt = $this->persistence->getPlatform()->getNowExpression();
         $status = 12;
 
-        $notification = new Notification($recipientId,
-            $title,
-            $message,
-            $senderId,
-            $senderName,
-            $id,
-            $createdAt,
-            $updatedAt,
-            $status
-        );
+        $notification = new Notification($recipientId, $title, $message, $senderId, $senderName, $id, $createdAt, $updatedAt, $status);
         $this->subject->sendNotification($notification);
-        $this->assertEquals([$notification], $this->subject->getNotifications($recipientId));
+
+        $notifications = $this->subject->getNotifications($recipientId);
+        $storedNotification = array_pop($notifications);
+        $this->assertInstanceOf(Notification::class, $storedNotification);
+        $this->assertEquals($recipientId, $storedNotification->getRecipient());
+        $this->assertEquals($title, $storedNotification->getTitle());
+        $this->assertEquals($message, $storedNotification->getMessage());
+        $this->assertEquals($senderId, $storedNotification->getSenderId());
+        $this->assertEquals($senderName, $storedNotification->getSenderName());
+        $this->assertEquals((new \DateTime($createdAt))->getTimestamp(), $storedNotification->getCreatedAt());
+        $this->assertEquals((new \DateTime($updatedAt))->getTimestamp(), $storedNotification->getUpdatedAt());
+        $this->assertEquals($status, $storedNotification->getStatus());
     }
 }

@@ -22,40 +22,27 @@ namespace oat\tao\scripts\install;
 
 use Doctrine\DBAL\Schema\SchemaException;
 use oat\oatbox\extension\InstallAction;
-use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\NotificationServiceInterface;
-use oat\tao\model\notification\implementation\RdsNotification;
-use common_persistence_Manager as PersistenceManager;
+use oat\tao\model\notification\implementation\AbstractRdsNotification;
 
 class InstallNotificationTable extends InstallAction
 {
-
     public function __invoke($params)
     {
-        $persistence = $this->getServiceLocator()->get(PersistenceManager::SERVICE_ID)
-            ->getPersistenceById(RdsNotification::DEFAULT_PERSISTENCE);
+        /** @var AbstractRdsNotification $notification */
+        $notification = $this->getServiceLocator()->get(NotificationServiceInterface::SERVICE_ID);
+        $persistence = $notification->getPersistence();
+
         $schemaManager = $persistence->getDriver()->getSchemaManager();
         $schema = $schemaManager->createSchema();
+        
         /**
          * @var \Doctrine\DBAL\Schema\Schema $fromSchema
          */
         $fromSchema = clone $schema;
 
         try {
-
-            $queueTable = $schema->createtable(RdsNotification::NOTIF_TABLE);
-
-            $queueTable->addOption('engine', 'MyISAM');
-            $queueTable->addColumn(RdsNotification::NOTIF_FIELD_ID           , "integer"  ,array("notnull" => true, 'autoincrement' => true));
-            $queueTable->addColumn(RdsNotification::NOTIF_FIELD_RECIPIENT    , "string"   ,array("notnull" => true ,"length" => 255));
-            $queueTable->addColumn(RdsNotification::NOTIF_FIELD_STATUS       , "integer"  ,array("default" => 0 , "notnull" => false,"length" => 255));
-            $queueTable->addColumn(RdsNotification::NOTIF_FIELD_TITLE        , "string"   ,array("length" => 255));
-            $queueTable->addColumn(RdsNotification::NOTIF_FIELD_MESSAGE      , "text"     ,array("default" => null));
-            $queueTable->addColumn(RdsNotification::NOTIF_FIELD_SENDER       , "string"   ,array("default" => null , "notnull" => false,"length" => 255));
-            $queueTable->addColumn(RdsNotification::NOTIF_FIELD_SENDER_NANE  , "string"   ,array("default" => null , "notnull" => false,"length" => 255));
-            $queueTable->addColumn(RdsNotification::NOTIF_FIELD_CREATION     , "datetime" ,array("notnull" => true));
-            $queueTable->addColumn(RdsNotification::NOTIF_FIELD_UPDATED      , "datetime" ,array("notnull" => true));
-            $queueTable->setPrimaryKey(array(RdsNotification::NOTIF_FIELD_ID));
+            $notification->createNotificationTable($schema);
 
             $queries = $persistence->getPlatform()->getMigrateSchemaSql($fromSchema, $schema);
 
@@ -66,21 +53,5 @@ class InstallNotificationTable extends InstallAction
         } catch(SchemaException $e) {
             \common_Logger::i('Database Schema already up to date.');
         }
-
-        $queue = new NotificationServiceAggregator();
-        $queue->setServiceLocator($this->getServiceManager());
-        $queue->setOption('rds' ,
-            array(
-                'class'   => RdsNotification::class,
-                'options' => [
-                        RdsNotification::OPTION_PERSISTENCE => RdsNotification::DEFAULT_PERSISTENCE,
-                        'visibility'  => false,
-                    ],
-            )
-        );
-
-        $this->getServiceManager()->register(NotificationServiceInterface::SERVICE_ID, $queue);
-
     }
-
 }
