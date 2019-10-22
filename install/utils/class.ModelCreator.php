@@ -20,6 +20,9 @@
  * 
  */
 
+use core_kernel_api_ModelFactory as ModelFactory;
+use \Zend\ServiceManager\ServiceLocatorAwareTrait;
+use \Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 /**
  * The ModelCreator enables you to import Ontologies into a TAO module
@@ -29,8 +32,10 @@
  
  *
  */
-class tao_install_utils_ModelCreator{
-
+class tao_install_utils_ModelCreator implements ServiceLocatorAwareInterface
+{
+    use ServiceLocatorAwareTrait;
+    
 	/**
 	 * @var string the module namesapce
 	 */
@@ -140,16 +145,15 @@ class tao_install_utils_ModelCreator{
 	 * @param string $model the XML data
 	 * @return boolean true if inserted
 	 */
-	public function insertModel($namespace, $model){
-
-		$returnValue = false;
+	public function insertModel($namespace, $model)
+    {
 		if(!preg_match("/#$/", $namespace)){
 			$namespace .= '#';
 		}
 
-		
-        $modFactory = new core_kernel_api_ModelFactory();
-        $returnValue = $modFactory->createModel($namespace, $model);
+        /** @var ModelFactory $modelFactory */
+        $modelFactory = $this->getServiceLocator()->get(ModelFactory::SERVICE_ID);
+        $returnValue = $modelFactory->createModel($namespace, $model);
                
 
         return $returnValue;
