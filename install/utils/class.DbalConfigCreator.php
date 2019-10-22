@@ -20,8 +20,6 @@
  * @license GPLv2
  */
 
-use OAT\Library\DBALSpanner\SpannerDriver;
-use OAT\Library\DBALSpanner\SpannerPlatform;
 use Doctrine\DBAL\Portability\Connection;
 
 /**
@@ -62,12 +60,13 @@ class tao_install_utils_DbalConfigCreator
         }
         
         // Spanner driver is not registere in DBAL, so needs the correct classes for driver and platform.
-        if ($installData['db_driver'] == SpannerDriver::DRIVER_NAME) {
+        if ($installData['db_driver'] == 'gcp-spanner') {
+            $platformClass = 'OAT\\Library\\DBALSpanner\\SpannerPlatform';
             $dbConnectionParams = [
                 'dbname' => $installData['db_name'],
                 'instance' => $installData['db_host'],
-                'driverClass' => SpannerDriver::class,
-                'platform' => new SpannerPlatform(),
+                'driverClass' => 'OAT\\Library\\DBALSpanner\\SpannerDriver',
+                'platform' => new $platformClass(),
             ];
         }
         
