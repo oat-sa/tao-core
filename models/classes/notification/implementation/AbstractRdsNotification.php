@@ -19,9 +19,11 @@
  */
 namespace oat\tao\model\notification\implementation;
 
+use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\Table;
 use oat\generis\persistence\PersistenceManager;
+use common_persistence_SqlPersistence as Persistence;
 use oat\tao\model\notification\AbstractNotificationService;
 use oat\tao\model\notification\NotificationInterface;
 
@@ -44,17 +46,18 @@ abstract class AbstractRdsNotification
     const OPTION_PERSISTENCE       = 'persistence';
 
     const DEFAULT_PERSISTENCE      = 'default';
+
     /**
-     * @var \common_persistence_Manager
+     * @var Persistence
      */
     protected $persistence;
 
     /**
-     * @return \common_persistence_SqlPersistence
+     * @return Persistence
      */
     public function getPersistence()
     {
-        if(is_null($this->persistence)) {
+        if($this->persistence === null) {
             $persistenceId = $this->hasOption(self::OPTION_PERSISTENCE)
                 ? $this->getOption(self::OPTION_PERSISTENCE)
                 : self::DEFAULT_PERSISTENCE;
@@ -70,6 +73,12 @@ abstract class AbstractRdsNotification
             . ' , ' . self::NOTIF_FIELD_TITLE . ' , ' .  self::NOTIF_FIELD_MESSAGE . ' , ' . self::NOTIF_FIELD_CREATION . ' , ' . self::NOTIF_FIELD_UPDATED ;
     }
 
+    /**
+     * @param NotificationInterface $notification
+     *
+     * @return NotificationInterface
+     * @throws DBALException
+     */
     public function sendNotification(NotificationInterface $notification)
     {
         $this->getPersistence()->insert(self::NOTIF_TABLE, $this->prepareNotification($notification));
