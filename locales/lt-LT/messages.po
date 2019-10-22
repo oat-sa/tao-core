@@ -32,7 +32,7 @@ msgid " next"
 msgstr " kitas"
 
 msgid " requires a subgrid adapter"
-msgstr ""
+msgstr "reikalauja detalesnės lentelės adapterio"
 
 msgid "%1$s expected but %2$s detected"
 msgstr "%1$s tikėtasi, bet %2$s aptikta"
@@ -387,7 +387,7 @@ msgid "Cannot divide by zero"
 msgstr "Negalima padalinti iš nulio"
 
 msgid "Case sensitive"
-msgstr ""
+msgstr "Skiriamos didžiosios-mažosios raidės"
 
 msgid "ceil"
 msgstr "ceil"
@@ -484,7 +484,7 @@ msgid "comment..."
 msgstr "komentaras..."
 
 msgid "Commit"
-msgstr ""
+msgstr "Patvirtinti"
 
 msgid "Completed"
 msgstr "Atlikta"
@@ -746,7 +746,7 @@ msgid "Examples:"
 msgstr ""
 
 msgid "Exclusive (OR)"
-msgstr ""
+msgstr "Exclusive (OR)"
 
 msgid "Execute"
 msgstr "Vykdyti"
@@ -799,7 +799,7 @@ msgid "Failed to delete index for %s"
 msgstr "Nepavyko ištrinti %s indekso"
 
 msgid "False"
-msgstr ""
+msgstr "False"
 
 msgid "Field delimiter"
 msgstr "Lauko atskyriklis"
@@ -880,7 +880,7 @@ msgid "generated-value"
 msgstr ""
 
 msgid "Generis Form"
-msgstr ""
+msgstr "Generis forma"
 
 msgid "Get History"
 msgstr "Gauti Istroriją"
@@ -976,7 +976,7 @@ msgid "In Progress"
 msgstr "Vykdoma"
 
 msgid "Inclusive (AND)"
-msgstr ""
+msgstr "Inclusive (AND)"
 
 msgid "Index has been deleted for %s"
 msgstr "Indeksas buvo pašalintas iš %s"
@@ -1159,10 +1159,10 @@ msgid "Logout"
 msgstr "Atsijungti"
 
 msgid "Maintenance service must have a persistence option."
-msgstr ""
+msgstr "Priežiūros tarnyba turi turėti palaikymo opciją."
 
 msgid "Maintenance storage driver is not set"
-msgstr ""
+msgstr "Priežiūros saugykla yra nenustatyta"
 
 msgid "Manage class schema"
 msgstr "Tvarkyti klasės schemą"
@@ -1453,7 +1453,7 @@ msgid "Please download the video and view offline."
 msgstr "Prašome atsisiųsti video, kad peržiūrėtumėte neprisijungę."
 
 msgid "Please give a message to your commit"
-msgstr ""
+msgstr "Perduokite pranešimą patvirtinimui"
 
 msgid "Please provide a reason"
 msgstr "Prašome pateikti priežastį"
@@ -2045,7 +2045,7 @@ msgid "Translation saved"
 msgstr "Vertimas išsaugotas"
 
 msgid "Tree - Multiple node choice "
-msgstr ""
+msgstr "Medis - galimi kelių šakų pasirinkimai"
 
 msgid "True"
 msgstr "Teisingas"
