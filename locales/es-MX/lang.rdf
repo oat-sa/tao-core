@@ -7,7 +7,7 @@
 >
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#Langes-MX">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#Languages"/>
-    <rdfs:label xml:lang="en-US"><![CDATA[Spanish]]></rdfs:label>
+    <rdfs:label xml:lang="en-US"><![CDATA[Mexican Spanish]]></rdfs:label>
     <rdf:value><![CDATA[es-MX]]></rdf:value>
     <tao:LanguageUsages rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageGUI"/>
     <tao:LanguageUsages rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageData"/>
