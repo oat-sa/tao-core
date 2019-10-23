@@ -23,26 +23,30 @@ namespace oat\tao\scripts\install;
 use Doctrine\DBAL\Schema\SchemaException;
 use oat\oatbox\extension\InstallAction;
 use oat\tao\model\notification\NotificationServiceInterface;
-use oat\tao\model\notification\implementation\AbstractRdsNotification;
+use oat\tao\model\notification\implementation\AbstractRdsNotificationService;
 
 class InstallNotificationTable extends InstallAction
 {
     public function __invoke($params)
     {
-        /** @var AbstractRdsNotification $notification */
-        $notification = $this->getServiceLocator()->get(NotificationServiceInterface::SERVICE_ID);
-        $persistence = $notification->getPersistence();
+        /** @var AbstractRdsNotificationService $notificationService */
+        $notificationService = $this->getServiceLocator()->get(NotificationServiceInterface::SERVICE_ID);
+        $persistence = $notificationService->getPersistence();
+        
+        //
+        if ($persistence === null) {
+            \common_Logger::i('No sql-based persistence configured. No database schema to install.');
+            return;
+        }
 
+        /** @var \Doctrine\DBAL\Schema\AbstractSchemaManager $schemaManager */
         $schemaManager = $persistence->getDriver()->getSchemaManager();
         $schema = $schemaManager->createSchema();
         
-        /**
-         * @var \Doctrine\DBAL\Schema\Schema $fromSchema
-         */
         $fromSchema = clone $schema;
 
         try {
-            $notification->createNotificationTable($schema);
+            $notificationService->createNotificationTable($schema);
 
             $queries = $persistence->getPlatform()->getMigrateSchemaSql($fromSchema, $schema);
 
