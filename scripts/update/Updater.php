@@ -136,6 +136,7 @@ use oat\tao\model\user\TaoRoles;
 use oat\generis\model\data\event\ResourceDeleted;
 use oat\tao\model\search\index\IndexService;
 use oat\tao\scripts\tools\MigrateSecuritySettings;
+use tao_install_utils_ModelCreator;
 use tao_models_classes_UserService;
 
 /**
@@ -1244,7 +1245,16 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         if ($this->isVersion('39.3.1')) {
             OntologyUpdater::syncModels();
-            $this->addReport(new Report(Report::TYPE_WARNING, 'Run php index.php \'oat\tao\scripts\tools\rdf\LangRdfModelFix\''));
+
+            $models = (new tao_install_utils_ModelCreator(LOCAL_NAMESPACE))->getLanguageModels();
+            $rdf = ModelManager::getModel()->getRdfInterface();
+            foreach (array_shift($models) as $file) {
+                $iterator = new FileIterator($file, 1);
+                foreach ($iterator as $triple) {
+                    $rdf->remove($triple);
+                    $rdf->add($triple);
+                }
+            }
             $this->setVersion('39.3.2');
         }
     }

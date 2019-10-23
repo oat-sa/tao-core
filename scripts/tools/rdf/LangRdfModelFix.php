@@ -21,39 +21,84 @@
 
 namespace oat\tao\scripts\tools\rdf;
 
+use AppendIterator;
 use common_report_Report as Report;
 use oat\generis\model\data\ModelManager;
 use oat\generis\model\kernel\persistence\file\FileIterator;
-use oat\oatbox\extension\AbstractAction;
-use tao_install_utils_Exception;
+use oat\oatbox\extension\script\ScriptAction;
 use tao_install_utils_ModelCreator;
 
-
-/**
- * sudo -u www-data php index.php 'oat\tao\scripts\tools\rdf\LangRdfModelFix' [--notLocal]
- **/
-class LangRdfModelFix extends AbstractAction
+class LangRdfModelFix extends ScriptAction
 {
     /**
-     * @param $params
      * @return Report
-     * @throws tao_install_utils_Exception
      */
-    public function __invoke ($params)
+    protected function run()
     {
-        $models = (new tao_install_utils_ModelCreator(LOCAL_NAMESPACE))->getLanguageModels();
-        $rdf = ModelManager::getModel()->getRdfInterface();
-        $total = 0;
-        $forceModelId = (isset($params[0]) && $params[0] == '--notLocal') ? null : 1;
+        try {
+            $models = (new tao_install_utils_ModelCreator(LOCAL_NAMESPACE))->getLanguageModels();
+            $rdf = ModelManager::getModel()->getRdfInterface();
+            $total = 0;
 
-        foreach (array_shift($models) as $file) {
-            $iterator = new FileIterator($file, $forceModelId);
-            foreach ($iterator as $triple) {
-                $rdf->remove($triple);
-                $rdf->add($triple);
+            $dryRun = (boolean) $this->getOption('dryRun');
+            $forceModelId = (boolean) $this->getOption('useLocal') ? 1 : null;
+            $langModels = new AppendIterator();
+
+            foreach (array_shift($models) as $file) {
+                $langModels->append((new FileIterator($file, $forceModelId))->getIterator());
+            }
+
+            foreach ($langModels as $triple) {
+                if (!$dryRun) {
+                    $rdf->remove($triple);
+                    $rdf->add($triple);
+                }
                 $total++;
             }
+            return Report::createInfo(sprintf('%s languages statements were updated', $total));
+        } catch (\Exception $e) {
+            return new Report(Report::TYPE_ERROR, $e->getMessage());
         }
-        return Report::createInfo(sprintf('%s languages statements were updated', $total));
+    }
+
+    /**
+     * @return string
+     */
+    protected function provideDescription()
+    {
+        return 'Tool to recreate statements for lang.rdf files. By default in dry-run';
+    }
+
+    /**
+     * @return array
+     */
+    protected function provideUsage()
+    {
+        return [
+            'prefix' => 'h',
+            'longPrefix' => 'help',
+            'description' => 'Prints a help statement'
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    protected function provideOptions()
+    {
+        return [
+            'dryRun' => [
+                'longPrefix' => 'dryRun',
+                'required' => false,
+                'description' => 'dry run',
+                'defaultValue' => 0
+            ],
+            'useLocal' => [
+                'longPrefix' => 'useLocal',
+                'description' => 'Use Local Namespace',
+                'required' => false,
+                'defaultValue' => 1
+            ]
+        ];
     }
 }
