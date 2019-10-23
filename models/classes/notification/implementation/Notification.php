@@ -58,7 +58,7 @@ class Notification implements NotificationInterface, \JsonSerializable
      */
     public function __construct($userId, $title, $message, $senderId, $senderName, $id = null, $createdAt = null, $updatedAt = null, $status = 0)
     {
-        $this->id         = intval($id);
+        $this->id         = $id;
         $this->status     = intval($status);
         $this->recipient  = $userId;
         $this->senderId   = $senderId;
