@@ -24,7 +24,11 @@
  * @package tao
  
  */
-class UriHelperTestCase extends \PHPUnit_Framework_TestCase {
+
+use oat\generis\test\TestCase;
+
+class UriHelperTestCase extends TestCase
+{
     
     public function setUp()
     {		

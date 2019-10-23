@@ -27,8 +27,9 @@ use oat\tao\model\taskQueue\TaskLog\Decorator\RedirectUrlEntityDecorator;
 use oat\tao\model\taskQueue\TaskLog\Entity\TaskLogEntity;
 use oat\tao\model\taskQueue\TaskLogInterface;
 use Prophecy\Argument;
+use oat\generis\test\TestCase;
 
-class RedirectUrlEntityDecoratorTest extends \PHPUnit_Framework_TestCase
+class RedirectUrlEntityDecoratorTest extends TestCase
 {
     private $createdAt;
     private $updatedAt;

@@ -1,0 +1,72 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: TAO 3.4.0-sprint113\n"
+"PO-Revision-Date: 2019-10-11T09:39:22\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
+"MIME-Version: 1.0\n"
+"Language: lt-LT\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: lt-LT\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#accountStatus
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Is locked?"
+msgstr "Ar užrakinta?"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#accountStatus
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Shows account status, locked or not"
+msgstr "Parodo paskyros būsena, ar užrakinta, ar ne"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#LockedStatus
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Check Locked"
+msgstr "Pažymėtas Užrakintas"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#LockedStatus
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Check Locked"
+msgstr "Pažymėtas Užrakintas"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#Locked
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Yes"
+msgstr "Taip"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#Locked
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Yes"
+msgstr "Taip"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#logonFailures
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Logon failures"
+msgstr "Nepavykę prisijungimai"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#logonFailures
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Count of user logon failures"
+msgstr "Kiekis nepavykusių prisijungimų"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#lastLogonFailureTime
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Last logon failure"
+msgstr "Paskutinis nepavykęs prisijungimas"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#lastLogonFailureTime
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Time when the last logon failure occurred"
+msgstr "Laikas kada įvyko paskutinis nepavykęs prisijungimas"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#lockedBy
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Locked by"
+msgstr "Užrakino"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#lockedBy
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Indicates by which user current user was locked"
+msgstr "Parodo pagal kurį vartotoją užrakintas dabartinis vartotojas"
+

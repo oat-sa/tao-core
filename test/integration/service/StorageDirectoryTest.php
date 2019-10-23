@@ -24,8 +24,9 @@ use League\Flysystem\Adapter\AbstractAdapter;
 use oat\oatbox\filesystem\Directory;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ServiceManager;
+use oat\generis\test\TestCase;
 
-class StorageDirectoryTest extends \PHPUnit_Framework_TestCase
+class StorageDirectoryTest extends TestCase
 {
     protected $fileSystemTmpId;
     protected $fileSystem;

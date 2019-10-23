@@ -29,7 +29,10 @@ class tao_install_checks_DatabaseDrivers extends common_configuration_Component 
         $drivers = array(   'pdo_mysql',
                             'pdo_pgsql',
                             'pdo_sqlsrv',
-                            'pdo_oci');
+                            'pdo_oci',
+'grpc' // spanner transport
+
+);
                          
         foreach ($drivers as $d){
         	$dbCheck = common_configuration_ComponentFactory::buildPHPDatabaseDriver($d);

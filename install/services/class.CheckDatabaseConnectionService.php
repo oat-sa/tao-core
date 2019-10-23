@@ -1,4 +1,6 @@
 <?php
+use oat\generis\persistence\PersistenceManager;
+
 /*  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -75,7 +77,7 @@ class tao_install_services_CheckDatabaseConnectionService
         else if (!isset($content['value']['driver']) || empty($content['value']['driver'])){
             throw new InvalidArgumentException("Missing data: 'driver' must be provided.");
         }
-        else if (!isset($content['value']['user']) || empty($content['value']['user'])){
+        else if (!isset($content['value']['user'])){
             throw new InvalidArgumentException("Missing data: 'user' must be provided.");
         }
         else if (!isset($content['value']['password'])){
@@ -128,19 +130,22 @@ class tao_install_services_CheckDatabaseConnectionService
                 //$dbCreatorClassName = tao_install_utils_DbCreator::getClassNameForDriver($driver);
                 //$dbCreator = new $dbCreatorClassName($host, $user, $password, $driver);
                 
-                $dbConfiguration = array(
-                		'driver' => $driver,
-                		'host' => $host,
-                		'dbname' => $database,
-                		'user' => $user,
-                		'password' => $password
+                $installParams = array(
+                    'db_driver' => $driver,
+                    'db_host' => $host,
+                    'db_name' => $database,
+                    'db_user' => $user,
+                    'db_pass' => $password
                 );
                 
-                $dbCreator = new tao_install_utils_DbalDbCreator($dbConfiguration);
+                $dbalConfigCreator = new tao_install_utils_DbalConfigCreator();
+                $persistenceManager = new PersistenceManager();
+                $persistenceManager->registerPersistence('default', $dbalConfigCreator->createDbalConfig($installParams));
+                $persistence = $persistenceManager->getPersistenceById('default');
                 
 				// If we are here, we are connected.
-				if ($overwrite == false && $dbCreator->dbExists($database)){
-					$message = "A database with name '${database}' already exists.";
+                if ($overwrite == false && !empty($persistence->getSchemaManager()->getTables())){
+					$message = "The database with name '${database}' is not empty.";
 					$status = 'invalid-overwrite';
 				}
 				else{
