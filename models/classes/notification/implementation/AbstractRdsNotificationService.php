@@ -27,7 +27,7 @@ use common_persistence_SqlPersistence as Persistence;
 use oat\tao\model\notification\AbstractNotificationService;
 use oat\tao\model\notification\NotificationInterface;
 
-abstract class AbstractRdsNotification
+abstract class AbstractRdsNotificationService
     extends AbstractNotificationService
 
 {

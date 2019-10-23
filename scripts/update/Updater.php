@@ -54,7 +54,6 @@ use oat\tao\model\metadata\compiler\ResourceJsonMetadataCompiler;
 use oat\tao\model\metrics\MetricsService;
 use oat\tao\model\mvc\DefaultUrlService;
 use oat\tao\model\notification\implementation\NotificationServiceAggregator;
-use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\resources\ResourceWatcher;
 use oat\tao\model\security\SignatureGenerator;
@@ -344,9 +343,9 @@ class Updater extends \common_ext_ExtensionUpdater {
             $queue = new NotificationServiceAggregator([
                 'rds' =>
                     array(
-                        'class'   => RdsNotification::class,
+                        'class'   => 'oat\\tao\\model\\notification\\implementation\\RdsNotification',
                         'options' => [
-                            RdsNotification::OPTION_PERSISTENCE => RdsNotification::DEFAULT_PERSISTENCE,
+                            'persistence' => 'default',
                             'visibility'  => false,
                         ],
                     )
@@ -1241,6 +1240,23 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('39.1.0');
         }
 
-        $this->skip('39.1.0', '39.4.0');
+        $this->skip('39.1.0', '39.3.0');
+
+        if($this->isVersion('39.3.0')) {
+            $queue = new NotificationServiceAggregator(
+                [
+                    NotificationServiceAggregator::OPTION_RDS_NOTIFICATION_SERVICE =>
+                        array(
+                            'class'   => 'oat\\tao\\model\\notification\\implementation\\RdsNotificationService',
+                            'options' => [
+                                'persistence' => 'default',
+                                'visibility'  => false,
+                            ],
+                        )
+                ]
+            );
+            $this->getServiceManager()->register(NotificationServiceInterface::SERVICE_ID, $queue);
+            $this->setVersion('39.4.0');
+        }
     }
 }
