@@ -1241,5 +1241,18 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('39.1.0');
         }
         $this->skip('39.1.0', '39.3.1');
+
+        if ($this->isVersion('39.3.1')) {
+            $iterator = new FileIterator(__DIR__ . '/../../locales/es-MX/lang.rdf', 1);
+            $rdf = ModelManager::getModel()->getRdfInterface();
+
+            /* @var \core_kernel_classes_Triple $triple */
+            foreach ($iterator as $triple) {
+                $rdf->remove($triple);
+                $rdf->add($triple);
+            }
+
+            $this->setVersion('39.3.2');
+        }
     }
 }
