@@ -1243,15 +1243,8 @@ class Updater extends \common_ext_ExtensionUpdater {
         $this->skip('39.1.0', '39.3.1');
 
         if ($this->isVersion('39.3.1')) {
-            $iterator = new FileIterator(__DIR__ . '/../../locales/es-MX/lang.rdf', 1);
-            $rdf = ModelManager::getModel()->getRdfInterface();
-
-            /* @var \core_kernel_classes_Triple $triple */
-            foreach ($iterator as $triple) {
-                $rdf->remove($triple);
-                $rdf->add($triple);
-            }
-
+            OntologyUpdater::syncModels();
+            $this->addReport(new Report(Report::TYPE_WARNING, 'Run php index.php \'oat\tao\scripts\tools\rdf\LangRdfModelFix\''));
             $this->setVersion('39.3.2');
         }
     }
