@@ -33,6 +33,8 @@ class TaskLogEntityTest extends TestCase
         $createdAt = new \DateTime('2017-11-16 14:11:42', new \DateTimeZone('UTC'));
         $updatedAt = new \DateTime('2017-11-16 17:12:30', new \DateTimeZone('UTC'));
 
+        $dateFormat = 'Y-m-d H:i:s';
+        
         $entity = TaskLogEntity::createFromArray([
             'id' => 'rdf#i1508337970199318643',
             'parent_id' => 'parentFake0002525',
@@ -41,8 +43,8 @@ class TaskLogEntityTest extends TestCase
             'label' => 'Task label',
             'status' => TaskLogInterface::STATUS_COMPLETED,
             'owner' => 'userId',
-            'created_at' => $createdAt->format('Y-m-d H:i:s'),
-            'updated_at' => $updatedAt->format('Y-m-d H:i:s'),
+            'created_at' => $createdAt->format($dateFormat),
+            'updated_at' => $updatedAt->format($dateFormat),
             'report' => [
                 'type' => 'info',
                 'message' => 'Running task http://www.taoinstance.dev/ontologies/tao.rdf#i1508337970199318643',
@@ -50,7 +52,7 @@ class TaskLogEntityTest extends TestCase
                 'children' => []
             ],
             'master_status' => true
-        ]);
+        ], $dateFormat);
 
         $this->assertInstanceOf(TaskLogEntity::class, $entity);
         $this->assertInstanceOf(CategorizedStatus::class, $entity->getStatus());
@@ -83,6 +85,55 @@ class TaskLogEntityTest extends TestCase
         ], $entity->jsonSerialize());
     }
 
+    public function testEntityCreatedWithNullAndNotParsableDates()
+    {
+        $dateFormat = 'Y-m-d H:i:s';
+        
+        $entity = TaskLogEntity::createFromArray([
+            'id' => 'rdf#i1508337970199318643',
+            'parent_id' => 'parentFake0002525',
+            'task_name' => 'Task Name',
+            'parameters' => json_encode(['param1' => 'value1', 'param2' => 'value2']),
+            'label' => 'Task label',
+            'status' => TaskLogInterface::STATUS_COMPLETED,
+            'owner' => 'userId',
+            'created_at' => 'wrong date format',
+            'report' => [
+                'type' => 'info',
+                'message' => 'Running task http://www.taoinstance.dev/ontologies/tao.rdf#i1508337970199318643',
+                'data' => null,
+                'children' => []
+            ],
+            'master_status' => true
+        ], $dateFormat);
+        
+        $this->assertInstanceOf(TaskLogEntity::class, $entity);
+        $this->assertInstanceOf(CategorizedStatus::class, $entity->getStatus());
+        $this->assertInstanceOf(Report::class, $entity->getReport());
+        $this->assertNull($entity->getCreatedAt());
+        $this->assertNull($entity->getUpdatedAt());
+        $this->assertInternalType('string', $entity->getId());
+        $this->assertInternalType('string', $entity->getTaskName());
+        $this->assertInternalType('array', $entity->getParameters());
+        $this->assertInternalType('string', $entity->getLabel());
+        $this->assertInternalType('string', $entity->getOwner());
+        
+        $this->assertEquals([
+            'id' => 'rdf#i1508337970199318643',
+            'taskName' => 'Task Name',
+            'taskLabel' => 'Task label',
+            'status' => 'completed',
+            'statusLabel' => 'Completed',
+            'report' => [
+                'type' => 'info',
+                'message' => 'Running task http://www.taoinstance.dev/ontologies/tao.rdf#i1508337970199318643',
+                'data' => null,
+                'children' => []
+            ],
+            'masterStatus' => true
+        ], $entity->jsonSerialize());
+    }
+
     public function testCreateWithReportNull()
     {
         $entity = TaskLogEntity::createFromArray([
@@ -96,7 +147,7 @@ class TaskLogEntityTest extends TestCase
             'created_at' => '2017-02-01 12:00:01',
             'updated_at' => '2017-02-01 14:00:01',
             'report' => [],
-        ]);
+        ], 'Y-m-d H:i:s');
 
         $this->assertNull($entity->getReport());
     }
