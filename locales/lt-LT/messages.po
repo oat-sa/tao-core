@@ -1835,16 +1835,16 @@ msgid "Successfully cloned instance as %s"
 msgstr ""
 
 msgid "Successfully deleted %s"
-msgstr ""
+msgstr "Pašalinta sėkmingai %s"
 
-msgid "Successfully imported \"%s"
-msgstr "Sėkmingai importuota \"%s"
+msgid "Successfully imported \"%s\""
+msgstr "Sėkmingai importuota \"%s\""
 
 msgid "Successfully imported %s tripples"
-msgstr "Sėkmingai importuota \"%s trigubi"
+msgstr "Sėkmingai importuota %s trigubi"
 
-msgid "Successfully imported class \"%s"
-msgstr "Klasė sėkmingai importuota \"%s"
+msgid "Successfully imported class \"%s\""
+msgstr "Klasė sėkmingai importuota \"%s\""
 
 msgid "Successfully updated %s client translation bundles"
 msgstr "Sėkmingai atnaujinta %s kliento vertimo rinkiniai"
