@@ -22,9 +22,9 @@ namespace oat\tao\scripts\install;
 
 use Doctrine\DBAL\Schema\SchemaException;
 use oat\oatbox\extension\InstallAction;
+use oat\tao\model\notification\implementation\NewSqlNotificationService;
 use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\NotificationServiceInterface;
-use oat\tao\model\notification\implementation\RdsNotification;
 use common_persistence_Manager as PersistenceManager;
 
 class InstallNotificationTable extends InstallAction
@@ -33,7 +33,7 @@ class InstallNotificationTable extends InstallAction
     public function __invoke($params)
     {
         $persistence = $this->getServiceLocator()->get(PersistenceManager::SERVICE_ID)
-            ->getPersistenceById(RdsNotification::DEFAULT_PERSISTENCE);
+            ->getPersistenceById(NewSqlNotificationService::DEFAULT_PERSISTENCE);
         $schemaManager = $persistence->getDriver()->getSchemaManager();
         $schema = $schemaManager->createSchema();
         /**
@@ -43,19 +43,19 @@ class InstallNotificationTable extends InstallAction
 
         try {
 
-            $queueTable = $schema->createtable(RdsNotification::NOTIF_TABLE);
+            $queueTable = $schema->createtable(NewSqlNotificationService::NOTIF_TABLE);
 
             $queueTable->addOption('engine', 'MyISAM');
-            $queueTable->addColumn(RdsNotification::NOTIF_FIELD_ID           , 'string'   , ['length' => 36, 'notnull' => true]);
-            $queueTable->addColumn(RdsNotification::NOTIF_FIELD_RECIPIENT    , 'string'   , ['length' => 255, 'notnull' => true ]);
-            $queueTable->addColumn(RdsNotification::NOTIF_FIELD_STATUS       , 'integer'  , ['length' => 255]);
-            $queueTable->addColumn(RdsNotification::NOTIF_FIELD_TITLE        , 'string'   , ['length' => 255]);
-            $queueTable->addColumn(RdsNotification::NOTIF_FIELD_MESSAGE      , 'text'     , []);
-            $queueTable->addColumn(RdsNotification::NOTIF_FIELD_SENDER       , 'string'   , ['length' => 255]);
-            $queueTable->addColumn(RdsNotification::NOTIF_FIELD_SENDER_NANE  , 'string'   , ['length' => 255]);
-            $queueTable->addColumn(RdsNotification::NOTIF_FIELD_CREATION     , 'datetime' , ['notnull' => true]);
-            $queueTable->addColumn(RdsNotification::NOTIF_FIELD_UPDATED      , 'datetime' , ['notnull' => true]);
-            $queueTable->setPrimaryKey(array(RdsNotification::NOTIF_FIELD_ID));
+            $queueTable->addColumn(NewSqlNotificationService::NOTIF_FIELD_ID           , 'string'   , ['length' => 36, 'notnull' => true]);
+            $queueTable->addColumn(NewSqlNotificationService::NOTIF_FIELD_RECIPIENT    , 'string'   , ['length' => 255, 'notnull' => true ]);
+            $queueTable->addColumn(NewSqlNotificationService::NOTIF_FIELD_STATUS       , 'integer'  , ['length' => 255]);
+            $queueTable->addColumn(NewSqlNotificationService::NOTIF_FIELD_TITLE        , 'string'   , ['length' => 255]);
+            $queueTable->addColumn(NewSqlNotificationService::NOTIF_FIELD_MESSAGE      , 'text'     , []);
+            $queueTable->addColumn(NewSqlNotificationService::NOTIF_FIELD_SENDER       , 'string'   , ['length' => 255]);
+            $queueTable->addColumn(NewSqlNotificationService::NOTIF_FIELD_SENDER_NANE  , 'string'   , ['length' => 255]);
+            $queueTable->addColumn(NewSqlNotificationService::NOTIF_FIELD_CREATION     , 'datetime' , ['notnull' => true]);
+            $queueTable->addColumn(NewSqlNotificationService::NOTIF_FIELD_UPDATED      , 'datetime' , ['notnull' => true]);
+            $queueTable->setPrimaryKey(array(NewSqlNotificationService::NOTIF_FIELD_ID));
 
             $queries = $persistence->getPlatform()->getMigrateSchemaSql($fromSchema, $schema);
 
@@ -71,9 +71,9 @@ class InstallNotificationTable extends InstallAction
         $queue->setServiceLocator($this->getServiceManager());
         $queue->setOption('rds' ,
             array(
-                'class'   => RdsNotification::class,
+                'class'   => NewSqlNotificationService::class,
                 'options' => [
-                    RdsNotification::OPTION_PERSISTENCE => RdsNotification::DEFAULT_PERSISTENCE,
+                    NewSqlNotificationService::OPTION_PERSISTENCE => NewSqlNotificationService::DEFAULT_PERSISTENCE,
                     'visibility'  => false,
                 ],
             )
