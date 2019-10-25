@@ -20,7 +20,9 @@
 
 namespace oat\tao\model\notification\implementation;
 
-
+use common_persistence_Persistence as Persistence;
+use oat\generis\persistence\PersistenceManager;
+use oat\oatbox\service\ServiceManager;
 use oat\tao\model\notification\AbstractNotificationService;
 use oat\tao\model\notification\exception\NotListedNotification;
 use oat\tao\model\notification\NotificationInterface;
@@ -28,8 +30,24 @@ use oat\tao\model\notification\NotificationServiceInterface;
 
 class NotificationServiceAggregator extends AbstractNotificationService
 {
-
-
+    const OPTION_RDS_NOTIFICATION_SERVICE = 'rds';
+    
+    /**
+     * @return Persistence|null
+     */
+    public function getPersistence()
+    {
+        if (!$this->hasOption(self::OPTION_RDS_NOTIFICATION_SERVICE)) {
+            return null;
+        }
+        
+        /** @var array $rdsNotificationService */
+        $rdsNotificationService = $this->getOption(self::OPTION_RDS_NOTIFICATION_SERVICE);
+        $persistenceId = $rdsNotificationService['options'][AbstractRdsNotificationService::OPTION_PERSISTENCE];
+        $persistenceManager = new PersistenceManager();
+        return $persistenceManager->getPersistenceById($persistenceId);
+    }
+    
     public function getSubServices()  {
         $subServices = $this->getOptions();
         $services    = [];
