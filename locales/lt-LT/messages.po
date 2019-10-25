@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint113\n"
-"PO-Revision-Date: 2019-10-11T09:39:22\n"
+"Project-Id-Version: TAO 3.4.0-sprint114\n"
+"PO-Revision-Date: 2019-10-25T08:57:19\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lt-LT\n"
@@ -1837,14 +1837,14 @@ msgstr ""
 msgid "Successfully deleted %s"
 msgstr "Pašalinta sėkmingai %s"
 
-msgid "Successfully imported \"%s\""
-msgstr "Sėkmingai importuota \"%s\""
+msgid "Successfully imported \"%s"
+msgstr ""
 
 msgid "Successfully imported %s tripples"
 msgstr "Sėkmingai importuota %s trigubi"
 
-msgid "Successfully imported class \"%s\""
-msgstr "Klasė sėkmingai importuota \"%s\""
+msgid "Successfully imported class \"%s"
+msgstr ""
 
 msgid "Successfully updated %s client translation bundles"
 msgstr "Sėkmingai atnaujinta %s kliento vertimo rinkiniai"
