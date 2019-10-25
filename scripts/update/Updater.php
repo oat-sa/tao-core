@@ -136,6 +136,7 @@ use oat\tao\model\user\TaoRoles;
 use oat\generis\model\data\event\ResourceDeleted;
 use oat\tao\model\search\index\IndexService;
 use oat\tao\scripts\tools\MigrateSecuritySettings;
+use tao_install_utils_ModelCreator;
 use tao_models_classes_UserService;
 
 /**
@@ -1240,6 +1241,21 @@ class Updater extends \common_ext_ExtensionUpdater {
             }
             $this->setVersion('39.1.0');
         }
-        $this->skip('39.1.0', '39.2.2');
+        $this->skip('39.1.0', '39.3.2');
+
+        if ($this->isVersion('39.3.2')) {
+            OntologyUpdater::syncModels();
+
+            $models = (new tao_install_utils_ModelCreator(LOCAL_NAMESPACE))->getLanguageModels();
+            $rdf = ModelManager::getModel()->getRdfInterface();
+            foreach (array_shift($models) as $file) {
+                $iterator = new FileIterator($file, 1);
+                foreach ($iterator as $triple) {
+                    $rdf->remove($triple);
+                    $rdf->add($triple);
+                }
+            }
+            $this->setVersion('39.3.3');
+        }
     }
 }
