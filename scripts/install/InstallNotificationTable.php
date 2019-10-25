@@ -46,7 +46,7 @@ class InstallNotificationTable extends InstallAction
             $queueTable = $schema->createtable(RdsNotification::NOTIF_TABLE);
 
             $queueTable->addOption('engine', 'MyISAM');
-            $queueTable->addColumn(RdsNotification::NOTIF_FIELD_ID           , 'string'   , ['length' => 23, 'notnull' => true,]);
+            $queueTable->addColumn(RdsNotification::NOTIF_FIELD_ID           , 'string'   , ['length' => 36, 'notnull' => true]);
             $queueTable->addColumn(RdsNotification::NOTIF_FIELD_RECIPIENT    , 'string'   , ['length' => 255, 'notnull' => true ]);
             $queueTable->addColumn(RdsNotification::NOTIF_FIELD_STATUS       , 'integer'  , ['length' => 255]);
             $queueTable->addColumn(RdsNotification::NOTIF_FIELD_TITLE        , 'string'   , ['length' => 255]);
