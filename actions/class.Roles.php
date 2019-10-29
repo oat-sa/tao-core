@@ -142,22 +142,21 @@ class tao_actions_Roles extends tao_actions_RdfController
         if ($this->getRequestParameter('uri')) {
             $role = $this->getCurrentInstance();
 
-            if (!in_array($role->getUri(), $this->forbidden)) {
-                //check if no user is using this role:
-                $userClass = $this->getClass(GenerisRdf::CLASS_GENERIS_USER);
-                $options = ['recursive' => true, 'like' => false];
-                $filters = [GenerisRdf::PROPERTY_USER_ROLES => $role->getUri()];
-                $users = $userClass->searchInstances($filters, $options);
-                if (empty($users)) {
-                    //delete role here:
-                    $deleted = $this->getClassService()->removeRole($role);
-                } else {
-                    //set message error
-                    throw new UserErrorException(__('This role is still given to one or more users. Please remove the role to these users first.'));
-                }
-            } else {
+            if (in_array($role->getUri(), $this->forbidden)) {
                 throw new UserErrorException($role->getLabel() . ' could not be deleted');
             }
+
+            // Gather users associated with the role.
+            $userClass = $this->getClass(GenerisRdf::CLASS_GENERIS_USER);
+            $options = ['recursive' => true, 'like' => false];
+            $filters = [GenerisRdf::PROPERTY_USER_ROLES => $role->getUri()];
+            $users = $userClass->searchInstances($filters, $options);
+
+            if (!empty($users)) {
+                throw new UserErrorException(__('This role is still given to one or more users. Please remove the role to these users first.'));
+            }
+
+            $deleted = $this->getClassService()->removeRole($role);
         }
 
         $this->returnJson([
