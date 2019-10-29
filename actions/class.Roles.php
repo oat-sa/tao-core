@@ -130,7 +130,6 @@ class tao_actions_Roles extends tao_actions_RdfController
      * @throws UserErrorException
      * @throws common_exception_BadRequest
      * @throws common_exception_MissingParameter
-     * @return void
      */
     public function delete()
     {
@@ -138,24 +137,25 @@ class tao_actions_Roles extends tao_actions_RdfController
             throw new common_exception_BadRequest('wrong request mode');
         }
 
-        if (!$this->getRequestParameter('uri')) {
-            $this->returnJson([
+        $parsedBody = $this->getPsrRequest()->getParsedBody();
+        if (!isset($parsedBody['uri'])) {
+            return $this->returnJson([
                 'deleted' => false,
                 'success' => false
             ]);
-            return;
         }
 
         $role = $this->getCurrentInstance();
+        $roleUri = $role->getUri();
 
-        if (in_array($role->getUri(), $this->forbidden)) {
-            throw new UserErrorException($role->getLabel() . ' could not be deleted');
+        if (in_array($roleUri, $this->forbidden)) {
+            throw new UserErrorException(sprintf('You are not allowed to delete the role "%s".', $role->getLabel()));
         }
 
         // Gather users associated with the role.
         $userClass = $this->getClass(GenerisRdf::CLASS_GENERIS_USER);
         $users = $userClass->searchInstances(
-            [GenerisRdf::PROPERTY_USER_ROLES => $role->getUri()],
+            [GenerisRdf::PROPERTY_USER_ROLES => $roleUri],
             ['recursive' => true, 'like' => false]
         );
 
@@ -165,7 +165,7 @@ class tao_actions_Roles extends tao_actions_RdfController
 
         $deleted = $this->getClassService()->removeRole($role);
 
-        $this->returnJson([
+        return $this->returnJson([
             'deleted' => $deleted,
             'success' => $deleted
         ]);
