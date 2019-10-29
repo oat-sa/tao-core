@@ -138,27 +138,32 @@ class tao_actions_Roles extends tao_actions_RdfController
             throw new common_exception_BadRequest('wrong request mode');
         }
 
-        $deleted = false;
-        if ($this->getRequestParameter('uri')) {
-            $role = $this->getCurrentInstance();
-
-            if (in_array($role->getUri(), $this->forbidden)) {
-                throw new UserErrorException($role->getLabel() . ' could not be deleted');
-            }
-
-            // Gather users associated with the role.
-            $userClass = $this->getClass(GenerisRdf::CLASS_GENERIS_USER);
-            $users = $userClass->searchInstances(
-                [GenerisRdf::PROPERTY_USER_ROLES => $role->getUri()],
-                ['recursive' => true, 'like' => false]
-            );
-
-            if (!empty($users)) {
-                throw new UserErrorException(__('This role is still given to one or more users. Please remove the role to these users first.'));
-            }
-
-            $deleted = $this->getClassService()->removeRole($role);
+        if (!$this->getRequestParameter('uri')) {
+            $this->returnJson([
+                'deleted' => false,
+                'success' => false
+            ]);
+            return;
         }
+
+        $role = $this->getCurrentInstance();
+
+        if (in_array($role->getUri(), $this->forbidden)) {
+            throw new UserErrorException($role->getLabel() . ' could not be deleted');
+        }
+
+        // Gather users associated with the role.
+        $userClass = $this->getClass(GenerisRdf::CLASS_GENERIS_USER);
+        $users = $userClass->searchInstances(
+            [GenerisRdf::PROPERTY_USER_ROLES => $role->getUri()],
+            ['recursive' => true, 'like' => false]
+        );
+
+        if (!empty($users)) {
+            throw new UserErrorException(__('This role is still given to one or more users. Please remove the role to these users first.'));
+        }
+
+        $deleted = $this->getClassService()->removeRole($role);
 
         $this->returnJson([
             'deleted' => $deleted,
