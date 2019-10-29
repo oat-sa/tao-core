@@ -148,9 +148,10 @@ class tao_actions_Roles extends tao_actions_RdfController
 
             // Gather users associated with the role.
             $userClass = $this->getClass(GenerisRdf::CLASS_GENERIS_USER);
-            $options = ['recursive' => true, 'like' => false];
-            $filters = [GenerisRdf::PROPERTY_USER_ROLES => $role->getUri()];
-            $users = $userClass->searchInstances($filters, $options);
+            $users = $userClass->searchInstances(
+                [GenerisRdf::PROPERTY_USER_ROLES => $role->getUri()],
+                ['recursive' => true, 'like' => false]
+            );
 
             if (!empty($users)) {
                 throw new UserErrorException(__('This role is still given to one or more users. Please remove the role to these users first.'));
