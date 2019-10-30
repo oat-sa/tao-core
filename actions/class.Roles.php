@@ -144,8 +144,8 @@ class tao_actions_Roles extends tao_actions_RdfController
                 if (!in_array($role->getUri(), $this->forbidden)) {
                     //check if no user is using this role:
                     $userClass = $this->getClass(GenerisRdf::CLASS_GENERIS_USER);
-                    $options = array('recursive' => true, 'like' => false);
-                    $filters = array(GenerisRdf::PROPERTY_USER_ROLES => $role->getUri());
+                    $options = ['recursive' => true, 'like' => false];
+                    $filters = [GenerisRdf::PROPERTY_USER_ROLES => $role->getUri()];
                     $users = $userClass->searchInstances($filters, $options);
                     if (empty($users)) {
                         //delete role here:
@@ -159,7 +159,7 @@ class tao_actions_Roles extends tao_actions_RdfController
                 }
             }
 
-            $this->returnJson(array('deleted' => $deleted));
+            $this->returnJson(['deleted' => $deleted, 'success' => $deleted]);
         }
     }
 
