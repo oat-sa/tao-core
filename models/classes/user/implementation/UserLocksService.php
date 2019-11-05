@@ -120,7 +120,7 @@ class UserLocksService extends ConfigurableService implements UserLocks
         /** @var DateInterval $remaining */
         $remaining = $this->getLockoutRemainingTime($login);
 
-        if (!$remaining->invert) {
+        if ($remaining && !$remaining->invert) {
             $failures = $this->getLockout()->getFailures($login);
         } else {
             $this->unlockUser($user);
@@ -137,15 +137,18 @@ class UserLocksService extends ConfigurableService implements UserLocks
     }
 
     /**
-     * @param $user
-     * @return bool
+     * @param User $user
+     * @return bool|mixed
+     * @throws \core_kernel_users_Exception
      */
     public function lockUser(User $user)
     {
-        $currentUser = UserHelper::getUser(tao_models_classes_UserService::singleton()->getCurrentUser());
+        $currentUser = tao_models_classes_UserService::singleton()->getCurrentUser();
 
         if (!$currentUser) {
             $currentUser = $user;
+        } else {
+            $currentUser = UserHelper::getUser(tao_models_classes_UserService::singleton()->getCurrentUser());
         }
 
         if (!$this->isLockable($user)) {
@@ -234,12 +237,15 @@ class UserLocksService extends ConfigurableService implements UserLocks
     public function getLockoutRemainingTime($login)
     {
         $lastFailure = $this->getLockout()->getLastFailureTime($login);
+        $result = false;
+        if ($lastFailure) {
+            $unlockTime = (new DateTime('now'))
+                ->setTimestamp($lastFailure->literal)
+                ->add(new DateInterval($this->getOption(self::OPTION_SOFT_LOCKOUT_PERIOD)));
 
-        $unlockTime = (new DateTime('now'))
-            ->setTimestamp($lastFailure->literal)
-            ->add(new DateInterval($this->getOption(self::OPTION_SOFT_LOCKOUT_PERIOD)));
-
-        return (new DateTime('now'))->diff($unlockTime);
+            $result = (new DateTime('now'))->diff($unlockTime);
+        }
+        return $result;
     }
 
     /**
