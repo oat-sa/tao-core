@@ -32,19 +32,19 @@ class UpdateLogger extends ConfigurableService implements LoggerInterface
     use LoggerTrait;
     
     const SERVICE_ID = 'tao/updatelog';
-    
     const OPTION_FILESYSTEM = 'filesystem';
-    
-    public function log($level, $message, array $context = array())
+
+    /**
+     * @param mixed $level
+     * @param string $message
+     * @param array $context
+     */
+    public function log($level, $message, array $context = [])
     {
         $service = $this->getServiceLocator()->get(FileSystemService::SERVICE_ID);
         $filesystem = $service->getFileSystem($this->getOption(self::OPTION_FILESYSTEM));
         
-        $updateId = 'update_'.time();
-        while ($filesystem->has($updateId.'.log')) {
-            $count = isset($count) ? $count + 1 : 0;
-            $updateId = 'update_'.time().'_'.$count;
-        }
+        $updateId = uniqid('update_' . time() . '_', true);
         $filesystem->write($updateId.'.log', $message);
     }
     
