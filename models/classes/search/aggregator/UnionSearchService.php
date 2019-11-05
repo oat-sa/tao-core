@@ -28,13 +28,17 @@ use oat\tao\model\search\Search;
  * Class UnionSearchService
  * @package oat\tao\model\search\aggregator
  */
-class UnionSearchService extends ConfigurableService implements UnionSearchInterface
+class UnionSearchService extends ConfigurableService
 {
-    public function getInternalServices()
+    const OPTION_SERVICES = 'services';
+
+    private function getInternalServices()
     {
-        $services = $this->getOption('services');
-        foreach ($services as $service) {
-            $this->propagate($service);
+        $services = $this->getOption(self::OPTION_SERVICES);
+        if (is_array($services)) {
+            foreach ($services as $service) {
+                $this->propagate($service);
+            }
         }
 
         $services[] = $this->getDefaultSearchService();
@@ -42,18 +46,38 @@ class UnionSearchService extends ConfigurableService implements UnionSearchInter
         return $services;
     }
 
+    /**
+     * @param $queryString
+     * @param $type
+     * @param int $start
+     * @param int $count
+     * @param string $order
+     * @param string $dir
+     * @return ResultSet
+     */
     public function query($queryString, $type, $start = 0, $count = 10, $order = 'id', $dir = 'DESC')
     {
         $searchServicesList = $this->getInternalServices();
         $resultArray = [];
         foreach ($searchServicesList as $service) {
+            if (!$service instanceof Search) {
+                continue;
+            }
             /** @var ResultSet $result */
             $result = $service->query($queryString, $type, $start, $count, $order, $dir);
             $resultArray[] = $result->getArrayCopy();
         }
-        $resultArray = array_merge(...$resultArray);
+
+        $resultArray = $this->exludeDuplicates($resultArray);
 
         return $this->prepareResultSetFromArray($resultArray);
+    }
+
+    private function exludeDuplicates($resultArray)
+    {
+        $resultArray = array_unique($resultArray, SORT_REGULAR);
+        $resultArray = array_values($resultArray);
+        return $resultArray;
     }
 
     private function prepareResultSetFromArray($resultArray = [])
@@ -62,11 +86,9 @@ class UnionSearchService extends ConfigurableService implements UnionSearchInter
     }
 
     /**
-     * getDefaultSearchService
-     *
      * @return Search
      */
-    private function getDefaultSearchService() : Search
+    private function getDefaultSearchService()
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->getServiceLocator()->get(Search::SERVICE_ID);

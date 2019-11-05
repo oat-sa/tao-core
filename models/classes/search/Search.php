@@ -36,7 +36,7 @@ interface Search extends PhpSerializable
      * Search for instances using a Lucene query
      *
      * @param string $queryString
-     * @param string $rootClass
+     * @param string $type
      * @param int $start
      * @param int $count
      * @param int $order
@@ -44,7 +44,7 @@ interface Search extends PhpSerializable
      *
      * @return ResultSet
      */
-    public function query( $queryString, $type, $start = 0, $count = 10, $order = 'id', $dir = 'DESC');
+    public function query($queryString, $type, $start = 0, $count = 10, $order = 'id', $dir = 'DESC');
 
     /**
      * Delete all indexes
