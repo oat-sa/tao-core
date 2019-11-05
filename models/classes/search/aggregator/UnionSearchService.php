@@ -26,6 +26,11 @@ use oat\tao\model\search\Search;
 
 /**
  * Class UnionSearchService
+ *
+ * @todo implementing some Search interface was considered, however, the actual one cannot be
+ * the one because it currently violates the 'Interface Segregation Principle' by defining SERVICE_ID and including a lot of functions
+ * which really makes it SearchService Interface instead of Search Interface
+ *
  * @package oat\tao\model\search\aggregator
  */
 class UnionSearchService extends ConfigurableService
@@ -68,12 +73,12 @@ class UnionSearchService extends ConfigurableService
             $resultArray[] = $result->getArrayCopy();
         }
 
-        $resultArray = $this->exludeDuplicates($resultArray);
+        $resultArray = $this->excludeDuplicates($resultArray);
 
         return $this->prepareResultSetFromArray($resultArray);
     }
 
-    private function exludeDuplicates($resultArray)
+    private function excludeDuplicates($resultArray)
     {
         $resultArray = array_unique($resultArray, SORT_REGULAR);
         $resultArray = array_values($resultArray);
