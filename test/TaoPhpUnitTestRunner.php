@@ -146,6 +146,7 @@ abstract class  TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner implements
             $this->tempFileSystemId = 'unit-test-' . uniqid();
 
             $adapters = $fileSystemService->getOption(FileSystemService::OPTION_ADAPTERS);
+            $tmpDir = \tao_helpers_File::createTempDir();
             if (class_exists('League\Flysystem\Memory\MemoryAdapter')) {
                 $adapters[$this->tempFileSystemId] = array(
                     'class' => MemoryAdapter::class
@@ -153,11 +154,13 @@ abstract class  TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner implements
             } else {
                 $adapters[$this->tempFileSystemId] = array(
                     'class' => FileSystemService::FLYSYSTEM_LOCAL_ADAPTER,
-                    'options' => array('root' => '/tmp/testing')
+                    'options' => array('root' => $tmpDir)
                 );
             }
             $fileSystemService->setOption(FileSystemService::OPTION_ADAPTERS, $adapters);
-            $fileSystemService->setOption(FileSystemService::OPTION_FILE_PATH, '/tmp/testing');
+            $fileSystemService->setOption(FileSystemService::OPTION_FILE_PATH, $tmpDir);
+            $fileSystemService->setOption(FileSystemService::OPTION_DIRECTORIES, [$this->tempFileSystemId => $this->tempFileSystemId]);
+
 
             $fileSystemService->setServiceLocator($this->getServiceManagerProphecy(array(
                 FileSystemService::SERVICE_ID => $fileSystemService
@@ -220,18 +223,7 @@ abstract class  TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner implements
     protected function removeTempFileSystem()
     {
         if ($this->tempDirectory) {
-            /** @var FileSystemService $fileSystemService */
-            $fileSystemService = $this->getServiceManagerProphecy()
-                ->get(FileSystemService::SERVICE_ID);
-
-            $tempAdapter = $fileSystemService
-                ->getFileSystem($this->tempFileSystemId)
-                ->getAdapter();
-
-            if ($tempAdapter instanceof Local) {
-                $localPath = $this->getInaccessibleProperty($tempAdapter, 'pathPrefix');
-                $this->rrmdir($localPath);
-            }
+            $this->tempDirectory->deleteSelf();
         }
     }
 
