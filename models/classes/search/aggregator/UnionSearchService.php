@@ -33,7 +33,7 @@ use oat\tao\model\search\Search;
  *
  * @package oat\tao\model\search\aggregator
  */
-class UnionSearchService extends ConfigurableService
+class UnionSearchService extends ConfigurableService implements UnionSearchInterface
 {
     const OPTION_SERVICES = 'services';
 
