@@ -1259,14 +1259,16 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('39.3.3');
         }
 
-        $this->skip('39.3.3', '39.3.4');
 
-        if ($this->isVersion('39.3.4')) {
+        $this->skip('39.3.3', '39.3.5');
+
+        if ($this->isVersion('39.3.5')) {
             /** @var UnionSearchService|ConfigurableService $service */
             $service = new UnionSearchService(['services' => []]);
             $this->getServiceManager()->register(UnionSearchService::SERVICE_ID, $service);
 
             $this->setVersion('39.4.0');
         }
+
     }
 }
