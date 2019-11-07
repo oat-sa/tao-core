@@ -21,6 +21,7 @@
 namespace oat\tao\model\http;
 
 use Context;
+use function GuzzleHttp\Psr7\stream_for;
 
 /**
  * Class LegacyController
@@ -380,6 +381,19 @@ abstract class LegacyController extends Controller
         }
         $message .= ' (' . get_called_class() .')';
         \common_Logger::i($message);
+    }
+
+    /**
+     * Ensure the template is rendered as part of the response
+     * {@inheritDoc}
+     * @see \oat\tao\model\http\Controller::getPsrResponse()
+     */
+    public function getPsrResponse()
+    {
+        $response = parent::getPsrResponse();
+        return $this->hasView()
+            ? $response->withBody(stream_for($this->getRenderer()->render()))
+            : $response;
     }
 
 }
