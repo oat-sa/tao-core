@@ -236,12 +236,7 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
 
         $response = call_user_func_array(array($controller, $action), $tabParam);
 
-        /** @var ResponseInterface $response */
-        if (!$response instanceof ResponseInterface) {
-            $response = $controller->getPsrResponse();
-        }
-
-        return $response;
+        return $response instanceof ResponseInterface ? $response : $controller->getPsrResponse();
     }
 
 }
