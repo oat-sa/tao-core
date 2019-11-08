@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint114\n"
-"PO-Revision-Date: 2019-10-25T08:57:19\n"
+"Project-Id-Version: TAO 3.4.0-sprint115\n"
+"PO-Revision-Date: 2019-11-08T10:43:11\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lt-LT\n"
@@ -43,7 +43,7 @@ msgstr "Web Servisas"
 # http://www.tao.lu/middleware/wfEngine.rdf#ClassDeliveryServices
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Delivery Services"
-msgstr "Pateikties Servisai"
+msgstr "Pateikties Servisas"
 
 # http://www.tao.lu/middleware/wfEngine.rdf#ClassDeliveryServices
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"

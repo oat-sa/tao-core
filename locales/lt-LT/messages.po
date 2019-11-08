@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint114\n"
-"PO-Revision-Date: 2019-10-25T08:57:19\n"
+"Project-Id-Version: TAO 3.4.0-sprint115\n"
+"PO-Revision-Date: 2019-11-08T10:43:11\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lt-LT\n"
@@ -35,7 +35,7 @@ msgid " requires a subgrid adapter"
 msgstr "reikalauja detalesnės lentelės adapterio"
 
 msgid "%1$s expected but %2$s detected"
-msgstr "%1$s tikėtasi, bet %2$s aptikta"
+msgstr "Turėtų būti %1$s, bet yra %2$s"
 
 msgid "%d attempts left before your account is locked."
 msgstr "%d likę bandymų prieš jūsų paskyrai užsirakinant."
@@ -309,7 +309,7 @@ msgid "Author"
 msgstr "Autorius"
 
 msgid "Author Item"
-msgstr "Redaguoti Dalį"
+msgstr "Kurti klausimą"
 
 msgid "Authoring"
 msgstr "Tvarkymas"
@@ -318,13 +318,13 @@ msgid "auto unlocked in %s"
 msgstr "automatiškai atrakinta po %s"
 
 msgid "Available"
-msgstr "Galimas"
+msgstr "Galimi testai"
 
 msgid "Available Extensions"
-msgstr "Galimi Plėtiniai"
+msgstr "Galimi plėtiniai"
 
 msgid "Back"
-msgstr "Atgal"
+msgstr "Grį-ti"
 
 msgid "Back to listing"
 msgstr "Grįžti į sąrašą"
@@ -427,7 +427,7 @@ msgid "class selected"
 msgstr "pasirinktos klasės"
 
 msgid "Class uri provided is not a valid class."
-msgstr "Pateikta klasės uri nėra teisinga klasė."
+msgstr "Pateiktas netinkamas klasės uri."
 
 msgid "Cleaning up tmp space complete"
 msgstr "Laikinos atminties valymas atliktas"
@@ -499,7 +499,7 @@ msgid "Confirm"
 msgstr "Patvirtinti"
 
 msgid "Connect to the TAO platform"
-msgstr "Prisijungti prie TAO platformos"
+msgstr "Prisijungimas prie elektroninio testavimo aplinkos"
 
 msgid "Continue"
 msgstr "Tęsti"
@@ -562,7 +562,7 @@ msgid "Data imported successfully"
 msgstr "Duomenys importuoti sėkmingai"
 
 msgid "Data imported. Some records are invalid."
-msgstr "Duomenys importuoti. Kaikurie įrašai yra blogi."
+msgstr "Duomenys importuoti. Kaikurie įrašai neteisingi."
 
 msgid "Data language"
 msgstr "Duomenų kalba"
@@ -571,7 +571,7 @@ msgid "Data Language"
 msgstr "Duomenų Kalba"
 
 msgid "Data not imported. All records are invalid."
-msgstr "Duomenys neimportuoti. Visi įrašai yra blogi."
+msgstr "Duomenys neimportuoti. Visi įrašai neteisingi."
 
 msgid "Date"
 msgstr "Data"
@@ -722,7 +722,7 @@ msgid "End of document reached. Continuing from the beginning."
 msgstr "Dokumento pabaiga pasiekta. Tęsiama nuo pradžios."
 
 msgid "Enter"
-msgstr "Eiti į aplinką – "
+msgstr "Įeiti į"
 
 msgid "Error"
 msgstr "Klaida"
@@ -958,7 +958,7 @@ msgid "Import succeeded."
 msgstr "Importavimas pavyko."
 
 msgid "Imported %1$d/%2$d. Some records are invalid."
-msgstr "Importuoti %1$d/%2$d. Kaikurie įrašai yra blogi."
+msgstr "Importuoti %1$d/%2$d. Kaikurie įrašai neteisingi."
 
 msgid "Imported %d resources"
 msgstr "Importuoti %d resursai"
@@ -985,10 +985,10 @@ msgid "Infinity"
 msgstr "Begalybė"
 
 msgid "Injector has to contains a valid \"destination\" field."
-msgstr "Injektorius privalo turėti taisyklingą „tikslo“ lauką."
+msgstr "Iterpiant reikalingas tinkamas \"paskirties\" parametras."
 
 msgid "Injector has to contains a valid \"source\" field."
-msgstr "Injektorius privalo turėti taisyklingą „šaltinio“ lauką."
+msgstr "Iterpiant reikalingas tinkamas \"šaltinio\" parametras."
 
 msgid "Install"
 msgstr "Įdiegti"
@@ -1024,37 +1024,37 @@ msgid "Invalid date range (must be after or the same as: %s)"
 msgstr "Blogas datos intervalas (privalo būti paskui arba toks pat kaip: %s)"
 
 msgid "Invalid date range (must be after: %s)"
-msgstr "Blogas datos intervalas (privalo būti paskui: %s)"
+msgstr "Neteisingas datos intervalas (privalo būti paskui: %s)"
 
 msgid "Invalid date range (must be before or the same as: %s)"
 msgstr "Blogas datos intervalas (privalo būti prieš arba toks pat kaip: %s)"
 
 msgid "Invalid date range (must be before: %s)"
-msgstr "Blogas datos intervalas (privalo būti prieš: %s)"
+msgstr "Neteisingas datos intervalas (privalo būti prieš: %s)"
 
 msgid "Invalid field length"
-msgstr "Blogas lauko ilgis"
+msgstr "Neteisingas lauko ilgis"
 
 msgid "Invalid field range (maximum value: %s)"
-msgstr "Blogas lauko intervalas (maksimali reikšmė: %s)"
+msgstr "Neteisingas lauko intervalas (maksimali reikšmė: %s)"
 
 msgid "Invalid field range (minimum value: %1$s, maximum value: %2$s)"
 msgstr "Blogas lauko intervalas (minimali reikšmė: %1$s, maksimali reikšmė: %2$s)"
 
 msgid "Invalid field range (minimum value: %s)"
-msgstr "Blogas lauko intervalas (minimali reikšmė: %s)"
+msgstr "Neteisingas lauko intervalas (minimali reikšmė: %s)"
 
 msgid "Invalid file size (minimum %1$s bytes, maximum %2$s bytes)"
-msgstr "Blogas failo dydis (minimalus %1$s baitai, maksimalus %2$s baitai)"
+msgstr "Neteisingas failo dydis (minimalus %1$s baitai, maksimalus %2$s baitai)"
 
 msgid "Invalid file type!"
-msgstr "Blogas failo tipas!"
+msgstr "Neteisingas failo tipas!"
 
 msgid "Invalid input"
 msgstr ""
 
 msgid "Invalid input for function"
-msgstr "Bloga įvestis funkcijai"
+msgstr "Neteisinga įvestis funkcijai"
 
 msgid "Invalid JSON config file: %s"
 msgstr ""
@@ -1066,7 +1066,7 @@ msgid "Invalid login or password. Your account has been locked, please contact y
 msgstr "Neteisingas prisijungimas arba slaptažodis. Jūsų paskyra buvo užrakinta, prašome susisiekti su jūsų administratoriumi."
 
 msgid "invalid regular expression"
-msgstr "bloga įprasta išraiška"
+msgstr "neteisinga įprasta išraiška"
 
 msgid "Invalid values:"
 msgstr ""
@@ -1102,13 +1102,13 @@ msgid "List"
 msgstr "Sąrašas"
 
 msgid "List - Multiple choice - Check box"
-msgstr "Sąrašas - Keli variantai - Langelis"
+msgstr "Sąrašas - pasirinkimas, pažymint kelis"
 
 msgid "List - Single choice - Drop down"
-msgstr "Sąrašas - Vienas variantas - Sąrašas"
+msgstr "Sąrašas - pasirinkimas vienos reikšmės iš iškrentančio sąrašo"
 
 msgid "List - Single choice - Radio button"
-msgstr "Sąrašas - Vienas variantas - Skritulinis mygtukas"
+msgstr "Sąrašas - Pasirinkimas tik vienos reikšmės "
 
 msgid "ln"
 msgstr ""
@@ -1147,7 +1147,7 @@ msgid "Login"
 msgstr "Prisijungimas"
 
 msgid "Login available"
-msgstr "Prisijungimas laisvas"
+msgstr "Toks prisijungimo vardas yra galimas"
 
 msgid "Login is already in use."
 msgstr "Prisijungimas yra jau naudojamas."
@@ -1175,7 +1175,7 @@ msgid "Manage roles"
 msgstr "Tvarkyti roles"
 
 msgid "Manage Roles and apply them to users."
-msgstr "Tvarkyti Roles ir pritaikyti vartotojams."
+msgstr "Tvarkyti Roles ir taikyti vartotojams."
 
 #, tao-public
 msgid "Manage users"
@@ -1185,7 +1185,7 @@ msgid "Manage Versioned File"
 msgstr "Tvarkyti Versijuojamą Failą"
 
 msgid "Map the properties to the CSV columns"
-msgstr "Žymėti savybes į CSV stulpelius"
+msgstr "Susiekite požymius su CSV stulpeliais"
 
 msgid "Maximum selection reached"
 msgstr "Pasiektas maksimalus pasirinkimas"
@@ -1252,7 +1252,7 @@ msgid "Mute"
 msgstr "Nutildyti"
 
 msgid "My custom text translation"
-msgstr "Mano nustatytas teksto vertimas"
+msgstr "Mano laisvas teksto vertimas"
 
 #, tao-public
 msgid "My settings"
@@ -1290,7 +1290,7 @@ msgid "No action specified"
 msgstr "Veiksmas nenurodytas"
 
 msgid "No client translation bundles updated"
-msgstr "Jokie kliento vertimų rinkiniai nebuvo atnaujinti"
+msgstr "Nėra atnaujintų vertimų"
 
 msgid "No extensions available."
 msgstr "Nėra jokių galimų plėtinių."
@@ -1378,7 +1378,7 @@ msgid "Only allow for my own domain (%s)"
 msgstr ""
 
 msgid "Operated By "
-msgstr "Valdomas"
+msgstr "Valdo "
 
 msgid "or"
 msgstr "arba"
@@ -1459,7 +1459,7 @@ msgid "Please provide a reason"
 msgstr "Prašome pateikti priežastį"
 
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
-msgstr "Prašome pranešti spragas, idėjas, komentarus arba atsiliepimus TAO Forume"
+msgstr "Klaidas ir komentarus prašome registruoti TAO forume."
 
 msgid "Please try in %s."
 msgstr "Prašome bandyti %s."
@@ -1489,7 +1489,7 @@ msgid "Previous"
 msgstr "Grįžti"
 
 msgid "Previous match"
-msgstr "Ankstesnis atitikmuo"
+msgstr "Ankstesnis susiejimas"
 
 msgid "Previous page"
 msgstr "Ankstesnis puslapis"
@@ -1541,7 +1541,7 @@ msgid "Release"
 msgstr "Išleidimas"
 
 msgid "Releasing the lock might cause the work in progress by %s to be lost."
-msgstr "Atrakinant užraktą gali priversti užduoties progresą už %s būti prarastam."
+msgstr "Jei atšauksite rakinimą, galite prarasti %s atlikto darbo."
 
 msgid "Remind"
 msgstr "Priminti"
@@ -1592,7 +1592,7 @@ msgid "Request a password reset via Email."
 msgstr "Slaptažodžio atstatymo užklausa per El. paštą."
 
 msgid "require notification ID"
-msgstr "reikalingas pranešimo ID"
+msgstr "reikalauja pranešimo ID"
 
 msgid "required"
 msgstr ""
@@ -1631,7 +1631,7 @@ msgid "Resource not imported due to multiple super classes"
 msgstr "Resursas nebuvo importuotas, dėl daugkartinių super klasių"
 
 msgid "Resource not imported due to multiple types"
-msgstr "Resursas nebuvo importuotas, dėl daugkartinių tipų"
+msgstr "Ištekliai nebuvo įkelti dėl egzistuojančių kelių tipų"
 
 msgid "Resource saved"
 msgstr "Resursas išsaugotas"
@@ -1808,7 +1808,7 @@ msgid "Square root"
 msgstr "Kvadratinės šaknis"
 
 msgid "Start of document reached. Continuing from the end."
-msgstr "Dokumento pradžia pasiekta. Tęsiama nuo pabaigos."
+msgstr "Pasiekta dokumento pradžia. Tęsiama nuo pabaigos."
 
 msgid "Status"
 msgstr "Būsena"
@@ -1838,16 +1838,16 @@ msgid "Successfully deleted %s"
 msgstr "Pašalinta sėkmingai %s"
 
 msgid "Successfully imported \"%s"
-msgstr ""
+msgstr "Sėkmingai importuota \"%s"
 
 msgid "Successfully imported %s tripples"
-msgstr "Sėkmingai importuota %s trigubi"
+msgstr "Sėkmingai įkelti %s trejetai"
 
 msgid "Successfully imported class \"%s"
-msgstr ""
+msgstr "Klasė sėkmingai importuota \"%s"
 
 msgid "Successfully updated %s client translation bundles"
-msgstr "Sėkmingai atnaujinta %s kliento vertimo rinkiniai"
+msgstr "Sėkmingai atnaujinti %s vertimo įrašų rinkiniai"
 
 msgid "Supported export formats"
 msgstr "Palaikomi eksportavimo formatai"
@@ -1895,37 +1895,37 @@ msgid "Term"
 msgstr "Terminas"
 
 msgid "Text - Long - Box"
-msgstr "Tekstas - Ilgas - Plotas"
+msgstr "Ilgesnis tekstas - langelis"
 
 msgid "Text - Long - HTML editor"
-msgstr "Tekstas - Ilgas - HTML redaguoklis"
+msgstr "Ilgesnis tekstas - HTML redaktorius"
 
 msgid "Text - Short - Field"
-msgstr "Tekstas - Trumpas - Laukelis"
+msgstr "Trumpesnis teksto laukas"
 
 msgid "The action will be applied to"
-msgstr "Veiksmas bus priskirtas į"
+msgstr "Šis veiksmas bus taikomas: "
 
 msgid "The action will be applied to the following"
-msgstr "Veiksmas bus priskirtas sekančiam "
+msgstr "Veiksmas bus taikomas šiems: "
 
 msgid "The action will not be applied to "
-msgstr "Veiksmas nebus priskirtas į"
+msgstr "Šis veiksmas nebus taikomas: "
 
 msgid "The action will not be applied to the following"
-msgstr "Veiksmas nebus priskirtas sekančiam"
+msgstr "Veiksmas nebus taikomas šiems: "
 
 msgid "The column "
 msgstr "Stulpelis"
 
 msgid "The format of this field is not valid."
-msgstr "Šio lauko formatas yra neteisingas."
+msgstr "Šio lauko formatas yra netinkamas."
 
 msgid "The imported file is not properly UTF-8 encoded."
 msgstr "Importuotas failas nėra teisingas UTF-8 koduotas."
 
 msgid "The index identifier should not be empty"
-msgstr "Indekso identifikatorius neturi būti tuščias"
+msgstr "Indekso identifikatorius negali būti tuščias."
 
 msgid "The lock has been released"
 msgstr "Užraktas buvo paleistas"
@@ -1940,22 +1940,22 @@ msgid "The uploaded file is too large (maximum %s bytes)"
 msgstr "Įkeltas failas yra per didelis (maksimum %s baitų)"
 
 msgid "The value for the property \"%s\" must be unique."
-msgstr "Reikšmė šiai savybei \"%s\" turi būti unikali."
+msgstr "Požymio \"%s\" reikšmė turi būti unikali."
 
 msgid "The value of this field must be a valide date format, e.g. YYYY-MM-DD"
-msgstr "Šio laukelio reikšmė turi būti teisingu datos formatu, pvz.:YYYY-MM-DD"
+msgstr "Šio lauko reikšmė turi būti data tinkamu formatu, pvz. YYYY-MM-DD."
 
 msgid "The value of this field must be an integer"
-msgstr "Laukelio reikšmė privalo būti sveikasis skaičius"
+msgstr "Šio lauko reikšmė turi būti sveikas skaičius"
 
 msgid "The value of this field must be numeric"
-msgstr "Laukelio reikšmė privalo būti skaitinis"
+msgstr "Šio lauko reikšmė turi būti skaičius"
 
 msgid "There is nothing to list!"
 msgstr "Sąrašas tuščias!"
 
 msgid "This %s is currently checked out"
-msgstr "Šis %s šiuo metu yra atžymėtas"
+msgstr "Šiuo metu šis %s yra išregistruotas"
 
 msgid "This field is required"
 msgstr "Šis laukelis privalomas"
@@ -1988,10 +1988,10 @@ msgid "This role is still given to one or more users. Please remove the role to 
 msgstr "Šį rolė vis dar priskirta vienam ar daugiau vartotojų. Prašome pirma pašalinti šią rolę iš vartotojų."
 
 msgid "This should equal %s"
-msgstr "Tai turėtų būti lygu %s"
+msgstr "Tai turi būti lygu %s"
 
 msgid "This should not equal %s"
-msgstr "Tai turėtų būti nelygu %s"
+msgstr "Tai neturi būti lygu %s"
 
 msgid "time"
 msgstr ""
@@ -2024,7 +2024,7 @@ msgid "Too many non-option arguments: got %s, maximum of %s"
 msgstr ""
 
 msgid "Too many suggestions match your query. Only a few are listed"
-msgstr "Perdaug pasiūlymų sutampa su jūsų užklausa. Tik keli yra pateikti sąraše"
+msgstr "Jūsų užklausą atitinka daug daugiau rezultatų, nei rodoma."
 
 msgid "Total duration"
 msgstr "Bendra trukmė"
@@ -2063,7 +2063,7 @@ msgid "Unable to access your account?"
 msgstr "Napvyksta pasiekti savo paskyros?"
 
 msgid "Unable to change passwords in demo mode"
-msgstr "Nepavyko pakeisti slaptažodžio bandomąjame režime"
+msgstr "Negalima keisti slaptažodžio, dirbant demonstravimo režimu"
 
 msgid "Unable to copy the resource"
 msgstr "Nepavyko nukopijuoti resurso"
@@ -2090,13 +2090,13 @@ msgid "Unable to release the lock"
 msgstr "Nepavyko paleisti užrakto"
 
 msgid "Unable to remove the property."
-msgstr "Nepavyko pašalinti savybės."
+msgstr "Neįmanoma pašalinti šios savybės."
 
 msgid "Unable to save resource."
 msgstr "Nepavyko išsaugoti resurso."
 
 msgid "unable to search into notification."
-msgstr "nepavyko ieškoti pranešime."
+msgstr "negalima ieškoti pranešime."
 
 msgid "Unable to send the password reset request"
 msgstr "Nepavyko išsiųsti slaptažodžio atstatymo prašymo"
@@ -2123,10 +2123,10 @@ msgid "Uncheck all"
 msgstr "Atžymėti visus"
 
 msgid "Undefined amount of the pages for pagination"
-msgstr "Nenurodytas puslapių kiekis puslapiavimui."
+msgstr "Nenustatytas puslapių skaičius skirstymui puslapiais"
 
 msgid "Undefined amount of the totalPages for pagination"
-msgstr "Nenurodytas visų puslapių kiekis puslapiavimui."
+msgstr "Nenustatytas bendras puslapių skaičius skirstymui puslapiais"
 
 msgid "Undo"
 msgstr "Anuliuoti"
@@ -2162,7 +2162,7 @@ msgid "Upload into:"
 msgstr "Įkelti į:"
 
 msgid "Usage: ImportRdf RDF_FILE [MODEL_ID]"
-msgstr "Naudojimas: ImportRdf RDF_FILE [MODEL_ID]"
+msgstr "Naudojimo pavyzdys: ImportRdf RDF_FILE [MODEL_ID]"
 
 msgid "Use a term"
 msgstr "Naudoti terminą"
@@ -2269,10 +2269,10 @@ msgid "Width"
 msgstr "Plotis"
 
 msgid "Wrong or missing parameter extension, module or action"
-msgstr "Neteisingas arba trūkstamas parametro plėtinis, modulis arba veiksmas"
+msgstr "Neteisingas parametras plėtinys, modulis ar veiksmas arba jo nėra"
 
 msgid "Wrong parameter shownExtension"
-msgstr "Blogas parametras shownExtension"
+msgstr "Neteisingas parametras shownExtension"
 
 msgid "Yes"
 msgstr "Taip"
@@ -2284,7 +2284,7 @@ msgid "You are not authorised to remove this lock"
 msgstr "Jūs esate neautorizuotas ištrinti šį užraktą"
 
 msgid "You cannot delete the root node"
-msgstr "Jūs negalite ištrinti pagrindinio mazgo"
+msgstr "Negalima panaikinti šakninio elemento"
 
 msgid "You cannot move the selected resources in the class %s"
 msgstr "Jūs negalite perkelti pasirinktų resursų iš %s klasės"
