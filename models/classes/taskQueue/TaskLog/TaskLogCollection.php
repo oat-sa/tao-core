@@ -38,16 +38,18 @@ class TaskLogCollection implements CollectionInterface
 
     /**
      * @param array $rows
+     * @param string $dateFormat platform specific datetime format
+     *
      * @return TaskLogCollection
      *
      * @throws \Exception
      */
-    public static function createFromArray(array $rows)
+    public static function createFromArray(array $rows, $dateFormat)
     {
         $logs = [];
 
         foreach ($rows as $row) {
-            $logs[] = TaskLogEntity::createFromArray($row);
+            $logs[] = TaskLogEntity::createFromArray($row, $dateFormat);
         }
 
         return new static($logs);

@@ -104,11 +104,16 @@ class TaskLogEntity implements EntityInterface
 
     /**
      * @param array $row
+     * @param string $dateFormat platform specific datetime format
+     *
      * @return TaskLogEntity
      * @throws Exception
      */
-    public static function createFromArray(array $row)
+    public static function createFromArray(array $row, $dateFormat)
     {
+        $createdAt = self::parseDateTime($row, TaskLogBrokerInterface::COLUMN_CREATED_AT, $dateFormat);
+        $updatedAt = self::parseDateTime($row, TaskLogBrokerInterface::COLUMN_UPDATED_AT, $dateFormat);
+
         return new self(
             $row[TaskLogBrokerInterface::COLUMN_ID],
             $row[TaskLogBrokerInterface::COLUMN_PARENT_ID],
@@ -117,11 +122,25 @@ class TaskLogEntity implements EntityInterface
             isset($row[TaskLogBrokerInterface::COLUMN_PARAMETERS]) ? json_decode($row[TaskLogBrokerInterface::COLUMN_PARAMETERS], true) : [],
             isset($row[TaskLogBrokerInterface::COLUMN_LABEL]) ? $row[TaskLogBrokerInterface::COLUMN_LABEL] : '',
             isset($row[TaskLogBrokerInterface::COLUMN_OWNER]) ? $row[TaskLogBrokerInterface::COLUMN_OWNER] : '',
-            isset($row[TaskLogBrokerInterface::COLUMN_CREATED_AT]) ? DateTime::createFromFormat('Y-m-d H:i:s', $row[TaskLogBrokerInterface::COLUMN_CREATED_AT], new \DateTimeZone('UTC')) : null,
-            isset($row[TaskLogBrokerInterface::COLUMN_UPDATED_AT]) ? DateTime::createFromFormat('Y-m-d H:i:s', $row[TaskLogBrokerInterface::COLUMN_UPDATED_AT], new \DateTimeZone('UTC')) : null,
+            $createdAt,
+            $updatedAt,
             Report::jsonUnserialize($row[TaskLogBrokerInterface::COLUMN_REPORT]),
             isset($row[TaskLogBrokerInterface::COLUMN_MASTER_STATUS]) ? $row[TaskLogBrokerInterface::COLUMN_MASTER_STATUS] : false
         );
+    }
+
+    static public function parseDateTime($row, $key, $dateFormat)
+    {
+        if (!isset($row[$key])) {
+            return null;
+        }
+
+        $dateTime = DateTime::createFromFormat($dateFormat, $row[$key], new \DateTimeZone('UTC'));
+        if ($dateTime === false) {
+            return null;
+        }
+
+        return $dateTime;
     }
 
     /**

@@ -20,6 +20,8 @@
  *               2013-2017 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
+use OAT\Library\DBALSpanner\SpannerDriver;
+use OAT\Library\DBALSpanner\SpannerPlatform;
 use oat\tao\helpers\InstallHelper;
 use oat\oatbox\install\Installer;
 use oat\oatbox\service\ServiceManager;
@@ -544,6 +546,25 @@ class tao_install_Installator {
             return $this->options['installation_config_path'];
         } else {
             return $this->options['root_path'] . 'config' . DIRECTORY_SEPARATOR;
+        }
+    }
+
+    /**
+     * @param array                           $driverName
+     * @param tao_install_utils_DbalDbCreator $dbCreator
+     */
+    private function loadStoredProcedures($driverName, tao_install_utils_DbalDbCreator $dbCreator)
+    {
+        if ($driverName == SpannerDriver::DRIVER_NAME) {
+            return;
+        }
+        
+        $storedProcedureFile = __DIR__ . DIRECTORY_SEPARATOR . 'db' . DIRECTORY_SEPARATOR . 'tao_stored_procedures_' . str_replace('pdo_', '', $driverName) . '.sql';
+        if (file_exists($storedProcedureFile) && is_readable($storedProcedureFile)) {
+            $this->log('i', 'Installing stored procedures for ' . $driverName . ' from file: ' . $storedProcedureFile);
+            $dbCreator->loadProc($storedProcedureFile);
+        } else {
+            $this->log('e', 'Could not find storefile : ' . $storedProcedureFile);
         }
     }
 }

@@ -21,6 +21,7 @@
 namespace oat\tao\model\taskQueue\TaskLog\Broker;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use oat\oatbox\PhpSerializable;
 use common_report_Report as Report;
 use Doctrine\DBAL\Query\QueryBuilder;
@@ -147,18 +148,34 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
      */
     public function add(TaskInterface $task, $status, $label = null)
     {
-        $this->getPersistence()->insert($this->getTableName(), [
-            self::COLUMN_ID   => (string) $task->getId(),
-            self::COLUMN_PARENT_ID  => $task->getParentId() ? (string) $task->getParentId() : null,
-            self::COLUMN_TASK_NAME => $task instanceof CallbackTaskInterface && is_object($task->getCallable()) ? get_class($task->getCallable()) : get_class($task),
-            self::COLUMN_PARAMETERS => json_encode($task->getParameters()),
-            self::COLUMN_LABEL => (string) $label,
-            self::COLUMN_STATUS => (string) $status,
-            self::COLUMN_OWNER => (string) $task->getOwner(),
-            self::COLUMN_CREATED_AT => $task->getCreatedAt()->format($this->getPersistence()->getPlatForm()->getDateTimeFormatString()),
-            self::COLUMN_UPDATED_AT => $this->getPersistence()->getPlatForm()->getNowExpression(),
-            self::COLUMN_MASTER_STATUS => (integer) $task->isMasterStatus(),
-        ]);
+        $platform = $this->getPersistence()->getPlatForm();
+
+        $this->getPersistence()->insert(
+            $this->getTableName(), [
+                self::COLUMN_ID   => (string) $task->getId(),
+                self::COLUMN_PARENT_ID  => $task->getParentId() ? (string) $task->getParentId() : null,
+                self::COLUMN_TASK_NAME => $task instanceof CallbackTaskInterface && is_object($task->getCallable()) ? get_class($task->getCallable()) : get_class($task),
+                self::COLUMN_PARAMETERS => json_encode($task->getParameters()),
+                self::COLUMN_LABEL => (string) $label,
+                self::COLUMN_STATUS => (string) $status,
+                self::COLUMN_OWNER => (string) $task->getOwner(),
+                self::COLUMN_CREATED_AT => $task->getCreatedAt()->format($platform->getDateTimeFormatString()),
+                self::COLUMN_UPDATED_AT => $platform->getNowExpression(),
+                self::COLUMN_MASTER_STATUS => $task->isMasterStatus(),
+            ],
+            [
+                ParameterType::STRING,
+                ParameterType::STRING,
+                ParameterType::STRING,
+                ParameterType::STRING,
+                ParameterType::STRING,
+                ParameterType::STRING,
+                ParameterType::STRING,
+                ParameterType::STRING,
+                ParameterType::STRING,
+                ParameterType::BOOLEAN,
+            ]
+        );
     }
 
     /**
@@ -259,7 +276,10 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
 
             $filter->applyFilters($qb);
 
-            $collection = TaskLogCollection::createFromArray($qb->execute()->fetchAll());
+            $collection = TaskLogCollection::createFromArray(
+                $qb->execute()->fetchAll(),
+                $this->getPersistence()->getPlatForm()->getDateTimeFormatString()
+            );
         } catch (\Exception $exception) {
             $this->logError('Searching for task logs failed with MSG: ' . $exception->getMessage());
 

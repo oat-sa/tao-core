@@ -35,7 +35,11 @@ class OntologyUpdater {
     
     static public function syncModels() {
         $currentModel = ModelManager::getModel();
-        $modelIds = array_diff($currentModel->getReadableModels(),array('1'));
+
+        // Excludes the writable model.
+        $modelFactory = new \core_kernel_api_ModelFactory();
+        $writableModelId = $modelFactory->getModelId(LOCAL_NAMESPACE);
+        $modelIds = array_diff($currentModel->getReadableModels(), [$writableModelId]);
         
         $persistence = common_persistence_SqlPersistence::getPersistence('default');
         
