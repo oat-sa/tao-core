@@ -142,21 +142,37 @@ class OauthService extends ConfigurableService implements \common_http_Signature
      */
     public function validatePsrRequest(ServerRequestInterface $request, common_http_Credentials $credentials = null)
     {
-        $oldRequest = new common_http_Request(
-            $request->getUri(),
-            $request->getMethod(),
-            $request->getServerParams(),
-            $request->getHeaders(),
-            (string) $request->getBody()
-        );
+        $oldRequest = $this->buildCommonRequestFromPsr($request);
         return $this->validate($oldRequest, $credentials);
     }
 
     /**
-     * @return DataStore
+     * @return ImsOauthDataStoreInterface
      */
     public function getDataStore() {
         return $this->getSubService(self::OPTION_DATASTORE);
+    }
+
+    /**
+     * @param ServerRequestInterface $request
+     * @return common_http_Request
+     */
+    private function buildCommonRequestFromPsr(ServerRequestInterface $request)
+    {
+        $body = (string) $request->getBody();
+        // https://tools.ietf.org/html/rfc5849#section-3.4.1.3.1
+        $contentTypeHeaders = $request->getHeader('Content-Type');
+        $params = reset($contentTypeHeaders) === 'application/x-www-form-urlencoded'
+            ? OAuthUtil::parse_parameters($body)
+            : [];
+
+        return new common_http_Request(
+            $request->getUri(),
+            $request->getMethod(),
+            $params,
+            $request->getHeaders(),
+            $body
+        );
     }
 
     /**
