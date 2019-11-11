@@ -30,12 +30,16 @@ use IMSGlobal\LTI\OAuth\OAuthToken;
 interface ImsOauthDataStoreInterface
 {
     /**
+     * Returns the OauthConsumer for the specified key
      * @param string $consumer_key
      * @return OAuthConsumer
      */
     public function lookup_consumer($consumer_key);
 
     /**
+     * Should verify if the token exists and return it
+     * Always returns an token with an empty secret for now
+     *
      * @param OAuthConsumer $consumer
      * @param string $token_type
      * @param string $token
@@ -44,6 +48,9 @@ interface ImsOauthDataStoreInterface
     public function lookup_token($consumer, $token_type, $token);
 
     /**
+     * Should verify if a nonce has already been used by specified consumer (got from lookup_consumer() call).
+     * Should return false in case of acceptable nonce (which hasn't been used before)
+     *
      * @param OAuthConsumer $consumer
      * @param string $token
      * @param string $nonce
@@ -53,6 +60,11 @@ interface ImsOauthDataStoreInterface
     public function lookup_nonce($consumer, $token, $nonce, $timestamp);
 
     /**
+     * Perform request_token request according to OAuth flow
+     * Needed only for
+     * @see \IMSGlobal\LTI\OAuth\OAuthServer::fetch_request_token()
+     * call
+     *
      * @param OAuthConsumer $consumer
      * @param callable|null $callback
      * @return mixed
@@ -60,6 +72,11 @@ interface ImsOauthDataStoreInterface
     public function new_request_token($consumer, $callback = null);
 
     /**
+     * Perform access_token request according to OAuth flow
+     * Needed only for
+     * @see \IMSGlobal\LTI\OAuth\OAuthServer::fetch_access_token()
+     * call
+     *
      * @param string $token
      * @param OAuthConsumer $consumer
      * @param string $verifier Verification code
