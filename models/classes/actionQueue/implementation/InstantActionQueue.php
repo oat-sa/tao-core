@@ -129,28 +129,32 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
     {
         $actionConfig = $this->getActionConfig($action);
         $restrictions = $this->getRestrictions($actionConfig);
-
+        
         $limit=$this->sumRestrictions($restrictions);
         
         return $limit;
     }
-      
+    
     /**
-     * 
+     *
      * @param array/Object $restrictions
      * @param number $limit
      * @return number
      */
-     protected function sumRestrictions($restrictions,$limit=0){
-        foreach($restrictions as $key => $restriction){
-            if(is_numeric($restriction)){
-                $limit += $restriction;
-            } else {
-                $limit=$this->sumRestrictions($restriction,$limit);
+    public function sumRestrictions($restrictions,$limit=0){
+        if(!(is_numeric($restrictions)||is_array($restrictions))){
+            return $limit;            
+        }
+        if(is_numeric($restrictions)){
+            $limit += $restrictions;
+        } else {
+            foreach($restrictions as $key => $restriction){
+                 $limit=$this->sumRestrictions($restriction,$limit);
             }
         }
         return $limit;
     }
+    
 
     /**
      * @param QueuedAction $action
