@@ -19,6 +19,9 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  *               2013-     (update and modification) Open Assessment Technologies SA;
  */
+
+use Symfony\Component\Dotenv\Dotenv;
+
 $root = realpath(__DIR__ . '/../../') . DIRECTORY_SEPARATOR;
 define('TAO_INSTALL_PATH', $root);
 
@@ -30,7 +33,13 @@ if(function_exists("date_default_timezone_set")){
 require_once ($root . 'vendor/autoload.php');
 
 if (tao_install_utils_System::isTAOInstalled()) {
-    require_once ($root . '/config/generis.conf.php');
+    require_once ($root . 'config/generis.conf.php');
+}
+
+$envFile = $root . '.env';
+if (file_exists($envFile)) {
+    $dotenv = new Dotenv();
+    $dotenv->overLoad($envFile);
 }
 
 // Logger service initialization.
