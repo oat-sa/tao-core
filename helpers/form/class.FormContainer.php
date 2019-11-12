@@ -102,7 +102,6 @@ abstract class tao_helpers_form_FormContainer
 
         // set the values in case of default values
         if ($this->data && count($this->data) > 0) {
-        :qa
             $this->form->setValues($this->data);
         }
 
