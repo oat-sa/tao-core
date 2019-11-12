@@ -5,21 +5,23 @@
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- *
+ * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- *
+ * 
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  *               2013-     (update and modification) Open Assessment Technologies SA;
  */
+
+use Symfony\Component\Dotenv\Dotenv;
 
 $root = realpath(__DIR__ . '/../../') . DIRECTORY_SEPARATOR;
 define('TAO_INSTALL_PATH', $root);
@@ -33,6 +35,12 @@ require_once($root . 'vendor/autoload.php');
 
 if (tao_install_utils_System::isTAOInstalled()) {
     require_once($root . '/config/generis.conf.php');
+}
+
+$envFile = $root . '/.env';
+if (file_exists($envFile)) {
+    $dotenv = new Dotenv();
+    $dotenv->overLoad($envFile);
 }
 
 // Logger service initialization.
