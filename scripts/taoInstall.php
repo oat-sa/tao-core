@@ -20,7 +20,7 @@
  *               2013-2017 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
-require_once dirname(__FILE__) . '/../install/init.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'install' . DIRECTORY_SEPARATOR . 'init.php';
 
 // Setting install details.
 $installDetails = [
