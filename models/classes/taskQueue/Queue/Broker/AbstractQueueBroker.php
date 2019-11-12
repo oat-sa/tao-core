@@ -20,6 +20,7 @@
 
 namespace oat\tao\model\taskQueue\Queue\Broker;
 
+use Exception;
 use oat\oatbox\PhpSerializable;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\action\ActionService;
@@ -33,6 +34,8 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 /**
+ * Class AbstractQueueBroker
+ *
  * @author Gyula Szucs <gyula@taotesting.com>
  */
 abstract class AbstractQueueBroker implements QueueBrokerInterface, PhpSerializable, ServiceLocatorAwareInterface
@@ -45,6 +48,8 @@ abstract class AbstractQueueBroker implements QueueBrokerInterface, PhpSerializa
     private $preFetchedQueue;
 
     /**
+     * AbstractMessageBroker constructor.
+     *
      * @param int $receiveTasks Maximum amount of tasks that can be received when polling the queue; Default is 1.
      */
     public function __construct($receiveTasks = 1)
@@ -126,17 +131,10 @@ abstract class AbstractQueueBroker implements QueueBrokerInterface, PhpSerializa
      */
     protected function unserializeTask($taskJSON, $idForDeletion, array $logContext = [])
     {
-        /** @var TaskSerializerService $taskSerializer */
-        $taskSerializer = $this->getServiceLocator()->get(TaskSerializerService::SERVICE_ID);
-
         try {
-
-            return $taskSerializer->deserialize($taskJSON);
-
-        } catch (\Exception $e) {
-
+            return $this->getTaskSerializer()->deserialize($taskJSON);
+        } catch (Exception $e) {
             $this->doDelete($idForDeletion, $logContext);
-
             return null;
         }
     }
@@ -147,30 +145,13 @@ abstract class AbstractQueueBroker implements QueueBrokerInterface, PhpSerializa
      */
     protected function serializeTask(TaskInterface $task)
     {
-        /** @var TaskSerializerService $taskSerializer */
-        $taskSerializer = $this->getServiceLocator()->get(TaskSerializerService::SERVICE_ID);
-
-        return $taskSerializer->serialize($task);
-    }
-
-    /**
-     * @param $basicData
-     * @throws \Exception
-     */
-    protected function assertValidJson($basicData)
-    {
-        if ( ($basicData !== null
-            && json_last_error() === JSON_ERROR_NONE
-            && isset($basicData[TaskInterface::JSON_TASK_CLASS_NAME_KEY])) === false
-        ) {
-            throw new \Exception();
-        }
+        return $this->getTaskSerializer()->serialize($task);
     }
 
     /**
      * @param CallbackTaskInterface $task
      * @param array $logContext
-     * @throws \Exception
+     * @throws Exception
      */
     protected function handleCallbackTask(CallbackTaskInterface $task, array $logContext)
     {
@@ -183,10 +164,9 @@ abstract class AbstractQueueBroker implements QueueBrokerInterface, PhpSerializa
 
             $task->setCallable($callable);
         } catch (ResolutionException $e) {
-
             $this->logError('Callable/Action class ' . $task->getCallable() . ' does not exist', $logContext);
 
-            throw new \Exception;
+            throw new Exception($e->getMessage());
         }
     }
 
@@ -231,5 +211,13 @@ abstract class AbstractQueueBroker implements QueueBrokerInterface, PhpSerializa
     public function getNumberOfTasksToReceive()
     {
         return abs((int) $this->numberOfTasksToReceive);
+    }
+
+    /**
+     * @return TaskSerializerService
+     */
+    public function getTaskSerializer()
+    {
+        return $this->getServiceLocator()->get(TaskSerializerService::SERVICE_ID);
     }
 }
