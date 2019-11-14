@@ -19,12 +19,17 @@
  */
 namespace oat\tao\model\oauth;
 
+use common_http_Credentials;
+use common_http_InvalidSignatureException;
 use IMSGlobal\LTI\OAuth\OAuthSignatureMethod_HMAC_SHA1;
 use IMSGlobal\LTI\OAuth\OAuthRequest;
 use IMSGlobal\LTI\OAuth\OAuthServer;
+use IMSGlobal\LTI\OAuth\OAuthUtil;
 use oat\oatbox\service\ConfigurableService;
 use common_http_Request;
 use IMSGlobal\LTI\OAuth\OAuthException;
+use Psr\Http\Message\ServerRequestInterface;
+
 /**
  * Oauth Services based on the TAO DataStore implementation
  *
@@ -46,7 +51,7 @@ class OauthService extends ConfigurableService implements \common_http_Signature
      * @param $authorizationHeader Move the signature parameters into the Authorization header of the request
      * @return common_http_Request
      */
-    public function sign(common_http_Request $request, \common_http_Credentials $credentials, $authorizationHeader = false) {
+    public function sign(common_http_Request $request, common_http_Credentials $credentials, $authorizationHeader = false) {
         
         if (!$credentials instanceof \tao_models_classes_oauth_Credentials) {
             throw new \tao_models_classes_oauth_Exception('Invalid credentals: '.gettype($credentials));
@@ -108,22 +113,43 @@ class OauthService extends ConfigurableService implements \common_http_Signature
     /**
      * Validates the signature of the current request
      *
-     * @access protected
+     * @param common_http_Request $request
+     * @param common_http_Credentials|null $credentials
+     * @return array [OAuthConsumer, token]
+     * @throws common_http_InvalidSignatureException
      * @author Joel Bout, <joel@taotesting.com>
-     * @param  common_http_Request request
-     * @throws common_Exception exception thrown if validation fails
-    */
-    public function validate(common_http_Request $request, \common_http_Credentials $credentials = null) {
+     */
+    public function validate(common_http_Request $request, common_http_Credentials $credentials = null) {
         $server = new OAuthServer($this->getDataStore());
 		$method = new OAuthSignatureMethod_HMAC_SHA1();
         $server->add_signature_method($method);
         
         try {
             $oauthRequest = $this->getOauthRequest($request);
-            $server->verify_request($oauthRequest);
+            return $server->verify_request($oauthRequest);
         } catch (OAuthException $e) {
-            throw new \common_http_InvalidSignatureException('Validation failed: '.$e->getMessage());
+            throw new common_http_InvalidSignatureException('Validation failed: '.$e->getMessage());
         }
+    }
+
+    /**
+     * Wrapper over parent validate method to support PSR Request object
+     *
+     * @param ServerRequestInterface $request
+     * @param common_http_Credentials|null $credentials
+     * @return array [OAuthConsumer, token]
+     * @throws common_http_InvalidSignatureException
+     */
+    public function validatePsrRequest(ServerRequestInterface $request, common_http_Credentials $credentials = null)
+    {
+        $oldRequest = new common_http_Request(
+            $request->getUri(),
+            $request->getMethod(),
+            $request->getServerParams(),
+            $request->getHeaders(),
+            (string) $request->getBody()
+        );
+        return $this->validate($oldRequest, $credentials);
     }
 
     /**
@@ -154,9 +180,15 @@ class OauthService extends ConfigurableService implements \common_http_Signature
      */
     private function getOauthRequest(common_http_Request $request) {
         $params = array();
+
+        // In LTI launches oauth params are passed as POST params, but in LIS requests
+        // they located in Authorization header. We try to extract them for further verification
+        $authHeader = $request->getHeaderValue('Authorization');
+        if (!empty($authHeader)) {
+            $params = OAuthUtil::split_header($authHeader[0]);
+        }
         
         $params = array_merge($params, $request->getParams());
-        //$params = array_merge($params, $request->getHeaders());
         \common_Logger::d("OAuth Request created:".$request->getUrl()." using ".$request->getMethod());
         $oauthRequest = new OAuthRequest($request->getMethod(), $request->getUrl(), $params);
         return $oauthRequest;

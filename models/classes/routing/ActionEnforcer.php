@@ -44,6 +44,7 @@ use oat\oatbox\event\EventManager;
 use oat\tao\model\event\BeforeAction;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\log\TaoLoggerAwareInterface;
+use oat\tao\model\action\CommonModuleInterface;
 
 /**
  * ActionEnforcer class
@@ -97,18 +98,19 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
     protected function getController()
     {
         $controllerClass = $this->getControllerClass();
-        if(class_exists($controllerClass)) {
-            $controller = new $controllerClass();
-            $this->propagate($controller);
-            if ($controller instanceof Controller) {
-                $controller->setRequest($this->getRequest());
-                $controller->setResponse($this->getResponse());
-            }
-            $controller->initialize();
-            return $controller;
-        } else {
+        if(!class_exists($controllerClass)) {
             throw new ActionEnforcingException('Controller "'.$controllerClass.'" could not be loaded.', $controllerClass, $this->getAction());
         }
+        $controller = new $controllerClass();
+        $this->propagate($controller);
+        if ($controller instanceof Controller) {
+            $controller->setRequest($this->getRequest());
+            $controller->setResponse($this->getResponse());
+        }
+        if ($controller instanceof CommonModuleInterface) {
+            $controller->initialize();
+        }
+        return $controller;
     }
 
     protected function getRequest()
@@ -231,16 +233,9 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
         $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
         $eventManager->trigger(new BeforeAction());
 
-        call_user_func_array(array($controller, $action), $tabParam);
+        $response = call_user_func_array(array($controller, $action), $tabParam);
 
-        /** @var ResponseInterface $response */
-        $response = $controller->getPsrResponse();
-        // Render the view if selected.
-        if ($controller->hasView()) {
-            $response = $response->withBody(stream_for($controller->getRenderer()->render()));
-        }
-
-        return $response;
+        return $response instanceof ResponseInterface ? $response : $controller->getPsrResponse();
     }
 
 }

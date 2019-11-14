@@ -20,7 +20,6 @@
 
 namespace oat\tao\model\http;
 
-use common_http_Request;
 use Context;
 use GuzzleHttp\Psr7\Uri;
 use HTTPToolkit;
@@ -105,7 +104,7 @@ trait HttpFlowTrait
 
         //resolve the given URL for routing
         $resolver = new Resolver($request);
-        $this->propagate($resolver);
+        $resolver->setServiceLocator($this->getServiceLocator());
 
         //update the context to the new route
         $context = \Context::getInstance();
@@ -127,7 +126,7 @@ trait HttpFlowTrait
             $resolver->getMethodName(),
             $params
         );
-        $this->propagate($enforcer);
+        $enforcer->setServiceLocator($this->getServiceLocator());
 
         $enforcer(
             $request,

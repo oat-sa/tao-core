@@ -36,7 +36,7 @@ use oat\generis\model\OntologyAwareTrait;
  * @author Joel Bout, <joel@taotesting.com>
  * @package tao
  */
-class DataStore extends ConfigurableService
+class DataStore extends ConfigurableService implements ImsOauthDataStoreInterface
 {
     use OntologyAwareTrait;
     
