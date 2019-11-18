@@ -30,7 +30,7 @@ use oat\generis\test\MockObject;
 
 class RdsNotificationServiceTest extends TestCase
 {
-    /** @var RdsNotification */
+    /** @var RdsNotificationService */
     private $subject;
 
     /** @var Persistence */
