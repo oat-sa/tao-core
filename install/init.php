@@ -20,7 +20,7 @@
  *               2013-     (update and modification) Open Assessment Technologies SA;
  */
 
-use Symfony\Component\Dotenv\Dotenv;
+use oat\tao\model\mvc\DotEnvReader;
 
 $root = realpath(__DIR__ . '/../../') . DIRECTORY_SEPARATOR;
 define('TAO_INSTALL_PATH', $root);
@@ -36,11 +36,7 @@ if (tao_install_utils_System::isTAOInstalled()) {
     require_once ($root . 'config/generis.conf.php');
 }
 
-$envFile = $root . '.env';
-if (file_exists($envFile)) {
-    $dotenv = new Dotenv();
-    $dotenv->overLoad($envFile);
-}
+new DotEnvReader();
 
 // Logger service initialization.
 $loggerService = new \oat\oatbox\log\LoggerService();
