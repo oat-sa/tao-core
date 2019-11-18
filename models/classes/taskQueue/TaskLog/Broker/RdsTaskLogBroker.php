@@ -20,11 +20,13 @@
 
 namespace oat\tao\model\taskQueue\TaskLog\Broker;
 
+use common_report_Report as Report;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
-use oat\oatbox\PhpSerializable;
-use common_report_Report as Report;
 use Doctrine\DBAL\Query\QueryBuilder;
+use Google\Cloud\Spanner\Transaction;
+use oat\oatbox\log\LoggerAwareTrait;
+use oat\oatbox\PhpSerializable;
 use oat\tao\model\taskQueue\QueueDispatcherInterface;
 use oat\tao\model\taskQueue\Task\CallbackTaskInterface;
 use oat\tao\model\taskQueue\Task\TaskInterface;
@@ -37,7 +39,6 @@ use oat\tao\model\taskQueue\TaskLog\TasksLogsStats;
 use oat\tao\model\taskQueue\TaskLogInterface;
 use Psr\Log\LoggerAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
-use oat\oatbox\log\LoggerAwareTrait;
 
 /**
  * Storing message logs in RDS.
@@ -430,9 +431,16 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
             ->setParameter('ids', $collection->getIds(), Connection::PARAM_STR_ARRAY)
             ->setParameter('status_new', (string) $status)
             ->setParameter('updated_at', $this->getPersistence()->getPlatForm()->getNowExpression());
-
+        $query = $qb->getSQL();
+        
         try {
-            return $qb->execute();
+            return $this->getPersistence()->getPlatForm()->transactional(
+                static function(Transaction $transaction) use ($query) {
+                    $result = $transaction->execute($query);
+                    $transaction->commit();
+                    return $result;
+                }
+            );
         } catch (\Exception $e) {
             $this->logDebug($e->getMessage());
             return false;
