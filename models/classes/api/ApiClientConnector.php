@@ -20,12 +20,9 @@
 
 namespace oat\tao\model\api;
 
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Middleware;
 use GuzzleHttp\Promise\PromiseInterface;
-use OAT\Library\CorrelationIdsGuzzle\Middleware\CorrelationIdsGuzzleMiddleware;
 use oat\oatbox\Configurable;
-use oat\tao\model\mvc\CorrelationIdsService;
+use oat\tao\model\http\HttpClientFactory;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\UriInterface;
@@ -137,7 +134,7 @@ class ApiClientConnector extends Configurable implements ClientInterface, Servic
      */
     protected function getClient()
     {
-        return new Client($this->getClientOptions());
+        return (new HttpClientFactory())->create($this->getClientOptions());
     }
 
     /**
@@ -156,20 +153,6 @@ class ApiClientConnector extends Configurable implements ClientInterface, Servic
             }
         }
 
-        // Adds correlation ids.
-        $registry = $this->getCorrelationIdsService()->getRegistry();
-        $handlerStack = HandlerStack::create();
-        $handlerStack->push(Middleware::mapRequest(new CorrelationIdsGuzzleMiddleware($registry)));
-        $options['handler'] = $handlerStack;
-        
         return $options;
-    }
-
-    /**
-     * @return CorrelationIdsService
-     */
-    private function getCorrelationIdsService()
-    {
-        return $this->getServiceLocator()->get(CorrelationIdsService::class);
     }
 }

@@ -73,7 +73,8 @@
         "oat-sa/composer-npm-bridge": "^0.3.0",
         "symfony/dotenv": "~4.3",
         "oat-sa/lib-correlation-ids-guzzle": "~0.1",
-        "oat-sa/lib-correlation-ids-monolog": "~0.1"
+        "oat-sa/lib-correlation-ids-monolog": "~0.1",
+        "oat-sa/lib-correlation-ids": "~0.1"
     },
     "autoload": {
         "psr-4": {
