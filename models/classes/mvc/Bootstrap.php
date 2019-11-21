@@ -24,7 +24,6 @@ namespace oat\tao\model\mvc;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
-use oat\generis\Helper\CorrelationIdsService;
 use oat\oatbox\service\ServiceConfigDriver;
 use oat\oatbox\service\ServiceManager;
 use oat\oatbox\service\ServiceManagerAwareInterface;
@@ -341,7 +340,7 @@ class Bootstrap implements ServiceManagerAwareInterface
     {
         /** @var CorrelationIdsService $correlationIdService */
         $correlationIdService = $this->getServiceLocator()->get(CorrelationIdsService::class);
-        $correlationIdService->getRegistry($request !== null ? $request->getHeaders() : []);
+        $correlationIdService->buildRegistry($request !== null ? $request->getHeaders() : []);
     }
     
 	/**

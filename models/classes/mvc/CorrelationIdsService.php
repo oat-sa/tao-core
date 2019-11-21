@@ -30,16 +30,23 @@ class CorrelationIdsService extends ConfigurableService
     private $registry;
 
     /**
-     * Builds a correlation ids registry.
-     * @param array $headers optional current request headers ([] if invoked from CLI)
+     * Returns correlation ids registry built with buildRegistry at application boostrap.
      * @return CorrelationIdsRegistryInterface
      */
-    public function getRegistry(array $headers): CorrelationIdsRegistryInterface
+    public function getRegistry(): CorrelationIdsRegistryInterface
+    {
+        return $this->registry;
+    }
+
+    /**
+     * Builds a correlation ids registry.
+     * @param array $headers optional current request headers ([] if invoked from CLI)
+     */
+    public function buildRegistry(array $headers): void
     {
         if ($this->registry === null) {
             $correlationIdsRegistryBuilder = new CorrelationIdsRegistryBuilder(new CorrelationIdGenerator());
             $this->registry = $correlationIdsRegistryBuilder->buildFromRequestHeaders($headers);
         }
-        return $this->registry;
     }
 }
