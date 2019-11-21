@@ -41,7 +41,7 @@ class UnionSearchServiceTest extends TestCase
     public function setUp()
     {
         $this->defaultSearchService = $this->getMock(Search::class);
-        $this->defaultSearchService->method('query')->willReturn(new ResultSet(['uri' => '123'], 1));
+        $this->defaultSearchService->method('query')->willReturn(new ResultSet(['123'], 1));
 
         $this->serviceLocatorMock = $this->getServiceLocatorMock([
             Search::SERVICE_ID => $this->defaultSearchService,
@@ -66,48 +66,37 @@ class UnionSearchServiceTest extends TestCase
     public function testItPollsAllServicesPassed()
     {
         $searchService2 = $this->getMock(Search::class);
-        $searchService2->method('query')->willReturn(new ResultSet(['uri' => '456'], 1));
+        $searchService2->method('query')->willReturn(new ResultSet(['456'], 1));
 
         $searchService3 = $this->getMock(Search::class);
-        $searchService3->method('query')->willReturn(new ResultSet(['uri' => '789', 'custom_field' => 'custom_value'], 1));
+        $searchService3->method('query')->willReturn(new ResultSet(['789'], 1));
 
         $this->service->setOption(UnionSearchService::OPTION_SERVICES, [$searchService2, $searchService3]);
 
         $results = $this->service->query('needle', 'type');
         $results = $results->getArrayCopy();
         $this->assertSame([
-            [
-                'uri' => '456',
-            ],
-            [
-                'uri' => '789',
-                'custom_field' => 'custom_value',
-            ],
-            [
-                'uri' => '123',
-            ],
+            '456',
+            '789',
+            '123',
         ], $results);
     }
 
     public function testItExcludeDuplicates()
     {
         $searchService2 = $this->getMock(Search::class);
-        $searchService2->method('query')->willReturn(new ResultSet(['uri' => '456'], 1));
+        $searchService2->method('query')->willReturn(new ResultSet(['456'], 1));
 
         $searchService3 = $this->getMock(Search::class);
-        $searchService3->method('query')->willReturn(new ResultSet(['uri' => '456'], 1));
+        $searchService3->method('query')->willReturn(new ResultSet(['456'], 1));
 
         $this->service->setOption(UnionSearchService::OPTION_SERVICES, [$searchService2, $searchService3]);
 
         $results = $this->service->query('needle', 'type');
         $results = $results->getArrayCopy();
         $this->assertSame([
-            [
-                'uri' => '456',
-            ],
-            [
-                'uri' => '123',
-            ],
+            '456',
+            '123',
         ], $results);
     }
 }

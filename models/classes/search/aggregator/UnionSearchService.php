@@ -84,8 +84,9 @@ class UnionSearchService extends ConfigurableService implements UnionSearchInter
      */
     private function excludeDuplicates($resultArray)
     {
-        $resultArray = array_unique($resultArray, SORT_REGULAR);
-        $resultArray = array_values($resultArray);
+        $resultArray = array_merge(...array_values($resultArray));
+        $resultArray = array_values(array_unique($resultArray));
+
         return $resultArray;
     }
 
