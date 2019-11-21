@@ -39,8 +39,8 @@ interface Search extends PhpSerializable
      * @param string $type
      * @param int $start
      * @param int $count
-     * @param int $order
-     * @param int $dir
+     * @param string $order
+     * @param string $dir
      *
      * @return ResultSet
      */

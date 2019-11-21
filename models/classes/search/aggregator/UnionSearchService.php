@@ -37,7 +37,7 @@ class UnionSearchService extends ConfigurableService implements UnionSearchInter
 {
     const OPTION_SERVICES = 'services';
 
-    private function getInternalServices()
+    public function getInternalServices()
     {
         $services = $this->getOption(self::OPTION_SERVICES);
         if (is_array($services)) {
@@ -52,8 +52,8 @@ class UnionSearchService extends ConfigurableService implements UnionSearchInter
     }
 
     /**
-     * @param $queryString
-     * @param $type
+     * @param string $queryString
+     * @param string $type
      * @param int $start
      * @param int $count
      * @param string $order
@@ -78,6 +78,10 @@ class UnionSearchService extends ConfigurableService implements UnionSearchInter
         return $this->prepareResultSetFromArray($resultArray);
     }
 
+    /**
+     * @param $resultArray
+     * @return array
+     */
     private function excludeDuplicates($resultArray)
     {
         $resultArray = array_unique($resultArray, SORT_REGULAR);
@@ -85,6 +89,10 @@ class UnionSearchService extends ConfigurableService implements UnionSearchInter
         return $resultArray;
     }
 
+    /**
+     * @param array $resultArray
+     * @return ResultSet
+     */
     private function prepareResultSetFromArray($resultArray = [])
     {
         return new ResultSet($resultArray, count($resultArray));
