@@ -24,6 +24,7 @@ namespace oat\tao\model\mvc;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
+use oat\generis\Helper\CorrelationIdsService;
 use oat\oatbox\service\ServiceConfigDriver;
 use oat\oatbox\service\ServiceManager;
 use oat\oatbox\service\ServiceManagerAwareInterface;
@@ -36,6 +37,7 @@ use oat\tao\model\routing\CliController;
 use common_Logger;
 use common_ext_ExtensionsManager;
 use common_report_Report as Report;
+use Psr\Http\Message\ServerRequestInterface;
 use tao_helpers_Context;
 use tao_helpers_Request;
 use tao_helpers_Uri;
@@ -221,6 +223,7 @@ class Bootstrap implements ServiceManagerAwareInterface
 	    if (count($params) < 1) {
 	        $report = new Report(Report::TYPE_ERROR, __('No action specified'));
 	    } else {
+	        $this->buildCorrelationId();
             $actionIdentifier = array_shift($params);
             $cliController = new CliController();
             $this->propagate($cliController);
@@ -330,6 +333,17 @@ class Bootstrap implements ServiceManagerAwareInterface
 	    }
 	}
 
+    /**
+     * Builds correlation id registry, optionally form http(s) request to make it ready for all subsequent call from logger, http client, ...
+     * @param ServerRequestInterface $request optional request to retrieve previous correlation ids from.
+     */
+	protected function buildCorrelationId(ServerRequestInterface $request = null)
+    {
+        /** @var CorrelationIdsService $correlationIdService */
+        $correlationIdService = $this->getServiceLocator()->get(CorrelationIdsService::class);
+        $correlationIdService->getRegistry($request !== null ? $request->getHeaders() : []);
+    }
+    
 	/**
 	 *  Start the MVC Loop from the ClearFW
 	 *  @throws \ActionEnforcingException in case of wrong module or action
@@ -338,6 +352,7 @@ class Bootstrap implements ServiceManagerAwareInterface
     protected function mvc()
     {
         $request = ServerRequest::fromGlobals();
+        $this->buildCorrelationId($request);
         $response = new Response();
         $frontController = $this->propagate(new TaoFrontController());
         $frontController($request, $response);
