@@ -20,14 +20,20 @@
 
 namespace oat\tao\model\api;
 
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Middleware;
 use GuzzleHttp\Promise\PromiseInterface;
+use OAT\Library\CorrelationIdsGuzzle\Middleware\CorrelationIdsGuzzleMiddleware;
 use oat\oatbox\Configurable;
+use oat\tao\model\mvc\CorrelationIdsService;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\UriInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 /**
  * Class ApiClientConnector
@@ -35,8 +41,10 @@ use GuzzleHttp\ClientInterface;
  * Class to handle a http connection.
  *
  */
-class ApiClientConnector extends Configurable implements ClientInterface
+class ApiClientConnector extends Configurable implements ClientInterface, ServiceLocatorAwareInterface
 {
+    use ServiceLocatorAwareTrait;
+    
     const OPTION_BASE_URI = 'base_uri';
 
     /**
@@ -147,7 +155,21 @@ class ApiClientConnector extends Configurable implements ClientInterface
                 $options['headers']['Content-Type'][] = ['application/json'];
             }
         }
+
+        // Adds correlation ids.
+        $registry = $this->getCorrelationIdsService()->getRegistry();
+        $handlerStack = HandlerStack::create();
+        $handlerStack->push(Middleware::mapRequest(new CorrelationIdsGuzzleMiddleware($registry)));
+        $options['handler'] = $handlerStack;
+        
         return $options;
     }
 
+    /**
+     * @return CorrelationIdsService
+     */
+    private function getCorrelationIdsService()
+    {
+        return $this->getServiceLocator()->get(CorrelationIdsService::class);
+    }
 }
