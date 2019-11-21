@@ -134,6 +134,7 @@ use oat\tao\model\resources\ListResourceLookup;
 use oat\tao\model\resources\TreeResourceLookup;
 use oat\tao\model\user\TaoRoles;
 use oat\generis\model\data\event\ResourceDeleted;
+use oat\tao\model\search\aggregator\UnionSearchService;
 use oat\tao\model\search\index\IndexService;
 use oat\tao\scripts\tools\MigrateSecuritySettings;
 use tao_install_utils_ModelCreator;
@@ -1259,6 +1260,13 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('39.3.3', '39.5.5');
+      
+        if ($this->isVersion('39.5.5')) {
+            /** @var UnionSearchService|ConfigurableService $service */
+            $service = new UnionSearchService(['services' => []]);
+            $this->getServiceManager()->register(UnionSearchService::SERVICE_ID, $service);
 
+            $this->setVersion('39.6.0');
+         }
     }
 }
