@@ -96,6 +96,9 @@ define(['jquery', 'lodash', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/fe
 						if (instance.checkedNodes) {
 							instance.check(instance.checkedNodes);
 						}
+						if (instance.options.onOpenCallback) {
+							instance.options.onOpenCallback(TREE_OBJ);
+						}
 					},
 					/**
 					 * Triggered actions when data was loaded
