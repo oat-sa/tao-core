@@ -36,6 +36,7 @@ $root = dirname(__DIR__);
 $bootstrap = new Bootstrap($root .DIRECTORY_SEPARATOR. 'config' .DIRECTORY_SEPARATOR . 'generis.conf.php');
 
 $serviceManager = $bootstrap->getServiceLocator();
+$bootstrap->buildCorrelationId();
 common_Logger::singleton()->register();
 
 /** @var common_ext_ExtensionsManager $e */

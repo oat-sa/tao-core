@@ -222,7 +222,7 @@ class Bootstrap implements ServiceManagerAwareInterface
 	    if (count($params) < 1) {
 	        $report = new Report(Report::TYPE_ERROR, __('No action specified'));
 	    } else {
-	        $this->buildCorrelationId();
+            $this->buildCorrelationId();
             $actionIdentifier = array_shift($params);
             $cliController = new CliController();
             $this->propagate($cliController);
@@ -336,7 +336,7 @@ class Bootstrap implements ServiceManagerAwareInterface
      * Builds correlation id registry, optionally form http(s) request to make it ready for all subsequent call from logger, http client, ...
      * @param ServerRequestInterface $request optional request to retrieve previous correlation ids from.
      */
-	protected function buildCorrelationId(ServerRequestInterface $request = null)
+	public function buildCorrelationId(ServerRequestInterface $request = null)
     {
         /** @var CorrelationIdsService $correlationIdService */
         $correlationIdService = $this->getServiceLocator()->get(CorrelationIdsService::class);
