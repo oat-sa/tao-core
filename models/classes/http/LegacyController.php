@@ -21,6 +21,7 @@
 namespace oat\tao\model\http;
 
 use Context;
+use function GuzzleHttp\Psr7\stream_for;
 
 /**
  * Class LegacyController
@@ -381,5 +382,4 @@ abstract class LegacyController extends Controller
         $message .= ' (' . get_called_class() .')';
         \common_Logger::i($message);
     }
-
 }
