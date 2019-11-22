@@ -30,22 +30,36 @@ use Zend\ServiceManager\ServiceLocatorAwareTrait;
 class HttpClientFactory implements ServiceLocatorAwareInterface
 {
     use ServiceLocatorAwareTrait;
+    
+    const OPTION_HANDLER_STACK = 'handler';
+    const CORRELATION_ID_HANDLER_NAME = 'correlation_ids';
 
     /**
      * @param $options
-     * @return mixed
+     * @return Client
      */
-    public function create($options = [])
+    public function create(array $options = [])
     {
+        $handlerStack = $this->createOrRetrieveHandlerStack($options);
+
         // Adds correlation ids.
         $registry = $this->getCorrelationIdsService()->getRegistry();
-        $handlerStack = HandlerStack::create();
-        $handlerStack->push(Middleware::mapRequest(new CorrelationIdsGuzzleMiddleware($registry)));
-        $options['handler'] = $handlerStack;
-
+        $handlerStack->push(
+            Middleware::mapRequest(new CorrelationIdsGuzzleMiddleware($registry)),
+            self::CORRELATION_ID_HANDLER_NAME
+        );
+        
+        $options[self::OPTION_HANDLER_STACK] = $handlerStack;
         return new Client($options);
     }
 
+    private function createOrRetrieveHandlerStack(array $options)
+    {
+        return isset($options[self::OPTION_HANDLER_STACK]) && $options[self::OPTION_HANDLER_STACK] instanceof HandlerStack
+            ? $options[self::OPTION_HANDLER_STACK]
+            : HandlerStack::create();
+    }
+    
     /**
      * @return CorrelationIdsService
      */
