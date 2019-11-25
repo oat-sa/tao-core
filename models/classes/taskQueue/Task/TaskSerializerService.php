@@ -28,7 +28,7 @@ use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 class TaskSerializerService extends ConfigurableService
 {
-    const SERVICE_ID = 'tao/TaskSerializer';
+    public const SERVICE_ID = 'tao/TaskSerializer';
 
     use LoggerAwareTrait;
     use ServiceLocatorAwareTrait;
@@ -68,7 +68,7 @@ class TaskSerializerService extends ConfigurableService
      */
     protected function assertValidJson($basicData)
     {
-        if ( ($basicData !== null
+        if (($basicData !== null
                 && json_last_error() === JSON_ERROR_NONE
                 && isset($basicData[TaskInterface::JSON_TASK_CLASS_NAME_KEY])) === false
         ) {
@@ -92,10 +92,9 @@ class TaskSerializerService extends ConfigurableService
 
             $task->setCallable($callable);
         } catch (ResolutionException $e) {
-
             $this->logError('Callable/Action class ' . $task->getCallable() . ' does not exist', $logContext);
 
-            throw new \Exception;
+            throw new \Exception();
         }
     }
 

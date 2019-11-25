@@ -21,7 +21,7 @@
 namespace oat\tao\test\unit\helpers;
 
 use oat\generis\test\TestCase;
-use \tao_helpers_Display;
+use tao_helpers_Display;
 
 /**
  * Test the class tao_helpers_Display
@@ -30,7 +30,6 @@ use \tao_helpers_Display;
  */
 class DisplayTest extends TestCase
 {
-
     /**
      * Test the method tao_helpers_Display::sanitizeXssHtml
      *

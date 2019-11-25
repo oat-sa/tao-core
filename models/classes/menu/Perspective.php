@@ -25,12 +25,11 @@ use oat\oatbox\PhpSerializable;
 
 class Perspective extends MenuElement implements PhpSerializable
 {
+    public const GROUP_DEFAULT = 'main';
 
-    const GROUP_DEFAULT = 'main';
+    public const GROUP_SETTINGS = 'settings';
 
-    const GROUP_SETTINGS = 'settings';
-
-    const GROUP_INVISIBLE = 'invisible';
+    public const GROUP_INVISIBLE = 'invisible';
 
     private $data = array();
 
@@ -44,18 +43,18 @@ class Perspective extends MenuElement implements PhpSerializable
     public static function fromSimpleXMLElement(\SimpleXMLElement $node, $structureExtensionId)
     {
         $data = array(
-            'id'       => (string) $node['id'],
-            'group'    => $node['group']
+            'id' => (string) $node['id'],
+            'group' => $node['group']
                 ? (string)$node['group']
                 : ($node['visible'] == 'true'
                     ? self::GROUP_DEFAULT
                     : self::GROUP_INVISIBLE),
-            'name'      => (string) $node['name'],
-            'binding'     => isset($node['binding']) ? (string)$node['binding'] : null,
+            'name' => (string) $node['name'],
+            'binding' => isset($node['binding']) ? (string)$node['binding'] : null,
             'description' => (string) $node->description,
             'extension' => $structureExtensionId,
-            'level'     => (string) $node['level'],
-            'icon'      => isset($node->icon) ? Icon::fromSimpleXMLElement($node->icon, $structureExtensionId) : null
+            'level' => (string) $node['level'],
+            'icon' => isset($node->icon) ? Icon::fromSimpleXMLElement($node->icon, $structureExtensionId) : null
         );
         $sections = array();
         foreach ($node->xpath("sections/section") as $sectionNode) {
@@ -71,17 +70,18 @@ class Perspective extends MenuElement implements PhpSerializable
      * @param $structureExtensionId
      * @return static
      */
-    public static function fromLegacyToolbarAction(\SimpleXMLElement $node, $structureExtensionId) {
+    public static function fromLegacyToolbarAction(\SimpleXMLElement $node, $structureExtensionId)
+    {
         $data = array(
-            'id'          => (string)$node['id'],
-            'extension'   => $structureExtensionId,
-            'name'		  => (string)$node['title'],
-            'level'		  => (int)$node['level'],
+            'id' => (string)$node['id'],
+            'extension' => $structureExtensionId,
+            'name' => (string)$node['title'],
+            'level' => (int)$node['level'],
             'description' => empty($text) ? null : $text,
-            'binding'     => isset($node['binding']) ? (string)$node['binding'] :  (isset($node['js']) ? (string)$node['js'] : null),
-            'structure'   => isset($node['structure']) ? (string)$node['structure'] : null,
-            'group'       => self::GROUP_SETTINGS,
-            'icon'        => isset($node['icon']) ? Icon::fromArray(array('id' => (string)$node['icon']), $structureExtensionId) : null
+            'binding' => isset($node['binding']) ? (string)$node['binding'] : (isset($node['js']) ? (string)$node['js'] : null),
+            'structure' => isset($node['structure']) ? (string)$node['structure'] : null,
+            'group' => self::GROUP_SETTINGS,
+            'icon' => isset($node['icon']) ? Icon::fromArray(array('id' => (string)$node['icon']), $structureExtensionId) : null
         );
         $children = array();
         if (isset($node['structure'])) {
@@ -116,9 +116,8 @@ class Perspective extends MenuElement implements PhpSerializable
             }
         }
         if ($existingKey !== false) {
-
             switch ($section->getPolicy()) {
-                case Section::POLICY_MERGE :
+                case Section::POLICY_MERGE:
                     $currentSection = $this->children[$existingKey];
                     foreach ($section->getTrees() as $tree) {
                         $currentSection->addTree($tree);
@@ -132,14 +131,14 @@ class Perspective extends MenuElement implements PhpSerializable
                                 break;
                             }
                         }
-            	        $currentSection->addAction($action);
-            	    }
-            	    break;
-            	case Section::POLICY_OVERRIDE :
-            	    $this->children[$existingKey] = $section;
-            	    break;
-            	default:
-            	    throw new \common_exception_Error();
+                        $currentSection->addAction($action);
+                    }
+                    break;
+                case Section::POLICY_OVERRIDE:
+                    $this->children[$existingKey] = $section;
+                    break;
+                default:
+                    throw new \common_exception_Error();
             }
         } else {
             $this->children[] = $section;
@@ -204,16 +203,17 @@ class Perspective extends MenuElement implements PhpSerializable
         return $this->data['binding'];
     }
 
-    public function getUrl() {
+    public function getUrl()
+    {
         return _url('index', null, null, array('structure' => $this->getId(), 'ext' => $this->getExtension()));
     }
 
     public function __toPhpCode()
     {
-        return "new ".__CLASS__."("
-            .\common_Utils::toPHPVariableString($this->data).','
-            .\common_Utils::toPHPVariableString($this->children).','
-            .\common_Utils::toPHPVariableString(self::SERIAL_VERSION)
-        .")";
+        return "new " . __CLASS__ . "("
+            . \common_Utils::toPHPVariableString($this->data) . ','
+            . \common_Utils::toPHPVariableString($this->children) . ','
+            . \common_Utils::toPHPVariableString(self::SERIAL_VERSION)
+        . ")";
     }
 }

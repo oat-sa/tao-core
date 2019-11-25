@@ -21,11 +21,11 @@
  *
  */
 
+use oat\generis\model\OntologyAwareTrait;
+use oat\oatbox\log\LoggerAwareTrait;
 use oat\tao\model\task\ExportByHandler;
 use oat\tao\model\taskQueue\QueueDispatcher;
 use oat\tao\model\taskQueue\TaskLogActionTrait;
-use oat\generis\model\OntologyAwareTrait;
-use oat\oatbox\log\LoggerAwareTrait;
 
 /**
  * This controller provide the actions to export and manage exported data
@@ -87,7 +87,6 @@ class tao_actions_Export extends tao_actions_CommonModule
 
                 //allow to export complete classes
                 if (isset($exportData['type']) && $exportData['type'] === 'class') {
-
                     $children = [];
                     foreach ($instances as $instance) {
                         $class = $this->getClass(tao_helpers_Uri::decode($instance));
@@ -99,7 +98,6 @@ class tao_actions_Export extends tao_actions_CommonModule
                         $exportData['instances'][] = tao_helpers_Uri::decode($instance);
                     }
                 }
-
             } elseif (isset($exportData['exportInstance'])) {
                 $exportData['exportInstance'] = tao_helpers_Uri::decode($exportData['exportInstance']);
             }
@@ -126,7 +124,6 @@ class tao_actions_Export extends tao_actions_CommonModule
 
         $this->setData('formTitle', __('Export '));
         $this->setView('form/export.tpl', 'tao');
-
     }
 
     /**

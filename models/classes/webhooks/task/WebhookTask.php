@@ -97,26 +97,30 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
      */
     private function performRequest(RequestInterface $request, WebhookAuthInterface $authConfig = null)
     {
-        $errorReport = $response =null;
+        $errorReport = $response = null;
         try {
             $response = $this->getWebhookSender()->performRequest($request, $authConfig);
         } catch (ServerException $connectException) {
             $this->retryTask();
             $errorReport = $this->getWebhookTaskReports()->reportBadResponseException(
-                $this->getTaskContext(), $connectException
+                $this->getTaskContext(),
+                $connectException
             );
         } catch (BadResponseException $badResponseException) {
             $errorReport = $this->getWebhookTaskReports()->reportBadResponseException(
-                $this->getTaskContext(), $badResponseException
+                $this->getTaskContext(),
+                $badResponseException
             );
         } catch (ConnectException $connectException) {
             $this->retryTask();
             $errorReport = $this->getWebhookTaskReports()->reportConnectException(
-                $this->getTaskContext(), $connectException
+                $this->getTaskContext(),
+                $connectException
             );
         } catch (RequestException $requestException) {
             $errorReport = $this->getWebhookTaskReports()->reportRequestException(
-                $this->getTaskContext(), $requestException
+                $this->getTaskContext(),
+                $requestException
             );
         }
 
@@ -144,12 +148,16 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
         $eventId = $this->params->getEventId();
         if (!$parsedResponse->isDelivered($eventId)) {
             return $this->getWebhookTaskReports()->reportInvalidAcknowledgement(
-                $this->getTaskContext(), $response, $parsedResponse
+                $this->getTaskContext(),
+                $response,
+                $parsedResponse
             );
         }
 
         return $this->getWebhookTaskReports()->reportSuccess(
-            $this->getTaskContext(), $response, $parsedResponse->getStatus($eventId)
+            $this->getTaskContext(),
+            $response,
+            $parsedResponse->getStatus($eventId)
         );
     }
 

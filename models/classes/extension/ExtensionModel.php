@@ -20,22 +20,23 @@
 
 namespace oat\tao\model\extension;
 
-use oat\tao\model\TaoOntology;
-use tao_models_classes_LanguageService;
 use common_ext_Extension;
 use core_kernel_classes_Resource;
 use oat\generis\model\data\ModelManager;
 use oat\tao\helpers\translation\rdf\RdfPack;
+use oat\tao\model\TaoOntology;
+use tao_models_classes_LanguageService;
 
 class ExtensionModel extends \common_ext_ExtensionModel
 {
-
-    public function __construct(common_ext_Extension $extension) {
+    public function __construct(common_ext_Extension $extension)
+    {
         parent::__construct($extension);
         $this->addLanguages($extension);
     }
     
-    protected function addLanguages($extension) {
+    protected function addLanguages($extension)
+    {
         $langService = tao_models_classes_LanguageService::singleton();
         $dataUsage = new core_kernel_classes_Resource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA);
         $dataOptions = array();

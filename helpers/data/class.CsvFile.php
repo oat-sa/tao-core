@@ -31,11 +31,10 @@ use oat\oatbox\filesystem\File;
  */
 class tao_helpers_data_CsvFile
 {
-
-    const FIELD_DELIMITER = 'field_delimiter';
-    const FIELD_ENCLOSER = 'field_encloser';
-    const MULTI_VALUES_DELIMITER = 'multi_values_delimiter';
-    const FIRST_ROW_COLUMN_NAMES = 'first_row_column_names';
+    public const FIELD_DELIMITER = 'field_delimiter';
+    public const FIELD_ENCLOSER = 'field_encloser';
+    public const MULTI_VALUES_DELIMITER = 'multi_values_delimiter';
+    public const FIRST_ROW_COLUMN_NAMES = 'first_row_column_names';
 
     /**
      * Contains the CSV data as a simple 2-dimensional array. Keys are integer
@@ -211,7 +210,6 @@ class tao_helpers_data_CsvFile
             if ($this->getColumnCount() < $currentRowColumnCount) {
                 $this->setColumnCount($currentRowColumnCount);
             }
-
         }
         ini_set('auto_detect_line_endings', $adle);
         fclose($resource);
@@ -305,11 +303,10 @@ class tao_helpers_data_CsvFile
         $data = $this->getData();
         if (isset($data[$row][$col])) {
             $returnValue = $data[$row][$col];
-        } else if (isset($data[$row]) && is_string($col)) {
+        } elseif (isset($data[$row]) && is_string($col)) {
             // try to access by col name.
             $mapping = $this->getColumnMapping();
             for ($i = 0; $i < count($mapping); $i++) {
-
                 if ($mapping[$i] == $col && isset($data[$row][$col])) {
                     // Column with name $col extists.
                     $returnValue = $data[$row][$col];
@@ -336,11 +333,10 @@ class tao_helpers_data_CsvFile
         $data = $this->getData();
         if (isset($data[$row][$col])) {
             $this->data[$row][$col] = $value;
-        } else if (isset($data[$row]) && is_string($col)) {
+        } elseif (isset($data[$row]) && is_string($col)) {
             // try to access by col name.
             $mapping = $this->getColumnMapping();
             for ($i = 0; $i < count($mapping); $i++) {
-
                 if ($mapping[$i] == $col && isset($data[$row][$col])) {
                     // Column with name $col extists.
                     $this->data[$row][$col] = $value;

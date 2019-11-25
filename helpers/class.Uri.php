@@ -42,7 +42,7 @@ class tao_helpers_Uri
      * @access private
      * @var string
      */
-    private static $root ='';
+    private static $root = '';
 
     /**
      * Short description of attribute ENCODE_ARRAY_KEYS
@@ -50,7 +50,7 @@ class tao_helpers_Uri
      * @access public
      * @var int
      */
-    const ENCODE_ARRAY_KEYS = 1;
+    public const ENCODE_ARRAY_KEYS = 1;
 
     /**
      * Short description of attribute ENCODE_ARRAY_VALUES
@@ -58,7 +58,7 @@ class tao_helpers_Uri
      * @access public
      * @var int
      */
-    const ENCODE_ARRAY_VALUES = 2;
+    public const ENCODE_ARRAY_VALUES = 2;
 
     /**
      * Short description of attribute ENCODE_ARRAY_ALL
@@ -66,7 +66,7 @@ class tao_helpers_Uri
      * @access public
      * @var int
      */
-    const ENCODE_ARRAY_ALL = 3;
+    public const ENCODE_ARRAY_ALL = 3;
 
     /**
      * get the project base url
@@ -120,7 +120,6 @@ class tao_helpers_Uri
      */
     public static function url($action = null, $module = null, $extension = null, $params = array())
     {
-
         if (is_null($module)) {
             $module = Context::getInstance()->getModuleName();
         }
@@ -137,7 +136,7 @@ class tao_helpers_Uri
             $returnValue .= '?' . $params;
         }
 
-        if (is_array($params) && count($params) ) {
+        if (is_array($params) && count($params)) {
             $returnValue .= '?';
             foreach ($params as $key => $value) {
                 $returnValue .= $key . '=' . rawurlencode($value) . '&';
@@ -368,5 +367,4 @@ class tao_helpers_Uri
 
         return $returnValue;
     }
-
 }

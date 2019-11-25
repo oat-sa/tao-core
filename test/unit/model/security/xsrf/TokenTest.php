@@ -19,7 +19,6 @@
 
 namespace oat\tao\test\unit\model\security\xsrf;
 
-
 use oat\generis\test\TestCase;
 use oat\tao\model\security\xsrf\Token;
 

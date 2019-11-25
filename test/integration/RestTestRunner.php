@@ -1,11 +1,11 @@
 <?php
+
 namespace oat\tao\test\integration;
 
 use oat\generis\model\GenerisRdf;
 use oat\generis\test\GenerisPhpUnitTestRunner;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\user\TaoRoles;
-
 
 abstract class RestTestRunner extends GenerisPhpUnitTestRunner
 {
@@ -42,7 +42,7 @@ abstract class RestTestRunner extends GenerisPhpUnitTestRunner
         
         // creates a user using remote script from joel
         $userdata = $this->getUserData();
-        $password = $userdata[GenerisRdf::PROPERTY_USER_PASSWORD]; 
+        $password = $userdata[GenerisRdf::PROPERTY_USER_PASSWORD];
         $userdata[GenerisRdf::PROPERTY_USER_PASSWORD] = \core_kernel_users_Service::getPasswordHash()->encrypt($userdata[GenerisRdf::PROPERTY_USER_PASSWORD]);
         $tmclass = new \core_kernel_classes_Class(TaoOntology::CLASS_URI_TAO_USER);
         $user = $tmclass->createInstanceWithProperties($userdata);
@@ -127,5 +127,4 @@ abstract class RestTestRunner extends GenerisPhpUnitTestRunner
     {
         // just to avoid stopping tests with error "Call to undefined method restoreCache()"
     }
-
 }

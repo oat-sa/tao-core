@@ -28,7 +28,6 @@ namespace oat\tao\model\auth;
  */
 abstract class AbstractCredentials
 {
-
     /** @var array  */
     protected $properties;
 

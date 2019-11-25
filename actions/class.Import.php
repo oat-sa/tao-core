@@ -20,12 +20,12 @@
  *               2013-2018 (update and modification) Open Assessment Technologies SA;
  */
 
+use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\event\EventManager;
 use oat\tao\model\import\TaskParameterProviderInterface;
 use oat\tao\model\task\ImportByHandler;
 use oat\tao\model\taskQueue\QueueDispatcher;
 use oat\tao\model\taskQueue\TaskLogActionTrait;
-use oat\generis\model\OntologyAwareTrait;
 
 /**
  * This controller provide the actions to import resources
@@ -83,7 +83,8 @@ class tao_actions_Import extends tao_actions_CommonModule
                     ImportByHandler::PARAM_PARENT_CLASS => $this->getCurrentClass()->getUri(),
                     ImportByHandler::PARAM_OWNER => \common_session_SessionManager::getSession()->getUser()->getIdentifier(),
                 ],
-                __('Import a %s into "%s"', $importer->getLabel(), $this->getCurrentClass()->getLabel()));
+                __('Import a %s into "%s"', $importer->getLabel(), $this->getCurrentClass()->getLabel())
+            );
 
             return $this->returnTaskJson($task);
         }

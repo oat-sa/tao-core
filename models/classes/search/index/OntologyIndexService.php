@@ -27,14 +27,14 @@ use oat\tao\model\TaoOntology;
 
 /**
  * Index service
- * 
+ *
  * @author Joel Bout <joel@taotesting.com>
  */
 class OntologyIndexService
-{	
+{
     /**
      * Create a new index
-     * 
+     *
      * @param \core_kernel_classes_Property $property
      * @param unknown $identifier
      * @param \core_kernel_classes_Resource $tokenizer
@@ -42,12 +42,12 @@ class OntologyIndexService
      * @param unknown $isDefaultSearchable
      * @return OntologyIndex
      */
-    static public function createIndex(\core_kernel_classes_Property $property, $identifier, \core_kernel_classes_Resource $tokenizer, $isFuzzyMatching, $isDefaultSearchable)
+    public static function createIndex(\core_kernel_classes_Property $property, $identifier, \core_kernel_classes_Resource $tokenizer, $isFuzzyMatching, $isDefaultSearchable)
     {
         $class = new \core_kernel_classes_Class(OntologyIndex::RDF_TYPE);
         $existingIndex = self::getIndexById($identifier);
         if (!is_null($existingIndex)) {
-            throw new \common_Exception('Index '.$identifier.' already in use');
+            throw new \common_Exception('Index ' . $identifier . ' already in use');
         }
         // verify identifier is unused
         $resource = $class->createInstanceWithProperties(array(
@@ -63,20 +63,22 @@ class OntologyIndexService
     
     /**
      * Get an index by its unique index id
-     * 
+     *
      * @param string $identifier
      * @throws \common_exception_InconsistentData
      * @return OntologyIndex
      */
-    static public function getIndexById($identifier) {
-        
+    public static function getIndexById($identifier)
+    {
         $indexClass = new core_kernel_classes_Class(OntologyIndex::RDF_TYPE);
-        $resources = $indexClass->searchInstances(array(
-            OntologyIndex::PROPERTY_INDEX_IDENTIFIER  => $identifier
-            ),array('like' => false)
+        $resources = $indexClass->searchInstances(
+            array(
+            OntologyIndex::PROPERTY_INDEX_IDENTIFIER => $identifier
+            ),
+            array('like' => false)
         );
         if (count($resources) > 1) {
-            throw new \common_exception_InconsistentData("Several index exist with the identifier ".$identifier);
+            throw new \common_exception_InconsistentData("Several index exist with the identifier " . $identifier);
         }
         return count($resources) > 0
             ? new OntologyIndex(array_shift($resources))
@@ -85,11 +87,12 @@ class OntologyIndexService
     
     /**
      * Get all indexes of a property
-     * 
+     *
      * @param \core_kernel_classes_Property $property
      * @return multitype:OntologyIndex
      */
-    static public function getIndexes(\core_kernel_classes_Property $property) {
+    public static function getIndexes(\core_kernel_classes_Property $property)
+    {
         $indexUris = $property->getPropertyValues(new \core_kernel_classes_Property(OntologyIndex::PROPERTY_INDEX));
         $indexes = array();
         
@@ -102,16 +105,16 @@ class OntologyIndexService
     
     /**
      * Get the Search Indexes of a given $class.
-     * 
+     *
      * The returned array is an associative array where keys are the Property URI
      * the Search Index belongs to, and the values are core_kernel_classes_Resource objects
      * corresponding to Search Index definitions.
-     * 
+     *
      * @param \core_kernel_classes_Class $class
      * @param boolean $recursive Whether or not to look for Search Indexes that belong to sub-classes of $class. Default is true.
      * @return OntologyIndex[] An array of Search Index to $class.
      */
-    static public function getIndexesByClass(\core_kernel_classes_Class $class, $recursive = true)
+    public static function getIndexesByClass(\core_kernel_classes_Class $class, $recursive = true)
     {
         $returnedIndexes = array();
         

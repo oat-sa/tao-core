@@ -2,7 +2,6 @@
 
 namespace oat\tao\test\unit\model\metadata\import;
 
-
 use oat\generis\test\TestCase;
 use oat\tao\model\metadata\exception\reader\MetadataReaderNotFoundException;
 use oat\tao\model\metadata\reader\KeyReader;
@@ -60,5 +59,4 @@ class KeyReaderTest extends TestCase
 
         ];
     }
-
 }

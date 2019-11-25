@@ -20,17 +20,17 @@
 
 namespace oat\tao\test\integration\actionQueue;
 
+use common_persistence_InMemoryKvDriver;
+use common_persistence_KeyValuePersistence;
+use common_persistence_Manager;
+use common_Utils;
+use core_kernel_classes_Resource;
+use core_kernel_users_GenerisUser as GenerisUser;
+use oat\oatbox\service\ServiceManager;
+use oat\tao\model\actionQueue\AbstractQueuedAction;
 use oat\tao\model\actionQueue\ActionQueueException;
 use oat\tao\model\actionQueue\implementation\InstantActionQueue;
-use oat\tao\model\actionQueue\AbstractQueuedAction;
 use oat\tao\test\TaoPhpUnitTestRunner;
-use oat\oatbox\service\ServiceManager;
-use core_kernel_users_GenerisUser as GenerisUser;
-use core_kernel_classes_Resource;
-use common_Utils;
-use common_persistence_Manager;
-use common_persistence_KeyValuePersistence;
-use common_persistence_InMemoryKvDriver;
 
 /**
  * Class InstantActionTest
@@ -39,7 +39,6 @@ use common_persistence_InMemoryKvDriver;
  */
 class InstantActionTest extends TaoPhpUnitTestRunner
 {
-
     public function testPerform()
     {
         // @TODO: Use mocked persistence and persistence manager and fix test.
@@ -160,7 +159,6 @@ class InstantActionTest extends TaoPhpUnitTestRunner
         $result->setServiceManager($serviceManager);
         return $result;
     }
-
 }
 
 class GetmypidAction extends AbstractQueuedAction

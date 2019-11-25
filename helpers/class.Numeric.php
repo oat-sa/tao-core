@@ -30,7 +30,6 @@
  */
 class tao_helpers_Numeric
 {
-
     /**
      *  Converts a string to a float, in order to support negative values.
      *
@@ -48,7 +47,4 @@ class tao_helpers_Numeric
 
         return (float) $returnValue;
     }
-
 }
-
-?>

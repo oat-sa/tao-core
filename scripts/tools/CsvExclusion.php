@@ -20,10 +20,10 @@
 
 namespace oat\tao\scripts\tools;
 
-use \common_report_Report as Report;
+use common_report_Report as Report;
 
 /**
- * 
+ *
  */
 class CsvExclusion extends AbstractIndexedCsv
 {
@@ -87,8 +87,8 @@ class CsvExclusion extends AbstractIndexedCsv
     }
     
     /**
-     * 
-     * 
+     *
+     *
      * @see \oat\tao\scripts\tools\AbstractIndexedCsv
      */
     protected function process()

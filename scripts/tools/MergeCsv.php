@@ -20,14 +20,14 @@
 
 namespace oat\tao\scripts\tools;
 
-use \common_report_Report as Report;
+use common_report_Report as Report;
 use oat\oatbox\action\Action;
 
 /**
  * CSV Merge Script.
- * 
+ *
  * This script aims at providing a tool to merge two CSV files together.
- * 
+ *
  * * Parameter 1: The path to the first source CSV file.
  * * Parameter 2: The path to the second source CSV file.
  * * Parameter 3: The path to the destination CSV file.
@@ -58,7 +58,7 @@ class MergeCsv implements Action
         }
         
         if (!empty($params[2])) {
-           $destination = $params[2];
+            $destination = $params[2];
         } else {
             return new Report(
                 Report::TYPE_ERROR,

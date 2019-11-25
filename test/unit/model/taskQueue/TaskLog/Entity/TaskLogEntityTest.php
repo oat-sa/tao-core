@@ -21,10 +21,10 @@
 namespace oat\tao\test\unit\model\taskQueue\TaskLog\Entity;
 
 use common_report_Report as Report;
+use oat\generis\test\TestCase;
 use oat\tao\model\taskQueue\TaskLog\CategorizedStatus;
 use oat\tao\model\taskQueue\TaskLog\Entity\TaskLogEntity;
 use oat\tao\model\taskQueue\TaskLogInterface;
-use oat\generis\test\TestCase;
 
 class TaskLogEntityTest extends TestCase
 {
@@ -46,7 +46,7 @@ class TaskLogEntityTest extends TestCase
             'report' => [
                 'type' => 'info',
                 'message' => 'Running task http://www.taoinstance.dev/ontologies/tao.rdf#i1508337970199318643',
-                'data' => NULL,
+                'data' => null,
                 'children' => []
             ],
             'master_status' => true
@@ -76,7 +76,7 @@ class TaskLogEntityTest extends TestCase
             'report' => [
                 'type' => 'info',
                 'message' => 'Running task http://www.taoinstance.dev/ontologies/tao.rdf#i1508337970199318643',
-                'data' => NULL,
+                'data' => null,
                 'children' => []
             ],
             'masterStatus' => true
@@ -100,5 +100,4 @@ class TaskLogEntityTest extends TestCase
 
         $this->assertNull($entity->getReport());
     }
-
 }

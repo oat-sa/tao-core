@@ -34,7 +34,7 @@ trait ChildTaskAwareTrait
     public function addChildId($taskId)
     {
         if (in_array($taskId, $this->children)) {
-            throw new \InvalidArgumentException('Child '. $taskId .' has been added.');
+            throw new \InvalidArgumentException('Child ' . $taskId . ' has been added.');
         }
 
         $this->children[] = $taskId;

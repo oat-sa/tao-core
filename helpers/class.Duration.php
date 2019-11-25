@@ -29,7 +29,6 @@ use oat\tao\helpers\DateIntervalMS;
  */
 class tao_helpers_Duration
 {
-
     /**
      * Converts a time string to an ISO8601 duration
      * @param string $time as hh:mm:ss.micros

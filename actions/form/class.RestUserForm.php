@@ -20,10 +20,10 @@
 
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyRdfs;
-use \oat\generis\model\user\PasswordConstraintsService;
-use \oat\oatbox\validator\ValidatorInterface;
-use \Zend\ServiceManager\ServiceLocatorAwareTrait;
-use \Zend\ServiceManager\ServiceLocatorAwareInterface;
+use oat\generis\model\user\PasswordConstraintsService;
+use oat\oatbox\validator\ValidatorInterface;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 /**
  * Class tao_actions_form_RestUserForm
@@ -101,15 +101,15 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
 
         // Validate new login availability
         if ($this->isNew()) {
-            foreach($this->formProperties as $property) {
-                if ( $property['uri'] == 'http://www.tao.lu/Ontologies/generis.rdf#login') {
-                    if ( empty($property['formValue']) ) {
+            foreach ($this->formProperties as $property) {
+                if ($property['uri'] == 'http://www.tao.lu/Ontologies/generis.rdf#login') {
+                    if (empty($property['formValue'])) {
                         $subReport = common_report_Report::createFailure(__('Login is empty.'));
-                    } else if ( ! $this->isLoginAvailable($property['formValue']) ) {
+                    } elseif (!$this->isLoginAvailable($property['formValue'])) {
                         $subReport = common_report_Report::createFailure(__('Login is already in use.'));
                     }
 
-                    if ( isset($subReport) ) {
+                    if (isset($subReport)) {
                         $subReport->setData($property['uri']);
                         $report->add($subReport);
                     }

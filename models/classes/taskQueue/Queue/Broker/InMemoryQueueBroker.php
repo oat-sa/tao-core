@@ -93,7 +93,8 @@ class InMemoryQueueBroker extends AbstractQueueBroker implements SyncQueueBroker
      * Do nothing.
      */
     protected function doPop()
-    {}
+    {
+    }
 
     /**
      * Do nothing, because dequeue automatically deletes the message from the queue
@@ -101,7 +102,8 @@ class InMemoryQueueBroker extends AbstractQueueBroker implements SyncQueueBroker
      * @param TaskInterface $task
      */
     public function delete(TaskInterface $task)
-    {}
+    {
+    }
 
     /**
      * Do nothing.
@@ -110,5 +112,6 @@ class InMemoryQueueBroker extends AbstractQueueBroker implements SyncQueueBroker
      * @param array  $logContext
      */
     protected function doDelete($receipt, array $logContext = [])
-    {}
+    {
+    }
 }

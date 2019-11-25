@@ -19,12 +19,12 @@
 
 namespace oat\tao\test\unit\modules;
 
+use oat\generis\test\TestCase;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\modules\AbstractModuleRegistry;
 use oat\tao\model\modules\AbstractModuleService;
 use oat\tao\model\modules\DynamicModule;
 use Prophecy\Prophet;
-use oat\generis\test\TestCase;
 
 /**
  * Concrete class ModuleRegistry
@@ -59,7 +59,6 @@ class ModuleRegistry extends AbstractModuleRegistry
  */
 class ModuleService extends AbstractModuleService
 {
-
 }
 
 /**
@@ -172,5 +171,4 @@ class AbstractModuleServiceTest extends TestCase
 
         $this->assertTrue($module->isActive());
     }
-
 }

@@ -21,9 +21,9 @@
 namespace oat\tao\scripts\install;
 
 use common_report_Report as Report;
+use Doctrine\DBAL\Types\Type;
 use oat\oatbox\extension\AbstractAction;
 use oat\tao\model\webhooks\log\WebhookLogRepository;
-use Doctrine\DBAL\Types\Type;
 
 /**
  * Deploys the webhook_event_log schema
@@ -75,15 +75,18 @@ class CreateWebhookEventLogTable extends AbstractAction
 
         $logTable->addIndex(
             [WebhookLogRepository::COLUMN_EVENT_ID],
-            'IDX_' . WebhookLogRepository::TABLE_NAME . '_event_id');
+            'IDX_' . WebhookLogRepository::TABLE_NAME . '_event_id'
+        );
 
         $logTable->addIndex(
             [WebhookLogRepository::COLUMN_WEBHOOK_ID],
-            'IDX_' . WebhookLogRepository::TABLE_NAME . '_webhook_id');
+            'IDX_' . WebhookLogRepository::TABLE_NAME . '_webhook_id'
+        );
 
         $logTable->addIndex(
             [WebhookLogRepository::COLUMN_CREATED_AT],
-            'IDX_' . WebhookLogRepository::TABLE_NAME . '_created_at');
+            'IDX_' . WebhookLogRepository::TABLE_NAME . '_created_at'
+        );
 
         $queries = $persistence->getPlatform()->getMigrateSchemaSql($fromSchema, $schema);
         foreach ($queries as $query) {

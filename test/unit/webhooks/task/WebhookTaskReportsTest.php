@@ -24,13 +24,13 @@ use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
+use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
 use oat\tao\model\webhooks\log\WebhookEventLogInterface;
 use oat\tao\model\webhooks\task\WebhookResponse;
 use oat\tao\model\webhooks\task\WebhookTaskContext;
 use oat\tao\model\webhooks\task\WebhookTaskParams;
 use oat\tao\model\webhooks\task\WebhookTaskReports;
-use oat\generis\test\MockObject;
 use Psr\Log\LoggerInterface;
 
 class WebhookTaskReportsTest extends TestCase
@@ -91,7 +91,8 @@ class WebhookTaskReportsTest extends TestCase
                 $this->callback(function ($message) {
                     return strpos($message, 'e_msg') !== false &&
                         strpos($message, 'Exception') !== false;
-                }));
+                })
+            );
 
         $this->loggerMock->expects($this->once())
             ->method('error')

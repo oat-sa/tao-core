@@ -26,7 +26,6 @@ use tao_helpers_form_FormContainer as FormContainer;
  */
 class tao_actions_Security extends tao_actions_CommonModule
 {
-
     /**
      * Index page
      */

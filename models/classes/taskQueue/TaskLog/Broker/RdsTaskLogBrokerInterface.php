@@ -25,5 +25,4 @@ namespace oat\tao\model\taskQueue\TaskLog\Broker;
  */
 interface RdsTaskLogBrokerInterface
 {
-
 }

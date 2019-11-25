@@ -31,7 +31,6 @@ use oat\tao\model\settings\CspHeaderSettingsInterface;
  */
 class SetDefaultCSPHeader extends InstallAction
 {
-
     /**
      * @inheritdoc
      */

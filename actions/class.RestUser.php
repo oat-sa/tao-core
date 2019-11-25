@@ -95,6 +95,4 @@ class tao_actions_RestUser extends tao_actions_RestResource
 
         throw new InvalidArgumentException('Only user classes are allowed as classUri.');
     }
-
-
 }

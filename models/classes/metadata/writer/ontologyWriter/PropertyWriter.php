@@ -37,7 +37,7 @@ class PropertyWriter extends ConfigurableService implements OntologyWriter
 {
     use OntologyAwareTrait;
 
-    const PROPERTY_KEY = 'propertyUri';
+    public const PROPERTY_KEY = 'propertyUri';
 
     /**
      * PropertyWriter constructor.
@@ -50,11 +50,11 @@ class PropertyWriter extends ConfigurableService implements OntologyWriter
     {
         parent::__construct($params);
 
-        if (! $this->hasOption(self::PROPERTY_KEY)) {
+        if (!$this->hasOption(self::PROPERTY_KEY)) {
             throw new InconsistencyConfigException('Unable to find config key "' . self::PROPERTY_KEY . '" as property to write.');
         }
 
-        if (! $this->getProperty($this->getOption(self::PROPERTY_KEY))->exists()) {
+        if (!$this->getProperty($this->getOption(self::PROPERTY_KEY))->exists()) {
             throw new InconsistencyConfigException('Config key "' . self::PROPERTY_KEY . '" found, ' .
                 'but property "' . $this->getOption(self::PROPERTY_KEY) . '" does not exist.');
         }
@@ -79,10 +79,10 @@ class PropertyWriter extends ConfigurableService implements OntologyWriter
 
         $validated = true;
         foreach ($validators as $validator) {
-            if (! $validator->evaluate($data)) {
+            if (!$validator->evaluate($data)) {
                 $validated = false;
                 \common_Logger::d('Unable to validate value for property "' . $this->getPropertyToWrite()->getUri() . '"' .
-                    ' against validator "' . $validator->getName(). '" : "' . $validator->getMessage() . '".');
+                    ' against validator "' . $validator->getName() . '" : "' . $validator->getMessage() . '".');
             }
         }
         return $validated;
@@ -102,14 +102,14 @@ class PropertyWriter extends ConfigurableService implements OntologyWriter
         $propertyValue = $this->format($data);
 
         if ($this->validate($propertyValue)) {
-            if (! $dryrun) {
-                if (! $resource->editPropertyValues($this->getPropertyToWrite(), $propertyValue)) {
+            if (!$dryrun) {
+                if (!$resource->editPropertyValues($this->getPropertyToWrite(), $propertyValue)) {
                     throw new MetadataWriterException(
                         'A problem has occurred during writing property "' . $this->getPropertyToWrite()->getUri() . '".'
                     );
                 }
             }
-            \common_Logger::d('Valid property "'. $this->getPropertyToWrite()->getUri() .'" ' .
+            \common_Logger::d('Valid property "' . $this->getPropertyToWrite()->getUri() . '" ' .
                 'to add to resource "' . $resource->getUri() . '" : ' . $propertyValue);
             return true;
         }
@@ -139,5 +139,4 @@ class PropertyWriter extends ConfigurableService implements OntologyWriter
     {
         return array_pop($data);
     }
-
 }

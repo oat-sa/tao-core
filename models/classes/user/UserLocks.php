@@ -31,19 +31,19 @@ use oat\tao\model\event\LoginSucceedEvent;
  */
 interface UserLocks
 {
-    const SERVICE_ID = 'tao/userlocks';
+    public const SERVICE_ID = 'tao/userlocks';
 
     /** Use hard lock for failed logon. Be default soft lock will be used */
-    const OPTION_USE_HARD_LOCKOUT = 'use_hard_lockout';
+    public const OPTION_USE_HARD_LOCKOUT = 'use_hard_lockout';
 
     /** Amount of failed login attempts before lockout */
-    const OPTION_LOCKOUT_FAILED_ATTEMPTS = 'lockout_failed_attempts';
+    public const OPTION_LOCKOUT_FAILED_ATTEMPTS = 'lockout_failed_attempts';
 
     /** Duration of soft lock out */
-    const OPTION_SOFT_LOCKOUT_PERIOD = 'soft_lockout_period';
+    public const OPTION_SOFT_LOCKOUT_PERIOD = 'soft_lockout_period';
 
     /** List of roles whose users can not be blocked */
-    const OPTION_NON_LOCKING_ROLES = 'non_locking_roles';
+    public const OPTION_NON_LOCKING_ROLES = 'non_locking_roles';
 
     /**
      * Event listener that catches failed login events and makes decision to lock user or not
@@ -116,5 +116,4 @@ interface UserLocks
      * @throws \core_kernel_users_Exception
      */
     public function getStatusDetails($login);
-
 }

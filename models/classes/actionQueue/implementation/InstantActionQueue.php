@@ -22,14 +22,14 @@
 namespace oat\tao\model\actionQueue\implementation;
 
 use oat\oatbox\event\EventManager;
-use oat\tao\model\actionQueue\ActionQueue;
 use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\actionQueue\QueuedAction;
-use oat\tao\model\actionQueue\ActionQueueException;
 use oat\oatbox\user\User;
-use oat\tao\model\actionQueue\restriction\basicRestriction;
-use oat\tao\model\actionQueue\event\InstantActionOnQueueEvent;
+use oat\tao\model\actionQueue\ActionQueue;
+use oat\tao\model\actionQueue\ActionQueueException;
 use oat\tao\model\actionQueue\event\ActionQueueTrendEvent;
+use oat\tao\model\actionQueue\event\InstantActionOnQueueEvent;
+use oat\tao\model\actionQueue\QueuedAction;
+use oat\tao\model\actionQueue\restriction\basicRestriction;
 
 /**
  *
@@ -39,8 +39,7 @@ use oat\tao\model\actionQueue\event\ActionQueueTrendEvent;
  */
 class InstantActionQueue extends ConfigurableService implements ActionQueue
 {
-
-    const QUEUE_TREND = 'queue_trend';
+    public const QUEUE_TREND = 'queue_trend';
 
     /**
      * @return EventManager

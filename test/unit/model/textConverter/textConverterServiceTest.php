@@ -20,8 +20,8 @@
 
 namespace oat\tao\test\unit\model\textConverter;
 
-use oat\tao\model\textConverter\TextConverterService;
 use oat\generis\test\TestCase;
+use oat\tao\model\textConverter\TextConverterService;
 
 class textConverterServiceTest extends TestCase
 {

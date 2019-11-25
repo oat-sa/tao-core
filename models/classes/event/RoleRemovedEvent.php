@@ -21,5 +21,4 @@ namespace oat\tao\model\event;
 
 class RoleRemovedEvent extends AbstractRoleEvent
 {
-
 }

@@ -2,10 +2,10 @@
 
 namespace oat\tao\test\model\websource;
 
+use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
 use oat\oatbox\filesystem\FileSystem;
 use oat\tao\model\websource\BaseWebsource;
-use oat\generis\test\MockObject;
 
 class BaseWebsourceTest extends TestCase
 {

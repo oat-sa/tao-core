@@ -21,7 +21,12 @@
 namespace oat\tao\model\taskQueue\Worker;
 
 use common_report_Report as Report;
+use oat\generis\model\OntologyAwareTrait;
+use oat\generis\model\user\UserFactoryServiceInterface;
 use oat\oatbox\log\LoggerAwareTrait;
+use oat\oatbox\service\ServiceManagerAwareInterface;
+use oat\oatbox\service\ServiceManagerAwareTrait;
+use oat\oatbox\session\SessionService;
 use oat\oatbox\session\StatelessSession;
 use oat\tao\model\taskQueue\QueuerInterface;
 use oat\tao\model\taskQueue\Task\CallbackTaskInterface;
@@ -30,11 +35,6 @@ use oat\tao\model\taskQueue\Task\TaskInterface;
 use oat\tao\model\taskQueue\TaskLog\CategorizedStatus;
 use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
 use oat\tao\model\taskQueue\TaskLogInterface;
-use oat\oatbox\service\ServiceManagerAwareInterface;
-use oat\oatbox\service\ServiceManagerAwareTrait;
-use oat\generis\model\user\UserFactoryServiceInterface;
-use oat\generis\model\OntologyAwareTrait;
-use oat\oatbox\session\SessionService;
 
 abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInterface
 {

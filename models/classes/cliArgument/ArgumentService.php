@@ -24,9 +24,9 @@ use oat\tao\model\cliArgument\argument\Argument;
 
 class ArgumentService extends ArgumentLoader
 {
-    const SERVICE_ID = 'tao/cliArgumentLoader';
+    public const SERVICE_ID = 'tao/cliArgumentLoader';
 
-    const ARGUMENT_OPTION = 'arguments';
+    public const ARGUMENT_OPTION = 'arguments';
 
     /**
      * Get arguments from config and check if there are applicable
@@ -55,5 +55,4 @@ class ArgumentService extends ArgumentLoader
     {
         return $this->hasOption(self::ARGUMENT_OPTION) ? $this->getOption(self::ARGUMENT_OPTION) : [];
     }
-
 }

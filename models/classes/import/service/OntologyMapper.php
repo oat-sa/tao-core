@@ -19,8 +19,8 @@
 
 namespace oat\tao\model\import\service;
 
-use oat\oatbox\service\ConfigurableService;
 use common_report_Report as Report;
+use oat\oatbox\service\ConfigurableService;
 
 class OntologyMapper extends ConfigurableService implements ImportMapperInterface
 {
@@ -143,9 +143,9 @@ class OntologyMapper extends ConfigurableService implements ImportMapperInterfac
      */
     protected function addValue($propertyKey, $value)
     {
-        if (is_array($propertyKey) && count($propertyKey) === 1){
+        if (is_array($propertyKey) && count($propertyKey) === 1) {
             $valueMapper = reset($propertyKey);
-            if ($valueMapper instanceof ImportValueMapperInterface){
+            if ($valueMapper instanceof ImportValueMapperInterface) {
                 $propertyKey = key($propertyKey);
                 $this->propagate($valueMapper);
                 $this->propertiesMapped[$propertyKey] = $valueMapper->map($value);
@@ -153,7 +153,7 @@ class OntologyMapper extends ConfigurableService implements ImportMapperInterfac
             }
         } else {
             $this->propertiesMapped[$propertyKey] = $this->formatValue($propertyKey, $value);
-            $successMessage = 'Property mapped with success: '. $propertyKey . ':';
+            $successMessage = 'Property mapped with success: ' . $propertyKey . ':';
             $successMessage .= is_array($value) ? implode(',', $value) : $value;
             $this->report->add(Report::createSuccess($successMessage));
         }

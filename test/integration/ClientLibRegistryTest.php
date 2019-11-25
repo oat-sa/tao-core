@@ -19,17 +19,16 @@
  */
 namespace oat\tao\test\integration;
 
+use oat\tao\helpers\Template;
 use oat\tao\model\ClientLibRegistry;
 use oat\tao\test\TaoPhpUnitTestRunner;
-use oat\tao\helpers\Template;
 
 /**
- * 
+ *
  * @author Lionel Lecaque, lionel@taotesting.com
  */
 class ClientLibRegistryTest extends TaoPhpUnitTestRunner
 {
-
     /**
      * Unit test library
      * @var string

@@ -19,9 +19,8 @@
  *
  */
 
-use oat\tao\test\TaoPhpUnitTestRunner;
-use  oat\tao\model\requiredAction\implementation\TimeRule;
-
+use oat\tao\model\requiredAction\implementation\TimeRule;
+use  oat\tao\test\TaoPhpUnitTestRunner;
 
 class TimeRuleTest extends TaoPhpUnitTestRunner
 {
@@ -38,7 +37,6 @@ class TimeRuleTest extends TaoPhpUnitTestRunner
      */
     public function tearDown()
     {
-
     }
 
     /**
@@ -76,7 +74,7 @@ class TimeRuleTest extends TaoPhpUnitTestRunner
             [//action has been performed
                 'result' => false,
                 'options' => [
-                    'executionTime' =>  (new DateTime())->setTimestamp((time() - 1)),
+                    'executionTime' => (new DateTime())->setTimestamp((time() - 1)),
                 ],
             ],
             [//action has been performed and should not be performed yet

@@ -19,14 +19,13 @@
  */
 namespace oat\tao\helpers\test;
 
-use oat\tao\test\TaoPhpUnitTestRunner;
-use tao_helpers_Date;
 use DateInterval;
 use DateTime;
+use oat\tao\test\TaoPhpUnitTestRunner;
+use tao_helpers_Date;
 
 class DateHelperTest extends TaoPhpUnitTestRunner
 {
-
     /**
      *
      * @author Lionel Lecaque, lionel@taotesting.com
@@ -110,7 +109,7 @@ class DateHelperTest extends TaoPhpUnitTestRunner
     }
 
     /**
-     * 
+     *
      * @author Lionel Lecaque, lionel@taotesting.com
      */
     public function testgetTimeStamp()
@@ -133,7 +132,7 @@ class DateHelperTest extends TaoPhpUnitTestRunner
     }
 
     /**
-     * 
+     *
      * @author Lionel Lecaque, lionel@taotesting.com
      */
     public function testDisplayInterval()

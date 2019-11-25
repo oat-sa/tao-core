@@ -21,7 +21,6 @@
 
 namespace oat\tao\model\routing\AnnotationReader;
 
-
 /**
  * Class requiredRights
  * @package oat\tao\model\routing\AnnotationReader

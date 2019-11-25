@@ -25,7 +25,7 @@ use oat\tao\model\search\Search;
 
 interface UnionSearchInterface
 {
-    const SERVICE_ID = 'tao/UnionSearchService';
+    public const SERVICE_ID = 'tao/UnionSearchService';
 
     /**
      *

@@ -20,6 +20,7 @@
 
 namespace oat\tao\test\unit\model\taskQueue\TaskLog\Decorator;
 
+use oat\generis\test\TestCase;
 use oat\oatbox\user\AnonymousUser;
 use oat\tao\model\taskQueue\TaskLog;
 use oat\tao\model\taskQueue\TaskLog\CategorizedStatus;
@@ -27,7 +28,6 @@ use oat\tao\model\taskQueue\TaskLog\Decorator\RedirectUrlEntityDecorator;
 use oat\tao\model\taskQueue\TaskLog\Entity\TaskLogEntity;
 use oat\tao\model\taskQueue\TaskLogInterface;
 use Prophecy\Argument;
-use oat\generis\test\TestCase;
 
 class RedirectUrlEntityDecoratorTest extends TestCase
 {
@@ -126,7 +126,7 @@ class RedirectUrlEntityDecoratorTest extends TestCase
             'report' => [
                 'type' => 'info',
                 'message' => 'Running task http://www.taoinstance.dev/ontologies/tao.rdf#i1508337970199318643',
-                'data' => NULL,
+                'data' => null,
                 'children' => []
             ],
             'master_status' => true
@@ -150,11 +150,10 @@ class RedirectUrlEntityDecoratorTest extends TestCase
             'report' => [
                 'type' => 'info',
                 'message' => 'Running task http://www.taoinstance.dev/ontologies/tao.rdf#i1508337970199318643',
-                'data' => NULL,
+                'data' => null,
                 'children' => []
             ],
             'masterStatus' => true
         ];
     }
-
 }

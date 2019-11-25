@@ -20,10 +20,10 @@
 namespace oat\tao\test\unit\model\security\xsrf;
 
 use oat\generis\test\TestCase;
+use oat\oatbox\service\exception\InvalidService;
 use oat\tao\model\security\xsrf\Token;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStore;
-use oat\oatbox\service\exception\InvalidService;
 use Prophecy\Argument;
 
 /**

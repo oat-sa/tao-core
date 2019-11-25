@@ -22,10 +22,10 @@
 namespace oat\tao\model\requiredAction\implementation;
 
 use oat\oatbox\event\Event;
-use oat\tao\model\requiredAction\RequiredActionServiceInterface;
-use oat\tao\model\requiredAction\RequiredActionInterface;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\ServiceManager;
+use oat\tao\model\requiredAction\RequiredActionInterface;
+use oat\tao\model\requiredAction\RequiredActionServiceInterface;
 
 /**
  * Class RequiredActionService

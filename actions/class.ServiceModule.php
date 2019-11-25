@@ -30,7 +30,6 @@ use oat\tao\model\state\StateStorage;
  */
 class tao_actions_ServiceModule extends tao_actions_CommonModule
 {
-
     /**
      * Returns the serviceCallId for the current service call
      *
@@ -40,7 +39,7 @@ class tao_actions_ServiceModule extends tao_actions_CommonModule
     protected function getServiceCallId()
     {
         if (!$this->hasRequestParameter('serviceCallId')) {
-        	throw new common_exception_Error('No serviceCallId on service call');
+            throw new common_exception_Error('No serviceCallId on service call');
         }
         return $this->getRequestParameter('serviceCallId');
     }

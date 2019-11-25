@@ -42,5 +42,4 @@ class NullTextConverter extends TextConverterService
     {
         return [];
     }
-
 }

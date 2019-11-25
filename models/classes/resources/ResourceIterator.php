@@ -20,12 +20,12 @@
 
 namespace oat\tao\model\resources;
 
+use core_kernel_classes_Class;
+use core_kernel_classes_Resource;
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 use oat\search\base\QueryInterface;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use core_kernel_classes_Resource;
-use core_kernel_classes_Class;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 /**
  * Class ResourceIterator
@@ -34,7 +34,6 @@ use core_kernel_classes_Class;
  */
 class ResourceIterator extends \core_kernel_classes_ResourceIterator implements ServiceLocatorAwareInterface
 {
-
     use ServiceLocatorAwareTrait;
 
     private $classessUsedInCriteria = [];

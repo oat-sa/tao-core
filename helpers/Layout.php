@@ -22,34 +22,34 @@
 namespace oat\tao\helpers;
 
 use Jig\Utils\StringUtils;
+use oat\oatbox\service\ServiceManager;
+use oat\tao\model\layout\AmdLoader;
 use oat\tao\model\menu\Icon;
 use oat\tao\model\OperatedByService;
 use oat\tao\model\theme\ConfigurablePlatformTheme;
 use oat\tao\model\theme\ConfigurableTheme;
 use oat\tao\model\theme\Theme;
 use oat\tao\model\theme\ThemeService;
-use oat\oatbox\service\ServiceManager;
-use oat\tao\model\layout\AmdLoader;
 
 class Layout
 {
-
     /**
      * Compute the parameters for the release message
      *
      * @return array
      */
-    public static function getReleaseMsgData(){
+    public static function getReleaseMsgData()
+    {
         $params = array(
             'version-type' => '',
-            'is-unstable'  => self::isUnstable(),
-            'is-sandbox'   => false,
-            'logo'         => self::getLogoUrl(),
-            'link'         => self::getLinkUrl(),
-            'msg'          => self::getMessage()
+            'is-unstable' => self::isUnstable(),
+            'is-sandbox' => false,
+            'logo' => self::getLogoUrl(),
+            'link' => self::getLinkUrl(),
+            'msg' => self::getMessage()
         );
 
-        switch(TAO_RELEASE_STATUS){
+        switch (TAO_RELEASE_STATUS) {
             case 'alpha':
             case 'demoA':
                 $params['version-type'] = __('Alpha version');
@@ -62,8 +62,8 @@ class Layout
 
             case 'demoS':
                 $params['version-type'] = __('Demo Sandbox');
-                $params['is-sandbox']   = true;
-                $params['msg']          = self::getSandboxExpiration();
+                $params['is-sandbox'] = true;
+                $params['msg'] = self::getSandboxExpiration();
                 break;
         }
 
@@ -76,12 +76,13 @@ class Layout
      *
      * @return string
      */
-    public static function getSandboxExpiration(){
-        $datetime   = new \DateTime();
-        $d          = new \DateTime($datetime->format('Y-m-d'));
-        $weekday    = $d->format('w');
+    public static function getSandboxExpiration()
+    {
+        $datetime = new \DateTime();
+        $d = new \DateTime($datetime->format('Y-m-d'));
+        $weekday = $d->format('w');
         $weekNumber = $d->format('W');
-        $diff       = $weekNumber % 2 ? 7 : 6 - $weekday;
+        $diff = $weekNumber % 2 ? 7 : 6 - $weekday;
         $d->modify(sprintf('+ %d day', $diff));
         return \tao_helpers_Date::displayInterval($d, \tao_helpers_Date::FORMAT_INTERVAL_LONG);
     }
@@ -99,24 +100,23 @@ class Layout
      * @param string $defaultIcon e.g. icon-extension | icon-action
      * @return string icon as html
      */
-    public static function renderIcon($icon, $defaultIcon) {
-
-        $srcExt   = '';
+    public static function renderIcon($icon, $defaultIcon)
+    {
+        $srcExt = '';
         $isBase64 = false;
-		$iconClass = $defaultIcon;
-		if(!is_null($icon)){
-
-            if($icon->getSource()) {
-                $imgXts   = 'png|jpg|jpe|jpeg|gif|svg';
-                $regExp   = sprintf('~((^data:image/(%s))|(\.(%s)$))~', $imgXts, $imgXts);
-                $srcExt   = preg_match($regExp, $icon->getSource(), $matches) ? array_pop($matches) : array();
+        $iconClass = $defaultIcon;
+        if (!is_null($icon)) {
+            if ($icon->getSource()) {
+                $imgXts = 'png|jpg|jpe|jpeg|gif|svg';
+                $regExp = sprintf('~((^data:image/(%s))|(\.(%s)$))~', $imgXts, $imgXts);
+                $srcExt = preg_match($regExp, $icon->getSource(), $matches) ? array_pop($matches) : array();
                 $isBase64 = 0 === strpos($icon->getSource(), 'data:image');
             }
 
             $iconClass = $icon->getId() ? $icon->getId() : $defaultIcon;
         }
         // clarification icon vs. glyph: same thing but due to certain CSS rules a second class is required
-        switch($srcExt) {
+        switch ($srcExt) {
             case 'png':
             case 'jpg':
             case 'jpe':
@@ -134,7 +134,7 @@ class Layout
                     $icon->getId()
                 );
 
-            case ''; // no source means an icon font is used
+            case '': // no source means an icon font is used
                 return sprintf('<span class="%s glyph"></span>', $iconClass);
         }
     }
@@ -149,21 +149,21 @@ class Layout
      * @param array  $params additional parameters
      * @return string the script tag
      */
-    public static function getAmdLoader($bundle = null, $controller = null, $params = null, $allowAnonymous = false){
-
-        $bundleMode   = \tao_helpers_Mode::is('production');
-        $configUrl    = get_data('client_config_url');
+    public static function getAmdLoader($bundle = null, $controller = null, $params = null, $allowAnonymous = false)
+    {
+        $bundleMode = \tao_helpers_Mode::is('production');
+        $configUrl = get_data('client_config_url');
         $requireJsUrl = Template::js('lib/require.js', 'tao');
         $bootstrapUrl = Template::js('loader/bootstrap.js', 'tao');
 
         $loader = new AmdLoader($configUrl, $requireJsUrl, $bootstrapUrl);
 
-        if(\common_session_SessionManager::isAnonymous() && !$allowAnonymous) {
+        if (\common_session_SessionManager::isAnonymous() && !$allowAnonymous) {
             $controller = 'controller/login';
             $bundle = Template::js('loader/login.min.js', 'tao');
         }
 
-        if($bundleMode){
+        if ($bundleMode) {
             return "<script src='" . Template::js('loader/vendor.min.js', 'tao') . "'></script>\n" .
                     $loader->getBundleLoader($bundle, $controller, $params);
         }
@@ -174,9 +174,10 @@ class Layout
     /**
      * @return string
      */
-    public static function getTitle() {
+    public static function getTitle()
+    {
         $title = get_data('title');
-        return $title ? $title : PRODUCT_NAME . ' ' .  TAO_VERSION;
+        return $title ? $title : PRODUCT_NAME . ' ' . TAO_VERSION;
     }
 
 
@@ -184,7 +185,8 @@ class Layout
      * Navigation is considered small when it has no main and max. 2 item in the settings menu
      * @return bool
      */
-    public static function isSmallNavi() {
+    public static function isSmallNavi()
+    {
         $settingsMenu = get_data('settings-menu');
         return empty(get_data('main-menu')) && empty($settingsMenu) || count($settingsMenu) < 3;
     }
@@ -195,11 +197,12 @@ class Layout
      *
      * @return array
      */
-    public static function getContentTemplate() {
+    public static function getContentTemplate()
+    {
         $templateData = (array)get_data('content-template');
         $contentExtension = get_data('content-extension');
         $contentTemplate['path'] = $templateData[0];
-        $contentTemplate['ext']  = isset($templateData[1])
+        $contentTemplate['ext'] = isset($templateData[1])
             ? $templateData[1]
             : ($contentExtension ? $contentExtension : 'tao');
         return $contentTemplate;
@@ -220,7 +223,7 @@ class Layout
             $theme instanceof ConfigurablePlatformTheme
         ) {
             $logoFile = $theme->getLogoUrl();
-            if (! empty($logoFile)) {
+            if (!empty($logoFile)) {
                 return $logoFile;
             }
         }
@@ -255,7 +258,8 @@ class Layout
      * @deprecated
      * @return string
      */
-    public static function getBranding() {
+    public static function getBranding()
+    {
         return 'TAO';
     }
 
@@ -265,7 +269,8 @@ class Layout
      * @deprecated
      * @return string
      */
-    public static function getThemeUrl() {
+    public static function getThemeUrl()
+    {
         return '';
     }
 
@@ -286,7 +291,7 @@ class Layout
             $theme instanceof ConfigurablePlatformTheme
         ) {
             $link = $theme->getLink();
-            if (! empty($link)) {
+            if (!empty($link)) {
                 return $link;
             }
         }
@@ -325,7 +330,7 @@ class Layout
             $theme instanceof ConfigurablePlatformTheme
         ) {
             $message = $theme->getMessage();
-            if (! empty($message)) {
+            if (!empty($message)) {
                 return $message;
             }
         }
@@ -349,8 +354,8 @@ class Layout
      * Get the currently registered OperatedBy data
      * @return array
      */
-    public static function getOperatedByData() {
-
+    public static function getOperatedByData()
+    {
         $name = '';
         $email = '';
 
@@ -358,19 +363,19 @@ class Layout
         $theme = self::getCurrentTheme();
         if ($theme instanceof ConfigurablePlatformTheme) {
             $operatedBy = $theme->getOperatedBy();
-            $name  = $operatedBy['name'];
+            $name = $operatedBy['name'];
             $email = $operatedBy['email'];
         }
 
         // otherwise they will be stored in config
-        if(!$name && !$email) {
+        if (!$name && !$email) {
             $operatedByService = ServiceManager::getServiceManager()->get(OperatedByService::SERVICE_ID);
             $name = $operatedByService->getName();
             $email = $operatedByService->getEmail();
         }
 
         $data = [
-            'name'  => $name,
+            'name' => $name,
             'email' => empty($email)
                 ? ''
                 : StringUtils::encodeText('mailto:' . $email)
@@ -379,8 +384,8 @@ class Layout
         return $data;
     }
 
-    public static function isUnstable() {
-
+    public static function isUnstable()
+    {
         $isUnstable = true;
         switch (TAO_RELEASE_STATUS) {
             case 'demoS':
@@ -406,13 +411,14 @@ class Layout
      *
      * @return string
      */
-    public static function getVerboseVersionName() {
+    public static function getVerboseVersionName()
+    {
         preg_match('~(?<revision>([\d\.]+))([\W_]?(?<specifics>(.*)?))~', trim(TAO_VERSION), $components);
-        if(empty($components['revision'])) {
+        if (empty($components['revision'])) {
             return TAO_VERSION;
         }
         $version = '';
-        if(!empty($components['specifics'])) {
+        if (!empty($components['specifics'])) {
             $version .= ucwords($components['specifics']) . ' rev ';
         }
         $version .= ucwords($components['revision']);
@@ -424,7 +430,8 @@ class Layout
      * @deprecated use custom template instead
      * @return type
      */
-    public static function getLoginMessage() {
+    public static function getLoginMessage()
+    {
         return __("Connect to the TAO platform");
     }
 
@@ -433,7 +440,8 @@ class Layout
      * @deprecated change default language if you want to change the "Login" translation
      * @return type
      */
-    public static function getLoginLabel() {
+    public static function getLoginLabel()
+    {
         return __("Login");
     }
 
@@ -442,7 +450,8 @@ class Layout
      * @deprecated change default language if you want to change the "Password" translation
      * @return type
      */
-    public static function getPasswordLabel() {
+    public static function getPasswordLabel()
+    {
         return __("Password");
     }
 
@@ -451,7 +460,8 @@ class Layout
      * @deprecated use custom footer.tpl template instead
      * @return type
      */
-    public static function getCopyrightNotice() {
+    public static function getCopyrightNotice()
+    {
         return '';
     }
 
@@ -462,13 +472,14 @@ class Layout
      * @param array $data
      * @return string
      */
-    public static function renderThemeTemplate($target, $templateId, $data = array()){
+    public static function renderThemeTemplate($target, $templateId, $data = array())
+    {
 
         //search in the registry to get the custom template to render
         $tpl = self::getThemeTemplate($target, $templateId);
         $theme = self::getCurrentTheme();
 
-        if(!is_null($tpl)){
+        if (!is_null($tpl)) {
             if ($theme instanceof ConfigurablePlatformTheme) {
                 // allow to use the getters from ConfigurablePlatformTheme
                 // to insert logo and such

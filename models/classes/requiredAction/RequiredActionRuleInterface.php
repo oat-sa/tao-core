@@ -20,7 +20,9 @@
  */
 
 namespace oat\tao\model\requiredAction;
+
 use oat\oatbox\PhpSerializable;
+
 /**
  * Interface RequiredActionRuleInterface
  *

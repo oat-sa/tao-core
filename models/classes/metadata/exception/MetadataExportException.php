@@ -27,5 +27,4 @@ namespace oat\tao\model\metadata\exception;
  */
 class MetadataExportException extends \common_Exception
 {
-
 }

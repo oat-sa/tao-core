@@ -19,9 +19,9 @@
  */
 namespace oat\tao\scripts\install;
 
+use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\extension\InstallAction;
 use oat\tao\helpers\form\ValidationRuleRegistry;
-use oat\generis\model\OntologyAwareTrait;
 
 /**
  * This post-installation script creates a new local file source for services

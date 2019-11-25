@@ -19,8 +19,8 @@
 namespace oat\tao\test\unit\plugins;
 
 use common_exception_InconsistentData;
-use oat\tao\model\plugins\PluginModule;
 use oat\generis\test\TestCase;
+use oat\tao\model\plugins\PluginModule;
 
 /**
  * Test the PluginModule pojo
@@ -30,7 +30,6 @@ use oat\generis\test\TestCase;
  */
 class PluginModuleTest extends TestCase
 {
-
     /**
      * Data provider
      * @return array the data
@@ -40,36 +39,36 @@ class PluginModuleTest extends TestCase
         return [
             [
                 [
-                    'id'          => 'foo',
-                    'name'        => 'Foo',
-                    'module'      => 'plugin/foo',
-                    'category'    => 'dummy',
+                    'id' => 'foo',
+                    'name' => 'Foo',
+                    'module' => 'plugin/foo',
+                    'category' => 'dummy',
                     'description' => 'The best foo ever',
-                    'active'      => true,
-                    'tags'        => ['required']
+                    'active' => true,
+                    'tags' => ['required']
                 ], [
-                    'id'          => 'foo',
-                    'name'        => 'Foo',
-                    'module'      => 'plugin/foo',
-                    'category'    => 'dummy',
+                    'id' => 'foo',
+                    'name' => 'Foo',
+                    'module' => 'plugin/foo',
+                    'category' => 'dummy',
                     'description' => 'The best foo ever',
-                    'active'      => true,
-                    'tags'        => ['required']
+                    'active' => true,
+                    'tags' => ['required']
                 ]
             ], [
                 [
-                    'id'          => '12',
-                    'name'        => 21,
-                    'module'      => 'plugin/foo',
-                    'category'    => 'dummy',
+                    'id' => '12',
+                    'name' => 21,
+                    'module' => 'plugin/foo',
+                    'category' => 'dummy',
                 ], [
-                    'id'          => '12',
-                    'name'        => '21',
-                    'module'      => 'plugin/foo',
-                    'category'    => 'dummy',
+                    'id' => '12',
+                    'name' => '21',
+                    'module' => 'plugin/foo',
+                    'category' => 'dummy',
                     'description' => '',
-                    'active'      => true,
-                    'tags'        => []
+                    'active' => true,
+                    'tags' => []
                 ]
             ]
         ];
@@ -138,7 +137,6 @@ class PluginModuleTest extends TestCase
      */
     public function testConstruct($input, $output)
     {
-
         $PluginModule = new PluginModule($input['id'], $input['module'], $input['category'], $input);
 
         $this->assertEquals($output['id'], $PluginModule->getId());
@@ -159,7 +157,6 @@ class PluginModuleTest extends TestCase
      */
     public function testFromArray($input, $output)
     {
-
         $PluginModule = PluginModule::fromArray($input);
 
         $this->assertEquals($output['id'], $PluginModule->getId());
@@ -184,7 +181,7 @@ class PluginModuleTest extends TestCase
         $PluginModule = new PluginModule('bar', 'bar/bar', 'dummy', [
             'name' => 'Bar',
             'description' => 'The best bar ever',
-            'active' =>  false,
+            'active' => false,
             'position' => 12,
             'bundle' => 'plugins/bundle.min',
             'tags' => ['dummy', 'goofy']

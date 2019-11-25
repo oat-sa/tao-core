@@ -19,31 +19,32 @@
  *
  */
 
-use oat\tao\model\websource\WebsourceManager;
+use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\ServiceManager;
-use oat\tao\model\websource\Websource;
-use oat\oatbox\filesystem\FileSystemService;
 use oat\tao\model\service\ServiceFileStorage;
+use oat\tao\model\websource\Websource;
+use oat\tao\model\websource\WebsourceManager;
 
 /**
- * Represents the file storage used in services 
+ * Represents the file storage used in services
  *
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package tao
- 
+
  */
 class tao_models_classes_service_FileStorage extends ConfigurableService implements ServiceFileStorage
 {
-    const OPTION_PUBLIC_FS = 'public';
-    const OPTION_PRIVATE_FS = 'private';
-    const OPTION_ACCESS_PROVIDER = 'provider';
+    public const OPTION_PUBLIC_FS = 'public';
+    public const OPTION_PRIVATE_FS = 'private';
+    public const OPTION_ACCESS_PROVIDER = 'provider';
     
     /**
      * @return tao_models_classes_service_FileStorage
      */
-    public static function singleton() {
+    public static function singleton()
+    {
         return ServiceManager::getServiceManager()->get(self::SERVICE_ID);
     }
     
@@ -73,8 +74,9 @@ class tao_models_classes_service_FileStorage extends ConfigurableService impleme
      * @param boolean $public
      * @return tao_models_classes_service_StorageDirectory
      */
-    public function spawnDirectory($public = false) {
-        $id = common_Utils::getNewUri().($public ? '+' : '-');
+    public function spawnDirectory($public = false)
+    {
+        $id = common_Utils::getNewUri() . ($public ? '+' : '-');
         $directory = $this->getDirectoryById($id);
         return $directory;
     }
@@ -83,8 +85,9 @@ class tao_models_classes_service_FileStorage extends ConfigurableService impleme
      * @param string $id
      * @return tao_models_classes_service_StorageDirectory
      */
-    public function getDirectoryById($id) {
-        $public = $id[strlen($id)-1] == '+';
+    public function getDirectoryById($id)
+    {
+        $public = $id[strlen($id) - 1] == '+';
         $path = $this->id2path($id);
         $dir = new tao_models_classes_service_StorageDirectory(
             $id,
@@ -104,7 +107,7 @@ class tao_models_classes_service_FileStorage extends ConfigurableService impleme
      */
     public function deleteDirectoryById($id)
     {
-        $public = $id[strlen($id)-1] == '+';
+        $public = $id[strlen($id) - 1] == '+';
         $path = $this->id2path($id);
         return $this->getServiceLocator()->get(FileSystemService::SERVICE_ID)->getFileSystem($this->getFsId($public))->deleteDir($path);
     }
@@ -121,7 +124,8 @@ class tao_models_classes_service_FileStorage extends ConfigurableService impleme
             foreach (
                 $iterator = new \RecursiveIteratorIterator(
                     new \RecursiveDirectoryIterator($directoryPath, \RecursiveDirectoryIterator::SKIP_DOTS),
-                    \RecursiveIteratorIterator::SELF_FIRST) as $item
+                    \RecursiveIteratorIterator::SELF_FIRST
+                ) as $item
             ) {
                 if (!$item->isDir()) {
                     $file = $directory->getFile($iterator->getSubPathName());
@@ -143,20 +147,20 @@ class tao_models_classes_service_FileStorage extends ConfigurableService impleme
         }
     }
     
-    private function id2path($id) {
-
+    private function id2path($id)
+    {
         $encoded = md5($id);
         $returnValue = "";
         $len = strlen($encoded);
         for ($i = 0; $i < $len; $i++) {
             if ($i < 3) {
-                $returnValue .= $encoded[$i].DIRECTORY_SEPARATOR;
+                $returnValue .= $encoded[$i] . DIRECTORY_SEPARATOR;
             } else {
                 $returnValue .= $encoded[$i];
             }
         }
         
-        return $returnValue.DIRECTORY_SEPARATOR;
+        return $returnValue . DIRECTORY_SEPARATOR;
     }
 
     /**

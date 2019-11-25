@@ -22,15 +22,15 @@ namespace oat\tao\model\maintenance;
 
 class MaintenanceState
 {
-    const ID         = 'id';
-    const STATUS     = 'status';
-    const START_TIME = 'start';
-    const END_TIME   = 'end';
+    public const ID = 'id';
+    public const STATUS = 'status';
+    public const START_TIME = 'start';
+    public const END_TIME = 'end';
 
-    const LIVE_MODE = 'on';
-    const OFFLINE_MODE = 'off';
+    public const LIVE_MODE = 'on';
+    public const OFFLINE_MODE = 'off';
 
-    const DATEDIFF_FORMAT = '%y years, %m months, %d days %H:%I:%S';
+    public const DATEDIFF_FORMAT = '%y years, %m months, %d days %H:%I:%S';
 
     protected static $availableStatus = array(self::LIVE_MODE, self::OFFLINE_MODE);
 
@@ -71,7 +71,7 @@ class MaintenanceState
     public function __construct(array $data)
     {
         $this->checkData($data);
-        $this->id     = isset($data[self::ID]) ? $data[self::ID] : 1;
+        $this->id = isset($data[self::ID]) ? $data[self::ID] : 1;
         $this->status = $data[self::STATUS];
 
         if (isset($data[self::START_TIME])) {
@@ -93,12 +93,12 @@ class MaintenanceState
     public function toArray()
     {
         $data = array(
-            self::ID         => $this->id,
-            self::STATUS     => $this->status,
+            self::ID => $this->id,
+            self::STATUS => $this->status,
             self::START_TIME => $this->startTime->getTimestamp(),
         );
 
-        if (! is_null($this->endTime)) {
+        if (!is_null($this->endTime)) {
             $data[self::END_TIME] = $this->endTime->getTimestamp();
         }
 
@@ -169,7 +169,6 @@ class MaintenanceState
 
         if ((is_string($dateTime) && (int) $dateTime > 0) || is_numeric($dateTime)) {
             return (new \DateTime())->setTimestamp($dateTime);
-
         }
 
         throw new \common_Exception(__('A date has to be a Datetime or timestamp'));
@@ -183,7 +182,7 @@ class MaintenanceState
      */
     protected function checkData(array $data)
     {
-        if (! isset($data[self::STATUS]) || ! in_array($data[self::STATUS], self::$availableStatus)) {
+        if (!isset($data[self::STATUS]) || !in_array($data[self::STATUS], self::$availableStatus)) {
             throw new \common_Exception(
                 __('A maintenance status must have a STATUS: "%s" or "%s"', self::LIVE_MODE, self::OFFLINE_MODE)
             );

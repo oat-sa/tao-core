@@ -37,7 +37,7 @@ class tao_helpers_form_elements_xhtml_Htmlarea extends tao_helpers_form_elements
      * @access public
      * @var string
      */
-    const CSS_CLASS = 'html-area';
+    public const CSS_CLASS = 'html-area';
 
     /**
      * Short description of method render
@@ -59,7 +59,7 @@ class tao_helpers_form_elements_xhtml_Htmlarea extends tao_helpers_form_elements
         $returnValue = $this->renderLabel();
         $returnValue .= "<textarea name='{$this->name}' id='{$this->name}' ";
         $returnValue .= $this->renderAttributes();
-        $returnValue .= ">" . _dh($this->value). "</textarea>";
+        $returnValue .= ">" . _dh($this->value) . "</textarea>";
 
 
         return (string) $returnValue;

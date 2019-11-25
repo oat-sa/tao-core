@@ -43,5 +43,4 @@ class ResultSet extends \ArrayIterator
     {
         return $this->totalCount;
     }
-
 }

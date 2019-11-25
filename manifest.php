@@ -25,27 +25,27 @@ use oat\tao\install\services\SetupSettingsStorage;
 use oat\tao\model\accessControl\func\AccessRule;
 use oat\tao\model\routing\ApiRoute;
 use oat\tao\model\routing\LegacyRoute;
+use oat\tao\model\user\TaoRoles;
+use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\AddLogFs;
 use oat\tao\scripts\install\AddTmpFsHandlers;
+use oat\tao\scripts\install\CreateWebhookEventLogTable;
+use oat\tao\scripts\install\InstallNotificationTable;
+use oat\tao\scripts\install\RegisterActionService;
+use oat\tao\scripts\install\RegisterResourceEvents;
+use oat\tao\scripts\install\RegisterResourceWatcherService;
 use oat\tao\scripts\install\RegisterSignatureGenerator;
 use oat\tao\scripts\install\RegisterTaskQueueServices;
 use oat\tao\scripts\install\RegisterUserLockoutsEventListeners;
+use oat\tao\scripts\install\RegisterValidationRules;
 use oat\tao\scripts\install\SetClientLoggerConfig;
 use oat\tao\scripts\install\SetContainerService;
 use oat\tao\scripts\install\SetDefaultCSPHeader;
+use oat\tao\scripts\install\SetLocaleNumbersConfig;
 use oat\tao\scripts\install\SetServiceFileStorage;
-use oat\tao\scripts\install\RegisterValidationRules;
-use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\SetServiceState;
 use oat\tao\scripts\install\SetupMaintenanceService;
-use oat\tao\scripts\install\AddArchiveService;
-use oat\tao\scripts\install\RegisterResourceWatcherService;
-use oat\tao\scripts\install\RegisterResourceEvents;
-use oat\tao\scripts\install\RegisterActionService;
-use oat\tao\model\user\TaoRoles;
 use oat\tao\scripts\install\SetUpQueueTasks;
-use oat\tao\scripts\install\SetLocaleNumbersConfig;
-use \oat\tao\scripts\install\CreateWebhookEventLogTable;
 
 $extpath = dirname(__FILE__) . DIRECTORY_SEPARATOR;
 
@@ -65,17 +65,17 @@ return array(
     ),
     'install' => array(
         'rdf' => array(
-            dirname(__FILE__). '/models/ontology/tao.rdf',
-            dirname(__FILE__). '/models/ontology/taoaclrole.rdf',
-            dirname(__FILE__). '/models/ontology/oauth.rdf',
-            dirname(__FILE__). '/models/ontology/webservice.rdf',
-            dirname(__FILE__). '/models/ontology/services.rdf',
-            dirname(__FILE__). '/models/ontology/indexation.rdf',
-            dirname(__FILE__). '/models/ontology/model.rdf',
-            dirname(__FILE__). '/models/ontology/widegetdefinitions.rdf',
-            dirname(__FILE__). '/models/ontology/requiredaction.rdf',
-            dirname(__FILE__). '/models/ontology/auth/basicauth.rdf',
-            dirname(__FILE__). '/models/ontology/userlocks.rdf'
+            dirname(__FILE__) . '/models/ontology/tao.rdf',
+            dirname(__FILE__) . '/models/ontology/taoaclrole.rdf',
+            dirname(__FILE__) . '/models/ontology/oauth.rdf',
+            dirname(__FILE__) . '/models/ontology/webservice.rdf',
+            dirname(__FILE__) . '/models/ontology/services.rdf',
+            dirname(__FILE__) . '/models/ontology/indexation.rdf',
+            dirname(__FILE__) . '/models/ontology/model.rdf',
+            dirname(__FILE__) . '/models/ontology/widegetdefinitions.rdf',
+            dirname(__FILE__) . '/models/ontology/requiredaction.rdf',
+            dirname(__FILE__) . '/models/ontology/auth/basicauth.rdf',
+            dirname(__FILE__) . '/models/ontology/userlocks.rdf'
         ),
         'checks' => array(
                 array('type' => 'CheckPHPRuntime', 'value' => array('id' => 'tao_php_runtime', 'min' => '5.4')),
@@ -101,12 +101,12 @@ return array(
                 array('type' => 'CheckCustom', 'value' => array('id' => 'tao_custom_database_drivers', 'name' => 'database_drivers', 'extension' => 'tao')),
         ),
         'php' => array(
-            dirname(__FILE__).'/scripts/install/addFileUploadSource.php',
-            dirname(__FILE__).'/scripts/install/setSimpleAccess.php',
+            dirname(__FILE__) . '/scripts/install/addFileUploadSource.php',
+            dirname(__FILE__) . '/scripts/install/setSimpleAccess.php',
             SetServiceFileStorage::class,
             SetServiceState::class,
-            dirname(__FILE__).'/scripts/install/setJsConfig.php',
-            dirname(__FILE__).'/scripts/install/registerEntryPoint.php',
+            dirname(__FILE__) . '/scripts/install/setJsConfig.php',
+            dirname(__FILE__) . '/scripts/install/registerEntryPoint.php',
             SetLocaleNumbersConfig::class,
             AddLogFs::class,
             AddTmpFsHandlers::class,
@@ -135,59 +135,59 @@ return array(
     ),
     'managementRole' => TaoRoles::TAO_MANAGER,
     'acl' => array(
-        array('grant', TaoRoles::ANONYMOUS,            array('ext'=>'tao','mod' => 'Main', 'act' => 'entry')),
-        array('grant', TaoRoles::ANONYMOUS,            array('ext'=>'tao','mod' => 'Main', 'act' => 'login')),
-        array('grant', TaoRoles::ANONYMOUS,            array('ext'=>'tao','mod' => 'Main', 'act' => 'logout')),
-        array('grant', TaoRoles::ANONYMOUS,            array('ext'=>'tao','mod' => 'PasswordRecovery', 'act' => 'index')),
-        array('grant', TaoRoles::ANONYMOUS,            array('ext'=>'tao','mod' => 'PasswordRecovery', 'act' => 'resetPassword')),
-        array('grant', TaoRoles::ANONYMOUS,            array('ext'=>'tao','mod' => 'ClientConfig')),
-        array('grant', TaoRoles::ANONYMOUS,            array('ext'=>'tao','mod' => 'Health')),
-        array('grant', TaoRoles::ANONYMOUS,            array('ext'=>'tao','mod' => 'RestVersion', 'act' => 'index')),
-        array('grant', TaoRoles::BASE_USER,            array('ext'=>'tao','mod' => 'ServiceModule')),
-        array('grant', TaoRoles::BASE_USER,            array('ext'=>'tao','mod' => 'Notification')),
-        array('grant', TaoRoles::BASE_USER,            array('ext'=>'tao','mod' => 'File', 'act' => 'accessFile')),
-        array('grant', TaoRoles::BASE_USER,            array('ext'=>'tao','mod' => 'Log', 'act' => 'log')),
-        array('grant', TaoRoles::BASE_USER,            array('ext'=>'tao','mod' => 'TaskQueueWebApi')),
-        array('grant', TaoRoles::BACK_OFFICE,          array('ext'=>'tao','mod' => 'File', 'act' => 'upload')),
-        array('grant', TaoRoles::BACK_OFFICE,          array('ext'=>'tao','mod' => 'Main', 'act' => 'index')),
-        array('grant', TaoRoles::BACK_OFFICE,          array('ext'=>'tao','mod' => 'Main', 'act' => 'getSectionActions')),
-        array('grant', TaoRoles::BACK_OFFICE,          array('ext'=>'tao','mod' => 'Main', 'act' => 'getSectionTrees')),
-        array('grant', TaoRoles::BACK_OFFICE,          array('ext'=>'tao','mod' => 'Users', 'act' => 'checkLogin')),
-        array('grant', TaoRoles::BACK_OFFICE,          array('ext'=>'tao','mod' => 'UserSettings')),
-        array('grant', TaoRoles::BACK_OFFICE,          array('ext'=>'tao','mod' => 'GenerisTree')),
-        array('grant', TaoRoles::BACK_OFFICE,          array('ext'=>'tao','mod' => 'Search')),
-        array('grant', TaoRoles::BACK_OFFICE,          array('ext'=>'tao','mod' => 'Main', 'act' => 'index')),
+        array('grant', TaoRoles::ANONYMOUS,            array('ext' => 'tao', 'mod' => 'Main', 'act' => 'entry')),
+        array('grant', TaoRoles::ANONYMOUS,            array('ext' => 'tao', 'mod' => 'Main', 'act' => 'login')),
+        array('grant', TaoRoles::ANONYMOUS,            array('ext' => 'tao', 'mod' => 'Main', 'act' => 'logout')),
+        array('grant', TaoRoles::ANONYMOUS,            array('ext' => 'tao', 'mod' => 'PasswordRecovery', 'act' => 'index')),
+        array('grant', TaoRoles::ANONYMOUS,            array('ext' => 'tao', 'mod' => 'PasswordRecovery', 'act' => 'resetPassword')),
+        array('grant', TaoRoles::ANONYMOUS,            array('ext' => 'tao', 'mod' => 'ClientConfig')),
+        array('grant', TaoRoles::ANONYMOUS,            array('ext' => 'tao', 'mod' => 'Health')),
+        array('grant', TaoRoles::ANONYMOUS,            array('ext' => 'tao', 'mod' => 'RestVersion', 'act' => 'index')),
+        array('grant', TaoRoles::BASE_USER,            array('ext' => 'tao', 'mod' => 'ServiceModule')),
+        array('grant', TaoRoles::BASE_USER,            array('ext' => 'tao', 'mod' => 'Notification')),
+        array('grant', TaoRoles::BASE_USER,            array('ext' => 'tao', 'mod' => 'File', 'act' => 'accessFile')),
+        array('grant', TaoRoles::BASE_USER,            array('ext' => 'tao', 'mod' => 'Log', 'act' => 'log')),
+        array('grant', TaoRoles::BASE_USER,            array('ext' => 'tao', 'mod' => 'TaskQueueWebApi')),
+        array('grant', TaoRoles::BACK_OFFICE,          array('ext' => 'tao', 'mod' => 'File', 'act' => 'upload')),
+        array('grant', TaoRoles::BACK_OFFICE,          array('ext' => 'tao', 'mod' => 'Main', 'act' => 'index')),
+        array('grant', TaoRoles::BACK_OFFICE,          array('ext' => 'tao', 'mod' => 'Main', 'act' => 'getSectionActions')),
+        array('grant', TaoRoles::BACK_OFFICE,          array('ext' => 'tao', 'mod' => 'Main', 'act' => 'getSectionTrees')),
+        array('grant', TaoRoles::BACK_OFFICE,          array('ext' => 'tao', 'mod' => 'Users', 'act' => 'checkLogin')),
+        array('grant', TaoRoles::BACK_OFFICE,          array('ext' => 'tao', 'mod' => 'UserSettings')),
+        array('grant', TaoRoles::BACK_OFFICE,          array('ext' => 'tao', 'mod' => 'GenerisTree')),
+        array('grant', TaoRoles::BACK_OFFICE,          array('ext' => 'tao', 'mod' => 'Search')),
+        array('grant', TaoRoles::BACK_OFFICE,          array('ext' => 'tao', 'mod' => 'Main', 'act' => 'index')),
         array('grant', TaoRoles::BACK_OFFICE,          array('act' => 'tao_actions_Lock@locked')),
         array('grant', TaoRoles::BACK_OFFICE,          array('act' => 'tao_actions_Lock@release')),
-        array('grant', TaoRoles::BACK_OFFICE,          array('ext'=>'tao','mod' => 'TaskQueueData')),
-        array('grant', TaoRoles::BACK_OFFICE,          array('ext'=>'tao','mod' => 'RestResource')),
-        array('grant', TaoRoles::BACK_OFFICE,          array('ext'=>'tao','mod' => 'RestClass')),
-        array('grant', TaoRoles::TAO_MANAGER,          array('ext'=>'tao','mod' => 'Breadcrumbs')),
-        array('grant', TaoRoles::TAO_MANAGER,          array('ext'=>'tao','mod' => 'Export')),
-        array('grant', TaoRoles::TAO_MANAGER,          array('ext'=>'tao','mod' => 'File')),
-        array('grant', TaoRoles::TAO_MANAGER,          array('ext'=>'tao','mod' => 'Import')),
-        array('grant', TaoRoles::TAO_MANAGER,          array('ext'=>'tao','mod' => 'Lock')),
-        array('grant', TaoRoles::TAO_MANAGER,          array('ext'=>'tao','mod' => 'Main')),
-        array('grant', TaoRoles::TAO_MANAGER,          array('ext'=>'tao','mod' => 'PasswordRecovery')),
-        array('grant', TaoRoles::TAO_MANAGER,          array('ext'=>'tao','mod' => 'Permission')),
-        array('grant', TaoRoles::TAO_MANAGER,          array('ext'=>'tao','mod' => 'PropertiesAuthoring')),
-        array('grant', TaoRoles::TAO_MANAGER,          array('ext'=>'tao','mod' => 'QueueAction')),
-        array('grant', TaoRoles::TAO_MANAGER,          array('ext'=>'tao','mod' => 'RestUser')),
-        array('grant', TaoRoles::TAO_MANAGER,          array('ext'=>'tao','mod' => 'Roles')),
-        array('grant', TaoRoles::TAO_MANAGER,          array('ext'=>'tao','mod' => 'TaskQueue')),
-        array('grant', TaoRoles::TAO_MANAGER,          array('ext'=>'tao','mod' => 'Users')),
-        array('grant', TaoRoles::TAO_MANAGER,          array('ext'=>'tao','mod' => 'WebService')),
-        array('grant', TaoRoles::TAO_MANAGER,          array('ext'=>'tao','mod' => 'Security')),
-        array('grant', TaoRoles::REST_PUBLISHER,       array('ext'=>'tao','mod' => 'TaskQueue', 'act' => 'get')),
-        array('grant', TaoRoles::SYSTEM_ADMINISTRATOR, array('ext'=>'tao','mod' => 'ExtensionsManager')),
+        array('grant', TaoRoles::BACK_OFFICE,          array('ext' => 'tao', 'mod' => 'TaskQueueData')),
+        array('grant', TaoRoles::BACK_OFFICE,          array('ext' => 'tao', 'mod' => 'RestResource')),
+        array('grant', TaoRoles::BACK_OFFICE,          array('ext' => 'tao', 'mod' => 'RestClass')),
+        array('grant', TaoRoles::TAO_MANAGER,          array('ext' => 'tao', 'mod' => 'Breadcrumbs')),
+        array('grant', TaoRoles::TAO_MANAGER,          array('ext' => 'tao', 'mod' => 'Export')),
+        array('grant', TaoRoles::TAO_MANAGER,          array('ext' => 'tao', 'mod' => 'File')),
+        array('grant', TaoRoles::TAO_MANAGER,          array('ext' => 'tao', 'mod' => 'Import')),
+        array('grant', TaoRoles::TAO_MANAGER,          array('ext' => 'tao', 'mod' => 'Lock')),
+        array('grant', TaoRoles::TAO_MANAGER,          array('ext' => 'tao', 'mod' => 'Main')),
+        array('grant', TaoRoles::TAO_MANAGER,          array('ext' => 'tao', 'mod' => 'PasswordRecovery')),
+        array('grant', TaoRoles::TAO_MANAGER,          array('ext' => 'tao', 'mod' => 'Permission')),
+        array('grant', TaoRoles::TAO_MANAGER,          array('ext' => 'tao', 'mod' => 'PropertiesAuthoring')),
+        array('grant', TaoRoles::TAO_MANAGER,          array('ext' => 'tao', 'mod' => 'QueueAction')),
+        array('grant', TaoRoles::TAO_MANAGER,          array('ext' => 'tao', 'mod' => 'RestUser')),
+        array('grant', TaoRoles::TAO_MANAGER,          array('ext' => 'tao', 'mod' => 'Roles')),
+        array('grant', TaoRoles::TAO_MANAGER,          array('ext' => 'tao', 'mod' => 'TaskQueue')),
+        array('grant', TaoRoles::TAO_MANAGER,          array('ext' => 'tao', 'mod' => 'Users')),
+        array('grant', TaoRoles::TAO_MANAGER,          array('ext' => 'tao', 'mod' => 'WebService')),
+        array('grant', TaoRoles::TAO_MANAGER,          array('ext' => 'tao', 'mod' => 'Security')),
+        array('grant', TaoRoles::REST_PUBLISHER,       array('ext' => 'tao', 'mod' => 'TaskQueue', 'act' => 'get')),
+        array('grant', TaoRoles::SYSTEM_ADMINISTRATOR, array('ext' => 'tao', 'mod' => 'ExtensionsManager')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#LockManagerRole',     'tao_actions_Lock@forceRelease'),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#PropertyManagerRole', 'tao_actions_PropertiesAuthoring'),
         array(AccessRule::GRANT, TaoRoles::SYSTEM_ADMINISTRATOR, oat\tao\controller\api\Users::class),
         array(AccessRule::GRANT, TaoRoles::GLOBAL_MANAGER, oat\tao\controller\api\Users::class),
     ),
     'routes' => [
-        '/tao/api'  => ['class' => ApiRoute::class],
-        '/tao'      => ['class' => LegacyRoute::class],
+        '/tao/api' => ['class' => ApiRoute::class],
+        '/tao' => ['class' => LegacyRoute::class],
     ],
     'constants' => array(
         #TAO version number
@@ -201,10 +201,10 @@ return array(
         #TAO default character encoding (mainly used with multi-byte string functions).
         'TAO_DEFAULT_ENCODING' => 'UTF-8',
         # actions directory
-        "DIR_ACTIONS" => $extpath."actions".DIRECTORY_SEPARATOR,
+        "DIR_ACTIONS" => $extpath . "actions" . DIRECTORY_SEPARATOR,
 
         # views directory
-        "DIR_VIEWS" => $extpath."views".DIRECTORY_SEPARATOR,
+        "DIR_VIEWS" => $extpath . "views" . DIRECTORY_SEPARATOR,
 
         # default module name
         'DEFAULT_MODULE_NAME' => 'Main',
@@ -216,12 +216,12 @@ return array(
         'BASE_PATH' => $extpath,
 
         #BASE URL (usually the domain root)
-        'BASE_URL' => ROOT_URL.'tao/',
+        'BASE_URL' => ROOT_URL . 'tao/',
 
          #TPL PATH the path to the templates
-         'TPL_PATH' => $extpath."views".DIRECTORY_SEPARATOR."templates".DIRECTORY_SEPARATOR,
+         'TPL_PATH' => $extpath . "views" . DIRECTORY_SEPARATOR . "templates" . DIRECTORY_SEPARATOR,
     ),
     'extra' => array(
-        'structures' => $extpath.'actions'.DIRECTORY_SEPARATOR.'structures.xml',
+        'structures' => $extpath . 'actions' . DIRECTORY_SEPARATOR . 'structures.xml',
     )
 );

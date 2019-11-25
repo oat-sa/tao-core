@@ -25,13 +25,13 @@ use oat\generis\Helper\UserHashForEncryption;
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\event\EventManager;
+use oat\oatbox\log\LoggerAwareTrait;
+use oat\oatbox\user\UserLanguageServiceInterface;
 use oat\tao\helpers\ApplicationHelper;
 use oat\tao\helpers\UserHelper;
 use oat\tao\model\event\UserUpdatedEvent;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\user\UserLocks;
-use oat\oatbox\user\UserLanguageServiceInterface;
-use oat\oatbox\log\LoggerAwareTrait;
 use tao_helpers_form_FormContainer as FormContainer;
 
 /**
@@ -111,7 +111,7 @@ class tao_actions_Users extends tao_actions_CommonModule
                 $filterColumns = array_keys($fieldsMap);
             }
             $filters = array_flip(array_intersect_key($fieldsMap, array_flip($filterColumns)));
-            array_walk($filters, function (&$row, $key) use($filterQuery) {
+            array_walk($filters, function (&$row, $key) use ($filterQuery) {
                 $row = $filterQuery;
             });
         }
@@ -141,7 +141,6 @@ class tao_actions_Users extends tao_actions_CommonModule
 
         /** @var core_kernel_classes_Resource $user */
         foreach ($users as $user) {
-
             $propValues = $user->getPropertiesValues(array_values($fieldsMap));
 
             $roles = $user->getPropertyValues($rolesProperty);
@@ -236,8 +235,10 @@ class tao_actions_Users extends tao_actions_CommonModule
     public function add()
     {
         $this->defaultData();
-        $container = new tao_actions_form_Users($this->getClass(
-            TaoOntology::CLASS_URI_TAO_USER),
+        $container = new tao_actions_form_Users(
+            $this->getClass(
+            TaoOntology::CLASS_URI_TAO_USER
+        ),
             null,
             false,
             [FormContainer::CSRF_PROTECTION_OPTION => true]
@@ -254,9 +255,11 @@ class tao_actions_Users extends tao_actions_CommonModule
             $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($container->getUser());
 
             if ($binder->bind($values)) {
-                $this->getEventManager()->trigger(new UserUpdatedEvent(
-                        $user,
-                        array_merge($values, ['hashForKey' => UserHashForEncryption::hash($plainPassword)]))
+                $this->getEventManager()->trigger(
+                    new UserUpdatedEvent(
+                    $user,
+                    array_merge($values, ['hashForKey' => UserHashForEncryption::hash($plainPassword)])
+                )
                 );
                 $this->setData('message', __('User added'));
                 $this->setData('exit', true);
@@ -347,7 +350,7 @@ class tao_actions_Users extends tao_actions_CommonModule
         if ($myForm->isSubmited() && $myForm->isValid()) {
             $values = $myForm->getValues();
             if (!empty($values['password2']) && !empty($values['password3'])) {
-                $plainPassword =  $values['password2'];
+                $plainPassword = $values['password2'];
                 $values[GenerisRdf::PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($values['password2']);
             }
 
@@ -372,12 +375,14 @@ class tao_actions_Users extends tao_actions_CommonModule
 
             if ($binder->bind($values)) {
                 $data = [];
-                if (isset($plainPassword)){
+                if (isset($plainPassword)) {
                     $data = ['hashForKey' => UserHashForEncryption::hash($plainPassword)];
                 }
-                $this->getEventManager()->trigger(new UserUpdatedEvent(
+                $this->getEventManager()->trigger(
+                    new UserUpdatedEvent(
                     $user,
-                    array_merge($values, $data))
+                    array_merge($values, $data)
+                )
                 );
                 $this->setData('message', __('User saved'));
             }
@@ -467,5 +472,4 @@ class tao_actions_Users extends tao_actions_CommonModule
     {
         return $this->getServiceLocator()->get(UserLocks::SERVICE_ID);
     }
-
 }

@@ -26,9 +26,9 @@ class ArrayImportValueMapper extends ConfigurableService implements ImportValueM
 {
     use LoggerAwareTrait;
 
-    const OPTION_DELIMITER = 'delimiter';
+    public const OPTION_DELIMITER = 'delimiter';
 
-    const OPTION_VALUE_MAPPER = 'valueMapper';
+    public const OPTION_VALUE_MAPPER = 'valueMapper';
 
     /** @var common_report_Report */
     protected $report;
@@ -38,20 +38,20 @@ class ArrayImportValueMapper extends ConfigurableService implements ImportValueM
      */
     public function map($value)
     {
-        $mapValues   = [];
-        $delimiter   = $this->getOption(static::OPTION_DELIMITER);
+        $mapValues = [];
+        $delimiter = $this->getOption(static::OPTION_DELIMITER);
         $valueMapper = $this->getOption(static::OPTION_VALUE_MAPPER);
-        $values      = explode($delimiter, $value);
+        $values = explode($delimiter, $value);
 
         $this->report = common_report_Report::createInfo();
 
         foreach ($values as $value) {
             if ($valueMapper instanceof ImportValueMapperInterface) {
                 $valueToBeMapped = $this->mapValueThroughMapper($valueMapper, $value);
-                if (!is_null($valueToBeMapped)){
+                if (!is_null($valueToBeMapped)) {
                     $mapValues[] = $valueToBeMapped;
                 }
-            }else{
+            } else {
                 $mapValues[] = $value;
             }
         }

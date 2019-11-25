@@ -21,7 +21,7 @@
 
 namespace oat\tao\model\requiredAction;
 
-use \Exception;
+use Exception;
 
 /**
  * Class RequiredAction

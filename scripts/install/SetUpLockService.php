@@ -35,10 +35,9 @@ class SetUpLockService extends ScriptAction
 {
     public function run()
     {
-
         $this->checkPersistance();
         $service = new LockService([
-            LockService::OPTION_PERSISTENCE_CLASS   => RedisStore::class,
+            LockService::OPTION_PERSISTENCE_CLASS => RedisStore::class,
             LockService::OPTION_PERSISTENCE_OPTIONS => $this->getOption('persistence'),
         ]);
         $this->getServiceManager()->register(LockService::SERVICE_ID, $service);
@@ -54,15 +53,15 @@ class SetUpLockService extends ScriptAction
     {
         return [
             'persistence' => array(
-                'prefix'      => 'p',
-                'longPrefix'  => 'persistence',
-                'required'    => true,
+                'prefix' => 'p',
+                'longPrefix' => 'persistence',
+                'required' => true,
                 'description' => 'Redis persistence for lock service',
             ),
-            'verbose'     => array(
-                'prefix'      => 'v',
-                'longPrefix'  => 'verbose',
-                'flag'        => true,
+            'verbose' => array(
+                'prefix' => 'v',
+                'longPrefix' => 'verbose',
+                'flag' => true,
                 'description' => 'Output the log as command output.',
             ),
         ];

@@ -20,6 +20,7 @@
 
 namespace oat\tao\test\unit\model\taskQueue;
 
+use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
 use oat\tao\model\taskQueue\Task\AbstractTask;
 use oat\tao\model\taskQueue\TaskLog;
@@ -30,7 +31,6 @@ use oat\tao\model\taskQueue\TaskLog\TaskLogCollection;
 use oat\tao\model\taskQueue\TaskLog\TasksLogsStats;
 use oat\tao\model\taskQueue\TaskLogInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use oat\generis\test\MockObject;
 
 class TaskLogTest extends TestCase
 {
@@ -107,7 +107,8 @@ class TaskLogTest extends TestCase
 
         $taskLogMock->expects($this->once())
             ->method('getBroker')
-            ->willReturn($logBrokerMock);;
+            ->willReturn($logBrokerMock);
+        ;
 
         $taskLogMock->add($taskMock, 'enqueued');
     }
@@ -309,5 +310,9 @@ class TaskLogTest extends TestCase
     }
 }
 
-class StubTaskChild extends StubTaskParent {}
-abstract class StubTaskParent {}
+class StubTaskChild extends StubTaskParent
+{
+}
+abstract class StubTaskParent
+{
+}

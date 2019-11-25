@@ -18,9 +18,9 @@
  *
  */
 
-use oat\tao\test\TaoPhpUnitTestRunner;
-use oat\tao\model\extension\UpdateLogger;
 use oat\oatbox\filesystem\Directory;
+use oat\tao\model\extension\UpdateLogger;
+use oat\tao\test\TaoPhpUnitTestRunner;
 
 /**
  * @package tao
@@ -51,5 +51,4 @@ class UpdateLoggerTest extends TaoPhpUnitTestRunner
         $this->assertFalse(strpos($content, 'WeirdString'));
         $this->assertNotFalse(strpos($content, 'SampleError'));
     }
-
 }

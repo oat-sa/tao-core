@@ -27,8 +27,7 @@ use oat\tao\model\websource\WebsourceManager;
 
 class ThemeRegistry extends AbstractRegistry
 {
-
-    const WEBSOURCE = 'websource_';
+    public const WEBSOURCE = 'websource_';
 
     /**
      *
@@ -65,7 +64,7 @@ class ThemeRegistry extends AbstractRegistry
     public function setDefaultTheme($target, $themeId)
     {
         $theme = $this->getTheme($target, $themeId);
-        if(!is_null($theme)){
+        if (!is_null($theme)) {
             $array = $this->get($target);
             $array['default'] = $themeId;
             $this->set($target, $array);
@@ -80,11 +79,11 @@ class ThemeRegistry extends AbstractRegistry
      * @return array
      * @throws \common_Exception
      */
-    private function getTheme($target, $themeId){
-
+    private function getTheme($target, $themeId)
+    {
         $returnValue = null;
-        if(!$this->isRegistered($target)){
-            throw new \common_Exception('Target '.$target.' does not exist');
+        if (!$this->isRegistered($target)) {
+            throw new \common_Exception('Target ' . $target . ' does not exist');
         } else {
             $array = $this->get($target);
             $found = false;
@@ -96,7 +95,7 @@ class ThemeRegistry extends AbstractRegistry
                 }
             }
             if (!$found) {
-                throw new ThemeNotFoundException('Theme '.$themeId.' not found for target '.$target);
+                throw new ThemeNotFoundException('Theme ' . $themeId . ' not found for target ' . $target);
             }
         }
         return $returnValue;
@@ -105,17 +104,18 @@ class ThemeRegistry extends AbstractRegistry
     /**
      * Get the default theme array
      */
-    public function getDefaultTheme($target){
+    public function getDefaultTheme($target)
+    {
         $defaultTheme = null;
-        if(!$this->isRegistered($target)){
-            throw new \common_Exception('Target '.$target.' does not exist');
+        if (!$this->isRegistered($target)) {
+            throw new \common_Exception('Target ' . $target . ' does not exist');
         } else {
             $array = $this->get($target);
-            if(isset($array['default'])){
+            if (isset($array['default'])) {
                 $themeId = $array['default'];
-                try{
+                try {
                     $defaultTheme = $this->getTheme($target, $themeId);
-                }catch(Exception $e){
+                } catch (Exception $e) {
                     //not found
                     $defaultTheme = null;
                 }
@@ -133,13 +133,12 @@ class ThemeRegistry extends AbstractRegistry
      */
     public function createTarget($targetId, $base)
     {
-
-        if(!is_string($base) && !is_array($base)){
+        if (!is_string($base) && !is_array($base)) {
             throw new \common_Exception('Invalid base format');
         }
 
         $array = array(
-            'base'  => $base,
+            'base' => $base,
             'available' => array()
         );
         $this->set($targetId, $array);
@@ -156,25 +155,24 @@ class ThemeRegistry extends AbstractRegistry
      * @param array $targets
      * @throws \common_Exception
      */
-    public function registerTheme($id, $name, $path = '', $targets = array(), $templates = array() )
+    public function registerTheme($id, $name, $path = '', $targets = array(), $templates = array())
     {
         if (preg_match('/^[a-zA-Z0-9]*$/', $id) === 0) {
-            throw new \common_Exception('Invalid id "'.$id.'"');
+            throw new \common_Exception('Invalid id "' . $id . '"');
         }
-        if (!is_array($targets) || count($targets) === 0){
-            throw new \common_Exception('No targets were provided for theme '.$id);
+        if (!is_array($targets) || count($targets) === 0) {
+            throw new \common_Exception('No targets were provided for theme ' . $id);
         }
 
         foreach ($targets as $target) {
-            if(!$this->isRegistered($target)){
-                throw new \common_Exception('Target '.$target.' does not exist');
+            if (!$this->isRegistered($target)) {
+                throw new \common_Exception('Target ' . $target . ' does not exist');
             } else {
-
                 $array = $this->get($target);
 
                 foreach ($array['available'] as $theme) {
                     if ($theme['id'] == $id) {
-                        throw new \common_Exception('Theme '.$id.' already exists for target '.$target);
+                        throw new \common_Exception('Theme ' . $id . ' already exists for target ' . $target);
                     }
                 }
 
@@ -184,14 +182,14 @@ class ThemeRegistry extends AbstractRegistry
                 );
 
                 //the path is optional
-                if($path){
+                if ($path) {
                     $theme['path'] = $path;
                 }
 
                 //register templates
-                if(is_array($templates) && count($templates) > 0){
+                if (is_array($templates) && count($templates) > 0) {
                     $theme['templates'] = array();
-                    foreach($templates as $templateId => $tpl){
+                    foreach ($templates as $templateId => $tpl) {
                         $theme['templates'][$templateId] = $tpl;
                     }
                 }
@@ -212,7 +210,7 @@ class ThemeRegistry extends AbstractRegistry
     public function unregisterTheme($id)
     {
         if (preg_match('/^[a-zA-Z0-9]*$/', $id) === 0) {
-            throw new \common_Exception('Invalid id "'.$id.'"');
+            throw new \common_Exception('Invalid id "' . $id . '"');
         }
 
         $isDeleted = false;
@@ -229,8 +227,8 @@ class ThemeRegistry extends AbstractRegistry
             $this->set($target, $themes);
         }
 
-        if ( !$isDeleted ){
-            throw new ThemeNotFoundException('Theme '.$id.' not found for any target');
+        if (!$isDeleted) {
+            throw new ThemeNotFoundException('Theme ' . $id . ' not found for any target');
         }
     }
 
@@ -238,15 +236,14 @@ class ThemeRegistry extends AbstractRegistry
      * @param $theme
      * @return mixed
      */
-    private function updatePath($theme){
-
-        if(isset($theme['path'])){
-            if(strpos($theme['path'] , ThemeRegistry::WEBSOURCE) === 0) {
+    private function updatePath($theme)
+    {
+        if (isset($theme['path'])) {
+            if (strpos($theme['path'], ThemeRegistry::WEBSOURCE) === 0) {
                 $websource = WebsourceManager::singleton()->getWebsource($this->get(ThemeRegistry::WEBSOURCE));
-                $webUrl = $websource->getAccessUrl(substr($theme['path'],strlen(ThemeRegistry::WEBSOURCE)));
+                $webUrl = $websource->getAccessUrl(substr($theme['path'], strlen(ThemeRegistry::WEBSOURCE)));
                 $theme['path'] = $webUrl;
-            }
-            else {
+            } else {
                 $assetService = $this->getServiceManager()->get(AssetService::SERVICE_ID);
                 $theme['path'] = $assetService->getAsset($theme['path']);
             }
@@ -261,12 +258,12 @@ class ThemeRegistry extends AbstractRegistry
      * @param string $path
      * @return string
      */
-    private function resolveStylesheetUrl($path){
+    private function resolveStylesheetUrl($path)
+    {
         $websource = WebsourceManager::singleton()->getWebsource($this->get(ThemeRegistry::WEBSOURCE));
-        if(strpos($path , ThemeRegistry::WEBSOURCE) === 0) {
-                return $websource->getAccessUrl(substr($path, strlen(ThemeRegistry::WEBSOURCE)));
-        }
-        else {
+        if (strpos($path, ThemeRegistry::WEBSOURCE) === 0) {
+            return $websource->getAccessUrl(substr($path, strlen(ThemeRegistry::WEBSOURCE)));
+        } else {
             $assetService = $this->getServiceManager()->get(AssetService::SERVICE_ID);
             return $assetService->getAsset($path);
         }
@@ -279,8 +276,9 @@ class ThemeRegistry extends AbstractRegistry
      * @param string $tpl
      * @return string
      */
-    private function resolveTemplatePath($tpl){
-        return ROOT_PATH.$tpl;
+    private function resolveTemplatePath($tpl)
+    {
+        return ROOT_PATH . $tpl;
     }
 
     /**
@@ -290,26 +288,23 @@ class ThemeRegistry extends AbstractRegistry
      * @return mixed
      * @throws common_Exception
      */
-    private function getResolvedBase($target){
-
+    private function getResolvedBase($target)
+    {
         $base = null;
         $array = $this->get($target);
 
-        if(is_string($array['base'])){
+        if (is_string($array['base'])) {
             $assetService = $this->getServiceManager()->get(AssetService::SERVICE_ID);
             $base = $assetService->getAsset($array['base']);
-
-        } else if(is_array($array['base'])){
-
+        } elseif (is_array($array['base'])) {
             $base = array(
                 'css' => $this->resolveStylesheetUrl($array['base']['css']),
                 'templates' => array()
             );
 
-            foreach($array['base']['templates'] as $id => $path){
+            foreach ($array['base']['templates'] as $id => $path) {
                 $base['templates'][$id] = $this->resolveTemplatePath($path);
             }
-
         } else {
             throw new common_Exception('invalid type for theme base');
         }
@@ -325,11 +320,10 @@ class ThemeRegistry extends AbstractRegistry
      */
     public function getAvailableThemes()
     {
-
         $returnValue = array();
         foreach ($this->getMap() as $target => $value) {
             //ugly
-            if($target == ThemeRegistry::WEBSOURCE) {
+            if ($target == ThemeRegistry::WEBSOURCE) {
                 continue;
             }
             //retrieve all other value
@@ -355,9 +349,10 @@ class ThemeRegistry extends AbstractRegistry
      * @param string $templateId
      * @return string
      */
-    public function getTemplate($target, $themeId, $templateId){
+    public function getTemplate($target, $themeId, $templateId)
+    {
         $theme = $this->getTheme($target, $themeId);
-        if(isset($theme['templates']) && isset($theme['templates'][$templateId])){
+        if (isset($theme['templates']) && isset($theme['templates'][$templateId])) {
             return $this->resolveTemplatePath($theme['templates'][$templateId]);
         }
         return null;
@@ -371,9 +366,10 @@ class ThemeRegistry extends AbstractRegistry
      * @param string $themeId
      * @return string
      */
-    public function getStylesheet($target, $themeId){
+    public function getStylesheet($target, $themeId)
+    {
         $theme = $this->getTheme($target, $themeId);
-        if(isset($theme['path'])){
+        if (isset($theme['path'])) {
             return $this->resolveStylesheetUrl($theme['path']);
         }
         return null;//not found
@@ -387,9 +383,10 @@ class ThemeRegistry extends AbstractRegistry
      * @param string $templateId
      * @return string
      */
-    public function getBaseTemplate($target, $templateId){
+    public function getBaseTemplate($target, $templateId)
+    {
         $base = $this->getResolvedBase($target);
-        if(is_array($base) && isset($base['templates']) && isset($base['templates'][$templateId])){
+        if (is_array($base) && isset($base['templates']) && isset($base['templates'][$templateId])) {
             return $base['templates'][$templateId];
         }
         return null;
@@ -402,11 +399,12 @@ class ThemeRegistry extends AbstractRegistry
      * @param string $target
      * @return string
      */
-    public function getBaseStylesheet($target){
+    public function getBaseStylesheet($target)
+    {
         $base = $this->getResolvedBase($target);
-        if(is_string($base)){
+        if (is_string($base)) {
             return $base;
-        }else if(is_array($base) && isset($base['css'])){
+        } elseif (is_array($base) && isset($base['css'])) {
             return $base['css'];
         }
         return null;

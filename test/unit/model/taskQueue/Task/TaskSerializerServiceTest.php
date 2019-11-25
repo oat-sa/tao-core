@@ -60,7 +60,8 @@ class TaskSerializerServiceTest extends TestCase
 
         $action
             ->method('resolve')
-            ->willReturn(function (){});
+            ->willReturn(function () {
+            });
 
         return $action;
     }

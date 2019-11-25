@@ -29,7 +29,8 @@ use tao_helpers_Uri;
  */
 class UrlHelper extends ConfigurableService
 {
-    public function buildUrl($action = null, $module = null, $extension = null, $params = array()){
+    public function buildUrl($action = null, $module = null, $extension = null, $params = array())
+    {
         return tao_helpers_Uri::url($action, $module, $extension, $params);
     }
 }

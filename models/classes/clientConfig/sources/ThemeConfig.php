@@ -22,17 +22,19 @@ namespace oat\tao\model\clientConfig\sources;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\clientConfig\ClientConfig;
 use oat\tao\model\ThemeRegistry;
+
 /**
- * 
+ *
  * @author Joel Bout
  */
-class ThemeConfig extends ConfigurableService implements ClientConfig {
-
+class ThemeConfig extends ConfigurableService implements ClientConfig
+{
     /**
      * (non-PHPdoc)
      * @see \oat\tao\model\clientConfig\ClientConfig::getConfig()
      */
-    public function getConfig() {
+    public function getConfig()
+    {
         return ThemeRegistry::getRegistry()->getAvailableThemes();
     }
 }

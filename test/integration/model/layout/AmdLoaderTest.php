@@ -19,9 +19,8 @@
  */
 namespace oat\tao\test\integration\model\layout;
 
-use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\tao\model\layout\AmdLoader;
-
+use oat\tao\test\TaoPhpUnitTestRunner;
 
 /**
  * Test case for oat\tao\model\layout\AmdLoader
@@ -35,10 +34,10 @@ class LayoutTest extends TaoPhpUnitTestRunner
      *
      * @dataProvider amdLoaderProvider
      */
-    public function testAmdLoader($configUrl, $requireJsUrl, $bootstrapUrl, $bundle, $controller, $params, $result){
-
+    public function testAmdLoader($configUrl, $requireJsUrl, $bootstrapUrl, $bundle, $controller, $params, $result)
+    {
         $loader = new AmdLoader($configUrl, $requireJsUrl, $bootstrapUrl);
-        if($bundle){
+        if ($bundle) {
             $this->assertEquals($loader->getBundleLoader($bundle, $controller, $params), $result);
         } else {
             $this->assertEquals($loader->getDynamicLoader($controller, $params), $result);
@@ -48,7 +47,8 @@ class LayoutTest extends TaoPhpUnitTestRunner
     /**
      * Provides data for the testAmdLoader case
      */
-    public function amdLoaderProvider(){
+    public function amdLoaderProvider()
+    {
         return [
             ['tao/Config/config', 'lib/require.js', 'loader/bootstrap', 'loader/main.min.js', 'controller/main', null,
              '<script id="amd-loader" data-config="tao/Config/config" src="loader/main.min.js" data-controller="controller/main"></script>'],

@@ -20,7 +20,6 @@
  */
 namespace oat\tao\model\routing;
 
-
 use Doctrine\Common\Annotations\AnnotationReader;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\routing\AnnotationReader\requiredRights;
@@ -30,11 +29,11 @@ use ReflectionMethod;
 
 class AnnotationReaderService extends ConfigurableService
 {
-    const SERVICE_ID = 'tao/AnnotationReaderService';
+    public const SERVICE_ID = 'tao/AnnotationReaderService';
 
-    const KEY_PREFIX = 'routeAnnotation_';
-    const PROP_RIGHTS = 'required_rights';
-    const PROP_SECURITY = 'security';
+    public const KEY_PREFIX = 'routeAnnotation_';
+    public const PROP_RIGHTS = 'required_rights';
+    public const PROP_SECURITY = 'security';
 
     /**
      * @var \common_cache_Cache
@@ -81,10 +80,10 @@ class AnnotationReaderService extends ConfigurableService
             }
             foreach ($annotations as $annotation) {
                 switch (get_class($annotation)) {
-                    case requiredRights::class :
+                    case requiredRights::class:
                         $rules[self::PROP_RIGHTS][] = (array) $annotation;
                         break;
-                    case security::class :
+                    case security::class:
                         $rules[self::PROP_SECURITY][] = $annotation->value;
                         break;
                 }

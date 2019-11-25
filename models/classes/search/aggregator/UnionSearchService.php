@@ -35,7 +35,7 @@ use oat\tao\model\search\Search;
  */
 class UnionSearchService extends ConfigurableService implements UnionSearchInterface
 {
-    const OPTION_SERVICES = 'services';
+    public const OPTION_SERVICES = 'services';
 
     public function getInternalServices()
     {

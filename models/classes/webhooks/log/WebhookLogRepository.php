@@ -31,25 +31,25 @@ class WebhookLogRepository extends ConfigurableService implements WebhookLogRepo
     /** @var \common_persistence_SqlPersistence|null */
     private $persistence;
 
-    const OPTION_PERSISTENCE = 'persistence';
+    public const OPTION_PERSISTENCE = 'persistence';
 
     /**
      * Constants for the database creation and data access
      */
-    const TABLE_NAME = 'webhook_event_log';
-    const COLUMN_ID = 'id';
-    const COLUMN_EVENT_ID = 'event_id';
-    const COLUMN_TASK_ID = 'task_id';
-    const COLUMN_WEBHOOK_ID = 'webhook_id';
-    const COLUMN_HTTP_METHOD = 'http_method';
-    const COLUMN_ENDPOINT_URL = 'endpoint_url';
-    const COLUMN_EVENT_NAME = 'event_name';
-    const COLUMN_HTTP_STATUS_CODE = 'http_status_code';
-    const COLUMN_RESPONSE_BODY = 'response_body';
-    const COLUMN_ACKNOWLEDGEMENT_STATUS = 'acknowledgement_status';
-    const COLUMN_CREATED_AT = 'created_at';
-    const COLUMN_RESULT = 'result';
-    const COLUMN_RESULT_MESSAGE = 'result_message';
+    public const TABLE_NAME = 'webhook_event_log';
+    public const COLUMN_ID = 'id';
+    public const COLUMN_EVENT_ID = 'event_id';
+    public const COLUMN_TASK_ID = 'task_id';
+    public const COLUMN_WEBHOOK_ID = 'webhook_id';
+    public const COLUMN_HTTP_METHOD = 'http_method';
+    public const COLUMN_ENDPOINT_URL = 'endpoint_url';
+    public const COLUMN_EVENT_NAME = 'event_name';
+    public const COLUMN_HTTP_STATUS_CODE = 'http_status_code';
+    public const COLUMN_RESPONSE_BODY = 'response_body';
+    public const COLUMN_ACKNOWLEDGEMENT_STATUS = 'acknowledgement_status';
+    public const COLUMN_CREATED_AT = 'created_at';
+    public const COLUMN_RESULT = 'result';
+    public const COLUMN_RESULT_MESSAGE = 'result_message';
 
     /**
      * @return \common_persistence_SqlPersistence

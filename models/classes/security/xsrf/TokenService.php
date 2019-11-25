@@ -22,8 +22,8 @@ namespace oat\tao\model\security\xsrf;
 use common_exception_Unauthorized;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\security\TokenGenerator;
 use oat\oatbox\service\exception\InvalidService;
+use oat\tao\model\security\TokenGenerator;
 
 /**
  * This service let's you manage tokens to protect against XSRF.
@@ -41,22 +41,22 @@ class TokenService extends ConfigurableService
     use TokenGenerator;
     use LoggerAwareTrait;
 
-    const SERVICE_ID = 'tao/security-xsrf-token';
+    public const SERVICE_ID = 'tao/security-xsrf-token';
 
     // options keys
-    const POOL_SIZE_OPT = 'poolSize';
-    const TIME_LIMIT_OPT = 'timeLimit';
-    const OPTION_STORE = 'store';
+    public const POOL_SIZE_OPT = 'poolSize';
+    public const TIME_LIMIT_OPT = 'timeLimit';
+    public const OPTION_STORE = 'store';
 
-    const DEFAULT_POOL_SIZE = 6;
-    const DEFAULT_TIME_LIMIT = 0;
+    public const DEFAULT_POOL_SIZE = 6;
+    public const DEFAULT_TIME_LIMIT = 0;
 
-    const CSRF_TOKEN_HEADER = 'X-CSRF-Token';
-    const FORM_POOL = 'form_pool';
-    const JS_DATA_KEY = 'tokenHandler';
-    const JS_TOKEN_KEY = 'tokens';
-    const JS_TOKEN_POOL_SIZE_KEY = 'maxSize';
-    const JS_TOKEN_TIME_LIMIT_KEY = 'tokenTimeLimit';
+    public const CSRF_TOKEN_HEADER = 'X-CSRF-Token';
+    public const FORM_POOL = 'form_pool';
+    public const JS_DATA_KEY = 'tokenHandler';
+    public const JS_TOKEN_KEY = 'tokens';
+    public const JS_TOKEN_POOL_SIZE_KEY = 'maxSize';
+    public const JS_TOKEN_TIME_LIMIT_KEY = 'tokenTimeLimit';
 
     /**
      * Generates, stores and return a brand new token

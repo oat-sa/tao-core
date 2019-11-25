@@ -25,7 +25,7 @@ use oat\oatbox\PhpSerializable;
 
 class MenuElement
 {
-    const SERIAL_VERSION = 1392821334;
+    public const SERIAL_VERSION = 1392821334;
     
     protected $id;
     

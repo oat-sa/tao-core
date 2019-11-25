@@ -10,7 +10,6 @@ use oat\tao\model\metadata\injector\Injector;
 
 class OntologyMetadataTest extends TestCase
 {
-
     public function testImport()
     {
         try {
@@ -42,7 +41,6 @@ class OntologyMetadataTest extends TestCase
         } catch (\Exception $e) {
             $this->fail('Import method fail with message: ' . $e->getMessage());
         }
-
     }
 
     protected function getResourceMockery()
@@ -63,7 +61,7 @@ class OntologyMetadataTest extends TestCase
 
         $injector->expects($this->any())
             ->method('read')
-            ->willReturn(['label'=>'labelFixture']);
+            ->willReturn(['label' => 'labelFixture']);
 
         $injector->expects($this->any())
             ->method('write')
@@ -161,7 +159,7 @@ class OntologyMetadataTest extends TestCase
     {
         $path = __DIR__ . '/../../../export/samples/withColNames.csv';
         $resource = fopen($path, 'r');
-        if (! $resource) {
+        if (!$resource) {
             $this->fail('Unable to open csv sample.');
         }
         return $resource;
@@ -173,5 +171,8 @@ class OntologyMetadataTest extends TestCase
  */
 class MockeryTest_MetadataOntologyImport extends OntologyMetadataImporter
 {
-    public function getInjectors() { return parent::getInjectors(); }
+    public function getInjectors()
+    {
+        return parent::getInjectors();
+    }
 }

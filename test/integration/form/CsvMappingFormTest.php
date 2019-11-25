@@ -9,7 +9,6 @@ class CsvMappingFormTest extends GenerisPhpUnitTestRunner
 {
     public function testMapping()
     {
-
         $csv_column = array('login', 'password', 'title', 'last-name', 'firstname', 'gender', 'mail', 'token', 'abelabel');
 
         $properties = tao_helpers_Uri::encodeArray(array(
@@ -42,6 +41,5 @@ class CsvMappingFormTest extends GenerisPhpUnitTestRunner
         $this->assertEquals('6_O', $form->getElement('http_2_www_0_tao_0_lu_1_Ontologies_1_generis_0_rdf_3_userMail')->getEvaluatedValue());
         $this->assertEquals('csv_select', $form->getElement('http_2_www_0_tao_0_lu_1_Ontologies_1_generis_0_rdf_3_userUILg')->getEvaluatedValue());
         $this->assertEquals('csv_select', $form->getElement('http_2_www_0_tao_0_lu_1_Ontologies_1_generis_0_rdf_3_passwordRecoveryToken')->getEvaluatedValue());
-
     }
 }

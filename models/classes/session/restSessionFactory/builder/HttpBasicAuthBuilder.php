@@ -20,8 +20,8 @@
 
 namespace oat\tao\model\session\restSessionFactory\builder;
 
+use oat\oatbox\user\LoginFailedException;
 use oat\tao\model\session\restSessionFactory\SessionBuilder;
-use \oat\oatbox\user\LoginFailedException;
 
 class HttpBasicAuthBuilder implements SessionBuilder
 {
@@ -49,5 +49,4 @@ class HttpBasicAuthBuilder implements SessionBuilder
         $user = $authAdapter->authenticate();
         return new \common_session_RestSession($user);
     }
-
 }

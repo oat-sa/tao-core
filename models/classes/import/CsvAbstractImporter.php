@@ -31,7 +31,6 @@ use oat\generis\model\GenerisRdf;
  */
 abstract class CsvAbstractImporter
 {
-
     protected $validators = array();
 
 
@@ -44,7 +43,8 @@ abstract class CsvAbstractImporter
      *
      * @return array
      */
-    protected function getExludedProperties() {
+    protected function getExludedProperties()
+    {
         return array();
     }
 
@@ -57,7 +57,8 @@ abstract class CsvAbstractImporter
      *
      * @return array
      */
-    protected function getStaticData() {
+    protected function getStaticData()
+    {
         return array();
     }
 
@@ -71,7 +72,8 @@ abstract class CsvAbstractImporter
      * @see tao_helpers_data_GenerisAdapterCsv
      * @return array
      */
-    protected function getAdditionAdapterOptions() {
+    protected function getAdditionAdapterOptions()
+    {
         return array();
     }
 
@@ -116,7 +118,6 @@ abstract class CsvAbstractImporter
 
             return array_fill(0, $csv_data->getColumnCount(), null);
         }
-
     }
 
     /**
@@ -168,7 +169,7 @@ abstract class CsvAbstractImporter
             throw new \BadFunctionCallException("Import file is missing");
         }
 
-        if(!isset($options['staticMap']) || !is_array($options['staticMap'])){
+        if (!isset($options['staticMap']) || !is_array($options['staticMap'])) {
             $options['staticMap'] = $this->getStaticData();
         } else {
             $options['staticMap'] = array_merge($options['staticMap'], $this->getStaticData());
@@ -186,5 +187,4 @@ abstract class CsvAbstractImporter
         }
         return $report;
     }
-
 }

@@ -22,9 +22,9 @@ namespace oat\tao\model\maintenance;
 
 class MaintenanceStorage
 {
-    const LAST_MODE = 'last';
+    public const LAST_MODE = 'last';
 
-    const PREFIX = 'maintenance_';
+    public const PREFIX = 'maintenance_';
 
     /**
      * Driver to access KeyValue storage
@@ -94,7 +94,7 @@ class MaintenanceStorage
     public function getCurrentPlatformState()
     {
         $data = json_decode($this->getDriver()->get(self::PREFIX . self::LAST_MODE), true);
-        if (! $data) {
+        if (!$data) {
             throw new \common_exception_NotFound();
         }
         return new MaintenanceState($data);
@@ -108,10 +108,9 @@ class MaintenanceStorage
      */
     protected function getDriver()
     {
-        if (! $this->driver) {
+        if (!$this->driver) {
             throw new \common_Exception(__('Maintenance storage driver is not set'));
         }
         return $this->driver;
     }
-
 }

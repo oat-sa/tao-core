@@ -140,7 +140,7 @@ class RdsUserImportServiceTest extends TestCase
                             'http://www.tao.lu/Ontologies/generis.rdf#userDefLg' => 'http://www.tao.lu/Ontologies/TAO.rdf#Langda-EN',
                             'http://www.tao.lu/Ontologies/generis.rdf#userFirstName' => 'user first name1',
                             'http://www.tao.lu/Ontologies/generis.rdf#userLastName' => 'user last name1',
-                            'http://www.tao.lu/Ontologies/generis.rdf#userMail' => 'user@mail.com1',],
+                            'http://www.tao.lu/Ontologies/generis.rdf#userMail' => 'user@mail.com1', ],
                     ],
                     [
                         'results' => [ 'one'],

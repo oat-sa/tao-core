@@ -20,21 +20,21 @@
  */
 namespace oat\tao\test\integration\routing;
 
+use common_ext_ExtensionsManager as ExtensionsManager;
+use common_ext_Manifest as Manifest;
+use common_http_Request;
 use oat\generis\test\GenerisPhpUnitTestRunner;
 use oat\tao\model\routing\Resolver;
 use oat\tao\test\integration\routing\samples\FooControllerA;
-use common_ext_Manifest as Manifest;
-use common_ext_ExtensionsManager as ExtensionsManager;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use common_http_Request;
 
 /**
  * Class ResolverTest
  * @package oat\tao\test\integration\routing
  * @author Aleh Hutnikau, <hutnikau@1pt.com>
  */
-class ResolverTest extends GenerisPhpUnitTestRunner {
-
+class ResolverTest extends GenerisPhpUnitTestRunner
+{
     public function testGetExtensionId()
     {
         $serviceLocator = $this->getServiceManager();
@@ -131,7 +131,7 @@ class ResolverTest extends GenerisPhpUnitTestRunner {
                 ['foo', $fooExt],
             ]));
 
-        $serviceLocatorMock =  $this->getServiceLocatorMock([
+        $serviceLocatorMock = $this->getServiceLocatorMock([
             ExtensionsManager::SERVICE_ID => $extensionsManagerMock
         ]);
 

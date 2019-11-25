@@ -32,7 +32,6 @@ use Slim\Http\Request;
  */
 class DatatableRequestTest extends TestCase
 {
-
     public function setUp()
     {
         parent::setUp();
@@ -77,7 +76,6 @@ class DatatableRequestTest extends TestCase
      */
     public function testGetSortBy($env, $result)
     {
-
         $request = Request::createFromEnvironment($env);
         $datatableRequest = new DatatableRequest($request);
 
@@ -93,7 +91,6 @@ class DatatableRequestTest extends TestCase
      */
     public function testGetSortOrder($env, $result)
     {
-
         $request = Request::createFromEnvironment($env);
         $datatableRequest = new DatatableRequest($request);
 
@@ -109,7 +106,6 @@ class DatatableRequestTest extends TestCase
      */
     public function testGetFilters($env, $result)
     {
-
         $request = Request::createFromEnvironment($env);
         $datatableRequest = new DatatableRequest($request);
 

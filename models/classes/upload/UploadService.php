@@ -20,7 +20,6 @@
 
 namespace oat\tao\model\upload;
 
-
 use oat\generis\model\fileReference\UrlFileSerializer;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\filesystem\Directory;
@@ -33,9 +32,9 @@ use tao_helpers_File;
 
 class UploadService extends ConfigurableService
 {
-    const SERVICE_ID = 'tao/upload';
+    public const SERVICE_ID = 'tao/upload';
 
-    static public $tmpFilesystemId = 'sharedTmp';
+    public static $tmpFilesystemId = 'sharedTmp';
     private $uriSerializer;
 
 
@@ -56,7 +55,7 @@ class UploadService extends ConfigurableService
         $name = array_key_exists('name', $postedFile) ? $postedFile['name'] : uniqid('unknown_', false);
         $extension = pathinfo($name, PATHINFO_EXTENSION);
 
-        $targetName     = uniqid('tmp', true) . '.' . $extension;
+        $targetName = uniqid('tmp', true) . '.' . $extension;
         $targetLocation = tao_helpers_File::concat([$folder, $targetName]);
 
         $file = $this->getUploadDir()->getFile($this->getUserDirectoryHash() . $targetLocation);
@@ -164,8 +163,7 @@ class UploadService extends ConfigurableService
             }
 
             $path .= $fakeFile->getBasename();
-        }
-        else {
+        } else {
             $path .= $serial;
         }
 
@@ -189,8 +187,10 @@ class UploadService extends ConfigurableService
         if (($resource = fopen($tmpName, 'wb')) !== false) {
             stream_copy_to_stream($file->readStream(), $resource);
             fclose($resource);
-            $this->getServiceLocator()->get(EventManager::CONFIG_ID)->trigger(new UploadLocalCopyCreatedEvent($file,
-                $tmpName));
+            $this->getServiceLocator()->get(EventManager::CONFIG_ID)->trigger(new UploadLocalCopyCreatedEvent(
+                $file,
+                $tmpName
+            ));
             return $tmpName;
         }
         throw new \common_Exception('Impossible to make local file copy at ' . $tmpName);
@@ -219,7 +219,6 @@ class UploadService extends ConfigurableService
         $storage = TempFlyStorageAssociation::getStorage();
 
         if ($file instanceof File) {
-
             $storedLocalTmps = $storage->getLocalCopies($file);
             foreach ((array)$storedLocalTmps as $tmp) {
                 tao_helpers_File::remove($tmp);
@@ -264,5 +263,4 @@ class UploadService extends ConfigurableService
 
         return false;
     }
-
 }

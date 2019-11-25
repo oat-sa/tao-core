@@ -86,7 +86,7 @@ trait TaskLogActionTrait
             throw new \common_exception_BadRequest("Wrong task type");
         }
 
-        $result['id']     = $this->getTaskId($taskLogEntity);
+        $result['id'] = $this->getTaskId($taskLogEntity);
         $result['status'] = $this->getTaskStatus($taskLogEntity);
         $result['report'] = $taskLogEntity->getReport() ? $this->getTaskReport($taskLogEntity) : [];
 
@@ -178,7 +178,7 @@ trait TaskLogActionTrait
 
         foreach ($plainReports as $r) {
             $reports[] = [
-                'type'    => $r->getType(),
+                'type' => $r->getType(),
                 'message' => $r->getMessage(),
             ];
         }

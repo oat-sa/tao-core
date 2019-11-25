@@ -52,23 +52,23 @@ use oat\tao\helpers\Template;
 class ConfigurableTheme extends Configurable implements Theme
 {
     /** Theme id offset in the options. */
-    const THEME_ID    = 'id';
+    public const THEME_ID = 'id';
 
     /** Theme label offset in the options. */
-    const THEME_LABEL = 'label';
+    public const THEME_LABEL = 'label';
 
     /** Theme data offset in the options. */
-    const THEME_DATA  = 'data';
+    public const THEME_DATA = 'data';
 
     /** Theme css offset in the options. */
-    const THEME_CSS   = 'stylesheet';
+    public const THEME_CSS = 'stylesheet';
 
     /** Theme data logo url offset in the options under the data offset. */
-    const THEME_DATA_LOGO_URL = 'logo-url';
+    public const THEME_DATA_LOGO_URL = 'logo-url';
     /** Theme data logo link offset in the options under the data offset. */
-    const THEME_DATA_LINK     = 'link';
+    public const THEME_DATA_LINK = 'link';
     /** Theme data logo title offset in the options under the data offset. */
-    const THEME_DATA_MESSAGE  = 'message';
+    public const THEME_DATA_MESSAGE = 'message';
 
     /**
      * Defined custom texts
@@ -93,7 +93,8 @@ class ConfigurableTheme extends Configurable implements Theme
      * @param String $key
      * @return string
      */
-    public function getText($key) {
+    public function getText($key)
+    {
         if (empty($this->allTexts)) {
             $this->allTexts = $this->initializeTexts();
         }
@@ -107,10 +108,11 @@ class ConfigurableTheme extends Configurable implements Theme
      * @param String[] $allKeys
      * @return array
      */
-    public function getTextFromArray($allKeys) {
+    public function getTextFromArray($allKeys)
+    {
         $allValues = [];
-        if (is_array($allKeys) && ! empty($allKeys)) {
-            forEach ($allKeys as $key) {
+        if (is_array($allKeys) && !empty($allKeys)) {
+            foreach ($allKeys as $key) {
                 $allValues[$key] = $this->getText($key);
             }
         }
@@ -121,7 +123,8 @@ class ConfigurableTheme extends Configurable implements Theme
      * Retrieve all existing strings
      * @return array
      */
-    public function getAllTexts() {
+    public function getAllTexts()
+    {
         if (empty($this->allTexts)) {
             $this->allTexts = $this->initializeTexts();
         }
@@ -138,17 +141,17 @@ class ConfigurableTheme extends Configurable implements Theme
     public function getTemplate($id, $context = Theme::CONTEXT_BACKOFFICE)
     {
         switch ($id) {
-            case 'header-logo' :
+            case 'header-logo':
                 $template = Template::getTemplate('blocks/header-logo.tpl', 'tao');
                 break;
-            case 'footer' :
+            case 'footer':
                 $template = Template::getTemplate('blocks/footer.tpl', 'tao');
                 break;
-            case 'login-message' :
+            case 'login-message':
                 $template = Template::getTemplate('blocks/login-message.tpl', 'tao');
                 break;
             default:
-                \common_Logger::w('Unknown template '.$id);
+                \common_Logger::w('Unknown template ' . $id);
                 $template = null;
         }
         return $template;
@@ -195,7 +198,7 @@ class ConfigurableTheme extends Configurable implements Theme
         $data = $this->getThemeData();
         if (isset($data[static::THEME_DATA_LOGO_URL])) {
             return $data[static::THEME_DATA_LOGO_URL];
-        } 
+        }
         
         return Template::img('tao-logo.png', 'tao');
     }

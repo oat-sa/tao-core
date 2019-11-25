@@ -21,9 +21,9 @@ namespace oat\tao\test\unit\model\mvc\error;
 
 use ActionEnforcingException;
 use Exception;
+use oat\generis\test\TestCase;
 use oat\oatbox\user\LoginFailedException;
 use oat\tao\model\mvc\error\ExceptionInterpretor;
-use oat\generis\test\TestCase;
 use ResolverException;
 use tao_models_classes_FileNotFoundException;
 use tao_models_classes_UserException;
@@ -35,7 +35,6 @@ use tao_models_classes_UserException;
  */
 class ExceptionInterpreterTest extends TestCase
 {
-
     public function interpretErrorProvider()
     {
         $action = 'test';
@@ -82,7 +81,6 @@ class ExceptionInterpreterTest extends TestCase
         $exception = new Exception();
         $this->assertSame($ExceptionInterpretor, $ExceptionInterpretor->setException($exception));
         $this->assertSame($exception, $this->getInaccessibleProperty($ExceptionInterpretor, 'exception'));
-
     }
 
     public function testGetHttpCode()

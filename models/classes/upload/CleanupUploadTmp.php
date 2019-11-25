@@ -20,11 +20,11 @@
 
 namespace oat\tao\model\upload;
 
+use oat\oatbox\action\Action;
 use oat\oatbox\filesystem\Directory;
 use oat\oatbox\filesystem\File;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ConfigurableService;
-use oat\oatbox\action\Action;
 
 /**
  * Remove all stored at tmp space files
@@ -60,19 +60,24 @@ class CleanupUploadTmp extends ConfigurableService implements Action
                 $dirs++;
             }
 
-            $report->add(new \common_report_Report(\common_report_Report::TYPE_SUCCESS,
-                __('Removing: %s', $fileInfo['path'])));
+            $report->add(new \common_report_Report(
+                \common_report_Report::TYPE_SUCCESS,
+                __('Removing: %s', $fileInfo['path'])
+            ));
         }
 
         $report->add(new \common_report_Report(\common_report_Report::TYPE_SUCCESS, __('Total:')));
         $report->add(new \common_report_Report(\common_report_Report::TYPE_SUCCESS, __('Removed %s files', $files)));
-        $report->add(new \common_report_Report(\common_report_Report::TYPE_SUCCESS,
-            __('Removed %s directories', $dirs)));
+        $report->add(new \common_report_Report(
+            \common_report_Report::TYPE_SUCCESS,
+            __('Removed %s directories', $dirs)
+        ));
 
-        $report->add(new \common_report_Report(\common_report_Report::TYPE_SUCCESS,
-            __('Cleaning up tmp space complete')));
+        $report->add(new \common_report_Report(
+            \common_report_Report::TYPE_SUCCESS,
+            __('Cleaning up tmp space complete')
+        ));
 
         return $report;
     }
-
 }

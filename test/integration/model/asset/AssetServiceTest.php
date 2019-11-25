@@ -23,7 +23,6 @@ use oat\generis\test\GenerisPhpUnitTestRunner;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\service\ApplicationService;
 
-
 /**
  * Test case for the Service {@link oat\tao\model\asset\AssetService}
  *
@@ -31,7 +30,7 @@ use oat\tao\model\service\ApplicationService;
  */
 class AssetServiceTest extends GenerisPhpUnitTestRunner
 {
-    const TEST_TAO_VERSION = 'TEST_TAO_VERSION';
+    public const TEST_TAO_VERSION = 'TEST_TAO_VERSION';
 
     /**
      * Test the method AssetService->getAsset
@@ -49,7 +48,7 @@ class AssetServiceTest extends GenerisPhpUnitTestRunner
         ]);
 
         $options = [
-            'base'   => $baseUrl,
+            'base' => $baseUrl,
             'buster' => $buster
         ];
 
@@ -59,20 +58,20 @@ class AssetServiceTest extends GenerisPhpUnitTestRunner
         $url = $assetService->getAsset($path, $extension);
 
         $this->assertEquals($expected, $url, 'The asset URL matches');
-
     }
 
     /**
      * The testGetAsset data provider
      * @return array[] the test data set
      */
-    public function getAssetProvider(){
+    public function getAssetProvider()
+    {
         return [
             ['https://test.taotesting.com', '7654321', 'css/tao-main-style.css', 'tao', 'https://test.taotesting.com/tao/views/css/tao-main-style.css?buster=7654321'],
             ['https://test.taotesting.com/', 'AF034B', 'js/lib/require.js', 'tao', 'https://test.taotesting.com/tao/views/js/lib/require.js?buster=AF034B'],
             ['https://test.taotesting.com/', 'AF034B', 'tao/views/js/lib/require.js', null, 'https://test.taotesting.com/tao/views/js/lib/require.js?buster=AF034B'],
             ['https://test.taotesting.com/', 'éHo?/©', 'js/core/eventifier.js', 'tao', 'https://test.taotesting.com/tao/views/js/core/eventifier.js?buster=%C3%A9Ho%3F%2F%C2%A9'],
-            ['https://test.taotesting.com', null, 'tao/views/js/lib/require.js', null, 'https://test.taotesting.com/tao/views/js/lib/require.js?buster='.urlencode(self::TEST_TAO_VERSION)],
+            ['https://test.taotesting.com', null, 'tao/views/js/lib/require.js', null, 'https://test.taotesting.com/tao/views/js/lib/require.js?buster=' . urlencode(self::TEST_TAO_VERSION)],
             ['https://test.taotesting.com', false, 'css/tao-main-style.css', 'tao', 'https://test.taotesting.com/tao/views/css/tao-main-style.css'],
             ['https://test.taotesting.com', '7654321', 'js/path/to/library/', 'tao', 'https://test.taotesting.com/tao/views/js/path/to/library/']
         ];

@@ -20,6 +20,7 @@
  */
 
 namespace oat\tao\model\requiredAction;
+
 use oat\oatbox\PhpSerializable;
 
 /**
@@ -65,5 +66,4 @@ interface RequiredActionInterface extends PhpSerializable
      * @return boolean
      */
     public function mustBeExecuted();
-
 }

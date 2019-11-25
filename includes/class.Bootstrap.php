@@ -19,6 +19,7 @@
  *
  */
 use oat\tao\model\mvc\Bootstrap as MvcBootstrap;
+
 /**
  * The generis extension loader is included there ONCE!
  *  1. Load and initialize the API and so the database
@@ -48,14 +49,14 @@ require_once __DIR__ . '/../../vendor/autoload.php';
  *  $bootStrap->dispatch();				//dispatch the http request into the control loop
  * </code>
  */
-class Bootstrap extends MvcBootstrap {
-    
-    public function __construct($extName) {
-        $configFile = dirname(dirname(__DIR__)).DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'generis.conf.php';
+class Bootstrap extends MvcBootstrap
+{
+    public function __construct($extName)
+    {
+        $configFile = dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'generis.conf.php';
         parent::__construct($configFile);
         
         // load extension constants
         common_ext_ExtensionsManager::singleton()->getExtensionById($extName);
     }
-    
 }

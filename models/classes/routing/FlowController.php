@@ -1,19 +1,19 @@
 <?php
-/*  
+/*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2006-2009 (original work) Public Research Centre Henri Tudor (under the project FP6-IST-PALETTE);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  *               2014      (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
@@ -21,17 +21,17 @@
 
 namespace oat\tao\model\routing;
 
-use common_http_Request;
 use common_ext_ExtensionsManager;
-use InterruptedActionException;
+use common_http_Request;
 use Context;
 use FlowController as ClearFwFlowController;
+use InterruptedActionException;
 use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\ServiceManagerAwareTrait;
 
 /**
  * The FlowController helps you to navigate through MVC actions.
- * 
+ *
  * @author Jérôme Bogaerts <jerome.bogaerts@tudor.lu> <jerome.bogaerts@gmail.com>
  * @author Bertrand Chevrier <Bertrand@taotestin.com>
  */
@@ -42,7 +42,7 @@ class FlowController extends ClearFwFlowController implements ServiceManagerAwar
     /**
      * This header is added to the response to inform the client a forward occurs
      */
-    const FORWARD_HEADER = 'X-Tao-Forward';
+    public const FORWARD_HEADER = 'X-Tao-Forward';
 
 
     /**
@@ -50,7 +50,8 @@ class FlowController extends ClearFwFlowController implements ServiceManagerAwar
      * The forward runs into tha same HTTP request unlike redirect.
      * @param string $url the url to forward to
      */
-    public function forwardUrl($url){
+    public function forwardUrl($url)
+    {
 
         //get the current request
         $request = common_http_Request::currentRequest();
@@ -59,11 +60,11 @@ class FlowController extends ClearFwFlowController implements ServiceManagerAwar
         //parse the given URL
         $parsedUrl = parse_url($url);
 
-        //if new parameters are given, then merge them 
-        if(isset($parsedUrl['query']) && strlen($parsedUrl['query']) > 0){
+        //if new parameters are given, then merge them
+        if (isset($parsedUrl['query']) && strlen($parsedUrl['query']) > 0) {
             $newParams = array();
             parse_str($parsedUrl['query'], $newParams);
-            if(count($newParams) > 0){
+            if (count($newParams) > 0) {
                 $params = array_merge($params, $newParams);
             }
         }
@@ -72,7 +73,7 @@ class FlowController extends ClearFwFlowController implements ServiceManagerAwar
         $resolver = new Resolver(new common_http_Request($parsedUrl['path'], $request->getMethod(), $params));
         $this->propagate($resolver);
 
-	    $context = Context::getInstance();
+        $context = Context::getInstance();
 
         // load the responsible extension
         common_ext_ExtensionsManager::singleton()->getExtensionById($resolver->getExtensionId());
@@ -80,13 +81,13 @@ class FlowController extends ClearFwFlowController implements ServiceManagerAwar
         //update the context to the new route
         $context->setExtensionName($resolver->getExtensionId());
         $context->setModuleName($resolver->getControllerShortName());
-		$context->setActionName($resolver->getMethodName());
-        if(count($params) > 0){
+        $context->setActionName($resolver->getMethodName());
+        if (count($params) > 0) {
             $context->getRequest()->addParameters($params);
         }
 
         //add a custom header so the client knows where the route ends
-        header(self::FORWARD_HEADER . ': ' . $resolver->getExtensionId() . '/' .  $resolver->getControllerShortName() . '/' . $resolver->getMethodName());
+        header(self::FORWARD_HEADER . ': ' . $resolver->getExtensionId() . '/' . $resolver->getControllerShortName() . '/' . $resolver->getMethodName());
 
         //execite the new action
         $enforcer = new ActionEnforcer($resolver->getExtensionId(), $resolver->getControllerClass(), $resolver->getMethodName(), $params);
@@ -94,10 +95,11 @@ class FlowController extends ClearFwFlowController implements ServiceManagerAwar
         $enforcer->execute();
 
         //should not be reached
-        throw new InterruptedActionException('Interrupted action after a forward',
-                                             $context->getModuleName(),
-                                             $context->getActionName());
-                
+        throw new InterruptedActionException(
+            'Interrupted action after a forward',
+            $context->getModuleName(),
+            $context->getActionName()
+        );
     }
 
     /**
@@ -108,10 +110,9 @@ class FlowController extends ClearFwFlowController implements ServiceManagerAwar
      * @param string $extension the name of the new extension
      * @param array $params additional parameters
      */
-	public function forward($action, $controller = null, $extension = null, $params = array())
-	{
-        //as we use a route resolver, it's easier to rebuild the URL to resolve it 
+    public function forward($action, $controller = null, $extension = null, $params = array())
+    {
+        //as we use a route resolver, it's easier to rebuild the URL to resolve it
         $this->forwardUrl(\tao_helpers_Uri::url($action, $controller, $extension, $params));
-	}
-
+    }
 }

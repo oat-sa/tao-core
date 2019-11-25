@@ -89,10 +89,10 @@ trait HttpFlowTrait
         }
 
         switch ($this->getPsrRequest()->getMethod()) {
-            case 'GET' :
+            case 'GET':
                 $params = $this->getPsrRequest()->getQueryParams();
                 break;
-            case 'POST' :
+            case 'POST':
                 $params = $this->getPsrRequest()->getParsedBody();
                 break;
             default:
@@ -132,7 +132,7 @@ trait HttpFlowTrait
             $request,
             $this->response->withHeader(
                 'X-Tao-Forward',
-                $resolver->getExtensionId() . '/' .  $resolver->getControllerShortName() . '/' . $resolver->getMethodName()
+                $resolver->getExtensionId() . '/' . $resolver->getControllerShortName() . '/' . $resolver->getMethodName()
             )
         );
 

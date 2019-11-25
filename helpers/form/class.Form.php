@@ -38,7 +38,6 @@
  */
 abstract class tao_helpers_form_Form
 {
-
     /**
      * the form name
      *
@@ -351,7 +350,7 @@ abstract class tao_helpers_form_Form
             }
         }
         if ($returnValue === null) {
-            common_Logger::w('Action with name \''.$name.'\' not found');
+            common_Logger::w('Action with name \'' . $name . '\' not found');
         }
 
         return $returnValue;
@@ -404,7 +403,7 @@ abstract class tao_helpers_form_Form
 
 
         if (array_key_exists($type, $this->decorators)) {
-            $returnValue  = $this->decorators[$type];
+            $returnValue = $this->decorators[$type];
         }
 
 
@@ -501,12 +500,11 @@ abstract class tao_helpers_form_Form
             foreach ($group['elements'] as $elementName) {
                 if ($this->getElementGroup($elementName) === $groupName && $element = $this->getElement($elementName)) {
                     if ($this->getDecorator() !== null) {
-
                         $returnValue .= $this->getDecorator()->preRender();
                     }
 
                     //render element
-                    if (! $this->isValid() && $element->getError()) {
+                    if (!$this->isValid() && $element->getError()) {
                         $element->addClass('error');
                     }
                     $returnValue .= $element->render();
@@ -741,13 +739,13 @@ abstract class tao_helpers_form_Form
             } elseif (is_string($element)) {
                 $identifier[] = $element;
             } else {
-                throw new common_Exception('Unknown element of type '.gettype($element).' in '.__FUNCTION__);
+                throw new common_Exception('Unknown element of type ' . gettype($element) . ' in ' . __FUNCTION__);
             }
         }
         $this->groups[$groupName] = [
-            'title'    => empty($groupTitle) ? $groupName : $groupTitle,
+            'title' => empty($groupTitle) ? $groupName : $groupTitle,
             'elements' => $identifier,
-            'options'  => $options
+            'options' => $options
         ];
     }
 
@@ -776,7 +774,7 @@ abstract class tao_helpers_form_Form
      */
     protected function getElementGroup($elementName)
     {
-        $returnValue =  '';
+        $returnValue = '';
 
         foreach ($this->groups as $groupName => $group) {
             if (in_array($elementName, $group['elements'])) {

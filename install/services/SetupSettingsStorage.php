@@ -21,7 +21,6 @@
 
 namespace oat\tao\install\services;
 
-
 use oat\oatbox\extension\InstallAction;
 use oat\tao\model\settings\CspHeaderSettingsInterface;
 use oat\tao\model\settings\SettingsStorageInterface;

@@ -22,7 +22,6 @@ namespace oat\tao\test\unit\helpers;
 
 use oat\generis\test\TestCase;
 
-
 class ArrayHelperTest extends TestCase
 {
     /**
@@ -36,19 +35,19 @@ class ArrayHelperTest extends TestCase
 
     public function arrayProvider()
     {
-        $objectA = new myFakeObject(1,2,3);
-        $objectB = new myFakeObject(4,5,6);
-        $objectC = new myFakeObject('abc','def','ghi');
-        $objectD = new myFakeObject('plop','test','foo');
-        $objectDPrime = new myFakeObject('plop','test','foo');
+        $objectA = new myFakeObject(1, 2, 3);
+        $objectB = new myFakeObject(4, 5, 6);
+        $objectC = new myFakeObject('abc', 'def', 'ghi');
+        $objectD = new myFakeObject('plop', 'test', 'foo');
+        $objectDPrime = new myFakeObject('plop', 'test', 'foo');
         return [
-            [[$objectA, $objectB, $objectA, $objectD], [$objectA, $objectB, 3=>$objectD]],
-            [[$objectA, 3=>$objectB, $objectD, $objectDPrime], [$objectA, 3=>$objectB, $objectD]],
+            [[$objectA, $objectB, $objectA, $objectD], [$objectA, $objectB, 3 => $objectD]],
+            [[$objectA, 3 => $objectB, $objectD, $objectDPrime], [$objectA, 3 => $objectB, $objectD]],
             [[$objectA, $objectB, $objectC, $objectD, $objectA, $objectB, $objectC, $objectD], [$objectA, $objectB, $objectC, $objectD]],
             [[], []],
             [[$objectC, $objectC, $objectC, $objectC], [$objectC]],
-            [[2=>$objectC, 3=>$objectC, 56=>$objectC, 42=>$objectC], [2=>$objectC]],
-            [['aaa'=>$objectA, 'bbb'=>$objectB, 'ccc'=>$objectC, 42=>$objectC], ['aaa'=>$objectA, 'bbb'=>$objectB, 'ccc'=>$objectC]],
+            [[2 => $objectC, 3 => $objectC, 56 => $objectC, 42 => $objectC], [2 => $objectC]],
+            [['aaa' => $objectA, 'bbb' => $objectB, 'ccc' => $objectC, 42 => $objectC], ['aaa' => $objectA, 'bbb' => $objectB, 'ccc' => $objectC]],
         ];
     }
     
@@ -749,7 +748,8 @@ class ArrayHelperTest extends TestCase
     }
 }
 
-class myFakeObject{
+class myFakeObject
+{
     private $a;
     private $b;
     private $c;
@@ -761,28 +761,31 @@ class myFakeObject{
         $this->c = $c;
     }
 
-    public function __equals($object){
-
-        if($object instanceof myFakeObject){
-            if($this->a === $object->getA()
+    public function __equals($object)
+    {
+        if ($object instanceof myFakeObject) {
+            if ($this->a === $object->getA()
             && $this->b === $object->getB()
             && $this->c === $object->getC()
-            ){
+            ) {
                 return true;
             }
         }
         return false;
     }
 
-    public function getA(){
+    public function getA()
+    {
         return $this->a;
     }
 
-    public function getB(){
+    public function getB()
+    {
         return $this->b;
     }
 
-    public function getC(){
+    public function getC()
+    {
         return $this->c;
     }
 }

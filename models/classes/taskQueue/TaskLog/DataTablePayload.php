@@ -21,8 +21,8 @@
 namespace oat\tao\model\taskQueue\TaskLog;
 
 use oat\tao\model\datatable\DatatablePayload as DataTablePayloadInterface;
-use oat\tao\model\datatable\implementation\DatatableRequest;
 use oat\tao\model\datatable\DatatableRequest as DatatableRequestInterface;
+use oat\tao\model\datatable\implementation\DatatableRequest;
 use oat\tao\model\taskQueue\TaskLog\Broker\TaskLogBrokerInterface;
 use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
 
@@ -117,11 +117,11 @@ class DataTablePayload implements DataTablePayloadInterface, \Countable
         $customisedData = $this->getCustomisedData($collection);
 
         $data = [
-            'rows'    => $limit,
-            'page'    => $page,
-            'amount'  => count($collection),
-            'total'   => ceil($countTotal / $limit),
-            'data'    => $customisedData ?: $collection->toArray(),
+            'rows' => $limit,
+            'page' => $page,
+            'amount' => count($collection),
+            'total' => ceil($countTotal / $limit),
+            'data' => $customisedData ?: $collection->toArray(),
         ];
 
         return $data;
@@ -147,7 +147,6 @@ class DataTablePayload implements DataTablePayloadInterface, \Countable
                 } else {
                     $data[] = array_merge($taskLogEntity->toArray(), $customizedPayload);
                 }
-
             }
         }
 

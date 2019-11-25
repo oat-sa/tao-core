@@ -19,8 +19,8 @@
  */
 namespace oat\tao\scripts\install;
 
-use oat\tao\model\ClientLibConfigRegistry;
 use oat\oatbox\extension\InstallAction;
+use oat\tao\model\ClientLibConfigRegistry;
 
 /**
  * Defines the default client logger config
@@ -32,9 +32,10 @@ class SetClientLoggerConfig extends InstallAction
     {
         ClientLibConfigRegistry::getRegistry()->remove('core/logger');
         ClientLibConfigRegistry::getRegistry()->register(
-            'core/logger', [
+            'core/logger',
+            [
                 'level' => 'warn',
-                'loggers' =>  [
+                'loggers' => [
                     'core/logger/console' => [
                         'level' => 'warn',
                     ]

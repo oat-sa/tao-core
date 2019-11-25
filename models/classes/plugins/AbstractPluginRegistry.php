@@ -25,7 +25,7 @@ use oat\tao\model\modules\AbstractModuleRegistry;
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
- * @deprecated Still exists for compatibility reason. Should be replaced by AbstractModuleRegistry  
+ * @deprecated Still exists for compatibility reason. Should be replaced by AbstractModuleRegistry
  */
 abstract class AbstractPluginRegistry extends AbstractModuleRegistry
 {

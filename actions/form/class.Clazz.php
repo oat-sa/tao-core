@@ -29,8 +29,7 @@ use oat\generis\model\OntologyRdfs;
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
  */
-class tao_actions_form_Clazz
-    extends tao_helpers_form_FormContainer
+class tao_actions_form_Clazz extends tao_helpers_form_FormContainer
 {
     /**
      * @var core_kernel_classes_Class
@@ -57,9 +56,9 @@ class tao_actions_form_Clazz
      * @param array $propertyData
      * @param string $propertyMode
      */
-    public function __construct( core_kernel_classes_Class $clazz, $classData, $propertyData, $propertyMode)
+    public function __construct(core_kernel_classes_Class $clazz, $classData, $propertyData, $propertyMode)
     {
-        $this->clazz 	= $clazz;
+        $this->clazz = $clazz;
         $this->propertyData = $propertyData;
         $this->propertyMode = $propertyMode;
         parent::__construct($classData);
@@ -122,7 +121,7 @@ class tao_actions_form_Clazz
         $this->form = tao_helpers_form_FormFactory::getForm($name, $this->options);
 
         //add property action in toolbar
-        $actions     = tao_helpers_form_FormFactory::getCommonActions();
+        $actions = tao_helpers_form_FormFactory::getCommonActions();
         $propertyElt = tao_helpers_form_FormFactory::getElement('property', 'Free');
         $propertyElt->setValue(
             "<a href='#' class='btn-info property-adder small'><span class='icon-property-add'></span> " . __('Add property') . "</a>"
@@ -131,11 +130,10 @@ class tao_actions_form_Clazz
 
         //property mode
         $propModeELt = tao_helpers_form_FormFactory::getElement('propMode', 'Free');
-        if($this->propertyMode == 'advanced'){
-            $propModeELt->setValue("<a href='#' class='btn-info property-mode small property-mode-simple'><span class='icon-property-advanced'></span> ".__('Simple Mode')."</a>");
-        }
-        else{
-            $propModeELt->setValue("<a href='#' class='btn-info property-mode small property-mode-advanced'><span class='icon-property-advanced'></span> ".__('Advanced Mode')."</a>");
+        if ($this->propertyMode == 'advanced') {
+            $propModeELt->setValue("<a href='#' class='btn-info property-mode small property-mode-simple'><span class='icon-property-advanced'></span> " . __('Simple Mode') . "</a>");
+        } else {
+            $propModeELt->setValue("<a href='#' class='btn-info property-mode small property-mode-advanced'><span class='icon-property-advanced'></span> " . __('Advanced Mode') . "</a>");
         }
 
         $actions[] = $propModeELt;
@@ -148,8 +146,6 @@ class tao_actions_form_Clazz
 
         $this->form->setActions($actions, 'top');
         $this->form->setActions($actions, 'bottom');
-
-
     }
 
     /**
@@ -161,8 +157,6 @@ class tao_actions_form_Clazz
      */
     protected function initElements()
     {
-
-
         $clazz = $this->getClassInstance();
 
         //add a group form for the class edition
@@ -225,13 +219,12 @@ class tao_actions_form_Clazz
 
         foreach ($classProperties as $classProperty) {
             $i++;
-            $useEditor = (boolean)preg_match("/^" . preg_quote($localNamespace, '/') . "/", $classProperty->getUri());
+            $useEditor = (bool)preg_match("/^" . preg_quote($localNamespace, '/') . "/", $classProperty->getUri());
             
             $parentProp = true;
-            $domains    = $classProperty->getDomain();
+            $domains = $classProperty->getDomain();
             foreach ($domains->getIterator() as $domain) {
-
-                if (array_search($classProperty->getUri(), $systemProperties) !== false || $domain->getUri() == $clazz->getUri() ) {
+                if (array_search($classProperty->getUri(), $systemProperties) !== false || $domain->getUri() == $clazz->getUri()) {
                     $parentProp = false;
                     //@todo use the getPrivileges method once implemented
                     break;
@@ -239,11 +232,10 @@ class tao_actions_form_Clazz
             }
 
             if ($useEditor) {
-
                 $propData = array();
                 if (isset($this->propertyData[$classProperty->getUri()])) {
                     foreach ($this->propertyData[$classProperty->getUri()] as $key => $value) {
-                        $propData[$i.'_'.$key] = $value;
+                        $propData[$i . '_' . $key] = $value;
                     }
                 }
 
@@ -277,7 +269,6 @@ class tao_actions_form_Clazz
 
         $keys = array_filter(array_keys($constants['user']), function ($key) {
             return strstr($key, 'PROPERTY') !== false;
-
         });
 
         return array_intersect_key($constants['user'], array_flip($keys));

@@ -19,14 +19,13 @@
 
 namespace oat\tao\test\unit\webhooks\task;
 
-
+use oat\generis\test\MockObject;
 use oat\tao\model\auth\AbstractAuthType;
 use PHPUnit_Framework_MockObject_Generator;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
-use oat\generis\test\MockObject;
 
 class AuthTypeFake extends AbstractAuthType implements ServiceLocatorAwareInterface
 {

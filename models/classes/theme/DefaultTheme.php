@@ -50,5 +50,4 @@ class DefaultTheme extends ConfigurableTheme
     {
         return Template::css('tao-3.css', 'tao');
     }
-
 }

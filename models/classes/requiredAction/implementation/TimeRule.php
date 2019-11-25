@@ -21,11 +21,11 @@
 
 namespace oat\tao\model\requiredAction\implementation;
 
-use oat\tao\model\requiredAction\RequiredActionRuleInterface;
-use oat\tao\model\requiredAction\RequiredActionInterface;
-use \DateTime;
-use \DateInterval;
+use DateInterval;
+use DateTime;
 use oat\oatbox\user\User;
+use oat\tao\model\requiredAction\RequiredActionInterface;
+use oat\tao\model\requiredAction\RequiredActionRuleInterface;
 
 /**
  * Class TimeRule
@@ -33,10 +33,10 @@ use oat\oatbox\user\User;
  */
 class TimeRule implements RequiredActionRuleInterface
 {
-    const CLASS_URI = 'http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionTimeRule';
-    const PROPERTY_NAME = 'http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionName';
-    const PROPERTY_EXECUTION_TIME = 'http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionExecutionTime';
-    const PROPERTY_SUBJECT = 'http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionSubject';
+    public const CLASS_URI = 'http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionTimeRule';
+    public const PROPERTY_NAME = 'http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionName';
+    public const PROPERTY_EXECUTION_TIME = 'http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionExecutionTime';
+    public const PROPERTY_SUBJECT = 'http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionSubject';
 
     /**
      * @var string|DateTime
@@ -133,7 +133,7 @@ class TimeRule implements RequiredActionRuleInterface
 
         if ($lastExecution === null && !$anonymous) {
             $result = true;
-        } elseif($lastExecution !== null && $interval !== null && !$anonymous) {
+        } elseif ($lastExecution !== null && $interval !== null && !$anonymous) {
             $mustBeExecutedAt = clone($lastExecution);
             $mustBeExecutedAt->add($interval);
             $now = new DateTime('now');

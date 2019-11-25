@@ -20,23 +20,23 @@
 
 namespace oat\tao\scripts\tools;
 
-use \common_report_Report as Report;
+use common_report_Report as Report;
 use oat\oatbox\action\Action;
 
 /**
  * CSV Info Script.
- * 
+ *
  * This script aims at providing information about a CSV file:
- * 
+ *
  * - Number of rows
  * - Number of columns
  * - Wheter or not rows all have the same number of columns.
- * 
+ *
  * Please note that this script expects a default CSV delimiters format.
  * You can reconfigure these delimiters using the oat\tao\scripts\tools\CsvReconfigure
- * 
+ *
  * Parameter 1: The either absolute or relative path to the source CSV file.
- * 
+ *
  */
 class CsvInfo implements Action
 {
@@ -60,7 +60,7 @@ class CsvInfo implements Action
         
         $sourceFp = @fopen($source, 'r');
         
-         if ($sourceFp === false) {
+        if ($sourceFp === false) {
             return new Report(
                 Report::TYPE_ERROR,
                 "Source file '${source}' could not be open."
@@ -117,7 +117,6 @@ class CsvInfo implements Action
                     )
                 );
             }
-            
         } else {
             $report->add(
                 new Report(

@@ -19,9 +19,9 @@
 
 namespace oat\tao\test\unit\user\import;
 
+use oat\generis\test\TestCase;
 use oat\tao\model\import\service\ImportServiceInterface;
 use oat\tao\model\user\import\UserCsvImporterFactory;
-use oat\generis\test\TestCase;
 
 class UserCsvImporterFactoryTest extends TestCase
 {
@@ -29,7 +29,7 @@ class UserCsvImporterFactoryTest extends TestCase
     {
         /** @var UserCsvImporterFactory $factory */
         $factory = $this->getMockBuilder(UserCsvImporterFactory::class)->disableOriginalConstructor()
-            ->setMethods(['buildService','getOption', 'propagate'])->getMock();
+            ->setMethods(['buildService', 'getOption', 'propagate'])->getMock();
 
         $factory
             ->method('buildService')
@@ -37,8 +37,8 @@ class UserCsvImporterFactoryTest extends TestCase
 
         $factory->expects($this->any())
             ->method('getOption')
-            ->will($this->returnCallback(function ($prop){
-                switch ($prop){
+            ->will($this->returnCallback(function ($prop) {
+                switch ($prop) {
                     case 'mappers':
                         return array(
                             'test-taker' => array(

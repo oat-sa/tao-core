@@ -20,13 +20,13 @@
 
 namespace oat\tao\test\integration\model\resources;
 
-use oat\tao\test\TaoPhpUnitTestRunner;
-
-use oat\tao\model\resources\ResourceIterator;
-use oat\generis\model\OntologyRdfs;
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
-use oat\search\helper\SupportedOperatorHelper;
+
+use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ServiceManager;
+use oat\search\helper\SupportedOperatorHelper;
+use oat\tao\model\resources\ResourceIterator;
+use oat\tao\test\TaoPhpUnitTestRunner;
 
 /**
  * Class ResourceIteratorTest
@@ -35,7 +35,6 @@ use oat\oatbox\service\ServiceManager;
  */
 class ResourceIteratorTest extends TaoPhpUnitTestRunner
 {
-
     public function tearDown()
     {
         $this->removeResources();
@@ -122,7 +121,7 @@ class ResourceIteratorTest extends TaoPhpUnitTestRunner
     {
         $classes = $this->getClasses();
         for ($i = 1; $i <= $amount; $i++) {
-            $classes[$i%2]->createInstance($i);
+            $classes[$i % 2]->createInstance($i);
         }
     }
 

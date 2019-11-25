@@ -20,10 +20,10 @@
 
 namespace oat\tao\test\integration\import;
 
-use oat\tao\test\TaoPhpUnitTestRunner;
+use oat\oatbox\service\ServiceManager;
 use oat\tao\model\import\ImportersService;
 use oat\tao\test\integration\import\samples\FakeImporter;
-use oat\oatbox\service\ServiceManager;
+use oat\tao\test\TaoPhpUnitTestRunner;
 
 /**
  * Class ImportersServiceTest
@@ -33,7 +33,6 @@ use oat\oatbox\service\ServiceManager;
  */
 class ImportersServiceTest extends TaoPhpUnitTestRunner
 {
-
     public function testGetImporter()
     {
         $importersService = new ImportersService([

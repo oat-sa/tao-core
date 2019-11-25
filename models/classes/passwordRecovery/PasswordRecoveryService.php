@@ -5,26 +5,26 @@
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
- *               
+ *
  */
 
 namespace oat\tao\model\passwordRecovery;
 
 use oat\generis\model\GenerisRdf;
 use oat\tao\helpers\Template;
-use oat\tao\model\messaging\MessagingService;
 use oat\tao\model\messaging\Message;
+use oat\tao\model\messaging\MessagingService;
 
 /**
  * Password recovery service
@@ -35,8 +35,7 @@ use oat\tao\model\messaging\Message;
  */
 class PasswordRecoveryService extends \tao_models_classes_Service
 {
-
-    const PROPERTY_PASSWORD_RECOVERY_TOKEN = 'http://www.tao.lu/Ontologies/generis.rdf#passwordRecoveryToken';
+    public const PROPERTY_PASSWORD_RECOVERY_TOKEN = 'http://www.tao.lu/Ontologies/generis.rdf#passwordRecoveryToken';
     
     /**
      * @var MessagingService
@@ -45,7 +44,7 @@ class PasswordRecoveryService extends \tao_models_classes_Service
     
     /**
      * Send email message with password recovery instructions.
-     * 
+     *
      * @author Aleh Hutnikau <hutnikau@1pt.com>
      * @param core_kernel_classes_Resource $user The user has requested password recovery.
      * @return boolean Whether message was sent.
@@ -85,7 +84,7 @@ class PasswordRecoveryService extends \tao_models_classes_Service
         $class = new \core_kernel_classes_Class(GenerisRdf::CLASS_GENERIS_USER);
 
         $users = \tao_models_classes_UserService::singleton()->searchInstances(
-            array($property => $value), 
+            array($property => $value),
             $class,
             array('like' => false, 'recursive' => true)
         );
@@ -114,7 +113,7 @@ class PasswordRecoveryService extends \tao_models_classes_Service
      * @param core_kernel_classes_Resource $user
      * @param string $newPassword New password value
      */
-    public function setPassword(\core_kernel_classes_Resource $user, $newPassword) 
+    public function setPassword(\core_kernel_classes_Resource $user, $newPassword)
     {
         \tao_models_classes_UserService::singleton()->setPassword($user, $newPassword);
         $this->deleteToken($user);
@@ -122,7 +121,7 @@ class PasswordRecoveryService extends \tao_models_classes_Service
     
     /**
      * Delete password recovery token.
-     * 
+     *
      * @param \core_kernel_classes_Resource $user
      * @return boolean
      */
@@ -134,13 +133,13 @@ class PasswordRecoveryService extends \tao_models_classes_Service
     
     /**
      * Get messaging service
-     * 
+     *
      * @return MessagingService
      */
     public function getMessagingService()
     {
         if (is_null($this->messagingSerivce)) {
-            $this->messagingSerivce = MessagingService::singleton(); 
+            $this->messagingSerivce = MessagingService::singleton();
         }
         return $this->messagingSerivce;
     }
@@ -154,7 +153,7 @@ class PasswordRecoveryService extends \tao_models_classes_Service
      *     'link'=>$this->getPasswordRecoveryLink($user)
      * ));
      * </pre>
-     * 
+     *
      * @author Aleh Hutnikau <hutnikau@1pt.com>
      * @param array $messageData
      * @return string Message content
@@ -171,7 +170,7 @@ class PasswordRecoveryService extends \tao_models_classes_Service
 
     /**
      * Get password recovery link.
-     * 
+     *
      * @author Aleh Hutnikau <hutnikau@1pt.com>
      * @param core_kernel_classes_Resource $user The user has requested password recovery.
      * @return string Password recovery link.
@@ -183,9 +182,9 @@ class PasswordRecoveryService extends \tao_models_classes_Service
     }
 
     /**
-     * Generate password recovery token. 
+     * Generate password recovery token.
      * If user already has passwordRecoveryToken property then it will be replaced.
-     * 
+     *
      * @author Aleh Hutnikau <hutnikau@1pt.com>
      * @param core_kernel_classes_Resource $user The user has requested password recovery.
      * @return string Password recovery token.
@@ -201,5 +200,3 @@ class PasswordRecoveryService extends \tao_models_classes_Service
         return $token;
     }
 }
-
-?>

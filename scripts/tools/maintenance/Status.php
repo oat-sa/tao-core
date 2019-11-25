@@ -63,5 +63,4 @@ class Status implements Action, ServiceLocatorAwareInterface
     {
         return $this->getServiceLocator()->get(Maintenance::SERVICE_ID);
     }
-
 }

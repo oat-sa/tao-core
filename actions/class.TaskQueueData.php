@@ -19,10 +19,10 @@
  */
 
 
-use oat\tao\model\TaskQueueActionTrait;
+use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\task\Queue;
 use oat\oatbox\task\Task;
-use oat\oatbox\filesystem\FileSystemService;
+use oat\tao\model\TaskQueueActionTrait;
 
 /**
  * Rest API controller for task queue
@@ -33,7 +33,6 @@ use oat\oatbox\filesystem\FileSystemService;
  */
 class tao_actions_TaskQueueData extends \tao_actions_CommonModule
 {
-
     use TaskQueueActionTrait;
 
     public function getTasks()
@@ -42,24 +41,24 @@ class tao_actions_TaskQueueData extends \tao_actions_CommonModule
 
         $taskQueue = $this->getServiceLocator()->get(Queue::SERVICE_ID);
 
-        $dataPayLoad =  $taskQueue->getPayload($user->getIdentifier());
+        $dataPayLoad = $taskQueue->getPayload($user->getIdentifier());
 
         $this->returnJson($dataPayLoad);
         return;
-
     }
 
-    public function getStatus(){
-        if($this->hasRequestParameter('taskId')){
+    public function getStatus()
+    {
+        if ($this->hasRequestParameter('taskId')) {
             /**
              * @var $task \oat\Taskqueue\JsonTask
              */
-            $task   = $this->getTask($this->getRequestParameter('taskId'));
+            $task = $this->getTask($this->getRequestParameter('taskId'));
             $report = $task->getReport();
             $data = [
-                'status'  => $task->getStatus(),
-                'label'  => $task->getLabel(),
-                'creationDate'  => $task->getCreationDate(),
+                'status' => $task->getStatus(),
+                'label' => $task->getLabel(),
+                'creationDate' => $task->getCreationDate(),
                 'report' => $report
             ];
             $this->returnJson([
@@ -74,29 +73,30 @@ class tao_actions_TaskQueueData extends \tao_actions_CommonModule
         return;
     }
 
-    public function archiveTask() {
-        $taskId      = $this->getRequestParameter('taskId');
+    public function archiveTask()
+    {
+        $taskId = $this->getRequestParameter('taskId');
         /**
          * @var $taskService Queue
          */
         $taskService = $this->getServiceLocator()->get(Queue::SERVICE_ID);
         try {
-            $task        = $this->getTask($taskId);
-
+            $task = $this->getTask($taskId);
         } catch (\Exception $e) {
-            $this->returnError(__('unkown task id %s' , $taskId));
+            $this->returnError(__('unkown task id %s', $taskId));
             return;
         }
-        if(empty($task)) {
-            $this->returnError(__('unkown task id %s' , $taskId));
+        if (empty($task)) {
+            $this->returnError(__('unkown task id %s', $taskId));
             return;
         }
         try {
-            $taskService->updateTaskStatus($taskId , Task::STATUS_ARCHIVED);
-            $task   = $taskService->getTask($taskId);;
+            $taskService->updateTaskStatus($taskId, Task::STATUS_ARCHIVED);
+            $task = $taskService->getTask($taskId);
+            ;
             $this->returnJson([
-                'success' => true ,
-                'data'=>[
+                'success' => true,
+                'data' => [
                     'id' => $taskId,
                     'status' => $task->getStatus()
                 ]
@@ -108,20 +108,21 @@ class tao_actions_TaskQueueData extends \tao_actions_CommonModule
         }
     }
 
-    public function downloadTask(){
-        if($this->hasRequestParameter('taskId')){
+    public function downloadTask()
+    {
+        if ($this->hasRequestParameter('taskId')) {
             /**
              * @var $task \oat\Taskqueue\JsonTask
              */
-            $task   = $this->getTask($this->getRequestParameter('taskId'));
+            $task = $this->getTask($this->getRequestParameter('taskId'));
             $report = $task->getReport();
             $report = \common_report_Report::jsonUnserialize($report);
 
-            if(!is_null($report)){
+            if (!is_null($report)) {
                 $filename = '';
                 /** @var \common_report_Report $success */
-                foreach ($report->getSuccesses() as $success){
-                    if(!is_null($filename = $success->getData())){
+                foreach ($report->getSuccesses() as $success) {
+                    if (!is_null($filename = $success->getData())) {
                         break;
                     }
                 }

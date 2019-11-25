@@ -23,12 +23,11 @@ use oat\tao\model\ClientLibConfigRegistry;
 use oat\tao\test\TaoPhpUnitTestRunner;
 
 /**
- * 
+ *
  * @author Sam, sam@taotesting.com
  */
 class ClientLibConfigRegistryTest extends TaoPhpUnitTestRunner
 {
-
     /**
      *
      * @author Lionel Lecaque, lionel@taotesting.com
@@ -41,7 +40,6 @@ class ClientLibConfigRegistryTest extends TaoPhpUnitTestRunner
 
     public function testRegister()
     {
-
         $myUnitTestLibName = 'myUnitTestLib';
 
         ClientLibConfigRegistry::getRegistry()->register($myUnitTestLibName, array(
@@ -77,6 +75,5 @@ class ClientLibConfigRegistryTest extends TaoPhpUnitTestRunner
 
         ClientLibConfigRegistry::getRegistry()->remove($myUnitTestLibName);
         $this->assertEmpty(ClientLibConfigRegistry::getRegistry()->get($myUnitTestLibName));
-
     }
 }

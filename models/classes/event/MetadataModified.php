@@ -19,12 +19,10 @@
  */
 namespace oat\tao\model\event;
 
-
 use oat\oatbox\event\Event;
 
 class MetadataModified implements Event
 {
-
     /**
      *
      * Resource that have been modified/created
@@ -93,8 +91,4 @@ class MetadataModified implements Event
     {
         return $this->metadataValue;
     }
-
-
-
-
 }

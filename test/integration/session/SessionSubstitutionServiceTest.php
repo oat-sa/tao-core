@@ -20,9 +20,9 @@
 
 namespace oat\tao\test\integration\session;
 
-use oat\tao\model\session\SessionSubstitutionService;
-use oat\tao\model\session\PretenderSession;
 use common_session_SessionManager;
+use oat\tao\model\session\PretenderSession;
+use oat\tao\model\session\SessionSubstitutionService;
 use oat\tao\test\TaoPhpUnitTestRunner;
 
 /**
@@ -33,7 +33,6 @@ use oat\tao\test\TaoPhpUnitTestRunner;
  */
 class SessionSubstitutionServiceTest extends TaoPhpUnitTestRunner
 {
-
     private $testUserUri = 'http://sample/first.rdf#tessionSubstitutionServiceTestUser';
 
     public function setUp()

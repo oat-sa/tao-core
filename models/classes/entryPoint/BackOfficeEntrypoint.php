@@ -22,6 +22,7 @@
 namespace oat\tao\model\entryPoint;
 
 use oat\taoBackOffice\model\entryPoint\BackOfficeEntryPoint as RealEntryPoint;
+
 /**
  * Please use the taoBackOffice entry point instead
  * @author bout

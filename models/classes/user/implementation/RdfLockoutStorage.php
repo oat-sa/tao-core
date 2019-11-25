@@ -33,15 +33,15 @@ class RdfLockoutStorage implements LockoutStorage
 {
     use OntologyAwareTrait;
 
-    const PROPERTY_USER_ACCOUNT_STATUS = 'http://www.tao.lu/Ontologies/TAO.rdf#accountStatus';
+    public const PROPERTY_USER_ACCOUNT_STATUS = 'http://www.tao.lu/Ontologies/TAO.rdf#accountStatus';
 
-    const PROPERTY_USER_STATUS_LOCKED = 'http://www.tao.lu/Ontologies/TAO.rdf#Locked';
+    public const PROPERTY_USER_STATUS_LOCKED = 'http://www.tao.lu/Ontologies/TAO.rdf#Locked';
 
-    const PROPERTY_USER_LOCKED_BY = 'http://www.tao.lu/Ontologies/TAO.rdf#lockedBy';
+    public const PROPERTY_USER_LOCKED_BY = 'http://www.tao.lu/Ontologies/TAO.rdf#lockedBy';
 
-    const PROPERTY_USER_LOGON_FAILURES = 'http://www.tao.lu/Ontologies/TAO.rdf#logonFailures';
+    public const PROPERTY_USER_LOGON_FAILURES = 'http://www.tao.lu/Ontologies/TAO.rdf#logonFailures';
 
-    const PROPERTY_USER_LAST_LOGON_FAILURE_TIME = 'http://www.tao.lu/Ontologies/TAO.rdf#lastLogonFailureTime';
+    public const PROPERTY_USER_LAST_LOGON_FAILURE_TIME = 'http://www.tao.lu/Ontologies/TAO.rdf#lastLogonFailureTime';
 
     /**
      * @param string $login
@@ -79,7 +79,6 @@ class RdfLockoutStorage implements LockoutStorage
     {
         $this->getUser($login)->editPropertyValues($this->getProperty(self::PROPERTY_USER_ACCOUNT_STATUS), self::PROPERTY_USER_STATUS_LOCKED);
         $this->getUser($login)->editPropertyValues($this->getProperty(self::PROPERTY_USER_LOCKED_BY), $by);
-
     }
 
     /**

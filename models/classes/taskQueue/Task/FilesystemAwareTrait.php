@@ -127,7 +127,7 @@ trait FilesystemAwareTrait
             $file = $this->getQueueStorage()
                 ->getFile($filename);
 
-            if($file->exists()) {
+            if ($file->exists()) {
                 $file->delete();
             }
         }

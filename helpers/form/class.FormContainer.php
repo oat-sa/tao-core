@@ -31,7 +31,7 @@ use tao_helpers_form_FormFactory as FormFactory;
  */
 abstract class tao_helpers_form_FormContainer
 {
-    const CSRF_PROTECTION_OPTION = 'csrf_protection';
+    public const CSRF_PROTECTION_OPTION = 'csrf_protection';
 
     /**
      * the form instance contained

@@ -20,8 +20,8 @@
 
 namespace oat\tao\test\integration\import\samples;
 
-use oat\tao\model\import\AbstractImporter;
 use oat\oatbox\filesystem\File;
+use oat\tao\model\import\AbstractImporter;
 
 /**
  * Class FakeImporter
@@ -30,13 +30,11 @@ use oat\oatbox\filesystem\File;
  */
 class FakeImporter extends AbstractImporter
 {
-
     /**
      * @param File $file
      * @return \common_report_Report
      */
     public function import(File $file)
     {
-
     }
 }

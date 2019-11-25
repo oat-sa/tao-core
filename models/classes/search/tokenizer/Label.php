@@ -22,12 +22,12 @@ namespace oat\tao\model\search\tokenizer;
 
 /**
  * Tokenizer that interprets the values as resources
- * and returns the labels as search tokens 
- * 
+ * and returns the labels as search tokens
+ *
  * @author Joel Bout <joel@taotesting.com>
  */
 class Label implements Tokenizer
-{	
+{
     public function getStrings($values)
     {
         $strings = array();

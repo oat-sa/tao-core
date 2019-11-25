@@ -19,13 +19,13 @@
  */
 namespace oat\tao\test\integration\datatable;
 
+use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 use oat\tao\model\datatable\implementation\AbstractDatatablePayload;
 use oat\tao\model\datatable\implementation\DatatableRequest;
 use oat\tao\test\TaoPhpUnitTestRunner;
+use Prophecy\Argument;
 use Slim\Http\Environment;
 use Slim\Http\Request;
-use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
-use Prophecy\Argument;
 
 /**
  * Class DatatablePayloadTest
@@ -154,7 +154,13 @@ class ConcreteDatatablePayload extends AbstractDatatablePayload
 
 class QueryMock extends \oat\search\Query
 {
-    public function sort(){}
-    public function setLimit(){}
-    public function setOffset(){}
+    public function sort()
+    {
+    }
+    public function setLimit()
+    {
+    }
+    public function setOffset()
+    {
+    }
 }

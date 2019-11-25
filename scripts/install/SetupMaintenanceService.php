@@ -36,7 +36,7 @@ class SetupMaintenanceService extends InstallAction
         try {
             \common_persistence_Manager::getPersistence($maintenancePersistence);
         } catch (\common_Exception $e) {
-            \common_persistence_Manager::addPersistence($maintenancePersistence,  array('driver' => 'phpfile'));
+            \common_persistence_Manager::addPersistence($maintenancePersistence, array('driver' => 'phpfile'));
         }
 
         $service = new Maintenance();
@@ -53,5 +53,4 @@ class SetupMaintenanceService extends InstallAction
         $this->getServiceManager()->get(Maintenance::SERVICE_ID)->enablePlatform();
         return \common_report_Report::createSuccess(__('Maintenance service was installed. Platform is enabled.'));
     }
-
 }

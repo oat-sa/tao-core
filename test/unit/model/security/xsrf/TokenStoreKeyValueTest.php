@@ -19,12 +19,12 @@
 
 namespace oat\tao\test\unit\model\security\xsrf;
 
+use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
 use oat\oatbox\session\SessionService;
 use oat\tao\model\security\xsrf\Token;
 use oat\tao\model\security\xsrf\TokenStoreKeyValue;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use oat\generis\test\MockObject;
 
 /**
  * Unit Tests for oat\tao\model\security\TokenStoreKeyValue
@@ -68,7 +68,8 @@ class TokenStoreKeyValueTest extends TestCase
         $sessionService = $this->getMockBuilder(SessionService::class)
             ->disableOriginalConstructor()
             ->setMethods(['getCurrentUser'])
-            ->getMock();;
+            ->getMock();
+        ;
         $sessionService->method('getCurrentUser')->willReturn($user);
 
         /** @var ServiceLocatorInterface|MockObject $serviceLocator */

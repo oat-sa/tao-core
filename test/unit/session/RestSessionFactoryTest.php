@@ -20,10 +20,10 @@
 
 namespace oat\tao\test\unit\session;
 
+use oat\generis\test\TestCase;
 use oat\tao\model\routing\Resolver;
 use oat\tao\model\session\restSessionFactory\RestSessionFactory;
 use oat\tao\model\session\restSessionFactory\SessionBuilder;
-use oat\generis\test\TestCase;
 
 class RestSessionFactoryTest extends TestCase
 {
@@ -161,17 +161,21 @@ class RestSessionFactoryTest extends TestCase
     public function testIsRestControllerProvider()
     {
         return [
-            [TestRest::class, true,],
+            [TestRest::class, true, ],
             ['toto', false],
-            [SubTestRest::class, true,],
-            [RestSessionFactoryTest::class, false,],
-            [RestSessionFactoryTest::class, false,],
+            [SubTestRest::class, true, ],
+            [RestSessionFactoryTest::class, false, ],
+            [RestSessionFactoryTest::class, false, ],
         ];
     }
 }
 
-class TestRest extends \tao_actions_RestController {}
-class SubTestRest extends TestRest {}
+class TestRest extends \tao_actions_RestController
+{
+}
+class SubTestRest extends TestRest
+{
+}
 
 class RestSessionFactoryTester extends RestSessionFactory
 {
@@ -195,5 +199,4 @@ class RestSessionFactoryTester extends RestSessionFactory
     {
         $this->isSessionStarted = 1;
     }
-
 }

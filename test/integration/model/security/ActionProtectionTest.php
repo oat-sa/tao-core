@@ -21,13 +21,11 @@ namespace oat\generis\test\integration\action;
 
 use oat\generis\test\GenerisPhpUnitTestRunner;
 
-
 /**
  * Test the protection of actions.
  */
 class ActionProtectionTest extends GenerisPhpUnitTestRunner
 {
-
     /**
      * @var string
      */
@@ -61,5 +59,4 @@ class ActionProtectionTest extends GenerisPhpUnitTestRunner
         static::assertNotNull($this->cspHeader, 'Content-Security-Policy header must be set.');
         static::assertContains('frame-ancestors', $this->cspHeader, 'The "frame-ancestors" directive must be set.');
     }
-
 }

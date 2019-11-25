@@ -40,7 +40,7 @@ class Queue implements QueueInterface, TaskLogAwareInterface
     use TaskLogAwareTrait;
     use LockTrait;
 
-    const LOCK_PREFIX = 'taskqueue_lock_';
+    public const LOCK_PREFIX = 'taskqueue_lock_';
     private $name;
 
     /**

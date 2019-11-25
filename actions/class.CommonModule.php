@@ -20,23 +20,23 @@
  *               2013-2019 (update and modification) Open Assessment Technologies SA;
  */
 
-use oat\tao\model\http\LegacyController;
-use oat\tao\helpers\LegacySessionUtils;
-use oat\tao\model\action\CommonModuleInterface;
-use oat\tao\model\mvc\RendererTrait;
-use oat\tao\model\security\ActionProtector;
-use oat\tao\helpers\Template;
-use oat\tao\helpers\JavaScript;
-use oat\oatbox\service\ServiceManager;
-use oat\tao\model\accessControl\AclProxy;
-use oat\oatbox\service\ServiceManagerAwareTrait;
-use oat\oatbox\service\ServiceManagerAwareInterface;
-use oat\oatbox\service\exception\InvalidServiceManagerException;
 use oat\oatbox\log\LoggerAwareTrait;
-use function GuzzleHttp\Psr7\stream_for;
+use oat\oatbox\service\exception\InvalidServiceManagerException;
+use oat\oatbox\service\ServiceManager;
+use oat\oatbox\service\ServiceManagerAwareInterface;
+use oat\oatbox\service\ServiceManagerAwareTrait;
+use oat\tao\helpers\JavaScript;
+use oat\tao\helpers\LegacySessionUtils;
+use oat\tao\helpers\Template;
+use oat\tao\model\accessControl\AclProxy;
+use oat\tao\model\action\CommonModuleInterface;
+use oat\tao\model\http\LegacyController;
+use oat\tao\model\mvc\RendererTrait;
 use oat\tao\model\routing\AnnotationReader\security;
+use oat\tao\model\security\ActionProtector;
 use oat\tao\model\security\xsrf\TokenService;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use function GuzzleHttp\Psr7\stream_for;
 
 /**
  * Top level controller
@@ -70,7 +70,9 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
      * tao_actions_CommonModule constructor.
      * @security("hide");
      */
-    public function __construct() {}
+    public function __construct()
+    {
+    }
 
     /**
      * @inheritdoc
@@ -158,14 +160,14 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
     protected function returnError($description, $returnLink = true, $httpStatus = null)
     {
         if ($this->isXmlHttpRequest()) {
-            $this->logWarning('Called '.__FUNCTION__.' in an unsupported AJAX context');
+            $this->logWarning('Called ' . __FUNCTION__ . ' in an unsupported AJAX context');
             throw new common_Exception($description);
         }
 
         $this->setData('message', $description);
         $this->setData('returnLink', $returnLink);
 
-        if($httpStatus !== null && file_exists(Template::getTemplate("error/error${httpStatus}.tpl"))){
+        if ($httpStatus !== null && file_exists(Template::getTemplate("error/error${httpStatus}.tpl"))) {
             $this->setView("error/error${httpStatus}.tpl", 'tao');
         } else {
             $this->setView('error/user_error.tpl', 'tao');
@@ -187,11 +189,11 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
             $extensionID = 'tao';
             common_Logger::d('Deprecated use of setView() using a boolean');
         }
-        if($extensionID === null) {
+        if ($extensionID === null) {
             $extensionID = Context::getInstance()->getExtensionName();
         }
         $ext = common_ext_ExtensionsManager::singleton()->getExtensionById($extensionID);
-        return $ext->getConstant('DIR_VIEWS').'templates'.DIRECTORY_SEPARATOR.$identifier;
+        return $ext->getConstant('DIR_VIEWS') . 'templates' . DIRECTORY_SEPARATOR . $identifier;
     }
 
     /**
@@ -215,7 +217,7 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
     {
         $ext = $this->getServiceManager()->get(common_ext_ExtensionsManager::SERVICE_ID)->getExtensionById('tao');
         $config = $ext->getConfig('js');
-        if($config !== null && isset($config['timeout'])){
+        if ($config !== null && isset($config['timeout'])) {
             return (int)$config['timeout'];
         }
         return 30;
@@ -351,8 +353,8 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
             throw new common_exception_Unauthorized($exceptionMessage);
         }
 
-        $requestMethod  = $this->getPsrRequest()->getMethod();
-        $requestUri     = $this->getPsrRequest()->getUri();
+        $requestMethod = $this->getPsrRequest()->getMethod();
+        $requestUri = $this->getPsrRequest()->getUri();
         $requestHeaders = $this->getHeaders();
 
         $this->logWarning(
@@ -361,9 +363,9 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
         $this->logWarning(
             "[CSRF] \n" .
             "CSRF validation information: \n" .
-            'Provided token: ' . ($token ?: 'none')  . " \n" .
-            'User identifier: ' . $userIdentifier  . " \n" .
-            'Request: [' . $requestMethod . '] ' . $requestUri   . " \n" .
+            'Provided token: ' . ($token ?: 'none') . " \n" .
+            'User identifier: ' . $userIdentifier . " \n" .
+            'Request: [' . $requestMethod . '] ' . $requestUri . " \n" .
             "Request Headers : \n" .
             urldecode(http_build_query($requestHeaders, '', "\n"))
         );

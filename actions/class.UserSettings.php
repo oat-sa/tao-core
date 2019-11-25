@@ -89,11 +89,10 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
 
             $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($currentUser);
 
-            if($binder->bind($userSettings)){
-
+            if ($binder->bind($userSettings)) {
                 $this->getSession()->refresh();
-                $uiLangCode		= tao_models_classes_LanguageService::singleton()->getCode($uiLang);
-                $extension      = $this->getServiceLocator()->get(common_ext_ExtensionsManager::SERVICE_ID)->getExtensionById('tao');
+                $uiLangCode = tao_models_classes_LanguageService::singleton()->getCode($uiLang);
+                $extension = $this->getServiceLocator()->get(common_ext_ExtensionsManager::SERVICE_ID)->getExtensionById('tao');
                 tao_helpers_I18n::init($extension, $uiLangCode);
 
                 $this->setData('message', __('Settings updated'));
@@ -123,7 +122,8 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
      *
      * @return array The URIs of the languages.
      */
-    private function getUserSettings(){
+    private function getUserSettings()
+    {
         $currentUser = $this->getUserService()->getCurrentUser();
         $props = $currentUser->getPropertiesValues([
             $this->getProperty(GenerisRdf::PROPERTY_USER_UILG),

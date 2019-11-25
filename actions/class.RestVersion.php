@@ -56,6 +56,5 @@ class tao_actions_RestVersion extends tao_actions_RestClass
             ]);
         }
         throw new common_exception_RestApi();
-
     }
 }

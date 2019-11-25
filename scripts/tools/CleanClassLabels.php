@@ -25,7 +25,6 @@ use oat\oatbox\extension\AbstractAction;
 
 class CleanClassLabels extends AbstractAction
 {
-
     /**
      * @inheritDoc
      */
@@ -34,7 +33,7 @@ class CleanClassLabels extends AbstractAction
         try {
             if (!isset($params[0])) {
                 return \common_report_Report::createFailure(
-                    'CLASS_URI not provided' .PHP_EOL . 'Usage: php index.php ' . __CLASS__ . ' [CLASS_URI]'
+                    'CLASS_URI not provided' . PHP_EOL . 'Usage: php index.php ' . __CLASS__ . ' [CLASS_URI]'
                 );
             }
 

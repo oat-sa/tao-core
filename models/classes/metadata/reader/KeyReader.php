@@ -34,7 +34,7 @@ class KeyReader implements Reader
     /**
      * Source key label to find into $dataSource array
      */
-    const KEY_SOURCE = 'key';
+    public const KEY_SOURCE = 'key';
 
     protected $key;
 
@@ -46,11 +46,11 @@ class KeyReader implements Reader
      */
     public function __construct($options)
     {
-        if (! is_array($options)) {
+        if (!is_array($options)) {
             throw new InconsistencyConfigException('Reader options has to be an array.');
         }
 
-        if (! array_key_exists(self::KEY_SOURCE, $options)) {
+        if (!array_key_exists(self::KEY_SOURCE, $options)) {
             throw new InconsistencyConfigException('Missing configuration keys for reader, attribute "' . self::KEY_SOURCE . '" not found');
         }
 
@@ -83,7 +83,7 @@ class KeyReader implements Reader
      */
     protected function hasValue(array $data, $key)
     {
-        if (! is_string($key)) {
+        if (!is_string($key)) {
             return false;
         }
         return isset($data[$key]);
@@ -99,5 +99,4 @@ class KeyReader implements Reader
         $options = array('key' => $this->key);
         return empty($options) ? '' : \common_Utils::toHumanReadablePhpString($options);
     }
-
 }

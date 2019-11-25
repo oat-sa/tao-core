@@ -23,6 +23,7 @@
 
 use oat\generis\model\user\UserRdf;
 use oat\oatbox\event\EventManager;
+use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\user\LoginService;
 use oat\tao\helpers\TaoCe;
 use oat\tao\model\accessControl\ActionResolver;
@@ -37,7 +38,6 @@ use oat\tao\model\mvc\DefaultUrlService;
 use oat\tao\model\notification\NotificationInterface;
 use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\user\UserLocks;
-use oat\oatbox\log\LoggerAwareTrait;
 
 /**
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
@@ -84,14 +84,14 @@ class tao_actions_Main extends tao_actions_CommonModule
             }
             $this->setData('entries', $entries);
             $naviElements = $this->getNavigationElementsByGroup('settings');
-            foreach($naviElements as $key => $naviElement) {
-                if($naviElement['perspective']->getId() !== 'user_settings') {
+            foreach ($naviElements as $key => $naviElement) {
+                if ($naviElement['perspective']->getId() !== 'user_settings') {
                     unset($naviElements[$key]);
                     continue;
                 }
             }
 
-            if ($this->hasRequestParameter('errorMessage')){
+            if ($this->hasRequestParameter('errorMessage')) {
                 $this->setData('errorMessage', $this->getRequestParameter('errorMessage'));
             }
             $this->setData('logout', $this->getServiceLocator()->get(DefaultUrlService::SERVICE_ID)->getLogoutUrl());
@@ -135,7 +135,7 @@ class tao_actions_Main extends tao_actions_CommonModule
         if ($this->hasRequestParameter('redirect')) {
             $redirectUrl = $_REQUEST['redirect'];
 
-            if (substr($redirectUrl, 0,1) == '/' || substr($redirectUrl, 0, strlen(ROOT_URL)) == ROOT_URL) {
+            if (substr($redirectUrl, 0, 1) == '/' || substr($redirectUrl, 0, strlen(ROOT_URL)) == ROOT_URL) {
                 $params['redirect'] = $redirectUrl;
             }
         }
@@ -164,12 +164,13 @@ class tao_actions_Main extends tao_actions_CommonModule
                                 /** @var DateInterval $remaining */
                                 $remaining = $statusDetails['remaining'];
 
-                                $reference = new DateTimeImmutable;
+                                $reference = new DateTimeImmutable();
                                 $endTime = $reference->add($remaining);
 
                                 $diffInSeconds = $endTime->getTimestamp() - $reference->getTimestamp();
 
-                                $msg .= __('Please try in %s.',
+                                $msg .= __(
+                                    'Please try in %s.',
                                     $diffInSeconds > 60
                                         ? tao_helpers_Date::displayInterval($statusDetails['remaining'], tao_helpers_Date::FORMAT_INTERVAL_LONG)
                                         : $diffInSeconds . ' ' . ($diffInSeconds == 1 ? __('second') : __('seconds'))
@@ -262,8 +263,8 @@ class tao_actions_Main extends tao_actions_CommonModule
 
 
         common_session_SessionManager::endSession();
-                /* @var $urlRouteService DefaultUrlService */
-                $urlRouteService = $this->getServiceLocator()->get(DefaultUrlService::SERVICE_ID);
+        /* @var $urlRouteService DefaultUrlService */
+        $urlRouteService = $this->getServiceLocator()->get(DefaultUrlService::SERVICE_ID);
 
         $this->redirect($urlRouteService->getRedirectUrl('logout'));
     }
@@ -276,11 +277,11 @@ class tao_actions_Main extends tao_actions_CommonModule
     public function index()
     {
         $this->defaultData();
-        $user      = $this->getUserService()->getCurrentUser();
+        $user = $this->getUserService()->getCurrentUser();
         $extension = $this->getRequestParameter('ext');
         $structure = $this->getRequestParameter('structure');
 
-        if($this->hasRequestParameter('structure')) {
+        if ($this->hasRequestParameter('structure')) {
 
             // structured mode
             // @todo stop using session to manage uri/classUri
@@ -295,7 +296,7 @@ class tao_actions_Main extends tao_actions_CommonModule
                     'tao',
                     array(
                         'structure' => $structure,
-                        'ext'       => $extension
+                        'ext' => $extension
                     )
                 )
             );
@@ -311,11 +312,11 @@ class tao_actions_Main extends tao_actions_CommonModule
             //check if the user is a noob, otherwise redirect him to his last visited extension.
             $firstTime = TaoCe::isFirstTimeInTao();
             if ($firstTime == false) {
-               $lastVisited = TaoCe::getLastVisitedUrl();
+                $lastVisited = TaoCe::getLastVisitedUrl();
 
-                if(!is_null($lastVisited)){
-                   $this->redirect($lastVisited);
-               }
+                if (!is_null($lastVisited)) {
+                    $this->redirect($lastVisited);
+                }
             }
         }
 
@@ -327,16 +328,19 @@ class tao_actions_Main extends tao_actions_CommonModule
         /* @var $notifService NotificationServiceInterface */
         $notifService = $this->getServiceLocator()->get(NotificationServiceInterface::SERVICE_ID);
 
-        if($notifService->getVisibility()) {
+        if ($notifService->getVisibility()) {
             $notif = $notifService->notificationCount($user->getUri());
 
             $this->setData('unread-notification', $notif[NotificationInterface::CREATED_STATUS]);
 
-            $this->setData('notification-url', _url('index' , 'Main' , 'tao' ,
+            $this->setData('notification-url', _url(
+                'index',
+                'Main',
+                'tao',
                 [
                     'structure' => 'tao_Notifications',
-                    'ext'       => 'tao',
-                    'section'   => 'settings_my_notifications',
+                    'ext' => 'tao',
+                    'section' => 'settings_my_notifications',
                 ]
             ));
         }
@@ -379,7 +383,7 @@ class tao_actions_Main extends tao_actions_CommonModule
             if (!empty($binding) || !empty($children)) {
                 $entry = array(
                     'perspective' => $perspective,
-                    'children'    => $children
+                    'children' => $children
                 );
                 if (!is_null($binding)) {
                     $entry['binding'] = $perspective->getExtension() . '/' . $binding;
@@ -407,7 +411,7 @@ class tao_actions_Main extends tao_actions_CommonModule
                     $children[] = $section;
                 }
             } catch (ResolverException $e) {
-                $this->logWarning('Invalid reference in structures: '.$e->getMessage());
+                $this->logWarning('Invalid reference in structures: ' . $e->getMessage());
             }
         }
         return $children;
@@ -422,23 +426,19 @@ class tao_actions_Main extends tao_actions_CommonModule
      */
     private function getSections($shownExtension, $shownStructure)
     {
-
         $sections = array();
         $user = $this->getSession()->getUser();
         $structure = MenuService::getPerspective($shownExtension, $shownStructure);
         if (!is_null($structure)) {
             foreach ($structure->getChildren() as $section) {
-
                 $resolver = new ActionResolver($section->getUrl());
                 if (FuncProxy::accessPossible($user, $resolver->getController(), $resolver->getAction())) {
-
-                    foreach($section->getActions() as $action){
+                    foreach ($section->getActions() as $action) {
                         $this->propagate($action);
                         $resolver = new ActionResolver($action->getUrl());
-                        if(!FuncProxy::accessPossible($user, $resolver->getController(), $resolver->getAction())){
+                        if (!FuncProxy::accessPossible($user, $resolver->getController(), $resolver->getAction())) {
                             $section->removeAction($action);
                         }
-
                     }
 
                     $sections[] = $section;
@@ -455,11 +455,11 @@ class tao_actions_Main extends tao_actions_CommonModule
      */
     public function isReady()
     {
-        if($this->isXmlHttpRequest()){
+        if ($this->isXmlHttpRequest()) {
             // the default ajax response is successful style rastafarai
             $ajaxResponse = new common_AjaxResponse();
         } else {
-            throw new common_exception_IsAjaxAction(__CLASS__.'::'.__METHOD__.'()');
+            throw new common_exception_IsAjaxAction(__CLASS__ . '::' . __METHOD__ . '()');
         }
     }
 

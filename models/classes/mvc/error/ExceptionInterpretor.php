@@ -19,24 +19,24 @@
 
 namespace oat\tao\model\mvc\error;
 
-use common_exception_MethodNotAllowed;
-use Exception;
-use common_exception_MissingParameter;
 use common_exception_BadRequest;
+use common_exception_MethodNotAllowed;
+use common_exception_MissingParameter;
 use common_exception_ResourceNotFound;
+use Exception;
+use oat\tao\model\exceptions\UserErrorException;
 use Slim\Http\StatusCode;
 use tao_models_classes_MissingRequestParameterException;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
-use oat\tao\model\exceptions\UserErrorException;
 
 /**
  * Description of ExceptionInterpretor
  *
  * @author Christophe GARCIA <christopheg@taotesting.com>
  */
-class ExceptionInterpretor implements ServiceLocatorAwareInterface {
-
+class ExceptionInterpretor implements ServiceLocatorAwareInterface
+{
     use ServiceLocatorAwareTrait;
 
     /**
@@ -72,7 +72,8 @@ class ExceptionInterpretor implements ServiceLocatorAwareInterface {
      * @param Exception $exception
      * @return ExceptionInterpretor
      */
-    public function setException(Exception $exception){
+    public function setException(Exception $exception)
+    {
         $this->exception = $exception;
         $this->interpretError();
         return $this;
@@ -81,7 +82,8 @@ class ExceptionInterpretor implements ServiceLocatorAwareInterface {
      * interpret exception type and set up render responseClassName
      * and http status to return
      */
-    protected function interpretError() {
+    protected function interpretError()
+    {
         switch (get_class($this->exception)) {
             case UserErrorException::class:
             case tao_models_classes_MissingRequestParameterException::class:
@@ -92,50 +94,53 @@ class ExceptionInterpretor implements ServiceLocatorAwareInterface {
                 break;
             case 'tao_models_classes_AccessDeniedException':
             case 'ResolverException':
-                $this->returnHttpCode    = StatusCode::HTTP_FORBIDDEN;
+                $this->returnHttpCode = StatusCode::HTTP_FORBIDDEN;
                 $this->responseClassName = 'RedirectResponse';
                 break;
             case 'tao_models_classes_UserException':
-                $this->returnHttpCode    = StatusCode::HTTP_FORBIDDEN;
+                $this->returnHttpCode = StatusCode::HTTP_FORBIDDEN;
                 $this->responseClassName = 'MainResponse';
                 break;
             case 'ActionEnforcingException':
             case 'tao_models_classes_FileNotFoundException':
             case common_exception_ResourceNotFound::class:
-                $this->returnHttpCode    = StatusCode::HTTP_NOT_FOUND;
+                $this->returnHttpCode = StatusCode::HTTP_NOT_FOUND;
                 $this->responseClassName = 'MainResponse';
                 break;
             case common_exception_MethodNotAllowed::class:
-                $this->returnHttpCode    = StatusCode::HTTP_METHOD_NOT_ALLOWED;
+                $this->returnHttpCode = StatusCode::HTTP_METHOD_NOT_ALLOWED;
                 $this->responseClassName = 'MainResponse';
                 /** @var common_exception_MethodNotAllowed $exception */
                 $exception = $this->exception;
                 $this->allowedRequestMethods = $exception->getAllowedMethods();
                 break;
-            default :
+            default:
                 $this->responseClassName = 'MainResponse';
-                $this->returnHttpCode    = StatusCode::HTTP_INTERNAL_SERVER_ERROR;
+                $this->returnHttpCode = StatusCode::HTTP_INTERNAL_SERVER_ERROR;
                 break;
 
         }
         return $this;
     }
 
-    public function getTrace() {
+    public function getTrace()
+    {
         return $this->exception ? $this->exception->getMessage() : '';
     }
 
     /**
      * @return integer
      */
-    public function getHttpCode(){
+    public function getHttpCode()
+    {
         return $this->returnHttpCode;
     }
     /**
      * return string
      */
-    public function getResponseClassName() {
-        return __NAMESPACE__ . '\\' .$this->responseClassName;
+    public function getResponseClassName()
+    {
+        return __NAMESPACE__ . '\\' . $this->responseClassName;
     }
 
     /**
@@ -143,10 +148,11 @@ class ExceptionInterpretor implements ServiceLocatorAwareInterface {
      *
      * @return ResponseAbstract
      */
-    public function getResponse() {
+    public function getResponse()
+    {
         $class = $this->getResponseClassName();
         /** @var $response ResponseAbstract */
-        $response = new $class;
+        $response = new $class();
         $response->setServiceLocator($this->getServiceLocator());
         $response->setException($this->exception)
             ->setHttpCode($this->returnHttpCode)

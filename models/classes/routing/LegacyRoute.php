@@ -25,7 +25,7 @@ use Psr\Http\Message\ServerRequestInterface;
 /**
  * A simple router, that maps a relative Url to
  * namespaced Controller class
- * 
+ *
  * @author Joel Bout, <joel@taotesting.com>
  */
 class LegacyRoute extends AbstractRoute
@@ -36,9 +36,9 @@ class LegacyRoute extends AbstractRoute
         $parts = explode('/', ltrim($relativeUrl, '/'));
         if ($parts[0] == $this->getId()) {
             $controllerShortName = isset($parts[1]) && !empty($parts[1]) ? $parts[1] : DEFAULT_MODULE_NAME;
-            $controller          = $this->getExtension()->getId().'_actions_'.$controllerShortName;
-            $action              = isset($parts[2]) && !empty($parts[2]) ? $parts[2] : DEFAULT_ACTION_NAME;
-            return $controller.'@'.$action;
+            $controller = $this->getExtension()->getId() . '_actions_' . $controllerShortName;
+            $action = isset($parts[2]) && !empty($parts[2]) ? $parts[2] : DEFAULT_ACTION_NAME;
+            return $controller . '@' . $action;
         }
         return null;
     }

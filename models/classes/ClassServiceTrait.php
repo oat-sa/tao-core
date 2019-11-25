@@ -29,7 +29,6 @@ use oat\tao\model\search\index\OntologyIndex;
  */
 trait ClassServiceTrait
 {
-
     /**
      * Returns the root class of this service
      *
@@ -60,7 +59,7 @@ trait ClassServiceTrait
     {
         $returnValue = (bool) false;
         
-        if ($clazz->isSubClassOf($this->getRootClass()) && ! $clazz->equals($this->getRootClass())) {
+        if ($clazz->isSubClassOf($this->getRootClass()) && !$clazz->equals($this->getRootClass())) {
             $returnValue = true;
             
             $instances = $clazz->getInstances();

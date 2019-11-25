@@ -17,8 +17,8 @@
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  */
 
-use oat\tao\model\routing\Resolver;
 use oat\tao\model\mvc\Breadcrumbs;
+use oat\tao\model\routing\Resolver;
 
 /**
  * Controller that will serve breadcrumbs depending on context routes.
@@ -56,10 +56,10 @@ class tao_actions_Breadcrumbs extends \tao_actions_CommonModule implements Bread
 
         $resolvedRoute = new Resolver(new \common_http_Request($route));
         $this->propagate($resolvedRoute);
-        $parsedRoute['extension']         = $resolvedRoute->getExtensionId();
-        $parsedRoute['controller']        = $resolvedRoute->getControllerShortName();
-        $parsedRoute['controller_class']  = $resolvedRoute->getControllerClass();
-        $parsedRoute['action']            = $resolvedRoute->getMethodName();
+        $parsedRoute['extension'] = $resolvedRoute->getExtensionId();
+        $parsedRoute['controller'] = $resolvedRoute->getControllerShortName();
+        $parsedRoute['controller_class'] = $resolvedRoute->getControllerClass();
+        $parsedRoute['action'] = $resolvedRoute->getMethodName();
 
         return $parsedRoute;
     }
@@ -155,7 +155,7 @@ class tao_actions_Breadcrumbs extends \tao_actions_CommonModule implements Bread
     {
         $data = [];
         $routes = $this->getRoutes();
-        foreach($routes as $route) {
+        foreach ($routes as $route) {
             $parsedRoute = $this->parseRoute($route);
             $routeData = $this->requestService($route, $parsedRoute);
 
@@ -163,8 +163,7 @@ class tao_actions_Breadcrumbs extends \tao_actions_CommonModule implements Bread
                 // When the routeData contains more entry. (if it's a numeric array)
                 if (array_values($routeData) === $routeData) {
                     $data = array_merge($data, $routeData);
-                }
-                else {
+                } else {
                     $data[] = $routeData;
                 }
             }

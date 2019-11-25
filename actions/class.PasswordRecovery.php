@@ -19,8 +19,8 @@
  */
 
 use oat\generis\model\GenerisRdf;
-use oat\tao\model\passwordRecovery\PasswordRecoveryService;
 use oat\oatbox\log\LoggerAwareTrait;
+use oat\tao\model\passwordRecovery\PasswordRecoveryService;
 use tao_helpers_form_FormContainer as FormContainer;
 
 /**
@@ -79,7 +79,7 @@ class tao_actions_PasswordRecovery extends tao_actions_CommonModule
 
         $form = $formContainer->getForm();
 
-        $form->setValues(array('token'=>$token));
+        $form->setValues(array('token' => $token));
 
         $user = $this->getPasswordRecovery()->getUser(PasswordRecoveryService::PROPERTY_PASSWORD_RECOVERY_TOKEN, $token);
         if ($user === null) {

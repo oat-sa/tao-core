@@ -30,7 +30,6 @@ use oat\tao\model\asset\AssetService;
  */
 class UpdateExtensions extends \common_ext_UpdateExtensions
 {
-
     /**
      * (non-PHPdoc)
      * @see \oat\oatbox\action\Action::__invoke()
@@ -51,9 +50,9 @@ class UpdateExtensions extends \common_ext_UpdateExtensions
         // regenrate locals
         $files = \tao_models_classes_LanguageService::singleton()->generateAll();
         if (count($files) > 0) {
-            $report->add(new common_report_Report(common_report_Report::TYPE_SUCCESS,__('Successfully updated %s client translation bundles', count($files))));
+            $report->add(new common_report_Report(common_report_Report::TYPE_SUCCESS, __('Successfully updated %s client translation bundles', count($files))));
         } else {
-            $report->add(new common_report_Report(common_report_Report::TYPE_ERROR,__('No client translation bundles updated')));
+            $report->add(new common_report_Report(common_report_Report::TYPE_ERROR, __('No client translation bundles updated')));
         }
 
         $updateid = $this->generateUpdateId();
@@ -69,7 +68,7 @@ class UpdateExtensions extends \common_ext_UpdateExtensions
      */
     protected function generateUpdateId()
     {
-       return uniqid();
+        return uniqid();
     }
 
     /**
@@ -85,7 +84,7 @@ class UpdateExtensions extends \common_ext_UpdateExtensions
             $this->getServiceLocator()->register(AssetService::SERVICE_ID, $assetService);
         } catch (\Exception $e) {
             \common_Logger::e($e->getMessage());
-            $report->add(new common_report_Report(common_report_Report::TYPE_WARNING,__('Unable to update the asset service')));
+            $report->add(new common_report_Report(common_report_Report::TYPE_WARNING, __('Unable to update the asset service')));
         }
     }
 }

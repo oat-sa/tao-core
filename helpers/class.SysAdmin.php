@@ -20,18 +20,18 @@
 use oat\tao\model\TaoOntology;
 use oat\tao\model\user\TaoRoles;
 
-class tao_helpers_SysAdmin{
-    
+class tao_helpers_SysAdmin
+{
     /**
      *
      * @author "Lionel Lecaque, <lionel@taotesting.com>"
      */
-    public static function isSysAdmin(){
+    public static function isSysAdmin()
+    {
         $userService = tao_models_classes_UserService::singleton();
         $currentUser = $userService->getCurrentUser();
-        $sysAdminRole =  new core_kernel_classes_Resource(TaoRoles::SYSTEM_ADMINISTRATOR) ;
-        $returnValues = $currentUser != null ? $userService->userHasRoles($currentUser,$sysAdminRole) : false;
+        $sysAdminRole = new core_kernel_classes_Resource(TaoRoles::SYSTEM_ADMINISTRATOR);
+        $returnValues = $currentUser != null ? $userService->userHasRoles($currentUser, $sysAdminRole) : false;
         return $returnValues;
     }
-
 }

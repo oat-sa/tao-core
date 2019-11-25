@@ -28,7 +28,6 @@ use oat\oatbox\task\Task;
  */
 trait TaskQueueActionTrait
 {
-
     /**
      * @var Task[]
      */
@@ -41,8 +40,8 @@ trait TaskQueueActionTrait
      */
     protected function getTaskData($taskId)
     {
-        $task             = $this->getTask($taskId);
-        $result['id']     = $this->getTaskId($task);
+        $task = $this->getTask($taskId);
+        $result['id'] = $this->getTaskId($task);
         $result['status'] = $this->getTaskStatus($task);
         $result['report'] = $this->getTaskReport($task);
 

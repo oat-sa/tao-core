@@ -21,12 +21,12 @@ namespace oat\tao\test\unit\model\notification\implementation;
 
 use common_persistence_Manager as PersistenceManager;
 use common_persistence_Persistence as Persistence;
+use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\notification\implementation\Notification;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\scripts\install\InstallNotificationTable;
-use oat\generis\test\MockObject;
 
 class RdsNotificationTest extends TestCase
 {
@@ -86,7 +86,8 @@ class RdsNotificationTest extends TestCase
         $updatedAt = $this->persistence->getPlatform()->getNowExpression();
         $status = 12;
 
-        $notification = new Notification($recipientId,
+        $notification = new Notification(
+            $recipientId,
             $title,
             $message,
             $senderId,

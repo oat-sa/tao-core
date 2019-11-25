@@ -20,17 +20,17 @@
 
 namespace oat\tao\model\search\index;
 
+use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
+use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\extension\script\MissingOptionException;
 use oat\oatbox\service\ConfigurableService;
+use oat\search\helper\SupportedOperatorHelper;
+use oat\tao\model\menu\MenuService;
+use oat\tao\model\resources\ResourceIterator;
+use oat\tao\model\search\Search;
 use oat\tao\model\search\SearchTokenGenerator;
 use oat\tao\model\TaoOntology;
-use oat\tao\model\search\Search;
-use oat\tao\model\menu\MenuService;
-use oat\generis\model\OntologyAwareTrait;
-use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
-use oat\search\helper\SupportedOperatorHelper;
-use oat\tao\model\resources\ResourceIterator;
 
 /**
  * Class IndexService
@@ -40,9 +40,9 @@ class IndexService extends ConfigurableService
 {
     use OntologyAwareTrait;
 
-    const SERVICE_ID = 'tao/IndexService';
-    const INDEX_MAP_PROPERTY_DEFAULT = 'default';
-    const INDEX_MAP_PROPERTY_FUZZY = 'fuzzy';
+    public const SERVICE_ID = 'tao/IndexService';
+    public const INDEX_MAP_PROPERTY_DEFAULT = 'default';
+    public const INDEX_MAP_PROPERTY_FUZZY = 'fuzzy';
 
     /** @var array */
     private $map;
@@ -123,7 +123,8 @@ class IndexService extends ConfigurableService
      * @return mixed
      * @throws \common_Exception
      */
-    public function getIndexProperties(OntologyIndex $index) {
+    public function getIndexProperties(OntologyIndex $index)
+    {
         if (!isset($this->map[$index->getIdentifier()])) {
             $indexProperty = new IndexProperty(
                 $index->getIdentifier(),

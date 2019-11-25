@@ -31,7 +31,6 @@ use oat\oatbox\log\LoggerAwareTrait;
  */
 abstract class AbstractQueuedAction extends AbstractAction implements QueuedAction
 {
-
     use LoggerAwareTrait;
 
     /**
@@ -55,7 +54,7 @@ abstract class AbstractQueuedAction extends AbstractAction implements QueuedActi
      * Get action identifier
      * @return string
      */
-    public final function getId()
+    final public function getId()
     {
         return static::class;
     }

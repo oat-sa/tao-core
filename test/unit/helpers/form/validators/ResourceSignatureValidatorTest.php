@@ -20,11 +20,11 @@
 
 namespace oat\tao\test\unit\helpers\form\validators;
 
+use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
 use oat\tao\helpers\form\validators\ResourceSignatureValidator;
 use oat\tao\model\security\SecurityException;
 use oat\tao\model\security\SignatureValidator;
-use oat\generis\test\MockObject;
 
 class ResourceSignatureValidatorTest extends TestCase
 {

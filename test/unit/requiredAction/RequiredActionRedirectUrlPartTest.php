@@ -85,5 +85,4 @@ class RequiredActionRedirectUrlPartTest extends TestCase
 
         return $ruleMock->reveal();
     }
-
 }

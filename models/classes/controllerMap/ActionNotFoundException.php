@@ -23,10 +23,9 @@ namespace oat\tao\model\controllerMap;
 
 /**
  * Action or Controller not found exception
- * 
+ *
  * @author Joel Bout <joel@taotesting.com>
  */
 class ActionNotFoundException extends \common_Exception
 {
-    
 }

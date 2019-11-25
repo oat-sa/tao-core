@@ -36,8 +36,8 @@ abstract class FileStorageTestCase extends GenerisPhpUnitTestRunner
      */
     protected function getServiceLocatorWithFileSystem()
     {
-        $adaptersFixture = array (
-            'adapters' => array (
+        $adaptersFixture = array(
+            'adapters' => array(
                 $this->adapterFixture => array(
                     'class' => 'Local',
                     'options' => array(
@@ -70,5 +70,4 @@ abstract class FileStorageTestCase extends GenerisPhpUnitTestRunner
 
         return $fileStorage;
     }
-
 }

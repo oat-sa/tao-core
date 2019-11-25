@@ -53,7 +53,8 @@ class ResourceCompiledMetadataHelper
      *
      * @return string|null
      */
-    public function getLabel() {
+    public function getLabel()
+    {
         return $this->getValue('label');
     }
 

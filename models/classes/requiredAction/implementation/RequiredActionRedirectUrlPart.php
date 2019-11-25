@@ -81,7 +81,7 @@ class RequiredActionRedirectUrlPart extends RequiredActionAbstract
             'action' => $context->getActionName(),
         ];
 
-        if (! in_array($currentRoute, $excludedRoutes)) {
+        if (!in_array($currentRoute, $excludedRoutes)) {
             $currentUrl = \common_http_Request::currentRequest()->getUrl();
 
             $transformedUrl = $this->getTransformedUrl($params);

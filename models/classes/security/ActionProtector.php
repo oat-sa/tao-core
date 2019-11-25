@@ -31,8 +31,7 @@ use oat\tao\model\settings\CspHeaderSettingsInterface;
  */
 class ActionProtector extends ConfigurableService
 {
-
-    const SERVICE_ID = 'tao/actionProtection';
+    public const SERVICE_ID = 'tao/actionProtection';
 
     /**
      * Set the header that defines which sources are allowed to embed the pages.

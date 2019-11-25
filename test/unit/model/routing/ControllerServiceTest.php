@@ -21,31 +21,39 @@
 
 namespace oat\test\model;
 
+use oat\generis\test\TestCase;
 use oat\tao\model\routing\ControllerService;
 use oat\tao\model\routing\RouteAnnotationService;
 use Prophecy\Argument;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use oat\generis\test\TestCase;
 
-
-abstract class AbsCl {}
+abstract class AbsCl
+{
+}
 
 /**
  * Class BlCl
  * @package oat\test\model
  */
-class BlCl {}
+class BlCl
+{
+}
 
-class RouteAnnotationExample {
-
-    protected function protectedAction(){}
-    public function notFoundAnnotation(){}
-    public function withoutAnnotation(){}
+class RouteAnnotationExample
+{
+    protected function protectedAction()
+    {
+    }
+    public function notFoundAnnotation()
+    {
+    }
+    public function withoutAnnotation()
+    {
+    }
 }
 
 class ControllerServiceTest extends TestCase
 {
-
     /**
      * @var ControllerService
      */
@@ -100,8 +108,10 @@ class ControllerServiceTest extends TestCase
      */
     public function testGetController()
     {
-        $this->assertEquals(RouteAnnotationExample::class,
-            $this->service->checkController(RouteAnnotationExample::class));
+        $this->assertEquals(
+            RouteAnnotationExample::class,
+            $this->service->checkController(RouteAnnotationExample::class)
+        );
     }
 
     /**

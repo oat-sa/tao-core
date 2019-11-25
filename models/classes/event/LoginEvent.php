@@ -26,4 +26,6 @@ namespace oat\tao\model\event;
  * @package oat\tao\model\event
  * @deprecated
  */
-class LoginEvent extends LoginSucceedEvent {}
+class LoginEvent extends LoginSucceedEvent
+{
+}

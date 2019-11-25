@@ -19,18 +19,17 @@
  */
 namespace oat\tao\model\theme;
 
-use oat\tao\helpers\Template;
 use oat\oatbox\Configurable;
+use oat\tao\helpers\Template;
 
 /**
  * Backwards compatibilit Theme build
  * based on original array
- * 
+ *
  * @author bout
  */
 class CompatibilityTheme extends DefaultTheme implements Theme
 {
-
     public function getLabel()
     {
         $all = $this->getOptions();
@@ -44,24 +43,22 @@ class CompatibilityTheme extends DefaultTheme implements Theme
             $arr = $this->getOption($context);
             $templates = $arr['templates'];
             if (isset($templates[$id])) {
-                return ROOT_PATH.$templates[$id];
+                return ROOT_PATH . $templates[$id];
             } else {
                 return parent::getTemplate($id, $context);
             }
         } else {
             return parent::getTemplate($id, $context);
         }
-        
     }
     
     public function getStylesheet($context = Theme::CONTEXT_BACKOFFICE)
     {
         if ($this->hasOption($context)) {
             $arr = $this->getOption($context);
-            return ROOT_URL.$arr['path'];
+            return ROOT_URL . $arr['path'];
         } else {
             return parent::getStylesheet($context);
         }
     }
-    
 }

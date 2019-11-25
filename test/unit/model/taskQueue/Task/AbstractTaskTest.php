@@ -20,9 +20,9 @@
 
 namespace oat\tao\test\unit\model\taskQueue\Task;
 
+use oat\generis\test\TestCase;
 use oat\tao\model\taskQueue\Task\AbstractTask;
 use oat\tao\model\taskQueue\Task\TaskInterface;
-use oat\generis\test\TestCase;
 
 class AbstractTaskTest extends TestCase
 {
@@ -190,7 +190,7 @@ class AbstractTaskTest extends TestCase
 
     public function testToStringWorks()
     {
-        $this->assertEquals('TASK '. get_class($this->abstractTaskMock) .' ['. $this->fakeId .']', (string) $this->abstractTaskMock);
+        $this->assertEquals('TASK ' . get_class($this->abstractTaskMock) . ' [' . $this->fakeId . ']', (string) $this->abstractTaskMock);
     }
 
     public function testOwnerShouldBeGeneratedInConstructor()

@@ -19,12 +19,12 @@
 
 namespace oat\tao\test\unit\webhooks;
 
+use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
 use oat\tao\model\webhooks\configEntity\Webhook;
 use oat\tao\model\webhooks\configEntity\WebhookAuth;
 use oat\tao\model\webhooks\configEntity\WebhookEntryFactory;
 use oat\tao\model\webhooks\WebhookFileRegistry;
-use oat\generis\test\MockObject;
 
 class WebhookFileRegistryTest extends TestCase
 {
@@ -91,7 +91,8 @@ class WebhookFileRegistryTest extends TestCase
         $this->assertNull($this->registry->getWebhookConfig('wh2'));
     }
 
-    public function testGetWebhookConfigIds() {
+    public function testGetWebhookConfigIds()
+    {
         $this->registry = new WebhookFileRegistry([
             WebhookFileRegistry::OPTION_EVENTS => [
                 'TestEvent' => ['wh1']
@@ -104,7 +105,8 @@ class WebhookFileRegistryTest extends TestCase
         $this->assertEquals([], $this->registry->getWebhookConfigIds('AnotherEvent'));
     }
 
-    public function testGetUnexistingWebhookConfigIds() {
+    public function testGetUnexistingWebhookConfigIds()
+    {
         $this->registry = new WebhookFileRegistry([
             WebhookFileRegistry::OPTION_EVENTS => [
                 'TestEvent' => ['wh1']

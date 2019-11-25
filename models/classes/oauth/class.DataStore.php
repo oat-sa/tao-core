@@ -19,32 +19,33 @@
  *             2013 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
-use oat\tao\model\oauth\OauthService;
 use oat\oatbox\service\ServiceManager;
+use oat\tao\model\oauth\OauthService;
+
 /**
  * @author Joel Bout, <joel@taotesting.com>
  * @deprecated please use OauthService::getDataStore()
  */
 class tao_models_classes_oauth_DataStore
 {
-
-	/**
-	 * deprecated helper function to find the OauthConsumer RDF Resource
-	 *
-	 * @access public
-	 * @author Joel Bout, <joel@taotesting.com>
-	 * @param  string consumer_key
-	 * @return core_kernel_classes_Resource
-	 */
-	public function findOauthConsumerResource($consumer_key)
-	{
-	    return $this->getService()->getDataStore()->findOauthConsumerResource($consumer_key);
-	}
+    /**
+     * deprecated helper function to find the OauthConsumer RDF Resource
+     *
+     * @access public
+     * @author Joel Bout, <joel@taotesting.com>
+     * @param  string consumer_key
+     * @return core_kernel_classes_Resource
+     */
+    public function findOauthConsumerResource($consumer_key)
+    {
+        return $this->getService()->getDataStore()->findOauthConsumerResource($consumer_key);
+    }
 
     /**
      * @return OauthService
      */
-    private function getService() {
+    private function getService()
+    {
         return ServiceManager::getServiceManager()->get(OauthService::SERVICE_ID);
     }
 }

@@ -20,9 +20,9 @@
  */
 namespace oat\tao\model\search;
 
+use common_report_Report as Report;
 use oat\oatbox\extension\AbstractAction;
 use oat\tao\model\search\index\IndexService;
-use common_report_Report as Report;
 
 /**
  * Command to reindex all resources
@@ -49,5 +49,4 @@ class RunIndexing extends AbstractAction
 
         return new Report(Report::TYPE_WARNING, __('Resources was not indexed'));
     }
-
 }

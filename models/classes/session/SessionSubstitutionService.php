@@ -21,10 +21,10 @@
 
 namespace oat\tao\model\session;
 
-use oat\oatbox\user\User;
-use oat\oatbox\service\ConfigurableService;
 use common_session_Session;
 use common_session_SessionManager;
+use oat\oatbox\service\ConfigurableService;
+use oat\oatbox\user\User;
 
 /**
  * Class SessionSubstitutionService

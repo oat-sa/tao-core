@@ -20,12 +20,12 @@
 
 namespace oat\tao\model\routing;
 
+use common_report_Report as Report;
 use oat\oatbox\action\ActionService;
 use oat\oatbox\action\ResolutionException;
-use common_report_Report as Report;
-use oat\tao\model\cliArgument\ArgumentService;
-use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\oatbox\service\ServiceManagerAwareInterface;
+use oat\oatbox\service\ServiceManagerAwareTrait;
+use oat\tao\model\cliArgument\ArgumentService;
 
 /**
  * Class CliController
@@ -67,13 +67,12 @@ class CliController implements ServiceManagerAwareInterface
             $previous = $e->getPrevious();
 
             // Get the full stack trace of the exception
-            while($previous){
-                $message .= PHP_EOL . "caused by : " . PHP_EOL .$previous->getMessage();
+            while ($previous) {
+                $message .= PHP_EOL . "caused by : " . PHP_EOL . $previous->getMessage();
                 $previous = $previous->getPrevious();
             }
 
             $report->add(new Report(Report::TYPE_ERROR, $message));
-
         }
 
         return $report;

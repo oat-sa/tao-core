@@ -28,7 +28,6 @@ use oat\tao\test\TaoPhpUnitTestRunner;
  */
 class UriHelperTest extends TaoPhpUnitTestRunner
 {
-
     public function uriDataProvider()
     {
         return [
@@ -51,7 +50,5 @@ class UriHelperTest extends TaoPhpUnitTestRunner
     {
         $url = \tao_helpers_Uri::url($action, $module, $extension, $params);
         $this->assertContains($expected, $url);
-
     }
-
 }

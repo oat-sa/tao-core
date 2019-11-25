@@ -20,13 +20,12 @@
  */
 namespace oat\tao\test\unit\model\routing;
 
-
 use Doctrine\Common\Annotations\AnnotationReader;
+use oat\generis\test\TestCase;
 use ReflectionClass;
 use ReflectionMethod;
 use ReflectionObject;
 use ReflectionProperty;
-use oat\generis\test\TestCase;
 
 /**
  *@Annotation
@@ -60,7 +59,9 @@ class AnnotationDemo
      * @AnnotatedDescription("allow", type="{id: READ}")
      * @AnnotatedDescription("allow", type="{uri: WRITE}")
      */
-    public function multipleRights() { }
+    public function multipleRights()
+    {
+    }
 }
 
 /**

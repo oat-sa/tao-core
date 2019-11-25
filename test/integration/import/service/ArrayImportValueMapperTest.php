@@ -39,7 +39,7 @@ class ArrayImportValueMapperTest extends TestCase
 
         $mapper = $this->getMockForAbstractClass(ImportValueMapperInterface::class);
         $mapper->method('map')
-            ->willReturnOnConsecutiveCalls('valueMappedInDB1','valueMappedInDB2');
+            ->willReturnOnConsecutiveCalls('valueMappedInDB1', 'valueMappedInDB2');
         $mapper->method('getReport')
             ->willReturn($reportMock);
 

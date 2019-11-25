@@ -20,7 +20,6 @@
 
 namespace oat\tao\model\theme;
 
-
 use oat\oatbox\Configurable;
 
 /**
@@ -42,7 +41,7 @@ class ThemeService extends ThemeServiceAbstract
      */
     public function addTheme(Theme $theme, $protectAlreadyExistingThemes = true)
     {
-        $themes  = $this->getAllThemes();
+        $themes = $this->getAllThemes();
         $themeId = $theme->getId();
         
         if ($protectAlreadyExistingThemes) {
@@ -50,7 +49,7 @@ class ThemeService extends ThemeServiceAbstract
         }
         
         $themes[$themeId] = [
-            static::THEME_CLASS_OFFSET   => get_class($theme),
+            static::THEME_CLASS_OFFSET => get_class($theme),
             static::THEME_OPTIONS_OFFSET => ($theme instanceof Configurable) ? $theme->getOptions() : []
         ];
 
@@ -65,7 +64,7 @@ class ThemeService extends ThemeServiceAbstract
     public function setCurrentTheme($themeId)
     {
         if (!$this->hasTheme($themeId)) {
-            throw new \common_exception_Error('Theme '. $themeId .' not found');
+            throw new \common_exception_Error('Theme ' . $themeId . ' not found');
         }
 
         $this->setOption(static::OPTION_CURRENT, $themeId);
@@ -84,7 +83,7 @@ class ThemeService extends ThemeServiceAbstract
                     : []
                 ;
 
-                $theme   = $this->getServiceManager()->build($theme[static::THEME_CLASS_OFFSET], $options);
+                $theme = $this->getServiceManager()->build($theme[static::THEME_CLASS_OFFSET], $options);
             }
 
             $themes[$key] = $theme;
@@ -98,7 +97,7 @@ class ThemeService extends ThemeServiceAbstract
      */
     public function removeThemeById($themeId)
     {
-        if(!$this->hasTheme($themeId)) {
+        if (!$this->hasTheme($themeId)) {
             return false;
         }
 

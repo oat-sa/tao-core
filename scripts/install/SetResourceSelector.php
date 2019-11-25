@@ -19,8 +19,8 @@
  */
 namespace oat\tao\scripts\install;
 
-use oat\tao\model\ClientLibConfigRegistry;
 use oat\oatbox\extension\InstallAction;
+use oat\tao\model\ClientLibConfigRegistry;
 
 /**
  * Changes the default tree provider to the resource selector component
@@ -32,8 +32,9 @@ class SetResourceSelector extends InstallAction
     public function __invoke($params)
     {
         ClientLibConfigRegistry::getRegistry()->register(
-            'layout/tree/loader', [
-                'treeProvider'   => 'resource-selector'
+            'layout/tree/loader',
+            [
+                'treeProvider' => 'resource-selector'
             ]
         );
 

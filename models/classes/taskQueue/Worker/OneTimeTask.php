@@ -36,11 +36,10 @@ final class OneTimeTask extends AbstractWorker
     public function run()
     {
         $this->logDebug('Starting Task.');
-        try{
+        try {
             return $this->processTask($this->task);
-
         } catch (\Exception $e) {
-            $this->logError('Error processing task '. $e->getMessage());
+            $this->logError('Error processing task ' . $e->getMessage());
         }
 
         $this->logDebug('Task finished.');

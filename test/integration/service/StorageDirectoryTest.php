@@ -21,10 +21,10 @@
 namespace oat\tao\test\integration\service;
 
 use League\Flysystem\Adapter\AbstractAdapter;
+use oat\generis\test\TestCase;
 use oat\oatbox\filesystem\Directory;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ServiceManager;
-use oat\generis\test\TestCase;
 
 class StorageDirectoryTest extends TestCase
 {
@@ -67,11 +67,10 @@ class StorageDirectoryTest extends TestCase
 
     protected function rrmdir($dir)
     {
-        foreach(glob($dir . '/*') as $file) {
-            if(is_dir($file)) {
+        foreach (glob($dir . '/*') as $file) {
+            if (is_dir($file)) {
                 $this->rrmdir($file);
-            }
-            else {
+            } else {
                 unlink($file);
             }
         }

@@ -20,9 +20,9 @@
 
 namespace oat\tao\model;
 
-use oat\tao\model\session\PretenderSession;
-use oat\oatbox\user\User;
 use common_session_Session;
+use oat\oatbox\user\User;
+use oat\tao\model\session\PretenderSession;
 
 /**
  * Interface SessionSubstitutionService
@@ -32,7 +32,7 @@ use common_session_Session;
  */
 interface SessionSubstitutionService
 {
-    const SERVICE_ID = 'tao/SessionSubstitution';
+    public const SERVICE_ID = 'tao/SessionSubstitution';
 
     /**
      * @param User $user

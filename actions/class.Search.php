@@ -18,13 +18,13 @@
  *
  */
 
+use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
-use oat\tao\model\search\SyntaxException;
+use oat\tao\model\search\aggregator\UnionSearchService;
 use oat\tao\model\search\index\OntologyIndexService;
 use oat\tao\model\search\ResultSet;
 use oat\tao\model\search\Search;
-use oat\generis\model\OntologyAwareTrait;
-use oat\tao\model\search\aggregator\UnionSearchService;
+use oat\tao\model\search\SyntaxException;
 
 /**
  * Controller for indexed searches
@@ -42,7 +42,7 @@ class tao_actions_Search extends tao_actions_CommonModule
      */
     public function searchParams()
     {
-        $rawQuery = isset($_POST['query'])?$_POST['query']:'';
+        $rawQuery = isset($_POST['query']) ? $_POST['query'] : '';
         $this->returnJson(array(
             'url' => _url('search'),
             'params' => array(
@@ -145,7 +145,7 @@ class tao_actions_Search extends tao_actions_CommonModule
     /**
      * @return UnionSearchService
      */
-    protected function getUnionSearchService() : UnionSearchService
+    protected function getUnionSearchService(): UnionSearchService
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->getServiceLocator()->get(UnionSearchService::SERVICE_ID);

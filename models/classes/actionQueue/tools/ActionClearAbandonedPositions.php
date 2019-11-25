@@ -21,9 +21,9 @@
 
 namespace oat\tao\model\actionQueue\tools;
 
+use common_report_Report as Report;
 use oat\oatbox\extension\AbstractAction;
 use oat\tao\model\actionQueue\ActionQueue;
-use \common_report_Report as Report;
 
 /**
  * Class ActionClearAbandonedPositions
@@ -31,7 +31,6 @@ use \common_report_Report as Report;
  */
 class ActionClearAbandonedPositions extends AbstractAction
 {
-
     public function __invoke($params)
     {
         $report = new Report(Report::TYPE_INFO, __('Collecting of abandoned actions in the action queue ...'));

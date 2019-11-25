@@ -21,16 +21,16 @@
 namespace oat\tao\model\search\strategy;
 
 use core_kernel_classes_Class;
-use oat\generis\model\OntologyRdfs;
-use oat\tao\model\search\Search;
-use oat\tao\model\search\ResultSet;
-use oat\oatbox\service\ConfigurableService;
 use oat\generis\model\OntologyAwareTrait;
+use oat\generis\model\OntologyRdfs;
+use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\search\ResultSet;
+use oat\tao\model\search\Search;
 
 /**
  * Simple Search implementation that ignores the indexes
- * and searches over the labels 
- * 
+ * and searches over the labels
+ *
  * @author Joel Bout <joel@taotesting.com>
  */
 class GenerisSearch extends ConfigurableService implements Search
@@ -41,15 +41,16 @@ class GenerisSearch extends ConfigurableService implements Search
      * (non-PHPdoc)
      * @see \oat\tao\model\search\Search::query()
      */
-    public function query($queryString, $type, $start = 0, $count = 10, $order = 'id', $dir = 'DESC') {
+    public function query($queryString, $type, $start = 0, $count = 10, $order = 'id', $dir = 'DESC')
+    {
         $rootClass = $this->getClass($type);
         $results = $rootClass->searchInstances([
             OntologyRdfs::RDFS_LABEL => $queryString
         ], array(
             'recursive' => true,
-            'like'      => true,
-            'offset'    => $start,
-            'limit'     => $count,
+            'like' => true,
+            'offset' => $start,
+            'limit' => $count,
         ));
         $ids = array();
         foreach ($results as $resource) {
@@ -63,7 +64,8 @@ class GenerisSearch extends ConfigurableService implements Search
      * (non-PHPdoc)
      * @see \oat\tao\model\search\Search::flush()
      */
-    public function flush() {
+    public function flush()
+    {
         // no flushing required
     }
 
@@ -71,7 +73,8 @@ class GenerisSearch extends ConfigurableService implements Search
      * (non-PHPdoc)
      * @see \oat\tao\model\search\Search::addIndexes()
      */
-    public function addIndexes(\Traversable $IndexIterator) {
+    public function addIndexes(\Traversable $IndexIterator)
+    {
         // no indexation required
         return 0;
     }
@@ -84,7 +87,7 @@ class GenerisSearch extends ConfigurableService implements Search
      *
      * @return array
      */
-    private function getTotalCount( $queryString, $rootClass = null )
+    private function getTotalCount($queryString, $rootClass = null)
     {
         return $rootClass->countInstances(
             array(
@@ -92,7 +95,7 @@ class GenerisSearch extends ConfigurableService implements Search
             ),
             array(
                 'recursive' => true,
-                'like'      => true,
+                'like' => true,
             )
         );
     }

@@ -24,8 +24,8 @@ use phpDocumentor\Reflection\DocBlock\Type\Collection;
 
 /**
  * Reflection class for a @requiresRight tag in a Docblock.
- * 
- * To be use with the phpDocumentor 
+ *
+ * To be use with the phpDocumentor
  *
  * @author  Joel Bout <joel@taotesting.com>
  */
@@ -61,7 +61,7 @@ class RequiresRightTag extends Tag
         if (count($parts) >= 2) {
             $this->parameter = $parts[0];
             $this->rightId = $parts[1];
-        } 
+        }
 
         $this->setDescription(isset($parts[2]) ? $parts[2] : '');
 
@@ -88,6 +88,4 @@ class RequiresRightTag extends Tag
     {
         return (string) $this->rightId;
     }
-    
-
 }

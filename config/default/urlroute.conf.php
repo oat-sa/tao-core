@@ -1,27 +1,27 @@
 <?php
 
 return new \oat\tao\model\mvc\DefaultUrlService(
-            [
-                'default' => 
+    [
+                'default' =>
                 [
-                    'ext'        => 'tao',
+                    'ext' => 'tao',
                     'controller' => 'Main',
-                    'action'     => 'index',
+                    'action' => 'index',
                 ],
-                'login' => 
+                'login' =>
                 [
-                    'ext'        => 'tao',
+                    'ext' => 'tao',
                     'controller' => 'Main',
-                    'action'     => 'login',
+                    'action' => 'login',
                 ],
                 'logout' =>
                 [
-                    'ext'        => 'tao',
+                    'ext' => 'tao',
                     'controller' => 'Main',
-                    'action'     => 'logout',
-                    'redirect'   =>
+                    'action' => 'logout',
+                    'redirect' =>
                         [
-                            'class'   => \oat\tao\model\mvc\DefaultUrlModule\TaoActionResolver::class,
+                            'class' => \oat\tao\model\mvc\DefaultUrlModule\TaoActionResolver::class,
                             'options' => [
                                 'action' => 'entry',
                                 'controller' => 'Main',
@@ -30,5 +30,4 @@ return new \oat\tao\model\mvc\DefaultUrlService(
                         ],
                 ]
             ]
-        );
-
+);

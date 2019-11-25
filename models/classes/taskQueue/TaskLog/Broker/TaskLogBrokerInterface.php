@@ -33,19 +33,19 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
  */
 interface TaskLogBrokerInterface extends ServiceLocatorAwareInterface
 {
-    const DEFAULT_CONTAINER_NAME = 'task_log';
+    public const DEFAULT_CONTAINER_NAME = 'task_log';
 
-    const COLUMN_ID = 'id';
-    const COLUMN_PARENT_ID = 'parent_id';
-    const COLUMN_MASTER_STATUS = 'master_status';
-    const COLUMN_TASK_NAME = 'task_name';
-    const COLUMN_PARAMETERS = 'parameters';
-    const COLUMN_LABEL = 'label';
-    const COLUMN_STATUS = 'status';
-    const COLUMN_OWNER = 'owner';
-    const COLUMN_REPORT = 'report';
-    const COLUMN_CREATED_AT = 'created_at';
-    const COLUMN_UPDATED_AT = 'updated_at';
+    public const COLUMN_ID = 'id';
+    public const COLUMN_PARENT_ID = 'parent_id';
+    public const COLUMN_MASTER_STATUS = 'master_status';
+    public const COLUMN_TASK_NAME = 'task_name';
+    public const COLUMN_PARAMETERS = 'parameters';
+    public const COLUMN_LABEL = 'label';
+    public const COLUMN_STATUS = 'status';
+    public const COLUMN_OWNER = 'owner';
+    public const COLUMN_REPORT = 'report';
+    public const COLUMN_CREATED_AT = 'created_at';
+    public const COLUMN_UPDATED_AT = 'updated_at';
 
     /**
      * Creates the container where the task logs will be stored.

@@ -20,7 +20,6 @@
 
 namespace oat\tao\helpers\form\elements;
 
-
 interface TreeAware
 {
     public function rangeToTree(\core_kernel_classes_Class $range, $recursive = false);

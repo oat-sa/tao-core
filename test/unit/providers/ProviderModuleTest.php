@@ -20,8 +20,8 @@
 namespace oat\tao\test\unit\providers;
 
 use common_exception_InconsistentData;
-use oat\tao\model\providers\ProviderModule;
 use oat\generis\test\TestCase;
+use oat\tao\model\providers\ProviderModule;
 
 /**
  * Test the ProviderModule pojo
@@ -31,7 +31,6 @@ use oat\generis\test\TestCase;
  */
 class ProviderModuleTest extends TestCase
 {
-
     /**
      * Data provider
      * @return array the data
@@ -139,7 +138,6 @@ class ProviderModuleTest extends TestCase
      */
     public function testConstruct($input, $output)
     {
-
         $ProviderModule = new ProviderModule($input['id'], $input['module'], $input['category'], $input);
 
         $this->assertEquals($output['id'], $ProviderModule->getId());
@@ -160,7 +158,6 @@ class ProviderModuleTest extends TestCase
      */
     public function testFromArray($input, $output)
     {
-
         $ProviderModule = ProviderModule::fromArray($input);
 
         $this->assertEquals($output['id'], $ProviderModule->getId());

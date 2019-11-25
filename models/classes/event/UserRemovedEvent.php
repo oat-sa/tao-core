@@ -25,8 +25,7 @@ use oat\oatbox\event\Event;
 
 class UserRemovedEvent implements Event, JsonSerializable
 {
-
-    const EVENT_NAME = __CLASS__;
+    public const EVENT_NAME = __CLASS__;
 
     /** @var  string */
     private $userUri;

@@ -20,7 +20,6 @@
  */
 class tao_install_checks_Opcache extends common_configuration_Component
 {
-
     /**
      * @return common_configuration_Report
      */
@@ -28,13 +27,12 @@ class tao_install_checks_Opcache extends common_configuration_Component
     {
         $error = null;
 
-        if ( ! function_exists('opcache_get_configuration')) {
+        if (!function_exists('opcache_get_configuration')) {
             $error = 'You can install OPcache extension to improve performance';
         } else {
-
             $configuration = opcache_get_configuration();
 
-            if ( ! $configuration['directives']['opcache.enable']) {
+            if (!$configuration['directives']['opcache.enable']) {
                 $error = 'You can enable OPcache extension to improve performance';
             }
         }

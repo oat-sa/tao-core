@@ -21,9 +21,9 @@
 
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\user\PasswordConstraintsService;
-use oat\tao\helpers\ApplicationHelper;
 use oat\generis\model\user\UserRdf;
 use oat\oatbox\user\UserLanguageServiceInterface;
+use oat\tao\helpers\ApplicationHelper;
 use oat\tao\model\controller\SignedFormInstance;
 
 /**
@@ -89,7 +89,7 @@ class tao_actions_form_Users extends SignedFormInstance
             $this->user = $user;
             $options['mode'] = 'edit';
         } else {
-            if (isset($_POST[$this->formName.'_sent']) && isset($_POST['uri'])) {
+            if (isset($_POST[$this->formName . '_sent']) && isset($_POST['uri'])) {
                 $this->user = new core_kernel_classes_Resource(tao_helpers_Uri::decode($_POST['uri']));
             } else {
                 $this->user = $service->createInstance($clazz, $service->createUniqueLabel($clazz));
@@ -230,7 +230,7 @@ class tao_actions_form_Users extends SignedFormInstance
             $this->form->addElement($pass2Element);
         } else {
             if (ApplicationHelper::isDemo()) {
-                $warning  = tao_helpers_form_FormFactory::getElement('warningpass', 'Label');
+                $warning = tao_helpers_form_FormFactory::getElement('warningpass', 'Label');
                 $warning->setValue(__('Unable to change passwords in demo mode'));
                 $this->form->addElement($warning);
                 $this->form->createGroup("pass_group", __("Change the password"), array('warningpass'));

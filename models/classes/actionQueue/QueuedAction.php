@@ -34,7 +34,6 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
  */
 interface QueuedAction extends TaoAction, ServiceLocatorAwareInterface
 {
-
     /**
      * Get action identifier
      * @return mixed

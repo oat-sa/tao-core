@@ -19,8 +19,8 @@
  */
 namespace oat\tao\scripts\install;
 
-use oat\oatbox\extension\InstallAction;
 use oat\generis\model\OntologyAwareTrait;
+use oat\oatbox\extension\InstallAction;
 use oat\tao\model\resources\ResourceWatcher;
 
 /**
@@ -39,5 +39,4 @@ class RegisterResourceWatcherService extends InstallAction
 
         return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'ResourceWatcher service is registered');
     }
-
 }

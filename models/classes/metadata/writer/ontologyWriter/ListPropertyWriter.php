@@ -64,7 +64,6 @@ class ListPropertyWriter extends PropertyWriter
                 $element->getOnePropertyValue($this->getProperty(OntologyRdf::RDF_VALUE))->literal
             ];
         }
-
     }
 
     /**

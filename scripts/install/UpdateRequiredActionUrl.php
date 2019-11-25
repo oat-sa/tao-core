@@ -20,7 +20,6 @@
 
 namespace oat\tao\scripts\install;
 
-
 use oat\oatbox\extension\InstallAction;
 use oat\tao\model\requiredAction\implementation\RequiredActionRedirectUrlPart;
 use oat\tao\model\requiredAction\implementation\RequiredActionService;
@@ -55,5 +54,4 @@ class UpdateRequiredActionUrl extends InstallAction
             $this->getServiceManager()->register(RequiredActionService::CONFIG_ID, $requiredActionService);
         }
     }
-
 }

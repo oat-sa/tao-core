@@ -36,7 +36,7 @@ class Group extends ArgumentLoader implements Argument
      */
     public function load(Action $action)
     {
-        if (! is_null($this->argument)) {
+        if (!is_null($this->argument)) {
             $this->argument->load($action);
         }
     }
@@ -68,5 +68,4 @@ class Group extends ArgumentLoader implements Argument
     {
         return $this->getOptions();
     }
-
 }

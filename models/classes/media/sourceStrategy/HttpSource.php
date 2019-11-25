@@ -60,7 +60,6 @@ class HttpSource implements MediaBrowser
 
         //if there is an http auth on the local domain, it's mandatory to auth with curl
         if (USE_HTTP_AUTH) {
-
             $addAuth = false;
             $domains = array('localhost', '127.0.0.1', ROOT_URL);
 
@@ -96,7 +95,7 @@ class HttpSource implements MediaBrowser
 
         $content = @get_headers($url, 1);
 
-        if($content === false){
+        if ($content === false) {
             throw new \tao_models_classes_FileNotFoundException($url);
         }
 

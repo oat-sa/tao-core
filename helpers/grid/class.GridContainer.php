@@ -1,22 +1,22 @@
 <?php
-/**  
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
+ *
  */
 
 /**
@@ -26,7 +26,7 @@
  * @access public
  * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
  * @package tao
- 
+
  */
 abstract class tao_helpers_grid_GridContainer
 {
@@ -88,19 +88,15 @@ abstract class tao_helpers_grid_GridContainer
      */
     public function __construct($data = array(), $options = array())
     {
+        $this->data = $data;
+        $this->options = $options;
+        $this->excludedProperties = (is_array($this->options) && isset($this->options['excludedProperties'])) ? $this->options['excludedProperties'] : array();
+        $this->grid = new tao_helpers_grid_Grid($options);
         
-		
-		$this->data = $data;
-		$this->options = $options;
-		$this->excludedProperties = (is_array($this->options) && isset($this->options['excludedProperties'])) ? $this->options['excludedProperties'] : array();
-		$this->grid = new tao_helpers_grid_Grid($options);
-		
-		//init columns ...
-		$this->initGrid();
-		$this->initColumns();
-		$this->initOptions($options);
-		
-        
+        //init columns ...
+        $this->initGrid();
+        $this->initColumns();
+        $this->initOptions($options);
     }
 
     /**
@@ -112,12 +108,9 @@ abstract class tao_helpers_grid_GridContainer
      */
     public function __destruct()
     {
-        
-		if(!is_null($this->grid)){
-			//remove the refs of the contained grid
-			
-		}
-        
+        if (!is_null($this->grid)) {
+            //remove the refs of the contained grid
+        }
     }
 
     /**
@@ -132,7 +125,7 @@ abstract class tao_helpers_grid_GridContainer
         $returnValue = null;
 
         
-		$returnValue = $this->grid;
+        $returnValue = $this->grid;
         
 
         return $returnValue;
@@ -150,10 +143,10 @@ abstract class tao_helpers_grid_GridContainer
         $returnValue = (bool) false;
 
         
-		
-		//set data if data given
-		$returnValue = $this->grid->setData($this->data);
-		
+        
+        //set data if data given
+        $returnValue = $this->grid->setData($this->data);
+        
         
 
         return (bool) $returnValue;
@@ -167,7 +160,7 @@ abstract class tao_helpers_grid_GridContainer
      * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @return boolean
      */
-    protected abstract function initColumns();
+    abstract protected function initColumns();
 
     /**
      * Short description of method toArray
@@ -181,7 +174,7 @@ abstract class tao_helpers_grid_GridContainer
         $returnValue = array();
 
         
-		$returnValue = $this->grid->toArray();
+        $returnValue = $this->grid->toArray();
         
 
         return (array) $returnValue;
@@ -201,37 +194,35 @@ abstract class tao_helpers_grid_GridContainer
         
         
         $columns = $this->grid->getColumns();
-        if(isset($options['columns'])){
-        	foreach($options['columns'] as $columnId=>$columnOptions){
-				
-				if(isset($columns[$columnId])){
-					foreach($columnOptions as $optionsName=>$optionsValue){
-						if($optionsName=='columns'){
-							//if the options is columns, the options will be used to augment the subgrid model
-							$columns = $this->grid->getColumns();
-							$subGridAdapter = null;
-							//get the last subgrid adapter which defines the column
-							$adapters = $columns[$columnId]->getAdapters();
-							$adaptersLength = count($adapters);
-							for($i=$adaptersLength-1; $i>=0; $i--){
-								if($adapters[$i] instanceof tao_helpers_grid_Cell_SubgridAdapter){
-									$subGridAdapter = $adapters[$i];
-									break;
-								}
-							}
-							if(is_null($subGridAdapter)){
-								throw new Exception(__('The column ').$columnId.__(' requires a subgrid adapter'));
-							}
-							//init options of the subgrid
-							$subGridAdapter->getGridContainer()->initOptions($columnOptions);
+        if (isset($options['columns'])) {
+            foreach ($options['columns'] as $columnId => $columnOptions) {
+                if (isset($columns[$columnId])) {
+                    foreach ($columnOptions as $optionsName => $optionsValue) {
+                        if ($optionsName == 'columns') {
+                            //if the options is columns, the options will be used to augment the subgrid model
+                            $columns = $this->grid->getColumns();
+                            $subGridAdapter = null;
+                            //get the last subgrid adapter which defines the column
+                            $adapters = $columns[$columnId]->getAdapters();
+                            $adaptersLength = count($adapters);
+                            for ($i = $adaptersLength - 1; $i >= 0; $i--) {
+                                if ($adapters[$i] instanceof tao_helpers_grid_Cell_SubgridAdapter) {
+                                    $subGridAdapter = $adapters[$i];
+                                    break;
+                                }
+                            }
+                            if (is_null($subGridAdapter)) {
+                                throw new Exception(__('The column ') . $columnId . __(' requires a subgrid adapter'));
+                            }
+                            //init options of the subgrid
+                            $subGridAdapter->getGridContainer()->initOptions($columnOptions);
 
-							continue;
-						}
-						$columns[$columnId]->setOption($optionsName, $optionsValue);
-					}
-				}
-				
-        	}
+                            continue;
+                        }
+                        $columns[$columnId]->setOption($optionsName, $optionsValue);
+                    }
+                }
+            }
         }
         
 
@@ -247,11 +238,6 @@ abstract class tao_helpers_grid_GridContainer
      */
     public function __clone()
     {
-        
-		$this->grid = clone $this->grid;
-        
+        $this->grid = clone $this->grid;
     }
-
 } /* end of abstract class tao_helpers_grid_GridContainer */
-
-?>

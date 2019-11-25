@@ -20,8 +20,8 @@
 
 namespace oat\tao\model\stream;
 
-use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\StreamInterface;
 
 /**
  * Class StreamRange
@@ -57,7 +57,6 @@ class StreamRange
                 throw new StreamRangeException('HTTP/1.1 416 Requested Range Not Satisfiable');
             }
             $this->lastPos = $length - 1;
-
         } elseif (preg_match('/^(\d+)\-(\d+)$/', $range, $match)) {
             $this->firstPos = intval($match[1]);
             $this->lastPos = intval($match[2]);
@@ -97,7 +96,7 @@ class StreamRange
         }
         if ($rangeHeader) {
             $ranges = explode(',', $rangeHeader[0]);
-            foreach($ranges as $range) {
+            foreach ($ranges as $range) {
                 $range = str_replace('bytes=', '', $range);
                 $result[] = new StreamRange($stream, $range);
             }

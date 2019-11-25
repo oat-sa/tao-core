@@ -20,9 +20,9 @@ namespace oat\tao\test\unit\import\service;
 
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
-use oat\tao\model\import\service\RdsValidatorValueMapper;
-use oat\generis\test\TestCase;
 use oat\generis\test\MockObject;
+use oat\generis\test\TestCase;
+use oat\tao\model\import\service\RdsValidatorValueMapper;
 
 class RdsValidatorValueMapperTest extends TestCase
 {
@@ -69,7 +69,7 @@ class RdsValidatorValueMapperTest extends TestCase
     protected function getService($retProperty, $resource, $searchInstances = [])
     {
         $service = $this->getMockBuilder(RdsValidatorValueMapper::class)->disableOriginalConstructor()
-            ->setMethods(['getOption','getClass'])->getMockForAbstractClass();
+            ->setMethods(['getOption', 'getClass'])->getMockForAbstractClass();
 
         $classMock = $this->getMockBuilder(core_kernel_classes_Class::class)->disableOriginalConstructor()->getMock();
         $classMock
@@ -85,8 +85,8 @@ class RdsValidatorValueMapperTest extends TestCase
 
         $service
             ->method('getOption')
-            ->willReturnCallback(function ($param) use ($retProperty){
-                if ($param === RdsValidatorValueMapper::OPTION_PROPERTY){
+            ->willReturnCallback(function ($param) use ($retProperty) {
+                if ($param === RdsValidatorValueMapper::OPTION_PROPERTY) {
                     return $retProperty;
                 }
 

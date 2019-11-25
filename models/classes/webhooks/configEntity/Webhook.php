@@ -21,11 +21,11 @@ namespace oat\tao\model\webhooks\configEntity;
 
 class Webhook implements WebhookInterface
 {
-    const ID = 'id';
-    const URL = 'url';
-    const HTTP_METHOD = 'httpMethod';
-    const AUTH = 'auth';
-    const RETRY_MAX = 'retryMax';
+    public const ID = 'id';
+    public const URL = 'url';
+    public const HTTP_METHOD = 'httpMethod';
+    public const AUTH = 'auth';
+    public const RETRY_MAX = 'retryMax';
 
     /**
      * @var string

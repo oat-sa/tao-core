@@ -33,9 +33,9 @@ use oat\tao\model\routing\Resolver;
  */
 class RestSessionFactory extends ConfigurableService
 {
-    const SERVICE_ID = 'tao/restSessionFactory';
+    public const SERVICE_ID = 'tao/restSessionFactory';
 
-    const OPTION_BUILDERS = 'builders';
+    public const OPTION_BUILDERS = 'builders';
 
     /**
      * Create a rest session based on builders.
@@ -100,5 +100,4 @@ class RestSessionFactory extends ConfigurableService
     {
         return is_subclass_of($resolver->getControllerClass(), \tao_actions_RestController::class);
     }
-
 }

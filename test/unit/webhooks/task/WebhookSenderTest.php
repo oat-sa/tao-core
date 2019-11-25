@@ -20,11 +20,11 @@
 namespace oat\tao\test\unit\webhooks\task;
 
 use GuzzleHttp\Exception\GuzzleException;
+use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
 use oat\tao\model\webhooks\configEntity\WebhookAuthInterface;
 use oat\tao\model\webhooks\task\WebhookSender;
 use Psr\Http\Message\RequestInterface;
-use oat\generis\test\MockObject;
 
 class WebhookSenderTest extends TestCase
 {

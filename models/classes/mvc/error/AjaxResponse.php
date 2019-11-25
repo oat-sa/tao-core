@@ -8,16 +8,14 @@
 
 namespace oat\tao\model\mvc\error;
 
-
 class AjaxResponse extends ResponseAbstract
 {
     protected $contentType = 'application/json';
 
     public function send()
     {
-
         $message = $this->exception->getMessage();
-        if(method_exists($this->exception , 'getUserMessage')) {
+        if (method_exists($this->exception, 'getUserMessage')) {
             $message = $this->exception->getUserMessage();
         }
 
@@ -30,6 +28,5 @@ class AjaxResponse extends ResponseAbstract
             "message" => $message,
         ];
         new \common_AjaxResponse($response);
-
     }
 }

@@ -27,18 +27,18 @@ use oat\tao\model\menu\Tree;
 use oat\tao\test\TaoPhpUnitTestRunner;
 
 /**
- * Unit test the  oat\tao\model\menu\Section class 
+ * Unit test the  oat\tao\model\menu\Section class
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @package tao
  */
-class SectionTest extends TaoPhpUnitTestRunner {
-    
+class SectionTest extends TaoPhpUnitTestRunner
+{
     /**
      * Data Provider : provides xml, from legacy and new format, and also the expect result
      * @return array the data
-     */ 
-    public function legacyAndNewSectionProvider(){
-
+     */
+    public function legacyAndNewSectionProvider()
+    {
         $sectionNew = <<<XML
 <section id="manage_items" name="Manage items" url="/taoItems/Items/index">
     <trees>
@@ -79,14 +79,15 @@ XML;
     }
     
     /**
-     * Test the section can be loaded from either legacy or new XML format 
-     * 
+     * Test the section can be loaded from either legacy or new XML format
+     *
      * @dataProvider legacyAndNewSectionProvider
-     * 
+     *
      * @param string $xml new format xml
      * @param string $xml legacy format xml
      */
-    public function testActions($newXml, $legacyXml){
+    public function testActions($newXml, $legacyXml)
+    {
         $sectionFromNew = Section::fromSimpleXMLElement(new SimpleXMLElement($newXml), 'tao');
 
         $this->assertTrue($sectionFromNew instanceof Section);
@@ -99,12 +100,11 @@ XML;
         $this->assertEquals(count($sectionFromLegacy->getActions()), 4);
         $this->assertEquals(count($sectionFromLegacy->getTrees()), 1);
 
-        $trees =  $sectionFromLegacy->getTrees();
-        $tree  =  $trees[0];
+        $trees = $sectionFromLegacy->getTrees();
+        $tree = $trees[0];
 
         $this->assertTrue($tree instanceof Tree);
         $this->assertFalse(is_null($tree->get('selectClass')));
         $this->assertEquals('edit_class', $tree->get('selectClass'));
     }
-
 }

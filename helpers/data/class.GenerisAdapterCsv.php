@@ -20,10 +20,10 @@
  */
 
 use oat\generis\model\OntologyRdfs;
+use oat\oatbox\filesystem\File;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\helpers\data\ValidationException;
 use oat\tao\model\upload\UploadService;
-use oat\oatbox\filesystem\File;
 
 /**
  * Adapter for CSV format
@@ -35,7 +35,6 @@ use oat\oatbox\filesystem\File;
  */
 class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 {
-
     /**
      * Short description of attribute loadedFile
      *
@@ -171,7 +170,6 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 
                 // evaluate csv values
                 foreach ($this->options['map'] as $propUri => $csvColumn) {
-
                     if ($csvColumn != 'csv_null' && $csvColumn != 'csv_select') {
                         // process value
                         if (isset($csvRow[$csvColumn]) && !is_null($csvRow[$csvColumn])) {
@@ -191,7 +189,6 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 
                 $report->add(new common_report_Report(common_report_Report::TYPE_SUCCESS, __('Imported resource "%s"', $resource->getLabel()), $resource));
                 $createdResources++;
-
             } catch (ValidationException $valExc) {
                 $failure = common_report_Report::createFailure(
                     __('Row %s', $rowIterator + 1) . ' ' . $valExc->getProperty()->getLabel() . ': ' . $valExc->getUserMessage() . ' "' . $valExc->getValue() . '"'
@@ -322,7 +319,6 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
                     $rangeCompliance = true;
                     break;
                 }
-
             }
 
             if (true == $rangeCompliance) {
@@ -350,7 +346,6 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
         /**  @var tao_helpers_form_Validator $validator */
         $validators = $this->getValidator($propUri);
         foreach ((array)$validators as $validator) {
-
             $validator->setOptions(array_merge(array('resourceClass' => $destination, 'property' => $propUri), $validator->getOptions()));
             $value = isset($csvRow[$csvColumn]) ? $csvRow[$csvColumn] : null;
             if ($value === null) {

@@ -25,8 +25,8 @@
 
 namespace oat\tao\test\integration\controllerMap\stubs;
 
-class ValidNamespacedController extends \Module {
-
+class ValidNamespacedController extends \Module
+{
     /**
      * Valid namespaced stub controller action
      *
@@ -34,7 +34,5 @@ class ValidNamespacedController extends \Module {
      */
     public function validAction()
     {
-
     }
-
-} 
+}

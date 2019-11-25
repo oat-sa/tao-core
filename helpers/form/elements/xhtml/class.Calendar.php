@@ -43,14 +43,14 @@ class tao_helpers_form_elements_xhtml_Calendar extends tao_helpers_form_elements
         $uniqueId = uniqid('calendar_');
         $elementId = tao_helpers_Display::TextCleaner($this->getDescription()) . '_' . $uniqueId;
 
-        if (! isset($this->attributes['size'])) {
+        if (!isset($this->attributes['size'])) {
             $this->attributes['size'] = 20;
         }
 
         $returnValue .= "<div class='form-elt-container'><input class='datepicker-input' type='text' name='{$this->name}' id='$elementId' ";
         $returnValue .= $this->renderAttributes();
 
-        if (! empty($this->value)) {
+        if (!empty($this->value)) {
             $timeStamp = is_numeric($this->getRawValue()) ? $this->getRawValue() : $this->getEvaluatedValue();
             $returnValue .= ' value="' . _dh(tao_helpers_Date::displayeDate($timeStamp, tao_helpers_Date::FORMAT_DATEPICKER)) . '"';
         }
@@ -63,7 +63,7 @@ class tao_helpers_form_elements_xhtml_Calendar extends tao_helpers_form_elements
     {
         $returnValue = $this->getRawValue();
 
-        if (! empty($returnValue)) {
+        if (!empty($returnValue)) {
             $tz = new DateTimeZone(common_session_SessionManager::getSession()->getTimeZone());
             $dt = new DateTime($returnValue, $tz);
             $returnValue = $dt->getTimestamp() . '';

@@ -24,7 +24,7 @@ use oat\tao\model\import\service\ImportMapperInterface;
 
 class UserCsvImporterFactory extends ImporterFactory
 {
-    const SERVICE_ID = 'tao/userCsvImporterFactory';
+    public const SERVICE_ID = 'tao/userCsvImporterFactory';
 
     /**
      * @return ImportMapperInterface

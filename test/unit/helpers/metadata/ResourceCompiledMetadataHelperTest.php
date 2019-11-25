@@ -17,8 +17,8 @@
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA ;
  */
 
-use oat\tao\helpers\metadata\ResourceCompiledMetadataHelper;
 use oat\generis\test\TestCase;
+use oat\tao\helpers\metadata\ResourceCompiledMetadataHelper;
 
 class ResourceCompiledMetadataHelperTest extends TestCase
 {

@@ -22,10 +22,10 @@ use oat\generis\model\OntologyRdfs;
 use oat\oatbox\event\EventManagerAwareTrait;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\event\CsvImportEvent;
+use oat\tao\model\import\CsvAbstractImporter;
 use oat\tao\model\import\ImportHandlerHelperTrait;
 use oat\tao\model\import\TaskParameterProviderInterface;
 use oat\tao\model\upload\UploadService;
-use oat\tao\model\import\CsvAbstractImporter;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 /**
@@ -40,7 +40,7 @@ class tao_models_classes_import_CsvImporter extends CsvAbstractImporter implemen
     use EventManagerAwareTrait;
     use ImportHandlerHelperTrait { getTaskParameters as getDefaultTaskParameters; }
 
-    const OPTION_POSTFIX = '_O';
+    public const OPTION_POSTFIX = '_O';
 
     /**
      * (non-PHPdoc)
@@ -99,23 +99,23 @@ class tao_models_classes_import_CsvImporter extends CsvAbstractImporter implemen
         $file = $uploadService->getUploadedFlyFile($serial);
 
         $properties = array(tao_helpers_Uri::encode(OntologyRdfs::RDFS_LABEL) => __('Label'));
-		$rangedProperties = array();
+        $rangedProperties = array();
 
-		$classUri = \tao_helpers_Uri::decode($_POST['classUri']);
-		$class = new core_kernel_classes_Class($classUri);
-		$classProperties = $this->getClassProperties($class);
+        $classUri = \tao_helpers_Uri::decode($_POST['classUri']);
+        $class = new core_kernel_classes_Class($classUri);
+        $classProperties = $this->getClassProperties($class);
 
-		foreach($classProperties as $property){
-			if(!in_array($property->getUri(), $this->getExludedProperties())){
-				//@todo manage the properties with range
-				$range = $property->getRange();
-				$properties[tao_helpers_Uri::encode($property->getUri())] = $property->getLabel();
+        foreach ($classProperties as $property) {
+            if (!in_array($property->getUri(), $this->getExludedProperties())) {
+                //@todo manage the properties with range
+                $range = $property->getRange();
+                $properties[tao_helpers_Uri::encode($property->getUri())] = $property->getLabel();
 
-				if($range instanceof core_kernel_classes_Resource && $range->getUri() != OntologyRdfs::RDFS_LITERAL){
-					$rangedProperties[tao_helpers_Uri::encode($property->getUri())] = $property->getLabel();
-				}
-			}
-		}
+                if ($range instanceof core_kernel_classes_Resource && $range->getUri() != OntologyRdfs::RDFS_LITERAL) {
+                    $rangedProperties[tao_helpers_Uri::encode($property->getUri())] = $property->getLabel();
+                }
+            }
+        }
 
         //load the csv data from the file (uploaded in the upload form) to get the columns
         $csv_data = new tao_helpers_data_CsvFile($sourceForm->getValues());

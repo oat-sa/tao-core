@@ -20,20 +20,20 @@
 
 namespace oat\tao\model;
 
+use core_kernel_classes_Class;
+use core_kernel_classes_Property;
+use core_kernel_classes_Resource;
+use core_kernel_classes_ResourceFactory;
 use oat\generis\model\fileReference\FileReferenceSerializer;
 use oat\generis\model\fileReference\ResourceFileSerializer;
 use oat\generis\model\GenerisRdf;
+use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdf;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\event\EventManagerAwareTrait;
 use oat\oatbox\filesystem\File;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\tao\helpers\TreeHelper;
-use oat\generis\model\OntologyAwareTrait;
-use core_kernel_classes_Class;
-use core_kernel_classes_Resource;
-use core_kernel_classes_ResourceFactory;
-use core_kernel_classes_Property;
 
 /**
  * Trait GenerisServiceTrait
@@ -96,26 +96,26 @@ trait GenerisServiceTrait
     public function createUniqueLabel(core_kernel_classes_Class $clazz, $subClassing = false)
     {
         if ($subClassing) {
-            $labelBase = $clazz->getLabel() . '_' ;
-            $count = count($clazz->getSubClasses()) +1;
+            $labelBase = $clazz->getLabel() . '_';
+            $count = count($clazz->getSubClasses()) + 1;
         } else {
-            $labelBase = $clazz->getLabel() . ' ' ;
-            $count = count($clazz->getInstances()) +1;
+            $labelBase = $clazz->getLabel() . ' ';
+            $count = count($clazz->getInstances()) + 1;
         }
 
         $options = [
-            'lang'              => \common_session_SessionManager::getSession()->getDataLanguage(),
-            'like'              => false,
-            'recursive'         => false
+            'lang' => \common_session_SessionManager::getSession()->getDataLanguage(),
+            'like' => false,
+            'recursive' => false
         ];
 
         do {
             $exist = false;
-            $label =  $labelBase . $count;
+            $label = $labelBase . $count;
             $result = $clazz->searchInstances(array(OntologyRdfs::RDFS_LABEL => $label), $options);
             if (count($result) > 0) {
                 $exist = true;
-                $count ++;
+                $count++;
             }
         } while ($exist);
 
@@ -188,7 +188,7 @@ trait GenerisServiceTrait
             if (preg_match("/bis(\s[0-9]+)?$/", $label)) {
                 $cloneNumber = (int)preg_replace("/^(.?)*bis/", "", $label);
                 $cloneNumber++;
-                $cloneLabel = preg_replace("/bis(\s[0-9]+)?$/", "", $label)."bis $cloneNumber" ;
+                $cloneLabel = preg_replace("/bis(\s[0-9]+)?$/", "", $label) . "bis $cloneNumber";
             }
 
             $returnValue->setLabel($cloneLabel);
@@ -380,7 +380,7 @@ trait GenerisServiceTrait
 
                 $allParentClasses = $parentClass->getParentClasses(true);
                 if (array_key_exists($topLevelClazz->getUri(), $allParentClasses)) {
-                     $parents[$parentClass->getUri()] = $parentClass;
+                    $parents[$parentClass->getUri()] = $parentClass;
                 }
                 $lastLevelParents[$parentClass->getUri()] = $parentClass;
             }

@@ -45,6 +45,4 @@ class RoleChangedEvent extends AbstractRoleEvent
         $this->essence = $essence;
         $this->changes = $changes;
     }
-
-
 }

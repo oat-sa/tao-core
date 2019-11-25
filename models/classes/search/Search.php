@@ -30,7 +30,7 @@ use oat\tao\model\search\index\IndexIterator;
  */
 interface Search extends PhpSerializable
 {
-    const SERVICE_ID = 'tao/search';
+    public const SERVICE_ID = 'tao/search';
 
     /**
      * Search for instances using a Lucene query

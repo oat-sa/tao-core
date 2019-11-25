@@ -30,10 +30,10 @@ class FileTest extends TestCase
     public function zipBombCandidatesProvider()
     {
         return [
-            ['file' => 'bomb-1GiB', 'shouldBeConsideredAsABomb' => true,],
-            ['file' => 'bomb-4GiB', 'shouldBeConsideredAsABomb' => true,],
-            ['file' => 'chocolate_factory_1539704410', 'shouldBeConsideredAsABomb' => false,],
-            ['file' => 'planets_and_moons_1539704402', 'shouldBeConsideredAsABomb' => false,],
+            ['file' => 'bomb-1GiB', 'shouldBeConsideredAsABomb' => true, ],
+            ['file' => 'bomb-4GiB', 'shouldBeConsideredAsABomb' => true, ],
+            ['file' => 'chocolate_factory_1539704410', 'shouldBeConsideredAsABomb' => false, ],
+            ['file' => 'planets_and_moons_1539704402', 'shouldBeConsideredAsABomb' => false, ],
         ];
     }
 

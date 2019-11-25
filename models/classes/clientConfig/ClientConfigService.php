@@ -20,23 +20,25 @@
 namespace oat\tao\model\clientConfig;
 
 use oat\oatbox\service\ConfigurableService;
+
 /**
- * 
+ *
  * @author Joel Bout
  */
-class ClientConfigService extends ConfigurableService {
-
-    const SERVICE_ID = 'tao/clientConfig';
+class ClientConfigService extends ConfigurableService
+{
+    public const SERVICE_ID = 'tao/clientConfig';
     
-    const OPTION_CONFIG_SOURCES = 'configs';
+    public const OPTION_CONFIG_SOURCES = 'configs';
     
     /**
      * Returns an array of json serialisable content
-     * to be send to the client json encoded 
-     * 
+     * to be send to the client json encoded
+     *
      * @return array
      */
-    public function getExtendedConfig() {
+    public function getExtendedConfig()
+    {
         $config = array();
         foreach ($this->getOption(self::OPTION_CONFIG_SOURCES) as $key => $source) {
             $config[$key] = $source->getConfig();
@@ -46,11 +48,12 @@ class ClientConfigService extends ConfigurableService {
     
     /**
      * Either adds or overrides an existing client config
-     * 
+     *
      * @param string $id
      * @param ClientConfig $configSource
      */
-    public function setClientConfig($id, ClientConfig $configSource) {
+    public function setClientConfig($id, ClientConfig $configSource)
+    {
         $sources = $this->hasOption(self::OPTION_CONFIG_SOURCES)
             ? $this->getOption(self::OPTION_CONFIG_SOURCES)
             : array()

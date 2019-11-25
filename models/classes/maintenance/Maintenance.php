@@ -32,9 +32,9 @@ use oat\tao\model\metadata\exception\InconsistencyConfigException;
  */
 class Maintenance extends ConfigurableService
 {
-    const SERVICE_ID = 'tao/maintenance';
+    public const SERVICE_ID = 'tao/maintenance';
 
-    const OPTION_PERSISTENCE = 'persistence';
+    public const OPTION_PERSISTENCE = 'persistence';
 
     /**
      * Storage to store platform state
@@ -112,8 +112,8 @@ class Maintenance extends ConfigurableService
      */
     public function getStorage()
     {
-        if (! $this->storage) {
-            if (! $this->hasOption(self::OPTION_PERSISTENCE)) {
+        if (!$this->storage) {
+            if (!$this->hasOption(self::OPTION_PERSISTENCE)) {
                 throw new InconsistencyConfigException(__('Maintenance service must have a persistence option.'));
             }
             $this->storage = new MaintenanceStorage(

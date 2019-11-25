@@ -22,5 +22,4 @@ namespace oat\tao\model\metadata\exception\reader;
 
 class MetadataReaderNotFoundException extends \common_Exception
 {
-
 }

@@ -28,21 +28,21 @@ use oat\oatbox\filesystem\Directory;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\ServiceManager;
+use Prophecy\Argument;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Prophecy\Argument;
 
 /**
  * Help you to run the test into the TAO Context
  * @package tao
  * @deprecated
  */
-abstract class  TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner implements ServiceLocatorAwareInterface
+abstract class TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner implements ServiceLocatorAwareInterface
 {
     use ServiceLocatorAwareTrait;
 
-	const SESSION_KEY = 'TAO_TEST_SESSION';
+    public const SESSION_KEY = 'TAO_TEST_SESSION';
     /**
      * @var boolean
      */
@@ -63,10 +63,11 @@ abstract class  TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner implements
     /**
      * shared methods for test initialization
      */
-    public static function initTest(){
+    public static function initTest()
+    {
 
         //connect the API
-        if(!self::$connected){
+        if (!self::$connected) {
             \common_session_SessionManager::startSession(new \common_test_TestUserSession());
             self::$connected = true;
         }
@@ -140,7 +141,7 @@ abstract class  TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner implements
      */
     protected function getTempDirectory()
     {
-        if (! $this->tempDirectory) {
+        if (!$this->tempDirectory) {
             /** @var FileSystemService $fileSystemService */
             $fileSystemService = $this->getServiceManagerProphecy()->get(FileSystemService::SERVICE_ID);
             $this->tempFileSystemId = 'unit-test-' . uniqid();
@@ -195,8 +196,9 @@ abstract class  TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner implements
      * @param type $propertyName
      * @return mixed
      */
-    protected function getInaccessibleProperty($object , $propertyName) {
-        $property = new \ReflectionProperty(get_class($object) , $propertyName);
+    protected function getInaccessibleProperty($object, $propertyName)
+    {
+        $property = new \ReflectionProperty(get_class($object), $propertyName);
         $property->setAccessible(true);
         $value = $property->getValue($object);
         $property->setAccessible(false);
@@ -209,8 +211,9 @@ abstract class  TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner implements
      * @param type $value
      * @return \oat\tao\test\TaoPhpUnitTestRunner
      */
-    protected function setInaccessibleProperty($object , $propertyName, $value) {
-        $property = new \ReflectionProperty(get_class($object) , $propertyName);
+    protected function setInaccessibleProperty($object, $propertyName, $value)
+    {
+        $property = new \ReflectionProperty(get_class($object), $propertyName);
         $property->setAccessible(true);
         $property->setValue($object, $value);
         $property->setAccessible(false);
@@ -234,8 +237,8 @@ abstract class  TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner implements
      */
     protected function rrmdir($dir)
     {
-        foreach(glob($dir . '/*') as $file) {
-            if(is_dir($file)) {
+        foreach (glob($dir . '/*') as $file) {
+            if (is_dir($file)) {
                 $this->rrmdir($file);
             } else {
                 unlink($file);

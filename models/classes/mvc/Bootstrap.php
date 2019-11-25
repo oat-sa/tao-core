@@ -21,6 +21,10 @@
  */
 namespace oat\tao\model\mvc;
 
+use common_ext_ExtensionsManager;
+use common_Logger;
+use common_report_Report as Report;
+use Exception;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
@@ -31,17 +35,13 @@ use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\tao\helpers\Template;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\maintenance\Maintenance;
-use oat\tao\model\routing\TaoFrontController;
+use oat\tao\model\mvc\error\ExceptionInterpreterService;
 use oat\tao\model\routing\CliController;
-use common_Logger;
-use common_ext_ExtensionsManager;
-use common_report_Report as Report;
+use oat\tao\model\routing\TaoFrontController;
+use Symfony\Component\Dotenv\Dotenv;
 use tao_helpers_Context;
 use tao_helpers_Request;
 use tao_helpers_Uri;
-use Exception;
-use oat\tao\model\mvc\error\ExceptionInterpreterService;
-use Symfony\Component\Dotenv\Dotenv;
 
 /**
  * The Bootstrap Class enables you to drive the application flow for a given extenstion.
@@ -68,17 +68,17 @@ class Bootstrap implements ServiceManagerAwareInterface
 {
     use ServiceManagerAwareTrait;
 
-    const CONFIG_SESSION_HANDLER = 'session';
+    public const CONFIG_SESSION_HANDLER = 'session';
 
-	/**
-	 * @var boolean if the context has been started
-	 */
-	protected static $isStarted = false;
+    /**
+     * @var boolean if the context has been started
+     */
+    protected static $isStarted = false;
 
-	/**
-	 * @var boolean if the context has been dispatched
-	 */
-	protected static $isDispatched = false;
+    /**
+     * @var boolean if the context has been dispatched
+     */
+    protected static $isDispatched = false;
 
     /**
      * Bootstrap constructor.
@@ -97,7 +97,7 @@ class Bootstrap implements ServiceManagerAwareInterface
             $dotenv->loadEnv($envFile);
         }
 
-        if (! is_string($configuration) || ! is_readable($configuration)) {
+        if (!is_string($configuration) || !is_readable($configuration)) {
             throw new \common_exception_PreConditionFailure('TAO platform seems to be not installed.');
         }
 
@@ -112,30 +112,30 @@ class Bootstrap implements ServiceManagerAwareInterface
         $this->setServiceLocator($serviceManager);
         // To be removed when getServiceManager will disappear
         ServiceManager::setServiceManager($serviceManager);
-        if(PHP_SAPI == 'cli'){
+        if (PHP_SAPI == 'cli') {
             tao_helpers_Context::load('SCRIPT_MODE');
-        } else{
+        } else {
             tao_helpers_Context::load('APP_MODE');
         }
     }
 
-	/**
-	 * Check if the current context has been started
-	 * @return boolean
-	 */
-	public static function isStarted()
-	{
-		return self::$isStarted;
-	}
+    /**
+     * Check if the current context has been started
+     * @return boolean
+     */
+    public static function isStarted()
+    {
+        return self::$isStarted;
+    }
 
-	/**
-	 * Check if the current context has been dispatched
-	 * @return boolean
-	 */
-	public static function isDispatched()
-	{
-		return self::$isDispatched;
-	}
+    /**
+     * Check if the current context has been dispatched
+     * @return boolean
+     */
+    public static function isDispatched()
+    {
+        return self::$isDispatched;
+    }
 
     /**
      * Check if the platform is ready
@@ -147,52 +147,52 @@ class Bootstrap implements ServiceManagerAwareInterface
         return $this->getMaintenanceService()->isPlatformReady();
     }
 
-	/**
-	 * Start all the services:
-	 *  1. Start the session
-	 *  2. Update the include path
-	 *  3. Include the global helpers
-	 *  4. Connect the current user to the generis API
-	 *  5. Initialize the internationalization
-	 *  6. Check the application' state
-	 */
-	public function start()
-	{
-		if(!self::$isStarted){
-			$this->session();
-			$this->setDefaultTimezone();
-			$this->registerErrorhandler();
-			self::$isStarted = true;
-		}
-	}
+    /**
+     * Start all the services:
+     *  1. Start the session
+     *  2. Update the include path
+     *  3. Include the global helpers
+     *  4. Connect the current user to the generis API
+     *  5. Initialize the internationalization
+     *  6. Check the application' state
+     */
+    public function start()
+    {
+        if (!self::$isStarted) {
+            $this->session();
+            $this->setDefaultTimezone();
+            $this->registerErrorhandler();
+            self::$isStarted = true;
+        }
+    }
 
-	protected function dispatchHttp()
-	{
-	    $isAjax = tao_helpers_Request::isAjax();
+    protected function dispatchHttp()
+    {
+        $isAjax = tao_helpers_Request::isAjax();
 
-	    if(tao_helpers_Context::check('APP_MODE')){
-	        if(!$isAjax){
-	            $this->scripts();
-	        }
-	    }
+        if (tao_helpers_Context::check('APP_MODE')) {
+            if (!$isAjax) {
+                $this->scripts();
+            }
+        }
 
         //Catch all exceptions
         try {
             //the app is ready, process mvc
-            if($this->isReady()){
+            if ($this->isReady()) {
                 $this->mvc();
             }
             //the app is not ready, put platform on maintenance
             else {
                 $this->displayMaintenancePage();
             }
-        } catch(Exception $e){
+        } catch (Exception $e) {
             $this->catchError($e);
         }
 
-	    // explicitly close session
-	    session_write_close();
-	}
+        // explicitly close session
+        session_write_close();
+    }
 
     /**
      * Put the platform on maintenance
@@ -204,46 +204,46 @@ class Bootstrap implements ServiceManagerAwareInterface
     protected function displayMaintenancePage()
     {
         //the request is not an ajax request, redirect the user to the maintenance page
-        if (! tao_helpers_Request::isAjax()) {
+        if (!tao_helpers_Request::isAjax()) {
             require_once Template::getTemplate('error/maintenance.tpl', 'tao');
-            //else throw an exception, this exception will be send to the client properly
+        //else throw an exception, this exception will be send to the client properly
         } else {
             throw new \common_exception_SystemUnderMaintenance();
         }
     }
 
 
-	protected function dispatchCli()
-	{
-	    $params = $_SERVER['argv'];
-	    $file = array_shift($params);
+    protected function dispatchCli()
+    {
+        $params = $_SERVER['argv'];
+        $file = array_shift($params);
 
-	    if (count($params) < 1) {
-	        $report = new Report(Report::TYPE_ERROR, __('No action specified'));
-	    } else {
+        if (count($params) < 1) {
+            $report = new Report(Report::TYPE_ERROR, __('No action specified'));
+        } else {
             $actionIdentifier = array_shift($params);
             $cliController = new CliController();
             $this->propagate($cliController);
             $report = $cliController->runAction($actionIdentifier, $params);
-	    }
+        }
 
-	    echo \helpers_Report::renderToCommandline($report);
-	}
+        echo \helpers_Report::renderToCommandline($report);
+    }
 
-	/**
-	 * Dispatch the current http request into the control loop:
-	 *  1. Load the ressources
-	 *  2. Start the MVC Loop from the ClearFW
+    /**
+     * Dispatch the current http request into the control loop:
+     *  1. Load the ressources
+     *  2. Start the MVC Loop from the ClearFW
      *  manage Exception:
-	 */
-	public function dispatch()
-	{
-		if(!self::$isDispatched){
-		    if (PHP_SAPI == 'cli') {
-		        $this->dispatchCli();
-		    } else {
+     */
+    public function dispatch()
+    {
+        if (!self::$isDispatched) {
+            if (PHP_SAPI == 'cli') {
+                $this->dispatchCli();
+            } else {
                 $this->dispatchHttp();
-		    }
+            }
             self::$isDispatched = true;
         }
     }
@@ -281,7 +281,7 @@ class Bootstrap implements ServiceManagerAwareInterface
         $sessionParams = session_get_cookie_params();
         $cookieDomain = ((true == tao_helpers_Uri::isValidAsCookieDomain(ROOT_URL)) ? tao_helpers_Uri::getDomain(ROOT_URL) : $sessionParams['domain']);
         $isSecureFlag = \common_http_Request::isHttps();
-        session_set_cookie_params($sessionParams['lifetime'], tao_helpers_Uri::getPath(ROOT_URL), $cookieDomain, $isSecureFlag, TRUE);
+        session_set_cookie_params($sessionParams['lifetime'], tao_helpers_Uri::getPath(ROOT_URL), $cookieDomain, $isSecureFlag, true);
         session_name(GENERIS_SESSION_NAME);
 
         if (isset($_COOKIE[GENERIS_SESSION_NAME])) {
@@ -297,7 +297,8 @@ class Bootstrap implements ServiceManagerAwareInterface
         }
     }
 
-    private function configureSessionHandler() {
+    private function configureSessionHandler()
+    {
         $sessionHandler = common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getConfig(self::CONFIG_SESSION_HANDLER);
         if ($sessionHandler !== false) {
             session_set_save_handler(
@@ -311,30 +312,30 @@ class Bootstrap implements ServiceManagerAwareInterface
         }
     }
 
-	/**
-	 * register a custom Errorhandler
-	 */
-	protected function registerErrorhandler()
-	{
-		// register the logger as erorhandler
-		common_Logger::singleton()->register();
-	}
+    /**
+     * register a custom Errorhandler
+     */
+    protected function registerErrorhandler()
+    {
+        // register the logger as erorhandler
+        common_Logger::singleton()->register();
+    }
 
-	/**
-	 * Set Timezone quickfix
-	 */
-	protected function setDefaultTimezone()
-	{
-	    if(function_exists("date_default_timezone_set") && defined('TIME_ZONE')){
-	        date_default_timezone_set(TIME_ZONE);
-	    }
-	}
+    /**
+     * Set Timezone quickfix
+     */
+    protected function setDefaultTimezone()
+    {
+        if (function_exists("date_default_timezone_set") && defined('TIME_ZONE')) {
+            date_default_timezone_set(TIME_ZONE);
+        }
+    }
 
-	/**
-	 *  Start the MVC Loop from the ClearFW
-	 *  @throws \ActionEnforcingException in case of wrong module or action
-	 *  @throws \tao_models_classes_UserException when a request try to acces a protected area
-	 */
+    /**
+     *  Start the MVC Loop from the ClearFW
+     *  @throws \ActionEnforcingException in case of wrong module or action
+     *  @throws \tao_models_classes_UserException when a request try to acces a protected area
+     */
     protected function mvc()
     {
         $request = ServerRequest::fromGlobals();
@@ -359,7 +360,7 @@ class Bootstrap implements ServiceManagerAwareInterface
         //stylesheets to load
         \tao_helpers_Scriptloader::addCssFiles($cssFiles);
 
-        if(\common_session_SessionManager::isAnonymous()) {
+        if (\common_session_SessionManager::isAnonymous()) {
             \tao_helpers_Scriptloader::addCssFile(
                 $assetService->getAsset('css/portal.css', 'tao')
             );

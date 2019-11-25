@@ -18,4 +18,6 @@
  */
 namespace oat\tao\model\import\service;
 
-class MandatoryFieldException extends \Exception{}
+class MandatoryFieldException extends \Exception
+{
+}

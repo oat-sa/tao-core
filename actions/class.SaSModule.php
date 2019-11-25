@@ -106,8 +106,8 @@ abstract class tao_actions_SaSModule extends tao_actions_RdfController
         if ($this->hasRequestParameter('classUri')) {
             $clazz = $this->getCurrentClass();
             if (!is_null($clazz)) {
-                $this->setVariables(array($this->getDataKind().'ClassUri' => $clazz->getUri()));
-                $message = $clazz->getLabel().' '.__('class selected');
+                $this->setVariables(array($this->getDataKind() . 'ClassUri' => $clazz->getUri()));
+                $message = $clazz->getLabel() . ' ' . __('class selected');
             }
         }
 
@@ -115,7 +115,7 @@ abstract class tao_actions_SaSModule extends tao_actions_RdfController
         if ($this->hasRequestParameter('uri')) {
             $instance = $this->getCurrentInstance();
             if (!is_null($instance)) {
-                $this->setVariables(array($this->getDataKind().'Uri' => $instance->getUri()));
+                $this->setVariables(array($this->getDataKind() . 'Uri' => $instance->getUri()));
                 $message = __('%s %s selected', $instance->getLabel(), $this->getDataKind());
             }
         }
@@ -141,11 +141,11 @@ abstract class tao_actions_SaSModule extends tao_actions_RdfController
         if (!is_null($instance) && $instance instanceof core_kernel_classes_Resource) {
 
             //init variable service:
-            $this->setVariables(array($this->getDataKind().'Uri' => $instance->getUri()));
+            $this->setVariables(array($this->getDataKind() . 'Uri' => $instance->getUri()));
 
             $params = array(
-                'uri'		=> tao_helpers_Uri::encode($instance->getUri()),
-                'classUri'	=> tao_helpers_Uri::encode($clazz->getUri()),
+                'uri' => tao_helpers_Uri::encode($instance->getUri()),
+                'classUri' => tao_helpers_Uri::encode($clazz->getUri()),
                 'standalone' => $this->isStandAlone()
             );
             $this->redirect(_url('sasEditInstance', null, null, $params));

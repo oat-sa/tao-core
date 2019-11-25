@@ -19,17 +19,17 @@
 
 namespace oat\tao\test\unit\webhooks;
 
+use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
 use oat\oatbox\event\Event;
 use oat\oatbox\event\EventManager;
 use oat\tao\model\exceptions\WebhookConfigMissingException;
 use oat\tao\model\webhooks\configEntity\WebhookInterface;
+use oat\tao\model\webhooks\task\WebhookTaskParams;
 use oat\tao\model\webhooks\WebhookEventsService;
 use oat\tao\model\webhooks\WebhookRegistryInterface;
 use oat\tao\model\webhooks\WebhookSerializableEventInterface;
-use oat\tao\model\webhooks\task\WebhookTaskParams;
 use oat\tao\model\webhooks\WebhookTaskServiceInterface;
-use oat\generis\test\MockObject;
 use Psr\Log\LoggerInterface;
 
 class WebhookEventsServiceTest extends TestCase
@@ -64,7 +64,8 @@ class WebhookEventsServiceTest extends TestCase
                     return isset($this->whRegistryData[$eventName])
                         ? $this->whRegistryData[$eventName]
                         : [];
-                });
+                }
+            );
 
         $this->whTaskServiceMock = $this->createMock(WebhookTaskServiceInterface::class);
     }

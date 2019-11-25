@@ -19,8 +19,8 @@
 
 namespace oat\tao\scripts\tools;
 
-use common_report_Report as Report;
 use common_Exception;
+use common_report_Report as Report;
 use oat\oatbox\extension\AbstractAction;
 use oat\tao\model\service\SettingsStorage;
 use oat\tao\model\settings\CspHeaderSettingsInterface;
@@ -94,9 +94,9 @@ class MigrateSecuritySettings extends AbstractAction
      * @param string $settingName
      * @throws common_Exception
      */
-    private function migrateSetting($settingName) {
-        if ($this->oldSettingsStorage->exists($settingName))
-        {
+    private function migrateSetting($settingName)
+    {
+        if ($this->oldSettingsStorage->exists($settingName)) {
             $settingValue = $this->oldSettingsStorage->get($settingName);
             if ($this->wetRun) {
                 $settingsStorage = $this->getServiceLocator()->get(SettingsStorageInterface::SERVICE_ID);

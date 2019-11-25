@@ -19,12 +19,12 @@
 
 namespace oat\tao\test\unit\providers;
 
+use oat\generis\test\TestCase;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\modules\AbstractModuleRegistry;
 use oat\tao\model\providers\AbstractProviderService;
 use oat\tao\model\providers\ProviderModule;
 use Prophecy\Prophet;
-use oat\generis\test\TestCase;
 
 /**
  * Concrete class ProviderRegistry
@@ -59,7 +59,6 @@ class ProviderRegistry extends AbstractModuleRegistry
  */
 class ProviderService extends AbstractProviderService
 {
-
 }
 
 /**
@@ -166,5 +165,4 @@ class AbstractProviderServiceTest extends TestCase
 
         $this->assertTrue($provider->isActive());
     }
-
 }

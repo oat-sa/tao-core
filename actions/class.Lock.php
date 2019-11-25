@@ -18,10 +18,10 @@
  *
  */
 
-use oat\tao\model\lock\LockManager;
+use oat\generis\model\OntologyAwareTrait;
 use oat\tao\helpers\UserHelper;
 use oat\tao\model\accessControl\AclProxy;
-use oat\generis\model\OntologyAwareTrait;
+use oat\tao\model\lock\LockManager;
 
 /**
  * control the lock on a given resource
@@ -34,38 +34,39 @@ class tao_actions_Lock extends tao_actions_CommonModule
 {
     use OntologyAwareTrait;
 
-	/**
-	 * actions that get prevented by a lock are forwareded to this action
-	 * parameter view is currently ignored
-	 */
-	public function locked()
+    /**
+     * actions that get prevented by a lock are forwareded to this action
+     * parameter view is currently ignored
+     */
+    public function locked()
     {
         $this->defaultData();
-	    $resource = $this->getResource($this->getRequestParameter('id'));
-	    $lockData = LockManager::getImplementation()->getLockData($resource);
+        $resource = $this->getResource($this->getRequestParameter('id'));
+        $lockData = LockManager::getImplementation()->getLockData($resource);
 
-	    $this->setData('topclass-label',
-	        $this->hasRequestParameter('topclass-label') ? $this->getRequestParameter('topclass-label') : __('Resource')
+        $this->setData(
+            'topclass-label',
+            $this->hasRequestParameter('topclass-label') ? $this->getRequestParameter('topclass-label') : __('Resource')
         );
 
-	    if (AclProxy::hasAccess($this->getSession()->getUser(), __CLASS__, 'forceRelease', array('uri' => $resource->getUri()))) {
-	        $this->setData('id', $resource->getUri());
+        if (AclProxy::hasAccess($this->getSession()->getUser(), __CLASS__, 'forceRelease', array('uri' => $resource->getUri()))) {
+            $this->setData('id', $resource->getUri());
             $this->setData('forceRelease', true);
-	    }
+        }
 
-	    $this->setData('lockDate', $lockData->getCreationTime());
-	    $this->setData('ownerHtml', UserHelper::renderHtmlUser($lockData->getOwnerId()));
+        $this->setData('lockDate', $lockData->getCreationTime());
+        $this->setData('ownerHtml', UserHelper::renderHtmlUser($lockData->getOwnerId()));
 
-	    if ($this->hasRequestParameter('view') && $this->hasRequestParameter('ext')) {
-	        $this->setView($this->getRequestParameter('view'), $this->getRequestParameter('ext'));
-	    } else {
-	        $this->setView('Lock/locked.tpl', 'tao');
-	    }
-	}
+        if ($this->hasRequestParameter('view') && $this->hasRequestParameter('ext')) {
+            $this->setView($this->getRequestParameter('view'), $this->getRequestParameter('ext'));
+        } else {
+            $this->setView('Lock/locked.tpl', 'tao');
+        }
+    }
 
-	public function release($uri)
-	{
-	    $resource = $this->getResource($uri);
+    public function release($uri)
+    {
+        $resource = $this->getResource($uri);
         try {
             $userId = $this->getSession()->getUser()->getIdentifier();
             $success = LockManager::getImplementation()->releaseLock($resource, $userId);
@@ -76,11 +77,10 @@ class tao_actions_Lock extends tao_actions_CommonModule
                     : __('%s could not be released', $resource->getLabel())
             ));
 
-        //the connected user is not the owner of the lock
+            //the connected user is not the owner of the lock
         } catch (common_exception_Unauthorized $e) {
-
             return $this->returnJson(array(
-            	'success' => false,
+                'success' => false,
                 'message' => __('You are not authorised to remove this lock')
             ));
         }

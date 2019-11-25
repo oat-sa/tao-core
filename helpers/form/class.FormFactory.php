@@ -214,7 +214,7 @@ class tao_helpers_form_FormFactory
                 $actions = tao_helpers_form_FormFactory::getElement('save', 'Free');
                 $value = '';
                 if ($save) {
-                    $button =  tao_helpers_form_FormFactory::getElement('Save', 'Button');
+                    $button = tao_helpers_form_FormFactory::getElement('Save', 'Button');
                     $button->setIcon('icon-save');
                     $button->setValue(__('Save'));
                     $button->setType('submit');

@@ -40,12 +40,11 @@ abstract class ArgumentLoader extends ConfigurableService
     protected function getArguments()
     {
         $arguments = [];
-       foreach ($this->getOptionArguments() as $argument) {
+        foreach ($this->getOptionArguments() as $argument) {
             if ($argument instanceof Argument) {
                 $arguments[] = $this->getServiceManager()->propagate($argument);
             }
         }
         return $arguments;
     }
-
 }

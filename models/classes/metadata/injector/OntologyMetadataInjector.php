@@ -22,10 +22,10 @@ namespace oat\tao\model\metadata\injector;
 
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\metadata\exception\InconsistencyConfigException;
-use oat\tao\model\metadata\exception\reader\MetadataReaderNotFoundException;
-use oat\tao\model\metadata\exception\writer\MetadataWriterException;
 use oat\tao\model\metadata\exception\injector\MetadataInjectorReadException;
 use oat\tao\model\metadata\exception\injector\MetadataInjectorWriteException;
+use oat\tao\model\metadata\exception\reader\MetadataReaderNotFoundException;
+use oat\tao\model\metadata\exception\writer\MetadataWriterException;
 use oat\tao\model\metadata\reader\KeyReader;
 use oat\tao\model\metadata\reader\Reader;
 use oat\tao\model\metadata\writer\ontologyWriter\OntologyWriter;
@@ -38,9 +38,9 @@ use oat\tao\model\metadata\writer\ontologyWriter\OntologyWriter;
  */
 class OntologyMetadataInjector extends ConfigurableService implements Injector
 {
-    const CONFIG_SOURCE = 'source';
+    public const CONFIG_SOURCE = 'source';
 
-    const CONFIG_DESTINATION = 'destination';
+    public const CONFIG_DESTINATION = 'destination';
 
     /**
      * Components to read value from $dataSource
@@ -64,15 +64,15 @@ class OntologyMetadataInjector extends ConfigurableService implements Injector
      */
     public function setOptions(array $options)
     {
-        if (! array_key_exists(self::CONFIG_SOURCE, $options)
-            || ! is_array($options[self::CONFIG_SOURCE])
+        if (!array_key_exists(self::CONFIG_SOURCE, $options)
+            || !is_array($options[self::CONFIG_SOURCE])
             || empty($options[self::CONFIG_SOURCE])
         ) {
             throw new InconsistencyConfigException(__('Injector has to contains a valid "source" field.'));
         }
 
-        if (! array_key_exists(self::CONFIG_DESTINATION, $options)
-            || ! is_array($options[self::CONFIG_DESTINATION])
+        if (!array_key_exists(self::CONFIG_DESTINATION, $options)
+            || !is_array($options[self::CONFIG_DESTINATION])
             || empty($options[self::CONFIG_DESTINATION])
         ) {
             throw new InconsistencyConfigException(__('Injector has to contains a valid "destination" field.'));
@@ -110,7 +110,7 @@ class OntologyMetadataInjector extends ConfigurableService implements Injector
             }
         }
 
-        if (! empty($errors)) {
+        if (!empty($errors)) {
             foreach ($errors as $name => $error) {
                 \common_Logger::d('Error on injector "' . __CLASS__ . '" with reader "' . $name . '" : ' . $error);
             }
@@ -149,7 +149,7 @@ class OntologyMetadataInjector extends ConfigurableService implements Injector
         }
 
         foreach ($writers as $name => $writer) {
-            if (! $writer instanceof OntologyWriter) {
+            if (!$writer instanceof OntologyWriter) {
                 $errors[$name] = __CLASS__ . ' must implements ' . OntologyWriter::class;
                 continue;
             }
@@ -161,7 +161,7 @@ class OntologyMetadataInjector extends ConfigurableService implements Injector
             }
         }
 
-        if (! empty($errors)) {
+        if (!empty($errors)) {
             foreach ($errors as $name => $error) {
                 \common_Logger::d('Error on injector "' . __CLASS__ . '" with writer "' . $name . '" : ' . $error);
             }
@@ -206,14 +206,14 @@ class OntologyMetadataInjector extends ConfigurableService implements Injector
     public function __toPhpCode()
     {
         $source = '';
-        if (! empty($this->readers)) {
+        if (!empty($this->readers)) {
             foreach ($this->readers as $reader) {
                 $source .= \common_Utils::toHumanReadablePhpString($reader, 2) . PHP_EOL;
             }
         }
 
         $destination = '';
-        if (! empty($this->writers)) {
+        if (!empty($this->writers)) {
             foreach ($this->writers as $writer) {
                 $destination .= \common_Utils::toHumanReadablePhpString($writer, 2) . PHP_EOL;
             }
@@ -223,5 +223,4 @@ class OntologyMetadataInjector extends ConfigurableService implements Injector
 
         return 'new ' . get_class($this) . '(' . \common_Utils::toHumanReadablePhpString($params, 1) . '),';
     }
-
 }

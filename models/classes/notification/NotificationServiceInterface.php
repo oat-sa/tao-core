@@ -20,11 +20,9 @@
 
 namespace oat\tao\model\notification;
 
-
 interface NotificationServiceInterface
 {
-
-    const SERVICE_ID  = 'tao/notification';
+    public const SERVICE_ID = 'tao/notification';
 
     /**
      * @param NotificationInterface $notification
@@ -54,11 +52,10 @@ interface NotificationServiceInterface
      * @param string $userId
      * @return array
      */
-    public function notificationCount( $userId);
+    public function notificationCount($userId);
 
     /**
      * @return boolean
      */
     public function getVisibility();
-
 }

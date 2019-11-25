@@ -20,11 +20,11 @@
 
 namespace oat\tao\model\taskQueue\Queue\Broker;
 
-use oat\oatbox\PhpSerializable;
-use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\action\ActionService;
 use oat\oatbox\action\ResolutionException;
 use oat\oatbox\log\LoggerAwareTrait;
+use oat\oatbox\PhpSerializable;
+use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\taskQueue\QueueDispatcher;
 use oat\tao\model\taskQueue\Task\CallbackTaskInterface;
 use oat\tao\model\taskQueue\Task\TaskInterface;
@@ -55,7 +55,7 @@ abstract class AbstractQueueBroker implements QueueBrokerInterface, PhpSerializa
 
     public function __toPhpCode()
     {
-        return 'new '. get_called_class() .'('. \common_Utils::toHumanReadablePhpString($this->numberOfTasksToReceive) .')';
+        return 'new ' . get_called_class() . '(' . \common_Utils::toHumanReadablePhpString($this->numberOfTasksToReceive) . ')';
     }
 
     /**
@@ -130,11 +130,8 @@ abstract class AbstractQueueBroker implements QueueBrokerInterface, PhpSerializa
         $taskSerializer = $this->getServiceLocator()->get(TaskSerializerService::SERVICE_ID);
 
         try {
-
             return $taskSerializer->deserialize($taskJSON);
-
         } catch (\Exception $e) {
-
             $this->doDelete($idForDeletion, $logContext);
 
             return null;
@@ -159,7 +156,7 @@ abstract class AbstractQueueBroker implements QueueBrokerInterface, PhpSerializa
      */
     protected function assertValidJson($basicData)
     {
-        if ( ($basicData !== null
+        if (($basicData !== null
             && json_last_error() === JSON_ERROR_NONE
             && isset($basicData[TaskInterface::JSON_TASK_CLASS_NAME_KEY])) === false
         ) {
@@ -183,10 +180,9 @@ abstract class AbstractQueueBroker implements QueueBrokerInterface, PhpSerializa
 
             $task->setCallable($callable);
         } catch (ResolutionException $e) {
-
             $this->logError('Callable/Action class ' . $task->getCallable() . ' does not exist', $logContext);
 
-            throw new \Exception;
+            throw new \Exception();
         }
     }
 

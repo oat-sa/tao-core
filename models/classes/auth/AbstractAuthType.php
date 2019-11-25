@@ -19,6 +19,7 @@
  * @author Alexander Zagovorichev <olexander.zagovorychev@1pt.com>
  */
 namespace oat\tao\model\auth;
+
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\PhpSerializable;
 use Psr\Http\Message\RequestInterface;
@@ -30,7 +31,6 @@ use Psr\Http\Message\ResponseInterface;
  */
 abstract class AbstractAuthType implements PhpSerializable
 {
-
     use OntologyAwareTrait;
 
     /** @var \core_kernel_classes_Resource The resource which has authorizations */
@@ -75,7 +75,7 @@ abstract class AbstractAuthType implements PhpSerializable
      */
     public function __toPhpCode()
     {
-        return 'new '.get_class($this).'()';
+        return 'new ' . get_class($this) . '()';
     }
     /**
      * @deprecated Please use setCredentials method with array of credentials for current auth type

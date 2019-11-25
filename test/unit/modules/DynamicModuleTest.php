@@ -19,8 +19,8 @@
 namespace oat\tao\test\unit\modules;
 
 use common_exception_InconsistentData;
-use oat\tao\model\modules\DynamicModule;
 use oat\generis\test\TestCase;
+use oat\tao\model\modules\DynamicModule;
 
 /**
  * Test the DynamicModule pojo
@@ -30,7 +30,6 @@ use oat\generis\test\TestCase;
  */
 class DynamicModuleTestModuleTest extends TestCase
 {
-
     /**
      * Data provider
      * @return array the data
@@ -40,36 +39,36 @@ class DynamicModuleTestModuleTest extends TestCase
         return [
             [
                 [
-                    'id'          => 'foo',
-                    'name'        => 'Foo',
-                    'module'      => 'module/foo',
-                    'category'    => 'dummy',
+                    'id' => 'foo',
+                    'name' => 'Foo',
+                    'module' => 'module/foo',
+                    'category' => 'dummy',
                     'description' => 'The best foo ever',
-                    'active'      => true,
-                    'tags'        => ['required']
+                    'active' => true,
+                    'tags' => ['required']
                 ], [
-                    'id'          => 'foo',
-                    'name'        => 'Foo',
-                    'module'      => 'module/foo',
-                    'category'    => 'dummy',
+                    'id' => 'foo',
+                    'name' => 'Foo',
+                    'module' => 'module/foo',
+                    'category' => 'dummy',
                     'description' => 'The best foo ever',
-                    'active'      => true,
-                    'tags'        => ['required']
+                    'active' => true,
+                    'tags' => ['required']
                 ]
             ], [
                 [
-                    'id'          => '12',
-                    'name'        => 21,
-                    'module'      => 'module/foo',
-                    'category'    => 'dummy',
+                    'id' => '12',
+                    'name' => 21,
+                    'module' => 'module/foo',
+                    'category' => 'dummy',
                 ], [
-                    'id'          => '12',
-                    'name'        => '21',
-                    'module'      => 'module/foo',
-                    'category'    => 'dummy',
+                    'id' => '12',
+                    'name' => '21',
+                    'module' => 'module/foo',
+                    'category' => 'dummy',
                     'description' => '',
-                    'active'      => true,
-                    'tags'        => []
+                    'active' => true,
+                    'tags' => []
                 ]
             ]
         ];
@@ -138,7 +137,6 @@ class DynamicModuleTestModuleTest extends TestCase
      */
     public function testConstruct($input, $output)
     {
-
         $DynamicModule = new DynamicModule($input['id'], $input['module'], $input['category'], $input);
 
         $this->assertEquals($output['id'], $DynamicModule->getId());
@@ -159,7 +157,6 @@ class DynamicModuleTestModuleTest extends TestCase
      */
     public function testFromArray($input, $output)
     {
-
         $DynamicModule = DynamicModule::fromArray($input);
 
         $this->assertEquals($output['id'], $DynamicModule->getId());
@@ -184,7 +181,7 @@ class DynamicModuleTestModuleTest extends TestCase
         $DynamicModule = new DynamicModule('bar', 'bar/bar', 'dummy', [
             'name' => 'Bar',
             'description' => 'The best bar ever',
-            'active' =>  false,
+            'active' => false,
             'position' => 12,
             'bundle' => 'modules/bundle.min',
             'tags' => ['dummy', 'goofy']

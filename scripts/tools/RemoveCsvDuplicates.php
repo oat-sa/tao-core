@@ -20,11 +20,11 @@
 
 namespace oat\tao\scripts\tools;
 
-use \common_report_Report as Report;
+use common_report_Report as Report;
 
 /**
  * Script to remove duplicate rows from an indexed CSV file.
- * 
+ *
  * The script enables you to remove duplicate entries in a CSV file. In
  * other words, only non duplicated rows will be written in a destination
  * CSV file.
@@ -33,12 +33,12 @@ class RemoveCsvDuplicates extends AbstractIndexedCsv
 {
     /**
      * Duplicate removal logic.
-     * 
+     *
      * Remove duplicate rows from the source CSV file and write
      * them in the destination CSV file. In other words, only
      * non duplicated rows will be written in the destination CSV
      * file.
-     * 
+     *
      * @see \oat\tao\scripts\tools\AbstractIndexedCsv
      */
     protected function process()

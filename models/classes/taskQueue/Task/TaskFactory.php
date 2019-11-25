@@ -47,7 +47,6 @@ class TaskFactory
             return $task;
         }
 
-        throw new InvalidTaskException;
+        throw new InvalidTaskException();
     }
-
 }

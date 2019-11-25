@@ -29,8 +29,7 @@ use oat\tao\helpers\Layout;
  * @package tao
 
  */
-class tao_actions_form_Login
-    extends tao_helpers_form_FormContainer
+class tao_actions_form_Login extends tao_helpers_form_FormContainer
 {
     // --- ASSOCIATIONS ---
 
@@ -66,31 +65,30 @@ class tao_actions_form_Login
      */
     public function initElements()
     {
-    	if (isset($this->data['redirect']) && !empty($this->data['redirect'])) {
-			$hiddenElt = tao_helpers_form_FormFactory::getElement('redirect', 'Hidden');
-			$hiddenElt->setValue($this->data['redirect']);
-			$this->form->addElement($hiddenElt);
-    	}
-    	$loginElt = tao_helpers_form_FormFactory::getElement('login', 'Textbox');
-		$loginElt->setDescription(Layout::getLoginLabel());
-		$loginElt->setAttributes(array('autofocus' => 'autofocus'));
-		$loginElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
-		$this->form->addElement($loginElt);
+        if (isset($this->data['redirect']) && !empty($this->data['redirect'])) {
+            $hiddenElt = tao_helpers_form_FormFactory::getElement('redirect', 'Hidden');
+            $hiddenElt->setValue($this->data['redirect']);
+            $this->form->addElement($hiddenElt);
+        }
+        $loginElt = tao_helpers_form_FormFactory::getElement('login', 'Textbox');
+        $loginElt->setDescription(Layout::getLoginLabel());
+        $loginElt->setAttributes(array('autofocus' => 'autofocus'));
+        $loginElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
+        $this->form->addElement($loginElt);
 
-		$passwordWidgetId = (isset($this->data['enablePasswordReveal']) && !empty($this->data['enablePasswordReveal']))
+        $passwordWidgetId = (isset($this->data['enablePasswordReveal']) && !empty($this->data['enablePasswordReveal']))
             ? 'ViewableHiddenbox'
             : 'Hiddenbox';
-		$passElt = tao_helpers_form_FormFactory::getElement('password', $passwordWidgetId);
-		$passElt->setDescription(Layout::getPasswordLabel());
-		$passElt->addValidator(
-			tao_helpers_form_FormFactory::getValidator('NotEmpty')
-		);
-		$this->form->addElement($passElt);
+        $passElt = tao_helpers_form_FormFactory::getElement('password', $passwordWidgetId);
+        $passElt->setDescription(Layout::getPasswordLabel());
+        $passElt->addValidator(
+            tao_helpers_form_FormFactory::getValidator('NotEmpty')
+        );
+        $this->form->addElement($passElt);
 
-		if (isset($this->data['disableAutocomplete']) && !empty($this->data['disableAutocomplete'])) {
-			$loginElt->setAttributes(array('autofocus' => 'autofocus', 'autocomplete' => 'off'));
-			$passElt->setAttributes(array('autocomplete' => 'off'));
-		}
+        if (isset($this->data['disableAutocomplete']) && !empty($this->data['disableAutocomplete'])) {
+            $loginElt->setAttributes(array('autofocus' => 'autofocus', 'autocomplete' => 'off'));
+            $passElt->setAttributes(array('autocomplete' => 'off'));
+        }
     }
-
 }

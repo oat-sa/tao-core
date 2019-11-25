@@ -1,33 +1,32 @@
 <?php
-/**  
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2015 Open Assessment Technologies S.A.
- * 
+ *
  */
 
 namespace  oat\tao\test\unit\lock;
 
-use oat\tao\model\lock\implementation\OntoLockData;
 use oat\generis\test\TestCase;
+use oat\tao\model\lock\implementation\OntoLockData;
 
 class OntoLockDataTest extends TestCase
 {
-
     /**
-     * 
+     *
      * @author Lionel Lecaque, lionel@taotesting.com
      */
     public function testGetOwner()
@@ -40,7 +39,7 @@ class OntoLockDataTest extends TestCase
         $this->assertEquals('#ownerUri', $lock->getOwner()->getUri());
     }
     /**
-     * 
+     *
      * @author Lionel Lecaque, lionel@taotesting.com
      */
     public function testToJson()
@@ -54,7 +53,7 @@ class OntoLockDataTest extends TestCase
         
         $expected = json_encode(array(
             'resource' => '#resourceUri',
-            'owner' =>  '#ownerUri',
+            'owner' => '#ownerUri',
             'epoch' => 'epoch'
         ));
         
@@ -68,7 +67,4 @@ class OntoLockDataTest extends TestCase
     {
         OntoLockData::getLockData(json_encode(array()));
     }
-    
 }
-
-?>

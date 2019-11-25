@@ -14,8 +14,8 @@ class Token implements JsonSerializable
 {
     use TokenGenerator;
 
-    const TOKEN_KEY = 'token';
-    const TIMESTAMP_KEY = 'ts';
+    public const TOKEN_KEY = 'token';
+    public const TIMESTAMP_KEY = 'ts';
 
     /**
      * @var string
@@ -88,7 +88,7 @@ class Token implements JsonSerializable
     public function jsonSerialize()
     {
         return [
-            self::TOKEN_KEY     => $this->getValue(),
+            self::TOKEN_KEY => $this->getValue(),
             self::TIMESTAMP_KEY => $this->getCreatedAt(),
         ];
     }

@@ -27,7 +27,6 @@ namespace oat\tao\model\security;
  */
 class IFrameBlocker
 {
-
     public static function setHeader()
     {
         header('x-frame-options:DENY');

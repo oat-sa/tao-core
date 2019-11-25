@@ -20,17 +20,16 @@
 
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\filesystem\File;
+use oat\oatbox\task\implementation\SyncQueue;
+use oat\oatbox\task\Queue;
 use oat\oatbox\task\Task;
 use oat\tao\model\TaskQueueActionTrait;
-use oat\oatbox\task\Queue;
-use oat\oatbox\task\implementation\SyncQueue;
 
 /**
  * @deprecated since version 21.7.0, to be removed in 22.0.
  */
 class tao_actions_QueueAction extends \tao_actions_SaSModule
 {
-
     use TaskQueueActionTrait;
 
     /**
@@ -118,10 +117,9 @@ class tao_actions_QueueAction extends \tao_actions_SaSModule
     protected function getFile($fileUri)
     {
         /* @var \oat\oatbox\filesystem\FileSystemService $fileSystemService */
-        $fileSystemService     = $this->getServiceLocator()->get(\oat\oatbox\filesystem\FileSystemService::SERVICE_ID);
-        $storageService        = $fileSystemService->getFileSystem(Queue::FILE_SYSTEM_ID);
+        $fileSystemService = $this->getServiceLocator()->get(\oat\oatbox\filesystem\FileSystemService::SERVICE_ID);
+        $storageService = $fileSystemService->getFileSystem(Queue::FILE_SYSTEM_ID);
 
         return $storageService->readStream($fileUri);
     }
-
 }

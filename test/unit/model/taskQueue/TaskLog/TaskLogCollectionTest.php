@@ -20,9 +20,9 @@
 
 namespace oat\tao\test\unit\model\taskQueue\TaskLog;
 
+use oat\generis\test\TestCase;
 use oat\tao\model\taskQueue\TaskLog\TaskLogCollection;
 use oat\tao\model\taskQueue\TaskLogInterface;
-use oat\generis\test\TestCase;
 
 class TaskLogCollectionTest extends TestCase
 {
@@ -55,7 +55,7 @@ class TaskLogCollectionTest extends TestCase
      */
     protected function createCollection()
     {
-       return TaskLogCollection::createFromArray([
+        return TaskLogCollection::createFromArray([
             [
                 'id' => 'rdf#i1508337970199318643',
                 'parent_id' => 'parentFake0002525',
@@ -69,7 +69,7 @@ class TaskLogCollectionTest extends TestCase
                 'report' => [
                     'type' => 'info',
                     'message' => 'Running task rdf#i1508337970199318643',
-                    'data' => NULL,
+                    'data' => null,
                     'children' => []
                 ],
             ],
@@ -86,7 +86,7 @@ class TaskLogCollectionTest extends TestCase
                 'report' => [
                     'type' => 'info',
                     'message' => 'Running task #i15083379701993186432222',
-                    'data' => NULL,
+                    'data' => null,
                     'children' => []
                 ],
             ],
@@ -103,7 +103,7 @@ class TaskLogCollectionTest extends TestCase
                'report' => [
                    'type' => 'info',
                    'message' => 'Running task #i15083379701993186433333',
-                   'data' => NULL,
+                   'data' => null,
                    'children' => []
                ],
            ],

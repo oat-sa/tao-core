@@ -20,8 +20,8 @@
 
 namespace oat\tao\test\unit\actionQueue;
 
-use oat\tao\model\actionQueue\AbstractQueuedAction;
 use oat\generis\test\TestCase;
+use oat\tao\model\actionQueue\AbstractQueuedAction;
 
 /**
  * Class ActionTest
@@ -30,7 +30,6 @@ use oat\generis\test\TestCase;
  */
 class AbstractActionTest extends TestCase
 {
-
     public function testGetId()
     {
         $action = new ConcreteAction();
@@ -59,7 +58,6 @@ class AbstractActionTest extends TestCase
         $action = new ConcreteAction();
         $action->getResult();
     }
-
 }
 
 class ConcreteAction extends AbstractQueuedAction

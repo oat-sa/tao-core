@@ -20,9 +20,9 @@
 
 namespace oat\tao\test\integration\export;
 
+use common_session_SessionManager;
 use GuzzleHttp\Psr7\Response;
 use oat\tao\model\export\implementation\CsvExporter;
-use common_session_SessionManager;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use Psr\Http\Message\ResponseInterface;
 use SplFileInfo;
@@ -35,7 +35,6 @@ use SplFileInfo;
  */
 class CsvExporterTest extends TaoPhpUnitTestRunner
 {
-
     public function setUp()
     {
         parent::setUp();
@@ -80,7 +79,7 @@ class CsvExporterTest extends TaoPhpUnitTestRunner
         $this->assertEquals('old_header_val', $response->getHeader('X-Old-Header')[0]);
         $this->assertEquals(strlen($exportedData), $response->getHeader('Content-Length')[0]);
         $this->assertEquals(
-            'attachment; fileName="' . CsvExporter::FILE_NAME .'"',
+            'attachment; fileName="' . CsvExporter::FILE_NAME . '"',
             $response->getHeader('Content-Disposition')[0]
         );
         $this->assertEquals(CsvExporter::CSV_CONTENT_TYPE, $response->getHeader('Content-Type')[0]);
@@ -96,7 +95,7 @@ class CsvExporterTest extends TaoPhpUnitTestRunner
         $withoutColNamesFile = new SplFileInfo($samplesDir . 'withoutColNames.csv');
 
         $csvWithColNames = array_map('str_getcsv', file($withColNamesFile->getPathname()));
-        array_walk($csvWithColNames, function(&$a) use ($csvWithColNames) {
+        array_walk($csvWithColNames, function (&$a) use ($csvWithColNames) {
             $a = array_combine($csvWithColNames[0], $a);
         });
         array_shift($csvWithColNames); // remove column header
@@ -120,7 +119,8 @@ class CsvExporterTest extends TaoPhpUnitTestRunner
      * @param $s
      * @return mixed
      */
-    private function normalizeLineEndings($s) {
+    private function normalizeLineEndings($s)
+    {
         $s = str_replace("\r\n", "\n", $s);
         $s = str_replace("\r", "\n", $s);
         // Don't allow out-of-control blank lines

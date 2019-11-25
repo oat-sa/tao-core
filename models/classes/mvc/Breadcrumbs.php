@@ -22,7 +22,7 @@ namespace oat\tao\model\mvc;
 
 /**
  * Defines API that produce breadcrumbs.
- * 
+ *
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
  * @package oat\tao\mvc
  */

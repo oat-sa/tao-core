@@ -21,14 +21,15 @@
 namespace oat\tao\test\unit\model\taskQueue\Worker;
 
 use common_report_Report;
+use common_report_Report as Report;
 use common_session_Session;
 use common_user_User;
 use core_kernel_classes_Resource;
 use Exception;
 use oat\generis\model\data\Ontology;
 use oat\generis\model\user\UserFactoryServiceInterface;
+use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
-use common_report_Report as Report;
 use oat\oatbox\log\LoggerService;
 use oat\oatbox\session\SessionService;
 use oat\oatbox\user\User;
@@ -42,7 +43,6 @@ use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
 use oat\tao\model\taskQueue\TaskLogInterface;
 use oat\tao\model\taskQueue\Worker\AbstractWorker;
 use oat\tao\model\webhooks\task\WebhookTask;
-use oat\generis\test\MockObject;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class AbstractWorkerTest extends TestCase
@@ -249,7 +249,6 @@ class AbstractWorkerTest extends TestCase
 
         $result = $this->subject->processTask($this->taskMock);
         $this->assertSame('completed', $result);
-
     }
 
     public function testProcessTaskReturnErrorReport()

@@ -20,31 +20,31 @@
  */
 namespace oat\tao\model\routing;
 
+use ActionEnforcingException;
+use common_session_SessionManager;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
-use function GuzzleHttp\Psr7\stream_for;
 use IExecutable;
-use ActionEnforcingException;
-use oat\tao\model\http\ResponseEmitter;
+use oat\oatbox\event\EventManager;
+use oat\oatbox\log\LoggerAwareTrait;
+use oat\oatbox\log\TaoLoggerAwareInterface;
 use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\ServiceManagerAwareTrait;
+use oat\tao\model\accessControl\AclProxy;
+use oat\tao\model\accessControl\data\DataAccessControl;
+
+use oat\tao\model\accessControl\data\PermissionException;
+use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
+use oat\tao\model\action\CommonModuleInterface;
+use oat\tao\model\event\BeforeAction;
 use oat\tao\model\http\Controller;
+use oat\tao\model\http\ResponseEmitter;
+
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use ReflectionMethod;
-
-use common_session_SessionManager;
 use tao_models_classes_AccessDeniedException;
-use oat\tao\model\accessControl\AclProxy;
-use oat\tao\model\accessControl\data\DataAccessControl;
-use oat\tao\model\accessControl\data\PermissionException;
-use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
-
-use oat\oatbox\event\EventManager;
-use oat\tao\model\event\BeforeAction;
-use oat\oatbox\log\LoggerAwareTrait;
-use oat\oatbox\log\TaoLoggerAwareInterface;
-use oat\tao\model\action\CommonModuleInterface;
+use function GuzzleHttp\Psr7\stream_for;
 
 /**
  * ActionEnforcer class
@@ -98,8 +98,8 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
     protected function getController()
     {
         $controllerClass = $this->getControllerClass();
-        if(!class_exists($controllerClass)) {
-            throw new ActionEnforcingException('Controller "'.$controllerClass.'" could not be loaded.', $controllerClass, $this->getAction());
+        if (!class_exists($controllerClass)) {
+            throw new ActionEnforcingException('Controller "' . $controllerClass . '" could not be loaded.', $controllerClass, $this->getAction());
         }
         $controller = new $controllerClass();
         $this->propagate($controller);
@@ -136,19 +136,19 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
      * @throws \common_exception_MissingParameter
      * @throws tao_models_classes_AccessDeniedException
      */
-    protected function verifyAuthorization() {
+    protected function verifyAuthorization()
+    {
         $user = common_session_SessionManager::getSession()->getUser();
         if (!AclProxy::hasAccess($user, $this->getControllerClass(), $this->getAction(), $this->getParameters())) {
-            $func  = new FuncProxy();
-            $data  = new DataAccessControl();
+            $func = new FuncProxy();
+            $data = new DataAccessControl();
             //now go into details to see which kind of permissions are not correct
-            if($func->hasAccess($user, $this->getControllerClass(), $this->getAction(), $this->getParameters()) &&
-               !$data->hasAccess($user, $this->getControllerClass(), $this->getAction(), $this->getParameters())){
-
-	            throw new PermissionException($user->getIdentifier(), $this->getAction(), $this->getControllerClass(), $this->getExtensionId());
+            if ($func->hasAccess($user, $this->getControllerClass(), $this->getAction(), $this->getParameters()) &&
+               !$data->hasAccess($user, $this->getControllerClass(), $this->getAction(), $this->getParameters())) {
+                throw new PermissionException($user->getIdentifier(), $this->getAction(), $this->getControllerClass(), $this->getExtensionId());
             }
 
-	        throw new tao_models_classes_AccessDeniedException($user->getIdentifier(), $this->getAction(), $this->getControllerClass(), $this->getExtensionId());
+            throw new tao_models_classes_AccessDeniedException($user->getIdentifier(), $this->getAction(), $this->getControllerClass(), $this->getExtensionId());
         }
     }
 
@@ -166,24 +166,24 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
      * @throws \common_exception_MissingParameter
      * @throws tao_models_classes_AccessDeniedException
      */
-	public function execute()
-	{
-	    // Are we authorized to execute this action?
+    public function execute()
+    {
+        // Are we authorized to execute this action?
         try {
             $this->verifyAuthorization();
-        } catch(PermissionException $pe){
+        } catch (PermissionException $pe) {
             //forward the action (yes it's an awful hack, but far better than adding a step in Bootstrap's dispatch error).
             \Context::getInstance()->setExtensionName('tao');
-            $this->action       = 'denied';
-            $this->controllerClass   = 'tao_actions_Permission';
-            $this->extension    = 'tao';
+            $this->action = 'denied';
+            $this->controllerClass = 'tao_actions_Permission';
+            $this->extension = 'tao';
         }
 
-	    $response = $this->resolve($this->getRequest());
+        $response = $this->resolve($this->getRequest());
 
         $emitter = new ResponseEmitter();
         $emitter($response);
-	}
+    }
 
     /**
      * @param ServerRequestInterface $request
@@ -192,7 +192,7 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
      * @throws \ReflectionException
      * @throws \common_exception_Error
      */
-	public function resolve(ServerRequestInterface $request)
+    public function resolve(ServerRequestInterface $request)
     {
         $this->request = $request;
 
@@ -208,27 +208,29 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
         $controller = $this->getController();
 
         if (!method_exists($controller, $action)) {
-            throw new ActionEnforcingException("Unable to find the action '" . $action . "' in '" . get_class($controller) . "'.",
+            throw new ActionEnforcingException(
+                "Unable to find the action '" . $action . "' in '" . get_class($controller) . "'.",
                 $this->getControllerClass(),
-                $this->getAction());
+                $this->getAction()
+            );
         }
 
         // search parameters method
-        $reflect	= new ReflectionMethod($controller, $action);
-        $parameters	= $this->getParameters();
+        $reflect = new ReflectionMethod($controller, $action);
+        $parameters = $this->getParameters();
 
-        $tabParam 	= array();
-        foreach($reflect->getParameters() as $param) {
+        $tabParam = array();
+        foreach ($reflect->getParameters() as $param) {
             if (isset($parameters[$param->getName()])) {
                 $tabParam[$param->getName()] = $parameters[$param->getName()];
             } elseif (!$param->isDefaultValueAvailable()) {
-                $this->logWarning('Missing parameter '.$param->getName().' for '.$this->getControllerClass().'@'.$action);
+                $this->logWarning('Missing parameter ' . $param->getName() . ' for ' . $this->getControllerClass() . '@' . $action);
             }
         }
 
         // Action method is invoked, passing request parameters as method parameters.
         $user = common_session_SessionManager::getSession()->getUser();
-        $this->logDebug('Invoking '.get_class($controller).'::'.$action.' by '.$user->getIdentifier(), ARRAY('GENERIS', 'CLEARRFW'));
+        $this->logDebug('Invoking ' . get_class($controller) . '::' . $action . ' by ' . $user->getIdentifier(), array('GENERIS', 'CLEARRFW'));
 
         $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
         $eventManager->trigger(new BeforeAction());
@@ -237,5 +239,4 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
 
         return $response instanceof ResponseInterface ? $response : $controller->getPsrResponse();
     }
-
 }

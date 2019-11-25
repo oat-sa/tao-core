@@ -26,7 +26,6 @@ use oat\oatbox\event\Event;
 
 class UserUpdatedEvent implements Event, JsonSerializable
 {
-
     /** @var  string */
     protected $user;
     protected $data;

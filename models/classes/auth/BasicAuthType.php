@@ -19,6 +19,7 @@
  * @author Alexander Zagovorichev <olexander.zagovorychev@1pt.com>
  */
 namespace oat\tao\model\auth;
+
 use GuzzleHttp\Client;
 use oat\tao\helpers\Template;
 use Psr\Http\Message\RequestInterface;
@@ -116,5 +117,4 @@ class BasicAuthType extends AbstractAuthType implements BasicAuth
             $credentials[self::PROPERTY_PASSWORD],
         ];
     }
-
 }

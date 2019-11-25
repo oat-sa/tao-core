@@ -18,4 +18,6 @@
  */
 namespace oat\tao\model\import\service;
 
-class RdsResourceNotFoundException extends \Exception{}
+class RdsResourceNotFoundException extends \Exception
+{
+}

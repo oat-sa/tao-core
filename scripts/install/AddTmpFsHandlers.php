@@ -31,7 +31,6 @@ use oat\tao\model\upload\UploadService;
  */
 class AddTmpFsHandlers extends InstallAction
 {
-
     /**
      * @param $params
      * @throws \common_Exception
@@ -59,5 +58,4 @@ class AddTmpFsHandlers extends InstallAction
         $eventManager->attach(UploadLocalCopyCreatedEvent::class, [UploadService::class, 'listenLocalCopyEvent']);
         $this->getServiceManager()->register(EventManager::CONFIG_ID, $eventManager);
     }
-
 }

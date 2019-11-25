@@ -21,14 +21,14 @@
 namespace oat\tao\model\search\tokenizer;
 
 /**
- * Tokenizer interface for TAO property values 
- * 
+ * Tokenizer interface for TAO property values
+ *
  * @author Joel Bout <joel@taotesting.com>
  */
 interface PropertyValueTokenizer
-{	
+{
     /**
-     * 
+     *
      * @param mixed $value
      * @return array list of strings
      */

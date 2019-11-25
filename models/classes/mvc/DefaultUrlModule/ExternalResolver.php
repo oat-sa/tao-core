@@ -19,12 +19,10 @@
 
 namespace oat\tao\model\mvc\DefaultUrlModule;
 
-
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 class ExternalResolver implements RedirectResolveInterface
 {
-
     use ServiceLocatorAwareTrait;
 
     /**
@@ -35,6 +33,4 @@ class ExternalResolver implements RedirectResolveInterface
     {
         return $options['uri'];
     }
-
-
 }

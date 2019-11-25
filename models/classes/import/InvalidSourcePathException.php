@@ -43,7 +43,6 @@ class InvalidSourcePathException extends common_Exception implements common_exce
         $message = sprintf('The path to the source file "%s" is outside the base path "%s"', $sourcePath, $basePath);
 
         parent::__construct($message, 0, $previous);
-
     }
 
     /**

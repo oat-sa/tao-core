@@ -21,17 +21,17 @@
 
 namespace oat\tao\test\integration;
 
+use core_kernel_classes_Class;
+use core_kernel_classes_Literal;
+use core_kernel_classes_Property;
+use core_kernel_classes_Resource;
+use core_kernel_users_Service;
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\user\PasswordConstraintsService;
 use oat\generis\test\TestCase;
 use oat\tao\model\TaoOntology;
-use tao_models_classes_UserService;
-use core_kernel_classes_Resource;
-use core_kernel_users_Service;
-use core_kernel_classes_Class;
-use core_kernel_classes_Property;
-use core_kernel_classes_Literal;
 use ReflectionClass;
+use tao_models_classes_UserService;
 
 /**
  * Test the user management
@@ -41,7 +41,6 @@ use ReflectionClass;
  */
 class UserTest extends TestCase
 {
-
     /**
      * @var tao_models_classes_UserService
      */
@@ -211,7 +210,6 @@ class UserTest extends TestCase
 
         $foo->invokeArgs(PasswordConstraintsService::singleton(), array(array('upper' => true, 'length' => 20)));
         $this->assertFalse(PasswordConstraintsService::singleton()->validate('a2asRdjj319(*^^#'));
-
     }
 
     protected static function getMethod($name)

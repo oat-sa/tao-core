@@ -46,7 +46,7 @@ abstract class AbstractTask implements TaskInterface
      */
     public function __toString()
     {
-        return 'TASK '. get_called_class() .' ['. $this->getId() .']';
+        return 'TASK ' . get_called_class() . ' [' . $this->getId() . ']';
     }
 
     /**
@@ -107,7 +107,7 @@ abstract class AbstractTask implements TaskInterface
      */
     public function isMasterStatus()
     {
-        return (boolean) $this->getMetadata(self::JSON_METADATA_MASTER_STATUS_KEY);
+        return (bool) $this->getMetadata(self::JSON_METADATA_MASTER_STATUS_KEY);
     }
 
     /**

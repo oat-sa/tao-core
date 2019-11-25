@@ -19,13 +19,12 @@
 
 namespace oat\tao\model\menu;
 
+use common_user_User;
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\helpers\ControllerHelper;
 use oat\tao\model\accessControl\AclProxy;
 use oat\tao\model\accessControl\ActionResolver;
-use \common_user_User;
-use oat\tao\helpers\ControllerHelper;
 use oat\taoBackOffice\model\menuStructure\Action as MenuAction;
-
 
 /**
  * Manage Menu Actions
@@ -34,14 +33,14 @@ use oat\taoBackOffice\model\menuStructure\Action as MenuAction;
  */
 class ActionService extends ConfigurableService
 {
-    const SERVICE_ID = 'tao/menuaction';
+    public const SERVICE_ID = 'tao/menuaction';
 
     /**
      * Expose the access levels
      */
-    const ACCESS_DENIED    = 0;
-    const ACCESS_GRANTED   = 1;
-    const ACCESS_UNDEFINED = 2;
+    public const ACCESS_DENIED = 0;
+    public const ACCESS_GRANTED = 1;
+    public const ACCESS_UNDEFINED = 2;
 
     /**
      * Keep an index of resolved actions
@@ -55,25 +54,24 @@ class ActionService extends ConfigurableService
      * @param array             $node   the node/resource to verify
      * @return int                      the access level
      */
-    public function hasAccess(MenuAction $action, common_user_User $user, array $node){
-
+    public function hasAccess(MenuAction $action, common_user_User $user, array $node)
+    {
         $resolvedAction = $this->getResolvedAction($action);
-        if(!is_null($resolvedAction) && !is_null($user)){
-            if($node['type'] = $resolvedAction['context'] || $resolvedAction['context'] == 'resource') {
-                foreach($resolvedAction['required'] as $key){
-                    if(!array_key_exists($key, $node)){
+        if (!is_null($resolvedAction) && !is_null($user)) {
+            if ($node['type'] = $resolvedAction['context'] || $resolvedAction['context'] == 'resource') {
+                foreach ($resolvedAction['required'] as $key) {
+                    if (!array_key_exists($key, $node)) {
                         //missing required key
                         return self::ACCESS_UNDEFINED;
                     }
                 }
                 try {
-                    if(AclProxy::hasAccess($user, $resolvedAction['controller'], $resolvedAction['action'], $node)){
+                    if (AclProxy::hasAccess($user, $resolvedAction['controller'], $resolvedAction['action'], $node)) {
                         return self::ACCESS_GRANTED;
                     }
                     return self::ACCESS_DENIED;
-                } catch(\Exception $e){
-
-                    \common_Logger::w('Unable to resolve permission for action ' . $action->getId() . ' : ' . $e->getMessage() );
+                } catch (\Exception $e) {
+                    \common_Logger::w('Unable to resolve permission for action ' . $action->getId() . ' : ' . $e->getMessage());
                 }
             }
         }
@@ -90,9 +88,9 @@ class ActionService extends ConfigurableService
     public function computePermissions(array $actions, \common_user_User $user, array $node)
     {
         $permissions = [];
-        foreach($actions as $action){
+        foreach ($actions as $action) {
             $access = $this->hasAccess($action, $user, $node);
-            if($access != self::ACCESS_UNDEFINED){
+            if ($access != self::ACCESS_UNDEFINED) {
                 $permissions[$action->getId()] = ($access == self::ACCESS_GRANTED);
             }
         }
@@ -108,13 +106,13 @@ class ActionService extends ConfigurableService
     {
         $rights = [];
         $resolvedAction = $this->getResolvedAction($action);
-        if(!is_null($resolvedAction)){
+        if (!is_null($resolvedAction)) {
             try {
-                $rights  = ControllerHelper::getRequiredRights(
+                $rights = ControllerHelper::getRequiredRights(
                     $resolvedAction['controller'],
                     $resolvedAction['action']
                 );
-            } catch(\Exception $e){
+            } catch (\Exception $e) {
                 \common_Logger::d('do not handle permissions for action : ' . $action->getName() . ' ' . $action->getUrl());
             }
         }
@@ -131,19 +129,18 @@ class ActionService extends ConfigurableService
     private function getResolvedAction(MenuAction $action)
     {
         $actionId = $action->getId();
-        if(!isset($this->resolvedActions[$actionId])){
-            try{
-                if($action->getContext() == '*'){
+        if (!isset($this->resolvedActions[$actionId])) {
+            try {
+                if ($action->getContext() == '*') {
                     //we assume the star context is not permission aware
                     $this->resolvedActions[$actionId] = null;
-                }  else {
-
+                } else {
                     $resolver = new ActionResolver($action->getUrl());
                     $resolvedAction = [
-                        'id'         => $action->getId(),
-                        'context'    => $action->getContext(),
+                        'id' => $action->getId(),
+                        'context' => $action->getContext(),
                         'controller' => $resolver->getController(),
-                        'action'     => $resolver->getAction(),
+                        'action' => $resolver->getAction(),
                     ];
                     $resolvedAction['required'] = array_keys(
                         ControllerHelper::getRequiredRights($resolvedAction['controller'], $resolvedAction['action'])
@@ -151,11 +148,10 @@ class ActionService extends ConfigurableService
 
                     $this->resolvedActions[$actionId] = $resolvedAction;
                 }
-            } catch(\ResolverException $re) {
+            } catch (\ResolverException $re) {
                 $this->resolvedActions[$actionId] = null;
                 \common_Logger::d('do not handle permissions for action : ' . $action->getName() . ' ' . $action->getUrl());
-            } catch(\Exception $e){
-
+            } catch (\Exception $e) {
                 $this->resolvedActions[$actionId] = null;
                 \common_Logger::d('do not handle permissions for action : ' . $action->getName() . ' ' . $action->getUrl());
             }
@@ -163,5 +159,4 @@ class ActionService extends ConfigurableService
 
         return $this->resolvedActions[$actionId];
     }
-
 }

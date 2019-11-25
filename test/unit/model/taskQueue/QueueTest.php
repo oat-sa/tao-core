@@ -20,6 +20,7 @@
 
 namespace oat\tao\test\unit\model\taskQueue;
 
+use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
 use oat\tao\model\taskQueue\Queue;
 use oat\tao\model\taskQueue\Queue\Broker\QueueBrokerInterface;
@@ -27,7 +28,6 @@ use oat\tao\model\taskQueue\Task\AbstractTask;
 use oat\tao\model\taskQueue\TaskLogInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Lock\LockInterface;
-use oat\generis\test\MockObject;
 
 class QueueTest extends TestCase
 {

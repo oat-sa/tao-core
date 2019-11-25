@@ -20,7 +20,6 @@
 
 namespace oat\tao\model\service;
 
-
 use oat\oatbox\PimpleContainerTrait;
 use oat\oatbox\service\ConfigurableService;
 use Psr\Container\ContainerInterface;
@@ -28,7 +27,7 @@ use Psr\Container\ContainerInterface;
 class ContainerService extends ConfigurableService implements ContainerInterface
 {
     /** The Service identifier in the Service Manager. */
-    const SERVICE_ID = 'tao/containerService';
+    public const SERVICE_ID = 'tao/containerService';
 
     /** Uses the container trait. */
     use PimpleContainerTrait;

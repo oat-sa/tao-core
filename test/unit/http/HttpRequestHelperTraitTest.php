@@ -204,5 +204,4 @@ class HttpRequestHelperTraitTest extends TestCase
         $this->assertEquals('/', $controller->getRequestURI());
         $this->assertEquals('', $controller->getQueryString());
     }
-
 }

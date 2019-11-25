@@ -24,14 +24,14 @@ use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyRdfs;
 use oat\tao\model\search\tokenizer\PropertyValueTokenizer;
 
-class OntologyIndex extends \core_kernel_classes_Resource {
-
-    const RDF_TYPE = "http://www.tao.lu/Ontologies/TAO.rdf#Index";
-    const PROPERTY_INDEX = 'http://www.tao.lu/Ontologies/TAO.rdf#PropertyIndex';
-    const PROPERTY_INDEX_FUZZY_MATCHING = 'http://www.tao.lu/Ontologies/TAO.rdf#IndexFuzzyMatching';
-    const PROPERTY_INDEX_IDENTIFIER = 'http://www.tao.lu/Ontologies/TAO.rdf#IndexIdentifier';
-    const PROPERTY_INDEX_TOKENIZER = 'http://www.tao.lu/Ontologies/TAO.rdf#IndexTokenizer';
-    const PROPERTY_DEFAULT_SEARCH = 'http://www.tao.lu/Ontologies/TAO.rdf#IndexDefaultSearch';
+class OntologyIndex extends \core_kernel_classes_Resource
+{
+    public const RDF_TYPE = "http://www.tao.lu/Ontologies/TAO.rdf#Index";
+    public const PROPERTY_INDEX = 'http://www.tao.lu/Ontologies/TAO.rdf#PropertyIndex';
+    public const PROPERTY_INDEX_FUZZY_MATCHING = 'http://www.tao.lu/Ontologies/TAO.rdf#IndexFuzzyMatching';
+    public const PROPERTY_INDEX_IDENTIFIER = 'http://www.tao.lu/Ontologies/TAO.rdf#IndexIdentifier';
+    public const PROPERTY_INDEX_TOKENIZER = 'http://www.tao.lu/Ontologies/TAO.rdf#IndexTokenizer';
+    public const PROPERTY_DEFAULT_SEARCH = 'http://www.tao.lu/Ontologies/TAO.rdf#IndexDefaultSearch';
 
     private $cached = null;
 
@@ -65,7 +65,7 @@ class OntologyIndex extends \core_kernel_classes_Resource {
         $tokenizer = $this->getOneCached(static::PROPERTY_INDEX_TOKENIZER);
         $implClass = (string)$tokenizer->getUniquePropertyValue($this->getProperty("http://www.tao.lu/Ontologies/TAO.rdf#TokenizerClass"));
         if (!class_exists($implClass)) {
-            throw new \common_exception_Error('Tokenizer class "'.$implClass.'" not found for '.$tokenizer->getUri());
+            throw new \common_exception_Error('Tokenizer class "' . $implClass . '" not found for ' . $tokenizer->getUri());
         }
         return new $implClass();
     }

@@ -66,5 +66,4 @@ class ImportUsersCsv extends ScriptAction
 
         return $importer->import($this->getOption('file-path'));
     }
-
 }

@@ -38,14 +38,14 @@ class ImporterFactory extends ConfigurableService implements ImporterFactoryInte
      */
     public function create($type)
     {
-        $typeOptions    = $this->getOption(self::OPTION_MAPPERS);
-        $typeOption     = isset($typeOptions[$type]) ? $typeOptions[$type] : $this->throwException();
+        $typeOptions = $this->getOption(self::OPTION_MAPPERS);
+        $typeOption = isset($typeOptions[$type]) ? $typeOptions[$type] : $this->throwException();
         $importerString = isset($typeOption[self::OPTION_MAPPERS_IMPORTER]) ? $typeOption[self::OPTION_MAPPERS_IMPORTER] : $this->throwException();
-        $importer       = $this->buildService($importerString, ImportServiceInterface::class);
+        $importer = $this->buildService($importerString, ImportServiceInterface::class);
 
         if (isset($typeOption[self::OPTION_MAPPERS_MAPPER])) {
             $mapperString = $typeOption[self::OPTION_MAPPERS_MAPPER];
-            $mapper       = $this->buildService($mapperString);
+            $mapper = $this->buildService($mapperString);
         } else {
             $mapper = $this->getDefaultMapper();
         }

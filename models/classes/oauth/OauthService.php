@@ -1,33 +1,33 @@
 <?php
-/**  
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2013 (original work) (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- * 
+ *
  */
 namespace oat\tao\model\oauth;
 
 use common_http_Credentials;
 use common_http_InvalidSignatureException;
-use IMSGlobal\LTI\OAuth\OAuthSignatureMethod_HMAC_SHA1;
-use IMSGlobal\LTI\OAuth\OAuthRequest;
-use IMSGlobal\LTI\OAuth\OAuthServer;
-use IMSGlobal\LTI\OAuth\OAuthUtil;
-use oat\oatbox\service\ConfigurableService;
 use common_http_Request;
 use IMSGlobal\LTI\OAuth\OAuthException;
+use IMSGlobal\LTI\OAuth\OAuthRequest;
+use IMSGlobal\LTI\OAuth\OAuthServer;
+use IMSGlobal\LTI\OAuth\OAuthSignatureMethod_HMAC_SHA1;
+use IMSGlobal\LTI\OAuth\OAuthUtil;
+use oat\oatbox\service\ConfigurableService;
 use Psr\Http\Message\ServerRequestInterface;
 use tao_models_classes_oauth_Exception;
 
@@ -40,11 +40,11 @@ use tao_models_classes_oauth_Exception;
  */
 class OauthService extends ConfigurableService implements \common_http_SignatureService
 {
-    const SERVICE_ID = 'tao/OauthService';
+    public const SERVICE_ID = 'tao/OauthService';
     
-    const OPTION_DATASTORE = 'store';
+    public const OPTION_DATASTORE = 'store';
 
-    const OAUTH_BODY_HASH_PARAM = 'oauth_body_hash';
+    public const OAUTH_BODY_HASH_PARAM = 'oauth_body_hash';
 
     /**
      * Adds a signature to the request
@@ -57,13 +57,13 @@ class OauthService extends ConfigurableService implements \common_http_Signature
      * @throws tao_models_classes_oauth_Exception
      * @author Joel Bout, <joel@taotesting.com>
      */
-    public function sign(common_http_Request $request, common_http_Credentials $credentials, $authorizationHeader = false) {
-        
+    public function sign(common_http_Request $request, common_http_Credentials $credentials, $authorizationHeader = false)
+    {
         if (!$credentials instanceof \tao_models_classes_oauth_Credentials) {
-            throw new tao_models_classes_oauth_Exception('Invalid credentals: '.gettype($credentials));
+            throw new tao_models_classes_oauth_Exception('Invalid credentals: ' . gettype($credentials));
         }
         
-        $oauthRequest = $this->getOauthRequest($request); 
+        $oauthRequest = $this->getOauthRequest($request);
         $dataStore = $this->getDataStore();
         $consumer = $dataStore->getOauthConsumer($credentials);
         $token = $dataStore->new_request_token($consumer);
@@ -107,7 +107,7 @@ class OauthService extends ConfigurableService implements \common_http_Signature
                 $request->getBody()
             );
         } else {
-            $signedRequest =  new common_http_Request(
+            $signedRequest = new common_http_Request(
                 $signedRequest->to_url(),
                 $signedRequest->get_normalized_http_method(),
                 $signedRequest->get_parameters(),
@@ -131,7 +131,7 @@ class OauthService extends ConfigurableService implements \common_http_Signature
     public function validate(common_http_Request $request, common_http_Credentials $credentials = null)
     {
         $server = new OAuthServer($this->getDataStore());
-		$method = new OAuthSignatureMethod_HMAC_SHA1();
+        $method = new OAuthSignatureMethod_HMAC_SHA1();
         $server->add_signature_method($method);
 
         $oauthRequest = $this->getOauthRequest($request);
@@ -143,7 +143,7 @@ class OauthService extends ConfigurableService implements \common_http_Signature
         try {
             return $server->verify_request($oauthRequest);
         } catch (OAuthException $e) {
-            throw new common_http_InvalidSignatureException('Validation failed: '.$e->getMessage());
+            throw new common_http_InvalidSignatureException('Validation failed: ' . $e->getMessage());
         }
     }
 
@@ -164,7 +164,8 @@ class OauthService extends ConfigurableService implements \common_http_Signature
     /**
      * @return ImsOauthDataStoreInterface
      */
-    public function getDataStore() {
+    public function getDataStore()
+    {
         return $this->getSubService(self::OPTION_DATASTORE);
     }
 
@@ -218,11 +219,12 @@ class OauthService extends ConfigurableService implements \common_http_Signature
      *  In particular, OAuth parameters from the request URL and POST body will be ignored.
      * Return the Authorization header
      */
-    private function buildAuthorizationHeader($signatureParameters) {
+    private function buildAuthorizationHeader($signatureParameters)
+    {
         $authorizationHeader = 'OAuth realm=""';
         
-        foreach ($signatureParameters as $key=>$value) {
-            $authorizationHeader.=','.$key."=".'"'.urlencode($value).'"';
+        foreach ($signatureParameters as $key => $value) {
+            $authorizationHeader .= ',' . $key . "=" . '"' . urlencode($value) . '"';
         }
         return $authorizationHeader;
     }
@@ -232,7 +234,8 @@ class OauthService extends ConfigurableService implements \common_http_Signature
      * @param common_http_Request $request
      * @return \IMSGlobal\LTI\OAuth\OAuthRequest
      */
-    private function getOauthRequest(common_http_Request $request) {
+    private function getOauthRequest(common_http_Request $request)
+    {
         $params = array();
 
         // In LTI launches oauth params are passed as POST params, but in LIS requests
@@ -243,7 +246,7 @@ class OauthService extends ConfigurableService implements \common_http_Signature
         }
         
         $params = array_merge($params, $request->getParams());
-        \common_Logger::d("OAuth Request created:".$request->getUrl()." using ".$request->getMethod());
+        \common_Logger::d("OAuth Request created:" . $request->getUrl() . " using " . $request->getMethod());
         $oauthRequest = new OAuthRequest($request->getMethod(), $request->getUrl(), $params);
         return $oauthRequest;
     }

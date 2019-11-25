@@ -1,23 +1,23 @@
 <?php
-/**  
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
+ *
  */
 
 
@@ -27,10 +27,9 @@
  * @access public
  * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @package tao
- 
+
  */
-class tao_scripts_TaoExtensions
-    extends tao_scripts_Runner
+class tao_scripts_TaoExtensions extends tao_scripts_Runner
 {
     // --- ASSOCIATIONS ---
 
@@ -74,9 +73,7 @@ class tao_scripts_TaoExtensions
      */
     public function preRun()
     {
-       
         $this->checkInput();
-
     }
 
     /**
@@ -88,12 +85,11 @@ class tao_scripts_TaoExtensions
      */
     public function run()
     {
-       
         $this->outVerbose("Connecting...");
-        if ($this->connect($this->options['user'], $this->options['password'])){
+        if ($this->connect($this->options['user'], $this->options['password'])) {
             $this->outVerbose("Connected to TAO API.");
             
-            switch ($this->options['action']){
+            switch ($this->options['action']) {
                 case 'setConfig':
                     $this->setCurrentAction($this->options['action']);
                     $this->actionSetConfig();
@@ -105,12 +101,10 @@ class tao_scripts_TaoExtensions
                 break;
             }
             
-            $this->disconnect();    
-        }
-        else{
+            $this->disconnect();
+        } else {
             $this->error("Could not connect to TAO API. Please check your user name and password.", true);
         }
-       
     }
 
     /**
@@ -120,9 +114,7 @@ class tao_scripts_TaoExtensions
      */
     public function postRun()
     {
-       
         $this->outVerbose("Script executed gracefully.");
-       
     }
 
     /**
@@ -136,7 +128,6 @@ class tao_scripts_TaoExtensions
      */
     public function checkInput()
     {
-        
         $this->options = array('verbose' => false,
                                'action' => null,
                                'user' => null,
@@ -145,19 +136,16 @@ class tao_scripts_TaoExtensions
         $this->options = array_merge($this->options, $this->parameters);
         
         // Check common inputs.
-        if ($this->options['user'] == null){
+        if ($this->options['user'] == null) {
             $this->error("Please provide a Generis 'user'.", true);
-        }
-        else{
-            if ($this->options['password'] == null){
+        } else {
+            if ($this->options['password'] == null) {
                 $this->error("Please provide a Generis 'password'.", true);
-            }
-            else{
-                if ($this->options['action'] == null){
+            } else {
+                if ($this->options['action'] == null) {
                     $this->error("Please provide the 'action' parameter.", true);
-                }
-                else{
-                    switch ($this->options['action']){
+                } else {
+                    switch ($this->options['action']) {
                         case 'setConfig':
                             $this->checkSetConfigInput();
                         break;
@@ -170,10 +158,9 @@ class tao_scripts_TaoExtensions
                             $this->error("Please provide a valid 'action' parameter.", true);
                         break;
                     }
-                }    
+                }
             }
         }
-       
     }
 
     /**
@@ -204,9 +191,7 @@ class tao_scripts_TaoExtensions
      */
     public function setCurrentAction($currentAction)
     {
-        
         $this->currentAction = $currentAction;
-       
     }
 
     /**
@@ -234,16 +219,15 @@ class tao_scripts_TaoExtensions
         $configParam = $this->options['configParameter'];
         $extensionId = $this->options['extension'];
         
-        try{
+        try {
             $ext = common_ext_ExtensionsManager::singleton()->getExtensionById($extensionId);
             $currentConfig = $ext->getConfiguration();
             
-            if ($currentConfig == null){
+            if ($currentConfig == null) {
                 $this->error("The extension '${extensionId} is not referenced.", true);
-            }
-            else{
+            } else {
                 // Change the configuration with the new value.
-                switch ($configParam){
+                switch ($configParam) {
                     case 'loaded':
                         $currentConfig->loaded = $configValue;
                     break;
@@ -264,11 +248,9 @@ class tao_scripts_TaoExtensions
                 $currentConfig->save($ext);
                 $this->outVerbose("Configuration parameter '${configParam}' successfully updated to " . (($configValue == true) ? 1 : 0) . " for extension '${extensionId}'.");
             }
-        }
-        catch (common_ext_ExtensionException $e){
+        } catch (common_ext_ExtensionException $e) {
             $this->error("The extension '${extensionId}' does not exist or has no manifest.", true);
         }
-        
     }
 
     /**
@@ -284,8 +266,7 @@ class tao_scripts_TaoExtensions
      */
     public function __construct($inputFormat = array(), $options = array())
     {
-       
-        if (count($inputFormat) == 0){
+        if (count($inputFormat) == 0) {
             // Autoconfigure the script.
             $inputFormat = array('min' => 3,
                                  'parameters' => array(
@@ -332,7 +313,6 @@ class tao_scripts_TaoExtensions
         }
 
         parent::__construct($inputFormat, $options);
-      
     }
 
     /**
@@ -344,7 +324,6 @@ class tao_scripts_TaoExtensions
      */
     public function checkSetConfigInput()
     {
-        
         $availableParameters = array('loaded', 'loadAtStartup', 'ghost');
         $defaults = array('extension' => null,
                           'configParameter' => null,
@@ -352,16 +331,13 @@ class tao_scripts_TaoExtensions
                           
         $this->options = array_merge($defaults, $this->options);
         
-        if ($this->options['configParameter'] == null){
+        if ($this->options['configParameter'] == null) {
             $this->error("Please provide the 'configParam' parameter.", true);
-        }
-        else if (!in_array($this->options['configParameter'], $availableParameters)){
+        } elseif (!in_array($this->options['configParameter'], $availableParameters)) {
             $this->error("Please provide a valid 'configParam' parameter value (" . implode("|", $availableParameters) . ").", true);
-        }
-        else if ($this->options['configValue'] === null){
+        } elseif ($this->options['configValue'] === null) {
             $this->error("Please provide the 'configValue' parameter.", true);
-        }
-        else if ($this->options['extension'] == null){
+        } elseif ($this->options['extension'] == null) {
             $this->error("Please provide the 'extension' parameter.", true);
         }
     }
@@ -376,9 +352,7 @@ class tao_scripts_TaoExtensions
      */
     public function setConnected($value)
     {
-         
         $this->connected = $value;
-         
     }
 
 
@@ -392,7 +366,6 @@ class tao_scripts_TaoExtensions
     public function isConnected()
     {
         return (bool) $this->connected;
-
     }
     
 
@@ -410,13 +383,11 @@ class tao_scripts_TaoExtensions
      */
     public function error($message, $stopExec = false)
     {
-        
-        if ($stopExec == true){
+        if ($stopExec == true) {
             $this->disconnect();
         }
         
         $this->err($message, $stopExec);
-        
     }
 
     /**
@@ -451,19 +422,16 @@ class tao_scripts_TaoExtensions
      */
     public function disconnect()
     {
-       
-        if ($this->isConnected()){
+        if ($this->isConnected()) {
             $this->outVerbose("Disconnecting user...");
             $userService = tao_models_classes_UserService::singleton();
-            if ($userService->logout() == true){
+            if ($userService->logout() == true) {
                 $this->outVerbose("User gracefully disconnected from TAO API.");
                 $this->setConnected(false);
-            }
-            else{
+            } else {
                 $this->error("User could not be disconnected from TAO API.");
             }
         }
-       
     }
 
     /**
@@ -475,37 +443,31 @@ class tao_scripts_TaoExtensions
      */
     public function actionInstall()
     {
-       
         $extensionId = $this->options['extension']; // ID of the extension to install.
         $importLocalData = $this->options['data']; // Import local data (local.rdf) or not ?
-        try{
+        try {
             // Retrieve the extension's information.
             $this->outVerbose("Locating extension '${extensionId}'...");
             $extensionManager = common_ext_ExtensionsManager::singleton();
             $ext = $extensionManager->getExtensionById($extensionId);
             $this->outVerbose("Extension located.");
             
-            try{
+            try {
                 // Install the extension.
                 $this->outVerbose("Installing extension '${extensionId}'...");
                 $installer = new tao_install_ExtensionInstaller($ext, $importLocalData);
                 $installer->install();
                 $this->outVerbose("Extension successfully installed.");
-            }
-            catch (common_ext_ForbiddenActionException $e){
+            } catch (common_ext_ForbiddenActionException $e) {
                 $this->error("A forbidden action was undertaken: " . $e->getMessage() . " .", true);
-            }
-            catch (common_ext_AlreadyInstalledException $e){
+            } catch (common_ext_AlreadyInstalledException $e) {
                 $this->error("Extension '" . $e->getExtensionId() . "' is already installed.", true);
-            }
-            catch (common_ext_MissingExtensionException $e){
+            } catch (common_ext_MissingExtensionException $e) {
                 $this->error("Extension '" . $extensionId . " is dependant on extension '" . $e->getExtensionId() . "' but is missing. Install '" . $e->getExtensionId() . "' first.", true);
             }
-        }
-        catch (common_ext_ExtensionException $e){
+        } catch (common_ext_ExtensionException $e) {
             $this->error("An unexpected error occured: " . $e->getMessage(), true);
         }
-      
     }
 
     /**
@@ -517,18 +479,13 @@ class tao_scripts_TaoExtensions
      */
     public function checkInstallInput()
     {
-       
         $defaults = array('extension' => null,
                           'data' => true);
                           
         $this->options = array_merge($defaults, $this->options);
         
-        if ($this->options['extension'] == null){
+        if ($this->options['extension'] == null) {
             $this->error("Please provide the 'extension' parameter.", true);
         }
-       
     }
-
 }
-
-?>

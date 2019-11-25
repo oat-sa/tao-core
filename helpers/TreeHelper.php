@@ -40,11 +40,12 @@ class TreeHelper
      * @param core_kernel_classes_Class $rootNode root node of the tree
      * @return array array of the uris of the nodes to open
      */
-    public static function getNodesToOpen($uris, core_kernel_classes_Class $rootNode) {
+    public static function getNodesToOpen($uris, core_kernel_classes_Class $rootNode)
+    {
         // this array is in the form of
         // URI to test => array of uris that depend on the URI
         $toTest = array();
-        foreach($uris as $uri){
+        foreach ($uris as $uri) {
             $resource = new core_kernel_classes_Resource($uri);
             foreach ($resource->getTypes() as $type) {
                 $toTest[$type->getUri()] = array();
@@ -79,32 +80,31 @@ class TreeHelper
         return $toOpen;
     }
 
-	/**
-	 * generis tree representation of a resource node
-	 *
-	 * @param core_kernel_classes_Resource $resource
-	 * @param core_kernel_classes_Class $class
-	 * @param array $extraProperties
-	 * @return array
-	 */
-    public static function buildResourceNode(core_kernel_classes_Resource $resource, core_kernel_classes_Class $class, array $extraProperties = []) {
+    /**
+     * generis tree representation of a resource node
+     *
+     * @param core_kernel_classes_Resource $resource
+     * @param core_kernel_classes_Class $class
+     * @param array $extraProperties
+     * @return array
+     */
+    public static function buildResourceNode(core_kernel_classes_Resource $resource, core_kernel_classes_Class $class, array $extraProperties = [])
+    {
         $label = $resource->getLabel();
         $label = empty($label) ? __('no label') : $label;
 
-		$extraValues = [];
-        if (!empty($extraProperties))
-		{
-			foreach ($extraProperties as $key => $value)
-			{
-				$extraValues[$key] =  $resource->getOnePropertyValue($class->getProperty($value));
-			}
-		}
+        $extraValues = [];
+        if (!empty($extraProperties)) {
+            foreach ($extraProperties as $key => $value) {
+                $extraValues[$key] = $resource->getOnePropertyValue($class->getProperty($value));
+            }
+        }
 
         $signatureGenerator = ServiceManager::getServiceManager()->get(SignatureGenerator::class);
 
         return [
-            'data' 	=> _dh($label),
-            'type'	=> 'instance',
+            'data' => _dh($label),
+            'type' => 'instance',
             'attributes' => array_merge([
                 'id' => tao_helpers_Uri::encode($resource->getUri()),
                 'class' => 'node-instance',
@@ -114,5 +114,4 @@ class TreeHelper
             ], $extraValues)
         ];
     }
-
 }

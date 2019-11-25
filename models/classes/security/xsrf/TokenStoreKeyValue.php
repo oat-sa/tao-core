@@ -30,9 +30,8 @@ use oat\oatbox\session\SessionService;
  */
 class TokenStoreKeyValue extends ConfigurableService implements TokenStore
 {
-
-    const OPTION_PERSISTENCE = 'persistence';
-    const TOKENS_STORAGE_KEY = 'tao_tokens';
+    public const OPTION_PERSISTENCE = 'persistence';
+    public const TOKENS_STORAGE_KEY = 'tao_tokens';
 
     /**
      * @var common_persistence_KeyValuePersistence

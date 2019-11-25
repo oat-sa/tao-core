@@ -22,17 +22,16 @@
 namespace oat\tao\model\menu;
 
 use oat\oatbox\PhpSerializable;
-use oat\taoBackOffice\model\menuStructure\ClassActionRegistry;
 use oat\taoBackOffice\model\menuStructure\Action as iAction;
+use oat\taoBackOffice\model\menuStructure\ClassActionRegistry;
 
 class Section extends MenuElement implements PhpSerializable
 {
-
-    const SERIAL_VERSION = 1392821334;
+    public const SERIAL_VERSION = 1392821334;
     
-    const POLICY_MERGE = 'merge';
+    public const POLICY_MERGE = 'merge';
     
-    const POLICY_OVERRIDE = 'override';
+    public const POLICY_OVERRIDE = 'override';
 
     private $data = array();
 
@@ -47,29 +46,28 @@ class Section extends MenuElement implements PhpSerializable
      */
     public static function fromSimpleXMLElement(\SimpleXMLElement $node, $structureExtensionId)
     {
-
-		$url = isset($node['url']) ? (string) $node['url'] : '#';
-		if ($url == '#' || empty($url)) {
-			$extension  = null;
-			$controller = null;
-			$action     = null;
-		} else {
+        $url = isset($node['url']) ? (string) $node['url'] : '#';
+        if ($url == '#' || empty($url)) {
+            $extension = null;
+            $controller = null;
+            $action = null;
+        } else {
             $parts = explode('/', trim($url, '/'));
             $parts = array_replace(array_fill(0, 3, null), $parts);
 
-			list($extension, $controller, $action) = $parts;
-		}
+            list($extension, $controller, $action) = $parts;
+        }
 
         $data = array(
-            'id'         => (string)$node['id'],
-            'name'       => (string)$node['name'],
-            'url'        => $url,
-			'extension'  => $extension,
-			'controller' => $controller,
-			'action'     => $action,
-            'binding'    => isset($node['binding']) ? (string)$node['binding'] : null,
-            'policy'     => isset($node['policy']) ? (string)$node['policy'] : self::POLICY_MERGE,
-            'disabled'   => isset($node['disabled']) ? true : false
+            'id' => (string)$node['id'],
+            'name' => (string)$node['name'],
+            'url' => $url,
+            'extension' => $extension,
+            'controller' => $controller,
+            'action' => $action,
+            'binding' => isset($node['binding']) ? (string)$node['binding'] : null,
+            'policy' => isset($node['policy']) ? (string)$node['policy'] : self::POLICY_MERGE,
+            'disabled' => isset($node['disabled']) ? true : false
         );
 
         $trees = array();
@@ -102,8 +100,8 @@ class Section extends MenuElement implements PhpSerializable
     public function __construct($data, $trees, $actions, $version = self::SERIAL_VERSION)
     {
         parent::__construct($data['id'], $version);
-        $this->data    = $data;
-        $this->trees   = $trees;
+        $this->data = $data;
+        $this->trees = $trees;
         $this->actions = $actions;
 
         $this->migrateDataFromLegacyFormat();
@@ -120,25 +118,25 @@ class Section extends MenuElement implements PhpSerializable
     }
 
     public function getExtensionId()
-	{
-		return $this->data['extension'];
+    {
+        return $this->data['extension'];
     }
 
-	public function getController()
-	{
-		return $this->data['controller'];
-	}
+    public function getController()
+    {
+        return $this->data['controller'];
+    }
 
-	public function getAction()
-	{
-		return $this->data['action'];
-	}
+    public function getAction()
+    {
+        return $this->data['action'];
+    }
 
     /**
      * Policy on how to deal with existing structures
-     * 
+     *
      * Only merge or override are currently supported
-     * 
+     *
      * @return string
      */
     public function getPolicy()
@@ -150,7 +148,7 @@ class Section extends MenuElement implements PhpSerializable
      * Get the JavaScript binding to run instead of loading the URL
      *
      * @return string|null the binding name or null if none
-     */ 
+     */
     public function getBinding()
     {
         return $this->data['binding'];
@@ -160,7 +158,7 @@ class Section extends MenuElement implements PhpSerializable
      * Is the section disabled ?
      *
      * @return boolean if the section is disabled
-     */ 
+     */
     public function getDisabled()
     {
         return $this->data['disabled'];
@@ -189,7 +187,7 @@ class Section extends MenuElement implements PhpSerializable
     public function removeAction(iAction $action)
     {
         $index = array_search($action, $this->actions, true);
-        if($index !== false) {
+        if ($index !== false) {
             unset($this->actions[$index]);
         }
     }
@@ -210,108 +208,108 @@ class Section extends MenuElement implements PhpSerializable
     }
 
     /**
-     * Enables sections to be backward compatible with the structure format 
+     * Enables sections to be backward compatible with the structure format
      * (before some actions were missing as they were defined in the tree part).
      * legacy format : tao <= 2.6.x
      * this method should be deprecated from 2.8.0 / 3.0.0
      */
-    private function migrateDataFromLegacyFormat(){
-
-        if(count($this->trees) > 0){
+    private function migrateDataFromLegacyFormat()
+    {
+        if (count($this->trees) > 0) {
 
             //tree attributes to be migrated.
-           $mapping = array(
+            $mapping = array(
               'editClassUrl' => array(
-                'attr'   => 'selectClass',
+                'attr' => 'selectClass',
                 'action' => array(
-                    'id'      => 'edit_class',
-                    'name'    => 'edit class',
-                    'group'   => 'none',
+                    'id' => 'edit_class',
+                    'name' => 'edit class',
+                    'group' => 'none',
                     'context' => 'class',
                     'binding' => 'load'
-                ) 
+                )
               ),
               'editInstanceUrl' => array(
-                'attr'   => 'selectInstance',
+                'attr' => 'selectInstance',
                 'action' => array(
-                    'id'      => 'edit_instance',
-                    'name'    => 'edit instance',
-                    'group'   => 'none',
+                    'id' => 'edit_instance',
+                    'name' => 'edit instance',
+                    'group' => 'none',
                     'context' => 'instance',
                     'binding' => 'load'
-                ) 
+                )
               ),
-              'addInstanceUrl'  => array(
-                'attr'   => 'addInstance',
+              'addInstanceUrl' => array(
+                'attr' => 'addInstance',
                 'action' => array(
-                    'id'      => 'add_instance',
-                    'name'    => 'add instance',
-                    'group'   => 'none',
+                    'id' => 'add_instance',
+                    'name' => 'add instance',
+                    'group' => 'none',
                     'context' => 'instance',
                     'binding' => 'instantiate'
-                ) 
+                )
               ),
-              'addSubClassUrl'  => array(
-                'attr'   => 'addClass',
+              'addSubClassUrl' => array(
+                'attr' => 'addClass',
                 'action' => array(
-                    'id'      => 'add_class',
-                    'name'    => 'add class',
-                    'group'   => 'none',
+                    'id' => 'add_class',
+                    'name' => 'add class',
+                    'group' => 'none',
                     'context' => 'class',
                     'binding' => 'subClass'
-                ) 
+                )
               ),
               'deleteUrl' => array(
-                'attr'   => 'addClass',
+                'attr' => 'addClass',
                 'action' => array(
-                    'id'      => 'add_class',
-                    'name'    => 'add class',
-                    'group'   => 'none',
+                    'id' => 'add_class',
+                    'name' => 'add class',
+                    'group' => 'none',
                     'context' => 'class',
                     'binding' => 'subClass'
-                ) 
+                )
               ),
               'moveInstanceUrl' => array(
-                'attr'   => 'moveInstance',
+                'attr' => 'moveInstance',
                 'action' => array(
-                    'id'      => 'move',
-                    'name'    => 'move',
-                    'group'   => 'none',
+                    'id' => 'move',
+                    'name' => 'move',
+                    'group' => 'none',
                     'context' => 'instance',
                     'binding' => 'moveNode'
-                ) 
+                )
               )
            );
 
-           foreach($this->trees as $index => $tree){
-               $needMigration = false;
-               $treeAttributes = $tree->getAttributes();
+            foreach ($this->trees as $index => $tree) {
+                $needMigration = false;
+                $treeAttributes = $tree->getAttributes();
             
-               //check if this attribute needs a migration
-               foreach($treeAttributes as $attr){
-                    if(array_key_exists($attr, $mapping)){
+                //check if this attribute needs a migration
+                foreach ($treeAttributes as $attr) {
+                    if (array_key_exists($attr, $mapping)) {
                         $needMigration = true;
                         break;
-                    } 
-               }
-               if($needMigration){
+                    }
+                }
+                if ($needMigration) {
                     $newData = array();
 
                     //migrate the tree
-                    foreach($treeAttributes as $attr){
+                    foreach ($treeAttributes as $attr) {
                         //if the attribute belongs to the mapping
-                        if(array_key_exists($attr, $mapping)){
+                        if (array_key_exists($attr, $mapping)) {
                             $url = $tree->get($attr);
                             $actionName = false;
     
                             //try to find an action with the same url
-                            foreach($this->actions as $action){
-                                if($action->getRelativeUrl() == $url){
+                            foreach ($this->actions as $action) {
+                                if ($action->getRelativeUrl() == $url) {
                                     $actionName = $action->getId();
                                     break;
                                 }
                             }
-                            if($actionName){
+                            if ($actionName) {
                                 $newData[$mapping[$attr]['attr']] = $actionName;
                             } else {
     
@@ -325,7 +323,7 @@ class Section extends MenuElement implements PhpSerializable
                                 $actionData['controller'] = $controller;
                                 $actionData['action'] = $action;
                                 
-                                $this->actions[] = new Action($actionData); 
+                                $this->actions[] = new Action($actionData);
                             }
                         } else {
                             $newData[$attr] = $tree->get($attr);
@@ -334,8 +332,8 @@ class Section extends MenuElement implements PhpSerializable
     
                     //the tree is replaced
                     $this->trees[$index] = new Tree($newData);
-               }
-           }
+                }
+            }
         }
     }
 

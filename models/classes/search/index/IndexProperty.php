@@ -44,11 +44,10 @@ class IndexProperty
         $field,
         $fuzzy = false,
         $default = false
-    ){
+    ) {
         $this->field = $field;
         $this->fuzzy = $fuzzy;
         $this->default = $default;
-
     }
 
     /**
@@ -64,7 +63,7 @@ class IndexProperty
      */
     public function isFuzzy()
     {
-       return (boolean) $this->fuzzy;
+        return (bool) $this->fuzzy;
     }
 
     /**
@@ -72,7 +71,6 @@ class IndexProperty
      */
     public function isDefault()
     {
-        return (boolean) $this->default;
+        return (bool) $this->default;
     }
-
 }

@@ -19,8 +19,8 @@
  */
 namespace oat\tao\test\integration;
 
-use oat\tao\model\ThemeRegistry;
 use oat\generis\test\GenerisPhpUnitTestRunner;
+use oat\tao\model\ThemeRegistry;
 
 
 use oat\tao\model\websource\WebsourceManager;
@@ -31,7 +31,6 @@ use oat\tao\model\websource\WebsourceManager;
  */
 class ThemeRegistryTest extends GenerisPhpUnitTestRunner
 {
-
     public function tearDown()
     {
         parent::tearDown();
@@ -65,7 +64,6 @@ class ThemeRegistryTest extends GenerisPhpUnitTestRunner
         
         // target exist
         ThemeRegistry::getRegistry()->remove('itemsTest');
-        
     }
 
     public function testRegister()
@@ -122,11 +120,10 @@ class ThemeRegistryTest extends GenerisPhpUnitTestRunner
         $this->assertEquals('superAccess', $superAccessTheme['id']);
         $this->assertEquals(1, count($superAccessTheme['templates']));
         $this->assertEquals('taoAccess/theme/A.tpl', $superAccessTheme['templates']['tplA']);
-        
     }
     
-    public function testGetTemplate(){
-        
+    public function testGetTemplate()
+    {
         ThemeRegistry::getRegistry()->createTarget('itemsTest', 'base');
         ThemeRegistry::getRegistry()->registerTheme('superAccess', 'super accessibility theme', '', array('itemsTest'), array('tplA' => 'taoAccess/theme/A.tpl'));
         ThemeRegistry::getRegistry()->registerTheme('superAccessNoTpl', 'super accessibility theme without tpl', '', array('itemsTest'));

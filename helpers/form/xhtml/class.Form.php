@@ -22,7 +22,7 @@
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\tao\helpers\form\elements\xhtml\CsrfToken;
 use oat\tao\model\security\xsrf\TokenService;
-use \tao_helpers_form_FormFactory as FormFactory;
+use tao_helpers_form_FormFactory as FormFactory;
 
 /**
  * Short description of class tao_helpers_form_xhtml_Form
@@ -122,7 +122,7 @@ class tao_helpers_form_xhtml_Form extends tao_helpers_form_Form
         $returnValue .= "<input type='hidden' class='global' name='{$this->name}_sent' value='1' />\n";
 
         if (!empty($this->error)) {
-            $returnValue .= '<div class="xhtml_form_error">'.$this->error.'</div>';
+            $returnValue .= '<div class="xhtml_form_error">' . $this->error . '</div>';
         }
 
         $returnValue .= $this->renderElements();

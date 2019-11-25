@@ -40,8 +40,8 @@ class LangRdfModelFix extends ScriptAction
             $rdf = ModelManager::getModel()->getRdfInterface();
             $total = 0;
 
-            $dryRun = (boolean) $this->getOption('dryRun');
-            $forceModelId = (boolean) $this->getOption('useLocal') ? 1 : null;
+            $dryRun = (bool) $this->getOption('dryRun');
+            $forceModelId = (bool) $this->getOption('useLocal') ? 1 : null;
             $langModels = new AppendIterator();
 
             foreach (array_shift($models) as $file) {

@@ -36,7 +36,8 @@ class ApplicationHelper
      *
      * @return boolean
      */
-    public static function isDemo() {
+    public static function isDemo()
+    {
         return ServiceManager::getServiceManager()->get(ApplicationService::SERVICE_ID)->isDemo();
     }
 
@@ -53,7 +54,8 @@ class ApplicationHelper
      * @throws \common_exception_Error
      * @throws \common_ext_ExtensionException
      */
-    public function getProductName() {
+    public function getProductName()
+    {
         return ServiceManager::getServiceManager()->get(ApplicationService::SERVICE_ID)->getProductName();
     }
 
@@ -62,7 +64,8 @@ class ApplicationHelper
      * @throws \common_exception_Error
      * @throws \common_ext_ExtensionException
      */
-    public function getPlatformVersion() {
+    public function getPlatformVersion()
+    {
         return ServiceManager::getServiceManager()->get(ApplicationService::SERVICE_ID)->getPlatformVersion();
     }
 }

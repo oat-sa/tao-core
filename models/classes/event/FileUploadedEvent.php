@@ -19,7 +19,6 @@
  */
 namespace oat\tao\model\event;
 
-
 use oat\oatbox\event\Event;
 use oat\oatbox\filesystem\File;
 
@@ -43,5 +42,4 @@ class FileUploadedEvent implements Event
     {
         return $this->file;
     }
-
 }

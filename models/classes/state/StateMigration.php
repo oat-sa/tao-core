@@ -22,8 +22,8 @@ namespace oat\tao\model\state;
 
 use oat\oatbox\filesystem\FileSystem;
 use oat\oatbox\filesystem\FileSystemService;
-use oat\oatbox\service\exception\InvalidService;
 use oat\oatbox\service\ConfigurableService;
+use oat\oatbox\service\exception\InvalidService;
 
 /**
  * Persistence for the item delivery service
@@ -32,12 +32,11 @@ use oat\oatbox\service\ConfigurableService;
  * @author Antoine Robin Bout, <antoine@taotesting.com>
  * @package tao
  */
-class StateMigration
-    extends ConfigurableService
+class StateMigration extends ConfigurableService
 {
-    const SERVICE_ID = 'tao/migrationState';
+    public const SERVICE_ID = 'tao/migrationState';
 
-    const OPTION_FILESYSTEM = 'fileSystem';
+    public const OPTION_FILESYSTEM = 'fileSystem';
 
     /**
      * @var FileSystem
@@ -72,14 +71,12 @@ class StateMigration
 
     public function restore($userId, $callId)
     {
-
         $state = $this->getFileSystem()->read($this->generateSerial($userId, $callId));
 
         /** @var StateStorage $stateStorage */
         $stateStorage = $this->getServiceManager()->get(StateStorage::SERVICE_ID);
 
         return $stateStorage->set($userId, $callId, $state);
-
     }
 
     public function removeState($userId, $callId)
@@ -88,12 +85,10 @@ class StateMigration
         $stateStorage = $this->getServiceManager()->get(StateStorage::SERVICE_ID);
 
         $stateStorage->del($userId, $callId);
-
     }
 
     public function removeBackup($userId, $callId)
     {
-
         return $this->getFileSystem()->delete($this->generateSerial($userId, $callId));
     }
 
@@ -112,10 +107,8 @@ class StateMigration
             /** @var FileSystemService $fileSystemService */
             $fileSystemService = $this->getServiceManager()->get(FileSystemService::SERVICE_ID);
             $this->fileSystem = $fileSystemService->getFileSystem($this->getOption(self::OPTION_FILESYSTEM));
-
         }
 
         return $this->fileSystem;
     }
-
 }

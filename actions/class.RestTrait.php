@@ -93,17 +93,17 @@ trait tao_actions_RestTrait
      * @param $withMessage
      * @throws common_exception_NotImplemented
      */
-    protected function returnFailure(Exception $exception, $withMessage=true)
+    protected function returnFailure(Exception $exception, $withMessage = true)
     {
         $handler = new RestExceptionHandler();
         $handler->sendHeader($exception);
 
         $data = array();
         if ($withMessage) {
-            $data['success']	=  false;
-            $data['errorCode']	=  $exception->getCode();
-            $data['errorMsg']	=  $this->getErrorMessage($exception);
-            $data['version']	= TAO_VERSION;
+            $data['success'] = false;
+            $data['errorCode'] = $exception->getCode();
+            $data['errorMsg'] = $this->getErrorMessage($exception);
+            $data['version'] = TAO_VERSION;
         }
 
         echo $this->encode($data);
@@ -137,12 +137,12 @@ trait tao_actions_RestTrait
      * @param bool $withMessage
      * @throws common_exception_NotImplemented
      */
-    protected function returnSuccess($rawData = array(), $withMessage=true)
+    protected function returnSuccess($rawData = array(), $withMessage = true)
     {
         $data = array();
         if ($withMessage) {
             $data['success'] = true;
-            $data['data'] 	 = $rawData;
+            $data['data'] = $rawData;
             $data['version'] = TAO_VERSION;
         } else {
             $data = $rawData;
@@ -161,7 +161,7 @@ trait tao_actions_RestTrait
      */
     protected function encode($data)
     {
-        switch ($this->responseEncoding){
+        switch ($this->responseEncoding) {
             case "application/rdf+xml":
                 throw new common_exception_NotImplemented();
                 break;
@@ -181,10 +181,10 @@ trait tao_actions_RestTrait
      */
     protected function getErrorMessage(Exception $exception)
     {
-        $defaultMessage =  __('Unexpected error. Please contact administrator');
+        $defaultMessage = __('Unexpected error. Please contact administrator');
         if (DEBUG_MODE) {
             $defaultMessage = $exception->getMessage();
         }
-        return ($exception instanceof common_exception_UserReadableException) ? $exception->getUserMessage() :  $defaultMessage;
+        return ($exception instanceof common_exception_UserReadableException) ? $exception->getUserMessage() : $defaultMessage;
     }
 }

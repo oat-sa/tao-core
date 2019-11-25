@@ -34,7 +34,6 @@ use tao_helpers_form_elements_xhtml_Hidden;
  */
 class CsrfToken extends tao_helpers_form_elements_xhtml_Hidden
 {
-
     use LoggerAwareTrait;
 
     /**

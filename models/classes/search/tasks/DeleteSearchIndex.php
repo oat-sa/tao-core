@@ -20,20 +20,21 @@
  */
 namespace oat\tao\model\search\tasks;
 
+use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\action\Action;
+use oat\tao\model\search\Search;
 use oat\tao\model\taskQueue\Task\TaskAwareInterface;
 use oat\tao\model\taskQueue\Task\TaskAwareTrait;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use oat\generis\model\OntologyAwareTrait;
-use oat\tao\model\search\Search;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
+
 /**
  * Class DeleteSearchIndex
  *
  * @author Aleksej Tikhanovich <aleksej@taotesting.com>
  * @package oat\tao\model\search\tasks
  */
-class DeleteSearchIndex implements Action,ServiceLocatorAwareInterface, TaskAwareInterface
+class DeleteSearchIndex implements Action, ServiceLocatorAwareInterface, TaskAwareInterface
 {
     use ServiceLocatorAwareTrait;
     use OntologyAwareTrait;
@@ -44,7 +45,8 @@ class DeleteSearchIndex implements Action,ServiceLocatorAwareInterface, TaskAwar
      * @throws \common_exception_Error
      * @throws \common_exception_MissingParameter
      */
-    public function __invoke($params) {
+    public function __invoke($params)
+    {
         if (count($params) != 1) {
             throw new \common_exception_MissingParameter();
         }

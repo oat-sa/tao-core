@@ -45,5 +45,4 @@ abstract class TextConverterService extends ConfigurableService
         }
         return $key;
     }
-
 }

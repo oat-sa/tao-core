@@ -21,13 +21,13 @@
 
 namespace oat\tao\helpers;
 
+use core_kernel_classes_Resource;
+use core_kernel_users_GenerisUser;
+use Jig\Utils\StringUtils;
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ServiceManager;
 use oat\oatbox\user\User;
-use core_kernel_classes_Resource;
-use core_kernel_users_GenerisUser;
-use Jig\Utils\StringUtils;
 
 /**
  * Utility class to render a User
@@ -37,7 +37,7 @@ use Jig\Utils\StringUtils;
  */
 class UserHelper
 {
-    static public function renderHtmlUser($userId)
+    public static function renderHtmlUser($userId)
     {
         // assume generis user
         $user = new core_kernel_classes_Resource($userId);
@@ -45,11 +45,11 @@ class UserHelper
             OntologyRdfs::RDFS_LABEL,
             GenerisRdf::PROPERTY_USER_MAIL
         ));
-        $label = (isset($props[OntologyRdfs::RDFS_LABEL]) && !empty($props[OntologyRdfs::RDFS_LABEL])) ? (string)reset($props[OntologyRdfs::RDFS_LABEL]) : '('.$userId.')';
+        $label = (isset($props[OntologyRdfs::RDFS_LABEL]) && !empty($props[OntologyRdfs::RDFS_LABEL])) ? (string)reset($props[OntologyRdfs::RDFS_LABEL]) : '(' . $userId . ')';
         $label = StringUtils::wrapLongWords($label);
         $mail = (isset($props[GenerisRdf::PROPERTY_USER_MAIL]) && !empty($props[GenerisRdf::PROPERTY_USER_MAIL])) ? (string)reset($props[GenerisRdf::PROPERTY_USER_MAIL]) : '';
         return !empty($mail)
-            ? '<a href="mailto:'.$mail.'">'.$label.'</a>'
+            ? '<a href="mailto:' . $mail . '">' . $label . '</a>'
             : $label;
     }
 

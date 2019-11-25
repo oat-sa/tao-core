@@ -20,8 +20,8 @@
 
 namespace oat\tao\test\unit\model\taskQueue\TaskLog;
 
-use oat\tao\model\taskQueue\TaskLog\CategorizedStatus;
 use oat\generis\test\TestCase;
+use oat\tao\model\taskQueue\TaskLog\CategorizedStatus;
 
 class CategorizedStatusTest extends TestCase
 {

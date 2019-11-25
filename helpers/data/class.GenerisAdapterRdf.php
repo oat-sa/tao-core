@@ -21,9 +21,9 @@
  */
 
 use oat\generis\model\OntologyRdf;
+use oat\oatbox\filesystem\File;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\upload\UploadService;
-use oat\oatbox\filesystem\File;
 
 /**
  * Adapter for RDF/RDFS format
@@ -34,7 +34,6 @@ use oat\oatbox\filesystem\File;
  */
 class tao_helpers_data_GenerisAdapterRdf extends tao_helpers_data_GenerisAdapter
 {
-
     /**
      * Import a XML file as is into the ontology
      *
@@ -121,7 +120,6 @@ class tao_helpers_data_GenerisAdapterRdf extends tao_helpers_data_GenerisAdapter
         foreach ($resource->getProperties() as $property) {
             $this->addResource($graph, $property);
         }
-
     }
 
     /**

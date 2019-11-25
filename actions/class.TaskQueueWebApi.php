@@ -40,10 +40,10 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
     use FilesystemAwareTrait;
     use FileReferenceSerializerAwareTrait;
 
-    const PARAMETER_TASK_ID = 'taskId';
-    const PARAMETER_LIMIT = 'limit';
-    const PARAMETER_OFFSET = 'offset';
-    const ALL = 'all';
+    public const PARAMETER_TASK_ID = 'taskId';
+    public const PARAMETER_LIMIT = 'limit';
+    public const PARAMETER_OFFSET = 'offset';
+    public const ALL = 'all';
 
     /**
      * @throws \common_exception_NotImplemented
@@ -195,7 +195,7 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
      */
     public function download()
     {
-        try{
+        try {
             $this->checkIfTaskIdExists();
 
             $taskLogEntity = $this->getTaskLogService()->getByIdAndUser(
@@ -204,7 +204,7 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
             );
 
             if (!$taskLogEntity->getStatus()->isCompleted()) {
-                throw new \common_Exception('Task "'. $taskLogEntity->getId() .'" is not downloadable.');
+                throw new \common_Exception('Task "' . $taskLogEntity->getId() . '" is not downloadable.');
             }
 
             $fileNameOrSerial = $taskLogEntity->getFileNameFromReport();
@@ -270,7 +270,7 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
 
         if (is_array($taskIdsParams)) {
             return $taskIdsParams;
-        } else if ($taskIdsParams === static::ALL) {
+        } elseif ($taskIdsParams === static::ALL) {
             return static::ALL;
         } else {
             return [$taskIdsParams];

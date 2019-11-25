@@ -20,11 +20,11 @@
 
 namespace oat\tao\test\unit\model\taskQueue\TaskLog\Broker;
 
+use common_persistence_Manager as PersistenceManager;
 use oat\generis\test\TestCase;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\taskQueue\Task\CallbackTask;
 use oat\tao\model\taskQueue\TaskLog\Broker\RdsTaskLogBroker;
-use common_persistence_Manager as PersistenceManager;
 use oat\tao\model\taskQueue\TaskLog\Entity\TaskLogEntity;
 use oat\tao\model\taskQueue\TaskLog\TaskLogFilter;
 use oat\tao\model\taskQueue\TaskLogInterface;
@@ -120,7 +120,7 @@ class RdsTaskLogBrokerTest extends TestCase
 
         $bound = $tableNameCaller->bindTo($broker, $broker);
 
-        $this->assertEquals($prefix .'_'. $containerName, $bound());
+        $this->assertEquals($prefix . '_' . $containerName, $bound());
     }
 
     public function testGetTableNameWhenContainerNameIsNotSuppliedByOptionThenTableNameShouldHaveADefaultValue()
@@ -136,7 +136,7 @@ class RdsTaskLogBrokerTest extends TestCase
 
         $bound = $tableNameCaller->bindTo($broker, $broker);
 
-        $this->assertEquals($prefix .'_'. $defaultName, $bound());
+        $this->assertEquals($prefix . '_' . $defaultName, $bound());
     }
 
     public function testCountAndDelete()

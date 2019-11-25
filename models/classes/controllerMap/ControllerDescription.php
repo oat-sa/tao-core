@@ -45,7 +45,8 @@ class ControllerDescription
      *
      * @param ReflectionClass $controllerClass
      */
-    public function __construct(ReflectionClass $controllerClass) {
+    public function __construct(ReflectionClass $controllerClass)
+    {
         $this->class = $controllerClass;
     }
 
@@ -54,7 +55,8 @@ class ControllerDescription
      *
      * @return string
      */
-    public function getClassName() {
+    public function getClassName()
+    {
         return $this->class->getName();
     }
 
@@ -63,7 +65,8 @@ class ControllerDescription
      *
      * @return array
      */
-    public function getActions() {
+    public function getActions()
+    {
         $actions = array();
         foreach ($this->class->getMethods(ReflectionMethod::IS_PUBLIC) as $m) {
             if ($m->isConstructor() || $m->isDestructor() || in_array($m->name, self::$BLACK_LIST)) {
@@ -76,5 +79,4 @@ class ControllerDescription
         }
         return $actions;
     }
-
 }

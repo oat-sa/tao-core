@@ -20,18 +20,17 @@
 
 namespace oat\tao\model;
 
+use common_ext_ExtensionsManager;
 use oat\oatbox\AbstractRegistry;
-use \common_ext_ExtensionsManager;
 
 /**
- * 
+ *
  * Registry to store client library config that will be provide to requireJs
  *
  * @author Sam, sam@taotesting.com
  */
 class ClientLibConfigRegistry extends AbstractRegistry
 {
-
     /**
      * @see \oat\oatbox\AbstractRegistry::getConfigId()
      */

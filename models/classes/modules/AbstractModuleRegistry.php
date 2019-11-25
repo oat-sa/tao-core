@@ -35,8 +35,7 @@ abstract class AbstractModuleRegistry extends AbstractRegistry
      */
     public function register(DynamicModule $module)
     {
-        if(!is_null($module) && ! empty($module->getModule()) ) {
-
+        if (!is_null($module) && !empty($module->getModule())) {
             self::getRegistry()->set($module->getModule(), $module->toArray());
 
             return true;

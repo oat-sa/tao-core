@@ -25,6 +25,7 @@ use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
+use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
 use oat\oatbox\log\LoggerService;
 use oat\tao\model\taskQueue\Task\TaskInterface;
@@ -44,7 +45,6 @@ use oat\tao\model\webhooks\task\WebhookTaskParamsFactory;
 use oat\tao\model\webhooks\task\WebhookTaskReports;
 use oat\tao\model\webhooks\WebhookRegistryInterface;
 use oat\tao\model\webhooks\WebhookTaskServiceInterface;
-use oat\generis\test\MockObject;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
@@ -643,14 +643,16 @@ class WebhookTaskTest extends TestCase
                 return isset($events[$eventName])
                     ? $events[$eventName]
                     : [];
-            });
+            }
+        );
 
         $registry->method('getWebhookConfig')->willReturnCallback(
             static function ($id) use ($whConfigs) {
                 return isset($whConfigs[$id])
                     ? $whConfigs[$id]
                     : null;
-            });
+            }
+        );
 
         return $registry;
     }
@@ -700,12 +702,11 @@ class WebhookTaskTest extends TestCase
     private function createWebhookSenderMock(
         ResponseInterface $response = null,
         \Exception $exception = null
-    )
-    {
+    ) {
         $sender = $this->createMock(WebhookSender::class);
         if ($response) {
             $sender->method('performRequest')->willReturn($response);
-        } else if ($exception) {
+        } elseif ($exception) {
             $sender->method('performRequest')->willThrowException($exception);
         }
 

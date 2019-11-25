@@ -23,11 +23,11 @@ namespace oat\tao\model\search\tokenizer;
 /**
  * Tokenizer interface for complex tokenizer,
  * that rely on more than a single property value
- * 
+ *
  * @author Joel Bout <joel@taotesting.com>
  */
 interface ResourceTokenizer
-{	
+{
     /**
      * @param \core_kernel_classes_Resource $value
      * @return array list of strings

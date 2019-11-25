@@ -25,9 +25,9 @@ use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\exception\InvalidService;
 use oat\oatbox\service\ServiceNotFoundException;
 use oat\tao\model\metadata\exception\InconsistencyConfigException;
-use oat\tao\model\metadata\exception\MetadataImportException;
 use oat\tao\model\metadata\exception\injector\MetadataInjectorReadException;
 use oat\tao\model\metadata\exception\injector\MetadataInjectorWriteException;
+use oat\tao\model\metadata\exception\MetadataImportException;
 use oat\tao\model\metadata\injector\Injector;
 
 /**
@@ -70,7 +70,7 @@ abstract class OntologyMetadataImporter extends ConfigurableService implements M
 
                 // Check if resource exists
                 $resource = $this->getResource($uri);
-                if (! $resource->exists()) {
+                if (!$resource->exists()) {
                     throw new MetadataImportException('Unable to find resource associated to uri : "' . $uri . '"');
                 }
 
@@ -97,12 +97,10 @@ abstract class OntologyMetadataImporter extends ConfigurableService implements M
                     }
 
                     // Skip if there are no report (no data to read for this injector)
-                    if (! is_null($injectorReport)) {
+                    if (!is_null($injectorReport)) {
                         $lineReport->add($injectorReport);
                     }
-
                 }
-
             } catch (MetadataImportException $e) {
                 $lineReport = \common_report_Report::createFailure($e->getMessage());
             }
@@ -122,7 +120,7 @@ abstract class OntologyMetadataImporter extends ConfigurableService implements M
     {
         if (empty($this->injectors)) {
             try {
-                foreach(array_keys($this->getOptions()) as $injectorName) {
+                foreach (array_keys($this->getOptions()) as $injectorName) {
                     /** @var Injector $injector */
                     $injector = $this->getSubService($injectorName, Injector::class);
                     $injector->createInjectorHelpers();
@@ -159,5 +157,4 @@ abstract class OntologyMetadataImporter extends ConfigurableService implements M
 
         return 'new ' . get_class($this) . '(array(' . PHP_EOL . $injectorString . '))';
     }
-
 }

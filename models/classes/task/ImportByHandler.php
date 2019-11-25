@@ -33,10 +33,10 @@ class ImportByHandler extends AbstractAction
 {
     use OntologyAwareTrait;
 
-    const PARAM_IMPORT_HANDLER = 'import_handler';
-    const PARAM_FORM_VALUES = 'form_values';
-    const PARAM_PARENT_CLASS = 'parent_class_uri';
-    const PARAM_OWNER = 'owner';
+    public const PARAM_IMPORT_HANDLER = 'import_handler';
+    public const PARAM_FORM_VALUES = 'form_values';
+    public const PARAM_PARENT_CLASS = 'parent_class_uri';
+    public const PARAM_OWNER = 'owner';
 
     /**
      * @param array $params
@@ -49,7 +49,7 @@ class ImportByHandler extends AbstractAction
         }
 
         /** @var \tao_models_classes_import_ImportHandler $importer */
-        $importer = new $params[self::PARAM_IMPORT_HANDLER];
+        $importer = new $params[self::PARAM_IMPORT_HANDLER]();
 
         $this->propagate($importer);
 

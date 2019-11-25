@@ -19,7 +19,6 @@
 
 namespace oat\tao\test\unit\helpers;
 
-
 use oat\generis\test\TestCase;
 use oat\tao\helpers\ArrayValidator;
 

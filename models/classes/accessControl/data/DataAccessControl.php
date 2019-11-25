@@ -1,21 +1,21 @@
 <?php
-/**  
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- * 
+ *
  */
 namespace oat\tao\model\accessControl\data;
 
@@ -79,7 +79,8 @@ class DataAccessControl implements AccessControl
      *
      * @see \oat\tao\model\accessControl\AccessControl::hasAccess()
      */
-    public function hasAccess(User $user, $controller, $action, $requestParameters) {
+    public function hasAccess(User $user, $controller, $action, $requestParameters)
+    {
         $required = array();
         try {
             // $rights = ServiceManager::getServiceManager()->get(RouteAnnotationService::SERVICE_ID)->getRights($controller, $action);
@@ -87,7 +88,7 @@ class DataAccessControl implements AccessControl
             $requiredRights = ControllerHelper::getRequiredRights($controller, $action);
             $uris = $this->extractAndGroupUriFromParameters($requestParameters, array_keys($requiredRights));
 
-            foreach($uris as $name => $urisValue) {
+            foreach ($uris as $name => $urisValue) {
                 $required[] = array_fill_keys($urisValue, $requiredRights[$name]);
             }
         } catch (ActionNotFoundException $e) {
@@ -114,18 +115,19 @@ class DataAccessControl implements AccessControl
     
     /**
      * Whenever or not the user has the required rights
-     * 
+     *
      * required takes the form of:
      *   resourceId => $right
-     * 
+     *
      * @param User $user
      * @param array $required
      * @return boolean
      */
-    public function hasPrivileges(User $user, array $required) {
-        foreach ($required as $resourceId=>$right) {
+    public function hasPrivileges(User $user, array $required)
+    {
+        foreach ($required as $resourceId => $right) {
             if ($right === 'WRITE' && !$this->hasWritePrivilege($user, $resourceId)) {
-                common_Logger::d('User \''.$user->getIdentifier().'\' does not have lock for resource \''.$resourceId.'\'');
+                common_Logger::d('User \'' . $user->getIdentifier() . '\' does not have lock for resource \'' . $resourceId . '\'');
                 return false;
             }
             if (!in_array($right, $this->getPermissionProvider()->getSupportedRights())) {
@@ -136,14 +138,15 @@ class DataAccessControl implements AccessControl
         $permissions = $this->getPermissionProvider()->getPermissions($user, array_keys($required));
         foreach ($required as $id => $right) {
             if (!isset($permissions[$id]) || !in_array($right, $permissions[$id])) {
-                common_Logger::d('User \''.$user->getIdentifier().'\' does not have \''.$right.'\' permission for resource \''.$id.'\'');
+                common_Logger::d('User \'' . $user->getIdentifier() . '\' does not have \'' . $right . '\' permission for resource \'' . $id . '\'');
                 return false;
             }
         }
         return true;
     }
     
-    private function hasWritePrivilege(User $user, $resourceId) {
+    private function hasWritePrivilege(User $user, $resourceId)
+    {
         $resource = new \core_kernel_classes_Resource($resourceId);
         $lock = LockManager::getImplementation()->getLockData($resource);
         return is_null($lock) || $lock->getOwnerId() == $user->getIdentifier();

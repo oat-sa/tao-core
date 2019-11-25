@@ -22,9 +22,9 @@ namespace oat\tao\scripts\install;
 use oat\generis\model\data\event\ResourceCreated;
 use oat\generis\model\data\event\ResourceDeleted;
 use oat\generis\model\data\event\ResourceUpdated;
+use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\extension\InstallAction;
-use oat\generis\model\OntologyAwareTrait;
 use oat\tao\model\resources\ResourceWatcher;
 
 /**
@@ -47,5 +47,4 @@ class RegisterResourceEvents extends InstallAction
 
         return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'Resource events is registered');
     }
-
 }

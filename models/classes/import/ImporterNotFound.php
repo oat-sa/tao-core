@@ -27,5 +27,4 @@ namespace oat\tao\model\import;
  */
 class ImporterNotFound extends \common_Exception
 {
-
 }

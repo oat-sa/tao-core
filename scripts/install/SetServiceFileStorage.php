@@ -19,12 +19,12 @@
  */
 namespace oat\tao\scripts\install;
 
-use oat\tao\model\websource\TokenWebSource;
+use League\Flysystem\Adapter\Local;
 use oat\oatbox\filesystem\FileSystemService;
+use oat\tao\model\websource\FlyTokenWebSource;
+use oat\tao\model\websource\TokenWebSource;
 use oat\tao\model\websource\TokenWebSourceService;
 use tao_models_classes_service_FileStorage;
-use League\Flysystem\Adapter\Local;
-use oat\tao\model\websource\FlyTokenWebSource;
 
 /**
  * This post-installation script creates a new local file source for services
@@ -33,8 +33,8 @@ class SetServiceFileStorage extends \common_ext_action_InstallAction
 {
     public function __invoke($params)
     {
-        $publicDataPath = FILES_PATH.'tao'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR;
-        $privateDataPath = FILES_PATH.'tao'.DIRECTORY_SEPARATOR.'private'.DIRECTORY_SEPARATOR;
+        $publicDataPath = FILES_PATH . 'tao' . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR;
+        $privateDataPath = FILES_PATH . 'tao' . DIRECTORY_SEPARATOR . 'private' . DIRECTORY_SEPARATOR;
         
         if (file_exists($publicDataPath)) {
             \helpers_File::emptyDirectory($publicDataPath);
@@ -48,11 +48,11 @@ class SetServiceFileStorage extends \common_ext_action_InstallAction
         $options = $fsService->getOptions();
         $adapters = $options[FileSystemService::OPTION_ADAPTERS];
         $toRegistered = false;
-        if (! array_key_exists('public', $adapters)) {
+        if (!array_key_exists('public', $adapters)) {
             $fsService->createFileSystem('public', 'tao/public');
             $toRegistered = true;
         }
-        if (! array_key_exists('private', $adapters)) {
+        if (!array_key_exists('private', $adapters)) {
             $fsService->createFileSystem('private', 'tao/private');
             $toRegistered = true;
         }

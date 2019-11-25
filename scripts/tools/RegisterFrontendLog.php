@@ -19,8 +19,8 @@
 
 namespace oat\tao\scripts\tools;
 
-use common_report_Report as Report;
 use common_Exception;
+use common_report_Report as Report;
 use oat\oatbox\extension\AbstractAction;
 
 /**
@@ -30,7 +30,6 @@ use oat\oatbox\extension\AbstractAction;
  */
 class RegisterFrontendLog extends AbstractAction
 {
-
     /**
      * @param array $params
      * @return Report

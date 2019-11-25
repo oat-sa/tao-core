@@ -21,7 +21,7 @@ namespace oat\tao\model\webhooks\log;
 
 interface WebhookLogRepositoryInterface
 {
-    const SERVICE_ID = 'tao/webhookLogRepository';
+    public const SERVICE_ID = 'tao/webhookLogRepository';
 
     /**
      * @param WebhookEventLogRecord $webhookEventLog

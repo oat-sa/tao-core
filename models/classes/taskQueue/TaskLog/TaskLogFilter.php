@@ -27,16 +27,16 @@ use oat\tao\model\taskQueue\TaskLogInterface;
 
 class TaskLogFilter
 {
-    const OP_EQ  = '=';
-    const OP_NEQ = '!=';
-    const OP_LT  = '<';
-    const OP_LTE = '<=';
-    const OP_GT  = '>';
-    const OP_GTE = '>=';
-    const OP_LIKE = 'LIKE';
-    const OP_NOT_LIKE = 'NOT LIKE';
-    const OP_IN = 'IN';
-    const OP_NOT_IN = 'NOT IN';
+    public const OP_EQ = '=';
+    public const OP_NEQ = '!=';
+    public const OP_LT = '<';
+    public const OP_LTE = '<=';
+    public const OP_GT = '>';
+    public const OP_GTE = '>=';
+    public const OP_LIKE = 'LIKE';
+    public const OP_NOT_LIKE = 'NOT LIKE';
+    public const OP_IN = 'IN';
+    public const OP_NOT_IN = 'NOT IN';
 
     private $filters = [];
     private $limit;
@@ -78,7 +78,7 @@ class TaskLogFilter
     public function deselect($column)
     {
         if (!in_array($column, $this->optionalColumns)) {
-            throw new \InvalidArgumentException('Column "'. $column .'"" is not valid column or not unselectable.');
+            throw new \InvalidArgumentException('Column "' . $column . '"" is not valid column or not unselectable.');
         }
 
         $this->deselectedColumns[] = $column;
@@ -180,9 +180,9 @@ class TaskLogFilter
     {
         $this->assertValidOperator($operator);
 
-        $this->filters[] =  [
+        $this->filters[] = [
             'column' => (string) $field,
-            'columnSqlTranslate' => ':'. $field . uniqid(), // we need a unique placeholder
+            'columnSqlTranslate' => ':' . $field . uniqid(), // we need a unique placeholder
             'operator' => $operator,
             'value' => $value
         ];
@@ -255,7 +255,7 @@ class TaskLogFilter
             $withParentheses = is_array($filter['value']) ? true : false;
             $type = is_array($filter['value']) ? Connection::PARAM_STR_ARRAY : null;
 
-            $qb->andWhere($filter['column'] .' '. $filter['operator'] .' '. ($withParentheses ? '(' : '') . $filter['columnSqlTranslate'] . ($withParentheses ? ')' : ''))
+            $qb->andWhere($filter['column'] . ' ' . $filter['operator'] . ' ' . ($withParentheses ? '(' : '') . $filter['columnSqlTranslate'] . ($withParentheses ? ')' : ''))
                 ->setParameter($filter['columnSqlTranslate'], $filter['value'], $type);
         }
 
@@ -382,7 +382,7 @@ class TaskLogFilter
         ];
 
         if (!in_array($op, $operators)) {
-            throw new \InvalidArgumentException('Operator "'. $op .'"" is not a valid operator.');
+            throw new \InvalidArgumentException('Operator "' . $op . '"" is not a valid operator.');
         }
     }
 }

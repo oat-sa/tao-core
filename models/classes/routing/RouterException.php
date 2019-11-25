@@ -27,5 +27,4 @@ namespace oat\tao\model\routing;
  */
 class RouterException extends \Exception
 {
-
 }

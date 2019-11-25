@@ -20,17 +20,17 @@
 
 namespace oat\tao\scripts\tools;
 
-use \common_report_Report as Report;
+use common_report_Report as Report;
 use oat\oatbox\action\Action;
 
 /**
  * CSV Pattern Removal Script.
- * 
+ *
  * This script aims at providing a tool enabling you to remove rows in a CSV files
  * by PCRE pattern.
- * 
+ *
  * Parameters are:
- * 
+ *
  * Parameter 1: The either absolute or relative path to the source CSV file.
  * Parameter 2: The either absolute or relative path to the destination CSV file.
  * Parameter 3: The numeric index of the CSV column on which the PCRE pattern will operate (see Parameter 4).
@@ -53,7 +53,7 @@ class RemoveCsvRowsByPattern implements Action
         }
         
         if (!empty($params[1])) {
-           $destination = $params[1];
+            $destination = $params[1];
         } else {
             return new Report(
                 Report::TYPE_ERROR,

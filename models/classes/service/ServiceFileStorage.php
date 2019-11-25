@@ -22,7 +22,7 @@ namespace oat\tao\model\service;
 
 interface ServiceFileStorage
 {
-    const SERVICE_ID = 'tao/ServiceFileStorage';
+    public const SERVICE_ID = 'tao/ServiceFileStorage';
     
     /**
      * @param boolean $public

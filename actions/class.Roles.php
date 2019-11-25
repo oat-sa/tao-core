@@ -22,9 +22,9 @@
  */
 
 use oat\generis\model\GenerisRdf;
-use oat\tao\model\TaoOntology;
-use oat\tao\model\exceptions\UserErrorException;
 use oat\generis\model\OntologyAwareTrait;
+use oat\tao\model\exceptions\UserErrorException;
+use oat\tao\model\TaoOntology;
 use tao_helpers_form_FormContainer as FormContainer;
 
 /**

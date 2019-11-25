@@ -20,14 +20,14 @@
 
 namespace oat\tao\model\api;
 
+use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Promise\PromiseInterface;
 use oat\oatbox\Configurable;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\UriInterface;
-use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Client;
-use GuzzleHttp\ClientInterface;
 
 /**
  * Class ApiClientConnector
@@ -37,7 +37,7 @@ use GuzzleHttp\ClientInterface;
  */
 class ApiClientConnector extends Configurable implements ClientInterface
 {
-    const OPTION_BASE_URI = 'base_uri';
+    public const OPTION_BASE_URI = 'base_uri';
 
     /**
      * Send an HTTP request.
@@ -149,5 +149,4 @@ class ApiClientConnector extends Configurable implements ClientInterface
         }
         return $options;
     }
-
 }

@@ -20,7 +20,6 @@
 
 namespace oat\tao\model\exceptions;
 
-
 class WebhookConfigMissingException extends \common_Exception
 {
 }

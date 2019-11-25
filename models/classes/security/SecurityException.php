@@ -30,7 +30,6 @@ class SecurityException extends Exception
         $this->messageToLog = $message;
 
         parent::__construct('', $code, $previous);
-
     }
 
     public function __toString()

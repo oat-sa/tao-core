@@ -24,7 +24,7 @@ array_shift($params);
 $filePath = array_shift($params);
 
 if (empty($filePath) || ($filePath !== ltrim($filePath, '-'))) {
-    echo 'Usage: '.__FILE__.' [CONFIG_FILE_PATH] [OPTION]' . PHP_EOL;
+    echo 'Usage: ' . __FILE__ . ' [CONFIG_FILE_PATH] [OPTION]' . PHP_EOL;
     echo '   -v    | --verbose 1   verbose mode(error level)' . PHP_EOL;
     echo '   -vv   | --verbose 2   verbose mode(error & notice levels)' . PHP_EOL;
     echo '   -vvv  | --verbose 3   verbose mode(error & notice & info levels)' . PHP_EOL;
@@ -37,15 +37,14 @@ if (empty($filePath) || ($filePath !== ltrim($filePath, '-'))) {
 }
 
 try {
-    require_once dirname(__FILE__) .'/../install/init.php';
+    require_once dirname(__FILE__) . '/../install/init.php';
 
     // Adding file path to the dependency container.
     $container->offsetSet(tao_install_Setup::CONTAINER_INDEX, array($filePath));
 
     $script = new tao_install_Setup();
     call_user_func($script, $container);
-}
-catch (Exception $e) {
+} catch (Exception $e) {
     $container->offsetGet(\oat\oatbox\log\LoggerService::SERVICE_ID)
         ->getLogger()
         ->error($e->getMessage());

@@ -30,11 +30,10 @@ use oat\tao\model\settings\CspHeaderSettingsInterface;
  */
 class tao_actions_form_CspHeader extends tao_helpers_form_FormContainer
 {
-
     use ServiceManagerAwareTrait;
 
-    const SOURCE_RADIO_NAME = 'iframeSourceOption';
-    const SOURCE_LIST_NAME  = 'iframeSourceDomains';
+    public const SOURCE_RADIO_NAME = 'iframeSourceOption';
+    public const SOURCE_LIST_NAME = 'iframeSourceDomains';
 
     /**
      * @var \tao_helpers_form_elements_xhtml_Radiobox
@@ -55,10 +54,10 @@ class tao_actions_form_CspHeader extends tao_helpers_form_FormContainer
         $this->form = new tao_helpers_form_xhtml_Form('cspHeader');
 
         $this->form->setDecorators([
-            'element'			=> new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div']),
-            'group'				=> new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div', 'cssClass' => 'form-group']),
-            'error'				=> new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div', 'cssClass' => 'form-error ui-state-error ui-corner-all hidden']),
-            'actions-bottom'	=> new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div', 'cssClass' => 'form-toolbar'])
+            'element' => new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div']),
+            'group' => new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div', 'cssClass' => 'form-group']),
+            'error' => new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div', 'cssClass' => 'form-error ui-state-error ui-corner-all hidden']),
+            'actions-bottom' => new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div', 'cssClass' => 'form-toolbar'])
         ]);
     }
 
@@ -99,8 +98,8 @@ class tao_actions_form_CspHeader extends tao_helpers_form_FormContainer
     {
         return [
             'none' => __('Forbid for all domains'),
-            '*'  => __('Allow for all domains'),
-            'self'  => __('Only allow for my own domain (%s)', ROOT_URL),
+            '*' => __('Allow for all domains'),
+            'self' => __('Only allow for my own domain (%s)', ROOT_URL),
             'list' => __('Allow for the following domains'),
         ];
     }

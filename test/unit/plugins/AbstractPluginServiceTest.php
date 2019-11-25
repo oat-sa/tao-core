@@ -19,12 +19,12 @@
 
 namespace oat\tao\test\unit\plugins;
 
+use oat\generis\test\TestCase;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\plugins\AbstractPluginRegistry;
 use oat\tao\model\plugins\AbstractPluginService;
 use oat\tao\model\plugins\PluginModule;
 use Prophecy\Prophet;
-use oat\generis\test\TestCase;
 
 /**
  * Concrete class PluginRegistry
@@ -59,7 +59,6 @@ class PluginRegistry extends AbstractPluginRegistry
  */
 class PluginService extends AbstractPluginService
 {
-
 }
 
 /**
@@ -172,5 +171,4 @@ class AbstractPluginServiceTest extends TestCase
 
         $this->assertTrue($plugin->isActive());
     }
-
 }

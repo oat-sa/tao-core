@@ -48,10 +48,10 @@ class RegisterTaskQueueServices extends InstallAction
         }
 
         $queueService = new QueueDispatcher([
-            QueueDispatcherInterface::OPTION_QUEUES       => [
+            QueueDispatcherInterface::OPTION_QUEUES => [
                 new Queue('queue', new InMemoryQueueBroker())
             ],
-            QueueDispatcherInterface::OPTION_TASK_LOG     => TaskLogInterface::SERVICE_ID,
+            QueueDispatcherInterface::OPTION_TASK_LOG => TaskLogInterface::SERVICE_ID,
             QueueDispatcherInterface::OPTION_TASK_TO_QUEUE_ASSOCIATIONS => [],
             QueueDispatcherInterface::OPTION_TASK_SELECTOR_STRATEGY => new WeightStrategy()
         ]);

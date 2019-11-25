@@ -34,7 +34,7 @@ class WebhookEventsService extends ConfigurableService implements WebhookEventsS
      * Option value is array of ['eventName' => true, ... ] of supported events
      * Such array structure is needed to perform quick search by key
      */
-    const OPTION_SUPPORTED_EVENTS = 'supportedEvents';
+    public const OPTION_SUPPORTED_EVENTS = 'supportedEvents';
 
     /**
      * @inheritDoc
@@ -111,7 +111,8 @@ class WebhookEventsService extends ConfigurableService implements WebhookEventsS
         }
 
         if (!($event instanceof WebhookSerializableEventInterface)) {
-            $this->logError(sprintf('Event "%s" passed to "%s" is not implementing "%s"',
+            $this->logError(sprintf(
+                'Event "%s" passed to "%s" is not implementing "%s"',
                 $eventName,
                 self::class,
                 WebhookSerializableEventInterface::class
@@ -132,9 +133,9 @@ class WebhookEventsService extends ConfigurableService implements WebhookEventsS
     {
         try {
             $eventData = $event->serializeForWebhook();
-        }
-        catch (\Exception $exception) {
-            $this->logError(sprintf('Error during "%s" event serialization for webhook. %s',
+        } catch (\Exception $exception) {
+            $this->logError(sprintf(
+                'Error during "%s" event serialization for webhook. %s',
                 $event->getName(),
                 $exception->getMessage()
             ));
@@ -174,7 +175,8 @@ class WebhookEventsService extends ConfigurableService implements WebhookEventsS
                 $this->getWebhookTaskService()->createTask($taskParams);
             } catch (\Exception $exception) {
                 $this->logError(
-                    sprintf("Can't create webhook task for %s. %s",
+                    sprintf(
+                        "Can't create webhook task for %s. %s",
                         $taskParams[WebhookTaskParams::EVENT_ID],
                         $exception->getMessage()
                     ),
@@ -189,7 +191,8 @@ class WebhookEventsService extends ConfigurableService implements WebhookEventsS
      * @param string $eventName
      * @return string
      */
-    private function generateEventId($eventName) {
+    private function generateEventId($eventName)
+    {
         return md5(
             microtime() .
             mt_rand() .

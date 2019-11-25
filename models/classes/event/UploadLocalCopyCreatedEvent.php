@@ -19,7 +19,6 @@
  */
 namespace oat\tao\model\event;
 
-
 use oat\oatbox\event\Event;
 use oat\oatbox\filesystem\File;
 
@@ -66,6 +65,4 @@ class UploadLocalCopyCreatedEvent implements Event
     {
         return $this->tmpPath;
     }
-
-
 }

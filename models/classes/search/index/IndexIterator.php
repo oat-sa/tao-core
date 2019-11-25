@@ -33,10 +33,11 @@ class IndexIterator extends \IteratorIterator implements ServiceLocatorAwareInte
     /** @var IndexService  */
     private $indexService = null;
 
-        /**
+    /**
      * @return \oat\oatbox\service\ConfigurableService|IndexService
      */
-    protected function getIndexer() {
+    protected function getIndexer()
+    {
         if (is_null($this->indexService)) {
             $this->indexService = $this->getServiceLocator()->get(IndexService::SERVICE_ID);
         }
@@ -54,7 +55,8 @@ class IndexIterator extends \IteratorIterator implements ServiceLocatorAwareInte
      * @throws \common_Exception
      * @throws \common_exception_InconsistentData
      */
-    public function current() {
+    public function current()
+    {
         return $this->getIndexer()->createDocumentFromResource($this->getInnerIterator()->current());
     }
 }

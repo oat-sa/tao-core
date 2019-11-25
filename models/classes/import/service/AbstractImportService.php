@@ -19,10 +19,10 @@
 
 namespace oat\tao\model\import\service;
 
+use common_report_Report as Report;
 use oat\oatbox\filesystem\File;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\service\ConfigurableService;
-use common_report_Report as Report;
 
 abstract class AbstractImportService extends ConfigurableService implements ImportServiceInterface
 {
@@ -59,13 +59,13 @@ abstract class AbstractImportService extends ConfigurableService implements Impo
     {
         $report = \common_report_Report::createInfo();
 
-        if ($file instanceof File){
-            if ($file->exists()){
+        if ($file instanceof File) {
+            if ($file->exists()) {
                 $fileHandler = $file->readStream();
-            }else{
+            } else {
                 throw new \Exception('File to import cannot be loaded.');
             }
-        } else if (!file_exists($file) || !is_readable($file) || ($fileHandler = fopen($file, 'r')) === false) {
+        } elseif (!file_exists($file) || !is_readable($file) || ($fileHandler = fopen($file, 'r')) === false) {
             throw new \Exception('File to import cannot be loaded.');
         }
 
@@ -102,7 +102,7 @@ abstract class AbstractImportService extends ConfigurableService implements Impo
                 }
 
                 $resource = $this->persist($mapper);
-                $message = 'Resource imported with success: '. $resource->getUri();
+                $message = 'Resource imported with success: ' . $resource->getUri();
                 $this->logInfo($message);
                 $report->add(Report::createSuccess($message));
             } catch (\Exception $exception) {
@@ -110,10 +110,10 @@ abstract class AbstractImportService extends ConfigurableService implements Impo
             }
         }
 
-        if ($report->containsError()){
+        if ($report->containsError()) {
             $report->setMessage(__('Import failed.'));
             $report->setType(Report::TYPE_ERROR);
-        }else {
+        } else {
             $report->setMessage(__('Import succeeded.'));
             $report->setType(Report::TYPE_SUCCESS);
         }

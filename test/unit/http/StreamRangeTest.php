@@ -18,8 +18,8 @@
  *
  */
 
+use oat\generis\test\TestCase;
 use oat\tao\model\stream\StreamRange;
-use Slim\Http\Stream;
 
 /**
  * Class StreamRangeTest
@@ -27,12 +27,10 @@ use Slim\Http\Stream;
  * @author Aleh Hutnikau <hutnikau@1pt.com>
  */
 
-use oat\generis\test\TestCase;
+use Slim\Http\Stream;
 
 class StreamRangeTest extends TestCase
 {
-
-
     /**
      * @dataProvider rangesProvider
      */
@@ -129,7 +127,7 @@ class StreamRangeTest extends TestCase
      */
     private function getStream($string)
     {
-        $resource = fopen('php://memory','r+');
+        $resource = fopen('php://memory', 'r+');
         fwrite($resource, $string);
         rewind($resource);
         return new Stream($resource);

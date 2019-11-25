@@ -44,7 +44,7 @@ class IndexDocument
         $id,
         $body,
         $indexesProperties = []
-    ){
+    ) {
         $this->id = $id;
 
         if (!isset($body['type'])) {
@@ -52,7 +52,6 @@ class IndexDocument
         }
         $this->body = $body;
         $this->indexesProperties = $indexesProperties;
-
     }
 
     /**
@@ -85,5 +84,4 @@ class IndexDocument
     {
         return $this->indexesProperties;
     }
-
 }

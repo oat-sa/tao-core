@@ -20,14 +20,14 @@
  */
 namespace oat\tao\model\search\tasks;
 
+use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\action\Action;
 use oat\tao\model\search\index\IndexService;
+use oat\tao\model\search\Search;
 use oat\tao\model\taskQueue\Task\TaskAwareInterface;
 use oat\tao\model\taskQueue\Task\TaskAwareTrait;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use oat\generis\model\OntologyAwareTrait;
-use oat\tao\model\search\Search;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 /**
  * Class AddSearchIndexFromResource
@@ -35,7 +35,7 @@ use oat\tao\model\search\Search;
  * @author Aleksej Tikhanovich <aleksej@taotesting.com>
  * @package oat\tao\model\search\tasks
  */
-class AddSearchIndexFromResource implements Action,ServiceLocatorAwareInterface, TaskAwareInterface
+class AddSearchIndexFromResource implements Action, ServiceLocatorAwareInterface, TaskAwareInterface
 {
     use ServiceLocatorAwareTrait;
     use OntologyAwareTrait;
@@ -46,7 +46,8 @@ class AddSearchIndexFromResource implements Action,ServiceLocatorAwareInterface,
      * @throws \common_exception_Error
      * @throws \common_exception_MissingParameter
      */
-    public function __invoke($params) {
+    public function __invoke($params)
+    {
         if (count($params) < 1) {
             throw new \common_exception_MissingParameter();
         }
@@ -59,11 +60,10 @@ class AddSearchIndexFromResource implements Action,ServiceLocatorAwareInterface,
         try {
             $document = $indexService->createDocumentFromResource($resource);
             $this->getServiceLocator()->get(Search::SERVICE_ID)->index($document);
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             $report->add(new \common_report_Report(\common_report_Report::TYPE_ERROR, __('Error adding search index for %s with message %s', $resource->getUri(), $e->getMessage())));
         }
 
         return $report;
     }
-
 }

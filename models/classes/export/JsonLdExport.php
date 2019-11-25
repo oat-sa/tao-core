@@ -32,7 +32,6 @@ use oat\generis\model\OntologyRdf;
  */
 class JsonLdExport implements \JsonSerializable
 {
-
     /**
      * @var \core_kernel_classes_ContainerCollection
      */
@@ -48,7 +47,7 @@ class JsonLdExport implements \JsonSerializable
 
     /**
      * List of uris to exclude during export:
-     * 
+     *
      * @var array
      */
     private $blackList = array(OntologyRdf::RDF_TYPE);
@@ -57,17 +56,17 @@ class JsonLdExport implements \JsonSerializable
 
     /**
      * Gets a list of properties to exclude
-     * 
+     *
      * @return array()
      */
     protected function getBlackList()
     {
-    	return $this->blackList;
+        return $this->blackList;
     }
     
     /**
      * Blacklist a property
-     * 
+     *
      * @param string $propertyUri
      */
     public function blackList($propertyUri)
@@ -77,12 +76,12 @@ class JsonLdExport implements \JsonSerializable
     
     /**
      * Create an Exported for the specified resurce
-     * 
+     *
      * @param core_kernel_classes_Resource $resource
      */
     public function __construct(core_kernel_classes_Resource $resource = null)
     {
-        if(!is_null($resource)){
+        if (!is_null($resource)) {
             $this->setTriples($resource->getRdfTriples());
             $this->setTypes($resource->getTypes());
             $this->setUri($resource->getUri());
@@ -171,7 +170,7 @@ class JsonLdExport implements \JsonSerializable
     
     public function registerEncoder($propertyUri, callable $encoder)
     {
-        $this->encoders[$propertyUri] = $encoder; 
+        $this->encoders[$propertyUri] = $encoder;
     }
     
     public function getEncoders()
@@ -181,7 +180,7 @@ class JsonLdExport implements \JsonSerializable
     
     /**
      * Encode a values array
-     * 
+     *
      * @param array $values
      * @return mixed
      */
@@ -200,7 +199,7 @@ class JsonLdExport implements \JsonSerializable
     
     /**
      * Encode the value in a json-ld compatible way
-     * 
+     *
      * @param mixed $value
      * @param string $propertyUri (optional) The URI of the property the $value is related to.
      * @return string
@@ -211,15 +210,16 @@ class JsonLdExport implements \JsonSerializable
         
         return is_string($value)
             ? $value
-            : ((is_object($value) && $value instanceof \core_kernel_classes_Resource)
+            : (
+                (is_object($value) && $value instanceof \core_kernel_classes_Resource)
                 ? $value->getUri()
                 : (string) $value
-        ); 
+            );
     }
     
     /**
      * Generate a key for the property to use during export
-     * 
+     *
      * @param string $uri
      * @return string
      */
@@ -233,7 +233,7 @@ class JsonLdExport implements \JsonSerializable
     
     /**
      * Attempt to apply a specific value encoder.
-     * 
+     *
      * @param mixed $value
      * @param string (optional) The URI of the property the $value belongs to.
      * @return mixed

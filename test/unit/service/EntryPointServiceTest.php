@@ -20,8 +20,8 @@
  */
 namespace oat\tao\test\unit\service;
 
-use oat\tao\model\entryPoint\EntryPointService;
 use oat\generis\test\TestCase;
+use oat\tao\model\entryPoint\EntryPointService;
 
 class EntryPointServiceTest extends TestCase
 {
@@ -39,19 +39,22 @@ class EntryPointServiceTest extends TestCase
 
     public function testRemoveEntryPoint()
     {
-
         $options = $this->service->getOptions();
         $json = json_encode($options);
 
-        self::assertEquals('{"existing":{"passwordreset":{},"deliveryServer":{},"guestaccess":{},"proctoringDelivery":{}},"postlogin":["deliveryServer","backoffice","proctoring","childOrganization","scoreReport","exam","testingLocationList","proctoringDelivery"],"prelogin":["guestaccess","proctoringDelivery"],"new_tag":["proctoringDelivery"]}',
-            $json);
+        self::assertEquals(
+            '{"existing":{"passwordreset":{},"deliveryServer":{},"guestaccess":{},"proctoringDelivery":{}},"postlogin":["deliveryServer","backoffice","proctoring","childOrganization","scoreReport","exam","testingLocationList","proctoringDelivery"],"prelogin":["guestaccess","proctoringDelivery"],"new_tag":["proctoringDelivery"]}',
+            $json
+        );
 
         $this->service->removeEntryPoint('proctoringDelivery');
 
         $options = $this->service->getOptions();
         $json = json_encode($options);
 
-        self::assertEquals('{"existing":{"passwordreset":{},"deliveryServer":{},"guestaccess":{}},"postlogin":["deliveryServer","backoffice","proctoring","childOrganization","scoreReport","exam","testingLocationList"],"prelogin":["guestaccess"],"new_tag":[]}',
-            $json);
+        self::assertEquals(
+            '{"existing":{"passwordreset":{},"deliveryServer":{},"guestaccess":{}},"postlogin":["deliveryServer","backoffice","proctoring","childOrganization","scoreReport","exam","testingLocationList"],"prelogin":["guestaccess"],"new_tag":[]}',
+            $json
+        );
     }
 }

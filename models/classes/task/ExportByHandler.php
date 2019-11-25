@@ -29,15 +29,15 @@ class ExportByHandler extends AbstractAction
 {
     use FilesystemAwareTrait;
 
-    const PARAM_EXPORT_HANDLER = 'export_handler';
-    const PARAM_EXPORT_DATA = 'export_data';
+    public const PARAM_EXPORT_HANDLER = 'export_handler';
+    public const PARAM_EXPORT_DATA = 'export_data';
 
     public function __invoke($params)
     {
         $this->validateParams($params);
 
         /** @var \tao_models_classes_export_ExportHandler $exporter */
-        $exporter = new $params[self::PARAM_EXPORT_HANDLER];
+        $exporter = new $params[self::PARAM_EXPORT_HANDLER]();
 
         try {
             // export data under a temp directory stored locally

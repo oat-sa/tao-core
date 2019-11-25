@@ -19,18 +19,15 @@
  */
 namespace oat\tao\model\event;
 
-
 use oat\oatbox\event\Event;
 
 class BeforeAction implements Event
 {
-
     /**
      * BeforeAction constructor.
      */
     public function __construct()
     {
-
     }
 
     /**

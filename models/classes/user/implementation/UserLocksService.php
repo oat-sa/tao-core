@@ -40,7 +40,7 @@ use tao_models_classes_UserService;
 class UserLocksService extends ConfigurableService implements UserLocks
 {
     /** Which storage implementation to use for user lockouts */
-    const OPTION_LOCKOUT_STORAGE = 'lockout_storage';
+    public const OPTION_LOCKOUT_STORAGE = 'lockout_storage';
 
     /** @var LockoutStorage */
     private $lockout;
@@ -83,7 +83,7 @@ class UserLocksService extends ConfigurableService implements UserLocks
     {
         if (!$this->lockout || !$this->lockout instanceof LockoutStorage) {
             $lockout = $this->getOption(self::OPTION_LOCKOUT_STORAGE);
-            $this->lockout = ($lockout and class_exists($lockout)) ? new $lockout : new RdfLockoutStorage();
+            $this->lockout = ($lockout and class_exists($lockout)) ? new $lockout() : new RdfLockoutStorage();
         }
 
         return $this->lockout;
@@ -201,9 +201,9 @@ class UserLocksService extends ConfigurableService implements UserLocks
         }
 
         $lockoutPeriod = new DateInterval($this->getOption(self::OPTION_SOFT_LOCKOUT_PERIOD));
-        $lastFailureTime = (new DateTimeImmutable)->setTimestamp(intval((string)$this->getLockout()->getLastFailureTime($login)));
+        $lastFailureTime = (new DateTimeImmutable())->setTimestamp(intval((string)$this->getLockout()->getLastFailureTime($login)));
 
-        return $lastFailureTime->add($lockoutPeriod) > new DateTimeImmutable;
+        return $lastFailureTime->add($lockoutPeriod) > new DateTimeImmutable();
     }
 
     /**

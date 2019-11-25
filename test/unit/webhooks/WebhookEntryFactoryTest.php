@@ -85,8 +85,7 @@ class WebhookEntryFactoryTest extends TestCase
                     ]
                 ]
             ]);
-        }
-        catch (\InvalidArgumentException $exception) {
+        } catch (\InvalidArgumentException $exception) {
             $this->assertContains('httpMethod', $exception->getMessage());
             $this->assertContains('url', $exception->getMessage());
             throw $exception;
@@ -109,8 +108,7 @@ class WebhookEntryFactoryTest extends TestCase
                     ]
                 ]
             ]);
-        }
-        catch (\InvalidArgumentException $exception) {
+        } catch (\InvalidArgumentException $exception) {
             $this->assertContains('authClass', $exception->getMessage());
             throw $exception;
         }

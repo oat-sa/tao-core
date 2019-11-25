@@ -32,10 +32,9 @@ use oat\tao\model\search\Search;
  */
 class ListResourceLookup extends ConfigurableService implements ResourceLookup
 {
-
     use OntologyAwareTrait;
 
-    const SERVICE_ID = 'tao/ListResourceLookup';
+    public const SERVICE_ID = 'tao/ListResourceLookup';
 
     /**
      * Retrieve Resources for the given parameters as a list
@@ -89,9 +88,9 @@ class ListResourceLookup extends ConfigurableService implements ResourceLookup
         // for searching by properties will be used RDF search
         $options = [
             'recursive' => true,
-            'like'      => true,
-            'limit'     => $limit,
-            'offset'    => $offset
+            'like' => true,
+            'limit' => $limit,
+            'offset' => $offset
         ];
         $count = $rootClass->countInstances($propertyFilters, $options);
         $resources = $rootClass->searchInstances($propertyFilters, $options);
@@ -117,10 +116,10 @@ class ListResourceLookup extends ConfigurableService implements ResourceLookup
             }
         }
         return [
-            'total'  => $count,
+            'total' => $count,
             'offset' => $offset,
-            'limit'  => $limit,
-            'nodes'  => $nodes
+            'limit' => $limit,
+            'nodes' => $nodes
         ];
     }
 
@@ -132,13 +131,13 @@ class ListResourceLookup extends ConfigurableService implements ResourceLookup
     private function getResourceData($resource)
     {
         $data = false;
-        if(!is_null($resource) && $resource->exists()) {
+        if (!is_null($resource) && $resource->exists()) {
             $resourceTypes = array_keys($resource->getTypes());
             $data = [
-                'uri'        => $resource->getUri(),
-                'classUri'   => $resourceTypes[0],
-                'label'      => $resource->getLabel(),
-                'type'       => 'instance'
+                'uri' => $resource->getUri(),
+                'classUri' => $resourceTypes[0],
+                'label' => $resource->getLabel(),
+                'type' => 'instance'
             ];
         }
         return $data;
