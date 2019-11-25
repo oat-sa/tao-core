@@ -41,25 +41,43 @@ class HttpClientFactory implements ServiceLocatorAwareInterface
     public function create(array $options = [])
     {
         $handlerStack = $this->createOrRetrieveHandlerStack($options);
+        $correlationIdsMiddleware = $this->createCorrelationIdsMiddleware();
+        $this->insertCorrelationIdsMiddleware($handlerStack, $correlationIdsMiddleware);
 
-        // Adds correlation ids.
-        $registry = $this->getCorrelationIdsService()->getRegistry();
-        $handlerStack->push(
-            Middleware::mapRequest(new CorrelationIdsGuzzleMiddleware($registry)),
-            self::CORRELATION_ID_HANDLER_NAME
-        );
-        
         $options[self::OPTION_HANDLER_STACK] = $handlerStack;
         return new Client($options);
     }
 
+    /**
+     * @param array $options
+     * @return HandlerStack|mixed
+     */
     private function createOrRetrieveHandlerStack(array $options)
     {
         return isset($options[self::OPTION_HANDLER_STACK]) && $options[self::OPTION_HANDLER_STACK] instanceof HandlerStack
             ? $options[self::OPTION_HANDLER_STACK]
             : HandlerStack::create();
     }
-    
+
+    /**
+     * @return CorrelationIdsGuzzleMiddleware
+     */
+    private function createCorrelationIdsMiddleware(): CorrelationIdsGuzzleMiddleware
+    {
+        $registry = $this->getCorrelationIdsService()->getRegistry();
+        return new CorrelationIdsGuzzleMiddleware($registry);
+    }
+
+    /**
+     * @param HandlerStack $handlerStack
+     * @param CorrelationIdsGuzzleMiddleware $correlationIdsMiddleware
+     */
+    private function insertCorrelationIdsMiddleware(HandlerStack $handlerStack, CorrelationIdsGuzzleMiddleware $correlationIdsMiddleware): void
+    {
+        // Adds correlation ids.
+        $handlerStack->push(Middleware::mapRequest($correlationIdsMiddleware), self::CORRELATION_ID_HANDLER_NAME);
+    }
+
     /**
      * @return CorrelationIdsService
      */
