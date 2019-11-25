@@ -650,8 +650,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
      */
     public function copyInstance()
     {
-        if (
-            $this->hasRequestParameter('destinationClassUri')
+        if ($this->hasRequestParameter('destinationClassUri')
             && $this->hasRequestParameter('uri')
             && common_Utils::isUri($this->getRequestParameter('destinationClassUri'))
         ) {

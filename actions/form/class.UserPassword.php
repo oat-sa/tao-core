@@ -57,13 +57,13 @@ class tao_actions_form_UserPassword extends tao_helpers_form_FormContainer
         $pass1Element = tao_helpers_form_FormFactory::getElement('oldpassword', 'Hiddenbox');
         $pass1Element->setDescription(__('Old Password'));
         $pass1Element->addValidator(
-                    tao_helpers_form_FormFactory::getValidator('Callback', array(
+            tao_helpers_form_FormFactory::getValidator('Callback', array(
                         'message' => __('Passwords are not matching'),
                         'object' => tao_models_classes_UserService::singleton(),
                         'method' => 'isPasswordValid',
                         'param' => tao_models_classes_UserService::singleton()->getCurrentUser()
                 ))
-                );
+        );
         $this->form->addElement($pass1Element);
                 
         $pass2Element = tao_helpers_form_FormFactory::getElement('newpassword', 'Hiddenbox');

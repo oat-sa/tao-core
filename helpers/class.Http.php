@@ -166,7 +166,6 @@ class tao_helpers_Http
         $files = self::getFiles();
         $fileData = $files[$name];
         if (isset($files[$name])) {
-
             //check for upload errors
             if (isset($fileData['error']) && $fileData['error'] != UPLOAD_ERR_OK) {
                 switch ($fileData['error']) {

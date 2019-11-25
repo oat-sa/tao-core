@@ -86,7 +86,6 @@ class tao_helpers_translation_POFileReader extends tao_helpers_translation_Trans
 
                 // Do not include meta data as a translation unit..
                 if ($msgid !== '') {
-
                     // Sanitze the strings.
                     $msgid = tao_helpers_translation_POUtils::sanitize($msgid);
                     $msgstr = tao_helpers_translation_POUtils::sanitize($msgstr);

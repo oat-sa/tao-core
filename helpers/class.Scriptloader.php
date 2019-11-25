@@ -173,8 +173,12 @@ class tao_helpers_Scriptloader
             }
         }
         switch (strtolower($type)) {
-            case tao_helpers_Scriptloader::CSS: self::$cssFiles[] = $file; break;
-            case tao_helpers_Scriptloader::JS:  self::$jsFiles[] = $file; break;
+            case tao_helpers_Scriptloader::CSS:
+                self::$cssFiles[] = $file;
+                break;
+            case tao_helpers_Scriptloader::JS:
+                self::$jsFiles[] = $file;
+                break;
             default:
                 throw new Exception("Unknown script type for file : " . $file);
         }

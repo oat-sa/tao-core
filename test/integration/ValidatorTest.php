@@ -297,7 +297,7 @@ class ValidatorTest extends TaoPhpUnitTestRunner
             $num,
             array('10', '10.1', 12, 12.1),
             array('a_1', '!', '&auml;'), //TODO null, " ", array() with a refactoring to include noempty as a mother class
-                'Numeric validation'
+            'Numeric validation'
         );
 
         $num = new tao_helpers_form_validators_Integer();

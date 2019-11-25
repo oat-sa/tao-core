@@ -64,10 +64,10 @@ class tao_install_checks_AllowOverride extends common_configuration_Component
             );
         } else {
             $report = new common_configuration_Report(
-                    common_configuration_Report::INVALID,
-                    'The AllowOverride directive may not be set to All.',
-                    $this
-                );
+                common_configuration_Report::INVALID,
+                'The AllowOverride directive may not be set to All.',
+                $this
+            );
         }
         
         return $report;

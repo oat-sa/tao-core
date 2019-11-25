@@ -161,7 +161,6 @@ class tao_helpers_translation_SourceCodeExtractor extends tao_helpers_translatio
         }
 
         if ($extOk) {
-            
             // We read the file.
             $lines = file($filePath);
             foreach ($lines as $line) {

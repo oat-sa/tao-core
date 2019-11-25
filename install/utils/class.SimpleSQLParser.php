@@ -52,7 +52,6 @@ class tao_install_utils_SimpleSQLParser extends tao_install_utils_SQLParser
         }
         
         if ($handler = fopen($file, "r")) {
-            
             //parse file and get only usefull lines
             $ch = "";
             while (!feof($handler)) {

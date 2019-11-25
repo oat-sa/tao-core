@@ -121,12 +121,10 @@ class tao_models_classes_service_FileStorage extends ConfigurableService impleme
     {
         $directory = $this->getDirectoryById($id);
         if (is_dir($directoryPath) && is_readable($directoryPath)) {
-            foreach (
-                $iterator = new \RecursiveIteratorIterator(
-                    new \RecursiveDirectoryIterator($directoryPath, \RecursiveDirectoryIterator::SKIP_DOTS),
-                    \RecursiveIteratorIterator::SELF_FIRST
-                ) as $item
-            ) {
+            foreach ($iterator = new \RecursiveIteratorIterator(
+                new \RecursiveDirectoryIterator($directoryPath, \RecursiveDirectoryIterator::SKIP_DOTS),
+                \RecursiveIteratorIterator::SELF_FIRST
+            ) as $item) {
                 if (!$item->isDir()) {
                     $file = $directory->getFile($iterator->getSubPathName());
                     $fh = fopen($item, 'rb');

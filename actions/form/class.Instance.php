@@ -106,8 +106,7 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
             $element = tao_helpers_form_GenerisFormFactory::elementMap($property);
 
             if (!is_null($element)) {
-
-                    //take instance values to populate the form
+                //take instance values to populate the form
                 if (!is_null($instance)) {
                     $values = $instance->getPropertyValuesCollection($property);
                     foreach ($values->getIterator() as $value) {
@@ -142,8 +141,7 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
                     // be always first.
                     array_splice($finalElements, 0, 0, array(array($element, 1)));
                 } elseif (count($guiOrderPropertyValues = $property->getPropertyValues($guiOrderProperty))) {
-
-                        // get position of this property if it has one.
+                    // get position of this property if it has one.
                     $position = intval($guiOrderPropertyValues[0]);
 
                     // insert the element at the right place.

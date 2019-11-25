@@ -279,7 +279,6 @@ class tao_helpers_grid_Grid
 
             foreach ($this->columns as $columnId => $column) {
                 if ($column->hasAdapter()) {
-
                     //fill content with adapter:
                     $data = null;
                     if (isset($returnValue[$rowId][$columnId])) {

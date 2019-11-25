@@ -296,7 +296,6 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
                     } elseif (!is_writable($extensionDir)) {
                         $this->err("The '" . $this->options['extension'] . "' directory is not writable. Please check permissions on this directory.", true);
                     } else {
-                        
                         // And can we read the messages.po file ?
                         if (!file_exists($languageDir . '/' . self::DEF_PO_FILENAME)) {
                             $this->err("Cannot find " . self::DEF_PO_FILENAME . " for extension '" . $this->options['extension'] . "' and language '" . $this->options['language'] . "'.", true);
@@ -1002,7 +1001,6 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
         
         if (file_exists($expectedDescriptionPath)) {
             if (is_readable($expectedDescriptionPath)) {
-                
                 // Let's remove any instance of the language description before inserting the new one.
                 $taoNS = 'http://www.tao.lu/Ontologies/TAO.rdf#';
                 $expectedLangUri = $taoNS . 'Lang' . $this->options['language'];
@@ -1237,7 +1235,6 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
             }
 
             if (($extDirectories = scandir(ROOT_PATH)) !== false) {
-                        
                 // Get all public messages accross extensions.
                 foreach ($extDirectories as $extDir) {
                     $extPath = ROOT_PATH . '/' . $extDir;
@@ -1397,7 +1394,6 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
             $this->err("The locales directory of extension '" . $this->options['extension'] . "' cannot be read.", true);
         } else {
             foreach ($directories as $dir) {
-
                 // folder where these .po files should be
                 $extensionLocalesDir = $dir . '/' . self::DEF_OUTPUT_DIR . '/' . $language;
                 $poFile = $rootDir . $extensionLocalesDir . '/' . self::DEF_PO_FILENAME;

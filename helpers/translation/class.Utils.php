@@ -58,7 +58,7 @@ class tao_helpers_translation_Utils
         $languages = array();
         foreach (common_ext_ExtensionsManager::singleton()->getInstalledExtensions() as $extension) {
             $localesDir = $extension->getDir() . 'locales/';
-            foreach (glob($localesDir . '*') as  $file) {
+            foreach (glob($localesDir . '*') as $file) {
                 if (is_dir($file) && file_exists($file . '/messages.po')) {
                     $lang = basename($file);
                     if (!in_array($lang, $languages)) {

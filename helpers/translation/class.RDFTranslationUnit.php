@@ -191,7 +191,6 @@ class tao_helpers_translation_RDFTranslationUnit extends tao_helpers_translation
     public function setSource($source)
     {
         parent::setSource($source);
-        $this->addAnnotation('source', $source)
-;
+        $this->addAnnotation('source', $source);
     }
 }

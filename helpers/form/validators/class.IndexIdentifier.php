@@ -45,8 +45,7 @@ class tao_helpers_form_validators_IndexIdentifier extends tao_helpers_form_Valid
             if (!$this->hasOption('message')) {
                 $message = empty($values)
                     ? __('The index identifier should not be empty')
-                    : __('"%s" is not a valid index identifier. It must start with a letter and contain letters, numbers or underscores only', $values)
-                ;
+                    : __('"%s" is not a valid index identifier. It must start with a letter and contain letters, numbers or underscores only', $values);
                 $this->setMessage($message);
             }
         }

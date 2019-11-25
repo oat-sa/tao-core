@@ -282,7 +282,6 @@ class tao_actions_Main extends tao_actions_CommonModule
         $structure = $this->getRequestParameter('structure');
 
         if ($this->hasRequestParameter('structure')) {
-
             // structured mode
             // @todo stop using session to manage uri/classUri
             $this->removeSessionAttribute('uri');
@@ -308,7 +307,6 @@ class tao_actions_Main extends tao_actions_CommonModule
                 $this->logWarning('no sections');
             }
         } else {
-
             //check if the user is a noob, otherwise redirect him to his last visited extension.
             $firstTime = TaoCe::isFirstTimeInTao();
             if ($firstTime == false) {

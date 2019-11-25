@@ -124,8 +124,7 @@ class tao_actions_form_RestForm
             }
 
             // Existing values
-            if (
-                $this->doesExist()
+            if ($this->doesExist()
                 && !is_null($value = $this->getFieldValue($property, isset($propertyData['range']) ? $propertyData['range'] : null))
             ) {
                 $propertyData['value'] = $value;
@@ -137,8 +136,7 @@ class tao_actions_form_RestForm
                 $position = intval((string)$guiPropertyOrder);
                 $propertyData['position'] = $position;
                 $i = 0;
-                while (
-                    $i < count($this->formProperties)
+                while ($i < count($this->formProperties)
                     && (isset($this->formProperties[$i]['position']) && $position >= $this->formProperties[$i]['position'])
                 ) {
                     $i++;

@@ -31,7 +31,6 @@ class RestExceptionHandler
     public function sendHeader(Exception $exception)
     {
         switch (get_class($exception)) {
-
             case \common_exception_BadRequest::class:
             case \common_exception_MissingParameter::class:
             case \common_exception_InvalidArgumentType::class:
@@ -88,7 +87,6 @@ class RestExceptionHandler
 
             default:
                 header("HTTP/1.0 500 Internal Server Error");
-
         }
     }
 }

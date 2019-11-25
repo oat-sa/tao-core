@@ -94,12 +94,12 @@ class tao_scripts_TaoHardify extends tao_scripts_Runner
                 case 'hardify':
                     $this->setCurrentAction($this->options['action']);
                     $this->actionHardify();
-                break;
+                    break;
                 
                 case 'unhardify':
                     $this->setCurrentAction($this->options['action']);
                     $this->actionUnhardify();
-                break;
+                    break;
             }
             
             $this->disconnect();
@@ -151,15 +151,15 @@ class tao_scripts_TaoHardify extends tao_scripts_Runner
                     switch ($this->options['action']) {
                         case 'hardify':
                             $this->checkHardifyInput();
-                        break;
+                            break;
                         
                         case 'unhardify':
                             $this->checkUnhardifyInput();
-                        break;
+                            break;
                         
                         default:
                             $this->error("Please provide a valid 'action' parameter.", true);
-                        break;
+                            break;
                     }
                 }
             }
@@ -340,7 +340,6 @@ class tao_scripts_TaoHardify extends tao_scripts_Runner
         } else {
             $classUri = trim($this->options['class']);
             if (common_Utils::isUri($classUri)) {
-                
                 // We are OK with the class to Hardify
                 $class = new core_kernel_classes_Class($classUri);
                 $this->options['class'] = $class;

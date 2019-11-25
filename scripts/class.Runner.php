@@ -237,7 +237,7 @@ abstract class tao_scripts_Runner
                                    $this->err("Unable to access to the file: $input");
                                    $returnValue = false;
                                }
-                               break;
+                            break;
                         case 'dir':
                             if (!is_dir($input) ||
                                 !is_readable($input)) {
@@ -279,7 +279,6 @@ abstract class tao_scripts_Runner
                                 }
                             }
                             break;
-                            
                     }
                 }
             }

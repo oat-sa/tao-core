@@ -63,7 +63,7 @@ class tao_actions_form_Import extends tao_helpers_form_FormContainer
             'importHandler' => get_class($importHandler),
             'classUri' => $class->getUri(),
             'id' => $class->getUri()
-        ],
+            ],
             $options
         );
     }

@@ -21,7 +21,7 @@
 ?>
 
 <div id="rdftpl_mode_container_instances" class="rdftpl_mode_container">
-	<?php foreach ($instances as $uri => $label):?>
+	<?php foreach ($instances as $uri => $label) :?>
 		<input type="checkbox" name="rdftpl_instance_<?=$uri?>" id="rdftpl_instance_<?=$uri?>" checked="checked" /><label for="rdftpl_instance_<?=$uri?>"><?=$label?></label><br />
 	<?php endforeach?>
 	<span class="checker-container">

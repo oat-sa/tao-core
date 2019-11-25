@@ -214,7 +214,6 @@ class ResourceService extends ConfigurableService
             $uris[] = $nodes->getUri();
         }
         if (is_array($nodes)) {
-
             //legacy format
             if (isset($nodes['attributes']['data-uri'])) {
                 $uris[] = $nodes['attributes']['data-uri'];

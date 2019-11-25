@@ -112,7 +112,6 @@ class tao_models_classes_dataBinding_GenerisFormDataBinder extends tao_models_cl
             $size = $desc->getSize();
 
             if (!empty($name) && !empty($size)) {
-
                 // Remove old
                 $this->removeFile($property);
 

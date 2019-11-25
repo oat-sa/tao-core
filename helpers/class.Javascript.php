@@ -55,7 +55,6 @@ class tao_helpers_Javascript
             }
             $returnValue .= '}';
         } else {
-            
             // Some versions of PHP simply fail
             // when encoding non UTF-8 data. Some other
             // versions return null... If it fails, simply

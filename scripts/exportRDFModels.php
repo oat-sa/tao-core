@@ -35,7 +35,6 @@ out("Running " . basename(__FILE__));
 $exportDir = '';
 $nameMode = 'short';
 if (PHP_SAPI == 'cli') {	//from command line
-    
     if ($_SERVER['argc'] < 1) {
         echo "\nUsage : php {$_SERVER['argv'][0]} /dir/to/export short|long\n";
         echo "Example: php  {$_SERVER['argv'][0]} /tmp/export long\n";
@@ -48,7 +47,6 @@ if (PHP_SAPI == 'cli') {	//from command line
         ($_SERVER['argv'][2] == 'long') ? $nameMode = 'long' : $nameMode = 'short';
     }
 } else {					//from a browser
-    
     if (isset($_GET['exportDir'])) {
         $exportDir = $_GET['exportDir'];
     }

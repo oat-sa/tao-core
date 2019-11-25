@@ -60,7 +60,7 @@ class FileHelperTest extends TaoPhpUnitTestRunner
         $envPath = $root . '/' . $name;
         mkdir($envPath);
         $this->assertTrue(is_dir($envPath));
-        for ($i = 0;$i < $n;$i++) {
+        for ($i = 0; $i < $n; $i++) {
             $tempnam = tempnam($envPath, '');
             $this->assertTrue(is_file($tempnam));
         }

@@ -32,8 +32,7 @@ class BaseWebsourceTest extends TestCase
     {
         $this->baseWebsource
             ->method('getFileSystem')
-            ->willReturn($this->getFileSystemMockWithMimeType($mimeType))
-        ;
+            ->willReturn($this->getFileSystemMockWithMimeType($mimeType));
 
         $this->assertEquals($expectedMimeType, $this->baseWebsource->getMimetype($fileName));
     }

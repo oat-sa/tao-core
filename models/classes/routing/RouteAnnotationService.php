@@ -72,7 +72,8 @@ class RouteAnnotationService extends ConfigurableService
                             // do not change state (it will be allowed by default but closed by hidden & deny)
                             break;
                         // any unsupported actions return false
-                        default: $access = false;
+                        default:
+                            $access = false;
                     }
                 }
             }

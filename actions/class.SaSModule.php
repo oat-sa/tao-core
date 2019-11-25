@@ -139,7 +139,6 @@ abstract class tao_actions_SaSModule extends tao_actions_RdfController
         // @todo call the correct service
         $instance = $this->getClassService()->createInstance($clazz);
         if (!is_null($instance) && $instance instanceof core_kernel_classes_Resource) {
-
             //init variable service:
             $this->setVariables(array($this->getDataKind() . 'Uri' => $instance->getUri()));
 

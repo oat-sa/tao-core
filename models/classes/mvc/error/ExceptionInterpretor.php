@@ -118,7 +118,6 @@ class ExceptionInterpretor implements ServiceLocatorAwareInterface
                 $this->responseClassName = 'MainResponse';
                 $this->returnHttpCode = StatusCode::HTTP_INTERNAL_SERVER_ERROR;
                 break;
-
         }
         return $this;
     }

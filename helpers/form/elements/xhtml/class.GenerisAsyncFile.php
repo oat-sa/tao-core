@@ -45,9 +45,9 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile extends tao_helpers_form_
             if ($structure !== false) {
                 $description = new tao_helpers_form_data_UploadFileDescription(
                     array_key_exists(
-                    'name',
-                    $structure
-                ) ? $structure['name'] : null,
+                        'name',
+                        $structure
+                    ) ? $structure['name'] : null,
                     array_key_exists('size', $structure) ? $structure['size'] : null,
                     array_key_exists('type', $structure) ? $structure['type'] : null,
                     array_key_exists('uploaded_file', $structure) ? $structure['uploaded_file'] : null,
@@ -79,7 +79,6 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile extends tao_helpers_form_
         if ($this->value instanceof tao_helpers_form_data_UploadFileDescription && $this->value->getAction() == tao_helpers_form_data_UploadFileDescription::FORM_ACTION_DELETE) {
             // File deleted, nothing to render
         } elseif ($this->value instanceof tao_helpers_form_data_FileDescription && ($file = $this->value->getFile()) != null) {
-            
             // A file is stored or has just been uploaded.
             $shownFileName = $this->value->getName();
             $shownFileSize = $this->value->getSize();
@@ -98,7 +97,6 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile extends tao_helpers_form_
             // Inject behaviour of the Delete/Download buttons component in response.
             $returnValue .= self::embedBehaviour($this->buildDeleterBehaviour() . $this->buildDownloaderBehaviour());
         } else {
-            
             // No file stored yet.
             // Inject behaviour of the AsyncFileUpload component in response.
             $returnValue .= self::embedBehaviour($this->buildUploaderBehaviour());

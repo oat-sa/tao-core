@@ -285,7 +285,6 @@ class Bootstrap implements ServiceManagerAwareInterface
         session_name(GENERIS_SESSION_NAME);
 
         if (isset($_COOKIE[GENERIS_SESSION_NAME])) {
-
             // Resume the session
             session_start();
 

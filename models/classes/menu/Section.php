@@ -216,7 +216,6 @@ class Section extends MenuElement implements PhpSerializable
     private function migrateDataFromLegacyFormat()
     {
         if (count($this->trees) > 0) {
-
             //tree attributes to be migrated.
             $mapping = array(
               'editClassUrl' => array(
@@ -312,7 +311,6 @@ class Section extends MenuElement implements PhpSerializable
                             if ($actionName) {
                                 $newData[$mapping[$attr]['attr']] = $actionName;
                             } else {
-    
                                 //otherwise create a new action from the mapping
                                 $newData[$mapping[$attr]['attr']] = $mapping[$attr]['action']['id'];
                                 $actionData = $mapping[$attr]['action'];

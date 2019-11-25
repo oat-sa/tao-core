@@ -218,8 +218,7 @@ class Layout
     public static function getLogoUrl()
     {
         $theme = self::getCurrentTheme();
-        if (
-            $theme instanceof ConfigurableTheme ||
+        if ($theme instanceof ConfigurableTheme ||
             $theme instanceof ConfigurablePlatformTheme
         ) {
             $logoFile = $theme->getLogoUrl();
@@ -286,8 +285,7 @@ class Layout
     public static function getLinkUrl()
     {
         $theme = self::getCurrentTheme();
-        if (
-            $theme instanceof ConfigurableTheme ||
+        if ($theme instanceof ConfigurableTheme ||
             $theme instanceof ConfigurablePlatformTheme
         ) {
             $link = $theme->getLink();
@@ -325,8 +323,7 @@ class Layout
     public static function getMessage()
     {
         $theme = self::getCurrentTheme();
-        if (
-            $theme instanceof ConfigurableTheme ||
+        if ($theme instanceof ConfigurableTheme ||
             $theme instanceof ConfigurablePlatformTheme
         ) {
             $message = $theme->getMessage();

@@ -97,22 +97,22 @@ class tao_helpers_translation_POUtils
                             // Translator comment.
                             $annotationId = tao_helpers_translation_POTranslationUnit::TRANSLATOR_COMMENTS;
                             $annotationValue = mb_substr($match, 2, $matchLen - 2, $encoding);
-                        break;
+                            break;
                         
                         case '.':
                             $annotationId = tao_helpers_translation_POTranslationUnit::EXTRACTED_COMMENTS;
                             $annotationValue = mb_substr($match, 3, $matchLen - 3, $encoding);
-                        break;
+                            break;
                         
                         case ':':
                             $annotationId = tao_helpers_translation_POTranslationUnit::REFERENCE;
                             $annotationValue = mb_substr($match, 3, $matchLen - 3, $encoding);
-                        break;
+                            break;
                         
                         case ',':
                             $annotationId = tao_helpers_translation_POTranslationUnit::FLAGS;
                             $annotationValue = mb_substr($match, 3, $matchLen - 3, $encoding);
-                        break;
+                            break;
                         
                         case '|':
                             if (($pos = mb_strpos($match, 'msgid_plural', 0, $encoding)) !== false) {
@@ -128,7 +128,7 @@ class tao_helpers_translation_POUtils
                                 $annotationId = tao_helpers_translation_POTranslationUnit::PREVIOUS_MSGCTXT;
                                 $annotationValue = mb_substr($match, $pos, $matchLen - $pos, $encoding);
                             }
-                        break;
+                            break;
                     }
                     
                     if ($annotationId != null && $annotationValue != null) {
@@ -170,25 +170,25 @@ class tao_helpers_translation_POUtils
             switch ($name) {
                 case tao_helpers_translation_POTranslationUnit::TRANSLATOR_COMMENTS:
                     $prefix = '#';
-                break;
+                    break;
                 
                 case tao_helpers_translation_POTranslationUnit::EXTRACTED_COMMENTS:
                     $prefix = '#.';
-                break;
+                    break;
                 
                 case tao_helpers_translation_POTranslationUnit::REFERENCE:
                     $prefix = '#:';
-                break;
+                    break;
                 
                 case tao_helpers_translation_POTranslationUnit::FLAGS:
                     $prefix = '#,';
-                break;
+                    break;
                 
                 case tao_helpers_translation_POTranslationUnit::PREVIOUS_MSGID:
                 case tao_helpers_translation_POTranslationUnit::PREVIOUS_MSGID_PLURAL:
                 case tao_helpers_translation_POTranslationUnit::PREVIOUS_MSGCTXT:
                     $prefix = '#|';
-                break;
+                    break;
             }
             
             if ($prefix !== null) {

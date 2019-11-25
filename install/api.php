@@ -249,7 +249,6 @@ function getService($rawInput, $serviceName)
 }
 
 try {
-    
     // Deal with the 'CheckProtocol' service first.
     if ($_SERVER['REQUEST_METHOD'] == 'GET' && $_GET['type'] == 'Sync') {
         $data = new tao_install_services_Data(array('type' => 'Sync'));

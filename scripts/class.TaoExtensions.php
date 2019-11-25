@@ -93,12 +93,12 @@ class tao_scripts_TaoExtensions extends tao_scripts_Runner
                 case 'setConfig':
                     $this->setCurrentAction($this->options['action']);
                     $this->actionSetConfig();
-                break;
+                    break;
                 
                 case 'install':
                     $this->setCurrentAction($this->options['action']);
                     $this->actionInstall();
-                break;
+                    break;
             }
             
             $this->disconnect();
@@ -148,15 +148,15 @@ class tao_scripts_TaoExtensions extends tao_scripts_Runner
                     switch ($this->options['action']) {
                         case 'setConfig':
                             $this->checkSetConfigInput();
-                        break;
+                            break;
                         
                         case 'install':
                             $this->checkInstallInput();
-                        break;
+                            break;
                         
                         default:
                             $this->error("Please provide a valid 'action' parameter.", true);
-                        break;
+                            break;
                     }
                 }
             }
@@ -230,19 +230,19 @@ class tao_scripts_TaoExtensions extends tao_scripts_Runner
                 switch ($configParam) {
                     case 'loaded':
                         $currentConfig->loaded = $configValue;
-                    break;
+                        break;
                     
                     case 'loadAtStartup':
                         $currentConfig->loadedAtStartUp = $configValue;
-                    break;
+                        break;
                     
                     case 'ghost':
                         $currentConfig->ghost = $configValue;
-                    break;
+                        break;
                     
                     default:
                         $this->error("Unknown configuration parameter '${configParam}'.", true);
-                    break;
+                        break;
                 }
             
                 $currentConfig->save($ext);

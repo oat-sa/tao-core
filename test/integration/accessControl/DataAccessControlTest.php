@@ -158,8 +158,7 @@ class DataAccessControlTest extends GenerisPhpUnitTestRunner
     private function getConstraintBasedOnProviderAndUser(User $user)
     {
         $permissionProvider = $this->dac->getPermissionProvider();
-        if (
-            $permissionProvider instanceof FreeAccessTestPermissionProvider
+        if ($permissionProvider instanceof FreeAccessTestPermissionProvider
             ||
             ($permissionProvider instanceof DACTestPermissionProvider && in_array('http://www.tao.lu/Ontologies/TAO.rdf#GlobalManager', $user->getRoles()))
         ) {

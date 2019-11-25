@@ -90,22 +90,21 @@ class tao_helpers_report_Rendering
     private static function renderReport(common_report_Report $report, array $childRenderedReports = array(), $nesting = 0, $leaf = false)
     {
         switch ($report->getType()) {
-            
             case common_report_Report::TYPE_SUCCESS:
                 $typeClass = 'success';
-            break;
+                break;
             
             case common_report_Report::TYPE_WARNING:
                 $typeClass = 'warning';
-            break;
+                break;
             
             case common_report_Report::TYPE_ERROR:
                 $typeClass = 'error';
-            break;
+                break;
             
             default:
                 $typeClass = 'info';
-            break;
+                break;
         }
         
         $openingTag = '<div class="feedback-' . $typeClass . ' feedback-nesting-' . $nesting . ' ' . (($leaf === true) ? 'leaf' : 'hierarchical') . ' tao-scope">';

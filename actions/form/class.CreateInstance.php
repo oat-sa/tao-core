@@ -137,7 +137,6 @@ class tao_actions_form_CreateInstance extends tao_helpers_form_FormContainer
             $element = tao_helpers_form_GenerisFormFactory::elementMap($property);
             
             if (!is_null($element)) {
-                
                 //set label validator
                 if ($property->getUri() == OntologyRdfs::RDFS_LABEL) {
                     $element->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
@@ -157,7 +156,6 @@ class tao_actions_form_CreateInstance extends tao_helpers_form_FormContainer
                     // be always first.
                     array_splice($finalElements, 0, 0, array(array($element, 1)));
                 } elseif (count($guiOrderPropertyValues = $property->getPropertyValues($guiOrderProperty))) {
-                    
                     // get position of this property if it has one.
                     $position = intval($guiOrderPropertyValues[0]);
                     

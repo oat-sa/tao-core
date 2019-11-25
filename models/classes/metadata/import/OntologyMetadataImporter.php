@@ -67,7 +67,6 @@ abstract class OntologyMetadataImporter extends ConfigurableService implements M
         // Foreach line of dateSource
         foreach ($data as $uri => $dataSource) {
             try {
-
                 // Check if resource exists
                 $resource = $this->getResource($uri);
                 if (!$resource->exists()) {

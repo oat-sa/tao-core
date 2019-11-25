@@ -52,8 +52,7 @@ class UserCsvImporterFactoryTest extends TestCase
                             )
                         );
                         break;
-                    case'default-schema':
-
+                    case 'default-schema':
                         return array(
                             'mandatory' => array(
                                 'label' => 'http://www.w3.org/2000/01/rdf-schema#label',

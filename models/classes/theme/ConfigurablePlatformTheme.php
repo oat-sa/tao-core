@@ -414,7 +414,7 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
             static::EXTENSION_ID => $options[static::EXTENSION_ID],
             static::ID => $options[static::EXTENSION_ID]
                                     . StringUtils::camelize(StringUtils::removeSpecChars($options[static::LABEL]), true)
-        ],
+            ],
             $options
         );
 

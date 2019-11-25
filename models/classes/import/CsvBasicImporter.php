@@ -65,8 +65,7 @@ class CsvBasicImporter extends CsvAbstractImporter
                 //map properties in many ways
                 //look for label (lower case without spaces)
                 //look for uri (without namespace)
-                if (
-                    ($index = array_search(str_replace(' ', '', strtolower($property->getLabel())), $modifiedHeader)) !== false
+                if (($index = array_search(str_replace(' ', '', strtolower($property->getLabel())), $modifiedHeader)) !== false
                     || ($index = array_search(substr(strtolower($property->getUri()), strpos($property->getUri(), '#') + 1), $modifiedHeader)) !== false
                 ) {
                     $map[$property->getUri()] = $index;

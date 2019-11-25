@@ -162,11 +162,9 @@ class tao_actions_form_Clazz extends tao_helpers_form_FormContainer
         //add a group form for the class edition
         $elementNames = array();
         foreach (tao_helpers_form_GenerisFormFactory::getDefaultProperties() as $property) {
-
             //map properties widgets to form elements
             $element = tao_helpers_form_GenerisFormFactory::elementMap($property);
             if (!is_null($element)) {
-
                 //take property values to populate the form
                 $values = $clazz->getPropertyValues($property);
                 if (!$property->isMultiple()) {
