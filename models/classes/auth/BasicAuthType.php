@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,7 +21,9 @@
  *
  * @author Alexander Zagovorichev <olexander.zagovorychev@1pt.com>
  */
+
 namespace oat\tao\model\auth;
+
 use GuzzleHttp\Client;
 use oat\tao\helpers\Template;
 use Psr\Http\Message\RequestInterface;
@@ -53,6 +58,7 @@ class BasicAuthType extends AbstractAuthType implements BasicAuth
     {
         return $this->getClass(self::CLASS_BASIC_AUTH);
     }
+
     /**
      * All fields to configure current authenticator
      *
@@ -65,6 +71,7 @@ class BasicAuthType extends AbstractAuthType implements BasicAuth
             $this->getProperty(self::PROPERTY_PASSWORD),
         ];
     }
+
     /**
      * Returns template for the current instance (or empty template for the default authorization) with credentials
      *
@@ -76,6 +83,7 @@ class BasicAuthType extends AbstractAuthType implements BasicAuth
         $data = $this->loadCredentials();
         return Template::inc('auth/basicAuthForm.tpl', 'tao', $data);
     }
+
     /**
      * Fetch the credentials for the current resource.
      *
@@ -90,11 +98,11 @@ class BasicAuthType extends AbstractAuthType implements BasicAuth
         if ($instance && $instance->exists()) {
             $props = $instance->getPropertiesValues([
                 $this->getProperty(self::PROPERTY_LOGIN),
-                $this->getProperty(self::PROPERTY_PASSWORD)
+                $this->getProperty(self::PROPERTY_PASSWORD),
             ]);
             $data = [
-                self::PROPERTY_LOGIN => (string)current($props[self::PROPERTY_LOGIN]),
-                self::PROPERTY_PASSWORD => (string)current($props[self::PROPERTY_PASSWORD]),
+                self::PROPERTY_LOGIN => (string) current($props[self::PROPERTY_LOGIN]),
+                self::PROPERTY_PASSWORD => (string) current($props[self::PROPERTY_PASSWORD]),
             ];
         } else {
             $data = [
@@ -104,6 +112,7 @@ class BasicAuthType extends AbstractAuthType implements BasicAuth
         }
         return $data;
     }
+
     /**
      * @return array
      * @throws \common_exception_InvalidArgumentType
@@ -116,5 +125,4 @@ class BasicAuthType extends AbstractAuthType implements BasicAuth
             $credentials[self::PROPERTY_PASSWORD],
         ];
     }
-
 }

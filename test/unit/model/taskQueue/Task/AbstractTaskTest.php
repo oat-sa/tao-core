@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,14 +18,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\test\unit\model\taskQueue\Task;
 
+use oat\generis\test\TestCase;
 use oat\tao\model\taskQueue\Task\AbstractTask;
 use oat\tao\model\taskQueue\Task\TaskInterface;
-use oat\generis\test\TestCase;
 
 class AbstractTaskTest extends TestCase
 {
@@ -30,59 +32,61 @@ class AbstractTaskTest extends TestCase
      * @var AbstractTask
      */
     private $abstractTaskMock;
+
     private $fakeId = 'ADFA23234sdfsdf';
+
     private $fakeOwner = 'FakeOwner';
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->abstractTaskMock = $this->getMockBuilder(AbstractTask::class)
             ->setConstructorArgs([$this->fakeId, $this->fakeOwner])
             ->getMockForAbstractClass();
     }
 
-    public function tearDown()
+    protected function tearDown(): void
     {
         $this->abstractTaskMock = null;
     }
 
-    public function testSetMetadataShouldReturnTheTask()
+    public function testSetMetadataShouldReturnTheTask(): void
     {
         $rs = $this->abstractTaskMock->setMetadata('foo', 'bar');
         $this->assertInstanceOf(TaskInterface::class, $rs);
     }
 
-    public function testGetMetadataWhenKeyDoesNotExistThenReturnNull()
+    public function testGetMetadataWhenKeyDoesNotExistThenReturnNull(): void
     {
         $this->assertNull($this->abstractTaskMock->getMetadata('not_existing_key'));
     }
 
-    public function testGetMetadataWhenKeyDoesNotExistAndDefaultIsSuppliedThenReturnDefault()
+    public function testGetMetadataWhenKeyDoesNotExistAndDefaultIsSuppliedThenReturnDefault(): void
     {
         $default = 'default_value';
-        $this->assertEquals($default, $this->abstractTaskMock->getMetadata('not_existing_key', $default));
+        $this->assertSame($default, $this->abstractTaskMock->getMetadata('not_existing_key', $default));
     }
 
-    public function testSetGetMetadataWhenKeyIsAString()
+    public function testSetGetMetadataWhenKeyIsAString(): void
     {
         $key = 'key1';
         $value = 'value1';
         $this->abstractTaskMock->setMetadata($key, $value);
 
-        $this->assertEquals($value, $this->abstractTaskMock->getMetadata($key));
+        $this->assertSame($value, $this->abstractTaskMock->getMetadata($key));
     }
 
-    public function testSetGetMetadataWhenKeyIsAnArray()
+    public function testSetGetMetadataWhenKeyIsAnArray(): void
     {
         $key = ['foo' => 'bar'];
         $this->abstractTaskMock->setMetadata($key);
 
-        $this->assertEquals('bar', $this->abstractTaskMock->getMetadata('foo'));
+        $this->assertSame('bar', $this->abstractTaskMock->getMetadata('foo'));
     }
 
     /**
      * @expectedException \InvalidArgumentException
      */
-    public function testSetMetadataWhenKeyIsInvalidThenThrowException()
+    public function testSetMetadataWhenKeyIsInvalidThenThrowException(): void
     {
         $this->abstractTaskMock->setMetadata(new \stdClass());
     }
@@ -90,49 +94,49 @@ class AbstractTaskTest extends TestCase
     /**
      * @expectedException \InvalidArgumentException
      */
-    public function testGetMetadataWhenKeyIsInvalidThenThrowException()
+    public function testGetMetadataWhenKeyIsInvalidThenThrowException(): void
     {
         $this->abstractTaskMock->getMetadata(new \stdClass());
     }
 
-    public function testSetParameterShouldReturnTheTask()
+    public function testSetParameterShouldReturnTheTask(): void
     {
         $rs = $this->abstractTaskMock->setMetadata('foo', 'bar');
         $this->assertInstanceOf(TaskInterface::class, $rs);
     }
 
-    public function testGetParameterWhenKeyDoesNotExistThenReturnNull()
+    public function testGetParameterWhenKeyDoesNotExistThenReturnNull(): void
     {
         $this->assertNull($this->abstractTaskMock->getParameter('not_existing_key'));
     }
 
-    public function testGetParameterWhenKeyDoesNotExistAndDefaultIsSuppliedThenReturnDefault()
+    public function testGetParameterWhenKeyDoesNotExistAndDefaultIsSuppliedThenReturnDefault(): void
     {
         $default = 'default_value';
-        $this->assertEquals($default, $this->abstractTaskMock->getParameter('not_existing_key', $default));
+        $this->assertSame($default, $this->abstractTaskMock->getParameter('not_existing_key', $default));
     }
 
-    public function testSetGetParameterWhenKeyIsAString()
+    public function testSetGetParameterWhenKeyIsAString(): void
     {
         $key = 'key1';
         $value = 'value1';
         $this->abstractTaskMock->setParameter($key, $value);
 
-        $this->assertEquals($value, $this->abstractTaskMock->getParameter($key));
+        $this->assertSame($value, $this->abstractTaskMock->getParameter($key));
     }
 
-    public function testSetGetParameterWhenKeyIsAnArray()
+    public function testSetGetParameterWhenKeyIsAnArray(): void
     {
         $key = ['foo' => 'bar'];
         $this->abstractTaskMock->setParameter($key);
 
-        $this->assertEquals('bar', $this->abstractTaskMock->getParameter('foo'));
+        $this->assertSame('bar', $this->abstractTaskMock->getParameter('foo'));
     }
 
     /**
      * @expectedException \InvalidArgumentException
      */
-    public function testSetParameterWhenKeyIsInvalidThenThrowException()
+    public function testSetParameterWhenKeyIsInvalidThenThrowException(): void
     {
         $this->abstractTaskMock->setParameter(new \stdClass());
     }
@@ -140,78 +144,78 @@ class AbstractTaskTest extends TestCase
     /**
      * @expectedException \InvalidArgumentException
      */
-    public function testGetParameterWhenKeyIsInvalidThenThrowException()
+    public function testGetParameterWhenKeyIsInvalidThenThrowException(): void
     {
         $this->abstractTaskMock->getParameter(new \stdClass());
     }
 
-    public function testGetParametersShouldGiveBackTheWholeParameterContainer()
+    public function testGetParametersShouldGiveBackTheWholeParameterContainer(): void
     {
         $this->abstractTaskMock->setParameter('key1', 'value1');
         $this->abstractTaskMock->setParameter('key2', 'value2');
         $this->abstractTaskMock->setParameter(['key3' => 'value3', 'key4' => 'value4']);
 
-        $this->assertEquals([
+        $this->assertSame([
             'key1' => 'value1',
             'key2' => 'value2',
             'key3' => 'value3',
-            'key4' => 'value4'
+            'key4' => 'value4',
         ], $this->abstractTaskMock->getParameters());
     }
 
-    public function testIdShouldBeGeneratedInConstructor()
+    public function testIdShouldBeGeneratedInConstructor(): void
     {
-        $this->assertEquals($this->fakeId, $this->abstractTaskMock->getId());
+        $this->assertSame($this->fakeId, $this->abstractTaskMock->getId());
     }
 
-    public function testIdShouldNotBeOverWrittenBySetMetadata()
+    public function testIdShouldNotBeOverWrittenBySetMetadata(): void
     {
         $this->abstractTaskMock->setMetadata('id', 4444);
-        $this->assertEquals($this->fakeId, $this->abstractTaskMock->getId());
+        $this->assertSame($this->fakeId, $this->abstractTaskMock->getId());
     }
 
-    public function testCreatedAtShouldBeGeneratedInConstructor()
+    public function testCreatedAtShouldBeGeneratedInConstructor(): void
     {
         $this->assertInstanceOf(\DateTime::class, $this->abstractTaskMock->getCreatedAt());
     }
 
-    public function testSetCreatedAtShouldReturnTheTask()
+    public function testSetCreatedAtShouldReturnTheTask(): void
     {
         $rs = $this->abstractTaskMock->setCreatedAt(new \DateTime());
         $this->assertInstanceOf(TaskInterface::class, $rs);
     }
 
-    public function testSetGetCreatedAtWhenCreatedAtSetFromOutside()
+    public function testSetGetCreatedAtWhenCreatedAtSetFromOutside(): void
     {
         $date = new \DateTime('yesterday 12:15:00');
         $this->abstractTaskMock->setCreatedAt($date);
-        $this->assertEquals($date, $this->abstractTaskMock->getCreatedAt());
+        $this->assertSame($date, $this->abstractTaskMock->getCreatedAt());
     }
 
-    public function testToStringWorks()
+    public function testToStringWorks(): void
     {
-        $this->assertEquals('TASK '. get_class($this->abstractTaskMock) .' ['. $this->fakeId .']', (string) $this->abstractTaskMock);
+        $this->assertSame('TASK ' . get_class($this->abstractTaskMock) . ' [' . $this->fakeId . ']', (string) $this->abstractTaskMock);
     }
 
-    public function testOwnerShouldBeGeneratedInConstructor()
+    public function testOwnerShouldBeGeneratedInConstructor(): void
     {
-        $this->assertEquals($this->fakeOwner, $this->abstractTaskMock->getOwner());
+        $this->assertSame($this->fakeOwner, $this->abstractTaskMock->getOwner());
     }
 
-    public function testSetOwnerShouldReturnTheTask()
+    public function testSetOwnerShouldReturnTheTask(): void
     {
         $rs = $this->abstractTaskMock->setOwner('owner');
         $this->assertInstanceOf(TaskInterface::class, $rs);
     }
 
-    public function testSetGetOwnerWhenOwnerSetFromOutside()
+    public function testSetGetOwnerWhenOwnerSetFromOutside(): void
     {
         $owner = 'example_owner';
         $this->abstractTaskMock->setOwner($owner);
-        $this->assertEquals($owner, $this->abstractTaskMock->getOwner());
+        $this->assertSame($owner, $this->abstractTaskMock->getOwner());
     }
 
-    public function testJsonSerializingAbstractTask()
+    public function testJsonSerializingAbstractTask(): void
     {
         $this->abstractTaskMock->setMetadata('key1', 'value1');
         $this->abstractTaskMock->setMetadata('key2', 'value2');
@@ -233,20 +237,20 @@ class AbstractTaskTest extends TestCase
                 'key1' => 'value1',
                 'key2' => 'value2',
                 'key3' => 'value3',
-                'key4' => 'value4'
+                'key4' => 'value4',
             ],
             'parameters' => [
                 'key1' => 'value1',
                 'key2' => 'value2',
                 'key3' => 'value3',
-                'key4' => 'value4'
-            ]
+                'key4' => 'value4',
+            ],
         ];
 
-        $this->assertEquals(json_encode($jsonArray), json_encode($this->abstractTaskMock));
+        $this->assertSame(json_encode($jsonArray), json_encode($this->abstractTaskMock));
     }
 
-    public function testGetCreatedAtWhenJsonEncodeIsLoadedThenItShouldStillGiveADateTimeObject()
+    public function testGetCreatedAtWhenJsonEncodeIsLoadedThenItShouldStillGiveADateTimeObject(): void
     {
         $date = new \DateTime('yesterday 12:15:00');
         $this->abstractTaskMock->setCreatedAt($date);

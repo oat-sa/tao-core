@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace oat\tao\model\security\xsrf;
 
 use JsonSerializable;
@@ -14,8 +16,9 @@ class Token implements JsonSerializable
 {
     use TokenGenerator;
 
-    const TOKEN_KEY = 'token';
-    const TIMESTAMP_KEY = 'ts';
+    public const TOKEN_KEY = 'token';
+
+    public const TIMESTAMP_KEY = 'ts';
 
     /**
      * @var string
@@ -48,7 +51,7 @@ class Token implements JsonSerializable
      *
      * @param string $token
      */
-    public function setValue($token)
+    public function setValue($token): void
     {
         $this->token = $token;
     }
@@ -57,7 +60,7 @@ class Token implements JsonSerializable
      * Set the microtime at which the token was created.
      * @param float $timestamp
      */
-    public function setCreatedAt($timestamp)
+    public function setCreatedAt($timestamp): void
     {
         $this->tokenTimeStamp = $timestamp;
     }
@@ -88,7 +91,7 @@ class Token implements JsonSerializable
     public function jsonSerialize()
     {
         return [
-            self::TOKEN_KEY     => $this->getValue(),
+            self::TOKEN_KEY => $this->getValue(),
             self::TIMESTAMP_KEY => $this->getCreatedAt(),
         ];
     }

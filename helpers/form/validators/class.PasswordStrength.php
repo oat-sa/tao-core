@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,7 +22,6 @@
  * @author Konstantin Sasim <sasim@1pt.com>
  * @license GPLv2
  * @package tao
- *
  */
 
 use oat\generis\model\user\PasswordConstraintsService;
@@ -30,18 +32,17 @@ class tao_helpers_form_validators_PasswordStrength extends tao_helpers_form_Vali
      * Short description of method evaluate
      *
      * @access public
-     * @param  values
+     * @param  $values
      * @return boolean
      */
     public function evaluate($values)
     {
         $returnValue = PasswordConstraintsService::singleton()->validate($values);
 
-        if( !$returnValue && !$this->hasOption('message') ){
-            $this->setMessage(implode( ', ', PasswordConstraintsService::singleton()->getErrors()));
+        if (! $returnValue && ! $this->hasOption('message')) {
+            $this->setMessage(implode(', ', PasswordConstraintsService::singleton()->getErrors()));
         }
 
         return (bool) $returnValue;
     }
-
 }

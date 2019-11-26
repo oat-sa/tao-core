@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,11 +19,12 @@
  *
  * Copyright (c) 2016-2017 (original work) Open Assessment Technologies SA;
  */
+
 namespace oat\tao\test\unit\modules;
 
 use common_exception_InconsistentData;
-use oat\tao\model\modules\DynamicModule;
 use oat\generis\test\TestCase;
+use oat\tao\model\modules\DynamicModule;
 
 /**
  * Test the DynamicModule pojo
@@ -28,9 +32,8 @@ use oat\generis\test\TestCase;
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
  */
-class DynamicModuleTestModuleTest extends TestCase
+class DynamicModuleTest extends TestCase
 {
-
     /**
      * Data provider
      * @return array the data
@@ -40,54 +43,53 @@ class DynamicModuleTestModuleTest extends TestCase
         return [
             [
                 [
-                    'id'          => 'foo',
-                    'name'        => 'Foo',
-                    'module'      => 'module/foo',
-                    'category'    => 'dummy',
+                    'id' => 'foo',
+                    'name' => 'Foo',
+                    'module' => 'module/foo',
+                    'category' => 'dummy',
                     'description' => 'The best foo ever',
-                    'active'      => true,
-                    'tags'        => ['required']
+                    'active' => true,
+                    'tags' => ['required'],
                 ], [
-                    'id'          => 'foo',
-                    'name'        => 'Foo',
-                    'module'      => 'module/foo',
-                    'category'    => 'dummy',
+                    'id' => 'foo',
+                    'name' => 'Foo',
+                    'module' => 'module/foo',
+                    'category' => 'dummy',
                     'description' => 'The best foo ever',
-                    'active'      => true,
-                    'tags'        => ['required']
-                ]
+                    'active' => true,
+                    'tags' => ['required'],
+                ],
             ], [
                 [
-                    'id'          => '12',
-                    'name'        => 21,
-                    'module'      => 'module/foo',
-                    'category'    => 'dummy',
+                    'id' => '12',
+                    'name' => 21,
+                    'module' => 'module/foo',
+                    'category' => 'dummy',
                 ], [
-                    'id'          => '12',
-                    'name'        => '21',
-                    'module'      => 'module/foo',
-                    'category'    => 'dummy',
+                    'id' => '12',
+                    'name' => '21',
+                    'module' => 'module/foo',
+                    'category' => 'dummy',
                     'description' => '',
-                    'active'      => true,
-                    'tags'        => []
-                ]
-            ]
+                    'active' => true,
+                    'tags' => [],
+                ],
+            ],
         ];
     }
 
     /**
      * @expectedException common_exception_InconsistentData
      */
-    public function testConstructBadId()
+    public function testConstructBadId(): void
     {
         new DynamicModule(12, 'foo', 'bar');
     }
 
-
     /**
      * @expectedException common_exception_InconsistentData
      */
-    public function testConstructEmptyId()
+    public function testConstructEmptyId(): void
     {
         new DynamicModule('', 'foo', 'bar');
     }
@@ -95,7 +97,7 @@ class DynamicModuleTestModuleTest extends TestCase
     /**
      * @expectedException common_exception_InconsistentData
      */
-    public function testConstructBadModule()
+    public function testConstructBadModule(): void
     {
         new DynamicModule('foo', true, 'bar');
     }
@@ -103,7 +105,7 @@ class DynamicModuleTestModuleTest extends TestCase
     /**
      * @expectedException common_exception_InconsistentData
      */
-    public function testConstructiEmptyModule()
+    public function testConstructiEmptyModule(): void
     {
         new DynamicModule('foo', '', 'bar');
     }
@@ -111,7 +113,7 @@ class DynamicModuleTestModuleTest extends TestCase
     /**
      * @expectedException common_exception_InconsistentData
      */
-    public function testConstructBadCategory()
+    public function testConstructBadCategory(): void
     {
         new DynamicModule('foo', 'bar', []);
     }
@@ -119,7 +121,7 @@ class DynamicModuleTestModuleTest extends TestCase
     /**
      * @expectedException common_exception_InconsistentData
      */
-    public function testConstructNoCategory()
+    public function testConstructNoCategory(): void
     {
         new DynamicModule('foo', 'bar', null);
     }
@@ -127,7 +129,7 @@ class DynamicModuleTestModuleTest extends TestCase
     /**
      * @expectedException common_exception_InconsistentData
      */
-    public function testFromArrayNoRequiredData()
+    public function testFromArrayNoRequiredData(): void
     {
         DynamicModule::fromArray([]);
     }
@@ -136,62 +138,60 @@ class DynamicModuleTestModuleTest extends TestCase
      * Test constructor and getter
      * @dataProvider accessorsProvider
      */
-    public function testConstruct($input, $output)
+    public function testConstruct($input, $output): void
     {
-
         $DynamicModule = new DynamicModule($input['id'], $input['module'], $input['category'], $input);
 
-        $this->assertEquals($output['id'], $DynamicModule->getId());
-        $this->assertEquals($output['name'], $DynamicModule->getName());
-        $this->assertEquals($output['module'], $DynamicModule->getModule());
-        $this->assertEquals($output['category'], $DynamicModule->getCategory());
-        $this->assertEquals($output['description'], $DynamicModule->getDescription());
-        $this->assertEquals($output['active'], $DynamicModule->isActive());
-        $this->assertEquals($output['tags'], $DynamicModule->getTags());
+        $this->assertSame($output['id'], $DynamicModule->getId());
+        $this->assertSame($output['name'], $DynamicModule->getName());
+        $this->assertSame($output['module'], $DynamicModule->getModule());
+        $this->assertSame($output['category'], $DynamicModule->getCategory());
+        $this->assertSame($output['description'], $DynamicModule->getDescription());
+        $this->assertSame($output['active'], $DynamicModule->isActive());
+        $this->assertSame($output['tags'], $DynamicModule->getTags());
 
-        $DynamicModule->setActive(!$output['active']);
-        $this->assertEquals(!$output['active'], $DynamicModule->isActive());
+        $DynamicModule->setActive(! $output['active']);
+        $this->assertSame(! $output['active'], $DynamicModule->isActive());
     }
 
     /**
      * Test from array and getters
      * @dataProvider accessorsProvider
      */
-    public function testFromArray($input, $output)
+    public function testFromArray($input, $output): void
     {
-
         $DynamicModule = DynamicModule::fromArray($input);
 
-        $this->assertEquals($output['id'], $DynamicModule->getId());
-        $this->assertEquals($output['name'], $DynamicModule->getName());
-        $this->assertEquals($output['module'], $DynamicModule->getModule());
-        $this->assertEquals($output['category'], $DynamicModule->getCategory());
-        $this->assertEquals($output['description'], $DynamicModule->getDescription());
-        $this->assertEquals($output['active'], $DynamicModule->isActive());
-        $this->assertEquals($output['tags'], $DynamicModule->getTags());
+        $this->assertSame($output['id'], $DynamicModule->getId());
+        $this->assertSame($output['name'], $DynamicModule->getName());
+        $this->assertSame($output['module'], $DynamicModule->getModule());
+        $this->assertSame($output['category'], $DynamicModule->getCategory());
+        $this->assertSame($output['description'], $DynamicModule->getDescription());
+        $this->assertSame($output['active'], $DynamicModule->isActive());
+        $this->assertSame($output['tags'], $DynamicModule->getTags());
 
-        $DynamicModule->setActive(!$output['active']);
-        $this->assertEquals(!$output['active'], $DynamicModule->isActive());
+        $DynamicModule->setActive(! $output['active']);
+        $this->assertSame(! $output['active'], $DynamicModule->isActive());
     }
 
     /**
      * Test encoding the object to json
      */
-    public function testJsonSerialize()
+    public function testJsonSerialize(): void
     {
         $expected = '{"id":"bar","module":"bar\/bar","bundle":"modules\/bundle.min","position":12,"name":"Bar","description":"The best bar ever","category":"dummy","active":false,"tags":["dummy","goofy"]}';
 
         $DynamicModule = new DynamicModule('bar', 'bar/bar', 'dummy', [
             'name' => 'Bar',
             'description' => 'The best bar ever',
-            'active' =>  false,
+            'active' => false,
             'position' => 12,
             'bundle' => 'modules/bundle.min',
-            'tags' => ['dummy', 'goofy']
+            'tags' => ['dummy', 'goofy'],
         ]);
 
         $serialized = json_encode($DynamicModule);
 
-        $this->assertEquals($expected, $serialized);
+        $this->assertSame($expected, $serialized);
     }
 }

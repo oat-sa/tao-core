@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -30,9 +33,9 @@ use oat\oatbox\session\SessionService;
  */
 class TokenStoreKeyValue extends ConfigurableService implements TokenStore
 {
+    public const OPTION_PERSISTENCE = 'persistence';
 
-    const OPTION_PERSISTENCE = 'persistence';
-    const TOKENS_STORAGE_KEY = 'tao_tokens';
+    public const TOKENS_STORAGE_KEY = 'tao_tokens';
 
     /**
      * @var common_persistence_KeyValuePersistence
@@ -61,7 +64,7 @@ class TokenStoreKeyValue extends ConfigurableService implements TokenStore
      * @param Token[] $tokens
      * @throws \common_Exception
      */
-    public function setTokens(array $tokens = [])
+    public function setTokens(array $tokens = []): void
     {
         $this->getPersistence()->set($this->getKey(), json_encode($tokens));
     }

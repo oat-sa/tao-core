@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License
@@ -21,9 +24,9 @@ namespace oat\tao\test\unit\model\mvc\error;
 
 use ActionEnforcingException;
 use Exception;
+use oat\generis\test\TestCase;
 use oat\oatbox\user\LoginFailedException;
 use oat\tao\model\mvc\error\ExceptionInterpretor;
-use oat\generis\test\TestCase;
 use ResolverException;
 use tao_models_classes_FileNotFoundException;
 use tao_models_classes_UserException;
@@ -35,7 +38,6 @@ use tao_models_classes_UserException;
  */
 class ExceptionInterpreterTest extends TestCase
 {
-
     public function interpretErrorProvider()
     {
         $action = 'test';
@@ -52,7 +54,6 @@ class ExceptionInterpreterTest extends TestCase
             ];
     }
 
-
     /**
      * Test the interpreter exception process and getTrace() method
      *
@@ -63,7 +64,7 @@ class ExceptionInterpreterTest extends TestCase
      * @dataProvider interpretErrorProvider
      * @throws \ReflectionException
      */
-    public function testInterpretError($exception, $expectedHttpStatus, $expectedTrace, $expectedResponseClassName)
+    public function testInterpretError($exception, $expectedHttpStatus, $expectedTrace, $expectedResponseClassName): void
     {
         $exceptionInterpreter = new ExceptionInterpretor();
         $this->setInaccessibleProperty($exceptionInterpreter, 'exception', $exception);
@@ -73,19 +74,16 @@ class ExceptionInterpreterTest extends TestCase
         $this->assertSame($expectedResponseClassName, $this->getInaccessibleProperty($exceptionInterpreter, 'responseClassName'));
     }
 
-    /**
-     *
-     */
-    public function testSetException()
+
+    public function testSetException(): void
     {
         $ExceptionInterpretor = new ExceptionInterpretor();
         $exception = new Exception();
         $this->assertSame($ExceptionInterpretor, $ExceptionInterpretor->setException($exception));
         $this->assertSame($exception, $this->getInaccessibleProperty($ExceptionInterpretor, 'exception'));
-
     }
 
-    public function testGetHttpCode()
+    public function testGetHttpCode(): void
     {
         $fixtureHttpCode = 407;
         $ExceptionInterpretor = new ExceptionInterpretor();
@@ -93,13 +91,32 @@ class ExceptionInterpreterTest extends TestCase
         $this->assertSame($fixtureHttpCode, $ExceptionInterpretor->getHttpCode());
     }
 
-    public function testGetResponseClassName()
+    public function testGetResponseClassName(): void
     {
         $fixtureClassName = 'MainResponse';
         $expected = 'oat\\tao\\model\\mvc\\error\\' . $fixtureClassName;
         $ExceptionInterpretor = new ExceptionInterpretor();
         $this->setInaccessibleProperty($ExceptionInterpretor, 'responseClassName', $fixtureClassName);
-        $this->assertEquals($expected, $ExceptionInterpretor->getResponseClassName());
+        $this->assertSame($expected, $ExceptionInterpretor->getResponseClassName());
+    }
+
+    /**
+     * Calls protected/private method of a class.
+     *
+     * @param \Object $object Instantiated object that we will run method on.
+     * @param string $methodName Method name to call
+     * @param array $parameters Array of parameters to pass into method.
+     *
+     * @return mixed Method return
+     * @throws \ReflectionException if the class or method does not exist.
+     */
+    public function invokeProtectedMethod($object, $methodName, array $parameters = [])
+    {
+        $reflection = new \ReflectionClass(get_class($object));
+        $method = $reflection->getMethod($methodName);
+        $method->setAccessible(true);
+
+        return $method->invokeArgs($object, $parameters);
     }
 
     /**
@@ -137,24 +154,5 @@ class ExceptionInterpreterTest extends TestCase
         $property->setValue($object, $value);
         $property->setAccessible(false);
         return $this;
-    }
-
-    /**
-     * Calls protected/private method of a class.
-     *
-     * @param \Object $object Instantiated object that we will run method on.
-     * @param string $methodName Method name to call
-     * @param array $parameters Array of parameters to pass into method.
-     *
-     * @return mixed Method return
-     * @throws \ReflectionException if the class or method does not exist.
-     */
-    public function invokeProtectedMethod($object, $methodName, array $parameters = array())
-    {
-        $reflection = new \ReflectionClass(get_class($object));
-        $method = $reflection->getMethod($methodName);
-        $method->setAccessible(true);
-
-        return $method->invokeArgs($object, $parameters);
     }
 }

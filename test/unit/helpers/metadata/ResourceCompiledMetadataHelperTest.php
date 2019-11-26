@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,8 +20,8 @@
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA ;
  */
 
-use oat\tao\helpers\metadata\ResourceCompiledMetadataHelper;
 use oat\generis\test\TestCase;
+use oat\tao\helpers\metadata\ResourceCompiledMetadataHelper;
 
 class ResourceCompiledMetadataHelperTest extends TestCase
 {
@@ -28,7 +31,7 @@ class ResourceCompiledMetadataHelperTest extends TestCase
     /**
      * @inheritdoc
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->object = new ResourceCompiledMetadataHelper();
@@ -41,12 +44,12 @@ class ResourceCompiledMetadataHelperTest extends TestCase
      *
      * @dataProvider providerTestGetValue
      */
-    public function testGetValue($data, $name, $expectedValue)
+    public function testGetValue($data, $name, $expectedValue): void
     {
         $this->object->unserialize($data);
         $result = $this->object->getValue($name);
 
-        $this->assertEquals($expectedValue, $result, 'Metadata parameter value must be as expected.');
+        $this->assertSame($expectedValue, $result, 'Metadata parameter value must be as expected.');
     }
 
     /**
@@ -55,12 +58,12 @@ class ResourceCompiledMetadataHelperTest extends TestCase
      *
      * @dataProvider providerTestGetLabel
      */
-    public function testGetLabel($data, $expectedLabel)
+    public function testGetLabel($data, $expectedLabel): void
     {
         $this->object->unserialize($data);
         $label = $this->object->getLabel();
 
-        $this->assertEquals($expectedLabel, $label, 'Label must be as expected.');
+        $this->assertSame($expectedLabel, $label, 'Label must be as expected.');
     }
 
     /**
@@ -70,7 +73,7 @@ class ResourceCompiledMetadataHelperTest extends TestCase
      *
      * @dataProvider providerTestUnserializeNotString
      */
-    public function testUnserializeNotString($data)
+    public function testUnserializeNotString($data): void
     {
         $this->expectException(common_exception_InconsistentData::class);
 
@@ -80,11 +83,11 @@ class ResourceCompiledMetadataHelperTest extends TestCase
     /**
      * Test unserialize method with invalid JSON string.
      */
-    public function testUnserialiseInvalidJson()
+    public function testUnserialiseInvalidJson(): void
     {
         $this->expectException(common_exception_InconsistentData::class);
 
-        $data = "INVALID_JSON_STRING";
+        $data = 'INVALID_JSON_STRING';
         $this->object->unserialize($data);
     }
 

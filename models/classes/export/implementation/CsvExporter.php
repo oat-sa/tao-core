@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
- *
  */
 
 namespace oat\tao\model\export\implementation;
@@ -33,8 +35,9 @@ use Traversable;
  */
 class CsvExporter extends AbstractFileExporter implements PsrResponseExporter
 {
-    const FILE_NAME = 'export.csv';
-    const CSV_CONTENT_TYPE = 'text/csv; charset=UTF-8';
+    public const FILE_NAME = 'export.csv';
+
+    public const CSV_CONTENT_TYPE = 'text/csv; charset=UTF-8';
 
     /**
      * @var string value of `Content-Type` header
@@ -53,8 +56,8 @@ class CsvExporter extends AbstractFileExporter implements PsrResponseExporter
     {
         $data = $this->data;
 
-        if( !is_array( $data ) && !$data instanceof Traversable ){
-             throw new \common_exception_InvalidArgumentType('Entity you trying to export is not Traversable');
+        if (! is_array($data) && ! $data instanceof Traversable) {
+            throw new \common_exception_InvalidArgumentType('Entity you trying to export is not Traversable');
         }
 
         if ($columnNames && $data) {
@@ -67,7 +70,7 @@ class CsvExporter extends AbstractFileExporter implements PsrResponseExporter
 
         $file->rewind();
         $exportData = '';
-        while (!$file->eof()) {
+        while (! $file->eof()) {
             $exportData .= $file->fgets();
         }
         $exportData = trim($exportData);

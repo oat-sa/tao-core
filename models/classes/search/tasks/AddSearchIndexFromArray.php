@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,19 +18,18 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA;
- *
- *
  */
+
 namespace oat\tao\model\search\tasks;
 
+use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\action\Action;
 use oat\tao\model\search\index\IndexService;
 use oat\tao\model\search\SearchService;
 use oat\tao\model\taskQueue\Task\TaskAwareInterface;
 use oat\tao\model\taskQueue\Task\TaskAwareTrait;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use oat\generis\model\OntologyAwareTrait;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 /**
  * Class AddSearchIndexFromArray
@@ -35,18 +37,20 @@ use oat\generis\model\OntologyAwareTrait;
  * @author Aleksej Tikhanovich <aleksej@taotesting.com>
  * @package oat\tao\model\search\tasks
  */
-class AddSearchIndexFromArray implements Action,ServiceLocatorAwareInterface, TaskAwareInterface
+class AddSearchIndexFromArray implements Action, ServiceLocatorAwareInterface, TaskAwareInterface
 {
     use ServiceLocatorAwareTrait;
     use OntologyAwareTrait;
     use TaskAwareTrait;
+
     /**
      * @param $params
      * @return \common_report_Report
      * @throws \common_exception_Error
      * @throws \common_exception_MissingParameter
      */
-    public function __invoke($params) {
+    public function __invoke($params)
+    {
         if (count($params) < 2) {
             throw new \common_exception_MissingParameter();
         }
@@ -60,14 +64,13 @@ class AddSearchIndexFromArray implements Action,ServiceLocatorAwareInterface, Ta
         try {
             $document = $indexService->createDocumentFromArray([
                 'id' => $id,
-                'body' => $body
+                'body' => $body,
             ]);
             SearchService::getSearchImplementation()->index([$document]);
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             $report->add(new \common_report_Report(\common_report_Report::TYPE_ERROR, __('Error adding search index for %s with message %s', $id, $e->getMessage())));
         }
 
         return $report;
     }
-
 }

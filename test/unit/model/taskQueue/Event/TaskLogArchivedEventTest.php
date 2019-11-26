@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\test\unit\model\taskQueue\Event;
@@ -32,28 +34,28 @@ class TaskLogArchivedEventTest extends TestCase
     /** @var EntityInterface */
     private $forced = false;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->entityMock = $this->createMock(EntityInterface::class);
     }
 
-    public function testGetTaskLogEntity()
+    public function testGetTaskLogEntity(): void
     {
         $this->assertSame($this->entityMock, $this->createTestInstance()->getTaskLogEntity());
     }
 
-    public function testIsForced()
+    public function testIsForced(): void
     {
         $this->forced = true;
 
         $this->assertTrue($this->createTestInstance()->isForced());
     }
 
-    public function testGetName()
+    public function testGetName(): void
     {
-        $this->assertEquals(TaskLogArchivedEvent::class, $this->createTestInstance()->getName());
+        $this->assertSame(TaskLogArchivedEvent::class, $this->createTestInstance()->getName());
     }
 
     /**

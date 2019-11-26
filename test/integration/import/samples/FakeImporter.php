@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,13 +18,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
- *
  */
 
 namespace oat\tao\test\integration\import\samples;
 
-use oat\tao\model\import\AbstractImporter;
 use oat\oatbox\filesystem\File;
+use oat\tao\model\import\AbstractImporter;
 
 /**
  * Class FakeImporter
@@ -30,13 +32,11 @@ use oat\oatbox\filesystem\File;
  */
 class FakeImporter extends AbstractImporter
 {
-
     /**
      * @param File $file
      * @return \common_report_Report
      */
     public function import(File $file)
     {
-
     }
 }

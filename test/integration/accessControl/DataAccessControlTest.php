@@ -1,19 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace oat\tao\test\integration\accessControl;
 
 use oat\generis\model\data\permission\PermissionInterface;
 use oat\generis\model\GenerisRdf;
 use oat\generis\test\GenerisPhpUnitTestRunner;
+use oat\generis\test\MockObject;
 use oat\oatbox\user\User;
 use oat\tao\model\accessControl\data\DataAccessControl;
 use oat\tao\model\TaoOntology;
 use PHPUnit\Framework\Assert;
-use oat\generis\test\MockObject;
 
 class DataAccessControlTest extends GenerisPhpUnitTestRunner
 {
-    const SAMPLE_ITEMS_LABEL = 'SampleTestItem_';
+    public const SAMPLE_ITEMS_LABEL = 'SampleTestItem_';
 
     /**
      * @var \tao_models_classes_UserService
@@ -28,35 +30,60 @@ class DataAccessControlTest extends GenerisPhpUnitTestRunner
     /**
      * @var array user data set
      */
-    private $testAdminData = array(
-        GenerisRdf::PROPERTY_USER_LOGIN		=> 	'jdoe_admin',
-        GenerisRdf::PROPERTY_USER_PASSWORD	=>	'jdoe_admin123',
-        GenerisRdf::PROPERTY_USER_LASTNAME	=>	'Doe',
-        GenerisRdf::PROPERTY_USER_FIRSTNAME	=>	'John',
-        GenerisRdf::PROPERTY_USER_MAIL		=>	'jdoe@tao.lu',
-        GenerisRdf::PROPERTY_USER_UILG		=>	'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
-        GenerisRdf::PROPERTY_USER_ROLES		=>  'http://www.tao.lu/Ontologies/TAO.rdf#GlobalManager',
-        'plainPassword'	                    =>	'jdoe_admin123',
-    );
+    private $testAdminData = [
+        GenerisRdf::PROPERTY_USER_LOGIN => 'jdoe_admin',
+        GenerisRdf::PROPERTY_USER_PASSWORD => 'jdoe_admin123',
+        GenerisRdf::PROPERTY_USER_LASTNAME => 'Doe',
+        GenerisRdf::PROPERTY_USER_FIRSTNAME => 'John',
+        GenerisRdf::PROPERTY_USER_MAIL => 'jdoe@tao.lu',
+        GenerisRdf::PROPERTY_USER_UILG => 'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
+        GenerisRdf::PROPERTY_USER_ROLES => 'http://www.tao.lu/Ontologies/TAO.rdf#GlobalManager',
+        'plainPassword' => 'jdoe_admin123',
+    ];
 
     /**
      * @var array user data set
      */
-    private $testAnonymousData = array(
-        GenerisRdf::PROPERTY_USER_LOGIN		=> 	'jdoe_anon',
-        GenerisRdf::PROPERTY_USER_PASSWORD	=>	'jdoe_anon123',
-        GenerisRdf::PROPERTY_USER_LASTNAME	=>	'Doe',
-        GenerisRdf::PROPERTY_USER_FIRSTNAME	=>	'John',
-        GenerisRdf::PROPERTY_USER_MAIL		=>	'jdoe@tao.lu',
-        GenerisRdf::PROPERTY_USER_UILG		=>	'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
-        GenerisRdf::PROPERTY_USER_ROLES		=>  'http://www.tao.lu/Ontologies/TAO.rdf#Anonymous',
-        'plainPassword'	                    =>	'jdoe_anon123'
-    );
+    private $testAnonymousData = [
+        GenerisRdf::PROPERTY_USER_LOGIN => 'jdoe_anon',
+        GenerisRdf::PROPERTY_USER_PASSWORD => 'jdoe_anon123',
+        GenerisRdf::PROPERTY_USER_LASTNAME => 'Doe',
+        GenerisRdf::PROPERTY_USER_FIRSTNAME => 'John',
+        GenerisRdf::PROPERTY_USER_MAIL => 'jdoe@tao.lu',
+        GenerisRdf::PROPERTY_USER_UILG => 'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
+        GenerisRdf::PROPERTY_USER_ROLES => 'http://www.tao.lu/Ontologies/TAO.rdf#Anonymous',
+        'plainPassword' => 'jdoe_anon123',
+    ];
 
     private $adminUser;
+
     private $anonUser;
 
-    public function setUp()
+    /**
+     * Clearing up, removing created users (if any) and created sample items (if any)
+     */
+    public function __destruct()
+    {
+        if ($this->getUserByLogin($this->testAdminData[GenerisRdf::PROPERTY_USER_LOGIN])) {
+            $this->userService->removeUser($this->getUserByLogin($this->testAdminData[GenerisRdf::PROPERTY_USER_LOGIN]));
+        }
+        if ($this->getUserByLogin($this->testAnonymousData[GenerisRdf::PROPERTY_USER_LOGIN])) {
+            $this->userService->removeUser($this->getUserByLogin($this->testAnonymousData[GenerisRdf::PROPERTY_USER_LOGIN]));
+        }
+
+        $items = $this->getItemByLabel(self::SAMPLE_ITEMS_LABEL);
+        if ($items) {
+            $itemService = \taoItems_models_classes_ItemsService::singleton();
+
+            foreach ($items as $item) {
+                if ($item) {
+                    $itemService->deleteResource($item);
+                }
+            }
+        }
+    }
+
+    protected function setUp(): void
     {
         $this->userService = \tao_models_classes_UserService::singleton();
         $this->testAdminData[GenerisRdf::PROPERTY_USER_PASSWORD] = \core_kernel_users_Service::getPasswordHash()->encrypt($this->testAdminData[GenerisRdf::PROPERTY_USER_PASSWORD]);
@@ -66,7 +93,7 @@ class DataAccessControlTest extends GenerisPhpUnitTestRunner
     /**
      * Test hasAccess method of DataAccessControl class
      */
-    public function testHasAccess()
+    public function testHasAccess(): void
     {
         //Generate sample items to test access on and move their uris into array
         $this->createSampleItems();
@@ -99,7 +126,7 @@ class DataAccessControlTest extends GenerisPhpUnitTestRunner
 
             $this->userService->logout();
         } else {
-            $this->fail("Admin user was not created, so no tests for him");
+            $this->fail('Admin user was not created, so no tests for him');
         }
 
         //Run assertions for the user which should have access only in case of FreeAccess provider configured
@@ -121,7 +148,7 @@ class DataAccessControlTest extends GenerisPhpUnitTestRunner
 
             $this->userService->logout();
         } else {
-            $this->fail("Anon user was not created, so no tests for him");
+            $this->fail('Anon user was not created, so no tests for him');
         }
     }
 
@@ -131,7 +158,7 @@ class DataAccessControlTest extends GenerisPhpUnitTestRunner
      * @param User $user user to check on
      * @param array $urisList list of sample items uris to check on
      */
-    private function check(User $user, array $urisList = [])
+    private function check(User $user, array $urisList = []): void
     {
         $expectedClassName = 'tao_actions_RdfController';
         $expectedAction = 'moveAll';
@@ -161,19 +188,17 @@ class DataAccessControlTest extends GenerisPhpUnitTestRunner
         if (
             $permissionProvider instanceof FreeAccessTestPermissionProvider
             ||
-            ($permissionProvider instanceof DACTestPermissionProvider && in_array('http://www.tao.lu/Ontologies/TAO.rdf#GlobalManager', $user->getRoles()))
+            ($permissionProvider instanceof DACTestPermissionProvider && in_array('http://www.tao.lu/Ontologies/TAO.rdf#GlobalManager', $user->getRoles(), true))
         ) {
             return Assert::isTrue();
-        } else {
-            return Assert::isFalse();
         }
+        return Assert::isFalse();
     }
-
 
     /**
      * Set FreeAccess permission provider as current permission provider
      */
-    private function setFreeAccessTestPermissionProvider()
+    private function setFreeAccessTestPermissionProvider(): void
     {
         $this->dac = $this->getMockBuilder(DataAccessControl::class)->setMethods(['getPermissionProvider'])->getMock();
         $this->dac->method('getPermissionProvider')->will($this->returnValue(new FreeAccessTestPermissionProvider()));
@@ -182,7 +207,7 @@ class DataAccessControlTest extends GenerisPhpUnitTestRunner
     /**
      * Set DAC permission provider as current permission provider
      */
-    private function setDACTestPermissionProvider()
+    private function setDACTestPermissionProvider(): void
     {
         $this->dac = $this->getMockBuilder(DataAccessControl::class)->setMethods(['getPermissionProvider'])->getMock();
         $this->dac->method('getPermissionProvider')->will($this->returnValue(new DACTestPermissionProvider()));
@@ -191,7 +216,7 @@ class DataAccessControlTest extends GenerisPhpUnitTestRunner
     /**
      * Set NoAccess permission provider as current permission provider
      */
-    private function setNoAccessTestPermissionProvider()
+    private function setNoAccessTestPermissionProvider(): void
     {
         $this->dac = $this->getMockBuilder(DataAccessControl::class)->setMethods(['getPermissionProvider'])->getMock();
         $this->dac->method('getPermissionProvider')->will($this->returnValue(new NoAccessTestPermissionProvider()));
@@ -251,11 +276,12 @@ class DataAccessControlTest extends GenerisPhpUnitTestRunner
      * @param $login
      * @return \core_kernel_classes_Resource|mixed
      */
-    private function getUserByLogin($login) {
+    private function getUserByLogin($login)
+    {
         $class = new \core_kernel_classes_Class(GenerisRdf::CLASS_GENERIS_USER);
         $users = $class->searchInstances(
-            array(GenerisRdf::PROPERTY_USER_LOGIN => $login),
-            array('like' => false, 'recursive' => true)
+            [GenerisRdf::PROPERTY_USER_LOGIN => $login],
+            ['like' => false, 'recursive' => true]
         );
 
         return current($users);
@@ -264,11 +290,11 @@ class DataAccessControlTest extends GenerisPhpUnitTestRunner
     /**
      * Create sample items
      */
-    private function createSampleItems()
+    private function createSampleItems(): void
     {
         $itemService = \taoItems_models_classes_ItemsService::singleton();
         for ($i = 0; $i < 5; $i++) {
-            $itemService->createInstance($itemService->getRootClass(), self::SAMPLE_ITEMS_LABEL.$i);
+            $itemService->createInstance($itemService->getRootClass(), self::SAMPLE_ITEMS_LABEL . $i);
         }
     }
 
@@ -278,41 +304,14 @@ class DataAccessControlTest extends GenerisPhpUnitTestRunner
      * @param $label
      * @return \core_kernel_classes_Resource[]
      */
-    private function getItemByLabel($label) {
-        $class = new \core_kernel_classes_Class('http://www.tao.lu/Ontologies/TAOItem.rdf#Item');
-        $items = $class->searchInstances(
-            array('http://www.w3.org/2000/01/rdf-schema#label' => $label),
-            array('like' => true, 'recursive' => true)
-        );
-
-        return $items;
-    }
-
-
-    /**
-     * Clearing up, removing created users (if any) and created sample items (if any)
-     */
-    public function __destruct()
+    private function getItemByLabel($label)
     {
-        if ($this->getUserByLogin($this->testAdminData[GenerisRdf::PROPERTY_USER_LOGIN])) {
-            $this->userService->removeUser( $this->getUserByLogin($this->testAdminData[GenerisRdf::PROPERTY_USER_LOGIN]) );
-        }
-        if ($this->getUserByLogin($this->testAnonymousData[GenerisRdf::PROPERTY_USER_LOGIN])) {
-            $this->userService->removeUser( $this->getUserByLogin($this->testAnonymousData[GenerisRdf::PROPERTY_USER_LOGIN]) );
-        }
-
-        $items = $this->getItemByLabel(self::SAMPLE_ITEMS_LABEL);
-        if ($items) {
-            $itemService = \taoItems_models_classes_ItemsService::singleton();
-
-            foreach ($items as $item) {
-                if ($item) {
-                    $itemService->deleteResource($item);
-                }
-            }
-        }
+        $class = new \core_kernel_classes_Class('http://www.tao.lu/Ontologies/TAOItem.rdf#Item');
+        return $class->searchInstances(
+            ['http://www.w3.org/2000/01/rdf-schema#label' => $label],
+            ['like' => true, 'recursive' => true]
+        );
     }
-
 }
 
 /**
@@ -325,7 +324,7 @@ class FreeAccessTestPermissionProvider implements PermissionInterface
 {
     public function getPermissions(User $user, array $resourceIds)
     {
-        return array_fill_keys($resourceIds, array(PermissionInterface::RIGHT_UNSUPPORTED));
+        return array_fill_keys($resourceIds, [PermissionInterface::RIGHT_UNSUPPORTED]);
     }
 
     public function getSupportedRights()
@@ -333,7 +332,7 @@ class FreeAccessTestPermissionProvider implements PermissionInterface
         return [];
     }
 
-    public function onResourceCreated(\core_kernel_classes_Resource $resource)
+    public function onResourceCreated(\core_kernel_classes_Resource $resource): void
     {
         // TODO: Implement onResourceCreated() method.
     }
@@ -348,32 +347,30 @@ class FreeAccessTestPermissionProvider implements PermissionInterface
 class DACTestPermissionProvider implements PermissionInterface
 {
     private $adminPermissions = [
-        'WRITE'
+        'WRITE',
     ];
 
     private $anonPermissions = [
-        'NONE'
+        'NONE',
     ];
-
 
     public function getPermissions(User $user, array $resourceIds)
     {
-        if (in_array('http://www.tao.lu/Ontologies/TAO.rdf#GlobalManager', $user->getRoles())) {
+        if (in_array('http://www.tao.lu/Ontologies/TAO.rdf#GlobalManager', $user->getRoles(), true)) {
             return array_fill_keys($resourceIds, $this->adminPermissions);
-        } else {
-            return array_fill_keys($resourceIds, $this->anonPermissions);
         }
+        return array_fill_keys($resourceIds, $this->anonPermissions);
     }
 
     public function getSupportedRights()
     {
         return [
             'WRITE',
-            'NONE'
+            'NONE',
         ];
     }
 
-    public function onResourceCreated(\core_kernel_classes_Resource $resource)
+    public function onResourceCreated(\core_kernel_classes_Resource $resource): void
     {
         // TODO: Implement onResourceCreated() method.
     }
@@ -388,9 +385,8 @@ class DACTestPermissionProvider implements PermissionInterface
 class NoAccessTestPermissionProvider implements PermissionInterface
 {
     private $permissions = [
-        'NONE'
+        'NONE',
     ];
-
 
     public function getPermissions(User $user, array $resourceIds)
     {
@@ -400,11 +396,11 @@ class NoAccessTestPermissionProvider implements PermissionInterface
     public function getSupportedRights()
     {
         return [
-            'NONE'
+            'NONE',
         ];
     }
 
-    public function onResourceCreated(\core_kernel_classes_Resource $resource)
+    public function onResourceCreated(\core_kernel_classes_Resource $resource): void
     {
         // TODO: Implement onResourceCreated() method.
     }

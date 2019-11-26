@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -82,7 +85,7 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
             $webhookConfig->getUrl(),
             [
                 'Content-Type' => $payloadFactory->getContentType(),
-                'Accept' => $this->getWebhookResponseFactory()->getAcceptedContentType()
+                'Accept' => $this->getWebhookResponseFactory()->getAcceptedContentType(),
             ],
             $body
         );
@@ -97,26 +100,30 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
      */
     private function performRequest(RequestInterface $request, WebhookAuthInterface $authConfig = null)
     {
-        $errorReport = $response =null;
+        $errorReport = $response = null;
         try {
             $response = $this->getWebhookSender()->performRequest($request, $authConfig);
         } catch (ServerException $connectException) {
             $this->retryTask();
             $errorReport = $this->getWebhookTaskReports()->reportBadResponseException(
-                $this->getTaskContext(), $connectException
+                $this->getTaskContext(),
+                $connectException
             );
         } catch (BadResponseException $badResponseException) {
             $errorReport = $this->getWebhookTaskReports()->reportBadResponseException(
-                $this->getTaskContext(), $badResponseException
+                $this->getTaskContext(),
+                $badResponseException
             );
         } catch (ConnectException $connectException) {
             $this->retryTask();
             $errorReport = $this->getWebhookTaskReports()->reportConnectException(
-                $this->getTaskContext(), $connectException
+                $this->getTaskContext(),
+                $connectException
             );
         } catch (RequestException $requestException) {
             $errorReport = $this->getWebhookTaskReports()->reportRequestException(
-                $this->getTaskContext(), $requestException
+                $this->getTaskContext(),
+                $requestException
             );
         }
 
@@ -131,7 +138,7 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
      */
     private function handleResponse(ResponseInterface $response)
     {
-        if (!$this->isAcceptableResponseStatusCode($response->getStatusCode())) {
+        if (! $this->isAcceptableResponseStatusCode($response->getStatusCode())) {
             $this->retryTask();
             return $this->getWebhookTaskReports()->reportInvalidStatusCode($this->getTaskContext(), $response);
         }
@@ -142,14 +149,18 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
         }
 
         $eventId = $this->params->getEventId();
-        if (!$parsedResponse->isDelivered($eventId)) {
+        if (! $parsedResponse->isDelivered($eventId)) {
             return $this->getWebhookTaskReports()->reportInvalidAcknowledgement(
-                $this->getTaskContext(), $response, $parsedResponse
+                $this->getTaskContext(),
+                $response,
+                $parsedResponse
             );
         }
 
         return $this->getWebhookTaskReports()->reportSuccess(
-            $this->getTaskContext(), $response, $parsedResponse->getStatus($eventId)
+            $this->getTaskContext(),
+            $response,
+            $parsedResponse->getStatus($eventId)
         );
     }
 
@@ -170,7 +181,7 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
     {
         $webhookConfig = $this->getWebhookRegistry()->getWebhookConfig($this->params->getWebhookConfigId());
         if ($webhookConfig === null) {
-            throw new \common_exception_NotFound("Webhook config '$webhookConfig' not found");
+            throw new \common_exception_NotFound("Webhook config '${webhookConfig}' not found");
         }
         return $webhookConfig;
     }
@@ -256,9 +267,9 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
         return $context;
     }
 
-    private function retryTask()
+    private function retryTask(): void
     {
-        if (!$this->params->isMaxRetryCountReached()) {
+        if (! $this->params->isMaxRetryCountReached()) {
             $this->params->increaseRetryCount();
             $this->getWebhookTaskService()->createTask($this->params);
         }

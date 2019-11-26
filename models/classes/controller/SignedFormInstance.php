@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace oat\tao\model\controller;
 
 use oat\oatbox\service\ServiceManager;
@@ -11,7 +13,7 @@ use tao_helpers_form_FormFactory;
 
 class SignedFormInstance extends tao_actions_form_Instance
 {
-    const SIGNATURE_ELEMENT_NAME = 'signature';
+    public const SIGNATURE_ELEMENT_NAME = 'signature';
 
     /**
      * @return mixed|void
@@ -27,7 +29,7 @@ class SignedFormInstance extends tao_actions_form_Instance
     /**
      * @throws \common_Exception
      */
-    protected function addSignature()
+    protected function addSignature(): void
     {
         $signature = tao_helpers_form_FormFactory::getElement(self::SIGNATURE_ELEMENT_NAME, 'Hidden');
 

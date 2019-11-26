@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,11 +23,11 @@
 namespace oat\tao\test\unit\webhooks\task;
 
 use GuzzleHttp\Exception\GuzzleException;
+use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
 use oat\tao\model\webhooks\configEntity\WebhookAuthInterface;
 use oat\tao\model\webhooks\task\WebhookSender;
 use Psr\Http\Message\RequestInterface;
-use oat\generis\test\MockObject;
 
 class WebhookSenderTest extends TestCase
 {
@@ -32,7 +35,7 @@ class WebhookSenderTest extends TestCase
      * @throws GuzzleException
      * @throws \common_exception_InvalidArgumentType
      */
-    public function testPerformRequestWithAuth()
+    public function testPerformRequestWithAuth(): void
     {
         /** @var MockObject|RequestInterface $request */
         $request = $this->createMock(RequestInterface::class);

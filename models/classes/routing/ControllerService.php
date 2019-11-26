@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,47 +25,12 @@
 namespace oat\tao\model\routing;
 
 use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\http\Controller;
 use ReflectionClass;
 use ReflectionMethod;
 
 class ControllerService extends ConfigurableService
 {
-    const SERVICE_ID = 'tao/controllerService';
-
-    /**
-     * @param $controllerClass
-     * @param string $action
-     * @throws RouterException
-     */
-    private function checkAnnotations ($controllerClass, $action = '') {
-        /** @var RouteAnnotationService $routeAnnotationService */
-        $routeAnnotationService = $this->getServiceLocator()->get(RouteAnnotationService::SERVICE_ID);
-        // extra layer of the security - to not launch action if denied
-        if (!$routeAnnotationService->hasAccess($controllerClass, $action))
-        {
-            $message = $action ? "Unable to run the action '"
-                . $action . "' in '" . $controllerClass
-                . "', blocked by route annotations." : "Class '$controllerClass' blocked by route annotation";
-            throw new RouterException($message);
-        }
-    }
-
-    /**
-     * @param $controllerClass
-     * @throws RouterException
-     */
-    private function checkAbstract($controllerClass)
-    {
-        try {
-            $abstractClass = new ReflectionClass($controllerClass);
-        } catch (\ReflectionException $e) {
-            throw new RouterException($e->getMessage());
-        }
-        if ($abstractClass->isAbstract()) {
-            throw new RouterException('Attempt to run an action from the Abstract class "' . $controllerClass . '"');
-        }
-    }
+    public const SERVICE_ID = 'tao/controllerService';
 
     /**
      * @param string $controllerClass
@@ -81,24 +49,6 @@ class ControllerService extends ConfigurableService
     }
 
     /**
-     * @param $class
-     * @param $action
-     * @throws RouterException
-     */
-    private function checkPublic($class, $action)
-    {
-        try {
-            // protected method
-            $reflection = new ReflectionMethod($class, $action);
-            if (!$reflection->isPublic()) {
-                throw new RouterException('The method "' . $action .'" is not public in the class "' . $class . '"');
-            }
-        } catch (\ReflectionException $e) {
-            throw new RouterException($e->getMessage());
-        }
-    }
-
-    /**
      * @param string $controllerClass
      * @param string $action
      * @throws RouterException
@@ -112,5 +62,57 @@ class ControllerService extends ConfigurableService
         $this->checkAnnotations($controllerClass, $action);
 
         return $action;
+    }
+
+    /**
+     * @param $controllerClass
+     * @param string $action
+     * @throws RouterException
+     */
+    private function checkAnnotations($controllerClass, $action = ''): void
+    {
+        /** @var RouteAnnotationService $routeAnnotationService */
+        $routeAnnotationService = $this->getServiceLocator()->get(RouteAnnotationService::SERVICE_ID);
+        // extra layer of the security - to not launch action if denied
+        if (! $routeAnnotationService->hasAccess($controllerClass, $action)) {
+            $message = $action ? "Unable to run the action '"
+                . $action . "' in '" . $controllerClass
+                . "', blocked by route annotations." : "Class '${controllerClass}' blocked by route annotation";
+            throw new RouterException($message);
+        }
+    }
+
+    /**
+     * @param $controllerClass
+     * @throws RouterException
+     */
+    private function checkAbstract($controllerClass): void
+    {
+        try {
+            $abstractClass = new ReflectionClass($controllerClass);
+        } catch (\ReflectionException $e) {
+            throw new RouterException($e->getMessage());
+        }
+        if ($abstractClass->isAbstract()) {
+            throw new RouterException('Attempt to run an action from the Abstract class "' . $controllerClass . '"');
+        }
+    }
+
+    /**
+     * @param $class
+     * @param $action
+     * @throws RouterException
+     */
+    private function checkPublic($class, $action): void
+    {
+        try {
+            // protected method
+            $reflection = new ReflectionMethod($class, $action);
+            if (! $reflection->isPublic()) {
+                throw new RouterException('The method "' . $action . '" is not public in the class "' . $class . '"');
+            }
+        } catch (\ReflectionException $e) {
+            throw new RouterException($e->getMessage());
+        }
     }
 }

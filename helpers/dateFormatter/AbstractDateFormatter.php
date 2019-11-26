@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -31,7 +34,7 @@ use tao_helpers_Date as DateHelper;
  */
 class AbstractDateFormatter extends Configurable implements DateFormatterInterface
 {
-    const REPLACEMENTS = [
+    public const REPLACEMENTS = [
         'A' => 'A',      // for the sake of escaping below
         'a' => 'a',      // for the sake of escaping below
         'B' => '',       // Swatch internet time (.beats), no equivalent
@@ -94,8 +97,8 @@ class AbstractDateFormatter extends Configurable implements DateFormatterInterfa
      */
     public function getFormat($format)
     {
-        if (!isset($this->datetimeFormats[$format])) {
-            if (!isset($this->datetimeFormats[DateHelper::FORMAT_FALLBACK])) {
+        if (! isset($this->datetimeFormats[$format])) {
+            if (! isset($this->datetimeFormats[DateHelper::FORMAT_FALLBACK])) {
                 Logger::w('Unknown date format ' . $format . ' for ' . __FUNCTION__, 'TAO');
                 return '';
             }

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,7 +19,6 @@
  *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *
  */
 
 use oat\tao\helpers\form\elements\xhtml\CsrfToken;
@@ -31,7 +33,7 @@ use tao_helpers_form_FormFactory as FormFactory;
  */
 abstract class tao_helpers_form_FormContainer
 {
-    const CSRF_PROTECTION_OPTION = 'csrf_protection';
+    public const CSRF_PROTECTION_OPTION = 'csrf_protection';
 
     /**
      * the form instance contained
@@ -77,8 +79,8 @@ abstract class tao_helpers_form_FormContainer
      *
      * @access public
      * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
-     * @param  array data
-     * @param  array options
+     * @param  array $data
+     * @param  array $options
      */
     public function __construct($data = [], $options = [])
     {
@@ -101,7 +103,7 @@ abstract class tao_helpers_form_FormContainer
         }
 
         // set the values in case of default values
-        if (is_array($this->data) && !empty($this->data)) {
+        if (is_array($this->data) && ! empty($this->data)) {
             $this->form->setValues($this->data);
         }
 
@@ -115,7 +117,7 @@ abstract class tao_helpers_form_FormContainer
             $this->validate();
         }
 
-        if (!empty($_POST)) {
+        if (! empty($_POST)) {
             $this->postData = $_POST;
         }
     }
@@ -193,7 +195,7 @@ abstract class tao_helpers_form_FormContainer
      * Initialize the CSRF protection element for the form.
      * @throws common_Exception
      */
-    private function initCsrfProtection()
+    private function initCsrfProtection(): void
     {
         $csrfTokenElement = FormFactory::getElement(TokenService::CSRF_TOKEN_HEADER, CsrfToken::class);
         $this->form->addElement($csrfTokenElement, true);

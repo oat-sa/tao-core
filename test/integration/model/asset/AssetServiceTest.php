@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,14 +18,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
- *
  */
+
 namespace oat\tao\test\integration\model\asset;
 
 use oat\generis\test\GenerisPhpUnitTestRunner;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\service\ApplicationService;
-
 
 /**
  * Test case for the Service {@link oat\tao\model\asset\AssetService}
@@ -31,14 +33,14 @@ use oat\tao\model\service\ApplicationService;
  */
 class AssetServiceTest extends GenerisPhpUnitTestRunner
 {
-    const TEST_TAO_VERSION = 'TEST_TAO_VERSION';
+    public const TEST_TAO_VERSION = 'TEST_TAO_VERSION';
 
     /**
      * Test the method AssetService->getAsset
      *
      * @dataProvider getAssetProvider
      */
-    public function testGetAsset($baseUrl, $buster, $path, $extension, $expected)
+    public function testGetAsset($baseUrl, $buster, $path, $extension, $expected): void
     {
         $appServiceProphecy = $this->prophesize(ApplicationService::class);
         $appServiceProphecy->getPlatformVersion()->willReturn(self::TEST_TAO_VERSION);
@@ -49,8 +51,8 @@ class AssetServiceTest extends GenerisPhpUnitTestRunner
         ]);
 
         $options = [
-            'base'   => $baseUrl,
-            'buster' => $buster
+            'base' => $baseUrl,
+            'buster' => $buster,
         ];
 
         $assetService = new AssetService($options);
@@ -58,23 +60,23 @@ class AssetServiceTest extends GenerisPhpUnitTestRunner
 
         $url = $assetService->getAsset($path, $extension);
 
-        $this->assertEquals($expected, $url, 'The asset URL matches');
-
+        $this->assertSame($expected, $url, 'The asset URL matches');
     }
 
     /**
      * The testGetAsset data provider
      * @return array[] the test data set
      */
-    public function getAssetProvider(){
+    public function getAssetProvider()
+    {
         return [
             ['https://test.taotesting.com', '7654321', 'css/tao-main-style.css', 'tao', 'https://test.taotesting.com/tao/views/css/tao-main-style.css?buster=7654321'],
             ['https://test.taotesting.com/', 'AF034B', 'js/lib/require.js', 'tao', 'https://test.taotesting.com/tao/views/js/lib/require.js?buster=AF034B'],
             ['https://test.taotesting.com/', 'AF034B', 'tao/views/js/lib/require.js', null, 'https://test.taotesting.com/tao/views/js/lib/require.js?buster=AF034B'],
             ['https://test.taotesting.com/', 'éHo?/©', 'js/core/eventifier.js', 'tao', 'https://test.taotesting.com/tao/views/js/core/eventifier.js?buster=%C3%A9Ho%3F%2F%C2%A9'],
-            ['https://test.taotesting.com', null, 'tao/views/js/lib/require.js', null, 'https://test.taotesting.com/tao/views/js/lib/require.js?buster='.urlencode(self::TEST_TAO_VERSION)],
+            ['https://test.taotesting.com', null, 'tao/views/js/lib/require.js', null, 'https://test.taotesting.com/tao/views/js/lib/require.js?buster=' . urlencode(self::TEST_TAO_VERSION)],
             ['https://test.taotesting.com', false, 'css/tao-main-style.css', 'tao', 'https://test.taotesting.com/tao/views/css/tao-main-style.css'],
-            ['https://test.taotesting.com', '7654321', 'js/path/to/library/', 'tao', 'https://test.taotesting.com/tao/views/js/path/to/library/']
+            ['https://test.taotesting.com', '7654321', 'js/path/to/library/', 'tao', 'https://test.taotesting.com/tao/views/js/path/to/library/'],
         ];
     }
 }

@@ -1,22 +1,23 @@
 <?php
-/**  
+
+declare(strict_types=1);
+
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *               
- * 
  */
 
 namespace oat\tao\scripts\install;
@@ -34,12 +35,12 @@ class SetServiceState extends InstallAction
     /**
      * The default persistence name.
      */
-    const DEFAULT_PERSISTENCE_NAME = 'serviceState';
+    public const DEFAULT_PERSISTENCE_NAME = 'serviceState';
 
     /**
      * The default persistence driver.
      */
-    const DEFAULT_PERSISTENCE_DRIVER = 'phpfile';
+    public const DEFAULT_PERSISTENCE_DRIVER = 'phpfile';
 
     /**
      * Sets the ServiceState persistence.
@@ -55,7 +56,7 @@ class SetServiceState extends InstallAction
         /** @var \common_persistence_Manager $persistenceManager */
         $persistenceManager = $this->getServiceManager()->get(\common_persistence_Manager::SERVICE_ID);
 
-        if (!$persistenceManager->hasPersistence(static::DEFAULT_PERSISTENCE_NAME)) {
+        if (! $persistenceManager->hasPersistence(static::DEFAULT_PERSISTENCE_NAME)) {
             $persistenceManager->registerPersistence(
                 static::DEFAULT_PERSISTENCE_NAME,
                 [

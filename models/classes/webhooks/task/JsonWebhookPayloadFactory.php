@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -23,13 +26,17 @@ use oat\oatbox\service\ConfigurableService;
 
 class JsonWebhookPayloadFactory extends ConfigurableService implements WebhookPayloadFactoryInterface
 {
-    const SOURCE = 'source';
-    const EVENTS = 'events';
+    public const SOURCE = 'source';
 
-    const EVENT_ID = 'eventId';
-    const EVENT_NAME = 'eventName';
-    const TRIGGERED_TIMESTAMP = 'triggeredTimestamp';
-    const EVENT_DATA = 'eventData';
+    public const EVENTS = 'events';
+
+    public const EVENT_ID = 'eventId';
+
+    public const EVENT_NAME = 'eventName';
+
+    public const TRIGGERED_TIMESTAMP = 'triggeredTimestamp';
+
+    public const EVENT_DATA = 'eventData';
 
     /**
      * @param string $eventName
@@ -48,9 +55,9 @@ class JsonWebhookPayloadFactory extends ConfigurableService implements WebhookPa
                     self::EVENT_ID => $eventId,
                     self::EVENT_NAME => $eventName,
                     self::TRIGGERED_TIMESTAMP => $triggeredTimestamp,
-                    self::EVENT_DATA => $eventData
-                ]
-            ]
+                    self::EVENT_DATA => $eventData,
+                ],
+            ],
         ];
 
         $result = json_encode($data);

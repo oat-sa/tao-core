@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace oat\tao\test\unit\model\metadata\import;
 
 use oat\generis\test\TestCase;
@@ -8,7 +10,7 @@ use oat\tao\model\metadata\writer\ontologyWriter\PropertyWriter;
 
 class PropertyWriterTest extends TestCase
 {
-    public function testWrite()
+    public function testWrite(): void
     {
         $data = ['datavalue'];
 
@@ -40,7 +42,7 @@ class PropertyWriterTest extends TestCase
         $writer->write($resource, $data);
     }
 
-    public function testWriteInvalid()
+    public function testWriteInvalid(): void
     {
         $data = ['datavalue'];
 
@@ -68,7 +70,7 @@ class PropertyWriterTest extends TestCase
         $writer->write($resource, $data);
     }
 
-    public function testWriteInDryrunMode()
+    public function testWriteInDryrunMode(): void
     {
         $data = ['datavalue'];
 
@@ -98,7 +100,7 @@ class PropertyWriterTest extends TestCase
         $writer->write($resource, $data, true);
     }
 
-    public function testWriteWithUnsuccessResourceWriting()
+    public function testWriteWithUnsuccessResourceWriting(): void
     {
         $data = ['datavalue'];
 
@@ -129,5 +131,4 @@ class PropertyWriterTest extends TestCase
         $this->expectException(MetadataWriterException::class);
         $writer->write($resource, $data);
     }
-
 }

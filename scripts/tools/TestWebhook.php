@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -26,7 +29,7 @@ use oat\taoProctoring\model\event\DeliveryExecutionFinished;
 
 class TestWebhook extends AbstractAction
 {
-    public function __invoke($params)
+    public function __invoke($params): void
     {
         /** @var OntologyService $ontologyService */
         $ontologyService = $this->getServiceLocator()->get(OntologyService::class);

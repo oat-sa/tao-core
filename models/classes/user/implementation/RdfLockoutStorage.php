@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -33,15 +36,15 @@ class RdfLockoutStorage implements LockoutStorage
 {
     use OntologyAwareTrait;
 
-    const PROPERTY_USER_ACCOUNT_STATUS = 'http://www.tao.lu/Ontologies/TAO.rdf#accountStatus';
+    public const PROPERTY_USER_ACCOUNT_STATUS = 'http://www.tao.lu/Ontologies/TAO.rdf#accountStatus';
 
-    const PROPERTY_USER_STATUS_LOCKED = 'http://www.tao.lu/Ontologies/TAO.rdf#Locked';
+    public const PROPERTY_USER_STATUS_LOCKED = 'http://www.tao.lu/Ontologies/TAO.rdf#Locked';
 
-    const PROPERTY_USER_LOCKED_BY = 'http://www.tao.lu/Ontologies/TAO.rdf#lockedBy';
+    public const PROPERTY_USER_LOCKED_BY = 'http://www.tao.lu/Ontologies/TAO.rdf#lockedBy';
 
-    const PROPERTY_USER_LOGON_FAILURES = 'http://www.tao.lu/Ontologies/TAO.rdf#logonFailures';
+    public const PROPERTY_USER_LOGON_FAILURES = 'http://www.tao.lu/Ontologies/TAO.rdf#logonFailures';
 
-    const PROPERTY_USER_LAST_LOGON_FAILURE_TIME = 'http://www.tao.lu/Ontologies/TAO.rdf#lastLogonFailureTime';
+    public const PROPERTY_USER_LAST_LOGON_FAILURE_TIME = 'http://www.tao.lu/Ontologies/TAO.rdf#lastLogonFailureTime';
 
     /**
      * @param string $login
@@ -52,7 +55,7 @@ class RdfLockoutStorage implements LockoutStorage
     {
         $user = core_kernel_users_Service::singleton()->getOneUser($login);
 
-        if (is_null($user)) {
+        if ($user === null) {
             throw new core_kernel_users_Exception(sprintf('Requested user with login %s not found.', $login));
         }
 
@@ -75,18 +78,17 @@ class RdfLockoutStorage implements LockoutStorage
      * @param $by
      * @throws core_kernel_users_Exception
      */
-    public function setLockedStatus($login, $by)
+    public function setLockedStatus($login, $by): void
     {
         $this->getUser($login)->editPropertyValues($this->getProperty(self::PROPERTY_USER_ACCOUNT_STATUS), self::PROPERTY_USER_STATUS_LOCKED);
         $this->getUser($login)->editPropertyValues($this->getProperty(self::PROPERTY_USER_LOCKED_BY), $by);
-
     }
 
     /**
      * @param $login
      * @throws core_kernel_users_Exception
      */
-    public function setUnlockedStatus($login)
+    public function setUnlockedStatus($login): void
     {
         $this->getUser($login)->removePropertyValues($this->getProperty(self::PROPERTY_USER_ACCOUNT_STATUS));
         $this->getUser($login)->editPropertyValues($this->getProperty(self::PROPERTY_USER_LOCKED_BY), null);
@@ -100,7 +102,7 @@ class RdfLockoutStorage implements LockoutStorage
      */
     public function getFailures($login)
     {
-        return (intval((string)$this->getUser($login)->getOnePropertyValue($this->getProperty(self::PROPERTY_USER_LOGON_FAILURES))));
+        return intval((string) $this->getUser($login)->getOnePropertyValue($this->getProperty(self::PROPERTY_USER_LOGON_FAILURES)));
     }
 
     /**

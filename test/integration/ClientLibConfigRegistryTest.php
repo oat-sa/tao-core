@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,68 +18,62 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
+
 namespace oat\tao\test\integration;
 
 use oat\tao\model\ClientLibConfigRegistry;
 use oat\tao\test\TaoPhpUnitTestRunner;
 
 /**
- * 
  * @author Sam, sam@taotesting.com
  */
 class ClientLibConfigRegistryTest extends TaoPhpUnitTestRunner
 {
-
     /**
-     *
      * @author Lionel Lecaque, lionel@taotesting.com
      */
-    public function setUp()
+    protected function setUp(): void
     {
         TaoPhpUnitTestRunner::initTest();
     }
 
-
-    public function testRegister()
+    public function testRegister(): void
     {
-
         $myUnitTestLibName = 'myUnitTestLib';
 
-        ClientLibConfigRegistry::getRegistry()->register($myUnitTestLibName, array(
+        ClientLibConfigRegistry::getRegistry()->register($myUnitTestLibName, [
             'prop1' => 'value1',
-            'prop2' => array(
+            'prop2' => [
                 'prop2.1' => 'value2.1',
-                'prop2.2' => 'value2.2'
-            )
-        ));
+                'prop2.2' => 'value2.2',
+            ],
+        ]);
 
         $myUnitTestLibConfig = ClientLibConfigRegistry::getRegistry()->get($myUnitTestLibName);
         $this->assertNotEmpty($myUnitTestLibConfig);
-        $this->assertEquals($myUnitTestLibConfig['prop1'], 'value1');
-        $this->assertEquals($myUnitTestLibConfig['prop2']['prop2.1'], 'value2.1');
-        $this->assertEquals($myUnitTestLibConfig['prop2']['prop2.2'], 'value2.2');
+        $this->assertSame($myUnitTestLibConfig['prop1'], 'value1');
+        $this->assertSame($myUnitTestLibConfig['prop2']['prop2.1'], 'value2.1');
+        $this->assertSame($myUnitTestLibConfig['prop2']['prop2.2'], 'value2.2');
 
         //adding new config
-        ClientLibConfigRegistry::getRegistry()->register($myUnitTestLibName, array(
+        ClientLibConfigRegistry::getRegistry()->register($myUnitTestLibName, [
             'prop3' => 'value3',
-            'prop2' => array(
+            'prop2' => [
                 'prop2.2' => 'value2.2a',
-                'prop2.3' => 'value2.3'
-            )
-        ));
+                'prop2.3' => 'value2.3',
+            ],
+        ]);
 
         $myUnitTestLibConfig = ClientLibConfigRegistry::getRegistry()->get($myUnitTestLibName);
         $this->assertNotEmpty($myUnitTestLibConfig);
-        $this->assertEquals($myUnitTestLibConfig['prop1'], 'value1');
-        $this->assertEquals($myUnitTestLibConfig['prop2']['prop2.1'], 'value2.1');
-        $this->assertEquals($myUnitTestLibConfig['prop2']['prop2.2'], 'value2.2a');
-        $this->assertEquals($myUnitTestLibConfig['prop2']['prop2.3'], 'value2.3');
-        $this->assertEquals($myUnitTestLibConfig['prop3'], 'value3');
+        $this->assertSame($myUnitTestLibConfig['prop1'], 'value1');
+        $this->assertSame($myUnitTestLibConfig['prop2']['prop2.1'], 'value2.1');
+        $this->assertSame($myUnitTestLibConfig['prop2']['prop2.2'], 'value2.2a');
+        $this->assertSame($myUnitTestLibConfig['prop2']['prop2.3'], 'value2.3');
+        $this->assertSame($myUnitTestLibConfig['prop3'], 'value3');
 
         ClientLibConfigRegistry::getRegistry()->remove($myUnitTestLibName);
         $this->assertEmpty(ClientLibConfigRegistry::getRegistry()->get($myUnitTestLibName));
-
     }
 }

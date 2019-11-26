@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\model\taskQueue\Task;
@@ -54,11 +56,11 @@ trait FilesystemAwareTrait
             $localFilePath = $localFilePath['path'];
         }
 
-        if (!is_string($localFilePath) || !file_exists($localFilePath)) {
+        if (! is_string($localFilePath) || ! file_exists($localFilePath)) {
             return '';
         }
 
-        if (null === $newFileName) {
+        if ($newFileName === null) {
             $newFileName = basename($localFilePath);
         }
 
@@ -127,7 +129,7 @@ trait FilesystemAwareTrait
             $file = $this->getQueueStorage()
                 ->getFile($filename);
 
-            if($file->exists()) {
+            if ($file->exists()) {
                 $file->delete();
             }
         }

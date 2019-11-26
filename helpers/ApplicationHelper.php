@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\helpers;
@@ -36,7 +38,8 @@ class ApplicationHelper
      *
      * @return boolean
      */
-    public static function isDemo() {
+    public static function isDemo()
+    {
         return ServiceManager::getServiceManager()->get(ApplicationService::SERVICE_ID)->isDemo();
     }
 
@@ -53,7 +56,8 @@ class ApplicationHelper
      * @throws \common_exception_Error
      * @throws \common_ext_ExtensionException
      */
-    public function getProductName() {
+    public function getProductName()
+    {
         return ServiceManager::getServiceManager()->get(ApplicationService::SERVICE_ID)->getProductName();
     }
 
@@ -62,7 +66,8 @@ class ApplicationHelper
      * @throws \common_exception_Error
      * @throws \common_ext_ExtensionException
      */
-    public function getPlatformVersion() {
+    public function getPlatformVersion()
+    {
         return ServiceManager::getServiceManager()->get(ApplicationService::SERVICE_ID)->getPlatformVersion();
     }
 }

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,15 +21,15 @@
  *
  * @author Alexander Zagovorichev <zagovorichev@1pt.com>
  */
+
 namespace oat\tao\test\unit\model\routing;
 
-
 use Doctrine\Common\Annotations\AnnotationReader;
+use oat\generis\test\TestCase;
 use ReflectionClass;
 use ReflectionMethod;
 use ReflectionObject;
 use ReflectionProperty;
-use oat\generis\test\TestCase;
 
 /**
  *@Annotation
@@ -34,7 +37,9 @@ use oat\generis\test\TestCase;
 class AnnotatedDescription
 {
     public $value;
+
     public $type;
+
     public $desc;
 }
 
@@ -46,7 +51,7 @@ class AnnotationDemo
     /**
      * @AnnotatedDescription("The property is made private for a subtle reason")
      */
-    private $property = "I am a private property!";
+    private $property = 'I am a private property!';
 
     /**
      * @AnnotatedDescription(desc ="The property is made private for a subtle reason", type="getter")
@@ -60,7 +65,9 @@ class AnnotationDemo
      * @AnnotatedDescription("allow", type="{id: READ}")
      * @AnnotatedDescription("allow", type="{uri: WRITE}")
      */
-    public function multipleRights() { }
+    public function multipleRights(): void
+    {
+    }
 }
 
 /**
@@ -75,66 +82,66 @@ class AnnotationReaderTest extends TestCase
     /**
      * @throws \Doctrine\Common\Annotations\AnnotationException
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->annotationReader = new AnnotationReader();
     }
 
-    public function testObjectAnnotationReader()
+    public function testObjectAnnotationReader(): void
     {
         $annotationDemoObject = new AnnotationDemo();
         $reflectionObject = new ReflectionObject($annotationDemoObject);
         $objectAnnotations = $this->annotationReader->getClassAnnotations($reflectionObject);
-        self::assertEquals('The class demonstrates the use of annotations', $objectAnnotations[0]->value);
+        self::assertSame('The class demonstrates the use of annotations', $objectAnnotations[0]->value);
     }
 
     /**
      * @throws \ReflectionException
      */
-    public function testPropertyAnnotationReader()
+    public function testPropertyAnnotationReader(): void
     {
         //Property Annotations
         $reflectionProperty = new ReflectionProperty('\oat\tao\test\unit\model\routing\AnnotationDemo', 'property');
         $propertyAnnotations = $this->annotationReader->getPropertyAnnotations($reflectionProperty);
-        self::assertEquals('The property is made private for a subtle reason', $propertyAnnotations[0]->value);
+        self::assertSame('The property is made private for a subtle reason', $propertyAnnotations[0]->value);
     }
 
     /**
      * @throws \ReflectionException
      */
-    public function testMethodAnnotationReader()
+    public function testMethodAnnotationReader(): void
     {
         // Method Annotations
         $reflectionMethod = new ReflectionMethod('\oat\tao\test\unit\model\routing\AnnotationDemo', 'getProperty');
         $methodAnnotations = $this->annotationReader->getMethodAnnotations($reflectionMethod);
         self::assertNull($methodAnnotations[0]->value);
-        self::assertEquals($methodAnnotations[0]->type, 'getter');
-        self::assertEquals($methodAnnotations[0]->desc, 'The property is made private for a subtle reason');
+        self::assertSame($methodAnnotations[0]->type, 'getter');
+        self::assertSame($methodAnnotations[0]->desc, 'The property is made private for a subtle reason');
     }
 
     /**
      * @throws \ReflectionException
      */
-    public function testClassAnnotationReader()
+    public function testClassAnnotationReader(): void
     {
         //Get class annotation
         $reflectionClass = new ReflectionClass('\oat\tao\test\unit\model\routing\AnnotationDemo');
         $classAnnotations = $this->annotationReader->getClassAnnotations($reflectionClass);
-        self::assertEquals('The class demonstrates the use of annotations', $classAnnotations[0]->value);
+        self::assertSame('The class demonstrates the use of annotations', $classAnnotations[0]->value);
     }
 
     /**
      * @throws \ReflectionException
      */
-    public function testMultipleRules()
+    public function testMultipleRules(): void
     {
         // Method Annotations
         $reflectionMethod = new ReflectionMethod('\oat\tao\test\unit\model\routing\AnnotationDemo', 'multipleRights');
         $methodAnnotations = $this->annotationReader->getMethodAnnotations($reflectionMethod);
-        self::assertEquals('allow', $methodAnnotations[0]->value);
-        self::assertEquals('{id: READ}', $methodAnnotations[0]->type);
+        self::assertSame('allow', $methodAnnotations[0]->value);
+        self::assertSame('{id: READ}', $methodAnnotations[0]->type);
 
-        self::assertEquals('allow', $methodAnnotations[1]->value);
-        self::assertEquals('{uri: WRITE}', $methodAnnotations[1]->type);
+        self::assertSame('allow', $methodAnnotations[1]->value);
+        self::assertSame('{uri: WRITE}', $methodAnnotations[1]->type);
     }
 }

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,13 +20,12 @@
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *
  */
 
-use oat\generis\model\OntologyRdf;
-use oat\tao\helpers\translation\TranslationBundle;
 use oat\generis\model\data\ModelManager;
+use oat\generis\model\OntologyRdf;
 use oat\tao\helpers\translation\rdf\RdfPack;
+use oat\tao\helpers\translation\TranslationBundle;
 
 /**
  * Short description of class tao_models_classes_LanguageService
@@ -31,23 +33,29 @@ use oat\tao\helpers\translation\rdf\RdfPack;
  * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
-
  */
-class tao_models_classes_LanguageService
-    extends tao_models_classes_GenerisService
+class tao_models_classes_LanguageService extends tao_models_classes_GenerisService
 {
     // --- ASSOCIATIONS ---
-    const TRANSLATION_PREFIX = __CLASS__.':all';
+    public const TRANSLATION_PREFIX = __CLASS__ . ':all';
 
     // --- ATTRIBUTES ---
-    const CLASS_URI_LANGUAGES = 'http://www.tao.lu/Ontologies/TAO.rdf#Languages';
-    const CLASS_URI_LANGUAGES_USAGES = 'http://www.tao.lu/Ontologies/TAO.rdf#LanguagesUsages';
-    const PROPERTY_LANGUAGE_USAGES = 'http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsages';
-    const PROPERTY_LANGUAGE_ORIENTATION = 'http://www.tao.lu/Ontologies/TAO.rdf#LanguageOrientation';
-    const INSTANCE_LANGUAGE_USAGE_GUI = 'http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageGUI';
-    const INSTANCE_LANGUAGE_USAGE_DATA = 'http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageData';
-    const INSTANCE_ORIENTATION_LTR = 'http://www.tao.lu/Ontologies/TAO.rdf#OrientationLeftToRight';
-    const INSTANCE_ORIENTATION_RTL = 'http://www.tao.lu/Ontologies/TAO.rdf#OrientationRightToLeft';
+    public const CLASS_URI_LANGUAGES = 'http://www.tao.lu/Ontologies/TAO.rdf#Languages';
+
+    public const CLASS_URI_LANGUAGES_USAGES = 'http://www.tao.lu/Ontologies/TAO.rdf#LanguagesUsages';
+
+    public const PROPERTY_LANGUAGE_USAGES = 'http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsages';
+
+    public const PROPERTY_LANGUAGE_ORIENTATION = 'http://www.tao.lu/Ontologies/TAO.rdf#LanguageOrientation';
+
+    public const INSTANCE_LANGUAGE_USAGE_GUI = 'http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageGUI';
+
+    public const INSTANCE_LANGUAGE_USAGE_DATA = 'http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageData';
+
+    public const INSTANCE_ORIENTATION_LTR = 'http://www.tao.lu/Ontologies/TAO.rdf#OrientationLeftToRight';
+
+    public const INSTANCE_ORIENTATION_RTL = 'http://www.tao.lu/Ontologies/TAO.rdf#OrientationRightToLeft';
+
     // --- OPERATIONS ---
 
     /**
@@ -61,7 +69,7 @@ class tao_models_classes_LanguageService
      */
     public function createLanguage($code)
     {
-        throw new common_exception_Error(__METHOD__.' not yet implemented in '.__CLASS__);
+        throw new common_exception_Error(__METHOD__ . ' not yet implemented in ' . __CLASS__);
     }
 
     /**
@@ -78,16 +86,16 @@ class tao_models_classes_LanguageService
 
 
         $langClass = new core_kernel_classes_Class(static::CLASS_URI_LANGUAGES);
-	    $langs = $langClass->searchInstances(array(
-            OntologyRdf::RDF_VALUE => $code
-	    ), array(
-	    	'like' => false
-	    ));
-	    if (count($langs) == 1) {
-	    	$returnValue = current($langs);
-	    } else {
-	    	common_Logger::w('Could not find language with code '.$code);
-	    }
+        $langs = $langClass->searchInstances([
+            OntologyRdf::RDF_VALUE => $code,
+        ], [
+            'like' => false,
+        ]);
+        if (count($langs) === 1) {
+            $returnValue = current($langs);
+        } else {
+            common_Logger::w('Could not find language with code ' . $code);
+        }
 
 
         return $returnValue;
@@ -101,7 +109,7 @@ class tao_models_classes_LanguageService
      * @param  core_kernel_classes_Resource $language
      * @return string
      */
-    public function getCode( core_kernel_classes_Resource $language)
+    public function getCode(core_kernel_classes_Resource $language)
     {
         $returnValue = (string) '';
         $valueProperty = new core_kernel_classes_Property(OntologyRdf::RDF_VALUE);
@@ -117,15 +125,15 @@ class tao_models_classes_LanguageService
      * @param  core_kernel_classes_Resource $usage
      * @return array
      */
-    public function getAvailableLanguagesByUsage( core_kernel_classes_Resource $usage)
+    public function getAvailableLanguagesByUsage(core_kernel_classes_Resource $usage)
     {
-        $returnValue = array();
-    	$langClass = new core_kernel_classes_Class(static::CLASS_URI_LANGUAGES);
-	    $returnValue = $langClass->searchInstances(array(
-            static::PROPERTY_LANGUAGE_USAGES => $usage->getUri()
-	    ), array(
-	    	'like' => false
-	    ));
+        $returnValue = [];
+        $langClass = new core_kernel_classes_Class(static::CLASS_URI_LANGUAGES);
+        $returnValue = $langClass->searchInstances([
+            static::PROPERTY_LANGUAGE_USAGES => $usage->getUri(),
+        ], [
+            'like' => false,
+        ]);
         return (array) $returnValue;
     }
 
@@ -141,17 +149,17 @@ class tao_models_classes_LanguageService
     {
         $langClass = new core_kernel_classes_Class(static::CLASS_URI_LANGUAGES);
         $result = $langClass->searchInstances(
-            array(
+            [
                 OntologyRdf::RDF_VALUE => $code,
                 static::PROPERTY_LANGUAGE_USAGES => $usage->getUri(),
-            ),
-            array('like' => false)
+            ],
+            ['like' => false]
         );
 
-        return !empty($result);
+        return ! empty($result);
     }
 
-    public function addTranslationsForLanguage(core_kernel_classes_Resource $language)
+    public function addTranslationsForLanguage(core_kernel_classes_Resource $language): void
     {
         $langCode = $this->getCode($language);
         $rdf = ModelManager::getModel()->getRdfInterface();
@@ -172,12 +180,10 @@ class tao_models_classes_LanguageService
     public function generateAll($checkPreviousBundle = false)
     {
         $this->generateServerBundles();
-        $files = $this->generateClientBundles($checkPreviousBundle);
-        return $files;
+        return $this->generateClientBundles($checkPreviousBundle);
     }
 
     /**
-     *
      * @author Lionel Lecaque, lionel@taotesting.com
      *
      * @param bool $checkPreviousBundle
@@ -186,7 +192,7 @@ class tao_models_classes_LanguageService
      */
     public function generateClientBundles($checkPreviousBundle = false)
     {
-        $returnValue = array();
+        $returnValue = [];
 
         $extensions = array_map(
             function ($extension) {
@@ -200,7 +206,6 @@ class tao_models_classes_LanguageService
         $generated = 0;
         $generate = true;
         foreach ($languages as $langCode) {
-
             try {
                 $bundle = new TranslationBundle($langCode, $extensions, ROOT_PATH, TAO_VERSION);
 
@@ -229,7 +234,6 @@ class tao_models_classes_LanguageService
                     }
                 }
             } catch (common_exception_Error $e) {
-
                 common_Logger::e('Failure: ' . $e->getMessage());
             }
         }
@@ -241,7 +245,7 @@ class tao_models_classes_LanguageService
     /**
      * Generate server translation file, forching a cache overwrite
      */
-    public function generateServerBundles()
+    public function generateServerBundles(): void
     {
         $usage = $this->getResource(self::INSTANCE_LANGUAGE_USAGE_GUI);
         foreach ($this->getAvailableLanguagesByUsage($usage) as $language) {
@@ -260,32 +264,10 @@ class tao_models_classes_LanguageService
     {
         $cache = $this->getServiceLocator()->get(common_cache_Cache::SERVICE_ID);
         try {
-            $translations = $cache->get(self::TRANSLATION_PREFIX.$langCode);
+            $translations = $cache->get(self::TRANSLATION_PREFIX . $langCode);
         } catch (common_cache_NotFoundException $ex) {
             $translations = $this->buildServerBundle($langCode);
         }
-        return $translations;
-    }
-
-    /**
-     * Rebuild the translation cache from the POs situated in each installed extension
-     * @param string $langCode
-     * @return array translation
-     */
-    protected function buildServerBundle($langCode)
-    {
-        $extensions = common_ext_ExtensionsManager::singleton()->getInstalledExtensions();
-        $extensions = helpers_ExtensionHelper::sortByDependencies($extensions);
-        $translations = [];
-        foreach ($extensions as $extension) {
-            $file = $extension->getDir(). 'locales' . DIRECTORY_SEPARATOR . $langCode. DIRECTORY_SEPARATOR . 'messages.po';
-            $new = l10n::getPoFile($file);
-            if (is_array($new)) {
-                $translations = array_merge($translations, $new);
-            }
-        }
-        $cache = $this->getServiceLocator()->get(common_cache_Cache::SERVICE_ID);
-        $cache->put($translations, self::TRANSLATION_PREFIX.$langCode);
         return $translations;
     }
 
@@ -298,9 +280,9 @@ class tao_models_classes_LanguageService
      * @return core_kernel_classes_Resource
      * @throws common_exception_Error   Not implemented in this class yet.
      */
-    public function getDefaultLanguageByUsage( core_kernel_classes_Resource $usage)
+    public function getDefaultLanguageByUsage(core_kernel_classes_Resource $usage)
     {
-        throw new common_exception_Error(__METHOD__.' not yet implemented in '.__CLASS__);
+        throw new common_exception_Error(__METHOD__ . ' not yet implemented in ' . __CLASS__);
     }
 
     /**
@@ -328,7 +310,8 @@ class tao_models_classes_LanguageService
      * @return string|null language uri if language found or null otherwise
      * @throws common_exception_Error
      */
-    public static function getExistingLanguageUri($value) {
+    public static function getExistingLanguageUri($value)
+    {
         if (filter_var($value, FILTER_VALIDATE_URL) !== false) {
             $langByUri = new \core_kernel_classes_Resource($value);
             return $langByUri->exists()
@@ -340,5 +323,27 @@ class tao_models_classes_LanguageService
         return $langByCode !== null
             ? $langByCode->getUri()
             : null;
+    }
+
+    /**
+     * Rebuild the translation cache from the POs situated in each installed extension
+     * @param string $langCode
+     * @return array translation
+     */
+    protected function buildServerBundle($langCode)
+    {
+        $extensions = common_ext_ExtensionsManager::singleton()->getInstalledExtensions();
+        $extensions = helpers_ExtensionHelper::sortByDependencies($extensions);
+        $translations = [];
+        foreach ($extensions as $extension) {
+            $file = $extension->getDir() . 'locales' . DIRECTORY_SEPARATOR . $langCode . DIRECTORY_SEPARATOR . 'messages.po';
+            $new = l10n::getPoFile($file);
+            if (is_array($new)) {
+                $translations = array_merge($translations, $new);
+            }
+        }
+        $cache = $this->getServiceLocator()->get(common_cache_Cache::SERVICE_ID);
+        $cache->put($translations, self::TRANSLATION_PREFIX . $langCode);
+        return $translations;
     }
 }

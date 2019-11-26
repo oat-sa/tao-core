@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,7 +19,6 @@
  *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *
  */
 use oat\tao\helpers\form\elements\xhtml\XhtmlRenderingTrait;
 
@@ -37,7 +39,7 @@ class tao_helpers_form_elements_xhtml_Htmlarea extends tao_helpers_form_elements
      * @access public
      * @var string
      */
-    const CSS_CLASS = 'html-area';
+    public const CSS_CLASS = 'html-area';
 
     /**
      * Short description of method render
@@ -59,7 +61,7 @@ class tao_helpers_form_elements_xhtml_Htmlarea extends tao_helpers_form_elements
         $returnValue = $this->renderLabel();
         $returnValue .= "<textarea name='{$this->name}' id='{$this->name}' ";
         $returnValue .= $this->renderAttributes();
-        $returnValue .= ">" . _dh($this->value). "</textarea>";
+        $returnValue .= '>' . _dh($this->value) . '</textarea>';
 
 
         return (string) $returnValue;

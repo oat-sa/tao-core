@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,14 +18,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
- *
- *
  */
 
 namespace oat\tao\model\requiredAction\implementation;
 
+use Exception;
 use oat\tao\model\requiredAction\RequiredActionAbstract;
-use \Exception;
 use oat\tao\model\requiredAction\RequiredActionRuleInterface;
 use oat\tao\model\routing\FlowController;
 
@@ -43,7 +44,7 @@ class RequiredActionRedirect extends RequiredActionAbstract
             'extension' => 'tao',
             'module' => 'ClientConfig',
             'action' => 'config',
-        ]
+        ],
     ];
 
     /**
@@ -67,6 +68,22 @@ class RequiredActionRedirect extends RequiredActionAbstract
     }
 
     /**
+     * @see \oat\oatbox\PhpSerializable::__toPhpCode()
+     */
+    public function __toPhpCode()
+    {
+        $class = get_class($this);
+        $name = $this->name;
+        $url = $this->url;
+        $rules = \common_Utils::toHumanReadablePhpString($this->getRules());
+        return "new ${class}(
+            '${name}',
+            ${rules},
+            '${url}'
+        )";
+    }
+
+    /**
      * @deprecated use \oat\tao\model\requiredAction\implementation\RequiredActionRedirectUrlPart instead
      *
      * Execute an action
@@ -83,29 +100,13 @@ class RequiredActionRedirect extends RequiredActionAbstract
             'action' => $context->getActionName(),
         ];
 
-        if (!in_array($currentRoute, $excludedRoutes)) {
+        if (! in_array($currentRoute, $excludedRoutes, true)) {
             $currentUrl = \common_http_Request::currentRequest()->getUrl();
             $url = $this->url . (parse_url($this->url, PHP_URL_QUERY) ? '&' : '?') . 'return_url=' . urlencode($currentUrl);
 
             $flowController = new FlowController();
             $flowController->redirect($url);
         }
-    }
-
-    /**
-     * @see \oat\oatbox\PhpSerializable::__toPhpCode()
-     */
-    public function __toPhpCode()
-    {
-        $class = get_class($this);
-        $name = $this->name;
-        $url = $this->url;
-        $rules = \common_Utils::toHumanReadablePhpString($this->getRules());
-        return "new $class(
-            '$name',
-            $rules,
-            '$url'
-        )";
     }
 
     /**

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,11 +18,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\model\theme;
-
 
 use oat\oatbox\service\ConfigurableService;
 
@@ -43,7 +44,7 @@ abstract class ThemeServiceAbstract extends ConfigurableService implements Theme
     /**
      * @inheritdoc
      */
-    public function setTheme(Theme $theme, $protectAlreadyExistingThemes = true)
+    public function setTheme(Theme $theme, $protectAlreadyExistingThemes = true): void
     {
         $this->addTheme($theme, $protectAlreadyExistingThemes);
         $this->setCurrentTheme($theme->getId());
@@ -84,7 +85,26 @@ abstract class ThemeServiceAbstract extends ConfigurableService implements Theme
             }
         }
 
-        throw new \common_exception_InconsistentData('The requested theme does not exist. (' . $themeId .')');
+        throw new \common_exception_InconsistentData('The requested theme does not exist. (' . $themeId . ')');
+    }
+
+    /**
+     * Tells if the page has to be headless: without header and footer.
+     *
+     * @return bool|mixed
+     */
+    public function isHeadless()
+    {
+        if ($this->hasOption(self::OPTION_HEADLESS_PAGE)) {
+            return $this->getOption(self::OPTION_HEADLESS_PAGE);
+        }
+
+        $isHeadless = $this->getIsHeadLessFromThemeDetailsProviders();
+        if (empty($isHeadless)) {
+            $isHeadless = false;
+        }
+
+        return $isHeadless;
     }
 
     /**
@@ -98,7 +118,7 @@ abstract class ThemeServiceAbstract extends ConfigurableService implements Theme
         foreach ($providers as $provider) {
             if ($provider instanceof ThemeDetailsProviderInterface) {
                 $themeId = $provider->getThemeId();
-                if (!empty($themeId) && $themeId !== ' ') {
+                if (! empty($themeId) && $themeId !== ' ') {
                     if ($this->hasTheme($themeId)) {
                         return $themeId;
                     }
@@ -134,25 +154,6 @@ abstract class ThemeServiceAbstract extends ConfigurableService implements Theme
     }
 
     /**
-     * Tells if the page has to be headless: without header and footer.
-     *
-     * @return bool|mixed
-     */
-    public function isHeadless()
-    {
-        if ($this->hasOption(self::OPTION_HEADLESS_PAGE)) {
-            return $this->getOption(self::OPTION_HEADLESS_PAGE);
-        }
-
-        $isHeadless = $this->getIsHeadLessFromThemeDetailsProviders();
-        if (empty($isHeadless)) {
-            $isHeadless = false;
-        }
-
-        return $isHeadless;
-    }
-
-    /**
      * Returns the isHeadless details provided by the themeDetailsProviders.
      *
      * @return bool|mixed
@@ -163,7 +164,7 @@ abstract class ThemeServiceAbstract extends ConfigurableService implements Theme
         foreach ($providers as $provider) {
             if ($provider instanceof ThemeDetailsProviderInterface) {
                 $isHeadless = $provider->isHeadless();
-                if (!empty($isHeadless)) {
+                if (! empty($isHeadless)) {
                     return $isHeadless;
                 }
             }
@@ -182,7 +183,7 @@ abstract class ThemeServiceAbstract extends ConfigurableService implements Theme
     protected function getThemeDetailsProviders()
     {
         if ($this->hasOption(static::OPTION_THEME_DETAILS_PROVIDERS)) {
-            return (array)$this->getOption(static::OPTION_THEME_DETAILS_PROVIDERS);
+            return (array) $this->getOption(static::OPTION_THEME_DETAILS_PROVIDERS);
         }
 
         return [];

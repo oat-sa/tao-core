@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,23 +23,23 @@
  *               2013-2019 (update and modification) Open Assessment Technologies SA;
  */
 
-use oat\tao\model\http\LegacyController;
-use oat\tao\helpers\LegacySessionUtils;
-use oat\tao\model\action\CommonModuleInterface;
-use oat\tao\model\mvc\RendererTrait;
-use oat\tao\model\security\ActionProtector;
-use oat\tao\helpers\Template;
-use oat\tao\helpers\JavaScript;
-use oat\oatbox\service\ServiceManager;
-use oat\tao\model\accessControl\AclProxy;
-use oat\oatbox\service\ServiceManagerAwareTrait;
-use oat\oatbox\service\ServiceManagerAwareInterface;
-use oat\oatbox\service\exception\InvalidServiceManagerException;
 use oat\oatbox\log\LoggerAwareTrait;
-use function GuzzleHttp\Psr7\stream_for;
+use oat\oatbox\service\exception\InvalidServiceManagerException;
+use oat\oatbox\service\ServiceManager;
+use oat\oatbox\service\ServiceManagerAwareInterface;
+use oat\oatbox\service\ServiceManagerAwareTrait;
+use oat\tao\helpers\JavaScript;
+use oat\tao\helpers\LegacySessionUtils;
+use oat\tao\helpers\Template;
+use oat\tao\model\accessControl\AclProxy;
+use oat\tao\model\action\CommonModuleInterface;
+use oat\tao\model\http\LegacyController;
+use oat\tao\model\mvc\RendererTrait;
 use oat\tao\model\routing\AnnotationReader\security;
+use oat\tao\model\security\ActionProtector;
 use oat\tao\model\security\xsrf\TokenService;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use function GuzzleHttp\Psr7\stream_for;
 
 /**
  * Top level controller
@@ -45,7 +48,6 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
  * @license GPLv2 http://www.opensource.org/licenses/gpl-2.0.php
  * @package tao
- *
  */
 abstract class tao_actions_CommonModule extends LegacyController implements ServiceManagerAwareInterface, CommonModuleInterface
 {
@@ -70,16 +72,62 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
      * tao_actions_CommonModule constructor.
      * @security("hide");
      */
-    public function __construct() {}
+    public function __construct()
+    {
+    }
 
     /**
      * @inheritdoc
      */
-    public function initialize()
+    public function initialize(): void
     {
         /** @var ActionProtector $actionProtector */
         $actionProtector = $this->getServiceLocator()->get(ActionProtector::SERVICE_ID);
         $actionProtector->setFrameAncestorsHeader();
+    }
+
+    /**
+     * @see Module::setView()
+     * @param string $path
+     *            view identifier
+     * @param string $extensionID
+     *            use the views in the specified extension instead of the current extension
+     */
+    public function setView($path, $extensionID = null): void
+    {
+        $this->setRendererView(Template::getTemplate($path, $extensionID));
+    }
+
+    /**
+     * @return ServiceLocatorInterface
+     * @security("hide");
+     */
+    public function getServiceLocator()
+    {
+        return $this->getOriginalServiceLocator();
+    }
+
+    /**
+     * @param ServiceLocatorInterface $serviceLocator
+     * @return mixed
+     * @security("hide");
+     */
+    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
+    {
+        return $this->setOriginalServiceLocator($serviceLocator);
+    }
+
+    /**
+     * Ensure the template is rendered as part of the response
+     * {@inheritDoc}
+     * @see \oat\tao\model\http\Controller::getPsrResponse()
+     */
+    public function getPsrResponse()
+    {
+        $response = parent::getPsrResponse();
+        return $this->hasView()
+        ? $response->withBody(stream_for($this->getRenderer()->render()))
+        : $response;
     }
 
     /**
@@ -99,25 +147,11 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
     }
 
     /**
-     *
-     * @see Module::setView()
-     * @param string $path
-     *            view identifier
-     * @param string $extensionID
-     *            use the views in the specified extension instead of the current extension
-     */
-    public function setView($path, $extensionID = null)
-    {
-        $this->setRendererView(Template::getTemplate($path, $extensionID));
-    }
-
-    /**
      * Retrieve the data from the url and make the base initialization
      *
-     * @return void
      * @throws common_ext_ExtensionException
      */
-    protected function defaultData()
+    protected function defaultData(): void
     {
         $context = Context::getInstance();
 
@@ -155,17 +189,17 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
      * @param int $httpStatus
      * @throws common_Exception
      */
-    protected function returnError($description, $returnLink = true, $httpStatus = null)
+    protected function returnError($description, $returnLink = true, $httpStatus = null): void
     {
         if ($this->isXmlHttpRequest()) {
-            $this->logWarning('Called '.__FUNCTION__.' in an unsupported AJAX context');
+            $this->logWarning('Called ' . __FUNCTION__ . ' in an unsupported AJAX context');
             throw new common_Exception($description);
         }
 
         $this->setData('message', $description);
         $this->setData('returnLink', $returnLink);
 
-        if($httpStatus !== null && file_exists(Template::getTemplate("error/error${httpStatus}.tpl"))){
+        if ($httpStatus !== null && file_exists(Template::getTemplate("error/error${httpStatus}.tpl"))) {
             $this->setView("error/error${httpStatus}.tpl", 'tao');
         } else {
             $this->setView('error/user_error.tpl', 'tao');
@@ -187,11 +221,11 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
             $extensionID = 'tao';
             common_Logger::d('Deprecated use of setView() using a boolean');
         }
-        if($extensionID === null) {
+        if ($extensionID === null) {
             $extensionID = Context::getInstance()->getExtensionName();
         }
         $ext = common_ext_ExtensionsManager::singleton()->getExtensionById($extensionID);
-        return $ext->getConstant('DIR_VIEWS').'templates'.DIRECTORY_SEPARATOR.$identifier;
+        return $ext->getConstant('DIR_VIEWS') . 'templates' . DIRECTORY_SEPARATOR . $identifier;
     }
 
     /**
@@ -215,8 +249,8 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
     {
         $ext = $this->getServiceManager()->get(common_ext_ExtensionsManager::SERVICE_ID)->getExtensionById('tao');
         $config = $ext->getConfig('js');
-        if($config !== null && isset($config['timeout'])){
-            return (int)$config['timeout'];
+        if ($config !== null && isset($config['timeout'])) {
+            return (int) $config['timeout'];
         }
         return 30;
     }
@@ -227,7 +261,7 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
      * @param array|\JsonSerializable $data
      * @param int $httpStatus
      */
-    protected function returnJson($data, $httpStatus = 200)
+    protected function returnJson($data, $httpStatus = 200): void
     {
         header(HTTPToolkit::statusCodeHeader($httpStatus));
         Context::getInstance()->getResponse()->setContentHeader('application/json');
@@ -239,7 +273,7 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
      *
      * @param common_report_Report $report
      */
-    protected function returnReport(common_report_Report $report)
+    protected function returnReport(common_report_Report $report): void
     {
         $data = $report->getData();
         $successes = $report->getSuccesses();
@@ -288,32 +322,13 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
     }
 
     /**
-     * @return ServiceLocatorInterface
-     * @security("hide");
-     */
-    public function getServiceLocator()
-    {
-        return $this->getOriginalServiceLocator();
-    }
-
-    /**
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return mixed
-     * @security("hide");
-     */
-    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
-    {
-        return $this->setOriginalServiceLocator($serviceLocator);
-    }
-
-    /**
      * Validate a CSRF token, based on the CSRF header.
      *
      * @throws common_exception_Unauthorized
      */
-    protected function validateCsrf()
+    protected function validateCsrf(): void
     {
-        if (!$this->getPsrRequest()->hasHeader(TokenService::CSRF_TOKEN_HEADER)) {
+        if (! $this->getPsrRequest()->hasHeader(TokenService::CSRF_TOKEN_HEADER)) {
             $this->logCsrfFailure(sprintf('Missing %s header.', TokenService::CSRF_TOKEN_HEADER));
         }
 
@@ -342,7 +357,7 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
      * @param null $token
      * @throws common_exception_Unauthorized
      */
-    private function logCsrfFailure($exceptionMessage, $token = null)
+    private function logCsrfFailure($exceptionMessage, $token = null): void
     {
         try {
             $userIdentifier = $this->getSession()->getUser()->getIdentifier();
@@ -351,8 +366,8 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
             throw new common_exception_Unauthorized($exceptionMessage);
         }
 
-        $requestMethod  = $this->getPsrRequest()->getMethod();
-        $requestUri     = $this->getPsrRequest()->getUri();
+        $requestMethod = $this->getPsrRequest()->getMethod();
+        $requestUri = $this->getPsrRequest()->getUri();
         $requestHeaders = $this->getHeaders();
 
         $this->logWarning(
@@ -361,26 +376,13 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
         $this->logWarning(
             "[CSRF] \n" .
             "CSRF validation information: \n" .
-            'Provided token: ' . ($token ?: 'none')  . " \n" .
-            'User identifier: ' . $userIdentifier  . " \n" .
-            'Request: [' . $requestMethod . '] ' . $requestUri   . " \n" .
+            'Provided token: ' . ($token ?: 'none') . " \n" .
+            'User identifier: ' . $userIdentifier . " \n" .
+            'Request: [' . $requestMethod . '] ' . $requestUri . " \n" .
             "Request Headers : \n" .
             urldecode(http_build_query($requestHeaders, '', "\n"))
         );
 
         throw new common_exception_Unauthorized($exceptionMessage);
-    }
-
-    /**
-     * Ensure the template is rendered as part of the response
-     * {@inheritDoc}
-     * @see \oat\tao\model\http\Controller::getPsrResponse()
-     */
-    public function getPsrResponse()
-    {
-        $response = parent::getPsrResponse();
-        return $this->hasView()
-        ? $response->withBody(stream_for($this->getRenderer()->render()))
-        : $response;
     }
 }

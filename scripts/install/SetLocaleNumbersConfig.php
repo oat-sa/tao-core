@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,11 +22,11 @@
 
 namespace oat\tao\scripts\install;
 
-use oat\oatbox\extension\InstallAction;
 use common_ext_ExtensionsManager as ExtensionsManager;
 use common_report_Report as Report;
-use oat\tao\model\ClientLibConfigRegistry;
+use oat\oatbox\extension\InstallAction;
 use oat\tao\helpers\dateFormatter\EuropeanFormatter;
+use oat\tao\model\ClientLibConfigRegistry;
 use tao_helpers_Date as DateHelper;
 
 /**
@@ -46,7 +49,8 @@ class SetLocaleNumbersConfig extends InstallAction
         $ext->setConfig(DateHelper::CONFIG_KEY, new EuropeanFormatter());
 
         ClientLibConfigRegistry::getRegistry()->register(
-            'util/locale', [
+            'util/locale',
+            [
                 'decimalSeparator' => '.',
                 'thousandsSeparator' => '',
             ]

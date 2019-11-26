@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\model\taskQueue\Worker;
@@ -28,11 +30,11 @@ namespace oat\tao\model\taskQueue\Worker;
  */
 final class OneTimeWorker extends AbstractWorker
 {
-    public function run()
+    public function run(): void
     {
         $this->logDebug('Starting OneTimeWorker.');
 
-        try{
+        try {
             $this->logDebug('Fetching tasks from queue ');
 
             $task = $this->queuer->dequeue();
@@ -43,7 +45,7 @@ final class OneTimeWorker extends AbstractWorker
 
             unset($task);
         } catch (\Exception $e) {
-            $this->logError('Fetching data from queue failed with MSG: '. $e->getMessage());
+            $this->logError('Fetching data from queue failed with MSG: ' . $e->getMessage());
         }
 
         $this->logDebug('OneTimeWorker finished.');

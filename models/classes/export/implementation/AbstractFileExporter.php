@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
- *
  */
 
 namespace oat\tao\model\export\implementation;
@@ -60,7 +62,7 @@ abstract class AbstractFileExporter implements Exporter
      * @param string $data Data to be exported
      * @param string|null $fileName
      */
-    protected function download($data, $fileName = null)
+    protected function download($data, $fileName = null): void
     {
         $response = $this->preparePsrResponse(new \GuzzleHttp\Psr7\Response(), $data, $fileName);
         $this->legacyEmitResponse($response);
@@ -80,7 +82,7 @@ abstract class AbstractFileExporter implements Exporter
 
         return $response
             ->withHeader('Content-Type', $this->contentType)
-            ->withHeader('Content-Disposition', 'attachment; fileName="' . $fileName .'"')
+            ->withHeader('Content-Disposition', 'attachment; fileName="' . $fileName . '"')
             ->withHeader('Content-Length', strlen($data))
             ->withBody(\GuzzleHttp\Psr7\stream_for($data));
     }
@@ -90,7 +92,7 @@ abstract class AbstractFileExporter implements Exporter
      * @deprecated Responses should be emitted in a centralized way using ResponseEmitter
      * @param ResponseInterface $response
      */
-    private function legacyEmitResponse(ResponseInterface $response)
+    private function legacyEmitResponse(ResponseInterface $response): void
     {
         $this->flushOutputBuffer();
         $this->emitHeaders($response);
@@ -100,7 +102,8 @@ abstract class AbstractFileExporter implements Exporter
     /**
      * @deprecated
      */
-    private function flushOutputBuffer() {
+    private function flushOutputBuffer(): void
+    {
         while (ob_get_level() > 0) {
             ob_end_flush();
         }
@@ -110,10 +113,11 @@ abstract class AbstractFileExporter implements Exporter
      * @deprecated
      * @param ResponseInterface $response
      */
-    private function emitHeaders(ResponseInterface $response) {
+    private function emitHeaders(ResponseInterface $response): void
+    {
         foreach ($response->getHeaders() as $name => $values) {
             foreach ($values as $value) {
-                header("$name: $value");
+                header("${name}: ${value}");
             }
         }
     }
@@ -122,12 +126,13 @@ abstract class AbstractFileExporter implements Exporter
      * @deprecated
      * @param ResponseInterface $response
      */
-    private function emitBody(ResponseInterface $response) {
+    private function emitBody(ResponseInterface $response): void
+    {
         $stream = $response->getBody();
         if ($stream->isSeekable()) {
             $stream->rewind();
         }
-        while (!$stream->eof()) {
+        while (! $stream->eof()) {
             echo $stream->read(1024 * 8);
         }
     }

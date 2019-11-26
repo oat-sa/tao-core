@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\model\taskQueue\TaskLog\Entity;
@@ -40,25 +42,25 @@ class TaskLogEntity implements EntityInterface
     /** @var array */
     private $parameters;
 
-    /** @var  string */
+    /** @var string */
     private $label;
 
     /** @var CategorizedStatus */
     private $status;
 
-    /** @var bool  */
+    /** @var bool */
     private $masterStatus;
 
     /** @var string */
     private $owner;
 
-    /** @var  Report */
+    /** @var Report */
     private $report;
 
-    /** @var  DateTime */
+    /** @var DateTime */
     private $createdAt;
 
-    /** @var  DateTime */
+    /** @var DateTime */
     private $updatedAt;
 
     /**
@@ -196,7 +198,6 @@ class TaskLogEntity implements EntityInterface
         return $this->updatedAt;
     }
 
-
     /**
      * @return CategorizedStatus
      */
@@ -210,7 +211,7 @@ class TaskLogEntity implements EntityInterface
      */
     public function isMasterStatus()
     {
-        return (boolean) $this->masterStatus;
+        return (bool) $this->masterStatus;
     }
 
     /**
@@ -225,11 +226,11 @@ class TaskLogEntity implements EntityInterface
     {
         $filename = '';
 
-        if ($this->getStatus()->isFailed() || is_null($this->getReport())) {
+        if ($this->getStatus()->isFailed() || $this->getReport() === null) {
             return $filename;
         }
 
-        /** @var Report  $successReport */
+        /** @var Report $successReport */
         foreach ($this->getReport()->getSuccesses() as $successReport) {
             $data = $successReport->getData();
             if (is_string($data)) {
@@ -245,16 +246,15 @@ class TaskLogEntity implements EntityInterface
         return $filename;
     }
 
-
     public function getResourceUriFromReport()
     {
         $uri = '';
 
-        if ($this->getStatus()->isFailed() || is_null($this->getReport())) {
+        if ($this->getStatus()->isFailed() || $this->getReport() === null) {
             return $uri;
         }
 
-        /** @var Report  $successReport */
+        /** @var Report $successReport */
         foreach ($this->getReport()->getSuccesses(true) as $successReport) {
             $data = $successReport->getData();
             if (is_array($data) && isset($data['uriResource'])) {
@@ -284,8 +284,8 @@ class TaskLogEntity implements EntityInterface
             'id' => $this->id,
             'taskName' => $this->taskName,
             'status' => (string) $this->status,
-            'masterStatus' => (boolean) $this->masterStatus,
-            'statusLabel' => $this->status->getLabel()
+            'masterStatus' => (bool) $this->masterStatus,
+            'statusLabel' => $this->status->getLabel(),
         ];
 
         // add other fields only if they have values

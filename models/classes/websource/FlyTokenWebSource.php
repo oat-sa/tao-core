@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
- *
  */
+
 namespace oat\tao\model\websource;
 
 use common_ext_ExtensionsManager;
@@ -28,12 +31,12 @@ use common_ext_ExtensionsManager;
  */
 class FlyTokenWebSource extends TokenWebSource
 {
-    const ENTRY_POINT = '/getFileFlysystem.php/';
+    public const ENTRY_POINT = '/getFileFlysystem.php/';
 
     /**
      * @param $fileSystem
      */
-    public function setFileSystem($fileSystem)
+    public function setFileSystem($fileSystem): void
     {
         $this->fileSystem = $fileSystem;
     }
@@ -49,13 +52,13 @@ class FlyTokenWebSource extends TokenWebSource
         $url = parse_url($url)['path']; //remove query part from url.
         $rel = substr($url, strpos($url, self::ENTRY_POINT) + strlen(self::ENTRY_POINT));
         $parts = explode('/', $rel, 4);
-        list ($webSourceId, $timestamp, $token, $subPath) = $parts;
+        [$webSourceId, $timestamp, $token, $subPath] = $parts;
 
         $parts = explode('*/', $subPath, 2);
         if (count($parts) < 2) {
-            throw new \tao_models_classes_FileNotFoundException('`'.$subPath.'` - (wrong number of path parts)');
+            throw new \tao_models_classes_FileNotFoundException('`' . $subPath . '` - (wrong number of path parts)');
         }
-        list ($subPath, $file) = $parts;
+        [$subPath, $file] = $parts;
 
         $secret = $this->getOption('secret');
         $ttl = $this->getOption('ttl');
@@ -65,18 +68,16 @@ class FlyTokenWebSource extends TokenWebSource
         if (time() - $timestamp > $ttl) {
             throw new \tao_models_classes_FileNotFoundException('`' . $subPath . $file . '` - (file link expired)');
         }
-        if ($token != $correctToken) {
+        if ($token !== $correctToken) {
             throw new \tao_models_classes_FileNotFoundException('`' . $subPath . $file . '` - (wrong token)');
         }
 
 
-        $path = array();
+        $path = [];
         foreach (explode('/', $subPath . $file) as $ele) {
             $path[] = rawurldecode($ele);
         }
-        $filename = implode('/', $path);
-
-        return $filename;
+        return implode('/', $path);
     }
 
     /**
@@ -85,15 +86,15 @@ class FlyTokenWebSource extends TokenWebSource
      * @throws \common_exception_Error
      * @throws \common_ext_ExtensionException
      */
-    public function getAccessUrl($relativePath) {
-        $path = array();
+    public function getAccessUrl($relativePath)
+    {
+        $path = [];
         foreach (preg_split('/[\/\\\]/', ltrim($relativePath, '/\\')) as $ele) {
             $path[] = rawurlencode($ele);
         }
         $relUrl = implode('/', $path);
         $token = $this->generateToken($relUrl);
         $taoExtension = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-        return $taoExtension->getConstant('BASE_URL').'getFileFlysystem.php/'.$this->getId().'/'.$token.'/'.$relUrl.'*/';
+        return $taoExtension->getConstant('BASE_URL') . 'getFileFlysystem.php/' . $this->getId() . '/' . $token . '/' . $relUrl . '*/';
     }
 }
-

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,13 +22,12 @@
 
 namespace oat\tao\test\unit\helpers;
 
-
 use oat\generis\test\TestCase;
 use oat\tao\helpers\ArrayValidator;
 
 class ArrayValidatorTest extends TestCase
 {
-    public function testRequiredFields()
+    public function testRequiredFields(): void
     {
         $data = [
             'a' => [],
@@ -35,7 +37,7 @@ class ArrayValidatorTest extends TestCase
             'b' => true,
             'f' => 234.5,
             'o' => new \DateTime(),
-            'extra1' => 'ee'
+            'extra1' => 'ee',
         ];
 
         $validator = (new ArrayValidator())
@@ -50,13 +52,13 @@ class ArrayValidatorTest extends TestCase
         $this->assertTrue($validator->validate($data));
     }
 
-    public function testRequiredFieldsNegative()
+    public function testRequiredFieldsNegative(): void
     {
         $data = [
             'a' => [],
             's1' => '111',
             'b' => true,
-            'extra1' => 'ee'
+            'extra1' => 'ee',
         ];
 
         $validator = (new ArrayValidator())
@@ -75,7 +77,7 @@ class ArrayValidatorTest extends TestCase
         $this->assertEmpty($validator->getExtraKeys());
     }
 
-    public function testTypeMismatchedFields()
+    public function testTypeMismatchedFields(): void
     {
         $data = [
             'a' => 'str',
@@ -85,7 +87,7 @@ class ArrayValidatorTest extends TestCase
             'f' => 13,
             'b' => 'sss',
             'o' => 234,
-            'extra1' => 'ee'
+            'extra1' => 'ee',
         ];
 
         $validator = (new ArrayValidator())
@@ -111,14 +113,14 @@ class ArrayValidatorTest extends TestCase
         $this->assertEmpty($validator->getExtraKeys());
     }
 
-    public function testNullableFields()
+    public function testNullableFields(): void
     {
         $data = [
             'a' => null,
             's1' => null,
             's2' => 'sss',
             'i' => 123,
-            'extra1' => 'ee'
+            'extra1' => 'ee',
         ];
 
         $validator = (new ArrayValidator())
@@ -134,11 +136,11 @@ class ArrayValidatorTest extends TestCase
         $this->assertEmpty($validator->getExtraKeys());
     }
 
-    public function testOptionalFields()
+    public function testOptionalFields(): void
     {
         $data = [
             'i' => 123,
-            'extra1' => 'ee'
+            'extra1' => 'ee',
         ];
 
         $validator = (new ArrayValidator())
@@ -154,12 +156,12 @@ class ArrayValidatorTest extends TestCase
         $this->assertEmpty($validator->getExtraKeys());
     }
 
-    public function testExtraFields()
+    public function testExtraFields(): void
     {
         $data = [
             'i' => 123,
             'extra1' => 'ee1',
-            'extra2' => 'ee2'
+            'extra2' => 'ee2',
         ];
 
         $validator = (new ArrayValidator())

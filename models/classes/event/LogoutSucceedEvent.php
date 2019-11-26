@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA
- *
  */
 
 namespace oat\tao\model\event;
@@ -29,6 +31,7 @@ class LogoutSucceedEvent implements Event, JsonSerializable
      * @var string
      */
     private $login;
+
     /**
      * @var
      */
@@ -42,7 +45,6 @@ class LogoutSucceedEvent implements Event, JsonSerializable
         $this->login = $login;
         $this->time = time();
     }
-
 
     /**
      * Return a unique name for this event
@@ -76,7 +78,7 @@ class LogoutSucceedEvent implements Event, JsonSerializable
      * which is a value of any type other than a resource.
      * @since 5.4.0
      */
-    function jsonSerialize()
+    public function jsonSerialize()
     {
         return [
             $this->getLogin(),

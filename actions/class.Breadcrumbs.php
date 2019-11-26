@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,8 +20,8 @@
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  */
 
-use oat\tao\model\routing\Resolver;
 use oat\tao\model\mvc\Breadcrumbs;
+use oat\tao\model\routing\Resolver;
 
 /**
  * Controller that will serve breadcrumbs depending on context routes.
@@ -35,10 +38,48 @@ use oat\tao\model\mvc\Breadcrumbs;
  *
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
  * @package oat\tao\actions
- *
  */
 class tao_actions_Breadcrumbs extends \tao_actions_CommonModule implements Breadcrumbs
 {
+    /**
+     * Builds breadcrumbs for a particular route.
+     * @param string $route - The route URL
+     * @param array $parsedRoute - The parsed URL (@see parse_url), augmented with extension, controller and action
+     * @return array|null - The breadcrumb related to the route, or `null` if none. Must contains:
+     * - id: the route id
+     * - url: the route url
+     * - label: the label displayed for the breadcrumb
+     * - entries: a list of related links, using the same format as above
+     */
+    public function breadcrumbs($route, $parsedRoute)
+    {
+        // default behavior: no breadcrumb
+        return null;
+    }
+
+    /**
+     * Loads all the breadcrumbs for a particular context route
+     */
+    public function load(): void
+    {
+        $data = [];
+        $routes = $this->getRoutes();
+        foreach ($routes as $route) {
+            $parsedRoute = $this->parseRoute($route);
+            $routeData = $this->requestService($route, $parsedRoute);
+
+            if ($routeData !== null) {
+                // When the routeData contains more entry. (if it's a numeric array)
+                if (array_values($routeData) === $routeData) {
+                    $data = array_merge($data, $routeData);
+                } else {
+                    $data[] = $routeData;
+                }
+            }
+        }
+        $this->returnData($data);
+    }
+
     /**
      * Parses the provided context route
      * @param string $route
@@ -56,17 +97,17 @@ class tao_actions_Breadcrumbs extends \tao_actions_CommonModule implements Bread
 
         $resolvedRoute = new Resolver(new \common_http_Request($route));
         $this->propagate($resolvedRoute);
-        $parsedRoute['extension']         = $resolvedRoute->getExtensionId();
-        $parsedRoute['controller']        = $resolvedRoute->getControllerShortName();
-        $parsedRoute['controller_class']  = $resolvedRoute->getControllerClass();
-        $parsedRoute['action']            = $resolvedRoute->getMethodName();
+        $parsedRoute['extension'] = $resolvedRoute->getExtensionId();
+        $parsedRoute['controller'] = $resolvedRoute->getControllerShortName();
+        $parsedRoute['controller_class'] = $resolvedRoute->getControllerClass();
+        $parsedRoute['action'] = $resolvedRoute->getMethodName();
 
         return $parsedRoute;
     }
 
     /**
      * Gets the provided context route
-     * @return array|mixed|null|string
+     * @return array|mixed|string|null
      * @throws common_exception_MissingParameter
      */
     protected function getRoutes()
@@ -76,7 +117,7 @@ class tao_actions_Breadcrumbs extends \tao_actions_CommonModule implements Bread
             throw new \common_exception_MissingParameter('You must specify a route');
         }
 
-        if (!is_array($route)) {
+        if (! is_array($route)) {
             $route = [$route];
         }
 
@@ -87,7 +128,7 @@ class tao_actions_Breadcrumbs extends \tao_actions_CommonModule implements Bread
      * Sends the data to the client using the preferred format
      * @param $data
      */
-    protected function returnData($data)
+    protected function returnData($data): void
     {
         if (isset($_SERVER['HTTP_ACCEPT']) && strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false) {
             $this->returnJson([
@@ -127,48 +168,7 @@ class tao_actions_Breadcrumbs extends \tao_actions_CommonModule implements Bread
 
         if ($service instanceof Breadcrumbs) {
             return $service->breadcrumbs($route, $parsedRoute);
-        } else {
-            throw new common_exception_NoImplementation('Class ' . get_class($service) . ' does not implement the Breadcrumbs interface!');
         }
-    }
-
-    /**
-     * Builds breadcrumbs for a particular route.
-     * @param string $route - The route URL
-     * @param array $parsedRoute - The parsed URL (@see parse_url), augmented with extension, controller and action
-     * @return array|null - The breadcrumb related to the route, or `null` if none. Must contains:
-     * - id: the route id
-     * - url: the route url
-     * - label: the label displayed for the breadcrumb
-     * - entries: a list of related links, using the same format as above
-     */
-    public function breadcrumbs($route, $parsedRoute)
-    {
-        // default behavior: no breadcrumb
-        return null;
-    }
-
-    /**
-     * Loads all the breadcrumbs for a particular context route
-     */
-    public function load()
-    {
-        $data = [];
-        $routes = $this->getRoutes();
-        foreach($routes as $route) {
-            $parsedRoute = $this->parseRoute($route);
-            $routeData = $this->requestService($route, $parsedRoute);
-
-            if ($routeData !== null) {
-                // When the routeData contains more entry. (if it's a numeric array)
-                if (array_values($routeData) === $routeData) {
-                    $data = array_merge($data, $routeData);
-                }
-                else {
-                    $data[] = $routeData;
-                }
-            }
-        }
-        $this->returnData($data);
+        throw new common_exception_NoImplementation('Class ' . get_class($service) . ' does not implement the Breadcrumbs interface!');
     }
 }

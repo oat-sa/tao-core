@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,14 +24,13 @@
 
 namespace oat\tao\install\services;
 
-
 use oat\oatbox\extension\InstallAction;
 use oat\tao\model\settings\CspHeaderSettingsInterface;
 use oat\tao\model\settings\SettingsStorageInterface;
 
 class SetupSettingsStorage extends InstallAction
 {
-    public function __invoke($params)
+    public function __invoke($params): void
     {
         $settingsStorageService = $this->getServiceLocator()->get(SettingsStorageInterface::SERVICE_ID);
         $settingsStorageService->set(CspHeaderSettingsInterface::CSP_HEADER_SETTING, 'self');

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -26,13 +29,19 @@ use ArrayObject;
  */
 class WebhookTaskParams extends ArrayObject
 {
-    const EVENT_NAME = 'eventName';
-    const EVENT_ID = 'eventId';
-    const TRIGGERED_TIMESTAMP = 'triggeredTimestamp';
-    const EVENT_DATA = 'eventData';
-    const WEBHOOK_CONFIG_ID = 'webhookConfigId';
-    const RETRY_MAX = 'retryMax';
-    const RETRY_COUNT = 'retryCount';
+    public const EVENT_NAME = 'eventName';
+
+    public const EVENT_ID = 'eventId';
+
+    public const TRIGGERED_TIMESTAMP = 'triggeredTimestamp';
+
+    public const EVENT_DATA = 'eventData';
+
+    public const WEBHOOK_CONFIG_ID = 'webhookConfigId';
+
+    public const RETRY_MAX = 'retryMax';
+
+    public const RETRY_COUNT = 'retryCount';
 
     /**
      * @return string
@@ -85,7 +94,7 @@ class WebhookTaskParams extends ArrayObject
     /**
      * increase retry counter
      */
-    public function increaseRetryCount()
+    public function increaseRetryCount(): void
     {
         $this[self::RETRY_COUNT]++;
     }

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA
- *
  */
+
 namespace oat\tao\model\event;
 
 use core_kernel_classes_Resource;
@@ -26,8 +29,7 @@ use oat\oatbox\event\Event;
 
 class UserCreatedEvent implements Event, JsonSerializable
 {
-
-    /** @var  string */
+    /** @var string */
     protected $user;
 
     /**
@@ -37,7 +39,6 @@ class UserCreatedEvent implements Event, JsonSerializable
     {
         $this->user = $user;
     }
-
 
     /**
      * Return a unique name for this event
@@ -59,7 +60,7 @@ class UserCreatedEvent implements Event, JsonSerializable
     {
         return [
             'uri' => $this->user->getUri(),
-//            'login' => $this->user->getOnePropertyValue(new core_kernel_classes_Property(GenerisRdf::PROPERTY_USER_LOGIN)),
+            //            'login' => $this->user->getOnePropertyValue(new core_kernel_classes_Property(GenerisRdf::PROPERTY_USER_LOGIN)),
         ];
     }
 }

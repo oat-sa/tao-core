@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,17 +18,17 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
+
 namespace oat\tao\test\integration\datatable;
 
+use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 use oat\tao\model\datatable\implementation\AbstractDatatablePayload;
 use oat\tao\model\datatable\implementation\DatatableRequest;
 use oat\tao\test\TaoPhpUnitTestRunner;
+use Prophecy\Argument;
 use Slim\Http\Environment;
 use Slim\Http\Request;
-use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
-use Prophecy\Argument;
 
 /**
  * Class DatatablePayloadTest
@@ -34,7 +37,7 @@ use Prophecy\Argument;
  */
 class DatatablePayloadTest extends TaoPhpUnitTestRunner
 {
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
     }
@@ -45,7 +48,7 @@ class DatatablePayloadTest extends TaoPhpUnitTestRunner
      *
      * @param Environment $env
      */
-    public function testGetPayload($env)
+    public function testGetPayload($env): void
     {
         $request = Request::createFromEnvironment($env);
         $datatableRequest = new DatatableRequest($request);
@@ -56,7 +59,6 @@ class DatatablePayloadTest extends TaoPhpUnitTestRunner
         $payload = $datatablePayload->getPayload();
         $this->assertTrue(is_array($payload));
     }
-
 
     public function environmentsProvider()
     {
@@ -125,14 +127,9 @@ class ConcreteDatatablePayload extends AbstractDatatablePayload
 {
     protected $searchService;
 
-    public function setSearchService($searchService)
+    public function setSearchService($searchService): void
     {
         $this->searchService = $searchService;
-    }
-
-    protected function getSearchService()
-    {
-        return $this->searchService;
     }
 
     /**
@@ -150,11 +147,24 @@ class ConcreteDatatablePayload extends AbstractDatatablePayload
     {
         return 'http://www.tao.lu/Ontologies/TAOSubject.rdf#Subject';
     }
+
+    protected function getSearchService()
+    {
+        return $this->searchService;
+    }
 }
 
 class QueryMock extends \oat\search\Query
 {
-    public function sort(){}
-    public function setLimit(){}
-    public function setOffset(){}
+    public function sort(): void
+    {
+    }
+
+    public function setLimit(): void
+    {
+    }
+
+    public function setOffset(): void
+    {
+    }
 }

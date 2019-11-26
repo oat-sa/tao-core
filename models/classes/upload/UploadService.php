@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,11 +18,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA
- *
  */
 
 namespace oat\tao\model\upload;
-
 
 use oat\generis\model\fileReference\UrlFileSerializer;
 use oat\oatbox\event\EventManager;
@@ -33,11 +34,11 @@ use tao_helpers_File;
 
 class UploadService extends ConfigurableService
 {
-    const SERVICE_ID = 'tao/upload';
+    public const SERVICE_ID = 'tao/upload';
 
-    static public $tmpFilesystemId = 'sharedTmp';
+    public static $tmpFilesystemId = 'sharedTmp';
+
     private $uriSerializer;
-
 
     /**
      * @param array $postedFile
@@ -50,13 +51,13 @@ class UploadService extends ConfigurableService
     {
         $tmp_name = array_key_exists('tmp_name', $postedFile) ? $postedFile['tmp_name'] : null;
 
-        if (!$tmp_name) {
+        if (! $tmp_name) {
             throw  new \InvalidArgumentException('Upload filename is missing');
         }
         $name = array_key_exists('name', $postedFile) ? $postedFile['name'] : uniqid('unknown_', false);
         $extension = pathinfo($name, PATHINFO_EXTENSION);
 
-        $targetName     = uniqid('tmp', true) . '.' . $extension;
+        $targetName = uniqid('tmp', true) . '.' . $extension;
         $targetLocation = tao_helpers_File::concat([$folder, $targetName]);
 
         $file = $this->getUploadDir()->getFile($this->getUserDirectoryHash() . $targetLocation);
@@ -95,13 +96,13 @@ class UploadService extends ConfigurableService
     {
         return $this->getServiceLocator()->get(FileSystemService::SERVICE_ID)->getDirectory($this->getUploadFSid());
     }
+
     /**
-     *
      * @return \oat\generis\model\fileReference\UrlFileSerializer
      */
     public function getSerializer()
     {
-        if (!$this->uriSerializer) {
+        if (! $this->uriSerializer) {
             $this->uriSerializer = new UrlFileSerializer();
             $this->uriSerializer->setServiceLocator($this->getServiceLocator());
         }
@@ -164,8 +165,7 @@ class UploadService extends ConfigurableService
             }
 
             $path .= $fakeFile->getBasename();
-        }
-        else {
+        } else {
             $path .= $serial;
         }
 
@@ -178,28 +178,9 @@ class UploadService extends ConfigurableService
     }
 
     /**
-     * Deprecated, for compatibility with legacy code
-     * @param $file
-     * @return string
-     * @throws \common_Exception
-     */
-    private function getLocalCopy(File $file)
-    {
-        $tmpName = \tao_helpers_File::concat([\tao_helpers_File::createTempDir(), $file->getBasename()]);
-        if (($resource = fopen($tmpName, 'wb')) !== false) {
-            stream_copy_to_stream($file->readStream(), $resource);
-            fclose($resource);
-            $this->getServiceLocator()->get(EventManager::CONFIG_ID)->trigger(new UploadLocalCopyCreatedEvent($file,
-                $tmpName));
-            return $tmpName;
-        }
-        throw new \common_Exception('Impossible to make local file copy at ' . $tmpName);
-    }
-
-    /**
      * @param FileUploadedEvent $event
      */
-    public static function listenUploadEvent(FileUploadedEvent $event)
+    public static function listenUploadEvent(FileUploadedEvent $event): void
     {
         $storage = TempFlyStorageAssociation::getStorage();
         $storage->setUpload($event->getFile());
@@ -208,20 +189,19 @@ class UploadService extends ConfigurableService
     /**
      * @param UploadLocalCopyCreatedEvent $event
      */
-    public static function listenLocalCopyEvent(UploadLocalCopyCreatedEvent $event)
+    public static function listenLocalCopyEvent(UploadLocalCopyCreatedEvent $event): void
     {
         $storage = TempFlyStorageAssociation::getStorage();
         $storage->addLocalCopies($event->getFile(), $event->getTmpPath());
     }
 
-    public function remove($file)
+    public function remove($file): void
     {
         $storage = TempFlyStorageAssociation::getStorage();
 
         if ($file instanceof File) {
-
             $storedLocalTmps = $storage->getLocalCopies($file);
-            foreach ((array)$storedLocalTmps as $tmp) {
+            foreach ((array) $storedLocalTmps as $tmp) {
                 tao_helpers_File::remove($tmp);
             }
             $storage->removeFiles($file);
@@ -265,4 +245,24 @@ class UploadService extends ConfigurableService
         return false;
     }
 
+    /**
+     * Deprecated, for compatibility with legacy code
+     * @param $file
+     * @return string
+     * @throws \common_Exception
+     */
+    private function getLocalCopy(File $file)
+    {
+        $tmpName = \tao_helpers_File::concat([\tao_helpers_File::createTempDir(), $file->getBasename()]);
+        if (($resource = fopen($tmpName, 'wb')) !== false) {
+            stream_copy_to_stream($file->readStream(), $resource);
+            fclose($resource);
+            $this->getServiceLocator()->get(EventManager::CONFIG_ID)->trigger(new UploadLocalCopyCreatedEvent(
+                $file,
+                $tmpName
+            ));
+            return $tmpName;
+        }
+        throw new \common_Exception('Impossible to make local file copy at ' . $tmpName);
+    }
 }

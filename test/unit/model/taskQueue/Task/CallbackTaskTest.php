@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,16 +18,15 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\test\unit\model\taskQueue\Task;
 
+use oat\generis\test\TestCase;
 use oat\tao\model\taskQueue\Task\CallbackTask;
 use oat\tao\model\taskQueue\Task\CallbackTaskInterface;
 use oat\tao\model\taskQueue\Task\TaskInterface;
 use oat\tao\test\Asset\CallableFixture;
-use oat\generis\test\TestCase;
 
 class CallbackTaskTest extends TestCase
 {
@@ -32,49 +34,51 @@ class CallbackTaskTest extends TestCase
      * @var CallbackTask
      */
     private $task;
+
     private $fakeId = 'WCDWW544eefdtyh';
+
     private $fakeOwner = 'FakeOwner2';
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->task = new CallbackTask($this->fakeId, $this->fakeOwner);
     }
 
-    public function tearDown()
+    protected function tearDown(): void
     {
         $this->task = null;
     }
 
-    public function testSetCallableShouldReturnTheTask()
+    public function testSetCallableShouldReturnTheTask(): void
     {
         $rs = $this->task->setCallable('abs');
         $this->assertInstanceOf(TaskInterface::class, $rs);
         $this->assertInstanceOf(CallbackTaskInterface::class, $rs);
     }
 
-    public function testSetGetCallableShouldAcceptStaticClassMethodCall()
+    public function testSetGetCallableShouldAcceptStaticClassMethodCall(): void
     {
         $callable = [CallableFixture::class, 'exampleStatic'];
         $this->task->setCallable($callable);
-        $this->assertEquals($callable, $this->task->getCallable());
+        $this->assertSame($callable, $this->task->getCallable());
     }
 
-    public function testSetGetCallableShouldAcceptObjectsImplementingInvoke()
+    public function testSetGetCallableShouldAcceptObjectsImplementingInvoke(): void
     {
         $callable = new CallableFixture();
         $this->task->setCallable($callable);
-        $this->assertEquals($callable, $this->task->getCallable());
+        $this->assertSame($callable, $this->task->getCallable());
     }
 
     /**
      * @dataProvider provideCallables
      */
-    public function testInvokeWithCallables($callable, $expected)
+    public function testInvokeWithCallables($callable, $expected): void
     {
         $this->task->setCallable($callable);
         $this->task->setParameter($expected);
         // every methods of CallableFixture double will just return the given parameters
-        $this->assertEquals($expected, $this->task->__invoke());
+        $this->assertSame($expected, $this->task->__invoke());
     }
 
     public function provideCallables()
@@ -82,22 +86,22 @@ class CallbackTaskTest extends TestCase
         return [
             'WithStaticClass' => [
                 [CallableFixture::class, 'exampleStatic'],
-                ['param1' => 'value1']
+                ['param1' => 'value1'],
             ],
             'ClassWithInvoke' => [
                 new CallableFixture(),
-                ['param2' => 'value2']
-            ]
+                ['param2' => 'value2'],
+            ],
         ];
     }
 
-    public function testMarkAsEnqueuedAndIsEnqueued()
+    public function testMarkAsEnqueuedAndIsEnqueued(): void
     {
         $this->task->markAsEnqueued();
         $this->assertTrue($this->task->isEnqueued());
     }
 
-    public function testJsonSerializingCallbackTask()
+    public function testJsonSerializingCallbackTask(): void
     {
         $this->task->setCallable(new CallableFixture());
 
@@ -112,23 +116,23 @@ class CallbackTaskTest extends TestCase
                 '__id__' => $this->fakeId,
                 '__created_at__' => $date->format('c'),
                 '__owner__' => $this->fakeOwner,
-                '__callable__' => CallableFixture::class
+                '__callable__' => CallableFixture::class,
             ],
             'parameters' => [
-                'key1' => 'value1'
-            ]
+                'key1' => 'value1',
+            ],
         ];
 
         $this->assertJsonStringEqualsJsonString(json_encode($jsonArray), json_encode($this->task));
     }
 
-    public function testGetCallableShouldReturnStringAfterJsonDecode()
+    public function testGetCallableShouldReturnStringAfterJsonDecode(): void
     {
         $json = '{"taskFqcn":"oat\\\oatbox\\\TaskQueue\\\CallbackTask","metadata":{"__callable__":"oat\\\tao\\\test\\\Asset\\\CallableFixture"},"parameters":{"key1":"value1"}}';
         $data = json_decode($json, true);
 
         $this->task->setMetadata($data['metadata']);
 
-        $this->assertEquals(CallableFixture::class, $this->task->getCallable());
+        $this->assertSame(CallableFixture::class, $this->task->getCallable());
     }
 }

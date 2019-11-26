@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,8 +23,8 @@
 namespace oat\tao\test\unit\providers;
 
 use common_exception_InconsistentData;
-use oat\tao\model\providers\ProviderModule;
 use oat\generis\test\TestCase;
+use oat\tao\model\providers\ProviderModule;
 
 /**
  * Test the ProviderModule pojo
@@ -31,7 +34,6 @@ use oat\generis\test\TestCase;
  */
 class ProviderModuleTest extends TestCase
 {
-
     /**
      * Data provider
      * @return array the data
@@ -47,16 +49,16 @@ class ProviderModuleTest extends TestCase
                     'category' => 'dummy',
                     'description' => 'The best foo ever',
                     'active' => true,
-                    'tags' => ['required']
+                    'tags' => ['required'],
                 ], [
-                'id' => 'foo',
-                'name' => 'Foo',
-                'module' => 'provider/foo',
-                'category' => 'dummy',
-                'description' => 'The best foo ever',
-                'active' => true,
-                'tags' => ['required']
-            ]
+                    'id' => 'foo',
+                    'name' => 'Foo',
+                    'module' => 'provider/foo',
+                    'category' => 'dummy',
+                    'description' => 'The best foo ever',
+                    'active' => true,
+                    'tags' => ['required'],
+                ],
             ], [
                 [
                     'id' => '12',
@@ -70,25 +72,24 @@ class ProviderModuleTest extends TestCase
                     'category' => 'dummy',
                     'description' => '',
                     'active' => true,
-                    'tags' => []
-                ]
-            ]
+                    'tags' => [],
+                ],
+            ],
         ];
     }
 
     /**
      * @expectedException common_exception_InconsistentData
      */
-    public function testConstructBadId()
+    public function testConstructBadId(): void
     {
         new ProviderModule(12, 'foo', 'bar');
     }
 
-
     /**
      * @expectedException common_exception_InconsistentData
      */
-    public function testConstructEmptyId()
+    public function testConstructEmptyId(): void
     {
         new ProviderModule('', 'foo', 'bar');
     }
@@ -96,7 +97,7 @@ class ProviderModuleTest extends TestCase
     /**
      * @expectedException common_exception_InconsistentData
      */
-    public function testConstructBadModule()
+    public function testConstructBadModule(): void
     {
         new ProviderModule('foo', true, 'bar');
     }
@@ -104,7 +105,7 @@ class ProviderModuleTest extends TestCase
     /**
      * @expectedException common_exception_InconsistentData
      */
-    public function testConstructiEmptyModule()
+    public function testConstructiEmptyModule(): void
     {
         new ProviderModule('foo', '', 'bar');
     }
@@ -112,7 +113,7 @@ class ProviderModuleTest extends TestCase
     /**
      * @expectedException common_exception_InconsistentData
      */
-    public function testConstructBadCategory()
+    public function testConstructBadCategory(): void
     {
         new ProviderModule('foo', 'bar', []);
     }
@@ -120,7 +121,7 @@ class ProviderModuleTest extends TestCase
     /**
      * @expectedException common_exception_InconsistentData
      */
-    public function testConstructNoCategory()
+    public function testConstructNoCategory(): void
     {
         new ProviderModule('foo', 'bar', null);
     }
@@ -128,7 +129,7 @@ class ProviderModuleTest extends TestCase
     /**
      * @expectedException common_exception_InconsistentData
      */
-    public function testFromArrayNoRequiredData()
+    public function testFromArrayNoRequiredData(): void
     {
         ProviderModule::fromArray([]);
     }
@@ -137,48 +138,46 @@ class ProviderModuleTest extends TestCase
      * Test constructor and getter
      * @dataProvider accessorsProvider
      */
-    public function testConstruct($input, $output)
+    public function testConstruct($input, $output): void
     {
-
         $ProviderModule = new ProviderModule($input['id'], $input['module'], $input['category'], $input);
 
-        $this->assertEquals($output['id'], $ProviderModule->getId());
-        $this->assertEquals($output['name'], $ProviderModule->getName());
-        $this->assertEquals($output['module'], $ProviderModule->getModule());
-        $this->assertEquals($output['category'], $ProviderModule->getCategory());
-        $this->assertEquals($output['description'], $ProviderModule->getDescription());
-        $this->assertEquals($output['active'], $ProviderModule->isActive());
-        $this->assertEquals($output['tags'], $ProviderModule->getTags());
+        $this->assertSame($output['id'], $ProviderModule->getId());
+        $this->assertSame($output['name'], $ProviderModule->getName());
+        $this->assertSame($output['module'], $ProviderModule->getModule());
+        $this->assertSame($output['category'], $ProviderModule->getCategory());
+        $this->assertSame($output['description'], $ProviderModule->getDescription());
+        $this->assertSame($output['active'], $ProviderModule->isActive());
+        $this->assertSame($output['tags'], $ProviderModule->getTags());
 
-        $ProviderModule->setActive(!$output['active']);
-        $this->assertEquals(!$output['active'], $ProviderModule->isActive());
+        $ProviderModule->setActive(! $output['active']);
+        $this->assertSame(! $output['active'], $ProviderModule->isActive());
     }
 
     /**
      * Test from array and getters
      * @dataProvider accessorsProvider
      */
-    public function testFromArray($input, $output)
+    public function testFromArray($input, $output): void
     {
-
         $ProviderModule = ProviderModule::fromArray($input);
 
-        $this->assertEquals($output['id'], $ProviderModule->getId());
-        $this->assertEquals($output['name'], $ProviderModule->getName());
-        $this->assertEquals($output['module'], $ProviderModule->getModule());
-        $this->assertEquals($output['category'], $ProviderModule->getCategory());
-        $this->assertEquals($output['description'], $ProviderModule->getDescription());
-        $this->assertEquals($output['active'], $ProviderModule->isActive());
-        $this->assertEquals($output['tags'], $ProviderModule->getTags());
+        $this->assertSame($output['id'], $ProviderModule->getId());
+        $this->assertSame($output['name'], $ProviderModule->getName());
+        $this->assertSame($output['module'], $ProviderModule->getModule());
+        $this->assertSame($output['category'], $ProviderModule->getCategory());
+        $this->assertSame($output['description'], $ProviderModule->getDescription());
+        $this->assertSame($output['active'], $ProviderModule->isActive());
+        $this->assertSame($output['tags'], $ProviderModule->getTags());
 
-        $ProviderModule->setActive(!$output['active']);
-        $this->assertEquals(!$output['active'], $ProviderModule->isActive());
+        $ProviderModule->setActive(! $output['active']);
+        $this->assertSame(! $output['active'], $ProviderModule->isActive());
     }
 
     /**
      * Test encoding the object to json
      */
-    public function testJsonSerialize()
+    public function testJsonSerialize(): void
     {
         $expected = '{"id":"bar","module":"bar\/bar","bundle":"providers\/bundle.min","position":null,"name":"Bar","description":"The best bar ever","category":"dummy","active":false,"tags":["dummy","goofy"]}';
 
@@ -187,11 +186,11 @@ class ProviderModuleTest extends TestCase
             'description' => 'The best bar ever',
             'active' => false,
             'bundle' => 'providers/bundle.min',
-            'tags' => ['dummy', 'goofy']
+            'tags' => ['dummy', 'goofy'],
         ]);
 
         $serialized = json_encode($ProviderModule);
 
-        $this->assertEquals($expected, $serialized);
+        $this->assertSame($expected, $serialized);
     }
 }

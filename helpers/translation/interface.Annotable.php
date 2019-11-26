@@ -1,22 +1,24 @@
 <?php
-/**  
+
+declare(strict_types=1);
+
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
  */
 
 /**
@@ -25,12 +27,9 @@
  * @access public
  * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @package tao
- 
  */
 interface tao_helpers_translation_Annotable
 {
-
-
     // --- OPERATIONS ---
 
     /**
@@ -38,10 +37,9 @@ interface tao_helpers_translation_Annotable
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  array annotations An associative array of annotations where keys are the annotation names and values are annotation values.
-     * @return void
+     * @param  array $annotations An associative array of annotations where keys are the annotation names and values are annotation values.
      */
-    public function setAnnotations($annotations);
+    public function setAnnotations($annotations): void;
 
     /**
      * Returns an associative array that represents a collection of annotations
@@ -59,21 +57,19 @@ interface tao_helpers_translation_Annotable
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string name The name of the annotation to add.
-     * @param  string value The value of the annotation to add.
-     * @return void
+     * @param  string $name The name of the annotation to add.
+     * @param  string $value The value of the annotation to add.
      */
-    public function addAnnotation($name, $value = '');
+    public function addAnnotation($name, $value = ''): void;
 
     /**
      * Removes an annotation for a given annotation name.
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string name The name of the annotation to remove.
-     * @return void
+     * @param  string $name The name of the annotation to remove.
      */
-    public function removeAnnotation($name);
+    public function removeAnnotation($name): void;
 
     /**
      * Get an annotation for a given annotation name. Returns an associative
@@ -81,11 +77,8 @@ interface tao_helpers_translation_Annotable
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string name
+     * @param  string $name
      * @return array
      */
     public function getAnnotation($name);
-
 } /* end of interface tao_helpers_translation_Annotable */
-
-?>

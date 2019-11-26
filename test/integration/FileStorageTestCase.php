@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace oat\tao\test\integration;
 
 use oat\generis\test\GenerisPhpUnitTestRunner;
@@ -9,12 +11,13 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 abstract class FileStorageTestCase extends GenerisPhpUnitTestRunner
 {
     protected $privateDir;
+
     protected $adapterFixture;
 
     /**
      * tests initialization
      */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->privateDir = \tao_helpers_File::createTempDir();
         $this->adapterFixture = 'adapterFixture';
@@ -23,35 +26,9 @@ abstract class FileStorageTestCase extends GenerisPhpUnitTestRunner
     /**
      * Remove directory of $adapterFixture
      */
-    public function tearDown()
+    protected function tearDown(): void
     {
         \tao_helpers_File::delTree($this->privateDir);
-    }
-
-    /**
-     * Create serviceLocator with custom filesystem using adapter for sample
-     * Two adapters needed to reflect private/public dir
-     *
-     * @return object
-     */
-    protected function getServiceLocatorWithFileSystem()
-    {
-        $adaptersFixture = array (
-            'adapters' => array (
-                $this->adapterFixture => array(
-                    'class' => 'Local',
-                    'options' => array(
-                        'root' => $this->privateDir
-                    )
-                )
-            )
-        );
-
-        $fileSystemService = new FileSystemService($adaptersFixture);
-
-        $smProphecy = $this->prophesize(ServiceLocatorInterface::class);
-        $smProphecy->get(FileSystemService::SERVICE_ID)->willReturn($fileSystemService);
-        return $smProphecy->reveal();
     }
 
     /**
@@ -64,11 +41,36 @@ abstract class FileStorageTestCase extends GenerisPhpUnitTestRunner
     public function getFileStorage()
     {
         $fileStorage = new \tao_models_classes_service_FileStorage([
-            \tao_models_classes_service_FileStorage::OPTION_PRIVATE_FS => $this->adapterFixture
+            \tao_models_classes_service_FileStorage::OPTION_PRIVATE_FS => $this->adapterFixture,
         ]);
         $fileStorage->setServiceLocator($this->getServiceLocatorWithFileSystem());
 
         return $fileStorage;
     }
 
+    /**
+     * Create serviceLocator with custom filesystem using adapter for sample
+     * Two adapters needed to reflect private/public dir
+     *
+     * @return object
+     */
+    protected function getServiceLocatorWithFileSystem()
+    {
+        $adaptersFixture = [
+            'adapters' => [
+                $this->adapterFixture => [
+                    'class' => 'Local',
+                    'options' => [
+                        'root' => $this->privateDir,
+                    ],
+                ],
+            ],
+        ];
+
+        $fileSystemService = new FileSystemService($adaptersFixture);
+
+        $smProphecy = $this->prophesize(ServiceLocatorInterface::class);
+        $smProphecy->get(FileSystemService::SERVICE_ID)->willReturn($fileSystemService);
+        return $smProphecy->reveal();
+    }
 }

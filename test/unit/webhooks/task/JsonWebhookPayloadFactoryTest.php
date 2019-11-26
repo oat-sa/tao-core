@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,13 +28,13 @@ use oat\tao\model\webhooks\task\JsonWebhookPayloadFactory;
 
 class JsonWebhookPayloadFactoryTest extends TestCase
 {
-    public function testGetContentType()
+    public function testGetContentType(): void
     {
         $factory = new JsonWebhookPayloadFactory();
         $this->assertSame('application/json', $factory->getContentType());
     }
 
-    public function testCreatePayloadSchema()
+    public function testCreatePayloadSchema(): void
     {
         $factory = new JsonWebhookPayloadFactory();
         /** @noinspection PhpUnhandledExceptionInspection */
@@ -39,10 +42,10 @@ class JsonWebhookPayloadFactoryTest extends TestCase
         $payloadObject = json_decode($payload, false);
 
         $validator = new Validator();
-        $validator->validate($payloadObject, (object)[
-            '$ref' => 'file://' . realpath(__DIR__ . '/webhookRequestSchema.json')
+        $validator->validate($payloadObject, (object) [
+            '$ref' => 'file://' . realpath(__DIR__ . '/webhookRequestSchema.json'),
         ]);
-        if (!$validator->isValid()) {
+        if (! $validator->isValid()) {
             $validationErrors = [];
             foreach ($validator->getErrors() as $error) {
                 $validationErrors[] = sprintf('[%s] %s', $error['property'], $error['message']);
@@ -51,7 +54,7 @@ class JsonWebhookPayloadFactoryTest extends TestCase
         }
     }
 
-    public function testCreatePayloadData()
+    public function testCreatePayloadData(): void
     {
         $factory = new JsonWebhookPayloadFactory();
         /** @noinspection PhpUnhandledExceptionInspection */

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace oat\tao\test\unit\model\metadata\import;
 
 use oat\generis\test\TestCase;
@@ -14,25 +16,19 @@ use oat\tao\model\metadata\writer\ontologyWriter\OntologyWriter;
 
 class OntologyMetadataInjectorTest extends TestCase
 {
-    protected function getOntologyMetadataInjectorMock($methods=[])
-    {
-        return $this->getMockForAbstractClass(OntologyMetadataInjector::class, [], '', false, true, true, $methods);
-    }
-
-
-    public function testSetOptions()
+    public function testSetOptions(): void
     {
         $options = ['source' => ['test'], 'destination' => ['test']];
         $ontologyInjector = $this->getOntologyMetadataInjectorMock();
 
         $ontologyInjector->setOptions($options);
-        $this->assertEquals($options, $ontologyInjector->getOptions());
+        $this->assertSame($options, $ontologyInjector->getOptions());
     }
 
     /**
      * @dataProvider setOptionsProviderException
      */
-    public function testSetOptionsException($options, $exception)
+    public function testSetOptionsException($options, $exception): void
     {
         $ontologyInjector = $this->getOntologyMetadataInjectorMock();
         $this->expectException($exception);
@@ -61,7 +57,7 @@ class OntologyMetadataInjectorTest extends TestCase
         ];
     }
 
-    public function testCreateInjectorHelpers()
+    public function testCreateInjectorHelpers(): void
     {
         $sourceFixture = ['sourceFixture'];
         $destinationFixture = ['destinationFixture'];
@@ -90,7 +86,7 @@ class OntologyMetadataInjectorTest extends TestCase
         $ontologyInjector->createInjectorHelpers();
     }
 
-    public function testRead()
+    public function testRead(): void
     {
         $dataSourceFixture = ['dataSourceFixture'];
 
@@ -108,7 +104,7 @@ class OntologyMetadataInjectorTest extends TestCase
 
         $readers = [
             'test1' => $readerMock1,
-            'test2' => $readerMock2
+            'test2' => $readerMock2,
         ];
 
         $ontologyInjector = $this->getOntologyMetadataInjectorMock();
@@ -119,10 +115,10 @@ class OntologyMetadataInjectorTest extends TestCase
 
         $data = $ontologyInjector->read($dataSourceFixture);
 
-        $this->assertEquals(['test1' => 'polop1', 'test2' => 'polop2'], $data);
+        $this->assertSame(['test1' => 'polop1', 'test2' => 'polop2'], $data);
     }
 
-    public function testReadException()
+    public function testReadException(): void
     {
         $dataSourceFixture = ['dataSourceFixture'];
 
@@ -144,12 +140,12 @@ class OntologyMetadataInjectorTest extends TestCase
         $ontologyInjector->read($dataSourceFixture);
     }
 
-    public function testSetReaders()
+    public function testSetReaders(): void
     {
         $readersFixture = [
-            'reader1' => array('key' =>'polop1'),
-            'reader2' => array('key' =>'polop2'),
-            'reader3' => array('key' =>'polop3'),
+            'reader1' => ['key' => 'polop1'],
+            'reader2' => ['key' => 'polop2'],
+            'reader3' => ['key' => 'polop3'],
         ];
 
         $ontologyInjector = $this->getOntologyMetadataInjectorMock();
@@ -167,11 +163,11 @@ class OntologyMetadataInjectorTest extends TestCase
             $property->setAccessible(true);
             $key = $property->getValue($reader);
 
-            $this->assertEquals($readersFixture[$name]['key'], $key);
+            $this->assertSame($readersFixture[$name]['key'], $key);
         }
     }
 
-    public function testSetWriters()
+    public function testSetWriters(): void
     {
         $writersFixture = [
             'writer1' => 'polop1',
@@ -203,14 +199,14 @@ class OntologyMetadataInjectorTest extends TestCase
         $writers = $property->getValue($ontologyInjector);
 
         $this->assertArrayHasKey('writer1', $writers);
-        $this->assertEquals($writers['writer1'], 'writerFixture1');
+        $this->assertSame($writers['writer1'], 'writerFixture1');
         $this->assertArrayHasKey('writer2', $writers);
-        $this->assertEquals($writers['writer2'], 'writerFixture2');
+        $this->assertSame($writers['writer2'], 'writerFixture2');
         $this->assertArrayHasKey('writer3', $writers);
-        $this->assertEquals($writers['writer3'], 'writerFixture3');
+        $this->assertSame($writers['writer3'], 'writerFixture3');
     }
 
-    public function testWrite()
+    public function testWrite(): void
     {
         $resource = $this->getMockBuilder(\core_kernel_classes_Resource::class)
             ->disableOriginalConstructor()
@@ -243,11 +239,11 @@ class OntologyMetadataInjectorTest extends TestCase
         } catch (MetadataInjectorWriteException $e) {
             $this->fail('Exception during test injector write with message : ' . $e->getMessage());
         }
-        
+
         $this->assertTrue(true);
     }
 
-    public function testWriteExceptionNotOntologyWriter()
+    public function testWriteExceptionNotOntologyWriter(): void
     {
         $resource = $this->getMockBuilder(\core_kernel_classes_Resource::class)
             ->disableOriginalConstructor()
@@ -276,7 +272,7 @@ class OntologyMetadataInjectorTest extends TestCase
         $ontologyInjector->write($resource, $data, $dryrun);
     }
 
-    public function testWriteExceptionCannotValidate()
+    public function testWriteExceptionCannotValidate(): void
     {
         $resource = $this->getMockBuilder(\core_kernel_classes_Resource::class)
             ->disableOriginalConstructor()
@@ -305,7 +301,7 @@ class OntologyMetadataInjectorTest extends TestCase
         $ontologyInjector->write($resource, $data, $dryrun);
     }
 
-    public function testWriteExceptionCannotWriteValue()
+    public function testWriteExceptionCannotWriteValue(): void
     {
         $resource = $this->getMockBuilder(\core_kernel_classes_Resource::class)
             ->disableOriginalConstructor()
@@ -338,4 +334,8 @@ class OntologyMetadataInjectorTest extends TestCase
         $ontologyInjector->write($resource, $data, $dryrun);
     }
 
+    protected function getOntologyMetadataInjectorMock($methods = [])
+    {
+        return $this->getMockForAbstractClass(OntologyMetadataInjector::class, [], '', false, true, true, $methods);
+    }
 }

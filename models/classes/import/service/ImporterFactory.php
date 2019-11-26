@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -38,14 +41,14 @@ class ImporterFactory extends ConfigurableService implements ImporterFactoryInte
      */
     public function create($type)
     {
-        $typeOptions    = $this->getOption(self::OPTION_MAPPERS);
-        $typeOption     = isset($typeOptions[$type]) ? $typeOptions[$type] : $this->throwException();
+        $typeOptions = $this->getOption(self::OPTION_MAPPERS);
+        $typeOption = $typeOptions[$type] ?? $this->throwException();
         $importerString = isset($typeOption[self::OPTION_MAPPERS_IMPORTER]) ? $typeOption[self::OPTION_MAPPERS_IMPORTER] : $this->throwException();
-        $importer       = $this->buildService($importerString, ImportServiceInterface::class);
+        $importer = $this->buildService($importerString, ImportServiceInterface::class);
 
         if (isset($typeOption[self::OPTION_MAPPERS_MAPPER])) {
             $mapperString = $typeOption[self::OPTION_MAPPERS_MAPPER];
-            $mapper       = $this->buildService($mapperString);
+            $mapper = $this->buildService($mapperString);
         } else {
             $mapper = $this->getDefaultMapper();
         }
@@ -59,7 +62,7 @@ class ImporterFactory extends ConfigurableService implements ImporterFactoryInte
     /**
      * @throws \common_exception_NotFound
      */
-    protected function throwException()
+    protected function throwException(): void
     {
         throw new \common_exception_NotFound('Unable to load importer for type.');
     }
@@ -70,7 +73,7 @@ class ImporterFactory extends ConfigurableService implements ImporterFactoryInte
     protected function getDefaultMapper()
     {
         return new OntologyMapper([
-            ImportMapperInterface::OPTION_SCHEMA => $this->getOption(self::OPTION_DEFAULT_SCHEMA)
+            ImportMapperInterface::OPTION_SCHEMA => $this->getOption(self::OPTION_DEFAULT_SCHEMA),
         ]);
     }
 }

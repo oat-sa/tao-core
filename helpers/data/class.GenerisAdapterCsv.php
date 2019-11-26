@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,10 +23,10 @@
  */
 
 use oat\generis\model\OntologyRdfs;
+use oat\oatbox\filesystem\File;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\helpers\data\ValidationException;
 use oat\tao\model\upload\UploadService;
-use oat\oatbox\filesystem\File;
 
 /**
  * Adapter for CSV format
@@ -35,6 +38,12 @@ use oat\oatbox\filesystem\File;
  */
 class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 {
+    /**
+     * Contains the callback functions to be applied on created resources.
+     *
+     * @var array
+     */
+    protected $resourceImported = [];
 
     /**
      * Short description of attribute loadedFile
@@ -42,13 +51,6 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
      * @var tao_helpers_data_CsvFile
      */
     private $loadedFile = null;
-
-    /**
-     * Contains the callback functions to be applied on created resources.
-     *
-     * @var array
-     */
-    protected $resourceImported = array();
 
     /**
      * Instantiates a new tao_helpers_data_GenerisAdapterCSV. The $options array
@@ -64,20 +66,20 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
      * @param  array $options
      * @return mixed
      */
-    public function __construct($options = array())
+    public function __construct($options = [])
     {
         parent::__construct($options);
 
-        if (!isset($this->options['field_delimiter'])) {
+        if (! isset($this->options['field_delimiter'])) {
             $this->options['field_delimiter'] = ';';
         }
-        if (!isset($this->options['field_encloser'])) {
+        if (! isset($this->options['field_encloser'])) {
             $this->options['field_encloser'] = '"';        //double quote
         }
-        if (!isset($this->options['multi_values_delimiter'])) {
+        if (! isset($this->options['multi_values_delimiter'])) {
             $this->options['multi_values_delimiter'] = '';
         }
-        if (!isset($this->options['first_row_column_names'])) {
+        if (! isset($this->options['first_row_column_names'])) {
             $this->options['first_row_column_names'] = true;
         }
 
@@ -85,7 +87,7 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
         if (isset($this->options['onResourceImported']) && is_array($this->options['onResourceImported'])) {
             foreach ($this->options['onResourceImported'] as $callback) {
                 $this->onResourceImported($callback);
-                common_Logger::d("onResourceImported callback added to CSV Adapter");
+                common_Logger::d('onResourceImported callback added to CSV Adapter');
             }
         }
     }
@@ -106,9 +108,7 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
         $csv = new tao_helpers_data_CsvFile($this->options);
         $csv->load($csvFile);
         $this->loadedFile = $csv;
-        $returnValue = $this->loadedFile;
-
-        return $returnValue;
+        return $this->loadedFile;
     }
 
     /**
@@ -127,24 +127,24 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
      */
     public function import($source, core_kernel_classes_Class $destination = null)
     {
-        if (!isset($this->options['map'])) {
-            throw new BadFunctionCallException("import map not set");
+        if (! isset($this->options['map'])) {
+            throw new BadFunctionCallException('import map not set');
         }
-        if (is_null($destination)) {
+        if ($destination === null) {
             throw new InvalidArgumentException("${destination} must be a valid core_kernel_classes_Class");
         }
 
         /** @var UploadService $uploadService */
         $uploadService = ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID);
 
-        if (!$source instanceof File) {
+        if (! $source instanceof File) {
             $file = $uploadService->getUploadedFlyFile($source);
         } else {
             $file = $source;
         }
 
         if (@preg_match('//u', $file->read()) === false) {
-            return new \common_report_Report(\common_report_Report::TYPE_ERROR, __("The imported file is not properly UTF-8 encoded."));
+            return new \common_report_Report(\common_report_Report::TYPE_ERROR, __('The imported file is not properly UTF-8 encoded.'));
         }
 
         $csvData = $this->load($file);
@@ -171,10 +171,9 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 
                 // evaluate csv values
                 foreach ($this->options['map'] as $propUri => $csvColumn) {
-
-                    if ($csvColumn != 'csv_null' && $csvColumn != 'csv_select') {
+                    if ($csvColumn !== 'csv_null' && $csvColumn !== 'csv_select') {
                         // process value
-                        if (isset($csvRow[$csvColumn]) && !is_null($csvRow[$csvColumn])) {
+                        if (isset($csvRow[$csvColumn]) && $csvRow[$csvColumn] !== null) {
                             $property = new core_kernel_classes_Property($propUri);
                             $evaluatedData[$propUri] = $this->evaluateValues($csvColumn, $property, $csvRow[$csvColumn]);
                         }
@@ -191,7 +190,6 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 
                 $report->add(new common_report_Report(common_report_Report::TYPE_SUCCESS, __('Imported resource "%s"', $resource->getLabel()), $resource));
                 $createdResources++;
-
             } catch (ValidationException $valExc) {
                 $failure = common_report_Report::createFailure(
                     __('Row %s', $rowIterator + 1) . ' ' . $valExc->getProperty()->getLabel() . ': ' . $valExc->getUserMessage() . ' "' . $valExc->getValue() . '"'
@@ -205,7 +203,7 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
         $this->addOption('to_import', $toImport);
         $this->addOption('imported', $createdResources);
 
-        if ($createdResources == $toImport) {
+        if ($createdResources === $toImport) {
             $report->setType(common_report_Report::TYPE_SUCCESS);
             $report->setMessage(__('Imported %d resources', $toImport));
         } elseif ($createdResources > 0) {
@@ -229,70 +227,6 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
     public function export(core_kernel_classes_Class $source = null)
     {
         return false;
-    }
-
-    /**
-     * Evaluates the raw values provided by the csv file into
-     * the actual values to be assigned to  the resource
-     *
-     * @param string $column
-     * @param core_kernel_classes_Property $property
-     * @param mixed $value
-     * @return array
-     */
-    protected function evaluateValues($column, core_kernel_classes_Property $property, $value)
-    {
-        $range = $property->getRange();
-        // assume literal if no range defined
-        $range = is_null($range) ? new core_kernel_classes_Class(OntologyRdfs::RDFS_LITERAL) : $range;
-
-        $evaluatedValue = $this->applyCallbacks($value, $this->options, $property);
-        // ensure it's an array
-        $evaluatedValue = is_array($evaluatedValue) ? $evaluatedValue : array($evaluatedValue);
-
-        if ($range->getUri() != OntologyRdfs::RDFS_LITERAL) {
-            // validate resources
-            foreach ($evaluatedValue as $key => $eVal) {
-                $resource = new core_kernel_classes_Resource($eVal);
-                if ($resource->exists()) {
-                    if (!$resource->hasType($range)) {
-                        // value outside of range
-                        unset($evaluatedValue[$key]);
-                    }
-                } else {
-                    // value not found
-                    unset($evaluatedValue[$key]);
-                }
-            }
-        }
-        return $evaluatedValue;
-    }
-
-    /**
-     * Short description of method applyCallbacks
-     *
-     * @access private
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string $value
-     * @param  array $options
-     * @param  core_kernel_classes_Property $targetProperty
-     * @return string
-     */
-    private function applyCallbacks($value, $options, core_kernel_classes_Property $targetProperty)
-    {
-        if (isset($options['callbacks'])) {
-            foreach (array('*', $targetProperty->getUri()) as $key) {
-                if (isset($options['callbacks'][$key]) && is_array($options['callbacks'][$key])) {
-                    foreach ($options['callbacks'][$key] as $callback) {
-                        if (is_callable($callback)) {
-                            $value = call_user_func($callback, $value);
-                        }
-                    }
-                }
-            }
-        }
-
-        return $value;
     }
 
     /**
@@ -322,18 +256,54 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
                     $rangeCompliance = true;
                     break;
                 }
-
             }
 
-            if (true == $rangeCompliance) {
+            if ($rangeCompliance === true) {
                 $targetResource->setPropertyValue($targetProperty, $resource->getUri());
             }
         }
     }
 
-    public function onResourceImported(Closure $closure)
+    public function onResourceImported(Closure $closure): void
     {
         $this->resourceImported[] = $closure;
+    }
+
+    /**
+     * Evaluates the raw values provided by the csv file into
+     * the actual values to be assigned to  the resource
+     *
+     * @param string $column
+     * @param core_kernel_classes_Property $property
+     * @param mixed $value
+     * @return array
+     */
+    protected function evaluateValues($column, core_kernel_classes_Property $property, $value)
+    {
+        $range = $property->getRange();
+        // assume literal if no range defined
+        $range = $range === null ? new core_kernel_classes_Class(OntologyRdfs::RDFS_LITERAL) : $range;
+
+        $evaluatedValue = $this->applyCallbacks($value, $this->options, $property);
+        // ensure it's an array
+        $evaluatedValue = is_array($evaluatedValue) ? $evaluatedValue : [$evaluatedValue];
+
+        if ($range->getUri() !== OntologyRdfs::RDFS_LITERAL) {
+            // validate resources
+            foreach ($evaluatedValue as $key => $eVal) {
+                $resource = new core_kernel_classes_Resource($eVal);
+                if ($resource->exists()) {
+                    if (! $resource->hasType($range)) {
+                        // value outside of range
+                        unset($evaluatedValue[$key]);
+                    }
+                } else {
+                    // value not found
+                    unset($evaluatedValue[$key]);
+                }
+            }
+        }
+        return $evaluatedValue;
     }
 
     /**
@@ -347,16 +317,15 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
      */
     protected function validate(core_kernel_classes_Class $destination, $propUri, $csvRow, $csvColumn, $evaluatedData)
     {
-        /**  @var tao_helpers_form_Validator $validator */
+        /** @var tao_helpers_form_Validator $validator */
         $validators = $this->getValidator($propUri);
-        foreach ((array)$validators as $validator) {
-
-            $validator->setOptions(array_merge(array('resourceClass' => $destination, 'property' => $propUri), $validator->getOptions()));
-            $value = isset($csvRow[$csvColumn]) ? $csvRow[$csvColumn] : null;
+        foreach ((array) $validators as $validator) {
+            $validator->setOptions(array_merge(['resourceClass' => $destination, 'property' => $propUri], $validator->getOptions()));
+            $value = $csvRow[$csvColumn] ?? null;
             if ($value === null) {
-                $value = isset($evaluatedData[$propUri]) ? $evaluatedData[$propUri] : null;
+                $value = $evaluatedData[$propUri] ?? null;
             }
-            if (!$validator->evaluate($value)) {
+            if (! $validator->evaluate($value)) {
                 throw new ValidationException(new core_kernel_classes_Property($propUri), $value, $validator->getMessage());
             }
         }
@@ -378,7 +347,7 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
             $message = __('Data imported. Some records are invalid.');
         }
 
-        if (!$createdResources) {
+        if (! $createdResources) {
             $type = common_report_Report::TYPE_ERROR;
             $message = __('Data not imported. All records are invalid.');
         }
@@ -389,5 +358,32 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
         }
 
         return $report;
+    }
+
+    /**
+     * Short description of method applyCallbacks
+     *
+     * @access private
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param  string $value
+     * @param  array $options
+     * @param  core_kernel_classes_Property $targetProperty
+     * @return string
+     */
+    private function applyCallbacks($value, $options, core_kernel_classes_Property $targetProperty)
+    {
+        if (isset($options['callbacks'])) {
+            foreach (['*', $targetProperty->getUri()] as $key) {
+                if (isset($options['callbacks'][$key]) && is_array($options['callbacks'][$key])) {
+                    foreach ($options['callbacks'][$key] as $callback) {
+                        if (is_callable($callback)) {
+                            $value = call_user_func($callback, $value);
+                        }
+                    }
+                }
+            }
+        }
+
+        return $value;
     }
 }

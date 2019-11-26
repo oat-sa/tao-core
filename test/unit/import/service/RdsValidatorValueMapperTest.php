@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,17 +19,18 @@
  *
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
+
 namespace oat\tao\test\unit\import\service;
 
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
-use oat\tao\model\import\service\RdsValidatorValueMapper;
-use oat\generis\test\TestCase;
 use oat\generis\test\MockObject;
+use oat\generis\test\TestCase;
+use oat\tao\model\import\service\RdsValidatorValueMapper;
 
 class RdsValidatorValueMapperTest extends TestCase
 {
-    public function testMap()
+    public function testMap(): void
     {
         $service = $this->getService(null, $this->mockResource(true), []);
 
@@ -36,7 +40,7 @@ class RdsValidatorValueMapperTest extends TestCase
     /**
      * @expectedException  \oat\tao\model\import\service\RdsResourceNotFoundException
      */
-    public function testMapNoResourceFound()
+    public function testMapNoResourceFound(): void
     {
         $service = $this->getService('someClass', null, []);
         $service->map('someValue');
@@ -45,7 +49,7 @@ class RdsValidatorValueMapperTest extends TestCase
     /**
      * @expectedException  \oat\tao\model\import\service\RdsResourceNotFoundException
      */
-    public function testMapMultipleResourceFound()
+    public function testMapMultipleResourceFound(): void
     {
         $service = $this->getService('someClass', null, [$this->mockResource(true), $this->mockResource(true)]);
         $service->map('someValue');
@@ -54,7 +58,7 @@ class RdsValidatorValueMapperTest extends TestCase
     /**
      * @expectedException  \oat\tao\model\import\service\RdsResourceNotFoundException
      */
-    public function testMapMultipleResourceNotAsClass()
+    public function testMapMultipleResourceNotAsClass(): void
     {
         $service = $this->getService(null, $this->mockResource(false), []);
         $service->map('someValue');
@@ -69,7 +73,7 @@ class RdsValidatorValueMapperTest extends TestCase
     protected function getService($retProperty, $resource, $searchInstances = [])
     {
         $service = $this->getMockBuilder(RdsValidatorValueMapper::class)->disableOriginalConstructor()
-            ->setMethods(['getOption','getClass'])->getMockForAbstractClass();
+            ->setMethods(['getOption', 'getClass'])->getMockForAbstractClass();
 
         $classMock = $this->getMockBuilder(core_kernel_classes_Class::class)->disableOriginalConstructor()->getMock();
         $classMock
@@ -85,8 +89,8 @@ class RdsValidatorValueMapperTest extends TestCase
 
         $service
             ->method('getOption')
-            ->willReturnCallback(function ($param) use ($retProperty){
-                if ($param === RdsValidatorValueMapper::OPTION_PROPERTY){
+            ->willReturnCallback(function ($param) use ($retProperty) {
+                if ($param === RdsValidatorValueMapper::OPTION_PROPERTY) {
                     return $retProperty;
                 }
 

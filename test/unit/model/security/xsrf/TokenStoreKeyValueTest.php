@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,12 +22,12 @@
 
 namespace oat\tao\test\unit\model\security\xsrf;
 
+use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
 use oat\oatbox\session\SessionService;
 use oat\tao\model\security\xsrf\Token;
 use oat\tao\model\security\xsrf\TokenStoreKeyValue;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use oat\generis\test\MockObject;
 
 /**
  * Unit Tests for oat\tao\model\security\TokenStoreKeyValue
@@ -34,7 +37,7 @@ class TokenStoreKeyValueTest extends TestCase
     /**
      * @dataProvider tokensToTest
      */
-    public function testGetTokens($tokensAsJson, $expected)
+    public function testGetTokens($tokensAsJson, $expected): void
     {
         $persistenceKey = 'a persistence key';
 
@@ -68,7 +71,7 @@ class TokenStoreKeyValueTest extends TestCase
         $sessionService = $this->getMockBuilder(SessionService::class)
             ->disableOriginalConstructor()
             ->setMethods(['getCurrentUser'])
-            ->getMock();;
+            ->getMock();
         $sessionService->method('getCurrentUser')->willReturn($user);
 
         /** @var ServiceLocatorInterface|MockObject $serviceLocator */
@@ -94,7 +97,7 @@ class TokenStoreKeyValueTest extends TestCase
         $subject = new TokenStoreKeyValue($options);
         $subject->setServiceLocator($serviceLocator);
 
-        $this->assertEquals($expected, $subject->getTokens());
+        $this->assertSame($expected, $subject->getTokens());
     }
 
     public function tokensToTest()

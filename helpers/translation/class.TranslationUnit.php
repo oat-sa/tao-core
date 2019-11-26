@@ -1,22 +1,24 @@
 <?php
-/**  
+
+declare(strict_types=1);
+
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
  */
 
 /**
@@ -32,11 +34,10 @@
  * @author Jerome Bogaerts
  * @package tao
  * @since 2.2
- 
+
  * @version 1.0
  */
-class tao_helpers_translation_TranslationUnit
-        implements tao_helpers_translation_Annotable
+class tao_helpers_translation_TranslationUnit implements tao_helpers_translation_Annotable
 {
     // --- ASSOCIATIONS ---
 
@@ -81,7 +82,7 @@ class tao_helpers_translation_TranslationUnit
      * @access private
      * @var array
      */
-    private $annotations = array();
+    private $annotations = [];
 
     /**
      * The context of the translation bound to this translation unit.
@@ -91,6 +92,40 @@ class tao_helpers_translation_TranslationUnit
      */
     private $context = '';
 
+    /**
+     * Creates a new instance of Translation Unit with specific source & target.
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @return mixed
+     */
+    public function __construct()
+    {
+
+        // Default values for source and target languages are en-US.
+        $this->setSourceLanguage(tao_helpers_translation_Utils::getDefaultLanguage());
+        $this->setTargetLanguage(tao_helpers_translation_Utils::getDefaultLanguage());
+    }
+
+    /**
+     * Short description of method __toString
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @return string
+     */
+    public function __toString()
+    {
+        $returnValue = (string) '';
+
+
+        $returnValue = $this->getSourceLanguage() . '->' . $this->getTargetLanguage() . ':' .
+                       $this->getSource() . '-' . $this->getTarget();
+
+
+        return (string) $returnValue;
+    }
+
     // --- OPERATIONS ---
 
     /**
@@ -98,14 +133,11 @@ class tao_helpers_translation_TranslationUnit
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  array annotations An associative array of annotations where keys are the annotation names and values are annotation values.
-     * @return void
+     * @param  array $annotations An associative array of annotations where keys are the annotation names and values are annotation values.
      */
-    public function setAnnotations($annotations)
+    public function setAnnotations($annotations): void
     {
-        
         $this->annotations = $annotations;
-        
     }
 
     /**
@@ -118,11 +150,11 @@ class tao_helpers_translation_TranslationUnit
      */
     public function getAnnotations()
     {
-        $returnValue = array();
+        $returnValue = [];
 
-        
+
         $returnValue = $this->annotations;
-        
+
 
         return (array) $returnValue;
     }
@@ -133,15 +165,12 @@ class tao_helpers_translation_TranslationUnit
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string name The name of the annotation to add.
-     * @param  string value The value of the annotation to add.
-     * @return void
+     * @param  string $name The name of the annotation to add.
+     * @param  string $value The value of the annotation to add.
      */
-    public function addAnnotation($name, $value = '')
+    public function addAnnotation($name, $value = ''): void
     {
-        
         $this->annotations[$name] = $value;
-        
     }
 
     /**
@@ -149,16 +178,13 @@ class tao_helpers_translation_TranslationUnit
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string name The name of the annotation to remove.
-     * @return void
+     * @param  string $name The name of the annotation to remove.
      */
-    public function removeAnnotation($name)
+    public function removeAnnotation($name): void
     {
-        
-        if (isset($this->annotations[$name])){
+        if (isset($this->annotations[$name])) {
             unset($this->annotations[$name]);
         }
-        
     }
 
     /**
@@ -167,20 +193,20 @@ class tao_helpers_translation_TranslationUnit
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string name
+     * @param  string $name
      * @return array
      */
     public function getAnnotation($name)
     {
-        $returnValue = array();
+        $returnValue = [];
 
-        
-        if (isset($this->annotations[$name])){
-            $returnValue = array('name' => $name, 'value' => $this->annotations[$name]);
-        }else{
+
+        if (isset($this->annotations[$name])) {
+            $returnValue = ['name' => $name, 'value' => $this->annotations[$name]];
+        } else {
             $returnValue = null;
         }
-        
+
 
         return (array) $returnValue;
     }
@@ -196,9 +222,9 @@ class tao_helpers_translation_TranslationUnit
     {
         $returnValue = (string) '';
 
-        
+
         $returnValue = $this->source;
-        
+
 
         return (string) $returnValue;
     }
@@ -214,9 +240,9 @@ class tao_helpers_translation_TranslationUnit
     {
         $returnValue = (string) '';
 
-        
+
         $returnValue = $this->target;
-        
+
 
         return (string) $returnValue;
     }
@@ -226,14 +252,12 @@ class tao_helpers_translation_TranslationUnit
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string source
+     * @param  string $source
      * @return mixed
      */
     public function setSource($source)
     {
-        
         $this->source = $source;
-        
     }
 
     /**
@@ -241,30 +265,12 @@ class tao_helpers_translation_TranslationUnit
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string target
+     * @param  string $target
      * @return mixed
      */
     public function setTarget($target)
     {
-        
         $this->target = $target;
-        
-    }
-
-    /**
-     * Creates a new instance of Translation Unit with specific source & target.
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @return mixed
-     */
-    public function __construct()
-    {
-        
-        // Default values for source and target languages are en-US.
-        $this->setSourceLanguage(tao_helpers_translation_Utils::getDefaultLanguage());
-        $this->setTargetLanguage(tao_helpers_translation_Utils::getDefaultLanguage());
-        
     }
 
     /**
@@ -272,15 +278,13 @@ class tao_helpers_translation_TranslationUnit
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string sourceLanguage
+     * @param  string $sourceLanguage
      * @return mixed
      */
     public function setSourceLanguage($sourceLanguage)
     {
-        
         $this->sourceLanguage = $sourceLanguage;
         $this->addAnnotation('sourceLanguage', $sourceLanguage);
-        
     }
 
     /**
@@ -288,15 +292,13 @@ class tao_helpers_translation_TranslationUnit
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string targetLanguage
+     * @param  string $targetLanguage
      * @return mixed
      */
     public function setTargetLanguage($targetLanguage)
     {
-        
         $this->targetLanguage = $targetLanguage;
         $this->addAnnotation('targetLanguage', $targetLanguage);
-        
     }
 
     /**
@@ -310,12 +312,10 @@ class tao_helpers_translation_TranslationUnit
     /**
      * @param string $context
      */
-    public function setContext($context)
+    public function setContext($context): void
     {
         $this->context = $context;
     }
-
-
 
     /**
      * Short description of method getSourceLanguage
@@ -328,9 +328,9 @@ class tao_helpers_translation_TranslationUnit
     {
         $returnValue = (string) '';
 
-        
+
         $returnValue = $this->sourceLanguage;
-        
+
 
         return (string) $returnValue;
     }
@@ -346,28 +346,9 @@ class tao_helpers_translation_TranslationUnit
     {
         $returnValue = (string) '';
 
-        
+
         $returnValue = $this->targetLanguage;
-        
 
-        return (string) $returnValue;
-    }
-
-    /**
-     * Short description of method __toString
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @return string
-     */
-    public function __toString()
-    {
-        $returnValue = (string) '';
-
-        
-        $returnValue = $this->getSourceLanguage() . '->' . $this->getTargetLanguage() . ':' .
-        			   $this->getSource() . '-' . $this->getTarget();
-        
 
         return (string) $returnValue;
     }
@@ -377,16 +358,16 @@ class tao_helpers_translation_TranslationUnit
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  TranslationUnit translationUnit
+     * @param  TranslationUnit $translationUnit
      * @return boolean
      */
-    public function hasSameTranslationUnitSource( tao_helpers_translation_TranslationUnit $translationUnit)
+    public function hasSameTranslationUnitSource(self $translationUnit)
     {
         $returnValue = (bool) false;
 
-        
-        $returnValue = $this->getSource() == $translationUnit->getSource();
-        
+
+        $returnValue = $this->getSource() === $translationUnit->getSource();
+
 
         return (bool) $returnValue;
     }
@@ -396,16 +377,16 @@ class tao_helpers_translation_TranslationUnit
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  TranslationUnit translationUnit
+     * @param  TranslationUnit $translationUnit
      * @return boolean
      */
-    public function hasSameTranslationUnitTarget( tao_helpers_translation_TranslationUnit $translationUnit)
+    public function hasSameTranslationUnitTarget(self $translationUnit)
     {
         $returnValue = (bool) false;
 
-        
-        $returnValue = $this->getTarget() == $translationUnit->getTarget();
-        
+
+        $returnValue = $this->getTarget() === $translationUnit->getTarget();
+
 
         return (bool) $returnValue;
     }
@@ -416,16 +397,16 @@ class tao_helpers_translation_TranslationUnit
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  TranslationUnit translationUnit
+     * @param  TranslationUnit $translationUnit
      * @return boolean
      */
-    public function hasSameTranslationUnitSourceLanguage( tao_helpers_translation_TranslationUnit $translationUnit)
+    public function hasSameTranslationUnitSourceLanguage(self $translationUnit)
     {
         $returnValue = (bool) false;
 
-        
-        $returnValue = $this->getSourceLanguage() == $translationUnit->getSourceLanguage();
-        
+
+        $returnValue = $this->getSourceLanguage() === $translationUnit->getSourceLanguage();
+
 
         return (bool) $returnValue;
     }
@@ -436,18 +417,17 @@ class tao_helpers_translation_TranslationUnit
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  TranslationUnit translationUnit
+     * @param  TranslationUnit $translationUnit
      * @return boolean
      */
-    public function hasSameTranslationUnitTargetLanguage( tao_helpers_translation_TranslationUnit $translationUnit)
+    public function hasSameTranslationUnitTargetLanguage(self $translationUnit)
     {
         $returnValue = (bool) false;
 
-        
-        $returnValue = $this->getTargetLanguage() == $translationUnit->getTargetLanguage();
-        
+
+        $returnValue = $this->getTargetLanguage() === $translationUnit->getTargetLanguage();
+
 
         return (bool) $returnValue;
     }
-
-} 
+}

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,15 +18,15 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
- *
  */
+
 namespace oat\tao\model\routing;
 
+use common_ext_ExtensionsManager;
+use common_http_Request;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
 use InterruptedActionException;
-use common_ext_ExtensionsManager;
-use common_http_Request;
 use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\tao\model\session\restSessionFactory\RestSessionFactory;
@@ -56,7 +59,7 @@ class TaoFrontController implements ServiceManagerAwareInterface
      * @throws \common_exception_InvalidArgumentType
      * @throws \common_ext_ExtensionException
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response): void
     {
         $resolver = new Resolver($request);
         $this->propagate($resolver);
@@ -73,10 +76,10 @@ class TaoFrontController implements ServiceManagerAwareInterface
             $pRequest = common_http_Request::currentRequest();
             $service->createSessionFromRequest($pRequest, $resolver);
         } catch (\common_user_auth_AuthFailedException $e) {
-            $data['success']	= false;
-            $data['errorCode']	= '401';
-            $data['errorMsg']	= 'You are not authorized to access this functionality.';
-            $data['version']	= TAO_VERSION;
+            $data['success'] = false;
+            $data['errorCode'] = '401';
+            $data['errorMsg'] = 'You are not authorized to access this functionality.';
+            $data['version'] = TAO_VERSION;
 
             header('HTTP/1.0 401 Unauthorized');
             header('WWW-Authenticate: Basic realm="' . GENERIS_INSTANCE_NAME . '"');
@@ -89,7 +92,7 @@ class TaoFrontController implements ServiceManagerAwareInterface
         \tao_helpers_I18n::init($ext, $uiLang);
 
         try {
-            if($request->getMethod() == 'GET') {
+            if ($request->getMethod() === 'GET') {
                 $parameters = $request->getQueryParams();
             } else {
                 $parameters = $request->getParsedBody();
@@ -113,7 +116,7 @@ class TaoFrontController implements ServiceManagerAwareInterface
      * @throws \common_exception_InvalidArgumentType
      * @throws \common_ext_ExtensionException
      */
-    public function legacy(common_http_Request $pRequest)
+    public function legacy(common_http_Request $pRequest): void
     {
         $request = ServerRequest::fromGlobals();
         $response = new Response();

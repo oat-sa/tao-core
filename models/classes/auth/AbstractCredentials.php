@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2019  (original work) Open Assessment Technologies SA;
- *
  */
 
 namespace oat\tao\model\auth;
@@ -28,14 +30,8 @@ namespace oat\tao\model\auth;
  */
 abstract class AbstractCredentials
 {
-
-    /** @var array  */
+    /** @var array */
     protected $properties;
-
-    /**
-     * @return array
-     */
-    abstract public function getProperties();
 
     /**
      * AbstractCredentials constructor.
@@ -49,14 +45,19 @@ abstract class AbstractCredentials
     }
 
     /**
+     * @return array
+     */
+    abstract public function getProperties();
+
+    /**
      * @param $properties
      * @throws \common_exception_ValidationFailed
      */
-    protected function validate($properties)
+    protected function validate($properties): void
     {
         $validatedProperties = array_keys($this->getProperties());
         foreach ($properties as $key => $value) {
-            if (!in_array($key, $validatedProperties, false)) {
+            if (! in_array($key, $validatedProperties, false)) {
                 throw new \common_exception_ValidationFailed($key);
             }
         }

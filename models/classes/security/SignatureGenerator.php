@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace oat\tao\model\security;
 
 use oat\oatbox\service\ConfigurableService;
@@ -7,9 +9,9 @@ use oat\tao\model\metadata\exception\InconsistencyConfigException;
 
 class SignatureGenerator extends ConfigurableService
 {
-    const SERVICE_ID = 'tao/SignatureGenerator';
+    public const SERVICE_ID = 'tao/SignatureGenerator';
 
-    const OPTION_SALT = 'salt';
+    public const OPTION_SALT = 'salt';
 
     /**
      * @param string[] $dataToSign

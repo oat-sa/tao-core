@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,29 +18,27 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
- *
  */
 
 namespace oat\tao\model\api;
 
+use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Promise\PromiseInterface;
 use oat\oatbox\Configurable;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\UriInterface;
-use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Client;
-use GuzzleHttp\ClientInterface;
 
 /**
  * Class ApiClientConnector
  *
  * Class to handle a http connection.
- *
  */
 class ApiClientConnector extends Configurable implements ClientInterface
 {
-    const OPTION_BASE_URI = 'base_uri';
+    public const OPTION_BASE_URI = 'base_uri';
 
     /**
      * Send an HTTP request.
@@ -140,14 +141,13 @@ class ApiClientConnector extends Configurable implements ClientInterface
     protected function getClientOptions()
     {
         $options = $this->getOptions();
-        if (!isset($options['headers']) || !isset($options['headers']['Content-Type'])) {
+        if (! isset($options['headers']) || ! isset($options['headers']['Content-Type'])) {
             $options['headers']['Content-Type'] = ['application/json'];
         } else {
-            if (!in_array('application/json', $options['headers']['Content-Type'])) {
+            if (! in_array('application/json', $options['headers']['Content-Type'], true)) {
                 $options['headers']['Content-Type'][] = ['application/json'];
             }
         }
         return $options;
     }
-
 }

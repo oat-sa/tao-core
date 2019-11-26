@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,13 +18,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\model\taskQueue\TaskLog;
 
 use oat\tao\model\datatable\DatatablePayload as DataTablePayloadInterface;
-use oat\tao\model\datatable\implementation\DatatableRequest;
 use oat\tao\model\datatable\DatatableRequest as DatatableRequestInterface;
 use oat\tao\model\taskQueue\TaskLog\Broker\TaskLogBrokerInterface;
 use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
@@ -34,7 +35,9 @@ use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
 class DataTablePayload implements DataTablePayloadInterface, \Countable
 {
     private $taskLogFilter;
+
     private $broker;
+
     private $request;
 
     /**
@@ -116,15 +119,29 @@ class DataTablePayload implements DataTablePayloadInterface, \Countable
         // get customised data
         $customisedData = $this->getCustomisedData($collection);
 
-        $data = [
-            'rows'    => $limit,
-            'page'    => $page,
-            'amount'  => count($collection),
-            'total'   => ceil($countTotal / $limit),
-            'data'    => $customisedData ?: $collection->toArray(),
+        return [
+            'rows' => $limit,
+            'page' => $page,
+            'amount' => count($collection),
+            'total' => ceil($countTotal / $limit),
+            'data' => $customisedData ?: $collection->toArray(),
         ];
+    }
 
-        return $data;
+    /**
+     * @return int
+     */
+    public function count()
+    {
+        return $this->broker->count($this->taskLogFilter);
+    }
+
+    /**
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return $this->getPayload();
     }
 
     /**
@@ -137,7 +154,7 @@ class DataTablePayload implements DataTablePayloadInterface, \Countable
     {
         $data = [];
 
-        if (!is_null($this->rowCustomiser)) {
+        if ($this->rowCustomiser !== null) {
             foreach ($collection as $taskLogEntity) {
                 $newCustomiser = $this->rowCustomiser->bindTo($taskLogEntity, $taskLogEntity);
                 $customizedPayload = (array) $newCustomiser();
@@ -147,7 +164,6 @@ class DataTablePayload implements DataTablePayloadInterface, \Countable
                 } else {
                     $data[] = array_merge($taskLogEntity->toArray(), $customizedPayload);
                 }
-
             }
         }
 
@@ -155,17 +171,9 @@ class DataTablePayload implements DataTablePayloadInterface, \Countable
     }
 
     /**
-     * @return int
-     */
-    public function count()
-    {
-        return $this->broker->count($this->taskLogFilter);
-    }
-
-    /**
      * Add filter values from request to the taskLogFilter.
      */
-    private function applyDataTableFilters()
+    private function applyDataTableFilters(): void
     {
         $filters = $this->request->getFilters();
 
@@ -181,13 +189,5 @@ class DataTablePayload implements DataTablePayloadInterface, \Countable
 
             $this->taskLogFilter->eq($fieldName, (string) $filterValue);
         }
-    }
-
-    /**
-     * @return array
-     */
-    public function jsonSerialize()
-    {
-        return $this->getPayload();
     }
 }

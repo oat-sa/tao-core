@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
- *
  */
 
 namespace oat\tao\model\resources;
@@ -25,9 +27,8 @@ use oat\generis\model\data\event\ResourceDeleted;
 use oat\generis\model\data\event\ResourceUpdated;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\search\index\IndexService;
-use oat\tao\model\TaoOntology;
 use oat\tao\model\search\Search;
+use oat\tao\model\TaoOntology;
 
 /**
  * Class ResourceWatcher
@@ -38,10 +39,10 @@ class ResourceWatcher extends ConfigurableService
 {
     use OntologyAwareTrait;
 
-    const SERVICE_ID = 'tao/ResourceWatcher';
+    public const SERVICE_ID = 'tao/ResourceWatcher';
 
     /** Time in seconds for updatedAt threshold */
-    const OPTION_THRESHOLD = 'threshold';
+    public const OPTION_THRESHOLD = 'threshold';
 
     /** @var array */
     protected $updatedAtCache = [];
@@ -49,7 +50,7 @@ class ResourceWatcher extends ConfigurableService
     /**
      * @param ResourceCreated $event
      */
-    public function catchCreatedResourceEvent(ResourceCreated $event)
+    public function catchCreatedResourceEvent(ResourceCreated $event): void
     {
         /** @var \core_kernel_classes_Resource $resource */
         $resource = $event->getResource();
@@ -64,12 +65,12 @@ class ResourceWatcher extends ConfigurableService
      * @param ResourceUpdated $event
      * @throws \core_kernel_persistence_Exception
      */
-    public function catchUpdatedResourceEvent(ResourceUpdated $event)
+    public function catchUpdatedResourceEvent(ResourceUpdated $event): void
     {
         $resource = $event->getResource();
         $updatedAt = $this->getUpdatedAt($resource);
         if ($updatedAt && $updatedAt instanceof \core_kernel_classes_Literal) {
-            $updatedAt = (integer) $updatedAt->literal;
+            $updatedAt = (int) $updatedAt->literal;
         }
         $now = microtime(true);
         $threshold = $this->getOption(self::OPTION_THRESHOLD);
@@ -78,24 +79,23 @@ class ResourceWatcher extends ConfigurableService
             $this->updatedAtCache[$resource->getUri()] = $now;
             $resource->editPropertyValues($property, $now);
         }
-
     }
 
     /**
      * @param ResourceDeleted $event
      */
-    public function catchDeletedResourceEvent(ResourceDeleted $event)
+    public function catchDeletedResourceEvent(ResourceDeleted $event): void
     {
         $searchService = $this->getServiceLocator()->get(Search::SERVICE_ID);
         try {
             $searchService->remove($event->getId());
         } catch (\Exception $e) {
             $message = $e->getMessage();
-            \common_Logger::e("Error delete index document for {$event->getId()} with message $message");
+            \common_Logger::e("Error delete index document for {$event->getId()} with message ${message}");
         }
     }
 
-     /**
+    /**
      * @param \core_kernel_classes_Resource $resource
      * @return \core_kernel_classes_Container
      * @throws \core_kernel_persistence_Exception
@@ -104,12 +104,11 @@ class ResourceWatcher extends ConfigurableService
     {
         if (isset($this->updatedAtCache[$resource->getUri()])) {
             $updatedAt = $this->updatedAtCache[$resource->getUri()];
-
         } else {
             $property = $this->getProperty(TaoOntology::PROPERTY_UPDATED_AT);
             $updatedAt = $resource->getOnePropertyValue($property);
             if ($updatedAt && $updatedAt instanceof \core_kernel_classes_Literal) {
-                $updatedAt = (integer) $updatedAt->literal;
+                $updatedAt = (int) $updatedAt->literal;
             }
             $this->updatedAtCache[$resource->getUri()] = $updatedAt;
         }

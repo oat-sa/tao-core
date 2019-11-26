@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 class tao_actions_Health extends tao_actions_CommonModule
 {
     /**
@@ -8,7 +10,7 @@ class tao_actions_Health extends tao_actions_CommonModule
      * No need authentication.
      * The client only needs a 200 response.
      */
-    public function index()
+    public function index(): void
     {
         return;
     }

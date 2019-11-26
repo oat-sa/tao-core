@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,13 +18,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA
- *
  */
 
 namespace oat\tao\test\unit\helpers;
 
 use oat\generis\test\TestCase;
-use \tao_helpers_Numeric;
+use tao_helpers_Numeric;
 
 /**
  * Test the class tao_helpers_Numeric
@@ -30,16 +32,15 @@ use \tao_helpers_Numeric;
  */
 class NumericTest extends TestCase
 {
-
     /**
      * Test the method tao_helpers_Numeric::parseFloat
      *
      * @dataProvider floatProvider
      */
-    public function testParseFloat($input, $expected)
+    public function testParseFloat($input, $expected): void
     {
         $result = tao_helpers_Numeric::parseFloat($input);
-        $this->assertEquals($expected, $result);
+        $this->assertSame($expected, $result);
     }
 
     /**
@@ -49,19 +50,19 @@ class NumericTest extends TestCase
     public function floatProvider()
     {
         return [
-            [ '0.1',           0.1 ],
-            [ 0.1,             0.1 ],
-            [ null,            0.0 ],
-            [ false,           0.0 ],
-            [ 'foo',           0.0 ],
-            [ 'foo12.5',       12.5 ],
-            [ '12.5foo',       12.5 ],
-            [ '-27.541foo',    -27.541 ],
-            [ 'bar-27.541foo', -27.541 ],
-            [ '1 000,54',      1000.54 ],
-            [ 1234,            1234.0 ],
-            [ '02.34',         2.34 ],
-            [ '02,340',        2.34 ],
+            ['0.1',           0.1],
+            [0.1,             0.1],
+            [null,            0.0],
+            [false,           0.0],
+            ['foo',           0.0],
+            ['foo12.5',       12.5],
+            ['12.5foo',       12.5],
+            ['-27.541foo',    -27.541],
+            ['bar-27.541foo', -27.541],
+            ['1 000,54',      1000.54],
+            [1234,            1234.0],
+            ['02.34',         2.34],
+            ['02,340',        2.34],
         ];
     }
 }

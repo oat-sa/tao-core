@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA
- *
  */
 
 namespace oat\tao\scripts\install;
@@ -31,11 +33,10 @@ use oat\tao\model\settings\CspHeaderSettingsInterface;
  */
 class SetDefaultCSPHeader extends InstallAction
 {
-
     /**
      * @inheritdoc
      */
-    public function __invoke($params)
+    public function __invoke($params): void
     {
         /** @var SettingsStorage $settingsStorage */
         $settingsStorage = $this->getServiceLocator()->get(SettingsStorage::SERVICE_ID);

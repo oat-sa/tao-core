@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\scripts\install;
@@ -37,7 +39,7 @@ class RegisterTaskQueueServices extends InstallAction
     public function __invoke($params)
     {
         $taskLogService = new TaskLog([
-            TaskLogInterface::OPTION_TASK_LOG_BROKER => new TaskLog\Broker\RdsTaskLogBroker('default')
+            TaskLogInterface::OPTION_TASK_LOG_BROKER => new TaskLog\Broker\RdsTaskLogBroker('default'),
         ]);
         $this->registerService(TaskLogInterface::SERVICE_ID, $taskLogService);
 
@@ -48,12 +50,12 @@ class RegisterTaskQueueServices extends InstallAction
         }
 
         $queueService = new QueueDispatcher([
-            QueueDispatcherInterface::OPTION_QUEUES       => [
-                new Queue('queue', new InMemoryQueueBroker())
+            QueueDispatcherInterface::OPTION_QUEUES => [
+                new Queue('queue', new InMemoryQueueBroker()),
             ],
-            QueueDispatcherInterface::OPTION_TASK_LOG     => TaskLogInterface::SERVICE_ID,
+            QueueDispatcherInterface::OPTION_TASK_LOG => TaskLogInterface::SERVICE_ID,
             QueueDispatcherInterface::OPTION_TASK_TO_QUEUE_ASSOCIATIONS => [],
-            QueueDispatcherInterface::OPTION_TASK_SELECTOR_STRATEGY => new WeightStrategy()
+            QueueDispatcherInterface::OPTION_TASK_SELECTOR_STRATEGY => new WeightStrategy(),
         ]);
 
         $this->registerService(QueueDispatcherInterface::SERVICE_ID, $queueService);

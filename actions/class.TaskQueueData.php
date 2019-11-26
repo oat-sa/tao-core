@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,14 +18,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
- *
  */
 
 
-use oat\tao\model\TaskQueueActionTrait;
+use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\task\Queue;
 use oat\oatbox\task\Task;
-use oat\oatbox\filesystem\FileSystemService;
+use oat\tao\model\TaskQueueActionTrait;
 
 /**
  * Rest API controller for task queue
@@ -33,34 +35,31 @@ use oat\oatbox\filesystem\FileSystemService;
  */
 class tao_actions_TaskQueueData extends \tao_actions_CommonModule
 {
-
     use TaskQueueActionTrait;
 
-    public function getTasks()
+    public function getTasks(): void
     {
         $user = $this->getSession()->getUser();
 
         $taskQueue = $this->getServiceLocator()->get(Queue::SERVICE_ID);
 
-        $dataPayLoad =  $taskQueue->getPayload($user->getIdentifier());
+        $dataPayLoad = $taskQueue->getPayload($user->getIdentifier());
 
         $this->returnJson($dataPayLoad);
         return;
-
     }
 
-    public function getStatus(){
-        if($this->hasRequestParameter('taskId')){
-            /**
-             * @var $task \oat\Taskqueue\JsonTask
-             */
-            $task   = $this->getTask($this->getRequestParameter('taskId'));
+    public function getStatus(): void
+    {
+        if ($this->hasRequestParameter('taskId')) {
+            /** @var \oat\Taskqueue\JsonTask */
+            $task = $this->getTask($this->getRequestParameter('taskId'));
             $report = $task->getReport();
             $data = [
-                'status'  => $task->getStatus(),
-                'label'  => $task->getLabel(),
-                'creationDate'  => $task->getCreationDate(),
-                'report' => $report
+                'status' => $task->getStatus(),
+                'label' => $task->getLabel(),
+                'creationDate' => $task->getCreationDate(),
+                'report' => $report,
             ];
             $this->returnJson([
                 'success' => true,
@@ -74,54 +73,51 @@ class tao_actions_TaskQueueData extends \tao_actions_CommonModule
         return;
     }
 
-    public function archiveTask() {
-        $taskId      = $this->getRequestParameter('taskId');
-        /**
-         * @var $taskService Queue
-         */
+    public function archiveTask(): void
+    {
+        $taskId = $this->getRequestParameter('taskId');
+        /** @var Queue */
         $taskService = $this->getServiceLocator()->get(Queue::SERVICE_ID);
         try {
-            $task        = $this->getTask($taskId);
-
-        } catch (\Exception $e) {
-            $this->returnError(__('unkown task id %s' , $taskId));
+            $task = $this->getTask($taskId);
+        } catch (\Throwable $e) {
+            $this->returnError(__('unkown task id %s', $taskId));
             return;
         }
-        if(empty($task)) {
-            $this->returnError(__('unkown task id %s' , $taskId));
+        if (empty($task)) {
+            $this->returnError(__('unkown task id %s', $taskId));
             return;
         }
         try {
-            $taskService->updateTaskStatus($taskId , Task::STATUS_ARCHIVED);
-            $task   = $taskService->getTask($taskId);;
+            $taskService->updateTaskStatus($taskId, Task::STATUS_ARCHIVED);
+            $task = $taskService->getTask($taskId);
             $this->returnJson([
-                'success' => true ,
-                'data'=>[
+                'success' => true,
+                'data' => [
                     'id' => $taskId,
-                    'status' => $task->getStatus()
-                ]
+                    'status' => $task->getStatus(),
+                ],
             ]);
             return;
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->returnError(__('impossible to update task status'));
             return;
         }
     }
 
-    public function downloadTask(){
-        if($this->hasRequestParameter('taskId')){
-            /**
-             * @var $task \oat\Taskqueue\JsonTask
-             */
-            $task   = $this->getTask($this->getRequestParameter('taskId'));
+    public function downloadTask(): void
+    {
+        if ($this->hasRequestParameter('taskId')) {
+            /** @var \oat\Taskqueue\JsonTask */
+            $task = $this->getTask($this->getRequestParameter('taskId'));
             $report = $task->getReport();
             $report = \common_report_Report::jsonUnserialize($report);
 
-            if(!is_null($report)){
+            if ($report !== null) {
                 $filename = '';
                 /** @var \common_report_Report $success */
-                foreach ($report->getSuccesses() as $success){
-                    if(!is_null($filename = $success->getData())){
+                foreach ($report->getSuccesses() as $success) {
+                    if (($filename = $success->getData()) !== null) {
                         break;
                     }
                 }

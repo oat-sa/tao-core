@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
- *
  */
 
 namespace oat\tao\model\cliArgument\argument\implementation;
@@ -34,9 +36,9 @@ class Group extends ArgumentLoader implements Argument
      *
      * @param Action $action
      */
-    public function load(Action $action)
+    public function load(Action $action): void
     {
-        if (! is_null($this->argument)) {
+        if ($this->argument !== null) {
             $this->argument->load($action);
         }
     }
@@ -68,5 +70,4 @@ class Group extends ArgumentLoader implements Argument
     {
         return $this->getOptions();
     }
-
 }

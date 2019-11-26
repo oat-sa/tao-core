@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,19 +30,20 @@
  * @author Joel Bout, <joel@taotesting.com>
  * @package tao
  */
+
 namespace oat\tao\model;
 
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
+use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 use oat\generis\model\kernel\persistence\smoothsql\search\filter\Filter;
+use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ServiceManager;
+use oat\search\helper\SupportedOperatorHelper;
 use oat\tao\helpers\TreeHelper;
 use oat\tao\model\security\SignatureGenerator;
 use tao_helpers_Uri;
-use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
-use oat\search\helper\SupportedOperatorHelper;
-use oat\generis\model\OntologyAwareTrait;
 
 class GenerisTreeFactory
 {
@@ -49,7 +53,7 @@ class GenerisTreeFactory
      * All instances of those classes loaded, independent of current limit ( Contain uris only )
      * @var array
      */
-    private $browsableTypes = array();
+    private $browsableTypes = [];
 
     /**
      * @var int
@@ -57,56 +61,57 @@ class GenerisTreeFactory
     private $limit;
 
     /**
-      * @var int
-      */
+     * @var int
+     */
     private $offset;
 
     /**
-      * @var array
-      */
-    private $openNodes = array();
+     * @var array
+     */
+    private $openNodes = [];
 
     /**
-      * @var bool
-      */
+     * @var bool
+     */
     private $showResources;
 
     /**
-      * @var array contains filters to apply to searchInstances
-      */
+     * @var array contains filters to apply to searchInstances
+     */
     private $propertyFilter = [];
 
-	/**
-	 * @var array
-	 */
+    /**
+     * @var array
+     */
     private $optionsFilter = [];
 
-    /** @var array  */
+    /** @var array */
     private $extraProperties = [];
-	/**
-	 * @param boolean $showResources If `true` resources will be represented in thee. Otherwise only classes.
-	 * @param array $openNodes Class uris for which children array should be build as well
-	 * @param int $limit Limit of resources to be shown in one class
-	 * @param int $offset Offset for resources in one class
-	 * @param array $resourceUrisToShow All siblings of this resources will be loaded, independent of current limit
-	 * @param array $propertyFilter Additional property filters to apply to the tree
-	 * @param array $optionsFilter
-	 * @param array $extraProperties
-	 */
+
+    /**
+     * @param boolean $showResources If `true` resources will be represented in thee. Otherwise only classes.
+     * @param array $openNodes Class uris for which children array should be build as well
+     * @param int $limit Limit of resources to be shown in one class
+     * @param int $offset Offset for resources in one class
+     * @param array $resourceUrisToShow All siblings of this resources will be loaded, independent of current limit
+     * @param array $propertyFilter Additional property filters to apply to the tree
+     * @param array $optionsFilter
+     * @param array $extraProperties
+     */
     public function __construct($showResources, array $openNodes = [], $limit = 10, $offset = 0, array $resourceUrisToShow = [], array $propertyFilter = [], array $optionsFilter = [], array $extraProperties = [])
     {
-        $this->limit          = (int) $limit;
-        $this->offset         = (int) $offset;
-        $this->openNodes      = $openNodes;
-        $this->showResources  = $showResources;
+        $this->limit = (int) $limit;
+        $this->offset = (int) $offset;
+        $this->openNodes = $openNodes;
+        $this->showResources = $showResources;
         $this->propertyFilter = $propertyFilter;
-        $this->optionsFilter  = $optionsFilter;
+        $this->optionsFilter = $optionsFilter;
         $this->extraProperties = $extraProperties;
 
-        $types = array();
+        $types = [];
         foreach ($resourceUrisToShow as $uri) {
             $resource = new core_kernel_classes_Resource($uri);
-            $types[]  = $resource->getTypes();
+            $types[] = $resource->getTypes();
         }
 
         if ($types) {
@@ -119,7 +124,8 @@ class GenerisTreeFactory
      * @param core_kernel_classes_Class $class
      * @return array
      */
-    public function buildTree(core_kernel_classes_Class $class) {
+    public function buildTree(core_kernel_classes_Class $class)
+    {
         return $this->classToNode($class, null);
     }
 
@@ -131,13 +137,14 @@ class GenerisTreeFactory
      * @return array
      * @throws
      */
-    private function classToNode(core_kernel_classes_Class $class, core_kernel_classes_Class $parent = null) {
+    private function classToNode(core_kernel_classes_Class $class, core_kernel_classes_Class $parent = null)
+    {
         $returnValue = $this->buildClassNode($class, $parent);
 
         // allow the class to be opened if it contains either instances or subclasses
         $subclasses = $this->getSubClasses($class);
 
-        if($this->showResources) {
+        if ($this->showResources) {
             $options = array_merge(['recursive' => false], $this->optionsFilter);
             $queryBuilder = $this->getQueryBuilder($class, $this->propertyFilter, $options);
             $search = $this->getSearchService();
@@ -145,19 +152,19 @@ class GenerisTreeFactory
             $instancesCount = $search->getGateway()->count($queryBuilder);
 
             if ($instancesCount > 0 || count($subclasses) > 0) {
-                if (in_array($class->getUri(), $this->openNodes)) {
-                    $returnValue['state']	= 'open';
+                if (in_array($class->getUri(), $this->openNodes, true)) {
+                    $returnValue['state'] = 'open';
                     $returnValue['children'] = $this->buildChildNodes($class, $subclasses);
                 } else {
-                    $returnValue['state']	= 'closed';
+                    $returnValue['state'] = 'closed';
                 }
 
                 // only show the resources count if we allow resources to be viewed
                 $returnValue['count'] = $instancesCount;
             }
         } else {
-            if(count($subclasses) > 0) {
-                if (in_array($class->getUri(), $this->openNodes)) {
+            if (count($subclasses) > 0) {
+                if (in_array($class->getUri(), $this->openNodes, true)) {
                     $returnValue['state'] = 'open';
                     $returnValue['children'] = $this->buildChildNodes($class, $subclasses);
                 } else {
@@ -190,22 +197,22 @@ class GenerisTreeFactory
         if ($this->showResources) {
             $limit = $this->limit;
 
-            if (in_array($class->getUri(), $this->browsableTypes)) {
+            if (in_array($class->getUri(), $this->browsableTypes, true)) {
                 $limit = 0;
             }
 
             $options = array_merge([
-                'limit'     => $limit,
-                'offset'    => $this->offset,
+                'limit' => $limit,
+                'offset' => $this->offset,
                 'recursive' => false,
-                'order'     => [OntologyRdfs::RDFS_LABEL => 'asc'],
+                'order' => [OntologyRdfs::RDFS_LABEL => 'asc'],
             ], $this->optionsFilter);
 
             $queryBuilder = $this->getQueryBuilder($class, $this->propertyFilter, $options);
             $search = $this->getSearchService();
             $search->setLanguage($queryBuilder, \common_session_SessionManager::getSession()->getDataLanguage());
             $searchResult = $search->getGateway()->search($queryBuilder);
-            foreach ($searchResult as $instance){
+            foreach ($searchResult as $instance) {
                 $children[] = TreeHelper::buildResourceNode($instance, $class, $this->extraProperties);
             }
         }
@@ -223,20 +230,20 @@ class GenerisTreeFactory
      */
     private function buildClassNode(core_kernel_classes_Class $class, core_kernel_classes_Class $parent = null)
     {
-    	$label = $class->getLabel();
+        $label = $class->getLabel();
         $label = empty($label) ? __('no label') : $label;
 
-        return array(
-            'data' 	=> _dh($label),
-            'type'	=> 'class',
-            'attributes' => array(
+        return [
+            'data' => _dh($label),
+            'type' => 'class',
+            'attributes' => [
                 'id' => tao_helpers_Uri::encode($class->getUri()),
                 'class' => 'node-class',
                 'data-uri' => $class->getUri(),
-                'data-classUri' => is_null($parent) ? null : $parent->getUri(),
+                'data-classUri' => $parent === null ? null : $parent->getUri(),
                 'data-signature' => $this->getSignatureGenerator()->generate($class->getUri()),
-            )
-        );
+            ],
+        ];
     }
 
     /**
@@ -262,12 +269,11 @@ class GenerisTreeFactory
         $query = $search->searchType($queryBuilder, $class->getUri(), $options['recursive']);
 
         foreach ($propertyFilter as $filterProp => $filterVal) {
-
             if ($filterVal instanceof Filter) {
                 $query->addCriterion($filterVal->getKey(), $filterVal->getOperator(), $filterVal->getValue());
                 continue;
             }
-            if (!is_array($filterVal)) {
+            if (! is_array($filterVal)) {
                 $filterVal = [];
             }
             foreach ($filterVal as $values) {

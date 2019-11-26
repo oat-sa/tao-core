@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 Open Assessment Technologies SA
- *
  */
 
 namespace oat\tao\model\maintenance;
@@ -32,9 +34,9 @@ use oat\tao\model\metadata\exception\InconsistencyConfigException;
  */
 class Maintenance extends ConfigurableService
 {
-    const SERVICE_ID = 'tao/maintenance';
+    public const SERVICE_ID = 'tao/maintenance';
 
-    const OPTION_PERSISTENCE = 'persistence';
+    public const OPTION_PERSISTENCE = 'persistence';
 
     /**
      * Storage to store platform state
@@ -51,16 +53,16 @@ class Maintenance extends ConfigurableService
      */
     public function isPlatformReady(MaintenanceState $state = null)
     {
-        if (is_null($state)) {
+        if ($state === null) {
             $state = $this->getPlatformState();
         }
-        return ($state->getBooleanStatus() === true);
+        return $state->getBooleanStatus() === true;
     }
 
     /**
      * Enable the platform by updating storage
      */
-    public function enablePlatform()
+    public function enablePlatform(): void
     {
         $this->setPlatformState(MaintenanceState::LIVE_MODE);
     }
@@ -68,7 +70,7 @@ class Maintenance extends ConfigurableService
     /**
      * Disable the platform by updating storage
      */
-    public function disablePlatform()
+    public function disablePlatform(): void
     {
         $this->setPlatformState(MaintenanceState::OFFLINE_MODE);
     }
@@ -85,23 +87,9 @@ class Maintenance extends ConfigurableService
         } catch (\common_exception_NotFound $e) {
             $this->enablePlatform();
             return new MaintenanceState(
-                array(MaintenanceState::STATUS => MaintenanceState::LIVE_MODE)
+                [MaintenanceState::STATUS => MaintenanceState::LIVE_MODE]
             );
         }
-    }
-
-    /**
-     * Update platform state
-     *
-     * @param $status
-     */
-    protected function setPlatformState($status)
-    {
-        $state = new MaintenanceState(array(
-            MaintenanceState::STATUS => $status
-        ));
-
-        $this->getStorage()->setPlatformState($state);
     }
 
     /**
@@ -121,5 +109,19 @@ class Maintenance extends ConfigurableService
             );
         }
         return $this->storage;
+    }
+
+    /**
+     * Update platform state
+     *
+     * @param $status
+     */
+    protected function setPlatformState($status): void
+    {
+        $state = new MaintenanceState([
+            MaintenanceState::STATUS => $status,
+        ]);
+
+        $this->getStorage()->setPlatformState($state);
     }
 }

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -52,10 +55,9 @@ class tao_actions_RestVersion extends tao_actions_RestClass
     {
         if ($this->getRequest()->isGet()) {
             return $this->returnJson([
-                'version' => TAO_VERSION
+                'version' => TAO_VERSION,
             ]);
         }
         throw new common_exception_RestApi();
-
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'name' => 'foo',
     'label' => 'Foo',
@@ -11,6 +13,6 @@ return [
     'models' => [],
     'install' => [],
     'routes' => [
-        '/foo' => 'oat\\tao\\test\\integration\\routing\\samples'
+        '/foo' => 'oat\\tao\\test\\integration\\routing\\samples',
     ],
 ];

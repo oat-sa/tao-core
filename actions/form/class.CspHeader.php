@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
- *
  */
 
 use oat\oatbox\service\ServiceManagerAwareTrait;
@@ -30,11 +32,11 @@ use oat\tao\model\settings\CspHeaderSettingsInterface;
  */
 class tao_actions_form_CspHeader extends tao_helpers_form_FormContainer
 {
-
     use ServiceManagerAwareTrait;
 
-    const SOURCE_RADIO_NAME = 'iframeSourceOption';
-    const SOURCE_LIST_NAME  = 'iframeSourceDomains';
+    public const SOURCE_RADIO_NAME = 'iframeSourceOption';
+
+    public const SOURCE_LIST_NAME = 'iframeSourceDomains';
 
     /**
      * @var \tao_helpers_form_elements_xhtml_Radiobox
@@ -49,23 +51,23 @@ class tao_actions_form_CspHeader extends tao_helpers_form_FormContainer
     /**
      * @inheritdoc
      */
-    public function initForm()
+    public function initForm(): void
     {
         $this->setServiceLocator($this->data['serviceLocator']);
         $this->form = new tao_helpers_form_xhtml_Form('cspHeader');
 
         $this->form->setDecorators([
-            'element'			=> new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div']),
-            'group'				=> new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div', 'cssClass' => 'form-group']),
-            'error'				=> new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div', 'cssClass' => 'form-error ui-state-error ui-corner-all hidden']),
-            'actions-bottom'	=> new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div', 'cssClass' => 'form-toolbar'])
+            'element' => new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div']),
+            'group' => new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div', 'cssClass' => 'form-group']),
+            'error' => new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div', 'cssClass' => 'form-error ui-state-error ui-corner-all hidden']),
+            'actions-bottom' => new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div', 'cssClass' => 'form-toolbar']),
         ]);
     }
 
     /**
      * @inheritdoc
      */
-    public function initElements()
+    public function initElements(): void
     {
         $this->sourceElement = tao_helpers_form_FormFactory::getElement(self::SOURCE_RADIO_NAME, 'Radiobox');
         $this->sourceDomainsElement = tao_helpers_form_FormFactory::getElement(self::SOURCE_LIST_NAME, 'Textarea');
@@ -93,14 +95,32 @@ class tao_actions_form_CspHeader extends tao_helpers_form_FormContainer
     }
 
     /**
+     * Stores the settings based on the form values.
+     */
+    public function saveSettings(): void
+    {
+        $formValues = $this->getForm()->getValues();
+        $settingStorage = $this->getSettingsStorage();
+
+        $configValue = $formValues[self::SOURCE_RADIO_NAME];
+        if ($configValue === 'list') {
+            $sources = trim(str_replace("\r", '', $formValues[self::SOURCE_LIST_NAME]));
+            $sources = explode("\n", $sources);
+            $settingStorage->set(CspHeaderSettingsInterface::CSP_HEADER_LIST, json_encode($sources));
+        }
+
+        $settingStorage->set(CspHeaderSettingsInterface::CSP_HEADER_SETTING, $configValue);
+    }
+
+    /**
      * @return array
      */
     private function getSourceOptions()
     {
         return [
             'none' => __('Forbid for all domains'),
-            '*'  => __('Allow for all domains'),
-            'self'  => __('Only allow for my own domain (%s)', ROOT_URL),
+            '*' => __('Allow for all domains'),
+            'self' => __('Only allow for my own domain (%s)', ROOT_URL),
             'list' => __('Allow for the following domains'),
         ];
     }
@@ -108,7 +128,7 @@ class tao_actions_form_CspHeader extends tao_helpers_form_FormContainer
     /**
      * Set the form data based on the available data
      */
-    private function setFormData()
+    private function setFormData(): void
     {
         $postData = $this->getPostData();
         $currentSetting = $this->getSettings();
@@ -118,11 +138,11 @@ class tao_actions_form_CspHeader extends tao_helpers_form_FormContainer
             $listSettings = $this->getListSettings();
         }
 
-        if ($currentSetting && !isset($postData[self::SOURCE_RADIO_NAME])) {
+        if ($currentSetting && ! isset($postData[self::SOURCE_RADIO_NAME])) {
             $this->sourceElement->setValue($currentSetting);
         }
 
-        if (!empty($listSettings) && !isset($postData[self::SOURCE_LIST_NAME])) {
+        if (! empty($listSettings) && ! isset($postData[self::SOURCE_LIST_NAME])) {
             $this->sourceDomainsElement->setValue(implode("\n", $listSettings));
         }
 
@@ -138,7 +158,7 @@ class tao_actions_form_CspHeader extends tao_helpers_form_FormContainer
     /**
      * Set the validation needed for the form elements.
      */
-    private function setValidation()
+    private function setValidation(): void
     {
         $this->sourceDomainsElement->addValidator(new CspHeaderValidator(['sourceElement' => $this->sourceElement]));
         $this->sourceElement->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
@@ -150,7 +170,7 @@ class tao_actions_form_CspHeader extends tao_helpers_form_FormContainer
     private function getSettings()
     {
         $settingsStorage = $this->getSettingsStorage();
-        if (!$settingsStorage->exists(CspHeaderSettingsInterface::CSP_HEADER_SETTING)) {
+        if (! $settingsStorage->exists(CspHeaderSettingsInterface::CSP_HEADER_SETTING)) {
             return '';
         }
 
@@ -163,29 +183,11 @@ class tao_actions_form_CspHeader extends tao_helpers_form_FormContainer
     private function getListSettings()
     {
         $settingsStorage = $this->getSettingsStorage();
-        if (!$settingsStorage->exists(CspHeaderSettingsInterface::CSP_HEADER_LIST)) {
+        if (! $settingsStorage->exists(CspHeaderSettingsInterface::CSP_HEADER_LIST)) {
             return [];
         }
 
         return json_decode($settingsStorage->get(CspHeaderSettingsInterface::CSP_HEADER_LIST));
-    }
-
-    /**
-     * Stores the settings based on the form values.
-     */
-    public function saveSettings()
-    {
-        $formValues = $this->getForm()->getValues();
-        $settingStorage = $this->getSettingsStorage();
-
-        $configValue = $formValues[self::SOURCE_RADIO_NAME];
-        if ($configValue === 'list') {
-            $sources = trim(str_replace("\r", '', $formValues[self::SOURCE_LIST_NAME]));
-            $sources = explode("\n", $sources);
-            $settingStorage->set(CspHeaderSettingsInterface::CSP_HEADER_LIST, json_encode($sources));
-        }
-
-        $settingStorage->set(CspHeaderSettingsInterface::CSP_HEADER_SETTING, $configValue);
     }
 
     /**

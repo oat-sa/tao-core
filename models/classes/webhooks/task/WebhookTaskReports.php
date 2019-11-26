@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -102,7 +105,7 @@ class WebhookTaskReports extends ConfigurableService
     {
         $statusCode = $response->getStatusCode();
         $this->getWebhookEventLog()->storeInvalidHttpStatusLog($taskContext, $statusCode);
-        return $this->reportError($taskContext, "Response status code is $statusCode", $response);
+        return $this->reportError($taskContext, "Response status code is ${statusCode}", $response);
     }
 
     /**
@@ -152,7 +155,7 @@ class WebhookTaskReports extends ConfigurableService
     public function reportSuccess(WebhookTaskContext $taskContext, $response, $eventStatus)
     {
         $this->getWebhookEventLog()->storeSuccessfulLog($taskContext, $response->getBody(), $eventStatus);
-        return \common_report_Report::createSuccess("Event delivered with '$eventStatus' status");
+        return \common_report_Report::createSuccess("Event delivered with '${eventStatus}' status");
     }
 
     /**
@@ -160,7 +163,7 @@ class WebhookTaskReports extends ConfigurableService
      * @param string $message
      * @param array $context
      */
-    private function logErrorWithContext(WebhookTaskContext $taskContext, $message, $context = [])
+    private function logErrorWithContext(WebhookTaskContext $taskContext, $message, $context = []): void
     {
         $context['taskId'] = $taskContext->getTaskId();
         $context['eventId'] = $this->getEventId($taskContext);
@@ -182,7 +185,7 @@ class WebhookTaskReports extends ConfigurableService
         WebhookResponse $parsedResponse = null
     ) {
         $errors = [
-            'message' => $message
+            'message' => $message,
         ];
         $context = [];
 
@@ -192,13 +195,13 @@ class WebhookTaskReports extends ConfigurableService
             }
             $status = $parsedResponse->getStatus($this->getEventId($taskContext));
             $errors['status'] = $status !== null
-                ? "Event status: '$status'"
+                ? "Event status: '${status}'"
                 : 'eventId not found in response';
         }
 
         if ($response) {
             $context['httpStatus'] = $response->getStatusCode();
-            $context['responseBody'] = (string)$response->getBody();
+            $context['responseBody'] = (string) $response->getBody();
         }
 
         $this->logErrorWithContext($taskContext, implode('; ', $errors), $context);
@@ -213,7 +216,8 @@ class WebhookTaskReports extends ConfigurableService
      * @param bool $includeSourceInfo Add information about file, line and exception type
      * @return string|null
      */
-    private function getExceptionMessage(\Exception $exception, $includeSourceInfo = false) {
+    private function getExceptionMessage(\Exception $exception, $includeSourceInfo = false)
+    {
         $messages = [];
         if ($includeSourceInfo) {
             $messages[] = sprintf(
@@ -239,9 +243,10 @@ class WebhookTaskReports extends ConfigurableService
      * @param WebhookTaskContext $taskContext
      * @return string
      */
-    private function getEventId(WebhookTaskContext $taskContext) {
+    private function getEventId(WebhookTaskContext $taskContext)
+    {
         $taskParams = $taskContext->getWebhookTaskParams();
-        if (!$taskParams) {
+        if (! $taskParams) {
             throw new \InvalidArgumentException("Task context doesn't contain task params");
         }
         return $taskParams->getEventId();

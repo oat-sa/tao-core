@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -13,16 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- *
  */
 
 use oat\generis\model\fileReference\FileReferenceSerializer;
+use oat\oatbox\filesystem\FileSystemService;
 use oat\tao\model\taskQueue\TaskLog\Broker\TaskLogBrokerInterface;
+use oat\tao\model\taskQueue\TaskLog\Decorator\SimpleManagementCollectionDecorator;
 use oat\tao\model\taskQueue\TaskLog\TaskLogFilter;
 use oat\tao\model\taskQueue\TaskLogInterface;
 use oat\tao\model\TaskQueueActionTrait;
-use oat\tao\model\taskQueue\TaskLog\Decorator\SimpleManagementCollectionDecorator;
-use oat\oatbox\filesystem\FileSystemService;
 
 /**
  * Rest API controller for task queue
@@ -34,17 +36,19 @@ class tao_actions_TaskQueue extends \tao_actions_RestController
 {
     use TaskQueueActionTrait;
 
-    const TASK_ID_PARAM = 'id';
-    const PARAMETER_LIMIT = 'limit';
-    const PARAMETER_OFFSET = 'offset';
+    public const TASK_ID_PARAM = 'id';
+
+    public const PARAMETER_LIMIT = 'limit';
+
+    public const PARAMETER_OFFSET = 'offset';
 
     /**
      * Get task data by identifier
      */
-    public function get()
+    public function get(): void
     {
         try {
-            if (!$this->hasRequestParameter(self::TASK_ID_PARAM)) {
+            if (! $this->hasRequestParameter(self::TASK_ID_PARAM)) {
                 throw new \common_exception_MissingParameter(self::TASK_ID_PARAM, $this->getRequestURI());
             }
 
@@ -81,7 +85,7 @@ class tao_actions_TaskQueue extends \tao_actions_RestController
             }
 
             $this->returnSuccess($data);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->returnFailure($e);
         }
     }
@@ -89,7 +93,7 @@ class tao_actions_TaskQueue extends \tao_actions_RestController
     /**
      * @throws \common_exception_NotImplemented
      */
-    public function getAll()
+    public function getAll(): void
     {
         /** @var TaskLogInterface $taskLogService */
         $taskLogService = $this->getServiceLocator()->get(TaskLogInterface::SERVICE_ID);
@@ -126,10 +130,10 @@ class tao_actions_TaskQueue extends \tao_actions_RestController
      *
      * NOTE: only works for tasks handled by the new task queue.
      */
-    public function getStatus()
+    public function getStatus(): void
     {
         try {
-            if (!$this->hasRequestParameter(self::TASK_ID_PARAM)) {
+            if (! $this->hasRequestParameter(self::TASK_ID_PARAM)) {
                 throw new \common_exception_MissingParameter(self::TASK_ID_PARAM, $this->getRequestURI());
             }
 
@@ -139,7 +143,7 @@ class tao_actions_TaskQueue extends \tao_actions_RestController
             $entity = $taskLogService->getById((string) $this->getRequestParameter(self::TASK_ID_PARAM));
 
             $this->returnSuccess((string) $entity->getStatus());
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->returnFailure($e);
         }
     }

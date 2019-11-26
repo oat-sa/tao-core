@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,16 +18,15 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\model\search\index;
 
-use oat\tao\model\TaoOntology;
-use oat\tao\model\search\Search;
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 use oat\search\helper\SupportedOperatorHelper;
 use oat\tao\model\resources\ResourceIterator;
+use oat\tao\model\search\Search;
+use oat\tao\model\TaoOntology;
 
 /**
  * Class IndexSinceLastRunService
@@ -35,9 +37,11 @@ use oat\tao\model\resources\ResourceIterator;
  */
 class IndexSinceLastRunService extends IndexService
 {
-    const OPTION_LASTRUN_STORE = 'lastrun_store';
-    const OPTION_INDEX_SINCE_LAST_RUN = 'index_since_last_run';
-    const LAST_LAUNCH_TIME_KEY = 'tao/IndexService:lastLaunchTime';
+    public const OPTION_LASTRUN_STORE = 'lastrun_store';
+
+    public const OPTION_INDEX_SINCE_LAST_RUN = 'index_since_last_run';
+
+    public const LAST_LAUNCH_TIME_KEY = 'tao/IndexService:lastLaunchTime';
 
     public function runIndexing()
     {
@@ -54,7 +58,7 @@ class IndexSinceLastRunService extends IndexService
 
     /**
      * @return \Iterator
-     * @param boolean $sinceLast load resources updated/created since last indexation
+     * @param boolean $from load resources updated/created since last indexation
      */
     protected function getResourceIterator($from = null, $to = null)
     {
@@ -81,7 +85,7 @@ class IndexSinceLastRunService extends IndexService
      * Update time of the last indexation
      * @throws \common_Exception
      */
-    private function updateLastIndexTime($time)
+    private function updateLastIndexTime($time): void
     {
         $this->getPersistence()->set(self::LAST_LAUNCH_TIME_KEY, $time);
     }
@@ -102,7 +106,7 @@ class IndexSinceLastRunService extends IndexService
      */
     private function getPersistence()
     {
-        if (!$this->hasOption(self::OPTION_LASTRUN_STORE)) {
+        if (! $this->hasOption(self::OPTION_LASTRUN_STORE)) {
             throw new \InvalidArgumentException('Persistence for ' . self::SERVICE_ID . ' is not configured');
         }
         $persistenceId = $this->getOption(self::OPTION_LASTRUN_STORE);

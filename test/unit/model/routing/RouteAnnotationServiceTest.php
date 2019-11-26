@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -35,7 +38,7 @@ class RouteAnnotationServiceTest extends TestCase
      */
     private $service;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->service = new RouteAnnotationService();
@@ -79,27 +82,27 @@ class RouteAnnotationServiceTest extends TestCase
         $this->service->setServiceLocator($serviceLocator->reveal());
     }
 
-    public function testIncorrectClassName()
+    public function testIncorrectClassName(): void
     {
         self::assertFalse($this->service->hasAccess('', ''));
     }
 
-    public function testIsHidden()
+    public function testIsHidden(): void
     {
         self::assertTrue($this->service->isHidden('class', 'notFoundAnnotation'));
     }
 
-    public function testValidatePassed()
+    public function testValidatePassed(): void
     {
         self::assertTrue($this->service->hasAccess('class', 'withoutAnnotation'));
     }
 
-    public function testHasAccessHidden()
+    public function testHasAccessHidden(): void
     {
         self::assertFalse($this->service->hasAccess('class', 'notFoundAnnotation'));
     }
 
-    public function testHasAccessRights()
+    public function testHasAccessRights(): void
     {
         self::assertTrue($this->service->hasAccess('class', 'requiresRightRead'));
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace oat\tao\model\event;
 
 use JsonSerializable;
@@ -39,10 +41,10 @@ class LoginFailedEvent implements Event, JsonSerializable
      * which is a value of any type other than a resource.
      * @since 5.4.0
      */
-    function jsonSerialize()
+    public function jsonSerialize()
     {
         return [
-            'login' => $this->getLogin()
+            'login' => $this->getLogin(),
         ];
     }
 }

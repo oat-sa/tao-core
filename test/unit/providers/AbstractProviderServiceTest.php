@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,12 +22,12 @@
 
 namespace oat\tao\test\unit\providers;
 
+use oat\generis\test\TestCase;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\modules\AbstractModuleRegistry;
 use oat\tao\model\providers\AbstractProviderService;
 use oat\tao\model\providers\ProviderModule;
 use Prophecy\Prophet;
-use oat\generis\test\TestCase;
 
 /**
  * Concrete class ProviderRegistry
@@ -59,7 +62,6 @@ class ProviderRegistry extends AbstractModuleRegistry
  */
 class ProviderService extends AbstractProviderService
 {
-
 }
 
 /**
@@ -80,7 +82,7 @@ class AbstractProviderServiceTest extends TestCase
             'description' => 'Wonderful Foo Bar provider',
             'category' => 'content',
             'active' => true,
-            'tags' => ['core', 'component']
+            'tags' => ['core', 'component'],
         ],
         'my/wonderful/provider/foo2' => [
             'id' => 'foo2',
@@ -90,10 +92,64 @@ class AbstractProviderServiceTest extends TestCase
             'description' => 'Display a wonderful foo bar',
             'category' => 'content',
             'active' => true,
-            'tags' => ['core', 'component']
-        ]
+            'tags' => ['core', 'component'],
+        ],
     ];
 
+    /**
+     * Check the service is a service
+     */
+    public function testApi(): void
+    {
+        $providerService = $this->getProviderService();
+        $this->assertInstanceOf(AbstractProviderService::class, $providerService);
+        $this->assertInstanceOf(ConfigurableService::class, $providerService);
+    }
+
+    /**
+     * Test the method AbstractProviderService::getAllProviders
+     */
+    public function testGetAllProviders(): void
+    {
+        $providerService = $this->getProviderService();
+
+        $providers = $providerService->getAllProviders();
+
+        $this->assertSame(2, count($providers));
+
+        $provider0 = $providers['my/wonderful/provider/foo1'];
+        $provider1 = $providers['my/wonderful/provider/foo2'];
+
+        $this->assertInstanceOf(ProviderModule::class, $provider0);
+        $this->assertInstanceOf(ProviderModule::class, $provider1);
+
+        $this->assertSame('foo1', $provider0->getId());
+        $this->assertSame('foo2', $provider1->getId());
+
+        $this->assertSame('Wonderful Foo', $provider0->getName());
+        $this->assertSame('Wonderful Foo Bar', $provider1->getName());
+
+        $this->assertTrue($provider0->isActive());
+        $this->assertTrue($provider1->isActive());
+    }
+
+    /**
+     * Test the method AbstractProviderService::getProvider
+     */
+    public function testGetOneProvider(): void
+    {
+        $providerService = $this->getProviderService();
+
+        $provider = $providerService->getProvider('foo1');
+
+        $this->assertInstanceOf(ProviderModule::class, $provider);
+        $this->assertSame('foo1', $provider->getId());
+        $this->assertSame('Wonderful Foo', $provider->getName());
+        $this->assertSame('my/wonderful/provider/foo1', $provider->getModule());
+        $this->assertSame('content', $provider->getCategory());
+
+        $this->assertTrue($provider->isActive());
+    }
 
     /**
      * Get the service with the stubbed registry
@@ -111,60 +167,4 @@ class AbstractProviderServiceTest extends TestCase
 
         return $providerService;
     }
-
-    /**
-     * Check the service is a service
-     */
-    public function testApi()
-    {
-        $providerService = $this->getProviderService();
-        $this->assertInstanceOf(AbstractProviderService::class, $providerService);
-        $this->assertInstanceOf(ConfigurableService::class, $providerService);
-    }
-
-    /**
-     * Test the method AbstractProviderService::getAllProviders
-     */
-    public function testGetAllProviders()
-    {
-        $providerService = $this->getProviderService();
-
-        $providers = $providerService->getAllProviders();
-
-        $this->assertEquals(2, count($providers));
-
-        $provider0 = $providers['my/wonderful/provider/foo1'];
-        $provider1 = $providers['my/wonderful/provider/foo2'];
-
-        $this->assertInstanceOf(ProviderModule::class, $provider0);
-        $this->assertInstanceOf(ProviderModule::class, $provider1);
-
-        $this->assertEquals('foo1', $provider0->getId());
-        $this->assertEquals('foo2', $provider1->getId());
-
-        $this->assertEquals('Wonderful Foo', $provider0->getName());
-        $this->assertEquals('Wonderful Foo Bar', $provider1->getName());
-
-        $this->assertTrue($provider0->isActive());
-        $this->assertTrue($provider1->isActive());
-    }
-
-    /**
-     * Test the method AbstractProviderService::getProvider
-     */
-    public function testGetOneProvider()
-    {
-        $providerService = $this->getProviderService();
-
-        $provider = $providerService->getProvider('foo1');
-
-        $this->assertInstanceOf(ProviderModule::class, $provider);
-        $this->assertEquals('foo1', $provider->getId());
-        $this->assertEquals('Wonderful Foo', $provider->getName());
-        $this->assertEquals('my/wonderful/provider/foo1', $provider->getModule());
-        $this->assertEquals('content', $provider->getCategory());
-
-        $this->assertTrue($provider->isActive());
-    }
-
 }

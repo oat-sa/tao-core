@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
- *
  */
 
 namespace oat\tao\test\unit\model\mvc;
@@ -25,20 +27,20 @@ use oat\tao\model\mvc\RendererTrait;
 
 class RendererTraitTest extends TestCase
 {
-    public function testGetRenderer()
+    public function testGetRenderer(): void
     {
         $service = new ProxyMockForRendererTrait();
         $this->assertInstanceOf(\Renderer::class, $service->getRenderer());
     }
 
-    public function testSetHasView()
+    public function testSetHasView(): void
     {
         $service = new ProxyMockForRendererTrait();
         $service->setView('fixture');
         $this->assertTrue($service->hasView());
     }
 
-    public function testSetData()
+    public function testSetData(): void
     {
         $service = new ProxyMockForRendererTrait();
         $service->setData('fixture-key', 'fixture-value');
@@ -49,10 +51,10 @@ class RendererTraitTest extends TestCase
         $variables = $property->getValue($service->getRenderer());
         $this->assertCount(1, $variables);
         $this->assertArrayHasKey('fixture-key', $variables);
-        $this->assertEquals('fixture-value', $variables['fixture-key']);
+        $this->assertSame('fixture-value', $variables['fixture-key']);
     }
 
-    public function testNotViewIfNoRenderer()
+    public function testNotViewIfNoRenderer(): void
     {
         $service = new ProxyMockForRendererTrait();
         $this->assertFalse($service->hasView());

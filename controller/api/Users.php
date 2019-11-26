@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
- *
  */
 
 namespace oat\tao\controller\api;
@@ -29,7 +31,6 @@ use common_exception_ValidationFailed;
 use common_Utils;
 use core_kernel_classes_Resource;
 use core_kernel_users_Exception;
-use oat\generis\model\OntologyRdfs;
 use oat\generis\model\user\UserRdf;
 use oat\oatbox\service\ServiceManager;
 use tao_actions_CommonRestModule;
@@ -61,6 +62,87 @@ use tao_models_classes_UserService;
  */
 class Users extends tao_actions_CommonRestModule
 {
+    /**
+     * @param null $uri
+     * @throws \common_exception_NotImplemented
+     */
+    public function get($uri = null): void
+    {
+        $this->returnFailure(new common_exception_RestApi('Not implemented'));
+    }
+
+    /**
+     * @param string $uri
+     * @throws \common_exception_NotImplemented
+     */
+    public function put($uri): void
+    {
+        $this->returnFailure(new common_exception_RestApi('Not implemented'));
+    }
+
+    /**
+     * @param string $uri
+     * @throws \common_exception_NotImplemented
+     */
+    public function delete($uri = null): void
+    {
+        $this->returnFailure(new common_exception_RestApi('Not implemented'));
+    }
+
+    /**
+     * @throws common_Exception
+     */
+    public function post(): void
+    {
+        /** @var tao_models_classes_UserService $userService */
+        $userService = ServiceManager::getServiceManager()->get(tao_models_classes_UserService::SERVICE_ID);
+
+        if (! $userService->getOption(tao_models_classes_UserService::OPTION_ALLOW_API)) {
+            $this->returnFailure(new common_exception_RestApi((new common_exception_MethodNotAllowed())->getMessage()));
+            return;
+        }
+
+        try {
+            $parameters = $this->getParameters();
+            $this->validateParameters($parameters);
+
+            $roles = $this->processRoles($parameters);
+            $login = $parameters[UserRdf::PROPERTY_LOGIN];
+            $password = $parameters[UserRdf::PROPERTY_PASSWORD];
+
+            $guarded = array_intersect_key($this->getParametersAliases(), array_flip($this->getGuardedProperties()));
+            $parameters = array_filter($parameters, function ($key) use ($guarded) {
+                return ! in_array($key, $guarded, true);
+            }, ARRAY_FILTER_USE_KEY);
+
+            $this->processLanguages($parameters);
+
+            /** @var core_kernel_classes_Resource $user */
+            $user = $userService->addUser($login, $password, $this->getResource(array_shift($roles)));
+
+            foreach ($roles as $role) {
+                $userService->attachRole($user, $this->getResource($role));
+            }
+
+            $userService->attachProperties($user, $parameters);
+
+            $this->returnSuccess([
+                'success' => true,
+                'uri' => $user->getUri(),
+            ], false);
+        } catch (common_exception_MissingParameter $e) {
+            $this->returnFailure(new common_exception_RestApi($e->getMessage()));
+        } catch (common_exception_ValidationFailed $e) {
+            $this->returnFailure(new common_exception_RestApi($e->getMessage()));
+        } catch (common_exception_Error $e) {
+            $this->returnFailure(new common_exception_RestApi($e->getMessage()));
+        } catch (core_kernel_users_Exception $e) {
+            $this->returnFailure(new common_exception_RestApi($e->getMessage()));
+        } catch (common_exception_RestApi $e) {
+            $this->returnFailure($e);
+        }
+    }
+
     /**
      * @OA\Schema(
      *     schema="tao.User.New",
@@ -128,7 +210,7 @@ class Users extends tao_actions_CommonRestModule
     protected function getParametersRequirements()
     {
         return [
-            'post' => ['login', 'password', 'userLanguage', 'roles']
+            'post' => ['login', 'password', 'userLanguage', 'roles'],
         ];
     }
 
@@ -143,107 +225,25 @@ class Users extends tao_actions_CommonRestModule
     /**
      * @return array
      */
-    protected function getParametersAliases(){
+    protected function getParametersAliases()
+    {
         return array_merge(parent::getParametersAliases(), [
             'login' => UserRdf::PROPERTY_LOGIN,
             'password' => UserRdf::PROPERTY_PASSWORD,
             'userLanguage' => UserRdf::PROPERTY_UILG,
             'defaultLanguage' => UserRdf::PROPERTY_DEFLG,
-            'firstName'=> UserRdf::PROPERTY_FIRSTNAME,
+            'firstName' => UserRdf::PROPERTY_FIRSTNAME,
             'lastName' => UserRdf::PROPERTY_LASTNAME,
             'mail' => UserRdf::PROPERTY_MAIL,
-            'roles' => UserRdf::PROPERTY_ROLES
+            'roles' => UserRdf::PROPERTY_ROLES,
         ]);
-    }
-
-    /**
-     * @param null $uri
-     * @return void
-     * @throws \common_exception_NotImplemented
-     */
-    public function get($uri = null) {
-        $this->returnFailure(new common_exception_RestApi('Not implemented'));
-    }
-
-    /**
-     * @param string $uri
-     * @return void
-     * @throws \common_exception_NotImplemented
-     */
-    public function put($uri) {
-        $this->returnFailure(new common_exception_RestApi('Not implemented'));
-    }
-
-    /**
-     * @param string $uri
-     * @return void
-     * @throws \common_exception_NotImplemented
-     */
-    public function delete($uri = null) {
-        $this->returnFailure(new common_exception_RestApi('Not implemented'));
-    }
-
-    /**
-     * @return void
-     * @throws common_Exception
-     */
-    public function post()
-    {
-        /** @var tao_models_classes_UserService $userService */
-        $userService = ServiceManager::getServiceManager()->get(tao_models_classes_UserService::SERVICE_ID);
-
-        if (!$userService->getOption(tao_models_classes_UserService::OPTION_ALLOW_API)) {
-            $this->returnFailure(new common_exception_RestApi((new common_exception_MethodNotAllowed())->getMessage()));
-            return;
-        }
-
-        try {
-
-            $parameters = $this->getParameters();
-            $this->validateParameters($parameters);
-
-            $roles = $this->processRoles($parameters);
-            $login = $parameters[UserRdf::PROPERTY_LOGIN];
-            $password = $parameters[UserRdf::PROPERTY_PASSWORD];
-
-            $guarded = array_intersect_key($this->getParametersAliases(), array_flip($this->getGuardedProperties()));
-            $parameters = array_filter($parameters, function ($key) use ($guarded) {
-                return !in_array($key, $guarded, true);
-            }, ARRAY_FILTER_USE_KEY);
-
-            $this->processLanguages($parameters);
-
-            /** @var core_kernel_classes_Resource $user */
-            $user = $userService->addUser($login, $password, $this->getResource(array_shift($roles)));
-
-            foreach ($roles as $role) {
-                $userService->attachRole($user, $this->getResource($role));
-            }
-
-            $userService->attachProperties($user, $parameters);
-
-            $this->returnSuccess([
-                'success' => true,
-                'uri' => $user->getUri(),
-            ], false);
-        } catch (common_exception_MissingParameter $e) {
-            $this->returnFailure(new common_exception_RestApi($e->getMessage()));
-        } catch (common_exception_ValidationFailed $e) {
-            $this->returnFailure(new common_exception_RestApi($e->getMessage()));
-        } catch (common_exception_Error $e) {
-            $this->returnFailure(new common_exception_RestApi($e->getMessage()));
-        } catch (core_kernel_users_Exception $e) {
-            $this->returnFailure(new common_exception_RestApi($e->getMessage()));
-        } catch (common_exception_RestApi $e) {
-            $this->returnFailure($e);
-        }
     }
 
     /**
      * @param array $parameters
      * @throws common_exception_ValidationFailed
      */
-    protected function validateParameters(array $parameters)
+    protected function validateParameters(array $parameters): void
     {
         if (empty($parameters[UserRdf::PROPERTY_LOGIN])) {
             throw new common_exception_ValidationFailed(null, __("Validation for field '%s' has failed. Should not be empty", $this->reverseSearchAlias(UserRdf::PROPERTY_LOGIN)));
@@ -260,21 +260,21 @@ class Users extends tao_actions_CommonRestModule
     {
         $roles = $parameters[UserRdf::PROPERTY_ROLES];
 
-        if (!is_array($roles)) {
+        if (! is_array($roles)) {
             throw new common_exception_ValidationFailed(null, __("Validation for field '%s' has failed. List of values expected", 'roles'));
         }
 
-        if (!count($roles)) {
+        if (! count($roles)) {
             throw new common_exception_MissingParameter('roles');
         }
 
         $roleService = tao_models_classes_RoleService::singleton();
 
         foreach ($roles as $role) {
-            if (!common_Utils::isUri($role)) {
+            if (! common_Utils::isUri($role)) {
                 throw new common_exception_ValidationFailed(null, __("Validation for field '%s' has failed. Valid URI expected. Given: %s", 'roles', $role));
             }
-            if (!array_key_exists($role, $roleService->getAllRoles())) {
+            if (! array_key_exists($role, $roleService->getAllRoles())) {
                 throw new common_exception_ValidationFailed(null, __("Validation for field '%s' has failed. Valid role expected. Given: %s", 'roles', $role));
             }
         }
@@ -287,20 +287,20 @@ class Users extends tao_actions_CommonRestModule
      * @throws common_exception_ValidationFailed
      * @throws common_exception_Error
      */
-    protected function processLanguages(array $parameters)
+    protected function processLanguages(array $parameters): void
     {
         $uriProperties = array_intersect_key($this->getParametersAliases(), array_flip(['userLanguage', 'defaultLanguage']));
 
         foreach ($parameters as $key => $value) {
-            if (!in_array($key, $uriProperties, true)) {
+            if (! in_array($key, $uriProperties, true)) {
                 continue;
             }
 
-            if (!common_Utils::isUri($value)) {
+            if (! common_Utils::isUri($value)) {
                 throw new common_exception_ValidationFailed(null, __("Validation for field '%s' has failed. Valid URI expected", array_search($key, $uriProperties, true)));
             }
 
-            if (!tao_models_classes_LanguageService::getExistingLanguageUri($value)) {
+            if (! tao_models_classes_LanguageService::getExistingLanguageUri($value)) {
                 throw new common_exception_ValidationFailed(null, __("Validation for field '%s' has failed. Language does not exist in the system", array_search($key, $uriProperties, true)));
             }
         }

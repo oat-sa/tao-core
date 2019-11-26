@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,19 +18,16 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
- *
  */
 
 namespace oat\tao\model\notification\exception;
 
-
 class NotListedNotification extends \common_exception_ClientException
 {
-
     public function __construct()
     {
         $message = __('notifications drivers aren\'t persistent. use a persistent database storage driver');
-        $code    = 0;
+        $code = 0;
         parent::__construct($message, $code);
     }
 
@@ -35,5 +35,4 @@ class NotListedNotification extends \common_exception_ClientException
     {
         return __('unable to search into notification.');
     }
-
 }

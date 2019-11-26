@@ -1,23 +1,25 @@
 <?php
-/**  
+
+declare(strict_types=1);
+
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2016 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
  */
 
 /**
@@ -30,11 +32,10 @@
  * @access public
  * @author Jerome Bogaerts <jerome@taotesting.com>
  * @package tao
- 
  */
 
-use oat\oatbox\service\ServiceManager;
 use oat\generis\model\fileReference\FileReferenceSerializer;
+use oat\oatbox\service\ServiceManager;
 use oat\tao\model\upload\UploadService;
 
 class tao_models_classes_dataBinding_GenerisFormDataBinder extends tao_models_classes_dataBinding_GenerisInstanceDataBinder
@@ -63,26 +64,33 @@ class tao_models_classes_dataBinding_GenerisFormDataBinder extends tao_models_cl
 
 
         try {
-        	$instance = parent::bind($data);
+            $instance = parent::bind($data);
 
-        	// Take care of what the generic data binding did not.
-			foreach ($data as $p => $d){
-				$property = new core_kernel_classes_Property($p);
+            // Take care of what the generic data binding did not.
+            foreach ($data as $p => $d) {
+                $property = new core_kernel_classes_Property($p);
 
-				if ($d instanceof tao_helpers_form_data_UploadFileDescription){
-					$this->bindUploadFileDescription($property, $d);
-				}
-			}
+                if ($d instanceof tao_helpers_form_data_UploadFileDescription) {
+                    $this->bindUploadFileDescription($property, $d);
+                }
+            }
 
-        	$returnValue = $instance;
-        }
-        catch (common_Exception $e){
-        	$msg = "An error occured while binding property values to instance '': " . $e->getMessage();
-        	throw new tao_models_classes_dataBinding_GenerisFormDataBindingException($msg);
+            $returnValue = $instance;
+        } catch (common_Exception $e) {
+            $msg = "An error occured while binding property values to instance '': " . $e->getMessage();
+            throw new tao_models_classes_dataBinding_GenerisFormDataBindingException($msg);
         }
 
 
         return $returnValue;
+    }
+
+    /**
+     * @return ServiceManager
+     */
+    public function getServiceLocator()
+    {
+        return ServiceManager::getServiceManager();
     }
 
     /**
@@ -92,23 +100,22 @@ class tao_models_classes_dataBinding_GenerisFormDataBinder extends tao_models_cl
      * @author Jerome Bogaerts <jerome@taotesting.com>
      * @param  core_kernel_classes_Property $property The property to bind the data.
      * @param  tao_helpers_form_data_UploadFileDescription $desc the upload file description.
-     * @return void
      * @throws \oat\oatbox\service\ServiceNotFoundException
      * @throws \common_Exception
      */
     protected function bindUploadFileDescription(
         core_kernel_classes_Property $property,
         tao_helpers_form_data_UploadFileDescription $desc
-    ) {
+    ): void {
         $instance = $this->getTargetInstance();
 
         // If form has delete action, remove file
-        if ($desc->getAction() == tao_helpers_form_data_UploadFileDescription::FORM_ACTION_DELETE) {
+        if ($desc->getAction() === tao_helpers_form_data_UploadFileDescription::FORM_ACTION_DELETE) {
             $this->removeFile($property);
         }
 
         // If form has add action, remove file & replace by new
-        elseif ($desc->getAction() == tao_helpers_form_data_UploadFileDescription::FORM_ACTION_ADD) {
+        elseif ($desc->getAction() === tao_helpers_form_data_UploadFileDescription::FORM_ACTION_ADD) {
             $name = $desc->getName();
             $size = $desc->getSize();
 
@@ -139,7 +146,7 @@ class tao_models_classes_dataBinding_GenerisFormDataBinder extends tao_models_cl
      *
      * @param core_kernel_classes_Property $property
      */
-    protected function removeFile(core_kernel_classes_Property $property)
+    protected function removeFile(core_kernel_classes_Property $property): void
     {
         $instance = $this->getTargetInstance();
         $referencer = $this->getServiceLocator()->get(FileReferenceSerializer::SERVICE_ID);
@@ -152,13 +159,4 @@ class tao_models_classes_dataBinding_GenerisFormDataBinder extends tao_models_cl
             $instance->removePropertyValue($property, $oldFileSerial);
         }
     }
-
-    /**
-     * @return ServiceManager
-     */
-    public function getServiceLocator()
-    {
-        return ServiceManager::getServiceManager();
-    }
-
 }

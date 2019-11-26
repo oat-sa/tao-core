@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA;
- *
  */
 
 namespace oat\tao\helpers\test;
@@ -28,7 +30,6 @@ use oat\tao\test\TaoPhpUnitTestRunner;
  */
 class UriHelperTest extends TaoPhpUnitTestRunner
 {
-
     public function uriDataProvider()
     {
         return [
@@ -47,11 +48,9 @@ class UriHelperTest extends TaoPhpUnitTestRunner
     /**
      * @dataProvider uriDataProvider
      */
-    public function testUrlEncode($action, $module, $extension, $params, $expected)
+    public function testUrlEncode($action, $module, $extension, $params, $expected): void
     {
         $url = \tao_helpers_Uri::url($action, $module, $extension, $params);
         $this->assertContains($expected, $url);
-
     }
-
 }

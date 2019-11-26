@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -29,7 +32,7 @@ class WebhookRdsEventLogService extends ConfigurableService implements WebhookEv
      * @inheritDoc
      * @throws \Exception
      */
-    public function storeNetworkErrorLog(WebhookTaskContext $webhookTaskContext, $networkError = null)
+    public function storeNetworkErrorLog(WebhookTaskContext $webhookTaskContext, $networkError = null): void
     {
         $record = $this->applyContext($webhookTaskContext)
             ->setResultMessage(sprintf('Network error: %s', $networkError))
@@ -46,7 +49,7 @@ class WebhookRdsEventLogService extends ConfigurableService implements WebhookEv
         WebhookTaskContext $webhookTaskContext,
         $actualHttpStatusCode,
         $responseBody = null
-    ) {
+    ): void {
         $record = $this->applyContext($webhookTaskContext)
             ->setHttpStatusCode($actualHttpStatusCode)
             ->setResponseBody($responseBody)
@@ -60,7 +63,7 @@ class WebhookRdsEventLogService extends ConfigurableService implements WebhookEv
      * @inheritDoc
      * @throws \Exception
      */
-    public function storeInvalidBodyFormat(WebhookTaskContext $webhookTaskContext, $responseBody = null)
+    public function storeInvalidBodyFormat(WebhookTaskContext $webhookTaskContext, $responseBody = null): void
     {
         $record = $this->applyContext($webhookTaskContext)
             ->setHttpStatusCode(StatusCode::HTTP_OK)
@@ -75,7 +78,7 @@ class WebhookRdsEventLogService extends ConfigurableService implements WebhookEv
      * @inheritDoc
      * @throws \Exception
      */
-    public function storeInvalidAcknowledgementLog(WebhookTaskContext $webhookTaskContext, $responseBody, $actualAcknowledgement = null)
+    public function storeInvalidAcknowledgementLog(WebhookTaskContext $webhookTaskContext, $responseBody, $actualAcknowledgement = null): void
     {
         $record = $this->applyContext($webhookTaskContext)
             ->setHttpStatusCode(StatusCode::HTTP_OK)
@@ -91,7 +94,7 @@ class WebhookRdsEventLogService extends ConfigurableService implements WebhookEv
      * @inheritDoc
      * @throws \Exception
      */
-    public function storeSuccessfulLog(WebhookTaskContext $webhookTaskContext, $responseBody, $acknowledgement)
+    public function storeSuccessfulLog(WebhookTaskContext $webhookTaskContext, $responseBody, $acknowledgement): void
     {
         $record = $this->applyContext($webhookTaskContext)
             ->setHttpStatusCode(StatusCode::HTTP_OK)
@@ -107,7 +110,7 @@ class WebhookRdsEventLogService extends ConfigurableService implements WebhookEv
      * @inheritDoc
      * @throws \Exception
      */
-    public function storeInternalErrorLog(WebhookTaskContext $webhookTaskContext, $internalError = null)
+    public function storeInternalErrorLog(WebhookTaskContext $webhookTaskContext, $internalError = null): void
     {
         $record = $this->applyContext($webhookTaskContext)
             ->setResultMessage(sprintf('Internal error: %s', $internalError))

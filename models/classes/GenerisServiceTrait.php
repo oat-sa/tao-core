@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,25 +18,24 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA;
- *
  */
 
 namespace oat\tao\model;
 
+use core_kernel_classes_Class;
+use core_kernel_classes_Property;
+use core_kernel_classes_Resource;
+use core_kernel_classes_ResourceFactory;
 use oat\generis\model\fileReference\FileReferenceSerializer;
 use oat\generis\model\fileReference\ResourceFileSerializer;
 use oat\generis\model\GenerisRdf;
+use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdf;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\event\EventManagerAwareTrait;
 use oat\oatbox\filesystem\File;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\tao\helpers\TreeHelper;
-use oat\generis\model\OntologyAwareTrait;
-use core_kernel_classes_Class;
-use core_kernel_classes_Resource;
-use core_kernel_classes_ResourceFactory;
-use core_kernel_classes_Property;
 
 /**
  * Trait GenerisServiceTrait
@@ -50,16 +52,16 @@ trait GenerisServiceTrait
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  array propertyFilters
+     * @param  array $propertyFilters
      * @param  core_kernel_classes_Class $topClazz
-     * @param  array options
+     * @param  array $options
      * @return \core_kernel_classes_Resource[]
      */
     public function searchInstances($propertyFilters = [], core_kernel_classes_Class $topClazz = null, $options = [])
     {
         $returnValue = [];
 
-        if (!is_null($topClazz)) {
+        if ($topClazz !== null) {
             $returnValue = $topClazz->searchInstances($propertyFilters, $options);
         }
         return (array) $returnValue;
@@ -71,7 +73,7 @@ trait GenerisServiceTrait
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  core_kernel_classes_Class $clazz
-     * @param  string label
+     * @param  string $label
      * @return core_kernel_classes_Resource
      * @throws \common_exception_Error
      */
@@ -96,23 +98,23 @@ trait GenerisServiceTrait
     public function createUniqueLabel(core_kernel_classes_Class $clazz, $subClassing = false)
     {
         if ($subClassing) {
-            $labelBase = $clazz->getLabel() . '_' ;
-            $count = count($clazz->getSubClasses()) +1;
+            $labelBase = $clazz->getLabel() . '_';
+            $count = count($clazz->getSubClasses()) + 1;
         } else {
-            $labelBase = $clazz->getLabel() . ' ' ;
-            $count = count($clazz->getInstances()) +1;
+            $labelBase = $clazz->getLabel() . ' ';
+            $count = count($clazz->getInstances()) + 1;
         }
 
         $options = [
-            'lang'              => \common_session_SessionManager::getSession()->getDataLanguage(),
-            'like'              => false,
-            'recursive'         => false
+            'lang' => \common_session_SessionManager::getSession()->getDataLanguage(),
+            'like' => false,
+            'recursive' => false,
         ];
 
         do {
             $exist = false;
-            $label =  $labelBase . $count;
-            $result = $clazz->searchInstances(array(OntologyRdfs::RDFS_LABEL => $label), $options);
+            $label = $labelBase . $count;
+            $result = $clazz->searchInstances([OntologyRdfs::RDFS_LABEL => $label], $options);
             if (count($result) > 0) {
                 $exist = true;
                 $count ++;
@@ -146,7 +148,7 @@ trait GenerisServiceTrait
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  core_kernel_classes_Resource $instance
-     * @param  array properties
+     * @param  array $properties
      * @return core_kernel_classes_Resource
      * @throws \tao_models_classes_dataBinding_GenerisInstanceDataBindingException
      */
@@ -172,23 +174,23 @@ trait GenerisServiceTrait
      */
     public function cloneInstance(core_kernel_classes_Resource $instance, core_kernel_classes_Class $clazz = null)
     {
-        if (is_null($clazz)) {
+        if ($clazz === null) {
             $types = $instance->getTypes();
             $clazz = current($types);
         }
 
         $returnValue = $this->createInstance($clazz);
-        if (!is_null($returnValue)) {
+        if ($returnValue !== null) {
             $properties = $clazz->getProperties(true);
             foreach ($properties as $property) {
                 $this->cloneInstanceProperty($instance, $returnValue, $property);
             }
             $label = $instance->getLabel();
-            $cloneLabel = "$label bis";
+            $cloneLabel = "${label} bis";
             if (preg_match("/bis(\s[0-9]+)?$/", $label)) {
-                $cloneNumber = (int)preg_replace("/^(.?)*bis/", "", $label);
+                $cloneNumber = (int) preg_replace('/^(.?)*bis/', '', $label);
                 $cloneNumber++;
-                $cloneLabel = preg_replace("/bis(\s[0-9]+)?$/", "", $label)."bis $cloneNumber" ;
+                $cloneLabel = preg_replace("/bis(\s[0-9]+)?$/", '', $label) . "bis ${cloneNumber}";
             }
 
             $returnValue->setLabel($cloneLabel);
@@ -196,54 +198,6 @@ trait GenerisServiceTrait
 
         return $returnValue;
     }
-
-    /**
-     *
-     * @author Lionel Lecaque, lionel@taotesting.com
-     * @param core_kernel_classes_Resource $source
-     * @param core_kernel_classes_Resource $destination
-     * @param core_kernel_classes_Property $property
-     * @throws \League\Flysystem\FileExistsException
-     * @throws \common_Exception
-     * @throws \common_exception_Error
-     */
-    protected function cloneInstanceProperty(
-        core_kernel_classes_Resource $source,
-        core_kernel_classes_Resource $destination,
-        core_kernel_classes_Property $property
-    ) {
-        $range = $property->getRange();
-        // Avoid doublons, the RDF TYPE property will be set by the implementation layer
-        if ($property->getUri() != OntologyRdf::RDF_TYPE) {
-            foreach ($source->getPropertyValuesCollection($property)->getIterator() as $propertyValue) {
-                if (!is_null($range) && $range->getUri() == GenerisRdf::CLASS_GENERIS_FILE) {
-                    /** @var FileReferenceSerializer $fileRefSerializer */
-                    $fileRefSerializer = $this->getServiceLocator()
-                        ->get(ResourceFileSerializer::SERVICE_ID);
-
-                    /** @var File $oldFile */
-                    $oldFile = $fileRefSerializer->unserializeFile($propertyValue->getUri());
-
-                    $newFileName = \helpers_File::createFileName($oldFile->getBasename());
-
-                    /** @var File $newFile */
-                    $newFile = $this->getServiceLocator()
-                        ->get(FileSystemService::SERVICE_ID)
-                        ->getDirectory($oldFile->getFileSystemId())
-                        ->getFile($newFileName);
-
-                    $newFile->write($oldFile->readStream());
-
-                    $newFileUri = $fileRefSerializer->serialize($newFile);
-
-                    $destination->setPropertyValue($property, new core_kernel_classes_Resource($newFileUri));
-                } else {
-                    $destination->setPropertyValue($property, $propertyValue);
-                }
-            }
-        }
-    }
-
 
     /**
      * Clone a Class and move it under the newParentClazz
@@ -263,8 +217,8 @@ trait GenerisServiceTrait
     ) {
         $returnValue = null;
 
-        if (!is_null($sourceClazz) && !is_null($newParentClazz)) {
-            if ((is_null($topLevelClazz))) {
+        if ($sourceClazz !== null && $newParentClazz !== null) {
+            if (($topLevelClazz === null)) {
                 $properties = $sourceClazz->getProperties(false);
             } else {
                 $properties = $this->getClazzProperties($sourceClazz, $topLevelClazz);
@@ -274,7 +228,7 @@ trait GenerisServiceTrait
             $newParentProperties = $newParentClazz->getProperties(true);
             foreach ($properties as $index => $property) {
                 foreach ($newParentProperties as $newParentProperty) {
-                    if ($property->getUri() == $newParentProperty->getUri()) {
+                    if ($property->getUri() === $newParentProperty->getUri()) {
                         unset($properties[$index]);
                         break;
                     }
@@ -317,7 +271,7 @@ trait GenerisServiceTrait
                 }
                 $instance->setType($destinationClass);
                 foreach ($instance->getTypes() as $type) {
-                    if ($type->getUri() == $destinationClass->getUri()) {
+                    if ($type->getUri() === $destinationClass->getUri()) {
                         return true;
                     }
                 }
@@ -342,49 +296,49 @@ trait GenerisServiceTrait
      */
     public function getClazzProperties(core_kernel_classes_Class $clazz, core_kernel_classes_Class $topLevelClazz = null)
     {
-        $returnValue = array();
-        if (is_null($topLevelClazz)) {
+        $returnValue = [];
+        if ($topLevelClazz === null) {
             $topLevelClazz = new core_kernel_classes_Class(TaoOntology::CLASS_URI_OBJECT);
         }
 
-        if ($clazz->getUri() == $topLevelClazz->getUri()) {
+        if ($clazz->getUri() === $topLevelClazz->getUri()) {
             $returnValue = $clazz->getProperties(false);
             return (array) $returnValue;
         }
 
         //determine the parent path
-        $parents = array();
+        $parents = [];
         $top = false;
         do {
-            if (!isset($lastLevelParents)) {
+            if (! isset($lastLevelParents)) {
                 $parentClasses = $clazz->getParentClasses(false);
             } else {
-                $parentClasses = array();
+                $parentClasses = [];
                 foreach ($lastLevelParents as $parent) {
                     $parentClasses = array_merge($parentClasses, $parent->getParentClasses(false));
                 }
             }
-            if (count($parentClasses) == 0) {
+            if (count($parentClasses) === 0) {
                 break;
             }
-            $lastLevelParents = array();
+            $lastLevelParents = [];
             foreach ($parentClasses as $parentClass) {
-                if ($parentClass->getUri() == $topLevelClazz->getUri()) {
+                if ($parentClass->getUri() === $topLevelClazz->getUri()) {
                     $parents[$parentClass->getUri()] = $parentClass;
                     $top = true;
                     break;
                 }
-                if ($parentClass->getUri() == OntologyRdfs::RDFS_CLASS) {
+                if ($parentClass->getUri() === OntologyRdfs::RDFS_CLASS) {
                     continue;
                 }
 
                 $allParentClasses = $parentClass->getParentClasses(true);
                 if (array_key_exists($topLevelClazz->getUri(), $allParentClasses)) {
-                     $parents[$parentClass->getUri()] = $parentClass;
+                    $parents[$parentClass->getUri()] = $parentClass;
                 }
                 $lastLevelParents[$parentClass->getUri()] = $parentClass;
             }
-        } while (!$top);
+        } while (! $top);
 
         foreach ($parents as $parent) {
             $returnValue = array_merge($returnValue, $parent->getProperties(false));
@@ -406,11 +360,11 @@ trait GenerisServiceTrait
      */
     public function getPropertyDiff(core_kernel_classes_Class $sourceClass, core_kernel_classes_Class $destinationClass)
     {
-        $returnValue = array();
+        $returnValue = [];
         $sourceProperties = $sourceClass->getProperties(true);
         $destinationProperties = $destinationClass->getProperties(true);
         foreach ($sourceProperties as $sourcePropertyUri => $sourceProperty) {
-            if (!array_key_exists($sourcePropertyUri, $destinationProperties)) {
+            if (! array_key_exists($sourcePropertyUri, $destinationProperties)) {
                 $sourceProperty->getLabel();
                 array_push($returnValue, $sourceProperty);
             }
@@ -429,20 +383,20 @@ trait GenerisServiceTrait
      */
     public function getTranslatedProperties(core_kernel_classes_Resource $instance, $lang)
     {
-        $returnValue = array();
+        $returnValue = [];
 
         try {
             foreach ($instance->getTypes() as $clazz) {
                 foreach ($clazz->getProperties(true) as $property) {
-                    if ($property->isLgDependent() || $property->getUri() == OntologyRdfs::RDFS_LABEL) {
+                    if ($property->isLgDependent() || $property->getUri() === OntologyRdfs::RDFS_LABEL) {
                         $collection = $instance->getPropertyValuesByLg($property, $lang);
                         if ($collection->count() > 0) {
-                            if ($collection->count() == 1) {
-                                $returnValue[$property->getUri()] = (string)$collection->get(0);
+                            if ($collection->count() === 1) {
+                                $returnValue[$property->getUri()] = (string) $collection->get(0);
                             } else {
-                                $propData = array();
+                                $propData = [];
                                 foreach ($collection->getIterator() as $collectionItem) {
-                                    $propData[] = (string)$collectionItem;
+                                    $propData[] = (string) $collectionItem;
                                 }
                                 $returnValue[$property->getUri()] = $propData;
                             }
@@ -467,16 +421,16 @@ trait GenerisServiceTrait
      */
     public function toArray(core_kernel_classes_Class $clazz)
     {
-        $returnValue = array();
+        $returnValue = [];
         $properties = $clazz->getProperties(false);
         foreach ($clazz->getInstances(false) as $instance) {
-            $data = array();
+            $data = [];
             foreach ($properties as $property) {
                 $data[$property->getLabel()] = null;
                 $values = $instance->getPropertyValues($property);
                 if (count($values) > 1) {
                     $data[$property->getLabel()] = $values;
-                } elseif (count($values) == 1) {
+                } elseif (count($values) === 1) {
                     $data[$property->getLabel()] = $values[0];
                 }
             }
@@ -496,7 +450,7 @@ trait GenerisServiceTrait
      * @return array
      * @throws \common_exception_Error
      */
-    public function toTree(core_kernel_classes_Class $clazz, array $options = array())
+    public function toTree(core_kernel_classes_Class $clazz, array $options = [])
     {
         $searchOptions = [];
         // show instances yes/no
@@ -504,7 +458,7 @@ trait GenerisServiceTrait
         // cut of the class and only display the children?
         $chunk = (isset($options['chunk'])) ? $options['chunk'] : false;
         // probably which subtrees should be opened
-        $browse = (isset($options['browse'])) ? $options['browse'] : array();
+        $browse = (isset($options['browse'])) ? $options['browse'] : [];
         // limit of instances shown by subclass if no search label is given
         // if a search string is given, this is the total limit of results, independent of classes
         $limit = (isset($options['limit'])) ? $options['limit'] : 0;
@@ -523,22 +477,74 @@ trait GenerisServiceTrait
             $returnValue = $results;
         } else {
             // Let's walk the tree with super walker! ~~~ p==[w]õ__
-            array_walk($browse, function (&$item) {
+            array_walk($browse, function (&$item): void {
                 $item = \tao_helpers_Uri::decode($item);
             });
             $openNodes = TreeHelper::getNodesToOpen($browse, $clazz);
 
-            if (!in_array($clazz->getUri(), $openNodes)) {
+            if (! in_array($clazz->getUri(), $openNodes, true)) {
                 $openNodes[] = $clazz->getUri();
             }
 
             $factory = new GenerisTreeFactory($instances, $openNodes, $limit, $offset, $browse, $this->getDefaultFilters(), $searchOptions);
             $tree = $factory->buildTree($clazz);
             $returnValue = $chunk
-                ? (isset($tree['children']) ? $tree['children'] : array())
+                ? ($tree['children'] ?? [])
                 : $tree;
         }
         return $returnValue;
+    }
+
+    /**
+     * make sure that trait will be mixed to ServiceLocatorAware class
+     * @return mixed
+     */
+    abstract public function getServiceLocator();
+
+    /**
+     * @author Lionel Lecaque, lionel@taotesting.com
+     * @param core_kernel_classes_Resource $source
+     * @param core_kernel_classes_Resource $destination
+     * @param core_kernel_classes_Property $property
+     * @throws \League\Flysystem\FileExistsException
+     * @throws \common_Exception
+     * @throws \common_exception_Error
+     */
+    protected function cloneInstanceProperty(
+        core_kernel_classes_Resource $source,
+        core_kernel_classes_Resource $destination,
+        core_kernel_classes_Property $property
+    ): void {
+        $range = $property->getRange();
+        // Avoid doublons, the RDF TYPE property will be set by the implementation layer
+        if ($property->getUri() !== OntologyRdf::RDF_TYPE) {
+            foreach ($source->getPropertyValuesCollection($property)->getIterator() as $propertyValue) {
+                if ($range !== null && $range->getUri() === GenerisRdf::CLASS_GENERIS_FILE) {
+                    /** @var FileReferenceSerializer $fileRefSerializer */
+                    $fileRefSerializer = $this->getServiceLocator()
+                        ->get(ResourceFileSerializer::SERVICE_ID);
+
+                    /** @var File $oldFile */
+                    $oldFile = $fileRefSerializer->unserializeFile($propertyValue->getUri());
+
+                    $newFileName = \helpers_File::createFileName($oldFile->getBasename());
+
+                    /** @var File $newFile */
+                    $newFile = $this->getServiceLocator()
+                        ->get(FileSystemService::SERVICE_ID)
+                        ->getDirectory($oldFile->getFileSystemId())
+                        ->getFile($newFileName);
+
+                    $newFile->write($oldFile->readStream());
+
+                    $newFileUri = $fileRefSerializer->serialize($newFile);
+
+                    $destination->setPropertyValue($property, new core_kernel_classes_Resource($newFileUri));
+                } else {
+                    $destination->setPropertyValue($property, $propertyValue);
+                }
+            }
+        }
     }
 
     /**
@@ -548,10 +554,4 @@ trait GenerisServiceTrait
     {
         return [];
     }
-
-    /**
-     * make sure that trait will be mixed to ServiceLocatorAware class
-     * @return mixed
-     */
-    abstract public function getServiceLocator();
 }

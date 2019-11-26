@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,9 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
- *
- *
  */
+
 namespace oat\tao\model\search\aggregator;
 
 use oat\oatbox\service\ConfigurableService;
@@ -35,7 +37,7 @@ use oat\tao\model\search\Search;
  */
 class UnionSearchService extends ConfigurableService implements UnionSearchInterface
 {
-    const OPTION_SERVICES = 'services';
+    public const OPTION_SERVICES = 'services';
 
     public function getInternalServices()
     {
@@ -65,7 +67,7 @@ class UnionSearchService extends ConfigurableService implements UnionSearchInter
         $searchServicesList = $this->getInternalServices();
         $resultArray = [];
         foreach ($searchServicesList as $service) {
-            if (!$service instanceof Search) {
+            if (! $service instanceof Search) {
                 continue;
             }
             /** @var ResultSet $result */
@@ -85,9 +87,7 @@ class UnionSearchService extends ConfigurableService implements UnionSearchInter
     private function excludeDuplicates($resultArray)
     {
         $resultArray = array_merge(...array_values($resultArray));
-        $resultArray = array_values(array_unique($resultArray));
-
-        return $resultArray;
+        return array_values(array_unique($resultArray));
     }
 
     /**

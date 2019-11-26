@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,11 +23,11 @@
 /**
  * Default test runner config
  */
-return array(
+return [
     /**
      * Disable the browser ability to store login/passwords
      * @type bool
      */
     'disableAutocomplete' => false,
-    'enablePasswordReveal' => false
-);
+    'enablePasswordReveal' => false,
+];

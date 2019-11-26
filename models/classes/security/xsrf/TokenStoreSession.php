@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -29,7 +32,6 @@ use PHPSession;
  */
 class TokenStoreSession extends Configurable implements TokenStore
 {
-
     /**
      * @var PHPSession
      */
@@ -55,7 +57,7 @@ class TokenStoreSession extends Configurable implements TokenStore
      * Set the pool of tokens
      * @param Token[] $tokens
      */
-    public function setTokens(array $tokens = [])
+    public function setTokens(array $tokens = []): void
     {
         $session = $this->getSession();
         $session->setAttribute(self::TOKEN_KEY, $tokens);
@@ -64,7 +66,7 @@ class TokenStoreSession extends Configurable implements TokenStore
     /**
      * Remove all tokens
      */
-    public function removeTokens()
+    public function removeTokens(): void
     {
         $session = $this->getSession();
         $session->setAttribute(self::TOKEN_KEY, []);

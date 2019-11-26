@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace oat\tao\test\integration\routing\samples;
 
 /**
@@ -8,7 +11,7 @@ namespace oat\tao\test\integration\routing\samples;
  */
 class FooControllerA extends \tao_actions_SinglePageModule
 {
-    public function index()
+    public function index(): void
     {
     }
 }

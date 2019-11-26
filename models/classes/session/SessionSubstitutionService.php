@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,16 +18,14 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
- *
  */
-
 
 namespace oat\tao\model\session;
 
-use oat\oatbox\user\User;
-use oat\oatbox\service\ConfigurableService;
 use common_session_Session;
 use common_session_SessionManager;
+use oat\oatbox\service\ConfigurableService;
+use oat\oatbox\user\User;
 
 /**
  * Class SessionSubstitutionService
@@ -61,7 +62,6 @@ class SessionSubstitutionService extends ConfigurableService implements \oat\tao
     }
 
     /**
-     * @return void
      * @return common_session_Session original session instance
      * @throws \Exception
      */

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
- *
  */
 
 namespace oat\tao\model\security;
@@ -31,15 +33,12 @@ use oat\tao\model\settings\CspHeaderSettingsInterface;
  */
 class ActionProtector extends ConfigurableService
 {
-
-    const SERVICE_ID = 'tao/actionProtection';
+    public const SERVICE_ID = 'tao/actionProtection';
 
     /**
      * Set the header that defines which sources are allowed to embed the pages.
-     *
-     * @return void
      */
-    public function setFrameAncestorsHeader()
+    public function setFrameAncestorsHeader(): void
     {
         /** @var SettingsStorage $settingsStorage */
         $settingsStorage = $this->getServiceLocator()->get(SettingsStorage::SERVICE_ID);
@@ -50,7 +49,7 @@ class ActionProtector extends ConfigurableService
         }
 
         // Wrap directives in quotes
-        if (in_array($whitelistedSources, ['self', 'none'])) {
+        if (in_array($whitelistedSources, ['self', 'none'], true)) {
             $whitelistedSources = ["'" . $whitelistedSources . "'"];
         }
 
@@ -58,7 +57,7 @@ class ActionProtector extends ConfigurableService
             $whitelistedSources = json_decode($settingsStorage->get(CspHeaderSettingsInterface::CSP_HEADER_LIST), true);
         }
 
-        if (!is_array($whitelistedSources)) {
+        if (! is_array($whitelistedSources)) {
             $whitelistedSources = [$whitelistedSources];
         }
 

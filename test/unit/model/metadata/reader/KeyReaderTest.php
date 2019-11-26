@@ -1,7 +1,8 @@
 <?php
 
-namespace oat\tao\test\unit\model\metadata\import;
+declare(strict_types=1);
 
+namespace oat\tao\test\unit\model\metadata\import;
 
 use oat\generis\test\TestCase;
 use oat\tao\model\metadata\exception\reader\MetadataReaderNotFoundException;
@@ -9,41 +10,41 @@ use oat\tao\model\metadata\reader\KeyReader;
 
 class KeyReaderTest extends TestCase
 {
-    public function testConstruct()
+    public function testConstruct(): void
     {
-        $reader = new KeyReader(array('key' => 'key'));
+        $reader = new KeyReader(['key' => 'key']);
 
         $property = new \ReflectionProperty(get_class($reader), 'key');
         $property->setAccessible(true);
-        $this->assertEquals('key', $property->getValue($reader));
+        $this->assertSame('key', $property->getValue($reader));
     }
 
-    public function testGetValue()
+    public function testGetValue(): void
     {
-        $reader = new KeyReader(array('key' => 'key'));
+        $reader = new KeyReader(['key' => 'key']);
 
         $value = $reader->getValue(['key' => 'expected']);
-        $this->assertEquals('expected', $value);
+        $this->assertSame('expected', $value);
     }
 
-    public function testGetValueException()
+    public function testGetValueException(): void
     {
         $this->expectException(MetadataReaderNotFoundException::class);
-        $reader = new KeyReader(array('key' => 'key'));
+        $reader = new KeyReader(['key' => 'key']);
         $reader->getValue(['not-expected' => 'value']);
     }
 
     /**
      * @dataProvider hasValueProvider
      */
-    public function testHasValue($data, $key, $expected)
+    public function testHasValue($data, $key, $expected): void
     {
-        $reader = new KeyReader(array('key' => $key));
+        $reader = new KeyReader(['key' => $key]);
 
         $method = new \ReflectionMethod(get_class($reader), 'hasValue');
         $method->setAccessible(true);
 
-        $this->assertEquals($expected, $method->invokeArgs($reader, [$data, $key]));
+        $this->assertSame($expected, $method->invokeArgs($reader, [$data, $key]));
     }
 
     public function hasValueProvider()
@@ -60,5 +61,4 @@ class KeyReaderTest extends TestCase
 
         ];
     }
-
 }

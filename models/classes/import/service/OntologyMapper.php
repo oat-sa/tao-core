@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,8 +22,8 @@
 
 namespace oat\tao\model\import\service;
 
-use oat\oatbox\service\ConfigurableService;
 use common_report_Report as Report;
+use oat\oatbox\service\ConfigurableService;
 
 class OntologyMapper extends ConfigurableService implements ImportMapperInterface
 {
@@ -29,16 +32,6 @@ class OntologyMapper extends ConfigurableService implements ImportMapperInterfac
 
     /** @var Report */
     protected $report;
-
-    /**
-     * @param $property
-     * @param $value
-     * @return mixed
-     */
-    protected function formatValue($property, $value)
-    {
-        return $value;
-    }
 
     /**
      * @param array $data
@@ -93,18 +86,28 @@ class OntologyMapper extends ConfigurableService implements ImportMapperInterfac
     }
 
     /**
+     * @param $property
+     * @param $value
+     * @return mixed
+     */
+    protected function formatValue($property, $value)
+    {
+        return $value;
+    }
+
+    /**
      * @param array $data
      * @param array $schema
      * @throws MandatoryFieldException
      * @throws RdsResourceNotFoundException
      * @throws \common_exception_Error
      */
-    protected function buildMandatoryProperties(array $data, array $schema)
+    protected function buildMandatoryProperties(array $data, array $schema): void
     {
         $mandatoryFields = isset($schema[static::OPTION_SCHEMA_MANDATORY]) ? $schema[static::OPTION_SCHEMA_MANDATORY] : [];
 
         foreach ($mandatoryFields as $key => $propertyKey) {
-            if (!isset($data[$key])) {
+            if (! isset($data[$key])) {
                 throw new MandatoryFieldException('Mandatory field "' . $key . '" should exists.');
             }
 
@@ -122,12 +125,12 @@ class OntologyMapper extends ConfigurableService implements ImportMapperInterfac
      * @throws RdsResourceNotFoundException
      * @throws \common_exception_Error
      */
-    protected function buildOptionalProperties(array $data, array $schema)
+    protected function buildOptionalProperties(array $data, array $schema): void
     {
         $optionalFields = isset($schema[static::OPTION_SCHEMA_OPTIONAL]) ? $schema[static::OPTION_SCHEMA_OPTIONAL] : [];
 
         foreach ($optionalFields as $key => $propertyKey) {
-            if (!isset($data[$key]) || $data[$key] === '') {
+            if (! isset($data[$key]) || $data[$key] === '') {
                 continue;
             }
 
@@ -141,11 +144,11 @@ class OntologyMapper extends ConfigurableService implements ImportMapperInterfac
      * @throws RdsResourceNotFoundException
      * @throws \common_exception_Error
      */
-    protected function addValue($propertyKey, $value)
+    protected function addValue($propertyKey, $value): void
     {
-        if (is_array($propertyKey) && count($propertyKey) === 1){
+        if (is_array($propertyKey) && count($propertyKey) === 1) {
             $valueMapper = reset($propertyKey);
-            if ($valueMapper instanceof ImportValueMapperInterface){
+            if ($valueMapper instanceof ImportValueMapperInterface) {
                 $propertyKey = key($propertyKey);
                 $this->propagate($valueMapper);
                 $this->propertiesMapped[$propertyKey] = $valueMapper->map($value);
@@ -153,7 +156,7 @@ class OntologyMapper extends ConfigurableService implements ImportMapperInterfac
             }
         } else {
             $this->propertiesMapped[$propertyKey] = $this->formatValue($propertyKey, $value);
-            $successMessage = 'Property mapped with success: '. $propertyKey . ':';
+            $successMessage = 'Property mapped with success: ' . $propertyKey . ':';
             $successMessage .= is_array($value) ? implode(',', $value) : $value;
             $this->report->add(Report::createSuccess($successMessage));
         }

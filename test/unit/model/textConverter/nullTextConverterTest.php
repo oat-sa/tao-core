@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,25 +18,24 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\test\unit\model\textConverter;
 
-use oat\tao\model\textConverter\NullTextConverter;
 use oat\generis\test\TestCase;
+use oat\tao\model\textConverter\NullTextConverter;
 
 class nullTextConverterTest extends TestCase
 {
-    public function testGet()
+    public function testGet(): void
     {
         $converter = new NullTextConverter();
-        $this->assertEquals('fixture', $converter->get('fixture'));
+        $this->assertSame('fixture', $converter->get('fixture'));
     }
 
-    public function testGetRegistry()
+    public function testGetRegistry(): void
     {
         $converter = new NullTextConverter();
-        $this->assertEquals([], $converter->getTextRegistry());
+        $this->assertSame([], $converter->getTextRegistry());
     }
 }

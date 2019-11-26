@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,12 +18,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA
- *
  */
+
 namespace oat\tao\scripts\install;
 
-use oat\oatbox\extension\InstallAction;
 use oat\generis\model\OntologyAwareTrait;
+use oat\oatbox\extension\InstallAction;
 use oat\tao\model\resources\ResourceWatcher;
 
 /**
@@ -31,7 +34,7 @@ use oat\tao\model\resources\ResourceWatcher;
 class RegisterResourceWatcherService extends InstallAction
 {
     use OntologyAwareTrait;
-    
+
     public function __invoke($params)
     {
         $resourceWatcher = new ResourceWatcher([ResourceWatcher::OPTION_THRESHOLD => 1]);
@@ -39,5 +42,4 @@ class RegisterResourceWatcherService extends InstallAction
 
         return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'ResourceWatcher service is registered');
     }
-
 }

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,11 +19,12 @@
  *
  * Copyright (c) 2016-2017 (original work) Open Assessment Technologies SA;
  */
+
 namespace oat\tao\test\unit\plugins;
 
 use common_exception_InconsistentData;
-use oat\tao\model\plugins\PluginModule;
 use oat\generis\test\TestCase;
+use oat\tao\model\plugins\PluginModule;
 
 /**
  * Test the PluginModule pojo
@@ -30,7 +34,6 @@ use oat\generis\test\TestCase;
  */
 class PluginModuleTest extends TestCase
 {
-
     /**
      * Data provider
      * @return array the data
@@ -40,54 +43,53 @@ class PluginModuleTest extends TestCase
         return [
             [
                 [
-                    'id'          => 'foo',
-                    'name'        => 'Foo',
-                    'module'      => 'plugin/foo',
-                    'category'    => 'dummy',
+                    'id' => 'foo',
+                    'name' => 'Foo',
+                    'module' => 'plugin/foo',
+                    'category' => 'dummy',
                     'description' => 'The best foo ever',
-                    'active'      => true,
-                    'tags'        => ['required']
+                    'active' => true,
+                    'tags' => ['required'],
                 ], [
-                    'id'          => 'foo',
-                    'name'        => 'Foo',
-                    'module'      => 'plugin/foo',
-                    'category'    => 'dummy',
+                    'id' => 'foo',
+                    'name' => 'Foo',
+                    'module' => 'plugin/foo',
+                    'category' => 'dummy',
                     'description' => 'The best foo ever',
-                    'active'      => true,
-                    'tags'        => ['required']
-                ]
+                    'active' => true,
+                    'tags' => ['required'],
+                ],
             ], [
                 [
-                    'id'          => '12',
-                    'name'        => 21,
-                    'module'      => 'plugin/foo',
-                    'category'    => 'dummy',
+                    'id' => '12',
+                    'name' => 21,
+                    'module' => 'plugin/foo',
+                    'category' => 'dummy',
                 ], [
-                    'id'          => '12',
-                    'name'        => '21',
-                    'module'      => 'plugin/foo',
-                    'category'    => 'dummy',
+                    'id' => '12',
+                    'name' => '21',
+                    'module' => 'plugin/foo',
+                    'category' => 'dummy',
                     'description' => '',
-                    'active'      => true,
-                    'tags'        => []
-                ]
-            ]
+                    'active' => true,
+                    'tags' => [],
+                ],
+            ],
         ];
     }
 
     /**
      * @expectedException common_exception_InconsistentData
      */
-    public function testConstructBadId()
+    public function testConstructBadId(): void
     {
         new PluginModule(12, 'foo', 'bar');
     }
 
-
     /**
      * @expectedException common_exception_InconsistentData
      */
-    public function testConstructEmptyId()
+    public function testConstructEmptyId(): void
     {
         new PluginModule('', 'foo', 'bar');
     }
@@ -95,7 +97,7 @@ class PluginModuleTest extends TestCase
     /**
      * @expectedException common_exception_InconsistentData
      */
-    public function testConstructBadModule()
+    public function testConstructBadModule(): void
     {
         new PluginModule('foo', true, 'bar');
     }
@@ -103,7 +105,7 @@ class PluginModuleTest extends TestCase
     /**
      * @expectedException common_exception_InconsistentData
      */
-    public function testConstructiEmptyModule()
+    public function testConstructiEmptyModule(): void
     {
         new PluginModule('foo', '', 'bar');
     }
@@ -111,7 +113,7 @@ class PluginModuleTest extends TestCase
     /**
      * @expectedException common_exception_InconsistentData
      */
-    public function testConstructBadCategory()
+    public function testConstructBadCategory(): void
     {
         new PluginModule('foo', 'bar', []);
     }
@@ -119,7 +121,7 @@ class PluginModuleTest extends TestCase
     /**
      * @expectedException common_exception_InconsistentData
      */
-    public function testConstructNoCategory()
+    public function testConstructNoCategory(): void
     {
         new PluginModule('foo', 'bar', null);
     }
@@ -127,7 +129,7 @@ class PluginModuleTest extends TestCase
     /**
      * @expectedException common_exception_InconsistentData
      */
-    public function testFromArrayNoRequiredData()
+    public function testFromArrayNoRequiredData(): void
     {
         PluginModule::fromArray([]);
     }
@@ -136,62 +138,60 @@ class PluginModuleTest extends TestCase
      * Test constructor and getter
      * @dataProvider accessorsProvider
      */
-    public function testConstruct($input, $output)
+    public function testConstruct($input, $output): void
     {
-
         $PluginModule = new PluginModule($input['id'], $input['module'], $input['category'], $input);
 
-        $this->assertEquals($output['id'], $PluginModule->getId());
-        $this->assertEquals($output['name'], $PluginModule->getName());
-        $this->assertEquals($output['module'], $PluginModule->getModule());
-        $this->assertEquals($output['category'], $PluginModule->getCategory());
-        $this->assertEquals($output['description'], $PluginModule->getDescription());
-        $this->assertEquals($output['active'], $PluginModule->isActive());
-        $this->assertEquals($output['tags'], $PluginModule->getTags());
+        $this->assertSame($output['id'], $PluginModule->getId());
+        $this->assertSame($output['name'], $PluginModule->getName());
+        $this->assertSame($output['module'], $PluginModule->getModule());
+        $this->assertSame($output['category'], $PluginModule->getCategory());
+        $this->assertSame($output['description'], $PluginModule->getDescription());
+        $this->assertSame($output['active'], $PluginModule->isActive());
+        $this->assertSame($output['tags'], $PluginModule->getTags());
 
-        $PluginModule->setActive(!$output['active']);
-        $this->assertEquals(!$output['active'], $PluginModule->isActive());
+        $PluginModule->setActive(! $output['active']);
+        $this->assertSame(! $output['active'], $PluginModule->isActive());
     }
 
     /**
      * Test from array and getters
      * @dataProvider accessorsProvider
      */
-    public function testFromArray($input, $output)
+    public function testFromArray($input, $output): void
     {
-
         $PluginModule = PluginModule::fromArray($input);
 
-        $this->assertEquals($output['id'], $PluginModule->getId());
-        $this->assertEquals($output['name'], $PluginModule->getName());
-        $this->assertEquals($output['module'], $PluginModule->getModule());
-        $this->assertEquals($output['category'], $PluginModule->getCategory());
-        $this->assertEquals($output['description'], $PluginModule->getDescription());
-        $this->assertEquals($output['active'], $PluginModule->isActive());
-        $this->assertEquals($output['tags'], $PluginModule->getTags());
+        $this->assertSame($output['id'], $PluginModule->getId());
+        $this->assertSame($output['name'], $PluginModule->getName());
+        $this->assertSame($output['module'], $PluginModule->getModule());
+        $this->assertSame($output['category'], $PluginModule->getCategory());
+        $this->assertSame($output['description'], $PluginModule->getDescription());
+        $this->assertSame($output['active'], $PluginModule->isActive());
+        $this->assertSame($output['tags'], $PluginModule->getTags());
 
-        $PluginModule->setActive(!$output['active']);
-        $this->assertEquals(!$output['active'], $PluginModule->isActive());
+        $PluginModule->setActive(! $output['active']);
+        $this->assertSame(! $output['active'], $PluginModule->isActive());
     }
 
     /**
      * Test encoding the object to json
      */
-    public function testJsonSerialize()
+    public function testJsonSerialize(): void
     {
         $expected = '{"id":"bar","module":"bar\/bar","bundle":"plugins\/bundle.min","position":12,"name":"Bar","description":"The best bar ever","category":"dummy","active":false,"tags":["dummy","goofy"]}';
 
         $PluginModule = new PluginModule('bar', 'bar/bar', 'dummy', [
             'name' => 'Bar',
             'description' => 'The best bar ever',
-            'active' =>  false,
+            'active' => false,
             'position' => 12,
             'bundle' => 'plugins/bundle.min',
-            'tags' => ['dummy', 'goofy']
+            'tags' => ['dummy', 'goofy'],
         ]);
 
         $serialized = json_encode($PluginModule);
 
-        $this->assertEquals($expected, $serialized);
+        $this->assertSame($expected, $serialized);
     }
 }

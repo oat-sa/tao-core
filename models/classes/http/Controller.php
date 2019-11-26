@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA
- *
  */
 
 namespace oat\tao\model\http;
@@ -37,6 +39,7 @@ abstract class Controller
     use HttpFlowTrait;
 
     protected $request;
+
     protected $response;
 
     /**
@@ -64,16 +67,6 @@ abstract class Controller
     }
 
     /**
-     * Get the Psr7 request
-     *
-     * @return ServerRequestInterface
-     */
-    protected function getPsrRequest()
-    {
-        return $this->request;
-    }
-
-    /**
      * Get the Psr7 response
      *
      * @return ResponseInterface
@@ -81,6 +74,16 @@ abstract class Controller
     public function getPsrResponse()
     {
         return $this->response;
+    }
+
+    /**
+     * Get the Psr7 request
+     *
+     * @return ServerRequestInterface
+     */
+    protected function getPsrRequest()
+    {
+        return $this->request;
     }
 
     /**

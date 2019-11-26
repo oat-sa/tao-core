@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,6 +19,7 @@
  *
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
+
 namespace oat\tao\model\import\service;
 
 use common_report_Report;
@@ -26,9 +30,9 @@ class ArrayImportValueMapper extends ConfigurableService implements ImportValueM
 {
     use LoggerAwareTrait;
 
-    const OPTION_DELIMITER = 'delimiter';
+    public const OPTION_DELIMITER = 'delimiter';
 
-    const OPTION_VALUE_MAPPER = 'valueMapper';
+    public const OPTION_VALUE_MAPPER = 'valueMapper';
 
     /** @var common_report_Report */
     protected $report;
@@ -38,20 +42,20 @@ class ArrayImportValueMapper extends ConfigurableService implements ImportValueM
      */
     public function map($value)
     {
-        $mapValues   = [];
-        $delimiter   = $this->getOption(static::OPTION_DELIMITER);
+        $mapValues = [];
+        $delimiter = $this->getOption(static::OPTION_DELIMITER);
         $valueMapper = $this->getOption(static::OPTION_VALUE_MAPPER);
-        $values      = explode($delimiter, $value);
+        $values = explode($delimiter, $value);
 
         $this->report = common_report_Report::createInfo();
 
         foreach ($values as $value) {
             if ($valueMapper instanceof ImportValueMapperInterface) {
                 $valueToBeMapped = $this->mapValueThroughMapper($valueMapper, $value);
-                if (!is_null($valueToBeMapped)){
+                if ($valueToBeMapped !== null) {
                     $mapValues[] = $valueToBeMapped;
                 }
-            }else{
+            } else {
                 $mapValues[] = $value;
             }
         }

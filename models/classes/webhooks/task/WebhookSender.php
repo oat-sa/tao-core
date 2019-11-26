@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -67,8 +70,8 @@ class WebhookSender extends ConfigurableService
     private function performRequestWithAuth(RequestInterface $request, WebhookAuthInterface $authConfig)
     {
         $authClass = $authConfig->getAuthClass();
-        if (!class_exists($authClass) || !is_subclass_of($authClass, AbstractAuthType::class)) {
-            throw new \InvalidArgumentException("Auth class '$authClass' is not " . AbstractAuthType::class);
+        if (! class_exists($authClass) || ! is_subclass_of($authClass, AbstractAuthType::class)) {
+            throw new \InvalidArgumentException("Auth class '${authClass}' is not " . AbstractAuthType::class);
         }
 
         /** @var AbstractAuthType $authImpl */

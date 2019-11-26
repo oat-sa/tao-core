@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
- *
  */
 
 namespace oat\tao\model\routing;
@@ -26,7 +28,7 @@ namespace oat\tao\model\routing;
  */
 class ApiRoute extends AbstractApiRoute
 {
-    const REST_CONTROLLER_PREFIX = 'oat\\tao\\controller\\api\\';
+    public const REST_CONTROLLER_PREFIX = 'oat\\tao\\controller\\api\\';
 
     /**
      * Get controller namespace prefix

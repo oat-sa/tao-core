@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace oat\tao\model\action;
 
 /**
@@ -9,7 +11,6 @@ namespace oat\tao\model\action;
  */
 interface CommonModuleInterface
 {
-
     /**
      * Initialization for the controller.
      */

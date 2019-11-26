@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -32,7 +35,7 @@ class SignatureValidator
      * @throws SecurityException
      * @throws InconsistencyConfigException
      */
-    public function checkSignatures(array $list, $signatureFieldName = 'signature', $idFieldName = 'id')
+    public function checkSignatures(array $list, $signatureFieldName = 'signature', $idFieldName = 'id'): void
     {
         foreach ($list as $item) {
             $this->checkSignature($item[$signatureFieldName], $item[$idFieldName]);
@@ -46,13 +49,13 @@ class SignatureValidator
      * @throws SecurityException
      * @throws InconsistencyConfigException
      */
-    public function checkSignature($signature, ...$dataToSign)
+    public function checkSignature($signature, ...$dataToSign): void
     {
         if (empty($signature)) {
             throw new SecurityException('Empty signature');
         }
 
-        if (!is_string($signature)) {
+        if (! is_string($signature)) {
             throw new SecurityException('Signature should be a string');
         }
 

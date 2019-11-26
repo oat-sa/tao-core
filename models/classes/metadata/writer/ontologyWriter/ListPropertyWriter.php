@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2016 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\model\metadata\writer\ontologyWriter;
@@ -48,7 +50,7 @@ class ListPropertyWriter extends PropertyWriter
 
         $listClass = $this->getClass(
             $this->getClass($this->getOption(self::PROPERTY_KEY))
-                 ->getOnePropertyValue($this->getProperty(OntologyRdfs::RDFS_RANGE))
+                ->getOnePropertyValue($this->getProperty(OntologyRdfs::RDFS_RANGE))
         );
 
         $list = $this->getListService()->getListElements($listClass);
@@ -61,10 +63,9 @@ class ListPropertyWriter extends PropertyWriter
         foreach ($list as $element) {
             $this->list[$element->getUri()] = [
                 $element->getLabel(),
-                $element->getOnePropertyValue($this->getProperty(OntologyRdf::RDF_VALUE))->literal
+                $element->getOnePropertyValue($this->getProperty(OntologyRdf::RDF_VALUE))->literal,
             ];
         }
-
     }
 
     /**
@@ -78,7 +79,7 @@ class ListPropertyWriter extends PropertyWriter
     {
         $value = parent::format($data);
         foreach ($this->list as $uri => $values) {
-            if (in_array($value, $values)) {
+            if (in_array($value, $values, true)) {
                 return $uri;
             }
         }

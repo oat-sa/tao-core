@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA;
- *
  */
 
 use oat\generis\model\OntologyRdfs;
@@ -23,23 +25,21 @@ use oat\tao\helpers\form\validators\ResourceSignatureValidator;
 use oat\tao\model\security\SignatureValidator;
 
 /**
- *
  * This form let's you edit the label of a class, only.
  *
  * @author Bertrand Chevrier, <bertrand@taotesting.com>
  */
-class tao_actions_form_EditClassLabel
-    extends \tao_helpers_form_FormContainer
+class tao_actions_form_EditClassLabel extends \tao_helpers_form_FormContainer
 {
     /**
      * @var core_kernel_classes_Class
      */
     protected $clazz;
+
     /**
      * @var string
      */
     private $signature;
-
 
     /**
      * @param core_kernel_classes_Class $clazz
@@ -74,14 +74,13 @@ class tao_actions_form_EditClassLabel
      */
     protected function initForm()
     {
-        (isset($this->options['name'])) ? $name = $this->options['name'] : $name = '';
+        isset($this->options['name']) ? $name = $this->options['name'] : $name = '';
         if (empty($name)) {
             $name = 'form_' . (count(self::$forms) + 1);
         }
         unset($this->options['name']);
 
         $this->form = \tao_helpers_form_FormFactory::getForm($name, $this->options);
-
 
         $this->form->setActions(\tao_helpers_form_FormFactory::getCommonActions(), 'bottom');
     }
@@ -100,10 +99,9 @@ class tao_actions_form_EditClassLabel
         $labelProp = new \core_kernel_classes_Property(OntologyRdfs::RDFS_LABEL);
         //map properties widgets to form elements
         $element = \tao_helpers_form_GenerisFormFactory::elementMap($labelProp);
-        if (!is_null($element)) {
-
+        if ($element !== null) {
             $value = $clazz->getLabel();
-            if (!is_null($value)) {
+            if ($value !== null) {
                 $element->setValue($value);
             }
             //set label validator
@@ -111,7 +109,7 @@ class tao_actions_form_EditClassLabel
                 \tao_helpers_form_FormFactory::getValidator('NotEmpty'),
             ]);
             $namespace = substr($clazz->getUri(), 0, strpos($clazz->getUri(), '#'));
-            if ($namespace != LOCAL_NAMESPACE) {
+            if ($namespace !== LOCAL_NAMESPACE) {
                 $readonly = \tao_helpers_form_FormFactory::getElement($element->getName(), 'Readonly');
                 $readonly->setDescription($element->getDescription());
                 $readonly->setValue($element->getRawValue());
@@ -133,7 +131,7 @@ class tao_actions_form_EditClassLabel
     /**
      * @throws \common_Exception
      */
-    protected function addSignature()
+    protected function addSignature(): void
     {
         $signature = tao_helpers_form_FormFactory::getElement('signature', 'Hidden');
 

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,10 +22,10 @@
 
 namespace oat\tao\model\import\service;
 
+use common_report_Report as Report;
 use oat\oatbox\filesystem\File;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\service\ConfigurableService;
-use common_report_Report as Report;
 
 abstract class AbstractImportService extends ConfigurableService implements ImportServiceInterface
 {
@@ -35,17 +38,11 @@ abstract class AbstractImportService extends ConfigurableService implements Impo
         'escape' => '\\',
     ];
 
-    /** @var array  */
+    /** @var array */
     protected $headerColumns = [];
 
     /** @var ImportMapperInterface */
     protected $mapper;
-
-    /**
-     * @param ImportMapperInterface $mapper
-     * @return \core_kernel_classes_Resource
-     */
-    abstract protected function persist(ImportMapperInterface $mapper);
 
     /**
      * @param $file
@@ -59,18 +56,18 @@ abstract class AbstractImportService extends ConfigurableService implements Impo
     {
         $report = \common_report_Report::createInfo();
 
-        if ($file instanceof File){
-            if ($file->exists()){
+        if ($file instanceof File) {
+            if ($file->exists()) {
                 $fileHandler = $file->readStream();
-            }else{
+            } else {
                 throw new \Exception('File to import cannot be loaded.');
             }
-        } else if (!file_exists($file) || !is_readable($file) || ($fileHandler = fopen($file, 'r')) === false) {
+        } elseif (! file_exists($file) || ! is_readable($file) || ($fileHandler = fopen($file, 'r')) === false) {
             throw new \Exception('File to import cannot be loaded.');
         }
 
         $csvControls = $this->getCsvControls($options);
-        list($delimiter, $enclosure, $escape) = array_values($csvControls);
+        [$delimiter, $enclosure, $escape] = array_values($csvControls);
         $index = 0;
         while (($line = fgetcsv($fileHandler, 0, $delimiter, $enclosure, $escape)) !== false) {
             $index++;
@@ -102,7 +99,7 @@ abstract class AbstractImportService extends ConfigurableService implements Impo
                 }
 
                 $resource = $this->persist($mapper);
-                $message = 'Resource imported with success: '. $resource->getUri();
+                $message = 'Resource imported with success: ' . $resource->getUri();
                 $this->logInfo($message);
                 $report->add(Report::createSuccess($message));
             } catch (\Exception $exception) {
@@ -110,10 +107,10 @@ abstract class AbstractImportService extends ConfigurableService implements Impo
             }
         }
 
-        if ($report->containsError()){
+        if ($report->containsError()) {
             $report->setMessage(__('Import failed.'));
             $report->setType(Report::TYPE_ERROR);
-        }else {
+        } else {
             $report->setMessage(__('Import succeeded.'));
             $report->setType(Report::TYPE_SUCCESS);
         }
@@ -128,7 +125,7 @@ abstract class AbstractImportService extends ConfigurableService implements Impo
      */
     public function getMapper()
     {
-        if (is_null($this->mapper)) {
+        if ($this->mapper === null) {
             throw new \LogicException('Mapper is not initialized and importer cannot process.');
         }
 
@@ -147,6 +144,12 @@ abstract class AbstractImportService extends ConfigurableService implements Impo
 
         return $this;
     }
+
+    /**
+     * @param ImportMapperInterface $mapper
+     * @return \core_kernel_classes_Resource
+     */
+    abstract protected function persist(ImportMapperInterface $mapper);
 
     /**
      * Merge the given $options csv controls to default

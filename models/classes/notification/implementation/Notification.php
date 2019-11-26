@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,17 +18,14 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
- *
  */
 
 namespace oat\tao\model\notification\implementation;
-
 
 use oat\tao\model\notification\NotificationInterface;
 
 class Notification implements NotificationInterface, \JsonSerializable
 {
-
     protected $id;
 
     protected $status;
@@ -56,17 +56,17 @@ class Notification implements NotificationInterface, \JsonSerializable
      * @param null|string $updatedAt
      * @param int $status
      */
-    public function __construct($userId , $title , $message , $senderId , $senderName  , $id = null, $createdAt = null , $updatedAt = null,  $status = 0)
+    public function __construct($userId, $title, $message, $senderId, $senderName, $id = null, $createdAt = null, $updatedAt = null, $status = 0)
     {
-        $this->id         = intval($id);
-        $this->status     = intval($status);
-        $this->recipient  = $userId;
-        $this->senderId   = $senderId;
+        $this->id = intval($id);
+        $this->status = intval($status);
+        $this->recipient = $userId;
+        $this->senderId = $senderId;
         $this->senderName = $senderName;
-        $this->title      = $title;
-        $this->message    = $message;
-        $this->createdAt  = $createdAt;
-        $this->updatedAt  = $updatedAt;
+        $this->title = $title;
+        $this->message = $message;
+        $this->createdAt = $createdAt;
+        $this->updatedAt = $updatedAt;
     }
 
     /**
@@ -136,9 +136,8 @@ class Notification implements NotificationInterface, \JsonSerializable
      */
     public function setStatus($status)
     {
-        if(is_int($status)) {
+        if (is_int($status)) {
             $this->status = $status;
-
         } else {
             $this->status = NotificationInterface::DEFAULT_STATUS;
         }
@@ -152,13 +151,14 @@ class Notification implements NotificationInterface, \JsonSerializable
      */
     public function setId($id)
     {
-        if(is_null($this->id)) {
+        if ($this->id === null) {
             $this->id = $id;
         }
         return $this;
     }
 
-    public function getTitle() {
+    public function getTitle()
+    {
         return $this->title;
     }
 
@@ -166,16 +166,15 @@ class Notification implements NotificationInterface, \JsonSerializable
     {
         return
             [
-                'id'         => $this->getId(),
-                'status'     => $this->getStatus(),
-                'recipient'  => $this->getRecipient(),
-                'sender'     => $this->getSenderId(),
+                'id' => $this->getId(),
+                'status' => $this->getStatus(),
+                'recipient' => $this->getRecipient(),
+                'sender' => $this->getSenderId(),
                 'senderName' => $this->getSenderId(),
-                'title'      => $this->getTitle(),
-                'message'    => $this->getMessage(),
-                'createdAt'  => $this->getCreatedAt(),
-                'updatedAt'  => $this->getUpdatedAt(),
+                'title' => $this->getTitle(),
+                'message' => $this->getMessage(),
+                'createdAt' => $this->getCreatedAt(),
+                'updatedAt' => $this->getUpdatedAt(),
             ];
     }
-
 }

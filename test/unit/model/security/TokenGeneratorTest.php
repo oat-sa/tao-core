@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -34,21 +37,21 @@ class TokenGeneratorTest extends TestCase
     /**
      * Test the token generation
      */
-    public function testGenerate()
+    public function testGenerate(): void
     {
         $token = $this->generate(40);
-        $this->assertEquals(40, strlen($token), 'The token has the expected length');
+        $this->assertSame(40, strlen($token), 'The token has the expected length');
         $this->assertRegExp('/^[0-9a-f]{40}$/', $token, 'The token is correctly formatted');
 
         $token = $this->generate(60);
-        $this->assertEquals(60, strlen($token), 'The token has the expected length');
+        $this->assertSame(60, strlen($token), 'The token has the expected length');
         $this->assertRegExp('/^[0-9a-f]{60}$/', $token, 'The token is correctly formatted');
     }
 
     /**
      * Micro collisions tests
      */
-    public function testCollide()
+    public function testCollide(): void
     {
         $tokens = [];
         for ($i = 0; $i < 10000; $i++) {

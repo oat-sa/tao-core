@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,10 +19,11 @@
  *
  * Copyright (c) 2016-2017 (original work) Open Assessment Technologies SA;
  */
+
 namespace oat\tao\model\modules;
 
-use JsonSerializable;
 use common_exception_InconsistentData;
+use JsonSerializable;
 
 /**
  * A class that represents a frontend module.
@@ -30,50 +34,49 @@ use common_exception_InconsistentData;
 class DynamicModule implements JsonSerializable
 {
     /**
-     * @var string $id the module identifier
+     * @var string the module identifier
      */
     private $id;
 
     /**
-     * @var string $module the AMD module path
+     * @var string the AMD module path
      */
     private $module;
 
     /**
-     * @var string|null $bundle the bundle the module belongs to
+     * @var string|null the bundle the module belongs to
      */
     private $bundle;
 
     /**
-     * @var string|int|null $position to sort modules together
+     * @var string|int|null to sort modules together
      */
     private $position;
 
     /**
-     * @var string $description describes what the modules is doing
+     * @var string describes what the modules is doing
      */
     private $description = '';
 
     /**
-     * @var string $name a human readable module name
+     * @var string a human readable module name
      */
     private $name = '';
 
     /**
-     * @var boolean $active if the module is activated
+     * @var boolean if the module is activated
      */
     private $active = true;
 
     /**
-     * @var string $category the module belongs to a category, to group them
+     * @var string the module belongs to a category, to group them
      */
     private $category;
 
     /**
-     * @var string[] $tags tags to add labels to modules
+     * @var string[] tags to add labels to modules
      */
     private $tags = [];
-
 
     /**
      * Creates a frontend module
@@ -83,31 +86,30 @@ class DynamicModule implements JsonSerializable
      * @param array $data optional other properties
      * @throws common_exception_InconsistentData
      */
-    public function __construct ($id, $module, $category, $data = [] )
+    public function __construct($id, $module, $category, $data = [])
     {
-
         self::validateRequiredData($id, $module, $category);
 
-        $this->id          = (string)  $id;
-        $this->module      = (string)  $module;
-        $this->category    = (string)  $category;
+        $this->id = (string) $id;
+        $this->module = (string) $module;
+        $this->category = (string) $category;
 
-        if(isset($data['bundle'])) {
-            $this->bundle  = (string)  $data['bundle'];
+        if (isset($data['bundle'])) {
+            $this->bundle = (string) $data['bundle'];
         }
-        if(isset($data['position'])) {
-            $this->position  = $data['position'];
+        if (isset($data['position'])) {
+            $this->position = $data['position'];
         }
-        if(isset($data['description'])) {
-            $this->description  = (string) $data['description'];
+        if (isset($data['description'])) {
+            $this->description = (string) $data['description'];
         }
-        if(isset($data['name'])) {
-            $this->name  = (string) $data['name'];
+        if (isset($data['name'])) {
+            $this->name = (string) $data['name'];
         }
-        if(isset($data['active'])) {
-            $this->active = (boolean) $data['active'];
+        if (isset($data['active'])) {
+            $this->active = (bool) $data['active'];
         }
-        if(isset($data['tags'])) {
+        if (isset($data['tags'])) {
             $this->tags = (array) $data['tags'];
         }
     }
@@ -152,9 +154,9 @@ class DynamicModule implements JsonSerializable
         return $this->active;
     }
 
-    public function setActive($active)
+    public function setActive($active): void
     {
-        $this->active = (boolean) $active;
+        $this->active = (bool) $active;
     }
 
     public function getTags()
@@ -164,7 +166,7 @@ class DynamicModule implements JsonSerializable
 
     public function hasTag($tag)
     {
-        return in_array($this->tags, $tag);
+        return in_array($this->tags, $tag, true);
     }
 
     /**
@@ -182,15 +184,15 @@ class DynamicModule implements JsonSerializable
     public function toArray()
     {
         return [
-            'id'          => $this->id,
-            'module'      => $this->module,
-            'bundle'      => $this->bundle,
-            'position'    => $this->position,
-            'name'        => $this->name,
+            'id' => $this->id,
+            'module' => $this->module,
+            'bundle' => $this->bundle,
+            'position' => $this->position,
+            'name' => $this->name,
             'description' => $this->description,
-            'category'    => $this->category,
-            'active'      => $this->active,
-            'tags'        => $this->tags
+            'category' => $this->category,
+            'active' => $this->active,
+            'tags' => $this->tags,
         ];
     }
 
@@ -200,10 +202,9 @@ class DynamicModule implements JsonSerializable
      * @return DynamicModule the new instance
      * @throws common_exception_InconsistentData
      */
-    public static function fromArray( array $data )
+    public static function fromArray(array $data)
     {
-
-        if( !isset($data['id']) || !isset($data['module']) || !isset($data['category']) ) {
+        if (! isset($data['id']) || ! isset($data['module']) || ! isset($data['category'])) {
             throw new common_exception_InconsistentData('The module requires an id, a module and a category');
         }
         return new static($data['id'], $data['module'], $data['category'], $data);
@@ -219,14 +220,13 @@ class DynamicModule implements JsonSerializable
      */
     private static function validateRequiredData($id, $module, $category)
     {
-
-        if(! is_string($id) || empty($id)) {
+        if (! is_string($id) || empty($id)) {
             throw new common_exception_InconsistentData('The module needs an id');
         }
-        if(! is_string($module) || empty($module)) {
+        if (! is_string($module) || empty($module)) {
             throw new common_exception_InconsistentData('The module needs a path');
         }
-        if(! is_string($category) || empty($category)) {
+        if (! is_string($category) || empty($category)) {
             throw new common_exception_InconsistentData('The module needs a category');
         }
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace oat\tao\test\unit\http;
 
 use GuzzleHttp\Psr7\Response;
@@ -11,18 +13,18 @@ use oat\tao\model\http\HttpRequestHelperTrait;
 
 class ControllerTest extends TestCase
 {
-    public function testControllerExtendsHttpTrait()
+    public function testControllerExtendsHttpTrait(): void
     {
         $this->assertArraySubset(
             [
                 HttpRequestHelperTrait::class,
-                HttpFlowTrait::class
+                HttpFlowTrait::class,
             ],
             array_keys(class_uses(Controller::class))
         );
     }
 
-    public function testSetRequest()
+    public function testSetRequest(): void
     {
         $request = new ServerRequest('GET', '/');
         $controller = new ProxyController();
@@ -36,7 +38,7 @@ class ControllerTest extends TestCase
         $this->assertSame($request, $controllerRequest);
     }
 
-    public function testSetResponse()
+    public function testSetResponse(): void
     {
         $response = new Response();
         $controller = new ProxyController();
@@ -50,4 +52,3 @@ class ControllerTest extends TestCase
         $this->assertSame($response, $controllerRequest);
     }
 }
-

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\model;
@@ -28,7 +30,6 @@ use oat\oatbox\task\Task;
  */
 trait TaskQueueActionTrait
 {
-
     /**
      * @var Task[]
      */
@@ -41,8 +42,8 @@ trait TaskQueueActionTrait
      */
     protected function getTaskData($taskId)
     {
-        $task             = $this->getTask($taskId);
-        $result['id']     = $this->getTaskId($task);
+        $task = $this->getTask($taskId);
+        $result['id'] = $this->getTaskId($task);
         $result['status'] = $this->getTaskStatus($task);
         $result['report'] = $this->getTaskReport($task);
 
@@ -51,13 +52,13 @@ trait TaskQueueActionTrait
 
     /**
      * Get task instance from queue by identifier
-     * @param $taskId task identifier
+     * @param task $taskId identifier
      * @throws \common_exception_NotFound
      * @return Task
      */
     protected function getTask($taskId)
     {
-        if (!isset($this->tasks[$taskId])) {
+        if (! isset($this->tasks[$taskId])) {
             /** @var Queue $taskQueue */
             $taskQueue = $this->getServiceManager()->get(Queue::SERVICE_ID);
             $task = $taskQueue->getTask($taskId);
@@ -72,7 +73,6 @@ trait TaskQueueActionTrait
     /**
      * Return task report. Method may be overridden to comply special format of report
      * @param Task $task
-     * @return null
      */
     protected function getTaskReport(Task $task)
     {
@@ -82,7 +82,6 @@ trait TaskQueueActionTrait
     /**
      * Return task status
      * @param Task $task
-     * @return null
      */
     protected function getTaskStatus(Task $task)
     {
@@ -92,7 +91,6 @@ trait TaskQueueActionTrait
     /**
      * Return task identifier
      * @param Task $task
-     * @return null
      */
     protected function getTaskId(Task $task)
     {

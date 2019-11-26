@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,8 +25,8 @@ namespace oat\tao\model\security\xsrf;
 use common_exception_Unauthorized;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\security\TokenGenerator;
 use oat\oatbox\service\exception\InvalidService;
+use oat\tao\model\security\TokenGenerator;
 
 /**
  * This service let's you manage tokens to protect against XSRF.
@@ -41,22 +44,30 @@ class TokenService extends ConfigurableService
     use TokenGenerator;
     use LoggerAwareTrait;
 
-    const SERVICE_ID = 'tao/security-xsrf-token';
+    public const SERVICE_ID = 'tao/security-xsrf-token';
 
     // options keys
-    const POOL_SIZE_OPT = 'poolSize';
-    const TIME_LIMIT_OPT = 'timeLimit';
-    const OPTION_STORE = 'store';
+    public const POOL_SIZE_OPT = 'poolSize';
 
-    const DEFAULT_POOL_SIZE = 6;
-    const DEFAULT_TIME_LIMIT = 0;
+    public const TIME_LIMIT_OPT = 'timeLimit';
 
-    const CSRF_TOKEN_HEADER = 'X-CSRF-Token';
-    const FORM_POOL = 'form_pool';
-    const JS_DATA_KEY = 'tokenHandler';
-    const JS_TOKEN_KEY = 'tokens';
-    const JS_TOKEN_POOL_SIZE_KEY = 'maxSize';
-    const JS_TOKEN_TIME_LIMIT_KEY = 'tokenTimeLimit';
+    public const OPTION_STORE = 'store';
+
+    public const DEFAULT_POOL_SIZE = 6;
+
+    public const DEFAULT_TIME_LIMIT = 0;
+
+    public const CSRF_TOKEN_HEADER = 'X-CSRF-Token';
+
+    public const FORM_POOL = 'form_pool';
+
+    public const JS_DATA_KEY = 'tokenHandler';
+
+    public const JS_TOKEN_KEY = 'tokens';
+
+    public const JS_TOKEN_POOL_SIZE_KEY = 'maxSize';
+
+    public const JS_TOKEN_TIME_LIMIT_KEY = 'tokenTimeLimit';
 
     /**
      * Generates, stores and return a brand new token
@@ -95,7 +106,7 @@ class TokenService extends ConfigurableService
 
         if ($pool !== null) {
             foreach ($pool as $savedToken) {
-                if ($savedToken->getValue() === $token && !$this->isExpired($savedToken)) {
+                if ($savedToken->getValue() === $token && ! $this->isExpired($savedToken)) {
                     $valid = true;
                     break;
                 }
@@ -140,32 +151,13 @@ class TokenService extends ConfigurableService
             $this->revokeToken($token);
         }
 
-        if (!$isValid) {
+        if (! $isValid) {
             throw new common_exception_Unauthorized();
         }
 
         $this->revokeToken($token);
 
         return $isValid;
-    }
-
-    /**
-     * Check if the given token has expired.
-     *
-     * @param Token $token
-     * @return bool
-     */
-    private function isExpired(Token $token)
-    {
-        $expired = false;
-        $actualTime = microtime(true);
-        $timeLimit = $this->getTimeLimit();
-
-        if (($timeLimit > 0) && $token->getCreatedAt() + $timeLimit < $actualTime) {
-            $expired = true;
-        }
-
-        return $expired;
     }
 
     /**
@@ -210,48 +202,11 @@ class TokenService extends ConfigurableService
         if ($session->hasAttribute(TokenStore::TOKEN_NAME)) {
             $name = $session->getAttribute(TokenStore::TOKEN_NAME);
         } else {
-            $name = 'tao_' . substr(md5(microtime()), rand(0, 25), 7);
+            $name = 'tao_' . substr(md5(microtime()), random_int(0, 25), 7);
             $session->setAttribute(TokenStore::TOKEN_NAME, $name);
         }
 
         return $name;
-    }
-
-    /**
-     * Invalidate the tokens in the pool :
-     *  - remove the oldest if the pool raises it's size limit
-     *  - remove the expired tokens
-     * @param Token[] $pool
-     * @return array the invalidated pool
-     */
-    protected function invalidate($pool)
-    {
-        $actualTime = microtime(true);
-        $timeLimit = $this->getTimeLimit();
-        $poolSize = $this->getPoolSize();
-
-        $reduced = array_filter($pool, function ($token) use ($actualTime, $timeLimit) {
-            if ($timeLimit > 0) {
-                return $token->getCreatedAt() + $timeLimit > $actualTime;
-            }
-            return true;
-        });
-
-        if ($poolSize > 0 && count($reduced) > 0) {
-            uasort($reduced, function ($a, $b) {
-                if ($a->getCreatedAt() === $b->getCreatedAt()) {
-                    return 0;
-                }
-                return $a->getCreatedAt() < $b->getCreatedAt() ? -1 : 1;
-            });
-
-            //remove the elements at the beginning to fit the pool size
-            while (count($reduced) >= $poolSize) {
-                array_shift($reduced);
-            }
-        }
-
-        return $reduced;
     }
 
     /**
@@ -264,7 +219,7 @@ class TokenService extends ConfigurableService
     {
         $poolSize = self::DEFAULT_POOL_SIZE;
         if ($this->hasOption(self::POOL_SIZE_OPT)) {
-            $poolSize = (int)$this->getOption(self::POOL_SIZE_OPT);
+            $poolSize = (int) $this->getOption(self::POOL_SIZE_OPT);
         }
 
         if ($withForm) {
@@ -276,32 +231,6 @@ class TokenService extends ConfigurableService
             }
         }
         return $poolSize;
-    }
-
-    /**
-     * Get the configured time limit in seconds
-     * @return int the limit
-     */
-    protected function getTimeLimit()
-    {
-        $timeLimit = self::DEFAULT_TIME_LIMIT;
-        if ($this->hasOption(self::TIME_LIMIT_OPT)) {
-            $timeLimit = (int)$this->getOption(self::TIME_LIMIT_OPT);
-        }
-        return $timeLimit;
-    }
-
-    /**
-     * Get the configured store
-     * @return TokenStore the store
-     */
-    protected function getStore()
-    {
-        $store = $this->getOption(self::OPTION_STORE);
-        if (!$store instanceof TokenStore) {
-            throw new InvalidService('Unexpected store for ' . __CLASS__);
-        }
-        return $this->propagate($store);
     }
 
     /**
@@ -353,7 +282,7 @@ class TokenService extends ConfigurableService
         return [
             self::JS_TOKEN_TIME_LIMIT_KEY => $this->getTimeLimit(),
             self::JS_TOKEN_POOL_SIZE_KEY => $this->getPoolSize(false),
-            self::JS_TOKEN_KEY => $jsTokenPool
+            self::JS_TOKEN_KEY => $jsTokenPool,
         ];
     }
 
@@ -361,7 +290,7 @@ class TokenService extends ConfigurableService
      * Add a token that can be used for forms.
      * @throws \common_Exception
      */
-    public function addFormToken()
+    public function addFormToken(): void
     {
         $store = $this->getStore();
         $tokenPool = $store->getTokens();
@@ -381,11 +310,93 @@ class TokenService extends ConfigurableService
         $store = $this->getStore();
         $tokenPool = $store->getTokens();
 
-        if (!isset($tokenPool[self::FORM_POOL])) {
+        if (! isset($tokenPool[self::FORM_POOL])) {
             $this->addFormToken();
             $tokenPool = $store->getTokens();
         }
 
         return $tokenPool[self::FORM_POOL];
+    }
+
+    /**
+     * Invalidate the tokens in the pool :
+     *  - remove the oldest if the pool raises it's size limit
+     *  - remove the expired tokens
+     * @param Token[] $pool
+     * @return array the invalidated pool
+     */
+    protected function invalidate($pool)
+    {
+        $actualTime = microtime(true);
+        $timeLimit = $this->getTimeLimit();
+        $poolSize = $this->getPoolSize();
+
+        $reduced = array_filter($pool, function ($token) use ($actualTime, $timeLimit) {
+            if ($timeLimit > 0) {
+                return $token->getCreatedAt() + $timeLimit > $actualTime;
+            }
+            return true;
+        });
+
+        if ($poolSize > 0 && count($reduced) > 0) {
+            uasort($reduced, function ($a, $b) {
+                if ($a->getCreatedAt() === $b->getCreatedAt()) {
+                    return 0;
+                }
+                return $a->getCreatedAt() < $b->getCreatedAt() ? -1 : 1;
+            });
+
+            //remove the elements at the beginning to fit the pool size
+            while (count($reduced) >= $poolSize) {
+                array_shift($reduced);
+            }
+        }
+
+        return $reduced;
+    }
+
+    /**
+     * Get the configured time limit in seconds
+     * @return int the limit
+     */
+    protected function getTimeLimit()
+    {
+        $timeLimit = self::DEFAULT_TIME_LIMIT;
+        if ($this->hasOption(self::TIME_LIMIT_OPT)) {
+            $timeLimit = (int) $this->getOption(self::TIME_LIMIT_OPT);
+        }
+        return $timeLimit;
+    }
+
+    /**
+     * Get the configured store
+     * @return TokenStore the store
+     */
+    protected function getStore()
+    {
+        $store = $this->getOption(self::OPTION_STORE);
+        if (! $store instanceof TokenStore) {
+            throw new InvalidService('Unexpected store for ' . __CLASS__);
+        }
+        return $this->propagate($store);
+    }
+
+    /**
+     * Check if the given token has expired.
+     *
+     * @param Token $token
+     * @return bool
+     */
+    private function isExpired(Token $token)
+    {
+        $expired = false;
+        $actualTime = microtime(true);
+        $timeLimit = $this->getTimeLimit();
+
+        if (($timeLimit > 0) && $token->getCreatedAt() + $timeLimit < $actualTime) {
+            $expired = true;
+        }
+
+        return $expired;
     }
 }

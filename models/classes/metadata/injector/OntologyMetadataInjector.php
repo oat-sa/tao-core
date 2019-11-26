@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,17 +18,16 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2016 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\model\metadata\injector;
 
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\metadata\exception\InconsistencyConfigException;
-use oat\tao\model\metadata\exception\reader\MetadataReaderNotFoundException;
-use oat\tao\model\metadata\exception\writer\MetadataWriterException;
 use oat\tao\model\metadata\exception\injector\MetadataInjectorReadException;
 use oat\tao\model\metadata\exception\injector\MetadataInjectorWriteException;
+use oat\tao\model\metadata\exception\reader\MetadataReaderNotFoundException;
+use oat\tao\model\metadata\exception\writer\MetadataWriterException;
 use oat\tao\model\metadata\reader\KeyReader;
 use oat\tao\model\metadata\reader\Reader;
 use oat\tao\model\metadata\writer\ontologyWriter\OntologyWriter;
@@ -38,9 +40,9 @@ use oat\tao\model\metadata\writer\ontologyWriter\OntologyWriter;
  */
 class OntologyMetadataInjector extends ConfigurableService implements Injector
 {
-    const CONFIG_SOURCE = 'source';
+    public const CONFIG_SOURCE = 'source';
 
-    const CONFIG_DESTINATION = 'destination';
+    public const CONFIG_DESTINATION = 'destination';
 
     /**
      * Components to read value from $dataSource
@@ -57,12 +59,38 @@ class OntologyMetadataInjector extends ConfigurableService implements Injector
     protected $writers;
 
     /**
+     * To configuration serialization
+     *
+     * @return string
+     */
+    public function __toPhpCode()
+    {
+        $source = '';
+        if (! empty($this->readers)) {
+            foreach ($this->readers as $reader) {
+                $source .= \common_Utils::toHumanReadablePhpString($reader, 2) . PHP_EOL;
+            }
+        }
+
+        $destination = '';
+        if (! empty($this->writers)) {
+            foreach ($this->writers as $writer) {
+                $destination .= \common_Utils::toHumanReadablePhpString($writer, 2) . PHP_EOL;
+            }
+        }
+
+        $params = [self::CONFIG_SOURCE => $this->readers, self::CONFIG_DESTINATION => $this->writers];
+
+        return 'new ' . get_class($this) . '(' . \common_Utils::toHumanReadablePhpString($params, 1) . '),';
+    }
+
+    /**
      * Override Configurable parent to check required field (source & destination)
      *
      * @param array $options
      * @throws InconsistencyConfigException
      */
-    public function setOptions(array $options)
+    public function setOptions(array $options): void
     {
         if (! array_key_exists(self::CONFIG_SOURCE, $options)
             || ! is_array($options[self::CONFIG_SOURCE])
@@ -84,7 +112,7 @@ class OntologyMetadataInjector extends ConfigurableService implements Injector
     /**
      * Create injector helpers (readers & writers) from options
      */
-    public function createInjectorHelpers()
+    public function createInjectorHelpers(): void
     {
         $this->setReaders($this->getOption(self::CONFIG_SOURCE));
         $this->setWriters($this->getOption(self::CONFIG_DESTINATION));
@@ -179,7 +207,7 @@ class OntologyMetadataInjector extends ConfigurableService implements Injector
      * @param array $readers
      * @throws InconsistencyConfigException
      */
-    protected function setReaders(array $readers)
+    protected function setReaders(array $readers): void
     {
         foreach ($readers as $name => $options) {
             $this->readers[$name] = new KeyReader($options);
@@ -191,37 +219,10 @@ class OntologyMetadataInjector extends ConfigurableService implements Injector
      *
      * @param array $writers
      */
-    protected function setWriters(array $writers)
+    protected function setWriters(array $writers): void
     {
         foreach ($writers as $name => $destination) {
             $this->writers[$name] = $this->buildService($destination);
         }
     }
-
-    /**
-     * To configuration serialization
-     *
-     * @return string
-     */
-    public function __toPhpCode()
-    {
-        $source = '';
-        if (! empty($this->readers)) {
-            foreach ($this->readers as $reader) {
-                $source .= \common_Utils::toHumanReadablePhpString($reader, 2) . PHP_EOL;
-            }
-        }
-
-        $destination = '';
-        if (! empty($this->writers)) {
-            foreach ($this->writers as $writer) {
-                $destination .= \common_Utils::toHumanReadablePhpString($writer, 2) . PHP_EOL;
-            }
-        }
-
-        $params = [self::CONFIG_SOURCE => $this->readers, self::CONFIG_DESTINATION => $this->writers];
-
-        return 'new ' . get_class($this) . '(' . \common_Utils::toHumanReadablePhpString($params, 1) . '),';
-    }
-
 }

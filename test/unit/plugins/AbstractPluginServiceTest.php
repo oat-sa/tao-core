@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,12 +22,12 @@
 
 namespace oat\tao\test\unit\plugins;
 
+use oat\generis\test\TestCase;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\plugins\AbstractPluginRegistry;
 use oat\tao\model\plugins\AbstractPluginService;
 use oat\tao\model\plugins\PluginModule;
 use Prophecy\Prophet;
-use oat\generis\test\TestCase;
 
 /**
  * Concrete class PluginRegistry
@@ -59,7 +62,6 @@ class PluginRegistry extends AbstractPluginRegistry
  */
 class PluginService extends AbstractPluginService
 {
-
 }
 
 /**
@@ -81,7 +83,7 @@ class AbstractPluginServiceTest extends TestCase
             'description' => 'Display a wonderful title',
             'category' => 'content',
             'active' => true,
-            'tags' => ['core', 'component']
+            'tags' => ['core', 'component'],
         ],
         'my/wonderful/plugin/text' => [
             'id' => 'text',
@@ -92,10 +94,68 @@ class AbstractPluginServiceTest extends TestCase
             'description' => 'Display a wonderful text',
             'category' => 'content',
             'active' => true,
-            'tags' => ['core', 'component']
-        ]
+            'tags' => ['core', 'component'],
+        ],
     ];
 
+    /**
+     * Check the service is a service
+     */
+    public function testApi(): void
+    {
+        $pluginService = $this->getPluginService();
+        $this->assertInstanceOf(AbstractPluginService::class, $pluginService);
+        $this->assertInstanceOf(ConfigurableService::class, $pluginService);
+    }
+
+    /**
+     * Test the method AbstractPluginService::getAllPlugins
+     */
+    public function testGetAllPlugins(): void
+    {
+        $pluginService = $this->getPluginService();
+
+        $plugins = $pluginService->getAllPlugins();
+
+        $this->assertSame(2, count($plugins));
+
+        $plugin0 = $plugins['my/wonderful/plugin/title'];
+        $plugin1 = $plugins['my/wonderful/plugin/text'];
+
+        $this->assertInstanceOf(PluginModule::class, $plugin0);
+        $this->assertInstanceOf(PluginModule::class, $plugin1);
+
+        $this->assertSame('title', $plugin0->getId());
+        $this->assertSame('text', $plugin1->getId());
+
+        $this->assertSame('Wonderful Title', $plugin0->getName());
+        $this->assertSame('Wonderful Text', $plugin1->getName());
+
+        $this->assertSame(1, $plugin0->getPosition());
+        $this->assertSame(2, $plugin1->getPosition());
+
+        $this->assertTrue($plugin0->isActive());
+        $this->assertTrue($plugin1->isActive());
+    }
+
+    /**
+     * Test the method AbstractPluginService::getPlugin
+     */
+    public function testGetOnePlugin(): void
+    {
+        $pluginService = $this->getPluginService();
+
+        $plugin = $pluginService->getPlugin('text');
+
+        $this->assertInstanceOf(PluginModule::class, $plugin);
+        $this->assertSame('text', $plugin->getId());
+        $this->assertSame('Wonderful Text', $plugin->getName());
+        $this->assertSame(2, $plugin->getPosition());
+        $this->assertSame('my/wonderful/plugin/text', $plugin->getModule());
+        $this->assertSame('content', $plugin->getCategory());
+
+        $this->assertTrue($plugin->isActive());
+    }
 
     /**
      * Get the service with the stubbed registry
@@ -113,64 +173,4 @@ class AbstractPluginServiceTest extends TestCase
 
         return $pluginService;
     }
-
-    /**
-     * Check the service is a service
-     */
-    public function testApi()
-    {
-        $pluginService = $this->getPluginService();
-        $this->assertInstanceOf(AbstractPluginService::class, $pluginService);
-        $this->assertInstanceOf(ConfigurableService::class, $pluginService);
-    }
-
-    /**
-     * Test the method AbstractPluginService::getAllPlugins
-     */
-    public function testGetAllPlugins()
-    {
-        $pluginService = $this->getPluginService();
-
-        $plugins = $pluginService->getAllPlugins();
-
-        $this->assertEquals(2, count($plugins));
-
-        $plugin0 = $plugins['my/wonderful/plugin/title'];
-        $plugin1 = $plugins['my/wonderful/plugin/text'];
-
-        $this->assertInstanceOf(PluginModule::class, $plugin0);
-        $this->assertInstanceOf(PluginModule::class, $plugin1);
-
-        $this->assertEquals('title', $plugin0->getId());
-        $this->assertEquals('text', $plugin1->getId());
-
-        $this->assertEquals('Wonderful Title', $plugin0->getName());
-        $this->assertEquals('Wonderful Text', $plugin1->getName());
-
-        $this->assertEquals(1, $plugin0->getPosition());
-        $this->assertEquals(2, $plugin1->getPosition());
-
-        $this->assertTrue($plugin0->isActive());
-        $this->assertTrue($plugin1->isActive());
-    }
-
-    /**
-     * Test the method AbstractPluginService::getPlugin
-     */
-    public function testGetOnePlugin()
-    {
-        $pluginService = $this->getPluginService();
-
-        $plugin = $pluginService->getPlugin('text');
-
-        $this->assertInstanceOf(PluginModule::class, $plugin);
-        $this->assertEquals('text', $plugin->getId());
-        $this->assertEquals('Wonderful Text', $plugin->getName());
-        $this->assertEquals(2, $plugin->getPosition());
-        $this->assertEquals('my/wonderful/plugin/text', $plugin->getModule());
-        $this->assertEquals('content', $plugin->getCategory());
-
-        $this->assertTrue($plugin->isActive());
-    }
-
 }

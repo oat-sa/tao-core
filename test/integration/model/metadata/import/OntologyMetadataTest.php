@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace oat\tao\test\integration\model\metadata\import;
 
 use oat\generis\test\TestCase;
@@ -10,8 +12,7 @@ use oat\tao\model\metadata\injector\Injector;
 
 class OntologyMetadataTest extends TestCase
 {
-
-    public function testImport()
+    public function testImport(): void
     {
         try {
             $mock = $this->getMockBuilder(OntologyMetadataImporter::class)
@@ -32,7 +33,7 @@ class OntologyMetadataTest extends TestCase
 
             while (($line = fgetcsv($handle)) !== false) {
                 $lineWithHeaders = array_combine($headers, $line);
-                $data = [ 'resourceUri' => $lineWithHeaders ];
+                $data = ['resourceUri' => $lineWithHeaders];
 
                 $report = $mock->import($data);
                 $this->assertFalse($report->containsError());
@@ -42,7 +43,89 @@ class OntologyMetadataTest extends TestCase
         } catch (\Exception $e) {
             $this->fail('Import method fail with message: ' . $e->getMessage());
         }
+    }
 
+    public function testInvalidResourceKey(): void
+    {
+        $handle = $this->getCsvResource();
+        $headers = fgetcsv($handle);
+
+        $line = fgetcsv($handle);
+        $lineWithHeaders = array_combine($headers, $line);
+        $data = ['abc' => $lineWithHeaders];
+
+        $mock = $this->getMockBuilder(OntologyMetadataImporter::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getInjectors'])
+            ->getMock();
+
+        $mock->expects($this->once())
+            ->method('getInjectors')
+            ->willReturn([]);
+
+        $report = $mock->import($data);
+
+        $this->assertTrue($report->containsError());
+    }
+
+    public function testGetInjectors(): void
+    {
+        $mock = $this->getMockBuilder(MockeryTest_MetadataOntologyImport::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getSubService', 'getOptions'])
+            ->getMock();
+
+        $injector1 = $this->prophesize(Injector::class);
+        $injector1->createInjectorHelpers()->shouldBeCalledTimes(1);
+
+        $injector2 = $this->prophesize(Injector::class);
+        $injector2->createInjectorHelpers()->shouldBeCalledTimes(1);
+
+        $mock->expects($this->exactly(1))
+            ->method('getOptions')
+            ->will($this->returnValue(['1' => 'one', '2' => 'two']));
+
+        $mock->expects($this->exactly(2))
+            ->method('getSubService')
+            ->will($this->onConsecutiveCalls(
+                $injector1->reveal(),
+                $injector2->reveal()
+            ));
+
+
+        $this->assertSame(2, count($mock->getInjectors()));
+    }
+
+    public function testGetInjectorWithoutValidInterface(): void
+    {
+        $importer = new MockeryTest_MetadataOntologyImport([
+            'injectorWithInvalidInterface' => [],
+        ]);
+
+        $importer->setServiceManager(ServiceManager::getServiceManager());
+
+        $method = new \ReflectionMethod(get_class($importer), 'getInjectors');
+        $method->setAccessible(true);
+
+        $this->expectException(InconsistencyConfigException::class);
+        $method->invoke($importer);
+    }
+
+    public function testGetInjectorNotFound(): void
+    {
+        $importer = new MockeryTest_MetadataOntologyImport([
+            'injectorNotFound' => [
+                'class' => Injector::class,
+            ],
+        ]);
+
+        $importer->setServiceManager(ServiceManager::getServiceManager());
+
+        $method = new \ReflectionMethod(get_class($importer), 'getInjectors');
+        $method->setAccessible(true);
+
+        $this->expectException(InconsistencyConfigException::class);
+        $method->invoke($importer);
     }
 
     protected function getResourceMockery()
@@ -63,95 +146,12 @@ class OntologyMetadataTest extends TestCase
 
         $injector->expects($this->any())
             ->method('read')
-            ->willReturn(['label'=>'labelFixture']);
+            ->willReturn(['label' => 'labelFixture']);
 
         $injector->expects($this->any())
             ->method('write')
             ->willReturn(true);
         return $injector;
-    }
-
-    public function testInvalidResourceKey()
-    {
-        $handle = $this->getCsvResource();
-        $headers = fgetcsv($handle);
-
-        $line = fgetcsv($handle);
-        $lineWithHeaders = array_combine($headers, $line);
-        $data = [ 'abc' => $lineWithHeaders ];
-
-        $mock = $this->getMockBuilder(OntologyMetadataImporter::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['getInjectors'])
-            ->getMock();
-
-        $mock->expects($this->once())
-            ->method('getInjectors')
-            ->willReturn([]);
-
-        $report = $mock->import($data);
-
-        $this->assertTrue($report->containsError());
-    }
-
-    public function testGetInjectors()
-    {
-        $mock = $this->getMockBuilder(MockeryTest_MetadataOntologyImport::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['getSubService', 'getOptions'])
-            ->getMock();
-
-        $injector1 = $this->prophesize(Injector::class);
-        $injector1->createInjectorHelpers()->shouldBeCalledTimes(1);
-
-        $injector2 = $this->prophesize(Injector::class);
-        $injector2->createInjectorHelpers()->shouldBeCalledTimes(1);
-
-        $mock->expects($this->exactly(1))
-            ->method('getOptions')
-            ->will($this->returnValue(array('1' => 'one', '2' => 'two')));
-
-        $mock->expects($this->exactly(2))
-            ->method('getSubService')
-            ->will($this->onConsecutiveCalls(
-                $injector1->reveal(),
-                $injector2->reveal()
-            ));
-
-
-        $this->assertEquals(2, count($mock->getInjectors()));
-    }
-
-    public function testGetInjectorWithoutValidInterface()
-    {
-        $importer = new MockeryTest_MetadataOntologyImport(array(
-            'injectorWithInvalidInterface' => [],
-        ));
-
-        $importer->setServiceManager(ServiceManager::getServiceManager());
-
-        $method = new \ReflectionMethod(get_class($importer), 'getInjectors');
-        $method->setAccessible(true);
-
-        $this->expectException(InconsistencyConfigException::class);
-        $method->invoke($importer);
-    }
-
-    public function testGetInjectorNotFound()
-    {
-        $importer = new MockeryTest_MetadataOntologyImport(array(
-            'injectorNotFound' => [
-                'class' => Injector::class
-            ],
-        ));
-
-        $importer->setServiceManager(ServiceManager::getServiceManager());
-
-        $method = new \ReflectionMethod(get_class($importer), 'getInjectors');
-        $method->setAccessible(true);
-
-        $this->expectException(InconsistencyConfigException::class);
-        $method->invoke($importer);
     }
 
     /**
@@ -173,5 +173,8 @@ class OntologyMetadataTest extends TestCase
  */
 class MockeryTest_MetadataOntologyImport extends OntologyMetadataImporter
 {
-    public function getInjectors() { return parent::getInjectors(); }
+    public function getInjectors()
+    {
+        return parent::getInjectors();
+    }
 }

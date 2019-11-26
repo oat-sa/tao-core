@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -40,8 +43,8 @@ class LangRdfModelFix extends ScriptAction
             $rdf = ModelManager::getModel()->getRdfInterface();
             $total = 0;
 
-            $dryRun = (boolean) $this->getOption('dryRun');
-            $forceModelId = (boolean) $this->getOption('useLocal') ? 1 : null;
+            $dryRun = (bool) $this->getOption('dryRun');
+            $forceModelId = (bool) $this->getOption('useLocal') ? 1 : null;
             $langModels = new AppendIterator();
 
             foreach (array_shift($models) as $file) {
@@ -49,7 +52,7 @@ class LangRdfModelFix extends ScriptAction
             }
 
             foreach ($langModels as $triple) {
-                if (!$dryRun) {
+                if (! $dryRun) {
                     $rdf->remove($triple);
                     $rdf->add($triple);
                 }
@@ -77,7 +80,7 @@ class LangRdfModelFix extends ScriptAction
         return [
             'prefix' => 'h',
             'longPrefix' => 'help',
-            'description' => 'Prints a help statement'
+            'description' => 'Prints a help statement',
         ];
     }
 
@@ -91,14 +94,14 @@ class LangRdfModelFix extends ScriptAction
                 'longPrefix' => 'dryRun',
                 'required' => false,
                 'description' => 'dry run',
-                'defaultValue' => 0
+                'defaultValue' => 0,
             ],
             'useLocal' => [
                 'longPrefix' => 'useLocal',
                 'description' => 'Use Local Namespace',
                 'required' => false,
-                'defaultValue' => 1
-            ]
+                'defaultValue' => 1,
+            ],
         ];
     }
 }

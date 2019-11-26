@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,21 +18,19 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
+
 namespace oat\tao\test\integration;
 
+use oat\tao\helpers\Template;
 use oat\tao\model\ClientLibRegistry;
 use oat\tao\test\TaoPhpUnitTestRunner;
-use oat\tao\helpers\Template;
 
 /**
- * 
  * @author Lionel Lecaque, lionel@taotesting.com
  */
 class ClientLibRegistryTest extends TaoPhpUnitTestRunner
 {
-
     /**
      * Unit test library
      * @var string
@@ -37,15 +38,13 @@ class ClientLibRegistryTest extends TaoPhpUnitTestRunner
     private $libId = 'OAT/test';
 
     /**
-     *
      * @author Lionel Lecaque, lionel@taotesting.com
      */
-    public function setUp()
+    protected function setUp(): void
     {
         TaoPhpUnitTestRunner::initTest();
         ClientLibRegistry::getRegistry()->remove($this->libId);
     }
-
 
     /**
      * Test:
@@ -58,28 +57,28 @@ class ClientLibRegistryTest extends TaoPhpUnitTestRunner
         $map = ClientLibRegistry::getRegistry()->getMap();
         $this->assertFalse(empty($map));
         $this->assertFalse(isset($map[$this->libId]));
-        
+
         ClientLibRegistry::getRegistry()->register($this->libId, Template::js('fakePath/views/js/', 'tao'));
-        
+
         $map = ClientLibRegistry::getRegistry()->getMap();
         $this->assertInternalType('array', $map);
         $this->assertTrue(isset($map[$this->libId]));
-        
-        $this->assertEquals('js/fakePath/views/js/', $map[$this->libId]['path']);
+
+        $this->assertSame('js/fakePath/views/js/', $map[$this->libId]['path']);
 
         return $this->libId;
     }
-    
+
     /**
      * Test:
      *  - {@link ClientLibRegistry::remove}
      *
      * @depends testRegister
      */
-    public function testRemove($libId)
+    public function testRemove($libId): void
     {
         ClientLibRegistry::getRegistry()->remove($libId);
-        
+
         $map = ClientLibRegistry::getRegistry()->getMap();
         $this->assertInternalType('array', $map);
         $this->assertFalse(isset($map[$libId]));

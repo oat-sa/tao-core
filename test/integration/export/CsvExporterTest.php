@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,14 +18,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
- *
  */
 
 namespace oat\tao\test\integration\export;
 
+use common_session_SessionManager;
 use GuzzleHttp\Psr7\Response;
 use oat\tao\model\export\implementation\CsvExporter;
-use common_session_SessionManager;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use Psr\Http\Message\ResponseInterface;
 use SplFileInfo;
@@ -35,8 +37,7 @@ use SplFileInfo;
  */
 class CsvExporterTest extends TaoPhpUnitTestRunner
 {
-
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         common_session_SessionManager::startSession(new \common_test_TestUserSession());
@@ -49,12 +50,12 @@ class CsvExporterTest extends TaoPhpUnitTestRunner
      * @param boolean $columnNames
      * @throws \common_exception_InvalidArgumentType
      */
-    public function testExport(SplFileInfo $file, array $data, $columnNames)
+    public function testExport(SplFileInfo $file, array $data, $columnNames): void
     {
         $exporter = new CsvExporter($data);
         $exportedData = $this->normalizeLineEndings($exporter->export($columnNames));
         $sampleData = $this->normalizeLineEndings(file_get_contents($file->getPathname()));
-        $this->assertEquals($exportedData, $sampleData);
+        $this->assertSame($exportedData, $sampleData);
     }
 
     /**
@@ -64,7 +65,7 @@ class CsvExporterTest extends TaoPhpUnitTestRunner
      * @param boolean $columnNames
      * @throws \common_exception_InvalidArgumentType
      */
-    public function testGetFileExportResponse(SplFileInfo $file, array $data, $columnNames)
+    public function testGetFileExportResponse(SplFileInfo $file, array $data, $columnNames): void
     {
         $exporter = new CsvExporter($data);
         /** @var ResponseInterface $originResponse */
@@ -74,16 +75,16 @@ class CsvExporterTest extends TaoPhpUnitTestRunner
 
         $exportedData = $this->normalizeLineEndings($response->getBody()->getContents());
         $sampleData = $this->normalizeLineEndings(file_get_contents($file->getPathname()));
-        $this->assertEquals($exportedData, $sampleData);
+        $this->assertSame($exportedData, $sampleData);
 
         $this->assertCount(4, $response->getHeaders());
-        $this->assertEquals('old_header_val', $response->getHeader('X-Old-Header')[0]);
-        $this->assertEquals(strlen($exportedData), $response->getHeader('Content-Length')[0]);
-        $this->assertEquals(
-            'attachment; fileName="' . CsvExporter::FILE_NAME .'"',
+        $this->assertSame('old_header_val', $response->getHeader('X-Old-Header')[0]);
+        $this->assertSame(strlen($exportedData), $response->getHeader('Content-Length')[0]);
+        $this->assertSame(
+            'attachment; fileName="' . CsvExporter::FILE_NAME . '"',
             $response->getHeader('Content-Disposition')[0]
         );
-        $this->assertEquals(CsvExporter::CSV_CONTENT_TYPE, $response->getHeader('Content-Type')[0]);
+        $this->assertSame(CsvExporter::CSV_CONTENT_TYPE, $response->getHeader('Content-Type')[0]);
     }
 
     /**
@@ -96,7 +97,7 @@ class CsvExporterTest extends TaoPhpUnitTestRunner
         $withoutColNamesFile = new SplFileInfo($samplesDir . 'withoutColNames.csv');
 
         $csvWithColNames = array_map('str_getcsv', file($withColNamesFile->getPathname()));
-        array_walk($csvWithColNames, function(&$a) use ($csvWithColNames) {
+        array_walk($csvWithColNames, function (&$a) use ($csvWithColNames): void {
             $a = array_combine($csvWithColNames[0], $a);
         });
         array_shift($csvWithColNames); // remove column header
@@ -105,12 +106,12 @@ class CsvExporterTest extends TaoPhpUnitTestRunner
             [
                 'file' => $withColNamesFile,
                 'data' => $csvWithColNames,
-                'columnNames' => true
+                'columnNames' => true,
             ],
             [
                 'file' => $withoutColNamesFile,
                 'data' => array_map('str_getcsv', file($withoutColNamesFile->getPathname())),
-                'columnNames' => false
+                'columnNames' => false,
             ],
         ];
     }
@@ -120,11 +121,11 @@ class CsvExporterTest extends TaoPhpUnitTestRunner
      * @param $s
      * @return mixed
      */
-    private function normalizeLineEndings($s) {
+    private function normalizeLineEndings($s)
+    {
         $s = str_replace("\r\n", "\n", $s);
         $s = str_replace("\r", "\n", $s);
         // Don't allow out-of-control blank lines
-        $s = preg_replace("/\n{2,}/", "\n\n", $s);
-        return $s;
+        return preg_replace("/\n{2,}/", "\n\n", $s);
     }
 }

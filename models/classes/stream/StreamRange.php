@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,13 +18,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\model\stream;
 
-use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\StreamInterface;
 
 /**
  * Class StreamRange
@@ -57,7 +59,6 @@ class StreamRange
                 throw new StreamRangeException('HTTP/1.1 416 Requested Range Not Satisfiable');
             }
             $this->lastPos = $length - 1;
-
         } elseif (preg_match('/^(\d+)\-(\d+)$/', $range, $match)) {
             $this->firstPos = intval($match[1]);
             $this->lastPos = intval($match[2]);
@@ -97,9 +98,9 @@ class StreamRange
         }
         if ($rangeHeader) {
             $ranges = explode(',', $rangeHeader[0]);
-            foreach($ranges as $range) {
+            foreach ($ranges as $range) {
                 $range = str_replace('bytes=', '', $range);
-                $result[] = new StreamRange($stream, $range);
+                $result[] = new self($stream, $range);
             }
         }
         return $result;

@@ -1,16 +1,19 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Default config header created during install
  */
 
-return new oat\tao\model\entryPoint\EntryPointService(array(
-    'existing' => array(
+return new oat\tao\model\entryPoint\EntryPointService([
+    'existing' => [
         'passwordreset' => new oat\tao\model\entryPoint\PasswordReset(),
         'deliveryServer' => new oat\taoProctoring\model\entrypoint\ProctoringDeliveryServer(),
         'guestaccess' => new oat\taoDeliveryRdf\model\guest\GuestAccess(),
         'proctoringDelivery' => new oat\taoProctoring\model\entrypoint\ProctoringDeliveryServer(),
-    ),
-    'postlogin' => array(
+    ],
+    'postlogin' => [
         'deliveryServer',
         'backoffice',
         'proctoring',
@@ -18,13 +21,13 @@ return new oat\tao\model\entryPoint\EntryPointService(array(
         'scoreReport',
         'exam',
         'testingLocationList',
-        'proctoringDelivery'
-    ),
-    'prelogin' => array(
+        'proctoringDelivery',
+    ],
+    'prelogin' => [
         'guestaccess',
-        'proctoringDelivery'
-    ),
+        'proctoringDelivery',
+    ],
     'new_tag' => [
-        'proctoringDelivery'
-    ]
-));
+        'proctoringDelivery',
+    ],
+]);

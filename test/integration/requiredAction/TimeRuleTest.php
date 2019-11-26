@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,20 +18,17 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
- *
- *
  */
 
-use oat\tao\test\TaoPhpUnitTestRunner;
-use  oat\tao\model\requiredAction\implementation\TimeRule;
-
+use oat\tao\model\requiredAction\implementation\TimeRule;
+use  oat\tao\test\TaoPhpUnitTestRunner;
 
 class TimeRuleTest extends TaoPhpUnitTestRunner
 {
     /**
      * tests initialization
      */
-    public function setUp()
+    protected function setUp(): void
     {
         TaoPhpUnitTestRunner::initTest();
     }
@@ -36,24 +36,23 @@ class TimeRuleTest extends TaoPhpUnitTestRunner
     /**
      * tests clean up
      */
-    public function tearDown()
+    protected function tearDown(): void
     {
-
     }
 
     /**
      * @dataProvider optionsProvider
      */
-    public function testCheck($result, $options)
+    public function testCheck($result, $options): void
     {
-        $executionTime = isset($options['executionTime']) ? $options['executionTime'] : null;
-        $interval = isset($options['interval']) ? $options['interval'] : null;
+        $executionTime = $options['executionTime'] ?? null;
+        $interval = $options['interval'] ?? null;
 
         $rule = new TimeRule($interval, $executionTime);
         $rule->setRequiredAction($this->getRequiredAction());
         $ruleResult = $rule->check();
 
-        $this->assertEquals($ruleResult, $result);
+        $this->assertSame($ruleResult, $result);
     }
 
     /**
@@ -64,7 +63,7 @@ class TimeRuleTest extends TaoPhpUnitTestRunner
         return [
             [//action has never been performed
                 'result' => true,
-                'options' => []
+                'options' => [],
             ],
             [//action should be performed again
                 'result' => true,
@@ -76,7 +75,7 @@ class TimeRuleTest extends TaoPhpUnitTestRunner
             [//action has been performed
                 'result' => false,
                 'options' => [
-                    'executionTime' =>  (new DateTime())->setTimestamp((time() - 1)),
+                    'executionTime' => (new DateTime())->setTimestamp((time() - 1)),
                 ],
             ],
             [//action has been performed and should not be performed yet

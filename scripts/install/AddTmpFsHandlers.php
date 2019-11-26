@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA
- *
  */
+
 namespace oat\tao\scripts\install;
 
 use oat\oatbox\event\EventManager;
@@ -31,14 +34,13 @@ use oat\tao\model\upload\UploadService;
  */
 class AddTmpFsHandlers extends InstallAction
 {
-
     /**
      * @param $params
      * @throws \common_Exception
      * @throws \oat\oatbox\service\ServiceNotFoundException
      * @throws \common_exception_Error
      */
-    public function __invoke($params)
+    public function __invoke($params): void
     {
         /** @var FileSystemService $fsm */
         $fsm = $this->getServiceManager()->get(FileSystemService::SERVICE_ID);
@@ -47,7 +49,7 @@ class AddTmpFsHandlers extends InstallAction
 
         $uploadFSId = UploadService::$tmpFilesystemId;
 
-        if (!array_key_exists($uploadFSId, $fsm->getOption(FileSystemService::OPTION_ADAPTERS))
+        if (! array_key_exists($uploadFSId, $fsm->getOption(FileSystemService::OPTION_ADAPTERS))
         ) {
             $fsm->createFileSystem($uploadFSId, 'tmp');
             $this->getServiceManager()->register(FileSystemService::SERVICE_ID, $fsm);
@@ -59,5 +61,4 @@ class AddTmpFsHandlers extends InstallAction
         $eventManager->attach(UploadLocalCopyCreatedEvent::class, [UploadService::class, 'listenLocalCopyEvent']);
         $this->getServiceManager()->register(EventManager::CONFIG_ID, $eventManager);
     }
-
 }

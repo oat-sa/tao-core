@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\helpers\form\elements\xhtml;
@@ -23,7 +25,6 @@ namespace oat\tao\helpers\form\elements\xhtml;
 use common_session_SessionManager;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\service\ServiceManager;
-use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\tao\model\security\xsrf\TokenService;
 use tao_helpers_form_elements_xhtml_Hidden;
 
@@ -34,7 +35,6 @@ use tao_helpers_form_elements_xhtml_Hidden;
  */
 class CsrfToken extends tao_helpers_form_elements_xhtml_Hidden
 {
-
     use LoggerAwareTrait;
 
     /**
@@ -56,7 +56,7 @@ class CsrfToken extends tao_helpers_form_elements_xhtml_Hidden
     public function validate()
     {
         $csrfToken = $this->getEvaluatedValue();
-        if (!$csrfToken) {
+        if (! $csrfToken) {
             $this->logCsrfFailure('No CSRF token provided in form');
             return false;
         }
@@ -64,7 +64,7 @@ class CsrfToken extends tao_helpers_form_elements_xhtml_Hidden
         /** @var TokenService $tokenService */
         $tokenService = ServiceManager::getServiceManager()->get(TokenService::SERVICE_ID);
 
-        if (!$tokenService->checkToken($csrfToken)) {
+        if (! $tokenService->checkToken($csrfToken)) {
             $this->logCsrfFailure('Invalid token received', $csrfToken);
             return false;
         }
@@ -87,7 +87,7 @@ class CsrfToken extends tao_helpers_form_elements_xhtml_Hidden
      * @param string|null $csrfToken
      * @throws \common_exception_Error
      */
-    private function logCsrfFailure($exceptionMessage, $csrfToken = null)
+    private function logCsrfFailure($exceptionMessage, $csrfToken = null): void
     {
         $userIdentifier = common_session_SessionManager::getSession()->getUser()->getIdentifier();
 

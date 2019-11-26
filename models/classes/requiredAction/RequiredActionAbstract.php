@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,13 +18,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
- *
- *
  */
 
 namespace oat\tao\model\requiredAction;
 
-use \Exception;
+use Exception;
 
 /**
  * Class RequiredAction
@@ -58,6 +59,20 @@ abstract class RequiredActionAbstract implements RequiredActionInterface
     }
 
     /**
+     * @see \oat\oatbox\PhpSerializable::__toPhpCode()
+     */
+    public function __toPhpCode()
+    {
+        $class = get_class($this);
+        $name = $this->name;
+        $rules = \common_Utils::toHumanReadablePhpString($this->getRules());
+        return "new ${class}(
+            '${name}',
+            ${rules}
+        )";
+    }
+
+    /**
      * Execute an action
      * @param array $params
      * @return mixed
@@ -71,9 +86,7 @@ abstract class RequiredActionAbstract implements RequiredActionInterface
      */
     public function mustBeExecuted($context = null)
     {
-        $result = $this->checkRules($context);
-
-        return $result;
+        return $this->checkRules($context);
     }
 
     /**
@@ -101,9 +114,8 @@ abstract class RequiredActionAbstract implements RequiredActionInterface
     /**
      * Add rule to rules list
      * @param RequiredActionRuleInterface $rule
-     * @return void
      */
-    public function setRule(RequiredActionRuleInterface $rule)
+    public function setRule(RequiredActionRuleInterface $rule): void
     {
         $rule->setRequiredAction($this);
         $this->rules[] = $rule;
@@ -116,20 +128,6 @@ abstract class RequiredActionAbstract implements RequiredActionInterface
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * @see \oat\oatbox\PhpSerializable::__toPhpCode()
-     */
-    public function __toPhpCode()
-    {
-        $class = get_class($this);
-        $name = $this->name;
-        $rules = \common_Utils::toHumanReadablePhpString($this->getRules());
-        return "new $class(
-            '$name',
-            $rules
-        )";
     }
 
     /**

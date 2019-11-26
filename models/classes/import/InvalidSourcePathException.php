@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2014-2018 (original work) Open Assessment Technologies SA;
- *
  */
 
 namespace oat\tao\model\import;
@@ -43,7 +45,6 @@ class InvalidSourcePathException extends common_Exception implements common_exce
         $message = sprintf('The path to the source file "%s" is outside the base path "%s"', $sourcePath, $basePath);
 
         parent::__construct($message, 0, $previous);
-
     }
 
     /**

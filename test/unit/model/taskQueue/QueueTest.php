@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,11 +18,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\test\unit\model\taskQueue;
 
+use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
 use oat\tao\model\taskQueue\Queue;
 use oat\tao\model\taskQueue\Queue\Broker\QueueBrokerInterface;
@@ -27,7 +30,6 @@ use oat\tao\model\taskQueue\Task\AbstractTask;
 use oat\tao\model\taskQueue\TaskLogInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Lock\LockInterface;
-use oat\generis\test\MockObject;
 
 class QueueTest extends TestCase
 {
@@ -35,35 +37,35 @@ class QueueTest extends TestCase
      * @expectedException \InvalidArgumentException
      * @expectExceptionMessage  Queue name needs to be set.
      */
-    public function testWhenQueueNameIsEmptyThenThrowException()
+    public function testWhenQueueNameIsEmptyThenThrowException(): void
     {
         $brokerMock = $this->getMockForAbstractClass(QueueBrokerInterface::class);
 
         new Queue('', $brokerMock);
     }
 
-    public function testGetNameShouldReturnTheValueOfQueueName()
+    public function testGetNameShouldReturnTheValueOfQueueName(): void
     {
         $brokerMock = $this->getMockForAbstractClass(QueueBrokerInterface::class);
 
         $queue = new Queue('fakeQueue', $brokerMock);
-        $this->assertEquals('fakeQueue', $queue->getName());
+        $this->assertSame('fakeQueue', $queue->getName());
     }
 
-    public function testGetWeightShouldReturnTheValueOfQueueWeight()
+    public function testGetWeightShouldReturnTheValueOfQueueWeight(): void
     {
         $brokerMock = $this->getMockForAbstractClass(QueueBrokerInterface::class);
 
         $queue = new Queue('fakeQueue', $brokerMock, 23);
-        $this->assertEquals(23, $queue->getWeight());
+        $this->assertSame(23, $queue->getWeight());
     }
 
     /**
      * @dataProvider provideEnqueueOptions
      */
-    public function testEnqueueWhenTaskPushedOrNot($isEnqueued, $expected)
+    public function testEnqueueWhenTaskPushedOrNot($isEnqueued, $expected): void
     {
-        $taskMock = $this->getMockForAbstractClass(AbstractTask::class, [], "", false);
+        $taskMock = $this->getMockForAbstractClass(AbstractTask::class, [], '', false);
         $lockMock = $this->getMockBuilder(LockInterface::class)->disableOriginalConstructor()->getMock();
         $lockMock->method('acquire')->willReturn(true);
         $lockMock->method('release')->willReturn(true);
@@ -96,7 +98,7 @@ class QueueTest extends TestCase
                 ->willReturn($taskLogMock);
         }
 
-        $this->assertEquals($expected, $queueMock->enqueue($taskMock));
+        $this->assertSame($expected, $queueMock->enqueue($taskMock));
     }
 
     public function provideEnqueueOptions()
@@ -110,7 +112,7 @@ class QueueTest extends TestCase
     /**
      * @dataProvider provideDequeueOptions
      */
-    public function testDequeueWhenTaskPoppedOrNot($dequeuedElem, $expected)
+    public function testDequeueWhenTaskPoppedOrNot($dequeuedElem, $expected): void
     {
         $lockMock = $this->getMockBuilder(LockInterface::class)->disableOriginalConstructor()->getMock();
         $lockMock->method('acquire')->willReturn(true);
@@ -167,7 +169,7 @@ class QueueTest extends TestCase
             $subject->setTaskLog($taskLogMock);
         }
 
-        $this->assertEquals($expected, $subject->dequeue());
+        $this->assertSame($expected, $subject->dequeue());
     }
 
     public function provideDequeueOptions()
@@ -196,9 +198,9 @@ class QueueTest extends TestCase
         return $taskMock;
     }
 
-    public function testAcknowledgeShouldCallDeleteOnBroker()
+    public function testAcknowledgeShouldCallDeleteOnBroker(): void
     {
-        $taskMock = $this->getMockForAbstractClass(AbstractTask::class, [], "", false);
+        $taskMock = $this->getMockForAbstractClass(AbstractTask::class, [], '', false);
 
         $queueBrokerMock = $this->getMockForAbstractClass(QueueBrokerInterface::class);
 
@@ -218,7 +220,7 @@ class QueueTest extends TestCase
         $queueMock->acknowledge($taskMock);
     }
 
-    public function testCountShouldCallCountOnBroker()
+    public function testCountShouldCallCountOnBroker(): void
     {
         $queueBrokerMock = $this->getMockForAbstractClass(QueueBrokerInterface::class);
 
@@ -238,7 +240,7 @@ class QueueTest extends TestCase
         $queueMock->count();
     }
 
-    public function testInitializeShouldCallCreateQueueOnBroker()
+    public function testInitializeShouldCallCreateQueueOnBroker(): void
     {
         $queueBrokerMock = $this->getMockForAbstractClass(QueueBrokerInterface::class);
 

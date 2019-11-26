@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,45 +18,47 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
+
 namespace oat\tao\model\clientConfig;
 
 use oat\oatbox\service\ConfigurableService;
+
 /**
- * 
  * @author Joel Bout
  */
-class ClientConfigService extends ConfigurableService {
+class ClientConfigService extends ConfigurableService
+{
+    public const SERVICE_ID = 'tao/clientConfig';
 
-    const SERVICE_ID = 'tao/clientConfig';
-    
-    const OPTION_CONFIG_SOURCES = 'configs';
-    
+    public const OPTION_CONFIG_SOURCES = 'configs';
+
     /**
      * Returns an array of json serialisable content
-     * to be send to the client json encoded 
-     * 
+     * to be send to the client json encoded
+     *
      * @return array
      */
-    public function getExtendedConfig() {
-        $config = array();
+    public function getExtendedConfig()
+    {
+        $config = [];
         foreach ($this->getOption(self::OPTION_CONFIG_SOURCES) as $key => $source) {
             $config[$key] = $source->getConfig();
         }
         return $config;
     }
-    
+
     /**
      * Either adds or overrides an existing client config
-     * 
+     *
      * @param string $id
      * @param ClientConfig $configSource
      */
-    public function setClientConfig($id, ClientConfig $configSource) {
+    public function setClientConfig($id, ClientConfig $configSource): void
+    {
         $sources = $this->hasOption(self::OPTION_CONFIG_SOURCES)
             ? $this->getOption(self::OPTION_CONFIG_SOURCES)
-            : array()
+            : []
         ;
         $sources[$id] = $configSource;
         $this->setOption(self::OPTION_CONFIG_SOURCES, $sources);

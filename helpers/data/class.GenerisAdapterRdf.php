@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,13 +20,12 @@
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  *               2013-2017 (update and modification) Open Assessment Technologies SA
- *
  */
 
 use oat\generis\model\OntologyRdf;
+use oat\oatbox\filesystem\File;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\upload\UploadService;
-use oat\oatbox\filesystem\File;
 
 /**
  * Adapter for RDF/RDFS format
@@ -34,7 +36,6 @@ use oat\oatbox\filesystem\File;
  */
 class tao_helpers_data_GenerisAdapterRdf extends tao_helpers_data_GenerisAdapter
 {
-
     /**
      * Import a XML file as is into the ontology
      *
@@ -51,7 +52,7 @@ class tao_helpers_data_GenerisAdapterRdf extends tao_helpers_data_GenerisAdapter
     {
         /** @var UploadService $uploadService */
         $uploadService = ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID);
-        if (!$source instanceof File) {
+        if (! $source instanceof File) {
             $file = $uploadService->getUploadedFlyFile($source);
         } else {
             $file = $source;
@@ -109,7 +110,7 @@ class tao_helpers_data_GenerisAdapterRdf extends tao_helpers_data_GenerisAdapter
      * @param core_kernel_classes_Class $resource
      * @ignore
      */
-    private function addClass(EasyRdf_Graph $graph, core_kernel_classes_Class $resource)
+    private function addClass(EasyRdf_Graph $graph, core_kernel_classes_Class $resource): void
     {
         $this->addResource($graph, $resource);
         foreach ($resource->getInstances() as $instance) {
@@ -121,7 +122,6 @@ class tao_helpers_data_GenerisAdapterRdf extends tao_helpers_data_GenerisAdapter
         foreach ($resource->getProperties() as $property) {
             $this->addResource($graph, $property);
         }
-
     }
 
     /**
@@ -131,10 +131,10 @@ class tao_helpers_data_GenerisAdapterRdf extends tao_helpers_data_GenerisAdapter
      * @param core_kernel_classes_Resource $resource
      * @ignore
      */
-    private function addResource(EasyRdf_Graph $graph, core_kernel_classes_Resource $resource)
+    private function addResource(EasyRdf_Graph $graph, core_kernel_classes_Resource $resource): void
     {
         foreach ($resource->getRdfTriples() as $triple) {
-            $language = !empty($triple->lg) ? $triple->lg : null;
+            $language = ! empty($triple->lg) ? $triple->lg : null;
             if (common_Utils::isUri($triple->object)) {
                 if ($triple->predicate !== OntologyRdf::RDF_TYPE && strpos($triple->object, LOCAL_NAMESPACE) !== false) {
                     continue;
@@ -160,7 +160,7 @@ class tao_helpers_data_GenerisAdapterRdf extends tao_helpers_data_GenerisAdapter
     {
         $isFile = false;
         $type = substr($object, 0, strpos($object, ':'));
-        if (in_array($type, ['file', 'dir'])) {
+        if (in_array($type, ['file', 'dir'], true)) {
             $isFile = true;
         }
 

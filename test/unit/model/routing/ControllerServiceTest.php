@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,37 +24,47 @@
 
 namespace oat\test\model;
 
+use oat\generis\test\TestCase;
 use oat\tao\model\routing\ControllerService;
 use oat\tao\model\routing\RouteAnnotationService;
 use Prophecy\Argument;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use oat\generis\test\TestCase;
 
-
-abstract class AbsCl {}
+abstract class AbsCl
+{
+}
 
 /**
  * Class BlCl
  * @package oat\test\model
  */
-class BlCl {}
+class BlCl
+{
+}
 
-class RouteAnnotationExample {
+class RouteAnnotationExample
+{
+    public function notFoundAnnotation(): void
+    {
+    }
 
-    protected function protectedAction(){}
-    public function notFoundAnnotation(){}
-    public function withoutAnnotation(){}
+    public function withoutAnnotation(): void
+    {
+    }
+
+    protected function protectedAction(): void
+    {
+    }
 }
 
 class ControllerServiceTest extends TestCase
 {
-
     /**
      * @var ControllerService
      */
     private $service;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -81,7 +94,7 @@ class ControllerServiceTest extends TestCase
      * @expectedException \oat\tao\model\routing\RouterException
      * @expectedExceptionMessage Attempt to run an action from the Abstract class "oat\test\model\AbsCl"
      */
-    public function testGetControllerAbstractClass()
+    public function testGetControllerAbstractClass(): void
     {
         $this->service->checkController(AbsCl::class);
     }
@@ -90,7 +103,7 @@ class ControllerServiceTest extends TestCase
      * @expectedException \oat\tao\model\routing\RouterException
      * @expectedExceptionMessage Class 'oat\test\model\BlCl' blocked by route annotation
      */
-    public function testGetControllerBlockedByAnnotation()
+    public function testGetControllerBlockedByAnnotation(): void
     {
         $this->service->checkController(BlCl::class);
     }
@@ -98,27 +111,29 @@ class ControllerServiceTest extends TestCase
     /**
      * @throws \oat\tao\model\routing\RouterException
      */
-    public function testGetController()
+    public function testGetController(): void
     {
-        $this->assertEquals(RouteAnnotationExample::class,
-            $this->service->checkController(RouteAnnotationExample::class));
+        $this->assertSame(
+            RouteAnnotationExample::class,
+            $this->service->checkController(RouteAnnotationExample::class)
+        );
     }
 
     /**
      * @expectedException \oat\tao\model\routing\RouterException
      * @expectedExceptionMessage The method "protectedAction" is not public in the class "oat\test\model\RouteAnnotationExample"
      */
-    public function testGetNonPublicAction()
+    public function testGetNonPublicAction(): void
     {
         $this->service->getAction(RouteAnnotationExample::class, 'protectedAction');
     }
 
-    public function testGetActionBlockedByAnnotation()
+    public function testGetActionBlockedByAnnotation(): void
     {
         $this->service->getAction(RouteAnnotationExample::class, 'notFoundAnnotation');
     }
 
-    public function testGetAction()
+    public function testGetAction(): void
     {
         $this->service->getAction(RouteAnnotationExample::class, 'withoutAnnotation');
     }
@@ -127,7 +142,7 @@ class ControllerServiceTest extends TestCase
      * @expectedException \oat\tao\model\routing\RouterException
      * @expectedExceptionMessage Method oat\test\model\RouteAnnotationExample::methodNotExists() does not exist
      */
-    public function testGetNonexistentAction()
+    public function testGetNonexistentAction(): void
     {
         $this->service->getAction(RouteAnnotationExample::class, 'methodNotExists');
     }

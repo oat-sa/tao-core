@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\model\taskQueue;
@@ -40,7 +42,8 @@ class Queue implements QueueInterface, TaskLogAwareInterface
     use TaskLogAwareTrait;
     use LockTrait;
 
-    const LOCK_PREFIX = 'taskqueue_lock_';
+    public const LOCK_PREFIX = 'taskqueue_lock_';
+
     private $name;
 
     /**
@@ -61,7 +64,7 @@ class Queue implements QueueInterface, TaskLogAwareInterface
     public function __construct($name, QueueBrokerInterface $broker, $weight = 1)
     {
         if (empty($name)) {
-            throw new \InvalidArgumentException("Queue name needs to be set.");
+            throw new \InvalidArgumentException('Queue name needs to be set.');
         }
 
         $this->name = $name;
@@ -94,7 +97,7 @@ class Queue implements QueueInterface, TaskLogAwareInterface
     /**
      * @inheritdoc
      */
-    public function initialize()
+    public function initialize(): void
     {
         $this->getBroker()->createQueue();
     }
@@ -140,24 +143,12 @@ class Queue implements QueueInterface, TaskLogAwareInterface
     }
 
     /**
-     * Returns the queue broker service.
-     *
-     * @return QueueBrokerInterface
-     */
-    protected function getBroker()
-    {
-        $this->broker->setServiceLocator($this->getServiceLocator());
-
-        return $this->broker;
-    }
-
-    /**
      * @inheritdoc
      */
     public function enqueue(TaskInterface $task, $label = null)
     {
         try {
-            if (!is_null($label)) {
+            if ($label !== null) {
                 $task->setLabel($label);
             }
             $lock = $this->createLock(self::LOCK_PREFIX . $task->getId());
@@ -184,7 +175,7 @@ class Queue implements QueueInterface, TaskLogAwareInterface
     public function dequeue()
     {
         $task = $this->getBroker()->pop();
-        if (!$task) {
+        if (! $task) {
             return null;
         }
         $lock = $this->createLock(self::LOCK_PREFIX . $task->getId());
@@ -200,7 +191,7 @@ class Queue implements QueueInterface, TaskLogAwareInterface
     /**
      * @inheritdoc
      */
-    public function acknowledge(TaskInterface $task)
+    public function acknowledge(TaskInterface $task): void
     {
         $this->getBroker()->delete($task);
     }
@@ -232,13 +223,25 @@ class Queue implements QueueInterface, TaskLogAwareInterface
     }
 
     /**
+     * Returns the queue broker service.
+     *
+     * @return QueueBrokerInterface
+     */
+    protected function getBroker()
+    {
+        $this->broker->setServiceLocator($this->getServiceLocator());
+
+        return $this->broker;
+    }
+
+    /**
      * @param TaskInterface $task
      *
      * @return bool
      */
     protected function canDequeueTask(TaskInterface $task)
     {
-        return $this->getTaskLog()->getStatus($task->getId()) != TaskLogInterface::STATUS_CANCELLED;
+        return $this->getTaskLog()->getStatus($task->getId()) !== TaskLogInterface::STATUS_CANCELLED;
     }
 
     /**

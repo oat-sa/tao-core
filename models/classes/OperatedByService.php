@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,80 +19,82 @@
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  */
- 
+
 namespace oat\tao\model;
 
 use oat\oatbox\service\ConfigurableService;
 
 /**
  * TAO OperatedBy Service
- * 
+ *
  * This service aims at retrieving/persisting information about
  * the organization operating the TAO Platform.
  */
 class OperatedByService extends ConfigurableService
 {
-    const SERVICE_ID = 'tao/operatedby';
-    
+    public const SERVICE_ID = 'tao/operatedby';
+
     /**
      * TAO OperatedBy Service Constructor
-     * 
+     *
      * Creates a new OperatedByService object.
-     * 
+     *
      * @param array $options An associative array where keys are option names and values are option values.
      */
-    public function __construct($options = array()) {
+    public function __construct($options = [])
+    {
         parent::__construct($options);
     }
-    
+
     /**
      * Get Organization Name
-     * 
+     *
      * Get the name of the organization operating the TAO Platform.
-     * 
+     *
      * @return string
      */
     public function getName()
     {
         $name = $this->getOption('operatedByName');
-        return (empty($name) ? '' : $name);
+        return empty($name) ? '' : $name;
     }
-    
+
     /**
      * Set Organization Name
-     * 
+     *
      * Set the name of the organization operating the TAO Platform.
-     * 
+     *
      * @param string $name
      */
-    public function setName($name)
+    public function setName($name): void
     {
         $this->setOption('operatedByName', $name);
     }
-    
+
     /**
      * Get Organization Email
-     * 
+     *
      * Get the email address of the organization operating the TAO
      * Platform.
-     * 
+     *
      * @return string
      */
     public function getEmail()
     {
         $email = $this->getOption('operatedByEmail');
-        return (empty($email) ? '' : $email);
+        return empty($email) ? '' : $email;
     }
-    
+
     /**
      * Set the Organization Email
-     * 
+     *
      * Set the email address of the organization operating the TAO
      * Platform.
-     * 
+     *
      * @param string $email
      */
-    public function setEmail($email) {
+    public function setEmail($email): void
+    {
         $this->setOption('operatedByEmail', $email);
     }
 }

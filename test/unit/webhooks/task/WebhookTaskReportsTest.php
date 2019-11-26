@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -24,13 +27,13 @@ use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
+use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
 use oat\tao\model\webhooks\log\WebhookEventLogInterface;
 use oat\tao\model\webhooks\task\WebhookResponse;
 use oat\tao\model\webhooks\task\WebhookTaskContext;
 use oat\tao\model\webhooks\task\WebhookTaskParams;
 use oat\tao\model\webhooks\task\WebhookTaskReports;
-use oat\generis\test\MockObject;
 use Psr\Log\LoggerInterface;
 
 class WebhookTaskReportsTest extends TestCase
@@ -60,28 +63,28 @@ class WebhookTaskReportsTest extends TestCase
      */
     private $taskContextMock;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->webhookEventLogMock = $this->createMock(WebhookEventLogInterface::class);
         $this->loggerMock = $this->createMock(LoggerInterface::class);
         $this->serviceLocatorMock = $this->getServiceLocatorMock([
             WebhookEventLogInterface::SERVICE_ID => $this->webhookEventLogMock,
         ]);
-        
+
         $this->taskParamsMock = $this->createMock(WebhookTaskParams::class);
         $this->taskParamsMock->method('getEventId')->willReturn('eventId');
-        
+
         $this->taskContextMock = $this->createMock(WebhookTaskContext::class);
         $this->taskContextMock->method('getTaskId')->willReturn('taskId');
         $this->taskContextMock->method('getWebhookTaskParams')->willReturn($this->taskParamsMock);
     }
 
-    public function testReportInternalException()
+    public function testReportInternalException(): void
     {
         $reports = new WebhookTaskReports();
         $reports->setServiceLocator($this->serviceLocatorMock);
         $reports->setLogger($this->loggerMock);
-        
+
         $exception = new \Exception('e_msg');
 
         $this->webhookEventLogMock->expects($this->once())
@@ -91,7 +94,8 @@ class WebhookTaskReportsTest extends TestCase
                 $this->callback(function ($message) {
                     return strpos($message, 'e_msg') !== false &&
                         strpos($message, 'Exception') !== false;
-                }));
+                })
+            );
 
         $this->loggerMock->expects($this->once())
             ->method('error')
@@ -115,7 +119,7 @@ class WebhookTaskReportsTest extends TestCase
         $this->assertContains(__FILE__, $report->getMessage());
     }
 
-    public function testReportConnectException()
+    public function testReportConnectException(): void
     {
         $reports = new WebhookTaskReports();
         $reports->setServiceLocator($this->serviceLocatorMock);
@@ -144,7 +148,7 @@ class WebhookTaskReportsTest extends TestCase
         $this->assertContains('e_msg', $report->getMessage());
     }
 
-    public function testRequestExceptionWithResponse()
+    public function testRequestExceptionWithResponse(): void
     {
         $reports = new WebhookTaskReports();
         $reports->setServiceLocator($this->serviceLocatorMock);
@@ -179,7 +183,7 @@ class WebhookTaskReportsTest extends TestCase
         $this->assertContains('e_msg', $report->getMessage());
     }
 
-    public function testRequestExceptionWithoutResponse()
+    public function testRequestExceptionWithoutResponse(): void
     {
         $reports = new WebhookTaskReports();
         $reports->setServiceLocator($this->serviceLocatorMock);
@@ -208,7 +212,7 @@ class WebhookTaskReportsTest extends TestCase
         $this->assertContains('e_msg', $report->getMessage());
     }
 
-    public function testReportBadResponseException()
+    public function testReportBadResponseException(): void
     {
         $reports = new WebhookTaskReports();
         $reports->setServiceLocator($this->serviceLocatorMock);
@@ -243,7 +247,7 @@ class WebhookTaskReportsTest extends TestCase
         $this->assertContains('e_msg', $report->getMessage());
     }
 
-    public function testReportInvalidStatusCode()
+    public function testReportInvalidStatusCode(): void
     {
         $reports = new WebhookTaskReports();
         $reports->setServiceLocator($this->serviceLocatorMock);
@@ -274,7 +278,7 @@ class WebhookTaskReportsTest extends TestCase
         $this->assertContains('301', $report->getMessage());
     }
 
-    public function testReportInvalidBodyFormat()
+    public function testReportInvalidBodyFormat(): void
     {
         $reports = new WebhookTaskReports();
         $reports->setServiceLocator($this->serviceLocatorMock);
@@ -305,7 +309,7 @@ class WebhookTaskReportsTest extends TestCase
         $this->assertContains('eventId', $report->getMessage());
     }
 
-    public function testReportInvalidAcknowledgement()
+    public function testReportInvalidAcknowledgement(): void
     {
         $reports = new WebhookTaskReports();
         $reports->setServiceLocator($this->serviceLocatorMock);
@@ -339,7 +343,7 @@ class WebhookTaskReportsTest extends TestCase
         $this->assertContains('error', $report->getMessage());
     }
 
-    public function testReportSuccess()
+    public function testReportSuccess(): void
     {
         $reports = new WebhookTaskReports();
         $reports->setServiceLocator($this->serviceLocatorMock);

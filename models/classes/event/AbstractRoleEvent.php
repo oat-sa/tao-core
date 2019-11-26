@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA
- *
  */
+
 namespace oat\tao\model\event;
 
 use JsonSerializable;
@@ -24,18 +27,16 @@ use oat\oatbox\event\Event;
 
 abstract class AbstractRoleEvent implements Event, JsonSerializable
 {
-
-    /** @var  string */
+    /** @var string */
     protected $roleUri;
 
     /**
-     * @param String $roleUri
+     * @param string $roleUri
      */
     public function __construct($roleUri)
     {
         $this->roleUri = $roleUri;
     }
-
 
     /**
      * Return a unique name for this event
@@ -56,7 +57,7 @@ abstract class AbstractRoleEvent implements Event, JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'roleUri' => $this->roleUri
+            'roleUri' => $this->roleUri,
         ];
     }
 }

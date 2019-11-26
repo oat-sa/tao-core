@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,7 +19,6 @@
  *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *
  */
 
 /**
@@ -29,8 +31,7 @@
 
  * @version 1.0
  */
-class tao_helpers_translation_POFileReader
-    extends tao_helpers_translation_TranslationFileReader
+class tao_helpers_translation_POFileReader extends tao_helpers_translation_TranslationFileReader
 {
     // --- ASSOCIATIONS ---
 
@@ -49,44 +50,44 @@ class tao_helpers_translation_POFileReader
      */
     public function read()
     {
-
         $file = $this->getFilePath();
-        if (!file_exists($file)) {
+        if (! file_exists($file)) {
             throw new tao_helpers_translation_TranslationException("The translation file '${file}' does not exist.");
         }
 
         // Create the translation file.
         $tf = new tao_helpers_translation_POFile();
 
-        $fc = implode('',file($file));
+        $fc = implode('', file($file));
 
-        $matched = preg_match_all('/((?:#[\.:,\|]{0,1}\s+(?:.*?)\\n)*)'.
-            '(msgctxt\s+(?:"(?:[^"]|\\\\")*?"\s*)+)?'.
+        $matched = preg_match_all(
+            '/((?:#[\.:,\|]{0,1}\s+(?:.*?)\\n)*)' .
+            '(msgctxt\s+(?:"(?:[^"]|\\\\")*?"\s*)+)?' .
             '(msgid\s+(?:"(?:[^"]|\\\\")*?"\s*)+)\s+' .
             '(msgstr\s+(?:"(?:[^"]|\\\\")*?(?<!\\\)"\s*)+)/',
-            $fc, $matches);
+            $fc,
+            $matches
+        );
 
         preg_match('/sourceLanguage: (.*?)\\n/s', $fc, $sourceLanguage);
         preg_match('/targetLanguage: (.*?)\\n/s', $fc, $targetLanguage);
 
         if (count($sourceLanguage)) {
-            $tf->setSourceLanguage(substr($sourceLanguage[1],0,5));
+            $tf->setSourceLanguage(substr($sourceLanguage[1], 0, 5));
         }
         if (count($targetLanguage)) {
-            $tf->setTargetLanguage(substr($targetLanguage[1],0,5));
+            $tf->setTargetLanguage(substr($targetLanguage[1], 0, 5));
         }
 
         if ($matched) {
-
             for ($i = 0; $i < $matched; $i++) {
-
                 $annotations = $matches[1][$i];
-                $msgctxt = preg_replace('/\s*msgctxt\s*"(.*)"\s*/s','\\1',$matches[2][$i]);
-                $msgid = preg_replace('/\s*msgid\s*"(.*)"\s*/s','\\1',$matches[3][$i]);
-                $msgstr = preg_replace('/\s*msgstr\s*"(.*)"\s*/s','\\1',$matches[4][$i]);
+                $msgctxt = preg_replace('/\s*msgctxt\s*"(.*)"\s*/s', '\\1', $matches[2][$i]);
+                $msgid = preg_replace('/\s*msgid\s*"(.*)"\s*/s', '\\1', $matches[3][$i]);
+                $msgstr = preg_replace('/\s*msgstr\s*"(.*)"\s*/s', '\\1', $matches[4][$i]);
 
                 // Do not include meta data as a translation unit..
-                if ($msgid !== ''){
+                if ($msgid !== '') {
 
                     // Sanitze the strings.
                     $msgid = tao_helpers_translation_POUtils::sanitize($msgid);
@@ -99,23 +100,21 @@ class tao_helpers_translation_POFileReader
                     if ($msgstr !== '') {
                         $tu->setTarget($msgstr);
                     }
-                    if ($msgctxt){
+                    if ($msgctxt) {
                         $tu->setContext($msgctxt);
                     }
 
                     // Deal with annotations
                     $annotations = tao_helpers_translation_POUtils::unserializeAnnotations($annotations);
-                    foreach ($annotations as $name => $value){
+                    foreach ($annotations as $name => $value) {
                         $tu->addAnnotation($name, $value);
                     }
 
                     $tf->addTranslationUnit($tu);
                 }
-			}
-		}
+            }
+        }
 
-		$this->setTranslationFile($tf);
-
+        $this->setTranslationFile($tf);
     }
-
 }

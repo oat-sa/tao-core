@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,8 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
- *
- *
  */
 
 namespace oat\tao\model\requiredAction;
@@ -32,8 +33,9 @@ namespace oat\tao\model\requiredAction;
  */
 interface RequiredActionServiceInterface
 {
-    const CONFIG_ID = 'tao/requiredAction';
-    const OPTION_REQUIRED_ACTIONS = 'required_actions';
+    public const CONFIG_ID = 'tao/requiredAction';
+
+    public const OPTION_REQUIRED_ACTIONS = 'required_actions';
 
     /**
      * Get list of all required actions

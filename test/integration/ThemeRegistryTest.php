@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,24 +18,21 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
+
 namespace oat\tao\test\integration;
 
-use oat\tao\model\ThemeRegistry;
 use oat\generis\test\GenerisPhpUnitTestRunner;
+use oat\tao\model\ThemeRegistry;
 
 
-use oat\tao\model\websource\WebsourceManager;
 
 /**
- *
  * @author Lionel Lecaque, lionel@taotesting.com
  */
 class ThemeRegistryTest extends GenerisPhpUnitTestRunner
 {
-
-    public function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
 
@@ -40,12 +40,12 @@ class ThemeRegistryTest extends GenerisPhpUnitTestRunner
         ThemeRegistry::getRegistry()->remove('testsTest');
     }
 
-    public function testsetDefaultTheme()
+    public function testsetDefaultTheme(): void
     {
         ThemeRegistry::getRegistry()->createTarget('itemsTest', 'base');
-        ThemeRegistry::getRegistry()->registerTheme('lightBlueOnDarkBlue', 'Light Blue on Dark Bluea', 'path', array('itemsTest'));
+        ThemeRegistry::getRegistry()->registerTheme('lightBlueOnDarkBlue', 'Light Blue on Dark Bluea', 'path', ['itemsTest']);
         ThemeRegistry::getRegistry()->setDefaultTheme('itemsTest', 'lightBlueOnDarkBlue');
-        
+
         $map = ThemeRegistry::getRegistry()->getMap();
         $this->assertFalse(empty($map));
         $this->assertInternalType('array', $map);
@@ -58,20 +58,19 @@ class ThemeRegistryTest extends GenerisPhpUnitTestRunner
         $available = current($map['itemsTest']['available']);
         $this->assertInternalType('array', $available);
         $this->assertArrayHasKey('name', $available);
-        $this->assertEquals('Light Blue on Dark Bluea', $available['name']);
-        
+        $this->assertSame('Light Blue on Dark Bluea', $available['name']);
+
         $defaultTheme = ThemeRegistry::getRegistry()->getDefaultTheme('itemsTest');
-        $this->assertEquals('lightBlueOnDarkBlue', $defaultTheme['id']);
-        
+        $this->assertSame('lightBlueOnDarkBlue', $defaultTheme['id']);
+
         // target exist
         ThemeRegistry::getRegistry()->remove('itemsTest');
-        
     }
 
-    public function testRegister()
+    public function testRegister(): void
     {
         ThemeRegistry::getRegistry()->createTarget('itemsTest', 'base');
-        ThemeRegistry::getRegistry()->registerTheme('blackOnLightMagenta', 'Black on Light Magenta', 'blackOnLightMagenta', array('itemsTest'));
+        ThemeRegistry::getRegistry()->registerTheme('blackOnLightMagenta', 'Black on Light Magenta', 'blackOnLightMagenta', ['itemsTest']);
 
         $map = ThemeRegistry::getRegistry()->getMap();
         $this->assertFalse(empty($map));
@@ -87,10 +86,10 @@ class ThemeRegistryTest extends GenerisPhpUnitTestRunner
         $this->assertInternalType('array', $available);
         $this->assertArrayHasKey('name', $available);
 
-        $this->assertEquals('Black on Light Magenta', $available['name']);
+        $this->assertSame('Black on Light Magenta', $available['name']);
 
         ThemeRegistry::getRegistry()->createTarget('testsTest', 'base');
-        ThemeRegistry::getRegistry()->registerTheme('lightBlueOnDarkBlue', 'Light Blue on Dark Blue', 'lightBlueOnDarkBlue', array('itemsTest', 'testsTest'));
+        ThemeRegistry::getRegistry()->registerTheme('lightBlueOnDarkBlue', 'Light Blue on Dark Blue', 'lightBlueOnDarkBlue', ['itemsTest', 'testsTest']);
 
         $map = ThemeRegistry::getRegistry()->getMap();
 
@@ -103,61 +102,60 @@ class ThemeRegistryTest extends GenerisPhpUnitTestRunner
         $this->assertInternalType('array', $available);
         $this->assertArrayHasKey('name', $available);
 
-        $this->assertEquals('Light Blue on Dark Blue', $available['name']);
-        
+        $this->assertSame('Light Blue on Dark Blue', $available['name']);
+
         foreach ($map['itemsTest']['available'] as $theme) {
             $this->assertInternalType('array', $theme);
             $this->assertArrayHasKey('id', $theme);
-            $this->assertTrue(in_array($theme['id'], array(
+            $this->assertTrue(in_array($theme['id'], [
                 'blackOnLightMagenta',
-                'lightBlueOnDarkBlue'
-            )));
+                'lightBlueOnDarkBlue',
+            ], true));
         }
-        
-        ThemeRegistry::getRegistry()->registerTheme('superAccess', 'super accessibility theme', '', array('itemsTest'), array('tplA' => 'taoAccess/theme/A.tpl'));
+
+        ThemeRegistry::getRegistry()->registerTheme('superAccess', 'super accessibility theme', '', ['itemsTest'], ['tplA' => 'taoAccess/theme/A.tpl']);
         $map = ThemeRegistry::getRegistry()->getMap();
-        $this->assertEquals(3, count($map['itemsTest']['available']));
+        $this->assertSame(3, count($map['itemsTest']['available']));
         $superAccessTheme = $map['itemsTest']['available'][2];
-        
-        $this->assertEquals('superAccess', $superAccessTheme['id']);
-        $this->assertEquals(1, count($superAccessTheme['templates']));
-        $this->assertEquals('taoAccess/theme/A.tpl', $superAccessTheme['templates']['tplA']);
-        
+
+        $this->assertSame('superAccess', $superAccessTheme['id']);
+        $this->assertSame(1, count($superAccessTheme['templates']));
+        $this->assertSame('taoAccess/theme/A.tpl', $superAccessTheme['templates']['tplA']);
     }
-    
-    public function testGetTemplate(){
-        
+
+    public function testGetTemplate(): void
+    {
         ThemeRegistry::getRegistry()->createTarget('itemsTest', 'base');
-        ThemeRegistry::getRegistry()->registerTheme('superAccess', 'super accessibility theme', '', array('itemsTest'), array('tplA' => 'taoAccess/theme/A.tpl'));
-        ThemeRegistry::getRegistry()->registerTheme('superAccessNoTpl', 'super accessibility theme without tpl', '', array('itemsTest'));
+        ThemeRegistry::getRegistry()->registerTheme('superAccess', 'super accessibility theme', '', ['itemsTest'], ['tplA' => 'taoAccess/theme/A.tpl']);
+        ThemeRegistry::getRegistry()->registerTheme('superAccessNoTpl', 'super accessibility theme without tpl', '', ['itemsTest']);
         $this->assertNotEmpty(ThemeRegistry::getRegistry()->getTemplate('itemsTest', 'superAccess', 'tplA'));
         $this->assertEmpty(ThemeRegistry::getRegistry()->getTemplate('itemsTest', 'superAccess', 'tplB'));
         $this->assertEmpty(ThemeRegistry::getRegistry()->getTemplate('itemsTest', 'superAccessNoTpl', 'tplA'));
     }
-        
-    public function testUnregisterTheme()
+
+    public function testUnregisterTheme(): void
     {
         ThemeRegistry::getRegistry()->createTarget('itemsTest', 'base');
         ThemeRegistry::getRegistry()->createTarget('testsTest', 'base');
-        ThemeRegistry::getRegistry()->registerTheme('blackOnLightMagenta', 'Black on Light Magenta', 'blackOnLightMagenta', array('itemsTest'));
-        ThemeRegistry::getRegistry()->registerTheme('lightBlueOnDarkBlue', 'Light Blue on Dark Blue', 'lightBlueOnDarkBlue', array('itemsTest', 'testsTest'));
+        ThemeRegistry::getRegistry()->registerTheme('blackOnLightMagenta', 'Black on Light Magenta', 'blackOnLightMagenta', ['itemsTest']);
+        ThemeRegistry::getRegistry()->registerTheme('lightBlueOnDarkBlue', 'Light Blue on Dark Blue', 'lightBlueOnDarkBlue', ['itemsTest', 'testsTest']);
 
         ThemeRegistry::getRegistry()->unregisterTheme('blackOnLightMagenta');
 
         $map = ThemeRegistry::getRegistry()->getMap();
 
         $this->assertArrayHasKey('itemsTest', $map);
-        $this->assertEquals(1, count($map['itemsTest']['available'])); //only one theme left
+        $this->assertSame(1, count($map['itemsTest']['available'])); //only one theme left
         $theme = current($map['itemsTest']['available']);
-        $this->assertEquals($theme['id'], 'lightBlueOnDarkBlue');//and this theme is not the deleted one
+        $this->assertSame($theme['id'], 'lightBlueOnDarkBlue'); //and this theme is not the deleted one
 
         ThemeRegistry::getRegistry()->unregisterTheme('lightBlueOnDarkBlue');
 
         $map = ThemeRegistry::getRegistry()->getMap();
-        $this->assertEquals(0, count($map['itemsTest']['available'])); //no themes left in itemsTest
-        $this->assertEquals(0, count($map['testsTest']['available'])); //no themes left in testsTest
+        $this->assertSame(0, count($map['itemsTest']['available'])); //no themes left in itemsTest
+        $this->assertSame(0, count($map['testsTest']['available'])); //no themes left in testsTest
     }
-    
+
     //
     //Negative tests follow
     //
@@ -166,37 +164,37 @@ class ThemeRegistryTest extends GenerisPhpUnitTestRunner
      * @expectedException \common_Exception
      * @expectedExceptionMessage Target itemsTest does not exist
      */
-    public function testRegisterThemeNoTarget()
+    public function testRegisterThemeNoTarget(): void
     {
-        ThemeRegistry::getRegistry()->registerTheme('blackOnLightMagenta', 'Black on Light Magenta', 'blackOnLightMagenta', array('itemsTest'));
+        ThemeRegistry::getRegistry()->registerTheme('blackOnLightMagenta', 'Black on Light Magenta', 'blackOnLightMagenta', ['itemsTest']);
     }
 
     /**
      * @expectedException \common_Exception
      * @expectedExceptionMessage Invalid id
      */
-    public function testRegisterThemeInvalidId()
+    public function testRegisterThemeInvalidId(): void
     {
         ThemeRegistry::getRegistry()->createTarget('itemsTest', 'base');
-        ThemeRegistry::getRegistry()->registerTheme('?*invalid theme-id*?', 'Black on Light Magenta', 'blackOnLightMagenta', array('itemsTest'));
+        ThemeRegistry::getRegistry()->registerTheme('?*invalid theme-id*?', 'Black on Light Magenta', 'blackOnLightMagenta', ['itemsTest']);
     }
 
     /**
      * @expectedException \common_Exception
      * @expectedExceptionMessage already exists for target
      */
-    public function testRegisterThemeDuplicate()
+    public function testRegisterThemeDuplicate(): void
     {
         ThemeRegistry::getRegistry()->createTarget('itemsTest', 'base');
-        ThemeRegistry::getRegistry()->registerTheme('blackOnLightMagenta', 'Black on Light Magenta', 'blackOnLightMagenta', array('itemsTest'));
-        ThemeRegistry::getRegistry()->registerTheme('blackOnLightMagenta', 'Black on Light Magenta', 'blackOnLightMagenta', array('itemsTest'));
+        ThemeRegistry::getRegistry()->registerTheme('blackOnLightMagenta', 'Black on Light Magenta', 'blackOnLightMagenta', ['itemsTest']);
+        ThemeRegistry::getRegistry()->registerTheme('blackOnLightMagenta', 'Black on Light Magenta', 'blackOnLightMagenta', ['itemsTest']);
     }
 
     /**
      * @expectedException \common_Exception
      * @expectedExceptionMessage No targets were provided
      */
-    public function testRegisterThemeNoTargets()
+    public function testRegisterThemeNoTargets(): void
     {
         ThemeRegistry::getRegistry()->createTarget('itemsTest', 'base');
         ThemeRegistry::getRegistry()->registerTheme('blackOnLightMagenta', 'Black on Light Magenta', 'blackOnLightMagenta');
@@ -206,11 +204,11 @@ class ThemeRegistryTest extends GenerisPhpUnitTestRunner
      * @expectedException \common_Exception
      * @expectedExceptionMessage Target testsTest does not exist
      */
-    public function testSetDefaultThemeNoTarget()
+    public function testSetDefaultThemeNoTarget(): void
     {
         ThemeRegistry::getRegistry()->createTarget('itemsTest', 'base');
-        ThemeRegistry::getRegistry()->registerTheme('blackOnLightMagenta', 'Black on Light Magenta', 'blackOnLightMagenta', array('itemsTest'));
-        ThemeRegistry::getRegistry()->registerTheme('lightBlueOnDarkBlue', 'Light Blue on Dark Blue', 'lightBlueOnDarkBlue', array('itemsTest'));
+        ThemeRegistry::getRegistry()->registerTheme('blackOnLightMagenta', 'Black on Light Magenta', 'blackOnLightMagenta', ['itemsTest']);
+        ThemeRegistry::getRegistry()->registerTheme('lightBlueOnDarkBlue', 'Light Blue on Dark Blue', 'lightBlueOnDarkBlue', ['itemsTest']);
 
         ThemeRegistry::getRegistry()->setDefaultTheme('testsTest', 'blackOnLightMagenta');
     }
@@ -219,12 +217,12 @@ class ThemeRegistryTest extends GenerisPhpUnitTestRunner
      * @expectedException \common_Exception
      * @expectedExceptionMessage Theme blackOnLightMagenta not found for target testsTest
      */
-    public function testSetDefaultThemeNoTheme()
+    public function testSetDefaultThemeNoTheme(): void
     {
         ThemeRegistry::getRegistry()->createTarget('itemsTest', 'base');
         ThemeRegistry::getRegistry()->createTarget('testsTest', 'base');
-        ThemeRegistry::getRegistry()->registerTheme('blackOnLightMagenta', 'Black on Light Magenta', 'blackOnLightMagenta', array('itemsTest'));
-        ThemeRegistry::getRegistry()->registerTheme('lightBlueOnDarkBlue', 'Light Blue on Dark Blue', 'lightBlueOnDarkBlue', array('itemsTest', 'testsTest'));
+        ThemeRegistry::getRegistry()->registerTheme('blackOnLightMagenta', 'Black on Light Magenta', 'blackOnLightMagenta', ['itemsTest']);
+        ThemeRegistry::getRegistry()->registerTheme('lightBlueOnDarkBlue', 'Light Blue on Dark Blue', 'lightBlueOnDarkBlue', ['itemsTest', 'testsTest']);
 
         ThemeRegistry::getRegistry()->setDefaultTheme('testsTest', 'blackOnLightMagenta');
     }
@@ -233,7 +231,7 @@ class ThemeRegistryTest extends GenerisPhpUnitTestRunner
      * @expectedException \common_Exception
      * @expectedExceptionMessage Invalid id
      */
-    public function testUnregisterThemeInvalidId()
+    public function testUnregisterThemeInvalidId(): void
     {
         ThemeRegistry::getRegistry()->unregisterTheme('?*invalid theme-id*?');
     }
@@ -242,7 +240,7 @@ class ThemeRegistryTest extends GenerisPhpUnitTestRunner
      * @expectedException \common_Exception
      * @expectedExceptionMessage Theme thisThemeDoesNotExist not found for any target
      */
-    public function testUnregisterThemeNotFound()
+    public function testUnregisterThemeNotFound(): void
     {
         ThemeRegistry::getRegistry()->unregisterTheme('thisThemeDoesNotExist');
     }

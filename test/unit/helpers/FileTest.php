@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\test\unit\helpers;
@@ -30,10 +32,10 @@ class FileTest extends TestCase
     public function zipBombCandidatesProvider()
     {
         return [
-            ['file' => 'bomb-1GiB', 'shouldBeConsideredAsABomb' => true,],
-            ['file' => 'bomb-4GiB', 'shouldBeConsideredAsABomb' => true,],
-            ['file' => 'chocolate_factory_1539704410', 'shouldBeConsideredAsABomb' => false,],
-            ['file' => 'planets_and_moons_1539704402', 'shouldBeConsideredAsABomb' => false,],
+            ['file' => 'bomb-1GiB', 'shouldBeConsideredAsABomb' => true],
+            ['file' => 'bomb-4GiB', 'shouldBeConsideredAsABomb' => true],
+            ['file' => 'chocolate_factory_1539704410', 'shouldBeConsideredAsABomb' => false],
+            ['file' => 'planets_and_moons_1539704402', 'shouldBeConsideredAsABomb' => false],
         ];
     }
 
@@ -43,7 +45,7 @@ class FileTest extends TestCase
      * @param bool $shouldBeConsideredAsABomb
      * @throws \common_Exception
      */
-    public function testCheckWhetherArchiveIsBomb($file, $shouldBeConsideredAsABomb)
+    public function testCheckWhetherArchiveIsBomb($file, $shouldBeConsideredAsABomb): void
     {
         $bombCandidatesSampleDir = __DIR__ . '/../samples/zipBombCandidates/';
         $archiveObj = new \ZipArchive();
@@ -51,6 +53,6 @@ class FileTest extends TestCase
         $this->assertTrue($openingResult);
 
         $result = \tao_helpers_File::checkWhetherArchiveIsBomb($archiveObj);
-        $this->assertEquals($shouldBeConsideredAsABomb, $result);
+        $this->assertSame($shouldBeConsideredAsABomb, $result);
     }
 }

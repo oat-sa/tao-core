@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,11 +24,10 @@ namespace oat\tao\model\webhooks\log;
 
 interface WebhookLogRepositoryInterface
 {
-    const SERVICE_ID = 'tao/webhookLogRepository';
+    public const SERVICE_ID = 'tao/webhookLogRepository';
 
     /**
      * @param WebhookEventLogRecord $webhookEventLog
-     * @return void
      */
-    public function storeLog(WebhookEventLogRecord $webhookEventLog);
+    public function storeLog(WebhookEventLogRecord $webhookEventLog): void;
 }

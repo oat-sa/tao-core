@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,14 +18,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\test\unit\model\taskQueue\TaskLog;
 
+use oat\generis\test\TestCase;
 use oat\tao\model\taskQueue\TaskLog\TaskLogCollection;
 use oat\tao\model\taskQueue\TaskLogInterface;
-use oat\generis\test\TestCase;
 
 class TaskLogCollectionTest extends TestCase
 {
@@ -30,7 +32,7 @@ class TaskLogCollectionTest extends TestCase
      * @throws \Exception
      * @throws \common_exception_Error
      */
-    public function testCreateCollection()
+    public function testCreateCollection(): void
     {
         $collection = $this->createCollection();
 
@@ -41,7 +43,7 @@ class TaskLogCollectionTest extends TestCase
      * @throws \Exception
      * @throws \common_exception_Error
      */
-    public function testCollectionToArray()
+    public function testCollectionToArray(): void
     {
         $collection = $this->createCollection();
 
@@ -55,7 +57,7 @@ class TaskLogCollectionTest extends TestCase
      */
     protected function createCollection()
     {
-       return TaskLogCollection::createFromArray([
+        return TaskLogCollection::createFromArray([
             [
                 'id' => 'rdf#i1508337970199318643',
                 'parent_id' => 'parentFake0002525',
@@ -69,8 +71,8 @@ class TaskLogCollectionTest extends TestCase
                 'report' => [
                     'type' => 'info',
                     'message' => 'Running task rdf#i1508337970199318643',
-                    'data' => NULL,
-                    'children' => []
+                    'data' => null,
+                    'children' => [],
                 ],
             ],
             [
@@ -86,27 +88,27 @@ class TaskLogCollectionTest extends TestCase
                 'report' => [
                     'type' => 'info',
                     'message' => 'Running task #i15083379701993186432222',
-                    'data' => NULL,
-                    'children' => []
+                    'data' => null,
+                    'children' => [],
                 ],
             ],
-           [
-               'id' => 'rdf#i150833797019931864322223',
-               'parent_id' => 'parentFake0002525',
-               'task_name' => 'Task Name 3',
-               'label' => 'Task label  3',
-               'status' => TaskLogInterface::STATUS_RUNNING,
-               'owner' => 'userId',
-               'parameters' => json_encode([]),
-               'created_at' => '2017-02-01 16:00:01',
-               'updated_at' => '2017-02-01 18:00:01',
-               'report' => [
-                   'type' => 'info',
-                   'message' => 'Running task #i15083379701993186433333',
-                   'data' => NULL,
-                   'children' => []
-               ],
-           ],
+            [
+                'id' => 'rdf#i150833797019931864322223',
+                'parent_id' => 'parentFake0002525',
+                'task_name' => 'Task Name 3',
+                'label' => 'Task label  3',
+                'status' => TaskLogInterface::STATUS_RUNNING,
+                'owner' => 'userId',
+                'parameters' => json_encode([]),
+                'created_at' => '2017-02-01 16:00:01',
+                'updated_at' => '2017-02-01 18:00:01',
+                'report' => [
+                    'type' => 'info',
+                    'message' => 'Running task #i15083379701993186433333',
+                    'data' => null,
+                    'children' => [],
+                ],
+            ],
         ]);
     }
 }

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -38,20 +41,9 @@ abstract class AbstractModuleService extends ConfigurableService
      * Registry setter
      * @param AbstractModuleRegistry $registry
      */
-    public function setRegistry(AbstractModuleRegistry $registry)
+    public function setRegistry(AbstractModuleRegistry $registry): void
     {
         $this->registry = $registry;
-    }
-
-    /**
-     * Creates a module object from data array
-     * @param $data
-     * @return DynamicModule
-     * @throws \common_exception_InconsistentData
-     */
-    protected function createFromArray($data)
-    {
-        return DynamicModule::fromArray($data);
     }
 
     /**
@@ -66,7 +58,7 @@ abstract class AbstractModuleService extends ConfigurableService
         }, $this->registry->getMap());
 
         return array_filter($modules, function ($module) {
-            return !is_null($module);
+            return $module !== null;
         });
     }
 
@@ -79,27 +71,11 @@ abstract class AbstractModuleService extends ConfigurableService
     public function getModule($id)
     {
         foreach ($this->registry->getMap() as $module) {
-            if ($module['id'] == $id) {
+            if ($module['id'] === $id) {
                 return $this->loadModule($module);
             }
         }
         return null;
-    }
-
-    /**
-     * Load a module from the given data
-     * @param array $data
-     * @return DynamicModule|null
-     */
-    private function loadModule(array $data)
-    {
-        $module = null;
-        try {
-            $module = $this->createFromArray($data);
-        } catch (\common_exception_InconsistentData $dataException) {
-            \common_Logger::w('Got inconsistent module data, skipping.');
-        }
-        return $module;
     }
 
     /**
@@ -110,7 +86,7 @@ abstract class AbstractModuleService extends ConfigurableService
      */
     public function activateModule(DynamicModule $module)
     {
-        if (!is_null($module)) {
+        if ($module !== null) {
             $module->setActive(true);
             return $this->registry->register($module);
         }
@@ -126,11 +102,11 @@ abstract class AbstractModuleService extends ConfigurableService
      */
     public function deactivateModule(DynamicModule $module)
     {
-        if (!is_null($module)) {
+        if ($module !== null) {
             $module->setActive(false);
             return $this->registry->register($module);
         }
-        
+
         return false;
     }
 
@@ -143,7 +119,7 @@ abstract class AbstractModuleService extends ConfigurableService
     public function registerModules(array $modules)
     {
         $count = 0;
-        foreach($modules as $module) {
+        foreach ($modules as $module) {
             if (is_array($module)) {
                 $module = $this->createFromArray($module);
             }
@@ -163,7 +139,7 @@ abstract class AbstractModuleService extends ConfigurableService
     public function registerModulesByCategories(array $modules)
     {
         $count = 0;
-        foreach($modules as $categoryModules) {
+        foreach ($modules as $categoryModules) {
             if (is_array($categoryModules)) {
                 $count += $this->registerModules($categoryModules);
             } else {
@@ -171,5 +147,32 @@ abstract class AbstractModuleService extends ConfigurableService
             }
         }
         return $count;
+    }
+
+    /**
+     * Creates a module object from data array
+     * @param $data
+     * @return DynamicModule
+     * @throws \common_exception_InconsistentData
+     */
+    protected function createFromArray($data)
+    {
+        return DynamicModule::fromArray($data);
+    }
+
+    /**
+     * Load a module from the given data
+     * @param array $data
+     * @return DynamicModule|null
+     */
+    private function loadModule(array $data)
+    {
+        $module = null;
+        try {
+            $module = $this->createFromArray($data);
+        } catch (\common_exception_InconsistentData $dataException) {
+            \common_Logger::w('Got inconsistent module data, skipping.');
+        }
+        return $module;
     }
 }

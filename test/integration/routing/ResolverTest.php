@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,84 +18,83 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA;
- *
- *
  */
+
 namespace oat\tao\test\integration\routing;
 
+use common_ext_ExtensionsManager as ExtensionsManager;
+use common_ext_Manifest as Manifest;
+use common_http_Request;
 use oat\generis\test\GenerisPhpUnitTestRunner;
 use oat\tao\model\routing\Resolver;
 use oat\tao\test\integration\routing\samples\FooControllerA;
-use common_ext_Manifest as Manifest;
-use common_ext_ExtensionsManager as ExtensionsManager;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use common_http_Request;
 
 /**
  * Class ResolverTest
  * @package oat\tao\test\integration\routing
  * @author Aleh Hutnikau, <hutnikau@1pt.com>
  */
-class ResolverTest extends GenerisPhpUnitTestRunner {
-
-    public function testGetExtensionId()
+class ResolverTest extends GenerisPhpUnitTestRunner
+{
+    public function testGetExtensionId(): void
     {
         $serviceLocator = $this->getServiceManager();
 
         $fooRequest = new common_http_Request(ROOT_URL . 'foo/FooControllerA/index');
         $resolver = new Resolver($fooRequest);
         $resolver->setServiceLocator($serviceLocator);
-        $this->assertEquals('foo', $resolver->getExtensionId());
+        $this->assertSame('foo', $resolver->getExtensionId());
 
         $fooRequest = new common_http_Request(ROOT_URL . 'legacy/LegacyController/index');
         $resolver = new Resolver($fooRequest);
         $resolver->setServiceLocator($serviceLocator);
-        $this->assertEquals('legacy', $resolver->getExtensionId());
+        $this->assertSame('legacy', $resolver->getExtensionId());
     }
 
-    public function testGetControllerClass()
+    public function testGetControllerClass(): void
     {
         $serviceLocator = $this->getServiceManager();
 
         $fooRequest = new common_http_Request(ROOT_URL . 'foo/FooControllerA/index');
         $resolver = new Resolver($fooRequest);
         $resolver->setServiceLocator($serviceLocator);
-        $this->assertEquals(FooControllerA::class, $resolver->getControllerClass());
+        $this->assertSame(FooControllerA::class, $resolver->getControllerClass());
 
         $fooRequest = new common_http_Request(ROOT_URL . 'legacy/LegacyController/index');
         $resolver = new Resolver($fooRequest);
         $resolver->setServiceLocator($serviceLocator);
-        $this->assertEquals('legacy_actions_LegacyController', $resolver->getControllerClass());
+        $this->assertSame('legacy_actions_LegacyController', $resolver->getControllerClass());
     }
 
-    public function testGetMethodName()
+    public function testGetMethodName(): void
     {
         $serviceLocator = $this->getServiceManager();
 
         $fooRequest = new common_http_Request(ROOT_URL . 'foo/FooControllerA/index');
         $resolver = new Resolver($fooRequest);
         $resolver->setServiceLocator($serviceLocator);
-        $this->assertEquals('index', $resolver->getMethodName());
+        $this->assertSame('index', $resolver->getMethodName());
 
         $fooRequest = new common_http_Request(ROOT_URL . 'legacy/LegacyController/index');
         $resolver = new Resolver($fooRequest);
         $resolver->setServiceLocator($serviceLocator);
-        $this->assertEquals('index', $resolver->getMethodName());
+        $this->assertSame('index', $resolver->getMethodName());
     }
 
-    public function testGetControllerShortName()
+    public function testGetControllerShortName(): void
     {
         $serviceLocator = $this->getServiceManager();
 
         $fooRequest = new common_http_Request(ROOT_URL . 'foo/FooControllerA/index');
         $resolver = new Resolver($fooRequest);
         $resolver->setServiceLocator($serviceLocator);
-        $this->assertEquals('FooControllerA', $resolver->getControllerShortName());
+        $this->assertSame('FooControllerA', $resolver->getControllerShortName());
 
         $fooRequest = new common_http_Request(ROOT_URL . 'legacy/LegacyController/index');
         $resolver = new Resolver($fooRequest);
         $resolver->setServiceLocator($serviceLocator);
-        $this->assertEquals('LegacyController', $resolver->getControllerShortName());
+        $this->assertSame('LegacyController', $resolver->getControllerShortName());
     }
 
     /**
@@ -108,7 +110,7 @@ class ResolverTest extends GenerisPhpUnitTestRunner {
             ->getMock();
         $extensionsManagerMock->method('getInstalledExtensionsIds')
             ->willReturn([
-                'legacy', 'foo'
+                'legacy', 'foo',
             ]);
 
         $legacyExt = $this->getMockBuilder(\common_ext_Extension::class)
@@ -131,10 +133,8 @@ class ResolverTest extends GenerisPhpUnitTestRunner {
                 ['foo', $fooExt],
             ]));
 
-        $serviceLocatorMock =  $this->getServiceLocatorMock([
-            ExtensionsManager::SERVICE_ID => $extensionsManagerMock
+        return $this->getServiceLocatorMock([
+            ExtensionsManager::SERVICE_ID => $extensionsManagerMock,
         ]);
-
-        return $serviceLocatorMock;
     }
 }

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,8 +21,8 @@
  *
  * @author Alexander Zagovorichev <zagovorichev@1pt.com>
  */
-namespace oat\tao\model\routing;
 
+namespace oat\tao\model\routing;
 
 use Doctrine\Common\Annotations\AnnotationReader;
 use oat\oatbox\service\ConfigurableService;
@@ -30,11 +33,13 @@ use ReflectionMethod;
 
 class AnnotationReaderService extends ConfigurableService
 {
-    const SERVICE_ID = 'tao/AnnotationReaderService';
+    public const SERVICE_ID = 'tao/AnnotationReaderService';
 
-    const KEY_PREFIX = 'routeAnnotation_';
-    const PROP_RIGHTS = 'required_rights';
-    const PROP_SECURITY = 'security';
+    public const KEY_PREFIX = 'routeAnnotation_';
+
+    public const PROP_RIGHTS = 'required_rights';
+
+    public const PROP_SECURITY = 'security';
 
     /**
      * @var \common_cache_Cache
@@ -81,10 +86,10 @@ class AnnotationReaderService extends ConfigurableService
             }
             foreach ($annotations as $annotation) {
                 switch (get_class($annotation)) {
-                    case requiredRights::class :
+                    case requiredRights::class:
                         $rules[self::PROP_RIGHTS][] = (array) $annotation;
                         break;
-                    case security::class :
+                    case security::class:
                         $rules[self::PROP_SECURITY][] = $annotation->value;
                         break;
                 }
@@ -100,7 +105,7 @@ class AnnotationReaderService extends ConfigurableService
      */
     private function getCacheService()
     {
-        if (!$this->cacheService) {
+        if (! $this->cacheService) {
             if ($this->hasOption('cacheService') && $this->getOption('cacheService') instanceof \common_cache_Cache) {
                 $this->cacheService = $this->getOption('cacheService');
             } else {

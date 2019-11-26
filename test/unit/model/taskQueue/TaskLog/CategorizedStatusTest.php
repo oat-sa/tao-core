@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,20 +18,19 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\test\unit\model\taskQueue\TaskLog;
 
-use oat\tao\model\taskQueue\TaskLog\CategorizedStatus;
 use oat\generis\test\TestCase;
+use oat\tao\model\taskQueue\TaskLog\CategorizedStatus;
 
 class CategorizedStatusTest extends TestCase
 {
     /**
      * @throws \Exception
      */
-    public function testCreateWithValidStatus()
+    public function testCreateWithValidStatus(): void
     {
         $status = CategorizedStatus::createFromString('enqueued');
         $this->assertInstanceOf(CategorizedStatus::class, $status);
@@ -38,7 +40,7 @@ class CategorizedStatusTest extends TestCase
      * @expectedException \Exception
      * @throws \Exception
      */
-    public function testCreateWithInvalidStatus()
+    public function testCreateWithInvalidStatus(): void
     {
         CategorizedStatus::createFromString('some invalid status');
     }
@@ -46,37 +48,37 @@ class CategorizedStatusTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testStatusAreMappedCorrectly()
+    public function testStatusAreMappedCorrectly(): void
     {
         $status = CategorizedStatus::createFromString('enqueued');
-        $this->assertSame('created', (string)$status);
+        $this->assertSame('created', (string) $status);
 
         $status = CategorizedStatus::createFromString('dequeued');
-        $this->assertSame('in_progress', (string)$status);
+        $this->assertSame('in_progress', (string) $status);
 
         $status = CategorizedStatus::createFromString('running');
-        $this->assertSame('in_progress', (string)$status);
+        $this->assertSame('in_progress', (string) $status);
 
         $status = CategorizedStatus::createFromString('completed');
-        $this->assertSame('completed', (string)$status);
+        $this->assertSame('completed', (string) $status);
 
         $status = CategorizedStatus::createFromString('failed');
-        $this->assertSame('failed', (string)$status);
+        $this->assertSame('failed', (string) $status);
 
         $status = CategorizedStatus::createFromString('archived');
-        $this->assertSame('archived', (string)$status);
+        $this->assertSame('archived', (string) $status);
 
         $status = CategorizedStatus::createFromString('cancelled');
-        $this->assertSame('cancelled', (string)$status);
+        $this->assertSame('cancelled', (string) $status);
 
         $status = CategorizedStatus::createFromString('unknown');
-        $this->assertSame('failed', (string)$status);
+        $this->assertSame('failed', (string) $status);
     }
 
     /**
      * @throws \Exception
      */
-    public function testStatusEquals()
+    public function testStatusEquals(): void
     {
         $statusRunning = CategorizedStatus::createFromString('dequeued');
         $this->assertTrue($statusRunning->equals(CategorizedStatus::createFromString('dequeued')));
@@ -100,7 +102,7 @@ class CategorizedStatusTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testIsArchived()
+    public function testIsArchived(): void
     {
         $status = CategorizedStatus::createFromString('archived');
         $this->assertTrue($status->isArchived());
@@ -109,7 +111,7 @@ class CategorizedStatusTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testIsCancelled()
+    public function testIsCancelled(): void
     {
         $status = CategorizedStatus::createFromString('cancelled');
         $this->assertTrue($status->isCancelled());

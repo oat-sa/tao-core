@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,41 +18,28 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA;
- *
- *
  */
 
 namespace oat\tao\model\actionQueue\implementation;
 
 use oat\oatbox\event\EventManager;
-use oat\tao\model\actionQueue\ActionQueue;
 use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\actionQueue\QueuedAction;
-use oat\tao\model\actionQueue\ActionQueueException;
 use oat\oatbox\user\User;
-use oat\tao\model\actionQueue\restriction\basicRestriction;
-use oat\tao\model\actionQueue\event\InstantActionOnQueueEvent;
+use oat\tao\model\actionQueue\ActionQueue;
+use oat\tao\model\actionQueue\ActionQueueException;
 use oat\tao\model\actionQueue\event\ActionQueueTrendEvent;
+use oat\tao\model\actionQueue\event\InstantActionOnQueueEvent;
+use oat\tao\model\actionQueue\QueuedAction;
+use oat\tao\model\actionQueue\restriction\basicRestriction;
 
 /**
- *
  * Interface InstantActionQueue
  * @author Aleh Hutnikau, <hutnikau@1pt.com>
  * @package oat\tao\model\actionQueue
  */
 class InstantActionQueue extends ConfigurableService implements ActionQueue
 {
-
-    const QUEUE_TREND = 'queue_trend';
-
-    /**
-     * @return EventManager
-     */
-    protected function getEventManager()
-    {
-        return $this->getServiceLocator()->get(EventManager::SERVICE_ID);
-    }
-
+    public const QUEUE_TREND = 'queue_trend';
 
     /**
      * @param QueuedAction $action
@@ -117,7 +107,7 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
     public function getTrend(QueuedAction $action)
     {
         $trend = $this->getPersistence()->get(get_class($action) . self::QUEUE_TREND);
-        return (int)$trend;
+        return (int) $trend;
     }
 
     /**
@@ -129,8 +119,15 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
     {
         $actionConfig = $this->getActionConfig($action);
         $restrictions = $this->getRestrictions($actionConfig);
-        $limit = $restrictions ? array_sum($restrictions) : 0;
-        return $limit;
+        return $restrictions ? array_sum($restrictions) : 0;
+    }
+
+    /**
+     * @return EventManager
+     */
+    protected function getEventManager()
+    {
+        return $this->getServiceLocator()->get(EventManager::SERVICE_ID);
     }
 
     /**
@@ -138,7 +135,7 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
      * @param User $user
      * @throws \common_Exception
      */
-    protected function queue(QueuedAction $action, User $user)
+    protected function queue(QueuedAction $action, User $user): void
     {
         $key = $this->getQueueKey($action);
         $positions = $this->getPositions($action);
@@ -156,7 +153,7 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
      * @param User $user
      * @throws \common_Exception
      */
-    protected function dequeue(QueuedAction $action, User $user)
+    protected function dequeue(QueuedAction $action, User $user): void
     {
         $key = $this->getQueueKey($action);
         $positions = $this->getPositions($action);
@@ -165,7 +162,7 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
             unset($positions[$user->getIdentifier()]);
             $this->getEventManager()->trigger(new InstantActionOnQueueEvent($key, $user, $positions, 'dequeue', $action));
             $this->getPersistence()->set($key, json_encode($positions));
-            
+
             if ($this->getTrend($action) <= 0) {
                 $this->getEventManager()->trigger(new ActionQueueTrendEvent($action, false));
                 $this->getPersistence()->set(get_class($action) . self::QUEUE_TREND, 1);
@@ -191,8 +188,7 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
     protected function getTtl(QueuedAction $action)
     {
         $actionConfig = $this->getActionConfig($action);
-        $ttl = (int) (isset($actionConfig[self::ACTION_PARAM_TTL]) ? $actionConfig[self::ACTION_PARAM_TTL] : 0);
-        return $ttl;
+        return (int) (isset($actionConfig[self::ACTION_PARAM_TTL]) ? $actionConfig[self::ACTION_PARAM_TTL] : 0);
     }
 
     /**
@@ -212,7 +208,7 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
     protected function getActionConfig(QueuedAction $action)
     {
         $actions = $this->getOption(self::OPTION_ACTIONS);
-        if (!isset($actions[$action->getId()])) {
+        if (! isset($actions[$action->getId()])) {
             throw new ActionQueueException(__('Action `%s` is not configured in the action queue service', $action->getId()));
         }
         return $actions[$action->getId()];
@@ -226,7 +222,7 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
     {
         $key = $this->getQueueKey($action);
         $positions = json_decode($this->getPersistence()->get($key), true);
-        if (!$positions) {
+        if (! $positions) {
             $positions = [];
         }
         return $positions;

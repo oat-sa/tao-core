@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,15 +18,14 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\model\state;
 
 use oat\oatbox\filesystem\FileSystem;
 use oat\oatbox\filesystem\FileSystemService;
-use oat\oatbox\service\exception\InvalidService;
 use oat\oatbox\service\ConfigurableService;
+use oat\oatbox\service\exception\InvalidService;
 
 /**
  * Persistence for the item delivery service
@@ -32,22 +34,21 @@ use oat\oatbox\service\ConfigurableService;
  * @author Antoine Robin Bout, <antoine@taotesting.com>
  * @package tao
  */
-class StateMigration
-    extends ConfigurableService
+class StateMigration extends ConfigurableService
 {
-    const SERVICE_ID = 'tao/migrationState';
+    public const SERVICE_ID = 'tao/migrationState';
 
-    const OPTION_FILESYSTEM = 'fileSystem';
+    public const OPTION_FILESYSTEM = 'fileSystem';
 
     /**
      * @var FileSystem
      */
     private $fileSystem = null;
 
-    public function __construct(array $options = array())
+    public function __construct(array $options = [])
     {
-        if (!isset($options[self::OPTION_FILESYSTEM])) {
-            throw new InvalidService(__("missing config %s for the service %s", self::OPTION_FILESYSTEM, self::class));
+        if (! isset($options[self::OPTION_FILESYSTEM])) {
+            throw new InvalidService(__('missing config %s for the service %s', self::OPTION_FILESYSTEM, self::class));
         }
         parent::__construct($options);
     }
@@ -67,33 +68,29 @@ class StateMigration
 
         $state = $stateStorage->get($userId, $callId);
 
-        return (!is_null($state)) ? $this->getFileSystem()->write($this->generateSerial($userId, $callId), $state) : false;
+        return ($state !== null) ? $this->getFileSystem()->write($this->generateSerial($userId, $callId), $state) : false;
     }
 
     public function restore($userId, $callId)
     {
-
         $state = $this->getFileSystem()->read($this->generateSerial($userId, $callId));
 
         /** @var StateStorage $stateStorage */
         $stateStorage = $this->getServiceManager()->get(StateStorage::SERVICE_ID);
 
         return $stateStorage->set($userId, $callId, $state);
-
     }
 
-    public function removeState($userId, $callId)
+    public function removeState($userId, $callId): void
     {
         /** @var StateStorage $stateStorage */
         $stateStorage = $this->getServiceManager()->get(StateStorage::SERVICE_ID);
 
         $stateStorage->del($userId, $callId);
-
     }
 
     public function removeBackup($userId, $callId)
     {
-
         return $this->getFileSystem()->delete($this->generateSerial($userId, $callId));
     }
 
@@ -103,19 +100,16 @@ class StateMigration
     }
 
     /**
-     *
      * @return FileSystem
      */
     private function getFileSystem()
     {
-        if (is_null($this->fileSystem)) {
+        if ($this->fileSystem === null) {
             /** @var FileSystemService $fileSystemService */
             $fileSystemService = $this->getServiceManager()->get(FileSystemService::SERVICE_ID);
             $this->fileSystem = $fileSystemService->getFileSystem($this->getOption(self::OPTION_FILESYSTEM));
-
         }
 
         return $this->fileSystem;
     }
-
 }

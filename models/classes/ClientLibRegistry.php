@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,24 +18,81 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
+
 namespace oat\tao\model;
 
+use common_ext_ExtensionsManager;
+use common_Logger;
 use oat\oatbox\AbstractRegistry;
-use \common_ext_ExtensionsManager;
-use \common_Logger;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\asset\AssetService;
 
 /**
- * 
  * Registry to store client library paths that will be provide to requireJs
  *
  * @author Lionel Lecaque, lionel@taotesting.com
  */
 class ClientLibRegistry extends AbstractRegistry
 {
+    /**
+     * Return all lib alias with relative path
+     *
+     * @author Lionel Lecaque, lionel@taotesting.com
+     * @return array
+     */
+    public function getLibAliasMap()
+    {
+        $extensionsAliases = [];
+        $assetservice = ServiceManager::getServiceManager()->get(AssetService::SERVICE_ID);
+        foreach (self::getRegistry()->getMap() as $alias => $lib) {
+            if (is_array($lib) && isset($lib['extId']) && isset($lib['path'])) {
+                $extensionsAliases[$alias] = $assetservice->getJsBaseWww($lib['extId']) . $lib['path'];
+            } elseif (is_string($lib)) {
+                $extensionsAliases[$alias] = str_replace(ROOT_URL, '../../../', $lib);
+            } else {
+                throw new \common_exception_InconsistentData('Invalid ' . self::getConfigId() . ' entry found');
+            }
+        }
+        return $extensionsAliases;
+    }
+
+    /**
+     * Register a new path for given alias, trigger a warning if path already register
+     *
+     * @author Lionel Lecaque, lionel@taotesting.com
+     * @param string $id
+     * @param string $fullPath
+     * @throws \common_exception_Error
+     */
+    public function register($id, $fullPath): void
+    {
+        /** @var AssetService $assetService */
+        $assetService = ServiceManager::getServiceManager()->get(AssetService::SERVICE_ID);
+
+        if (self::getRegistry()->isRegistered($id)) {
+            common_Logger::w('Lib already registered');
+        }
+
+        if (substr($fullPath, 0, strlen('../../../')) === '../../../') {
+            $fullPath = ROOT_URL . substr($fullPath, strlen('../../../'));
+        }
+
+        $found = false;
+        foreach (\common_ext_ExtensionsManager::singleton()->getInstalledExtensions() as $ext) {
+            if (strpos($fullPath, $assetService->getJsBaseWww($ext->getId())) === 0) {
+                $found = true;
+                self::getRegistry()->set($id, [
+                    'extId' => $ext->getId(),
+                    'path' => substr($fullPath, strlen($assetService->getJsBaseWww($ext->getId()))),
+                ]);
+                break;
+            }
+        }
+        if ($found === false) {
+            throw new \common_exception_Error('Path "' . $fullPath . '" is not a valid asset path in Tao');
+        }
+    }
 
     /**
      * @see \oat\oatbox\AbstractRegistry::getConfigId()
@@ -48,67 +108,5 @@ class ClientLibRegistry extends AbstractRegistry
     protected function getExtension()
     {
         return common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-    }
-
-    /**
-     * 
-     * Return all lib alias with relative path
-     * 
-     * @author Lionel Lecaque, lionel@taotesting.com
-     * @return array
-     */
-    public function getLibAliasMap()
-    {
-        $extensionsAliases = array();
-        $assetservice = ServiceManager::getServiceManager()->get(AssetService::SERVICE_ID);
-        foreach (ClientLibRegistry::getRegistry()->getMap() as $alias => $lib ){
-            if (is_array($lib) && isset($lib['extId']) && isset($lib['path'])) {
-                $extensionsAliases[$alias] = $assetservice->getJsBaseWww($lib['extId']).$lib['path'];
-            } elseif (is_string($lib)) {
-                $extensionsAliases[$alias] = str_replace(ROOT_URL, '../../../', $lib);
-            } else {
-                throw new \common_exception_InconsistentData('Invalid '.self::getConfigId().' entry found');
-            }
-        }
-        return $extensionsAliases;
-    }
-    
-    
-    /**
-     * Register a new path for given alias, trigger a warning if path already register
-     *
-     * @author Lionel Lecaque, lionel@taotesting.com
-     * @param string $id
-     * @param string $fullPath
-     * @throws \common_exception_Error
-     */
-    public function register($id, $fullPath)
-    {
-        /** @var AssetService $assetService */
-        $assetService = ServiceManager::getServiceManager()->get(AssetService::SERVICE_ID);
-
-        if (self::getRegistry()->isRegistered($id)) {
-            common_Logger::w('Lib already registered');
-        }
-        
-        if (substr($fullPath, 0, strlen('../../../')) == '../../../') {
-            $fullPath = ROOT_URL.substr($fullPath, strlen('../../../'));
-        }
-        
-        $found = false;
-        foreach (\common_ext_ExtensionsManager::singleton()->getInstalledExtensions() as $ext) {
-            if (strpos($fullPath, $assetService->getJsBaseWww( $ext->getId() )) === 0) {
-                $found = true;
-                self::getRegistry()->set($id, array(
-                    'extId' => $ext->getId(),
-                    'path' => substr($fullPath, strlen( $assetService->getJsBaseWww($ext->getId()) ))
-                ));
-                break;
-            }
-            
-        }
-        if ($found == false) {
-            throw new \common_exception_Error('Path "'.$fullPath.'" is not a valid asset path in Tao');
-        }
     }
 }

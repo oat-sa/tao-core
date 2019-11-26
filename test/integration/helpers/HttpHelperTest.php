@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,16 +18,15 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
- *
  */
 
 namespace oat\tao\helpers\test;
 
 use oat\tao\test\TaoPhpUnitTestRunner;
-use tao_helpers_Http;
-use Slim\Http\Stream;
 use Slim\Http\Environment;
 use Slim\Http\Request;
+use Slim\Http\Stream;
+use tao_helpers_Http;
 
 include_once dirname(__FILE__) . '/../../../includes/raw_start.php';
 
@@ -34,10 +36,9 @@ include_once dirname(__FILE__) . '/../../../includes/raw_start.php';
  */
 class HttpHelperTest extends TaoPhpUnitTestRunner
 {
-
     protected $string = '0123456789';
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         TaoPhpUnitTestRunner::initTest();
@@ -51,24 +52,13 @@ class HttpHelperTest extends TaoPhpUnitTestRunner
      * @param Environment $env
      * @param string $output
      */
-    public function testReturnStream($env, $output)
+    public function testReturnStream($env, $output): void
     {
         $request = Request::createFromEnvironment($env);
         ob_start();
         tao_helpers_Http::returnStream($this->getStream(), null, $request);
         $result = ob_get_clean();
-        $this->assertEquals($output, $result);
-    }
-
-    /**
-     * @return Stream
-     */
-    private function getStream()
-    {
-        $resource = fopen('php://memory','r+');
-        fwrite($resource, $this->string);
-        rewind($resource);
-        return new Stream($resource);
+        $this->assertSame($output, $result);
     }
 
     public function environmentsProvider()
@@ -139,4 +129,14 @@ class HttpHelperTest extends TaoPhpUnitTestRunner
         ];
     }
 
+    /**
+     * @return Stream
+     */
+    private function getStream()
+    {
+        $resource = fopen('php://memory', 'r+');
+        fwrite($resource, $this->string);
+        rewind($resource);
+        return new Stream($resource);
+    }
 }

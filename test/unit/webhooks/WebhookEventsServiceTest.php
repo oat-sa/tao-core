@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,17 +22,17 @@
 
 namespace oat\tao\test\unit\webhooks;
 
+use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
 use oat\oatbox\event\Event;
 use oat\oatbox\event\EventManager;
 use oat\tao\model\exceptions\WebhookConfigMissingException;
 use oat\tao\model\webhooks\configEntity\WebhookInterface;
+use oat\tao\model\webhooks\task\WebhookTaskParams;
 use oat\tao\model\webhooks\WebhookEventsService;
 use oat\tao\model\webhooks\WebhookRegistryInterface;
 use oat\tao\model\webhooks\WebhookSerializableEventInterface;
-use oat\tao\model\webhooks\task\WebhookTaskParams;
 use oat\tao\model\webhooks\WebhookTaskServiceInterface;
-use oat\generis\test\MockObject;
 use Psr\Log\LoggerInterface;
 
 class WebhookEventsServiceTest extends TestCase
@@ -49,7 +52,7 @@ class WebhookEventsServiceTest extends TestCase
     /** @var WebhookInterface|MockObject */
     private $webhookConfigMock;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->eventManagerMock = $this->createMock(EventManager::class);
 
@@ -64,28 +67,29 @@ class WebhookEventsServiceTest extends TestCase
                     return isset($this->whRegistryData[$eventName])
                         ? $this->whRegistryData[$eventName]
                         : [];
-                });
+                }
+            );
 
         $this->whTaskServiceMock = $this->createMock(WebhookTaskServiceInterface::class);
     }
 
-    public function testHandleEventMissingWebhookConfig()
+    public function testHandleEventMissingWebhookConfig(): void
     {
         $eventName = 'TestEvent';
 
         $service = new WebhookEventsService([
             WebhookEventsService::OPTION_SUPPORTED_EVENTS => [
-                $eventName => true
-            ]
+                $eventName => true,
+            ],
         ]);
 
         $service->setServiceLocator($this->getServiceLocatorMock([
             WebhookRegistryInterface::SERVICE_ID => $this->whConfigRegistryMock,
-            WebhookTaskServiceInterface::SERVICE_ID => $this->whTaskServiceMock
+            WebhookTaskServiceInterface::SERVICE_ID => $this->whTaskServiceMock,
         ]));
 
         $this->whRegistryData = [
-            $eventName => ['wh1', 'wh2']
+            $eventName => ['wh1', 'wh2'],
         ];
 
         $this->whConfigRegistryMock->method('getWebhookConfigIds')->willReturn(['wh1', 'wh2']);
@@ -99,7 +103,7 @@ class WebhookEventsServiceTest extends TestCase
         $service->handleEvent($eventMock);
     }
 
-    public function testRegisterEvent()
+    public function testRegisterEvent(): void
     {
         $eventName = 'TestEvent';
         $this->eventManagerMock->expects($this->once())
@@ -107,11 +111,11 @@ class WebhookEventsServiceTest extends TestCase
             ->with($eventName, [WebhookEventsService::SERVICE_ID, 'handleEvent']);
 
         $service = new WebhookEventsService([
-            WebhookEventsService::OPTION_SUPPORTED_EVENTS => []
+            WebhookEventsService::OPTION_SUPPORTED_EVENTS => [],
         ]);
 
         $service->setServiceLocator($this->getServiceLocatorMock([
-            EventManager::SERVICE_ID => $this->eventManagerMock
+            EventManager::SERVICE_ID => $this->eventManagerMock,
         ]));
 
         $this->assertFalse($service->isEventRegistered($eventName));
@@ -119,7 +123,7 @@ class WebhookEventsServiceTest extends TestCase
         $this->assertTrue($service->isEventRegistered($eventName));
     }
 
-    public function testUnregisterEvent()
+    public function testUnregisterEvent(): void
     {
         $eventName = 'TestEvent';
         $this->eventManagerMock->expects($this->once())
@@ -128,12 +132,12 @@ class WebhookEventsServiceTest extends TestCase
 
         $service = new WebhookEventsService([
             WebhookEventsService::OPTION_SUPPORTED_EVENTS => [
-                $eventName => true
-            ]
+                $eventName => true,
+            ],
         ]);
 
         $service->setServiceLocator($this->getServiceLocatorMock([
-            EventManager::SERVICE_ID => $this->eventManagerMock
+            EventManager::SERVICE_ID => $this->eventManagerMock,
         ]));
 
         $this->assertTrue($service->isEventRegistered($eventName));
@@ -141,7 +145,7 @@ class WebhookEventsServiceTest extends TestCase
         $this->assertFalse($service->isEventRegistered($eventName));
     }
 
-    public function testHandleEventPositive()
+    public function testHandleEventPositive(): void
     {
         $eventName = 'TestEvent';
         $whEventName = 'WhTestEvent';
@@ -153,25 +157,25 @@ class WebhookEventsServiceTest extends TestCase
         $event->method('serializeForWebhook')->willReturn(['d' => 2]);
 
         $this->whRegistryData = [
-            $eventName => ['wh1', 'wh2']
+            $eventName => ['wh1', 'wh2'],
         ];
 
         $service = new WebhookEventsService([
             WebhookEventsService::OPTION_SUPPORTED_EVENTS => [
-                $eventName => true
-            ]
+                $eventName => true,
+            ],
         ]);
 
         $service->setServiceLocator($this->getServiceLocatorMock([
             WebhookRegistryInterface::SERVICE_ID => $this->whConfigRegistryMock,
-            WebhookTaskServiceInterface::SERVICE_ID => $this->whTaskServiceMock
+            WebhookTaskServiceInterface::SERVICE_ID => $this->whTaskServiceMock,
         ]));
 
         $passedParams = [];
         $this->whTaskServiceMock
             ->expects($this->exactly(2))
             ->method('createTask')
-            ->willReturnCallback(static function (WebhookTaskParams $whParams) use (&$passedParams) {
+            ->willReturnCallback(static function (WebhookTaskParams $whParams) use (&$passedParams): void {
                 $passedParams[] = $whParams;
             });
 
@@ -193,7 +197,7 @@ class WebhookEventsServiceTest extends TestCase
         }
     }
 
-    public function testHandleEventNotSupportedEvent()
+    public function testHandleEventNotSupportedEvent(): void
     {
         /** @var WebhookSerializableEventInterface|MockObject $event */
         $event = $this->createMock(WebhookSerializableEventInterface::class);
@@ -203,8 +207,8 @@ class WebhookEventsServiceTest extends TestCase
 
         $service = new WebhookEventsService([
             WebhookEventsService::OPTION_SUPPORTED_EVENTS => [
-                'AnotherEvent' => true
-            ]
+                'AnotherEvent' => true,
+            ],
         ]);
 
         /** @var LoggerInterface|MockObject $logger */
@@ -215,7 +219,7 @@ class WebhookEventsServiceTest extends TestCase
         $service->handleEvent($event);
     }
 
-    public function testHandleEventNotSerializable()
+    public function testHandleEventNotSerializable(): void
     {
         /** @var Event|MockObject $event */
         /** @noinspection PhpParamsInspection */
@@ -226,12 +230,12 @@ class WebhookEventsServiceTest extends TestCase
 
         $service = new WebhookEventsService([
             WebhookEventsService::OPTION_SUPPORTED_EVENTS => [
-                'TestEvent' => true
-            ]
+                'TestEvent' => true,
+            ],
         ]);
 
         $service->setServiceLocator($this->getServiceLocatorMock([
-            WebhookTaskServiceInterface::SERVICE_ID => $this->whTaskServiceMock
+            WebhookTaskServiceInterface::SERVICE_ID => $this->whTaskServiceMock,
         ]));
 
         /** @var LoggerInterface|MockObject $logger */
@@ -244,7 +248,7 @@ class WebhookEventsServiceTest extends TestCase
         $service->handleEvent($event);
     }
 
-    public function testHandleEventNoWebhooks()
+    public function testHandleEventNoWebhooks(): void
     {
         $eventName = 'TestEvent';
 
@@ -254,17 +258,17 @@ class WebhookEventsServiceTest extends TestCase
         $event->expects($this->never())->method('serializeForWebhook');
 
         $this->whRegistryData = [
-            $eventName => []
+            $eventName => [],
         ];
 
         $service = new WebhookEventsService([
             WebhookEventsService::OPTION_SUPPORTED_EVENTS => [
-                $eventName => true
-            ]
+                $eventName => true,
+            ],
         ]);
 
         $service->setServiceLocator($this->getServiceLocatorMock([
-            WebhookRegistryInterface::SERVICE_ID => $this->whConfigRegistryMock
+            WebhookRegistryInterface::SERVICE_ID => $this->whConfigRegistryMock,
         ]));
 
         $service->handleEvent($event);

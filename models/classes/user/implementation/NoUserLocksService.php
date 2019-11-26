@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -34,7 +37,7 @@ class NoUserLocksService extends ConfigurableService implements UserLocks
     /**
      * @param LoginFailedEvent $event
      */
-    public function catchFailedLogin(LoginFailedEvent $event)
+    public function catchFailedLogin(LoginFailedEvent $event): void
     {
         // do nothing
     }
@@ -42,7 +45,7 @@ class NoUserLocksService extends ConfigurableService implements UserLocks
     /**
      * @param LoginSucceedEvent $event
      */
-    public function catchSucceedLogin(LoginSucceedEvent $event)
+    public function catchSucceedLogin(LoginSucceedEvent $event): void
     {
         // do nothing
     }
@@ -105,7 +108,7 @@ class NoUserLocksService extends ConfigurableService implements UserLocks
             'auto' => false,
             'status' => __('enabled'),
             'remaining' => null,
-            'lockable' => false
+            'lockable' => false,
         ];
     }
 

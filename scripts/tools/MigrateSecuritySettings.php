@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,8 +22,8 @@
 
 namespace oat\tao\scripts\tools;
 
-use common_report_Report as Report;
 use common_Exception;
+use common_report_Report as Report;
 use oat\oatbox\extension\AbstractAction;
 use oat\tao\model\service\SettingsStorage;
 use oat\tao\model\settings\CspHeaderSettingsInterface;
@@ -50,18 +53,18 @@ class MigrateSecuritySettings extends AbstractAction
      */
     public function __invoke($params)
     {
-        if (count($params) == 0) {
+        if (count($params) === 0) {
             return new Report(
                 Report::TYPE_ERROR,
-                "Usage: MigrateSecuritySettings OLD_PERSISTENCE_ID [--wet]"
+                'Usage: MigrateSecuritySettings OLD_PERSISTENCE_ID [--wet]'
             );
         }
         $this->oldSettingsStorage = new SettingsStorage([
-            SettingsStorage::OPTION_PERSISTENCE => $params[0]
+            SettingsStorage::OPTION_PERSISTENCE => $params[0],
         ]);
         $this->propagate($this->oldSettingsStorage);
 
-        $this->wetRun = in_array('--wet', $params);
+        $this->wetRun = in_array('--wet', $params, true);
         $wetInfo = $this->wetRun ? 'wet' : 'dry';
 
         $currentPersistence = $this->getServiceLocator()
@@ -70,13 +73,13 @@ class MigrateSecuritySettings extends AbstractAction
 
         $this->report = new Report(
             Report::TYPE_INFO,
-            "Migrate Security Settings to the '$currentPersistence' persistence (${wetInfo} run)..."
+            "Migrate Security Settings to the '${currentPersistence}' persistence (${wetInfo} run)..."
         );
 
         try {
             $settingsToMigrate = [
                 CspHeaderSettingsInterface::CSP_HEADER_SETTING,
-                CspHeaderSettingsInterface::CSP_HEADER_LIST
+                CspHeaderSettingsInterface::CSP_HEADER_LIST,
             ];
 
             foreach ($settingsToMigrate as $setting) {
@@ -94,9 +97,9 @@ class MigrateSecuritySettings extends AbstractAction
      * @param string $settingName
      * @throws common_Exception
      */
-    private function migrateSetting($settingName) {
-        if ($this->oldSettingsStorage->exists($settingName))
-        {
+    private function migrateSetting($settingName): void
+    {
+        if ($this->oldSettingsStorage->exists($settingName)) {
             $settingValue = $this->oldSettingsStorage->get($settingName);
             if ($this->wetRun) {
                 $settingsStorage = $this->getServiceLocator()->get(SettingsStorageInterface::SERVICE_ID);
@@ -105,8 +108,8 @@ class MigrateSecuritySettings extends AbstractAction
 
             $msg = $this->wetRun ? 'Settings set to: ' : 'Settings will be set to: ';
             $this->report->add(Report::createSuccess($msg . print_r([
-                    $settingName => $settingValue
-                ], true)));
+                $settingName => $settingValue,
+            ], true)));
         }
     }
 }

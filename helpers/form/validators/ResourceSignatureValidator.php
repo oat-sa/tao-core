@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
- *
  */
 
 namespace oat\tao\helpers\form\validators;
@@ -32,6 +34,7 @@ final class ResourceSignatureValidator implements ValidatorInterface
 
     /** string */
     private $message = 'Signature is not valid';
+
     /**
      * @var SignatureValidator
      */
@@ -101,7 +104,7 @@ final class ResourceSignatureValidator implements ValidatorInterface
     /**
      * @param array $options
      */
-    public function setOptions(array $options)
+    public function setOptions(array $options): void
     {
         throw new InvalidArgumentException('This validator does not have any options');
     }

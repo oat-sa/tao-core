@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 use oat\tao\model\state\StateStorage;
@@ -26,10 +28,32 @@ use oat\tao\model\state\StateStorage;
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  * @package tao
- *
  */
 class tao_actions_ServiceModule extends tao_actions_CommonModule
 {
+    public function submitState(): void
+    {
+        $success = $this->setState($_POST['state']);
+        $this->returnJson([
+            'success' => $success,
+        ]);
+    }
+
+    public function getUserPropertyValues(): void
+    {
+        if (! $this->hasRequestParameter('property')) {
+            throw new common_exception_MissingParameter('property');
+        }
+        $property = $this->getRequestParameter('property');
+
+        $values = $this->getSession()->getUserPropertyValues($property);
+        $this->returnJson([
+            'success' => true,
+            'data' => [
+                $property => $values,
+            ],
+        ]);
+    }
 
     /**
      * Returns the serviceCallId for the current service call
@@ -39,8 +63,8 @@ class tao_actions_ServiceModule extends tao_actions_CommonModule
      */
     protected function getServiceCallId()
     {
-        if (!$this->hasRequestParameter('serviceCallId')) {
-        	throw new common_exception_Error('No serviceCallId on service call');
+        if (! $this->hasRequestParameter('serviceCallId')) {
+            throw new common_exception_Error('No serviceCallId on service call');
         }
         return $this->getRequestParameter('serviceCallId');
     }
@@ -54,7 +78,7 @@ class tao_actions_ServiceModule extends tao_actions_CommonModule
     {
         $serviceService = $this->getServiceLocator()->get(StateStorage::SERVICE_ID);
         $userUri = $this->getSession()->getUserUri();
-        return is_null($userUri) ? null : $serviceService->get($userUri, $this->getServiceCallId());
+        return $userUri === null ? null : $serviceService->get($userUri, $this->getServiceCallId());
     }
 
     /**
@@ -67,31 +91,7 @@ class tao_actions_ServiceModule extends tao_actions_CommonModule
     {
         $serviceService = $this->getServiceLocator()->get(StateStorage::SERVICE_ID);
         $userUri = $this->getSession()->getUserUri();
-        return is_null($userUri) ? false : $serviceService->set($userUri, $this->getServiceCallId(), $state);
-    }
-
-    public function submitState()
-    {
-        $success = $this->setState($_POST['state']);
-        $this->returnJson(array(
-            'success' => $success
-        ));
-    }
-
-    public function getUserPropertyValues()
-    {
-        if (!$this->hasRequestParameter('property')) {
-            throw new common_exception_MissingParameter('property');
-        }
-        $property = $this->getRequestParameter('property');
-
-        $values = $this->getSession()->getUserPropertyValues($property);
-        $this->returnJson(array(
-            'success' => true,
-            'data' => array(
-                $property => $values
-            )
-        ));
+        return $userUri === null ? false : $serviceService->set($userUri, $this->getServiceCallId(), $state);
     }
 
     /**

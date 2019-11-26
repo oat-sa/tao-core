@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,22 +18,38 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
- *
  */
 
 namespace oat\tao\model;
 
+use common_ext_ExtensionsManager;
 use oat\oatbox\AbstractRegistry;
-use \common_ext_ExtensionsManager;
 
 /**
- * 
  * Registry to store client library config that will be provide to requireJs
  *
  * @author Sam, sam@taotesting.com
  */
 class ClientLibConfigRegistry extends AbstractRegistry
 {
+    /**
+     * Register a new path for given alias, trigger a warning if path already register
+     *
+     * @author Sam, sam@taotesting.com
+     * @param string $id
+     * @param string $newLibConfig
+     */
+    public function register($id, $newLibConfig): void
+    {
+        $registry = self::getRegistry();
+        $libConfig = [];
+        if ($registry->isRegistered($id)) {
+            $libConfig = $registry->get($id);
+        }
+
+        $libConfig = array_replace_recursive($libConfig, $newLibConfig);
+        $registry->set($id, $libConfig);
+    }
 
     /**
      * @see \oat\oatbox\AbstractRegistry::getConfigId()
@@ -46,24 +65,5 @@ class ClientLibConfigRegistry extends AbstractRegistry
     protected function getExtension()
     {
         return common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-    }
-
-    /**
-     * Register a new path for given alias, trigger a warning if path already register
-     *
-     * @author Sam, sam@taotesting.com
-     * @param string $id
-     * @param string $newLibConfig
-     */
-    public function register($id, $newLibConfig)
-    {
-        $registry = self::getRegistry();
-        $libConfig = array();
-        if ($registry->isRegistered($id)) {
-            $libConfig = $registry->get($id);
-        }
-
-        $libConfig = array_replace_recursive($libConfig, $newLibConfig);
-        $registry->set($id, $libConfig);
     }
 }

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\model\import;
@@ -31,93 +33,7 @@ use oat\generis\model\GenerisRdf;
  */
 abstract class CsvAbstractImporter
 {
-
-    protected $validators = array();
-
-
-    /**
-     * Returns an array of the Uris of the properties
-     * that should not be importable via CVS
-     *
-     * Can be overriden by CsvImporters that are adapted to
-     * import resources of a specific class
-     *
-     * @return array
-     */
-    protected function getExludedProperties() {
-        return array();
-    }
-
-    /**
-     * Returns an key => value array of properties
-     * to be set on the new resources
-     *
-     * Can be overriden by CsvImporters that are adapted to
-     * import resources of a specific class
-     *
-     * @return array
-     */
-    protected function getStaticData() {
-        return array();
-    }
-
-    /**
-     * Returns aditional options to be set to the
-     * GenericAdapterCsv
-     *
-     * Can be overriden by CsvImporters that are adapted to
-     * import resources of a specific class
-     *
-     * @see tao_helpers_data_GenerisAdapterCsv
-     * @return array
-     */
-    protected function getAdditionAdapterOptions() {
-        return array();
-    }
-
-    /**
-     * @return array
-     */
-    protected function getClassProperties($clazz)
-    {
-        $topLevelClass = new \core_kernel_classes_Class(GenerisRdf::CLASS_GENERIS_RESOURCE);
-        $classProperties = \tao_models_classes_TaoService::singleton()->getClazzProperties($clazz, $topLevelClass);
-
-        return $classProperties;
-    }
-
-    /**
-     * @param \tao_helpers_data_CsvFile $csv_data
-     * @param boolean $firstRowAsColumnName
-     * @return array
-     */
-    protected function getColumnMapping($csv_data, $firstRowAsColumnName = true)
-    {
-        //build the mapping form
-        if (!$csv_data->count()) {
-            return array();
-        }
-
-        // 'class properties' contains an associative array(str:'propertyUri' => 'str:propertyLabel') describing properties belonging to the target class.
-        // 'ranged properties' contains an associative array(str:'propertyUri' => 'str:propertyLabel')  describing properties belonging to the target class and that have a range.
-        // 'csv_column' contains an array(int:columnIndex => 'str:columnLabel') that will be used to create the selection of possible CSV column to map in views.
-        // 'csv_column' might have NULL values for 'str:columnLabel' meaning that there was no header row with column names in the CSV file.
-
-        // Format the column mapping option for the form.
-        if ($firstRowAsColumnName && null != $csv_data->getColumnMapping()) {
-            // set the column label for each entry.
-            // $csvColMapping = array('label', 'comment', ...)
-
-            return $csv_data->getColumnMapping();
-        } else {
-            // set an empty value for each entry of the array
-            // to describe that column names are unknown.
-            // $csvColMapping = array(null, null, ...)
-
-            return array_fill(0, $csv_data->getColumnCount(), null);
-        }
-
-    }
+    protected $validators = [];
 
     /**
      * @return array
@@ -130,11 +46,10 @@ abstract class CsvAbstractImporter
     /**
      * @param array $validators
      */
-    public function setValidators($validators)
+    public function setValidators($validators): void
     {
         $this->validators = $validators;
     }
-
 
     /**
      * Additional mapping values but that comes from another source than the CSV file.
@@ -144,9 +59,8 @@ abstract class CsvAbstractImporter
      */
     public function getStaticMap()
     {
-        return array();
+        return [];
     }
-
 
     /**
      * @param \core_kernel_classes_Class $class where data will be imported
@@ -164,11 +78,11 @@ abstract class CsvAbstractImporter
      */
     public function importFile($class, $options)
     {
-        if (!isset($options['file'])) {
-            throw new \BadFunctionCallException("Import file is missing");
+        if (! isset($options['file'])) {
+            throw new \BadFunctionCallException('Import file is missing');
         }
 
-        if(!isset($options['staticMap']) || !is_array($options['staticMap'])){
+        if (! isset($options['staticMap']) || ! is_array($options['staticMap'])) {
             $options['staticMap'] = $this->getStaticData();
         } else {
             $options['staticMap'] = array_merge($options['staticMap'], $this->getStaticData());
@@ -181,10 +95,92 @@ abstract class CsvAbstractImporter
         $report = $adapter->import($options['file'], $class);
 
 
-        if ($report->getType() == \common_report_Report::TYPE_SUCCESS) {
+        if ($report->getType() === \common_report_Report::TYPE_SUCCESS) {
             $report->setData($adapter->getOptions());
         }
         return $report;
     }
 
+    /**
+     * Returns an array of the Uris of the properties
+     * that should not be importable via CVS
+     *
+     * Can be overriden by CsvImporters that are adapted to
+     * import resources of a specific class
+     *
+     * @return array
+     */
+    protected function getExludedProperties()
+    {
+        return [];
+    }
+
+    /**
+     * Returns an key => value array of properties
+     * to be set on the new resources
+     *
+     * Can be overriden by CsvImporters that are adapted to
+     * import resources of a specific class
+     *
+     * @return array
+     */
+    protected function getStaticData()
+    {
+        return [];
+    }
+
+    /**
+     * Returns aditional options to be set to the
+     * GenericAdapterCsv
+     *
+     * Can be overriden by CsvImporters that are adapted to
+     * import resources of a specific class
+     *
+     * @see tao_helpers_data_GenerisAdapterCsv
+     * @return array
+     */
+    protected function getAdditionAdapterOptions()
+    {
+        return [];
+    }
+
+    /**
+     * @return array
+     */
+    protected function getClassProperties($clazz)
+    {
+        $topLevelClass = new \core_kernel_classes_Class(GenerisRdf::CLASS_GENERIS_RESOURCE);
+        return \tao_models_classes_TaoService::singleton()->getClazzProperties($clazz, $topLevelClass);
+    }
+
+    /**
+     * @param \tao_helpers_data_CsvFile $csv_data
+     * @param boolean $firstRowAsColumnName
+     * @return array
+     */
+    protected function getColumnMapping($csv_data, $firstRowAsColumnName = true)
+    {
+        //build the mapping form
+        if (! $csv_data->count()) {
+            return [];
+        }
+
+        // 'class properties' contains an associative array(str:'propertyUri' => 'str:propertyLabel') describing properties belonging to the target class.
+        // 'ranged properties' contains an associative array(str:'propertyUri' => 'str:propertyLabel')  describing properties belonging to the target class and that have a range.
+        // 'csv_column' contains an array(int:columnIndex => 'str:columnLabel') that will be used to create the selection of possible CSV column to map in views.
+        // 'csv_column' might have NULL values for 'str:columnLabel' meaning that there was no header row with column names in the CSV file.
+
+        // Format the column mapping option for the form.
+        if ($firstRowAsColumnName && $csv_data->getColumnMapping() !== null) {
+            // set the column label for each entry.
+            // $csvColMapping = array('label', 'comment', ...)
+
+            return $csv_data->getColumnMapping();
+        }
+        // set an empty value for each entry of the array
+        // to describe that column names are unknown.
+        // $csvColMapping = array(null, null, ...)
+
+        return array_fill(0, $csv_data->getColumnCount(), null);
+    }
 }

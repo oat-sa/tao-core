@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,20 +18,19 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\model\taskQueue;
 
 use common_report_Report as Report;
+use oat\tao\model\datatable\DatatableRequest as DatatableRequestInterface;
 use oat\tao\model\taskQueue\Task\TaskInterface;
 use oat\tao\model\taskQueue\TaskLog\Broker\TaskLogBrokerInterface;
+use oat\tao\model\taskQueue\TaskLog\CollectionInterface;
 use oat\tao\model\taskQueue\TaskLog\DataTablePayload;
 use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
-use oat\tao\model\taskQueue\TaskLog\CollectionInterface;
 use oat\tao\model\taskQueue\TaskLog\TaskLogFilter;
 use oat\tao\model\taskQueue\TaskLog\TasksLogsStats;
-use oat\tao\model\datatable\DatatableRequest as DatatableRequestInterface;
 use Psr\Log\LoggerAwareInterface;
 
 /**
@@ -36,44 +38,56 @@ use Psr\Log\LoggerAwareInterface;
  */
 interface TaskLogInterface extends LoggerAwareInterface
 {
-    const SERVICE_ID = 'tao/taskLog';
+    public const SERVICE_ID = 'tao/taskLog';
 
-    const OPTION_TASK_LOG_BROKER = 'task_log_broker';
+    public const OPTION_TASK_LOG_BROKER = 'task_log_broker';
 
     /**
      * An array of tasks names with the specified category.
      */
-    const OPTION_TASK_TO_CATEGORY_ASSOCIATIONS = 'task_to_category_associations';
+    public const OPTION_TASK_TO_CATEGORY_ASSOCIATIONS = 'task_to_category_associations';
 
-    const STATUS_ENQUEUED = 'enqueued';
-    const STATUS_DEQUEUED = 'dequeued';
-    const STATUS_RUNNING = 'running';
-    const STATUS_CHILD_RUNNING = 'child_running';
-    const STATUS_COMPLETED = 'completed';
-    const STATUS_FAILED = 'failed';
-    const STATUS_ARCHIVED = 'archived';
-    const STATUS_CANCELLED = 'cancelled';
-    const STATUS_UNKNOWN = 'unknown';
+    public const STATUS_ENQUEUED = 'enqueued';
 
-    const CATEGORY_UNKNOWN = 'unknown';
-    const CATEGORY_IMPORT = 'import';
-    const CATEGORY_EXPORT = 'export';
-    const CATEGORY_DELIVERY_COMPILATION = 'delivery_comp';
-    const CATEGORY_CREATE = 'create';
-    const CATEGORY_UPDATE = 'update';
-    const CATEGORY_DELETE = 'delete';
+    public const STATUS_DEQUEUED = 'dequeued';
 
-    const DEFAULT_LIMIT = 20;
+    public const STATUS_RUNNING = 'running';
+
+    public const STATUS_CHILD_RUNNING = 'child_running';
+
+    public const STATUS_COMPLETED = 'completed';
+
+    public const STATUS_FAILED = 'failed';
+
+    public const STATUS_ARCHIVED = 'archived';
+
+    public const STATUS_CANCELLED = 'cancelled';
+
+    public const STATUS_UNKNOWN = 'unknown';
+
+    public const CATEGORY_UNKNOWN = 'unknown';
+
+    public const CATEGORY_IMPORT = 'import';
+
+    public const CATEGORY_EXPORT = 'export';
+
+    public const CATEGORY_DELIVERY_COMPILATION = 'delivery_comp';
+
+    public const CATEGORY_CREATE = 'create';
+
+    public const CATEGORY_UPDATE = 'update';
+
+    public const CATEGORY_DELETE = 'delete';
+
+    public const DEFAULT_LIMIT = 20;
 
     /**
      * It's not related to the user management, just a placeholder to distinguish the user running the script from CLI.
      */
-    const SUPER_USER = 'cli-user';
+    public const SUPER_USER = 'cli-user';
 
-    /**
-     * @return void
-     */
-    public function createContainer();
+
+    public function createContainer(): void;
 
     /**
      * Insert a new task with status into the container.
@@ -169,7 +183,6 @@ interface TaskLogInterface extends LoggerAwareInterface
      * @param string $userId
      * @param bool   $archivedAllowed
      * @return EntityInterface
-     *
      */
     public function getByIdAndUser($taskId, $userId, $archivedAllowed = false);
 

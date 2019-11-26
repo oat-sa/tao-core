@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -32,7 +35,7 @@ class WebhookTaskParamsFactory extends ConfigurableService
     public function createFromArray(array $array)
     {
         $validator = $this->getValidator();
-        if (!$validator->validate($array)) {
+        if (! $validator->validate($array)) {
             throw new \InvalidArgumentException($validator->getErrorMessage());
         }
 
@@ -45,13 +48,13 @@ class WebhookTaskParamsFactory extends ConfigurableService
             ->assertString([
                 WebhookTaskParams::EVENT_NAME,
                 WebhookTaskParams::WEBHOOK_CONFIG_ID,
-                WebhookTaskParams::EVENT_ID
+                WebhookTaskParams::EVENT_ID,
             ])
             ->assertArray(WebhookTaskParams::EVENT_DATA)
             ->assertInt([
                 WebhookTaskParams::TRIGGERED_TIMESTAMP,
                 WebhookTaskParams::RETRY_MAX,
-                WebhookTaskParams::RETRY_COUNT
+                WebhookTaskParams::RETRY_COUNT,
             ])
             ->allowExtraKeys();
     }

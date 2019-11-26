@@ -1,22 +1,24 @@
 <?php
-/**  
+
+declare(strict_types=1);
+
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
  */
 
 /**
@@ -25,10 +27,17 @@
  * @access public
  * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
  * @package tao
- 
  */
 class tao_helpers_grid_Column
 {
+    /**
+     * Short description of attribute options
+     *
+     * @access public
+     * @var array
+     */
+    public $options = [];
+
     // --- ASSOCIATIONS ---
 
 
@@ -72,15 +81,7 @@ class tao_helpers_grid_Column
      * @access protected
      * @var array
      */
-    protected $adapters = array();
-
-    /**
-     * Short description of attribute options
-     *
-     * @access public
-     * @var array
-     */
-    public $options = array();
+    protected $adapters = [];
 
     // --- OPERATIONS ---
 
@@ -89,18 +90,16 @@ class tao_helpers_grid_Column
      *
      * @access public
      * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
-     * @param  string id
-     * @param  string title
-     * @param  array options
+     * @param  string $id
+     * @param  string $title
+     * @param  array $options
      * @return mixed
      */
-    public function __construct($id, $title, $options = array())
+    public function __construct($id, $title, $options = [])
     {
-        
-		$this->id = $id;
-		$this->title = $title;
-		$this->options = $options;
-        
+        $this->id = $id;
+        $this->title = $title;
+        $this->options = $options;
     }
 
     /**
@@ -108,17 +107,17 @@ class tao_helpers_grid_Column
      *
      * @access public
      * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
-     * @param  string type
+     * @param  string $type
      * @return boolean
      */
     public function setType($type)
     {
         $returnValue = (bool) false;
 
-        
-		$this->type = $type;
-		$returnValue = true;
-        
+
+        $this->type = $type;
+        $returnValue = true;
+
 
         return (bool) $returnValue;
     }
@@ -134,9 +133,9 @@ class tao_helpers_grid_Column
     {
         $returnValue = (string) '';
 
-        
-		$returnValue = $this->type;
-        
+
+        $returnValue = $this->type;
+
 
         return (string) $returnValue;
     }
@@ -146,17 +145,17 @@ class tao_helpers_grid_Column
      *
      * @access public
      * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
-     * @param  string title
+     * @param  string $title
      * @return boolean
      */
     public function setTitle($title)
     {
         $returnValue = (bool) false;
 
-        
-		$this->title = $title;
-		$returnValue = true;
-        
+
+        $this->title = $title;
+        $returnValue = true;
+
 
         return (bool) $returnValue;
     }
@@ -172,9 +171,9 @@ class tao_helpers_grid_Column
     {
         $returnValue = (string) '';
 
-        
-		$returnValue = $this->title;
-        
+
+        $returnValue = $this->title;
+
 
         return (string) $returnValue;
     }
@@ -190,9 +189,9 @@ class tao_helpers_grid_Column
     {
         $returnValue = (string) '';
 
-        
-		$returnValue = $this->id;
-        
+
+        $returnValue = $this->id;
+
 
         return (string) $returnValue;
     }
@@ -202,19 +201,19 @@ class tao_helpers_grid_Column
      *
      * @access public
      * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
-     * @param  Adapter adapter
+     * @param  Adapter $adapter
      * @return boolean
      */
-    public function setAdapter( tao_helpers_grid_Cell_Adapter $adapter)
+    public function setAdapter(tao_helpers_grid_Cell_Adapter $adapter)
     {
         $returnValue = (bool) false;
 
-        
-		if(!is_null($adapter)){
-			$this->adapters[] = $adapter;
-			$returnValue = true;
-		}
-        
+
+        if ($adapter !== null) {
+            $this->adapters[] = $adapter;
+            $returnValue = true;
+        }
+
 
         return (bool) $returnValue;
     }
@@ -224,23 +223,23 @@ class tao_helpers_grid_Column
      *
      * @access public
      * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
-     * @param  string type (to check if the adaptor is of a certain type)
+     * @param  string $type (to check if the adaptor is of a certain type)
      * @return boolean
      */
     public function hasAdapter($type = '')
     {
         $returnValue = (bool) false;
 
-        
-		$adapterClass = empty($type)?'tao_helpers_grid_Cell_Adapter':$type;
-		foreach($this->adapters as $adapter){
-			if($adapter instanceof $adapterClass){
-				$returnValue = true;
-				break;
-			}
-		}
-		
-        
+
+        $adapterClass = empty($type) ? 'tao_helpers_grid_Cell_Adapter' : $type;
+        foreach ($this->adapters as $adapter) {
+            if ($adapter instanceof $adapterClass) {
+                $returnValue = true;
+                break;
+            }
+        }
+
+
 
         return (bool) $returnValue;
     }
@@ -250,40 +249,40 @@ class tao_helpers_grid_Column
      *
      * @access public
      * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
-     * @param  string rowId
-     * @param  string cellValue (tao_helpers_grid_Grid, tao_helpers_grid_GridContainer or string)
-     * @param  bool evaluateData
+     * @param  string $rowId
+     * @param  string $cellValue (tao_helpers_grid_Grid, tao_helpers_grid_GridContainer or string)
+     * @param  bool $evaluateData
      * @return mixed
      */
     public function getAdaptersData($rowId, $cellValue = null, $evaluateData = true)
     {
         $returnValue = null;
 
-        
-		
-		if($this->hasAdapter()){
-			foreach($this->adapters as $adapter){
-				if($adapter instanceof tao_helpers_grid_Cell_Adapter){
-					$cellValue = $adapter->getValue($rowId, $this->id, $cellValue);
-				}
-			}
-			$returnValue = $cellValue;
-		}
-		
-		if($evaluateData){
-			//allow returning to type "string" or "Grid" only
-			if ($returnValue instanceof tao_helpers_grid_Grid) {
-				$returnValue = $returnValue->toArray();
-			} else if ($returnValue instanceof tao_helpers_grid_GridContainer) {
-				$returnValue = $returnValue->toArray();
-			} else if(is_array($returnValue)){
-				//ok; authorize array type
-			}else{
-				$returnValue = (string) $returnValue;
-			}
-		}
-		
-        
+
+
+        if ($this->hasAdapter()) {
+            foreach ($this->adapters as $adapter) {
+                if ($adapter instanceof tao_helpers_grid_Cell_Adapter) {
+                    $cellValue = $adapter->getValue($rowId, $this->id, $cellValue);
+                }
+            }
+            $returnValue = $cellValue;
+        }
+
+        if ($evaluateData) {
+            //allow returning to type "string" or "Grid" only
+            if ($returnValue instanceof tao_helpers_grid_Grid) {
+                $returnValue = $returnValue->toArray();
+            } elseif ($returnValue instanceof tao_helpers_grid_GridContainer) {
+                $returnValue = $returnValue->toArray();
+            } elseif (is_array($returnValue)) {
+                //ok; authorize array type
+            } else {
+                $returnValue = (string) $returnValue;
+            }
+        }
+
+
 
         return $returnValue;
     }
@@ -293,21 +292,21 @@ class tao_helpers_grid_Column
      *
      * @access public
      * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
-     * @param  type
+     * @param  $type
      * @return tao_helpers_transfert_Adapter
      */
     public function getAdapter($type)
     {
         $returnValue = null;
 
-        
-		foreach($this->adapters as $adapter){
-			if($adapter instanceof $type){
-				$returnValue = $adapter;
-				break;
-			}
-		}
-        
+
+        foreach ($this->adapters as $adapter) {
+            if ($adapter instanceof $type) {
+                $returnValue = $adapter;
+                break;
+            }
+        }
+
 
         return $returnValue;
     }
@@ -321,11 +320,11 @@ class tao_helpers_grid_Column
      */
     public function getOptions()
     {
-        $returnValue = array();
+        $returnValue = [];
 
-        
+
         $returnValue = $this->options;
-        
+
 
         return (array) $returnValue;
     }
@@ -335,13 +334,11 @@ class tao_helpers_grid_Column
      *
      * @access public
      * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
-     * @param  array options
+     * @param  array $options
      */
-    public function setOptions($options)
+    public function setOptions($options): void
     {
-        
-		$this->options = array_merge($this->options, $options);
-        
+        $this->options = array_merge($this->options, $options);
     }
 
     /**
@@ -349,18 +346,15 @@ class tao_helpers_grid_Column
      *
      * @access public
      * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
-     * @param  name
+     * @param  $name
      * @return core_kernel_classes_object
      */
     public function getOption($name)
     {
         $returnValue = null;
 
-        
-        $returnValue = $this->options[$name];
-        
 
-        return $returnValue;
+        return $this->options[$name];
     }
 
     /**
@@ -368,14 +362,12 @@ class tao_helpers_grid_Column
      *
      * @access public
      * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
-     * @param  name
-     * @param  value
+     * @param  $name
+     * @param  $value
      */
-    public function setOption($name, $value)
+    public function setOption($name, $value): void
     {
-        
         $this->options[$name] = $value;
-        
     }
 
     /**
@@ -383,15 +375,15 @@ class tao_helpers_grid_Column
      *
      * @access public
      * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
-     * @param  string type
+     * @param  string $type
      * @return boolean
      */
     public function removeAdapter($type = '')
     {
         $returnValue = (bool) false;
 
-        
-        
+
+
 
         return (bool) $returnValue;
     }
@@ -405,15 +397,12 @@ class tao_helpers_grid_Column
      */
     public function getAdapters()
     {
-        $returnValue = array();
+        $returnValue = [];
 
-        
-		$returnValue = $this->adapters;
-        
+
+        $returnValue = $this->adapters;
+
 
         return (array) $returnValue;
     }
-
 }
-
-?>

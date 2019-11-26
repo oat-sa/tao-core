@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use oat\generis\model\OntologyRdf;
 use oat\generis\model\OntologyRdfs;
 
@@ -19,7 +21,6 @@ use oat\generis\model\OntologyRdfs;
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
- *
  */
 
 /**
@@ -33,28 +34,28 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
      * If uri parameters is provided, it must be a valid uri
      * Depending on HTTP method, request is routed to crud function
      */
-    public function index()
+    public function index(): void
     {
         try {
             $uri = null;
-            if ($this->hasRequestParameter("uri")) {
-                $uri = $this->getRequestParameter("uri");
-                if (!common_Utils::isUri($uri)) {
+            if ($this->hasRequestParameter('uri')) {
+                $uri = $this->getRequestParameter('uri');
+                if (! common_Utils::isUri($uri)) {
                     throw new common_exception_InvalidArgumentType();
                 }
             }
 
             switch ($this->getRequestMethod()) {
-                case "GET":
+                case 'GET':
                     $response = $this->get($uri);
                     break;
-                case "PUT":
+                case 'PUT':
                     $response = $this->put($uri);
                     break;
-                case "POST":
+                case 'POST':
                     $response = $this->post();
                     break;
-                case "DELETE":
+                case 'DELETE':
                     $response = $this->delete($uri);
                     break;
                 default:
@@ -62,8 +63,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
             }
 
             $this->returnSuccess($response);
-
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             if ($e instanceof \common_exception_ValidationFailed &&
                 $alias = $this->reverseSearchAlias($e->getField())
             ) {
@@ -82,7 +82,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
      */
     protected function getCrudService()
     {
-        if (!$this->service) {
+        if (! $this->service) {
             throw new common_Exception('Crud service is not set.');
         }
         return $this->service;
@@ -98,16 +98,15 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
      * @throws common_exception_InvalidArgumentType
      * @throws common_exception_PreConditionFailure
      */
-    protected function get($uri=null)
+    protected function get($uri = null)
     {
-        if (!is_null($uri)) {
-            if (!($this->getCrudService()->isInScope($uri))) {
-                throw new common_exception_PreConditionFailure("The URI must be a valid resource under the root Class");
+        if ($uri !== null) {
+            if (! ($this->getCrudService()->isInScope($uri))) {
+                throw new common_exception_PreConditionFailure('The URI must be a valid resource under the root Class');
             }
             return $this->getCrudService()->get($uri);
-        } else {
-            return $this->getCrudService()->getAll();
         }
+        return $this->getCrudService()->getAll();
     }
 
     /**
@@ -119,14 +118,14 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
      * @throws common_exception_InvalidArgumentType
      * @throws common_exception_PreConditionFailure
      */
-    protected function delete($uri=null)
+    protected function delete($uri = null)
     {
-        if (is_null($uri)) {
+        if ($uri === null) {
             //$data = $this->service->deleteAll();
             throw new common_exception_BadRequest('Delete method requires an uri parameter');
         }
-        if (!($this->getCrudService()->isInScope($uri))) {
-            throw new common_exception_PreConditionFailure("The URI must be a valid resource under the root Class");
+        if (! ($this->getCrudService()->isInScope($uri))) {
+            throw new common_exception_PreConditionFailure('The URI must be a valid resource under the root Class');
         }
         return $this->getCrudService()->delete($uri);
     }
@@ -193,11 +192,11 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
      */
     protected function put($uri)
     {
-        if (is_null($uri)) {
+        if ($uri === null) {
             throw new common_exception_BadRequest('Update method requires an uri parameter');
         }
-        if (!($this->getCrudService()->isInScope($uri))) {
-            throw new common_exception_PreConditionFailure("The URI must be a valid resource under the root Class");
+        if (! ($this->getCrudService()->isInScope($uri))) {
+            throw new common_exception_PreConditionFailure('The URI must be a valid resource under the root Class');
         }
         $parameters = $this->getParameters();
         try {
@@ -221,18 +220,17 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
         foreach ($this->getParametersAliases() as $checkParameterShort => $checkParameterUri) {
             if ($this->hasRequestParameter($checkParameterUri)) {
                 $effectiveParameters[$checkParameterUri] = $this->getRequestParameter($checkParameterUri);
-            }
-            else if ($this->hasRequestParameter($checkParameterShort)) {
+            } elseif ($this->hasRequestParameter($checkParameterShort)) {
                 $effectiveParameters[$checkParameterUri] = $this->getRequestParameter($checkParameterShort);
-            }
-            else if ($this->isRequiredParameter($checkParameterShort)) {
+            } elseif ($this->isRequiredParameter($checkParameterShort)) {
                 $missedAliases[] = $checkParameterShort;
             }
         }
 
         if (count($missedAliases) > 0) {
             throw new \common_exception_RestApi(
-                'Missed required parameters: ' . implode(', ', $missedAliases));
+                'Missed required parameters: ' . implode(', ', $missedAliases)
+            );
         }
 
         return $effectiveParameters;
@@ -246,10 +244,10 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
      */
     protected function getParametersRequirements()
     {
-        return array(
-            'put' => array ('uri'),
-            'delete' => array('uri'),
-        );
+        return [
+            'put' => ['uri'],
+            'delete' => ['uri'],
+        ];
     }
 
     /**
@@ -263,7 +261,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
         return [
             'label' => OntologyRdfs::RDFS_LABEL,
             'comment' => OntologyRdfs::RDFS_COMMENT,
-            'type' => OntologyRdf::RDF_TYPE
+            'type' => OntologyRdf::RDF_TYPE,
         ];
     }
 
@@ -271,7 +269,8 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
      * @param string $paramName
      * @return string|false
      */
-    protected function reverseSearchAlias($paramName) {
+    protected function reverseSearchAlias($paramName)
+    {
         return array_search($paramName, $this->getParametersAliases(), true);
     }
 
@@ -291,11 +290,11 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
         $requirements = array_change_key_case($requirements, CASE_LOWER);
         $method = strtolower($method);
 
-        if (!isset($requirements[$method])) {
+        if (! isset($requirements[$method])) {
             return false;
         }
 
-        if (in_array($parameter,$requirements[$method])) {
+        if (in_array($parameter, $requirements[$method], true)) {
             return true;
         }
 
@@ -304,9 +303,8 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
         //The requirements may have been declared using URIs, look up for the URI
         $aliases = $this->getParametersAliases();
         if (isset($aliases[$parameter])) {
-            $isRequired = in_array($aliases[$parameter],$requirements[$method]);
+            $isRequired = in_array($aliases[$parameter], $requirements[$method], true);
         }
         return $isRequired;
     }
-
 }

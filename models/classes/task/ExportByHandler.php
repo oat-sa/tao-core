@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\model\task;
@@ -29,15 +31,16 @@ class ExportByHandler extends AbstractAction
 {
     use FilesystemAwareTrait;
 
-    const PARAM_EXPORT_HANDLER = 'export_handler';
-    const PARAM_EXPORT_DATA = 'export_data';
+    public const PARAM_EXPORT_HANDLER = 'export_handler';
+
+    public const PARAM_EXPORT_DATA = 'export_data';
 
     public function __invoke($params)
     {
         $this->validateParams($params);
 
         /** @var \tao_models_classes_export_ExportHandler $exporter */
-        $exporter = new $params[self::PARAM_EXPORT_HANDLER];
+        $exporter = new $params[self::PARAM_EXPORT_HANDLER]();
 
         try {
             // export data under a temp directory stored locally
@@ -64,29 +67,29 @@ class ExportByHandler extends AbstractAction
     }
 
     /**
-     * @param array $params
-     * @throws \InvalidArgumentException
-     */
-    private function validateParams($params)
-    {
-        if (!isset($params[self::PARAM_EXPORT_HANDLER])
-            || !class_exists($params[self::PARAM_EXPORT_HANDLER])
-            || !is_a($params[self::PARAM_EXPORT_HANDLER], \tao_models_classes_export_ExportHandler::class, true)
-        ) {
-            throw new \InvalidArgumentException('Please provide a valid export handler');
-        }
-
-        if (!isset($params[self::PARAM_EXPORT_DATA]) || !is_array($params[self::PARAM_EXPORT_DATA])) {
-            throw new \InvalidArgumentException('Please provide the export data as array');
-        }
-    }
-
-    /**
      * @see FilesystemAwareTrait::getFileSystemService()
      */
     protected function getFileSystemService()
     {
         return $this->getServiceLocator()
             ->get(FileSystemService::SERVICE_ID);
+    }
+
+    /**
+     * @param array $params
+     * @throws \InvalidArgumentException
+     */
+    private function validateParams($params): void
+    {
+        if (! isset($params[self::PARAM_EXPORT_HANDLER])
+            || ! class_exists($params[self::PARAM_EXPORT_HANDLER])
+            || ! is_a($params[self::PARAM_EXPORT_HANDLER], \tao_models_classes_export_ExportHandler::class, true)
+        ) {
+            throw new \InvalidArgumentException('Please provide a valid export handler');
+        }
+
+        if (! isset($params[self::PARAM_EXPORT_DATA]) || ! is_array($params[self::PARAM_EXPORT_DATA])) {
+            throw new \InvalidArgumentException('Please provide the export data as array');
+        }
     }
 }

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2016 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\model\metadata\reader;
@@ -34,14 +36,14 @@ class KeyReader implements Reader
     /**
      * Source key label to find into $dataSource array
      */
-    const KEY_SOURCE = 'key';
+    public const KEY_SOURCE = 'key';
 
     protected $key;
 
     /**
      * KeyReader constructor.
      *
-     * @param string $key Index to find
+     * @param string $options Index to find
      * @throws \Exception
      */
     public function __construct($options)
@@ -55,6 +57,17 @@ class KeyReader implements Reader
         }
 
         $this->key = $options[self::KEY_SOURCE];
+    }
+
+    /**
+     * Configuration serialization
+     *
+     * @return array
+     */
+    public function __toPhpCode()
+    {
+        $options = ['key' => $this->key];
+        return empty($options) ? '' : \common_Utils::toHumanReadablePhpString($options);
     }
 
     /**
@@ -88,16 +101,4 @@ class KeyReader implements Reader
         }
         return isset($data[$key]);
     }
-
-    /**
-     * Configuration serialization
-     *
-     * @return array
-     */
-    public function __toPhpCode()
-    {
-        $options = array('key' => $this->key);
-        return empty($options) ? '' : \common_Utils::toHumanReadablePhpString($options);
-    }
-
 }

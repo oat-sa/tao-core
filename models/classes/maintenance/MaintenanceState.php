@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,24 +18,27 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 Open Assessment Technologies SA
- *
  */
 
 namespace oat\tao\model\maintenance;
 
 class MaintenanceState
 {
-    const ID         = 'id';
-    const STATUS     = 'status';
-    const START_TIME = 'start';
-    const END_TIME   = 'end';
+    public const ID = 'id';
 
-    const LIVE_MODE = 'on';
-    const OFFLINE_MODE = 'off';
+    public const STATUS = 'status';
 
-    const DATEDIFF_FORMAT = '%y years, %m months, %d days %H:%I:%S';
+    public const START_TIME = 'start';
 
-    protected static $availableStatus = array(self::LIVE_MODE, self::OFFLINE_MODE);
+    public const END_TIME = 'end';
+
+    public const LIVE_MODE = 'on';
+
+    public const OFFLINE_MODE = 'off';
+
+    public const DATEDIFF_FORMAT = '%y years, %m months, %d days %H:%I:%S';
+
+    protected static $availableStatus = [self::LIVE_MODE, self::OFFLINE_MODE];
 
     /**
      * The id to identify a Maintenance state
@@ -62,7 +68,6 @@ class MaintenanceState
      */
     protected $status;
 
-
     /**
      * MaintenanceState constructor.
      *
@@ -71,7 +76,7 @@ class MaintenanceState
     public function __construct(array $data)
     {
         $this->checkData($data);
-        $this->id     = isset($data[self::ID]) ? $data[self::ID] : 1;
+        $this->id = isset($data[self::ID]) ? $data[self::ID] : 1;
         $this->status = $data[self::STATUS];
 
         if (isset($data[self::START_TIME])) {
@@ -92,13 +97,13 @@ class MaintenanceState
      */
     public function toArray()
     {
-        $data = array(
-            self::ID         => $this->id,
-            self::STATUS     => $this->status,
+        $data = [
+            self::ID => $this->id,
+            self::STATUS => $this->status,
             self::START_TIME => $this->startTime->getTimestamp(),
-        );
+        ];
 
-        if (! is_null($this->endTime)) {
+        if ($this->endTime !== null) {
             $data[self::END_TIME] = $this->endTime->getTimestamp();
         }
 
@@ -116,7 +121,7 @@ class MaintenanceState
     /**
      * @param $id
      */
-    public function setId($id)
+    public function setId($id): void
     {
         $this->id = $id;
     }
@@ -124,7 +129,7 @@ class MaintenanceState
     /**
      * @param $endTime
      */
-    public function setEndTime($endTime)
+    public function setEndTime($endTime): void
     {
         $this->endTime = $this->getDateTime($endTime);
     }
@@ -169,7 +174,6 @@ class MaintenanceState
 
         if ((is_string($dateTime) && (int) $dateTime > 0) || is_numeric($dateTime)) {
             return (new \DateTime())->setTimestamp($dateTime);
-
         }
 
         throw new \common_Exception(__('A date has to be a Datetime or timestamp'));
@@ -181,9 +185,9 @@ class MaintenanceState
      * @param array $data
      * @throws \common_Exception
      */
-    protected function checkData(array $data)
+    protected function checkData(array $data): void
     {
-        if (! isset($data[self::STATUS]) || ! in_array($data[self::STATUS], self::$availableStatus)) {
+        if (! isset($data[self::STATUS]) || ! in_array($data[self::STATUS], self::$availableStatus, true)) {
             throw new \common_Exception(
                 __('A maintenance status must have a STATUS: "%s" or "%s"', self::LIVE_MODE, self::OFFLINE_MODE)
             );

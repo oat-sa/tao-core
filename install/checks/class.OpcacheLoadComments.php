@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,13 +22,12 @@
  */
 class tao_install_checks_OpcacheLoadComments extends common_configuration_Component
 {
-
     /**
      * @return common_configuration_Report
      */
     public function check()
     {
-        if (version_compare(phpversion(), '7.0.0', '>=')) {
+        if (version_compare(PHP_VERSION, '7.0.0', '>=')) {
             return new common_configuration_Report(common_configuration_Report::VALID, 'opcache.load_comments is not a configurable option any more for php > 7', $this);
         }
 

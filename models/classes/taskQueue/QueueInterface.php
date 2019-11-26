@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,14 +18,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\model\taskQueue;
 
 use oat\oatbox\PhpSerializable;
 use oat\tao\model\taskQueue\Queue\Broker\QueueBrokerInterface;
-use oat\tao\model\taskQueue\Task\TaskInterface;
 use Psr\Log\LoggerAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
@@ -47,10 +48,8 @@ interface QueueInterface extends QueuerInterface, LoggerAwareInterface, PhpSeria
 
     /**
      * Initialize queue.
-     *
-     * @return void
      */
-    public function initialize();
+    public function initialize(): void;
 
     /**
      * Returns queue name.

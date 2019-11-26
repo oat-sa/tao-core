@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,12 +24,17 @@ namespace oat\tao\helpers;
 
 class ArrayValidator
 {
-    const STR = 'string';
-    const INT = 'integer';
-    const FLOAT = 'float';
-    const BOOL = 'boolean';
-    const ARR = 'array';
-    const OBJ = 'object';
+    public const STR = 'string';
+
+    public const INT = 'integer';
+
+    public const FLOAT = 'float';
+
+    public const BOOL = 'boolean';
+
+    public const ARR = 'array';
+
+    public const OBJ = 'object';
 
     private static $typeCheckFunctions = [
         self::STR => 'is_string',
@@ -34,7 +42,7 @@ class ArrayValidator
         self::FLOAT => 'is_float',
         self::BOOL => 'is_bool',
         self::ARR => 'is_array',
-        self::OBJ => 'is_object'
+        self::OBJ => 'is_object',
     ];
 
     /**
@@ -151,7 +159,7 @@ class ArrayValidator
             $this->validateKey($data, $key, $rule);
         }
 
-        if (!$this->allowExtraKeys) {
+        if (! $this->allowExtraKeys) {
             $this->extraKeys = array_diff(array_keys($data), array_keys($this->rules));
         }
 
@@ -198,20 +206,21 @@ class ArrayValidator
     {
         $errors = [];
         if (count($this->missedKeys) > 0) {
-            $errors[] = 'missed keys: ' . implode(', ' , $this->missedKeys);
+            $errors[] = 'missed keys: ' . implode(', ', $this->missedKeys);
         }
         foreach ($this->typeMismatchKeys as $key => $msg) {
             $errors[] = $key . ' ' . $msg;
         }
         if (count($this->extraKeys) > 0) {
-            $errors[] = 'unexpected keys: ' . implode(', ' , $this->extraKeys);
+            $errors[] = 'unexpected keys: ' . implode(', ', $this->extraKeys);
         }
         return count($errors) > 0
             ? implode('; ', $errors)
             : null;
     }
 
-    private function cleanResults() {
+    private function cleanResults(): void
+    {
         $this->missedKeys = $this->typeMismatchKeys = $this->extraKeys = [];
     }
 
@@ -220,17 +229,16 @@ class ArrayValidator
      * @param string|int $key
      * @param array $rule
      */
-    private function validateKey($data, $key, $rule)
+    private function validateKey($data, $key, $rule): void
     {
-        if (!$this->validateKeyExistence($data, $key, $rule) ||
-            !$this->validateIfKeyTypeCanBeChecked($data, $key, $rule))
-        {
+        if (! $this->validateKeyExistence($data, $key, $rule) ||
+            ! $this->validateIfKeyTypeCanBeChecked($data, $key, $rule)) {
             return;
         }
 
         $type = $rule['type'];
-        if (!$this->isType($data[$key], $type)) {
-            $this->typeMismatchKeys[$key] = "is not $type";
+        if (! $this->isType($data[$key], $type)) {
+            $this->typeMismatchKeys[$key] = "is not ${type}";
         }
     }
 
@@ -242,7 +250,7 @@ class ArrayValidator
      */
     private function validateKeyExistence($data, $key, $rule)
     {
-        if (!array_key_exists($key, $data)) {
+        if (! array_key_exists($key, $data)) {
             if ($rule['req']) {
                 $this->missedKeys[] = $key;
             }
@@ -264,7 +272,7 @@ class ArrayValidator
         }
 
         if ($data[$key] === null) {
-            if (!$rule['nullable']) {
+            if (! $rule['nullable']) {
                 $this->typeMismatchKeys[$key] = 'is null';
             }
             return false;
@@ -295,7 +303,7 @@ class ArrayValidator
      */
     private function isType($value, $type)
     {
-        if (!isset(self::$typeCheckFunctions[$type])) {
+        if (! isset(self::$typeCheckFunctions[$type])) {
             throw new \InvalidArgumentException('Unsupported type: ' . $type);
         }
         $func = self::$typeCheckFunctions[$type];

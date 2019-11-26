@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\model\theme;
@@ -52,23 +54,25 @@ use oat\tao\helpers\Template;
 class ConfigurableTheme extends Configurable implements Theme
 {
     /** Theme id offset in the options. */
-    const THEME_ID    = 'id';
+    public const THEME_ID = 'id';
 
     /** Theme label offset in the options. */
-    const THEME_LABEL = 'label';
+    public const THEME_LABEL = 'label';
 
     /** Theme data offset in the options. */
-    const THEME_DATA  = 'data';
+    public const THEME_DATA = 'data';
 
     /** Theme css offset in the options. */
-    const THEME_CSS   = 'stylesheet';
+    public const THEME_CSS = 'stylesheet';
 
     /** Theme data logo url offset in the options under the data offset. */
-    const THEME_DATA_LOGO_URL = 'logo-url';
+    public const THEME_DATA_LOGO_URL = 'logo-url';
+
     /** Theme data logo link offset in the options under the data offset. */
-    const THEME_DATA_LINK     = 'link';
+    public const THEME_DATA_LINK = 'link';
+
     /** Theme data logo title offset in the options under the data offset. */
-    const THEME_DATA_MESSAGE  = 'message';
+    public const THEME_DATA_MESSAGE = 'message';
 
     /**
      * Defined custom texts
@@ -77,23 +81,12 @@ class ConfigurableTheme extends Configurable implements Theme
     private $allTexts;
 
     /**
-     * Define all custom text
-     * return [
-     *  'myCustomTextId' => __('My custom text translation');
-     * ];
-     * @return array
-     */
-    protected function initializeTexts()
-    {
-        return [];
-    }
-
-    /**
      * Allow to set a custom translatable string for a given key
-     * @param String $key
+     * @param string $key
      * @return string
      */
-    public function getText($key) {
+    public function getText($key)
+    {
         if (empty($this->allTexts)) {
             $this->allTexts = $this->initializeTexts();
         }
@@ -104,13 +97,14 @@ class ConfigurableTheme extends Configurable implements Theme
 
     /**
      * Retrieve all custom strings for the given keys
-     * @param String[] $allKeys
+     * @param string[] $allKeys
      * @return array
      */
-    public function getTextFromArray($allKeys) {
+    public function getTextFromArray($allKeys)
+    {
         $allValues = [];
         if (is_array($allKeys) && ! empty($allKeys)) {
-            forEach ($allKeys as $key) {
+            foreach ($allKeys as $key) {
                 $allValues[$key] = $this->getText($key);
             }
         }
@@ -121,7 +115,8 @@ class ConfigurableTheme extends Configurable implements Theme
      * Retrieve all existing strings
      * @return array
      */
-    public function getAllTexts() {
+    public function getAllTexts()
+    {
         if (empty($this->allTexts)) {
             $this->allTexts = $this->initializeTexts();
         }
@@ -138,17 +133,17 @@ class ConfigurableTheme extends Configurable implements Theme
     public function getTemplate($id, $context = Theme::CONTEXT_BACKOFFICE)
     {
         switch ($id) {
-            case 'header-logo' :
+            case 'header-logo':
                 $template = Template::getTemplate('blocks/header-logo.tpl', 'tao');
                 break;
-            case 'footer' :
+            case 'footer':
                 $template = Template::getTemplate('blocks/footer.tpl', 'tao');
                 break;
-            case 'login-message' :
+            case 'login-message':
                 $template = Template::getTemplate('blocks/login-message.tpl', 'tao');
                 break;
             default:
-                \common_Logger::w('Unknown template '.$id);
+                \common_Logger::w('Unknown template ' . $id);
                 $template = null;
         }
         return $template;
@@ -165,7 +160,7 @@ class ConfigurableTheme extends Configurable implements Theme
         if ($this->hasOption(static::THEME_DATA) && is_array($this->getOption(static::THEME_DATA))) {
             return $this->getOption(static::THEME_DATA);
         }
-        
+
         return [];
     }
 
@@ -180,7 +175,7 @@ class ConfigurableTheme extends Configurable implements Theme
         if ($this->hasOption(static::THEME_CSS)) {
             return $this->getOption(static::THEME_CSS);
         }
-        
+
         return Template::css('tao-3.css', 'tao');
     }
 
@@ -195,8 +190,8 @@ class ConfigurableTheme extends Configurable implements Theme
         $data = $this->getThemeData();
         if (isset($data[static::THEME_DATA_LOGO_URL])) {
             return $data[static::THEME_DATA_LOGO_URL];
-        } 
-        
+        }
+
         return Template::img('tao-logo.png', 'tao');
     }
 
@@ -213,7 +208,7 @@ class ConfigurableTheme extends Configurable implements Theme
         if (isset($data[static::THEME_DATA_LINK])) {
             return $data[static::THEME_DATA_LINK];
         }
-        
+
         return 'http://taotesting.com';
     }
 
@@ -230,7 +225,7 @@ class ConfigurableTheme extends Configurable implements Theme
         if (isset($data[static::THEME_DATA_MESSAGE])) {
             return $data[static::THEME_DATA_MESSAGE];
         }
-        
+
         return '';
     }
 
@@ -262,5 +257,17 @@ class ConfigurableTheme extends Configurable implements Theme
         }
 
         return '';
+    }
+
+    /**
+     * Define all custom text
+     * return [
+     *  'myCustomTextId' => __('My custom text translation');
+     * ];
+     * @return array
+     */
+    protected function initializeTexts()
+    {
+        return [];
     }
 }

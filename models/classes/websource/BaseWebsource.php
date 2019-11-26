@@ -1,6 +1,8 @@
 <?php
+
+declare(strict_types=1);
+
 /**
- *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -38,45 +40,31 @@ use Psr\Http\Message\StreamInterface;
  */
 abstract class BaseWebsource extends Configurable implements Websource
 {
-    const OPTION_ID = 'id';
-    const OPTION_FILESYSTEM_ID = 'fsUri';
+    public const OPTION_ID = 'id';
 
-	/**
-	 * Filesystem that is being made available
-	 */
-	protected $fileSystem = null;
-
-	/**
-	 * Identifier of the Access Provider
-	 *
-	 * @var string
-	 */
-	private $id;
+    public const OPTION_FILESYSTEM_ID = 'fsUri';
 
     /**
-     * Used to instantiate new AccessProviders
-     * @param $fileSystemId
-     * @param array $customConfig
-     * @return BaseWebsource
-     * @throws \common_Exception
+     * Filesystem that is being made available
      */
-    protected static function spawn($fileSystemId, $customConfig = array()) {
-	    $customConfig[self::OPTION_FILESYSTEM_ID] = $fileSystemId;
-	    $customConfig[self::OPTION_ID] = uniqid();
-	    $webSource = new static($customConfig);
-	    WebsourceManager::singleton()->addWebsource($webSource);
+    protected $fileSystem = null;
 
-	    return $webSource;
-	}
+    /**
+     * Identifier of the Access Provider
+     *
+     * @var string
+     */
+    private $id;
 
-	/**
-	 * Return the identifer of the AccessProvider
-	 *
-	 * @return string
-	 */
-	public function getId() {
-	    return $this->getOption(self::OPTION_ID);
-	}
+    /**
+     * Return the identifer of the AccessProvider
+     *
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->getOption(self::OPTION_ID);
+    }
 
     /**
      * @return null|\oat\oatbox\filesystem\FileSystem
@@ -103,15 +91,15 @@ abstract class BaseWebsource extends Configurable implements Websource
     public function getFileStream($filePath)
     {
         if ($filePath === '') {
-            throw new \tao_models_classes_FileNotFoundException("Empty file path");
+            throw new \tao_models_classes_FileNotFoundException('Empty file path');
         }
         $fs = $this->getFileSystem();
         try {
             $resource = $fs->readStream($filePath);
-        } catch(FileNotFoundException $e) {
+        } catch (FileNotFoundException $e) {
             throw new \tao_models_classes_FileNotFoundException($filePath);
         }
-        return new Stream($resource, array('size' => $fs->getSize($filePath)));
+        return new Stream($resource, ['size' => $fs->getSize($filePath)]);
     }
 
     /**
@@ -152,5 +140,22 @@ abstract class BaseWebsource extends Configurable implements Websource
         }
 
         return $mimeType;
+    }
+
+    /**
+     * Used to instantiate new AccessProviders
+     * @param $fileSystemId
+     * @param array $customConfig
+     * @return BaseWebsource
+     * @throws \common_Exception
+     */
+    protected static function spawn($fileSystemId, $customConfig = [])
+    {
+        $customConfig[self::OPTION_FILESYSTEM_ID] = $fileSystemId;
+        $customConfig[self::OPTION_ID] = uniqid();
+        $webSource = new static($customConfig);
+        WebsourceManager::singleton()->addWebsource($webSource);
+
+        return $webSource;
     }
 }

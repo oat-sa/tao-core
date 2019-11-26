@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -31,7 +34,7 @@ class WebhookTaskService extends ConfigurableService implements WebhookTaskServi
      * link webhook tasks to specific queue which is already registered in queue dispatcher
      * @param string $queueName
      */
-    public function linkTaskToQueue($queueName)
+    public function linkTaskToQueue($queueName): void
     {
         $this->getQueueDispatcher()->linkTaskToQueue(WebhookTask::class, $queueName);
     }
@@ -40,7 +43,7 @@ class WebhookTaskService extends ConfigurableService implements WebhookTaskServi
      * Create and enqueue task for performing webhook
      * @param WebhookTaskParams $webhookTaskParams
      */
-    public function createTask(WebhookTaskParams $webhookTaskParams)
+    public function createTask(WebhookTaskParams $webhookTaskParams): void
     {
         $task = new WebhookTask();
         $this->propagate($task);

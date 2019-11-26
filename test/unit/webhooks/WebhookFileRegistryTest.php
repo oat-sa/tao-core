@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,12 +22,12 @@
 
 namespace oat\tao\test\unit\webhooks;
 
+use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
 use oat\tao\model\webhooks\configEntity\Webhook;
 use oat\tao\model\webhooks\configEntity\WebhookAuth;
 use oat\tao\model\webhooks\configEntity\WebhookEntryFactory;
 use oat\tao\model\webhooks\WebhookFileRegistry;
-use oat\generis\test\MockObject;
 
 class WebhookFileRegistryTest extends TestCase
 {
@@ -34,16 +37,16 @@ class WebhookFileRegistryTest extends TestCase
     /** @var WebhookEntryFactory|MockObject */
     private $webhookEntryFactoryMock;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->webhookEntryFactoryMock = $this->createMock(WebhookEntryFactory::class);
     }
 
-    public function testGetWebhookConfig()
+    public function testGetWebhookConfig(): void
     {
         $this->registry = new WebhookFileRegistry([
             WebhookFileRegistry::OPTION_EVENTS => [
-                'TestEvent' => ['wh1']
+                'TestEvent' => ['wh1'],
             ],
             WebhookFileRegistry::OPTION_WEBHOOKS => [
                 'wh1' => [
@@ -53,21 +56,21 @@ class WebhookFileRegistryTest extends TestCase
                     'auth' => [
                         'authClass' => 'SomeClass',
                         'properties' => [
-                            'p1' => 'v1'
-                        ]
-                    ]
-                ]
-            ]
+                            'p1' => 'v1',
+                        ],
+                    ],
+                ],
+            ],
         ]);
 
         $serviceLocator = $this->getServiceLocatorMock([
-            WebhookEntryFactory::class => $this->webhookEntryFactoryMock
+            WebhookEntryFactory::class => $this->webhookEntryFactoryMock,
         ]);
 
         $this->registry->setServiceLocator($serviceLocator);
 
         $returnValue = new Webhook('wh1', 'http://url.com', 'POST', new WebhookAuth('SomeClass', [
-            'p1' => 'v1'
+            'p1' => 'v1',
         ]));
 
         $this->webhookEntryFactoryMock->expects($this->once())
@@ -79,9 +82,9 @@ class WebhookFileRegistryTest extends TestCase
                 'auth' => [
                     'authClass' => 'SomeClass',
                     'properties' => [
-                        'p1' => 'v1'
-                    ]
-                ]
+                        'p1' => 'v1',
+                    ],
+                ],
             ])
             ->willReturn($returnValue);
 
@@ -91,28 +94,30 @@ class WebhookFileRegistryTest extends TestCase
         $this->assertNull($this->registry->getWebhookConfig('wh2'));
     }
 
-    public function testGetWebhookConfigIds() {
+    public function testGetWebhookConfigIds(): void
+    {
         $this->registry = new WebhookFileRegistry([
             WebhookFileRegistry::OPTION_EVENTS => [
-                'TestEvent' => ['wh1']
+                'TestEvent' => ['wh1'],
             ],
-            WebhookFileRegistry::OPTION_WEBHOOKS => ['wh1' => []]
+            WebhookFileRegistry::OPTION_WEBHOOKS => ['wh1' => []],
         ]);
 
         $result = $this->registry->getWebhookConfigIds('TestEvent');
-        $this->assertEquals(['wh1'], $result);
-        $this->assertEquals([], $this->registry->getWebhookConfigIds('AnotherEvent'));
+        $this->assertSame(['wh1'], $result);
+        $this->assertSame([], $this->registry->getWebhookConfigIds('AnotherEvent'));
     }
 
-    public function testGetUnexistingWebhookConfigIds() {
+    public function testGetUnexistingWebhookConfigIds(): void
+    {
         $this->registry = new WebhookFileRegistry([
             WebhookFileRegistry::OPTION_EVENTS => [
-                'TestEvent' => ['wh1']
+                'TestEvent' => ['wh1'],
             ],
-            WebhookFileRegistry::OPTION_WEBHOOKS => ['wh1' => []]
+            WebhookFileRegistry::OPTION_WEBHOOKS => ['wh1' => []],
         ]);
 
         $result = $this->registry->getWebhookConfigIds('AnotherEvent');
-        $this->assertEquals([], $result);
+        $this->assertSame([], $result);
     }
 }

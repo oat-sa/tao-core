@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,6 +28,7 @@ use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
+use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
 use oat\oatbox\log\LoggerService;
 use oat\tao\model\taskQueue\Task\TaskInterface;
@@ -44,7 +48,6 @@ use oat\tao\model\webhooks\task\WebhookTaskParamsFactory;
 use oat\tao\model\webhooks\task\WebhookTaskReports;
 use oat\tao\model\webhooks\WebhookRegistryInterface;
 use oat\tao\model\webhooks\WebhookTaskServiceInterface;
-use oat\generis\test\MockObject;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
@@ -123,7 +126,7 @@ class WebhookTaskTest extends TestCase
      */
     private $webhookTaskReports;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->webhookRegistryMock = $this->createMock(WebhookRegistryInterface::class);
         $this->webhookPayloadFactoryInterfaceMock = $this->createMock(WebhookPayloadFactoryInterface::class);
@@ -148,7 +151,7 @@ class WebhookTaskTest extends TestCase
         ]);
     }
 
-    public function testInvokeRetryMechanismIncorectResponseCode()
+    public function testInvokeRetryMechanismIncorectResponseCode(): void
     {
         $this->webhookTaskParamsMock = $this->createMock(WebhookTaskParams::class);
         $this->webhookTaskParamsMock->method('getWebhookConfigId')->willReturn('WebhookConfigId');
@@ -178,7 +181,7 @@ class WebhookTaskTest extends TestCase
             ->method('reportInvalidStatusCode')
             ->with(
                 $this->callback(function (WebhookTaskContext $context) {
-                    return 'someId' === $context->getTaskId() &&
+                    return $context->getTaskId() === 'someId' &&
                         $this->webhookTaskParamsMock === $context->getWebhookTaskParams() &&
                         $this->webhookConfigMock === $context->getWebhookConfig();
                 }),
@@ -195,7 +198,7 @@ class WebhookTaskTest extends TestCase
         $this->assertSame($report, $result);
     }
 
-    public function testInvokeRetryMechanismConnectionException()
+    public function testInvokeRetryMechanismConnectionException(): void
     {
         $this->webhookTaskParamsMock = $this->createMock(WebhookTaskParams::class);
         $this->webhookTaskParamsMock->method('getWebhookConfigId')->willReturn('WebhookConfigId');
@@ -224,7 +227,7 @@ class WebhookTaskTest extends TestCase
             ->method('reportConnectException')
             ->with(
                 $this->callback(function (WebhookTaskContext $context) {
-                    return 'someId' === $context->getTaskId() &&
+                    return $context->getTaskId() === 'someId' &&
                         $this->webhookTaskParamsMock === $context->getWebhookTaskParams() &&
                         $this->webhookConfigMock === $context->getWebhookConfig();
                 }),
@@ -244,13 +247,13 @@ class WebhookTaskTest extends TestCase
     /**
      * @throws GuzzleException
      */
-    public function testInvokeValid()
+    public function testInvokeValid(): void
     {
         $whConfig = new Webhook('wh1', 'http://myurl', 'HMETHOD', 0, new WebhookAuth('authClass', []));
         $webhookRegistry = $this->createWebhookRegistryMock(
             ['Test\Event' => ['wh1']],
             [
-                'wh1' => $whConfig
+                'wh1' => $whConfig,
             ]
         );
 
@@ -261,7 +264,7 @@ class WebhookTaskTest extends TestCase
             WebhookTaskParams::EVENT_ID => 'eventId',
             WebhookTaskParams::TRIGGERED_TIMESTAMP => 1234565,
             WebhookTaskParams::EVENT_DATA => ['d' => 4],
-            WebhookTaskParams::WEBHOOK_CONFIG_ID => 'wh1'
+            WebhookTaskParams::WEBHOOK_CONFIG_ID => 'wh1',
         ]);
         $taskParamsFactory = $this->createWebhookTaskParamsFactoryMock($taskParams);
 
@@ -280,7 +283,7 @@ class WebhookTaskTest extends TestCase
             WebhookTaskParamsFactory::class => $taskParamsFactory,
             WebhookResponseFactoryInterface::SERVICE_ID => $webhookResponseFactory,
             WebhookSender::class => $webhookSender,
-            WebhookTaskReports::class => $this->webhookTaskReports
+            WebhookTaskReports::class => $this->webhookTaskReports,
         ]));
         $task->setTask($queueTask);
 
@@ -289,7 +292,7 @@ class WebhookTaskTest extends TestCase
         $payloadFactory->method('createPayload')->with('eventName', 'eventId', 1234565, ['d' => 4]);
         $webhookSender->method('performRequest')->with(
             $this->callback(static function (RequestInterface $request) {
-                return (string)$request->getBody() === 'pay-load' &&
+                return (string) $request->getBody() === 'pay-load' &&
                     $request->getHeader('Content-Type')[0] === 'payloadCT' &&
                     $request->getHeader('Accept')[0] === 'accCT';
             }),
@@ -302,7 +305,7 @@ class WebhookTaskTest extends TestCase
             ->method('reportSuccess')
             ->with(
                 $this->callback(function (WebhookTaskContext $context) use ($taskParams, $whConfig) {
-                    return 'queueTaskId' === $context->getTaskId() &&
+                    return $context->getTaskId() === 'queueTaskId' &&
                         $taskParams === $context->getWebhookTaskParams() &&
                         $whConfig === $context->getWebhookConfig();
                 }),
@@ -319,7 +322,7 @@ class WebhookTaskTest extends TestCase
     /**
      * @throws GuzzleException
      */
-    public function testInvokeInvalidWebhookConfigId()
+    public function testInvokeInvalidWebhookConfigId(): void
     {
         $webhookRegistry = $this->createWebhookRegistryMock(
             ['Test\Event' => ['wh1']],
@@ -331,7 +334,7 @@ class WebhookTaskTest extends TestCase
             WebhookTaskParams::EVENT_ID => 'eventId',
             WebhookTaskParams::TRIGGERED_TIMESTAMP => 1234565,
             WebhookTaskParams::EVENT_DATA => ['d' => 4],
-            WebhookTaskParams::WEBHOOK_CONFIG_ID => 'wh1'
+            WebhookTaskParams::WEBHOOK_CONFIG_ID => 'wh1',
         ]);
         $taskParamsFactory = $this->createWebhookTaskParamsFactoryMock($taskParams);
 
@@ -343,7 +346,7 @@ class WebhookTaskTest extends TestCase
             WebhookRegistryInterface::SERVICE_ID => $webhookRegistry,
             WebhookTaskParamsFactory::class => $taskParamsFactory,
             WebhookEventLogInterface::SERVICE_ID => $this->webhookLogServiceMock,
-            WebhookTaskReports::class => $this->webhookTaskReports
+            WebhookTaskReports::class => $this->webhookTaskReports,
         ]));
         $task->setTask($queueTask);
 
@@ -353,9 +356,9 @@ class WebhookTaskTest extends TestCase
             ->method('reportInternalException')
             ->with(
                 $this->callback(function (WebhookTaskContext $context) use ($taskParams) {
-                    return 'queueTaskId' === $context->getTaskId() &&
+                    return $context->getTaskId() === 'queueTaskId' &&
                         $taskParams === $context->getWebhookTaskParams() &&
-                        null === $context->getWebhookConfig();
+                        $context->getWebhookConfig() === null;
                 }),
                 $this->callback(function (\Exception $exception) {
                     return $exception instanceof \common_exception_NotFound;
@@ -371,13 +374,13 @@ class WebhookTaskTest extends TestCase
     /**
      * @throws GuzzleException
      */
-    public function testEventNotDelivered()
+    public function testEventNotDelivered(): void
     {
         $whConfig = new Webhook('wh1', 'http://myurl', 'HMETHOD', 0, new WebhookAuth('authClass', []));
         $webhookRegistry = $this->createWebhookRegistryMock(
             ['Test\Event' => ['wh1']],
             [
-                'wh1' => $whConfig
+                'wh1' => $whConfig,
             ]
         );
 
@@ -388,7 +391,7 @@ class WebhookTaskTest extends TestCase
             WebhookTaskParams::EVENT_ID => 'eventId',
             WebhookTaskParams::TRIGGERED_TIMESTAMP => 1234565,
             WebhookTaskParams::EVENT_DATA => ['d' => 4],
-            WebhookTaskParams::WEBHOOK_CONFIG_ID => 'wh1'
+            WebhookTaskParams::WEBHOOK_CONFIG_ID => 'wh1',
         ]);
         $taskParamsFactory = $this->createWebhookTaskParamsFactoryMock($taskParams);
 
@@ -407,7 +410,7 @@ class WebhookTaskTest extends TestCase
             WebhookTaskParamsFactory::class => $taskParamsFactory,
             WebhookResponseFactoryInterface::SERVICE_ID => $webhookResponseFactory,
             WebhookSender::class => $webhookSender,
-            WebhookTaskReports::class => $this->webhookTaskReports
+            WebhookTaskReports::class => $this->webhookTaskReports,
         ]));
         $task->setTask($queueTask);
         $report = \common_report_Report::createFailure('failure_text');
@@ -415,7 +418,7 @@ class WebhookTaskTest extends TestCase
             ->method('reportInvalidAcknowledgement')
             ->with(
                 $this->callback(function (WebhookTaskContext $context) use ($whConfig, $taskParams) {
-                    return 'queueTaskId' === $context->getTaskId() &&
+                    return $context->getTaskId() === 'queueTaskId' &&
                         $taskParams === $context->getWebhookTaskParams() &&
                         $whConfig === $context->getWebhookConfig();
                 }),
@@ -432,13 +435,13 @@ class WebhookTaskTest extends TestCase
     /**
      * @throws GuzzleException
      */
-    public function testWrongResponse()
+    public function testWrongResponse(): void
     {
         $whConfig = new Webhook('wh1', 'http://myurl', 'HMETHOD', new WebhookAuth('authClass', []));
         $webhookRegistry = $this->createWebhookRegistryMock(
             ['Test\Event' => ['wh1']],
             [
-                'wh1' => $whConfig
+                'wh1' => $whConfig,
             ]
         );
 
@@ -449,7 +452,7 @@ class WebhookTaskTest extends TestCase
             WebhookTaskParams::EVENT_ID => 'eventId',
             WebhookTaskParams::TRIGGERED_TIMESTAMP => 1234565,
             WebhookTaskParams::EVENT_DATA => ['d' => 4],
-            WebhookTaskParams::WEBHOOK_CONFIG_ID => 'wh1'
+            WebhookTaskParams::WEBHOOK_CONFIG_ID => 'wh1',
         ]);
         $taskParamsFactory = $this->createWebhookTaskParamsFactoryMock($taskParams);
 
@@ -468,7 +471,7 @@ class WebhookTaskTest extends TestCase
             WebhookTaskParamsFactory::class => $taskParamsFactory,
             WebhookResponseFactoryInterface::SERVICE_ID => $webhookResponseFactory,
             WebhookSender::class => $webhookSender,
-            WebhookTaskReports::class => $this->webhookTaskReports
+            WebhookTaskReports::class => $this->webhookTaskReports,
         ]));
         $task->setTask($queueTask);
 
@@ -477,7 +480,7 @@ class WebhookTaskTest extends TestCase
             ->method('reportInvalidBodyFormat')
             ->with(
                 $this->callback(function (WebhookTaskContext $context) use ($whConfig, $taskParams) {
-                    return 'queueTaskId' === $context->getTaskId() &&
+                    return $context->getTaskId() === 'queueTaskId' &&
                         $taskParams === $context->getWebhookTaskParams() &&
                         $whConfig === $context->getWebhookConfig();
                 }),
@@ -493,14 +496,14 @@ class WebhookTaskTest extends TestCase
     /**
      * @throws GuzzleException
      */
-    public function testHttpError()
+    public function testHttpError(): void
     {
         $this->webhookTaskParamsMock = $this->createMock(WebhookTaskParams::class);
         $whConfig = new Webhook('wh1', 'http://myurl', 'HMETHOD', 1, new WebhookAuth('authClass', []));
         $webhookRegistry = $this->createWebhookRegistryMock(
             ['Test\Event' => ['wh1']],
             [
-                'wh1' => $whConfig
+                'wh1' => $whConfig,
             ]
         );
 
@@ -537,7 +540,7 @@ class WebhookTaskTest extends TestCase
             WebhookTaskServiceInterface::SERVICE_ID => $this->webhookTaskServiceMock,
             WebhookResponseFactoryInterface::SERVICE_ID => $webhookResponseFactory,
             WebhookSender::class => $webhookSender,
-            WebhookTaskReports::class => $this->webhookTaskReports
+            WebhookTaskReports::class => $this->webhookTaskReports,
         ]));
         $task->setTask($queueTask);
         $this->webhookTaskServiceMock->expects($this->once())->method('createTask');
@@ -547,7 +550,7 @@ class WebhookTaskTest extends TestCase
             ->method('reportBadResponseException')
             ->with(
                 $this->callback(function (WebhookTaskContext $context) use ($whConfig, $taskParams) {
-                    return 'queueTaskId' === $context->getTaskId() &&
+                    return $context->getTaskId() === 'queueTaskId' &&
                         $taskParams === $context->getWebhookTaskParams() &&
                         $whConfig === $context->getWebhookConfig();
                 }),
@@ -563,14 +566,14 @@ class WebhookTaskTest extends TestCase
     /**
      * @throws GuzzleException
      */
-    public function testRequestExceptionHasResponse()
+    public function testRequestExceptionHasResponse(): void
     {
         $this->webhookTaskParamsMock = $this->createMock(WebhookTaskParams::class);
         $whConfig = new Webhook('wh1', 'http://myurl', 'HMETHOD', 1, new WebhookAuth('authClass', []));
         $webhookRegistry = $this->createWebhookRegistryMock(
             ['Test\Event' => ['wh1']],
             [
-                'wh1' => $whConfig
+                'wh1' => $whConfig,
             ]
         );
 
@@ -607,7 +610,7 @@ class WebhookTaskTest extends TestCase
             WebhookTaskServiceInterface::SERVICE_ID => $this->webhookTaskServiceMock,
             WebhookResponseFactoryInterface::SERVICE_ID => $webhookResponseFactory,
             WebhookSender::class => $webhookSender,
-            WebhookTaskReports::class => $this->webhookTaskReports
+            WebhookTaskReports::class => $this->webhookTaskReports,
         ]));
         $task->setTask($queueTask);
 
@@ -616,7 +619,7 @@ class WebhookTaskTest extends TestCase
             ->method('reportRequestException')
             ->with(
                 $this->callback(function (WebhookTaskContext $context) use ($whConfig, $taskParams) {
-                    return 'queueTaskId' === $context->getTaskId() &&
+                    return $context->getTaskId() === 'queueTaskId' &&
                         $taskParams === $context->getWebhookTaskParams() &&
                         $whConfig === $context->getWebhookConfig();
                 }),
@@ -640,17 +643,17 @@ class WebhookTaskTest extends TestCase
 
         $registry->method('getWebhookConfigIds')->willReturnCallback(
             static function ($eventName) use ($events) {
-                return isset($events[$eventName])
-                    ? $events[$eventName]
-                    : [];
-            });
+                return $events[$eventName]
+                    ?? [];
+            }
+        );
 
         $registry->method('getWebhookConfig')->willReturnCallback(
             static function ($id) use ($whConfigs) {
-                return isset($whConfigs[$id])
-                    ? $whConfigs[$id]
-                    : null;
-            });
+                return $whConfigs[$id]
+                    ?? null;
+            }
+        );
 
         return $registry;
     }
@@ -700,12 +703,11 @@ class WebhookTaskTest extends TestCase
     private function createWebhookSenderMock(
         ResponseInterface $response = null,
         \Exception $exception = null
-    )
-    {
+    ) {
         $sender = $this->createMock(WebhookSender::class);
         if ($response) {
             $sender->method('performRequest')->willReturn($response);
-        } else if ($exception) {
+        } elseif ($exception) {
             $sender->method('performRequest')->willThrowException($exception);
         }
 

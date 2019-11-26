@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,11 +24,15 @@ namespace oat\tao\model\webhooks\configEntity;
 
 class Webhook implements WebhookInterface
 {
-    const ID = 'id';
-    const URL = 'url';
-    const HTTP_METHOD = 'httpMethod';
-    const AUTH = 'auth';
-    const RETRY_MAX = 'retryMax';
+    public const ID = 'id';
+
+    public const URL = 'url';
+
+    public const HTTP_METHOD = 'httpMethod';
+
+    public const AUTH = 'auth';
+
+    public const RETRY_MAX = 'retryMax';
 
     /**
      * @var string
@@ -111,7 +118,7 @@ class Webhook implements WebhookInterface
             self::HTTP_METHOD => $this->getHttpMethod(),
             self::AUTH => $this->getAuth() !== null
                 ? $this->getAuth()->toArray()
-                : null
+                : null,
         ];
     }
 
