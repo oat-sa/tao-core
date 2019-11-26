@@ -40,7 +40,7 @@ class UnionSearchServiceTest extends TestCase
 
     public function setUp()
     {
-        $this->defaultSearchService = $this->getMock(Search::class);
+        $this->defaultSearchService = $this->createMock(Search::class);
         $this->defaultSearchService->method('query')->willReturn(new ResultSet(['123'], 1));
 
         $this->serviceLocatorMock = $this->getServiceLocatorMock([
@@ -65,10 +65,10 @@ class UnionSearchServiceTest extends TestCase
 
     public function testItPollsAllServicesPassed()
     {
-        $searchService2 = $this->getMock(Search::class);
+        $searchService2 = $this->createMock(Search::class);
         $searchService2->method('query')->willReturn(new ResultSet(['456'], 1));
 
-        $searchService3 = $this->getMock(Search::class);
+        $searchService3 = $this->createMock(Search::class);
         $searchService3->method('query')->willReturn(new ResultSet(['789'], 1));
 
         $this->service->setOption(UnionSearchService::OPTION_SERVICES, [$searchService2, $searchService3]);
@@ -84,10 +84,10 @@ class UnionSearchServiceTest extends TestCase
 
     public function testItExcludeDuplicates()
     {
-        $searchService2 = $this->getMock(Search::class);
+        $searchService2 = $this->createMock(Search::class);
         $searchService2->method('query')->willReturn(new ResultSet(['456'], 1));
 
-        $searchService3 = $this->getMock(Search::class);
+        $searchService3 = $this->createMock(Search::class);
         $searchService3->method('query')->willReturn(new ResultSet(['456'], 1));
 
         $this->service->setOption(UnionSearchService::OPTION_SERVICES, [$searchService2, $searchService3]);
