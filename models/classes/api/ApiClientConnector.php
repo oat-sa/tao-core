@@ -21,7 +21,7 @@
 namespace oat\tao\model\api;
 
 use GuzzleHttp\Promise\PromiseInterface;
-use oat\oatbox\Configurable;
+use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\http\HttpClientFactory;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -29,8 +29,6 @@ use Psr\Http\Message\UriInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 /**
  * Class ApiClientConnector
@@ -38,11 +36,9 @@ use Zend\ServiceManager\ServiceLocatorAwareTrait;
  * Class to handle a http connection.
  *
  */
-class ApiClientConnector extends Configurable implements ClientInterface, ServiceLocatorAwareInterface
+class ApiClientConnector extends ConfigurableService implements ClientInterface
 {
-    use ServiceLocatorAwareTrait;
-    
-    const OPTION_BASE_URI = 'base_uri';
+    public const OPTION_BASE_URI = 'base_uri';
 
     /**
      * Send an HTTP request.
@@ -145,12 +141,11 @@ class ApiClientConnector extends Configurable implements ClientInterface, Servic
     protected function getClientOptions()
     {
         $options = $this->getOptions();
-        if (!isset($options['headers']) || !isset($options['headers']['Content-Type'])) {
-            $options['headers']['Content-Type'] = ['application/json'];
-        } else {
-            if (!in_array('application/json', $options['headers']['Content-Type'])) {
-                $options['headers']['Content-Type'][] = ['application/json'];
-            }
+        if (!isset($options['headers']['Content-Type'])) {
+            $options['headers']['Content-Type'] = [];
+        } 
+        if (!in_array('application/json', $options['headers']['Content-Type'])) {
+            $options['headers']['Content-Type'][] = ['application/json'];
         }
 
         return $options;
