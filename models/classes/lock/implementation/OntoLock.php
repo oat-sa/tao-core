@@ -63,7 +63,7 @@ class OntoLock extends ConfigurableService implements LockSystem
     {
         $values = $resource->getPropertyValues($this->getLockProperty());
 
-        if ((is_array($values)) && (count($values) > 0)) {
+        if (is_array($values) && (count($values) > 0)) {
             return true;
         }
         return false;
@@ -111,7 +111,7 @@ class OntoLock extends ConfigurableService implements LockSystem
     public function getLockData(core_kernel_classes_Resource $resource)
     {
         $values = $resource->getPropertyValues($this->getLockProperty());
-        if ((is_array($values)) && (count($values) === 1)) {
+        if (is_array($values) && (count($values) === 1)) {
             return OntoLockData::getLockData(array_pop($values));
         }
         return null;

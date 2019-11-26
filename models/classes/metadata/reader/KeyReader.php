@@ -84,7 +84,7 @@ class KeyReader implements Reader
             return $data[$key];
         }
 
-        throw new MetadataReaderNotFoundException(__CLASS__ . ' cannot found value associated to key "' . $this->key . '".');
+        throw new MetadataReaderNotFoundException(self::class . ' cannot found value associated to key "' . $this->key . '".');
     }
 
     /**

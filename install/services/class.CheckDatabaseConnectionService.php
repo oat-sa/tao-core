@@ -128,7 +128,7 @@ class tao_install_services_CheckDatabaseConnectionService extends tao_install_se
                 }
 
                 restore_error_handler();
-            } catch (Exception $e) {
+            } catch (\Throwable $e) {
                 $message = "Unable to connect to database '${database}' at '${host}' using driver '${driver}': " . $e->getMessage();
                 $status = 'invalid-noconnection';
 
@@ -140,12 +140,10 @@ class tao_install_services_CheckDatabaseConnectionService extends tao_install_se
             $message = "Database driver '${driver}' is not available.";
         }
 
-
         $value = ['status' => $status,
             'message' => $message,
             'optional' => $component->isOptional(),
             'name' => $component->getName(), ];
-
 
         $data = ['type' => 'DatabaseConnectionReport',
             'value' => $value, ];

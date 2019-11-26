@@ -73,7 +73,6 @@ class tao_helpers_form_xhtml_TagWrapper implements tao_helpers_form_Decorator
     {
         $returnValue = (string) '';
 
-
         if (! empty($this->tag)) {
             $returnValue .= "<{$this->tag}";
             if (isset($this->attributes['cssClass'])) {
@@ -101,11 +100,9 @@ class tao_helpers_form_xhtml_TagWrapper implements tao_helpers_form_Decorator
     {
         $returnValue = (string) '';
 
-
         if (! empty($this->tag)) {
             $returnValue .= "</{$this->tag}>";
         }
-
 
         return (string) $returnValue;
     }

@@ -38,7 +38,6 @@ class tao_helpers_form_validators_DateTime extends tao_helpers_form_Validator
     {
         $returnValue = (bool) false;
 
-
         $value = trim($values);
 
         try {
@@ -50,7 +49,7 @@ class tao_helpers_form_validators_DateTime extends tao_helpers_form_Validator
                 //try comparison:
                 try {
                     $dateTime2 = new DateTime($this->getOption('datetime2_ref')->getRawValue());
-                } catch (Exception $e) {
+                } catch (\Throwable $e) {
                 }
 
                 if ($dateTime2 instanceof DateTimeInterface) {
@@ -100,12 +99,10 @@ class tao_helpers_form_validators_DateTime extends tao_helpers_form_Validator
             } else {
                 $returnValue = true;
             }
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             $this->setMessage(__('The value of this field must be a valide date format, e.g. YYYY-MM-DD'));
             $returnValue = false;
         }
-
-
 
         return (bool) $returnValue;
     }

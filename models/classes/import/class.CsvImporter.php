@@ -203,14 +203,12 @@ class tao_models_classes_import_CsvImporter extends CsvAbstractImporter implemen
         $values = $sourceForm->getValues();
         $values[tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES] = ! empty($values[tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES]);
         $values['importFile'] = $serial;
-        $myFormContainer = new tao_models_classes_import_CSVMappingForm($values, [
+        return new tao_models_classes_import_CSVMappingForm($values, [
             'class_properties' => $properties,
             'ranged_properties' => $rangedProperties,
             'csv_column' => $this->getColumnMapping($csv_data, $sourceForm->getValue(tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES)),
             tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES => $sourceForm->getValue(tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES),
         ]);
-
-        return $myFormContainer;
     }
 
     /**

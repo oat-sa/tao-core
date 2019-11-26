@@ -36,7 +36,7 @@ class WebhookTaskReports extends ConfigurableService
      * @param \Exception $exception
      * @return \common_report_Report
      */
-    public function reportInternalException(WebhookTaskContext $taskContext, \Exception $exception)
+    public function reportInternalException(WebhookTaskContext $taskContext, \Throwable $exception)
     {
         $message = $this->getExceptionMessage($exception, true);
         $this->getWebhookEventLog()->storeInternalErrorLog($taskContext, $message);
@@ -181,8 +181,8 @@ class WebhookTaskReports extends ConfigurableService
     private function reportError(
         WebhookTaskContext $taskContext,
         $message,
-        ResponseInterface $response = null,
-        WebhookResponse $parsedResponse = null
+        ?ResponseInterface $response = null,
+        ?WebhookResponse $parsedResponse = null
     ) {
         $errors = [
             'message' => $message,
@@ -216,7 +216,7 @@ class WebhookTaskReports extends ConfigurableService
      * @param bool $includeSourceInfo Add information about file, line and exception type
      * @return string|null
      */
-    private function getExceptionMessage(\Exception $exception, $includeSourceInfo = false)
+    private function getExceptionMessage(\Throwable $exception, $includeSourceInfo = false)
     {
         $messages = [];
         if ($includeSourceInfo) {

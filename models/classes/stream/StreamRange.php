@@ -87,7 +87,7 @@ class StreamRange
      * @throws StreamRangeException
      * @return StreamRange[]
      */
-    public static function createFromRequest(StreamInterface $stream, ServerRequestInterface $request = null)
+    public static function createFromRequest(StreamInterface $stream, ?ServerRequestInterface $request = null)
     {
         $result = [];
         if ($request === null) {

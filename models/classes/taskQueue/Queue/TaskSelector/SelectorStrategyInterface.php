@@ -33,7 +33,7 @@ interface SelectorStrategyInterface extends PhpSerializable
 {
     /**
      * @param QueueInterface[] $queues
-     * @return null|TaskInterface
+     * @return TaskInterface|null
      */
     public function pickNextTask(array $queues);
 

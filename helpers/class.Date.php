@@ -79,7 +79,7 @@ class tao_helpers_Date
      * @return string The formatted date.
      * @throws common_Exception when timestamp is not recognized
      */
-    public static function displayeDate($timestamp, $format = self::FORMAT_LONG, DateTimeZone $timeZone = null)
+    public static function displayeDate($timestamp, $format = self::FORMAT_LONG, ?DateTimeZone $timeZone = null)
     {
         if (is_object($timestamp) && $timestamp instanceof core_kernel_classes_Literal) {
             $ts = $timestamp->__toString();
@@ -199,7 +199,7 @@ class tao_helpers_Date
      * @param null $amount
      * @return \DateTime[]
      */
-    public static function getTimeKeys(\DateInterval $interval, \DateTimeInterface $date = null, $amount = null)
+    public static function getTimeKeys(\DateInterval $interval, ?\DateTimeInterface $date = null, $amount = null)
     {
         $timeKeys = [];
         if ($date === null) {

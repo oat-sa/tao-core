@@ -85,7 +85,7 @@ class Queue implements QueueInterface, TaskLogAwareInterface
      */
     public function __toPhpCode()
     {
-        return 'new ' . get_called_class() . '('
+        return 'new ' . static::class . '('
             . \common_Utils::toHumanReadablePhpString($this->name)
             . ', '
             . \common_Utils::toHumanReadablePhpString($this->broker)
@@ -160,7 +160,7 @@ class Queue implements QueueInterface, TaskLogAwareInterface
             }
 
             return $isEnqueued;
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->logError('Enqueueing ' . $task . ' failed with MSG: ' . $e->getMessage());
         } finally {
             $lock->release();

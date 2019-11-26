@@ -35,7 +35,7 @@ interface QueuerInterface extends \Countable
      * Publish a task to a queue.
      *
      * @param TaskInterface $task
-     * @param null|string   $label Label for the task
+     * @param string|null $label Label for the task
      * @return bool Is the task successfully enqueued?
      */
     public function enqueue(TaskInterface $task, $label = null);
@@ -43,7 +43,7 @@ interface QueuerInterface extends \Countable
     /**
      * Receive a task from the queue.
      *
-     * @return null|TaskInterface
+     * @return TaskInterface|null
      */
     public function dequeue();
 

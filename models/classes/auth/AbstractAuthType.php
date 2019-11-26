@@ -49,7 +49,7 @@ abstract class AbstractAuthType implements PhpSerializable
      */
     public function __toPhpCode()
     {
-        return 'new ' . get_class($this) . '()';
+        return 'new ' . static::class . '()';
     }
 
     /**
@@ -90,7 +90,7 @@ abstract class AbstractAuthType implements PhpSerializable
      *
      * @param \core_kernel_classes_Resource $instance
      */
-    public function setInstance(\core_kernel_classes_Resource $instance = null)
+    public function setInstance(?\core_kernel_classes_Resource $instance = null)
     {
         $this->instance = $instance;
     }

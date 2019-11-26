@@ -56,7 +56,6 @@ class tao_helpers_form_validators_Integer extends tao_helpers_form_validators_Nu
             $this->setMessage(__('The value of this field must be an integer'));
         }
 
-
         return (bool) $returnValue;
     }
 }

@@ -43,7 +43,7 @@ class TaoMediaResolver
         if (isset($urlParts['scheme']) && $urlParts['scheme'] === MediaService::SCHEME_NAME && isset($urlParts['host'])) {
             $mediaService = new MediaService();
             $mediaSource = $mediaService->getMediaSource($urlParts['host']);
-            $mediaId = (isset($urlParts['path'])) ? trim($urlParts['path'], '/') : '';
+            $mediaId = isset($urlParts['path']) ? trim($urlParts['path'], '/') : '';
             return new MediaAsset($mediaSource, $mediaId);
         } elseif (isset($urlParts['scheme']) && in_array($urlParts['scheme'], ['http', 'https'], true)) {
             return new MediaAsset(new HttpSource(), $url);

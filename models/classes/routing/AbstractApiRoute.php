@@ -34,7 +34,7 @@ abstract class AbstractApiRoute extends AbstractRoute
 {
     /**
      * @param ServerRequestInterface $request
-     * @return null|string
+     * @return string|null
      * @throws \ResolverException
      */
     public function resolve(ServerRequestInterface $request)

@@ -125,7 +125,7 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
      * @throws \oat\oatbox\service\ServiceNotFoundException
      * @throws \common_Exception
      */
-    public function import($source, core_kernel_classes_Class $destination = null)
+    public function import($source, ?core_kernel_classes_Class $destination = null)
     {
         if (! isset($this->options['map'])) {
             throw new BadFunctionCallException('import map not set');
@@ -224,7 +224,7 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
      * @param  core_kernel_classes_Class $source
      * @return boolean
      */
-    public function export(core_kernel_classes_Class $source = null)
+    public function export(?core_kernel_classes_Class $source = null)
     {
         return false;
     }

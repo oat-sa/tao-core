@@ -165,7 +165,6 @@ class AbstractWorkerTest extends TestCase
         $this->taskMock->method('hasParent')->willReturn(true);
         $parentLogEntityMock = $this->createMock(EntityInterface::class);
 
-
         $this->taskLog->expects($this->once())->method('updateParent');
         $this->taskLog->expects($this->once())->method('getById')->willReturn($parentLogEntityMock);
         $parentLogEntityMock->expects($this->once())->method('isMasterStatus')->willReturn(false);
@@ -236,7 +235,6 @@ class AbstractWorkerTest extends TestCase
         $this->taskLog->method('setStatus')->willReturn(1);
         $this->reportMock->method('getType')->willReturn(\common_report_Report::TYPE_WARNING);
         $this->taskMock->method('__invoke')->willReturn($this->reportMock);
-
 
         $result = $this->subject->processTask($this->taskMock);
         $this->assertSame('completed', $result);

@@ -66,7 +66,7 @@ class Webhook implements WebhookInterface
      * @param int $retryMax
      * @param WebhookAuth|null $auth
      */
-    public function __construct($id, $url, $httpMethod, $retryMax, WebhookAuth $auth = null)
+    public function __construct($id, $url, $httpMethod, $retryMax, ?WebhookAuth $auth = null)
     {
         $this->id = $id;
         $this->url = $url;

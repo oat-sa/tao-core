@@ -73,7 +73,6 @@ class tao_install_services_Data
     /**
      * Sets the actual content of the data (JSON encoded).
      * @param string $content Some JSON encoded content.
-     * @return void
      */
     public function setContent($content)
     {
@@ -101,7 +100,6 @@ class tao_install_services_Data
     /**
      * Sets the content mime type for the actual content of this Data.
      * @param string $mimeType A content mime type such as 'text/html'.
-     * @return void
      */
     public function setMimeType($mimeType)
     {
@@ -111,7 +109,6 @@ class tao_install_services_Data
     /**
      * Sets the encoding of the Data content.
      * @param string $encoding A content encoding such as 'UTF-8'.
-     * @return void
      */
     protected function setEncoding($encoding)
     {

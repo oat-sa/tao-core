@@ -118,7 +118,7 @@ class tao_models_classes_RoleService extends tao_models_classes_GenerisService i
 
         $rolesProperty = new core_kernel_classes_Property(GenerisRdf::PROPERTY_USER_ROLES);
         foreach ($users as $u) {
-            $u = ($u instanceof core_kernel_classes_Resource) ? $u : new core_kernel_classes_Resource($u);
+            $u = $u instanceof core_kernel_classes_Resource ? $u : new core_kernel_classes_Resource($u);
 
             // just in case of ...
             $userService->unnatachRole($u, $role);
@@ -167,7 +167,7 @@ class tao_models_classes_RoleService extends tao_models_classes_GenerisService i
      * @param core_kernel_classes_Class $class (optional) A specific class for the new role.
      * @return core_kernel_classes_Resource The newly created role.
      */
-    public function addRole($label, $includedRoles = null, core_kernel_classes_Class $class = null)
+    public function addRole($label, $includedRoles = null, ?core_kernel_classes_Class $class = null)
     {
         return $this->generisUserService->addRole($label, $includedRoles, $class);
     }

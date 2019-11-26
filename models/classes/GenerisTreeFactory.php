@@ -137,7 +137,7 @@ class GenerisTreeFactory
      * @return array
      * @throws
      */
-    private function classToNode(core_kernel_classes_Class $class, core_kernel_classes_Class $parent = null)
+    private function classToNode(core_kernel_classes_Class $class, ?core_kernel_classes_Class $parent = null)
     {
         $returnValue = $this->buildClassNode($class, $parent);
 
@@ -228,7 +228,7 @@ class GenerisTreeFactory
      *
      * @return array
      */
-    private function buildClassNode(core_kernel_classes_Class $class, core_kernel_classes_Class $parent = null)
+    private function buildClassNode(core_kernel_classes_Class $class, ?core_kernel_classes_Class $parent = null)
     {
         $label = $class->getLabel();
         $label = empty($label) ? __('no label') : $label;

@@ -147,7 +147,7 @@ class UserTest extends TestCase
         foreach ($this->testUserData as $prop => $value) {
             $p = new core_kernel_classes_Property($prop);
             $v = $this->testUser->getUniquePropertyValue($p);
-            $v = ($v instanceof core_kernel_classes_Literal) ? $v->literal : $v->getUri();
+            $v = $v instanceof core_kernel_classes_Literal ? $v->literal : $v->getUri();
             $this->assertSame($value, $v);
         }
     }
@@ -173,7 +173,7 @@ class UserTest extends TestCase
         foreach ($this->testUserUtf8Data as $prop => $value) {
             $p = new core_kernel_classes_Property($prop);
             $v = $this->testUserUtf8->getUniquePropertyValue($p);
-            $v = ($v instanceof core_kernel_classes_Literal) ? $v->literal : $v->getUri();
+            $v = $v instanceof core_kernel_classes_Literal ? $v->literal : $v->getUri();
             $this->assertSame($value, $v);
         }
     }
@@ -214,7 +214,6 @@ class UserTest extends TestCase
 
         $foo->invokeArgs(PasswordConstraintsService::singleton(), [['upper' => false, 'length' => 2]]);
         $this->assertTrue(PasswordConstraintsService::singleton()->validate('a2asdjj319(*^^#'));
-
 
         $foo->invokeArgs(PasswordConstraintsService::singleton(), [['upper' => true, 'length' => 20]]);
         $this->assertFalse(PasswordConstraintsService::singleton()->validate('a2asRdjj319(*^^#'));

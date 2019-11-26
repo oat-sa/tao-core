@@ -30,6 +30,7 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
 class tao_install_Setup implements Action
 {
     // Adding container and logger.
+
     use \oat\oatbox\log\ContainerLoggerTrait;
 
     /**
@@ -221,7 +222,6 @@ class tao_install_Setup implements Action
             $options['user_email'] = $parameters['email'];
         }
 
-
         $installOptions = [
             'root_path' => $options['root_path'],
             'install_path' => $options['root_path'] . 'tao/install/',
@@ -265,7 +265,6 @@ class tao_install_Setup implements Action
         // prevent default to be overwritten
         unset($options['extra_persistences']['default']);
 
-
         $installator->install($options);
 
         /** @var common_ext_ExtensionsManager $extensionManager */
@@ -293,7 +292,7 @@ class tao_install_Setup implements Action
                     if (is_a($object, ServiceLocatorAwareInterface::class)) {
                         $object->setServiceLocator($serviceManager);
                     }
-                    $params = (isset($script['params']) && is_array($script['params'])) ? $script['params'] : [];
+                    $params = isset($script['params']) && is_array($script['params']) ? $script['params'] : [];
                     call_user_func($object, $params);
                 }
             }

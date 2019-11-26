@@ -227,8 +227,8 @@ class tao_actions_Users extends tao_actions_CommonModule
         $this->defaultData();
         $container = new tao_actions_form_Users(
             $this->getClass(
-            TaoOntology::CLASS_URI_TAO_USER
-        ),
+                TaoOntology::CLASS_URI_TAO_USER
+            ),
             null,
             false,
             [FormContainer::CSRF_PROTECTION_OPTION => true]
@@ -247,9 +247,9 @@ class tao_actions_Users extends tao_actions_CommonModule
             if ($binder->bind($values)) {
                 $this->getEventManager()->trigger(
                     new UserUpdatedEvent(
-                    $user,
-                    array_merge($values, ['hashForKey' => UserHashForEncryption::hash($plainPassword)])
-                )
+                        $user,
+                        array_merge($values, ['hashForKey' => UserHashForEncryption::hash($plainPassword)])
+                    )
                 );
                 $this->setData('message', __('User added'));
                 $this->setData('exit', true);
@@ -368,9 +368,9 @@ class tao_actions_Users extends tao_actions_CommonModule
                 }
                 $this->getEventManager()->trigger(
                     new UserUpdatedEvent(
-                    $user,
-                    array_merge($values, $data)
-                )
+                        $user,
+                        array_merge($values, $data)
+                    )
                 );
                 $this->setData('message', __('User saved'));
             }

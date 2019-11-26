@@ -124,7 +124,6 @@ class tao_actions_form_Export extends tao_helpers_form_FormContainer
         $idElt = tao_helpers_form_FormFactory::getElement('id', 'Hidden');
         $this->form->addElement($idElt);
 
-
         foreach ($this->subForm->getElements() as $element) {
             $this->form->addElement($element);
         }

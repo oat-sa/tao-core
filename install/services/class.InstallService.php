@@ -54,7 +54,7 @@ class tao_install_services_InstallService extends tao_install_services_Service
 
         //instantiate the installator
         try {
-            set_error_handler([get_class($this), 'onError']);
+            set_error_handler([static::class, 'onError']);
 
             $container = new \Pimple\Container(
                 [
@@ -77,7 +77,7 @@ class tao_install_services_InstallService extends tao_install_services_Service
             $installer->install($content['value']);
 
             $installationLog = $installer->getLog();
-            $message = (isset($installationLog['e']) || isset($installationLog['f']) || isset($installationLog['w'])) ?
+            $message = isset($installationLog['e']) || isset($installationLog['f']) || isset($installationLog['w']) ?
                 'Installation complete (warnings occurred)' : 'Installation successful.';
 
             $report = [
@@ -91,7 +91,7 @@ class tao_install_services_InstallService extends tao_install_services_Service
             $this->setResult(new tao_install_services_Data(json_encode($report)));
 
             restore_error_handler();
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             $report = [
                 'type' => 'InstallReport',
                 'value' => [

@@ -65,8 +65,6 @@ class ServiceTest extends TaoPhpUnitTestRunner
     public function testServiceFactory()
     {
 
-
-
         //test factory instantiation
 
         $this->assertIsA($this->taoService, 'tao_models_classes_TaoService');
@@ -137,7 +135,6 @@ class ServiceTest extends TaoPhpUnitTestRunner
         );
         $this->assertIsA($testInstance, 'core_kernel_classes_Resource');
         $this->assertSame($testInstance->getUniquePropertyValue($testProperty)->literal, 'aValue');
-
 
         //clone instance
         $clonedInstance = $this->taoService->cloneInstance($testInstance, $testModelClass);

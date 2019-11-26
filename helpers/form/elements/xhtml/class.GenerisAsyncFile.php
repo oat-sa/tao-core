@@ -47,9 +47,9 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile extends tao_helpers_form_
             if ($structure !== false) {
                 $description = new tao_helpers_form_data_UploadFileDescription(
                     array_key_exists(
-                    'name',
-                    $structure
-                ) ? $structure['name'] : null,
+                        'name',
+                        $structure
+                    ) ? $structure['name'] : null,
                     array_key_exists('size', $structure) ? $structure['size'] : null,
                     array_key_exists('type', $structure) ? $structure['type'] : null,
                     array_key_exists('uploaded_file', $structure) ? $structure['uploaded_file'] : null,

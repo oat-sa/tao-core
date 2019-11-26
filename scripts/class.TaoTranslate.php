@@ -578,7 +578,6 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
     {
         $returnValue = null;
 
-
         if ($directory === null) {
             $actionsDir = $this->options['input'] . '/actions';
         } else {
@@ -604,7 +603,6 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
                 $returnValue = $structureFile;
             }
         }
-
 
         return $returnValue;
     }
@@ -648,7 +646,6 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
     {
         $returnValue = (bool) false;
 
-
         $hasStructure = $this->findStructureManifest($directory) !== false;
         $hasPHPManifest = false;
 
@@ -664,7 +661,6 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
         }
 
         $returnValue = $hasStructure || $hasPHPManifest;
-
 
         return (bool) $returnValue;
     }
@@ -968,7 +964,6 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
         } else {
             $this->err("RDF language description (lang.rdf) not found in meta-extension 'tao' for language '" . $this->options['language'] . "'.", true);
         }
-
 
         $this->outVerbose("RDF language description '" . $this->options['language'] . "' added to ontology.");
     }
@@ -1327,9 +1322,7 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
     {
         $returnValue = (string) '';
 
-
         $returnValue = dirname(__FILE__) . '/../../' . $extension . '/' . self::DEF_OUTPUT_DIR . '/' . $language;
-
 
         return (string) $returnValue;
     }
@@ -1345,10 +1338,8 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
     {
         $returnValue = [];
 
-
         $ext = common_ext_ExtensionsManager::singleton()->getExtensionById($this->options['extension']);
         $returnValue = $ext->getManifest()->getInstallModelFiles();
-
 
         return (array) $returnValue;
     }
@@ -1465,7 +1456,7 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
             }
             sort($extensions);
             print_r($extensions);
-            echo  count($extensions) . ' extensions with translations: ' . $extensionsList . "\n";
+            echo count($extensions) . ' extensions with translations: ' . $extensionsList . "\n";
         }
     }
 }

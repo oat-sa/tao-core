@@ -78,9 +78,7 @@ abstract class tao_helpers_form_elements_MultipleElement extends tao_helpers_for
     {
         $returnValue = [];
 
-
         $returnValue = $this->options;
-
 
         return (array) $returnValue;
     }
@@ -122,9 +120,7 @@ abstract class tao_helpers_form_elements_MultipleElement extends tao_helpers_for
     {
         $returnValue = [];
 
-
         $returnValue = $this->values;
-
 
         return (array) $returnValue;
     }

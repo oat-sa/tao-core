@@ -64,7 +64,6 @@ class tao_install_services_UnknownServiceException extends Exception
     /**
      * Sets the requested Service name.
      * @param string $serviceName A Service name.
-     * @return void
      */
     protected function setServiceName($serviceName)
     {

@@ -38,7 +38,6 @@ class tao_install_utils_MysqlProceduresParser extends tao_install_utils_SQLParse
 {
     /**
      * Parse a SQL file containing mySQL compliant Procedures or Functions.
-     * @return void
      * @throws tao_install_utils_SQLParsingException
      */
     public function parse()

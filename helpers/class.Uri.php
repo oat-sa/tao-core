@@ -231,7 +231,6 @@ class tao_helpers_Uri
             $returnValue = $uri;
         }
 
-
         return (string) $returnValue;
     }
 

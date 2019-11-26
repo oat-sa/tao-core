@@ -45,7 +45,7 @@ try {
 
     $script = new tao_install_Setup();
     call_user_func($script, $container);
-} catch (Exception $e) {
+} catch (\Throwable $e) {
     $container->offsetGet(\oat\oatbox\log\LoggerService::SERVICE_ID)
         ->getLogger()
         ->error($e->getMessage());

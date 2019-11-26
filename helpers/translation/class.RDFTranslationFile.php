@@ -156,9 +156,7 @@ class tao_helpers_translation_RDFTranslationFile extends tao_helpers_translation
     {
         $returnValue = [];
 
-
         $returnValue = $this->namespaces;
-
 
         return (array) $returnValue;
     }
@@ -186,9 +184,7 @@ class tao_helpers_translation_RDFTranslationFile extends tao_helpers_translation
     {
         $returnValue = (string) '';
 
-
         $returnValue = $this->base;
-
 
         return (string) $returnValue;
     }

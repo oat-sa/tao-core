@@ -58,7 +58,7 @@ class tao_install_services_SyncService extends tao_install_services_Service
         // We fake JSON encoding for a gracefull response in any case.
         $json = $report->getStatus() === common_configuration_Report::VALID;
         if (! $json) {
-            $data = '{"type": "SyncReport", "value": { "json": ' . (($json) ? 'true' : 'false') . '}}';
+            $data = '{"type": "SyncReport", "value": { "json": ' . ($json ? 'true' : 'false') . '}}';
         } else {
             $localesDir = dirname(__FILE__) . '/../../locales';
             $data = json_encode(['type' => 'SyncReport', 'value' => [
@@ -96,7 +96,7 @@ class tao_install_services_SyncService extends tao_install_services_Service
         $uri = $_SERVER['REQUEST_URI'];
         $currentUrl = ($isHTTPS ? 'https' : 'http') . '://' . $host . $uri;
         $parsed = parse_url($currentUrl);
-        $port = (empty($parsed['port'])) ? '' : ':' . $parsed['port'];
+        $port = empty($parsed['port']) ? '' : ':' . $parsed['port'];
         $rootUrl = $parsed['scheme'] . '://' . $parsed['host'] . $port . $parsed['path'];
         return str_replace('/tao/install/api.php', '', $rootUrl);
     }
@@ -134,7 +134,7 @@ class tao_install_services_SyncService extends tao_install_services_Service
             if ($sort === true) {
                 asort($languages);
             }
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             // Do nothing and return gracefully.
         }
 
@@ -164,7 +164,7 @@ class tao_install_services_SyncService extends tao_install_services_Service
             $utcHours = floor($utcValue);
             $utcMinutes = ($utcValue - $utcHours) * 60;
             $utcPrint = sprintf('%d:%02d', $utcHours, $utcMinutes);
-            $utcValue = ($utcHours > 0) ? (' +' . $utcPrint) : (($utcHours === 0) ? '' : ' ' . $utcPrint);
+            $utcValue = $utcHours > 0 ? (' +' . $utcPrint) : ($utcHours === 0 ? '' : ' ' . $utcPrint);
             array_push($timezones, $timezone_identifier . ' (UTC' . $utcValue . ')');
         }
 

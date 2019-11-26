@@ -117,7 +117,7 @@ class PropertyWriter extends ConfigurableService implements OntologyWriter
         }
 
         throw new MetadataWriterException(
-            'Writer "' . __CLASS__ . '" cannot validate value for property "' . $this->getPropertyToWrite()->getUri() . '".'
+            'Writer "' . self::class . '" cannot validate value for property "' . $this->getPropertyToWrite()->getUri() . '".'
         );
     }
 

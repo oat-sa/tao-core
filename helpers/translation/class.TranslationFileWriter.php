@@ -110,9 +110,7 @@ abstract class tao_helpers_translation_TranslationFileWriter
     {
         $returnValue = (string) '';
 
-
         return $this->filePath;
-
 
         return (string) $returnValue;
     }
@@ -140,7 +138,6 @@ abstract class tao_helpers_translation_TranslationFileWriter
     protected function getTranslationFile()
     {
         $returnValue = null;
-
 
         return $this->translationFile;
     }

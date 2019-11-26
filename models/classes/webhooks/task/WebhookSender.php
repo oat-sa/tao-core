@@ -43,7 +43,7 @@ class WebhookSender extends ConfigurableService
      * @throws \InvalidArgumentException
      * @throws \common_exception_InvalidArgumentType
      */
-    public function performRequest(RequestInterface $request, WebhookAuthInterface $authConfig = null)
+    public function performRequest(RequestInterface $request, ?WebhookAuthInterface $authConfig = null)
     {
         return $authConfig
             ? $this->performRequestWithAuth($request, $authConfig)

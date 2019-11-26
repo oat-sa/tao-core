@@ -47,7 +47,7 @@ class RouteAnnotationService extends ConfigurableService
             $annotations = $this->getAnnotations($className, $methodName);
             $hidden = array_key_exists(AnnotationReaderService::PROP_SECURITY, $annotations)
                 && in_array(self::SECURITY_HIDE, $annotations[AnnotationReaderService::PROP_SECURITY], true);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $hidden = false; // if class or method not found
         }
 
@@ -81,7 +81,7 @@ class RouteAnnotationService extends ConfigurableService
                     }
                 }
             }
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $access = false; // if class or method not found
         }
 
@@ -98,7 +98,7 @@ class RouteAnnotationService extends ConfigurableService
                     $res[$rule['key']] = $rule['permission'];
                 }
             }
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
         }
         return $res;
     }

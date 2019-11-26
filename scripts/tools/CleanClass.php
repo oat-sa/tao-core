@@ -109,14 +109,13 @@ class CleanClass extends AbstractAction
             $class_uri = $params[2];
         }
 
-
         $rootClass = $this->service->getRootClass();
         if ($class_uri === null) {
             $class = $rootClass;
         } else {
             $class = new \core_kernel_classes_Class($class_uri);
             if (! $class->isSubClassOf($rootClass)) {
-                $msg = "Usage: php index.php '" . __CLASS__ . "' [CLASS_URI]" . PHP_EOL;
+                $msg = "Usage: php index.php '" . self::class . "' [CLASS_URI]" . PHP_EOL;
                 $msg .= 'CLASS_URI : a valid test class uri' . PHP_EOL . PHP_EOL;
                 $msg .= 'Uri : ' . $class_uri . ' is not a valid test class' . PHP_EOL;
                 return \common_report_Report::createFailure($msg);

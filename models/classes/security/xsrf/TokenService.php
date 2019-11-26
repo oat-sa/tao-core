@@ -376,7 +376,7 @@ class TokenService extends ConfigurableService
     {
         $store = $this->getOption(self::OPTION_STORE);
         if (! $store instanceof TokenStore) {
-            throw new InvalidService('Unexpected store for ' . __CLASS__);
+            throw new InvalidService('Unexpected store for ' . self::class);
         }
         return $this->propagate($store);
     }

@@ -70,6 +70,6 @@ class TaskLogArchivedEvent implements Event
      */
     public function getName()
     {
-        return __CLASS__;
+        return self::class;
     }
 }

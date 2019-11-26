@@ -67,12 +67,10 @@ class tao_helpers_form_validators_Equals extends tao_helpers_form_Validator
     {
         $returnValue = (bool) false;
 
-
         $invert = $this->hasOption('invert') ? $this->getOption('invert') : false;
         $reference = $this->getOption('reference');
         $equals = ($values === $reference->getRawValue());
         $returnValue = $invert ? ! $equals : $equals;
-
 
         return (bool) $returnValue;
     }

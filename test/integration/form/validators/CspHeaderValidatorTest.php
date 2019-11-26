@@ -74,7 +74,6 @@ class CspHeaderValidatorTest extends GenerisPhpUnitTestRunner
                 break;
         }
 
-
         return implode("\r\n", $returnMockValues);
     }
 }

@@ -37,7 +37,7 @@ use oat\tao\helpers\translation\TranslationBundle;
 class tao_models_classes_LanguageService extends tao_models_classes_GenerisService
 {
     // --- ASSOCIATIONS ---
-    public const TRANSLATION_PREFIX = __CLASS__ . ':all';
+    public const TRANSLATION_PREFIX = self::class . ':all';
 
     // --- ATTRIBUTES ---
     public const CLASS_URI_LANGUAGES = 'http://www.tao.lu/Ontologies/TAO.rdf#Languages';
@@ -69,7 +69,7 @@ class tao_models_classes_LanguageService extends tao_models_classes_GenerisServi
      */
     public function createLanguage($code)
     {
-        throw new common_exception_Error(__METHOD__ . ' not yet implemented in ' . __CLASS__);
+        throw new common_exception_Error(__METHOD__ . ' not yet implemented in ' . self::class);
     }
 
     /**
@@ -84,7 +84,6 @@ class tao_models_classes_LanguageService extends tao_models_classes_GenerisServi
     {
         $returnValue = null;
 
-
         $langClass = new core_kernel_classes_Class(static::CLASS_URI_LANGUAGES);
         $langs = $langClass->searchInstances([
             OntologyRdf::RDF_VALUE => $code,
@@ -96,7 +95,6 @@ class tao_models_classes_LanguageService extends tao_models_classes_GenerisServi
         } else {
             common_Logger::w('Could not find language with code ' . $code);
         }
-
 
         return $returnValue;
     }
@@ -282,7 +280,7 @@ class tao_models_classes_LanguageService extends tao_models_classes_GenerisServi
      */
     public function getDefaultLanguageByUsage(core_kernel_classes_Resource $usage)
     {
-        throw new common_exception_Error(__METHOD__ . ' not yet implemented in ' . __CLASS__);
+        throw new common_exception_Error(__METHOD__ . ' not yet implemented in ' . self::class);
     }
 
     /**

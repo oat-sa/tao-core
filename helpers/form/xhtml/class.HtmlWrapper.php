@@ -76,9 +76,6 @@ class tao_helpers_form_xhtml_HtmlWrapper implements tao_helpers_form_Decorator
     {
         $returnValue = (string) '';
 
-
-
-
         return (string) $returnValue;
     }
 
@@ -92,9 +89,6 @@ class tao_helpers_form_xhtml_HtmlWrapper implements tao_helpers_form_Decorator
     public function postRender()
     {
         $returnValue = (string) '';
-
-
-
 
         return (string) $returnValue;
     }
@@ -111,9 +105,6 @@ class tao_helpers_form_xhtml_HtmlWrapper implements tao_helpers_form_Decorator
     {
         $returnValue = (string) '';
 
-
-
-
         return (string) $returnValue;
     }
 
@@ -129,9 +120,6 @@ class tao_helpers_form_xhtml_HtmlWrapper implements tao_helpers_form_Decorator
     public function setOption($key, $value)
     {
         $returnValue = (bool) false;
-
-
-
 
         return (bool) $returnValue;
     }

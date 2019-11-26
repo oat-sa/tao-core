@@ -40,7 +40,6 @@ class FileSinkTest extends TaoPhpUnitTestRunner
         $userMock->getIdentifier()->willReturn('testidentifier');
         $userMock->getIdentifier()->should(new CallTimesPrediction(1));
 
-
         $messageMock = $this->prophesize('oat\tao\model\messaging\Message');
         $messageMock->getTo()->willReturn($userMock->reveal());
         $messageMock->getTo()->should(new CallTimesPrediction(1));

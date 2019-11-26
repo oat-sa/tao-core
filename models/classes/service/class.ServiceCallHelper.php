@@ -41,7 +41,7 @@ class tao_models_classes_service_ServiceCallHelper
             $serviceDefinition = new core_kernel_classes_Resource($serviceDefinitionId);
             $serviceDefinitionUrl = $serviceDefinition->getOnePropertyValue(new core_kernel_classes_Property(WfEngineOntology::PROPERTY_SUPPORT_SERVICES_URL));
 
-            $serviceUrl = ($serviceDefinitionUrl instanceof core_kernel_classes_Resource) ?
+            $serviceUrl = $serviceDefinitionUrl instanceof core_kernel_classes_Resource ?
                 // hack nescessary since fully qualified urls are considered to be resources
                 $serviceUrl = $serviceDefinitionUrl->getUri() :
                 $serviceUrl = $serviceDefinitionUrl->literal; // instanceof Literal

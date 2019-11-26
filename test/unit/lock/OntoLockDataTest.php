@@ -51,7 +51,6 @@ class OntoLockDataTest extends TestCase
         $resource->getUri()->willReturn('#resourceUri');
         $lock = new OntoLockData($resource->reveal(), $owner->reveal(), 'epoch');
 
-
         $expected = json_encode([
             'resource' => '#resourceUri',
             'owner' => '#ownerUri',

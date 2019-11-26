@@ -39,7 +39,6 @@ class tao_helpers_form_elements_xhtml_Treebox extends tao_helpers_form_elements_
      */
     protected $range;
 
-
     public function feed()
     {
         $expression = '/^' . preg_quote($this->name, '/') . '(.)*[0-9]+$/';

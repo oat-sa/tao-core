@@ -102,7 +102,6 @@ class DatatablePayloadTest extends TaoPhpUnitTestRunner
         $queryBuilderProphecy->setOffset(Argument::type('integer'))->shouldBeCalledTimes(1);
         $queryBuilderMock = $queryBuilderProphecy->reveal();
 
-
         $resultProphecy = $this->prophesize('\oat\generis\model\kernel\persistence\smoothsql\search\TaoResultSet');
         $resultProphecy->count()->willReturn(1)->shouldBeCalledTimes(1);
         $resultProphecy->total()->willReturn(2)->shouldBeCalledTimes(1);

@@ -50,7 +50,6 @@ class tao_install_utils_System
     public static function getInfos()
     {
 
-
         //subfolder shall be detected as /SUBFLODERS/tao/install/index.php so we remove the "/extension/module/action" part:
         $subfolder = $_SERVER['REQUEST_URI'];
         $subfolder = preg_replace('/\/(([^\/]*)\/){2}([^\/]*)$/', '', $subfolder);
@@ -70,7 +69,7 @@ class tao_install_utils_System
      */
     public static function isTAOInstalled($path = '')
     {
-        $path = (empty($path)) ? __DIR__ . '/../../../config' : rtrim($path, '/\\');
+        $path = empty($path) ? __DIR__ . '/../../../config' : rtrim($path, '/\\');
         $config = "${path}/generis.conf.php";
         return file_exists($config);
     }
@@ -82,7 +81,7 @@ class tao_install_utils_System
      */
     public static function isTAOUpToDate($path = '')
     {
-        $path = (empty($path)) ? __DIR__ . '/../../../config' : rtrim($path, '/\\');
+        $path = empty($path) ? __DIR__ . '/../../../config' : rtrim($path, '/\\');
         $generisConf = "${path}/generis.conf.php";
 
         if (! is_readable($generisConf)) {
@@ -107,7 +106,7 @@ class tao_install_utils_System
             }
             $manifest = include_once($manifestPath);
 
-            if ((! isset($ext['installed'])) || (! isset($manifest['version'])) || ($ext['installed'] !== $manifest['version'])) {
+            if (! isset($ext['installed']) || (! isset($manifest['version'])) || ($ext['installed'] !== $manifest['version'])) {
                 return false;
             }
         }

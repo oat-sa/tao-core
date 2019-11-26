@@ -40,7 +40,7 @@ class OntologyMetadataTest extends TestCase
             }
 
             fclose($handle);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->fail('Import method fail with message: ' . $e->getMessage());
         }
     }
@@ -91,7 +91,6 @@ class OntologyMetadataTest extends TestCase
                 $injector1->reveal(),
                 $injector2->reveal()
             ));
-
 
         $this->assertSame(2, count($mock->getInjectors()));
     }

@@ -156,7 +156,7 @@ trait FilesystemAwareTrait
      * Tries to get the file if it exists.
      *
      * @param string $fileName
-     * @return null|File
+     * @return File|null
      */
     protected function getQueueStorageFile($fileName)
     {

@@ -62,7 +62,7 @@ class tao_install_services_CheckPHPRuntimeService extends tao_install_services_S
     {
         $content = json_decode($data->getContent(), true);
         $min = $content['value']['min'];
-        $max = (isset($content['value']['max'])) ? $content['value']['max'] : null;
+        $max = $content['value']['max'] ?? null;
 
         if (isset($content['value']['optional'])) {
             $optional = $content['value']['optional'];
@@ -92,7 +92,6 @@ class tao_install_services_CheckPHPRuntimeService extends tao_install_services_S
         if (! empty($max)) {
             $value['max'] = $component->getMax();
         }
-
 
         $data = ['type' => 'PHPRuntimeReport',
             'value' => $value, ];

@@ -87,7 +87,7 @@ class MigrateSecuritySettings extends AbstractAction
             }
 
             return $this->report;
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->logError($e->getMessage());
             $this->report->add(Report::createFailure($e->getMessage()));
         }

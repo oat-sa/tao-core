@@ -96,7 +96,7 @@ class CsvExporter extends AbstractFileExporter implements PsrResponseExporter
      * @throws \common_exception_InvalidArgumentType
      */
     public function getFileExportResponse(
-        ResponseInterface $originResponse = null,
+        ?ResponseInterface $originResponse = null,
         $columnNames = false,
         $delimiter = ',',
         $enclosure = '"'

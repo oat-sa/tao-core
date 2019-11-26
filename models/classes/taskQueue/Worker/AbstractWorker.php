@@ -104,7 +104,7 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
             } catch (\Error $e) {
                 $this->logCritical('Executing task ' . $task->getId() . ' failed with MSG: ' . $e->getMessage(), $this->getLogContext());
                 $report = Report::createFailure(__('Executing task %s failed', $task->getId()));
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
                 $this->logError('Executing task ' . $task->getId() . ' failed with MSG: ' . $e->getMessage(), $this->getLogContext());
                 $report = Report::createFailure(__('Executing task %s failed', $task->getId()));
             }

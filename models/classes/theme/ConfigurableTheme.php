@@ -90,7 +90,7 @@ class ConfigurableTheme extends Configurable implements Theme
         if (empty($this->allTexts)) {
             $this->allTexts = $this->initializeTexts();
         }
-        return (array_key_exists($key, $this->allTexts))
+        return array_key_exists($key, $this->allTexts)
             ? $this->allTexts[$key]
             : '';
     }
@@ -128,7 +128,7 @@ class ConfigurableTheme extends Configurable implements Theme
      *
      * @param string $id
      * @param string $context
-     * @return null|string
+     * @return string|null
      */
     public function getTemplate($id, $context = Theme::CONTEXT_BACKOFFICE)
     {

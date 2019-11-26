@@ -51,7 +51,7 @@ class tao_models_classes_oauth_Service implements common_http_SignatureService
      * @param  common_http_Request $request
      * @throws common_Exception exception thrown if validation fails
      */
-    public function validate(common_http_Request $request, common_http_Credentials $credentials = null)
+    public function validate(common_http_Request $request, ?common_http_Credentials $credentials = null)
     {
         return $this->getService()->validate($request, $credentials);
     }

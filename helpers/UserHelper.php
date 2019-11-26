@@ -45,9 +45,9 @@ class UserHelper
             OntologyRdfs::RDFS_LABEL,
             GenerisRdf::PROPERTY_USER_MAIL,
         ]);
-        $label = (isset($props[OntologyRdfs::RDFS_LABEL]) && ! empty($props[OntologyRdfs::RDFS_LABEL])) ? (string) reset($props[OntologyRdfs::RDFS_LABEL]) : '(' . $userId . ')';
+        $label = isset($props[OntologyRdfs::RDFS_LABEL]) && ! empty($props[OntologyRdfs::RDFS_LABEL]) ? (string) reset($props[OntologyRdfs::RDFS_LABEL]) : '(' . $userId . ')';
         $label = StringUtils::wrapLongWords($label);
-        $mail = (isset($props[GenerisRdf::PROPERTY_USER_MAIL]) && ! empty($props[GenerisRdf::PROPERTY_USER_MAIL])) ? (string) reset($props[GenerisRdf::PROPERTY_USER_MAIL]) : '';
+        $mail = isset($props[GenerisRdf::PROPERTY_USER_MAIL]) && ! empty($props[GenerisRdf::PROPERTY_USER_MAIL]) ? (string) reset($props[GenerisRdf::PROPERTY_USER_MAIL]) : '';
         return ! empty($mail)
             ? '<a href="mailto:' . $mail . '">' . $label . '</a>'
             : $label;

@@ -41,6 +41,7 @@ use oat\tao\model\OperatedByService;
 class tao_install_Installator
 {
     // Adding container and logger.
+
     use \oat\oatbox\log\ContainerLoggerTrait;
 
     /**
@@ -174,7 +175,7 @@ class tao_install_Installator
                 $this->getGenerisConfig()
             );
 
-            $session_name = (isset($installData['session_name'])) ? $installData['session_name'] : self::generateSessionName();
+            $session_name = $installData['session_name'] ?? self::generateSessionName();
             $generisConfigWriter->createConfig();
             $constants = [
                 'LOCAL_NAMESPACE' => $installData['module_namespace'],
@@ -184,12 +185,11 @@ class tao_install_Installator
                 'FILES_PATH' => $installData['file_path'],
                 'ROOT_URL' => $installData['module_url'],
                 'DEFAULT_LANG' => $installData['module_lang'],
-                'DEBUG_MODE' => ($installData['module_mode'] === 'debug') ? true : false,
+                'DEBUG_MODE' => $installData['module_mode'] === 'debug' ? true : false,
                 'TIME_ZONE' => $installData['timezone'],
             ];
 
-            $constants['DEFAULT_ANONYMOUS_INTERFACE_LANG'] = (isset($installData['anonymous_lang'])) ? $installData['anonymous_lang'] : $installData['module_lang'];
-
+            $constants['DEFAULT_ANONYMOUS_INTERFACE_LANG'] = $installData['anonymous_lang'] ?? $installData['module_lang'];
 
             $generisConfigWriter->writeConstants($constants);
             $this->log('d', 'The following constants were written in generis config:' . PHP_EOL . var_export($constants, true));
@@ -299,7 +299,6 @@ class tao_install_Installator
                 'userTimezone' => TIME_ZONE,
             ]);
 
-
             /*
              *  10 - Secure the install for production mode
              */
@@ -339,7 +338,7 @@ class tao_install_Installator
             }
 
             $this->getServiceManager()->register(OperatedByService::SERVICE_ID, $operatedByService);
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             if ($this->retryInstallation($e)) {
                 return;
             }
@@ -474,7 +473,7 @@ class tao_install_Installator
             call_user_func('common_Logger::' . $logLevel, $message, $tags);
         }
         if (is_array($message)) {
-            $this->log[$logLevel] = (isset($this->log[$logLevel])) ? array_merge($this->log[$logLevel], $message) : $message;
+            $this->log[$logLevel] = isset($this->log[$logLevel]) ? array_merge($this->log[$logLevel], $message) : $message;
         } else {
             $this->log[$logLevel][] = $message;
         }

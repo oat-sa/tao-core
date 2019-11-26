@@ -65,7 +65,6 @@ class tao_helpers_form_xhtml_Form extends tao_helpers_form_Form
             }
         }
 
-
         return (array) $returnValue;
     }
 
@@ -129,8 +128,6 @@ class tao_helpers_form_xhtml_Form extends tao_helpers_form_Form
 
         $returnValue .= "</form>\n";
         $returnValue .= "</div>\n";
-
-
 
         return $returnValue;
     }

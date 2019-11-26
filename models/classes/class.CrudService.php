@@ -41,7 +41,7 @@ abstract class tao_models_classes_CrudService extends tao_models_classes_Service
      */
     public function isInScope($uri)
     {
-        if (! (common_Utils::isUri($uri))) {
+        if (! common_Utils::isUri($uri)) {
             throw new common_exception_InvalidArgumentType();
         }
         $resource = $this->getClass($uri);
@@ -59,7 +59,7 @@ abstract class tao_models_classes_CrudService extends tao_models_classes_Service
         if (! common_Utils::isUri($uri)) {
             throw new common_exception_InvalidArgumentType();
         }
-        if (! ($this->isInScope($uri))) {
+        if (! $this->isInScope($uri)) {
             throw new common_exception_PreConditionFailure('The URI must be a valid resource under the root Class');
         }
         $resource = $this->getResource($uri);
@@ -93,7 +93,7 @@ abstract class tao_models_classes_CrudService extends tao_models_classes_Service
         if (! common_Utils::isUri($uri)) {
             throw new common_exception_InvalidArgumentType();
         }
-        if (! ($this->isInScope($uri))) {
+        if (! $this->isInScope($uri)) {
             throw new common_exception_PreConditionFailure('The URI must be a valid resource under the root Class');
         }
         $resource = $this->getResource($uri);
@@ -123,7 +123,7 @@ abstract class tao_models_classes_CrudService extends tao_models_classes_Service
      */
     public function create($label = '', $type = null, $propertiesValues = [])
     {
-        $type = (isset($type)) ? $this->getClass($type) : $this->getRootClass();
+        $type = isset($type) ? $this->getClass($type) : $this->getRootClass();
 
         $resource = $this->getClassService()->createInstance($type, $label);
         $resource->setPropertiesValues($propertiesValues);
@@ -144,7 +144,7 @@ abstract class tao_models_classes_CrudService extends tao_models_classes_Service
         if (! common_Utils::isUri($uri)) {
             throw new common_exception_InvalidArgumentType();
         }
-        if (! ($this->isInScope($uri))) {
+        if (! $this->isInScope($uri)) {
             throw new common_exception_PreConditionFailure('The URI must be a valid resource under the root Class');
         }
         $resource = $this->getResource($uri);

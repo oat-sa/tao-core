@@ -40,7 +40,7 @@ final class OneTimeTask extends AbstractWorker
         $this->logDebug('Starting Task.');
         try {
             return $this->processTask($this->task);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->logError('Error processing task ' . $e->getMessage());
         }
 

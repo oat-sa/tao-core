@@ -35,7 +35,7 @@ use oat\tao\model\actionQueue\QueuedAction;
  */
 class ActionQueueTrendEvent implements Event
 {
-    public const EVENT_NAME = __CLASS__;
+    public const EVENT_NAME = self::class;
 
     /** @var QueuedAction */
     private $action;

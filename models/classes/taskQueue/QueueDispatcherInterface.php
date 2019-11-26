@@ -130,12 +130,12 @@ interface QueueDispatcherInterface extends QueuerInterface, LoggerAwareInterface
      *
      * @param callable    $callable
      * @param array       $parameters
-     * @param null|string $label Label for the task
-     * @param null|TaskInterface $parent
+     * @param string|null $label Label for the task
+     * @param TaskInterface|null $parent
      * @param boolean $masterStatus
      * @return CallbackTaskInterface
      */
-    public function createTask(callable $callable, array $parameters = [], $label = null, TaskInterface $parent = null, $masterStatus = false);
+    public function createTask(callable $callable, array $parameters = [], $label = null, ?TaskInterface $parent = null, $masterStatus = false);
 
     /**
      * Are all queues a sync one?

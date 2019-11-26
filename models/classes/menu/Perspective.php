@@ -50,7 +50,7 @@ class Perspective extends MenuElement implements PhpSerializable
 
     public function __toPhpCode()
     {
-        return 'new ' . __CLASS__ . '('
+        return 'new ' . self::class . '('
             . \common_Utils::toPHPVariableString($this->data) . ','
             . \common_Utils::toPHPVariableString($this->children) . ','
             . \common_Utils::toPHPVariableString(self::SERIAL_VERSION)

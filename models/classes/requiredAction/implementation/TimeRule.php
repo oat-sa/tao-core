@@ -62,7 +62,7 @@ class TimeRule implements RequiredActionRuleInterface
      * @param DateInterval|null $interval Interval to specify how often action should be performed
      * @param DateTime|null $executionTime Time when the action was executed last time
      */
-    public function __construct(DateInterval $interval = null, DateTime $executionTime = null)
+    public function __construct(?DateInterval $interval = null, ?DateTime $executionTime = null)
     {
         $this->interval = $interval;
         $this->executionTime = $executionTime;
@@ -73,7 +73,7 @@ class TimeRule implements RequiredActionRuleInterface
      */
     public function __toPhpCode()
     {
-        $class = get_class($this);
+        $class = static::class;
         $interval = $this->getInterval();
         $serializedInterval = 'new \DateInterval("' . $interval->format('P%yY%mM%dDT%hH%iM%sS') . '")';
 

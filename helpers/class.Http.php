@@ -83,7 +83,7 @@ class tao_helpers_Http
         preg_match_all('@(' . $keys . ')=(?:([\'"])([^\2]+?)\2|([^\s,]+))@', $digest, $matches, PREG_SET_ORDER);
 
         foreach ($matches as $m) {
-            $data[$m[1]] = $m[3] ? $m[3] : $m[4];
+            $data[$m[1]] = $m[3] ?: $m[4];
             unset($needed_parts[$m[1]]);
         }
         return $needed_parts ? false : $data;
@@ -301,10 +301,10 @@ class tao_helpers_Http
                                     header($http416RequestRangeNotSatisfiable);
                                 } else {
                                     header($http206PartialContent);
-                                    header('Content-Length: ' . ($length));
+                                    header('Content-Length: ' . $length);
                                     header('Content-Range: bytes ' . $offset . '-' . ($offset + $length - 1) . '/' . $filesize);
                                     // send 500KB per cycle
-                                    $bytesPerCycle = (1024 * 1024) * 0.5;
+                                    $bytesPerCycle = 1024 * 1024 * 0.5;
                                     $currentPosition = $offset;
                                     if (ob_get_level() > 0) {
                                         ob_end_flush();
@@ -315,7 +315,7 @@ class tao_helpers_Http
                                     while (! feof($fp)) {
                                         if (($currentPosition + $bytesPerCycle) <= $endPosition) {
                                             $data = fread($fp, $bytesPerCycle);
-                                            $currentPosition = $currentPosition + $bytesPerCycle;
+                                            $currentPosition += $bytesPerCycle;
                                             echo $data;
                                         } else {
                                             $data = fread($fp, ($endPosition - $currentPosition));
@@ -349,10 +349,10 @@ class tao_helpers_Http
 
     /**
      * @param StreamInterface $stream
-     * @param null|string $mimeType
+     * @param string|null $mimeType
      * @param ServerRequestInterface|null $request not used yet.
      */
-    public static function returnStream(StreamInterface $stream, $mimeType = null, ServerRequestInterface $request = null)
+    public static function returnStream(StreamInterface $stream, $mimeType = null, ?ServerRequestInterface $request = null)
     {
         header('Accept-Ranges: bytes');
         if ($mimeType !== null) {

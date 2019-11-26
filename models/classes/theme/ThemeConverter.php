@@ -20,9 +20,7 @@ declare(strict_types=1);
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
-namespace oat\tao\model\theme;/** @noinspection PhpDeprecationInspection */
-
-    
+namespace oat\tao\model\theme; /** @noinspection PhpDeprecationInspection */
 
 use oat\tao\helpers\Template;
 

@@ -77,7 +77,7 @@ class tao_actions_form_Login extends tao_helpers_form_FormContainer
         $loginElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
         $this->form->addElement($loginElt);
 
-        $passwordWidgetId = (isset($this->data['enablePasswordReveal']) && ! empty($this->data['enablePasswordReveal']))
+        $passwordWidgetId = isset($this->data['enablePasswordReveal']) && ! empty($this->data['enablePasswordReveal'])
             ? 'ViewableHiddenbox'
             : 'Hiddenbox';
         $passElt = tao_helpers_form_FormFactory::getElement('password', $passwordWidgetId);

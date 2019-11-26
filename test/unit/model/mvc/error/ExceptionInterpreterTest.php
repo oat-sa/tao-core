@@ -43,15 +43,14 @@ class ExceptionInterpreterTest extends TestCase
         $action = 'test';
         $module = 'test';
 
-        return
-            [
-                [new Exception('test message'), 500, 'test message', 'MainResponse'],
-                [new ResolverException('test message'), 403, 'test message', 'RedirectResponse'],
-                [new tao_models_classes_UserException('test message'), 403, 'test message', 'MainResponse'],
-                [new ActionEnforcingException('test message', $module, $action), 404, 'test message', 'MainResponse'],
-                [new tao_models_classes_FileNotFoundException('test message'), 404, 'File test message not found', 'MainResponse'],
-                [new LoginFailedException([new Exception('test message')]), 500, '', 'MainResponse'],
-            ];
+        return [
+            [new Exception('test message'), 500, 'test message', 'MainResponse'],
+            [new ResolverException('test message'), 403, 'test message', 'RedirectResponse'],
+            [new tao_models_classes_UserException('test message'), 403, 'test message', 'MainResponse'],
+            [new ActionEnforcingException('test message', $module, $action), 404, 'test message', 'MainResponse'],
+            [new tao_models_classes_FileNotFoundException('test message'), 404, 'File test message not found', 'MainResponse'],
+            [new LoginFailedException([new Exception('test message')]), 500, '', 'MainResponse'],
+        ];
     }
 
     /**
@@ -73,7 +72,6 @@ class ExceptionInterpreterTest extends TestCase
         $this->assertSame($expectedTrace, $exceptionInterpreter->getTrace());
         $this->assertSame($expectedResponseClassName, $this->getInaccessibleProperty($exceptionInterpreter, 'responseClassName'));
     }
-
 
     public function testSetException()
     {

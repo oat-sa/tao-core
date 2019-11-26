@@ -78,7 +78,6 @@ class tao_actions_form_Role extends tao_actions_form_Instance
     {
         $returnValue = null;
 
-
         return new core_kernel_classes_Class(GenerisRdf::CLASS_ROLE);
     }
 }

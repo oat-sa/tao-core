@@ -118,10 +118,8 @@ class tao_helpers_translation_TranslationUnit implements tao_helpers_translation
     {
         $returnValue = (string) '';
 
-
         $returnValue = $this->getSourceLanguage() . '->' . $this->getTargetLanguage() . ':' .
                        $this->getSource() . '-' . $this->getTarget();
-
 
         return (string) $returnValue;
     }
@@ -152,9 +150,7 @@ class tao_helpers_translation_TranslationUnit implements tao_helpers_translation
     {
         $returnValue = [];
 
-
         $returnValue = $this->annotations;
-
 
         return (array) $returnValue;
     }
@@ -200,13 +196,11 @@ class tao_helpers_translation_TranslationUnit implements tao_helpers_translation
     {
         $returnValue = [];
 
-
         if (isset($this->annotations[$name])) {
             $returnValue = ['name' => $name, 'value' => $this->annotations[$name]];
         } else {
             $returnValue = null;
         }
-
 
         return (array) $returnValue;
     }
@@ -222,9 +216,7 @@ class tao_helpers_translation_TranslationUnit implements tao_helpers_translation
     {
         $returnValue = (string) '';
 
-
         $returnValue = $this->source;
-
 
         return (string) $returnValue;
     }
@@ -240,9 +232,7 @@ class tao_helpers_translation_TranslationUnit implements tao_helpers_translation
     {
         $returnValue = (string) '';
 
-
         $returnValue = $this->target;
-
 
         return (string) $returnValue;
     }
@@ -328,9 +318,7 @@ class tao_helpers_translation_TranslationUnit implements tao_helpers_translation
     {
         $returnValue = (string) '';
 
-
         $returnValue = $this->sourceLanguage;
-
 
         return (string) $returnValue;
     }
@@ -346,9 +334,7 @@ class tao_helpers_translation_TranslationUnit implements tao_helpers_translation
     {
         $returnValue = (string) '';
 
-
         $returnValue = $this->targetLanguage;
-
 
         return (string) $returnValue;
     }
@@ -365,9 +351,7 @@ class tao_helpers_translation_TranslationUnit implements tao_helpers_translation
     {
         $returnValue = (bool) false;
 
-
         $returnValue = $this->getSource() === $translationUnit->getSource();
-
 
         return (bool) $returnValue;
     }
@@ -384,9 +368,7 @@ class tao_helpers_translation_TranslationUnit implements tao_helpers_translation
     {
         $returnValue = (bool) false;
 
-
         $returnValue = $this->getTarget() === $translationUnit->getTarget();
-
 
         return (bool) $returnValue;
     }
@@ -404,9 +386,7 @@ class tao_helpers_translation_TranslationUnit implements tao_helpers_translation
     {
         $returnValue = (bool) false;
 
-
         $returnValue = $this->getSourceLanguage() === $translationUnit->getSourceLanguage();
-
 
         return (bool) $returnValue;
     }
@@ -424,9 +404,7 @@ class tao_helpers_translation_TranslationUnit implements tao_helpers_translation
     {
         $returnValue = (bool) false;
 
-
         $returnValue = $this->getTargetLanguage() === $translationUnit->getTargetLanguage();
-
 
         return (bool) $returnValue;
     }

@@ -57,7 +57,6 @@ class InstantActionTest extends TaoPhpUnitTestRunner
         $action->activeActions = 10;
         $this->assertFalse($actionQueue->perform($action, $user));
 
-
         $action->activeActions = 9;
         $this->assertTrue($actionQueue->perform($action, $user));
     }

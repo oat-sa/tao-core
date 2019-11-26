@@ -51,7 +51,7 @@ class CsvBasicImporter extends CsvAbstractImporter
         $properties = $this->getClassProperties($class);
         $csv_data = new \tao_helpers_data_CsvFile($options);
         $csv_data->load($file);
-        $firstRowAsColumnNames = (isset($options[\tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES])) ? $options[\tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES] : false;
+        $firstRowAsColumnNames = isset($options[\tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES]) ? $options[\tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES] : false;
         $headers = $this->getColumnMapping($csv_data, $firstRowAsColumnNames);
         $modifiedHeader = $headers;
         array_walk($modifiedHeader, function (&$value) {

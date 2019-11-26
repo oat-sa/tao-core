@@ -63,7 +63,7 @@ abstract class RequiredActionAbstract implements RequiredActionInterface
      */
     public function __toPhpCode()
     {
-        $class = get_class($this);
+        $class = static::class;
         $name = $this->name;
         $rules = \common_Utils::toHumanReadablePhpString($this->getRules());
         return "new ${class}(

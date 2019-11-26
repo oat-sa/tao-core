@@ -152,7 +152,6 @@ class tao_install_utils_ModelCreator
             $namespace .= '#';
         }
 
-
         $modFactory = new core_kernel_api_ModelFactory();
         return $modFactory->createModel($namespace, $model);
     }

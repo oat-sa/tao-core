@@ -146,7 +146,7 @@ class tao_models_classes_Parser
         }
 
         if ($sourceType === false) {
-            throw new common_exception_Error('Denied content in the source parameter! ' . get_class($this) . ' accepts either XML content, a URL to an XML Content or the path to a file but got ' . substr($source, 0, 500));
+            throw new common_exception_Error('Denied content in the source parameter! ' . static::class . ' accepts either XML content, a URL to an XML Content or the path to a file but got ' . substr($source, 0, 500));
         }
 
         $this->sourceType = $sourceType;
@@ -199,7 +199,6 @@ class tao_models_classes_Parser
                 $this->addError($de);
             }
         }
-
 
         helpers_TimeOutHelper::reset();
         return (bool) $this->valid;
@@ -326,7 +325,7 @@ class tao_models_classes_Parser
                         }
                         break;
                 }
-            } catch (Exception $e) {
+            } catch (\Throwable $e) {
                 $this->addError($e);
             }
         }

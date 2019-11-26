@@ -68,7 +68,7 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
     public function __construct($persistenceId, $containerName = null)
     {
         if (empty($persistenceId)) {
-            throw new \InvalidArgumentException('Persistence id needs to be set for ' . __CLASS__);
+            throw new \InvalidArgumentException('Persistence id needs to be set for ' . self::class);
         }
 
         $this->persistenceId = $persistenceId;
@@ -77,7 +77,7 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
 
     public function __toPhpCode()
     {
-        return 'new ' . get_called_class() . '('
+        return 'new ' . static::class . '('
             . \common_Utils::toHumanReadablePhpString($this->persistenceId)
             . ', '
             . \common_Utils::toHumanReadablePhpString($this->containerName)
@@ -248,7 +248,7 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
             $filter->applyFilters($qb);
 
             $collection = TaskLogCollection::createFromArray($qb->execute()->fetchAll());
-        } catch (\Exception $exception) {
+        } catch (\Throwable $exception) {
             $this->logError('Searching for task logs failed with MSG: ' . $exception->getMessage());
 
             $collection = TaskLogCollection::createEmptyCollection();
@@ -270,7 +270,7 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
             $filter->applyFilters($qb);
 
             return (int) $qb->execute()->fetchColumn();
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->logError('Counting task logs failed with MSG: ' . $e->getMessage());
         }
 
@@ -345,7 +345,7 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
 
             $qb->execute();
             $this->getPersistence()->getPlatform()->commit();
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->getPersistence()->getPlatform()->rollBack();
 
             return false;
@@ -423,7 +423,7 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
 
             $exec = $qb->execute();
             $this->getPersistence()->getPlatform()->commit();
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->getPersistence()->getPlatform()->rollBack();
             $this->logDebug($e->getMessage());
 

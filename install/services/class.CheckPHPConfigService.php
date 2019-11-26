@@ -96,13 +96,11 @@ class tao_install_services_CheckPHPConfigService extends tao_install_services_Se
             }
         }
 
-
         // Deal with results to be sent to the client.
         $resultValue = [];
         $reports = $collection->check();
         foreach ($reports as $r) {
             $component = $r->getComponent();
-
 
             // For the retrieved component, what was the associated data and class ?
             $associatedData = null;
@@ -121,7 +119,6 @@ class tao_install_services_CheckPHPConfigService extends tao_install_services_Se
 
         // Sort by 'optional'.
         usort($resultValue, ['tao_install_services_CheckPHPConfigService', 'sortReports']);
-
 
         $resultData = json_encode(['type' => 'ReportCollection',
             'value' => '{RETURN_VALUE}', ]);
@@ -158,7 +155,6 @@ class tao_install_services_CheckPHPConfigService extends tao_install_services_Se
             throw new InvalidArgumentException("Unexpected type: 'type' must be equal to 'CheckPHPConfig'.");
         }
 
-
         if (self::getRequestMethod() !== 'get') {
             if (! isset($content['value']) || empty($content['value']) || count($content['value']) === 0) {
                 throw new InvalidArgumentException("Missing data: 'value' must be provided as a not empty array.");
@@ -193,6 +189,6 @@ class tao_install_services_CheckPHPConfigService extends tao_install_services_Se
             return 0;
         }
 
-        return ($a['value']['optional'] < $b['value']['optional']) ? -1 : 1;
+        return $a['value']['optional'] < $b['value']['optional'] ? -1 : 1;
     }
 }

@@ -44,7 +44,7 @@ final class OneTimeWorker extends AbstractWorker
             }
 
             unset($task);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->logError('Fetching data from queue failed with MSG: ' . $e->getMessage());
         }
 

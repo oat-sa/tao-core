@@ -56,7 +56,7 @@ interface QueueBrokerInterface extends \Countable, LoggerAwareInterface
     /**
      * Pops a task from the queue. Returns null if there is no more task.
      *
-     * @return null|TaskInterface
+     * @return TaskInterface|null
      */
     public function pop();
 

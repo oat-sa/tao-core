@@ -277,9 +277,8 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
             return $taskIdsParams;
         } elseif ($taskIdsParams === static::ALL) {
             return static::ALL;
-        } else {
-            return [$taskIdsParams];
         }
+        return [$taskIdsParams];
     }
 
     /**

@@ -75,7 +75,7 @@ class ActionService extends ConfigurableService
                         return self::ACCESS_GRANTED;
                     }
                     return self::ACCESS_DENIED;
-                } catch (\Exception $e) {
+                } catch (\Throwable $e) {
                     \common_Logger::w('Unable to resolve permission for action ' . $action->getId() . ' : ' . $e->getMessage());
                 }
             }
@@ -117,7 +117,7 @@ class ActionService extends ConfigurableService
                     $resolvedAction['controller'],
                     $resolvedAction['action']
                 );
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
                 \common_Logger::d('do not handle permissions for action : ' . $action->getName() . ' ' . $action->getUrl());
             }
         }
@@ -155,7 +155,7 @@ class ActionService extends ConfigurableService
             } catch (\ResolverException $re) {
                 $this->resolvedActions[$actionId] = null;
                 \common_Logger::d('do not handle permissions for action : ' . $action->getName() . ' ' . $action->getUrl());
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
                 $this->resolvedActions[$actionId] = null;
                 \common_Logger::d('do not handle permissions for action : ' . $action->getName() . ' ' . $action->getUrl());
             }

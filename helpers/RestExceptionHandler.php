@@ -30,7 +30,7 @@ class RestExceptionHandler
      * Set response header according exception type
      * @param Exception $exception
      */
-    public function sendHeader(Exception $exception)
+    public function sendHeader(\Throwable $exception)
     {
         switch (get_class($exception)) {
 

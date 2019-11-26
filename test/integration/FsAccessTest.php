@@ -242,7 +242,7 @@ class FsAccessTest extends TaoPhpUnitTestRunner
 
         WebsourceManager::singleton()->removeWebsource($websource);
 
-        $this->expectException(\Exception::class);
+        $this->expectException(\Throwable::class);
 
         WebsourceManager::singleton()->getWebsource($id);
     }

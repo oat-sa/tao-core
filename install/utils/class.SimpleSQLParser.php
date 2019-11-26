@@ -34,7 +34,6 @@ class tao_install_utils_SimpleSQLParser extends tao_install_utils_SQLParser
 {
     /**
      * Parses a SQL file containing simple statements.
-     * @return void
      * @throws tao_install_utils_SQLParsingException
      */
     public function parse()
@@ -59,7 +58,7 @@ class tao_install_utils_SimpleSQLParser extends tao_install_utils_SQLParser
                 $line = utf8_decode(fgets($handler));
 
                 if (isset($line[0]) && ($line[0] !== '#') && ($line[0] !== '-')) {
-                    $ch = $ch . $line;
+                    $ch .= $line;
                 }
             }
 
@@ -73,7 +72,7 @@ class tao_install_utils_SimpleSQLParser extends tao_install_utils_SQLParser
                         $this->addStatement($request);
                     }
                 }
-            } catch (Exception $e) {
+            } catch (\Throwable $e) {
                 throw new tao_install_utils_SQLParsingException("Error executing query #${index} : ${request} . " . $e->getMessage());
             }
             fclose($handler);

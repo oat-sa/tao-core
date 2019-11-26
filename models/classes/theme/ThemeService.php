@@ -51,7 +51,7 @@ class ThemeService extends ThemeServiceAbstract
 
         $themes[$themeId] = [
             static::THEME_CLASS_OFFSET => get_class($theme),
-            static::THEME_OPTIONS_OFFSET => ($theme instanceof Configurable) ? $theme->getOptions() : [],
+            static::THEME_OPTIONS_OFFSET => $theme instanceof Configurable ? $theme->getOptions() : [],
         ];
 
         $this->setOption(static::OPTION_AVAILABLE, $themes);

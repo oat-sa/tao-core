@@ -102,7 +102,7 @@ class MailAdapter extends ConfigurableService implements Transport
      * @param Message $message (optional)
      * @return string
      */
-    public function getFrom(Message $message = null)
+    public function getFrom(?Message $message = null)
     {
         $from = $message === null ? null : $message->getFrom();
         if (! $from) {

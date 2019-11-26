@@ -72,7 +72,6 @@ class ResourceIteratorTest extends TaoPhpUnitTestRunner
         $this->assertSame(['2', '3'], $resultArray);
         $this->assertTrue($iterator->valid() === false);
 
-
         $criteria = $queryBuilder->newQuery();
         $criteria->addCriterion(OntologyRdfs::RDFS_LABEL, SupportedOperatorHelper::GREATER_THAN_EQUAL, 3);
         $iterator = new ResourceIterator($this->getClasses(), $criteria);
@@ -80,7 +79,6 @@ class ResourceIteratorTest extends TaoPhpUnitTestRunner
         $this->assertSame('3', $iterator->current()->getLabel());
         $iterator->next();
         $this->assertTrue($iterator->valid() === false);
-
 
         $iterator = new ResourceIterator($this->getClasses());
         $iterator->setServiceLocator(ServiceManager::getServiceManager());

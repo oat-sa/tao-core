@@ -34,7 +34,6 @@ class tao_install_utils_CustomProceduresParser extends tao_install_utils_SQLPars
 {
     /**
      * Parse a SQL file containing mySQL compliant Procedures or Functions.
-     * @return void
      * @throws tao_install_utils_SQLParsingException
      */
     public function parse()
@@ -54,7 +53,6 @@ class tao_install_utils_CustomProceduresParser extends tao_install_utils_SQLPars
         if ($content !== false) {
             $matches = [];
             $functions = explode(';;', $content);
-
 
             foreach ($functions as $f) {
                 $this->addStatement($f);

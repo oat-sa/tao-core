@@ -97,7 +97,7 @@ class IndexSinceLastRunService extends IndexService
     private function getLastIndexTime()
     {
         $result = $this->getPersistence()->get(self::LAST_LAUNCH_TIME_KEY);
-        return $result ? $result : 0;
+        return $result ?: 0;
     }
 
     /**

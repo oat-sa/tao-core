@@ -47,7 +47,6 @@ abstract class tao_install_utils_SQLParser implements tao_install_utils_Parser
     /**
      * Sets the path to the SQL file that has to be parsed.
      * @param string $file The file path to the SQL file to parse.
-     * @return void
      */
     public function setFile($file)
     {
@@ -77,7 +76,6 @@ abstract class tao_install_utils_SQLParser implements tao_install_utils_Parser
     /**
      * Sets the array of string that represents the parsed SQL statements.
      * @param array $statements an array of SQL statements as strings.
-     * @return void
      */
     protected function setStatements(array $statements)
     {
@@ -87,7 +85,6 @@ abstract class tao_install_utils_SQLParser implements tao_install_utils_Parser
     /**
      * Adds a statement to the collection of parsed SQL statements.
      * @param string $statement The SQL statement to add.
-     * @return void
      */
     protected function addStatement($statement)
     {

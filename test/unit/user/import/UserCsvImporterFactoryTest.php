@@ -69,7 +69,6 @@ class UserCsvImporterFactoryTest extends TestCase
                 }
             }));
 
-
         $this->assertInstanceOf(ImportServiceInterface::class, $factory->create('test-taker'));
         $this->assertInstanceOf(ImportServiceInterface::class, $factory->create('proctor'));
         $this->assertInstanceOf(ImportServiceInterface::class, $factory->create('test-center-admin'));

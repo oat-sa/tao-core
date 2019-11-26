@@ -46,7 +46,7 @@ class RequiredActionService extends ConfigurableService implements RequiredActio
     public function getRequiredActions()
     {
         $actions = $this->getOption(self::OPTION_REQUIRED_ACTIONS);
-        return $actions ? $actions : [];
+        return $actions ?: [];
     }
 
     /**
@@ -99,9 +99,9 @@ class RequiredActionService extends ConfigurableService implements RequiredActio
      * Get first action which should be executed (one of action's rules return true).
      * @param string[] $names array of action names which should be checked. If array is empty all action will be checked.
      * @param Event $contextEvent
-     * @return null|RequiredActionInterface
+     * @return RequiredActionInterface|null
      */
-    public function getActionToBePerformed($names = [], Event $contextEvent = null)
+    public function getActionToBePerformed($names = [], ?Event $contextEvent = null)
     {
         $result = null;
         if (empty($names)) {
@@ -126,7 +126,7 @@ class RequiredActionService extends ConfigurableService implements RequiredActio
      * Check if any action must be executed and execute first of them.
      * @param Event $event
      */
-    public static function checkRequiredActions(Event $event = null)
+    public static function checkRequiredActions(?Event $event = null)
     {
         /** @var RequiredActionService $service */
         $service = ServiceManager::getServiceManager()->get(self::CONFIG_ID);

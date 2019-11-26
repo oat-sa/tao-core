@@ -45,7 +45,7 @@ class RegisterTaskQueueServices extends InstallAction
 
         try {
             $taskLogService->createContainer();
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return \common_report_Report::createFailure('Creating task log container failed');
         }
 

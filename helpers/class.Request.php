@@ -95,8 +95,6 @@ class tao_helpers_Request
     {
         $returnValue = (string) '';
 
-
-
         if (! empty($url)) {
             if ($useSession) {
                 session_write_close();
@@ -128,8 +126,6 @@ class tao_helpers_Request
             }
             curl_close($curlHandler);
         }
-
-
 
         return (string) $returnValue;
     }

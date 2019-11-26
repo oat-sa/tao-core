@@ -69,7 +69,7 @@ class tao_helpers_Display
         $returnValue = '';
 
         $randJoker = ($joker === '*');
-        $length = ((defined('TAO_DEFAULT_ENCODING')) ? mb_strlen($input, TAO_DEFAULT_ENCODING) : mb_strlen($input));
+        $length = (defined('TAO_DEFAULT_ENCODING') ? mb_strlen($input, TAO_DEFAULT_ENCODING) : mb_strlen($input));
         if ($maxLength > -1) {
             $length = min($length, $maxLength);
         }
@@ -82,7 +82,7 @@ class tao_helpers_Display
                 if ($input[$i] === ' ') {
                     $returnValue .= '_';
                 } else {
-                    $returnValue .= (($randJoker === true) ? chr(random_int(97, 122)) : $joker);
+                    $returnValue .= ($randJoker === true ? chr(random_int(97, 122)) : $joker);
                 }
             }
             $i++;
@@ -147,7 +147,7 @@ class tao_helpers_Display
         $config->set('Attr.AllowedFrameTargets', ['_blank']);
 
         $purifier = new HTMLPurifier($config);
-        return  $purifier->purify($input);
+        return $purifier->purify($input);
     }
 
     /**

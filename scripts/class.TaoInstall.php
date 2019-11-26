@@ -134,7 +134,7 @@ class tao_scripts_TaoInstall extends tao_scripts_Runner
             // mod rewrite cannot be detected in CLI Mode.
             $installator->escapeCheck('custom_tao_ModRewrite');
             $installator->install($options);
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             $this->logError('A fatal error has occurred during installation: ' . $e->getMessage());
             $this->handleError($e);
         }

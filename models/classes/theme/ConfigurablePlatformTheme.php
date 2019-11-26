@@ -166,7 +166,7 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
         // make sure label and extension id are set
         foreach ($this->mandatoryOptions as $required) {
             if (empty($options[$required])) {
-                throw new \common_exception_MissingParameter($required, __CLASS__);
+                throw new \common_exception_MissingParameter($required, self::class);
             }
         }
 
@@ -335,7 +335,7 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      */
     public function getText($key)
     {
-        return (array_key_exists($key, $this->customTexts)) ? $this->customTexts[$key] : '';
+        return array_key_exists($key, $this->customTexts) ? $this->customTexts[$key] : '';
     }
 
     /**
@@ -394,7 +394,7 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
     protected function setupOptions($options)
     {
         if (empty($options[static::EXTENSION_ID])) {
-            $cls = get_class($this);
+            $cls = static::class;
             strtok($cls, '\\');
             $options[static::EXTENSION_ID] = strtok('\\');
         }

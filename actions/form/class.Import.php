@@ -106,7 +106,6 @@ class tao_actions_form_Import extends tao_helpers_form_FormContainer
         }
         $formatElt->setOptions($importHandlerOptions);
 
-
         $classUriElt = tao_helpers_form_FormFactory::getElement('classUri', 'Hidden');
         //		$classUriElt->setValue($class->getUri());
         $this->form->addElement($classUriElt);

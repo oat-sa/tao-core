@@ -80,15 +80,15 @@ class BasicType extends AbstractAuthType
      */
     public function getInstance()
     {
-        throw new MethodNotFoundException('getInstance method was deprecated', __CLASS__, __METHOD__);
+        throw new MethodNotFoundException('getInstance method was deprecated', self::class, __METHOD__);
     }
 
     /**
      * @param \core_kernel_classes_Resource|null $instance
      */
-    public function setInstance(\core_kernel_classes_Resource $instance = null)
+    public function setInstance(?\core_kernel_classes_Resource $instance = null)
     {
-        throw new MethodNotFoundException('setInstance method was deprecated', __CLASS__, __METHOD__);
+        throw new MethodNotFoundException('setInstance method was deprecated', self::class, __METHOD__);
     }
 
     /**

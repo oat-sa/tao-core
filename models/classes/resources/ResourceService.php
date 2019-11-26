@@ -128,7 +128,7 @@ class ResourceService extends ConfigurableService
 
                     $permissions['data'] = $permissionManager->getPermissions($user, $uris);
                 }
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
                 \common_Logger::w('Unable to retrieve permssions ' . $e->getMessage());
             }
         }

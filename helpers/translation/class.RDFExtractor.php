@@ -68,58 +68,57 @@ class tao_helpers_translation_RDFExtractor extends tao_helpers_translation_Trans
                 throw new tao_helpers_translation_TranslationException("No RDF file to parse at '${path}'.");
             } elseif (! is_readable($path)) {
                 throw new tao_helpers_translation_TranslationException("'${path}' is not readable. Please check file system rights.");
-            } else {
-                try {
-                    $tus = [];
-                    $rdfNS = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#';
-                    $rdfsNS = 'http://www.w3.org/2000/01/rdf-schema#';
-                    $xmlNS = 'http://www.w3.org/XML/1998/namespace'; // http://www.w3.org/TR/REC-xml-names/#NT-NCName
+            }
+            try {
+                $tus = [];
+                $rdfNS = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#';
+                $rdfsNS = 'http://www.w3.org/2000/01/rdf-schema#';
+                $xmlNS = 'http://www.w3.org/XML/1998/namespace'; // http://www.w3.org/TR/REC-xml-names/#NT-NCName
 
-                    $translatableProperties = $this->translatableProperties;
+                $translatableProperties = $this->translatableProperties;
 
-                    // Try to parse the file as a DOMDocument.
-                    $doc = new DOMDocument('1.0', 'UTF-8');
-                    $doc->load(realpath($path));
-                    if ($doc->documentElement->hasAttributeNS($xmlNS, 'base')) {
-                        $this->xmlBase[$path] = $doc->documentElement->getAttributeNodeNS($xmlNS, 'base')->value;
-                    }
+                // Try to parse the file as a DOMDocument.
+                $doc = new DOMDocument('1.0', 'UTF-8');
+                $doc->load(realpath($path));
+                if ($doc->documentElement->hasAttributeNS($xmlNS, 'base')) {
+                    $this->xmlBase[$path] = $doc->documentElement->getAttributeNodeNS($xmlNS, 'base')->value;
+                }
 
-                    $descriptions = $doc->getElementsByTagNameNS($rdfNS, 'Description');
-                    foreach ($descriptions as $description) {
-                        if ($description->hasAttributeNS($rdfNS, 'about')) {
-                            $about = $description->getAttributeNodeNS($rdfNS, 'about')->value;
+                $descriptions = $doc->getElementsByTagNameNS($rdfNS, 'Description');
+                foreach ($descriptions as $description) {
+                    if ($description->hasAttributeNS($rdfNS, 'about')) {
+                        $about = $description->getAttributeNodeNS($rdfNS, 'about')->value;
 
-                            // At the moment only get rdfs:label and rdfs:comment
-                            // c.f. array $translatableProperties
-                            // In the future, this should be configured in the constructor
-                            // or by methods.
-                            $children = [];
-                            foreach ($translatableProperties as $prop) {
-                                $uri = explode('#', $prop);
-                                if (count($uri) === 2) {
-                                    $uri[0] .= '#';
-                                    $nodeList = $description->getElementsByTagNameNS($uri[0], $uri[1]);
+                        // At the moment only get rdfs:label and rdfs:comment
+                        // c.f. array $translatableProperties
+                        // In the future, this should be configured in the constructor
+                        // or by methods.
+                        $children = [];
+                        foreach ($translatableProperties as $prop) {
+                            $uri = explode('#', $prop);
+                            if (count($uri) === 2) {
+                                $uri[0] .= '#';
+                                $nodeList = $description->getElementsByTagNameNS($uri[0], $uri[1]);
 
-                                    for ($i = 0; $i < $nodeList->length; $i++) {
-                                        $children[] = $nodeList->item($i);
-                                    }
+                                for ($i = 0; $i < $nodeList->length; $i++) {
+                                    $children[] = $nodeList->item($i);
                                 }
                             }
-
-                            foreach ($children as $child) {
-                                // Only process if it has a language attribute.
-                                $tus = $this->processUnit($child, $xmlNS, $about, $tus);
-                            }
-                        } else {
-                            // Description about nothing.
-                            continue;
                         }
-                    }
 
-                    $this->setTranslationUnits($tus);
-                } catch (DOMException $e) {
-                    throw new tao_helpers_translation_TranslationException("Unable to parse RDF file at '${path}'. DOM returns '" . $e->getMessage() . "'.");
+                        foreach ($children as $child) {
+                            // Only process if it has a language attribute.
+                            $tus = $this->processUnit($child, $xmlNS, $about, $tus);
+                        }
+                    } else {
+                        // Description about nothing.
+                        continue;
+                    }
                 }
+
+                $this->setTranslationUnits($tus);
+            } catch (DOMException $e) {
+                throw new tao_helpers_translation_TranslationException("Unable to parse RDF file at '${path}'. DOM returns '" . $e->getMessage() . "'.");
             }
         }
     }
@@ -179,12 +178,10 @@ class tao_helpers_translation_RDFExtractor extends tao_helpers_translation_Trans
     {
         $returnValue = (string) '';
 
-
         if (! isset($this->xmlBase[$path])) {
             throw new tao_helpers_translation_TranslationException('Missing xmlBase for file ' . $path);
         }
         $returnValue = $this->xmlBase[$path];
-
 
         return (string) $returnValue;
     }

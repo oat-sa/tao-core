@@ -38,6 +38,7 @@ use Context;
 abstract class LegacyController extends Controller
 {
     protected $response;
+
     protected $request;
 
     /**
@@ -385,7 +386,7 @@ abstract class LegacyController extends Controller
         if ($function !== null) {
             $message .= 'of "' . $function . '"';
         }
-        $message .= ' (' . get_called_class() . ')';
+        $message .= ' (' . static::class . ')';
         \common_Logger::i($message);
     }
 }

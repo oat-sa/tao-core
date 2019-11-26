@@ -79,7 +79,7 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
         $this->parameters = $parameters;
     }
 
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response = null)
+    public function __invoke(ServerRequestInterface $request, ?ResponseInterface $response = null)
     {
         $this->request = $request;
         $this->response = $response;

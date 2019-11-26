@@ -70,7 +70,6 @@ class tao_actions_form_Translate extends tao_actions_form_Instance
         $elements = $this->form->getElements();
         $this->form->setElements([]);
 
-
         $currentLangElt = tao_helpers_form_FormFactory::getElement('current_lang', 'Textbox');
         $currentLangElt->setDescription(__('Current language'));
         $currentLangElt->setAttributes(['readonly' => 'true']);

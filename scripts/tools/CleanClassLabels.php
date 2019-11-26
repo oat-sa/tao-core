@@ -36,7 +36,7 @@ class CleanClassLabels extends AbstractAction
         try {
             if (! isset($params[0])) {
                 return \common_report_Report::createFailure(
-                    'CLASS_URI not provided' . PHP_EOL . 'Usage: php index.php ' . __CLASS__ . ' [CLASS_URI]'
+                    'CLASS_URI not provided' . PHP_EOL . 'Usage: php index.php ' . self::class . ' [CLASS_URI]'
                 );
             }
 
@@ -61,7 +61,7 @@ class CleanClassLabels extends AbstractAction
             return \common_report_Report::createSuccess(
                 sprintf('instances with duplicates labels cleaned %u', $cleaned)
             );
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return \common_report_Report::createFailure($e->getMessage());
         }
     }

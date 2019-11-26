@@ -693,7 +693,7 @@ class tao_helpers_File extends helpers_File
             while (file_exists($directory . $safeName . '_' . $count . $safeEnding)) {
                 $count++;
             }
-            $safeName = $safeName . '_' . $count;
+            $safeName .= '_' . $count;
         }
 
         return $safeName . $safeEnding;

@@ -51,7 +51,7 @@ class tao_helpers_Javascript
             foreach ($var as $k => $v) {
                 $k = is_int($k) ? '"' . json_encode($k) . '"' : json_encode($k);
                 $returnValue .= $k . ':' . self::buildObject($v, $format);
-                $returnValue .= ($i < count($var)) ? ',' : '';
+                $returnValue .= $i < count($var) ? ',' : '';
                 $returnValue .= $format ? PHP_EOL : '';
                 $i++;
             }

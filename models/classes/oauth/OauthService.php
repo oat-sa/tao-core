@@ -131,7 +131,7 @@ class OauthService extends ConfigurableService implements \common_http_Signature
      * @throws common_http_InvalidSignatureException
      * @author Joel Bout, <joel@taotesting.com>
      */
-    public function validate(common_http_Request $request, common_http_Credentials $credentials = null)
+    public function validate(common_http_Request $request, ?common_http_Credentials $credentials = null)
     {
         $server = new OAuthServer($this->getDataStore());
         $method = new OAuthSignatureMethod_HMAC_SHA1();
@@ -158,7 +158,7 @@ class OauthService extends ConfigurableService implements \common_http_Signature
      * @return array [OAuthConsumer, token]
      * @throws common_http_InvalidSignatureException
      */
-    public function validatePsrRequest(ServerRequestInterface $request, common_http_Credentials $credentials = null)
+    public function validatePsrRequest(ServerRequestInterface $request, ?common_http_Credentials $credentials = null)
     {
         $oldRequest = $this->buildCommonRequestFromPsr($request);
         return $this->validate($oldRequest, $credentials);

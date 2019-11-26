@@ -93,7 +93,6 @@ abstract class tao_install_services_Service
     /**
      * Sets the current HTTP status for the current request handled by the Service.
      * @param int $status An HTTP Code.
-     * @return void
      */
     protected function setStatus($status)
     {
@@ -112,7 +111,6 @@ abstract class tao_install_services_Service
     /**
      * Sets the request Data handled by the Service.
      * @param tao_install_Services_Data $data The request Data that must be handled by the service.
-     * @return void
      */
     protected function setData(tao_install_services_Data $data)
     {
@@ -122,7 +120,6 @@ abstract class tao_install_services_Service
     /**
      * Sets the request result that has to be returned by the Service.
      * @param tao_install_services_Data $result The Data that represents the Service result.
-     * @return void
      */
     protected function setResult(tao_install_services_Data $result)
     {

@@ -55,7 +55,7 @@ abstract class tao_helpers_form_Validator extends Configurable implements Valida
      */
     public function getName()
     {
-        return (string) str_replace('tao_helpers_form_validators_', '', get_class($this));
+        return (string) str_replace('tao_helpers_form_validators_', '', static::class);
     }
 
     /**

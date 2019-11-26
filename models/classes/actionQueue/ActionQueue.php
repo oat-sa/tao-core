@@ -78,14 +78,14 @@ interface ActionQueue
      * @param User $user user which tries to perform action
      * @return boolean
      */
-    public function perform(QueuedAction $action, User $user = null);
+    public function perform(QueuedAction $action, ?User $user = null);
 
     /**
      * @param QueuedAction $action
      * @param User $user
      * @return integer
      */
-    public function getPosition(QueuedAction $action, User $user = null);
+    public function getPosition(QueuedAction $action, ?User $user = null);
 
     /**
      * @param QueuedAction $action

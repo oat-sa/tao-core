@@ -76,7 +76,7 @@ interface TaskLogBrokerInterface extends ServiceLocatorAwareInterface
      *
      * @param TaskInterface $task
      * @param string        $status
-     * @param null|string   $label
+     * @param string|null $label
      */
     public function add(TaskInterface $task, $status, $label = null);
 
@@ -105,7 +105,7 @@ interface TaskLogBrokerInterface extends ServiceLocatorAwareInterface
      *
      * @param string      $taskId
      * @param Report      $report
-     * @param null|string $newStatus
+     * @param string|null $newStatus
      * @return int
      */
     public function addReport($taskId, Report $report, $newStatus = null);

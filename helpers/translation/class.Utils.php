@@ -44,9 +44,7 @@ class tao_helpers_translation_Utils
     {
         $returnValue = (string) '';
 
-
         $returnValue = 'en-US';
-
 
         return (string) $returnValue;
     }

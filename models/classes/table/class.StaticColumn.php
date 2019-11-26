@@ -89,9 +89,7 @@ class tao_models_classes_table_StaticColumn extends tao_models_classes_table_Col
     {
         $returnValue = (string) '';
 
-
         $returnValue = $column->value;
-
 
         return (string) $returnValue;
     }
@@ -107,10 +105,8 @@ class tao_models_classes_table_StaticColumn extends tao_models_classes_table_Col
     {
         $returnValue = [];
 
-
         $returnValue = parent::toArray();
         $returnValue['val'] = $this->value;
-
 
         return (array) $returnValue;
     }
@@ -126,7 +122,6 @@ class tao_models_classes_table_StaticColumn extends tao_models_classes_table_Col
     {
         $returnValue = null;
 
-
         return $this;
     }
 
@@ -141,7 +136,6 @@ class tao_models_classes_table_StaticColumn extends tao_models_classes_table_Col
     protected static function fromArray($array)
     {
         $returnValue = null;
-
 
         return new self($array['label'], $array['val']);
     }

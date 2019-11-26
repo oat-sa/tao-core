@@ -72,7 +72,6 @@ class AdaptersTestCase extends TestCase
             'UserUILg' => 'http://www.tao.lu/Ontologies/TAO.rdf#LangEN', ];
         $this->assertSame($csvFile->getRow(4, true), $expectedRow);
 
-
         // + Subtest 2: Unicode CSV file withouth header row.
         // --------------------------------------------------------------------------------
         $path = dirname(__FILE__) . self::CSV_FILE_USERS_NO_HEADER_UNICODE;
@@ -147,7 +146,6 @@ class AdaptersTestCase extends TestCase
             'password' => 'iribassin',
             'UserUILg' => 'http://www.tao.lu/Ontologies/TAO.rdf#LangEN|http://www.tao.lu/Ontologies/TAO.rdf#LangAR|http://www.tao.lu/Ontologies/TAO.rdf#LangDE', ];
         $this->assertSame($csvFile->getRow(13, true), $expectedRow);
-
 
         // With multi values
         //---------------------------------------------------------------------------------

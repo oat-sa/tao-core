@@ -401,7 +401,6 @@ abstract class AbstractIndexedCsv implements Action
         }
         $this->setSourceFp($sourceFp);
 
-
         if ($destinationFp === false) {
             return new Report(
                 Report::TYPE_ERROR,
@@ -410,9 +409,9 @@ abstract class AbstractIndexedCsv implements Action
         }
         $this->setDestinationFp($destinationFp);
         return new Report(
-                Report::TYPE_SUCCESS,
-                'Source and destination files open.'
-            );
+            Report::TYPE_SUCCESS,
+            'Source and destination files open.'
+        );
     }
 
     /**

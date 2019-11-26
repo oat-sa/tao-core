@@ -78,7 +78,7 @@ class tao_helpers_data_CsvFile
      * The largest count will be taken into account.
      *
      * @access private
-     * @var Integer
+     * @var integer
      */
     private $columnCount = null;
 
@@ -134,7 +134,6 @@ class tao_helpers_data_CsvFile
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  string $source
-     * @return void
      */
     public function load($source)
     {
@@ -201,7 +200,6 @@ class tao_helpers_data_CsvFile
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  array $array
-     * @return void
      */
     public function setOptions($array = [])
     {
@@ -304,7 +302,6 @@ class tao_helpers_data_CsvFile
      * @param  int $col row Row Index. If there is no such row, an IllegalArgumentException is thrown.
      * @param  int $value col
      * @param  int value The value to set at $row,$col.
-     * @return void
      */
     public function setValue($row, $col, $value)
     {
@@ -345,7 +342,6 @@ class tao_helpers_data_CsvFile
      * @access protected
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  array $data
-     * @return void
      */
     protected function setData($data)
     {
@@ -358,7 +354,6 @@ class tao_helpers_data_CsvFile
      * @access protected
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  array $columnMapping
-     * @return void
      */
     protected function setColumnMapping($columnMapping)
     {
@@ -371,7 +366,6 @@ class tao_helpers_data_CsvFile
      * @access protected
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  int $count The column count.
-     * @return void
      */
     protected function setColumnCount($count)
     {

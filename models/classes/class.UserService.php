@@ -135,7 +135,7 @@ class tao_models_classes_UserService extends ConfigurableService implements core
      * @param
      * @return boolean
      */
-    public function loginExists($login, core_kernel_classes_Class $class = null)
+    public function loginExists($login, ?core_kernel_classes_Class $class = null)
     {
         $returnValue = (bool) false;
 
@@ -172,7 +172,7 @@ class tao_models_classes_UserService extends ConfigurableService implements core
      * @param core_kernel_classes_Class $class A specific class to search the user.
      * @return core_kernel_classes_Resource
      */
-    public function getOneUser($login, core_kernel_classes_Class $class = null)
+    public function getOneUser($login, ?core_kernel_classes_Class $class = null)
     {
         $returnValue = null;
 
@@ -180,7 +180,7 @@ class tao_models_classes_UserService extends ConfigurableService implements core
             throw new common_exception_InvalidArgumentType('Missing login for ' . __FUNCTION__);
         }
 
-        $class = (! empty($class)) ? $class : $this->getRootClass();
+        $class = ! empty($class) ? $class : $this->getRootClass();
 
         $user = $this->generisUserService->getOneUser($login, $class);
 
@@ -353,7 +353,7 @@ class tao_models_classes_UserService extends ConfigurableService implements core
      * @return core_kernel_classes_Resource the new user
      * @throws core_kernel_users_Exception If an error occurs.
      */
-    public function addUser($login, $password, core_kernel_classes_Resource $role = null, core_kernel_classes_Class $class = null)
+    public function addUser($login, $password, ?core_kernel_classes_Resource $role = null, ?core_kernel_classes_Class $class = null)
     {
         $this->checkCurrentUserAccess($role);
         if (empty($class)) {

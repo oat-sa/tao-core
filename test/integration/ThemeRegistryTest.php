@@ -25,8 +25,6 @@ namespace oat\tao\test\integration;
 use oat\generis\test\GenerisPhpUnitTestRunner;
 use oat\tao\model\ThemeRegistry;
 
-
-
 /**
  * @author Lionel Lecaque, lionel@taotesting.com
  */
@@ -156,9 +154,7 @@ class ThemeRegistryTest extends GenerisPhpUnitTestRunner
         $this->assertSame(0, count($map['testsTest']['available'])); //no themes left in testsTest
     }
 
-    //
     //Negative tests follow
-    //
 
     /**
      * @expectedException \common_Exception

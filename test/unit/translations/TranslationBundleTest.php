@@ -48,7 +48,7 @@ class TranslationBundleTest extends TestCase
      */
     public static function setUpBeforeClass()
     {
-        self::$tmpDir = sys_get_temp_dir() . '/phpunit-' . __CLASS__;
+        self::$tmpDir = sys_get_temp_dir() . '/phpunit-' . self::class;
         if (! file_exists(self::$tmpDir)) {
             mkdir(self::$tmpDir);
         }

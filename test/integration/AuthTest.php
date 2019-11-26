@@ -126,14 +126,13 @@ class AuthTestCase extends TaoPhpUnitTestRunner
         //check session
         $this->assertTrue(tao_models_classes_UserService::singleton()->isASessionOpened());
 
-
         $currentUser = $this->userService->getCurrentUser();
         $this->assertIsA($currentUser, 'core_kernel_classes_Resource');
         foreach ($this->testUserData as $prop => $value) {
             try {
                 $property = new core_kernel_classes_Property($prop);
                 $v = $currentUser->getUniquePropertyValue(new core_kernel_classes_Property($prop));
-                $v = ($v instanceof core_kernel_classes_Resource) ? $v->getUri() : $v->literal;
+                $v = $v instanceof core_kernel_classes_Resource ? $v->getUri() : $v->literal;
                 $this->assertSame($value, $v);
             } catch (common_Exception $ce) {
                 $this->fail($ce);

@@ -108,9 +108,7 @@ class tao_helpers_Scriptloader
             self::addCssFile($file);
         }
 
-        //
         //@todo load action scripts
-        //
     }
 
     /**
@@ -288,7 +286,6 @@ class tao_helpers_Scriptloader
     {
         $returnValue = (string) '';
 
-
         if (empty($filter) || strtolower($filter) === self::CSS) {
             foreach (self::$cssFiles as $file) {
                 $returnValue .= "\t<link rel='stylesheet' type='text/css' href='{$file}' />\n";
@@ -306,7 +303,6 @@ class tao_helpers_Scriptloader
                 $returnValue .= "\t<script type='text/javascript' src='{$file}' ></script>\n";
             }
         }
-
 
         return (string) $returnValue;
     }

@@ -28,7 +28,7 @@ require_once dirname(__FILE__) . '/../includes/raw_start.php';
 function out($msg = '')
 {
     print $msg;
-    print (PHP_SAPI === 'cli') ? "\n" : '<br />';
+    print PHP_SAPI === 'cli' ? "\n" : '<br />';
 }
 out();
 out('Running ' . basename(__FILE__));
@@ -46,7 +46,7 @@ if (PHP_SAPI === 'cli') {	//from command line
         $exportDir = $_SERVER['argv'][1];
     }
     if (isset($_SERVER['argv'][2])) {
-        ($_SERVER['argv'][2] === 'long') ? $nameMode = 'long' : $nameMode = 'short';
+        $_SERVER['argv'][2] === 'long' ? $nameMode = 'long' : $nameMode = 'short';
     }
 } else {					//from a browser
 
@@ -54,7 +54,7 @@ if (PHP_SAPI === 'cli') {	//from command line
         $exportDir = $_GET['exportDir'];
     }
     if (isset($_GET['nameMode'])) {
-        ($_GET['nameMode'] === 'long') ? $nameMode = 'long' : $nameMode = 'short';
+        $_GET['nameMode'] === 'long' ? $nameMode = 'long' : $nameMode = 'short';
     }
 }
 if (! is_dir($exportDir)) {

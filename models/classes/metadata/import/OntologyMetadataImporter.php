@@ -54,7 +54,7 @@ abstract class OntologyMetadataImporter extends ConfigurableService implements M
             $injectorString .= '    \'' . $name . '\' => ' . $injector->__toPhpCode() . PHP_EOL;
         }
 
-        return 'new ' . get_class($this) . '(array(' . PHP_EOL . $injectorString . '))';
+        return 'new ' . static::class . '(array(' . PHP_EOL . $injectorString . '))';
     }
 
     /**

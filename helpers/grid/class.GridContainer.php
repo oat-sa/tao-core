@@ -91,7 +91,7 @@ abstract class tao_helpers_grid_GridContainer
     {
         $this->data = $data;
         $this->options = $options;
-        $this->excludedProperties = (is_array($this->options) && isset($this->options['excludedProperties'])) ? $this->options['excludedProperties'] : [];
+        $this->excludedProperties = is_array($this->options) && isset($this->options['excludedProperties']) ? $this->options['excludedProperties'] : [];
         $this->grid = new tao_helpers_grid_Grid($options);
 
         //init columns ...
@@ -137,7 +137,6 @@ abstract class tao_helpers_grid_GridContainer
     {
         $returnValue = null;
 
-
         return $this->grid;
     }
 
@@ -152,9 +151,7 @@ abstract class tao_helpers_grid_GridContainer
     {
         $returnValue = [];
 
-
         $returnValue = $this->grid->toArray();
-
 
         return (array) $returnValue;
     }
@@ -169,8 +166,6 @@ abstract class tao_helpers_grid_GridContainer
     public function initOptions($options = [])
     {
         $returnValue = (bool) false;
-
-
 
         $columns = $this->grid->getColumns();
         if (isset($options['columns'])) {
@@ -204,7 +199,6 @@ abstract class tao_helpers_grid_GridContainer
             }
         }
 
-
         return (bool) $returnValue;
     }
 
@@ -219,12 +213,8 @@ abstract class tao_helpers_grid_GridContainer
     {
         $returnValue = (bool) false;
 
-
-
         //set data if data given
         $returnValue = $this->grid->setData($this->data);
-
-
 
         return (bool) $returnValue;
     }

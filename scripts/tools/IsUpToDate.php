@@ -44,12 +44,12 @@ declare(strict_types=1);
 require(__DIR__ . '/../../../vendor/autoload.php');
 
 $options = getopt('p:v');
-$path = (! isset($options['p'])) ? '' : $options['p'];
+$path = ! isset($options['p']) ? '' : $options['p'];
 $isUpToDate = \tao_install_utils_System::isTAOUpToDate($path);
-$exitCode = ($isUpToDate) ? 0 : 128;
+$exitCode = $isUpToDate ? 0 : 128;
 
 if (isset($options['v'])) {
-    echo ($isUpToDate) ? "TAO is up to date.\n" : "TAO is NOT up to date.\n";
+    echo $isUpToDate ? "TAO is up to date.\n" : "TAO is NOT up to date.\n";
 }
 
 exit($exitCode);

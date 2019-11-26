@@ -109,8 +109,6 @@ abstract class tao_helpers_form_elements_Template extends tao_helpers_form_FormE
     {
         $returnValue = null;
 
-
-
         return $this->values;
     }
 
@@ -125,16 +123,12 @@ abstract class tao_helpers_form_elements_Template extends tao_helpers_form_FormE
     {
         $returnValue = (string) '';
 
-
-
         //prevent to use empty prefix. By default the name is used!
         if (empty($this->prefix) && ! empty($this->name)) {
             $this->prefix = $this->name . '_';
         }
 
         $returnValue = $this->prefix;
-
-
 
         return (string) $returnValue;
     }

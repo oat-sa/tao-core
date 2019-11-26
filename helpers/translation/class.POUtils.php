@@ -53,7 +53,6 @@ class tao_helpers_translation_POUtils
     {
         $returnValue = (string) '';
 
-
         if ($reverse) {
             $smap = ['"', "\n", "\t", "\r"];
             $rmap = ['\\"', '\\n"' . "\n" . '"', '\\t', '\\r'];
@@ -63,7 +62,6 @@ class tao_helpers_translation_POUtils
             $rmap = ['', "\n", "\r", "\t", '"'];
             $returnValue = (string) preg_replace($smap, $rmap, $string);
         }
-
 
         return (string) $returnValue;
     }
@@ -79,7 +77,6 @@ class tao_helpers_translation_POUtils
     public static function unserializeAnnotations($annotations)
     {
         $returnValue = [];
-
 
         $matches = [];
         $encoding = self::getApplicationHelper()->getDefaultEncoding();
@@ -145,7 +142,6 @@ class tao_helpers_translation_POUtils
             throw new tao_helpers_translation_TranslationException("An error occured while unserializing annotations '${annotations}'.");
         }
 
-
         return (array) $returnValue;
     }
 
@@ -160,7 +156,6 @@ class tao_helpers_translation_POUtils
     public static function serializeAnnotations($annotations)
     {
         $returnValue = (string) '';
-
 
         // Buffer will contain each line of the serialized PO comment block.
         $buffer = [];
@@ -203,7 +198,6 @@ class tao_helpers_translation_POUtils
         // Glue the annotation lines in a single PO comment block.
         $returnValue = implode("\n", $buffer);
 
-
         return (string) $returnValue;
     }
 
@@ -220,14 +214,12 @@ class tao_helpers_translation_POUtils
     {
         $returnValue = (string) '';
 
-
         $returnValue = $comment;
         $flag = trim($flag);
         $encoding = self::getApplicationHelper()->getDefaultEncoding();
         if (mb_strpos($returnValue, $flag, 0, $encoding) === false) {
-            $returnValue .= ((mb_strlen($returnValue, $encoding) > 0) ? " ${flag}" : $flag);
+            $returnValue .= (mb_strlen($returnValue, $encoding) > 0 ? " ${flag}" : $flag);
         }
-
 
         return (string) $returnValue;
     }

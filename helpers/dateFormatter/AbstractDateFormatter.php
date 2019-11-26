@@ -80,7 +80,7 @@ class AbstractDateFormatter extends Configurable implements DateFormatterInterfa
     /**
      * {@inheritdoc}
      */
-    public function format($timestamp, $format, DateTimeZone $timeZone = null)
+    public function format($timestamp, $format, ?DateTimeZone $timeZone = null)
     {
         // Creates DateTime with microseconds.
         $dateTime = DateTime::createFromFormat('U.u', sprintf('%.f', $timestamp));

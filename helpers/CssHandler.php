@@ -95,7 +95,7 @@ class CssHandler
                         foreach ($value3 as $mProp) {
                             $css .= $break . $mProp . ':' . $value3 . ';';
                         }
-                        $css .= ($compressed) ? '}' : "\n}\n";
+                        $css .= $compressed ? '}' : "\n}\n";
                     }
                 }
                 // regular selectors
@@ -103,7 +103,7 @@ class CssHandler
                     $css .= $break . $key2 . ':' . $value2 . ';';
                 }
             }
-            $css .= ($compressed) ? '}' : "\n}\n";
+            $css .= $compressed ? '}' : "\n}\n";
         }
         return $css;
     }

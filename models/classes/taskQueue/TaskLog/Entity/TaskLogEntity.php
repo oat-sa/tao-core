@@ -86,9 +86,9 @@ class TaskLogEntity implements EntityInterface
         array $parameters,
         $label,
         $owner,
-        DateTime $createdAt = null,
-        DateTime $updatedAt = null,
-        Report $report = null,
+        ?DateTime $createdAt = null,
+        ?DateTime $updatedAt = null,
+        ?Report $report = null,
         $masterStatus = false
     ) {
         $this->id = $id;

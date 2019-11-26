@@ -58,7 +58,7 @@ class RdfPack implements \IteratorAggregate
     public function __construct($langCode, \common_ext_Extension $extension)
     {
         if (! is_string($langCode)) {
-            throw new \common_exception_InvalidArgumentType(__CLASS__, __METHOD__, 0, 'string', $this);
+            throw new \common_exception_InvalidArgumentType(self::class, __METHOD__, 0, 'string', $this);
         }
         if (empty($langCode) || empty($extension)) {
             throw new \common_exception_Error('$langCode and $extensions needs to be assigned.');
@@ -98,7 +98,7 @@ class RdfPack implements \IteratorAggregate
                 $triple = new \core_kernel_classes_Triple();
                 $triple->subject = $about;
                 $triple->predicate = $tu->getContext();
-                $triple->object = $tu->getTarget() ? $tu->getTarget() : $tu->getSource();
+                $triple->object = $tu->getTarget() ?: $tu->getSource();
                 $triple->lg = $tu->getTargetLanguage();
                 $triple->modelid = $modelId;
                 $triples[] = $triple;

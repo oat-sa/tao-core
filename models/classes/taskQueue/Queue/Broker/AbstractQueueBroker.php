@@ -59,11 +59,11 @@ abstract class AbstractQueueBroker implements QueueBrokerInterface, PhpSerializa
 
     public function __toPhpCode()
     {
-        return 'new ' . get_called_class() . '(' . \common_Utils::toHumanReadablePhpString($this->numberOfTasksToReceive) . ')';
+        return 'new ' . static::class . '(' . \common_Utils::toHumanReadablePhpString($this->numberOfTasksToReceive) . ')';
     }
 
     /**
-     * @return null|TaskInterface
+     * @return TaskInterface|null
      */
     public function pop()
     {
@@ -128,7 +128,7 @@ abstract class AbstractQueueBroker implements QueueBrokerInterface, PhpSerializa
      * @param string $taskJSON
      * @param string $idForDeletion An identification of the given task
      * @param array  $logContext
-     * @return null|TaskInterface
+     * @return TaskInterface|null
      */
     protected function unserializeTask($taskJSON, $idForDeletion, array $logContext = [])
     {
@@ -137,7 +137,7 @@ abstract class AbstractQueueBroker implements QueueBrokerInterface, PhpSerializa
 
         try {
             return $taskSerializer->deserialize($taskJSON);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->doDelete($idForDeletion, $logContext);
 
             return null;

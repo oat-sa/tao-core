@@ -42,12 +42,12 @@ declare(strict_types=1);
 require(__DIR__ . '/../../../vendor/autoload.php');
 
 $options = getopt('p:v');
-$path = (! isset($options['p'])) ? '' : $options['p'];
+$path = ! isset($options['p']) ? '' : $options['p'];
 $isInstalled = \tao_install_utils_System::isTAOInstalled($path);
-$exitCode = ($isInstalled) ? 0 : 128;
+$exitCode = $isInstalled ? 0 : 128;
 
 if (isset($options['v'])) {
-    echo ($isInstalled) ? "TAO is installed.\n" : "TAO is NOT installed.\n";
+    echo $isInstalled ? "TAO is installed.\n" : "TAO is NOT installed.\n";
 }
 
 exit($exitCode);

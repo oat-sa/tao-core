@@ -48,8 +48,8 @@ class Status implements Action, ServiceLocatorAwareInterface
                 );
             }
             return \common_report_Report::createSuccess(
-                    __('TAO platform is under maintenance since %s', $state->getDuration()->format(MaintenanceState::DATEDIFF_FORMAT))
-                );
+                __('TAO platform is under maintenance since %s', $state->getDuration()->format(MaintenanceState::DATEDIFF_FORMAT))
+            );
         } catch (\common_Exception $e) {
             return \common_report_Report::createFailure(__('Error: %s', $e->getMessage()));
         }

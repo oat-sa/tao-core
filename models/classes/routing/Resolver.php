@@ -81,7 +81,7 @@ class Resolver implements ServiceLocatorAwareInterface
                 return;
             }
         }
-        throw new \common_exception_InvalidArgumentType(__CLASS__, __FUNCTION__, 1, ServerRequestInterface::class, $request);
+        throw new \common_exception_InvalidArgumentType(self::class, __FUNCTION__, 1, ServerRequestInterface::class, $request);
     }
 
     /**

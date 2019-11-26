@@ -139,7 +139,6 @@ class tao_scripts_TaoHardify extends tao_scripts_Runner
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @return void
      */
     public function preRun()
     {
@@ -151,7 +150,6 @@ class tao_scripts_TaoHardify extends tao_scripts_Runner
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @return void
      */
     public function run()
     {
@@ -182,7 +180,6 @@ class tao_scripts_TaoHardify extends tao_scripts_Runner
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @return void
      */
     public function postRun()
     {
@@ -196,7 +193,6 @@ class tao_scripts_TaoHardify extends tao_scripts_Runner
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @return void
      */
     public function checkInput()
     {
@@ -241,7 +237,6 @@ class tao_scripts_TaoHardify extends tao_scripts_Runner
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  string $currentAction The name of the current action being executed by the script.
-     * @return void
      */
     public function setCurrentAction($currentAction)
     {
@@ -253,7 +248,6 @@ class tao_scripts_TaoHardify extends tao_scripts_Runner
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @return void
      */
     public function actionHardify()
     {
@@ -301,7 +295,7 @@ class tao_scripts_TaoHardify extends tao_scripts_Runner
                     }
                 }
             }
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             $msg = "A fatal error occured while hardifying class '${classUri}': " . $e->getMessage();
             $this->error($msg, true);
         }
@@ -312,7 +306,6 @@ class tao_scripts_TaoHardify extends tao_scripts_Runner
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @return void
      */
     public function checkHardifyInput()
     {
@@ -375,7 +368,6 @@ class tao_scripts_TaoHardify extends tao_scripts_Runner
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  boolean $value true if the user is connected, otherwhise false.
-     * @return void
      */
     public function setConnected($value)
     {
@@ -461,7 +453,6 @@ class tao_scripts_TaoHardify extends tao_scripts_Runner
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @return void
      */
     public function actionUnhardify()
     {
@@ -473,7 +464,6 @@ class tao_scripts_TaoHardify extends tao_scripts_Runner
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @return void
      */
     public function checkUnhardifyInput()
     {

@@ -67,7 +67,7 @@ trait HttpRequestHelperTrait
     {
         $headers = [];
         foreach ($this->getPsrRequest()->getHeaders() as $name => $values) {
-            $headers[strtolower($name)] = (count($values) === 1) ? reset($values) : $values;
+            $headers[strtolower($name)] = count($values) === 1 ? reset($values) : $values;
         }
         return $headers;
     }
@@ -120,8 +120,8 @@ trait HttpRequestHelperTrait
      * potential types MUST be arrays or objects only. A null value indicates
      * the absence of body content.
      *
-     * @return null|array|object The deserialized body parameters, if any.
-     *     These will typically be an array or object.
+     * @return array|object|null The deserialized body parameters, if any.
+     * These will typically be an array or object.
      */
     protected function getPostParameters()
     {

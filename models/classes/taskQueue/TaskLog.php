@@ -111,7 +111,7 @@ class TaskLog extends ConfigurableService implements TaskLogInterface
             $this->validateStatus($status);
 
             $this->getBroker()->add($task, $status, $label);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->logError('Adding result for task ' . $task->getId() . ' failed with MSG: ' . $e->getMessage());
         }
 
@@ -131,7 +131,7 @@ class TaskLog extends ConfigurableService implements TaskLogInterface
             }
 
             return $this->getBroker()->updateStatus($taskId, $newStatus, $prevStatus);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->logError('Setting the status for task ' . $taskId . ' failed with MSG: ' . $e->getMessage());
         }
 
@@ -145,7 +145,7 @@ class TaskLog extends ConfigurableService implements TaskLogInterface
     {
         try {
             return $this->getBroker()->getStatus($taskId);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->logError('Getting status for task ' . $taskId . ' failed with MSG: ' . $e->getMessage());
         }
 
@@ -163,7 +163,7 @@ class TaskLog extends ConfigurableService implements TaskLogInterface
             if (! $this->getBroker()->addReport($taskId, $report, $newStatus)) {
                 throw new \RuntimeException('Report is not saved.');
             }
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->logError('Setting report for item ' . $taskId . ' failed with MSG: ' . $e->getMessage());
         }
 
@@ -177,7 +177,7 @@ class TaskLog extends ConfigurableService implements TaskLogInterface
     {
         try {
             return $this->getBroker()->getReport($taskId);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->logError('Getting report for task ' . $taskId . ' failed with MSG: ' . $e->getMessage());
         }
 
@@ -218,7 +218,7 @@ class TaskLog extends ConfigurableService implements TaskLogInterface
                     $this->setStatus($parentTaskId, $failedOnes > 0 ? self::STATUS_FAILED : self::STATUS_COMPLETED);
                 }
             }
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->logError('Updating parent task "' . $parentTaskId . '"" failed with MSG: ' . $e->getMessage());
         }
 
@@ -351,7 +351,7 @@ class TaskLog extends ConfigurableService implements TaskLogInterface
             try {
                 $this->checkIfCanArchive($entity, $forceArchive);
                 $tasksAbleToArchive[] = $entity;
-            } catch (\Exception $exception) {
+            } catch (\Throwable $exception) {
                 $this->logDebug('Task Log: ' . $entity->getId() . ' cannot be archived.');
             }
         }
@@ -385,7 +385,7 @@ class TaskLog extends ConfigurableService implements TaskLogInterface
             try {
                 $this->checkIfCanCancel($entity, $forceCancel);
                 $cancellableTasks[] = $entity;
-            } catch (\Exception $exception) {
+            } catch (\Throwable $exception) {
                 $this->logDebug('Task Log: ' . $entity->getId() . ' cannot be cancelled.');
             }
         }

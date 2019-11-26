@@ -33,7 +33,7 @@ use oat\tao\model\actionQueue\QueuedAction;
  */
 class InstantActionOnQueueEvent implements Event
 {
-    public const EVENT_NAME = __CLASS__;
+    public const EVENT_NAME = self::class;
 
     /**
      * @var string
@@ -68,7 +68,7 @@ class InstantActionOnQueueEvent implements Event
      * @param string $actionType
      * @param QueuedAction $action
      */
-    public function __construct($instantQueueKey, User $user, $positions, $actionType = '', QueuedAction $action = null)
+    public function __construct($instantQueueKey, User $user, $positions, $actionType = '', ?QueuedAction $action = null)
     {
         $this->instantQueueKey = $instantQueueKey;
         $this->user = $user;

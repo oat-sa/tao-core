@@ -149,7 +149,7 @@ class tao_helpers_Array
                 continue;
             }
 
-            $match = ($strict === false) ? $value === $val : $value === $val;
+            $match = $strict === false ? $value === $val : $value === $val;
 
             if (! $match) {
                 return false;
@@ -267,7 +267,7 @@ class tao_helpers_Array
         if (count($counts) > 0) {
             $mins = array_keys($counts, min($counts), true);
 
-            return ($returnAll) ? $mins : $mins[0];
+            return $returnAll ? $mins : $mins[0];
         }
 
         return false;

@@ -136,7 +136,7 @@ class WebhookEventsService extends ConfigurableService implements WebhookEventsS
     {
         try {
             $eventData = $event->serializeForWebhook();
-        } catch (\Exception $exception) {
+        } catch (\Throwable $exception) {
             $this->logError(sprintf(
                 'Error during "%s" event serialization for webhook. %s',
                 $event->getName(),
@@ -176,7 +176,7 @@ class WebhookEventsService extends ConfigurableService implements WebhookEventsS
         foreach ($tasksParams as $taskParams) {
             try {
                 $this->getWebhookTaskService()->createTask($taskParams);
-            } catch (\Exception $exception) {
+            } catch (\Throwable $exception) {
                 $this->logError(
                     sprintf(
                         "Can't create webhook task for %s. %s",

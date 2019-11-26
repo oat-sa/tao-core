@@ -48,7 +48,7 @@ class tao_helpers_data_GenerisAdapterRdf extends tao_helpers_data_GenerisAdapter
      * @throws \oat\oatbox\service\ServiceNotFoundException
      * @throws \common_Exception
      */
-    public function import($source, core_kernel_classes_Class $destination = null, $namespace = null)
+    public function import($source, ?core_kernel_classes_Class $destination = null, $namespace = null)
     {
         /** @var UploadService $uploadService */
         $uploadService = ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID);
@@ -87,7 +87,7 @@ class tao_helpers_data_GenerisAdapterRdf extends tao_helpers_data_GenerisAdapter
      * @return string
      * @throws EasyRdf_Exception
      */
-    public function export(core_kernel_classes_Class $source = null)
+    public function export(?core_kernel_classes_Class $source = null)
     {
         if ($source === null) {
             return core_kernel_api_ModelExporter::exportAll();

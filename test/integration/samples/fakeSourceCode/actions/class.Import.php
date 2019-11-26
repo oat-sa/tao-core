@@ -91,7 +91,6 @@ class tao_actions_form_Import extends tao_helpers_form_FormContainer
     public function initElements()
     {
 
-
         //create the element to select the import format
         $formatElt = tao_helpers_form_FormFactory::getElement('format', 'Radiobox');
         $formatElt->setDescription(__(' Please select the input data format to import '));
@@ -139,13 +138,13 @@ class tao_actions_form_Import extends tao_helpers_form_FormContainer
 
         //create import options form
         foreach ($options as $optName => $optValue) {
-            (is_bool($optValue)) ? $eltType = 'Checkbox' : $eltType = 'Textbox';
+            is_bool($optValue) ? $eltType = 'Checkbox' : $eltType = 'Textbox';
 
             $optElt = tao_helpers_form_FormFactory::getElement($optName, $eltType);
             $optElt->setDescription(tao_helpers_Display::textCleaner($optName, ' '));
             $optElt->setValue(addslashes($optValue));
 
-            $optElt->addAttribute('size', ($optName === 'column_order') ? 40 : 6);
+            $optElt->addAttribute('size', $optName === 'column_order' ? 40 : 6);
             if ($optValue === null || $optName === 'line_break') {
                 $optElt->addAttribute('disabled', 'true');
             }
@@ -162,7 +161,6 @@ class tao_actions_form_Import extends tao_helpers_form_FormContainer
             $this->form->addElement($optElt);
         }
         $this->form->createGroup('options', __('CSV Options'), array_keys($options));
-
 
         $descElt = tao_helpers_form_FormFactory::getElement('csv_desc', 'Label');
         $descElt->setValue(__('Please upload a CSV file formated as "defined" %min by %max the options above.'));

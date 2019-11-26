@@ -123,7 +123,6 @@ class DataAccessControlTest extends GenerisPhpUnitTestRunner
             $this->setNoAccessTestPermissionProvider();
             $this->check($adminUser, $urisList);
 
-
             $this->userService->logout();
         } else {
             $this->fail('Admin user was not created, so no tests for him');

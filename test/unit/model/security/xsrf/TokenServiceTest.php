@@ -114,7 +114,6 @@ class TokenServiceTest extends TestCase
         $this->assertNotNull($secondToken->getCreatedAt(), 'The second token contains a timestamp');
         $this->assertNotNull($secondToken->getValue(), 'The second token contains a token value');
 
-
         $this->assertNotSame(
             $firstToken->getValue(),
             $secondToken->getValue(),

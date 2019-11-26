@@ -43,7 +43,7 @@ class Action implements PhpSerializable, iAction, ServiceManagerAwareInterface
 
     public function __toPhpCode()
     {
-        return 'new ' . __CLASS__ . '('
+        return 'new ' . self::class . '('
             . \common_Utils::toPHPVariableString($this->data) . ','
             . \common_Utils::toPHPVariableString(self::SERIAL_VERSION)
         . ')';
@@ -180,7 +180,7 @@ class Action implements PhpSerializable, iAction, ServiceManagerAwareInterface
      */
     public function hasAccess()
     {
-        \common_Logger::w('Call to deprecated method ' . __METHOD__ . ' in ' . __CLASS__);
+        \common_Logger::w('Call to deprecated method ' . __METHOD__ . ' in ' . self::class);
 
         $access = true;
         if (! empty($this->data['url'])) {
@@ -214,8 +214,7 @@ class Action implements PhpSerializable, iAction, ServiceManagerAwareInterface
             return Icon::fromArray(['src' => $src], $ext);
         } elseif (file_exists(ROOT_PATH . 'tao/views/img/actions/' . $name . '.png')) {
             return Icon::fromArray(['src' => $src], 'tao');
-        } else {
-            return Icon::fromArray(['src' => 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAAAnRSTlMA/1uRIrUAAAAKSURBVHjaY/gPAAEBAQAcsIyZAAAAAElFTkSuQmCC'], 'tao');
         }
+        return Icon::fromArray(['src' => 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAAAnRSTlMA/1uRIrUAAAAKSURBVHjaY/gPAAEBAQAcsIyZAAAAAElFTkSuQmCC'], 'tao');
     }
 }

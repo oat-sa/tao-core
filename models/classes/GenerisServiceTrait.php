@@ -57,7 +57,7 @@ trait GenerisServiceTrait
      * @param  array $options
      * @return \core_kernel_classes_Resource[]
      */
-    public function searchInstances($propertyFilters = [], core_kernel_classes_Class $topClazz = null, $options = [])
+    public function searchInstances($propertyFilters = [], ?core_kernel_classes_Class $topClazz = null, $options = [])
     {
         $returnValue = [];
 
@@ -172,7 +172,7 @@ trait GenerisServiceTrait
      * @throws \common_Exception
      * @throws \common_exception_Error
      */
-    public function cloneInstance(core_kernel_classes_Resource $instance, core_kernel_classes_Class $clazz = null)
+    public function cloneInstance(core_kernel_classes_Resource $instance, ?core_kernel_classes_Class $clazz = null)
     {
         if ($clazz === null) {
             $types = $instance->getTypes();
@@ -212,8 +212,8 @@ trait GenerisServiceTrait
      */
     public function cloneClazz(
         core_kernel_classes_Class $sourceClazz,
-        core_kernel_classes_Class $newParentClazz = null,
-        core_kernel_classes_Class $topLevelClazz = null
+        ?core_kernel_classes_Class $newParentClazz = null,
+        ?core_kernel_classes_Class $topLevelClazz = null
     ) {
         $returnValue = null;
 
@@ -261,7 +261,7 @@ trait GenerisServiceTrait
             try {
                 /** @var core_kernel_classes_Class $instance */
                 return $instance->editPropertyValues($this->getProperty(OntologyRdfs::RDFS_SUBCLASSOF), $destinationClass);
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
                 return false;
             }
         } else {
@@ -294,7 +294,7 @@ trait GenerisServiceTrait
      * @param  core_kernel_classes_Class $topLevelClazz
      * @return array
      */
-    public function getClazzProperties(core_kernel_classes_Class $clazz, core_kernel_classes_Class $topLevelClazz = null)
+    public function getClazzProperties(core_kernel_classes_Class $clazz, ?core_kernel_classes_Class $topLevelClazz = null)
     {
         $returnValue = [];
         if ($topLevelClazz === null) {
@@ -404,7 +404,7 @@ trait GenerisServiceTrait
                     }
                 }
             }
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             print $e;
         }
 
@@ -454,18 +454,18 @@ trait GenerisServiceTrait
     {
         $searchOptions = [];
         // show instances yes/no
-        $instances = (isset($options['instances'])) ? $options['instances'] : true;
+        $instances = $options['instances'] ?? true;
         // cut of the class and only display the children?
-        $chunk = (isset($options['chunk'])) ? $options['chunk'] : false;
+        $chunk = $options['chunk'] ?? false;
         // probably which subtrees should be opened
-        $browse = (isset($options['browse'])) ? $options['browse'] : [];
+        $browse = $options['browse'] ?? [];
         // limit of instances shown by subclass if no search label is given
         // if a search string is given, this is the total limit of results, independent of classes
-        $limit = (isset($options['limit'])) ? $options['limit'] : 0;
+        $limit = $options['limit'] ?? 0;
         // offset for limit
-        $offset = (isset($options['offset'])) ? $options['offset'] : 0;
+        $offset = $options['offset'] ?? 0;
         // A unique node URI to be returned from as a tree leaf.
-        $uniqueNode = (isset($options['uniqueNode'])) ? $options['uniqueNode'] : null;
+        $uniqueNode = $options['uniqueNode'] ?? null;
 
         if (isset($options['order']) && isset($options['orderdir'])) {
             $searchOptions['order'] = [$options['order'] => $options['orderdir']];

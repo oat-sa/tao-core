@@ -281,7 +281,7 @@ class UserLocksService extends ConfigurableService implements UserLocks
     {
         if (! $this->lockout || ! $this->lockout instanceof LockoutStorage) {
             $lockout = $this->getOption(self::OPTION_LOCKOUT_STORAGE);
-            $this->lockout = ($lockout and class_exists($lockout)) ? new $lockout() : new RdfLockoutStorage();
+            $this->lockout = $lockout and class_exists($lockout) ? new $lockout() : new RdfLockoutStorage();
         }
 
         return $this->lockout;

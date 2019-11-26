@@ -57,9 +57,6 @@ abstract class tao_helpers_translation_TaoTranslationFile extends tao_helpers_tr
     {
         $returnValue = (string) '';
 
-
-
-
         return (string) $returnValue;
     }
 

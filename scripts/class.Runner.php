@@ -33,6 +33,7 @@ declare(strict_types=1);
 abstract class tao_scripts_Runner
 {
     // Adding container and logger.
+
     use \oat\oatbox\log\ContainerLoggerTrait;
 
     /**
@@ -90,7 +91,7 @@ abstract class tao_scripts_Runner
         if (isset($options['output_mode']) && $options['output_mode'] === 'log_only') {
             $this->logOny = true;
         }
-        $this->out('* Running ' . (isset($this->argv[0]) ? $this->argv[0] : __CLASS__), $options);
+        $this->out('* Running ' . (isset($this->argv[0]) ? $this->argv[0] : self::class), $options);
 
         $this->inputFormat = $inputFormat;
 
@@ -116,7 +117,7 @@ abstract class tao_scripts_Runner
 
         $this->postRun();
 
-        $this->out('Execution of Script ' . (isset($this->argv[0]) ? $this->argv[0] : __CLASS__) . ' completed', $options);
+        $this->out('Execution of Script ' . (isset($this->argv[0]) ? $this->argv[0] : self::class) . ' completed', $options);
     }
 
     /**
@@ -212,11 +213,11 @@ abstract class tao_scripts_Runner
      *
      * @throws Exception
      */
-    protected function handleError(Exception $e)
+    protected function handleError(\Throwable $e)
     {
         if ($this->isCli) {
             $errorCode = $e->getCode();
-            exit((empty($errorCode)) ? 1 : $errorCode);	//exit the program with an error
+            exit(empty($errorCode) ? 1 : $errorCode);	//exit the program with an error
         }
 
         throw new Exception($e->getMessage());
@@ -267,8 +268,6 @@ abstract class tao_scripts_Runner
     private function validateInput()
     {
         $returnValue = (bool) false;
-
-
 
         $returnValue = true;
 
@@ -412,7 +411,7 @@ abstract class tao_scripts_Runner
                                 if (is_bool($input)) {
                                     $this->parameters[$parameter['name']] = $input = settype($input, 'boolean');
                                 } elseif (! empty($input)) {
-                                    $this->parameters[$parameter['name']] = ((strtolower($input) === 'true') ? true : false);
+                                    $this->parameters[$parameter['name']] = (strtolower($input) === 'true' ? true : false);
                                 } else {
                                     $this->parameters[$parameter['name']] = true;
                                 }
@@ -423,10 +422,6 @@ abstract class tao_scripts_Runner
                 }
             }
         }
-
-
-
-
 
         return (bool) $returnValue;
     }

@@ -50,7 +50,7 @@ class JsonWebhookResponseFactory extends ConfigurableService implements WebhookR
         } catch (InvalidJsonException $exception) {
             $errors = implode(', ', $exception->getValidationErrors());
             return new WebhookResponse([], $exception->getMessage() . ': ' . $errors);
-        } catch (\Exception $exception) {
+        } catch (\Throwable $exception) {
             return new WebhookResponse([], $exception->getMessage());
         }
     }

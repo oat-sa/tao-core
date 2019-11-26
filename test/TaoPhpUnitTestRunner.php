@@ -94,7 +94,7 @@ abstract class TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner implements 
      * @param ConfigurableService[] $options
      * @return ServiceLocatorInterface as Prophecy
      */
-    public function getServiceManagerProphecy(array $options = null)
+    public function getServiceManagerProphecy(?array $options = null)
     {
         if (empty($options)) {
             return ServiceManager::getServiceManager();
@@ -183,7 +183,6 @@ abstract class TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner implements 
             $fileSystemService->setOption(FileSystemService::OPTION_ADAPTERS, $adapters);
             $fileSystemService->setOption(FileSystemService::OPTION_FILE_PATH, $tmpDir);
             $fileSystemService->setOption(FileSystemService::OPTION_DIRECTORIES, [$this->tempFileSystemId => $this->tempFileSystemId]);
-
 
             $fileSystemService->setServiceLocator($this->getServiceManagerProphecy([
                 FileSystemService::SERVICE_ID => $fileSystemService,

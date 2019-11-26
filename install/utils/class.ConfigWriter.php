@@ -104,7 +104,7 @@ class tao_install_utils_ConfigWriter
                     $val = addslashes((string) $val);
                     $content = preg_replace('/(\'' . $name . '\')(.*?)$/ms', '$1,\'' . addslashes($val) . '\');', $content);
                 } elseif (is_bool($val)) {
-                    ($val === true) ? $val = 'true' : $val = 'false';
+                    $val === true ? $val = 'true' : $val = 'false';
                     $content = preg_replace('/(\'' . $name . '\')(.*?)$/ms', '$1, ' . $val . ');', $content);
                 } elseif (is_numeric($val)) {
                     $content = preg_replace('/(\'' . $name . '\')(.*?)$/ms', '$1, ' . $val . ');', $content);
@@ -138,7 +138,7 @@ class tao_install_utils_ConfigWriter
                     if (is_string($value)) {
                         $value = "'${value}'";
                     } elseif (is_bool($value)) {
-                        ($value === true) ? $value = 'true' : $value = 'false';
+                        $value === true ? $value = 'true' : $value = 'false';
                     }
 
                     if (preg_match("/^\s?${lineBeginWith}\s?${key}\s?=\s?/i", trim($line))) {

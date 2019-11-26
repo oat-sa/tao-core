@@ -58,7 +58,7 @@ class MessagingService extends \tao_models_classes_Service
     {
         $transport = $this->getTransport();
         if ($transport === false) {
-            throw new \common_exception_InconsistentData('Transport strategy not correctly set for ' . __CLASS__);
+            throw new \common_exception_InconsistentData('Transport strategy not correctly set for ' . self::class);
         }
         return $this->getTransport()->send($message);
     }

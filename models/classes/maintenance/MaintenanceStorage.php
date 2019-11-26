@@ -63,7 +63,6 @@ class MaintenanceStorage
             $state->setId($currentState->getId() + 1);
         }
 
-
         $this->getDriver()->set(self::PREFIX . self::LAST_MODE, json_encode($state->toArray()));
     }
 

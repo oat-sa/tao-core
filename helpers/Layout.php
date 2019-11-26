@@ -113,7 +113,7 @@ class Layout
                 $isBase64 = strpos($icon->getSource(), 'data:image') === 0;
             }
 
-            $iconClass = $icon->getId() ? $icon->getId() : $defaultIcon;
+            $iconClass = $icon->getId() ?: $defaultIcon;
         }
         // clarification icon vs. glyph: same thing but due to certain CSS rules a second class is required
         switch ($srcExt) {
@@ -177,7 +177,7 @@ class Layout
     public static function getTitle()
     {
         $title = get_data('title');
-        return $title ? $title : PRODUCT_NAME . ' ' . TAO_VERSION;
+        return $title ?: PRODUCT_NAME . ' ' . TAO_VERSION;
     }
 
     /**
@@ -201,7 +201,7 @@ class Layout
         $contentExtension = get_data('content-extension');
         $contentTemplate['path'] = $templateData[0];
         $contentTemplate['ext'] = $templateData[1]
-            ?? ($contentExtension ? $contentExtension : 'tao');
+            ?? ($contentExtension ?: 'tao');
         return $contentTemplate;
     }
 
@@ -292,7 +292,6 @@ class Layout
                 return $link;
             }
         }
-
 
         //move this into the standard template setData()
         switch (TAO_RELEASE_STATUS) {

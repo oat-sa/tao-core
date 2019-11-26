@@ -51,7 +51,7 @@ abstract class AbstractDatatablePayload implements DatatablePayloadInterface, Se
      * DatatablePayload constructor.
      * @param DatatableRequestInterface|null $request
      */
-    public function __construct(DatatableRequestInterface $request = null)
+    public function __construct(?DatatableRequestInterface $request = null)
     {
         $this->setServiceLocator(ServiceManager::getServiceManager());
 
@@ -278,7 +278,7 @@ abstract class AbstractDatatablePayload implements DatatablePayloadInterface, Se
             $resourceData = $resource->getPropertiesValues($propertyMap);
             $entityInfo = array_map(function ($row) use ($resourceData) {
                 $stringData = array_map(function ($value) {
-                    return ($value instanceof \core_kernel_classes_Resource) ? $value->getUri() : (string) $value;
+                    return $value instanceof \core_kernel_classes_Resource ? $value->getUri() : (string) $value;
                 }, $resourceData[$row]);
                 return join(',', $stringData);
             }, $propertyMap);

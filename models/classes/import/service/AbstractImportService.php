@@ -102,7 +102,7 @@ abstract class AbstractImportService extends ConfigurableService implements Impo
                 $message = 'Resource imported with success: ' . $resource->getUri();
                 $this->logInfo($message);
                 $report->add(Report::createSuccess($message));
-            } catch (\Exception $exception) {
+            } catch (\Throwable $exception) {
                 $report->add(Report::createFailure($exception->getMessage()));
             }
         }

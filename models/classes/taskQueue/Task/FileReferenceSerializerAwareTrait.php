@@ -47,7 +47,7 @@ trait FileReferenceSerializerAwareTrait
      * Tries to get the referenced file if it exists.
      *
      * @param string $serial
-     * @return null|File
+     * @return File|null
      */
     protected function getReferencedFile($serial)
     {
@@ -56,7 +56,7 @@ trait FileReferenceSerializerAwareTrait
             if ($file instanceof File && $file->exists()) {
                 return $file;
             }
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             // do nothing
         }
 

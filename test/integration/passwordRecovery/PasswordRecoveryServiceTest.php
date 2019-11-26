@@ -74,7 +74,6 @@ class PasswordRecoveryServiceTest extends TaoPhpUnitTestRunner
         });
         $messagingProphecy->send(Argument::type('oat\tao\model\messaging\Message'))->should(new CallTimesPrediction(1));
 
-
         $passwordRecoveryService = $this->getPasswordRecoveryService($messagingProphecy->reveal());
 
         $generisUser = new \core_kernel_users_GenerisUser($this->testUser);

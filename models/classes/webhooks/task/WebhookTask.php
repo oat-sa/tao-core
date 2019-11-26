@@ -59,7 +59,7 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
             $webhookConfig = $this->getWebhookConfig();
             $request = $this->prepareRequest($webhookConfig);
             return $this->performRequest($request, $webhookConfig->getAuth());
-        } catch (\Exception $exception) {
+        } catch (\Throwable $exception) {
             return $this->getWebhookTaskReports()->reportInternalException($this->getTaskContext(), $exception);
         }
     }
@@ -98,7 +98,7 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
      * @throws GuzzleException
      * @throws \common_exception_InvalidArgumentType
      */
-    private function performRequest(RequestInterface $request, WebhookAuthInterface $authConfig = null)
+    private function performRequest(RequestInterface $request, ?WebhookAuthInterface $authConfig = null)
     {
         $errorReport = $response = null;
         try {
@@ -258,11 +258,11 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
         $context->setTaskId($this->getTask()->getId());
         try {
             $context->setWebhookConfig($this->getWebhookConfig());
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
         }
         try {
             $context->setWebhookTaskParams($this->params);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
         }
         return $context;
     }

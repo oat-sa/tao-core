@@ -95,14 +95,11 @@ abstract class tao_helpers_translation_TranslationFileReader
     {
         $returnValue = null;
 
-
         if ($this->translationFile !== null) {
             return $this->translationFile;
         }
 
         throw new tao_helpers_translation_TranslationException('No TranslationFile to retrieve.');
-
-
 
         return $returnValue;
     }
@@ -118,9 +115,7 @@ abstract class tao_helpers_translation_TranslationFileReader
     {
         $returnValue = (string) '';
 
-
         return $this->filePath;
-
 
         return (string) $returnValue;
     }

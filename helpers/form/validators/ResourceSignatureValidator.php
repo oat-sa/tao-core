@@ -70,7 +70,7 @@ final class ResourceSignatureValidator implements ValidatorInterface
      */
     public function getName()
     {
-        return __CLASS__;
+        return self::class;
     }
 
     /**

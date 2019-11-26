@@ -41,7 +41,7 @@ declare(strict_types=1);
 require(__DIR__ . '/../../../vendor/autoload.php');
 
 $options = getopt('p:v');
-$path = (! isset($options['p'])) ? realpath(getcwd()) : realpath($options['p']);
+$path = ! isset($options['p']) ? realpath(getcwd()) : realpath($options['p']);
 $verbose = isset($options['v']);
 $extensions = [];
 $locales = [];

@@ -124,7 +124,7 @@ abstract class ResponseAbstract implements ResponseInterface, ServiceLocatorAwar
      * @param Exception $exception
      * @return $this
      */
-    public function setException(Exception $exception)
+    public function setException(\Throwable $exception)
     {
         $this->exception = $exception;
         return $this;

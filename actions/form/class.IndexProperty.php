@@ -84,7 +84,7 @@ class tao_actions_form_IndexProperty extends tao_helpers_form_FormContainer
         $indexUri = tao_helpers_Uri::encode($indexProperty->getUri());
 
         //get and add Label (Text)
-        $label = ($indexProperty !== null) ? $indexProperty->getLabel() : '';
+        $label = $indexProperty !== null ? $indexProperty->getLabel() : '';
         $propIndexElt = tao_helpers_form_FormFactory::getElement('index_' . $this->prefix . '_' . tao_helpers_Uri::encode(OntologyRdfs::RDFS_LABEL), 'Textbox');
         $propIndexElt->setDescription(__('Label'));
         $propIndexElt->addAttribute('class', 'index');
@@ -93,9 +93,8 @@ class tao_actions_form_IndexProperty extends tao_helpers_form_FormContainer
         $this->form->addElement($propIndexElt);
         $elementNames[] = $propIndexElt->getName();
 
-
         //get and add Fuzzy matching (Radiobox)
-        $fuzzyMatching = ($indexProperty !== null) ? ($indexProperty->isFuzzyMatching()) ? GenerisRdf::GENERIS_TRUE : GenerisRdf::GENERIS_FALSE : '';
+        $fuzzyMatching = $indexProperty !== null ? $indexProperty->isFuzzyMatching() ? GenerisRdf::GENERIS_TRUE : GenerisRdf::GENERIS_FALSE : '';
         $options = [
             tao_helpers_Uri::encode(GenerisRdf::GENERIS_TRUE) => __('True'),
             tao_helpers_Uri::encode(GenerisRdf::GENERIS_FALSE) => __('False'),
@@ -111,7 +110,7 @@ class tao_actions_form_IndexProperty extends tao_helpers_form_FormContainer
         $elementNames[] = $propIndexElt->getName();
 
         //get and add identifier (Text)
-        $identifier = ($indexProperty !== null) ? $indexProperty->getIdentifier() : '';
+        $identifier = $indexProperty !== null ? $indexProperty->getIdentifier() : '';
         $propIndexElt = tao_helpers_form_FormFactory::getElement($this->prefix . '_' . tao_helpers_Uri::encode(OntologyIndex::PROPERTY_INDEX_IDENTIFIER), 'Textbox');
         $propIndexElt->setDescription(__('Identifier'));
         $propIndexElt->addAttribute('class', 'index');
@@ -121,9 +120,8 @@ class tao_actions_form_IndexProperty extends tao_helpers_form_FormContainer
         $this->form->addElement($propIndexElt);
         $elementNames[] = $propIndexElt->getName();
 
-
         //get and add Default search
-        $defaultSearch = ($indexProperty !== null) ? ($indexProperty->isDefaultSearchable()) ? GenerisRdf::GENERIS_TRUE : GenerisRdf::GENERIS_FALSE : '';
+        $defaultSearch = $indexProperty !== null ? $indexProperty->isDefaultSearchable() ? GenerisRdf::GENERIS_TRUE : GenerisRdf::GENERIS_FALSE : '';
         $options = [
             tao_helpers_Uri::encode(GenerisRdf::GENERIS_TRUE) => __('True'),
             tao_helpers_Uri::encode(GenerisRdf::GENERIS_FALSE) => __('False'),
@@ -145,8 +143,8 @@ class tao_actions_form_IndexProperty extends tao_helpers_form_FormContainer
         foreach ($tokenizerRange->getInstances() as $value) {
             $options[tao_helpers_Uri::encode($value->getUri())] = $value->getLabel();
         }
-        $tokenizer = ($indexProperty !== null) ? $indexProperty->getOnePropertyValue(new \core_kernel_classes_Property(OntologyIndex::PROPERTY_INDEX_TOKENIZER)) : null;
-        $tokenizer = (get_class($tokenizer) === 'core_kernel_classes_Resource') ? $tokenizer->getUri() : '';
+        $tokenizer = $indexProperty !== null ? $indexProperty->getOnePropertyValue(new \core_kernel_classes_Property(OntologyIndex::PROPERTY_INDEX_TOKENIZER)) : null;
+        $tokenizer = get_class($tokenizer) === 'core_kernel_classes_Resource' ? $tokenizer->getUri() : '';
         $propIndexElt = tao_helpers_form_FormFactory::getElement($this->prefix . '_' . tao_helpers_Uri::encode(OntologyIndex::PROPERTY_INDEX_TOKENIZER), 'Combobox');
         $propIndexElt->setDescription(__('Tokenizer'));
         $propIndexElt->addAttribute('class', 'index');

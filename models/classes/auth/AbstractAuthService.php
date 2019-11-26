@@ -53,7 +53,7 @@ abstract class AbstractAuthService extends ConfigurableService
      * @return AbstractAuthType
      * @throws \common_Exception
      */
-    public function getAuthType(\core_kernel_classes_Resource $resource = null)
+    public function getAuthType(?\core_kernel_classes_Resource $resource = null)
     {
         if ($resource) {
             $authTypeUri = $resource->getUri();

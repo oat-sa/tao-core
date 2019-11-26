@@ -47,7 +47,7 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
      * @return boolean
      * @throws
      */
-    public function perform(QueuedAction $action, User $user = null)
+    public function perform(QueuedAction $action, ?User $user = null)
     {
         $action->setServiceLocator($this->getServiceManager());
         if ($user === null) {
@@ -77,7 +77,7 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
      * @return integer
      * @throws
      */
-    public function getPosition(QueuedAction $action, User $user = null)
+    public function getPosition(QueuedAction $action, ?User $user = null)
     {
         $action->setServiceLocator($this->getServiceManager());
         $positions = $this->getPositions($action);

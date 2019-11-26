@@ -373,11 +373,10 @@ class Updater extends \common_ext_ExtensionUpdater
 
         $this->skip('7.83.0', '7.88.0');
 
-
         if ($this->isVersion('7.88.0')) {
             $service = new ExceptionInterpreterService([
                 ExceptionInterpreterService::OPTION_INTERPRETERS => [
-                    \Exception::class => ExceptionInterpretor::class,
+                    \Throwable::class => ExceptionInterpretor::class,
                 ],
             ]);
             $this->getServiceManager()->register(ExceptionInterpreterService::SERVICE_ID, $service);
@@ -835,7 +834,7 @@ class Updater extends \common_ext_ExtensionUpdater
 
             try {
                 $taskLogService->createContainer();
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
                 return \common_report_Report::createFailure('Creating task log container failed');
             }
 
@@ -1007,7 +1006,6 @@ class Updater extends \common_ext_ExtensionUpdater
             if ($settingsStorage->exists(CspHeaderSettingsInterface::CSP_HEADER_SETTING) === false) {
                 $settingsStorage->set(CspHeaderSettingsInterface::CSP_HEADER_SETTING, '*');
             }
-
 
             $this->setVersion('30.1.1');
         }

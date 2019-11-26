@@ -81,7 +81,7 @@ abstract class tao_actions_form_Generis extends tao_helpers_form_FormContainer
      * @param  array $options
      * @return mixed
      */
-    public function __construct(core_kernel_classes_Class $clazz, core_kernel_classes_Resource $instance = null, $options = [])
+    public function __construct(core_kernel_classes_Class $clazz, ?core_kernel_classes_Resource $instance = null, $options = [])
     {
         $this->clazz = $clazz;
         $this->instance = $instance;
@@ -104,8 +104,6 @@ abstract class tao_actions_form_Generis extends tao_helpers_form_FormContainer
     {
         $returnValue = null;
 
-
-
         return $this->clazz;
     }
 
@@ -119,8 +117,6 @@ abstract class tao_actions_form_Generis extends tao_helpers_form_FormContainer
     public function getInstance()
     {
         $returnValue = null;
-
-
 
         return $this->instance;
     }
@@ -136,15 +132,11 @@ abstract class tao_actions_form_Generis extends tao_helpers_form_FormContainer
     {
         $returnValue = null;
 
-
-
         if ($this->topClazz !== null) {
             $returnValue = $this->topClazz;
         } else {
             $returnValue = new core_kernel_classes_Class(self::DEFAULT_TOP_CLASS);
         }
-
-
 
         return $returnValue;
     }

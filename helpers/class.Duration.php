@@ -84,7 +84,7 @@ class tao_helpers_Duration
                 ? new DateIntervalMS($duration)
                 : new DateInterval($duration);
             $time = self::intervalToTime($interval);
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             common_Logger::e($e->getMessage());
         }
 

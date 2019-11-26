@@ -91,23 +91,22 @@ class ClassServiceTest extends TestCase
                 [
                 ];
 
-
         $instance->expects($this->exactly(4))
             ->method('deleteClassProperty')
             ->withConsecutive(
-                    [$properties[0]],
-                    [$properties[1]],
-                    [$properties[2]],
-                    [$properties[3]]
-                )
+                [$properties[0]],
+                [$properties[1]],
+                [$properties[2]],
+                [$properties[3]]
+            )
             ->willReturn(true);
 
         $instance->expects($this->exactly(2))
             ->method('deleteResource')
             ->withConsecutive(
-                    [$resources[0]],
-                    [$resources[1]]
-                )
+                [$resources[0]],
+                [$resources[1]]
+            )
             ->willReturn(true);
 
         $classProphet = $this->prophesize(\core_kernel_classes_Class::class);

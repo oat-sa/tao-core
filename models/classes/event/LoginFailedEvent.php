@@ -31,7 +31,7 @@ class LoginFailedEvent implements Event, JsonSerializable
      */
     public function getName()
     {
-        return __CLASS__;
+        return self::class;
     }
 
     /**

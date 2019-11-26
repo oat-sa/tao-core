@@ -78,11 +78,7 @@ abstract class tao_helpers_data_GenerisAdapter
     {
         $returnValue = [];
 
-
-
         $returnValue = $this->options;
-
-
 
         return (array) $returnValue;
     }
@@ -124,7 +120,7 @@ abstract class tao_helpers_data_GenerisAdapter
      * @param  core_kernel_classes_Class $destination
      * @return boolean
      */
-    abstract public function import($source, core_kernel_classes_Class $destination = null);
+    abstract public function import($source, ?core_kernel_classes_Class $destination = null);
 
     /**
      * export prototype: export the source class
@@ -135,7 +131,7 @@ abstract class tao_helpers_data_GenerisAdapter
      * @param  core_kernel_classes_Class $source
      * @return string
      */
-    abstract public function export(core_kernel_classes_Class $source = null);
+    abstract public function export(?core_kernel_classes_Class $source = null);
 
     /**
      * @return array

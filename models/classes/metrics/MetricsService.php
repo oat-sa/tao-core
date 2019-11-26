@@ -43,7 +43,7 @@ class MetricsService extends ConfigurableService
 
     /**
      * @param $metricName
-     * @return null|abstractMetrics
+     * @return abstractMetrics|null
      * @throws InconsistencyConfigException
      */
     public function getOneMetric($metricName)

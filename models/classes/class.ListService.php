@@ -72,17 +72,11 @@ class tao_models_classes_ListService extends tao_models_classes_GenerisService
     {
         $returnValue = [];
 
-
-
         $returnValue[] = new core_kernel_classes_Class(GenerisRdf::GENERIS_BOOLEAN);
 
         foreach ($this->parentListClass->getSubClasses(false) as $list) {
             $returnValue[] = $list;
         }
-
-
-
-
 
         return (array) $returnValue;
     }
@@ -99,16 +93,12 @@ class tao_models_classes_ListService extends tao_models_classes_GenerisService
     {
         $returnValue = null;
 
-
-
         foreach ($this->getLists() as $list) {
             if ($list->getUri() === $uri) {
                 $returnValue = $list;
                 break;
             }
         }
-
-
 
         return $returnValue;
     }
@@ -127,8 +117,6 @@ class tao_models_classes_ListService extends tao_models_classes_GenerisService
     {
         $returnValue = null;
 
-
-
         if (! empty($uri)) {
             foreach ($this->getListElements($listClass, false) as $element) {
                 if ($element->getUri() === $uri) {
@@ -137,8 +125,6 @@ class tao_models_classes_ListService extends tao_models_classes_GenerisService
                 }
             }
         }
-
-
 
         return $returnValue;
     }
@@ -186,16 +172,12 @@ class tao_models_classes_ListService extends tao_models_classes_GenerisService
     {
         $returnValue = (bool) false;
 
-
-
         if ($listClass !== null) {
             foreach ($this->getListElements($listClass) as $element) {
                 $this->removeListElement($element);
             }
             $returnValue = $listClass->delete();
         }
-
-
 
         return (bool) $returnValue;
     }
@@ -212,13 +194,9 @@ class tao_models_classes_ListService extends tao_models_classes_GenerisService
     {
         $returnValue = (bool) false;
 
-
-
         if ($element !== null) {
             $returnValue = $element->delete();
         }
-
-
 
         return (bool) $returnValue;
     }
@@ -234,8 +212,6 @@ class tao_models_classes_ListService extends tao_models_classes_GenerisService
     public function createList($label = '')
     {
         $returnValue = null;
-
-
 
         if (empty($label)) {
             $label = __('List') . ' ' . (count($this->getLists()) + 1);
@@ -256,8 +232,6 @@ class tao_models_classes_ListService extends tao_models_classes_GenerisService
     {
         $returnValue = null;
 
-
-
         if ($listClass !== null) {
             $level = count($this->getListElements($listClass)) + 1;
             if (empty($label)) {
@@ -266,7 +240,6 @@ class tao_models_classes_ListService extends tao_models_classes_GenerisService
             $returnValue = $this->createInstance($listClass, $label);
             $this->bindProperties($returnValue, [TaoOntology::PROPERTY_LIST_LEVEL => count($this->getListElements($listClass, false))]);
         }
-
 
         return $returnValue;
     }

@@ -38,7 +38,7 @@ abstract class AbstractExportEvent implements Event, \JsonSerializable
 
     public function getName()
     {
-        return get_class($this);
+        return static::class;
     }
 
     /**

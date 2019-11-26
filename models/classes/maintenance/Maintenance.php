@@ -51,7 +51,7 @@ class Maintenance extends ConfigurableService
      * @param MaintenanceState|null $state
      * @return bool
      */
-    public function isPlatformReady(MaintenanceState $state = null)
+    public function isPlatformReady(?MaintenanceState $state = null)
     {
         if ($state === null) {
             $state = $this->getPlatformState();

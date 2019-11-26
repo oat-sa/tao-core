@@ -49,7 +49,6 @@ class tao_helpers_form_validators_Password extends tao_helpers_form_Validator
     {
         $returnValue = (bool) false;
 
-
         if (is_array($values) && count($values) === 2) {
             [$first, $second] = $values;
             $returnValue = $first === $second;
@@ -64,8 +63,6 @@ class tao_helpers_form_validators_Password extends tao_helpers_form_Validator
         } else {
             throw new common_Exception('Please set the reference of the second password element or provide array of 2 elements');
         }
-
-
 
         return (bool) $returnValue;
     }

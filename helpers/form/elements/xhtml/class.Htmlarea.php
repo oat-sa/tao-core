@@ -63,7 +63,6 @@ class tao_helpers_form_elements_xhtml_Htmlarea extends tao_helpers_form_elements
         $returnValue .= $this->renderAttributes();
         $returnValue .= '>' . _dh($this->value) . '</textarea>';
 
-
         return (string) $returnValue;
     }
 

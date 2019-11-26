@@ -33,5 +33,5 @@ interface PsrResponseExporter extends Exporter
      * @param ResponseInterface|null $originResponse base result on response
      * @return ResponseInterface
      */
-    public function getFileExportResponse(ResponseInterface $originResponse = null);
+    public function getFileExportResponse(?ResponseInterface $originResponse = null);
 }

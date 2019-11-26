@@ -85,8 +85,8 @@ XML;
      *
      * @dataProvider legacyAndNewSectionProvider
      *
-     * @param string $newXml new format xml
-     * @param string $newXml legacy format xml
+     * @param string $legacyXml new format xml
+     * @param string $legacyXml legacy format xml
      */
     public function testActions($newXml, $legacyXml)
     {
@@ -94,7 +94,6 @@ XML;
 
         $this->assertTrue($sectionFromNew instanceof Section);
         $this->assertSame(count($sectionFromNew->getActions()), 4);
-
 
         $sectionFromLegacy = Section::fromSimpleXMLElement(new SimpleXMLElement($legacyXml), 'tao');
 

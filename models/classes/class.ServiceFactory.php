@@ -56,7 +56,6 @@ class tao_models_classes_ServiceFactory
     {
         $returnValue = null;
 
-
         return tao_models_classes_Service::getServiceByName($serviceName);
     }
 }

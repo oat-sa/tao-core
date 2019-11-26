@@ -67,8 +67,6 @@ class tao_helpers_form_elements_template_Template extends tao_helpers_form_eleme
     {
         $returnValue = (string) '';
 
-
-
         if (file_exists($this->path) && is_readable($this->path)) {
             extract($this->variables);
 
@@ -87,8 +85,6 @@ class tao_helpers_form_elements_template_Template extends tao_helpers_form_eleme
                 unset(${$key});
             }
         }
-
-
 
         return (string) $returnValue;
     }

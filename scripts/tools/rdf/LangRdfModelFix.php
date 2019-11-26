@@ -59,7 +59,7 @@ class LangRdfModelFix extends ScriptAction
                 $total++;
             }
             return Report::createInfo(sprintf('%s languages statements were updated', $total));
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return new Report(Report::TYPE_ERROR, $e->getMessage());
         }
     }

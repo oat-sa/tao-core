@@ -72,7 +72,7 @@ class ExceptionInterpretor implements ServiceLocatorAwareInterface
      * @param Exception $exception
      * @return ExceptionInterpretor
      */
-    public function setException(Exception $exception)
+    public function setException(\Throwable $exception)
     {
         $this->exception = $exception;
         $this->interpretError();

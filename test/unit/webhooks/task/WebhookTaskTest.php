@@ -296,7 +296,7 @@ class WebhookTaskTest extends TestCase
                     $request->getHeader('Content-Type')[0] === 'payloadCT' &&
                     $request->getHeader('Accept')[0] === 'accCT';
             }),
-            $this->callback(static function (WebhookAuthInterface $auth = null) use ($whConfig) {
+            $this->callback(static function (?WebhookAuthInterface $auth = null) use ($whConfig) {
                 return $auth === $whConfig->getAuth();
             })
         );
@@ -360,7 +360,7 @@ class WebhookTaskTest extends TestCase
                         $taskParams === $context->getWebhookTaskParams() &&
                         $context->getWebhookConfig() === null;
                 }),
-                $this->callback(function (\Exception $exception) {
+                $this->callback(function (\Throwable $exception) {
                     return $exception instanceof \common_exception_NotFound;
                 })
             )
@@ -701,8 +701,8 @@ class WebhookTaskTest extends TestCase
      * @return MockObject|WebhookSender
      */
     private function createWebhookSenderMock(
-        ResponseInterface $response = null,
-        \Exception $exception = null
+        ?ResponseInterface $response = null,
+        ?\Throwable $exception = null
     ) {
         $sender = $this->createMock(WebhookSender::class);
         if ($response) {

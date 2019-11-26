@@ -39,8 +39,7 @@ class ResponseAbstractTest extends TaoPhpUnitTestRunner
 
     public function chooseRendererProvider()
     {
-        return
-        [
+        return [
             [['text/plain'], 'oat\tao\model\mvc\error\NonAcceptable'],
             [['application/json', 'text/html'], 'oat\tao\model\mvc\error\JsonResponse'],
             [['text/html', 'application/json'], 'oat\tao\model\mvc\error\HtmlResponse'],

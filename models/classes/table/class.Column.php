@@ -72,7 +72,6 @@ abstract class tao_models_classes_table_Column
     {
         $returnValue = null;
 
-
         $type = $array['type'];
         unset($array['type']);
         return $type::fromArray($array);
@@ -89,9 +88,7 @@ abstract class tao_models_classes_table_Column
     {
         $returnValue = (string) '';
 
-
         $returnValue = $this->label;
-
 
         return (string) $returnValue;
     }
@@ -107,10 +104,8 @@ abstract class tao_models_classes_table_Column
     {
         $returnValue = [];
 
-
-        $returnValue['type'] = get_class($this);
+        $returnValue['type'] = static::class;
         $returnValue['label'] = $this->label;
-
 
         return (array) $returnValue;
     }

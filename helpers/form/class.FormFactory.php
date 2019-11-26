@@ -186,8 +186,6 @@ class tao_helpers_form_FormFactory
             common_Logger::w('Unknown validator ' . $name, ['TAO', 'FORM']);
         }
 
-
-
         return $returnValue;
     }
 

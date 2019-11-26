@@ -38,9 +38,9 @@ class tao_install_checks_AllowOverride extends common_configuration_Component
         }
 
         $server =
-            ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ? 'https' : 'http')
+            (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http')
             . '://' . $_SERVER['SERVER_NAME']
-            . (($_SERVER['SERVER_PORT'] !== '80') ? ':' . $_SERVER['SERVER_PORT'] : '');
+            . ($_SERVER['SERVER_PORT'] !== '80' ? ':' . $_SERVER['SERVER_PORT'] : '');
 
         $request = $_SERVER['REQUEST_URI'];
         $request = substr($request, 0, strpos($request, '?'));
@@ -65,10 +65,10 @@ class tao_install_checks_AllowOverride extends common_configuration_Component
             );
         } else {
             $report = new common_configuration_Report(
-                    common_configuration_Report::INVALID,
-                    'The AllowOverride directive may not be set to All.',
-                    $this
-                );
+                common_configuration_Report::INVALID,
+                'The AllowOverride directive may not be set to All.',
+                $this
+            );
         }
 
         return $report;

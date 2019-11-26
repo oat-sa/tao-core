@@ -80,7 +80,6 @@ class tao_helpers_form_validators_FileMimeType extends tao_helpers_form_Validato
             }
         }
 
-
         return $returnValue;
     }
 

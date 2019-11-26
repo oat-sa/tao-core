@@ -47,7 +47,7 @@ class tao_actions_form_Search extends tao_actions_form_Instance
      */
     protected function initForm()
     {
-        (isset($this->options['name'])) ? $name = $this->options['name'] : $name = '';
+        isset($this->options['name']) ? $name = $this->options['name'] : $name = '';
         if (empty($name)) {
             $name = 'form_' . (count(self::$forms) + 1);
         }
@@ -93,7 +93,6 @@ class tao_actions_form_Search extends tao_actions_form_Instance
 
         $this->form->createGroup('params', __('Options'), ['chaining', 'recursive', 'lang']);
 
-
         $filters = [];
 
         $descElt = tao_helpers_form_FormFactory::getElement('desc', 'Label');
@@ -106,7 +105,7 @@ class tao_actions_form_Search extends tao_actions_form_Instance
 
         $properties = array_merge($defaultProperties, $classProperties);
 
-        (isset($this->options['recursive'])) ? $recursive = $this->options['recursive'] : $recursive = false;
+        isset($this->options['recursive']) ? $recursive = $this->options['recursive'] : $recursive = false;
         if ($recursive) {
             foreach ($this->clazz->getSubClasses(true) as $subClass) {
                 $properties = array_merge($subClass->getProperties(false), $properties);

@@ -252,7 +252,6 @@ class tao_scripts_TaoExtensions extends tao_scripts_Runner
     public function actionSetConfig()
     {
 
-
         // The values accepted in the 'loaded', 'loadAtStartup' and 'ghost' columns of
         // the extensions table are 0 | 1.
         $configValue = $this->options['configValue'];
@@ -286,7 +285,7 @@ class tao_scripts_TaoExtensions extends tao_scripts_Runner
                 }
 
                 $currentConfig->save($ext);
-                $this->outVerbose("Configuration parameter '${configParam}' successfully updated to " . (($configValue === true) ? 1 : 0) . " for extension '${extensionId}'.");
+                $this->outVerbose("Configuration parameter '${configParam}' successfully updated to " . ($configValue === true ? 1 : 0) . " for extension '${extensionId}'.");
             }
         } catch (common_ext_ExtensionException $e) {
             $this->error("The extension '${extensionId}' does not exist or has no manifest.", true);
@@ -377,11 +376,9 @@ class tao_scripts_TaoExtensions extends tao_scripts_Runner
     {
         $returnValue = (bool) false;
 
-
         $userService = tao_models_classes_UserService::singleton();
         $returnValue = $userService->loginUser($user, $password);
         $this->setConnected($returnValue);
-
 
         return (bool) $returnValue;
     }
@@ -471,9 +468,7 @@ class tao_scripts_TaoExtensions extends tao_scripts_Runner
     {
         $returnValue = (string) '';
 
-
         $returnValue = $this->currentAction;
-
 
         return (string) $returnValue;
     }

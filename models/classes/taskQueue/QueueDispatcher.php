@@ -237,7 +237,7 @@ class QueueDispatcher extends ConfigurableService implements QueueDispatcherInte
     /**
      * @inheritdoc
      */
-    public function createTask(callable $callable, array $parameters = [], $label = null, TaskInterface $parent = null, $masterStatus = false)
+    public function createTask(callable $callable, array $parameters = [], $label = null, ?TaskInterface $parent = null, $masterStatus = false)
     {
         $id = \common_Utils::getNewUri();
         $owner = $parent ? $parent->getOwner() : $this->getOwner();
@@ -282,7 +282,7 @@ class QueueDispatcher extends ConfigurableService implements QueueDispatcherInte
 
     /**
      * @param TaskInterface $task
-     * @param null|string   $label
+     * @param string|null $label
      * @return bool
      */
     public function enqueue(TaskInterface $task, $label = null)

@@ -62,8 +62,6 @@ class tao_helpers_form_validators_FileSize extends tao_helpers_form_Validator
     {
         $returnValue = (bool) false;
 
-
-
         if (is_array($values)) {
             if (isset($values['size'])) {
                 if ($values['size'] >= $this->getOption('min') && $values['size'] <= $this->getOption('max')) {
@@ -75,8 +73,6 @@ class tao_helpers_form_validators_FileSize extends tao_helpers_form_Validator
         } else {
             $returnValue = true;
         }
-
-
 
         return (bool) $returnValue;
     }

@@ -94,7 +94,7 @@ class AnnotationReaderService extends ConfigurableService
                         break;
                 }
             }
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->logNotice('Undefined annotation: ' . $e->getMessage());
         }
         return $rules;

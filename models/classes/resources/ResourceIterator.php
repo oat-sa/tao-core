@@ -47,7 +47,7 @@ class ResourceIterator extends \core_kernel_classes_ResourceIterator implements 
      * @inheritdoc
      * @param array $criteria
      */
-    public function __construct($classes, QueryInterface $criteria = null)
+    public function __construct($classes, ?QueryInterface $criteria = null)
     {
         parent::__construct($classes);
         $this->criteria = $criteria;

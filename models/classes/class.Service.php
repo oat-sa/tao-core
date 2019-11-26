@@ -86,8 +86,7 @@ abstract class tao_models_classes_Service
     {
         $returnValue = null;
 
-
-        $className = (! class_exists($serviceName) || ! preg_match('/^(tao|wf)/', $serviceName)) ? sprintf(self::namePattern, ucfirst(strtolower($serviceName))) : $serviceName;
+        $className = ! class_exists($serviceName) || ! preg_match('/^(tao|wf)/', $serviceName) ? sprintf(self::namePattern, ucfirst(strtolower($serviceName))) : $serviceName;
 
         // does the class exist
         if (! class_exists($className)) {
@@ -125,8 +124,7 @@ abstract class tao_models_classes_Service
     {
         $returnValue = null;
 
-
-        $serviceName = get_called_class();
+        $serviceName = static::class;
         if (! isset(self::$instances[$serviceName])) {
             self::$instances[$serviceName] = new $serviceName();
         }

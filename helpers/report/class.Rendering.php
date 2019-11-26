@@ -122,8 +122,8 @@ class tao_helpers_report_Rendering
             break;
         }
 
-        $openingTag = '<div class="feedback-' . $typeClass . ' feedback-nesting-' . $nesting . ' ' . (($leaf === true) ? 'leaf' : 'hierarchical') . ' tao-scope">';
-        $leafIcon = ($leaf === true) ? ' leaf-icon' : ' hierarchical-icon';
+        $openingTag = '<div class="feedback-' . $typeClass . ' feedback-nesting-' . $nesting . ' ' . ($leaf === true ? 'leaf' : 'hierarchical') . ' tao-scope">';
+        $leafIcon = $leaf === true ? ' leaf-icon' : ' hierarchical-icon';
         $icon = '<span class="icon-' . $typeClass . $leafIcon . '"></span>';
         $message = nl2br(_dh($report->__toString()));
         $endingTag = '</div>';
@@ -131,6 +131,6 @@ class tao_helpers_report_Rendering
 
         // Put all the children renderings together.
         $content = implode('', $childRenderedReports);
-        return $openingTag . $icon . $message . $content . (($nesting !== 0) ? '' : $okButton) . $endingTag;
+        return $openingTag . $icon . $message . $content . ($nesting !== 0 ? '' : $okButton) . $endingTag;
     }
 }

@@ -84,7 +84,7 @@ class tao_helpers_translation_SourceCodeExtractor extends tao_helpers_translatio
             // Directories should come with a trailing slash.
             $d = strrev($dir);
             if ($d[0] !== '/') {
-                $dir = $dir . '/';
+                $dir .= '/';
             }
 
             $this->recursiveSearch($dir);

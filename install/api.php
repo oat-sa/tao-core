@@ -279,9 +279,9 @@ try {
         throw new tao_install_api_MalformedRequestBodyException('Unable to parse request body as valid JSON.');
     } elseif (! isset($input['type']) || empty($input['type'])) {
         throw new tao_install_api_InvalidAPICallException("No 'type' attribute found in request body.");
-    } else {
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            switch ($input['type']) {
+    }
+    if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+        switch ($input['type']) {
                 case 'CheckPHPConfig':
                     $service = getService(json_encode($input), $input['type']);
                     break;
@@ -291,8 +291,8 @@ try {
                     throw new tao_install_services_UnknownServiceException($input['type']);
                     break;
             }
-        } else {
-            switch ($input['type']) {
+    } else {
+        switch ($input['type']) {
                 case 'Install':
                     if (tao_install_utils_System::isTAOInstalled() && ! tao_install_utils_System::isTAOInDebugMode()) {
                         throw new NotAllowedAPICallException('The requested service is forbidden.');
@@ -318,16 +318,15 @@ try {
                     throw new tao_install_services_UnknownServiceException($input['type']);
                     break;
             }
-        }
-
-        // Execute service.
-        $service->execute();
-        $result = $service->getResult();
-        $contentType = $result->getMimeType();
-        $charset = $result->getEncoding();
-        header("Content-Type:${contentType}; charset=${charset}", 200);
-        echo $result->getContent();
     }
+
+    // Execute service.
+    $service->execute();
+    $result = $service->getResult();
+    $contentType = $result->getMimeType();
+    $charset = $result->getEncoding();
+    header("Content-Type:${contentType}; charset=${charset}", 200);
+    echo $result->getContent();
 } catch (tao_install_services_UnknownServiceException $e) {
     $serviceName = $e->getServiceName();
     header('HTTP/1.0 404 Not Found');
@@ -347,7 +346,7 @@ try {
     header('HTTP/1.0 403 Forbidden');
     header('Content-Type:text; charset=UTF-8');
     echo 'Error: ' . $e->getMessage();
-} catch (Exception $e) {
+} catch (\Throwable $e) {
     header('HTTP/1.0 500 Internal Server Error');
     header('Content-Type:text; charset=UTF-8');
     echo 'Fatal error: ' . $e->getMessage();

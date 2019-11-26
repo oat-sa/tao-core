@@ -51,5 +51,5 @@ interface ResponseInterface
      * @param \Exception $exception
      * @return $this
      */
-    public function setException(\Exception $exception);
+    public function setException(\Throwable $exception);
 }

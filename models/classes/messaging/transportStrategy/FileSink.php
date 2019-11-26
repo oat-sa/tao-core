@@ -57,12 +57,12 @@ class FileSink extends ConfigurableService implements Transport
     {
         $basePath = $this->getOption(self::CONFIG_FILEPATH);
         if ($basePath === null || ! file_exists($basePath)) {
-            throw new \common_exception_InconsistentData('Missing path ' . self::CONFIG_FILEPATH . ' for ' . __CLASS__);
+            throw new \common_exception_InconsistentData('Missing path ' . self::CONFIG_FILEPATH . ' for ' . self::class);
         }
         $path = $basePath . \tao_helpers_File::getSafeFileName($receiver->getIdentifier()) . DIRECTORY_SEPARATOR;
         if (! file_exists($path)) {
             mkdir($path);
         }
-        return  $path . \tao_helpers_File::getSafeFileName('message.html', $path);
+        return $path . \tao_helpers_File::getSafeFileName('message.html', $path);
     }
 }

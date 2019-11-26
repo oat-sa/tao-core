@@ -152,7 +152,6 @@ class QueueDispatcherTest extends TestCase
             LockService::SERVICE_ID => $lockService,
         ]);
 
-
         $dispatcher = new QueueDispatcher([
             QueueDispatcher::OPTION_QUEUES => [
                 new Queue('queueA', new InMemoryQueueBroker()),

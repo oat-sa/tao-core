@@ -47,7 +47,7 @@ class tao_helpers_form_elements_xhtml_File extends tao_helpers_form_elements_Fil
         if (isset($_FILES[$this->getName()])) {
             $this->setValue($_FILES[$this->getName()]);
         } else {
-            throw new tao_helpers_form_Exception('cannot evaluate the element ' . __CLASS__);
+            throw new tao_helpers_form_Exception('cannot evaluate the element ' . self::class);
         }
     }
 

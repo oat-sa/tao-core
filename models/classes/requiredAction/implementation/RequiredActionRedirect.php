@@ -72,7 +72,7 @@ class RequiredActionRedirect extends RequiredActionAbstract
      */
     public function __toPhpCode()
     {
-        $class = get_class($this);
+        $class = static::class;
         $name = $this->name;
         $url = $this->url;
         $rules = \common_Utils::toHumanReadablePhpString($this->getRules());

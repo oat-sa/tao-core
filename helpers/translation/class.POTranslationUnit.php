@@ -149,14 +149,12 @@ class tao_helpers_translation_POTranslationUnit extends tao_helpers_translation_
     {
         $returnValue = (bool) false;
 
-
         foreach ($this->getFlags() as $f) {
             if ($f === $flag) {
                 $returnValue = true;
                 break;
             }
         }
-
 
         return (bool) $returnValue;
     }
@@ -173,12 +171,10 @@ class tao_helpers_translation_POTranslationUnit extends tao_helpers_translation_
     {
         $returnValue = [];
 
-
         $currentAnnotations = $this->getAnnotations();
         if (isset($currentAnnotations[self::FLAGS])) {
             $returnValue = explode(' ', $currentAnnotations[self::FLAGS]);
         }
-
 
         return (array) $returnValue;
     }

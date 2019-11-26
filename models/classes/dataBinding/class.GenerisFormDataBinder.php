@@ -62,7 +62,6 @@ class tao_models_classes_dataBinding_GenerisFormDataBinder extends tao_models_cl
     {
         $returnValue = null;
 
-
         try {
             $instance = parent::bind($data);
 
@@ -80,7 +79,6 @@ class tao_models_classes_dataBinding_GenerisFormDataBinder extends tao_models_cl
             $msg = "An error occured while binding property values to instance '': " . $e->getMessage();
             throw new tao_models_classes_dataBinding_GenerisFormDataBindingException($msg);
         }
-
 
         return $returnValue;
     }

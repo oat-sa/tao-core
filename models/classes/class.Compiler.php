@@ -161,7 +161,7 @@ abstract class tao_models_classes_Compiler implements \Zend\ServiceManager\Servi
             common_Logger::e('Class ' . $compilerClass . ' not found while instanciating Compiler');
             return $this->fail(__('%s is of a type that cannot be published', $resource->getLabel()));
         }
-        if (! is_subclass_of($compilerClass, __CLASS__)) {
+        if (! is_subclass_of($compilerClass, self::class)) {
             common_Logger::e('Compiler class ' . $compilerClass . ' is not a compiler');
             return $this->fail(__('%s is of a type that cannot be published', $resource->getLabel()));
         }

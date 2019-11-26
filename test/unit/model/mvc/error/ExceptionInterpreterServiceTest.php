@@ -40,7 +40,7 @@ class ExceptionInterpreterServiceTest extends TestCase
             ExceptionInterpreterService::OPTION_INTERPRETERS => [
                 AEx::class => AExInt::class,
                 BEx::class => BExInt::class,
-                \Exception::class => ExceptionInterpretor::class,
+                \Throwable::class => ExceptionInterpretor::class,
                 DEx::class => DExInt::class,
             ],
         ]);

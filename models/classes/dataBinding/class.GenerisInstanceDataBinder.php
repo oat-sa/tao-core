@@ -144,7 +144,6 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
             throw new tao_models_classes_dataBinding_GenerisInstanceDataBindingException($msg);
         }
 
-
         return $returnValue;
     }
 
@@ -158,7 +157,6 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
     protected function getTargetInstance()
     {
         $returnValue = null;
-
 
         return $this->targetInstance;
     }

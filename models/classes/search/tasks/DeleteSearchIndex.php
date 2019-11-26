@@ -69,7 +69,7 @@ class DeleteSearchIndex implements Action, ServiceLocatorAwareInterface, TaskAwa
         try {
             $this->getServiceLocator()->get(Search::SERVICE_ID)->remove($resourceId);
             $report = new \common_report_Report(\common_report_Report::TYPE_SUCCESS, __('Index has been deleted for %s', $resourceId));
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $report = new \common_report_Report(\common_report_Report::TYPE_ERROR, __('Failed to delete index for %s', $resourceId));
         }
         return $report;

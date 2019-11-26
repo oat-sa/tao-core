@@ -91,7 +91,7 @@ class tao_helpers_form_GenerisFormFactory
             }
 
             //use the property label as element description
-            $propDesc = (strlen(trim($property->getLabel())) > 0) ? $property->getLabel() : str_replace(LOCAL_NAMESPACE, '', $property->getUri());
+            $propDesc = strlen(trim($property->getLabel())) > 0 ? $property->getLabel() : str_replace(LOCAL_NAMESPACE, '', $property->getUri());
             $element->setDescription($propDesc);
 
             //multi elements use the property range as options
@@ -112,7 +112,7 @@ class tao_helpers_form_GenerisFormFactory
                             if ($level === null) {
                                 $options[tao_helpers_Uri::encode($rangeInstance->getUri())] = [tao_helpers_Uri::encode($rangeInstance->getUri()), $rangeInstance->getLabel()];
                             } else {
-                                $level = ($level instanceof core_kernel_classes_Resource) ? $level->getUri() : (string) $level;
+                                $level = $level instanceof core_kernel_classes_Resource ? $level->getUri() : (string) $level;
                                 $options[$level] = [tao_helpers_Uri::encode($rangeInstance->getUri()), $rangeInstance->getLabel()];
                             }
                         }
@@ -139,8 +139,6 @@ class tao_helpers_form_GenerisFormFactory
             $returnValue = $element;
         }
 
-
-
         return $returnValue;
     }
 
@@ -155,17 +153,13 @@ class tao_helpers_form_GenerisFormFactory
      * @param  core_kernel_classes_Class $topLevelClazz
      * @return array
      */
-    public static function getClassProperties(core_kernel_classes_Class $clazz, core_kernel_classes_Class $topLevelClazz = null)
+    public static function getClassProperties(core_kernel_classes_Class $clazz, ?core_kernel_classes_Class $topLevelClazz = null)
     {
         $returnValue = [];
-
-
-
 
         if ($topLevelClazz === null) {
             $topLevelClazz = new core_kernel_classes_Class(TaoOntology::CLASS_URI_OBJECT);
         }
-
 
         if ($clazz->getUri() === $topLevelClazz->getUri()) {
             $returnValue = $clazz->getProperties(false);
@@ -198,7 +192,6 @@ class tao_helpers_form_GenerisFormFactory
                     break;
                 }
 
-
                 $allParentClasses = $parentClass->getParentClasses(true);
                 if (array_key_exists($topLevelClazz->getUri(), $allParentClasses)) {
                     $parents[$parentClass->getUri()] = $parentClass;
@@ -212,8 +205,6 @@ class tao_helpers_form_GenerisFormFactory
             $returnValue = array_merge($returnValue, $parent->getProperties(false));
         }
         $returnValue = array_merge($returnValue, $clazz->getProperties(false));
-
-
 
         return (array) $returnValue;
     }
@@ -229,13 +220,9 @@ class tao_helpers_form_GenerisFormFactory
     {
         $returnValue = [];
 
-
-
         $returnValue = [
             new core_kernel_classes_Property(OntologyRdfs::RDFS_LABEL),
         ];
-
-
 
         return (array) $returnValue;
     }
@@ -251,8 +238,6 @@ class tao_helpers_form_GenerisFormFactory
     public static function getPropertyProperties($mode = 'simple')
     {
         $returnValue = [];
-
-
 
         switch ($mode) {
             case 'simple':
@@ -274,8 +259,6 @@ class tao_helpers_form_GenerisFormFactory
                 array_push($returnValue, $property);
             }
         }
-
-
 
         return (array) $returnValue;
     }
@@ -369,9 +352,6 @@ class tao_helpers_form_GenerisFormFactory
     {
         $returnValue = [];
 
-
-
-
         if (isset($data['data'])) {
             $data = [$data];
         }
@@ -381,8 +361,6 @@ class tao_helpers_form_GenerisFormFactory
                 $returnValue = array_merge($returnValue, self::extractTreeData($node['children'], true));
             }
         }
-
-
 
         return (array) $returnValue;
     }

@@ -237,7 +237,6 @@ class TranslationTest extends GenerisPhpUnitTestRunner
         $this->assertSame('And this one will contain escaping characters', $tus[3]->getSource());
         $this->assertSame("Alors je vais passer une ligne \net aussi faire des tabulations \t car c'est très cool.", $tus[3]->getTarget());
 
-
         //test ability to read context of po messages
         $po = new tao_helpers_translation_POFileReader(dirname(__FILE__) . self::RAW_PO_WITH_CONTEXT);
         $po->read();
@@ -576,7 +575,6 @@ class TranslationTest extends GenerisPhpUnitTestRunner
                 'predicate' => 'http://www.tao.lu/Ontologies/tao.rdf#aFragment', ]);
             $this->assertSame($annotations, "@source This is a source test.\n    @sourceLanguage en-US\n    @targetLanguage fr-CA\n    @predicate http://www.tao.lu/Ontologies/tao.rdf#aFragment");
 
-
             // - Test Annotations parsing while reading with RDFFileWriter.
             $reader = new tao_helpers_translation_RDFFileReader(dirname(__FILE__) . self::FAKE_RDF_TRANSLATION_MODEL_ANNOTATIONS);
             $reader->read();
@@ -724,7 +722,6 @@ class TranslationTest extends GenerisPhpUnitTestRunner
         $comment = 'foo bar code';
         $this->assertSame(tao_helpers_translation_POUtils::addFlag($comment, 'bar '), 'foo bar code');
 
-
         // Test PO comments serialization.
         $annotations = [tao_helpers_translation_POTranslationUnit::TRANSLATOR_COMMENTS => 'A single line translator comment.'];
         $comment = '# A single line translator comment.';
@@ -755,7 +752,6 @@ class TranslationTest extends GenerisPhpUnitTestRunner
             ['Maximum choices reached'],
             $method->invokeArgs($translator, ['__(\'Maximum choices reached\'),'])
         );
-
 
         $this->assertSame(
             ['Maximum choices reached'],

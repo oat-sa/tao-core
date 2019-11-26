@@ -64,7 +64,7 @@ class AssetService extends ConfigurableService
             $url = $this->getAssetBaseUrl() . FsUtils::normalizePath($asset);
         }
 
-        $isFolder = (substr_compare($url, '/', strlen($url) - 1) === 0);
+        $isFolder = substr_compare($url, '/', strlen($url) - 1) === 0;
 
         $buster = $this->getCacheBuster();
         if ($buster !== false && $isFolder === false) {

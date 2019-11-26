@@ -90,7 +90,6 @@ class tao_models_classes_export_RdfExportForm extends tao_helpers_form_FormConta
         $hiddenElt->setValue($resource->getUri());
         $this->form->addElement($hiddenElt);
 
-
         $nameElt = tao_helpers_form_FormFactory::getElement('filename', 'Textbox');
         $nameElt->setDescription(__('File name'));
         $nameElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));

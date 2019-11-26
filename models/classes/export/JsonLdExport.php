@@ -62,7 +62,7 @@ class JsonLdExport implements \JsonSerializable
      *
      * @param core_kernel_classes_Resource $resource
      */
-    public function __construct(core_kernel_classes_Resource $resource = null)
+    public function __construct(?core_kernel_classes_Resource $resource = null)
     {
         if ($resource !== null) {
             $this->setTriples($resource->getRdfTriples());
@@ -138,7 +138,7 @@ class JsonLdExport implements \JsonSerializable
                     while (in_array($id . '_' . $nr, $map, true)) {
                         $nr++;
                     }
-                    $id = $id . '_' . $nr;
+                    $id .= '_' . $nr;
                 }
                 $map[$triple->predicate] = $id;
                 $data['@context'][$id] = $triple->predicate;
@@ -195,7 +195,7 @@ class JsonLdExport implements \JsonSerializable
         return is_string($value)
             ? $value
             : (
-                (is_object($value) && $value instanceof \core_kernel_classes_Resource)
+                is_object($value) && $value instanceof \core_kernel_classes_Resource
                 ? $value->getUri()
                 : (string) $value
             );

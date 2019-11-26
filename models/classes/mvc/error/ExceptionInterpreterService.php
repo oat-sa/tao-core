@@ -41,7 +41,7 @@ class ExceptionInterpreterService extends ConfigurableService
      * @param \Exception $e
      * @return ExceptionInterpretor
      */
-    public function getExceptionInterpreter(\Exception $e)
+    public function getExceptionInterpreter(\Throwable $e)
     {
         $interpreters = $this->hasOption(self::OPTION_INTERPRETERS) ?
             $this->getOption(self::OPTION_INTERPRETERS) : [];
@@ -86,7 +86,7 @@ class ExceptionInterpreterService extends ConfigurableService
      * @param \Exception $e
      * @return array where key is class name and value is index in the hierarchy
      */
-    protected function getClassesHierarchy(\Exception $e)
+    protected function getClassesHierarchy(\Throwable $e)
     {
         $exceptionClass = get_class($e);
         $exceptionClassesHierarchy = array_values(class_parents($exceptionClass));

@@ -38,7 +38,7 @@ class InvalidSourcePathException extends common_Exception implements common_exce
      * @param string $sourcePath
      * @param Exception|null $previous
      */
-    public function __construct($basePath, $sourcePath, Exception $previous = null)
+    public function __construct($basePath, $sourcePath, ?\Throwable $previous = null)
     {
         $this->sourcePath = $sourcePath;
 

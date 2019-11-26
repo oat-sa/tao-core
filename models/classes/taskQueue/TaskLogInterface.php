@@ -86,7 +86,6 @@ interface TaskLogInterface extends LoggerAwareInterface
      */
     public const SUPER_USER = 'cli-user';
 
-
     public function createContainer();
 
     /**
@@ -94,7 +93,7 @@ interface TaskLogInterface extends LoggerAwareInterface
      *
      * @param TaskInterface $task
      * @param string        $status
-     * @param null|string   $label
+     * @param string|null $label
      * @return TaskLogInterface
      */
     public function add(TaskInterface $task, $status, $label = null);

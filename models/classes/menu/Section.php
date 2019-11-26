@@ -52,7 +52,7 @@ class Section extends MenuElement implements PhpSerializable
 
     public function __toPhpCode()
     {
-        return 'new ' . __CLASS__ . '('
+        return 'new ' . self::class . '('
         . \common_Utils::toPHPVariableString($this->data) . ','
         . \common_Utils::toPHPVariableString($this->trees) . ','
         . \common_Utils::toPHPVariableString($this->actions) . ','

@@ -81,7 +81,7 @@ class OntologyMetadataInjector extends ConfigurableService implements Injector
 
         $params = [self::CONFIG_SOURCE => $this->readers, self::CONFIG_DESTINATION => $this->writers];
 
-        return 'new ' . get_class($this) . '(' . \common_Utils::toHumanReadablePhpString($params, 1) . '),';
+        return 'new ' . static::class . '(' . \common_Utils::toHumanReadablePhpString($params, 1) . '),';
     }
 
     /**
@@ -140,10 +140,10 @@ class OntologyMetadataInjector extends ConfigurableService implements Injector
 
         if (! empty($errors)) {
             foreach ($errors as $name => $error) {
-                \common_Logger::d('Error on injector "' . __CLASS__ . '" with reader "' . $name . '" : ' . $error);
+                \common_Logger::d('Error on injector "' . self::class . '" with reader "' . $name . '" : ' . $error);
             }
             throw new MetadataInjectorReadException(
-                'Injector "' . __CLASS__ . '" cannot read all required values from readers: ' . implode(', ', array_keys($errors))
+                'Injector "' . self::class . '" cannot read all required values from readers: ' . implode(', ', array_keys($errors))
             );
         }
 
@@ -178,7 +178,7 @@ class OntologyMetadataInjector extends ConfigurableService implements Injector
 
         foreach ($writers as $name => $writer) {
             if (! $writer instanceof OntologyWriter) {
-                $errors[$name] = __CLASS__ . ' must implements ' . OntologyWriter::class;
+                $errors[$name] = self::class . ' must implements ' . OntologyWriter::class;
                 continue;
             }
 
@@ -191,10 +191,10 @@ class OntologyMetadataInjector extends ConfigurableService implements Injector
 
         if (! empty($errors)) {
             foreach ($errors as $name => $error) {
-                \common_Logger::d('Error on injector "' . __CLASS__ . '" with writer "' . $name . '" : ' . $error);
+                \common_Logger::d('Error on injector "' . self::class . '" with writer "' . $name . '" : ' . $error);
             }
             throw new MetadataInjectorWriteException(
-                'Injector "' . __CLASS__ . '" cannot write values from writers: ' . implode(', ', array_keys($errors))
+                'Injector "' . self::class . '" cannot write values from writers: ' . implode(', ', array_keys($errors))
             );
         }
 

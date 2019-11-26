@@ -39,7 +39,7 @@ class TaskSerializerService extends ConfigurableService
     /**
      * @param string $taskJSON
      * @param array $logContext
-     * @return null|TaskInterface
+     * @return TaskInterface|null
      * @throws \Exception
      */
     public function deserialize($taskJSON, array $logContext = [])

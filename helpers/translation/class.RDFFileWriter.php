@@ -84,7 +84,7 @@ class tao_helpers_translation_RDFFileWriter extends tao_helpers_translation_Tran
                     if (($searchedNS = array_search($namespace, $semanticNamespaces, true)) !== false) {
                         $tuNode = $targetFile->createElement("${searchedNS}:${qName}");
                         $tuNode->setAttributeNS($xmlNS, 'xml:lang', $tu->getTargetLanguage());
-                        $cdataValue = (($tu->getTarget() === '') ? $tu->getSource() : $tu->getTarget());
+                        $cdataValue = ($tu->getTarget() === '' ? $tu->getSource() : $tu->getTarget());
                         $tuNodeValue = $targetFile->createCDATASection($cdataValue);
 
                         $tuNode->appendChild($tuNodeValue);

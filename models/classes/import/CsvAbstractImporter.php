@@ -94,7 +94,6 @@ abstract class CsvAbstractImporter
         $adapter->setValidators($this->getValidators());
         $report = $adapter->import($options['file'], $class);
 
-
         if ($report->getType() === \common_report_Report::TYPE_SUCCESS) {
             $report->setData($adapter->getOptions());
         }

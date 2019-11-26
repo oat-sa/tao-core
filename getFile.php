@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -64,7 +63,7 @@ if (strpos($filename, '?')) {
     $parts = explode('?', $filename);
     $filename = $parts[0];
 }
-$cacheTtl = $ttl ? $ttl : (30 * 60); //30 min default
+$cacheTtl = $ttl ?: (30 * 60); //30 min default
 header('Expires: ' . gmdate('D, d M Y H:i:s \G\M\T', $timestamp + $cacheTtl));
 
 tao_helpers_Http::returnFile($filename);

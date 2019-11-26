@@ -114,10 +114,8 @@ class tao_helpers_grid_Column
     {
         $returnValue = (bool) false;
 
-
         $this->type = $type;
         $returnValue = true;
-
 
         return (bool) $returnValue;
     }
@@ -133,9 +131,7 @@ class tao_helpers_grid_Column
     {
         $returnValue = (string) '';
 
-
         $returnValue = $this->type;
-
 
         return (string) $returnValue;
     }
@@ -152,10 +148,8 @@ class tao_helpers_grid_Column
     {
         $returnValue = (bool) false;
 
-
         $this->title = $title;
         $returnValue = true;
-
 
         return (bool) $returnValue;
     }
@@ -171,9 +165,7 @@ class tao_helpers_grid_Column
     {
         $returnValue = (string) '';
 
-
         $returnValue = $this->title;
-
 
         return (string) $returnValue;
     }
@@ -189,9 +181,7 @@ class tao_helpers_grid_Column
     {
         $returnValue = (string) '';
 
-
         $returnValue = $this->id;
-
 
         return (string) $returnValue;
     }
@@ -208,12 +198,10 @@ class tao_helpers_grid_Column
     {
         $returnValue = (bool) false;
 
-
         if ($adapter !== null) {
             $this->adapters[] = $adapter;
             $returnValue = true;
         }
-
 
         return (bool) $returnValue;
     }
@@ -230,7 +218,6 @@ class tao_helpers_grid_Column
     {
         $returnValue = (bool) false;
 
-
         $adapterClass = empty($type) ? 'tao_helpers_grid_Cell_Adapter' : $type;
         foreach ($this->adapters as $adapter) {
             if ($adapter instanceof $adapterClass) {
@@ -238,8 +225,6 @@ class tao_helpers_grid_Column
                 break;
             }
         }
-
-
 
         return (bool) $returnValue;
     }
@@ -257,8 +242,6 @@ class tao_helpers_grid_Column
     public function getAdaptersData($rowId, $cellValue = null, $evaluateData = true)
     {
         $returnValue = null;
-
-
 
         if ($this->hasAdapter()) {
             foreach ($this->adapters as $adapter) {
@@ -282,8 +265,6 @@ class tao_helpers_grid_Column
             }
         }
 
-
-
         return $returnValue;
     }
 
@@ -299,14 +280,12 @@ class tao_helpers_grid_Column
     {
         $returnValue = null;
 
-
         foreach ($this->adapters as $adapter) {
             if ($adapter instanceof $type) {
                 $returnValue = $adapter;
                 break;
             }
         }
-
 
         return $returnValue;
     }
@@ -322,9 +301,7 @@ class tao_helpers_grid_Column
     {
         $returnValue = [];
 
-
         $returnValue = $this->options;
-
 
         return (array) $returnValue;
     }
@@ -352,7 +329,6 @@ class tao_helpers_grid_Column
     public function getOption($name)
     {
         $returnValue = null;
-
 
         return $this->options[$name];
     }
@@ -382,9 +358,6 @@ class tao_helpers_grid_Column
     {
         $returnValue = (bool) false;
 
-
-
-
         return (bool) $returnValue;
     }
 
@@ -399,9 +372,7 @@ class tao_helpers_grid_Column
     {
         $returnValue = [];
 
-
         $returnValue = $this->adapters;
-
 
         return (array) $returnValue;
     }

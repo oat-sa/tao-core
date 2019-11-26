@@ -64,9 +64,7 @@ class tao_helpers_translation_RDFTranslationUnit extends tao_helpers_translation
     {
         $returnValue = (string) '';
 
-
         $returnValue = $this->subject;
-
 
         return (string) $returnValue;
     }
@@ -82,9 +80,7 @@ class tao_helpers_translation_RDFTranslationUnit extends tao_helpers_translation
     {
         $returnValue = (string) '';
 
-
         $returnValue = $this->predicate;
-
 
         return (string) $returnValue;
     }
@@ -130,9 +126,7 @@ class tao_helpers_translation_RDFTranslationUnit extends tao_helpers_translation
     {
         $returnValue = (bool) false;
 
-
         $returnValue = $this->getSubject() === $translationUnit->getSubject();
-
 
         return (bool) $returnValue;
     }
@@ -150,9 +144,7 @@ class tao_helpers_translation_RDFTranslationUnit extends tao_helpers_translation
     {
         $returnValue = (bool) false;
 
-
         $returnValue = $this->getPredicate() === $translationUnit->getPredicate();
-
 
         return (bool) $returnValue;
     }
@@ -172,11 +164,9 @@ class tao_helpers_translation_RDFTranslationUnit extends tao_helpers_translation
     {
         $returnValue = (bool) false;
 
-
         $returnValue = $this->hasSameTranslationUnitPredicate($translationUnit) &&
                        $this->hasSameTranslationUnitSubject($translationUnit) &&
                        $this->hasSameTranslationUnitTargetLanguage($translationUnit);
-
 
         return (bool) $returnValue;
     }

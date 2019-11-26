@@ -49,7 +49,7 @@ abstract class AbstractTask implements TaskInterface
      */
     public function __toString()
     {
-        return 'TASK ' . get_called_class() . ' [' . $this->getId() . ']';
+        return 'TASK ' . static::class . ' [' . $this->getId() . ']';
     }
 
     /**
@@ -146,7 +146,7 @@ abstract class AbstractTask implements TaskInterface
      * Retrieve a single metadata as specified by key
      *
      * @param  string $key
-     * @param  null|mixed $default
+     * @param mixed|null $default
      * @throws \InvalidArgumentException
      * @return mixed
      */
@@ -196,7 +196,7 @@ abstract class AbstractTask implements TaskInterface
      * Retrieve a single parameter as specified by key
      *
      * @param  string $key
-     * @param  null|mixed $default
+     * @param mixed|null $default
      * @throws \InvalidArgumentException
      * @return mixed
      */
@@ -288,7 +288,7 @@ abstract class AbstractTask implements TaskInterface
         $cloneMetadata[self::JSON_METADATA_CREATED_AT_KEY] = $this->getCreatedAt()->format('c');
 
         return [
-            self::JSON_TASK_CLASS_NAME_KEY => get_called_class(),
+            self::JSON_TASK_CLASS_NAME_KEY => static::class,
             self::JSON_METADATA_KEY => $cloneMetadata,
             self::JSON_PARAMETERS_KEY => $this->getParameters(),
         ];

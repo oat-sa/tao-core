@@ -96,7 +96,6 @@ abstract class tao_helpers_grid_Cell_SubgridAdapter extends tao_helpers_grid_Cel
     {
         $returnValue = null;
 
-
         if (isset($this->data[$rowId]) && is_a($this->data[$rowId], 'wfEngine_helpers_Monitoring_ActivityMonitoringGrid')) {
             $returnValue = $this->data[$rowId];
         } else {
@@ -106,7 +105,6 @@ abstract class tao_helpers_grid_Cell_SubgridAdapter extends tao_helpers_grid_Cel
             $returnValue = $cloneSubGridCtn;
             $this->data[$rowId] = $cloneSubGridCtn;
         }
-
 
         return $returnValue;
     }
@@ -121,7 +119,6 @@ abstract class tao_helpers_grid_Cell_SubgridAdapter extends tao_helpers_grid_Cel
     public function getGridContainer()
     {
         $returnValue = null;
-
 
         return $this->subGridContainer;
     }

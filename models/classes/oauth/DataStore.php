@@ -140,7 +140,7 @@ class DataStore extends ConfigurableService implements ImsOauthDataStoreInterfac
      */
     public function lookup_token($consumer, $token_type, $token)
     {
-        \common_Logger::d(__CLASS__ . '::' . __FUNCTION__ . ' called for token ' . $token . ' of type ' . $token_type);
+        \common_Logger::d(self::class . '::' . __FUNCTION__ . ' called for token ' . $token . ' of type ' . $token_type);
         return new OAuthToken($consumer, '');
     }
 
@@ -174,7 +174,7 @@ class DataStore extends ConfigurableService implements ImsOauthDataStoreInterfac
      */
     public function new_request_token($consumer, $callback = null)
     {
-        \common_Logger::d(__CLASS__ . '::' . __FUNCTION__ . ' called');
+        \common_Logger::d(self::class . '::' . __FUNCTION__ . ' called');
         return null;
     }
 
@@ -190,7 +190,7 @@ class DataStore extends ConfigurableService implements ImsOauthDataStoreInterfac
      */
     public function new_access_token($token, $consumer, $verifier = null)
     {
-        \common_Logger::d(__CLASS__ . '::' . __FUNCTION__ . ' called');
+        \common_Logger::d(self::class . '::' . __FUNCTION__ . ' called');
         return null;
     }
 }

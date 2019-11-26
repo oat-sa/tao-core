@@ -103,7 +103,7 @@ class TreeWrapper
     {
         if (isset($a['data']) && isset($b['data'])) {
             if ($a['type'] !== $b['type']) {
-                return ($a['type'] === 'class') ? -1 : 1;
+                return $a['type'] === 'class' ? -1 : 1;
             }
             return strcasecmp($a['data'], $b['data']);
         }

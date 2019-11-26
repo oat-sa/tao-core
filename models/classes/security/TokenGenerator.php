@@ -46,7 +46,7 @@ trait TokenGenerator
         } catch (\Error $e) {
             // This is required, if you do not need to do anything just rethrow.
             throw new \common_Exception('An unexpected error has occurred while trying to generate a security token', 0, $e);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             throw new \common_Exception('Could not generate a security token. Is our OS secure?', 0, $e);
         }
     }

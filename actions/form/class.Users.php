@@ -75,7 +75,7 @@ class tao_actions_form_Users extends SignedFormInstance
      */
     public function __construct(
         core_kernel_classes_Class $clazz,
-        core_kernel_classes_Resource $user = null,
+        ?core_kernel_classes_Resource $user = null,
         $forceAdd = false,
         $options = []
     ) {

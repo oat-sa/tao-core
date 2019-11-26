@@ -80,10 +80,8 @@ class tao_models_classes_table_PropertyDP implements tao_models_classes_table_Da
     {
         $returnValue = (string) '';
 
-
         $result = $resource->getOnePropertyValue($column->getProperty());
         $returnValue = $result instanceof core_kernel_classes_Resource ? $result->getLabel() : (string) $result;
-
 
         return (string) $returnValue;
     }
@@ -98,7 +96,6 @@ class tao_models_classes_table_PropertyDP implements tao_models_classes_table_Da
     public static function singleton()
     {
         $returnValue = null;
-
 
         if (self::$singleton === null) {
             self::$singleton = new self();

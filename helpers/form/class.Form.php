@@ -209,7 +209,6 @@ abstract class tao_helpers_form_Form
             common_Logger::w('Element with name "' . $name . '" not found');
         }
 
-
         return $returnValue;
     }
 
@@ -402,11 +401,9 @@ abstract class tao_helpers_form_Form
     {
         $returnValue = null;
 
-
         if (array_key_exists($type, $this->decorators)) {
             $returnValue = $this->decorators[$type];
         }
-
 
         return $returnValue;
     }
@@ -421,7 +418,6 @@ abstract class tao_helpers_form_Form
     public function renderElements()
     {
         $returnValue = '';
-
 
         foreach ($this->elements as $element) {
             if ($this->getElementGroup($element->getName()) !== '') {
@@ -549,7 +545,6 @@ abstract class tao_helpers_form_Form
             }
         }
 
-
         return $returnValue;
     }
 
@@ -631,7 +626,7 @@ abstract class tao_helpers_form_Form
      */
     public function isSubmited()
     {
-        return  $this->submited;
+        return $this->submited;
     }
 
     /**
@@ -680,7 +675,7 @@ abstract class tao_helpers_form_Form
     {
         foreach ($this->elements as $element) {
             if ($element->getName() === $name) {
-                return  $element->getEvaluatedValue();
+                return $element->getEvaluatedValue();
             }
         }
 

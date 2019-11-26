@@ -75,7 +75,7 @@ class tao_helpers_form_validators_Unique extends tao_helpers_form_Validator
                 throw new common_exception_Error('Property not set');
             }
 
-            $this->property = ($this->getOption('property') instanceof core_kernel_classes_Property)
+            $this->property = $this->getOption('property') instanceof core_kernel_classes_Property
                 ? $this->getOption('property')
                 : new core_kernel_classes_Property($this->getOption('property'));
         }

@@ -57,7 +57,6 @@ class tao_helpers_form_validators_Length extends tao_helpers_form_Validator
     {
         $returnValue = (bool) false;
 
-
         $returnValue = true;
 
         $values = is_array($values) ? $values : [$values];
@@ -74,7 +73,6 @@ class tao_helpers_form_validators_Length extends tao_helpers_form_Validator
                 break;
             }
         }
-
 
         return (bool) $returnValue;
     }

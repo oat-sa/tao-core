@@ -33,7 +33,6 @@ class tao_install_utils_PostgresProceduresParser extends tao_install_utils_SQLPa
 {
     /**
      * Parse a SQL file containing mySQL compliant Procedures or Functions.
-     * @return void
      * @throws tao_install_utils_SQLParsingException
      */
     public function parse()

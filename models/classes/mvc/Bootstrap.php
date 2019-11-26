@@ -207,7 +207,7 @@ class Bootstrap implements ServiceManagerAwareInterface
             else {
                 $this->displayMaintenancePage();
             }
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             $this->catchError($e);
         }
 
@@ -256,7 +256,7 @@ class Bootstrap implements ServiceManagerAwareInterface
      *
      * @param Exception $exception
      */
-    protected function catchError(Exception $exception)
+    protected function catchError(\Throwable $exception)
     {
         $exceptionInterpreterService = $this->getServiceLocator()->get(ExceptionInterpreterService::SERVICE_ID);
         $interpretor = $exceptionInterpreterService->getExceptionInterpreter($exception);
@@ -281,7 +281,7 @@ class Bootstrap implements ServiceManagerAwareInterface
         $this->configureSessionHandler();
 
         $sessionParams = session_get_cookie_params();
-        $cookieDomain = ((tao_helpers_Uri::isValidAsCookieDomain(ROOT_URL) === true) ? tao_helpers_Uri::getDomain(ROOT_URL) : $sessionParams['domain']);
+        $cookieDomain = (tao_helpers_Uri::isValidAsCookieDomain(ROOT_URL) === true ? tao_helpers_Uri::getDomain(ROOT_URL) : $sessionParams['domain']);
         $isSecureFlag = \common_http_Request::isHttps();
         session_set_cookie_params($sessionParams['lifetime'], tao_helpers_Uri::getPath(ROOT_URL), $cookieDomain, $isSecureFlag, true);
         session_name(GENERIS_SESSION_NAME);

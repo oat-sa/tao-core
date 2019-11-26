@@ -69,7 +69,6 @@ class tao_models_classes_table_PropertyColumn extends tao_models_classes_table_C
     {
         $returnValue = null;
 
-
         return $this->property;
     }
 
@@ -83,7 +82,6 @@ class tao_models_classes_table_PropertyColumn extends tao_models_classes_table_C
     public function getDataProvider()
     {
         $returnValue = null;
-
 
         return tao_models_classes_table_PropertyDP::singleton();
     }
@@ -99,10 +97,8 @@ class tao_models_classes_table_PropertyColumn extends tao_models_classes_table_C
     {
         $returnValue = [];
 
-
         $returnValue = parent::toArray();
         $returnValue['prop'] = $this->property->getUri();
-
 
         return (array) $returnValue;
     }
@@ -121,9 +117,7 @@ class tao_models_classes_table_PropertyColumn extends tao_models_classes_table_C
     {
         $returnValue = null;
 
-
         $returnValue = new static(new core_kernel_classes_Property($array['prop']));
-
 
         return $returnValue;
     }

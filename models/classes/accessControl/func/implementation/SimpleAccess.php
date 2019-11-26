@@ -48,7 +48,6 @@ class SimpleAccess extends ConfigurableService implements FuncAccessControl
 
     private $controllers = [];
 
-
     public function __construct($options = [])
     {
         parent::__construct($options);

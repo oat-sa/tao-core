@@ -107,9 +107,7 @@ abstract class tao_helpers_translation_TranslationExtractor
     {
         $returnValue = [];
 
-
         $returnValue = $this->paths;
-
 
         return (array) $returnValue;
     }
@@ -126,9 +124,7 @@ abstract class tao_helpers_translation_TranslationExtractor
     {
         $returnValue = [];
 
-
         $returnValue = $this->translationUnits;
-
 
         return (array) $returnValue;
     }

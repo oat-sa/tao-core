@@ -72,7 +72,6 @@ class FlyTokenWebSource extends TokenWebSource
             throw new \tao_models_classes_FileNotFoundException('`' . $subPath . $file . '` - (wrong token)');
         }
 
-
         $path = [];
         foreach (explode('/', $subPath . $file) as $ele) {
             $path[] = rawurldecode($ele);
