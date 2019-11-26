@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,16 +18,15 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2014-2018 (original work) Open Assessment Technologies SA;
- *
  */
 
+use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
-use oat\tao\model\search\SyntaxException;
+use oat\tao\model\search\aggregator\UnionSearchService;
 use oat\tao\model\search\index\OntologyIndexService;
 use oat\tao\model\search\ResultSet;
 use oat\tao\model\search\Search;
-use oat\generis\model\OntologyAwareTrait;
-use oat\tao\model\search\aggregator\UnionSearchService;
+use oat\tao\model\search\SyntaxException;
 
 /**
  * Controller for indexed searches
@@ -42,23 +44,23 @@ class tao_actions_Search extends tao_actions_CommonModule
      */
     public function searchParams()
     {
-        $rawQuery = isset($_POST['query'])?$_POST['query']:'';
-        $this->returnJson(array(
+        $rawQuery = $_POST['query'] ?? '';
+        $this->returnJson([
             'url' => _url('search'),
-            'params' => array(
+            'params' => [
                 'query' => $rawQuery,
-                'rootNode' => $this->getRequestParameter('rootNode')
-            ),
-            'filter' => array(),
-            'model' => array(
-                OntologyRdfs::RDFS_LABEL => array(
+                'rootNode' => $this->getRequestParameter('rootNode'),
+            ],
+            'filter' => [],
+            'model' => [
+                OntologyRdfs::RDFS_LABEL => [
                     'id' => OntologyRdfs::RDFS_LABEL,
                     'label' => __('Label'),
-                    'sortable' => false
-                )
-            ),
-            'result' => true
-        ));
+                    'sortable' => false,
+                ],
+            ],
+            'result' => true,
+        ]);
     }
 
     /**
@@ -71,9 +73,9 @@ class tao_actions_Search extends tao_actions_CommonModule
         $query = $params['query'];
         $class = $this->getClass($params['rootNode']);
 
-        $rows = $this->hasRequestParameter('rows') ? (int)$this->getRequestParameter('rows') : null;
-        $page = $this->hasRequestParameter('page') ? (int)$this->getRequestParameter('page') : 1;
-        $startRow = is_null($rows) ? 0 : $rows * ($page - 1);
+        $rows = $this->hasRequestParameter('rows') ? (int) $this->getRequestParameter('rows') : null;
+        $page = $this->hasRequestParameter('page') ? (int) $this->getRequestParameter('page') : 1;
+        $startRow = $rows === null ? 0 : $rows * ($page - 1);
 
         try {
             $results = [];
@@ -91,16 +93,16 @@ class tao_actions_Search extends tao_actions_CommonModule
                 $results = $this->getUnionSearchService()->query($query, $class->getUri(), $startRow, $rows);
             }
 
-            $totalPages = is_null($rows) ? 1 : ceil($results->getTotalCount() / $rows);
+            $totalPages = $rows === null ? 1 : ceil($results->getTotalCount() / $rows);
 
             $response = new StdClass();
             if (count($results) > 0) {
                 foreach ($results as $uri) {
                     $instance = $this->getResource($uri);
-                    $instanceProperties = array(
+                    $instanceProperties = [
                         'id' => $instance->getUri(),
-                        OntologyRdfs::RDFS_LABEL => $instance->getLabel()
-                    );
+                        OntologyRdfs::RDFS_LABEL => $instance->getLabel(),
+                    ];
 
                     $response->data[] = $instanceProperties;
                 }
@@ -112,10 +114,10 @@ class tao_actions_Search extends tao_actions_CommonModule
 
             $this->returnJson($response, 200);
         } catch (SyntaxException $e) {
-            $this->returnJson(array(
+            $this->returnJson([
                 'success' => false,
-                'msg' => $e->getUserMessage()
-            ));
+                'msg' => $e->getUserMessage(),
+            ]);
         }
     }
 
@@ -124,15 +126,15 @@ class tao_actions_Search extends tao_actions_CommonModule
         if ($this->hasRequestParameter('rootNode') === true) {
             $rootNodeUri = $this->getRequestParameter('rootNode');
             $indexes = OntologyIndexService::getIndexesByClass($this->getClass($rootNodeUri));
-            $json = array();
+            $json = [];
 
             foreach ($indexes as $propertyUri => $index) {
                 foreach ($index as $i) {
-                    $json[] = array(
+                    $json[] = [
                         'identifier' => $i->getIdentifier(),
                         'fuzzyMatching' => $i->isFuzzyMatching(),
-                        'propertyId' => $propertyUri
-                    );
+                        'propertyId' => $propertyUri,
+                    ];
                 }
             }
 
@@ -145,7 +147,7 @@ class tao_actions_Search extends tao_actions_CommonModule
     /**
      * @return UnionSearchService
      */
-    protected function getUnionSearchService() : UnionSearchService
+    protected function getUnionSearchService(): UnionSearchService
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->getServiceLocator()->get(UnionSearchService::SERVICE_ID);

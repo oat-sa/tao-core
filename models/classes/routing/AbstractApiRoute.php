@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA;
- *
  */
 
 namespace oat\tao\model\routing;
@@ -58,11 +60,11 @@ abstract class AbstractApiRoute extends AbstractRoute
             throw new RouterException('Path does not match');
         }
 
-        if (!isset($parts[2])) {
+        if (! isset($parts[2])) {
             throw new RouterException('Missed controller name in uri: ' . $relativeUrl);
         }
 
-        if (!class_exists($prefix . ucfirst($parts[2]))) {
+        if (! class_exists($prefix . ucfirst($parts[2]))) {
             throw new RouterException('Controller ' . $parts[2] . ' does not exists');
         }
 

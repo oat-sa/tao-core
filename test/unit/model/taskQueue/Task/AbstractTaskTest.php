@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,14 +18,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\test\unit\model\taskQueue\Task;
 
+use oat\generis\test\TestCase;
 use oat\tao\model\taskQueue\Task\AbstractTask;
 use oat\tao\model\taskQueue\Task\TaskInterface;
-use oat\generis\test\TestCase;
 
 class AbstractTaskTest extends TestCase
 {
@@ -30,17 +32,19 @@ class AbstractTaskTest extends TestCase
      * @var AbstractTask
      */
     private $abstractTaskMock;
+
     private $fakeId = 'ADFA23234sdfsdf';
+
     private $fakeOwner = 'FakeOwner';
 
-    public function setUp()
+    protected function setUp()
     {
         $this->abstractTaskMock = $this->getMockBuilder(AbstractTask::class)
             ->setConstructorArgs([$this->fakeId, $this->fakeOwner])
             ->getMockForAbstractClass();
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         $this->abstractTaskMock = null;
     }
@@ -59,7 +63,7 @@ class AbstractTaskTest extends TestCase
     public function testGetMetadataWhenKeyDoesNotExistAndDefaultIsSuppliedThenReturnDefault()
     {
         $default = 'default_value';
-        $this->assertEquals($default, $this->abstractTaskMock->getMetadata('not_existing_key', $default));
+        $this->assertSame($default, $this->abstractTaskMock->getMetadata('not_existing_key', $default));
     }
 
     public function testSetGetMetadataWhenKeyIsAString()
@@ -68,7 +72,7 @@ class AbstractTaskTest extends TestCase
         $value = 'value1';
         $this->abstractTaskMock->setMetadata($key, $value);
 
-        $this->assertEquals($value, $this->abstractTaskMock->getMetadata($key));
+        $this->assertSame($value, $this->abstractTaskMock->getMetadata($key));
     }
 
     public function testSetGetMetadataWhenKeyIsAnArray()
@@ -76,7 +80,7 @@ class AbstractTaskTest extends TestCase
         $key = ['foo' => 'bar'];
         $this->abstractTaskMock->setMetadata($key);
 
-        $this->assertEquals('bar', $this->abstractTaskMock->getMetadata('foo'));
+        $this->assertSame('bar', $this->abstractTaskMock->getMetadata('foo'));
     }
 
     /**
@@ -109,7 +113,7 @@ class AbstractTaskTest extends TestCase
     public function testGetParameterWhenKeyDoesNotExistAndDefaultIsSuppliedThenReturnDefault()
     {
         $default = 'default_value';
-        $this->assertEquals($default, $this->abstractTaskMock->getParameter('not_existing_key', $default));
+        $this->assertSame($default, $this->abstractTaskMock->getParameter('not_existing_key', $default));
     }
 
     public function testSetGetParameterWhenKeyIsAString()
@@ -118,7 +122,7 @@ class AbstractTaskTest extends TestCase
         $value = 'value1';
         $this->abstractTaskMock->setParameter($key, $value);
 
-        $this->assertEquals($value, $this->abstractTaskMock->getParameter($key));
+        $this->assertSame($value, $this->abstractTaskMock->getParameter($key));
     }
 
     public function testSetGetParameterWhenKeyIsAnArray()
@@ -126,7 +130,7 @@ class AbstractTaskTest extends TestCase
         $key = ['foo' => 'bar'];
         $this->abstractTaskMock->setParameter($key);
 
-        $this->assertEquals('bar', $this->abstractTaskMock->getParameter('foo'));
+        $this->assertSame('bar', $this->abstractTaskMock->getParameter('foo'));
     }
 
     /**
@@ -151,23 +155,23 @@ class AbstractTaskTest extends TestCase
         $this->abstractTaskMock->setParameter('key2', 'value2');
         $this->abstractTaskMock->setParameter(['key3' => 'value3', 'key4' => 'value4']);
 
-        $this->assertEquals([
+        $this->assertSame([
             'key1' => 'value1',
             'key2' => 'value2',
             'key3' => 'value3',
-            'key4' => 'value4'
+            'key4' => 'value4',
         ], $this->abstractTaskMock->getParameters());
     }
 
     public function testIdShouldBeGeneratedInConstructor()
     {
-        $this->assertEquals($this->fakeId, $this->abstractTaskMock->getId());
+        $this->assertSame($this->fakeId, $this->abstractTaskMock->getId());
     }
 
     public function testIdShouldNotBeOverWrittenBySetMetadata()
     {
         $this->abstractTaskMock->setMetadata('id', 4444);
-        $this->assertEquals($this->fakeId, $this->abstractTaskMock->getId());
+        $this->assertSame($this->fakeId, $this->abstractTaskMock->getId());
     }
 
     public function testCreatedAtShouldBeGeneratedInConstructor()
@@ -185,17 +189,17 @@ class AbstractTaskTest extends TestCase
     {
         $date = new \DateTime('yesterday 12:15:00');
         $this->abstractTaskMock->setCreatedAt($date);
-        $this->assertEquals($date, $this->abstractTaskMock->getCreatedAt());
+        $this->assertSame($date, $this->abstractTaskMock->getCreatedAt());
     }
 
     public function testToStringWorks()
     {
-        $this->assertEquals('TASK '. get_class($this->abstractTaskMock) .' ['. $this->fakeId .']', (string) $this->abstractTaskMock);
+        $this->assertSame('TASK ' . get_class($this->abstractTaskMock) . ' [' . $this->fakeId . ']', (string) $this->abstractTaskMock);
     }
 
     public function testOwnerShouldBeGeneratedInConstructor()
     {
-        $this->assertEquals($this->fakeOwner, $this->abstractTaskMock->getOwner());
+        $this->assertSame($this->fakeOwner, $this->abstractTaskMock->getOwner());
     }
 
     public function testSetOwnerShouldReturnTheTask()
@@ -208,7 +212,7 @@ class AbstractTaskTest extends TestCase
     {
         $owner = 'example_owner';
         $this->abstractTaskMock->setOwner($owner);
-        $this->assertEquals($owner, $this->abstractTaskMock->getOwner());
+        $this->assertSame($owner, $this->abstractTaskMock->getOwner());
     }
 
     public function testJsonSerializingAbstractTask()
@@ -233,17 +237,17 @@ class AbstractTaskTest extends TestCase
                 'key1' => 'value1',
                 'key2' => 'value2',
                 'key3' => 'value3',
-                'key4' => 'value4'
+                'key4' => 'value4',
             ],
             'parameters' => [
                 'key1' => 'value1',
                 'key2' => 'value2',
                 'key3' => 'value3',
-                'key4' => 'value4'
-            ]
+                'key4' => 'value4',
+            ],
         ];
 
-        $this->assertEquals(json_encode($jsonArray), json_encode($this->abstractTaskMock));
+        $this->assertSame(json_encode($jsonArray), json_encode($this->abstractTaskMock));
     }
 
     public function testGetCreatedAtWhenJsonEncodeIsLoadedThenItShouldStillGiveADateTimeObject()

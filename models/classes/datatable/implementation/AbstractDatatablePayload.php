@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
+
 namespace oat\tao\model\datatable\implementation;
 
 use ArrayIterator;
@@ -37,7 +40,6 @@ use Zend\ServiceManager\ServiceLocatorAwareTrait;
  */
 abstract class AbstractDatatablePayload implements DatatablePayloadInterface, ServiceLocatorAwareInterface
 {
-
     use ServiceLocatorAwareTrait;
 
     /**
@@ -61,6 +63,29 @@ abstract class AbstractDatatablePayload implements DatatablePayloadInterface, Se
     }
 
     /**
+     * Template method to find data.
+     * Any step (such as filtration, pagination, sorting e.t.c. can be changed in concrete class).
+     */
+    public function getPayload()
+    {
+        $queryBuilder = $this->getSearchService()->query();
+
+        $this->doFiltration($queryBuilder);
+        $this->doPagination($queryBuilder);
+        $this->doSorting($queryBuilder);
+        $searchResult = $this->doSearch($queryBuilder);
+        return $this->doPostProcessing($searchResult);
+    }
+
+    /**
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return $this->getPayload();
+    }
+
+    /**
      * Get properties map
      * Example:
      * ```php
@@ -78,23 +103,6 @@ abstract class AbstractDatatablePayload implements DatatablePayloadInterface, Se
      * @return string
      */
     abstract protected function getType();
-
-    /**
-     * Template method to find data.
-     * Any step (such as filtration, pagination, sorting e.t.c. can be changed in concrete class).
-     */
-    public function getPayload()
-    {
-        $queryBuilder = $this->getSearchService()->query();
-
-        $this->doFiltration($queryBuilder);
-        $this->doPagination($queryBuilder);
-        $this->doSorting($queryBuilder);
-        $searchResult = $this->doSearch($queryBuilder);
-        $result = $this->doPostProcessing($searchResult);
-
-        return $result;
-    }
 
     /**
      * @return array
@@ -169,11 +177,11 @@ abstract class AbstractDatatablePayload implements DatatablePayloadInterface, Se
     {
         $payload = [
             'data' => $result->getArrayCopy(),
-            'page' => (integer) $this->getPage(),
-            'records' => (integer) $result->count(),
+            'page' => (int) $this->getPage(),
+            'records' => (int) $result->count(),
             'total' => $this->getRows() > 0
                 ? ceil($result->total() / $this->getRows())
-                : (integer) $result->count()
+                : (int) $result->count(),
         ];
 
         return $this->fetchPropertyValues($payload);
@@ -237,11 +245,10 @@ abstract class AbstractDatatablePayload implements DatatablePayloadInterface, Se
         $data = [];
         $map = $this->getPropertiesMap();
         foreach ($filter as $key => $val) {
-
-            $key = isset($map[$key]) ? $map[$key] : $key;
+            $key = $map[$key] ?? $key;
 
             if ($multitask) {
-                if (!is_array($val)) {
+                if (! is_array($val)) {
                     $data[$key] = [$val];
                 } else {
                     $data[$key][] = array_unique($val);
@@ -253,7 +260,6 @@ abstract class AbstractDatatablePayload implements DatatablePayloadInterface, Se
 
         return $data;
     }
-
 
     /**
      * Fetch all the values of properties listed in properties map
@@ -267,11 +273,11 @@ abstract class AbstractDatatablePayload implements DatatablePayloadInterface, Se
         $propertyMap = $this->getPropertiesMap();
         $data = [];
         foreach ($payload['data'] as $resource) {
-            $resource = (object)$resource;
+            $resource = (object) $resource;
             $resource = new \core_kernel_classes_Resource($resource->subject);
             $resourceData = $resource->getPropertiesValues($propertyMap);
-            $entityInfo = array_map(function($row) use($resourceData) {
-                $stringData = array_map(function($value){
+            $entityInfo = array_map(function ($row) use ($resourceData) {
+                $stringData = array_map(function ($value) {
                     return ($value instanceof \core_kernel_classes_Resource) ? $value->getUri() : (string) $value;
                 }, $resourceData[$row]);
                 return join(',', $stringData);
@@ -284,13 +290,5 @@ abstract class AbstractDatatablePayload implements DatatablePayloadInterface, Se
         $payload['data'] = $data;
 
         return $payload;
-    }
-
-    /**
-     * @return array
-     */
-    public function jsonSerialize()
-    {
-        return $this->getPayload();
     }
 }

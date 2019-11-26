@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,34 +18,30 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  *
  * Copyright (c) 2013-2014 (original work) Open Assessment Technologies SA
- * 
  */
 use oat\generis\model\OntologyAwareTrait;
 
 /**
- *
  * Crud services implements basic CRUD services, orginally intended for
  * REST controllers/ HTTP exception handlers.
  * Consequently the signatures and behaviors is closer to REST and throwing
  * HTTP like exceptions.
  *
  * @author Patrick Plichart, patrick@taotesting.com
- *        
  */
 abstract class tao_models_classes_CrudService extends tao_models_classes_Service
 {
-
     use OntologyAwareTrait;
+
     /**
-     *
      * @author Patrick Plichart, patrick@taotesting.com
-     * @param string $uri            
+     * @param string $uri
      * @throws common_exception_InvalidArgumentType
      * @return boolean
      */
     public function isInScope($uri)
     {
-        if (!(common_Utils::isUri($uri))) {
+        if (! (common_Utils::isUri($uri))) {
             throw new common_exception_InvalidArgumentType();
         }
         $resource = $this->getClass($uri);
@@ -50,83 +49,62 @@ abstract class tao_models_classes_CrudService extends tao_models_classes_Service
     }
 
     /**
-     *
-     * @author Patrick Plichart, patrick@taotesting.com
-     * return tao_models_classes_ClassService
-     */
-    protected abstract function getClassService();
-
-    /**
-     *
-     * @author Patrick Plichart, patrick@taotesting.com
-     * return core_kernel_classes_Class
-     */
-    protected function getRootClass()
-    {
-        return $this->getClassService()->getRootClass();
-    }
-
-    /**
-     *
-     * @param string uri
+     * @param string $uri
      * @throws common_Exception_NoContent
      * @throws common_exception_InvalidArgumentType
      * @return object
      */
     public function get($uri)
     {
-        if (!common_Utils::isUri($uri)) {
+        if (! common_Utils::isUri($uri)) {
             throw new common_exception_InvalidArgumentType();
         }
-        if (!($this->isInScope($uri))) {
-            throw new common_exception_PreConditionFailure("The URI must be a valid resource under the root Class");
+        if (! ($this->isInScope($uri))) {
+            throw new common_exception_PreConditionFailure('The URI must be a valid resource under the root Class');
         }
         $resource = $this->getResource($uri);
         $formater = new core_kernel_classes_ResourceFormatter();
-        return $formater->getResourceDescription($resource,false);
+        return $formater->getResourceDescription($resource, false);
     }
 
     /**
-     *
      * @author Patrick Plichart, patrick@taotesting.com
      * @return stdClass
      */
     public function getAll()
     {
         $formater = new core_kernel_classes_ResourceFormatter();
-        $resources = array();
+        $resources = [];
         foreach ($this->getRootClass()->getInstances(true) as $resource) {
-            $resources[] = $formater->getResourceDescription($resource,false);
+            $resources[] = $formater->getResourceDescription($resource, false);
         }
         return $resources;
     }
 
     /**
-     *
      * @author Patrick Plichart, patrick@taotesting.com
-     * @param string $uri            
+     * @param string $uri
      * @throws common_exception_InvalidArgumentType
      * @throws common_exception_PreConditionFailure
      * @throws common_exception_NoContent
      */
     public function delete($uri)
     {
-        if (!common_Utils::isUri($uri)) {
+        if (! common_Utils::isUri($uri)) {
             throw new common_exception_InvalidArgumentType();
         }
-        if (!($this->isInScope($uri))) {
-            throw new common_exception_PreConditionFailure("The URI must be a valid resource under the root Class");
+        if (! ($this->isInScope($uri))) {
+            throw new common_exception_PreConditionFailure('The URI must be a valid resource under the root Class');
         }
         $resource = $this->getResource($uri);
         // if the resource does not exist, indicate a not found exception
-        if (count($resource->getRdfTriples()->sequence) == 0) {
+        if (count($resource->getRdfTriples()->sequence) === 0) {
             throw new common_exception_NoContent();
         }
         $resource->delete();
     }
 
     /**
-     *
      * @author Patrick Plichart, patrick@taotesting.com
      */
     public function deleteAll()
@@ -137,50 +115,61 @@ abstract class tao_models_classes_CrudService extends tao_models_classes_Service
     }
 
     /**
-     *
      * @author Patrick Plichart, patrick@taotesting.com
-     * @param string $label            
-     * @param string $type            
-     * @param array $propertiesValues            
+     * @param string $label
+     * @param string $type
+     * @param array $propertiesValues
      * @return core_kernel_classes_Resource
      */
-    public function create($label = "", $type = null, $propertiesValues = array())
+    public function create($label = '', $type = null, $propertiesValues = [])
     {
         $type = (isset($type)) ? $this->getClass($type) : $this->getRootClass();
-        
+
         $resource = $this->getClassService()->createInstance($type, $label);
         $resource->setPropertiesValues($propertiesValues);
         return $resource;
     }
 
     /**
-     *
      * @author Patrick Plichart, patrick@taotesting.com
-     * @param string $uri            
-     * @param array $propertiesValues            
+     * @param string $uri
+     * @param array $propertiesValues
      * @throws common_exception_InvalidArgumentType
      * @throws common_exception_PreConditionFailure
      * @throws common_exception_NoContent
      * @return core_kernel_classes_Resource
      */
-    public function update($uri, $propertiesValues = array())
+    public function update($uri, $propertiesValues = [])
     {
-        if(!common_Utils::isUri($uri)) {
+        if (! common_Utils::isUri($uri)) {
             throw new common_exception_InvalidArgumentType();
         }
-        if(!($this->isInScope($uri))) {
-            throw new common_exception_PreConditionFailure("The URI must be a valid resource under the root Class");
+        if (! ($this->isInScope($uri))) {
+            throw new common_exception_PreConditionFailure('The URI must be a valid resource under the root Class');
         }
         $resource = $this->getResource($uri);
         // if the resource does not exist, indicate a not found exception
-        if(count($resource->getRdfTriples()->sequence) == 0) {
+        if (count($resource->getRdfTriples()->sequence) === 0) {
             throw new common_exception_NoContent();
         }
-        foreach($propertiesValues as $uri => $parameterValue) {
+        foreach ($propertiesValues as $uri => $parameterValue) {
             $resource->editPropertyValues($this->getProperty($uri), $parameterValue);
         }
         return $resource;
     }
-}
 
-?>
+    /**
+     * @author Patrick Plichart, patrick@taotesting.com
+     * return tao_models_classes_ClassService
+     */
+    abstract protected function getClassService();
+
+    /**
+     * @author Patrick Plichart, patrick@taotesting.com
+     * return core_kernel_classes_Class
+     */
+    protected function getRootClass()
+    {
+        return $this->getClassService()->getRootClass();
+    }
+}

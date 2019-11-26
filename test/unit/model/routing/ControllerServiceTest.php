@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,37 +24,47 @@
 
 namespace oat\test\model;
 
+use oat\generis\test\TestCase;
 use oat\tao\model\routing\ControllerService;
 use oat\tao\model\routing\RouteAnnotationService;
 use Prophecy\Argument;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use oat\generis\test\TestCase;
 
-
-abstract class AbsCl {}
+abstract class AbsCl
+{
+}
 
 /**
  * Class BlCl
  * @package oat\test\model
  */
-class BlCl {}
+class BlCl
+{
+}
 
-class RouteAnnotationExample {
+class RouteAnnotationExample
+{
+    public function notFoundAnnotation()
+    {
+    }
 
-    protected function protectedAction(){}
-    public function notFoundAnnotation(){}
-    public function withoutAnnotation(){}
+    public function withoutAnnotation()
+    {
+    }
+
+    protected function protectedAction()
+    {
+    }
 }
 
 class ControllerServiceTest extends TestCase
 {
-
     /**
      * @var ControllerService
      */
     private $service;
 
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
 
@@ -100,8 +113,10 @@ class ControllerServiceTest extends TestCase
      */
     public function testGetController()
     {
-        $this->assertEquals(RouteAnnotationExample::class,
-            $this->service->checkController(RouteAnnotationExample::class));
+        $this->assertSame(
+            RouteAnnotationExample::class,
+            $this->service->checkController(RouteAnnotationExample::class)
+        );
     }
 
     /**

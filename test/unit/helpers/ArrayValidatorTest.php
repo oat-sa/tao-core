@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,7 +22,6 @@
 
 namespace oat\tao\test\unit\helpers;
 
-
 use oat\generis\test\TestCase;
 use oat\tao\helpers\ArrayValidator;
 
@@ -35,7 +37,7 @@ class ArrayValidatorTest extends TestCase
             'b' => true,
             'f' => 234.5,
             'o' => new \DateTime(),
-            'extra1' => 'ee'
+            'extra1' => 'ee',
         ];
 
         $validator = (new ArrayValidator())
@@ -56,7 +58,7 @@ class ArrayValidatorTest extends TestCase
             'a' => [],
             's1' => '111',
             'b' => true,
-            'extra1' => 'ee'
+            'extra1' => 'ee',
         ];
 
         $validator = (new ArrayValidator())
@@ -85,7 +87,7 @@ class ArrayValidatorTest extends TestCase
             'f' => 13,
             'b' => 'sss',
             'o' => 234,
-            'extra1' => 'ee'
+            'extra1' => 'ee',
         ];
 
         $validator = (new ArrayValidator())
@@ -118,7 +120,7 @@ class ArrayValidatorTest extends TestCase
             's1' => null,
             's2' => 'sss',
             'i' => 123,
-            'extra1' => 'ee'
+            'extra1' => 'ee',
         ];
 
         $validator = (new ArrayValidator())
@@ -138,7 +140,7 @@ class ArrayValidatorTest extends TestCase
     {
         $data = [
             'i' => 123,
-            'extra1' => 'ee'
+            'extra1' => 'ee',
         ];
 
         $validator = (new ArrayValidator())
@@ -159,7 +161,7 @@ class ArrayValidatorTest extends TestCase
         $data = [
             'i' => 123,
             'extra1' => 'ee1',
-            'extra2' => 'ee2'
+            'extra2' => 'ee2',
         ];
 
         $validator = (new ArrayValidator())

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -24,10 +27,13 @@ use oat\oatbox\service\exception\InvalidServiceManagerException;
 
 interface ImporterFactoryInterface
 {
-    const OPTION_DEFAULT_SCHEMA = 'default-schema';
-    const OPTION_MAPPERS = 'mappers';
-    const OPTION_MAPPERS_IMPORTER = 'importer';
-    const OPTION_MAPPERS_MAPPER = 'mapper';
+    public const OPTION_DEFAULT_SCHEMA = 'default-schema';
+
+    public const OPTION_MAPPERS = 'mappers';
+
+    public const OPTION_MAPPERS_IMPORTER = 'importer';
+
+    public const OPTION_MAPPERS_MAPPER = 'mapper';
 
     /**
      * Create an importer for the given user type.

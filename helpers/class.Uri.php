@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,7 +19,6 @@
  *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *
  */
 
 /**
@@ -28,6 +30,30 @@
  */
 class tao_helpers_Uri
 {
+    /**
+     * Short description of attribute ENCODE_ARRAY_KEYS
+     *
+     * @access public
+     * @var int
+     */
+    public const ENCODE_ARRAY_KEYS = 1;
+
+    /**
+     * Short description of attribute ENCODE_ARRAY_VALUES
+     *
+     * @access public
+     * @var int
+     */
+    public const ENCODE_ARRAY_VALUES = 2;
+
+    /**
+     * Short description of attribute ENCODE_ARRAY_ALL
+     *
+     * @access public
+     * @var int
+     */
+    public const ENCODE_ARRAY_ALL = 3;
+
     /**
      * the base url
      *
@@ -42,31 +68,7 @@ class tao_helpers_Uri
      * @access private
      * @var string
      */
-    private static $root ='';
-
-    /**
-     * Short description of attribute ENCODE_ARRAY_KEYS
-     *
-     * @access public
-     * @var int
-     */
-    const ENCODE_ARRAY_KEYS = 1;
-
-    /**
-     * Short description of attribute ENCODE_ARRAY_VALUES
-     *
-     * @access public
-     * @var int
-     */
-    const ENCODE_ARRAY_VALUES = 2;
-
-    /**
-     * Short description of attribute ENCODE_ARRAY_ALL
-     *
-     * @access public
-     * @var int
-     */
-    const ENCODE_ARRAY_ALL = 3;
+    private static $root = '';
 
     /**
      * get the project base url
@@ -79,7 +81,7 @@ class tao_helpers_Uri
     {
         if (empty(self::$base) && defined('BASE_URL')) {
             self::$base = BASE_URL;
-            if (!preg_match("/\/$/", self::$base)) {
+            if (! preg_match("/\/$/", self::$base)) {
                 self::$base .= '/';
             }
         }
@@ -98,7 +100,7 @@ class tao_helpers_Uri
     {
         if (empty(self::$root) && defined('ROOT_URL')) {
             self::$root = ROOT_URL;
-            if (!preg_match("/\/$/", self::$root)) {
+            if (! preg_match("/\/$/", self::$root)) {
                 self::$root .= '/';
             }
         }
@@ -112,22 +114,21 @@ class tao_helpers_Uri
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string action
-     * @param  string module
-     * @param  string extension
-     * @param  array|string params
+     * @param  string $action
+     * @param  string $module
+     * @param  string $extension
+     * @param  array|string $params
      * @return string
      */
-    public static function url($action = null, $module = null, $extension = null, $params = array())
+    public static function url($action = null, $module = null, $extension = null, $params = [])
     {
-
-        if (is_null($module)) {
+        if ($module === null) {
             $module = Context::getInstance()->getModuleName();
         }
-        if (is_null($action)) {
+        if ($action === null) {
             $action = Context::getInstance()->getActionName();
         }
-        if (is_null($extension)) {
+        if ($extension === null) {
             $extension = Context::getInstance()->getExtensionName();
         }
 
@@ -137,7 +138,7 @@ class tao_helpers_Uri
             $returnValue .= '?' . $params;
         }
 
-        if (is_array($params) && count($params) ) {
+        if (is_array($params) && count($params)) {
             $returnValue .= '?';
             foreach ($params as $key => $value) {
                 $returnValue .= $key . '=' . rawurlencode($value) . '&';
@@ -153,11 +154,11 @@ class tao_helpers_Uri
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string url
-     * @param  array params
+     * @param  string $url
+     * @param  array $params
      * @return string
      */
-    public static function legacyUrl($url, $params = array())
+    public static function legacyUrl($url, $params = [])
     {
         return '';
     }
@@ -167,13 +168,13 @@ class tao_helpers_Uri
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string uri
-     * @param  boolean dotMode
+     * @param  string $uri
+     * @param  boolean $dotMode
      * @return string
      */
     public static function encode($uri, $dotMode = true)
     {
-        if (0 === strpos($uri, 'http')) {
+        if (strpos($uri, 'http') === 0) {
             //return base64_encode($uri);
             if ($dotMode) {
                 //order matters here don't change the _4_ position
@@ -192,7 +193,7 @@ class tao_helpers_Uri
      * encode a relative URL
      *
      * @access public
-     * @param  string uri
+     * @param  string $url uri
      * @param  boolean dotMode
      * @return string
      */
@@ -217,7 +218,7 @@ class tao_helpers_Uri
      */
     public static function decode($uri, $dotMode = true)
     {
-        if (0 === strpos($uri, 'http')) {
+        if (strpos($uri, 'http') === 0) {
             //return base64_decode($uri);
             if ($dotMode) {
                 //$returnValue = urldecode(str_replace('__', '.', $uri));
@@ -231,7 +232,7 @@ class tao_helpers_Uri
         }
 
 
-        return (string)$returnValue;
+        return (string) $returnValue;
     }
 
     /**
@@ -249,10 +250,10 @@ class tao_helpers_Uri
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  array uris
-     * @param  int encodeMode
-     * @param  boolean dotMode
-     * @param  boolean uniqueMode
+     * @param  array $uris
+     * @param  int $encodeMode
+     * @param  boolean $dotMode
+     * @param  boolean $uniqueMode
      * @return array
      */
     public static function encodeArray($uris, $encodeMode = self::ENCODE_ARRAY_ALL, $dotMode = true, $uniqueMode = false)
@@ -261,10 +262,10 @@ class tao_helpers_Uri
 
         if (is_array($uris)) {
             foreach ($uris as $key => $value) {
-                if ($encodeMode == self::ENCODE_ARRAY_KEYS || $encodeMode == self::ENCODE_ARRAY_ALL) {
+                if ($encodeMode === self::ENCODE_ARRAY_KEYS || $encodeMode === self::ENCODE_ARRAY_ALL) {
                     $key = self::encode($key, $dotMode);
                 }
-                if ($encodeMode == self::ENCODE_ARRAY_VALUES || $encodeMode == self::ENCODE_ARRAY_ALL) {
+                if ($encodeMode === self::ENCODE_ARRAY_VALUES || $encodeMode === self::ENCODE_ARRAY_ALL) {
                     $value = self::encode($value, $dotMode);
                 }
                 $returnValue[$key] = $value;
@@ -285,15 +286,15 @@ class tao_helpers_Uri
      *
      * @access public
      * @author sam@taotesting.com
-     * @param  string uriResource
+     * @param  string $uriResource
      * @return string
      */
     public static function getUniqueId($uriResource)
     {
         $returnValue = '';
 
-        if (stripos($uriResource, "#") > 0) {
-            $returnValue = substr($uriResource, stripos($uriResource, "#") + 1);
+        if (stripos($uriResource, '#') > 0) {
+            $returnValue = substr($uriResource, stripos($uriResource, '#') + 1);
         }
 
         return $returnValue;
@@ -307,12 +308,12 @@ class tao_helpers_Uri
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string uri A Uniform Resource Identifier (URI).
+     * @param  string $uri A Uniform Resource Identifier (URI).
      * @return string|null
      */
     public static function getPath($uri)
     {
-        if (preg_match("/^[A-Za-z0-9]*$/", $uri)) {
+        if (preg_match('/^[A-Za-z0-9]*$/', $uri)) {
             // no '.', no '/', ... does not look good.
             return null;
         }
@@ -331,7 +332,7 @@ class tao_helpers_Uri
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string uri A Uniform Resource Identifier (URI).
+     * @param  string $uri A Uniform Resource Identifier (URI).
      * @return string|null
      */
     public static function getDomain($uri)
@@ -350,13 +351,13 @@ class tao_helpers_Uri
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string uri
+     * @param  string $uri
      * @return boolean
      */
     public static function isValidAsCookieDomain($uri)
     {
         $domain = self::getDomain($uri);
-        if (!empty($domain)) {
+        if (! empty($domain)) {
             if (preg_match("/^[a-z0-9\-]+(?:[a-z0-9\-]\.)+/iu", $domain) > 0) {
                 $returnValue = true;
             } else {
@@ -368,5 +369,4 @@ class tao_helpers_Uri
 
         return $returnValue;
     }
-
 }

@@ -1,5 +1,9 @@
 <?php
+
+declare(strict_types=1);
+
 use oat\generis\model\OntologyAwareTrait;
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,7 +21,6 @@ use oat\generis\model\OntologyAwareTrait;
  *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *
  */
 
 abstract class tao_actions_form_AbstractProperty extends tao_helpers_form_FormContainer
@@ -29,50 +32,46 @@ abstract class tao_actions_form_AbstractProperty extends tao_helpers_form_FormCo
      */
     protected $property;
 
-	/**
-	 * @var integer
-	 */
-	protected $index;
+    /**
+     * @var integer
+     */
+    protected $index;
 
-	public function __construct( core_kernel_classes_Class $clazz,  core_kernel_classes_Resource $instance = null, $options = array(), $data = array())
-	{
+    public function __construct(core_kernel_classes_Class $clazz, ?core_kernel_classes_Resource $instance = null, $options = [], $data = [])
+    {
         $this->property = $this->getProperty($instance);
         return parent::__construct($data, $options);
-	}
+    }
 
-	/**
-	 * Property bein authored
-	 *
-	 * @return core_kernel_classes_Property
-	 */
-	protected function getPropertyInstance()
-	{
-	    return $this->property;
-	}
+    /**
+     * Property bein authored
+     *
+     * @return core_kernel_classes_Property
+     */
+    protected function getPropertyInstance()
+    {
+        return $this->property;
+    }
 
-	/**
-	 * Initialize the form
-	 *
-	 * @access protected
-	 * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-	 * @return mixed
-	 */
-	protected function initForm()
-	{
+    /**
+     * Initialize the form
+     *
+     * @access protected
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @return mixed
+     */
+    protected function initForm()
+    {
+        isset($this->options['name']) ? $name = $this->options['name'] : $name = '';
+        if (empty($name)) {
+            $name = 'form_' . (count(self::$forms) + 1);
+        }
+        unset($this->options['name']);
 
+        $this->index = array_key_exists('index', $this->options) ? $this->options['index'] : 1;
 
-		(isset($this->options['name'])) ? $name = $this->options['name'] : $name = '';
-		if(empty($name)){
-			$name = 'form_'.(count(self::$forms)+1);
-		}
-		unset($this->options['name']);
-
-		$this->index = array_key_exists( 'index', $this->options ) ? $this->options['index'] : 1;
-
-		$this->form = tao_helpers_form_FormFactory::getForm($name, $this->options);
-
-
-	}
+        $this->form = tao_helpers_form_FormFactory::getForm($name, $this->options);
+    }
 
     /**
      * Returns if property is inherited or not for class
@@ -83,42 +82,40 @@ abstract class tao_actions_form_AbstractProperty extends tao_helpers_form_FormCo
         return isset($this->options['isParentProperty']) && $this->options['isParentProperty'];
     }
 
-	/**
-	 * Returns html for property
-	 * @param $property
-	 * @return string
-	 */
-	protected function getGroupTitle($property)
-	{
-		if ($this->isParentProperty()){
+    /**
+     * Returns html for property
+     * @param $property
+     * @return string
+     */
+    protected function getGroupTitle($property)
+    {
+        if ($this->isParentProperty()) {
+            foreach ($property->getDomain()->getIterator() as $domain) {
+                $domainLabel[] = $domain->getLabel();
+            }
 
-			foreach ($property->getDomain()->getIterator() as $domain) {
-				$domainLabel[] = $domain->getLabel();
-			}
+            $groupTitle = '<span class="property-heading-label">' . _dh($property->getLabel()) . '</span>'
+                . '<span class="property-heading-toolbar">'
+                . _dh(implode(' ', $domainLabel))
+                . ' <span class="icon-find"></span>'
+                . ' <span class="icon-edit"></span>'
+                . '</span>';
+        } else {
+            $groupTitle = '<span class="property-heading-label">' . _dh($property->getLabel()) . '</span>'
+                . '<span class="property-heading-toolbar">'
+                . ' <span class="icon-find"></span>'
+                . '<span class="icon-edit"></span>'
+                . '<span class="icon-bin property-deleter" data-uri=\'' . tao_helpers_Display::encodeAttrValue($property->getUri()) . '\'></span>'
+                . '</span>';
+        }
+        return $groupTitle;
+    }
 
-			$groupTitle = '<span class="property-heading-label">' . _dh($property->getLabel()) . '</span>'
-				. '<span class="property-heading-toolbar">'
-				. _dh(implode(' ', $domainLabel))
-				. ' <span class="icon-find"></span>'
-				. ' <span class="icon-edit"></span>'
-				. '</span>';
-
-		}else{
-			$groupTitle = '<span class="property-heading-label">' . _dh($property->getLabel()) . '</span>'
-				. '<span class="property-heading-toolbar">'
-				. ' <span class="icon-find"></span>'
-				. '<span class="icon-edit"></span>'
-				. '<span class="icon-bin property-deleter" data-uri=\''.tao_helpers_Display::encodeAttrValue($property->getUri()).'\'></span>'
-				. '</span>';
-		}
-		return $groupTitle;
-	}
-
-	/**
-	 * @return int
-	 */
-	protected function getIndex()
-	{
-		return $this->index;
-	}
+    /**
+     * @return int
+     */
+    protected function getIndex()
+    {
+        return $this->index;
+    }
 }

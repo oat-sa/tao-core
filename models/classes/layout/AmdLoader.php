@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
- *
  */
 
 namespace oat\tao\model\layout;
@@ -23,12 +25,12 @@ namespace oat\tao\model\layout;
 /**
  * Let's you create an AMD script tag.
  */
-class AmdLoader {
-
+class AmdLoader
+{
     /**
      * Will be the tag id
      */
-    const LOADER_ID = 'amd-loader';
+    public const LOADER_ID = 'amd-loader';
 
     /**
      * The configuration URL (data-config)
@@ -51,7 +53,8 @@ class AmdLoader {
      * @param string $requireJsUrl the URL of the require.js lib
      * @param string $bootstrapUrl the bootstrap module URL
      */
-    public function __construct($configUrl, $requireJsUrl, $bootstrapUrl){
+    public function __construct($configUrl, $requireJsUrl, $bootstrapUrl)
+    {
         $this->configUrl = $configUrl;
         $this->requireJsUrl = $requireJsUrl;
         $this->bootstrapUrl = $bootstrapUrl;
@@ -65,14 +68,15 @@ class AmdLoader {
      *
      * @return the generated script tag
      */
-    public function getBundleLoader($bundle, $controller, $params = null){
+    public function getBundleLoader($bundle, $controller, $params = null)
+    {
         $attributes = [
-            'data-config'     => $this->configUrl,
-            'src'             => $bundle,
-            'data-controller' => $controller
+            'data-config' => $this->configUrl,
+            'src' => $bundle,
+            'data-controller' => $controller,
         ];
 
-        if(!is_null($params)){
+        if ($params !== null) {
             $attributes['data-params'] = json_encode($params);
         }
 
@@ -86,15 +90,16 @@ class AmdLoader {
      *
      * @return the generated script tag
      */
-    public function getDynamicLoader($controller, $params = null){
+    public function getDynamicLoader($controller, $params = null)
+    {
         $attributes = [
-            'data-config'     => $this->configUrl,
-            'src'             => $this->requireJsUrl,
-            'data-main'       => $this->bootstrapUrl,
-            'data-controller' => $controller
+            'data-config' => $this->configUrl,
+            'src' => $this->requireJsUrl,
+            'data-main' => $this->bootstrapUrl,
+            'data-controller' => $controller,
         ];
 
-        if(!is_null($params)){
+        if ($params !== null) {
             $attributes['data-params'] = json_encode($params);
         }
 
@@ -107,9 +112,10 @@ class AmdLoader {
      *
      * @return the generated script tag
      */
-    private function buildScriptTag($attributes){
+    private function buildScriptTag($attributes)
+    {
         $amdScript = '<script id="' . self::LOADER_ID . '" ';
-        foreach($attributes as $attr => $value) {
+        foreach ($attributes as $attr => $value) {
             $amdScript .= $attr . '="' . \tao_helpers_Display::htmlize($value) . '" ';
         }
         return trim($amdScript) . '></script>';

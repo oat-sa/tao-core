@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,30 +18,29 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\test\integration\model\taskQueue;
 
+use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
+use oat\oatbox\log\LoggerService;
 use oat\oatbox\mutex\LockService;
-use oat\tao\model\taskQueue\Task\TaskSerializerService;
 use oat\tao\model\taskQueue\Queue;
 use oat\tao\model\taskQueue\Queue\Broker\InMemoryQueueBroker;
 use oat\tao\model\taskQueue\QueueDispatcher;
 use oat\tao\model\taskQueue\Task\AbstractTask;
 use oat\tao\model\taskQueue\Task\CallbackTaskInterface;
-use oat\tao\test\Asset\CallableFixture;
-use oat\oatbox\log\LoggerService;
-use oat\tao\model\taskQueue\TaskLogInterface;
+use oat\tao\model\taskQueue\Task\TaskSerializerService;
 use oat\tao\model\taskQueue\TaskLog;
+use oat\tao\model\taskQueue\TaskLogInterface;
+use oat\tao\test\Asset\CallableFixture;
 use Symfony\Component\Lock\Factory;
 use Symfony\Component\Lock\LockInterface;
-use oat\generis\test\MockObject;
 
 class QueueDispatcherTest extends TestCase
 {
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
     }
@@ -59,9 +61,9 @@ class QueueDispatcherTest extends TestCase
     public function testDispatcherNoTaskLogThenThrowException()
     {
         new QueueDispatcher([
-            QueueDispatcher::OPTION_QUEUES =>[
-                new Queue('queueA', new InMemoryQueueBroker())
-            ]
+            QueueDispatcher::OPTION_QUEUES => [
+                new Queue('queueA', new InMemoryQueueBroker()),
+            ],
         ]);
     }
 
@@ -72,10 +74,10 @@ class QueueDispatcherTest extends TestCase
     public function testDispatcherWhenDuplicatedQueuesAreSetThenThrowException()
     {
         new QueueDispatcher([
-            QueueDispatcher::OPTION_QUEUES =>[
+            QueueDispatcher::OPTION_QUEUES => [
                 new Queue('queueA', new InMemoryQueueBroker()),
-                new Queue('queueA', new InMemoryQueueBroker())
-            ]
+                new Queue('queueA', new InMemoryQueueBroker()),
+            ],
         ]);
     }
 
@@ -88,17 +90,17 @@ class QueueDispatcherTest extends TestCase
         new QueueDispatcher([
             QueueDispatcher::OPTION_QUEUES => [
                 new Queue('queueA', new InMemoryQueueBroker()),
-                new Queue('queueA', new InMemoryQueueBroker())
+                new Queue('queueA', new InMemoryQueueBroker()),
             ],
             QueueDispatcher::OPTION_TASK_TO_QUEUE_ASSOCIATIONS => [
-                'fake/class/name' => 'fake_queue_name'
-            ]
+                'fake/class/name' => 'fake_queue_name',
+            ],
         ]);
     }
 
     public function testCreateTaskWhenUsingANewTaskImplementingTaskInterfaceShouldReturnCallbackTask()
     {
-        $taskMock = $this->getMockForAbstractClass(AbstractTask::class, [], "", false);
+        $taskMock = $this->getMockForAbstractClass(AbstractTask::class, [], '', false);
 
         /** @var QueueDispatcher|MockObject $queueMock */
         $queueMock = $this->getMockBuilder(QueueDispatcher::class)
@@ -110,7 +112,7 @@ class QueueDispatcherTest extends TestCase
             ->method('enqueue')
             ->willReturn($this->returnValue(true));
 
-        $this->assertInstanceOf(CallbackTaskInterface::class, $queueMock->createTask($taskMock, []) );
+        $this->assertInstanceOf(CallbackTaskInterface::class, $queueMock->createTask($taskMock, []));
     }
 
     public function testCreateTaskWhenUsingStaticClassMethodCallShouldReturnCallbackTask()
@@ -125,12 +127,12 @@ class QueueDispatcherTest extends TestCase
             ->method('enqueue')
             ->willReturn($this->returnValue(true));
 
-        $this->assertInstanceOf(CallbackTaskInterface::class, $queueMock->createTask([CallableFixture::class, 'exampleStatic'], []) );
+        $this->assertInstanceOf(CallbackTaskInterface::class, $queueMock->createTask([CallableFixture::class, 'exampleStatic'], []));
     }
 
     public function testOneTimeWorkerHasServiceLocator()
     {
-        $taskMock = $this->getMockForAbstractClass(AbstractTask::class, [], "", false);
+        $taskMock = $this->getMockForAbstractClass(AbstractTask::class, [], '', false);
         $taskLogMock = $this->getMockBuilder(TaskLog::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -147,13 +149,13 @@ class QueueDispatcherTest extends TestCase
             TaskLogInterface::SERVICE_ID => $taskLogMock,
             LoggerService::SERVICE_ID => $this->createMock(LoggerService::class),
             TaskSerializerService::SERVICE_ID => $this->createMock(TaskSerializerService::class),
-            LockService::SERVICE_ID => $lockService
+            LockService::SERVICE_ID => $lockService,
         ]);
 
 
         $dispatcher = new QueueDispatcher([
             QueueDispatcher::OPTION_QUEUES => [
-                new Queue('queueA', new InMemoryQueueBroker())
+                new Queue('queueA', new InMemoryQueueBroker()),
             ],
             QueueDispatcher::OPTION_TASK_LOG => 'tao/taskLog',
         ]);
@@ -161,6 +163,5 @@ class QueueDispatcherTest extends TestCase
         $dispatcher->setServiceLocator($serviceManager);
 
         $this->assertTrue($dispatcher->enqueue($taskMock));
-
     }
 }

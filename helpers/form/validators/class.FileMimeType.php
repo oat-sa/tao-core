@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,11 +19,9 @@
  *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *
  */
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\upload\UploadService;
-
 
 /**
  * Short description of class tao_helpers_form_validators_FileMimeType
@@ -28,25 +29,17 @@ use oat\tao\model\upload\UploadService;
  * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
-
  */
 class tao_helpers_form_validators_FileMimeType extends tao_helpers_form_Validator
 {
-
-    protected function getDefaultMessage()
-    {
-        return __('Invalid file type!');
-    }
-
     public function setOptions(array $options)
     {
         parent::setOptions($options);
 
-        if(!$this->hasOption('mimetype')){
-            throw new common_Exception("Please define the mimetype option for the FileMimeType Validator");
+        if (! $this->hasOption('mimetype')) {
+            throw new common_Exception('Please define the mimetype option for the FileMimeType Validator');
         }
     }
-
 
     /**
      * Short description of method evaluate
@@ -74,10 +67,10 @@ class tao_helpers_form_validators_FileMimeType extends tao_helpers_form_Validato
                 $mimeType = tao_helpers_File::getMimeType($values['uploaded_file']);
             }
 
-            if (!empty($mimeType) ) {
+            if (! empty($mimeType)) {
                 common_Logger::d($mimeType);
 
-                if (in_array($mimeType, $this->getOption('mimetype'))) {
+                if (in_array($mimeType, $this->getOption('mimetype'), true)) {
                     $returnValue = true;
                 } else {
                     $this->setMessage(__('%1$s expected but %2$s detected', implode(', ', $this->getOption('mimetype')), $mimeType));
@@ -91,4 +84,8 @@ class tao_helpers_form_validators_FileMimeType extends tao_helpers_form_Validato
         return $returnValue;
     }
 
+    protected function getDefaultMessage()
+    {
+        return __('Invalid file type!');
+    }
 }

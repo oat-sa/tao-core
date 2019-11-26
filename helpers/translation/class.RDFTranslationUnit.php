@@ -1,22 +1,24 @@
 <?php
-/**  
+
+declare(strict_types=1);
+
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
  */
 
 /**
@@ -25,10 +27,8 @@
  * @access public
  * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @package tao
- 
  */
-class tao_helpers_translation_RDFTranslationUnit
-    extends tao_helpers_translation_TranslationUnit
+class tao_helpers_translation_RDFTranslationUnit extends tao_helpers_translation_TranslationUnit
 {
     // --- ASSOCIATIONS ---
 
@@ -64,9 +64,9 @@ class tao_helpers_translation_RDFTranslationUnit
     {
         $returnValue = (string) '';
 
-        
+
         $returnValue = $this->subject;
-        
+
 
         return (string) $returnValue;
     }
@@ -82,9 +82,9 @@ class tao_helpers_translation_RDFTranslationUnit
     {
         $returnValue = (string) '';
 
-        
+
         $returnValue = $this->predicate;
-        
+
 
         return (string) $returnValue;
     }
@@ -94,15 +94,13 @@ class tao_helpers_translation_RDFTranslationUnit
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string subject
+     * @param  string $subject
      * @return mixed
      */
     public function setSubject($subject)
     {
-        
         $this->subject = $subject;
         $this->addAnnotation('subject', $subject);
-        
     }
 
     /**
@@ -110,15 +108,13 @@ class tao_helpers_translation_RDFTranslationUnit
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string predicate
+     * @param  string $predicate
      * @return mixed
      */
     public function setPredicate($predicate)
     {
-        
         $this->predicate = $predicate;
         $this->addAnnotation('predicate', $predicate);
-        
     }
 
     /**
@@ -127,16 +123,16 @@ class tao_helpers_translation_RDFTranslationUnit
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  RDFTranslationUnit translationUnit
+     * @param  RDFTranslationUnit $translationUnit
      * @return boolean
      */
-    public function hasSameTranslationUnitSubject( tao_helpers_translation_RDFTranslationUnit $translationUnit)
+    public function hasSameTranslationUnitSubject(self $translationUnit)
     {
         $returnValue = (bool) false;
 
-        
-        $returnValue = $this->getSubject() == $translationUnit->getSubject();
-        
+
+        $returnValue = $this->getSubject() === $translationUnit->getSubject();
+
 
         return (bool) $returnValue;
     }
@@ -147,16 +143,16 @@ class tao_helpers_translation_RDFTranslationUnit
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  RDFTranslationUnit translationUnit
+     * @param  RDFTranslationUnit $translationUnit
      * @return boolean
      */
-    public function hasSameTranslationUnitPredicate( tao_helpers_translation_RDFTranslationUnit $translationUnit)
+    public function hasSameTranslationUnitPredicate(self $translationUnit)
     {
         $returnValue = (bool) false;
 
-        
-        $returnValue = $this->getPredicate() == $translationUnit->getPredicate();
-        
+
+        $returnValue = $this->getPredicate() === $translationUnit->getPredicate();
+
 
         return (bool) $returnValue;
     }
@@ -169,18 +165,18 @@ class tao_helpers_translation_RDFTranslationUnit
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  TranslationUnit translationUnit A translation unit to compare.
+     * @param  TranslationUnit $translationUnit A translation unit to compare.
      * @return boolean
      */
-    public function hasSameTranslationUnitSource( tao_helpers_translation_TranslationUnit $translationUnit)
+    public function hasSameTranslationUnitSource(tao_helpers_translation_TranslationUnit $translationUnit)
     {
         $returnValue = (bool) false;
 
-        
+
         $returnValue = $this->hasSameTranslationUnitPredicate($translationUnit) &&
                        $this->hasSameTranslationUnitSubject($translationUnit) &&
                        $this->hasSameTranslationUnitTargetLanguage($translationUnit);
-        
+
 
         return (bool) $returnValue;
     }
@@ -190,17 +186,13 @@ class tao_helpers_translation_RDFTranslationUnit
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string source
+     * @param  string $source
      * @return mixed
      */
     public function setSource($source)
     {
-        
         parent::setSource($source);
         $this->addAnnotation('source', $source)
-;        
+;
     }
-
 }
-
-?>

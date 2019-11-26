@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace oat\tao\test\unit\http;
 
 use GuzzleHttp\Psr7\Response;
@@ -16,7 +18,7 @@ class ControllerTest extends TestCase
         $this->assertArraySubset(
             [
                 HttpRequestHelperTrait::class,
-                HttpFlowTrait::class
+                HttpFlowTrait::class,
             ],
             array_keys(class_uses(Controller::class))
         );
@@ -50,4 +52,3 @@ class ControllerTest extends TestCase
         $this->assertSame($response, $controllerRequest);
     }
 }
-

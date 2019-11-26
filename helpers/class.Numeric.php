@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,7 +19,6 @@
  *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *
  */
 
 /**
@@ -26,17 +28,15 @@
  * @author Jehan Bihin
  * @package tao
  * @since 2.2
-
  */
 class tao_helpers_Numeric
 {
-
     /**
      *  Converts a string to a float, in order to support negative values.
      *
      * @access public
      * @author Jehan Bihin, <jehan.bihin@tudor.lu>
-     * @param  string value
+     * @param  string $value
      * @return float
      */
     public static function parseFloat($value)
@@ -48,7 +48,4 @@ class tao_helpers_Numeric
 
         return (float) $returnValue;
     }
-
 }
-
-?>

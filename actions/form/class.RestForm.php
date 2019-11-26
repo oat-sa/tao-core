@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,12 +18,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
- *
  */
 
-use \oat\generis\model\OntologyAwareTrait;
-use \oat\tao\helpers\form\ValidationRuleRegistry;
-use \oat\oatbox\validator\ValidatorInterface;
+use oat\generis\model\OntologyAwareTrait;
+use oat\oatbox\validator\ValidatorInterface;
+use oat\tao\helpers\form\ValidationRuleRegistry;
 use oat\tao\model\TaoOntology;
 
 /**
@@ -33,8 +35,9 @@ class tao_actions_form_RestForm
 {
     use OntologyAwareTrait;
 
-    const PROPERTIES = 'properties';
-    const RANGES = 'ranges';
+    public const PROPERTIES = 'properties';
+
+    public const RANGES = 'ranges';
 
     /** @var core_kernel_classes_Class|null The class where the resource is */
     protected $class = null;
@@ -65,7 +68,7 @@ class tao_actions_form_RestForm
         if ($instance instanceof core_kernel_classes_Class) {
             $this->class = $instance;
         } elseif ($instance instanceof core_kernel_classes_Resource) {
-            if (!$instance->exists()) {
+            if (! $instance->exists()) {
                 throw new common_exception_NotFound('Resource requested does not exist');
             }
             $this->resource = $instance;
@@ -75,7 +78,7 @@ class tao_actions_form_RestForm
             }
         }
 
-        if (is_null($this->class)) {
+        if ($this->class === null) {
             throw new common_Exception(__METHOD__ . ' requires a valid class');
         }
 
@@ -99,7 +102,7 @@ class tao_actions_form_RestForm
             $property->feed();
             $widget = $this->getWidgetProperty($property);
 
-            if (is_null($widget) || $widget instanceof core_kernel_classes_Literal) {
+            if ($widget === null || $widget instanceof core_kernel_classes_Literal) {
                 continue;
             }
 
@@ -111,14 +114,14 @@ class tao_actions_form_RestForm
 
             // Validators
             $validators = $this->getPropertyValidators($property);
-            if (!empty($validators)) {
+            if (! empty($validators)) {
                 $propertyData['validators'] = $validators;
             }
 
             // Range values
             /** @var core_kernel_classes_Class $range */
             $range = $property->getRange();
-            if (!is_null($range) && $range->getUri() != 'http://www.w3.org/2000/01/rdf-schema#Literal') {
+            if ($range !== null && $range->getUri() !== 'http://www.w3.org/2000/01/rdf-schema#Literal') {
                 $propertyData['range'] = $range->getUri();
                 $this->ranges[$range->getUri()] = $this->getRangeData($range);
             }
@@ -126,16 +129,15 @@ class tao_actions_form_RestForm
             // Existing values
             if (
                 $this->doesExist()
-                && !is_null($value = $this->getFieldValue($property, isset($propertyData['range']) ? $propertyData['range'] : null))
+                && ($value = $this->getFieldValue($property, $propertyData['range'] ?? null)) !== null
             ) {
                 $propertyData['value'] = $value;
             }
 
             // Field position in the form
             $guiPropertyOrder = $property->getOnePropertyValue($this->getProperty(TaoOntology::PROPERTY_GUI_ORDER));
-            if (!is_null($guiPropertyOrder)) {
-
-                $position = intval((string)$guiPropertyOrder);
+            if ($guiPropertyOrder !== null) {
+                $position = intval((string) $guiPropertyOrder);
                 $propertyData['position'] = $position;
                 $i = 0;
                 while (
@@ -144,12 +146,10 @@ class tao_actions_form_RestForm
                 ) {
                     $i++;
                 }
-                array_splice($this->formProperties, $i, 0, array($propertyData));
-
+                array_splice($this->formProperties, $i, 0, [$propertyData]);
             } else {
                 $this->formProperties[] = $propertyData;
             }
-
         }
     }
 
@@ -198,36 +198,35 @@ class tao_actions_form_RestForm
         $report = common_report_Report::createInfo();
 
         foreach ($this->formProperties as $property) {
-
             try {
                 $value = $property['formValue'];
 
                 if (isset($property['validators'])) {
                     foreach ($property['validators'] as $validatorName) {
                         $validatorClass = 'tao_helpers_form_validators_' . $validatorName;
-                        if (!class_exists($validatorClass)) {
+                        if (! class_exists($validatorClass)) {
                             throw new common_Exception('Validator is not correctly set (unknown)');
                         }
                         /** @var ValidatorInterface $validator */
                         $validator = new $validatorClass();
-                        if (!$validator->evaluate($value)) {
+                        if (! $validator->evaluate($value)) {
                             throw new common_exception_ValidationFailed(
-                                $property['uri'], $validator->getMessage()
+                                $property['uri'],
+                                $validator->getMessage()
                             );
                         }
                     }
                 }
 
                 if (isset($property['range'])) {
-                    if (!isset($this->ranges[$property['range']])) {
+                    if (! isset($this->ranges[$property['range']])) {
                         throw new common_Exception($property['label'] . ' : Range is unknown');
                     }
                     $rangeValidated = false;
                     foreach ($this->ranges[$property['range']] as $rangeData) {
-
                         if (is_array($value)) {
                             foreach ($value as $k => $v) {
-                                if ($rangeData['uri'] == $v) {
+                                if ($rangeData['uri'] === $v) {
                                     unset($value[$k]);
                                 }
                             }
@@ -236,19 +235,18 @@ class tao_actions_form_RestForm
                                 break;
                             }
                         } else {
-                            if ($rangeData['uri'] == $value) {
+                            if ($rangeData['uri'] === $value) {
                                 $rangeValidated = true;
                                 break;
                             }
                         }
-
                     }
-                    if (!$rangeValidated) {
+                    if (! $rangeValidated) {
                         throw new common_exception_ValidationFailed(
-                            $property['uri'], 'Range "' . $value . '" for field "' . $property['label'] . '" is not recognized.'
+                            $property['uri'],
+                            'Range "' . $value . '" for field "' . $property['label'] . '" is not recognized.'
                         );
                     }
-
                 }
             } catch (common_exception_ValidationFailed $e) {
                 $subReport = common_report_Report::createFailure($e->getMessage());
@@ -273,7 +271,7 @@ class tao_actions_form_RestForm
         $values = $this->prepareValuesToSave();
 
         if ($this->isNew()) {
-            if (!$resource = $this->class->createInstanceWithProperties($values)) {
+            if (! $resource = $this->class->createInstanceWithProperties($values)) {
                 throw new common_Exception(__('Unable to save resource.'));
             }
             $this->resource = $resource;
@@ -305,7 +303,7 @@ class tao_actions_form_RestForm
      */
     protected function getTopClass()
     {
-        return $this->getClass(TaoOntology::CLASS_URI_OBJECT );
+        return $this->getClass(TaoOntology::CLASS_URI_OBJECT);
     }
 
     /**
@@ -343,11 +341,11 @@ class tao_actions_form_RestForm
      */
     protected function getRangeData(core_kernel_classes_Class $range)
     {
-        if (is_null($range) || $range instanceof core_kernel_classes_Literal) {
+        if ($range === null || $range instanceof core_kernel_classes_Literal) {
             return [];
         }
 
-        $options = array();
+        $options = [];
 
         /** @var core_kernel_classes_Resource $rangeInstance */
         foreach ($range->getInstances(true) as $rangeInstance) {
@@ -357,7 +355,7 @@ class tao_actions_form_RestForm
             ];
         }
 
-        if (!empty($options)) {
+        if (! empty($options)) {
             ksort($options);
             return $options;
         }
@@ -380,29 +378,26 @@ class tao_actions_form_RestForm
         /** @var core_kernel_classes_Resource $resource */
         $values = $this->resource->getPropertyValuesCollection($property);
         foreach ($values->getIterator() as $value) {
-
-            if (is_null($value)) {
+            if ($value === null) {
                 continue;
             }
 
             if ($value instanceof core_kernel_classes_Resource) {
-                if (!is_null($range)) {
+                if ($range !== null) {
                     $propertyValues[] = $value->getUri();
                 } else {
                     $propertyValues[] = $value->getLabel();
                 }
             } elseif ($value instanceof core_kernel_classes_Literal) {
-                $propertyValues[] = (string)$value;
+                $propertyValues[] = (string) $value;
             }
-
         }
 
-        if (!empty($propertyValues)) {
-            if (count($propertyValues) == 1) {
+        if (! empty($propertyValues)) {
+            if (count($propertyValues) === 1) {
                 return $propertyValues[0];
-            } else {
-                return $propertyValues;
             }
+            return $propertyValues;
         }
 
         return null;
@@ -415,7 +410,7 @@ class tao_actions_form_RestForm
      */
     protected function doesExist()
     {
-        return !is_null($this->resource);
+        return $this->resource !== null;
     }
 
     /**
@@ -425,9 +420,8 @@ class tao_actions_form_RestForm
      */
     protected function isNew()
     {
-        return is_null($this->resource);
+        return $this->resource === null;
     }
-
 
     /**
      * Format the form properties to save them
@@ -442,5 +436,4 @@ class tao_actions_form_RestForm
         }
         return $values;
     }
-
 }

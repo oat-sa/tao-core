@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,15 +18,15 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
+
 namespace oat\tao\model\theme;
 
 interface Theme
 {
-    const CONTEXT_BACKOFFICE = 'backOffice';
-    
-    const CONTEXT_FRONTOFFICE = 'frontOffice';
+    public const CONTEXT_BACKOFFICE = 'backOffice';
+
+    public const CONTEXT_FRONTOFFICE = 'frontOffice';
 
     /**
      * Returns the theme's unique identifier.
@@ -42,16 +45,16 @@ interface Theme
     /**
      * Returns the path to the template file on the fs
      * that is referenced by id and context
-     * 
+     *
      * @param string $id
      * @param string $context
      * @return string filepath
      */
     public function getTemplate($id, $context = self::CONTEXT_BACKOFFICE);
-    
+
     /**
      * Returns the url to the StyleSheet for the indicated context
-     * 
+     *
      * @param string $context
      * @return string url
      */

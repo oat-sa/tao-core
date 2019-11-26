@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,9 +22,9 @@
 
 namespace oat\tao\test\unit\user\import;
 
+use oat\generis\test\TestCase;
 use oat\tao\model\import\service\ImportServiceInterface;
 use oat\tao\model\user\import\UserCsvImporterFactory;
-use oat\generis\test\TestCase;
 
 class UserCsvImporterFactoryTest extends TestCase
 {
@@ -29,7 +32,7 @@ class UserCsvImporterFactoryTest extends TestCase
     {
         /** @var UserCsvImporterFactory $factory */
         $factory = $this->getMockBuilder(UserCsvImporterFactory::class)->disableOriginalConstructor()
-            ->setMethods(['buildService','getOption', 'propagate'])->getMock();
+            ->setMethods(['buildService', 'getOption', 'propagate'])->getMock();
 
         $factory
             ->method('buildService')
@@ -37,31 +40,31 @@ class UserCsvImporterFactoryTest extends TestCase
 
         $factory->expects($this->any())
             ->method('getOption')
-            ->will($this->returnCallback(function ($prop){
-                switch ($prop){
+            ->will($this->returnCallback(function ($prop) {
+                switch ($prop) {
                     case 'mappers':
-                        return array(
-                            'test-taker' => array(
-                                'importer' => $this->getMockForAbstractClass(ImportServiceInterface::class)
-                            ),
-                            'proctor' => array(
-                                'importer' => $this->getMockForAbstractClass(ImportServiceInterface::class)
-                            ),
-                            'test-center-admin' => array(
-                                'importer' => $this->getMockForAbstractClass(ImportServiceInterface::class)
-                            )
-                        );
+                        return [
+                            'test-taker' => [
+                                'importer' => $this->getMockForAbstractClass(ImportServiceInterface::class),
+                            ],
+                            'proctor' => [
+                                'importer' => $this->getMockForAbstractClass(ImportServiceInterface::class),
+                            ],
+                            'test-center-admin' => [
+                                'importer' => $this->getMockForAbstractClass(ImportServiceInterface::class),
+                            ],
+                        ];
                         break;
                     case'default-schema':
 
-                        return array(
-                            'mandatory' => array(
+                        return [
+                            'mandatory' => [
                                 'label' => 'http://www.w3.org/2000/01/rdf-schema#label',
-                            ),
-                            'optional' => array(
+                            ],
+                            'optional' => [
                                 'default language' => 'http://www.tao.lu/Ontologies/generis.rdf#userDefLg',
-                            )
-                        );
+                            ],
+                        ];
                         break;
                 }
             }));

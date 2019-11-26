@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,6 +19,7 @@
  *
  * Copyright (c) 2016-2017 (original work) Open Assessment Technologies SA;
  */
+
 namespace oat\tao\model\modules;
 
 use oat\oatbox\AbstractRegistry;
@@ -35,8 +39,7 @@ abstract class AbstractModuleRegistry extends AbstractRegistry
      */
     public function register(DynamicModule $module)
     {
-        if(!is_null($module) && ! empty($module->getModule()) ) {
-
+        if ($module !== null && ! empty($module->getModule())) {
             self::getRegistry()->set($module->getModule(), $module->toArray());
 
             return true;

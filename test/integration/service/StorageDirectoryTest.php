@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,29 +18,32 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\test\integration\service;
 
 use League\Flysystem\Adapter\AbstractAdapter;
+use oat\generis\test\TestCase;
 use oat\oatbox\filesystem\Directory;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ServiceManager;
-use oat\generis\test\TestCase;
 
 class StorageDirectoryTest extends TestCase
 {
     protected $fileSystemTmpId;
+
     protected $fileSystem;
+
     protected $idFixture;
+
     protected $pathFixture;
+
     protected $accessProvider;
 
-    /** @var  \tao_models_classes_service_StorageDirectory */
+    /** @var \tao_models_classes_service_StorageDirectory */
     protected $instance;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->fileSystemTmpId = 'test_' . uniqid();
         $fileSystemService = ServiceManager::getServiceManager()->get(FileSystemService::SERVICE_ID);
@@ -51,7 +57,7 @@ class StorageDirectoryTest extends TestCase
         $this->instance->setServiceLocator(ServiceManager::getServiceManager());
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         $fileSystemService = ServiceManager::getServiceManager()->get(FileSystemService::SERVICE_ID);
         $fileSystemService->unregisterFileSystem($this->fileSystemTmpId);
@@ -65,39 +71,18 @@ class StorageDirectoryTest extends TestCase
         $this->instance = false;
     }
 
-    protected function rrmdir($dir)
-    {
-        foreach(glob($dir . '/*') as $file) {
-            if(is_dir($file)) {
-                $this->rrmdir($file);
-            }
-            else {
-                unlink($file);
-            }
-        }
-        rmdir($dir);
-    }
-
-    protected function getAccessProvider($pathFixture)
-    {
-        $providerFixture = $this->getMockBuilder('oat\tao\model\websource\TokenWebSource')->getMock();
-        $providerFixture->method('getAccessUrl')->with($pathFixture . DIRECTORY_SEPARATOR)->willReturn('polop');
-
-        return $providerFixture;
-    }
-
     public function testAssertInstanceOfDirectory()
     {
         $this->assertInstanceOf(Directory::class, $this->instance);
-        $this->assertEquals($this->idFixture, $this->instance->getId());
-        $this->assertEquals($this->pathFixture, $this->instance->getPrefix());
-        $this->assertEquals($this->fileSystem, $this->instance->getFileSystem());
+        $this->assertSame($this->idFixture, $this->instance->getId());
+        $this->assertSame($this->pathFixture, $this->instance->getPrefix());
+        $this->assertSame($this->fileSystem, $this->instance->getFileSystem());
     }
 
     public function testIsPublic()
     {
         $this->assertTrue($this->instance->isPublic());
-        $this->assertEquals('polop', $this->instance->getPublicAccessUrl());
+        $this->assertSame('polop', $this->instance->getPublicAccessUrl());
     }
 
     public function testIsNotPublic()
@@ -122,7 +107,7 @@ class StorageDirectoryTest extends TestCase
         $file = $this->instance->getFile($tmpFile);
         $file->write($content);
 
-        $this->assertEquals($content, $file->read());
+        $this->assertSame($content, $file->read());
     }
 
     /**
@@ -138,7 +123,7 @@ class StorageDirectoryTest extends TestCase
         fclose($resource);
 
         $readFixture = $file->readStream();
-        $this->assertEquals(
+        $this->assertSame(
             file_get_contents(__DIR__ . '/samples/43bytes.php'),
             stream_get_contents($readFixture)
         );
@@ -159,7 +144,7 @@ class StorageDirectoryTest extends TestCase
 
         $readStreamFixture = $file->readPsrStream();
         $this->assertInstanceOf(\GuzzleHttp\Psr7\Stream::class, $readStreamFixture);
-        $this->assertEquals(
+        $this->assertSame(
             file_get_contents(__DIR__ . '/samples/43bytes.php'),
             $readStreamFixture->getContents()
         );
@@ -176,8 +161,9 @@ class StorageDirectoryTest extends TestCase
         $client = new \GuzzleHttp\Client();
         $response = $client->get('http://www.google.org');
         $this->assertTrue($this->instance->getFile($tmpFile)->write($response->getBody()));
-        $this->assertNotEquals(0, $response->getBody()->getSize());
+        $this->assertNotSame(0, $response->getBody()->getSize());
     }
+
     /**
      * Test write stream in case of remote resource
      */
@@ -192,7 +178,7 @@ class StorageDirectoryTest extends TestCase
         $file = $this->instance->getFile($tmpFile);
         $file->write($streamFixture);
         $streamFixture->rewind();
-        $this->assertEquals($streamFixture->getContents(), $file->readPsrStream()->getContents());
+        $this->assertSame($streamFixture->getContents(), $file->readPsrStream()->getContents());
         fclose($resource);
         $streamFixture->close();
     }
@@ -243,7 +229,6 @@ class StorageDirectoryTest extends TestCase
         $streamFixture->close();
     }
 
-
     public function testGetPath()
     {
         $reflectionClass = new \ReflectionClass(AbstractAdapter::class);
@@ -251,6 +236,26 @@ class StorageDirectoryTest extends TestCase
         $reflectionProperty->setAccessible(true);
 
         $path = $reflectionProperty->getValue($this->fileSystem->getAdapter()) . $this->pathFixture;
-        $this->assertEquals($path, $this->instance->getPath());
+        $this->assertSame($path, $this->instance->getPath());
+    }
+
+    protected function rrmdir($dir)
+    {
+        foreach (glob($dir . '/*') as $file) {
+            if (is_dir($file)) {
+                $this->rrmdir($file);
+            } else {
+                unlink($file);
+            }
+        }
+        rmdir($dir);
+    }
+
+    protected function getAccessProvider($pathFixture)
+    {
+        $providerFixture = $this->getMockBuilder('oat\tao\model\websource\TokenWebSource')->getMock();
+        $providerFixture->method('getAccessUrl')->with($pathFixture . DIRECTORY_SEPARATOR)->willReturn('polop');
+
+        return $providerFixture;
     }
 }

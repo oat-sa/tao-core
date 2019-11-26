@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,19 +18,16 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
- *
- *
  */
 
 namespace oat\tao\helpers;
 
+use core_kernel_classes_Resource;
+use Jig\Utils\StringUtils;
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ServiceManager;
 use oat\oatbox\user\User;
-use core_kernel_classes_Resource;
-use core_kernel_users_GenerisUser;
-use Jig\Utils\StringUtils;
 
 /**
  * Utility class to render a User
@@ -37,19 +37,19 @@ use Jig\Utils\StringUtils;
  */
 class UserHelper
 {
-    static public function renderHtmlUser($userId)
+    public static function renderHtmlUser($userId)
     {
         // assume generis user
         $user = new core_kernel_classes_Resource($userId);
-        $props = $user->getPropertiesValues(array(
+        $props = $user->getPropertiesValues([
             OntologyRdfs::RDFS_LABEL,
-            GenerisRdf::PROPERTY_USER_MAIL
-        ));
-        $label = (isset($props[OntologyRdfs::RDFS_LABEL]) && !empty($props[OntologyRdfs::RDFS_LABEL])) ? (string)reset($props[OntologyRdfs::RDFS_LABEL]) : '('.$userId.')';
+            GenerisRdf::PROPERTY_USER_MAIL,
+        ]);
+        $label = (isset($props[OntologyRdfs::RDFS_LABEL]) && ! empty($props[OntologyRdfs::RDFS_LABEL])) ? (string) reset($props[OntologyRdfs::RDFS_LABEL]) : '(' . $userId . ')';
         $label = StringUtils::wrapLongWords($label);
-        $mail = (isset($props[GenerisRdf::PROPERTY_USER_MAIL]) && !empty($props[GenerisRdf::PROPERTY_USER_MAIL])) ? (string)reset($props[GenerisRdf::PROPERTY_USER_MAIL]) : '';
-        return !empty($mail)
-            ? '<a href="mailto:'.$mail.'">'.$label.'</a>'
+        $mail = (isset($props[GenerisRdf::PROPERTY_USER_MAIL]) && ! empty($props[GenerisRdf::PROPERTY_USER_MAIL])) ? (string) reset($props[GenerisRdf::PROPERTY_USER_MAIL]) : '';
+        return ! empty($mail)
+            ? '<a href="mailto:' . $mail . '">' . $label . '</a>'
             : $label;
     }
 
@@ -65,8 +65,7 @@ class UserHelper
     {
         /** @var \tao_models_classes_UserService $userService */
         $userService = ServiceManager::getServiceManager()->get(\tao_models_classes_UserService::SERVICE_ID);
-        $user = $userService->getUserById($userId);
-        return $user;
+        return $userService->getUserById($userId);
     }
 
     /**
@@ -124,10 +123,10 @@ class UserHelper
         if (empty($firstName) && $defaultToLabel) {
             $firstName = self::getUserLabel($user);
         }
-        
+
         return $firstName;
     }
-    
+
     /**
      * Gets the user's last name
      * @param User $user
@@ -141,7 +140,7 @@ class UserHelper
         if (empty($lastName) && $defaultToLabel) {
             $lastName = self::getUserLabel($user);
         }
-        
+
         return $lastName;
     }
 
@@ -155,9 +154,9 @@ class UserHelper
     {
         $firstName = self::getUserStringProp($user, GenerisRdf::PROPERTY_USER_FIRSTNAME);
         $lastName = self::getUserStringProp($user, GenerisRdf::PROPERTY_USER_LASTNAME);
-        
+
         $userName = trim($firstName . ' ' . $lastName);
-        
+
         if (empty($userName) && $defaultToLabel) {
             $userName = self::getUserLabel($user);
         }

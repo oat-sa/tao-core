@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -23,7 +26,7 @@ use oat\oatbox\event\Event;
 
 interface WebhookEventsServiceInterface
 {
-    const SERVICE_ID = 'tao/webhookEventsService';
+    public const SERVICE_ID = 'tao/webhookEventsService';
 
     /**
      * Save new supported event to service config and attach listener to eventManager

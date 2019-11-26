@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,16 +18,15 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\model\taskQueue\Queue\Broker;
 
-use oat\oatbox\PhpSerializable;
-use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\action\ActionService;
 use oat\oatbox\action\ResolutionException;
 use oat\oatbox\log\LoggerAwareTrait;
+use oat\oatbox\PhpSerializable;
+use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\taskQueue\QueueDispatcher;
 use oat\tao\model\taskQueue\Task\CallbackTaskInterface;
 use oat\tao\model\taskQueue\Task\TaskInterface;
@@ -41,7 +43,9 @@ abstract class AbstractQueueBroker implements QueueBrokerInterface, PhpSerializa
     use ServiceLocatorAwareTrait;
 
     private $numberOfTasksToReceive;
+
     private $queueName;
+
     private $preFetchedQueue;
 
     /**
@@ -55,25 +59,8 @@ abstract class AbstractQueueBroker implements QueueBrokerInterface, PhpSerializa
 
     public function __toPhpCode()
     {
-        return 'new '. get_called_class() .'('. \common_Utils::toHumanReadablePhpString($this->numberOfTasksToReceive) .')';
+        return 'new ' . get_called_class() . '(' . \common_Utils::toHumanReadablePhpString($this->numberOfTasksToReceive) . ')';
     }
-
-    /**
-     * Do the specific pop mechanism related to the given broker.
-     * Tasks need to be added to the internal pre-fetched queue.
-     *
-     * @return void
-     */
-    abstract protected function doPop();
-
-    /**
-     * Internal mechanism of deleting a message, specific for the given broker
-     *
-     * @param string $id
-     * @param array $logContext
-     * @return void
-     */
-    abstract protected function doDelete($id, array $logContext = []);
 
     /**
      * @return null|TaskInterface
@@ -91,18 +78,37 @@ abstract class AbstractQueueBroker implements QueueBrokerInterface, PhpSerializa
     }
 
     /**
-     * Pop a task from the internal queue.
-     *
-     * @return TaskInterface|null
+     * @param string $name
+     * @return $this
      */
-    private function popPreFetchedMessage()
+    public function setQueueName($name)
     {
-        if ($this->preFetchedQueue->count()) {
-            return $this->preFetchedQueue->dequeue();
-        }
+        $this->queueName = $name;
 
-        return null;
+        return $this;
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function getNumberOfTasksToReceive()
+    {
+        return abs((int) $this->numberOfTasksToReceive);
+    }
+
+    /**
+     * Do the specific pop mechanism related to the given broker.
+     * Tasks need to be added to the internal pre-fetched queue.
+     */
+    abstract protected function doPop();
+
+    /**
+     * Internal mechanism of deleting a message, specific for the given broker
+     *
+     * @param string $id
+     * @param array $logContext
+     */
+    abstract protected function doDelete($id, array $logContext = []);
 
     /**
      * Add a task to the internal queue.
@@ -130,11 +136,8 @@ abstract class AbstractQueueBroker implements QueueBrokerInterface, PhpSerializa
         $taskSerializer = $this->getServiceLocator()->get(TaskSerializerService::SERVICE_ID);
 
         try {
-
             return $taskSerializer->deserialize($taskJSON);
-
         } catch (\Exception $e) {
-
             $this->doDelete($idForDeletion, $logContext);
 
             return null;
@@ -159,7 +162,7 @@ abstract class AbstractQueueBroker implements QueueBrokerInterface, PhpSerializa
      */
     protected function assertValidJson($basicData)
     {
-        if ( ($basicData !== null
+        if (($basicData !== null
             && json_last_error() === JSON_ERROR_NONE
             && isset($basicData[TaskInterface::JSON_TASK_CLASS_NAME_KEY])) === false
         ) {
@@ -183,10 +186,9 @@ abstract class AbstractQueueBroker implements QueueBrokerInterface, PhpSerializa
 
             $task->setCallable($callable);
         } catch (ResolutionException $e) {
-
             $this->logError('Callable/Action class ' . $task->getCallable() . ' does not exist', $logContext);
 
-            throw new \Exception;
+            throw new \Exception();
         }
     }
 
@@ -196,17 +198,6 @@ abstract class AbstractQueueBroker implements QueueBrokerInterface, PhpSerializa
     protected function getActionResolver()
     {
         return $this->getServiceLocator()->get(ActionService::SERVICE_ID);
-    }
-
-    /**
-     * @param string $name
-     * @return $this
-     */
-    public function setQueueName($name)
-    {
-        $this->queueName = $name;
-
-        return $this;
     }
 
     /**
@@ -222,14 +213,20 @@ abstract class AbstractQueueBroker implements QueueBrokerInterface, PhpSerializa
      */
     protected function getQueueNameWithPrefix()
     {
-        return sprintf("%s_%s", QueueDispatcher::QUEUE_PREFIX, $this->getQueueName());
+        return sprintf('%s_%s', QueueDispatcher::QUEUE_PREFIX, $this->getQueueName());
     }
 
     /**
-     * @inheritdoc
+     * Pop a task from the internal queue.
+     *
+     * @return TaskInterface|null
      */
-    public function getNumberOfTasksToReceive()
+    private function popPreFetchedMessage()
     {
-        return abs((int) $this->numberOfTasksToReceive);
+        if ($this->preFetchedQueue->count()) {
+            return $this->preFetchedQueue->dequeue();
+        }
+
+        return null;
     }
 }

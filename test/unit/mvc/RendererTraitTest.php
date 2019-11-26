@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
- *
  */
 
 namespace oat\tao\test\unit\model\mvc;
@@ -49,7 +51,7 @@ class RendererTraitTest extends TestCase
         $variables = $property->getValue($service->getRenderer());
         $this->assertCount(1, $variables);
         $this->assertArrayHasKey('fixture-key', $variables);
-        $this->assertEquals('fixture-value', $variables['fixture-key']);
+        $this->assertSame('fixture-value', $variables['fixture-key']);
     }
 
     public function testNotViewIfNoRenderer()

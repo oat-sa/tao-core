@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 use oat\generis\model\fileReference\FileReferenceSerializer;
@@ -40,10 +42,13 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
     use FilesystemAwareTrait;
     use FileReferenceSerializerAwareTrait;
 
-    const PARAMETER_TASK_ID = 'taskId';
-    const PARAMETER_LIMIT = 'limit';
-    const PARAMETER_OFFSET = 'offset';
-    const ALL = 'all';
+    public const PARAMETER_TASK_ID = 'taskId';
+
+    public const PARAMETER_LIMIT = 'limit';
+
+    public const PARAMETER_OFFSET = 'offset';
+
+    public const ALL = 'all';
 
     /**
      * @throws \common_exception_NotImplemented
@@ -74,7 +79,7 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
 
         return $this->returnJson([
             'success' => true,
-            'data' => $collection->toArray()
+            'data' => $collection->toArray(),
         ]);
     }
 
@@ -106,9 +111,9 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
                     ),
                     $taskLogService,
                     common_session_SessionManager::getSession()->getUser()
-                ))->toArray()
+                ))->toArray(),
             ]);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return $this->returnJson([
                 'success' => false,
                 'errorMsg' => $e instanceof \common_exception_UserReadableException ? $e->getUserMessage() : $e->getMessage(),
@@ -127,7 +132,7 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
 
         return $this->returnJson([
             'success' => true,
-            'data' => $this->getTaskLogService()->getStats($this->getSessionUserUri())->toArray()
+            'data' => $this->getTaskLogService()->getStats($this->getSessionUserUri())->toArray(),
         ]);
     }
 
@@ -150,9 +155,9 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
                 : (new TaskLogFilter())->addAvailableFilters($this->getSessionUserUri())->in(TaskLogBrokerInterface::COLUMN_ID, $taskIds);
 
             return $this->returnJson([
-                'success' => (bool) $taskLogService->archiveCollection($taskLogService->search($filter))
+                'success' => (bool) $taskLogService->archiveCollection($taskLogService->search($filter)),
             ]);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return $this->returnJson([
                 'success' => false,
                 'errorMsg' => $e instanceof \common_exception_UserReadableException ? $e->getUserMessage() : $e->getMessage(),
@@ -179,9 +184,9 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
                 : (new TaskLogFilter())->addAvailableFilters($this->getSessionUserUri())->in(TaskLogBrokerInterface::COLUMN_ID, $taskIds);
 
             return $this->returnJson([
-                'success' => (bool) $taskLogService->cancelCollection($taskLogService->search($filter))
+                'success' => (bool) $taskLogService->cancelCollection($taskLogService->search($filter)),
             ]);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return $this->returnJson([
                 'success' => false,
                 'errorMsg' => $e instanceof \common_exception_UserReadableException ? $e->getUserMessage() : $e->getMessage(),
@@ -195,7 +200,7 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
      */
     public function download()
     {
-        try{
+        try {
             $this->checkIfTaskIdExists();
 
             $taskLogEntity = $this->getTaskLogService()->getByIdAndUser(
@@ -203,8 +208,8 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
                 $this->getSessionUserUri()
             );
 
-            if (!$taskLogEntity->getStatus()->isCompleted()) {
-                throw new \common_Exception('Task "'. $taskLogEntity->getId() .'" is not downloadable.');
+            if (! $taskLogEntity->getStatus()->isCompleted()) {
+                throw new \common_Exception('Task "' . $taskLogEntity->getId() . '" is not downloadable.');
             }
 
             $fileNameOrSerial = $taskLogEntity->getFileNameFromReport();
@@ -217,11 +222,11 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
             $file = $this->getReferencedFile($fileNameOrSerial);
 
             // if no file let's try the task queue storage
-            if (is_null($file)) {
+            if ($file === null) {
                 $file = $this->getQueueStorageFile($fileNameOrSerial);
             }
 
-            if (!$file) {
+            if (! $file) {
                 throw new \common_exception_NotFound('File not found.');
             }
 
@@ -232,7 +237,7 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
 
             \tao_helpers_Http::returnStream($file->readPsrStream());
             exit();
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return $this->returnJson([
                 'success' => false,
                 'errorMsg' => $e instanceof \common_exception_UserReadableException ? $e->getUserMessage() : $e->getMessage(),
@@ -246,7 +251,7 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
      */
     protected function checkIfTaskIdExists()
     {
-        if (!$this->hasRequestParameter(self::PARAMETER_TASK_ID)) {
+        if (! $this->hasRequestParameter(self::PARAMETER_TASK_ID)) {
             throw new \common_exception_MissingParameter(self::PARAMETER_TASK_ID, $this->getRequestURI());
         }
     }
@@ -256,7 +261,7 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
      */
     protected function checkIfIsXmlHttpRequest()
     {
-        if (!$this->isXmlHttpRequest()) {
+        if (! $this->isXmlHttpRequest()) {
             throw new \Exception('Only ajax call allowed.');
         }
     }
@@ -270,7 +275,7 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
 
         if (is_array($taskIdsParams)) {
             return $taskIdsParams;
-        } else if ($taskIdsParams === static::ALL) {
+        } elseif ($taskIdsParams === static::ALL) {
             return static::ALL;
         } else {
             return [$taskIdsParams];

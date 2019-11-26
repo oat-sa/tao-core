@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Configuration of the action protection service.
  * This service can be used to add protection to certain actions, for example by setting CSP headers

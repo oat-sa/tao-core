@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,12 +24,12 @@ namespace oat\tao\test\unit\model\notification\implementation;
 
 use common_persistence_Manager as PersistenceManager;
 use common_persistence_Persistence as Persistence;
+use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\notification\implementation\Notification;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\scripts\install\InstallNotificationTable;
-use oat\generis\test\MockObject;
 
 class RdsNotificationTest extends TestCase
 {
@@ -36,7 +39,7 @@ class RdsNotificationTest extends TestCase
     /** @var Persistence */
     private $persistence;
 
-    public function setUp()
+    protected function setUp()
     {
         $persistenceId = 'rds_notification_test';
         $databaseMock = $this->getSqlMock($persistenceId);
@@ -71,7 +74,7 @@ class RdsNotificationTest extends TestCase
     public function testGetNotificationsWithoutLinesReturnsEmptyArray()
     {
         $userId = 'id of the user';
-        $this->assertEquals([], $this->subject->getNotifications($userId));
+        $this->assertSame([], $this->subject->getNotifications($userId));
     }
 
     public function testSendNotificationAndGetNotifications()
@@ -86,7 +89,8 @@ class RdsNotificationTest extends TestCase
         $updatedAt = $this->persistence->getPlatform()->getNowExpression();
         $status = 12;
 
-        $notification = new Notification($recipientId,
+        $notification = new Notification(
+            $recipientId,
             $title,
             $message,
             $senderId,
@@ -97,6 +101,6 @@ class RdsNotificationTest extends TestCase
             $status
         );
         $this->subject->sendNotification($notification);
-        $this->assertEquals([$notification], $this->subject->getNotifications($recipientId));
+        $this->assertSame([$notification], $this->subject->getNotifications($recipientId));
     }
 }

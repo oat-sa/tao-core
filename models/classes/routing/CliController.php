@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,17 +18,16 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2016-2018 (original work) Open Assessment Technologies SA;
- *
  */
 
 namespace oat\tao\model\routing;
 
+use common_report_Report as Report;
 use oat\oatbox\action\ActionService;
 use oat\oatbox\action\ResolutionException;
-use common_report_Report as Report;
-use oat\tao\model\cliArgument\ArgumentService;
-use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\oatbox\service\ServiceManagerAwareInterface;
+use oat\oatbox\service\ServiceManagerAwareTrait;
+use oat\tao\model\cliArgument\ArgumentService;
 
 /**
  * Class CliController
@@ -67,13 +69,12 @@ class CliController implements ServiceManagerAwareInterface
             $previous = $e->getPrevious();
 
             // Get the full stack trace of the exception
-            while($previous){
-                $message .= PHP_EOL . "caused by : " . PHP_EOL .$previous->getMessage();
+            while ($previous) {
+                $message .= PHP_EOL . 'caused by : ' . PHP_EOL . $previous->getMessage();
                 $previous = $previous->getPrevious();
             }
 
             $report->add(new Report(Report::TYPE_ERROR, $message));
-
         }
 
         return $report;

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -24,7 +27,7 @@ use oat\oatbox\service\ConfigurableService;
 
 class JsonValidator extends ConfigurableService
 {
-    const FILE_PATH = __DIR__ . '/webhookResponseSchema.json';
+    public const FILE_PATH = __DIR__ . '/webhookResponseSchema.json';
 
     /**
      * @param mixed $data
@@ -33,10 +36,10 @@ class JsonValidator extends ConfigurableService
      */
     public function validate($data)
     {
-        $validator = new Validator;
+        $validator = new Validator();
         $validator->validate($data, $this->readSchema());
 
-        if (!$validator->isValid()) {
+        if (! $validator->isValid()) {
             $validationErrors = [];
             foreach ($validator->getErrors() as $error) {
                 $validationErrors[] = sprintf('[%s] %s', $error['property'], $error['message']);

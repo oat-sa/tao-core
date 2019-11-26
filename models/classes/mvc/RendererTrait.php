@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
- *
  */
 
 namespace oat\tao\model\mvc;
@@ -31,7 +33,7 @@ trait RendererTrait
 
     public function getRenderer()
     {
-        if (!isset($this->renderer)) {
+        if (! isset($this->renderer)) {
             $this->renderer = new Renderer();
         }
         return $this->renderer;
@@ -48,7 +50,6 @@ trait RendererTrait
         $this->getRenderer()->setTemplate($identifier);
         return $this;
     }
-
 
     /**
      * Helper to set renderer data

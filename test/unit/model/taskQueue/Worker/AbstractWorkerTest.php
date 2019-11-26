@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,20 +18,20 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\test\unit\model\taskQueue\Worker;
 
 use common_report_Report;
+use common_report_Report as Report;
 use common_session_Session;
 use common_user_User;
 use core_kernel_classes_Resource;
 use Exception;
 use oat\generis\model\data\Ontology;
 use oat\generis\model\user\UserFactoryServiceInterface;
+use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
-use common_report_Report as Report;
 use oat\oatbox\log\LoggerService;
 use oat\oatbox\session\SessionService;
 use oat\oatbox\user\User;
@@ -41,8 +44,6 @@ use oat\tao\model\taskQueue\TaskLog\Broker\TaskLogBrokerInterface;
 use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
 use oat\tao\model\taskQueue\TaskLogInterface;
 use oat\tao\model\taskQueue\Worker\AbstractWorker;
-use oat\tao\model\webhooks\task\WebhookTask;
-use oat\generis\test\MockObject;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class AbstractWorkerTest extends TestCase
@@ -73,10 +74,12 @@ class AbstractWorkerTest extends TestCase
      * @var common_session_Session | MockObject
      */
     private $commonSession;
+
     /**
      * @var User | MockObject
      */
     private $userMock;
+
     /**
      * @var UserFactoryServiceInterface | MockObject
      */
@@ -96,6 +99,7 @@ class AbstractWorkerTest extends TestCase
      * @var core_kernel_classes_Resource | MockObject
      */
     private $userResourceMock;
+
     /**
      * @var LoggerService | MockObject
      */
@@ -105,6 +109,7 @@ class AbstractWorkerTest extends TestCase
      * @var common_report_Report | MockObject
      */
     private $reportMock;
+
     /**
      * @var RemoteTaskSynchroniserInterface | MockObject
      */
@@ -249,7 +254,6 @@ class AbstractWorkerTest extends TestCase
 
         $result = $this->subject->processTask($this->taskMock);
         $this->assertSame('completed', $result);
-
     }
 
     public function testProcessTaskReturnErrorReport()
@@ -316,7 +320,7 @@ class AbstractWorkerTest extends TestCase
 
         $this->queue->expects($this->once())->method('acknowledge')->with($task);
 
-        $this->assertEquals(TaskLogInterface::STATUS_CANCELLED, $this->subject->processTask($task));
+        $this->assertSame(TaskLogInterface::STATUS_CANCELLED, $this->subject->processTask($task));
     }
 
     public function testProcessTaskStartUserSession()
@@ -342,12 +346,11 @@ class AbstractWorkerTest extends TestCase
 
     private function getCallbackTask()
     {
-        $mock = $this
+        return $this
             ->getMockBuilder(CallbackTaskInterface::class)
             ->disableOriginalConstructor()
             ->setMethods(['__invoke', 'getStatus'])
             ->getMockForAbstractClass();
-        return $mock;
     }
 
     /**
@@ -355,12 +358,11 @@ class AbstractWorkerTest extends TestCase
      */
     private function getTaskMockCallback()
     {
-        $mock = $this
+        return $this
             ->getMockBuilder(TaskInterface::class)
             ->disableOriginalConstructor()
             ->setMethods(['__invoke', 'getStatus'])
             ->getMockForAbstractClass();
-        return $mock;
     }
 }
 

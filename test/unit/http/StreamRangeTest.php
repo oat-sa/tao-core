@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,11 +18,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
+use oat\generis\test\TestCase;
 use oat\tao\model\stream\StreamRange;
-use Slim\Http\Stream;
 
 /**
  * Class StreamRangeTest
@@ -27,20 +29,18 @@ use Slim\Http\Stream;
  * @author Aleh Hutnikau <hutnikau@1pt.com>
  */
 
-use oat\generis\test\TestCase;
+use Slim\Http\Stream;
 
 class StreamRangeTest extends TestCase
 {
-
-
     /**
      * @dataProvider rangesProvider
      */
     public function testConstruct($stream, $rangeValue, $first, $last)
     {
         $range = new StreamRange($stream, $rangeValue);
-        $this->assertEquals($first, $range->getFirstPos());
-        $this->assertEquals($last, $range->getLastPos());
+        $this->assertSame($first, $range->getFirstPos());
+        $this->assertSame($last, $range->getLastPos());
     }
 
     /**
@@ -51,7 +51,6 @@ class StreamRangeTest extends TestCase
     {
         $range = new StreamRange($stream, $rangeValue);
     }
-
 
     public function wrongRangesProvider()
     {
@@ -89,37 +88,37 @@ class StreamRangeTest extends TestCase
                 'stream' => $this->getStream('0123456789'),
                 'range' => '0-9',
                 'first' => 0,
-                'last' => 9
+                'last' => 9,
             ],
             [
                 'stream' => $this->getStream('0123456789'),
                 'range' => '0-5',
                 'first' => 0,
-                'last' => 5
+                'last' => 5,
             ],
             [
                 'stream' => $this->getStream('0123456789'),
                 'range' => '5-9',
                 'first' => 5,
-                'last' => 9
+                'last' => 9,
             ],
             [
                 'stream' => $this->getStream('0123456789'),
                 'range' => '3-',
                 'first' => 3,
-                'last' => 9
+                'last' => 9,
             ],
             [
                 'stream' => $this->getStream('0123456789'),
                 'range' => '-3',
                 'first' => 7,
-                'last' => 9
+                'last' => 9,
             ],
             [
                 'stream' => $this->getStream('0123456789'),
                 'range' => '0-0',
                 'first' => 0,
-                'last' => 0
+                'last' => 0,
             ],
         ];
     }
@@ -129,7 +128,7 @@ class StreamRangeTest extends TestCase
      */
     private function getStream($string)
     {
-        $resource = fopen('php://memory','r+');
+        $resource = fopen('php://memory', 'r+');
         fwrite($resource, $string);
         rewind($resource);
         return new Stream($resource);

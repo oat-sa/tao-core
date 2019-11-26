@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017-2018 (original work) Open Assessment Technologies SA;
- *
  */
 
 use oat\generis\model\GenerisRdf;
@@ -82,19 +84,17 @@ class tao_actions_RestUser extends tao_actions_RestResource
         $class = parent::getClassParameter();
         $rootUserClass = $this->getClass(GenerisRdf::CLASS_GENERIS_USER);
 
-        if ($class->getUri() == $rootUserClass->getUri()) {
+        if ($class->getUri() === $rootUserClass->getUri()) {
             return $class;
         }
 
         /** @var core_kernel_classes_Class $instance */
         foreach ($rootUserClass->getSubClasses(true) as $instance) {
-            if ($instance->getUri() == $class->getUri()) {
+            if ($instance->getUri() === $class->getUri()) {
                 return $class;
             }
         }
 
         throw new InvalidArgumentException('Only user classes are allowed as classUri.');
     }
-
-
 }

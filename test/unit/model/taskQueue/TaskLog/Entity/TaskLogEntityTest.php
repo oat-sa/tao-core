@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,16 +18,15 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\test\unit\model\taskQueue\TaskLog\Entity;
 
 use common_report_Report as Report;
+use oat\generis\test\TestCase;
 use oat\tao\model\taskQueue\TaskLog\CategorizedStatus;
 use oat\tao\model\taskQueue\TaskLog\Entity\TaskLogEntity;
 use oat\tao\model\taskQueue\TaskLogInterface;
-use oat\generis\test\TestCase;
 
 class TaskLogEntityTest extends TestCase
 {
@@ -46,10 +48,10 @@ class TaskLogEntityTest extends TestCase
             'report' => [
                 'type' => 'info',
                 'message' => 'Running task http://www.taoinstance.dev/ontologies/tao.rdf#i1508337970199318643',
-                'data' => NULL,
-                'children' => []
+                'data' => null,
+                'children' => [],
             ],
-            'master_status' => true
+            'master_status' => true,
         ]);
 
         $this->assertInstanceOf(TaskLogEntity::class, $entity);
@@ -63,7 +65,7 @@ class TaskLogEntityTest extends TestCase
         $this->assertInternalType('string', $entity->getLabel());
         $this->assertInternalType('string', $entity->getOwner());
 
-        $this->assertEquals([
+        $this->assertSame([
             'id' => 'rdf#i1508337970199318643',
             'taskName' => 'Task Name',
             'taskLabel' => 'Task label',
@@ -76,10 +78,10 @@ class TaskLogEntityTest extends TestCase
             'report' => [
                 'type' => 'info',
                 'message' => 'Running task http://www.taoinstance.dev/ontologies/tao.rdf#i1508337970199318643',
-                'data' => NULL,
-                'children' => []
+                'data' => null,
+                'children' => [],
             ],
-            'masterStatus' => true
+            'masterStatus' => true,
         ], $entity->jsonSerialize());
     }
 
@@ -100,5 +102,4 @@ class TaskLogEntityTest extends TestCase
 
         $this->assertNull($entity->getReport());
     }
-
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace oat\tao\test\integration\form\validators;
 
 use oat\generis\test\GenerisPhpUnitTestRunner;
@@ -49,14 +51,14 @@ class CspHeaderValidatorTest extends GenerisPhpUnitTestRunner
         $mockValues['valid'] = [
             'http://www.google.com/',
             'yahoo.org',
-            '*.reddit.com'
+            '*.reddit.com',
         ];
 
         $mockValues['invalid'] = [
             'invalid.*domain.com',
             'edgecase.c',
             'wrong value',
-            'thisIsAlsoInvalid'
+            'thisIsAlsoInvalid',
         ];
 
         switch ($type) {

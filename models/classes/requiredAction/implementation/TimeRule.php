@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,17 +18,15 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
- *
- *
  */
 
 namespace oat\tao\model\requiredAction\implementation;
 
-use oat\tao\model\requiredAction\RequiredActionRuleInterface;
-use oat\tao\model\requiredAction\RequiredActionInterface;
-use \DateTime;
-use \DateInterval;
+use DateInterval;
+use DateTime;
 use oat\oatbox\user\User;
+use oat\tao\model\requiredAction\RequiredActionInterface;
+use oat\tao\model\requiredAction\RequiredActionRuleInterface;
 
 /**
  * Class TimeRule
@@ -33,10 +34,13 @@ use oat\oatbox\user\User;
  */
 class TimeRule implements RequiredActionRuleInterface
 {
-    const CLASS_URI = 'http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionTimeRule';
-    const PROPERTY_NAME = 'http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionName';
-    const PROPERTY_EXECUTION_TIME = 'http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionExecutionTime';
-    const PROPERTY_SUBJECT = 'http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionSubject';
+    public const CLASS_URI = 'http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionTimeRule';
+
+    public const PROPERTY_NAME = 'http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionName';
+
+    public const PROPERTY_EXECUTION_TIME = 'http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionExecutionTime';
+
+    public const PROPERTY_SUBJECT = 'http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionSubject';
 
     /**
      * @var string|DateTime
@@ -65,9 +69,22 @@ class TimeRule implements RequiredActionRuleInterface
     }
 
     /**
+     * @see \oat\oatbox\PhpSerializable::__toPhpCode()
+     */
+    public function __toPhpCode()
+    {
+        $class = get_class($this);
+        $interval = $this->getInterval();
+        $serializedInterval = 'new \DateInterval("' . $interval->format('P%yY%mM%dDT%hH%iM%sS') . '")';
+
+        return "new ${class}(
+            ${serializedInterval}
+        )";
+    }
+
+    /**
      * Set required action instance
      * @param \oat\tao\model\requiredAction\RequiredActionInterface $requiredAction
-     * @return null
      */
     public function setRequiredAction(RequiredActionInterface $requiredAction)
     {
@@ -92,29 +109,15 @@ class TimeRule implements RequiredActionRuleInterface
         $resource = $this->getActionExecution();
         if ($resource === null) {
             $requiredActionClass = new \core_kernel_classes_Class(self::CLASS_URI);
-            $resource = $requiredActionClass->createInstanceWithProperties(array(
+            $resource = $requiredActionClass->createInstanceWithProperties([
                 self::PROPERTY_SUBJECT => $this->getUser()->getIdentifier(),
                 self::PROPERTY_NAME => $this->requiredAction->getName(),
                 self::PROPERTY_EXECUTION_TIME => time(),
-            ));
+            ]);
         }
         $timeProperty = (new \core_kernel_classes_Property(self::PROPERTY_EXECUTION_TIME));
         $resource->editPropertyValues($timeProperty, time());
         return $resource;
-    }
-
-    /**
-     * @see \oat\oatbox\PhpSerializable::__toPhpCode()
-     */
-    public function __toPhpCode()
-    {
-        $class = get_class($this);
-        $interval = $this->getInterval();
-        $serializedInterval = 'new \DateInterval("' . $interval->format('P%yY%mM%dDT%hH%iM%sS') . '")';
-
-        return "new $class(
-            $serializedInterval
-        )";
     }
 
     /**
@@ -131,10 +134,10 @@ class TimeRule implements RequiredActionRuleInterface
         $interval = $this->getInterval();
         $anonymous = \common_session_SessionManager::isAnonymous();
 
-        if ($lastExecution === null && !$anonymous) {
+        if ($lastExecution === null && ! $anonymous) {
             $result = true;
-        } elseif($lastExecution !== null && $interval !== null && !$anonymous) {
-            $mustBeExecutedAt = clone($lastExecution);
+        } elseif ($lastExecution !== null && $interval !== null && ! $anonymous) {
+            $mustBeExecutedAt = clone $lastExecution;
             $mustBeExecutedAt->add($interval);
             $now = new DateTime('now');
             $result = ($mustBeExecutedAt < $now);
@@ -155,7 +158,7 @@ class TimeRule implements RequiredActionRuleInterface
             if ($resource !== null) {
                 /** @var \core_kernel_classes_Resource $resource */
                 $time = (string) $resource->getOnePropertyValue(new \core_kernel_classes_Property(self::PROPERTY_EXECUTION_TIME));
-                if (!empty($time)) {
+                if (! empty($time)) {
                     $this->executionTime = new DateTime('@' . $time);
                 }
             }
@@ -179,8 +182,7 @@ class TimeRule implements RequiredActionRuleInterface
      */
     protected function getUser()
     {
-        $user = \common_session_SessionManager::getSession()->getUser();
-        return $user;
+        return \common_session_SessionManager::getSession()->getUser();
     }
 
     /**
@@ -197,7 +199,7 @@ class TimeRule implements RequiredActionRuleInterface
             'like' => false,
         ]);
 
-        if (!empty($resources)) {
+        if (! empty($resources)) {
             /** @var \core_kernel_classes_Resource $resource */
             $result = current($resources);
         }

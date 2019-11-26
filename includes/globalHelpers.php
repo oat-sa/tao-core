@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,13 +23,14 @@
 /**
  * Convenent function, helps you to the URI to access a framework action
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
- * @param  string action the targeted action name
- * @param  string module the targeted module name
- * @param  string extension the targeted extension name
- * @param  array params an array of additionnal key/value query parameters
+ * @param  string $action the targeted action name
+ * @param  string $module the targeted module name
+ * @param  string $extension the targeted extension name
+ * @param  array $params an array of additionnal key/value query parameters
  * @return string
  */
-function _url($action = null, $module = null, $extension = null, $params = array()){
+function _url($action = null, $module = null, $extension = null, $params = [])
+{
     return tao_helpers_Uri::url($action, $module, $extension, $params);
 }
 
@@ -35,9 +39,10 @@ function _url($action = null, $module = null, $extension = null, $params = array
  * Conveniance function that calls tao_helpers_Display::htmlize
  *
  * @param  string $input The input string
- * @return string $output The htmlized string.
+ * @return string The htmlized string.
  */
-function _dh($input){
+function _dh($input)
+{
     return tao_helpers_Display::htmlize($input);
 }
 
@@ -45,9 +50,10 @@ function _dh($input){
  * Convenience function clean the input string (replace all no alphanum chars).
  *
  * @param  string $input The input string.
- * @return string $output The output string without non alphanum characters.
+ * @return string The output string without non alphanum characters.
  */
-function _clean($input){
+function _clean($input)
+{
     return tao_helpers_Display::textCleaner($input);
 }
 
@@ -55,6 +61,7 @@ function _clean($input){
  * Experimental convenience function
  * @return boolean
  */
-function _isRtl() {
+function _isRtl()
+{
     return tao_helpers_I18n::isLanguageRightToLeft(common_session_SessionManager::getSession()->getInterfaceLanguage());
 }

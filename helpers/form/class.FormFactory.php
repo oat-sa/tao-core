@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,7 +19,6 @@
  *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *
  */
 
 use oat\tao\helpers\form\WidgetRegistry;
@@ -82,7 +84,7 @@ class tao_helpers_form_FormFactory
                 'element' => new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div']),
                 'group' => new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div', 'cssClass' => 'form-group']),
                 'error' => new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div', 'cssClass' => 'form-error']),
-                'actions-bottom' => new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div', 'cssClass' => 'form-toolbar'])
+                'actions-bottom' => new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div', 'cssClass' => 'form-toolbar']),
             ]);
 
             $myForm->setActions(self::getCommonActions());
@@ -90,11 +92,7 @@ class tao_helpers_form_FormFactory
             throw new common_Exception(sprintf('render mode {%s} not yet supported', self::$renderMode));
         }
 
-        $returnValue = $myForm;
-
-
-
-        return $returnValue;
+        return $myForm;
     }
 
     /**
@@ -113,11 +111,11 @@ class tao_helpers_form_FormFactory
         $eltClass = null;
         $definition = WidgetRegistry::getWidgetDefinitionById($widgetId);
 
-        if ($definition === null || !isset($definition['renderers'][self::$renderMode])) {
+        if ($definition === null || ! isset($definition['renderers'][self::$renderMode])) {
             // could be a "pseudo" widget that has not been registered
             $candidates = [
                 'tao_helpers_form_elements_xhtml_' . $widgetId,
-                $widgetId
+                $widgetId,
             ];
 
             foreach ($candidates as $candidate) {
@@ -132,7 +130,7 @@ class tao_helpers_form_FormFactory
 
         if ($eltClass !== null) {
             $returnValue = new $eltClass($name);
-            if (!$returnValue instanceof tao_helpers_form_FormElement) {
+            if (! $returnValue instanceof tao_helpers_form_FormElement) {
                 throw new common_Exception(sprintf('%s must be a tao_helpers_form_FormElement', $eltClass));
             }
         } else {
@@ -153,7 +151,7 @@ class tao_helpers_form_FormFactory
     public static function getElementByWidget($name, core_kernel_classes_Resource $widget)
     {
         $definition = WidgetRegistry::getWidgetDefinition($widget);
-        if ($definition === null || !isset($definition['renderers'][self::$renderMode])) {
+        if ($definition === null || ! isset($definition['renderers'][self::$renderMode])) {
             throw new common_exception_Error(
                 sprintf('Widget %s not supported in render mode %s', $widget->getUri(), self::$renderMode)
             );
@@ -162,8 +160,8 @@ class tao_helpers_form_FormFactory
         $eltClass = $definition['renderers'][self::$renderMode];
         $returnValue = new $eltClass($name);
 
-        if (!$returnValue instanceof tao_helpers_form_FormElement) {
-            throw new common_Exception("$eltClass must be a tao_helpers_form_FormElement");
+        if (! $returnValue instanceof tao_helpers_form_FormElement) {
+            throw new common_Exception("${eltClass} must be a tao_helpers_form_FormElement");
         }
         return $returnValue;
     }
@@ -211,10 +209,10 @@ class tao_helpers_form_FormFactory
             case 'top':
             case 'bottom':
             default:
-                $actions = tao_helpers_form_FormFactory::getElement('save', 'Free');
+                $actions = self::getElement('save', 'Free');
                 $value = '';
                 if ($save) {
-                    $button =  tao_helpers_form_FormFactory::getElement('Save', 'Button');
+                    $button = self::getElement('Save', 'Button');
                     $button->setIcon('icon-save');
                     $button->setValue(__('Save'));
                     $button->setType('submit');

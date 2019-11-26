@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,11 +18,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\test\unit\model\taskQueue;
 
+use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
 use oat\tao\model\taskQueue\Queue;
 use oat\tao\model\taskQueue\Queue\Broker\QueueBrokerInterface;
@@ -27,7 +30,6 @@ use oat\tao\model\taskQueue\Task\AbstractTask;
 use oat\tao\model\taskQueue\TaskLogInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Lock\LockInterface;
-use oat\generis\test\MockObject;
 
 class QueueTest extends TestCase
 {
@@ -47,7 +49,7 @@ class QueueTest extends TestCase
         $brokerMock = $this->getMockForAbstractClass(QueueBrokerInterface::class);
 
         $queue = new Queue('fakeQueue', $brokerMock);
-        $this->assertEquals('fakeQueue', $queue->getName());
+        $this->assertSame('fakeQueue', $queue->getName());
     }
 
     public function testGetWeightShouldReturnTheValueOfQueueWeight()
@@ -55,7 +57,7 @@ class QueueTest extends TestCase
         $brokerMock = $this->getMockForAbstractClass(QueueBrokerInterface::class);
 
         $queue = new Queue('fakeQueue', $brokerMock, 23);
-        $this->assertEquals(23, $queue->getWeight());
+        $this->assertSame(23, $queue->getWeight());
     }
 
     /**
@@ -63,7 +65,7 @@ class QueueTest extends TestCase
      */
     public function testEnqueueWhenTaskPushedOrNot($isEnqueued, $expected)
     {
-        $taskMock = $this->getMockForAbstractClass(AbstractTask::class, [], "", false);
+        $taskMock = $this->getMockForAbstractClass(AbstractTask::class, [], '', false);
         $lockMock = $this->getMockBuilder(LockInterface::class)->disableOriginalConstructor()->getMock();
         $lockMock->method('acquire')->willReturn(true);
         $lockMock->method('release')->willReturn(true);
@@ -96,7 +98,7 @@ class QueueTest extends TestCase
                 ->willReturn($taskLogMock);
         }
 
-        $this->assertEquals($expected, $queueMock->enqueue($taskMock));
+        $this->assertSame($expected, $queueMock->enqueue($taskMock));
     }
 
     public function provideEnqueueOptions()
@@ -167,7 +169,7 @@ class QueueTest extends TestCase
             $subject->setTaskLog($taskLogMock);
         }
 
-        $this->assertEquals($expected, $subject->dequeue());
+        $this->assertSame($expected, $subject->dequeue());
     }
 
     public function provideDequeueOptions()
@@ -198,7 +200,7 @@ class QueueTest extends TestCase
 
     public function testAcknowledgeShouldCallDeleteOnBroker()
     {
-        $taskMock = $this->getMockForAbstractClass(AbstractTask::class, [], "", false);
+        $taskMock = $this->getMockForAbstractClass(AbstractTask::class, [], '', false);
 
         $queueBrokerMock = $this->getMockForAbstractClass(QueueBrokerInterface::class);
 

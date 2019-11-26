@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,7 +19,6 @@
  *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *
  */
 
 use oat\generis\model\GenerisRdf;
@@ -29,8 +31,7 @@ use oat\generis\model\OntologyRdfs;
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
  */
-class tao_actions_form_Clazz
-    extends tao_helpers_form_FormContainer
+class tao_actions_form_Clazz extends tao_helpers_form_FormContainer
 {
     /**
      * @var core_kernel_classes_Class
@@ -57,9 +58,9 @@ class tao_actions_form_Clazz
      * @param array $propertyData
      * @param string $propertyMode
      */
-    public function __construct( core_kernel_classes_Class $clazz, $classData, $propertyData, $propertyMode)
+    public function __construct(core_kernel_classes_Class $clazz, $classData, $propertyData, $propertyMode)
     {
-        $this->clazz 	= $clazz;
+        $this->clazz = $clazz;
         $this->propertyData = $propertyData;
         $this->propertyMode = $propertyMode;
         parent::__construct($classData);
@@ -97,10 +98,10 @@ class tao_actions_form_Clazz
     protected function getPropertyForm($property, $index, $isParentProp, $propData)
     {
         $propFormClass = 'tao_actions_form_' . ucfirst(strtolower($this->propertyMode)) . 'Property';
-        if (!class_exists($propFormClass)) {
+        if (! class_exists($propFormClass)) {
             $propFormClass = 'tao_actions_form_SimpleProperty';
         }
-        $propFormContainer = new $propFormClass($this->getClassInstance(), $property, array('index' => $index, 'isParentProperty' => $isParentProp ), $propData);
+        $propFormContainer = new $propFormClass($this->getClassInstance(), $property, ['index' => $index, 'isParentProperty' => $isParentProp], $propData);
         return $propFormContainer->getForm();
     }
 
@@ -113,7 +114,7 @@ class tao_actions_form_Clazz
      */
     protected function initForm()
     {
-        (isset($this->options['name'])) ? $name = $this->options['name'] : $name = '';
+        isset($this->options['name']) ? $name = $this->options['name'] : $name = '';
         if (empty($name)) {
             $name = 'form_' . (count(self::$forms) + 1);
         }
@@ -122,20 +123,19 @@ class tao_actions_form_Clazz
         $this->form = tao_helpers_form_FormFactory::getForm($name, $this->options);
 
         //add property action in toolbar
-        $actions     = tao_helpers_form_FormFactory::getCommonActions();
+        $actions = tao_helpers_form_FormFactory::getCommonActions();
         $propertyElt = tao_helpers_form_FormFactory::getElement('property', 'Free');
         $propertyElt->setValue(
-            "<a href='#' class='btn-info property-adder small'><span class='icon-property-add'></span> " . __('Add property') . "</a>"
+            "<a href='#' class='btn-info property-adder small'><span class='icon-property-add'></span> " . __('Add property') . '</a>'
         );
         $actions[] = $propertyElt;
 
         //property mode
         $propModeELt = tao_helpers_form_FormFactory::getElement('propMode', 'Free');
-        if($this->propertyMode == 'advanced'){
-            $propModeELt->setValue("<a href='#' class='btn-info property-mode small property-mode-simple'><span class='icon-property-advanced'></span> ".__('Simple Mode')."</a>");
-        }
-        else{
-            $propModeELt->setValue("<a href='#' class='btn-info property-mode small property-mode-advanced'><span class='icon-property-advanced'></span> ".__('Advanced Mode')."</a>");
+        if ($this->propertyMode === 'advanced') {
+            $propModeELt->setValue("<a href='#' class='btn-info property-mode small property-mode-simple'><span class='icon-property-advanced'></span> " . __('Simple Mode') . '</a>');
+        } else {
+            $propModeELt->setValue("<a href='#' class='btn-info property-mode small property-mode-advanced'><span class='icon-property-advanced'></span> " . __('Advanced Mode') . '</a>');
         }
 
         $actions[] = $propModeELt;
@@ -148,8 +148,6 @@ class tao_actions_form_Clazz
 
         $this->form->setActions($actions, 'top');
         $this->form->setActions($actions, 'bottom');
-
-
     }
 
     /**
@@ -161,34 +159,32 @@ class tao_actions_form_Clazz
      */
     protected function initElements()
     {
-
-
         $clazz = $this->getClassInstance();
 
         //add a group form for the class edition
-        $elementNames = array();
+        $elementNames = [];
         foreach (tao_helpers_form_GenerisFormFactory::getDefaultProperties() as $property) {
 
             //map properties widgets to form elements
             $element = tao_helpers_form_GenerisFormFactory::elementMap($property);
-            if (!is_null($element)) {
+            if ($element !== null) {
 
                 //take property values to populate the form
                 $values = $clazz->getPropertyValues($property);
-                if (!$property->isMultiple()) {
+                if (! $property->isMultiple()) {
                     if (count($values) > 1) {
                         $values = array_slice($values, 0, 1);
                     }
                 }
                 foreach ($values as $value) {
-                    if (!is_null($value)) {
+                    if ($value !== null) {
                         $element->setValue($value);
                     }
                 }
                 $element->setName('class_' . $element->getName());
 
                 //set label validator, read only
-                if ($property->getUri() == OntologyRdfs::RDFS_LABEL) {
+                if ($property->getUri() === OntologyRdfs::RDFS_LABEL) {
                     $readonly = tao_helpers_form_FormFactory::getElement($element->getName(), 'Readonly');
                     $readonly->setDescription($element->getDescription());
                     $readonly->setValue($element->getRawValue());
@@ -206,15 +202,13 @@ class tao_actions_form_Clazz
         $classUriElt->setValue(tao_helpers_Uri::encode($clazz->getUri()));
         $classUriElt->addClass('global');
         $this->form->addElement($classUriElt);
-        
+
         $hiddenId = tao_helpers_form_FormFactory::getElement('id', 'Hidden');
         $hiddenId->setValue($clazz->getUri());
         $hiddenId->addClass('global');
         $this->form->addElement($hiddenId);
-        
 
         $localNamespace = common_ext_NamespaceManager::singleton()->getLocalNamespace()->getUri();
-
 
         //class properties edition: add a group form for each property
 
@@ -225,13 +219,12 @@ class tao_actions_form_Clazz
 
         foreach ($classProperties as $classProperty) {
             $i++;
-            $useEditor = (boolean)preg_match("/^" . preg_quote($localNamespace, '/') . "/", $classProperty->getUri());
-            
-            $parentProp = true;
-            $domains    = $classProperty->getDomain();
-            foreach ($domains->getIterator() as $domain) {
+            $useEditor = (bool) preg_match('/^' . preg_quote($localNamespace, '/') . '/', $classProperty->getUri());
 
-                if (array_search($classProperty->getUri(), $systemProperties) !== false || $domain->getUri() == $clazz->getUri() ) {
+            $parentProp = true;
+            $domains = $classProperty->getDomain();
+            foreach ($domains->getIterator() as $domain) {
+                if (array_search($classProperty->getUri(), $systemProperties, true) !== false || $domain->getUri() === $clazz->getUri()) {
                     $parentProp = false;
                     //@todo use the getPrivileges method once implemented
                     break;
@@ -239,11 +232,10 @@ class tao_actions_form_Clazz
             }
 
             if ($useEditor) {
-
-                $propData = array();
+                $propData = [];
                 if (isset($this->propertyData[$classProperty->getUri()])) {
                     foreach ($this->propertyData[$classProperty->getUri()] as $key => $value) {
-                        $propData[$i.'_'.$key] = $value;
+                        $propData[$i . '_' . $key] = $value;
                     }
                 }
 
@@ -262,7 +254,7 @@ class tao_actions_form_Clazz
                 $this->form->addElement($roElement);
 
                 $groupTitle = '<span class="property-heading-label">' . _dh($classProperty->getLabel()) . '</span>';
-                $this->form->createGroup("ro_property_{$i}", $groupTitle, array('roProperty' . $i));
+                $this->form->createGroup("ro_property_{$i}", $groupTitle, ['roProperty' . $i]);
             }
         }
     }
@@ -277,7 +269,6 @@ class tao_actions_form_Clazz
 
         $keys = array_filter(array_keys($constants['user']), function ($key) {
             return strstr($key, 'PROPERTY') !== false;
-
         });
 
         return array_intersect_key($constants['user'], array_flip($keys));

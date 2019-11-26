@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,13 +18,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA
- *
  */
 
 namespace oat\tao\model\http;
 
 use Context;
-use function GuzzleHttp\Psr7\stream_for;
 
 /**
  * Class LegacyController
@@ -33,11 +34,11 @@ use function GuzzleHttp\Psr7\stream_for;
  * Any entry point (e.q. controller) should not extend this class anymore
  * To correctly handle PSR7 request and response please inherit directly \oat\tao\model\http\Controller
  * This is a temporary solution to wait all children do not call legacy "Module" method anymore
- *
  */
 abstract class LegacyController extends Controller
 {
-    protected $response, $request;
+    protected $response;
+    protected $request;
 
     /**
      * @deprecated Use getPsrRequest() instead
@@ -105,29 +106,13 @@ abstract class LegacyController extends Controller
     }
 
     /**
-     * Returns a request parameter unencoded
-     *
-     * @param string $paramName
-     * @throws \common_exception_MissingParameter
-     * @return string
-     */
-    protected function getRawParameter($paramName)
-    {
-        $raw = $this->getRequest()->getRawParameters();
-        if (!isset($raw[$paramName])) {
-            throw new \common_exception_MissingParameter($paramName);
-        }
-        return $raw[$paramName];
-    }
-
-    /**
      * @see parent::getHeaders()
      *
      * @return array
      */
     public function getHeaders()
     {
-        if (!$this->request) {
+        if (! $this->request) {
             return $this->getRequest()->getHeaders();
         }
         return parent::getHeaders();
@@ -141,7 +126,7 @@ abstract class LegacyController extends Controller
     public function hasHeader($name)
     {
         $name = strtolower($name);
-        if (!$this->request) {
+        if (! $this->request) {
             return $this->getRequest()->hasHeader($name);
         }
         return parent::hasHeader($name);
@@ -155,7 +140,7 @@ abstract class LegacyController extends Controller
      */
     public function getHeader($name, $default = null)
     {
-        if (!$this->request) {
+        if (! $this->request) {
             return $this->getRequest()->getHeader($name);
         }
         return parent::getHeader($name, $default);
@@ -168,7 +153,7 @@ abstract class LegacyController extends Controller
      */
     public function hasCookie($name)
     {
-        if (!$this->request) {
+        if (! $this->request) {
             return $this->getRequest()->hasCookie($name);
         }
         return parent::hasCookie($name);
@@ -183,7 +168,7 @@ abstract class LegacyController extends Controller
      */
     public function getCookie($name, $default = null)
     {
-        if (!$this->request) {
+        if (! $this->request) {
             return $this->getRequest()->getCookie($name);
         }
         return parent::getCookie($name, $default);
@@ -196,7 +181,7 @@ abstract class LegacyController extends Controller
      */
     public function getRequestMethod()
     {
-        if (!$this->request) {
+        if (! $this->request) {
             return $this->getRequest()->getMethod();
         }
         return parent::getRequestMethod();
@@ -209,7 +194,7 @@ abstract class LegacyController extends Controller
      */
     public function isRequestGet()
     {
-        if (!$this->request) {
+        if (! $this->request) {
             return $this->getRequest()->isGet();
         }
         return parent::isRequestGet();
@@ -222,7 +207,7 @@ abstract class LegacyController extends Controller
      */
     public function isRequestPost()
     {
-        if (!$this->request) {
+        if (! $this->request) {
             return $this->getRequest()->isPost();
         }
         return parent::isRequestPost();
@@ -235,7 +220,7 @@ abstract class LegacyController extends Controller
      */
     public function isRequestPut()
     {
-        if (!$this->request) {
+        if (! $this->request) {
             return $this->getRequest()->isPut();
         }
         return parent::isRequestPut();
@@ -248,7 +233,7 @@ abstract class LegacyController extends Controller
      */
     public function isRequestDelete()
     {
-        if (!$this->request) {
+        if (! $this->request) {
             return $this->getRequest()->isDelete();
         }
         return parent::isRequestDelete();
@@ -261,7 +246,7 @@ abstract class LegacyController extends Controller
      */
     public function isRequestHead()
     {
-        if (!$this->request) {
+        if (! $this->request) {
             return $this->getRequest()->isHead();
         }
         return parent::isRequestHead();
@@ -274,7 +259,7 @@ abstract class LegacyController extends Controller
      */
     public function getUserAgent()
     {
-        if (!$this->request) {
+        if (! $this->request) {
             return $this->getRequest()->getUserAgent();
         }
         return parent::getUserAgent();
@@ -287,7 +272,7 @@ abstract class LegacyController extends Controller
      */
     public function getQueryString()
     {
-        if (!$this->request) {
+        if (! $this->request) {
             return $this->getRequest()->getQueryString();
         }
         return parent::getQueryString();
@@ -300,7 +285,7 @@ abstract class LegacyController extends Controller
      */
     public function getRequestURI()
     {
-        if (!$this->request) {
+        if (! $this->request) {
             return $this->getRequest()->getRequestURI();
         }
         return parent::getRequestURI();
@@ -317,10 +302,15 @@ abstract class LegacyController extends Controller
      * @param null $httpOnly
      * @return bool|void
      */
-    public function setCookie($name, $value = null, $expire = null,
-                              $domainPath = null, $https = null, $httpOnly = null)
-    {
-        if (!$this->response) {
+    public function setCookie(
+        $name,
+        $value = null,
+        $expire = null,
+        $domainPath = null,
+        $https = null,
+        $httpOnly = null
+    ) {
+        if (! $this->response) {
             return $this->getResponse()->setCookie($name, $value, $expire, $domainPath, $https, $httpOnly);
         }
         return parent::setCookie($name, $value, $expire, $domainPath, $https, $httpOnly);
@@ -335,8 +325,8 @@ abstract class LegacyController extends Controller
      */
     public function setContentHeader($contentType, $charset = 'UTF-8')
     {
-        if (!$this->response) {
-           return $this->getResponse()->setContentHeader($contentType, $charset);
+        if (! $this->response) {
+            return $this->getResponse()->setContentHeader($contentType, $charset);
         }
         return parent::setContentHeader($contentType, $charset);
     }
@@ -348,10 +338,26 @@ abstract class LegacyController extends Controller
      */
     public function getContentType()
     {
-        if (!$this->response) {
+        if (! $this->response) {
             return $this->getResponse()->getContentType();
         }
         return parent::getContentType();
+    }
+
+    /**
+     * Returns a request parameter unencoded
+     *
+     * @param string $paramName
+     * @throws \common_exception_MissingParameter
+     * @return string
+     */
+    protected function getRawParameter($paramName)
+    {
+        $raw = $this->getRequest()->getRawParameters();
+        if (! isset($raw[$paramName])) {
+            throw new \common_exception_MissingParameter($paramName);
+        }
+        return $raw[$paramName];
     }
 
     /**
@@ -361,7 +367,7 @@ abstract class LegacyController extends Controller
      */
     protected function isXmlHttpRequest()
     {
-        if (!$this->request) {
+        if (! $this->request) {
             $this->logDeprecated();
             return \tao_helpers_Request::isAjax();
         }
@@ -376,10 +382,10 @@ abstract class LegacyController extends Controller
     {
         return;
         $message = '[DEPRECATED]  Deprecated call ';
-        if (!is_null($function)) {
+        if ($function !== null) {
             $message .= 'of "' . $function . '"';
         }
-        $message .= ' (' . get_called_class() .')';
+        $message .= ' (' . get_called_class() . ')';
         \common_Logger::i($message);
     }
 }

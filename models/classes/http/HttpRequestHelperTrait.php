@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
- *
  */
 
 namespace oat\tao\model\http;
@@ -65,7 +67,7 @@ trait HttpRequestHelperTrait
     {
         $headers = [];
         foreach ($this->getPsrRequest()->getHeaders() as $name => $values) {
-            $headers[strtolower($name)] = (count($values) == 1) ? reset($values) : $values;
+            $headers[strtolower($name)] = (count($values) === 1) ? reset($values) : $values;
         }
         return $headers;
     }
@@ -102,9 +104,8 @@ trait HttpRequestHelperTrait
     {
         if ($this->hasHeader($name)) {
             return $this->getPsrRequest()->getHeader($name);
-        } else {
-            return $default;
         }
+        return $default;
     }
 
     /**
@@ -279,9 +280,8 @@ trait HttpRequestHelperTrait
     {
         if ($this->hasCookie($name)) {
             return $this->getCookieParams()[$name];
-        } else {
-            return $default;
         }
+        return $default;
     }
 
     /**
@@ -301,7 +301,7 @@ trait HttpRequestHelperTrait
      */
     protected function isRequestGet()
     {
-        return $this->getRequestMethod() == 'GET';
+        return $this->getRequestMethod() === 'GET';
     }
 
     /**
@@ -311,7 +311,7 @@ trait HttpRequestHelperTrait
      */
     protected function isRequestPost()
     {
-        return $this->getRequestMethod() == 'POST';
+        return $this->getRequestMethod() === 'POST';
     }
 
     /**
@@ -321,7 +321,7 @@ trait HttpRequestHelperTrait
      */
     protected function isRequestPut()
     {
-        return $this->getRequestMethod() == 'PUT';
+        return $this->getRequestMethod() === 'PUT';
     }
 
     /**
@@ -331,7 +331,7 @@ trait HttpRequestHelperTrait
      */
     protected function isRequestDelete()
     {
-        return $this->getRequestMethod() == 'DELETE';
+        return $this->getRequestMethod() === 'DELETE';
     }
 
     /**
@@ -341,7 +341,7 @@ trait HttpRequestHelperTrait
      */
     protected function isRequestHead()
     {
-        return $this->getRequestMethod() == 'HEAD';
+        return $this->getRequestMethod() === 'HEAD';
     }
 
     /**
@@ -352,8 +352,8 @@ trait HttpRequestHelperTrait
     protected function isXmlHttpRequest()
     {
         $serverParams = $this->getPsrRequest()->getServerParams();
-        if(isset($serverParams['HTTP_X_REQUESTED_WITH'])){
-            if(strtolower($serverParams['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'){
+        if (isset($serverParams['HTTP_X_REQUESTED_WITH'])) {
+            if (strtolower($serverParams['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
                 return true;
             }
         }
@@ -399,5 +399,4 @@ trait HttpRequestHelperTrait
     {
         return $this->getPsrRequest()->getHeader('content-type');
     }
-
 }

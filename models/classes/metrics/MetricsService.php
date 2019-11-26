@@ -1,6 +1,8 @@
 <?php
+
+declare(strict_types=1);
+
 /**
- *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -16,11 +18,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\model\metrics;
-
 
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\metadata\exception\InconsistencyConfigException;
@@ -28,26 +28,11 @@ use oat\tao\model\metrics\implementations\abstractMetrics;
 
 class MetricsService extends ConfigurableService
 {
+    public const SERVICE_ID = 'tao/metrics';
 
-    const SERVICE_ID = 'tao/metrics';
-    const OPTION_METRICS = 'metrics';
+    public const OPTION_METRICS = 'metrics';
+
     private $metrics = [];
-
-
-    /**
-     * @return abstractMetrics[]
-     */
-    protected function getMetrics()
-    {
-        if (!$this->metrics) {
-            $metrics = $this->getOption(self::OPTION_METRICS);
-            foreach ($metrics as $metric) {
-                $this->propagate($metric);
-            }
-            $this->metrics = $metrics;
-        }
-        return $this->metrics;
-    }
 
     public function collect()
     {
@@ -73,4 +58,18 @@ class MetricsService extends ConfigurableService
         return $result;
     }
 
+    /**
+     * @return abstractMetrics[]
+     */
+    protected function getMetrics()
+    {
+        if (! $this->metrics) {
+            $metrics = $this->getOption(self::OPTION_METRICS);
+            foreach ($metrics as $metric) {
+                $this->propagate($metric);
+            }
+            $this->metrics = $metrics;
+        }
+        return $this->metrics;
+    }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,8 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
- *
  */
 
 namespace oat\tao\helpers;
@@ -48,76 +48,13 @@ class DateIntervalMS extends \DateInterval
         /x";
 
     /**
-     * Formatting for current date interval
-     * @param $format
-     * @return string
-     */
-    public function format($format)
-    {
-        $format = str_replace('%U', sprintf("%06d", $this->u), $format);
-        $format = str_replace('%u', sprintf("%d", intval($this->u)), $format);
-
-        return parent::format($format);
-    }
-
-    /**
-     * Convert microseconds to seconds in float type
-     * @param $microseconds
-     * @return float
-     */
-    public static function microsecondsToSeconds($microseconds)
-    {
-        $microseconds = intval($microseconds);
-        $seconds = round($microseconds / 1000000, 6);
-
-        return $seconds;
-    }
-
-    /**
-     * Convert seconds with microseconds as fraction to amount of microseconds
-     * @param $seconds
-     * @return int
-     */
-    public static function secondsToMicroseconds($seconds)
-    {
-        $seconds = round($seconds, 6);
-        $microseconds = intval($seconds * 1000000);
-
-        return $microseconds;
-    }
-
-    /**
-     * Build valid DateInterval format
-     * @param array $parts
-     * @return string
-     */
-    private static function getLegacySpec(array $parts)
-    {
-        $spec = "P";
-        $spec .= $parts['y'] !== "" ? "{$parts['y']}Y" : "";
-        $spec .= $parts['m'] !== "" ? "{$parts['m']}M" : "";
-        $spec .= $parts['d'] !== "" ? "{$parts['d']}D" : "";
-        if ($parts['h'] . $parts['i'] . $parts['s'] !== "") {
-            $spec .= "T";
-            $spec .= $parts['h'] !== "" ? "{$parts['h']}H" : "";
-            $spec .= $parts['i'] !== "" ? "{$parts['i']}M" : "";
-            $spec .= $parts['s'] !== "" ? "{$parts['s']}S" : "";
-        }
-        if ($spec === "P") {
-            $spec = "";
-        }
-
-        return $spec;
-    }
-
-    /**
      * Custom construct with support microseconds
      * @param string $interval_spec
      */
     public function __construct($interval_spec)
     {
-        if (!preg_match(static::$interval_spec_regex, $interval_spec, $parts)) {
-            throw new \UnexpectedValueException(sprintf("%s::%s: Unknown or bad format (%s)", get_called_class(), '__construct', $interval_spec));
+        if (! preg_match(static::$interval_spec_regex, $interval_spec, $parts)) {
+            throw new \UnexpectedValueException(sprintf('%s::%s: Unknown or bad format (%s)', get_called_class(), '__construct', $interval_spec));
         }
 
         if (isset($parts['s'])) {
@@ -133,4 +70,62 @@ class DateIntervalMS extends \DateInterval
         parent::__construct($legacy_spec);
     }
 
+    /**
+     * Formatting for current date interval
+     * @param $format
+     * @return string
+     */
+    public function format($format)
+    {
+        $format = str_replace('%U', sprintf('%06d', $this->u), $format);
+        $format = str_replace('%u', sprintf('%d', intval($this->u)), $format);
+
+        return parent::format($format);
+    }
+
+    /**
+     * Convert microseconds to seconds in float type
+     * @param $microseconds
+     * @return float
+     */
+    public static function microsecondsToSeconds($microseconds)
+    {
+        $microseconds = intval($microseconds);
+        return round($microseconds / 1000000, 6);
+    }
+
+    /**
+     * Convert seconds with microseconds as fraction to amount of microseconds
+     * @param $seconds
+     * @return int
+     */
+    public static function secondsToMicroseconds($seconds)
+    {
+        $seconds = round($seconds, 6);
+        return intval($seconds * 1000000);
+    }
+
+    /**
+     * Build valid DateInterval format
+     * @param array $parts
+     * @return string
+     */
+    private static function getLegacySpec(array $parts)
+    {
+        $spec = 'P';
+        $spec .= $parts['y'] !== '' ? "{$parts['y']}Y" : '';
+        $spec .= $parts['m'] !== '' ? "{$parts['m']}M" : '';
+        $spec .= $parts['d'] !== '' ? "{$parts['d']}D" : '';
+        if ($parts['h'] . $parts['i'] . $parts['s'] !== '') {
+            $spec .= 'T';
+            $spec .= $parts['h'] !== '' ? "{$parts['h']}H" : '';
+            $spec .= $parts['i'] !== '' ? "{$parts['i']}M" : '';
+            $spec .= $parts['s'] !== '' ? "{$parts['s']}S" : '';
+        }
+        if ($spec === 'P') {
+            $spec = '';
+        }
+
+        return $spec;
+    }
 }

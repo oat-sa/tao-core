@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,23 +18,19 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017-2018 (original work) Open Assessment Technologies SA;
- *
  */
 
-use oat\tao\model\notification\NotificationServiceInterface;
-use oat\tao\model\notification\NotificationInterface;
 use oat\tao\model\notification\exception\NotListedNotification;
+use oat\tao\model\notification\NotificationInterface;
+use oat\tao\model\notification\NotificationServiceInterface;
 
 class tao_actions_Notification extends \tao_actions_CommonModule
 {
-
     public function getCount()
     {
         $user = $this->getUserService()->getCurrentUser();
 
-        /**
-         * @var oat\tao\model\notification\NotificationServiceInterface $notificationService
-         */
+        /** @var oat\tao\model\notification\NotificationServiceInterface */
         $notificationService = $this->getServiceLocator()->get(NotificationServiceInterface::SERVICE_ID);
         try {
             $count = $notificationService->notificationCount($user->getUri());
@@ -39,16 +38,13 @@ class tao_actions_Notification extends \tao_actions_CommonModule
             return $this->returnError($e->getUserMessage());
         }
         return $this->returnJson($count);
-
     }
 
     public function getList()
     {
         $user = $this->getUserService()->getCurrentUser();
 
-        /**
-         * @var oat\tao\model\notification\NotificationServiceInterface $notificationService
-         */
+        /** @var oat\tao\model\notification\NotificationServiceInterface */
         $notificationService = $this->getServiceLocator()->get(NotificationServiceInterface::SERVICE_ID);
         try {
             $list = $notificationService->getNotifications($user->getUri());
@@ -60,11 +56,9 @@ class tao_actions_Notification extends \tao_actions_CommonModule
 
     public function getDetail()
     {
-        if( $this->hasRequestParameter('id')) {
+        if ($this->hasRequestParameter('id')) {
             $id = $this->getRequestParameter('id');
-            /**
-             * @var oat\tao\model\notification\NotificationServiceInterface $notificationService
-             */
+            /** @var oat\tao\model\notification\NotificationServiceInterface */
             $notificationService = $this->getServiceLocator()->get(NotificationServiceInterface::SERVICE_ID);
             try {
                 $list = $notificationService->getNotification($id);
@@ -80,9 +74,7 @@ class tao_actions_Notification extends \tao_actions_CommonModule
     {
         $user = $this->getUserService()->getCurrentUser();
 
-        /**
-         * @var oat\tao\model\notification\NotificationServiceInterface $notificationService
-         */
+        /** @var oat\tao\model\notification\NotificationServiceInterface */
         $notificationService = $this->getServiceLocator()->get(NotificationServiceInterface::SERVICE_ID);
         try {
             $list = $notificationService->getNotifications($user->getUri());
@@ -90,17 +82,17 @@ class tao_actions_Notification extends \tao_actions_CommonModule
             return $this->returnError($e->getUserMessage());
         }
         /**
-         * @var NotificationInterface $notif
+         * @var NotificationInterface
          */
         foreach ($list as $notif) {
-            if($notif->getStatus() === NotificationInterface::CREATED_STATUS) {
+            if ($notif->getStatus() === NotificationInterface::CREATED_STATUS) {
                 $notif->setStatus(NotificationInterface::READ_STATUS);
                 $notificationService->changeStatus($notif);
                 $notif->setStatus(NotificationInterface::CREATED_STATUS);
             }
         }
 
-        $this->setData('notif-list' , $list);
+        $this->setData('notif-list', $list);
         $this->setView('notification/list.tpl');
     }
 

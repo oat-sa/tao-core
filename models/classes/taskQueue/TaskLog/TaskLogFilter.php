@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\model\taskQueue\TaskLog;
@@ -27,21 +29,34 @@ use oat\tao\model\taskQueue\TaskLogInterface;
 
 class TaskLogFilter
 {
-    const OP_EQ  = '=';
-    const OP_NEQ = '!=';
-    const OP_LT  = '<';
-    const OP_LTE = '<=';
-    const OP_GT  = '>';
-    const OP_GTE = '>=';
-    const OP_LIKE = 'LIKE';
-    const OP_NOT_LIKE = 'NOT LIKE';
-    const OP_IN = 'IN';
-    const OP_NOT_IN = 'NOT IN';
+    public const OP_EQ = '=';
+
+    public const OP_NEQ = '!=';
+
+    public const OP_LT = '<';
+
+    public const OP_LTE = '<=';
+
+    public const OP_GT = '>';
+
+    public const OP_GTE = '>=';
+
+    public const OP_LIKE = 'LIKE';
+
+    public const OP_NOT_LIKE = 'NOT LIKE';
+
+    public const OP_IN = 'IN';
+
+    public const OP_NOT_IN = 'NOT IN';
 
     private $filters = [];
+
     private $limit;
+
     private $offset;
+
     private $sortBy;
+
     private $sortOrder;
 
     private $baseColumns = [
@@ -50,7 +65,7 @@ class TaskLogFilter
         TaskLogBrokerInterface::COLUMN_TASK_NAME,
         TaskLogBrokerInterface::COLUMN_STATUS,
         TaskLogBrokerInterface::COLUMN_MASTER_STATUS,
-        TaskLogBrokerInterface::COLUMN_REPORT
+        TaskLogBrokerInterface::COLUMN_REPORT,
     ];
 
     private $optionalColumns = [
@@ -58,7 +73,7 @@ class TaskLogFilter
         TaskLogBrokerInterface::COLUMN_LABEL,
         TaskLogBrokerInterface::COLUMN_OWNER,
         TaskLogBrokerInterface::COLUMN_CREATED_AT,
-        TaskLogBrokerInterface::COLUMN_UPDATED_AT
+        TaskLogBrokerInterface::COLUMN_UPDATED_AT,
     ];
 
     private $deselectedColumns = [];
@@ -77,8 +92,8 @@ class TaskLogFilter
      */
     public function deselect($column)
     {
-        if (!in_array($column, $this->optionalColumns)) {
-            throw new \InvalidArgumentException('Column "'. $column .'"" is not valid column or not unselectable.');
+        if (! in_array($column, $this->optionalColumns, true)) {
+            throw new \InvalidArgumentException('Column "' . $column . '"" is not valid column or not unselectable.');
         }
 
         $this->deselectedColumns[] = $column;
@@ -180,11 +195,11 @@ class TaskLogFilter
     {
         $this->assertValidOperator($operator);
 
-        $this->filters[] =  [
+        $this->filters[] = [
             'column' => (string) $field,
-            'columnSqlTranslate' => ':'. $field . uniqid(), // we need a unique placeholder
+            'columnSqlTranslate' => ':' . $field . uniqid(), // we need a unique placeholder
             'operator' => $operator,
-            'value' => $value
+            'value' => $value,
         ];
 
         return $this;
@@ -200,11 +215,11 @@ class TaskLogFilter
      */
     public function addAvailableFilters($userId, $archivedAllowed = false, $cancelledAvailable = false)
     {
-        if (!$archivedAllowed) {
+        if (! $archivedAllowed) {
             $this->neq(TaskLogBrokerInterface::COLUMN_STATUS, TaskLogInterface::STATUS_ARCHIVED);
         }
 
-        if (!$cancelledAvailable) {
+        if (! $cancelledAvailable) {
             $this->neq(TaskLogBrokerInterface::COLUMN_STATUS, TaskLogInterface::STATUS_CANCELLED);
         }
 
@@ -255,7 +270,7 @@ class TaskLogFilter
             $withParentheses = is_array($filter['value']) ? true : false;
             $type = is_array($filter['value']) ? Connection::PARAM_STR_ARRAY : null;
 
-            $qb->andWhere($filter['column'] .' '. $filter['operator'] .' '. ($withParentheses ? '(' : '') . $filter['columnSqlTranslate'] . ($withParentheses ? ')' : ''))
+            $qb->andWhere($filter['column'] . ' ' . $filter['operator'] . ' ' . ($withParentheses ? '(' : '') . $filter['columnSqlTranslate'] . ($withParentheses ? ')' : ''))
                 ->setParameter($filter['columnSqlTranslate'], $filter['value'], $type);
         }
 
@@ -381,8 +396,8 @@ class TaskLogFilter
             self::OP_NOT_IN,
         ];
 
-        if (!in_array($op, $operators)) {
-            throw new \InvalidArgumentException('Operator "'. $op .'"" is not a valid operator.');
+        if (! in_array($op, $operators, true)) {
+            throw new \InvalidArgumentException('Operator "' . $op . '"" is not a valid operator.');
         }
     }
 }

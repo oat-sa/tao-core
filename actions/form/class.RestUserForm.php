@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,15 +18,14 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
- *
  */
 
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyRdfs;
-use \oat\generis\model\user\PasswordConstraintsService;
-use \oat\oatbox\validator\ValidatorInterface;
-use \Zend\ServiceManager\ServiceLocatorAwareTrait;
-use \Zend\ServiceManager\ServiceLocatorAwareInterface;
+use oat\generis\model\user\PasswordConstraintsService;
+use oat\oatbox\validator\ValidatorInterface;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 /**
  * Class tao_actions_form_RestUserForm
@@ -49,7 +51,7 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
         $properties = $this->formProperties;
 
         foreach ($properties as $index => $property) {
-            if ($this->doesExist() && $property['uri'] == 'http://www.tao.lu/Ontologies/generis.rdf#login') {
+            if ($this->doesExist() && $property['uri'] === 'http://www.tao.lu/Ontologies/generis.rdf#login') {
                 $properties[$index]['widget'] = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Readonly';
                 break;
             }
@@ -57,7 +59,7 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
 
         if ($this->doesExist()) {
             foreach ($properties as $key => $property) {
-                if ($property['uri'] == GenerisRdf::PROPERTY_USER_PASSWORD && isset($property['value'])) {
+                if ($property['uri'] === GenerisRdf::PROPERTY_USER_PASSWORD && isset($property['value'])) {
                     $properties[$key]['value'] = '';
                     break;
                 }
@@ -82,13 +84,13 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
 
         $password = null;
         foreach ($this->formProperties as $key => $property) {
-            if ($property['uri'] == GenerisRdf::PROPERTY_USER_PASSWORD && !empty($this->formProperties[$key]['formValue'])) {
+            if ($property['uri'] === GenerisRdf::PROPERTY_USER_PASSWORD && ! empty($this->formProperties[$key]['formValue'])) {
                 $password = $this->formProperties[$key]['formValue'];
                 break;
             }
         }
 
-        if ($this->isNew() || ($this->doesExist() && !is_null($password))) {
+        if ($this->isNew() || ($this->doesExist() && $password !== null)) {
             try {
                 $this->validatePassword($password);
                 $this->changePassword = true;
@@ -101,15 +103,15 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
 
         // Validate new login availability
         if ($this->isNew()) {
-            foreach($this->formProperties as $property) {
-                if ( $property['uri'] == 'http://www.tao.lu/Ontologies/generis.rdf#login') {
-                    if ( empty($property['formValue']) ) {
+            foreach ($this->formProperties as $property) {
+                if ($property['uri'] === 'http://www.tao.lu/Ontologies/generis.rdf#login') {
+                    if (empty($property['formValue'])) {
                         $subReport = common_report_Report::createFailure(__('Login is empty.'));
-                    } else if ( ! $this->isLoginAvailable($property['formValue']) ) {
+                    } elseif (! $this->isLoginAvailable($property['formValue'])) {
                         $subReport = common_report_Report::createFailure(__('Login is already in use.'));
                     }
 
-                    if ( isset($subReport) ) {
+                    if (isset($subReport)) {
                         $subReport->setData($property['uri']);
                         $report->add($subReport);
                     }
@@ -142,7 +144,7 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
             $notEmptyProperties[] = 'http://www.tao.lu/Ontologies/generis.rdf#login';
         }
 
-        if (in_array($property->getUri(), $notEmptyProperties)) {
+        if (in_array($property->getUri(), $notEmptyProperties, true)) {
             $validators[] = 'notEmpty';
         }
 
@@ -157,13 +159,13 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
      */
     protected function validatePassword($password)
     {
-        if (!(new tao_helpers_form_validators_NotEmpty())->evaluate($password)) {
+        if (! (new tao_helpers_form_validators_NotEmpty())->evaluate($password)) {
             throw new common_exception_ValidationFailed(GenerisRdf::PROPERTY_USER_PASSWORD, __('Password is empty.'));
         }
 
         /** @var ValidatorInterface $validator */
         foreach (PasswordConstraintsService::singleton()->getValidators() as $validator) {
-            if (!$validator->evaluate($password)) {
+            if (! $validator->evaluate($password)) {
                 throw new common_exception_ValidationFailed(GenerisRdf::PROPERTY_USER_PASSWORD, $validator->getMessage());
             }
         }
@@ -181,7 +183,7 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
         if ($this->changePassword) {
             $password = null;
             foreach ($this->formProperties as $key => $property) {
-                if ($property['uri'] == GenerisRdf::PROPERTY_USER_PASSWORD && isset($this->formProperties[$key]['formValue'])) {
+                if ($property['uri'] === GenerisRdf::PROPERTY_USER_PASSWORD && isset($this->formProperties[$key]['formValue'])) {
                     $password = $this->formProperties[$key]['formValue'];
                     break;
                 }

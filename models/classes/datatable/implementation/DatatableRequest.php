@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,13 +18,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
+
 namespace oat\tao\model\datatable\implementation;
 
+use GuzzleHttp\Psr7\ServerRequest;
 use oat\tao\model\datatable\DatatableRequest as DatatableRequestInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use GuzzleHttp\Psr7\ServerRequest;
 
 /**
  * Class DatatableRequest
@@ -30,13 +33,17 @@ use GuzzleHttp\Psr7\ServerRequest;
  */
 class DatatableRequest implements DatatableRequestInterface
 {
+    public const DEFAULT_ROWS = 25;
 
-    const DEFAULT_ROWS = 25;
-    const DEFAULT_PAGE = 1;
-    const DEFAULT_SORT_BY = null;
-    const DEFAULT_SORT_ORDER = 'asc';
-    const DEFAULT_SORT_TYPE = 'string';
-    const DEFAULT_FILTERS = [];
+    public const DEFAULT_PAGE = 1;
+
+    public const DEFAULT_SORT_BY = null;
+
+    public const DEFAULT_SORT_ORDER = 'asc';
+
+    public const DEFAULT_SORT_TYPE = 'string';
+
+    public const DEFAULT_FILTERS = [];
 
     /**
      * @var array
@@ -67,7 +74,7 @@ class DatatableRequest implements DatatableRequestInterface
             ? $this->requestParams[self::PARAM_ROWS]
             : self::DEFAULT_ROWS;
 
-        return (integer)$rows;
+        return (int) $rows;
     }
 
     /**
@@ -77,7 +84,7 @@ class DatatableRequest implements DatatableRequestInterface
     public function getPage()
     {
         $page = isset($this->requestParams[self::PARAM_PAGE]) ? $this->requestParams[self::PARAM_PAGE] : self::DEFAULT_PAGE;
-        return (integer)$page;
+        return (int) $page;
     }
 
     /**
@@ -86,9 +93,8 @@ class DatatableRequest implements DatatableRequestInterface
      */
     public function getSortBy()
     {
-        $sortBy = isset($this->requestParams[self::PARAM_SORT_BY]) ?
+        return isset($this->requestParams[self::PARAM_SORT_BY]) ?
             $this->requestParams[self::PARAM_SORT_BY] : self::DEFAULT_SORT_BY;
-        return $sortBy;
     }
 
     /**
@@ -101,7 +107,7 @@ class DatatableRequest implements DatatableRequestInterface
             $this->requestParams[self::PARAM_SORT_ORDER] : self::DEFAULT_SORT_ORDER;
         $sortOrder = mb_strtolower($sortOrder);
 
-        if (!in_array($sortOrder, ['asc', 'desc'])) {
+        if (! in_array($sortOrder, ['asc', 'desc'], true)) {
             $sortOrder = self::DEFAULT_SORT_ORDER;
         }
 
@@ -116,9 +122,9 @@ class DatatableRequest implements DatatableRequestInterface
     {
         $sortType = isset($this->requestParams[self::PARAM_SORT_TYPE]) ?
             $this->requestParams[self::PARAM_SORT_TYPE] : self::DEFAULT_SORT_TYPE;
-        $sortType= mb_strtolower($sortType);
+        $sortType = mb_strtolower($sortType);
 
-        if(!in_array($sortType, ['string', 'numeric'])) {
+        if (! in_array($sortType, ['string', 'numeric'], true)) {
             $sortType = self::DEFAULT_SORT_TYPE;
         }
 
@@ -131,10 +137,8 @@ class DatatableRequest implements DatatableRequestInterface
      */
     public function getFilters()
     {
-        $filters = isset($this->requestParams[self::PARAM_FILTERS]) ?
+        return isset($this->requestParams[self::PARAM_FILTERS]) ?
             $this->requestParams[self::PARAM_FILTERS] : self::DEFAULT_FILTERS;
-
-        return $filters;
     }
 
     /**

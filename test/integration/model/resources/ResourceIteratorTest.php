@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,18 +18,17 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\test\integration\model\resources;
 
-use oat\tao\test\TaoPhpUnitTestRunner;
-
-use oat\tao\model\resources\ResourceIterator;
-use oat\generis\model\OntologyRdfs;
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
-use oat\search\helper\SupportedOperatorHelper;
+
+use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ServiceManager;
+use oat\search\helper\SupportedOperatorHelper;
+use oat\tao\model\resources\ResourceIterator;
+use oat\tao\test\TaoPhpUnitTestRunner;
 
 /**
  * Class ResourceIteratorTest
@@ -35,8 +37,7 @@ use oat\oatbox\service\ServiceManager;
  */
 class ResourceIteratorTest extends TaoPhpUnitTestRunner
 {
-
-    public function tearDown()
+    protected function tearDown()
     {
         $this->removeResources();
     }
@@ -68,7 +69,7 @@ class ResourceIteratorTest extends TaoPhpUnitTestRunner
         $resultArray[] = $iterator->current()->getLabel();
         $iterator->next();
         sort($resultArray);
-        $this->assertEquals(['2', '3'], $resultArray);
+        $this->assertSame(['2', '3'], $resultArray);
         $this->assertTrue($iterator->valid() === false);
 
 
@@ -76,7 +77,7 @@ class ResourceIteratorTest extends TaoPhpUnitTestRunner
         $criteria->addCriterion(OntologyRdfs::RDFS_LABEL, SupportedOperatorHelper::GREATER_THAN_EQUAL, 3);
         $iterator = new ResourceIterator($this->getClasses(), $criteria);
         $iterator->setServiceLocator(ServiceManager::getServiceManager());
-        $this->assertEquals('3', $iterator->current()->getLabel());
+        $this->assertSame('3', $iterator->current()->getLabel());
         $iterator->next();
         $this->assertTrue($iterator->valid() === false);
 
@@ -91,7 +92,7 @@ class ResourceIteratorTest extends TaoPhpUnitTestRunner
         $resultArray[] = $iterator->current()->getLabel();
         $iterator->next();
         sort($resultArray);
-        $this->assertEquals(['1', '2', '3'], $resultArray);
+        $this->assertSame(['1', '2', '3'], $resultArray);
         $this->assertTrue($iterator->valid() === false);
     }
 
@@ -105,7 +106,7 @@ class ResourceIteratorTest extends TaoPhpUnitTestRunner
         foreach ($iterator as $resource) {
             $n++;
         }
-        $this->assertEquals(ResourceIterator::CACHE_SIZE * 2, $n);
+        $this->assertSame(ResourceIterator::CACHE_SIZE * 2, $n);
     }
 
     private function removeResources()
@@ -122,7 +123,7 @@ class ResourceIteratorTest extends TaoPhpUnitTestRunner
     {
         $classes = $this->getClasses();
         for ($i = 1; $i <= $amount; $i++) {
-            $classes[$i%2]->createInstance($i);
+            $classes[$i % 2]->createInstance($i);
         }
     }
 

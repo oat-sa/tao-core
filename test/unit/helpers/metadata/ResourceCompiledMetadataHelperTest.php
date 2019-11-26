@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,8 +20,8 @@
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA ;
  */
 
-use oat\tao\helpers\metadata\ResourceCompiledMetadataHelper;
 use oat\generis\test\TestCase;
+use oat\tao\helpers\metadata\ResourceCompiledMetadataHelper;
 
 class ResourceCompiledMetadataHelperTest extends TestCase
 {
@@ -46,7 +49,7 @@ class ResourceCompiledMetadataHelperTest extends TestCase
         $this->object->unserialize($data);
         $result = $this->object->getValue($name);
 
-        $this->assertEquals($expectedValue, $result, 'Metadata parameter value must be as expected.');
+        $this->assertSame($expectedValue, $result, 'Metadata parameter value must be as expected.');
     }
 
     /**
@@ -60,7 +63,7 @@ class ResourceCompiledMetadataHelperTest extends TestCase
         $this->object->unserialize($data);
         $label = $this->object->getLabel();
 
-        $this->assertEquals($expectedLabel, $label, 'Label must be as expected.');
+        $this->assertSame($expectedLabel, $label, 'Label must be as expected.');
     }
 
     /**
@@ -84,7 +87,7 @@ class ResourceCompiledMetadataHelperTest extends TestCase
     {
         $this->expectException(common_exception_InconsistentData::class);
 
-        $data = "INVALID_JSON_STRING";
+        $data = 'INVALID_JSON_STRING';
         $this->object->unserialize($data);
     }
 

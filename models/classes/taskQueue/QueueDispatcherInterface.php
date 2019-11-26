@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\model\taskQueue;
@@ -30,30 +32,30 @@ use Psr\Log\LoggerAwareInterface;
  */
 interface QueueDispatcherInterface extends QueuerInterface, LoggerAwareInterface
 {
-    const SERVICE_ID = 'tao/taskQueue';
+    public const SERVICE_ID = 'tao/taskQueue';
 
-    const FILE_SYSTEM_ID = 'taskQueueStorage';
+    public const FILE_SYSTEM_ID = 'taskQueueStorage';
 
     /**
      * Array of queues
      */
-    const OPTION_QUEUES = 'queues';
+    public const OPTION_QUEUES = 'queues';
 
     /**
      * Name of the default queue. Task without specified queue will be published here.
      */
-    const OPTION_DEFAULT_QUEUE = 'default_queue';
+    public const OPTION_DEFAULT_QUEUE = 'default_queue';
 
     /**
      * An array of tasks names with the specified queue where the tasks needs to be published to.
      */
-    const OPTION_TASK_TO_QUEUE_ASSOCIATIONS = 'task_to_queue_associations';
+    public const OPTION_TASK_TO_QUEUE_ASSOCIATIONS = 'task_to_queue_associations';
 
-    const OPTION_TASK_LOG = 'task_log';
+    public const OPTION_TASK_LOG = 'task_log';
 
-    const OPTION_TASK_SELECTOR_STRATEGY = 'task_selector_strategy';
+    public const OPTION_TASK_SELECTOR_STRATEGY = 'task_selector_strategy';
 
-    const QUEUE_PREFIX = 'TQ';
+    public const QUEUE_PREFIX = 'TQ';
 
     /**
      * Add new Queue.
@@ -120,8 +122,6 @@ interface QueueDispatcherInterface extends QueuerInterface, LoggerAwareInterface
 
     /**
      * Initialize queues.
-     *
-     * @return void
      */
     public function initialize();
 

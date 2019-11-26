@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
- *
  */
 
 namespace oat\test\unit\model\search\aggregator;
@@ -38,7 +40,7 @@ class UnionSearchServiceTest extends TestCase
     /** @var Search|MockObject */
     private $defaultSearchService;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->defaultSearchService = $this->getMock(Search::class);
         $this->defaultSearchService->method('query')->willReturn(new ResultSet(['123'], 1));

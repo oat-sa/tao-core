@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,8 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
- *
- *
  */
 
 namespace oat\tao\model\requiredAction\implementation;
@@ -43,7 +44,7 @@ class RequiredActionRedirectUrlPart extends RequiredActionAbstract
             'extension' => 'tao',
             'module' => 'ClientConfig',
             'action' => 'config',
-        ]
+        ],
     ];
 
     /**
@@ -66,6 +67,22 @@ class RequiredActionRedirectUrlPart extends RequiredActionAbstract
     }
 
     /**
+     * @see \oat\oatbox\PhpSerializable::__toPhpCode()
+     */
+    public function __toPhpCode()
+    {
+        $class = get_class($this);
+        $name = $this->name;
+        $rules = \common_Utils::toHumanReadablePhpString($this->getRules());
+        $url = \common_Utils::toHumanReadablePhpString($this->url);
+        return "new ${class}(
+            '${name}',
+            ${rules},
+            ${url}
+        )";
+    }
+
+    /**
      * Execute an action
      *
      * @param array $params
@@ -81,7 +98,7 @@ class RequiredActionRedirectUrlPart extends RequiredActionAbstract
             'action' => $context->getActionName(),
         ];
 
-        if (! in_array($currentRoute, $excludedRoutes)) {
+        if (! in_array($currentRoute, $excludedRoutes, true)) {
             $currentUrl = \common_http_Request::currentRequest()->getUrl();
 
             $transformedUrl = $this->getTransformedUrl($params);
@@ -90,22 +107,6 @@ class RequiredActionRedirectUrlPart extends RequiredActionAbstract
             $flowController = new FlowController();
             $flowController->redirect($url);
         }
-    }
-
-    /**
-     * @see \oat\oatbox\PhpSerializable::__toPhpCode()
-     */
-    public function __toPhpCode()
-    {
-        $class = get_class($this);
-        $name = $this->name;
-        $rules = \common_Utils::toHumanReadablePhpString($this->getRules());
-        $url = \common_Utils::toHumanReadablePhpString($this->url);
-        return "new $class(
-            '$name',
-            $rules,
-            $url
-        )";
     }
 
     /**

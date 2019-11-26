@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,13 +18,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\test\unit\actionQueue;
 
-use oat\tao\model\actionQueue\AbstractQueuedAction;
 use oat\generis\test\TestCase;
+use oat\tao\model\actionQueue\AbstractQueuedAction;
 
 /**
  * Class ActionTest
@@ -30,25 +32,24 @@ use oat\generis\test\TestCase;
  */
 class AbstractActionTest extends TestCase
 {
-
     public function testGetId()
     {
         $action = new ConcreteAction();
-        $this->assertEquals(ConcreteAction::class, $action->getId());
+        $this->assertSame(ConcreteAction::class, $action->getId());
     }
 
     public function testGetResult()
     {
         $action = new ConcreteAction();
         $action->setResult('result');
-        $this->assertEquals('result', $action->getResult());
+        $this->assertSame('result', $action->getResult());
     }
 
     public function testSetResult()
     {
         $action = new ConcreteAction();
         $action->setResult('result');
-        $this->assertEquals('result', $action->getResult());
+        $this->assertSame('result', $action->getResult());
     }
 
     /**
@@ -59,7 +60,6 @@ class AbstractActionTest extends TestCase
         $action = new ConcreteAction();
         $action->getResult();
     }
-
 }
 
 class ConcreteAction extends AbstractQueuedAction

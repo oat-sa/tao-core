@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -24,13 +27,13 @@ use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
+use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
 use oat\tao\model\webhooks\log\WebhookEventLogInterface;
 use oat\tao\model\webhooks\task\WebhookResponse;
 use oat\tao\model\webhooks\task\WebhookTaskContext;
 use oat\tao\model\webhooks\task\WebhookTaskParams;
 use oat\tao\model\webhooks\task\WebhookTaskReports;
-use oat\generis\test\MockObject;
 use Psr\Log\LoggerInterface;
 
 class WebhookTaskReportsTest extends TestCase
@@ -60,17 +63,17 @@ class WebhookTaskReportsTest extends TestCase
      */
     private $taskContextMock;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->webhookEventLogMock = $this->createMock(WebhookEventLogInterface::class);
         $this->loggerMock = $this->createMock(LoggerInterface::class);
         $this->serviceLocatorMock = $this->getServiceLocatorMock([
             WebhookEventLogInterface::SERVICE_ID => $this->webhookEventLogMock,
         ]);
-        
+
         $this->taskParamsMock = $this->createMock(WebhookTaskParams::class);
         $this->taskParamsMock->method('getEventId')->willReturn('eventId');
-        
+
         $this->taskContextMock = $this->createMock(WebhookTaskContext::class);
         $this->taskContextMock->method('getTaskId')->willReturn('taskId');
         $this->taskContextMock->method('getWebhookTaskParams')->willReturn($this->taskParamsMock);
@@ -81,7 +84,7 @@ class WebhookTaskReportsTest extends TestCase
         $reports = new WebhookTaskReports();
         $reports->setServiceLocator($this->serviceLocatorMock);
         $reports->setLogger($this->loggerMock);
-        
+
         $exception = new \Exception('e_msg');
 
         $this->webhookEventLogMock->expects($this->once())
@@ -91,7 +94,8 @@ class WebhookTaskReportsTest extends TestCase
                 $this->callback(function ($message) {
                     return strpos($message, 'e_msg') !== false &&
                         strpos($message, 'Exception') !== false;
-                }));
+                })
+            );
 
         $this->loggerMock->expects($this->once())
             ->method('error')

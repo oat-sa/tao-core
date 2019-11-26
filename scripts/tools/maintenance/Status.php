@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 Open Assessment Technologies SA
- *
  */
 
 namespace oat\tao\scripts\tools\maintenance;
@@ -44,11 +46,10 @@ class Status implements Action, ServiceLocatorAwareInterface
                 return \common_report_Report::createSuccess(
                     __('TAO platform is live since %s.', $state->getDuration()->format(MaintenanceState::DATEDIFF_FORMAT))
                 );
-            } else {
-                return \common_report_Report::createSuccess(
+            }
+            return \common_report_Report::createSuccess(
                     __('TAO platform is under maintenance since %s', $state->getDuration()->format(MaintenanceState::DATEDIFF_FORMAT))
                 );
-            }
         } catch (\common_Exception $e) {
             return \common_report_Report::createFailure(__('Error: %s', $e->getMessage()));
         }
@@ -63,5 +64,4 @@ class Status implements Action, ServiceLocatorAwareInterface
     {
         return $this->getServiceLocator()->get(Maintenance::SERVICE_ID);
     }
-
 }

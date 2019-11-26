@@ -1,22 +1,25 @@
 <?php
-/*  
+
+declare(strict_types=1);
+
+/*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
+ *
  */
 
 /**
@@ -24,15 +27,12 @@
  *
  * @author Lionel Lecaque, <lionel@taotesting.com>
  * @package tao
- 
  */
 
 use oat\oatbox\filesystem\File;
 
-class tao_helpers_File
-    extends helpers_File
+class tao_helpers_File extends helpers_File
 {
-
     /**
      * Check if the path in parameter can be securly used into the application.
      * (check the cross directory injection, the null byte injection, etc.)
@@ -45,26 +45,26 @@ class tao_helpers_File
      */
     public static function securityCheck($path, $traversalSafe = false)
     {
-   		$returnValue = true;
+        $returnValue = true;
 
         //security check: detect directory traversal (deny the ../)
-		if($traversalSafe){
-	   		if(preg_match("/\.\.\//", $path)){
-				$returnValue = false;
-				common_Logger::w('directory traversal detected in ' . $path);
-			}
-		}
+        if ($traversalSafe) {
+            if (preg_match("/\.\.\//", $path)) {
+                $returnValue = false;
+                common_Logger::w('directory traversal detected in ' . $path);
+            }
+        }
 
-		//security check:  detect the null byte poison by finding the null char injection
-		if($returnValue){
-			for($i = 0; $i < strlen($path); $i++){
-				if(ord($path[$i]) === 0){
-					$returnValue = false;
-					common_Logger::w('null char injection detected in ' . $path);
-					break;
-				}
-			}
-		}
+        //security check:  detect the null byte poison by finding the null char injection
+        if ($returnValue) {
+            for ($i = 0; $i < strlen($path); $i++) {
+                if (ord($path[$i]) === 0) {
+                    $returnValue = false;
+                    common_Logger::w('null char injection detected in ' . $path);
+                    break;
+                }
+            }
+        }
 
         return (bool) $returnValue;
     }
@@ -80,11 +80,11 @@ class tao_helpers_File
     {
         $returnValue = (string) '';
 
-        foreach ($paths as $path){
-        	if (!preg_match("/\/$/", $returnValue) && !preg_match("/^\//", $path) && !empty($returnValue)){
-        		$returnValue .= '/';
-        	}
-        	$returnValue .= $path;
+        foreach ($paths as $path) {
+            if (! preg_match("/\/$/", $returnValue) && ! preg_match("/^\//", $path) && ! empty($returnValue)) {
+                $returnValue .= '/';
+            }
+            $returnValue .= $path;
         }
         $returnValue = str_replace('//', '/', $returnValue);
 
@@ -104,10 +104,10 @@ class tao_helpers_File
     {
         $returnValue = (bool) false;
 
-		if ($recursive) {
-			$returnValue = helpers_File::remove($path);
-		} elseif (is_file($path)) {
-        	$returnValue = @unlink($path);
+        if ($recursive) {
+            $returnValue = helpers_File::remove($path);
+        } elseif (is_file($path)) {
+            $returnValue = @unlink($path);
         }
         // else fail silently
 
@@ -126,40 +126,37 @@ class tao_helpers_File
     {
         $returnValue = (bool) false;
 
-        if(is_dir($source)){
-			if(!file_exists($destination)){
-				mkdir($destination, 0777, true);
-			}
-			$error = false;
-			foreach(scandir($source) as $file){
-				if($file != '.' && $file != '..'){
-					if(is_dir($source.'/'.$file)){
-						if(!self::move($source.'/'.$file, $destination.'/'.$file, true)){
-							$error = true;
-						}
-					}
-					else{
-						if(!self::copy($source.'/'.$file, $destination.'/'.$file, true)){
-							$error = true;
-						}
-					}
-				}
-			}
-			if(!$error){
-				$returnValue = true;
-			}
-			self::remove($source, true);
-		}
-		else{
-	        if(file_exists($source) && file_exists($destination)){
-	        	$returnValue = rename($source, $destination);
-	        }
-	        else{
-	        	if(self::copy($source, $destination, true)){
-	        		$returnValue = self::remove($source);
-	        	}
-	        }
-		}
+        if (is_dir($source)) {
+            if (! file_exists($destination)) {
+                mkdir($destination, 0777, true);
+            }
+            $error = false;
+            foreach (scandir($source) as $file) {
+                if ($file !== '.' && $file !== '..') {
+                    if (is_dir($source . '/' . $file)) {
+                        if (! self::move($source . '/' . $file, $destination . '/' . $file, true)) {
+                            $error = true;
+                        }
+                    } else {
+                        if (! self::copy($source . '/' . $file, $destination . '/' . $file, true)) {
+                            $error = true;
+                        }
+                    }
+                }
+            }
+            if (! $error) {
+                $returnValue = true;
+            }
+            self::remove($source, true);
+        } else {
+            if (file_exists($source) && file_exists($destination)) {
+                $returnValue = rename($source, $destination);
+            } else {
+                if (self::copy($source, $destination, true)) {
+                    $returnValue = self::remove($source);
+                }
+            }
+        }
 
         return (bool) $returnValue;
     }
@@ -172,7 +169,7 @@ class tao_helpers_File
      */
     public static function getMimeTypeList()
     {
-        $returnValue = array(
+        $returnValue = [
 
             'txt' => 'text/plain',
             'htm' => 'text/html',
@@ -217,9 +214,9 @@ class tao_helpers_File
             'aac' => 'audio/aac',
             'qt' => 'video/quicktime',
             'mov' => 'video/quicktime',
-            'mp4' => 'video/mp4',//(H.264 + AAC) for ie8, etc.
-            'webm' => 'video/webm',//(VP8 + Vorbis) for ie9, ff, chrome, android, opera
-            'ogv' => 'video/ogg',//ff, chrome, opera
+            'mp4' => 'video/mp4', //(H.264 + AAC) for ie8, etc.
+            'webm' => 'video/webm', //(VP8 + Vorbis) for ie9, ff, chrome, android, opera
+            'ogv' => 'video/ogg', //ff, chrome, opera
 
             // adobe
             'pdf' => 'application/pdf',
@@ -237,12 +234,12 @@ class tao_helpers_File
             // open office
             'odt' => 'application/vnd.oasis.opendocument.text',
             'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
-                        
+
             // fonts
             'woff' => 'application/x-font-woff',
-            'eot'  => 'application/vnd.ms-fontobject',
-            'ttf'  => 'application/x-font-ttf'
-        );
+            'eot' => 'application/vnd.ms-fontobject',
+            'ttf' => 'application/x-font-ttf',
+        ];
 
         return (array) $returnValue;
     }
@@ -258,16 +255,15 @@ class tao_helpers_File
     {
         $returnValue = (string) '';
 
-        foreach(self::getMimeTypeList() as $key => $value){
-        	if($value == trim($mimeType)){
-        		$returnValue = $key;
-        		break;
-        	}
+        foreach (self::getMimeTypeList() as $key => $value) {
+            if ($value === trim($mimeType)) {
+                $returnValue = $key;
+                break;
+            }
         }
 
         return (string) $returnValue;
     }
-
 
     /**
      * Retrieve file extensions of a file
@@ -277,10 +273,9 @@ class tao_helpers_File
      */
     public static function getFileExtention($path)
     {
-
         $ext = pathinfo($path, PATHINFO_EXTENSION);
 
-        if($ext === ''){
+        if ($ext === '') {
             $splitedPath = explode('.', $path);
             $ext = end($splitedPath);
         }
@@ -300,50 +295,47 @@ class tao_helpers_File
     public static function getMimeType($path, $ext = false)
     {
         $mime_types = self::getMimeTypeList();
-        
-        if (false == $ext){
-        	$ext = pathinfo($path, PATHINFO_EXTENSION);
-        	
-        	if (array_key_exists($ext, $mime_types)) {
-        		$mimetype =  $mime_types[$ext];
-        	} 
-        	else {
-        		$mimetype = '';
-        	}
 
-            if (!in_array($ext, array('css', 'ogg', 'mp3'))) {
-        		if  (file_exists($path)) {
-        			if (function_exists('finfo_open')) {
-        				$finfo = finfo_open(FILEINFO_MIME);
-        				$mimetype = finfo_file($finfo, $path);
-        				finfo_close($finfo);
-        			}
-        			else if (function_exists('mime_content_type')) {
-        				$mimetype = mime_content_type($path);
-        			}
-        			if (!empty($mimetype)) {
-        				if (preg_match("/; charset/", $mimetype)) {
-        					$mimetypeInfos = explode(';', $mimetype);
-        					$mimetype = $mimetypeInfos[0];
-        				}
-        			}
-        		}
-        	}
+        if ($ext === false) {
+            $ext = pathinfo($path, PATHINFO_EXTENSION);
+
+            if (array_key_exists($ext, $mime_types)) {
+                $mimetype = $mime_types[$ext];
+            } else {
+                $mimetype = '';
+            }
+
+            if (! in_array($ext, ['css', 'ogg', 'mp3'], true)) {
+                if (file_exists($path)) {
+                    if (function_exists('finfo_open')) {
+                        $finfo = finfo_open(FILEINFO_MIME);
+                        $mimetype = finfo_file($finfo, $path);
+                        finfo_close($finfo);
+                    } elseif (function_exists('mime_content_type')) {
+                        $mimetype = mime_content_type($path);
+                    }
+                    if (! empty($mimetype)) {
+                        if (preg_match('/; charset/', $mimetype)) {
+                            $mimetypeInfos = explode(';', $mimetype);
+                            $mimetype = $mimetypeInfos[0];
+                        }
+                    }
+                }
+            }
+        } else {
+            // find out the mime-type from the extension of the file.
+            $ext = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+            if (array_key_exists($ext, $mime_types)) {
+                $mimetype = $mime_types[$ext];
+            }
         }
-        else{
-        	// find out the mime-type from the extension of the file.
-        	$ext = strtolower(pathinfo($path, PATHINFO_EXTENSION));
-        	if (array_key_exists($ext, $mime_types)){
-        		$mimetype = $mime_types[$ext];
-        	}
-        }
-		
+
         // If no mime-type found ...
         if (empty($mimetype)) {
-        	$mimetype =  'application/octet-stream';
+            $mimetype = 'application/octet-stream';
         }
 
-		return (string) $mimetype;
+        return (string) $mimetype;
     }
 
     /**
@@ -355,56 +347,56 @@ class tao_helpers_File
     public static function createTempDir()
     {
         do {
-			$folder = sys_get_temp_dir().DIRECTORY_SEPARATOR."tmp".mt_rand().DIRECTORY_SEPARATOR;
-		} while (file_exists($folder));
-		mkdir($folder);
-		return $folder;
+            $folder = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'tmp' . mt_rand() . DIRECTORY_SEPARATOR;
+        } while (file_exists($folder));
+        mkdir($folder);
+        return $folder;
     }
 
     /**
      * deletes a directory and its content.
      *
      * @author Lionel Lecaque, <lionel@taotesting.com>
-     * @param  string directory absolute path of the directory
+     * @param  string $directory absolute path of the directory
      * @return boolean true if the directory and its content were deleted, false otherwise.
      */
     public static function delTree($directory)
     {
-
-        $files = array_diff(scandir($directory), array('.','..'));
-		foreach ($files as $file) {
-			$abspath = $directory.DIRECTORY_SEPARATOR.$file;
-			if (is_dir($abspath)) {
-				self::delTree($abspath);
-			} else {
-				unlink($abspath);
-			}
-		}
-		return rmdir($directory);
-
+        $files = array_diff(scandir($directory), ['.', '..']);
+        foreach ($files as $file) {
+            $abspath = $directory . DIRECTORY_SEPARATOR . $file;
+            if (is_dir($abspath)) {
+                self::delTree($abspath);
+            } else {
+                unlink($abspath);
+            }
+        }
+        return rmdir($directory);
     }
-    
-    public static function isIdentical($path1, $path2) {
-        return self::md5_dir($path1) == self::md5_dir($path2);
+
+    public static function isIdentical($path1, $path2)
+    {
+        return self::md5_dir($path1) === self::md5_dir($path2);
     }
-    
-    public static function md5_dir($path) {
+
+    public static function md5_dir($path)
+    {
         if (is_file($path)) {
             $md5 = md5_file($path);
         } elseif (is_dir($path)) {
-            $filemd5s = array();
+            $filemd5s = [];
             // using scandir to get files in a fixed order
             $files = scandir($path);
             sort($files);
             foreach ($files as $basename) {
-                if($basename != '.' && $basename != '..') {
+                if ($basename !== '.' && $basename !== '..') {
                     //$fileInfo->getFilename()
-                    $filemd5s[] = $basename.self::md5_dir(self::concat(array($path, $basename)));
+                    $filemd5s[] = $basename . self::md5_dir(self::concat([$path, $basename]));
                 }
             }
             $md5 = md5(implode('', $filemd5s));
         } else {
-            throw new common_Exception(__FUNCTION__.' called on non file or directory "'.$path.'"');
+            throw new common_Exception(__FUNCTION__ . ' called on non file or directory "' . $path . '"');
         }
         return $md5;
     }
@@ -417,11 +409,12 @@ class tao_helpers_File
      * @return string path to the zip file
      * @throws common_Exception if unable to create the zip
      */
-    public static function createZip($src, $withEmptyDir = false) {
+    public static function createZip($src, $withEmptyDir = false)
+    {
         $zipArchive = new \ZipArchive();
-        $path = self::createTempDir().'file.zip';
-        if ($zipArchive->open($path, \ZipArchive::CREATE)!==TRUE) {
-            throw new common_Exception('Unable to create zipfile '.$path);
+        $path = self::createTempDir() . 'file.zip';
+        if ($zipArchive->open($path, \ZipArchive::CREATE) !== true) {
+            throw new common_Exception('Unable to create zipfile ' . $path);
         }
         self::addFilesToZip($zipArchive, $src, DIRECTORY_SEPARATOR, $withEmptyDir);
         $zipArchive->close();
@@ -439,19 +432,20 @@ class tao_helpers_File
      * @param bool       $withEmptyDir
      * @return integer The amount of files that were transfered from TAO to the ZIP archive within the method call.
      */
-    public static function addFilesToZip(ZipArchive $zipArchive, $src, $dest, $withEmptyDir = false) {
+    public static function addFilesToZip(ZipArchive $zipArchive, $src, $dest, $withEmptyDir = false)
+    {
         $returnValue = null;
-    
+
         $done = 0;
 
         if ($src instanceof \Psr\Http\Message\StreamInterface) {
-            if ($zipArchive->addFromString(ltrim($dest, "/\\"), $src->getContents())) {
+            if ($zipArchive->addFromString(ltrim($dest, '/\\'), $src->getContents())) {
                 $done++;
             }
         } elseif (is_resource($src)) {
             fseek($src, 0);
             $content = stream_get_contents($src);
-            if ($zipArchive->addFromString(ltrim($dest, "/\\"), $content)) {
+            if ($zipArchive->addFromString(ltrim($dest, '/\\'), $content)) {
                 $done++;
             }
         } elseif (is_dir($src)) {
@@ -468,7 +462,7 @@ class tao_helpers_File
 
             foreach ($content as $file) {
                 // avoid . , .. , .svn etc ...
-                if (!preg_match("/^\./", $file)) {
+                if (! preg_match("/^\./", $file)) {
                     $done += self::addFilesToZip($zipArchive, $src . $file, $dest . $file, $withEmptyDir);
                 }
             }
@@ -478,10 +472,8 @@ class tao_helpers_File
                 $done++;
             }
         }
-    
-        $returnValue = $done;
-    
-        return $returnValue;
+
+        return $done;
     }
 
     /**
@@ -495,7 +487,7 @@ class tao_helpers_File
     public static function extractArchive($archiveFile)
     {
         if ($archiveFile instanceof File) {
-            if (!$archiveFile->exists()) {
+            if (! $archiveFile->exists()) {
                 throw new \common_Exception('Unable to open archive ' . '/' . $archiveFile->getPrefix());
             }
             $tmpDir = static::createTempDir();
@@ -511,7 +503,7 @@ class tao_helpers_File
         $archiveObj = new \ZipArchive();
         $archiveHandle = $archiveObj->open($archiveFile);
 
-        if (true !== $archiveHandle) {
+        if ($archiveHandle !== true) {
             throw new \common_Exception('Unable to open archive ' . $archiveFile);
         }
 
@@ -520,7 +512,7 @@ class tao_helpers_File
         }
 
         $archiveDir = static::createTempDir();
-        if (!$archiveObj->extractTo($archiveDir)) {
+        if (! $archiveObj->extractTo($archiveDir)) {
             $archiveObj->close();
             throw new \common_Exception('Unable to extract to ' . $archiveDir);
         }
@@ -554,7 +546,7 @@ class tao_helpers_File
         $i = 0;
         $renameCount = 0;
 
-        while (($entryName = $zipArchive->getNameIndex($i)) || ($statIndex = $zipArchive->statIndex($i,ZipArchive::FL_UNCHANGED))) {
+        while (($entryName = $zipArchive->getNameIndex($i)) || ($statIndex = $zipArchive->statIndex($i, ZipArchive::FL_UNCHANGED))) {
             if ($entryName) {
                 $newEntryName = str_replace($oldname, $newname, $entryName);
                 if ($zipArchive->renameIndex($i, $newEntryName)) {
@@ -582,7 +574,7 @@ class tao_helpers_File
      */
     public static function checkWhetherArchiveIsBomb(\ZipArchive $archive, $minCompressionRatioToBeBomb = 200)
     {
-        if (!$archive->filename) {
+        if (! $archive->filename) {
             throw new common_Exception('ZIP archive should be opened before checking for a ZIP bomb');
         }
 
@@ -611,7 +603,7 @@ class tao_helpers_File
         $i = 0;
         $exclusionCount = 0;
 
-        while (($entryName = $zipArchive->getNameIndex($i)) || ($statIndex = $zipArchive->statIndex($i,ZipArchive::FL_UNCHANGED))) {
+        while (($entryName = $zipArchive->getNameIndex($i)) || ($statIndex = $zipArchive->statIndex($i, ZipArchive::FL_UNCHANGED))) {
             if ($entryName) {
                 // Not previously removed index.
                 if (preg_match($pattern, $entryName) === 1 && $zipArchive->deleteIndex($i)) {
@@ -639,7 +631,7 @@ class tao_helpers_File
         $i = 0;
         $entries = [];
 
-        while (($entryName = $zipArchive->getNameIndex($i)) || ($statIndex = $zipArchive->statIndex($i,ZipArchive::FL_UNCHANGED))) {
+        while (($entryName = $zipArchive->getNameIndex($i)) || ($statIndex = $zipArchive->statIndex($i, ZipArchive::FL_UNCHANGED))) {
             if ($entryName) {
                 $entries[] = $entryName;
             }
@@ -649,80 +641,94 @@ class tao_helpers_File
 
         return $entries;
     }
-    
+
     /**
      * Gets the local path to a publicly available resource
      * no verification if the file should be accessible
-     * 
+     *
      * @param string $url
      * @throws common_Exception
      * @return string
      */
-    public static function getPathFromUrl($url) {
-        if (substr($url, 0, strlen(ROOT_URL)) != ROOT_URL) {
-            throw new common_Exception($url.' does not lie within the tao instalation path');
+    public static function getPathFromUrl($url)
+    {
+        if (substr($url, 0, strlen(ROOT_URL)) !== ROOT_URL) {
+            throw new common_Exception($url . ' does not lie within the tao instalation path');
         }
         $subUrl = substr($url, strlen(ROOT_URL));
-        $parts = array();
+        $parts = [];
         foreach (explode('/', $subUrl) as $directory) {
             $parts[] = urldecode($directory);
         }
-        $path = ROOT_PATH.implode(DIRECTORY_SEPARATOR, $parts);
+        $path = ROOT_PATH . implode(DIRECTORY_SEPARATOR, $parts);
         if (self::securityCheck($path)) {
             return $path;
-        } else {
-            throw new common_Exception($url.' is not secure');
         }
+        throw new common_Exception($url . ' is not secure');
     }
-    
+
     /**
      * Get a safe filename for a proposed filename.
-     * 
+     *
      * If directory is specified it will return a filename which is
      * safe to not overwritte an existing file. This function is not injective.
-     * 
+     *
      * @param string $fileName
      * @param string $directory
      *
      * @return string
      */
-    public static function getSafeFileName($fileName, $directory = null) {
+    public static function getSafeFileName($fileName, $directory = null)
+    {
         $lastDot = strrpos($fileName, '.');
         $file = $lastDot ? substr($fileName, 0, $lastDot) : $fileName;
-        $ending = $lastDot ? substr($fileName, $lastDot+1) : '';
+        $ending = $lastDot ? substr($fileName, $lastDot + 1) : '';
         $safeName = self::removeSpecChars($file);
         $safeEnding = empty($ending)
             ? ''
-            : '.'.self::removeSpecChars($ending);
-        
-        if ($directory != null && file_exists($directory.$safeName.$safeEnding)) {
+            : '.' . self::removeSpecChars($ending);
+
+        if ($directory !== null && file_exists($directory . $safeName . $safeEnding)) {
             $count = 1;
-            while (file_exists($directory.$safeName.'_'.$count.$safeEnding)) {
+            while (file_exists($directory . $safeName . '_' . $count . $safeEnding)) {
                 $count++;
             }
-            $safeName = $safeName.'_'.$count;
-        } 
-        
-        return $safeName.$safeEnding;
+            $safeName = $safeName . '_' . $count;
+        }
+
+        return $safeName . $safeEnding;
     }
-    
+
+    /**
+     * Check if the directory is empty
+     *
+     * @param string $directory
+     * @return boolean
+     */
+    public static function isDirEmpty($directory)
+    {
+        $path = self::concat([$directory, '*']);
+        return count(glob($path, GLOB_NOSORT)) === 0;
+    }
+
     /**
      * Remove special characters for safe filenames
-     * 
+     *
      * @author Dieter Raber
-     * 
+     *
      * @param string $string
      * @param string $repl
      * @param string $lower
      *
      * @return string
      */
-    private static function removeSpecChars($string, $repl='-', $lower=true) {
-        $spec_chars = array (
-            'Á' => 'A', 'Â' => 'A', 'Ã' => 'A', 'Ä' => 'Ae', 'Å' => 'A','Æ' => 'A', 'Ç' => 'C',
+    private static function removeSpecChars($string, $repl = '-', $lower = true)
+    {
+        $spec_chars = [
+            'Á' => 'A', 'Â' => 'A', 'Ã' => 'A', 'Ä' => 'Ae', 'Å' => 'A', 'Æ' => 'A', 'Ç' => 'C',
             'È' => 'E', 'É' => 'E', 'Ê' => 'E', 'Ë' => 'E', 'Ì' => 'I', 'Í' => 'I', 'Î' => 'I',
             'Ï' => 'I', 'Ð' => 'E', 'Ñ' => 'N', 'Ò' => 'O', 'Ó' => 'O', 'Ô' => 'O', 'Õ' => 'O',
-            'Ö' => 'Oe', 'Ø' => 'O', 'Ù' => 'U', 'Ú' => 'U','Û' => 'U', 'Ü' => 'Ue', 'Ý' => 'Y',
+            'Ö' => 'Oe', 'Ø' => 'O', 'Ù' => 'U', 'Ú' => 'U', 'Û' => 'U', 'Ü' => 'Ue', 'Ý' => 'Y',
             'Þ' => 'T', 'ß' => 'ss', 'à' => 'a', 'á' => 'a', 'â' => 'a', 'ã' => 'a', 'ä' => 'ae',
             'å' => 'a', 'æ' => 'ae', 'ç' => 'c', 'è' => 'e', 'é' => 'e', 'ê' => 'e', 'ë' => 'e',
             'ì' => 'i', 'í' => 'i', 'î' => 'i',  'ï' => 'i', 'ð' => 'e', 'ñ' => 'n', 'ò' => 'o',
@@ -731,21 +737,10 @@ class tao_helpers_File
             '\'' => $repl, '.' => $repl, '/' => $repl, '&' => $repl, ')' => $repl, '(' => $repl,
             '[' => $repl, ']' => $repl, '_' => $repl, ',' => $repl, ':' => $repl, '-' => $repl,
             '!' => $repl, '"' => $repl, '`' => $repl, '°' => $repl, '%' => $repl, ' ' => $repl,
-            '  ' => $repl, '{' => $repl, '}' => $repl, '#' => $repl, '’' => $repl
-        );
+            '  ' => $repl, '{' => $repl, '}' => $repl, '#' => $repl, '’' => $repl,
+        ];
         $string = strtr($string, $spec_chars);
-        $string = trim(preg_replace("~[^a-z0-9]+~i", $repl, $string), $repl);
+        $string = trim(preg_replace('~[^a-z0-9]+~i', $repl, $string), $repl);
         return $lower ? strtolower($string) : $string;
-    }
-    
-    /**
-     * Check if the directory is empty
-     * 
-     * @param string $directory
-     * @return boolean
-     */
-    public static function isDirEmpty($directory){
-        $path = self::concat(array($directory, '*'));
-        return (count(glob($path, GLOB_NOSORT)) === 0 );
     }
 }

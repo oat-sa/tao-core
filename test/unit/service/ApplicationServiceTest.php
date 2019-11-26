@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,14 +22,14 @@
 
 namespace oat\tao\test\unit\service;
 
+use common_exception_Error;
+use common_ext_Extension;
+use common_ext_ExtensionsManager;
+use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
 use oat\oatbox\service\ServiceNotFoundException;
 use oat\tao\model\service\ApplicationService;
-use common_ext_Extension;
-use common_ext_ExtensionsManager;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use common_exception_Error;
-use oat\generis\test\MockObject;
 
 /**
  * Class ApplicationServiceTest
@@ -56,18 +59,6 @@ class ApplicationServiceTest extends TestCase
     {
         parent::tearDown();
         unset($this->instance, $this->extensionMock);
-    }
-
-    private function mockServiceLocator()
-    {
-        $extensionManagerProphecy = $this->prophesize(common_ext_ExtensionsManager::class);
-        $extensionManagerProphecy->getExtensionById('tao')->willReturn($this->extensionMock);
-        $extensionManagerMock = $extensionManagerProphecy->reveal();
-
-        $serviceLocatorMock = $this->getServiceLocatorMock([
-            common_ext_ExtensionsManager::SERVICE_ID => $extensionManagerMock,
-        ]);
-        $this->instance->setServiceLocator($serviceLocatorMock);
     }
 
     public function testGetConstantValueServiceLocatorEmpty()
@@ -113,7 +104,7 @@ class ApplicationServiceTest extends TestCase
 
         $version = $this->instance->getPlatformVersion();
 
-        $this->assertEquals($expectedVersion, $version, 'Version must be as expected.');
+        $this->assertSame($expectedVersion, $version, 'Version must be as expected.');
     }
 
     /**
@@ -129,7 +120,7 @@ class ApplicationServiceTest extends TestCase
 
         $releaseStatus = $this->instance->isDemo();
 
-        $this->assertEquals($expectedResult, $releaseStatus, 'Release statusmust be as expected.');
+        $this->assertSame($expectedResult, $releaseStatus, 'Release statusmust be as expected.');
     }
 
     public function testGetDefaultEncoding()
@@ -144,7 +135,7 @@ class ApplicationServiceTest extends TestCase
 
         $encoding = $this->instance->getDefaultEncoding();
 
-        $this->assertEquals($expectedEncoding, $encoding, 'Product name must be as expected.');
+        $this->assertSame($expectedEncoding, $encoding, 'Product name must be as expected.');
     }
 
     public function testGetProductName()
@@ -159,7 +150,7 @@ class ApplicationServiceTest extends TestCase
 
         $productName = $this->instance->getProductName();
 
-        $this->assertEquals($expectedProductName, $productName, 'Product name must be as expected.');
+        $this->assertSame($expectedProductName, $productName, 'Product name must be as expected.');
     }
 
     /**
@@ -173,20 +164,21 @@ class ApplicationServiceTest extends TestCase
      * @throws \common_ext_ExtensionException
      * @throws common_exception_Error
      */
-    public function testGetVersionName($buildNumber, $taoVersion, $expected) {
+    public function testGetVersionName($buildNumber, $taoVersion, $expected)
+    {
         $this->extensionMock->expects($this->once())
             ->method('getConstant')
             ->with('TAO_VERSION')
             ->willReturn($taoVersion);
         $this->mockServiceLocator();
 
-        if (!is_null($buildNumber)) {
+        if ($buildNumber !== null) {
             $this->instance->setOption(ApplicationService::OPTION_BUILD_NUMBER, $buildNumber);
         }
 
         $versionName = $this->instance->getVersionName();
 
-        $this->assertEquals($expected, $versionName, 'Version name must be as expected.');
+        $this->assertSame($expected, $versionName, 'Version name must be as expected.');
     }
 
     public function isDemoProvider()
@@ -220,28 +212,41 @@ class ApplicationServiceTest extends TestCase
      *
      * @return array
      */
-    public function providerGetVersionName() {
+    public function providerGetVersionName()
+    {
         return [
             'Without build number' => [
                 'buildNumber' => null,
                 'taoVersion' => 'TAO_VERSION',
-                'expected' => 'TAO_VERSION'
+                'expected' => 'TAO_VERSION',
             ],
             'With empty number' => [
                 'buildNumber' => '',
                 'taoVersion' => 'TAO_VERSION',
-                'expected' => 'vTAO_VERSION'
+                'expected' => 'vTAO_VERSION',
             ],
             'With not numeric number' => [
                 'buildNumber' => 'NOT_NUMERIC_NUMBER',
                 'taoVersion' => 'TAO_VERSION',
-                'expected' => 'vTAO_VERSION'
+                'expected' => 'vTAO_VERSION',
             ],
             'With numeric number' => [
                 'buildNumber' => '123',
                 'taoVersion' => 'TAO_VERSION',
-                'expected' => 'vTAO_VERSION+build123'
+                'expected' => 'vTAO_VERSION+build123',
             ],
         ];
+    }
+
+    private function mockServiceLocator()
+    {
+        $extensionManagerProphecy = $this->prophesize(common_ext_ExtensionsManager::class);
+        $extensionManagerProphecy->getExtensionById('tao')->willReturn($this->extensionMock);
+        $extensionManagerMock = $extensionManagerProphecy->reveal();
+
+        $serviceLocatorMock = $this->getServiceLocatorMock([
+            common_ext_ExtensionsManager::SERVICE_ID => $extensionManagerMock,
+        ]);
+        $this->instance->setServiceLocator($serviceLocatorMock);
     }
 }

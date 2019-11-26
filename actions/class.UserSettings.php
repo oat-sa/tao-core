@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,7 +21,6 @@
  *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  *				 2013-2018 (update and modification) Open Assessment Technologies SA;
- *
  */
 
 use oat\generis\model\GenerisRdf;
@@ -33,7 +35,6 @@ use tao_helpers_form_FormContainer as FormContainer;
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  * @package tao
- *
  */
 class tao_actions_UserSettings extends tao_actions_CommonModule
 {
@@ -44,7 +45,7 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
      */
     public function password()
     {
-        $this->setData('formTitle', __("Change password"));
+        $this->setData('formTitle', __('Change password'));
         if ($this->getServiceLocator()->get(ApplicationService::SERVICE_ID)->isDemo()) {
             $this->setData('myForm', __('Unable to change passwords in demo mode'));
         } else {
@@ -89,11 +90,10 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
 
             $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($currentUser);
 
-            if($binder->bind($userSettings)){
-
+            if ($binder->bind($userSettings)) {
                 $this->getSession()->refresh();
-                $uiLangCode		= tao_models_classes_LanguageService::singleton()->getCode($uiLang);
-                $extension      = $this->getServiceLocator()->get(common_ext_ExtensionsManager::SERVICE_ID)->getExtensionById('tao');
+                $uiLangCode = tao_models_classes_LanguageService::singleton()->getCode($uiLang);
+                $extension = $this->getServiceLocator()->get(common_ext_ExtensionsManager::SERVICE_ID)->getExtensionById('tao');
                 tao_helpers_I18n::init($extension, $uiLangCode);
 
                 $this->setData('message', __('Settings updated'));
@@ -109,7 +109,13 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
         $this->setView('form/settings_user.tpl');
     }
 
-
+    /**
+     * @return tao_models_classes_UserService
+     */
+    protected function getUserService()
+    {
+        return $this->getServiceLocator()->get(tao_models_classes_UserService::SERVICE_ID);
+    }
 
     /**
      * Get the settings of the current user. This method returns an associative array with the following keys:
@@ -123,31 +129,24 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
      *
      * @return array The URIs of the languages.
      */
-    private function getUserSettings(){
+    private function getUserSettings()
+    {
         $currentUser = $this->getUserService()->getCurrentUser();
         $props = $currentUser->getPropertiesValues([
             $this->getProperty(GenerisRdf::PROPERTY_USER_UILG),
             $this->getProperty(GenerisRdf::PROPERTY_USER_DEFLG),
-            $this->getProperty(GenerisRdf::PROPERTY_USER_TIMEZONE)
+            $this->getProperty(GenerisRdf::PROPERTY_USER_TIMEZONE),
         ]);
         $langs = [];
-        if (!empty($props[GenerisRdf::PROPERTY_USER_UILG])) {
+        if (! empty($props[GenerisRdf::PROPERTY_USER_UILG])) {
             $langs['ui_lang'] = current($props[GenerisRdf::PROPERTY_USER_UILG])->getUri();
         }
-        if (!empty($props[GenerisRdf::PROPERTY_USER_DEFLG])) {
+        if (! empty($props[GenerisRdf::PROPERTY_USER_DEFLG])) {
             $langs['data_lang'] = current($props[GenerisRdf::PROPERTY_USER_DEFLG])->getUri();
         }
-        $langs['timezone'] = !empty($props[GenerisRdf::PROPERTY_USER_TIMEZONE])
+        $langs['timezone'] = ! empty($props[GenerisRdf::PROPERTY_USER_TIMEZONE])
             ? (string) current($props[GenerisRdf::PROPERTY_USER_TIMEZONE])
             : TIME_ZONE;
         return $langs;
-    }
-
-    /**
-     * @return tao_models_classes_UserService
-     */
-    protected function getUserService()
-    {
-        return $this->getServiceLocator()->get(tao_models_classes_UserService::SERVICE_ID);
     }
 }

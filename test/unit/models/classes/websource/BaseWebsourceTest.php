@@ -1,18 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace oat\tao\test\model\websource;
 
+use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
 use oat\oatbox\filesystem\FileSystem;
 use oat\tao\model\websource\BaseWebsource;
-use oat\generis\test\MockObject;
 
 class BaseWebsourceTest extends TestCase
 {
     /** @var BaseWebsource | MockObject */
     private $baseWebsource;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->baseWebsource = $this->getMockForAbstractClass(
             BaseWebsource::class,
@@ -35,7 +37,7 @@ class BaseWebsourceTest extends TestCase
             ->willReturn($this->getFileSystemMockWithMimeType($mimeType))
         ;
 
-        $this->assertEquals($expectedMimeType, $this->baseWebsource->getMimetype($fileName));
+        $this->assertSame($expectedMimeType, $this->baseWebsource->getMimetype($fileName));
     }
 
     public function mimeTypeProvider()

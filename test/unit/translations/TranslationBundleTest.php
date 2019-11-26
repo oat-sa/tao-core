@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,7 +22,6 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @license GPLv2
  * @package tao
- *
  */
 
 namespace oat\tao\test\unit\translation;
@@ -44,9 +46,10 @@ class TranslationBundleTest extends TestCase
     /**
      * Set up the temp directory
      */
-    public static function setUpBeforeClass(){
+    public static function setUpBeforeClass()
+    {
         self::$tmpDir = sys_get_temp_dir() . '/phpunit-' . __CLASS__;
-        if(!file_exists(self::$tmpDir)){
+        if (! file_exists(self::$tmpDir)) {
             mkdir(self::$tmpDir);
         }
     }
@@ -54,22 +57,24 @@ class TranslationBundleTest extends TestCase
     /**
      * Removes the temporary directory
      */
-    public static function tearDownAfterClass(){
-        tao_helpers_File::delTree(self::$tmpDir);  
+    public static function tearDownAfterClass()
+    {
+        tao_helpers_File::delTree(self::$tmpDir);
     }
 
     /**
      * Provides wrong constructor parameters
      * @return array() the data
-     */     
-    public function wrongConstructorProvider(){
-        return array(
-            array(true, array(), null),
-            array('test', 12, 10),
-            array(null, null, false),
-        );
-    }   
- 
+     */
+    public function wrongConstructorProvider()
+    {
+        return [
+            [true, [], null],
+            ['test', 12, 10],
+            [null, null, false],
+        ];
+    }
+
     /**
      * Test constructor with wrong parameters
      * @param string $langCode
@@ -77,41 +82,44 @@ class TranslationBundleTest extends TestCase
      * @dataProvider wrongConstructorProvider
      * @expectedException InvalidArgumentException
      */
-    public function testWrongConstructor($langCode, $extensions, $basePath){
-       new TranslationBundle($langCode, $extensions, $basePath); 
+    public function testWrongConstructor($langCode, $extensions, $basePath)
+    {
+        new TranslationBundle($langCode, $extensions, $basePath);
     }
-   
+
     /**
      * Provides data to test the bundle
      * @return array() the data
-     */     
-    public function bundleProvider(){
+     */
+    public function bundleProvider()
+    {
         return [
-           ['en-US', ['tao', 'taoItems'], md5('en-US_tao-taoItems')],
-           ['fr-FR', ['tao', 'taoItems'], md5('fr-FR_tao-taoItems')],
+            ['en-US', ['tao', 'taoItems'], md5('en-US_tao-taoItems')],
+            ['fr-FR', ['tao', 'taoItems'], md5('fr-FR_tao-taoItems')],
         ];
-    }   
- 
+    }
+
     /**
      * Test the bundle
      * @param string $langCode
      * @param array $extensions
      * @dataProvider bundleProvider
      */
-    public function testBundle($langCode, $extensions, $expectedSerial){
-       $bundle = new TranslationBundle($langCode, $extensions, __DIR__ . '/../../../'); 
+    public function testBundle($langCode, $extensions, $expectedSerial)
+    {
+        $bundle = new TranslationBundle($langCode, $extensions, __DIR__ . '/../../../');
 
-       $serial = $bundle->getSerial();
-       $this->assertTrue(is_string($serial));
-       $this->assertEquals($expectedSerial, $serial);
+        $serial = $bundle->getSerial();
+        $this->assertTrue(is_string($serial));
+        $this->assertSame($expectedSerial, $serial);
 
-       if(is_dir(self::$tmpDir)){
+        if (is_dir(self::$tmpDir)) {
             $file = $bundle->generateTo(self::$tmpDir);
             $this->assertTrue(file_exists($file));
 
             $content = json_decode(file_get_contents($file), true);
             $this->assertTrue(is_array($content));
-            $this->assertEquals($expectedSerial, $content['serial']);
+            $this->assertSame($expectedSerial, $content['serial']);
         }
     }
 }

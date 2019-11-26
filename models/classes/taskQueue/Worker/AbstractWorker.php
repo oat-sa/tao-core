@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,13 +18,17 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\model\taskQueue\Worker;
 
 use common_report_Report as Report;
+use oat\generis\model\OntologyAwareTrait;
+use oat\generis\model\user\UserFactoryServiceInterface;
 use oat\oatbox\log\LoggerAwareTrait;
+use oat\oatbox\service\ServiceManagerAwareInterface;
+use oat\oatbox\service\ServiceManagerAwareTrait;
+use oat\oatbox\session\SessionService;
 use oat\oatbox\session\StatelessSession;
 use oat\tao\model\taskQueue\QueuerInterface;
 use oat\tao\model\taskQueue\Task\CallbackTaskInterface;
@@ -30,11 +37,6 @@ use oat\tao\model\taskQueue\Task\TaskInterface;
 use oat\tao\model\taskQueue\TaskLog\CategorizedStatus;
 use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
 use oat\tao\model\taskQueue\TaskLogInterface;
-use oat\oatbox\service\ServiceManagerAwareInterface;
-use oat\oatbox\service\ServiceManagerAwareTrait;
-use oat\generis\model\user\UserFactoryServiceInterface;
-use oat\generis\model\OntologyAwareTrait;
-use oat\oatbox\session\SessionService;
 
 abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInterface
 {
@@ -67,7 +69,7 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
      */
     public function processTask(TaskInterface $task)
     {
-        if (!$this->isTaskCancelled($task)) {
+        if (! $this->isTaskCancelled($task)) {
             $report = Report::createInfo(__('Running task %s', $task->getId()));
             try {
                 $this->startUserSession($task);
@@ -77,7 +79,7 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
                 $rowsTouched = $this->taskLog->setStatus($task->getId(), TaskLogInterface::STATUS_RUNNING, TaskLogInterface::STATUS_DEQUEUED);
 
                 // if the task is being executed by another worker, just return, no report needs to be saved
-                if (!$rowsTouched) {
+                if (! $rowsTouched) {
                     $this->logInfo('Task ' . $task->getId() . ' seems to be processed by another worker.', $this->getLogContext());
                     return TaskLogInterface::STATUS_UNKNOWN;
                 }
@@ -90,7 +92,7 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
 
                 $this->logInfo('Task ' . $task->getId() . ' has been processed.', $this->getLogContext());
 
-                if (!$taskReport instanceof Report) {
+                if (! $taskReport instanceof Report) {
                     $this->logWarning('Task ' . $task->getId() . ' should return a report object.', $this->getLogContext());
                     //todo: isn't this message confusinig?
                     $taskReport = Report::createInfo(__('Task not returned any report.'));
@@ -108,35 +110,35 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
             }
 
             // Initializing status
-            $status = $report->getType() == Report::TYPE_ERROR || $report->containsError()
+            $status = $report->getType() === Report::TYPE_ERROR || $report->containsError()
                 ? TaskLogInterface::STATUS_FAILED
                 : TaskLogInterface::STATUS_COMPLETED;
 
             // Change the status if the task has children
-            if ($task->hasChildren() && $status == TaskLogInterface::STATUS_COMPLETED) {
+            if ($task->hasChildren() && $status === TaskLogInterface::STATUS_COMPLETED) {
                 $status = TaskLogInterface::STATUS_CHILD_RUNNING;
             }
 
             $cloneCreated = false;
 
             // if the task is a special sync task: the status of the parent task depends on the status of the remote task.
-            if ($this->isRemoteTaskSynchroniser($task) && $status == TaskLogInterface::STATUS_COMPLETED) {
+            if ($this->isRemoteTaskSynchroniser($task) && $status === TaskLogInterface::STATUS_COMPLETED) {
                 // if the remote task is still in progress, we have to reschedule this task
                 // the RESTApi returns TaskLogCategorizedStatus values
-                if (in_array($this->getRemoteStatus($task), [CategorizedStatus::STATUS_CREATED, CategorizedStatus::STATUS_IN_PROGRESS])) {
+                if (in_array($this->getRemoteStatus($task), [CategorizedStatus::STATUS_CREATED, CategorizedStatus::STATUS_IN_PROGRESS], true)) {
                     if ($this->queuer->count() <= 1) {
                         //if there is less than or exactly one task in the queue, let's sleep a bit, in order not to regenerate the same task too much
                         sleep(3);
                     }
 
                     $cloneCreated = $this->queuer->enqueue(clone $task, $task->getLabel());
-                } elseif ($this->getRemoteStatus($task) == CategorizedStatus::STATUS_FAILED) {
+                } elseif ($this->getRemoteStatus($task) === CategorizedStatus::STATUS_FAILED) {
                     // if the remote task status is failed
                     $status = TaskLogInterface::STATUS_FAILED;
                 }
             }
 
-            if (!$cloneCreated) {
+            if (! $cloneCreated) {
                 $this->taskLog->setReport($task->getId(), $report, $status);
             } else {
                 // if there is a clone, delete the old task log
@@ -148,7 +150,7 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
             if ($task->hasParent()) {
                 /** @var EntityInterface $parentLogTask */
                 $parentLogTask = $this->taskLog->getById($task->getParentId());
-                if (!$parentLogTask->isMasterStatus()) {
+                if (! $parentLogTask->isMasterStatus()) {
                     $this->taskLog->updateParent($task->getParentId());
                 }
             }

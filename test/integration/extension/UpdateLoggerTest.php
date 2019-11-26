@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,12 +18,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA
- *
  */
 
-use oat\tao\test\TaoPhpUnitTestRunner;
-use oat\tao\model\extension\UpdateLogger;
 use oat\oatbox\filesystem\Directory;
+use oat\tao\model\extension\UpdateLogger;
+use oat\tao\test\TaoPhpUnitTestRunner;
 
 /**
  * @package tao
@@ -32,7 +34,7 @@ class UpdateLoggerTest extends TaoPhpUnitTestRunner
         $tmpDir = $this->getTempDirectory();
         $logger = new UpdateLogger([UpdateLogger::OPTION_FILESYSTEM => $tmpDir->getFileSystemId()]);
         $logger->setServiceLocator($tmpDir->getServiceLocator());
-        
+
         $files = [];
         foreach ($tmpDir->getIterator(Directory::ITERATOR_FILE) as $file) {
             $files[] = $file;
@@ -46,10 +48,9 @@ class UpdateLoggerTest extends TaoPhpUnitTestRunner
         }
         $this->assertCount(2, $files);
         $file = reset($files);
-        
+
         $content = $file->read();
         $this->assertFalse(strpos($content, 'WeirdString'));
         $this->assertNotFalse(strpos($content, 'SampleError'));
     }
-
 }

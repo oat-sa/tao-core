@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,12 +23,12 @@
  *               2013-2018 (update and modification) Open Assessment Technologies SA;
  */
 
+use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\event\EventManager;
 use oat\tao\model\import\TaskParameterProviderInterface;
 use oat\tao\model\task\ImportByHandler;
 use oat\tao\model\taskQueue\QueueDispatcher;
 use oat\tao\model\taskQueue\TaskLogActionTrait;
-use oat\generis\model\OntologyAwareTrait;
 
 /**
  * This controller provide the actions to import resources
@@ -33,25 +36,16 @@ use oat\generis\model\OntologyAwareTrait;
  * @author  CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  * @package tao
- *
  */
 class tao_actions_Import extends tao_actions_CommonModule
 {
-    /**
-     * @var tao_models_classes_import_ImportHandler[]
-     */
-    private $availableHandlers = [];
-
     use TaskLogActionTrait;
     use OntologyAwareTrait;
 
     /**
-     * @return EventManager
+     * @var tao_models_classes_import_ImportHandler[]
      */
-    protected function getEventManager()
-    {
-        return $this->getServiceLocator()->get(EventManager::SERVICE_ID);
-    }
+    private $availableHandlers = [];
 
     /**
      * initialize the classUri and execute the upload action
@@ -83,7 +77,8 @@ class tao_actions_Import extends tao_actions_CommonModule
                     ImportByHandler::PARAM_PARENT_CLASS => $this->getCurrentClass()->getUri(),
                     ImportByHandler::PARAM_OWNER => \common_session_SessionManager::getSession()->getUser()->getIdentifier(),
                 ],
-                __('Import a %s into "%s"', $importer->getLabel(), $this->getCurrentClass()->getLabel()));
+                __('Import a %s into "%s"', $importer->getLabel(), $this->getCurrentClass()->getLabel())
+            );
 
             return $this->returnTaskJson($task);
         }
@@ -99,6 +94,14 @@ class tao_actions_Import extends tao_actions_CommonModule
     }
 
     /**
+     * @return EventManager
+     */
+    protected function getEventManager()
+    {
+        return $this->getServiceLocator()->get(EventManager::SERVICE_ID);
+    }
+
+    /**
      * Returns the currently selected import handler
      * or the import handler to use by default
      *
@@ -110,16 +113,14 @@ class tao_actions_Import extends tao_actions_CommonModule
 
         if ($this->hasRequestParameter('importHandler')) {
             foreach ($handlers as $importHandler) {
-                if (get_class($importHandler) == $_POST['importHandler']) {
+                if (get_class($importHandler) === $_POST['importHandler']) {
                     return $importHandler;
                 }
             }
         }
 
         $availableImportHandlers = $this->getAvailableImportHandlers();
-        $currentImporter = reset($availableImportHandlers);
-
-        return $currentImporter;
+        return reset($availableImportHandlers);
     }
 
     /**
@@ -133,7 +134,7 @@ class tao_actions_Import extends tao_actions_CommonModule
         if (empty($this->availableHandlers)) {
             $this->availableHandlers = [
                 new tao_models_classes_import_RdfImporter(),
-                new tao_models_classes_import_CsvImporter()
+                new tao_models_classes_import_CsvImporter(),
             ];
         }
 

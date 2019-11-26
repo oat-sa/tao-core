@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\model\taskQueue\Worker;
@@ -37,8 +39,6 @@ interface WorkerInterface extends LoggerAwareInterface
 
     /**
      * Start processing tasks from a given queue
-     *
-     * @return void
      */
     public function run();
 }

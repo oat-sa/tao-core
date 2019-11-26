@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -29,8 +32,9 @@ use oat\oatbox\service\ConfigurableService;
  */
 abstract class AbstractAuthService extends ConfigurableService
 {
-    const OPTION_TYPES = 'types';
-    const OPTION_DEFAULT_TYPE = 'type';
+    public const OPTION_TYPES = 'types';
+
+    public const OPTION_DEFAULT_TYPE = 'type';
 
     /**
      * Get all available type from config
@@ -54,7 +58,7 @@ abstract class AbstractAuthService extends ConfigurableService
         if ($resource) {
             $authTypeUri = $resource->getUri();
             foreach ($this->getOption(self::OPTION_TYPES) as $type) {
-                if ($type instanceof AbstractAuthType && $type->getAuthClass()->getUri() == $authTypeUri) {
+                if ($type instanceof AbstractAuthType && $type->getAuthClass()->getUri() === $authTypeUri) {
                     $authType = $type;
                 }
             }
@@ -62,7 +66,7 @@ abstract class AbstractAuthService extends ConfigurableService
             $authType = $this->getOption(self::OPTION_DEFAULT_TYPE);
         }
 
-        if (!isset($authType) || !is_a($authType, AbstractAuthType::class)) {
+        if (! isset($authType) || ! is_a($authType, AbstractAuthType::class)) {
             throw new \common_Exception('Auth type not defined');
         }
 

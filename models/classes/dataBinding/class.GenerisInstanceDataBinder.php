@@ -1,23 +1,25 @@
 <?php
-/**  
+
+declare(strict_types=1);
+
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
  */
 
 use oat\generis\model\OntologyRdf;
@@ -28,10 +30,8 @@ use oat\generis\model\OntologyRdf;
  * @access public
  * @author Jerome Bogaerts, <jerome@taotesting.com>
  * @package tao
- 
  */
-class tao_models_classes_dataBinding_GenerisInstanceDataBinder
-    extends tao_models_classes_dataBinding_AbstractDataBinder
+class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_models_classes_dataBinding_AbstractDataBinder
 {
     // --- ASSOCIATIONS ---
 
@@ -42,7 +42,7 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder
      * A target Resource.
      *
      * @access private
-     * @var Resource
+     * @var resource
      */
     private $targetInstance = null;
 
@@ -53,32 +53,12 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder
      *
      * @access public
      * @author Jerome Bogaerts, <jerome@taotesting.com>
-     * @param  Resource targetInstance The
+     * @param  resource $targetInstance The
      * @return mixed
      */
-    public function __construct( core_kernel_classes_Resource $targetInstance)
+    public function __construct(core_kernel_classes_Resource $targetInstance)
     {
-        
         $this->targetInstance = $targetInstance;
-        
-    }
-
-    /**
-     * Returns the target instance.
-     *
-     * @access protected
-     * @author Jerome Bogaerts, <jerome@taotesting.com>
-     * @return core_kernel_classes_Resource
-     */
-    protected function getTargetInstance()
-    {
-        $returnValue = null;
-
-        
-        $returnValue = $this->targetInstance;
-        
-
-        return $returnValue;
     }
 
     /**
@@ -102,59 +82,52 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder
         $returnValue = null;
 
         try {
-	        $instance = $this->getTargetInstance();
-			$eventManager = \oat\oatbox\service\ServiceManager::getServiceManager()->get(\oat\oatbox\event\EventManager::CONFIG_ID);
-	        foreach($data as $propertyUri => $propertyValue){
-
-                if($propertyUri == OntologyRdf::RDF_TYPE){
-                    foreach($instance->getTypes() as $type){
+            $instance = $this->getTargetInstance();
+            $eventManager = \oat\oatbox\service\ServiceManager::getServiceManager()->get(\oat\oatbox\event\EventManager::CONFIG_ID);
+            foreach ($data as $propertyUri => $propertyValue) {
+                if ($propertyUri === OntologyRdf::RDF_TYPE) {
+                    foreach ($instance->getTypes() as $type) {
                         $instance->removeType($type);
                     }
-                    if(!is_array($propertyValue)){
-                        $types = array($propertyValue) ;
+                    if (! is_array($propertyValue)) {
+                        $types = [$propertyValue];
                     }
-                    foreach($types as $type){
+                    foreach ($types as $type) {
                         $instance->setType(new core_kernel_classes_Class($type));
                     }
                     continue;
                 }
 
-                $prop = new core_kernel_classes_Property( $propertyUri );
+                $prop = new core_kernel_classes_Property($propertyUri);
                 $values = $instance->getPropertyValuesCollection($prop);
-                if($values->count() > 0){
-                    if(is_array($propertyValue)){
+                if ($values->count() > 0) {
+                    if (is_array($propertyValue)) {
                         $instance->removePropertyValues($prop);
-                        foreach($propertyValue as $aPropertyValue){
+                        foreach ($propertyValue as $aPropertyValue) {
                             $instance->setPropertyValue(
                                 $prop,
                                 $aPropertyValue
                             );
                         }
-
-                    }
-                    else if (is_string($propertyValue)){
+                    } elseif (is_string($propertyValue)) {
                         $instance->editPropertyValues(
                             $prop,
                             $propertyValue
                         );
-                        if(strlen(trim($propertyValue))==0){
+                        if (strlen(trim($propertyValue)) === 0) {
                             //if the property value is an empty space(the default value in a select input field), delete the corresponding triplet (and not all property values)
-                            $instance->removePropertyValues($prop, array('pattern' => ''));
+                            $instance->removePropertyValues($prop, ['pattern' => '']);
                         }
                     }
-                }
-                else{
-
-                    if(is_array($propertyValue)){
-
-                        foreach($propertyValue as $aPropertyValue){
+                } else {
+                    if (is_array($propertyValue)) {
+                        foreach ($propertyValue as $aPropertyValue) {
                             $instance->setPropertyValue(
                                 $prop,
                                 $aPropertyValue
                             );
                         }
-                    }
-                    else if (is_string($propertyValue) && strlen(trim($propertyValue)) !== 0 ){
+                    } elseif (is_string($propertyValue) && strlen(trim($propertyValue)) !== 0) {
                         $instance->setPropertyValue(
                             $prop,
                             $propertyValue
@@ -162,20 +135,31 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder
                     }
                 }
                 $eventManager->trigger(new \oat\tao\model\event\MetadataModified($instance, $propertyUri, $propertyValue));
-	        }
-	        
-	        $returnValue = $instance;
+            }
+
+            $returnValue = $instance;
+        } catch (common_Exception $e) {
+            $msg = "An error occured while binding property values to instance '': " . $e->getMessage();
+            $instanceUri = $instance->getUri();
+            throw new tao_models_classes_dataBinding_GenerisInstanceDataBindingException($msg);
         }
-        catch (common_Exception $e){
-        	$msg = "An error occured while binding property values to instance '': " . $e->getMessage();
-        	$instanceUri = $instance->getUri();
-        	throw new tao_models_classes_dataBinding_GenerisInstanceDataBindingException($msg);
-        }
-        
+
 
         return $returnValue;
     }
 
-}
+    /**
+     * Returns the target instance.
+     *
+     * @access protected
+     * @author Jerome Bogaerts, <jerome@taotesting.com>
+     * @return core_kernel_classes_Resource
+     */
+    protected function getTargetInstance()
+    {
+        $returnValue = null;
 
-?>
+
+        return $this->targetInstance;
+    }
+}

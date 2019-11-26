@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\model\taskQueue\Task;
@@ -26,15 +28,23 @@ namespace oat\tao\model\taskQueue\Task;
 interface TaskInterface extends WorkerContextAwareInterface, ChildTaskAwareInterface, \JsonSerializable
 {
     // Fully Qualified Class Name
-    const JSON_TASK_CLASS_NAME_KEY = 'taskFqcn';
-    const JSON_METADATA_KEY = 'metadata';
-    const JSON_METADATA_ID_KEY = '__id__';
-    const JSON_METADATA_PARENT_ID_KEY = '__parent_id__';
-    const JSON_METADATA_MASTER_STATUS_KEY = '__master_status__';
-    const JSON_METADATA_OWNER_KEY = '__owner__';
-    const JSON_METADATA_CREATED_AT_KEY = '__created_at__';
-    const JSON_METADATA_LABEL_KEY = '__label__';
-    const JSON_PARAMETERS_KEY = 'parameters';
+    public const JSON_TASK_CLASS_NAME_KEY = 'taskFqcn';
+
+    public const JSON_METADATA_KEY = 'metadata';
+
+    public const JSON_METADATA_ID_KEY = '__id__';
+
+    public const JSON_METADATA_PARENT_ID_KEY = '__parent_id__';
+
+    public const JSON_METADATA_MASTER_STATUS_KEY = '__master_status__';
+
+    public const JSON_METADATA_OWNER_KEY = '__owner__';
+
+    public const JSON_METADATA_CREATED_AT_KEY = '__created_at__';
+
+    public const JSON_METADATA_LABEL_KEY = '__label__';
+
+    public const JSON_PARAMETERS_KEY = 'parameters';
 
     /**
      * @param string $id Should be a unique id. Use \common_Utils::getNewUri() to get one.

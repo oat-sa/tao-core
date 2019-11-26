@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA
- *
  */
 
 namespace oat\tao\model\http;
@@ -37,7 +39,8 @@ class ResponseEmitter
      */
     public function __invoke(ResponseInterface $response)
     {
-        $http_line = sprintf('HTTP/%s %s %s',
+        $http_line = sprintf(
+            'HTTP/%s %s %s',
             $response->getProtocolVersion(),
             $response->getStatusCode(),
             $response->getReasonPhrase()
@@ -45,14 +48,14 @@ class ResponseEmitter
         header($http_line, true, $response->getStatusCode());
         foreach ($response->getHeaders() as $name => $values) {
             foreach ($values as $value) {
-                header("$name: $value", false);
+                header("${name}: ${value}", false);
             }
         }
         $stream = $response->getBody();
         if ($stream->isSeekable()) {
             $stream->rewind();
         }
-        while (!$stream->eof()) {
+        while (! $stream->eof()) {
             echo $stream->read(1024 * 8);
         }
     }

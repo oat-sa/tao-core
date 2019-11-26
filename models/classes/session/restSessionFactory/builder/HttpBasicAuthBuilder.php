@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,13 +18,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA;
- *
  */
 
 namespace oat\tao\model\session\restSessionFactory\builder;
 
+use oat\oatbox\user\LoginFailedException;
 use oat\tao\model\session\restSessionFactory\SessionBuilder;
-use \oat\oatbox\user\LoginFailedException;
 
 class HttpBasicAuthBuilder implements SessionBuilder
 {
@@ -49,5 +51,4 @@ class HttpBasicAuthBuilder implements SessionBuilder
         $user = $authAdapter->authenticate();
         return new \common_session_RestSession($user);
     }
-
 }

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,9 +19,9 @@
  *
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA;
  */
+
 namespace oat\tao\model\search\index;
 
-use oat\oatbox\service\ServiceManager;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
@@ -30,19 +33,8 @@ class IndexIterator extends \IteratorIterator implements ServiceLocatorAwareInte
 {
     use ServiceLocatorAwareTrait;
 
-    /** @var IndexService  */
+    /** @var IndexService */
     private $indexService = null;
-
-        /**
-     * @return \oat\oatbox\service\ConfigurableService|IndexService
-     */
-    protected function getIndexer() {
-        if (is_null($this->indexService)) {
-            $this->indexService = $this->getServiceLocator()->get(IndexService::SERVICE_ID);
-        }
-
-        return $this->indexService;
-    }
 
     public function valid()
     {
@@ -54,7 +46,20 @@ class IndexIterator extends \IteratorIterator implements ServiceLocatorAwareInte
      * @throws \common_Exception
      * @throws \common_exception_InconsistentData
      */
-    public function current() {
+    public function current()
+    {
         return $this->getIndexer()->createDocumentFromResource($this->getInnerIterator()->current());
+    }
+
+    /**
+     * @return \oat\oatbox\service\ConfigurableService|IndexService
+     */
+    protected function getIndexer()
+    {
+        if ($this->indexService === null) {
+            $this->indexService = $this->getServiceLocator()->get(IndexService::SERVICE_ID);
+        }
+
+        return $this->indexService;
     }
 }

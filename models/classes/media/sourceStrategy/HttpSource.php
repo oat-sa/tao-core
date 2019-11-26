@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
- *
  */
+
 namespace oat\tao\model\media\sourceStrategy;
 
 use common_Logger;
@@ -60,25 +63,24 @@ class HttpSource implements MediaBrowser
 
         //if there is an http auth on the local domain, it's mandatory to auth with curl
         if (USE_HTTP_AUTH) {
-
             $addAuth = false;
-            $domains = array('localhost', '127.0.0.1', ROOT_URL);
+            $domains = ['localhost', '127.0.0.1', ROOT_URL];
 
             foreach ($domains as $domain) {
-                if (preg_match("/" . preg_quote($domain, '/') . "/", $url)) {
+                if (preg_match('/' . preg_quote($domain, '/') . '/', $url)) {
                     $addAuth = true;
                 }
             }
 
             if ($addAuth) {
                 curl_setopt($curlHandler, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-                curl_setopt($curlHandler, CURLOPT_USERPWD, USE_HTTP_USER . ":" . USE_HTTP_PASS);
+                curl_setopt($curlHandler, CURLOPT_USERPWD, USE_HTTP_USER . ':' . USE_HTTP_PASS);
             }
         }
 
         curl_exec($curlHandler);
         $httpCode = curl_getinfo($curlHandler, CURLINFO_HTTP_CODE);
-        $success = $httpCode == 200;
+        $success = $httpCode === 200;
         curl_close($curlHandler);
         fclose($fp);
         helpers_TimeOutHelper::reset();
@@ -96,7 +98,7 @@ class HttpSource implements MediaBrowser
 
         $content = @get_headers($url, 1);
 
-        if($content === false){
+        if ($content === false) {
             throw new \tao_models_classes_FileNotFoundException($url);
         }
 
@@ -116,11 +118,10 @@ class HttpSource implements MediaBrowser
      * (non-PHPdoc)
      * @see \oat\tao\model\media\MediaBrowser::getDirectory()
      */
-    public function getDirectory($parentLink = '/', $acceptableMime = array(), $depth = 1)
+    public function getDirectory($parentLink = '/', $acceptableMime = [], $depth = 1)
     {
         throw new \common_Exception('Unable to browse the internet');
     }
-
 
     public function getFileStream($link)
     {
@@ -128,8 +129,7 @@ class HttpSource implements MediaBrowser
         common_Logger::d('Getting Stream ' . $url);
 
         $response = $this->getRequest($url);
-        $stream = $response->getBody();
-        return $stream;
+        return $response->getBody();
     }
 
     /**

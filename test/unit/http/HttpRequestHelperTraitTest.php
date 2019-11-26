@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
- *
  */
 
 namespace oat\tao\test\unit\http;
@@ -38,12 +40,12 @@ class HttpRequestHelperTraitTest extends TestCase
         $controller = new ProxyController();
         $this->assertInstanceOf(Controller::class, $controller->setRequest($request));
 
-        $this->assertEquals($headers, $controller->getHeaders());
+        $this->assertSame($headers, $controller->getHeaders());
 
         $this->assertTrue($controller->hasHeader('titi'));
         $this->assertFalse($controller->hasHeader('notexist'));
 
-        $this->assertEquals(['headers'], $controller->getHeader('titi'));
+        $this->assertSame(['headers'], $controller->getHeader('titi'));
         $this->assertEmpty($controller->getHeader('notexist'));
     }
 
@@ -60,12 +62,12 @@ class HttpRequestHelperTraitTest extends TestCase
         $controller = new ProxyController();
         $this->assertInstanceOf(Controller::class, $controller->setRequest($request));
 
-        $this->assertEquals($parameters, $controller->getPostParameters());
+        $this->assertSame($parameters, $controller->getPostParameters());
 
         $this->assertTrue($controller->hasPostParameter('titi'));
         $this->assertFalse($controller->hasPostParameter('notexist'));
 
-        $this->assertEquals('headers', $controller->getPostParameter('titi'));
+        $this->assertSame('headers', $controller->getPostParameter('titi'));
         $this->assertEmpty($controller->getPostParameter('notexist'));
     }
 
@@ -82,12 +84,12 @@ class HttpRequestHelperTraitTest extends TestCase
         $controller = new ProxyController();
         $this->assertInstanceOf(Controller::class, $controller->setRequest($request));
 
-        $this->assertEquals($parameters, $controller->getGetParameters());
+        $this->assertSame($parameters, $controller->getGetParameters());
 
         $this->assertTrue($controller->hasGetParameter('titi'));
         $this->assertFalse($controller->hasGetParameter('notexist'));
 
-        $this->assertEquals('headers', $controller->getGetParameter('titi'));
+        $this->assertSame('headers', $controller->getGetParameter('titi'));
         $this->assertEmpty($controller->getGetParameter('notexist'));
     }
 
@@ -106,12 +108,12 @@ class HttpRequestHelperTraitTest extends TestCase
         $controller = new ProxyController();
         $this->assertInstanceOf(Controller::class, $controller->setRequest($request));
 
-        $this->assertEquals($parameters, $controller->getAttributeParameters());
+        $this->assertSame($parameters, $controller->getAttributeParameters());
 
         $this->assertTrue($controller->hasAttributeParameter('titi'));
         $this->assertFalse($controller->hasAttributeParameter('notexist'));
 
-        $this->assertEquals('headers', $controller->getAttributeParameter('titi'));
+        $this->assertSame('headers', $controller->getAttributeParameter('titi'));
         $this->assertEmpty($controller->getAttributeParameter('notexist'));
     }
 
@@ -128,12 +130,12 @@ class HttpRequestHelperTraitTest extends TestCase
         $controller = new ProxyController();
         $this->assertInstanceOf(Controller::class, $controller->setRequest($request));
 
-        $this->assertEquals($parameters, $controller->getCookieParams());
+        $this->assertSame($parameters, $controller->getCookieParams());
 
         $this->assertTrue($controller->hasCookie('titi'));
         $this->assertFalse($controller->hasCookie('notexist'));
 
-        $this->assertEquals('headers', $controller->getCookie('titi'));
+        $this->assertSame('headers', $controller->getCookie('titi'));
         $this->assertEmpty($controller->getCookie('notexist'));
     }
 
@@ -150,9 +152,8 @@ class HttpRequestHelperTraitTest extends TestCase
         $this->assertSame($method, $controller->getRequestMethod());
 
         $name = 'isRequest' . $method;
-        $this->assertTrue($controller->$name());
+        $this->assertTrue($controller->{$name}());
     }
-
 
     public function httpMethodProvider()
     {
@@ -177,7 +178,7 @@ class HttpRequestHelperTraitTest extends TestCase
             null,
             '1.1',
             [
-                'HTTP_X_REQUESTED_WITH' => 'xmlhttprequest'
+                'HTTP_X_REQUESTED_WITH' => 'xmlhttprequest',
             ]
         );
 
@@ -185,10 +186,10 @@ class HttpRequestHelperTraitTest extends TestCase
         $this->assertInstanceOf(Controller::class, $controller->setRequest($request));
 
         $this->assertTrue($controller->isXmlHttpRequest());
-        $this->assertEquals(['toto'], $controller->getUserAgent());
-        $this->assertEquals(['titi'], $controller->getContentType());
-        $this->assertEquals('/uri/path', $controller->getRequestURI());
-        $this->assertEquals('query=string', $controller->getQueryString());
+        $this->assertSame(['toto'], $controller->getUserAgent());
+        $this->assertSame(['titi'], $controller->getContentType());
+        $this->assertSame('/uri/path', $controller->getRequestURI());
+        $this->assertSame('query=string', $controller->getQueryString());
     }
 
     public function testEmptyHttpHelpers()
@@ -201,8 +202,7 @@ class HttpRequestHelperTraitTest extends TestCase
         $this->assertFalse($controller->isXmlHttpRequest());
         $this->assertEmpty($controller->getUserAgent());
         $this->assertEmpty($controller->getContentType());
-        $this->assertEquals('/', $controller->getRequestURI());
-        $this->assertEquals('', $controller->getQueryString());
+        $this->assertSame('/', $controller->getRequestURI());
+        $this->assertSame('', $controller->getQueryString());
     }
-
 }

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,16 +18,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\model\theme;
 
-
 use oat\oatbox\Configurable;
 
 /**
- *
  * @author Joel Bout
  */
 class ThemeService extends ThemeServiceAbstract
@@ -42,16 +42,16 @@ class ThemeService extends ThemeServiceAbstract
      */
     public function addTheme(Theme $theme, $protectAlreadyExistingThemes = true)
     {
-        $themes  = $this->getAllThemes();
+        $themes = $this->getAllThemes();
         $themeId = $theme->getId();
-        
+
         if ($protectAlreadyExistingThemes) {
             $themeId = $this->getUniqueId($theme);
         }
-        
+
         $themes[$themeId] = [
-            static::THEME_CLASS_OFFSET   => get_class($theme),
-            static::THEME_OPTIONS_OFFSET => ($theme instanceof Configurable) ? $theme->getOptions() : []
+            static::THEME_CLASS_OFFSET => get_class($theme),
+            static::THEME_OPTIONS_OFFSET => ($theme instanceof Configurable) ? $theme->getOptions() : [],
         ];
 
         $this->setOption(static::OPTION_AVAILABLE, $themes);
@@ -64,8 +64,8 @@ class ThemeService extends ThemeServiceAbstract
      */
     public function setCurrentTheme($themeId)
     {
-        if (!$this->hasTheme($themeId)) {
-            throw new \common_exception_Error('Theme '. $themeId .' not found');
+        if (! $this->hasTheme($themeId)) {
+            throw new \common_exception_Error('Theme ' . $themeId . ' not found');
         }
 
         $this->setOption(static::OPTION_CURRENT, $themeId);
@@ -76,7 +76,7 @@ class ThemeService extends ThemeServiceAbstract
      */
     public function getAllThemes()
     {
-        $themes = (array)$this->getOption(static::OPTION_AVAILABLE);
+        $themes = (array) $this->getOption(static::OPTION_AVAILABLE);
         foreach ($themes as $key => $theme) {
             if (is_array($theme) && isset($theme[static::THEME_CLASS_OFFSET])) {
                 $options = isset($theme[static::THEME_OPTIONS_OFFSET])
@@ -84,7 +84,7 @@ class ThemeService extends ThemeServiceAbstract
                     : []
                 ;
 
-                $theme   = $this->getServiceManager()->build($theme[static::THEME_CLASS_OFFSET], $options);
+                $theme = $this->getServiceManager()->build($theme[static::THEME_CLASS_OFFSET], $options);
             }
 
             $themes[$key] = $theme;
@@ -98,7 +98,7 @@ class ThemeService extends ThemeServiceAbstract
      */
     public function removeThemeById($themeId)
     {
-        if(!$this->hasTheme($themeId)) {
+        if (! $this->hasTheme($themeId)) {
             return false;
         }
 

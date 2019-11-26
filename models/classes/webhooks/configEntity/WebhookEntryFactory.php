@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -31,7 +34,7 @@ class WebhookEntryFactory extends ConfigurableService
     public function createEntryFromArray(array $data)
     {
         $validator = $this->getWebhookEntryValidator();
-        if (!$validator->validate($data)) {
+        if (! $validator->validate($data)) {
             throw new \InvalidArgumentException($validator->getErrorMessage());
         }
 
@@ -55,7 +58,7 @@ class WebhookEntryFactory extends ConfigurableService
     protected function createAuthEntryFromArray(array $data)
     {
         $validator = $this->getWebhookAuthValidator();
-        if (!$validator->validate($data)) {
+        if (! $validator->validate($data)) {
             throw new \InvalidArgumentException(
                 'Invalid ' . Webhook::AUTH . ' config: ' . $validator->getErrorMessage()
             );

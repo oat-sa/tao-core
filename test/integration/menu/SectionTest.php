@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,7 +22,6 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @license GPLv2
  * @package tao
- *
  */
 
 use oat\tao\model\menu\Section;
@@ -27,18 +29,18 @@ use oat\tao\model\menu\Tree;
 use oat\tao\test\TaoPhpUnitTestRunner;
 
 /**
- * Unit test the  oat\tao\model\menu\Section class 
+ * Unit test the  oat\tao\model\menu\Section class
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @package tao
  */
-class SectionTest extends TaoPhpUnitTestRunner {
-    
+class SectionTest extends TaoPhpUnitTestRunner
+{
     /**
      * Data Provider : provides xml, from legacy and new format, and also the expect result
      * @return array the data
-     */ 
-    public function legacyAndNewSectionProvider(){
-
+     */
+    public function legacyAndNewSectionProvider()
+    {
         $sectionNew = <<<XML
 <section id="manage_items" name="Manage items" url="/taoItems/Items/index">
     <trees>
@@ -73,38 +75,38 @@ XML;
     </actions>
 </section>
 XML;
-        return array(
-            array($sectionNew, $sectionLegacy)
-        );
+        return [
+            [$sectionNew, $sectionLegacy],
+        ];
     }
-    
+
     /**
-     * Test the section can be loaded from either legacy or new XML format 
-     * 
+     * Test the section can be loaded from either legacy or new XML format
+     *
      * @dataProvider legacyAndNewSectionProvider
-     * 
-     * @param string $xml new format xml
-     * @param string $xml legacy format xml
+     *
+     * @param string $newXml new format xml
+     * @param string $newXml legacy format xml
      */
-    public function testActions($newXml, $legacyXml){
+    public function testActions($newXml, $legacyXml)
+    {
         $sectionFromNew = Section::fromSimpleXMLElement(new SimpleXMLElement($newXml), 'tao');
 
         $this->assertTrue($sectionFromNew instanceof Section);
-        $this->assertEquals(count($sectionFromNew->getActions()), 4);
+        $this->assertSame(count($sectionFromNew->getActions()), 4);
 
 
         $sectionFromLegacy = Section::fromSimpleXMLElement(new SimpleXMLElement($legacyXml), 'tao');
-    
-        $this->assertTrue($sectionFromLegacy instanceof Section);
-        $this->assertEquals(count($sectionFromLegacy->getActions()), 4);
-        $this->assertEquals(count($sectionFromLegacy->getTrees()), 1);
 
-        $trees =  $sectionFromLegacy->getTrees();
-        $tree  =  $trees[0];
+        $this->assertTrue($sectionFromLegacy instanceof Section);
+        $this->assertSame(count($sectionFromLegacy->getActions()), 4);
+        $this->assertSame(count($sectionFromLegacy->getTrees()), 1);
+
+        $trees = $sectionFromLegacy->getTrees();
+        $tree = $trees[0];
 
         $this->assertTrue($tree instanceof Tree);
-        $this->assertFalse(is_null($tree->get('selectClass')));
-        $this->assertEquals('edit_class', $tree->get('selectClass'));
+        $this->assertFalse($tree->get('selectClass') === null);
+        $this->assertSame('edit_class', $tree->get('selectClass'));
     }
-
 }

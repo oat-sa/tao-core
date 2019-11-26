@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2016 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\model\metadata\import;
@@ -25,9 +27,9 @@ use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\exception\InvalidService;
 use oat\oatbox\service\ServiceNotFoundException;
 use oat\tao\model\metadata\exception\InconsistencyConfigException;
-use oat\tao\model\metadata\exception\MetadataImportException;
 use oat\tao\model\metadata\exception\injector\MetadataInjectorReadException;
 use oat\tao\model\metadata\exception\injector\MetadataInjectorWriteException;
+use oat\tao\model\metadata\exception\MetadataImportException;
 use oat\tao\model\metadata\injector\Injector;
 
 /**
@@ -44,6 +46,16 @@ abstract class OntologyMetadataImporter extends ConfigurableService implements M
     use OntologyAwareTrait;
 
     protected $injectors = [];
+
+    public function __toPhpCode()
+    {
+        $injectorString = '';
+        foreach ($this->injectors as $name => $injector) {
+            $injectorString .= '    \'' . $name . '\' => ' . $injector->__toPhpCode() . PHP_EOL;
+        }
+
+        return 'new ' . get_class($this) . '(array(' . PHP_EOL . $injectorString . '))';
+    }
 
     /**
      * Main method to import Iterator data to Ontology object
@@ -97,12 +109,10 @@ abstract class OntologyMetadataImporter extends ConfigurableService implements M
                     }
 
                     // Skip if there are no report (no data to read for this injector)
-                    if (! is_null($injectorReport)) {
+                    if ($injectorReport !== null) {
                         $lineReport->add($injectorReport);
                     }
-
                 }
-
             } catch (MetadataImportException $e) {
                 $lineReport = \common_report_Report::createFailure($e->getMessage());
             }
@@ -110,6 +120,15 @@ abstract class OntologyMetadataImporter extends ConfigurableService implements M
         }
 
         return $report;
+    }
+
+    public function addInjector($name, Injector $injector)
+    {
+        if (isset($this->injectors[$name])) {
+            throw new \ConfigurationException('An injector with name "' . $name . '" already exists.');
+        }
+
+        $this->injectors[$name] = $injector;
     }
 
     /**
@@ -122,7 +141,7 @@ abstract class OntologyMetadataImporter extends ConfigurableService implements M
     {
         if (empty($this->injectors)) {
             try {
-                foreach(array_keys($this->getOptions()) as $injectorName) {
+                foreach (array_keys($this->getOptions()) as $injectorName) {
                     /** @var Injector $injector */
                     $injector = $this->getSubService($injectorName, Injector::class);
                     $injector->createInjectorHelpers();
@@ -140,24 +159,4 @@ abstract class OntologyMetadataImporter extends ConfigurableService implements M
         }
         return $this->injectors;
     }
-
-    public function addInjector($name, Injector $injector)
-    {
-        if (isset($this->injectors[$name])) {
-            throw new \ConfigurationException('An injector with name "' . $name . '" already exists.');
-        }
-
-        $this->injectors[$name] = $injector;
-    }
-
-    public function __toPhpCode()
-    {
-        $injectorString = '';
-        foreach ($this->injectors as $name => $injector) {
-            $injectorString .= '    \'' . $name . '\' => ' . $injector->__toPhpCode() . PHP_EOL;
-        }
-
-        return 'new ' . get_class($this) . '(array(' . PHP_EOL . $injectorString . '))';
-    }
-
 }

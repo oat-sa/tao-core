@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -34,7 +37,7 @@ class WebhookEventsService extends ConfigurableService implements WebhookEventsS
      * Option value is array of ['eventName' => true, ... ] of supported events
      * Such array structure is needed to perform quick search by key
      */
-    const OPTION_SUPPORTED_EVENTS = 'supportedEvents';
+    public const OPTION_SUPPORTED_EVENTS = 'supportedEvents';
 
     /**
      * @inheritDoc
@@ -82,7 +85,7 @@ class WebhookEventsService extends ConfigurableService implements WebhookEventsS
 
     public function handleEvent(Event $event)
     {
-        if (!$this->checkEventIsSupported($event)) {
+        if (! $this->checkEventIsSupported($event)) {
             return;
         }
 
@@ -105,13 +108,14 @@ class WebhookEventsService extends ConfigurableService implements WebhookEventsS
     {
         $eventName = $event->getName();
 
-        if (!$this->isEventRegistered($eventName)) {
-            $this->logError("Event '$eventName' is not supported by " . self::class);
+        if (! $this->isEventRegistered($eventName)) {
+            $this->logError("Event '${eventName}' is not supported by " . self::class);
             return false;
         }
 
-        if (!($event instanceof WebhookSerializableEventInterface)) {
-            $this->logError(sprintf('Event "%s" passed to "%s" is not implementing "%s"',
+        if (! ($event instanceof WebhookSerializableEventInterface)) {
+            $this->logError(sprintf(
+                'Event "%s" passed to "%s" is not implementing "%s"',
                 $eventName,
                 self::class,
                 WebhookSerializableEventInterface::class
@@ -132,9 +136,9 @@ class WebhookEventsService extends ConfigurableService implements WebhookEventsS
     {
         try {
             $eventData = $event->serializeForWebhook();
-        }
-        catch (\Exception $exception) {
-            $this->logError(sprintf('Error during "%s" event serialization for webhook. %s',
+        } catch (\Exception $exception) {
+            $this->logError(sprintf(
+                'Error during "%s" event serialization for webhook. %s',
                 $event->getName(),
                 $exception->getMessage()
             ));
@@ -157,7 +161,7 @@ class WebhookEventsService extends ConfigurableService implements WebhookEventsS
                 WebhookTaskParams::EVENT_DATA => $eventData,
                 WebhookTaskParams::WEBHOOK_CONFIG_ID => $webhookConfigId,
                 WebhookTaskParams::RETRY_COUNT => 1,
-                WebhookTaskParams::RETRY_MAX => $webhookConfig->getMaxRetries()
+                WebhookTaskParams::RETRY_MAX => $webhookConfig->getMaxRetries(),
             ]);
         }
 
@@ -174,7 +178,8 @@ class WebhookEventsService extends ConfigurableService implements WebhookEventsS
                 $this->getWebhookTaskService()->createTask($taskParams);
             } catch (\Exception $exception) {
                 $this->logError(
-                    sprintf("Can't create webhook task for %s. %s",
+                    sprintf(
+                        "Can't create webhook task for %s. %s",
                         $taskParams[WebhookTaskParams::EVENT_ID],
                         $exception->getMessage()
                     ),
@@ -189,7 +194,8 @@ class WebhookEventsService extends ConfigurableService implements WebhookEventsS
      * @param string $eventName
      * @return string
      */
-    private function generateEventId($eventName) {
+    private function generateEventId($eventName)
+    {
         return md5(
             microtime() .
             mt_rand() .

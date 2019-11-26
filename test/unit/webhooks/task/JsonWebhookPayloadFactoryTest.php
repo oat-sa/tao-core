@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -39,10 +42,10 @@ class JsonWebhookPayloadFactoryTest extends TestCase
         $payloadObject = json_decode($payload, false);
 
         $validator = new Validator();
-        $validator->validate($payloadObject, (object)[
-            '$ref' => 'file://' . realpath(__DIR__ . '/webhookRequestSchema.json')
+        $validator->validate($payloadObject, (object) [
+            '$ref' => 'file://' . realpath(__DIR__ . '/webhookRequestSchema.json'),
         ]);
-        if (!$validator->isValid()) {
+        if (! $validator->isValid()) {
             $validationErrors = [];
             foreach ($validator->getErrors() as $error) {
                 $validationErrors[] = sprintf('[%s] %s', $error['property'], $error['message']);

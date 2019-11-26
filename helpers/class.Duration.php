@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2013 -  (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 use oat\tao\helpers\DateIntervalMS;
@@ -29,7 +30,6 @@ use oat\tao\helpers\DateIntervalMS;
  */
 class tao_helpers_Duration
 {
-
     /**
      * Converts a time string to an ISO8601 duration
      * @param string $time as hh:mm:ss.micros
@@ -62,7 +62,7 @@ class tao_helpers_Duration
     {
         $time = null;
 
-        if (!is_null($interval)) {
+        if ($interval !== null) {
             $format = property_exists(get_class($interval), 'u') ? '%H:%I:%S.%U' : '%H:%I:%S';
             $time = $interval->format($format);
         }

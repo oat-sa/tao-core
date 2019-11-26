@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -45,7 +48,7 @@ class OntologyUserMapperTest extends GenerisPhpUnitTestRunner
         $this->assertFalse($mapper->isEmpty());
         $this->assertSame('password', $mapper->getPlainPassword());
 
-        $this->assertEquals($expected, $mapper->getProperties());
+        $this->assertSame($expected, $mapper->getProperties());
     }
 
     /**
@@ -85,6 +88,100 @@ class OntologyUserMapperTest extends GenerisPhpUnitTestRunner
     }
 
     /**
+     * @return array
+     */
+    public function provideBasicExample()
+    {
+        return [
+            [
+                'schema' => [
+                    'mandatory' => [
+                        'label' => 'http://www.w3.org/2000/01/rdf-schema#label',
+                        'interface language' => 'http://www.tao.lu/Ontologies/generis.rdf#userUILg',
+                        'login' => 'http://www.tao.lu/Ontologies/generis.rdf#login',
+                        'roles' => 'http://www.tao.lu/Ontologies/generis.rdf#userRoles',
+                        'password' => 'http://www.tao.lu/Ontologies/generis.rdf#password',
+                    ],
+                    'optional' => [
+                        'interface language' => 'http://www.tao.lu/Ontologies/generis.rdf#userDefLg',
+                        'first name' => 'http://www.tao.lu/Ontologies/generis.rdf#userFirstName',
+                        'last name' => 'http://www.tao.lu/Ontologies/generis.rdf#userLastName',
+                        'mail' => 'http://www.tao.lu/Ontologies/generis.rdf#userMail',
+                    ],
+                ],
+                'data' => [
+                    'label' => 'user label',
+                    'interface language' => 'en',
+                    'login' => 'userlogin',
+                    'password' => 'password',
+                    'first name' => 'user first',
+                    'last name' => 'user last',
+                    'roles' => ['role1'],
+                    'mail' => 'user@email.com',
+                ],
+                'result' => [
+                    'http://www.w3.org/2000/01/rdf-schema#label' => 'user label',
+                    'http://www.tao.lu/Ontologies/generis.rdf#userUILg' => 'http://www.tao.lu/Ontologies/TAO.rdf#Langda-EN',
+                    'http://www.tao.lu/Ontologies/generis.rdf#login' => 'userlogin',
+                    'http://www.tao.lu/Ontologies/generis.rdf#userRoles' => ['role1'],
+                    'http://www.tao.lu/Ontologies/generis.rdf#password' => 'encrypted_password',
+                    'http://www.tao.lu/Ontologies/generis.rdf#userDefLg' => 'http://www.tao.lu/Ontologies/TAO.rdf#Langda-EN',
+                    'http://www.tao.lu/Ontologies/generis.rdf#userFirstName' => 'user first',
+                    'http://www.tao.lu/Ontologies/generis.rdf#userLastName' => 'user last',
+                    'http://www.tao.lu/Ontologies/generis.rdf#userMail' => 'user@email.com',
+                    'extraProperty' => 'extraProperty',
+                ],
+            ],
+        ];
+    }
+
+    public function provideInsufficientDataExample()
+    {
+        return [
+            [
+                'schema' => [
+                    'mandatory' => [
+                        'label' => 'http://www.w3.org/2000/01/rdf-schema#label',
+                        'login' => 'http://www.tao.lu/Ontologies/generis.rdf#login',
+                        'password' => 'http://www.tao.lu/Ontologies/generis.rdf#password',
+                    ],
+                ],
+                'data' => [
+                    'login' => 'userlogin',
+                ],
+                'result' => [
+                    'http://www.tao.lu/Ontologies/generis.rdf#login' => 'userlogin',
+                    'http://www.tao.lu/Ontologies/generis.rdf#password' => 'encrypted_password',
+                ],
+            ],
+        ];
+    }
+
+    public function provideEmptyFieldDataExample()
+    {
+        return [
+            [
+                'schema' => [
+                    'mandatory' => [
+                        'label' => 'http://www.w3.org/2000/01/rdf-schema#label',
+                        'login' => 'http://www.tao.lu/Ontologies/generis.rdf#login',
+                        'password' => 'http://www.tao.lu/Ontologies/generis.rdf#password',
+                    ],
+                ],
+                'data' => [
+                    'login' => 'userlogin',
+                    'label' => '',
+                    'password' => '',
+                ],
+                'result' => [
+                    'http://www.tao.lu/Ontologies/generis.rdf#login' => 'userlogin',
+                    'http://www.tao.lu/Ontologies/generis.rdf#password' => 'encrypted_password',
+                ],
+            ],
+        ];
+    }
+
+    /**
      * @return OntologyUserMapper
      */
     protected function getMapper()
@@ -108,99 +205,5 @@ class OntologyUserMapperTest extends GenerisPhpUnitTestRunner
             ->willReturn($languageService);
 
         return $mapper;
-    }
-
-    /**
-     * @return array
-     */
-    public function provideBasicExample()
-    {
-        return [
-            [
-                'schema' => [
-                    'mandatory' => array(
-                        'label' => 'http://www.w3.org/2000/01/rdf-schema#label',
-                        'interface language' => 'http://www.tao.lu/Ontologies/generis.rdf#userUILg',
-                        'login' => 'http://www.tao.lu/Ontologies/generis.rdf#login',
-                        'roles' => 'http://www.tao.lu/Ontologies/generis.rdf#userRoles',
-                        'password' => 'http://www.tao.lu/Ontologies/generis.rdf#password'
-                    ),
-                    'optional' => array(
-                        'interface language' => 'http://www.tao.lu/Ontologies/generis.rdf#userDefLg',
-                        'first name' => 'http://www.tao.lu/Ontologies/generis.rdf#userFirstName',
-                        'last name' => 'http://www.tao.lu/Ontologies/generis.rdf#userLastName',
-                        'mail' => 'http://www.tao.lu/Ontologies/generis.rdf#userMail'
-                    )
-                ],
-                'data' => [
-                    'label' => 'user label',
-                    'interface language' => 'en',
-                    'login' => 'userlogin',
-                    'password' => 'password',
-                    'first name' => 'user first',
-                    'last name' => 'user last',
-                    'roles' => ['role1'],
-                    'mail' => 'user@email.com',
-                ],
-                'result' => [
-                    'http://www.w3.org/2000/01/rdf-schema#label' => 'user label',
-                    'http://www.tao.lu/Ontologies/generis.rdf#userUILg' => 'http://www.tao.lu/Ontologies/TAO.rdf#Langda-EN',
-                    'http://www.tao.lu/Ontologies/generis.rdf#login' => 'userlogin',
-                    'http://www.tao.lu/Ontologies/generis.rdf#userRoles' => ['role1'],
-                    'http://www.tao.lu/Ontologies/generis.rdf#password' => 'encrypted_password',
-                    'http://www.tao.lu/Ontologies/generis.rdf#userDefLg' => 'http://www.tao.lu/Ontologies/TAO.rdf#Langda-EN',
-                    'http://www.tao.lu/Ontologies/generis.rdf#userFirstName' => 'user first',
-                    'http://www.tao.lu/Ontologies/generis.rdf#userLastName' => 'user last',
-                    'http://www.tao.lu/Ontologies/generis.rdf#userMail' => 'user@email.com',
-                    'extraProperty' => 'extraProperty'
-                ]
-            ],
-        ];
-    }
-
-    public function provideInsufficientDataExample()
-    {
-        return [
-            [
-                'schema' => [
-                    'mandatory' => array(
-                        'label' => 'http://www.w3.org/2000/01/rdf-schema#label',
-                        'login' => 'http://www.tao.lu/Ontologies/generis.rdf#login',
-                        'password' => 'http://www.tao.lu/Ontologies/generis.rdf#password',
-                    )
-                ],
-                'data' => [
-                    'login' => 'userlogin',
-                ],
-                'result' => [
-                    'http://www.tao.lu/Ontologies/generis.rdf#login' => 'userlogin',
-                    'http://www.tao.lu/Ontologies/generis.rdf#password' => 'encrypted_password',
-                ]
-            ],
-        ];
-    }
-
-    public function provideEmptyFieldDataExample()
-    {
-        return [
-            [
-                'schema' => [
-                    'mandatory' => array(
-                        'label' => 'http://www.w3.org/2000/01/rdf-schema#label',
-                        'login' => 'http://www.tao.lu/Ontologies/generis.rdf#login',
-                        'password' => 'http://www.tao.lu/Ontologies/generis.rdf#password',
-                    )
-                ],
-                'data' => [
-                    'login' => 'userlogin',
-                    'label' => '',
-                    'password' => '',
-                ],
-                'result' => [
-                    'http://www.tao.lu/Ontologies/generis.rdf#login' => 'userlogin',
-                    'http://www.tao.lu/Ontologies/generis.rdf#password' => 'encrypted_password',
-                ]
-            ],
-        ];
     }
 }

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,12 +18,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017-2018 (original work) Open Assessment Technologies SA;
- *
  */
 
 use oat\generis\model\OntologyAwareTrait;
-use oat\tao\model\resources\ResourceService;
 use oat\oatbox\log\LoggerAwareTrait;
+use oat\tao\model\resources\ResourceService;
 
 /**
  * Class tao_actions_RestResourceController
@@ -32,8 +34,9 @@ class tao_actions_RestResource extends tao_actions_CommonModule
     use OntologyAwareTrait;
     use LoggerAwareTrait;
 
-    const CLASS_PARAMETER = 'classUri';
-    const RESOURCE_PARAMETER = 'uri';
+    public const CLASS_PARAMETER = 'classUri';
+
+    public const RESOURCE_PARAMETER = 'uri';
 
     /**
      * Create a resource for class found into http request parameters
@@ -122,21 +125,21 @@ class tao_actions_RestResource extends tao_actions_CommonModule
     {
         if ($this->isRequestGet()) {
             try {
-                $format   = $this->getRequestParameter('format');
-                $search   = $this->hasRequestParameter('search') ? $this->getRawParameter('search') : '';
-                $limit    = $this->hasRequestParameter('limit') ? $this->getRequestParameter('limit') : 30;
-                $offset   = $this->hasRequestParameter('offset') ? $this->getRequestParameter('offset') : 0;
+                $format = $this->getRequestParameter('format');
+                $search = $this->hasRequestParameter('search') ? $this->getRawParameter('search') : '';
+                $limit = $this->hasRequestParameter('limit') ? $this->getRequestParameter('limit') : 30;
+                $offset = $this->hasRequestParameter('offset') ? $this->getRequestParameter('offset') : 0;
                 $selectedUris = [];
 
-                if(! empty($search) ){
+                if (! empty($search)) {
                     $decodedSearch = json_decode($search, true);
-                    if(is_array($decodedSearch) && count($decodedSearch) > 0){
+                    if (is_array($decodedSearch) && count($decodedSearch) > 0) {
                         $search = $decodedSearch;
                     }
                 }
-                if($this->hasRequestParameter('selectedUri')){
+                if ($this->hasRequestParameter('selectedUri')) {
                     $selectedUri = $this->getRequestParameter('selectedUri');
-                    if (!empty($selectedUri)) {
+                    if (! empty($selectedUri)) {
                         $selectedUris = [$selectedUri];
                     }
                 }
@@ -149,7 +152,7 @@ class tao_actions_RestResource extends tao_actions_CommonModule
                 }
 
                 $user = \common_Session_SessionManager::getSession()->getUser();
-                if(isset($resources['nodes'])){
+                if (isset($resources['nodes'])) {
                     $permissions = $this->getResourceService()->getResourcesPermissions($user, $resources['nodes']);
                 } else {
                     $permissions = $this->getResourceService()->getResourcesPermissions($user, $resources);
@@ -157,9 +160,8 @@ class tao_actions_RestResource extends tao_actions_CommonModule
 
                 $this->returnSuccess([
                     'resources' => $resources,
-                    'permissions' => $permissions
+                    'permissions' => $permissions,
                 ]);
-
             } catch (common_Exception $e) {
                 $this->returnFailure($e);
             }
@@ -178,7 +180,7 @@ class tao_actions_RestResource extends tao_actions_CommonModule
         $parameters = [];
 
         if ($this->isRequestPost()) {
-            $input = file_get_contents("php://input");
+            $input = file_get_contents('php://input');
             $arguments = explode('&', $input);
             foreach ($arguments as $argument) {
                 $argumentSplited = explode('=', $argument);
@@ -188,9 +190,9 @@ class tao_actions_RestResource extends tao_actions_CommonModule
                 if (strpos($value, ',')) {
                     $value = explode(',', $value);
                 }
-                if (substr($key, -2) == '[]') {
-                    $key = substr($key, 0, strlen($key)-2);
-                    if (!isset($parameters[$key])) {
+                if (substr($key, -2) === '[]') {
+                    $key = substr($key, 0, strlen($key) - 2);
+                    if (! isset($parameters[$key])) {
                         $parameters[$key] = [];
                     }
                     $parameters[$key][] = $value;
@@ -246,12 +248,12 @@ class tao_actions_RestResource extends tao_actions_CommonModule
     protected function getResourceParameter()
     {
         if (! $this->hasRequestParameter(self::RESOURCE_PARAMETER)) {
-            throw new \common_exception_MissingParameter(self::RESOURCE_PARAMETER, __CLASS__);
+            throw new \common_exception_MissingParameter(self::RESOURCE_PARAMETER, self::class);
         }
 
         $uri = $this->getRequestParameter(self::RESOURCE_PARAMETER);
-        if (empty($uri) || !common_Utils::isUri($uri)) {
-            throw new \common_exception_MissingParameter(self::RESOURCE_PARAMETER, __CLASS__);
+        if (empty($uri) || ! common_Utils::isUri($uri)) {
+            throw new \common_exception_MissingParameter(self::RESOURCE_PARAMETER, self::class);
         }
 
         return $this->getResource($uri);
@@ -267,12 +269,12 @@ class tao_actions_RestResource extends tao_actions_CommonModule
     protected function getClassParameter()
     {
         if (! $this->hasRequestParameter(self::CLASS_PARAMETER)) {
-            throw new \common_exception_MissingParameter(self::CLASS_PARAMETER, __CLASS__);
+            throw new \common_exception_MissingParameter(self::CLASS_PARAMETER, self::class);
         }
 
         $uri = $this->getRequestParameter(self::CLASS_PARAMETER);
-        if (empty($uri) || !common_Utils::isUri($uri)) {
-            throw new \common_exception_MissingParameter(self::CLASS_PARAMETER, __CLASS__);
+        if (empty($uri) || ! common_Utils::isUri($uri)) {
+            throw new \common_exception_MissingParameter(self::CLASS_PARAMETER, self::class);
         }
 
         return $this->getClass($uri);
@@ -284,7 +286,7 @@ class tao_actions_RestResource extends tao_actions_CommonModule
      * @param common_report_Report $report
      * @param bool $withMessage
      */
-    protected function returnValidationFailure(common_report_Report $report, $withMessage=true)
+    protected function returnValidationFailure(common_report_Report $report, $withMessage = true)
     {
         $data = ['data' => []];
         /** @var common_report_Report $error */
@@ -310,9 +312,9 @@ class tao_actions_RestResource extends tao_actions_CommonModule
      * @param Exception $exception
      * @param bool $withMessage
      */
-    protected function returnFailure(Exception $exception, $withMessage=true)
+    protected function returnFailure(\Throwable $exception, $withMessage = true)
     {
-        $data = array();
+        $data = [];
         if ($withMessage) {
             $data['success'] = false;
             $data['errorCode'] = 500;
@@ -320,7 +322,7 @@ class tao_actions_RestResource extends tao_actions_CommonModule
             if ($exception instanceof common_exception_UserReadableException) {
                 $data['errorMsg'] = $exception->getUserMessage();
             } else {
-                $this->logWarning(__CLASS__ . ' : ' . $exception->getMessage());
+                $this->logWarning(self::class . ' : ' . $exception->getMessage());
                 $data['errorMsg'] = __('Unexpected error. Please contact administrator');
             }
         }
@@ -335,9 +337,9 @@ class tao_actions_RestResource extends tao_actions_CommonModule
      * @param array $rawData
      * @param bool $withMessage
      */
-    protected function returnSuccess($rawData = array(), $withMessage=true)
+    protected function returnSuccess($rawData = [], $withMessage = true)
     {
-        $data = array();
+        $data = [];
         if ($withMessage) {
             $data['success'] = true;
             $data['data'] = $rawData;

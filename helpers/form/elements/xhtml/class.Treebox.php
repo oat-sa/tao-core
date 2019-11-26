@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -32,18 +35,14 @@ class tao_helpers_form_elements_xhtml_Treebox extends tao_helpers_form_elements_
     use XhtmlRenderingTrait;
 
     /**
-     *
      * @var core_kernel_classes_Class
      */
     protected $range;
 
-    /**
-     *
-     * @return void
-     */
+
     public function feed()
     {
-        $expression = "/^" . preg_quote($this->name, "/") . "(.)*[0-9]+$/";
+        $expression = '/^' . preg_quote($this->name, '/') . '(.)*[0-9]+$/';
         $found = false;
         foreach ($_POST as $key => $value) {
             if (preg_match($expression, $key)) {
@@ -52,7 +51,7 @@ class tao_helpers_form_elements_xhtml_Treebox extends tao_helpers_form_elements_
             }
         }
         if ($found) {
-            $this->setValues(array());
+            $this->setValues([]);
             foreach ($_POST as $key => $value) {
                 if (preg_match($expression, $key)) {
                     $this->addValue(tao_helpers_Uri::decode($value));
@@ -62,7 +61,6 @@ class tao_helpers_form_elements_xhtml_Treebox extends tao_helpers_form_elements_
     }
 
     /**
-     *
      * @param string $format
      *
      * @return array
@@ -78,15 +76,12 @@ class tao_helpers_form_elements_xhtml_Treebox extends tao_helpers_form_elements_
                 $returnValue = tao_helpers_form_GenerisFormFactory::extractTreeData(parent::getOptions());
                 break;
         }
-        
+
         return $returnValue;
     }
 
     /**
-     *
      * @param string $value
-     *
-     * @return void
      */
     public function setValue($value)
     {
@@ -94,22 +89,21 @@ class tao_helpers_form_elements_xhtml_Treebox extends tao_helpers_form_elements_
     }
 
     /**
-     *
      * @return string
      */
     public function render()
     {
         $widgetTreeName = $this->name . '-TreeBox';
         $widgetValueName = $this->name . '-TreeValues';
-        
+
         $returnValue = $this->renderLabel();
-        
+
         $returnValue .= "<div class='form-elt-container' style='min-height:50px; overflow-y:auto;'>";
-        
+
         $returnValue .= "<div id='{$widgetValueName}'></div>";
-        
+
         $returnValue .= "<div id='{$widgetTreeName}' class='tree-widget'></div>";
-        
+
         $returnValue .= "<script type=\"text/javascript\">
 			$(function(){
 			 require(['require', 'jquery', 'generis.tree.select'], function(req, $) {
@@ -160,25 +154,23 @@ class tao_helpers_form_elements_xhtml_Treebox extends tao_helpers_form_elements_
 			 });
 			});
 			</script>';
-        $returnValue .= "</div><br />";
-        
+        $returnValue .= '</div><br />';
+
         return (string) $returnValue;
-        
+
         return $returnValue;
     }
 
     /**
-     *
      * @access public
      * @return mixed
      */
     public function getEvaluatedValue()
     {
-        $values = array_map("tao_helpers_Uri::decode", $this->getValues());
+        $values = array_map('tao_helpers_Uri::decode', $this->getValues());
         if (count($values) === 1) {
             return $values[0];
-        } else {
-            return $values;
         }
+        return $values;
     }
 }

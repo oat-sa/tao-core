@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,7 +20,6 @@
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  *               2012-2018 (update and modification) Open Assessment Technologies SA;
- *
  */
 
 use oat\oatbox\filesystem\File;
@@ -31,11 +33,13 @@ use oat\oatbox\filesystem\File;
  */
 class tao_helpers_data_CsvFile
 {
+    public const FIELD_DELIMITER = 'field_delimiter';
 
-    const FIELD_DELIMITER = 'field_delimiter';
-    const FIELD_ENCLOSER = 'field_encloser';
-    const MULTI_VALUES_DELIMITER = 'multi_values_delimiter';
-    const FIRST_ROW_COLUMN_NAMES = 'first_row_column_names';
+    public const FIELD_ENCLOSER = 'field_encloser';
+
+    public const MULTI_VALUES_DELIMITER = 'multi_values_delimiter';
+
+    public const FIRST_ROW_COLUMN_NAMES = 'first_row_column_names';
 
     /**
      * Contains the CSV data as a simple 2-dimensional array. Keys are integer
@@ -44,7 +48,7 @@ class tao_helpers_data_CsvFile
      * @access private
      * @var array
      */
-    private $data = array();
+    private $data = [];
 
     /**
      * Contains the mapping for column names if the CSV file contains a row
@@ -59,7 +63,7 @@ class tao_helpers_data_CsvFile
      * @access private
      * @var array
      */
-    private $columnMapping = array();
+    private $columnMapping = [];
 
     /**
      * Options such as string delimiter, new line escaping sequence, ...
@@ -67,7 +71,7 @@ class tao_helpers_data_CsvFile
      * @access private
      * @var array
      */
-    private $options = array();
+    private $options = [];
 
     /**
      * The count of columns in the CsvFile. Will be updated at each row
@@ -83,32 +87,19 @@ class tao_helpers_data_CsvFile
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  array options
+     * @param  array $options
      * @return mixed
      */
-    public function __construct($options = array())
+    public function __construct($options = [])
     {
-        $defaults = array('field_delimiter' => ';',
+        $defaults = ['field_delimiter' => ';',
             'field_encloser' => '"',
             // if empty - don't use multi_values
             'multi_values_delimiter' => '',
-            'first_row_column_names' => true);
+            'first_row_column_names' => true, ];
 
         $this->setOptions(array_merge($defaults, $options));
         $this->setColumnCount(0);
-    }
-
-    /**
-     * Short description of method setData
-     *
-     * @access protected
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  array data
-     * @return void
-     */
-    protected function setData($data)
-    {
-        $this->data = $data;
     }
 
     /**
@@ -120,20 +111,7 @@ class tao_helpers_data_CsvFile
      */
     public function getData()
     {
-        return (array)$this->data;
-    }
-
-    /**
-     * Short description of method setColumnMapping
-     *
-     * @access protected
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  array columnMapping
-     * @return void
-     */
-    protected function setColumnMapping($columnMapping)
-    {
-        $this->columnMapping = $columnMapping;
+        return (array) $this->data;
     }
 
     /**
@@ -145,7 +123,7 @@ class tao_helpers_data_CsvFile
      */
     public function getColumnMapping()
     {
-        return (array)$this->columnMapping;
+        return (array) $this->columnMapping;
     }
 
     /**
@@ -163,10 +141,10 @@ class tao_helpers_data_CsvFile
         if ($source instanceof File) {
             $resource = $source->readStream();
         } else {
-            if (!is_file($source)) {
+            if (! is_file($source)) {
                 throw new InvalidArgumentException("Expected CSV file '" . $source . "' could not be open.");
             }
-            if (!is_readable($source)) {
+            if (! is_readable($source)) {
                 throw new InvalidArgumentException("CSV file '" . $source . "' is not readable.");
             }
             $resource = fopen($source, 'r');
@@ -185,18 +163,18 @@ class tao_helpers_data_CsvFile
             $this->setColumnMapping($fields);
         }
 
-        $data = array();
+        $data = [];
         while (($rowFields = fgetcsv($resource, 0, $delimiter, $enclosure)) !== false) {
             $lineData = [];
             foreach ($rowFields as $fieldData) {
                 // If there is nothing in the cell, replace by null for abstraction consistency.
-                if ($fieldData == '') {
+                if ($fieldData === '') {
                     $fieldData = null;
-                } elseif (!empty($multiValueSeparator) && mb_strpos($fieldData, $multiValueSeparator) !== false) {
+                } elseif (! empty($multiValueSeparator) && mb_strpos($fieldData, $multiValueSeparator) !== false) {
                     // try to split by multi_value_delimiter
                     $multiField = [];
                     foreach (explode($multiValueSeparator, $fieldData) as $item) {
-                        if (!empty($item)) {
+                        if (! empty($item)) {
                             $multiField[] = $item;
                         }
                     }
@@ -211,7 +189,6 @@ class tao_helpers_data_CsvFile
             if ($this->getColumnCount() < $currentRowColumnCount) {
                 $this->setColumnCount($currentRowColumnCount);
             }
-
         }
         ini_set('auto_detect_line_endings', $adle);
         fclose($resource);
@@ -223,10 +200,10 @@ class tao_helpers_data_CsvFile
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  array array
+     * @param  array $array
      * @return void
      */
-    public function setOptions($array = array())
+    public function setOptions($array = [])
     {
         $this->options = $array;
     }
@@ -240,7 +217,7 @@ class tao_helpers_data_CsvFile
      */
     public function getOptions()
     {
-        return (array)$this->options;
+        return (array) $this->options;
     }
 
     /**
@@ -256,26 +233,25 @@ class tao_helpers_data_CsvFile
     {
         $data = $this->getData();
         if (isset($data[$index])) {
-            if ($associative == false) {
+            if ($associative === false) {
                 $returnValue = $data[$index];
             } else {
                 $mapping = $this->getColumnMapping();
-                if (!count($mapping)) {
+                if (! count($mapping)) {
                     // Trying to access by column name but no mapping detected.
-                    throw new InvalidArgumentException("Cannot access column mapping for this CSV file.");
-                } else {
-                    $mappedRow = array();
-                    for ($i = 0; $i < count($mapping); $i++) {
-                        $mappedRow[$mapping[$i]] = $data[$index][$i];
-                    }
-                    $returnValue = $mappedRow;
+                    throw new InvalidArgumentException('Cannot access column mapping for this CSV file.');
                 }
+                $mappedRow = [];
+                for ($i = 0; $i < count($mapping); $i++) {
+                    $mappedRow[$mapping[$i]] = $data[$index][$i];
+                }
+                $returnValue = $mappedRow;
             }
         } else {
             throw new InvalidArgumentException("No row at index ${index}.");
         }
 
-        return (array)$returnValue;
+        return (array) $returnValue;
     }
 
     /**
@@ -287,7 +263,7 @@ class tao_helpers_data_CsvFile
      */
     public function count()
     {
-        return (int)count($this->getData());
+        return (int) count($this->getData());
     }
 
     /**
@@ -295,8 +271,8 @@ class tao_helpers_data_CsvFile
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  int row Row index. If there is now row at $index, an IllegalArgumentException is thrown.
-     * @param  int col
+     * @param  int row Row index. If there is now row at $row, an IllegalArgumentException is thrown.
+     * @param  int $col
      * @return mixed
      */
     public function getValue($row, $col)
@@ -305,12 +281,11 @@ class tao_helpers_data_CsvFile
         $data = $this->getData();
         if (isset($data[$row][$col])) {
             $returnValue = $data[$row][$col];
-        } else if (isset($data[$row]) && is_string($col)) {
+        } elseif (isset($data[$row]) && is_string($col)) {
             // try to access by col name.
             $mapping = $this->getColumnMapping();
             for ($i = 0; $i < count($mapping); $i++) {
-
-                if ($mapping[$i] == $col && isset($data[$row][$col])) {
+                if ($mapping[$i] === $col && isset($data[$row][$col])) {
                     // Column with name $col extists.
                     $returnValue = $data[$row][$col];
                 }
@@ -326,8 +301,8 @@ class tao_helpers_data_CsvFile
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  int row Row Index. If there is no such row, an IllegalArgumentException is thrown.
-     * @param  int col
+     * @param  int $col row Row Index. If there is no such row, an IllegalArgumentException is thrown.
+     * @param  int $value col
      * @param  int value The value to set at $row,$col.
      * @return void
      */
@@ -336,12 +311,11 @@ class tao_helpers_data_CsvFile
         $data = $this->getData();
         if (isset($data[$row][$col])) {
             $this->data[$row][$col] = $value;
-        } else if (isset($data[$row]) && is_string($col)) {
+        } elseif (isset($data[$row]) && is_string($col)) {
             // try to access by col name.
             $mapping = $this->getColumnMapping();
             for ($i = 0; $i < count($mapping); $i++) {
-
-                if ($mapping[$i] == $col && isset($data[$row][$col])) {
+                if ($mapping[$i] === $col && isset($data[$row][$col])) {
                     // Column with name $col extists.
                     $this->data[$row][$col] = $value;
                 }
@@ -362,7 +336,33 @@ class tao_helpers_data_CsvFile
      */
     public function getColumnCount()
     {
-        return (int)$this->columnCount;
+        return (int) $this->columnCount;
+    }
+
+    /**
+     * Short description of method setData
+     *
+     * @access protected
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param  array $data
+     * @return void
+     */
+    protected function setData($data)
+    {
+        $this->data = $data;
+    }
+
+    /**
+     * Short description of method setColumnMapping
+     *
+     * @access protected
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param  array $columnMapping
+     * @return void
+     */
+    protected function setColumnMapping($columnMapping)
+    {
+        $this->columnMapping = $columnMapping;
     }
 
     /**
@@ -370,7 +370,7 @@ class tao_helpers_data_CsvFile
      *
      * @access protected
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  int count The column count.
+     * @param  int $count The column count.
      * @return void
      */
     protected function setColumnCount($count)

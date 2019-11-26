@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -42,12 +45,12 @@ class SettingsStorageTest extends TestCase
         $persistenceManager = new common_persistence_Manager([
             common_persistence_Manager::OPTION_PERSISTENCES => [
                 'default_kv' => [
-                    'driver' => 'no_storage'
-                ]
-            ]
+                    'driver' => 'no_storage',
+                ],
+            ],
         ]);
         $slMock = $this->getServiceLocatorMock([
-            common_persistence_Manager::SERVICE_ID => $persistenceManager
+            common_persistence_Manager::SERVICE_ID => $persistenceManager,
         ]);
         $this->object->setServiceLocator($slMock);
     }

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
 * This program is free software; you can redistribute it and/or
 * modify it under the terms of the GNU General Public License
@@ -17,10 +20,10 @@
 * Copyright (c) 2013-2018 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
 */
 
-use oat\tao\model\ClientLibConfigRegistry;
-use oat\tao\model\ClientLibRegistry;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\clientConfig\ClientConfigService;
+use oat\tao\model\ClientLibConfigRegistry;
+use oat\tao\model\ClientLibRegistry;
 use oat\tao\model\routing\Resolver;
 use oat\tao\model\security\xsrf\TokenService;
 use tao_helpers_Date as DateHelper;
@@ -35,7 +38,6 @@ use tao_helpers_Date as DateHelper;
  */
 class tao_actions_ClientConfig extends tao_actions_CommonModule
 {
-
     /**
      * Get the require.js' config file
      */
@@ -75,7 +77,7 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule
         $base_url = $this->getExtension($resolver->getExtensionId())->getConstant('BASE_URL');
 
         $langCode = tao_helpers_I18n::getLangCode();
-        if(strpos($langCode, '-') > 0){
+        if (strpos($langCode, '-') > 0) {
             $lang = strtolower(substr($langCode, 0, strpos($langCode, '-')));
         } else {
             $lang = strtolower($langCode);
@@ -87,22 +89,36 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule
         $this->setData('tao_base_www', $tao_base_www);
 
         $this->setData('context', json_encode([
-            'root_url'       => ROOT_URL,
-            'base_url'       => $base_url,
-            'taobase_www'    => $tao_base_www,
-            'base_www'       => $base_www,
-            'base_lang'      => $lang,
-            'locale'         => $langCode,
-            'timeout'        => $this->getClientTimeout(),
-            'extension'      => $resolver->getExtensionId(),
-            'module'         => $resolver->getControllerShortName(),
-            'action'         => $resolver->getMethodName(),
+            'root_url' => ROOT_URL,
+            'base_url' => $base_url,
+            'taobase_www' => $tao_base_www,
+            'base_www' => $base_www,
+            'base_lang' => $lang,
+            'locale' => $langCode,
+            'timeout' => $this->getClientTimeout(),
+            'extension' => $resolver->getExtensionId(),
+            'module' => $resolver->getControllerShortName(),
+            'action' => $resolver->getMethodName(),
             'shownExtension' => $this->getShownExtension(),
             'shownStructure' => $this->getShownStructure(),
-            'bundle'         => tao_helpers_Mode::is(tao_helpers_Mode::PRODUCTION)
+            'bundle' => tao_helpers_Mode::is(tao_helpers_Mode::PRODUCTION),
         ]));
 
         $this->setView('client_config.tpl');
+    }
+
+    /**
+     * @return bool
+     * @throws common_ext_ExtensionException
+     */
+    protected function isCrossorigin()
+    {
+        $ext = $this->getServiceLocator()->get(common_ext_ExtensionsManager::SERVICE_ID)->getExtensionById('tao');
+        $config = $ext->getConfig('js');
+        if ($config !== null && isset($config['crossorigin'])) {
+            return $config['crossorigin'];
+        }
+        return false;
     }
 
     /**
@@ -115,23 +131,9 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule
     {
         try {
             return $this->getServiceLocator()->get(common_ext_ExtensionsManager::SERVICE_ID)->getExtensionById($extensionId);
-        } catch(common_ext_ExtensionException $cee){
+        } catch (common_ext_ExtensionException $cee) {
             throw new Exception(__('Wrong parameter shownExtension'), $cee);
         }
-    }
-
-    /**
-     * @return bool
-     * @throws common_ext_ExtensionException
-     */
-    protected function isCrossorigin()
-    {
-        $ext = $this->getServiceLocator()->get(common_ext_ExtensionsManager::SERVICE_ID)->getExtensionById('tao');
-        $config = $ext->getConfig('js');
-        if ($config != null && isset($config['crossorigin'])) {
-            return $config['crossorigin'];
-        }
-        return false;
     }
 
     /**
@@ -141,9 +143,9 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule
      */
     private function getShownExtension()
     {
-        if($this->hasRequestParameter('shownExtension')){
+        if ($this->hasRequestParameter('shownExtension')) {
             $shownExtension = $this->getRequestParameter('shownExtension');
-            if(strlen(trim($shownExtension)) > 0){
+            if (strlen(trim($shownExtension)) > 0) {
                 $extension = $this->getExtension($shownExtension);
                 return $extension->getName();
             }
@@ -157,11 +159,11 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule
      */
     private function getShownStructure()
     {
-        if($this->hasRequestParameter('shownStructure')){
+        if ($this->hasRequestParameter('shownStructure')) {
             $structure = $this->getRequestParameter('shownStructure');
             $perspectives = \oat\tao\model\menu\MenuService::getAllPerspectives();
-            foreach($perspectives as $perspective){
-                if($perspective->getId() == $structure){
+            foreach ($perspectives as $perspective) {
+                if ($perspective->getId() === $structure) {
                     return $perspective->getId();
                 }
             }
@@ -184,7 +186,7 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule
         try {
             $route = new Resolver(new common_http_Request($url));
             $this->propagate($route);
-        } catch (ResolverException $re){
+        } catch (ResolverException $re) {
             throw new Exception(__('Wrong or missing parameter extension, module or action'), $re);
         }
         return $route;

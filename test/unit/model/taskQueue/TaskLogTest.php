@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,11 +18,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\test\unit\model\taskQueue;
 
+use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
 use oat\tao\model\taskQueue\Task\AbstractTask;
 use oat\tao\model\taskQueue\TaskLog;
@@ -30,7 +33,6 @@ use oat\tao\model\taskQueue\TaskLog\TaskLogCollection;
 use oat\tao\model\taskQueue\TaskLog\TasksLogsStats;
 use oat\tao\model\taskQueue\TaskLogInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use oat\generis\test\MockObject;
 
 class TaskLogTest extends TestCase
 {
@@ -78,7 +80,7 @@ class TaskLogTest extends TestCase
 
     public function testAddWhenWrongStatusIsSuppliedThenErrorMessageShouldBeLogged()
     {
-        $taskMock = $this->getMockForAbstractClass(AbstractTask::class, [], "", false);
+        $taskMock = $this->getMockForAbstractClass(AbstractTask::class, [], '', false);
 
         $taskLogMock = $this->getMockBuilder(TaskLog::class)
             ->disableOriginalConstructor()
@@ -93,7 +95,7 @@ class TaskLogTest extends TestCase
 
     public function testAddWhenStatusIsOkayThenTaskShouldBeAddedByBroker()
     {
-        $taskMock = $this->getMockForAbstractClass(AbstractTask::class, [], "", false);
+        $taskMock = $this->getMockForAbstractClass(AbstractTask::class, [], '', false);
 
         $logBrokerMock = $this->getMockForAbstractClass(TaskLogBrokerInterface::class);
 
@@ -107,7 +109,7 @@ class TaskLogTest extends TestCase
 
         $taskLogMock->expects($this->once())
             ->method('getBroker')
-            ->willReturn($logBrokerMock);;
+            ->willReturn($logBrokerMock);
 
         $taskLogMock->add($taskMock, 'enqueued');
     }
@@ -153,7 +155,7 @@ class TaskLogTest extends TestCase
             ->method('getBroker')
             ->willReturn($logBrokerMock);
 
-        $this->assertEquals($expectedStatus, $taskLogMock->getStatus('existingTaskId'));
+        $this->assertSame($expectedStatus, $taskLogMock->getStatus('existingTaskId'));
     }
 
     public function testFindAvailableByUser()
@@ -233,6 +235,36 @@ class TaskLogTest extends TestCase
         $this->assertTrue($model->cancel($model->getByIdAndUser('taskId', 'userId')));
     }
 
+    public function testTaskCategoryWithExactName()
+    {
+        $model = new TaskLog([
+            'task_log_broker' => $broker = new RdsTaskLogBroker('fakePersistence', 'fake'),
+        ]);
+        $model->linkTaskToCategory('Test\FakeClassName', 'import');
+
+        $this->assertSame('import', $model->getCategoryForTask('Test\FakeClassName'));
+    }
+
+    public function testTaskCategoryWithSubClass()
+    {
+        $model = new TaskLog([
+            'task_log_broker' => $broker = new RdsTaskLogBroker('fakePersistence', 'fake'),
+        ]);
+        $model->linkTaskToCategory(StubTaskParent::class, 'export');
+
+        $this->assertSame('export', $model->getCategoryForTask(StubTaskChild::class));
+    }
+
+    public function testTaskCategoryForUnknown()
+    {
+        $model = new TaskLog([
+            'task_log_broker' => $broker = new RdsTaskLogBroker('fakePersistence', 'fake'),
+        ]);
+        $model->linkTaskToCategory('Fake\Classname', 'export');
+
+        $this->assertSame('unknown', $model->getCategoryForTask('ClassName\Which\Not\Added\Ever'));
+    }
+
     /**
      * @param bool $notFound
      * @param bool $shouldArchive
@@ -277,37 +309,11 @@ class TaskLogTest extends TestCase
 
         return $taskLogMock;
     }
-
-    public function testTaskCategoryWithExactName()
-    {
-        $model = new TaskLog([
-            'task_log_broker' => $broker = new RdsTaskLogBroker('fakePersistence', 'fake')
-        ]);
-        $model->linkTaskToCategory('Test\FakeClassName', 'import');
-
-        $this->assertSame('import', $model->getCategoryForTask('Test\FakeClassName'));
-    }
-
-    public function testTaskCategoryWithSubClass()
-    {
-        $model = new TaskLog([
-            'task_log_broker' => $broker = new RdsTaskLogBroker('fakePersistence', 'fake')
-        ]);
-        $model->linkTaskToCategory(StubTaskParent::class, 'export');
-
-        $this->assertSame('export', $model->getCategoryForTask(StubTaskChild::class));
-    }
-
-    public function testTaskCategoryForUnknown()
-    {
-        $model = new TaskLog([
-            'task_log_broker' => $broker = new RdsTaskLogBroker('fakePersistence', 'fake')
-        ]);
-        $model->linkTaskToCategory('Fake\Classname', 'export');
-
-        $this->assertSame('unknown', $model->getCategoryForTask('ClassName\Which\Not\Added\Ever'));
-    }
 }
 
-class StubTaskChild extends StubTaskParent {}
-abstract class StubTaskParent {}
+class StubTaskChild extends StubTaskParent
+{
+}
+abstract class StubTaskParent
+{
+}

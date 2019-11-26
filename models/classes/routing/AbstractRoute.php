@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
- *
  */
+
 namespace oat\tao\model\routing;
 
 use common_ext_Extension;
@@ -26,66 +29,42 @@ use Psr\Http\Message\ServerRequestInterface;
  * Interface of a router, that based on a relative Url
  * and its configuration provided as $routeData
  * decides which methode of which controller should be executed
- * 
+ *
  * @author Joel Bout, <joel@taotesting.com>
  */
 abstract class AbstractRoute implements Route
 {
     /**
      * Owner of the route
-     * 
+     *
      * @var common_ext_Extension
      */
     private $extension;
-    
+
     /**
      * Id of the route
      *
      * @var string
      */
     private $id;
-    
+
     /**
      * Data the route requires to resolve
      *
      * @var mixed
      */
     private $config;
-    
+
     /**
-     * 
      * @param common_ext_Extension $extension
      * @param string $routeId
      * @param mixed $routeConfig
      */
-    public function __construct(common_ext_Extension $extension, $routeId, $routeConfig) {
+    public function __construct(common_ext_Extension $extension, $routeId, $routeConfig)
+    {
         $this->extension = $extension;
         $this->id = $routeId;
         $this->config = $routeConfig;
-    }
-    
-    /**
-     * 
-     * @return common_ext_Extension
-     */
-    protected function getExtension() {
-        return $this->extension;
-    }
-    
-    /**
-     * 
-     * @return mixed
-     */
-    protected function getConfig() {
-        return $this->config;
-    }
-    
-    /**
-     * 
-     * @return string
-     */
-    protected function getId() {
-        return $this->id;
     }
 
     /**
@@ -96,4 +75,27 @@ abstract class AbstractRoute implements Route
      */
     abstract public function resolve(ServerRequestInterface $request);
 
+    /**
+     * @return common_ext_Extension
+     */
+    protected function getExtension()
+    {
+        return $this->extension;
+    }
+
+    /**
+     * @return mixed
+     */
+    protected function getConfig()
+    {
+        return $this->config;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getId()
+    {
+        return $this->id;
+    }
 }

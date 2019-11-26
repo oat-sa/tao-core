@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,20 +18,18 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\model\upload;
 
+use oat\oatbox\action\Action;
 use oat\oatbox\filesystem\Directory;
 use oat\oatbox\filesystem\File;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ConfigurableService;
-use oat\oatbox\action\Action;
 
 /**
  * Remove all stored at tmp space files
- *
  */
 class CleanupUploadTmp extends ConfigurableService implements Action
 {
@@ -47,32 +48,37 @@ class CleanupUploadTmp extends ConfigurableService implements Action
         $files = 0;
         $dirs = 0;
         foreach ($fs->listContents() as $fileInfo) {
-            if ('file' === $fileInfo['type']) {
+            if ($fileInfo['type'] === 'file') {
                 $file = new File($tmpSpaceFlySystemId, $fileInfo['path']);
                 $file->setServiceLocator($this->getServiceManager());
                 $file->delete();
                 $files++;
             }
-            if ('dir' === $fileInfo['type']) {
+            if ($fileInfo['type'] === 'dir') {
                 $dir = new Directory($tmpSpaceFlySystemId, $fileInfo['path']);
                 $dir->setServiceLocator($this->getServiceManager());
                 $dir->deleteSelf();
                 $dirs++;
             }
 
-            $report->add(new \common_report_Report(\common_report_Report::TYPE_SUCCESS,
-                __('Removing: %s', $fileInfo['path'])));
+            $report->add(new \common_report_Report(
+                \common_report_Report::TYPE_SUCCESS,
+                __('Removing: %s', $fileInfo['path'])
+            ));
         }
 
         $report->add(new \common_report_Report(\common_report_Report::TYPE_SUCCESS, __('Total:')));
         $report->add(new \common_report_Report(\common_report_Report::TYPE_SUCCESS, __('Removed %s files', $files)));
-        $report->add(new \common_report_Report(\common_report_Report::TYPE_SUCCESS,
-            __('Removed %s directories', $dirs)));
+        $report->add(new \common_report_Report(
+            \common_report_Report::TYPE_SUCCESS,
+            __('Removed %s directories', $dirs)
+        ));
 
-        $report->add(new \common_report_Report(\common_report_Report::TYPE_SUCCESS,
-            __('Cleaning up tmp space complete')));
+        $report->add(new \common_report_Report(
+            \common_report_Report::TYPE_SUCCESS,
+            __('Cleaning up tmp space complete')
+        ));
 
         return $report;
     }
-
 }

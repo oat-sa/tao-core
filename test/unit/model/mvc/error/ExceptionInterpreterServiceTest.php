@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,10 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
- *
  */
-
 
 namespace oat\tao\test\unit\model\mvc\error;
 
@@ -34,7 +34,6 @@ use oat\tao\model\mvc\error\ExceptionInterpretor;
  */
 class ExceptionInterpreterServiceTest extends TestCase
 {
-
     public function testGetExceptionInterpreter()
     {
         $service = new ExceptionInterpreterService([
@@ -43,34 +42,34 @@ class ExceptionInterpreterServiceTest extends TestCase
                 BEx::class => BExInt::class,
                 \Exception::class => ExceptionInterpretor::class,
                 DEx::class => DExInt::class,
-            ]
+            ],
         ]);
         $config = new \common_persistence_KeyValuePersistence([], new \common_persistence_InMemoryKvDriver());
         $service->setServiceLocator(new ServiceManager($config));
-        $this->assertEquals(
+        $this->assertSame(
             ExceptionInterpretor::class,
             get_class($service->getExceptionInterpreter(new \Exception()))
         );
-        $this->assertEquals(
+        $this->assertSame(
             AExInt::class,
             get_class($service->getExceptionInterpreter(new AEx()))
         );
-        $this->assertEquals(
+        $this->assertSame(
             BExInt::class,
             get_class($service->getExceptionInterpreter(new BEx()))
         );
-        $this->assertEquals(
+        $this->assertSame(
             DExInt::class,
             get_class($service->getExceptionInterpreter(new DEx()))
         );
 
         //closest in hierarchy
-        $this->assertEquals(
+        $this->assertSame(
             BExInt::class,
             get_class($service->getExceptionInterpreter(new CEx()))
         );
         //closest in hierarchy
-        $this->assertEquals(
+        $this->assertSame(
             ExceptionInterpretor::class,
             get_class($service->getExceptionInterpreter(new EEx()))
         );
@@ -80,16 +79,34 @@ class ExceptionInterpreterServiceTest extends TestCase
 /**
  * Exceptions hierarchy
  */
-class AEx extends \Exception {}
-class BEx extends AEx {}
-class CEx extends BEx {}
-class DEx extends CEx {}
-class EEx extends \Exception {}
+class AEx extends \Exception
+{
+}
+class BEx extends AEx
+{
+}
+class CEx extends BEx
+{
+}
+class DEx extends CEx
+{
+}
+class EEx extends \Exception
+{
+}
 
 /**
  * Exception interpreters hierarchy
  */
-class AExInt extends ExceptionInterpretor {}
-class BExInt extends ExceptionInterpretor {}
-class CExInt extends ExceptionInterpretor {}
-class DExInt extends ExceptionInterpretor {}
+class AExInt extends ExceptionInterpretor
+{
+}
+class BExInt extends ExceptionInterpretor
+{
+}
+class CExInt extends ExceptionInterpretor
+{
+}
+class DExInt extends ExceptionInterpretor
+{
+}

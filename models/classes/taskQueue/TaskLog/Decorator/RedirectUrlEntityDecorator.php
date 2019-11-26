@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\model\taskQueue\TaskLog\Decorator;
@@ -75,15 +77,14 @@ class RedirectUrlEntityDecorator extends TaskLogEntityDecorator
         $deniedCategories = [
             TaskLogInterface::CATEGORY_DELETE,
             TaskLogInterface::CATEGORY_EXPORT,
-            TaskLogInterface::CATEGORY_UNKNOWN
+            TaskLogInterface::CATEGORY_UNKNOWN,
         ];
 
-        if ( !in_array($this->taskLogService->getCategoryForTask($this->getTaskName()), $deniedCategories) &&
-             ($this->getStatus()->isCompleted() || $this->getStatus()->isArchived()) ) {
-
+        if (! in_array($this->taskLogService->getCategoryForTask($this->getTaskName()), $deniedCategories, true) &&
+             ($this->getStatus()->isCompleted() || $this->getStatus()->isArchived())) {
             $user = $this->user;
             $params = [
-                'taskId' => $this->getId()
+                'taskId' => $this->getId(),
             ];
             $hasAccess = $this->hasAccess(
                 $user,
@@ -93,10 +94,10 @@ class RedirectUrlEntityDecorator extends TaskLogEntityDecorator
             );
             if ($hasAccess) {
                 $data = array_merge($data, [
-                    'redirectUrl' => _url('redirectTaskToInstance', 'Redirector', 'taoBackOffice', $params)
+                    'redirectUrl' => _url('redirectTaskToInstance', 'Redirector', 'taoBackOffice', $params),
                 ]);
             } else {
-                \common_Logger::w('User \''.$user->getIdentifier().'\' does not have access to redirectTaskToInstance');
+                \common_Logger::w('User \'' . $user->getIdentifier() . '\' does not have access to redirectTaskToInstance');
             }
         }
 

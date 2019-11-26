@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -40,7 +43,7 @@ use tao_models_classes_UserService;
 class UserLocksService extends ConfigurableService implements UserLocks
 {
     /** Which storage implementation to use for user lockouts */
-    const OPTION_LOCKOUT_STORAGE = 'lockout_storage';
+    public const OPTION_LOCKOUT_STORAGE = 'lockout_storage';
 
     /** @var LockoutStorage */
     private $lockout;
@@ -76,20 +79,6 @@ class UserLocksService extends ConfigurableService implements UserLocks
     }
 
     /**
-     * Returns proper lockout implementation
-     * @return LockoutStorage|RdfLockoutStorage
-     */
-    protected function getLockout()
-    {
-        if (!$this->lockout || !$this->lockout instanceof LockoutStorage) {
-            $lockout = $this->getOption(self::OPTION_LOCKOUT_STORAGE);
-            $this->lockout = ($lockout and class_exists($lockout)) ? new $lockout : new RdfLockoutStorage();
-        }
-
-        return $this->lockout;
-    }
-
-    /**
      * @param LoginFailedEvent $event
      * @throws \core_kernel_users_Exception
      */
@@ -108,34 +97,6 @@ class UserLocksService extends ConfigurableService implements UserLocks
     }
 
     /**
-     * @param string $login
-     * @throws \core_kernel_users_Exception
-     * @throws \Exception
-     */
-    private function increaseLoginFails($login)
-    {
-        $user = UserHelper::getUser($this->getLockout()->getUser($login));
-
-        /** @var DateInterval $remaining */
-        $remaining = $this->getLockoutRemainingTime($login);
-
-        if (!$remaining->invert) {
-            $failures = $this->getLockout()->getFailures($login);
-        } else {
-            $this->unlockUser($user);
-            $failures = 0;
-        }
-
-        $failures++;
-
-        if ($failures >= intval($this->getOption(self::OPTION_LOCKOUT_FAILED_ATTEMPTS))) {
-            $this->lockUser($user);
-        }
-
-        $this->getLockout()->setFailures($login, $failures);
-    }
-
-    /**
      * @param $user
      * @return bool
      */
@@ -143,11 +104,11 @@ class UserLocksService extends ConfigurableService implements UserLocks
     {
         $currentUser = UserHelper::getUser(tao_models_classes_UserService::singleton()->getCurrentUser());
 
-        if (!$currentUser) {
+        if (! $currentUser) {
             $currentUser = $user;
         }
 
-        if (!$this->isLockable($user)) {
+        if (! $this->isLockable($user)) {
             return false;
         }
 
@@ -201,9 +162,9 @@ class UserLocksService extends ConfigurableService implements UserLocks
         }
 
         $lockoutPeriod = new DateInterval($this->getOption(self::OPTION_SOFT_LOCKOUT_PERIOD));
-        $lastFailureTime = (new DateTimeImmutable)->setTimestamp(intval((string)$this->getLockout()->getLastFailureTime($login)));
+        $lastFailureTime = (new DateTimeImmutable())->setTimestamp(intval((string) $this->getLockout()->getLastFailureTime($login)));
 
-        return $lastFailureTime->add($lockoutPeriod) > new DateTimeImmutable;
+        return $lastFailureTime->add($lockoutPeriod) > new DateTimeImmutable();
     }
 
     /**
@@ -219,7 +180,7 @@ class UserLocksService extends ConfigurableService implements UserLocks
         $nonLockingRoles = $this->getOption(self::OPTION_NON_LOCKING_ROLES);
 
         if ($nonLockingRoles && is_array($nonLockingRoles) && count($nonLockingRoles)) {
-            return (bool) !count(array_intersect($user->getRoles(), $nonLockingRoles));
+            return (bool) ! count(array_intersect($user->getRoles(), $nonLockingRoles));
         }
 
         return true;
@@ -250,7 +211,7 @@ class UserLocksService extends ConfigurableService implements UserLocks
     {
         $user = UserHelper::getUser($this->getLockout()->getUser($login));
 
-        if (!$this->isLockable($user)) {
+        if (! $this->isLockable($user)) {
             return false;
         }
 
@@ -277,7 +238,7 @@ class UserLocksService extends ConfigurableService implements UserLocks
 
         $isLocked = $this->isLocked($login);
 
-        if (!$isLocked) {
+        if (! $isLocked) {
             $this->unlockUser($user);
 
             return [
@@ -285,7 +246,7 @@ class UserLocksService extends ConfigurableService implements UserLocks
                 'auto' => false,
                 'status' => __('enabled'),
                 'remaining' => null,
-                'lockable' => $this->isLockable($user)
+                'lockable' => $this->isLockable($user),
             ];
         }
 
@@ -308,7 +269,49 @@ class UserLocksService extends ConfigurableService implements UserLocks
             'auto' => $autoLocked,
             'status' => $status,
             'remaining' => $remaining,
-            'lockable' => $this->isLockable($user)
+            'lockable' => $this->isLockable($user),
         ];
+    }
+
+    /**
+     * Returns proper lockout implementation
+     * @return LockoutStorage|RdfLockoutStorage
+     */
+    protected function getLockout()
+    {
+        if (! $this->lockout || ! $this->lockout instanceof LockoutStorage) {
+            $lockout = $this->getOption(self::OPTION_LOCKOUT_STORAGE);
+            $this->lockout = ($lockout and class_exists($lockout)) ? new $lockout() : new RdfLockoutStorage();
+        }
+
+        return $this->lockout;
+    }
+
+    /**
+     * @param string $login
+     * @throws \core_kernel_users_Exception
+     * @throws \Exception
+     */
+    private function increaseLoginFails($login)
+    {
+        $user = UserHelper::getUser($this->getLockout()->getUser($login));
+
+        /** @var DateInterval $remaining */
+        $remaining = $this->getLockoutRemainingTime($login);
+
+        if (! $remaining->invert) {
+            $failures = $this->getLockout()->getFailures($login);
+        } else {
+            $this->unlockUser($user);
+            $failures = 0;
+        }
+
+        $failures++;
+
+        if ($failures >= intval($this->getOption(self::OPTION_LOCKOUT_FAILED_ATTEMPTS))) {
+            $this->lockUser($user);
+        }
+
+        $this->getLockout()->setFailures($login, $failures);
     }
 }

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,54 +22,45 @@
  * @author lionel
  * @license GPLv2
  * @package tao
- *
  */
 
 
 /**
- *
  * @author Lionel Lecaque, lionel@taotesting.com
  * @package tao
-
  */
 
 use oat\generis\test\TestCase;
 
 class IconsTest extends TestCase
 {
-    
-    
     /**
-     * 
      * @author Lionel Lecaque, lionel@taotesting.com
      * @dataProvider iconsProvider
      */
-    public function testBuildIcons($method,$const){
-        
-       
+    public function testBuildIcons($method, $const)
+    {
         $span = $method->invoke(null);
-        $this->assertEquals(preg_match('#<span class="(.*)">#', $span,$res),1);
-        
+        $this->assertSame(preg_match('#<span class="(.*)">#', $span, $res), 1);
+
         //$const = $this->getConst();
-        $this->assertTrue(in_array($res[1], $const));
-        
-        $toto = $method->invoke(null,array('element'=> 'toto'));
-        $this->assertEquals(preg_match('#<toto class="(.*)">#', $toto,$res),1);
-        $this->assertTrue(in_array($res[1], $const));
-        
+        $this->assertTrue(in_array($res[1], $const, true));
+
+        $toto = $method->invoke(null, ['element' => 'toto']);
+        $this->assertSame(preg_match('#<toto class="(.*)">#', $toto, $res), 1);
+        $this->assertTrue(in_array($res[1], $const, true));
     }
-        
-    public function iconsProvider(){
+
+    public function iconsProvider()
+    {
         $reflection = new ReflectionClass('tao_helpers_Icon');
-        $methods = array();
+        $methods = [];
         foreach ($reflection->getMethods() as $method) {
-            if($method->isPublic()){
-                $methods[] = array($method,array_values($reflection->getConstants()));
+            if ($method->isPublic()) {
+                $methods[] = [$method, array_values($reflection->getConstants())];
             }
         }
-           
+
         return $methods;
-        
-        
     }
 }

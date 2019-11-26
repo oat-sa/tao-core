@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,8 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
- *
  */
 
 use oat\generis\model\OntologyRdf;
@@ -72,17 +73,17 @@ class tao_models_classes_import_RdfImporter implements tao_models_classes_import
         $parser = new tao_models_classes_Parser($this->fetchUploadedFile($form), ['extension' => 'rdf']);
         $parser->validate();
 
-        if (!$parser->isValid()) {
+        if (! $parser->isValid()) {
             $report = common_report_Report::createFailure(__('Nothing imported'));
             $report->add($parser->getReport());
         } else {
             $report = $this->flatImport($parser->getContent(), $class);
 
-            if (!$report->containsError()) {
+            if (! $report->containsError()) {
                 $this->getUploadService()->remove($parser->getSource());
             }
 
-            if ($report->getType() == common_report_Report::TYPE_SUCCESS) {
+            if ($report->getType() === common_report_Report::TYPE_SUCCESS) {
                 $this->getEventManager()->trigger(new RdfImportEvent($report));
             }
         }
@@ -106,7 +107,7 @@ class tao_models_classes_import_RdfImporter implements tao_models_classes_import
 
         // keep type property
         $map = [
-            OntologyRdf::RDF_PROPERTY => OntologyRdf::RDF_PROPERTY
+            OntologyRdf::RDF_PROPERTY => OntologyRdf::RDF_PROPERTY,
         ];
 
         foreach ($graph->resources() as $resource) {
@@ -140,15 +141,15 @@ class tao_models_classes_import_RdfImporter implements tao_models_classes_import
             // assuming single Type
             if (count($propertiesValues[OntologyRdf::RDF_TYPE]) > 1) {
                 return new common_report_Report(common_report_Report::TYPE_ERROR, __('Resource not imported due to multiple types'));
-            } else {
-                foreach ($propertiesValues[OntologyRdf::RDF_TYPE] as $k => $v) {
-                    $classType = isset($map[$v['value']])
+            }
+            foreach ($propertiesValues[OntologyRdf::RDF_TYPE] as $k => $v) {
+                $classType = isset($map[$v['value']])
                         ? new core_kernel_classes_Class($map[$v['value']])
                         : $class;
-                    //$resource->setType($classType);
-                    $classType->createInstance(null, null, $resource->getUri());
-                }
+                //$resource->setType($classType);
+                $classType->createInstance(null, null, $resource->getUri());
             }
+
             unset($propertiesValues[OntologyRdf::RDF_TYPE]);
         }
 
@@ -168,9 +169,9 @@ class tao_models_classes_import_RdfImporter implements tao_models_classes_import
             unset($propertiesValues[OntologyRdfs::RDFS_SUBCLASSOF]);
         }
         foreach ($propertiesValues as $prop => $values) {
-            $property = new core_kernel_classes_Property(isset($map[$prop]) ? $map[$prop] : $prop);
+            $property = new core_kernel_classes_Property($map[$prop] ?? $prop);
             foreach ($values as $k => $v) {
-                $value = isset($map[$v['value']]) ? $map[$v['value']] : $v['value'];
+                $value = $map[$v['value']] ?? $v['value'];
                 if (isset($v['lang'])) {
                     $resource->setPropertyValueByLg($property, $value, $v['lang']);
                 } else {

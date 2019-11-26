@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -52,7 +55,7 @@ class SignatureValidator
             throw new SecurityException('Empty signature');
         }
 
-        if (!is_string($signature)) {
+        if (! is_string($signature)) {
             throw new SecurityException('Signature should be a string');
         }
 

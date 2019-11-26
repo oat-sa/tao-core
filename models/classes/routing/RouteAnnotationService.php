@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,16 +24,17 @@
 
 namespace oat\tao\model\routing;
 
-
 use oat\oatbox\service\ConfigurableService;
 
 class RouteAnnotationService extends ConfigurableService
 {
-    const SERVICE_ID = 'tao/routeAnnotation';
+    public const SERVICE_ID = 'tao/routeAnnotation';
 
-    const SECURITY_HIDE = 'hide';
-    const SECURITY_ALLOW = 'allow';
-    const SECURITY_DENY = 'deny';
+    public const SECURITY_HIDE = 'hide';
+
+    public const SECURITY_ALLOW = 'allow';
+
+    public const SECURITY_DENY = 'deny';
 
     /**
      * @param string $className
@@ -77,7 +81,7 @@ class RouteAnnotationService extends ConfigurableService
                     }
                 }
             }
-        }  catch (\Exception $e) {
+        } catch (\Exception $e) {
             $access = false; // if class or method not found
         }
 
@@ -94,7 +98,8 @@ class RouteAnnotationService extends ConfigurableService
                     $res[$rule['key']] = $rule['permission'];
                 }
             }
-        } catch (\Exception $e) { }
+        } catch (\Exception $e) {
+        }
         return $res;
     }
 

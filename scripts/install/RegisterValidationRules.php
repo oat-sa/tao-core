@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,13 +18,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA
- *
  */
+
 namespace oat\tao\scripts\install;
 
+use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\extension\InstallAction;
 use oat\tao\helpers\form\ValidationRuleRegistry;
-use oat\generis\model\OntologyAwareTrait;
 
 /**
  * This post-installation script creates a new local file source for services
@@ -29,14 +32,14 @@ use oat\generis\model\OntologyAwareTrait;
 class RegisterValidationRules extends InstallAction
 {
     use OntologyAwareTrait;
-    
+
     public function __invoke($params)
     {
         ValidationRuleRegistry::getRegistry()->set('notEmpty', new \tao_helpers_form_validators_NotEmpty());
 
         return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'validator registered');
     }
-    
+
     protected function addValidator($propertyUri, $validationRuleId)
     {
         $labelProperty = $this->getProperty($propertyUri);

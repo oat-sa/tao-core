@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\model\task;
@@ -33,10 +35,13 @@ class ImportByHandler extends AbstractAction
 {
     use OntologyAwareTrait;
 
-    const PARAM_IMPORT_HANDLER = 'import_handler';
-    const PARAM_FORM_VALUES = 'form_values';
-    const PARAM_PARENT_CLASS = 'parent_class_uri';
-    const PARAM_OWNER = 'owner';
+    public const PARAM_IMPORT_HANDLER = 'import_handler';
+
+    public const PARAM_FORM_VALUES = 'form_values';
+
+    public const PARAM_PARENT_CLASS = 'parent_class_uri';
+
+    public const PARAM_OWNER = 'owner';
 
     /**
      * @param array $params
@@ -44,12 +49,12 @@ class ImportByHandler extends AbstractAction
      */
     public function __invoke($params)
     {
-        if (!isset($params[self::PARAM_IMPORT_HANDLER]) || !class_exists($params[self::PARAM_IMPORT_HANDLER])) {
+        if (! isset($params[self::PARAM_IMPORT_HANDLER]) || ! class_exists($params[self::PARAM_IMPORT_HANDLER])) {
             throw new \InvalidArgumentException('Please provide a valid import handler');
         }
 
         /** @var \tao_models_classes_import_ImportHandler $importer */
-        $importer = new $params[self::PARAM_IMPORT_HANDLER];
+        $importer = new $params[self::PARAM_IMPORT_HANDLER]();
 
         $this->propagate($importer);
 

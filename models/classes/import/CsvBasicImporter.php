@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,12 +18,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\model\import;
-use oat\generis\model\OntologyRdfs;
 
+use oat\generis\model\OntologyRdfs;
 
 /**
  * Basic import of csv files
@@ -31,12 +33,11 @@ use oat\generis\model\OntologyRdfs;
  */
 class CsvBasicImporter extends CsvAbstractImporter
 {
-    const OPTION_POSTFIX = '_O';
+    public const OPTION_POSTFIX = '_O';
 
     public function import($class, $options)
     {
         return parent::importFile($class, $options);
-
     }
 
     /**
@@ -50,25 +51,25 @@ class CsvBasicImporter extends CsvAbstractImporter
         $properties = $this->getClassProperties($class);
         $csv_data = new \tao_helpers_data_CsvFile($options);
         $csv_data->load($file);
-        $firstRowAsColumnNames = (isset($options[\tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES]))?$options[\tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES]:false;
+        $firstRowAsColumnNames = (isset($options[\tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES])) ? $options[\tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES] : false;
         $headers = $this->getColumnMapping($csv_data, $firstRowAsColumnNames);
         $modifiedHeader = $headers;
-        array_walk($modifiedHeader, function(&$value){
+        array_walk($modifiedHeader, function (&$value) {
             $value = str_replace(' ', '', strtolower($value));
         });
         $properties[] = new \core_kernel_classes_Property(OntologyRdfs::RDFS_LABEL);
-        $map = array();
+        $map = [];
         /** @var \core_kernel_classes_Property $property */
-        foreach($properties as $property){
-            if(!in_array($property->getUri(), $this->getExludedProperties())){
+        foreach ($properties as $property) {
+            if (! in_array($property->getUri(), $this->getExludedProperties(), true)) {
                 $propertiesMap[$property->getUri()] = $property->getLabel();
 
                 //map properties in many ways
                 //look for label (lower case without spaces)
                 //look for uri (without namespace)
                 if (
-                    ($index = array_search(str_replace(' ', '', strtolower($property->getLabel())),$modifiedHeader)) !== false
-                    || ($index = array_search(substr(strtolower($property->getUri()), strpos($property->getUri(), '#') + 1),$modifiedHeader)) !== false
+                    ($index = array_search(str_replace(' ', '', strtolower($property->getLabel())), $modifiedHeader, true)) !== false
+                    || ($index = array_search(substr(strtolower($property->getUri()), strpos($property->getUri(), '#') + 1), $modifiedHeader, true)) !== false
                 ) {
                     $map[$property->getUri()] = $index;
                 //look for label or uri with eventually one error
@@ -80,35 +81,33 @@ class CsvBasicImporter extends CsvAbstractImporter
                         $levUri = levenshtein(substr(strtolower($property->getUri()), strpos($property->getUri(), '#') + 1), $header);
 
                         if ($levLabel <= $maximumError || $levUri <= $maximumError) {
-                            $closest  = $index;
+                            $closest = $index;
                             break;
                         }
                     }
-                    if(!is_null($closest)){
+                    if ($closest !== null) {
                         $map[$property->getUri()] = $closest;
                     }
                 }
             }
         }
-        $csvMap = array(
-            'classProperties'   => $propertiesMap,
-            'headerList'        => $headers,
-            'mapping'           => $map
-        );
-
-        return $csvMap;
+        return [
+            'classProperties' => $propertiesMap,
+            'headerList' => $headers,
+            'mapping' => $map,
+        ];
     }
 
-    public function getDataSample($file, $options = array(), $size = 5, $associative = true){
+    public function getDataSample($file, $options = [], $size = 5, $associative = true)
+    {
         $csv_data = new \tao_helpers_data_CsvFile($options);
         $csv_data->load($file);
 
         $count = min($size, $csv_data->count());
-        $data = array();
-        for($i = 0; $i < $count; $i++){
+        $data = [];
+        for ($i = 0; $i < $count; $i++) {
             $data[] = $csv_data->getRow($i, $associative);
         }
         return $data;
     }
-
 }

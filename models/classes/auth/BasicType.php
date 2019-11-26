@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -73,15 +76,6 @@ class BasicType extends AbstractAuthType
     }
 
     /**
-     * @param $clientOptions
-     * @return mixed
-     */
-    protected function getClient($clientOptions = [])
-    {
-        return new Client($clientOptions);
-    }
-
-    /**
      * @return \core_kernel_classes_Resource|void
      */
     public function getInstance()
@@ -95,5 +89,14 @@ class BasicType extends AbstractAuthType
     public function setInstance(\core_kernel_classes_Resource $instance = null)
     {
         throw new MethodNotFoundException('setInstance method was deprecated', __CLASS__, __METHOD__);
+    }
+
+    /**
+     * @param $clientOptions
+     * @return mixed
+     */
+    protected function getClient($clientOptions = [])
+    {
+        return new Client($clientOptions);
     }
 }

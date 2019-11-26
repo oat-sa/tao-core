@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,19 +18,18 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\test\unit\model\taskQueue\TaskLog;
 
+use oat\generis\test\TestCase;
 use oat\tao\model\taskQueue\TaskLog\Broker\TaskLogBrokerInterface;
 use oat\tao\model\taskQueue\TaskLog\TaskLogFilter;
 use oat\tao\model\taskQueue\TaskLogInterface;
-use oat\generis\test\TestCase;
 
 class TaskLogFilterTest extends TestCase
 {
-    /** @var  TaskLogFilter */
+    /** @var TaskLogFilter */
     private $filter;
 
     protected function setUp()
@@ -42,7 +44,7 @@ class TaskLogFilterTest extends TestCase
 
     public function testAllColumnsShouldBeAvailableByDefault()
     {
-        $this->assertEquals([
+        $this->assertSame([
             TaskLogBrokerInterface::COLUMN_ID,
             TaskLogBrokerInterface::COLUMN_PARENT_ID,
             TaskLogBrokerInterface::COLUMN_TASK_NAME,
@@ -53,7 +55,7 @@ class TaskLogFilterTest extends TestCase
             TaskLogBrokerInterface::COLUMN_LABEL,
             TaskLogBrokerInterface::COLUMN_OWNER,
             TaskLogBrokerInterface::COLUMN_CREATED_AT,
-            TaskLogBrokerInterface::COLUMN_UPDATED_AT
+            TaskLogBrokerInterface::COLUMN_UPDATED_AT,
         ], $this->filter->getColumns());
     }
 
@@ -75,22 +77,22 @@ class TaskLogFilterTest extends TestCase
     public function testLimitOffsetSortFunctions()
     {
         $this->filter->setLimit(-10);
-        $this->assertEquals(0, $this->filter->getLimit(), 'Limit should be 0 if negative value is set.');
+        $this->assertSame(0, $this->filter->getLimit(), 'Limit should be 0 if negative value is set.');
 
         $this->filter->setLimit(5);
-        $this->assertEquals(5, $this->filter->getLimit(), 'Limit should be 5');
+        $this->assertSame(5, $this->filter->getLimit(), 'Limit should be 5');
 
         $this->filter->setOffset(-20);
-        $this->assertEquals(0, $this->filter->getOffset(), 'Offset should be 0 if negative value is set.');
+        $this->assertSame(0, $this->filter->getOffset(), 'Offset should be 0 if negative value is set.');
 
         $this->filter->setOffset(55);
-        $this->assertEquals(55, $this->filter->getOffset(), 'Offset should be 55');
+        $this->assertSame(55, $this->filter->getOffset(), 'Offset should be 55');
 
         $this->filter->setSortBy(TaskLogBrokerInterface::COLUMN_CREATED_AT);
-        $this->assertEquals(TaskLogBrokerInterface::COLUMN_CREATED_AT, $this->filter->getSortBy(), 'Sort by should be '. TaskLogBrokerInterface::COLUMN_CREATED_AT);
+        $this->assertSame(TaskLogBrokerInterface::COLUMN_CREATED_AT, $this->filter->getSortBy(), 'Sort by should be ' . TaskLogBrokerInterface::COLUMN_CREATED_AT);
 
         $this->filter->setSortOrder('DESC');
-        $this->assertEquals('DESC', $this->filter->getSortOrder(), 'Sort order should be DESC');
+        $this->assertSame('DESC', $this->filter->getSortOrder(), 'Sort order should be DESC');
     }
 
     /**
@@ -146,7 +148,7 @@ class TaskLogFilterTest extends TestCase
             $this->assertArrayHasKey('columnSqlTranslate', $filter);
             $this->assertArrayHasKey('operator', $filter);
             $this->assertArrayHasKey('value', $filter);
-            $this->assertEquals('archived', $filter['value']);
+            $this->assertSame('archived', $filter['value']);
         }
     }
 
@@ -163,7 +165,7 @@ class TaskLogFilterTest extends TestCase
             $this->assertArrayHasKey('columnSqlTranslate', $filter);
             $this->assertArrayHasKey('operator', $filter);
             $this->assertArrayHasKey('value', $filter);
-            $this->assertEquals('cancelled', $filter['value']);
+            $this->assertSame('cancelled', $filter['value']);
         }
     }
 
@@ -172,7 +174,7 @@ class TaskLogFilterTest extends TestCase
         $this->filter->eq('field1', 'value1');
 
         $this->assertCount(1, $this->filter->getFilters());
-        $this->assertEquals('field1', $this->filter->getFilters()[0]['column']);
-        $this->assertEquals('value1', $this->filter->getFilters()[0]['value']);
+        $this->assertSame('field1', $this->filter->getFilters()[0]['column']);
+        $this->assertSame('value1', $this->filter->getFilters()[0]['value']);
     }
 }

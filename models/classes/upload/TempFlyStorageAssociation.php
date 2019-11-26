@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,27 +18,15 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA
- *
  */
 
 namespace oat\tao\model\upload;
 
-use common_Utils;
 use oat\oatbox\AbstractRegistry;
 use oat\oatbox\filesystem\File;
 
 class TempFlyStorageAssociation extends AbstractRegistry implements TmpLocalAwareStorageInterface
 {
-    protected function getExtension()
-    {
-        return \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-    }
-
-    protected function getConfigId()
-    {
-        return 'tmp_fly_files_registry';
-    }
-
     /**
      * @return TmpLocalAwareStorageInterface
      */
@@ -75,6 +66,23 @@ class TempFlyStorageAssociation extends AbstractRegistry implements TmpLocalAwar
         return is_array($result) ? $result : [];
     }
 
+    /**
+     * @param File $file
+     */
+    public function removeFiles(File $file)
+    {
+        $this->remove($this->getHashedKey($file));
+    }
+
+    protected function getExtension()
+    {
+        return \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+    }
+
+    protected function getConfigId()
+    {
+        return 'tmp_fly_files_registry';
+    }
 
     /**
      * @param File $file
@@ -83,13 +91,5 @@ class TempFlyStorageAssociation extends AbstractRegistry implements TmpLocalAwar
     private function getHashedKey(File $file)
     {
         return md5($file->getPrefix());
-    }
-
-    /**
-     * @param File $file
-     */
-    public function removeFiles(File $file)
-    {
-        $this->remove($this->getHashedKey($file));
     }
 }

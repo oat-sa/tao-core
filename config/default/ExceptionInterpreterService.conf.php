@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Default config header
  *
@@ -8,6 +11,6 @@ use oat\tao\model\mvc\error\ExceptionInterpreterService;
 
 return new ExceptionInterpreterService([
     ExceptionInterpreterService::OPTION_INTERPRETERS => [
-        'Exception' => 'oat\\tao\\model\\mvc\\error\\ExceptionInterpretor'
-    ]
+        'Exception' => 'oat\\tao\\model\\mvc\\error\\ExceptionInterpretor',
+    ],
 ]);

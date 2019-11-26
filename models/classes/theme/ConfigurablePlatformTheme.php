@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\model\theme;
@@ -23,7 +25,6 @@ namespace oat\tao\model\theme;
 use Jig\Utils\StringUtils;
 use oat\oatbox\Configurable;
 use oat\tao\helpers\Template;
-
 
 /**
  * Class ConfigurablePlatformTheme
@@ -36,45 +37,44 @@ use oat\tao\helpers\Template;
  */
 class ConfigurablePlatformTheme extends Configurable implements Theme
 {
-
     /** Theme extension id key */
-    const EXTENSION_ID = 'extensionId';
+    public const EXTENSION_ID = 'extensionId';
 
     /** Theme label key */
-    const LABEL = 'label';
+    public const LABEL = 'label';
 
     /** Theme id key */
-    const ID = 'id';
+    public const ID = 'id';
 
     /** Theme stylesheet key */
-    const STYLESHEET = 'stylesheet';
+    public const STYLESHEET = 'stylesheet';
 
     /** Theme logo url key */
-    const LOGO_URL = 'logoUrl';
+    public const LOGO_URL = 'logoUrl';
 
     /** Theme logo link key */
-    const LINK = 'link';
+    public const LINK = 'link';
 
     /** Theme logo title key */
-    const MESSAGE = 'message';
+    public const MESSAGE = 'message';
 
     /** Theme templates key */
-    const TEMPLATES = 'templates';
+    public const TEMPLATES = 'templates';
 
     /** Use the default path for logo, stylesheet, templates etc. */
-    const DEFAULT_PATH = 'useDefaultThemePath';
+    public const DEFAULT_PATH = 'useDefaultThemePath';
 
     /** Path to themes */
-    const DEFAULT_THEME_PATH = 'themes/platform';
+    public const DEFAULT_THEME_PATH = 'themes/platform';
 
     /** Logo Name */
-    const DEFAULT_LOGO_NAME = 'logo.png';
+    public const DEFAULT_LOGO_NAME = 'logo.png';
 
     /** Stylesheet Name */
-    const DEFAULT_STYLESHEET_NAME = 'theme.css';
+    public const DEFAULT_STYLESHEET_NAME = 'theme.css';
 
     /** Theme operated by key */
-    const OPERATED_BY = 'operatedBy';
+    public const OPERATED_BY = 'operatedBy';
 
     /**
      * Default theme path
@@ -96,9 +96,8 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      * @var array
      */
     private $mandatoryOptions = [
-        self::LABEL
+        self::LABEL,
     ];
-
 
     /**
      * ConfigurablePlatformTheme constructor.
@@ -167,7 +166,7 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
         // make sure label and extension id are set
         foreach ($this->mandatoryOptions as $required) {
             if (empty($options[$required])) {
-                throw new \common_exception_MissingParameter($required, get_class());
+                throw new \common_exception_MissingParameter($required, __CLASS__);
             }
         }
 
@@ -183,6 +182,25 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
         }
     }
 
+    /**
+     * This method is here to handle custom options
+     *
+     * @param $method
+     * @param $arguments
+     * @return mixed
+     * @throws \common_exception_NotFound
+     */
+    public function __call($method, $arguments)
+    {
+        if (substr($method, 0, 3) !== 'get') {
+            throw new \common_exception_NotFound('Unknown method "' . $method . '"');
+        }
+        $optionKey = strtolower($method[3]) . substr($method, 4);
+        if ($this->hasOption($optionKey)) {
+            return $this->getOption($optionKey);
+        }
+        throw new \common_exception_NotFound('Unknown option "' . $optionKey . '"');
+    }
 
     /**
      * Get a template associated from a given $id
@@ -195,7 +213,7 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
     {
         $templates = $this->getOption(static::TEMPLATES);
 
-        if (is_null($templates) || empty($templates[$id])) {
+        if ($templates === null || empty($templates[$id])) {
             return Template::getTemplate('blocks/' . $id . '.tpl', 'tao');
         }
 
@@ -210,28 +228,6 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
         return $templates[$id];
     }
 
-
-    /**
-     * This method is here to handle custom options
-     *
-     * @param $method
-     * @param $arguments
-     * @return mixed
-     * @throws \common_exception_NotFound
-     */
-    public function __call($method, $arguments)
-    {
-        if(substr($method, 0, 3) !== 'get') {
-            throw new \common_exception_NotFound('Unknown method "' . $method . '"');
-        }
-        $optionKey = strtolower($method[3]) . substr($method, 4);
-        if ($this->hasOption($optionKey)) {
-            return $this->getOption($optionKey);
-        }
-        throw new \common_exception_NotFound('Unknown option "' . $optionKey . '"');
-    }
-
-
     /**
      * Get all options
      *
@@ -241,7 +237,6 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
     {
         return $this->getOptions();
     }
-
 
     /**
      * Get the url of stylesheet associated to current theme configuration
@@ -254,7 +249,6 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
         return $this->getOption(static::STYLESHEET);
     }
 
-
     /**
      * Get the logo url of current theme
      * If not empty, this url is used on the header logo
@@ -265,7 +259,6 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
     {
         return $this->getOption(static::LOGO_URL);
     }
-
 
     /**
      * Get the url link of current theme
@@ -282,6 +275,7 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
 
         return '';
     }
+
     /**
      * Get the message of current theme
      * Message is used in the header as title of the logo
@@ -320,36 +314,23 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
         return $this->getOption(static::ID);
     }
 
-
     /**
      * Operated by info, make sure both fields contain a string
      *
      * @return array
      */
-    public function getOperatedBy() {
+    public function getOperatedBy()
+    {
         $operatedBy = $this->getOption(static::OPERATED_BY);
-        $operatedBy['name']  = empty($operatedBy['name'])  ? '' : $operatedBy['name'];
+        $operatedBy['name'] = empty($operatedBy['name']) ? '' : $operatedBy['name'];
         $operatedBy['email'] = empty($operatedBy['email']) ? '' : $operatedBy['email'];
         return $operatedBy;
     }
 
-
-    /**
-     * Construct the common part of the default theme part
-     *
-     * @param string $label
-     */
-    protected function setDefaultThemePath($label)
-    {
-
-        $this->defaultThemePath = static::DEFAULT_THEME_PATH . '/' . StringUtils::removeSpecChars($label);
-    }
-
-
     /**
      * Allow to retrieve a custom translatable string for a given key
      *
-     * @param String $key
+     * @param string $key
      * @return string
      */
     public function getText($key)
@@ -381,7 +362,7 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
     {
         return $this->customTexts;
     }
-    
+
     /**
      * This is now just an alias to keep backward compatibility
      *
@@ -392,6 +373,15 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
         return $this->getCustomTexts();
     }
 
+    /**
+     * Construct the common part of the default theme part
+     *
+     * @param string $label
+     */
+    protected function setDefaultThemePath($label)
+    {
+        $this->defaultThemePath = static::DEFAULT_THEME_PATH . '/' . StringUtils::removeSpecChars($label);
+    }
 
     /**
      * This setup is used when configuring a theme for a custom extension.
@@ -403,30 +393,31 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      */
     protected function setupOptions($options)
     {
-        if(empty($options[static::EXTENSION_ID])) {
+        if (empty($options[static::EXTENSION_ID])) {
             $cls = get_class($this);
             strtok($cls, '\\');
             $options[static::EXTENSION_ID] = strtok('\\');
         }
-        $options = array_merge([
-            static::STYLESHEET   => Template::css('tao-3.css', 'tao'),
-            static::LOGO_URL     => Template::img('tao-logo.png', 'tao'),
-            static::LABEL        => $options[static::LABEL],
-            static::EXTENSION_ID => $options[static::EXTENSION_ID],
-            static::ID           => $options[static::EXTENSION_ID]
-                                    . StringUtils::camelize(StringUtils::removeSpecChars($options[static::LABEL]), true)
-        ],
+        $options = array_merge(
+            [
+                static::STYLESHEET => Template::css('tao-3.css', 'tao'),
+                static::LOGO_URL => Template::img('tao-logo.png', 'tao'),
+                static::LABEL => $options[static::LABEL],
+                static::EXTENSION_ID => $options[static::EXTENSION_ID],
+                static::ID => $options[static::EXTENSION_ID]
+                                        . StringUtils::camelize(StringUtils::removeSpecChars($options[static::LABEL]), true),
+            ],
             $options
         );
 
-        if($options[static::LOGO_URL] === static::DEFAULT_PATH) {
+        if ($options[static::LOGO_URL] === static::DEFAULT_PATH) {
             $options[static::LOGO_URL] = Template::img(
                 $this->defaultThemePath . '/' . static::DEFAULT_LOGO_NAME,
                 $options[static::EXTENSION_ID]
             );
         }
 
-        if($options[static::STYLESHEET] === static::DEFAULT_PATH) {
+        if ($options[static::STYLESHEET] === static::DEFAULT_PATH) {
             $options[static::STYLESHEET] = Template::css(
                 $this->defaultThemePath . '/' . static::DEFAULT_STYLESHEET_NAME,
                 $options[static::EXTENSION_ID]

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
+
 namespace oat\tao\model\export;
 
 use core_kernel_classes_Resource;
@@ -32,7 +35,6 @@ use oat\generis\model\OntologyRdf;
  */
 class JsonLdExport implements \JsonSerializable
 {
-
     /**
      * @var \core_kernel_classes_ContainerCollection
      */
@@ -48,45 +50,35 @@ class JsonLdExport implements \JsonSerializable
 
     /**
      * List of uris to exclude during export:
-     * 
+     *
      * @var array
      */
-    private $blackList = array(OntologyRdf::RDF_TYPE);
+    private $blackList = [OntologyRdf::RDF_TYPE];
 
-    private $encoders = array();
+    private $encoders = [];
 
     /**
-     * Gets a list of properties to exclude
-     * 
-     * @return array()
+     * Create an Exported for the specified resurce
+     *
+     * @param core_kernel_classes_Resource $resource
      */
-    protected function getBlackList()
+    public function __construct(core_kernel_classes_Resource $resource = null)
     {
-    	return $this->blackList;
+        if ($resource !== null) {
+            $this->setTriples($resource->getRdfTriples());
+            $this->setTypes($resource->getTypes());
+            $this->setUri($resource->getUri());
+        }
     }
-    
+
     /**
      * Blacklist a property
-     * 
+     *
      * @param string $propertyUri
      */
     public function blackList($propertyUri)
     {
         $this->blackList[] = $propertyUri;
-    }
-    
-    /**
-     * Create an Exported for the specified resurce
-     * 
-     * @param core_kernel_classes_Resource $resource
-     */
-    public function __construct(core_kernel_classes_Resource $resource = null)
-    {
-        if(!is_null($resource)){
-            $this->setTriples($resource->getRdfTriples());
-            $this->setTypes($resource->getTypes());
-            $this->setUri($resource->getUri());
-        }
     }
 
     /**
@@ -124,26 +116,26 @@ class JsonLdExport implements \JsonSerializable
             '@id' => $this->uri,
         ];
         $types = $this->types;
-        if (!empty($types)) {
+        if (! empty($types)) {
             $data['@type'] = $this->transfromArray($types);
         }
 
-        if (!$this->triples instanceof \core_kernel_classes_ContainerCollection) {
+        if (! $this->triples instanceof \core_kernel_classes_ContainerCollection) {
             return $data;
         }
 
         $triples = $this->triples->toArray();
         $map = [];
         foreach ($triples as $key => $triple) {
-            if (in_array($triple->predicate, $this->blackList)) {
+            if (in_array($triple->predicate, $this->blackList, true)) {
                 continue;
             }
 
-            if (!isset($map[$triple->predicate])) {
+            if (! isset($map[$triple->predicate])) {
                 $id = $this->generateId($triple->predicate);
-                if (in_array($id, $map)) {
+                if (in_array($id, $map, true)) {
                     $nr = 0;
-                    while (in_array($id . '_' . $nr, $map)) {
+                    while (in_array($id . '_' . $nr, $map, true)) {
                         $nr++;
                     }
                     $id = $id . '_' . $nr;
@@ -154,8 +146,8 @@ class JsonLdExport implements \JsonSerializable
 
             $key = $map[$triple->predicate];
             if (isset($data[$key])) {
-                if (!is_array($data[$key])) {
-                    $data[$key] = array($data[$key]);
+                if (! is_array($data[$key])) {
+                    $data[$key] = [$data[$key]];
                 }
                 $data[$key][] = $this->encodeValue($triple->object, $triple->predicate);
             } else {
@@ -168,39 +160,30 @@ class JsonLdExport implements \JsonSerializable
 
         return $data;
     }
-    
+
     public function registerEncoder($propertyUri, callable $encoder)
     {
-        $this->encoders[$propertyUri] = $encoder; 
+        $this->encoders[$propertyUri] = $encoder;
     }
-    
+
     public function getEncoders()
     {
         return $this->encoders;
     }
-    
+
     /**
-     * Encode a values array
-     * 
-     * @param array $values
-     * @return mixed
+     * Gets a list of properties to exclude
+     *
+     * @return array()
      */
-    private function transfromArray($values)
+    protected function getBlackList()
     {
-        if (count($values) > 1) {
-            $encoded = array();
-            foreach ($values as $value) {
-                $encoded[] = $this->encodeValue($value);
-            }
-            return $encoded;
-        } else {
-            return $this->encodeValue(reset($values));
-        }
+        return $this->blackList;
     }
-    
+
     /**
      * Encode the value in a json-ld compatible way
-     * 
+     *
      * @param mixed $value
      * @param string $propertyUri (optional) The URI of the property the $value is related to.
      * @return string
@@ -208,18 +191,19 @@ class JsonLdExport implements \JsonSerializable
     protected function encodeValue($value, $propertyUri = '')
     {
         $value = $this->applyEncoder($value, $propertyUri);
-        
+
         return is_string($value)
             ? $value
-            : ((is_object($value) && $value instanceof \core_kernel_classes_Resource)
+            : (
+                (is_object($value) && $value instanceof \core_kernel_classes_Resource)
                 ? $value->getUri()
                 : (string) $value
-        ); 
+            );
     }
-    
+
     /**
      * Generate a key for the property to use during export
-     * 
+     *
      * @param string $uri
      * @return string
      */
@@ -227,28 +211,45 @@ class JsonLdExport implements \JsonSerializable
     {
         $property = new \core_kernel_classes_Property($uri);
         $label = strtolower(trim($property->getLabel()));
-        $label = preg_replace(array('/\s/', '[^a-z\-]'), array('-', ''), $label);
+        $label = preg_replace(['/\s/', '[^a-z\-]'], ['-', ''], $label);
         return empty($label) ? 'key' : $label;
     }
-    
+
     /**
      * Attempt to apply a specific value encoder.
-     * 
-     * @param mixed $value
-     * @param string (optional) The URI of the property the $value belongs to.
+     *
+     * @param mixed $propertyUri
+     * @param string (optional) The URI of the property the $propertyUri belongs to.
      * @return mixed
      */
     protected function applyEncoder($value, $propertyUri = '')
     {
         if (empty($propertyUri) === false) {
             $encoders = $this->getEncoders();
-            
+
             if (isset($encoders[$propertyUri]) === true) {
-                $encodedValue = call_user_func($encoders[$propertyUri], $value);
-                return $encodedValue;
+                return call_user_func($encoders[$propertyUri], $value);
             }
         }
-        
+
         return $value;
+    }
+
+    /**
+     * Encode a values array
+     *
+     * @param array $values
+     * @return mixed
+     */
+    private function transfromArray($values)
+    {
+        if (count($values) > 1) {
+            $encoded = [];
+            foreach ($values as $value) {
+                $encoded[] = $this->encodeValue($value);
+            }
+            return $encoded;
+        }
+        return $this->encodeValue(reset($values));
     }
 }

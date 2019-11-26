@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,14 +23,12 @@
 namespace oat\tao\model\security;
 
 /**
- *
  * The only purpose of this class is to prevent opening application inside iFrames
  * Class IFrameBlocker
  * @package oat\tao\model\security
  */
 class IFrameBlocker
 {
-
     public static function setHeader()
     {
         header('x-frame-options:DENY');

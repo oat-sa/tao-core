@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,15 +18,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
- *
- *
  */
 
 /**
  * Class tao_helpers_form_elements_ReadonlyLiteral
  */
-abstract class tao_helpers_form_elements_ReadonlyLiteral
-    extends tao_helpers_form_FormElement
+abstract class tao_helpers_form_elements_ReadonlyLiteral extends tao_helpers_form_FormElement
 {
     // --- ASSOCIATIONS ---
 
@@ -39,7 +39,4 @@ abstract class tao_helpers_form_elements_ReadonlyLiteral
     protected $widget = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ReadonlyLiteral';
 
     // --- OPERATIONS ---
-
 } /* end of abstract class tao_helpers_form_elements_Readonly */
-
-?>

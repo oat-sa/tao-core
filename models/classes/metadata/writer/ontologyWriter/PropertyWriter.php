@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2016 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\model\metadata\writer\ontologyWriter;
@@ -37,7 +39,7 @@ class PropertyWriter extends ConfigurableService implements OntologyWriter
 {
     use OntologyAwareTrait;
 
-    const PROPERTY_KEY = 'propertyUri';
+    public const PROPERTY_KEY = 'propertyUri';
 
     /**
      * PropertyWriter constructor.
@@ -82,7 +84,7 @@ class PropertyWriter extends ConfigurableService implements OntologyWriter
             if (! $validator->evaluate($data)) {
                 $validated = false;
                 \common_Logger::d('Unable to validate value for property "' . $this->getPropertyToWrite()->getUri() . '"' .
-                    ' against validator "' . $validator->getName(). '" : "' . $validator->getMessage() . '".');
+                    ' against validator "' . $validator->getName() . '" : "' . $validator->getMessage() . '".');
             }
         }
         return $validated;
@@ -109,7 +111,7 @@ class PropertyWriter extends ConfigurableService implements OntologyWriter
                     );
                 }
             }
-            \common_Logger::d('Valid property "'. $this->getPropertyToWrite()->getUri() .'" ' .
+            \common_Logger::d('Valid property "' . $this->getPropertyToWrite()->getUri() . '" ' .
                 'to add to resource "' . $resource->getUri() . '" : ' . $propertyValue);
             return true;
         }
@@ -117,16 +119,6 @@ class PropertyWriter extends ConfigurableService implements OntologyWriter
         throw new MetadataWriterException(
             'Writer "' . __CLASS__ . '" cannot validate value for property "' . $this->getPropertyToWrite()->getUri() . '".'
         );
-    }
-
-    /**
-     * Get the property to be written
-     *
-     * @return \core_kernel_classes_Property
-     */
-    protected function getPropertyToWrite()
-    {
-        return $this->getProperty($this->getOption(self::PROPERTY_KEY));
     }
 
     /**
@@ -140,4 +132,13 @@ class PropertyWriter extends ConfigurableService implements OntologyWriter
         return array_pop($data);
     }
 
+    /**
+     * Get the property to be written
+     *
+     * @return \core_kernel_classes_Property
+     */
+    protected function getPropertyToWrite()
+    {
+        return $this->getProperty($this->getOption(self::PROPERTY_KEY));
+    }
 }

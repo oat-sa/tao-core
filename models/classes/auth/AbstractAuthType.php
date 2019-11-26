@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,7 +21,9 @@
  *
  * @author Alexander Zagovorichev <olexander.zagovorychev@1pt.com>
  */
+
 namespace oat\tao\model\auth;
+
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\PhpSerializable;
 use Psr\Http\Message\RequestInterface;
@@ -30,14 +35,22 @@ use Psr\Http\Message\ResponseInterface;
  */
 abstract class AbstractAuthType implements PhpSerializable
 {
-
     use OntologyAwareTrait;
+
+    /** @var array */
+    protected $credentials = [];
 
     /** @var \core_kernel_classes_Resource The resource which has authorizations */
     private $instance = null;
 
-    /** @var array  */
-    protected $credentials = [];
+    /**
+     * (non-PHPdoc)
+     * @see \oat\oatbox\PhpSerializable::__toPhpCode()
+     */
+    public function __toPhpCode()
+    {
+        return 'new ' . get_class($this) . '()';
+    }
 
     /**
      * Call a request through current authenticator
@@ -62,6 +75,7 @@ abstract class AbstractAuthType implements PhpSerializable
      * @return array
      */
     abstract public function getAuthProperties();
+
     /**
      * Returns template for the current instance (or empty template for the default authorization) with credentials
      *
@@ -69,14 +83,7 @@ abstract class AbstractAuthType implements PhpSerializable
      * @throws \common_exception_InvalidArgumentType
      */
     abstract public function getTemplate();
-    /**
-     * (non-PHPdoc)
-     * @see \oat\oatbox\PhpSerializable::__toPhpCode()
-     */
-    public function __toPhpCode()
-    {
-        return 'new '.get_class($this).'()';
-    }
+
     /**
      * @deprecated Please use setCredentials method with array of credentials for current auth type
      * Set the instance that contain authentication options

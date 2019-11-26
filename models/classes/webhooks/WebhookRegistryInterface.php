@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,7 +30,7 @@ use oat\tao\model\webhooks\configEntity\WebhookInterface;
  */
 interface WebhookRegistryInterface
 {
-    const SERVICE_ID = 'tao/webhookRegistry';
+    public const SERVICE_ID = 'tao/webhookRegistry';
 
     /**
      * @param string $id
