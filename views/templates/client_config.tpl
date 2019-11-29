@@ -35,7 +35,7 @@ require.config({
         'css'               : 'lib/require-css/css',
         'tpl'               : 'tpl',
 //jquery and plugins
-        'jquery'            : '../node_modules/jquery/jquery',
+        'jquery'            : '../node_modules/jquery/dist/jquery',
         'select2'           : 'lib/select2/select2.min',
         'jquery.autocomplete'  : 'lib/jquery.autocomplete/jquery.autocomplete',
         'jquery.tree'       : 'lib/jsTree/jquery.tree',
