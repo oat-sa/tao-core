@@ -18,6 +18,7 @@
  * 
  */
 
+use \oat\tao\model\exceptions\UserErrorException;
 use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
 use oat\tao\model\WfEngineOntology;
@@ -169,9 +170,11 @@ class tao_models_classes_service_ServiceCall implements JsonSerializable
 	 * Serialize the current serivceCall object to a string
 	 * 
 	 * @return string
+     *
+     * @deprecated Use json_encode($serviceCall) instead
 	 */
 	public function serializeToString() {
-	    return serialize($this);
+	    return json_encode($this);
 	}
 	
 	/**
@@ -179,11 +182,20 @@ class tao_models_classes_service_ServiceCall implements JsonSerializable
 	 * 
 	 * @param string $string
 	 * @return tao_models_classes_service_ServiceCall
+     * @throws UserErrorException
 	 */
 	public static function fromString($string) {
-	    return unserialize($string);
+	    $data = json_decode($string, true);
+	    if (json_last_error() !== JSON_ERROR_NONE) {
+	        throw new InvalidArgumentException("Provided string is not a valid JSON.");
+        }
+
+	    return self::fromJson($data);
 	}
-	
+
+    /**
+     * @return array
+     */
 	public function jsonSerialize()
 	{
 	    return array(
@@ -193,7 +205,11 @@ class tao_models_classes_service_ServiceCall implements JsonSerializable
 	    );
 	}
 
-	public static function fromJson($data) {
+    /**
+     * @param array $data
+     * @return tao_models_classes_service_ServiceCall
+     */
+	public static function fromJson(array $data) {
 	    $call = new self($data['service']);
 	    if (!empty($data['out'])) {
 	       $call->setOutParameter(tao_models_classes_service_Parameter::fromJson($data['out']));
