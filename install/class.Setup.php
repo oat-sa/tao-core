@@ -318,7 +318,9 @@ class tao_install_Setup implements Action
                         $object->setServiceLocator($serviceManager);
                     }
                     $params = (isset($script['params']) && is_array($script['params'])) ? $script['params'] : [];
-                    call_user_func($object, $params);
+                    $report = call_user_func($object, $params);
+
+                    $this->logInfo(helpers_Report::renderToCommandline($report));
                 }
             }
         }
