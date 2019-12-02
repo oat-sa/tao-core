@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        label 'bundler'
+        label 'builder'
     }
     stages {
         stage('Resolve TAO dependencies') {
