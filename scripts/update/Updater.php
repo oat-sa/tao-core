@@ -1260,7 +1260,7 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('39.3.3', '39.5.5');
-      
+
         if ($this->isVersion('39.5.5')) {
             /** @var UnionSearchService|ConfigurableService $service */
             $service = new UnionSearchService(['services' => []]);
@@ -1269,6 +1269,6 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('39.6.0');
          }
 
-        $this->skip('39.6.0', '39.6.1');
+        $this->skip('39.6.0', '39.7.0');
     }
 }
