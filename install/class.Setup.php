@@ -320,7 +320,9 @@ class tao_install_Setup implements Action
                     $params = (isset($script['params']) && is_array($script['params'])) ? $script['params'] : [];
                     $report = call_user_func($object, $params);
 
-                    $this->logInfo(helpers_Report::renderToCommandline($report));
+                    if ($report instanceof common_report_Report) {
+                        $this->logInfo(helpers_Report::renderToCommandline($report));
+                    }
                 }
             }
         }
