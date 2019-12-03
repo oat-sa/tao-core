@@ -176,22 +176,23 @@ class tao_models_classes_service_ServiceCall implements JsonSerializable
 	public function serializeToString() {
 	    return json_encode($this);
 	}
-	
-	/**
-	 * Unserialize the string to a serivceCall object
-	 * 
-	 * @param string $string
-	 * @return tao_models_classes_service_ServiceCall
-     * @throws UserErrorException
-	 */
-	public static function fromString($string) {
-	    $data = json_decode($string, true);
-	    if (json_last_error() !== JSON_ERROR_NONE) {
-	        throw new InvalidArgumentException("Provided string is not a valid JSON.");
+
+    /**
+     * Unserialize the string to a serivceCall object
+     *
+     * @param string $string
+     * @return tao_models_classes_service_ServiceCall
+     * @throws InvalidArgumentException
+     */
+    public static function fromString($string)
+    {
+        $data = json_decode($string, true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new InvalidArgumentException("Provided string is not a valid JSON.");
         }
 
-	    return self::fromJson($data);
-	}
+        return self::fromJson($data);
+    }
 
     /**
      * @return array
