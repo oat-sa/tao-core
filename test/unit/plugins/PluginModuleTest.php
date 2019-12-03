@@ -20,6 +20,7 @@ namespace oat\tao\test\unit\plugins;
 
 use common_exception_InconsistentData;
 use oat\tao\model\plugins\PluginModule;
+use oat\generis\test\TestCase;
 
 /**
  * Test the PluginModule pojo
@@ -27,7 +28,7 @@ use oat\tao\model\plugins\PluginModule;
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
  */
-class PluginModuleTest extends \PHPUnit_Framework_TestCase
+class PluginModuleTest extends TestCase
 {
 
     /**

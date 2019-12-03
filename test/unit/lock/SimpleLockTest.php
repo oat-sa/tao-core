@@ -21,8 +21,9 @@
 namespace  oat\tao\test\unit\lock;
 
 use oat\tao\model\lock\implementation\SimpleLock;
+use oat\generis\test\TestCase;
 
-class SimpleLockTest extends \PHPUnit_Framework_TestCase
+class SimpleLockTest extends TestCase
 {
     
     /**

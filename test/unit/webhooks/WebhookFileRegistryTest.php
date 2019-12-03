@@ -24,13 +24,14 @@ use oat\tao\model\webhooks\configEntity\Webhook;
 use oat\tao\model\webhooks\configEntity\WebhookAuth;
 use oat\tao\model\webhooks\configEntity\WebhookEntryFactory;
 use oat\tao\model\webhooks\WebhookFileRegistry;
+use oat\generis\test\MockObject;
 
 class WebhookFileRegistryTest extends TestCase
 {
     /** @var WebhookFileRegistry */
     private $registry;
 
-    /** @var WebhookEntryFactory|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var WebhookEntryFactory|MockObject */
     private $webhookEntryFactoryMock;
 
     protected function setUp()

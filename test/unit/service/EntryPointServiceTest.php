@@ -21,8 +21,9 @@
 namespace oat\tao\test\unit\service;
 
 use oat\tao\model\entryPoint\EntryPointService;
+use oat\generis\test\TestCase;
 
-class EntryPointServiceTest extends \PHPUnit_Framework_TestCase
+class EntryPointServiceTest extends TestCase
 {
     /**
      * @var EntryPointService

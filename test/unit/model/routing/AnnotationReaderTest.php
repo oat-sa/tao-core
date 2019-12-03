@@ -26,6 +26,7 @@ use ReflectionClass;
 use ReflectionMethod;
 use ReflectionObject;
 use ReflectionProperty;
+use oat\generis\test\TestCase;
 
 /**
  *@Annotation
@@ -67,7 +68,7 @@ class AnnotationDemo
  * Class AnnotationReaderTest
  * @package oat\tao\test\unit\model\routing
  */
-class AnnotationReaderTest extends \PHPUnit_Framework_TestCase
+class AnnotationReaderTest extends TestCase
 {
     private $annotationReader;
 

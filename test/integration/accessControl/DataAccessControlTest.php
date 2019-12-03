@@ -9,6 +9,7 @@ use oat\oatbox\user\User;
 use oat\tao\model\accessControl\data\DataAccessControl;
 use oat\tao\model\TaoOntology;
 use PHPUnit\Framework\Assert;
+use oat\generis\test\MockObject;
 
 class DataAccessControlTest extends GenerisPhpUnitTestRunner
 {
@@ -20,7 +21,7 @@ class DataAccessControlTest extends GenerisPhpUnitTestRunner
     protected $userService;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var MockObject
      */
     protected $dac;
 
