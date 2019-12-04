@@ -17,7 +17,7 @@
  * Copyright (c) 2019  (original work) Open Assessment Technologies SA;
  */
 
-namespace oat\tao\test\models\classes\service;
+namespace oat\tao\test\unit\models\classes\service;
 
 use InvalidArgumentException;
 use tao_models_classes_service_Parameter;
