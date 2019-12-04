@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -32,14 +35,6 @@ use oat\tao\model\event\RdfExportEvent;
  */
 class tao_models_classes_export_RdfExporter implements tao_models_classes_export_ExportHandler
 {
-    /**
-     * @return EventManager
-     */
-    protected function getEventManager()
-    {
-        return ServiceManager::getServiceManager()->get(EventManager::SERVICE_ID);
-    }
-
     /**
      * @inheritdoc
      */
@@ -80,11 +75,11 @@ class tao_models_classes_export_RdfExporter implements tao_models_classes_export
             $adapter = new tao_helpers_data_GenerisAdapterRdf();
             $rdf = $adapter->export($class);
 
-            if (!empty($rdf)) {
+            if (! empty($rdf)) {
                 $name = $formValues['filename'] . '_' . time() . '.rdf';
                 $path = tao_helpers_File::concat([$destination, $name]);
 
-                if (!tao_helpers_File::securityCheck($path, true)) {
+                if (! tao_helpers_File::securityCheck($path, true)) {
                     throw new Exception('Unauthorized file name');
                 }
 
@@ -117,16 +112,14 @@ class tao_models_classes_export_RdfExporter implements tao_models_classes_export
         if (count($xmls) === 1) {
             $rdf = $xmls[0];
         } elseif (count($xmls) > 1) {
-
             $baseDom = new DomDocument();
             $baseDom->formatOutput = true;
             $baseDom->loadXML($xmls[0]);
 
             for ($i = 1, $iMax = count($xmls); $i < $iMax; $i++) {
-
                 $xmlDoc = new SimpleXMLElement($xmls[$i]);
                 foreach ($xmlDoc->getNamespaces() as $nsName => $nsUri) {
-                    if (!$baseDom->documentElement->hasAttribute('xmlns:' . $nsName)) {
+                    if (! $baseDom->documentElement->hasAttribute('xmlns:' . $nsName)) {
                         $baseDom->documentElement->setAttribute('xmlns:' . $nsName, $nsUri);
                     }
                 }
@@ -144,4 +137,11 @@ class tao_models_classes_export_RdfExporter implements tao_models_classes_export
         return $rdf;
     }
 
+    /**
+     * @return EventManager
+     */
+    protected function getEventManager()
+    {
+        return ServiceManager::getServiceManager()->get(EventManager::SERVICE_ID);
+    }
 }

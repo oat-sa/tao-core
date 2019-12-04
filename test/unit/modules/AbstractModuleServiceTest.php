@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,12 +22,12 @@
 
 namespace oat\tao\test\unit\modules;
 
+use oat\generis\test\TestCase;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\modules\AbstractModuleRegistry;
 use oat\tao\model\modules\AbstractModuleService;
 use oat\tao\model\modules\DynamicModule;
 use Prophecy\Prophet;
-use oat\generis\test\TestCase;
 
 /**
  * Concrete class ModuleRegistry
@@ -59,7 +62,6 @@ class ModuleRegistry extends AbstractModuleRegistry
  */
 class ModuleService extends AbstractModuleService
 {
-
 }
 
 /**
@@ -81,7 +83,7 @@ class AbstractModuleServiceTest extends TestCase
             'description' => 'Display a wonderful title',
             'category' => 'content',
             'active' => true,
-            'tags' => ['core', 'component']
+            'tags' => ['core', 'component'],
         ],
         'my/wonderful/module/text' => [
             'id' => 'text',
@@ -92,27 +94,9 @@ class AbstractModuleServiceTest extends TestCase
             'description' => 'Display a wonderful text',
             'category' => 'content',
             'active' => true,
-            'tags' => ['core', 'component']
-        ]
+            'tags' => ['core', 'component'],
+        ],
     ];
-
-
-    /**
-     * Get the service with the stubbed registry
-     * @return AbstractModuleService
-     */
-    protected function getModuleService()
-    {
-        $prophet = new Prophet();
-        $prophecy = $prophet->prophesize();
-        $prophecy->willExtend(ModuleRegistry::class);
-        $prophecy->getMap()->willReturn(self::$moduleData);
-
-        $moduleService = new ModuleService();
-        $moduleService->setRegistry($prophecy->reveal());
-
-        return $moduleService;
-    }
 
     /**
      * Check the service is a service
@@ -133,7 +117,7 @@ class AbstractModuleServiceTest extends TestCase
 
         $modules = $moduleService->getAllModules();
 
-        $this->assertEquals(2, count($modules));
+        $this->assertSame(2, count($modules));
 
         $module0 = $modules['my/wonderful/module/title'];
         $module1 = $modules['my/wonderful/module/text'];
@@ -141,14 +125,14 @@ class AbstractModuleServiceTest extends TestCase
         $this->assertInstanceOf(DynamicModule::class, $module0);
         $this->assertInstanceOf(DynamicModule::class, $module1);
 
-        $this->assertEquals('title', $module0->getId());
-        $this->assertEquals('text', $module1->getId());
+        $this->assertSame('title', $module0->getId());
+        $this->assertSame('text', $module1->getId());
 
-        $this->assertEquals('Wonderful Title', $module0->getName());
-        $this->assertEquals('Wonderful Text', $module1->getName());
+        $this->assertSame('Wonderful Title', $module0->getName());
+        $this->assertSame('Wonderful Text', $module1->getName());
 
-        $this->assertEquals(1, $module0->getPosition());
-        $this->assertEquals(2, $module1->getPosition());
+        $this->assertSame(1, $module0->getPosition());
+        $this->assertSame(2, $module1->getPosition());
 
         $this->assertTrue($module0->isActive());
         $this->assertTrue($module1->isActive());
@@ -164,13 +148,29 @@ class AbstractModuleServiceTest extends TestCase
         $module = $moduleService->getModule('text');
 
         $this->assertInstanceOf(DynamicModule::class, $module);
-        $this->assertEquals('text', $module->getId());
-        $this->assertEquals('Wonderful Text', $module->getName());
-        $this->assertEquals(2, $module->getPosition());
-        $this->assertEquals('my/wonderful/module/text', $module->getModule());
-        $this->assertEquals('content', $module->getCategory());
+        $this->assertSame('text', $module->getId());
+        $this->assertSame('Wonderful Text', $module->getName());
+        $this->assertSame(2, $module->getPosition());
+        $this->assertSame('my/wonderful/module/text', $module->getModule());
+        $this->assertSame('content', $module->getCategory());
 
         $this->assertTrue($module->isActive());
     }
 
+    /**
+     * Get the service with the stubbed registry
+     * @return AbstractModuleService
+     */
+    protected function getModuleService()
+    {
+        $prophet = new Prophet();
+        $prophecy = $prophet->prophesize();
+        $prophecy->willExtend(ModuleRegistry::class);
+        $prophecy->getMap()->willReturn(self::$moduleData);
+
+        $moduleService = new ModuleService();
+        $moduleService->setRegistry($prophecy->reveal());
+
+        return $moduleService;
+    }
 }

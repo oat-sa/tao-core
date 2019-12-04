@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,8 +24,9 @@ namespace oat\tao\model\webhooks\configEntity;
 
 class WebhookAuth implements WebhookAuthInterface
 {
-    const AUTH_CLASS = 'authClass';
-    const CREDENTIALS = 'credentials';
+    public const AUTH_CLASS = 'authClass';
+
+    public const CREDENTIALS = 'credentials';
 
     /**
      * @var string
@@ -68,7 +72,7 @@ class WebhookAuth implements WebhookAuthInterface
     {
         return [
             self::AUTH_CLASS => $this->getAuthClass(),
-            self::CREDENTIALS => $this->getCredentials()
+            self::CREDENTIALS => $this->getCredentials(),
         ];
     }
 }

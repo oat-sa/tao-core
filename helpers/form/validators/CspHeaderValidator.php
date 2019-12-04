@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
- *
  */
 
 namespace oat\tao\helpers\form\validators;
@@ -27,27 +29,16 @@ namespace oat\tao\helpers\form\validators;
  */
 class CspHeaderValidator extends \tao_helpers_form_Validator
 {
-
-    const DIRECTIVES = [
+    public const DIRECTIVES = [
         'self',
         'none',
-        '*'
+        '*',
     ];
 
     /**
      * @var string[][]
      */
     private $invalidValues;
-
-    /**
-     * Overrides parent default message
-     *
-     * @return string
-     */
-    protected function getDefaultMessage()
-    {
-        return __('Invalid CSP header.');
-    }
 
     /**
      * Validates the list of domains and directives for the CSP Header.
@@ -67,7 +58,7 @@ class CspHeaderValidator extends \tao_helpers_form_Validator
         $this->invalidValues = [];
         $values = trim(str_replace("\r", '', $values));
 
-        if (!$values) {
+        if (! $values) {
             $this->setMessage('Please add at least one domain or directive.');
             return false;
         }
@@ -94,11 +85,21 @@ class CspHeaderValidator extends \tao_helpers_form_Validator
         }
 
         $isValid = empty($this->invalidValues);
-        if (!$isValid) {
+        if (! $isValid) {
             $this->setMessage($this->getErrorMessage());
         }
 
         return $isValid;
+    }
+
+    /**
+     * Overrides parent default message
+     *
+     * @return string
+     */
+    protected function getDefaultMessage()
+    {
+        return __('Invalid CSP header.');
     }
 
     /**
@@ -156,12 +157,12 @@ class CspHeaderValidator extends \tao_helpers_form_Validator
         $directivesMessage = '';
         $domainsMessage = '';
 
-        if (!empty($this->invalidValues['directives'])) {
+        if (! empty($this->invalidValues['directives'])) {
             $directivesMessage = "The following directives are invalid:\n- ";
             $directivesMessage .= implode("\n- ", $this->invalidValues['directives']);
         }
 
-        if (!empty($this->invalidValues['domain'])) {
+        if (! empty($this->invalidValues['domain'])) {
             $domainsMessage = "The following domains are invalid:\n- ";
             $domainsMessage .= implode("\n- ", $this->invalidValues['domain']);
         }

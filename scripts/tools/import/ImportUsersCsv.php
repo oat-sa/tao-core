@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,9 +22,7 @@
 
 namespace oat\tao\scripts\tools\import;
 
-use oat\generis\model\GenerisRdf;
 use oat\oatbox\extension\script\ScriptAction;
-use oat\tao\model\TaoOntology;
 use oat\tao\model\user\import\UserCsvImporterFactory;
 
 /**
@@ -66,5 +67,4 @@ class ImportUsersCsv extends ScriptAction
 
         return $importer->import($this->getOption('file-path'));
     }
-
 }

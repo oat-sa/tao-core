@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,9 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
- *
- *
  */
+
 namespace oat\tao\model\search\aggregator;
 
 use oat\tao\model\search\ResultSet;
@@ -25,10 +27,9 @@ use oat\tao\model\search\Search;
 
 interface UnionSearchInterface
 {
-    const SERVICE_ID = 'tao/UnionSearchService';
+    public const SERVICE_ID = 'tao/UnionSearchService';
 
     /**
-     *
      * Returns Search services which was appended for current realisation
      *
      * @return Search []

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,53 +18,44 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
-namespace oat\tao\model\theme;
 
-use oat\tao\helpers\Template;
-use oat\oatbox\Configurable;
+namespace oat\tao\model\theme;
 
 /**
  * Backwards compatibilit Theme build
  * based on original array
- * 
+ *
  * @author bout
  */
 class CompatibilityTheme extends DefaultTheme implements Theme
 {
-
     public function getLabel()
     {
         $all = $this->getOptions();
         $first = reset($all);
         return $first['name'];
     }
-    
+
     public function getTemplate($id, $context = Theme::CONTEXT_BACKOFFICE)
     {
         if ($this->hasOption($context)) {
             $arr = $this->getOption($context);
             $templates = $arr['templates'];
             if (isset($templates[$id])) {
-                return ROOT_PATH.$templates[$id];
-            } else {
-                return parent::getTemplate($id, $context);
+                return ROOT_PATH . $templates[$id];
             }
-        } else {
             return parent::getTemplate($id, $context);
         }
-        
+        return parent::getTemplate($id, $context);
     }
-    
+
     public function getStylesheet($context = Theme::CONTEXT_BACKOFFICE)
     {
         if ($this->hasOption($context)) {
             $arr = $this->getOption($context);
-            return ROOT_URL.$arr['path'];
-        } else {
-            return parent::getStylesheet($context);
+            return ROOT_URL . $arr['path'];
         }
+        return parent::getStylesheet($context);
     }
-    
 }

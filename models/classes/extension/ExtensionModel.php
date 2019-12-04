@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,30 +18,29 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\model\extension;
 
-use oat\tao\model\TaoOntology;
-use tao_models_classes_LanguageService;
 use common_ext_Extension;
 use core_kernel_classes_Resource;
 use oat\generis\model\data\ModelManager;
 use oat\tao\helpers\translation\rdf\RdfPack;
+use tao_models_classes_LanguageService;
 
 class ExtensionModel extends \common_ext_ExtensionModel
 {
-
-    public function __construct(common_ext_Extension $extension) {
+    public function __construct(common_ext_Extension $extension)
+    {
         parent::__construct($extension);
         $this->addLanguages($extension);
     }
-    
-    protected function addLanguages($extension) {
+
+    protected function addLanguages($extension)
+    {
         $langService = tao_models_classes_LanguageService::singleton();
         $dataUsage = new core_kernel_classes_Resource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA);
-        $dataOptions = array();
+        $dataOptions = [];
 
         $model = ModelManager::getModel();
         foreach ($langService->getAvailableLanguagesByUsage($dataUsage) as $lang) {

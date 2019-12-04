@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,7 +25,6 @@ namespace oat\tao\model\webhooks;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\webhooks\configEntity\Webhook;
 use oat\tao\model\webhooks\configEntity\WebhookEntryFactory;
-use oat\tao\model\webhooks\task\WebhookTaskParams;
 
 /**
  * Implementation which uses own (service) configuration to store webhooks configuration
@@ -41,8 +43,9 @@ use oat\tao\model\webhooks\task\WebhookTaskParams;
  */
 class WebhookFileRegistry extends ConfigurableService implements WebhookRegistryInterface
 {
-    const OPTION_WEBHOOKS = 'webhooks';
-    const OPTION_EVENTS = 'events';
+    public const OPTION_WEBHOOKS = 'webhooks';
+
+    public const OPTION_EVENTS = 'events';
 
     /**
      * @param string $id
@@ -51,15 +54,14 @@ class WebhookFileRegistry extends ConfigurableService implements WebhookRegistry
     public function getWebhookConfig($id)
     {
         $webhooks = $this->getOption(self::OPTION_WEBHOOKS);
-        if (!isset($webhooks[$id])) {
+        if (! isset($webhooks[$id])) {
             return null;
         }
 
         try {
             return $this->getWebhookEntryFactory()->createEntryFromArray($webhooks[$id]);
-        }
-        catch (\InvalidArgumentException $exception) {
-            throw new \InvalidArgumentException("Invalid '$id' webhook config. " . $exception->getMessage());
+        } catch (\InvalidArgumentException $exception) {
+            throw new \InvalidArgumentException("Invalid '${id}' webhook config. " . $exception->getMessage());
         }
     }
 
@@ -71,15 +73,15 @@ class WebhookFileRegistry extends ConfigurableService implements WebhookRegistry
     {
         $events = $this->getOption(self::OPTION_EVENTS);
 
-        return isset($events[$eventName])
-            ? $events[$eventName]
-            : [];
+        return $events[$eventName]
+            ?? [];
     }
 
     /**
      * @return WebhookEntryFactory
      */
-    private function getWebhookEntryFactory() {
+    private function getWebhookEntryFactory()
+    {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->getServiceLocator()->get(WebhookEntryFactory::class);
     }

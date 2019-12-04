@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,12 +22,11 @@
  * @author Konstantin Sasim <sasim@1pt.com>
  * @license GPLv2
  * @package tao
- *
  */
 
 
-class tao_test_integration_controllerMap_stubs_ValidController extends Module {
-
+class tao_test_integration_controllerMap_stubs_ValidController extends Module
+{
     /**
      * Valid non-namespaced stub controller action
      *
@@ -32,7 +34,5 @@ class tao_test_integration_controllerMap_stubs_ValidController extends Module {
      */
     public function validAction()
     {
-
     }
-
-} 
+}

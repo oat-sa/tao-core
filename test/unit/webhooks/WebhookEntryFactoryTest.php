@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -36,19 +39,19 @@ class WebhookEntryFactoryTest extends TestCase
             'auth' => [
                 'authClass' => 'SomeClass',
                 'credentials' => [
-                    'p1' => 'v1'
-                ]
-            ]
+                    'p1' => 'v1',
+                ],
+            ],
         ]);
 
         $this->assertInstanceOf(WebhookInterface::class, $webhook);
 
-        $this->assertEquals('wh1', $webhook->getId());
-        $this->assertEquals('http://url.com', $webhook->getUrl());
-        $this->assertEquals('POST', $webhook->getHttpMethod());
-        $this->assertEquals(5, $webhook->getMaxRetries());
-        $this->assertEquals('SomeClass', $webhook->getAuth()->getAuthClass());
-        $this->assertEquals(['p1' => 'v1'], $webhook->getAuth()->getCredentials());
+        $this->assertSame('wh1', $webhook->getId());
+        $this->assertSame('http://url.com', $webhook->getUrl());
+        $this->assertSame('POST', $webhook->getHttpMethod());
+        $this->assertSame(5, $webhook->getMaxRetries());
+        $this->assertSame('SomeClass', $webhook->getAuth()->getAuthClass());
+        $this->assertSame(['p1' => 'v1'], $webhook->getAuth()->getCredentials());
     }
 
     public function testCreateEntryFromArrayWithoutAuth()
@@ -58,14 +61,14 @@ class WebhookEntryFactoryTest extends TestCase
             'id' => 'wh1',
             'url' => 'http://url.com',
             'httpMethod' => 'POST',
-            'retryMax' => 5
+            'retryMax' => 5,
         ]);
 
         $this->assertInstanceOf(WebhookInterface::class, $webhook);
 
-        $this->assertEquals('wh1', $webhook->getId());
-        $this->assertEquals('http://url.com', $webhook->getUrl());
-        $this->assertEquals('POST', $webhook->getHttpMethod());
+        $this->assertSame('wh1', $webhook->getId());
+        $this->assertSame('http://url.com', $webhook->getUrl());
+        $this->assertSame('POST', $webhook->getHttpMethod());
         $this->assertNull($webhook->getAuth());
     }
 
@@ -81,12 +84,11 @@ class WebhookEntryFactoryTest extends TestCase
                 'auth' => [
                     'authClass' => 'SomeClass',
                     'credentials' => [
-                        'p1' => 'v1'
-                    ]
-                ]
+                        'p1' => 'v1',
+                    ],
+                ],
             ]);
-        }
-        catch (\InvalidArgumentException $exception) {
+        } catch (\InvalidArgumentException $exception) {
             $this->assertContains('httpMethod', $exception->getMessage());
             $this->assertContains('url', $exception->getMessage());
             throw $exception;
@@ -105,12 +107,11 @@ class WebhookEntryFactoryTest extends TestCase
                 'retryMax' => 5,
                 'auth' => [
                     'credentials' => [
-                        'p1' => 'v1'
-                    ]
-                ]
+                        'p1' => 'v1',
+                    ],
+                ],
             ]);
-        }
-        catch (\InvalidArgumentException $exception) {
+        } catch (\InvalidArgumentException $exception) {
             $this->assertContains('authClass', $exception->getMessage());
             throw $exception;
         }

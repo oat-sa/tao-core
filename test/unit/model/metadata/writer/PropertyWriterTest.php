@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace oat\tao\test\unit\model\metadata\import;
 
 use oat\generis\test\TestCase;
@@ -129,5 +131,4 @@ class PropertyWriterTest extends TestCase
         $this->expectException(MetadataWriterException::class);
         $writer->write($resource, $data);
     }
-
 }

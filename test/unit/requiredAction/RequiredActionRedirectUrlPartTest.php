@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,8 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
- *
- *
  */
 
 namespace oat\tao\test\unit\requiredAction;
@@ -32,8 +33,8 @@ class RequiredActionRedirectUrlPartTest extends TestCase
      */
     public function testMustBeExecuted($result, $rules)
     {
-        $action = new RequiredActionRedirectUrlPart('testAction', $rules, array('url'));
-        $this->assertEquals($action->mustBeExecuted(), $result);
+        $action = new RequiredActionRedirectUrlPart('testAction', $rules, ['url']);
+        $this->assertSame($action->mustBeExecuted(), $result);
     }
 
     /**
@@ -49,7 +50,7 @@ class RequiredActionRedirectUrlPartTest extends TestCase
             [//one rule which returns false
                 'result' => false,
                 'rules' => [
-                    $this->getNegativeRule()
+                    $this->getNegativeRule(),
                 ],
             ],
             [//one rule which returns true
@@ -62,7 +63,7 @@ class RequiredActionRedirectUrlPartTest extends TestCase
                 'result' => true,
                 'rules' => [
                     $this->getPositiveRule(),
-                    $this->getNegativeRule()
+                    $this->getNegativeRule(),
                 ],
             ],
         ];
@@ -85,5 +86,4 @@ class RequiredActionRedirectUrlPartTest extends TestCase
 
         return $ruleMock->reveal();
     }
-
 }

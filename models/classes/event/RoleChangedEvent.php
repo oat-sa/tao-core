@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,23 +18,15 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA
- *
  */
+
 namespace oat\tao\model\event;
 
 class RoleChangedEvent extends AbstractRoleEvent
 {
     protected $essence;
-    protected $changes;
 
-    public function jsonSerialize()
-    {
-        return [
-            'roleUri' => $this->roleUri,
-            'essence' => $this->essence,
-            'changes' => $this->changes,
-        ];
-    }
+    protected $changes;
 
     /**
      * RoleChangedEvent constructor.
@@ -46,5 +41,12 @@ class RoleChangedEvent extends AbstractRoleEvent
         $this->changes = $changes;
     }
 
-
+    public function jsonSerialize()
+    {
+        return [
+            'roleUri' => $this->roleUri,
+            'essence' => $this->essence,
+            'changes' => $this->changes,
+        ];
+    }
 }

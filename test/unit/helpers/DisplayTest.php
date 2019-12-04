@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,13 +18,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA
- *
  */
 
 namespace oat\tao\test\unit\helpers;
 
 use oat\generis\test\TestCase;
-use \tao_helpers_Display;
+use tao_helpers_Display;
 
 /**
  * Test the class tao_helpers_Display
@@ -30,7 +32,6 @@ use \tao_helpers_Display;
  */
 class DisplayTest extends TestCase
 {
-
     /**
      * Test the method tao_helpers_Display::sanitizeXssHtml
      *
@@ -39,7 +40,7 @@ class DisplayTest extends TestCase
     public function testSanitizeXssHtml($input, $expected)
     {
         $result = tao_helpers_Display::sanitizeXssHtml($input);
-        $this->assertEquals($expected, $result);
+        $this->assertSame($expected, $result);
     }
 
     /**
@@ -50,18 +51,18 @@ class DisplayTest extends TestCase
     {
         return [
 
-            [ null, null ],
-            [ '', '' ],
-            [ 'foo', 'foo' ],
-            [ '<b>foo</b> <span class="icon-foo"></span> <em>€©¾</em>', '<b>foo</b> <span class="icon-foo"></span> <em>€©¾</em>' ],
-            [ '<div><script>alert(\'foo\');</script></div>', '<div></div>'],
-            [ '<div>bar<script>alert(\'foo\');</script></div>', '<div>bar</div>'],
-            [ '<a href="http://taotesting.com">link</a>', '<a href="http://taotesting.com">link</a>'],
-            [ '<a href="http://taotesting.com" target="_blank">link</a>', '<a href="http://taotesting.com" target="_blank" rel="noreferrer noopener">link</a>'],
-            [ '<div><img src="https://www.taotesting.com/wp-content/uploads/2014/09/oat-header-logo.png" alt="logo" /></div>', '<div><img src="https://www.taotesting.com/wp-content/uploads/2014/09/oat-header-logo.png" alt="logo" /></div>'],
-            [ '<div><img src="javascript:alert(\'foo\');" /></div>', '<div></div>'],
-            [ '<div class="foo"><style>.foo { background-color: pink; }</style></div>', '<div class="foo"></div>'],
-            [ '<div><iframe src="http://taotesting.com"></iframe></div>', '<div></div>'],
+            [null, null],
+            ['', ''],
+            ['foo', 'foo'],
+            ['<b>foo</b> <span class="icon-foo"></span> <em>€©¾</em>', '<b>foo</b> <span class="icon-foo"></span> <em>€©¾</em>'],
+            ['<div><script>alert(\'foo\');</script></div>', '<div></div>'],
+            ['<div>bar<script>alert(\'foo\');</script></div>', '<div>bar</div>'],
+            ['<a href="http://taotesting.com">link</a>', '<a href="http://taotesting.com">link</a>'],
+            ['<a href="http://taotesting.com" target="_blank">link</a>', '<a href="http://taotesting.com" target="_blank" rel="noreferrer noopener">link</a>'],
+            ['<div><img src="https://www.taotesting.com/wp-content/uploads/2014/09/oat-header-logo.png" alt="logo" /></div>', '<div><img src="https://www.taotesting.com/wp-content/uploads/2014/09/oat-header-logo.png" alt="logo" /></div>'],
+            ['<div><img src="javascript:alert(\'foo\');" /></div>', '<div></div>'],
+            ['<div class="foo"><style>.foo { background-color: pink; }</style></div>', '<div class="foo"></div>'],
+            ['<div><iframe src="http://taotesting.com"></iframe></div>', '<div></div>'],
         ];
     }
 }

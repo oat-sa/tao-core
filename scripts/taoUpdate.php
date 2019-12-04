@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,17 +18,14 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
- *
- *
  */
-require_once dirname(__FILE__) .'/../includes/raw_start.php';
+require_once dirname(__FILE__) . '/../includes/raw_start.php';
 
-use oat\tao\model\extension\UpdateExtensions;
 use oat\oatbox\service\ServiceManager;
+use oat\tao\model\extension\UpdateExtensions;
 
 $action = new UpdateExtensions();
 $action->setServiceLocator(ServiceManager::getServiceManager());
-$report = $action->__invoke(array());
+$report = $action->__invoke([]);
 echo helpers_Report::renderToCommandline($report);
 echo 'Update completed' . PHP_EOL;
-

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
- *
  */
 
 namespace oat\tao\model\cliArgument\argument\implementation\verbose;
@@ -42,25 +44,6 @@ abstract class Verbose implements Argument, ServiceLocatorAwareInterface, PhpSer
     protected $hideColors = false;
 
     /**
-     * Sets the output color's visibility.
-     *
-     * @param array $params
-     */
-    protected function setOutputColorVisibility(array $params)
-    {
-        if ($this->hasParameter($params, '-nc') || $this->hasParameter($params, '--no-color')) {
-            $this->hideColors = true;
-        }
-    }
-
-    /**
-     * Return the Psr3 logger level minimum to send log to logger
-     *
-     * @return string
-     */
-    abstract protected function getMinimumLogLevel();
-
-    /**
      * Propagate the argument process to Action
      * To load a verbose logger, a check is done Action interfaces to find LoggerInterface
      * The verbose logger is loaded with the minimum level requires
@@ -82,6 +65,25 @@ abstract class Verbose implements Argument, ServiceLocatorAwareInterface, PhpSer
     }
 
     /**
+     * Sets the output color's visibility.
+     *
+     * @param array $params
+     */
+    protected function setOutputColorVisibility(array $params)
+    {
+        if ($this->hasParameter($params, '-nc') || $this->hasParameter($params, '--no-color')) {
+            $this->hideColors = true;
+        }
+    }
+
+    /**
+     * Return the Psr3 logger level minimum to send log to logger
+     *
+     * @return string
+     */
+    abstract protected function getMinimumLogLevel();
+
+    /**
      * Find a parameter $name into $params arguments
      * If $value is defined, check if following parameter equals to given $value
      *
@@ -92,11 +94,11 @@ abstract class Verbose implements Argument, ServiceLocatorAwareInterface, PhpSer
      */
     protected function hasParameter(array $params, $name, $value = null)
     {
-        $found = in_array($name, $params);
-        if (is_null($value) || !$found) {
+        $found = in_array($name, $params, true);
+        if ($value === null || ! $found) {
             return $found;
         }
-        $paramValueIndex = array_search($name, $params) + 1;
-        return isset($params[$paramValueIndex]) && ($params[$paramValueIndex] == $value);
+        $paramValueIndex = array_search($name, $params, true) + 1;
+        return isset($params[$paramValueIndex]) && ($params[$paramValueIndex] === $value);
     }
 }

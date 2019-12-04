@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -29,17 +32,6 @@ use oat\tao\model\modules\AbstractModuleService;
  */
 abstract class AbstractProviderService extends AbstractModuleService
 {
-    /**
-     * Creates a provider object from data array
-     * @param $data
-     * @return ProviderModule
-     * @throws \common_exception_InconsistentData
-     */
-    protected function createFromArray($data)
-    {
-        return ProviderModule::fromArray($data);
-    }
-
     /**
      * Retrieves the list of all available providers (from the registry)
      *
@@ -104,5 +96,16 @@ abstract class AbstractProviderService extends AbstractModuleService
     public function registerProvidersByCategories(array $providers)
     {
         return $this->registerModulesByCategories($providers);
+    }
+
+    /**
+     * Creates a provider object from data array
+     * @param $data
+     * @return ProviderModule
+     * @throws \common_exception_InconsistentData
+     */
+    protected function createFromArray($data)
+    {
+        return ProviderModule::fromArray($data);
     }
 }

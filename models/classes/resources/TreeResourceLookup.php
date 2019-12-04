@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,13 +18,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
+
 namespace oat\tao\model\resources;
 
 use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\GenerisTreeFactory;
 use oat\tao\helpers\TreeHelper;
+use oat\tao\model\GenerisTreeFactory;
 
 /**
  * Look up resources and format them as a tree hierarchy
@@ -30,7 +33,7 @@ use oat\tao\helpers\TreeHelper;
  */
 class TreeResourceLookup extends ConfigurableService implements ResourceLookup
 {
-    const SERVICE_ID = 'tao/TreeResourceLookup';
+    public const SERVICE_ID = 'tao/TreeResourceLookup';
 
     /**
      * Retrieve Resources in their hierarchy, for the given parameters as format them as tree.
@@ -45,10 +48,10 @@ class TreeResourceLookup extends ConfigurableService implements ResourceLookup
     public function getResources(\core_kernel_classes_Class $rootClass, array $selectedUris = [], array $propertyFilters = [], $offset = 0, $limit = 30)
     {
         $openNodes = [];
-        if(count($selectedUris) > 0){
+        if (count($selectedUris) > 0) {
             $openNodes = TreeHelper::getNodesToOpen($selectedUris, $rootClass);
         }
-        if (!in_array($rootClass->getUri(), $openNodes)) {
+        if (! in_array($rootClass->getUri(), $openNodes, true)) {
             $openNodes[] = $rootClass->getUri();
         }
         $factory = new GenerisTreeFactory(true, $openNodes, $limit, $offset, $selectedUris, $propertyFilters);
@@ -59,11 +62,11 @@ class TreeResourceLookup extends ConfigurableService implements ResourceLookup
 
     public function getClasses(\core_kernel_classes_Class $rootClass, array $selectedUris = [], array $propertyFilters = [], $offset = 0, $limit = 30)
     {
-         $openNodes = [];
-        if(count($selectedUris) > 0){
+        $openNodes = [];
+        if (count($selectedUris) > 0) {
             $openNodes = TreeHelper::getNodesToOpen($selectedUris, $rootClass);
         }
-        if (!in_array($rootClass->getUri(), $openNodes)) {
+        if (! in_array($rootClass->getUri(), $openNodes, true)) {
             $openNodes[] = $rootClass->getUri();
         }
         $factory = new GenerisTreeFactory(false, $openNodes, $limit, $offset, $selectedUris, $propertyFilters);
@@ -80,18 +83,17 @@ class TreeResourceLookup extends ConfigurableService implements ResourceLookup
      */
     private function formatTreeData(array $treeData)
     {
-        return array_map(function($data){
-
+        return array_map(function ($data) {
             $formated = [
-                'label'    => $data['data'],
-                'type'     => $data['type'],
-                'uri'      => $data['attributes']['data-uri'],
+                'label' => $data['data'],
+                'type' => $data['type'],
+                'uri' => $data['attributes']['data-uri'],
                 'classUri' => $data['attributes']['data-classUri'],
                 'signature' => $data['attributes']['data-signature'],
-                'state'    => isset($data['state']) ? $data['state'] : false,
-                'count'    => isset($data['count']) ? $data['count'] : 0
+                'state' => $data['state'] ?? false,
+                'count' => $data['count'] ?? 0,
             ];
-            if(isset($data['children'])){
+            if (isset($data['children'])) {
                 $formated['children'] = $this->formatTreeData($data['children']);
             }
             return $formated;

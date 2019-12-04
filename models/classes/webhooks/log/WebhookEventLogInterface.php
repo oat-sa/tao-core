@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -23,7 +26,7 @@ use oat\tao\model\webhooks\task\WebhookTaskContext;
 
 interface WebhookEventLogInterface
 {
-    const SERVICE_ID = 'tao/webhookEventLog';
+    public const SERVICE_ID = 'tao/webhookEventLog';
 
     /**
      * @param WebhookTaskContext $webhookTaskContext

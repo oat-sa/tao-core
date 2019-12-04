@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\test\unit\helpers\dateFormatter;
@@ -33,7 +35,7 @@ class AmericanFormatterTest extends TestCase
     {
         $subject = new AmericanFormatter();
 
-        $this->assertEquals($expected, $subject->getFormat($format));
+        $this->assertSame($expected, $subject->getFormat($format));
     }
 
     public function formatsToTest()
@@ -55,7 +57,7 @@ class AmericanFormatterTest extends TestCase
     {
         $subject = new AmericanFormatter();
 
-        $this->assertEquals($expected, $subject->getJavascriptFormat($format));
+        $this->assertSame($expected, $subject->getJavascriptFormat($format));
     }
 
     public function javascriptFormatsToTest()

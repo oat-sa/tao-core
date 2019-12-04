@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\model\taskQueue\Queue\TaskSelector;
@@ -66,11 +68,11 @@ class WeightStrategy implements SelectorStrategyInterface, LoggerAwareInterface
      */
     private function pickQueueByWeight(array $queues)
     {
-        $weights = array_map(function(QueueInterface $queue) {
+        $weights = array_map(function (QueueInterface $queue) {
             return $queue->getWeight();
         }, $queues);
 
-        $rand = mt_rand(1, array_sum($weights));
+        $rand = random_int(1, array_sum($weights));
 
         /** @var QueueInterface $queue */
         foreach ($queues as $queue) {

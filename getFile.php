@@ -1,7 +1,8 @@
 <?php
-use oat\tao\model\websource\WebsourceManager;
+
+declare(strict_types=1);
+
 /**
- *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -17,8 +18,6 @@ use oat\tao\model\websource\WebsourceManager;
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
- *
  */
 
 require_once '../vendor/autoload.php';
@@ -30,14 +29,14 @@ if (count($parts) < 3) {
     die();
 }
 
-list ($ap, $timestamp, $token, $subPath) = $parts;
+[$ap, $timestamp, $token, $subPath] = $parts;
 $parts = explode('*/', $subPath, 2);
 // TODO add security check on url
 if (count($parts) < 2) {
     header('HTTP/1.0 403 Forbidden');
     die();
 }
-list ($subPath, $file) = $parts;
+[$subPath, $file] = $parts;
 
 $bootStrap = new oat\tao\model\mvc\Bootstrap('../config/generis.conf.php');
 $config = common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getConfig('websource_' . $ap);
@@ -49,12 +48,12 @@ $ttl = $config['options']['ttl'];
 
 $correctToken = md5($timestamp . $subPath . $secretPassphrase);
 
-if (time() - $timestamp > $ttl || $token != $correctToken) {
+if (time() - $timestamp > $ttl || $token !== $correctToken) {
     header('HTTP/1.0 403 Forbidden');
     die();
 }
 
-$path = array();
+$path = [];
 foreach (explode('/', $subPath . $file) as $ele) {
     $path[] = rawurldecode($ele);
 }
@@ -64,8 +63,8 @@ if (strpos($filename, '?')) {
     $parts = explode('?', $filename);
     $filename = $parts[0];
 }
-$cacheTtl = $ttl ? $ttl : (30 * 60); //30 min default
-header('Expires: '.gmdate('D, d M Y H:i:s \G\M\T', $timestamp + $cacheTtl));
+$cacheTtl = $ttl ?: (30 * 60); //30 min default
+header('Expires: ' . gmdate('D, d M Y H:i:s \G\M\T', $timestamp + $cacheTtl));
 
 tao_helpers_Http::returnFile($filename);
 

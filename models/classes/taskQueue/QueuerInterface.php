@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\model\taskQueue;
@@ -33,7 +35,7 @@ interface QueuerInterface extends \Countable
      * Publish a task to a queue.
      *
      * @param TaskInterface $task
-     * @param null|string   $label Label for the task
+     * @param string|null $label Label for the task
      * @return bool Is the task successfully enqueued?
      */
     public function enqueue(TaskInterface $task, $label = null);
@@ -41,7 +43,7 @@ interface QueuerInterface extends \Countable
     /**
      * Receive a task from the queue.
      *
-     * @return null|TaskInterface
+     * @return TaskInterface|null
      */
     public function dequeue();
 

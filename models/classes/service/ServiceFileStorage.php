@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,20 +18,20 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\model\service;
 
 interface ServiceFileStorage
 {
-    const SERVICE_ID = 'tao/ServiceFileStorage';
-    
+    public const SERVICE_ID = 'tao/ServiceFileStorage';
+
     /**
      * @param boolean $public
      * @return \tao_models_classes_service_StorageDirectory
      */
     public function spawnDirectory($public = false);
+
     /**
      * @param string $id
      * @return \tao_models_classes_service_StorageDirectory

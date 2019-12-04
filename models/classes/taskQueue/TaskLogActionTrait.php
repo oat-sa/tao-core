@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\model\taskQueue;
@@ -54,7 +56,7 @@ trait TaskLogActionTrait
         /** @var TaskLogInterface $taskLog */
         $taskLog = $this->getServiceManager()->get(TaskLogInterface::SERVICE_ID);
 
-        if (is_null($userId)) {
+        if ($userId === null) {
             $userId = $this->getUserId();
         }
 
@@ -82,11 +84,11 @@ trait TaskLogActionTrait
     {
         $taskLogEntity = $this->getTaskLogEntity($taskId, $userId);
 
-        if (!is_null($forcedTaskType) && $taskLogEntity->getTaskName() !== $forcedTaskType) {
-            throw new \common_exception_BadRequest("Wrong task type");
+        if ($forcedTaskType !== null && $taskLogEntity->getTaskName() !== $forcedTaskType) {
+            throw new \common_exception_BadRequest('Wrong task type');
         }
 
-        $result['id']     = $this->getTaskId($taskLogEntity);
+        $result['id'] = $this->getTaskId($taskLogEntity);
         $result['status'] = $this->getTaskStatus($taskLogEntity);
         $result['report'] = $taskLogEntity->getReport() ? $this->getTaskReport($taskLogEntity) : [];
 
@@ -106,8 +108,8 @@ trait TaskLogActionTrait
             'success' => true,
             'data' => [
                 'extra' => $extraData,
-                'task' => $this->getTaskLogReturnData($task->getId())
-            ]
+                'task' => $this->getTaskLogReturnData($task->getId()),
+            ],
         ]);
     }
 
@@ -178,7 +180,7 @@ trait TaskLogActionTrait
 
         foreach ($plainReports as $r) {
             $reports[] = [
-                'type'    => $r->getType(),
+                'type' => $r->getType(),
                 'message' => $r->getMessage(),
             ];
         }

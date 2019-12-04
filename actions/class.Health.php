@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 class tao_actions_Health extends tao_actions_CommonModule
 {
     /**

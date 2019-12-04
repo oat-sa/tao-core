@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,22 +18,19 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
- *
  */
 
-use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\filesystem\File;
+use oat\oatbox\task\implementation\SyncQueue;
+use oat\oatbox\task\Queue;
 use oat\oatbox\task\Task;
 use oat\tao\model\TaskQueueActionTrait;
-use oat\oatbox\task\Queue;
-use oat\oatbox\task\implementation\SyncQueue;
 
 /**
  * @deprecated since version 21.7.0, to be removed in 22.0.
  */
 class tao_actions_QueueAction extends \tao_actions_SaSModule
 {
-
     use TaskQueueActionTrait;
 
     /**
@@ -43,7 +43,7 @@ class tao_actions_QueueAction extends \tao_actions_SaSModule
      */
     protected function getQueueService()
     {
-        if (!$this->queueService) {
+        if (! $this->queueService) {
             $this->queueService = $this->getServiceLocator()->get(Queue::SERVICE_ID);
         }
         return $this->queueService;
@@ -56,7 +56,7 @@ class tao_actions_QueueAction extends \tao_actions_SaSModule
     protected function isAsyncQueue()
     {
         $queue = $this->getQueueService();
-        return !($queue instanceof SyncQueue);
+        return ! ($queue instanceof SyncQueue);
     }
 
     /**
@@ -100,7 +100,7 @@ class tao_actions_QueueAction extends \tao_actions_SaSModule
         $filename = null;
         /** @var common_report_Report $success */
         foreach ($report->getSuccesses() as $success) {
-            if (!is_null($filename = $success->getData())) {
+            if (($filename = $success->getData()) !== null) {
                 if (is_array($filename)) {
                     $filename = $filename['uriResource'];
                 }
@@ -117,11 +117,10 @@ class tao_actions_QueueAction extends \tao_actions_SaSModule
      */
     protected function getFile($fileUri)
     {
-        /* @var \oat\oatbox\filesystem\FileSystemService $fileSystemService */
-        $fileSystemService     = $this->getServiceLocator()->get(\oat\oatbox\filesystem\FileSystemService::SERVICE_ID);
-        $storageService        = $fileSystemService->getFileSystem(Queue::FILE_SYSTEM_ID);
+        /** @var \oat\oatbox\filesystem\FileSystemService $fileSystemService */
+        $fileSystemService = $this->getServiceLocator()->get(\oat\oatbox\filesystem\FileSystemService::SERVICE_ID);
+        $storageService = $fileSystemService->getFileSystem(Queue::FILE_SYSTEM_ID);
 
         return $storageService->readStream($fileUri);
     }
-
 }

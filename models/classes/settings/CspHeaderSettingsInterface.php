@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -26,6 +29,7 @@ namespace oat\tao\model\settings;
  */
 interface CspHeaderSettingsInterface
 {
-    const CSP_HEADER_SETTING  = 'cspHeader';
-    const CSP_HEADER_LIST     = 'cspHeaderList';
+    public const CSP_HEADER_SETTING = 'cspHeader';
+
+    public const CSP_HEADER_LIST = 'cspHeaderList';
 }

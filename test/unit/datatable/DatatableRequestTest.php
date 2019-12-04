@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\test\unit\datatable;
@@ -32,8 +34,7 @@ use Slim\Http\Request;
  */
 class DatatableRequestTest extends TestCase
 {
-
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
     }
@@ -50,7 +51,7 @@ class DatatableRequestTest extends TestCase
         $request = Request::createFromEnvironment($env);
         $datatableRequest = new DatatableRequest($request);
 
-        $this->assertEquals($result['rows'], $datatableRequest->getRows());
+        $this->assertSame($result['rows'], $datatableRequest->getRows());
     }
 
     /**
@@ -65,7 +66,7 @@ class DatatableRequestTest extends TestCase
         $request = Request::createFromEnvironment($env);
         $datatableRequest = new DatatableRequest($request);
 
-        $this->assertEquals($result['page'], $datatableRequest->getPage());
+        $this->assertSame($result['page'], $datatableRequest->getPage());
     }
 
     /**
@@ -77,11 +78,10 @@ class DatatableRequestTest extends TestCase
      */
     public function testGetSortBy($env, $result)
     {
-
         $request = Request::createFromEnvironment($env);
         $datatableRequest = new DatatableRequest($request);
 
-        $this->assertEquals($result['sortby'], $datatableRequest->getSortBy());
+        $this->assertSame($result['sortby'], $datatableRequest->getSortBy());
     }
 
     /**
@@ -93,11 +93,10 @@ class DatatableRequestTest extends TestCase
      */
     public function testGetSortOrder($env, $result)
     {
-
         $request = Request::createFromEnvironment($env);
         $datatableRequest = new DatatableRequest($request);
 
-        $this->assertEquals($result['sortorder'], $datatableRequest->getSortOrder());
+        $this->assertSame($result['sortorder'], $datatableRequest->getSortOrder());
     }
 
     /**
@@ -109,11 +108,10 @@ class DatatableRequestTest extends TestCase
      */
     public function testGetFilters($env, $result)
     {
-
         $request = Request::createFromEnvironment($env);
         $datatableRequest = new DatatableRequest($request);
 
-        $this->assertEquals($result['filters'], $datatableRequest->getFilters());
+        $this->assertSame($result['filters'], $datatableRequest->getFilters());
     }
 
     public function environmentsProvider()

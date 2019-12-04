@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,11 +18,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
- *
  */
 
 namespace oat\tao\model\notification;
-
 
 use oat\oatbox\service\ConfigurableService;
 
@@ -30,11 +31,10 @@ abstract class AbstractNotificationService extends ConfigurableService implement
      */
     public function getVisibility()
     {
-        if($this->hasOption('visibility')) {
+        if ($this->hasOption('visibility')) {
             return $this->getOption('visibility');
         }
 
         return false;
     }
-
 }

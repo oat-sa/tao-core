@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,12 +18,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA
- *
  */
+
 namespace oat\tao\scripts\install;
 
-use oat\tao\model\ClientLibConfigRegistry;
 use oat\oatbox\extension\InstallAction;
+use oat\tao\model\ClientLibConfigRegistry;
 
 /**
  * Changes the default tree provider to the resource selector component
@@ -32,8 +35,9 @@ class SetResourceSelector extends InstallAction
     public function __invoke($params)
     {
         ClientLibConfigRegistry::getRegistry()->register(
-            'layout/tree/loader', [
-                'treeProvider'   => 'resource-selector'
+            'layout/tree/loader',
+            [
+                'treeProvider' => 'resource-selector',
             ]
         );
 

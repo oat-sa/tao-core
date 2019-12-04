@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,14 +25,13 @@
  *
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
  * @package oat\tao\actions
- *
  */
 abstract class tao_actions_SinglePageModule extends \tao_actions_CommonModule
 {
     /**
      * This header is added to the response to inform the client a forward occurs
      */
-    const FORWARD_HEADER = 'X-Tao-Forward';
+    public const FORWARD_HEADER = 'X-Tao-Forward';
 
     /**
      * A list of parameters to provide to the client controller
@@ -41,7 +43,8 @@ abstract class tao_actions_SinglePageModule extends \tao_actions_CommonModule
      * Sets the route to be used by the client controller
      * @param string $route
      */
-    protected function setClientRoute($route) {
+    protected function setClientRoute($route)
+    {
         header(self::FORWARD_HEADER . ': ' . $route);
         $this->setClientParam('forwardTo', $route);
     }
@@ -75,13 +78,13 @@ abstract class tao_actions_SinglePageModule extends \tao_actions_CommonModule
      *
      * @param string [$scope] - A CSS class name that scope the view
      * @param array [$data] - An optional data set to forward to the view
-     * @param String [$template] - Defines the path of the view, default to 'pages/index.tpl'
-     * @param String [$extension] - Defines the extension that should contain the template
+     * @param string [$template] - Defines the path of the view, default to 'pages/index.tpl'
+     * @param string [$extension] - Defines the extension that should contain the template
      * @throws \common_exception_Error
      */
-    protected function composeView($scope = '', $data = array(), $template = '', $extension = '')
+    protected function composeView($scope = '', $data = [], $template = '', $extension = '')
     {
-        if (!is_array($data)) {
+        if (! is_array($data)) {
             $data = [];
         }
 
@@ -104,8 +107,8 @@ abstract class tao_actions_SinglePageModule extends \tao_actions_CommonModule
     /**
      * Assigns the template to render.
      * @param string [$scope] - A CSS class name that scope the view
-     * @param String [$template] - Defines the path of the view, default to 'pages/index.tpl'
-     * @param String [$extension] - Defines the extension that should contain the template
+     * @param string [$template] - Defines the path of the view, default to 'pages/index.tpl'
+     * @param string [$extension] - Defines the extension that should contain the template
      */
     protected function setPage($scope = '', $template = '', $extension = '')
     {
@@ -120,15 +123,13 @@ abstract class tao_actions_SinglePageModule extends \tao_actions_CommonModule
         } else {
             $this->setData('content-template', [$template, $extension]);
 
-            $layout = (array)$this->getLayout();
-            $this->setView($layout[0], isset($layout[1]) ? $layout[1] : null);
+            $layout = (array) $this->getLayout();
+            $this->setView($layout[0], $layout[1] ?? null);
         }
     }
 
     /**
      * Retrieve the data from the url and make the base initialization
-     *
-     * @return void
      */
     protected function defaultData()
     {

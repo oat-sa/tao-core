@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,25 +18,21 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
- *
- *
  */
 
 namespace oat\tao\model\menu;
 
-use oat\oatbox\PhpSerializable;
-
 class MenuElement
 {
-    const SERIAL_VERSION = 1392821334;
-    
+    public const SERIAL_VERSION = 1392821334;
+
     protected $id;
-    
+
     public function __construct($id, $version = self::SERIAL_VERSION)
     {
         $this->id = $id;
     }
-    
+
     public function getId()
     {
         return $this->id;

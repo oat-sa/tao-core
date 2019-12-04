@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\model\taskQueue\TaskLog;
@@ -25,39 +27,44 @@ use oat\tao\model\taskQueue\TaskLogInterface;
 
 class CategorizedStatus
 {
-    const STATUS_CREATED = 'created';
-    const STATUS_IN_PROGRESS = 'in_progress';
-    const STATUS_COMPLETED = 'completed';
-    const STATUS_FAILED = 'failed';
-    const STATUS_ARCHIVED = 'archived';
-    const STATUS_CANCELLED = 'cancelled';
+    public const STATUS_CREATED = 'created';
 
-    /** @var  string */
-    private $status;
+    public const STATUS_IN_PROGRESS = 'in_progress';
 
-    public static $categorizeMapping = array(
+    public const STATUS_COMPLETED = 'completed';
+
+    public const STATUS_FAILED = 'failed';
+
+    public const STATUS_ARCHIVED = 'archived';
+
+    public const STATUS_CANCELLED = 'cancelled';
+
+    public static $categorizeMapping = [
         self::STATUS_CREATED => [
-            TaskLogInterface::STATUS_ENQUEUED
+            TaskLogInterface::STATUS_ENQUEUED,
         ],
         self::STATUS_IN_PROGRESS => [
             TaskLogInterface::STATUS_DEQUEUED,
             TaskLogInterface::STATUS_RUNNING,
-            TaskLogInterface::STATUS_CHILD_RUNNING
+            TaskLogInterface::STATUS_CHILD_RUNNING,
         ],
-        self::STATUS_COMPLETED   => [
-            TaskLogInterface::STATUS_COMPLETED
+        self::STATUS_COMPLETED => [
+            TaskLogInterface::STATUS_COMPLETED,
         ],
-        self::STATUS_FAILED      => [
+        self::STATUS_FAILED => [
             TaskLogInterface::STATUS_FAILED,
-            TaskLogInterface::STATUS_UNKNOWN
+            TaskLogInterface::STATUS_UNKNOWN,
         ],
-        self::STATUS_ARCHIVED    => [
+        self::STATUS_ARCHIVED => [
             TaskLogInterface::STATUS_ARCHIVED,
         ],
-        self::STATUS_CANCELLED    => [
+        self::STATUS_CANCELLED => [
             TaskLogInterface::STATUS_CANCELLED,
         ],
-    );
+    ];
+
+    /** @var string */
+    private $status;
 
     /**
      * @param $status
@@ -65,6 +72,14 @@ class CategorizedStatus
     protected function __construct($status)
     {
         $this->status = $status;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string) $this->status;
     }
 
     /**
@@ -169,7 +184,7 @@ class CategorizedStatus
      */
     public function isInProgress()
     {
-       return $this->equals(self::inProgress());
+        return $this->equals(self::inProgress());
     }
 
     /**
@@ -209,9 +224,9 @@ class CategorizedStatus
      *
      * @return bool
      */
-    public function equals(CategorizedStatus $logStatus)
+    public function equals(self $logStatus)
     {
-       return $this->status === $logStatus->status;
+        return $this->status === $logStatus->status;
     }
 
     /**
@@ -221,14 +236,6 @@ class CategorizedStatus
     public static function getMappedStatuses($status)
     {
         return self::$categorizeMapping[$status];
-    }
-
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        return (string) $this->status;
     }
 
     /**

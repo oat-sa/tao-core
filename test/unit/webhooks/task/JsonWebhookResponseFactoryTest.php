@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -39,9 +42,9 @@ class JsonWebhookResponseFactoryTest extends TestCase
             'events' => [
                 [
                     'eventId' => '52a3de8dd0f270fd193f9f4bff05232f',
-                    'status' => 'accepted'
-                ]
-            ]
+                    'status' => 'accepted',
+                ],
+            ],
         ];
 
         $factory = new JsonWebhookResponseFactory();
@@ -57,13 +60,13 @@ class JsonWebhookResponseFactoryTest extends TestCase
             }));
 
         $factory->setServiceLocator($this->getServiceLocatorMock([
-            JsonValidator::class => $jsonValidatorMock
+            JsonValidator::class => $jsonValidatorMock,
         ]));
 
         $response = new Response(
             200,
             [
-                'Content-Type' => $factory->getAcceptedContentType()
+                'Content-Type' => $factory->getAcceptedContentType(),
             ],
             json_encode($body)
         );
@@ -82,7 +85,7 @@ class JsonWebhookResponseFactoryTest extends TestCase
         $response = new Response(
             200,
             [
-                'Content-Type' => 'application/xml'
+                'Content-Type' => 'application/xml',
             ],
             '<xml>'
         );
@@ -103,13 +106,13 @@ class JsonWebhookResponseFactoryTest extends TestCase
             ->willThrowException(new InvalidJsonException('Err', 0, ['err1']));
 
         $factory->setServiceLocator($this->getServiceLocatorMock([
-            JsonValidator::class => $jsonValidatorMock
+            JsonValidator::class => $jsonValidatorMock,
         ]));
 
         $response = new Response(
             200,
             [
-                'Content-Type' => $factory->getAcceptedContentType()
+                'Content-Type' => $factory->getAcceptedContentType(),
             ],
             '["ab"]'
         );

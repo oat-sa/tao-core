@@ -1,27 +1,31 @@
 <?php
-/**  
+
+declare(strict_types=1);
+
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  *               2013 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- * 
  */
+
 namespace oat\tao\model\messaging;
 
 use oat\oatbox\user\User;
+
 /**
  * Message to be send to an user
  *
@@ -31,14 +35,13 @@ use oat\oatbox\user\User;
  */
 class Message
 {
-
     /**
      * Short description of attribute STATUS_WAITING
      *
      * @access public
      * @var int
      */
-    const STATUS_WAITING = 2;
+    public const STATUS_WAITING = 2;
 
     /**
      * Short description of attribute STATUS_SENT
@@ -46,7 +49,7 @@ class Message
      * @access public
      * @var int
      */
-    const STATUS_SENT = 3;
+    public const STATUS_SENT = 3;
 
     /**
      * Short description of attribute STATUS_ERROR
@@ -54,7 +57,7 @@ class Message
      * @access public
      * @var int
      */
-    const STATUS_ERROR = 4;
+    public const STATUS_ERROR = 4;
 
     /**
      * Short description of attribute from
@@ -104,7 +107,7 @@ class Message
      */
     public function __construct()
     {
-    	$this->status = self::STATUS_WAITING;
+        $this->status = self::STATUS_WAITING;
     }
 
     /**
@@ -124,12 +127,12 @@ class Message
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  string from
+     * @param  string $from
      * @return mixed
      */
     public function setFrom($from)
     {
-    	$this->from = $from;
+        $this->from = $from;
     }
 
     /**
@@ -149,11 +152,11 @@ class Message
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  string to
+     * @param  string $to
      */
     public function setTo(User $to)
     {
-    	$this->to = $to;
+        $this->to = $to;
     }
 
     /**
@@ -173,11 +176,11 @@ class Message
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  string title
+     * @param  string $title
      */
     public function setTitle($title)
     {
-    	$this->title = $title;
+        $this->title = $title;
     }
 
     /**
@@ -197,12 +200,12 @@ class Message
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  string body
+     * @param  string $body
      * @return mixed
      */
     public function setBody($body)
     {
-    	$this->body = $body;
+        $this->body = $body;
     }
 
     /**
@@ -222,13 +225,11 @@ class Message
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  int status
+     * @param  int $status
      * @return mixed
      */
     public function setStatus($status)
     {
-    	$this->status = $status;
+        $this->status = $status;
     }
 }
-
-?>

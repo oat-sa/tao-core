@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,11 +18,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\test\unit\model\taskQueue\TaskLog\Decorator;
 
+use oat\generis\test\TestCase;
 use oat\oatbox\user\AnonymousUser;
 use oat\tao\model\taskQueue\TaskLog;
 use oat\tao\model\taskQueue\TaskLog\CategorizedStatus;
@@ -27,17 +30,17 @@ use oat\tao\model\taskQueue\TaskLog\Decorator\RedirectUrlEntityDecorator;
 use oat\tao\model\taskQueue\TaskLog\Entity\TaskLogEntity;
 use oat\tao\model\taskQueue\TaskLogInterface;
 use Prophecy\Argument;
-use oat\generis\test\TestCase;
 
 class RedirectUrlEntityDecoratorTest extends TestCase
 {
     private $createdAt;
+
     private $updatedAt;
 
     /**
      * @dataProvider taskLogStatusProvider
      */
-    public function testDecorator_NotUsed_excludedTaskLogStatus($taskStatus)
+    public function testDecoratorNotUsedExcludedTaskLogStatus($taskStatus)
     {
         $entity = $this->getFixtureEntity();
 
@@ -46,7 +49,7 @@ class RedirectUrlEntityDecoratorTest extends TestCase
 
         $decorator = new RedirectUrlEntityDecorator($entity, $taskLog->reveal(), new AnonymousUser());
 
-        $this->assertEquals($this->getFixtureEntityData(), $decorator->toArray());
+        $this->assertSame($this->getFixtureEntityData(), $decorator->toArray());
     }
 
     public function taskLogStatusProvider()
@@ -54,14 +57,14 @@ class RedirectUrlEntityDecoratorTest extends TestCase
         return [
             [TaskLogInterface::CATEGORY_DELETE],
             [TaskLogInterface::CATEGORY_EXPORT],
-            [TaskLogInterface::CATEGORY_UNKNOWN]
+            [TaskLogInterface::CATEGORY_UNKNOWN],
         ];
     }
 
     /**
      * @dataProvider entityTaskLogStatusProvider
      */
-    public function testDecorator_NotUsed_excludedTaskEntityStatus($status)
+    public function testDecoratorNotUsedExcludedTaskEntityStatus($status)
     {
         $entity = $this->getFixtureEntity($status);
 
@@ -74,7 +77,7 @@ class RedirectUrlEntityDecoratorTest extends TestCase
             ->getMock();
         $redirectUrlEntityDecoratorMock->expects($this->once())->method('hasAccess')->willReturn(false);
 
-        $this->assertEquals($this->getFixtureEntityData($status), $redirectUrlEntityDecoratorMock->toArray());
+        $this->assertSame($this->getFixtureEntityData($status), $redirectUrlEntityDecoratorMock->toArray());
     }
 
     public function entityTaskLogStatusProvider()
@@ -85,7 +88,7 @@ class RedirectUrlEntityDecoratorTest extends TestCase
         ];
     }
 
-    public function testDecorator_Used()
+    public function testDecoratorUsed()
     {
         $entity = $this->getFixtureEntity();
 
@@ -101,11 +104,11 @@ class RedirectUrlEntityDecoratorTest extends TestCase
         $expectedData = array_merge(
             $this->getFixtureEntityData(),
             [
-                'redirectUrl' => _url('redirectTaskToInstance', 'Redirector', 'taoBackOffice', ['taskId' => $entity->getId()])
+                'redirectUrl' => _url('redirectTaskToInstance', 'Redirector', 'taoBackOffice', ['taskId' => $entity->getId()]),
             ]
         );
 
-        $this->assertEquals($expectedData, $redirectUrlEntityDecoratorMock->toArray());
+        $this->assertSame($expectedData, $redirectUrlEntityDecoratorMock->toArray());
     }
 
     protected function getFixtureEntity($status = TaskLogInterface::STATUS_COMPLETED)
@@ -126,10 +129,10 @@ class RedirectUrlEntityDecoratorTest extends TestCase
             'report' => [
                 'type' => 'info',
                 'message' => 'Running task http://www.taoinstance.dev/ontologies/tao.rdf#i1508337970199318643',
-                'data' => NULL,
-                'children' => []
+                'data' => null,
+                'children' => [],
             ],
-            'master_status' => true
+            'master_status' => true,
         ]);
     }
 
@@ -150,11 +153,10 @@ class RedirectUrlEntityDecoratorTest extends TestCase
             'report' => [
                 'type' => 'info',
                 'message' => 'Running task http://www.taoinstance.dev/ontologies/tao.rdf#i1508337970199318643',
-                'data' => NULL,
-                'children' => []
+                'data' => null,
+                'children' => [],
             ],
-            'masterStatus' => true
+            'masterStatus' => true,
         ];
     }
-
 }

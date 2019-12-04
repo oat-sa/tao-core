@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,9 +24,11 @@ namespace oat\tao\model\import\service;
 
 interface ImportMapperInterface
 {
-    const OPTION_SCHEMA = 'schema';
-    const OPTION_SCHEMA_MANDATORY = 'mandatory';
-    const OPTION_SCHEMA_OPTIONAL = 'optional';
+    public const OPTION_SCHEMA = 'schema';
+
+    public const OPTION_SCHEMA_MANDATORY = 'mandatory';
+
+    public const OPTION_SCHEMA_OPTIONAL = 'optional';
 
     /**
      * Map CSV column to user properties

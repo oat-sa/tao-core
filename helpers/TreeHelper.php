@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
- *
  */
 
 namespace oat\tao\helpers;
@@ -40,23 +42,24 @@ class TreeHelper
      * @param core_kernel_classes_Class $rootNode root node of the tree
      * @return array array of the uris of the nodes to open
      */
-    public static function getNodesToOpen($uris, core_kernel_classes_Class $rootNode) {
+    public static function getNodesToOpen($uris, core_kernel_classes_Class $rootNode)
+    {
         // this array is in the form of
         // URI to test => array of uris that depend on the URI
-        $toTest = array();
-        foreach($uris as $uri){
+        $toTest = [];
+        foreach ($uris as $uri) {
             $resource = new core_kernel_classes_Resource($uri);
             foreach ($resource->getTypes() as $type) {
-                $toTest[$type->getUri()] = array();
+                $toTest[$type->getUri()] = [];
             }
         }
-        $toOpen = array($rootNode->getUri());
-        while (!empty($toTest)) {
+        $toOpen = [$rootNode->getUri()];
+        while (! empty($toTest)) {
             reset($toTest);
             $classUri = key($toTest);
             $depends = current($toTest);
             unset($toTest[$classUri]);
-            if (in_array($classUri, $toOpen)) {
+            if (in_array($classUri, $toOpen, true)) {
                 $toOpen = array_merge($toOpen, $depends);
             } else {
                 $class = new core_kernel_classes_Class($classUri);
@@ -65,12 +68,12 @@ class TreeHelper
                     if ($parent->getUri() === OntologyRdfs::RDFS_CLASS) {
                         continue;
                     }
-                    if (!isset($toTest[$parent->getUri()])) {
-                        $toTest[$parent->getUri()] = array();
+                    if (! isset($toTest[$parent->getUri()])) {
+                        $toTest[$parent->getUri()] = [];
                     }
                     $toTest[$parent->getUri()] = array_merge(
                         $toTest[$parent->getUri()],
-                        array($classUri),
+                        [$classUri],
                         $depends
                     );
                 }
@@ -79,40 +82,38 @@ class TreeHelper
         return $toOpen;
     }
 
-	/**
-	 * generis tree representation of a resource node
-	 *
-	 * @param core_kernel_classes_Resource $resource
-	 * @param core_kernel_classes_Class $class
-	 * @param array $extraProperties
-	 * @return array
-	 */
-    public static function buildResourceNode(core_kernel_classes_Resource $resource, core_kernel_classes_Class $class, array $extraProperties = []) {
+    /**
+     * generis tree representation of a resource node
+     *
+     * @param core_kernel_classes_Resource $resource
+     * @param core_kernel_classes_Class $class
+     * @param array $extraProperties
+     * @return array
+     */
+    public static function buildResourceNode(core_kernel_classes_Resource $resource, core_kernel_classes_Class $class, array $extraProperties = [])
+    {
         $label = $resource->getLabel();
         $label = empty($label) ? __('no label') : $label;
 
-		$extraValues = [];
-        if (!empty($extraProperties))
-		{
-			foreach ($extraProperties as $key => $value)
-			{
-				$extraValues[$key] =  $resource->getOnePropertyValue($class->getProperty($value));
-			}
-		}
+        $extraValues = [];
+        if (! empty($extraProperties)) {
+            foreach ($extraProperties as $key => $value) {
+                $extraValues[$key] = $resource->getOnePropertyValue($class->getProperty($value));
+            }
+        }
 
         $signatureGenerator = ServiceManager::getServiceManager()->get(SignatureGenerator::class);
 
         return [
-            'data' 	=> _dh($label),
-            'type'	=> 'instance',
+            'data' => _dh($label),
+            'type' => 'instance',
             'attributes' => array_merge([
                 'id' => tao_helpers_Uri::encode($resource->getUri()),
                 'class' => 'node-instance',
                 'data-uri' => $resource->getUri(),
                 'data-classUri' => $class->getUri(),
                 'data-signature' => $signatureGenerator->generate($resource->getUri()),
-            ], $extraValues)
+            ], $extraValues),
         ];
     }
-
 }

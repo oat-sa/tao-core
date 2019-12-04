@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,16 +18,15 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\test\unit\model\taskQueue\Task;
 
+use oat\generis\test\TestCase;
 use oat\tao\model\taskQueue\Task\CallbackTask;
 use oat\tao\model\taskQueue\Task\CallbackTaskInterface;
 use oat\tao\model\taskQueue\Task\TaskInterface;
 use oat\tao\test\Asset\CallableFixture;
-use oat\generis\test\TestCase;
 
 class CallbackTaskTest extends TestCase
 {
@@ -32,15 +34,17 @@ class CallbackTaskTest extends TestCase
      * @var CallbackTask
      */
     private $task;
+
     private $fakeId = 'WCDWW544eefdtyh';
+
     private $fakeOwner = 'FakeOwner2';
 
-    public function setUp()
+    protected function setUp()
     {
         $this->task = new CallbackTask($this->fakeId, $this->fakeOwner);
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         $this->task = null;
     }
@@ -56,14 +60,14 @@ class CallbackTaskTest extends TestCase
     {
         $callable = [CallableFixture::class, 'exampleStatic'];
         $this->task->setCallable($callable);
-        $this->assertEquals($callable, $this->task->getCallable());
+        $this->assertSame($callable, $this->task->getCallable());
     }
 
     public function testSetGetCallableShouldAcceptObjectsImplementingInvoke()
     {
         $callable = new CallableFixture();
         $this->task->setCallable($callable);
-        $this->assertEquals($callable, $this->task->getCallable());
+        $this->assertSame($callable, $this->task->getCallable());
     }
 
     /**
@@ -74,7 +78,7 @@ class CallbackTaskTest extends TestCase
         $this->task->setCallable($callable);
         $this->task->setParameter($expected);
         // every methods of CallableFixture double will just return the given parameters
-        $this->assertEquals($expected, $this->task->__invoke());
+        $this->assertSame($expected, $this->task->__invoke());
     }
 
     public function provideCallables()
@@ -82,12 +86,12 @@ class CallbackTaskTest extends TestCase
         return [
             'WithStaticClass' => [
                 [CallableFixture::class, 'exampleStatic'],
-                ['param1' => 'value1']
+                ['param1' => 'value1'],
             ],
             'ClassWithInvoke' => [
                 new CallableFixture(),
-                ['param2' => 'value2']
-            ]
+                ['param2' => 'value2'],
+            ],
         ];
     }
 
@@ -112,11 +116,11 @@ class CallbackTaskTest extends TestCase
                 '__id__' => $this->fakeId,
                 '__created_at__' => $date->format('c'),
                 '__owner__' => $this->fakeOwner,
-                '__callable__' => CallableFixture::class
+                '__callable__' => CallableFixture::class,
             ],
             'parameters' => [
-                'key1' => 'value1'
-            ]
+                'key1' => 'value1',
+            ],
         ];
 
         $this->assertJsonStringEqualsJsonString(json_encode($jsonArray), json_encode($this->task));
@@ -129,6 +133,6 @@ class CallbackTaskTest extends TestCase
 
         $this->task->setMetadata($data['metadata']);
 
-        $this->assertEquals(CallableFixture::class, $this->task->getCallable());
+        $this->assertSame(CallableFixture::class, $this->task->getCallable());
     }
 }

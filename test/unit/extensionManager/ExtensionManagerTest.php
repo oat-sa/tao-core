@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace oat\tao\test\unit\extensionManager;
 
 use oat\generis\test\TestCase;
@@ -17,7 +19,7 @@ class ExtensionManagerTest extends TestCase
 
         $serviceLocatorMock = $this->getServiceLocatorMock([
             ApplicationService::SERVICE_ID => $applicationServiceMock->reveal(),
-           \common_ext_ExtensionsManager::SERVICE_ID => $extensionManagerMock->reveal(),
+            \common_ext_ExtensionsManager::SERVICE_ID => $extensionManagerMock->reveal(),
         ]);
 
         $controller = new ExtensionManagerFake();
@@ -31,9 +33,9 @@ class ExtensionManagerTest extends TestCase
         $variables = $property->getValue($controller->getRenderer());
 
         $this->assertArrayHasKey('isProduction', $variables);
-        $this->assertEquals(true, $variables['isProduction']);
+        $this->assertSame(true, $variables['isProduction']);
         $this->assertArrayHasKey('installedExtArray', $variables);
-        $this->assertEquals(['value1'], $variables['installedExtArray']);
+        $this->assertSame(['value1'], $variables['installedExtArray']);
         $this->assertArrayNotHasKey('availableExtArray', $variables);
     }
 
@@ -48,7 +50,7 @@ class ExtensionManagerTest extends TestCase
 
         $serviceLocatorMock = $this->getServiceLocatorMock([
             ApplicationService::SERVICE_ID => $applicationServiceMock->reveal(),
-           \common_ext_ExtensionsManager::SERVICE_ID => $extensionManagerMock->reveal(),
+            \common_ext_ExtensionsManager::SERVICE_ID => $extensionManagerMock->reveal(),
         ]);
 
         $controller = new ExtensionManagerFake();
@@ -62,30 +64,11 @@ class ExtensionManagerTest extends TestCase
         $variables = $property->getValue($controller->getRenderer());
 
         $this->assertArrayHasKey('isProduction', $variables);
-        $this->assertEquals(false, $variables['isProduction']);
+        $this->assertSame(false, $variables['isProduction']);
         $this->assertArrayHasKey('installedExtArray', $variables);
-        $this->assertEquals(['value1'], $variables['installedExtArray']);
+        $this->assertSame(['value1'], $variables['installedExtArray']);
         $this->assertArrayHasKey('availableExtArray', $variables);
-        $this->assertEquals(['value2'], $variables['availableExtArray']);
-    }
-
-    /**
-     * @param $debugMode
-     * @return ExtensionManagerFake
-     */
-    protected function getExtensionManagerWithDebugMode($debugMode)
-    {
-        $applicationServiceMock = $this->prophesize(ApplicationService::class);
-        $applicationServiceMock->isDebugMode()->willReturn($debugMode);
-
-        $serviceLocatorMock = $this->getServiceLocatorMock([
-            ApplicationService::SERVICE_ID => $applicationServiceMock->reveal(),
-        ]);
-
-        $controller = new ExtensionManagerFake();
-        $controller->setServiceLocator($serviceLocatorMock);
-
-        return $controller;
+        $this->assertSame(['value2'], $variables['availableExtArray']);
     }
 
     public function testInstallOnDebugMode()
@@ -130,7 +113,6 @@ class ExtensionManagerTest extends TestCase
         $controller->disable();
     }
 
-
     public function testEnableOnDebugMode()
     {
         $controller = $this->getExtensionManagerWithDebugMode(true);
@@ -143,6 +125,25 @@ class ExtensionManagerTest extends TestCase
         $controller = $this->getExtensionManagerWithDebugMode(false);
         $this->expectException(\common_exception_BadRequest::class);
         $controller->enable();
+    }
+
+    /**
+     * @param $debugMode
+     * @return ExtensionManagerFake
+     */
+    protected function getExtensionManagerWithDebugMode($debugMode)
+    {
+        $applicationServiceMock = $this->prophesize(ApplicationService::class);
+        $applicationServiceMock->isDebugMode()->willReturn($debugMode);
+
+        $serviceLocatorMock = $this->getServiceLocatorMock([
+            ApplicationService::SERVICE_ID => $applicationServiceMock->reveal(),
+        ]);
+
+        $controller = new ExtensionManagerFake();
+        $controller->setServiceLocator($serviceLocatorMock);
+
+        return $controller;
     }
 }
 
@@ -169,6 +170,4 @@ class ExtensionManagerFake extends \tao_actions_ExtensionsManager
         // to intercept the flow and avoid to load common_request
         throw new \PHPUnit_Framework_ExpectationFailedException('HTTP request cannot be handled by unit test');
     }
-
-
 }

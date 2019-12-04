@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,6 +19,7 @@
  *
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
+
 namespace oat\tao\test\integration\import\service;
 
 use oat\generis\test\TestCase;
@@ -30,7 +34,7 @@ class ArrayImportValueMapperTest extends TestCase
             ArrayImportValueMapper::OPTION_DELIMITER => '|',
         ]);
 
-        $this->assertEquals(['val1', 'val2', 'val3'], $arrayImporter->map('val1|val2|val3'));
+        $this->assertSame(['val1', 'val2', 'val3'], $arrayImporter->map('val1|val2|val3'));
     }
 
     public function testMapWithValueMapper()
@@ -39,15 +43,15 @@ class ArrayImportValueMapperTest extends TestCase
 
         $mapper = $this->getMockForAbstractClass(ImportValueMapperInterface::class);
         $mapper->method('map')
-            ->willReturnOnConsecutiveCalls('valueMappedInDB1','valueMappedInDB2');
+            ->willReturnOnConsecutiveCalls('valueMappedInDB1', 'valueMappedInDB2');
         $mapper->method('getReport')
             ->willReturn($reportMock);
 
         $arrayImporter = new ArrayImportValueMapper([
             ArrayImportValueMapper::OPTION_DELIMITER => '|',
-            ArrayImportValueMapper::OPTION_VALUE_MAPPER => $mapper
+            ArrayImportValueMapper::OPTION_VALUE_MAPPER => $mapper,
         ]);
 
-        $this->assertEquals(['valueMappedInDB1', 'valueMappedInDB2'], $arrayImporter->map('val1|val2'));
+        $this->assertSame(['valueMappedInDB1', 'valueMappedInDB2'], $arrayImporter->map('val1|val2'));
     }
 }

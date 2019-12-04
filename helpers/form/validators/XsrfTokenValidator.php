@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,13 +18,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
- *
  */
 
 namespace oat\tao\helpers\form\validators;
 
-use oat\tao\model\security\xsrf\TokenService;
 use oat\oatbox\service\ServiceManager;
+use oat\tao\model\security\xsrf\TokenService;
 
 /**
  * Validate a token
@@ -30,7 +32,6 @@ use oat\oatbox\service\ServiceManager;
  */
 class XsrfTokenValidator extends \tao_helpers_form_Validator
 {
-
     /**
      * Validate an active XSRF token.
      *
@@ -42,13 +43,13 @@ class XsrfTokenValidator extends \tao_helpers_form_Validator
     {
         $tokenService = $this->getServiceManager()->get(TokenService::SERVICE_ID);
 
-        if($tokenService->checkToken($values)){
+        if ($tokenService->checkToken($values)) {
             $tokenService->revokeToken($values);
             return true;
         }
 
         \common_Logger::e('Attempt to post a form with the incorrect token');
-        throw new \common_exception_Unauthorized('Invalid token '. $values);
+        throw new \common_exception_Unauthorized('Invalid token ' . $values);
     }
 
     protected function getServiceManager()

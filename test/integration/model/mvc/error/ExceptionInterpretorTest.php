@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License
@@ -19,15 +22,8 @@
 
 namespace oat\tao\test\integration\model\mvc\error;
 
-use ActionEnforcingException;
-use Exception;
-use oat\oatbox\user\LoginFailedException;
 use oat\tao\model\mvc\error\ExceptionInterpretor;
 use oat\tao\test\TaoPhpUnitTestRunner;
-use ResolverException;
-use tao_models_classes_AccessDeniedException;
-use tao_models_classes_FileNotFoundException;
-use tao_models_classes_UserException;
 
 /**
  * test for ExceptionInterpretor

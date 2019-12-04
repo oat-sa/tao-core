@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -26,7 +29,7 @@ use oat\tao\model\webhooks\task\WebhookTaskParams;
  */
 interface WebhookTaskServiceInterface
 {
-    const SERVICE_ID = 'tao/webhookTaskService';
+    public const SERVICE_ID = 'tao/webhookTaskService';
 
     /**
      * Should be called in updater/install script for specific env to

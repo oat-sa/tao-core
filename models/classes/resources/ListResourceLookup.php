@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
+
 namespace oat\tao\model\resources;
 
 use oat\generis\model\OntologyAwareTrait;
@@ -32,10 +35,9 @@ use oat\tao\model\search\Search;
  */
 class ListResourceLookup extends ConfigurableService implements ResourceLookup
 {
-
     use OntologyAwareTrait;
 
-    const SERVICE_ID = 'tao/ListResourceLookup';
+    public const SERVICE_ID = 'tao/ListResourceLookup';
 
     /**
      * Retrieve Resources for the given parameters as a list
@@ -50,12 +52,16 @@ class ListResourceLookup extends ConfigurableService implements ResourceLookup
     public function getResources(\core_kernel_classes_Class $rootClass, array $selectedUris = [], array $propertyFilters = [], $offset = 0, $limit = 30)
     {
         // Searching by label parameter will utilize fulltext search
-        if (count($propertyFilters) == 1 && isset($propertyFilters[OntologyRdfs::RDFS_LABEL])) {
+        if (count($propertyFilters) === 1 && isset($propertyFilters[OntologyRdfs::RDFS_LABEL])) {
             $searchString = current($propertyFilters);
             return $this->searchByString($searchString, $rootClass, $offset, $limit);
-        } else {
-            return $this->searchByProperties($propertyFilters, $rootClass, $offset, $limit);
         }
+        return $this->searchByProperties($propertyFilters, $rootClass, $offset, $limit);
+    }
+
+    public function getClasses(\core_kernel_classes_Class $rootClass, array $selectedUris = [], array $propertyFilters = [], $offset = 0, $limit = 30)
+    {
+        return [];
     }
 
     /**
@@ -78,7 +84,7 @@ class ListResourceLookup extends ConfigurableService implements ResourceLookup
 
     /**
      * Search using properties
-     * @param string $searchString
+     * @param string $propertyFilters
      * @param \core_kernel_classes_Class $rootClass
      * @param int $offset
      * @param int $limit
@@ -89,9 +95,9 @@ class ListResourceLookup extends ConfigurableService implements ResourceLookup
         // for searching by properties will be used RDF search
         $options = [
             'recursive' => true,
-            'like'      => true,
-            'limit'     => $limit,
-            'offset'    => $offset
+            'like' => true,
+            'limit' => $limit,
+            'offset' => $offset,
         ];
         $count = $rootClass->countInstances($propertyFilters, $options);
         $resources = $rootClass->searchInstances($propertyFilters, $options);
@@ -117,10 +123,10 @@ class ListResourceLookup extends ConfigurableService implements ResourceLookup
             }
         }
         return [
-            'total'  => $count,
+            'total' => $count,
             'offset' => $offset,
-            'limit'  => $limit,
-            'nodes'  => $nodes
+            'limit' => $limit,
+            'nodes' => $nodes,
         ];
     }
 
@@ -132,20 +138,15 @@ class ListResourceLookup extends ConfigurableService implements ResourceLookup
     private function getResourceData($resource)
     {
         $data = false;
-        if(!is_null($resource) && $resource->exists()) {
+        if ($resource !== null && $resource->exists()) {
             $resourceTypes = array_keys($resource->getTypes());
             $data = [
-                'uri'        => $resource->getUri(),
-                'classUri'   => $resourceTypes[0],
-                'label'      => $resource->getLabel(),
-                'type'       => 'instance'
+                'uri' => $resource->getUri(),
+                'classUri' => $resourceTypes[0],
+                'label' => $resource->getLabel(),
+                'type' => 'instance',
             ];
         }
         return $data;
-    }
-
-    public function getClasses(\core_kernel_classes_Class $rootClass, array $selectedUris = [], array $propertyFilters = [], $offset = 0, $limit = 30)
-    {
-        return [];
     }
 }

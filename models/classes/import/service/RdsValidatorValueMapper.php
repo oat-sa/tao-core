@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,6 +19,7 @@
  *
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
+
 namespace oat\tao\model\import\service;
 
 use common_report_Report;
@@ -26,8 +30,9 @@ class RdsValidatorValueMapper extends ConfigurableService implements ImportValue
 {
     use OntologyAwareTrait;
 
-    const OPTION_CLASS = 'class';
-    const OPTION_PROPERTY = 'property';
+    public const OPTION_CLASS = 'class';
+
+    public const OPTION_PROPERTY = 'property';
 
     /** @var common_report_Report */
     protected $report;
@@ -41,27 +46,28 @@ class RdsValidatorValueMapper extends ConfigurableService implements ImportValue
     {
         $class = $this->getClass($this->getOption(static::OPTION_CLASS));
 
-        if (is_null($this->getOption(static::OPTION_PROPERTY))){
+        if ($this->getOption(static::OPTION_PROPERTY) === null) {
             $results = [$class->getResource($value)];
-        }else{
+        } else {
             $results = $class->searchInstances(
-                [ $this->getOption(static::OPTION_PROPERTY) => $value ],
-                [ 'like' => false, 'recursive' => true ]);
+                [$this->getOption(static::OPTION_PROPERTY) => $value],
+                ['like' => false, 'recursive' => true]
+            );
         }
-        if (count($results) === 0){
-            throw new RdsResourceNotFoundException('No resource found for class: '. $this->getOption(static::OPTION_CLASS). ' value: '.$value);
+        if (count($results) === 0) {
+            throw new RdsResourceNotFoundException('No resource found for class: ' . $this->getOption(static::OPTION_CLASS) . ' value: ' . $value);
         }
 
-        if (count($results) > 1){
-            throw new RdsResourceNotFoundException('Multiple values has been found for class: '. $this->getOption(static::OPTION_CLASS) . ' value :'.$value);
+        if (count($results) > 1) {
+            throw new RdsResourceNotFoundException('Multiple values has been found for class: ' . $this->getOption(static::OPTION_CLASS) . ' value :' . $value);
         }
 
         $resource = reset($results);
-        if (!$resource->isInstanceOf($class)){
-            throw new RdsResourceNotFoundException('Resource is not a class: '. $this->getOption(static::OPTION_CLASS));
+        if (! $resource->isInstanceOf($class)) {
+            throw new RdsResourceNotFoundException('Resource is not a class: ' . $this->getOption(static::OPTION_CLASS));
         }
 
-        $this->report = common_report_Report::createSuccess('Resource mapped with success: '.$class.':'.$value);
+        $this->report = common_report_Report::createSuccess('Resource mapped with success: ' . $class . ':' . $value);
 
         return $resource;
     }
@@ -73,5 +79,4 @@ class RdsValidatorValueMapper extends ConfigurableService implements ImportValue
     {
         return $this->report;
     }
-
 }

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,28 +18,27 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\model\user;
 
 interface TaoRoles
 {
-    const ANONYMOUS = 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole';
+    public const ANONYMOUS = 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole';
 
-    const BASE_USER = 'http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole';
+    public const BASE_USER = 'http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole';
 
-    const BACK_OFFICE = 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole';
+    public const BACK_OFFICE = 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole';
 
-    const SYSTEM_ADMINISTRATOR = 'http://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole';
+    public const SYSTEM_ADMINISTRATOR = 'http://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole';
 
-    const OPERATIONAL_ADMINISTRATOR = 'http://www.tao.lu/Ontologies/TAO.rdf#OperationalAdministrator';
+    public const OPERATIONAL_ADMINISTRATOR = 'http://www.tao.lu/Ontologies/TAO.rdf#OperationalAdministrator';
 
-    const GLOBAL_MANAGER = 'http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole';
+    public const GLOBAL_MANAGER = 'http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole';
 
-    const DELIVERY = 'http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole';
+    public const DELIVERY = 'http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole';
 
-    const TAO_MANAGER = 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole';
+    public const TAO_MANAGER = 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole';
 
-    const REST_PUBLISHER = 'http://www.tao.lu/Ontologies/TAO.rdf#RestPublisher';
+    public const REST_PUBLISHER = 'http://www.tao.lu/Ontologies/TAO.rdf#RestPublisher';
 }

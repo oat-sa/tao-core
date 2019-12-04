@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,8 +22,8 @@
 
 namespace oat\tao\scripts\tools;
 
-use common_report_Report as Report;
 use common_Exception;
+use common_report_Report as Report;
 use oat\oatbox\extension\AbstractAction;
 
 /**
@@ -30,7 +33,6 @@ use oat\oatbox\extension\AbstractAction;
  */
 class RegisterFrontendLog extends AbstractAction
 {
-
     /**
      * @param array $params
      * @return Report
@@ -42,16 +44,16 @@ class RegisterFrontendLog extends AbstractAction
             ->getExtensionById('tao');
 
         $config = $extension->getConfig('client_lib_config_registry');
-        $config[ 'core/logger'] = [
+        $config['core/logger'] = [
             'level' => 'warn',
             'loggers' => [
                 'core/logger/console' => [
-                    'level' => 'warn'
+                    'level' => 'warn',
                 ],
                 'core/logger/http' => [
-                    'level' => 'error'
+                    'level' => 'error',
                 ],
-            ]
+            ],
         ];
         $extension->setConfig('client_lib_config_registry', $config);
 

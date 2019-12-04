@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\model\taskQueue\Queue\Broker;
@@ -33,17 +35,6 @@ class InMemoryQueueBroker extends AbstractQueueBroker implements SyncQueueBroker
      * @var \SplQueue
      */
     private $queue;
-
-    /**
-     * @return \SplQueue
-     */
-    private function getQueue()
-    {
-        if (is_null($this->queue)) {
-            $this->createQueue();
-        }
-        return $this->queue;
-    }
 
     /**
      * Initiates the SplQueue
@@ -80,7 +71,7 @@ class InMemoryQueueBroker extends AbstractQueueBroker implements SyncQueueBroker
      */
     public function pop()
     {
-        if (!$this->count()) {
+        if (! $this->count()) {
             return null;
         }
 
@@ -90,18 +81,20 @@ class InMemoryQueueBroker extends AbstractQueueBroker implements SyncQueueBroker
     }
 
     /**
-     * Do nothing.
-     */
-    protected function doPop()
-    {}
-
-    /**
      * Do nothing, because dequeue automatically deletes the message from the queue
      *
      * @param TaskInterface $task
      */
     public function delete(TaskInterface $task)
-    {}
+    {
+    }
+
+    /**
+     * Do nothing.
+     */
+    protected function doPop()
+    {
+    }
 
     /**
      * Do nothing.
@@ -110,5 +103,17 @@ class InMemoryQueueBroker extends AbstractQueueBroker implements SyncQueueBroker
      * @param array  $logContext
      */
     protected function doDelete($receipt, array $logContext = [])
-    {}
+    {
+    }
+
+    /**
+     * @return \SplQueue
+     */
+    private function getQueue()
+    {
+        if ($this->queue === null) {
+            $this->createQueue();
+        }
+        return $this->queue;
+    }
 }

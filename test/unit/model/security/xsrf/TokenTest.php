@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,7 +21,6 @@
  */
 
 namespace oat\tao\test\unit\model\security\xsrf;
-
 
 use oat\generis\test\TestCase;
 use oat\tao\model\security\xsrf\Token;
@@ -43,7 +45,7 @@ class TokenTest extends TestCase
 
         // Applying rounding on float because of the limited precision.
         // See: https://www.php.net/manual/en/language.types.float.php
-        $this->assertEquals(round($timeStamp, 2), round($encodedTokenData[Token::TIMESTAMP_KEY], 2));
-        $this->assertEquals($key, $encodedTokenData[Token::TOKEN_KEY]);
+        $this->assertSame(round($timeStamp, 2), round($encodedTokenData[Token::TIMESTAMP_KEY], 2));
+        $this->assertSame($key, $encodedTokenData[Token::TOKEN_KEY]);
     }
 }

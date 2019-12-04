@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,7 +23,6 @@
  */
 
 namespace oat\tao\install\services;
-
 
 use oat\oatbox\extension\InstallAction;
 use oat\tao\model\settings\CspHeaderSettingsInterface;

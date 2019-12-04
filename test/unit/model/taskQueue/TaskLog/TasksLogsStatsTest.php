@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,13 +18,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\test\unit\model\taskQueue\TaskLog;
 
-use oat\tao\model\taskQueue\TaskLog\TasksLogsStats;
 use oat\generis\test\TestCase;
+use oat\tao\model\taskQueue\TaskLog\TasksLogsStats;
 
 class TasksLogsStatsTest extends TestCase
 {
@@ -33,7 +35,7 @@ class TasksLogsStatsTest extends TestCase
         $this->assertSame(2, $stats->getNumberOfTasksFailed());
         $this->assertSame(5, $stats->getNumberOfTasksInProgress());
 
-        $this->assertEquals([
+        $this->assertSame([
             'numberOfTasksCompleted' => 10,
             'numberOfTasksFailed' => 2,
             'numberOfTasksInProgress' => 5,

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,17 +18,15 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
- *
- *
  */
 
 namespace oat\tao\model\requiredAction\implementation;
 
 use oat\oatbox\event\Event;
-use oat\tao\model\requiredAction\RequiredActionServiceInterface;
-use oat\tao\model\requiredAction\RequiredActionInterface;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\ServiceManager;
+use oat\tao\model\requiredAction\RequiredActionInterface;
+use oat\tao\model\requiredAction\RequiredActionServiceInterface;
 
 /**
  * Class RequiredActionService
@@ -45,7 +46,7 @@ class RequiredActionService extends ConfigurableService implements RequiredActio
     public function getRequiredActions()
     {
         $actions = $this->getOption(self::OPTION_REQUIRED_ACTIONS);
-        return $actions ? $actions : [];
+        return $actions ?: [];
     }
 
     /**
@@ -96,11 +97,11 @@ class RequiredActionService extends ConfigurableService implements RequiredActio
 
     /**
      * Get first action which should be executed (one of action's rules return true).
-     * @param string[] array of action names which should be checked. If array is empty all action will be checked.
+     * @param string[] $names array of action names which should be checked. If array is empty all action will be checked.
      * @param Event $contextEvent
-     * @return null|RequiredActionInterface
+     * @return RequiredActionInterface|null
      */
-    public function getActionToBePerformed($names = [], Event $contextEvent = null)
+    public function getActionToBePerformed($names = [], ?Event $contextEvent = null)
     {
         $result = null;
         if (empty($names)) {
@@ -111,7 +112,7 @@ class RequiredActionService extends ConfigurableService implements RequiredActio
                 $actionsToCheck[] = $this->getRequiredAction($name);
             }
         }
-        /** @var  RequiredActionInterface $requiredAction */
+        /** @var RequiredActionInterface $requiredAction */
         foreach ($actionsToCheck as $requiredAction) {
             if ($requiredAction->mustBeExecuted($contextEvent)) {
                 $result = $requiredAction;
@@ -125,7 +126,7 @@ class RequiredActionService extends ConfigurableService implements RequiredActio
      * Check if any action must be executed and execute first of them.
      * @param Event $event
      */
-    public static function checkRequiredActions(Event $event = null)
+    public static function checkRequiredActions(?Event $event = null)
     {
         /** @var RequiredActionService $service */
         $service = ServiceManager::getServiceManager()->get(self::CONFIG_ID);

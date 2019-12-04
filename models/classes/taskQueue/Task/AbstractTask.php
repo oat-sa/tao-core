@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\model\taskQueue\Task;
@@ -29,6 +31,7 @@ abstract class AbstractTask implements TaskInterface
     use ChildTaskAwareTrait;
 
     private $metadata = [];
+
     private $parameters = [];
 
     /**
@@ -46,7 +49,7 @@ abstract class AbstractTask implements TaskInterface
      */
     public function __toString()
     {
-        return 'TASK '. get_called_class() .' ['. $this->getId() .']';
+        return 'TASK ' . static::class . ' [' . $this->getId() . ']';
     }
 
     /**
@@ -107,7 +110,7 @@ abstract class AbstractTask implements TaskInterface
      */
     public function isMasterStatus()
     {
-        return (boolean) $this->getMetadata(self::JSON_METADATA_MASTER_STATUS_KEY);
+        return (bool) $this->getMetadata(self::JSON_METADATA_MASTER_STATUS_KEY);
     }
 
     /**
@@ -125,7 +128,7 @@ abstract class AbstractTask implements TaskInterface
             return $this;
         }
 
-        if (!is_array($spec) && !$spec instanceof \Traversable) {
+        if (! is_array($spec) && ! $spec instanceof \Traversable) {
             throw new \InvalidArgumentException(sprintf(
                 'Expected a string, array, or Traversable argument in first position; received "%s"',
                 (is_object($spec) ? get_class($spec) : gettype($spec))
@@ -143,13 +146,13 @@ abstract class AbstractTask implements TaskInterface
      * Retrieve a single metadata as specified by key
      *
      * @param  string $key
-     * @param  null|mixed $default
+     * @param mixed|null $default
      * @throws \InvalidArgumentException
      * @return mixed
      */
     public function getMetadata($key, $default = null)
     {
-        if (!is_string($key)) {
+        if (! is_string($key)) {
             throw new \InvalidArgumentException('Non-string argument provided as a metadata key');
         }
 
@@ -175,7 +178,7 @@ abstract class AbstractTask implements TaskInterface
             return $this;
         }
 
-        if (!is_array($spec) && !$spec instanceof \Traversable) {
+        if (! is_array($spec) && ! $spec instanceof \Traversable) {
             throw new \InvalidArgumentException(sprintf(
                 'Expected a string, array, or Traversable argument in first position; received "%s"',
                 (is_object($spec) ? get_class($spec) : gettype($spec))
@@ -193,13 +196,13 @@ abstract class AbstractTask implements TaskInterface
      * Retrieve a single parameter as specified by key
      *
      * @param  string $key
-     * @param  null|mixed $default
+     * @param mixed|null $default
      * @throws \InvalidArgumentException
      * @return mixed
      */
     public function getParameter($key, $default = null)
     {
-        if (!is_string($key)) {
+        if (! is_string($key)) {
             throw new \InvalidArgumentException('Non-string argument provided as a parameter key');
         }
 
@@ -285,9 +288,9 @@ abstract class AbstractTask implements TaskInterface
         $cloneMetadata[self::JSON_METADATA_CREATED_AT_KEY] = $this->getCreatedAt()->format('c');
 
         return [
-            self::JSON_TASK_CLASS_NAME_KEY => get_called_class(),
+            self::JSON_TASK_CLASS_NAME_KEY => static::class,
             self::JSON_METADATA_KEY => $cloneMetadata,
-            self::JSON_PARAMETERS_KEY => $this->getParameters()
+            self::JSON_PARAMETERS_KEY => $this->getParameters(),
         ];
     }
 }

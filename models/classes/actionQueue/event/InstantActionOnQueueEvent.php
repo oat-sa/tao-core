@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -30,16 +33,7 @@ use oat\tao\model\actionQueue\QueuedAction;
  */
 class InstantActionOnQueueEvent implements Event
 {
-    const EVENT_NAME = __CLASS__;
-
-    /**
-     * (non-PHPdoc)
-     * @see \oat\oatbox\event\Event::getName()
-     */
-    public function getName()
-    {
-        return self::EVENT_NAME;
-    }
+    public const EVENT_NAME = self::class;
 
     /**
      * @var string
@@ -74,13 +68,22 @@ class InstantActionOnQueueEvent implements Event
      * @param string $actionType
      * @param QueuedAction $action
      */
-    public function __construct($instantQueueKey, User $user, $positions, $actionType = '', QueuedAction $action = null)
+    public function __construct($instantQueueKey, User $user, $positions, $actionType = '', ?QueuedAction $action = null)
     {
         $this->instantQueueKey = $instantQueueKey;
         $this->user = $user;
         $this->positions = $positions;
         $this->queuedAction = $action;
         $this->actionType = $actionType;
+    }
+
+    /**
+     * (non-PHPdoc)
+     * @see \oat\oatbox\event\Event::getName()
+     */
+    public function getName()
+    {
+        return self::EVENT_NAME;
     }
 
     /**

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License
@@ -19,12 +22,10 @@
 
 namespace oat\tao\model\mvc\DefaultUrlModule;
 
-
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 class ExternalResolver implements RedirectResolveInterface
 {
-
     use ServiceLocatorAwareTrait;
 
     /**
@@ -35,6 +36,4 @@ class ExternalResolver implements RedirectResolveInterface
     {
         return $options['uri'];
     }
-
-
 }

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Created by PhpStorm.
  * User: chris
@@ -8,28 +11,25 @@
 
 namespace oat\tao\model\mvc\error;
 
-
 class AjaxResponse extends ResponseAbstract
 {
     protected $contentType = 'application/json';
 
     public function send()
     {
-
         $message = $this->exception->getMessage();
-        if(method_exists($this->exception , 'getUserMessage')) {
+        if (method_exists($this->exception, 'getUserMessage')) {
             $message = $this->exception->getUserMessage();
         }
 
         $response = [
-            "success" => false,
-            "type" => 'Exception',
-            "data" => array(
-                'ExceptionType' => get_class($this->exception)
-            ),
-            "message" => $message,
+            'success' => false,
+            'type' => 'Exception',
+            'data' => [
+                'ExceptionType' => get_class($this->exception),
+            ],
+            'message' => $message,
         ];
         new \common_AjaxResponse($response);
-
     }
 }

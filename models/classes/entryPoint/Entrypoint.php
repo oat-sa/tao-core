@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,24 +18,19 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
- *
- *
  */
 
 namespace oat\tao\model\entryPoint;
 
-use oat\oatbox\PhpSerializable;
-use tao_models_classes_accessControl_AclProxy;
-
 interface Entrypoint
 {
     public function getId();
-    
+
     public function getTitle();
-    
+
     public function getLabel();
-    
+
     public function getDescription();
-    
+
     public function getUrl();
 }

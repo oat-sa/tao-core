@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA;
- *
  */
 
 namespace oat\tao\model\session\restSessionFactory;
@@ -33,9 +35,9 @@ use oat\tao\model\routing\Resolver;
  */
 class RestSessionFactory extends ConfigurableService
 {
-    const SERVICE_ID = 'tao/restSessionFactory';
+    public const SERVICE_ID = 'tao/restSessionFactory';
 
-    const OPTION_BUILDERS = 'builders';
+    public const OPTION_BUILDERS = 'builders';
 
     /**
      * Create a rest session based on builders.
@@ -50,7 +52,7 @@ class RestSessionFactory extends ConfigurableService
      */
     public function createSessionFromRequest($request, $resolver)
     {
-        if (!$this->isRestController($resolver)) {
+        if (! $this->isRestController($resolver)) {
             return false;
         }
         /** @var SessionBuilder $builder */
@@ -59,7 +61,7 @@ class RestSessionFactory extends ConfigurableService
                 return $this->startSession($builder->getSession($request));
             }
         }
-        throw new LoginFailedException(array('Request cannot be authenticated.'));
+        throw new LoginFailedException(['Request cannot be authenticated.']);
     }
 
     /**
@@ -82,7 +84,7 @@ class RestSessionFactory extends ConfigurableService
     {
         $adapters = is_array($this->getOption(self::OPTION_BUILDERS)) ? $this->getOption(self::OPTION_BUILDERS) : [];
         foreach ($adapters as $key => $adapter) {
-            if (!is_a($adapter, SessionBuilder::class, true)) {
+            if (! is_a($adapter, SessionBuilder::class, true)) {
                 throw new \LogicException('Session adapter must implement interface "SessionBuilder".');
             }
             $adapters[$key] = $this->propagate(new $adapter());
@@ -100,5 +102,4 @@ class RestSessionFactory extends ConfigurableService
     {
         return is_subclass_of($resolver->getControllerClass(), \tao_actions_RestController::class);
     }
-
 }

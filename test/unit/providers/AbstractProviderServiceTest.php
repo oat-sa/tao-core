@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,12 +22,12 @@
 
 namespace oat\tao\test\unit\providers;
 
+use oat\generis\test\TestCase;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\modules\AbstractModuleRegistry;
 use oat\tao\model\providers\AbstractProviderService;
 use oat\tao\model\providers\ProviderModule;
 use Prophecy\Prophet;
-use oat\generis\test\TestCase;
 
 /**
  * Concrete class ProviderRegistry
@@ -59,7 +62,6 @@ class ProviderRegistry extends AbstractModuleRegistry
  */
 class ProviderService extends AbstractProviderService
 {
-
 }
 
 /**
@@ -80,7 +82,7 @@ class AbstractProviderServiceTest extends TestCase
             'description' => 'Wonderful Foo Bar provider',
             'category' => 'content',
             'active' => true,
-            'tags' => ['core', 'component']
+            'tags' => ['core', 'component'],
         ],
         'my/wonderful/provider/foo2' => [
             'id' => 'foo2',
@@ -90,27 +92,9 @@ class AbstractProviderServiceTest extends TestCase
             'description' => 'Display a wonderful foo bar',
             'category' => 'content',
             'active' => true,
-            'tags' => ['core', 'component']
-        ]
+            'tags' => ['core', 'component'],
+        ],
     ];
-
-
-    /**
-     * Get the service with the stubbed registry
-     * @return AbstractProviderService
-     */
-    protected function getProviderService()
-    {
-        $prophet = new Prophet();
-        $prophecy = $prophet->prophesize();
-        $prophecy->willExtend(ProviderRegistry::class);
-        $prophecy->getMap()->willReturn(self::$providerData);
-
-        $providerService = new ProviderService();
-        $providerService->setRegistry($prophecy->reveal());
-
-        return $providerService;
-    }
 
     /**
      * Check the service is a service
@@ -131,7 +115,7 @@ class AbstractProviderServiceTest extends TestCase
 
         $providers = $providerService->getAllProviders();
 
-        $this->assertEquals(2, count($providers));
+        $this->assertSame(2, count($providers));
 
         $provider0 = $providers['my/wonderful/provider/foo1'];
         $provider1 = $providers['my/wonderful/provider/foo2'];
@@ -139,11 +123,11 @@ class AbstractProviderServiceTest extends TestCase
         $this->assertInstanceOf(ProviderModule::class, $provider0);
         $this->assertInstanceOf(ProviderModule::class, $provider1);
 
-        $this->assertEquals('foo1', $provider0->getId());
-        $this->assertEquals('foo2', $provider1->getId());
+        $this->assertSame('foo1', $provider0->getId());
+        $this->assertSame('foo2', $provider1->getId());
 
-        $this->assertEquals('Wonderful Foo', $provider0->getName());
-        $this->assertEquals('Wonderful Foo Bar', $provider1->getName());
+        $this->assertSame('Wonderful Foo', $provider0->getName());
+        $this->assertSame('Wonderful Foo Bar', $provider1->getName());
 
         $this->assertTrue($provider0->isActive());
         $this->assertTrue($provider1->isActive());
@@ -159,12 +143,28 @@ class AbstractProviderServiceTest extends TestCase
         $provider = $providerService->getProvider('foo1');
 
         $this->assertInstanceOf(ProviderModule::class, $provider);
-        $this->assertEquals('foo1', $provider->getId());
-        $this->assertEquals('Wonderful Foo', $provider->getName());
-        $this->assertEquals('my/wonderful/provider/foo1', $provider->getModule());
-        $this->assertEquals('content', $provider->getCategory());
+        $this->assertSame('foo1', $provider->getId());
+        $this->assertSame('Wonderful Foo', $provider->getName());
+        $this->assertSame('my/wonderful/provider/foo1', $provider->getModule());
+        $this->assertSame('content', $provider->getCategory());
 
         $this->assertTrue($provider->isActive());
     }
 
+    /**
+     * Get the service with the stubbed registry
+     * @return AbstractProviderService
+     */
+    protected function getProviderService()
+    {
+        $prophet = new Prophet();
+        $prophecy = $prophet->prophesize();
+        $prophecy->willExtend(ProviderRegistry::class);
+        $prophecy->getMap()->willReturn(self::$providerData);
+
+        $providerService = new ProviderService();
+        $providerService->setRegistry($prophecy->reveal());
+
+        return $providerService;
+    }
 }

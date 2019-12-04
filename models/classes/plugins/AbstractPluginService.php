@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -29,17 +32,6 @@ use oat\tao\model\modules\AbstractModuleService;
  */
 abstract class AbstractPluginService extends AbstractModuleService
 {
-    /**
-     * Creates a plugin object from data array
-     * @param $data
-     * @return PluginModule
-     * @throws \common_exception_InconsistentData
-     */
-    protected function createFromArray($data)
-    {
-        return PluginModule::fromArray($data);
-    }
-
     /**
      * Retrieve the list of all available plugins (from the registry)
      *
@@ -104,5 +96,16 @@ abstract class AbstractPluginService extends AbstractModuleService
     public function registerPluginsByCategories(array $plugins)
     {
         return parent::registerModulesByCategories($plugins);
+    }
+
+    /**
+     * Creates a plugin object from data array
+     * @param $data
+     * @return PluginModule
+     * @throws \common_exception_InconsistentData
+     */
+    protected function createFromArray($data)
+    {
+        return PluginModule::fromArray($data);
     }
 }

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -37,7 +40,8 @@ abstract class OntologyClassService extends ConfigurableService
     /**
      * @deprecated please initialise from servicelocator
      */
-    public static function singleton() {
+    public static function singleton()
+    {
         return ServiceManager::getServiceManager()->get(static::class);
     }
 }

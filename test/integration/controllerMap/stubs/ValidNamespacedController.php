@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,14 +22,12 @@
  * @author Konstantin Sasim <sasim@1pt.com>
  * @license GPLv2
  * @package tao
- *
  */
-
 
 namespace oat\tao\test\integration\controllerMap\stubs;
 
-class ValidNamespacedController extends \Module {
-
+class ValidNamespacedController extends \Module
+{
     /**
      * Valid namespaced stub controller action
      *
@@ -34,7 +35,5 @@ class ValidNamespacedController extends \Module {
      */
     public function validAction()
     {
-
     }
-
-} 
+}

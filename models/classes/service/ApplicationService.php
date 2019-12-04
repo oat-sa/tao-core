@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,31 +18,31 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\model\service;
 
-use common_ext_ExtensionsManager;
 use common_exception_Error;
+use common_ext_ExtensionsManager;
 use oat\oatbox\service\ConfigurableService;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class ApplicationService extends ConfigurableService
 {
-    const SERVICE_ID = 'tao/ApplicationService';
+    public const SERVICE_ID = 'tao/ApplicationService';
 
-    const OPTION_BUILD_NUMBER = 'taoBuildNumber';
+    public const OPTION_BUILD_NUMBER = 'taoBuildNumber';
 
     /**
      * Returns a whenever or not the current instance is used as demo instance
      *
      * @return boolean
      */
-    public function isDemo() {
+    public function isDemo()
+    {
         $releaseStatus = $this->getConstantValue('TAO_RELEASE_STATUS');
 
-        return in_array($releaseStatus, array('demo', 'demoA', 'demoB', 'demoS'));
+        return in_array($releaseStatus, ['demo', 'demoA', 'demoB', 'demoS'], true);
     }
 
     /**
@@ -63,7 +66,8 @@ class ApplicationService extends ConfigurableService
      * @throws \common_exception_Error
      * @throws \common_ext_ExtensionException
      */
-    public function getProductName() {
+    public function getProductName()
+    {
         return $this->getConstantValue('PRODUCT_NAME');
     }
 
@@ -72,7 +76,8 @@ class ApplicationService extends ConfigurableService
      * @throws \common_exception_Error
      * @throws \common_ext_ExtensionException
      */
-    public function getPlatformVersion() {
+    public function getPlatformVersion()
+    {
         return $this->getConstantValue('TAO_VERSION');
     }
 
@@ -81,7 +86,8 @@ class ApplicationService extends ConfigurableService
      * @throws \common_exception_Error
      * @throws \common_ext_ExtensionException
      */
-    public function getDefaultEncoding() {
+    public function getDefaultEncoding()
+    {
         return $this->getConstantValue('TAO_DEFAULT_ENCODING');
     }
 
@@ -105,7 +111,7 @@ class ApplicationService extends ConfigurableService
     private function getConstantValue($constantName)
     {
         $serviceLocator = $this->getServiceLocator();
-        if (!$serviceLocator instanceof ServiceLocatorInterface) {
+        if (! $serviceLocator instanceof ServiceLocatorInterface) {
             throw new common_exception_Error();
         }
 

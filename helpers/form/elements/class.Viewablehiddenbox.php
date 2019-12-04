@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,7 +19,6 @@
  *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *
  */
 
 /**
@@ -26,10 +28,8 @@
  * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
-
  */
-abstract class tao_helpers_form_elements_Viewablehiddenbox
-    extends tao_helpers_form_FormElement
+abstract class tao_helpers_form_elements_Viewablehiddenbox extends tao_helpers_form_FormElement
 {
     // --- ASSOCIATIONS ---
 
@@ -45,7 +45,4 @@ abstract class tao_helpers_form_elements_Viewablehiddenbox
     protected $widget = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ViewableHiddenBox';
 
     // --- OPERATIONS ---
-
 } /* end of abstract class tao_helpers_form_elements_ViewableHiddenbox */
-
-?>

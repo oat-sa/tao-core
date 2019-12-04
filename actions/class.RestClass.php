@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,17 +18,15 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017-2018 (original work) Open Assessment Technologies SA;
- *
  */
 
 
 /**
- *
  * The REST controller to manage RDF classes.
  */
 class tao_actions_RestClass extends tao_actions_RestResource
 {
-    const CLASS_PARAMETER = 'classUri';
+    public const CLASS_PARAMETER = 'classUri';
 
     /**
      * Get all the classes that belong to a subclass.
@@ -45,5 +46,4 @@ class tao_actions_RestClass extends tao_actions_RestResource
             $this->returnFailure(new common_exception_MethodNotAllowed(__METHOD__ . ' only accepts GET method'));
         }
     }
-
 }

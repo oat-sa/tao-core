@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,8 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
- *
- *
  */
 
 namespace oat\tao\test\unit\requiredAction;
@@ -26,7 +27,6 @@ use oat\oatbox\service\ServiceManager;
 use oat\tao\model\requiredAction\implementation\RequiredActionRedirectUrlPart;
 use oat\tao\model\requiredAction\implementation\RequiredActionService;
 use oat\tao\model\requiredAction\implementation\TimeRule;
-use Prophecy\Argument;
 
 class RequiredActionServiceTest extends TestCase
 {
@@ -38,9 +38,8 @@ class RequiredActionServiceTest extends TestCase
 
         $requiredActionService->attachAction($this->getTestRequiredAction());
         $requiredAction = $requiredActionService->getRequiredAction('testRequiredAction');
-        $this->assertEquals($requiredAction->getName(), 'testRequiredAction');
+        $this->assertSame($requiredAction->getName(), 'testRequiredAction');
     }
-
 
     public function testDetachAction()
     {
@@ -50,12 +49,11 @@ class RequiredActionServiceTest extends TestCase
 
         $requiredActionService->attachAction($this->getTestRequiredAction());
         $requiredAction = $requiredActionService->getRequiredAction('testRequiredAction');
-        $this->assertEquals($requiredAction->getName(), 'testRequiredAction');
+        $this->assertSame($requiredAction->getName(), 'testRequiredAction');
 
         $requiredActionService->detachAction('testRequiredAction');
         $requiredAction = $requiredActionService->getRequiredAction('testRequiredAction');
         $this->assertNull($requiredAction);
-
     }
 
     private function getTestRequiredAction()
@@ -74,9 +72,9 @@ class RequiredActionServiceTest extends TestCase
         return new \common_persistence_Manager([
             'persistences' => [
                 'test' => [
-                    'driver' => 'no_storage'
+                    'driver' => 'no_storage',
                 ],
-            ]
+            ],
         ]);
     }
 
@@ -86,5 +84,4 @@ class RequiredActionServiceTest extends TestCase
         $config->set(\common_persistence_Manager::SERVICE_ID, $this->getPersistenceManager());
         return new ServiceManager($config);
     }
-
 }

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -30,6 +33,16 @@ class OntologyUserMapper extends OntologyMapper implements UserMapperInterface
 
     /** @var string */
     protected $plainPassword;
+
+    /**
+     * Get the plain password
+     *
+     * @return string|null
+     */
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
 
     /**
      * @param string $key
@@ -66,15 +79,5 @@ class OntologyUserMapper extends OntologyMapper implements UserMapperInterface
     protected function getLanguageService()
     {
         return tao_models_classes_LanguageService::singleton();
-    }
-
-    /**
-     * Get the plain password
-     *
-     * @return string|null
-     */
-    public function getPlainPassword()
-    {
-        return $this->plainPassword;
     }
 }

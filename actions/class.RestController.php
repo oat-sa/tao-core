@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
- *
  */
 
 use oat\generis\model\OntologyAwareTrait;
@@ -26,10 +28,13 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
     use OntologyAwareTrait;
     use \tao_actions_RestTrait;
 
-    const CLASS_URI_PARAM = 'class-uri';
-    const CLASS_LABEL_PARAM = 'class-label';
-    const CLASS_COMMENT_PARAM = 'class-comment';
-    const PARENT_CLASS_URI_PARAM = 'parent-class-uri';
+    public const CLASS_URI_PARAM = 'class-uri';
+
+    public const CLASS_LABEL_PARAM = 'class-label';
+
+    public const CLASS_COMMENT_PARAM = 'class-comment';
+
+    public const PARENT_CLASS_URI_PARAM = 'parent-class-uri';
 
     /**
      * Check response encoding requested
@@ -39,15 +44,15 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
      */
     public function __construct()
     {
-        if ($this->hasHeader("Accept")) {
+        if ($this->hasHeader('Accept')) {
             try {
-                $this->responseEncoding = (tao_helpers_Http::acceptHeader($this->getAcceptableMimeTypes(), $this->getHeader("Accept")));
+                $this->responseEncoding = tao_helpers_Http::acceptHeader($this->getAcceptableMimeTypes(), $this->getHeader('Accept'));
             } catch (common_exception_ClientException $e) {
                 $this->returnFailure($e);
             }
         }
 
-        header('Content-Type: '.$this->responseEncoding);
+        header('Content-Type: ' . $this->responseEncoding);
     }
 
     /**
@@ -81,15 +86,15 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
             );
         }
 
-        if (!$this->hasRequestParameter(self::CLASS_URI_PARAM) && !$this->hasRequestParameter(self::CLASS_LABEL_PARAM)) {
+        if (! $this->hasRequestParameter(self::CLASS_URI_PARAM) && ! $this->hasRequestParameter(self::CLASS_LABEL_PARAM)) {
             $class = $rootClass;
         }
 
         if ($this->hasRequestParameter(self::CLASS_URI_PARAM)) {
             $classUriParam = $this->getRequestParameter(self::CLASS_URI_PARAM);
-            if (!$classUriParam) {
+            if (! $classUriParam) {
                 throw new \common_exception_RestApi(
-                    self::CLASS_URI_PARAM .  ' is not valid.'
+                    self::CLASS_URI_PARAM . ' is not valid.'
                 );
             }
             $class = $this->getClass($classUriParam);
@@ -103,9 +108,9 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
                 }
             }
         }
-        if ($class === null || !$class->exists()) {
+        if ($class === null || ! $class->exists()) {
             throw new \common_exception_RestApi(
-                'Class does not exist. Please use valid '.self::CLASS_URI_PARAM . ' or '.self::CLASS_LABEL_PARAM
+                'Class does not exist. Please use valid ' . self::CLASS_URI_PARAM . ' or ' . self::CLASS_LABEL_PARAM
             );
         }
         return $class;
@@ -142,14 +147,14 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
      */
     protected function createSubClass(\core_kernel_classes_Class $rootClass)
     {
-        if (!$this->hasRequestParameter(static::CLASS_LABEL_PARAM)) {
+        if (! $this->hasRequestParameter(static::CLASS_LABEL_PARAM)) {
             throw new \common_exception_RestApi('Missed required parameter: ' . static::CLASS_LABEL_PARAM);
         }
         $label = $this->getRequestParameter(static::CLASS_LABEL_PARAM);
 
         if ($this->hasRequestParameter(static::PARENT_CLASS_URI_PARAM)) {
             $parentClass = $this->getClass($this->getRequestParameter(static::PARENT_CLASS_URI_PARAM));
-            if ($parentClass->getUri() !== $rootClass->getUri() && !$parentClass->isSubClassOf($rootClass)) {
+            if ($parentClass->getUri() !== $rootClass->getUri() && ! $parentClass->isSubClassOf($rootClass)) {
                 throw new \common_Exception(__('Class uri provided is not a valid class.'));
             }
             $rootClass = $parentClass;
@@ -168,11 +173,10 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
             }
         }
 
-        if (!$class) {
+        if (! $class) {
             $class = $rootClass->createSubClass($label, $comment);
         }
 
         return $class;
     }
-
 }

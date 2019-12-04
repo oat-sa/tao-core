@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -29,8 +32,6 @@ use tao_helpers_form_FormContainer as FormContainer;
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  * @package tao
-
- *
  */
 abstract class tao_actions_SaSModule extends tao_actions_RdfController
 {
@@ -44,7 +45,7 @@ abstract class tao_actions_SaSModule extends tao_actions_RdfController
     public function setView($path, $extensionID = null)
     {
         // override non AJAX calls for SAS
-        if (!$this->isStandAlone() || $this->isXmlHttpRequest()) {
+        if (! $this->isStandAlone() || $this->isXmlHttpRequest()) {
             parent::setView($path, $extensionID);
         } else {
             $this->setData('client_config_url', $this->getClientConfigUrl());
@@ -55,22 +56,7 @@ abstract class tao_actions_SaSModule extends tao_actions_RdfController
     }
 
     /**
-     * Returns the root class of the module
-     * @return core_kernel_classes_Class
-     */
-    protected function getRootClass()
-    {
-        return $this->getClassService()->getRootClass();
-    }
-
-    protected function getDataKind()
-    {
-        return Camelizer::camelize(explode(' ', strtolower(trim($this->getRootClass()->getLabel()))), false);
-    }
-
-    /**
      * Service of class or instance selection with a tree.
-     * @return void
      */
     public function sasSelect()
     {
@@ -81,7 +67,7 @@ abstract class tao_actions_SaSModule extends tao_actions_RdfController
         $this->setData('dataUrl', _url('sasGetOntologyData'));
         $this->setData('editClassUrl', tao_helpers_Uri::url('sasSet', $module));
 
-        if ($this->getRequestParameter('selectInstance') == 'true') {
+        if ($this->getRequestParameter('selectInstance') === 'true') {
             $this->setData('editInstanceUrl', tao_helpers_Uri::url('sasSet', $module));
             $this->setData('editClassUrl', false);
         } else {
@@ -91,12 +77,11 @@ abstract class tao_actions_SaSModule extends tao_actions_RdfController
 
         $this->setData('classLabel', $this->getRootClass()->getLabel());
 
-        $this->setView("sas/select.tpl", 'tao');
+        $this->setView('sas/select.tpl', 'tao');
     }
 
     /**
      * Save the uri or the classUri in parameter into the workflow engine by using the dedicated seervice
-     * @return void
      */
     public function sasSet()
     {
@@ -105,17 +90,17 @@ abstract class tao_actions_SaSModule extends tao_actions_RdfController
         //set the class uri
         if ($this->hasRequestParameter('classUri')) {
             $clazz = $this->getCurrentClass();
-            if (!is_null($clazz)) {
-                $this->setVariables(array($this->getDataKind().'ClassUri' => $clazz->getUri()));
-                $message = $clazz->getLabel().' '.__('class selected');
+            if ($clazz !== null) {
+                $this->setVariables([$this->getDataKind() . 'ClassUri' => $clazz->getUri()]);
+                $message = $clazz->getLabel() . ' ' . __('class selected');
             }
         }
 
         //set the instance uri
         if ($this->hasRequestParameter('uri')) {
             $instance = $this->getCurrentInstance();
-            if (!is_null($instance)) {
-                $this->setVariables(array($this->getDataKind().'Uri' => $instance->getUri()));
+            if ($instance !== null) {
+                $this->setVariables([$this->getDataKind() . 'Uri' => $instance->getUri()]);
                 $message = __('%s %s selected', $instance->getLabel(), $this->getDataKind());
             }
         }
@@ -127,7 +112,6 @@ abstract class tao_actions_SaSModule extends tao_actions_RdfController
 
     /**
      * Add a new instance
-     * @return void
      */
     public function sasAddInstance()
     {
@@ -138,24 +122,22 @@ abstract class tao_actions_SaSModule extends tao_actions_RdfController
         }
         // @todo call the correct service
         $instance = $this->getClassService()->createInstance($clazz);
-        if (!is_null($instance) && $instance instanceof core_kernel_classes_Resource) {
+        if ($instance !== null && $instance instanceof core_kernel_classes_Resource) {
 
             //init variable service:
-            $this->setVariables(array($this->getDataKind().'Uri' => $instance->getUri()));
+            $this->setVariables([$this->getDataKind() . 'Uri' => $instance->getUri()]);
 
-            $params = array(
-                'uri'		=> tao_helpers_Uri::encode($instance->getUri()),
-                'classUri'	=> tao_helpers_Uri::encode($clazz->getUri()),
-                'standalone' => $this->isStandAlone()
-            );
+            $params = [
+                'uri' => tao_helpers_Uri::encode($instance->getUri()),
+                'classUri' => tao_helpers_Uri::encode($clazz->getUri()),
+                'standalone' => $this->isStandAlone(),
+            ];
             $this->redirect(_url('sasEditInstance', null, null, $params));
         }
     }
 
-
     /**
      * Edit an instances
-     * @return void
      */
     public function sasEditInstance()
     {
@@ -184,7 +166,6 @@ abstract class tao_actions_SaSModule extends tao_actions_RdfController
 
     /**
      * Delete an instance
-     * @return void
      */
     public function sasDeleteInstance()
     {
@@ -198,37 +179,17 @@ abstract class tao_actions_SaSModule extends tao_actions_RdfController
         $this->setView('sas/delete.tpl', 'tao');
     }
 
-    // Below this line, basic functionalities copied from TaoModule
-
-    /**
-     * get the current item class regarding the classUri' request parameter
-     * prevent exception by returning the root class if no class is selected
-     *
-     * @return core_kernel_classes_Class the item class
-     */
-    protected function getCurrentClass()
-    {
-        $classUri = tao_helpers_Uri::decode($this->getRequestParameter('classUri'));
-        if ($this->isStandAlone() && (is_null($classUri) || empty($classUri))) {
-            return $this->getRootClass();
-        } else {
-            return parent::getCurrentClass();
-        }
-    }
-
     /**
      * simplified Version of TaoModule function
-     *
-     * @return void
      */
     public function sasGetOntologyData()
     {
-        if (!$this->isXmlHttpRequest()) {
+        if (! $this->isXmlHttpRequest()) {
             throw new common_exception_IsAjaxAction(__FUNCTION__);
         }
 
         $showInstances = $this->hasRequestParameter('hideInstances')
-            ? !(bool)$this->getRequestParameter('hideInstances')
+            ? ! (bool) $this->getRequestParameter('hideInstances')
             : true;
 
         $hideNode = $this->hasRequestParameter('classUri');
@@ -240,11 +201,42 @@ abstract class tao_actions_SaSModule extends tao_actions_RdfController
         $limit = $this->hasRequestParameter('limit') ? $this->getRequestParameter('limit') : 0;
         $offset = $this->hasRequestParameter('offset') ? $this->getRequestParameter('offset') : 0;
 
-        $factory = new GenerisTreeFactory($showInstances, array($clazz->getUri()), $limit, $offset);
+        $factory = new GenerisTreeFactory($showInstances, [$clazz->getUri()], $limit, $offset);
         $tree = $factory->buildTree($clazz);
 
-        $returnValue = $hideNode ? ($tree['children']) : $tree;
+        $returnValue = $hideNode ? $tree['children'] : $tree;
         $this->returnJson($returnValue);
+    }
+
+    /**
+     * Returns the root class of the module
+     * @return core_kernel_classes_Class
+     */
+    protected function getRootClass()
+    {
+        return $this->getClassService()->getRootClass();
+    }
+
+    protected function getDataKind()
+    {
+        return Camelizer::camelize(explode(' ', strtolower(trim($this->getRootClass()->getLabel()))), false);
+    }
+
+    // Below this line, basic functionalities copied from TaoModule
+
+    /**
+     * get the current item class regarding the classUri' request parameter
+     * prevent exception by returning the root class if no class is selected
+     *
+     * @return core_kernel_classes_Class the item class
+     */
+    protected function getCurrentClass()
+    {
+        $classUri = tao_helpers_Uri::decode($this->getRequestParameter('classUri'));
+        if ($this->isStandAlone() && ($classUri === null || empty($classUri))) {
+            return $this->getRootClass();
+        }
+        return parent::getCurrentClass();
     }
 
     protected function setVariables($variables)
@@ -253,9 +245,9 @@ abstract class tao_actions_SaSModule extends tao_actions_RdfController
 
         $variableService = wfEngine_models_classes_VariableService::singleton();
 
-        $cleaned = array();
+        $cleaned = [];
         foreach ($variables as $key => $value) {
-            $cleaned[$key] = (is_object($value) && $value instanceof core_kernel_classes_Resource) ? $value->getUri() : $value;
+            $cleaned[$key] = is_object($value) && $value instanceof core_kernel_classes_Resource ? $value->getUri() : $value;
         }
         return $variableService->save($cleaned);
     }
@@ -267,7 +259,7 @@ abstract class tao_actions_SaSModule extends tao_actions_RdfController
      */
     protected function isStandalone()
     {
-        if (is_null($this->isStandAlone)) {
+        if ($this->isStandAlone === null) {
             if ($this->hasRequestParameter('standalone') && $this->getRequestParameter('standalone')) {
                 tao_helpers_Context::load('STANDALONE_MODE');
                 $this->isStandAlone = true;

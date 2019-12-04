@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,6 +24,18 @@ namespace oat\tao\model\webhooks\log;
 
 class WebhookEventLogRecord
 {
+    public const RESULT_INTERNAL_ERROR = 'internal_error';
+
+    public const RESULT_NETWORK_ERROR = 'network_error';
+
+    public const RESULT_INVALID_BODY_FORMAT = 'invalid_body_format';
+
+    public const RESULT_INVALID_HTTP_STATUS = 'invalid_http_status';
+
+    public const RESULT_INVALID_ACKNOWLEDGEMENT = 'invalid_acknowledgement';
+
+    public const RESULT_OK = 'ok';
+
     /** @var string|null */
     private $eventId;
 
@@ -61,13 +76,6 @@ class WebhookEventLogRecord
 
     /** @var string|null */
     private $result;
-
-    const RESULT_INTERNAL_ERROR = 'internal_error';
-    const RESULT_NETWORK_ERROR = 'network_error';
-    const RESULT_INVALID_BODY_FORMAT = 'invalid_body_format';
-    const RESULT_INVALID_HTTP_STATUS = 'invalid_http_status';
-    const RESULT_INVALID_ACKNOWLEDGEMENT = 'invalid_acknowledgement';
-    const RESULT_OK = 'ok';
 
     /**
      * @return string|null

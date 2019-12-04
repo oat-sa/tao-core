@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,15 +18,14 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA;
- *
  */
 
 namespace oat\tao\test\unit\session;
 
+use oat\generis\test\TestCase;
 use oat\tao\model\routing\Resolver;
 use oat\tao\model\session\restSessionFactory\RestSessionFactory;
 use oat\tao\model\session\restSessionFactory\SessionBuilder;
-use oat\generis\test\TestCase;
 
 class RestSessionFactoryTest extends TestCase
 {
@@ -43,13 +45,13 @@ class RestSessionFactoryTest extends TestCase
         $sessionBuilderProphecy2->getSession($request)->shouldBeCalled();
 
         $service = new RestSessionFactoryTester();
-        $service->builders = array(
+        $service->builders = [
             $sessionBuilderProphecy->reveal(),
-            $sessionBuilderProphecy2->reveal()
-        );
+            $sessionBuilderProphecy2->reveal(),
+        ];
 
         $service->createSessionFromRequest($request, $resolverProphecy->reveal());
-        $this->assertEquals(1, $service->isSessionStarted);
+        $this->assertSame(1, $service->isSessionStarted);
     }
 
     public function testCreateSessionFromRequestWithInalidRestController()
@@ -75,9 +77,9 @@ class RestSessionFactoryTest extends TestCase
 
         $request = new \common_http_Request('http:://fixture.test');
 
-        $service = new RestSessionFactoryTester(array(
-            RestSessionFactoryTester::OPTION_BUILDERS => array()
-        ));
+        $service = new RestSessionFactoryTester([
+            RestSessionFactoryTester::OPTION_BUILDERS => [],
+        ]);
 
         $service->createSessionFromRequest($request, $resolverProphecy->reveal());
     }
@@ -100,10 +102,10 @@ class RestSessionFactoryTest extends TestCase
         $mock2->isApplicable($request)->willReturn(false);
 
         $service = new RestSessionFactoryTester();
-        $service->builders = array(
+        $service->builders = [
             $mock->reveal(),
-            $mock2->reveal()
-        );
+            $mock2->reveal(),
+        ];
 
         $service->createSessionFromRequest($request, $resolverProphecy->reveal());
     }
@@ -112,13 +114,13 @@ class RestSessionFactoryTest extends TestCase
     {
         $mock = $this->getMockForAbstractClass(SessionBuilder::class);
 
-        $service = new RestSessionFactoryTester(array(
-            RestSessionFactoryTester::OPTION_BUILDERS => array(
-                $mock
-            )
-        ));
+        $service = new RestSessionFactoryTester([
+            RestSessionFactoryTester::OPTION_BUILDERS => [
+                $mock,
+            ],
+        ]);
 
-        $this->assertEquals([$mock], $service->getSessionBuilders());
+        $this->assertSame([$mock], $service->getSessionBuilders());
     }
 
     /**
@@ -128,14 +130,14 @@ class RestSessionFactoryTest extends TestCase
     {
         $mock = $this->getMockForAbstractClass(SessionBuilder::class);
 
-        $service = new RestSessionFactoryTester(array(
-            RestSessionFactoryTester::OPTION_BUILDERS => array(
+        $service = new RestSessionFactoryTester([
+            RestSessionFactoryTester::OPTION_BUILDERS => [
                 $mock,
-                new \stdClass()
-            )
-        ));
+                new \stdClass(),
+            ],
+        ]);
 
-        $this->assertEquals([$mock], $service->getSessionBuilders());
+        $this->assertSame([$mock], $service->getSessionBuilders());
     }
 
     /**
@@ -150,7 +152,7 @@ class RestSessionFactoryTest extends TestCase
         $resolverProphecy = $this->prophesize(Resolver::class);
         $resolverProphecy->getControllerClass()->willReturn($class);
 
-        $this->assertEquals($expected, $service->isRestController($resolverProphecy->reveal()));
+        $this->assertSame($expected, $service->isRestController($resolverProphecy->reveal()));
     }
 
     /**
@@ -161,27 +163,32 @@ class RestSessionFactoryTest extends TestCase
     public function testIsRestControllerProvider()
     {
         return [
-            [TestRest::class, true,],
+            [TestRest::class, true],
             ['toto', false],
-            [SubTestRest::class, true,],
-            [RestSessionFactoryTest::class, false,],
-            [RestSessionFactoryTest::class, false,],
+            [SubTestRest::class, true],
+            [self::class, false],
+            [self::class, false],
         ];
     }
 }
 
-class TestRest extends \tao_actions_RestController {}
-class SubTestRest extends TestRest {}
+class TestRest extends \tao_actions_RestController
+{
+}
+class SubTestRest extends TestRest
+{
+}
 
 class RestSessionFactoryTester extends RestSessionFactory
 {
+    public $builders;
+
+    public $isSessionStarted = 0;
+
     public function isRestController(Resolver $resolver)
     {
         return parent::isRestController($resolver);
     }
-
-    public $builders;
-    public $isSessionStarted = 0;
 
     public function getSessionBuilders()
     {
@@ -195,5 +202,4 @@ class RestSessionFactoryTester extends RestSessionFactory
     {
         $this->isSessionStarted = 1;
     }
-
 }

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,16 +18,15 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\test\unit\model\taskQueue\TaskLog\Broker;
 
+use common_persistence_Manager as PersistenceManager;
 use oat\generis\test\TestCase;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\taskQueue\Task\CallbackTask;
 use oat\tao\model\taskQueue\TaskLog\Broker\RdsTaskLogBroker;
-use common_persistence_Manager as PersistenceManager;
 use oat\tao\model\taskQueue\TaskLog\Entity\TaskLogEntity;
 use oat\tao\model\taskQueue\TaskLog\TaskLogFilter;
 use oat\tao\model\taskQueue\TaskLogInterface;
@@ -36,16 +38,16 @@ class RdsTaskLogBrokerTest extends TestCase
      */
     protected $subject;
 
-    public function setUp()
+    protected function setUp()
     {
         $persistenceId = 'rds_task_log_test';
         $databaseMock = $this->getSqlMock($persistenceId);
         $persistence = $databaseMock->getPersistenceById($persistenceId);
 
         $persistenceManager = $this->getMockBuilder(PersistenceManager::class)
-        ->disableOriginalConstructor()
-        ->setMethods(['getPersistenceById'])
-        ->getMock();
+            ->disableOriginalConstructor()
+            ->setMethods(['getPersistenceById'])
+            ->getMock();
         $persistenceManager
             ->method('getPersistenceById')
             ->with($persistenceId)
@@ -120,7 +122,7 @@ class RdsTaskLogBrokerTest extends TestCase
 
         $bound = $tableNameCaller->bindTo($broker, $broker);
 
-        $this->assertEquals($prefix .'_'. $containerName, $bound());
+        $this->assertSame($prefix . '_' . $containerName, $bound());
     }
 
     public function testGetTableNameWhenContainerNameIsNotSuppliedByOptionThenTableNameShouldHaveADefaultValue()
@@ -136,7 +138,7 @@ class RdsTaskLogBrokerTest extends TestCase
 
         $bound = $tableNameCaller->bindTo($broker, $broker);
 
-        $this->assertEquals($prefix .'_'. $defaultName, $bound());
+        $this->assertSame($prefix . '_' . $defaultName, $bound());
     }
 
     public function testCountAndDelete()
@@ -150,11 +152,11 @@ class RdsTaskLogBrokerTest extends TestCase
         $task = new CallbackTask($id, $owner);
         $task->setCreatedAt($createdAt);
 
-        $this->assertEquals(0, $this->subject->count(new TaskLogFilter()));
+        $this->assertSame(0, $this->subject->count(new TaskLogFilter()));
         $this->subject->add($task, $status, $label);
-        $this->assertEquals(1, $this->subject->count(new TaskLogFilter()));
+        $this->assertSame(1, $this->subject->count(new TaskLogFilter()));
         $this->subject->deleteById($id);
-        $this->assertEquals(0, $this->subject->count(new TaskLogFilter()));
+        $this->assertSame(0, $this->subject->count(new TaskLogFilter()));
     }
 
     public function testAdd()
@@ -168,12 +170,12 @@ class RdsTaskLogBrokerTest extends TestCase
         $task = new CallbackTask($id, $owner);
         $task->setCreatedAt($createdAt);
 
-        $this->assertEquals(0, $this->subject->count(new TaskLogFilter()));
+        $this->assertSame(0, $this->subject->count(new TaskLogFilter()));
         $this->subject->add($task, $status, $label);
-        $this->assertEquals(1, $this->subject->count(new TaskLogFilter()));
+        $this->assertSame(1, $this->subject->count(new TaskLogFilter()));
         foreach ($this->subject->search(new TaskLogFilter()) as $taskLogEntity) {
             if ($taskLogEntity instanceof TaskLogEntity) {
-                $this->assertEquals($createdAt, $taskLogEntity->getCreatedAt());
+                $this->assertSame($createdAt, $taskLogEntity->getCreatedAt());
             }
         }
     }

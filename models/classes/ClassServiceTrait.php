@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA;
- *
  */
 
 namespace oat\tao\model;
@@ -29,7 +31,6 @@ use oat\tao\model\search\index\OntologyIndex;
  */
 trait ClassServiceTrait
 {
-
     /**
      * Returns the root class of this service
      *
@@ -59,15 +60,15 @@ trait ClassServiceTrait
     public function deleteClass(\core_kernel_classes_Class $clazz)
     {
         $returnValue = (bool) false;
-        
+
         if ($clazz->isSubClassOf($this->getRootClass()) && ! $clazz->equals($this->getRootClass())) {
             $returnValue = true;
-            
+
             $instances = $clazz->getInstances();
             foreach ($instances as $instance) {
                 $this->deleteResource($instance);
             }
-            
+
             $subclasses = $clazz->getSubClasses(false);
             foreach ($subclasses as $subclass) {
                 $returnValue = $returnValue && $this->deleteClass($subclass);
@@ -79,7 +80,7 @@ trait ClassServiceTrait
         } else {
             \common_Logger::w('Tried to delete class ' . $clazz->getUri() . ' as if it were a subclass of ' . $this->getRootClass()->getUri());
         }
-        
+
         return (bool) $returnValue;
     }
 

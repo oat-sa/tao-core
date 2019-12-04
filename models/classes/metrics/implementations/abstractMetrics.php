@@ -1,6 +1,8 @@
 <?php
+
+declare(strict_types=1);
+
 /**
- *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -16,17 +18,24 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
-namespace oat\tao\model\metrics\implementations;
 
+namespace oat\tao\model\metrics\implementations;
 
 use oat\oatbox\service\ConfigurableService;
 
 abstract class abstractMetrics extends ConfigurableService
 {
-    const OPTION_PERSISTENCE = 'persistence';
-    const OPTION_TTL = 'ttl';
+    public const OPTION_PERSISTENCE = 'persistence';
+
+    public const OPTION_TTL = 'ttl';
+
+    /**
+     * Collect values, caches
+     * @param bool $force
+     * @return mixed
+     */
+    abstract public function collect($force = false);
 
     /**
      * @return \common_persistence_KeyValuePersistence
@@ -37,11 +46,4 @@ abstract class abstractMetrics extends ConfigurableService
         $persistenceId = $this->getOption(self::OPTION_PERSISTENCE);
         return $this->getServiceManager()->get(\common_persistence_Manager::class)->getPersistenceById($persistenceId);
     }
-
-    /**
-     * Collect values, caches
-     * @param bool $force
-     * @return mixed
-     */
-    abstract public function collect($force = false);
 }

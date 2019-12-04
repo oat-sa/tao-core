@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -30,5 +33,5 @@ interface PsrResponseExporter extends Exporter
      * @param ResponseInterface|null $originResponse base result on response
      * @return ResponseInterface
      */
-    public function getFileExportResponse(ResponseInterface $originResponse = null);
+    public function getFileExportResponse(?ResponseInterface $originResponse = null);
 }

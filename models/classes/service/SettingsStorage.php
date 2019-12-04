@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -32,8 +35,9 @@ use oat\tao\model\settings\SettingsStorageInterface;
  */
 class SettingsStorage extends ConfigurableService implements SettingsStorageInterface
 {
-    const OPTION_PERSISTENCE = 'persistence';
-    const OPTION_KEY_NAMESPACE = 'key_namespace';
+    public const OPTION_PERSISTENCE = 'persistence';
+
+    public const OPTION_KEY_NAMESPACE = 'key_namespace';
 
     /**
      * @var common_persistence_KeyValuePersistence

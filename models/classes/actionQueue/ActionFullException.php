@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,8 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
- *
- *
  */
 
 namespace oat\tao\model\actionQueue;
@@ -41,7 +42,7 @@ class ActionFullException extends \Exception
      * @param int $code
      * @param $previous
      */
-    public function __construct($position, $message = "", $code = 0, $previous = null)
+    public function __construct($position, $message = '', $code = 0, $previous = null)
     {
         parent::__construct($message, $code, $previous);
         $this->position = $position;

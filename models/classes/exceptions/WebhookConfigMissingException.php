@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,9 +20,7 @@
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
  */
 
-
 namespace oat\tao\model\exceptions;
-
 
 class WebhookConfigMissingException extends \common_Exception
 {

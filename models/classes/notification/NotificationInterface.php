@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,23 +18,23 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
- *
  */
-
 
 namespace oat\tao\model\notification;
 
-
 interface NotificationInterface
 {
+    public const DEFAULT_STATUS = 0;
 
-    const DEFAULT_STATUS  = 0;
+    public const CREATED_STATUS = 0;
 
-    const CREATED_STATUS  = 0;
-    const SENDING_STATUS  = 1;
-    const SENDED_STATUS   = 2;
-    const READ_STATUS     = 3;
-    const ARCHIVED_STATUS = 4;
+    public const SENDING_STATUS = 1;
+
+    public const SENDED_STATUS = 2;
+
+    public const READ_STATUS = 3;
+
+    public const ARCHIVED_STATUS = 4;
 
     public function getStatus();
 
@@ -54,5 +57,4 @@ interface NotificationInterface
     public function setId($id);
 
     public function getTitle();
-
 }

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -26,8 +29,10 @@ namespace oat\tao\model\security\xsrf;
  */
 interface TokenStore
 {
-    const TOKEN_KEY = 'XSRF_TOKEN';
-    const TOKEN_NAME = 'XSRF_TOKEN_NAME';
+    public const TOKEN_KEY = 'XSRF_TOKEN';
+
+    public const TOKEN_NAME = 'XSRF_TOKEN_NAME';
+
     /**
      * Retrieve the pool of tokens
      * @return Token[]
@@ -36,7 +41,7 @@ interface TokenStore
 
     /**
      * Set the pool of tokens
-     * @param Token[]
+     * @param Token[] $tokens
      */
     public function setTokens(array $tokens = []);
 

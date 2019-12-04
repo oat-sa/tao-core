@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\model\taskQueue\Task;
@@ -28,6 +30,7 @@ namespace oat\tao\model\taskQueue\Task;
 final class CallbackTask extends AbstractTask implements CallbackTaskInterface
 {
     private $callable;
+
     private $enqueued = false;
 
     /**
@@ -69,7 +72,7 @@ final class CallbackTask extends AbstractTask implements CallbackTaskInterface
      */
     public function getCallable()
     {
-        if (is_null($this->callable) && ($callableFromJSON = $this->getMetadata('__callable__'))) {
+        if ($this->callable === null && ($callableFromJSON = $this->getMetadata('__callable__'))) {
             $this->callable = $callableFromJSON;
         }
 
@@ -101,7 +104,7 @@ final class CallbackTask extends AbstractTask implements CallbackTaskInterface
     {
         $callableClassOrArray = $this->getCallable();
 
-        if (is_object($callableClassOrArray) && !$callableClassOrArray instanceof \JsonSerializable) {
+        if (is_object($callableClassOrArray) && ! $callableClassOrArray instanceof \JsonSerializable) {
             $callableClassOrArray = get_class($callableClassOrArray);
         }
 

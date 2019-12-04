@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,16 +18,15 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
- *
  */
 
 namespace oat\tao\test\unit\helpers\form\validators;
 
+use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
 use oat\tao\helpers\form\validators\ResourceSignatureValidator;
 use oat\tao\model\security\SecurityException;
 use oat\tao\model\security\SignatureValidator;
-use oat\generis\test\MockObject;
 
 class ResourceSignatureValidatorTest extends TestCase
 {

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\model\import;
@@ -27,6 +29,16 @@ use Zend\ServiceManager\ServiceLocatorAwareTrait;
 trait ImportHandlerHelperTrait
 {
     use ServiceLocatorAwareTrait;
+
+    public function getTaskParameters(\tao_helpers_form_Form $importForm)
+    {
+        // key "importFile" used in CSV import
+        $file = $this->getUploadService()->getUploadedFlyFile($importForm->getValue('importFile') ?: $importForm->getValue('source')['uploaded_file']);
+
+        return [
+            'uploaded_file' => $file->getPrefix(), // because of Async, we need the full path of the uploaded file
+        ];
+    }
 
     /**
      * Helps to get the uploaded file data during upload or during processing of the import task.
@@ -45,12 +57,12 @@ trait ImportHandlerHelperTrait
 
             /** @var string $file */
             $file = $form->getValue('importFile') ?: $fileInfo['uploaded_file']; // key "importFile" used in CSV import
-        } else if (isset($form['uploaded_file'])) {
+        } elseif (isset($form['uploaded_file'])) {
             /** @var File $file */
             $file = $this->getUploadService()->getUploadDir()->getFile($form['uploaded_file']);
         }
 
-        if (!$file) {
+        if (! $file) {
             throw new \common_exception_Error('No source file for import');
         }
 
@@ -63,15 +75,5 @@ trait ImportHandlerHelperTrait
     protected function getUploadService()
     {
         return $this->getServiceLocator()->get(UploadService::SERVICE_ID);
-    }
-
-    public function getTaskParameters(\tao_helpers_form_Form $importForm)
-    {
-        // key "importFile" used in CSV import
-        $file = $this->getUploadService()->getUploadedFlyFile($importForm->getValue('importFile') ?: $importForm->getValue('source')['uploaded_file']);
-
-        return [
-            'uploaded_file' => $file->getPrefix(), // because of Async, we need the full path of the uploaded file
-        ];
     }
 }

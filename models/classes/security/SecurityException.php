@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,19 +28,18 @@ class SecurityException extends Exception
 {
     private $messageToLog;
 
-    public function __construct($message = null, $code = 0, Exception $previous = null)
+    public function __construct($message = null, $code = 0, ?\Throwable $previous = null)
     {
         $this->messageToLog = $message;
 
         parent::__construct('', $code, $previous);
-
     }
 
     public function __toString()
     {
         return sprintf(
             "%s %s in %s(%s)\n\t\t\t%s",
-            get_class($this),
+            static::class,
             $this->messageToLog,
             $this->file,
             $this->line,

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,76 +18,57 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
- *
  */
 
-use oat\tao\model\websource\WebsourceManager;
+use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\ServiceManager;
-use oat\tao\model\websource\Websource;
-use oat\oatbox\filesystem\FileSystemService;
 use oat\tao\model\service\ServiceFileStorage;
+use oat\tao\model\websource\Websource;
+use oat\tao\model\websource\WebsourceManager;
 
 /**
- * Represents the file storage used in services 
+ * Represents the file storage used in services
  *
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package tao
- 
  */
 class tao_models_classes_service_FileStorage extends ConfigurableService implements ServiceFileStorage
 {
-    const OPTION_PUBLIC_FS = 'public';
-    const OPTION_PRIVATE_FS = 'private';
-    const OPTION_ACCESS_PROVIDER = 'provider';
-    
-    /**
-     * @return tao_models_classes_service_FileStorage
-     */
-    public static function singleton() {
-        return ServiceManager::getServiceManager()->get(self::SERVICE_ID);
-    }
-    
+    public const OPTION_PUBLIC_FS = 'public';
+
+    public const OPTION_PRIVATE_FS = 'private';
+
+    public const OPTION_ACCESS_PROVIDER = 'provider';
+
     private $accessProvider;
 
     /**
-     * @return string
+     * @return tao_models_classes_service_FileStorage
      */
-    protected function getFsId($public)
+    public static function singleton()
     {
-        return $public ? $this->getOption(self::OPTION_PUBLIC_FS) : $this->getOption(self::OPTION_PRIVATE_FS);
+        return ServiceManager::getServiceManager()->get(self::SERVICE_ID);
     }
 
-    /**
-     * @return Websource
-     * @throws \oat\tao\model\websource\WebsourceNotFound
-     */
-    protected function getAccessProvider()
-    {
-        if (is_null($this->accessProvider)) {
-            $this->accessProvider = WebsourceManager::singleton()->getWebsource($this->getOption(self::OPTION_ACCESS_PROVIDER));
-        }
-        return $this->accessProvider;
-    }
-    
     /**
      * @param boolean $public
      * @return tao_models_classes_service_StorageDirectory
      */
-    public function spawnDirectory($public = false) {
-        $id = common_Utils::getNewUri().($public ? '+' : '-');
-        $directory = $this->getDirectoryById($id);
-        return $directory;
+    public function spawnDirectory($public = false)
+    {
+        $id = common_Utils::getNewUri() . ($public ? '+' : '-');
+        return $this->getDirectoryById($id);
     }
 
     /**
      * @param string $id
      * @return tao_models_classes_service_StorageDirectory
      */
-    public function getDirectoryById($id) {
-        $public = $id[strlen($id)-1] == '+';
+    public function getDirectoryById($id)
+    {
+        $public = $id[strlen($id) - 1] === '+';
         $path = $this->id2path($id);
         $dir = new tao_models_classes_service_StorageDirectory(
             $id,
@@ -104,7 +88,7 @@ class tao_models_classes_service_FileStorage extends ConfigurableService impleme
      */
     public function deleteDirectoryById($id)
     {
-        $public = $id[strlen($id)-1] == '+';
+        $public = $id[strlen($id) - 1] === '+';
         $path = $this->id2path($id);
         return $this->getServiceLocator()->get(FileSystemService::SERVICE_ID)->getFileSystem($this->getFsId($public))->deleteDir($path);
     }
@@ -121,14 +105,15 @@ class tao_models_classes_service_FileStorage extends ConfigurableService impleme
             foreach (
                 $iterator = new \RecursiveIteratorIterator(
                     new \RecursiveDirectoryIterator($directoryPath, \RecursiveDirectoryIterator::SKIP_DOTS),
-                    \RecursiveIteratorIterator::SELF_FIRST) as $item
+                    \RecursiveIteratorIterator::SELF_FIRST
+                ) as $item
             ) {
-                if (!$item->isDir()) {
+                if (! $item->isDir()) {
                     $file = $directory->getFile($iterator->getSubPathName());
                     $fh = fopen($item, 'rb');
 
                     if ($file->exists()) {
-                        if (0 !== strcmp($this->getStreamHash($fh), $this->getStreamHash($file->readStream()))) {
+                        if (strcmp($this->getStreamHash($fh), $this->getStreamHash($file->readStream())) !== 0) {
                             fclose($fh);
                             throw new common_Exception('Different file content');
                         }
@@ -142,21 +127,41 @@ class tao_models_classes_service_FileStorage extends ConfigurableService impleme
             common_Logger::w('Missing directory ' . $directoryPath);
         }
     }
-    
-    private function id2path($id) {
 
+    /**
+     * @return string
+     */
+    protected function getFsId($public)
+    {
+        return $public ? $this->getOption(self::OPTION_PUBLIC_FS) : $this->getOption(self::OPTION_PRIVATE_FS);
+    }
+
+    /**
+     * @return Websource
+     * @throws \oat\tao\model\websource\WebsourceNotFound
+     */
+    protected function getAccessProvider()
+    {
+        if ($this->accessProvider === null) {
+            $this->accessProvider = WebsourceManager::singleton()->getWebsource($this->getOption(self::OPTION_ACCESS_PROVIDER));
+        }
+        return $this->accessProvider;
+    }
+
+    private function id2path($id)
+    {
         $encoded = md5($id);
-        $returnValue = "";
+        $returnValue = '';
         $len = strlen($encoded);
         for ($i = 0; $i < $len; $i++) {
             if ($i < 3) {
-                $returnValue .= $encoded[$i].DIRECTORY_SEPARATOR;
+                $returnValue .= $encoded[$i] . DIRECTORY_SEPARATOR;
             } else {
                 $returnValue .= $encoded[$i];
             }
         }
-        
-        return $returnValue.DIRECTORY_SEPARATOR;
+
+        return $returnValue . DIRECTORY_SEPARATOR;
     }
 
     /**

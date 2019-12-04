@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,13 +25,13 @@
 namespace oat\tao\test\unit\model\routing;
 
 use common_cache_Cache;
+use oat\generis\test\TestCase;
 use oat\tao\model\routing\AnnotationReader\requiredRights;
 use oat\tao\model\routing\AnnotationReader\security;
 use oat\tao\model\routing\AnnotationReaderService;
 use oat\tao\model\routing\RouteAnnotationService;
 use Prophecy\Argument;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use oat\generis\test\TestCase;
 
 /**
  * Class TestingClass
@@ -36,17 +39,21 @@ use oat\generis\test\TestCase;
  * @requiredRights(key="id", permission="READ")
  * @security("allow")
  */
-class TestingClass {
-
+class TestingClass
+{
     /**
      * @requiredRights(key="id", permission="READ")
      * @requiredRights(key="uri", permission="WRITE")
      * @security("hide")
      * @security("allow")
      */
-    public function someAction() {}
+    public function someAction()
+    {
+    }
 
-    public function anotherAction() {}
+    public function anotherAction()
+    {
+    }
 }
 
 
@@ -57,7 +64,7 @@ class AnnotationReaderServiceTest extends TestCase
      */
     private $service;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->service = new AnnotationReaderService();
 

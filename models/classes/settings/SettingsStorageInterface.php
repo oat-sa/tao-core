@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -24,7 +27,7 @@ namespace oat\tao\model\settings;
  */
 interface SettingsStorageInterface
 {
-    const SERVICE_ID = 'tao/settingsStorage';
+    public const SERVICE_ID = 'tao/settingsStorage';
 
     /**
      * Store the given setting

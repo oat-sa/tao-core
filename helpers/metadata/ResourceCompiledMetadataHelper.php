@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -53,7 +56,8 @@ class ResourceCompiledMetadataHelper
      *
      * @return string|null
      */
-    public function getLabel() {
+    public function getLabel()
+    {
         return $this->getValue('label');
     }
 
@@ -66,13 +70,13 @@ class ResourceCompiledMetadataHelper
      */
     public function unserialize($data)
     {
-        if (!is_string($data)) {
+        if (! is_string($data)) {
             throw new \common_exception_InconsistentData('The encoded resource metadata should be provided as a string');
         }
 
         $metaData = json_decode($data, true);
 
-        if (!is_array($metaData)) {
+        if (! is_array($metaData)) {
             throw new \common_exception_InconsistentData('The decoded resource metadata should be an array');
         }
         $this->metaData = $metaData;

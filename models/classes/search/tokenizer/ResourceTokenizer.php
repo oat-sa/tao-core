@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,21 +18,20 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
- *
- *
  */
+
 namespace oat\tao\model\search\tokenizer;
 
 /**
  * Tokenizer interface for complex tokenizer,
  * that rely on more than a single property value
- * 
+ *
  * @author Joel Bout <joel@taotesting.com>
  */
 interface ResourceTokenizer
-{	
+{
     /**
-     * @param \core_kernel_classes_Resource $value
+     * @param \core_kernel_classes_Resource $resource
      * @return array list of strings
      */
     public function getStrings(\core_kernel_classes_Resource $resource);

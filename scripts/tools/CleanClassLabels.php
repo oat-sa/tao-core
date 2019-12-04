@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA
- *
  */
+
 namespace oat\tao\scripts\tools;
 
 use core_kernel_classes_Property;
@@ -25,22 +28,21 @@ use oat\oatbox\extension\AbstractAction;
 
 class CleanClassLabels extends AbstractAction
 {
-
     /**
      * @inheritDoc
      */
     public function __invoke($params)
     {
         try {
-            if (!isset($params[0])) {
+            if (! isset($params[0])) {
                 return \common_report_Report::createFailure(
-                    'CLASS_URI not provided' .PHP_EOL . 'Usage: php index.php ' . __CLASS__ . ' [CLASS_URI]'
+                    'CLASS_URI not provided' . PHP_EOL . 'Usage: php index.php ' . self::class . ' [CLASS_URI]'
                 );
             }
 
             $class = new \core_kernel_classes_Class($params[0]);
 
-            if (!$class->exists()) {
+            if (! $class->exists()) {
                 return \common_report_Report::createFailure('Invalid CLASS_URI provided');
             }
 
@@ -59,7 +61,7 @@ class CleanClassLabels extends AbstractAction
             return \common_report_Report::createSuccess(
                 sprintf('instances with duplicates labels cleaned %u', $cleaned)
             );
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return \common_report_Report::createFailure($e->getMessage());
         }
     }

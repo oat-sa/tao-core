@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,11 +18,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\model\service;
-
 
 use oat\oatbox\PimpleContainerTrait;
 use oat\oatbox\service\ConfigurableService;
@@ -27,11 +28,11 @@ use Psr\Container\ContainerInterface;
 
 class ContainerService extends ConfigurableService implements ContainerInterface
 {
-    /** The Service identifier in the Service Manager. */
-    const SERVICE_ID = 'tao/containerService';
-
     /** Uses the container trait. */
     use PimpleContainerTrait;
+
+    /** The Service identifier in the Service Manager. */
+    public const SERVICE_ID = 'tao/containerService';
 
     /**
      * @inheritdoc
