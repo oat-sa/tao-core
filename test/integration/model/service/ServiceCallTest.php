@@ -16,7 +16,7 @@
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  */
-namespace oat\test\model\service;
+namespace oat\test\integration\model\service;
 
 use oat\tao\test\TaoPhpUnitTestRunner;
 /**
@@ -57,7 +57,7 @@ class ServiceCallTest extends TaoPhpUnitTestRunner {
         $serviceCall = new \tao_models_classes_service_ServiceCall('http://testcase/test#123');
         $resource = $serviceCall->toOntology();
         $serviceCall2 = \tao_models_classes_service_ServiceCall::fromResource($resource);
-        $this->assertIsA($serviceCall2, \tao_models_classes_service_ServiceCall::class);
+        $this->assertInstanceOf(\tao_models_classes_service_ServiceCall::class, $serviceCall2);
         $this->assertEquals($serviceCall, $serviceCall2);
 
         $serviceCall3 = new \tao_models_classes_service_ServiceCall('http://testcase/test#123');
@@ -70,11 +70,11 @@ class ServiceCallTest extends TaoPhpUnitTestRunner {
 
         $resource = $serviceCall3->toOntology();
         $serviceCall4 = \tao_models_classes_service_ServiceCall::fromResource($resource);
-        $this->assertIsA($serviceCall3, \tao_models_classes_service_ServiceCall::class);
+        $this->assertInstanceOf(\tao_models_classes_service_ServiceCall::class, $serviceCall4);
         $serviceCall4Array = $serviceCall4->jsonSerialize();
         usort($serviceCall4Array['in'], function ($inParamA, $inParamB) {
             return strcasecmp($inParamA->getValue(), $inParamB->getValue());
         });
-        $this->assertEquals($serviceCall3->jsonSerialize(), $serviceCall4Array);
+        $this->assertEquals(json_encode($serviceCall3), json_encode($serviceCall4Array));
     }
 }
