@@ -18,6 +18,7 @@
  * 
  */
 
+use \oat\generis\model\data\Ontology;
 use oat\tao\model\WfEngineOntology;
 
 /**
@@ -62,8 +63,8 @@ extends tao_models_classes_service_Parameter
 	 * (non-PHPdoc)
 	 * @see tao_models_classes_service_Parameter::serialize()
 	 */
-	public function toOntology() {
-	    $serviceCallClass = new core_kernel_classes_Class(WfEngineOntology::CLASS_URI_ACTUAL_PARAMETER);
+	public function toOntology(Ontology $model) {
+	    $serviceCallClass = $model->getClass(WfEngineOntology::CLASS_URI_ACTUAL_PARAMETER);
 	    $resource = $serviceCallClass->createInstanceWithProperties(array(
 			WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_FORMAL_PARAMETER    => $this->getDefinition(),
 			WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_PROCESS_VARIABLE    => $this->variable

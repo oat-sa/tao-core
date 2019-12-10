@@ -124,9 +124,9 @@ class tao_models_classes_service_ServiceCall implements JsonSerializable
 	    $inResources = array();
 	    $outResources = is_null($this->outParameter)
 	       ? array()
-	       : $this->outParameter->toOntology();
+	       : $this->outParameter->toOntology($this->getModel());
 	    foreach ($this->inParameters as $param) {
-	        $inResources[] = $param->toOntology();
+	        $inResources[] = $param->toOntology($this->getModel());
 	    }
 	    $serviceCallClass = $this->getClass( WfEngineOntology::CLASS_URI_CALL_OF_SERVICES);
 	    $resource = $serviceCallClass->createInstanceWithProperties(array(
