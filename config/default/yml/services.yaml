@@ -68,6 +68,43 @@ services:
     arguments:
       - !php/const \oat\oatbox\log\LoggerService::SERVICE_ID
 
+  !php/const oat\oatbox\log\LoggerService::SERVICE_ID:
+    alias: oat\oatbox\log\LoggerService
+    public: true
+
+
+  tao_models_classes_UserService:
+    public: true
+    factory: '@oat\tao\model\Gateway'
+    class: \tao_models_classes_UserService
+    arguments:
+      - !php/const \tao_models_classes_UserService::SERVICE_ID
+
+  !php/const tao_models_classes_UserService::SERVICE_ID:
+    alias: tao_models_classes_UserService
+    public: true
+
+  oat\tao\model\mvc\DefaultUrlService:
+    public: true
+    factory: '@oat\tao\model\Gateway'
+    class: \oat\tao\model\mvc\DefaultUrlService
+    arguments:
+      - !php/const oat\tao\model\mvc\DefaultUrlService::SERVICE_ID
+
+  !php/const oat\tao\model\mvc\DefaultUrlService::SERVICE_ID:
+    alias: oat\tao\model\mvc\DefaultUrlService
+    public: true
+
+  oat\tao\model\notification\implementation\NotificationServiceAggregator:
+    public: true
+    factory: '@oat\tao\model\Gateway'
+    class: \oat\tao\model\notification\implementation\NotificationServiceAggregator
+    arguments:
+      - !php/const oat\tao\model\notification\implementation\NotificationServiceAggregator::SERVICE_ID
+
+  !php/const oat\tao\model\notification\implementation\NotificationServiceAggregator::SERVICE_ID:
+    alias: oat\tao\model\notification\implementation\NotificationServiceAggregator
+    public: true
 
   oat\tao\model\routing\ControllerService:
     public: true
@@ -101,6 +138,42 @@ services:
   !php/const \oat\tao\model\security\ActionProtector::SERVICE_ID:
     alias: oat\tao\model\security\ActionProtector
     public: true
+
+  oat\tao\model\mvc\error\ExceptionInterpreterService:
+    public: true
+    factory: '@oat\tao\model\Gateway'
+    class: \oat\tao\model\mvc\error\ExceptionInterpreterService
+    arguments:
+      - !php/const \oat\tao\model\mvc\error\ExceptionInterpreterService::SERVICE_ID
+
+  !php/const \oat\tao\model\mvc\error\ExceptionInterpreterService::SERVICE_ID:
+    alias: oat\tao\model\mvc\error\ExceptionInterpreterService
+    public: true
+
+
+  oat\tao\model\maintenance\Maintenance:
+    public: true
+    factory: '@oat\tao\model\Gateway'
+    class: \oat\tao\model\maintenance\Maintenance
+    arguments:
+      - !php/const \oat\tao\model\maintenance\Maintenance::SERVICE_ID
+
+  !php/const \oat\tao\model\maintenance\Maintenance::SERVICE_ID:
+    alias: oat\tao\model\maintenance\Maintenance
+    public: true
+
+
+  oat\tao\model\session\restSessionFactory\RestSessionFactory:
+    public: true
+    factory: '@oat\tao\model\Gateway'
+    class: \oat\tao\model\session\restSessionFactory\RestSessionFactory
+    arguments:
+      - !php/const \oat\tao\model\session\restSessionFactory\RestSessionFactory::SERVICE_ID
+
+  !php/const \oat\tao\model\session\restSessionFactory\RestSessionFactory::SERVICE_ID:
+    alias: oat\tao\model\session\restSessionFactory\RestSessionFactory
+    public: true
+
 
   oat\tao\model\clientConfig\ClientConfigService:
     public: true

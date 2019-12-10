@@ -30,12 +30,17 @@ use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\tao\helpers\Template;
 use oat\tao\model\asset\AssetService;
+use oat\tao\model\di\ContainerBuilder;
 use oat\tao\model\maintenance\Maintenance;
 use oat\tao\model\routing\TaoFrontController;
 use oat\tao\model\routing\CliController;
 use common_Logger;
 use common_ext_ExtensionsManager;
 use common_report_Report as Report;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\Config\Loader\DelegatingLoader;
+use Symfony\Component\Config\Loader\LoaderResolver;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use tao_helpers_Context;
 use tao_helpers_Request;
 use tao_helpers_Uri;
@@ -109,7 +114,8 @@ class Bootstrap implements ServiceManagerAwareInterface
             ))
         );
 
-        $this->setServiceLocator($serviceManager);
+        $diContainer = $this->getDiContainer();
+        $this->setServiceLocator($diContainer);
         // To be removed when getServiceManager will disappear
         ServiceManager::setServiceManager($serviceManager);
         if(PHP_SAPI == 'cli'){
@@ -374,5 +380,23 @@ class Bootstrap implements ServiceManagerAwareInterface
     protected function getMaintenanceService()
     {
         return $this->getServiceLocator()->get(Maintenance::SERVICE_ID);
+    }
+
+    private function getDiContainer()
+    {
+
+        $containerBuilder = new ContainerBuilder();
+
+        $loaderResolver = new LoaderResolver(
+            [
+                new YamlFileLoader($containerBuilder, new FileLocator(CONFIG_PATH . 'tao'))]
+        // new LegacyTaoServiceLocatorLoader($containerBuilder)
+        );
+
+        $delegatingLoader = new DelegatingLoader($loaderResolver);
+        $delegatingLoader->load('yml/services.yaml');
+
+        $containerBuilder->compile();
+        return $containerBuilder;
     }
 }

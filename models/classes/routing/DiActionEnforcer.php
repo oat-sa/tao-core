@@ -24,9 +24,9 @@ class DiActionEnforcer extends ActionEnforcer
     public function __construct($extensionId, $controller, $action, array $parameters)
     {
         parent::__construct($extensionId, $controller, $action, $parameters);
-        $this->diContainer = $this->getDiContainer();
+//        $this->diContainer = $this->getDiContainer();
 
-        $this->setLogger($this->diContainer->get(LoggerService::class));
+//        $this->setLogger($this->getServiceLocator()->get(LoggerService::class));
     }
 
 
@@ -49,7 +49,8 @@ class DiActionEnforcer extends ActionEnforcer
     private function buildController($controllerClass)
     {
 
-        $containerBuilder = $this->getDiContainer();
+//        $containerBuilder = $this->getDiContainer();
+        $containerBuilder = $this->getServiceLocator();
 
         /** @var Controller|DIAwareInterface $controller */
         $controller = $containerBuilder->get($controllerClass);
@@ -60,7 +61,7 @@ class DiActionEnforcer extends ActionEnforcer
         return $controller;
     }
 
-    private function getDiContainer()
+    private function get2DiContainer()
     {
         if (!$this->diContainer) {
             $containerBuilder = new ContainerBuilder();
@@ -86,14 +87,14 @@ class DiActionEnforcer extends ActionEnforcer
 //        //temporary empty
 //    }
 
-    public function getServiceLocator()
-    {
+//    public function getServiceLocator()
+//    {
         // dirty wrapper for POC
-        return $this->getDiContainer();
-    }
+//        return $this->getDiContainer();
+//    }
 
-    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
-    {
+//    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
+//    {
 
-    }
+//    }
 }
