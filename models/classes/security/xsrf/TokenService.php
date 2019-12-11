@@ -351,7 +351,7 @@ class TokenService extends ConfigurableService
         }
 
         return [
-            self::JS_TOKEN_TIME_LIMIT_KEY => $this->getTimeLimit(),
+            self::JS_TOKEN_TIME_LIMIT_KEY => $this->getTimeLimit() * 1000,
             self::JS_TOKEN_POOL_SIZE_KEY => $this->getPoolSize(false),
             self::JS_TOKEN_KEY => $jsTokenPool
         ];
