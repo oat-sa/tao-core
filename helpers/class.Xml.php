@@ -26,6 +26,7 @@ class tao_helpers_Xml
 {
 
     /**
+     * Returns XML from the array
      * @param mixed
      * @return string xml
      */
@@ -41,7 +42,11 @@ class tao_helpers_Xml
         return $dom->saveXML();
     }
 
-    // function defination to convert array to xml
+    /**
+     * Convert array to xml
+     * @param array $data
+     * @param $xml_data
+     */
     private static function array_to_xml($data = array(), &$xml_data)
     {
         foreach ($data as $key => $value) {
@@ -63,16 +68,28 @@ class tao_helpers_Xml
     }
 
     /**
-     *
+     * Convert xml to array
      * @param string $xml
-     * @return array
+     * @return mixed
+     * @throws common_exception_Error
      */
     public static function to_array($xml)
     {
-        $xml = simplexml_load_string($xml);
-        $json = json_encode($xml);
+        libxml_use_internal_errors(true);
 
+        $xml = simplexml_load_string($xml);
+        if ($xml === false) {
+            $report = [];
+            $errors = libxml_get_errors();
+            /** @var LibXMLError $error */
+            foreach ($errors as $error) {
+                $report[] = trim($error->message) . ' ['.$error->line.']';
+            }
+            libxml_clear_errors();
+            throw new common_exception_Error(implode("\n", $report));
+        }
+
+        $json = json_encode($xml);
         return json_decode($json, true);
     }
-
 }
