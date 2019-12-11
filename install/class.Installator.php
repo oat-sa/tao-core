@@ -158,15 +158,15 @@ class tao_install_Installator {
             try {
                 $persistenceManager = $this->getServiceManager()->get(PersistenceManager::SERVICE_ID);
             } catch (ServiceNotFoundException $e) {
-                $persistenceManager = new PersistenceManager();
                 $this->log('i', "Spawning new PersistenceManager");
+                $persistenceManager = new PersistenceManager();
             }
             if (! $persistenceManager->hasPersistence('default')) {
+                $this->log('i', "Register default Persistence");
                 $dbalConfigCreator = new tao_install_utils_DbalConfigCreator();
                 $persistenceManager->registerPersistence('default', $dbalConfigCreator->createDbalConfig($installData));
-                $this->log('i', "Register default Persistence");
+                $this->getServiceManager()->register(PersistenceManager::SERVICE_ID, $persistenceManager);
             }
-            $this->getServiceManager()->register(PersistenceManager::SERVICE_ID, $persistenceManager);
 			$dbCreator = new SetupDb();
 			$dbCreator->setLogger($this->logger);
 			$dbCreator->setupDatabase($persistenceManager->getPersistenceById('default'));
@@ -226,7 +226,6 @@ class tao_install_Installator {
             }
 
             foreach ((array)$installData['extra_persistences'] as $k => $persistence) {
-                var_dump($persistence);
                 $persistenceManager->registerPersistence($k, $persistence);
             }
 
