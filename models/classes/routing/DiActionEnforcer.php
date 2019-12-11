@@ -82,10 +82,10 @@ class DiActionEnforcer extends ActionEnforcer
         return $this->diContainer;
     }
 
-//    protected function verifyAuthorization()
-//    {
-//        //temporary empty
-//    }
+    protected function verifyAuthorization()
+    {
+        //temporary empty
+    }
 
 //    public function getServiceLocator()
 //    {

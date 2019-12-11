@@ -21,7 +21,10 @@
  */
 namespace oat\tao\model\mvc;
 
-use GuzzleHttp\Psr7\Request;
+use common_ext_ExtensionsManager;
+use common_Logger;
+use common_report_Report as Report;
+use Exception;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
 use oat\oatbox\service\ServiceConfigDriver;
@@ -30,23 +33,22 @@ use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\tao\helpers\Template;
 use oat\tao\model\asset\AssetService;
+use oat\tao\model\di\Container;
 use oat\tao\model\di\ContainerBuilder;
 use oat\tao\model\maintenance\Maintenance;
-use oat\tao\model\routing\TaoFrontController;
+use oat\tao\model\mvc\error\ExceptionInterpreterService;
 use oat\tao\model\routing\CliController;
-use common_Logger;
-use common_ext_ExtensionsManager;
-use common_report_Report as Report;
+use oat\tao\model\routing\TaoFrontController;
+use Symfony\Component\Config\ConfigCache;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Loader\DelegatingLoader;
 use Symfony\Component\Config\Loader\LoaderResolver;
+use Symfony\Component\DependencyInjection\Dumper\PhpDumper;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\Dotenv\Dotenv;
 use tao_helpers_Context;
 use tao_helpers_Request;
 use tao_helpers_Uri;
-use Exception;
-use oat\tao\model\mvc\error\ExceptionInterpreterService;
-use Symfony\Component\Dotenv\Dotenv;
 
 /**
  * The Bootstrap Class enables you to drive the application flow for a given extenstion.
@@ -384,19 +386,32 @@ class Bootstrap implements ServiceManagerAwareInterface
 
     private function getDiContainer()
     {
+        $file = GENERIS_CACHE_PATH .'/_di/container.php';
+        $containerConfigCache = new ConfigCache($file, DEBUG_MODE);
 
-        $containerBuilder = new ContainerBuilder();
+        if (!$containerConfigCache->isFresh()) {
 
-        $loaderResolver = new LoaderResolver(
-            [
-                new YamlFileLoader($containerBuilder, new FileLocator(CONFIG_PATH . 'tao'))]
-        // new LegacyTaoServiceLocatorLoader($containerBuilder)
-        );
+            $containerBuilder = new ContainerBuilder();
+            $loaderResolver = new LoaderResolver(
+                [
+                    new YamlFileLoader($containerBuilder, new FileLocator(CONFIG_PATH . 'tao'))]
+            // new LegacyTaoServiceLocatorLoader($containerBuilder)
+            );
+            $delegatingLoader = new DelegatingLoader($loaderResolver);
+            $delegatingLoader->load('yml/services.yaml');
 
-        $delegatingLoader = new DelegatingLoader($loaderResolver);
-        $delegatingLoader->load('yml/services.yaml');
+            $containerBuilder->compile();
 
-        $containerBuilder->compile();
-        return $containerBuilder;
+            $dumper = new PhpDumper($containerBuilder);
+            $containerConfigCache->write(
+                $dumper->dump(['class' => 'MyCachedContainer', 'base_class' => Container::class]),
+                $containerBuilder->getResources()
+            );
+        }
+
+        require_once $file;
+        $container = new \MyCachedContainer();
+
+        return $container;
     }
 }
