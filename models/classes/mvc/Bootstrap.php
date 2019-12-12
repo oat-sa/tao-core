@@ -35,6 +35,7 @@ use oat\tao\helpers\Template;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\di\Container;
 use oat\tao\model\di\ContainerBuilder;
+use oat\tao\model\di\LegacyServiceLoader;
 use oat\tao\model\maintenance\Maintenance;
 use oat\tao\model\mvc\error\ExceptionInterpreterService;
 use oat\tao\model\routing\CliController;
@@ -389,16 +390,18 @@ class Bootstrap implements ServiceManagerAwareInterface
         $file = GENERIS_CACHE_PATH .'/_di/container.php';
         $containerConfigCache = new ConfigCache($file, DEBUG_MODE);
 
-        if (!$containerConfigCache->isFresh()) {
+        if ( !$containerConfigCache->isFresh()) {
 
             $containerBuilder = new ContainerBuilder();
             $loaderResolver = new LoaderResolver(
                 [
-                    new YamlFileLoader($containerBuilder, new FileLocator(CONFIG_PATH . 'tao'))]
-            // new LegacyTaoServiceLocatorLoader($containerBuilder)
+                    new YamlFileLoader($containerBuilder, new FileLocator(CONFIG_PATH . 'tao')),
+//                    new LegacyServiceLoader($containerBuilder, new FileLocator(CONFIG_PATH)),
+                ]
             );
             $delegatingLoader = new DelegatingLoader($loaderResolver);
             $delegatingLoader->load('yml/services.yaml');
+//            $delegatingLoader->load(CONFIG_PATH.'*/*.conf.php');
 
             $containerBuilder->compile();
 
