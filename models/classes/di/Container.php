@@ -9,4 +9,10 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 class Container extends BaseContainer implements ServiceLocatorInterface
 {
 
+    /** Prevents PDO connection serialization on session close @FIX */
+    public function __sleep()
+    {
+        return [];
+    }
+
 }

@@ -36,6 +36,7 @@ use oat\tao\model\asset\AssetService;
 use oat\tao\model\di\Container;
 use oat\tao\model\di\ContainerBuilder;
 use oat\tao\model\di\LegacyServiceLoader;
+use oat\tao\model\LegacySMStorage;
 use oat\tao\model\maintenance\Maintenance;
 use oat\tao\model\mvc\error\ExceptionInterpreterService;
 use oat\tao\model\routing\CliController;
@@ -117,10 +118,10 @@ class Bootstrap implements ServiceManagerAwareInterface
             ))
         );
 
-        $diContainer = $this->getDiContainer();
+        $diContainer = $this->getDiContainer($serviceManager);
         $this->setServiceLocator($diContainer);
         // To be removed when getServiceManager will disappear
-        ServiceManager::setServiceManager($serviceManager);
+        ServiceManager::setServiceManager($diContainer);
         if(PHP_SAPI == 'cli'){
             tao_helpers_Context::load('SCRIPT_MODE');
         } else{
@@ -385,10 +386,12 @@ class Bootstrap implements ServiceManagerAwareInterface
         return $this->getServiceLocator()->get(Maintenance::SERVICE_ID);
     }
 
-    private function getDiContainer()
+    private function getDiContainer($legacyContainer)
     {
         $file = GENERIS_CACHE_PATH .'/_di/container.php';
         $containerConfigCache = new ConfigCache($file, DEBUG_MODE);
+
+        LegacySMStorage::setServiceManager($legacyContainer);
 
         if ( !$containerConfigCache->isFresh()) {
 
