@@ -22,6 +22,7 @@
 namespace oat\tao\model\routing;
 
 
+use oat\tao\controller\entry\DummyStatic;
 use Psr\Http\Message\ServerRequestInterface;
 use tao_helpers_Request;
 
@@ -54,6 +55,7 @@ class DiEnchantedRoute extends AbstractRoute
     {
         return [
             'tao/Main/login' => \oat\tao\controller\entry\Login::class . '@login',
+            'tao/DummyStatic/test' => DummyStatic::class . '@test',
         ];
     }
 }

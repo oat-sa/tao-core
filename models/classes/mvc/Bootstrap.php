@@ -396,7 +396,7 @@ class Bootstrap implements ServiceManagerAwareInterface
             $loaderResolver = new LoaderResolver(
                 [
                     new YamlFileLoader($containerBuilder, new FileLocator(CONFIG_PATH . 'tao')),
-//                    new LegacyServiceLoader($containerBuilder, new FileLocator(CONFIG_PATH)),
+                    new LegacyServiceLoader($containerBuilder, new FileLocator(CONFIG_PATH)),
                 ]
             );
             $delegatingLoader = new DelegatingLoader($loaderResolver);

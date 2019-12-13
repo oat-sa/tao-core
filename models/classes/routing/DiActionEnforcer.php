@@ -3,8 +3,10 @@
 
 namespace oat\tao\model\routing;
 
+use oat\oatbox\log\LoggerService;
 use oat\tao\model\DIAwareInterface;
 use oat\tao\model\http\Controller;
+use Psr\Log\LoggerAwareInterface;
 
 class DiActionEnforcer extends ActionEnforcer
 {
@@ -35,6 +37,10 @@ class DiActionEnforcer extends ActionEnforcer
         $controller->setRequest($this->getRequest());
         $controller->setResponse($this->getResponse());
 
+//        if ($controller instanceof LoggerAwareInterface) {
+//            $controller->setLogger($containerBuilder->get(LoggerService::SERVICE_ID));
+//        }
+//
         return $controller;
     }
 

@@ -16,7 +16,6 @@ use oat\tao\model\event\LoginFailedEvent;
 use oat\tao\model\event\LoginSucceedEvent;
 use oat\tao\model\security\IFrameBlocker;
 use oat\tao\model\user\UserLocks;
-use Psr\Http\Message\ServerRequestInterface;
 use tao_actions_form_Login as LoginForm;
 use tao_helpers_Date;
 use tao_models_classes_accessControl_AclProxy;
@@ -51,7 +50,7 @@ class Login extends \tao_actions_CommonModule implements DIAwareInterface
     private $sessionService;
 
 
-    public function __construct(ExtensionsManager $extensionsManager, EntryPointService $entryPointService, UserLocks $userLocksService, EventManager $eventManager, ServiceLocatorInterface $serviceLocator, SessionService $sessionService, ServerRequestInterface $request = null)
+    public function __construct(ExtensionsManager $extensionsManager, EntryPointService $entryPointService, UserLocks $userLocksService, EventManager $eventManager, ServiceLocatorInterface $serviceLocator, SessionService $sessionService, $veryImportantParam)
     {
         $this->extensionsManager = $extensionsManager;
         $this->entryPointService = $entryPointService;
@@ -59,10 +58,6 @@ class Login extends \tao_actions_CommonModule implements DIAwareInterface
         $this->eventManager = $eventManager;
         $this->serviceLocator = $serviceLocator;
         $this->sessionService = $sessionService;
-
-        if ($request){
-            $this->setRequest($request);
-        }
     }
 
 
