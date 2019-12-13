@@ -23,6 +23,9 @@ namespace oat\tao\model\websource;
 
 use common_ext_ExtensionsManager;
 use common_Exception;
+use oat\oatbox\service\ConfigurableService;
+use oat\oatbox\service\ServiceManager;
+
 /**
  * Websource manager
  *
@@ -31,23 +34,19 @@ use common_Exception;
  * @package tao
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
-class WebsourceManager
+class WebsourceManager extends ConfigurableService
 {	
     const CONFIG_PREFIX = 'websource_';
 
-    private static $instance = null;
-    
+    /**
+     * @return ConfigurableService
+     * @deprecated Use ServiceLocator::get(WebsourceManager::class) instead
+     */
     public static function singleton() {
-        if (is_null(self::$instance)) {
-            self::$instance = new self();
-        }
-        return self::$instance;
+        return ServiceManager::getServiceManager()->get(WebsourceManager::class);
     }
     
     private $websources = array();
-    
-    private function __construct() {
-    }
     
     public function getWebsource($key) {
         if (!isset($this->websources[$key])) {
