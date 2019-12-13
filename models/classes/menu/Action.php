@@ -125,7 +125,7 @@ class Action implements PhpSerializable, iAction, ServiceManagerAwareInterface
 
     /**
      * Is the action available for multiple resources
-     * @return bool 
+     * @return bool
      */
     public function isMultiple()
     {
@@ -191,7 +191,7 @@ class Action implements PhpSerializable, iAction, ServiceManagerAwareInterface
 
     public function getRequiredRights()
     {
-        return $this->getServiceManager()->get(ActionService::SERVICE_ID)->getRequiredRights($this);
+        return $this->getServiceLocator()->get(ActionService::SERVICE_ID)->getRequiredRights($this);
     }
 
     public function __toPhpCode() {
