@@ -4,10 +4,15 @@
 namespace oat\tao\model\di;
 
 
+use Closure;
 use oat\oatbox\service\ConfigurableService;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ReferenceConfigurator;
+use oat\tao\model\Gateway;
+use ReflectionClass;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Loader\FileLoader;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
+use Symfony\Component\DependencyInjection\Reference;
+use Throwable;
 
 class LegacyServiceLoader extends FileLoader
 {
@@ -21,7 +26,7 @@ class LegacyServiceLoader extends FileLoader
         $container = $this->container;
         $loader = $this;
 
-        $load = \Closure::bind(
+        $load = Closure::bind(
             function ($path) use ($container, $loader, $resource, $type) {
                 return include $path;
             },
@@ -36,12 +41,12 @@ class LegacyServiceLoader extends FileLoader
                 $class = get_class($callback);
                 $serviceName = $class;
 
-                $sampleService = new \ReflectionClass($class);
+                $sampleService = new ReflectionClass($class);
                 $interfaces = $sampleService->getInterfaces();
 
                 $bInterface = array_filter(
                     $interfaces,
-                    function (\ReflectionClass $int) {
+                    function (ReflectionClass $int) {
                         return array_key_exists('SERVICE_ID', $int->getConstants());
                     }
                 );
@@ -59,17 +64,21 @@ class LegacyServiceLoader extends FileLoader
                         );
                 }
 
+                $definition = new Definition($serviceName);
+                $definition->setAutowired(true)
+                    ->setPublic(true)
+                    ->setFactory(new Reference(Gateway::class))
+                    ->setArguments([$alias])
+                    ;
+                $container->setDefinition($serviceName, $definition);
 
-                $container->autowire($serviceName, $serviceName)
-                    ->setFactory([new ReferenceConfigurator(\oat\tao\model\Gateway::class)])
-                    ->addArgument($alias)
+                $container->setAlias($alias, $serviceName)
                     ->setPublic(true);
-
-                $container->setAlias($alias, $serviceName);
                 if ($class !== $serviceName) {
-                    $container->setAlias($class, $serviceName);
+                    $container->setAlias($class, $serviceName)
+                        ->setPublic(true);
                 }
-            } catch (\Throwable $exception) {
+            } catch (Throwable $exception) {
                 var_dump($exception->getMessage());
             } finally {
                 $this->instanceof = [];

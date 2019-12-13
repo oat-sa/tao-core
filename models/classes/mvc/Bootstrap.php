@@ -401,7 +401,7 @@ class Bootstrap implements ServiceManagerAwareInterface
             );
             $delegatingLoader = new DelegatingLoader($loaderResolver);
             $delegatingLoader->load('yml/services.yaml');
-//            $delegatingLoader->load(CONFIG_PATH.'*/*.conf.php');
+            $delegatingLoader->load(CONFIG_PATH.'*/*.conf.php');
 
             $containerBuilder->compile();
 
