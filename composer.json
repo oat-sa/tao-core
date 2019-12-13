@@ -60,7 +60,8 @@
         "symfony/dotenv": "~4.3",
         "symfony/dependency-injection": "5.0.*",
         "symfony/config": "^5.0",
-        "symfony/proxy-manager-bridge": "^5.0"
+        "symfony/proxy-manager-bridge": "^5.0",
+        "symfony/finder": "^5.1@dev"
     },
     "autoload": {
         "psr-4": {
