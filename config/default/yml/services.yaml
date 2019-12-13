@@ -1,7 +1,15 @@
 # config/services.yaml
+# next steps service with scalara paramers from container
+#
+#
+#
+
+parameters:
+  someparam1: 'auto-binded-param1param1param1'
+  someparam2: 'param-2-param-2'
 
 imports:
-  - { resource: 'legacy.yaml' }
+#  - { resource: 'legacy.yaml' }
 #  - { resource: 'legacy_auto.yaml' }
 #  - { resource: 'legacy.php' }
 
@@ -13,12 +21,20 @@ services:
     public: false       # Allows optimizing the container by removing unused services; this also means
     # fetching services directly from the container via $container->get() won't work.
     # The best practice is to be explicit about your dependencies anyway.
+    bind:
+      $veryImportantParam: '%someparam1%'
 
   # makes classes in src/ available to be used as services
   # this creates a service per class whose id is the fully-qualified class name
   oat\tao\controller\:
     resource: '../../tao/controller/*'
     public: true
+    calls:
+      - [setLogger, ['@?oat\oatbox\log\LoggerService']]
+
+  #  oat\tao\controller\entry\DummyStatic:
+  #    arguments:
+  #      $param2: '%someparam2%'
 
   oat\tao\model\Gateway: ~
 
