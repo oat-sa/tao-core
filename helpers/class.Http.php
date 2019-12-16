@@ -26,6 +26,7 @@ use oat\tao\model\stream\StreamRange;
 use oat\tao\model\stream\StreamRangeException;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Description of class
@@ -388,5 +389,53 @@ class tao_helpers_Http
         } catch (StreamRangeException $e) {
             header('HTTP/1.1 416 Requested Range Not Satisfiable');
         }
+    }
+    
+    public static function returnStreamResponse(ResponseInterface $response, StreamInterface $stream, $mimeType = null, ServerRequestInterface $request = null)
+    {
+        $response = $response->withAddedHeader('Accept-Ranges', 'bytes');
+        if (!is_null($mimeType)) {
+            $response = $response->withAddedHeader('Content-Type', $mimeType);
+        }
+        
+        try{
+            $ranges = StreamRange::createFromRequest($stream, $request);
+            $contentLength = 0;
+            if (!empty($ranges)) {
+                header('HTTP/1.1 206 Partial Content');
+                foreach ($ranges as $range) {
+                    $contentLength += (($range->getLastPos() - $range->getFirstPos()) + 1);
+                }
+                //@todo Content-Range for multiple ranges?
+                header('Content-Range: bytes ' . $ranges[0]->getFirstPos() . '-' . $ranges[0]->getLastPos() . '/' . $stream->getSize());
+            } else {
+                $contentLength = $stream->getSize();
+                $response = $response->withStatus(200);
+            }
+            
+            $response = $response->withAddedHeader('Content-Length', $contentLength);
+            
+            if (empty($ranges)) {
+                $response = $response->withBody($stream);
+                /*
+                while (!$stream->eof()) {
+                    echo $stream->read(self::BYTES_BY_CYCLE);
+                }
+                */
+            } else {
+                foreach ($ranges as $range) {
+                    $pos = $range->getFirstPos();
+                    $stream->seek($pos);
+                    while ($pos <= $range->getLastPos()) {
+                        $length = min((($range->getLastPos() - $pos) + 1), self::BYTES_BY_CYCLE);
+                        echo $stream->read($length);
+                        $pos += $length;
+                    }
+                }
+            }
+        } catch (StreamRangeException $e) {
+            header('HTTP/1.1 416 Requested Range Not Satisfiable');
+        }
+        return $response;
     }
 }
