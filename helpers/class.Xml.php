@@ -102,6 +102,14 @@ class tao_helpers_Xml
         return $xml;
     }
 
+    /**
+     * Extract elements from the xml (xpath) with namespace dependency
+     * @param $tagName
+     * @param $xml
+     * @param string $namespace
+     * @return array
+     * @throws common_exception_Error
+     */
     public static function extractElements($tagName, $xml, $namespace = '')
     {
         $elements = [];
@@ -112,7 +120,6 @@ class tao_helpers_Xml
             $ns = 'ns:';
         }
         $tagName = $ns.$tagName;
-        $r = $simpleXml->xpath('//'.$tagName);
         foreach ($simpleXml->xpath('//'.$tagName) as $item) {
             $elements [] = current($item);
         }
