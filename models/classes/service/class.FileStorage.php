@@ -64,7 +64,9 @@ class tao_models_classes_service_FileStorage extends ConfigurableService impleme
     protected function getAccessProvider()
     {
         if (is_null($this->accessProvider)) {
-            $this->accessProvider = WebsourceManager::singleton()->getWebsource($this->getOption(self::OPTION_ACCESS_PROVIDER));
+            $this->accessProvider = $this->getServiceLocator()
+                ->get(WebsourceManager::class)
+                ->getWebsource($this->getOption(self::OPTION_ACCESS_PROVIDER));
         }
         return $this->accessProvider;
     }

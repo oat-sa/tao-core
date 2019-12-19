@@ -19,6 +19,7 @@
  */
 
 use oat\tao\model\WfEngineOntology;
+use \oat\generis\model\data\Ontology;
 
 /**
  * Represents tao service parameter
@@ -55,7 +56,7 @@ abstract class tao_models_classes_service_Parameter implements JsonSerializable
 	/**
 	 * @return core_kernel_classes_Resource
 	 */
-	public abstract function toOntology();
+	public abstract function toOntology(Ontology $model);
 
 	public abstract function jsonSerialize();
 
