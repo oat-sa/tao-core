@@ -44,19 +44,10 @@ class tao_helpers_form_elements_xhtml_Treebox extends tao_helpers_form_elements_
     public function feed()
     {
         $expression = "/^" . preg_quote($this->name, "/") . "(.)*[0-9]+$/";
-        $found = false;
+        $this->setValues([]);
         foreach ($_POST as $key => $value) {
             if (preg_match($expression, $key)) {
-                $found = true;
-                break;
-            }
-        }
-        if ($found) {
-            $this->setValues(array());
-            foreach ($_POST as $key => $value) {
-                if (preg_match($expression, $key)) {
-                    $this->addValue(tao_helpers_Uri::decode($value));
-                }
+                $this->addValue(tao_helpers_Uri::decode($value));
             }
         }
     }
@@ -101,13 +92,17 @@ class tao_helpers_form_elements_xhtml_Treebox extends tao_helpers_form_elements_
     {
         $widgetTreeName = $this->name . '-TreeBox';
         $widgetValueName = $this->name . '-TreeValues';
-        
         $returnValue = $this->renderLabel();
         
         $returnValue .= "<div class='form-elt-container' style='min-height:50px; overflow-y:auto;'>";
         
-        $returnValue .= "<div id='{$widgetValueName}'></div>";
-        
+        $returnValue .= "<div id='{$widgetValueName}'>";
+        $i = 0;
+
+        foreach ($this->values as $value) {
+            $returnValue .=  '<input type=\'hidden\' name=\'' . $this->name . '_' . $i++ . '\' value=\'' . $value . '\' />';
+        }
+        $returnValue .= "</div>";
         $returnValue .= "<div id='{$widgetTreeName}' class='tree-widget'></div>";
         
         $returnValue .= "<script type=\"text/javascript\">
