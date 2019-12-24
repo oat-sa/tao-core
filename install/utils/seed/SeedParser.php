@@ -21,9 +21,9 @@ namespace oat\tao\install\utils\seed;
 
 use InvalidArgumentException;
 use ErrorException;
-use oat\oatbox\service\ConfigurableService;
 use oat\generis\model\GenerisRdf;
 use oat\oatbox\filesystem\FileSystemService;
+use oat\oatbox\Configurable;
 
 class SeedParser
 {
@@ -63,12 +63,8 @@ class SeedParser
         $services = [];
         foreach($array['configuration'] as $extension => $configs) {
             foreach($configs as $key => $config) {
-                if(isset($config['type']) && $config['type'] === 'configurableService'){
-                    $className = $config['class'];
-                    $params = $config['options'];
-                    if (is_a($className, ConfigurableService::class, true)) {
-                        $services[$extension.'/'.$key] = new $className($params);
-                    }
+                if($this->isConfigurable($config)) {
+                    $services[$extension.'/'.$key] = $this->unserialize($config);
                 }
             }
         }
@@ -79,7 +75,47 @@ class SeedParser
         $postInstallScripts = isset($array['postInstall']) ? $array['postInstall'] : [];
         return new Seed($options, $extensions, $services, $user, $postInstallScripts);
     }
-    
+
+    protected function unserialize($config) {
+        $returnValue = null;
+        if ($this->isConfigurable($config)) {
+            $className = $config['class'];
+            $params = isset($config['options']) ? $config['options'] : [];
+            return new $className($this->unserialize($params));
+        } elseif (is_array($config)) {
+            $returnValue = [];
+            foreach ($config as $key => $val) {
+                $returnValue[$key] = $this->unserialize($val);
+            }
+        } else {
+            $returnValue = $config;
+        }
+        return $returnValue;
+    }
+
+    protected function unserializeConfigurable($config) {
+        if (!isset($config['class'])) {
+            throw new InvalidSeedException('Configurable without class parameter');
+        }
+        $className = $config['class'];
+        $params = isset($config['options']) ? $config['options'] : [];
+        foreach ($params as $key => $value) {
+            if ($this->isConfigurable($value)) {
+                $params[$key] = $this->unserializeConfigurable($value);
+            }
+        }
+        if (!is_a($className, Configurable::class, true)) {
+            throw new InvalidSeedException($className.' is not a Configurable');
+        }
+        return new $className($params);
+    }
+
+    protected function isConfigurable($config) {
+        return isset($config['type']) && in_array($config['type'], ['configurableService', 'configurable'])
+            && isset($config['class']) && is_a($config['class'], Configurable::class, true)
+        ;
+    }
+
     protected function setDefaultServices($services, $array) {
         if (!isset($services[FileSystemService::SERVICE_ID])) {
             $services[FileSystemService::SERVICE_ID] = new FileSystemService([
