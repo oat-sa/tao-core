@@ -50,7 +50,7 @@ class SeedFactory extends AbstractAction {
                 'global' => [
                     "lang" => $this->getServiceLocator()->get(UserLanguageService::SERVICE_ID)->getDefaultLanguage(),
                     "mode"=> "debug",
-                    "instance_name" => "seeded",
+                    "instance_name" => GENERIS_INSTANCE_NAME,
                     "namespace" => LOCAL_NAMESPACE,
                     "url" => ROOT_URL,
                     "file_path" => FILES_PATH,
@@ -93,9 +93,14 @@ class SeedFactory extends AbstractAction {
         unset($seed['configuration']['tao']['taskQueue']);
         // snafu
         unset($seed['configuration']['taoAct']['DeliveryStatus']);
-        
+        // duplicate registration
         unset($seed['configuration']['taoQtiTest']['QtiCommunicationService']['options']['channels']['input']['heartbeat']);
-        
+        // failed serialization
+        unset($seed['configuration']['tao']['requiredAction']);
+        // import/export handler serialization failing
+        unset($seed['configuration']['taoQtiTest']['TestModel']);
+        unset($seed['configuration']['taoQtiItem']['ItemModel']);
+
         // custom seed format
         //$seed['configuration']['generis']['persistences'] = $seed['configuration']['generis']['persistences']['options']['persistences'];
         

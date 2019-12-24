@@ -207,13 +207,13 @@ class tao_install_Setup implements Action
         }
 
         $global = $parameters['configuration']['global'];
-        $options['module_namespace'] = $global['namespace'];
-        $options['instance_name'] = $global['instance_name'];
-        $options['module_url'] = $global['url'];
-        $options['module_lang'] = $global['lang'];
-        $options['module_mode'] = $global['mode'];
-        $options['timezone'] = $global['timezone'];
-        $options['import_local'] = (isset($global['import_data']) && $global['import_data'] === true);
+        $options['module_namespace'] = $seed->getLocalNamespace();
+        $options['instance_name'] = $seed->getInstanceName();
+        $options['module_url'] = $seed->getRootUrl();
+        $options['module_lang'] = $seed->getDefaultLanguage();
+        $options['module_mode'] = $seed->useDebugMode() ? 'debug' : 'prod';
+        $options['timezone'] = $seed->getDefaultTimezone();
+        $options['import_local'] = $seed->installSamples();
 
         $rootDir = dir(dirname(__FILE__) . '/../../');
         $options['root_path'] = isset($global['root_path'])
