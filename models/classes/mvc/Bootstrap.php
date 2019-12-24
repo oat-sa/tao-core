@@ -31,11 +31,11 @@ use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\tao\helpers\Template;
 use oat\tao\model\asset\AssetService;
+use oat\tao\model\di\ContainerMaintainer;
 use oat\tao\model\maintenance\Maintenance;
 use oat\tao\model\mvc\error\ExceptionInterpreterService;
 use oat\tao\model\routing\CliController;
 use oat\tao\model\routing\TaoFrontController;
-use oat\tao\scripts\tools\ContainerBuilder;
 use tao_helpers_Context;
 use tao_helpers_Request;
 use tao_helpers_Uri;
@@ -358,8 +358,8 @@ class Bootstrap implements ServiceManagerAwareInterface
      */
     private function buildConfiguration($configuration)
     {
-        $builder = (new ContainerBuilder());
-        $builder->__invoke(['configuration' => $configuration, 'force' => false]);
+        $builder = new ContainerMaintainer();
+        $builder->buildConfiguration($configuration);
         $this->setServiceLocator($builder->getServiceLocator());
     }
 }
