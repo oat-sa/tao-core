@@ -7,6 +7,7 @@ namespace oat\tao\model\di;
 use Closure;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\Gateway;
+use oat\tao\model\OntologyClassService;
 use ReflectionClass;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Loader\FileLoader;
@@ -54,22 +55,19 @@ class LegacyServiceLoader extends FileLoader
                     $i = array_pop($bInterface);
                     $serviceName = $i->getName();
                 }
-
-                $alias = end(explode('/', pathinfo($info, PATHINFO_DIRNAME))) . '/' . $info->getBasename('.conf.php');
+                $pathInfo = explode('/', pathinfo($info, PATHINFO_DIRNAME));
+                $prefix = end($pathInfo);
+                $alias = $prefix . '/' . $info->getBasename('.conf.php');
                 if ($callback instanceof ConfigurableService) {
-                    ///&& defined($callback::SERVICE_ID)) {
-//                    $alias = $callback::SERVICE_ID;
-                    $alias = end(explode('/', pathinfo($info, PATHINFO_DIRNAME))) . '/' . $info->getBasename(
-                            '.conf.php'
-                        );
+                    $alias = $prefix . '/' . $info->getBasename('.conf.php');
                 }
 
                 $definition = new Definition($serviceName);
                 $definition->setAutowired(true)
                     ->setPublic(true)
                     ->setFactory(new Reference(Gateway::class))
-                    ->setArguments([$alias])
-                    ;
+                    ->setArguments([$alias]);
+
                 $container->setDefinition($serviceName, $definition);
 
                 $container->setAlias($alias, $serviceName)
@@ -85,6 +83,18 @@ class LegacyServiceLoader extends FileLoader
                 $this->registerAliasesForSinglyImplementedInterfaces();
             }
         }
+
+        //other kind of legacy services
+        $legacyServices = [
+            'taoTests_models_classes_TestsService',
+            'taoItems_models_classes_ItemsService',
+            'oat\taoTestTaker\models\TestTakerService',
+            'oat\taoGroups\models\GroupsService',
+            'oat\taoOutcomeUi\model\ResultsService',
+            'oat\taoLti\models\classes\ConsumerService',
+            'taoQtiTest_models_classes_QtiTestService',
+        ];
+        $this->prepareFallbackFor(OntologyClassService::class, $container, $legacyServices);
     }
 
     /**
@@ -93,6 +103,28 @@ class LegacyServiceLoader extends FileLoader
     public function supports($resource, string $type = null)
     {
         return stripos($resource, '*.conf.php') !== 0;
+    }
+
+    private function prepareFallbackFor($parent, $container, $samples)
+    {
+        foreach ($samples as $s) {
+            try {
+                new $s;
+            } catch (Throwable $e) {
+            }
+        }
+        $result = array();
+        $x = get_declared_classes();
+        foreach ($x as $class) {
+            if (is_subclass_of($class, $parent)) {
+                $definition = new Definition($class);
+                $definition->setAutowired(true)
+                    ->setPublic(true)
+                    ->setClass($class);
+                $container->setDefinition($class, $definition);
+            }
+        }
+        return $result;
     }
 }
 
