@@ -204,7 +204,7 @@ define(['jquery', 'i18n', 'class'], function($, __, Class) {
 		 * @param {string} nodeId
 		 */
 		hidePaginate: function hidePaginate(nodeId) {
-			$('#' + nodeId + ' > ul > li.paginate').each(function(){
+			$('#' + nodeId + ' > ul > li.paginate', $(this.selector)).each(function(){
 				$(this).remove();
 			});
 		},

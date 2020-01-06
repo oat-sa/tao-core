@@ -75,6 +75,17 @@ class tao_helpers_Xml
      */
     public static function to_array($xml)
     {
+        $json = json_encode(self::getSimpleXml($xml));
+        return json_decode($json, true);
+    }
+
+    /**
+     * @param $xml
+     * @return SimpleXMLElement
+     * @throws common_exception_Error
+     */
+    public static function getSimpleXml($xml)
+    {
         libxml_use_internal_errors(true);
 
         $xml = simplexml_load_string($xml);
@@ -88,8 +99,30 @@ class tao_helpers_Xml
             libxml_clear_errors();
             throw new common_exception_Error(implode("\n", $report));
         }
+        return $xml;
+    }
 
-        $json = json_encode($xml);
-        return json_decode($json, true);
+    /**
+     * Extract elements from the xml (xpath) with namespace dependency
+     * @param $tagName
+     * @param $xml
+     * @param string $namespace
+     * @return array
+     * @throws common_exception_Error
+     */
+    public static function extractElements($tagName, $xml, $namespace = '')
+    {
+        $elements = [];
+        $simpleXml = self::getSimpleXml($xml);
+        $ns = '';
+        if ($namespace) {
+            $simpleXml->registerXPathNamespace('ns', $namespace);
+            $ns = 'ns:';
+        }
+        $tagName = $ns.$tagName;
+        foreach ($simpleXml->xpath('//'.$tagName) as $item) {
+            $elements [] = current($item);
+        }
+        return $elements;
     }
 }

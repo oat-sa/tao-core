@@ -128,4 +128,42 @@ class XmlHelperTest extends TestCase
             $this->assertSame($expected['exception']['message'], $e->getMessage());
         }
     }
+
+    public function extractElementDataProvider()
+    {
+        return [
+            [
+                '<p>some text <a>link 1</a> and <a>link 2</a></p>', // xml
+                'a', // tag to be extracted
+                '', // namespace
+                [
+                    'link 1',
+                    'link 2',
+                ], // result
+            ],
+            // with namespace
+            [
+                '<p>some text <a>link 1</a> and <a xmlns="http://www.w3.org/1999/xhtml">link 2</a></p>', // xml
+                'a', // tag to be extracted
+                'http://www.w3.org/1999/xhtml', // namespace
+                [
+                    'link 2',
+                ], // result
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider extractElementDataProvider
+     * @param string $xml
+     * @param string $tag
+     * @param string $namespace
+     * @param array $expected
+     * @throws common_exception_Error
+     */
+    public function testExtractElements($xml, $tag, $namespace, $expected)
+    {
+        $elements = tao_helpers_Xml::extractElements($tag, $xml, $namespace);
+        $this->assertSame($expected, $elements);
+    }
 }
