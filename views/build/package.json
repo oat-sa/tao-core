@@ -15,9 +15,9 @@
   },
   "devDependencies": {
     "@oat-sa/browserslist-config-tao": "^0.1.0",
+    "@oat-sa/eslint-config-tao": "^0.1.0",
     "@oat-sa/grunt-tao-bundle": "^0.4.1",
     "@oat-sa/tao-e2e-runner": "^0.3.0",
-    "@oat-sa/eslint-config-tao": "github:oat-sa/eslint-config-tao#feature/TDR-18/move-eslint-to-dedicated-package",
     "almond": "^0.3.3",
     "eslint-plugin-es": "^3.0.0",
     "eslint-plugin-jsdoc": "^20.3.0",
