@@ -32,7 +32,7 @@
     "grunt-contrib-qunit": "^3.1.0",
     "grunt-contrib-requirejs": "^1.0.0",
     "grunt-contrib-watch": "^1.0.0",
-    "grunt-eslint": "^21.0.0",
+    "grunt-eslint": "^22.0.0",
     "grunt-notify": "^0.4.3",
     "grunt-qunit-junit": "^0.3.0",
     "grunt-replace": "^1.0.1",
