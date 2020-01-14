@@ -1287,7 +1287,7 @@ class Updater extends \common_ext_ExtensionUpdater {
 
             $this->setVersion('40.3.4');
         }
-      
-        $this->skip('40.3.4', '40.3.7');
+
+        $this->skip('40.3.4', '40.4.0');
     }
 }
