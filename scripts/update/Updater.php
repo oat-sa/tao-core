@@ -1285,9 +1285,9 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->getServiceManager()->register(MediaService::SERVICE_ID, $service);
             $extManager->getExtensionById('tao')->unsetConfig('mediaSources');
 
-            $this->setVersion('40.3.4');
+            $this->setVersion('40.3.5');
         }
 
-        $this->skip('40.3.4', '41.0.0');
+        $this->skip('40.3.5', '41.0.0');
     }
 }
