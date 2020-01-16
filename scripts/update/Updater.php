@@ -139,6 +139,7 @@ use oat\tao\model\search\index\IndexService;
 use oat\tao\scripts\tools\MigrateSecuritySettings;
 use tao_install_utils_ModelCreator;
 use tao_models_classes_UserService;
+use oat\tao\model\media\MediaService;
 
 /**
  *
@@ -1260,15 +1261,33 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('39.3.3', '39.5.5');
-      
+
         if ($this->isVersion('39.5.5')) {
             /** @var UnionSearchService|ConfigurableService $service */
             $service = new UnionSearchService(['services' => []]);
             $this->getServiceManager()->register(UnionSearchService::SERVICE_ID, $service);
 
             $this->setVersion('39.6.0');
-         }
+        }
 
-        $this->skip('39.6.0', '39.6.1');
+        $this->skip('39.6.0', '40.3.3');
+
+        if ($this->isVersion('40.3.3')) {
+            $extManager = $this->getServiceManager()->get(\common_ext_ExtensionsManager::SERVICE_ID);
+            $sources = $extManager->getExtensionById('tao')->getConfig('mediaSources');
+            $sources = is_array($sources) ? $sources : [];
+            foreach ($sources as $key => $source) {
+                if (is_string($source) && class_exists($source)) {
+                    $sources[$key] = new $source([]);
+                }
+            }
+            $service = new MediaService([MediaService::OPTION_SOURCE => $sources]);
+            $this->getServiceManager()->register(MediaService::SERVICE_ID, $service);
+            $extManager->getExtensionById('tao')->unsetConfig('mediaSources');
+
+            $this->setVersion('40.3.4');
+        }
+
+        $this->skip('40.3.4', '40.4.0');
     }
 }
