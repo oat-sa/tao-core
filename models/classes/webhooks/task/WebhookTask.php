@@ -46,6 +46,7 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
 
     /**
      * @param array $paramsArray
+     *
      * @return \common_report_Report
      * @throws GuzzleException
      */
@@ -63,6 +64,7 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
 
     /**
      * @param WebhookInterface $webhookConfig
+     *
      * @return RequestInterface
      * @throws \common_Exception
      */
@@ -82,7 +84,7 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
             $webhookConfig->getUrl(),
             [
                 'Content-Type' => $payloadFactory->getContentType(),
-                'Accept' => $this->getWebhookResponseFactory()->getAcceptedContentType()
+                'Accept' => $this->getWebhookResponseFactory()->getAcceptedContentType(),
             ],
             $body
         );
@@ -91,13 +93,14 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
     /**
      * @param RequestInterface $request
      * @param WebhookAuthInterface|null $authConfig
+     *
      * @return \common_report_Report
      * @throws GuzzleException
      * @throws \common_exception_InvalidArgumentType
      */
     private function performRequest(RequestInterface $request, WebhookAuthInterface $authConfig = null)
     {
-        $errorReport = $response =null;
+        $errorReport = $response = null;
         try {
             $response = $this->getWebhookSender()->performRequest($request, $authConfig);
         } catch (ServerException $connectException) {
@@ -127,6 +130,7 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
 
     /**
      * @param ResponseInterface $response
+     *
      * @return \common_report_Report
      */
     private function handleResponse(ResponseInterface $response)
@@ -137,15 +141,19 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
         }
 
         $parsedResponse = $this->getWebhookResponseFactory()->create($response);
-        if ($parsedResponse->getParseError()) {
-            return $this->getWebhookTaskReports()->reportInvalidBodyFormat($this->getTaskContext(), $response);
-        }
-
         $eventId = $this->params->getEventId();
-        if (!$parsedResponse->isDelivered($eventId)) {
-            return $this->getWebhookTaskReports()->reportInvalidAcknowledgement(
-                $this->getTaskContext(), $response, $parsedResponse
-            );
+
+        if ($this->params->responseValidation()) {
+            if ($this->params->getRetryMax())
+                if ($parsedResponse->getParseError()) {
+                    return $this->getWebhookTaskReports()->reportInvalidBodyFormat($this->getTaskContext(), $response);
+                }
+
+            if (!$parsedResponse->isDelivered($eventId)) {
+                return $this->getWebhookTaskReports()->reportInvalidAcknowledgement(
+                    $this->getTaskContext(), $response, $parsedResponse
+                );
+            }
         }
 
         return $this->getWebhookTaskReports()->reportSuccess(
@@ -155,6 +163,7 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
 
     /**
      * @param int $httpStatusCode
+     *
      * @return bool
      */
     private function isAcceptableResponseStatusCode($httpStatusCode)

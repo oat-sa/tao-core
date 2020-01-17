@@ -65,10 +65,14 @@ class WebhookFileRegistryTest extends TestCase
         ]);
 
         $this->registry->setServiceLocator($serviceLocator);
-
-        $returnValue = new Webhook('wh1', 'http://url.com', 'POST', new WebhookAuth('SomeClass', [
-            'p1' => 'v1'
-        ]));
+        $returnValue = new Webhook(
+            'wh1',
+            'http://url.com',
+            'POST',
+            5,
+            new WebhookAuth('SomeClass', ['p1' => 'v1']),
+            true
+        );
 
         $this->webhookEntryFactoryMock->expects($this->once())
             ->method('createEntryFromArray')
