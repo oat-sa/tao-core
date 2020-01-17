@@ -20,40 +20,31 @@
 
 namespace oat\tao\model\upload;
 
+use oat\generis\persistence\PersistenceManager;
 use oat\oatbox\AbstractRegistry;
 use oat\oatbox\filesystem\File;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class TempFlyStorageAssociation extends AbstractRegistry implements TmpLocalAwareStorageInterface, ServiceLocatorAwareInterface
+class TempFlyStorageAssociation implements TmpLocalAwareStorageInterface, ServiceLocatorAwareInterface
 {
     use ServiceLocatorAwareTrait;
 
-    protected function getExtension()
-    {
-        return $this->getServiceLocator()->get(\common_ext_ExtensionsManager::SERVICE_ID)->getExtensionById('tao');
-    }
-
-    protected function getConfigId()
-    {
-        return 'tmp_fly_files_registry';
-    }
-
     /**
      * @param ServiceLocatorInterface $serviceLocator
-     * @return AbstractRegistry|TmpLocalAwareStorageInterface
+     * @return TmpLocalAwareStorageInterface
      */
     public static function getStorage(ServiceLocatorInterface $serviceLocator)
     {
-        /** @var TempFlyStorageAssociation $registry */
-        $registry = self::getRegistry();
-        $registry->setServiceLocator($serviceLocator);
-        return $registry;
+        $storage = new self();
+        $storage->setServiceLocator($serviceLocator);
+        return $storage;
     }
 
     /**
-     * @param $file
+     * @param File $file
+     * @throws \common_Exception
      */
     public function setUpload(File $file)
     {
@@ -64,6 +55,7 @@ class TempFlyStorageAssociation extends AbstractRegistry implements TmpLocalAwar
     /**
      * @param File $remote
      * @param string $local
+     * @throws \common_Exception
      */
     public function addLocalCopies(File $remote, $local)
     {
@@ -99,5 +91,56 @@ class TempFlyStorageAssociation extends AbstractRegistry implements TmpLocalAwar
     public function removeFiles(File $file)
     {
         $this->remove($this->getHashedKey($file));
+    }
+
+    /**
+     * @return \common_persistence_KeyValuePersistence
+     */
+    private function getKvStorage()
+    {
+        /** @var PersistenceManager $pm */
+        $pm = $this->getServiceLocator()->get(PersistenceManager::SERVICE_ID);
+        return $pm->getPersistenceById('default_kv');
+    }
+
+    /**
+     * @param $key
+     * @param $val
+     * @throws \common_Exception
+     */
+    private function set($key, $val)
+    {
+        $key = $this->getPrefix() . $key;
+        $this->getKvStorage()->set($key, json_encode($val));
+    }
+
+    /**
+     * @param $key
+     */
+    private function remove($key)
+    {
+        $key = $this->getPrefix() . $key;
+        $this->getKvStorage()->del($key);
+    }
+
+    /**
+     * @param $key
+     * @return mixed|null
+     */
+    private function get($key)
+    {
+        $key = $this->getPrefix() . $key;
+        if ($this->getKvStorage()->exists($key)) {
+            return json_decode($this->getKvStorage()->get($key), true);
+        }
+        return null;
+    }
+
+    /**
+     * @return string
+     */
+    private function getPrefix()
+    {
+        return static::class;
     }
 }

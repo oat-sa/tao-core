@@ -20,11 +20,13 @@
 
 namespace oat\tao\test\unit\upload;
 
+use oat\generis\persistence\PersistenceManager;
 use oat\generis\test\TestCase;
 use oat\oatbox\filesystem\File;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\upload\TempFlyStorageAssociation;
 use oat\tao\model\upload\TmpLocalAwareStorageInterface;
+use Prophecy\Argument;
 
 /**
  * Class TempFlyStorageAssociationTest
@@ -62,10 +64,6 @@ class TempFlyStorageAssociationTest extends TestCase
         $this->assertCount(2, $storage->getLocalCopies($file));
     }
 
-    /**
-     * @param $file
-     * @return array
-     */
     public function testGetLocalCopies()
     {
         $file = new File('foo', 'bar');
@@ -79,9 +77,6 @@ class TempFlyStorageAssociationTest extends TestCase
         $this->assertCount(2, $storage->getLocalCopies($file));
     }
 
-    /**
-     * @param File $file
-     */
     public function testRemoveFiles()
     {
         $file = new File('foo', 'bar');
@@ -94,7 +89,8 @@ class TempFlyStorageAssociationTest extends TestCase
     }
 
     /**
-     * @return TempFlyStorageAssociation
+     * @return TmpLocalAwareStorageInterface
+     * @throws \common_Exception
      */
     private function getInstance()
     {
@@ -102,17 +98,23 @@ class TempFlyStorageAssociationTest extends TestCase
         return TempFlyStorageAssociation::getStorage($this->getServiceManagerMock());
     }
 
+    /**
+     * @return ServiceManager
+     * @throws \common_Exception
+     */
     private function getServiceManagerMock()
     {
         $config = new \common_persistence_KeyValuePersistence([], new \common_persistence_InMemoryKvDriver());
         $serviceManager = new ServiceManager($config);
-        $extensionsManager = $this->getMockBuilder(\common_ext_ExtensionsManager::class)->getMock();
-        $taoExt = new \common_ext_Extension('tao');
-        $taoExt->setServiceLocator($serviceManager);
-        $extensionsManager->method('getExtensionById')->willReturnCallback(function () use ($taoExt) {
-            return $taoExt;
-        });
-        $serviceManager->register(\common_ext_ExtensionsManager::SERVICE_ID, $extensionsManager);
+
+        $pmProphecy = $this->prophesize(PersistenceManager::class);
+        $pmProphecy->setServiceLocator(Argument::any())->willReturn(null);
+        $pmProphecy->getPersistenceById('default_kv')
+            ->willReturn(new \common_persistence_KeyValuePersistence([], new \common_persistence_InMemoryKvDriver()));
+        $pm = $pmProphecy->reveal();
+
+        $serviceManager->register(PersistenceManager::SERVICE_ID, $pm);
+
         return $serviceManager;
     }
 }
