@@ -157,7 +157,7 @@ class TokenServiceTest extends TestCase
         $service = new TokenService([
             TokenService::OPTION_STORE => $store,
             TokenService::POOL_SIZE_OPT => 4,
-            TokenService::TIME_LIMIT_OPT => 3000,
+            TokenService::TIME_LIMIT_OPT => 3,
         ]);
 
         $this->assertCount(0, $store->getTokens(), 'The store is empty');

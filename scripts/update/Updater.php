@@ -1268,7 +1268,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->getServiceManager()->register(UnionSearchService::SERVICE_ID, $service);
 
             $this->setVersion('39.6.0');
-         }
+        }
 
         $this->skip('39.6.0', '40.3.3');
 
@@ -1287,5 +1287,7 @@ class Updater extends \common_ext_ExtensionUpdater {
 
             $this->setVersion('40.3.4');
         }
+
+        $this->skip('40.3.4', '40.5.2');
     }
 }
