@@ -35,14 +35,6 @@ use Prophecy\Argument;
 class TempFlyStorageAssociationTest extends TestCase
 {
 
-    public function testGetStorage()
-    {
-        $this->assertInstanceOf(
-            TmpLocalAwareStorageInterface::class,
-            TempFlyStorageAssociation::getStorage($this->getServiceManagerMock())
-        );
-    }
-
     public function testSetUpload()
     {
         $file = new File('foo', 'bar');
@@ -95,7 +87,7 @@ class TempFlyStorageAssociationTest extends TestCase
     private function getInstance()
     {
         /** @var TempFlyStorageAssociation $instance */
-        return TempFlyStorageAssociation::getStorage($this->getServiceManagerMock());
+        return new TempFlyStorageAssociation($this->getServiceManagerMock());
     }
 
     /**

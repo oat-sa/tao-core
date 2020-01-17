@@ -35,6 +35,15 @@ class TempFlyStorageAssociation implements TmpLocalAwareStorageInterface, Servic
      * @param ServiceLocatorInterface $serviceLocator
      * @return TmpLocalAwareStorageInterface
      */
+    public function __construct(ServiceLocatorInterface $serviceLocator)
+    {
+        $this->setServiceLocator($serviceLocator);
+    }
+
+    /**
+     * @param ServiceLocatorInterface $serviceLocator
+     * @return TmpLocalAwareStorageInterface
+     */
     public static function getStorage(ServiceLocatorInterface $serviceLocator)
     {
         $storage = new self();
