@@ -216,7 +216,7 @@ class UploadService extends ConfigurableService
 
     public function remove($file)
     {
-        $storage = TempFlyStorageAssociation::getStorage();
+        $storage = TempFlyStorageAssociation::getStorage($this->getServiceLocator());
 
         if ($file instanceof File) {
 
