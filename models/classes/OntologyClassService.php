@@ -38,6 +38,6 @@ abstract class OntologyClassService extends ConfigurableService
      * @deprecated please initialise from servicelocator
      */
     public static function singleton() {
-        return ServiceManager::getServiceManager()->get(static::class);
+        return (new Gateway)(static::class);
     }
 }
