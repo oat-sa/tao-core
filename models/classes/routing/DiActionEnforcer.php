@@ -3,10 +3,7 @@
 
 namespace oat\tao\model\routing;
 
-use oat\oatbox\log\LoggerService;
-use oat\tao\model\DIAwareInterface;
 use oat\tao\model\http\Controller;
-use Psr\Log\LoggerAwareInterface;
 
 class DiActionEnforcer extends ActionEnforcer
 {
@@ -14,8 +11,9 @@ class DiActionEnforcer extends ActionEnforcer
     protected function getController()
     {
         $controllerClass = $this->getControllerClass();
+        $containerBuilder = $this->getServiceLocator();
 
-        if (is_a($controllerClass, DIAwareInterface::class, true)) {
+        if ($containerBuilder->has($controllerClass)){
             return $this->buildController($controllerClass);
         }
 
@@ -31,7 +29,7 @@ class DiActionEnforcer extends ActionEnforcer
     {
         $containerBuilder = $this->getServiceLocator();
 
-        /** @var Controller|DIAwareInterface $controller */
+        /** @var Controller $controller */
         $controller = $containerBuilder->get($controllerClass);
 
         $controller->setRequest($this->getRequest());

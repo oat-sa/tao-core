@@ -2,9 +2,7 @@
 
 namespace oat\tao\controller\entry;
 
-use oat\tao\model\DIAwareInterface;
-
-class DummyStatic extends \tao_actions_CommonModule implements DIAwareInterface
+class DummyStatic extends \tao_actions_CommonModule
 {
 
 

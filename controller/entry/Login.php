@@ -10,7 +10,6 @@ use oat\generis\model\user\UserRdf;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\session\SessionService;
 use oat\oatbox\user\LoginService;
-use oat\tao\model\DIAwareInterface;
 use oat\tao\model\entryPoint\EntryPointService;
 use oat\tao\model\event\LoginFailedEvent;
 use oat\tao\model\event\LoginSucceedEvent;
@@ -21,7 +20,7 @@ use tao_helpers_Date;
 use tao_models_classes_accessControl_AclProxy;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class Login extends \tao_actions_CommonModule implements DIAwareInterface
+class Login extends \tao_actions_CommonModule
 {
     /**
      * @var ExtensionsManager
