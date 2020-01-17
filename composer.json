@@ -58,6 +58,7 @@
         "paragonie/random_compat": "^2.0",
         "oat-sa/composer-npm-bridge": "^0.3.0",
         "symfony/dotenv": "~4.3",
+        "symfony/yaml":"4.4.*",
         "symfony/dependency-injection": "5.0.*",
         "symfony/config": "^5.0",
         "symfony/proxy-manager-bridge": "^5.0",
