@@ -27,7 +27,7 @@ use PHPSession;
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-class TokenStoreSession extends Configurable implements TokenStore
+class TokenStoreSession implements TokenStore
 {
 
     /**

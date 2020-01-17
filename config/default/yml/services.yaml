@@ -9,7 +9,7 @@ parameters:
   someparam2: 'param-2-param-2'
 
 imports:
-#  - { resource: 'legacy.yaml' }
+#  - { resource: 'another.yaml' }
 #  - { resource: 'legacy_auto.yaml' }
 #  - { resource: 'legacy.php' }
 
@@ -35,6 +35,22 @@ services:
   #  oat\tao\controller\entry\DummyStatic:
   #    arguments:
   #      $param2: '%someparam2%'
+
+  taoItems_models_classes_ItemsService:
+    class: \taoItems_models_classes_ItemsService
+    public: true
+
+  oat\tao\model\security\xsrf\TokenStoreSession: ~
+#    tags:
+#      - { name: 'app.handler', priority: 20 }
+
+  oat\tao\model\security\xsrf\TokenService:
+    arguments:
+      ['@oat\tao\model\security\xsrf\TokenStoreSession', 10,0]
+
+  !php/const \oat\tao\model\security\xsrf\TokenService::SERVICE_ID: #tao/security-xsrf-token:
+    public: true
+    alias: oat\tao\model\security\xsrf\TokenService
 
   oat\tao\model\Gateway: ~
 

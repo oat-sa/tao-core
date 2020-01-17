@@ -84,7 +84,7 @@ class LegacyServiceLoader extends FileLoader
             }
         }
 
-        //other kind of legacy services
+        //other kind of legacy services  1. inherited from OntologyClassService ( POC, should at least iterate over all loaded classes withing extension )
         $legacyServices = [
             'taoTests_models_classes_TestsService',
             'taoItems_models_classes_ItemsService',
@@ -92,6 +92,8 @@ class LegacyServiceLoader extends FileLoader
             'oat\taoGroups\models\GroupsService',
             'oat\taoOutcomeUi\model\ResultsService',
             'oat\taoLti\models\classes\ConsumerService',
+            'oat\taoDeliveryRdf\model\DeliveryAssemblyService',
+            'taoResultServer_models_classes_ResultServerAuthoringService',
             'taoQtiTest_models_classes_QtiTestService',
         ];
         $this->prepareFallbackFor(OntologyClassService::class, $container, $legacyServices);
