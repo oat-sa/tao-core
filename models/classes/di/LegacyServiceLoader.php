@@ -5,6 +5,8 @@ namespace oat\tao\model\di;
 
 
 use Closure;
+use oat\oatbox\config\ConfigurationService;
+use oat\oatbox\Configurable;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\Gateway;
 use oat\tao\model\OntologyClassService;
@@ -39,6 +41,19 @@ class LegacyServiceLoader extends FileLoader
 //            $ast = \ast\parse_file($path);
             try {
                 $callback = $load($path);
+                $legacyConfigurableClassList = [ConfigurableService::class, Configurable::class, ConfigurationService::class]; //@todo as soon as service changed to use DI it shouldn't be included in legacy list
+
+                $legacy = array_filter(
+                    $legacyConfigurableClassList,
+                    function ($class) use ($callback) {
+                        return is_a($callback, $class);
+                    }
+                );
+
+                if (empty($legacy)) {
+                    continue;
+                }
+
                 $class = get_class($callback);
                 $serviceName = $class;
 
@@ -84,7 +99,7 @@ class LegacyServiceLoader extends FileLoader
             }
         }
 
-        //other kind of legacy services  1. inherited from OntologyClassService ( POC, should at least iterate over all loaded classes withing extension )
+        //@todo other kind of legacy services  1. inherited from OntologyClassService ( POC, should at least iterate over all loaded classes withing extension )
         $legacyServices = [
             'taoTests_models_classes_TestsService',
             'taoItems_models_classes_ItemsService',
