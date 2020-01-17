@@ -199,18 +199,18 @@ class UploadService extends ConfigurableService
     /**
      * @param FileUploadedEvent $event
      */
-    public static function listenUploadEvent(FileUploadedEvent $event)
+    public function listenUploadEvent(FileUploadedEvent $event)
     {
-        $storage = TempFlyStorageAssociation::getStorage();
+        $storage = TempFlyStorageAssociation::getStorage($this->getServiceLocator());
         $storage->setUpload($event->getFile());
     }
 
     /**
      * @param UploadLocalCopyCreatedEvent $event
      */
-    public static function listenLocalCopyEvent(UploadLocalCopyCreatedEvent $event)
+    public function listenLocalCopyEvent(UploadLocalCopyCreatedEvent $event)
     {
-        $storage = TempFlyStorageAssociation::getStorage();
+        $storage = TempFlyStorageAssociation::getStorage($this->getServiceLocator());
         $storage->addLocalCopies($event->getFile(), $event->getTmpPath());
     }
 

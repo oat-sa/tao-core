@@ -21,6 +21,7 @@
 namespace oat\tao\model\upload;
 
 use oat\oatbox\filesystem\File;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 interface TmpLocalAwareStorageInterface
 {
@@ -46,6 +47,9 @@ interface TmpLocalAwareStorageInterface
      */
     public function removeFiles(File $file);
 
-    /** @return $this */
-    public static function getStorage();
+    /**
+     * @param ServiceLocatorInterface $serviceLocator
+     * @return $this
+     */
+    public static function getStorage(ServiceLocatorInterface $serviceLocator);
 }

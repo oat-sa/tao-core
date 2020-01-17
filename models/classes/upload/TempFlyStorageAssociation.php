@@ -20,15 +20,19 @@
 
 namespace oat\tao\model\upload;
 
-use common_Utils;
 use oat\oatbox\AbstractRegistry;
 use oat\oatbox\filesystem\File;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
-class TempFlyStorageAssociation extends AbstractRegistry implements TmpLocalAwareStorageInterface
+class TempFlyStorageAssociation extends AbstractRegistry implements TmpLocalAwareStorageInterface, ServiceLocatorAwareInterface
 {
+    use ServiceLocatorAwareTrait;
+
     protected function getExtension()
     {
-        return \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+        return $this->getServiceLocator()->get(\common_ext_ExtensionsManager::SERVICE_ID)->getExtensionById('tao');
     }
 
     protected function getConfigId()
@@ -37,11 +41,15 @@ class TempFlyStorageAssociation extends AbstractRegistry implements TmpLocalAwar
     }
 
     /**
-     * @return TmpLocalAwareStorageInterface
+     * @param ServiceLocatorInterface $serviceLocator
+     * @return AbstractRegistry|TmpLocalAwareStorageInterface
      */
-    public static function getStorage()
+    public static function getStorage(ServiceLocatorInterface $serviceLocator)
     {
-        return self::getRegistry();
+        /** @var TempFlyStorageAssociation $registry */
+        $registry = self::getRegistry();
+        $registry->setServiceLocator($serviceLocator);
+        return $registry;
     }
 
     /**
