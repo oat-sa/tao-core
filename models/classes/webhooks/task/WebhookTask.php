@@ -144,10 +144,8 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
         $eventId = $this->params->getEventId();
 
         if ($this->params->responseValidation()) {
-            if ($this->params->getRetryMax())
-                if ($parsedResponse->getParseError()) {
-                    return $this->getWebhookTaskReports()->reportInvalidBodyFormat($this->getTaskContext(), $response);
-                }
+            if ($this->params->getRetryMax() && $parsedResponse->getParseError())
+                return $this->getWebhookTaskReports()->reportInvalidBodyFormat($this->getTaskContext(), $response);
 
             if (!$parsedResponse->isDelivered($eventId)) {
                 return $this->getWebhookTaskReports()->reportInvalidAcknowledgement(
