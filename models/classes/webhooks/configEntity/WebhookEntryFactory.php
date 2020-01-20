@@ -44,7 +44,8 @@ class WebhookEntryFactory extends ConfigurableService
             $data[Webhook::URL],
             $data[Webhook::HTTP_METHOD],
             $data[Webhook::RETRY_MAX],
-            $auth
+            $auth,
+            $data[Webhook::RESPONSE_VALIDATION]
         );
     }
 
