@@ -1291,9 +1291,9 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('40.3.4');
         }
 
-        $this->skip('40.3.4', '40.5.1');
-
-        if ($this->isVersion('40.5.1')) {
+        $this->skip('40.3.4', '40.6.1');
+      
+        if ($this->isVersion('40.6.1')) {
             /** @var EventManager $eventManager */
             $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
             $eventManager->detach(FileUploadedEvent::class, [UploadService::class, 'listenUploadEvent']);
@@ -1302,7 +1302,8 @@ class Updater extends \common_ext_ExtensionUpdater {
             $eventManager->attach(UploadLocalCopyCreatedEvent::class, [UploadService::SERVICE_ID, 'listenLocalCopyEvent']);
             $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
 
-            $this->setVersion('40.6.0');
+            $this->setVersion('40.7.0');
         }
+
     }
 }
