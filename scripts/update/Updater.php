@@ -41,11 +41,13 @@ use oat\tao\model\cliArgument\argument\implementation\verbose\Info;
 use oat\tao\model\cliArgument\argument\implementation\verbose\Notice;
 use oat\tao\model\cliArgument\ArgumentService;
 use oat\tao\model\ClientLibConfigRegistry;
+use oat\tao\model\event\FileUploadedEvent;
 use oat\tao\model\event\LoginFailedEvent;
 use oat\tao\model\event\LoginSucceedEvent;
 use oat\tao\model\event\RoleChangedEvent;
 use oat\tao\model\event\RoleCreatedEvent;
 use oat\tao\model\event\RoleRemovedEvent;
+use oat\tao\model\event\UploadLocalCopyCreatedEvent;
 use oat\tao\model\event\UserCreatedEvent;
 use oat\tao\model\event\UserRemovedEvent;
 use oat\tao\model\event\UserUpdatedEvent;
@@ -85,6 +87,7 @@ use oat\tao\model\taskQueue\TaskLog\Broker\RdsTaskLogBroker;
 use oat\tao\model\taskQueue\TaskLog\Broker\TaskLogBrokerInterface;
 use oat\tao\model\taskQueue\TaskLogInterface;
 use oat\tao\model\Tree\GetTreeService;
+use oat\tao\model\upload\UploadService;
 use oat\tao\model\user\implementation\NoUserLocksService;
 use oat\tao\model\user\import\OntologyUserMapper;
 use oat\tao\model\user\import\UserCsvImporterFactory;
@@ -1289,5 +1292,18 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('40.3.4', '40.6.1');
+      
+        if ($this->isVersion('40.6.1')) {
+            /** @var EventManager $eventManager */
+            $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
+            $eventManager->detach(FileUploadedEvent::class, [UploadService::class, 'listenUploadEvent']);
+            $eventManager->detach(UploadLocalCopyCreatedEvent::class, [UploadService::class, 'listenLocalCopyEvent']);
+            $eventManager->attach(FileUploadedEvent::class, [UploadService::SERVICE_ID, 'listenUploadEvent']);
+            $eventManager->attach(UploadLocalCopyCreatedEvent::class, [UploadService::SERVICE_ID, 'listenLocalCopyEvent']);
+            $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
+
+            $this->setVersion('40.7.0');
+        }
+
     }
 }

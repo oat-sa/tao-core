@@ -54,10 +54,10 @@ class AddTmpFsHandlers extends InstallAction
         }
 
         /** @var EventManager $eventManager */
-        $eventManager = $this->getServiceManager()->get(EventManager::CONFIG_ID);
-        $eventManager->attach(FileUploadedEvent::class, [UploadService::class, 'listenUploadEvent']);
-        $eventManager->attach(UploadLocalCopyCreatedEvent::class, [UploadService::class, 'listenLocalCopyEvent']);
-        $this->getServiceManager()->register(EventManager::CONFIG_ID, $eventManager);
+        $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
+        $eventManager->attach(FileUploadedEvent::class, [UploadService::SERVICE_ID, 'listenUploadEvent']);
+        $eventManager->attach(UploadLocalCopyCreatedEvent::class, [UploadService::SERVICE_ID, 'listenLocalCopyEvent']);
+        $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
     }
 
 }
