@@ -24,6 +24,7 @@
 use oat\tao\install\services\SetupSettingsStorage;
 use oat\tao\model\accessControl\func\AccessRule;
 use oat\tao\model\routing\ApiRoute;
+use oat\tao\model\routing\DiEnchantedRoute;
 use oat\tao\model\routing\LegacyRoute;
 use oat\tao\scripts\install\AddLogFs;
 use oat\tao\scripts\install\AddTmpFsHandlers;
@@ -186,6 +187,7 @@ return array(
         array(AccessRule::GRANT, TaoRoles::GLOBAL_MANAGER, oat\tao\controller\api\Users::class),
     ),
     'routes' => [
+        'di_test' => ['class' => DiEnchantedRoute::class],
         '/tao/api'  => ['class' => ApiRoute::class],
         '/tao'      => ['class' => LegacyRoute::class],
     ],

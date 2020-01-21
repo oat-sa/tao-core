@@ -21,27 +21,24 @@
  */
 namespace oat\tao\model\mvc;
 
-use GuzzleHttp\Psr7\Request;
+use common_ext_ExtensionsManager;
+use common_Logger;
+use common_report_Report as Report;
+use Exception;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
-use oat\oatbox\service\ServiceConfigDriver;
-use oat\oatbox\service\ServiceManager;
 use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\tao\helpers\Template;
 use oat\tao\model\asset\AssetService;
+use oat\tao\model\di\ContainerMaintainer;
 use oat\tao\model\maintenance\Maintenance;
-use oat\tao\model\routing\TaoFrontController;
+use oat\tao\model\mvc\error\ExceptionInterpreterService;
 use oat\tao\model\routing\CliController;
-use common_Logger;
-use common_ext_ExtensionsManager;
-use common_report_Report as Report;
+use oat\tao\model\routing\TaoFrontController;
 use tao_helpers_Context;
 use tao_helpers_Request;
 use tao_helpers_Uri;
-use Exception;
-use oat\tao\model\mvc\error\ExceptionInterpreterService;
-use Symfony\Component\Dotenv\Dotenv;
 
 /**
  * The Bootstrap Class enables you to drive the application flow for a given extenstion.
@@ -90,28 +87,8 @@ class Bootstrap implements ServiceManagerAwareInterface
      */
     public function __construct($configuration)
     {
-        $envFile = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR
-            . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '.env';
-        if (file_exists($envFile)) {
-            $dotenv = new Dotenv();
-            $dotenv->loadEnv($envFile);
-        }
+        $this->buildConfiguration($configuration);
 
-        if (! is_string($configuration) || ! is_readable($configuration)) {
-            throw new \common_exception_PreConditionFailure('TAO platform seems to be not installed.');
-        }
-
-        require_once $configuration;
-        $serviceManager = new ServiceManager(
-            (new ServiceConfigDriver())->connect('config', array(
-                'dir' => dirname($configuration),
-                'humanReadable' => true
-            ))
-        );
-
-        $this->setServiceLocator($serviceManager);
-        // To be removed when getServiceManager will disappear
-        ServiceManager::setServiceManager($serviceManager);
         if(PHP_SAPI == 'cli'){
             tao_helpers_Context::load('SCRIPT_MODE');
         } else{
@@ -374,5 +351,15 @@ class Bootstrap implements ServiceManagerAwareInterface
     protected function getMaintenanceService()
     {
         return $this->getServiceLocator()->get(Maintenance::SERVICE_ID);
+    }
+
+    /**
+     * @param string $configuration
+     */
+    private function buildConfiguration($configuration)
+    {
+        $builder = new ContainerMaintainer();
+        $builder->buildConfiguration($configuration);
+        $this->setServiceLocator($builder->getServiceLocator());
     }
 }

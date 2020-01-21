@@ -21,9 +21,7 @@ namespace oat\tao\model\security\xsrf;
 
 use common_exception_Unauthorized;
 use oat\oatbox\log\LoggerAwareTrait;
-use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\security\TokenGenerator;
-use oat\oatbox\service\exception\InvalidService;
 
 /**
  * This service let's you manage tokens to protect against XSRF.
@@ -36,7 +34,7 @@ use oat\oatbox\service\exception\InvalidService;
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @author Martijn Swinkels <martijn@taotesting.com>
  */
-class TokenService extends ConfigurableService
+class TokenService
 {
     use TokenGenerator;
     use LoggerAwareTrait;
@@ -48,15 +46,32 @@ class TokenService extends ConfigurableService
     const TIME_LIMIT_OPT = 'timeLimit';
     const OPTION_STORE = 'store';
 
-    const DEFAULT_POOL_SIZE = 6;
-    const DEFAULT_TIME_LIMIT = 0;
-
     const CSRF_TOKEN_HEADER = 'X-CSRF-Token';
     const FORM_POOL = 'form_pool';
     const JS_DATA_KEY = 'tokenHandler';
     const JS_TOKEN_KEY = 'tokens';
     const JS_TOKEN_POOL_SIZE_KEY = 'maxSize';
     const JS_TOKEN_TIME_LIMIT_KEY = 'tokenTimeLimit';
+    /**
+     * @var \oat\tao\model\security\xsrf\TokenStoreSession
+     */
+    private $store;
+    /**
+     * @var int
+     */
+    private $poolSize;
+    /**
+     * @var int
+     */
+    private $timeLimit;
+
+    public function __construct( TokenStore $store, $poolSize, $timeLimit)
+    {
+        $this->store = $store;
+        $this->poolSize = $poolSize;
+        $this->timeLimit = $timeLimit;
+    }
+
 
     /**
      * Generates, stores and return a brand new token
@@ -258,14 +273,10 @@ class TokenService extends ConfigurableService
      * Get the configured pool size
      * @param bool $withForm - Takes care of the FORM_POOL
      * @return int the pool size, 10 by default
-     * @throws InvalidService
      */
     public function getPoolSize($withForm = true)
     {
-        $poolSize = self::DEFAULT_POOL_SIZE;
-        if ($this->hasOption(self::POOL_SIZE_OPT)) {
-            $poolSize = (int)$this->getOption(self::POOL_SIZE_OPT);
-        }
+        $poolSize = $this->poolSize;
 
         if ($withForm) {
             $store = $this->getStore();
@@ -284,11 +295,7 @@ class TokenService extends ConfigurableService
      */
     protected function getTimeLimit()
     {
-        $timeLimit = self::DEFAULT_TIME_LIMIT;
-        if ($this->hasOption(self::TIME_LIMIT_OPT)) {
-            $timeLimit = (int)$this->getOption(self::TIME_LIMIT_OPT);
-        }
-        return $timeLimit;
+        return (int)$this->timeLimit;
     }
 
     /**
@@ -297,11 +304,7 @@ class TokenService extends ConfigurableService
      */
     protected function getStore()
     {
-        $store = $this->getOption(self::OPTION_STORE);
-        if (!$store instanceof TokenStore) {
-            throw new InvalidService('Unexpected store for ' . __CLASS__);
-        }
-        return $this->propagate($store);
+        return $this->store;
     }
 
     /**
