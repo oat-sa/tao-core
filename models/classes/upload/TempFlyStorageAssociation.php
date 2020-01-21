@@ -21,7 +21,6 @@
 namespace oat\tao\model\upload;
 
 use oat\generis\persistence\PersistenceManager;
-use oat\oatbox\AbstractRegistry;
 use oat\oatbox\filesystem\File;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
