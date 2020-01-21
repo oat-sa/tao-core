@@ -201,7 +201,7 @@ class UploadService extends ConfigurableService
      */
     public function listenUploadEvent(FileUploadedEvent $event)
     {
-        $storage = TempFlyStorageAssociation::getStorage($this->getServiceLocator());
+        $storage = new TempFlyStorageAssociation($this->getServiceLocator());
         $storage->setUpload($event->getFile());
     }
 
@@ -210,13 +210,13 @@ class UploadService extends ConfigurableService
      */
     public function listenLocalCopyEvent(UploadLocalCopyCreatedEvent $event)
     {
-        $storage = TempFlyStorageAssociation::getStorage($this->getServiceLocator());
+        $storage = new TempFlyStorageAssociation($this->getServiceLocator());
         $storage->addLocalCopies($event->getFile(), $event->getTmpPath());
     }
 
     public function remove($file)
     {
-        $storage = TempFlyStorageAssociation::getStorage($this->getServiceLocator());
+        $storage = new TempFlyStorageAssociation($this->getServiceLocator());
 
         if ($file instanceof File) {
 
