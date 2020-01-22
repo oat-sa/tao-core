@@ -16,7 +16,7 @@ define(['jquery', 'i18n', 'context'], function($, __, context){
                 // trim value
                 var trimmedValue = elt.val().replace(/^\s+/g,'').replace(/\s+$/g,'');
                 var value = elt.val();
-
+                $('div.form-error').remove();
                 if(trimmedValue === ''){
                     $('span.login-info').remove();
                 } else{
