@@ -33,6 +33,7 @@ class WebhookTaskParams extends ArrayObject
     const WEBHOOK_CONFIG_ID = 'webhookConfigId';
     const RETRY_MAX = 'retryMax';
     const RETRY_COUNT = 'retryCount';
+    const RESPONSE_VALIDATION = 'responseValidation';
 
     /**
      * @return string
@@ -102,5 +103,10 @@ class WebhookTaskParams extends ArrayObject
     public function getRetryCount()
     {
         return $this[self::RETRY_COUNT];
+    }
+
+    public function responseValidation()
+    {
+        return $this[self::RESPONSE_VALIDATION];
     }
 }

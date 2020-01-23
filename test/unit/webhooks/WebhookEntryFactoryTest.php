@@ -33,6 +33,7 @@ class WebhookEntryFactoryTest extends TestCase
             'url' => 'http://url.com',
             'httpMethod' => 'POST',
             'retryMax' => 5,
+            'responseValidation' => true,
             'auth' => [
                 'authClass' => 'SomeClass',
                 'credentials' => [
@@ -49,6 +50,7 @@ class WebhookEntryFactoryTest extends TestCase
         $this->assertEquals(5, $webhook->getMaxRetries());
         $this->assertEquals('SomeClass', $webhook->getAuth()->getAuthClass());
         $this->assertEquals(['p1' => 'v1'], $webhook->getAuth()->getCredentials());
+        $this->assertEquals(true, $webhook->getResponseValidationEnable());
     }
 
     public function testCreateEntryFromArrayWithoutAuth()
@@ -58,7 +60,8 @@ class WebhookEntryFactoryTest extends TestCase
             'id' => 'wh1',
             'url' => 'http://url.com',
             'httpMethod' => 'POST',
-            'retryMax' => 5
+            'retryMax' => 5,
+            'responseValidation' => true
         ]);
 
         $this->assertInstanceOf(WebhookInterface::class, $webhook);
@@ -66,6 +69,7 @@ class WebhookEntryFactoryTest extends TestCase
         $this->assertEquals('wh1', $webhook->getId());
         $this->assertEquals('http://url.com', $webhook->getUrl());
         $this->assertEquals('POST', $webhook->getHttpMethod());
+        $this->assertEquals(true, $webhook->getResponseValidationEnable());
         $this->assertNull($webhook->getAuth());
     }
 
