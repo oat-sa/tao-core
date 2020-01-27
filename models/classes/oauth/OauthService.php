@@ -1,22 +1,24 @@
 <?php
-/**  
+
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2013 (original work) (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- * 
+ *
  */
+
 namespace oat\tao\model\oauth;
 
 use common_http_Credentials;
@@ -57,13 +59,14 @@ class OauthService extends ConfigurableService implements \common_http_Signature
      * @throws tao_models_classes_oauth_Exception
      * @author Joel Bout, <joel@taotesting.com>
      */
-    public function sign(common_http_Request $request, common_http_Credentials $credentials, $authorizationHeader = false) {
+    public function sign(common_http_Request $request, common_http_Credentials $credentials, $authorizationHeader = false)
+    {
         
         if (!$credentials instanceof \tao_models_classes_oauth_Credentials) {
-            throw new tao_models_classes_oauth_Exception('Invalid credentals: '.gettype($credentials));
+            throw new tao_models_classes_oauth_Exception('Invalid credentals: ' . gettype($credentials));
         }
         
-        $oauthRequest = $this->getOauthRequest($request); 
+        $oauthRequest = $this->getOauthRequest($request);
         $dataStore = $this->getDataStore();
         $consumer = $dataStore->getOauthConsumer($credentials);
         $token = $dataStore->new_request_token($consumer);
@@ -98,7 +101,7 @@ class OauthService extends ConfigurableService implements \common_http_Signature
             // if $authorizationHeader is true then $oauthBodyHash should be defined
             /** @noinspection PhpUndefinedVariableInspection */
             $signatureParameters[self::OAUTH_BODY_HASH_PARAM] = $oauthBodyHash;
-            $signatureHeaders = array("Authorization" => $this->buildAuthorizationHeader($signatureParameters));
+            $signatureHeaders = ["Authorization" => $this->buildAuthorizationHeader($signatureParameters)];
             $signedRequest = new common_http_Request(
                 $signedRequest->to_url(),
                 $signedRequest->get_normalized_http_method(),
@@ -131,7 +134,7 @@ class OauthService extends ConfigurableService implements \common_http_Signature
     public function validate(common_http_Request $request, common_http_Credentials $credentials = null)
     {
         $server = new OAuthServer($this->getDataStore());
-		$method = new OAuthSignatureMethod_HMAC_SHA1();
+        $method = new OAuthSignatureMethod_HMAC_SHA1();
         $server->add_signature_method($method);
 
         $oauthRequest = $this->getOauthRequest($request);
@@ -143,7 +146,7 @@ class OauthService extends ConfigurableService implements \common_http_Signature
         try {
             return $server->verify_request($oauthRequest);
         } catch (OAuthException $e) {
-            throw new common_http_InvalidSignatureException('Validation failed: '.$e->getMessage());
+            throw new common_http_InvalidSignatureException('Validation failed: ' . $e->getMessage());
         }
     }
 
@@ -164,7 +167,8 @@ class OauthService extends ConfigurableService implements \common_http_Signature
     /**
      * @return ImsOauthDataStoreInterface
      */
-    public function getDataStore() {
+    public function getDataStore()
+    {
         return $this->getSubService(self::OPTION_DATASTORE);
     }
 
@@ -218,11 +222,12 @@ class OauthService extends ConfigurableService implements \common_http_Signature
      *  In particular, OAuth parameters from the request URL and POST body will be ignored.
      * Return the Authorization header
      */
-    private function buildAuthorizationHeader($signatureParameters) {
+    private function buildAuthorizationHeader($signatureParameters)
+    {
         $authorizationHeader = 'OAuth realm=""';
         
-        foreach ($signatureParameters as $key=>$value) {
-            $authorizationHeader.=','.$key."=".'"'.urlencode($value).'"';
+        foreach ($signatureParameters as $key => $value) {
+            $authorizationHeader .= ',' . $key . "=" . '"' . urlencode($value) . '"';
         }
         return $authorizationHeader;
     }
@@ -232,8 +237,9 @@ class OauthService extends ConfigurableService implements \common_http_Signature
      * @param common_http_Request $request
      * @return \IMSGlobal\LTI\OAuth\OAuthRequest
      */
-    private function getOauthRequest(common_http_Request $request) {
-        $params = array();
+    private function getOauthRequest(common_http_Request $request)
+    {
+        $params = [];
 
         // In LTI launches oauth params are passed as POST params, but in LIS requests
         // they located in Authorization header. We try to extract them for further verification
@@ -243,7 +249,7 @@ class OauthService extends ConfigurableService implements \common_http_Signature
         }
         
         $params = array_merge($params, $request->getParams());
-        \common_Logger::d("OAuth Request created:".$request->getUrl()." using ".$request->getMethod());
+        \common_Logger::d("OAuth Request created:" . $request->getUrl() . " using " . $request->getMethod());
         $oauthRequest = new OAuthRequest($request->getMethod(), $request->getUrl(), $params);
         return $oauthRequest;
     }

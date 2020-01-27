@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -143,12 +144,12 @@ abstract class AbstractModuleService extends ConfigurableService
     public function registerModules(array $modules)
     {
         $count = 0;
-        foreach($modules as $module) {
+        foreach ($modules as $module) {
             if (is_array($module)) {
                 $module = $this->createFromArray($module);
             }
             $this->registry->register($module);
-            $count ++;
+            $count++;
         }
         return $count;
     }
@@ -163,7 +164,7 @@ abstract class AbstractModuleService extends ConfigurableService
     public function registerModulesByCategories(array $modules)
     {
         $count = 0;
-        foreach($modules as $categoryModules) {
+        foreach ($modules as $categoryModules) {
             if (is_array($categoryModules)) {
                 $count += $this->registerModules($categoryModules);
             } else {

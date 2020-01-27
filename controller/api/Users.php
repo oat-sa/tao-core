@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -143,13 +144,14 @@ class Users extends tao_actions_CommonRestModule
     /**
      * @return array
      */
-    protected function getParametersAliases(){
+    protected function getParametersAliases()
+    {
         return array_merge(parent::getParametersAliases(), [
             'login' => UserRdf::PROPERTY_LOGIN,
             'password' => UserRdf::PROPERTY_PASSWORD,
             'userLanguage' => UserRdf::PROPERTY_UILG,
             'defaultLanguage' => UserRdf::PROPERTY_DEFLG,
-            'firstName'=> UserRdf::PROPERTY_FIRSTNAME,
+            'firstName' => UserRdf::PROPERTY_FIRSTNAME,
             'lastName' => UserRdf::PROPERTY_LASTNAME,
             'mail' => UserRdf::PROPERTY_MAIL,
             'roles' => UserRdf::PROPERTY_ROLES
@@ -161,7 +163,8 @@ class Users extends tao_actions_CommonRestModule
      * @return void
      * @throws \common_exception_NotImplemented
      */
-    public function get($uri = null) {
+    public function get($uri = null)
+    {
         $this->returnFailure(new common_exception_RestApi('Not implemented'));
     }
 
@@ -170,7 +173,8 @@ class Users extends tao_actions_CommonRestModule
      * @return void
      * @throws \common_exception_NotImplemented
      */
-    public function put($uri) {
+    public function put($uri)
+    {
         $this->returnFailure(new common_exception_RestApi('Not implemented'));
     }
 
@@ -179,7 +183,8 @@ class Users extends tao_actions_CommonRestModule
      * @return void
      * @throws \common_exception_NotImplemented
      */
-    public function delete($uri = null) {
+    public function delete($uri = null)
+    {
         $this->returnFailure(new common_exception_RestApi('Not implemented'));
     }
 
@@ -198,7 +203,6 @@ class Users extends tao_actions_CommonRestModule
         }
 
         try {
-
             $parameters = $this->getParameters();
             $this->validateParameters($parameters);
 

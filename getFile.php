@@ -1,5 +1,7 @@
 <?php
+
 use oat\tao\model\websource\WebsourceManager;
+
 /**
  *
  * This program is free software; you can redistribute it and/or
@@ -54,7 +56,7 @@ if (time() - $timestamp > $ttl || $token != $correctToken) {
     die();
 }
 
-$path = array();
+$path = [];
 foreach (explode('/', $subPath . $file) as $ele) {
     $path[] = rawurldecode($ele);
 }
@@ -65,7 +67,7 @@ if (strpos($filename, '?')) {
     $filename = $parts[0];
 }
 $cacheTtl = $ttl ? $ttl : (30 * 60); //30 min default
-header('Expires: '.gmdate('D, d M Y H:i:s \G\M\T', $timestamp + $cacheTtl));
+header('Expires: ' . gmdate('D, d M Y H:i:s \G\M\T', $timestamp + $cacheTtl));
 
 tao_helpers_Http::returnFile($filename);
 

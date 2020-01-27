@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -111,18 +112,18 @@ class tao_actions_Users extends tao_actions_CommonModule
                 $filterColumns = array_keys($fieldsMap);
             }
             $filters = array_flip(array_intersect_key($fieldsMap, array_flip($filterColumns)));
-            array_walk($filters, function (&$row, $key) use($filterQuery) {
+            array_walk($filters, function (&$row, $key) use ($filterQuery) {
                 $row = $filterQuery;
             });
         }
 
-        $options = array(
+        $options = [
             'recursive' => true,
             'like' => true,
             'chaining' => count($filters) > 1 ? 'or' : 'and',
             'order' => $order,
             'orderdir' => strtoupper($sortOrder),
-        );
+        ];
 
         // get total user count...
         $total = $userService->getCountUsers($options, $filters);
@@ -141,7 +142,6 @@ class tao_actions_Users extends tao_actions_CommonModule
 
         /** @var core_kernel_classes_Resource $user */
         foreach ($users as $user) {
-
             $propValues = $user->getPropertiesValues(array_values($fieldsMap));
 
             $roles = $user->getPropertyValues($rolesProperty);
@@ -236,8 +236,10 @@ class tao_actions_Users extends tao_actions_CommonModule
     public function add()
     {
         $this->defaultData();
-        $container = new tao_actions_form_Users($this->getClass(
-            TaoOntology::CLASS_URI_TAO_USER),
+        $container = new tao_actions_form_Users(
+            $this->getClass(
+                TaoOntology::CLASS_URI_TAO_USER
+            ),
             null,
             false,
             [FormContainer::CSRF_PROTECTION_OPTION => true]
@@ -255,9 +257,9 @@ class tao_actions_Users extends tao_actions_CommonModule
 
             if ($binder->bind($values)) {
                 $this->getEventManager()->trigger(new UserUpdatedEvent(
-                        $user,
-                        array_merge($values, ['hashForKey' => UserHashForEncryption::hash($plainPassword)]))
-                );
+                    $user,
+                    array_merge($values, ['hashForKey' => UserHashForEncryption::hash($plainPassword)])
+                ));
                 $this->setData('message', __('User added'));
                 $this->setData('exit', true);
             }
@@ -286,7 +288,7 @@ class tao_actions_Users extends tao_actions_CommonModule
 
         if ($form->isSubmited() && $form->isValid()) {
             $properties = $form->getValues();
-            $instance = $this->createInstance(array($clazz), $properties);
+            $instance = $this->createInstance([$clazz], $properties);
 
             $this->setData('message', __('%s created', $instance->getLabel()));
             $this->setData('selectTreeNode', $instance->getUri());
@@ -312,7 +314,7 @@ class tao_actions_Users extends tao_actions_CommonModule
             throw new common_exception_BadRequest('wrong request mode');
         }
 
-        $data = array('available' => false);
+        $data = ['available' => false];
         if ($this->hasRequestParameter('login')) {
             $data['available'] = $userService->loginAvailable($this->getRequestParameter('login'));
         }
@@ -372,13 +374,13 @@ class tao_actions_Users extends tao_actions_CommonModule
 
             if ($binder->bind($values)) {
                 $data = [];
-                if (isset($plainPassword)){
+                if (isset($plainPassword)) {
                     $data = ['hashForKey' => UserHashForEncryption::hash($plainPassword)];
                 }
                 $this->getEventManager()->trigger(new UserUpdatedEvent(
                     $user,
-                    array_merge($values, $data))
-                );
+                    array_merge($values, $data)
+                ));
                 $this->setData('message', __('User saved'));
             }
         }
@@ -467,5 +469,4 @@ class tao_actions_Users extends tao_actions_CommonModule
     {
         return $this->getServiceLocator()->get(UserLocks::SERVICE_ID);
     }
-
 }

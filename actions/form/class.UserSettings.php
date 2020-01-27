@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -59,14 +60,14 @@ class tao_actions_form_UserSettings extends tao_helpers_form_FormContainer
         // Retrieve languages available for a GUI usage.
         $guiUsage = new core_kernel_classes_Resource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_GUI);
         $guiOptions = [];
-        foreach($langService->getAvailableLanguagesByUsage($guiUsage) as $lang){
+        foreach ($langService->getAvailableLanguagesByUsage($guiUsage) as $lang) {
             $guiOptions[tao_helpers_Uri::encode($lang->getUri())] = $lang->getLabel();
         }
 
         // Retrieve languages available for a Data usage.
         $dataUsage = new core_kernel_classes_Resource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA);
         $dataOptions = [];
-        foreach($langService->getAvailableLanguagesByUsage($dataUsage) as $lang){
+        foreach ($langService->getAvailableLanguagesByUsage($dataUsage) as $lang) {
             $dataOptions[tao_helpers_Uri::encode($lang->getUri())] = $lang->getLabel();
         }
 
@@ -93,5 +94,4 @@ class tao_actions_form_UserSettings extends tao_helpers_form_FormContainer
 
         $this->form->addElement($tzElement);
     }
-
 }

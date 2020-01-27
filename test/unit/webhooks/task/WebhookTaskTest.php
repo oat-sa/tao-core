@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -730,14 +731,16 @@ class WebhookTaskTest extends TestCase
                 return isset($events[$eventName])
                     ? $events[$eventName]
                     : [];
-            });
+            }
+        );
 
         $registry->method('getWebhookConfig')->willReturnCallback(
             static function ($id) use ($whConfigs) {
                 return isset($whConfigs[$id])
                     ? $whConfigs[$id]
                     : null;
-            });
+            }
+        );
 
         return $registry;
     }
@@ -787,12 +790,11 @@ class WebhookTaskTest extends TestCase
     private function createWebhookSenderMock(
         ResponseInterface $response = null,
         \Exception $exception = null
-    )
-    {
+    ) {
         $sender = $this->createMock(WebhookSender::class);
         if ($response) {
             $sender->method('performRequest')->willReturn($response);
-        } else if ($exception) {
+        } elseif ($exception) {
             $sender->method('performRequest')->willThrowException($exception);
         }
 

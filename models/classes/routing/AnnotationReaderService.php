@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,8 +19,8 @@
  *
  * @author Alexander Zagovorichev <zagovorichev@1pt.com>
  */
-namespace oat\tao\model\routing;
 
+namespace oat\tao\model\routing;
 
 use Doctrine\Common\Annotations\AnnotationReader;
 use oat\oatbox\service\ConfigurableService;
@@ -81,10 +82,10 @@ class AnnotationReaderService extends ConfigurableService
             }
             foreach ($annotations as $annotation) {
                 switch (get_class($annotation)) {
-                    case requiredRights::class :
+                    case requiredRights::class:
                         $rules[self::PROP_RIGHTS][] = (array) $annotation;
                         break;
-                    case security::class :
+                    case security::class:
                         $rules[self::PROP_SECURITY][] = $annotation->value;
                         break;
                 }

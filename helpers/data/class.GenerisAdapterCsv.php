@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -48,7 +49,7 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
      *
      * @var array
      */
-    protected $resourceImported = array();
+    protected $resourceImported = [];
 
     /**
      * Instantiates a new tao_helpers_data_GenerisAdapterCSV. The $options array
@@ -64,7 +65,7 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
      * @param  array $options
      * @return mixed
      */
-    public function __construct($options = array())
+    public function __construct($options = [])
     {
         parent::__construct($options);
 
@@ -171,7 +172,6 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 
                 // evaluate csv values
                 foreach ($this->options['map'] as $propUri => $csvColumn) {
-
                     if ($csvColumn != 'csv_null' && $csvColumn != 'csv_select') {
                         // process value
                         if (isset($csvRow[$csvColumn]) && !is_null($csvRow[$csvColumn])) {
@@ -191,7 +191,6 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 
                 $report->add(new common_report_Report(common_report_Report::TYPE_SUCCESS, __('Imported resource "%s"', $resource->getLabel()), $resource));
                 $createdResources++;
-
             } catch (ValidationException $valExc) {
                 $failure = common_report_Report::createFailure(
                     __('Row %s', $rowIterator + 1) . ' ' . $valExc->getProperty()->getLabel() . ': ' . $valExc->getUserMessage() . ' "' . $valExc->getValue() . '"'
@@ -248,7 +247,7 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 
         $evaluatedValue = $this->applyCallbacks($value, $this->options, $property);
         // ensure it's an array
-        $evaluatedValue = is_array($evaluatedValue) ? $evaluatedValue : array($evaluatedValue);
+        $evaluatedValue = is_array($evaluatedValue) ? $evaluatedValue : [$evaluatedValue];
 
         if ($range->getUri() != OntologyRdfs::RDFS_LITERAL) {
             // validate resources
@@ -281,7 +280,7 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
     private function applyCallbacks($value, $options, core_kernel_classes_Property $targetProperty)
     {
         if (isset($options['callbacks'])) {
-            foreach (array('*', $targetProperty->getUri()) as $key) {
+            foreach (['*', $targetProperty->getUri()] as $key) {
                 if (isset($options['callbacks'][$key]) && is_array($options['callbacks'][$key])) {
                     foreach ($options['callbacks'][$key] as $callback) {
                         if (is_callable($callback)) {
@@ -322,7 +321,6 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
                     $rangeCompliance = true;
                     break;
                 }
-
             }
 
             if (true == $rangeCompliance) {
@@ -350,8 +348,7 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
         /**  @var tao_helpers_form_Validator $validator */
         $validators = $this->getValidator($propUri);
         foreach ((array)$validators as $validator) {
-
-            $validator->setOptions(array_merge(array('resourceClass' => $destination, 'property' => $propUri), $validator->getOptions()));
+            $validator->setOptions(array_merge(['resourceClass' => $destination, 'property' => $propUri], $validator->getOptions()));
             $value = isset($csvRow[$csvColumn]) ? $csvRow[$csvColumn] : null;
             if ($value === null) {
                 $value = isset($evaluatedData[$propUri]) ? $evaluatedData[$propUri] : null;

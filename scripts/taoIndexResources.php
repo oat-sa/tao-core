@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,9 +20,10 @@
  * @deprecated use \oat\tao\scripts\IndexResourcesAction instead
  *
  */
+
 use oat\tao\model\search\SearchService;
 
-require_once dirname(__FILE__) .'/../includes/raw_start.php';
+require_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 \common_Logger::w('Script `tao/scripts/IndexResourcesAction.php` is deprecated. Use `\oat\tao\model\search\RunIndexing` action instead');
 

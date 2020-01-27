@@ -61,14 +61,14 @@ class CspHeaderValidatorTest extends GenerisPhpUnitTestRunner
 
         switch ($type) {
             case 'valid':
-            $returnMockValues = $mockValues['valid'];
+                $returnMockValues = $mockValues['valid'];
                 break;
             case 'invalid':
-            $returnMockValues = $mockValues['invalid'];
+                $returnMockValues = $mockValues['invalid'];
                 break;
             case 'both':
             default:
-            $returnMockValues = array_merge($mockValues['valid'], $mockValues['invalid']);
+                $returnMockValues = array_merge($mockValues['valid'], $mockValues['invalid']);
                 break;
         }
 

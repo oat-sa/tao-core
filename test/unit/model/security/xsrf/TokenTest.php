@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,7 +19,6 @@
  */
 
 namespace oat\tao\test\unit\model\security\xsrf;
-
 
 use oat\generis\test\TestCase;
 use oat\tao\model\security\xsrf\Token;

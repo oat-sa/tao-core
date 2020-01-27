@@ -1,22 +1,22 @@
 <?php
-/**  
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
+ *
  */
 
 /**
@@ -26,10 +26,9 @@
  * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
- 
+
  */
-class tao_helpers_form_xhtml_TagWrapper
-        implements tao_helpers_form_Decorator
+class tao_helpers_form_xhtml_TagWrapper implements tao_helpers_form_Decorator
 {
     // --- ATTRIBUTES ---
 
@@ -41,7 +40,7 @@ class tao_helpers_form_xhtml_TagWrapper
      */
     protected $tag = 'div';
 
-    protected $attributes = array();
+    protected $attributes = [];
 
     // --- OPERATIONS ---
 
@@ -57,19 +56,19 @@ class tao_helpers_form_xhtml_TagWrapper
         $returnValue = (string) '';
 
         
-		if(!empty($this->tag)){
-			$returnValue .= "<{$this->tag}";
-			if (isset($this->attributes['cssClass'])) {
-			    // legacy
-			    $this->attributes['class'] = $this->attributes['cssClass'].
-                    (isset($this->attributes['class']) ? ' '.$this->attributes['class'] : '');
-			    unset($this->attributes['cssClass']);
-			}
-			foreach ($this->attributes as $key => $value) {
-			    $returnValue .= ' '.$key.'=\''.$value.'\' ';
-			}
-			$returnValue .= ">";
-		}
+        if (!empty($this->tag)) {
+            $returnValue .= "<{$this->tag}";
+            if (isset($this->attributes['cssClass'])) {
+                // legacy
+                $this->attributes['class'] = $this->attributes['cssClass'] .
+                    (isset($this->attributes['class']) ? ' ' . $this->attributes['class'] : '');
+                unset($this->attributes['cssClass']);
+            }
+            foreach ($this->attributes as $key => $value) {
+                $returnValue .= ' ' . $key . '=\'' . $value . '\' ';
+            }
+            $returnValue .= ">";
+        }
         return (string) $returnValue;
     }
 
@@ -85,9 +84,9 @@ class tao_helpers_form_xhtml_TagWrapper
         $returnValue = (string) '';
 
         
-		if(!empty($this->tag)){
-			$returnValue .= "</{$this->tag}>";
-		}
+        if (!empty($this->tag)) {
+            $returnValue .= "</{$this->tag}>";
+        }
         
 
         return (string) $returnValue;
@@ -139,14 +138,13 @@ class tao_helpers_form_xhtml_TagWrapper
      * @param  array options
      * @return mixed
      */
-    public function __construct($options = array())
+    public function __construct($options = [])
     {
         
-		if(isset($options['tag'])){
-			$this->tag = $options['tag'];
-			unset($options['tag']);
-		}
-		$this->attributes = $options;
+        if (isset($options['tag'])) {
+            $this->tag = $options['tag'];
+            unset($options['tag']);
+        }
+        $this->attributes = $options;
     }
-
 }

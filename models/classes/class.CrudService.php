@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,8 +16,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  *
  * Copyright (c) 2013-2014 (original work) Open Assessment Technologies SA
- * 
+ *
  */
+
 use oat\generis\model\OntologyAwareTrait;
 
 /**
@@ -27,16 +29,16 @@ use oat\generis\model\OntologyAwareTrait;
  * HTTP like exceptions.
  *
  * @author Patrick Plichart, patrick@taotesting.com
- *        
+ *
  */
 abstract class tao_models_classes_CrudService extends tao_models_classes_Service
 {
-
     use OntologyAwareTrait;
+
     /**
      *
      * @author Patrick Plichart, patrick@taotesting.com
-     * @param string $uri            
+     * @param string $uri
      * @throws common_exception_InvalidArgumentType
      * @return boolean
      */
@@ -54,7 +56,7 @@ abstract class tao_models_classes_CrudService extends tao_models_classes_Service
      * @author Patrick Plichart, patrick@taotesting.com
      * return tao_models_classes_ClassService
      */
-    protected abstract function getClassService();
+    abstract protected function getClassService();
 
     /**
      *
@@ -83,7 +85,7 @@ abstract class tao_models_classes_CrudService extends tao_models_classes_Service
         }
         $resource = $this->getResource($uri);
         $formater = new core_kernel_classes_ResourceFormatter();
-        return $formater->getResourceDescription($resource,false);
+        return $formater->getResourceDescription($resource, false);
     }
 
     /**
@@ -94,9 +96,9 @@ abstract class tao_models_classes_CrudService extends tao_models_classes_Service
     public function getAll()
     {
         $formater = new core_kernel_classes_ResourceFormatter();
-        $resources = array();
+        $resources = [];
         foreach ($this->getRootClass()->getInstances(true) as $resource) {
-            $resources[] = $formater->getResourceDescription($resource,false);
+            $resources[] = $formater->getResourceDescription($resource, false);
         }
         return $resources;
     }
@@ -104,7 +106,7 @@ abstract class tao_models_classes_CrudService extends tao_models_classes_Service
     /**
      *
      * @author Patrick Plichart, patrick@taotesting.com
-     * @param string $uri            
+     * @param string $uri
      * @throws common_exception_InvalidArgumentType
      * @throws common_exception_PreConditionFailure
      * @throws common_exception_NoContent
@@ -139,12 +141,12 @@ abstract class tao_models_classes_CrudService extends tao_models_classes_Service
     /**
      *
      * @author Patrick Plichart, patrick@taotesting.com
-     * @param string $label            
-     * @param string $type            
-     * @param array $propertiesValues            
+     * @param string $label
+     * @param string $type
+     * @param array $propertiesValues
      * @return core_kernel_classes_Resource
      */
-    public function create($label = "", $type = null, $propertiesValues = array())
+    public function create($label = "", $type = null, $propertiesValues = [])
     {
         $type = (isset($type)) ? $this->getClass($type) : $this->getRootClass();
         
@@ -156,31 +158,29 @@ abstract class tao_models_classes_CrudService extends tao_models_classes_Service
     /**
      *
      * @author Patrick Plichart, patrick@taotesting.com
-     * @param string $uri            
-     * @param array $propertiesValues            
+     * @param string $uri
+     * @param array $propertiesValues
      * @throws common_exception_InvalidArgumentType
      * @throws common_exception_PreConditionFailure
      * @throws common_exception_NoContent
      * @return core_kernel_classes_Resource
      */
-    public function update($uri, $propertiesValues = array())
+    public function update($uri, $propertiesValues = [])
     {
-        if(!common_Utils::isUri($uri)) {
+        if (!common_Utils::isUri($uri)) {
             throw new common_exception_InvalidArgumentType();
         }
-        if(!($this->isInScope($uri))) {
+        if (!($this->isInScope($uri))) {
             throw new common_exception_PreConditionFailure("The URI must be a valid resource under the root Class");
         }
         $resource = $this->getResource($uri);
         // if the resource does not exist, indicate a not found exception
-        if(count($resource->getRdfTriples()->sequence) == 0) {
+        if (count($resource->getRdfTriples()->sequence) == 0) {
             throw new common_exception_NoContent();
         }
-        foreach($propertiesValues as $uri => $parameterValue) {
+        foreach ($propertiesValues as $uri => $parameterValue) {
             $resource->editPropertyValues($this->getProperty($uri), $parameterValue);
         }
         return $resource;
     }
 }
-
-?>

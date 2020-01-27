@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License
@@ -35,8 +36,8 @@ use oat\tao\model\exceptions\UserErrorException;
  *
  * @author Christophe GARCIA <christopheg@taotesting.com>
  */
-class ExceptionInterpretor implements ServiceLocatorAwareInterface {
-
+class ExceptionInterpretor implements ServiceLocatorAwareInterface
+{
     use ServiceLocatorAwareTrait;
 
     /**
@@ -72,7 +73,8 @@ class ExceptionInterpretor implements ServiceLocatorAwareInterface {
      * @param Exception $exception
      * @return ExceptionInterpretor
      */
-    public function setException(Exception $exception){
+    public function setException(Exception $exception)
+    {
         $this->exception = $exception;
         $this->interpretError();
         return $this;
@@ -81,7 +83,8 @@ class ExceptionInterpretor implements ServiceLocatorAwareInterface {
      * interpret exception type and set up render responseClassName
      * and http status to return
      */
-    protected function interpretError() {
+    protected function interpretError()
+    {
         switch (get_class($this->exception)) {
             case UserErrorException::class:
             case tao_models_classes_MissingRequestParameterException::class:
@@ -112,30 +115,32 @@ class ExceptionInterpretor implements ServiceLocatorAwareInterface {
                 $exception = $this->exception;
                 $this->allowedRequestMethods = $exception->getAllowedMethods();
                 break;
-            default :
+            default:
                 $this->responseClassName = 'MainResponse';
                 $this->returnHttpCode    = StatusCode::HTTP_INTERNAL_SERVER_ERROR;
                 break;
-
         }
         return $this;
     }
 
-    public function getTrace() {
+    public function getTrace()
+    {
         return $this->exception ? $this->exception->getMessage() : '';
     }
 
     /**
      * @return integer
      */
-    public function getHttpCode(){
+    public function getHttpCode()
+    {
         return $this->returnHttpCode;
     }
     /**
      * return string
      */
-    public function getResponseClassName() {
-        return __NAMESPACE__ . '\\' .$this->responseClassName;
+    public function getResponseClassName()
+    {
+        return __NAMESPACE__ . '\\' . $this->responseClassName;
     }
 
     /**
@@ -143,10 +148,11 @@ class ExceptionInterpretor implements ServiceLocatorAwareInterface {
      *
      * @return ResponseAbstract
      */
-    public function getResponse() {
+    public function getResponse()
+    {
         $class = $this->getResponseClassName();
         /** @var $response ResponseAbstract */
-        $response = new $class;
+        $response = new $class();
         $response->setServiceLocator($this->getServiceLocator());
         $response->setException($this->exception)
             ->setHttpCode($this->returnHttpCode)

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,7 +21,6 @@
  */
 
 namespace oat\tao\model\routing;
-
 
 use oat\oatbox\service\ConfigurableService;
 
@@ -60,7 +60,8 @@ class RouteAnnotationService extends ConfigurableService
         $access = true;
         try {
             $annotations = $this->getAnnotations($className, $methodName);
-            if (array_key_exists(AnnotationReaderService::PROP_SECURITY, $annotations)
+            if (
+                array_key_exists(AnnotationReaderService::PROP_SECURITY, $annotations)
                 && is_array($annotations[AnnotationReaderService::PROP_SECURITY])
             ) {
                 foreach ($annotations[AnnotationReaderService::PROP_SECURITY] as $rule) {
@@ -73,11 +74,12 @@ class RouteAnnotationService extends ConfigurableService
                             // do not change state (it will be allowed by default but closed by hidden & deny)
                             break;
                         // any unsupported actions return false
-                        default: $access = false;
+                        default:
+                            $access = false;
                     }
                 }
             }
-        }  catch (\Exception $e) {
+        } catch (\Exception $e) {
             $access = false; // if class or method not found
         }
 
@@ -94,7 +96,8 @@ class RouteAnnotationService extends ConfigurableService
                     $res[$rule['key']] = $rule['permission'];
                 }
             }
-        } catch (\Exception $e) { }
+        } catch (\Exception $e) {
+        }
         return $res;
     }
 

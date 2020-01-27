@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,7 +20,6 @@
  */
 
 namespace oat\tao\model\theme;
-
 
 use oat\oatbox\service\ConfigurableService;
 
@@ -84,7 +84,7 @@ abstract class ThemeServiceAbstract extends ConfigurableService implements Theme
             }
         }
 
-        throw new \common_exception_InconsistentData('The requested theme does not exist. (' . $themeId .')');
+        throw new \common_exception_InconsistentData('The requested theme does not exist. (' . $themeId . ')');
     }
 
     /**

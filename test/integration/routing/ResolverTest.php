@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,6 +19,7 @@
  *
  *
  */
+
 namespace oat\tao\test\integration\routing;
 
 use oat\generis\test\GenerisPhpUnitTestRunner;
@@ -33,7 +35,8 @@ use common_http_Request;
  * @package oat\tao\test\integration\routing
  * @author Aleh Hutnikau, <hutnikau@1pt.com>
  */
-class ResolverTest extends GenerisPhpUnitTestRunner {
+class ResolverTest extends GenerisPhpUnitTestRunner
+{
 
     public function testGetExtensionId()
     {

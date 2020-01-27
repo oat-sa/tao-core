@@ -1,4 +1,5 @@
 <?php
+
 /**
 * This program is free software; you can redistribute it and/or
 * modify it under the terms of the GNU General Public License
@@ -75,7 +76,7 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule
         $base_url = $this->getExtension($resolver->getExtensionId())->getConstant('BASE_URL');
 
         $langCode = tao_helpers_I18n::getLangCode();
-        if(strpos($langCode, '-') > 0){
+        if (strpos($langCode, '-') > 0) {
             $lang = strtolower(substr($langCode, 0, strpos($langCode, '-')));
         } else {
             $lang = strtolower($langCode);
@@ -115,7 +116,7 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule
     {
         try {
             return $this->getServiceLocator()->get(common_ext_ExtensionsManager::SERVICE_ID)->getExtensionById($extensionId);
-        } catch(common_ext_ExtensionException $cee){
+        } catch (common_ext_ExtensionException $cee) {
             throw new Exception(__('Wrong parameter shownExtension'), $cee);
         }
     }
@@ -141,9 +142,9 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule
      */
     private function getShownExtension()
     {
-        if($this->hasRequestParameter('shownExtension')){
+        if ($this->hasRequestParameter('shownExtension')) {
             $shownExtension = $this->getRequestParameter('shownExtension');
-            if(strlen(trim($shownExtension)) > 0){
+            if (strlen(trim($shownExtension)) > 0) {
                 $extension = $this->getExtension($shownExtension);
                 return $extension->getName();
             }
@@ -157,11 +158,11 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule
      */
     private function getShownStructure()
     {
-        if($this->hasRequestParameter('shownStructure')){
+        if ($this->hasRequestParameter('shownStructure')) {
             $structure = $this->getRequestParameter('shownStructure');
             $perspectives = \oat\tao\model\menu\MenuService::getAllPerspectives();
-            foreach($perspectives as $perspective){
-                if($perspective->getId() == $structure){
+            foreach ($perspectives as $perspective) {
+                if ($perspective->getId() == $structure) {
                     return $perspective->getId();
                 }
             }
@@ -184,7 +185,7 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule
         try {
             $route = new Resolver(new common_http_Request($url));
             $this->propagate($route);
-        } catch (ResolverException $re){
+        } catch (ResolverException $re) {
             throw new Exception(__('Wrong or missing parameter extension, module or action'), $re);
         }
         return $route;

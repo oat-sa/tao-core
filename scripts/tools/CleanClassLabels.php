@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,6 +18,7 @@
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA
  *
  */
+
 namespace oat\tao\scripts\tools;
 
 use core_kernel_classes_Property;
@@ -34,7 +36,7 @@ class CleanClassLabels extends AbstractAction
         try {
             if (!isset($params[0])) {
                 return \common_report_Report::createFailure(
-                    'CLASS_URI not provided' .PHP_EOL . 'Usage: php index.php ' . __CLASS__ . ' [CLASS_URI]'
+                    'CLASS_URI not provided' . PHP_EOL . 'Usage: php index.php ' . __CLASS__ . ' [CLASS_URI]'
                 );
             }
 

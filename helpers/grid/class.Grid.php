@@ -1,22 +1,22 @@
 <?php
-/**  
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
+ *
  */
 
 /**
@@ -25,7 +25,7 @@
  * @access public
  * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
  * @package tao
- 
+
  */
 class tao_helpers_grid_Grid
 {
@@ -40,7 +40,7 @@ class tao_helpers_grid_Grid
      * @access protected
      * @var array
      */
-    protected $columns = array();
+    protected $columns = [];
 
     /**
      * Short description of attribute rows
@@ -48,7 +48,7 @@ class tao_helpers_grid_Grid
      * @access protected
      * @var array
      */
-    protected $rows = array();
+    protected $rows = [];
 
     /**
      * Short description of attribute options
@@ -56,7 +56,7 @@ class tao_helpers_grid_Grid
      * @access protected
      * @var array
      */
-    protected $options = array();
+    protected $options = [];
 
     /**
      * Short description of attribute columnsModel
@@ -64,7 +64,7 @@ class tao_helpers_grid_Grid
      * @access protected
      * @var array
      */
-    protected $columnsModel = array();
+    protected $columnsModel = [];
 
     // --- OPERATIONS ---
 
@@ -94,11 +94,10 @@ class tao_helpers_grid_Grid
      * @param  array options
      * @return mixed
      */
-    public function __construct($options = array())
+    public function __construct($options = [])
     {
         
-		$this->options = $options;
-        
+        $this->options = $options;
     }
 
     /**
@@ -111,23 +110,23 @@ class tao_helpers_grid_Grid
      * @param  array options
      * @return tao_helpers_grid_Column
      */
-    public function addColumn($id, $title, $options = array())
+    public function addColumn($id, $title, $options = [])
     {
         $returnValue = null;
 
         
-		$replace = false;
-		if(isset($options['replace'])){
-			$replace = $options['replace'];
-			unset($options['replace']);
-		}
-		if(!$replace && isset($this->columns[$id])){
-			throw new common_Exception('the column with the id '.$id.' already exists');
-		}else{
-			$this->columns[$id] = new tao_helpers_grid_Column($id, $title, $options);
-			//set order as well:
-			$returnValue = true;
-		}
+        $replace = false;
+        if (isset($options['replace'])) {
+            $replace = $options['replace'];
+            unset($options['replace']);
+        }
+        if (!$replace && isset($this->columns[$id])) {
+            throw new common_Exception('the column with the id ' . $id . ' already exists');
+        } else {
+            $this->columns[$id] = new tao_helpers_grid_Column($id, $title, $options);
+            //set order as well:
+            $returnValue = true;
+        }
         
 
         return $returnValue;
@@ -146,8 +145,8 @@ class tao_helpers_grid_Grid
         $returnValue = (bool) false;
 
         
-		unset($this->columns[$id]);
-		$returnValue = true;
+        unset($this->columns[$id]);
+        $returnValue = true;
         
 
         return (bool) $returnValue;
@@ -163,19 +162,19 @@ class tao_helpers_grid_Grid
      * @param  boolean replace
      * @return boolean
      */
-    public function addRow($id, $cells = array(), $replace = false)
+    public function addRow($id, $cells = [], $replace = false)
     {
         $returnValue = (bool) false;
 
         
-		if(!$replace && isset($this->rows[$id])){
-			throw new common_Exception('the row with the id '.$id.' already exists');
-		}else{
-			$this->rows[$id] = $cells;
-			//@TODO: implement a sort funciton?
+        if (!$replace && isset($this->rows[$id])) {
+            throw new common_Exception('the row with the id ' . $id . ' already exists');
+        } else {
+            $this->rows[$id] = $cells;
+            //@TODO: implement a sort funciton?
 
-			$returnValue = true;
-		}
+            $returnValue = true;
+        }
         
 
         return (bool) $returnValue;
@@ -194,8 +193,8 @@ class tao_helpers_grid_Grid
         $returnValue = (bool) false;
 
         
-		unset($this->rows[$id]);
-		$returnValue = true;
+        unset($this->rows[$id]);
+        $returnValue = true;
         
 
         return (bool) $returnValue;
@@ -217,13 +216,13 @@ class tao_helpers_grid_Grid
         $returnValue = (bool) false;
 
         
-		//TODO: for creating row and column if not exists?
-		if(isset($this->columns[$columnId])){
-			if(isset($this->rows[$rowId])){
-				$this->rows[$rowId][$columnId] = $content;
-				$returnValue = true;
-			}
-		}
+        //TODO: for creating row and column if not exists?
+        if (isset($this->columns[$columnId])) {
+            if (isset($this->rows[$rowId])) {
+                $this->rows[$rowId][$columnId] = $content;
+                $returnValue = true;
+            }
+        }
         
 
         return (bool) $returnValue;
@@ -238,23 +237,23 @@ class tao_helpers_grid_Grid
      * @param  Adapter adapter
      * @return boolean
      */
-    public function setColumnsAdapter($columnIds,  tao_helpers_grid_Cell_Adapter $adapter)
+    public function setColumnsAdapter($columnIds, tao_helpers_grid_Cell_Adapter $adapter)
     {
         $returnValue = (bool) false;
 
         
-		if(is_string($columnIds)){
-			$columnIds = array($columnIds);
-		}
-		if(is_array($columnIds)){
-			foreach($columnIds as $colId){
-				if (!isset($this->columns[$colId]) || !$this->columns[$colId] instanceof tao_helpers_grid_Column) {
-					throw new common_Exception('cannot set the column\'s adapter : the column with the id ' . $colId . ' does not exist');
-				} else {
-					$returnValue = $this->columns[$colId]->setAdapter($adapter);
-				}
-			}
-		}
+        if (is_string($columnIds)) {
+            $columnIds = [$columnIds];
+        }
+        if (is_array($columnIds)) {
+            foreach ($columnIds as $colId) {
+                if (!isset($this->columns[$colId]) || !$this->columns[$colId] instanceof tao_helpers_grid_Column) {
+                    throw new common_Exception('cannot set the column\'s adapter : the column with the id ' . $colId . ' does not exist');
+                } else {
+                    $returnValue = $this->columns[$colId]->setAdapter($adapter);
+                }
+            }
+        }
         
 
         return (bool) $returnValue;
@@ -269,42 +268,37 @@ class tao_helpers_grid_Grid
      */
     public function toArray()
     {
-        $returnValue = array();
+        $returnValue = [];
 
         
 
-		//sort columns:
-		$this->sortColumns();
+        //sort columns:
+        $this->sortColumns();
 
-		foreach($this->rows as $rowId => $cells){
-			$returnValue[$rowId] = array();
+        foreach ($this->rows as $rowId => $cells) {
+            $returnValue[$rowId] = [];
 
-			foreach($this->columns as $columnId => $column){
-				if($column->hasAdapter()){
-
-					//fill content with adapter:
-					$data = null;
-					if(isset($returnValue[$rowId][$columnId])){
-						$data = $returnValue[$rowId][$columnId];
-					}else if(isset($cells[$columnId])){
-						$data = $cells[$columnId];
-					}
-					$returnValue[$rowId][$columnId] = $column->getAdaptersData($rowId, $data);
-
-				}else if(isset($cells[$columnId])){
-
-					if($cells[$columnId] instanceof tao_helpers_grid_Grid){
-						$returnValue[$rowId][$columnId] = $cells[$columnId]->toArray();
-					}else{
-						$returnValue[$rowId][$columnId] = $cells[$columnId];
-					}
-
-				}else{
-					$returnValue[$rowId][$columnId] = null;//empty cell
-				}
-			}
-
-		}
+            foreach ($this->columns as $columnId => $column) {
+                if ($column->hasAdapter()) {
+                    //fill content with adapter:
+                    $data = null;
+                    if (isset($returnValue[$rowId][$columnId])) {
+                        $data = $returnValue[$rowId][$columnId];
+                    } elseif (isset($cells[$columnId])) {
+                        $data = $cells[$columnId];
+                    }
+                    $returnValue[$rowId][$columnId] = $column->getAdaptersData($rowId, $data);
+                } elseif (isset($cells[$columnId])) {
+                    if ($cells[$columnId] instanceof tao_helpers_grid_Grid) {
+                        $returnValue[$rowId][$columnId] = $cells[$columnId]->toArray();
+                    } else {
+                        $returnValue[$rowId][$columnId] = $cells[$columnId];
+                    }
+                } else {
+                    $returnValue[$rowId][$columnId] = null;//empty cell
+                }
+            }
+        }
         
 
         return (array) $returnValue;
@@ -336,10 +330,10 @@ class tao_helpers_grid_Grid
      */
     public function getColumns()
     {
-        $returnValue = array();
+        $returnValue = [];
 
         
-		$returnValue = $this->columns;
+        $returnValue = $this->columns;
         
 
         return (array) $returnValue;
@@ -358,9 +352,9 @@ class tao_helpers_grid_Grid
         $returnValue = null;
 
         
-		if(isset($this->columns[$id]) && $this->columns[$id] instanceof tao_helpers_grid_Column){
-			$returnValue = $this->columns[$id];
-		}
+        if (isset($this->columns[$id]) && $this->columns[$id] instanceof tao_helpers_grid_Column) {
+            $returnValue = $this->columns[$id];
+        }
         
 
         return $returnValue;
@@ -376,38 +370,35 @@ class tao_helpers_grid_Grid
      */
     public function getColumnsModel($rebuild = false)
     {
-        $returnValue = array();
+        $returnValue = [];
 
         
-		foreach($this->columns as $column){
+        foreach ($this->columns as $column) {
+            if ($column instanceof tao_helpers_grid_Column) {
+                $returnValue[$column->getId()] = [
+                    'id' => $column->getId(),
+                    'title' => $column->getTitle(),
+                    'type' => $column->getType()
+                ];
 
-			if($column instanceof tao_helpers_grid_Column){
+                foreach ($column->getOptions() as $optionsName => $optionValue) {
+                    $returnValue[$column->getId()][$optionsName] = $optionValue;
+                }
 
-				$returnValue[$column->getId()] = array(
-					'id' => $column->getId(),
-					'title' => $column->getTitle(),
-					'type' => $column->getType()
-				);
-
-				foreach($column->getOptions() as $optionsName=>$optionValue){
-					$returnValue[$column->getId()][$optionsName] = $optionValue;
-				}
-
-				if($column->hasAdapter('tao_helpers_grid_Cell_SubgridAdapter')){
-        			$subGridAdapter = null;
-					$adapters = $column->getAdapters();
-        			$adaptersLength = count($adapters);
-        			for($i=$adaptersLength-1; $i>=0; $i--){
-        				if($adapters[$i] instanceof tao_helpers_grid_Cell_SubgridAdapter){
-        					$subGridAdapter = $adapters[$i];
-        					break;
-        				}
-        			}
-					$returnValue[$column->getId()]['subgrids'] = $subGridAdapter->getGridContainer()->getGrid()->getColumnsModel();
-				}
-			}
-
-		}
+                if ($column->hasAdapter('tao_helpers_grid_Cell_SubgridAdapter')) {
+                    $subGridAdapter = null;
+                    $adapters = $column->getAdapters();
+                    $adaptersLength = count($adapters);
+                    for ($i = $adaptersLength - 1; $i >= 0; $i--) {
+                        if ($adapters[$i] instanceof tao_helpers_grid_Cell_SubgridAdapter) {
+                            $subGridAdapter = $adapters[$i];
+                            break;
+                        }
+                    }
+                    $returnValue[$column->getId()]['subgrids'] = $subGridAdapter->getGridContainer()->getGrid()->getColumnsModel();
+                }
+            }
+        }
 
         
 
@@ -422,24 +413,19 @@ class tao_helpers_grid_Grid
      * @param  array data
      * @return mixed
      */
-    public function setData($data = array())
+    public function setData($data = [])
     {
         
 
-    	//empty local data
-    	$this->rows = array();
-    	//fill the local data
-		foreach($data as $rowId => $cells){
-			if(is_array($cells)){
-				$this->addRow($rowId, $cells);
-			}else if(is_string($cells)){
-				$this->addRow($cells);
-			}
-		}
-
-        
+        //empty local data
+        $this->rows = [];
+        //fill the local data
+        foreach ($data as $rowId => $cells) {
+            if (is_array($cells)) {
+                $this->addRow($rowId, $cells);
+            } elseif (is_string($cells)) {
+                $this->addRow($cells);
+            }
+        }
     }
-
 }
-
-?>

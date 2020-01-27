@@ -30,7 +30,7 @@ class tao_helpers_Xml
      * @param mixed
      * @return string xml
      */
-    public static function from_array($obj = array())
+    public static function from_array($obj = [])
     {
         $simpleElementXml = new SimpleXMLElement("<?xml version=\"1.0\"?><root></root>");
         self::array_to_xml($obj, $simpleElementXml);
@@ -47,7 +47,7 @@ class tao_helpers_Xml
      * @param array $data
      * @param $xml_data
      */
-    private static function array_to_xml($data = array(), &$xml_data)
+    private static function array_to_xml($data = [], &$xml_data)
     {
         foreach ($data as $key => $value) {
             if (is_array($value) or (is_object($value))) {
@@ -94,7 +94,7 @@ class tao_helpers_Xml
             $errors = libxml_get_errors();
             /** @var LibXMLError $error */
             foreach ($errors as $error) {
-                $report[] = trim($error->message) . ' ['.$error->line.']';
+                $report[] = trim($error->message) . ' [' . $error->line . ']';
             }
             libxml_clear_errors();
             throw new common_exception_Error(implode("\n", $report));
@@ -119,8 +119,8 @@ class tao_helpers_Xml
             $simpleXml->registerXPathNamespace('ns', $namespace);
             $ns = 'ns:';
         }
-        $tagName = $ns.$tagName;
-        foreach ($simpleXml->xpath('//'.$tagName) as $item) {
+        $tagName = $ns . $tagName;
+        foreach ($simpleXml->xpath('//' . $tagName) as $item) {
             $elements [] = current($item);
         }
         return $elements;

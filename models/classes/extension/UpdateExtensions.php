@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,6 +18,7 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
+
 namespace oat\tao\model\extension;
 
 use common_report_Report;
@@ -38,10 +40,10 @@ class UpdateExtensions extends \common_ext_UpdateExtensions
     public function __invoke($params)
     {
         try {
-            $loggers = array(
+            $loggers = [
                 $this->getLogger(),
                 $this->getServiceLocator()->get(UpdateLogger::SERVICE_ID)
-            );
+            ];
             $this->setLogger(new LoggerAggregator($loggers));
         } catch (ServiceNotFoundException $e) {
             // update script to add update logger hasn't run yet, ignore
@@ -51,9 +53,9 @@ class UpdateExtensions extends \common_ext_UpdateExtensions
         // regenrate locals
         $files = \tao_models_classes_LanguageService::singleton()->generateAll();
         if (count($files) > 0) {
-            $report->add(new common_report_Report(common_report_Report::TYPE_SUCCESS,__('Successfully updated %s client translation bundles', count($files))));
+            $report->add(new common_report_Report(common_report_Report::TYPE_SUCCESS, __('Successfully updated %s client translation bundles', count($files))));
         } else {
-            $report->add(new common_report_Report(common_report_Report::TYPE_ERROR,__('No client translation bundles updated')));
+            $report->add(new common_report_Report(common_report_Report::TYPE_ERROR, __('No client translation bundles updated')));
         }
 
         $updateid = $this->generateUpdateId();
@@ -69,7 +71,7 @@ class UpdateExtensions extends \common_ext_UpdateExtensions
      */
     protected function generateUpdateId()
     {
-       return uniqid();
+        return uniqid();
     }
 
     /**
@@ -85,7 +87,7 @@ class UpdateExtensions extends \common_ext_UpdateExtensions
             $this->getServiceLocator()->register(AssetService::SERVICE_ID, $assetService);
         } catch (\Exception $e) {
             \common_Logger::e($e->getMessage());
-            $report->add(new common_report_Report(common_report_Report::TYPE_WARNING,__('Unable to update the asset service')));
+            $report->add(new common_report_Report(common_report_Report::TYPE_WARNING, __('Unable to update the asset service')));
         }
     }
 }

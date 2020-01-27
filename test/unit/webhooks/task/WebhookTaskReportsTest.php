@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -91,7 +92,8 @@ class WebhookTaskReportsTest extends TestCase
                 $this->callback(function ($message) {
                     return strpos($message, 'e_msg') !== false &&
                         strpos($message, 'Exception') !== false;
-                }));
+                })
+            );
 
         $this->loggerMock->expects($this->once())
             ->method('error')

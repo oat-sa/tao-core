@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -56,7 +57,7 @@ class ExceptionInterpreterService extends ConfigurableService
         }
 
         $interpreterClass = $foundInterpreters[min(array_keys($foundInterpreters))];
-        $result = new $interpreterClass;
+        $result = new $interpreterClass();
 
         $result->setException($e);
         $result->setServiceLocator($this->getServiceManager());

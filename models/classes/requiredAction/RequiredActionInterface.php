@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,6 +21,7 @@
  */
 
 namespace oat\tao\model\requiredAction;
+
 use oat\oatbox\PhpSerializable;
 
 /**
@@ -65,5 +67,4 @@ interface RequiredActionInterface extends PhpSerializable
      * @return boolean
      */
     public function mustBeExecuted();
-
 }

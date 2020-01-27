@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -73,9 +74,9 @@ class MaintenanceStorage
      */
     public function getHistory()
     {
-        $history = array(
+        $history = [
             1 => new MaintenanceState(json_decode($this->getDriver()->get(self::PREFIX . self::LAST_MODE), true))
-        );
+        ];
 
         $i = 2;
         while ($data = json_decode($this->getDriver()->get(self::PREFIX . $i), true)) {
@@ -113,5 +114,4 @@ class MaintenanceStorage
         }
         return $this->driver;
     }
-
 }

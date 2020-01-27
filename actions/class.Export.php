@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -87,7 +88,6 @@ class tao_actions_Export extends tao_actions_CommonModule
 
                 //allow to export complete classes
                 if (isset($exportData['type']) && $exportData['type'] === 'class') {
-
                     $children = [];
                     foreach ($instances as $instance) {
                         $class = $this->getClass(tao_helpers_Uri::decode($instance));
@@ -99,7 +99,6 @@ class tao_actions_Export extends tao_actions_CommonModule
                         $exportData['instances'][] = tao_helpers_Uri::decode($instance);
                     }
                 }
-
             } elseif (isset($exportData['exportInstance'])) {
                 $exportData['exportInstance'] = tao_helpers_Uri::decode($exportData['exportInstance']);
             }
@@ -126,7 +125,6 @@ class tao_actions_Export extends tao_actions_CommonModule
 
         $this->setData('formTitle', __('Export '));
         $this->setView('form/export.tpl', 'tao');
-
     }
 
     /**
@@ -177,7 +175,8 @@ class tao_actions_Export extends tao_actions_CommonModule
     {
         if ($this->hasRequestParameter('exportHandler')) {
             $exportHandler = $_REQUEST['exportHandler'];//allow method "GET"
-            if (class_exists($exportHandler)
+            if (
+                class_exists($exportHandler)
                 && in_array('tao_models_classes_export_ExportHandler', class_implements($exportHandler))
             ) {
                 return new $exportHandler();

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,6 +18,7 @@
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
+
 namespace oat\tao\model\resources;
 
 use \core_kernel_classes_Class;
@@ -139,23 +141,22 @@ class ResourceService extends ConfigurableService
     public function getResourcesPermissions(User $user, $resources)
     {
         $permissions = [];
-        if(!is_null($user)){
+        if (!is_null($user)) {
             try {
                 $permissionManager = $this->getServiceManager()->get(PermissionInterface::SERVICE_ID);
                 $supportedRights   = $permissionManager->getSupportedRights();
                 $permissions['supportedRights'] = $supportedRights;
 
-                if(count($supportedRights) > 0){
+                if (count($supportedRights) > 0) {
                     $uris = $this->getUris($resources);
 
                     $permissions['data'] = $permissionManager->getPermissions($user, $uris);
                 }
-            } catch(\Exception $e){
+            } catch (\Exception $e) {
                 \common_Logger::w('Unable to retrieve permssions ' . $e->getMessage());
             }
         }
         return $permissions;
-
     }
 
     /**
@@ -168,14 +169,16 @@ class ResourceService extends ConfigurableService
     {
         $propertyFilters = [];
 
-        if(is_string($search) && strlen(trim($search)) > 0){
+        if (is_string($search) && strlen(trim($search)) > 0) {
             $propertyFilters[self::LABEL_URI] = $search;
         }
-        if(is_array($search)){
-            foreach($search as $uri => $value){
-                if( is_string($uri) &&
+        if (is_array($search)) {
+            foreach ($search as $uri => $value) {
+                if (
+                    is_string($uri) &&
                     (is_string($value) && strlen(trim($value)) > 0) ||
-                    (is_array($value) && count($value) > 0) ) {
+                    (is_array($value) && count($value) > 0)
+                ) {
                     $propertyFilters[$uri] = $value;
                 }
             }
@@ -189,8 +192,8 @@ class ResourceService extends ConfigurableService
      */
     private function getResourceLookup($format)
     {
-        if(in_array($format, self::$formats)){
-            if(!isset($this->lookups)){
+        if (in_array($format, self::$formats)) {
+            if (!isset($this->lookups)) {
                 $this->lookups = [
                     'list' => $this->getServiceManager()->get(ListResourceLookup::SERVICE_ID),
                     'tree' => $this->getServiceManager()->get(TreeResourceLookup::SERVICE_ID)
@@ -214,8 +217,7 @@ class ResourceService extends ConfigurableService
         if ($nodes instanceof core_kernel_classes_Resource) {
             $uris[] = $nodes->getUri();
         }
-        if(is_array($nodes)){
-
+        if (is_array($nodes)) {
             //legacy format
             if (isset($nodes['attributes']['data-uri'])) {
                 $uris[] = $nodes['attributes']['data-uri'];
@@ -228,7 +230,6 @@ class ResourceService extends ConfigurableService
             if (isset($treeKeys[0]) && is_int($treeKeys[0])) {
                 foreach ($nodes as $node) {
                     $uris = array_merge($uris, $this->getUris($node));
-
                 }
             }
 
