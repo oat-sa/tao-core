@@ -45,4 +45,9 @@ interface WebhookInterface
      * @return int
      */
     public function getMaxRetries();
+
+    /**
+     * @return bool
+     */
+    public function getResponseValidationEnable();
 }

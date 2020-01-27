@@ -45,7 +45,4 @@ interface TmpLocalAwareStorageInterface
      * @param File $file
      */
     public function removeFiles(File $file);
-
-    /** @return $this */
-    public static function getStorage();
 }
