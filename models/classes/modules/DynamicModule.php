@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,6 +17,7 @@
  *
  * Copyright (c) 2016-2017 (original work) Open Assessment Technologies SA;
  */
+
 namespace oat\tao\model\modules;
 
 use JsonSerializable;
@@ -83,7 +85,7 @@ class DynamicModule implements JsonSerializable
      * @param array $data optional other properties
      * @throws common_exception_InconsistentData
      */
-    public function __construct ($id, $module, $category, $data = [] )
+    public function __construct($id, $module, $category, $data = [])
     {
 
         self::validateRequiredData($id, $module, $category);
@@ -92,22 +94,22 @@ class DynamicModule implements JsonSerializable
         $this->module      = (string)  $module;
         $this->category    = (string)  $category;
 
-        if(isset($data['bundle'])) {
+        if (isset($data['bundle'])) {
             $this->bundle  = (string)  $data['bundle'];
         }
-        if(isset($data['position'])) {
+        if (isset($data['position'])) {
             $this->position  = $data['position'];
         }
-        if(isset($data['description'])) {
+        if (isset($data['description'])) {
             $this->description  = (string) $data['description'];
         }
-        if(isset($data['name'])) {
+        if (isset($data['name'])) {
             $this->name  = (string) $data['name'];
         }
-        if(isset($data['active'])) {
-            $this->active = (boolean) $data['active'];
+        if (isset($data['active'])) {
+            $this->active = (bool) $data['active'];
         }
-        if(isset($data['tags'])) {
+        if (isset($data['tags'])) {
             $this->tags = (array) $data['tags'];
         }
     }
@@ -154,7 +156,7 @@ class DynamicModule implements JsonSerializable
 
     public function setActive($active)
     {
-        $this->active = (boolean) $active;
+        $this->active = (bool) $active;
     }
 
     public function getTags()
@@ -200,10 +202,10 @@ class DynamicModule implements JsonSerializable
      * @return DynamicModule the new instance
      * @throws common_exception_InconsistentData
      */
-    public static function fromArray( array $data )
+    public static function fromArray(array $data)
     {
 
-        if( !isset($data['id']) || !isset($data['module']) || !isset($data['category']) ) {
+        if (!isset($data['id']) || !isset($data['module']) || !isset($data['category'])) {
             throw new common_exception_InconsistentData('The module requires an id, a module and a category');
         }
         return new static($data['id'], $data['module'], $data['category'], $data);
@@ -220,13 +222,13 @@ class DynamicModule implements JsonSerializable
     private static function validateRequiredData($id, $module, $category)
     {
 
-        if(! is_string($id) || empty($id)) {
+        if (! is_string($id) || empty($id)) {
             throw new common_exception_InconsistentData('The module needs an id');
         }
-        if(! is_string($module) || empty($module)) {
+        if (! is_string($module) || empty($module)) {
             throw new common_exception_InconsistentData('The module needs a path');
         }
-        if(! is_string($category) || empty($category)) {
+        if (! is_string($category) || empty($category)) {
             throw new common_exception_InconsistentData('The module needs a category');
         }
 

@@ -1,11 +1,11 @@
 <?php
+
 namespace oat\tao\test\integration;
 
 use oat\generis\model\GenerisRdf;
 use oat\generis\test\GenerisPhpUnitTestRunner;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\user\TaoRoles;
-
 
 abstract class RestTestRunner extends GenerisPhpUnitTestRunner
 {
@@ -19,7 +19,7 @@ abstract class RestTestRunner extends GenerisPhpUnitTestRunner
     
     protected function getUserData()
     {
-        return array(
+        return [
             GenerisRdf::PROPERTY_USER_LOGIN => 'tjdoe',
             GenerisRdf::PROPERTY_USER_PASSWORD => 'test123',
             GenerisRdf::PROPERTY_USER_LASTNAME => 'Doe',
@@ -27,10 +27,10 @@ abstract class RestTestRunner extends GenerisPhpUnitTestRunner
             GenerisRdf::PROPERTY_USER_MAIL => 'jdoe@tao.lu',
             GenerisRdf::PROPERTY_USER_UILG => \tao_models_classes_LanguageService::singleton()->getLanguageByCode(DEFAULT_LANG)->getUri(),
             GenerisRdf::PROPERTY_USER_PASSWORD => 'test' . rand(),
-            GenerisRdf::PROPERTY_USER_ROLES => array(
+            GenerisRdf::PROPERTY_USER_ROLES => [
                 TaoRoles::GLOBAL_MANAGER
-            )
-        );
+            ]
+        ];
     }
     
     public function setUp()
@@ -42,7 +42,7 @@ abstract class RestTestRunner extends GenerisPhpUnitTestRunner
         
         // creates a user using remote script from joel
         $userdata = $this->getUserData();
-        $password = $userdata[GenerisRdf::PROPERTY_USER_PASSWORD]; 
+        $password = $userdata[GenerisRdf::PROPERTY_USER_PASSWORD];
         $userdata[GenerisRdf::PROPERTY_USER_PASSWORD] = \core_kernel_users_Service::getPasswordHash()->encrypt($userdata[GenerisRdf::PROPERTY_USER_PASSWORD]);
         $tmclass = new \core_kernel_classes_Class(TaoOntology::CLASS_URI_TAO_USER);
         $user = $tmclass->createInstanceWithProperties($userdata);
@@ -70,11 +70,11 @@ abstract class RestTestRunner extends GenerisPhpUnitTestRunner
      * @param array $curlOptions (numeric arrays get interpreted as headers)
      * @return mixed
      */
-    protected function curl($url, $method = CURLOPT_HTTPGET, $returnType = "data", $curlOptions = array())
+    protected function curl($url, $method = CURLOPT_HTTPGET, $returnType = "data", $curlOptions = [])
     {
         $options = $this->getDefaultCurlOptions();
         if (!\tao_helpers_Array::isAssoc($curlOptions)) {
-            $curlOptions = array(CURLOPT_HTTPHEADER => $curlOptions);
+            $curlOptions = [CURLOPT_HTTPHEADER => $curlOptions];
         }
         foreach ($curlOptions as $key => $value) {
             if (isset($options[$key]) && is_array($options[$key]) && is_array($value)) {
@@ -108,14 +108,14 @@ abstract class RestTestRunner extends GenerisPhpUnitTestRunner
      */
     protected function getDefaultCurlOptions()
     {
-        return array(
+        return [
             CURLOPT_USERPWD => $this->login . ":" . $this->password,
             CURLOPT_RETURNTRANSFER => 1,
             CURLOPT_SSL_VERIFYPEER => false,
-            CURLOPT_HTTPHEADER => array(
+            CURLOPT_HTTPHEADER => [
                 "Accept: application/json"
-            )
-        );
+            ]
+        ];
     }
 
     protected function disableCache()
@@ -127,5 +127,4 @@ abstract class RestTestRunner extends GenerisPhpUnitTestRunner
     {
         // just to avoid stopping tests with error "Call to undefined method restoreCache()"
     }
-
 }

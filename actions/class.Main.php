@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -56,7 +57,7 @@ class tao_actions_Main extends tao_actions_CommonModule
     public function entry()
     {
         $this->defaultData();
-        $entries = array();
+        $entries = [];
         foreach (EntryPointService::getRegistry()->getEntryPoints() as $entry) {
             if (tao_models_classes_accessControl_AclProxy::hasAccessUrl($entry->getUrl())) {
                 $entries[] = $entry;
@@ -84,21 +85,21 @@ class tao_actions_Main extends tao_actions_CommonModule
             }
             $this->setData('entries', $entries);
             $naviElements = $this->getNavigationElementsByGroup('settings');
-            foreach($naviElements as $key => $naviElement) {
-                if($naviElement['perspective']->getId() !== 'user_settings') {
+            foreach ($naviElements as $key => $naviElement) {
+                if ($naviElement['perspective']->getId() !== 'user_settings') {
                     unset($naviElements[$key]);
                     continue;
                 }
             }
 
-            if ($this->hasRequestParameter('errorMessage')){
+            if ($this->hasRequestParameter('errorMessage')) {
                 $this->setData('errorMessage', $this->getRequestParameter('errorMessage'));
             }
             $this->setData('logout', $this->getServiceLocator()->get(DefaultUrlService::SERVICE_ID)->getLogoutUrl());
             $this->setData('userLabel', $this->getSession()->getUserLabel());
             $this->setData('settings-menu', $naviElements);
             $this->setData('current-section', $this->getRequestParameter('section'));
-            $this->setData('content-template', array('blocks/entry-points.tpl', 'tao'));
+            $this->setData('content-template', ['blocks/entry-points.tpl', 'tao']);
             $this->setView('layout.tpl', 'tao');
         }
     }
@@ -127,15 +128,15 @@ class tao_actions_Main extends tao_actions_CommonModule
             \oat\tao\model\security\IFrameBlocker::setHeader();
         }
 
-        $params = array(
+        $params = [
             'disableAutocomplete' => $disableAutoComplete,
             'enablePasswordReveal' => $enablePasswordReveal,
-        );
+        ];
 
         if ($this->hasRequestParameter('redirect')) {
             $redirectUrl = $_REQUEST['redirect'];
 
-            if (substr($redirectUrl, 0,1) == '/' || substr($redirectUrl, 0, strlen(ROOT_URL)) == ROOT_URL) {
+            if (substr($redirectUrl, 0, 1) == '/' || substr($redirectUrl, 0, strlen(ROOT_URL)) == ROOT_URL) {
                 $params['redirect'] = $redirectUrl;
             }
         }
@@ -164,12 +165,13 @@ class tao_actions_Main extends tao_actions_CommonModule
                                 /** @var DateInterval $remaining */
                                 $remaining = $statusDetails['remaining'];
 
-                                $reference = new DateTimeImmutable;
+                                $reference = new DateTimeImmutable();
                                 $endTime = $reference->add($remaining);
 
                                 $diffInSeconds = $endTime->getTimestamp() - $reference->getTimestamp();
 
-                                $msg .= __('Please try in %s.',
+                                $msg .= __(
+                                    'Please try in %s.',
                                     $diffInSeconds > 60
                                         ? tao_helpers_Date::displayInterval($statusDetails['remaining'], tao_helpers_Date::FORMAT_INTERVAL_LONG)
                                         : $diffInSeconds . ' ' . ($diffInSeconds == 1 ? __('second') : __('seconds'))
@@ -244,7 +246,7 @@ class tao_actions_Main extends tao_actions_CommonModule
 
         $this->setData('show_gdpr', !empty($config['show_gdpr']) && $config['show_gdpr']);
 
-        $this->setData('content-template', array('blocks/login.tpl', 'tao'));
+        $this->setData('content-template', ['blocks/login.tpl', 'tao']);
 
         $this->setView('layout.tpl', 'tao');
     }
@@ -280,8 +282,7 @@ class tao_actions_Main extends tao_actions_CommonModule
         $extension = $this->getRequestParameter('ext');
         $structure = $this->getRequestParameter('structure');
 
-        if($this->hasRequestParameter('structure')) {
-
+        if ($this->hasRequestParameter('structure')) {
             // structured mode
             // @todo stop using session to manage uri/classUri
             $this->removeSessionAttribute('uri');
@@ -293,10 +294,10 @@ class tao_actions_Main extends tao_actions_CommonModule
                     'index',
                     'Main',
                     'tao',
-                    array(
+                    [
                         'structure' => $structure,
                         'ext'       => $extension
-                    )
+                    ]
                 )
             );
 
@@ -307,19 +308,18 @@ class tao_actions_Main extends tao_actions_CommonModule
                 $this->logWarning('no sections');
             }
         } else {
-
             //check if the user is a noob, otherwise redirect him to his last visited extension.
             $firstTime = TaoCe::isFirstTimeInTao();
             if ($firstTime == false) {
-               $lastVisited = TaoCe::getLastVisitedUrl();
+                $lastVisited = TaoCe::getLastVisitedUrl();
 
-                if(!is_null($lastVisited)){
-                   $this->redirect($lastVisited);
-               }
+                if (!is_null($lastVisited)) {
+                    $this->redirect($lastVisited);
+                }
             }
         }
 
-        $perspectiveTypes = array(Perspective::GROUP_DEFAULT, 'settings', 'persistent');
+        $perspectiveTypes = [Perspective::GROUP_DEFAULT, 'settings', 'persistent'];
         foreach ($perspectiveTypes as $perspectiveType) {
             $this->setData($perspectiveType . '-menu', $this->getNavigationElementsByGroup($perspectiveType));
         }
@@ -327,12 +327,15 @@ class tao_actions_Main extends tao_actions_CommonModule
         /* @var $notifService NotificationServiceInterface */
         $notifService = $this->getServiceLocator()->get(NotificationServiceInterface::SERVICE_ID);
 
-        if($notifService->getVisibility()) {
+        if ($notifService->getVisibility()) {
             $notif = $notifService->notificationCount($user->getUri());
 
             $this->setData('unread-notification', $notif[NotificationInterface::CREATED_STATUS]);
 
-            $this->setData('notification-url', _url('index' , 'Main' , 'tao' ,
+            $this->setData('notification-url', _url(
+                'index',
+                'Main',
+                'tao',
                 [
                     'structure' => 'tao_Notifications',
                     'ext'       => 'tao',
@@ -353,12 +356,12 @@ class tao_actions_Main extends tao_actions_CommonModule
         $this->setData('current-section', $this->getRequestParameter('section'));
 
         //creates the URL of the action used to configure the client side
-        $clientConfigParams = array(
+        $clientConfigParams = [
             'shownExtension' => $extension,
             'shownStructure' => $structure
-        );
+        ];
         $this->setData('client_config_url', $this->getClientConfigUrl($clientConfigParams));
-        $this->setData('content-template', array('blocks/sections.tpl', 'tao'));
+        $this->setData('content-template', ['blocks/sections.tpl', 'tao']);
 
         $this->setView('layout.tpl', 'tao');
     }
@@ -371,16 +374,16 @@ class tao_actions_Main extends tao_actions_CommonModule
      */
     private function getNavigationElementsByGroup($groupId)
     {
-        $entries = array();
+        $entries = [];
         foreach (MenuService::getPerspectivesByGroup($groupId) as $i => $perspective) {
             $binding = $perspective->getBinding();
             $children = $this->getMenuElementChildren($perspective);
 
             if (!empty($binding) || !empty($children)) {
-                $entry = array(
+                $entry = [
                     'perspective' => $perspective,
                     'children'    => $children
-                );
+                ];
                 if (!is_null($binding)) {
                     $entry['binding'] = $perspective->getExtension() . '/' . $binding;
                 }
@@ -399,7 +402,7 @@ class tao_actions_Main extends tao_actions_CommonModule
     private function getMenuElementChildren(Perspective $menuElement)
     {
         $user = $this->getSession()->getUser();
-        $children = array();
+        $children = [];
         foreach ($menuElement->getChildren() as $section) {
             try {
                 $resolver = new ActionResolver($section->getUrl());
@@ -407,7 +410,7 @@ class tao_actions_Main extends tao_actions_CommonModule
                     $children[] = $section;
                 }
             } catch (ResolverException $e) {
-                $this->logWarning('Invalid reference in structures: '.$e->getMessage());
+                $this->logWarning('Invalid reference in structures: ' . $e->getMessage());
             }
         }
         return $children;
@@ -423,22 +426,19 @@ class tao_actions_Main extends tao_actions_CommonModule
     private function getSections($shownExtension, $shownStructure)
     {
 
-        $sections = array();
+        $sections = [];
         $user = $this->getSession()->getUser();
         $structure = MenuService::getPerspective($shownExtension, $shownStructure);
         if (!is_null($structure)) {
             foreach ($structure->getChildren() as $section) {
-
                 $resolver = new ActionResolver($section->getUrl());
                 if (FuncProxy::accessPossible($user, $resolver->getController(), $resolver->getAction())) {
-
-                    foreach($section->getActions() as $action){
+                    foreach ($section->getActions() as $action) {
                         $this->propagate($action);
                         $resolver = new ActionResolver($action->getUrl());
-                        if(!FuncProxy::accessPossible($user, $resolver->getController(), $resolver->getAction())){
+                        if (!FuncProxy::accessPossible($user, $resolver->getController(), $resolver->getAction())) {
                             $section->removeAction($action);
                         }
-
                     }
 
                     $sections[] = $section;
@@ -455,11 +455,11 @@ class tao_actions_Main extends tao_actions_CommonModule
      */
     public function isReady()
     {
-        if($this->isXmlHttpRequest()){
+        if ($this->isXmlHttpRequest()) {
             // the default ajax response is successful style rastafarai
             $ajaxResponse = new common_AjaxResponse();
         } else {
-            throw new common_exception_IsAjaxAction(__CLASS__.'::'.__METHOD__.'()');
+            throw new common_exception_IsAjaxAction(__CLASS__ . '::' . __METHOD__ . '()');
         }
     }
 

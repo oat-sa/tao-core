@@ -23,7 +23,8 @@
  */
 
 
-class tao_test_integration_controllerMap_stubs_ValidController extends Module {
+class tao_test_integration_controllerMap_stubs_ValidController extends Module
+{
 
     /**
      * Valid non-namespaced stub controller action
@@ -32,7 +33,5 @@ class tao_test_integration_controllerMap_stubs_ValidController extends Module {
      */
     public function validAction()
     {
-
     }
-
-} 
+}

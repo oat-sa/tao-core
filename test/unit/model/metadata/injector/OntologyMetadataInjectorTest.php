@@ -14,7 +14,7 @@ use oat\tao\model\metadata\writer\ontologyWriter\OntologyWriter;
 
 class OntologyMetadataInjectorTest extends TestCase
 {
-    protected function getOntologyMetadataInjectorMock($methods=[])
+    protected function getOntologyMetadataInjectorMock($methods = [])
     {
         return $this->getMockForAbstractClass(OntologyMetadataInjector::class, [], '', false, true, true, $methods);
     }
@@ -147,9 +147,9 @@ class OntologyMetadataInjectorTest extends TestCase
     public function testSetReaders()
     {
         $readersFixture = [
-            'reader1' => array('key' =>'polop1'),
-            'reader2' => array('key' =>'polop2'),
-            'reader3' => array('key' =>'polop3'),
+            'reader1' => ['key' => 'polop1'],
+            'reader2' => ['key' => 'polop2'],
+            'reader3' => ['key' => 'polop3'],
         ];
 
         $ontologyInjector = $this->getOntologyMetadataInjectorMock();
@@ -337,5 +337,4 @@ class OntologyMetadataInjectorTest extends TestCase
         $this->expectException(MetadataInjectorWriteException::class);
         $ontologyInjector->write($resource, $data, $dryrun);
     }
-
 }

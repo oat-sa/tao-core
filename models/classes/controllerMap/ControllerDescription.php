@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -32,7 +33,7 @@ use ReflectionMethod;
  */
 class ControllerDescription
 {
-    private static $BLACK_LIST = array('forward', 'redirect', 'forwardUrl', 'setView');
+    private static $BLACK_LIST = ['forward', 'redirect', 'forwardUrl', 'setView'];
     /**
      * Reflection of the controller
      *
@@ -45,7 +46,8 @@ class ControllerDescription
      *
      * @param ReflectionClass $controllerClass
      */
-    public function __construct(ReflectionClass $controllerClass) {
+    public function __construct(ReflectionClass $controllerClass)
+    {
         $this->class = $controllerClass;
     }
 
@@ -54,7 +56,8 @@ class ControllerDescription
      *
      * @return string
      */
-    public function getClassName() {
+    public function getClassName()
+    {
         return $this->class->getName();
     }
 
@@ -63,8 +66,9 @@ class ControllerDescription
      *
      * @return array
      */
-    public function getActions() {
-        $actions = array();
+    public function getActions()
+    {
+        $actions = [];
         foreach ($this->class->getMethods(ReflectionMethod::IS_PUBLIC) as $m) {
             if ($m->isConstructor() || $m->isDestructor() || in_array($m->name, self::$BLACK_LIST)) {
                 continue;
@@ -76,5 +80,4 @@ class ControllerDescription
         }
         return $actions;
     }
-
 }

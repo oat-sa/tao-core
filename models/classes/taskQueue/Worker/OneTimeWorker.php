@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -32,7 +33,7 @@ final class OneTimeWorker extends AbstractWorker
     {
         $this->logDebug('Starting OneTimeWorker.');
 
-        try{
+        try {
             $this->logDebug('Fetching tasks from queue ');
 
             $task = $this->queuer->dequeue();
@@ -43,7 +44,7 @@ final class OneTimeWorker extends AbstractWorker
 
             unset($task);
         } catch (\Exception $e) {
-            $this->logError('Fetching data from queue failed with MSG: '. $e->getMessage());
+            $this->logError('Fetching data from queue failed with MSG: ' . $e->getMessage());
         }
 
         $this->logDebug('OneTimeWorker finished.');

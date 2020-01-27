@@ -62,9 +62,9 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
             }
 
             $this->returnSuccess($response);
-
         } catch (Exception $e) {
-            if ($e instanceof \common_exception_ValidationFailed &&
+            if (
+                $e instanceof \common_exception_ValidationFailed &&
                 $alias = $this->reverseSearchAlias($e->getField())
             ) {
                 $e = new \common_exception_ValidationFailed($alias, null, $e->getCode());
@@ -98,7 +98,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
      * @throws common_exception_InvalidArgumentType
      * @throws common_exception_PreConditionFailure
      */
-    protected function get($uri=null)
+    protected function get($uri = null)
     {
         if (!is_null($uri)) {
             if (!($this->getCrudService()->isInScope($uri))) {
@@ -119,7 +119,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
      * @throws common_exception_InvalidArgumentType
      * @throws common_exception_PreConditionFailure
      */
-    protected function delete($uri=null)
+    protected function delete($uri = null)
     {
         if (is_null($uri)) {
             //$data = $this->service->deleteAll();
@@ -221,18 +221,17 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
         foreach ($this->getParametersAliases() as $checkParameterShort => $checkParameterUri) {
             if ($this->hasRequestParameter($checkParameterUri)) {
                 $effectiveParameters[$checkParameterUri] = $this->getRequestParameter($checkParameterUri);
-            }
-            else if ($this->hasRequestParameter($checkParameterShort)) {
+            } elseif ($this->hasRequestParameter($checkParameterShort)) {
                 $effectiveParameters[$checkParameterUri] = $this->getRequestParameter($checkParameterShort);
-            }
-            else if ($this->isRequiredParameter($checkParameterShort)) {
+            } elseif ($this->isRequiredParameter($checkParameterShort)) {
                 $missedAliases[] = $checkParameterShort;
             }
         }
 
         if (count($missedAliases) > 0) {
             throw new \common_exception_RestApi(
-                'Missed required parameters: ' . implode(', ', $missedAliases));
+                'Missed required parameters: ' . implode(', ', $missedAliases)
+            );
         }
 
         return $effectiveParameters;
@@ -246,10 +245,10 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
      */
     protected function getParametersRequirements()
     {
-        return array(
-            'put' => array ('uri'),
-            'delete' => array('uri'),
-        );
+        return [
+            'put' =>  ['uri'],
+            'delete' => ['uri'],
+        ];
     }
 
     /**
@@ -271,7 +270,8 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
      * @param string $paramName
      * @return string|false
      */
-    protected function reverseSearchAlias($paramName) {
+    protected function reverseSearchAlias($paramName)
+    {
         return array_search($paramName, $this->getParametersAliases(), true);
     }
 
@@ -295,7 +295,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
             return false;
         }
 
-        if (in_array($parameter,$requirements[$method])) {
+        if (in_array($parameter, $requirements[$method])) {
             return true;
         }
 
@@ -304,9 +304,8 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
         //The requirements may have been declared using URIs, look up for the URI
         $aliases = $this->getParametersAliases();
         if (isset($aliases[$parameter])) {
-            $isRequired = in_array($aliases[$parameter],$requirements[$method]);
+            $isRequired = in_array($aliases[$parameter], $requirements[$method]);
         }
         return $isRequired;
     }
-
 }

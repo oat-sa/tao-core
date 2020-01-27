@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -51,7 +52,5 @@ class UriHelperTest extends TaoPhpUnitTestRunner
     {
         $url = \tao_helpers_Uri::url($action, $module, $extension, $params);
         $this->assertContains($expected, $url);
-
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -29,23 +30,25 @@ use oat\tao\model\menu\Icon;
 use oat\tao\test\TaoPhpUnitTestRunner;
 
 /**
- * Unit test the  oat\tao\model\menu\Action 
+ * Unit test the  oat\tao\model\menu\Action
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @package tao
  */
-class ActionTest extends TaoPhpUnitTestRunner {
+class ActionTest extends TaoPhpUnitTestRunner
+{
     
     /**
      * Data Provider : xml and a mock action that the xml should produce
      * @return array the data
-     */ 
-    public function actionsProvider(){
-        return array(
-            array('<action id="search" name="search" url="/tao/Roles/search" context="*" group="content">
+     */
+    public function actionsProvider()
+    {
+        return [
+            ['<action id="search" name="search" url="/tao/Roles/search" context="*" group="content">
                         <icon id="search" src="images/icon.svg"/>
                     </action>',
                 'tao',
-                  new Action(array(
+                  new Action([
                         'id'      => 'search',
                         'name'      => 'search',
                         'url'       => '/tao/Roles/search',
@@ -54,16 +57,16 @@ class ActionTest extends TaoPhpUnitTestRunner {
                         'binding'   => 'load',
                         'reload'    => false,
                         'disabled'    => false,
-                        'icon'      => new Icon(array( 'id' => 'search', 'src' => 'images/icon.svg', 'ext' => 'tao')),
+                        'icon'      => new Icon([ 'id' => 'search', 'src' => 'images/icon.svg', 'ext' => 'tao']),
                         'extension' => 'tao',
                         'controller' => 'Roles',
                         'action' => 'search',
                         'multiple' => false
-                  )) 
-            ),
-            array('<action id="delete" name="delete" js="removeNode" url="/tao/Roles/delete" context="resource" disabled="true"/>',
+                  ])
+            ],
+            ['<action id="delete" name="delete" js="removeNode" url="/tao/Roles/delete" context="resource" disabled="true"/>',
                 'tao',
-                  new Action(array(
+                  new Action([
                         'id'      => 'delete',
                         'name'      => 'delete',
                         'url'       => '/tao/Roles/delete',
@@ -72,29 +75,29 @@ class ActionTest extends TaoPhpUnitTestRunner {
                         'binding'   => 'removeNode',
                         'reload'    => false,
                         'disabled'    => true,
-                        'icon'      => new Icon(array('id' => null, 'src' => 'actions/delete.png', 'ext' => 'tao')),
+                        'icon'      => new Icon(['id' => null, 'src' => 'actions/delete.png', 'ext' => 'tao']),
                         'extension' => 'tao',
                         'controller' => 'Roles',
                         'action' => 'delete',
                         'multiple' => false
-                  )) 
-            )
-        );
+                  ])
+            ]
+        ];
     }
     
     /**
-     * Test the xml produce the same object than the one expected by the provider. 
-     * 
+     * Test the xml produce the same object than the one expected by the provider.
+     *
      * @dataProvider actionsProvider
-     * 
-     * @param string $xml the action node 
+     *
+     * @param string $xml the action node
      * @param Action $expected the expected object to be produced
      */
-    public function testActions($xml, $extensionId, $expected){
-        $result = Action::fromSimpleXMLElement(new \SimpleXMLElement($xml),$extensionId);
+    public function testActions($xml, $extensionId, $expected)
+    {
+        $result = Action::fromSimpleXMLElement(new \SimpleXMLElement($xml), $extensionId);
     
-        $this->assertTrue($result instanceof Action);        
+        $this->assertTrue($result instanceof Action);
         $this->assertEquals($expected, $result);
     }
-
 }

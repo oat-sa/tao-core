@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -23,7 +24,7 @@ namespace oat\tao\model\controllerMap;
 
 /**
  * Action or Controller not found exception
- * 
+ *
  * @author Joel Bout <joel@taotesting.com>
  */
 class ActionNotFoundException extends \common_Exception

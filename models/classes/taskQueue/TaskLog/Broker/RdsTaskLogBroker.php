@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -66,7 +67,7 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
     public function __construct($persistenceId, $containerName = null)
     {
         if (empty($persistenceId)) {
-            throw new \InvalidArgumentException("Persistence id needs to be set for ". __CLASS__);
+            throw new \InvalidArgumentException("Persistence id needs to be set for " . __CLASS__);
         }
 
         $this->persistenceId = $persistenceId;
@@ -75,11 +76,11 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
 
     public function __toPhpCode()
     {
-        return 'new '. get_called_class() .'('
+        return 'new ' . get_called_class() . '('
             . \common_Utils::toHumanReadablePhpString($this->persistenceId)
             . ', '
             . \common_Utils::toHumanReadablePhpString($this->containerName)
-            .')';
+            . ')';
     }
 
     /**
@@ -101,7 +102,7 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
      */
     public function getTableName()
     {
-        return strtolower(QueueDispatcherInterface::QUEUE_PREFIX .'_'. $this->containerName);
+        return strtolower(QueueDispatcherInterface::QUEUE_PREFIX . '_' . $this->containerName);
     }
 
     /**
@@ -116,7 +117,7 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
         $toSchema = clone $fromSchema;
 
         // if our table does not exist, let's create it
-        if(false === $fromSchema->hasTable($this->getTableName())) {
+        if (false === $fromSchema->hasTable($this->getTableName())) {
             $table = $toSchema->createTable($this->getTableName());
             $table->addOption('engine', 'InnoDB');
             $table->addColumn(self::COLUMN_ID, 'string', ["notnull" => true, "length" => 255]);
@@ -131,9 +132,9 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
             $table->addColumn(self::COLUMN_CREATED_AT, 'datetime', ['notnull' => true]);
             $table->addColumn(self::COLUMN_UPDATED_AT, 'datetime', ['notnull' => false]);
             $table->setPrimaryKey(['id']);
-            $table->addIndex([self::COLUMN_TASK_NAME, self::COLUMN_OWNER], $this->getTableName() .'IDX_task_name_owner');
-            $table->addIndex([self::COLUMN_STATUS], $this->getTableName() .'IDX_status');
-            $table->addIndex([self::COLUMN_CREATED_AT], $this->getTableName() .'IDX_created_at');
+            $table->addIndex([self::COLUMN_TASK_NAME, self::COLUMN_OWNER], $this->getTableName() . 'IDX_task_name_owner');
+            $table->addIndex([self::COLUMN_STATUS], $this->getTableName() . 'IDX_status');
+            $table->addIndex([self::COLUMN_CREATED_AT], $this->getTableName() . 'IDX_created_at');
 
             $queries = $this->getPersistence()->getPlatForm()->getMigrateSchemaSql($fromSchema, $toSchema);
             foreach ($queries as $query) {
@@ -157,7 +158,7 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
             self::COLUMN_OWNER => (string) $task->getOwner(),
             self::COLUMN_CREATED_AT => $task->getCreatedAt()->format($this->getPersistence()->getPlatForm()->getDateTimeFormatString()),
             self::COLUMN_UPDATED_AT => $this->getPersistence()->getPlatForm()->getNowExpression(),
-            self::COLUMN_MASTER_STATUS => (integer) $task->isMasterStatus(),
+            self::COLUMN_MASTER_STATUS => (int) $task->isMasterStatus(),
         ]);
     }
 
@@ -169,7 +170,7 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
         $qb = $this->getQueryBuilder()
             ->select(self::COLUMN_STATUS)
             ->from($this->getTableName())
-            ->andWhere(self::COLUMN_ID .' = :id')
+            ->andWhere(self::COLUMN_ID . ' = :id')
             ->setParameter('id', $taskId);
 
         return $qb->execute()->fetchColumn();
@@ -184,13 +185,13 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
             ->update($this->getTableName())
             ->set(self::COLUMN_STATUS, ':status_new')
             ->set(self::COLUMN_UPDATED_AT, ':updated_at')
-            ->where(self::COLUMN_ID .' = :id')
+            ->where(self::COLUMN_ID . ' = :id')
             ->setParameter('id', (string) $taskId)
             ->setParameter('status_new', (string) $newStatus)
             ->setParameter('updated_at', $this->getPersistence()->getPlatForm()->getNowExpression());
 
         if ($prevStatus) {
-            $qb->andWhere(self::COLUMN_STATUS .' = :status_prev')
+            $qb->andWhere(self::COLUMN_STATUS . ' = :status_prev')
                 ->setParameter('status_prev', (string) $prevStatus);
         }
 
@@ -207,7 +208,7 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
             ->set(self::COLUMN_REPORT, ':report')
             ->set(self::COLUMN_STATUS, ':status_new')
             ->set(self::COLUMN_UPDATED_AT, ':updated_at')
-            ->andWhere(self::COLUMN_ID .' = :id')
+            ->andWhere(self::COLUMN_ID . ' = :id')
             ->setParameter('id', (string) $taskId)
             ->setParameter('report', json_encode($report))
             ->setParameter('status_new', (string) $newStatus)
@@ -224,10 +225,11 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
         $qb = $this->getQueryBuilder()
             ->select(self::COLUMN_REPORT)
             ->from($this->getTableName())
-            ->andWhere(self::COLUMN_ID .' = :id')
+            ->andWhere(self::COLUMN_ID . ' = :id')
             ->setParameter('id', (string) $taskId);
 
-        if (($reportJson = $qb->execute()->fetchColumn())
+        if (
+            ($reportJson = $qb->execute()->fetchColumn())
             && ($reportData = json_decode($reportJson, true)) !== null
             && json_last_error() === JSON_ERROR_NONE
         ) {
@@ -283,7 +285,7 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
 
             return (int) $qb->execute()->fetchColumn();
         } catch (\Exception $e) {
-            $this->logError('Counting task logs failed with MSG: '. $e->getMessage());
+            $this->logError('Counting task logs failed with MSG: ' . $e->getMessage());
         }
 
         return 0;
@@ -352,12 +354,11 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
         try {
             $qb = $this->getQueryBuilder()
                 ->delete($this->getTableName())
-                ->where(self::COLUMN_ID .' = :id')
+                ->where(self::COLUMN_ID . ' = :id')
                 ->setParameter('id', (string) $taskId);
 
             $qb->execute();
             $this->getPersistence()->getPlatform()->commit();
-
         } catch (\Exception $e) {
             $this->getPersistence()->getPlatform()->rollBack();
 
@@ -388,12 +389,11 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
         }
 
         $sql =  "COUNT( CASE WHEN ";
-        foreach ($inStatuses as $status)
-        {
+        foreach ($inStatuses as $status) {
             if ($status !== reset($inStatuses)) {
-                $sql .= " OR ". self::COLUMN_STATUS ." = '". $status ."'";
+                $sql .= " OR " . self::COLUMN_STATUS . " = '" . $status . "'";
             } else {
-                $sql .= " ". self::COLUMN_STATUS ." = '". $status."'";
+                $sql .= " " . self::COLUMN_STATUS . " = '" . $status . "'";
             }
         }
 
@@ -416,14 +416,13 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
                 ->update($this->getTableName())
                 ->set(self::COLUMN_STATUS, ':status_new')
                 ->set(self::COLUMN_UPDATED_AT, ':updated_at')
-                ->where(self::COLUMN_ID .' IN(:id)')
+                ->where(self::COLUMN_ID . ' IN(:id)')
                 ->setParameter('id', $collection->getIds(), Connection::PARAM_STR_ARRAY)
                 ->setParameter('status_new', (string) $status)
                 ->setParameter('updated_at', $this->getPersistence()->getPlatForm()->getNowExpression());
 
             $exec = $qb->execute();
             $this->getPersistence()->getPlatform()->commit();
-
         } catch (\Exception $e) {
             $this->getPersistence()->getPlatform()->rollBack();
             $this->logDebug($e->getMessage());

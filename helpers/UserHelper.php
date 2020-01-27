@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -37,19 +38,19 @@ use Jig\Utils\StringUtils;
  */
 class UserHelper
 {
-    static public function renderHtmlUser($userId)
+    public static function renderHtmlUser($userId)
     {
         // assume generis user
         $user = new core_kernel_classes_Resource($userId);
-        $props = $user->getPropertiesValues(array(
+        $props = $user->getPropertiesValues([
             OntologyRdfs::RDFS_LABEL,
             GenerisRdf::PROPERTY_USER_MAIL
-        ));
-        $label = (isset($props[OntologyRdfs::RDFS_LABEL]) && !empty($props[OntologyRdfs::RDFS_LABEL])) ? (string)reset($props[OntologyRdfs::RDFS_LABEL]) : '('.$userId.')';
+        ]);
+        $label = (isset($props[OntologyRdfs::RDFS_LABEL]) && !empty($props[OntologyRdfs::RDFS_LABEL])) ? (string)reset($props[OntologyRdfs::RDFS_LABEL]) : '(' . $userId . ')';
         $label = StringUtils::wrapLongWords($label);
         $mail = (isset($props[GenerisRdf::PROPERTY_USER_MAIL]) && !empty($props[GenerisRdf::PROPERTY_USER_MAIL])) ? (string)reset($props[GenerisRdf::PROPERTY_USER_MAIL]) : '';
         return !empty($mail)
-            ? '<a href="mailto:'.$mail.'">'.$label.'</a>'
+            ? '<a href="mailto:' . $mail . '">' . $label . '</a>'
             : $label;
     }
 

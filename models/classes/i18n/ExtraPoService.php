@@ -1,6 +1,7 @@
 <?php
 
 namespace oat\tao\model\i18n;
+
 use oat\oatbox\service\ConfigurableService;
 
 class ExtraPoService extends ConfigurableService
@@ -34,7 +35,6 @@ class ExtraPoService extends ConfigurableService
             $this->setOption('paths', $paths);
             
             return true;
-        
         } catch (\common_ext_ExtensionException $e) {
             return false;
         }

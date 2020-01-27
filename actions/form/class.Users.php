@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -89,7 +90,7 @@ class tao_actions_form_Users extends SignedFormInstance
             $this->user = $user;
             $options['mode'] = 'edit';
         } else {
-            if (isset($_POST[$this->formName.'_sent']) && isset($_POST['uri'])) {
+            if (isset($_POST[$this->formName . '_sent']) && isset($_POST['uri'])) {
                 $this->user = new core_kernel_classes_Resource(tao_helpers_Uri::decode($_POST['uri']));
             } else {
                 $this->user = $service->createInstance($clazz, $service->createUniqueLabel($clazz));
@@ -158,16 +159,16 @@ class tao_actions_form_Users extends SignedFormInstance
         //login field
         $loginElement = $this->form->getElement(tao_helpers_Uri::encode(GenerisRdf::PROPERTY_USER_LOGIN));
         if ($this->options['mode'] === 'add') {
-            $loginElement->addValidators(array(
+            $loginElement->addValidators([
                 tao_helpers_form_FormFactory::getValidator('NotEmpty'),
-                tao_helpers_form_FormFactory::getValidator('Callback', array(
+                tao_helpers_form_FormFactory::getValidator('Callback', [
                     'object' => tao_models_classes_UserService::singleton(),
                     'method' => 'loginAvailable',
                     'message' => __('This Login is already in use')
-                ))
-            ));
+                ])
+            ]);
         } else {
-            $loginElement->setAttributes(array('readonly' => 'readonly', 'disabled' => 'disabled'));
+            $loginElement->setAttributes(['readonly' => 'readonly', 'disabled' => 'disabled']);
         }
 
         //set default lang to the languages fields
@@ -177,7 +178,7 @@ class tao_actions_form_Users extends SignedFormInstance
             $dataLangElt = $this->form->getElement(tao_helpers_Uri::encode(GenerisRdf::PROPERTY_USER_DEFLG));
             $dataLangElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
             $dataUsage = new core_kernel_classes_Resource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA);
-            $dataOptions = array();
+            $dataOptions = [];
             foreach ($langService->getAvailableLanguagesByUsage($dataUsage) as $lang) {
                 $dataOptions[tao_helpers_Uri::encode($lang->getUri())] = $lang->getLabel();
             }
@@ -187,7 +188,7 @@ class tao_actions_form_Users extends SignedFormInstance
         $uiLangElt = $this->form->getElement(tao_helpers_Uri::encode(GenerisRdf::PROPERTY_USER_UILG));
         $uiLangElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
         $guiUsage = new core_kernel_classes_Resource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_GUI);
-        $guiOptions = array();
+        $guiOptions = [];
         foreach ($langService->getAvailableLanguagesByUsage($guiUsage) as $lang) {
             $guiOptions[tao_helpers_Uri::encode($lang->getUri())] = $lang->getLabel();
         }
@@ -196,7 +197,7 @@ class tao_actions_form_Users extends SignedFormInstance
         // roles field
         $property = new core_kernel_classes_Property(GenerisRdf::PROPERTY_USER_ROLES);
         $roles = $property->getRange()->getInstances(true);
-        $rolesOptions = array();
+        $rolesOptions = [];
         foreach ($roles as $r) {
             $rolesOptions[tao_helpers_Uri::encode($r->getUri())] = $r->getLabel();
         }
@@ -223,17 +224,17 @@ class tao_actions_form_Users extends SignedFormInstance
 
             $pass2Element = tao_helpers_form_FormFactory::getElement('password2', 'Hiddenbox');
             $pass2Element->setDescription(__('Repeat password'));
-            $pass2Element->addValidators(array(
+            $pass2Element->addValidators([
                 tao_helpers_form_FormFactory::getValidator('NotEmpty'),
-                tao_helpers_form_FormFactory::getValidator('Password', array('password2_ref' => $pass1Element)),
-            ));
+                tao_helpers_form_FormFactory::getValidator('Password', ['password2_ref' => $pass1Element]),
+            ]);
             $this->form->addElement($pass2Element);
         } else {
             if (ApplicationHelper::isDemo()) {
                 $warning  = tao_helpers_form_FormFactory::getElement('warningpass', 'Label');
                 $warning->setValue(__('Unable to change passwords in demo mode'));
                 $this->form->addElement($warning);
-                $this->form->createGroup("pass_group", __("Change the password"), array('warningpass'));
+                $this->form->createGroup("pass_group", __("Change the password"), ['warningpass']);
             } else {
                 $pass2Element = tao_helpers_form_FormFactory::getElement('password2', 'Hiddenbox');
                 $pass2Element->setDescription(__('New password'));
@@ -243,12 +244,12 @@ class tao_actions_form_Users extends SignedFormInstance
 
                 $pass3Element = tao_helpers_form_FormFactory::getElement('password3', 'Hiddenbox');
                 $pass3Element->setDescription(__('Repeat new password'));
-                $pass3Element->addValidators(array(
-                    tao_helpers_form_FormFactory::getValidator('Password', array('password2_ref' => $pass2Element)),
-                ));
+                $pass3Element->addValidators([
+                    tao_helpers_form_FormFactory::getValidator('Password', ['password2_ref' => $pass2Element]),
+                ]);
                 $this->form->addElement($pass3Element);
 
-                $this->form->createGroup("pass_group", __("Change the password"), array('password2', 'password3'));
+                $this->form->createGroup("pass_group", __("Change the password"), ['password2', 'password3']);
                 if (empty($_POST[$pass2Element->getName()]) && empty($_POST[$pass3Element->getName()])) {
                     $pass2Element->setForcedValid();
                     $pass3Element->setForcedValid();

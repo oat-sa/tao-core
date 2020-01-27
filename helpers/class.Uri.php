@@ -42,7 +42,7 @@ class tao_helpers_Uri
      * @access private
      * @var string
      */
-    private static $root ='';
+    private static $root = '';
 
     /**
      * Short description of attribute ENCODE_ARRAY_KEYS
@@ -118,7 +118,7 @@ class tao_helpers_Uri
      * @param  array|string params
      * @return string
      */
-    public static function url($action = null, $module = null, $extension = null, $params = array())
+    public static function url($action = null, $module = null, $extension = null, $params = [])
     {
 
         if (is_null($module)) {
@@ -137,7 +137,7 @@ class tao_helpers_Uri
             $returnValue .= '?' . $params;
         }
 
-        if (is_array($params) && count($params) ) {
+        if (is_array($params) && count($params)) {
             $returnValue .= '?';
             foreach ($params as $key => $value) {
                 $returnValue .= $key . '=' . rawurlencode($value) . '&';
@@ -157,7 +157,7 @@ class tao_helpers_Uri
      * @param  array params
      * @return string
      */
-    public static function legacyUrl($url, $params = array())
+    public static function legacyUrl($url, $params = [])
     {
         return '';
     }
@@ -368,5 +368,4 @@ class tao_helpers_Uri
 
         return $returnValue;
     }
-
 }

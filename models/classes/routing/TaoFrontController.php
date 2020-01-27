@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,6 +18,7 @@
  * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
  *
  */
+
 namespace oat\tao\model\routing;
 
 use GuzzleHttp\Psr7\Response;
@@ -73,10 +75,10 @@ class TaoFrontController implements ServiceManagerAwareInterface
             $pRequest = common_http_Request::currentRequest();
             $service->createSessionFromRequest($pRequest, $resolver);
         } catch (\common_user_auth_AuthFailedException $e) {
-            $data['success']	= false;
-            $data['errorCode']	= '401';
-            $data['errorMsg']	= 'You are not authorized to access this functionality.';
-            $data['version']	= TAO_VERSION;
+            $data['success']    = false;
+            $data['errorCode']  = '401';
+            $data['errorMsg']   = 'You are not authorized to access this functionality.';
+            $data['version']    = TAO_VERSION;
 
             header('HTTP/1.0 401 Unauthorized');
             header('WWW-Authenticate: Basic realm="' . GENERIS_INSTANCE_NAME . '"');
@@ -89,7 +91,7 @@ class TaoFrontController implements ServiceManagerAwareInterface
         \tao_helpers_I18n::init($ext, $uiLang);
 
         try {
-            if($request->getMethod() == 'GET') {
+            if ($request->getMethod() == 'GET') {
                 $parameters = $request->getQueryParams();
             } else {
                 $parameters = $request->getParsedBody();

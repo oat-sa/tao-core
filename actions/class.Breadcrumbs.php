@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -155,7 +156,7 @@ class tao_actions_Breadcrumbs extends \tao_actions_CommonModule implements Bread
     {
         $data = [];
         $routes = $this->getRoutes();
-        foreach($routes as $route) {
+        foreach ($routes as $route) {
             $parsedRoute = $this->parseRoute($route);
             $routeData = $this->requestService($route, $parsedRoute);
 
@@ -163,8 +164,7 @@ class tao_actions_Breadcrumbs extends \tao_actions_CommonModule implements Bread
                 // When the routeData contains more entry. (if it's a numeric array)
                 if (array_values($routeData) === $routeData) {
                     $data = array_merge($data, $routeData);
-                }
-                else {
+                } else {
                     $data[] = $routeData;
                 }
             }

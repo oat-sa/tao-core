@@ -10,9 +10,9 @@ class CsvMappingFormTest extends GenerisPhpUnitTestRunner
     public function testMapping()
     {
 
-        $csv_column = array('login', 'password', 'title', 'last-name', 'firstname', 'gender', 'mail', 'token', 'abelabel');
+        $csv_column = ['login', 'password', 'title', 'last-name', 'firstname', 'gender', 'mail', 'token', 'abelabel'];
 
-        $properties = tao_helpers_Uri::encodeArray(array(
+        $properties = tao_helpers_Uri::encodeArray([
             OntologyRdfs::RDFS_LABEL => 'Label',
             GenerisRdf::PROPERTY_USER_FIRSTNAME => 'First Name',
             GenerisRdf::PROPERTY_USER_LASTNAME => 'Last Name',
@@ -21,15 +21,15 @@ class CsvMappingFormTest extends GenerisPhpUnitTestRunner
             GenerisRdf::PROPERTY_USER_MAIL => 'Mail',
             GenerisRdf::PROPERTY_USER_UILG => 'Interface Language',
             PasswordRecoveryService::PROPERTY_PASSWORD_RECOVERY_TOKEN => 'Password recovery token',
-        ), tao_helpers_Uri::ENCODE_ARRAY_KEYS);
+        ], tao_helpers_Uri::ENCODE_ARRAY_KEYS);
         
-        $data = array();
-        $options = array(
+        $data = [];
+        $options = [
             'class_properties' => $properties,
-            'ranged_properties' => array(),
+            'ranged_properties' => [],
             'csv_column' => $csv_column,
             tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES => true,
-        );
+        ];
 
         $formContainer = new tao_models_classes_import_CSVMappingForm($data, $options);
         $form = $formContainer->getForm();
@@ -42,6 +42,5 @@ class CsvMappingFormTest extends GenerisPhpUnitTestRunner
         $this->assertEquals('6_O', $form->getElement('http_2_www_0_tao_0_lu_1_Ontologies_1_generis_0_rdf_3_userMail')->getEvaluatedValue());
         $this->assertEquals('csv_select', $form->getElement('http_2_www_0_tao_0_lu_1_Ontologies_1_generis_0_rdf_3_userUILg')->getEvaluatedValue());
         $this->assertEquals('csv_select', $form->getElement('http_2_www_0_tao_0_lu_1_Ontologies_1_generis_0_rdf_3_passwordRecoveryToken')->getEvaluatedValue());
-
     }
 }
