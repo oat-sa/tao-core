@@ -44,9 +44,6 @@
     "moment": {
       "exports": "moment"
     },
-    "handlebars" : {
-      "exports": "Handlebars"
-    },
     "ckeditor": {
       "exports": "CKEDITOR"
     },

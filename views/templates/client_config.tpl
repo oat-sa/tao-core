@@ -81,7 +81,6 @@ require.config({
    shim : {
         'jqueryui'              : { deps : ['jquery'] },
         'moment'                : { exports : 'moment' },
-        'handlebars'            : { exports : 'Handlebars' },
         'ckeditor'              : { exports : 'CKEDITOR' },
         'ckeditor-jquery'       : ['ckeditor'],
         'class'                 : { exports : 'Class'},
