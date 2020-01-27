@@ -19,13 +19,20 @@
  */
 namespace oat\tao\model\media;
 
+use oat\oatbox\service\ConfigurableService;
+use oat\oatbox\service\ServiceManager;
+
 /**
  * Service to manage the media sources
  * 
  * To be used as if it were a singleton until serviceManager in place
  */
-class MediaService {
+class MediaService extends ConfigurableService {
     
+    const SERVICE_ID = 'tao/MediaService';
+
+    const OPTION_SOURCE = 'source';
+
     /**
      * Scheme name used to identify media resource URLs
      * 
@@ -33,19 +40,13 @@ class MediaService {
      */
     const SCHEME_NAME = 'taomedia';
 
-    const CONFIG_KEY = 'mediaSources';
-    
-    private static $instance;
-    
     /**
+     * @deprecated backward compatibility
      * @return \oat\tao\model\media\MediaService
      */
     public static function singleton()
     {
-        if (is_null(self::$instance)) {
-            self::$instance = new static();
-        }
-        return self::$instance;
+        return ServiceManager::getServiceManager()->get(self::SERVICE_ID);
     }
     
     /**
@@ -61,16 +62,9 @@ class MediaService {
     protected function getMediaSources()
     {
         if (is_null($this->mediaSources)) {
-            $this->mediaSources = array();
-            
-            $tao = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-            $sources = $tao->getConfig(self::CONFIG_KEY);
-            $sources = is_array($sources) ? $sources : array();
-            
-            foreach($sources as $mediaSourceId => $mediaSource){
-                $this->mediaSources[$mediaSourceId] = is_object($mediaSource)
-                    ? $mediaSource
-                    : new $mediaSource(array());
+            $this->mediaSources = [];
+            foreach($this->getOption(self::OPTION_SOURCE) as $mediaSourceId => $mediaSource){
+                $this->mediaSources[$mediaSourceId] = $this->propagate($mediaSource);
             }
         }
         return $this->mediaSources;
@@ -136,11 +130,10 @@ class MediaService {
     public function addMediaSource(MediaBrowser $source)
     {
         // ensure loaded
-        $this->getMediaSources();
+        $mediaSources = $this->getMediaSources();
         // only mediaSource called 'mediamanager' supported
-        $this->mediaSources['mediamanager'] = $source;
-        $tao = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-        return $tao->setConfig(self::CONFIG_KEY, $this->mediaSources);
+        $mediaSources['mediamanager'] = $source;
+        return $this->registerMediaSources($mediaSources);
     }
     
     /**
@@ -152,9 +145,15 @@ class MediaService {
     public function removeMediaSource($sourceId)
     {
         // ensure loaded
-        $this->getMediaSources();
-        unset($this->mediaSources[$sourceId]);
-        $tao = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-        return $tao->setConfig(self::CONFIG_KEY, $this->mediaSources);
+        $mediaSources = $this->getMediaSources();
+        unset($mediaSources[$sourceId]);
+        return $this->registerMediaSources($mediaSources);
+    }
+    
+    public function registerMediaSources($sources)
+    {
+        $this->setOption(self::OPTION_SOURCE, $sources);
+        $this->getServiceManager()->register(self::SERVICE_ID, $this);
+        return true;
     }
 } 

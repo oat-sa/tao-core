@@ -24,6 +24,7 @@ use oat\tao\model\search\index\OntologyIndexService;
 use oat\tao\model\search\ResultSet;
 use oat\tao\model\search\Search;
 use oat\generis\model\OntologyAwareTrait;
+use oat\tao\model\search\aggregator\UnionSearchService;
 
 /**
  * Controller for indexed searches
@@ -35,35 +36,35 @@ class tao_actions_Search extends tao_actions_CommonModule
 {
     use OntologyAwareTrait;
 
-	/**
+    /**
      * Search parameters endpoints.
      * The response provides parameters to create a datatable.
-	 */
-	public function searchParams()
-	{
-	    $rawQuery = isset($_POST['query'])?$_POST['query']:'';
+     */
+    public function searchParams()
+    {
+        $rawQuery = isset($_POST['query'])?$_POST['query']:'';
         $this->returnJson(array(
-	    	'url' => _url('search'),
-	        'params' => array(
-	            'query' => $rawQuery,
-    	    	'rootNode' => $this->getRequestParameter('rootNode')
-    	    ),
-	        'filter' => array(),
-	        'model' => array(
+            'url' => _url('search'),
+            'params' => array(
+                'query' => $rawQuery,
+                'rootNode' => $this->getRequestParameter('rootNode')
+            ),
+            'filter' => array(),
+            'model' => array(
                 OntologyRdfs::RDFS_LABEL => array(
                     'id' => OntologyRdfs::RDFS_LABEL,
                     'label' => __('Label'),
                     'sortable' => false
-	            )
+                )
             ),
-	        'result' => true
-	    ));
-	}
+            'result' => true
+        ));
+    }
 
-	/**
-	 * Search results
+    /**
+     * Search results
      * The search is paginated and initiated by the datatable component.
-	 */
+     */
     public function search()
     {
         $params = $this->getRequestParameter('params');
@@ -87,15 +88,14 @@ class tao_actions_Search extends tao_actions_CommonModule
 
             //  if there is no results based on considering the query as URI
             if (empty($results)) {
-                $results = $this->getServiceLocator()->get(Search::SERVICE_ID)->query($query, $class->getUri(), $startRow, $rows);
+                $results = $this->getUnionSearchService()->query($query, $class->getUri(), $startRow, $rows);
             }
 
-            $totalPages = is_null($rows) ? 1 : ceil( $results->getTotalCount() / $rows );
+            $totalPages = is_null($rows) ? 1 : ceil($results->getTotalCount() / $rows);
 
             $response = new StdClass();
-            if(count($results) > 0 ){
-
-                foreach($results as $uri) {
+            if (count($results) > 0) {
+                foreach ($results as $uri) {
                     $instance = $this->getResource($uri);
                     $instanceProperties = array(
                         'id' => $instance->getUri(),
@@ -105,12 +105,12 @@ class tao_actions_Search extends tao_actions_CommonModule
                     $response->data[] = $instanceProperties;
                 }
             }
-    		$response->success = true;
+            $response->success = true;
             $response->page = empty($response->data) ? 0 : $page;
-    		$response->total = $totalPages;
-    		$response->records = count($results);
+            $response->total = $totalPages;
+            $response->records = count($results);
 
-    		$this->returnJson($response, 200);
+            $this->returnJson($response, 200);
         } catch (SyntaxException $e) {
             $this->returnJson(array(
                 'success' => false,
@@ -119,8 +119,8 @@ class tao_actions_Search extends tao_actions_CommonModule
         }
     }
 
-    public function getIndexes() {
-
+    public function getIndexes()
+    {
         if ($this->hasRequestParameter('rootNode') === true) {
             $rootNodeUri = $this->getRequestParameter('rootNode');
             $indexes = OntologyIndexService::getIndexesByClass($this->getClass($rootNodeUri));
@@ -134,12 +134,20 @@ class tao_actions_Search extends tao_actions_CommonModule
                         'propertyId' => $propertyUri
                     );
                 }
-
             }
 
             $this->returnJson($json, 200);
         } else {
             $this->returnJson("The 'rootNode' parameter is missing.", 500);
         }
+    }
+
+    /**
+     * @return UnionSearchService
+     */
+    protected function getUnionSearchService() : UnionSearchService
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return $this->getServiceLocator()->get(UnionSearchService::SERVICE_ID);
     }
 }

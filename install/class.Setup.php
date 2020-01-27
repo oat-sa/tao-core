@@ -286,6 +286,8 @@ class tao_install_Setup implements Action
 
         // configure persistences
         $options['extra_persistences'] = $persistences;
+        // prevent default to be overwritten
+        unset($options['extra_persistences']['default']);
 
 
         $installator->install($options);
@@ -316,7 +318,11 @@ class tao_install_Setup implements Action
                         $object->setServiceLocator($serviceManager);
                     }
                     $params = (isset($script['params']) && is_array($script['params'])) ? $script['params'] : [];
-                    call_user_func($object, $params);
+                    $report = call_user_func($object, $params);
+
+                    if ($report instanceof common_report_Report) {
+                        $this->logInfo(helpers_Report::renderToCommandline($report));
+                    }
                 }
             }
         }

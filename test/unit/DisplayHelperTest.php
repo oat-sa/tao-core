@@ -23,9 +23,11 @@
 /**
  * PHPUnit test of the {@link tao_helpers_Duration} helper
  * @package tao
- 
+
  */
-class DisplayHelperTest extends \PHPUnit_Framework_TestCase {
+use oat\generis\test\TestCase;
+
+class DisplayHelperTest extends TestCase {
     
     /**
      * Data provider for the testTimetoDuration method

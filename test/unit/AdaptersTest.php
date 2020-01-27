@@ -20,8 +20,9 @@
  * 
  */
 
+use oat\generis\test\TestCase;
 
-class AdaptersTestCase extends \PHPUnit_Framework_TestCase {
+class AdaptersTestCase extends TestCase {
 
 	const CSV_FILE_USERS_HEADER_UNICODE = '/samples/csv/users1-header.csv';
 	const CSV_FILE_USERS_HEADER_UNICODE_WITH_MULTI_FIELD_VALUE = '/samples/csv/users1-header-multi-field-values.csv';

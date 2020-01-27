@@ -134,9 +134,12 @@ use oat\tao\model\resources\ListResourceLookup;
 use oat\tao\model\resources\TreeResourceLookup;
 use oat\tao\model\user\TaoRoles;
 use oat\generis\model\data\event\ResourceDeleted;
+use oat\tao\model\search\aggregator\UnionSearchService;
 use oat\tao\model\search\index\IndexService;
 use oat\tao\scripts\tools\MigrateSecuritySettings;
+use tao_install_utils_ModelCreator;
 use tao_models_classes_UserService;
+use oat\tao\model\media\MediaService;
 
 /**
  *
@@ -1228,6 +1231,63 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('38.11.1');
         }
 
-        $this->skip('38.11.1', '38.13.3.1');
+        $this->skip('38.11.1', '39.0.6');
+
+        if ($this->isVersion('39.0.6')) {
+            OntologyUpdater::syncModels();
+            $iterator = new FileIterator(__DIR__ . '/../../locales/lt-LT/lang.rdf');
+            $rdf = ModelManager::getModel()->getRdfInterface();
+            /* @var \core_kernel_classes_Triple $triple */
+            foreach ($iterator as $triple) {
+                $rdf->add($triple);
+            }
+            $this->setVersion('39.1.0');
+        }
+        $this->skip('39.1.0', '39.3.2');
+
+        if ($this->isVersion('39.3.2')) {
+            OntologyUpdater::syncModels();
+
+            $models = (new tao_install_utils_ModelCreator(LOCAL_NAMESPACE))->getLanguageModels();
+            $rdf = ModelManager::getModel()->getRdfInterface();
+            foreach (array_shift($models) as $file) {
+                $iterator = new FileIterator($file, 1);
+                foreach ($iterator as $triple) {
+                    $rdf->remove($triple);
+                    $rdf->add($triple);
+                }
+            }
+            $this->setVersion('39.3.3');
+        }
+
+        $this->skip('39.3.3', '39.5.5');
+
+        if ($this->isVersion('39.5.5')) {
+            /** @var UnionSearchService|ConfigurableService $service */
+            $service = new UnionSearchService(['services' => []]);
+            $this->getServiceManager()->register(UnionSearchService::SERVICE_ID, $service);
+
+            $this->setVersion('39.6.0');
+        }
+
+        $this->skip('39.6.0', '40.3.3');
+
+        if ($this->isVersion('40.3.3')) {
+            $extManager = $this->getServiceManager()->get(\common_ext_ExtensionsManager::SERVICE_ID);
+            $sources = $extManager->getExtensionById('tao')->getConfig('mediaSources');
+            $sources = is_array($sources) ? $sources : [];
+            foreach ($sources as $key => $source) {
+                if (is_string($source) && class_exists($source)) {
+                    $sources[$key] = new $source([]);
+                }
+            }
+            $service = new MediaService([MediaService::OPTION_SOURCE => $sources]);
+            $this->getServiceManager()->register(MediaService::SERVICE_ID, $service);
+            $extManager->getExtensionById('tao')->unsetConfig('mediaSources');
+
+            $this->setVersion('40.3.4');
+        }
+
+        $this->skip('40.3.4', '40.5.3');
     }
 }

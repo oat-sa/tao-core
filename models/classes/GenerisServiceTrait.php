@@ -34,6 +34,7 @@ use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
 use core_kernel_classes_ResourceFactory;
 use core_kernel_classes_Property;
+use oat\oatbox\session\SessionService;
 
 /**
  * Trait GenerisServiceTrait
@@ -80,7 +81,7 @@ trait GenerisServiceTrait
         if (empty($label)) {
             $label = $this->createUniqueLabel($clazz);
         }
-        return core_kernel_classes_ResourceFactory::create($clazz, $label, '');
+        return $clazz->createInstance($label);
     }
 
     /**
@@ -104,7 +105,7 @@ trait GenerisServiceTrait
         }
 
         $options = [
-            'lang'              => \common_session_SessionManager::getSession()->getDataLanguage(),
+            'lang'              => $this->getServiceLocator()->get(SessionService::SERVICE_ID)->getCurrentSession()->getDataLanguage(),
             'like'              => false,
             'recursive'         => false
         ];

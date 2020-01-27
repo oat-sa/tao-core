@@ -13,6 +13,7 @@
     "nouislider": "lib/sliders/jquery.nouislider",
     "jquery.fileDownload": "lib/jquery.fileDownload",
     "polyfill": "lib/polyfill",
+    "url-polyfill": "../node_modules/url-polyfill/url-polyfill",
     "lodash": "../node_modules/lodash/lodash",
     "async": "lib/async",
     "moment": "../node_modules/moment/min/moment-with-locales",
@@ -94,7 +95,8 @@
     "iframeNotifier",
     "babel-polyfill",
     "lib/uuid",
-    "lib/moment-timezone.min"
+    "lib/moment-timezone.min",
+    "url-polyfill"
   ],
   "exclude": [
     "json!i18ntr/messages.json",

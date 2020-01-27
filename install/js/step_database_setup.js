@@ -185,7 +185,7 @@ require(['config'], function() {
 
                         displayTaoError(msg);
                     } else if (data.value.status == 'invalid-overwrite') {
-                        displayTaoError("A database with name '" + database + "' already exists. Check the corresponding check box to overwrite it.");
+                        displayTaoError("The database with the name '" + database + "' is not empty. Check the corresponding check box to overwrite it.");
                     } else if (data.value.status == 'invalid-nodriver') {
                         displayTaoError("The database driver '" + driver + "' that should connect to your Relation Database Management System is not available on the server-side.");
                     }
@@ -319,8 +319,8 @@ require(['config'], function() {
             install.addHelp('hlp_database_host', 'The database host name is usually localhost.');
             install.addHelp('hlp_database_user', "The database user account that TAO will use to connect to the selected database system.");
             install.addHelp('hlp_database_password', "The database account password TAO will use to connect to the selected database system. This field can be empty.");
-            install.addHelp('hlp_database_name', "The name of the database to use by TAO in the selected database system. You can choose an existing database or let the installer create it for you.");
-            install.addHelp('hlp_database_overwrite', "Check this box only if the database name you choose already exists and you wish to overwrite it. Be careful, as this means your database will be reset and you will lose all existing data.");
+            install.addHelp('hlp_database_name', "The name of the database to use by TAO in the selected database system. The database needs to exist and the user under which your webserver is running needs to be able to access it.");
+            install.addHelp('hlp_database_overwrite', "Check this box only if the database is not empty. Be careful, as this means your database will be reset and you will lose all existing data.");
             install.addHelp('hlp_sample_data', "Check this box if you want to populate the instance by importing sample data such as items.");
         }
     });
