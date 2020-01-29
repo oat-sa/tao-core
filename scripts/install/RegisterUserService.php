@@ -32,7 +32,7 @@ use oat\tao\model\taskQueue\TaskLogInterface;
 use oat\oatbox\user\UserService;
 use oat\tao\model\user\GenerisUserService;
 
-class RegisterUserServices extends InstallAction
+class RegisterUserService extends InstallAction
 {
     public function __invoke($params)
     {
