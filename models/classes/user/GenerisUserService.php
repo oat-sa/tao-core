@@ -24,9 +24,12 @@ use oat\oatbox\user\UserService;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\search\Search;
 use oat\tao\model\TaoOntology;
+use oat\generis\model\OntologyAwareTrait;
 
 class GenerisUserService extends ConfigurableService implements UserService
 {
+    use OntologyAwareTrait;
+
     /**
      * {@inheritDoc}
      * @see \oat\oatbox\user\UserService::findUser()
@@ -35,7 +38,7 @@ class GenerisUserService extends ConfigurableService implements UserService
     {
         $searchService = $this->getServiceLocator()->get(Search::SERVICE_ID);
         $result = $searchService->query($searchString, TaoOntology::CLASS_URI_TAO_USER);
-        return $this->getUser($result);
+        return $this->getUsers($result);
     }
 
     /**
@@ -44,7 +47,7 @@ class GenerisUserService extends ConfigurableService implements UserService
      */
     public function getUser($userId)
     {
-        return new \core_kernel_users_GenerisUser($userId);
+        return new \core_kernel_users_GenerisUser($this->getResource($userId));
     }
 
     /**
@@ -55,7 +58,7 @@ class GenerisUserService extends ConfigurableService implements UserService
     {
         $users = [];
         foreach ($userIds as $id) {
-            $users[id] = $this->getUser($id); 
+            $users[$id] = $this->getUser($id); 
         }
         return $users;
     }
