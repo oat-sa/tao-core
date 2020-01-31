@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -114,7 +115,7 @@ class QueueDispatcher extends ConfigurableService implements QueueDispatcherInte
      */
     public function getQueueNames()
     {
-        return array_map(function(QueueInterface $queue) {
+        return array_map(function (QueueInterface $queue) {
             return $queue->getName();
         }, $this->getOption(self::OPTION_QUEUES));
     }
@@ -138,7 +139,7 @@ class QueueDispatcher extends ConfigurableService implements QueueDispatcherInte
     public function addQueue(QueueInterface $queue)
     {
         if ($this->hasQueue($queue->getName())) {
-            throw new \LogicException('Queue "'. $queue .'" is already registered.');
+            throw new \LogicException('Queue "' . $queue . '" is already registered.');
         }
 
         $this->propagated = false;
@@ -164,7 +165,7 @@ class QueueDispatcher extends ConfigurableService implements QueueDispatcherInte
      */
     public function getQueue($queueName)
     {
-        $foundQueue = array_filter($this->getQueues(), function(QueueInterface $queue) use ($queueName){
+        $foundQueue = array_filter($this->getQueues(), function (QueueInterface $queue) use ($queueName) {
             return $queue->getName() === $queueName;
         });
 
@@ -172,7 +173,7 @@ class QueueDispatcher extends ConfigurableService implements QueueDispatcherInte
             return reset($foundQueue);
         }
 
-        throw new \InvalidArgumentException('Queue "'. $queueName .'" does not exist.');
+        throw new \InvalidArgumentException('Queue "' . $queueName . '" does not exist.');
     }
 
     /**
@@ -204,7 +205,7 @@ class QueueDispatcher extends ConfigurableService implements QueueDispatcherInte
         }
 
         if (!$this->hasQueue($queueName)) {
-            throw new \LogicException('Task "'. $taskName .'" cannot be added to "'. $queueName .'". Queue is not registered.');
+            throw new \LogicException('Task "' . $taskName . '" cannot be added to "' . $queueName . '". Queue is not registered.');
         }
 
         $tasks = $this->getLinkedTasks();
@@ -310,7 +311,7 @@ class QueueDispatcher extends ConfigurableService implements QueueDispatcherInte
      */
     public function getOwner()
     {
-        if (is_null($this->owner)){
+        if (is_null($this->owner)) {
             return \common_session_SessionManager::getSession()->getUser()->getIdentifier();
         }
 
@@ -345,7 +346,7 @@ class QueueDispatcher extends ConfigurableService implements QueueDispatcherInte
     public function dequeue()
     {
         // if there is only one queue defined, let's use that
-        if(count($this->getQueues()) === 1) {
+        if (count($this->getQueues()) === 1) {
             return $this->getFirstQueue()->dequeue();
         }
 
@@ -368,7 +369,7 @@ class QueueDispatcher extends ConfigurableService implements QueueDispatcherInte
      */
     public function count()
     {
-        $counts = array_map(function(QueueInterface $queue) {
+        $counts = array_map(function (QueueInterface $queue) {
             return $queue->count();
         }, $this->getQueues());
 
@@ -435,7 +436,7 @@ class QueueDispatcher extends ConfigurableService implements QueueDispatcherInte
         }
 
         if (count($this->getOption(self::OPTION_QUEUES)) != count(array_unique($this->getOption(self::OPTION_QUEUES)))) {
-            throw new \InvalidArgumentException('There are duplicated Queue names. Please check the values of "'. self::OPTION_QUEUES .'" in your queue dispatcher settings.');
+            throw new \InvalidArgumentException('There are duplicated Queue names. Please check the values of "' . self::OPTION_QUEUES . '" in your queue dispatcher settings.');
         }
     }
 
@@ -452,7 +453,7 @@ class QueueDispatcher extends ConfigurableService implements QueueDispatcherInte
         $notRegisteredQueues = array_diff(array_values($this->getLinkedTasks()), $this->getQueueNames());
 
         if (count($notRegisteredQueues)) {
-            throw new \LogicException('Found not registered queue(s) linked to task(s): "'. implode('", "', $notRegisteredQueues) .'". Please check the values of "'. self::OPTION_TASK_TO_QUEUE_ASSOCIATIONS .'" in your queue dispatcher settings.');
+            throw new \LogicException('Found not registered queue(s) linked to task(s): "' . implode('", "', $notRegisteredQueues) . '". Please check the values of "' . self::OPTION_TASK_TO_QUEUE_ASSOCIATIONS . '" in your queue dispatcher settings.');
         }
     }
 }

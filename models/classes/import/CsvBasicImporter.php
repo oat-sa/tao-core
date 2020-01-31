@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,8 +20,8 @@
  */
 
 namespace oat\tao\model\import;
-use oat\generis\model\OntologyRdfs;
 
+use oat\generis\model\OntologyRdfs;
 
 /**
  * Basic import of csv files
@@ -36,7 +37,6 @@ class CsvBasicImporter extends CsvAbstractImporter
     public function import($class, $options)
     {
         return parent::importFile($class, $options);
-
     }
 
     /**
@@ -50,28 +50,28 @@ class CsvBasicImporter extends CsvAbstractImporter
         $properties = $this->getClassProperties($class);
         $csv_data = new \tao_helpers_data_CsvFile($options);
         $csv_data->load($file);
-        $firstRowAsColumnNames = (isset($options[\tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES]))?$options[\tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES]:false;
+        $firstRowAsColumnNames = (isset($options[\tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES])) ? $options[\tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES] : false;
         $headers = $this->getColumnMapping($csv_data, $firstRowAsColumnNames);
         $modifiedHeader = $headers;
-        array_walk($modifiedHeader, function(&$value){
+        array_walk($modifiedHeader, function (&$value) {
             $value = str_replace(' ', '', strtolower($value));
         });
         $properties[] = new \core_kernel_classes_Property(OntologyRdfs::RDFS_LABEL);
-        $map = array();
+        $map = [];
         /** @var \core_kernel_classes_Property $property */
-        foreach($properties as $property){
-            if(!in_array($property->getUri(), $this->getExludedProperties())){
+        foreach ($properties as $property) {
+            if (!in_array($property->getUri(), $this->getExludedProperties())) {
                 $propertiesMap[$property->getUri()] = $property->getLabel();
 
                 //map properties in many ways
                 //look for label (lower case without spaces)
                 //look for uri (without namespace)
                 if (
-                    ($index = array_search(str_replace(' ', '', strtolower($property->getLabel())),$modifiedHeader)) !== false
-                    || ($index = array_search(substr(strtolower($property->getUri()), strpos($property->getUri(), '#') + 1),$modifiedHeader)) !== false
+                    ($index = array_search(str_replace(' ', '', strtolower($property->getLabel())), $modifiedHeader)) !== false
+                    || ($index = array_search(substr(strtolower($property->getUri()), strpos($property->getUri(), '#') + 1), $modifiedHeader)) !== false
                 ) {
                     $map[$property->getUri()] = $index;
-                //look for label or uri with eventually one error
+                    //look for label or uri with eventually one error
                 } else {
                     $maximumError = 1;
                     $closest = null;
@@ -84,31 +84,31 @@ class CsvBasicImporter extends CsvAbstractImporter
                             break;
                         }
                     }
-                    if(!is_null($closest)){
+                    if (!is_null($closest)) {
                         $map[$property->getUri()] = $closest;
                     }
                 }
             }
         }
-        $csvMap = array(
+        $csvMap = [
             'classProperties'   => $propertiesMap,
             'headerList'        => $headers,
             'mapping'           => $map
-        );
+        ];
 
         return $csvMap;
     }
 
-    public function getDataSample($file, $options = array(), $size = 5, $associative = true){
+    public function getDataSample($file, $options = [], $size = 5, $associative = true)
+    {
         $csv_data = new \tao_helpers_data_CsvFile($options);
         $csv_data->load($file);
 
         $count = min($size, $csv_data->count());
-        $data = array();
-        for($i = 0; $i < $count; $i++){
+        $data = [];
+        for ($i = 0; $i < $count; $i++) {
             $data[] = $csv_data->getRow($i, $associative);
         }
         return $data;
     }
-
 }

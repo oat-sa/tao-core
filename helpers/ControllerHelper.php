@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -38,42 +39,44 @@ class ControllerHelper
 
     /**
      * Returns al lthe controllers of an extension
-     * 
+     *
      * @param string $extensionId
      * @return array
      */
-    public static function getControllers($extensionId) {
+    public static function getControllers($extensionId)
+    {
         try {
-            $controllerClasses = ServiceManager::getServiceManager()->get('generis/cache')->get(self::EXTENSION_PREFIX.$extensionId);
+            $controllerClasses = ServiceManager::getServiceManager()->get('generis/cache')->get(self::EXTENSION_PREFIX . $extensionId);
         } catch (\common_cache_NotFoundException $e) {
             $factory = new Factory();
-            $controllerClasses = array();
+            $controllerClasses = [];
             foreach ($factory->getControllers($extensionId) as $controller) {
                 $controllerClasses[] = $controller->getClassName();
             }
-            ServiceManager::getServiceManager()->get('generis/cache')->put($controllerClasses, self::EXTENSION_PREFIX.$extensionId);
+            ServiceManager::getServiceManager()->get('generis/cache')->put($controllerClasses, self::EXTENSION_PREFIX . $extensionId);
         }
         return $controllerClasses;
     }
     
     /**
      * Get the list of actions for a controller
-     * 
+     *
      * @param string $controllerClassName
      * @return array
      */
-    public static function getActions($controllerClassName) {
+    public static function getActions($controllerClassName)
+    {
         try {
-            $actions = ServiceManager::getServiceManager()->get('generis/cache')->get(self::CONTROLLER_PREFIX.$controllerClassName);
+            $actions = ServiceManager::getServiceManager()->get('generis/cache')->get(self::CONTROLLER_PREFIX . $controllerClassName);
         } catch (\common_cache_NotFoundException $e) {
             $factory = new Factory();
             $desc =  $factory->getControllerDescription($controllerClassName);
             
-            $actions = array();
+            $actions = [];
             foreach ($desc->getActions() as $action) {
                 $actions[] = $action->getName();
             }
-            ServiceManager::getServiceManager()->get('generis/cache')->put($actions, self::CONTROLLER_PREFIX.$controllerClassName);
+            ServiceManager::getServiceManager()->get('generis/cache')->put($actions, self::CONTROLLER_PREFIX . $controllerClassName);
         }
         return $actions;
     }
@@ -88,14 +91,15 @@ class ControllerHelper
      * @param string $actionName
      * @return array
      */
-    public static function getRequiredRights($controllerClassName, $actionName) {
+    public static function getRequiredRights($controllerClassName, $actionName)
+    {
         try {
-            $rights = ServiceManager::getServiceManager()->get('generis/cache')->get(self::ACTION_PREFIX.$controllerClassName.'@'.$actionName);
+            $rights = ServiceManager::getServiceManager()->get('generis/cache')->get(self::ACTION_PREFIX . $controllerClassName . '@' . $actionName);
         } catch (\common_cache_NotFoundException $e) {
             $factory = new Factory();
             $controller = $factory->getActionDescription($controllerClassName, $actionName);
             $rights = $controller->getRequiredRights();
-            ServiceManager::getServiceManager()->get('generis/cache')->put($rights, self::ACTION_PREFIX.$controllerClassName.'@'.$actionName);
+            ServiceManager::getServiceManager()->get('generis/cache')->put($rights, self::ACTION_PREFIX . $controllerClassName . '@' . $actionName);
         }
         return $rights;
     }

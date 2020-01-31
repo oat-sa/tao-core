@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -39,7 +40,6 @@ class tao_actions_Notification extends \tao_actions_CommonModule
             return $this->returnError($e->getUserMessage());
         }
         return $this->returnJson($count);
-
     }
 
     public function getList()
@@ -60,7 +60,7 @@ class tao_actions_Notification extends \tao_actions_CommonModule
 
     public function getDetail()
     {
-        if( $this->hasRequestParameter('id')) {
+        if ($this->hasRequestParameter('id')) {
             $id = $this->getRequestParameter('id');
             /**
              * @var oat\tao\model\notification\NotificationServiceInterface $notificationService
@@ -93,14 +93,14 @@ class tao_actions_Notification extends \tao_actions_CommonModule
          * @var NotificationInterface $notif
          */
         foreach ($list as $notif) {
-            if($notif->getStatus() === NotificationInterface::CREATED_STATUS) {
+            if ($notif->getStatus() === NotificationInterface::CREATED_STATUS) {
                 $notif->setStatus(NotificationInterface::READ_STATUS);
                 $notificationService->changeStatus($notif);
                 $notif->setStatus(NotificationInterface::CREATED_STATUS);
             }
         }
 
-        $this->setData('notif-list' , $list);
+        $this->setData('notif-list', $list);
         $this->setView('notification/list.tpl');
     }
 

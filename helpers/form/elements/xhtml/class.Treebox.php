@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,6 +23,7 @@
  * @author Mikhail Kamarouski, <kamarouski@1pt.com>
  * @package tao
  */
+
 use oat\tao\helpers\form\elements\xhtml\XhtmlRenderingTrait;
 
 /**

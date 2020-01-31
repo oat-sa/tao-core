@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -32,9 +33,9 @@ class Perspective extends MenuElement implements PhpSerializable
 
     const GROUP_INVISIBLE = 'invisible';
 
-    private $data = array();
+    private $data = [];
 
-    private $children = array();
+    private $children = [];
 
     /**
      * @param \SimpleXMLElement $node
@@ -43,7 +44,7 @@ class Perspective extends MenuElement implements PhpSerializable
      */
     public static function fromSimpleXMLElement(\SimpleXMLElement $node, $structureExtensionId)
     {
-        $data = array(
+        $data = [
             'id'       => (string) $node['id'],
             'group'    => $node['group']
                 ? (string)$node['group']
@@ -56,8 +57,8 @@ class Perspective extends MenuElement implements PhpSerializable
             'extension' => $structureExtensionId,
             'level'     => (string) $node['level'],
             'icon'      => isset($node->icon) ? Icon::fromSimpleXMLElement($node->icon, $structureExtensionId) : null
-        );
-        $sections = array();
+        ];
+        $sections = [];
         foreach ($node->xpath("sections/section") as $sectionNode) {
             $sections[] = Section::fromSimpleXMLElement($sectionNode, $structureExtensionId);
         }
@@ -71,21 +72,22 @@ class Perspective extends MenuElement implements PhpSerializable
      * @param $structureExtensionId
      * @return static
      */
-    public static function fromLegacyToolbarAction(\SimpleXMLElement $node, $structureExtensionId) {
-        $data = array(
+    public static function fromLegacyToolbarAction(\SimpleXMLElement $node, $structureExtensionId)
+    {
+        $data = [
             'id'          => (string)$node['id'],
             'extension'   => $structureExtensionId,
-            'name'		  => (string)$node['title'],
-            'level'		  => (int)$node['level'],
+            'name'        => (string)$node['title'],
+            'level'       => (int)$node['level'],
             'description' => empty($text) ? null : $text,
             'binding'     => isset($node['binding']) ? (string)$node['binding'] :  (isset($node['js']) ? (string)$node['js'] : null),
             'structure'   => isset($node['structure']) ? (string)$node['structure'] : null,
             'group'       => self::GROUP_SETTINGS,
-            'icon'        => isset($node['icon']) ? Icon::fromArray(array('id' => (string)$node['icon']), $structureExtensionId) : null
-        );
-        $children = array();
+            'icon'        => isset($node['icon']) ? Icon::fromArray(['id' => (string)$node['icon']], $structureExtensionId) : null
+        ];
+        $children = [];
         if (isset($node['structure'])) {
-            $children = array();
+            $children = [];
             // (string)$node['structure']
         }
         return new static($data, $children);
@@ -116,9 +118,8 @@ class Perspective extends MenuElement implements PhpSerializable
             }
         }
         if ($existingKey !== false) {
-
             switch ($section->getPolicy()) {
-                case Section::POLICY_MERGE :
+                case Section::POLICY_MERGE:
                     $currentSection = $this->children[$existingKey];
                     foreach ($section->getTrees() as $tree) {
                         $currentSection->addTree($tree);
@@ -132,14 +133,14 @@ class Perspective extends MenuElement implements PhpSerializable
                                 break;
                             }
                         }
-            	        $currentSection->addAction($action);
-            	    }
-            	    break;
-            	case Section::POLICY_OVERRIDE :
-            	    $this->children[$existingKey] = $section;
-            	    break;
-            	default:
-            	    throw new \common_exception_Error();
+                        $currentSection->addAction($action);
+                    }
+                    break;
+                case Section::POLICY_OVERRIDE:
+                    $this->children[$existingKey] = $section;
+                    break;
+                default:
+                    throw new \common_exception_Error();
             }
         } else {
             $this->children[] = $section;
@@ -204,16 +205,17 @@ class Perspective extends MenuElement implements PhpSerializable
         return $this->data['binding'];
     }
 
-    public function getUrl() {
-        return _url('index', null, null, array('structure' => $this->getId(), 'ext' => $this->getExtension()));
+    public function getUrl()
+    {
+        return _url('index', null, null, ['structure' => $this->getId(), 'ext' => $this->getExtension()]);
     }
 
     public function __toPhpCode()
     {
-        return "new ".__CLASS__."("
-            .\common_Utils::toPHPVariableString($this->data).','
-            .\common_Utils::toPHPVariableString($this->children).','
-            .\common_Utils::toPHPVariableString(self::SERIAL_VERSION)
-        .")";
+        return "new " . __CLASS__ . "("
+            . \common_Utils::toPHPVariableString($this->data) . ','
+            . \common_Utils::toPHPVariableString($this->children) . ','
+            . \common_Utils::toPHPVariableString(self::SERIAL_VERSION)
+        . ")";
     }
 }

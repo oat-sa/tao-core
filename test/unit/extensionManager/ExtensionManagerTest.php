@@ -169,6 +169,4 @@ class ExtensionManagerFake extends \tao_actions_ExtensionsManager
         // to intercept the flow and avoid to load common_request
         throw new \PHPUnit_Framework_ExpectationFailedException('HTTP request cannot be handled by unit test');
     }
-
-
 }

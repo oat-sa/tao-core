@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -107,7 +108,8 @@ class TaskLogTest extends TestCase
 
         $taskLogMock->expects($this->once())
             ->method('getBroker')
-            ->willReturn($logBrokerMock);;
+            ->willReturn($logBrokerMock);
+        ;
 
         $taskLogMock->add($taskMock, 'enqueued');
     }
@@ -309,5 +311,9 @@ class TaskLogTest extends TestCase
     }
 }
 
-class StubTaskChild extends StubTaskParent {}
-abstract class StubTaskParent {}
+class StubTaskChild extends StubTaskParent
+{
+}
+abstract class StubTaskParent
+{
+}

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -41,11 +42,13 @@ use oat\tao\model\cliArgument\argument\implementation\verbose\Info;
 use oat\tao\model\cliArgument\argument\implementation\verbose\Notice;
 use oat\tao\model\cliArgument\ArgumentService;
 use oat\tao\model\ClientLibConfigRegistry;
+use oat\tao\model\event\FileUploadedEvent;
 use oat\tao\model\event\LoginFailedEvent;
 use oat\tao\model\event\LoginSucceedEvent;
 use oat\tao\model\event\RoleChangedEvent;
 use oat\tao\model\event\RoleCreatedEvent;
 use oat\tao\model\event\RoleRemovedEvent;
+use oat\tao\model\event\UploadLocalCopyCreatedEvent;
 use oat\tao\model\event\UserCreatedEvent;
 use oat\tao\model\event\UserRemovedEvent;
 use oat\tao\model\event\UserUpdatedEvent;
@@ -85,6 +88,7 @@ use oat\tao\model\taskQueue\TaskLog\Broker\RdsTaskLogBroker;
 use oat\tao\model\taskQueue\TaskLog\Broker\TaskLogBrokerInterface;
 use oat\tao\model\taskQueue\TaskLogInterface;
 use oat\tao\model\Tree\GetTreeService;
+use oat\tao\model\upload\UploadService;
 use oat\tao\model\user\implementation\NoUserLocksService;
 use oat\tao\model\user\import\OntologyUserMapper;
 use oat\tao\model\user\import\UserCsvImporterFactory;
@@ -145,7 +149,8 @@ use oat\tao\model\media\MediaService;
  *
  * @author Joel Bout <joel@taotesting.com>
  */
-class Updater extends \common_ext_ExtensionUpdater {
+class Updater extends \common_ext_ExtensionUpdater
+{
 
     /**
      *
@@ -156,7 +161,8 @@ class Updater extends \common_ext_ExtensionUpdater {
      * @throws \common_ext_ExtensionException
      * @throws common_Exception
      */
-    public function update($initialVersion) {
+    public function update($initialVersion)
+    {
 
         if ($this->isBetween('0.0.0', '2.21.0')) {
             throw new \common_exception_NotImplemented('Updates from versions prior to Tao 3.1 are not longer supported, please update to Tao 3.1 first');
@@ -179,7 +185,7 @@ class Updater extends \common_ext_ExtensionUpdater {
                 $fsm->createFileSystem('log', 'tao/log');
                 $this->getServiceManager()->register(FileSystemService::SERVICE_ID, $fsm);
 
-                $this->getServiceManager()->register(UpdateLogger::SERVICE_ID, new UpdateLogger(array(UpdateLogger::OPTION_FILESYSTEM => 'log')));
+                $this->getServiceManager()->register(UpdateLogger::SERVICE_ID, new UpdateLogger([UpdateLogger::OPTION_FILESYSTEM => 'log']));
             }
             $this->setVersion('5.6.3');
         }
@@ -200,15 +206,14 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->getServiceManager()->register(EventManager::CONFIG_ID, $eventManager);
 
             $this->setVersion('5.9.2');
-
         }
 
         // Hotfix to register ApplicationService for instances with old tao-core version
         // ApplicationService was introduced in tao-core version 20.1.0
         if ($this->isBetween('6.0.1', '20.0.4')) {
             $options = [];
-            if(defined('ROOT_PATH') && is_readable(ROOT_PATH.'build')){
-                $content = file_get_contents(ROOT_PATH.'build');
+            if (defined('ROOT_PATH') && is_readable(ROOT_PATH . 'build')) {
+                $content = file_get_contents(ROOT_PATH . 'build');
                 $options[ApplicationService::OPTION_BUILD_NUMBER] = $content;
             }
 
@@ -235,21 +240,21 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         if ($this->isVersion('7.23.0')) {
             $service = new \oat\tao\model\mvc\DefaultUrlService();
-            $service->setRoute('default', array(
+            $service->setRoute('default', [
                 'ext'        => 'tao',
                 'controller' => 'Main',
                 'action'     => 'index',
-                ));
-            $service->setRoute('login', array(
+                ]);
+            $service->setRoute('login', [
                 'ext'        => 'tao',
                 'controller' => 'Main',
                 'action'     => 'login',
-            ));
+            ]);
             $this->getServiceManager()->register(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID, $service);
             $this->setVersion('7.24.0');
         }
 
-	    $this->skip('7.24.0', '7.27.0');
+        $this->skip('7.24.0', '7.27.0');
 
         if ($this->isVersion('7.27.0')) {
             OntologyUpdater::syncModels();
@@ -260,15 +265,16 @@ class Updater extends \common_ext_ExtensionUpdater {
         if ($this->isVersion('7.30.1')) {
             /*@var $routeService \oat\tao\model\mvc\DefaultUrlService */
             $routeService = $this->getServiceManager()->get(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID);
-            $routeService->setRoute('logout',
-                        [
+            $routeService->setRoute(
+                'logout',
+                [
                             'ext'        => 'tao',
                             'controller' => 'Main',
                             'action'     => 'logout',
                             'redirect'   => _url('entry', 'Main', 'tao'),
                         ]
-                    );
-            $this->getServiceManager()->register(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID , $routeService);
+            );
+            $this->getServiceManager()->register(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID, $routeService);
 
             $this->setVersion('7.31.0');
         }
@@ -285,9 +291,9 @@ class Updater extends \common_ext_ExtensionUpdater {
         if ($this->isVersion('7.34.0')) {
             OntologyUpdater::syncModels();
             AclProxy::applyRule(new AccessRule(
-               AccessRule::GRANT,
-               TaskService::TASK_QUEUE_MANAGER_ROLE,
-               ['ext' => 'tao', 'mod' => 'TaskQueue']
+                AccessRule::GRANT,
+                TaskService::TASK_QUEUE_MANAGER_ROLE,
+                ['ext' => 'tao', 'mod' => 'TaskQueue']
             ));
             $this->setVersion('7.35.0');
         }
@@ -295,7 +301,6 @@ class Updater extends \common_ext_ExtensionUpdater {
         $this->skip('7.35.0', '7.46.0');
 
         if ($this->isVersion('7.46.0')) {
-
             $this->getServiceManager()->register(ExtraPoService::SERVICE_ID, new ExtraPoService());
 
             $this->setVersion('7.47.0');
@@ -321,10 +326,9 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('7.54.1');
         }
 
-	    $this->skip('7.54.1', '7.61.0');
+        $this->skip('7.54.1', '7.61.0');
 
         if ($this->isVersion('7.61.0')) {
-
             $setClientLoggerConfig = new SetClientLoggerConfig();
             $setClientLoggerConfig([]);
             $this->setVersion('7.62.0');
@@ -332,29 +336,27 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         $this->skip('7.62.0', '7.68.0');
 
-        if($this->isVersion('7.68.0')) {
+        if ($this->isVersion('7.68.0')) {
             $notifInstaller = new InstallNotificationTable();
             $notifInstaller->setServiceLocator($this->getServiceManager());
             $notifInstaller->__invoke([]);
-            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole', ['ext'=>'tao','mod' => 'Notification']));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole', ['ext' => 'tao','mod' => 'Notification']));
             $this->setVersion('7.69.0');
         }
 
         $this->skip('7.69.0', '7.69.6');
 
-        if($this->isVersion('7.69.6')) {
-
+        if ($this->isVersion('7.69.6')) {
             $queue = new NotificationServiceAggregator([
                 'rds' =>
-                    array(
+                    [
                         'class'   => RdsNotification::class,
                         'options' => [
                             RdsNotification::OPTION_PERSISTENCE => RdsNotification::DEFAULT_PERSISTENCE,
                             'visibility'  => false,
                         ],
-                    )
-                ]
-            );
+                    ]
+                ]);
 
             $this->getServiceManager()->register(NotificationServiceInterface::SERVICE_ID, $queue);
 
@@ -401,13 +403,12 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         if ($this->isVersion('8.1.0')) {
             if (! $this->getServiceManager()->has(Maintenance::SERVICE_ID)) {
-
                 $maintenancePersistence = 'maintenance';
 
                 try {
                     \common_persistence_Manager::getPersistence($maintenancePersistence);
                 } catch (\common_Exception $e) {
-                    \common_persistence_Manager::addPersistence($maintenancePersistence,  array('driver' => 'phpfile'));
+                    \common_persistence_Manager::addPersistence($maintenancePersistence, ['driver' => 'phpfile']);
                 }
 
                 $service = new Maintenance();
@@ -421,7 +422,7 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         $this->skip('8.2.0', '9.1.1');
 
-        if($this->isVersion('9.1.1')){
+        if ($this->isVersion('9.1.1')) {
             $this->getServiceManager()->register(TokenService::SERVICE_ID, new TokenService([
                 'store' => new TokenStoreSession(),
                 'poolSize' => 10,
@@ -433,18 +434,17 @@ class Updater extends \common_ext_ExtensionUpdater {
         $this->skip('9.2.0', '10.10.0');
 
         if ($this->isVersion('10.10.0')) {
-            $this->getServiceManager()->register(ArgumentService::SERVICE_ID, new ArgumentService(array(
-                'arguments' => array(
-                    new Group(array(new Debug(), new Info(), new Notice(), new Error(),))
-                )
-            )));
+            $this->getServiceManager()->register(ArgumentService::SERVICE_ID, new ArgumentService([
+                'arguments' => [
+                    new Group([new Debug(), new Info(), new Notice(), new Error(),])
+                ]
+            ]));
             $this->setVersion('10.11.0');
         }
 
         $this->skip('10.11.0', '10.12.0');
 
         if ($this->isVersion('10.12.0')) {
-
             $this->getServiceManager()->register(
                 OperatedByService::SERVICE_ID,
                 new OperatedByService([
@@ -460,7 +460,8 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         if ($this->isVersion('10.15.0')) {
             ClientLibConfigRegistry::getRegistry()->register(
-                'util/locale', ['dateTimeFormat' => 'DD/MM/YYYY HH:mm:ss']
+                'util/locale',
+                ['dateTimeFormat' => 'DD/MM/YYYY HH:mm:ss']
             );
             $this->setVersion('10.16.0');
         }
@@ -496,8 +497,8 @@ class Updater extends \common_ext_ExtensionUpdater {
                 ]
             ];
 
-            $urlService->setRoute('logout' , $route);
-            $this->getServiceManager()->register(DefaultUrlService::SERVICE_ID , $urlService);
+            $urlService->setRoute('logout', $route);
+            $this->getServiceManager()->register(DefaultUrlService::SERVICE_ID, $urlService);
             $this->setVersion('10.20.0');
         }
 
@@ -508,7 +509,7 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         $this->skip('10.21.0', '10.24.1');
 
-        if($this->isVersion('10.24.1')){
+        if ($this->isVersion('10.24.1')) {
             $this->runExtensionScript(AddArchiveService::class);
 
             $this->setVersion('10.25.0');
@@ -516,14 +517,14 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         $this->skip('10.25.0', '10.27.0');
 
-        if($this->isVersion('10.27.0')) {
-            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', ['ext'=>'tao','mod' => 'TaskQueueData']));
+        if ($this->isVersion('10.27.0')) {
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', ['ext' => 'tao','mod' => 'TaskQueueData']));
             $this->setVersion('10.28.0');
         }
 
         $this->skip('10.28.0', '10.28.1');
 
-        if($this->isVersion('10.28.1')) {
+        if ($this->isVersion('10.28.1')) {
             $extension = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
             $config = $extension->getConfig('login');
 
@@ -537,7 +538,7 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         $this->skip('10.29.0', '12.2.1');
 
-        if($this->isVersion('12.2.1')) {
+        if ($this->isVersion('12.2.1')) {
             try {
                 $session = $this->getServiceManager()->get('tao/session');
             } catch (ServiceNotFoundException $e) {
@@ -580,27 +581,29 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         if ($this->isVersion('14.8.0')) {
             $moduleService = ModuleAccessService::singleton();
-            $moduleService->remove('http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',
-                'http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_ExtensionsManager');
+            $moduleService->remove(
+                'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',
+                'http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_ExtensionsManager'
+            );
 
-            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole',      array('ext'=>'tao','mod' => 'ExtensionsManager')));
-            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',    array('ext'=>'tao','mod' => 'Api')));
-            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',    array('ext'=>'tao','mod' => 'Breadcrumbs')));
-            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',    array('ext'=>'tao','mod' => 'Export')));
-            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',    array('ext'=>'tao','mod' => 'File')));
-            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',    array('ext'=>'tao','mod' => 'Import')));
-            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',    array('ext'=>'tao','mod' => 'Lock')));
-            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',    array('ext'=>'tao','mod' => 'Main')));
-            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',    array('ext'=>'tao','mod' => 'PasswordRecovery')));
-            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',    array('ext'=>'tao','mod' => 'Permission')));
-            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',    array('ext'=>'tao','mod' => 'PropertiesAuthoring')));
-            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',    array('ext'=>'tao','mod' => 'QueueAction')));
-            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',    array('ext'=>'tao','mod' => 'RestResource')));
-            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',    array('ext'=>'tao','mod' => 'RestUser')));
-            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',    array('ext'=>'tao','mod' => 'Roles')));
-            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',    array('ext'=>'tao','mod' => 'TaskQueue')));
-            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',    array('ext'=>'tao','mod' => 'Users')));
-            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',    array('ext'=>'tao','mod' => 'WebService')));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole', ['ext' => 'tao','mod' => 'ExtensionsManager']));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole', ['ext' => 'tao','mod' => 'Api']));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole', ['ext' => 'tao','mod' => 'Breadcrumbs']));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole', ['ext' => 'tao','mod' => 'Export']));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole', ['ext' => 'tao','mod' => 'File']));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole', ['ext' => 'tao','mod' => 'Import']));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole', ['ext' => 'tao','mod' => 'Lock']));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole', ['ext' => 'tao','mod' => 'Main']));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole', ['ext' => 'tao','mod' => 'PasswordRecovery']));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole', ['ext' => 'tao','mod' => 'Permission']));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole', ['ext' => 'tao','mod' => 'PropertiesAuthoring']));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole', ['ext' => 'tao','mod' => 'QueueAction']));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole', ['ext' => 'tao','mod' => 'RestResource']));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole', ['ext' => 'tao','mod' => 'RestUser']));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole', ['ext' => 'tao','mod' => 'Roles']));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole', ['ext' => 'tao','mod' => 'TaskQueue']));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole', ['ext' => 'tao','mod' => 'Users']));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole', ['ext' => 'tao','mod' => 'WebService']));
 
             $this->setVersion('14.8.1');
         }
@@ -613,7 +616,6 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         if ($this->isVersion('14.11.3')) {
-
             $resourceWatcher = new ResourceWatcher([ResourceWatcher::OPTION_THRESHOLD => 1]);
             $this->getServiceManager()->register(ResourceWatcher::SERVICE_ID, $resourceWatcher);
 
@@ -637,7 +639,6 @@ class Updater extends \common_ext_ExtensionUpdater {
         $this->skip('14.16.0', '14.19.0');
 
         if ($this->isVersion('14.19.0')) {
-
             $action = new RegisterActionService();
             $action->setServiceLocator($this->getServiceManager());
             $action->__invoke([]);
@@ -658,9 +659,8 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
         $this->skip('14.21.0', '14.23.3');
 
-        if($this->isVersion('14.23.3')){
-
-            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole', ['ext'=>'tao','mod' => 'RestClass']));
+        if ($this->isVersion('14.23.3')) {
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole', ['ext' => 'tao','mod' => 'RestClass']));
 
             $this->getServiceManager()->register(ResourceService::SERVICE_ID, new ResourceService());
             $this->getServiceManager()->register(ListResourceLookup::SERVICE_ID, new ListResourceLookup());
@@ -674,7 +674,7 @@ class Updater extends \common_ext_ExtensionUpdater {
         if ($this->isVersion('15.4.0')) {
             $setClientLoggerConfig = new SetClientLoggerConfig();
             $setClientLoggerConfig([]);
-            AclProxy::applyRule(new AccessRule('grant', TaoRoles::BASE_USER, ['ext'=>'tao', 'mod' => 'Log', 'act' => 'log']));
+            AclProxy::applyRule(new AccessRule('grant', TaoRoles::BASE_USER, ['ext' => 'tao', 'mod' => 'Log', 'act' => 'log']));
             $this->setVersion('15.5.0');
         }
 
@@ -699,9 +699,8 @@ class Updater extends \common_ext_ExtensionUpdater {
         $this->skip('16.0.0', '16.4.0');
 
         if ($this->isVersion('16.4.0')) {
-
-            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', ['ext'=>'tao','mod' => 'RestResource']));
-            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', ['ext'=>'tao','mod' => 'RestClass']));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', ['ext' => 'tao','mod' => 'RestResource']));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', ['ext' => 'tao','mod' => 'RestClass']));
 
             $this->setVersion('17.0.0');
         }
@@ -716,11 +715,11 @@ class Updater extends \common_ext_ExtensionUpdater {
         if ($this->isVersion('17.9.0')) {
             $this->getServiceManager()->register(
                 RestSessionFactory::SERVICE_ID,
-                new RestSessionFactory(array(
-                    RestSessionFactory::OPTION_BUILDERS => array(
+                new RestSessionFactory([
+                    RestSessionFactory::OPTION_BUILDERS => [
                         HttpBasicAuthBuilder::class
-                    )
-                ))
+                    ]
+                ])
             );
             $this->setVersion('17.10.0');
         }
@@ -728,10 +727,9 @@ class Updater extends \common_ext_ExtensionUpdater {
         $this->skip('17.10.0', '17.10.2');
 
         if ($this->isVersion('17.10.2')) {
-
             OntologyUpdater::syncModels();
 
-            $this->getServiceManager()->register(UserLocks::SERVICE_ID, new NoUserLocksService);
+            $this->getServiceManager()->register(UserLocks::SERVICE_ID, new NoUserLocksService());
 
             /** @var EventManager $eventManager */
             $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
@@ -754,7 +752,7 @@ class Updater extends \common_ext_ExtensionUpdater {
         $this->skip('17.13.0', '17.13.1');
 
         if ($this->isVersion('17.13.1')) {
-            $rdfLang = dirname(__FILE__).DIRECTORY_SEPARATOR.str_replace('/',DIRECTORY_SEPARATOR, '../../locales/fr-CA/lang.rdf');
+            $rdfLang = dirname(__FILE__) . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, '../../locales/fr-CA/lang.rdf');
             $iterator = new FileIterator($rdfLang);
             $rdf = ModelManager::getModel()->getRdfInterface();
 
@@ -769,9 +767,8 @@ class Updater extends \common_ext_ExtensionUpdater {
         $this->skip('17.13.2', '17.13.3');
 
         if ($this->isVersion('17.13.3')) {
-
-            $service = new UserCsvImporterFactory(array(
-                UserCsvImporterFactory::OPTION_DEFAULT_SCHEMA => array(
+            $service = new UserCsvImporterFactory([
+                UserCsvImporterFactory::OPTION_DEFAULT_SCHEMA => [
                     OntologyUserMapper::OPTION_SCHEMA_MANDATORY => [
                         'label' => OntologyRdfs::RDFS_LABEL,
                         'interface language' => UserRdf::PROPERTY_UILG,
@@ -781,11 +778,11 @@ class Updater extends \common_ext_ExtensionUpdater {
                     OntologyUserMapper::OPTION_SCHEMA_OPTIONAL => [
                         'default language' => UserRdf::PROPERTY_DEFLG,
                         'first name' => UserRdf::PROPERTY_FIRSTNAME,
-                        'last name' =>UserRdf::PROPERTY_LASTNAME,
+                        'last name' => UserRdf::PROPERTY_LASTNAME,
                         'mail' => UserRdf::PROPERTY_MAIL,
                     ]
-                )
-            ));
+                ]
+            ]);
 
             $this->getServiceManager()->register(UserCsvImporterFactory::SERVICE_ID, $service);
             $this->setVersion('17.14.0');
@@ -803,19 +800,19 @@ class Updater extends \common_ext_ExtensionUpdater {
         $this->skip('17.16.0', '17.16.1');
 
         if ($this->isVersion('17.16.1')) {
-            AclProxy::applyRule(new AccessRule('grant', TaoRoles::REST_PUBLISHER, array('ext'=>'tao', 'mod' => 'TaskQueue', 'act' => 'get')));
+            AclProxy::applyRule(new AccessRule('grant', TaoRoles::REST_PUBLISHER, ['ext' => 'tao', 'mod' => 'TaskQueue', 'act' => 'get']));
             $this->setVersion('17.17.0');
         }
 
         $this->skip('17.17.0', '18.4.0');
 
         if ($this->isVersion('18.4.0')) {
-            AclProxy::applyRule(new AccessRule('grant', TaoRoles::BASE_USER, ['ext'=>'tao', 'mod' => 'Log', 'act' => 'log']));
+            AclProxy::applyRule(new AccessRule('grant', TaoRoles::BASE_USER, ['ext' => 'tao', 'mod' => 'Log', 'act' => 'log']));
             $this->setVersion('18.4.1');
         }
 
         if ($this->isVersion('18.4.1')) {
-            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole', ['ext'=>'tao', 'mod' => 'Health']));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole', ['ext' => 'tao', 'mod' => 'Health']));
             $this->setVersion('18.5.0');
         }
 
@@ -823,7 +820,8 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         if ($this->isVersion('18.6.0')) {
             ClientLibConfigRegistry::getRegistry()->register(
-                'util/shortcut/registry', ['debounceDelay' => 250]
+                'util/shortcut/registry',
+                ['debounceDelay' => 250]
             );
             $this->setVersion('18.7.0');
         }
@@ -832,7 +830,8 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         if ($this->isVersion('18.7.2')) {
             ClientLibConfigRegistry::getRegistry()->remove(
-                'util/shortcut/registry');
+                'util/shortcut/registry'
+            );
             $this->setVersion('18.8.0');
         }
 
@@ -862,7 +861,7 @@ class Updater extends \common_ext_ExtensionUpdater {
 
             $this->getServiceManager()->register(QueueDispatcherInterface::SERVICE_ID, $queueService);
 
-            AclProxy::applyRule(new AccessRule('grant', TaoRoles::BASE_USER, ['ext'=>'tao','mod' => 'TaskQueueWebApi']));
+            AclProxy::applyRule(new AccessRule('grant', TaoRoles::BASE_USER, ['ext' => 'tao','mod' => 'TaskQueueWebApi']));
 
             $this->setVersion('19.8.0');
         }
@@ -944,9 +943,8 @@ class Updater extends \common_ext_ExtensionUpdater {
         $this->skip('22.13.1', '26.1.7');
 
         if ($this->isVersion('26.1.7')) {
-
-            AclProxy::applyRule(new AccessRule(AccessRule::GRANT,  TaoRoles::SYSTEM_ADMINISTRATOR, Users::class));
-            AclProxy::applyRule(new AccessRule(AccessRule::GRANT,  TaoRoles::GLOBAL_MANAGER, Users::class));
+            AclProxy::applyRule(new AccessRule(AccessRule::GRANT, TaoRoles::SYSTEM_ADMINISTRATOR, Users::class));
+            AclProxy::applyRule(new AccessRule(AccessRule::GRANT, TaoRoles::GLOBAL_MANAGER, Users::class));
 
             $userService = $this->getServiceManager()->get(tao_models_classes_UserService::SERVICE_ID);
             $userService->setOption(tao_models_classes_UserService::OPTION_ALLOW_API, false);
@@ -958,7 +956,6 @@ class Updater extends \common_ext_ExtensionUpdater {
         $this->skip('27.0.0', '27.1.2');
 
         if ($this->isVersion('27.1.2')) {
-
             if (!$this->getServiceManager()->has(RouteAnnotationService::SERVICE_ID)) {
                 $annotationService = new RouteAnnotationService();
                 $this->getServiceManager()->register(RouteAnnotationService::SERVICE_ID, $annotationService);
@@ -1004,7 +1001,7 @@ class Updater extends \common_ext_ExtensionUpdater {
                 ['ext' => 'tao', 'mod' => 'Security']
             ));
 
-            \common_persistence_Manager::addPersistence('settings',  ['driver' => 'phpfile']);
+            \common_persistence_Manager::addPersistence('settings', ['driver' => 'phpfile']);
 
             $this->getServiceManager()->register(
                 SettingsStorage::SERVICE_ID,
@@ -1106,7 +1103,6 @@ class Updater extends \common_ext_ExtensionUpdater {
         $this->skip('38.0.1', '38.1.2');
 
         if ($this->isVersion('38.1.2')) {
-
             $iterator = new FileIterator(__DIR__ . '/../../locales/ru-RU/lang.rdf');
             $rdf = ModelManager::getModel()->getRdfInterface();
 
@@ -1288,6 +1284,20 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('40.3.4');
         }
 
-        $this->skip('40.3.4', '40.5.2');
+        $this->skip('40.3.4', '40.6.1');
+      
+        if ($this->isVersion('40.6.1')) {
+            /** @var EventManager $eventManager */
+            $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
+            $eventManager->detach(FileUploadedEvent::class, [UploadService::class, 'listenUploadEvent']);
+            $eventManager->detach(UploadLocalCopyCreatedEvent::class, [UploadService::class, 'listenLocalCopyEvent']);
+            $eventManager->attach(FileUploadedEvent::class, [UploadService::SERVICE_ID, 'listenUploadEvent']);
+            $eventManager->attach(UploadLocalCopyCreatedEvent::class, [UploadService::SERVICE_ID, 'listenLocalCopyEvent']);
+            $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
+
+            $this->setVersion('40.7.0');
+        }
+
+        $this->skip('40.7.0', '40.7.2');
     }
 }

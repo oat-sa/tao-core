@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -42,13 +43,13 @@ class XsrfTokenValidator extends \tao_helpers_form_Validator
     {
         $tokenService = $this->getServiceManager()->get(TokenService::SERVICE_ID);
 
-        if($tokenService->checkToken($values)){
+        if ($tokenService->checkToken($values)) {
             $tokenService->revokeToken($values);
             return true;
         }
 
         \common_Logger::e('Attempt to post a form with the incorrect token');
-        throw new \common_exception_Unauthorized('Invalid token '. $values);
+        throw new \common_exception_Unauthorized('Invalid token ' . $values);
     }
 
     protected function getServiceManager()

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,6 +18,7 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA
  *
  */
+
 namespace oat\tao\scripts\tools;
 
 use oat\oatbox\extension\AbstractAction;
@@ -41,29 +43,28 @@ class CleanClass extends AbstractAction
     {
         $report = $this->verifyParams($params);
 
-        if($report->getType() === \common_report_Report::TYPE_ERROR){
+        if ($report->getType() === \common_report_Report::TYPE_ERROR) {
             return $report;
         }
 
-        $resourceDeleted = $this->class->countInstances(array(), array('recursive' => true));
+        $resourceDeleted = $this->class->countInstances([], ['recursive' => true]);
 
         if ($this->class->equals($this->service->getRootClass())) {
-            foreach ($this->service->getRootClass()->getSubClasses() as $subClass){
-                if(!$this->service->deleteClass($subClass)){
-                    return \common_report_Report::createFailure('Error occured during deletion of class : '.$subClass->getUri());
+            foreach ($this->service->getRootClass()->getSubClasses() as $subClass) {
+                if (!$this->service->deleteClass($subClass)) {
+                    return \common_report_Report::createFailure('Error occured during deletion of class : ' . $subClass->getUri());
                 }
             }
 
             $instances = $this->class->getInstances();
             foreach ($instances as $instance) {
-                if(!$this->service->deleteResource($instance)){
-                    return \common_report_Report::createFailure('Error occured during deletion of resource : '.$instance->getUri());
+                if (!$this->service->deleteResource($instance)) {
+                    return \common_report_Report::createFailure('Error occured during deletion of resource : ' . $instance->getUri());
                 }
             }
-
         } else {
-            if(!$this->service->deleteClass($this->class)){
-                return \common_report_Report::createFailure('Error occured during deletion of class : '.$this->class->getUri());
+            if (!$this->service->deleteClass($this->class)) {
+                return \common_report_Report::createFailure('Error occured during deletion of class : ' . $this->class->getUri());
             }
         }
 
@@ -74,12 +75,13 @@ class CleanClass extends AbstractAction
         return $report;
     }
 
-    protected function verifyParams($params){
+    protected function verifyParams($params)
+    {
         $this->finalReport = new \common_report_Report(\common_report_Report::TYPE_SUCCESS);
 
         if (isset($params[0])) {
             $serviceName = $params[0];
-            if(is_a($serviceName, \tao_models_classes_ClassService::class, true)){
+            if (is_a($serviceName, \tao_models_classes_ClassService::class, true)) {
                 $this->service = call_user_func([$serviceName, 'singleton'], []);
             } else {
                 return new \common_report_Report(\common_report_Report::TYPE_ERROR, __('USAGE: please provide a valid service name as first parameter'));
@@ -93,12 +95,11 @@ class CleanClass extends AbstractAction
 
             /** @var \common_ext_ExtensionsManager $extensionManager */
             $extensionManager = $this->getServiceManager()->get(\common_ext_ExtensionsManager::SERVICE_ID);
-            try{
+            try {
                 $extensionManager->getExtensionById($extensionId);
-            } catch(\common_ext_ManifestNotFoundException $e){
+            } catch (\common_ext_ManifestNotFoundException $e) {
                 return new \common_report_Report(\common_report_Report::TYPE_ERROR, __('USAGE: please provide a valid extension id as second parameter'));
             }
-
         } else {
             return new \common_report_Report(\common_report_Report::TYPE_ERROR, __('USAGE: please provide a valid extension id as second parameter'));
         }
@@ -110,13 +111,13 @@ class CleanClass extends AbstractAction
 
 
         $rootClass = $this->service->getRootClass();
-        if(is_null($class_uri)){
+        if (is_null($class_uri)) {
             $class = $rootClass;
-        } else{
+        } else {
             $class = new \core_kernel_classes_Class($class_uri);
-            if(!$class->isSubClassOf($rootClass)){
+            if (!$class->isSubClassOf($rootClass)) {
                 $msg = "Usage: php index.php '" . __CLASS__ . "' [CLASS_URI]" . PHP_EOL;
-                $msg .= "CLASS_URI : a valid test class uri". PHP_EOL . PHP_EOL;
+                $msg .= "CLASS_URI : a valid test class uri" . PHP_EOL . PHP_EOL;
                 $msg .= "Uri : " . $class_uri . " is not a valid test class" . PHP_EOL;
                 return \common_report_Report::createFailure($msg);
             }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -37,7 +38,7 @@ class FileStorageTest extends FileStorageTestCase
         $fileStorage = $this->getFileStorage();
 
         $directoryStorage = $fileStorage->getDirectoryById($id);
-        $stream = fopen('data://text/plain;base64,' . base64_encode('testContent'),'r');
+        $stream = fopen('data://text/plain;base64,' . base64_encode('testContent'), 'r');
         $directoryStorage->writeStream($file, $stream);
 
         $this->assertTrue($directoryStorage->has($file));

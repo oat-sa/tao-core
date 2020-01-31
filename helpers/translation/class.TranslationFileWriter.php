@@ -1,22 +1,22 @@
 <?php
-/**  
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
+ *
  */
 
 /**
@@ -29,7 +29,7 @@
  * @author Jerome Bogaerts
  * @package tao
  * @since 2.2
- 
+
  * @version 1.0
  */
 abstract class tao_helpers_translation_TranslationFileWriter
@@ -66,12 +66,11 @@ abstract class tao_helpers_translation_TranslationFileWriter
      * @param  TranslationFile translationFile
      * @return mixed
      */
-    public function __construct($filePath,  tao_helpers_translation_TranslationFile $translationFile)
+    public function __construct($filePath, tao_helpers_translation_TranslationFile $translationFile)
     {
         
         $this->filePath = $filePath;
         $this->translationFile = $translationFile;
-        
     }
 
     /**
@@ -84,7 +83,7 @@ abstract class tao_helpers_translation_TranslationFileWriter
      * @author firstname and lastname of author, <author@example.org>
      * @return mixed
      */
-    public abstract function write();
+    abstract public function write();
 
     /**
      * Sets the TranslationFile that has to be serialized.
@@ -94,11 +93,10 @@ abstract class tao_helpers_translation_TranslationFileWriter
      * @param  TranslationFile translationFile
      * @return mixed
      */
-    public function setTranslationFile( tao_helpers_translation_TranslationFile $translationFile)
+    public function setTranslationFile(tao_helpers_translation_TranslationFile $translationFile)
     {
         
         $this->translationFile = $translationFile;
-        
     }
 
     /**
@@ -131,7 +129,6 @@ abstract class tao_helpers_translation_TranslationFileWriter
     {
         
         $this->filePath = $filePath;
-        
     }
 
     /**
@@ -151,7 +148,4 @@ abstract class tao_helpers_translation_TranslationFileWriter
 
         return $returnValue;
     }
-
 } /* end of abstract class tao_helpers_translation_TranslationFileWriter */
-
-?>

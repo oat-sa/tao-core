@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -123,7 +124,8 @@ class IndexService extends ConfigurableService
      * @return mixed
      * @throws \common_Exception
      */
-    public function getIndexProperties(OntologyIndex $index) {
+    public function getIndexProperties(OntologyIndex $index)
+    {
         if (!isset($this->map[$index->getIdentifier()])) {
             $indexProperty = new IndexProperty(
                 $index->getIdentifier(),
@@ -141,15 +143,15 @@ class IndexService extends ConfigurableService
      */
     public function getTypesForResource($resource)
     {
-        $toDo = array();
+        $toDo = [];
         foreach ($resource->getTypes() as $class) {
             $toDo[] = $class->getUri();
         }
 
-        $done = array(OntologyRdfs::RDFS_RESOURCE, TaoOntology::CLASS_URI_OBJECT);
+        $done = [OntologyRdfs::RDFS_RESOURCE, TaoOntology::CLASS_URI_OBJECT];
         $toDo = array_diff($toDo, $done);
 
-        $classes = array();
+        $classes = [];
         while (!empty($toDo)) {
             $class = new \core_kernel_classes_Class(array_pop($toDo));
             $classes[] = $class->getUri();
@@ -176,7 +178,7 @@ class IndexService extends ConfigurableService
 
     protected function getIndexedClasses()
     {
-        $classes = array();
+        $classes = [];
         foreach (MenuService::getAllPerspectives() as $perspective) {
             foreach ($perspective->getChildren() as $structure) {
                 foreach ($structure->getTrees() as $tree) {
