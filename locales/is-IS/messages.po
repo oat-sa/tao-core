@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint120\n"
-"PO-Revision-Date: 2020-01-17T11:09:17\n"
+"Project-Id-Version: TAO 3.4.0-sprint121\n"
+"PO-Revision-Date: 2020-01-31T09:51:39\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: is-IS\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " and "
-msgstr " og "
-
 msgid " AND "
 msgstr ""
+
+msgid " and "
+msgstr " og "
 
 msgid " has been deleted successfully"
 msgstr " hefur tekist að eyða"
@@ -183,6 +183,9 @@ msgstr "Aðgerðir"
 
 msgid "Add"
 msgstr "Bæta við"
+
+msgid "Add / Edit lists"
+msgstr ""
 
 msgid "Add a CSV file"
 msgstr "Bæta við CSV skrá"
@@ -401,10 +404,10 @@ msgstr "Breyta lykilorðinu"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check all"
+msgid "Check All"
 msgstr "Merkja við allt"
 
-msgid "Check All"
+msgid "Check all"
 msgstr "Merkja við allt"
 
 msgid "Check-in"
@@ -563,11 +566,11 @@ msgstr "Innflutningur gagna tókst"
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data language"
-msgstr "Tungumál gagna"
-
 msgid "Data Language"
 msgstr "Tungumál Gagna"
+
+msgid "Data language"
+msgstr "Tungumál gagna"
 
 msgid "Data not imported. All records are invalid."
 msgstr ""
@@ -1109,6 +1112,9 @@ msgstr "Listi - Einfalt val - Felligluggi"
 msgid "List - Single choice - Radio button"
 msgstr "Listi - Einfalt val - "
 
+msgid "List values"
+msgstr ""
+
 msgid "ln"
 msgstr ""
 
@@ -1361,10 +1367,10 @@ msgstr ""
 msgid "Off"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr ""
 
-msgid "Ok"
+msgid "OK"
 msgstr ""
 
 msgid "Old Password"
@@ -1458,9 +1464,6 @@ msgid "Please provide a reason"
 msgstr ""
 
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
-msgstr ""
-
-msgid "Please try in %s."
 msgstr ""
 
 msgid "Please wait"
@@ -1727,11 +1730,11 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "Select"
-msgstr "Velja"
-
 msgid "select"
 msgstr "velja"
+
+msgid "Select"
+msgstr "Velja"
 
 msgid "Select a class"
 msgstr ""
@@ -2046,6 +2049,9 @@ msgstr "Þýðing vistuð"
 msgid "Tree - Multiple node choice "
 msgstr ""
 
+msgid "Tree values"
+msgstr ""
+
 msgid "True"
 msgstr "Satt"
 
@@ -2115,10 +2121,10 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr ""
 
 msgid "Undefined amount of the pages for pagination"

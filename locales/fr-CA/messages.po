@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint120\n"
-"PO-Revision-Date: 2020-01-17T11:08:32\n"
+"Project-Id-Version: TAO 3.4.0-sprint121\n"
+"PO-Revision-Date: 2020-01-31T09:51:27\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-CA\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " and "
-msgstr " et "
-
 msgid " AND "
 msgstr ""
+
+msgid " and "
+msgstr " et "
 
 msgid " has been deleted successfully"
 msgstr " a été supprimé avec succès."
@@ -183,6 +183,9 @@ msgstr "Actions"
 
 msgid "Add"
 msgstr "Ajouter"
+
+msgid "Add / Edit lists"
+msgstr ""
 
 msgid "Add a CSV file"
 msgstr "Ajouter un fichier CSV"
@@ -402,11 +405,11 @@ msgstr "Modifier le mot de passe"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check all"
-msgstr "Cocher tout"
-
 msgid "Check All"
 msgstr "Cocher Tout"
+
+msgid "Check all"
+msgstr "Cocher tout"
 
 msgid "Check-in"
 msgstr ""
@@ -564,10 +567,10 @@ msgstr "Données importées avec succès."
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "Langue des données"
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "Langue des données"
 
 msgid "Data not imported. All records are invalid."
@@ -1110,6 +1113,9 @@ msgstr "Liste - Choix unique - Liste déroulante"
 msgid "List - Single choice - Radio button"
 msgstr "Liste - Choix multiple - Bouton radio"
 
+msgid "List values"
+msgstr ""
+
 msgid "ln"
 msgstr ""
 
@@ -1362,10 +1368,10 @@ msgstr "de"
 msgid "Off"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr "Ok"
 
-msgid "Ok"
+msgid "OK"
 msgstr "Ok"
 
 msgid "Old Password"
@@ -1459,9 +1465,6 @@ msgid "Please provide a reason"
 msgstr ""
 
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
-msgstr ""
-
-msgid "Please try in %s."
 msgstr ""
 
 msgid "Please wait"
@@ -1728,11 +1731,11 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "Select"
-msgstr "Choisir"
-
 msgid "select"
 msgstr "choisir"
+
+msgid "Select"
+msgstr "Choisir"
 
 msgid "Select a class"
 msgstr ""
@@ -2047,6 +2050,9 @@ msgstr "Traduction enregistrée"
 msgid "Tree - Multiple node choice "
 msgstr ""
 
+msgid "Tree values"
+msgstr ""
+
 msgid "True"
 msgstr ""
 
@@ -2116,10 +2122,10 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "Décocher tout"
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "Décocher tout"
 
 msgid "Undefined amount of the pages for pagination"
