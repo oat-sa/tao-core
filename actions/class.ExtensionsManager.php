@@ -161,8 +161,6 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule
     {
         $this->assertIsDebugMode();
 
-        $this->getPsrRequest()->getQueryParams();
-
         $extId = $this->getRequestParameter('id');
         $this->getExtensionManager()->setEnabled($extId, true);
         MenuService::flushCache();
