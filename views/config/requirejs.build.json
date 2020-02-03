@@ -1,5 +1,5 @@
 {
-  "baseUrl": "../js",
+  "baseUrl": "./js",
   "paths": {
     "text": "lib/text/text",
     "json": "lib/text/json",
