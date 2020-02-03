@@ -36,7 +36,7 @@ module.exports = function(grunt) {
                 rootPath             : root,
                 getExtensionPath     : extension => `${root}/${extension}/views/js`,
                 getExtensionCssPath  : extension => `${root}/${extension}/views/css`,
-                amd                  : require('../config/requirejs.build.json'),
+                amd                  : require(`${root}/tao/views/config/requirejs.build.json`),
                 workDir              : workDir,
                 outputDir            : 'loader'
             },
