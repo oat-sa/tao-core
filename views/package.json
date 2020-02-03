@@ -1,6 +1,6 @@
 {
   "name": "@oat-sa/tao",
-  "version": "0.6.1",
+  "version": "0.7.0",
   "license": "GPL-2.0",
   "description": "TAO core dependencies & the client side build tool chain for TAO",
   "repository": {
