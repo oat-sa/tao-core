@@ -47,6 +47,7 @@ use oat\tao\model\user\TaoRoles;
 use oat\tao\scripts\install\SetUpQueueTasks;
 use oat\tao\scripts\install\SetLocaleNumbersConfig;
 use \oat\tao\scripts\install\CreateWebhookEventLogTable;
+use oat\tao\scripts\install\RegisterUserService;
 
 $extpath = dirname(__FILE__) . DIRECTORY_SEPARATOR;
 
@@ -127,6 +128,7 @@ return [
             SetDefaultCSPHeader::class,
             CreateWebhookEventLogTable::class,
             SetupSettingsStorage::class,
+            RegisterUserService::class
         ]
     ],
     'update' => 'oat\\tao\\scripts\\update\\Updater',
