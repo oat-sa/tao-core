@@ -22,13 +22,6 @@
 namespace oat\tao\scripts\install;
 
 use oat\oatbox\extension\InstallAction;
-use oat\tao\model\taskQueue\Queue;
-use oat\tao\model\taskQueue\Queue\Broker\InMemoryQueueBroker;
-use oat\tao\model\taskQueue\Queue\TaskSelector\WeightStrategy;
-use oat\tao\model\taskQueue\QueueDispatcher;
-use oat\tao\model\taskQueue\QueueDispatcherInterface;
-use oat\tao\model\taskQueue\TaskLog;
-use oat\tao\model\taskQueue\TaskLogInterface;
 use oat\oatbox\user\UserService;
 use oat\tao\model\user\GenerisUserService;
 
@@ -39,6 +32,6 @@ class RegisterUserService extends InstallAction
         if (!$this->getServiceManager()->has(UserService::SERVICE_ID)) {
             $this->getServiceManager()->register(UserService::SERVICE_ID, new GenerisUserService());
         }
-        return \common_report_Report::createSuccess('Task Queue service successfully registered.');
+        return \common_report_Report::createSuccess('User service successfully registered.');
     }
 }
