@@ -46,10 +46,6 @@ define(['jquery', 'urlParser'], function($, UrlParser){
         var callUrl = this.getCallUrl();
         var isCORSAllowed = new UrlParser(callUrl).checkCORS();
 
-        if (isCORSAllowed === true) {
-            frame.contentWindow.__knownParent__ = true;
-        }
-
         $frame.on('load', function(e){
              //if we are  in the same domain, we add a variable
              //to the frame window, so the frame knows it can communicate
@@ -73,6 +69,10 @@ define(['jquery', 'urlParser'], function($, UrlParser){
         });
 
         $frame.attr('src', callUrl);
+
+        if (isCORSAllowed === true) {
+            frame.contentWindow.__knownParent__ = true;
+        }
     };
 
     ServiceApi.prototype.connect = function(frame, connected){
