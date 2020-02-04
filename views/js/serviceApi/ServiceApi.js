@@ -17,6 +17,11 @@
  */
 define(['jquery', 'urlParser'], function($, UrlParser){
     'use strict';
+    var serviceReady = false;
+
+    $(document).on('serviceready', function(){
+        serviceReady = true;
+    });
 
     /**
      * @constructor
@@ -40,10 +45,6 @@ define(['jquery', 'urlParser'], function($, UrlParser){
         var $frame = $(frame);
         var callUrl = this.getCallUrl();
         var isCORSAllowed = new UrlParser(callUrl).checkCORS();
-        var serviceReady = false;
-        $(document).on('serviceready', function(){
-            serviceReady = true;
-        });
 
         $frame.on('load', function(e){
              //if we are  in the same domain, we add a variable
