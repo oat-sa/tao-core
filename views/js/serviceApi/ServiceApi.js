@@ -40,23 +40,35 @@ define(['jquery', 'urlParser'], function($, UrlParser){
         var $frame = $(frame);
         var callUrl = this.getCallUrl();
         var isCORSAllowed = new UrlParser(callUrl).checkCORS();
+        var serviceReady = false;
+        $(document).on('serviceready', function(){
+            serviceReady = true;
+        });
 
         $frame.on('load', function(e){
              //if we are  in the same domain, we add a variable
              //to the frame window, so the frame knows it can communicate
              //with the parent
-            $(document).on('serviceready', function(){
+            if (serviceReady) {
                 self.connect(frame, function(){
-                    $(document).off('serviceready');
                     if(typeof connected === 'function'){
                         connected();
                     }
                 });
-            });
-             if(isCORSAllowed === true){
-                 frame.contentWindow.__knownParent__ = true;
-             }
-         });
+            } else {
+                $(document).on('serviceready', function(){
+                    self.connect(frame, function(){
+                        $(document).off('serviceready');
+                        if(typeof connected === 'function'){
+                            connected();
+                        }
+                    });
+                });
+            }
+            if(isCORSAllowed === true){
+                frame.contentWindow.__knownParent__ = true;
+            }
+        });
 
         $frame.attr('src', callUrl);
     };
