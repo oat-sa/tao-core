@@ -1,21 +1,21 @@
 <?php
-/**
+/** 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- *
+ * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- *
+ * 
  * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
+ * 
  */
 
 /* Do not edit */
@@ -27,37 +27,37 @@
  *
  * @access public
  * @author Dieter Raber, <dieter@taotesting.com>
- * @date   2019-12-03 12:22:56
+ * @date   2020-02-04 12:46:07
  * @package tao
  * @subpackage helpers
  */
-class tao_helpers_Icon
-{
+class tao_helpers_Icon {
 
     /**
-     * This function builds the actual HTML element and is used by all other functions.
+     * This function builds the actual HTML element and is used by all other functions. 
      * The doc for $options is the applicable for all other functions.
-     *
+     * 
      * @param string $icon name of the icon to display
      * @param array $options (optional) hashtable with HTML attributes, also allows to set element="almostAnyHtmlElement"
      * @param string HTML element with icon
      */
-    protected static function buildIcon($icon, $options = [])
-    {
+    protected static function buildIcon($icon, $options=array()){
         $options['class'] = !empty($options['class']) ? $options['class'] . ' ' . $icon : $icon;
         $element = !empty($options['element']) ? $options['element'] : 'span';
         unset($options['element']);
         $retVal = '<' . $element . ' ';
-        foreach ($options as $key => $value) {
+        foreach($options as $key => $value) {
             $retVal .= $key . '="' . $value . '"';
         }
         $retVal .= '></' . $element . '>';
         return $retVal;
     }
-    
+	
     /**
      * List of all icons as constant
      */
+    const CLASS_OFFLINE = 'icon-offline';
+    const CLASS_ONLINE = 'icon-online';
     const CLASS_TAB = 'icon-tab';
     const CLASS_UNTAB = 'icon-untab';
     const CLASS_MULTI_SELECT = 'icon-multi-select';
@@ -274,1083 +274,878 @@ class tao_helpers_Icon
     const CLASS_ELIMINATE_CROSSED = 'icon-eliminate-crossed';
     const CLASS_PLAY_FROM_HERE = 'icon-play-from-here';
 
-    
+	
     /**
      * List of all icons as function
      */
 
-    public static function iconTab($options = [])
-    {
+    public static function iconOffline($options=array()){
+        return self::buildIcon(self::CLASS_OFFLINE, $options);
+    }
+
+    public static function iconOnline($options=array()){
+        return self::buildIcon(self::CLASS_ONLINE, $options);
+    }
+
+    public static function iconTab($options=array()){
         return self::buildIcon(self::CLASS_TAB, $options);
     }
 
-    public static function iconUntab($options = [])
-    {
+    public static function iconUntab($options=array()){
         return self::buildIcon(self::CLASS_UNTAB, $options);
     }
 
-    public static function iconMultiSelect($options = [])
-    {
+    public static function iconMultiSelect($options=array()){
         return self::buildIcon(self::CLASS_MULTI_SELECT, $options);
     }
 
-    public static function iconClipboard($options = [])
-    {
+    public static function iconClipboard($options=array()){
         return self::buildIcon(self::CLASS_CLIPBOARD, $options);
     }
 
-    public static function iconFilebox($options = [])
-    {
+    public static function iconFilebox($options=array()){
         return self::buildIcon(self::CLASS_FILEBOX, $options);
     }
 
-    public static function iconClickToSpeak($options = [])
-    {
+    public static function iconClickToSpeak($options=array()){
         return self::buildIcon(self::CLASS_CLICK_TO_SPEAK, $options);
     }
 
-    public static function iconSpeechBubble($options = [])
-    {
+    public static function iconSpeechBubble($options=array()){
         return self::buildIcon(self::CLASS_SPEECH_BUBBLE, $options);
     }
 
-    public static function iconMicrophone($options = [])
-    {
+    public static function iconMicrophone($options=array()){
         return self::buildIcon(self::CLASS_MICROPHONE, $options);
     }
 
-    public static function iconMicrophoneOff($options = [])
-    {
+    public static function iconMicrophoneOff($options=array()){
         return self::buildIcon(self::CLASS_MICROPHONE_OFF, $options);
     }
 
-    public static function iconDisconnect($options = [])
-    {
+    public static function iconDisconnect($options=array()){
         return self::buildIcon(self::CLASS_DISCONNECT, $options);
     }
 
-    public static function iconConnect($options = [])
-    {
+    public static function iconConnect($options=array()){
         return self::buildIcon(self::CLASS_CONNECT, $options);
     }
 
-    public static function iconEliminate($options = [])
-    {
+    public static function iconEliminate($options=array()){
         return self::buildIcon(self::CLASS_ELIMINATE, $options);
     }
 
-    public static function iconWheelchair($options = [])
-    {
+    public static function iconWheelchair($options=array()){
         return self::buildIcon(self::CLASS_WHEELCHAIR, $options);
     }
 
-    public static function iconTextMarker($options = [])
-    {
+    public static function iconTextMarker($options=array()){
         return self::buildIcon(self::CLASS_TEXT_MARKER, $options);
     }
 
-    public static function iconUnshield($options = [])
-    {
+    public static function iconUnshield($options=array()){
         return self::buildIcon(self::CLASS_UNSHIELD, $options);
     }
 
-    public static function iconShield($options = [])
-    {
+    public static function iconShield($options=array()){
         return self::buildIcon(self::CLASS_SHIELD, $options);
     }
 
-    public static function iconTree($options = [])
-    {
+    public static function iconTree($options=array()){
         return self::buildIcon(self::CLASS_TREE, $options);
     }
 
-    public static function iconHome($options = [])
-    {
+    public static function iconHome($options=array()){
         return self::buildIcon(self::CLASS_HOME, $options);
     }
 
-    public static function iconSharedFile($options = [])
-    {
+    public static function iconSharedFile($options=array()){
         return self::buildIcon(self::CLASS_SHARED_FILE, $options);
     }
 
-    public static function iconEndAttempt($options = [])
-    {
+    public static function iconEndAttempt($options=array()){
         return self::buildIcon(self::CLASS_END_ATTEMPT, $options);
     }
 
-    public static function iconIcon($options = [])
-    {
+    public static function iconIcon($options=array()){
         return self::buildIcon(self::CLASS_ICON, $options);
     }
 
-    public static function iconRadioBg($options = [])
-    {
+    public static function iconRadioBg($options=array()){
         return self::buildIcon(self::CLASS_RADIO_BG, $options);
     }
 
-    public static function iconCheckboxBg($options = [])
-    {
+    public static function iconCheckboxBg($options=array()){
         return self::buildIcon(self::CLASS_CHECKBOX_BG, $options);
     }
 
-    public static function iconTag($options = [])
-    {
+    public static function iconTag($options=array()){
         return self::buildIcon(self::CLASS_TAG, $options);
     }
 
-    public static function iconStyle($options = [])
-    {
+    public static function iconStyle($options=array()){
         return self::buildIcon(self::CLASS_STYLE, $options);
     }
 
-    public static function iconOwnershipTransfer($options = [])
-    {
+    public static function iconOwnershipTransfer($options=array()){
         return self::buildIcon(self::CLASS_OWNERSHIP_TRANSFER, $options);
     }
 
-    public static function iconPropertyAdvanced($options = [])
-    {
+    public static function iconPropertyAdvanced($options=array()){
         return self::buildIcon(self::CLASS_PROPERTY_ADVANCED, $options);
     }
 
-    public static function iconPropertyAdd($options = [])
-    {
+    public static function iconPropertyAdd($options=array()){
         return self::buildIcon(self::CLASS_PROPERTY_ADD, $options);
     }
 
-    public static function iconRepositoryAdd($options = [])
-    {
+    public static function iconRepositoryAdd($options=array()){
         return self::buildIcon(self::CLASS_REPOSITORY_ADD, $options);
     }
 
-    public static function iconRepositoryRemove($options = [])
-    {
+    public static function iconRepositoryRemove($options=array()){
         return self::buildIcon(self::CLASS_REPOSITORY_REMOVE, $options);
     }
 
-    public static function iconRepository($options = [])
-    {
+    public static function iconRepository($options=array()){
         return self::buildIcon(self::CLASS_REPOSITORY, $options);
     }
 
-    public static function iconResultServer($options = [])
-    {
+    public static function iconResultServer($options=array()){
         return self::buildIcon(self::CLASS_RESULT_SERVER, $options);
     }
 
-    public static function iconFolder($options = [])
-    {
+    public static function iconFolder($options=array()){
         return self::buildIcon(self::CLASS_FOLDER, $options);
     }
 
-    public static function iconFolderOpen($options = [])
-    {
+    public static function iconFolderOpen($options=array()){
         return self::buildIcon(self::CLASS_FOLDER_OPEN, $options);
     }
 
-    public static function iconLeft($options = [])
-    {
+    public static function iconLeft($options=array()){
         return self::buildIcon(self::CLASS_LEFT, $options);
     }
 
-    public static function iconRight($options = [])
-    {
+    public static function iconRight($options=array()){
         return self::buildIcon(self::CLASS_RIGHT, $options);
     }
 
-    public static function iconUp($options = [])
-    {
+    public static function iconUp($options=array()){
         return self::buildIcon(self::CLASS_UP, $options);
     }
 
-    public static function iconDown($options = [])
-    {
+    public static function iconDown($options=array()){
         return self::buildIcon(self::CLASS_DOWN, $options);
     }
 
-    public static function iconUndo($options = [])
-    {
+    public static function iconUndo($options=array()){
         return self::buildIcon(self::CLASS_UNDO, $options);
     }
 
-    public static function iconRedo($options = [])
-    {
+    public static function iconRedo($options=array()){
         return self::buildIcon(self::CLASS_REDO, $options);
     }
 
-    public static function iconScreen($options = [])
-    {
+    public static function iconScreen($options=array()){
         return self::buildIcon(self::CLASS_SCREEN, $options);
     }
 
-    public static function iconLaptop($options = [])
-    {
+    public static function iconLaptop($options=array()){
         return self::buildIcon(self::CLASS_LAPTOP, $options);
     }
 
-    public static function iconTablet($options = [])
-    {
+    public static function iconTablet($options=array()){
         return self::buildIcon(self::CLASS_TABLET, $options);
     }
 
-    public static function iconPhone($options = [])
-    {
+    public static function iconPhone($options=array()){
         return self::buildIcon(self::CLASS_PHONE, $options);
     }
 
-    public static function iconMove($options = [])
-    {
+    public static function iconMove($options=array()){
         return self::buildIcon(self::CLASS_MOVE, $options);
     }
 
-    public static function iconBin($options = [])
-    {
+    public static function iconBin($options=array()){
         return self::buildIcon(self::CLASS_BIN, $options);
     }
 
-    public static function iconShuffle($options = [])
-    {
+    public static function iconShuffle($options=array()){
         return self::buildIcon(self::CLASS_SHUFFLE, $options);
     }
 
-    public static function iconPrint($options = [])
-    {
+    public static function iconPrint($options=array()){
         return self::buildIcon(self::CLASS_PRINT, $options);
     }
 
-    public static function iconTools($options = [])
-    {
+    public static function iconTools($options=array()){
         return self::buildIcon(self::CLASS_TOOLS, $options);
     }
 
-    public static function iconSettings($options = [])
-    {
+    public static function iconSettings($options=array()){
         return self::buildIcon(self::CLASS_SETTINGS, $options);
     }
 
-    public static function iconVideo($options = [])
-    {
+    public static function iconVideo($options=array()){
         return self::buildIcon(self::CLASS_VIDEO, $options);
     }
 
-    public static function iconFind($options = [])
-    {
+    public static function iconFind($options=array()){
         return self::buildIcon(self::CLASS_FIND, $options);
     }
 
-    public static function iconImage($options = [])
-    {
+    public static function iconImage($options=array()){
         return self::buildIcon(self::CLASS_IMAGE, $options);
     }
 
-    public static function iconEdit($options = [])
-    {
+    public static function iconEdit($options=array()){
         return self::buildIcon(self::CLASS_EDIT, $options);
     }
 
-    public static function iconDocument($options = [])
-    {
+    public static function iconDocument($options=array()){
         return self::buildIcon(self::CLASS_DOCUMENT, $options);
     }
 
-    public static function iconResizeGrid($options = [])
-    {
+    public static function iconResizeGrid($options=array()){
         return self::buildIcon(self::CLASS_RESIZE_GRID, $options);
     }
 
-    public static function iconResize($options = [])
-    {
+    public static function iconResize($options=array()){
         return self::buildIcon(self::CLASS_RESIZE, $options);
     }
 
-    public static function iconHelp($options = [])
-    {
+    public static function iconHelp($options=array()){
         return self::buildIcon(self::CLASS_HELP, $options);
     }
 
-    public static function iconMobileMenu($options = [])
-    {
+    public static function iconMobileMenu($options=array()){
         return self::buildIcon(self::CLASS_MOBILE_MENU, $options);
     }
 
-    public static function iconFix($options = [])
-    {
+    public static function iconFix($options=array()){
         return self::buildIcon(self::CLASS_FIX, $options);
     }
 
-    public static function iconUnlock($options = [])
-    {
+    public static function iconUnlock($options=array()){
         return self::buildIcon(self::CLASS_UNLOCK, $options);
     }
 
-    public static function iconLock($options = [])
-    {
+    public static function iconLock($options=array()){
         return self::buildIcon(self::CLASS_LOCK, $options);
     }
 
-    public static function iconUl($options = [])
-    {
+    public static function iconUl($options=array()){
         return self::buildIcon(self::CLASS_UL, $options);
     }
 
-    public static function iconOl($options = [])
-    {
+    public static function iconOl($options=array()){
         return self::buildIcon(self::CLASS_OL, $options);
     }
 
-    public static function iconEmail($options = [])
-    {
+    public static function iconEmail($options=array()){
         return self::buildIcon(self::CLASS_EMAIL, $options);
     }
 
-    public static function iconDownload($options = [])
-    {
+    public static function iconDownload($options=array()){
         return self::buildIcon(self::CLASS_DOWNLOAD, $options);
     }
 
-    public static function iconLogout($options = [])
-    {
+    public static function iconLogout($options=array()){
         return self::buildIcon(self::CLASS_LOGOUT, $options);
     }
 
-    public static function iconLogin($options = [])
-    {
+    public static function iconLogin($options=array()){
         return self::buildIcon(self::CLASS_LOGIN, $options);
     }
 
-    public static function iconSpinner($options = [])
-    {
+    public static function iconSpinner($options=array()){
         return self::buildIcon(self::CLASS_SPINNER, $options);
     }
 
-    public static function iconPreview($options = [])
-    {
+    public static function iconPreview($options=array()){
         return self::buildIcon(self::CLASS_PREVIEW, $options);
     }
 
-    public static function iconExternal($options = [])
-    {
+    public static function iconExternal($options=array()){
         return self::buildIcon(self::CLASS_EXTERNAL, $options);
     }
 
-    public static function iconTime($options = [])
-    {
+    public static function iconTime($options=array()){
         return self::buildIcon(self::CLASS_TIME, $options);
     }
 
-    public static function iconSave($options = [])
-    {
+    public static function iconSave($options=array()){
         return self::buildIcon(self::CLASS_SAVE, $options);
     }
 
-    public static function iconWarning($options = [])
-    {
+    public static function iconWarning($options=array()){
         return self::buildIcon(self::CLASS_WARNING, $options);
     }
 
-    public static function iconAdd($options = [])
-    {
+    public static function iconAdd($options=array()){
         return self::buildIcon(self::CLASS_ADD, $options);
     }
 
-    public static function iconError($options = [])
-    {
+    public static function iconError($options=array()){
         return self::buildIcon(self::CLASS_ERROR, $options);
     }
 
-    public static function iconClose($options = [])
-    {
+    public static function iconClose($options=array()){
         return self::buildIcon(self::CLASS_CLOSE, $options);
     }
 
-    public static function iconSuccess($options = [])
-    {
+    public static function iconSuccess($options=array()){
         return self::buildIcon(self::CLASS_SUCCESS, $options);
     }
 
-    public static function iconRemove($options = [])
-    {
+    public static function iconRemove($options=array()){
         return self::buildIcon(self::CLASS_REMOVE, $options);
     }
 
-    public static function iconInfo($options = [])
-    {
+    public static function iconInfo($options=array()){
         return self::buildIcon(self::CLASS_INFO, $options);
     }
 
-    public static function iconDanger($options = [])
-    {
+    public static function iconDanger($options=array()){
         return self::buildIcon(self::CLASS_DANGER, $options);
     }
 
-    public static function iconUsers($options = [])
-    {
+    public static function iconUsers($options=array()){
         return self::buildIcon(self::CLASS_USERS, $options);
     }
 
-    public static function iconUser($options = [])
-    {
+    public static function iconUser($options=array()){
         return self::buildIcon(self::CLASS_USER, $options);
     }
 
-    public static function iconTestTaker($options = [])
-    {
+    public static function iconTestTaker($options=array()){
         return self::buildIcon(self::CLASS_TEST_TAKER, $options);
     }
 
-    public static function iconTestTakers($options = [])
-    {
+    public static function iconTestTakers($options=array()){
         return self::buildIcon(self::CLASS_TEST_TAKERS, $options);
     }
 
-    public static function iconItem($options = [])
-    {
+    public static function iconItem($options=array()){
         return self::buildIcon(self::CLASS_ITEM, $options);
     }
 
-    public static function iconTest($options = [])
-    {
+    public static function iconTest($options=array()){
         return self::buildIcon(self::CLASS_TEST, $options);
     }
 
-    public static function iconDelivery($options = [])
-    {
+    public static function iconDelivery($options=array()){
         return self::buildIcon(self::CLASS_DELIVERY, $options);
     }
 
-    public static function iconEyeSlash($options = [])
-    {
+    public static function iconEyeSlash($options=array()){
         return self::buildIcon(self::CLASS_EYE_SLASH, $options);
     }
 
-    public static function iconResult($options = [])
-    {
+    public static function iconResult($options=array()){
         return self::buildIcon(self::CLASS_RESULT, $options);
     }
 
-    public static function iconDeliverySmall($options = [])
-    {
+    public static function iconDeliverySmall($options=array()){
         return self::buildIcon(self::CLASS_DELIVERY_SMALL, $options);
     }
 
-    public static function iconUpload($options = [])
-    {
+    public static function iconUpload($options=array()){
         return self::buildIcon(self::CLASS_UPLOAD, $options);
     }
 
-    public static function iconResultSmall($options = [])
-    {
+    public static function iconResultSmall($options=array()){
         return self::buildIcon(self::CLASS_RESULT_SMALL, $options);
     }
 
-    public static function iconMobilePreview($options = [])
-    {
+    public static function iconMobilePreview($options=array()){
         return self::buildIcon(self::CLASS_MOBILE_PREVIEW, $options);
     }
 
-    public static function iconExtension($options = [])
-    {
+    public static function iconExtension($options=array()){
         return self::buildIcon(self::CLASS_EXTENSION, $options);
     }
 
-    public static function iconDesktopPreview($options = [])
-    {
+    public static function iconDesktopPreview($options=array()){
         return self::buildIcon(self::CLASS_DESKTOP_PREVIEW, $options);
     }
 
-    public static function iconTabletPreview($options = [])
-    {
+    public static function iconTabletPreview($options=array()){
         return self::buildIcon(self::CLASS_TABLET_PREVIEW, $options);
     }
 
-    public static function iconInsertHorizontalLine($options = [])
-    {
+    public static function iconInsertHorizontalLine($options=array()){
         return self::buildIcon(self::CLASS_INSERT_HORIZONTAL_LINE, $options);
     }
 
-    public static function iconTable($options = [])
-    {
+    public static function iconTable($options=array()){
         return self::buildIcon(self::CLASS_TABLE, $options);
     }
 
-    public static function iconAnchor($options = [])
-    {
+    public static function iconAnchor($options=array()){
         return self::buildIcon(self::CLASS_ANCHOR, $options);
     }
 
-    public static function iconUnlink($options = [])
-    {
+    public static function iconUnlink($options=array()){
         return self::buildIcon(self::CLASS_UNLINK, $options);
     }
 
-    public static function iconLink($options = [])
-    {
+    public static function iconLink($options=array()){
         return self::buildIcon(self::CLASS_LINK, $options);
     }
 
-    public static function iconRightLeft($options = [])
-    {
+    public static function iconRightLeft($options=array()){
         return self::buildIcon(self::CLASS_RIGHT_LEFT, $options);
     }
 
-    public static function iconLeftRight($options = [])
-    {
+    public static function iconLeftRight($options=array()){
         return self::buildIcon(self::CLASS_LEFT_RIGHT, $options);
     }
 
-    public static function iconSpecialCharacter($options = [])
-    {
+    public static function iconSpecialCharacter($options=array()){
         return self::buildIcon(self::CLASS_SPECIAL_CHARACTER, $options);
     }
 
-    public static function iconSource($options = [])
-    {
+    public static function iconSource($options=array()){
         return self::buildIcon(self::CLASS_SOURCE, $options);
     }
 
-    public static function iconNewPage($options = [])
-    {
+    public static function iconNewPage($options=array()){
         return self::buildIcon(self::CLASS_NEW_PAGE, $options);
     }
 
-    public static function iconTemplates($options = [])
-    {
+    public static function iconTemplates($options=array()){
         return self::buildIcon(self::CLASS_TEMPLATES, $options);
     }
 
-    public static function iconCut($options = [])
-    {
+    public static function iconCut($options=array()){
         return self::buildIcon(self::CLASS_CUT, $options);
     }
 
-    public static function iconReplace($options = [])
-    {
+    public static function iconReplace($options=array()){
         return self::buildIcon(self::CLASS_REPLACE, $options);
     }
 
-    public static function iconCopy($options = [])
-    {
+    public static function iconCopy($options=array()){
         return self::buildIcon(self::CLASS_COPY, $options);
     }
 
-    public static function iconPaste($options = [])
-    {
+    public static function iconPaste($options=array()){
         return self::buildIcon(self::CLASS_PASTE, $options);
     }
 
-    public static function iconSelectAll($options = [])
-    {
+    public static function iconSelectAll($options=array()){
         return self::buildIcon(self::CLASS_SELECT_ALL, $options);
     }
 
-    public static function iconPasteText($options = [])
-    {
+    public static function iconPasteText($options=array()){
         return self::buildIcon(self::CLASS_PASTE_TEXT, $options);
     }
 
-    public static function iconPasteWord($options = [])
-    {
+    public static function iconPasteWord($options=array()){
         return self::buildIcon(self::CLASS_PASTE_WORD, $options);
     }
 
-    public static function iconBold($options = [])
-    {
+    public static function iconBold($options=array()){
         return self::buildIcon(self::CLASS_BOLD, $options);
     }
 
-    public static function iconItalic($options = [])
-    {
+    public static function iconItalic($options=array()){
         return self::buildIcon(self::CLASS_ITALIC, $options);
     }
 
-    public static function iconUnderline($options = [])
-    {
+    public static function iconUnderline($options=array()){
         return self::buildIcon(self::CLASS_UNDERLINE, $options);
     }
 
-    public static function iconSubscript($options = [])
-    {
+    public static function iconSubscript($options=array()){
         return self::buildIcon(self::CLASS_SUBSCRIPT, $options);
     }
 
-    public static function iconSuperscript($options = [])
-    {
+    public static function iconSuperscript($options=array()){
         return self::buildIcon(self::CLASS_SUPERSCRIPT, $options);
     }
 
-    public static function iconStrikeThrough($options = [])
-    {
+    public static function iconStrikeThrough($options=array()){
         return self::buildIcon(self::CLASS_STRIKE_THROUGH, $options);
     }
 
-    public static function iconDecreaseIndent($options = [])
-    {
+    public static function iconDecreaseIndent($options=array()){
         return self::buildIcon(self::CLASS_DECREASE_INDENT, $options);
     }
 
-    public static function iconIncreaseIndent($options = [])
-    {
+    public static function iconIncreaseIndent($options=array()){
         return self::buildIcon(self::CLASS_INCREASE_INDENT, $options);
     }
 
-    public static function iconBlockQuote($options = [])
-    {
+    public static function iconBlockQuote($options=array()){
         return self::buildIcon(self::CLASS_BLOCK_QUOTE, $options);
     }
 
-    public static function iconDivContainer($options = [])
-    {
+    public static function iconDivContainer($options=array()){
         return self::buildIcon(self::CLASS_DIV_CONTAINER, $options);
     }
 
-    public static function iconAlignLeft($options = [])
-    {
+    public static function iconAlignLeft($options=array()){
         return self::buildIcon(self::CLASS_ALIGN_LEFT, $options);
     }
 
-    public static function iconCenter($options = [])
-    {
+    public static function iconCenter($options=array()){
         return self::buildIcon(self::CLASS_CENTER, $options);
     }
 
-    public static function iconAlignRight($options = [])
-    {
+    public static function iconAlignRight($options=array()){
         return self::buildIcon(self::CLASS_ALIGN_RIGHT, $options);
     }
 
-    public static function iconJustify($options = [])
-    {
+    public static function iconJustify($options=array()){
         return self::buildIcon(self::CLASS_JUSTIFY, $options);
     }
 
-    public static function iconChoice($options = [])
-    {
+    public static function iconChoice($options=array()){
         return self::buildIcon(self::CLASS_CHOICE, $options);
     }
 
-    public static function iconInlineChoice($options = [])
-    {
+    public static function iconInlineChoice($options=array()){
         return self::buildIcon(self::CLASS_INLINE_CHOICE, $options);
     }
 
-    public static function iconMatch($options = [])
-    {
+    public static function iconMatch($options=array()){
         return self::buildIcon(self::CLASS_MATCH, $options);
     }
 
-    public static function iconAssociate($options = [])
-    {
+    public static function iconAssociate($options=array()){
         return self::buildIcon(self::CLASS_ASSOCIATE, $options);
     }
 
-    public static function iconMedia($options = [])
-    {
+    public static function iconMedia($options=array()){
         return self::buildIcon(self::CLASS_MEDIA, $options);
     }
 
-    public static function iconGraphicOrder($options = [])
-    {
+    public static function iconGraphicOrder($options=array()){
         return self::buildIcon(self::CLASS_GRAPHIC_ORDER, $options);
     }
 
-    public static function iconHotspot($options = [])
-    {
+    public static function iconHotspot($options=array()){
         return self::buildIcon(self::CLASS_HOTSPOT, $options);
     }
 
-    public static function iconGraphicGap($options = [])
-    {
+    public static function iconGraphicGap($options=array()){
         return self::buildIcon(self::CLASS_GRAPHIC_GAP, $options);
     }
 
-    public static function iconGraphicAssociate($options = [])
-    {
+    public static function iconGraphicAssociate($options=array()){
         return self::buildIcon(self::CLASS_GRAPHIC_ASSOCIATE, $options);
     }
 
-    public static function iconSelectPoint($options = [])
-    {
+    public static function iconSelectPoint($options=array()){
         return self::buildIcon(self::CLASS_SELECT_POINT, $options);
     }
 
-    public static function iconPin($options = [])
-    {
+    public static function iconPin($options=array()){
         return self::buildIcon(self::CLASS_PIN, $options);
     }
 
-    public static function iconImport($options = [])
-    {
+    public static function iconImport($options=array()){
         return self::buildIcon(self::CLASS_IMPORT, $options);
     }
 
-    public static function iconExport($options = [])
-    {
+    public static function iconExport($options=array()){
         return self::buildIcon(self::CLASS_EXPORT, $options);
     }
 
-    public static function iconMoveItem($options = [])
-    {
+    public static function iconMoveItem($options=array()){
         return self::buildIcon(self::CLASS_MOVE_ITEM, $options);
     }
 
-    public static function iconMetaData($options = [])
-    {
+    public static function iconMetaData($options=array()){
         return self::buildIcon(self::CLASS_META_DATA, $options);
     }
 
-    public static function iconSlider($options = [])
-    {
+    public static function iconSlider($options=array()){
         return self::buildIcon(self::CLASS_SLIDER, $options);
     }
 
-    public static function iconSummaryReport($options = [])
-    {
+    public static function iconSummaryReport($options=array()){
         return self::buildIcon(self::CLASS_SUMMARY_REPORT, $options);
     }
 
-    public static function iconTextEntry($options = [])
-    {
+    public static function iconTextEntry($options=array()){
         return self::buildIcon(self::CLASS_TEXT_ENTRY, $options);
     }
 
-    public static function iconExtendedText($options = [])
-    {
+    public static function iconExtendedText($options=array()){
         return self::buildIcon(self::CLASS_EXTENDED_TEXT, $options);
     }
 
-    public static function iconEraser($options = [])
-    {
+    public static function iconEraser($options=array()){
         return self::buildIcon(self::CLASS_ERASER, $options);
     }
 
-    public static function iconRow($options = [])
-    {
+    public static function iconRow($options=array()){
         return self::buildIcon(self::CLASS_ROW, $options);
     }
 
-    public static function iconColumn($options = [])
-    {
+    public static function iconColumn($options=array()){
         return self::buildIcon(self::CLASS_COLUMN, $options);
     }
 
-    public static function iconTextColor($options = [])
-    {
+    public static function iconTextColor($options=array()){
         return self::buildIcon(self::CLASS_TEXT_COLOR, $options);
     }
 
-    public static function iconBackgroundColor($options = [])
-    {
+    public static function iconBackgroundColor($options=array()){
         return self::buildIcon(self::CLASS_BACKGROUND_COLOR, $options);
     }
 
-    public static function iconSpellCheck($options = [])
-    {
+    public static function iconSpellCheck($options=array()){
         return self::buildIcon(self::CLASS_SPELL_CHECK, $options);
     }
 
-    public static function iconPolygon($options = [])
-    {
+    public static function iconPolygon($options=array()){
         return self::buildIcon(self::CLASS_POLYGON, $options);
     }
 
-    public static function iconRectangle($options = [])
-    {
+    public static function iconRectangle($options=array()){
         return self::buildIcon(self::CLASS_RECTANGLE, $options);
     }
 
-    public static function iconGapMatch($options = [])
-    {
+    public static function iconGapMatch($options=array()){
         return self::buildIcon(self::CLASS_GAP_MATCH, $options);
     }
 
-    public static function iconOrder($options = [])
-    {
+    public static function iconOrder($options=array()){
         return self::buildIcon(self::CLASS_ORDER, $options);
     }
 
-    public static function iconHottext($options = [])
-    {
+    public static function iconHottext($options=array()){
         return self::buildIcon(self::CLASS_HOTTEXT, $options);
     }
 
-    public static function iconFreeForm($options = [])
-    {
+    public static function iconFreeForm($options=array()){
         return self::buildIcon(self::CLASS_FREE_FORM, $options);
     }
 
-    public static function iconStepBackward($options = [])
-    {
+    public static function iconStepBackward($options=array()){
         return self::buildIcon(self::CLASS_STEP_BACKWARD, $options);
     }
 
-    public static function iconFastBackward($options = [])
-    {
+    public static function iconFastBackward($options=array()){
         return self::buildIcon(self::CLASS_FAST_BACKWARD, $options);
     }
 
-    public static function iconBackward($options = [])
-    {
+    public static function iconBackward($options=array()){
         return self::buildIcon(self::CLASS_BACKWARD, $options);
     }
 
-    public static function iconPlay($options = [])
-    {
+    public static function iconPlay($options=array()){
         return self::buildIcon(self::CLASS_PLAY, $options);
     }
 
-    public static function iconPause($options = [])
-    {
+    public static function iconPause($options=array()){
         return self::buildIcon(self::CLASS_PAUSE, $options);
     }
 
-    public static function iconStop($options = [])
-    {
+    public static function iconStop($options=array()){
         return self::buildIcon(self::CLASS_STOP, $options);
     }
 
-    public static function iconForward($options = [])
-    {
+    public static function iconForward($options=array()){
         return self::buildIcon(self::CLASS_FORWARD, $options);
     }
 
-    public static function iconFastForward($options = [])
-    {
+    public static function iconFastForward($options=array()){
         return self::buildIcon(self::CLASS_FAST_FORWARD, $options);
     }
 
-    public static function iconStepForward($options = [])
-    {
+    public static function iconStepForward($options=array()){
         return self::buildIcon(self::CLASS_STEP_FORWARD, $options);
     }
 
-    public static function iconEllipsis($options = [])
-    {
+    public static function iconEllipsis($options=array()){
         return self::buildIcon(self::CLASS_ELLIPSIS, $options);
     }
 
-    public static function iconCircle($options = [])
-    {
+    public static function iconCircle($options=array()){
         return self::buildIcon(self::CLASS_CIRCLE, $options);
     }
 
-    public static function iconTarget($options = [])
-    {
+    public static function iconTarget($options=array()){
         return self::buildIcon(self::CLASS_TARGET, $options);
     }
 
-    public static function iconGuideArrow($options = [])
-    {
+    public static function iconGuideArrow($options=array()){
         return self::buildIcon(self::CLASS_GUIDE_ARROW, $options);
     }
 
-    public static function iconRangeSliderRight($options = [])
-    {
+    public static function iconRangeSliderRight($options=array()){
         return self::buildIcon(self::CLASS_RANGE_SLIDER_RIGHT, $options);
     }
 
-    public static function iconRangeSliderLeft($options = [])
-    {
+    public static function iconRangeSliderLeft($options=array()){
         return self::buildIcon(self::CLASS_RANGE_SLIDER_LEFT, $options);
     }
 
-    public static function iconRadioChecked($options = [])
-    {
+    public static function iconRadioChecked($options=array()){
         return self::buildIcon(self::CLASS_RADIO_CHECKED, $options);
     }
 
-    public static function iconCheckboxIndeterminate($options = [])
-    {
+    public static function iconCheckboxIndeterminate($options=array()){
         return self::buildIcon(self::CLASS_CHECKBOX_INDETERMINATE, $options);
     }
 
-    public static function iconCheckbox($options = [])
-    {
+    public static function iconCheckbox($options=array()){
         return self::buildIcon(self::CLASS_CHECKBOX, $options);
     }
 
-    public static function iconCheckboxCrossed($options = [])
-    {
+    public static function iconCheckboxCrossed($options=array()){
         return self::buildIcon(self::CLASS_CHECKBOX_CROSSED, $options);
     }
 
-    public static function iconCheckboxChecked($options = [])
-    {
+    public static function iconCheckboxChecked($options=array()){
         return self::buildIcon(self::CLASS_CHECKBOX_CHECKED, $options);
     }
 
-    public static function iconResultNok($options = [])
-    {
+    public static function iconResultNok($options=array()){
         return self::buildIcon(self::CLASS_RESULT_NOK, $options);
     }
 
-    public static function iconResultOk($options = [])
-    {
+    public static function iconResultOk($options=array()){
         return self::buildIcon(self::CLASS_RESULT_OK, $options);
     }
 
-    public static function iconNotEvaluated($options = [])
-    {
+    public static function iconNotEvaluated($options=array()){
         return self::buildIcon(self::CLASS_NOT_EVALUATED, $options);
     }
 
-    public static function iconFilter($options = [])
-    {
+    public static function iconFilter($options=array()){
         return self::buildIcon(self::CLASS_FILTER, $options);
     }
 
-    public static function iconTranslate($options = [])
-    {
+    public static function iconTranslate($options=array()){
         return self::buildIcon(self::CLASS_TRANSLATE, $options);
     }
 
-    public static function iconEject($options = [])
-    {
+    public static function iconEject($options=array()){
         return self::buildIcon(self::CLASS_EJECT, $options);
     }
 
-    public static function iconContinue($options = [])
-    {
+    public static function iconContinue($options=array()){
         return self::buildIcon(self::CLASS_CONTINUE, $options);
     }
 
-    public static function iconRadio($options = [])
-    {
+    public static function iconRadio($options=array()){
         return self::buildIcon(self::CLASS_RADIO, $options);
     }
 
-    public static function iconSphere($options = [])
-    {
+    public static function iconSphere($options=array()){
         return self::buildIcon(self::CLASS_SPHERE, $options);
     }
 
-    public static function iconReset($options = [])
-    {
+    public static function iconReset($options=array()){
         return self::buildIcon(self::CLASS_RESET, $options);
     }
 
-    public static function iconSmaller($options = [])
-    {
+    public static function iconSmaller($options=array()){
         return self::buildIcon(self::CLASS_SMALLER, $options);
     }
 
-    public static function iconLarger($options = [])
-    {
+    public static function iconLarger($options=array()){
         return self::buildIcon(self::CLASS_LARGER, $options);
     }
 
-    public static function iconClock($options = [])
-    {
+    public static function iconClock($options=array()){
         return self::buildIcon(self::CLASS_CLOCK, $options);
     }
 
-    public static function iconFont($options = [])
-    {
+    public static function iconFont($options=array()){
         return self::buildIcon(self::CLASS_FONT, $options);
     }
 
-    public static function iconMaths($options = [])
-    {
+    public static function iconMaths($options=array()){
         return self::buildIcon(self::CLASS_MATHS, $options);
     }
 
-    public static function iconGrip($options = [])
-    {
+    public static function iconGrip($options=array()){
         return self::buildIcon(self::CLASS_GRIP, $options);
     }
 
-    public static function iconRubric($options = [])
-    {
+    public static function iconRubric($options=array()){
         return self::buildIcon(self::CLASS_RUBRIC, $options);
     }
 
-    public static function iconAudio($options = [])
-    {
+    public static function iconAudio($options=array()){
         return self::buildIcon(self::CLASS_AUDIO, $options);
     }
 
-    public static function iconGripH($options = [])
-    {
+    public static function iconGripH($options=array()){
         return self::buildIcon(self::CLASS_GRIP_H, $options);
     }
 
-    public static function iconMagicwand($options = [])
-    {
+    public static function iconMagicwand($options=array()){
         return self::buildIcon(self::CLASS_MAGICWAND, $options);
     }
 
-    public static function iconLoop($options = [])
-    {
+    public static function iconLoop($options=array()){
         return self::buildIcon(self::CLASS_LOOP, $options);
     }
 
-    public static function iconCalendar($options = [])
-    {
+    public static function iconCalendar($options=array()){
         return self::buildIcon(self::CLASS_CALENDAR, $options);
     }
 
-    public static function iconReload($options = [])
-    {
+    public static function iconReload($options=array()){
         return self::buildIcon(self::CLASS_RELOAD, $options);
     }
 
-    public static function iconSpeed($options = [])
-    {
+    public static function iconSpeed($options=array()){
         return self::buildIcon(self::CLASS_SPEED, $options);
     }
 
-    public static function iconVolume($options = [])
-    {
+    public static function iconVolume($options=array()){
         return self::buildIcon(self::CLASS_VOLUME, $options);
     }
 
-    public static function iconContrast($options = [])
-    {
+    public static function iconContrast($options=array()){
         return self::buildIcon(self::CLASS_CONTRAST, $options);
     }
 
-    public static function iconHeadphones($options = [])
-    {
+    public static function iconHeadphones($options=array()){
         return self::buildIcon(self::CLASS_HEADPHONES, $options);
     }
 
-    public static function iconCompress($options = [])
-    {
+    public static function iconCompress($options=array()){
         return self::buildIcon(self::CLASS_COMPRESS, $options);
     }
 
-    public static function iconMapO($options = [])
-    {
+    public static function iconMapO($options=array()){
         return self::buildIcon(self::CLASS_MAP_O, $options);
     }
 
-    public static function iconVariable($options = [])
-    {
+    public static function iconVariable($options=array()){
         return self::buildIcon(self::CLASS_VARIABLE, $options);
     }
 
-    public static function iconTooltip($options = [])
-    {
+    public static function iconTooltip($options=array()){
         return self::buildIcon(self::CLASS_TOOLTIP, $options);
     }
 
-    public static function iconGlobe($options = [])
-    {
+    public static function iconGlobe($options=array()){
         return self::buildIcon(self::CLASS_GLOBE, $options);
     }
 
-    public static function iconHighlighter($options = [])
-    {
+    public static function iconHighlighter($options=array()){
         return self::buildIcon(self::CLASS_HIGHLIGHTER, $options);
     }
 
-    public static function iconEliminateCrossed($options = [])
-    {
+    public static function iconEliminateCrossed($options=array()){
         return self::buildIcon(self::CLASS_ELIMINATE_CROSSED, $options);
     }
 
-    public static function iconPlayFromHere($options = [])
-    {
+    public static function iconPlayFromHere($options=array()){
         return self::buildIcon(self::CLASS_PLAY_FROM_HERE, $options);
     }
+
+
 }
