@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -59,7 +60,7 @@ class QueueDispatcherTest extends TestCase
     public function testDispatcherNoTaskLogThenThrowException()
     {
         new QueueDispatcher([
-            QueueDispatcher::OPTION_QUEUES =>[
+            QueueDispatcher::OPTION_QUEUES => [
                 new Queue('queueA', new InMemoryQueueBroker())
             ]
         ]);
@@ -72,7 +73,7 @@ class QueueDispatcherTest extends TestCase
     public function testDispatcherWhenDuplicatedQueuesAreSetThenThrowException()
     {
         new QueueDispatcher([
-            QueueDispatcher::OPTION_QUEUES =>[
+            QueueDispatcher::OPTION_QUEUES => [
                 new Queue('queueA', new InMemoryQueueBroker()),
                 new Queue('queueA', new InMemoryQueueBroker())
             ]
@@ -110,7 +111,7 @@ class QueueDispatcherTest extends TestCase
             ->method('enqueue')
             ->willReturn($this->returnValue(true));
 
-        $this->assertInstanceOf(CallbackTaskInterface::class, $queueMock->createTask($taskMock, []) );
+        $this->assertInstanceOf(CallbackTaskInterface::class, $queueMock->createTask($taskMock, []));
     }
 
     public function testCreateTaskWhenUsingStaticClassMethodCallShouldReturnCallbackTask()
@@ -125,7 +126,7 @@ class QueueDispatcherTest extends TestCase
             ->method('enqueue')
             ->willReturn($this->returnValue(true));
 
-        $this->assertInstanceOf(CallbackTaskInterface::class, $queueMock->createTask([CallableFixture::class, 'exampleStatic'], []) );
+        $this->assertInstanceOf(CallbackTaskInterface::class, $queueMock->createTask([CallableFixture::class, 'exampleStatic'], []));
     }
 
     public function testOneTimeWorkerHasServiceLocator()
@@ -161,6 +162,5 @@ class QueueDispatcherTest extends TestCase
         $dispatcher->setServiceLocator($serviceManager);
 
         $this->assertTrue($dispatcher->enqueue($taskMock));
-
     }
 }

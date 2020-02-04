@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -134,7 +135,6 @@ class tao_actions_form_RestForm
             // Field position in the form
             $guiPropertyOrder = $property->getOnePropertyValue($this->getProperty(TaoOntology::PROPERTY_GUI_ORDER));
             if (!is_null($guiPropertyOrder)) {
-
                 $position = intval((string)$guiPropertyOrder);
                 $propertyData['position'] = $position;
                 $i = 0;
@@ -144,12 +144,10 @@ class tao_actions_form_RestForm
                 ) {
                     $i++;
                 }
-                array_splice($this->formProperties, $i, 0, array($propertyData));
-
+                array_splice($this->formProperties, $i, 0, [$propertyData]);
             } else {
                 $this->formProperties[] = $propertyData;
             }
-
         }
     }
 
@@ -198,7 +196,6 @@ class tao_actions_form_RestForm
         $report = common_report_Report::createInfo();
 
         foreach ($this->formProperties as $property) {
-
             try {
                 $value = $property['formValue'];
 
@@ -212,7 +209,8 @@ class tao_actions_form_RestForm
                         $validator = new $validatorClass();
                         if (!$validator->evaluate($value)) {
                             throw new common_exception_ValidationFailed(
-                                $property['uri'], $validator->getMessage()
+                                $property['uri'],
+                                $validator->getMessage()
                             );
                         }
                     }
@@ -224,7 +222,6 @@ class tao_actions_form_RestForm
                     }
                     $rangeValidated = false;
                     foreach ($this->ranges[$property['range']] as $rangeData) {
-
                         if (is_array($value)) {
                             foreach ($value as $k => $v) {
                                 if ($rangeData['uri'] == $v) {
@@ -241,14 +238,13 @@ class tao_actions_form_RestForm
                                 break;
                             }
                         }
-
                     }
                     if (!$rangeValidated) {
                         throw new common_exception_ValidationFailed(
-                            $property['uri'], 'Range "' . $value . '" for field "' . $property['label'] . '" is not recognized.'
+                            $property['uri'],
+                            'Range "' . $value . '" for field "' . $property['label'] . '" is not recognized.'
                         );
                     }
-
                 }
             } catch (common_exception_ValidationFailed $e) {
                 $subReport = common_report_Report::createFailure($e->getMessage());
@@ -305,7 +301,7 @@ class tao_actions_form_RestForm
      */
     protected function getTopClass()
     {
-        return $this->getClass(TaoOntology::CLASS_URI_OBJECT );
+        return $this->getClass(TaoOntology::CLASS_URI_OBJECT);
     }
 
     /**
@@ -347,7 +343,7 @@ class tao_actions_form_RestForm
             return [];
         }
 
-        $options = array();
+        $options = [];
 
         /** @var core_kernel_classes_Resource $rangeInstance */
         foreach ($range->getInstances(true) as $rangeInstance) {
@@ -380,7 +376,6 @@ class tao_actions_form_RestForm
         /** @var core_kernel_classes_Resource $resource */
         $values = $this->resource->getPropertyValuesCollection($property);
         foreach ($values->getIterator() as $value) {
-
             if (is_null($value)) {
                 continue;
             }
@@ -394,7 +389,6 @@ class tao_actions_form_RestForm
             } elseif ($value instanceof core_kernel_classes_Literal) {
                 $propertyValues[] = (string)$value;
             }
-
         }
 
         if (!empty($propertyValues)) {
@@ -442,5 +436,4 @@ class tao_actions_form_RestForm
         }
         return $values;
     }
-
 }

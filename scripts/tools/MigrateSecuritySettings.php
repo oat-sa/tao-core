@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -94,9 +95,9 @@ class MigrateSecuritySettings extends AbstractAction
      * @param string $settingName
      * @throws common_Exception
      */
-    private function migrateSetting($settingName) {
-        if ($this->oldSettingsStorage->exists($settingName))
-        {
+    private function migrateSetting($settingName)
+    {
+        if ($this->oldSettingsStorage->exists($settingName)) {
             $settingValue = $this->oldSettingsStorage->get($settingName);
             if ($this->wetRun) {
                 $settingsStorage = $this->getServiceLocator()->get(SettingsStorageInterface::SERVICE_ID);

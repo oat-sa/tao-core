@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License
@@ -82,7 +83,6 @@ class ExceptionInterpreterTest extends TestCase
         $exception = new Exception();
         $this->assertSame($ExceptionInterpretor, $ExceptionInterpretor->setException($exception));
         $this->assertSame($exception, $this->getInaccessibleProperty($ExceptionInterpretor, 'exception'));
-
     }
 
     public function testGetHttpCode()
@@ -149,7 +149,7 @@ class ExceptionInterpreterTest extends TestCase
      * @return mixed Method return
      * @throws \ReflectionException if the class or method does not exist.
      */
-    public function invokeProtectedMethod($object, $methodName, array $parameters = array())
+    public function invokeProtectedMethod($object, $methodName, array $parameters = [])
     {
         $reflection = new \ReflectionClass(get_class($object));
         $method = $reflection->getMethod($methodName);

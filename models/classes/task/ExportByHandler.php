@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -37,7 +38,7 @@ class ExportByHandler extends AbstractAction
         $this->validateParams($params);
 
         /** @var \tao_models_classes_export_ExportHandler $exporter */
-        $exporter = new $params[self::PARAM_EXPORT_HANDLER];
+        $exporter = new $params[self::PARAM_EXPORT_HANDLER]();
 
         try {
             // export data under a temp directory stored locally
@@ -69,7 +70,8 @@ class ExportByHandler extends AbstractAction
      */
     private function validateParams($params)
     {
-        if (!isset($params[self::PARAM_EXPORT_HANDLER])
+        if (
+            !isset($params[self::PARAM_EXPORT_HANDLER])
             || !class_exists($params[self::PARAM_EXPORT_HANDLER])
             || !is_a($params[self::PARAM_EXPORT_HANDLER], \tao_models_classes_export_ExportHandler::class, true)
         ) {

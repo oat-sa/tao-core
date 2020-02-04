@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -40,7 +41,7 @@ class tao_actions_ServiceModule extends tao_actions_CommonModule
     protected function getServiceCallId()
     {
         if (!$this->hasRequestParameter('serviceCallId')) {
-        	throw new common_exception_Error('No serviceCallId on service call');
+            throw new common_exception_Error('No serviceCallId on service call');
         }
         return $this->getRequestParameter('serviceCallId');
     }
@@ -73,9 +74,9 @@ class tao_actions_ServiceModule extends tao_actions_CommonModule
     public function submitState()
     {
         $success = $this->setState($_POST['state']);
-        $this->returnJson(array(
+        $this->returnJson([
             'success' => $success
-        ));
+        ]);
     }
 
     public function getUserPropertyValues()
@@ -86,12 +87,12 @@ class tao_actions_ServiceModule extends tao_actions_CommonModule
         $property = $this->getRequestParameter('property');
 
         $values = $this->getSession()->getUserPropertyValues($property);
-        $this->returnJson(array(
+        $this->returnJson([
             'success' => true,
-            'data' => array(
+            'data' => [
                 $property => $values
-            )
-        ));
+            ]
+        ]);
     }
 
     /**

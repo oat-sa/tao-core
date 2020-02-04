@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -44,7 +45,8 @@ class WebhookEntryFactory extends ConfigurableService
             $data[Webhook::URL],
             $data[Webhook::HTTP_METHOD],
             $data[Webhook::RETRY_MAX],
-            $auth
+            $auth,
+            $data[Webhook::RESPONSE_VALIDATION]
         );
     }
 

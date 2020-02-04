@@ -1,22 +1,22 @@
 <?php
-/**  
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
+ *
  */
 
 /**
@@ -25,10 +25,9 @@
  * @access public
  * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @package tao
- 
+
  */
-class tao_helpers_translation_POTranslationUnit
-    extends tao_helpers_translation_TranslationUnit
+class tao_helpers_translation_POTranslationUnit extends tao_helpers_translation_TranslationUnit
 {
     // --- ASSOCIATIONS ---
 
@@ -106,15 +105,13 @@ class tao_helpers_translation_POTranslationUnit
     {
         
         $currentAnnotations = $this->getAnnotations();
-        if (!isset($currentAnnotations[self::FLAGS])){
+        if (!isset($currentAnnotations[self::FLAGS])) {
             $currentAnnotations[self::FLAGS] = $flag;
-        }
-        else if (!(mb_strpos($currentAnnotations[self::FLAGS], $flag, 0, TAO_DEFAULT_ENCODING) !== false)){
+        } elseif (!(mb_strpos($currentAnnotations[self::FLAGS], $flag, 0, TAO_DEFAULT_ENCODING) !== false)) {
             $currentAnnotations[self::FLAGS] .= " ${flag}";
         }
     
         $this->setAnnotations($currentAnnotations);
-        
     }
 
     /**
@@ -130,18 +127,17 @@ class tao_helpers_translation_POTranslationUnit
     {
         
         $currentFlags = $this->getFlags();
-        for ($i = 0; $i < count($currentFlags); $i++){
-            if ($currentFlags[$i] == $flag){
+        for ($i = 0; $i < count($currentFlags); $i++) {
+            if ($currentFlags[$i] == $flag) {
                 break;
             }
         }
         
-        if ($i <= count($currentFlags)){
+        if ($i <= count($currentFlags)) {
             // The flag is found.
             unset($currentFlags[$i]);
             $this->setFlags($currentFlags);
         }
-        
     }
 
     /**
@@ -157,8 +153,8 @@ class tao_helpers_translation_POTranslationUnit
         $returnValue = (bool) false;
 
         
-        foreach ($this->getFlags() as $f){
-            if ($f == $flag){
+        foreach ($this->getFlags() as $f) {
+            if ($f == $flag) {
                 $returnValue = true;
                 break;
             }
@@ -178,11 +174,11 @@ class tao_helpers_translation_POTranslationUnit
      */
     public function getFlags()
     {
-        $returnValue = array();
+        $returnValue = [];
 
         
         $currentAnnotations = $this->getAnnotations();
-        if (isset($currentAnnotations[self::FLAGS])){
+        if (isset($currentAnnotations[self::FLAGS])) {
             $returnValue = explode(" ", $currentAnnotations[self::FLAGS]);
         }
         
@@ -204,7 +200,5 @@ class tao_helpers_translation_POTranslationUnit
         $currentAnnotations = $this->getAnnotations();
         $currentAnnotations[self::FLAGS] = implode(" ", $flags);
         $this->setAnnotations($currentAnnotations);
-        
     }
-
 }

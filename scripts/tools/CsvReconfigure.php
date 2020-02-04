@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,15 +26,15 @@ use oat\oatbox\action\Action;
 
 /**
  * CSV Reconfiguration Script.
- * 
+ *
  * This script aims at providing a tool enabling you to reconfigure a CSV file in terms of:
- * 
+ *
  * * Delimiter character
  * * Enclosure character
  * * Escape character
- * 
+ *
  * Parameters are:
- * 
+ *
  * Parameter 1: The either absolute or relative path to the source CSV file.
  * Parameter 2: The either absolute or relative path to the destination CSV file.
  * Parameter 3: (optional) The output CSV delimiter (default is ",").
@@ -42,13 +43,13 @@ use oat\oatbox\action\Action;
  * Parameter 6: (optional) The input CSV delimiter (default is ",").
  * Parameter 7: (optional) The input CSV enclosure (default is '"').
  * Parameter 8: (optional) The input CSV escape character (default is "\").
- * 
+ *
  * Bash example usage:
- * 
+ *
  * Reconfigure output CSV with delimiter character = ";", enclosure character = '"', escape character = "\".
- * 
+ *
  * sudo -u www-data php index.php "oat\tao\scripts\tools\CsvReconfigure" /some/path/original.csv /some/path/reconfigured.csv \; \" \\
- * 
+ *
  */
 class CsvReconfigure implements Action
 {
@@ -71,7 +72,7 @@ class CsvReconfigure implements Action
         }
         
         if (!empty($params[1])) {
-           $destination = $params[1];
+            $destination = $params[1];
         } else {
             return new Report(
                 Report::TYPE_ERROR,
@@ -83,9 +84,9 @@ class CsvReconfigure implements Action
         $outputDelimiter = isset($params[2]) ? $params[2] : ',';
         $outputEnclosure = isset($params[3]) ? $params[3] : '"';
         $outputEscapeChar = isset($params[4]) ? $params[4] : "\\";
-        $inputDelimiter = isset($params[5]) ? $params[5] :',';
+        $inputDelimiter = isset($params[5]) ? $params[5] : ',';
         $inputEnclosure = isset($params[6]) ? $params[6] : '"';
-        $inputEscapeChar = isset($params[7]) ? $params[7] :"\\";
+        $inputEscapeChar = isset($params[7]) ? $params[7] : "\\";
         
         // -- Deal with file handling.
         $sourceFp = @fopen($source, 'r');
@@ -121,7 +122,6 @@ class CsvReconfigure implements Action
         
         $rowCount = 0;
         while ($sourceData = fgetcsv($sourceFp, 0, $inputDelimiter, $inputEnclosure, $inputEscapeChar)) {
-            
             fputcsv($destinationFp, $sourceData, $outputDelimiter, $outputEnclosure, $outputEscapeChar);
             
             $rowCount++;

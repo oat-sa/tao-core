@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -53,7 +54,8 @@ class ResourceCompiledMetadataHelper
      *
      * @return string|null
      */
-    public function getLabel() {
+    public function getLabel()
+    {
         return $this->getValue('label');
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,17 +23,17 @@ namespace oat\tao\model;
 
 interface WidgetDefinitions
 {
-	const PROPERTY_CALENDAR = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Calendar';
-	const PROPERTY_TEXTBOX = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox';
-	const PROPERTY_TREEBOX = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TreeBox';
-	const PROPERTY_TEXTAREA = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextArea';
-	const PROPERTY_HTMLAREA = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#HTMLArea';
-	const PROPERTY_PASSWORD = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Password';
-	const PROPERTY_HIDDENBOX = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#HiddenBox';
-	const PROPERTY_RADIOBOX = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#RadioBox';
-	const PROPERTY_COMBOBOX = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboBox';
-	const PROPERTY_CHECKBOX = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#CheckBox';
-	const PROPERTY_FILE = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#AsyncFile';
-	const PROPERTY_VERSIONEDFILE = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#VersionedFile';
-	const PROPERTY_JSONOBJECT = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#JsonObject';
+    const PROPERTY_CALENDAR = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Calendar';
+    const PROPERTY_TEXTBOX = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox';
+    const PROPERTY_TREEBOX = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TreeBox';
+    const PROPERTY_TEXTAREA = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextArea';
+    const PROPERTY_HTMLAREA = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#HTMLArea';
+    const PROPERTY_PASSWORD = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Password';
+    const PROPERTY_HIDDENBOX = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#HiddenBox';
+    const PROPERTY_RADIOBOX = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#RadioBox';
+    const PROPERTY_COMBOBOX = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboBox';
+    const PROPERTY_CHECKBOX = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#CheckBox';
+    const PROPERTY_FILE = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#AsyncFile';
+    const PROPERTY_VERSIONEDFILE = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#VersionedFile';
+    const PROPERTY_JSONOBJECT = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#JsonObject';
 }

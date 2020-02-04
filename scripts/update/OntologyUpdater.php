@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -31,16 +32,18 @@ use common_ext_ExtensionsManager;
 use core_kernel_persistence_smoothsql_SmoothIterator;
 use oat\tao\model\extension\ExtensionModel;
 
-class OntologyUpdater {
+class OntologyUpdater
+{
     
-    static public function syncModels() {
+    public static function syncModels()
+    {
         $currentModel = ModelManager::getModel();
 
         // Excludes the writable model.
         $modelFactory = new \core_kernel_api_ModelFactory();
         $writableModelId = $modelFactory->getModelId(LOCAL_NAMESPACE);
         $modelIds = array_diff($currentModel->getReadableModels(), [$writableModelId]);
-        
+
         $persistence = common_persistence_SqlPersistence::getPersistence('default');
         
         $smoothIterator = new core_kernel_persistence_smoothsql_SmoothIterator($persistence, $modelIds);
@@ -56,8 +59,9 @@ class OntologyUpdater {
         $diff->applyTo($currentModel);
     }
     
-    static public function correctModelId($rdfFile) {
-        $modelFile = new FileModel(array('file' => $rdfFile));
+    public static function correctModelId($rdfFile)
+    {
+        $modelFile = new FileModel(['file' => $rdfFile]);
         $modelRdf = ModelManager::getModel()->getRdfInterface();
         foreach ($modelFile->getRdfInterface() as $triple) {
             $modelRdf->remove($triple);
@@ -65,20 +69,20 @@ class OntologyUpdater {
         }
     }
     
-    static protected function logDiff(\helpers_RdfDiff $diff) {
-        $folder = FILES_PATH.'updates'.DIRECTORY_SEPARATOR;
+    protected static function logDiff(\helpers_RdfDiff $diff)
+    {
+        $folder = FILES_PATH . 'updates' . DIRECTORY_SEPARATOR;
         $updateId = time();
-        while (file_exists($folder.$updateId)) {
+        while (file_exists($folder . $updateId)) {
             $count = isset($count) ? $count + 1 : 0;
-            $updateId = time().'_'.$count;
+            $updateId = time() . '_' . $count;
         }
-        $path = $folder.$updateId;
+        $path = $folder . $updateId;
         if (!mkdir($path, 0700, true)) {
-            throw new \common_exception_Error('Unable to log update to '.$path);
+            throw new \common_exception_Error('Unable to log update to ' . $path);
         }
         
-        FileModel::toFile($path.DIRECTORY_SEPARATOR.'add.rdf', $diff->getTriplesToAdd());
-        FileModel::toFile($path.DIRECTORY_SEPARATOR.'remove.rdf', $diff->getTriplesToRemove());
-    }    
-    
+        FileModel::toFile($path . DIRECTORY_SEPARATOR . 'add.rdf', $diff->getTriplesToAdd());
+        FileModel::toFile($path . DIRECTORY_SEPARATOR . 'remove.rdf', $diff->getTriplesToRemove());
+    }
 }

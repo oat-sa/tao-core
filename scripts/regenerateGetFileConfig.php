@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,11 +20,11 @@
  *
  */
 
-require_once dirname(__FILE__) .'/../includes/raw_start.php';
+require_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 $taoExtension = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
 
-$file = $taoExtension->getDir().'includes'.DIRECTORY_SEPARATOR.'configGetFile.php';
+$file = $taoExtension->getDir() . 'includes' . DIRECTORY_SEPARATOR . 'configGetFile.php';
 
 //verify write access
 if (file_exists($file) && !is_writable($file)) {
@@ -32,7 +33,7 @@ if (file_exists($file) && !is_writable($file)) {
 }
 
 if ($taoExtension->hasConfig(tao_models_classes_fsAccess_Manager::CONFIG_KEY)) {
-    $configData = array();
+    $configData = [];
     foreach ($taoExtension->getConfig(tao_models_classes_fsAccess_Manager::CONFIG_KEY) as $serialized) {
         $provider = tao_models_classes_fsAccess_AccessProvider::restoreFromString($serialized);
         if ($provider instanceof tao_models_classes_fsAccess_TokenAccessProvider) {
@@ -45,12 +46,12 @@ if ($taoExtension->hasConfig(tao_models_classes_fsAccess_Manager::CONFIG_KEY)) {
             }
         }
         
-        $configData[$provider->getId()] = array(
+        $configData[$provider->getId()] = [
             'secret' => $config['secret'],
             'folder' => $provider->getFileSystem()->getPath()
-        );
+        ];
     }
-    $success = file_put_contents($file, "<?php return ".common_Utils::toPHPVariableString($configData).";");
+    $success = file_put_contents($file, "<?php return " . common_Utils::toPHPVariableString($configData) . ";");
     if ($success !== false) {
         echo 'Successfully saved GetFile config.' . PHP_EOL;
         die(0);

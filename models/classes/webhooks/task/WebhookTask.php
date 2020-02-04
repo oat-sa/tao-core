@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -46,6 +47,7 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
 
     /**
      * @param array $paramsArray
+     *
      * @return \common_report_Report
      * @throws GuzzleException
      */
@@ -63,6 +65,7 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
 
     /**
      * @param WebhookInterface $webhookConfig
+     *
      * @return RequestInterface
      * @throws \common_Exception
      */
@@ -82,7 +85,7 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
             $webhookConfig->getUrl(),
             [
                 'Content-Type' => $payloadFactory->getContentType(),
-                'Accept' => $this->getWebhookResponseFactory()->getAcceptedContentType()
+                'Accept' => $this->getWebhookResponseFactory()->getAcceptedContentType(),
             ],
             $body
         );
@@ -91,32 +94,37 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
     /**
      * @param RequestInterface $request
      * @param WebhookAuthInterface|null $authConfig
+     *
      * @return \common_report_Report
      * @throws GuzzleException
      * @throws \common_exception_InvalidArgumentType
      */
     private function performRequest(RequestInterface $request, WebhookAuthInterface $authConfig = null)
     {
-        $errorReport = $response =null;
+        $errorReport = $response = null;
         try {
             $response = $this->getWebhookSender()->performRequest($request, $authConfig);
         } catch (ServerException $connectException) {
             $this->retryTask();
             $errorReport = $this->getWebhookTaskReports()->reportBadResponseException(
-                $this->getTaskContext(), $connectException
+                $this->getTaskContext(),
+                $connectException
             );
         } catch (BadResponseException $badResponseException) {
             $errorReport = $this->getWebhookTaskReports()->reportBadResponseException(
-                $this->getTaskContext(), $badResponseException
+                $this->getTaskContext(),
+                $badResponseException
             );
         } catch (ConnectException $connectException) {
             $this->retryTask();
             $errorReport = $this->getWebhookTaskReports()->reportConnectException(
-                $this->getTaskContext(), $connectException
+                $this->getTaskContext(),
+                $connectException
             );
         } catch (RequestException $requestException) {
             $errorReport = $this->getWebhookTaskReports()->reportRequestException(
-                $this->getTaskContext(), $requestException
+                $this->getTaskContext(),
+                $requestException
             );
         }
 
@@ -127,6 +135,7 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
 
     /**
      * @param ResponseInterface $response
+     *
      * @return \common_report_Report
      */
     private function handleResponse(ResponseInterface $response)
@@ -137,24 +146,32 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
         }
 
         $parsedResponse = $this->getWebhookResponseFactory()->create($response);
-        if ($parsedResponse->getParseError()) {
-            return $this->getWebhookTaskReports()->reportInvalidBodyFormat($this->getTaskContext(), $response);
-        }
-
         $eventId = $this->params->getEventId();
-        if (!$parsedResponse->isDelivered($eventId)) {
-            return $this->getWebhookTaskReports()->reportInvalidAcknowledgement(
-                $this->getTaskContext(), $response, $parsedResponse
-            );
+
+        if ($this->params->responseValidation()) {
+            if ($this->params->getRetryMax() && $parsedResponse->getParseError()) {
+                return $this->getWebhookTaskReports()->reportInvalidBodyFormat($this->getTaskContext(), $response);
+            }
+
+            if (!$parsedResponse->isDelivered($eventId)) {
+                return $this->getWebhookTaskReports()->reportInvalidAcknowledgement(
+                    $this->getTaskContext(),
+                    $response,
+                    $parsedResponse
+                );
+            }
         }
 
         return $this->getWebhookTaskReports()->reportSuccess(
-            $this->getTaskContext(), $response, $parsedResponse->getStatus($eventId)
+            $this->getTaskContext(),
+            $response,
+            $parsedResponse->getStatus($eventId)
         );
     }
 
     /**
      * @param int $httpStatusCode
+     *
      * @return bool
      */
     private function isAcceptableResponseStatusCode($httpStatusCode)

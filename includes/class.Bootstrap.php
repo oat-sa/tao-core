@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,7 +19,9 @@
  *
  *
  */
+
 use oat\tao\model\mvc\Bootstrap as MvcBootstrap;
+
 /**
  * The generis extension loader is included there ONCE!
  *  1. Load and initialize the API and so the database
@@ -29,7 +32,7 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 /**
  * The Bootstrap Class enables you to drive the application flow for a given extenstion.
  * A bootstrap instance initialize the context and starts all the services:
- * 	- session
+ *  - session
  *  - database
  *  - user
  *  - i18n
@@ -43,19 +46,20 @@ require_once __DIR__ . '/../../vendor/autoload.php';
  * @package tao
  * @example
  * <code>
- *  $bootStrap = new BootStrap('tao');	//create the Bootstrap instance
- *  $bootStrap->start();				//start all the services
- *  $bootStrap->dispatch();				//dispatch the http request into the control loop
+ *  $bootStrap = new BootStrap('tao');  //create the Bootstrap instance
+ *  $bootStrap->start();                //start all the services
+ *  $bootStrap->dispatch();             //dispatch the http request into the control loop
  * </code>
  */
-class Bootstrap extends MvcBootstrap {
+class Bootstrap extends MvcBootstrap
+{
     
-    public function __construct($extName) {
-        $configFile = dirname(dirname(__DIR__)).DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'generis.conf.php';
+    public function __construct($extName)
+    {
+        $configFile = dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'generis.conf.php';
         parent::__construct($configFile);
         
         // load extension constants
         common_ext_ExtensionsManager::singleton()->getExtensionById($extName);
     }
-    
 }

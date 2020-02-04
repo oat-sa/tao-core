@@ -1,22 +1,23 @@
 <?php
-/**  
+
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
- *               
- * 
+ *
+ *
  */
 
 namespace oat\tao\test\integration;
@@ -34,26 +35,27 @@ use oat\tao\model\search\Search;
 use oat\tao\model\search\index\OntologyIndex;
 use oat\tao\model\search\tokenizer\Tokenizer;
 
-
 /**
  * @author Joel Bout, <joel@taotesting.com>
  * @package tao
  */
-class SearchTest extends GenerisPhpUnitTestRunner {
+class SearchTest extends GenerisPhpUnitTestRunner
+{
     
     private $class;
     
     private $property;
-	
-    public function setUp()
-    {		
-        parent::setUp();
-		$rdfClass = new core_kernel_classes_Class(GenerisRdf::CLASS_GENERIS_RESOURCE);
-		$this->class = $rdfClass->createSubClass('test class');
-		$this->property = $this->class->createProperty('test property');
-	}
     
-    public function tearDown() {
+    public function setUp()
+    {
+        parent::setUp();
+        $rdfClass = new core_kernel_classes_Class(GenerisRdf::CLASS_GENERIS_RESOURCE);
+        $this->class = $rdfClass->createSubClass('test class');
+        $this->property = $this->class->createProperty('test property');
+    }
+    
+    public function tearDown()
+    {
         parent::tearDown();
         $this->class->delete();
         $this->property->delete();
@@ -68,7 +70,7 @@ class SearchTest extends GenerisPhpUnitTestRunner {
     public function testCreateIndex()
     {
         $tokenizer = new core_kernel_classes_Resource(RawValue::URI);
-        $id = 'test_index_'.helpers_Random::generateString(8);
+        $id = 'test_index_' . helpers_Random::generateString(8);
 
         $index = OntologyIndexService::createIndex($this->property, $id, $tokenizer, true, true);
 

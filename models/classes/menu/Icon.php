@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -35,13 +36,14 @@ class Icon implements PhpSerializable
      * @param string $structureExtensionId
      * @return static
      */
-    public static function fromSimpleXMLElement(\SimpleXMLElement $node, $structureExtensionId) {
+    public static function fromSimpleXMLElement(\SimpleXMLElement $node, $structureExtensionId)
+    {
         
-        return new static(array(
-            'id' =>  !empty($node['id'])? (string)$node['id'] : null,
+        return new static([
+            'id' =>  !empty($node['id']) ? (string)$node['id'] : null,
             'src' => !empty($node['src']) ? (string)$node['src'] : null,
             'ext' => !empty($node['ext']) ? (string)$node['ext'] : $structureExtensionId
-        ));
+        ]);
     }
 
     /**
@@ -49,43 +51,50 @@ class Icon implements PhpSerializable
      * @param string $structureExtensionId
      * @return static
      */
-    public static function fromArray(array $iconData, $structureExtensionId) {
-        return new static(array(
-            'id' =>  !empty($iconData['id'])? (string)$iconData['id'] : null,
+    public static function fromArray(array $iconData, $structureExtensionId)
+    {
+        return new static([
+            'id' =>  !empty($iconData['id']) ? (string)$iconData['id'] : null,
             'src' => !empty($iconData['src']) ? (string)$iconData['src'] : null,
             'ext' => !empty($iconData['ext']) ? (string)$iconData['ext'] : $structureExtensionId
-        ));
+        ]);
     }
 
 
     
-    public static function createLegacyItem($iconId, $src=null) {
-        return new static(array(
+    public static function createLegacyItem($iconId, $src = null)
+    {
+        return new static([
             'id' => (string)$iconId,
             'src' => isset($src) ? (string)$src : null
-        ));
+        ]);
     }
     
-    public function __construct($data, $version = self::SERIAL_VERSION) {
+    public function __construct($data, $version = self::SERIAL_VERSION)
+    {
         $this->data = $data;
     }
     
-    public function getId() {
+    public function getId()
+    {
         return $this->data['id'];
     }
     
-    public function getSource() {
+    public function getSource()
+    {
         return $this->data['src'];
     }
 
-    public function getExtension() {
+    public function getExtension()
+    {
         return $this->data['ext'];
     }
     
-    public function __toPhpCode() {
-        return "new ".__CLASS__."("
-            .\common_Utils::toPHPVariableString($this->data).','
-            .\common_Utils::toPHPVariableString(self::SERIAL_VERSION)
-        .")";
+    public function __toPhpCode()
+    {
+        return "new " . __CLASS__ . "("
+            . \common_Utils::toPHPVariableString($this->data) . ','
+            . \common_Utils::toPHPVariableString(self::SERIAL_VERSION)
+        . ")";
     }
 }

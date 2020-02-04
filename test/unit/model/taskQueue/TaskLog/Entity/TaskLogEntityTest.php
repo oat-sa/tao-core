@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -48,7 +49,7 @@ class TaskLogEntityTest extends TestCase
             'report' => [
                 'type' => 'info',
                 'message' => 'Running task http://www.taoinstance.dev/ontologies/tao.rdf#i1508337970199318643',
-                'data' => NULL,
+                'data' => null,
                 'children' => []
             ],
             'master_status' => true
@@ -78,7 +79,7 @@ class TaskLogEntityTest extends TestCase
             'report' => [
                 'type' => 'info',
                 'message' => 'Running task http://www.taoinstance.dev/ontologies/tao.rdf#i1508337970199318643',
-                'data' => NULL,
+                'data' => null,
                 'children' => []
             ],
             'masterStatus' => true
@@ -151,5 +152,4 @@ class TaskLogEntityTest extends TestCase
 
         $this->assertNull($entity->getReport());
     }
-
 }

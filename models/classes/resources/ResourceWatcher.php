@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -69,7 +70,7 @@ class ResourceWatcher extends ConfigurableService
         $resource = $event->getResource();
         $updatedAt = $this->getUpdatedAt($resource);
         if ($updatedAt && $updatedAt instanceof \core_kernel_classes_Literal) {
-            $updatedAt = (integer) $updatedAt->literal;
+            $updatedAt = (int) $updatedAt->literal;
         }
         $now = microtime(true);
         $threshold = $this->getOption(self::OPTION_THRESHOLD);
@@ -78,7 +79,6 @@ class ResourceWatcher extends ConfigurableService
             $this->updatedAtCache[$resource->getUri()] = $now;
             $resource->editPropertyValues($property, $now);
         }
-
     }
 
     /**
@@ -104,12 +104,11 @@ class ResourceWatcher extends ConfigurableService
     {
         if (isset($this->updatedAtCache[$resource->getUri()])) {
             $updatedAt = $this->updatedAtCache[$resource->getUri()];
-
         } else {
             $property = $this->getProperty(TaoOntology::PROPERTY_UPDATED_AT);
             $updatedAt = $resource->getOnePropertyValue($property);
             if ($updatedAt && $updatedAt instanceof \core_kernel_classes_Literal) {
-                $updatedAt = (integer) $updatedAt->literal;
+                $updatedAt = (int) $updatedAt->literal;
             }
             $this->updatedAtCache[$resource->getUri()] = $updatedAt;
         }

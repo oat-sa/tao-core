@@ -52,14 +52,14 @@ class tao_install_utils_DbalConfigCreator
             $dbConnectionParams['host'] = $hostParts[0];
             $dbConnectionParams['port'] = $hostParts[1];
         }
-        
+
         // Oracle driver uses portability construct
         if ($installData['db_driver'] == 'pdo_oci') {
             $dbConnectionParams['wrapperClass'] = 'Doctrine\DBAL\Portability\Connection';
             $dbConnectionParams['portability'] = \Doctrine\DBAL\Portability\Connection::PORTABILITY_ALL;
             $dbConnectionParams['fetch_case'] = PDO::CASE_LOWER;
         }
-        
+
         // Spanner driver is not registere in DBAL, so needs the correct classes for driver and platform.
         if ($installData['db_driver'] == SpannerDriver::DRIVER_NAME) {
             $dbConnectionParams = [
@@ -69,7 +69,7 @@ class tao_install_utils_DbalConfigCreator
                 'platform' => new SpannerPlatform(),
             ];
         }
-        
+
         return [
             'driver' => 'dbal',
             'connection' => $dbConnectionParams,

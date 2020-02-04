@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -34,6 +35,7 @@ use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
 use core_kernel_classes_ResourceFactory;
 use core_kernel_classes_Property;
+use oat\oatbox\session\SessionService;
 
 /**
  * Trait GenerisServiceTrait
@@ -80,7 +82,7 @@ trait GenerisServiceTrait
         if (empty($label)) {
             $label = $this->createUniqueLabel($clazz);
         }
-        return core_kernel_classes_ResourceFactory::create($clazz, $label, '');
+        return $clazz->createInstance($label);
     }
 
     /**
@@ -97,14 +99,14 @@ trait GenerisServiceTrait
     {
         if ($subClassing) {
             $labelBase = $clazz->getLabel() . '_' ;
-            $count = count($clazz->getSubClasses()) +1;
+            $count = count($clazz->getSubClasses()) + 1;
         } else {
             $labelBase = $clazz->getLabel() . ' ' ;
-            $count = count($clazz->getInstances()) +1;
+            $count = count($clazz->getInstances()) + 1;
         }
 
         $options = [
-            'lang'              => \common_session_SessionManager::getSession()->getDataLanguage(),
+            'lang'              => $this->getServiceLocator()->get(SessionService::SERVICE_ID)->getCurrentSession()->getDataLanguage(),
             'like'              => false,
             'recursive'         => false
         ];
@@ -112,10 +114,10 @@ trait GenerisServiceTrait
         do {
             $exist = false;
             $label =  $labelBase . $count;
-            $result = $clazz->searchInstances(array(OntologyRdfs::RDFS_LABEL => $label), $options);
+            $result = $clazz->searchInstances([OntologyRdfs::RDFS_LABEL => $label], $options);
             if (count($result) > 0) {
                 $exist = true;
-                $count ++;
+                $count++;
             }
         } while ($exist);
 
@@ -188,7 +190,7 @@ trait GenerisServiceTrait
             if (preg_match("/bis(\s[0-9]+)?$/", $label)) {
                 $cloneNumber = (int)preg_replace("/^(.?)*bis/", "", $label);
                 $cloneNumber++;
-                $cloneLabel = preg_replace("/bis(\s[0-9]+)?$/", "", $label)."bis $cloneNumber" ;
+                $cloneLabel = preg_replace("/bis(\s[0-9]+)?$/", "", $label) . "bis $cloneNumber" ;
             }
 
             $returnValue->setLabel($cloneLabel);
@@ -342,7 +344,7 @@ trait GenerisServiceTrait
      */
     public function getClazzProperties(core_kernel_classes_Class $clazz, core_kernel_classes_Class $topLevelClazz = null)
     {
-        $returnValue = array();
+        $returnValue = [];
         if (is_null($topLevelClazz)) {
             $topLevelClazz = new core_kernel_classes_Class(TaoOntology::CLASS_URI_OBJECT);
         }
@@ -353,13 +355,13 @@ trait GenerisServiceTrait
         }
 
         //determine the parent path
-        $parents = array();
+        $parents = [];
         $top = false;
         do {
             if (!isset($lastLevelParents)) {
                 $parentClasses = $clazz->getParentClasses(false);
             } else {
-                $parentClasses = array();
+                $parentClasses = [];
                 foreach ($lastLevelParents as $parent) {
                     $parentClasses = array_merge($parentClasses, $parent->getParentClasses(false));
                 }
@@ -367,7 +369,7 @@ trait GenerisServiceTrait
             if (count($parentClasses) == 0) {
                 break;
             }
-            $lastLevelParents = array();
+            $lastLevelParents = [];
             foreach ($parentClasses as $parentClass) {
                 if ($parentClass->getUri() == $topLevelClazz->getUri()) {
                     $parents[$parentClass->getUri()] = $parentClass;
@@ -406,7 +408,7 @@ trait GenerisServiceTrait
      */
     public function getPropertyDiff(core_kernel_classes_Class $sourceClass, core_kernel_classes_Class $destinationClass)
     {
-        $returnValue = array();
+        $returnValue = [];
         $sourceProperties = $sourceClass->getProperties(true);
         $destinationProperties = $destinationClass->getProperties(true);
         foreach ($sourceProperties as $sourcePropertyUri => $sourceProperty) {
@@ -429,7 +431,7 @@ trait GenerisServiceTrait
      */
     public function getTranslatedProperties(core_kernel_classes_Resource $instance, $lang)
     {
-        $returnValue = array();
+        $returnValue = [];
 
         try {
             foreach ($instance->getTypes() as $clazz) {
@@ -440,7 +442,7 @@ trait GenerisServiceTrait
                             if ($collection->count() == 1) {
                                 $returnValue[$property->getUri()] = (string)$collection->get(0);
                             } else {
-                                $propData = array();
+                                $propData = [];
                                 foreach ($collection->getIterator() as $collectionItem) {
                                     $propData[] = (string)$collectionItem;
                                 }
@@ -467,10 +469,10 @@ trait GenerisServiceTrait
      */
     public function toArray(core_kernel_classes_Class $clazz)
     {
-        $returnValue = array();
+        $returnValue = [];
         $properties = $clazz->getProperties(false);
         foreach ($clazz->getInstances(false) as $instance) {
-            $data = array();
+            $data = [];
             foreach ($properties as $property) {
                 $data[$property->getLabel()] = null;
                 $values = $instance->getPropertyValues($property);
@@ -496,7 +498,7 @@ trait GenerisServiceTrait
      * @return array
      * @throws \common_exception_Error
      */
-    public function toTree(core_kernel_classes_Class $clazz, array $options = array())
+    public function toTree(core_kernel_classes_Class $clazz, array $options = [])
     {
         $searchOptions = [];
         // show instances yes/no
@@ -504,7 +506,7 @@ trait GenerisServiceTrait
         // cut of the class and only display the children?
         $chunk = (isset($options['chunk'])) ? $options['chunk'] : false;
         // probably which subtrees should be opened
-        $browse = (isset($options['browse'])) ? $options['browse'] : array();
+        $browse = (isset($options['browse'])) ? $options['browse'] : [];
         // limit of instances shown by subclass if no search label is given
         // if a search string is given, this is the total limit of results, independent of classes
         $limit = (isset($options['limit'])) ? $options['limit'] : 0;
@@ -535,7 +537,7 @@ trait GenerisServiceTrait
             $factory = new GenerisTreeFactory($instances, $openNodes, $limit, $offset, $browse, $this->getDefaultFilters(), $searchOptions);
             $tree = $factory->buildTree($clazz);
             $returnValue = $chunk
-                ? (isset($tree['children']) ? $tree['children'] : array())
+                ? (isset($tree['children']) ? $tree['children'] : [])
                 : $tree;
         }
         return $returnValue;

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -24,7 +25,7 @@ use oat\oatbox\AbstractRegistry;
 use \common_ext_ExtensionsManager;
 
 /**
- * 
+ *
  * Registry to store client library config that will be provide to requireJs
  *
  * @author Sam, sam@taotesting.com
@@ -58,7 +59,7 @@ class ClientLibConfigRegistry extends AbstractRegistry
     public function register($id, $newLibConfig)
     {
         $registry = self::getRegistry();
-        $libConfig = array();
+        $libConfig = [];
         if ($registry->isRegistered($id)) {
             $libConfig = $registry->get($id);
         }

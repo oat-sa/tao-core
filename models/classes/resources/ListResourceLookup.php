@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,6 +18,7 @@
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
+
 namespace oat\tao\model\resources;
 
 use oat\generis\model\OntologyAwareTrait;
@@ -32,7 +34,6 @@ use oat\tao\model\search\Search;
  */
 class ListResourceLookup extends ConfigurableService implements ResourceLookup
 {
-
     use OntologyAwareTrait;
 
     const SERVICE_ID = 'tao/ListResourceLookup';
@@ -132,7 +133,7 @@ class ListResourceLookup extends ConfigurableService implements ResourceLookup
     private function getResourceData($resource)
     {
         $data = false;
-        if(!is_null($resource) && $resource->exists()) {
+        if (!is_null($resource) && $resource->exists()) {
             $resourceTypes = array_keys($resource->getTypes());
             $data = [
                 'uri'        => $resource->getUri(),

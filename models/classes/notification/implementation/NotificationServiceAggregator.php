@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -48,11 +49,12 @@ class NotificationServiceAggregator extends AbstractNotificationService
         return $persistenceManager->getPersistenceById($persistenceId);
     }
     
-    public function getSubServices()  {
+    public function getSubServices()
+    {
         $subServices = $this->getOptions();
         $services    = [];
-        foreach ($subServices as $name => $subService ) {
-            $services[] = $this->getSubService($name , NotificationServiceInterface::class);
+        foreach ($subServices as $name => $subService) {
+            $services[] = $this->getSubService($name, NotificationServiceInterface::class);
         }
         return $services;
     }
@@ -71,7 +73,7 @@ class NotificationServiceAggregator extends AbstractNotificationService
         return $notification;
     }
 
-    public function getNotifications( $userId)
+    public function getNotifications($userId)
     {
         $subServices = $this->getSubServices();
 
@@ -79,14 +81,12 @@ class NotificationServiceAggregator extends AbstractNotificationService
          * @var NotificationServiceInterface  $service
          */
         foreach ($subServices as $service) {
-            if(($list = $service->getNotifications($userId)) !== false) {
+            if (($list = $service->getNotifications($userId)) !== false) {
                 return $list;
             }
         }
 
         throw new NotListedNotification();
-
-
     }
 
     public function getNotification($id)
@@ -98,7 +98,7 @@ class NotificationServiceAggregator extends AbstractNotificationService
          * @var NotificationServiceInterface  $service
          */
         foreach ($subServices as $service) {
-            if(($notification = $service->getNotification($id)) !== false) {
+            if (($notification = $service->getNotification($id)) !== false) {
                 return $notification;
             }
         }
@@ -114,7 +114,7 @@ class NotificationServiceAggregator extends AbstractNotificationService
          * @var NotificationServiceInterface  $service
          */
         foreach ($subServices as $service) {
-            if(($newNotification = $service->changeStatus($notification)) !== false) {
+            if (($newNotification = $service->changeStatus($notification)) !== false) {
                 return $newNotification;
             }
         }
@@ -122,7 +122,7 @@ class NotificationServiceAggregator extends AbstractNotificationService
         throw new NotListedNotification();
     }
 
-    public function notificationCount( $userId)
+    public function notificationCount($userId)
     {
         $subServices = $this->getSubServices();
 
@@ -130,7 +130,7 @@ class NotificationServiceAggregator extends AbstractNotificationService
          * @var NotificationServiceInterface  $service
          */
         foreach ($subServices as $service) {
-            if(($newNotification = $service->notificationCount($userId)) !== false) {
+            if (($newNotification = $service->notificationCount($userId)) !== false) {
                 return $newNotification;
             }
         }
@@ -146,7 +146,7 @@ class NotificationServiceAggregator extends AbstractNotificationService
          * @var NotificationServiceInterface  $service
          */
         foreach ($subServices as $service) {
-            if($service->getVisibility()) {
+            if ($service->getVisibility()) {
                 return true;
             }
         }

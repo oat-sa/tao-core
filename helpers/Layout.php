@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -39,17 +40,18 @@ class Layout
      *
      * @return array
      */
-    public static function getReleaseMsgData(){
-        $params = array(
+    public static function getReleaseMsgData()
+    {
+        $params = [
             'version-type' => '',
             'is-unstable'  => self::isUnstable(),
             'is-sandbox'   => false,
             'logo'         => self::getLogoUrl(),
             'link'         => self::getLinkUrl(),
             'msg'          => self::getMessage()
-        );
+        ];
 
-        switch(TAO_RELEASE_STATUS){
+        switch (TAO_RELEASE_STATUS) {
             case 'alpha':
             case 'demoA':
                 $params['version-type'] = __('Alpha version');
@@ -76,7 +78,8 @@ class Layout
      *
      * @return string
      */
-    public static function getSandboxExpiration(){
+    public static function getSandboxExpiration()
+    {
         $datetime   = new \DateTime();
         $d          = new \DateTime($datetime->format('Y-m-d'));
         $weekday    = $d->format('w');
@@ -99,24 +102,24 @@ class Layout
      * @param string $defaultIcon e.g. icon-extension | icon-action
      * @return string icon as html
      */
-    public static function renderIcon($icon, $defaultIcon) {
+    public static function renderIcon($icon, $defaultIcon)
+    {
 
         $srcExt   = '';
         $isBase64 = false;
-		$iconClass = $defaultIcon;
-		if(!is_null($icon)){
-
-            if($icon->getSource()) {
+        $iconClass = $defaultIcon;
+        if (!is_null($icon)) {
+            if ($icon->getSource()) {
                 $imgXts   = 'png|jpg|jpe|jpeg|gif|svg';
                 $regExp   = sprintf('~((^data:image/(%s))|(\.(%s)$))~', $imgXts, $imgXts);
-                $srcExt   = preg_match($regExp, $icon->getSource(), $matches) ? array_pop($matches) : array();
+                $srcExt   = preg_match($regExp, $icon->getSource(), $matches) ? array_pop($matches) : [];
                 $isBase64 = 0 === strpos($icon->getSource(), 'data:image');
             }
 
             $iconClass = $icon->getId() ? $icon->getId() : $defaultIcon;
         }
         // clarification icon vs. glyph: same thing but due to certain CSS rules a second class is required
-        switch($srcExt) {
+        switch ($srcExt) {
             case 'png':
             case 'jpg':
             case 'jpe':
@@ -149,7 +152,8 @@ class Layout
      * @param array  $params additional parameters
      * @return string the script tag
      */
-    public static function getAmdLoader($bundle = null, $controller = null, $params = null, $allowAnonymous = false){
+    public static function getAmdLoader($bundle = null, $controller = null, $params = null, $allowAnonymous = false)
+    {
 
         $bundleMode   = \tao_helpers_Mode::is('production');
         $configUrl    = get_data('client_config_url');
@@ -158,12 +162,12 @@ class Layout
 
         $loader = new AmdLoader($configUrl, $requireJsUrl, $bootstrapUrl);
 
-        if(\common_session_SessionManager::isAnonymous() && !$allowAnonymous) {
+        if (\common_session_SessionManager::isAnonymous() && !$allowAnonymous) {
             $controller = 'controller/login';
             $bundle = Template::js('loader/login.min.js', 'tao');
         }
 
-        if($bundleMode){
+        if ($bundleMode) {
             return "<script src='" . Template::js('loader/vendor.min.js', 'tao') . "'></script>\n" .
                     $loader->getBundleLoader($bundle, $controller, $params);
         }
@@ -174,7 +178,8 @@ class Layout
     /**
      * @return string
      */
-    public static function getTitle() {
+    public static function getTitle()
+    {
         $title = get_data('title');
         return $title ? $title : PRODUCT_NAME . ' ' .  TAO_VERSION;
     }
@@ -184,7 +189,8 @@ class Layout
      * Navigation is considered small when it has no main and max. 2 item in the settings menu
      * @return bool
      */
-    public static function isSmallNavi() {
+    public static function isSmallNavi()
+    {
         $settingsMenu = get_data('settings-menu');
         return empty(get_data('main-menu')) && empty($settingsMenu) || count($settingsMenu) < 3;
     }
@@ -195,7 +201,8 @@ class Layout
      *
      * @return array
      */
-    public static function getContentTemplate() {
+    public static function getContentTemplate()
+    {
         $templateData = (array)get_data('content-template');
         $contentExtension = get_data('content-extension');
         $contentTemplate['path'] = $templateData[0];
@@ -255,7 +262,8 @@ class Layout
      * @deprecated
      * @return string
      */
-    public static function getBranding() {
+    public static function getBranding()
+    {
         return 'TAO';
     }
 
@@ -265,7 +273,8 @@ class Layout
      * @deprecated
      * @return string
      */
-    public static function getThemeUrl() {
+    public static function getThemeUrl()
+    {
         return '';
     }
 
@@ -349,7 +358,8 @@ class Layout
      * Get the currently registered OperatedBy data
      * @return array
      */
-    public static function getOperatedByData() {
+    public static function getOperatedByData()
+    {
 
         $name = '';
         $email = '';
@@ -363,7 +373,7 @@ class Layout
         }
 
         // otherwise they will be stored in config
-        if(!$name && !$email) {
+        if (!$name && !$email) {
             $operatedByService = ServiceManager::getServiceManager()->get(OperatedByService::SERVICE_ID);
             $name = $operatedByService->getName();
             $email = $operatedByService->getEmail();
@@ -379,7 +389,8 @@ class Layout
         return $data;
     }
 
-    public static function isUnstable() {
+    public static function isUnstable()
+    {
 
         $isUnstable = true;
         switch (TAO_RELEASE_STATUS) {
@@ -406,13 +417,14 @@ class Layout
      *
      * @return string
      */
-    public static function getVerboseVersionName() {
+    public static function getVerboseVersionName()
+    {
         preg_match('~(?<revision>([\d\.]+))([\W_]?(?<specifics>(.*)?))~', trim(TAO_VERSION), $components);
-        if(empty($components['revision'])) {
+        if (empty($components['revision'])) {
             return TAO_VERSION;
         }
         $version = '';
-        if(!empty($components['specifics'])) {
+        if (!empty($components['specifics'])) {
             $version .= ucwords($components['specifics']) . ' rev ';
         }
         $version .= ucwords($components['revision']);
@@ -424,7 +436,8 @@ class Layout
      * @deprecated use custom template instead
      * @return type
      */
-    public static function getLoginMessage() {
+    public static function getLoginMessage()
+    {
         return __("Connect to the TAO platform");
     }
 
@@ -433,7 +446,8 @@ class Layout
      * @deprecated change default language if you want to change the "Login" translation
      * @return type
      */
-    public static function getLoginLabel() {
+    public static function getLoginLabel()
+    {
         return __("Login");
     }
 
@@ -442,7 +456,8 @@ class Layout
      * @deprecated change default language if you want to change the "Password" translation
      * @return type
      */
-    public static function getPasswordLabel() {
+    public static function getPasswordLabel()
+    {
         return __("Password");
     }
 
@@ -451,7 +466,8 @@ class Layout
      * @deprecated use custom footer.tpl template instead
      * @return type
      */
-    public static function getCopyrightNotice() {
+    public static function getCopyrightNotice()
+    {
         return '';
     }
 
@@ -462,13 +478,14 @@ class Layout
      * @param array $data
      * @return string
      */
-    public static function renderThemeTemplate($target, $templateId, $data = array()){
+    public static function renderThemeTemplate($target, $templateId, $data = [])
+    {
 
         //search in the registry to get the custom template to render
         $tpl = self::getThemeTemplate($target, $templateId);
         $theme = self::getCurrentTheme();
 
-        if(!is_null($tpl)){
+        if (!is_null($tpl)) {
             if ($theme instanceof ConfigurablePlatformTheme) {
                 // allow to use the getters from ConfigurablePlatformTheme
                 // to insert logo and such

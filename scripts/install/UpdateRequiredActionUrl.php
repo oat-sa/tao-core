@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,7 +21,6 @@
 
 namespace oat\tao\scripts\install;
 
-
 use oat\oatbox\extension\InstallAction;
 use oat\tao\model\requiredAction\implementation\RequiredActionRedirectUrlPart;
 use oat\tao\model\requiredAction\implementation\RequiredActionService;
@@ -40,11 +40,11 @@ class UpdateRequiredActionUrl extends InstallAction
                 $actions[$key] = new RequiredActionRedirectUrlPart(
                     $action->getName(),
                     $action->getRules(),
-                    array(
+                    [
                         $request->getMethodName(),
                         $request->getControllerShortName(),
                         $request->getExtensionId(),
-                    )
+                    ]
                 );
                 $updated = true;
             }
@@ -55,5 +55,4 @@ class UpdateRequiredActionUrl extends InstallAction
             $this->getServiceManager()->register(RequiredActionService::CONFIG_ID, $requiredActionService);
         }
     }
-
 }

@@ -50,4 +50,3 @@ class ControllerTest extends TestCase
         $this->assertSame($response, $controllerRequest);
     }
 }
-

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -42,7 +43,6 @@ class InstallNotificationTable extends InstallAction
         $fromSchema = clone $schema;
 
         try {
-
             $queueTable = $schema->createtable(NewSqlNotificationService::NOTIF_TABLE);
 
             $queueTable->addOption('engine', 'MyISAM');
@@ -62,8 +62,7 @@ class InstallNotificationTable extends InstallAction
             foreach ($queries as $query) {
                 $persistence->exec($query);
             }
-
-        } catch(SchemaException $e) {
+        } catch (SchemaException $e) {
             \common_Logger::i('Database Schema already up to date.');
         }
 
@@ -80,7 +79,5 @@ class InstallNotificationTable extends InstallAction
         );
 
         $this->getServiceManager()->register(NotificationServiceInterface::SERVICE_ID, $queue);
-
     }
-
 }

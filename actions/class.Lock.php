@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -34,55 +35,55 @@ class tao_actions_Lock extends tao_actions_CommonModule
 {
     use OntologyAwareTrait;
 
-	/**
-	 * actions that get prevented by a lock are forwareded to this action
-	 * parameter view is currently ignored
-	 */
-	public function locked()
+    /**
+     * actions that get prevented by a lock are forwareded to this action
+     * parameter view is currently ignored
+     */
+    public function locked()
     {
         $this->defaultData();
-	    $resource = $this->getResource($this->getRequestParameter('id'));
-	    $lockData = LockManager::getImplementation()->getLockData($resource);
+        $resource = $this->getResource($this->getRequestParameter('id'));
+        $lockData = LockManager::getImplementation()->getLockData($resource);
 
-	    $this->setData('topclass-label',
-	        $this->hasRequestParameter('topclass-label') ? $this->getRequestParameter('topclass-label') : __('Resource')
+        $this->setData(
+            'topclass-label',
+            $this->hasRequestParameter('topclass-label') ? $this->getRequestParameter('topclass-label') : __('Resource')
         );
 
-	    if (AclProxy::hasAccess($this->getSession()->getUser(), __CLASS__, 'forceRelease', array('uri' => $resource->getUri()))) {
-	        $this->setData('id', $resource->getUri());
+        if (AclProxy::hasAccess($this->getSession()->getUser(), __CLASS__, 'forceRelease', ['uri' => $resource->getUri()])) {
+            $this->setData('id', $resource->getUri());
             $this->setData('forceRelease', true);
-	    }
+        }
 
-	    $this->setData('lockDate', $lockData->getCreationTime());
-	    $this->setData('ownerHtml', UserHelper::renderHtmlUser($lockData->getOwnerId()));
+        $this->setData('lockDate', $lockData->getCreationTime());
+        $this->setData('ownerHtml', UserHelper::renderHtmlUser($lockData->getOwnerId()));
 
-	    if ($this->hasRequestParameter('view') && $this->hasRequestParameter('ext')) {
-	        $this->setView($this->getRequestParameter('view'), $this->getRequestParameter('ext'));
-	    } else {
-	        $this->setView('Lock/locked.tpl', 'tao');
-	    }
-	}
+        if ($this->hasRequestParameter('view') && $this->hasRequestParameter('ext')) {
+            $this->setView($this->getRequestParameter('view'), $this->getRequestParameter('ext'));
+        } else {
+            $this->setView('Lock/locked.tpl', 'tao');
+        }
+    }
 
-	public function release($uri)
-	{
-	    $resource = $this->getResource($uri);
+    public function release($uri)
+    {
+        $resource = $this->getResource($uri);
         try {
             $userId = $this->getSession()->getUser()->getIdentifier();
             $success = LockManager::getImplementation()->releaseLock($resource, $userId);
-            return $this->returnJson(array(
+            return $this->returnJson([
                 'success' => $success,
                 'message' => $success
                     ? __('%s has been released', $resource->getLabel())
                     : __('%s could not be released', $resource->getLabel())
-            ));
+            ]);
 
-        //the connected user is not the owner of the lock
+            //the connected user is not the owner of the lock
         } catch (common_exception_Unauthorized $e) {
-
-            return $this->returnJson(array(
-            	'success' => false,
+            return $this->returnJson([
+                'success' => false,
                 'message' => __('You are not authorised to remove this lock')
-            ));
+            ]);
         }
     }
 
@@ -91,8 +92,8 @@ class tao_actions_Lock extends tao_actions_CommonModule
         $success = LockManager::getImplementation()->forceReleaseLock(
             $this->getResource($uri)
         );
-        return $this->returnJson(array(
+        return $this->returnJson([
             'success' => $success
-        ));
+        ]);
     }
 }
