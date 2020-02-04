@@ -15,20 +15,15 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2019  (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020  (original work) Open Assessment Technologies SA;
  */
 
 namespace oat\tao\test\unit\models\classes\service;
 
-use InvalidArgumentException;
 use oat\tao\model\search\Search;
 use oat\tao\model\search\strategy\GenerisSearch;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\user\GenerisUserService;
-use tao_models_classes_service_Parameter;
-use tao_models_classes_service_ServiceCall;
-use tao_models_classes_service_VariableParameter;
-use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
 
 class GenerisUserServiceTest extends TestCase
