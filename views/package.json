@@ -43,7 +43,7 @@
   "devDependencies": {
     "@oat-sa/browserslist-config-tao": "^0.1.0",
     "@oat-sa/eslint-config-tao": "^0.1.0",
-    "@oat-sa/grunt-tao-bundle": "github:oat-sa/grunt-tao-bundle#fix/ACTP-283/bundling-issue-under-windows",
+    "@oat-sa/grunt-tao-bundle": "^0.4.2",
     "@oat-sa/tao-e2e-runner": "^0.3.0",
     "almond": "^0.3.3",
     "eslint": "^5.16.0",
