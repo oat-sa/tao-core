@@ -1,4 +1,6 @@
 /* Do not edit */[class^="icon-"], [class*=" icon-"] { @include tao-icon-setup; }
+.icon-offline:before { @include icon-offline; }
+.icon-online:before { @include icon-online; }
 .icon-tab:before { @include icon-tab; }
 .icon-untab:before { @include icon-untab; }
 .icon-multi-select:before { @include icon-multi-select; }
