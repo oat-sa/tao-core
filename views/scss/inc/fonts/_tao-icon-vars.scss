@@ -13,6 +13,8 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+@mixin icon-offline { content: "\e912"; }
+@mixin icon-online { content: "\e913"; }
 @mixin icon-tab { content: "\e90d"; }
 @mixin icon-untab { content: "\e90e"; }
 @mixin icon-multi-select { content: "\e90b"; }

@@ -27,7 +27,7 @@
  *
  * @access public
  * @author Dieter Raber, <dieter@taotesting.com>
- * @date   2019-04-26 10:09:50
+ * @date   2020-02-06 09:13:37
  * @package tao
  * @subpackage helpers
  */
@@ -56,6 +56,8 @@ class tao_helpers_Icon {
     /**
      * List of all icons as constant
      */
+    const CLASS_OFFLINE = 'icon-offline';
+    const CLASS_ONLINE = 'icon-online';
     const CLASS_TAB = 'icon-tab';
     const CLASS_UNTAB = 'icon-untab';
     const CLASS_MULTI_SELECT = 'icon-multi-select';
@@ -275,6 +277,14 @@ class tao_helpers_Icon {
     /**
      * List of all icons as function
      */
+
+    public static function iconOffline($options=array()){
+        return self::buildIcon(self::CLASS_OFFLINE, $options);
+    }
+
+    public static function iconOnline($options=array()){
+        return self::buildIcon(self::CLASS_ONLINE, $options);
+    }
 
     public static function iconTab($options=array()){
         return self::buildIcon(self::CLASS_TAB, $options);
