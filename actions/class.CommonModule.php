@@ -81,12 +81,10 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
 
     /**
      * @inheritdoc
+     * @security("hide");
      */
     public function initialize()
     {
-        /** @var ActionProtector $actionProtector */
-        $actionProtector = $this->getServiceLocator()->get(ActionProtector::SERVICE_ID);
-        $actionProtector->setFrameAncestorsHeader();
     }
 
     /**

@@ -30,8 +30,6 @@ use function GuzzleHttp\Psr7\stream_for;
 use IExecutable;
 use ActionEnforcingException;
 use oat\tao\model\http\ResponseEmitter;
-use oat\oatbox\service\ServiceManagerAwareInterface;
-use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\tao\model\http\Controller;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -47,6 +45,9 @@ use oat\tao\model\event\BeforeAction;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\log\TaoLoggerAwareInterface;
 use oat\tao\model\action\CommonModuleInterface;
+use oat\tao\model\security\SecurityHeaderService;
+use oat\oatbox\service\ConfigurableService;
+use Psr\Http\Server\RequestHandlerInterface;
 
 /**
  * ActionEnforcer class
@@ -55,9 +56,8 @@ use oat\tao\model\action\CommonModuleInterface;
  * @author Jerome Bogaerts <jerome@taotesting.com>
  * @author Joel Bout <joel@taotesting.com>
  */
-class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLoggerAwareInterface
+class ActionEnforcer extends ConfigurableService implements IExecutable, TaoLoggerAwareInterface, RequestHandlerInterface
 {
-    use ServiceManagerAwareTrait;
     use LoggerAwareTrait;
 
     private $extension;
@@ -183,23 +183,28 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
             $this->extension    = 'tao';
         }
 
-        $response = $this->resolve($this->getRequest());
+        $headerService = $this->getServiceLocator()->get(SecurityHeaderService::class);
+        $request = $this->getRequest();
+        $response = $headerService->process($request, $this);
 
         $emitter = new ResponseEmitter();
         $emitter($response);
     }
 
     /**
-     * @param ServerRequestInterface $request
-     * @return ResponseInterface
-     * @throws ActionEnforcingException
-     * @throws \ReflectionException
-     * @throws \common_exception_Error
+     * @deprecated please use handle
      */
     public function resolve(ServerRequestInterface $request)
     {
-        $this->request = $request;
+        return $this->handle($request);
+    }
 
+    /**
+     * {@inheritDoc}
+     * @see \Psr\Http\Server\RequestHandlerInterface::handle()
+     */
+    public function handle(ServerRequestInterface $request): ResponseInterface
+    {
         /** @var ControllerService $controllerService */
         $controllerService = $this->getServiceLocator()->get(ControllerService::SERVICE_ID);
         try {
