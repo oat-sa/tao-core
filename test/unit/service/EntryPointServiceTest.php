@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,11 +19,13 @@
  *
  * @author Alexander Zagovorichev <zagovorichev@1pt.com>
  */
+
 namespace oat\tao\test\unit\service;
 
 use oat\tao\model\entryPoint\EntryPointService;
+use oat\generis\test\TestCase;
 
-class EntryPointServiceTest extends \PHPUnit_Framework_TestCase
+class EntryPointServiceTest extends TestCase
 {
     /**
      * @var EntryPointService
@@ -42,15 +45,19 @@ class EntryPointServiceTest extends \PHPUnit_Framework_TestCase
         $options = $this->service->getOptions();
         $json = json_encode($options);
 
-        self::assertEquals('{"existing":{"passwordreset":{},"deliveryServer":{},"guestaccess":{},"proctoringDelivery":{}},"postlogin":["deliveryServer","backoffice","proctoring","childOrganization","scoreReport","exam","testingLocationList","proctoringDelivery"],"prelogin":["guestaccess","proctoringDelivery"],"new_tag":["proctoringDelivery"]}',
-            $json);
+        self::assertEquals(
+            '{"existing":{"passwordreset":{},"deliveryServer":{},"guestaccess":{},"proctoringDelivery":{}},"postlogin":["deliveryServer","backoffice","proctoring","childOrganization","scoreReport","exam","testingLocationList","proctoringDelivery"],"prelogin":["guestaccess","proctoringDelivery"],"new_tag":["proctoringDelivery"]}',
+            $json
+        );
 
         $this->service->removeEntryPoint('proctoringDelivery');
 
         $options = $this->service->getOptions();
         $json = json_encode($options);
 
-        self::assertEquals('{"existing":{"passwordreset":{},"deliveryServer":{},"guestaccess":{}},"postlogin":["deliveryServer","backoffice","proctoring","childOrganization","scoreReport","exam","testingLocationList"],"prelogin":["guestaccess"],"new_tag":[]}',
-            $json);
+        self::assertEquals(
+            '{"existing":{"passwordreset":{},"deliveryServer":{},"guestaccess":{}},"postlogin":["deliveryServer","backoffice","proctoring","childOrganization","scoreReport","exam","testingLocationList"],"prelogin":["guestaccess"],"new_tag":[]}',
+            $json
+        );
     }
 }

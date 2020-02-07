@@ -1,23 +1,25 @@
 <?php
-/**  
+
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2016 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
+ *
  */
+
 use oat\tao\helpers\form\elements\xhtml\XhtmlRenderingTrait;
 
 /**
@@ -41,15 +43,18 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile extends tao_helpers_form_
     public function feed()
     {
         if (isset($_POST[$this->name])) {
-            
             $structure = json_decode($_POST[$this->name], true);
             if ($structure !== false) {
-                $description = new tao_helpers_form_data_UploadFileDescription(array_key_exists('name',
-                    $structure) ? $structure['name'] : null,
+                $description = new tao_helpers_form_data_UploadFileDescription(
+                    array_key_exists(
+                        'name',
+                        $structure
+                    ) ? $structure['name'] : null,
                     array_key_exists('size', $structure) ? $structure['size'] : null,
                     array_key_exists('type', $structure) ? $structure['type'] : null,
                     array_key_exists('uploaded_file', $structure) ? $structure['uploaded_file'] : null,
-                    array_key_exists('action', $structure) ? $structure['action'] : null);
+                    array_key_exists('action', $structure) ? $structure['action'] : null
+                );
                 $this->setValue($description);
             } else {
                 // else, no file was selected by the end user.
@@ -76,7 +81,6 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile extends tao_helpers_form_
         if ($this->value instanceof tao_helpers_form_data_UploadFileDescription && $this->value->getAction() == tao_helpers_form_data_UploadFileDescription::FORM_ACTION_DELETE) {
             // File deleted, nothing to render
         } elseif ($this->value instanceof tao_helpers_form_data_FileDescription && ($file = $this->value->getFile()) != null) {
-            
             // A file is stored or has just been uploaded.
             $shownFileName = $this->value->getName();
             $shownFileSize = $this->value->getSize();
@@ -95,7 +99,6 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile extends tao_helpers_form_
             // Inject behaviour of the Delete/Download buttons component in response.
             $returnValue .= self::embedBehaviour($this->buildDeleterBehaviour() . $this->buildDownloaderBehaviour());
         } else {
-            
             // No file stored yet.
             // Inject behaviour of the AsyncFileUpload component in response.
             $returnValue .= self::embedBehaviour($this->buildUploaderBehaviour());
@@ -162,7 +165,7 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile extends tao_helpers_form_
         $memory_limit = (int) (ini_get('memory_limit'));
         $fileSize = min($max_upload, $max_post, $memory_limit) * 1024 * 1024;
         
-        $mimetypes = array();
+        $mimetypes = [];
         
         // add a client validation
         foreach ($this->validators as $validator) {
@@ -348,8 +351,8 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile extends tao_helpers_form_
         
         $returnValue .= '$(document).ready(function() {';
         $returnValue .= '	$("#' . $downloadButtonId . '").click(function() {';
-        $returnValue .= '		$("#' . $iFrameId . '").attr("src", ' . json_encode(_url('downloadFile', 'File', 'tao', array(
-            'id' => $serial))) . ')';
+        $returnValue .= '		$("#' . $iFrameId . '").attr("src", ' . json_encode(_url('downloadFile', 'File', 'tao', [
+            'id' => $serial])) . ')';
         $returnValue .= '	});';
         $returnValue .= '});';
         

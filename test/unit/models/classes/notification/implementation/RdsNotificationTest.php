@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -26,7 +27,7 @@ use oat\oatbox\service\ServiceManager;
 use oat\tao\model\notification\implementation\Notification;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\scripts\install\InstallNotificationTable;
-use PHPUnit_Framework_MockObject_MockObject as MockObject;
+use oat\generis\test\MockObject;
 
 class RdsNotificationTest extends TestCase
 {
@@ -86,7 +87,8 @@ class RdsNotificationTest extends TestCase
         $updatedAt = $this->persistence->getPlatform()->getNowExpression();
         $status = 12;
 
-        $notification = new Notification($recipientId,
+        $notification = new Notification(
+            $recipientId,
             $title,
             $message,
             $senderId,

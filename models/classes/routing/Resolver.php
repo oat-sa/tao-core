@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,6 +19,7 @@
  *
  *
  */
+
 namespace oat\tao\model\routing;
 
 use common_http_Request;
@@ -65,7 +67,7 @@ class Resolver implements ServiceLocatorAwareInterface
     {
         if (is_object($request)) {
             if ($request instanceof \common_http_Request) {
-            /** @var common_http_Request $request */
+                /** @var common_http_Request $request */
                 $this->request = new ServerRequest(
                     $request->getMethod(),
                     $request->getUrl(),
@@ -150,7 +152,7 @@ class Resolver implements ServiceLocatorAwareInterface
         }
 
         $parts = explode('/', trim($relativeUrl, '/'));
-        if(count($parts) === 3){
+        if (count($parts) === 3) {
             return $parts[1];
         }
 
@@ -186,7 +188,7 @@ class Resolver implements ServiceLocatorAwareInterface
             }
         }
 
-        throw new \ResolverException('Unable to resolve '.$this->request->getUri()->getPath());
+        throw new \ResolverException('Unable to resolve ' . $this->request->getUri()->getPath());
     }
 
     /**
@@ -207,7 +209,7 @@ class Resolver implements ServiceLocatorAwareInterface
                 ];
             }
             if (empty($routes)) {
-                $routes[] =[
+                $routes[] = [
                     'extId' => $extId,
                     'route' => new LegacyRoute($extension, $extension->getName(), [])
                 ];
@@ -227,13 +229,13 @@ class Resolver implements ServiceLocatorAwareInterface
     private function getRoute(\common_ext_Extension $extension, $routeId, $routeData)
     {
         if (is_string($routeData)) {
-            $routeData = array(
+            $routeData = [
                 'class' => NamespaceRoute::class,
                 NamespaceRoute::OPTION_NAMESPACE => $routeData
-            );
+            ];
         }
         if (!isset($routeData['class']) || !is_subclass_of($routeData['class'], Route::class)) {
-            throw new \common_exception_InconsistentData('Invalid route '.$routeId);
+            throw new \common_exception_InconsistentData('Invalid route ' . $routeId);
         }
         $className = $routeData['class'];
         return new $className($extension, trim($routeId, '/'), $routeData);

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,8 +22,9 @@
 namespace oat\tao\test\unit\model\textConverter;
 
 use oat\tao\model\textConverter\NullTextConverter;
+use oat\generis\test\TestCase;
 
-class nullTextConverterTest extends \PHPUnit_Framework_TestCase
+class nullTextConverterTest extends TestCase
 {
     public function testGet()
     {

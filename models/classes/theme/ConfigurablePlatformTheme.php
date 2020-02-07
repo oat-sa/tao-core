@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -23,7 +24,6 @@ namespace oat\tao\model\theme;
 use Jig\Utils\StringUtils;
 use oat\oatbox\Configurable;
 use oat\tao\helpers\Template;
-
 
 /**
  * Class ConfigurablePlatformTheme
@@ -221,7 +221,7 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      */
     public function __call($method, $arguments)
     {
-        if(substr($method, 0, 3) !== 'get') {
+        if (substr($method, 0, 3) !== 'get') {
             throw new \common_exception_NotFound('Unknown method "' . $method . '"');
         }
         $optionKey = strtolower($method[3]) . substr($method, 4);
@@ -326,7 +326,8 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      *
      * @return array
      */
-    public function getOperatedBy() {
+    public function getOperatedBy()
+    {
         $operatedBy = $this->getOption(static::OPERATED_BY);
         $operatedBy['name']  = empty($operatedBy['name'])  ? '' : $operatedBy['name'];
         $operatedBy['email'] = empty($operatedBy['email']) ? '' : $operatedBy['email'];
@@ -403,30 +404,31 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      */
     protected function setupOptions($options)
     {
-        if(empty($options[static::EXTENSION_ID])) {
+        if (empty($options[static::EXTENSION_ID])) {
             $cls = get_class($this);
             strtok($cls, '\\');
             $options[static::EXTENSION_ID] = strtok('\\');
         }
-        $options = array_merge([
+        $options = array_merge(
+            [
             static::STYLESHEET   => Template::css('tao-3.css', 'tao'),
             static::LOGO_URL     => Template::img('tao-logo.png', 'tao'),
             static::LABEL        => $options[static::LABEL],
             static::EXTENSION_ID => $options[static::EXTENSION_ID],
             static::ID           => $options[static::EXTENSION_ID]
                                     . StringUtils::camelize(StringUtils::removeSpecChars($options[static::LABEL]), true)
-        ],
+            ],
             $options
         );
 
-        if($options[static::LOGO_URL] === static::DEFAULT_PATH) {
+        if ($options[static::LOGO_URL] === static::DEFAULT_PATH) {
             $options[static::LOGO_URL] = Template::img(
                 $this->defaultThemePath . '/' . static::DEFAULT_LOGO_NAME,
                 $options[static::EXTENSION_ID]
             );
         }
 
-        if($options[static::STYLESHEET] === static::DEFAULT_PATH) {
+        if ($options[static::STYLESHEET] === static::DEFAULT_PATH) {
             $options[static::STYLESHEET] = Template::css(
                 $this->defaultThemePath . '/' . static::DEFAULT_STYLESHEET_NAME,
                 $options[static::EXTENSION_ID]

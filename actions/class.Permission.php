@@ -1,5 +1,5 @@
 <?php
-/**  
+/**
 * This program is free software; you can redistribute it and/or
 * modify it under the terms of the GNU General Public License
 * as published by the Free Software Foundation; under version 2
@@ -22,19 +22,20 @@
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @package tao
- 
+
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
-class tao_actions_Permission extends tao_actions_CommonModule {
+class tao_actions_Permission extends tao_actions_CommonModule
+{
 
     /**
      * Access to resource id denied
      */
-    public function denied() {
+    public function denied()
+    {
         $accepts = explode(',', $this->getRequest()->getHeader('Accept'));
-        if(array_search('application/json', $accepts) !== false ||  array_search('text/javascript', $accepts) !== false){
-
-            $this->returnJson(array( 'error' =>  __("You do not have the required rights to edit this resource.")));
+        if (array_search('application/json', $accepts) !== false ||  array_search('text/javascript', $accepts) !== false) {
+            $this->returnJson([ 'error' =>  __("You do not have the required rights to edit this resource.")]);
             return;
         }
         return $this->setView('permission/denied.tpl');

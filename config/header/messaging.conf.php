@@ -1,5 +1,6 @@
 <?php
-/**  
+
+/**
  * Service to send messages to a user outside of the system
  *
  * Does not send any messages by default
@@ -17,5 +18,5 @@
  *        ),
  *        'defaultSender' => 'noreply@example.com'
  *    )
- *); 
- */  
+ *);
+ */

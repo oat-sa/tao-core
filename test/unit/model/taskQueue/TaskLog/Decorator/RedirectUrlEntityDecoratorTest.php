@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,8 +28,9 @@ use oat\tao\model\taskQueue\TaskLog\Decorator\RedirectUrlEntityDecorator;
 use oat\tao\model\taskQueue\TaskLog\Entity\TaskLogEntity;
 use oat\tao\model\taskQueue\TaskLogInterface;
 use Prophecy\Argument;
+use oat\generis\test\TestCase;
 
-class RedirectUrlEntityDecoratorTest extends \PHPUnit_Framework_TestCase
+class RedirectUrlEntityDecoratorTest extends TestCase
 {
     private $createdAt;
     private $updatedAt;
@@ -125,7 +127,7 @@ class RedirectUrlEntityDecoratorTest extends \PHPUnit_Framework_TestCase
             'report' => [
                 'type' => 'info',
                 'message' => 'Running task http://www.taoinstance.dev/ontologies/tao.rdf#i1508337970199318643',
-                'data' => NULL,
+                'data' => null,
                 'children' => []
             ],
             'master_status' => true
@@ -149,11 +151,10 @@ class RedirectUrlEntityDecoratorTest extends \PHPUnit_Framework_TestCase
             'report' => [
                 'type' => 'info',
                 'message' => 'Running task http://www.taoinstance.dev/ontologies/tao.rdf#i1508337970199318643',
-                'data' => NULL,
+                'data' => null,
                 'children' => []
             ],
             'masterStatus' => true
         ];
     }
-
 }

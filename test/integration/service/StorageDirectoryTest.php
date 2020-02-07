@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -24,8 +25,9 @@ use League\Flysystem\Adapter\AbstractAdapter;
 use oat\oatbox\filesystem\Directory;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ServiceManager;
+use oat\generis\test\TestCase;
 
-class StorageDirectoryTest extends \PHPUnit_Framework_TestCase
+class StorageDirectoryTest extends TestCase
 {
     protected $fileSystemTmpId;
     protected $fileSystem;
@@ -66,11 +68,10 @@ class StorageDirectoryTest extends \PHPUnit_Framework_TestCase
 
     protected function rrmdir($dir)
     {
-        foreach(glob($dir . '/*') as $file) {
-            if(is_dir($file)) {
+        foreach (glob($dir . '/*') as $file) {
+            if (is_dir($file)) {
                 $this->rrmdir($file);
-            }
-            else {
+            } else {
                 unlink($file);
             }
         }

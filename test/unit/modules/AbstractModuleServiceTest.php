@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -24,6 +25,7 @@ use oat\tao\model\modules\AbstractModuleRegistry;
 use oat\tao\model\modules\AbstractModuleService;
 use oat\tao\model\modules\DynamicModule;
 use Prophecy\Prophet;
+use oat\generis\test\TestCase;
 
 /**
  * Concrete class ModuleRegistry
@@ -67,7 +69,7 @@ class ModuleService extends AbstractModuleService
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
  */
-class AbstractModuleServiceTest extends \PHPUnit_Framework_TestCase
+class AbstractModuleServiceTest extends TestCase
 {
     //data to stub the registry content
     private static $moduleData = [
@@ -171,5 +173,4 @@ class AbstractModuleServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($module->isActive());
     }
-
 }

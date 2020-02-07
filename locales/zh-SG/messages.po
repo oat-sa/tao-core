@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint105\n"
-"PO-Revision-Date: 2019-06-21T08:53:11\n"
+"Project-Id-Version: TAO 3.4.0-sprint121\n"
+"PO-Revision-Date: 2020-01-31T09:52:25\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-SG\n"
@@ -182,6 +182,9 @@ msgid "Actions"
 msgstr ""
 
 msgid "Add"
+msgstr ""
+
+msgid "Add / Edit lists"
 msgstr ""
 
 msgid "Add a CSV file"
@@ -401,10 +404,10 @@ msgstr ""
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check all"
+msgid "Check All"
 msgstr ""
 
-msgid "Check All"
+msgid "Check all"
 msgstr ""
 
 msgid "Check-in"
@@ -446,10 +449,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
 msgid "Clear selection"
@@ -563,10 +566,10 @@ msgstr ""
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data language"
+msgid "Data Language"
 msgstr ""
 
-msgid "Data Language"
+msgid "Data language"
 msgstr ""
 
 msgid "Data not imported. All records are invalid."
@@ -862,6 +865,9 @@ msgstr ""
 msgid "Forgot your password?"
 msgstr ""
 
+msgid "Form"
+msgstr ""
+
 msgid "Form data not saved."
 msgstr ""
 
@@ -964,10 +970,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1045,6 +1051,9 @@ msgstr ""
 msgid "Invalid file type!"
 msgstr ""
 
+msgid "Invalid input"
+msgstr ""
+
 msgid "Invalid input for function"
 msgstr ""
 
@@ -1100,6 +1109,9 @@ msgid "List - Single choice - Drop down"
 msgstr ""
 
 msgid "List - Single choice - Radio button"
+msgstr ""
+
+msgid "List values"
 msgstr ""
 
 msgid "ln"
@@ -1240,9 +1252,6 @@ msgstr ""
 msgid "Multiply the value by 10^x"
 msgstr ""
 
-msgid "must be numeric"
-msgstr ""
-
 msgid "Mute"
 msgstr ""
 
@@ -1302,10 +1311,10 @@ msgstr ""
 msgid "no label"
 msgstr ""
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr ""
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr ""
 
 msgid "No results found"
@@ -1454,9 +1463,6 @@ msgid "Please provide a reason"
 msgstr ""
 
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
-msgstr ""
-
-msgid "Please try in %s."
 msgstr ""
 
 msgid "Please wait"
@@ -1820,6 +1826,9 @@ msgstr ""
 msgid "string"
 msgstr ""
 
+msgid "Submit"
+msgstr ""
+
 msgid "Success"
 msgstr ""
 
@@ -2037,6 +2046,9 @@ msgid "Translation saved"
 msgstr ""
 
 msgid "Tree - Multiple node choice "
+msgstr ""
+
+msgid "Tree values"
 msgstr ""
 
 msgid "True"

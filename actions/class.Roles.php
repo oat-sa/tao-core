@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -40,7 +41,7 @@ class tao_actions_Roles extends tao_actions_RdfController
     use OntologyAwareTrait;
 
     protected $authoringService = null;
-    protected $forbidden = array();
+    protected $forbidden = [];
 
     /**
      * index:
@@ -144,8 +145,8 @@ class tao_actions_Roles extends tao_actions_RdfController
                 if (!in_array($role->getUri(), $this->forbidden)) {
                     //check if no user is using this role:
                     $userClass = $this->getClass(GenerisRdf::CLASS_GENERIS_USER);
-                    $options = array('recursive' => true, 'like' => false);
-                    $filters = array(GenerisRdf::PROPERTY_USER_ROLES => $role->getUri());
+                    $options = ['recursive' => true, 'like' => false];
+                    $filters = [GenerisRdf::PROPERTY_USER_ROLES => $role->getUri()];
                     $users = $userClass->searchInstances($filters, $options);
                     if (empty($users)) {
                         //delete role here:
@@ -159,7 +160,7 @@ class tao_actions_Roles extends tao_actions_RdfController
                 }
             }
 
-            $this->returnJson(array('deleted' => $deleted));
+            $this->returnJson(['deleted' => $deleted, 'success' => $deleted]);
         }
     }
 
@@ -172,7 +173,7 @@ class tao_actions_Roles extends tao_actions_RdfController
         if (!$this->isXmlHttpRequest()) {
             throw new common_exception_BadRequest('wrong request mode');
         } else {
-            $this->returnJson($this->getUserService()->toTree($this->getClass(TaoOntology::CLASS_URI_TAO_USER), array()));
+            $this->returnJson($this->getUserService()->toTree($this->getClass(TaoOntology::CLASS_URI_TAO_USER), []));
         }
     }
 

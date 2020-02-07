@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -33,7 +34,9 @@ use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\exception\InvalidServiceManagerException;
 use oat\oatbox\log\LoggerAwareTrait;
+
 use function GuzzleHttp\Psr7\stream_for;
+
 use oat\tao\model\routing\AnnotationReader\security;
 use oat\tao\model\security\xsrf\TokenService;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -55,7 +58,9 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
         setServiceLocator as protected setOriginalServiceLocator;
     }
     use LoggerAwareTrait;
-    use RendererTrait { setView as protected setRendererView; }
+    use RendererTrait {
+        setView as protected setRendererView;
+    }
     use LegacySessionUtils;
 
     /**
@@ -70,7 +75,9 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
      * tao_actions_CommonModule constructor.
      * @security("hide");
      */
-    public function __construct() {}
+    public function __construct()
+    {
+    }
 
     /**
      * @inheritdoc
@@ -158,14 +165,14 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
     protected function returnError($description, $returnLink = true, $httpStatus = null)
     {
         if ($this->isXmlHttpRequest()) {
-            $this->logWarning('Called '.__FUNCTION__.' in an unsupported AJAX context');
+            $this->logWarning('Called ' . __FUNCTION__ . ' in an unsupported AJAX context');
             throw new common_Exception($description);
         }
 
         $this->setData('message', $description);
         $this->setData('returnLink', $returnLink);
 
-        if($httpStatus !== null && file_exists(Template::getTemplate("error/error${httpStatus}.tpl"))){
+        if ($httpStatus !== null && file_exists(Template::getTemplate("error/error${httpStatus}.tpl"))) {
             $this->setView("error/error${httpStatus}.tpl", 'tao');
         } else {
             $this->setView('error/user_error.tpl', 'tao');
@@ -187,11 +194,11 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
             $extensionID = 'tao';
             common_Logger::d('Deprecated use of setView() using a boolean');
         }
-        if($extensionID === null) {
+        if ($extensionID === null) {
             $extensionID = Context::getInstance()->getExtensionName();
         }
         $ext = common_ext_ExtensionsManager::singleton()->getExtensionById($extensionID);
-        return $ext->getConstant('DIR_VIEWS').'templates'.DIRECTORY_SEPARATOR.$identifier;
+        return $ext->getConstant('DIR_VIEWS') . 'templates' . DIRECTORY_SEPARATOR . $identifier;
     }
 
     /**
@@ -215,7 +222,7 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
     {
         $ext = $this->getServiceManager()->get(common_ext_ExtensionsManager::SERVICE_ID)->getExtensionById('tao');
         $config = $ext->getConfig('js');
-        if($config !== null && isset($config['timeout'])){
+        if ($config !== null && isset($config['timeout'])) {
             return (int)$config['timeout'];
         }
         return 30;
@@ -369,5 +376,18 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
         );
 
         throw new common_exception_Unauthorized($exceptionMessage);
+    }
+
+    /**
+     * Ensure the template is rendered as part of the response
+     * {@inheritDoc}
+     * @see \oat\tao\model\http\Controller::getPsrResponse()
+     */
+    public function getPsrResponse()
+    {
+        $response = parent::getPsrResponse();
+        return $this->hasView()
+        ? $response->withBody(stream_for($this->getRenderer()->render()))
+        : $response;
     }
 }

@@ -33,5 +33,17 @@ define(['jquery', 'form/post-render-props'], function($, postRenderProps) {
         var indexIconVisibility = $testScope.find('.icon-find').is(':visible');
         assert.ok(indexIconVisibility, 'index icon should be visible!');
     });
+
+    QUnit.test('regular property labels', function(assert) {
+        var $testScope = $('#qunit-fixture');
+
+        postRenderProps.init();
+
+        assert.equal(
+            $.trim($testScope.find('.regular-property').text()),
+            $testScope.find('.regular-property input').val(),
+            'Regular property has the correct label'
+        );
+    });
 });
 

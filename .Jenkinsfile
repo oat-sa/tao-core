@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        label 'master'
+        label 'builder'
     }
     stages {
         stage('Resolve TAO dependencies') {
@@ -14,7 +14,7 @@ pipeline {
                     script: 'mkdir -p build'
                 )
 
-                withCredentials([string(credentialsId: 'github_secret', variable: 'GIT_TOKEN')]) {
+                withCredentials([string(credentialsId: 'jenkins_github_token', variable: 'GIT_TOKEN')]) {
                     sh(
                         label : 'Run the Dependency Resolver',
                         script: '''

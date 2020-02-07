@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -24,6 +25,7 @@ use oat\tao\model\plugins\AbstractPluginRegistry;
 use oat\tao\model\plugins\AbstractPluginService;
 use oat\tao\model\plugins\PluginModule;
 use Prophecy\Prophet;
+use oat\generis\test\TestCase;
 
 /**
  * Concrete class PluginRegistry
@@ -67,7 +69,7 @@ class PluginService extends AbstractPluginService
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
  */
-class AbstractPluginServiceTest extends \PHPUnit_Framework_TestCase
+class AbstractPluginServiceTest extends TestCase
 {
     //data to stub the registry content
     private static $pluginData = [
@@ -171,5 +173,4 @@ class AbstractPluginServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($plugin->isActive());
     }
-
 }

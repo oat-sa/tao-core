@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint106\n"
-"PO-Revision-Date: 2019-07-19T08:49:18\n"
+"Project-Id-Version: TAO 3.4.0-sprint121\n"
+"PO-Revision-Date: 2020-01-31T09:51:42\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: it-IT\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " and "
-msgstr "e"
-
 msgid " AND "
 msgstr ""
+
+msgid " and "
+msgstr "e"
 
 msgid " has been deleted successfully"
 msgstr " è stato rimosso correttamente"
@@ -183,6 +183,9 @@ msgstr "Azioni"
 
 msgid "Add"
 msgstr "Aggiungi"
+
+msgid "Add / Edit lists"
+msgstr ""
 
 msgid "Add a CSV file"
 msgstr "Aggiungi un file CSV"
@@ -367,11 +370,11 @@ msgstr ""
 msgid "Calendar"
 msgstr "Calendario"
 
-msgid "cancel"
-msgstr "no"
-
 msgid "Cancel"
 msgstr "No"
+
+msgid "cancel"
+msgstr "no"
 
 msgid "cancel the action"
 msgstr "annulla operazione"
@@ -401,11 +404,11 @@ msgstr "Cambia la password"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check all"
-msgstr "Verifica tutto"
-
 msgid "Check All"
 msgstr "Controlla Tutti"
+
+msgid "Check all"
+msgstr "Verifica tutto"
 
 msgid "Check-in"
 msgstr "Check-in"
@@ -563,11 +566,11 @@ msgstr "Dati importati con successo"
 msgid "Data imported. Some records are invalid."
 msgstr "Dati importati. Alcuni record non sono validi."
 
-msgid "Data language"
-msgstr "Dati di lingua"
-
 msgid "Data Language"
 msgstr "Dati di lingua."
+
+msgid "Data language"
+msgstr "Dati di lingua"
 
 msgid "Data not imported. All records are invalid."
 msgstr "Dati non importati. Nessun record è valido."
@@ -1108,6 +1111,9 @@ msgstr "Lista - Scelta singola - Scorri giù"
 msgid "List - Single choice - Radio button"
 msgstr "Lista - Scelta singola - Tasto radio"
 
+msgid "List values"
+msgstr ""
+
 msgid "ln"
 msgstr ""
 
@@ -1246,9 +1252,6 @@ msgstr "Valori multipli delimitati"
 msgid "Multiply the value by 10^x"
 msgstr ""
 
-msgid "must be numeric"
-msgstr "deve essere numerico"
-
 msgid "Mute"
 msgstr ""
 
@@ -1363,11 +1366,11 @@ msgstr "di"
 msgid "Off"
 msgstr ""
 
-msgid "OK"
-msgstr "SI"
-
 msgid "Ok"
 msgstr "Sì"
+
+msgid "OK"
+msgstr "SI"
 
 msgid "Old Password"
 msgstr "Vecchia password"
@@ -1460,9 +1463,6 @@ msgid "Please provide a reason"
 msgstr "Si prega di fornire una motivazione"
 
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
-msgstr ""
-
-msgid "Please try in %s."
 msgstr ""
 
 msgid "Please wait"
@@ -2048,6 +2048,9 @@ msgstr "Traduzione salvata"
 msgid "Tree - Multiple node choice "
 msgstr "Scelta nodo Albero - Multiple"
 
+msgid "Tree values"
+msgstr ""
+
 msgid "True"
 msgstr "Vero"
 
@@ -2117,10 +2120,10 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "Deseleziona tutto"
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "Deseleziona tutto"
 
 msgid "Undefined amount of the pages for pagination"

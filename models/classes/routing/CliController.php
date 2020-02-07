@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -23,7 +24,6 @@ namespace oat\tao\model\routing;
 use oat\oatbox\action\ActionService;
 use oat\oatbox\action\ResolutionException;
 use common_report_Report as Report;
-use oat\oatbox\action\Help;
 use oat\tao\model\cliArgument\ArgumentService;
 use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\oatbox\service\ServiceManagerAwareInterface;
@@ -47,12 +47,8 @@ class CliController implements ServiceManagerAwareInterface
         try {
             $actionService = $this->getServiceLocator()->get(ActionService::SERVICE_ID);
             $action = $actionService->resolve($actionIdentifier);
-        } catch (\common_ext_ManifestNotFoundException $e) {
-            $action = new Help(null);
         } catch (ResolutionException $e) {
-            $parts = explode('/', $actionIdentifier);
-            $extId = $parts[0];
-            $action = new Help($extId);
+            return new Report(Report::TYPE_ERROR, $e->getMessage());
         }
 
         $this->propagate($action);
@@ -72,13 +68,12 @@ class CliController implements ServiceManagerAwareInterface
             $previous = $e->getPrevious();
 
             // Get the full stack trace of the exception
-            while($previous){
-                $message .= PHP_EOL . "caused by : " . PHP_EOL .$previous->getMessage();
+            while ($previous) {
+                $message .= PHP_EOL . "caused by : " . PHP_EOL . $previous->getMessage();
                 $previous = $previous->getPrevious();
             }
 
             $report->add(new Report(Report::TYPE_ERROR, $message));
-
         }
 
         return $report;

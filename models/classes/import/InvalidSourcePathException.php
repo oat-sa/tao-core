@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -43,7 +44,6 @@ class InvalidSourcePathException extends common_Exception implements common_exce
         $message = sprintf('The path to the source file "%s" is outside the base path "%s"', $sourcePath, $basePath);
 
         parent::__construct($message, 0, $previous);
-
     }
 
     /**

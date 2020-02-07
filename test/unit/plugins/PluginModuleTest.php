@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,10 +17,12 @@
  *
  * Copyright (c) 2016-2017 (original work) Open Assessment Technologies SA;
  */
+
 namespace oat\tao\test\unit\plugins;
 
 use common_exception_InconsistentData;
 use oat\tao\model\plugins\PluginModule;
+use oat\generis\test\TestCase;
 
 /**
  * Test the PluginModule pojo
@@ -27,7 +30,7 @@ use oat\tao\model\plugins\PluginModule;
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
  */
-class PluginModuleTest extends \PHPUnit_Framework_TestCase
+class PluginModuleTest extends TestCase
 {
 
     /**

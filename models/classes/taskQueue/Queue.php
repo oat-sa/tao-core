@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,6 +22,7 @@
 namespace oat\tao\model\taskQueue;
 
 use oat\oatbox\log\LoggerAwareTrait;
+use oat\oatbox\mutex\LockTrait;
 use oat\tao\model\taskQueue\Queue\Broker\QueueBrokerInterface;
 use oat\tao\model\taskQueue\Queue\Broker\SyncQueueBrokerInterface;
 use oat\tao\model\taskQueue\Task\TaskInterface;
@@ -37,7 +39,9 @@ class Queue implements QueueInterface, TaskLogAwareInterface
     use LoggerAwareTrait;
     use ServiceLocatorAwareTrait;
     use TaskLogAwareTrait;
+    use LockTrait;
 
+    const LOCK_PREFIX = 'taskqueue_lock_';
     private $name;
 
     /**
@@ -157,9 +161,9 @@ class Queue implements QueueInterface, TaskLogAwareInterface
             if (!is_null($label)) {
                 $task->setLabel($label);
             }
-
+            $lock = $this->createLock(self::LOCK_PREFIX . $task->getId());
+            $lock->acquire(true);
             $isEnqueued = $this->getBroker()->push($task);
-
             if ($isEnqueued) {
                 $this->getTaskLog()
                     ->add($task, TaskLogInterface::STATUS_ENQUEUED, $label);
@@ -168,6 +172,8 @@ class Queue implements QueueInterface, TaskLogAwareInterface
             return $isEnqueued;
         } catch (\Exception $e) {
             $this->logError('Enqueueing ' . $task . ' failed with MSG: ' . $e->getMessage());
+        } finally {
+            $lock->release();
         }
 
         return false;
@@ -182,12 +188,13 @@ class Queue implements QueueInterface, TaskLogAwareInterface
         if (!$task) {
             return null;
         }
-
+        $lock = $this->createLock(self::LOCK_PREFIX . $task->getId());
+        $lock->acquire(true);
         if ($this->canDequeueTask($task)) {
             $this->getTaskLog()->setStatus($task->getId(), TaskLogInterface::STATUS_DEQUEUED);
             $this->logInfo(sprintf('Task %s has been dequeued', $task->getId()), $this->getLogContext());
         }
-
+        $lock->release();
         return $task;
     }
 

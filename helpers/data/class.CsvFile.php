@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -36,64 +37,58 @@ class tao_helpers_data_CsvFile
     const FIELD_ENCLOSER = 'field_encloser';
     const MULTI_VALUES_DELIMITER = 'multi_values_delimiter';
     const FIRST_ROW_COLUMN_NAMES = 'first_row_column_names';
-
     /**
-     * Contains the CSV data as a simple 2-dimensional array. Keys are integer
-     * the mapping done separatyely if column names are provided.
-     *
-     * @access private
-     * @var array
-     */
-    private $data = array();
-
+         * Contains the CSV data as a simple 2-dimensional array. Keys are integer
+         * the mapping done separatyely if column names are provided.
+         *
+         * @access private
+         * @var array
+         */
+    private $data = [];
     /**
-     * Contains the mapping for column names if the CSV file contains a row
-     * with column names.
-     *
-     * [0] ='id'
-     * [1] = 'label'
-     * ...
-     *
-     * If it has no name, empty string for this index.
-     *
-     * @access private
-     * @var array
-     */
-    private $columnMapping = array();
-
+         * Contains the mapping for column names if the CSV file contains a row
+         * with column names.
+         *
+         * [0] ='id'
+         * [1] = 'label'
+         * ...
+         *
+         * If it has no name, empty string for this index.
+         *
+         * @access private
+         * @var array
+         */
+    private $columnMapping = [];
     /**
-     * Options such as string delimiter, new line escaping sequence, ...
-     *
-     * @access private
-     * @var array
-     */
-    private $options = array();
-
+         * Options such as string delimiter, new line escaping sequence, ...
+         *
+         * @access private
+         * @var array
+         */
+    private $options = [];
     /**
-     * The count of columns in the CsvFile. Will be updated at each row
-     * The largest count will be taken into account.
-     *
-     * @access private
-     * @var Integer
-     */
+         * The count of columns in the CsvFile. Will be updated at each row
+         * The largest count will be taken into account.
+         *
+         * @access private
+         * @var Integer
+         */
     private $columnCount = null;
-
     /**
-     * Short description of method __construct
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  array options
-     * @return mixed
-     */
-    public function __construct($options = array())
+         * Short description of method __construct
+         *
+         * @access public
+         * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+         * @param  array options
+         * @return mixed
+         */
+    public function __construct($options = [])
     {
-        $defaults = array('field_delimiter' => ';',
+        $defaults = ['field_delimiter' => ';',
             'field_encloser' => '"',
             // if empty - don't use multi_values
             'multi_values_delimiter' => '',
-            'first_row_column_names' => true);
-
+            'first_row_column_names' => true];
         $this->setOptions(array_merge($defaults, $options));
         $this->setColumnCount(0);
     }
@@ -176,16 +171,14 @@ class tao_helpers_data_CsvFile
         $enclosure = preg_quote($this->options['field_encloser'], '/');
         $delimiter = $this->options['field_delimiter'];
         $multiValueSeparator = $this->options['multi_values_delimiter'];
-
         $adle = ini_get('auto_detect_line_endings');
         ini_set('auto_detect_line_endings', true);
-
         if ($this->options['first_row_column_names']) {
             $fields = fgetcsv($resource, 0, $delimiter, $enclosure);
             $this->setColumnMapping($fields);
         }
 
-        $data = array();
+        $data = [];
         while (($rowFields = fgetcsv($resource, 0, $delimiter, $enclosure)) !== false) {
             $lineData = [];
             foreach ($rowFields as $fieldData) {
@@ -197,7 +190,7 @@ class tao_helpers_data_CsvFile
                     $multiField = [];
                     foreach (explode($multiValueSeparator, $fieldData) as $item) {
                         if (!empty($item)) {
-                            $multiField[] = $item;
+                                $multiField[] = $item;
                         }
                     }
                     $fieldData = $multiField;
@@ -205,13 +198,11 @@ class tao_helpers_data_CsvFile
                 $lineData[] = $fieldData;
             }
             $data[] = $lineData;
-
             // Update the column count.
             $currentRowColumnCount = count($rowFields);
             if ($this->getColumnCount() < $currentRowColumnCount) {
                 $this->setColumnCount($currentRowColumnCount);
             }
-
         }
         ini_set('auto_detect_line_endings', $adle);
         fclose($resource);
@@ -226,7 +217,7 @@ class tao_helpers_data_CsvFile
      * @param  array array
      * @return void
      */
-    public function setOptions($array = array())
+    public function setOptions($array = [])
     {
         $this->options = $array;
     }
@@ -264,8 +255,10 @@ class tao_helpers_data_CsvFile
                     // Trying to access by column name but no mapping detected.
                     throw new InvalidArgumentException("Cannot access column mapping for this CSV file.");
                 } else {
-                    $mappedRow = array();
-                    for ($i = 0; $i < count($mapping); $i++) {
+                    $mappedRow = [];
+                    for (
+                        $i = 0; $i < count($mapping); $i++
+                    ) {
                         $mappedRow[$mapping[$i]] = $data[$index][$i];
                     }
                     $returnValue = $mappedRow;
@@ -305,11 +298,12 @@ class tao_helpers_data_CsvFile
         $data = $this->getData();
         if (isset($data[$row][$col])) {
             $returnValue = $data[$row][$col];
-        } else if (isset($data[$row]) && is_string($col)) {
+        } elseif (isset($data[$row]) && is_string($col)) {
             // try to access by col name.
             $mapping = $this->getColumnMapping();
-            for ($i = 0; $i < count($mapping); $i++) {
-
+            for (
+                $i = 0; $i < count($mapping); $i++
+            ) {
                 if ($mapping[$i] == $col && isset($data[$row][$col])) {
                     // Column with name $col extists.
                     $returnValue = $data[$row][$col];
@@ -336,11 +330,12 @@ class tao_helpers_data_CsvFile
         $data = $this->getData();
         if (isset($data[$row][$col])) {
             $this->data[$row][$col] = $value;
-        } else if (isset($data[$row]) && is_string($col)) {
+        } elseif (isset($data[$row]) && is_string($col)) {
             // try to access by col name.
             $mapping = $this->getColumnMapping();
-            for ($i = 0; $i < count($mapping); $i++) {
-
+            for (
+                $i = 0; $i < count($mapping); $i++
+            ) {
                 if ($mapping[$i] == $col && isset($data[$row][$col])) {
                     // Column with name $col extists.
                     $this->data[$row][$col] = $value;

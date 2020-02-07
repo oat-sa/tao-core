@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,8 +23,9 @@ namespace oat\tao\test\unit\model\taskQueue\Task;
 
 use oat\tao\model\taskQueue\Task\AbstractTask;
 use oat\tao\model\taskQueue\Task\TaskInterface;
+use oat\generis\test\TestCase;
 
-class AbstractTaskTest extends \PHPUnit_Framework_TestCase
+class AbstractTaskTest extends TestCase
 {
     /**
      * @var AbstractTask
@@ -189,7 +191,7 @@ class AbstractTaskTest extends \PHPUnit_Framework_TestCase
 
     public function testToStringWorks()
     {
-        $this->assertEquals('TASK '. get_class($this->abstractTaskMock) .' ['. $this->fakeId .']', (string) $this->abstractTaskMock);
+        $this->assertEquals('TASK ' . get_class($this->abstractTaskMock) . ' [' . $this->fakeId . ']', (string) $this->abstractTaskMock);
     }
 
     public function testOwnerShouldBeGeneratedInConstructor()

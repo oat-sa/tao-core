@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,7 +20,6 @@
  */
 
 namespace oat\tao\model\notification\implementation;
-
 
 use oat\tao\model\notification\NotificationInterface;
 
@@ -56,7 +56,7 @@ class Notification implements NotificationInterface, \JsonSerializable
      * @param null|string $updatedAt
      * @param int $status
      */
-    public function __construct($userId , $title , $message , $senderId , $senderName  , $id = null, $createdAt = null , $updatedAt = null,  $status = 0)
+    public function __construct($userId, $title, $message, $senderId, $senderName, $id = null, $createdAt = null, $updatedAt = null, $status = 0)
     {
         $this->id         = intval($id);
         $this->status     = intval($status);
@@ -136,9 +136,8 @@ class Notification implements NotificationInterface, \JsonSerializable
      */
     public function setStatus($status)
     {
-        if(is_int($status)) {
+        if (is_int($status)) {
             $this->status = $status;
-
         } else {
             $this->status = NotificationInterface::DEFAULT_STATUS;
         }
@@ -152,13 +151,14 @@ class Notification implements NotificationInterface, \JsonSerializable
      */
     public function setId($id)
     {
-        if(is_null($this->id)) {
+        if (is_null($this->id)) {
             $this->id = $id;
         }
         return $this;
     }
 
-    public function getTitle() {
+    public function getTitle()
+    {
         return $this->title;
     }
 
@@ -177,5 +177,4 @@ class Notification implements NotificationInterface, \JsonSerializable
                 'updatedAt'  => $this->getUpdatedAt(),
             ];
     }
-
 }

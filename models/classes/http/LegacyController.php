@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,6 +22,8 @@
 namespace oat\tao\model\http;
 
 use Context;
+
+use function GuzzleHttp\Psr7\stream_for;
 
 /**
  * Class LegacyController
@@ -316,9 +319,14 @@ abstract class LegacyController extends Controller
      * @param null $httpOnly
      * @return bool|void
      */
-    public function setCookie($name, $value = null, $expire = null,
-                              $domainPath = null, $https = null, $httpOnly = null)
-    {
+    public function setCookie(
+        $name,
+        $value = null,
+        $expire = null,
+        $domainPath = null,
+        $https = null,
+        $httpOnly = null
+    ) {
         if (!$this->response) {
             return $this->getResponse()->setCookie($name, $value, $expire, $domainPath, $https, $httpOnly);
         }
@@ -335,7 +343,7 @@ abstract class LegacyController extends Controller
     public function setContentHeader($contentType, $charset = 'UTF-8')
     {
         if (!$this->response) {
-           return $this->getResponse()->setContentHeader($contentType, $charset);
+            return $this->getResponse()->setContentHeader($contentType, $charset);
         }
         return parent::setContentHeader($contentType, $charset);
     }
@@ -378,8 +386,7 @@ abstract class LegacyController extends Controller
         if (!is_null($function)) {
             $message .= 'of "' . $function . '"';
         }
-        $message .= ' (' . get_called_class() .')';
+        $message .= ' (' . get_called_class() . ')';
         \common_Logger::i($message);
     }
-
 }

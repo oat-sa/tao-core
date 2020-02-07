@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint105\n"
-"PO-Revision-Date: 2019-06-21T08:53:09\n"
+"Project-Id-Version: TAO 3.4.0-sprint121\n"
+"PO-Revision-Date: 2020-01-31T09:52:23\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-CN\n"
@@ -183,6 +183,9 @@ msgstr "动作"
 
 msgid "Add"
 msgstr "添加"
+
+msgid "Add / Edit lists"
+msgstr ""
 
 msgid "Add a CSV file"
 msgstr "添加CSV文件"
@@ -402,10 +405,10 @@ msgstr "更改密码"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check all"
+msgid "Check All"
 msgstr "全部勾选"
 
-msgid "Check All"
+msgid "Check all"
 msgstr "全部勾选"
 
 msgid "Check-in"
@@ -447,10 +450,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
 msgid "Clear selection"
@@ -564,11 +567,11 @@ msgstr "数据已成功导入"
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data language"
-msgstr "数据语言"
-
 msgid "Data Language"
 msgstr "资料语言"
+
+msgid "Data language"
+msgstr "数据语言"
 
 msgid "Data not imported. All records are invalid."
 msgstr ""
@@ -864,6 +867,9 @@ msgstr "强制释放"
 msgid "Forgot your password?"
 msgstr "忘记了您的密码？"
 
+msgid "Form"
+msgstr ""
+
 msgid "Form data not saved."
 msgstr ""
 
@@ -966,10 +972,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1047,6 +1053,9 @@ msgstr ""
 msgid "Invalid file type!"
 msgstr "无效的文件型态!"
 
+msgid "Invalid input"
+msgstr ""
+
 msgid "Invalid input for function"
 msgstr ""
 
@@ -1103,6 +1112,9 @@ msgstr "清单-单项选择-下拉"
 
 msgid "List - Single choice - Radio button"
 msgstr "清单-单项选择-按钮"
+
+msgid "List values"
+msgstr ""
 
 msgid "ln"
 msgstr ""
@@ -1242,9 +1254,6 @@ msgstr "多个值分隔符"
 msgid "Multiply the value by 10^x"
 msgstr ""
 
-msgid "must be numeric"
-msgstr "必须是数字"
-
 msgid "Mute"
 msgstr ""
 
@@ -1304,10 +1313,10 @@ msgstr "没有文件"
 msgid "no label"
 msgstr "无标签"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "没有可用的预览"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "没有可用的预览"
 
 msgid "No results found"
@@ -1456,9 +1465,6 @@ msgid "Please provide a reason"
 msgstr ""
 
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
-msgstr ""
-
-msgid "Please try in %s."
 msgstr ""
 
 msgid "Please wait"
@@ -1822,6 +1828,9 @@ msgstr ""
 msgid "string"
 msgstr ""
 
+msgid "Submit"
+msgstr ""
+
 msgid "Success"
 msgstr "完成"
 
@@ -2039,6 +2048,9 @@ msgid "Translation saved"
 msgstr "翻译已储存"
 
 msgid "Tree - Multiple node choice "
+msgstr ""
+
+msgid "Tree values"
 msgstr ""
 
 msgid "True"

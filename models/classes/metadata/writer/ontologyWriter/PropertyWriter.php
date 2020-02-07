@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -82,7 +83,7 @@ class PropertyWriter extends ConfigurableService implements OntologyWriter
             if (! $validator->evaluate($data)) {
                 $validated = false;
                 \common_Logger::d('Unable to validate value for property "' . $this->getPropertyToWrite()->getUri() . '"' .
-                    ' against validator "' . $validator->getName(). '" : "' . $validator->getMessage() . '".');
+                    ' against validator "' . $validator->getName() . '" : "' . $validator->getMessage() . '".');
             }
         }
         return $validated;
@@ -109,7 +110,7 @@ class PropertyWriter extends ConfigurableService implements OntologyWriter
                     );
                 }
             }
-            \common_Logger::d('Valid property "'. $this->getPropertyToWrite()->getUri() .'" ' .
+            \common_Logger::d('Valid property "' . $this->getPropertyToWrite()->getUri() . '" ' .
                 'to add to resource "' . $resource->getUri() . '" : ' . $propertyValue);
             return true;
         }
@@ -139,5 +140,4 @@ class PropertyWriter extends ConfigurableService implements OntologyWriter
     {
         return array_pop($data);
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -78,9 +79,10 @@ class RedirectUrlEntityDecorator extends TaskLogEntityDecorator
             TaskLogInterface::CATEGORY_UNKNOWN
         ];
 
-        if ( !in_array($this->taskLogService->getCategoryForTask($this->getTaskName()), $deniedCategories) &&
-             ($this->getStatus()->isCompleted() || $this->getStatus()->isArchived()) ) {
-
+        if (
+            !in_array($this->taskLogService->getCategoryForTask($this->getTaskName()), $deniedCategories) &&
+             ($this->getStatus()->isCompleted() || $this->getStatus()->isArchived())
+        ) {
             $user = $this->user;
             $params = [
                 'taskId' => $this->getId()
@@ -96,7 +98,7 @@ class RedirectUrlEntityDecorator extends TaskLogEntityDecorator
                     'redirectUrl' => _url('redirectTaskToInstance', 'Redirector', 'taoBackOffice', $params)
                 ]);
             } else {
-                \common_Logger::w('User \''.$user->getIdentifier().'\' does not have access to redirectTaskToInstance');
+                \common_Logger::w('User \'' . $user->getIdentifier() . '\' does not have access to redirectTaskToInstance');
             }
         }
 

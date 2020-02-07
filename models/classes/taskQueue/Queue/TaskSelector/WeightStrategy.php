@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -66,7 +67,7 @@ class WeightStrategy implements SelectorStrategyInterface, LoggerAwareInterface
      */
     private function pickQueueByWeight(array $queues)
     {
-        $weights = array_map(function(QueueInterface $queue) {
+        $weights = array_map(function (QueueInterface $queue) {
             return $queue->getWeight();
         }, $queues);
 

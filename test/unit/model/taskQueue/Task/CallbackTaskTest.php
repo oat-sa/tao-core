@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -24,8 +25,9 @@ use oat\tao\model\taskQueue\Task\CallbackTask;
 use oat\tao\model\taskQueue\Task\CallbackTaskInterface;
 use oat\tao\model\taskQueue\Task\TaskInterface;
 use oat\tao\test\Asset\CallableFixture;
+use oat\generis\test\TestCase;
 
-class CallbackTaskTest extends \PHPUnit_Framework_TestCase
+class CallbackTaskTest extends TestCase
 {
     /**
      * @var CallbackTask

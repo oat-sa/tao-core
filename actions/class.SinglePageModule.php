@@ -41,7 +41,8 @@ abstract class tao_actions_SinglePageModule extends \tao_actions_CommonModule
      * Sets the route to be used by the client controller
      * @param string $route
      */
-    protected function setClientRoute($route) {
+    protected function setClientRoute($route)
+    {
         header(self::FORWARD_HEADER . ': ' . $route);
         $this->setClientParam('forwardTo', $route);
     }
@@ -79,7 +80,7 @@ abstract class tao_actions_SinglePageModule extends \tao_actions_CommonModule
      * @param String [$extension] - Defines the extension that should contain the template
      * @throws \common_exception_Error
      */
-    protected function composeView($scope = '', $data = array(), $template = '', $extension = '')
+    protected function composeView($scope = '', $data = [], $template = '', $extension = '')
     {
         if (!is_array($data)) {
             $data = [];

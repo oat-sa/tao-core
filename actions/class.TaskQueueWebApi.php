@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -195,7 +196,7 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
      */
     public function download()
     {
-        try{
+        try {
             $this->checkIfTaskIdExists();
 
             $taskLogEntity = $this->getTaskLogService()->getByIdAndUser(
@@ -204,7 +205,7 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
             );
 
             if (!$taskLogEntity->getStatus()->isCompleted()) {
-                throw new \common_Exception('Task "'. $taskLogEntity->getId() .'" is not downloadable.');
+                throw new \common_Exception('Task "' . $taskLogEntity->getId() . '" is not downloadable.');
             }
 
             $fileNameOrSerial = $taskLogEntity->getFileNameFromReport();
@@ -270,7 +271,7 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
 
         if (is_array($taskIdsParams)) {
             return $taskIdsParams;
-        } else if ($taskIdsParams === static::ALL) {
+        } elseif ($taskIdsParams === static::ALL) {
             return static::ALL;
         } else {
             return [$taskIdsParams];

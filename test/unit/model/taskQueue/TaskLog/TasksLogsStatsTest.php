@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,8 +22,9 @@
 namespace oat\tao\test\unit\model\taskQueue\TaskLog;
 
 use oat\tao\model\taskQueue\TaskLog\TasksLogsStats;
+use oat\generis\test\TestCase;
 
-class TasksLogsStatsTest extends \PHPUnit_Framework_TestCase
+class TasksLogsStatsTest extends TestCase
 {
     public function testCreateStats()
     {

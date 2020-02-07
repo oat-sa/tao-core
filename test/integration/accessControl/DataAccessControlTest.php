@@ -9,6 +9,7 @@ use oat\oatbox\user\User;
 use oat\tao\model\accessControl\data\DataAccessControl;
 use oat\tao\model\TaoOntology;
 use PHPUnit\Framework\Assert;
+use oat\generis\test\MockObject;
 
 class DataAccessControlTest extends GenerisPhpUnitTestRunner
 {
@@ -20,37 +21,37 @@ class DataAccessControlTest extends GenerisPhpUnitTestRunner
     protected $userService;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var MockObject
      */
     protected $dac;
 
     /**
      * @var array user data set
      */
-    private $testAdminData = array(
-        GenerisRdf::PROPERTY_USER_LOGIN		=> 	'jdoe_admin',
-        GenerisRdf::PROPERTY_USER_PASSWORD	=>	'jdoe_admin123',
-        GenerisRdf::PROPERTY_USER_LASTNAME	=>	'Doe',
-        GenerisRdf::PROPERTY_USER_FIRSTNAME	=>	'John',
-        GenerisRdf::PROPERTY_USER_MAIL		=>	'jdoe@tao.lu',
-        GenerisRdf::PROPERTY_USER_UILG		=>	'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
-        GenerisRdf::PROPERTY_USER_ROLES		=>  'http://www.tao.lu/Ontologies/TAO.rdf#GlobalManager',
-        'plainPassword'	                    =>	'jdoe_admin123',
-    );
+    private $testAdminData = [
+        GenerisRdf::PROPERTY_USER_LOGIN     =>  'jdoe_admin',
+        GenerisRdf::PROPERTY_USER_PASSWORD  =>  'jdoe_admin123',
+        GenerisRdf::PROPERTY_USER_LASTNAME  =>  'Doe',
+        GenerisRdf::PROPERTY_USER_FIRSTNAME =>  'John',
+        GenerisRdf::PROPERTY_USER_MAIL      =>  'jdoe@tao.lu',
+        GenerisRdf::PROPERTY_USER_UILG      =>  'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
+        GenerisRdf::PROPERTY_USER_ROLES     =>  'http://www.tao.lu/Ontologies/TAO.rdf#GlobalManager',
+        'plainPassword'                     =>  'jdoe_admin123',
+    ];
 
     /**
      * @var array user data set
      */
-    private $testAnonymousData = array(
-        GenerisRdf::PROPERTY_USER_LOGIN		=> 	'jdoe_anon',
-        GenerisRdf::PROPERTY_USER_PASSWORD	=>	'jdoe_anon123',
-        GenerisRdf::PROPERTY_USER_LASTNAME	=>	'Doe',
-        GenerisRdf::PROPERTY_USER_FIRSTNAME	=>	'John',
-        GenerisRdf::PROPERTY_USER_MAIL		=>	'jdoe@tao.lu',
-        GenerisRdf::PROPERTY_USER_UILG		=>	'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
-        GenerisRdf::PROPERTY_USER_ROLES		=>  'http://www.tao.lu/Ontologies/TAO.rdf#Anonymous',
-        'plainPassword'	                    =>	'jdoe_anon123'
-    );
+    private $testAnonymousData = [
+        GenerisRdf::PROPERTY_USER_LOGIN     =>  'jdoe_anon',
+        GenerisRdf::PROPERTY_USER_PASSWORD  =>  'jdoe_anon123',
+        GenerisRdf::PROPERTY_USER_LASTNAME  =>  'Doe',
+        GenerisRdf::PROPERTY_USER_FIRSTNAME =>  'John',
+        GenerisRdf::PROPERTY_USER_MAIL      =>  'jdoe@tao.lu',
+        GenerisRdf::PROPERTY_USER_UILG      =>  'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
+        GenerisRdf::PROPERTY_USER_ROLES     =>  'http://www.tao.lu/Ontologies/TAO.rdf#Anonymous',
+        'plainPassword'                     =>  'jdoe_anon123'
+    ];
 
     private $adminUser;
     private $anonUser;
@@ -250,11 +251,12 @@ class DataAccessControlTest extends GenerisPhpUnitTestRunner
      * @param $login
      * @return \core_kernel_classes_Resource|mixed
      */
-    private function getUserByLogin($login) {
+    private function getUserByLogin($login)
+    {
         $class = new \core_kernel_classes_Class(GenerisRdf::CLASS_GENERIS_USER);
         $users = $class->searchInstances(
-            array(GenerisRdf::PROPERTY_USER_LOGIN => $login),
-            array('like' => false, 'recursive' => true)
+            [GenerisRdf::PROPERTY_USER_LOGIN => $login],
+            ['like' => false, 'recursive' => true]
         );
 
         return current($users);
@@ -267,7 +269,7 @@ class DataAccessControlTest extends GenerisPhpUnitTestRunner
     {
         $itemService = \taoItems_models_classes_ItemsService::singleton();
         for ($i = 0; $i < 5; $i++) {
-            $itemService->createInstance($itemService->getRootClass(), self::SAMPLE_ITEMS_LABEL.$i);
+            $itemService->createInstance($itemService->getRootClass(), self::SAMPLE_ITEMS_LABEL . $i);
         }
     }
 
@@ -277,11 +279,12 @@ class DataAccessControlTest extends GenerisPhpUnitTestRunner
      * @param $label
      * @return \core_kernel_classes_Resource[]
      */
-    private function getItemByLabel($label) {
+    private function getItemByLabel($label)
+    {
         $class = new \core_kernel_classes_Class('http://www.tao.lu/Ontologies/TAOItem.rdf#Item');
         $items = $class->searchInstances(
-            array('http://www.w3.org/2000/01/rdf-schema#label' => $label),
-            array('like' => true, 'recursive' => true)
+            ['http://www.w3.org/2000/01/rdf-schema#label' => $label],
+            ['like' => true, 'recursive' => true]
         );
 
         return $items;
@@ -294,10 +297,10 @@ class DataAccessControlTest extends GenerisPhpUnitTestRunner
     public function __destruct()
     {
         if ($this->getUserByLogin($this->testAdminData[GenerisRdf::PROPERTY_USER_LOGIN])) {
-            $this->userService->removeUser( $this->getUserByLogin($this->testAdminData[GenerisRdf::PROPERTY_USER_LOGIN]) );
+            $this->userService->removeUser($this->getUserByLogin($this->testAdminData[GenerisRdf::PROPERTY_USER_LOGIN]));
         }
         if ($this->getUserByLogin($this->testAnonymousData[GenerisRdf::PROPERTY_USER_LOGIN])) {
-            $this->userService->removeUser( $this->getUserByLogin($this->testAnonymousData[GenerisRdf::PROPERTY_USER_LOGIN]) );
+            $this->userService->removeUser($this->getUserByLogin($this->testAnonymousData[GenerisRdf::PROPERTY_USER_LOGIN]));
         }
 
         $items = $this->getItemByLabel(self::SAMPLE_ITEMS_LABEL);
@@ -311,7 +314,6 @@ class DataAccessControlTest extends GenerisPhpUnitTestRunner
             }
         }
     }
-
 }
 
 /**
@@ -324,7 +326,7 @@ class FreeAccessTestPermissionProvider implements PermissionInterface
 {
     public function getPermissions(User $user, array $resourceIds)
     {
-        return array_fill_keys($resourceIds, array(PermissionInterface::RIGHT_UNSUPPORTED));
+        return array_fill_keys($resourceIds, [PermissionInterface::RIGHT_UNSUPPORTED]);
     }
 
     public function getSupportedRights()

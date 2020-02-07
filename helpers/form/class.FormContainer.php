@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -101,7 +102,7 @@ abstract class tao_helpers_form_FormContainer
         }
 
         // set the values in case of default values
-        if (count($this->data) > 0) {
+        if (is_array($this->data) && !empty($this->data)) {
             $this->form->setValues($this->data);
         }
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -23,7 +24,7 @@ namespace oat\tao\scripts\tools;
 use \common_report_Report as Report;
 
 /**
- * 
+ *
  */
 class CsvExclusion extends AbstractIndexedCsv
 {
@@ -87,8 +88,8 @@ class CsvExclusion extends AbstractIndexedCsv
     }
     
     /**
-     * 
-     * 
+     *
+     *
      * @see \oat\tao\scripts\tools\AbstractIndexedCsv
      */
     protected function process()

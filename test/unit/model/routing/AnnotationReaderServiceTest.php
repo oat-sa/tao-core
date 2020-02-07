@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -28,6 +29,7 @@ use oat\tao\model\routing\AnnotationReaderService;
 use oat\tao\model\routing\RouteAnnotationService;
 use Prophecy\Argument;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use oat\generis\test\TestCase;
 
 /**
  * Class TestingClass
@@ -35,7 +37,8 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  * @requiredRights(key="id", permission="READ")
  * @security("allow")
  */
-class TestingClass {
+class TestingClass
+{
 
     /**
      * @requiredRights(key="id", permission="READ")
@@ -43,13 +46,17 @@ class TestingClass {
      * @security("hide")
      * @security("allow")
      */
-    public function someAction() {}
+    public function someAction()
+    {
+    }
 
-    public function anotherAction() {}
+    public function anotherAction()
+    {
+    }
 }
 
 
-class AnnotationReaderServiceTest extends \PHPUnit_Framework_TestCase
+class AnnotationReaderServiceTest extends TestCase
 {
     /**
      * @var AnnotationReaderService

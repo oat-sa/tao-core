@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,6 +18,7 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
  *
  */
+
 namespace oat\tao\model\websource;
 
 use common_ext_ExtensionsManager;
@@ -53,7 +55,7 @@ class FlyTokenWebSource extends TokenWebSource
 
         $parts = explode('*/', $subPath, 2);
         if (count($parts) < 2) {
-            throw new \tao_models_classes_FileNotFoundException('`'.$subPath.'` - (wrong number of path parts)');
+            throw new \tao_models_classes_FileNotFoundException('`' . $subPath . '` - (wrong number of path parts)');
         }
         list ($subPath, $file) = $parts;
 
@@ -70,7 +72,7 @@ class FlyTokenWebSource extends TokenWebSource
         }
 
 
-        $path = array();
+        $path = [];
         foreach (explode('/', $subPath . $file) as $ele) {
             $path[] = rawurldecode($ele);
         }
@@ -85,15 +87,15 @@ class FlyTokenWebSource extends TokenWebSource
      * @throws \common_exception_Error
      * @throws \common_ext_ExtensionException
      */
-    public function getAccessUrl($relativePath) {
-        $path = array();
+    public function getAccessUrl($relativePath)
+    {
+        $path = [];
         foreach (preg_split('/[\/\\\]/', ltrim($relativePath, '/\\')) as $ele) {
             $path[] = rawurlencode($ele);
         }
         $relUrl = implode('/', $path);
         $token = $this->generateToken($relUrl);
         $taoExtension = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-        return $taoExtension->getConstant('BASE_URL').'getFileFlysystem.php/'.$this->getId().'/'.$token.'/'.$relUrl.'*/';
+        return $taoExtension->getConstant('BASE_URL') . 'getFileFlysystem.php/' . $this->getId() . '/' . $token . '/' . $relUrl . '*/';
     }
 }
-

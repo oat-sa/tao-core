@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -24,7 +25,6 @@ namespace oat\tao\scripts\tools\rdf;
 use common_report_Report as Report;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\extension\AbstractAction;
-
 
 /**
  * Counts all duplicates of the rdf properties
@@ -73,7 +73,6 @@ class RdfDuplicates extends AbstractAction
         if (!$total) {
             $report->add(Report::createSuccess('Duplicates not found. Everything is fine!'));
         } else {
-
             if (isset($params[0]) && $params[0] == '--fix') {
                 do {
                     $sql = 'SELECT s.id AS source FROM statements s JOIN statements s1 ON s.subject=s1.subject AND s.id!=s1.id
@@ -97,14 +96,13 @@ class RdfDuplicates extends AbstractAction
                             $fixed++;
                         }
                     }
-
                 } while ($id);
             }
 
             if (!$fixed) {
                 $report->add(Report::createInfo(sprintf('%s duplicates were found', $total)));
                 $report->add(Report::createInfo('Use --fix parameter to delete duplicates'));
-           } else {
+            } else {
                 $report->add(Report::createSuccess(sprintf('fixed %s, deleted %s', $total, $fixed)));
             }
         }

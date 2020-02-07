@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,8 +23,9 @@ namespace oat\tao\test\unit\model\taskQueue\TaskLog;
 
 use oat\tao\model\taskQueue\TaskLog\TaskLogCollection;
 use oat\tao\model\taskQueue\TaskLogInterface;
+use oat\generis\test\TestCase;
 
-class TaskLogCollectionTest extends \PHPUnit_Framework_TestCase
+class TaskLogCollectionTest extends TestCase
 {
     /**
      * @throws \Exception
@@ -54,7 +56,7 @@ class TaskLogCollectionTest extends \PHPUnit_Framework_TestCase
      */
     protected function createCollection()
     {
-       return TaskLogCollection::createFromArray([
+        return TaskLogCollection::createFromArray([
             [
                 'id' => 'rdf#i1508337970199318643',
                 'parent_id' => 'parentFake0002525',
@@ -68,7 +70,7 @@ class TaskLogCollectionTest extends \PHPUnit_Framework_TestCase
                 'report' => [
                     'type' => 'info',
                     'message' => 'Running task rdf#i1508337970199318643',
-                    'data' => NULL,
+                    'data' => null,
                     'children' => []
                 ],
             ],
@@ -85,11 +87,11 @@ class TaskLogCollectionTest extends \PHPUnit_Framework_TestCase
                 'report' => [
                     'type' => 'info',
                     'message' => 'Running task #i15083379701993186432222',
-                    'data' => NULL,
+                    'data' => null,
                     'children' => []
                 ],
             ],
-           [
+            [
                'id' => 'rdf#i150833797019931864322223',
                'parent_id' => 'parentFake0002525',
                'task_name' => 'Task Name 3',
@@ -102,10 +104,10 @@ class TaskLogCollectionTest extends \PHPUnit_Framework_TestCase
                'report' => [
                    'type' => 'info',
                    'message' => 'Running task #i15083379701993186433333',
-                   'data' => NULL,
+                   'data' => null,
                    'children' => []
                ],
-           ],
+            ],
         ]);
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -40,12 +41,11 @@ abstract class ArgumentLoader extends ConfigurableService
     protected function getArguments()
     {
         $arguments = [];
-       foreach ($this->getOptionArguments() as $argument) {
+        foreach ($this->getOptionArguments() as $argument) {
             if ($argument instanceof Argument) {
                 $arguments[] = $this->getServiceManager()->propagate($argument);
             }
         }
         return $arguments;
     }
-
 }

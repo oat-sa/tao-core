@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -75,6 +76,19 @@ trait FilesystemAwareTrait
     }
 
     /**
+     * @param $stream
+     * @param $fileName
+     * @return mixed
+     * @throws \common_Exception
+     */
+    protected function saveStreamToStorage($stream, $fileName)
+    {
+        $file = $this->getQueueStorage()->getFile($fileName);
+        $file->put($stream);
+        return $fileName;
+    }
+
+    /**
      * Writes arbitrary string data into a filesystem file under task queue storage.
      *
      * @param string $string
@@ -114,7 +128,7 @@ trait FilesystemAwareTrait
             $file = $this->getQueueStorage()
                 ->getFile($filename);
 
-            if($file->exists()) {
+            if ($file->exists()) {
                 $file->delete();
             }
         }

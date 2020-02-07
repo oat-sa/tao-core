@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,6 +18,7 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
+
 namespace oat\tao\model\datatable\implementation;
 
 use ArrayIterator;
@@ -37,7 +39,6 @@ use Zend\ServiceManager\ServiceLocatorAwareTrait;
  */
 abstract class AbstractDatatablePayload implements DatatablePayloadInterface, ServiceLocatorAwareInterface
 {
-
     use ServiceLocatorAwareTrait;
 
     /**
@@ -169,11 +170,11 @@ abstract class AbstractDatatablePayload implements DatatablePayloadInterface, Se
     {
         $payload = [
             'data' => $result->getArrayCopy(),
-            'page' => (integer) $this->getPage(),
-            'records' => (integer) $result->count(),
+            'page' => (int) $this->getPage(),
+            'records' => (int) $result->count(),
             'total' => $this->getRows() > 0
                 ? ceil($result->total() / $this->getRows())
-                : (integer) $result->count()
+                : (int) $result->count()
         ];
 
         return $this->fetchPropertyValues($payload);
@@ -237,7 +238,6 @@ abstract class AbstractDatatablePayload implements DatatablePayloadInterface, Se
         $data = [];
         $map = $this->getPropertiesMap();
         foreach ($filter as $key => $val) {
-
             $key = isset($map[$key]) ? $map[$key] : $key;
 
             if ($multitask) {
@@ -270,8 +270,8 @@ abstract class AbstractDatatablePayload implements DatatablePayloadInterface, Se
             $resource = (object)$resource;
             $resource = new \core_kernel_classes_Resource($resource->subject);
             $resourceData = $resource->getPropertiesValues($propertyMap);
-            $entityInfo = array_map(function($row) use($resourceData) {
-                $stringData = array_map(function($value){
+            $entityInfo = array_map(function ($row) use ($resourceData) {
+                $stringData = array_map(function ($value) {
                     return ($value instanceof \core_kernel_classes_Resource) ? $value->getUri() : (string) $value;
                 }, $resourceData[$row]);
                 return join(',', $stringData);

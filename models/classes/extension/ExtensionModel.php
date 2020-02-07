@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -30,15 +31,17 @@ use oat\tao\helpers\translation\rdf\RdfPack;
 class ExtensionModel extends \common_ext_ExtensionModel
 {
 
-    public function __construct(common_ext_Extension $extension) {
+    public function __construct(common_ext_Extension $extension)
+    {
         parent::__construct($extension);
         $this->addLanguages($extension);
     }
     
-    protected function addLanguages($extension) {
+    protected function addLanguages($extension)
+    {
         $langService = tao_models_classes_LanguageService::singleton();
         $dataUsage = new core_kernel_classes_Resource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA);
-        $dataOptions = array();
+        $dataOptions = [];
 
         $model = ModelManager::getModel();
         foreach ($langService->getAvailableLanguagesByUsage($dataUsage) as $lang) {

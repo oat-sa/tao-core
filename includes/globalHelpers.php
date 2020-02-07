@@ -14,9 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
- *
- *
+ * Copyright (c) 2015-2019 (original work) Open Assessment Technologies SA;
  */
 
 /**
@@ -26,9 +24,10 @@
  * @param  string module the targeted module name
  * @param  string extension the targeted extension name
  * @param  array params an array of additionnal key/value query parameters
- * @return the URI
+ * @return string
  */
-function _url($action = null, $module = null, $extension = null, $params = array()){
+function _url($action = null, $module = null, $extension = null, $params = [])
+{
     return tao_helpers_Uri::url($action, $module, $extension, $params);
 }
 
@@ -39,7 +38,8 @@ function _url($action = null, $module = null, $extension = null, $params = array
  * @param  string $input The input string
  * @return string $output The htmlized string.
  */
-function _dh($input){
+function _dh($input)
+{
     return tao_helpers_Display::htmlize($input);
 }
 
@@ -49,7 +49,8 @@ function _dh($input){
  * @param  string $input The input string.
  * @return string $output The output string without non alphanum characters.
  */
-function _clean($input){
+function _clean($input)
+{
     return tao_helpers_Display::textCleaner($input);
 }
 
@@ -57,6 +58,7 @@ function _clean($input){
  * Experimental convenience function
  * @return boolean
  */
-function _isRtl() {
+function _isRtl()
+{
     return tao_helpers_I18n::isLanguageRightToLeft(common_session_SessionManager::getSession()->getInterfaceLanguage());
 }

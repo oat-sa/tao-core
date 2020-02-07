@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,19 +19,21 @@
  *
  *
  */
+
 namespace oat\tao\model\search\tokenizer;
 
 /**
  * Tokenizer that interprets the values as resources
- * and returns the labels as search tokens 
- * 
+ * and returns the labels as search tokens
+ *
  * @author Joel Bout <joel@taotesting.com>
  */
 class Label implements Tokenizer
-{	
+{
+   
     public function getStrings($values)
     {
-        $strings = array();
+        $strings = [];
         foreach ($values as $valueUri) {
             if (!empty($valueUri)) {
                 $value = new \core_kernel_classes_Resource($valueUri);

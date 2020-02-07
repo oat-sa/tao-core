@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -23,8 +24,9 @@ namespace oat\tao\test\unit\model\taskQueue\TaskLog;
 use oat\tao\model\taskQueue\TaskLog\Broker\TaskLogBrokerInterface;
 use oat\tao\model\taskQueue\TaskLog\TaskLogFilter;
 use oat\tao\model\taskQueue\TaskLogInterface;
+use oat\generis\test\TestCase;
 
-class TaskLogFilterTest extends \PHPUnit_Framework_TestCase
+class TaskLogFilterTest extends TestCase
 {
     /** @var  TaskLogFilter */
     private $filter;
@@ -86,7 +88,7 @@ class TaskLogFilterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(55, $this->filter->getOffset(), 'Offset should be 55');
 
         $this->filter->setSortBy(TaskLogBrokerInterface::COLUMN_CREATED_AT);
-        $this->assertEquals(TaskLogBrokerInterface::COLUMN_CREATED_AT, $this->filter->getSortBy(), 'Sort by should be '. TaskLogBrokerInterface::COLUMN_CREATED_AT);
+        $this->assertEquals(TaskLogBrokerInterface::COLUMN_CREATED_AT, $this->filter->getSortBy(), 'Sort by should be ' . TaskLogBrokerInterface::COLUMN_CREATED_AT);
 
         $this->filter->setSortOrder('DESC');
         $this->assertEquals('DESC', $this->filter->getSortOrder(), 'Sort order should be DESC');

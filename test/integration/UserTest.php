@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -50,7 +51,7 @@ class UserTest extends TestCase
     /**
      * @var array user data set
      */
-    protected $testUserData = array(
+    protected $testUserData = [
         GenerisRdf::PROPERTY_USER_LOGIN => 'tjdoe',
         GenerisRdf::PROPERTY_USER_PASSWORD => 'test123',
         GenerisRdf::PROPERTY_USER_LASTNAME => 'Doe',
@@ -58,12 +59,12 @@ class UserTest extends TestCase
         GenerisRdf::PROPERTY_USER_MAIL => 'jdoe@tao.lu',
         GenerisRdf::PROPERTY_USER_UILG => 'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
         GenerisRdf::PROPERTY_USER_ROLES => 'http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole'
-    );
+    ];
 
     /**
      * @var array user data set with special chars
      */
-    protected $testUserUtf8Data = array(
+    protected $testUserUtf8Data = [
         GenerisRdf::PROPERTY_USER_LOGIN => 'f.lecé',
         GenerisRdf::PROPERTY_USER_PASSWORD => '6crète!',
         GenerisRdf::PROPERTY_USER_LASTNAME => 'Lecéfranc',
@@ -71,7 +72,7 @@ class UserTest extends TestCase
         GenerisRdf::PROPERTY_USER_MAIL => 'f.lecé@tao.lu',
         GenerisRdf::PROPERTY_USER_UILG => 'http://www.tao.lu/Ontologies/TAO.rdf#Langfr-FR',
         GenerisRdf::PROPERTY_USER_ROLES => 'http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole'
-    );
+    ];
 
     /**
      * @var core_kernel_classes_Resource
@@ -190,8 +191,8 @@ class UserTest extends TestCase
     {
         $class = new core_kernel_classes_Class(GenerisRdf::CLASS_GENERIS_USER);
         $users = $class->searchInstances(
-            array(GenerisRdf::PROPERTY_USER_LOGIN => $login),
-            array('like' => false, 'recursive' => true)
+            [GenerisRdf::PROPERTY_USER_LOGIN => $login],
+            ['like' => false, 'recursive' => true]
         );
 
         $this->assertEquals(1, count($users));
@@ -202,16 +203,15 @@ class UserTest extends TestCase
     {
         $foo = self::getMethod('register');
 
-        $foo->invokeArgs(PasswordConstraintsService::singleton(), array(array('length' => 20)));
+        $foo->invokeArgs(PasswordConstraintsService::singleton(), [['length' => 20]]);
         $this->assertFalse(PasswordConstraintsService::singleton()->validate('a2asdjKISj319(*^^#'));
 
-        $foo->invokeArgs(PasswordConstraintsService::singleton(), array(array('upper' => false, 'length' => 2)));
+        $foo->invokeArgs(PasswordConstraintsService::singleton(), [['upper' => false, 'length' => 2]]);
         $this->assertTrue(PasswordConstraintsService::singleton()->validate('a2asdjj319(*^^#'));
 
 
-        $foo->invokeArgs(PasswordConstraintsService::singleton(), array(array('upper' => true, 'length' => 20)));
+        $foo->invokeArgs(PasswordConstraintsService::singleton(), [['upper' => true, 'length' => 20]]);
         $this->assertFalse(PasswordConstraintsService::singleton()->validate('a2asRdjj319(*^^#'));
-
     }
 
     protected static function getMethod($name)
@@ -237,8 +237,8 @@ class UserTest extends TestCase
     public static function tearDownAfterClass()
     {
         $register = self::getMethod('register');
-        $config = self::getMethod('getConfig')->invokeArgs(PasswordConstraintsService::singleton(), array());
+        $config = self::getMethod('getConfig')->invokeArgs(PasswordConstraintsService::singleton(), []);
 
-        $register->invokeArgs(PasswordConstraintsService::singleton(), array($config));
+        $register->invokeArgs(PasswordConstraintsService::singleton(), [$config]);
     }
 }

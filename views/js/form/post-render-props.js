@@ -299,6 +299,7 @@ define([
         _upgradeButtons($container, 'checkbox');
         _toggleModeBtn('disabled');
         _showErrors($container);
+        _checkRegularPropertyLabels($properties);
     }
 
     function _showErrors($container) {
@@ -377,6 +378,23 @@ define([
         });
         $('.index-remover', $container).each(function () {
             $(this).parent().show();
+        });
+    }
+
+    /**
+     * Checks and updates property labels 
+     * @param {Object} $properties - properties object
+     */
+    function _checkRegularPropertyLabels($properties) {
+        $properties.each(function() {
+            if($(this).hasClass('regular-property')) {
+                var $parentHeadingLabel = $(this).find('.property-heading-label');
+                var $editBlockLabel = $(this).find('.property-edit-container input[name$="_label"]');
+
+                if ($editBlockLabel.val() !== '') {
+                    $parentHeadingLabel.text($editBlockLabel.val());
+                }
+            }
         });
     }
 

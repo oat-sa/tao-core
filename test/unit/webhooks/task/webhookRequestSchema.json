@@ -1,0 +1,72 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/schema#",
+  "$id": "http://www.tao.lu/tao/webhookRequest.json",
+  "type": "object",
+  "title": "TAO event notification",
+  "required": [
+    "source",
+    "events"
+  ],
+  "properties": {
+    "source": {
+      "$id": "#/properties/source",
+      "type": "string",
+      "title": "TAO instance URL",
+      "default": "",
+      "examples": [
+        "https://someinstance.taocloud.org/"
+      ],
+      "minLength": 1
+    },
+    "events": {
+      "$id": "#/properties/events",
+      "type": "array",
+      "title": "Array of event notifications",
+      "items": {
+        "$id": "#/properties/events/items",
+        "type": "object",
+        "title": "Event notification",
+        "required": [
+          "eventId",
+          "eventName",
+          "triggeredTimestamp",
+          "eventData"
+        ],
+        "properties": {
+          "eventId": {
+            "$id": "#/properties/events/items/properties/eventId",
+            "type": "string",
+            "title": "Unique event identifier",
+            "examples": [
+              "52a3de8dd0f270fd193f9f4bff05232f"
+            ],
+            "pattern": "^([a-z0-9]{32})$"
+          },
+          "eventName": {
+            "$id": "#/properties/events/items/properties/eventName",
+            "type": "string",
+            "title": "Type of event",
+            "examples": [
+              "DeliveryExecutionFinished"
+            ],
+            "minLength": 1
+          },
+          "triggeredTimestamp": {
+            "$id": "#/properties/events/items/properties/triggeredTimestamp",
+            "type": "integer",
+            "title": "UNIX timestamp of event triggering",
+            "examples": [
+              1565602371
+            ]
+          },
+          "eventData": {
+            "$id": "#/properties/events/items/properties/eventData",
+            "type": "object",
+            "title": "Additional event data, depends on eventName"
+          }
+        }
+      }
+    }
+  }
+}

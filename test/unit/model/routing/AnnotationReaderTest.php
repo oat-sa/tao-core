@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,14 +19,15 @@
  *
  * @author Alexander Zagovorichev <zagovorichev@1pt.com>
  */
-namespace oat\tao\test\unit\model\routing;
 
+namespace oat\tao\test\unit\model\routing;
 
 use Doctrine\Common\Annotations\AnnotationReader;
 use ReflectionClass;
 use ReflectionMethod;
 use ReflectionObject;
 use ReflectionProperty;
+use oat\generis\test\TestCase;
 
 /**
  *@Annotation
@@ -59,7 +61,9 @@ class AnnotationDemo
      * @AnnotatedDescription("allow", type="{id: READ}")
      * @AnnotatedDescription("allow", type="{uri: WRITE}")
      */
-    public function multipleRights() { }
+    public function multipleRights()
+    {
+    }
 }
 
 /**
@@ -67,7 +71,7 @@ class AnnotationDemo
  * Class AnnotationReaderTest
  * @package oat\tao\test\unit\model\routing
  */
-class AnnotationReaderTest extends \PHPUnit_Framework_TestCase
+class AnnotationReaderTest extends TestCase
 {
     private $annotationReader;
 
