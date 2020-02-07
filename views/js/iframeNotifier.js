@@ -22,7 +22,7 @@ define(['jquery', 'lodash'], function($, _){
     
     function hasAccess(windowElt){
         //if we are in the same domain, the parent must place the __knownParent__ variable 
-        return !!(window.__knownParent__ && windowElt && windowElt !== window);
+        return !!(windowElt && windowElt !== window);
     }
     
     /**
