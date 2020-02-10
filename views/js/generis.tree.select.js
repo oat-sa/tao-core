@@ -13,133 +13,160 @@
  * @author Jehan Bihin (class)
  */
 
-define(['jquery', 'lodash', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/feedback', 'jquery.tree', 'lib/jsTree/plugins/jquery.tree.checkbox'], function($, _, __, context, GenerisTreeClass, helpers, feedback) {
-	var GenerisTreeSelectClass = GenerisTreeClass.extend({
-		/**
-		 * Constructor
-		 * @param {String} selector the jquery selector of the tree container
-		 * @param {String} dataUrl the url to call, it must provide the json data to populate the tree
-		 * @param {Object} options
-		 */
-		init: function(selector, dataUrl, options) {
-			this.loadedData = null;
-			this.checkedNodes = (typeof options.checkedNodes !== "undefined") ? options.checkedNodes.slice(0) : [];
-			this.hiddenNodes = (typeof options.hiddenNodes !== "undefined") ? options.hiddenNodes.slice(0) : [];
-			if (options.callback && options.callback.checkPaginate) {
-				this.checkPaginate = options.callback.checkPaginate;
-			}
-			this.checkResourcePermissions = (typeof options.checkResourcePermissions !== 'undefined') ? options.checkResourcePermissions : false;
-			var instance = this;
+define([
+    'jquery',
+    'lodash',
+    'i18n',
+    'context',
+    'generis.tree',
+    'helpers',
+    'ui/feedback',
+    'jquery.tree',
+    'lib/jsTree/plugins/jquery.tree.checkbox'
+], function($, _, __, context, GenerisTreeClass, helpers, feedback) {
+    var GenerisTreeSelectClass = GenerisTreeClass.extend({
+        /**
+         * Constructor
+         * @param {String} selector the jquery selector of the tree container
+         * @param {String} dataUrl the url to call, it must provide the json data to populate the tree
+         * @param {Object} options
+         */
+        init: function(selector, dataUrl, options) {
+            this.loadedData = null;
+            this.checkedNodes = typeof options.checkedNodes !== 'undefined' ? options.checkedNodes.slice(0) : [];
+            this.hiddenNodes = typeof options.hiddenNodes !== 'undefined' ? options.hiddenNodes.slice(0) : [];
+            if (options.callback && options.callback.checkPaginate) {
+                this.checkPaginate = options.callback.checkPaginate;
+            }
+            this.checkResourcePermissions =
+                typeof options.checkResourcePermissions !== 'undefined' ? options.checkResourcePermissions : false;
+            var instance = this;
 
-			/**
-			 * Display priority DISPLAY_SELECTED.
-			 * Display in priority the previously selected instances ..
-			 */
-			this.DISPLAY_SELECTED = 1;
+            /**
+             * Display priority DISPLAY_SELECTED.
+             * Display in priority the previously selected instances ..
+             */
+            this.DISPLAY_SELECTED = 1;
 
-			var treeOptions = {
-				types: {
-					"default" : {
-						draggable	: false
-					}
-				},
-				ui: {
-					theme_name : "checkbox",
-                    theme_path : context.taobase_www + 'js/lib/jsTree/themes/css/style.css'
-				},
-				callback: {
-					//before check
-					beforecheck: function(NODE, TREE_OBJ) {
-						var nodeId = $(NODE).prop('id');
-						if (instance.isRefreshing) {
-							if ($.inArray(nodeId, instance.checkedNodes) === -1) {
-								return false;
-							}
-						}
+            var treeOptions = {
+                types: {
+                    default: {
+                        draggable: false
+                    }
+                },
+                ui: {
+                    theme_name: 'checkbox',
+                    theme_path: context.taobase_www + 'js/lib/jsTree/themes/css/style.css'
+                },
+                callback: {
+                    //before check
+                    beforecheck: function(NODE, TREE_OBJ) {
+                        var nodeId = $(NODE).prop('id');
+                        if (instance.isRefreshing) {
+                            if ($.inArray(nodeId, instance.checkedNodes) === -1) {
+                                return false;
+                            }
+                        }
 
-						if (NODE.hasClass('node-class')) {
-							if (instance.getMeta (nodeId, 'displayed') !== instance.getMeta(nodeId, 'count')) {
-								instance.paginateInstances(NODE, TREE_OBJ, {limit:0, checkedNodes:"*"});
-								return false;
-							}
-						}
-						return true;
-					},
-					//before check
-					beforeuncheck: function(NODE, TREE_OBJ) {
-						var nodeId = $(NODE).prop('id');
-						var indice = $.inArray(nodeId, instance.checkedNodes);
+                        if (NODE.hasClass('node-class')) {
+                            if (instance.getMeta(nodeId, 'displayed') !== instance.getMeta(nodeId, 'count')) {
+                                instance.paginateInstances(NODE, TREE_OBJ, { limit: 0, checkedNodes: '*' });
+                                return false;
+                            }
+                        }
+                        return true;
+                    },
+                    //before check
+                    beforeuncheck: function(NODE, TREE_OBJ) {
+                        var nodeId = $(NODE).prop('id');
+                        var indice = $.inArray(nodeId, instance.checkedNodes);
 
-						if (!$(NODE).hasClass('node-class') &&  indice > -1) {
-                                                    instance.checkedNodes.splice(indice,1);
-						}
+                        if (!$(NODE).hasClass('node-class') && indice > -1) {
+                            instance.checkedNodes.splice(indice, 1);
+                        }
 
-						return true;
-					},
-					//Before receive data from server, return the POST parameters
-					beforedata: function(NODE, TREE_OBJ) {
-						var returnValue = instance.defaultServerParameters;
-						//If a NODE is given, send its identifier to the server
-						if (NODE) {
-							returnValue['classUri'] = $(NODE).prop('id');
-						}
-						//Augment with the serverParameters
-						for (var key in instance.serverParameters) {
-							if (instance.serverParameters[key] !== null) {
-								returnValue[key] = instance.serverParameters[key];
-							}
-						}
-						return returnValue;
-					},
-					//
-					onopen: function (NODE, TREE_OBJ) {
-						if (instance.checkedNodes) {
-							instance.check(instance.checkedNodes);
-						}
-						if (instance.options.onOpenCallback) {
-							instance.options.onOpenCallback(TREE_OBJ);
-						}
-					},
-					/**
-					 * Triggered actions when data was loaded
-					 * @param {Object} TREE_OBJ - the reference to the tree
-					 */
-					onload: function(TREE_OBJ) {
-						instance.check(instance.checkedNodes);
+                        return true;
+                    },
+                    //Before receive data from server, return the POST parameters
+                    beforedata: function(NODE, TREE_OBJ) {
+                        var returnValue = instance.defaultServerParameters;
+                        //If a NODE is given, send its identifier to the server
+                        if (NODE) {
+                            returnValue['classUri'] = $(NODE).prop('id');
+                        }
+                        //Augment with the serverParameters
+                        for (var key in instance.serverParameters) {
+                            if (instance.serverParameters[key] !== null) {
+                                returnValue[key] = instance.serverParameters[key];
+                            }
+                        }
+                        return returnValue;
+                    },
+                    //
+                    onopen: function(NODE, TREE_OBJ) {
+                        if (instance.checkedNodes) {
+                            instance.check(instance.checkedNodes);
+                        }
+                        if (instance.options.onOpenCallback) {
+                            instance.options.onOpenCallback(TREE_OBJ);
+                        }
+                    },
+                    /**
+                     * Triggered actions when data was loaded
+                     * @param {Object} TREE_OBJ - the reference to the tree
+                     */
+                    onload: function(TREE_OBJ) {
+                        instance.check(instance.checkedNodes);
 
-						if (instance.options.loadCallback) {
-							instance.options.loadCallback(TREE_OBJ);
-						}
+                        if (instance.options.loadCallback) {
+                            instance.options.loadCallback(TREE_OBJ);
+                        }
 
-						instance.isRefreshing = false;
-					},
-					onchange: function(NODE, TREE_OBJ) {
-						if (instance.options.onChangeCallback && !instance.isRefreshing) {
-							instance.options.onChangeCallback(NODE, TREE_OBJ);
-						}
-					},
-					//when a node is selected
-					onselect: function(NODE, TREE_OBJ) {
-						var servOptions = {};
-						if (instance.serverParameters.hasOwnProperty('order')) {
-							servOptions.order = instance.serverParameters.order;
-						}
-						if (instance.serverParameters.hasOwnProperty('orderdir')) {
-							servOptions.orderdir = instance.serverParameters.orderdir;
-						}
-						if ($(NODE).hasClass('paginate-more')) {
-							instance.paginateInstances($(NODE).parent().parent(), TREE_OBJ, servOptions);
-							return;
-						}
-						if ($(NODE).hasClass('paginate-all')) {
-							var parentNodeId = $(NODE).parent().parent().prop('id');
-							servOptions.limit = instance.getMeta(parentNodeId, 'count') - instance.getMeta(parentNodeId, 'displayed');
-							instance.paginateInstances($(NODE).parent().parent(), TREE_OBJ, servOptions);
-							return;
-						}
+                        instance.isRefreshing = false;
+                    },
+                    onchange: function(NODE, TREE_OBJ) {
+                        if (instance.options.onChangeCallback && !instance.isRefreshing) {
+                            instance.options.onChangeCallback(NODE, TREE_OBJ);
+                        }
+                    },
+                    //when a node is selected
+                    onselect: function(NODE, TREE_OBJ) {
+                        var servOptions = {};
+                        if (instance.serverParameters.hasOwnProperty('order')) {
+                            servOptions.order = instance.serverParameters.order;
+                        }
+                        if (instance.serverParameters.hasOwnProperty('orderdir')) {
+                            servOptions.orderdir = instance.serverParameters.orderdir;
+                        }
+                        if ($(NODE).hasClass('paginate-more')) {
+                            instance.paginateInstances(
+                                $(NODE)
+                                    .parent()
+                                    .parent(),
+                                TREE_OBJ,
+                                servOptions
+                            );
+                            return;
+                        }
+                        if ($(NODE).hasClass('paginate-all')) {
+                            var parentNodeId = $(NODE)
+                                .parent()
+                                .parent()
+                                .prop('id');
+                            servOptions.limit =
+                                instance.getMeta(parentNodeId, 'count') - instance.getMeta(parentNodeId, 'displayed');
+                            instance.paginateInstances(
+                                $(NODE)
+                                    .parent()
+                                    .parent(),
+                                TREE_OBJ,
+                                servOptions
+                            );
+                            return;
+                        }
 
-						return true;
-					},
+                        return true;
+                    },
                     ondata: function(DATA, TREE_OBJ) {
                         if (instance.checkResourcePermissions && DATA.permissions) {
                             DATA = instance.convertDataWithPermissions(DATA);
@@ -162,8 +189,8 @@ define(['jquery', 'lodash', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/fe
                         return DATA;
                     }
                 },
-                plugins : {
-                    checkbox : {three_state : true}
+                plugins: {
+                    checkbox: { three_state: true }
                 }
             };
 
@@ -175,15 +202,15 @@ define(['jquery', 'lodash', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/fe
             //create the tree
             this._super(selector, dataUrl, options, treeOptions);
 
-            $("#saver-action-" + this.options.actionId).click({instance: this}, function(e){
+            $('#saver-action-' + this.options.actionId).click({ instance: this }, function(e) {
                 e.data.instance.saveData();
             });
         },
         /**
-		 * converts and filter raw data to common format to use it with jquery.tree.js component
-		 * @returns {Array} - list of tree nodes to form a checkbox list from it
-		 */
-        convertDataWithPermissions : function convertDataWithPermissions(rawData) {
+         * converts and filter raw data to common format to use it with jquery.tree.js component
+         * @returns {Array} - list of tree nodes to form a checkbox list from it
+         */
+        convertDataWithPermissions: function convertDataWithPermissions(rawData) {
             var converted = rawData;
             var children;
             var filteredChildren;
@@ -207,14 +234,14 @@ define(['jquery', 'lodash', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/fe
         },
 
         /**
-		 * Check permissions (if applicable) on the tree members
+         * Check permissions (if applicable) on the tree members
          * @param {Array} children list of nodes
          * @param {Array} permissions list of permissions returned from backend to check against
          * @returns {Array}
          */
-        checkPermissionsRecursively : function checkPermissionsRecursively(children, permissions) {
-			var filteredChildren = [];
-			var recursiveCheck = [];
+        checkPermissionsRecursively: function checkPermissionsRecursively(children, permissions) {
+            var filteredChildren = [];
+            var recursiveCheck = [];
 
             _.each(children, function(dataObj) {
                 var key = dataObj.attributes['data-uri'];
@@ -225,234 +252,264 @@ define(['jquery', 'lodash', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/fe
                         dataObj.children = recursiveCheck;
                         filteredChildren.push(dataObj);
                     }
-				} else {
+                } else {
                     if (permissions.data[key] && permissions.data[key].indexOf('READ') !== -1) {
                         filteredChildren.push(dataObj);
                     }
-				}
+                }
             });
 
             return filteredChildren;
-		},
+        },
 
         /**
          * Remove configured hidden nodes from the DATA
          * @param {Array} nodes
          */
-        removeHiddenNodes : function removeHiddenNodes(nodes){
-
+        removeHiddenNodes: function removeHiddenNodes(nodes) {
             var self = this;
             var hiddenNodes = this.hiddenNodes;
 
-            if(_.isArray(nodes) && hiddenNodes && _.isArray(hiddenNodes)){
-                _.remove(nodes, function(node){
-                    if(node.type === 'instance'){
-                        return (_.indexOf(hiddenNodes, node.attributes['data-uri']) >= 0);
-                    }else if(node.type === 'class' && node.children){
+            if (_.isArray(nodes) && hiddenNodes && _.isArray(hiddenNodes)) {
+                _.remove(nodes, function(node) {
+                    if (node.type === 'instance') {
+                        return _.indexOf(hiddenNodes, node.attributes['data-uri']) >= 0;
+                    } else if (node.type === 'class' && node.children) {
                         self.removeHiddenNodes(node.children);
                     }
                 });
             }
         },
 
-		trace: function() {
-			/*console.log('TRACE '+
+        trace: function() {
+            /*console.log('TRACE '+
 				arguments.callee.caller
 				.arguments.callee.caller
 				.arguments.callee.caller
 				.arguments.callee.caller
 			);*/
-		},
+        },
 
-		/**
-		 * Paginate function, display more instances
-		 */
+        /**
+         * Paginate function, display more instances
+         */
         paginateInstances: function(NODE, TREE_OBJ, pOptions, callback) {
             var nodeId = NODE[0].id;
-            var instancesLeft = this.getMeta(nodeId, "count") - this.getMeta(nodeId, "displayed");
+            var instancesLeft = this.getMeta(nodeId, 'count') - this.getMeta(nodeId, 'displayed');
             var options = {
-                "classUri": nodeId,
-                "subclasses": 0,
-                "offset": this.getMeta(nodeId, "position"),
-                "limit": instancesLeft < this.paginate ? instancesLeft : this.paginate
+                classUri: nodeId,
+                subclasses: 0,
+                offset: this.getMeta(nodeId, 'position'),
+                limit: instancesLeft < this.paginate ? instancesLeft : this.paginate
             };
             options = $.extend(options, pOptions);
 
-            $.post(this.dataUrl, options, (function(instance) {return function(DATA) {
-                var countClass = 0;
-                var i = 0;
+            $.post(
+                this.dataUrl,
+                options,
+                (function(instance) {
+                    return function(DATA) {
+                        var countClass = 0;
+                        var i = 0;
 
-                if(instance.checkResourcePermissions){
-                    DATA = instance.convertDataWithPermissions(DATA);
-                }
-                //Hide paginate options
-                instance.hidePaginate(nodeId);
-                //Display incoming nodes
-                for (i; i<DATA.length; i++) {
-                    DATA[i].attributes['class'] = instance.options.instanceClass+" node-instance node-draggable";
-                    if (!$('#'+DATA[i].attributes['id'], $(TREE_OBJ.container)).length) TREE_OBJ.create(DATA[i], TREE_OBJ.get_node(NODE[0]));
-                    // If the check all options. Add the incoming nodes to the list of node to check
-                    if (options.checkedNodes === "*") {
-                        instance.checkedNodes.push(DATA[i].attributes.id);
-                    }
-                    countClass += DATA[i].type === 'class';
-                }
-
-                // Update meta data
-                instance.setMeta(nodeId, "displayed", instance.getMeta(nodeId, "displayed")+DATA.length - countClass);
-                instance.setMeta(nodeId, "position", instance.getMeta(nodeId, "position")+DATA.length - countClass);
-
-                //refresh pagination options
-                instance.refreshPaginate(NODE, TREE_OBJ);
-
-                //If options checked nodes
-                if (options.checkedNodes) {
-                    // If options check all, check not checked nodes
-                    if (options.checkedNodes === "*") {
-                        $(NODE).find('ul:first').children().each(function(){
-                            if ($(this).hasClass('node-instance')) {
-                                $(this).find("a:not(.checked, .undetermined)").each(function (){
-                                    instance.checkedNodes.push($(this).parent().prop('id'));
-                                });
+                        if (instance.checkResourcePermissions) {
+                            DATA = instance.convertDataWithPermissions(DATA);
+                        }
+                        //Hide paginate options
+                        instance.hidePaginate(nodeId);
+                        //Display incoming nodes
+                        for (i; i < DATA.length; i++) {
+                            DATA[i].attributes['class'] =
+                                instance.options.instanceClass + ' node-instance node-draggable';
+                            if (!$('#' + DATA[i].attributes['id'], $(TREE_OBJ.container)).length)
+                                TREE_OBJ.create(DATA[i], TREE_OBJ.get_node(NODE[0]));
+                            // If the check all options. Add the incoming nodes to the list of node to check
+                            if (options.checkedNodes === '*') {
+                                instance.checkedNodes.push(DATA[i].attributes.id);
                             }
-                        });
-                    } else {
-                        instance.checkedNodes = options.checkedNodes;
-                    }
-                }
+                            countClass += DATA[i].type === 'class';
+                        }
 
-                instance.check(instance.checkedNodes);
+                        // Update meta data
+                        instance.setMeta(
+                            nodeId,
+                            'displayed',
+                            instance.getMeta(nodeId, 'displayed') + DATA.length - countClass
+                        );
+                        instance.setMeta(
+                            nodeId,
+                            'position',
+                            instance.getMeta(nodeId, 'position') + DATA.length - countClass
+                        );
 
-                //Execute callback;
-                if (callback) {
-                    callback(NODE, TREE_OBJ);
-                }
-                if (instance.checkPaginate) {
-                    instance.checkPaginate(NODE, TREE_OBJ);
-                }
-            };})(this), "json");
+                        //refresh pagination options
+                        instance.refreshPaginate(NODE, TREE_OBJ);
+
+                        //If options checked nodes
+                        if (options.checkedNodes) {
+                            // If options check all, check not checked nodes
+                            if (options.checkedNodes === '*') {
+                                $(NODE)
+                                    .find('ul:first')
+                                    .children()
+                                    .each(function() {
+                                        if ($(this).hasClass('node-instance')) {
+                                            $(this)
+                                                .find('a:not(.checked, .undetermined)')
+                                                .each(function() {
+                                                    instance.checkedNodes.push(
+                                                        $(this)
+                                                            .parent()
+                                                            .prop('id')
+                                                    );
+                                                });
+                                        }
+                                    });
+                            } else {
+                                instance.checkedNodes = options.checkedNodes;
+                            }
+                        }
+
+                        instance.check(instance.checkedNodes);
+
+                        //Execute callback;
+                        if (instance.options.onChangeCallback) {
+                            instance.options.onChangeCallback();
+                        }
+
+                        if (callback) {
+                            callback(NODE, TREE_OBJ);
+                        }
+                        if (instance.checkPaginate) {
+                            instance.checkPaginate(NODE, TREE_OBJ);
+                        }
+                    };
+                })(this),
+                'json'
+            );
         },
 
-		/**
-		 * Check the tree instances
-		 * @param {Array} elements the list of ids of instances to check
-		 */
-		check: function(elements) {
-			var self = this;
+        /**
+         * Check the tree instances
+         * @param {Array} elements the list of ids of instances to check
+         */
+        check: function(elements) {
+            var self = this;
 
-			$.each(elements, function(i, elt){
-				if (elt != null) {
-					var NODE = $(self.selector).find("li[id='"+elt+"']");
-					if (NODE.length > 0) {
-						if ($(NODE).hasClass('node-instance')) {
-							$.tree.plugins.checkbox.check(NODE);
-						}
-					}
-				}
-			});
-		},
+            $.each(elements, function(i, elt) {
+                if (elt != null) {
+                    var NODE = $(self.selector).find("li[id='" + elt + "']");
+                    if (NODE.length > 0) {
+                        if ($(NODE).hasClass('node-instance')) {
+                            $.tree.plugins.checkbox.check(NODE);
+                        }
+                    }
+                }
+            });
+        },
 
-		/**
-		 * Get the checked nodes
-		 * @return {array}
-		 */
-		getChecked: function() {
-			var unchecked = [];
-			$.each($.tree.plugins.checkbox.get_unchecked(this.getTree()), function(i, NODE) {
-				if ($(NODE).hasClass('node-instance')) {
-					unchecked.push($(NODE).prop('id'));
-				}
-			});
-			var returnValue = $.grep(this.checkedNodes, function(value) {
-				return unchecked.indexOf(value) == -1;
-			});
+        /**
+         * Get the checked nodes
+         * @return {array}
+         */
+        getChecked: function() {
+            var unchecked = [];
+            $.each($.tree.plugins.checkbox.get_unchecked(this.getTree()), function(i, NODE) {
+                if ($(NODE).hasClass('node-instance')) {
+                    unchecked.push($(NODE).prop('id'));
+                }
+            });
+            var returnValue = $.grep(this.checkedNodes, function(value) {
+                return unchecked.indexOf(value) == -1;
+            });
 
-			$.each($.tree.plugins.checkbox.get_checked(this.getTree()), function(i, NODE) {
-				if ($(NODE).hasClass('node-instance')) {
-					var value = $(NODE).prop('id');
-					if (returnValue.indexOf(value) == -1) {
-						returnValue.push(value);
-					}
-				}
-			});
-			return returnValue;
-		},
+            $.each($.tree.plugins.checkbox.get_checked(this.getTree()), function(i, NODE) {
+                if ($(NODE).hasClass('node-instance')) {
+                    var value = $(NODE).prop('id');
+                    if (returnValue.indexOf(value) == -1) {
+                        returnValue.push(value);
+                    }
+                }
+            });
+            return returnValue;
+        },
 
-		/**
-		 * save the checked instances in the tree by sending the ids using an ajax request
-		 */
-		saveData: function() {
-			var instance = this;
-			var toSend = {};
-			if (typeof this.options.saveData == 'object') {
-				for (var key in this.options.saveData) {
-					toSend[key] = this.options.saveData[key];
-				}
-			}
-			var index = 0;
+        /**
+         * save the checked instances in the tree by sending the ids using an ajax request
+         */
+        saveData: function() {
+            var instance = this;
+            var toSend = {};
+            if (typeof this.options.saveData == 'object') {
+                for (var key in this.options.saveData) {
+                    toSend[key] = this.options.saveData[key];
+                }
+            }
+            var index = 0;
 
-			helpers.loading();
-			/*$.each($.tree.plugins.checkbox.get_checked(this.getTree()), function(i, NODE){
+            helpers.loading();
+            /*$.each($.tree.plugins.checkbox.get_checked(this.getTree()), function(i, NODE){
 				if ($(NODE).hasClass('node-instance')) {
 					toSend2['instance_' + index2] = $(NODE).prop('id');
 					index2++;
 				}
 			});*/
 
-			var nodes = this.getChecked();
-			toSend['instances'] = JSON.stringify(nodes);
+            var nodes = this.getChecked();
+            toSend['instances'] = JSON.stringify(nodes);
 
-			var uriField, classUriField = null;
-			if (this.options.relatedFormId) {
-				var uriEltSelector = "#" + this.options.relatedFormId + " :input[name=uri]";
-				if ($(uriEltSelector).length) {
-					uriField = $(uriEltSelector);
-				}
+            var uriField,
+                classUriField = null;
+            if (this.options.relatedFormId) {
+                var uriEltSelector = '#' + this.options.relatedFormId + ' :input[name=uri]';
+                if ($(uriEltSelector).length) {
+                    uriField = $(uriEltSelector);
+                }
 
-				var classUriEltSelector = "#" + this.options.relatedFormId + " :input[name=classUri]";
-				if ($(classUriEltSelector).length) {
-					classUriField = $(classUriEltSelector);
-				}
-			}
+                var classUriEltSelector = '#' + this.options.relatedFormId + ' :input[name=classUri]';
+                if ($(classUriEltSelector).length) {
+                    classUriField = $(classUriEltSelector);
+                }
+            }
 
-			if (!uriField) {
-				uriField = $("input[name=uri]");
-			}
-			if (!classUriField) {
-				classUriField = $("input[name=classUri]");
-			}
+            if (!uriField) {
+                uriField = $('input[name=uri]');
+            }
+            if (!classUriField) {
+                classUriField = $('input[name=classUri]');
+            }
 
-			if (uriField) {
-				toSend.uri = uriField.val();
-			}
+            if (uriField) {
+                toSend.uri = uriField.val();
+            }
 
-			if (classUriField) {
-				toSend.classUri = classUriField.val();
-			}
+            if (classUriField) {
+                toSend.classUri = classUriField.val();
+            }
 
-			$.ajax({
-				url: this.options.saveUrl,
-				type: "POST",
-				data: toSend,
-				dataType: 'json',
-				success: function (response) {
-					if (response.saved) {
-						if (instance.options.saveCallback) {
-							instance.options.saveCallback(toSend);
-						}
-						feedback().info(__('Selection saved successfully'));
-					} else {
-						if (instance.options.saveErrorCallback) {
-							instance.options.saveErrorCallback(response, instance);
-						}
-					}
-				},
-				complete: function() {
-					helpers.loaded();
-				}
-			});
-		}
-	});
+            $.ajax({
+                url: this.options.saveUrl,
+                type: 'POST',
+                data: toSend,
+                dataType: 'json',
+                success: function(response) {
+                    if (response.saved) {
+                        if (instance.options.saveCallback) {
+                            instance.options.saveCallback(toSend);
+                        }
+                        feedback().info(__('Selection saved successfully'));
+                    } else {
+                        if (instance.options.saveErrorCallback) {
+                            instance.options.saveErrorCallback(response, instance);
+                        }
+                    }
+                },
+                complete: function() {
+                    helpers.loaded();
+                }
+            });
+        }
+    });
 
-	return GenerisTreeSelectClass;
+    return GenerisTreeSelectClass;
 });
