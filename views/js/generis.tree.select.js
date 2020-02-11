@@ -132,36 +132,26 @@ define([
                     //when a node is selected
                     onselect: function(NODE, TREE_OBJ) {
                         var servOptions = {};
+                        var $NODE = $(NODE);
+                        var $nodeParent = $(NODE)
+                            .parent()
+                            .parent();
+
                         if (instance.serverParameters.hasOwnProperty('order')) {
                             servOptions.order = instance.serverParameters.order;
                         }
                         if (instance.serverParameters.hasOwnProperty('orderdir')) {
                             servOptions.orderdir = instance.serverParameters.orderdir;
                         }
-                        if ($(NODE).hasClass('paginate-more')) {
-                            instance.paginateInstances(
-                                $(NODE)
-                                    .parent()
-                                    .parent(),
-                                TREE_OBJ,
-                                servOptions
-                            );
+                        if ($NODE.hasClass('paginate-more')) {
+                            instance.paginateInstances($nodeParent, TREE_OBJ, servOptions);
                             return;
                         }
-                        if ($(NODE).hasClass('paginate-all')) {
-                            var parentNodeId = $(NODE)
-                                .parent()
-                                .parent()
-                                .prop('id');
+                        if ($NODE.hasClass('paginate-all')) {
+                            var parentNodeId = $nodeParent.prop('id');
                             servOptions.limit =
                                 instance.getMeta(parentNodeId, 'count') - instance.getMeta(parentNodeId, 'displayed');
-                            instance.paginateInstances(
-                                $(NODE)
-                                    .parent()
-                                    .parent(),
-                                TREE_OBJ,
-                                servOptions
-                            );
+                            instance.paginateInstances($nodeParent, TREE_OBJ, servOptions);
                             return;
                         }
 
@@ -353,16 +343,12 @@ define([
                                     .find('ul:first')
                                     .children()
                                     .each(function() {
-                                        if ($(this).hasClass('node-instance')) {
-                                            $(this)
-                                                .find('a:not(.checked, .undetermined)')
-                                                .each(function() {
-                                                    instance.checkedNodes.push(
-                                                        $(this)
-                                                            .parent()
-                                                            .prop('id')
-                                                    );
-                                                });
+                                        var $this = $(this);
+
+                                        if ($this.hasClass('node-instance')) {
+                                            $this.find('a:not(.checked, .undetermined)').each(function() {
+                                                instance.checkedNodes.push($this.parent().prop('id'));
+                                            });
                                         }
                                     });
                             } else {
