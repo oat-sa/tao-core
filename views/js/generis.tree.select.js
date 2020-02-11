@@ -133,9 +133,7 @@ define([
                     onselect: function(NODE, TREE_OBJ) {
                         var servOptions = {};
                         var $NODE = $(NODE);
-                        var $nodeParent = $(NODE)
-                            .parent()
-                            .parent();
+                        var $nodeParent = $NODE.parent().parent();
 
                         if (instance.serverParameters.hasOwnProperty('order')) {
                             servOptions.order = instance.serverParameters.order;
@@ -154,7 +152,6 @@ define([
                             instance.paginateInstances($nodeParent, TREE_OBJ, servOptions);
                             return;
                         }
-
                         return true;
                     },
                     ondata: function(DATA, TREE_OBJ) {
