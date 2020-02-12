@@ -33,6 +33,7 @@ use oat\generis\model\data\ModelManager;
 use oat\generis\model\kernel\persistence\file\FileIterator;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\service\ConfigurableService;
+use oat\oatbox\user\UserService;
 use oat\tao\controller\api\Users;
 use oat\tao\helpers\dateFormatter\EuropeanFormatter;
 use oat\tao\model\cliArgument\argument\implementation\Group;
@@ -89,6 +90,7 @@ use oat\tao\model\taskQueue\TaskLog\Broker\TaskLogBrokerInterface;
 use oat\tao\model\taskQueue\TaskLogInterface;
 use oat\tao\model\Tree\GetTreeService;
 use oat\tao\model\upload\UploadService;
+use oat\tao\model\user\GenerisUserService;
 use oat\tao\model\user\implementation\NoUserLocksService;
 use oat\tao\model\user\import\OntologyUserMapper;
 use oat\tao\model\user\import\UserCsvImporterFactory;
@@ -1285,7 +1287,7 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         $this->skip('40.3.4', '40.6.1');
-      
+
         if ($this->isVersion('40.6.1')) {
             /** @var EventManager $eventManager */
             $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
@@ -1299,5 +1301,11 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         $this->skip('40.7.0', '40.8.1');
+        if ($this->isVersion('40.8.1')) {
+            if (!$this->getServiceManager()->has(UserService::SERVICE_ID)) {
+                $this->getServiceManager()->register(UserService::SERVICE_ID, new GenerisUserService());
+            }
+            $this->setVersion('40.9.0');
+        }
     }
 }
