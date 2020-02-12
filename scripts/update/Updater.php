@@ -1300,12 +1300,12 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('40.7.0');
         }
 
-        $this->skip('40.7.0', '40.7.2');
-        if ($this->isVersion('40.7.2')) {
+        $this->skip('40.7.0', '40.8.1');
+        if ($this->isVersion('40.8.1')) {
             if (!$this->getServiceManager()->has(UserService::SERVICE_ID)) {
                 $this->getServiceManager()->register(UserService::SERVICE_ID, new GenerisUserService());
             }
-            $this->setVersion('40.8.0');
+            $this->setVersion('40.9.0');
         }
     }
 }
