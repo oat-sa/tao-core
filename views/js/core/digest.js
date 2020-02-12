@@ -24,12 +24,8 @@
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define([
-    'lodash',
-    'lib/polyfill/webcrypto-shim'
-], function(_) {
+define(['lodash', 'lib/polyfill/text-encoder', 'lib/polyfill/webcrypto-shim'], function(_) {
     'use strict';
-
     //get the native implementation of the CryptoSubtle
     var subtle = window.crypto.subtle || window.crypto.webkitSubtle;
     var supportedAlgorithms = [
@@ -45,9 +41,11 @@ define([
      * @returns {String} the hex representation of the buffer
      */
     var bufferToHexString = function bufferToHexString(buffer) {
-        return [].map.call(new Uint8Array(buffer), function(val){
-            return  ('00' + val.toString(16)).slice(-2);
-        }).join('');
+        return [].map
+            .call(new Uint8Array(buffer), function(val) {
+                return ('00' + val.toString(16)).slice(-2);
+            })
+            .join('');
     };
 
     /**
@@ -59,21 +57,18 @@ define([
      */
     return function digest(utf8String, selectedAlgorithm) {
         var algorithm;
-        if(!_.isString(selectedAlgorithm)){
+        if (!_.isString(selectedAlgorithm)) {
             selectedAlgorithm = 'SHA-256';
         }
         algorithm = selectedAlgorithm.toUpperCase();
-        if(!_.contains(supportedAlgorithms, algorithm)){
+        if (!_.contains(supportedAlgorithms, algorithm)) {
             throw new TypeError('Unsupported digest algorithm : ' + algorithm);
         }
-        if(!_.isString(utf8String)){
-            throw new TypeError('Please encode a string, not a ' + (typeof utf8String) );
+        if (!_.isString(utf8String)) {
+            throw new TypeError('Please encode a string, not a ' + typeof utf8String);
         }
-        return subtle
-            .digest(algorithm, new TextEncoder('utf-8').encode(utf8String))
-            .then(function(buffer){
-                return bufferToHexString(buffer);
-            });
-
+        return subtle.digest(algorithm, new TextEncoder('utf-8').encode(utf8String)).then(function(buffer) {
+            return bufferToHexString(buffer);
+        });
     };
 });
