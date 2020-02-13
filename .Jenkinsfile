@@ -105,8 +105,6 @@ mkdir -p tao/views/locales/en-US/
                                 label: 'Ensure FE resource are available',
                                 script: 'npm install --production'
                             )
-                        }
-                        dir('build/tao/views/build') {
                             sh(
                                 label: 'Setup frontend toolchain',
                                 script: 'npm install'
