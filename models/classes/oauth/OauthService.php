@@ -30,6 +30,9 @@ use IMSGlobal\LTI\OAuth\OAuthUtil;
 use oat\oatbox\service\ConfigurableService;
 use common_http_Request;
 use IMSGlobal\LTI\OAuth\OAuthException;
+use oat\oatbox\service\exception\InvalidService;
+use oat\oatbox\service\exception\InvalidServiceManagerException;
+use oat\tao\model\oauth\lockout\LockoutInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use tao_models_classes_oauth_Exception;
 
@@ -42,20 +45,28 @@ use tao_models_classes_oauth_Exception;
  */
 class OauthService extends ConfigurableService implements \common_http_SignatureService
 {
-    const SERVICE_ID = 'tao/OauthService';
-    
-    const OPTION_DATASTORE = 'store';
+    public const SERVICE_ID = 'tao/OauthService';
 
-    const OAUTH_BODY_HASH_PARAM = 'oauth_body_hash';
+    public const OPTION_LOCKOUT_SERVICE = 'lockout';
+    public const OPTION_DATA_STORE = 'store';
+
+    protected const OAUTH_BODY_HASH_PARAM = 'oauth_body_hash';
+    protected const OAUTH_CONSUMER_KEY = 'oauth_consumer_key';
+
+    //oauth_consumer_secret
 
     /**
      * Adds a signature to the request
      *
      * @access public
-     * @param common_http_Request $request
+     *
+     * @param common_http_Request     $request
      * @param common_http_Credentials $credentials
-     * @param $authorizationHeader boolean Move the signature parameters into the Authorization header of the request
+     * @param                         $authorizationHeader boolean Move the signature parameters into the Authorization header of the request
+     *
      * @return common_http_Request
+     * @throws InvalidService
+     * @throws InvalidServiceManagerException
      * @throws tao_models_classes_oauth_Exception
      * @author Joel Bout, <joel@taotesting.com>
      */
@@ -125,9 +136,12 @@ class OauthService extends ConfigurableService implements \common_http_Signature
     /**
      * Validates the signature of the current request
      *
-     * @param common_http_Request $request
+     * @param common_http_Request          $request
      * @param common_http_Credentials|null $credentials
+     *
      * @return array [OAuthConsumer, token]
+     * @throws InvalidService
+     * @throws InvalidServiceManagerException
      * @throws common_http_InvalidSignatureException
      * @author Joel Bout, <joel@taotesting.com>
      */
@@ -138,7 +152,7 @@ class OauthService extends ConfigurableService implements \common_http_Signature
         $server->add_signature_method($method);
 
         $oauthRequest = $this->getOauthRequest($request);
-        $oauthBodyHash = $oauthRequest->get_parameter('oauth_body_hash');
+        $oauthBodyHash = $oauthRequest->get_parameter(self::OAUTH_BODY_HASH_PARAM);
         if ($oauthBodyHash !== null && !$this->validateBodyHash($request->getBody(), $oauthBodyHash)) {
             throw new common_http_InvalidSignatureException('Validation failed: invalid body hash');
         }
@@ -146,6 +160,13 @@ class OauthService extends ConfigurableService implements \common_http_Signature
         try {
             return $server->verify_request($oauthRequest);
         } catch (OAuthException $e) {
+
+            /** @var LockoutInterface $lockoutService */
+            $lockoutService = $this->getSubService(self::OPTION_LOCKOUT_SERVICE);
+            $lockoutService->logFailedAttempt($oauthRequest);
+
+            // \common_Logger::e($e->getMessage());
+
             throw new common_http_InvalidSignatureException('Validation failed: ' . $e->getMessage());
         }
     }
@@ -153,9 +174,12 @@ class OauthService extends ConfigurableService implements \common_http_Signature
     /**
      * Wrapper over parent validate method to support PSR Request object
      *
-     * @param ServerRequestInterface $request
+     * @param ServerRequestInterface       $request
      * @param common_http_Credentials|null $credentials
+     *
      * @return array [OAuthConsumer, token]
+     * @throws InvalidService
+     * @throws InvalidServiceManagerException
      * @throws common_http_InvalidSignatureException
      */
     public function validatePsrRequest(ServerRequestInterface $request, common_http_Credentials $credentials = null)
@@ -166,10 +190,12 @@ class OauthService extends ConfigurableService implements \common_http_Signature
 
     /**
      * @return ImsOauthDataStoreInterface
+     * @throws InvalidService
+     * @throws InvalidServiceManagerException
      */
     public function getDataStore()
     {
-        return $this->getSubService(self::OPTION_DATASTORE);
+        return $this->getSubService(self::OPTION_DATA_STORE);
     }
 
     /**
@@ -227,7 +253,7 @@ class OauthService extends ConfigurableService implements \common_http_Signature
         $authorizationHeader = 'OAuth realm=""';
         
         foreach ($signatureParameters as $key => $value) {
-            $authorizationHeader .= ',' . $key . "=" . '"' . urlencode($value) . '"';
+            $authorizationHeader .= ',' . $key . '=' . '"' . urlencode($value) . '"';
         }
         return $authorizationHeader;
     }
@@ -235,7 +261,7 @@ class OauthService extends ConfigurableService implements \common_http_Signature
     /**
      * Transform common_http_Request into an OAuth request
      * @param common_http_Request $request
-     * @return \IMSGlobal\LTI\OAuth\OAuthRequest
+     * @return OAuthRequest
      */
     private function getOauthRequest(common_http_Request $request)
     {
@@ -249,8 +275,9 @@ class OauthService extends ConfigurableService implements \common_http_Signature
         }
         
         $params = array_merge($params, $request->getParams());
-        \common_Logger::d("OAuth Request created:" . $request->getUrl() . " using " . $request->getMethod());
-        $oauthRequest = new OAuthRequest($request->getMethod(), $request->getUrl(), $params);
-        return $oauthRequest;
+
+        \common_Logger::d('OAuth Request created:' . $request->getUrl() . ' using ' . $request->getMethod());
+
+        return new OAuthRequest($request->getMethod(), $request->getUrl(), $params);
     }
 }
