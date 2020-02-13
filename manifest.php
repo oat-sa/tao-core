@@ -47,6 +47,7 @@ use oat\tao\model\user\TaoRoles;
 use oat\tao\scripts\install\SetUpQueueTasks;
 use oat\tao\scripts\install\SetLocaleNumbersConfig;
 use \oat\tao\scripts\install\CreateWebhookEventLogTable;
+use oat\tao\scripts\install\RegisterUserService;
 
 $extpath = dirname(__FILE__) . DIRECTORY_SEPARATOR;
 
@@ -55,10 +56,10 @@ return [
     'label' => 'TAO Base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '40.8.1',
+    'version' => '40.9.0',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => [
-        'generis' => '>=12.5.0',
+        'generis' => '>=12.7.0',
     ],
     'models' => [
         'http://www.tao.lu/Ontologies/TAO.rdf',
@@ -127,6 +128,7 @@ return [
             SetDefaultCSPHeader::class,
             CreateWebhookEventLogTable::class,
             SetupSettingsStorage::class,
+            RegisterUserService::class
         ]
     ],
     'update' => 'oat\\tao\\scripts\\update\\Updater',
