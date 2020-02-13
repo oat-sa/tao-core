@@ -20,7 +20,7 @@
 
 /* Do not edit */
 
-use oat\tao\model\icon\IconBuilderTrait;
+use oat\tao\model\iconBuilder\IconBuilderTrait;
 
 /**
  * Icon helper for tao - helpers/class.Icon.php
