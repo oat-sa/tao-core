@@ -20,6 +20,8 @@
 
 /* Do not edit */
 
+use oat\tao\model\icon\IconBuilderTrait;
+
 /**
  * Icon helper for tao - helpers/class.Icon.php
  *
@@ -34,26 +36,7 @@
 class tao_helpers_Icon
 {
 
-    /**
-     * This function builds the actual HTML element and is used by all other functions.
-     * The doc for $options is the applicable for all other functions.
-     *
-     * @param string $icon    name of the icon to display
-     * @param array  $options (optional) hashtable with HTML attributes, also allows to set element="almostAnyHtmlElement"
-     * @param string HTML element with icon
-     */
-    protected static function buildIcon($icon, $options = [])
-    {
-        $options['class'] = !empty($options['class']) ? $options['class'] . ' ' . $icon : $icon;
-        $element = !empty($options['element']) ? $options['element'] : 'span';
-        unset($options['element']);
-        $retVal = '<' . $element . ' ';
-        foreach ($options as $key => $value) {
-            $retVal .= $key . '="' . $value . '"';
-        }
-        $retVal .= '></' . $element . '>';
-        return $retVal;
-    }
+    use IconBuilderTrait;
 
     /**
      * List of all icons as constant
