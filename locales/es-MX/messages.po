@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.4.0-sprint121\n"
-"PO-Revision-Date: 2020-01-31T09:51:21\n"
+"PO-Revision-Date: 2020-02-14T11:26:16\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: es-MX\n"
@@ -1907,16 +1907,16 @@ msgid "Text - Short - Field"
 msgstr "Texto - Short - Campo"
 
 msgid "The action will be applied to"
-msgstr "La acción se aplicará a"
+msgstr "La acción sera aplicada a"
 
 msgid "The action will be applied to the following"
-msgstr ""
+msgstr "La acción sera aplicada a lo siguiente"
 
 msgid "The action will not be applied to "
-msgstr ""
+msgstr "La acción no sera aplicada a"
 
 msgid "The action will not be applied to the following"
-msgstr ""
+msgstr "La acción no sera aplicada a lo siguiente"
 
 msgid "The column "
 msgstr "La columna "
