@@ -1907,16 +1907,16 @@ msgid "Text - Short - Field"
 msgstr "Texto - Short - Campo"
 
 msgid "The action will be applied to"
-msgstr "La acción se aplicará a"
+msgstr "La acción sera aplicada a"
 
 msgid "The action will be applied to the following"
-msgstr ""
+msgstr "La acción sera aplicada a lo siguiente"
 
 msgid "The action will not be applied to "
-msgstr ""
+msgstr "La acción no sera aplicada a"
 
 msgid "The action will not be applied to the following"
-msgstr ""
+msgstr "La acción no sera aplicada a lo siguiente"
 
 msgid "The column "
 msgstr "La columna "
