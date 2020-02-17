@@ -1,5 +1,7 @@
 <?php
 
+use oat\tao\scripts\update\Updater;
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,7 +20,7 @@
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *               2013-     (update and modification) Open Assessment Technologies SA;
+ *               2013-2020 (update and modification) Open Assessment Technologies SA;
  *
  */
 
@@ -49,7 +51,7 @@ use oat\tao\scripts\install\SetLocaleNumbersConfig;
 use \oat\tao\scripts\install\CreateWebhookEventLogTable;
 use oat\tao\scripts\install\RegisterUserService;
 
-$extpath = dirname(__FILE__) . DIRECTORY_SEPARATOR;
+$extpath = __DIR__ . DIRECTORY_SEPARATOR;
 
 return [
     'name' => 'tao',
@@ -59,7 +61,7 @@ return [
     'version' => '40.10.0',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => [
-        'generis' => '>=12.7.0',
+        'generis' => '>=12.11.0',
     ],
     'models' => [
         'http://www.tao.lu/Ontologies/TAO.rdf',
@@ -67,17 +69,17 @@ return [
     ],
     'install' => [
         'rdf' => [
-            dirname(__FILE__) . '/models/ontology/tao.rdf',
-            dirname(__FILE__) . '/models/ontology/taoaclrole.rdf',
-            dirname(__FILE__) . '/models/ontology/oauth.rdf',
-            dirname(__FILE__) . '/models/ontology/webservice.rdf',
-            dirname(__FILE__) . '/models/ontology/services.rdf',
-            dirname(__FILE__) . '/models/ontology/indexation.rdf',
-            dirname(__FILE__) . '/models/ontology/model.rdf',
-            dirname(__FILE__) . '/models/ontology/widegetdefinitions.rdf',
-            dirname(__FILE__) . '/models/ontology/requiredaction.rdf',
-            dirname(__FILE__) . '/models/ontology/auth/basicauth.rdf',
-            dirname(__FILE__) . '/models/ontology/userlocks.rdf'
+            __DIR__ . '/models/ontology/tao.rdf',
+            __DIR__ . '/models/ontology/taoaclrole.rdf',
+            __DIR__ . '/models/ontology/oauth.rdf',
+            __DIR__ . '/models/ontology/webservice.rdf',
+            __DIR__ . '/models/ontology/services.rdf',
+            __DIR__ . '/models/ontology/indexation.rdf',
+            __DIR__ . '/models/ontology/model.rdf',
+            __DIR__ . '/models/ontology/widegetdefinitions.rdf',
+            __DIR__ . '/models/ontology/requiredaction.rdf',
+            __DIR__ . '/models/ontology/auth/basicauth.rdf',
+            __DIR__ . '/models/ontology/userlocks.rdf'
         ],
         'checks' => [
                 ['type' => 'CheckPHPRuntime', 'value' => ['id' => 'tao_php_runtime', 'min' => '5.4']],
@@ -103,12 +105,12 @@ return [
                 ['type' => 'CheckCustom', 'value' => ['id' => 'tao_custom_database_drivers', 'name' => 'database_drivers', 'extension' => 'tao']],
         ],
         'php' => [
-            dirname(__FILE__) . '/scripts/install/addFileUploadSource.php',
-            dirname(__FILE__) . '/scripts/install/setSimpleAccess.php',
+            __DIR__ . '/scripts/install/addFileUploadSource.php',
+            __DIR__ . '/scripts/install/setSimpleAccess.php',
             SetServiceFileStorage::class,
             SetServiceState::class,
-            dirname(__FILE__) . '/scripts/install/setJsConfig.php',
-            dirname(__FILE__) . '/scripts/install/registerEntryPoint.php',
+            __DIR__ . '/scripts/install/setJsConfig.php',
+            __DIR__ . '/scripts/install/registerEntryPoint.php',
             SetLocaleNumbersConfig::class,
             AddLogFs::class,
             AddTmpFsHandlers::class,
@@ -131,7 +133,7 @@ return [
             RegisterUserService::class
         ]
     ],
-    'update' => 'oat\\tao\\scripts\\update\\Updater',
+    'update' => Updater::class,
     'optimizableClasses' => [
         'http://www.tao.lu/Ontologies/TAO.rdf#Languages',
         'http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsages'
