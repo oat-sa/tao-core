@@ -3,6 +3,93 @@
  * See https://raw.githubusercontent.com/jakearchibald/es6-promise/master/LICENSE
  * @version 1.0.14
 */
-'use strict';(function(f){function r(b){var a=b.charCodeAt(0)<<24,c=t(~a)|0,d=0,m=b.length|0,g="";if(5>c&&m>=c){a=a<<c>>>24+c;for(d=1;d<c;d=d+1|0)a=a<<6|b.charCodeAt(d)&63;65535>=a?g+=e(a):1114111>=a?(a=a-65536|0,g+=e((a>>10)+55296|0,(a&1023)+56320|0)):d=0}for(;d<m;d=d+1|0)g+="\ufffd";return g}function n(){}function u(b){var a=b.charCodeAt(0)|0;if(55296<=a&&56319>=a){var c=b.charCodeAt(1)|0;if(c===c&&56320<=c&&57343>=c){if(a=(a-55296<<10)+c-56320+65536|0,65535<a)return e(240|a>>>18,128|a>>>12&63,
-128|a>>>6&63,128|a&63)}else return e(239,191,189)}return 127>=a?b:2047>=a?e(192|a>>>6,128|a&63):e(224|a>>>12,128|a>>>6&63,128|a&63)}function p(){}var v=Math.log,w=Math.LN2,t=Math.clz32||function(b){return 31-v(b>>>0)/w|0},e=String.fromCharCode,k={}.toString,q=f.SharedArrayBuffer,x=q?k.call(q):"",h=f.Uint8Array,l=h||Array,y=k.call((h?ArrayBuffer:l).prototype);n.prototype.decode=function(b){b=b&&b.buffer||b;var a=k.call(b);if(a!==y&&a!==x)throw Error("Failed to execute 'decode' on 'TextDecoder': The provided value is not of type '(ArrayBuffer or ArrayBufferView)'");
-b=h?new l(b):b;a="";for(var c=0,d=b.length|0;c<d;c=c+32768|0)a+=e.apply(0,b[h?"subarray":"slice"](c,c+32768|0));return a.replace(/[\xc0-\xff][\x80-\xbf]*/g,r)};f.TextDecoder||(f.TextDecoder=n);p.prototype.encode=function(b){b=void 0===b?"":(""+b).replace(/[\x80-\uD7ff\uDC00-\uFFFF]|[\uD800-\uDBFF][\uDC00-\uDFFF]?/g,u);for(var a=b.length|0,c=new l(a),d=0;d<a;d=d+1|0)c[d]=b.charCodeAt(d);return c};f.TextEncoder||(f.TextEncoder=p)})("undefined"==typeof global?"undefined"==typeof self?this:self:global);//AnonyCo
+(function(window){
+  "use strict";
+  var log = Math.log;
+  var LN2 = Math.LN2;
+  var clz32 = Math.clz32 || function(x) {return 31 - log(x >>> 0) / LN2 | 0};
+  var fromCharCode = String.fromCharCode;
+  var Object_prototype_toString = ({}).toString;
+  var NativeSharedArrayBuffer = window["SharedArrayBuffer"];
+  var sharedArrayBufferString = NativeSharedArrayBuffer ? Object_prototype_toString.call(NativeSharedArrayBuffer) : "";
+  var NativeUint8Array = window.Uint8Array;
+  var patchedU8Array = NativeUint8Array || Array;
+  var arrayBufferString = Object_prototype_toString.call((NativeUint8Array ? ArrayBuffer : patchedU8Array).prototype);
+  function decoderReplacer(encoded){
+    var codePoint = encoded.charCodeAt(0) << 24;
+    var leadingOnes = clz32(~codePoint)|0;
+    var endPos = 0, stringLen = encoded.length|0;
+    var result = "";
+    if (leadingOnes < 5 && stringLen >= leadingOnes) {
+      codePoint = (codePoint<<leadingOnes)>>>(24+leadingOnes);
+      for (endPos = 1; endPos < leadingOnes; endPos=endPos+1|0)
+        codePoint = (codePoint<<6) | (encoded.charCodeAt(endPos)&0x3f/*0b00111111*/);
+      if (codePoint <= 0xFFFF) { // BMP code point
+        result += fromCharCode(codePoint);
+      } else if (codePoint <= 0x10FFFF) {
+        // https://mathiasbynens.be/notes/javascript-encoding#surrogate-formulae
+        codePoint = codePoint - 0x10000|0;
+        result += fromCharCode(
+          (codePoint >> 10) + 0xD800|0,  // highSurrogate
+          (codePoint & 0x3ff) + 0xDC00|0 // lowSurrogate
+        );
+      } else endPos = 0; // to fill it in with INVALIDs
+    }
+    for (; endPos < stringLen; endPos=endPos+1|0) result += "\ufffd"; // replacement character
+    return result;
+  }
+  function TextDecoder(){};
+  TextDecoder["prototype"]["decode"] = function(inputArrayOrBuffer){
+    var buffer = (inputArrayOrBuffer && inputArrayOrBuffer.buffer) || inputArrayOrBuffer;
+    var asObjectString = Object_prototype_toString.call(buffer);
+    if (asObjectString !== arrayBufferString && asObjectString !== sharedArrayBufferString)
+      throw Error("Failed to execute 'decode' on 'TextDecoder': The provided value is not of type '(ArrayBuffer or ArrayBufferView)'");
+    var inputAs8 = NativeUint8Array ? new patchedU8Array(buffer) : buffer;
+    var resultingString = "";
+    for (var index=0,len=inputAs8.length|0; index<len; index=index+32768|0)
+      resultingString += fromCharCode.apply(0, inputAs8[NativeUint8Array ? "subarray" : "slice"](index,index+32768|0));
+
+    return resultingString.replace(/[\xc0-\xff][\x80-\xbf]*/g, decoderReplacer);
+  }
+  if (!window["TextDecoder"]) window["TextDecoder"] = TextDecoder;
+  //////////////////////////////////////////////////////////////////////////////////////
+  function encoderReplacer(nonAsciiChars){
+    // make the UTF string into a binary UTF-8 encoded string
+    var point = nonAsciiChars.charCodeAt(0)|0;
+    if (point >= 0xD800 && point <= 0xDBFF) {
+      var nextcode = nonAsciiChars.charCodeAt(1)|0;
+      if (nextcode !== nextcode) // NaN because string is 1 code point long
+        return fromCharCode(0xef/*11101111*/, 0xbf/*10111111*/, 0xbd/*10111101*/);
+      // https://mathiasbynens.be/notes/javascript-encoding#surrogate-formulae
+      if (nextcode >= 0xDC00 && nextcode <= 0xDFFF) {
+        point = ((point - 0xD800)<<10) + nextcode - 0xDC00 + 0x10000|0;
+        if (point > 0xffff)
+          return fromCharCode(
+            (0x1e/*0b11110*/<<3) | (point>>>18),
+            (0x2/*0b10*/<<6) | ((point>>>12)&0x3f/*0b00111111*/),
+            (0x2/*0b10*/<<6) | ((point>>>6)&0x3f/*0b00111111*/),
+            (0x2/*0b10*/<<6) | (point&0x3f/*0b00111111*/)
+          );
+      } else return fromCharCode(0xef, 0xbf, 0xbd);
+    }
+    if (point <= 0x007f) return nonAsciiChars;
+    else if (point <= 0x07ff) {
+      return fromCharCode((0x6<<5)|(point>>>6), (0x2<<6)|(point&0x3f));
+    } else return fromCharCode(
+      (0xe/*0b1110*/<<4) | (point>>>12),
+      (0x2/*0b10*/<<6) | ((point>>>6)&0x3f/*0b00111111*/),
+      (0x2/*0b10*/<<6) | (point&0x3f/*0b00111111*/)
+    );
+  }
+  function TextEncoder(){};
+  TextEncoder["prototype"]["encode"] = function(inputString){
+    // 0xc0 => 0b11000000; 0xff => 0b11111111; 0xc0-0xff => 0b11xxxxxx
+    // 0x80 => 0b10000000; 0xbf => 0b10111111; 0x80-0xbf => 0b10xxxxxx
+    var encodedString = inputString === void 0 ?  "" : ("" + inputString).replace(/[\x80-\uD7ff\uDC00-\uFFFF]|[\uD800-\uDBFF][\uDC00-\uDFFF]?/g, encoderReplacer);
+    var len=encodedString.length|0, result = new patchedU8Array(len);
+    for (var i=0; i<len; i=i+1|0)
+      result[i] = encodedString.charCodeAt(i);
+    return result;
+  };
+  if (!window["TextEncoder"]) window["TextEncoder"] = TextEncoder;
+})(typeof global == "" + void 0 ? typeof self == "" + void 0 ? this : self : global);
