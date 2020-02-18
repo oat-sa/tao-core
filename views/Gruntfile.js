@@ -29,8 +29,8 @@ module.exports = function(grunt) {
      */
 
     //set up contextual config
-    const root             = path.resolve('../../../').replace(/\\/g, '/');      //tao dist root
-    const extensionHelper  = require('./tasks/helpers/extensions')(grunt, root); //extension helper
+    const root             = path.resolve('../../').replace(/\\/g, '/');      //tao dist root
+    const extensionHelper  = require('./build/tasks/helpers/extensions')(grunt, root); //extension helper
     const currentExtension = grunt.option('extension') || 'tao';                 //target extension, add "--extension name" to CLI if needed
     const reportOutput     = grunt.option('reports') || 'reports';               //where reports are saved
     const buildOutput      = grunt.option('output')   || 'output';
@@ -64,7 +64,6 @@ module.exports = function(grunt) {
      */
 
     extensionHelper.getExtensions().forEach(function(extension){
-
         const extensionKey = extension.toLowerCase();
         const gruntDir = path.join(root, extension, '/views/build/grunt');
         if(grunt.file.exists(gruntDir)){
