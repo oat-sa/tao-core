@@ -14,7 +14,7 @@ $hasVersionWarning = empty($_COOKIE['versionWarning'])
     || $releaseMsgData['is-sandbox']);
 ?>
 <!doctype html>
-<html class="no-js<?php if (!$hasVersionWarning): ?> no-version-warning<?php endif;?>">
+<html class="no-js<?php if (!$hasVersionWarning): ?> no-version-warning<?php endif;?>" lang="<?= tao_helpers_I18n::getLangCode() ?>">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
