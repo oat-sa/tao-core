@@ -28,6 +28,10 @@ use oat\tao\model\OperatedByService;
 use oat\generis\persistence\sql\DbCreator;
 use oat\generis\persistence\sql\SetupDb;
 use oat\generis\persistence\PersistenceManager;
+use oat\generis\model\data\Ontology;
+use oat\tao\model\TaoOntology;
+use oat\generis\model\GenerisRdf;
+use oat\tao\model\user\TaoRoles;
 
 /**
  *
@@ -240,23 +244,15 @@ class tao_install_Installator
             $this->getServiceManager()->register(PersistenceManager::SERVICE_ID, $persistenceManager);
 
             /*
-             * 5d - Create generis user
-            */
-                    
-            // Init model creator and create the Generis User.
-            $this->log('d', 'Creating generis user..');
-            $modelCreator = new tao_install_utils_ModelCreator(LOCAL_NAMESPACE);
-            $modelCreator->insertGenerisUser(helpers_Random::generateString(8));
-
-            /*
              * 6 - Add languages
              */
             $this->log('d', 'Adding languages..');
+            $modelCreator = new tao_install_utils_ModelCreator(LOCAL_NAMESPACE);
             $models = $modelCreator->getLanguageModels();
             foreach ($models as $ns => $modelFiles) {
                 foreach ($modelFiles as $file) {
                     $this->log('d', "Inserting language description model '" . $file . "'");
-                    $modelCreator->insertLocalModel($file);
+                    $modelCreator->insertModel(LOCAL_NAMESPACE, $file);
                 }
             }
 
@@ -289,17 +285,29 @@ class tao_install_Installator
              *  9 - Insert Super User
              */
             $this->log('i', 'Spawning SuperUser ' . $installData['user_login']);
-            $modelCreator->insertSuperUser([
-                'login'         => $installData['user_login'],
-                'password'      => core_kernel_users_Service::getPasswordHash()->encrypt($installData['user_pass1']),
-                'userLastName'  => $installData['user_lastname'],
-                'userFirstName' => $installData['user_firstname'],
-                'userMail'      => $installData['user_email'],
-                'userDefLg'     => 'http://www.tao.lu/Ontologies/TAO.rdf#Lang' . $installData['module_lang'],
-                'userUILg'      => 'http://www.tao.lu/Ontologies/TAO.rdf#Lang' . $installData['module_lang'],
-                'userTimezone'  => TIME_ZONE
-            ]);
+            $ontology = $this->getServiceManager()->get(Ontology::SERVICE_ID);
 
+            $userClass = $ontology->getClass(TaoOntology::CLASS_URI_TAO_USER);
+            $userid = $installData['module_namespace'] . TaoOntology::DEFAULT_USER_URI_SUFFIX;
+            $userpwd = core_kernel_users_Service::getPasswordHash()->encrypt($installData['user_pass1']);
+            $userLang = 'http://www.tao.lu/Ontologies/TAO.rdf#Lang' . $installData['module_lang'];
+
+            $superUser = $userClass->createInstance('Super User', 'super user created during the TAO installation', $userid);
+            $superUser->setPropertiesValues([
+                GenerisRdf::PROPERTY_USER_ROLES => [
+                    TaoRoles::GLOBAL_MANAGER,
+                    TaoRoles::SYSTEM_ADMINISTRATOR
+                ],
+                TaoOntology::PROPERTY_USER_FIRST_TIME => GenerisRdf::GENERIS_TRUE,
+                GenerisRdf::PROPERTY_USER_LOGIN => $installData['user_login'],
+                GenerisRdf::PROPERTY_USER_PASSWORD => $userpwd,
+                GenerisRdf::PROPERTY_USER_LASTNAME => $installData['user_lastname'],
+                GenerisRdf::PROPERTY_USER_FIRSTNAME => $installData['user_firstname'],
+                GenerisRdf::PROPERTY_USER_MAIL => $installData['user_email'],
+                GenerisRdf::PROPERTY_USER_DEFLG => $userLang,
+                GenerisRdf::PROPERTY_USER_UILG => $userLang,
+                GenerisRdf::PROPERTY_USER_TIMEZONE => TIME_ZONE
+            ]);
 
             /*
              *  10 - Secure the install for production mode
