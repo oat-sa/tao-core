@@ -252,7 +252,7 @@ class tao_install_Installator
             foreach ($models as $ns => $modelFiles) {
                 foreach ($modelFiles as $file) {
                     $this->log('d', "Inserting language description model '" . $file . "'");
-                    $modelCreator->insertLocalModel($file);
+                    $modelCreator->insertModel(LOCAL_NAMESPACE, $file);
                 }
             }
 
