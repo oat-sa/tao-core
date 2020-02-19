@@ -48,6 +48,8 @@ class OntologyUpdater
         foreach (common_ext_ExtensionsManager::singleton()->getInstalledExtensions() as $ext) {
             $nominalModel->append(new ExtensionModel($ext));
         }
+        $langModel = \tao_models_classes_LanguageService::singleton()->getLanguageDefinition();
+        $nominalModel->append($langModel);
         
         $diff = helpers_RdfDiff::create($smoothIterator, $nominalModel);
         self::logDiff($diff);
