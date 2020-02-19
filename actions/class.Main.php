@@ -232,7 +232,7 @@ class tao_actions_Main extends tao_actions_CommonModule
             }
         }
 
-        $this->setData('title', __("TAO Login"));
+        $this->setData('title', !empty($config['title']) ? __($config['title']) : __('TAO Login'));
 
         $this->setData('autocompleteDisabled', (int)$disableAutoComplete);
         $this->setData('passwordRevealEnabled', (int)$enablePasswordReveal);
