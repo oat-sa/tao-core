@@ -82,21 +82,6 @@ class tao_install_utils_ModelCreator
         return $this->insertLocalModel($doc->saveXML());
     }
     
-    public function insertGenerisUser($login)
-    {
-        
-        $generisUserOntology = dirname(__FILE__) . '/../ontology/generisuser.rdf';
-        
-        if (!@is_readable($generisUserOntology)) {
-            throw new tao_install_utils_Exception("Unable to load ontology : ${generisUserOntology}");
-        }
-        
-        $doc = new DOMDocument();
-        $doc->load($generisUserOntology);
-        
-        return $this->insertLocalModel($doc->saveXML(), ['{SYS_USER_LOGIN}'    => $login]);
-    }
-
     /**
      * Insert a model into the local namespace
      * @throws tao_install_utils_Exception
