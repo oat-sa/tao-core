@@ -55,7 +55,6 @@ $todefine = [
 //  not used
     'INSTANCE_ROLE_SERVICE'             => 'http://www.tao.lu/Ontologies/TAO.rdf#ServiceRole',
     'INSTANCE_ROLE_DELIVERY'            => 'http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole',
-    'TAO_INSTALLATOR'                   => 'http://www.tao.lu/Ontologies/TAO.rdf#installator',
 //  not used
     'PROPERTY_WIDGET_CALENDAR'          => 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Calendar',
     'PROPERTY_WIDGET_TEXTBOX'           => 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox',
