@@ -146,6 +146,7 @@ use oat\tao\scripts\tools\MigrateSecuritySettings;
 use tao_install_utils_ModelCreator;
 use tao_models_classes_UserService;
 use oat\tao\model\media\MediaService;
+use oat\generis\model\data\Ontology;
 
 /**
  *
@@ -1308,7 +1309,17 @@ class Updater extends \common_ext_ExtensionUpdater
             }
             $this->setVersion('40.9.0');
         }
-        $this->skip('40.9.0', '40.9.5');
+        $this->skip('40.9.0', '40.9.4');
 
+        if ($this->isVersion('40.9.4')) {
+            $langModel = \tao_models_classes_LanguageService::singleton()->getLanguageDefinition();
+            $modelRdf = $this->getServiceManager()->get(Ontology::SERVICE_ID)->getRdfInterface();
+            foreach ($langModel as $triple) {
+                $triple->modelid = 1;
+                $modelRdf->remove($triple);
+            }
+            OntologyUpdater::syncModels();
+            $this->setVersion('40.9.5');
+        }
     }
 }
