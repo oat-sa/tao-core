@@ -10,7 +10,6 @@
 </head>
 
 <body>
-<?php xdebug_break();?>
 <div class="content-wrap">
     <header class="dark-bar clearfix">
         <a href="<?= ROOT_URL ?>" class="lft" target="_blank">
