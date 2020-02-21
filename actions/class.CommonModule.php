@@ -170,9 +170,8 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
         }
         $this->setData('message', $description);
         $this->setData('returnLink', $returnLink);
-        $referer = $_SERVER['HTTP_REFERER'];
-        if (parse_url($referer, PHP_URL_HOST) == parse_url(ROOT_URL, PHP_URL_HOST)) {
-            $this->setData('returnUrl', $referer);
+        if (parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST) == parse_url(ROOT_URL, PHP_URL_HOST)) {
+            $this->setData('returnUrl', htmlentities($_SERVER['HTTP_REFERER'],ENT_QUOTES));
         }else{
             $this->setData('returnUrl', false);
         }
