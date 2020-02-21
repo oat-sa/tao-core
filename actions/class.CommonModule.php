@@ -168,10 +168,14 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
             $this->logWarning('Called ' . __FUNCTION__ . ' in an unsupported AJAX context');
             throw new common_Exception($description);
         }
-
         $this->setData('message', $description);
         $this->setData('returnLink', $returnLink);
-
+        $referer = $_SERVER['HTTP_REFERER'];
+        if (parse_url($referer, PHP_URL_HOST) == parse_url(ROOT_URL, PHP_URL_HOST)) {
+            $this->setData('returnUrl', $referer);
+        }else{
+            $this->setData('returnUrl', false);
+        }
         if ($httpStatus !== null && file_exists(Template::getTemplate("error/error${httpStatus}.tpl"))) {
             $this->setView("error/error${httpStatus}.tpl", 'tao');
         } else {
