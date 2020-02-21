@@ -26,7 +26,7 @@ use oat\tao\helpers\Template;
  * @author Christophe GARCIA <christopheg@taotesting.com>
  */
 class HtmlResponse extends ResponseAbstract {
-    
+
     protected $contentType = 'text/html';
 
     public function send() {
@@ -34,8 +34,9 @@ class HtmlResponse extends ResponseAbstract {
             $message = $this->exception->getMessage();
             $trace = $this->exception->getTraceAsString();
 	    }
-        $returnUrl = $_SERVER['HTTP_REFERER'];
-        if (parse_url($returnUrl, PHP_URL_HOST) != parse_url(ROOT_URL, PHP_URL_HOST)) {
+        if (parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST) == parse_url(ROOT_URL, PHP_URL_HOST)) {
+            $returnUrl = htmlentities($_SERVER['HTTP_REFERER'],ENT_QUOTES);
+        }else{
             $returnUrl = false;
         }
         require Template::getTemplate('error/error' . $this->httpCode . '.tpl', 'tao');
