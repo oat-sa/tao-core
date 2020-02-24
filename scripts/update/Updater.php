@@ -147,6 +147,7 @@ use tao_install_utils_ModelCreator;
 use tao_models_classes_UserService;
 use oat\tao\model\media\MediaService;
 use oat\generis\model\data\Ontology;
+use core_kernel_persistence_smoothsql_SmoothModel;
 
 /**
  *
@@ -1315,7 +1316,7 @@ class Updater extends \common_ext_ExtensionUpdater
             $langModel = \tao_models_classes_LanguageService::singleton()->getLanguageDefinition();
             $modelRdf = $this->getServiceManager()->get(Ontology::SERVICE_ID)->getRdfInterface();
             foreach ($langModel as $triple) {
-                $triple->modelid = 1;
+                $triple->modelid = core_kernel_persistence_smoothsql_SmoothModel::DEFAULT_WRITABLE_MODEL;
                 $modelRdf->remove($triple);
             }
             OntologyUpdater::syncModels();
