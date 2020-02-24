@@ -244,20 +244,7 @@ class tao_install_Installator
             $this->getServiceManager()->register(PersistenceManager::SERVICE_ID, $persistenceManager);
 
             /*
-             * 6 - Add languages
-             */
-            $this->log('d', 'Adding languages..');
-            $modelCreator = new tao_install_utils_ModelCreator(LOCAL_NAMESPACE);
-            $models = $modelCreator->getLanguageModels();
-            foreach ($models as $ns => $modelFiles) {
-                foreach ($modelFiles as $file) {
-                    $this->log('d', "Inserting language description model '" . $file . "'");
-                    $modelCreator->insertModel(LOCAL_NAMESPACE, $file);
-                }
-            }
-
-            /*
-             * 7 - Finish Generis Install
+             * 6 - Finish Generis Install
              */
 
             $this->log('d', 'Finishing generis install..');
@@ -266,6 +253,17 @@ class tao_install_Installator
             $generisInstaller = new common_ext_GenerisInstaller($generis, true);
             $generisInstaller->initContainer($this->getContainer());
             $generisInstaller->install();
+
+            /*
+             * 7 - Add languages
+             */
+            $this->log('d', 'Adding languages..');
+            $ontology = $this->getServiceManager()->get(Ontology::SERVICE_ID);
+            $langModel = \tao_models_classes_LanguageService::singleton()->getLanguageDefinition();
+            $rdfModel = $ontology->getRdfInterface();
+            foreach ($langModel as $triple) {
+                $rdfModel->add($triple);
+            }
 
             /*
              * 8 - Install the extensions
@@ -285,7 +283,6 @@ class tao_install_Installator
              *  9 - Insert Super User
              */
             $this->log('i', 'Spawning SuperUser ' . $installData['user_login']);
-            $ontology = $this->getServiceManager()->get(Ontology::SERVICE_ID);
 
             $userClass = $ontology->getClass(TaoOntology::CLASS_URI_TAO_USER);
             $userid = $installData['module_namespace'] . TaoOntology::DEFAULT_USER_URI_SUFFIX;
