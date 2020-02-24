@@ -1309,9 +1309,9 @@ class Updater extends \common_ext_ExtensionUpdater
             }
             $this->setVersion('40.9.0');
         }
-        $this->skip('40.9.0', '40.9.4');
+        $this->skip('40.9.0', '40.9.5');
 
-        if ($this->isVersion('40.9.4')) {
+        if ($this->isVersion('40.9.5')) {
             $langModel = \tao_models_classes_LanguageService::singleton()->getLanguageDefinition();
             $modelRdf = $this->getServiceManager()->get(Ontology::SERVICE_ID)->getRdfInterface();
             foreach ($langModel as $triple) {
@@ -1319,7 +1319,7 @@ class Updater extends \common_ext_ExtensionUpdater
                 $modelRdf->remove($triple);
             }
             OntologyUpdater::syncModels();
-            $this->setVersion('40.9.5');
+            $this->setVersion('40.9.6');
         }
     }
 }
