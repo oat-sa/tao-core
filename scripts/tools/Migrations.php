@@ -1,0 +1,223 @@
+<?php
+
+namespace oat\tao\scripts\tools;
+
+use Doctrine\DBAL\Connection;
+use oat\tao\scripts\tools\migrations\Configuration;
+use Doctrine\Migrations\Tools\Console\Command;
+use Doctrine\Migrations\Tools\Console\Helper\ConfigurationHelper;
+use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Helper\HelperSet;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Helper\QuestionHelper;
+use oat\generis\persistence\PersistenceManager;
+use oat\oatbox\extension\script\ScriptAction;
+use oat\oatbox\extension\script\ScriptException;
+use common_ext_Extension;
+use oat\tao\scripts\tools\migrations\Template;
+use oat\tao\scripts\tools\migrations\TaoFinder;
+
+/**
+ * Class Migrations
+ * Usage examples:
+ * ```
+ * sudo -u www-data php index.php '\oat\tao\scripts\tools\Migrations' -c generate -e taoAct
+ * sudo -u www-data php index.php '\oat\tao\scripts\tools\Migrations' -c status
+ * sudo -u www-data php index.php '\oat\tao\scripts\tools\Migrations' -c migrate
+ * ```
+ * @package oat\tao\scripts\tools
+ */
+class Migrations extends ScriptAction
+{
+
+    const MIGRATIONS_DIR = 'migrations';
+
+    private $commands = [
+        'generate' => 'migrations:generate',
+        'status' => 'migrations:status',
+        'migrate' => 'migrations:migrate',
+    ];
+
+    protected function provideOptions()
+    {
+        return [
+            'command' => [
+                'prefix' => 'c',
+                'longPrefix' => 'command',
+                'required' => true,
+                'description' => 'Command to be run'
+            ],
+            'extension' => [
+                'prefix' => 'e',
+                'longPrefix' => 'extension',
+                'required' => false,
+                'description' => 'Extension for which migration needs to be applied'
+            ],
+        ];
+    }
+
+    /**
+     * @return string
+     */
+    protected function provideDescription()
+    {
+        return 'Tao migrations tool';
+    }
+
+    public function run()
+    {
+        $command = $this->getOption('command');
+
+        if (!isset($this->commands[$command])) {
+            throw new ScriptException(sprintf('Command "%s" is not supported', $command));
+        }
+
+        switch ($command) {
+            case 'generate':
+                $this->generate();
+                break;
+            case 'status':
+                $this->status();
+                break;
+            case 'migrate':
+                $this->migrate();
+                break;
+        }
+    }
+
+    private function generate()
+    {
+        if (!$this->hasOption('extension')) {
+            throw new ScriptException('extension option missed');
+        }
+
+        $extension = $this->getExtension();
+        $input = new ArrayInput(['command' => $this->commands['generate']]);
+        $configuration = $this->getConfiguration();
+        $configuration->setMigrationsDirectory($extension->getDir().self::MIGRATIONS_DIR);
+        $configuration->setMigrationsNamespace($this->getExtensionNamespace($extension));
+        $configuration->setCustomTemplate(
+            __DIR__.DIRECTORY_SEPARATOR.'migrations'.DIRECTORY_SEPARATOR.'Template.tpl'
+        );
+        $connection = $this->getConnection();
+        $helperSet = new HelperSet();
+        $helperSet->set(new ConfigurationHelper($connection, $configuration));
+        $this->execute($helperSet, $input);
+    }
+
+    private function status()
+    {
+        $input = new ArrayInput(['command' => $this->commands['status']]);
+        $connection = $this->getConnection();
+
+        $configuration = $this->getConfiguration();
+        $helperSet = new HelperSet();
+        $helperSet->set(new QuestionHelper(), 'question');
+        $helperSet->set(new ConfigurationHelper($connection, $configuration));
+        $configuration->setMigrationsDirectory(ROOT_PATH);
+        $configuration->setMigrationsFinder(new TaoFinder(ROOT_PATH));
+        $configuration->setMigrationsNamespace('oat');
+        $this->execute($helperSet, $input);
+    }
+
+    private function migrate()
+    {
+        $input = new ArrayInput(['command' => $this->commands['migrate'], '--no-interaction']);
+        $connection = $this->getConnection();
+
+        $configuration = $this->getConfiguration();
+        $helperSet = new HelperSet();
+        $helperSet->set(new QuestionHelper(), 'question');
+        $helperSet->set(new ConfigurationHelper($connection, $configuration));
+        $configuration->setMigrationsDirectory(ROOT_PATH);
+        $configuration->setMigrationsFinder(new TaoFinder(ROOT_PATH));
+        $configuration->setMigrationsNamespace('oat');
+        $this->execute($helperSet, $input);
+    }
+
+    private function execute(HelperSet $helperSet, InputInterface $input, OutputInterface $output = null)
+    {
+        $cli = new Application('Doctrine Migrations');
+        $cli->setAutoExit(false);
+        $cli->setCatchExceptions(true);
+        $cli->setHelperSet($helperSet);
+        $cli->addCommands(array(
+            new Command\GenerateCommand(),
+            new Command\MigrateCommand(),
+            new Command\StatusCommand(),
+            //new Command\DumpSchemaCommand(),
+            //new Command\ExecuteCommand(),
+            //new Command\LatestCommand(),
+            //new Command\RollupCommand(),
+            //new Command\VersionCommand()
+        ));
+
+        $cli->run($input, $output);
+    }
+
+    /**
+     * @return Configuration
+     */
+    private function getConfiguration()
+    {
+        $connection = $this->getConnection();
+        $configuration = new Configuration($connection);
+        $configuration->setServiceLocator($this->getServiceLocator());
+        $configuration->setName('Tao Migrations');
+        $configuration->setMigrationsTableName('doctrine_migration_versions');
+        $configuration->setMigrationsColumnName('version');
+        $configuration->setMigrationsColumnLength(255);
+        $configuration->setMigrationsExecutedAtColumnName('executed_at');
+        $configuration->setAllOrNothing(true);
+        $configuration->setCheckDatabasePlatform(false);
+
+        return $configuration;
+    }
+
+    /**
+     * @return Connection
+     */
+    private function getConnection()
+    {
+        /** @var PersistenceManager $persistenceManager */
+        $persistenceManager = $this->getServiceLocator()->get(PersistenceManager::SERVICE_ID);
+        //todo: use migrations service to store persistence id in it's option
+        $persistence = $persistenceManager->getPersistenceById('default');
+        return $persistence->getDriver()->getDbalConnection();
+    }
+
+    /**
+     * @return common_ext_Extension
+     * @throws ScriptException
+     */
+    private function getExtension()
+    {
+        $extensionId = $this->getOption('extension');
+        /** @var \common_ext_ExtensionsManager $extensionManager */
+        $extensionManager = $this->getServiceLocator()->get(\common_ext_ExtensionsManager::SERVICE_ID);
+
+        if (!$extensionManager->isInstalled($extensionId)) {
+            throw new ScriptException(sprintf('Extension "%s" is not installed', $extensionId));
+        }
+
+        try {
+            return $extensionManager->getExtensionById($extensionId);
+        } catch (\common_ext_ExtensionException $e) {
+            $this->logWarning('Error during extension retrieval: '.$e->getMessage());
+            throw new ScriptException(sprintf('Cannot retrieve extension "%s"', $extensionId));
+        }
+    }
+
+    /**
+     * This is an assumption
+     * @param common_ext_Extension $extension
+     * @return string
+     */
+    private function getExtensionNamespace(common_ext_Extension $extension)
+    {
+        return 'oat\\'.$extension->getId().'\\Migrations';
+    }
+}
+
