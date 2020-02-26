@@ -1310,6 +1310,7 @@ class Updater extends \common_ext_ExtensionUpdater
             }
             $this->setVersion('40.9.0');
         }
+
         $this->skip('40.9.0', '40.9.5');
 
         if ($this->isVersion('40.9.5')) {
@@ -1322,5 +1323,7 @@ class Updater extends \common_ext_ExtensionUpdater
             OntologyUpdater::syncModels();
             $this->setVersion('40.9.6');
         }
+
+        $this->skip('40.9.6', '40.10.0');
     }
 }
