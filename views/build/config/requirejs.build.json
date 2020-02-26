@@ -6,7 +6,6 @@
     "css": "lib/require-css/css",
     "tpl": "tpl",
     "jquery": "../node_modules/jquery/jquery",
-    "select2": "lib/select2/select2.min",
     "jquery.autocomplete": "lib/jquery.autocomplete/jquery.autocomplete",
     "jquery.tree": "lib/jsTree/jquery.tree",
     "jquery.cookie": "lib/jquery.cookie",
@@ -38,6 +37,8 @@
     "core": "../../../tao/views/node_modules/@oat-sa/tao-core-sdk/dist/core",
     "util": "../../../tao/views/node_modules/@oat-sa/tao-core-sdk/dist/util",
     "ui": "../../../tao/views/node_modules/@oat-sa/tao-core-ui/dist",
+    "select2": "../../../tao/views/node_modules/@oat-sa/tao-core-libs/dist/select2",
+    "select2-origin": "../../../tao/views/node_modules/",
     "fastestsmallesttextencoderdecoder": "../../../tao/views/node_modules/fastestsmallesttextencoderdecoder/NodeJS/EncoderAndDecoderNodeJS.min"
   },
 
@@ -70,7 +71,6 @@
     "tpl",
     "jquery",
     "jquery.cookie",
-    "select2",
     "nouislider",
     "lodash",
     "async",

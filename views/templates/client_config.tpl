@@ -36,7 +36,8 @@ require.config({
         'tpl'               : 'tpl',
 //jquery and plugins
         'jquery'            : '../node_modules/jquery/jquery',
-        'select2'           : 'lib/select2/select2.min',
+        'select2'           : '../../../tao/views/node_modules/@oat-sa/tao-core-libs/dist/select2',
+        'select2-origin'    : '../../../tao/views/node_modules/select2',
         'jquery.autocomplete'  : 'lib/jquery.autocomplete/jquery.autocomplete',
         'jquery.tree'       : 'lib/jsTree/jquery.tree',
         'jquery.timePicker' : 'lib/jquery.timePicker',
