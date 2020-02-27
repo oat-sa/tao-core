@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,22 +20,21 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  *
  */
-?>
-<?php
+
 class tao_install_checks_DatabaseDrivers extends common_configuration_Component
 {
     
     public function check()
     {
-        
-        // One of these drivers must be found.
-        $drivers = [   'pdo_mysql',
-                            'pdo_pgsql',
-                            'pdo_sqlsrv',
-                            'pdo_oci',
-'grpc' // spanner transport
 
-);
+        // One of these drivers must be found.
+        $drivers = ['pdo_mysql',
+            'pdo_pgsql',
+            'pdo_sqlsrv',
+            'pdo_oci',
+            'grpc' // spanner transport
+
+        ];
                          
         foreach ($drivers as $d) {
             $dbCheck = common_configuration_ComponentFactory::buildPHPDatabaseDriver($d);
@@ -43,7 +43,7 @@ class tao_install_checks_DatabaseDrivers extends common_configuration_Component
             if ($dbReport->getStatus() == common_configuration_Report::VALID) {
                 return new common_configuration_Report(
                     $dbReport->getStatus(),
-                    "A suitable database driver is available.",
+                    'A suitable database driver is available.',
                     $this
                 );
             }
@@ -51,7 +51,7 @@ class tao_install_checks_DatabaseDrivers extends common_configuration_Component
         
         return new common_configuration_Report(
             common_configuration_Report::INVALID,
-            "No suitable database driver detected. Drivers supported by TAO are: "
+            'No suitable database driver detected. Drivers supported by TAO are: '
                                                . implode(', ', $drivers) . '.',
             $this
         );
