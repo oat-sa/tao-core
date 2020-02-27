@@ -38,11 +38,10 @@ class HtmlResponse extends ResponseAbstract
             $message = $this->exception->getMessage();
             $trace = $this->exception->getTraceAsString();
         }
-        if (parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST) == parse_url(ROOT_URL, PHP_URL_HOST)) {
-            $returnUrl = htmlentities($_SERVER['HTTP_REFERER'],ENT_QUOTES);
-        }else{
-            $returnUrl = false;
-        }
+        $referer = $_SERVER['HTTP_REFERER'];
+        $returnUrl = (parse_url($referer, PHP_URL_HOST) === parse_url(ROOT_URL, PHP_URL_HOST))
+            ? htmlentities($referer, ENT_QUOTES)
+            : false;
         require Template::getTemplate('error/error' . $this->httpCode . '.tpl', 'tao');
     }
 }
