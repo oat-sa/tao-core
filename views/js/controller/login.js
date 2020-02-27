@@ -34,6 +34,7 @@ define([
     var _defaults = {
         disableAutocomplete: false,
         enablePasswordReveal: false,
+        disableAutofocus: false,
         message: {
             error: ''
         }
