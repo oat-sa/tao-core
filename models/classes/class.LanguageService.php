@@ -25,6 +25,8 @@ use oat\generis\model\OntologyRdf;
 use oat\tao\helpers\translation\TranslationBundle;
 use oat\generis\model\data\ModelManager;
 use oat\tao\helpers\translation\rdf\RdfPack;
+use oat\taoDevTools\actions\ExtensionsManager;
+use oat\generis\model\kernel\persistence\file\FileIterator;
 
 /**
  * Short description of class tao_models_classes_LanguageService
@@ -339,5 +341,48 @@ class tao_models_classes_LanguageService extends tao_models_classes_GenerisServi
         return $langByCode !== null
             ? $langByCode->getUri()
             : null;
+    }
+
+    /**
+     * Convenience method that returns available language descriptions to be inserted in the
+     * knowledge base.
+     *
+     * @return array of ns => files
+     */
+    private function getLanguageFiles()
+    {
+        $extManager = $this->getServiceLocator()->get(common_ext_ExtensionsManager::SERVICE_ID);
+        $localesPath = $extManager->getExtensionById('tao')->getDir().'locales';
+        if (!@is_dir($localesPath) || !@is_readable($localesPath)) {
+            throw new tao_install_utils_Exception("Cannot read 'locales' directory in extenstion 'tao'.");
+        }
+
+        $files = [];
+        $localeDirectories = scandir($localesPath);
+        foreach ($localeDirectories as $localeDir) {
+            $path = $localesPath . '/' . $localeDir;
+            if ($localeDir[0] != '.' && @is_dir($path)) {
+                // Look if the lang.rdf can be read.
+                $languageModelFile = $path . '/lang.rdf';
+                if (@file_exists($languageModelFile) && @is_readable($languageModelFile)) {
+                    $files[] = $languageModelFile;
+                }
+            }
+        }
+        return $files;
+    }
+
+    /**
+     * Return the definition of the languages as an RDF iterator
+     * @return AppendIterator
+     */
+    public function getLanguageDefinition()
+    {
+        $model = new AppendIterator();
+        foreach ($this->getLanguageFiles() as $rdfPath) {
+            $iterator = new FileIterator($rdfPath);
+            $model->append($iterator->getIterator());
+        }
+        return $model;
     }
 }
