@@ -43,8 +43,8 @@ require.config({
         'nouislider'        : 'lib/sliders/jquery.nouislider',
         'jquery.fileDownload'  : 'lib/jquery.fileDownload',
 // select2
-        'select2'           : '../../../tao/views/node_modules/@oat-sa/tao-core-libs/dist/select2',
-        'select2-origin'    : '../../../tao/views/node_modules/select2',
+        'select2'           : '../node_modules/@oat-sa/tao-core-libs/dist/select2',
+        'select2-origin'    : '../node_modules/select2',
 //polyfills
         'polyfill'          : 'lib/polyfill',
         'url-polyfill'      : '../node_modules/url-polyfill/url-polyfill',
