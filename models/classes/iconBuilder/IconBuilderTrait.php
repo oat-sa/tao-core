@@ -25,21 +25,21 @@ trait IconBuilderTrait
      * This function builds the actual HTML element and is used by all other functions.
      * The doc for $options is the applicable for all other functions.
      *
-     * @param string $icon    name of the icon to display
+     * @param string $iconName name of the icon to display
      * @param array  $options (optional) hashtable with HTML attributes, also allows to set element="almostAnyHtmlElement"
      *
      * @return string HTML element with icon
      */
-    protected static function buildIcon($icon, array $options = [])
+    protected static function buildIcon(string $iconName, array $options = [])
     {
         $dom = new DOMDocument();
 
-        $element = $options['element'];
-        unset($options['element']);
+        $element = $options['element'] ?? 'span';
+        $icon = $options['icon'] ?? '';
+        $options['class'] = trim(implode(' ', [$icon, $iconName]));
+        unset($options['element']); // remove element from options as others should be mapped to html attributes
 
-        $options['class'] = trim(implode(' ', [$options['icon'], $icon]));
-
-        $element = $dom->createElement($element ?? 'span');
+        $element = $dom->createElement($element);
         foreach ($options as $key => $value) {
             $element->setAttribute($key, $value);
         }
