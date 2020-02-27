@@ -36,13 +36,16 @@ require.config({
         'tpl'               : 'tpl',
 //jquery and plugins
         'jquery'            : '../node_modules/jquery/jquery',
-        'select2'           : 'lib/select2/select2.min',
         'jquery.autocomplete'  : 'lib/jquery.autocomplete/jquery.autocomplete',
         'jquery.tree'       : 'lib/jsTree/jquery.tree',
         'jquery.timePicker' : 'lib/jquery.timePicker',
         'jquery.cookie'     : 'lib/jquery.cookie',
         'nouislider'        : 'lib/sliders/jquery.nouislider',
         'jquery.fileDownload'  : 'lib/jquery.fileDownload',
+// select2        
+        'select2'           : '../../../tao/views/node_modules/@oat-sa/tao-core-libs/dist/select2',
+        'select2-origin/select2': '../node_modules/select2/select2',
+        'select2-origin'    : 'lib/select2/i18n',
 //polyfills
         'polyfill'          : 'lib/polyfill',
         'url-polyfill'      : '../node_modules/url-polyfill/url-polyfill',
