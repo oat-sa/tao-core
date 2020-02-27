@@ -33,6 +33,7 @@ use oat\generis\model\data\ModelManager;
 use oat\generis\model\kernel\persistence\file\FileIterator;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\service\ConfigurableService;
+use oat\oatbox\user\UserService;
 use oat\tao\controller\api\Users;
 use oat\tao\helpers\dateFormatter\EuropeanFormatter;
 use oat\tao\model\cliArgument\argument\implementation\Group;
@@ -89,6 +90,7 @@ use oat\tao\model\taskQueue\TaskLog\Broker\TaskLogBrokerInterface;
 use oat\tao\model\taskQueue\TaskLogInterface;
 use oat\tao\model\Tree\GetTreeService;
 use oat\tao\model\upload\UploadService;
+use oat\tao\model\user\GenerisUserService;
 use oat\tao\model\user\implementation\NoUserLocksService;
 use oat\tao\model\user\import\OntologyUserMapper;
 use oat\tao\model\user\import\UserCsvImporterFactory;
@@ -144,6 +146,8 @@ use oat\tao\scripts\tools\MigrateSecuritySettings;
 use tao_install_utils_ModelCreator;
 use tao_models_classes_UserService;
 use oat\tao\model\media\MediaService;
+use oat\generis\model\data\Ontology;
+use core_kernel_persistence_smoothsql_SmoothModel;
 
 /**
  *
@@ -1285,7 +1289,7 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         $this->skip('40.3.4', '40.6.1');
-      
+
         if ($this->isVersion('40.6.1')) {
             /** @var EventManager $eventManager */
             $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
@@ -1298,6 +1302,28 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('40.7.0');
         }
 
-        $this->skip('40.7.0', '40.7.3');
+        $this->skip('40.7.0', '40.8.1');
+
+        if ($this->isVersion('40.8.1')) {
+            if (!$this->getServiceManager()->has(UserService::SERVICE_ID)) {
+                $this->getServiceManager()->register(UserService::SERVICE_ID, new GenerisUserService());
+            }
+            $this->setVersion('40.9.0');
+        }
+
+        $this->skip('40.9.0', '40.9.5');
+
+        if ($this->isVersion('40.9.5')) {
+            $langModel = \tao_models_classes_LanguageService::singleton()->getLanguageDefinition();
+            $modelRdf = $this->getServiceManager()->get(Ontology::SERVICE_ID)->getRdfInterface();
+            foreach ($langModel as $triple) {
+                $triple->modelid = core_kernel_persistence_smoothsql_SmoothModel::DEFAULT_WRITABLE_MODEL;
+                $modelRdf->remove($triple);
+            }
+            OntologyUpdater::syncModels();
+            $this->setVersion('40.9.6');
+        }
+
+        $this->skip('40.9.6', '40.10.1');
     }
 }
