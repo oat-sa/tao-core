@@ -19,6 +19,7 @@ use oat\oatbox\extension\script\ScriptException;
 use common_ext_Extension;
 use oat\tao\scripts\tools\migrations\TaoFinder;
 use common_report_Report as Report;
+use Doctrine\Migrations\Exception\MigrationException;
 
 /**
  * Class Migrations
@@ -33,7 +34,7 @@ use common_report_Report as Report;
 class Migrations extends ScriptAction
 {
 
-    const MIGRATIONS_DIR = 'migrations';
+    protected const MIGRATIONS_DIR = 'migrations';
 
     private $commands = [
         'generate' => 'migrations:generate',
@@ -67,6 +68,12 @@ class Migrations extends ScriptAction
         return 'Tao migrations tool';
     }
 
+    /**
+     * @return Report
+     * @throws MigrationException
+     * @throws ScriptException
+     * @throws \common_ext_ExtensionException
+     */
     public function run()
     {
         $command = $this->getOption('command');
@@ -90,6 +97,12 @@ class Migrations extends ScriptAction
         return new Report(Report::TYPE_INFO, $output->fetch());
     }
 
+    /**
+     * @return BufferedOutput
+     * @throws MigrationException
+     * @throws ScriptException
+     * @throws \common_ext_ExtensionException
+     */
     private function generate()
     {
         if (!$this->hasOption('extension')) {
@@ -108,41 +121,55 @@ class Migrations extends ScriptAction
         $helperSet = new HelperSet();
         $helperSet->set(new QuestionHelper(), 'question');
         $helperSet->set(new ConfigurationHelper($connection, $configuration));
-        $output = new BufferedOutput();
-        $this->execute($helperSet, $input, $output);
+        $this->execute($helperSet, $input, $output = new BufferedOutput());
+        
         return $output;
     }
 
+    /**
+     * @return BufferedOutput
+     * @throws MigrationException
+     * @throws ScriptException
+     */
     private function status()
     {
         $input = new ArrayInput(['command' => $this->commands['status']]);
-        $connection = $this->getConnection();
-
-        $configuration = $this->getConfiguration();
-        $helperSet = new HelperSet();
-        $helperSet->set(new QuestionHelper(), 'question');
-        $helperSet->set(new ConfigurationHelper($connection, $configuration));
-        $output = new BufferedOutput();
-        $this->execute($helperSet, $input, $output);
+        $this->execute(new HelperSet(), $input, $output = new BufferedOutput());
         return $output;
     }
 
+    /**
+     * @return BufferedOutput
+     * @throws MigrationException
+     * @throws ScriptException
+     */
     private function migrate()
     {
-        $input = new ArrayInput(['command' => $this->commands['migrate'], '--no-interaction']);
-        $connection = $this->getConnection();
-
-        $configuration = $this->getConfiguration();
-        $helperSet = new HelperSet();
-        $helperSet->set(new QuestionHelper(), 'question');
-        $helperSet->set(new ConfigurationHelper($connection, $configuration));
-        $output = new BufferedOutput();
-        $this->execute($helperSet, $input, $output);
+        $input = new ArrayInput([
+            'command' => $this->commands['migrate'],
+            '--no-interaction']
+        );
+        $this->execute(new HelperSet(), $input, $output = new BufferedOutput());
         return $output;
     }
 
+    /**
+     * @param HelperSet $helperSet
+     * @param InputInterface $input
+     * @param OutputInterface|null $output
+     * @throws MigrationException
+     * @throws ScriptException
+     */
     private function execute(HelperSet $helperSet, InputInterface $input, OutputInterface $output = null)
     {
+        $helperSet->set(new QuestionHelper(), 'question');
+
+        if (!$helperSet->has('configuration')) {
+            $connection = $this->getConnection();
+            $configuration = $this->getConfiguration();
+            $helperSet->set(new ConfigurationHelper($connection, $configuration));
+        }
+
         $cli = new Application('Doctrine Migrations');
         $cli->setAutoExit(false);
         $cli->setCatchExceptions(true);
@@ -157,14 +184,18 @@ class Migrations extends ScriptAction
             //new Command\RollupCommand(),
             //new Command\VersionCommand()
         ));
-
-        $cli->run($input, $output);
+        try {
+            $cli->run($input, $output);
+        } catch (MigrationException $e) {
+            $this->logWarning('Migration error: ' . $e->getMessage());
+            throw new ScriptException('Migration error: ' . $e->getMessage());
+        }
     }
 
 
     /**
      * @return Configuration
-     * @throws \Doctrine\Migrations\Exception\MigrationException
+     * @throws MigrationException
      */
     private function getConfiguration()
     {
