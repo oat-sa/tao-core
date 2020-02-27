@@ -10,14 +10,15 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use oat\generis\persistence\PersistenceManager;
 use oat\oatbox\extension\script\ScriptAction;
 use oat\oatbox\extension\script\ScriptException;
 use common_ext_Extension;
-use oat\tao\scripts\tools\migrations\Template;
 use oat\tao\scripts\tools\migrations\TaoFinder;
+use common_report_Report as Report;
 
 /**
  * Class Migrations
@@ -53,7 +54,7 @@ class Migrations extends ScriptAction
                 'prefix' => 'e',
                 'longPrefix' => 'extension',
                 'required' => false,
-                'description' => 'Extension for which migration needs to be applied'
+                'description' => 'Extension for which migration needs to be generated'
             ],
         ];
     }
@@ -76,15 +77,17 @@ class Migrations extends ScriptAction
 
         switch ($command) {
             case 'generate':
-                $this->generate();
+                $output = $this->generate();
                 break;
             case 'status':
-                $this->status();
+                $output = $this->status();
                 break;
             case 'migrate':
-                $this->migrate();
+                $output = $this->migrate();
                 break;
         }
+
+        return new Report(Report::TYPE_INFO, $output->fetch());
     }
 
     private function generate()
@@ -103,8 +106,11 @@ class Migrations extends ScriptAction
         );
         $connection = $this->getConnection();
         $helperSet = new HelperSet();
+        $helperSet->set(new QuestionHelper(), 'question');
         $helperSet->set(new ConfigurationHelper($connection, $configuration));
-        $this->execute($helperSet, $input);
+        $output = new BufferedOutput();
+        $this->execute($helperSet, $input, $output);
+        return $output;
     }
 
     private function status()
@@ -116,10 +122,9 @@ class Migrations extends ScriptAction
         $helperSet = new HelperSet();
         $helperSet->set(new QuestionHelper(), 'question');
         $helperSet->set(new ConfigurationHelper($connection, $configuration));
-        $configuration->setMigrationsDirectory(ROOT_PATH);
-        $configuration->setMigrationsFinder(new TaoFinder(ROOT_PATH));
-        $configuration->setMigrationsNamespace('oat');
-        $this->execute($helperSet, $input);
+        $output = new BufferedOutput();
+        $this->execute($helperSet, $input, $output);
+        return $output;
     }
 
     private function migrate()
@@ -131,10 +136,9 @@ class Migrations extends ScriptAction
         $helperSet = new HelperSet();
         $helperSet->set(new QuestionHelper(), 'question');
         $helperSet->set(new ConfigurationHelper($connection, $configuration));
-        $configuration->setMigrationsDirectory(ROOT_PATH);
-        $configuration->setMigrationsFinder(new TaoFinder(ROOT_PATH));
-        $configuration->setMigrationsNamespace('oat');
-        $this->execute($helperSet, $input);
+        $output = new BufferedOutput();
+        $this->execute($helperSet, $input, $output);
+        return $output;
     }
 
     private function execute(HelperSet $helperSet, InputInterface $input, OutputInterface $output = null)
@@ -157,8 +161,10 @@ class Migrations extends ScriptAction
         $cli->run($input, $output);
     }
 
+
     /**
      * @return Configuration
+     * @throws \Doctrine\Migrations\Exception\MigrationException
      */
     private function getConfiguration()
     {
@@ -172,6 +178,9 @@ class Migrations extends ScriptAction
         $configuration->setMigrationsExecutedAtColumnName('executed_at');
         $configuration->setAllOrNothing(true);
         $configuration->setCheckDatabasePlatform(false);
+        $configuration->setMigrationsDirectory(ROOT_PATH);
+        $configuration->setMigrationsFinder(new TaoFinder(ROOT_PATH));
+        $configuration->setMigrationsNamespace('oat');
 
         return $configuration;
     }
