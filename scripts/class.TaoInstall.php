@@ -30,10 +30,9 @@ use Symfony\Component\Dotenv\Dotenv;
  * @package tao
 
  */
-class tao_scripts_TaoInstall
-    extends tao_scripts_Runner
+class tao_scripts_TaoInstall extends tao_scripts_Runner
 {
-	const CONTAINER_INDEX = 'taoScriptsInstall';
+    const CONTAINER_INDEX = 'taoScriptsInstall';
 
     // --- ASSOCIATIONS ---
 
@@ -51,27 +50,27 @@ class tao_scripts_TaoInstall
      */
     public function preRun()
     {
-        $root_path = realpath(dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..').DIRECTORY_SEPARATOR;
+        $root_path = realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..') . DIRECTORY_SEPARATOR;
 
-    	$this->options = array (
-			'db_driver'	=> 'mysql',
+        $this->options =  [
+            'db_driver' => 'mysql',
             'db_host' => 'localhost',
             'db_name' => null,
             'db_pass' => '',
             'db_user' => 'tao',
-            'install_sent'	=> '1',
-            'module_host'	=> 'tao.local',
-            'module_lang'	=> 'en-US',
-            'module_mode'	=> 'debug',
-            'module_name'	=> 'mytao',
+            'install_sent'  => '1',
+            'module_host'   => 'tao.local',
+            'module_lang'   => 'en-US',
+            'module_mode'   => 'debug',
+            'module_name'   => 'mytao',
             'module_namespace' => '',
-            'module_url'	=> '',
-            'submit'	=> 'Install',
-            'user_email'	=> '',
-            'user_firstname'	=> '',
-            'user_lastname'	=> '',
-            'user_login'	=> '',
-            'user_pass'	=> '',
+            'module_url'    => '',
+            'submit'    => 'Install',
+            'user_email'    => '',
+            'user_firstname'    => '',
+            'user_lastname' => '',
+            'user_login'    => '',
+            'user_pass' => '',
             'import_local' => true,
             'instance_name' => null,
             'extensions' => null,
@@ -80,26 +79,26 @@ class tao_scripts_TaoInstall
             'operated_by_name' => null,
             'operated_by_email' => null,
             'extra_persistences' => []
-		);
+        ];
 
-    	$this->options = array_merge($this->options, $this->parameters);
+        $this->options = array_merge($this->options, $this->parameters);
 
-    	// Feature #1789: default db_name is module_name if not specified.
+        // Feature #1789: default db_name is module_name if not specified.
         $this->options['db_name'] = (empty($this->options['db_name']) ? $this->options['module_name'] : $this->options['db_name']);
 
         // If no instance_name given, it takes the value of module_name.
         $this->options['instance_name'] = (empty($this->options['instance_name']) ? $this->options['module_name'] : $this->options['instance_name']);
+        
+        // user password treatment
+        $this->options["user_pass1"] = $this->options['user_pass'];
+        // module namespace generation
+        if (empty($this->options["module_namespace"])) {
+            $this->options['module_namespace'] = 'http://' . $this->options['module_host'] . '/' . $this->options['module_name'] . '.rdf';
+        }
 
-    	// user password treatment
-    	$this->options["user_pass1"] = $this->options['user_pass'];
-    	// module namespace generation
-    	if (empty ($this->options["module_namespace"])){
-    		$this->options['module_namespace'] = 'http://'.$this->options['module_host'].'/'.$this->options['module_name'].'.rdf';
-    	}
-
-    	if (empty ($this->options['module_url'])){
-    		$this->options['module_url'] = 'http://' . $this->options['module_host'];
-    	}
+        if (empty($this->options['module_url'])) {
+            $this->options['module_url'] = 'http://' . $this->options['module_host'];
+        }
 
         $this->logDebug('Install was started with the given parameters: ' . PHP_EOL . var_export($this->options, true));
     }
@@ -113,19 +112,20 @@ class tao_scripts_TaoInstall
      */
     public function run()
     {
-    	$this->logNotice("TAO is being installed. Please wait...");
-    	try{
-	        $rootDir = dir(dirname(__FILE__) . '/../../');
-			$root = isset($this->parameters["root_path"])
+        $this->logNotice("TAO is being installed. Please wait...");
+        try {
+            $rootDir = dir(dirname(__FILE__) . '/../../');
+            $root = isset($this->parameters["root_path"])
                 ? $this->parameters["root_path"]
                 : realpath($rootDir->path) . DIRECTORY_SEPARATOR;
 
-			// Setting the installator dependencies.
-            $this->getContainer()->offsetSet(tao_install_Installator::CONTAINER_INDEX,
-                array(
-                    'root_path' 	=> $root,
-                    'install_path'	=> $root.'tao/install/'
-                )
+            // Setting the installator dependencies.
+            $this->getContainer()->offsetSet(
+                tao_install_Installator::CONTAINER_INDEX,
+                [
+                    'root_path'     => $root,
+                    'install_path'  => $root . 'tao/install/'
+                ]
             );
 
             $envFile = $root. '.env';
@@ -136,15 +136,14 @@ class tao_scripts_TaoInstall
 
             $options = array_merge($this->options, $this->argv);
 
-	        $installator = new tao_install_Installator($this->getContainer());
-			// mod rewrite cannot be detected in CLI Mode.
-			$installator->escapeCheck('custom_tao_ModRewrite');
-			$installator->install($options);
-    	}
-    	catch (Exception $e){
-    		$this->logError("A fatal error has occurred during installation: " . $e->getMessage());
-    		$this->handleError($e);
-    	}
+            $installator = new tao_install_Installator($this->getContainer());
+            // mod rewrite cannot be detected in CLI Mode.
+            $installator->escapeCheck('custom_tao_ModRewrite');
+            $installator->install($options);
+        } catch (Exception $e) {
+            $this->logError("A fatal error has occurred during installation: " . $e->getMessage());
+            $this->handleError($e);
+        }
     }
 
     /**
@@ -158,5 +157,4 @@ class tao_scripts_TaoInstall
     {
         $this->logNotice("Installation successful.");
     }
-
 }

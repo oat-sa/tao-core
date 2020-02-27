@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,7 +21,6 @@
 
 namespace oat\tao\model\notification\exception;
 
-
 class NotListedNotification extends \common_exception_ClientException
 {
 
@@ -35,5 +35,4 @@ class NotListedNotification extends \common_exception_ClientException
     {
         return __('unable to search into notification.');
     }
-
 }

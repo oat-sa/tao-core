@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,7 +20,6 @@
  */
 
 namespace oat\tao\model\theme;
-
 
 use oat\oatbox\Configurable;
 
@@ -65,7 +65,7 @@ class ThemeService extends ThemeServiceAbstract
     public function setCurrentTheme($themeId)
     {
         if (!$this->hasTheme($themeId)) {
-            throw new \common_exception_Error('Theme '. $themeId .' not found');
+            throw new \common_exception_Error('Theme ' . $themeId . ' not found');
         }
 
         $this->setOption(static::OPTION_CURRENT, $themeId);
@@ -98,7 +98,7 @@ class ThemeService extends ThemeServiceAbstract
      */
     public function removeThemeById($themeId)
     {
-        if(!$this->hasTheme($themeId)) {
+        if (!$this->hasTheme($themeId)) {
             return false;
         }
 

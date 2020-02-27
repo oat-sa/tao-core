@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -117,13 +118,11 @@ class tao_models_classes_export_RdfExporter implements tao_models_classes_export
         if (count($xmls) === 1) {
             $rdf = $xmls[0];
         } elseif (count($xmls) > 1) {
-
             $baseDom = new DomDocument();
             $baseDom->formatOutput = true;
             $baseDom->loadXML($xmls[0]);
 
             for ($i = 1, $iMax = count($xmls); $i < $iMax; $i++) {
-
                 $xmlDoc = new SimpleXMLElement($xmls[$i]);
                 foreach ($xmlDoc->getNamespaces() as $nsName => $nsUri) {
                     if (!$baseDom->documentElement->hasAttribute('xmlns:' . $nsName)) {
@@ -143,5 +142,4 @@ class tao_models_classes_export_RdfExporter implements tao_models_classes_export
 
         return $rdf;
     }
-
 }

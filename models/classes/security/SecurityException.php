@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -30,7 +31,6 @@ class SecurityException extends Exception
         $this->messageToLog = $message;
 
         parent::__construct('', $code, $previous);
-
     }
 
     public function __toString()

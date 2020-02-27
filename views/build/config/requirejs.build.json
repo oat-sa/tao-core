@@ -37,7 +37,8 @@
     "lib/uuid" : "../../../tao/views/node_modules/@oat-sa/tao-core-libs/dist/uuid",
     "core": "../../../tao/views/node_modules/@oat-sa/tao-core-sdk/dist/core",
     "util": "../../../tao/views/node_modules/@oat-sa/tao-core-sdk/dist/util",
-    "ui": "../../../tao/views/node_modules/@oat-sa/tao-core-ui/dist"
+    "ui": "../../../tao/views/node_modules/@oat-sa/tao-core-ui/dist",
+    "fastestsmallesttextencoderdecoder": "../../../tao/views/node_modules/fastestsmallesttextencoderdecoder/NodeJS/EncoderAndDecoderNodeJS.min"
   },
 
   "shim": {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -78,7 +79,7 @@ class TaskLogFilter
     public function deselect($column)
     {
         if (!in_array($column, $this->optionalColumns)) {
-            throw new \InvalidArgumentException('Column "'. $column .'"" is not valid column or not unselectable.');
+            throw new \InvalidArgumentException('Column "' . $column . '"" is not valid column or not unselectable.');
         }
 
         $this->deselectedColumns[] = $column;
@@ -182,7 +183,7 @@ class TaskLogFilter
 
         $this->filters[] =  [
             'column' => (string) $field,
-            'columnSqlTranslate' => ':'. $field . uniqid(), // we need a unique placeholder
+            'columnSqlTranslate' => ':' . $field . uniqid(), // we need a unique placeholder
             'operator' => $operator,
             'value' => $value
         ];
@@ -255,7 +256,7 @@ class TaskLogFilter
             $withParentheses = is_array($filter['value']) ? true : false;
             $type = is_array($filter['value']) ? Connection::PARAM_STR_ARRAY : null;
 
-            $qb->andWhere($filter['column'] .' '. $filter['operator'] .' '. ($withParentheses ? '(' : '') . $filter['columnSqlTranslate'] . ($withParentheses ? ')' : ''))
+            $qb->andWhere($filter['column'] . ' ' . $filter['operator'] . ' ' . ($withParentheses ? '(' : '') . $filter['columnSqlTranslate'] . ($withParentheses ? ')' : ''))
                 ->setParameter($filter['columnSqlTranslate'], $filter['value'], $type);
         }
 
@@ -382,7 +383,7 @@ class TaskLogFilter
         ];
 
         if (!in_array($op, $operators)) {
-            throw new \InvalidArgumentException('Operator "'. $op .'"" is not a valid operator.');
+            throw new \InvalidArgumentException('Operator "' . $op . '"" is not a valid operator.');
         }
     }
 }

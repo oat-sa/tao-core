@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -64,14 +65,16 @@ class OntologyMetadataInjector extends ConfigurableService implements Injector
      */
     public function setOptions(array $options)
     {
-        if (! array_key_exists(self::CONFIG_SOURCE, $options)
+        if (
+            ! array_key_exists(self::CONFIG_SOURCE, $options)
             || ! is_array($options[self::CONFIG_SOURCE])
             || empty($options[self::CONFIG_SOURCE])
         ) {
             throw new InconsistencyConfigException(__('Injector has to contains a valid "source" field.'));
         }
 
-        if (! array_key_exists(self::CONFIG_DESTINATION, $options)
+        if (
+            ! array_key_exists(self::CONFIG_DESTINATION, $options)
             || ! is_array($options[self::CONFIG_DESTINATION])
             || empty($options[self::CONFIG_DESTINATION])
         ) {
@@ -223,5 +226,4 @@ class OntologyMetadataInjector extends ConfigurableService implements Injector
 
         return 'new ' . get_class($this) . '(' . \common_Utils::toHumanReadablePhpString($params, 1) . '),';
     }
-
 }

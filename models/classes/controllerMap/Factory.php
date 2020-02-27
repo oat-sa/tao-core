@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -44,10 +45,11 @@ class Factory
      * @param string $extensionId
      * @return ControllerDescription[] array of controller descriptions
      */
-    public function getControllers($extensionId) {
+    public function getControllers($extensionId)
+    {
 
         $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById($extensionId);
-        $controllers = array();
+        $controllers = [];
         foreach ($this->getControllerClasses($ext) as $className) {
             $controllers[] = $this->getControllerDescription($className);
         }
@@ -60,7 +62,8 @@ class Factory
      * @param string $controllerClassName
      * @return ControllerDescription
      */
-    public function getControllerDescription($controllerClassName) {
+    public function getControllerDescription($controllerClassName)
+    {
         $reflector = new ReflectionClass($controllerClassName);
         return new ControllerDescription($reflector);
     }
@@ -73,10 +76,11 @@ class Factory
      * @return ActionDescription
      * @throws ActionNotFoundException
      */
-    public function getActionDescription($controllerClassName, $actionName) {
+    public function getActionDescription($controllerClassName, $actionName)
+    {
 
         if (!class_exists($controllerClassName) || !method_exists($controllerClassName, $actionName)) {
-            throw new ActionNotFoundException('Unknown '.$controllerClassName.'@'.$actionName);
+            throw new ActionNotFoundException('Unknown ' . $controllerClassName . '@' . $actionName);
         }
 
         $reflector = new \ReflectionMethod($controllerClassName, $actionName);
@@ -90,19 +94,20 @@ class Factory
      * @return array
      * @ignore
      */
-    private function getControllerClasses(\common_ext_Extension $extension) {
-        $returnValue = array();
+    private function getControllerClasses(\common_ext_Extension $extension)
+    {
+        $returnValue = [];
 
         // routes
-        $namespaces = array();
+        $namespaces = [];
         foreach ($extension->getManifest()->getRoutes() as $mapedPath => $ns) {
             if (is_string($ns)) {
                 $namespaces[] = trim($ns, '\\');
             }
         }
         if (!empty($namespaces)) {
-            common_Logger::t('Namespace found in routes for extension '. $extension->getId() );
-            $classes = array();
+            common_Logger::t('Namespace found in routes for extension ' . $extension->getId());
+            $classes = [];
             $recDir = new RecursiveDirectoryIterator($extension->getDir());
             $recIt = new RecursiveIteratorIterator($recDir);
             $regexIt = new RegexIterator($recIt, '/^.+\.php$/i', RecursiveRegexIterator::GET_MATCH);
@@ -111,7 +116,7 @@ class Factory
                 if (!empty($info['ns'])) {
                     $ns = trim($info['ns'], '\\');
                     if (!empty($info['ns']) && in_array($ns, $namespaces)) {
-                        $returnValue[$info['class']] = $ns.'\\'.$info['class'];
+                        $returnValue[$info['class']] = $ns . '\\' . $info['class'];
                     }
                 }
             }
@@ -121,14 +126,14 @@ class Factory
         if ($extension->hasConstant('DIR_ACTIONS') && file_exists($extension->getConstant('DIR_ACTIONS'))) {
             $dir = new DirectoryIterator($extension->getConstant('DIR_ACTIONS'));
             foreach ($dir as $fileinfo) {
-                if(preg_match('/^class\.[^.]*\.php$/', $fileinfo->getFilename())) {
+                if (preg_match('/^class\.[^.]*\.php$/', $fileinfo->getFilename())) {
                     $module = substr($fileinfo->getFilename(), 6, -4);
-                    $returnValue[$module] = $extension->getId().'_actions_'.$module;
+                    $returnValue[$module] = $extension->getId() . '_actions_' . $module;
                 }
             }
         }
 
-        $returnValue = array_filter( $returnValue, array($this, 'isControllerClassNameValid') );
+        $returnValue = array_filter($returnValue, [$this, 'isControllerClassNameValid']);
 
         return (array) $returnValue;
     }
@@ -148,16 +153,16 @@ class Factory
         $returnValue = true;
 
         if (!class_exists($controllerClassName)) {
-            common_Logger::w($controllerClassName.' not found');
+            common_Logger::w($controllerClassName . ' not found');
             $returnValue = false;
         } elseif (!is_subclass_of($controllerClassName, 'Module') && !is_subclass_of($controllerClassName, Controller::class)) {
-            common_Logger::w($controllerClassName.' is not a valid Controller.');
+            common_Logger::w($controllerClassName . ' is not a valid Controller.');
             $returnValue = false;
         } else {
             // abstract so just move along
             $reflection = new \ReflectionClass($controllerClassName);
             if ($reflection->isAbstract()) {
-                common_Logger::i($controllerClassName.' is abstract');
+                common_Logger::i($controllerClassName . ' is abstract');
                 $returnValue = false;
             }
         }

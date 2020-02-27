@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,36 +19,39 @@
  *
  *
  */
+
 namespace oat\tao\model\search;
 
 /**
  * Search Syntax Exception
- * 
+ *
  * @author Joel Bout <joel@taotesting.com>
  */
-class SyntaxException extends \common_Exception
-    implements \common_exception_UserReadableException 
-{	
+class SyntaxException extends \common_Exception implements \common_exception_UserReadableException
+{
+   
     private $query;
     
     private $error;
     
     /**
-     * 
+     *
      * @param unknown $queryString
      * @param unknown $userError
      */
-    public function __construct($queryString, $userError) {
+    public function __construct($queryString, $userError)
+    {
         $this->query = $queryString;
         $this->error = $userError;
-        parent::__construct('Error in query "'.$queryString.'": '.$userError);    
+        parent::__construct('Error in query "' . $queryString . '": ' . $userError);
     }
     
     /**
      * (non-PHPdoc)
      * @see common_exception_UserReadableException::getUserMessage()
      */
-    public function getUserMessage() {
+    public function getUserMessage()
+    {
         return $this->error;
     }
 }

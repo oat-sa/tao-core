@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -55,7 +56,6 @@ class RequiredActionServiceTest extends TestCase
         $requiredActionService->detachAction('testRequiredAction');
         $requiredAction = $requiredActionService->getRequiredAction('testRequiredAction');
         $this->assertNull($requiredAction);
-
     }
 
     private function getTestRequiredAction()
@@ -86,5 +86,4 @@ class RequiredActionServiceTest extends TestCase
         $config->set(\common_persistence_Manager::SERVICE_ID, $this->getPersistenceManager());
         return new ServiceManager($config);
     }
-
 }

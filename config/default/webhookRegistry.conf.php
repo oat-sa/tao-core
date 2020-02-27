@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Default config header created during install
  */
@@ -11,7 +12,8 @@
             'id' => 'testwh',
             'url' => 'https://webhookurl',
             'httpMethod' => 'PUT',
-            'maxRetry' => 5,
+            'retryMax' => 5,
+            'responseValidatoin' => false,
             'auth' => array(
                 'authClass' => '\\oat\\taoOauth\\model\\bootstrap\\OAuth2AuthType',
                 'credentials' => array(
@@ -30,9 +32,9 @@
 
  **/
 
-return new oat\tao\model\webhooks\WebhookFileRegistry(array(
-    'webhooks' => array(
-    ),
-    'events' => array(
-    )
-));
+return new oat\tao\model\webhooks\WebhookFileRegistry([
+    'webhooks' => [
+    ],
+    'events' => [
+    ]
+]);

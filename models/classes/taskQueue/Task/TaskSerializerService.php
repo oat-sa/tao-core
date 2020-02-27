@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,6 +18,7 @@
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
+
 namespace oat\tao\model\taskQueue\Task;
 
 use oat\oatbox\action\ActionService;
@@ -68,7 +70,8 @@ class TaskSerializerService extends ConfigurableService
      */
     protected function assertValidJson($basicData)
     {
-        if ( ($basicData !== null
+        if (
+            ($basicData !== null
                 && json_last_error() === JSON_ERROR_NONE
                 && isset($basicData[TaskInterface::JSON_TASK_CLASS_NAME_KEY])) === false
         ) {
@@ -92,10 +95,9 @@ class TaskSerializerService extends ConfigurableService
 
             $task->setCallable($callable);
         } catch (ResolutionException $e) {
-
             $this->logError('Callable/Action class ' . $task->getCallable() . ' does not exist', $logContext);
 
-            throw new \Exception;
+            throw new \Exception();
         }
     }
 

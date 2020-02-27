@@ -351,7 +351,7 @@ abstract class tao_helpers_form_Form
             }
         }
         if ($returnValue === null) {
-            common_Logger::w('Action with name \''.$name.'\' not found');
+            common_Logger::w('Action with name \'' . $name . '\' not found');
         }
 
         return $returnValue;
@@ -501,7 +501,6 @@ abstract class tao_helpers_form_Form
             foreach ($group['elements'] as $elementName) {
                 if ($this->getElementGroup($elementName) === $groupName && $element = $this->getElement($elementName)) {
                     if ($this->getDecorator() !== null) {
-
                         $returnValue .= $this->getDecorator()->preRender();
                     }
 
@@ -654,8 +653,10 @@ abstract class tao_helpers_form_Form
         foreach ($values as $key => $value) {
             foreach ($this->elements as $element) {
                 if ($element->getName() == $key) {
-                    if ($element instanceof tao_helpers_form_elements_Checkbox ||
-                        (method_exists($element, 'setValues') && is_array($value))) {
+                    if (
+                        $element instanceof tao_helpers_form_elements_Checkbox ||
+                        (method_exists($element, 'setValues') && is_array($value))
+                    ) {
                         $element->setValues($value);
                     } else {
                         $element->setValue($value);
@@ -732,16 +733,16 @@ abstract class tao_helpers_form_Form
      * @return mixed
      * @throws common_Exception
      */
-    public function createGroup($groupName, $groupTitle = '', array $elements = array(), array $options = array())
+    public function createGroup($groupName, $groupTitle = '', array $elements = [], array $options = [])
     {
-        $identifier = array();
+        $identifier = [];
         foreach ($elements as $element) {
             if ($element instanceof tao_helpers_form_FormElement) {
                 $identifier[] = $element->getName();
             } elseif (is_string($element)) {
                 $identifier[] = $element;
             } else {
-                throw new common_Exception('Unknown element of type '.gettype($element).' in '.__FUNCTION__);
+                throw new common_Exception('Unknown element of type ' . gettype($element) . ' in ' . __FUNCTION__);
             }
         }
         $this->groups[$groupName] = [

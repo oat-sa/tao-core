@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,6 +18,7 @@
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  *
  */
+
 namespace oat\tao\model\notification\implementation;
 
 use Doctrine\DBAL\DBALException;
@@ -27,9 +29,7 @@ use common_persistence_SqlPersistence as Persistence;
 use oat\tao\model\notification\AbstractNotificationService;
 use oat\tao\model\notification\NotificationInterface;
 
-abstract class AbstractRdsNotificationService
-    extends AbstractNotificationService
-
+class RdsNotification extends AbstractNotificationService
 {
     const NOTIF_TABLE = 'notifications';
 
@@ -57,10 +57,12 @@ abstract class AbstractRdsNotificationService
      */
     public function getPersistence()
     {
-        if($this->persistence === null) {
-            $persistenceId = $this->hasOption(self::OPTION_PERSISTENCE)
-                ? $this->getOption(self::OPTION_PERSISTENCE)
-                : self::DEFAULT_PERSISTENCE;
+        if (is_null($this->persistence)) {
+            $persistence = self::DEFAULT_PERSISTENCE;
+
+            if ($this->hasOption(self::OPTION_PERSISTENCE)) {
+                $persistence = $this->getOption(self::OPTION_PERSISTENCE);
+            }
 
             $persistenceManager = $this->getServiceLocator()->get(PersistenceManager::SERVICE_ID);
             $this->persistence  = $persistenceManager->getPersistenceById($persistenceId);
@@ -68,7 +70,8 @@ abstract class AbstractRdsNotificationService
         return $this->persistence;
     }
 
-    protected function getAllFieldString() {
+    protected function getAllFieldString()
+    {
         return self::NOTIF_FIELD_RECIPIENT . ' , ' . self::NOTIF_FIELD_STATUS . ' , ' . self::NOTIF_FIELD_SENDER . ' , ' . self::NOTIF_FIELD_SENDER_NANE
             . ' , ' . self::NOTIF_FIELD_TITLE . ' , ' .  self::NOTIF_FIELD_MESSAGE . ' , ' . self::NOTIF_FIELD_CREATION . ' , ' . self::NOTIF_FIELD_UPDATED ;
     }
@@ -81,7 +84,27 @@ abstract class AbstractRdsNotificationService
      */
     public function sendNotification(NotificationInterface $notification)
     {
-        $this->getPersistence()->insert(self::NOTIF_TABLE, $this->prepareNotification($notification));
+        $persistence = $this->getPersistence();
+
+        $platform = $this->getPersistence()->getPlatForm();
+
+        $sqlQuery    = 'INSERT INTO ' . self::NOTIF_TABLE .
+                        ' (' . $this->getAllFieldString() . ') 
+                            VALUES ( ? , ? , ? , ? , ? , ? , ? , ? )';
+
+        $data = [
+            $notification->getRecipient(),
+            $notification->getStatus(),
+            $notification->getSenderId(),
+            $notification->getSenderName(),
+            $notification->getTitle(),
+            $notification->getMessage(),
+            $platform->getNowExpression(),
+            $platform->getNowExpression()
+        ];
+
+        $persistence->exec($sqlQuery, $data);
+
         return $notification;
     }
 
@@ -92,7 +115,7 @@ abstract class AbstractRdsNotificationService
      * @return array
      */
     abstract public function prepareNotification(NotificationInterface $notification);
-    
+
     public function getNotifications($userId)
     {
         $notification = [];
@@ -108,10 +131,10 @@ abstract class AbstractRdsNotificationService
             $userId
         ];
 
-        $stmt   = $persistence->query($selectQuery , $params);
+        $stmt   = $persistence->query($selectQuery, $params);
         $result = $stmt->fetchAll();
 
-        foreach($result as $notificationDetail) {
+        foreach ($result as $notificationDetail) {
             $userId     = $notificationDetail[self::NOTIF_FIELD_RECIPIENT];
             $title      = $notificationDetail[self::NOTIF_FIELD_TITLE];
             $message    = $notificationDetail[self::NOTIF_FIELD_MESSAGE];
@@ -121,7 +144,7 @@ abstract class AbstractRdsNotificationService
             $createdAt  = $notificationDetail[self::NOTIF_FIELD_CREATION];
             $updatedAt  = $notificationDetail[self::NOTIF_FIELD_UPDATED];
             $status     = $notificationDetail[self::NOTIF_FIELD_STATUS];
-            $notification[] = new Notification($userId , $title , $message , $senderId , $senderName , $id , $createdAt , $updatedAt ,  $status);
+            $notification[] = new Notification($userId, $title, $message, $senderId, $senderName, $id, $createdAt, $updatedAt, $status);
         }
 
         return $notification;
@@ -139,10 +162,10 @@ abstract class AbstractRdsNotificationService
             $id
         ];
 
-        $stmt               = $persistence->query($selectQuery , $params);
+        $stmt               = $persistence->query($selectQuery, $params);
         $notificationDetail = $stmt->fetch();
 
-        if($notificationDetail) {
+        if ($notificationDetail) {
             $userId    = $notificationDetail[self::NOTIF_FIELD_RECIPIENT];
             $title     = $notificationDetail[self::NOTIF_FIELD_TITLE];
             $message   = $notificationDetail[self::NOTIF_FIELD_MESSAGE];
@@ -155,10 +178,10 @@ abstract class AbstractRdsNotificationService
             $user      = new \core_kernel_classes_Resource($userId);
             $sender    = new \core_kernel_classes_Resource($senderId);
 
-            return new Notification($user , $title , $message , $sender , $id , $createdAt , $updatedAt ,  $status);
+            return new Notification($user, $title, $message, $sender, $id, $createdAt, $updatedAt, $status);
         }
 
-        throw new \common_exception_NotFound('unknown notification id '. $id );
+        throw new \common_exception_NotFound('unknown notification id ' . $id);
     }
 
     public function changeStatus(NotificationInterface $notification)
@@ -178,7 +201,7 @@ abstract class AbstractRdsNotificationService
                 $notification->getId(),
             ];
 
-        return $persistence->exec($updateQuery , $data);
+        return $persistence->exec($updateQuery, $data);
     }
 
     public function notificationCount($userId)
@@ -195,10 +218,9 @@ abstract class AbstractRdsNotificationService
             $userId
         ];
 
-        $stmt   = $persistence->query($selectQuery , $params);
+        $stmt   = $persistence->query($selectQuery, $params);
 
         if (($result = $stmt->fetchAll()) !== false) {
-
             foreach ($result as $statusCount) {
                 $count[$statusCount[self::NOTIF_FIELD_STATUS]] = $statusCount['cpt'];
             }

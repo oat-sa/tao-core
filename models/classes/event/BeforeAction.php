@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,8 +18,8 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA
  *
  */
-namespace oat\tao\model\event;
 
+namespace oat\tao\model\event;
 
 use oat\oatbox\event\Event;
 
@@ -30,7 +31,6 @@ class BeforeAction implements Event
      */
     public function __construct()
     {
-
     }
 
     /**

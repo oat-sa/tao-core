@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -49,7 +50,7 @@ class ImportByHandler extends AbstractAction
         }
 
         /** @var \tao_models_classes_import_ImportHandler $importer */
-        $importer = new $params[self::PARAM_IMPORT_HANDLER];
+        $importer = new $params[self::PARAM_IMPORT_HANDLER]();
 
         $this->propagate($importer);
 

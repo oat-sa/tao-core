@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -83,7 +84,8 @@ class tao_actions_Import extends tao_actions_CommonModule
                     ImportByHandler::PARAM_PARENT_CLASS => $this->getCurrentClass()->getUri(),
                     ImportByHandler::PARAM_OWNER => \common_session_SessionManager::getSession()->getUser()->getIdentifier(),
                 ],
-                __('Import a %s into "%s"', $importer->getLabel(), $this->getCurrentClass()->getLabel()));
+                __('Import a %s into "%s"', $importer->getLabel(), $this->getCurrentClass()->getLabel())
+            );
 
             return $this->returnTaskJson($task);
         }

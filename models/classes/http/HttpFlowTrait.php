@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -89,10 +90,10 @@ trait HttpFlowTrait
         }
 
         switch ($this->getPsrRequest()->getMethod()) {
-            case 'GET' :
+            case 'GET':
                 $params = $this->getPsrRequest()->getQueryParams();
                 break;
-            case 'POST' :
+            case 'POST':
                 $params = $this->getPsrRequest()->getParsedBody();
                 break;
             default:
@@ -154,7 +155,7 @@ trait HttpFlowTrait
      * @throws \ActionEnforcingException
      * @throws \common_exception_Error
      */
-    public function forward($action, $controller = null, $extension = null, $params = array())
+    public function forward($action, $controller = null, $extension = null, $params = [])
     {
         //as we use a route resolver, it's easier to rebuild the URL to resolve it
         $this->forwardUrl(\tao_helpers_Uri::url($action, $controller, $extension, $params));

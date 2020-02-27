@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -31,7 +32,7 @@ use oat\tao\model\notification\NotificationServiceInterface;
 class NotificationServiceAggregator extends AbstractNotificationService
 {
     const OPTION_RDS_NOTIFICATION_SERVICE = 'rds';
-    
+
     /**
      * @return Persistence|null
      */
@@ -40,19 +41,19 @@ class NotificationServiceAggregator extends AbstractNotificationService
         if (!$this->hasOption(self::OPTION_RDS_NOTIFICATION_SERVICE)) {
             return null;
         }
-        
+
         /** @var array $rdsNotificationService */
         $rdsNotificationService = $this->getOption(self::OPTION_RDS_NOTIFICATION_SERVICE);
         $persistenceId = $rdsNotificationService['options'][AbstractRdsNotificationService::OPTION_PERSISTENCE];
         $persistenceManager = new PersistenceManager();
         return $persistenceManager->getPersistenceById($persistenceId);
     }
-    
+
     public function getSubServices()  {
         $subServices = $this->getOptions();
         $services    = [];
-        foreach ($subServices as $name => $subService ) {
-            $services[] = $this->getSubService($name , NotificationServiceInterface::class);
+        foreach ($subServices as $name => $subService) {
+            $services[] = $this->getSubService($name, NotificationServiceInterface::class);
         }
         return $services;
     }
@@ -71,7 +72,7 @@ class NotificationServiceAggregator extends AbstractNotificationService
         return $notification;
     }
 
-    public function getNotifications( $userId)
+    public function getNotifications($userId)
     {
         $subServices = $this->getSubServices();
 
@@ -79,14 +80,12 @@ class NotificationServiceAggregator extends AbstractNotificationService
          * @var NotificationServiceInterface  $service
          */
         foreach ($subServices as $service) {
-            if(($list = $service->getNotifications($userId)) !== false) {
+            if (($list = $service->getNotifications($userId)) !== false) {
                 return $list;
             }
         }
 
         throw new NotListedNotification();
-
-
     }
 
     public function getNotification($id)
@@ -98,7 +97,7 @@ class NotificationServiceAggregator extends AbstractNotificationService
          * @var NotificationServiceInterface  $service
          */
         foreach ($subServices as $service) {
-            if(($notification = $service->getNotification($id)) !== false) {
+            if (($notification = $service->getNotification($id)) !== false) {
                 return $notification;
             }
         }
@@ -114,7 +113,7 @@ class NotificationServiceAggregator extends AbstractNotificationService
          * @var NotificationServiceInterface  $service
          */
         foreach ($subServices as $service) {
-            if(($newNotification = $service->changeStatus($notification)) !== false) {
+            if (($newNotification = $service->changeStatus($notification)) !== false) {
                 return $newNotification;
             }
         }
@@ -122,7 +121,7 @@ class NotificationServiceAggregator extends AbstractNotificationService
         throw new NotListedNotification();
     }
 
-    public function notificationCount( $userId)
+    public function notificationCount($userId)
     {
         $subServices = $this->getSubServices();
 
@@ -130,7 +129,7 @@ class NotificationServiceAggregator extends AbstractNotificationService
          * @var NotificationServiceInterface  $service
          */
         foreach ($subServices as $service) {
-            if(($newNotification = $service->notificationCount($userId)) !== false) {
+            if (($newNotification = $service->notificationCount($userId)) !== false) {
                 return $newNotification;
             }
         }
@@ -146,12 +145,11 @@ class NotificationServiceAggregator extends AbstractNotificationService
          * @var NotificationServiceInterface  $service
          */
         foreach ($subServices as $service) {
-            if($service->getVisibility()) {
+            if ($service->getVisibility()) {
                 return true;
             }
         }
 
         return false;
     }
-
 }

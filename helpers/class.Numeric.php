@@ -48,7 +48,4 @@ class tao_helpers_Numeric
 
         return (float) $returnValue;
     }
-
 }
-
-?>

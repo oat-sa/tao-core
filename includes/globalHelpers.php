@@ -26,7 +26,8 @@
  * @param  array params an array of additionnal key/value query parameters
  * @return string
  */
-function _url($action = null, $module = null, $extension = null, $params = array()){
+function _url($action = null, $module = null, $extension = null, $params = [])
+{
     return tao_helpers_Uri::url($action, $module, $extension, $params);
 }
 
@@ -37,7 +38,8 @@ function _url($action = null, $module = null, $extension = null, $params = array
  * @param  string $input The input string
  * @return string $output The htmlized string.
  */
-function _dh($input){
+function _dh($input)
+{
     return tao_helpers_Display::htmlize($input);
 }
 
@@ -47,7 +49,8 @@ function _dh($input){
  * @param  string $input The input string.
  * @return string $output The output string without non alphanum characters.
  */
-function _clean($input){
+function _clean($input)
+{
     return tao_helpers_Display::textCleaner($input);
 }
 
@@ -55,6 +58,7 @@ function _clean($input){
  * Experimental convenience function
  * @return boolean
  */
-function _isRtl() {
+function _isRtl()
+{
     return tao_helpers_I18n::isLanguageRightToLeft(common_session_SessionManager::getSession()->getInterfaceLanguage());
 }

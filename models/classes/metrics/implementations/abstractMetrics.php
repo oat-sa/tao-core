@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * This program is free software; you can redistribute it and/or
@@ -18,8 +19,8 @@
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
-namespace oat\tao\model\metrics\implementations;
 
+namespace oat\tao\model\metrics\implementations;
 
 use oat\oatbox\service\ConfigurableService;
 

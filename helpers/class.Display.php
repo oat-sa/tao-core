@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -45,11 +46,11 @@ class tao_helpers_Display
     public static function textCutter($input, $maxLength = 75)
     {
         $encoding = self::getApplicationService()->getDefaultEncoding();
-		if (mb_strlen($input, $encoding) > $maxLength){
-			$input = "<span title='$input' class='cutted' style='cursor:pointer;'>".mb_substr($input, 0, $maxLength, $encoding)."[...]</span>";
-		}
+        if (mb_strlen($input, $encoding) > $maxLength) {
+            $input = "<span title='$input' class='cutted' style='cursor:pointer;'>" . mb_substr($input, 0, $maxLength, $encoding) . "[...]</span>";
+        }
 
-		$returnValue = $input;
+        $returnValue = $input;
 
         return (string) $returnValue;
     }
@@ -70,25 +71,23 @@ class tao_helpers_Display
 
         $randJoker = ($joker == '*');
         $length =  ((defined('TAO_DEFAULT_ENCODING')) ? mb_strlen($input, TAO_DEFAULT_ENCODING) : mb_strlen($input));
-        if($maxLength > -1 ){
+        if ($maxLength > -1) {
             $length = min($length, $maxLength);
         }
 
-		$i = 0;
-		while ($i < $length){
-			if (preg_match("/^[a-zA-Z0-9_-]{1}$/u", $input[$i])){
-				$returnValue .= $input[$i];
-			}
-			else{
-				if ($input[$i] == ' '){
-					$returnValue .= '_';
-				}
-				else{
-					$returnValue .= ((true === $randJoker) ? chr(rand(97, 122)) : $joker);
-				}
-			}
-			$i++;
-		}
+        $i = 0;
+        while ($i < $length) {
+            if (preg_match("/^[a-zA-Z0-9_-]{1}$/u", $input[$i])) {
+                $returnValue .= $input[$i];
+            } else {
+                if ($input[$i] == ' ') {
+                    $returnValue .= '_';
+                } else {
+                    $returnValue .= ((true === $randJoker) ? chr(rand(97, 122)) : $joker);
+                }
+            }
+            $i++;
+        }
 
         return (string) $returnValue;
     }
@@ -113,7 +112,8 @@ class tao_helpers_Display
     /**
      *  Convert special characters to HTML entities
      */
-    public static function htmlEscape($string) {
+    public static function htmlEscape($string)
+    {
         return htmlspecialchars($string);
     }
 
@@ -123,7 +123,8 @@ class tao_helpers_Display
      * @param string $string
      * @return string
      */
-    public static function encodeAttrValue($string) {
+    public static function encodeAttrValue($string)
+    {
         return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
     }
 
@@ -149,13 +150,14 @@ class tao_helpers_Display
         $config->set('Attr.AllowedFrameTargets', ['_blank']);
 
         $purifier = new HTMLPurifier($config);
-        return  $purifier->purify( $input );
+        return  $purifier->purify($input);
     }
 
     /**
      * @return ApplicationService
      */
-    private static function getApplicationService() {
+    private static function getApplicationService()
+    {
         return ServiceManager::getServiceManager()->get(ApplicationService::SERVICE_ID);
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -69,7 +70,7 @@ class TaskLogCollectionTest extends TestCase
                 'report' => [
                     'type' => 'info',
                     'message' => 'Running task rdf#i1508337970199318643',
-                    'data' => NULL,
+                    'data' => null,
                     'children' => []
                 ],
             ],
@@ -86,7 +87,7 @@ class TaskLogCollectionTest extends TestCase
                 'report' => [
                     'type' => 'info',
                     'message' => 'Running task #i15083379701993186432222',
-                    'data' => NULL,
+                    'data' => null,
                     'children' => []
                 ],
             ],
