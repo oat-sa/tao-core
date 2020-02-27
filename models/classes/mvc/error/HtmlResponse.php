@@ -29,15 +29,19 @@ use oat\tao\helpers\Template;
  */
 class HtmlResponse extends ResponseAbstract
 {
-    
+
     protected $contentType = 'text/html';
-    
+
     public function send()
     {
         if (DEBUG_MODE) {
             $message = $this->exception->getMessage();
             $trace = $this->exception->getTraceAsString();
         }
+        $referer = $_SERVER['HTTP_REFERER'];
+        $returnUrl = (parse_url($referer, PHP_URL_HOST) === parse_url(ROOT_URL, PHP_URL_HOST))
+            ? htmlentities($referer, ENT_QUOTES)
+            : false;
         require Template::getTemplate('error/error' . $this->httpCode . '.tpl', 'tao');
     }
 }
