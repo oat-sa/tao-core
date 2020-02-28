@@ -20,6 +20,7 @@ use common_ext_Extension;
 use oat\tao\scripts\tools\migrations\TaoFinder;
 use common_report_Report as Report;
 use Doctrine\Migrations\Exception\MigrationException;
+use Doctrine\Migrations\Tools\Console\Exception\DirectoryDoesNotExist;
 
 /**
  * Class Migrations
@@ -56,6 +57,12 @@ class Migrations extends ScriptAction
                 'longPrefix' => 'extension',
                 'required' => false,
                 'description' => 'Extension for which migration needs to be generated'
+            ],
+            'version' => [
+                'prefix' => 'v',
+                'longPrefix' => 'version',
+                'required' => false,
+                'description' => 'Version number to migrate'
             ],
         ];
     }
@@ -110,8 +117,9 @@ class Migrations extends ScriptAction
         }
 
         $extension = $this->getExtension();
-        $input = new ArrayInput(['command' => $this->commands['generate']]);
+        $input = ['command' => $this->commands['generate']];
         $configuration = $this->getConfiguration();
+        $configuration->setExtension($extension);
         $configuration->setMigrationsDirectory($extension->getDir().self::MIGRATIONS_DIR);
         $configuration->setMigrationsNamespace($this->getExtensionNamespace($extension));
         $configuration->setCustomTemplate(
@@ -121,8 +129,8 @@ class Migrations extends ScriptAction
         $helperSet = new HelperSet();
         $helperSet->set(new QuestionHelper(), 'question');
         $helperSet->set(new ConfigurationHelper($connection, $configuration));
-        $this->execute($helperSet, $input, $output = new BufferedOutput());
-        
+        $this->execute($helperSet, new ArrayInput($input), $output = new BufferedOutput());
+
         return $output;
     }
 
@@ -145,11 +153,16 @@ class Migrations extends ScriptAction
      */
     private function migrate()
     {
-        $input = new ArrayInput([
+        $input = [
             'command' => $this->commands['migrate'],
-            '--no-interaction']
-        );
-        $this->execute(new HelperSet(), $input, $output = new BufferedOutput());
+        ];
+
+        if ($this->hasOption('version')) {
+            $input['version'] = $this->getOption('version');
+        }
+
+        $input[] = '--no-interaction';
+        $this->execute(new HelperSet(), new ArrayInput($input), $output = new BufferedOutput());
         return $output;
     }
 
@@ -174,6 +187,7 @@ class Migrations extends ScriptAction
         $cli->setAutoExit(false);
         $cli->setCatchExceptions(true);
         $cli->setHelperSet($helperSet);
+        $cli->setCatchExceptions(false);
         $cli->addCommands(array(
             new Command\GenerateCommand(),
             new Command\MigrateCommand(),
@@ -186,12 +200,11 @@ class Migrations extends ScriptAction
         ));
         try {
             $cli->run($input, $output);
-        } catch (MigrationException $e) {
+        } catch (\Exception $e) {
             $this->logWarning('Migration error: ' . $e->getMessage());
             throw new ScriptException('Migration error: ' . $e->getMessage());
         }
     }
-
 
     /**
      * @return Configuration
@@ -257,7 +270,7 @@ class Migrations extends ScriptAction
      */
     private function getExtensionNamespace(common_ext_Extension $extension)
     {
-        return 'oat\\'.$extension->getId().'\\Migrations';
+        return 'oat\\'.$extension->getId().'\\migrations';
     }
 }
 
