@@ -122,6 +122,7 @@ class tao_actions_Main extends tao_actions_CommonModule
 
         $disableAutoComplete = !empty($config['disableAutocomplete']);
         $enablePasswordReveal = !empty($config['enablePasswordReveal']);
+        $disableAutofocus = !empty($config['disableAutofocus']);
 
         $enableIframeProtection = !empty($config['block_iframe_usage']) && $config['block_iframe_usage'];
         if ($enableIframeProtection) {
@@ -236,6 +237,7 @@ class tao_actions_Main extends tao_actions_CommonModule
 
         $this->setData('autocompleteDisabled', (int)$disableAutoComplete);
         $this->setData('passwordRevealEnabled', (int)$enablePasswordReveal);
+        $this->setData('autofocusDisabled', (int)$disableAutofocus);
 
         $entryPointService = $this->getServiceLocator()->get(EntryPointService::SERVICE_ID);
         $this->setData('entryPoints', $entryPointService->getEntryPoints(EntryPointService::OPTION_PRELOGIN));

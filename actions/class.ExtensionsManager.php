@@ -36,23 +36,35 @@ use oat\tao\model\service\ApplicationService;
 class tao_actions_ExtensionsManager extends tao_actions_CommonModule
 {
     /**
+     * @param array $extensions
+     *
+     * @return array
+     */
+    private function sortExtensionList(array $extensions = [])
+    {
+        usort($extensions, static function ($a, $b) {
+            /** @var common_ext_Extension $a */
+            /** @var common_ext_Extension $b */
+            return strcasecmp($a->getId(), $b->getId());
+        });
+
+        return $extensions;
+    }
+
+    /**
      * Index page
      */
     public function index()
     {
         if ($this->isDebugMode() === true) {
             $isProduction = false;
-            $availableExtArray = $this->getExtensionManager()->getAvailableExtensions();
-            usort($availableExtArray, function ($a, $b) {
-                return strcasecmp($a->getId(), $b->getId());
-            });
-            $this->setData('availableExtArray', $availableExtArray);
+            $this->setData('availableExtArray', $this->sortExtensionList($this->getExtensionManager()->getAvailableExtensions()));
         } else {
             $isProduction = true;
         }
 
         $this->setData('isProduction', $isProduction);
-        $this->setData('installedExtArray', $this->getExtensionManager()->getInstalledExtensions());
+        $this->setData('installedExtArray', $this->sortExtensionList($this->getExtensionManager()->getInstalledExtensions()));
         $this->setView('extensionManager/view.tpl');
     }
 
@@ -148,6 +160,7 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule
     public function enable()
     {
         $this->assertIsDebugMode();
+
         $extId = $this->getRequestParameter('id');
         $this->getExtensionManager()->setEnabled($extId, true);
         MenuService::flushCache();
@@ -165,6 +178,7 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule
     public function uninstall()
     {
         $this->assertIsDebugMode();
+
         try {
             $uninstaller = new \tao_install_ExtensionUninstaller($this->getCurrentExtension());
             $success = $uninstaller->uninstall();
