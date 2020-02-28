@@ -19,6 +19,8 @@
 
 namespace oat\tao\model\iconBuilder;
 
+use DOMDocument;
+
 trait IconBuilderTrait
 {
     /**
