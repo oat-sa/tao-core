@@ -21,7 +21,10 @@
 
 namespace oat\tao\model\oauth\lockout;
 
+use IMSGlobal\LTI\OAuth\OAuthRequest;
 use oat\oatbox\service\ConfigurableService;
+use oat\oatbox\service\exception\InvalidService;
+use oat\oatbox\service\exception\InvalidServiceManagerException;
 
 /**
  * Basic implementation of Lockout service, that allows all requests
@@ -29,16 +32,36 @@ use oat\oatbox\service\ConfigurableService;
  */
 class NoLockout extends ConfigurableService implements LockoutInterface
 {
-    public function logFailedAttempt(): void
+    public const OPTION_LOCKOUT_STORAGE = 'storage';
+
+    public const OPTION_THRESHOLD = 'threshold';
+
+
+    /**
+     * @param OAuthRequest $request
+     */
+    public function logFailedAttempt(OAuthRequest $request)
     {
 
     }
 
     /**
+     * @param OAuthRequest $request
+     *
      * @return bool
      */
-    public function isAllowed(): bool
+    public function isAllowed(OAuthRequest $request)
     {
         return true;
+    }
+
+    /**
+     * @return mixed
+     * @throws InvalidService
+     * @throws InvalidServiceManagerException
+     */
+    protected function getLockoutStorage()
+    {
+        return $this->getSubService(self::OPTION_LOCKOUT_STORAGE);
     }
 }
