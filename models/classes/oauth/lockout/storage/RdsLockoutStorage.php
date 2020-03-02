@@ -16,40 +16,19 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2020 (original work) (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT)
- *
  */
 
-namespace oat\tao\model\oauth\lockout;
+namespace oat\tao\model\oauth\lockout\storage;
 
-use IMSGlobal\LTI\OAuth\OAuthRequest;
+use oat\oatbox\service\ConfigurableService;
 
 /**
- * Checks if the OAuth Session should be locked or not
+ * Class RdsLockoutStorage
  *
- * @package oat\tao\model\oauth\lockout
+ * @author Ivan Klimchuk <ivan@taotesting.com>
+ * @package oat\tao\model\oauth\lockout\storage
  */
-interface LockoutInterface
+class RdsLockoutStorage extends ConfigurableService implements LockoutStorageInterface
 {
-    protected const REASON_INVALID_KEY = 'INVALID_KEY';
-    protected const REASON_INVALID_SECRET = 'INVALID_SECRET';
 
-    /**
-     * Store the data about current session and failed attempts
-     * to get possibility to analyze and make decision about locking
-     * based on stored data
-     *
-     * @param OAuthRequest $request
-     *
-     * @return void
-     */
-    public function logFailedAttempt(OAuthRequest $request);
-
-    /**
-     * Checks if current session is allowed based on previous failed attempts
-     *
-     * @param OAuthRequest $request
-     *
-     * @return bool
-     */
-    public function isAllowed(OAuthRequest $request);
 }
