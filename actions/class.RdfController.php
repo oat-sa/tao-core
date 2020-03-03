@@ -419,19 +419,21 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             tao_helpers_Uri::encode($this->getRequestParameter('classUri'))
         );
 
+        $classUri       = $class->getUri();
+        $hasWriteAccess = $this->hasWriteAccess($classUri);
+
         $editClassLabelForm = new tao_actions_form_EditClassLabel(
             $class,
             $this->getRequestParameters(),
             $signature,
-            [FormContainer::CSRF_PROTECTION_OPTION => true]
+            [FormContainer::CSRF_PROTECTION_OPTION => true, FormContainer::IS_DISABLED => !$hasWriteAccess]
         );
 
         $myForm = $editClassLabelForm->getForm();
 
-        $classUri = $class->getUri();
 
         if ($myForm->isSubmited() && $myForm->isValid()) {
-            if ($this->hasWriteAccess($classUri)) {
+            if ($hasWriteAccess) {
                 $class->setLabel($myForm->getValue(tao_helpers_Uri::encode(OntologyRdfs::RDFS_LABEL)));
 
                 $this->setData('selectNode', tao_helpers_Uri::encode($classUri));

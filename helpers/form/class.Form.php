@@ -51,7 +51,7 @@ abstract class tao_helpers_form_Form
      * the list of element composing the form
      *
      * @access protected
-     * @var array
+     * @var tao_helpers_form_FormElement[]
      */
     protected $elements = [];
 
@@ -59,7 +59,7 @@ abstract class tao_helpers_form_Form
      * the actions of the form by context
      *
      * @access protected
-     * @var array
+     * @var tao_helpers_form_FormElement[][]
      */
     protected $actions = [];
 
@@ -379,7 +379,6 @@ abstract class tao_helpers_form_Form
      * @access public
      * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  array decorators
-     * @return mixed
      */
     public function setDecorators($decorators)
     {
@@ -668,6 +667,16 @@ abstract class tao_helpers_form_Form
     }
 
     /**
+     * Disables all elements of the form
+     */
+    public function disableElements()
+    {
+        foreach ($this->elements as $element) {
+            $element->setAttribute('disabled', 'disabled');
+        }
+    }
+
+    /**
      * Get the current values of the form
      *
      * @access public
@@ -714,7 +723,6 @@ abstract class tao_helpers_form_Form
      * @access public
      * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  array $groups
-     * @return mixed
      */
     public function setGroups($groups)
     {
@@ -730,7 +738,7 @@ abstract class tao_helpers_form_Form
      * @param  string $groupTitle
      * @param  array $elements array of form elements or their identifiers
      * @param  array $options
-     * @return mixed
+     *
      * @throws common_Exception
      */
     public function createGroup($groupName, $groupTitle = '', array $elements = [], array $options = [])
