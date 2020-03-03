@@ -672,6 +672,10 @@ abstract class tao_helpers_form_Form
     public function disableElements()
     {
         foreach ($this->elements as $element) {
+            if ($element instanceof tao_helpers_form_elements_Hidden) {
+                continue;
+            }
+
             $element->setAttribute('disabled', 'disabled');
         }
     }
