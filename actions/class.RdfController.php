@@ -24,12 +24,12 @@
 
 use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
-use oat\oatbox\service\ServiceManager;
 use oat\tao\model\accessControl\data\DataAccessControl;
 use oat\tao\model\controller\SignedFormInstance;
 use oat\tao\model\lock\LockManager;
 use oat\tao\model\menu\ActionService;
 use oat\tao\model\menu\MenuService;
+use oat\tao\model\metadata\exception\InconsistencyConfigException;
 use oat\tao\model\resources\ResourceService;
 use oat\tao\model\security\SecurityException;
 use oat\tao\model\security\SignatureGenerator;
@@ -410,14 +410,8 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
      */
     public function editClassLabel()
     {
-        $class = $this->getCurrentClass();
-
-        /** @var SignatureGenerator $signatureGenerator */
-        $signatureGenerator = ServiceManager::getServiceManager()->get(SignatureGenerator::class);
-
-        $signature = $signatureGenerator->generate(
-            tao_helpers_Uri::encode($this->getRequestParameter('classUri'))
-        );
+        $class     = $this->getCurrentClass();
+        $signature = $this->createFormSignature();
 
         $classUri       = $class->getUri();
         $hasWriteAccess = $this->hasWriteAccess($classUri);
@@ -454,7 +448,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
      * @requiresRight id WRITE
      *
      * @throws SecurityException
-     * @throws \oat\tao\model\metadata\exception\InconsistencyConfigException
+     * @throws InconsistencyConfigException
      * @throws common_exception_BadRequest
      * @throws common_exception_Error
      */
@@ -1326,5 +1320,25 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
     protected function getResourceService()
     {
         return $this->getServiceLocator()->get(ResourceService::SERVICE_ID);
+    }
+
+    /**
+     * @return SignatureGenerator
+     */
+    private function getSignatureGenerator()
+    {
+        return $this->getServiceLocator()->get(SignatureGenerator::SERVICE_ID);
+    }
+
+    /**
+     * @return string
+     *
+     * @throws InconsistencyConfigException
+     */
+    private function createFormSignature()
+    {
+        return $this->getSignatureGenerator()->generate(
+            tao_helpers_Uri::encode($this->getRequestParameter('classUri'))
+        );
     }
 }
