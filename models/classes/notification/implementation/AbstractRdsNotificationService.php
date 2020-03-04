@@ -25,6 +25,7 @@ use common_exception_Error;
 use common_exception_NotFound;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\Table;
+use oat\generis\model\OntologyAwareTrait;
 use oat\generis\persistence\PersistenceManager;
 use common_persistence_SqlPersistence as Persistence;
 use oat\tao\model\notification\AbstractNotificationService;
@@ -32,6 +33,8 @@ use oat\tao\model\notification\NotificationInterface;
 
 abstract class AbstractRdsNotificationService extends AbstractNotificationService
 {
+    use OntologyAwareTrait;
+
     public const NOTIF_TABLE = 'notifications';
 
     public const NOTIF_FIELD_ID           = 'id';
@@ -144,8 +147,8 @@ abstract class AbstractRdsNotificationService extends AbstractNotificationServic
             $updatedAt = $notificationDetail[self::NOTIF_FIELD_UPDATED];
             $status    = $notificationDetail[self::NOTIF_FIELD_STATUS];
 
-            $user      = new \core_kernel_classes_Resource($userId);
-            $sender    = new \core_kernel_classes_Resource($senderId);
+            $user      = $this->getResource($userId);
+            $sender    = $this->getResource($senderId);
 
             return new Notification($user, $title, $message, $sender, $id, $createdAt, $updatedAt, $status);
         }
