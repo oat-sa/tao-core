@@ -46,20 +46,11 @@ class Notification implements NotificationInterface, \JsonSerializable
 
     /**
      * AbstractNotification constructor.
-     * @param string $userId
-     * @param string $title
-     * @param string $message
-     * @param string $senderId
-     * @param string $senderName
-     * @param null|string $id
-     * @param null|string $createdAt
-     * @param null|string $updatedAt
-     * @param int $status
      */
-    public function __construct($userId, $title, $message, $senderId, $senderName, $id = null, $createdAt = null, $updatedAt = null, $status = 0)
+    public function __construct(string $userId, string $title, string $message, string $senderId, string $senderName, string $id = null, string $createdAt = null, string $updatedAt = null,  int $status = 0)
     {
         $this->id         = $id;
-        $this->status     = intval($status);
+        $this->status     = $status;
         $this->recipient  = $userId;
         $this->senderId   = $senderId;
         $this->senderName = $senderName;
@@ -69,72 +60,47 @@ class Notification implements NotificationInterface, \JsonSerializable
         $this->updatedAt  = $updatedAt;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getStatus()
+    public function getStatus(): int
     {
         return $this->status;
     }
 
-    /**
-     * @return string
-     */
-    public function getRecipient()
+    public function getRecipient(): string
     {
         return $this->recipient;
     }
 
-    /**
-     * @return string
-     */
-    public function getSenderId()
+    public function getSenderId(): string
     {
         return $this->senderId;
     }
 
-    /**
-     * @return string
-     */
-    public function getSenderName()
+    public function getSenderName(): string
     {
         return $this->senderName;
     }
 
-    public function getMessage()
+    public function getMessage():string
     {
         return $this->message;
     }
 
-    /**
-     * @return string
-     */
-    public function getId()
+    public function getId(): string
     {
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
-    public function getCreatedAt()
+    public function getCreatedAt(): int
     {
         return strtotime($this->createdAt);
     }
 
-    /**
-     * @return string
-     */
-    public function getUpdatedAt()
+    public function getUpdatedAt(): int
     {
         return strtotime($this->updatedAt);
     }
 
-    /**
-     * @param int $status
-     * @return $this
-     */
-    public function setStatus($status)
+    public function setStatus(int $status): NotificationInterface
     {
         if (is_int($status)) {
             $this->status = $status;
@@ -145,36 +111,32 @@ class Notification implements NotificationInterface, \JsonSerializable
         return $this;
     }
 
-    /**
-     * @param string $id
-     * @return $this
-     */
-    public function setId($id)
+    public function setId(string $id): NotificationInterface
     {
-        if (is_null($this->id)) {
+        if ($this->id === null) {
             $this->id = $id;
         }
         return $this;
     }
 
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return
             [
-                'id'         => $this->getId(),
-                'status'     => $this->getStatus(),
-                'recipient'  => $this->getRecipient(),
-                'sender'     => $this->getSenderId(),
+                'id' => $this->getId(),
+                'status' => $this->getStatus(),
+                'recipient' => $this->getRecipient(),
+                'sender' => $this->getSenderId(),
                 'senderName' => $this->getSenderId(),
-                'title'      => $this->getTitle(),
-                'message'    => $this->getMessage(),
-                'createdAt'  => $this->getCreatedAt(),
-                'updatedAt'  => $this->getUpdatedAt(),
+                'title' => $this->getTitle(),
+                'message' => $this->getMessage(),
+                'createdAt' => $this->getCreatedAt(),
+                'updatedAt' => $this->getUpdatedAt(),
             ];
     }
 }

@@ -32,25 +32,25 @@ interface NotificationInterface
     const READ_STATUS     = 3;
     const ARCHIVED_STATUS = 4;
 
-    public function getStatus();
+    public function getStatus(): int;
 
-    public function getRecipient();
+    public function getRecipient(): string;
 
-    public function getSenderId();
+    public function getSenderId(): string;
 
-    public function getSenderName();
+    public function getSenderName(): string;
 
-    public function getMessage();
+    public function getMessage(): string;
 
-    public function getCreatedAt();
+    public function getCreatedAt(): int;
 
-    public function getUpdatedAt();
+    public function getUpdatedAt(): int;
 
-    public function getId();
+    public function getId(): string;
 
-    public function setStatus($status);
+    public function setStatus(int $status): self;
 
-    public function setId($id);
+    public function setId(string $id): self;
 
-    public function getTitle();
+    public function getTitle(): string;
 }
