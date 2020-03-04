@@ -29,25 +29,23 @@ use common_persistence_SqlPersistence as Persistence;
 use oat\tao\model\notification\AbstractNotificationService;
 use oat\tao\model\notification\NotificationInterface;
 
-abstract class AbstractRdsNotificationService
-    extends AbstractNotificationService
-
+abstract class AbstractRdsNotificationService extends AbstractNotificationService
 {
-    const NOTIF_TABLE = 'notifications';
+    public const NOTIF_TABLE = 'notifications';
 
-    const NOTIF_FIELD_ID           = 'id';
-    const NOTIF_FIELD_RECIPIENT    = 'recipient';
-    const NOTIF_FIELD_TITLE        = 'title';
-    const NOTIF_FIELD_STATUS       = 'status';
-    const NOTIF_FIELD_SENDER       = 'sender_id';
-    const NOTIF_FIELD_SENDER_NANE  = 'sender_name';
-    const NOTIF_FIELD_MESSAGE      = 'message';
-    const NOTIF_FIELD_CREATION     = 'created_at';
-    const NOTIF_FIELD_UPDATED      = 'updated_at';
+    public const NOTIF_FIELD_ID           = 'id';
+    public const NOTIF_FIELD_RECIPIENT    = 'recipient';
+    public const NOTIF_FIELD_TITLE        = 'title';
+    public const NOTIF_FIELD_STATUS       = 'status';
+    public const NOTIF_FIELD_SENDER       = 'sender_id';
+    public const NOTIF_FIELD_SENDER_NANE  = 'sender_name';
+    public const NOTIF_FIELD_MESSAGE      = 'message';
+    public const NOTIF_FIELD_CREATION     = 'created_at';
+    public const NOTIF_FIELD_UPDATED      = 'updated_at';
 
-    const OPTION_PERSISTENCE       = 'persistence';
+    public const OPTION_PERSISTENCE       = 'persistence';
 
-    const DEFAULT_PERSISTENCE      = 'default';
+    public const DEFAULT_PERSISTENCE      = 'default';
 
     /**
      * @var Persistence
