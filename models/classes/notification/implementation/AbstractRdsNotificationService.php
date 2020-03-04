@@ -21,7 +21,6 @@
 
 namespace oat\tao\model\notification\implementation;
 
-use common_exception_Error;
 use common_exception_NotFound;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\Table;
@@ -84,7 +83,7 @@ abstract class AbstractRdsNotificationService extends AbstractNotificationServic
      */
     abstract public function prepareNotification(NotificationInterface $notification): array;
 
-    public function getNotifications($userId): array
+    public function getNotifications(string $userId): array
     {
         $notification = [];
         $persistence = $this->getPersistence();
@@ -119,10 +118,9 @@ abstract class AbstractRdsNotificationService extends AbstractNotificationServic
     }
 
     /**
-     * @throws common_exception_Error
      * @throws common_exception_NotFound
      */
-    public function getNotification($id): Notification
+    public function getNotification(string $id): NotificationInterface
     {
         $persistence = $this->getPersistence();
 
@@ -176,7 +174,7 @@ abstract class AbstractRdsNotificationService extends AbstractNotificationServic
         return $persistence->exec($updateQuery, $data);
     }
 
-    public function notificationCount($userId): array
+    public function notificationCount(string $userId): array
     {
         $persistence = $this->getPersistence();
         $count = [ NotificationInterface::CREATED_STATUS => 0 ];
@@ -203,8 +201,6 @@ abstract class AbstractRdsNotificationService extends AbstractNotificationServic
 
     /**
      * Creates the table according to the db engine.
-     * @param Schema $schema
-     * @return Table
      */
     abstract public function createNotificationTable(Schema $schema): Table;
 }

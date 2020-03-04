@@ -21,6 +21,7 @@ namespace oat\tao\model\notification\implementation;
 
 use Doctrine\DBAL\Schema\Schema;
 use oat\tao\model\notification\NotificationInterface;
+use Doctrine\DBAL\Schema\Table;
 
 class RdsNotificationService extends AbstractRdsNotificationService
 {
@@ -28,7 +29,7 @@ class RdsNotificationService extends AbstractRdsNotificationService
     /**
      * @inheritdoc
      */
-    public function prepareNotification(NotificationInterface $notification)
+    public function prepareNotification(NotificationInterface $notification): array
     {
         $platform = $this->getPersistence()->getPlatForm();
         return [
@@ -46,9 +47,9 @@ class RdsNotificationService extends AbstractRdsNotificationService
     /**
      * @inheritdoc
      */
-    public function createNotificationTable(Schema $schema)
+    public function createNotificationTable(Schema $schema): Table
     {
-        $table = $schema->createtable(self::NOTIF_TABLE);
+        $table = $schema->createTable(self::NOTIF_TABLE);
         $table->addColumn(self::NOTIF_FIELD_ID, 'integer', ['autoincrement' => true, 'notnull' => true]);
         $table->addColumn(self::NOTIF_FIELD_RECIPIENT, 'string', ['length' => 255, 'notnull' => true]);
         $table->addColumn(self::NOTIF_FIELD_STATUS, 'integer', ['length' => 255, 'notnull' => false, 'default' => 0]);

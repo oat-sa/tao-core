@@ -23,7 +23,6 @@ namespace oat\tao\model\notification\implementation;
 
 use common_persistence_Persistence as Persistence;
 use oat\generis\persistence\PersistenceManager;
-use oat\oatbox\service\ServiceManager;
 use oat\tao\model\notification\AbstractNotificationService;
 use oat\tao\model\notification\exception\NotListedNotification;
 use oat\tao\model\notification\NotificationInterface;
@@ -36,7 +35,7 @@ class NotificationServiceAggregator extends AbstractNotificationService
     /**
      * @return Persistence|null
      */
-    public function getPersistence()
+    public function getPersistence(): Persistence
     {
         if (!$this->hasOption(self::OPTION_RDS_NOTIFICATION_SERVICE)) {
             return null;
@@ -49,7 +48,7 @@ class NotificationServiceAggregator extends AbstractNotificationService
         return $persistenceManager->getPersistenceById($persistenceId);
     }
 
-    public function getSubServices()
+    public function getSubServices(): array
     {
         $subServices = $this->getOptions();
         $services    = [];
@@ -59,7 +58,7 @@ class NotificationServiceAggregator extends AbstractNotificationService
         return $services;
     }
 
-    public function sendNotification(NotificationInterface $notification)
+    public function sendNotification(NotificationInterface $notification): NotificationInterface
     {
         $subServices = $this->getSubServices();
 
@@ -73,12 +72,15 @@ class NotificationServiceAggregator extends AbstractNotificationService
         return $notification;
     }
 
-    public function getNotifications($userId)
+    /**
+     * @throws NotListedNotification
+     */
+    public function getNotifications(string $userId): array
     {
         $subServices = $this->getSubServices();
 
         /**
-         * @var NotificationServiceInterface  $service
+         * @var NotificationServiceInterface $service
          */
         foreach ($subServices as $service) {
             if (($list = $service->getNotifications($userId)) !== false) {
@@ -89,7 +91,10 @@ class NotificationServiceAggregator extends AbstractNotificationService
         throw new NotListedNotification();
     }
 
-    public function getNotification($id)
+    /**
+     * @throws NotListedNotification
+     */
+    public function getNotification(string $id): NotificationInterface
     {
 
         $subServices = $this->getSubServices();
@@ -106,7 +111,10 @@ class NotificationServiceAggregator extends AbstractNotificationService
         throw new NotListedNotification();
     }
 
-    public function changeStatus(NotificationInterface $notification)
+    /**
+     * @throws NotListedNotification
+     */
+    public function changeStatus(NotificationInterface $notification): bool
     {
         $subServices = $this->getSubServices();
 
@@ -122,7 +130,7 @@ class NotificationServiceAggregator extends AbstractNotificationService
         throw new NotListedNotification();
     }
 
-    public function notificationCount($userId)
+    public function notificationCount(string $userId): array
     {
         $subServices = $this->getSubServices();
 
@@ -138,7 +146,7 @@ class NotificationServiceAggregator extends AbstractNotificationService
         throw new NotListedNotification();
     }
 
-    public function getVisibility()
+    public function getVisibility(): bool
     {
         $subServices = $this->getSubServices();
 

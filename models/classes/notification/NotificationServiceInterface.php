@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
  *
  */
 
@@ -23,41 +23,17 @@ namespace oat\tao\model\notification;
 
 interface NotificationServiceInterface
 {
+    public const SERVICE_ID  = 'tao/notification';
 
-    const SERVICE_ID  = 'tao/notification';
+    public function sendNotification(NotificationInterface $notification): NotificationInterface;
 
-    /**
-     * @param NotificationInterface $notification
-     * @return NotificationInterface
-     */
-    public function sendNotification(NotificationInterface $notification);
+    public function getNotifications(string $userId): array;
 
-    /**
-     * @param string $userId
-     * @return array an array of NotificationServiceInterface
-     */
-    public function getNotifications($userId);
+    public function getNotification(string $id): NotificationInterface;
 
-    /**
-     * @param string $id
-     * @return NotificationServiceInterface
-     */
-    public function getNotification($id);
+    public function changeStatus(NotificationInterface $notification): bool;
 
-    /**
-     * @param NotificationInterface $notification
-     * @return boolean
-     */
-    public function changeStatus(NotificationInterface $notification);
+    public function notificationCount(string $userId): array;
 
-    /**
-     * @param string $userId
-     * @return array
-     */
-    public function notificationCount($userId);
-
-    /**
-     * @return boolean
-     */
-    public function getVisibility();
+    public function getVisibility(): bool;
 }

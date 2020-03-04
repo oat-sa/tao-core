@@ -22,6 +22,7 @@ namespace oat\tao\model\notification\implementation;
 use Doctrine\DBAL\Schema\Schema;
 use oat\generis\Helper\UuidPrimaryKeyTrait;
 use oat\tao\model\notification\NotificationInterface;
+use Doctrine\DBAL\Schema\Table;
 
 class NewSqlNotificationService extends AbstractRdsNotificationService
 {
@@ -30,7 +31,7 @@ class NewSqlNotificationService extends AbstractRdsNotificationService
     /**
      * @inheritdoc
      */
-    public function prepareNotification(NotificationInterface $notification)
+    public function prepareNotification(NotificationInterface $notification): array
     {
         $platform = $this->getPersistence()->getPlatForm();
         return [
@@ -49,7 +50,7 @@ class NewSqlNotificationService extends AbstractRdsNotificationService
     /**
      * @inheritdoc
      */
-    public function createNotificationTable(Schema $schema)
+    public function createNotificationTable(Schema $schema): Table
     {
         $table = $schema->createtable(self::NOTIF_TABLE);
         $table->addColumn(self::NOTIF_FIELD_ID, 'string', ['length' => 36, 'notnull' => true]);
