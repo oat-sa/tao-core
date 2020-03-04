@@ -15,13 +15,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
  *
  */
 
 namespace oat\tao\model\notification\implementation;
 
-use Doctrine\DBAL\DBALException;
+use common_exception_Error;
+use common_exception_NotFound;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\Table;
 use oat\generis\persistence\PersistenceManager;
@@ -47,15 +48,10 @@ abstract class AbstractRdsNotificationService extends AbstractNotificationServic
 
     public const DEFAULT_PERSISTENCE      = 'default';
 
-    /**
-     * @var Persistence
-     */
+    /** @var Persistence */
     protected $persistence;
 
-    /**
-     * @return Persistence
-     */
-    public function getPersistence()
+    public function getPersistence(): Persistence
     {
         if($this->persistence === null) {
             $persistenceId = $this->hasOption(self::OPTION_PERSISTENCE)
@@ -68,19 +64,13 @@ abstract class AbstractRdsNotificationService extends AbstractNotificationServic
         return $this->persistence;
     }
 
-    protected function getAllFieldString()
+    protected function getAllFieldString(): string
     {
         return self::NOTIF_FIELD_RECIPIENT . ' , ' . self::NOTIF_FIELD_STATUS . ' , ' . self::NOTIF_FIELD_SENDER . ' , ' . self::NOTIF_FIELD_SENDER_NANE
             . ' , ' . self::NOTIF_FIELD_TITLE . ' , ' .  self::NOTIF_FIELD_MESSAGE . ' , ' . self::NOTIF_FIELD_CREATION . ' , ' . self::NOTIF_FIELD_UPDATED ;
     }
 
-    /**
-     * @param NotificationInterface $notification
-     *
-     * @return NotificationInterface
-     * @throws DBALException
-     */
-    public function sendNotification(NotificationInterface $notification)
+    public function sendNotification(NotificationInterface $notification): NotificationInterface
     {
         $this->getPersistence()->insert(self::NOTIF_TABLE, $this->prepareNotification($notification));
         return $notification;
@@ -88,13 +78,10 @@ abstract class AbstractRdsNotificationService extends AbstractNotificationServic
 
     /**
      * Prepares the fields to insert according to db engine.
-     * @param NotificationInterface $notification
-     *
-     * @return array
      */
-    abstract public function prepareNotification(NotificationInterface $notification);
+    abstract public function prepareNotification(NotificationInterface $notification): array;
 
-    public function getNotifications($userId)
+    public function getNotifications($userId): array
     {
         $notification = [];
         $persistence = $this->getPersistence();
@@ -128,7 +115,11 @@ abstract class AbstractRdsNotificationService extends AbstractNotificationServic
         return $notification;
     }
 
-    public function getNotification($id)
+    /**
+     * @throws common_exception_Error
+     * @throws common_exception_NotFound
+     */
+    public function getNotification($id): Notification
     {
         $persistence = $this->getPersistence();
 
@@ -159,10 +150,10 @@ abstract class AbstractRdsNotificationService extends AbstractNotificationServic
             return new Notification($user, $title, $message, $sender, $id, $createdAt, $updatedAt, $status);
         }
 
-        throw new \common_exception_NotFound('unknown notification id ' . $id);
+        throw new common_exception_NotFound('unknown notification id ' . $id);
     }
 
-    public function changeStatus(NotificationInterface $notification)
+    public function changeStatus(NotificationInterface $notification): bool
     {
         $updateQuery = 'UPDATE ' . self::NOTIF_TABLE . ' SET ' .
                             self::NOTIF_FIELD_UPDATED . ' = ? ,' .
@@ -182,7 +173,7 @@ abstract class AbstractRdsNotificationService extends AbstractNotificationServic
         return $persistence->exec($updateQuery, $data);
     }
 
-    public function notificationCount($userId)
+    public function notificationCount($userId): array
     {
         $persistence = $this->getPersistence();
         $count = [ NotificationInterface::CREATED_STATUS => 0 ];
@@ -212,5 +203,5 @@ abstract class AbstractRdsNotificationService extends AbstractNotificationServic
      * @param Schema $schema
      * @return Table
      */
-    abstract public function createNotificationTable(Schema $schema);
+    abstract public function createNotificationTable(Schema $schema): Table;
 }
