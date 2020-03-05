@@ -29,9 +29,11 @@ use oat\tao\model\event\UserRemovedEvent;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\user\TaoRoles;
 use oat\oatbox\service\ServiceManager;
+use oat\tao\model\event\UserUpdatedEvent;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\ClassServiceTrait;
 use oat\tao\model\GenerisServiceTrait;
+use oat\generis\Helper\UserHashForEncryption;
 
 /**
  * This class provide service on user management
@@ -543,5 +545,29 @@ class tao_models_classes_UserService extends ConfigurableService implements core
         ) {
             throw new common_exception_Error('Permission denied');
         }
+    }
+
+    /**
+     * @param core_kernel_classes_Resource $user
+     * @param array $values
+     * @param string|null $password
+     *
+     * @throws tao_models_classes_dataBinding_GenerisFormDataBindingException
+     *
+     * @return bool
+     */
+    public function triggerUpdatedEvent(core_kernel_classes_Resource $user, array $values, $password = null)
+    {
+        $triggered = false;
+        $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($user);
+
+        if ($binder->bind($values)) {
+            $data = isset($password) ? ['hashForKey' => UserHashForEncryption::hash($password)] : [];
+            $this->getEventManager()->trigger(new UserUpdatedEvent($user, array_merge($values, $data)));
+
+            $triggered = true;
+        }
+
+        return $triggered;
     }
 }

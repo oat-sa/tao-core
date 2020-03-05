@@ -237,9 +237,7 @@ class tao_actions_Users extends tao_actions_CommonModule
     {
         $this->defaultData();
         $container = new tao_actions_form_Users(
-            $this->getClass(
-                TaoOntology::CLASS_URI_TAO_USER
-            ),
+            $this->getClass(TaoOntology::CLASS_URI_TAO_USER),
             null,
             false,
             [FormContainer::CSRF_PROTECTION_OPTION => true]
@@ -252,14 +250,10 @@ class tao_actions_Users extends tao_actions_CommonModule
             $plainPassword = $values['password1'];
             unset($values['password1'], $values['password2']);
 
-            $user = $container->getUser();
-            $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($container->getUser());
+            /** @var tao_models_classes_UserService $userService */
+            $userService = $this->getServiceLocator()->get(tao_models_classes_UserService::class);
 
-            if ($binder->bind($values)) {
-                $this->getEventManager()->trigger(new UserUpdatedEvent(
-                    $user,
-                    array_merge($values, ['hashForKey' => UserHashForEncryption::hash($plainPassword)])
-                ));
+            if ($userService->triggerUpdatedEvent($container->getUser(), $values, $plainPassword)) {
                 $this->setData('message', __('User added'));
                 $this->setData('exit', true);
             }
@@ -334,7 +328,6 @@ class tao_actions_Users extends tao_actions_CommonModule
     public function edit()
     {
         $this->defaultData();
-        $userService = $this->getServiceLocator()->get(tao_models_classes_UserService::class);
         $user = $this->getUserResource();
 
         $types = $user->getTypes();
@@ -348,9 +341,12 @@ class tao_actions_Users extends tao_actions_CommonModule
 
         if ($myForm->isSubmited() && $myForm->isValid()) {
             $values = $myForm->getValues();
+            $plainPassword = null;
+
             if (!empty($values['password2']) && !empty($values['password3'])) {
-                $plainPassword =  $values['password2'];
-                $values[GenerisRdf::PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($values['password2']);
+                $plainPassword = $values['password2'];
+                $values[GenerisRdf::PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()
+                    ->encrypt($values['password2']);
             }
 
             unset($values['password2'], $values['password3']);
@@ -362,6 +358,8 @@ class tao_actions_Users extends tao_actions_CommonModule
                 unset($values[GenerisRdf::PROPERTY_USER_DEFLG]);
             }
 
+            /** @var tao_models_classes_UserService $userService */
+            $userService = $this->getServiceLocator()->get(tao_models_classes_UserService::class);
             $userService->checkCurrentUserAccess($values[GenerisRdf::PROPERTY_USER_ROLES]);
 
             // leave roles which are not in the allowed list for current user
@@ -370,17 +368,7 @@ class tao_actions_Users extends tao_actions_CommonModule
             $staticRoles = array_diff($oldRoles, $allowedRoles);
             $values[GenerisRdf::PROPERTY_USER_ROLES] = array_merge($values[GenerisRdf::PROPERTY_USER_ROLES], $staticRoles);
 
-            $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($user);
-
-            if ($binder->bind($values)) {
-                $data = [];
-                if (isset($plainPassword)) {
-                    $data = ['hashForKey' => UserHashForEncryption::hash($plainPassword)];
-                }
-                $this->getEventManager()->trigger(new UserUpdatedEvent(
-                    $user,
-                    array_merge($values, $data)
-                ));
+            if ($userService->triggerUpdatedEvent($user, $values, $plainPassword)) {
                 $this->setData('message', __('User saved'));
             }
         }

@@ -23,6 +23,7 @@ namespace oat\tao\controller\api;
 
 use common_Exception;
 use common_exception_Error;
+use oat\generis\model\GenerisRdf;
 use common_exception_MethodNotAllowed;
 use common_exception_MissingParameter;
 use common_exception_RestApi;
@@ -225,6 +226,12 @@ class Users extends tao_actions_CommonRestModule
             }
 
             $userService->attachProperties($user, $parameters);
+
+            if (!array_key_exists(GenerisRdf::PROPERTY_USER_PASSWORD, $parameters)) {
+                $parameters[GenerisRdf::PROPERTY_USER_PASSWORD] = $user->getProperty(GenerisRdf::PROPERTY_USER_PASSWORD);
+            }
+
+            $userService->triggerUpdatedEvent($user, $parameters, $password);
 
             $this->returnSuccess([
                 'success' => true,
