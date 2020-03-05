@@ -1326,5 +1326,9 @@ class Updater extends \common_ext_ExtensionUpdater
 
         $this->skip('40.9.6', '40.11.2');
 
+        if ($this->isVersion('40.11.2')) {
+            AclProxy::applyRule(new AccessRule('grant', TaoRoles::REST_PUBLISHER, ['ext' => 'tao', 'mod' => 'TaskQueue', 'act' => 'getStatus']));
+            $this->setVersion('40.11.3');
+        }
     }
 }
