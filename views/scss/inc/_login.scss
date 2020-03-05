@@ -18,6 +18,7 @@ $entryArrowHeight: 150;
 // login screen
 
 #login-box {
+    display: block;
     width: 400px;
     .form-error {
         display:none;
