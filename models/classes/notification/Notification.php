@@ -19,9 +19,7 @@
  *
  */
 
-namespace oat\tao\model\notification\implementation;
-
-use oat\tao\model\notification\NotificationInterface;
+namespace oat\tao\model\notification;
 
 class Notification implements NotificationInterface, \JsonSerializable
 {
@@ -132,7 +130,7 @@ class Notification implements NotificationInterface, \JsonSerializable
                 'status' => $this->getStatus(),
                 'recipient' => $this->getRecipient(),
                 'sender' => $this->getSenderId(),
-                'senderName' => $this->getSenderId(),
+                'senderName' => $this->getSenderName(),
                 'title' => $this->getTitle(),
                 'message' => $this->getMessage(),
                 'createdAt' => $this->getCreatedAt(),
