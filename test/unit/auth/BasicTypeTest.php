@@ -42,7 +42,7 @@ class BasicTypeTest extends TestCase
     {
         $authType = new TestBasicAuthType();
         $credentials = [
-            'loginFaild' => 'testLogin',
+            'login' => 'testLogin',
             'password' => 'testPassword'
         ];
         $authType->setCredentials($credentials);
