@@ -103,7 +103,12 @@ abstract class LegacyController extends Controller
      */
     public function getRequestParameter($name)
     {
-        return $this->getRequest()->getParameter($name);
+        // Replace XML entities with related characters
+        return str_replace(
+            ['&quot;', '&amp;', '&apos;', '&lt;', '&gt;'],
+            ['"', '&', '\'', '<', '>'],
+            $this->getRequest()->getParameter($name)
+        );
     }
 
     /**
