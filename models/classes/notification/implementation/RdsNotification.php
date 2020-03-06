@@ -22,6 +22,7 @@
 namespace oat\tao\model\notification\implementation;
 
 use oat\tao\model\notification\AbstractNotificationService;
+use oat\tao\model\notification\Notification;
 use oat\tao\model\notification\NotificationInterface;
 use common_persistence_Manager as PersistenceManager;
 
