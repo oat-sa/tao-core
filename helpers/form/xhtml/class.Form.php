@@ -104,7 +104,7 @@ class tao_helpers_form_xhtml_Form extends tao_helpers_form_Form
     {
         $returnValue = '';
 
-        $requestUri = $_SERVER['REQUEST_URI'];
+        $requestUri = $_SERVER['REQUEST_URI'] ?? '';
         $action = strpos($requestUri, '?') > 0 ? substr($requestUri, 0, strpos($requestUri, '?')) : $requestUri;
 
         // Defensive code, prevent double leading slashes issue.

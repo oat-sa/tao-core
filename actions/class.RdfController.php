@@ -24,12 +24,12 @@
 
 use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
-use oat\oatbox\service\ServiceManager;
 use oat\tao\model\accessControl\data\DataAccessControl;
 use oat\tao\model\controller\SignedFormInstance;
 use oat\tao\model\lock\LockManager;
 use oat\tao\model\menu\ActionService;
 use oat\tao\model\menu\MenuService;
+use oat\tao\model\metadata\exception\InconsistencyConfigException;
 use oat\tao\model\resources\ResourceService;
 use oat\tao\model\security\SecurityException;
 use oat\tao\model\security\SignatureGenerator;
@@ -410,29 +410,31 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
      */
     public function editClassLabel()
     {
-        $class = $this->getCurrentClass();
+        $class     = $this->getCurrentClass();
+        $signature = $this->createFormSignature();
 
-        /** @var SignatureGenerator $signatureGenerator */
-        $signatureGenerator = ServiceManager::getServiceManager()->get(SignatureGenerator::class);
-
-        $signature = $signatureGenerator->generate(
-            tao_helpers_Uri::encode($this->getRequestParameter('classUri'))
-        );
+        $classUri       = $class->getUri();
+        $hasWriteAccess = $this->hasWriteAccess($classUri);
 
         $editClassLabelForm = new tao_actions_form_EditClassLabel(
             $class,
             $this->getRequestParameters(),
             $signature,
-            [FormContainer::CSRF_PROTECTION_OPTION => true]
+            [FormContainer::CSRF_PROTECTION_OPTION => true, FormContainer::IS_DISABLED => !$hasWriteAccess]
         );
 
         $myForm = $editClassLabelForm->getForm();
 
         if ($myForm->isSubmited() && $myForm->isValid()) {
-            $class->setLabel($myForm->getValue(tao_helpers_Uri::encode(OntologyRdfs::RDFS_LABEL)));
+            if ($hasWriteAccess) {
+                $class->setLabel($myForm->getValue(tao_helpers_Uri::encode(OntologyRdfs::RDFS_LABEL)));
+                $this->setData('message', __('%s Class saved', $class->getLabel()));
+            }
+            else {
+                $this->setData('errorMessage', __('You do not have the required rights to edit this resource.'));
+            }
 
-            $this->setData('selectNode', tao_helpers_Uri::encode($class->getUri()));
-            $this->setData('message', __('%s Class saved', $class->getLabel()));
+            $this->setData('selectNode', tao_helpers_Uri::encode($classUri));
             $this->setData('reload', true);
         }
 
@@ -446,7 +448,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
      * @requiresRight id WRITE
      *
      * @throws SecurityException
-     * @throws \oat\tao\model\metadata\exception\InconsistencyConfigException
+     * @throws InconsistencyConfigException
      * @throws common_exception_BadRequest
      * @throws common_exception_Error
      */
@@ -1318,5 +1320,25 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
     protected function getResourceService()
     {
         return $this->getServiceLocator()->get(ResourceService::SERVICE_ID);
+    }
+
+    /**
+     * @return SignatureGenerator
+     */
+    private function getSignatureGenerator()
+    {
+        return $this->getServiceLocator()->get(SignatureGenerator::SERVICE_ID);
+    }
+
+    /**
+     * @return string
+     *
+     * @throws InconsistencyConfigException
+     */
+    private function createFormSignature()
+    {
+        return $this->getSignatureGenerator()->generate(
+            tao_helpers_Uri::encode($this->getRequestParameter('classUri'))
+        );
     }
 }
