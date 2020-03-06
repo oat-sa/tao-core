@@ -19,9 +19,7 @@
  *
  */
 
-namespace oat\tao\model\notification\implementation;
-
-use oat\tao\model\notification\NotificationInterface;
+namespace oat\tao\model\notification;
 
 class Notification implements NotificationInterface, \JsonSerializable
 {
@@ -46,20 +44,11 @@ class Notification implements NotificationInterface, \JsonSerializable
 
     /**
      * AbstractNotification constructor.
-     * @param string $userId
-     * @param string $title
-     * @param string $message
-     * @param string $senderId
-     * @param string $senderName
-     * @param null|string $id
-     * @param null|string $createdAt
-     * @param null|string $updatedAt
-     * @param int $status
      */
-    public function __construct($userId, $title, $message, $senderId, $senderName, $id = null, $createdAt = null, $updatedAt = null, $status = 0)
+    public function __construct(string $userId, string $title, string $message, string $senderId, string $senderName, string $id = null, string $createdAt = null, string $updatedAt = null,  int $status = 0)
     {
-        $this->id         = intval($id);
-        $this->status     = intval($status);
+        $this->id         = $id;
+        $this->status     = $status;
         $this->recipient  = $userId;
         $this->senderId   = $senderId;
         $this->senderName = $senderName;
@@ -69,33 +58,21 @@ class Notification implements NotificationInterface, \JsonSerializable
         $this->updatedAt  = $updatedAt;
     }
 
-    /**
-     * @return mixed
-     */
     public function getStatus()
     {
         return $this->status;
     }
 
-    /**
-     * @return string
-     */
     public function getRecipient()
     {
         return $this->recipient;
     }
 
-    /**
-     * @return string
-     */
     public function getSenderId()
     {
         return $this->senderId;
     }
 
-    /**
-     * @return string
-     */
     public function getSenderName()
     {
         return $this->senderName;
@@ -106,34 +83,21 @@ class Notification implements NotificationInterface, \JsonSerializable
         return $this->message;
     }
 
-    /**
-     * @return string
-     */
     public function getId()
     {
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
     public function getCreatedAt()
     {
         return strtotime($this->createdAt);
     }
 
-    /**
-     * @return string
-     */
     public function getUpdatedAt()
     {
         return strtotime($this->updatedAt);
     }
 
-    /**
-     * @param int $status
-     * @return $this
-     */
     public function setStatus($status)
     {
         if (is_int($status)) {
@@ -145,13 +109,9 @@ class Notification implements NotificationInterface, \JsonSerializable
         return $this;
     }
 
-    /**
-     * @param string $id
-     * @return $this
-     */
     public function setId($id)
     {
-        if (is_null($this->id)) {
+        if ($this->id === null) {
             $this->id = $id;
         }
         return $this;
@@ -166,15 +126,15 @@ class Notification implements NotificationInterface, \JsonSerializable
     {
         return
             [
-                'id'         => $this->getId(),
-                'status'     => $this->getStatus(),
-                'recipient'  => $this->getRecipient(),
-                'sender'     => $this->getSenderId(),
-                'senderName' => $this->getSenderId(),
-                'title'      => $this->getTitle(),
-                'message'    => $this->getMessage(),
-                'createdAt'  => $this->getCreatedAt(),
-                'updatedAt'  => $this->getUpdatedAt(),
+                'id' => $this->getId(),
+                'status' => $this->getStatus(),
+                'recipient' => $this->getRecipient(),
+                'sender' => $this->getSenderId(),
+                'senderName' => $this->getSenderName(),
+                'title' => $this->getTitle(),
+                'message' => $this->getMessage(),
+                'createdAt' => $this->getCreatedAt(),
+                'updatedAt' => $this->getUpdatedAt(),
             ];
     }
 }
