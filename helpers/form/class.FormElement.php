@@ -262,6 +262,14 @@ abstract class tao_helpers_form_FormElement
     }
 
     /**
+     * Disables a UI input
+     */
+    public function disable()
+    {
+        $this->addAttribute('disabled', 'disabled');
+    }
+
+    /**
      * Short description of method renderAttributes
      *
      * @author Joel Bout, <joel@taotesting.com>
