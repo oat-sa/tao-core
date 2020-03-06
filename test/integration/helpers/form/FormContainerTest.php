@@ -17,6 +17,8 @@ use oat\tao\model\security\xsrf\TokenStoreKeyValue;
 use oat\tao\model\service\ApplicationService;
 use oat\tao\test\Asset\helper\form\FormContainerStub;
 use Psr\Log\NullLogger;
+use tao_helpers_form_elements_xhtml_Textbox;
+use tao_helpers_form_FormElement;
 
 class FormContainerTest extends GenerisTestCase
 {
@@ -70,12 +72,16 @@ class FormContainerTest extends GenerisTestCase
      *
      * @param string $expected
      * @param array $options
+     * @param tao_helpers_form_FormElement ...$elements
      *
      * @throws common_Exception
      */
-    public function testFormRender(string $expected, array $options): void
-    {
-        $sut = new FormContainerStub([], $options);
+    public function testFormRender(
+        string $expected,
+        array $options = [],
+        tao_helpers_form_FormElement ...$elements
+    ): void {
+        $sut = new FormContainerStub([], $options, ...$elements);
 
         $this->assertXmlStringEqualsXmlString(
             $expected,
@@ -90,7 +96,7 @@ class FormContainerTest extends GenerisTestCase
         $token = self::TOKEN_VALUE;
 
         return [
-            'Simple form'        => [
+            'Simple form'                       => [
                 'expected' => <<<HTML
 <div class='xhtml_form'>
     <form method='post' id='test' name='test' action=''>
@@ -102,10 +108,30 @@ class FormContainerTest extends GenerisTestCase
     </form>
 </div>
 HTML
-                ,
-                'options'  => [],
             ],
-            'CSRF form'          => [
+            'UI input form' => [
+                <<<HTML
+<div class='xhtml_form'>
+    <form method='post' id='test' name='test' action=''>
+    <input type='hidden' class='global' name='test_sent' value='1'/>
+    <div>
+        <input id="test" name="test" type="text" value=""/>
+    </div>
+    <input id="X-CSRF-Token" name="X-CSRF-Token" type="hidden" value="$token"/>
+        <div class='form-toolbar'>
+            <button type='submit' name='Save' id='Save' class='form-submitter btn-success small' value="Save">
+                <span class="icon-save"></span> Save</button>
+        </div>
+    </form>
+</div>
+HTML
+                ,
+                'options' => [
+                    FormContainerStub::CSRF_PROTECTION_OPTION => true,
+                ],
+                new tao_helpers_form_elements_xhtml_Textbox('test'),
+            ],
+            'CSRF form'                         => [
                 <<<HTML
 <div class='xhtml_form'>
     <form method='post' id='test' name='test' action=''>
@@ -123,7 +149,7 @@ HTML
                     FormContainerStub::CSRF_PROTECTION_OPTION => true,
                 ],
             ],
-            'Disabled form'      => [
+            'Disabled form'                     => [
                 <<<HTML
 <div class='xhtml_form'>
     <form method='post' id='test' name='test' action=''>
@@ -140,7 +166,7 @@ HTML
                     FormContainerStub::IS_DISABLED => true,
                 ],
             ],
-            'Disabled CSRF form' => [
+            'Disabled CSRF form'                => [
                 <<<HTML
 <div class='xhtml_form'>
     <form method='post' id='test' name='test' action=''>
@@ -158,6 +184,29 @@ HTML
                     FormContainerStub::CSRF_PROTECTION_OPTION => true,
                     FormContainerStub::IS_DISABLED            => true,
                 ],
+            ],
+            'Disabled CSRF form with UI inputs' => [
+                <<<HTML
+<div class='xhtml_form'>
+    <form method='post' id='test' name='test' action=''>
+    <input type='hidden' class='global' name='test_sent' value='1'/>
+    <div>
+        <input disabled="disabled" id="test" name="test" type="text" value=""/>
+    </div>
+    <input id="X-CSRF-Token" name="X-CSRF-Token" type="hidden" value="$token"/>
+        <div class='form-toolbar'>
+            <button disabled="disabled" type='submit' name='Save' id='Save' class='form-submitter btn-success small' value="Save">
+                <span class="icon-save"></span> Save</button>
+        </div>
+    </form>
+</div>
+HTML
+                ,
+                'options' => [
+                    FormContainerStub::CSRF_PROTECTION_OPTION => true,
+                    FormContainerStub::IS_DISABLED            => true,
+                ],
+                new tao_helpers_form_elements_xhtml_Textbox('test'),
             ],
         ];
     }
