@@ -37,26 +37,6 @@ class BasicTypeTest extends TestCase
 
         $authType->call($requestMock);
     }
-
-    public function testFailedValidationBasicType()
-    {
-        $authType = new TestBasicAuthType();
-        $credentials = [
-            'loginFaild' => 'testLogin',
-            'password' => 'testPassword'
-        ];
-        $authType->setCredentials($credentials);
-
-        /** @var Request $requestMock */
-        $requestMock = $this->createMock(Request::class);
-
-        $clientMock = $this->createMock(Client::class);
-        $this->expectException(\common_exception_ValidationFailed::class);
-
-        $authType->setClient($clientMock);
-
-        $authType->call($requestMock);
-    }
 }
 
 class TestBasicAuthType extends BasicType
