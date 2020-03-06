@@ -68,14 +68,6 @@ class FormContainerTest extends GenerisTestCase
     }
 
     /**
-     * @before
-     */
-    public function initGlobalVariables(): void
-    {
-        $_SERVER['REQUEST_URI'] = '';
-    }
-
-    /**
      * @dataProvider dataProvider
      *
      * @param string $expected
