@@ -676,6 +676,12 @@ abstract class tao_helpers_form_Form
         foreach ($this->elements as $element) {
             $element->disable();
         }
+
+        foreach ($this->actions as $context) {
+            foreach ($context as $action) {
+                $action->disable();
+            }
+        }
     }
 
     /**
