@@ -66,6 +66,13 @@ $footerHeight: 34;
             text-decoration: none;
         }
     }
+    &.raised {
+        position: absolute;
+        top: 0px;
+    }
+    &.raised.rgt {
+        right:0px;
+    }
     nav {
         background:inherit;
         position: relative;
@@ -127,6 +134,11 @@ $footerHeight: 34;
                 a {
                     cursor: not-allowed !important;
                 }
+            }
+
+            &[data-control="logout"] .logout:focus {
+                outline-offset: -5px;
+                outline: 3px solid $uiGeneralContentBorder !important;
             }
 
             // sub menu
