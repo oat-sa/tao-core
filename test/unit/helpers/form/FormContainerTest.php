@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace oat\tao\helpers\test\integration\helpers\form;
+namespace oat\tao\helpers\test\unit\helpers\form;
 
 use common_cache_Cache;
 use common_Exception;
