@@ -81,6 +81,8 @@ abstract class tao_helpers_form_FormContainer
      * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  array data
      * @param  array options
+     *
+     * @throws common_Exception
      */
     public function __construct($data = [], $options = [])
     {
@@ -107,17 +109,15 @@ abstract class tao_helpers_form_FormContainer
             $this->form->setValues($this->data);
         }
 
-        if ($this->form !== null && isset($options[self::IS_DISABLED]) && $options[self::IS_DISABLED]) {
-            $this->form->disableElements();
-        }
-
-        // evaluate the form
         if ($this->form !== null) {
+            if (isset($options[self::IS_DISABLED]) && $options[self::IS_DISABLED])
+            {
+                $this->form->disableElements();
+            }
+
+            // evaluate the form
             $this->form->evaluate();
-        }
-
-        //validate global form rules
-        if ($this->form !== null) {
+            //validate global form rules
             $this->validate();
         }
 
