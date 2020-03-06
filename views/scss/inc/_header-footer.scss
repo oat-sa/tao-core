@@ -66,13 +66,6 @@ $footerHeight: 34;
             text-decoration: none;
         }
     }
-    &.raised {
-        position: absolute;
-        top: 0px;
-    }
-    &.raised.rgt {
-        right:0px;
-    }
     nav {
         background:inherit;
         position: relative;
