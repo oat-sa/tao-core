@@ -112,7 +112,7 @@ abstract class tao_helpers_form_FormContainer
         if ($this->form !== null) {
             if (isset($options[self::IS_DISABLED]) && $options[self::IS_DISABLED])
             {
-                $this->form->disableElements();
+                $this->form->disable();
             }
 
             // evaluate the form

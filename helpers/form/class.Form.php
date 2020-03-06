@@ -669,9 +669,9 @@ abstract class tao_helpers_form_Form
     }
 
     /**
-     * Disables all elements of the form
+     * Disables the whole form
      */
-    public function disableElements()
+    public function disable()
     {
         foreach ($this->elements as $element) {
             $element->disable();
