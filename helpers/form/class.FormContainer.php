@@ -26,7 +26,7 @@ use tao_helpers_form_FormFactory as FormFactory;
 
 /**
  * This class provide a container for a specific form instance.
- * It's subclasses instanciate a form and it's elements to be used as a
+ * Its subclasses instantiate a form.
  *
  * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
  */
@@ -60,7 +60,7 @@ abstract class tao_helpers_form_FormContainer
     protected $options = [];
 
     /**
-     * static list of all instanciated forms
+     * static list of all instantiated forms
      *
      * @access protected
      * @var array
