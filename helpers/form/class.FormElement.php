@@ -105,7 +105,7 @@ abstract class tao_helpers_form_FormElement
      * to force the validation of the element
      *
      * @access protected
-     * @var boolean
+     * @var bool
      */
     protected $forcedValid = false;
 
@@ -136,7 +136,7 @@ abstract class tao_helpers_form_FormElement
      *
      * @author Joel Bout, <joel@taotesting.com>
      * @param  string $name
-     * @return mixed
+     * @return void
      */
     public function __construct($name = '')
     {
@@ -159,7 +159,7 @@ abstract class tao_helpers_form_FormElement
      *
      * @author Joel Bout, <joel@taotesting.com>
      * @param  string $name
-     * @return mixed
+     * @return void
      */
     public function setName($name)
     {
@@ -183,7 +183,7 @@ abstract class tao_helpers_form_FormElement
      *
      * @author Joel Bout, <joel@taotesting.com>
      * @param  string $value
-     * @return mixed
+     * @return void
      */
     public function setValue($value)
     {
@@ -217,7 +217,7 @@ abstract class tao_helpers_form_FormElement
         $existingClasses = !empty($this->attributes['class'])
             ? explode(' ', $this->attributes['class'])
             : [];
-        unset($existingClasses[array_search($className, $existingClasses)]);
+        unset($existingClasses[array_search($className, $existingClasses, true)]);
         $this->attributes['class'] = implode(' ', $existingClasses);
     }
 
@@ -228,7 +228,7 @@ abstract class tao_helpers_form_FormElement
      * @author Joel Bout, <joel@taotesting.com>
      * @param  string $key
      * @param  string $value
-     * @return mixed
+     * @return void
      */
     public function addAttribute($key, $value)
     {
@@ -242,7 +242,7 @@ abstract class tao_helpers_form_FormElement
      * @author Joel Bout, <joel@taotesting.com>
      * @param  string $key
      * @param  string $value
-     * @return mixed
+     * @return void
      */
     public function setAttribute($key, $value)
     {
@@ -254,7 +254,7 @@ abstract class tao_helpers_form_FormElement
      *
      * @author Joel Bout, <joel@taotesting.com>
      * @param  array $attributes
-     * @return mixed
+     * @return void
      */
     public function setAttributes($attributes)
     {
@@ -312,7 +312,7 @@ abstract class tao_helpers_form_FormElement
      *
      * @author Joel Bout, <joel@taotesting.com>
      * @param  string $description
-     * @return mixed
+     * @return void
      */
     public function setDescription($description)
     {
@@ -324,7 +324,7 @@ abstract class tao_helpers_form_FormElement
      *
      * @author Joel Bout, <joel@taotesting.com>
      * @param  string $unit
-     * @return mixed
+     * @return void
      */
     public function setUnit($unit)
     {
@@ -347,7 +347,7 @@ abstract class tao_helpers_form_FormElement
      *
      * @author Joel Bout, <joel@taotesting.com>
      * @param  int $level
-     * @return mixed
+     * @return void
      */
     public function setLevel($level)
     {
@@ -373,7 +373,7 @@ abstract class tao_helpers_form_FormElement
      *
      * @author Joel Bout, <joel@taotesting.com>
      * @param  array $validators
-     * @return mixed
+     * @return void
      */
     public function addValidators($validators)
     {
@@ -397,7 +397,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method validate
      *
      * @author Joel Bout, <joel@taotesting.com>
-     * @return boolean
+     * @return bool
      */
     public function validate()
     {
@@ -435,7 +435,7 @@ abstract class tao_helpers_form_FormElement
      *
      * @author Joel Bout, <joel@taotesting.com>
      * @param  string $help
-     * @return mixed
+     * @return void
      */
     public function setHelp($help)
     {
@@ -458,7 +458,7 @@ abstract class tao_helpers_form_FormElement
      *
      * @author Joel Bout, <joel@taotesting.com>
      * @param  string $name
-     * @return boolean
+     * @return bool
      */
     public function removeValidator($name)
     {
@@ -522,7 +522,7 @@ abstract class tao_helpers_form_FormElement
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isBreakOnFirstError()
     {
@@ -530,7 +530,7 @@ abstract class tao_helpers_form_FormElement
     }
 
     /**
-     * @param boolean $breakOnFirstError
+     * @param bool $breakOnFirstError
      */
     public function setBreakOnFirstError($breakOnFirstError)
     {
