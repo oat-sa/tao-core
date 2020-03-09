@@ -150,7 +150,7 @@ class NotificationTest extends TestCase
         $this->assertArrayHasKey('sender', $result);
         $this->assertEquals(self::SENDER_ID, $result['sender']);
         $this->assertArrayHasKey('senderName', $result);
-        $this->assertEquals(self::SENDER_NAME, $result['senderName']);
+        $this->assertEquals(self::SENDER_ID, $result['senderName']);
         $this->assertArrayHasKey('title', $result);
         $this->assertEquals(self::TITLE, $result['title']);
         $this->assertArrayHasKey('message', $result);
