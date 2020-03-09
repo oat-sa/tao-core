@@ -100,9 +100,9 @@ class tao_actions_Export extends tao_actions_CommonModule
                     $children = [];
                     foreach ($instances as $instance) {
                         $class = $this->getClass(tao_helpers_Uri::decode($instance));
-                        $children = array_merge($children, $class->getInstances());
+                        $children[] = $class->getInstances();
                     }
-                    $exportData['instances'] = $children;
+                    $exportData['instances'] = array_merge(...$children);
                 } else {
                     foreach ($instances as $instance) {
                         $exportData['instances'][] = tao_helpers_Uri::decode($instance);
