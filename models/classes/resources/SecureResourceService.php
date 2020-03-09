@@ -7,6 +7,7 @@ namespace oat\tao\model\resources;
 use common_exception_Error;
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
+use Exception;
 use oat\generis\model\data\permission\PermissionInterface;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\session\SessionService;
@@ -46,7 +47,7 @@ class SecureResourceService extends ConfigurableService
                 }
             }
 
-        } catch (common_exception_Error $e) {
+        } catch (Exception $e) {
             throw new SecureResourceServiceException($e->getMessage(), 0, $e);
         }
 
