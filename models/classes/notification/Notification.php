@@ -130,7 +130,7 @@ class Notification implements NotificationInterface, \JsonSerializable
                 'status' => $this->getStatus(),
                 'recipient' => $this->getRecipient(),
                 'sender' => $this->getSenderId(),
-                'senderName' => $this->getSenderName(),
+                'senderName' => $this->getSenderId(),
                 'title' => $this->getTitle(),
                 'message' => $this->getMessage(),
                 'createdAt' => $this->getCreatedAt(),
