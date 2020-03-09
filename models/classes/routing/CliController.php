@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -67,13 +68,12 @@ class CliController implements ServiceManagerAwareInterface
             $previous = $e->getPrevious();
 
             // Get the full stack trace of the exception
-            while($previous){
-                $message .= PHP_EOL . "caused by : " . PHP_EOL .$previous->getMessage();
+            while ($previous) {
+                $message .= PHP_EOL . "caused by : " . PHP_EOL . $previous->getMessage();
                 $previous = $previous->getPrevious();
             }
 
             $report->add(new Report(Report::TYPE_ERROR, $message));
-
         }
 
         return $report;

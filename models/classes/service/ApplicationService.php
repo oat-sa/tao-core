@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -36,10 +37,11 @@ class ApplicationService extends ConfigurableService
      *
      * @return boolean
      */
-    public function isDemo() {
+    public function isDemo()
+    {
         $releaseStatus = $this->getConstantValue('TAO_RELEASE_STATUS');
 
-        return in_array($releaseStatus, array('demo', 'demoA', 'demoB', 'demoS'));
+        return in_array($releaseStatus, ['demo', 'demoA', 'demoB', 'demoS']);
     }
 
     /**
@@ -63,7 +65,8 @@ class ApplicationService extends ConfigurableService
      * @throws \common_exception_Error
      * @throws \common_ext_ExtensionException
      */
-    public function getProductName() {
+    public function getProductName()
+    {
         return $this->getConstantValue('PRODUCT_NAME');
     }
 
@@ -72,7 +75,8 @@ class ApplicationService extends ConfigurableService
      * @throws \common_exception_Error
      * @throws \common_ext_ExtensionException
      */
-    public function getPlatformVersion() {
+    public function getPlatformVersion()
+    {
         return $this->getConstantValue('TAO_VERSION');
     }
 
@@ -81,7 +85,8 @@ class ApplicationService extends ConfigurableService
      * @throws \common_exception_Error
      * @throws \common_ext_ExtensionException
      */
-    public function getDefaultEncoding() {
+    public function getDefaultEncoding()
+    {
         return $this->getConstantValue('TAO_DEFAULT_ENCODING');
     }
 

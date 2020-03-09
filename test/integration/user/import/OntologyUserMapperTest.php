@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -118,19 +119,19 @@ class OntologyUserMapperTest extends GenerisPhpUnitTestRunner
         return [
             [
                 'schema' => [
-                    'mandatory' => array(
+                    'mandatory' => [
                         'label' => 'http://www.w3.org/2000/01/rdf-schema#label',
                         'interface language' => 'http://www.tao.lu/Ontologies/generis.rdf#userUILg',
                         'login' => 'http://www.tao.lu/Ontologies/generis.rdf#login',
                         'roles' => 'http://www.tao.lu/Ontologies/generis.rdf#userRoles',
                         'password' => 'http://www.tao.lu/Ontologies/generis.rdf#password'
-                    ),
-                    'optional' => array(
+                    ],
+                    'optional' => [
                         'interface language' => 'http://www.tao.lu/Ontologies/generis.rdf#userDefLg',
                         'first name' => 'http://www.tao.lu/Ontologies/generis.rdf#userFirstName',
                         'last name' => 'http://www.tao.lu/Ontologies/generis.rdf#userLastName',
                         'mail' => 'http://www.tao.lu/Ontologies/generis.rdf#userMail'
-                    )
+                    ]
                 ],
                 'data' => [
                     'label' => 'user label',
@@ -163,11 +164,11 @@ class OntologyUserMapperTest extends GenerisPhpUnitTestRunner
         return [
             [
                 'schema' => [
-                    'mandatory' => array(
+                    'mandatory' => [
                         'label' => 'http://www.w3.org/2000/01/rdf-schema#label',
                         'login' => 'http://www.tao.lu/Ontologies/generis.rdf#login',
                         'password' => 'http://www.tao.lu/Ontologies/generis.rdf#password',
-                    )
+                    ]
                 ],
                 'data' => [
                     'login' => 'userlogin',
@@ -185,11 +186,11 @@ class OntologyUserMapperTest extends GenerisPhpUnitTestRunner
         return [
             [
                 'schema' => [
-                    'mandatory' => array(
+                    'mandatory' => [
                         'label' => 'http://www.w3.org/2000/01/rdf-schema#label',
                         'login' => 'http://www.tao.lu/Ontologies/generis.rdf#login',
                         'password' => 'http://www.tao.lu/Ontologies/generis.rdf#password',
-                    )
+                    ]
                 ],
                 'data' => [
                     'login' => 'userlogin',

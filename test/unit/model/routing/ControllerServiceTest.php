@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,20 +28,30 @@ use Prophecy\Argument;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use oat\generis\test\TestCase;
 
-
-abstract class AbsCl {}
+abstract class AbsCl
+{
+}
 
 /**
  * Class BlCl
  * @package oat\test\model
  */
-class BlCl {}
+class BlCl
+{
+}
 
-class RouteAnnotationExample {
+class RouteAnnotationExample
+{
 
-    protected function protectedAction(){}
-    public function notFoundAnnotation(){}
-    public function withoutAnnotation(){}
+    protected function protectedAction()
+    {
+    }
+    public function notFoundAnnotation()
+    {
+    }
+    public function withoutAnnotation()
+    {
+    }
 }
 
 class ControllerServiceTest extends TestCase
@@ -100,8 +111,10 @@ class ControllerServiceTest extends TestCase
      */
     public function testGetController()
     {
-        $this->assertEquals(RouteAnnotationExample::class,
-            $this->service->checkController(RouteAnnotationExample::class));
+        $this->assertEquals(
+            RouteAnnotationExample::class,
+            $this->service->checkController(RouteAnnotationExample::class)
+        );
     }
 
     /**

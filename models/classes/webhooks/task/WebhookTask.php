@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -106,20 +107,24 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
         } catch (ServerException $connectException) {
             $this->retryTask();
             $errorReport = $this->getWebhookTaskReports()->reportBadResponseException(
-                $this->getTaskContext(), $connectException
+                $this->getTaskContext(),
+                $connectException
             );
         } catch (BadResponseException $badResponseException) {
             $errorReport = $this->getWebhookTaskReports()->reportBadResponseException(
-                $this->getTaskContext(), $badResponseException
+                $this->getTaskContext(),
+                $badResponseException
             );
         } catch (ConnectException $connectException) {
             $this->retryTask();
             $errorReport = $this->getWebhookTaskReports()->reportConnectException(
-                $this->getTaskContext(), $connectException
+                $this->getTaskContext(),
+                $connectException
             );
         } catch (RequestException $requestException) {
             $errorReport = $this->getWebhookTaskReports()->reportRequestException(
-                $this->getTaskContext(), $requestException
+                $this->getTaskContext(),
+                $requestException
             );
         }
 
@@ -144,18 +149,23 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
         $eventId = $this->params->getEventId();
 
         if ($this->params->responseValidation()) {
-            if ($this->params->getRetryMax() && $parsedResponse->getParseError())
+            if ($this->params->getRetryMax() && $parsedResponse->getParseError()) {
                 return $this->getWebhookTaskReports()->reportInvalidBodyFormat($this->getTaskContext(), $response);
+            }
 
             if (!$parsedResponse->isDelivered($eventId)) {
                 return $this->getWebhookTaskReports()->reportInvalidAcknowledgement(
-                    $this->getTaskContext(), $response, $parsedResponse
+                    $this->getTaskContext(),
+                    $response,
+                    $parsedResponse
                 );
             }
         }
 
         return $this->getWebhookTaskReports()->reportSuccess(
-            $this->getTaskContext(), $response, $parsedResponse->getStatus($eventId)
+            $this->getTaskContext(),
+            $response,
+            $parsedResponse->getStatus($eventId)
         );
     }
 

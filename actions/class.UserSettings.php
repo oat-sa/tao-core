@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,7 +18,7 @@
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *				 2013-2018 (update and modification) Open Assessment Technologies SA;
+ *               2013-2018 (update and modification) Open Assessment Technologies SA;
  *
  */
 
@@ -89,10 +90,9 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
 
             $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($currentUser);
 
-            if($binder->bind($userSettings)){
-
+            if ($binder->bind($userSettings)) {
                 $this->getSession()->refresh();
-                $uiLangCode		= tao_models_classes_LanguageService::singleton()->getCode($uiLang);
+                $uiLangCode     = tao_models_classes_LanguageService::singleton()->getCode($uiLang);
                 $extension      = $this->getServiceLocator()->get(common_ext_ExtensionsManager::SERVICE_ID)->getExtensionById('tao');
                 tao_helpers_I18n::init($extension, $uiLangCode);
 
@@ -123,7 +123,8 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
      *
      * @return array The URIs of the languages.
      */
-    private function getUserSettings(){
+    private function getUserSettings()
+    {
         $currentUser = $this->getUserService()->getCurrentUser();
         $props = $currentUser->getPropertiesValues([
             $this->getProperty(GenerisRdf::PROPERTY_USER_UILG),

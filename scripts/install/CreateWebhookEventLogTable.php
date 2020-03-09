@@ -57,33 +57,36 @@ class CreateWebhookEventLogTable extends AbstractAction
         $logTable = $schema->createTable(WebhookLogRepository::TABLE_NAME);
         $logTable->addOption('engine', 'InnoDB');
 
-        $logTable->addColumn(WebhookLogRepository::COLUMN_ID, Type::INTEGER, array('autoincrement' => true));
-        $logTable->addColumn(WebhookLogRepository::COLUMN_EVENT_ID, Type::STRING, array('notnull' => false, 'length' => 255));
-        $logTable->addColumn(WebhookLogRepository::COLUMN_TASK_ID, Type::STRING, array('notnull' => false, 'length' => 255));
-        $logTable->addColumn(WebhookLogRepository::COLUMN_WEBHOOK_ID, Type::STRING, array('notnull' => false, 'length' => 255));
-        $logTable->addColumn(WebhookLogRepository::COLUMN_HTTP_METHOD, Type::STRING, array('notnull' => false, 'length' => 255));
-        $logTable->addColumn(WebhookLogRepository::COLUMN_ENDPOINT_URL, Type::STRING, array('notnull' => false, 'length' => 255));
-        $logTable->addColumn(WebhookLogRepository::COLUMN_EVENT_NAME, Type::STRING, array('notnull' => false, 'length' => 255));
-        $logTable->addColumn(WebhookLogRepository::COLUMN_HTTP_STATUS_CODE, Type::SMALLINT, array('notnull' => false));
-        $logTable->addColumn(WebhookLogRepository::COLUMN_RESPONSE_BODY, Type::TEXT, array('notnull' => false));
-        $logTable->addColumn(WebhookLogRepository::COLUMN_ACKNOWLEDGEMENT_STATUS, Type::STRING, array('notnull' => false, 'length' => 255));
-        $logTable->addColumn(WebhookLogRepository::COLUMN_CREATED_AT, Type::INTEGER, array('notnull' => true));
-        $logTable->addColumn(WebhookLogRepository::COLUMN_RESULT, Type::STRING, array('notnull' => true, 'length' => 255));
-        $logTable->addColumn(WebhookLogRepository::COLUMN_RESULT_MESSAGE, Type::TEXT, array('notnull' => false));
+        $logTable->addColumn(WebhookLogRepository::COLUMN_ID, Type::INTEGER, ['autoincrement' => true]);
+        $logTable->addColumn(WebhookLogRepository::COLUMN_EVENT_ID, Type::STRING, ['notnull' => false, 'length' => 255]);
+        $logTable->addColumn(WebhookLogRepository::COLUMN_TASK_ID, Type::STRING, ['notnull' => false, 'length' => 255]);
+        $logTable->addColumn(WebhookLogRepository::COLUMN_WEBHOOK_ID, Type::STRING, ['notnull' => false, 'length' => 255]);
+        $logTable->addColumn(WebhookLogRepository::COLUMN_HTTP_METHOD, Type::STRING, ['notnull' => false, 'length' => 255]);
+        $logTable->addColumn(WebhookLogRepository::COLUMN_ENDPOINT_URL, Type::STRING, ['notnull' => false, 'length' => 255]);
+        $logTable->addColumn(WebhookLogRepository::COLUMN_EVENT_NAME, Type::STRING, ['notnull' => false, 'length' => 255]);
+        $logTable->addColumn(WebhookLogRepository::COLUMN_HTTP_STATUS_CODE, Type::SMALLINT, ['notnull' => false]);
+        $logTable->addColumn(WebhookLogRepository::COLUMN_RESPONSE_BODY, Type::TEXT, ['notnull' => false]);
+        $logTable->addColumn(WebhookLogRepository::COLUMN_ACKNOWLEDGEMENT_STATUS, Type::STRING, ['notnull' => false, 'length' => 255]);
+        $logTable->addColumn(WebhookLogRepository::COLUMN_CREATED_AT, Type::INTEGER, ['notnull' => true]);
+        $logTable->addColumn(WebhookLogRepository::COLUMN_RESULT, Type::STRING, ['notnull' => true, 'length' => 255]);
+        $logTable->addColumn(WebhookLogRepository::COLUMN_RESULT_MESSAGE, Type::TEXT, ['notnull' => false]);
 
         $logTable->setPrimaryKey([WebhookLogRepository::COLUMN_ID]);
 
         $logTable->addIndex(
             [WebhookLogRepository::COLUMN_EVENT_ID],
-            'IDX_' . WebhookLogRepository::TABLE_NAME . '_event_id');
+            'IDX_' . WebhookLogRepository::TABLE_NAME . '_event_id'
+        );
 
         $logTable->addIndex(
             [WebhookLogRepository::COLUMN_WEBHOOK_ID],
-            'IDX_' . WebhookLogRepository::TABLE_NAME . '_webhook_id');
+            'IDX_' . WebhookLogRepository::TABLE_NAME . '_webhook_id'
+        );
 
         $logTable->addIndex(
             [WebhookLogRepository::COLUMN_CREATED_AT],
-            'IDX_' . WebhookLogRepository::TABLE_NAME . '_created_at');
+            'IDX_' . WebhookLogRepository::TABLE_NAME . '_created_at'
+        );
 
         $queries = $persistence->getPlatform()->getMigrateSchemaSql($fromSchema, $schema);
         foreach ($queries as $query) {

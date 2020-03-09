@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,10 +26,10 @@ use \common_report_Report as Report;
 
 /**
  * Abstract Indexed CSV Script.
- * 
+ *
  * This abstract script aims at providing the basis to scripts
  * aiming at analyzing CSV files as indexed files.
- * 
+ *
  * The index works by being provided a column index. It will record
  * the position (in bytes) of all records based on this column index.
  */
@@ -46,9 +47,9 @@ abstract class AbstractIndexedCsv implements Action
     
     /**
      * Script Invokation.
-     * 
+     *
      * This method contains the main logic of the abstraction.
-     * 
+     *
      * @array $params The script parameters
      */
     public function __invoke($params)
@@ -147,9 +148,9 @@ abstract class AbstractIndexedCsv implements Action
     
     /**
      * Set the file header.
-     * 
+     *
      * Stores the first row columns as the file header.
-     * 
+     *
      * @param array $headers
      */
     protected function setHeaders(array $headers)
@@ -159,9 +160,9 @@ abstract class AbstractIndexedCsv implements Action
     
     /**
      * Get the file header.
-     * 
+     *
      * Gets the file header as an array of strings.
-     * 
+     *
      * @return array An array of strings.
      */
     protected function getHeaders()
@@ -171,9 +172,9 @@ abstract class AbstractIndexedCsv implements Action
     
     /**
      * Set the index column.
-     * 
+     *
      * Sets the column to be indexed.
-     * 
+     *
      * @param integer $indexColumn The numeric index of the column index. Index starts at 0.
      */
     protected function setIndexColumn($indexColumn)
@@ -183,9 +184,9 @@ abstract class AbstractIndexedCsv implements Action
     
     /**
      * Get the index column.
-     * 
+     *
      * Gets the index of the column to be considered as the index. Index starts at 0.
-     * 
+     *
      * @return integer
      */
     protected function getIndexColumn()
@@ -195,9 +196,9 @@ abstract class AbstractIndexedCsv implements Action
     
     /**
      * Set the path of the file to be read.
-     * 
+     *
      * Sets the source path of the file. The source path can be either absolute or relative.
-     * 
+     *
      * @param string $source
      */
     protected function setSource($source)
@@ -207,9 +208,9 @@ abstract class AbstractIndexedCsv implements Action
     
     /**
      * Get the path of the file to be read.
-     * 
+     *
      * Gets the path of the file to be read. The path can be either absolute or relative.
-     * 
+     *
      * @return string
      */
     protected function getSource()
@@ -219,9 +220,9 @@ abstract class AbstractIndexedCsv implements Action
     
     /**
      * Set the path of the destination file.
-     * 
+     *
      * Sets the path of the file to be written. The path can be either absolute or relative.
-     * 
+     *
      * @param string $destination
      */
     protected function setDestination($destination)
@@ -231,9 +232,9 @@ abstract class AbstractIndexedCsv implements Action
     
     /**
      * Get the path of the destination file.
-     * 
+     *
      * Gets the path of the file to be written. The path can be either absolute or relative.
-     * 
+     *
      * return string
      */
     protected function getDestination()
@@ -243,9 +244,9 @@ abstract class AbstractIndexedCsv implements Action
     
     /**
      * Set the file handle of the source file.
-     * 
+     *
      * Sets the file handle of the source file. The resource must be open and ready to be used.
-     * 
+     *
      * @param resource $sourceFp A file handle.
      */
     protected function setSourceFp($sourceFp)
@@ -255,9 +256,9 @@ abstract class AbstractIndexedCsv implements Action
     
     /**
      * Get the file handle of the source file.
-     * 
+     *
      * Gets the file handle of the source file. The resource will be open and ready to be used.
-     * 
+     *
      * @return resource A file handle.
      */
     protected function getSourceFp()
@@ -267,9 +268,9 @@ abstract class AbstractIndexedCsv implements Action
     
     /**
      * Set the file handle of the destination file.
-     * 
+     *
      * Sets the file handle of the destination file. The resource must be open and ready to be used.
-     * 
+     *
      * @param resource $destinationFp A file handle.
      */
     protected function setDestinationFp($destinationFp)
@@ -279,9 +280,9 @@ abstract class AbstractIndexedCsv implements Action
     
     /**
      * Get the file handle of the destination file.
-     * 
+     *
      * Gets the file handle of the destination file. The resource must be open and ready to be used.
-     * 
+     *
      * @return resource
      */
     protected function getDestinationFp()
@@ -291,11 +292,11 @@ abstract class AbstractIndexedCsv implements Action
     
     /**
      * Set the Index.
-     * 
+     *
      * Sets the index with $index. The array must contain unique keys representing the
      * indexed rows. The values will be arrays of positions (expressed in bytes) where to
      * find records identified by the index.
-     * 
+     *
      * @param array $index
      */
     protected function setIndex(array $index)
@@ -305,11 +306,11 @@ abstract class AbstractIndexedCsv implements Action
     
     /**
      * Get the Index.
-     * 
+     *
      * Sets the index with $index. The returned array contains unique keys representing the
      * indexed rows. The values are arrays of positions (expressed in bytes) where to
      * find records identified by the index.
-     * 
+     *
      * @return array
      */
     protected function getIndex()
@@ -319,10 +320,10 @@ abstract class AbstractIndexedCsv implements Action
     
     /**
      * Set whether or not the first row contains the column names.
-     * 
+     *
      * This method sets whether or not the first row of the source file contains the column names.
      * When set to true, the first row will be replicated in the destination file.
-     * 
+     *
      * @param boolean $firstRowColumnNames
      */
     protected function setFirstRowColumnNames($firstRowColumnNames)
@@ -332,10 +333,10 @@ abstract class AbstractIndexedCsv implements Action
     
     /**
      * Whether or not the first row contains the column names.
-     * 
+     *
      * This method returns whether or not the first row of the source file contains the column names.
      * When returning true, it means that the first row will be replicated in the destination file.
-     * 
+     *
      * @return boolean
      */
     protected function isFirstRowColumnNames()
@@ -345,9 +346,9 @@ abstract class AbstractIndexedCsv implements Action
     
     /**
      * Set the parameters.
-     * 
+     *
      * Set the initial parameters provided to the sript.
-     * 
+     *
      * @param array $params
      */
     protected function setParams(array $params)
@@ -357,9 +358,9 @@ abstract class AbstractIndexedCsv implements Action
     
     /**
      * Get the parameters.
-     * 
+     *
      * Gets the initial parameters provided to the script.
-     * 
+     *
      * @return array
      */
     protected function getParams()
@@ -369,12 +370,12 @@ abstract class AbstractIndexedCsv implements Action
     
     /**
      * Behaviour to be triggered at the beginning of the script.
-     * 
+     *
      * This method contains the behaviours to be aplied at the very
      * beginning of the script. In this abstract class, it opens the source
      * and destination files. Implementors can override this method to add
      * additional behaviours.
-     * 
+     *
      * @return \common_report_Report
      */
     protected function beforeProcess()
@@ -408,12 +409,12 @@ abstract class AbstractIndexedCsv implements Action
     
     /**
      * Behaviour to be triggered at the end of the script.
-     * 
+     *
      * This method contains the behaviours to be applied at the end
      * of the script. In this abstract class, it closes the source
      * and destination files. Implementors can override this method
      * to add additional behaviours.
-     * 
+     *
      * @return \common_report_Report
      */
     protected function afterProcess()
@@ -429,9 +430,9 @@ abstract class AbstractIndexedCsv implements Action
     
     /**
      * Indexing method.
-     * 
+     *
      * This method contains the logic to index the source file.
-     * 
+     *
      * @return \common_report_Report
      */
     protected function index()
@@ -469,10 +470,10 @@ abstract class AbstractIndexedCsv implements Action
             
             $scanCount++;
             
-            if($sourceData !== false && !isset($sourceData[$indexColumn])){
+            if ($sourceData !== false && !isset($sourceData[$indexColumn])) {
                 return new Report(
                     Report::TYPE_ERROR,
-                    $indexColumn . " is not a valid offset for the source. It should be one of : ".implode(', ',array_keys($sourceData))
+                    $indexColumn . " is not a valid offset for the source. It should be one of : " . implode(', ', array_keys($sourceData))
                 );
             }
             
@@ -486,11 +487,11 @@ abstract class AbstractIndexedCsv implements Action
     
     /**
      * Script processing logic.
-     * 
+     *
      * This method has to be implemented by implementors. It contains
      * the logic to be applied on the source file, in order to produce
      * the destination file.
-     * 
+     *
      * @return \common_report_Report
      */
     abstract protected function process();

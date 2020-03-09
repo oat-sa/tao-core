@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -28,8 +29,7 @@ use oat\tao\model\security\SignatureValidator;
  *
  * @author Bertrand Chevrier, <bertrand@taotesting.com>
  */
-class tao_actions_form_EditClassLabel
-    extends \tao_helpers_form_FormContainer
+class tao_actions_form_EditClassLabel extends \tao_helpers_form_FormContainer
 {
     /**
      * @var core_kernel_classes_Class
@@ -101,7 +101,6 @@ class tao_actions_form_EditClassLabel
         //map properties widgets to form elements
         $element = \tao_helpers_form_GenerisFormFactory::elementMap($labelProp);
         if (!is_null($element)) {
-
             $value = $clazz->getLabel();
             if (!is_null($value)) {
                 $element->setValue($value);

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -23,7 +24,7 @@ use oat\oatbox\service\ConfigurableService;
 
 /**
  * TAO OperatedBy Service
- * 
+ *
  * This service aims at retrieving/persisting information about
  * the organization operating the TAO Platform.
  */
@@ -33,20 +34,21 @@ class OperatedByService extends ConfigurableService
     
     /**
      * TAO OperatedBy Service Constructor
-     * 
+     *
      * Creates a new OperatedByService object.
-     * 
+     *
      * @param array $options An associative array where keys are option names and values are option values.
      */
-    public function __construct($options = array()) {
+    public function __construct($options = [])
+    {
         parent::__construct($options);
     }
     
     /**
      * Get Organization Name
-     * 
+     *
      * Get the name of the organization operating the TAO Platform.
-     * 
+     *
      * @return string
      */
     public function getName()
@@ -57,9 +59,9 @@ class OperatedByService extends ConfigurableService
     
     /**
      * Set Organization Name
-     * 
+     *
      * Set the name of the organization operating the TAO Platform.
-     * 
+     *
      * @param string $name
      */
     public function setName($name)
@@ -69,10 +71,10 @@ class OperatedByService extends ConfigurableService
     
     /**
      * Get Organization Email
-     * 
+     *
      * Get the email address of the organization operating the TAO
      * Platform.
-     * 
+     *
      * @return string
      */
     public function getEmail()
@@ -83,13 +85,14 @@ class OperatedByService extends ConfigurableService
     
     /**
      * Set the Organization Email
-     * 
+     *
      * Set the email address of the organization operating the TAO
      * Platform.
-     * 
+     *
      * @param string $email
      */
-    public function setEmail($email) {
+    public function setEmail($email)
+    {
         $this->setOption('operatedByEmail', $email);
     }
 }

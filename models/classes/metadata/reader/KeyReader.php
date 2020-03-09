@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -96,8 +97,7 @@ class KeyReader implements Reader
      */
     public function __toPhpCode()
     {
-        $options = array('key' => $this->key);
+        $options = ['key' => $this->key];
         return empty($options) ? '' : \common_Utils::toHumanReadablePhpString($options);
     }
-
 }

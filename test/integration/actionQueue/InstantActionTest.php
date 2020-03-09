@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -160,7 +161,6 @@ class InstantActionTest extends TaoPhpUnitTestRunner
         $result->setServiceManager($serviceManager);
         return $result;
     }
-
 }
 
 class GetmypidAction extends AbstractQueuedAction

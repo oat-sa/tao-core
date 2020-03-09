@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,13 +19,15 @@
  *
  *
  */
+
 namespace oat\tao\model\search\tokenizer;
 
 /**
- * Tokenizer interface for TAO property values 
+ * Tokenizer interface for TAO property values
  * @deprecated please use PropertyValueTokenizer
  * @author Joel Bout <joel@taotesting.com>
  */
 interface Tokenizer extends PropertyValueTokenizer
-{	
+{
+   
 }

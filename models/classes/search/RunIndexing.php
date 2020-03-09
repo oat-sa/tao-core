@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,6 +19,7 @@
  *
  *
  */
+
 namespace oat\tao\model\search;
 
 use oat\oatbox\extension\AbstractAction;
@@ -49,5 +51,4 @@ class RunIndexing extends AbstractAction
 
         return new Report(Report::TYPE_WARNING, __('Resources was not indexed'));
     }
-
 }

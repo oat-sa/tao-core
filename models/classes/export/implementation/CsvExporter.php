@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -53,7 +54,7 @@ class CsvExporter extends AbstractFileExporter implements PsrResponseExporter
     {
         $data = $this->data;
 
-        if( !is_array( $data ) && !$data instanceof Traversable ){
+        if (!is_array($data) && !$data instanceof Traversable) {
              throw new \common_exception_InvalidArgumentType('Entity you trying to export is not Traversable');
         }
 

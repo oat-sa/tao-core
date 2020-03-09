@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -129,7 +130,7 @@ class StreamRangeTest extends TestCase
      */
     private function getStream($string)
     {
-        $resource = fopen('php://memory','r+');
+        $resource = fopen('php://memory', 'r+');
         fwrite($resource, $string);
         rewind($resource);
         return new Stream($resource);

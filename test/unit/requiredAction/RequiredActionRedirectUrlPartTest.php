@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -32,7 +33,7 @@ class RequiredActionRedirectUrlPartTest extends TestCase
      */
     public function testMustBeExecuted($result, $rules)
     {
-        $action = new RequiredActionRedirectUrlPart('testAction', $rules, array('url'));
+        $action = new RequiredActionRedirectUrlPart('testAction', $rules, ['url']);
         $this->assertEquals($action->mustBeExecuted(), $result);
     }
 
@@ -85,5 +86,4 @@ class RequiredActionRedirectUrlPartTest extends TestCase
 
         return $ruleMock->reveal();
     }
-
 }

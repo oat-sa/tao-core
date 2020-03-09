@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,6 +18,7 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
  *
  */
+
 namespace oat\tao\model\media\sourceStrategy;
 
 use common_Logger;
@@ -60,9 +62,8 @@ class HttpSource implements MediaBrowser
 
         //if there is an http auth on the local domain, it's mandatory to auth with curl
         if (USE_HTTP_AUTH) {
-
             $addAuth = false;
-            $domains = array('localhost', '127.0.0.1', ROOT_URL);
+            $domains = ['localhost', '127.0.0.1', ROOT_URL];
 
             foreach ($domains as $domain) {
                 if (preg_match("/" . preg_quote($domain, '/') . "/", $url)) {
@@ -96,7 +97,7 @@ class HttpSource implements MediaBrowser
 
         $content = @get_headers($url, 1);
 
-        if($content === false){
+        if ($content === false) {
             throw new \tao_models_classes_FileNotFoundException($url);
         }
 
@@ -116,7 +117,7 @@ class HttpSource implements MediaBrowser
      * (non-PHPdoc)
      * @see \oat\tao\model\media\MediaBrowser::getDirectory()
      */
-    public function getDirectory($parentLink = '/', $acceptableMime = array(), $depth = 1)
+    public function getDirectory($parentLink = '/', $acceptableMime = [], $depth = 1)
     {
         throw new \common_Exception('Unable to browse the internet');
     }

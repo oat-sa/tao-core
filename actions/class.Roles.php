@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -40,7 +41,7 @@ class tao_actions_Roles extends tao_actions_RdfController
     use OntologyAwareTrait;
 
     protected $authoringService = null;
-    protected $forbidden = array();
+    protected $forbidden = [];
 
     /**
      * index:
@@ -172,7 +173,7 @@ class tao_actions_Roles extends tao_actions_RdfController
         if (!$this->isXmlHttpRequest()) {
             throw new common_exception_BadRequest('wrong request mode');
         } else {
-            $this->returnJson($this->getUserService()->toTree($this->getClass(TaoOntology::CLASS_URI_TAO_USER), array()));
+            $this->returnJson($this->getUserService()->toTree($this->getClass(TaoOntology::CLASS_URI_TAO_USER), []));
         }
     }
 

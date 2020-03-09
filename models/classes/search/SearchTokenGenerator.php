@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,6 +19,7 @@
  *
  *
  */
+
 namespace oat\tao\model\search;
 
 use oat\generis\model\OntologyRdfs;
@@ -29,26 +31,27 @@ use oat\tao\model\TaoOntology;
 
 /**
  * Search Token generator to be used in Indexers
- * 
+ *
  * @author Joel Bout <joel@taotesting.com>
  */
 class SearchTokenGenerator
 {
     use OntologyAwareTrait;
     
-    protected $indexMap = array();
+    protected $indexMap = [];
     
-    protected $propertyCache = array();
+    protected $propertyCache = [];
 
     /**
      * returns an array of subarrays containing [index, strings]
-     * 
+     *
      * @param \core_kernel_classes_Resource $resource
      * @throws \common_exception_InconsistentData
      * @return array complex array
      */
-     public function generateTokens(\core_kernel_classes_Resource $resource) {
-        $tokens = array();
+    public function generateTokens(\core_kernel_classes_Resource $resource)
+    {
+        $tokens = [];
         foreach ($this->getProperties($resource) as $property) {
             $indexes = $this->getIndexes($property);
             if (!empty($indexes)) {
@@ -60,17 +63,18 @@ class SearchTokenGenerator
                     } elseif ($tokenizer instanceof PropertyValueTokenizer) {
                         $strings = $tokenizer->getStrings($values);
                     } else {
-                        throw new \common_exception_InconsistentData('Unsupported tokenizer '.get_class($tokenizer));
+                        throw new \common_exception_InconsistentData('Unsupported tokenizer ' . get_class($tokenizer));
                     }
-                    $tokens[] = array($index, $strings);
+                    $tokens[] = [$index, $strings];
                 }
             }
         }
         return $tokens;
     }
     
-    protected function getProperties(\core_kernel_classes_Resource $resource) {
-        $classProperties = array($this->getProperty(OntologyRdfs::RDFS_LABEL));
+    protected function getProperties(\core_kernel_classes_Resource $resource)
+    {
+        $classProperties = [$this->getProperty(OntologyRdfs::RDFS_LABEL)];
         foreach ($resource->getTypes() as $type) {
             $classProperties = array_merge($classProperties, $this->getPropertiesByClass($type));
         }
@@ -78,7 +82,8 @@ class SearchTokenGenerator
         return $classProperties;
     }
     
-    protected function getPropertiesByClass(\core_kernel_classes_Class $type) {
+    protected function getPropertiesByClass(\core_kernel_classes_Class $type)
+    {
         if (!isset($this->propertyCache[$type->getUri()])) {
             $this->propertyCache[$type->getUri()] = $type->getProperties(true);
             // alternativly use non recursiv and union with getPropertiesByClass of parentclasses
@@ -86,9 +91,10 @@ class SearchTokenGenerator
         return $this->propertyCache[$type->getUri()];
     }
     
-    protected function getIndexes(\core_kernel_classes_Property $property) {
+    protected function getIndexes(\core_kernel_classes_Property $property)
+    {
         if (!isset($this->indexMap[$property->getUri()])) {
-            $this->indexMap[$property->getUri()] = array();
+            $this->indexMap[$property->getUri()] = [];
             $indexes = $property->getPropertyValues($this->getProperty(OntologyIndex::PROPERTY_INDEX));
             foreach ($indexes as $indexUri) {
                 $this->indexMap[$property->getUri()][] = new OntologyIndex($indexUri);

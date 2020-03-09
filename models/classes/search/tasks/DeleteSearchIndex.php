@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,6 +19,7 @@
  *
  *
  */
+
 namespace oat\tao\model\search\tasks;
 
 use oat\oatbox\action\Action;
@@ -27,24 +29,27 @@ use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use oat\generis\model\OntologyAwareTrait;
 use oat\tao\model\search\Search;
+
 /**
  * Class DeleteSearchIndex
  *
  * @author Aleksej Tikhanovich <aleksej@taotesting.com>
  * @package oat\tao\model\search\tasks
  */
-class DeleteSearchIndex implements Action,ServiceLocatorAwareInterface, TaskAwareInterface
+class DeleteSearchIndex implements Action, ServiceLocatorAwareInterface, TaskAwareInterface
 {
     use ServiceLocatorAwareTrait;
     use OntologyAwareTrait;
     use TaskAwareTrait;
+
     /**
      * @param $params
      * @return \common_report_Report
      * @throws \common_exception_Error
      * @throws \common_exception_MissingParameter
      */
-    public function __invoke($params) {
+    public function __invoke($params)
+    {
         if (count($params) != 1) {
             throw new \common_exception_MissingParameter();
         }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * RequiredAction is action which should be executed by user before performing any activities in the TAO.
  * Configuration example:

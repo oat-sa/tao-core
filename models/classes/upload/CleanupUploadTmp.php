@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -60,19 +61,24 @@ class CleanupUploadTmp extends ConfigurableService implements Action
                 $dirs++;
             }
 
-            $report->add(new \common_report_Report(\common_report_Report::TYPE_SUCCESS,
-                __('Removing: %s', $fileInfo['path'])));
+            $report->add(new \common_report_Report(
+                \common_report_Report::TYPE_SUCCESS,
+                __('Removing: %s', $fileInfo['path'])
+            ));
         }
 
         $report->add(new \common_report_Report(\common_report_Report::TYPE_SUCCESS, __('Total:')));
         $report->add(new \common_report_Report(\common_report_Report::TYPE_SUCCESS, __('Removed %s files', $files)));
-        $report->add(new \common_report_Report(\common_report_Report::TYPE_SUCCESS,
-            __('Removed %s directories', $dirs)));
+        $report->add(new \common_report_Report(
+            \common_report_Report::TYPE_SUCCESS,
+            __('Removed %s directories', $dirs)
+        ));
 
-        $report->add(new \common_report_Report(\common_report_Report::TYPE_SUCCESS,
-            __('Cleaning up tmp space complete')));
+        $report->add(new \common_report_Report(
+            \common_report_Report::TYPE_SUCCESS,
+            __('Cleaning up tmp space complete')
+        ));
 
         return $report;
     }
-
 }

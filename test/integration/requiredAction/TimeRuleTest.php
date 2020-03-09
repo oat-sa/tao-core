@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,7 +23,6 @@
 use oat\tao\test\TaoPhpUnitTestRunner;
 use  oat\tao\model\requiredAction\implementation\TimeRule;
 
-
 class TimeRuleTest extends TaoPhpUnitTestRunner
 {
     /**
@@ -38,7 +38,6 @@ class TimeRuleTest extends TaoPhpUnitTestRunner
      */
     public function tearDown()
     {
-
     }
 
     /**

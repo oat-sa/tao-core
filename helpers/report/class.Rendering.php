@@ -21,29 +21,30 @@
 /**
  * This helper aims at providing utility methods to render
  * reports into HTML.
- * 
+ *
  * @author Jérôme Bogaerts <jerome@taotesting.com>
  *
  */
-class tao_helpers_report_Rendering {
+class tao_helpers_report_Rendering
+{
     
     /**
      * Render a common_report_Report object into an HTML string output.
-     * 
+     *
      * @param common_report_Report $report A report to be rendered
      * @return string The HTML rendering.
      */
-    public static function render(common_report_Report $report) {
+    public static function render(common_report_Report $report)
+    {
         
         $stack = new SplStack();
         $renderingStack = new SplStack();
-        $traversed = array();
+        $traversed = [];
         
         $stack->push($report);
         $nesting = 0;
         
         while ($stack->count() > 0) {
-            
             $current = $stack->pop();
             
             if (in_array($current, $traversed, true) === false && $current->hasChildren() === true) {
@@ -60,22 +61,20 @@ class tao_helpers_report_Rendering {
                 foreach ($current as $child) {
                     $stack->push($child);
                 }
-            }
-            else if (in_array($current, $traversed, true) === true && $current->hasChildren() === true) {
+            } elseif (in_array($current, $traversed, true) === true && $current->hasChildren() === true) {
                 $nesting--;
                 // -- Hierachical report, 2nd pass (ascending).
                 
                 // Get the nested renderings of the current report.
-                $children = array();
+                $children = [];
                 foreach ($current as $child) {
                     $children[] = $renderingStack->pop();
                 }
                 
                 $renderingStack->push(self::renderReport($current, $children, $nesting));
-            }
-            else {
+            } else {
                 // -- Leaf report, 1st & single pass.
-                $renderingStack->push(self::renderReport($current, array(), $nesting, true));
+                $renderingStack->push(self::renderReport($current, [], $nesting, true));
             }
         }
         
@@ -84,31 +83,31 @@ class tao_helpers_report_Rendering {
     
     /**
      * Contains the logic to render a report and its children.
-     * 
+     *
      * @param common_report_Report $report A report to be rendered.
      * @param array $childRenderedReports An array of strings containing the separate rendering of $report's child reports.
      * @param integer $nesting The current nesting level (root = 0).
      * @return string The HTML output of $report.
      */
-    private static function renderReport(common_report_Report $report, array $childRenderedReports = array(), $nesting = 0, $leaf = false) {
+    private static function renderReport(common_report_Report $report, array $childRenderedReports = [], $nesting = 0, $leaf = false)
+    {
         
         switch ($report->getType()) {
-            
             case common_report_Report::TYPE_SUCCESS:
                 $typeClass = 'success';
-            break;
+                break;
             
             case common_report_Report::TYPE_WARNING:
                 $typeClass = 'warning';
-            break;
+                break;
             
             case common_report_Report::TYPE_ERROR:
                 $typeClass = 'error';
-            break;
+                break;
             
             default:
                 $typeClass = 'info';
-            break;
+                break;
         }
         
         $openingTag = '<div class="feedback-' . $typeClass . ' feedback-nesting-' . $nesting . ' ' . (($leaf === true) ? 'leaf' : 'hierarchical') . ' tao-scope">';
@@ -125,14 +124,14 @@ class tao_helpers_report_Rendering {
     
     /**
      * Contains the logic to render a report and its children to the command line
-     * 
+     *
      * @deprecated
      * @param common_report_Report $report A report to be rendered.
      * @param integer $intend the intend of the message.
      * @return string The command line output of $report.
      */
-    public static function renderToCommandline(common_report_Report $report, $intend = 0) {
+    public static function renderToCommandline(common_report_Report $report, $intend = 0)
+    {
         return helpers_Report::renderToCommandLine($report, helpers_Report::AUTOSENSE, $intend);
     }
-    
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -83,7 +84,7 @@ class UserLocksService extends ConfigurableService implements UserLocks
     {
         if (!$this->lockout || !$this->lockout instanceof LockoutStorage) {
             $lockout = $this->getOption(self::OPTION_LOCKOUT_STORAGE);
-            $this->lockout = ($lockout and class_exists($lockout)) ? new $lockout : new RdfLockoutStorage();
+            $this->lockout = ($lockout and class_exists($lockout)) ? new $lockout() : new RdfLockoutStorage();
         }
 
         return $this->lockout;
@@ -201,9 +202,9 @@ class UserLocksService extends ConfigurableService implements UserLocks
         }
 
         $lockoutPeriod = new DateInterval($this->getOption(self::OPTION_SOFT_LOCKOUT_PERIOD));
-        $lastFailureTime = (new DateTimeImmutable)->setTimestamp(intval((string)$this->getLockout()->getLastFailureTime($login)));
+        $lastFailureTime = (new DateTimeImmutable())->setTimestamp(intval((string)$this->getLockout()->getLastFailureTime($login)));
 
-        return $lastFailureTime->add($lockoutPeriod) > new DateTimeImmutable;
+        return $lastFailureTime->add($lockoutPeriod) > new DateTimeImmutable();
     }
 
     /**
