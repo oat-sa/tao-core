@@ -21,6 +21,11 @@
 
 namespace oat\tao\model\notification;
 
+/**
+ * Interface NotificationInterface
+ *
+ * @deprecated use oat\tao\model\notification\Notification
+ */
 interface NotificationInterface
 {
 

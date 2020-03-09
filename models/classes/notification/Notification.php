@@ -21,8 +21,17 @@
 
 namespace oat\tao\model\notification;
 
-class Notification implements NotificationInterface, \JsonSerializable
+use JsonSerializable;
+
+class Notification implements JsonSerializable
 {
+    public const DEFAULT_STATUS  = 0;
+
+    public const CREATED_STATUS  = 0;
+    public const SENDING_STATUS  = 1;
+    public const SENDED_STATUS   = 2;
+    public const READ_STATUS     = 3;
+    public const ARCHIVED_STATUS = 4;
 
     protected $id;
 
@@ -103,7 +112,7 @@ class Notification implements NotificationInterface, \JsonSerializable
         if (is_int($status)) {
             $this->status = $status;
         } else {
-            $this->status = NotificationInterface::DEFAULT_STATUS;
+            $this->status = self::DEFAULT_STATUS;
         }
         $this->updatedAt = date('Y-m-d H:i:s');
         return $this;
