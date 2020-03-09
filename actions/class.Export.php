@@ -50,8 +50,8 @@ class tao_actions_Export extends tao_actions_CommonModule
         $class = null;
 
         if ($this->hasRequestParameter('classUri') && trim($this->getRequestParameter('classUri')) !== '') {
-            $class = $this->getClass(tao_helpers_Uri::decode($this->getRequestParameter('classUri')));
-            $formData['items'] = $class->getInstances(true);
+            $formData['class'] = $this->getClass(tao_helpers_Uri::decode($this->getRequestParameter('classUri')));
+            $formData['items'] = $formData['class']->getInstances(true);
         }
 
         if (
@@ -74,7 +74,7 @@ class tao_actions_Export extends tao_actions_CommonModule
         $handlers = $this->getAvailableExportHandlers();
         $exporter = $this->getCurrentExporter();
 
-        $selectedResource = $formData['instance'] ?? $class;
+        $selectedResource = $formData['instance'] ?? $formData['class'];
 
         if (!$selectedResource) {
             throw new common_exception_MissingParameter();
