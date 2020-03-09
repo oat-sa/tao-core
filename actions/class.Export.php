@@ -17,16 +17,14 @@
  *
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the
  * project TAO & TAO2);
- *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under
- *               the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN
- *               & TAO-DEV);
- *               2013-2018 (update and modification) Open Assessment Technologies SA;
- *
+ *   2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
+ *   2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ *   2013-2018 (update and modification) Open Assessment Technologies SA;
  */
 
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\log\LoggerAwareTrait;
+use oat\tao\model\resources\SecureResourceService;
 use oat\tao\model\task\ExportByHandler;
 use oat\tao\model\taskQueue\QueueDispatcher;
 use oat\tao\model\taskQueue\TaskLogActionTrait;
@@ -82,7 +80,7 @@ class tao_actions_Export extends tao_actions_CommonModule
 
         $formFactory = new tao_actions_form_Export($handlers, $exporter->getExportForm($selectedResource), $formData);
         $exportForm = $formFactory->getForm();
-        if (!is_null($exporter)) {
+        if ($exporter !== null) {
             $exportForm->setValues(['exportHandler' => get_class($exporter)]);
         }
         $this->setData('exportForm', $exportForm->render());
@@ -167,12 +165,18 @@ class tao_actions_Export extends tao_actions_CommonModule
             $returnValue[] = $this->getResource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
         } elseif ($this->hasRequestParameter('classUri') && trim($this->getRequestParameter('classUri')) != '') {
             $class = $this->getClass(tao_helpers_Uri::decode($this->getRequestParameter('classUri')));
-            $returnValue = $class->getInstances(true);
+            $resourceService = $this->getSecureResourceService();
+            $returnValue = $resourceService->getAllChildren($class);
         } else {
             $this->logWarning('No resources to export');
         }
 
         return $returnValue;
+    }
+
+    private function getSecureResourceService(): SecureResourceService
+    {
+        return $this->getServiceLocator()->get(SecureResourceService::SERVICE_ID);
     }
 
     /**

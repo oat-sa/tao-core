@@ -21,7 +21,7 @@ class SecureResourceService extends ConfigurableService
      *
      * @return core_kernel_classes_Resource[]
      */
-    public function getChildren(core_kernel_classes_Class $resource): array
+    public function getAllChildren(core_kernel_classes_Class $resource): array
     {
         $result = [];
         $children = $resource->getInstances(true);
