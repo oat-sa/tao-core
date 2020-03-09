@@ -25,6 +25,7 @@ use oat\generis\model\OntologyRdf;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\upload\UploadService;
 use oat\oatbox\filesystem\File;
+use oat\generis\model\kernel\persistence\file\RdfFileImporter;
 
 /**
  * Adapter for RDF/RDFS format
@@ -37,44 +38,11 @@ class tao_helpers_data_GenerisAdapterRdf extends tao_helpers_data_GenerisAdapter
 {
 
     /**
-     * Import a XML file as is into the ontology
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string $source
-     * @param  core_kernel_classes_Class $destination
-     * @param  string $namespace
-     * @return boolean
-     * @throws \oat\oatbox\service\ServiceNotFoundException
-     * @throws \common_Exception
+     * @deprecated
      */
     public function import($source, core_kernel_classes_Class $destination = null, $namespace = null)
     {
-        /** @var UploadService $uploadService */
-        $uploadService = ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID);
-        if (!$source instanceof File) {
-            $file = $uploadService->getUploadedFlyFile($source);
-        } else {
-            $file = $source;
-        }
-
-        $returnValue = false;
-
-        if ($file->exists()) {
-            $api = core_kernel_impl_ApiModelOO::singleton();
-            if ($destination !== null) {
-                $targetNamespace = substr($destination->getUri(), 0, strpos($destination->getUri(), '#'));
-            } elseif ($namespace !== null) {
-                $targetNamespace = $namespace;
-            } else {
-                $targetNamespace = rtrim(common_ext_NamespaceManager::singleton()->getLocalNamespace()->getUri(), '#');
-            }
-            $returnValue = $api->importXmlRdf($targetNamespace, $file);
-        }
-
-        $uploadService->remove($file);
-
-        return $returnValue;
+       throw new common_exception_DeprecatedApiMethod();
     }
 
     /**

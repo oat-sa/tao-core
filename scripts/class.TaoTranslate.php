@@ -3,6 +3,8 @@
 use oat\generis\model\OntologyRdfs;
 use oat\tao\helpers\ApplicationHelper;
 use oat\tao\model\menu\MenuService;
+use oat\generis\model\kernel\persistence\file\RdfFileImporter;
+use oat\oatbox\service\ServiceManager;
 
 /**
  * This program is free software; you can redistribute it and/or
@@ -1023,8 +1025,8 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
                     $this->outVerbose("Existing RDF Description language '" . $this->options['language'] . "' deleted.");
                 }
                 
-                $generisAdapterRdf = new tao_helpers_data_GenerisAdapterRdf();
-                if (true === $generisAdapterRdf->import($expectedDescriptionPath, null, LOCAL_NAMESPACE)) {
+                $importer = new RdfFileImporter();
+                if (true === $importer->setServiceLocator(ServiceManager::getServiceManager())->import($expectedDescriptionPath)) {
                     $this->outVerbose("RDF language description '" . $this->options['language'] . "' successfully imported.");
                 } else {
                     $this->err("An error occured while importing the RDF language description '" . $this->options['language'] . "'.", true);
