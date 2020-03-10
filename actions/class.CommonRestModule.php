@@ -210,8 +210,9 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
     /**
      * Returns all parameters that are URIs or Aliased with values
      *
-     * @return array
      * @throws \common_exception_RestApi If a mandatory parameter is not found
+     *
+     * @return array
      */
     protected function getParameters()
     {
@@ -232,7 +233,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
             }
         }
 
-        if (count($missedAliases) > 0) {
+        if (!empty($missedAliases)) {
             throw new \common_exception_RestApi(
                 'Missed required parameters: ' . implode(', ', $missedAliases)
             );
