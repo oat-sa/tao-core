@@ -23,7 +23,7 @@ namespace oat\tao\model\notification;
 
 use JsonSerializable;
 
-class Notification implements NotificationInterface, JsonSerializable
+class Notification implements JsonSerializable
 {
     public const DEFAULT_STATUS  = 0;
 
