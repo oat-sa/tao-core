@@ -925,25 +925,7 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('22.10.2');
         }
 
-        $this->skip('22.10.0', '22.12.0');
-
-        if ($this->isVersion('22.12.0')) {
-            $this->getServiceManager()->register(
-                ActionProtector::SERVICE_ID,
-                new ActionProtector(['frameSourceWhitelist' => ['self']])
-            );
-            $this->setVersion('22.13.0');
-        }
-
-        if ($this->isVersion('22.13.0')) {
-            $this->getServiceManager()->register(
-                ActionProtector::SERVICE_ID,
-                new ActionProtector(['frameSourceWhitelist' => ["'self'"]])
-            );
-            $this->setVersion('22.13.1');
-        }
-
-        $this->skip('22.13.1', '26.1.7');
+        $this->skip('22.10.0', '26.1.7');
 
         if ($this->isVersion('26.1.7')) {
             AclProxy::applyRule(new AccessRule(AccessRule::GRANT, TaoRoles::SYSTEM_ADMINISTRATOR, Users::class));
@@ -1330,10 +1312,15 @@ class Updater extends \common_ext_ExtensionUpdater
 
             /** @var SettingsStorageInterface $storage */
             $storage = $serviceManager->get(SettingsStorageInterface::SERVICE_ID);
+            $securitySettingsRepository = new SecuritySettingsRepository($storage);
 
             $serviceManager->register(
                 SecuritySettingsRepositoryInterface::SERVICE_ID,
-                new SecuritySettingsRepository($storage)
+                $securitySettingsRepository
+            );
+            $serviceManager->register(
+                ActionProtector::SERVICE_ID,
+                new ActionProtector($securitySettingsRepository)
             );
 
             $this->setVersion('41.1.0');

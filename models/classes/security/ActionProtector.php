@@ -21,29 +21,38 @@
 
 namespace oat\tao\model\security;
 
-use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\service\SettingsStorage;
-use oat\tao\model\settings\CspHeaderSettingsInterface;
+use oat\tao\model\security\Business\Contract\SecuritySettingsRepositoryInterface;
+use oat\tao\model\service\InjectionAwareService;
 
 /**
  * Service that can be used to protect actions.
  *
  * @author Martijn Swinkels <martijn@taotesting.com>
  */
-class ActionProtector extends ConfigurableService
+class ActionProtector extends InjectionAwareService
 {
     public const SERVICE_ID = 'tao/actionProtection';
+
+    /** @var SecuritySettingsRepositoryInterface */
+    private $repository;
+
+    /** @noinspection MagicMethodsValidityInspection */
+    /** @noinspection PhpMissingParentConstructorInspection */
+    public function __construct(SecuritySettingsRepositoryInterface $repository)
+    {
+        $this->repository = $repository;
+    }
 
     /**
      * Set the header that defines which sources are allowed to embed the pages.
      */
     public function setFrameAncestorsHeader(): void
     {
-        /** @var SettingsStorage $settingsStorage */
-        $settingsStorage = $this->getServiceLocator()->get(SettingsStorage::SERVICE_ID);
-        $whitelistedSources = $settingsStorage->get(CspHeaderSettingsInterface::CSP_HEADER_SETTING);
+        $settings = $this->repository->findAll();
 
-        if ($whitelistedSources === null) {
+        $whitelistedSources = $settings->findContentSecurityPolicy()->getValue();
+
+        if (!$whitelistedSources) {
             $whitelistedSources = ["'none'"];
         }
 
@@ -53,12 +62,19 @@ class ActionProtector extends ConfigurableService
         }
 
         if ($whitelistedSources === 'list') {
-            $whitelistedSources = json_decode($settingsStorage->get(CspHeaderSettingsInterface::CSP_HEADER_LIST), true);
+            $whitelistedSources = explode("\n", $settings->findContentSecurityPolicyWhitelist()->getValue());
         }
 
         header(sprintf(
             'Content-Security-Policy: frame-ancestors %s',
             implode(' ', (array)$whitelistedSources)
         ));
+    }
+
+    protected function getDependencies(): array
+    {
+        return [
+            $this->repository,
+        ];
     }
 }
