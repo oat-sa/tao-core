@@ -65,6 +65,8 @@ use oat\tao\model\routing\AnnotationReaderService;
 use oat\tao\model\routing\ControllerService;
 use oat\tao\model\routing\RouteAnnotationService;
 use oat\tao\model\security\ActionProtector;
+use oat\tao\model\security\Business\Contract\SecuritySettingsRepositoryInterface;
+use oat\tao\model\security\DataAccess\Repository\SecuritySettingsRepository;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStore;
 use oat\tao\model\security\xsrf\TokenStoreSession;
@@ -1323,5 +1325,18 @@ class Updater extends \common_ext_ExtensionUpdater
 
         $this->skip('40.9.6', '41.0.1');
 
+        if ($this->isVersion('41.0.1')) {
+            $serviceManager = $this->getServiceManager();
+
+            /** @var SettingsStorageInterface $storage */
+            $storage = $serviceManager->get(SettingsStorageInterface::SERVICE_ID);
+
+            $serviceManager->register(
+                SecuritySettingsRepositoryInterface::SERVICE_ID,
+                new SecuritySettingsRepository($storage)
+            );
+
+            $this->setVersion('41.1.0');
+        }
     }
 }
