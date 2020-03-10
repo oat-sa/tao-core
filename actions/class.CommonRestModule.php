@@ -218,11 +218,15 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
         $effectiveParameters = [];
         $missedAliases = [];
 
+        if (!is_array($parameters = $this->getPsrRequest()->getParsedBody())) {
+            $parameters = [];
+        }
+
         foreach ($this->getParametersAliases() as $checkParameterShort => $checkParameterUri) {
-            if ($this->hasRequestParameter($checkParameterUri)) {
-                $effectiveParameters[$checkParameterUri] = $this->getRequestParameter($checkParameterUri);
-            } elseif ($this->hasRequestParameter($checkParameterShort)) {
-                $effectiveParameters[$checkParameterUri] = $this->getRequestParameter($checkParameterShort);
+            if (array_key_exists($checkParameterUri, $parameters)) {
+                $effectiveParameters[$checkParameterUri] = $parameters[$checkParameterUri];
+            } elseif (array_key_exists($checkParameterShort, $parameters)) {
+                $effectiveParameters[$checkParameterUri] = $parameters[$checkParameterShort];
             } elseif ($this->isRequiredParameter($checkParameterShort)) {
                 $missedAliases[] = $checkParameterShort;
             }
