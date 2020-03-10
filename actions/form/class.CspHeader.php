@@ -36,12 +36,16 @@ class tao_actions_form_CspHeader extends tao_helpers_form_FormContainer
 
     private const SOURCE_RADIO_NAME = 'iframeSourceOption';
     private const SOURCE_LIST_NAME  = 'iframeSourceDomains';
+    private const FORCED_TLS_NAME   = 'isTlsForced';
 
     /** @var tao_helpers_form_elements_xhtml_Radiobox */
     private $sourceElement;
 
     /** @var tao_helpers_form_elements_xhtml_Textarea */
     private $sourceDomainsElement;
+
+    /** @var tao_helpers_form_elements_xhtml_Checkbox */
+    private $forcedTlsElement;
 
     /** @var SettingsCollection */
     private $settings;
@@ -74,20 +78,28 @@ class tao_actions_form_CspHeader extends tao_helpers_form_FormContainer
             "<div class='help-text'>Each domain should be added on a new line. \n
             Valid domain formats: www.example.com, *.example.com, http://www.example.com</div>"
         );
+        $this->forcedTlsElement = tao_helpers_form_FormFactory::getElement(self::FORCED_TLS_NAME, 'Combobox');
 
         $this->setValidation();
         $this->sourceElement->setOptions($this->getSourceOptions());
+        $this->forcedTlsElement->setOptions(['1' => __('Yes'), '0' => __('No')]);
 
         $this->handleFormPost();
         $this->initializeFormData();
 
         $this->form->addElement($this->sourceElement);
         $this->form->addElement($this->sourceDomainsElement);
+        $this->form->addElement($this->forcedTlsElement);
 
         $this->form->createGroup(
             'sources',
             '<h3>' . __('Sources that can embed this platform in an iFrame') . '</h3>',
             [self::SOURCE_RADIO_NAME, self::SOURCE_LIST_NAME]
+        );
+        $this->form->createGroup(
+            'tls',
+            sprintf('<h3>%s</h3>', __('Force HTTPS on this platform')),
+            [self::FORCED_TLS_NAME]
         );
 
         $this->form->setActions(tao_helpers_form_FormFactory::getCommonActions());
@@ -116,7 +128,7 @@ class tao_actions_form_CspHeader extends tao_helpers_form_FormContainer
      */
     private function handleFormPost(): void
     {
-        $postData = $this->getPostData();
+        $postData = $_POST ?? [];
 
         if (isset($postData[self::SOURCE_RADIO_NAME]) && array_key_exists($postData[self::SOURCE_RADIO_NAME], $this->getSourceOptions())) {
             $this->settings->findContentSecurityPolicy()->setValue($postData[self::SOURCE_RADIO_NAME]);
@@ -124,6 +136,11 @@ class tao_actions_form_CspHeader extends tao_helpers_form_FormContainer
 
         if (isset($postData[self::SOURCE_LIST_NAME])) {
             $this->settings->findContentSecurityPolicyWhitelist()->setValue($postData[self::SOURCE_LIST_NAME]);
+        }
+
+        if (isset($postData[self::FORCED_TLS_NAME]))
+        {
+            $this->settings->findTransportSecurity()->setValue((string)!empty($postData[self::FORCED_TLS_NAME]));
         }
     }
 
@@ -134,6 +151,9 @@ class tao_actions_form_CspHeader extends tao_helpers_form_FormContainer
         );
         $this->sourceDomainsElement->setValue(
             $this->settings->findContentSecurityPolicyWhitelist()->getValue()
+        );
+        $this->forcedTlsElement->setValue(
+            (int)$this->settings->findTransportSecurity()->getValue()
         );
     }
 
