@@ -56,6 +56,11 @@ final class SettingsCollection implements IteratorAggregate
         return $this->settings[SecuritySettingsRepository::CONTENT_SECURITY_POLICY_WHITELIST];
     }
 
+    public function findTransportSecurity(): Setting
+    {
+        return $this->settings[SecuritySettingsRepository::STRICT_TRANSPORT_SECURITY];
+    }
+
     private function extractKey(Setting $setting): string
     {
         return $setting->getKey();

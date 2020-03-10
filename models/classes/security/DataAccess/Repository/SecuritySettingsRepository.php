@@ -30,10 +30,12 @@ class SecuritySettingsRepository extends InjectionAwareService implements Securi
 {
     public const CONTENT_SECURITY_POLICY           = 'cspHeader';
     public const CONTENT_SECURITY_POLICY_WHITELIST = 'cspHeaderList';
+    public const STRICT_TRANSPORT_SECURITY         = 'tlsHeader';
 
     private const SETTING_KEYS = [
         self::CONTENT_SECURITY_POLICY,
         self::CONTENT_SECURITY_POLICY_WHITELIST,
+        self::STRICT_TRANSPORT_SECURITY,
     ];
 
     private const MULTILINE_VALUE_KEYS = [

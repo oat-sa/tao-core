@@ -147,6 +147,25 @@ class SecuritySettingsRepositoryTest extends TestCase
                     )
                 ),
             ],
+            'Write TLS'           => [
+                'expected' => [
+                    SecuritySettingsRepository::STRICT_TRANSPORT_SECURITY => '1',
+                ],
+                'settings' => new SettingsCollection(
+                    new Setting(SecuritySettingsRepository::STRICT_TRANSPORT_SECURITY, '1')
+                ),
+            ],
+            'Overwrite TLS'       => [
+                'expected'    => [
+                    SecuritySettingsRepository::STRICT_TRANSPORT_SECURITY => '0',
+                ],
+                'settings'    => new SettingsCollection(
+                    new Setting(SecuritySettingsRepository::STRICT_TRANSPORT_SECURITY, '0')
+                ),
+                'storageData' => [
+                    SecuritySettingsRepository::STRICT_TRANSPORT_SECURITY => '1',
+                ],
+            ],
         ];
     }
 
@@ -178,6 +197,16 @@ class SecuritySettingsRepositoryTest extends TestCase
                     ),
                 ],
             ],
+            'TLS set'           => [
+                'expected'    => $this->createSettingsCollection(
+                    [
+                        SecuritySettingsRepository::STRICT_TRANSPORT_SECURITY => '1',
+                    ]
+                ),
+                'storageData' => [
+                    SecuritySettingsRepository::STRICT_TRANSPORT_SECURITY => '1',
+                ],
+            ],
         ];
     }
 
@@ -197,6 +226,7 @@ class SecuritySettingsRepositoryTest extends TestCase
         $raw += [
             SecuritySettingsRepository::CONTENT_SECURITY_POLICY           => '',
             SecuritySettingsRepository::CONTENT_SECURITY_POLICY_WHITELIST => '',
+            SecuritySettingsRepository::STRICT_TRANSPORT_SECURITY         => '',
         ];
 
         $settings = [];
