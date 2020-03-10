@@ -63,6 +63,8 @@ use oat\tao\model\routing\AnnotationReaderService;
 use oat\tao\model\routing\ControllerService;
 use oat\tao\model\routing\RouteAnnotationService;
 use oat\tao\model\security\ActionProtector;
+use oat\tao\model\security\Business\Contract\SecuritySettingsRepositoryInterface;
+use oat\tao\model\security\DataAccess\Repository\SecuritySettingsRepository;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStore;
 use oat\tao\model\security\xsrf\TokenStoreSession;
@@ -1232,9 +1234,20 @@ class Updater extends \common_ext_ExtensionUpdater {
         $this->skip('38.11.1', '38.13.3.2');
 
         if ($this->isVersion('38.13.3.2')) {
-            $oauthService = $this->getServiceManager()->get(OauthService::SERVICE_ID);
+            $serviceManager = $this->getServiceManager();
+
+            $oauthService = $serviceManager->get(OauthService::SERVICE_ID);
             $oauthService->setOption(OauthService::OPTION_LOCKOUT_SERVICE, new NoLockout());
-            $this->getServiceManager()->register(OauthService::SERVICE_ID,$oauthService);
+            $serviceManager->register(OauthService::SERVICE_ID,$oauthService);
+
+            /** @var SettingsStorageInterface $storage */
+            $storage = $serviceManager->get(SettingsStorageInterface::SERVICE_ID);
+
+            $serviceManager->register(
+                SecuritySettingsRepositoryInterface::SERVICE_ID,
+                new SecuritySettingsRepository($storage)
+            );
+
             $this->setVersion('38.13.3.3');
         }
     }
