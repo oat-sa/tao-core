@@ -12,5 +12,8 @@ return new ActionProtector(
                 'key_namespace' => 'tao:settings:',
             ]
         )
-    )
+    ),
+    [
+        'X-Content-Type-Options: nosniff',
+    ]
 );
