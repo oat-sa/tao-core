@@ -251,9 +251,10 @@ class tao_actions_Users extends tao_actions_CommonModule
             unset($values['password1'], $values['password2']);
 
             /** @var tao_models_classes_UserService $userService */
-            $userService = $this->getServiceLocator()->get(tao_models_classes_UserService::class);
+            $userService = $this->getServiceLocator()->get(tao_models_classes_UserService::SERVICE_ID);
+            $hashForKey = UserHashForEncryption::hash($plainPassword);
 
-            if ($userService->triggerUpdatedEvent($container->getUser(), $values, $plainPassword)) {
+            if ($userService->triggerUpdatedEvent($container->getUser(), $values, $hashForKey)) {
                 $this->setData('message', __('User added'));
                 $this->setData('exit', true);
             }
@@ -341,7 +342,6 @@ class tao_actions_Users extends tao_actions_CommonModule
 
         if ($myForm->isSubmited() && $myForm->isValid()) {
             $values = $myForm->getValues();
-            $plainPassword = null;
 
             if (!empty($values['password2']) && !empty($values['password3'])) {
                 $plainPassword = $values['password2'];
@@ -359,7 +359,7 @@ class tao_actions_Users extends tao_actions_CommonModule
             }
 
             /** @var tao_models_classes_UserService $userService */
-            $userService = $this->getServiceLocator()->get(tao_models_classes_UserService::class);
+            $userService = $this->getServiceLocator()->get(tao_models_classes_UserService::SERVICE_ID);
             $userService->checkCurrentUserAccess($values[GenerisRdf::PROPERTY_USER_ROLES]);
 
             // leave roles which are not in the allowed list for current user
@@ -368,7 +368,9 @@ class tao_actions_Users extends tao_actions_CommonModule
             $staticRoles = array_diff($oldRoles, $allowedRoles);
             $values[GenerisRdf::PROPERTY_USER_ROLES] = array_merge($values[GenerisRdf::PROPERTY_USER_ROLES], $staticRoles);
 
-            if ($userService->triggerUpdatedEvent($user, $values, $plainPassword)) {
+            $hashForKey = isset($plainPassword) ? UserHashForEncryption::hash($plainPassword) : null;
+
+            if ($userService->triggerUpdatedEvent($user, $values, $hashForKey)) {
                 $this->setData('message', __('User saved'));
             }
         }

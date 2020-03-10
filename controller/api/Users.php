@@ -31,13 +31,13 @@ use common_exception_ValidationFailed;
 use common_Utils;
 use core_kernel_classes_Resource;
 use core_kernel_users_Exception;
-use oat\generis\model\OntologyRdfs;
 use oat\generis\model\user\UserRdf;
 use oat\oatbox\service\ServiceManager;
 use tao_actions_CommonRestModule;
 use tao_models_classes_LanguageService;
 use tao_models_classes_RoleService;
 use tao_models_classes_UserService;
+use oat\generis\Helper\UserHashForEncryption;
 
 /**
  * @OA\Post(
@@ -227,11 +227,10 @@ class Users extends tao_actions_CommonRestModule
 
             $userService->attachProperties($user, $parameters);
 
-            if (!array_key_exists(GenerisRdf::PROPERTY_USER_PASSWORD, $parameters)) {
-                $parameters[GenerisRdf::PROPERTY_USER_PASSWORD] = $user->getProperty(GenerisRdf::PROPERTY_USER_PASSWORD);
-            }
+            $parameters[GenerisRdf::PROPERTY_USER_PASSWORD] = $user->getProperty(GenerisRdf::PROPERTY_USER_PASSWORD);
+            unset($parameters[UserRdf::PROPERTY_PASSWORD]);
 
-            $userService->triggerUpdatedEvent($user, $parameters, $password);
+            $userService->triggerUpdatedEvent($user, $parameters, UserHashForEncryption::hash($password));
 
             $this->returnSuccess([
                 'success' => true,
