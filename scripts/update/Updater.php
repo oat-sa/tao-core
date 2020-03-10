@@ -1320,7 +1320,12 @@ class Updater extends \common_ext_ExtensionUpdater
             );
             $serviceManager->register(
                 ActionProtector::SERVICE_ID,
-                new ActionProtector($securitySettingsRepository)
+                new ActionProtector(
+                    $securitySettingsRepository,
+                    [
+                        'X-Content-Type-Options: nosniff',
+                    ]
+                )
             );
 
             $this->setVersion('41.1.0');

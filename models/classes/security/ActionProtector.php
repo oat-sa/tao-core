@@ -36,11 +36,28 @@ class ActionProtector extends InjectionAwareService
     /** @var SecuritySettingsRepositoryInterface */
     private $repository;
 
+    /** @var string */
+    private $defaultHeaders;
+
     /** @noinspection MagicMethodsValidityInspection */
     /** @noinspection PhpMissingParentConstructorInspection */
-    public function __construct(SecuritySettingsRepositoryInterface $repository)
+    public function __construct(SecuritySettingsRepositoryInterface $repository, array $defaultHeaders = [])
     {
-        $this->repository = $repository;
+        $this->repository     = $repository;
+        $this->defaultHeaders = $defaultHeaders;
+    }
+
+    public function setHeaders(): void
+    {
+        $this->setDefaultHeaders();
+        $this->setFrameAncestorsHeader();
+    }
+
+    public function setDefaultHeaders(): void
+    {
+        foreach ($this->defaultHeaders as $defaultHeader) {
+            header($defaultHeader);
+        }
     }
 
     /**
@@ -65,16 +82,19 @@ class ActionProtector extends InjectionAwareService
             $whitelistedSources = explode("\n", $settings->findContentSecurityPolicyWhitelist()->getValue());
         }
 
-        header(sprintf(
-            'Content-Security-Policy: frame-ancestors %s',
-            implode(' ', (array)$whitelistedSources)
-        ));
+        header(
+            sprintf(
+                'Content-Security-Policy: frame-ancestors %s',
+                implode(' ', (array)$whitelistedSources)
+            )
+        );
     }
 
     protected function getDependencies(): array
     {
         return [
             $this->repository,
+            $this->defaultHeaders,
         ];
     }
 }
