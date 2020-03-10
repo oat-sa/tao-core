@@ -7,7 +7,6 @@ namespace oat\tao\model\resources;
 use common_exception_Error;
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
-use Exception;
 use oat\generis\model\data\permission\PermissionInterface;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\session\SessionService;
@@ -21,37 +20,28 @@ class SecureResourceService extends ConfigurableService
      * @param core_kernel_classes_Class $resource
      *
      * @return core_kernel_classes_Resource[]
+     * @throws common_exception_Error
      */
     public function getAllChildren(core_kernel_classes_Class $resource): array
     {
-        $result = [];
         $children = $resource->getInstances(true);
-
         $permissionService = $this->getPermissionProvider();
 
-        $childrenIds = [];
+        $childrenIds = array_map(static function(core_kernel_classes_Resource $child) {
+            return $child->getUri();
+        }, $children);
 
-        foreach ($children as $child) {
-            $childrenIds[] = $child->getUri();
-        }
+        $permissions = $permissionService->getPermissions(
+            $this->getUser(),
+            $childrenIds
+        );
 
-        try {
-            $permissions = $permissionService->getPermissions(
-                $this->getUser(),
-                $childrenIds
-            );
-
-            foreach ($children as $child) {
-                if (in_array('READ', $permissions[$child->getUri()], true)) {
-                    $result[] = $child;
-                }
+        return array_filter(
+            $children,
+            static function (core_kernel_classes_Resource $child) use ($permissions) {
+                return in_array('READ', $permissions[$child->getUri()], true);
             }
-
-        } catch (Exception $e) {
-            throw new SecureResourceServiceException($e->getMessage(), 0, $e);
-        }
-
-        return $result;
+        );
     }
 
     private function getPermissionProvider(): PermissionInterface
