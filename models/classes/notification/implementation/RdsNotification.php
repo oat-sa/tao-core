@@ -27,7 +27,21 @@ use common_persistence_Manager as PersistenceManager;
 
 class RdsNotification extends AbstractNotificationService
 {
+    const NOTIF_TABLE = 'notifications';
 
+    const NOTIF_FIELD_ID           = 'id';
+    const NOTIF_FIELD_RECIPIENT    = 'recipient';
+    const NOTIF_FIELD_TITLE        = 'title';
+    const NOTIF_FIELD_STATUS       = 'status';
+    const NOTIF_FIELD_SENDER       = 'sender_id';
+    const NOTIF_FIELD_SENDER_NANE  = 'sender_name';
+    const NOTIF_FIELD_MESSAGE      = 'message';
+    const NOTIF_FIELD_CREATION     = 'created_at';
+    const NOTIF_FIELD_UPDATED      = 'updated_at';
+
+    const OPTION_PERSISTENCE       = 'persistence';
+
+    const DEFAULT_PERSISTENCE      = 'default';
 
     /**
      * @var \common_persistence_Manager
