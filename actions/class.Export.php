@@ -45,11 +45,9 @@ class tao_actions_Export extends tao_actions_CommonModule
     public function index()
     {
         $formData = [];
-        $class = null;
 
         if ($this->hasRequestParameter('classUri') && trim($this->getRequestParameter('classUri')) !== '') {
             $formData['class'] = $this->getClass(tao_helpers_Uri::decode($this->getRequestParameter('classUri')));
-            $formData['items'] = $formData['class']->getInstances(true);
         }
 
         if (
