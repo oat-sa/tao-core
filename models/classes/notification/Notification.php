@@ -52,9 +52,19 @@ class Notification implements NotificationInterface, JsonSerializable
     protected $updatedAt;
 
     /**
-     * AbstractNotification constructor.
+     * Notification constructor.
+     *
+     * @param string $userId
+     * @param string $title
+     * @param string $message
+     * @param string $senderId
+     * @param string $senderName
+     * @param string|null $id
+     * @param string|null $createdAt
+     * @param string|null $updatedAt
+     * @param int $status
      */
-    public function __construct(string $userId, string $title, string $message, string $senderId, string $senderName, string $id = null, string $createdAt = null, string $updatedAt = null,  int $status = 0)
+    public function __construct($userId, $title, $message, $senderId, $senderName, $id = null, $createdAt = null, $updatedAt = null, $status = 0)
     {
         $this->id         = $id;
         $this->status     = $status;
