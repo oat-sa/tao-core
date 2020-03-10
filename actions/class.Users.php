@@ -22,13 +22,13 @@
  *
  */
 
+use oat\generis\model\user\UserRdf;
 use oat\generis\Helper\UserHashForEncryption;
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\event\EventManager;
 use oat\tao\helpers\ApplicationHelper;
 use oat\tao\helpers\UserHelper;
-use oat\tao\model\event\UserUpdatedEvent;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\user\UserLocks;
 use oat\oatbox\user\UserLanguageServiceInterface;
@@ -246,15 +246,17 @@ class tao_actions_Users extends tao_actions_CommonModule
 
         if ($form->isSubmited() && $form->isValid()) {
             $values = $form->getValues();
-            $values[GenerisRdf::PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($values['password1']);
             $plainPassword = $values['password1'];
             unset($values['password1'], $values['password2']);
 
+            $values[UserRdf::PROPERTY_PASSWORD] = core_kernel_users_Service::getPasswordHash()
+                ->encrypt($plainPassword);
+            $values['hashForKey'] = UserHashForEncryption::hash($plainPassword);
+
             /** @var tao_models_classes_UserService $userService */
             $userService = $this->getServiceLocator()->get(tao_models_classes_UserService::SERVICE_ID);
-            $hashForKey = UserHashForEncryption::hash($plainPassword);
 
-            if ($userService->triggerUpdatedEvent($container->getUser(), $values, $hashForKey)) {
+            if ($userService->triggerUpdatedEvent($container->getUser(), $values)) {
                 $this->setData('message', __('User added'));
                 $this->setData('exit', true);
             }
@@ -345,8 +347,9 @@ class tao_actions_Users extends tao_actions_CommonModule
 
             if (!empty($values['password2']) && !empty($values['password3'])) {
                 $plainPassword = $values['password2'];
-                $values[GenerisRdf::PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()
-                    ->encrypt($values['password2']);
+                $values[UserRdf::PROPERTY_PASSWORD] = core_kernel_users_Service::getPasswordHash()
+                    ->encrypt($plainPassword);
+                $values['hashForKey'] = UserHashForEncryption::hash($plainPassword);
             }
 
             unset($values['password2'], $values['password3']);
@@ -368,9 +371,7 @@ class tao_actions_Users extends tao_actions_CommonModule
             $staticRoles = array_diff($oldRoles, $allowedRoles);
             $values[GenerisRdf::PROPERTY_USER_ROLES] = array_merge($values[GenerisRdf::PROPERTY_USER_ROLES], $staticRoles);
 
-            $hashForKey = isset($plainPassword) ? UserHashForEncryption::hash($plainPassword) : null;
-
-            if ($userService->triggerUpdatedEvent($user, $values, $hashForKey)) {
+            if ($userService->triggerUpdatedEvent($user, $values)) {
                 $this->setData('message', __('User saved'));
             }
         }

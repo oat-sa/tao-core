@@ -33,7 +33,6 @@ use oat\tao\model\event\UserUpdatedEvent;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\ClassServiceTrait;
 use oat\tao\model\GenerisServiceTrait;
-use oat\generis\Helper\UserHashForEncryption;
 
 /**
  * This class provide service on user management
@@ -550,22 +549,17 @@ class tao_models_classes_UserService extends ConfigurableService implements core
     /**
      * @param core_kernel_classes_Resource $user
      * @param array $values
-     * @param string|null $hashForKey
      *
      * @throws tao_models_classes_dataBinding_GenerisFormDataBindingException
      *
      * @return bool
      */
-    public function triggerUpdatedEvent(core_kernel_classes_Resource $user, array $values, $hashForKey = null)
+    public function triggerUpdatedEvent(core_kernel_classes_Resource $user, array $values)
     {
         $triggered = false;
         $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($user);
 
         if ($binder->bind($values)) {
-            if ($hashForKey !== null) {
-                $values['hashForKey'] = $hashForKey;
-            }
-
             $this->getEventManager()->trigger(new UserUpdatedEvent($user, $values));
             $triggered = true;
         }

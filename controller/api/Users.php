@@ -23,7 +23,6 @@ namespace oat\tao\controller\api;
 
 use common_Exception;
 use common_exception_Error;
-use oat\generis\model\GenerisRdf;
 use common_exception_MethodNotAllowed;
 use common_exception_MissingParameter;
 use common_exception_RestApi;
@@ -209,17 +208,18 @@ class Users extends tao_actions_CommonRestModule
 
             $roles = $this->processRoles($parameters);
             $login = $parameters[UserRdf::PROPERTY_LOGIN];
-            $password = $parameters[UserRdf::PROPERTY_PASSWORD];
+            $plainPassword = $parameters[UserRdf::PROPERTY_PASSWORD];
+            unset($parameters[UserRdf::PROPERTY_PASSWORD]);
 
             $guarded = array_intersect_key($this->getParametersAliases(), array_flip($this->getGuardedProperties()));
-            $parameters = array_filter($parameters, function ($key) use ($guarded) {
+            $parameters = array_filter($parameters, static function ($key) use ($guarded) {
                 return !in_array($key, $guarded, true);
             }, ARRAY_FILTER_USE_KEY);
 
             $this->processLanguages($parameters);
 
             /** @var core_kernel_classes_Resource $user */
-            $user = $userService->addUser($login, $password, $this->getResource(array_shift($roles)));
+            $user = $userService->addUser($login, $plainPassword, $this->getResource(array_shift($roles)));
 
             foreach ($roles as $role) {
                 $userService->attachRole($user, $this->getResource($role));
@@ -227,10 +227,10 @@ class Users extends tao_actions_CommonRestModule
 
             $userService->attachProperties($user, $parameters);
 
-            $parameters[GenerisRdf::PROPERTY_USER_PASSWORD] = $user->getProperty(GenerisRdf::PROPERTY_USER_PASSWORD);
-            unset($parameters[UserRdf::PROPERTY_PASSWORD]);
-
-            $userService->triggerUpdatedEvent($user, $parameters, UserHashForEncryption::hash($password));
+            $userService->triggerUpdatedEvent($user, [
+                UserRdf::PROPERTY_PASSWORD => $user->getProperty(UserRdf::PROPERTY_PASSWORD),
+                'hashForKey' => UserHashForEncryption::hash($plainPassword),
+            ]);
 
             $this->returnSuccess([
                 'success' => true,
