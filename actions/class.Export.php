@@ -95,7 +95,7 @@ class tao_actions_Export extends tao_actions_CommonModule
 
                 //allow to export complete classes
                 if (isset($exportData['type']) && $exportData['type'] === 'class') {
-                    $children = [];
+                    $children = [[]];
                     foreach ($instances as $instance) {
                         $class = $this->getClass(tao_helpers_Uri::decode($instance));
                         $children[] = $class->getInstances();
