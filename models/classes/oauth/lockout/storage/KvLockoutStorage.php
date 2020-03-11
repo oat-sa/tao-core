@@ -24,5 +24,13 @@ use oat\oatbox\service\ConfigurableService;
 
 class KvLockoutStorage extends ConfigurableService implements LockoutStorageInterface
 {
+    public function store(string $ip, int $ttl = 0)
+    {
+        return true;
+    }
 
+    public function getFailedAttempts(string $ip)
+    {
+        return 0;
+    }
 }

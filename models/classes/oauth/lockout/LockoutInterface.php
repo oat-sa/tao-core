@@ -30,9 +30,6 @@ use IMSGlobal\LTI\OAuth\OAuthRequest;
  */
 interface LockoutInterface
 {
-    protected const REASON_INVALID_KEY = 'INVALID_KEY';
-    protected const REASON_INVALID_SECRET = 'INVALID_SECRET';
-
     /**
      * Store the data about current session and failed attempts
      * to get possibility to analyze and make decision about locking
