@@ -84,7 +84,6 @@ class tao_actions_form_CspHeader extends tao_helpers_form_FormContainer
         $this->sourceElement->setOptions($this->getSourceOptions());
         $this->forcedTlsElement->setOptions(['1' => __('Yes'), '0' => __('No')]);
 
-        $this->handleFormPost();
         $this->initializeFormData();
 
         $this->form->addElement($this->sourceElement);
@@ -107,6 +106,8 @@ class tao_actions_form_CspHeader extends tao_helpers_form_FormContainer
 
     public function getSettings(): SettingsCollection
     {
+        $this->handleFormPost();
+
         return $this->settings;
     }
 

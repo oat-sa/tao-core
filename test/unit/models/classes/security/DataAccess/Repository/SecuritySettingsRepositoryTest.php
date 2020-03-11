@@ -133,6 +133,7 @@ class SecuritySettingsRepositoryTest extends TestCase
             ],
             'Write CSP whitelist' => [
                 'expected' => [
+                    SecuritySettingsRepository::CONTENT_SECURITY_POLICY           => 'list',
                     SecuritySettingsRepository::CONTENT_SECURITY_POLICY_WHITELIST => json_encode(
                         [
                             '*',
@@ -141,9 +142,22 @@ class SecuritySettingsRepositoryTest extends TestCase
                     ),
                 ],
                 'settings' => new SettingsCollection(
+                    new Setting(SecuritySettingsRepository::CONTENT_SECURITY_POLICY, 'list'),
                     new Setting(
                         SecuritySettingsRepository::CONTENT_SECURITY_POLICY_WHITELIST,
                         "   * \t\r\n www.example.com\n   \r\t"
+                    )
+                ),
+            ],
+            'Skip CSP whitelist' => [
+                'expected' => [
+                    SecuritySettingsRepository::CONTENT_SECURITY_POLICY           => 'some value',
+                ],
+                'settings' => new SettingsCollection(
+                    new Setting(SecuritySettingsRepository::CONTENT_SECURITY_POLICY, 'some value'),
+                    new Setting(
+                        SecuritySettingsRepository::CONTENT_SECURITY_POLICY_WHITELIST,
+                        '*.example.com'
                     )
                 ),
             ],
