@@ -60,7 +60,6 @@ class tao_actions_Security extends tao_actions_CommonModule
             $this->setData('cspHeaderFormSuccess', __('CSP Header settings were saved successfully!'));
         }
 
-        $this->setData('formTitle', __('Edit sources that can embed this platform in an iFrame'));
         $this->setData('cspHeaderForm', $cspHeaderForm->render());
     }
 }
