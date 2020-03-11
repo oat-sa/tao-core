@@ -91,16 +91,7 @@ class tao_actions_form_CspHeader extends tao_helpers_form_FormContainer
         $this->form->addElement($this->sourceDomainsElement);
         $this->form->addElement($this->forcedTlsElement);
 
-        $this->form->createGroup(
-            'sources',
-            '<h3>' . __('Sources that can embed this platform in an iFrame') . '</h3>',
-            [self::SOURCE_RADIO_NAME, self::SOURCE_LIST_NAME]
-        );
-        $this->form->createGroup(
-            'tls',
-            sprintf('<h3>%s</h3>', __('Transport Layer Security')),
-            [self::FORCED_TLS_NAME]
-        );
+        $this->groupElements();
 
         $this->form->setActions(tao_helpers_form_FormFactory::getCommonActions());
     }
@@ -141,6 +132,20 @@ class tao_actions_form_CspHeader extends tao_helpers_form_FormContainer
         }
 
         $this->settings->findTransportSecurity()->setValue((string)!empty($postData[self::FORCED_TLS_ELEMENT_NAME]));
+    }
+
+    private function groupElements(): void
+    {
+        $this->form->createGroup(
+            'sources',
+            '<h3>' . __('Sources that can embed this platform in an iFrame') . '</h3>',
+            [self::SOURCE_RADIO_NAME, self::SOURCE_LIST_NAME]
+        );
+        $this->form->createGroup(
+            'tls',
+            sprintf('<h3>%s</h3>', __('Transport Layer Security')),
+            [self::FORCED_TLS_NAME]
+        );
     }
 
     private function initializeFormData(): void
