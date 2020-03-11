@@ -49,18 +49,9 @@ final class SettingsCollection implements IteratorAggregate
      */
     public function getIterator(): Traversable
     {
-        $settings = $this->settings;
-
-        foreach (self::DEPENDENT_SETTINGS as $dependentSettingKey => $dependencies) {
-            foreach ($dependencies as $dependencyKey => $dependencyValue) {
-                if ($this->extractSetting($dependencyKey)->getValue() !== $dependencyValue)
-                {
-                    unset($settings[$dependentSettingKey]);
-                }
-            }
-        }
-
-        return new ArrayIterator($settings);
+        return new ArrayIterator(
+            array_filter($this->settings, [$this, 'hasMetDependencies'])
+        );
     }
 
     public function findContentSecurityPolicy(): Setting
@@ -86,5 +77,16 @@ final class SettingsCollection implements IteratorAggregate
     private function extractSetting(string $key): Setting
     {
         return $this->settings[$key] ?? new Setting($key, '');
+    }
+
+    private function hasMetDependencies(Setting $setting): bool
+    {
+        foreach (self::DEPENDENT_SETTINGS[$setting->getKey()] ?? [] as $dependencyKey => $dependencyValue) {
+            if ($this->extractSetting($dependencyKey)->getValue() !== $dependencyValue) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
