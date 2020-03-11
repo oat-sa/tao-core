@@ -22,6 +22,7 @@
 namespace oat\tao\model\security;
 
 use oat\tao\model\security\Business\Contract\SecuritySettingsRepositoryInterface;
+use oat\tao\model\security\Business\Domain\SettingsCollection;
 use oat\tao\model\service\InjectionAwareService;
 
 /**
@@ -49,8 +50,11 @@ class ActionProtector extends InjectionAwareService
 
     public function setHeaders(): void
     {
+        $settings = $this->repository->findAll();
+
         $this->setDefaultHeaders();
-        $this->setFrameAncestorsHeader();
+        $this->setFrameAncestorsHeader($settings);
+        $this->setStrictTransportHeader($settings);
     }
 
     public function setDefaultHeaders(): void
@@ -62,11 +66,11 @@ class ActionProtector extends InjectionAwareService
 
     /**
      * Set the header that defines which sources are allowed to embed the pages.
+     *
+     * @param SettingsCollection $settings
      */
-    public function setFrameAncestorsHeader(): void
+    public function setFrameAncestorsHeader(SettingsCollection $settings): void
     {
-        $settings = $this->repository->findAll();
-
         $whitelistedSources = $settings->findContentSecurityPolicy()->getValue();
 
         if (!$whitelistedSources) {
@@ -96,5 +100,15 @@ class ActionProtector extends InjectionAwareService
             $this->repository,
             $this->defaultHeaders,
         ];
+    }
+
+    private function setStrictTransportHeader(SettingsCollection $settings): void
+    {
+        header(
+            sprintf(
+                'Strict-Transport-Security: max-age=%u; includeSubDomains;',
+                $settings->findTransportSecurity()->getValue() ? 31536000 : 0
+            )
+        );
     }
 }
