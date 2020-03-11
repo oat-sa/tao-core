@@ -27,6 +27,12 @@ use Traversable;
 
 final class SettingsCollection implements IteratorAggregate
 {
+    private const DEPENDENT_SETTINGS = [
+        SecuritySettingsRepository::CONTENT_SECURITY_POLICY_WHITELIST => [
+            SecuritySettingsRepository::CONTENT_SECURITY_POLICY => 'list',
+        ],
+    ];
+
     /** @var Setting[] */
     private $settings;
 
@@ -43,17 +49,28 @@ final class SettingsCollection implements IteratorAggregate
      */
     public function getIterator(): Traversable
     {
-        return new ArrayIterator($this->settings);
+        $settings = $this->settings;
+
+        foreach (self::DEPENDENT_SETTINGS as $dependentSettingKey => $dependencies) {
+            foreach ($dependencies as $dependencyKey => $dependencyValue) {
+                if ($this->extractSetting($dependencyKey)->getValue() !== $dependencyValue)
+                {
+                    unset($settings[$dependentSettingKey]);
+                }
+            }
+        }
+
+        return new ArrayIterator($settings);
     }
 
     public function findContentSecurityPolicy(): Setting
     {
-        return $this->settings[SecuritySettingsRepository::CONTENT_SECURITY_POLICY];
+        return $this->extractSetting(SecuritySettingsRepository::CONTENT_SECURITY_POLICY);
     }
 
     public function findContentSecurityPolicyWhitelist(): Setting
     {
-        return $this->settings[SecuritySettingsRepository::CONTENT_SECURITY_POLICY_WHITELIST];
+        return $this->extractSetting(SecuritySettingsRepository::CONTENT_SECURITY_POLICY_WHITELIST);
     }
 
     public function findTransportSecurity(): Setting
@@ -64,5 +81,10 @@ final class SettingsCollection implements IteratorAggregate
     private function extractKey(Setting $setting): string
     {
         return $setting->getKey();
+    }
+
+    private function extractSetting(string $key): Setting
+    {
+        return $this->settings[$key] ?? new Setting($key, '');
     }
 }
