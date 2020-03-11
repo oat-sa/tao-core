@@ -25,6 +25,7 @@ use IMSGlobal\LTI\OAuth\OAuthRequest;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\exception\InvalidService;
 use oat\oatbox\service\exception\InvalidServiceManagerException;
+use oat\tao\model\oauth\lockout\storage\RdsLockoutStorage;
 
 /**
  * Basic implementation of Lockout service, that allows all requests
@@ -35,6 +36,7 @@ class NoLockout extends ConfigurableService implements LockoutInterface
     public const OPTION_LOCKOUT_STORAGE = 'storage';
 
     public const OPTION_THRESHOLD = 'threshold';
+    public const OPTION_TIMEOUT = 'timeout';
 
 
     /**
@@ -42,6 +44,13 @@ class NoLockout extends ConfigurableService implements LockoutInterface
      */
     public function logFailedAttempt(OAuthRequest $request)
     {
+        /** @var RdsLockoutStorage $storage */
+        $storage = $this->getLockoutStorage();
+
+        $ip = '192.168.123.34';
+        $ttl = 360;
+
+        $storage->store($ip, $ttl);
 
     }
 

@@ -21,21 +21,33 @@
 
 namespace oat\tao\model\oauth\lockout\storage;
 
+/**
+ * Describe how should be implemented storage of failed OAuth sessions
+ *
+ * Interface LockoutStorageInterface
+ * @package oat\tao\model\oauth\lockout\storage
+ */
 interface LockoutStorageInterface
 {
-    public const FIELD_IP_ADDRESS = 'ip_address';
-    public const FIELD_REASON = 'reason';
-    public const FIELD_EXPIRE_AT = 'expire_at';
-    public const FIELD_ATTEMPT = 'attempt';
-    public const FIELD_CREDENTIALS_HASH = '';
+    public const OPTION_PERSISTENCE = 'persistence';
 
-    public function store();
+    /**
+     * Saves the data into storage
+     *
+     * @param string    $ip Client IP address
+     * @param int       $ttl How long entry will be valid
+     *
+     * @return mixed
+     */
+    public function store(string $ip, int $ttl = 0);
 
-    public function isExpired();
-    public function getFailedAttempts();
-    public function getLatestReason();
-
-//    public function getLocksForCreds(); // ??
-
+    /**
+     * Returns amount of failed attempts for requested IP
+     *
+     * @param string $ip Client IP Address
+     *
+     * @return mixed
+     */
+    public function getFailedAttempts(string $ip);
 
 }
