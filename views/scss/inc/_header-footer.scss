@@ -129,6 +129,11 @@ $footerHeight: 34;
                 }
             }
 
+            &[data-control="logout"] .logout:focus {
+                outline-offset: -5px;
+                outline: 3px solid $uiGeneralContentBorder !important;
+            }
+
             // sub menu
             ul {
                 background: $darkBar;
