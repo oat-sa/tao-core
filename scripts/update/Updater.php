@@ -1334,5 +1334,7 @@ class Updater extends \common_ext_ExtensionUpdater
 
             $this->setVersion('41.1.0');
         }
+
+        $this->skip('41.1.0', '41.1.1');
     }
 }
