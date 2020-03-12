@@ -56,7 +56,7 @@ return [
     'label' => 'TAO Base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '41.0.2',
+    'version' => '41.1.2',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => [
         'generis' => '>=12.12.0',
@@ -182,6 +182,7 @@ return [
         ['grant', TaoRoles::TAO_MANAGER,          ['ext' => 'tao','mod' => 'WebService']],
         ['grant', TaoRoles::TAO_MANAGER,          ['ext' => 'tao','mod' => 'Security']],
         ['grant', TaoRoles::REST_PUBLISHER,       ['ext' => 'tao','mod' => 'TaskQueue', 'act' => 'get']],
+        ['grant', TaoRoles::REST_PUBLISHER,       ['ext' => 'tao','mod' => 'TaskQueue', 'act' => 'getStatus']],
         ['grant', TaoRoles::SYSTEM_ADMINISTRATOR, ['ext' => 'tao','mod' => 'ExtensionsManager']],
         ['grant', 'http://www.tao.lu/Ontologies/TAO.rdf#LockManagerRole',     'tao_actions_Lock@forceRelease'],
         ['grant', 'http://www.tao.lu/Ontologies/TAO.rdf#PropertyManagerRole', 'tao_actions_PropertiesAuthoring'],

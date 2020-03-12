@@ -61,6 +61,7 @@ use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\resources\ResourceWatcher;
+use oat\tao\model\resources\SecureResourceService;
 use oat\tao\model\routing\AnnotationReaderService;
 use oat\tao\model\routing\ControllerService;
 use oat\tao\model\routing\RouteAnnotationService;
@@ -1321,6 +1322,19 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('40.9.6');
         }
 
-        $this->skip('40.9.6', '41.0.2');
+        $this->skip('40.9.6', '41.0.1');
+
+        if ($this->isVersion('41.0.1')) {
+            AclProxy::applyRule(new AccessRule('grant', TaoRoles::REST_PUBLISHER, ['ext' => 'tao', 'mod' => 'TaskQueue', 'act' => 'getStatus']));
+            $this->setVersion('41.0.2');
+        }
+
+        if ($this->isVersion('41.0.2')) {
+            $this->getServiceManager()->register(SecureResourceService::SERVICE_ID, new SecureResourceService());
+
+            $this->setVersion('41.1.0');
+        }
+
+        $this->skip('41.1.0', '41.1.2');
     }
 }

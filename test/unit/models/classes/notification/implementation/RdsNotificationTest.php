@@ -24,7 +24,7 @@ use common_persistence_Manager as PersistenceManager;
 use common_persistence_Persistence as Persistence;
 use oat\generis\test\TestCase;
 use oat\oatbox\service\ServiceManager;
-use oat\tao\model\notification\implementation\Notification;
+use oat\tao\model\notification\Notification;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\generis\test\MockObject;

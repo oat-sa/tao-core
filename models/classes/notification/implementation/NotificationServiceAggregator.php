@@ -23,7 +23,7 @@ namespace oat\tao\model\notification\implementation;
 
 use oat\tao\model\notification\AbstractNotificationService;
 use oat\tao\model\notification\exception\NotListedNotification;
-use oat\tao\model\notification\NotificationInterface;
+use oat\tao\model\notification\Notification;
 use oat\tao\model\notification\NotificationServiceInterface;
 
 class NotificationServiceAggregator extends AbstractNotificationService
@@ -40,7 +40,7 @@ class NotificationServiceAggregator extends AbstractNotificationService
         return $services;
     }
 
-    public function sendNotification(NotificationInterface $notification)
+    public function sendNotification(Notification $notification)
     {
         $subServices = $this->getSubServices();
 
@@ -87,7 +87,7 @@ class NotificationServiceAggregator extends AbstractNotificationService
         throw new NotListedNotification();
     }
 
-    public function changeStatus(NotificationInterface $notification)
+    public function changeStatus(Notification $notification)
     {
         $subServices = $this->getSubServices();
 

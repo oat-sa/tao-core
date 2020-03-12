@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,19 +17,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
  *
  */
 
-namespace oat\tao\model\notification\implementation;
+namespace oat\tao\model\resources;
 
-use oat\tao\model\notification\Notification as ActualNotification;
+use RuntimeException;
 
-/**
- * Class Notification
- *
- * @deprecated use oat\tao\model\notification\Notification
- */
-class Notification extends ActualNotification
+class ResourceAccessDeniedException extends RuntimeException
 {
 }
