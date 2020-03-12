@@ -23,6 +23,7 @@ declare(strict_types=1);
 
 namespace oat\tao\model\resources;
 
+use common_exception_Error;
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
 use core_kernel_users_GenerisUser;
@@ -33,20 +34,20 @@ use oat\oatbox\session\SessionService;
 
 class SecureResourceServiceTest extends GenerisTestCase
 {
-    public function testGetAllChildren(): void
+    /**
+     * @var SecureResourceService
+     */
+    private $service;
+    /**
+     * @var PermissionInterface
+     */
+    private $permissionInterface;
+
+    public function setUp()
     {
-        $service = new SecureResourceService();
+        $this->service = new SecureResourceService();
 
-        /** @var core_kernel_classes_Class|MockObject $class */
-        $class = $this->createMock(core_kernel_classes_Class::class);
-        $class->expects($this->once())->method('getInstances')->willReturn(
-            $this->getChildrenResources()
-        );
-
-        $permissionInterface = $this->createMock(PermissionInterface::class);
-        $permissionInterface->method('getPermissions')->willReturn(
-            $this->getPermissions()
-        );
+        $this->permissionInterface = $this->createMock(PermissionInterface::class);
 
         $user = $this->createMock(core_kernel_users_GenerisUser::class);
         $sessionService = $this->createMock(SessionService::class);
@@ -55,15 +56,95 @@ class SecureResourceServiceTest extends GenerisTestCase
 
         $serviceLocator = $this->getServiceLocatorMock(
             [
-                PermissionInterface::SERVICE_ID => $permissionInterface,
+                PermissionInterface::SERVICE_ID => $this->permissionInterface,
                 SessionService::SERVICE_ID      => $sessionService,
             ]
         );
-        $service->setServiceLocator($serviceLocator);
 
-        $children = $service->getAllChildren($class);
+        $this->service->setServiceLocator($serviceLocator);
+    }
+
+    /**
+     * @throws common_exception_Error
+     */
+    public function testGetAllChildren(): void
+    {
+        $this->permissionInterface->method('getPermissions')->willReturn(
+            $this->getPermissions()
+        );
+
+        /** @var core_kernel_classes_Class|MockObject $class */
+        $class = $this->createMock(core_kernel_classes_Class::class);
+        $class->expects($this->once())->method('getInstances')->willReturn(
+            $this->getChildrenResources()
+        );
+
+        $children = $this->service->getAllChildren($class);
 
         $this->assertCount(3, $children);
+    }
+
+    /**
+     * @param array $permissions
+     * @param array $permissionsToCheck
+     * @param bool  $hasAccess
+     *
+     * @throws common_exception_Error
+     * @dataProvider provideResources
+     *
+     */
+    public function testValidatePermissions(array $permissions, array $permissionsToCheck, bool $hasAccess): void
+    {
+        $this->permissionInterface->method('getPermissions')->willReturn(
+            array_intersect_key(
+                $this->getPermissions(),
+                array_flip($permissions)
+            )
+        );
+
+        if (!$hasAccess) {
+            $this->expectException(ResourceAccessDeniedException::class);
+        }
+
+        $this->service->validatePermissions($permissions, $permissionsToCheck);
+    }
+
+    public function provideResources(): array
+    {
+        return [
+            [
+                [
+                    'http://resource2',
+                    'http://resource1'
+                ],
+                ['READ'],
+                false
+            ],
+            [
+                [
+                    'http://resource4',
+                    'http://resource5'
+                ],
+                ['READ'],
+                true
+            ],
+            [
+                [
+                    'http://resource4',
+                    'http://resource5'
+                ],
+                ['WRITE', 'READ'],
+                true
+            ],
+            [
+                [
+                    'http://resource4',
+                    'http://resource5'
+                ],
+                ['GRANT'],
+                false
+            ],
+        ];
     }
 
     public function getPermissions(): array

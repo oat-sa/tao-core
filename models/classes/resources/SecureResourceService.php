@@ -17,7 +17,7 @@ declare(strict_types=1);
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2013-2020 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2013-2020   (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 
@@ -35,6 +35,9 @@ class SecureResourceService extends ConfigurableService
 {
     public const SERVICE_ID = 'tao/SecureResourceService';
 
+    /** @var User */
+    private $user;
+
     /**
      * @param core_kernel_classes_Class $resource
      *
@@ -46,9 +49,12 @@ class SecureResourceService extends ConfigurableService
         $children = $resource->getInstances(true);
         $permissionService = $this->getPermissionProvider();
 
-        $childrenIds = array_map(static function(core_kernel_classes_Resource $child) {
-            return $child->getUri();
-        }, $children);
+        $childrenIds = array_map(
+            static function (core_kernel_classes_Resource $child) {
+                return $child->getUri();
+            },
+            $children
+        );
 
         $permissions = $permissionService->getPermissions(
             $this->getUser(),
@@ -63,6 +69,31 @@ class SecureResourceService extends ConfigurableService
         );
     }
 
+    /**
+     * @param string[] $resourceUris
+     * @param string[] $permissionsToCheck
+     *
+     * @throws common_exception_Error
+     */
+    public function validatePermissions(array $resourceUris, array $permissionsToCheck): void
+    {
+        $permissionService = $this->getPermissionProvider();
+
+        $permissions = $permissionService->getPermissions(
+            $this->getUser(),
+            $resourceUris
+        );
+
+        foreach ($permissions as $permission) {
+            if (
+                empty($permission)
+                || !empty(array_diff($permissionsToCheck, $permission))
+            ) {
+                throw new ResourceAccessDeniedException('');
+            }
+        }
+    }
+
     private function getPermissionProvider(): PermissionInterface
     {
         return $this->getServiceLocator()->get(PermissionInterface::SERVICE_ID);
@@ -75,9 +106,13 @@ class SecureResourceService extends ConfigurableService
      */
     private function getUser(): User
     {
-        return $this
-            ->getServiceLocator()
-            ->get(SessionService::SERVICE_ID)
-            ->getCurrentUser();
+        if ($this->user === null) {
+            $this->user = $this
+                ->getServiceLocator()
+                ->get(SessionService::SERVICE_ID)
+                ->getCurrentUser();
+        }
+
+        return $this->user;
     }
 }
