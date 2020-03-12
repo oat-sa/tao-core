@@ -20,7 +20,7 @@
  */
 
 use oat\tao\model\notification\NotificationServiceInterface;
-use oat\tao\model\notification\NotificationInterface;
+use oat\tao\model\notification\Notification;
 use oat\tao\model\notification\exception\NotListedNotification;
 
 class tao_actions_Notification extends \tao_actions_CommonModule
@@ -90,13 +90,13 @@ class tao_actions_Notification extends \tao_actions_CommonModule
             return $this->returnError($e->getUserMessage());
         }
         /**
-         * @var NotificationInterface $notif
+         * @var Notification $notif
          */
         foreach ($list as $notif) {
-            if ($notif->getStatus() === NotificationInterface::CREATED_STATUS) {
-                $notif->setStatus(NotificationInterface::READ_STATUS);
+            if ($notif->getStatus() === Notification::CREATED_STATUS) {
+                $notif->setStatus(Notification::READ_STATUS);
                 $notificationService->changeStatus($notif);
-                $notif->setStatus(NotificationInterface::CREATED_STATUS);
+                $notif->setStatus(Notification::CREATED_STATUS);
             }
         }
 

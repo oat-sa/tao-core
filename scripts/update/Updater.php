@@ -1322,9 +1322,14 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('40.9.6');
         }
 
-        $this->skip('40.9.6', '41.0.0');
+        $this->skip('40.9.6', '41.0.1');
 
-        if ($this->isVersion('41.0.0')) {
+        if ($this->isVersion('41.0.1')) {
+            AclProxy::applyRule(new AccessRule('grant', TaoRoles::REST_PUBLISHER, ['ext' => 'tao', 'mod' => 'TaskQueue', 'act' => 'getStatus']));
+            $this->setVersion('41.0.2');
+        }
+
+        if ($this->isVersion('41.0.2')) {
             $this->getServiceManager()->register(SecureResourceService::SERVICE_ID, new SecureResourceService());
 
             $this->setVersion('41.1.0');

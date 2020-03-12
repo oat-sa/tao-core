@@ -182,6 +182,7 @@ return [
         ['grant', TaoRoles::TAO_MANAGER,          ['ext' => 'tao','mod' => 'WebService']],
         ['grant', TaoRoles::TAO_MANAGER,          ['ext' => 'tao','mod' => 'Security']],
         ['grant', TaoRoles::REST_PUBLISHER,       ['ext' => 'tao','mod' => 'TaskQueue', 'act' => 'get']],
+        ['grant', TaoRoles::REST_PUBLISHER,       ['ext' => 'tao','mod' => 'TaskQueue', 'act' => 'getStatus']],
         ['grant', TaoRoles::SYSTEM_ADMINISTRATOR, ['ext' => 'tao','mod' => 'ExtensionsManager']],
         ['grant', 'http://www.tao.lu/Ontologies/TAO.rdf#LockManagerRole',     'tao_actions_Lock@forceRelease'],
         ['grant', 'http://www.tao.lu/Ontologies/TAO.rdf#PropertyManagerRole', 'tao_actions_PropertiesAuthoring'],
