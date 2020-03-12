@@ -89,7 +89,7 @@ class SecureResourceService extends ConfigurableService
                 empty($permission)
                 || !empty(array_diff($permissionsToCheck, $permission))
             ) {
-                throw new ResourceAccessDeniedException('');
+                throw new ResourceAccessDeniedException('Access to one or more requested resources is forbidden');
             }
         }
     }
