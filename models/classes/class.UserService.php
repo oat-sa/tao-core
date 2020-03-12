@@ -549,17 +549,22 @@ class tao_models_classes_UserService extends ConfigurableService implements core
     /**
      * @param core_kernel_classes_Resource $user
      * @param array $values
+     * @param string|null $hashForKey
      *
      * @throws tao_models_classes_dataBinding_GenerisFormDataBindingException
      *
      * @return bool
      */
-    public function triggerUpdatedEvent(core_kernel_classes_Resource $user, array $values)
+    public function triggerUpdatedEvent(core_kernel_classes_Resource $user, array $values, $hashForKey)
     {
         $triggered = false;
         $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($user);
 
         if ($binder->bind($values)) {
+            if ($hashForKey !== null) {
+                $values['hashForKey'] = $hashForKey;
+            }
+
             $this->getEventManager()->trigger(new UserUpdatedEvent($user, $values));
             $triggered = true;
         }

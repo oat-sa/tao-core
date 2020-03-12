@@ -227,10 +227,11 @@ class Users extends tao_actions_CommonRestModule
 
             $userService->attachProperties($user, $parameters);
 
-            $userService->triggerUpdatedEvent($user, [
-                UserRdf::PROPERTY_PASSWORD => $user->getProperty(UserRdf::PROPERTY_PASSWORD),
-                'hashForKey' => UserHashForEncryption::hash($plainPassword),
-            ]);
+            $userService->triggerUpdatedEvent(
+                $user,
+                [UserRdf::PROPERTY_PASSWORD => $user->getProperty(UserRdf::PROPERTY_PASSWORD)],
+                UserHashForEncryption::hash($plainPassword)
+            );
 
             $this->returnSuccess([
                 'success' => true,

@@ -251,12 +251,12 @@ class tao_actions_Users extends tao_actions_CommonModule
 
             $values[UserRdf::PROPERTY_PASSWORD] = core_kernel_users_Service::getPasswordHash()
                 ->encrypt($plainPassword);
-            $values['hashForKey'] = UserHashForEncryption::hash($plainPassword);
+            $hashForKey = UserHashForEncryption::hash($plainPassword);
 
             /** @var tao_models_classes_UserService $userService */
             $userService = $this->getServiceLocator()->get(tao_models_classes_UserService::SERVICE_ID);
 
-            if ($userService->triggerUpdatedEvent($container->getUser(), $values)) {
+            if ($userService->triggerUpdatedEvent($container->getUser(), $values, $hashForKey)) {
                 $this->setData('message', __('User added'));
                 $this->setData('exit', true);
             }
@@ -344,12 +344,13 @@ class tao_actions_Users extends tao_actions_CommonModule
 
         if ($myForm->isSubmited() && $myForm->isValid()) {
             $values = $myForm->getValues();
+            $hashForKey = null;
 
             if (!empty($values['password2']) && !empty($values['password3'])) {
                 $plainPassword = $values['password2'];
                 $values[UserRdf::PROPERTY_PASSWORD] = core_kernel_users_Service::getPasswordHash()
                     ->encrypt($plainPassword);
-                $values['hashForKey'] = UserHashForEncryption::hash($plainPassword);
+                $hashForKey = UserHashForEncryption::hash($plainPassword);
             }
 
             unset($values['password2'], $values['password3']);
@@ -371,7 +372,7 @@ class tao_actions_Users extends tao_actions_CommonModule
             $staticRoles = array_diff($oldRoles, $allowedRoles);
             $values[GenerisRdf::PROPERTY_USER_ROLES] = array_merge($values[GenerisRdf::PROPERTY_USER_ROLES], $staticRoles);
 
-            if ($userService->triggerUpdatedEvent($user, $values)) {
+            if ($userService->triggerUpdatedEvent($user, $values, $hashForKey)) {
                 $this->setData('message', __('User saved'));
             }
         }
