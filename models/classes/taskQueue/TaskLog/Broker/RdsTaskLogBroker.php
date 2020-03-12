@@ -23,7 +23,6 @@ namespace oat\tao\model\taskQueue\TaskLog\Broker;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
-use OAT\Library\DBALSpanner\SpannerPlatform;
 use oat\oatbox\PhpSerializable;
 use common_report_Report as Report;
 use Doctrine\DBAL\Query\QueryBuilder;
