@@ -133,7 +133,7 @@ class EnvVarProcessorTest extends TestCase
      */
     public function testGetEnvFloatInvalid($value)
     {
-        $this->setExpectedException('RuntimeException','Non-numeric env var');
+        $this->setExpectedException('RuntimeException', 'Non-numeric env var');
         $processor = new EnvVarProcessor();
 
         $processor->getEnv('float', 'foo', function ($name) use ($value) {
@@ -181,7 +181,7 @@ class EnvVarProcessorTest extends TestCase
      */
     public function testGetEnvConstInvalid($value)
     {
-        $this->setExpectedException('RuntimeException','undefined constant');
+        $this->setExpectedException('RuntimeException', 'undefined constant');
         $processor = new EnvVarProcessor();
 
         $processor->getEnv('const', 'foo', function ($name) use ($value) {
@@ -290,7 +290,7 @@ class EnvVarProcessorTest extends TestCase
 
     public function testGetEnvUnknown()
     {
-        $this->setExpectedException('RuntimeException','Unsupported env var prefix');
+        $this->setExpectedException('RuntimeException', 'Unsupported env var prefix');
         $processor = new EnvVarProcessor();
 
         $processor->getEnv('unknown', 'foo', function ($name) {
@@ -302,7 +302,7 @@ class EnvVarProcessorTest extends TestCase
 
     public function testGetEnvKeyInvalidKey()
     {
-        $this->setExpectedException('RuntimeException','Invalid env "key:foo": a key specifier should be provided.');
+        $this->setExpectedException('RuntimeException', 'Invalid env "key:foo": a key specifier should be provided.');
         $processor = new EnvVarProcessor();
 
         $processor->getEnv('key', 'foo', function ($name) {
@@ -340,7 +340,7 @@ class EnvVarProcessorTest extends TestCase
      */
     public function testGetEnvKeyArrayKeyNotFound($value)
     {
-        $this->expectException(EnvNotFoundException::class, 'Key "index" not found in');
+        $this->setExpectedException(EnvNotFoundException::class, 'Key "index" not found in');
         $processor = new EnvVarProcessor();
 
         $processor->getEnv('key', 'index:foo', function ($name) use ($value) {

@@ -7,10 +7,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace oat\tao\model\envProcessor;
 
-use ReflectionException;
 use InvalidArgumentException;
+use ReflectionException;
 
 class ParameterBag
 {
@@ -136,8 +137,8 @@ class ParameterBag
     }
 
     /**
-     * @param string $name  The parameter name
-     * @param mixed  $value The parameter value
+     * @param string $name The parameter name
+     * @param mixed $value The parameter value
      */
     public function set(string $name, $value)
     {
@@ -150,7 +151,7 @@ class ParameterBag
      */
     public function has(string $name)
     {
-        return \array_key_exists((string) $name, $this->parameters);
+        return \array_key_exists((string)$name, $this->parameters);
     }
 
     /**
@@ -169,7 +170,7 @@ class ParameterBag
     private function initProcessor()
     {
         if ($this->processor === null) {
-            $this->processor= new EnvVarProcessor();
+            $this->processor = new EnvVarProcessor();
         }
 
         return $this->processor;

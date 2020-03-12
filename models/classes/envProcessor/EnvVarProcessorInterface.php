@@ -7,6 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace oat\tao\model\envProcessor;
 
 interface EnvVarProcessorInterface
@@ -14,8 +15,8 @@ interface EnvVarProcessorInterface
     /**
      * Returns the value of the given variable as managed by the current instance.
      *
-     * @param string   $prefix The namespace of the variable
-     * @param string   $name   The name of the variable within the namespace
+     * @param string $prefix The namespace of the variable
+     * @param string $name The name of the variable within the namespace
      * @param \Closure $getEnv A closure that allows fetching more env vars
      *
      * @return mixed

@@ -7,6 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace oat\tao\model\envProcessor;
 
 use RuntimeException;
@@ -27,22 +28,22 @@ class EnvVarProcessor implements EnvVarProcessorInterface
     public static function getProvidedTypes()
     {
         return [
-            'base64'       => 'string',
-            'bool'         => 'bool',
-            'const'        => 'bool|int|float|string|array',
-            'csv'          => 'array',
-            'file'         => 'string',
-            'float'        => 'float',
-            'int'          => 'int',
-            'json'         => 'array',
-            'key'          => 'bool|int|float|string|array',
-            'url'          => 'array',
+            'base64' => 'string',
+            'bool' => 'bool',
+            'const' => 'bool|int|float|string|array',
+            'csv' => 'array',
+            'file' => 'string',
+            'float' => 'float',
+            'int' => 'int',
+            'json' => 'array',
+            'key' => 'bool|int|float|string|array',
+            'url' => 'array',
             'query_string' => 'array',
-            'resolve'      => 'string',
-            'default'      => 'bool|int|float|string|array',
-            'string'       => 'string',
-            'trim'         => 'string',
-            'require'      => 'bool|int|float|string|array',
+            'resolve' => 'string',
+            'default' => 'bool|int|float|string|array',
+            'string' => 'string',
+            'trim' => 'string',
+            'require' => 'bool|int|float|string|array',
         ];
     }
 
@@ -260,11 +261,11 @@ class EnvVarProcessor implements EnvVarProcessorInterface
                 );
             }
             $parsedEnv += [
-                'port'     => null,
-                'user'     => null,
-                'pass'     => null,
-                'path'     => null,
-                'query'    => null,
+                'port' => null,
+                'user' => null,
+                'pass' => null,
+                'path' => null,
+                'query' => null,
                 'fragment' => null,
             ];
 
