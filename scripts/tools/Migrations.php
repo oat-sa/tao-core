@@ -26,9 +26,14 @@ use Doctrine\Migrations\Tools\Console\Exception\DirectoryDoesNotExist;
  * Class Migrations
  * Usage examples:
  * ```
+ * //generate new migration class
  * sudo -u www-data php index.php '\oat\tao\scripts\tools\Migrations' -c generate -e taoAct
+ * //show migrations status
  * sudo -u www-data php index.php '\oat\tao\scripts\tools\Migrations' -c status
+ * //apply all migrations
  * sudo -u www-data php index.php '\oat\tao\scripts\tools\Migrations' -c migrate
+ * //migrate to version
+ * sudo -u www-data php index.php '\oat\tao\scripts\tools\Migrations' -c migrate -v 202003120846502234_tao
  * ```
  * @package oat\tao\scripts\tools
  */
