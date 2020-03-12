@@ -48,20 +48,20 @@ class tao_models_classes_UserService extends ConfigurableService implements core
         createInstance as protected traitCreateInstance;
     }
 
-    
 
     const SERVICE_ID = 'tao/UserService';
     const OPTION_ALLOW_API = 'allow_api';
     /**
-         * the core user service
-         *
-         * @access protected
-         * @var core_kernel_users_Service
-         */
+     * the core user service
+     *
+     * @access protected
+     * @var core_kernel_users_Service
+     */
     protected $generisUserService = null;
+
     /**
-         * @deprecated
-         */
+     * @deprecated
+     */
     public static function singleton()
     {
         return ServiceManager::getServiceManager()->get(self::SERVICE_ID);
@@ -71,8 +71,8 @@ class tao_models_classes_UserService extends ConfigurableService implements core
      * constructor
      *
      * @param array $options
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @return mixed
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      */
     public function __construct($options = [])
     {
@@ -84,30 +84,29 @@ class tao_models_classes_UserService extends ConfigurableService implements core
      * authenticate a user
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string login
-     * @param  string password
+     * @param string login
+     * @param string password
      * @return boolean
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @deprecated
      */
     public function loginUser($login, $password)
     {
-        
-        $returnValue = (bool) false;
+        $returnValue = (bool)false;
         try {
             $returnValue = LoginService::login($login, $password);
         } catch (core_kernel_users_Exception $ue) {
             common_Logger::e("A fatal error occured at user login time: " . $ue->getMessage());
         }
-        return (bool) $returnValue;
+        return (bool)$returnValue;
     }
 
     /**
      * retrieve the logged in user
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @return core_kernel_classes_Resource
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      */
     public function getCurrentUser()
     {
@@ -128,44 +127,44 @@ class tao_models_classes_UserService extends ConfigurableService implements core
      * Check if the login is already used
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome@taotesting.com>
      * @param string login
      * @param
      * @return boolean
+     * @author Jerome Bogaerts, <jerome@taotesting.com>
      */
     public function loginExists($login, core_kernel_classes_Class $class = null)
     {
-        $returnValue = (bool) false;
+        $returnValue = (bool)false;
         $returnValue = $this->generisUserService->loginExists($login, $class);
-        return (bool) $returnValue;
+        return (bool)$returnValue;
     }
 
     /**
      * Check if the login is available (because it's unique)
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string login
+     * @param string login
      * @return boolean
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      */
     public function loginAvailable($login)
     {
-        $returnValue = (bool) false;
+        $returnValue = (bool)false;
         if (!empty($login)) {
             $returnValue = !$this->loginExists($login);
         }
 
-        return (bool) $returnValue;
+        return (bool)$returnValue;
     }
 
     /**
      * Get a user that has a given login.
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome@taotesting.com>
      * @param string login the user login is the unique identifier to retrieve him.
      * @param core_kernel_classes_Class A specific class to search the user.
      * @return core_kernel_classes_Resource
+     * @author Jerome Bogaerts, <jerome@taotesting.com>
      */
     public function getOneUser($login, core_kernel_classes_Class $class = null)
     {
@@ -173,16 +172,16 @@ class tao_models_classes_UserService extends ConfigurableService implements core
         if (empty($login)) {
             throw new common_exception_InvalidArgumentType('Missing login for ' . __FUNCTION__);
         }
-            
+
         $class = (!empty($class)) ? $class : $this->getRootClass();
-       
+
         $user = $this->generisUserService->getOneUser($login, $class);
-        
+
         if (!empty($user)) {
             $userRolesProperty = new core_kernel_classes_Property(GenerisRdf::PROPERTY_USER_ROLES);
             $userRoles = $user->getPropertyValuesCollection($userRolesProperty);
             $allowedRoles = $this->getAllowedRoles();
-            
+
             if ($this->generisUserService->userHasRoles($user, $allowedRoles)) {
                 $returnValue = $user;
             } else {
@@ -222,20 +221,20 @@ class tao_models_classes_UserService extends ConfigurableService implements core
      * Remove a user
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  core_kernel_classes_Resource $user
+     * @param core_kernel_classes_Resource $user
      * @return boolean
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      */
     public function removeUser(core_kernel_classes_Resource $user)
     {
-        $returnValue = (bool) false;
+        $returnValue = (bool)false;
         if (!is_null($user)) {
             $this->checkCurrentUserAccess($this->getUserRoles($user));
             $returnValue = $this->generisUserService->removeUser($user);
             $this->getEventManager()->trigger(new UserRemovedEvent($user->getUri()));
         }
 
-        return (bool) $returnValue;
+        return (bool)$returnValue;
     }
 
     /**
@@ -243,16 +242,16 @@ class tao_models_classes_UserService extends ConfigurableService implements core
      * which are allowed to login
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @return array
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      */
     public function getAllowedRoles()
     {
         $returnValue = [];
         $returnValue = [TaoRoles::BACK_OFFICE => new core_kernel_classes_Resource(TaoRoles::BACK_OFFICE)];
-        return (array) $returnValue;
+        return (array)$returnValue;
     }
-    
+
     public function getDefaultRole()
     {
         return new core_kernel_classes_Resource(TaoRoles::BACK_OFFICE);
@@ -262,39 +261,39 @@ class tao_models_classes_UserService extends ConfigurableService implements core
      * Short description of method logout
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @return boolean
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      */
     public function logout()
     {
-        $returnValue = (bool) false;
+        $returnValue = (bool)false;
         $returnValue = $this->generisUserService->logout();
-        return (bool) $returnValue;
+        return (bool)$returnValue;
     }
 
     /**
      * Short description of method getAllUsers
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param array $options
      * @param array $filters
      * @return array
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      */
     public function getAllUsers($options = [], $filters = [GenerisRdf::PROPERTY_USER_LOGIN => '*'])
     {
         $userClass = new core_kernel_classes_Class(TaoOntology::CLASS_URI_TAO_USER);
         $options = array_merge(['recursive' => true, 'like' => true], $options);
-        return (array) $userClass->searchInstances($filters, $options);
+        return (array)$userClass->searchInstances($filters, $options);
     }
 
     /**
      * Returns count of instances, that match conditions in options and filters
      * @access public
-     * @author Ivan Klimchuk <klimchuk@1pt.com>
      * @param array $options
      * @param array $filters
      * @return int
+     * @author Ivan Klimchuk <klimchuk@1pt.com>
      */
     public function getCountUsers($options = [], $filters = [])
     {
@@ -306,29 +305,31 @@ class tao_models_classes_UserService extends ConfigurableService implements core
      * Short description of method toTree
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  core_kernel_classes_Class $clazz
-     * @param  array $options
+     * @param core_kernel_classes_Class $clazz
+     * @param array $options
      * @return array
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      */
     public function toTree(core_kernel_classes_Class $clazz, array $options = [])
     {
         $returnValue = [];
         $users = $this->getAllUsers(['order' => GenerisRdf::PROPERTY_USER_LOGIN]);
         foreach ($users as $user) {
-            $login = (string) $user->getOnePropertyValue(new core_kernel_classes_Property(GenerisRdf::PROPERTY_USER_LOGIN));
+            $login = (string)$user->getOnePropertyValue(
+                new core_kernel_classes_Property(GenerisRdf::PROPERTY_USER_LOGIN)
+            );
             $returnValue[] = [
-                    'data'  => tao_helpers_Display::textCutter($login, 16),
-                    'attributes' => [
-                        'id' => tao_helpers_Uri::encode($user->getUri()),
-                        'class' => 'node-instance'
-                    ]
-                ];
+                'data' => tao_helpers_Display::textCutter($login, 16),
+                'attributes' => [
+                    'id' => tao_helpers_Uri::encode($user->getUri()),
+                    'class' => 'node-instance'
+                ]
+            ];
         }
 
-        return (array) $returnValue;
+        return (array)$returnValue;
     }
-    
+
     /**
      * Add a new user.
      *
@@ -339,23 +340,29 @@ class tao_models_classes_UserService extends ConfigurableService implements core
      * @return core_kernel_classes_Resource the new user
      * @throws core_kernel_users_Exception If an error occurs.
      */
-    public function addUser($login, $password, core_kernel_classes_Resource $role = null, core_kernel_classes_Class $class = null)
-    {
-
+    public function addUser(
+        $login,
+        $password,
+        core_kernel_classes_Resource $role = null,
+        core_kernel_classes_Class $class = null
+    ) {
         $this->checkCurrentUserAccess($role);
         if (empty($class)) {
             $class = $this->getRootClass();
         }
-        
+
         $user = $this->generisUserService->addUser($login, $password, $role, $class);
         //set up default properties
         if (!is_null($user)) {
-            $user->setPropertyValue(new core_kernel_classes_Property(TaoOntology::PROPERTY_USER_FIRST_TIME), GenerisRdf::GENERIS_TRUE);
+            $user->setPropertyValue(
+                new core_kernel_classes_Property(TaoOntology::PROPERTY_USER_FIRST_TIME),
+                GenerisRdf::GENERIS_TRUE
+            );
         }
-       
+
         return $user;
     }
-   
+
     /**
      * Indicates if a user session is currently opened or not.
      *
@@ -365,7 +372,7 @@ class tao_models_classes_UserService extends ConfigurableService implements core
     {
         return common_user_auth_Service::singleton()->isASessionOpened();
     }
-  
+
     /**
      * Indicates if a given user has a given password.
      *
@@ -377,7 +384,7 @@ class tao_models_classes_UserService extends ConfigurableService implements core
     {
         return $this->generisUserService->isPasswordValid($password, $user);
     }
-   
+
     /**
      * Change the password of a given user.
      *
@@ -388,7 +395,7 @@ class tao_models_classes_UserService extends ConfigurableService implements core
     {
         return $this->generisUserService->setPassword($user, $password);
     }
-   
+
     /**
      * Get the roles of a given user.
      *
@@ -399,30 +406,30 @@ class tao_models_classes_UserService extends ConfigurableService implements core
     {
         return $this->generisUserService->getUserRoles($user);
     }
- 
+
     /**
      * Indicates if a user is granted with a set of Roles.
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome@taotesting.com>
-     * @param  Resource user The User instance you want to check Roles.
-     * @param  roles Can be either a single Resource or an array of Resource that are instances of Role.
+     * @param Resource user The User instance you want to check Roles.
+     * @param roles Can be either a single Resource or an array of Resource that are instances of Role.
      * @return boolean
+     * @author Jerome Bogaerts, <jerome@taotesting.com>
      */
     public function userHasRoles(core_kernel_classes_Resource $user, $roles)
     {
         return $this->generisUserService->userHasRoles($user, $roles);
     }
- 
+
     /**
      * Attach a Generis Role to a given TAO User. A UserException will be
      * if an error occurs. If the User already has the role, nothing happens.
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome@taotesting.com>
-     * @param  Resource user The User you want to attach a Role.
-     * @param  Resource role A Role to attach to a User.
+     * @param Resource user The User you want to attach a Role.
+     * @param Resource role A Role to attach to a User.
      * @throws core_kernel_users_Exception If an error occurs.
+     * @author Jerome Bogaerts, <jerome@taotesting.com>
      */
     public function attachRole(core_kernel_classes_Resource $user, core_kernel_classes_Resource $role)
     {
@@ -430,15 +437,15 @@ class tao_models_classes_UserService extends ConfigurableService implements core
         $this->checkCurrentUserAccess($role);
         $this->generisUserService->attachRole($user, $role);
     }
-    
+
     /**
      * Unnatach a Role from a given TAO User.
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome@taotesting.com>
-     * @param  Resource user A TAO user from which you want to unnattach the Role.
-     * @param  Resource role The Role you want to Unnatach from the TAO User.
+     * @param Resource user A TAO user from which you want to unnattach the Role.
+     * @param Resource role The Role you want to Unnatach from the TAO User.
      * @throws core_kernel_users_Exception If an error occurs.
+     * @author Jerome Bogaerts, <jerome@taotesting.com>
      */
     public function unnatachRole(core_kernel_classes_Resource $user, core_kernel_classes_Resource $role)
     {
@@ -450,9 +457,9 @@ class tao_models_classes_UserService extends ConfigurableService implements core
     }
 
     /**
-            * @param core_kernel_classes_Resource $user
-            * @param array $properties
-           */
+     * @param core_kernel_classes_Resource $user
+     * @param array $properties
+     */
     public function attachProperties(core_kernel_classes_Resource $user, array $properties)
     {
         if (array_key_exists(OntologyRdfs::RDFS_LABEL, $properties)) {
@@ -460,9 +467,9 @@ class tao_models_classes_UserService extends ConfigurableService implements core
             unset($properties[OntologyRdfs::RDFS_LABEL]);
             $user->setLabel($label);
         }
-            $user->setPropertiesValues($properties);
+        $user->setPropertiesValues($properties);
     }
-        
+
     /**
      * Get the class to use to instantiate users.
      *
@@ -496,16 +503,21 @@ class tao_models_classes_UserService extends ConfigurableService implements core
     {
         $exclude = [];
         if (!$this->userHasRoles($user, TaoRoles::SYSTEM_ADMINISTRATOR)) {
-            $exclude[] = $encoded ? tao_helpers_Uri::encode(TaoRoles::SYSTEM_ADMINISTRATOR) : TaoRoles::SYSTEM_ADMINISTRATOR;
+            $exclude[] = $encoded ? tao_helpers_Uri::encode(
+                TaoRoles::SYSTEM_ADMINISTRATOR
+            ) : TaoRoles::SYSTEM_ADMINISTRATOR;
             if (!$this->userHasRoles($user, TaoRoles::GLOBAL_MANAGER)) {
                 $exclude[] = $encoded ? tao_helpers_Uri::encode(TaoRoles::GLOBAL_MANAGER) : TaoRoles::GLOBAL_MANAGER;
             }
         }
         if (count($exclude)) {
-            $roles = array_filter($roles, function ($k) use ($exclude) {
-
-                return !in_array($k, $exclude);
-            }, ARRAY_FILTER_USE_KEY);
+            $roles = array_filter(
+                $roles,
+                function ($k) use ($exclude) {
+                    return !in_array($k, $exclude);
+                },
+                ARRAY_FILTER_USE_KEY
+            );
         }
         return $roles;
     }
@@ -525,10 +537,12 @@ class tao_models_classes_UserService extends ConfigurableService implements core
         }
 
         if (is_array($roles)) {
-            $roles = array_map(function ($role) {
-
-                return $role instanceof core_kernel_classes_Resource ? $role->getUri() : $role;
-            }, $roles);
+            $roles = array_map(
+                function ($role) {
+                    return $role instanceof core_kernel_classes_Resource ? $role->getUri() : $role;
+                },
+                $roles
+            );
         }
 
         if (
@@ -551,9 +565,8 @@ class tao_models_classes_UserService extends ConfigurableService implements core
      * @param array $values
      * @param string|null $hashForKey
      *
-     * @throws tao_models_classes_dataBinding_GenerisFormDataBindingException
-     *
      * @return bool
+     * @throws tao_models_classes_dataBinding_GenerisFormDataBindingException
      */
     public function triggerUpdatedEvent(core_kernel_classes_Resource $user, array $values, $hashForKey)
     {
