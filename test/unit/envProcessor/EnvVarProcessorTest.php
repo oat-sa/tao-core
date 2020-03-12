@@ -1,10 +1,28 @@
 <?php
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2020 (original work) Open Assessment Technologies SA
+ *
+ */
 
 namespace oat\tao\test\unit\envProcessor;
 
+use oat\generis\test\TestCase;
 use oat\tao\model\envProcessor\EnvNotFoundException;
 use oat\tao\model\envProcessor\EnvVarProcessor;
-use oat\generis\test\TestCase;
 
 class EnvVarProcessorTest extends TestCase
 {
@@ -32,11 +50,15 @@ class EnvVarProcessorTest extends TestCase
     {
         $processor = new EnvVarProcessor();
 
-        $result = $processor->getEnv('bool', 'foo', function ($name) use ($value) {
-            $this->assertSame('foo', $name);
+        $result = $processor->getEnv(
+            'bool',
+            'foo',
+            function ($name) use ($value) {
+                $this->assertSame('foo', $name);
 
-            return $value;
-        });
+                return $value;
+            }
+        );
 
         $this->assertSame($processed, $result);
     }
@@ -61,11 +83,15 @@ class EnvVarProcessorTest extends TestCase
     {
         $processor = new EnvVarProcessor();
 
-        $result = $processor->getEnv('int', 'foo', function ($name) use ($value) {
-            $this->assertSame('foo', $name);
+        $result = $processor->getEnv(
+            'int',
+            'foo',
+            function ($name) use ($value) {
+                $this->assertSame('foo', $name);
 
-            return $value;
-        });
+                return $value;
+            }
+        );
 
         $this->assertSame($processed, $result);
     }
@@ -87,11 +113,15 @@ class EnvVarProcessorTest extends TestCase
         $this->expectException('RuntimeException', 'Non-numeric env var');
         $processor = new EnvVarProcessor();
 
-        $processor->getEnv('int', 'foo', function ($name) use ($value) {
-            $this->assertSame('foo', $name);
+        $processor->getEnv(
+            'int',
+            'foo',
+            function ($name) use ($value) {
+                $this->assertSame('foo', $name);
 
-            return $value;
-        });
+                return $value;
+            }
+        );
     }
 
     public function invalidInts()
@@ -110,11 +140,15 @@ class EnvVarProcessorTest extends TestCase
     {
         $processor = new EnvVarProcessor();
 
-        $result = $processor->getEnv('float', 'foo', function ($name) use ($value) {
-            $this->assertSame('foo', $name);
+        $result = $processor->getEnv(
+            'float',
+            'foo',
+            function ($name) use ($value) {
+                $this->assertSame('foo', $name);
 
-            return $value;
-        });
+                return $value;
+            }
+        );
 
         $this->assertSame($processed, $result);
     }
@@ -136,11 +170,15 @@ class EnvVarProcessorTest extends TestCase
         $this->setExpectedException('RuntimeException', 'Non-numeric env var');
         $processor = new EnvVarProcessor();
 
-        $processor->getEnv('float', 'foo', function ($name) use ($value) {
-            $this->assertSame('foo', $name);
+        $processor->getEnv(
+            'float',
+            'foo',
+            function ($name) use ($value) {
+                $this->assertSame('foo', $name);
 
-            return $value;
-        });
+                return $value;
+            }
+        );
     }
 
     public function invalidFloats()
@@ -159,11 +197,15 @@ class EnvVarProcessorTest extends TestCase
     {
         $processor = new EnvVarProcessor();
 
-        $result = $processor->getEnv('const', 'foo', function ($name) use ($value) {
-            $this->assertSame('foo', $name);
+        $result = $processor->getEnv(
+            'const',
+            'foo',
+            function ($name) use ($value) {
+                $this->assertSame('foo', $name);
 
-            return $value;
-        });
+                return $value;
+            }
+        );
 
         $this->assertSame($processed, $result);
     }
@@ -184,11 +226,15 @@ class EnvVarProcessorTest extends TestCase
         $this->setExpectedException('RuntimeException', 'undefined constant');
         $processor = new EnvVarProcessor();
 
-        $processor->getEnv('const', 'foo', function ($name) use ($value) {
-            $this->assertSame('foo', $name);
+        $processor->getEnv(
+            'const',
+            'foo',
+            function ($name) use ($value) {
+                $this->assertSame('foo', $name);
 
-            return $value;
-        });
+                return $value;
+            }
+        );
     }
 
     public function invalidConsts()
@@ -203,11 +249,15 @@ class EnvVarProcessorTest extends TestCase
     {
         $processor = new EnvVarProcessor();
 
-        $result = $processor->getEnv('base64', 'foo', function ($name) {
-            $this->assertSame('foo', $name);
+        $result = $processor->getEnv(
+            'base64',
+            'foo',
+            function ($name) {
+                $this->assertSame('foo', $name);
 
-            return base64_encode('hello');
-        });
+                return base64_encode('hello');
+            }
+        );
 
         $this->assertSame('hello', $result);
     }
@@ -216,11 +266,15 @@ class EnvVarProcessorTest extends TestCase
     {
         $processor = new EnvVarProcessor();
 
-        $result = $processor->getEnv('trim', 'foo', function ($name) {
-            $this->assertSame('foo', $name);
+        $result = $processor->getEnv(
+            'trim',
+            'foo',
+            function ($name) {
+                $this->assertSame('foo', $name);
 
-            return " hello\n";
-        });
+                return " hello\n";
+            }
+        );
 
         $this->assertSame('hello', $result);
     }
@@ -232,11 +286,15 @@ class EnvVarProcessorTest extends TestCase
     {
         $processor = new EnvVarProcessor();
 
-        $result = $processor->getEnv('json', 'foo', function ($name) use ($value) {
-            $this->assertSame('foo', $name);
+        $result = $processor->getEnv(
+            'json',
+            'foo',
+            function ($name) use ($value) {
+                $this->assertSame('foo', $name);
 
-            return $value;
-        });
+                return $value;
+            }
+        );
 
         $this->assertSame($processed, $result);
     }
@@ -255,11 +313,15 @@ class EnvVarProcessorTest extends TestCase
         $this->setExpectedException('RuntimeException', 'Syntax error');
         $processor = new EnvVarProcessor();
 
-        $processor->getEnv('json', 'foo', function ($name) {
-            $this->assertSame('foo', $name);
+        $processor->getEnv(
+            'json',
+            'foo',
+            function ($name) {
+                $this->assertSame('foo', $name);
 
-            return 'invalid_json';
-        });
+                return 'invalid_json';
+            }
+        );
     }
 
     /**
@@ -270,11 +332,15 @@ class EnvVarProcessorTest extends TestCase
         $this->setExpectedException('RuntimeException', 'Invalid JSON env var');
         $processor = new EnvVarProcessor();
 
-        $processor->getEnv('json', 'foo', function ($name) use ($value) {
-            $this->assertSame('foo', $name);
+        $processor->getEnv(
+            'json',
+            'foo',
+            function ($name) use ($value) {
+                $this->assertSame('foo', $name);
 
-            return json_encode($value);
-        });
+                return json_encode($value);
+            }
+        );
     }
 
     public function otherJsonValues()
@@ -293,11 +359,15 @@ class EnvVarProcessorTest extends TestCase
         $this->setExpectedException('RuntimeException', 'Unsupported env var prefix');
         $processor = new EnvVarProcessor();
 
-        $processor->getEnv('unknown', 'foo', function ($name) {
-            $this->assertSame('foo', $name);
+        $processor->getEnv(
+            'unknown',
+            'foo',
+            function ($name) {
+                $this->assertSame('foo', $name);
 
-            return 'foo';
-        });
+                return 'foo';
+            }
+        );
     }
 
     public function testGetEnvKeyInvalidKey()
@@ -305,9 +375,13 @@ class EnvVarProcessorTest extends TestCase
         $this->setExpectedException('RuntimeException', 'Invalid env "key:foo": a key specifier should be provided.');
         $processor = new EnvVarProcessor();
 
-        $processor->getEnv('key', 'foo', function ($name) {
-            $this->fail('Should not get here');
-        });
+        $processor->getEnv(
+            'key',
+            'foo',
+            function ($name) {
+                $this->fail('Should not get here');
+            }
+        );
     }
 
     /**
@@ -318,11 +392,15 @@ class EnvVarProcessorTest extends TestCase
         $this->setExpectedException('RuntimeException', 'Resolved value of "foo" did not result in an array value.');
         $processor = new EnvVarProcessor();
 
-        $processor->getEnv('key', 'index:foo', function ($name) use ($value) {
-            $this->assertSame('foo', $name);
+        $processor->getEnv(
+            'key',
+            'index:foo',
+            function ($name) use ($value) {
+                $this->assertSame('foo', $name);
 
-            return $value;
-        });
+                return $value;
+            }
+        );
     }
 
     public function noArrayValues()
@@ -343,11 +421,15 @@ class EnvVarProcessorTest extends TestCase
         $this->setExpectedException(EnvNotFoundException::class, 'Key "index" not found in');
         $processor = new EnvVarProcessor();
 
-        $processor->getEnv('key', 'index:foo', function ($name) use ($value) {
-            $this->assertSame('foo', $name);
+        $processor->getEnv(
+            'key',
+            'index:foo',
+            function ($name) use ($value) {
+                $this->assertSame('foo', $name);
 
-            return $value;
-        });
+                return $value;
+            }
+        );
     }
 
     public function invalidArrayValues()
@@ -366,11 +448,18 @@ class EnvVarProcessorTest extends TestCase
     {
         $processor = new EnvVarProcessor();
 
-        $this->assertSame($value['index'], $processor->getEnv('key', 'index:foo', function ($name) use ($value) {
-            $this->assertSame('foo', $name);
+        $this->assertSame(
+            $value['index'],
+            $processor->getEnv(
+                'key',
+                'index:foo',
+                function ($name) use ($value) {
+                    $this->assertSame('foo', $name);
 
-            return $value;
-        }));
+                    return $value;
+                }
+            )
+        );
     }
 
     public function arrayValues()
@@ -392,13 +481,20 @@ class EnvVarProcessorTest extends TestCase
     {
         $processor = new EnvVarProcessor();
 
-        $this->assertSame('password', $processor->getEnv('key', 'index:file:foo', function ($name) {
-            $this->assertSame('file:foo', $name);
+        $this->assertSame(
+            'password',
+            $processor->getEnv(
+                'key',
+                'index:file:foo',
+                function ($name) {
+                    $this->assertSame('file:foo', $name);
 
-            return [
-                'index' => 'password',
-            ];
-        }));
+                    return [
+                        'index' => 'password',
+                    ];
+                }
+            )
+        );
     }
 
     /**
@@ -407,11 +503,15 @@ class EnvVarProcessorTest extends TestCase
     public function testGetEnvNullable($value, $processed)
     {
         $processor = new EnvVarProcessor();
-        $result = $processor->getEnv('default', ':foo', function ($name) use ($value) {
-            $this->assertSame('foo', $name);
+        $result = $processor->getEnv(
+            'default',
+            ':foo',
+            function ($name) use ($value) {
+                $this->assertSame('foo', $name);
 
-            return $value;
-        });
+                return $value;
+            }
+        );
         $this->assertSame($processed, $result);
     }
 
@@ -422,7 +522,7 @@ class EnvVarProcessorTest extends TestCase
             ['null', 'null'],
             ['Null', 'Null'],
             ['NULL', 'NULL'],
-         ];
+        ];
     }
 
     /**
@@ -432,11 +532,15 @@ class EnvVarProcessorTest extends TestCase
     {
         $processor = new EnvVarProcessor();
 
-        $result = $processor->getEnv('csv', 'foo', function ($name) use ($value) {
-            $this->assertSame('foo', $name);
+        $result = $processor->getEnv(
+            'csv',
+            'foo',
+            function ($name) use ($value) {
+                $this->assertSame('foo', $name);
 
-            return $value;
-        });
+                return $value;
+            }
+        );
 
         $this->assertSame($processed, $result);
     }
@@ -453,7 +557,10 @@ CSV;
             ['1', ['1']],
             ['1,2," 3 "', ['1', '2', ' 3 ']],
             ['\\,\\\\', ['\\', '\\\\']],
-            [$complex, \PHP_VERSION_ID >= 70400 ? ['', '"', 'foo"', '\\"', '\\', 'foo\\'] : ['', '"', 'foo"', '\\"",\\,foo\\']],
+            [
+                $complex,
+                \PHP_VERSION_ID >= 70400 ? ['', '"', 'foo"', '\\"', '\\', 'foo\\'] : ['', '"', 'foo"', '\\"",\\,foo\\']
+            ],
             [null, null],
         ];
     }
