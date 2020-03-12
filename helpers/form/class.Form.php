@@ -51,7 +51,7 @@ abstract class tao_helpers_form_Form
      * the list of element composing the form
      *
      * @access protected
-     * @var array
+     * @var tao_helpers_form_FormElement[]
      */
     protected $elements = [];
 
@@ -59,7 +59,7 @@ abstract class tao_helpers_form_Form
      * the actions of the form by context
      *
      * @access protected
-     * @var array
+     * @var tao_helpers_form_FormElement[][]
      */
     protected $actions = [];
 
@@ -67,7 +67,7 @@ abstract class tao_helpers_form_Form
      * if the form is valid or not
      *
      * @access public
-     * @var boolean
+     * @var bool
      */
     public $valid = false;
 
@@ -75,7 +75,7 @@ abstract class tao_helpers_form_Form
      * if the form has been submited or not
      *
      * @access protected
-     * @var boolean
+     * @var bool
      */
     protected $submited = false;
 
@@ -179,7 +179,7 @@ abstract class tao_helpers_form_Form
     public function hasElement($name)
     {
         foreach ($this->elements as $element) {
-            if ($element->getName() == $name) {
+            if ($element->getName() === $name) {
                 return true;
             }
         }
@@ -200,7 +200,7 @@ abstract class tao_helpers_form_Form
         $returnValue = null;
 
         foreach ($this->elements as $element) {
-            if ($element->getName() == $name) {
+            if ($element->getName() === $name) {
                 $returnValue = $element;
                 break;
             }
@@ -243,14 +243,14 @@ abstract class tao_helpers_form_Form
      * @access public
      * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  string $name
-     * @return boolean
+     * @return bool
      */
     public function removeElement($name)
     {
         $returnValue = false;
 
         foreach ($this->elements as $index => $element) {
-            if ($element->getName() == $name) {
+            if ($element->getName() === $name) {
                 unset($this->elements[$index]);
                 $groupName = $this->getElementGroup($name);
                 if (!empty($groupName) && isset($this->groups[$groupName]['elements'][$name])) {
@@ -344,8 +344,10 @@ abstract class tao_helpers_form_Form
      */
     public function getAction($name, $context = 'bottom')
     {
+        $returnValue = null;
+
         foreach ($this->getActions($context) as $element) {
-            if ($element->getName() == $name) {
+            if ($element->getName() === $name) {
                 $returnValue = $element;
                 break;
             }
@@ -379,7 +381,6 @@ abstract class tao_helpers_form_Form
      * @access public
      * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  array decorators
-     * @return mixed
      */
     public function setDecorators($decorators)
     {
@@ -466,13 +467,13 @@ abstract class tao_helpers_form_Form
                 }
             }
 
-            if ($this->getDecorator() !== null && !($element instanceof tao_helpers_form_elements_Hidden)) {
+            if (!$element instanceof tao_helpers_form_elements_Hidden && $this->getDecorator() !== null) {
                 $returnValue .= $this->getDecorator()->postRender();
             }
         }
 
         $subGroupDecorator = null;
-        if ($this->getDecorator('group') !== null) {
+        if ($this->getDecorator('group') instanceof tao_helpers_form_Decorator) {
             $decoratorClass = get_class($this->getDecorator('group'));
             $subGroupDecorator = new $decoratorClass();
         }
@@ -484,7 +485,7 @@ abstract class tao_helpers_form_Form
                 if (isset($group['options']['class'])) {
                     $cssClasses = explode(' ', $this->getDecorator('group')->getOption('cssClass'));
                     $currentClasses = array_map('trim', $cssClasses);
-                    if (!in_array($group['options']['class'], $currentClasses)) {
+                    if (!in_array($group['options']['class'], $currentClasses, true)) {
                         $currentClasses[] = $group['options']['class'];
                         $this->getDecorator('group')->setOption(
                             'cssClass',
@@ -495,7 +496,7 @@ abstract class tao_helpers_form_Form
                 $returnValue .= $this->getDecorator('group')->preRender();
             }
             $returnValue .= $group['title'];
-            if ($subGroupDecorator !== null) {
+            if ($subGroupDecorator instanceof tao_helpers_form_Decorator) {
                 $returnValue .= $subGroupDecorator->preRender();
             }
             foreach ($group['elements'] as $elementName) {
@@ -540,7 +541,7 @@ abstract class tao_helpers_form_Form
                     }
                 }
             }
-            if ($subGroupDecorator !== null) {
+            if ($subGroupDecorator instanceof tao_helpers_form_Decorator) {
                 $returnValue .= $subGroupDecorator->postRender();
             }
             if ($this->getDecorator('group') !== null) {
@@ -601,7 +602,7 @@ abstract class tao_helpers_form_Form
      *
      * @access public
      * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
-     * @return boolean
+     * @return bool
      */
     public function hasFileUpload()
     {
@@ -622,7 +623,7 @@ abstract class tao_helpers_form_Form
      *
      * @access public
      * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
-     * @return boolean
+     * @return bool
      */
     public function isValid()
     {
@@ -634,7 +635,7 @@ abstract class tao_helpers_form_Form
      *
      * @access public
      * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
-     * @return boolean
+     * @return bool
      */
     public function isSubmited()
     {
@@ -652,7 +653,7 @@ abstract class tao_helpers_form_Form
     {
         foreach ($values as $key => $value) {
             foreach ($this->elements as $element) {
-                if ($element->getName() == $key) {
+                if ($element->getName() === $key) {
                     if (
                         $element instanceof tao_helpers_form_elements_Checkbox ||
                         (method_exists($element, 'setValues') && is_array($value))
@@ -663,6 +664,22 @@ abstract class tao_helpers_form_Form
                     }
                     break;
                 }
+            }
+        }
+    }
+
+    /**
+     * Disables the whole form
+     */
+    public function disable()
+    {
+        foreach ($this->elements as $element) {
+            $element->disable();
+        }
+
+        foreach ($this->actions as $context) {
+            foreach ($context as $action) {
+                $action->disable();
             }
         }
     }
@@ -688,7 +705,7 @@ abstract class tao_helpers_form_Form
     public function getValue($name)
     {
         foreach ($this->elements as $element) {
-            if ($element->getName() == $name) {
+            if ($element->getName() === $name) {
                 return  $element->getEvaluatedValue();
             }
         }
@@ -714,7 +731,6 @@ abstract class tao_helpers_form_Form
      * @access public
      * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  array $groups
-     * @return mixed
      */
     public function setGroups($groups)
     {
@@ -730,7 +746,7 @@ abstract class tao_helpers_form_Form
      * @param  string $groupTitle
      * @param  array $elements array of form elements or their identifiers
      * @param  array $options
-     * @return mixed
+     *
      * @throws common_Exception
      */
     public function createGroup($groupName, $groupTitle = '', array $elements = [], array $options = [])
@@ -762,7 +778,14 @@ abstract class tao_helpers_form_Form
      */
     public function addToGroup($groupName, $elementName = '')
     {
-        if (isset($this->groups[$groupName]['elements']) && !in_array($elementName, $this->groups[$groupName]['elements'])) {
+        if (
+            isset($this->groups[$groupName]['elements'])
+            && !in_array(
+                $elementName,
+                $this->groups[$groupName]['elements'],
+                true
+            )
+        ) {
             $this->groups[$groupName]['elements'][] = $elementName;
         }
     }
@@ -780,7 +803,7 @@ abstract class tao_helpers_form_Form
         $returnValue =  '';
 
         foreach ($this->groups as $groupName => $group) {
-            if (in_array($elementName, $group['elements'])) {
+            if (in_array($elementName, $group['elements'], true)) {
                 $returnValue = $groupName;
                 break;
             }

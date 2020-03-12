@@ -49,14 +49,14 @@ use oat\tao\scripts\install\SetLocaleNumbersConfig;
 use \oat\tao\scripts\install\CreateWebhookEventLogTable;
 use oat\tao\scripts\install\RegisterUserService;
 
-$extpath = dirname(__FILE__) . DIRECTORY_SEPARATOR;
+$extpath = __DIR__ . DIRECTORY_SEPARATOR;
 
 return [
     'name' => 'tao',
     'label' => 'TAO Base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '40.9.6',
+    'version' => '41.0.2',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => [
         'generis' => '>=12.12.0',
@@ -67,17 +67,17 @@ return [
     ],
     'install' => [
         'rdf' => [
-            dirname(__FILE__) . '/models/ontology/tao.rdf',
-            dirname(__FILE__) . '/models/ontology/taoaclrole.rdf',
-            dirname(__FILE__) . '/models/ontology/oauth.rdf',
-            dirname(__FILE__) . '/models/ontology/webservice.rdf',
-            dirname(__FILE__) . '/models/ontology/services.rdf',
-            dirname(__FILE__) . '/models/ontology/indexation.rdf',
-            dirname(__FILE__) . '/models/ontology/model.rdf',
-            dirname(__FILE__) . '/models/ontology/widegetdefinitions.rdf',
-            dirname(__FILE__) . '/models/ontology/requiredaction.rdf',
-            dirname(__FILE__) . '/models/ontology/auth/basicauth.rdf',
-            dirname(__FILE__) . '/models/ontology/userlocks.rdf'
+            __DIR__ . '/models/ontology/tao.rdf',
+            __DIR__ . '/models/ontology/taoaclrole.rdf',
+            __DIR__ . '/models/ontology/oauth.rdf',
+            __DIR__ . '/models/ontology/webservice.rdf',
+            __DIR__ . '/models/ontology/services.rdf',
+            __DIR__ . '/models/ontology/indexation.rdf',
+            __DIR__ . '/models/ontology/model.rdf',
+            __DIR__ . '/models/ontology/widegetdefinitions.rdf',
+            __DIR__ . '/models/ontology/requiredaction.rdf',
+            __DIR__ . '/models/ontology/auth/basicauth.rdf',
+            __DIR__ . '/models/ontology/userlocks.rdf'
         ],
         'checks' => [
                 ['type' => 'CheckPHPRuntime', 'value' => ['id' => 'tao_php_runtime', 'min' => '5.4']],
@@ -103,12 +103,12 @@ return [
                 ['type' => 'CheckCustom', 'value' => ['id' => 'tao_custom_database_drivers', 'name' => 'database_drivers', 'extension' => 'tao']],
         ],
         'php' => [
-            dirname(__FILE__) . '/scripts/install/addFileUploadSource.php',
-            dirname(__FILE__) . '/scripts/install/setSimpleAccess.php',
+            __DIR__ . '/scripts/install/addFileUploadSource.php',
+            __DIR__ . '/scripts/install/setSimpleAccess.php',
             SetServiceFileStorage::class,
             SetServiceState::class,
-            dirname(__FILE__) . '/scripts/install/setJsConfig.php',
-            dirname(__FILE__) . '/scripts/install/registerEntryPoint.php',
+            __DIR__ . '/scripts/install/setJsConfig.php',
+            __DIR__ . '/scripts/install/registerEntryPoint.php',
             SetLocaleNumbersConfig::class,
             AddLogFs::class,
             AddTmpFsHandlers::class,
@@ -182,6 +182,7 @@ return [
         ['grant', TaoRoles::TAO_MANAGER,          ['ext' => 'tao','mod' => 'WebService']],
         ['grant', TaoRoles::TAO_MANAGER,          ['ext' => 'tao','mod' => 'Security']],
         ['grant', TaoRoles::REST_PUBLISHER,       ['ext' => 'tao','mod' => 'TaskQueue', 'act' => 'get']],
+        ['grant', TaoRoles::REST_PUBLISHER,       ['ext' => 'tao','mod' => 'TaskQueue', 'act' => 'getStatus']],
         ['grant', TaoRoles::SYSTEM_ADMINISTRATOR, ['ext' => 'tao','mod' => 'ExtensionsManager']],
         ['grant', 'http://www.tao.lu/Ontologies/TAO.rdf#LockManagerRole',     'tao_actions_Lock@forceRelease'],
         ['grant', 'http://www.tao.lu/Ontologies/TAO.rdf#PropertyManagerRole', 'tao_actions_PropertiesAuthoring'],
@@ -194,9 +195,9 @@ return [
     ],
     'constants' => [
         #TAO version number
-        'TAO_VERSION' => '3.4.0-sprint122',
+        'TAO_VERSION' => '3.4.0-sprint123',
         #TAO version label
-        'TAO_VERSION_NAME' => '3.4.0-sprint122',
+        'TAO_VERSION_NAME' => '3.4.0-sprint123',
         #the name to display
         'PRODUCT_NAME' => 'TAO',
         #TAO release status, use to add specific footer to TAO, available alpha, beta, demo, stable
@@ -204,10 +205,10 @@ return [
         #TAO default character encoding (mainly used with multi-byte string functions).
         'TAO_DEFAULT_ENCODING' => 'UTF-8',
         # actions directory
-        "DIR_ACTIONS" => $extpath . "actions" . DIRECTORY_SEPARATOR,
+        'DIR_ACTIONS' => $extpath . 'actions' . DIRECTORY_SEPARATOR,
 
         # views directory
-        "DIR_VIEWS" => $extpath . "views" . DIRECTORY_SEPARATOR,
+        'DIR_VIEWS' => $extpath . 'views' . DIRECTORY_SEPARATOR,
 
         # default module name
         'DEFAULT_MODULE_NAME' => 'Main',
@@ -221,8 +222,8 @@ return [
         #BASE URL (usually the domain root)
         'BASE_URL' => ROOT_URL . 'tao/',
 
-         #TPL PATH the path to the templates
-         'TPL_PATH' => $extpath . "views" . DIRECTORY_SEPARATOR . "templates" . DIRECTORY_SEPARATOR,
+        #TPL PATH the path to the templates
+        'TPL_PATH' => $extpath . 'views' . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR,
     ],
     'extra' => [
         'structures' => $extpath . 'actions' . DIRECTORY_SEPARATOR . 'structures.xml',

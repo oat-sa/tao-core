@@ -27,5 +27,6 @@ return [
      * @type bool
      */
     'disableAutocomplete' => false,
-    'enablePasswordReveal' => false
+    'enablePasswordReveal' => false,
+    'disableAutofocus' => false,
 ];

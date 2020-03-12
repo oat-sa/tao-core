@@ -26,13 +26,14 @@ use tao_helpers_form_FormFactory as FormFactory;
 
 /**
  * This class provide a container for a specific form instance.
- * It's subclasses instanciate a form and it's elements to be used as a
+ * Its subclasses instantiate a form.
  *
  * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
  */
 abstract class tao_helpers_form_FormContainer
 {
-    const CSRF_PROTECTION_OPTION = 'csrf_protection';
+    public const CSRF_PROTECTION_OPTION = 'csrf_protection';
+    public const IS_DISABLED            = 'is_disabled';
 
     /**
      * the form instance contained
@@ -59,7 +60,7 @@ abstract class tao_helpers_form_FormContainer
     protected $options = [];
 
     /**
-     * static list of all instanciated forms
+     * static list of all instantiated forms
      *
      * @access protected
      * @var array
@@ -80,6 +81,8 @@ abstract class tao_helpers_form_FormContainer
      * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  array data
      * @param  array options
+     *
+     * @throws common_Exception
      */
     public function __construct($data = [], $options = [])
     {
@@ -97,7 +100,7 @@ abstract class tao_helpers_form_FormContainer
         // initialize the elements of the form
         $this->initElements();
 
-        if (isset($options[self::CSRF_PROTECTION_OPTION]) && $options[self::CSRF_PROTECTION_OPTION] === true) {
+        if (($options[self::CSRF_PROTECTION_OPTION] ?? false) === true) {
             $this->initCsrfProtection();
         }
 
@@ -106,13 +109,15 @@ abstract class tao_helpers_form_FormContainer
             $this->form->setValues($this->data);
         }
 
-        // evaluate the form
         if ($this->form !== null) {
-            $this->form->evaluate();
-        }
+            if ($options[self::IS_DISABLED] ?? false)
+            {
+                $this->form->disable();
+            }
 
-        //validate global form rules
-        if ($this->form !== null) {
+            // evaluate the form
+            $this->form->evaluate();
+            //validate global form rules
             $this->validate();
         }
 
@@ -141,7 +146,7 @@ abstract class tao_helpers_form_FormContainer
      * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @return tao_helpers_form_Form
      */
-    public function getForm()
+    public function getForm(): ?tao_helpers_form_Form
     {
         return $this->form;
     }
@@ -173,19 +178,16 @@ abstract class tao_helpers_form_FormContainer
      *
      * @access protected
      * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
-     * @return boolean
      */
-    protected function validate()
+    protected function validate(): bool
     {
         return true;
     }
 
     /**
      * Return the posted form data.
-     *
-     * @return array
      */
-    protected function getPostData()
+    protected function getPostData(): array
     {
         return $this->postData;
     }
@@ -194,7 +196,7 @@ abstract class tao_helpers_form_FormContainer
      * Initialize the CSRF protection element for the form.
      * @throws common_Exception
      */
-    private function initCsrfProtection()
+    private function initCsrfProtection(): void
     {
         $csrfTokenElement = FormFactory::getElement(TokenService::CSRF_TOKEN_HEADER, CsrfToken::class);
         $this->form->addElement($csrfTokenElement, true);

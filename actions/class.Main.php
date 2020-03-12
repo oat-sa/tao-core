@@ -35,7 +35,7 @@ use oat\tao\model\event\LogoutSucceedEvent;
 use oat\tao\model\menu\MenuService;
 use oat\tao\model\menu\Perspective;
 use oat\tao\model\mvc\DefaultUrlService;
-use oat\tao\model\notification\NotificationInterface;
+use oat\tao\model\notification\Notification;
 use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\user\UserLocks;
 use oat\oatbox\log\LoggerAwareTrait;
@@ -122,6 +122,7 @@ class tao_actions_Main extends tao_actions_CommonModule
 
         $disableAutoComplete = !empty($config['disableAutocomplete']);
         $enablePasswordReveal = !empty($config['enablePasswordReveal']);
+        $disableAutofocus = !empty($config['disableAutofocus']);
 
         $enableIframeProtection = !empty($config['block_iframe_usage']) && $config['block_iframe_usage'];
         if ($enableIframeProtection) {
@@ -236,6 +237,7 @@ class tao_actions_Main extends tao_actions_CommonModule
 
         $this->setData('autocompleteDisabled', (int)$disableAutoComplete);
         $this->setData('passwordRevealEnabled', (int)$enablePasswordReveal);
+        $this->setData('autofocusDisabled', (int)$disableAutofocus);
 
         $entryPointService = $this->getServiceLocator()->get(EntryPointService::SERVICE_ID);
         $this->setData('entryPoints', $entryPointService->getEntryPoints(EntryPointService::OPTION_PRELOGIN));
@@ -330,7 +332,7 @@ class tao_actions_Main extends tao_actions_CommonModule
         if ($notifService->getVisibility()) {
             $notif = $notifService->notificationCount($user->getUri());
 
-            $this->setData('unread-notification', $notif[NotificationInterface::CREATED_STATUS]);
+            $this->setData('unread-notification', $notif[Notification::CREATED_STATUS]);
 
             $this->setData('notification-url', _url(
                 'index',
