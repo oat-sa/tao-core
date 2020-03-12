@@ -20,19 +20,19 @@
 
 namespace oat\tao\test\unit\model\security\DataAccess\Repository;
 
+use oat\generis\test\MockObject;
+use oat\generis\test\TestCase;
 use oat\tao\model\security\Business\Domain\Setting;
 use oat\tao\model\security\Business\Domain\SettingsCollection;
 use oat\tao\model\security\DataAccess\Repository\SecuritySettingsRepository;
 use oat\tao\model\service\SettingsStorage;
-use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_MockObject_MockObject;
 
 class SecuritySettingsRepositoryTest extends TestCase
 {
     /** @var string[] */
     private $storageData = [];
 
-    /** @var PHPUnit_Framework_MockObject_MockObject|SettingsStorage */
+    /** @var MockObject|SettingsStorage */
     private $storage;
 
     /** @var SecuritySettingsRepository */
@@ -43,9 +43,7 @@ class SecuritySettingsRepositoryTest extends TestCase
      */
     public function initTestDoubles(): void
     {
-        $this->storage = $this->getMockBuilder(SettingsStorage::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->storage = $this->createMock(SettingsStorage::class);
 
         $this->storage
             ->method('get')
