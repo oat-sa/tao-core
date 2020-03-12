@@ -30,6 +30,7 @@
 
 namespace oat\tao\model\envProcessor;
 
+use Closure;
 use RuntimeException;
 
 class EnvVarProcessor implements EnvVarProcessorInterface
@@ -72,7 +73,7 @@ class EnvVarProcessor implements EnvVarProcessorInterface
      *
      * @throws EnvNotFoundException
      */
-    public function getEnv($prefix, $name, \Closure $getEnv)
+    public function getEnv($prefix, $name, Closure $getEnv)
     {
         $i = strpos($name, ':');
 
@@ -85,21 +86,21 @@ class EnvVarProcessor implements EnvVarProcessorInterface
 
             $next = substr($name, $i + 1);
             $key = substr($name, 0, $i);
-            $array = $getEnv($next);
+            $envVariables = $getEnv($next);
 
-            if (!\is_array($array)) {
+            if (!\is_array($envVariables)) {
                 throw new RuntimeException(
                     sprintf('Resolved value of "%s" did not result in an array value.', $next)
                 );
             }
 
-            if (!isset($array[$key]) && !\array_key_exists($key, $array)) {
+            if (!isset($envVariables[$key]) && !\array_key_exists($key, $envVariables)) {
                 throw new EnvNotFoundException(
-                    sprintf('Key "%s" not found in "%s" (resolved from "%s").', $key, json_encode($array), $next)
+                    sprintf('Key "%s" not found in "%s" (resolved from "%s").', $key, json_encode($envVariables), $next)
                 );
             }
 
-            return $array[$key];
+            return $envVariables[$key];
         }
 
         if ('default' === $prefix) {
