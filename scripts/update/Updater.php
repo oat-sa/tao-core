@@ -1308,6 +1308,11 @@ class Updater extends \common_ext_ExtensionUpdater
         $this->skip('40.9.6', '41.0.1');
 
         if ($this->isVersion('41.0.1')) {
+            AclProxy::applyRule(new AccessRule('grant', TaoRoles::REST_PUBLISHER, ['ext' => 'tao', 'mod' => 'TaskQueue', 'act' => 'getStatus']));
+            $this->setVersion('41.0.2');
+        }
+
+        if ($this->isVersion('41.0.2')) {
             $serviceManager = $this->getServiceManager();
 
             /** @var SettingsStorageInterface $storage */
