@@ -21,6 +21,8 @@
  */
 
 use oat\oatbox\action\Action;
+use oat\tao\model\envProcessor\ParameterBag;
+use Symfony\Component\Dotenv\Dotenv;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\log\LoggerService;
@@ -97,6 +99,8 @@ class tao_install_Setup implements Action
                     throw new InvalidArgumentException('Please provide a JSON or YAML file');
             }
         }
+
+        $parameters = $this->postProcessParams($parameters);
 
         /** @var LoggerService $loggerService */
         $loggerService = $this->getContainer()->offsetGet(LoggerService::SERVICE_ID);
@@ -326,5 +330,24 @@ class tao_install_Setup implements Action
         }
 
         $this->logNotice('Installation completed!');
+    }
+
+    /**
+     * @param $parameters
+     * @return array
+     */
+    private function postProcessParams(array $parameters)
+    {
+        $envFile = __DIR__ . DIRECTORY_SEPARATOR
+            . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '.env';
+
+        $dotenv = new Dotenv();
+        $dotenv->loadEnv($envFile);
+
+        $parameters = (new ParameterBag($parameters))
+            ->resolve()
+            ->all();
+
+        return $parameters;
     }
 }
