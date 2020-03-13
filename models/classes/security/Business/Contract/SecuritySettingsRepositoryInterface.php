@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This program is free software; you can redistribute it and/or
@@ -15,21 +15,19 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2019 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
  */
 
-namespace oat\tao\model\settings;
+namespace oat\tao\model\security\Business\Contract;
 
-/**
- * Interface CspHeaderSettingsInterface
- *
- * @author Martijn Swinkels <m.swinkels@taotesting.com>
- *
- * @deprecated
- * @see \oat\tao\model\security\Business\Contract\SecuritySettingsRepositoryInterface
- */
-interface CspHeaderSettingsInterface
+use oat\oatbox\PhpSerializable;
+use oat\tao\model\security\Business\Domain\SettingsCollection;
+
+interface SecuritySettingsRepositoryInterface extends PhpSerializable
 {
-    const CSP_HEADER_SETTING  = 'cspHeader';
-    const CSP_HEADER_LIST     = 'cspHeaderList';
+    public const SERVICE_ID = 'tao/SecuritySettingsRepository';
+
+    public function findAll(): SettingsCollection;
+
+    public function persist(SettingsCollection $settings): void;
 }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This program is free software; you can redistribute it and/or
@@ -15,21 +15,39 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2019 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
  */
 
-namespace oat\tao\model\settings;
+namespace oat\tao\model\security\Business\Domain;
 
-/**
- * Interface CspHeaderSettingsInterface
- *
- * @author Martijn Swinkels <m.swinkels@taotesting.com>
- *
- * @deprecated
- * @see \oat\tao\model\security\Business\Contract\SecuritySettingsRepositoryInterface
- */
-interface CspHeaderSettingsInterface
+final class Setting
 {
-    const CSP_HEADER_SETTING  = 'cspHeader';
-    const CSP_HEADER_LIST     = 'cspHeaderList';
+    /** @var string */
+    private $key;
+
+    /** @var string */
+    private $value;
+
+    public function __construct(string $key, string $value)
+    {
+        $this->key   = $key;
+        $this->value = $value;
+    }
+
+    public function getKey(): string
+    {
+        return $this->key;
+    }
+
+    public function getValue(): string
+    {
+        return $this->value;
+    }
+
+    public function setValue(string $value): self
+    {
+        $this->value = $value;
+
+        return $this;
+    }
 }
