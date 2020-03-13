@@ -1329,6 +1329,7 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('41.0.2');
         }
 
+
         if ($this->isVersion('41.0.2')) {
             $this->getServiceManager()->register(SecureResourceService::SERVICE_ID, new SecureResourceService());
 
