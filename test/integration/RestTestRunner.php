@@ -176,11 +176,7 @@ abstract class RestTestRunner extends GenerisPhpUnitTestRunner
      */
     private function processOptions(array $options)
     {
-        if (
-            array_key_exists('headers', $options)
-            && !array_key_exists('Accept', $options['headers'])
-            && !array_key_exists('accept', $options['headers'])
-        ) {
+        if (!isset($options['headers']['Accept'], $options['headers']['accept'])) {
             $options['headers']['Accept'] = 'application/json';
         }
 
