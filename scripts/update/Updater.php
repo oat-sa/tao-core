@@ -1319,9 +1319,9 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('41.1.0');
         }
 
-        $this->skip('41.1.0', '41.1.1');
+        $this->skip('41.1.0', '41.1.2');
 
-        if ($this->isVersion('41.1.1')) {
+        if ($this->isVersion('41.1.2')) {
             $serviceManager = $this->getServiceManager();
 
             /** @var SettingsStorageInterface $storage */
