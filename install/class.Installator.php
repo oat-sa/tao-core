@@ -32,6 +32,7 @@ use oat\generis\model\data\Ontology;
 use oat\tao\model\TaoOntology;
 use oat\generis\model\GenerisRdf;
 use oat\tao\model\user\TaoRoles;
+use oat\oatbox\service\ServiceNotFoundException;
 
 /**
  *
@@ -157,14 +158,21 @@ class tao_install_Installator
             ServiceManager::setServiceManager($this->getServiceManager());
 
             /*
-             *  2 - Test DB connection (done by the constructor)
+             *  2 - Setup RDS persistence
              */
-            $this->log('i', "Spawning DbCreator");
-            $persistenceManager = new PersistenceManager();
-            $dbalConfigCreator = new tao_install_utils_DbalConfigCreator();
-            $persistenceManager->registerPersistence('default', $dbalConfigCreator->createDbalConfig($installData));
-            $this->getServiceManager()->register(PersistenceManager::SERVICE_ID, $persistenceManager);
-            
+            try {
+                $persistenceManager = $this->getServiceManager()->get(PersistenceManager::SERVICE_ID);
+            } catch (ServiceNotFoundException $e) {
+                $this->log('i', "Spawning new PersistenceManager");
+                $persistenceManager = new PersistenceManager();
+            }
+            if (!$persistenceManager->hasPersistence('default')) {
+                $this->log('i', "Register default Persistence");
+                $dbalConfigCreator = new tao_install_utils_DbalConfigCreator();
+                $persistenceManager->registerPersistence('default', $dbalConfigCreator->createDbalConfig($installData));
+                $this->getServiceManager()->register(PersistenceManager::SERVICE_ID, $persistenceManager);
+            }
+
             $dbCreator = new SetupDb();
             $dbCreator->setLogger($this->logger);
             $dbCreator->setupDatabase($persistenceManager->getPersistenceById('default'));
