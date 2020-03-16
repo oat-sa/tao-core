@@ -28,6 +28,11 @@ use oat\tao\model\notification\implementation\RdsNotificationService;
 use oat\tao\model\notification\NotificationServiceInterface;
 use oat\generis\persistence\PersistenceManager;
 
+/**
+ * Class InstallNotificationTable
+ *
+ * @deprecated This class is used by client only. It will be moved to client specific extension
+ */
 class InstallNotificationTable extends InstallAction
 {
 
