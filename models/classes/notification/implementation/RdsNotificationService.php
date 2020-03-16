@@ -26,6 +26,11 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use oat\generis\persistence\sql\SchemaCollection;
 use oat\tao\model\notification\Notification;
 
+/**
+ * Class RdsNotificationService
+ *
+ * @deprecated This class is used by client only. It will be moved to client specific extension
+ */
 class RdsNotificationService extends AbstractSqlNotificationService
 {
     /**

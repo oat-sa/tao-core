@@ -29,6 +29,11 @@ use oat\generis\persistence\sql\SchemaProviderInterface;
 use oat\tao\model\notification\AbstractNotificationService;
 use oat\tao\model\notification\Notification;
 
+/**
+ * Class AbstractSqlNotificationService
+ *
+ * @deprecated This class is used by client only. It will be moved to client specific extension
+ */
 abstract class AbstractSqlNotificationService extends AbstractNotificationService implements SchemaProviderInterface
 {
     use OntologyAwareTrait;

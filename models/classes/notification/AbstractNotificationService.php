@@ -23,6 +23,11 @@ namespace oat\tao\model\notification;
 
 use oat\oatbox\service\ConfigurableService;
 
+/**
+ * Class AbstractNotificationService
+ *
+ * @deprecated This class is used by client only. It will be moved to client specific extension
+ */
 abstract class AbstractNotificationService extends ConfigurableService implements NotificationServiceInterface
 {
     /**

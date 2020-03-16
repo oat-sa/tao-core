@@ -23,6 +23,11 @@ namespace oat\tao\model\notification;
 
 use JsonSerializable;
 
+/**
+ * Class Notification
+ *
+ * @deprecated This class is used by client only. It will be moved to client specific extension
+ */
 class Notification implements JsonSerializable
 {
     public const DEFAULT_STATUS  = 0;

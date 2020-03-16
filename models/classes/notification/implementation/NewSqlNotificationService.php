@@ -27,6 +27,11 @@ use oat\generis\Helper\UuidPrimaryKeyTrait;
 use oat\generis\persistence\sql\SchemaCollection;
 use oat\tao\model\notification\Notification;
 
+/**
+ * Class NewSqlNotificationService
+ *
+ * @deprecated This class is used by client only. It will be moved to client specific extension
+ */
 class NewSqlNotificationService extends AbstractSqlNotificationService
 {
     use UuidPrimaryKeyTrait;

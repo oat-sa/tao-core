@@ -21,6 +21,10 @@
 
 namespace oat\tao\model\notification;
 
+/**
+ * Interface NotificationServiceInterface
+ * @deprecated This class is used by client only. It will be moved to client specific extension
+ */
 interface NotificationServiceInterface
 {
 
