@@ -4,12 +4,12 @@
  */
 use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\implementation\RdsNotificationService;
-return new NotificationServiceAggregator(array(
-    NotificationServiceAggregator::OPTION_RDS_NOTIFICATION_SERVICE => array(
+return new NotificationServiceAggregator([
+    NotificationServiceAggregator::OPTION_RDS_NOTIFICATION_SERVICE => [
         'class' => RdsNotificationService::class,
-        'options' => array(
+        'options' => [
             'persistence' => 'default',
             'visibility' => false
-        )
-    )
-));
+        ]
+    ]
+]);
