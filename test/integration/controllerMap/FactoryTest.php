@@ -23,6 +23,7 @@
  *
  */
 
+use oat\tao\model\controllerMap\ActionNotFoundException;
 use oat\tao\model\controllerMap\Factory;
 use oat\tao\model\controllerMap\ControllerDescription;
 use oat\tao\model\controllerMap\ActionDescription;
@@ -53,7 +54,7 @@ class FactoryTest extends TaoPhpUnitTestRunner
     /** @var  Factory */
     protected $factory;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -165,10 +166,11 @@ class FactoryTest extends TaoPhpUnitTestRunner
      * @dataProvider missingControllerActionNameProvider
      * @param string $controllerClassName
      * @param string $actionName
-     * @expectedException oat\tao\model\controllerMap\ActionNotFoundException
+     * @throws ActionNotFoundException
      */
     public function testGetActionDescriptionForMissingAction($controllerClassName, $actionName)
     {
+        $this->expectException(ActionNotFoundException::class);
         $this->factory->getActionDescription($controllerClassName, $actionName);
     }
 

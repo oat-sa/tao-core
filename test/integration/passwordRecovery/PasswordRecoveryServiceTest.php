@@ -42,7 +42,7 @@ class PasswordRecoveryServiceTest extends TaoPhpUnitTestRunner
     /**
      * tests initialization
      */
-    public function setUp()
+    public function setUp(): void
     {
         TaoPhpUnitTestRunner::initTest();
         $this->testUser = $this->createUser();
@@ -51,13 +51,13 @@ class PasswordRecoveryServiceTest extends TaoPhpUnitTestRunner
     /**
      * tests clean up
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         if (!is_null($this->testUser)) {
             $this->testUser->delete();
         }
     }
-    
+
     /**
      *
      * @param MessagingService $messagingService
@@ -72,7 +72,7 @@ class PasswordRecoveryServiceTest extends TaoPhpUnitTestRunner
         $refProperty->setValue($passwordRecoveryService, $messagingService);
         return $passwordRecoveryService;
     }
-    
+
     protected function createUser()
     {
         $class = new core_kernel_classes_Class(GenerisRdf::CLASS_GENERIS_USER);
@@ -103,19 +103,19 @@ class PasswordRecoveryServiceTest extends TaoPhpUnitTestRunner
             return true;
         });
         $messagingProphecy->send(Argument::type('oat\tao\model\messaging\Message'))->should(new CallTimesPrediction(1));
-        
-        
+
+
         $passwordRecoveryService = $this->getPasswordRecoveryService($messagingProphecy->reveal());
-        
+
         $generisUser = new \core_kernel_users_GenerisUser($this->testUser);
         $this->assertEmpty($generisUser->getPropertyValues(PasswordRecoveryService::PROPERTY_PASSWORD_RECOVERY_TOKEN));
         $generisUser->refresh();
-        
+
         $this->assertTrue($passwordRecoveryService->sendMail($this->testUser));
-        
+
         $passwordRecoveryToken = current($generisUser->getPropertyValues(PasswordRecoveryService::PROPERTY_PASSWORD_RECOVERY_TOKEN));
         $this->assertNotEmpty($passwordRecoveryToken);
-        
+
         $messagingProphecy->checkProphecyMethodsPredictions();
     }
 }

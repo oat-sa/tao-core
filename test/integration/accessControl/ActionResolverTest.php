@@ -56,10 +56,10 @@ class ActionResolverTest extends GenerisPhpUnitTestRunner
 
     /**
      * Test the constructor to throw an exception if the url is unknown
-     * @expectedException ResolverException
      */
     public function testFailingConstructor()
     {
+        $this->expectException(ResolverException::class);
         new ActionResolver('/foo/bar/index');
     }
 
@@ -74,7 +74,7 @@ class ActionResolverTest extends GenerisPhpUnitTestRunner
             ['tao', 'Main', 'tao_actions_Main', 'index'],
         ];
     }
- 
+
     /**
      * Test {@link ActionResolver::getByControllerName(}
      * @dataProvider getByControllerNameProvider

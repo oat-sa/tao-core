@@ -23,6 +23,7 @@ namespace oat\tao\test\unit\actionQueue;
 
 use oat\tao\model\actionQueue\AbstractQueuedAction;
 use oat\generis\test\TestCase;
+use oat\tao\model\actionQueue\ActionQueueException;
 
 /**
  * Class ActionTest
@@ -52,11 +53,9 @@ class AbstractActionTest extends TestCase
         $this->assertEquals('result', $action->getResult());
     }
 
-    /**
-     * @expectedException \oat\tao\model\actionQueue\ActionQueueException
-     */
     public function testGetResultException()
     {
+        $this->expectException(ActionQueueException::class);
         $action = new ConcreteAction();
         $action->getResult();
     }

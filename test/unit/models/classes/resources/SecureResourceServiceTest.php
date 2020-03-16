@@ -43,7 +43,7 @@ class SecureResourceServiceTest extends GenerisTestCase
      */
     private $permissionInterface;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->service = new SecureResourceService();
 

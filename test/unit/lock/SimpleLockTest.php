@@ -21,23 +21,24 @@
 
 namespace  oat\tao\test\unit\lock;
 
+use common_exception_Error;
 use oat\tao\model\lock\implementation\SimpleLock;
 use oat\generis\test\TestCase;
 
 class SimpleLockTest extends TestCase
 {
-    
+
     /**
-     * @expectedException common_exception_Error
      * @author Lionel Lecaque, lionel@taotesting.com
      */
     public function testConstructExecption()
     {
+        $this->expectException(common_exception_Error::class);
         $resource = $this->prophesize('core_kernel_classes_Resource');
         $owner = $this->prophesize('core_kernel_classes_Literal');
         $lock = new SimpleLock($resource->reveal(), $owner->reveal(), 'epoch');
     }
-    
+
     /**
      *
      * @author Lionel Lecaque, lionel@taotesting.com
@@ -49,10 +50,10 @@ class SimpleLockTest extends TestCase
         $owner = $this->prophesize('core_kernel_classes_Resource');
         $owner->getUri()->willReturn('#ownerUri');
         $lock = new SimpleLock($resource->reveal(), $owner->reveal(), 'epoch');
-        
+        $this->assertTrue(true);
         return $lock;
     }
-    
+
     /**
      * @depends testConstruct
      * @author Lionel Lecaque, lionel@taotesting.com
@@ -61,7 +62,7 @@ class SimpleLockTest extends TestCase
     {
         $this->assertEquals('#ownerUri', $lock->getOwnerId());
     }
-    
+
     /**
      * @depends testConstruct
      * @author Lionel Lecaque, lionel@taotesting.com

@@ -53,7 +53,7 @@ class ServiceTest extends TaoPhpUnitTestRunner
     /**
      * tests initialization
      */
-    public function setUp()
+    public function setUp(): void
     {
         TaoPhpUnitTestRunner::initTest();
         $this->assertNull($this->taoService);
@@ -124,7 +124,7 @@ class ServiceTest extends TaoPhpUnitTestRunner
 
         //get the diff between the class and the subclass
         $diffs = $this->taoService->getPropertyDiff($testModelClass, $generisResourceClass);
-        $this->assertInternalType('array', $diffs);
+        $this->assertIsArray( $diffs);
         $diffProperty = $diffs[0];
         $this->assertNotNull($diffProperty);
         $this->assertIsA($diffProperty, 'core_kernel_classes_Property');
@@ -162,7 +162,7 @@ class ServiceTest extends TaoPhpUnitTestRunner
             $testClass = $itemClass;
         }
         $foundProp = $this->taoService->getClazzProperties($testClass);
-        $this->assertInternalType('array', $foundProp);
+        $this->assertIsArray( $foundProp);
         $this->assertTrue(count($foundProp) >= 3, 'the class item or one of is subclasses has less then three properties');
 
         //delete the item class in case it has been created if it was not in the model
