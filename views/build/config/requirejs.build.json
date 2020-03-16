@@ -38,8 +38,7 @@
     "util": "../../../tao/views/node_modules/@oat-sa/tao-core-sdk/dist/util",
     "ui": "../../../tao/views/node_modules/@oat-sa/tao-core-ui/dist",
     "select2": "../../../tao/views/node_modules/@oat-sa/tao-core-libs/dist/select2",
-    "select2-origin": "../../../tao/views/node_modules/select2",
-    "fastestsmallesttextencoderdecoder": "../../../tao/views/node_modules/fastestsmallesttextencoderdecoder/NodeJS/EncoderAndDecoderNodeJS.min"
+    "select2-origin": "../../../tao/views/node_modules/select2"
   },
 
   "shim": {
