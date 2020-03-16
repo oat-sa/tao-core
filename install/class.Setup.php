@@ -282,7 +282,14 @@ class tao_install_Setup implements Action
         $this->logNotice('Installation completed!');
     }
 
-    private function wrapDefaultPersistence($persistences)
+    /**
+     * Transforms the seed persistence configuration into command line parameters
+     * and then back into a persistence configuration to ensure backwards compatibility
+     * with the previous process
+     * @param array $persistences
+     * @return array
+     */
+    private function wrapPersistenceConfig($persistences)
     {
         $defaultPersistenceConfig = $persistences['default'];
         $options = [];

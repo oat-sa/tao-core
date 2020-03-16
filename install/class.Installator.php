@@ -160,9 +160,9 @@ class tao_install_Installator
             /*
              *  2 - Setup RDS persistence
              */
-            try {
+            if ($this->getServiceManager()->has(PersistenceManager::SERVICE_ID)) {
                 $persistenceManager = $this->getServiceManager()->get(PersistenceManager::SERVICE_ID);
-            } catch (ServiceNotFoundException $e) {
+            } else {
                 $this->log('i', "Spawning new PersistenceManager");
                 $persistenceManager = new PersistenceManager();
             }
