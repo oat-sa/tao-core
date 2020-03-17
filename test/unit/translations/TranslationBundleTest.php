@@ -47,10 +47,7 @@ class TranslationBundleTest extends TestCase
      */
     public static function setUpBeforeClass(): void
     {
-        self::$tmpDir = sys_get_temp_dir() . '/phpunit-' . __CLASS__;
-        if (!file_exists(self::$tmpDir)) {
-            mkdir(self::$tmpDir);
-        }
+        self::$tmpDir = \tao_helpers_File::createTempDir();
     }
 
     /**
