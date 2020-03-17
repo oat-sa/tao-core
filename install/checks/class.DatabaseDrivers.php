@@ -33,7 +33,6 @@ class tao_install_checks_DatabaseDrivers extends common_configuration_Component
             'pdo_pgsql',
             'pdo_sqlsrv',
             'pdo_oci',
-            'grpc' // spanner transport
         ];
                          
         foreach ($drivers as $d) {
