@@ -61,7 +61,7 @@ class SecureResourceService extends ConfigurableService
             $childrenIds
         );
 
-        $a = array_filter(
+        return array_filter(
             $children,
             static function (core_kernel_classes_Resource $child) use ($permissions) {
                 $uri = $child->getUri();
@@ -71,8 +71,6 @@ class SecureResourceService extends ConfigurableService
                     || in_array('READ', $permissions[$uri], true);
             }
         );
-
-        return $a;
     }
 
     /**
