@@ -63,7 +63,7 @@ class AnnotationReaderServiceTest extends TestCase
      */
     private $service;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->service = new AnnotationReaderService();
 

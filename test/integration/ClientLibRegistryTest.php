@@ -42,7 +42,7 @@ class ClientLibRegistryTest extends TaoPhpUnitTestRunner
      *
      * @author Lionel Lecaque, lionel@taotesting.com
      */
-    public function setUp()
+    public function setUp(): void
     {
         TaoPhpUnitTestRunner::initTest();
         ClientLibRegistry::getRegistry()->remove($this->libId);
@@ -60,18 +60,18 @@ class ClientLibRegistryTest extends TaoPhpUnitTestRunner
         $map = ClientLibRegistry::getRegistry()->getMap();
         $this->assertFalse(empty($map));
         $this->assertFalse(isset($map[$this->libId]));
-        
+
         ClientLibRegistry::getRegistry()->register($this->libId, Template::js('fakePath/views/js/', 'tao'));
-        
+
         $map = ClientLibRegistry::getRegistry()->getMap();
-        $this->assertInternalType('array', $map);
+        $this->assertIsArray($map);
         $this->assertTrue(isset($map[$this->libId]));
-        
+
         $this->assertEquals('js/fakePath/views/js/', $map[$this->libId]['path']);
 
         return $this->libId;
     }
-    
+
     /**
      * Test:
      *  - {@link ClientLibRegistry::remove}
@@ -81,9 +81,9 @@ class ClientLibRegistryTest extends TaoPhpUnitTestRunner
     public function testRemove($libId)
     {
         ClientLibRegistry::getRegistry()->remove($libId);
-        
+
         $map = ClientLibRegistry::getRegistry()->getMap();
-        $this->assertInternalType('array', $map);
+        $this->assertIsArray($map);
         $this->assertFalse(isset($map[$libId]));
     }
 }

@@ -61,17 +61,17 @@ class WebhookTaskReportsTest extends TestCase
      */
     private $taskContextMock;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->webhookEventLogMock = $this->createMock(WebhookEventLogInterface::class);
         $this->loggerMock = $this->createMock(LoggerInterface::class);
         $this->serviceLocatorMock = $this->getServiceLocatorMock([
             WebhookEventLogInterface::SERVICE_ID => $this->webhookEventLogMock,
         ]);
-        
+
         $this->taskParamsMock = $this->createMock(WebhookTaskParams::class);
         $this->taskParamsMock->method('getEventId')->willReturn('eventId');
-        
+
         $this->taskContextMock = $this->createMock(WebhookTaskContext::class);
         $this->taskContextMock->method('getTaskId')->willReturn('taskId');
         $this->taskContextMock->method('getWebhookTaskParams')->willReturn($this->taskParamsMock);
@@ -82,7 +82,7 @@ class WebhookTaskReportsTest extends TestCase
         $reports = new WebhookTaskReports();
         $reports->setServiceLocator($this->serviceLocatorMock);
         $reports->setLogger($this->loggerMock);
-        
+
         $exception = new \Exception('e_msg');
 
         $this->webhookEventLogMock->expects($this->once())
@@ -112,9 +112,9 @@ class WebhookTaskReportsTest extends TestCase
         $report = $reports->reportInternalException($this->taskContextMock, $exception);
 
         $this->assertSame(\common_report_Report::TYPE_ERROR, $report->getType());
-        $this->assertContains('e_msg', $report->getMessage());
-        $this->assertContains('Exception', $report->getMessage());
-        $this->assertContains(__FILE__, $report->getMessage());
+        $this->assertStringContainsString('e_msg', $report->getMessage());
+        $this->assertStringContainsString('Exception', $report->getMessage());
+        $this->assertStringContainsString(__FILE__, $report->getMessage());
     }
 
     public function testReportConnectException()
@@ -143,7 +143,7 @@ class WebhookTaskReportsTest extends TestCase
 
         $report = $reports->reportConnectException($this->taskContextMock, $exception);
         $this->assertSame(\common_report_Report::TYPE_ERROR, $report->getType());
-        $this->assertContains('e_msg', $report->getMessage());
+        $this->assertStringContainsString('e_msg', $report->getMessage());
     }
 
     public function testRequestExceptionWithResponse()
@@ -178,7 +178,7 @@ class WebhookTaskReportsTest extends TestCase
 
         $report = $reports->reportRequestException($this->taskContextMock, $exception);
         $this->assertSame(\common_report_Report::TYPE_ERROR, $report->getType());
-        $this->assertContains('e_msg', $report->getMessage());
+        $this->assertStringContainsString('e_msg', $report->getMessage());
     }
 
     public function testRequestExceptionWithoutResponse()
@@ -207,7 +207,7 @@ class WebhookTaskReportsTest extends TestCase
 
         $report = $reports->reportRequestException($this->taskContextMock, $exception);
         $this->assertSame(\common_report_Report::TYPE_ERROR, $report->getType());
-        $this->assertContains('e_msg', $report->getMessage());
+        $this->assertStringContainsString('e_msg', $report->getMessage());
     }
 
     public function testReportBadResponseException()
@@ -242,7 +242,7 @@ class WebhookTaskReportsTest extends TestCase
 
         $report = $reports->reportBadResponseException($this->taskContextMock, $exception);
         $this->assertSame(\common_report_Report::TYPE_ERROR, $report->getType());
-        $this->assertContains('e_msg', $report->getMessage());
+        $this->assertStringContainsString('e_msg', $report->getMessage());
     }
 
     public function testReportInvalidStatusCode()
@@ -273,7 +273,7 @@ class WebhookTaskReportsTest extends TestCase
 
         $report = $reports->reportInvalidStatusCode($this->taskContextMock, $response);
         $this->assertSame(\common_report_Report::TYPE_ERROR, $report->getType());
-        $this->assertContains('301', $report->getMessage());
+        $this->assertStringContainsString('301', $report->getMessage());
     }
 
     public function testReportInvalidBodyFormat()
@@ -304,7 +304,7 @@ class WebhookTaskReportsTest extends TestCase
 
         $report = $reports->reportInvalidBodyFormat($this->taskContextMock, $response);
         $this->assertSame(\common_report_Report::TYPE_ERROR, $report->getType());
-        $this->assertContains('eventId', $report->getMessage());
+        $this->assertStringContainsString('eventId', $report->getMessage());
     }
 
     public function testReportInvalidAcknowledgement()
@@ -337,8 +337,8 @@ class WebhookTaskReportsTest extends TestCase
 
         $report = $reports->reportInvalidAcknowledgement($this->taskContextMock, $response, $parsedResponse);
         $this->assertSame(\common_report_Report::TYPE_ERROR, $report->getType());
-        $this->assertContains('eventId', $report->getMessage());
-        $this->assertContains('error', $report->getMessage());
+        $this->assertStringContainsString('eventId', $report->getMessage());
+        $this->assertStringContainsString('error', $report->getMessage());
     }
 
     public function testReportSuccess()

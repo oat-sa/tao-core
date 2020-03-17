@@ -121,7 +121,7 @@ class AbstractWorkerTest extends TestCase
      */
     private $queueDispatcherMock;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

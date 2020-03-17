@@ -21,6 +21,7 @@
 namespace oat\tao\test\integration\user\import;
 
 use core_kernel_classes_Resource;
+use Exception;
 use helpers_PasswordHash;
 use oat\generis\test\GenerisPhpUnitTestRunner;
 use oat\tao\model\import\service\MandatoryFieldException;
@@ -34,7 +35,7 @@ class OntologyUserMapperTest extends GenerisPhpUnitTestRunner
      * @param $schema
      * @param $data
      * @param $expected
-     * @throws \Exception
+     * @throws Exception
      */
     public function testMapUserWithSuccess($schema, $data, $expected)
     {
@@ -56,7 +57,7 @@ class OntologyUserMapperTest extends GenerisPhpUnitTestRunner
      *
      * @dataProvider provideInsufficientDataExample
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function testMapMandatoryShouldFail($schema, $data, $expected)
     {
@@ -73,12 +74,11 @@ class OntologyUserMapperTest extends GenerisPhpUnitTestRunner
      * @param $expected
      *
      * @dataProvider provideEmptyFieldDataExample
-     * @expectedException \oat\tao\model\import\service\MandatoryFieldException
-     *
-     * @throws \Exception
+     * @throws Exception
      */
     public function testMapMandatoryNotEmptyShouldFail($schema, $data, $expected)
     {
+        $this->expectException(MandatoryFieldException::class);
         $mapper = $this->getMapper();
         $mapper->setOption(OntologyUserMapper::OPTION_SCHEMA, $schema);
 

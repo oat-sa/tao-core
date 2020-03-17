@@ -56,7 +56,7 @@ class DataAccessControlTest extends GenerisPhpUnitTestRunner
     private $adminUser;
     private $anonUser;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->userService = \tao_models_classes_UserService::singleton();
         $this->testAdminData[GenerisRdf::PROPERTY_USER_PASSWORD] = \core_kernel_users_Service::getPasswordHash()->encrypt($this->testAdminData[GenerisRdf::PROPERTY_USER_PASSWORD]);

@@ -42,7 +42,7 @@ class ServiceCallTest extends TestCase
          * @var tao_models_classes_service_VariableParameter|MockObject
          */
     private $outputParam;
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $serializedInput = ['inKey' => 'inValue'];

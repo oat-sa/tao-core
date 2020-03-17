@@ -22,6 +22,7 @@
 
 namespace oat\tao\test\integration;
 
+use common_Exception;
 use oat\generis\model\GenerisRdf;
 use oat\tao\model\search\SearchService;
 use oat\tao\model\search\index\OntologyIndexService;
@@ -41,32 +42,32 @@ use oat\tao\model\search\tokenizer\Tokenizer;
  */
 class SearchTest extends GenerisPhpUnitTestRunner
 {
-    
+
     private $class;
-    
+
     private $property;
-    
-    public function setUp()
+
+    public function setUp(): void
     {
         parent::setUp();
         $rdfClass = new core_kernel_classes_Class(GenerisRdf::CLASS_GENERIS_RESOURCE);
         $this->class = $rdfClass->createSubClass('test class');
         $this->property = $this->class->createProperty('test property');
     }
-    
-    public function tearDown()
+
+    public function tearDown(): void
     {
         parent::tearDown();
         $this->class->delete();
         $this->property->delete();
     }
-    
+
     public function testSearchService()
     {
         $implementation = new GenerisSearch();
         $this->assertInstanceOf(Search::class, $implementation);
     }
-    
+
     public function testCreateIndex()
     {
         $tokenizer = new core_kernel_classes_Resource(RawValue::URI);
@@ -100,31 +101,31 @@ class SearchTest extends GenerisPhpUnitTestRunner
     }
 
     /**
-     * @expectedException common_Exception
      * @depends testCreateIndex
      */
     public function testDublicateCreate($index)
     {
+        $this->expectException(common_Exception::class);
         $this->assertInstanceOf(OntologyIndex::class, $index);
-        
+
         $tokenizer = new core_kernel_classes_Resource(RawValue::URI);
         OntologyIndexService::createIndex($this->property, $index->getIdentifier(), $tokenizer, true, true);
     }
-    
+
     /**
      * @depends testCreateIndex
      */
     public function testCreateSimilar($index)
     {
         $this->assertInstanceOf(OntologyIndex::class, $index);
-        
+
         $tokenizer = new core_kernel_classes_Resource(RawValue::URI);
         $similar = OntologyIndexService::createIndex($this->property, substr($index->getIdentifier(), 0, -2), $tokenizer, true, true);
         $this->assertInstanceOf(OntologyIndex::class, $similar);
-        
+
         return $similar;
     }
-    
+
     /**
      * @depends testCreateSimilar
      */
@@ -135,8 +136,8 @@ class SearchTest extends GenerisPhpUnitTestRunner
         $index->delete();
         $this->assertFalse($index->exists());
     }
-        
-    
+
+
     /**
      * @depends testCreateIndex
      * @depends testCreateSimilar

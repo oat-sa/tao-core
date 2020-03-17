@@ -50,10 +50,10 @@ class ActionTest extends GenerisPhpUnitTestRunner
 
     /**
      * Test {@link FuncHelper::getClassNameByUrl}} with wrong parameters
-     * @expectedException common_exception_Error
      */
     public function testFailingGetClassNameByUrl()
     {
+        $this->expectException(common_exception_Error::class);
         FuncHelper::getClassNameByUrl('');
     }
 
@@ -67,7 +67,7 @@ class ActionTest extends GenerisPhpUnitTestRunner
             ['tao', 'Main', 'tao_actions_Main']
         ];
     }
- 
+
     /**
      * Test {@link FuncHelper::getClassName}}
      * @dataProvider getClassNameProvider
