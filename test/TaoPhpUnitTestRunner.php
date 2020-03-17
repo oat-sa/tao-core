@@ -79,7 +79,7 @@ abstract class TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner implements 
      * At tear down,
      *  - Remove temporary file system created to testing
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->removeTempFileSystem();
     }

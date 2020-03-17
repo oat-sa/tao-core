@@ -24,6 +24,9 @@ namespace oat\tao\model\settings;
  * Interface CspHeaderSettingsInterface
  *
  * @author Martijn Swinkels <m.swinkels@taotesting.com>
+ *
+ * @deprecated
+ * @see \oat\tao\model\security\Business\Contract\SecuritySettingsRepositoryInterface
  */
 interface CspHeaderSettingsInterface
 {
