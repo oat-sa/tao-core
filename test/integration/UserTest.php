@@ -234,7 +234,7 @@ class UserTest extends TestCase
         }
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         $register = self::getMethod('register');
         $config = self::getMethod('getConfig')->invokeArgs(PasswordConstraintsService::singleton(), []);
