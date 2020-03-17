@@ -49,15 +49,15 @@ class ThemeRegistryTest extends GenerisPhpUnitTestRunner
 
         $map = ThemeRegistry::getRegistry()->getMap();
         $this->assertFalse(empty($map));
-        $this->assertIsArray( $map);
+        $this->assertisarray($map);
 
         $this->assertArrayHasKey('itemsTest', $map);
 
-        $this->assertIsArray( $map['itemsTest']);
+        $this->assertisarray($map['itemsTest']);
         $this->assertArrayHasKey('available', $map['itemsTest']);
 
         $available = current($map['itemsTest']['available']);
-        $this->assertIsArray( $available);
+        $this->assertisarray($available);
         $this->assertArrayHasKey('name', $available);
         $this->assertEquals('Light Blue on Dark Bluea', $available['name']);
 
@@ -75,16 +75,16 @@ class ThemeRegistryTest extends GenerisPhpUnitTestRunner
 
         $map = ThemeRegistry::getRegistry()->getMap();
         $this->assertFalse(empty($map));
-        $this->assertIsArray( $map);
+        $this->assertisarray($map);
 
         $this->assertArrayHasKey('itemsTest', $map);
-        $this->assertIsArray( $map['itemsTest']);
+        $this->assertisarray($map['itemsTest']);
 
-        $this->assertIsArray( $map['itemsTest']);
+        $this->assertisarray($map['itemsTest']);
         $this->assertArrayHasKey('available', $map['itemsTest']);
 
         $available = current($map['itemsTest']['available']);
-        $this->assertIsArray( $available);
+        $this->assertisarray($available);
         $this->assertArrayHasKey('name', $available);
 
         $this->assertEquals('Black on Light Magenta', $available['name']);
@@ -95,18 +95,18 @@ class ThemeRegistryTest extends GenerisPhpUnitTestRunner
         $map = ThemeRegistry::getRegistry()->getMap();
 
         $this->assertArrayHasKey('testsTest', $map);
-        $this->assertIsArray( $map['testsTest']);
+        $this->assertisarray($map['testsTest']);
 
         $this->assertArrayHasKey('available', $map['testsTest']);
 
         $available = current($map['testsTest']['available']);
-        $this->assertIsArray( $available);
+        $this->assertisarray($available);
         $this->assertArrayHasKey('name', $available);
 
         $this->assertEquals('Light Blue on Dark Blue', $available['name']);
 
         foreach ($map['itemsTest']['available'] as $theme) {
-            $this->assertIsArray( $theme);
+            $this->assertisarray($theme);
             $this->assertArrayHasKey('id', $theme);
             $this->assertTrue(in_array($theme['id'], [
                 'blackOnLightMagenta',
