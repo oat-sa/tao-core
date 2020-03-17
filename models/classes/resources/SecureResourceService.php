@@ -44,7 +44,7 @@ class SecureResourceService extends ConfigurableService
      * @return core_kernel_classes_Resource[]
      * @throws common_exception_Error
      */
-    public function getAllChildren(core_kernel_classes_Class $resource)
+    public function getAllChildren(core_kernel_classes_Class $resource): array
     {
         $children = $resource->getInstances(true);
         $permissionService = $this->getPermissionProvider();
