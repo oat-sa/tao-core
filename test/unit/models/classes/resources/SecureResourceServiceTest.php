@@ -29,8 +29,8 @@ use core_kernel_classes_Resource;
 use core_kernel_users_GenerisUser;
 use oat\generis\model\data\permission\PermissionInterface;
 use oat\generis\test\GenerisTestCase;
-use oat\generis\test\MockObject;
 use oat\oatbox\session\SessionService;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class SecureResourceServiceTest extends GenerisTestCase
 {
@@ -81,7 +81,7 @@ class SecureResourceServiceTest extends GenerisTestCase
 
         $children = $this->service->getAllChildren($class);
 
-        $this->assertCount(3, $children);
+        $this->assertCount(4, $children);
     }
 
     /**
@@ -144,6 +144,34 @@ class SecureResourceServiceTest extends GenerisTestCase
                 ['GRANT'],
                 false
             ],
+            [
+                [
+                    'http://resource6',
+                ],
+                ['READ'],
+                true
+            ],
+            [
+                [
+                    'http://resource6',
+                ],
+                ['WRITE'],
+                true
+            ],
+            [
+                [
+                    'http://resource6',
+                ],
+                ['READ', 'WRITE'],
+                true
+            ],
+            [
+                [
+                    'http://resource6',
+                ],
+                ['WHATEVER'],
+                true
+            ],
         ];
     }
 
@@ -155,6 +183,7 @@ class SecureResourceServiceTest extends GenerisTestCase
             'http://resource3' => ['WRITE'],
             'http://resource4' => ['READ', 'WRITE'],
             'http://resource5' => ['READ', 'WRITE', 'GRANT'],
+            'http://resource6' => [PermissionInterface::RIGHT_UNSUPPORTED],
         ];
     }
 
