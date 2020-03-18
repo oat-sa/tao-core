@@ -1327,5 +1327,7 @@ class Updater extends \common_ext_ExtensionUpdater
             AclProxy::applyRule(new AccessRule('grant', TaoRoles::REST_PUBLISHER, ['ext' => 'tao', 'mod' => 'TaskQueue', 'act' => 'getStatus']));
             $this->setVersion('41.0.2');
         }
+
+        $this->skip('40.9.6', '41.0.3');
     }
 }
