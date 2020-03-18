@@ -20,6 +20,7 @@
 
 namespace  oat\tao\test\integration\lock;
 
+use common_exception_InconsistentData;
 use core_kernel_classes_Resource;
 use core_kernel_classes_Property;
 use core_kernel_classes_Class;
@@ -46,12 +47,12 @@ class OntoLockTest extends TaoPhpUnitTestRunner
      *
      * @see PHPUnit_Framework_TestCase::setUp()
      */
-    public function setUp()
+    public function setUp(): void
     {
         $resourceClass = new core_kernel_classes_Class(OntologyRdfs::RDFS_RESOURCE);
         $this->tempResource = $resourceClass->createInstance('MyTest');
         $this->ontoLock = new OntoLock();
-        
+
         $this->owner = new core_kernel_classes_Resource('#virtualOwner');
     }
 
@@ -59,7 +60,7 @@ class OntoLockTest extends TaoPhpUnitTestRunner
      *
      * @see PHPUnit_Framework_TestCase::tearDown()
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->tempResource->delete();
     }
@@ -90,12 +91,12 @@ class OntoLockTest extends TaoPhpUnitTestRunner
     {
         $this->assertFalse($this->ontoLock->isLocked($this->tempResource));
         $this->assertFalse($this->ontoLock->releaseLock($this->tempResource, $this->owner->getUri()));
-        
+
         $this->ontoLock->setLock($this->tempResource, $this->owner->getUri());
         $this->assertTrue($this->ontoLock->isLocked($this->tempResource));
         $this->ontoLock->releaseLock($this->tempResource, $this->owner->getUri());
         $this->assertFalse($this->ontoLock->isLocked($this->tempResource));
-        
+
         $this->ontoLock->setLock($this->tempResource, $this->owner->getUri());
         $other = new core_kernel_classes_Resource('#other');
         try {
@@ -105,20 +106,20 @@ class OntoLockTest extends TaoPhpUnitTestRunner
             $this->assertInstanceOf('\common_exception_Unauthorized', $e);
         }
     }
-    
+
     /**
-     * @expectedException common_exception_InconsistentData
      * @author Lionel Lecaque, lionel@taotesting.com
      */
     public function testReleaseLockException()
     {
+        $this->expectException(common_exception_InconsistentData::class);
         $resource = $this->prophesize('core_kernel_classes_Resource');
-        
+
         $lockProp = new core_kernel_classes_Property(TaoOntology::PROPERTY_LOCK);
         $resource->getPropertyValues($lockProp)->willReturn(['foo','bar']);
         $this->ontoLock->releaseLock($resource->reveal(), $this->owner->getUri());
     }
-    
+
     /**
      *
      * @author Lionel Lecaque, lionel@taotesting.com
@@ -127,9 +128,9 @@ class OntoLockTest extends TaoPhpUnitTestRunner
     {
         $resource = $this->prophesize('core_kernel_classes_Resource');
         $lockProp = new core_kernel_classes_Property(TaoOntology::PROPERTY_LOCK);
-        
+
         $this->ontoLock->forceReleaseLock($resource->reveal());
-        
+
         $resource->removePropertyValues($lockProp)->shouldHaveBeenCalled();
     }
 }

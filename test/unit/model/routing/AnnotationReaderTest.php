@@ -78,7 +78,7 @@ class AnnotationReaderTest extends TestCase
     /**
      * @throws \Doctrine\Common\Annotations\AnnotationException
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->annotationReader = new AnnotationReader();
     }

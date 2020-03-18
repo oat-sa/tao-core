@@ -29,13 +29,16 @@ class AdaptersTestCase extends TestCase
     const CSV_FILE_USERS_HEADER_UNICODE = '/samples/csv/users1-header.csv';
     const CSV_FILE_USERS_HEADER_UNICODE_WITH_MULTI_FIELD_VALUE = '/samples/csv/users1-header-multi-field-values.csv';
     const CSV_FILE_USERS_NO_HEADER_UNICODE = '/samples/csv/users1-no-header.csv';
-    
+
+    /**
+     * @doesNotPerformAssertions
+     */
     public function testGenerisAdapterCsv()
     {
         // First test: instantiate a generis CSV adapter and load a file.
         // Let the default options rule the adapter.
     }
-    
+
     public function testCsvFileParsing()
     {
         // + Subtest 1: Unicode CSV file with header row.
@@ -50,7 +53,7 @@ class AdaptersTestCase extends TestCase
         $this->assertEquals($expectedMapping, $csvFile->getColumnMapping(), 'The column mapping should be ' . var_export($expectedMapping, true) . '.');
         $this->assertEquals($csvFile->count(), 16, 'The CSV file contains ' . $csvFile->count() . ' rows instead of 16.');
         $this->assertEquals($csvFile->getColumnCount(), 7, 'The CSV file contains ' . $csvFile->getColumnCount() . ' columns instead of 7.');
-        
+
         // - test some row retrievals.
         $expectedRow = ['TAO Jérôme Bogaerts',
                              'Jérôme',
@@ -60,7 +63,7 @@ class AdaptersTestCase extends TestCase
                              'jbogaerts',
                              'http://www.tao.lu/Ontologies/TAO.rdf#LangEN'];
         $this->assertEquals($csvFile->getRow(0), $expectedRow);
-        
+
         $expectedRow = ['label' => 'TAO Isabelle Jars',
                              'First Name' => 'Isabelle',
                              'Last Name' => 'Jars',
@@ -69,20 +72,20 @@ class AdaptersTestCase extends TestCase
                              'password' => 'ijars',
                              'UserUILg' => 'http://www.tao.lu/Ontologies/TAO.rdf#LangEN'];
         $this->assertEquals($csvFile->getRow(4, true), $expectedRow);
-        
-        
+
+
         // + Subtest 2: Unicode CSV file withouth header row.
         // --------------------------------------------------------------------------------
         $path = dirname(__FILE__) . self::CSV_FILE_USERS_NO_HEADER_UNICODE;
         $csvFile = new tao_helpers_data_CsvFile($options = ['first_row_column_names' => false]);
         $csvFile->load($path);
-        
+
         // - test column mapping.
         $expectedMapping = [];
         $this->assertEquals($expectedMapping, $csvFile->getColumnMapping(), 'The column mapping should be ' . var_export($expectedMapping, true) . '.');
         $this->assertEquals($csvFile->count(), 16, 'The CSV file contains ' . $csvFile->count() . ' rows instead of 16.');
         $this->assertEquals($csvFile->getColumnCount(), 7, 'The CSV file contains ' . $csvFile->getColumnCount() . ' columns instead of 7.');
-        
+
         // - test some row retrievals.
         $expectedRow = ['TAO Jérôme Bogaerts',
                              'Jérôme',
@@ -92,7 +95,7 @@ class AdaptersTestCase extends TestCase
                              'jbogaerts',
                              'http://www.tao.lu/Ontologies/TAO.rdf#LangEN'];
         $this->assertEquals($csvFile->getRow(0), $expectedRow);
-        
+
         $expectedRow = ['TAO Matteo Mellis',
                              'Matteo',
                              'Mellis',

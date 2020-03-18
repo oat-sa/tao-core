@@ -17,29 +17,29 @@ use oat\tao\test\TaoPhpUnitTestRunner;
  */
 class ResponseAbstractTest extends TaoPhpUnitTestRunner
 {
-    
+
     /**
      *
      * @var \oat\tao\model\mvc\error\ResponseAbstract
      */
     protected $instance;
-    
-    public function setUp()
+
+    public function setUp(): void
     {
         $this->instance = $this->getMockForAbstractClass('oat\tao\model\mvc\error\ResponseAbstract');
         $this->instance->setServiceLocator($this->getServiceManagerProphecy());
     }
-    
+
     public function testSetHttpCode()
     {
         $fixtureHttpCode = 404;
         $this->assertSame($this->instance, $this->instance->setHttpCode($fixtureHttpCode));
         $this->assertSame($fixtureHttpCode, $this->getInaccessibleProperty($this->instance, 'httpCode'));
     }
-    
+
     public function chooseRendererProvider()
     {
-        
+
         return
         [
             [['text/plain'] , 'oat\tao\model\mvc\error\NonAcceptable'],
@@ -56,7 +56,7 @@ class ResponseAbstractTest extends TaoPhpUnitTestRunner
     {
         $this->assertInstanceOf($expected, $this->invokeProtectedMethod($this->instance, 'chooseRenderer', [$accept]));
     }
-    
+
     public function testSetException()
     {
         $fixtureException = new \Exception();

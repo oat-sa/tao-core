@@ -37,7 +37,7 @@ class SessionSubstitutionServiceTest extends TaoPhpUnitTestRunner
 
     private $testUserUri = 'http://sample/first.rdf#tessionSubstitutionServiceTestUser';
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         common_session_SessionManager::startSession(new \common_test_TestUserSession());
