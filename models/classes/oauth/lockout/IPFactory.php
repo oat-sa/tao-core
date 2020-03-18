@@ -21,28 +21,40 @@
 
 namespace oat\tao\model\oauth\lockout;
 
-use IMSGlobal\LTI\OAuth\OAuthRequest;
-
 /**
- * Checks if the OAuth Session should be locked or not
- *
+ * Lock based on IP
  * @package oat\tao\model\oauth\lockout
  */
-interface LockoutInterface
+class IPFactory
 {
-    /**
-     * Store the data about current session and failed attempts
-     * to get possibility to analyze and make decision about locking
-     * based on stored data
-     *
-     * @return void
-     */
-    public function logFailedAttempt();
+    /** @var array */
+    private $flags;
+    /** @var string */
+    private $ip = '';
+
+    public function __construct(array $serverFlags = [])
+    {
+        $this->flags = $serverFlags;
+    }
 
     /**
-     * Checks if current session is allowed based on previous failed attempts
-     *
-     * @return bool
+     * @return string
      */
-    public function isAllowed();
+    public function create(): string
+    {
+        if (empty($this->ip) && $this->flags) {
+            foreach ($this->flags as $flag) {
+                if (!empty($_SERVER[$flag])) {
+                    $this->ip = $_SERVER[$flag];
+                    break;
+                }
+            }
+        }
+        if (empty($this->ip)) {
+            $this->ip = $_SERVER['HTTP_CLIENT_IP']
+                ?? $_SERVER['HTTP_X_FORWARDED_FOR']
+                ?? $_SERVER['REMOTE_ADDR'];
+        }
+        return $this->ip;
+    }
 }

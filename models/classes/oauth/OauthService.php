@@ -32,6 +32,7 @@ use common_http_Request;
 use IMSGlobal\LTI\OAuth\OAuthException;
 use oat\oatbox\service\exception\InvalidService;
 use oat\oatbox\service\exception\InvalidServiceManagerException;
+use oat\tao\model\oauth\lockout\LockOutException;
 use oat\tao\model\oauth\lockout\LockoutInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use tao_models_classes_oauth_Exception;
@@ -72,18 +73,18 @@ class OauthService extends ConfigurableService implements \common_http_Signature
      */
     public function sign(common_http_Request $request, common_http_Credentials $credentials, $authorizationHeader = false)
     {
-        
+
         if (!$credentials instanceof \tao_models_classes_oauth_Credentials) {
             throw new tao_models_classes_oauth_Exception('Invalid credentals: ' . gettype($credentials));
         }
-        
+
         $oauthRequest = $this->getOauthRequest($request);
         $dataStore = $this->getDataStore();
         $consumer = $dataStore->getOauthConsumer($credentials);
         $token = $dataStore->new_request_token($consumer);
 
         $allInitialParameters = array_merge($request->getParams(), $request->getHeaders());
-        
+
         //oauth_body_hash is used for the signing computation
         if ($authorizationHeader) {
             // the signature should be computed from encoded versions
@@ -143,6 +144,7 @@ class OauthService extends ConfigurableService implements \common_http_Signature
      * @throws InvalidService
      * @throws InvalidServiceManagerException
      * @throws common_http_InvalidSignatureException
+     * @throws LockOutException
      * @author Joel Bout, <joel@taotesting.com>
      */
     public function validate(common_http_Request $request, common_http_Credentials $credentials = null)
@@ -156,14 +158,18 @@ class OauthService extends ConfigurableService implements \common_http_Signature
         if ($oauthBodyHash !== null && !$this->validateBodyHash($request->getBody(), $oauthBodyHash)) {
             throw new common_http_InvalidSignatureException('Validation failed: invalid body hash');
         }
-
+        /** @var LockoutInterface $lockoutService */
+        $lockoutService = $this->getSubService(self::OPTION_LOCKOUT_SERVICE);
         try {
+            if(!$lockoutService->isAllowed()){
+                throw new LockOutException('Blocked');
+            }
             return $server->verify_request($oauthRequest);
         } catch (OAuthException $e) {
 
             /** @var LockoutInterface $lockoutService */
             $lockoutService = $this->getSubService(self::OPTION_LOCKOUT_SERVICE);
-            $lockoutService->logFailedAttempt($oauthRequest);
+            $lockoutService->logFailedAttempt();
 
             // \common_Logger::e($e->getMessage());
 
@@ -251,7 +257,7 @@ class OauthService extends ConfigurableService implements \common_http_Signature
     private function buildAuthorizationHeader($signatureParameters)
     {
         $authorizationHeader = 'OAuth realm=""';
-        
+
         foreach ($signatureParameters as $key => $value) {
             $authorizationHeader .= ',' . $key . '=' . '"' . urlencode($value) . '"';
         }
@@ -273,7 +279,7 @@ class OauthService extends ConfigurableService implements \common_http_Signature
         if (!empty($authHeader)) {
             $params = OAuthUtil::split_header($authHeader[0]);
         }
-        
+
         $params = array_merge($params, $request->getParams());
 
         \common_Logger::d('OAuth Request created:' . $request->getUrl() . ' using ' . $request->getMethod());

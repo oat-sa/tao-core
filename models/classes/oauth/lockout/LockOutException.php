@@ -21,28 +21,9 @@
 
 namespace oat\tao\model\oauth\lockout;
 
-use IMSGlobal\LTI\OAuth\OAuthRequest;
 
-/**
- * Checks if the OAuth Session should be locked or not
- *
- * @package oat\tao\model\oauth\lockout
- */
-interface LockoutInterface
+use Exception;
+
+class LockOutException extends Exception
 {
-    /**
-     * Store the data about current session and failed attempts
-     * to get possibility to analyze and make decision about locking
-     * based on stored data
-     *
-     * @return void
-     */
-    public function logFailedAttempt();
-
-    /**
-     * Checks if current session is allowed based on previous failed attempts
-     *
-     * @return bool
-     */
-    public function isAllowed();
 }
