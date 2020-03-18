@@ -46,8 +46,31 @@ class SecureResourceService extends ConfigurableService
      */
     public function getAllChildren(core_kernel_classes_Class $resource): array
     {
-        $children = $resource->getInstances(true);
+        $childrenClasses = $resource->getSubClasses(false);
+
+        $result = [[]];
+
         $permissionService = $this->getPermissionProvider();
+
+        if ($childrenClasses) {
+            foreach ($childrenClasses as $childrenClass) {
+                $classUri = $childrenClass->getUri();
+                $classPermissions = $permissionService->getPermissions(
+                    $this->getUser(),
+                    [$classUri]
+                );
+
+                if ($this->hasAccess($classPermissions, $classUri)) {
+                    $result[] = $this->getAllChildren($childrenClass);
+                }
+            }
+        }
+
+        $children = $resource->getInstances(false);
+
+        if ($children === null) {
+            return array_merge(...$result);
+        }
 
         $childrenIds = array_map(
             static function (core_kernel_classes_Resource $child) {
@@ -61,16 +84,22 @@ class SecureResourceService extends ConfigurableService
             $childrenIds
         );
 
-        return array_filter(
-            $children,
-            static function (core_kernel_classes_Resource $child) use ($permissions) {
-                $uri = $child->getUri();
+        $items = [];
 
-                return
-                    $permissions[$uri] === [PermissionInterface::RIGHT_UNSUPPORTED]
-                    || in_array('READ', $permissions[$uri], true);
+        foreach ($children as $child) {
+            if ($this->hasAccess($permissions, $child->getUri())) {
+                $items[] = $child;
             }
-        );
+        }
+
+        return array_merge($items, ...$result);
+    }
+
+    private function hasAccess(array $permissions, string $uri, array $permissionsToCheck = ['READ']): bool
+    {
+        return
+            $permissions[$uri] === [PermissionInterface::RIGHT_UNSUPPORTED]
+            || empty(array_diff($permissionsToCheck, $permissions[$uri]));
     }
 
     /**
@@ -91,10 +120,7 @@ class SecureResourceService extends ConfigurableService
         foreach ($permissions as $key => $permission) {
             if (
                 empty($permission)
-                || (
-                    $permission !== [PermissionInterface::RIGHT_UNSUPPORTED]
-                    && !empty(array_diff($permissionsToCheck, $permission))
-                )
+                || !$this->hasAccess($permissions, $key, $permissionsToCheck)
             ) {
                 throw new ResourceAccessDeniedException(
                     sprintf('Access to resource %s is forbidden', $key)

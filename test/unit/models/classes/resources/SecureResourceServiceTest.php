@@ -85,6 +85,40 @@ class SecureResourceServiceTest extends GenerisTestCase
     }
 
     /**
+     * @throws common_exception_Error
+     */
+    public function testNestedItems(): void
+    {
+        $this->permissionInterface->method('getPermissions')->willReturn(
+            $this->getPermissions()
+        );
+
+        $accessibleItem1 = $this->createMock(core_kernel_classes_Resource::class);
+        $accessibleItem1->method('getUri')->willReturn('http://resource4_read_write');
+
+        $accessibleItem2 = $this->createMock(core_kernel_classes_Resource::class);
+        $accessibleItem2->method('getUri')->willReturn('http://resource6_unsupported');
+
+        $forbiddenClass = $this->createMock(core_kernel_classes_Class::class);
+        $forbiddenClass->method('getInstances')->willReturn([$accessibleItem1]);
+        $forbiddenClass->method('getUri')->willReturn('http://resource2_no_access');
+
+        $accessibleClass = $this->createMock(core_kernel_classes_Class::class);
+        $accessibleClass->method('getInstances')->willReturn([$accessibleItem2]);
+        $accessibleClass->method('getUri')->willReturn('http://resource1_read');
+
+        /** @var core_kernel_classes_Class|MockObject $class */
+        $class = $this->createMock(core_kernel_classes_Class::class);
+        $class->method('getSubClasses')->willReturn([$forbiddenClass, $accessibleClass]);
+        $class->method('getUri')->willReturn('http://resource5_grant_read_write');
+
+        $children = $this->service->getAllChildren($class);
+
+        $this->assertCount(1, $children);
+        $this->assertEquals('http://resource6_unsupported', $children[0]->getUri());
+    }
+
+    /**
      * @param array $permissions
      * @param array $permissionsToCheck
      * @param bool  $hasAccess
@@ -114,60 +148,60 @@ class SecureResourceServiceTest extends GenerisTestCase
         return [
             [
                 [
-                    'http://resource2',
-                    'http://resource1'
+                    'http://resource2_no_access',
+                    'http://resource1_read'
                 ],
                 ['READ'],
                 false
             ],
             [
                 [
-                    'http://resource4',
-                    'http://resource5'
+                    'http://resource4_read_write',
+                    'http://resource5_grant_read_write'
                 ],
                 ['READ'],
                 true
             ],
             [
                 [
-                    'http://resource4',
-                    'http://resource5'
+                    'http://resource4_read_write',
+                    'http://resource5_grant_read_write'
                 ],
                 ['WRITE', 'READ'],
                 true
             ],
             [
                 [
-                    'http://resource4',
-                    'http://resource5'
+                    'http://resource4_read_write',
+                    'http://resource5_grant_read_write'
                 ],
                 ['GRANT'],
                 false
             ],
             [
                 [
-                    'http://resource6',
+                    'http://resource6_unsupported',
                 ],
                 ['READ'],
                 true
             ],
             [
                 [
-                    'http://resource6',
+                    'http://resource6_unsupported',
                 ],
                 ['WRITE'],
                 true
             ],
             [
                 [
-                    'http://resource6',
+                    'http://resource6_unsupported',
                 ],
                 ['READ', 'WRITE'],
                 true
             ],
             [
                 [
-                    'http://resource6',
+                    'http://resource6_unsupported',
                 ],
                 ['WHATEVER'],
                 true
@@ -178,12 +212,12 @@ class SecureResourceServiceTest extends GenerisTestCase
     public function getPermissions(): array
     {
         return [
-            'http://resource1' => ['READ'],
-            'http://resource2' => [],
-            'http://resource3' => ['WRITE'],
-            'http://resource4' => ['READ', 'WRITE'],
-            'http://resource5' => ['READ', 'WRITE', 'GRANT'],
-            'http://resource6' => [PermissionInterface::RIGHT_UNSUPPORTED],
+            'http://resource1_read' => ['READ'],
+            'http://resource2_no_access' => [],
+            'http://resource3_write' => ['WRITE'],
+            'http://resource4_read_write' => ['READ', 'WRITE'],
+            'http://resource5_grant_read_write' => ['READ', 'WRITE', 'GRANT'],
+            'http://resource6_unsupported' => [PermissionInterface::RIGHT_UNSUPPORTED],
         ];
     }
 
