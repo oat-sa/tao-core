@@ -46,53 +46,64 @@ class SecureResourceService extends ConfigurableService
      */
     public function getAllChildren(core_kernel_classes_Class $resource): array
     {
-        $childrenClasses = $resource->getSubClasses(false);
+        $subClasses = $resource->getSubClasses(false);
 
-        $result = [[]];
+        $accessibleInstances = [[]];
 
         $permissionService = $this->getPermissionProvider();
 
-        if ($childrenClasses) {
-            foreach ($childrenClasses as $childrenClass) {
-                $classUri = $childrenClass->getUri();
-                $classPermissions = $permissionService->getPermissions(
-                    $this->getUser(),
-                    [$classUri]
-                );
+        if ($subClasses) {
+            foreach ($subClasses as $subClass) {
+                $classUri = $subClass->getUri();
+                $classPermissions = $permissionService->getPermissions($this->getUser(), [$classUri]);
 
                 if ($this->hasAccess($classPermissions[$classUri])) {
-                    $result[] = $this->getAllChildren($childrenClass);
+                    $accessibleInstances[] = $this->getAllChildren($subClass);
                 }
             }
         }
 
-        $children = $resource->getInstances(false);
+        return array_merge(
+            $this->getInstances($resource),
+            ...$accessibleInstances
+        );
+    }
 
-        if ($children === null) {
-            return array_merge(...$result);
+    /**
+     * @param core_kernel_classes_Class $class
+     *
+     * @return core_kernel_classes_Resource[]
+     * @throws common_exception_Error
+     */
+    private function getInstances(core_kernel_classes_Class $class): array
+    {
+        $instances = $class->getInstances(false);
+
+        if ($instances === null) {
+            return [];
         }
 
-        $childrenIds = array_map(
+        $childrenUris = array_map(
             static function (core_kernel_classes_Resource $child) {
                 return $child->getUri();
             },
-            $children
+            $instances
         );
 
-        $permissions = $permissionService->getPermissions(
+        $permissions = $this->getPermissionProvider()->getPermissions(
             $this->getUser(),
-            $childrenIds
+            $childrenUris
         );
 
-        $items = [];
+        $accessibleInstances = [];
 
-        foreach ($children as $child) {
+        foreach ($instances as $child) {
             if ($this->hasAccess($permissions[$child->getUri()])) {
-                $items[] = $child;
+                $accessibleInstances[] = $child;
             }
         }
 
-        return array_merge($items, ...$result);
+        return $accessibleInstances;
     }
 
     private function hasAccess(array $permissions, array $permissionsToCheck = ['READ']): bool
