@@ -21,6 +21,7 @@
 namespace oat\tao\model\notification\implementation;
 
 use common_exception_NotFound;
+use common_persistence_SqlPersistence;
 use Doctrine\DBAL\Driver\Statement;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use oat\generis\model\OntologyAwareTrait;
@@ -84,8 +85,7 @@ abstract class AbstractSqlNotificationService extends AbstractNotificationServic
             $userId
         ];
 
-        $stmt   = $persistence->query($selectQuery, $params);
-        $result = $stmt->fetchAll();
+        $result = $persistence->query($selectQuery, $params)->fetchAll();
 
         foreach ($result as $notificationDetail) {
             $userId     = $notificationDetail[self::NOTIFICATION_FIELD_RECIPIENT];
@@ -123,6 +123,7 @@ abstract class AbstractSqlNotificationService extends AbstractNotificationServic
      */
     public function getNotification(string $id): Notification
     {
+        /** @var common_persistence_SqlPersistence $persistence */
         $persistence = $this->getPersistence();
 
         $selectQuery = 'SELECT ' . self::NOTIFICATION_FIELD_ID . ' , ' . $this->getAllFieldString() .
@@ -148,7 +149,7 @@ abstract class AbstractSqlNotificationService extends AbstractNotificationServic
             return new Notification($userId, $title, $message, $senderId, $id, $createdAt, $updatedAt, $status);
         }
 
-        throw new \common_exception_NotFound('unknown notification id ' . $id);
+        throw new common_exception_NotFound('unknown notification id ' . $id);
     }
 
     /**
@@ -189,10 +190,10 @@ abstract class AbstractSqlNotificationService extends AbstractNotificationServic
             $userId,
         ];
 
-        /** @var Statement $stmt */
-        $stmt = $persistence->query($selectQuery, $params);
+        /** @var Statement $statement */
+        $statement = $persistence->query($selectQuery, $params);
 
-        if (($result = $stmt->fetchAll()) !== false) {
+        if (($result = $statement->fetchAll()) !== false) {
             foreach ($result as $statusCount) {
                 $count[$statusCount[self::NOTIFICATION_FIELD_STATUS]] = $statusCount['cpt'];
             }
