@@ -60,6 +60,7 @@ use oat\tao\model\mvc\DefaultUrlService;
 use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\model\notification\NotificationServiceInterface;
+use oat\tao\model\oauth\lockout\NoLockout;
 use oat\tao\model\resources\ResourceWatcher;
 use oat\tao\model\resources\SecureResourceService;
 use oat\tao\model\routing\AnnotationReaderService;
@@ -1346,5 +1347,11 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('41.2.0');
         }
         $this->skip('41.2.0', '41.3.1');
+        if($this->isVersion('41.3.1')){
+            $oauthService = $this->getServiceManager()->get(OauthService::SERVICE_ID);
+            $oauthService->setOption(OauthService::OPTION_LOCKOUT_SERVICE, new NoLockout());
+            $this->getServiceManager()->register(OauthService::SERVICE_ID,$oauthService);
+            $this->setVersion('41.4.0');
+        }
     }
 }
