@@ -1343,7 +1343,7 @@ class Updater extends \common_ext_ExtensionUpdater
                 )
             );
 
-            $this->setVersion('41.2.0');
+            $this->setVersion('41.2.1');
         }
     }
 }
