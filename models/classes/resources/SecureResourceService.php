@@ -60,7 +60,7 @@ class SecureResourceService extends ConfigurableService
                     [$classUri]
                 );
 
-                if ($this->hasAccess($classPermissions, $classUri)) {
+                if ($this->hasAccess($classPermissions[$classUri])) {
                     $result[] = $this->getAllChildren($childrenClass);
                 }
             }
@@ -87,7 +87,7 @@ class SecureResourceService extends ConfigurableService
         $items = [];
 
         foreach ($children as $child) {
-            if ($this->hasAccess($permissions, $child->getUri())) {
+            if ($this->hasAccess($permissions[$child->getUri()])) {
                 $items[] = $child;
             }
         }
@@ -95,11 +95,11 @@ class SecureResourceService extends ConfigurableService
         return array_merge($items, ...$result);
     }
 
-    private function hasAccess(array $permissions, string $uri, array $permissionsToCheck = ['READ']): bool
+    private function hasAccess(array $permissions, array $permissionsToCheck = ['READ']): bool
     {
         return
-            $permissions[$uri] === [PermissionInterface::RIGHT_UNSUPPORTED]
-            || empty(array_diff($permissionsToCheck, $permissions[$uri]));
+            $permissions === [PermissionInterface::RIGHT_UNSUPPORTED]
+            || empty(array_diff($permissionsToCheck, $permissions));
     }
 
     /**
@@ -117,13 +117,13 @@ class SecureResourceService extends ConfigurableService
             $resourceUris
         );
 
-        foreach ($permissions as $key => $permission) {
+        foreach ($permissions as $uri => $permission) {
             if (
                 empty($permission)
-                || !$this->hasAccess($permissions, $key, $permissionsToCheck)
+                || !$this->hasAccess($permission, $permissionsToCheck)
             ) {
                 throw new ResourceAccessDeniedException(
-                    sprintf('Access to resource %s is forbidden', $key)
+                    sprintf('Access to resource %s is forbidden', $uri)
                 );
             }
         }
