@@ -294,37 +294,13 @@ class tao_install_Setup implements Action
         $defaultPersistenceConfig = $persistences['default'];
         $options = [];
         if (isset($defaultPersistenceConfig['connection'])) {
-            if (isset($defaultPersistenceConfig['connection']['wrapperClass']) && $defaultPersistenceConfig['connection']['wrapperClass'] == '\\Doctrine\\DBAL\\Connections\\MasterSlaveConnection') {
-                $options['db_driver'] = $defaultPersistenceConfig['connection']['driver'];
-                $options['db_host'] = $defaultPersistenceConfig['connection']['master']['host'];
-                $options['db_name'] = $defaultPersistenceConfig['connection']['master']['dbname'];
-                if (isset($defaultPersistenceConfig['connection']['master']['user'])) {
-                    $options['db_user'] = $defaultPersistenceConfig['connection']['master']['user'];
-                }
-                if (isset($defaultPersistenceConfig['connection']['master']['password'])) {
-                    $options['db_pass'] = $defaultPersistenceConfig['connection']['master']['password'];
-                }
+            if ($this->isMasterSlaveConnection($defaultPersistenceConfig)) {
+                $options = $this->setMasterDatabaseConfig($defaultPersistenceConfig, $options);
             } else {
-                $options['db_driver'] = $defaultPersistenceConfig['connection']['driver'];
-                $options['db_host'] = $defaultPersistenceConfig['connection']['host'];
-                $options['db_name'] = $defaultPersistenceConfig['connection']['dbname'];
-                if (isset($defaultPersistenceConfig['connection']['user'])) {
-                    $options['db_user'] = $defaultPersistenceConfig['connection']['user'];
-                }
-                if (isset($defaultPersistenceConfig['connection']['password'])) {
-                    $options['db_pass'] = $defaultPersistenceConfig['connection']['password'];
-                }
+                $options = $this->setConnectionDatabaseConfig($defaultPersistenceConfig, $options);
             }
         } else {
-            $options['db_driver'] = $defaultPersistenceConfig['driver'];
-            $options['db_host'] = $defaultPersistenceConfig['host'];
-            $options['db_name'] = $defaultPersistenceConfig['dbname'];
-            if (isset($defaultPersistenceConfig['user'])) {
-                $options['db_user'] = $defaultPersistenceConfig['user'];
-            }
-            if (isset($defaultPersistenceConfig['password'])) {
-                $options['db_pass'] = $defaultPersistenceConfig['password'];
-            }
+            $options = $this->setDefaultDatabaseConfig($defaultPersistenceConfig, $options);
         }
         $dbalConfigCreator = new tao_install_utils_DbalConfigCreator();
         $persistences['default'] = $dbalConfigCreator->createDbalConfig($options);
@@ -336,4 +312,69 @@ class tao_install_Setup implements Action
             ]
         ];
     }
+
+    private function isMasterSlaveConnection(array $defaultPersistenceConfig): bool
+    {
+        return isset($defaultPersistenceConfig['connection']['wrapperClass']) && $defaultPersistenceConfig['connection']['wrapperClass'] === '\\Doctrine\\DBAL\\Connections\\MasterSlaveConnection';
+}
+
+    /**
+     * @param $defaultPersistenceConfig
+     * @param array $options
+     *
+     * @return array
+     */
+    private function setMasterDatabaseConfig($defaultPersistenceConfig, array $options): array
+    {
+        $options['db_driver'] = $defaultPersistenceConfig['connection']['driver'];
+        $options['db_host'] = $defaultPersistenceConfig['connection']['master']['host'];
+        $options['db_name'] = $defaultPersistenceConfig['connection']['master']['dbname'];
+        if (isset($defaultPersistenceConfig['connection']['master']['user'])) {
+            $options['db_user'] = $defaultPersistenceConfig['connection']['master']['user'];
+        }
+        if (isset($defaultPersistenceConfig['connection']['master']['password'])) {
+            $options['db_pass'] = $defaultPersistenceConfig['connection']['master']['password'];
+        }
+        return $options;
+}
+
+    /**
+     * @param $defaultPersistenceConfig
+     * @param array $options
+     *
+     * @return array
+     */
+    private function setConnectionDatabaseConfig($defaultPersistenceConfig, array $options): array
+    {
+        $options['db_driver'] = $defaultPersistenceConfig['connection']['driver'];
+        $options['db_host'] = $defaultPersistenceConfig['connection']['host'];
+        $options['db_name'] = $defaultPersistenceConfig['connection']['dbname'];
+        if (isset($defaultPersistenceConfig['connection']['user'])) {
+            $options['db_user'] = $defaultPersistenceConfig['connection']['user'];
+        }
+        if (isset($defaultPersistenceConfig['connection']['password'])) {
+            $options['db_pass'] = $defaultPersistenceConfig['connection']['password'];
+        }
+        return $options;
+}
+
+    /**
+     * @param $defaultPersistenceConfig
+     * @param array $options
+     *
+     * @return array
+     */
+    private function setDefaultDatabaseConfig($defaultPersistenceConfig, array $options): array
+    {
+        $options['db_driver'] = $defaultPersistenceConfig['driver'];
+        $options['db_host'] = $defaultPersistenceConfig['host'];
+        $options['db_name'] = $defaultPersistenceConfig['dbname'];
+        if (isset($defaultPersistenceConfig['user'])) {
+            $options['db_user'] = $defaultPersistenceConfig['user'];
+        }
+        if (isset($defaultPersistenceConfig['password'])) {
+            $options['db_pass'] = $defaultPersistenceConfig['password'];
+        }
+        return $options;
+}
 }
