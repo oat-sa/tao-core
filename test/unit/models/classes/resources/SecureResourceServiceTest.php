@@ -23,6 +23,7 @@ declare(strict_types=1);
 
 namespace oat\tao\model\resources;
 
+use common_cache_NotFoundException;
 use common_exception_Error;
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
@@ -54,10 +55,14 @@ class SecureResourceServiceTest extends GenerisTestCase
 
         $sessionService->expects($this->once())->method('getCurrentUser')->willReturn($user);
 
+        $secureResourceServiceCacheKeyFactory = $this->createMock(SecureResourceServiceCacheKeyFactory::class);
+        $secureResourceServiceCacheKeyFactory->method('create')->willReturn('key');
+
         $serviceLocator = $this->getServiceLocatorMock(
             [
-                PermissionInterface::SERVICE_ID => $this->permissionInterface,
-                SessionService::SERVICE_ID      => $sessionService,
+                PermissionInterface::SERVICE_ID             => $this->permissionInterface,
+                SessionService::SERVICE_ID                  => $sessionService,
+                SecureResourceServiceCacheKeyFactory::class => $secureResourceServiceCacheKeyFactory
             ]
         );
 
@@ -66,6 +71,7 @@ class SecureResourceServiceTest extends GenerisTestCase
 
     /**
      * @throws common_exception_Error
+     * @throws common_cache_NotFoundException
      */
     public function testGetAllChildren(): void
     {
@@ -86,6 +92,7 @@ class SecureResourceServiceTest extends GenerisTestCase
 
     /**
      * @throws common_exception_Error
+     * @throws common_cache_NotFoundException
      */
     public function testNestedItems(): void
     {
@@ -212,12 +219,12 @@ class SecureResourceServiceTest extends GenerisTestCase
     public function getPermissions(): array
     {
         return [
-            'http://resource1_read' => ['READ'],
-            'http://resource2_no_access' => [],
-            'http://resource3_write' => ['WRITE'],
-            'http://resource4_read_write' => ['READ', 'WRITE'],
+            'http://resource1_read'             => ['READ'],
+            'http://resource2_no_access'        => [],
+            'http://resource3_write'            => ['WRITE'],
+            'http://resource4_read_write'       => ['READ', 'WRITE'],
             'http://resource5_grant_read_write' => ['READ', 'WRITE', 'GRANT'],
-            'http://resource6_unsupported' => [PermissionInterface::RIGHT_UNSUPPORTED],
+            'http://resource6_unsupported'      => [PermissionInterface::RIGHT_UNSUPPORTED],
         ];
     }
 
