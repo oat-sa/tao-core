@@ -115,7 +115,7 @@ class SecureResourceServiceTest extends GenerisTestCase
         $children = $this->service->getAllChildren($class);
 
         $this->assertCount(1, $children);
-        $this->assertEquals('http://resource6_unsupported', $children[0]->getUri());
+        $this->assertEquals('http://resource6_unsupported', current($children)->getUri());
     }
 
     /**
