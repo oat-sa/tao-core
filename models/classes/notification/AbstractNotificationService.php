@@ -30,10 +30,7 @@ use oat\oatbox\service\ConfigurableService;
  */
 abstract class AbstractNotificationService extends ConfigurableService implements NotificationServiceInterface
 {
-    /**
-     * @return bool
-     */
-    public function getVisibility()
+    public function getVisibility(): bool
     {
         if ($this->hasOption('visibility')) {
             return $this->getOption('visibility');

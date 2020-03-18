@@ -38,12 +38,9 @@ class NewSqlNotificationService extends AbstractSqlNotificationService
 
     /**
      * Allows a class to adapt the schemas as required
-     *
-     * @param SchemaCollection $schemaCollection
-     *
      * @throws common_exception_InconsistentData
      */
-    public function provideSchema(SchemaCollection $schemaCollection)
+    public function provideSchema(SchemaCollection $schemaCollection): void
     {
         $schema = $schemaCollection->getSchema($this->getOption(self::OPTION_PERSISTENCE));
         $table = $schema->createTable(self::NOTIFICATION_TABLE);
@@ -60,11 +57,9 @@ class NewSqlNotificationService extends AbstractSqlNotificationService
     }
 
     /**
-     * @param Notification $notification
-     * @return array
      * @throws Exception
      */
-    protected function prepareNotification(Notification $notification)
+    protected function prepareNotification(Notification $notification): array
     {
         /** @var AbstractPlatform $platform */
         $platform = $this->getPersistence()->getPlatForm();

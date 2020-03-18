@@ -40,59 +40,59 @@ interface NotificationInterface
     /**
      * @return int
      */
-    public function getStatus();
+    public function getStatus(): int;
 
     /**
      * @return string
      */
-    public function getRecipient();
+    public function getRecipient(): string;
 
     /**
      * @return string
      */
-    public function getSenderId();
+    public function getSenderId(): string;
 
     /**
      * @return string
      */
-    public function getSenderName();
+    public function getSenderName(): string;
 
     /**
      * @return string
      */
-    public function getMessage();
+    public function getMessage(): string;
 
     /**
      * @return int
      */
-    public function getCreatedAt();
+    public function getCreatedAt(): string;
 
     /**
      * @return int
      */
-    public function getUpdatedAt();
+    public function getUpdatedAt(): string;
 
     /**
      * @return string
      */
-    public function getId();
+    public function getId(): string;
 
     /**
      * @param int $status
      *
      * @return NotificationInterface
      */
-    public function setStatus($status);
+    public function setStatus($status): self;
 
     /**
      * @param string $id
      *
      * @return NotificationInterface
      */
-    public function setId($id);
+    public function setId($id): self;
 
     /**
      * @return string
      */
-    public function getTitle();
+    public function getTitle(): string;
 }

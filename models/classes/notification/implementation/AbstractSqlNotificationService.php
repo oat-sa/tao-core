@@ -28,6 +28,7 @@ use oat\generis\persistence\PersistenceManager;
 use oat\generis\persistence\sql\SchemaProviderInterface;
 use oat\tao\model\notification\AbstractNotificationService;
 use oat\tao\model\notification\Notification;
+use common_persistence_Persistence as Persistence;
 
 /**
  * Class AbstractSqlNotificationService
@@ -59,18 +60,16 @@ abstract class AbstractSqlNotificationService extends AbstractNotificationServic
      */
     protected $persistence;
 
-    /**
-     * @param Notification $notification
-     *
-     * @return Notification
-     */
-    public function sendNotification(Notification $notification)
+    public function sendNotification(Notification $notification): Notification
     {
         $this->getPersistence()->insert(self::NOTIFICATION_TABLE, $this->prepareNotification($notification));
         return $notification;
     }
 
-    public function getNotifications($userId)
+    /**
+     * @return Notification[]
+     */
+    public function getNotifications(string $userId): array
     {
         $notification = [];
         $persistence = $this->getPersistence();
@@ -104,10 +103,7 @@ abstract class AbstractSqlNotificationService extends AbstractNotificationServic
         return $notification;
     }
 
-    /**
-     * @return PersistenceManager
-     */
-    protected function getPersistence()
+    protected function getPersistence(): Persistence
     {
         if ($this->persistence === null) {
             $persistence = self::DEFAULT_PERSISTENCE;
@@ -123,12 +119,9 @@ abstract class AbstractSqlNotificationService extends AbstractNotificationServic
     }
 
     /**
-     * @param string $id
-     *
-     * @return Notification
      * @throws common_exception_NotFound
      */
-    public function getNotification($id)
+    public function getNotification(string $id): Notification
     {
         $persistence = $this->getPersistence();
 
@@ -136,27 +129,23 @@ abstract class AbstractSqlNotificationService extends AbstractNotificationServic
             ' FROM ' . self::NOTIFICATION_TABLE . ' WHERE ' .
             self::NOTIFICATION_FIELD_ID . ' = ? ';
 
-        $params      = [
-            $id
+        $params = [
+            $id,
         ];
 
-        $stmt               = $persistence->query($selectQuery, $params);
-        $notificationDetail = $stmt->fetch();
+        $notificationDetail = $persistence->query($selectQuery, $params)->fetch();
 
         if ($notificationDetail) {
-            $userId    = $notificationDetail[self::NOTIFICATION_FIELD_RECIPIENT];
-            $title     = $notificationDetail[self::NOTIFICATION_FIELD_TITLE];
-            $message   = $notificationDetail[self::NOTIFICATION_FIELD_MESSAGE];
-            $senderId  = $notificationDetail[self::NOTIFICATION_FIELD_SENDER];
-            $id        = $notificationDetail[self::NOTIFICATION_FIELD_ID];
+            $userId = $notificationDetail[self::NOTIFICATION_FIELD_RECIPIENT];
+            $title = $notificationDetail[self::NOTIFICATION_FIELD_TITLE];
+            $message = $notificationDetail[self::NOTIFICATION_FIELD_MESSAGE];
+            $senderId = $notificationDetail[self::NOTIFICATION_FIELD_SENDER];
+            $id = $notificationDetail[self::NOTIFICATION_FIELD_ID];
             $createdAt = $notificationDetail[self::NOTIFICATION_FIELD_CREATION];
             $updatedAt = $notificationDetail[self::NOTIFICATION_FIELD_UPDATED];
-            $status    = $notificationDetail[self::NOTIFICATION_FIELD_STATUS];
+            $status = $notificationDetail[self::NOTIFICATION_FIELD_STATUS];
 
-            $user      = $this->getResource($userId);
-            $sender    = $this->getResource($senderId);
-
-            return new Notification($user, $title, $message, $sender, $id, $createdAt, $updatedAt, $status);
+            return new Notification($userId, $title, $message, $senderId, $id, $createdAt, $updatedAt, $status);
         }
 
         throw new \common_exception_NotFound('unknown notification id ' . $id);
@@ -165,7 +154,7 @@ abstract class AbstractSqlNotificationService extends AbstractNotificationServic
     /**
      * @return string
      */
-    protected function getAllFieldString()
+    protected function getAllFieldString(): string
     {
         return self::NOTIFICATION_FIELD_RECIPIENT . ' , '
             . self::NOTIFICATION_FIELD_STATUS . ' , '
@@ -177,12 +166,7 @@ abstract class AbstractSqlNotificationService extends AbstractNotificationServic
             . self::NOTIFICATION_FIELD_UPDATED;
     }
 
-    /**
-     * @param string $userId
-     *
-     * @return array
-     */
-    public function notificationCount($userId)
+    public function notificationCount(string $userId): array
     {
 
         $persistence = $this->getPersistence();
@@ -217,7 +201,7 @@ abstract class AbstractSqlNotificationService extends AbstractNotificationServic
         return $count;
     }
 
-    public function changeStatus(Notification $notification)
+    public function changeStatus(Notification $notification): int
     {
         $updateQuery = 'UPDATE ' . self::NOTIFICATION_TABLE . ' SET ' .
             self::NOTIFICATION_FIELD_UPDATED . ' = ? ,' .
@@ -238,10 +222,5 @@ abstract class AbstractSqlNotificationService extends AbstractNotificationServic
         return $persistence->exec($updateQuery , $data);
     }
 
-    /**
-     * @param Notification $notification
-     *
-     * @return array
-     */
-    abstract protected function prepareNotification(Notification $notification);
+    abstract protected function prepareNotification(Notification $notification): array;
 }

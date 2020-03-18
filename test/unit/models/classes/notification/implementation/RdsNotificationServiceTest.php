@@ -55,7 +55,7 @@ class RdsNotificationServiceTest extends TestCase
 
     private const RECIPIENT_EXAMPLE_1 = 'recipient_example_1';
     private const TITLE_EXAMPLE_1 = 'title_example_1';
-    private const STATUS_EXAMPLE_1 = 'status_example_1';
+    private const STATUS_EXAMPLE_1 = 0;
     private const SENDER_ID_EXAMPLE_1 = 'sender_id_example_1';
     private const SENDER_NAME_EXAMPLE_1 = 'sender_name_example_1';
     private const MESSAGE_EXAMPLE_1 = 'message_example_1';
@@ -65,7 +65,7 @@ class RdsNotificationServiceTest extends TestCase
 
     private const RECIPIENT_EXAMPLE_2 = 'recipient_example_2';
     private const TITLE_EXAMPLE_2 = 'title_example_2';
-    private const STATUS_EXAMPLE_2 = 'status_example_2';
+    private const STATUS_EXAMPLE_2 = 1;
     private const SENDER_ID_EXAMPLE_2 = 'sender_id_example_2';
     private const SENDER_NAME_EXAMPLE_2 = 'sender_name_example_2';
     private const MESSAGE_EXAMPLE_2 = 'message_example_2';
@@ -116,7 +116,7 @@ class RdsNotificationServiceTest extends TestCase
         $this->subject->setModel($this->ontologyMock);
     }
 
-    public function testChangeStatus()
+    public function testChangeStatus(): void
     {
         $this->notificationMock->expects($this->once())->method('getStatus')->willReturn(Notification::DEFAULT_STATUS);
         $this->notificationMock->expects($this->once())->method('getId')->willReturn(self::NOTIFICATION_ID);
@@ -128,12 +128,13 @@ class RdsNotificationServiceTest extends TestCase
                 Notification::DEFAULT_STATUS,
                 self::NOTIFICATION_ID,
             ]
-        );
+        )->willReturn(1);
 
-        $this->subject->changeStatus($this->notificationMock);
+        $result = $this->subject->changeStatus($this->notificationMock);
+        $this->assertSame(1, $result);
     }
 
-    public function testProvideSchema()
+    public function testProvideSchema(): void
     {
         $tableMock = $this->createMock(Table::class);
         $schemaMock = $this->createMock(Schema::class);
@@ -148,7 +149,7 @@ class RdsNotificationServiceTest extends TestCase
         $this->subject->provideSchema($schemaCollectionMock);
     }
 
-    public function testSendNotification()
+    public function testSendNotification(): void
     {
         $this->persistanceMock->expects($this->once())->method('insert')->with(
             AbstractSqlNotificationService::NOTIFICATION_TABLE,
@@ -175,7 +176,7 @@ class RdsNotificationServiceTest extends TestCase
         $this->subject->sendNotification($this->notificationMock);
     }
 
-    public function testNotificationCount()
+    public function testNotificationCount(): void
     {
         $statementMock = $this->createMock(Statement::class);
         $this->persistanceMock->expects($this->once())->method('query')->with(
@@ -200,7 +201,7 @@ class RdsNotificationServiceTest extends TestCase
         $this->assertSame(self::NOTIFICATION_COUNT, $result[2]);
     }
 
-    public function testGetNotifications()
+    public function testGetNotifications(): void
     {
         $statementMock = $this->createMock(Statement::class);
         $this->persistanceMock->expects($this->once())->method('query')->with(
@@ -240,7 +241,7 @@ class RdsNotificationServiceTest extends TestCase
         $this->assertSame(self::TITLE_EXAMPLE_2, $result[1]->getTitle());
     }
 
-    public function testGetNotification()
+    public function testGetNotification(): void
     {
         $statementMock = $this->createMock(Statement::class);
         $this->persistanceMock->expects($this->once())->method('query')->with(
@@ -263,7 +264,7 @@ class RdsNotificationServiceTest extends TestCase
         $result = $this->subject->getNotification(self::EXAMPLE_USER_ID);
         $this->assertInstanceOf(Notification::class, $result);
         $this->assertSame(self::TITLE_EXAMPLE_1, $result->getTitle());
-        $this->assertInstanceOf(core_kernel_classes_Resource::class, $result->getSenderId());
-        $this->assertInstanceOf(core_kernel_classes_Resource::class, $result->getRecipient());
+        $this->assertSame(self::SENDER_ID_EXAMPLE_1, $result->getSenderId());
+        $this->assertSame(self::MESSAGE_EXAMPLE_1, $result->getMessage());
     }
 }

@@ -22,6 +22,7 @@
 namespace oat\tao\model\notification\implementation;
 
 use common_exception_InconsistentData;
+use common_persistence_SqlPersistence;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use oat\generis\persistence\sql\SchemaCollection;
 use oat\tao\model\notification\Notification;
@@ -38,7 +39,7 @@ class RdsNotificationService extends AbstractSqlNotificationService
      *
      * @return array
      */
-    protected function prepareNotification(Notification $notification)
+    protected function prepareNotification(Notification $notification): array
     {
         /** @var AbstractPlatform $platform */
         $platform = $this->getPersistence()->getPlatForm();
@@ -54,7 +55,7 @@ class RdsNotificationService extends AbstractSqlNotificationService
         ];
     }
 
-    public function changeStatus(Notification $notification)
+    public function changeStatus(Notification $notification): int
     {
         $updateQuery = 'UPDATE '
             . self::NOTIFICATION_TABLE
@@ -66,6 +67,7 @@ class RdsNotificationService extends AbstractSqlNotificationService
             . ' WHERE ' . self::NOTIFICATION_FIELD_ID
             . ' = ? ';
 
+        /** @var common_persistence_SqlPersistence $persistence */
         $persistence = $this->getPersistence();
 
         /** @var AbstractPlatform $platform */
@@ -88,7 +90,7 @@ class RdsNotificationService extends AbstractSqlNotificationService
      *
      * @throws common_exception_InconsistentData
      */
-    public function provideSchema(SchemaCollection $schemaCollection)
+    public function provideSchema(SchemaCollection $schemaCollection): void
     {
         $schema = $schemaCollection->getSchema($this->getOption(self::OPTION_PERSISTENCE));
         $queueTable = $schema->createTable(self::NOTIFICATION_TABLE);

@@ -40,11 +40,10 @@ class NotificationServiceAggregator extends AbstractNotificationService implemen
     public const OPTION_RDS_NOTIFICATION_SERVICE = 'rds';
 
     /**
-     * @return array
      * @throws InvalidService
      * @throws InvalidServiceManagerException
      */
-    public function getSubServices()
+    public function getSubServices(): array
     {
         $subServices = $this->getOptions();
         $services = [];
@@ -55,13 +54,10 @@ class NotificationServiceAggregator extends AbstractNotificationService implemen
     }
 
     /**
-     * @param Notification $notification
-     *
-     * @return Notification
      * @throws InvalidService
      * @throws InvalidServiceManagerException
      */
-    public function sendNotification(Notification $notification)
+    public function sendNotification(Notification $notification): Notification
     {
         $subServices = $this->getSubServices();
 
@@ -76,14 +72,12 @@ class NotificationServiceAggregator extends AbstractNotificationService implemen
     }
 
     /**
-     * @param string $userId
-     *
-     * @return array
+     * @return Notification[]
      * @throws InvalidService
      * @throws InvalidServiceManagerException
      * @throws NotListedNotification
      */
-    public function getNotifications($userId)
+    public function getNotifications(string $userId): array
     {
         $subServices = $this->getSubServices();
 
@@ -100,14 +94,11 @@ class NotificationServiceAggregator extends AbstractNotificationService implemen
     }
 
     /**
-     * @param string $id
-     *
-     * @return NotificationServiceInterface
      * @throws InvalidService
      * @throws InvalidServiceManagerException
      * @throws NotListedNotification
      */
-    public function getNotification($id)
+    public function getNotification(string $id): Notification
     {
 
         $subServices = $this->getSubServices();
@@ -125,14 +116,11 @@ class NotificationServiceAggregator extends AbstractNotificationService implemen
     }
 
     /**
-     * @param Notification $notification
-     *
-     * @return bool
      * @throws InvalidService
      * @throws InvalidServiceManagerException
      * @throws NotListedNotification
      */
-    public function changeStatus(Notification $notification)
+    public function changeStatus(Notification $notification): int
     {
         $subServices = $this->getSubServices();
 
@@ -149,14 +137,11 @@ class NotificationServiceAggregator extends AbstractNotificationService implemen
     }
 
     /**
-     * @param string $userId
-     *
-     * @return array
      * @throws InvalidService
      * @throws InvalidServiceManagerException
      * @throws NotListedNotification
      */
-    public function notificationCount($userId)
+    public function notificationCount(string $userId): array
     {
         $subServices = $this->getSubServices();
 
@@ -173,11 +158,10 @@ class NotificationServiceAggregator extends AbstractNotificationService implemen
     }
 
     /**
-     * @return bool
      * @throws InvalidService
      * @throws InvalidServiceManagerException
      */
-    public function getVisibility()
+    public function getVisibility(): bool
     {
         $subServices = $this->getSubServices();
 
@@ -194,12 +178,10 @@ class NotificationServiceAggregator extends AbstractNotificationService implemen
     }
 
     /**
-     * @param SchemaCollection $schemaCollection
-     *
      * @throws InvalidService
      * @throws InvalidServiceManagerException
      */
-    public function provideSchema(SchemaCollection $schemaCollection)
+    public function provideSchema(SchemaCollection $schemaCollection): void
     {
         $subServices = $this->getSubServices();
         foreach ($subServices as $service) {
@@ -207,6 +189,5 @@ class NotificationServiceAggregator extends AbstractNotificationService implemen
                 $service->provideSchema($schemaCollection);
             }
         }
-
     }
 }
