@@ -1,26 +1,27 @@
 <?php
-/**  
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *			   2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);\n *			   2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  *             2013 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- * 
+ *
  */
 namespace oat\tao\model\oauth;
 
+use oat\tao\model\oauth\lockout\LockoutInterface;
 use oat\tao\model\TaoOntology;
 use IMSGlobal\LTI\OAuth\OAuthDataStore;
 use IMSGlobal\LTI\OAuth\OAuthConsumer;
@@ -39,7 +40,7 @@ use oat\generis\model\OntologyAwareTrait;
 class DataStore extends ConfigurableService
 {
     use OntologyAwareTrait;
-    
+
     const OPTION_NONCE_STORE = 'nonce';
 
     const CLASS_URI_OAUTH_CONSUMER = 'http://www.tao.lu/Ontologies/TAO.rdf#OauthConsumer';
@@ -62,7 +63,10 @@ class DataStore extends ConfigurableService
 		$class = $this->getClass(self::CLASS_URI_OAUTH_CONSUMER);
 		$instances = $class->searchInstances(array(self::PROPERTY_OAUTH_KEY => $consumer_key), array('like' => false, 'recursive' => true));
 		if (count($instances) == 0) {
-			throw new \tao_models_classes_oauth_Exception('No Credentials for consumer key '.$consumer_key);
+			$oauthService = $this->getServiceLocator()->get(OauthService::SERVICE_ID);
+            /** @var LockoutInterface $lockoutService */
+            $lockoutService = $oauthService->getSubService(OauthService::OPTION_LOCKOUT_SERVICE);
+            $lockoutService->logFailedAttempt();throw new \tao_models_classes_oauth_Exception('No Credentials for consumer key '.$consumer_key);
 		}
 		if (count($instances) > 1) {
 			throw new \tao_models_classes_oauth_Exception('Multiple Credentials for consumer key '.$consumer_key);
@@ -71,7 +75,7 @@ class DataStore extends ConfigurableService
 
 		return $returnValue;
 	}
-	
+
 	/**
 	 * Returns the OAuthConsumer for the provided credentials
 	 *
@@ -104,7 +108,7 @@ class DataStore extends ConfigurableService
 	    }
         return new OAuthConsumer($consumer_key, $secret, $callbackUrl);
 	}
-	
+
 
 	/**
 	 * returns the OauthConsumer for the specified key
@@ -121,7 +125,7 @@ class DataStore extends ConfigurableService
 		$consumer = $this->findOauthConsumerResource($consumer_key);
 		$secret			= (string)$consumer->getUniquePropertyValue($this->getProperty(self::PROPERTY_OAUTH_SECRET));
 		$callbackUrl	= null;
-		
+
 		$returnValue = new OAuthConsumer($consumer_key, $secret, $callbackUrl);
 
 		return $returnValue;
@@ -181,7 +185,7 @@ class DataStore extends ConfigurableService
 	/**
 	 * Should create a new access token
 	 * not implemented
-	 * 
+	 *
 	 * @access public
 	 * @author Joel Bout, <joel@taotesting.com>
 	 * @param  token

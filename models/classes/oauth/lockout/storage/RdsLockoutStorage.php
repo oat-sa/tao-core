@@ -26,6 +26,7 @@ use Doctrine\DBAL\Schema\Schema;
 use Exception;
 use oat\generis\persistence\PersistenceManager;
 use oat\oatbox\service\ConfigurableService;
+use oat\taoRevision\model\SchemaProviderInterface;
 
 /**
  * Class RdsLockoutStorage
@@ -33,7 +34,7 @@ use oat\oatbox\service\ConfigurableService;
  * @author Ivan Klimchuk <ivan@taotesting.com>
  * @package oat\tao\model\oauth\lockout\storage
  */
-class RdsLockoutStorage extends ConfigurableService implements LockoutStorageInterface
+class RdsLockoutStorage extends ConfigurableService implements LockoutStorageInterface, SchemaProviderInterface
 {
     public const TABLE_NAME = 'oauth_lti_failures';
 
@@ -47,7 +48,7 @@ class RdsLockoutStorage extends ConfigurableService implements LockoutStorageInt
 
     /**
      * @param string $ip
-     * @param int    $ttl
+     * @param int $ttl
      *
      * @return int|mixed
      * @throws Exception
@@ -63,9 +64,9 @@ class RdsLockoutStorage extends ConfigurableService implements LockoutStorageInt
             return $this->getPersistence()->insert(
                 self::TABLE_NAME,
                 [
-                    self::FIELD_ID => ip2long($ip),
-                    self::FIELD_ADDRESS => $ip,
-                    self::FIELD_ATTEMPTS => 1, // first failed attempt
+                    self::FIELD_ID        => ip2long($ip),
+                    self::FIELD_ADDRESS   => $ip,
+                    self::FIELD_ATTEMPTS  => 1, // first failed attempt
                     self::FIELD_EXPIRE_AT => $expiredAt
                 ]
             );
@@ -74,10 +75,10 @@ class RdsLockoutStorage extends ConfigurableService implements LockoutStorageInt
         $attempts = $addressInfo[self::FIELD_ATTEMPTS] + 1;
 
         $data = [
-            'conditions' => [self::FIELD_ID => $id],
+            'conditions'   => [self::FIELD_ID => $id],
             'updateValues' => [
                 self::FIELD_EXPIRE_AT => $expiredAt,
-                self::FIELD_ATTEMPTS => $attempts
+                self::FIELD_ATTEMPTS  => $attempts
             ]
         ];
 
@@ -104,10 +105,12 @@ class RdsLockoutStorage extends ConfigurableService implements LockoutStorageInt
     /**
      * @param string $ip
      *
+     * @param int $timeout
      * @return int
      */
-    public function getFailedAttempts(string $ip)
+    public function getFailedAttempts(string $ip, int $timeout)
     {
+        $attempts = 0;
         $queryBuilder = $this->getQueryBuilder()
             ->select('*')
             ->from(self::TABLE_NAME)
@@ -120,10 +123,28 @@ class RdsLockoutStorage extends ConfigurableService implements LockoutStorageInt
 
         if (count($found)) {
             $found = reset($found);
-            return (int)$found[self::FIELD_ATTEMPTS];
+            if (time() > $found[self::FIELD_EXPIRE_AT]) {
+                $this->resetIp($ip);
+            }else{
+                $attempts = $found[self::FIELD_ATTEMPTS];
+            }
         }
+        return $attempts;
+    }
 
-        return 0;
+    /**
+     * @param string $ip
+     *
+     * @return bool
+     */
+    public function resetIp(string $ip): bool
+    {
+        $queryBuilder = $this->getQueryBuilder()
+            ->delete(self::TABLE_NAME)
+            ->where(sprintf('%s = ?', self::FIELD_ID));
+
+        return $this->getPersistence()
+            ->query($queryBuilder->getSQL(), [ip2long($ip)])->execute();
     }
 
     /**
