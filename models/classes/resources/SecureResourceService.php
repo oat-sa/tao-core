@@ -98,8 +98,9 @@ class SecureResourceService extends ConfigurableService
         $accessibleInstances = [];
 
         foreach ($instances as $child) {
-            if ($this->hasAccess($permissions[$child->getUri()])) {
-                $accessibleInstances[] = $child;
+            $uri = $child->getUri();
+            if ($this->hasAccess($permissions[$uri])) {
+                $accessibleInstances[$uri] = $child;
             }
         }
 
