@@ -61,10 +61,13 @@ use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\resources\ResourceWatcher;
+use oat\tao\model\resources\SecureResourceService;
 use oat\tao\model\routing\AnnotationReaderService;
 use oat\tao\model\routing\ControllerService;
 use oat\tao\model\routing\RouteAnnotationService;
 use oat\tao\model\security\ActionProtector;
+use oat\tao\model\security\Business\Contract\SecuritySettingsRepositoryInterface;
+use oat\tao\model\security\DataAccess\Repository\SecuritySettingsRepository;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStore;
 use oat\tao\model\security\xsrf\TokenStoreSession;
@@ -923,25 +926,7 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('22.10.2');
         }
 
-        $this->skip('22.10.0', '22.12.0');
-
-        if ($this->isVersion('22.12.0')) {
-            $this->getServiceManager()->register(
-                ActionProtector::SERVICE_ID,
-                new ActionProtector(['frameSourceWhitelist' => ['self']])
-            );
-            $this->setVersion('22.13.0');
-        }
-
-        if ($this->isVersion('22.13.0')) {
-            $this->getServiceManager()->register(
-                ActionProtector::SERVICE_ID,
-                new ActionProtector(['frameSourceWhitelist' => ["'self'"]])
-            );
-            $this->setVersion('22.13.1');
-        }
-
-        $this->skip('22.13.1', '26.1.7');
+        $this->skip('22.10.0', '26.1.7');
 
         if ($this->isVersion('26.1.7')) {
             AclProxy::applyRule(new AccessRule(AccessRule::GRANT, TaoRoles::SYSTEM_ADMINISTRATOR, Users::class));
@@ -1328,6 +1313,38 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('41.0.2');
         }
 
-        $this->skip('40.9.6', '41.0.3');
+
+        if ($this->isVersion('41.0.2')) {
+            $this->getServiceManager()->register(SecureResourceService::SERVICE_ID, new SecureResourceService());
+
+            $this->setVersion('41.1.0');
+        }
+
+        $this->skip('41.1.0', '41.1.2');
+
+        if ($this->isVersion('41.1.2')) {
+            $serviceManager = $this->getServiceManager();
+
+            /** @var SettingsStorageInterface $storage */
+            $storage = $serviceManager->get(SettingsStorageInterface::SERVICE_ID);
+            $securitySettingsRepository = new SecuritySettingsRepository($storage);
+
+            $serviceManager->register(
+                SecuritySettingsRepositoryInterface::SERVICE_ID,
+                $securitySettingsRepository
+            );
+            $serviceManager->register(
+                ActionProtector::SERVICE_ID,
+                new ActionProtector(
+                    $securitySettingsRepository,
+                    [
+                        'X-Content-Type-Options: nosniff',
+                    ]
+                )
+            );
+
+            $this->setVersion('41.2.0');
+        }
+        $this->skip('41.2.0', '41.3.3');
     }
 }

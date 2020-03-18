@@ -16,7 +16,7 @@ abstract class RestTestRunner extends GenerisPhpUnitTestRunner
     protected $login = "";
 
     protected $password = "";
-    
+
     protected function getUserData()
     {
         return [
@@ -32,14 +32,14 @@ abstract class RestTestRunner extends GenerisPhpUnitTestRunner
             ]
         ];
     }
-    
-    public function setUp()
+
+    public function setUp(): void
     {
         parent::setUp();
 
         $this->host = ROOT_URL;
         $this->disableCache();
-        
+
         // creates a user using remote script from joel
         $userdata = $this->getUserData();
         $password = $userdata[GenerisRdf::PROPERTY_USER_PASSWORD];
@@ -47,13 +47,13 @@ abstract class RestTestRunner extends GenerisPhpUnitTestRunner
         $tmclass = new \core_kernel_classes_Class(TaoOntology::CLASS_URI_TAO_USER);
         $user = $tmclass->createInstanceWithProperties($userdata);
         \common_Logger::i('Created user ' . $user->getUri());
-        
+
         $this->login = $userdata[GenerisRdf::PROPERTY_USER_LOGIN];
         $this->password = $password;
         $this->userUri = $user->getUri();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // removes the created user
         $user = new \core_kernel_classes_Resource($this->userUri);
@@ -83,16 +83,16 @@ abstract class RestTestRunner extends GenerisPhpUnitTestRunner
                 $options[$key] = $value;
             }
         }
-        
+
         $process = curl_init($url);
         if ($method != "DELETE") {
             curl_setopt($process, $method, 1);
         } else {
             curl_setopt($process, CURLOPT_CUSTOMREQUEST, "DELETE");
         }
-        
+
         curl_setopt_array($process, $options);
-        
+
         $data = curl_exec($process);
         if ($returnType != "data") {
             $data = curl_getinfo($process, $returnType);

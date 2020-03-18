@@ -58,11 +58,11 @@ class TaskLogEntityTest extends TestCase
         $this->assertInstanceOf(Report::class, $entity->getReport());
         $this->assertInstanceOf(\DateTime::class, $entity->getCreatedAt());
         $this->assertInstanceOf(\DateTime::class, $entity->getUpdatedAt());
-        $this->assertInternalType('string', $entity->getId());
-        $this->assertInternalType('string', $entity->getTaskName());
-        $this->assertInternalType('array', $entity->getParameters());
-        $this->assertInternalType('string', $entity->getLabel());
-        $this->assertInternalType('string', $entity->getOwner());
+        $this->assertIsString($entity->getId());
+        $this->assertIsString($entity->getTaskName());
+        $this->assertIsArray($entity->getParameters());
+        $this->assertIsString($entity->getLabel());
+        $this->assertIsString($entity->getOwner());
 
         $this->assertEquals([
             'id' => 'rdf#i1508337970199318643',

@@ -21,6 +21,7 @@
 
 namespace oat\tao\test\integration\import;
 
+use oat\tao\model\import\ImporterNotFound;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\tao\model\import\ImportersService;
 use oat\tao\test\integration\import\samples\FakeImporter;
@@ -47,11 +48,9 @@ class ImportersServiceTest extends TaoPhpUnitTestRunner
         $this->assertInstanceOf('\oat\tao\test\integration\import\samples\FakeImporter', $importersService->getImporter('testImporter'));
     }
 
-    /**
-     * @expectedException \oat\tao\model\import\ImporterNotFound
-     */
     public function testGetImporterException()
     {
+        $this->expectException(ImporterNotFound::class);
         $importersService = new ImportersService([]);
         $importersService->setServiceLocator(ServiceManager::getServiceManager());
         $importersService->getImporter('testImporter');
