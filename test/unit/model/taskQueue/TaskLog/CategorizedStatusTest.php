@@ -21,13 +21,14 @@
 
 namespace oat\tao\test\unit\model\taskQueue\TaskLog;
 
+use Exception;
 use oat\tao\model\taskQueue\TaskLog\CategorizedStatus;
 use oat\generis\test\TestCase;
 
 class CategorizedStatusTest extends TestCase
 {
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function testCreateWithValidStatus()
     {
@@ -36,16 +37,16 @@ class CategorizedStatusTest extends TestCase
     }
 
     /**
-     * @expectedException \Exception
-     * @throws \Exception
+     * @throws Exception
      */
     public function testCreateWithInvalidStatus()
     {
+        $this->expectException(Exception::class);
         CategorizedStatus::createFromString('some invalid status');
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function testStatusAreMappedCorrectly()
     {
@@ -75,7 +76,7 @@ class CategorizedStatusTest extends TestCase
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function testStatusEquals()
     {
@@ -99,7 +100,7 @@ class CategorizedStatusTest extends TestCase
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function testIsArchived()
     {
@@ -108,7 +109,7 @@ class CategorizedStatusTest extends TestCase
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function testIsCancelled()
     {

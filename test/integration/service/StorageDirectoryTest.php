@@ -21,6 +21,7 @@
 
 namespace oat\tao\test\integration\service;
 
+use common_Exception;
 use League\Flysystem\Adapter\AbstractAdapter;
 use oat\oatbox\filesystem\Directory;
 use oat\oatbox\filesystem\FileSystemService;
@@ -38,7 +39,7 @@ class StorageDirectoryTest extends TestCase
     /** @var  \tao_models_classes_service_StorageDirectory */
     protected $instance;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->fileSystemTmpId = 'test_' . uniqid();
         $fileSystemService = ServiceManager::getServiceManager()->get(FileSystemService::SERVICE_ID);
@@ -52,7 +53,7 @@ class StorageDirectoryTest extends TestCase
         $this->instance->setServiceLocator(ServiceManager::getServiceManager());
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $fileSystemService = ServiceManager::getServiceManager()->get(FileSystemService::SERVICE_ID);
         $fileSystemService->unregisterFileSystem($this->fileSystemTmpId);
@@ -107,7 +108,7 @@ class StorageDirectoryTest extends TestCase
 
         $this->assertFalse($this->instance->isPublic());
 
-        $this->setExpectedException(\common_Exception::class);
+        $this->expectException(common_Exception::class);
         $this->instance->getPublicAccessUrl();
     }
 
@@ -207,7 +208,7 @@ class StorageDirectoryTest extends TestCase
         // @todo requesting example.com is not a good idea as test should ideally be isolated from external world
         $resource = fopen('http://example.com', 'r');
         $streamFixture = \GuzzleHttp\Psr7\stream_for($resource);
-        $this->setExpectedException(\common_Exception::class);
+        $this->expectException(common_Exception::class);
         $this->instance->getFile($tmpFile)->write($streamFixture);
         fclose($resource);
         $streamFixture->close();

@@ -54,8 +54,8 @@ registry.service.consul:4444/tao/dependency-resolver oat:dependencies:resolve --
                         script: 'composer require phpunit/phpunit:^8.5'
                     )
                     sh(
-                    	label: 'Run backend tests',
-                    	script: '''
+                        label: 'Run backend tests',
+                        script: '''
                         ./vendor/bin/phpunit \\
                         -c phpunit.xml \\
                         --coverage-clover reports/backend/CLOVER-report.xml \\

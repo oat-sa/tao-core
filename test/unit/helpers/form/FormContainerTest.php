@@ -28,10 +28,8 @@ class FormContainerTest extends GenerisTestCase
 
     /**
      * @noinspection PhpUnhandledExceptionInspection
-     *
-     * @before
      */
-    public function initTestDoubles(): void
+    public function setUp(): void
     {
         $config = new common_persistence_KeyValuePersistence([], new common_persistence_InMemoryKvDriver());
         $config->set(ApplicationService::SERVICE_ID, $this->createApplicationServiceTestDouble());
@@ -40,12 +38,12 @@ class FormContainerTest extends GenerisTestCase
         $config->set(common_cache_Cache::SERVICE_ID, $this->createCacheTestDouble());
 
         ServiceManager::setServiceManager(new ServiceManager($config));
+
+        $this->initPersistence();
     }
 
     /**
      * @noinspection PhpUnhandledExceptionInspection
-     *
-     * @before
      */
     public function initPersistence(): void
     {

@@ -38,10 +38,7 @@ class SecuritySettingsRepositoryTest extends TestCase
     /** @var SecuritySettingsRepository */
     private $sut;
 
-    /**
-     * @before
-     */
-    public function initTestDoubles(): void
+    public function setUp(): void
     {
         $this->storage = $this->createMock(SettingsStorage::class);
 
@@ -52,11 +49,10 @@ class SecuritySettingsRepositoryTest extends TestCase
         $this->storage
             ->method('set')
             ->willReturnCallback([$this, 'setIntoStorage']);
+
+        $this->initSut();
     }
 
-    /**
-     * @before
-     */
     public function initSut(): void
     {
         $this->sut = new SecuritySettingsRepository($this->storage);

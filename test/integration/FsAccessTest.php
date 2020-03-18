@@ -52,13 +52,13 @@ class tao_test_FsAccessTest extends TaoPhpUnitTestRunner
 
     private $testUser;
     private $credentials = [];
-    
+
     /**
      * @var FileSystem
      */
     private $fileSystem = null;
-    
-    protected function setUp()
+
+    protected function setUp(): void
     {
         $this->disableCache();
         $pass = md5(rand());
@@ -84,8 +84,8 @@ class tao_test_FsAccessTest extends TaoPhpUnitTestRunner
 
         parent::setUp();
     }
-    
-    public function tearDown()
+
+    public function tearDown(): void
     {
         $this->restoreCache();
         parent::tearDown();
@@ -112,7 +112,7 @@ class tao_test_FsAccessTest extends TaoPhpUnitTestRunner
         $websource->getOptions()->willReturn('options');
         return $websource->reveal();
     }
-    
+
     /**
      * @author Lionel Lecaque, lionel@taotesting.com
      */
@@ -123,7 +123,7 @@ class tao_test_FsAccessTest extends TaoPhpUnitTestRunner
         $websource = $this->prophesize(BaseWebsource::class);
         WebsourceManager::singleton()->addWebsource($websource->reveal());
     }
-    
+
     /**
      *
      * @author Lionel Lecaque, lionel@taotesting.com
@@ -141,9 +141,9 @@ class tao_test_FsAccessTest extends TaoPhpUnitTestRunner
         $expected = [ 'className' => get_class($websourceMock) , 'options' => 'options'];
         $this->assertEquals($expected, $config);
     }
-    
-    
-    
+
+
+
     /**
      * @author Lionel Lecaque, lionel@taotesting.com
      */
@@ -154,7 +154,7 @@ class tao_test_FsAccessTest extends TaoPhpUnitTestRunner
 
         $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
         $this->assertTrue($ext->hasConfig(WebsourceManager::CONFIG_PREFIX . 'fake'));
-        
+
         WebsourceManager::singleton()->removeWebsource($websourceMock);
         $this->assertFalse($ext->hasConfig(WebsourceManager::CONFIG_PREFIX . 'fake'));
     }
@@ -247,7 +247,7 @@ class tao_test_FsAccessTest extends TaoPhpUnitTestRunner
 
         WebsourceManager::singleton()->getWebsource($id);
     }
-    
+
     private function assertUrlHttpCode($url, $expectedCode = 200)
     {
         $ch = curl_init($url);
@@ -261,10 +261,10 @@ class tao_test_FsAccessTest extends TaoPhpUnitTestRunner
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $r = curl_getinfo($ch);
         curl_close($ch);
-        
+
         $this->assertEquals($expectedCode, $httpCode, 'Incorrect response for ' . $url);
     }
-    
+
     private function getSessionCookie(core_kernel_classes_Resource $user)
     {
         // login
@@ -276,7 +276,7 @@ class tao_test_FsAccessTest extends TaoPhpUnitTestRunner
         curl_setopt($ch, CURLOPT_HEADER, 1);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         $output = curl_exec($ch);
-        
+
         // get cookie
         preg_match('/^Set-Cookie:\s*([^;]*)/mi', $output, $m);
         $this->assertTrue(isset($m[1]), 'Failed to get Session Cookie');

@@ -44,7 +44,7 @@ class SecureResourceService extends ConfigurableService
      * @return core_kernel_classes_Resource[]
      * @throws common_exception_Error
      */
-    public function getAllChildren(core_kernel_classes_Class $resource)
+    public function getAllChildren(core_kernel_classes_Class $resource): array
     {
         $children = $resource->getInstances(true);
         $permissionService = $this->getPermissionProvider();
@@ -64,7 +64,11 @@ class SecureResourceService extends ConfigurableService
         return array_filter(
             $children,
             static function (core_kernel_classes_Resource $child) use ($permissions) {
-                return in_array('READ', $permissions[$child->getUri()], true);
+                $uri = $child->getUri();
+
+                return
+                    $permissions[$uri] === [PermissionInterface::RIGHT_UNSUPPORTED]
+                    || in_array('READ', $permissions[$uri], true);
             }
         );
     }
@@ -84,12 +88,17 @@ class SecureResourceService extends ConfigurableService
             $resourceUris
         );
 
-        foreach ($permissions as $permission) {
+        foreach ($permissions as $key => $permission) {
             if (
                 empty($permission)
-                || !empty(array_diff($permissionsToCheck, $permission))
+                || (
+                    $permission !== [PermissionInterface::RIGHT_UNSUPPORTED]
+                    && !empty(array_diff($permissionsToCheck, $permission))
+                )
             ) {
-                throw new ResourceAccessDeniedException('Access to one or more requested resources is forbidden');
+                throw new ResourceAccessDeniedException(
+                    sprintf('Access to resource %s is forbidden', $key)
+                );
             }
         }
     }

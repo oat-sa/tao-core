@@ -105,7 +105,9 @@ class tao_actions_Export extends tao_actions_CommonModule
                     }
                 }
 
-                $this->getSecureResourceService()->validatePermissions($exportData['instances'], ['READ']);
+                if (!empty($exportData['instances'])) {
+                    $this->getSecureResourceService()->validatePermissions($exportData['instances'], ['READ']);
+                }
             } elseif (isset($exportData['exportInstance'])) {
                 $exportData['exportInstance'] = tao_helpers_Uri::decode($exportData['exportInstance']);
 
