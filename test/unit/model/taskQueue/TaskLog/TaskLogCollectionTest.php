@@ -46,7 +46,7 @@ class TaskLogCollectionTest extends TestCase
     {
         $collection = $this->createCollection();
 
-        $this->assertInternalType('array', $collection->jsonSerialize());
+        $this->assertisarray($collection->jsonSerialize());
     }
 
     /**

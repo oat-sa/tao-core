@@ -18,6 +18,10 @@ $entryArrowHeight: 150;
 // login screen
 
 #login-box {
+    &, input {
+        @include font-size(14);
+    }
+    display: block;
     width: 400px;
     .form-error {
         display:none;
@@ -131,8 +135,6 @@ $entryArrowHeight: 150;
             border-left-width: ($entryArrowWidthAfter / 2) * 1px;
         }
     }
-
-
 }
 
 #entry-point-box, #login-box {

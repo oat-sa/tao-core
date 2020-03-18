@@ -45,7 +45,7 @@ class ApplicationServiceTest extends TestCase
      */
     private $extensionMock;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -53,7 +53,7 @@ class ApplicationServiceTest extends TestCase
         $this->extensionMock = $this->createMock(common_ext_Extension::class);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
         unset($this->instance, $this->extensionMock);

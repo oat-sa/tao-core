@@ -34,12 +34,12 @@ include_once dirname(__FILE__) . '/../../includes/raw_start.php';
  */
 class AuthTestCase extends TaoPhpUnitTestRunner
 {
-    
+
     /**
      * @var tao_models_classes_UserService
      */
     protected $userService = null;
-    
+
     /**
      * @var array user data set
      */
@@ -52,40 +52,40 @@ class AuthTestCase extends TaoPhpUnitTestRunner
         GenerisRdf::PROPERTY_USER_UILG      =>  'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
         GenerisRdf::PROPERTY_USER_ROLES     =>  TaoRoles::BACK_OFFICE
     ];
-    
+
     /**
      * @var core_kernel_classes_Resource
      */
     protected $testUser = null;
-    
+
     /**
      * @var string
      */
     private $clearPassword = '';
-    
-    
+
+
     /**
      * tests initialization
      */
-    public function setUp()
+    public function setUp(): void
     {
         TaoPhpUnitTestRunner::initTest();
 
         $this->clearPassword = $this->testUserData[GenerisRdf::PROPERTY_USER_PASSWORD];
         $this->testUserData[GenerisRdf::PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($this->testUserData[GenerisRdf::PROPERTY_USER_PASSWORD]);
-        
+
         $this->userService = tao_models_classes_UserService::singleton();
-        
+
         $class = new core_kernel_classes_Class(GenerisRdf::CLASS_GENERIS_USER);
         $this->testUser = $class->createInstance();
         $this->assertNotNull($this->testUser);
         $this->userService->bindProperties($this->testUser, $this->testUserData);
     }
-    
+
     /**
      * tests clean up
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         if (!is_null($this->userService)) {
             $this->userService->removeUser($this->testUser);
@@ -114,21 +114,21 @@ class AuthTestCase extends TaoPhpUnitTestRunner
     {
         //is the user in the db
         $this->assertFalse($this->userService->loginAvailable($this->testUserData[GenerisRdf::PROPERTY_USER_LOGIN]));
-        
+
         if (tao_models_classes_UserService::singleton()->isASessionOpened()) {
             tao_models_classes_UserService::singleton()->logout();
         }
-    
+
         //no other user session
         $this->assertFalse(tao_models_classes_UserService::singleton()->isASessionOpened());
 
         //check user login
         $this->assertTrue($this->userService->loginUser($this->testUserData[GenerisRdf::PROPERTY_USER_LOGIN], $this->clearPassword));
-        
+
         //check session
         $this->assertTrue(tao_models_classes_UserService::singleton()->isASessionOpened());
-        
-        
+
+
         $currentUser =  $this->userService->getCurrentUser();
         $this->assertIsA($currentUser, 'core_kernel_classes_Resource');
         foreach ($this->testUserData as $prop => $value) {

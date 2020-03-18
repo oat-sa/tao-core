@@ -21,6 +21,9 @@
 
 namespace oat\tao\test\unit\model\taskQueue;
 
+use common_exception_NotFound;
+use Exception;
+use InvalidArgumentException;
 use oat\generis\test\TestCase;
 use oat\tao\model\taskQueue\Task\AbstractTask;
 use oat\tao\model\taskQueue\TaskLog;
@@ -35,11 +38,9 @@ use oat\generis\test\MockObject;
 
 class TaskLogTest extends TestCase
 {
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testTaskLogServiceShouldThrowExceptionWhenTaskLogBrokerOptionIsNotSet()
     {
+        $this->expectException(InvalidArgumentException::class);
         new TaskLog([]);
     }
 
@@ -170,11 +171,9 @@ class TaskLogTest extends TestCase
         $this->assertInstanceOf(TaskLogEntity::class, $model->getByIdAndUser('taskId', 'userId'));
     }
 
-    /**
-     * @expectedException  \common_exception_NotFound
-     */
     public function testGetByIdAndUserNotFound()
     {
+        $this->expectException(common_exception_NotFound::class);
         $model = $this->getTaskLogMock(true);
         $this->assertInstanceOf(TaskLogEntity::class, $model->getByIdAndUser('some task id not found', 'userId'));
     }
@@ -191,20 +190,16 @@ class TaskLogTest extends TestCase
         $this->assertTrue($model->archive($model->getByIdAndUser('taskId', 'userId')));
     }
 
-    /**
-     * @expectedException  \common_exception_NotFound
-     */
     public function testArchiveTaskNotFound()
     {
+        $this->expectException(common_exception_NotFound::class);
         $model = $this->getTaskLogMock(true);
         $this->assertTrue($model->archive($model->getByIdAndUser('taskId', 'userId')));
     }
 
-    /**
-     * @expectedException  \Exception
-     */
     public function testArchiveNotPossibleIfTaskIsRunning()
     {
+        $this->expectException(Exception::class);
         $model = $this->getTaskLogMock(false, false, true);
 
         $this->assertTrue($model->archive($model->getByIdAndUser('taskId', 'userId')));
@@ -216,20 +211,16 @@ class TaskLogTest extends TestCase
         $this->assertTrue($model->cancel($model->getByIdAndUser('taskId', 'userId')));
     }
 
-    /**
-     * @expectedException  \common_exception_NotFound
-     */
     public function testCancelTaskNotFound()
     {
+        $this->expectException(common_exception_NotFound::class);
         $model = $this->getTaskLogMock(true);
         $this->assertTrue($model->cancel($model->getByIdAndUser('taskId', 'userId')));
     }
 
-    /**
-     * @expectedException  \Exception
-     */
     public function testCancelNotPossibleIfTaskIsRunning()
     {
+        $this->expectException(Exception::class);
         $model = $this->getTaskLogMock(false, false, true, false);
 
         $this->assertTrue($model->cancel($model->getByIdAndUser('taskId', 'userId')));
@@ -257,7 +248,7 @@ class TaskLogTest extends TestCase
         if ($taskRunning) {
             $taskLogMock
                 ->method('getByIdAndUser')
-                ->willThrowException(new \Exception());
+                ->willThrowException(new Exception());
         } else {
             $taskLogMock
                 ->method('archive')
@@ -270,7 +261,7 @@ class TaskLogTest extends TestCase
         if ($notFound) {
             $taskLogMock
                 ->method('getByIdAndUser')
-                ->willThrowException(new \common_exception_NotFound());
+                ->willThrowException(new common_exception_NotFound());
         } else {
             $taskLogMock
                 ->method('getByIdAndUser')
