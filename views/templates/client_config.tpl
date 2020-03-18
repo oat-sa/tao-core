@@ -79,7 +79,7 @@ require.config({
         'core'              : '../node_modules/@oat-sa/tao-core-sdk/dist/core',
         'util'              : '../node_modules/@oat-sa/tao-core-sdk/dist/util',
         'ui'                : '../node_modules/@oat-sa/tao-core-ui/dist'
-        },
+    },
    shim : {
         'jqueryui'              : { deps : ['jquery'] },
         'moment'                : { exports : 'moment' },
