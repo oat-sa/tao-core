@@ -33,7 +33,7 @@ use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\session\SessionService;
 use oat\oatbox\user\User;
 
-class SecureResourceService extends ConfigurableService
+class SecureResourceService extends ConfigurableService implements SecureResourceServiceInterface
 {
     public const OPTION_CACHE = 'cache';
     public const OPTION_CACHE_ENABLED = 'enabled';
