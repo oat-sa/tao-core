@@ -23,7 +23,6 @@ declare(strict_types=1);
 
 namespace oat\tao\model\resources;
 
-use common_cache_Cache;
 use common_cache_NotFoundException;
 use common_exception_Error;
 use core_kernel_classes_Class;
@@ -35,12 +34,6 @@ use oat\oatbox\user\User;
 
 class SecureResourceService extends ConfigurableService implements SecureResourceServiceInterface
 {
-    public const OPTION_CACHE = 'cache';
-    public const OPTION_CACHE_ENABLED = 'enabled';
-    public const OPTION_CACHE_TTL = 'ttl';
-
-    public const SERVICE_ID = 'tao/SecureResourceService';
-
     /** @var User */
     private $user;
 
@@ -54,13 +47,6 @@ class SecureResourceService extends ConfigurableService implements SecureResourc
     public function getAllChildren(core_kernel_classes_Class $resource): array
     {
         $user = $this->getUser();
-
-        $cacheKey = $this->getCacheKeyFactory()->create($resource, $user);
-
-        $cache = $this->getCache();
-        if ($cache && $cache->has($cacheKey)) {
-            return $cache->get($cacheKey)->getInstances();
-        }
 
         $subClasses = $resource->getSubClasses(false);
 
@@ -79,20 +65,10 @@ class SecureResourceService extends ConfigurableService implements SecureResourc
             }
         }
 
-        $accessibleInstances = array_merge(
+        return array_merge(
             $this->getInstances($resource),
             ...$accessibleInstances
         );
-
-        if ($cache) {
-            $cache->put(
-                new SecureResourceServiceAllChildrenCacheCollection($accessibleInstances),
-                $cacheKey,
-                $this->getCacheTTL()
-            );
-        }
-
-        return $accessibleInstances;
     }
 
     /**
@@ -172,34 +148,6 @@ class SecureResourceService extends ConfigurableService implements SecureResourc
         return $this->getServiceLocator()->get(PermissionInterface::SERVICE_ID);
     }
 
-    private function getCache(): ?common_cache_Cache
-    {
-        $cache = $this->getOption(self::OPTION_CACHE);
-
-        if (!is_array($cache)) {
-            return null;
-        }
-
-        $cacheEnabled = filter_var($cache[self::OPTION_CACHE_ENABLED], FILTER_VALIDATE_BOOLEAN);
-
-        if (!$cacheEnabled) {
-            return null;
-        }
-
-        return $this->getServiceLocator()->get(common_cache_Cache::SERVICE_ID);
-    }
-
-    private function getCacheTTL(): ?int
-    {
-        $cache = $this->getOption(self::OPTION_CACHE);
-
-        if (!is_array($cache)) {
-            return null;
-        }
-
-        return $cache[self::OPTION_CACHE_TTL] ?? null;
-    }
-
     /**
      * @return User
      *
@@ -215,10 +163,5 @@ class SecureResourceService extends ConfigurableService implements SecureResourc
         }
 
         return $this->user;
-    }
-
-    private function getCacheKeyFactory(): SecureResourceServiceCacheKeyFactory
-    {
-        return $this->getServiceLocator()->get(SecureResourceServiceCacheKeyFactory::class);
     }
 }

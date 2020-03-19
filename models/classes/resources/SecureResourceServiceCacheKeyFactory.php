@@ -31,6 +31,6 @@ class SecureResourceServiceCacheKeyFactory extends ConfigurableService
 {
     public function create(core_kernel_classes_Class $class, User $user): string
     {
-        return sprintf('SRS:%s:%s', $user->getIdentifier(), urlencode($class->getUri()));
+        return sprintf('SRS:%s:%s', urlencode($user->getIdentifier()), urlencode($class->getUri()));
     }
 }
