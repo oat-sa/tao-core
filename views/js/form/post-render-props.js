@@ -23,61 +23,87 @@ define([
 ], function ($, __, feedback) {
     'use strict';
 
+    function createCopyToClipboardHandler($field) {
+        var
+            successFeedback = $field.data('copy-success-feedback')
+                || __('Resource Identifier has been copied to the clipboard'),
+            failureFeedback = $field.data('copy-failure-feedback')
+                || __('Resource Identifier could not be copied to the clipboard');
+
+        return function () {
+            var success;
+            try {
+                $field.select();
+                success = document.execCommand('copy');
+                $field.blur();
+                if (success) {
+                    feedback().success(successFeedback);
+                } else {
+                    feedback().error(failureFeedback);
+                }
+            } catch (err) {
+                feedback().error(__('Your browser does not support copying to the clipboard'));
+            }
+        }
+    }
+
     /**
      * Add a field with URI of an item etc and a button to copy it to the clipboard
      * @param $container
      * @private
      */
-    function _idToClipboard($container) {
+    function _initializeCopyToClipboard($container) {
         // Note: isInstanceForm will not work with jquery|querySelector
         var isInstanceForm = document.getElementById('tao.forms.instance'),
-            $idField = $container.find('#id'),
-            value = $idField.val(),
-            $copyField,
-            $label = $('<span>', {class: 'form_desc', text: __('Resource Identifier')}),
-            $button = $('<span>', {class: 'icon-clipboard clipboard-command', title: __('Copy to clipboard')})
-                .on('click', function () {
-                    var success;
-                    try {
-                        $copyField.select();
-                        success = document.execCommand('copy');
-                        $copyField.blur();
-                        if (success) {
-                            feedback().success(__('Resource Identifier has been copied to the clipboard'));
-                        } else {
-                            feedback().error(__('Resource Identifier could not be copied to the clipboard'));
-                        }
-                    } catch (err) {
-                        feedback().error(__('Your browser does not support copying to the clipboard'));
-                    }
-                }),
-            $fieldBox = $('<span>', {class: 'uri-container'});
+            $fields = $container.find('#id, .copy-to-clipboard');
 
         // if the field has already been added
         if ($('.uri-container').length) {
             return;
         }
 
-        if (!isInstanceForm || !$idField.length) {
+        if (!isInstanceForm) {
             return;
         }
 
-        $copyField = $idField.clone()
-        // To make MS browsers happy, value needs to be removed and re-added
-            .val('')
-            .attr({readonly: true, type: 'text'});
-        $idField.remove();
-        $fieldBox.append([$copyField, $button]);
+        if (!$fields.length) {
+            return;
+        }
 
-        $container.find('div')
-            .first()
-            .after($('<div>')
-                .append([$label, $fieldBox]));
-        $fieldBox.height($copyField.outerHeight());
+        $fields.each(function () {
+            var
+                $field = $(this),
+                $fieldCopy = $field.clone()
+                    // To make MS browsers happy, value needs to be removed and re-added
+                    .val('')
+                    .attr({readonly: true, type: 'text'}),
+                $button = $('<span>', {class: 'icon-clipboard clipboard-command', title: __('Copy to clipboard')}),
+                $label = $('<span>', {class: 'form_desc', text: __('Resource Identifier')}),
+                $fieldBox = $('<span>', {class: 'uri-container'}),
+                value = $field.val();
 
-        $copyField.addClass('final')
-        // re-add value
-            .val(value);
+            if ($field.attr('id') === 'id') {
+                $field.remove();
+                $field = $fieldCopy;
+
+                $fieldBox.append([$field, $button]);
+
+                $container.find('div')
+                    .first()
+                    .after($('<div>')
+                        .append([$label, $fieldBox]));
+                $fieldBox.height($field.outerHeight());
+            } else {
+                $fieldBox.height($field.outerHeight());
+                $field.wrap($fieldBox);
+                $field.parent().append($button);
+            }
+
+            $button.on('click', createCopyToClipboardHandler($field));
+            $field.addClass('final')
+                // re-add value
+                .val(value);
+        });
     }
 
 
@@ -285,7 +311,7 @@ define([
             return;
         }
 
-        _idToClipboard($container);
+        _initializeCopyToClipboard($container);
 
         // case no or empty argument -> find all properties not upgraded yet
         if (!$properties || !$properties.length) {
@@ -382,7 +408,7 @@ define([
     }
 
     /**
-     * Checks and updates property labels 
+     * Checks and updates property labels
      * @param {Object} $properties - properties object
      */
     function _checkRegularPropertyLabels($properties) {
