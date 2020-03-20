@@ -21,6 +21,7 @@
 namespace oat\tao\model\oauth\lockout\storage;
 
 use common_persistence_SqlPersistence as SqlPersistence;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Schema\Schema;
 use Exception;
@@ -57,19 +58,21 @@ class RdsLockoutStorage extends ConfigurableService implements LockoutStorageInt
     {
         $id = ip2long($ip);
         $expiredAt = time() + $ttl;
-
         $addressInfo = $this->getAddressInfo($id);
-
         if (!$addressInfo) {
-            return $this->getPersistence()->insert(
-                self::TABLE_NAME,
-                [
-                    self::FIELD_ID        => ip2long($ip),
-                    self::FIELD_ADDRESS   => $ip,
-                    self::FIELD_ATTEMPTS  => 1, // first failed attempt
-                    self::FIELD_EXPIRE_AT => $expiredAt
-                ]
-            );
+            try {
+                return $this->getPersistence()->insert(
+                    self::TABLE_NAME,
+                    [
+                        self::FIELD_ID        => ip2long($ip),
+                        self::FIELD_ADDRESS   => $ip,
+                        self::FIELD_ATTEMPTS  => 1, // first failed attempt
+                        self::FIELD_EXPIRE_AT => $expiredAt
+                    ]
+                );
+            }catch (UniqueConstraintViolationException $exception){
+                $addressInfo = $this->getAddressInfo($id);
+            }
         }
 
         $attempts = $addressInfo[self::FIELD_ATTEMPTS] + 1;

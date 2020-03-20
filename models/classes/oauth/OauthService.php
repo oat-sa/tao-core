@@ -171,8 +171,6 @@ class OauthService extends ConfigurableService implements \common_http_Signature
             $lockoutService = $this->getSubService(self::OPTION_LOCKOUT_SERVICE);
             $lockoutService->logFailedAttempt();
 
-            // \common_Logger::e($e->getMessage());
-
             throw new common_http_InvalidSignatureException('Validation failed: ' . $e->getMessage());
         }
     }
