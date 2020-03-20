@@ -162,6 +162,7 @@ class SecureResourceServiceTest extends GenerisTestCase
 
         $class->method('getSubClasses')->willReturn([$forbiddenClass, $accessibleClass]);
         $class->method('getUri')->willReturn('http://resource5_grant_read_write');
+        $class->method('getPropertyValues')->willReturn(['http://www.tao.lu/Ontologies/TAO.rdf#AssessmentContentObject']);
 
         $this->service->validateResourcesPermissions(
             [$accessibleItem1],
