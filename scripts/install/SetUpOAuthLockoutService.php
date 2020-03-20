@@ -29,9 +29,9 @@ use oat\tao\model\oauth\lockout\IPLockout;
 use oat\tao\model\oauth\lockout\LockoutInterface;
 use oat\tao\model\oauth\lockout\NoLockout;
 use oat\tao\model\oauth\lockout\storage\KvLockoutStorage;
+use oat\tao\model\oauth\lockout\storage\LockoutStorageInterface;
 use oat\tao\model\oauth\lockout\storage\RdsLockoutStorage;
 use oat\tao\model\oauth\OauthService;
-use oat\taoRevision\model\SchemaProviderInterface;
 
 /**
  * Class SetUpOAuthLockoutService
@@ -116,9 +116,11 @@ class SetUpOAuthLockoutService extends ScriptAction
         $oauthService->setOption(OauthService::OPTION_LOCKOUT_SERVICE, $lockOutService);
         $this->getServiceManager()->register(OauthService::SERVICE_ID, $oauthService);
         if ($this->runMigration) {
-            $storageService = $this->getServiceManager()->get(OauthService::SERVICE_ID)->getSubService(OauthService::OPTION_LOCKOUT_SERVICE)->getSubService(IPLockout::OPTION_LOCKOUT_STORAGE);
-            //$storageService = $lockOutService->getSubService(IPLockout::OPTION_LOCKOUT_STORAGE);
-            if ($storageService instanceof SchemaProviderInterface) {
+            $storageService = $this->getServiceManager()
+                ->get(OauthService::SERVICE_ID)
+                ->getSubService(OauthService::OPTION_LOCKOUT_SERVICE)
+                ->getSubService(IPLockout::OPTION_LOCKOUT_STORAGE);
+            if ($storageService instanceof LockoutStorageInterface) {
                 $persistenceId = $storageService->getPersistenceId();
                 $persistence = $this->getServiceLocator()
                     ->get(PersistenceManager::SERVICE_ID)
