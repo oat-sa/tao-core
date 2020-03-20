@@ -27,7 +27,6 @@ use Doctrine\DBAL\Schema\Schema;
 use Exception;
 use oat\generis\persistence\PersistenceManager;
 use oat\oatbox\service\ConfigurableService;
-use oat\taoRevision\model\SchemaProviderInterface;
 
 /**
  * Class RdsLockoutStorage
@@ -35,7 +34,7 @@ use oat\taoRevision\model\SchemaProviderInterface;
  * @author Ivan Klimchuk <ivan@taotesting.com>
  * @package oat\tao\model\oauth\lockout\storage
  */
-class RdsLockoutStorage extends ConfigurableService implements LockoutStorageInterface, SchemaProviderInterface
+class RdsLockoutStorage extends ConfigurableService implements LockoutStorageInterface
 {
     public const TABLE_NAME = 'oauth_lti_failures';
 
