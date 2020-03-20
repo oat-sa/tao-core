@@ -106,12 +106,12 @@ class tao_actions_Export extends tao_actions_CommonModule
                 }
 
                 if (!empty($exportData['instances'])) {
-                    $this->getSecureResourceService()->validatePermissions($exportData['instances'], ['READ']);
+                    $this->getSecureResourceService()->validateResourcesPermissions($exportData['instances'], ['READ']);
                 }
             } elseif (isset($exportData['exportInstance'])) {
                 $exportData['exportInstance'] = tao_helpers_Uri::decode($exportData['exportInstance']);
 
-                $this->getSecureResourceService()->validatePermissions([$exportData['exportInstance']], ['READ']);
+                $this->getSecureResourceService()->validateResourcesPermissions([$exportData['exportInstance']], ['READ']);
             }
 
             /** @var QueueDispatcher $queueDispatcher */

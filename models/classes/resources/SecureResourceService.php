@@ -28,6 +28,7 @@ use common_exception_Error;
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
 use oat\generis\model\data\permission\PermissionInterface;
+use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\session\SessionService;
 use oat\oatbox\user\User;
@@ -122,7 +123,7 @@ class SecureResourceService extends ConfigurableService implements SecureResourc
      *
      * @throws common_exception_Error
      */
-    public function validatePermissions(array $resourceUris, array $permissionsToCheck): void
+    private function validatePermissions(array $resourceUris, array $permissionsToCheck): void
     {
         $permissionService = $this->getPermissionProvider();
 
@@ -141,6 +142,81 @@ class SecureResourceService extends ConfigurableService implements SecureResourc
                 );
             }
         }
+    }
+
+    /**
+     * @param core_kernel_classes_Resource[] $resources
+     * @param string[]                       $permissionsToCheck
+     *
+     * @throws common_exception_Error
+     */
+    public function validateResourcesPermissions(iterable $resources, array $permissionsToCheck): void
+    {
+        foreach ($resources as $resource) {
+            $this->validateResourcePermissions($resource, $permissionsToCheck);
+        }
+    }
+
+    /**
+     * @param core_kernel_classes_Resource|string $resource
+     * @param array                               $permissionsToCheck
+     *
+     * @throws common_exception_Error
+     */
+    public function validateResourcePermissions($resource, array $permissionsToCheck): void
+    {
+        $permissionService = $this->getPermissionProvider();
+
+        if (is_string($resource)) {
+            $resource = new core_kernel_classes_Resource($resource);
+        }
+
+        $resourceUri = $resource->getUri();
+        $permissions = $permissionService->getPermissions($this->getUser(), [$resourceUri]);
+
+        if (!$this->hasAccess($permissions[$resourceUri], $permissionsToCheck)) {
+            throw new ResourceAccessDeniedException(
+                sprintf('Access to resource %s is forbidden', $resourceUri)
+            );
+        }
+
+        if (!$resource->isClass()) {
+            $resourceParents = $resource->getTypes();
+            /** @var core_kernel_classes_Class $parent */
+            $parent = current($resourceParents);
+        } else {
+            $parent = $resource;
+        }
+
+        $parentUris = $this->getParentUris($parent);
+
+        $this->validatePermissions($parentUris, $permissionsToCheck);
+    }
+
+    private function getParentUris(core_kernel_classes_Class $parent)
+    {
+        $subClassesOfParent = $parent->getPropertyValues(
+            $parent->getProperty(OntologyRdfs::RDFS_SUBCLASSOF)
+        );
+
+        $parents = [$parent];
+
+        if (!in_array(self::UNDER_ROOT_URI, $subClassesOfParent, true)) {
+            while ($parentList = $parent->getParentClasses(false)) {
+                $parent = current($parentList);
+                if ($parent->getUri() === self::UNDER_ROOT_URI) {
+                    break;
+                }
+                $parents[] = $parent;
+            }
+        }
+
+        return array_map(
+            static function (core_kernel_classes_Class $class) {
+                return $class->getUri();
+            },
+            $parents
+        );
     }
 
     private function getPermissionProvider(): PermissionInterface
