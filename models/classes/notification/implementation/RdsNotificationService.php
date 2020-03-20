@@ -55,34 +55,6 @@ class RdsNotificationService extends AbstractSqlNotificationService
         ];
     }
 
-    public function changeStatus(Notification $notification): int
-    {
-        $updateQuery = 'UPDATE '
-            . self::NOTIFICATION_TABLE
-            . ' SET '
-            . self::NOTIFICATION_FIELD_UPDATED
-            . ' = ? ,'
-            . self::NOTIFICATION_FIELD_STATUS
-            . ' = ? '
-            . ' WHERE ' . self::NOTIFICATION_FIELD_ID
-            . ' = ? ';
-
-        /** @var common_persistence_SqlPersistence $persistence */
-        $persistence = $this->getPersistence();
-
-        /** @var AbstractPlatform $platform */
-        $platform = $this->getPersistence()->getPlatForm();
-
-        $data =
-            [
-                $platform->getNowExpression(),
-                $notification->getStatus(),
-                $notification->getId(),
-            ];
-
-        return $persistence->exec($updateQuery, $data);
-    }
-
     /**
      * Allows a class to adapt the schemas as required
      *
