@@ -27,7 +27,6 @@ use common_exception_Error;
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
 use oat\generis\model\data\permission\PermissionInterface;
-use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\session\SessionService;
 use oat\oatbox\user\User;
@@ -135,9 +134,7 @@ class SecureResourceService extends ConfigurableService implements SecureResourc
                 empty($permission)
                 || !$this->hasAccess($permission, $permissionsToCheck)
             ) {
-                throw new ResourceAccessDeniedException(
-                    sprintf('Access to resource %s is forbidden', $uri)
-                );
+                throw new ResourceAccessDeniedException($uri);
             }
         }
     }
@@ -173,48 +170,45 @@ class SecureResourceService extends ConfigurableService implements SecureResourc
         $permissions = $permissionService->getPermissions($this->getUser(), [$resourceUri]);
 
         if (!$this->hasAccess($permissions[$resourceUri], $permissionsToCheck)) {
-            throw new ResourceAccessDeniedException(
-                sprintf('Access to resource %s is forbidden', $resourceUri)
-            );
+            throw new ResourceAccessDeniedException($resourceUri);
         }
 
-        if (!$resource->isClass()) {
-            $resourceParents = $resource->getTypes();
-            /** @var core_kernel_classes_Class $parent */
-            $parent = current($resourceParents);
-        } else {
-            $parent = $resource;
-        }
-
-        $parentUris = $this->getParentUris($parent);
+        $parentUris = $this->getParentUris(
+            $this->getClass($resource)
+        );
 
         $this->validatePermissions($parentUris, $permissionsToCheck);
     }
 
-    private function getParentUris(core_kernel_classes_Class $parent)
+    private function getClass(core_kernel_classes_Resource $resource): core_kernel_classes_Class
     {
-        $subClassesOfParent = $parent->getPropertyValues(
-            $parent->getProperty(OntologyRdfs::RDFS_SUBCLASSOF)
-        );
-
-        $parents = [$parent];
-
-        if (!in_array(self::UNDER_ROOT_URI, $subClassesOfParent, true)) {
-            while ($parentList = $parent->getParentClasses(false)) {
-                $parent = current($parentList);
-                if ($parent->getUri() === self::UNDER_ROOT_URI) {
-                    break;
-                }
-                $parents[] = $parent;
-            }
+        // fetch parent class
+        if (!$resource->isClass()) {
+            return current($resource->getTypes());
         }
 
-        return array_map(
-            static function (core_kernel_classes_Class $class) {
-                return $class->getUri();
-            },
-            $parents
-        );
+        if (get_class($resource) === core_kernel_classes_Class::class) {
+            /** @var core_kernel_classes_Class $resource */
+            return $resource;
+        }
+
+        // the last chance to fetch class form DB
+        return $resource->getClass($resource->getUri());
+    }
+
+    private function getParentUris(core_kernel_classes_Class $parent): array
+    {
+        $parentUris = [$parent->getUri()];
+
+        while ($parentList = $parent->getParentClasses(false)) {
+            $parent = current($parentList);
+            if ($parent->getUri() === self::UNDER_ROOT_URI) {
+                break;
+            }
+            $parentUris[] = $parent->getUri();
+        }
+
+        return $parentUris;
     }
 
     private function getPermissionProvider(): PermissionInterface
