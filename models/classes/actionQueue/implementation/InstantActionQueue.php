@@ -143,16 +143,14 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
      */
     public function isActionEnabled(QueuedAction $action): bool
     {
-        $enabled = false;
         $actionConfig = $this->getActionConfig($action);
         foreach ($this->getRestrictions($actionConfig) as $restriction => $value) {
             if ($value !== 0) {
-                $enabled = true;
-                break;
+                return true;
             }
         }
 
-        return $enabled;
+        return false;
     }
 
     /**
@@ -260,7 +258,7 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
      */
     private function getRestrictions(array $actionConfig): array
     {
-        return array_key_exists('restrictions', $actionConfig) ? $actionConfig['restrictions'] : [];
+        return $actionConfig['restrictions'] ?? [];
     }
 
     /**
