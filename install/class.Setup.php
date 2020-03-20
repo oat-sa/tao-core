@@ -291,10 +291,24 @@ class tao_install_Setup implements Action
      */
     private function wrapPersistenceConfig($persistences)
     {
-        $defaultPersistenceConfig = $persistences['default'];
-        $options = [];
+        $seedConfiguration = $this->getCommandLineParameters($persistences['default']);
+
+        $dbalConfigCreator = new tao_install_utils_DbalConfigCreator();
+        $persistences['default'] = $dbalConfigCreator->createDbalConfig($seedConfiguration);
+
+        return [
+            'type' => 'configurableService',
+            'class' => PersistenceManager::class,
+            'options' => [
+                'persistences' => $persistences,
+            ],
+        ];
+    }
+
+    private function getCommandLineParameters(array $defaultPersistenceConfig): array
+    {
         if (isset($defaultPersistenceConfig['connection'])) {
-            if (isset($defaultPersistenceConfig['connection']['wrapperClass']) && $defaultPersistenceConfig['connection']['wrapperClass'] == '\\Doctrine\\DBAL\\Connections\\MasterSlaveConnection') {
+            if ($this->isMasterSlaveConnection($defaultPersistenceConfig)) {
                 $options['db_driver'] = $defaultPersistenceConfig['connection']['driver'];
                 $options['db_host'] = $defaultPersistenceConfig['connection']['master']['host'];
                 $options['db_name'] = $defaultPersistenceConfig['connection']['master']['dbname'];
@@ -326,14 +340,13 @@ class tao_install_Setup implements Action
                 $options['db_pass'] = $defaultPersistenceConfig['password'];
             }
         }
-        $dbalConfigCreator = new tao_install_utils_DbalConfigCreator();
-        $persistences['default'] = $dbalConfigCreator->createDbalConfig($options);
-        return [
-            'type' => 'configurableService',
-            'class' =>  PersistenceManager::class,
-            'options' => [
-                'persistences' => $persistences
-            ]
-        ];
+
+        return $options;
+    }
+
+    private function isMasterSlaveConnection(array $defaultPersistenceConfig): bool
+    {
+        return isset($defaultPersistenceConfig['connection']['wrapperClass'])
+            && $defaultPersistenceConfig['connection']['wrapperClass'] === '\\Doctrine\\DBAL\\Connections\\MasterSlaveConnection';
     }
 }
