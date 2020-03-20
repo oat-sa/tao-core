@@ -108,7 +108,7 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
     /**
      * @inheritdoc
      */
-    public function createContainer()
+    public function createContainer(): void
     {
         /** @var \common_persistence_sql_pdo_mysql_SchemaManager $schemaManager */
         $schemaManager = $this->getPersistence()->getSchemaManager();
@@ -146,7 +146,7 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
     /**
      * @inheritdoc
      */
-    public function add(TaskInterface $task, $status, $label = null)
+    public function add(TaskInterface $task, string $status, string $label = null): void
     {
         $this->getPersistence()->insert($this->getTableName(), [
             self::COLUMN_ID   => (string) $task->getId(),
@@ -165,7 +165,7 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
     /**
      * @inheritdoc
      */
-    public function getStatus($taskId)
+    public function getStatus(string $taskId): string
     {
         $qb = $this->getQueryBuilder()
             ->select(self::COLUMN_STATUS)
@@ -179,7 +179,7 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
     /**
      * @inheritdoc
      */
-    public function updateStatus($taskId, $newStatus, $prevStatus = null)
+    public function updateStatus(string $taskId, string $newStatus, ?string $prevStatus = null): int
     {
         $qb = $this->getQueryBuilder()
             ->update($this->getTableName())
@@ -201,7 +201,7 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
     /**
      * @inheritdoc
      */
-    public function addReport($taskId, Report $report, $newStatus = null)
+    public function addReport(string $taskId, Report $report, ?string $newStatus = null): int
     {
         $qb = $this->getQueryBuilder()
             ->update($this->getTableName())
@@ -220,7 +220,7 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
     /**
      * @inheritdoc
      */
-    public function getReport($taskId)
+    public function getReport($taskId): ?Report
     {
         $qb = $this->getQueryBuilder()
             ->select(self::COLUMN_REPORT)
@@ -243,7 +243,7 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
     /**
      * @inheritdoc
      */
-    public function search(TaskLogFilter $filter)
+    public function search(TaskLogFilter $filter): iterable
     {
         try {
             $qb = $this->getQueryBuilder()
@@ -274,7 +274,7 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
     /**
      * @inheritdoc
      */
-    public function count(TaskLogFilter $filter)
+    public function count(TaskLogFilter $filter): int
     {
         try {
             $qb = $this->getQueryBuilder()
@@ -294,7 +294,7 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
     /**
      * @inheritdoc
      */
-    public function getStats(TaskLogFilter $filter)
+    public function getStats(TaskLogFilter $filter): TasksLogsStats
     {
         $qb = $this->getQueryBuilder()
             ->from($this->getTableName());
@@ -315,7 +315,7 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
     /**
      * @inheritdoc
      */
-    public function archive(EntityInterface $entity)
+    public function archive(EntityInterface $entity): bool
     {
         return $this->updateStatus($entity->getId(), TaskLogInterface::STATUS_ARCHIVED);
     }
@@ -323,7 +323,7 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
     /**
      * @inheritdoc
      */
-    public function cancel(EntityInterface $entity)
+    public function cancel(EntityInterface $entity): bool
     {
         return $this->updateStatus($entity->getId(), TaskLogInterface::STATUS_CANCELLED);
     }
@@ -331,7 +331,7 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
     /**
      * @inheritdoc
      */
-    public function archiveCollection(CollectionInterface $collection)
+    public function archiveCollection(CollectionInterface $collection): int
     {
         return $this->updateCollectionStatus($collection, TaskLogInterface::STATUS_ARCHIVED);
     }
@@ -339,7 +339,7 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
     /**
      * @inheritdoc
      */
-    public function cancelCollection(CollectionInterface $collection)
+    public function cancelCollection(CollectionInterface $collection): int
     {
         return $this->updateCollectionStatus($collection, TaskLogInterface::STATUS_CANCELLED);
     }
@@ -347,7 +347,7 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
     /**
      * @inheritdoc
      */
-    public function deleteById($taskId)
+    public function deleteById($taskId): bool
     {
         $this->getPersistence()->getPlatform()->beginTransaction();
 
@@ -368,12 +368,8 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
         return true;
     }
 
-    /**
-     * @return QueryBuilder
-     */
-    private function getQueryBuilder()
+    private function getQueryBuilder(): QueryBuilder
     {
-        /**@var \common_persistence_sql_pdo_mysql_Driver $driver */
         return $this->getPersistence()->getPlatform()->getQueryBuilder();
     }
 
