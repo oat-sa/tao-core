@@ -15,28 +15,28 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2020 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 
 namespace oat\tao\model\taskQueue\TaskLog\Broker;
 
+use common_persistence_sql_SchemaManager;
+use common_persistence_SqlPersistence as SqlPersistence;
+use common_persistence_Persistence as Persistence;
 use Doctrine\DBAL\Connection;
-use oat\oatbox\PhpSerializable;
-use common_report_Report as Report;
 use Doctrine\DBAL\Query\QueryBuilder;
+use common_report_Report as Report;
+use oat\generis\persistence\PersistenceManager;
 use oat\tao\model\taskQueue\QueueDispatcherInterface;
 use oat\tao\model\taskQueue\Task\CallbackTaskInterface;
 use oat\tao\model\taskQueue\Task\TaskInterface;
 use oat\tao\model\taskQueue\TaskLog\CategorizedStatus;
 use oat\tao\model\taskQueue\TaskLog\CollectionInterface;
 use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
-use oat\tao\model\taskQueue\TaskLog\TaskLogCollection;
 use oat\tao\model\taskQueue\TaskLog\TaskLogFilter;
 use oat\tao\model\taskQueue\TaskLog\TasksLogsStats;
 use oat\tao\model\taskQueue\TaskLogInterface;
-use Psr\Log\LoggerAwareInterface;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use oat\oatbox\log\LoggerAwareTrait;
 
 /**
@@ -44,19 +44,15 @@ use oat\oatbox\log\LoggerAwareTrait;
  *
  * @author Gyula Szucs <gyula@taotesting.com>
  */
-class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, LoggerAwareInterface, RdsTaskLogBrokerInterface
+class RdsTaskLogBroker extends AbstractTaskLogBroker
 {
-    use ServiceLocatorAwareTrait;
     use LoggerAwareTrait;
 
+    /** @var string */
     private $persistenceId;
 
-    /**
-     * @var \common_persistence_SqlPersistence
-     */
+    /** @var SqlPersistence */
     protected $persistence;
-
-    private $containerName;
 
     /**
      * RdsTaskLogBroker constructor.
@@ -64,45 +60,14 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
      * @param string $persistenceId
      * @param null $containerName
      */
-    public function __construct($persistenceId, $containerName = null)
+    public function __construct(string $persistenceId, ?string $containerName = null)
     {
         if (empty($persistenceId)) {
             throw new \InvalidArgumentException("Persistence id needs to be set for " . __CLASS__);
         }
 
         $this->persistenceId = $persistenceId;
-        $this->containerName = empty($containerName) ? self::DEFAULT_CONTAINER_NAME : $containerName;
-    }
-
-    public function __toPhpCode()
-    {
-        return 'new ' . get_called_class() . '('
-            . \common_Utils::toHumanReadablePhpString($this->persistenceId)
-            . ', '
-            . \common_Utils::toHumanReadablePhpString($this->containerName)
-            . ')';
-    }
-
-    /**
-     * @return \common_persistence_SqlPersistence
-     */
-    protected function getPersistence()
-    {
-        if (is_null($this->persistence)) {
-            $this->persistence = $this->getServiceLocator()
-                ->get(\common_persistence_Manager::SERVICE_ID)
-                ->getPersistenceById($this->persistenceId);
-        }
-
-        return $this->persistence;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTableName()
-    {
-        return strtolower(QueueDispatcherInterface::QUEUE_PREFIX . '_' . $this->containerName);
+        $this->containerName = $containerName === null ? self::DEFAULT_CONTAINER_NAME: $containerName;
     }
 
     /**
@@ -110,7 +75,7 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
      */
     public function createContainer(): void
     {
-        /** @var \common_persistence_sql_pdo_mysql_SchemaManager $schemaManager */
+        /** @var common_persistence_sql_SchemaManager $schemaManager */
         $schemaManager = $this->getPersistence()->getSchemaManager();
 
         $fromSchema = $schemaManager->createSchema();
@@ -146,7 +111,7 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
     /**
      * @inheritdoc
      */
-    public function add(TaskInterface $task, string $status, string $label = null): void
+    public function add(TaskInterface $task, string $status, ?string $label = null): void
     {
         $this->getPersistence()->insert($this->getTableName(), [
             self::COLUMN_ID   => (string) $task->getId(),
@@ -162,18 +127,13 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
         ]);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getStatus(string $taskId): string
+    public function __toPhpCode()
     {
-        $qb = $this->getQueryBuilder()
-            ->select(self::COLUMN_STATUS)
-            ->from($this->getTableName())
-            ->andWhere(self::COLUMN_ID . ' = :id')
-            ->setParameter('id', $taskId);
-
-        return $qb->execute()->fetchColumn();
+        return 'new ' . get_called_class() . '('
+            . \common_Utils::toHumanReadablePhpString($this->persistenceId)
+            . ', '
+            . \common_Utils::toHumanReadablePhpString($this->containerName)
+            . ')';
     }
 
     /**
@@ -215,80 +175,6 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
             ->setParameter('updated_at', $this->getPersistence()->getPlatForm()->getNowExpression());
 
         return $qb->execute();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getReport($taskId): ?Report
-    {
-        $qb = $this->getQueryBuilder()
-            ->select(self::COLUMN_REPORT)
-            ->from($this->getTableName())
-            ->andWhere(self::COLUMN_ID . ' = :id')
-            ->setParameter('id', (string) $taskId);
-
-        if (
-            ($reportJson = $qb->execute()->fetchColumn())
-            && ($reportData = json_decode($reportJson, true)) !== null
-            && json_last_error() === JSON_ERROR_NONE
-        ) {
-            // if we have a valid JSON string and no JSON error, let's restore the report object
-            return Report::jsonUnserialize($reportData);
-        }
-
-        return null;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function search(TaskLogFilter $filter): iterable
-    {
-        try {
-            $qb = $this->getQueryBuilder()
-                ->select($filter->getColumns())
-                ->from($this->getTableName());
-
-            $qb->setMaxResults($filter->getLimit());
-            $qb->setFirstResult($filter->getOffset());
-
-            if ($filter->getSortBy()) {
-                $qb->orderBy($filter->getSortBy(), $filter->getSortOrder());
-            } else {
-                $qb->orderBy(TaskLogBrokerInterface::COLUMN_CREATED_AT, 'DESC');
-            }
-
-            $filter->applyFilters($qb);
-
-            $collection = TaskLogCollection::createFromArray($qb->execute()->fetchAll());
-        } catch (\Exception $exception) {
-            $this->logError('Searching for task logs failed with MSG: ' . $exception->getMessage());
-
-            $collection = TaskLogCollection::createEmptyCollection();
-        }
-
-        return $collection;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function count(TaskLogFilter $filter): int
-    {
-        try {
-            $qb = $this->getQueryBuilder()
-                ->select('COUNT(*)')
-                ->from($this->getTableName());
-
-            $filter->applyFilters($qb);
-
-            return (int) $qb->execute()->fetchColumn();
-        } catch (\Exception $e) {
-            $this->logError('Counting task logs failed with MSG: ' . $e->getMessage());
-        }
-
-        return 0;
     }
 
     /**
@@ -368,11 +254,6 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
         return true;
     }
 
-    private function getQueryBuilder(): QueryBuilder
-    {
-        return $this->getPersistence()->getPlatform()->getQueryBuilder();
-    }
-
     /**
      * @param string $statusColumn
      * @param array $inStatuses
@@ -396,6 +277,14 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
         $sql .= " THEN 0 END ) AS $statusColumn";
 
         return $sql;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getTableName(): string
+    {
+        return strtolower(QueueDispatcherInterface::QUEUE_PREFIX . '_' . $this->containerName);
     }
 
     /**
@@ -427,5 +316,22 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
         }
 
         return $exec;
+    }
+
+    protected function getPersistence(): Persistence
+    {
+        if ($this->persistence === null) {
+            $this->persistence = $this->getServiceLocator()
+                ->get(PersistenceManager::SERVICE_ID)
+                ->getPersistenceById($this->persistenceId);
+        }
+
+        return $this->persistence;
+    }
+
+
+    protected function getQueryBuilder(): QueryBuilder
+    {
+        return $this->getPersistence()->getPlatform()->getQueryBuilder();
     }
 }
