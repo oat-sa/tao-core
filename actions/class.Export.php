@@ -24,7 +24,7 @@
 
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\log\LoggerAwareTrait;
-use oat\tao\model\resources\SecureResourceService;
+use oat\tao\model\resources\SecureResourceServiceInterface;
 use oat\tao\model\task\ExportByHandler;
 use oat\tao\model\taskQueue\QueueDispatcher;
 use oat\tao\model\taskQueue\TaskLogActionTrait;
@@ -106,12 +106,12 @@ class tao_actions_Export extends tao_actions_CommonModule
                 }
 
                 if (!empty($exportData['instances'])) {
-                    $this->getSecureResourceService()->validateResourcesPermissions($exportData['instances'], ['READ']);
+                    $this->getSecureResourceService()->validatePermissions($exportData['instances'], ['READ']);
                 }
             } elseif (isset($exportData['exportInstance'])) {
                 $exportData['exportInstance'] = tao_helpers_Uri::decode($exportData['exportInstance']);
 
-                $this->getSecureResourceService()->validateResourcesPermissions([$exportData['exportInstance']], ['READ']);
+                $this->getSecureResourceService()->validatePermissions([$exportData['exportInstance']], ['READ']);
             }
 
             /** @var QueueDispatcher $queueDispatcher */
@@ -178,9 +178,9 @@ class tao_actions_Export extends tao_actions_CommonModule
         return $returnValue;
     }
 
-    private function getSecureResourceService(): SecureResourceService
+    private function getSecureResourceService(): SecureResourceServiceInterface
     {
-        return $this->getServiceLocator()->get(SecureResourceService::SERVICE_ID);
+        return $this->getServiceLocator()->get(SecureResourceServiceInterface::SERVICE_ID);
     }
 
     /**

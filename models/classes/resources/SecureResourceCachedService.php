@@ -45,6 +45,10 @@ class SecureResourceCachedService extends ConfigurableService implements SecureR
 
     /** @var  SecureResourceService */
     private $service;
+    /**
+     * @var common_cache_Cache
+     */
+    private $cache;
 
     /**
      * @param core_kernel_classes_Class $resource
@@ -66,41 +70,94 @@ class SecureResourceCachedService extends ConfigurableService implements SecureR
 
         $accessibleInstances = $this->getService()->getAllChildren($resource);
 
-        if ($cache) {
-            $cache->put(
-                new SecureResourceServiceAllChildrenCacheCollection($accessibleInstances),
-                $cacheKey,
-                $this->getCacheTTL()
-            );
-        }
+        $this->addToCache($cacheKey, new SecureResourceServiceAllChildrenCacheCollection($accessibleInstances));
 
         return $accessibleInstances;
     }
 
     /**
-     * @param string[] $resourceUris
-     * @param string[] $permissionsToCheck
+     * @inheritDoc
+     *
+     * @throws common_exception_Error
+     * @throws common_cache_NotFoundException
      */
-    public function validatePermissions(array $resourceUris, array $permissionsToCheck): void
+    public function validatePermissions(iterable $resources, array $permissionsToCheck): void
     {
-        $this->getService()->validatePermissions($resourceUris, $permissionsToCheck);
+        foreach ($resources as $resource) {
+            $this->validatePermission($resource, $permissionsToCheck);
+        }
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @throws common_exception_Error
+     * @throws common_cache_NotFoundException
+     */
+    public function validatePermission($resource, array $permissionsToCheck): void
+    {
+        $user = $this->getUser();
+
+        $resourceUri = $resource instanceof core_kernel_classes_Resource ? $resource->getUri() : $resource;
+
+        $cacheKey = $this->getValidatePermissionCacheKeyFactory()->create($resourceUri, $user);
+
+        $cache = $this->getCache();
+        if ($cache && $cache->has($cacheKey)) {
+            $hasAccess = $cache->get($cacheKey);
+
+            if (!$hasAccess) {
+                throw new ResourceAccessDeniedException($resourceUri);
+            }
+
+            return;
+        }
+
+        try {
+            $this->getService()->validatePermission($resource, $permissionsToCheck);
+        } catch (ResourceAccessDeniedException $e) {
+            $this->addToCache($cacheKey, false);
+
+            throw $e;
+        }
+
+        $this->addToCache($cacheKey, true);
+    }
+
+    private function addToCache(string $cacheKey, $data)
+    {
+        $cache = $this->getCache();
+
+        if ($cache) {
+            $cache->put(
+                $data,
+                $cacheKey,
+                $this->getCacheTTL()
+            );
+        }
     }
 
     private function getCache(): ?common_cache_Cache
     {
-        $cache = $this->getOption(self::OPTION_CACHE);
+        if ($this->cache) {
+            return $this->cache;
+        }
 
-        if (!is_array($cache)) {
+        $cacheOption = $this->getOption(self::OPTION_CACHE);
+
+        if (!is_array($cacheOption)) {
             return null;
         }
 
-        $cacheEnabled = filter_var($cache[self::OPTION_CACHE_ENABLED], FILTER_VALIDATE_BOOLEAN);
+        $cacheEnabled = filter_var($cacheOption[self::OPTION_CACHE_ENABLED], FILTER_VALIDATE_BOOLEAN);
 
         if (!$cacheEnabled) {
             return null;
         }
 
-        return $this->getServiceLocator()->get(common_cache_Cache::SERVICE_ID);
+        $this->cache = $this->getServiceLocator()->get(common_cache_Cache::SERVICE_ID);
+
+        return $this->cache;
     }
 
     private function getCacheTTL(): ?int
@@ -131,9 +188,14 @@ class SecureResourceCachedService extends ConfigurableService implements SecureR
         return $this->user;
     }
 
-    private function getCacheKeyFactory(): SecureResourceServiceCacheKeyFactory
+    private function getCacheKeyFactory(): GetAllChildrenCacheKeyFactory
     {
-        return $this->getServiceLocator()->get(SecureResourceServiceCacheKeyFactory::class);
+        return $this->getServiceLocator()->get(GetAllChildrenCacheKeyFactory::class);
+    }
+
+    private function getValidatePermissionCacheKeyFactory(): ValidatePermissionsCacheKeyFactory
+    {
+        return $this->getServiceLocator()->get(ValidatePermissionsCacheKeyFactory::class);
     }
 
     private function getService(): SecureResourceServiceInterface

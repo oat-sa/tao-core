@@ -30,4 +30,8 @@ interface SecureResourceServiceInterface
     public const SERVICE_ID = 'tao/SecureResourceService';
 
     public function getAllChildren(core_kernel_classes_Class $resource): array;
+
+    public function validatePermissions(iterable $resources, array $permissionsToCheck): void;
+
+    public function validatePermission($resource, array $permissionsToCheck): void;
 }

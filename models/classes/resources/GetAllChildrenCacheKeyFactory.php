@@ -27,7 +27,7 @@ use core_kernel_classes_Class;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\user\User;
 
-class SecureResourceServiceCacheKeyFactory extends ConfigurableService
+class GetAllChildrenCacheKeyFactory extends ConfigurableService
 {
     public function create(core_kernel_classes_Class $class, User $user): string
     {

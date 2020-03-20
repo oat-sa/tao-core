@@ -23,7 +23,6 @@ declare(strict_types=1);
 
 namespace oat\tao\model\resources;
 
-use common_cache_NotFoundException;
 use common_exception_Error;
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
@@ -56,14 +55,10 @@ class SecureResourceServiceTest extends GenerisTestCase
 
         $sessionService->expects($this->once())->method('getCurrentUser')->willReturn($user);
 
-        $secureResourceServiceCacheKeyFactory = $this->createMock(SecureResourceServiceCacheKeyFactory::class);
-        $secureResourceServiceCacheKeyFactory->method('create')->willReturn('key');
-
         $serviceLocator = $this->getServiceLocatorMock(
             [
-                PermissionInterface::SERVICE_ID             => $this->permissionInterface,
-                SessionService::SERVICE_ID                  => $sessionService,
-                SecureResourceServiceCacheKeyFactory::class => $secureResourceServiceCacheKeyFactory
+                PermissionInterface::SERVICE_ID => $this->permissionInterface,
+                SessionService::SERVICE_ID      => $sessionService,
             ]
         );
 
@@ -72,7 +67,6 @@ class SecureResourceServiceTest extends GenerisTestCase
 
     /**
      * @throws common_exception_Error
-     * @throws common_cache_NotFoundException
      */
     public function testGetAllChildren(): void
     {
@@ -93,7 +87,6 @@ class SecureResourceServiceTest extends GenerisTestCase
 
     /**
      * @throws common_exception_Error
-     * @throws common_cache_NotFoundException
      */
     public function testNestedItems(): void
     {
@@ -162,9 +155,8 @@ class SecureResourceServiceTest extends GenerisTestCase
 
         $class->method('getSubClasses')->willReturn([$forbiddenClass, $accessibleClass]);
         $class->method('getUri')->willReturn('http://resource5_grant_read_write');
-        $class->method('getPropertyValues')->willReturn(['http://www.tao.lu/Ontologies/TAO.rdf#AssessmentContentObject']);
 
-        $this->service->validateResourcesPermissions(
+        $this->service->validatePermissions(
             [$accessibleItem1],
             ['READ']
         );
@@ -195,7 +187,6 @@ class SecureResourceServiceTest extends GenerisTestCase
         $property = $this->createMock(core_kernel_classes_Property::class);
         $parent = $this->createMock(core_kernel_classes_Class::class);
         $parent->method('getProperty')->willReturn($property);
-        $parent->method('getPropertyValues')->willReturn(['http://www.tao.lu/Ontologies/TAO.rdf#AssessmentContentObject']);
 
         $resources = [];
         foreach ($resourceUris as $resourceUri) {
@@ -206,7 +197,7 @@ class SecureResourceServiceTest extends GenerisTestCase
             $resources[] = $mock;
         }
 
-        $this->service->validateResourcesPermissions($resources, $permissionsToCheck);
+        $this->service->validatePermissions($resources, $permissionsToCheck);
     }
 
     public function provideResources(): array
@@ -293,7 +284,6 @@ class SecureResourceServiceTest extends GenerisTestCase
         foreach (array_keys($this->getPermissions()) as $uri) {
             $childResource = $this->createMock(core_kernel_classes_Resource::class);
             $childResource->method('getUri')->willReturn($uri);
-//            $childResource->method('isClass')->willReturn(false);
 
             $resources[] = $childResource;
         }
