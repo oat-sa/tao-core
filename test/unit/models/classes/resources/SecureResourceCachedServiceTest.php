@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,14 +24,17 @@
 namespace oat\tao\test\unit\model\resources;
 
 use common_cache_Cache;
-use common_persistence_Manager;
+use common_cache_NotFoundException;
+use common_exception_Error;
+use core_kernel_classes_Class;
 use oat\generis\test\TestCase;
-use oat\oatbox\service\ServiceManager;
 use oat\oatbox\session\SessionService;
 use oat\oatbox\user\User;
+use oat\tao\model\resources\GetAllChildrenCacheKeyFactory;
 use oat\tao\model\resources\ResourceAccessDeniedException;
 use oat\tao\model\resources\SecureResourceCachedService;
 use oat\tao\model\resources\SecureResourceService;
+use oat\tao\model\resources\SecureResourceServiceAllChildrenCacheCollection;
 use oat\tao\model\resources\ValidatePermissionsCacheKeyFactory;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -55,24 +61,31 @@ class SecureResourceCachedServiceTest extends TestCase
         $sessionService = $this->createMock(SessionService::class);
         $sessionService->method('getCurrentUser')->willReturn($user);
 
-        $validateKey = $this->createMock(ValidatePermissionsCacheKeyFactory::class);
-
         $this->service = $this->createMock(SecureResourceService::class);
         $this->cache = $this->createMock(common_cache_Cache::class);
 
         $sl = $this->getServiceLocatorMock(
             [
-                SessionService::SERVICE_ID                => $sessionService,
-                ValidatePermissionsCacheKeyFactory::class => $validateKey,
-                common_cache_Cache::SERVICE_ID            => $this->cache,
+                SessionService::SERVICE_ID => $sessionService,
+                common_cache_Cache::SERVICE_ID => $this->cache,
             ]
         );
 
-        $this->cachedService = new SecureResourceCachedService($this->service, common_cache_Cache::SERVICE_ID, 60);
+        $this->cachedService = new SecureResourceCachedService(
+            $this->service,
+            new ValidatePermissionsCacheKeyFactory(),
+            new GetAllChildrenCacheKeyFactory(),
+            common_cache_Cache::SERVICE_ID,
+            60
+        );
+
         $this->cachedService->setServiceLocator($sl);
     }
 
-
+    /**
+     * @throws common_cache_NotFoundException
+     * @throws common_exception_Error
+     */
     public function testValidatePermissionNoDataInCache(): void
     {
         $this->cache->expects($this->once())->method('has');
@@ -80,6 +93,10 @@ class SecureResourceCachedServiceTest extends TestCase
         $this->cachedService->validatePermission('resource', ['READ']);
     }
 
+    /**
+     * @throws common_cache_NotFoundException
+     * @throws common_exception_Error
+     */
     public function testValidatePermissionValidResourceInCache(): void
     {
         $this->cache->expects($this->once())->method('has')->willReturn(true);
@@ -90,6 +107,10 @@ class SecureResourceCachedServiceTest extends TestCase
         $this->cachedService->validatePermission('resource', ['READ']);
     }
 
+    /**
+     * @throws common_cache_NotFoundException
+     * @throws common_exception_Error
+     */
     public function testValidatePermissionNotValidResourceInCache(): void
     {
         $this->expectException(ResourceAccessDeniedException::class);
@@ -102,13 +123,51 @@ class SecureResourceCachedServiceTest extends TestCase
         $this->cachedService->validatePermission('resource', ['READ']);
     }
 
+    /**
+     * @throws common_cache_NotFoundException
+     * @throws common_exception_Error
+     */
     public function testValidatePermissions(): void
     {
+        $this->cache->method('has')->willReturn(false);
+        $this->service->expects($this->exactly(3))->method('validatePermission');
 
+        $this->cachedService->validatePermissions(['1','2', '3'], ['READ']);
     }
 
-    public function testGetAllChildren(): void
+    /**
+     * @throws common_cache_NotFoundException
+     * @throws common_exception_Error
+     */
+    public function testGetAllChildrenDataInCache(): void
     {
+        $resultCollection = $this->createMock(SecureResourceServiceAllChildrenCacheCollection::class);
 
+        $this->cache->expects($this->once())->method('has')->willReturn(true);
+        $this->cache->expects($this->once())->method('get')->willReturn($resultCollection);
+        $this->cache->expects($this->never())->method('put');
+        $this->service->expects($this->never())->method('getAllChildren');
+
+        $class = $this->createMock(core_kernel_classes_Class::class);
+        $class->method('getUri')->willReturn('userId');
+
+        $this->cachedService->getAllChildren($class);
+    }
+
+    /**
+     * @throws common_cache_NotFoundException
+     * @throws common_exception_Error
+     */
+    public function testGetAllChildrenDataNotInCache(): void
+    {
+        $this->cache->expects($this->once())->method('has')->willReturn(false);
+        $this->cache->expects($this->never())->method('get');
+        $this->cache->expects($this->once())->method('put');
+        $this->service->expects($this->once())->method('getAllChildren');
+
+        $class = $this->createMock(core_kernel_classes_Class::class);
+        $class->method('getUri')->willReturn('userId');
+
+        $this->cachedService->getAllChildren($class);
     }
 }

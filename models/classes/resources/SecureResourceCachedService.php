@@ -44,20 +44,33 @@ class SecureResourceCachedService extends InjectionAwareService implements Secur
     private $ttl;
     /** @var common_cache_Cache */
     private $cache;
+    /** @var ValidatePermissionsCacheKeyFactory */
+    private $validatePermissionsCacheKeyFactory;
+    /** @var GetAllChildrenCacheKeyFactory */
+    private $getAllChildrenCacheKeyFactory;
 
     /**
      * @noinspection MagicMethodsValidityInspection
      * @noinspection PhpMissingParentConstructorInspection
      *
-     * @param SecureResourceService $service
-     * @param string                $cacheServiceId
-     * @param int                   $ttl
+     * @param SecureResourceService              $service
+     * @param ValidatePermissionsCacheKeyFactory $validatePermissionsCacheKeyFactory
+     * @param GetAllChildrenCacheKeyFactory      $getAllChildrenCacheKeyFactory
+     * @param string                             $cacheServiceId
+     * @param int                                $ttl
      */
-    public function __construct(SecureResourceService $service, string $cacheServiceId, ?int $ttl)
-    {
+    public function __construct(
+        SecureResourceService $service,
+        ValidatePermissionsCacheKeyFactory $validatePermissionsCacheKeyFactory,
+        GetAllChildrenCacheKeyFactory $getAllChildrenCacheKeyFactory,
+        string $cacheServiceId,
+        ?int $ttl
+    ) {
         $this->service = $service;
         $this->cacheServiceId = $cacheServiceId;
         $this->ttl = $ttl;
+        $this->validatePermissionsCacheKeyFactory = $validatePermissionsCacheKeyFactory;
+        $this->getAllChildrenCacheKeyFactory = $getAllChildrenCacheKeyFactory;
     }
 
     /**
@@ -71,7 +84,7 @@ class SecureResourceCachedService extends InjectionAwareService implements Secur
     {
         $user = $this->getUser();
 
-        $cacheKey = $this->getCacheKeyFactory()->create($resource, $user);
+        $cacheKey = $this->getAllChildrenCacheKeyFactory->create($resource, $user);
 
         $cache = $this->getCache();
         if ($cache && $cache->has($cacheKey)) {
@@ -110,7 +123,7 @@ class SecureResourceCachedService extends InjectionAwareService implements Secur
 
         $resourceUri = $resource instanceof core_kernel_classes_Resource ? $resource->getUri() : $resource;
 
-        $cacheKey = $this->getValidatePermissionCacheKeyFactory()->create($resourceUri, $user);
+        $cacheKey = $this->validatePermissionsCacheKeyFactory->create($resourceUri, $user);
 
         $cache = $this->getCache();
         if ($cache && $cache->has($cacheKey)) {
@@ -185,15 +198,5 @@ class SecureResourceCachedService extends InjectionAwareService implements Secur
         }
 
         return $this->user;
-    }
-
-    private function getCacheKeyFactory(): GetAllChildrenCacheKeyFactory
-    {
-        return $this->getServiceLocator()->get(GetAllChildrenCacheKeyFactory::class);
-    }
-
-    private function getValidatePermissionCacheKeyFactory(): ValidatePermissionsCacheKeyFactory
-    {
-        return $this->getServiceLocator()->get(ValidatePermissionsCacheKeyFactory::class);
     }
 }
