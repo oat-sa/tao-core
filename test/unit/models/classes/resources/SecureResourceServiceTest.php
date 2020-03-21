@@ -21,7 +21,7 @@ declare(strict_types=1);
  *
  */
 
-namespace oat\tao\model\resources;
+namespace oat\tao\test\unit\model\resources;
 
 use common_exception_Error;
 use core_kernel_classes_Class;
@@ -31,6 +31,8 @@ use core_kernel_users_GenerisUser;
 use oat\generis\model\data\permission\PermissionInterface;
 use oat\generis\test\GenerisTestCase;
 use oat\oatbox\session\SessionService;
+use oat\tao\model\resources\ResourceAccessDeniedException;
+use oat\tao\model\resources\SecureResourceService;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class SecureResourceServiceTest extends GenerisTestCase
