@@ -28,27 +28,37 @@ use common_cache_NotFoundException;
 use common_exception_Error;
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
-use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\session\SessionService;
 use oat\oatbox\user\User;
-use RuntimeException;
+use oat\tao\model\service\InjectionAwareService;
 
-class SecureResourceCachedService extends ConfigurableService implements SecureResourceServiceInterface
+class SecureResourceCachedService extends InjectionAwareService implements SecureResourceServiceInterface
 {
-    public const OPTION_CACHE = 'cache';
-    public const OPTION_CACHE_ENABLED = 'enabled';
-    public const OPTION_CACHE_TTL = 'ttl';
-    public const OPTION_SERVICE = 'service';
-
     /** @var User */
     private $user;
-
-    /** @var  SecureResourceService */
+    /** @var SecureResourceService */
     private $service;
-    /**
-     * @var common_cache_Cache
-     */
+    /** @var string */
+    private $cacheServiceId;
+    /** @var int */
+    private $ttl;
+    /** @var common_cache_Cache */
     private $cache;
+
+    /**
+     * @noinspection MagicMethodsValidityInspection
+     * @noinspection PhpMissingParentConstructorInspection
+     *
+     * @param SecureResourceService $service
+     * @param string                $cacheServiceId
+     * @param int                   $ttl
+     */
+    public function __construct(SecureResourceService $service, string $cacheServiceId, ?int $ttl)
+    {
+        $this->service = $service;
+        $this->cacheServiceId = $cacheServiceId;
+        $this->ttl = $ttl;
+    }
 
     /**
      * @param core_kernel_classes_Class $resource
@@ -124,6 +134,16 @@ class SecureResourceCachedService extends ConfigurableService implements SecureR
         $this->addToCache($cacheKey, true);
     }
 
+    /**
+     * @return SecureResourceService
+     */
+    public function getService(): SecureResourceService
+    {
+        $this->service->setServiceLocator($this->getServiceLocator());
+
+        return $this->service;
+    }
+
     private function addToCache(string $cacheKey, $data)
     {
         $cache = $this->getCache();
@@ -132,43 +152,22 @@ class SecureResourceCachedService extends ConfigurableService implements SecureR
             $cache->put(
                 $data,
                 $cacheKey,
-                $this->getCacheTTL()
+                $this->ttl
             );
         }
     }
 
     private function getCache(): ?common_cache_Cache
     {
-        if ($this->cache) {
-            return $this->cache;
-        }
+        $cacheEnabled = empty(trim($this->cacheServiceId));
 
-        $cacheOption = $this->getOption(self::OPTION_CACHE);
-
-        if (!is_array($cacheOption)) {
+        if ($cacheEnabled) {
             return null;
         }
 
-        $cacheEnabled = filter_var($cacheOption[self::OPTION_CACHE_ENABLED], FILTER_VALIDATE_BOOLEAN);
-
-        if (!$cacheEnabled) {
-            return null;
-        }
-
-        $this->cache = $this->getServiceLocator()->get(common_cache_Cache::SERVICE_ID);
+        $this->cache = $this->getServiceLocator()->get($this->cacheServiceId);
 
         return $this->cache;
-    }
-
-    private function getCacheTTL(): ?int
-    {
-        $cache = $this->getOption(self::OPTION_CACHE);
-
-        if (!is_array($cache)) {
-            return null;
-        }
-
-        return $cache[self::OPTION_CACHE_TTL] ?? null;
     }
 
     /**
@@ -196,23 +195,5 @@ class SecureResourceCachedService extends ConfigurableService implements SecureR
     private function getValidatePermissionCacheKeyFactory(): ValidatePermissionsCacheKeyFactory
     {
         return $this->getServiceLocator()->get(ValidatePermissionsCacheKeyFactory::class);
-    }
-
-    private function getService(): SecureResourceServiceInterface
-    {
-        if ($this->service) {
-            return $this->service;
-        }
-
-        $serviceClass = $this->getOption(self::OPTION_SERVICE);
-
-        if (empty($serviceClass)) {
-            throw new RuntimeException('Service is not configured');
-        }
-
-        $this->service = new $serviceClass([]);
-        $this->service->setServiceLocator($this->getServiceLocator());
-
-        return $this->service;
     }
 }
