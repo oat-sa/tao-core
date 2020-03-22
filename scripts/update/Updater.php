@@ -1346,5 +1346,18 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('41.2.0');
         }
         $this->skip('41.2.0', '41.4.0');
+
+        if ($this->isVersion('41.4.0')) {
+            $serviceManager = $this->getServiceManager();
+            $containersConfig = 'generis/serviceContainers';
+            $containers = $serviceManager->get($containersConfig);
+            $containers->setOption('tao', 'tao/services.yaml');
+
+            $serviceManager->register($containersConfig, $containers);
+
+            copy(__DIR__ . '/../../config/default/services.yaml', CONFIG_PATH . 'tao/services.yaml');
+
+            $this->setVersion('41.5.0');
+        }
     }
 }
