@@ -50,6 +50,17 @@ class tao_actions_Main extends tao_actions_CommonModule
 {
     use LoggerAwareTrait;
 
+    public function test()
+    {
+        $myClass = $this->getServiceLocator()->get(\oat\tao\model\tmp\MyInterface::class);
+
+        $this->returnJson(
+            [
+                'result' => $myClass->run()
+            ]
+        );
+    }
+
     /**
      * First page, when arriving on a system
      * to choose front or back office
