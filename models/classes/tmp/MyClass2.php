@@ -8,10 +8,15 @@ class MyClass2 implements MyInterface
 {
     /** @var MyClass */
     private $myClass;
+    /**
+     * @var MyClass3
+     */
+    private $myClass3;
 
-    public function __construct(MyClass $myClass)
+    public function __construct(MyClass $myClass, MyClass3 $myClass3)
     {
         $this->myClass = $myClass;
+        $this->myClass3 = $myClass3;
     }
 
     public function run(): string
