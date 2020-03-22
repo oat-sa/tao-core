@@ -1,0 +1,17 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    oat\tao\model\tmp\:
+        resource: '/var/www/html/tao/models/classes/tmp/*'
+        public: true
+
+    oat\tao\model\tmp\MyClass:
+        calls:
+            - [setServiceLocator, ['@serviceLocator']]
+
+    oat\tao\model\tmp\MyInterface:
+        public: true
+        class: 'oat\tao\model\tmp\MyClass2'
