@@ -3,6 +3,8 @@ services:
         autowire: true
         autoconfigure: true
         public: false
+        bind:
+            Zend\ServiceManager\ServiceLocatorInterface: '@serviceLocator'
 
     oat\tao\model\tmp\:
         resource: '../../tao/models/classes/tmp/*'
