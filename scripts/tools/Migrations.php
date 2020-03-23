@@ -41,11 +41,14 @@ class Migrations extends ScriptAction
 {
 
     protected const MIGRATIONS_DIR = 'migrations';
+    protected const COMMAND_GENERATE = 'generate';
+    protected const COMMAND_STATUS = 'status';
+    protected const COMMAND_MIGRATE = 'migrate';
 
     private $commands = [
-        'generate' => 'migrations:generate',
-        'status' => 'migrations:status',
-        'migrate' => 'migrations:migrate',
+        self::COMMAND_GENERATE => 'migrations:generate',
+        self::COMMAND_STATUS => 'migrations:status',
+        self::COMMAND_MIGRATE => 'migrations:migrate',
     ];
 
     protected function provideOptions()
@@ -95,13 +98,13 @@ class Migrations extends ScriptAction
         }
 
         switch ($command) {
-            case 'generate':
+            case self::COMMAND_GENERATE:
                 $output = $this->generate();
                 break;
-            case 'status':
+            case self::COMMAND_STATUS:
                 $output = $this->status();
                 break;
-            case 'migrate':
+            case self::COMMAND_MIGRATE:
                 $output = $this->migrate();
                 break;
         }
@@ -122,7 +125,7 @@ class Migrations extends ScriptAction
         }
 
         $extension = $this->getExtension();
-        $input = ['command' => $this->commands['generate']];
+        $input = ['command' => $this->commands[self::COMMAND_GENERATE]];
         $configuration = $this->getConfiguration();
         $configuration->setExtension($extension);
         $configuration->setMigrationsDirectory($extension->getDir().self::MIGRATIONS_DIR);
@@ -146,7 +149,7 @@ class Migrations extends ScriptAction
      */
     private function status()
     {
-        $input = new ArrayInput(['command' => $this->commands['status']]);
+        $input = new ArrayInput(['command' => $this->commands[self::COMMAND_STATUS]]);
         $this->execute(new HelperSet(), $input, $output = new BufferedOutput());
         return $output;
     }
@@ -159,7 +162,7 @@ class Migrations extends ScriptAction
     private function migrate()
     {
         $input = [
-            'command' => $this->commands['migrate'],
+            'command' => $this->commands[self::COMMAND_MIGRATE],
         ];
 
         if ($this->hasOption('version')) {
