@@ -1225,24 +1225,7 @@ class Updater extends \common_ext_ExtensionUpdater
             }
             $this->setVersion('39.1.0');
         }
-        $this->skip('39.1.0', '39.3.2');
-
-        if ($this->isVersion('39.3.2')) {
-            OntologyUpdater::syncModels();
-
-            $models = (new tao_install_utils_ModelCreator(LOCAL_NAMESPACE))->getLanguageModels();
-            $rdf = ModelManager::getModel()->getRdfInterface();
-            foreach (array_shift($models) as $file) {
-                $iterator = new FileIterator($file, 1);
-                foreach ($iterator as $triple) {
-                    $rdf->remove($triple);
-                    $rdf->add($triple);
-                }
-            }
-            $this->setVersion('39.3.3');
-        }
-
-        $this->skip('39.3.3', '39.5.5');
+        $this->skip('39.1.0', '39.5.5');
 
         if ($this->isVersion('39.5.5')) {
             /** @var UnionSearchService|ConfigurableService $service */
