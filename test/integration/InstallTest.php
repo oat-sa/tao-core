@@ -19,6 +19,7 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  *
  */
+
 use oat\tao\test\TaoPhpUnitTestRunner;
 
 include_once dirname(__FILE__) . '/../../includes/raw_start.php';
@@ -33,33 +34,6 @@ class InstallTest extends TaoPhpUnitTestRunner
 {
     
     const SAMPLE_LOCALES = '/samples/locales';
-    
-    /**
-     * Test the Installation Model Creator.
-     */
-    public function testModelCreator()
-    {
-        // - Test the existence of translations for models in tao meta extension.
-        $extensionManager = common_ext_ExtensionsManager::singleton();
-        $extensions = $extensionManager->getInstalledExtensions();
-        $taoNs = LOCAL_NAMESPACE;
-        
-        // - Test the existence of language descriptions.
-        $modelCreator = new tao_install_utils_ModelCreator(LOCAL_NAMESPACE);
-        $langs = $modelCreator->getLanguageModels();
-        $this->assertTrue(isset($langs[$taoNs . '#']), "No language descriptions available for model '${taoNs}'.");
-        // We should have at least english described.
-        $enFound = false;
-        $languageDescriptionFiles = $langs[$taoNs . '#'];
-        foreach ($languageDescriptionFiles as $f) {
-            if (preg_match('/locales\/' . DEFAULT_LANG . '\/lang.rdf/i', $f)) {
-                $enFound = true;
-                break;
-            }
-        }
-        
-        $this->assertTrue($enFound, "English language description not found for model '${taoNs}'.");
-    }
 
     /**
      * This test aims at testing the tao_install_utils_System class methods.
