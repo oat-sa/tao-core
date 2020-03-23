@@ -87,8 +87,7 @@ class tao_actions_form_Clazz extends tao_helpers_form_FormContainer
      */
     protected function getPropertyForm($property, $index, $isParentProp, $propData)
     {
-        $propFormClass = 'tao_actions_form_SimpleProperty';
-        $propFormContainer = new $propFormClass($this->getClassInstance(), $property, ['index' => $index, 'isParentProperty' => $isParentProp ], $propData);
+        $propFormContainer = new tao_actions_form_SimpleProperty($this->getClassInstance(), $property, ['index' => $index, 'isParentProperty' => $isParentProp ], $propData);
         return $propFormContainer->getForm();
     }
 

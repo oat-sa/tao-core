@@ -92,8 +92,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
             $index = count($clazz->getProperties(false)) + 1;
         }
 
-        $propFormClass = 'tao_actions_form_SimpleProperty';
-        $propFormContainer = new $propFormClass($clazz, $clazz->createProperty('Property_' . $index), ['index' => $index]);
+        $propFormContainer = new tao_actions_form_SimpleProperty($clazz, $clazz->createProperty('Property_' . $index), ['index' => $index]);
         $myForm = $propFormContainer->getForm();
 
         $this->setData('data', $myForm->renderElements());
