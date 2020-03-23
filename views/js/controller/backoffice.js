@@ -63,9 +63,9 @@ define([
 
             //intercept errors
             //TODO this should belongs to the Router
-            $doc.ajaxError(function (event, request, settings) {
+            $doc.ajaxError(function (event, request, settings, thrownError) {
                 // Request was manually aborted, isn't a error
-                if (request.statusText === 'abort') return;
+               if(!thrownError || thrownError === 'abort') return;
 
                 var ajaxResponse;
                 var errorMessage = __('Unknown Error');
