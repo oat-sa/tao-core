@@ -37,7 +37,7 @@ class RdsNotificationTest extends TestCase
     /** @var Persistence */
     private $persistence;
 
-    public function setUp()
+    public function setUp(): void
     {
         $persistenceId = 'rds_notification_test';
         $databaseMock = $this->getSqlMock($persistenceId);

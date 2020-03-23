@@ -36,7 +36,7 @@ use oat\oatbox\service\ServiceManager;
 class ResourceIteratorTest extends TaoPhpUnitTestRunner
 {
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->removeResources();
     }

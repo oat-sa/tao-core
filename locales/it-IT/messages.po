@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint123\n"
-"PO-Revision-Date: 2020-02-28T10:20:18\n"
+"Project-Id-Version: TAO 3.4.0-sprint124\n"
+"PO-Revision-Date: 2020-03-13T09:36:52\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: it-IT\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " AND "
-msgstr ""
-
 msgid " and "
 msgstr "e"
+
+msgid " AND "
+msgstr ""
 
 msgid " has been deleted successfully"
 msgstr " è stato rimosso correttamente"
@@ -404,11 +404,11 @@ msgstr "Cambia la password"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check All"
-msgstr "Controlla Tutti"
-
 msgid "Check all"
 msgstr "Verifica tutto"
+
+msgid "Check All"
+msgstr "Controlla Tutti"
 
 msgid "Check-in"
 msgstr "Check-in"
@@ -566,11 +566,11 @@ msgstr "Dati importati con successo"
 msgid "Data imported. Some records are invalid."
 msgstr "Dati importati. Alcuni record non sono validi."
 
-msgid "Data Language"
-msgstr "Dati di lingua."
-
 msgid "Data language"
 msgstr "Dati di lingua"
+
+msgid "Data Language"
+msgstr "Dati di lingua."
 
 msgid "Data not imported. All records are invalid."
 msgstr "Dati non importati. Nessun record è valido."
@@ -901,6 +901,9 @@ msgstr "Salve, %s<br>hai indicato che hai dimenticato la password per TAO"
 msgid "Hide detailed report"
 msgstr "Nascondi una notifica dettagliata"
 
+msgid "Hide password"
+msgstr ""
+
 msgid "Highlight all"
 msgstr "Evidenzia tutto"
 
@@ -970,10 +973,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1012,10 +1015,10 @@ msgstr "Installazione delle estensioni %s"
 msgid "Instance saved"
 msgstr "Istanza salvata"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "Lingua di interfaccia"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "Lingua di interfaccia"
 
 msgid "Invalid CSP header."
@@ -1729,11 +1732,11 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "select"
-msgstr "seleziona"
-
 msgid "Select"
 msgstr "Seleziona"
+
+msgid "select"
+msgstr "seleziona"
 
 msgid "Select a class"
 msgstr ""
@@ -1780,6 +1783,9 @@ msgstr "Setting aggiornati"
 
 msgid "Show detailed report"
 msgstr "Mostra una notifica dettagliata"
+
+msgid "Show password"
+msgstr ""
 
 msgid "Sign change"
 msgstr ""
@@ -2120,10 +2126,10 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "Deseleziona tutto"
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "Deseleziona tutto"
 
 msgid "Undefined amount of the pages for pagination"

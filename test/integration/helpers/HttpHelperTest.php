@@ -38,7 +38,7 @@ class HttpHelperTest extends TaoPhpUnitTestRunner
 
     protected $string = '0123456789';
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         TaoPhpUnitTestRunner::initTest();

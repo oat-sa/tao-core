@@ -24,6 +24,7 @@ namespace oat\test\model;
 
 use oat\tao\model\routing\ControllerService;
 use oat\tao\model\routing\RouteAnnotationService;
+use oat\tao\model\routing\RouterException;
 use Prophecy\Argument;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use oat\generis\test\TestCase;
@@ -62,7 +63,7 @@ class ControllerServiceTest extends TestCase
      */
     private $service;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -88,21 +89,17 @@ class ControllerServiceTest extends TestCase
         $this->service->setServiceLocator($serviceLocator->reveal());
     }
 
-    /**
-     * @expectedException \oat\tao\model\routing\RouterException
-     * @expectedExceptionMessage Attempt to run an action from the Abstract class "oat\test\model\AbsCl"
-     */
     public function testGetControllerAbstractClass()
     {
+        $this->expectException(RouterException::class);
+        $this->expectExceptionMessage('Attempt to run an action from the Abstract class "oat\test\model\AbsCl"');
         $this->service->checkController(AbsCl::class);
     }
 
-    /**
-     * @expectedException \oat\tao\model\routing\RouterException
-     * @expectedExceptionMessage Class 'oat\test\model\BlCl' blocked by route annotation
-     */
     public function testGetControllerBlockedByAnnotation()
     {
+        $this->expectException(RouterException::class);
+        $this->expectExceptionMessage('Class \'oat\test\model\BlCl\' blocked by route annotation');
         $this->service->checkController(BlCl::class);
     }
 
@@ -117,31 +114,35 @@ class ControllerServiceTest extends TestCase
         );
     }
 
-    /**
-     * @expectedException \oat\tao\model\routing\RouterException
-     * @expectedExceptionMessage The method "protectedAction" is not public in the class "oat\test\model\RouteAnnotationExample"
-     */
     public function testGetNonPublicAction()
     {
+        $this->expectException(RouterException::class);
+        $this->expectExceptionMessage('The method "protectedAction" is not public in the class "oat\test\model\RouteAnnotationExample"');
         $this->service->getAction(RouteAnnotationExample::class, 'protectedAction');
     }
 
+    /**
+     * @throws RouterException
+     * @doesNotPerformAssertions
+     */
     public function testGetActionBlockedByAnnotation()
     {
         $this->service->getAction(RouteAnnotationExample::class, 'notFoundAnnotation');
     }
 
+    /**
+     * @throws RouterException
+     * @doesNotPerformAssertions
+     */
     public function testGetAction()
     {
         $this->service->getAction(RouteAnnotationExample::class, 'withoutAnnotation');
     }
 
-    /**
-     * @expectedException \oat\tao\model\routing\RouterException
-     * @expectedExceptionMessage Method oat\test\model\RouteAnnotationExample::methodNotExists() does not exist
-     */
     public function testGetNonexistentAction()
     {
+        $this->expectException(RouterException::class);
+        $this->expectExceptionMessage('Method oat\test\model\RouteAnnotationExample::methodNotExists() does not exist');
         $this->service->getAction(RouteAnnotationExample::class, 'methodNotExists');
     }
 }

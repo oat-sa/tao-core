@@ -37,7 +37,7 @@ use SplFileInfo;
 class CsvExporterTest extends TaoPhpUnitTestRunner
 {
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         common_session_SessionManager::startSession(new \common_test_TestUserSession());

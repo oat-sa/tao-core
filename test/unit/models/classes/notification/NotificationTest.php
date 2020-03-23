@@ -41,7 +41,7 @@ class NotificationTest extends TestCase
     /** @var Notification */
     private $subjectCompleted;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->subjectCompleted = new Notification(
             self::USER_ID,
