@@ -33,7 +33,7 @@ use oat\oatbox\user\User;
 
 class SecureResourceService extends ConfigurableService implements SecureResourceServiceInterface
 {
-    private const UNDER_ROOT_URI = 'http://www.tao.lu/Ontologies/TAO.rdf#AssessmentContentObject';
+    private const HIGHEST_PARENT_URI = 'http://www.tao.lu/Ontologies/TAO.rdf#AssessmentContentObject';
 
     /** @var User */
     private $user;
@@ -182,14 +182,13 @@ class SecureResourceService extends ConfigurableService implements SecureResourc
 
     private function getClass(core_kernel_classes_Resource $resource): core_kernel_classes_Class
     {
+        if ($resource instanceof core_kernel_classes_Class) {
+            return $resource;
+        }
+
         // fetch parent class
         if (!$resource->isClass()) {
             return current($resource->getTypes());
-        }
-
-        if (get_class($resource) === core_kernel_classes_Class::class) {
-            /** @var core_kernel_classes_Class $resource */
-            return $resource;
         }
 
         // the last chance to fetch class form DB
@@ -202,7 +201,7 @@ class SecureResourceService extends ConfigurableService implements SecureResourc
 
         while ($parentList = $parent->getParentClasses(false)) {
             $parent = current($parentList);
-            if ($parent->getUri() === self::UNDER_ROOT_URI) {
+            if ($parent->getUri() === self::HIGHEST_PARENT_URI) {
                 break;
             }
             $parentUris[] = $parent->getUri();

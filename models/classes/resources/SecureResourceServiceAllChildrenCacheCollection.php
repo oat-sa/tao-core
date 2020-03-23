@@ -28,7 +28,7 @@ use core_kernel_classes_Resource;
 
 class SecureResourceServiceAllChildrenCacheCollection
 {
-    /** @var core_kernel_classes_Resource[] */
+    /** @var string[] */
     private $resources;
 
     public function __construct(array $resources)

@@ -40,7 +40,7 @@ class SecureResourceCachedService extends InjectionAwareService implements Secur
     private $service;
     /** @var string */
     private $cacheServiceId;
-    /** @var int */
+    /** @var int|null */
     private $ttl;
     /** @var common_cache_Cache */
     private $cache;
@@ -172,9 +172,9 @@ class SecureResourceCachedService extends InjectionAwareService implements Secur
 
     private function getCache(): ?common_cache_Cache
     {
-        $cacheEnabled = empty(trim($this->cacheServiceId));
+        $isCacheEnabled = !empty(trim($this->cacheServiceId));
 
-        if ($cacheEnabled) {
+        if (!$isCacheEnabled) {
             return null;
         }
 
