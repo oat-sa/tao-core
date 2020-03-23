@@ -25,6 +25,7 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\log\LoggerService;
 use oat\oatbox\log\logger\TaoLog;
+use oat\generis\persistence\PersistenceManager;
 
 class tao_install_Setup implements Action
 {
@@ -113,12 +114,7 @@ class tao_install_Setup implements Action
         );
 
         $options =  [
-            "db_driver" =>          "mysql"
-            , "db_host" =>          "localhost"
-            , "db_name" =>          null
-            , "db_pass" =>          ""
-            , "db_user" =>          ""
-            , "install_sent"    =>  "1"
+             "install_sent"    =>  "1"
             , "module_host" =>      "tao.local"
             , "module_lang" =>      "en-US"
             , "module_mode" =>      "debug"
@@ -137,58 +133,12 @@ class tao_install_Setup implements Action
             , 'extra_persistences' => []
         ];
 
-        $persistences = $parameters['configuration']['generis']['persistences'];
-
         if (!isset($parameters['configuration'])) {
             throw new InvalidArgumentException('Your config should have a \'configuration\' key');
         }
 
         if (!isset($parameters['configuration']['generis'])) {
             throw new InvalidArgumentException('Your config should have a \'generis\' key under \'configuration\'');
-        }
-
-        if (!isset($persistences)) {
-            throw new InvalidArgumentException('Your config should have a \'persistence\' key under \'generis\'');
-        }
-
-        if (!isset($persistences['default'])) {
-            throw new InvalidArgumentException('Your config should have a \'default\' key under \'persistences\'');
-        }
-
-        $persistence = $persistences['default'];
-
-        if (isset($persistence['connection'])) {
-            if (isset($persistence['connection']['wrapperClass']) && $persistence['connection']['wrapperClass'] == '\\Doctrine\\DBAL\\Connections\\MasterSlaveConnection') {
-                $options['db_driver'] = $persistence['connection']['driver'];
-                $options['db_host'] = $persistence['connection']['master']['host'];
-                $options['db_name'] = $persistence['connection']['master']['dbname'];
-                if (isset($persistence['connection']['master']['user'])) {
-                    $options['db_user'] = $persistence['connection']['master']['user'];
-                }
-                if (isset($persistence['connection']['master']['password'])) {
-                    $options['db_pass'] = $persistence['connection']['master']['password'];
-                }
-            } else {
-                $options['db_driver'] = $persistence['connection']['driver'];
-                $options['db_host'] = $persistence['connection']['host'];
-                $options['db_name'] = $persistence['connection']['dbname'];
-                if (isset($persistence['connection']['user'])) {
-                    $options['db_user'] = $persistence['connection']['user'];
-                }
-                if (isset($persistence['connection']['password'])) {
-                    $options['db_pass'] = $persistence['connection']['password'];
-                }
-            }
-        } else {
-            $options['db_driver'] = $persistence['driver'];
-            $options['db_host'] = $persistence['host'];
-            $options['db_name'] = $persistence['dbname'];
-            if (isset($persistence['user'])) {
-                $options['db_user'] = $persistence['user'];
-            }
-            if (isset($persistence['password'])) {
-                $options['db_pass'] = $persistence['password'];
-            }
         }
 
         if (!isset($parameters['configuration']['global'])) {
@@ -263,6 +213,16 @@ class tao_install_Setup implements Action
 
         $serviceManager = $installator->getServiceManager();
 
+        if (!isset($parameters['configuration']['generis']['persistences'])) {
+            throw new InvalidArgumentException('Your config should have a \'persistence\' key under \'generis\'');
+        }
+        $persistences = $parameters['configuration']['generis']['persistences'];
+        if (isset($persistences['default'])) {
+            $parameters['configuration']['generis']['persistences'] = $this->wrapPersistenceConfig($persistences);
+        } elseif (!isset($persistences['type'])) {
+            throw new InvalidArgumentException('Your config should have a \'default\' key under \'persistences\'');
+        }
+
         foreach ($parameters['configuration'] as $extension => $configs) {
             foreach ($configs as $key => $config) {
                 if (isset($config['type']) && $config['type'] === 'configurableService') {
@@ -281,12 +241,6 @@ class tao_install_Setup implements Action
 
         // mod rewrite cannot be detected in CLI Mode.
         $installator->escapeCheck('custom_tao_ModRewrite');
-
-        // configure persistences
-        $options['extra_persistences'] = $persistences;
-        // prevent default to be overwritten
-        unset($options['extra_persistences']['default']);
-
 
         $installator->install($options);
 
@@ -326,5 +280,73 @@ class tao_install_Setup implements Action
         }
 
         $this->logNotice('Installation completed!');
+    }
+
+    /**
+     * Transforms the seed persistence configuration into command line parameters
+     * and then back into a persistence configuration to ensure backwards compatibility
+     * with the previous process
+     * @param array $persistences
+     * @return array
+     */
+    private function wrapPersistenceConfig($persistences)
+    {
+        $installParams = $this->getCommandLineParameters($persistences['default']);
+
+        $dbalConfigCreator = new tao_install_utils_DbalConfigCreator();
+        $persistences['default'] = $dbalConfigCreator->createDbalConfig($installParams);
+
+        return [
+            'type' => 'configurableService',
+            'class' => PersistenceManager::class,
+            'options' => [
+                'persistences' => $persistences,
+            ],
+        ];
+    }
+
+    private function getCommandLineParameters(array $defaultPersistenceConfig): array
+    {
+        if (isset($defaultPersistenceConfig['connection'])) {
+            if ($this->isMasterSlaveConnection($defaultPersistenceConfig)) {
+                $options['db_driver'] = $defaultPersistenceConfig['connection']['driver'];
+                $options['db_host'] = $defaultPersistenceConfig['connection']['master']['host'];
+                $options['db_name'] = $defaultPersistenceConfig['connection']['master']['dbname'];
+                if (isset($defaultPersistenceConfig['connection']['master']['user'])) {
+                    $options['db_user'] = $defaultPersistenceConfig['connection']['master']['user'];
+                }
+                if (isset($defaultPersistenceConfig['connection']['master']['password'])) {
+                    $options['db_pass'] = $defaultPersistenceConfig['connection']['master']['password'];
+                }
+            } else {
+                $options['db_driver'] = $defaultPersistenceConfig['connection']['driver'];
+                $options['db_host'] = $defaultPersistenceConfig['connection']['host'];
+                $options['db_name'] = $defaultPersistenceConfig['connection']['dbname'];
+                if (isset($defaultPersistenceConfig['connection']['user'])) {
+                    $options['db_user'] = $defaultPersistenceConfig['connection']['user'];
+                }
+                if (isset($defaultPersistenceConfig['connection']['password'])) {
+                    $options['db_pass'] = $defaultPersistenceConfig['connection']['password'];
+                }
+            }
+        } else {
+            $options['db_driver'] = $defaultPersistenceConfig['driver'];
+            $options['db_host'] = $defaultPersistenceConfig['host'];
+            $options['db_name'] = $defaultPersistenceConfig['dbname'];
+            if (isset($defaultPersistenceConfig['user'])) {
+                $options['db_user'] = $defaultPersistenceConfig['user'];
+            }
+            if (isset($defaultPersistenceConfig['password'])) {
+                $options['db_pass'] = $defaultPersistenceConfig['password'];
+            }
+        }
+
+        return $options;
+    }
+
+    private function isMasterSlaveConnection(array $defaultPersistenceConfig): bool
+    {
+        return isset($defaultPersistenceConfig['connection']['wrapperClass'])
+            && $defaultPersistenceConfig['connection']['wrapperClass'] === '\\Doctrine\\DBAL\\Connections\\MasterSlaveConnection';
     }
 }
