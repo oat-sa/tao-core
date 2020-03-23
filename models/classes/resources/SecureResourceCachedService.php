@@ -150,7 +150,7 @@ class SecureResourceCachedService extends InjectionAwareService implements Secur
     /**
      * @return SecureResourceService
      */
-    public function getService(): SecureResourceService
+    public function getService(): SecureResourceServiceInterface
     {
         $this->service->setServiceLocator($this->getServiceLocator());
 
