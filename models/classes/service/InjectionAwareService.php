@@ -71,13 +71,13 @@ abstract class InjectionAwareService extends ConfigurableService
                 throw new RuntimeException($message);
             }
 
-            $classProperties = $class->getProperty($parameterName);
+            $classProperty = $class->getProperty($parameterName);
 
-            if ($classProperties->isPrivate() || $classProperties->isProtected()) {
-                $classProperties->setAccessible(true);
+            if ($classProperty->isPrivate() || $classProperty->isProtected()) {
+                $classProperty->setAccessible(true);
             }
 
-            $dependencies[] = $classProperties->getValue($this);
+            $dependencies[] = $classProperty->getValue($this);
         }
 
         return $dependencies;

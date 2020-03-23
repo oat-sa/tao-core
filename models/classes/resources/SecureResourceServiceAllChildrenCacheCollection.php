@@ -43,10 +43,8 @@ class SecureResourceServiceAllChildrenCacheCollection
     public function getInstances(): array
     {
         $result = [];
-        if ($this->resources) {
-            foreach ($this->resources as $resource) {
-                $result[] = new core_kernel_classes_Resource($resource);
-            }
+        foreach ($this->resources as $resource) {
+            $result[] = new core_kernel_classes_Resource($resource);
         }
 
         return $result;
