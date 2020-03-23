@@ -23,7 +23,7 @@ define([
 ], function ($, __, feedback) {
     'use strict';
 
-    function createCopyToClipboardHandler($field) {
+    function _createCopyToClipboardHandler($field) {
         var
             successFeedback = $field.data('copy-success-feedback')
                 || __('Resource Identifier has been copied to the clipboard'),
@@ -47,36 +47,32 @@ define([
         }
     }
 
+    function _cloneField($field) {
+        return $field.clone()
+            // To make MS browsers happy, value needs to be removed and re-added
+            .val('')
+            .attr({readonly: true, type: 'text'});
+    }
+
     /**
      * Add a field with URI of an item etc and a button to copy it to the clipboard
      * @param $container
      * @private
      */
     function _initializeCopyToClipboard($container) {
-        // Note: isInstanceForm will not work with jquery|querySelector
-        var isInstanceForm = document.getElementById('tao.forms.instance'),
-            $fields = $container.find('#id, .copy-to-clipboard');
+        var $fields = $container.find('#id, .copy-to-clipboard');
 
-        // if the field has already been added
-        if ($('.uri-container').length) {
-            return;
-        }
-
-        if (!isInstanceForm) {
-            return;
-        }
-
-        if (!$fields.length) {
+        // Early return in case:
+        // 1. isInstanceForm that will not work with jquery|querySelector
+        // 2. The field has already been added
+        // 3. There is nothing to initialize
+        if (!document.getElementById('tao.forms.instance') || $('.uri-container').length || !$fields.length) {
             return;
         }
 
         $fields.each(function () {
-            var
-                $field = $(this),
-                $fieldCopy = $field.clone()
-                    // To make MS browsers happy, value needs to be removed and re-added
-                    .val('')
-                    .attr({readonly: true, type: 'text'}),
+            var $field = $(this),
+                $fieldCopy = _cloneField($field),
                 $button = $('<span>', {class: 'icon-clipboard clipboard-command', title: __('Copy to clipboard')}),
                 $label = $('<span>', {class: 'form_desc', text: __('Resource Identifier')}),
                 $fieldBox = $('<span>', {class: 'uri-container'}),
@@ -90,19 +86,15 @@ define([
 
                 $container.find('div')
                     .first()
-                    .after($('<div>')
-                        .append([$label, $fieldBox]));
+                    .after($('<div>').append([$label, $fieldBox]));
                 $fieldBox.height($field.outerHeight());
             } else {
                 $fieldBox.height($field.outerHeight());
-                $field.wrap($fieldBox);
-                $field.parent().append($button);
+                $field.wrap($fieldBox).parent().append($button);
             }
 
-            $button.on('click', createCopyToClipboardHandler($field));
-            $field.addClass('final')
-                // re-add value
-                .val(value);
+            $button.on('click', _createCopyToClipboardHandler($field));
+            $field.addClass('final').val(value);
         });
     }
 
