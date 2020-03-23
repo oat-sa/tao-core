@@ -60,17 +60,14 @@ define([
      * @private
      */
     function _initializeCopyToClipboard($container) {
-        var $fields = $container.find('#id, .copy-to-clipboard');
-
         // Early return in case:
         // 1. isInstanceForm that will not work with jquery|querySelector
         // 2. The field has already been added
-        // 3. There is nothing to initialize
-        if (!document.getElementById('tao.forms.instance') || $('.uri-container').length || !$fields.length) {
+        if (!document.getElementById('tao.forms.instance') || $('.uri-container').length) {
             return;
         }
 
-        $fields.each(function () {
+        $container.find('#id, .copy-to-clipboard').each(function () {
             var $field = $(this),
                 $fieldCopy = _cloneField($field),
                 $button = $('<span>', {class: 'icon-clipboard clipboard-command', title: __('Copy to clipboard')}),
