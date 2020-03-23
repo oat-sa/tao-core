@@ -291,10 +291,10 @@ class tao_install_Setup implements Action
      */
     private function wrapPersistenceConfig($persistences)
     {
-        $seedConfiguration = $this->getCommandLineParameters($persistences['default']);
+        $installParams = $this->getCommandLineParameters($persistences['default']);
 
         $dbalConfigCreator = new tao_install_utils_DbalConfigCreator();
-        $persistences['default'] = $dbalConfigCreator->createDbalConfig($seedConfiguration);
+        $persistences['default'] = $dbalConfigCreator->createDbalConfig($installParams);
 
         return [
             'type' => 'configurableService',
