@@ -36,10 +36,10 @@ class Configuration extends DoctrineConfiguration implements ServiceLocatorAware
 
     public function generateVersionNumber(?DateTimeInterface $now = null) : string
     {
-        $version = parent::generateVersionNumber($now);
         if ($this->extension === null) {
             throw new UnknownMigrationVersion('Unknown extension');
         }
+        $version = parent::generateVersionNumber($now);
         $intHash = crc32($this->extension->getId());
         $intHash = substr($intHash,0,4);
         return $version.$intHash.'_'.$this->extension->getId();
