@@ -23,17 +23,14 @@ declare(strict_types=1);
 
 namespace oat\tao\model\resources;
 
-use RuntimeException;
-use Throwable;
+use core_kernel_classes_Class;
+use oat\oatbox\service\ConfigurableService;
+use oat\oatbox\user\User;
 
-class ResourceAccessDeniedException extends RuntimeException
+class GetAllChildrenCacheKeyFactory extends ConfigurableService
 {
-    public function __construct($forbiddenResourceUri = '', $code = 0, Throwable $previous = null)
+    public function create(core_kernel_classes_Class $class, User $user): string
     {
-        parent::__construct(
-            sprintf('Access to resource %s is forbidden', $forbiddenResourceUri),
-            $code,
-            $previous
-        );
+        return sprintf('SRS:%s:%s', urlencode($user->getIdentifier()), urlencode($class->getUri()));
     }
 }

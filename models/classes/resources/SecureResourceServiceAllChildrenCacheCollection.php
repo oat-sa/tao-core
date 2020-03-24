@@ -23,17 +23,30 @@ declare(strict_types=1);
 
 namespace oat\tao\model\resources;
 
-use RuntimeException;
-use Throwable;
+use common_exception_Error;
+use core_kernel_classes_Resource;
 
-class ResourceAccessDeniedException extends RuntimeException
+class SecureResourceServiceAllChildrenCacheCollection
 {
-    public function __construct($forbiddenResourceUri = '', $code = 0, Throwable $previous = null)
+    /** @var string[] */
+    private $resources;
+
+    public function __construct(array $resources)
     {
-        parent::__construct(
-            sprintf('Access to resource %s is forbidden', $forbiddenResourceUri),
-            $code,
-            $previous
-        );
+        $this->resources = array_keys($resources);
+    }
+
+    /**
+     * @return array
+     * @throws common_exception_Error
+     */
+    public function getInstances(): array
+    {
+        $result = [];
+        foreach ($this->resources as $resource) {
+            $result[] = new core_kernel_classes_Resource($resource);
+        }
+
+        return $result;
     }
 }
