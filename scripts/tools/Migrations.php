@@ -44,11 +44,15 @@ class Migrations extends ScriptAction
     protected const COMMAND_GENERATE = 'generate';
     protected const COMMAND_STATUS = 'status';
     protected const COMMAND_MIGRATE = 'migrate';
+    protected const COMMAND_EXECUTE = 'execute';
+    protected const COMMAND_ROLLBACK = 'rollback';
 
     private $commands = [
         self::COMMAND_GENERATE => 'migrations:generate',
         self::COMMAND_STATUS => 'migrations:status',
         self::COMMAND_MIGRATE => 'migrations:migrate',
+        self::COMMAND_EXECUTE => 'migrations:execute',
+        self::COMMAND_ROLLBACK => 'migrations:execute',
     ];
 
     protected function provideOptions()
@@ -107,6 +111,12 @@ class Migrations extends ScriptAction
             case self::COMMAND_MIGRATE:
                 $output = $this->migrate();
                 break;
+            case self::COMMAND_EXECUTE:
+                $output = $this->executeMigration(false);
+                break;
+            case self::COMMAND_ROLLBACK:
+                $output = $this->executeMigration(true);
+                break;
         }
 
         return new Report(Report::TYPE_INFO, $output->fetch());
@@ -155,6 +165,30 @@ class Migrations extends ScriptAction
     }
 
     /**
+     * @param bool $rollback
+     * @return BufferedOutput
+     * @throws MigrationException
+     * @throws ScriptException
+     */
+    private function executeMigration($rollback = false)
+    {
+        $input = [
+            'command' => $this->commands[self::COMMAND_EXECUTE],
+        ];
+        if ($this->hasOption('version')) {
+            $input['version'] = $this->getOption('version');
+        }
+        if ($rollback) {
+            $input['--down'] = true;
+        } else {
+            $input['--up'] = true;
+        }
+        $input[] = '--no-interaction';
+        $this->execute(new HelperSet(), new ArrayInput($input), $output = new BufferedOutput());
+        return $output;
+    }
+
+    /**
      * @return BufferedOutput
      * @throws MigrationException
      * @throws ScriptException
@@ -197,11 +231,11 @@ class Migrations extends ScriptAction
         $cli->setHelperSet($helperSet);
         $cli->setCatchExceptions(false);
         $cli->addCommands(array(
-            new Command\GenerateCommand(),
+            new migrations\commands\GenerateCommand(),
             new Command\MigrateCommand(),
             new Command\StatusCommand(),
             //new Command\DumpSchemaCommand(),
-            //new Command\ExecuteCommand(),
+            new Command\ExecuteCommand(),
             //new Command\LatestCommand(),
             //new Command\RollupCommand(),
             //new Command\VersionCommand()
