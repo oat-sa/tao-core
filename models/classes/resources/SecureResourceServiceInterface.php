@@ -23,17 +23,15 @@ declare(strict_types=1);
 
 namespace oat\tao\model\resources;
 
-use RuntimeException;
-use Throwable;
+use core_kernel_classes_Class;
 
-class ResourceAccessDeniedException extends RuntimeException
+interface SecureResourceServiceInterface
 {
-    public function __construct($forbiddenResourceUri = '', $code = 0, Throwable $previous = null)
-    {
-        parent::__construct(
-            sprintf('Access to resource %s is forbidden', $forbiddenResourceUri),
-            $code,
-            $previous
-        );
-    }
+    public const SERVICE_ID = 'tao/SecureResourceService';
+
+    public function getAllChildren(core_kernel_classes_Class $resource): array;
+
+    public function validatePermissions(iterable $resources, array $permissionsToCheck): void;
+
+    public function validatePermission($resource, array $permissionsToCheck): void;
 }

@@ -22,6 +22,9 @@ namespace oat\tao\model\service;
 
 use common_Utils;
 use oat\oatbox\service\ConfigurableService;
+use ReflectionClass;
+use ReflectionException;
+use RuntimeException;
 
 abstract class InjectionAwareService extends ConfigurableService
 {
@@ -45,9 +48,38 @@ abstract class InjectionAwareService extends ConfigurableService
 
     /**
      * @return array A list of dependencies to be injected in their order.
+     * @throws ReflectionException
      */
     protected function getDependencies(): array
     {
-        return [];
+        $dependencies = [];
+
+        $class = new ReflectionClass($this);
+        $constructor = $class->getMethod('__construct');
+        $parameters = $constructor->getParameters();
+
+        foreach ($parameters as $parameter) {
+            $parameterName = $parameter->getName();
+
+            if (!$class->hasProperty($parameterName)) {
+                $message = sprintf(
+                    'Cannot find property "%s" in class %s. Please name properties exactly like constructor parameters, or overload %s',
+                    $parameterName,
+                    static::class,
+                    __METHOD__
+                );
+                throw new RuntimeException($message);
+            }
+
+            $classProperty = $class->getProperty($parameterName);
+
+            if ($classProperty->isPrivate() || $classProperty->isProtected()) {
+                $classProperty->setAccessible(true);
+            }
+
+            $dependencies[] = $classProperty->getValue($this);
+        }
+
+        return $dependencies;
     }
 }
