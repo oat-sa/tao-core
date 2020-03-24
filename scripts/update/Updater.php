@@ -1350,13 +1350,14 @@ class Updater extends \common_ext_ExtensionUpdater
 
             $this->setVersion('41.2.0');
         }
-        $this->skip('41.2.0', '41.4.0');
 
-        if ($this->isVersion('41.4.0')) {
+        $this->skip('41.2.0', '41.5.1');
+
+        if ($this->isVersion('41.5.1')) {
             $this->addReport(
                 Report::createInfo('To make SecureResourceService use cache please run \oat\tao\scripts\install\InstallSecureResourceCachedService script')
             );
-            $this->setVersion('41.5.0');
+            $this->setVersion('41.6.0');
         }
     }
 }
