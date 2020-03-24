@@ -131,7 +131,7 @@ class RdsNotificationServiceTest extends TestCase
         )->willReturn(1);
 
         $result = $this->subject->changeStatus($this->notificationMock);
-        $this->assertSame(1, $result);
+        $this->assertSame(true, $result);
     }
 
     public function testProvideSchema(): void
