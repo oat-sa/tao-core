@@ -128,7 +128,7 @@ abstract class AbstractSqlNotificationService extends AbstractNotificationServic
         $notificationDetail = $persistence->query($selectQuery, $params)->fetch();
 
         if ($notificationDetail) {
-            return $this->createNotification($id, $notificationDetail);
+            return $this->createNotification($notificationDetail);
         }
 
         throw new common_exception_NotFound('unknown notification id ' . $id);
