@@ -131,7 +131,7 @@ abstract class AbstractSqlNotificationService extends AbstractNotificationServic
             return $this->createNotification($notificationDetail);
         }
 
-        throw new common_exception_NotFound('unknown notification id ' . $id);
+        throw new common_exception_NotFound('Error notification not found ,  requested id: ' . $id);
     }
 
     /**
