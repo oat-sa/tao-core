@@ -54,6 +54,8 @@ class NewSqlNotificationService extends AbstractSqlNotificationService
         $table->addColumn(self::NOTIFICATION_FIELD_SENDER_NAME, 'string', ['length' => 255]);
         $table->addColumn(self::NOTIFICATION_FIELD_CREATION, 'datetime', ['notnull' => true]);
         $table->addColumn(self::NOTIFICATION_FIELD_UPDATED, 'datetime', ['notnull' => true]);
+
+        $table->setPrimaryKey([self::NOTIFICATION_FIELD_ID]);
     }
 
     /**
