@@ -44,21 +44,6 @@ class InstallNotificationTable extends InstallAction
             $notificationService->provideSchema($schemaCollection);
         }
         $this->getPersistenceManager()->applySchemas($schemaCollection);
-
-        $queue = new NotificationServiceAggregator();
-        $queue->setServiceLocator($this->getServiceManager());
-        $queue->setOption(
-            'rds',
-            [
-                'class'   => RdsNotificationService::class,
-                'options' => [
-                        RdsNotificationService::OPTION_PERSISTENCE => RdsNotificationService::DEFAULT_PERSISTENCE,
-                        'visibility'  => false,
-                    ],
-            ]
-        );
-
-        $this->getServiceManager()->register(NotificationServiceInterface::SERVICE_ID, $queue);
     }
 
     /**
