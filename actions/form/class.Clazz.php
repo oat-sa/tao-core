@@ -38,13 +38,6 @@ class tao_actions_form_Clazz extends tao_helpers_form_FormContainer
     protected $clazz;
 
     /**
-     * Mode to use for the authored properties (simple or advanced)
-     *
-     * @var string
-     */
-    protected $propertyMode;
-
-    /**
      * Property values that are currently being threated
      *
      * @var array
@@ -55,13 +48,11 @@ class tao_actions_form_Clazz extends tao_helpers_form_FormContainer
      * @param core_kernel_classes_Class $clazz
      * @param array $classData
      * @param array $propertyData
-     * @param string $propertyMode
      */
-    public function __construct(core_kernel_classes_Class $clazz, $classData, $propertyData, $propertyMode)
+    public function __construct(core_kernel_classes_Class $clazz, $classData, $propertyData)
     {
         $this->clazz    = $clazz;
         $this->propertyData = $propertyData;
-        $this->propertyMode = $propertyMode;
         parent::__construct($classData);
     }
 
@@ -96,11 +87,7 @@ class tao_actions_form_Clazz extends tao_helpers_form_FormContainer
      */
     protected function getPropertyForm($property, $index, $isParentProp, $propData)
     {
-        $propFormClass = 'tao_actions_form_' . ucfirst(strtolower($this->propertyMode)) . 'Property';
-        if (!class_exists($propFormClass)) {
-            $propFormClass = 'tao_actions_form_SimpleProperty';
-        }
-        $propFormContainer = new $propFormClass($this->getClassInstance(), $property, ['index' => $index, 'isParentProperty' => $isParentProp ], $propData);
+        $propFormContainer = new tao_actions_form_SimpleProperty($this->getClassInstance(), $property, ['index' => $index, 'isParentProperty' => $isParentProp ], $propData);
         return $propFormContainer->getForm();
     }
 
@@ -128,16 +115,6 @@ class tao_actions_form_Clazz extends tao_helpers_form_FormContainer
             "<a href='#' class='btn-info property-adder small'><span class='icon-property-add'></span> " . __('Add property') . "</a>"
         );
         $actions[] = $propertyElt;
-
-        //property mode
-        $propModeELt = tao_helpers_form_FormFactory::getElement('propMode', 'Free');
-        if ($this->propertyMode == 'advanced') {
-            $propModeELt->setValue("<a href='#' class='btn-info property-mode small property-mode-simple'><span class='icon-property-advanced'></span> " . __('Simple Mode') . "</a>");
-        } else {
-            $propModeELt->setValue("<a href='#' class='btn-info property-mode small property-mode-advanced'><span class='icon-property-advanced'></span> " . __('Advanced Mode') . "</a>");
-        }
-
-        $actions[] = $propModeELt;
 
         //add a hidden field that states it is a class edition form.
         $classElt = tao_helpers_form_FormFactory::getElement('tao.forms.class', 'Hidden');
