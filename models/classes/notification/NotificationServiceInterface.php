@@ -38,7 +38,7 @@ interface NotificationServiceInterface
 
     public function getNotification(string $id): Notification;
 
-    public function changeStatus(Notification $notification): int;
+    public function changeStatus(Notification $notification): bool;
 
     public function notificationCount(string $userId): array;
 
