@@ -101,6 +101,18 @@ class Migrations extends ScriptAction
             throw new ScriptException(sprintf('Command "%s" is not supported', $command));
         }
 
+        return $this->doCommand($command);
+    }
+
+    /**
+     * @param string $command
+     * @return Report
+     * @throws MigrationException
+     * @throws ScriptException
+     * @throws \common_ext_ExtensionException
+     */
+    private function doCommand($command)
+    {
         switch ($command) {
             case self::COMMAND_GENERATE:
                 $output = $this->generate();
