@@ -88,16 +88,7 @@ abstract class AbstractSqlNotificationService extends AbstractNotificationServic
         $result = $persistence->query($selectQuery, $params)->fetchAll();
 
         foreach ($result as $notificationDetail) {
-            $userId     = $notificationDetail[self::NOTIFICATION_FIELD_RECIPIENT];
-            $title      = $notificationDetail[self::NOTIFICATION_FIELD_TITLE];
-            $message    = $notificationDetail[self::NOTIFICATION_FIELD_MESSAGE];
-            $senderId   = $notificationDetail[self::NOTIFICATION_FIELD_SENDER];
-            $senderName = $notificationDetail[self::NOTIFICATION_FIELD_SENDER_NAME];
-            $id         = $notificationDetail[self::NOTIFICATION_FIELD_ID];
-            $createdAt  = $notificationDetail[self::NOTIFICATION_FIELD_CREATION];
-            $updatedAt  = $notificationDetail[self::NOTIFICATION_FIELD_UPDATED];
-            $status     = $notificationDetail[self::NOTIFICATION_FIELD_STATUS];
-            $notification[] = new Notification($userId, $title, $message, $senderId, $senderName, $id, $createdAt, $updatedAt, $status);
+            $notification[] = $this->createNotification($notificationDetail);
         }
 
         return $notification;
@@ -137,16 +128,7 @@ abstract class AbstractSqlNotificationService extends AbstractNotificationServic
         $notificationDetail = $persistence->query($selectQuery, $params)->fetch();
 
         if ($notificationDetail) {
-            $userId = $notificationDetail[self::NOTIFICATION_FIELD_RECIPIENT];
-            $title = $notificationDetail[self::NOTIFICATION_FIELD_TITLE];
-            $message = $notificationDetail[self::NOTIFICATION_FIELD_MESSAGE];
-            $senderId = $notificationDetail[self::NOTIFICATION_FIELD_SENDER];
-            $id = $notificationDetail[self::NOTIFICATION_FIELD_ID];
-            $createdAt = $notificationDetail[self::NOTIFICATION_FIELD_CREATION];
-            $updatedAt = $notificationDetail[self::NOTIFICATION_FIELD_UPDATED];
-            $status = $notificationDetail[self::NOTIFICATION_FIELD_STATUS];
-
-            return new Notification($userId, $title, $message, $senderId, $id, $createdAt, $updatedAt, $status);
+            return $this->createNotification($id, $notificationDetail);
         }
 
         throw new common_exception_NotFound('unknown notification id ' . $id);
@@ -221,6 +203,20 @@ abstract class AbstractSqlNotificationService extends AbstractNotificationServic
             ];
 
         return $persistence->exec($updateQuery , $data);
+    }
+
+    private function createNotification(array $notificationDetail): Notification
+    {
+        return new Notification(
+            $notificationDetail[self::NOTIFICATION_FIELD_RECIPIENT],
+            $notificationDetail[self::NOTIFICATION_FIELD_TITLE],
+            $notificationDetail[self::NOTIFICATION_FIELD_MESSAGE],
+            $notificationDetail[self::NOTIFICATION_FIELD_SENDER],
+            $notificationDetail[self::NOTIFICATION_FIELD_ID],
+            $notificationDetail[self::NOTIFICATION_FIELD_CREATION],
+            $notificationDetail[self::NOTIFICATION_FIELD_UPDATED],
+            $notificationDetail[self::NOTIFICATION_FIELD_STATUS]
+        );
     }
 
     abstract protected function prepareNotification(Notification $notification): array;
