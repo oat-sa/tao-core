@@ -202,7 +202,7 @@ abstract class AbstractSqlNotificationService extends AbstractNotificationServic
         return $count;
     }
 
-    public function changeStatus(Notification $notification): int
+    public function changeStatus(Notification $notification): bool
     {
         $updateQuery = 'UPDATE ' . self::NOTIFICATION_TABLE . ' SET ' .
             self::NOTIFICATION_FIELD_UPDATED . ' = ? ,' .

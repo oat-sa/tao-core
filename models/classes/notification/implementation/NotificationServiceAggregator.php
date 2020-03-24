@@ -120,7 +120,7 @@ class NotificationServiceAggregator extends AbstractNotificationService implemen
      * @throws InvalidServiceManagerException
      * @throws NotListedNotification
      */
-    public function changeStatus(Notification $notification): int
+    public function changeStatus(Notification $notification): bool
     {
         $subServices = $this->getSubServices();
 
