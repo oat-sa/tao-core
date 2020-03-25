@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -34,8 +36,8 @@ interface LockoutStorageInterface
     /**
      * Saves the data into storage
      *
-     * @param string    $ip Client IP address
-     * @param int       $ttl How long entry will be valid
+     * @param string $ip Client IP address
+     * @param int $ttl How long entry will be valid
      *
      * @return mixed
      */
@@ -49,6 +51,6 @@ interface LockoutStorageInterface
      * @param int $timeout
      * @return mixed
      */
-    public function getFailedAttempts(string $ip,int $timeout);
+    public function getFailedAttempts(string $ip, int $timeout): int;
 
 }

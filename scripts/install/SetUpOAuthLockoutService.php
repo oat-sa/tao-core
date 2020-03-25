@@ -149,7 +149,6 @@ class SetUpOAuthLockoutService extends ScriptAction
 
     protected function setIpLockout(): LockoutInterface
     {
-
         $options[IPLockout::OPTION_THRESHOLD] = $this->getOption(self::OPT_THRESHOLD);
         $options[IPLockout::OPTION_TIMEOUT] = $this->getOption(self::OPT_TIMEOUT);
         $options[IPLockout::OPTION_IP_FACTORY] = new IPFactory();
@@ -163,11 +162,9 @@ class SetUpOAuthLockoutService extends ScriptAction
                 break;
             default:
                 throw new \common_Exception('Incorrect persistence');
-
         }
         return new IPLockout($options);
     }
-
 
     protected function provideDescription()
     {

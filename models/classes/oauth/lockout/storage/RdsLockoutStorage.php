@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -110,7 +112,7 @@ class RdsLockoutStorage extends ConfigurableService implements LockoutStorageInt
      * @param int $timeout
      * @return int
      */
-    public function getFailedAttempts(string $ip, int $timeout)
+    public function getFailedAttempts(string $ip, int $timeout): int
     {
         $attempts = 0;
         $queryBuilder = $this->getQueryBuilder()
@@ -152,7 +154,7 @@ class RdsLockoutStorage extends ConfigurableService implements LockoutStorageInt
     /**
      * @return string
      */
-    public function getPersistenceId()
+    public function getPersistenceId(): string
     {
         return $this->getOption(self::OPTION_PERSISTENCE);
     }
@@ -170,7 +172,7 @@ class RdsLockoutStorage extends ConfigurableService implements LockoutStorageInt
     /**
      * @return QueryBuilder
      */
-    protected function getQueryBuilder()
+    protected function getQueryBuilder(): QueryBuilder
     {
         return $this->getPersistence()->getPlatForm()->getQueryBuilder();
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,8 +23,6 @@
 
 namespace oat\tao\model\oauth\lockout;
 
-use IMSGlobal\LTI\OAuth\OAuthRequest;
-
 /**
  * Checks if the OAuth Session should be locked or not
  *
@@ -37,12 +37,12 @@ interface LockoutInterface
      *
      * @return void
      */
-    public function logFailedAttempt();
+    public function logFailedAttempt(): void;
 
     /**
      * Checks if current session is allowed based on previous failed attempts
      *
      * @return bool
      */
-    public function isAllowed();
+    public function isAllowed(): bool;
 }

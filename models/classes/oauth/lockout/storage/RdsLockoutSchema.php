@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -48,7 +50,7 @@ class RdsLockoutSchema extends ConfigurableService
      *
      * @return Schema
      */
-    public function getSchema(Schema $schema)
+    public function getSchema(Schema $schema): Schema
     {
         $table = $schema->createTable(RdsLockoutStorage::TABLE_NAME);
         $this->createLockoutsTable($table);
