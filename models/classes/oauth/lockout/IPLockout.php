@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,8 +23,6 @@
 
 namespace oat\tao\model\oauth\lockout;
 
-use IMSGlobal\LTI\OAuth\OAuthRequest;
-use oat\dtms\DateTime;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\exception\InvalidService;
 use oat\oatbox\service\exception\InvalidServiceManagerException;
@@ -48,14 +48,11 @@ class IPLockout extends ConfigurableService implements LockoutInterface
      */
     public const OPTION_SERVER_IP_FLAGS = 'SERVER_IP_FLAGS';
 
-    /** @var string */
-    private $ip = '';
-
     /**
      * @throws InvalidService
      * @throws InvalidServiceManagerException
      */
-    public function logFailedAttempt()
+    public function logFailedAttempt(): void
     {
         $this->getLockoutStorage()->store(
             $this->getOption(self::OPTION_IP_FACTORY)->create(),
@@ -68,7 +65,7 @@ class IPLockout extends ConfigurableService implements LockoutInterface
      * @throws InvalidService
      * @throws InvalidServiceManagerException
      */
-    public function isAllowed()
+    public function isAllowed(): bool
     {
         $failedAttempts = $this->getLockoutStorage()
             ->getFailedAttempts(
@@ -83,7 +80,7 @@ class IPLockout extends ConfigurableService implements LockoutInterface
      * @throws InvalidService
      * @throws InvalidServiceManagerException
      */
-    protected function getLockoutStorage()
+    protected function getLockoutStorage(): LockoutStorageInterface
     {
         return $this->getSubService(self::OPTION_LOCKOUT_STORAGE);
     }

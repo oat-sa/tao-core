@@ -29,7 +29,7 @@ class KvLockoutStorage extends ConfigurableService implements LockoutStorageInte
         return true;
     }
 
-    public function getFailedAttempts(string $ip)
+    public function getFailedAttempts(string $ip, int $timeout): int
     {
         return 0;
     }

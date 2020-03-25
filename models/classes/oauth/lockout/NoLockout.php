@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,7 +23,6 @@
 
 namespace oat\tao\model\oauth\lockout;
 
-use IMSGlobal\LTI\OAuth\OAuthRequest;
 use oat\oatbox\service\ConfigurableService;
 
 /**
@@ -30,17 +31,15 @@ use oat\oatbox\service\ConfigurableService;
  */
 class NoLockout extends ConfigurableService implements LockoutInterface
 {
-
-    public function logFailedAttempt()
+    public function logFailedAttempt(): void
     {
     }
 
     /**
      * @return bool
      */
-    public function isAllowed()
+    public function isAllowed(): bool
     {
         return true;
     }
-
 }

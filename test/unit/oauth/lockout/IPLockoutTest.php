@@ -8,7 +8,7 @@ use oat\tao\model\oauth\lockout\IPFactory;
 use oat\tao\model\oauth\lockout\IPLockout;
 use oat\tao\model\oauth\lockout\storage\LockoutStorageInterface;
 use oat\tao\model\oauth\lockout\storage\RdsLockoutStorage;
-use PHPUnit\Framework\MockObject\MockObject;
+use oat\generis\test\MockObject;
 
 class IPLockoutTest extends TestCase
 {
