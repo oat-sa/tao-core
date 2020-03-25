@@ -51,6 +51,6 @@ interface LockoutStorageInterface
      * @param int $timeout
      * @return mixed
      */
-    public function getFailedAttempts(string $ip, int $timeout): int;
+    public function getFailedAttempts(string $ip, int $timeout);
 
 }

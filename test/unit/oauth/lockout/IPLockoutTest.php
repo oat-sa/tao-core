@@ -23,7 +23,7 @@ class IPLockoutTest extends TestCase
 
     public function setUp(): void
     {
-        $this->lockStorageMock = $this->createMock(RdsLockoutStorage::class);
+        $this->lockStorageMock = $this->createPartialMock(RdsLockoutStorage::class, ['store', 'getFailedAttempts']);
 
         $ipFactoryMock = $this->createMock(IPFactory::class);
         $ipFactoryMock->method('create')->willReturn('127.0.0.1');
