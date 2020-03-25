@@ -59,9 +59,6 @@
         "slim/slim": "^3.0",
         "symfony/dotenv": "~4.3"
     },
-    "require-dev": {
-        "oat-sa/generis": "12.4.3"
-    },
     "autoload": {
         "psr-4": {
             "oat\\tao\\controller\\": "controller",
