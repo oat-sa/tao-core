@@ -50,7 +50,6 @@
         "imsglobal/lti": "^3.0",
         "justinrainbow/json-schema": "5.2.1",
         "oat-sa/composer-npm-bridge": "^0.3.0",
-        "oat-sa/generis": "12.4.3",
         "oat-sa/jig": "~0.1",
         "oat-sa/oatbox-extension-installer": "~1.1||dev-master",
         "paragonie/random_compat": "^2.0",
@@ -59,6 +58,9 @@
         "psr/http-message": "~1.0",
         "slim/slim": "^3.0",
         "symfony/dotenv": "~4.3"
+    },
+    "require-dev": {
+        "oat-sa/generis": "12.4.3"
     },
     "autoload": {
         "psr-4": {
@@ -72,6 +74,5 @@
         "files": [
             "includes/globalHelpers.php"
         ]
-    },
-    "minimum-stability": "dev"
+    }
 }
