@@ -112,7 +112,7 @@ class RdsLockoutStorage extends ConfigurableService implements LockoutStorageInt
      * @param int $timeout
      * @return int
      */
-    public function getFailedAttempts(string $ip, int $timeout): int
+    public function getFailedAttempts(string $ip, int $timeout)
     {
         $attempts = 0;
         $queryBuilder = $this->getQueryBuilder()
