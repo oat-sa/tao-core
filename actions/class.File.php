@@ -126,8 +126,13 @@ class tao_actions_File extends tao_actions_CommonModule
 
         $source = WebsourceManager::singleton()->getWebsource($key);
         if ($source instanceof ActionWebSource) {
-            $path = $subPath.(empty($filePath) ? '' : DIRECTORY_SEPARATOR . $filePath);
+            $path = $subPath . (empty($filePath) ? '' : DIRECTORY_SEPARATOR . $filePath);
             tao_helpers_Http::returnStream($source->getFileStream($path), $source->getMimetype($path));
+            $this->response = $this->getPsrResponse()->withBody($source->getFileStream($path));
+            $this->setContentHeader($source->getMimetype($path));
+            return $this->response;
+        } else {
+            throw new common_exception_NotFound('File not found');
         }
     }
 }
