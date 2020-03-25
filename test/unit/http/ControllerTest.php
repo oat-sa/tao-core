@@ -8,6 +8,7 @@ use oat\generis\test\TestCase;
 use oat\tao\model\http\Controller;
 use oat\tao\model\http\HttpFlowTrait;
 use oat\tao\model\http\HttpRequestHelperTrait;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 class ControllerTest extends TestCase
 {
@@ -16,7 +17,8 @@ class ControllerTest extends TestCase
         $this->assertSame(
             [
                 HttpRequestHelperTrait::class,
-                HttpFlowTrait::class
+                HttpFlowTrait::class,
+                ServiceLocatorAwareTrait::class
             ],
             array_keys(class_uses(Controller::class))
         );
