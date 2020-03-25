@@ -1368,5 +1368,7 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->getServiceManager()->register(OauthService::SERVICE_ID,$oauthService);
             $this->setVersion('41.8.0');
         }
+
+        $this->skip('41.8.0', '41.8.1');
     }
 }
