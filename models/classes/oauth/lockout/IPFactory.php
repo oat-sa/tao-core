@@ -40,7 +40,7 @@ class IPFactory
     /**
      * @return string
      */
-    public function create(): string
+    public function create()
     {
         if (empty($this->ip) && $this->flags) {
             foreach ($this->flags as $flag) {

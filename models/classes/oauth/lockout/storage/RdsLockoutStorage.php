@@ -139,7 +139,7 @@ class RdsLockoutStorage extends ConfigurableService implements LockoutStorageInt
      *
      * @return bool
      */
-    public function resetIp(string $ip): bool
+    public function resetIp(string $ip)
     {
         $queryBuilder = $this->getQueryBuilder()
             ->delete(self::TABLE_NAME)
