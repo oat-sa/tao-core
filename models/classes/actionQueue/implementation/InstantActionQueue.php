@@ -126,7 +126,7 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
      * @param QueuedAction $action
      * @return int
      * @throws ActionQueueException
-     * @deprecated Use InstantActionQueue::iaActionEnabled to check if action has enabled restrictions
+     * @deprecated Use InstantActionQueue::isActionEnabled to check if action has enabled restrictions
      */
     public function getLimits(QueuedAction $action)
     {
