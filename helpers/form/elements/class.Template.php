@@ -1,22 +1,22 @@
 <?php
-/**  
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
+ *
  */
 
 /**
@@ -25,10 +25,9 @@
  * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
- 
+
  */
-abstract class tao_helpers_form_elements_Template
-    extends tao_helpers_form_FormElement
+abstract class tao_helpers_form_elements_Template extends tao_helpers_form_FormElement
 {
     // --- ASSOCIATIONS ---
 
@@ -49,7 +48,7 @@ abstract class tao_helpers_form_elements_Template
      * @access protected
      * @var array
      */
-    protected $values = array();
+    protected $values = [];
 
     /**
      * The prefix is used to recognize the form fields inside the template.
@@ -66,7 +65,7 @@ abstract class tao_helpers_form_elements_Template
      * @access protected
      * @var array
      */
-    protected $variables = array();
+    protected $variables = [];
 
     // --- OPERATIONS ---
 
@@ -82,9 +81,7 @@ abstract class tao_helpers_form_elements_Template
     {
         
         
-    	$this->path = $path;
-    	
-        
+        $this->path = $path;
     }
 
     /**
@@ -99,11 +96,9 @@ abstract class tao_helpers_form_elements_Template
     {
         
         
-    	if(is_array($values)){
-    		$this->values = $values;
-    	}
-    	
-        
+        if (is_array($values)) {
+            $this->values = $values;
+        }
     }
 
     /**
@@ -140,8 +135,8 @@ abstract class tao_helpers_form_elements_Template
         
         
         //prevent to use empty prefix. By default the name is used!
-        if(empty($this->prefix) && !empty($this->name)){
-        	$this->prefix = $this->name . '_';
+        if (empty($this->prefix) && !empty($this->name)) {
+            $this->prefix = $this->name . '_';
         }
         
         $returnValue = $this->prefix;
@@ -163,9 +158,7 @@ abstract class tao_helpers_form_elements_Template
     {
         
         
-    	$this->prefix = $prefix;
-    	
-        
+        $this->prefix = $prefix;
     }
 
     /**
@@ -180,14 +173,9 @@ abstract class tao_helpers_form_elements_Template
     {
         
         
-    	if(!is_array($variables)){
-    		$variables = array($variables);
-    	}
-    	$this->variables = $variables;
-    	
-        
+        if (!is_array($variables)) {
+            $variables = [$variables];
+        }
+        $this->variables = $variables;
     }
-
 }
-
-?>

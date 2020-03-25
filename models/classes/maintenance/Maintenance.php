@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -85,7 +86,7 @@ class Maintenance extends ConfigurableService
         } catch (\common_exception_NotFound $e) {
             $this->enablePlatform();
             return new MaintenanceState(
-                array(MaintenanceState::STATUS => MaintenanceState::LIVE_MODE)
+                [MaintenanceState::STATUS => MaintenanceState::LIVE_MODE]
             );
         }
     }
@@ -97,9 +98,9 @@ class Maintenance extends ConfigurableService
      */
     protected function setPlatformState($status)
     {
-        $state = new MaintenanceState(array(
+        $state = new MaintenanceState([
             MaintenanceState::STATUS => $status
-        ));
+        ]);
 
         $this->getStorage()->setPlatformState($state);
     }

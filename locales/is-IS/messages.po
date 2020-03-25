@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint115\n"
-"PO-Revision-Date: 2019-11-22T10:23:11\n"
+"Project-Id-Version: TAO 3.4.0-sprint124\n"
+"PO-Revision-Date: 2020-03-13T09:36:40\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: is-IS\n"
@@ -183,6 +183,9 @@ msgstr "Aðgerðir"
 
 msgid "Add"
 msgstr "Bæta við"
+
+msgid "Add / Edit lists"
+msgstr ""
 
 msgid "Add a CSV file"
 msgstr "Bæta við CSV skrá"
@@ -899,6 +902,9 @@ msgstr ""
 msgid "Hide detailed report"
 msgstr "Fela nákvæma skýrslu"
 
+msgid "Hide password"
+msgstr ""
+
 msgid "Highlight all"
 msgstr ""
 
@@ -968,10 +974,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1010,10 +1016,10 @@ msgstr "Set upp viðbætur %s..."
 msgid "Instance saved"
 msgstr "Tilvik vistað"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr ""
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr ""
 
 msgid "Invalid CSP header."
@@ -1108,6 +1114,9 @@ msgstr "Listi - Einfalt val - Felligluggi"
 
 msgid "List - Single choice - Radio button"
 msgstr "Listi - Einfalt val - "
+
+msgid "List values"
+msgstr ""
 
 msgid "ln"
 msgstr ""
@@ -1361,10 +1370,10 @@ msgstr ""
 msgid "Off"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr ""
 
-msgid "Ok"
+msgid "OK"
 msgstr ""
 
 msgid "Old Password"
@@ -1458,9 +1467,6 @@ msgid "Please provide a reason"
 msgstr ""
 
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
-msgstr ""
-
-msgid "Please try in %s."
 msgstr ""
 
 msgid "Please wait"
@@ -1779,6 +1785,9 @@ msgstr "Stillingar uppfærðar"
 msgid "Show detailed report"
 msgstr "Sýna nákvæma skýrslu"
 
+msgid "Show password"
+msgstr ""
+
 msgid "Sign change"
 msgstr ""
 
@@ -2044,6 +2053,9 @@ msgid "Translation saved"
 msgstr "Þýðing vistuð"
 
 msgid "Tree - Multiple node choice "
+msgstr ""
+
+msgid "Tree values"
 msgstr ""
 
 msgid "True"

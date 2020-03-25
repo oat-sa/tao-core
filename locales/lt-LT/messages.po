@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint115\n"
-"PO-Revision-Date: 2019-11-22T10:23:23\n"
+"Project-Id-Version: TAO 3.4.0-sprint124\n"
+"PO-Revision-Date: 2020-03-13T09:37:26\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lt-LT\n"
@@ -183,6 +183,9 @@ msgstr "Veiksmai"
 
 msgid "Add"
 msgstr "Pridėti"
+
+msgid "Add / Edit lists"
+msgstr ""
 
 msgid "Add a CSV file"
 msgstr "Pridėti CSV failą"
@@ -900,6 +903,9 @@ msgstr "Labas, %s<br>Jūs nurodėte, kad pamiršote savo TAO slaptažodį."
 msgid "Hide detailed report"
 msgstr "Slėpti detalią ataskaitą"
 
+msgid "Hide password"
+msgstr ""
+
 msgid "Highlight all"
 msgstr "Pažymėti visus"
 
@@ -969,10 +975,10 @@ msgstr "Importuotas resursas \"%s"
 msgid "impossible to update task status"
 msgstr "neįmanoma atnaujinti užduoties būsenos"
 
-msgid "In progress"
+msgid "In Progress"
 msgstr "Vykdoma"
 
-msgid "In Progress"
+msgid "In progress"
 msgstr "Vykdoma"
 
 msgid "Inclusive (AND)"
@@ -1011,11 +1017,11 @@ msgstr "Įdiegiamas plėtinys %s..."
 msgid "Instance saved"
 msgstr "Instancija išsaugota"
 
-msgid "Interface Language"
-msgstr "Sąsajos Kalba"
-
 msgid "Interface language"
 msgstr "Sąsajos kalba"
+
+msgid "Interface Language"
+msgstr "Sąsajos Kalba"
 
 msgid "Invalid CSP header."
 msgstr ""
@@ -1109,6 +1115,9 @@ msgstr "Sąrašas - pasirinkimas vienos reikšmės iš iškrentančio sąrašo"
 
 msgid "List - Single choice - Radio button"
 msgstr "Sąrašas - Pasirinkimas tik vienos reikšmės "
+
+msgid "List values"
+msgstr ""
 
 msgid "ln"
 msgstr ""
@@ -1362,10 +1371,10 @@ msgstr "iš"
 msgid "Off"
 msgstr "Išjungta"
 
-msgid "OK"
+msgid "Ok"
 msgstr "Gerai"
 
-msgid "Ok"
+msgid "OK"
 msgstr "Gerai"
 
 msgid "Old Password"
@@ -1460,9 +1469,6 @@ msgstr "Prašome pateikti priežastį"
 
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
 msgstr "Klaidas ir komentarus prašome registruoti TAO forume."
-
-msgid "Please try in %s."
-msgstr "Prašome bandyti %s."
 
 msgid "Please wait"
 msgstr "Prašome palaukti"
@@ -1780,6 +1786,9 @@ msgstr "Nustatymai atnaujinti"
 msgid "Show detailed report"
 msgstr "Rodytį detalią ataskaitą"
 
+msgid "Show password"
+msgstr ""
+
 msgid "Sign change"
 msgstr "Ženklo keitimas"
 
@@ -2046,6 +2055,9 @@ msgstr "Vertimas išsaugotas"
 
 msgid "Tree - Multiple node choice "
 msgstr "Medis - galimi kelių šakų pasirinkimai"
+
+msgid "Tree values"
+msgstr ""
 
 msgid "True"
 msgstr "Teisingas"

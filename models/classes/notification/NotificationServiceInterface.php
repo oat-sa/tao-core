@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,17 +21,16 @@
 
 namespace oat\tao\model\notification;
 
-
 interface NotificationServiceInterface
 {
 
     const SERVICE_ID  = 'tao/notification';
 
     /**
-     * @param NotificationInterface $notification
-     * @return NotificationInterface
+     * @param Notification $notification
+     * @return Notification
      */
-    public function sendNotification(NotificationInterface $notification);
+    public function sendNotification(Notification $notification);
 
     /**
      * @param string $userId
@@ -45,20 +45,19 @@ interface NotificationServiceInterface
     public function getNotification($id);
 
     /**
-     * @param NotificationInterface $notification
+     * @param Notification $notification
      * @return boolean
      */
-    public function changeStatus(NotificationInterface $notification);
+    public function changeStatus(Notification $notification);
 
     /**
      * @param string $userId
      * @return array
      */
-    public function notificationCount( $userId);
+    public function notificationCount($userId);
 
     /**
      * @return boolean
      */
     public function getVisibility();
-
 }

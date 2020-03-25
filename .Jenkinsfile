@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        label 'master'
+        label 'builder'
     }
     stages {
         stage('Resolve TAO dependencies') {
@@ -51,7 +51,7 @@ registry.service.consul:4444/tao/dependency-resolver oat:dependencies:resolve --
                     )
                     sh(
                         label: 'Add phpunit',
-                        script: 'composer require phpunit/phpunit:^4.8'
+                        script: 'composer require phpunit/phpunit:^8.5'
                     )
                     sh(
                         label: "Extra filesystem mocks",

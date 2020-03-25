@@ -64,9 +64,8 @@ class WebhookTaskParamsFactoryTest extends TestCase
             unset($modifiedParams[$key]);
             try {
                 $factory->createFromArray($modifiedParams);
-            }
-            catch (\InvalidArgumentException $exception) {
-                $this->assertContains($key, $exception->getMessage());
+            } catch (\InvalidArgumentException $exception) {
+                $this->assertStringContainsString($key, $exception->getMessage());
                 continue;
             }
             $this->fail("No exception for missed '$key' key in params");
@@ -87,10 +86,9 @@ class WebhookTaskParamsFactoryTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         try {
             $factory->createFromArray($params);
-        }
-        catch (\InvalidArgumentException $exception) {
-            self::assertContains(WebhookTaskParams::EVENT_ID, $exception->getMessage());
-            self::assertContains(WebhookTaskParams::TRIGGERED_TIMESTAMP, $exception->getMessage());
+        } catch (\InvalidArgumentException $exception) {
+            $this->assertStringContainsString(WebhookTaskParams::EVENT_ID, $exception->getMessage());
+            $this->assertStringContainsString(WebhookTaskParams::TRIGGERED_TIMESTAMP, $exception->getMessage());
             throw $exception;
         }
     }

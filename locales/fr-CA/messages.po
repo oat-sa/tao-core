@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint115\n"
-"PO-Revision-Date: 2019-11-22T10:22:59\n"
+"Project-Id-Version: TAO 3.4.0-sprint124\n"
+"PO-Revision-Date: 2020-03-13T09:35:55\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-CA\n"
@@ -183,6 +183,9 @@ msgstr "Actions"
 
 msgid "Add"
 msgstr "Ajouter"
+
+msgid "Add / Edit lists"
+msgstr ""
 
 msgid "Add a CSV file"
 msgstr "Ajouter un fichier CSV"
@@ -900,6 +903,9 @@ msgstr ""
 msgid "Hide detailed report"
 msgstr "Cacher le rapport détaillé"
 
+msgid "Hide password"
+msgstr ""
+
 msgid "Highlight all"
 msgstr ""
 
@@ -969,10 +975,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1011,10 +1017,10 @@ msgstr "Installation de l'extension %s..."
 msgid "Instance saved"
 msgstr "Instance enregistrée"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "Langue de l'interface"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "Langue de l'interface"
 
 msgid "Invalid CSP header."
@@ -1109,6 +1115,9 @@ msgstr "Liste - Choix unique - Liste déroulante"
 
 msgid "List - Single choice - Radio button"
 msgstr "Liste - Choix multiple - Bouton radio"
+
+msgid "List values"
+msgstr ""
 
 msgid "ln"
 msgstr ""
@@ -1362,10 +1371,10 @@ msgstr "de"
 msgid "Off"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr "Ok"
 
-msgid "Ok"
+msgid "OK"
 msgstr "Ok"
 
 msgid "Old Password"
@@ -1459,9 +1468,6 @@ msgid "Please provide a reason"
 msgstr ""
 
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
-msgstr ""
-
-msgid "Please try in %s."
 msgstr ""
 
 msgid "Please wait"
@@ -1780,6 +1786,9 @@ msgstr "Réglages mis à jour"
 msgid "Show detailed report"
 msgstr "Montrer le détail du rapport"
 
+msgid "Show password"
+msgstr ""
+
 msgid "Sign change"
 msgstr ""
 
@@ -2045,6 +2054,9 @@ msgid "Translation saved"
 msgstr "Traduction enregistrée"
 
 msgid "Tree - Multiple node choice "
+msgstr ""
+
+msgid "Tree values"
 msgstr ""
 
 msgid "True"

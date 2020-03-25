@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -123,7 +124,7 @@ class WebhookTaskTest extends TestCase
      */
     private $webhookTaskReports;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->webhookRegistryMock = $this->createMock(WebhookRegistryInterface::class);
         $this->webhookPayloadFactoryInterfaceMock = $this->createMock(WebhookPayloadFactoryInterface::class);
@@ -146,6 +147,83 @@ class WebhookTaskTest extends TestCase
             LoggerService::SERVICE_ID => $this->logerMock,
             WebhookEventLogInterface::SERVICE_ID => $this->webhookLogServiceMock,
         ]);
+    }
+
+
+    public function testRequestWithoutResponsevalidation()
+    {
+        $whConfig = new Webhook('wh1', 'http://myurl', 'HMETHOD', 0, new WebhookAuth('authClass', []), true);
+        $webhookRegistry = $this->createWebhookRegistryMock(
+            ['Test\Event' => ['wh1']],
+            [
+                'wh1' => $whConfig
+            ]
+        );
+
+        $payloadFactory = $this->createWebhookPayloadFactoryMock('payloadCT', 'pay-load');
+
+        $taskParams = new WebhookTaskParams([
+            WebhookTaskParams::EVENT_NAME => 'eventName',
+            WebhookTaskParams::EVENT_ID => 'eventId',
+            WebhookTaskParams::TRIGGERED_TIMESTAMP => 1234565,
+            WebhookTaskParams::EVENT_DATA => ['d' => 4],
+            WebhookTaskParams::WEBHOOK_CONFIG_ID => 'wh1',
+            WebhookTaskParams::RESPONSE_VALIDATION => false,
+            WebhookTaskParams::RETRY_MAX => 5,
+        ]);
+        $taskParamsFactory = $this->createWebhookTaskParamsFactoryMock($taskParams);
+
+        $webhookResponse = new WebhookResponse(['eventId' => 'accepted']);
+        $webhookResponseFactory = $this->createWebhookResponseFactory('accCT', $webhookResponse);
+
+        $psrResponse = new Response(200, ['Content-Type' => 'accCT'], 'resp_body');
+        $webhookSender = $this->createWebhookSenderMock($psrResponse);
+        $queueTask = $this->createTaskMock('queueTaskId');
+
+        $task = new WebhookTask();
+
+        $task->setServiceLocator($this->getServiceLocatorMock([
+            WebhookRegistryInterface::SERVICE_ID => $webhookRegistry,
+            WebhookPayloadFactoryInterface::SERVICE_ID => $payloadFactory,
+            WebhookTaskParamsFactory::class => $taskParamsFactory,
+            WebhookResponseFactoryInterface::SERVICE_ID => $webhookResponseFactory,
+            WebhookSender::class => $webhookSender,
+            WebhookTaskReports::class => $this->webhookTaskReports
+        ]));
+        $task->setTask($queueTask);
+
+        $taskParamsFactory->method('createFromArray')->with(['ppp']);
+        $webhookResponseFactory->expects($this->once())->method('create')->with($psrResponse);
+        $payloadFactory->method('createPayload')->with('eventName', 'eventId', 1234565, ['d' => 4]);
+        $webhookSender->method('performRequest')->with(
+            $this->callback(static function (RequestInterface $request) {
+                return (string)$request->getBody() === 'pay-load' &&
+                    $request->getHeader('Content-Type')[0] === 'payloadCT' &&
+                    $request->getHeader('Accept')[0] === 'accCT';
+            }),
+            $this->callback(static function (WebhookAuthInterface $auth = null) use ($whConfig) {
+                return $auth === $whConfig->getAuth();
+            })
+        );
+        $report = \common_report_Report::createSuccess('success_text');
+        $this->webhookTaskReports->expects($this->once())
+            ->method('reportSuccess')
+            ->with(
+                $this->callback(function (WebhookTaskContext $context) use ($taskParams, $whConfig) {
+                    return 'queueTaskId' === $context->getTaskId() &&
+                        $taskParams === $context->getWebhookTaskParams() &&
+                        $whConfig === $context->getWebhookConfig();
+                }),
+                $psrResponse,
+                'accepted'
+            )
+            ->willReturn($report);
+
+        $result = $task(['ppp']);
+
+        $this->webhookTaskReports->expects($this->never())->method('reportInvalidBodyFormat');
+        $this->webhookTaskReports->expects($this->never())->method('reportInvalidAcknowledgement');
+        $this->assertSame($result, $report);
     }
 
     public function testInvokeRetryMechanismIncorectResponseCode()
@@ -246,7 +324,7 @@ class WebhookTaskTest extends TestCase
      */
     public function testInvokeValid()
     {
-        $whConfig = new Webhook('wh1', 'http://myurl', 'HMETHOD', 0, new WebhookAuth('authClass', []));
+        $whConfig = new Webhook('wh1', 'http://myurl', 'HMETHOD', 0, new WebhookAuth('authClass', []), true);
         $webhookRegistry = $this->createWebhookRegistryMock(
             ['Test\Event' => ['wh1']],
             [
@@ -261,7 +339,9 @@ class WebhookTaskTest extends TestCase
             WebhookTaskParams::EVENT_ID => 'eventId',
             WebhookTaskParams::TRIGGERED_TIMESTAMP => 1234565,
             WebhookTaskParams::EVENT_DATA => ['d' => 4],
-            WebhookTaskParams::WEBHOOK_CONFIG_ID => 'wh1'
+            WebhookTaskParams::WEBHOOK_CONFIG_ID => 'wh1',
+            WebhookTaskParams::RESPONSE_VALIDATION => true,
+            WebhookTaskParams::RETRY_MAX => 5,
         ]);
         $taskParamsFactory = $this->createWebhookTaskParamsFactoryMock($taskParams);
 
@@ -331,7 +411,9 @@ class WebhookTaskTest extends TestCase
             WebhookTaskParams::EVENT_ID => 'eventId',
             WebhookTaskParams::TRIGGERED_TIMESTAMP => 1234565,
             WebhookTaskParams::EVENT_DATA => ['d' => 4],
-            WebhookTaskParams::WEBHOOK_CONFIG_ID => 'wh1'
+            WebhookTaskParams::WEBHOOK_CONFIG_ID => 'wh1',
+            WebhookTaskParams::RESPONSE_VALIDATION => true,
+            WebhookTaskParams::RETRY_MAX => 5,
         ]);
         $taskParamsFactory = $this->createWebhookTaskParamsFactoryMock($taskParams);
 
@@ -373,7 +455,7 @@ class WebhookTaskTest extends TestCase
      */
     public function testEventNotDelivered()
     {
-        $whConfig = new Webhook('wh1', 'http://myurl', 'HMETHOD', 0, new WebhookAuth('authClass', []));
+        $whConfig = new Webhook('wh1', 'http://myurl', 'HMETHOD', 0, new WebhookAuth('authClass', []), true);
         $webhookRegistry = $this->createWebhookRegistryMock(
             ['Test\Event' => ['wh1']],
             [
@@ -388,7 +470,9 @@ class WebhookTaskTest extends TestCase
             WebhookTaskParams::EVENT_ID => 'eventId',
             WebhookTaskParams::TRIGGERED_TIMESTAMP => 1234565,
             WebhookTaskParams::EVENT_DATA => ['d' => 4],
-            WebhookTaskParams::WEBHOOK_CONFIG_ID => 'wh1'
+            WebhookTaskParams::WEBHOOK_CONFIG_ID => 'wh1',
+            WebhookTaskParams::RESPONSE_VALIDATION => true,
+            WebhookTaskParams::RETRY_MAX => 5,
         ]);
         $taskParamsFactory = $this->createWebhookTaskParamsFactoryMock($taskParams);
 
@@ -434,7 +518,7 @@ class WebhookTaskTest extends TestCase
      */
     public function testWrongResponse()
     {
-        $whConfig = new Webhook('wh1', 'http://myurl', 'HMETHOD', new WebhookAuth('authClass', []));
+        $whConfig = new Webhook('wh1', 'http://myurl', 'HMETHOD', 0, new WebhookAuth('authClass', []), true);
         $webhookRegistry = $this->createWebhookRegistryMock(
             ['Test\Event' => ['wh1']],
             [
@@ -449,7 +533,9 @@ class WebhookTaskTest extends TestCase
             WebhookTaskParams::EVENT_ID => 'eventId',
             WebhookTaskParams::TRIGGERED_TIMESTAMP => 1234565,
             WebhookTaskParams::EVENT_DATA => ['d' => 4],
-            WebhookTaskParams::WEBHOOK_CONFIG_ID => 'wh1'
+            WebhookTaskParams::WEBHOOK_CONFIG_ID => 'wh1',
+            WebhookTaskParams::RESPONSE_VALIDATION => true,
+            WebhookTaskParams::RETRY_MAX => 5,
         ]);
         $taskParamsFactory = $this->createWebhookTaskParamsFactoryMock($taskParams);
 
@@ -496,7 +582,7 @@ class WebhookTaskTest extends TestCase
     public function testHttpError()
     {
         $this->webhookTaskParamsMock = $this->createMock(WebhookTaskParams::class);
-        $whConfig = new Webhook('wh1', 'http://myurl', 'HMETHOD', 1, new WebhookAuth('authClass', []));
+        $whConfig = new Webhook('wh1', 'http://myurl', 'HMETHOD', 1, new WebhookAuth('authClass', []), true);
         $webhookRegistry = $this->createWebhookRegistryMock(
             ['Test\Event' => ['wh1']],
             [
@@ -514,6 +600,7 @@ class WebhookTaskTest extends TestCase
             WebhookTaskParams::WEBHOOK_CONFIG_ID => 'wh1',
             WebhookTaskParams::RETRY_COUNT => 0,
             WebhookTaskParams::RETRY_MAX => 1,
+            WebhookTaskParams::RESPONSE_VALIDATION => true,
         ]);
         $taskParamsFactory = $this->createWebhookTaskParamsFactoryMock($taskParams);
 
@@ -584,6 +671,7 @@ class WebhookTaskTest extends TestCase
             WebhookTaskParams::WEBHOOK_CONFIG_ID => 'wh1',
             WebhookTaskParams::RETRY_COUNT => 0,
             WebhookTaskParams::RETRY_MAX => 1,
+            WebhookTaskParams::RESPONSE_VALIDATION => true,
         ]);
         $taskParamsFactory = $this->createWebhookTaskParamsFactoryMock($taskParams);
 
@@ -643,14 +731,16 @@ class WebhookTaskTest extends TestCase
                 return isset($events[$eventName])
                     ? $events[$eventName]
                     : [];
-            });
+            }
+        );
 
         $registry->method('getWebhookConfig')->willReturnCallback(
             static function ($id) use ($whConfigs) {
                 return isset($whConfigs[$id])
                     ? $whConfigs[$id]
                     : null;
-            });
+            }
+        );
 
         return $registry;
     }
@@ -700,24 +790,15 @@ class WebhookTaskTest extends TestCase
     private function createWebhookSenderMock(
         ResponseInterface $response = null,
         \Exception $exception = null
-    )
-    {
+    ) {
         $sender = $this->createMock(WebhookSender::class);
         if ($response) {
             $sender->method('performRequest')->willReturn($response);
-        } else if ($exception) {
+        } elseif ($exception) {
             $sender->method('performRequest')->willThrowException($exception);
         }
 
         return $sender;
-    }
-
-    /**
-     * @return MockObject|LoggerInterface
-     */
-    private function createLoggerMock()
-    {
-        return $this->createMock(LoggerInterface::class);
     }
 
     /**

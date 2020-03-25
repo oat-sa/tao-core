@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,6 +18,7 @@
  * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
+
 namespace oat\tao\test\integration;
 
 use oat\tao\model\ClientLibRegistry;
@@ -24,7 +26,7 @@ use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\tao\helpers\Template;
 
 /**
- * 
+ *
  * @author Lionel Lecaque, lionel@taotesting.com
  */
 class ClientLibRegistryTest extends TaoPhpUnitTestRunner
@@ -40,7 +42,7 @@ class ClientLibRegistryTest extends TaoPhpUnitTestRunner
      *
      * @author Lionel Lecaque, lionel@taotesting.com
      */
-    public function setUp()
+    public function setUp(): void
     {
         TaoPhpUnitTestRunner::initTest();
         ClientLibRegistry::getRegistry()->remove($this->libId);
@@ -58,18 +60,18 @@ class ClientLibRegistryTest extends TaoPhpUnitTestRunner
         $map = ClientLibRegistry::getRegistry()->getMap();
         $this->assertFalse(empty($map));
         $this->assertFalse(isset($map[$this->libId]));
-        
+
         ClientLibRegistry::getRegistry()->register($this->libId, Template::js('fakePath/views/js/', 'tao'));
-        
+
         $map = ClientLibRegistry::getRegistry()->getMap();
-        $this->assertInternalType('array', $map);
+        $this->assertIsArray($map);
         $this->assertTrue(isset($map[$this->libId]));
-        
+
         $this->assertEquals('js/fakePath/views/js/', $map[$this->libId]['path']);
 
         return $this->libId;
     }
-    
+
     /**
      * Test:
      *  - {@link ClientLibRegistry::remove}
@@ -79,9 +81,9 @@ class ClientLibRegistryTest extends TaoPhpUnitTestRunner
     public function testRemove($libId)
     {
         ClientLibRegistry::getRegistry()->remove($libId);
-        
+
         $map = ClientLibRegistry::getRegistry()->getMap();
-        $this->assertInternalType('array', $map);
+        $this->assertIsArray($map);
         $this->assertFalse(isset($map[$libId]));
     }
 }

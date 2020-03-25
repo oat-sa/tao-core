@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -44,7 +45,7 @@ class ApplicationServiceTest extends TestCase
      */
     private $extensionMock;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -52,7 +53,7 @@ class ApplicationServiceTest extends TestCase
         $this->extensionMock = $this->createMock(common_ext_Extension::class);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
         unset($this->instance, $this->extensionMock);
@@ -173,7 +174,8 @@ class ApplicationServiceTest extends TestCase
      * @throws \common_ext_ExtensionException
      * @throws common_exception_Error
      */
-    public function testGetVersionName($buildNumber, $taoVersion, $expected) {
+    public function testGetVersionName($buildNumber, $taoVersion, $expected)
+    {
         $this->extensionMock->expects($this->once())
             ->method('getConstant')
             ->with('TAO_VERSION')
@@ -220,7 +222,8 @@ class ApplicationServiceTest extends TestCase
      *
      * @return array
      */
-    public function providerGetVersionName() {
+    public function providerGetVersionName()
+    {
         return [
             'Without build number' => [
                 'buildNumber' => null,

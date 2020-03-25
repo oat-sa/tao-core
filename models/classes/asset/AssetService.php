@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -57,7 +58,7 @@ class AssetService extends ConfigurableService
      */
     public function getAsset($asset, $extensionId = null)
     {
-        if( ! is_null($extensionId)){
+        if (! is_null($extensionId)) {
             $url = $this->getJsBaseWww($extensionId) . FsUtils::normalizePath($asset);
         } else {
             $url = $this->getAssetBaseUrl() . FsUtils::normalizePath($asset);
@@ -66,7 +67,7 @@ class AssetService extends ConfigurableService
         $isFolder = (substr_compare($url, '/', strlen($url) - 1) === 0);
 
         $buster = $this->getCacheBuster();
-        if($buster != false && $isFolder == false) {
+        if ($buster != false && $isFolder == false) {
             $url .= '?' . self::BUSTER_QUERY_KEY . '=' . urlencode($buster);
         }
 
@@ -100,7 +101,7 @@ class AssetService extends ConfigurableService
         $baseUrl = $this->hasOption(self::BASE_OPTION_KEY) ? $this->getOption(self::BASE_OPTION_KEY) : ROOT_URL;
 
         $baseUrl = trim($baseUrl);
-        if(substr($baseUrl, -1) != '/'){
+        if (substr($baseUrl, -1) != '/') {
             $baseUrl .= '/';
         }
 

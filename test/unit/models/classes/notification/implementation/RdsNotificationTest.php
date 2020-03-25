@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -23,7 +24,7 @@ use common_persistence_Manager as PersistenceManager;
 use common_persistence_Persistence as Persistence;
 use oat\generis\test\TestCase;
 use oat\oatbox\service\ServiceManager;
-use oat\tao\model\notification\implementation\Notification;
+use oat\tao\model\notification\Notification;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\generis\test\MockObject;
@@ -36,7 +37,7 @@ class RdsNotificationTest extends TestCase
     /** @var Persistence */
     private $persistence;
 
-    public function setUp()
+    public function setUp(): void
     {
         $persistenceId = 'rds_notification_test';
         $databaseMock = $this->getSqlMock($persistenceId);
@@ -86,7 +87,8 @@ class RdsNotificationTest extends TestCase
         $updatedAt = $this->persistence->getPlatform()->getNowExpression();
         $status = 12;
 
-        $notification = new Notification($recipientId,
+        $notification = new Notification(
+            $recipientId,
             $title,
             $message,
             $senderId,

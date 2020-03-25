@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -38,9 +39,9 @@ class UnionSearchServiceTest extends TestCase
     /** @var Search|MockObject */
     private $defaultSearchService;
 
-    public function setUp()
+    public function setUp(): void
     {
-        $this->defaultSearchService = $this->getMock(Search::class);
+        $this->defaultSearchService = $this->createMock(Search::class);
         $this->defaultSearchService->method('query')->willReturn(new ResultSet(['123'], 1));
 
         $this->serviceLocatorMock = $this->getServiceLocatorMock([
@@ -54,21 +55,21 @@ class UnionSearchServiceTest extends TestCase
     public function testItDoesNotFailWithNoOptionPassed()
     {
         $this->service->setOption(UnionSearchService::OPTION_SERVICES, null);
-        $this->service->query('needle', 'type');
+        $this->assertInstanceOf(ResultSet::class,$this->service->query('needle', 'type'));
     }
 
     public function testItWontFailWithInvalidSearchServicePassed()
     {
         $this->service->setOption(UnionSearchService::OPTION_SERVICES, [new \stdClass()]);
-        $this->service->query('needle', 'type');
+        $this->assertInstanceOf(ResultSet::class,$this->service->query('needle', 'type'));
     }
 
     public function testItPollsAllServicesPassed()
     {
-        $searchService2 = $this->getMock(Search::class);
+        $searchService2 = $this->createMock(Search::class);
         $searchService2->method('query')->willReturn(new ResultSet(['456'], 1));
 
-        $searchService3 = $this->getMock(Search::class);
+        $searchService3 = $this->createMock(Search::class);
         $searchService3->method('query')->willReturn(new ResultSet(['789'], 1));
 
         $this->service->setOption(UnionSearchService::OPTION_SERVICES, [$searchService2, $searchService3]);
@@ -84,10 +85,10 @@ class UnionSearchServiceTest extends TestCase
 
     public function testItExcludeDuplicates()
     {
-        $searchService2 = $this->getMock(Search::class);
+        $searchService2 = $this->createMock(Search::class);
         $searchService2->method('query')->willReturn(new ResultSet(['456'], 1));
 
-        $searchService3 = $this->getMock(Search::class);
+        $searchService3 = $this->createMock(Search::class);
         $searchService3->method('query')->willReturn(new ResultSet(['456'], 1));
 
         $this->service->setOption(UnionSearchService::OPTION_SERVICES, [$searchService2, $searchService3]);

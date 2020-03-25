@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,17 +18,15 @@
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  *
  */
+
 namespace oat\tao\model\notification\implementation;
 
 use oat\tao\model\notification\AbstractNotificationService;
-use oat\tao\model\notification\NotificationInterface;
+use oat\tao\model\notification\Notification;
 use common_persistence_Manager as PersistenceManager;
 
-class RdsNotification
-    extends AbstractNotificationService
-
+class RdsNotification extends AbstractNotificationService
 {
-
     const NOTIF_TABLE = 'notifications';
 
     const NOTIF_FIELD_ID           = 'id';
@@ -43,6 +42,7 @@ class RdsNotification
     const OPTION_PERSISTENCE       = 'persistence';
 
     const DEFAULT_PERSISTENCE      = 'default';
+
     /**
      * @var \common_persistence_Manager
      */
@@ -53,11 +53,10 @@ class RdsNotification
      */
     protected function getPersistence()
     {
-        if(is_null($this->persistence)) {
-
+        if (is_null($this->persistence)) {
             $persistence = self::DEFAULT_PERSISTENCE;
 
-            if($this->hasOption(self::OPTION_PERSISTENCE)) {
+            if ($this->hasOption(self::OPTION_PERSISTENCE)) {
                 $persistence = $this->getOption(self::OPTION_PERSISTENCE);
             }
 
@@ -67,12 +66,13 @@ class RdsNotification
         return $this->persistence;
     }
 
-    protected function getAllFieldString() {
+    protected function getAllFieldString()
+    {
         return self::NOTIF_FIELD_RECIPIENT . ' , ' . self::NOTIF_FIELD_STATUS . ' , ' . self::NOTIF_FIELD_SENDER . ' , ' . self::NOTIF_FIELD_SENDER_NANE
             . ' , ' . self::NOTIF_FIELD_TITLE . ' , ' .  self::NOTIF_FIELD_MESSAGE . ' , ' . self::NOTIF_FIELD_CREATION . ' , ' . self::NOTIF_FIELD_UPDATED ;
     }
 
-    public function sendNotification(NotificationInterface $notification)
+    public function sendNotification(Notification $notification)
     {
         $persistence = $this->getPersistence();
 
@@ -93,7 +93,7 @@ class RdsNotification
             $platform->getNowExpression()
         ];
 
-        $persistence->exec($sqlQuery , $data);
+        $persistence->exec($sqlQuery, $data);
 
         return $notification;
     }
@@ -113,11 +113,10 @@ class RdsNotification
             $userId
         ];
 
-        $stmt   = $persistence->query($selectQuery , $params);
+        $stmt   = $persistence->query($selectQuery, $params);
         $result = $stmt->fetchAll();
 
-        foreach($result as $notificationDetail) {
-
+        foreach ($result as $notificationDetail) {
             $userId     = $notificationDetail[self::NOTIF_FIELD_RECIPIENT];
             $title      = $notificationDetail[self::NOTIF_FIELD_TITLE];
             $message    = $notificationDetail[self::NOTIF_FIELD_MESSAGE];
@@ -127,7 +126,7 @@ class RdsNotification
             $createdAt  = $notificationDetail[self::NOTIF_FIELD_CREATION];
             $updatedAt  = $notificationDetail[self::NOTIF_FIELD_UPDATED];
             $status     = $notificationDetail[self::NOTIF_FIELD_STATUS];
-            $notification[] = new Notification($userId , $title , $message , $senderId , $senderName , $id , $createdAt , $updatedAt ,  $status);
+            $notification[] = new Notification($userId, $title, $message, $senderId, $senderName, $id, $createdAt, $updatedAt, $status);
         }
 
         return $notification;
@@ -145,10 +144,10 @@ class RdsNotification
             $id
         ];
 
-        $stmt               = $persistence->query($selectQuery , $params);
+        $stmt               = $persistence->query($selectQuery, $params);
         $notificationDetail = $stmt->fetch();
 
-        if($notificationDetail) {
+        if ($notificationDetail) {
             $userId    = $notificationDetail[self::NOTIF_FIELD_RECIPIENT];
             $title     = $notificationDetail[self::NOTIF_FIELD_TITLE];
             $message   = $notificationDetail[self::NOTIF_FIELD_MESSAGE];
@@ -161,13 +160,13 @@ class RdsNotification
             $user      = new \core_kernel_classes_Resource($userId);
             $sender    = new \core_kernel_classes_Resource($senderId);
 
-            return new Notification($user , $title , $message , $sender , $id , $createdAt , $updatedAt ,  $status);
+            return new Notification($user, $title, $message, $sender, $id, $createdAt, $updatedAt, $status);
         }
 
-        throw new \common_exception_NotFound('unknown notification id '. $id );
+        throw new \common_exception_NotFound('unknown notification id ' . $id);
     }
 
-    public function changeStatus(NotificationInterface $notification)
+    public function changeStatus(Notification $notification)
     {
         $updateQuery = 'UPDATE ' . self::NOTIF_TABLE . ' SET ' .
                             self::NOTIF_FIELD_UPDATED . ' = ? ,' .
@@ -184,15 +183,14 @@ class RdsNotification
                 $notification->getId(),
             ];
 
-        return $persistence->exec($updateQuery , $data);
-
+        return $persistence->exec($updateQuery, $data);
     }
 
     public function notificationCount($userId)
     {
 
         $persistence = $this->getPersistence();
-        $count = [ NotificationInterface::CREATED_STATUS => 0 ];
+        $count = [ Notification::CREATED_STATUS => 0 ];
 
         $selectQuery = 'SELECT ' . self::NOTIF_FIELD_STATUS . ' , COUNT(' . self::NOTIF_FIELD_ID . ') as cpt' .
             ' FROM ' . self::NOTIF_TABLE . ' WHERE ' .
@@ -203,19 +201,14 @@ class RdsNotification
             $userId
         ];
 
-        $stmt   = $persistence->query($selectQuery , $params);
+        $stmt   = $persistence->query($selectQuery, $params);
 
         if (($result = $stmt->fetchAll()) !== false) {
-
             foreach ($result as $statusCount) {
                 $count[$statusCount[self::NOTIF_FIELD_STATUS]] = $statusCount['cpt'];
             }
         }
 
         return $count;
-
     }
-
-
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -26,17 +27,19 @@ use oat\tao\model\accessControl\func\FuncHelper;
 use oat\generis\test\GenerisPhpUnitTestRunner;
 
 /**
- * Unit test the  oat\tao\model\menu\Section class 
+ * Unit test the  oat\tao\model\menu\Section class
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @package tao
  */
-class ActionTest extends GenerisPhpUnitTestRunner {
+class ActionTest extends GenerisPhpUnitTestRunner
+{
 
     /**
      * Test {@link FuncHelper::getClassNameByUrl}}
      */
-    public function testGetClassNameByUrl() {
-        $url = ROOT_URL. 'tao/Main/index';
+    public function testGetClassNameByUrl()
+    {
+        $url = ROOT_URL . 'tao/Main/index';
         $expectedClassName = 'tao_actions_Main';
 
         $className = FuncHelper::getClassNameByUrl($url);
@@ -47,30 +50,33 @@ class ActionTest extends GenerisPhpUnitTestRunner {
 
     /**
      * Test {@link FuncHelper::getClassNameByUrl}} with wrong parameters
-     * @expectedException common_exception_Error
      */
-    public function testFailingGetClassNameByUrl(){
-       FuncHelper::getClassNameByUrl(''); 
+    public function testFailingGetClassNameByUrl()
+    {
+        $this->expectException(common_exception_Error::class);
+        FuncHelper::getClassNameByUrl('');
     }
 
     /**
      * Provides data for testGetClassName : extension name, controller shortname and expected controller class name
      * @return array() the data
-     */     
-    public function getClassNameProvider(){
-        return array(
-            array('tao', 'Main', 'tao_actions_Main')
-        );
-    }   
- 
+     */
+    public function getClassNameProvider()
+    {
+        return [
+            ['tao', 'Main', 'tao_actions_Main']
+        ];
+    }
+
     /**
      * Test {@link FuncHelper::getClassName}}
-     * @dataProvider getClassNameProvider 
+     * @dataProvider getClassNameProvider
      * @param string $extension
      * @param string $shortName
      * @param string $expectedClassName
      */
-    public function testGetClassName($extension, $shortName, $expectedClassName){    
+    public function testGetClassName($extension, $shortName, $expectedClassName)
+    {
         $className = FuncHelper::getClassName($extension, $shortName);
 
         $this->assertTrue(is_string($className));

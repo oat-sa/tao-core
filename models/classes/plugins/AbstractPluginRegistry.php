@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,6 +17,7 @@
  *
  * Copyright (c) 2016-2017 (original work) Open Assessment Technologies SA;
  */
+
 namespace oat\tao\model\plugins;
 
 use oat\tao\model\modules\AbstractModuleRegistry;
@@ -25,7 +27,7 @@ use oat\tao\model\modules\AbstractModuleRegistry;
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
- * @deprecated Still exists for compatibility reason. Should be replaced by AbstractModuleRegistry  
+ * @deprecated Still exists for compatibility reason. Should be replaced by AbstractModuleRegistry
  */
 abstract class AbstractPluginRegistry extends AbstractModuleRegistry
 {

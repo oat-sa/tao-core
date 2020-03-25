@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -59,7 +60,7 @@ class RestSessionFactory extends ConfigurableService
                 return $this->startSession($builder->getSession($request));
             }
         }
-        throw new LoginFailedException(array('Request cannot be authenticated.'));
+        throw new LoginFailedException(['Request cannot be authenticated.']);
     }
 
     /**
@@ -100,5 +101,4 @@ class RestSessionFactory extends ConfigurableService
     {
         return is_subclass_of($resolver->getControllerClass(), \tao_actions_RestController::class);
     }
-
 }

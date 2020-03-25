@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -111,7 +112,8 @@ class WebhookEventsService extends ConfigurableService implements WebhookEventsS
         }
 
         if (!($event instanceof WebhookSerializableEventInterface)) {
-            $this->logError(sprintf('Event "%s" passed to "%s" is not implementing "%s"',
+            $this->logError(sprintf(
+                'Event "%s" passed to "%s" is not implementing "%s"',
                 $eventName,
                 self::class,
                 WebhookSerializableEventInterface::class
@@ -132,9 +134,9 @@ class WebhookEventsService extends ConfigurableService implements WebhookEventsS
     {
         try {
             $eventData = $event->serializeForWebhook();
-        }
-        catch (\Exception $exception) {
-            $this->logError(sprintf('Error during "%s" event serialization for webhook. %s',
+        } catch (\Exception $exception) {
+            $this->logError(sprintf(
+                'Error during "%s" event serialization for webhook. %s',
                 $event->getName(),
                 $exception->getMessage()
             ));
@@ -157,7 +159,8 @@ class WebhookEventsService extends ConfigurableService implements WebhookEventsS
                 WebhookTaskParams::EVENT_DATA => $eventData,
                 WebhookTaskParams::WEBHOOK_CONFIG_ID => $webhookConfigId,
                 WebhookTaskParams::RETRY_COUNT => 1,
-                WebhookTaskParams::RETRY_MAX => $webhookConfig->getMaxRetries()
+                WebhookTaskParams::RETRY_MAX => $webhookConfig->getMaxRetries(),
+                WebhookTaskParams::RESPONSE_VALIDATION => $webhookConfig->getResponseValidationEnable(),
             ]);
         }
 
@@ -174,7 +177,8 @@ class WebhookEventsService extends ConfigurableService implements WebhookEventsS
                 $this->getWebhookTaskService()->createTask($taskParams);
             } catch (\Exception $exception) {
                 $this->logError(
-                    sprintf("Can't create webhook task for %s. %s",
+                    sprintf(
+                        "Can't create webhook task for %s. %s",
                         $taskParams[WebhookTaskParams::EVENT_ID],
                         $exception->getMessage()
                     ),
@@ -189,7 +193,8 @@ class WebhookEventsService extends ConfigurableService implements WebhookEventsS
      * @param string $eventName
      * @return string
      */
-    private function generateEventId($eventName) {
+    private function generateEventId($eventName)
+    {
         return md5(
             microtime() .
             mt_rand() .

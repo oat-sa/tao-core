@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,18 +15,19 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
- *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *               2013-2018 (update and modification) Open Assessment Technologies SA;
- *
+ * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the
+ * project TAO & TAO2);
+ *   2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
+ *   2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ *   2013-2018 (update and modification) Open Assessment Technologies SA;
  */
 
+use oat\generis\model\OntologyAwareTrait;
+use oat\oatbox\log\LoggerAwareTrait;
+use oat\tao\model\resources\SecureResourceServiceInterface;
 use oat\tao\model\task\ExportByHandler;
 use oat\tao\model\taskQueue\QueueDispatcher;
 use oat\tao\model\taskQueue\TaskLogActionTrait;
-use oat\generis\model\OntologyAwareTrait;
-use oat\oatbox\log\LoggerAwareTrait;
 
 /**
  * This controller provide the actions to export and manage exported data
@@ -39,21 +41,23 @@ class tao_actions_Export extends tao_actions_CommonModule
     /**
      * @return mixed
      * @throws common_Exception
-     * @throws common_exception_Error
      */
     public function index()
     {
         $formData = [];
-        if ($this->hasRequestParameter('classUri')) {
-            if (trim($this->getRequestParameter('classUri')) != '') {
-                $formData['class'] = $this->getClass(tao_helpers_Uri::decode($this->getRequestParameter('classUri')));
-            }
+
+        if ($this->hasRequestParameter('classUri') && trim($this->getRequestParameter('classUri')) !== '') {
+            $formData['class'] = $this->getClass(tao_helpers_Uri::decode($this->getRequestParameter('classUri')));
         }
-        if ($this->hasRequestParameter('uri') && $this->hasRequestParameter('classUri')) {
-            if (trim($this->getRequestParameter('uri')) != '') {
-                $formData['instance'] = $this->getResource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
-            }
+
+        if (
+            $this->hasRequestParameter('uri')
+            && $this->hasRequestParameter('classUri')
+            && trim($this->getRequestParameter('uri')) !== ''
+        ) {
+            $formData['instance'] = $this->getResource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
         }
+
         $formData['id'] = $this->getRequestParameter('id');
 
         if (!$this->isExportable($formData)) {
@@ -66,13 +70,15 @@ class tao_actions_Export extends tao_actions_CommonModule
         $handlers = $this->getAvailableExportHandlers();
         $exporter = $this->getCurrentExporter();
 
-        $selectedResource = isset($formData['instance']) ? $formData['instance'] : $formData['class'];
+        $selectedResource = $formData['instance'] ?? $formData['class'];
+
         if (!$selectedResource) {
             throw new common_exception_MissingParameter();
         }
+
         $formFactory = new tao_actions_form_Export($handlers, $exporter->getExportForm($selectedResource), $formData);
         $exportForm = $formFactory->getForm();
-        if (!is_null($exporter)) {
+        if ($exporter !== null) {
             $exportForm->setValues(['exportHandler' => get_class($exporter)]);
         }
         $this->setData('exportForm', $exportForm->render());
@@ -87,21 +93,25 @@ class tao_actions_Export extends tao_actions_CommonModule
 
                 //allow to export complete classes
                 if (isset($exportData['type']) && $exportData['type'] === 'class') {
-
-                    $children = [];
+                    $children = [[]];
                     foreach ($instances as $instance) {
                         $class = $this->getClass(tao_helpers_Uri::decode($instance));
-                        $children = array_merge($children, $class->getInstances());
+                        $children[] = $class->getInstances();
                     }
-                    $exportData['instances'] = $children;
+                    $exportData['instances'] = array_merge(...$children);
                 } else {
                     foreach ($instances as $instance) {
                         $exportData['instances'][] = tao_helpers_Uri::decode($instance);
                     }
                 }
 
+                if (!empty($exportData['instances'])) {
+                    $this->getSecureResourceService()->validatePermissions($exportData['instances'], ['READ']);
+                }
             } elseif (isset($exportData['exportInstance'])) {
                 $exportData['exportInstance'] = tao_helpers_Uri::decode($exportData['exportInstance']);
+
+                $this->getSecureResourceService()->validatePermissions([$exportData['exportInstance']], ['READ']);
             }
 
             /** @var QueueDispatcher $queueDispatcher */
@@ -111,7 +121,7 @@ class tao_actions_Export extends tao_actions_CommonModule
                 new ExportByHandler(),
                 [
                     ExportByHandler::PARAM_EXPORT_HANDLER => get_class($exporter),
-                    ExportByHandler::PARAM_EXPORT_DATA => $exportData
+                    ExportByHandler::PARAM_EXPORT_DATA    => $exportData
                 ],
                 __('Export "%s" in %s', $selectedResource->getLabel(), $exporter->getLabel())
             );
@@ -126,17 +136,17 @@ class tao_actions_Export extends tao_actions_CommonModule
 
         $this->setData('formTitle', __('Export '));
         $this->setView('form/export.tpl', 'tao');
-
     }
 
     /**
      * Is the metadata of the given resource is exportable?
      *
-     * @author Gyula Szucs, <gyula@taotesting.com>
      * @param array $formData
+     *
      * @return bool
+     * @author Gyula Szucs, <gyula@taotesting.com>
      */
-    protected function isExportable(array $formData)
+    protected function isExportable(array $formData): bool
     {
         return true;
     }
@@ -144,10 +154,10 @@ class tao_actions_Export extends tao_actions_CommonModule
     /**
      * Return a message, if the metadata of the resource is not exportable
      *
-     * @author Gyula Szucs, <gyula@taotesting.com>
      * @return string
+     * @author Gyula Szucs, <gyula@taotesting.com>
      */
-    protected function getNotExportableMessage($formData)
+    protected function getNotExportableMessage($formData): string
     {
         return __('Metadata export is not available for the selected resource.');
     }
@@ -159,12 +169,18 @@ class tao_actions_Export extends tao_actions_CommonModule
             $returnValue[] = $this->getResource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
         } elseif ($this->hasRequestParameter('classUri') && trim($this->getRequestParameter('classUri')) != '') {
             $class = $this->getClass(tao_helpers_Uri::decode($this->getRequestParameter('classUri')));
-            $returnValue = $class->getInstances(true);
+            $resourceService = $this->getSecureResourceService();
+            $returnValue = $resourceService->getAllChildren($class);
         } else {
             $this->logWarning('No resources to export');
         }
 
         return $returnValue;
+    }
+
+    private function getSecureResourceService(): SecureResourceServiceInterface
+    {
+        return $this->getServiceLocator()->get(SecureResourceServiceInterface::SERVICE_ID);
     }
 
     /**
@@ -177,7 +193,8 @@ class tao_actions_Export extends tao_actions_CommonModule
     {
         if ($this->hasRequestParameter('exportHandler')) {
             $exportHandler = $_REQUEST['exportHandler'];//allow method "GET"
-            if (class_exists($exportHandler)
+            if (
+                class_exists($exportHandler)
                 && in_array('tao_models_classes_export_ExportHandler', class_implements($exportHandler))
             ) {
                 return new $exportHandler();

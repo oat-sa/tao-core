@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -50,8 +51,8 @@ class ThemeConverter
         }
 
         // older themes are stored as an instance, newer ones as array
-        if(is_array($theme)) {
-            if(empty($theme[ThemeServiceInterface::THEME_CLASS_OFFSET])) {
+        if (is_array($theme)) {
+            if (empty($theme[ThemeServiceInterface::THEME_CLASS_OFFSET])) {
                 throw new \common_exception_MissingParameter(
                     ThemeServiceInterface::THEME_CLASS_OFFSET,
                     __METHOD__
@@ -90,7 +91,7 @@ class ThemeConverter
             }
         }
         // TAO default logo URL is different
-        if($theme instanceof DefaultTheme) {
+        if ($theme instanceof DefaultTheme) {
             $options['logoUrl'] = Template::img('tao-logo.png', 'tao');
         }
 
@@ -100,7 +101,7 @@ class ThemeConverter
             }
             foreach ($templates as $id) {
                 $template = $theme->getTemplate($id);
-                if(!is_null($template)) {
+                if (!is_null($template)) {
                     $options[ConfigurablePlatformTheme::TEMPLATES][$id] = $template;
                 }
             }

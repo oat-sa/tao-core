@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -121,7 +122,6 @@ class tao_helpers_data_GenerisAdapterRdf extends tao_helpers_data_GenerisAdapter
         foreach ($resource->getProperties() as $property) {
             $this->addResource($graph, $property);
         }
-
     }
 
     /**

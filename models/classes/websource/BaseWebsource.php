@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * This program is free software; you can redistribute it and/or
@@ -41,17 +42,17 @@ abstract class BaseWebsource extends Configurable implements Websource
     const OPTION_ID = 'id';
     const OPTION_FILESYSTEM_ID = 'fsUri';
 
-	/**
-	 * Filesystem that is being made available
-	 */
-	protected $fileSystem = null;
+    /**
+     * Filesystem that is being made available
+     */
+    protected $fileSystem = null;
 
-	/**
-	 * Identifier of the Access Provider
-	 *
-	 * @var string
-	 */
-	private $id;
+    /**
+     * Identifier of the Access Provider
+     *
+     * @var string
+     */
+    private $id;
 
     /**
      * Used to instantiate new AccessProviders
@@ -60,23 +61,25 @@ abstract class BaseWebsource extends Configurable implements Websource
      * @return BaseWebsource
      * @throws \common_Exception
      */
-    protected static function spawn($fileSystemId, $customConfig = array()) {
-	    $customConfig[self::OPTION_FILESYSTEM_ID] = $fileSystemId;
-	    $customConfig[self::OPTION_ID] = uniqid();
-	    $webSource = new static($customConfig);
-	    WebsourceManager::singleton()->addWebsource($webSource);
+    protected static function spawn($fileSystemId, $customConfig = [])
+    {
+        $customConfig[self::OPTION_FILESYSTEM_ID] = $fileSystemId;
+        $customConfig[self::OPTION_ID] = uniqid();
+        $webSource = new static($customConfig);
+        WebsourceManager::singleton()->addWebsource($webSource);
 
-	    return $webSource;
-	}
+        return $webSource;
+    }
 
-	/**
-	 * Return the identifer of the AccessProvider
-	 *
-	 * @return string
-	 */
-	public function getId() {
-	    return $this->getOption(self::OPTION_ID);
-	}
+    /**
+     * Return the identifer of the AccessProvider
+     *
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->getOption(self::OPTION_ID);
+    }
 
     /**
      * @return null|\oat\oatbox\filesystem\FileSystem
@@ -108,10 +111,10 @@ abstract class BaseWebsource extends Configurable implements Websource
         $fs = $this->getFileSystem();
         try {
             $resource = $fs->readStream($filePath);
-        } catch(FileNotFoundException $e) {
+        } catch (FileNotFoundException $e) {
             throw new \tao_models_classes_FileNotFoundException($filePath);
         }
-        return new Stream($resource, array('size' => $fs->getSize($filePath)));
+        return new Stream($resource, ['size' => $fs->getSize($filePath)]);
     }
 
     /**
@@ -141,7 +144,8 @@ abstract class BaseWebsource extends Configurable implements Websource
                     }
                     break;
                 case 'svg':
-                    if ($mimeType === 'text/plain') {
+                    //when there are more than one image in svg file - finfo recognizes it as `image/svg`, while it should be `image/svg+xml` or at least `text/plain` for a previous hack to work
+                    if ($mimeType === 'text/plain' || $mimeType === 'image/svg') {
                         return 'image/svg+xml';
                     }
                     break;

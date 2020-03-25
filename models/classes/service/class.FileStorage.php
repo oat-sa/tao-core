@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,12 +28,12 @@ use oat\oatbox\filesystem\FileSystemService;
 use oat\tao\model\service\ServiceFileStorage;
 
 /**
- * Represents the file storage used in services 
+ * Represents the file storage used in services
  *
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package tao
- 
+
  */
 class tao_models_classes_service_FileStorage extends ConfigurableService implements ServiceFileStorage
 {
@@ -43,7 +44,8 @@ class tao_models_classes_service_FileStorage extends ConfigurableService impleme
     /**
      * @return tao_models_classes_service_FileStorage
      */
-    public static function singleton() {
+    public static function singleton()
+    {
         return ServiceManager::getServiceManager()->get(self::SERVICE_ID);
     }
     
@@ -64,7 +66,9 @@ class tao_models_classes_service_FileStorage extends ConfigurableService impleme
     protected function getAccessProvider()
     {
         if (is_null($this->accessProvider)) {
-            $this->accessProvider = WebsourceManager::singleton()->getWebsource($this->getOption(self::OPTION_ACCESS_PROVIDER));
+            $this->accessProvider = $this->getServiceLocator()
+                ->get(WebsourceManager::class)
+                ->getWebsource($this->getOption(self::OPTION_ACCESS_PROVIDER));
         }
         return $this->accessProvider;
     }
@@ -73,8 +77,9 @@ class tao_models_classes_service_FileStorage extends ConfigurableService impleme
      * @param boolean $public
      * @return tao_models_classes_service_StorageDirectory
      */
-    public function spawnDirectory($public = false) {
-        $id = common_Utils::getNewUri().($public ? '+' : '-');
+    public function spawnDirectory($public = false)
+    {
+        $id = common_Utils::getNewUri() . ($public ? '+' : '-');
         $directory = $this->getDirectoryById($id);
         return $directory;
     }
@@ -83,8 +88,9 @@ class tao_models_classes_service_FileStorage extends ConfigurableService impleme
      * @param string $id
      * @return tao_models_classes_service_StorageDirectory
      */
-    public function getDirectoryById($id) {
-        $public = $id[strlen($id)-1] == '+';
+    public function getDirectoryById($id)
+    {
+        $public = $id[strlen($id) - 1] == '+';
         $path = $this->id2path($id);
         $dir = new tao_models_classes_service_StorageDirectory(
             $id,
@@ -104,7 +110,7 @@ class tao_models_classes_service_FileStorage extends ConfigurableService impleme
      */
     public function deleteDirectoryById($id)
     {
-        $public = $id[strlen($id)-1] == '+';
+        $public = $id[strlen($id) - 1] == '+';
         $path = $this->id2path($id);
         return $this->getServiceLocator()->get(FileSystemService::SERVICE_ID)->getFileSystem($this->getFsId($public))->deleteDir($path);
     }
@@ -121,7 +127,8 @@ class tao_models_classes_service_FileStorage extends ConfigurableService impleme
             foreach (
                 $iterator = new \RecursiveIteratorIterator(
                     new \RecursiveDirectoryIterator($directoryPath, \RecursiveDirectoryIterator::SKIP_DOTS),
-                    \RecursiveIteratorIterator::SELF_FIRST) as $item
+                    \RecursiveIteratorIterator::SELF_FIRST
+                ) as $item
             ) {
                 if (!$item->isDir()) {
                     $file = $directory->getFile($iterator->getSubPathName());
@@ -143,20 +150,21 @@ class tao_models_classes_service_FileStorage extends ConfigurableService impleme
         }
     }
     
-    private function id2path($id) {
+    private function id2path($id)
+    {
 
         $encoded = md5($id);
         $returnValue = "";
         $len = strlen($encoded);
         for ($i = 0; $i < $len; $i++) {
             if ($i < 3) {
-                $returnValue .= $encoded[$i].DIRECTORY_SEPARATOR;
+                $returnValue .= $encoded[$i] . DIRECTORY_SEPARATOR;
             } else {
                 $returnValue .= $encoded[$i];
             }
         }
         
-        return $returnValue.DIRECTORY_SEPARATOR;
+        return $returnValue . DIRECTORY_SEPARATOR;
     }
 
     /**

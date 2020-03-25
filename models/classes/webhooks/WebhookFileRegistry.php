@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -57,8 +58,7 @@ class WebhookFileRegistry extends ConfigurableService implements WebhookRegistry
 
         try {
             return $this->getWebhookEntryFactory()->createEntryFromArray($webhooks[$id]);
-        }
-        catch (\InvalidArgumentException $exception) {
+        } catch (\InvalidArgumentException $exception) {
             throw new \InvalidArgumentException("Invalid '$id' webhook config. " . $exception->getMessage());
         }
     }
@@ -79,7 +79,8 @@ class WebhookFileRegistry extends ConfigurableService implements WebhookRegistry
     /**
      * @return WebhookEntryFactory
      */
-    private function getWebhookEntryFactory() {
+    private function getWebhookEntryFactory()
+    {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->getServiceLocator()->get(WebhookEntryFactory::class);
     }

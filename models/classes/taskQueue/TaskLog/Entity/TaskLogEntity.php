@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -210,7 +211,7 @@ class TaskLogEntity implements EntityInterface
      */
     public function isMasterStatus()
     {
-        return (boolean) $this->masterStatus;
+        return (bool) $this->masterStatus;
     }
 
     /**
@@ -284,7 +285,7 @@ class TaskLogEntity implements EntityInterface
             'id' => $this->id,
             'taskName' => $this->taskName,
             'status' => (string) $this->status,
-            'masterStatus' => (boolean) $this->masterStatus,
+            'masterStatus' => (bool) $this->masterStatus,
             'statusLabel' => $this->status->getLabel()
         ];
 

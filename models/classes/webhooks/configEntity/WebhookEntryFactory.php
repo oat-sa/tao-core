@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -39,12 +40,18 @@ class WebhookEntryFactory extends ConfigurableService
             ? $this->createAuthEntryFromArray($data[Webhook::AUTH])
             : null;
 
+        $responseValidation = true; // default value for validation for back compatibility, because old webhooks are nod updated and may not contain this new parameter
+        if (array_key_exists(Webhook::RESPONSE_VALIDATION, $data)) {
+            $responseValidation = $data[Webhook::RESPONSE_VALIDATION];
+        }
+
         return new Webhook(
             $data[Webhook::ID],
             $data[Webhook::URL],
             $data[Webhook::HTTP_METHOD],
             $data[Webhook::RETRY_MAX],
-            $auth
+            $auth,
+            $responseValidation
         );
     }
 

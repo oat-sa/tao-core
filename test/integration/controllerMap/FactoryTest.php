@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,34 +23,38 @@
  *
  */
 
+use oat\tao\model\controllerMap\ActionNotFoundException;
 use oat\tao\model\controllerMap\Factory;
 use oat\tao\model\controllerMap\ControllerDescription;
 use oat\tao\model\controllerMap\ActionDescription;
 use oat\tao\test\TaoPhpUnitTestRunner;
-
 use oat\tao\test\integration\controllerMap\stubs\ValidNamespacedController;
 
 //include_once __DIR__ . '/stubs/class.ValidController.php';
 
 /* stubs for controller class name validation */
-class FakeStandaloneController {
+class FakeStandaloneController
+{
 
 }
 
-abstract class FakeAbstractController extends Module {
+abstract class FakeAbstractController extends Module
+{
 
 }
 
-class FakeValidController extends Module {
+class FakeValidController extends Module
+{
 
 }
 
-class FactoryTest extends TaoPhpUnitTestRunner {
+class FactoryTest extends TaoPhpUnitTestRunner
+{
 
     /** @var  Factory */
     protected $factory;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -63,10 +68,10 @@ class FactoryTest extends TaoPhpUnitTestRunner {
      */
     public function controllerNameProvider()
     {
-        return array(
-            array(tao_test_integration_controllerMap_stubs_ValidController::class),
-            array(ValidNamespacedController::class),
-        );
+        return [
+            [tao_test_integration_controllerMap_stubs_ValidController::class],
+            [ValidNamespacedController::class],
+        ];
     }
 
     /**
@@ -80,24 +85,24 @@ class FactoryTest extends TaoPhpUnitTestRunner {
      */
     public function controllerActionNameProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 tao_test_integration_controllerMap_stubs_ValidController::class,
                 'validAction',
                 'Valid non-namespaced stub controller action',
-                array(
+                [
                     'id' => 'READ'
-                )
-            ),
-            array(
+                ]
+            ],
+            [
                 ValidNamespacedController::class,
                 'validAction',
                 'Valid namespaced stub controller action',
-                array(
+                [
                     'id' => 'WRITE'
-                )
-            ),
-        );
+                ]
+            ],
+        ];
     }
 
     /**
@@ -109,20 +114,20 @@ class FactoryTest extends TaoPhpUnitTestRunner {
      */
     public function missingControllerActionNameProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 'tao_actions_Main',
                 'missingAction'
-            ),
-            array(
+            ],
+            [
                 'missing_Controller',
                 'index',
-            ),
-            array(
+            ],
+            [
                 'missing_Controller',
                 'missingAction'
-            )
-        );
+            ]
+        ];
     }
 
     /**
@@ -135,9 +140,9 @@ class FactoryTest extends TaoPhpUnitTestRunner {
      */
     public function extensionNameProvider()
     {
-        return array(
-            array('tao'),
-        );
+        return [
+            ['tao'],
+        ];
     }
 
     /**
@@ -161,10 +166,11 @@ class FactoryTest extends TaoPhpUnitTestRunner {
      * @dataProvider missingControllerActionNameProvider
      * @param string $controllerClassName
      * @param string $actionName
-     * @expectedException oat\tao\model\controllerMap\ActionNotFoundException
+     * @throws ActionNotFoundException
      */
     public function testGetActionDescriptionForMissingAction($controllerClassName, $actionName)
     {
+        $this->expectException(ActionNotFoundException::class);
         $this->factory->getActionDescription($controllerClassName, $actionName);
     }
 
@@ -208,9 +214,9 @@ class FactoryTest extends TaoPhpUnitTestRunner {
     {
         $methodName = 'isControllerClassNameValid';
 
-        $this->assertFalse( $this->invokeProtectedMethod($this->factory, $methodName, array('FakeStandaloneController') ), 'has valid descendant' );
-        $this->assertFalse( $this->invokeProtectedMethod($this->factory, $methodName, array('FakeAbstractController') ), 'is not abstract' );
-        $this->assertTrue(  $this->invokeProtectedMethod($this->factory, $methodName, array('FakeValidController') ), 'is valid' );
+        $this->assertFalse($this->invokeProtectedMethod($this->factory, $methodName, ['FakeStandaloneController']), 'has valid descendant');
+        $this->assertFalse($this->invokeProtectedMethod($this->factory, $methodName, ['FakeAbstractController']), 'is not abstract');
+        $this->assertTrue($this->invokeProtectedMethod($this->factory, $methodName, ['FakeValidController']), 'is valid');
     }
 
     /**
@@ -222,20 +228,19 @@ class FactoryTest extends TaoPhpUnitTestRunner {
      */
     public function testGetControllersClasses($extensionId)
     {
-        $extension = new common_ext_Extension( $extensionId );
+        $extension = new common_ext_Extension($extensionId);
 
-        $controllers = $this->invokeProtectedMethod($this->factory, 'getControllerClasses', array($extension));
+        $controllers = $this->invokeProtectedMethod($this->factory, 'getControllerClasses', [$extension]);
         $this->assertNotNull($controllers);
         $this->assertContainsOnly('string', $controllers, true);
 
         $validCount = 0;
-        foreach( $controllers as $className ){
-            if( $this->invokeProtectedMethod($this->factory, 'isControllerClassNameValid', array($className) ) ){
+        foreach ($controllers as $className) {
+            if ($this->invokeProtectedMethod($this->factory, 'isControllerClassNameValid', [$className])) {
                 $validCount++;
             }
         }
 
         $this->assertEquals(count($controllers), $validCount);
     }
-
-} 
+}

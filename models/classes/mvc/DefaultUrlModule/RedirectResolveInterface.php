@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License
@@ -19,7 +20,6 @@
 
 namespace oat\tao\model\mvc\DefaultUrlModule;
 
-
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 interface RedirectResolveInterface extends ServiceLocatorAwareInterface
@@ -30,5 +30,4 @@ interface RedirectResolveInterface extends ServiceLocatorAwareInterface
      * @return string
      */
     public function resolve(array $options);
-
 }

@@ -4,7 +4,6 @@ namespace oat\tao\test\integration\form\validators;
 
 use oat\generis\test\GenerisPhpUnitTestRunner;
 use oat\tao\helpers\form\validators\CspHeaderValidator;
-use tao_actions_form_CspHeader;
 use tao_helpers_form_FormFactory;
 
 /**
@@ -19,7 +18,7 @@ class CspHeaderValidatorTest extends GenerisPhpUnitTestRunner
      */
     public function testEvaluation()
     {
-        $sourceElement = tao_helpers_form_FormFactory::getElement(tao_actions_form_CspHeader::SOURCE_RADIO_NAME, 'Radiobox');
+        $sourceElement = tao_helpers_form_FormFactory::getElement('iframeSourceOption', 'Radiobox');
         $sourceElement->setValue('*');
         $validator = new CspHeaderValidator(['sourceElement' => $sourceElement]);
         $mockValues = $this->getMockValues('invalid');
@@ -61,14 +60,14 @@ class CspHeaderValidatorTest extends GenerisPhpUnitTestRunner
 
         switch ($type) {
             case 'valid':
-            $returnMockValues = $mockValues['valid'];
+                $returnMockValues = $mockValues['valid'];
                 break;
             case 'invalid':
-            $returnMockValues = $mockValues['invalid'];
+                $returnMockValues = $mockValues['invalid'];
                 break;
             case 'both':
             default:
-            $returnMockValues = array_merge($mockValues['valid'], $mockValues['invalid']);
+                $returnMockValues = array_merge($mockValues['valid'], $mockValues['invalid']);
                 break;
         }
 

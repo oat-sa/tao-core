@@ -173,6 +173,7 @@ define([
 
             $('.form-submitter').off('click').on('click', function (e) {
                 e.preventDefault();
+                $(this).addClass('current-submitter');
                 $(e.target).closest('.xhtml_form form').trigger('submit');
             });
 
@@ -929,6 +930,11 @@ define([
                         });
 
                         serialize = typeof serialize !== 'undefined' ? serialize : myForm.serializeArray();
+
+                        $('.current-submitter', myForm).each(function () {
+                            $(this).removeClass('current-submitter');
+                            serialize.push({ name: this.name, value: this.value });
+                        });
                         $container.load(myForm.prop('action'), serialize);
                     }
                 }

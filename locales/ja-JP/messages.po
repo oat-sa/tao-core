@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint115\n"
-"PO-Revision-Date: 2019-11-22T10:23:17\n"
+"Project-Id-Version: TAO 3.4.0-sprint124\n"
+"PO-Revision-Date: 2020-03-13T09:37:03\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-JP\n"
@@ -183,6 +183,9 @@ msgstr "操作"
 
 msgid "Add"
 msgstr "追加"
+
+msgid "Add / Edit lists"
+msgstr ""
 
 msgid "Add a CSV file"
 msgstr "CSVファイルを追加"
@@ -900,6 +903,9 @@ msgstr "ハイ、%s<br>あなたはTAOのパスワードを忘れています"
 msgid "Hide detailed report"
 msgstr "詳細報告を隠す"
 
+msgid "Hide password"
+msgstr ""
+
 msgid "Highlight all"
 msgstr ""
 
@@ -969,10 +975,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1011,10 +1017,10 @@ msgstr "%s拡張機能をインストールしています..."
 msgid "Instance saved"
 msgstr "インスタンスが保存されました"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "インタフェース用言語"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "インタフェース用言語"
 
 msgid "Invalid CSP header."
@@ -1109,6 +1115,9 @@ msgstr "リスト - 択一 - ドロップダウン"
 
 msgid "List - Single choice - Radio button"
 msgstr "リスト - 択一 - ラジオボタン"
+
+msgid "List values"
+msgstr ""
 
 msgid "ln"
 msgstr ""
@@ -1362,10 +1371,10 @@ msgstr "の"
 msgid "Off"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr "OK"
 
-msgid "Ok"
+msgid "OK"
 msgstr "OK"
 
 msgid "Old Password"
@@ -1459,9 +1468,6 @@ msgid "Please provide a reason"
 msgstr "その理由を記入してください"
 
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
-msgstr ""
-
-msgid "Please try in %s."
 msgstr ""
 
 msgid "Please wait"
@@ -1780,6 +1786,9 @@ msgstr "設定を更新"
 msgid "Show detailed report"
 msgstr "詳細報告を表示する"
 
+msgid "Show password"
+msgstr ""
+
 msgid "Sign change"
 msgstr ""
 
@@ -2046,6 +2055,9 @@ msgstr "翻訳は保存されました"
 
 msgid "Tree - Multiple node choice "
 msgstr "ツリー - 複数ノード選択"
+
+msgid "Tree values"
+msgstr ""
 
 msgid "True"
 msgstr "正しい"

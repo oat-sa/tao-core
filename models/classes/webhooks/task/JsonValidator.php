@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -33,7 +34,7 @@ class JsonValidator extends ConfigurableService
      */
     public function validate($data)
     {
-        $validator = new Validator;
+        $validator = new Validator();
         $validator->validate($data, $this->readSchema());
 
         if (!$validator->isValid()) {

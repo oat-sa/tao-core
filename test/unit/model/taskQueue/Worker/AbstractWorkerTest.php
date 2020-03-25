@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -120,7 +121,7 @@ class AbstractWorkerTest extends TestCase
      */
     private $queueDispatcherMock;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -249,7 +250,6 @@ class AbstractWorkerTest extends TestCase
 
         $result = $this->subject->processTask($this->taskMock);
         $this->assertSame('completed', $result);
-
     }
 
     public function testProcessTaskReturnErrorReport()

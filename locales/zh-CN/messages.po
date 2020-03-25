@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint115\n"
-"PO-Revision-Date: 2019-11-22T10:23:50\n"
+"Project-Id-Version: TAO 3.4.0-sprint124\n"
+"PO-Revision-Date: 2020-03-13T09:39:04\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-CN\n"
@@ -183,6 +183,9 @@ msgstr "动作"
 
 msgid "Add"
 msgstr "添加"
+
+msgid "Add / Edit lists"
+msgstr ""
 
 msgid "Add a CSV file"
 msgstr "添加CSV文件"
@@ -900,6 +903,9 @@ msgstr ""
 msgid "Hide detailed report"
 msgstr "隐藏详细报告"
 
+msgid "Hide password"
+msgstr ""
+
 msgid "Highlight all"
 msgstr ""
 
@@ -969,10 +975,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1011,10 +1017,10 @@ msgstr "正在安装扩展程序%s..."
 msgid "Instance saved"
 msgstr "实体已储存"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "介面语言"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "介面语言"
 
 msgid "Invalid CSP header."
@@ -1109,6 +1115,9 @@ msgstr "清单-单项选择-下拉"
 
 msgid "List - Single choice - Radio button"
 msgstr "清单-单项选择-按钮"
+
+msgid "List values"
+msgstr ""
 
 msgid "ln"
 msgstr ""
@@ -1362,10 +1371,10 @@ msgstr "的"
 msgid "Off"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr ""
 
-msgid "Ok"
+msgid "OK"
 msgstr ""
 
 msgid "Old Password"
@@ -1459,9 +1468,6 @@ msgid "Please provide a reason"
 msgstr ""
 
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
-msgstr ""
-
-msgid "Please try in %s."
 msgstr ""
 
 msgid "Please wait"
@@ -1780,6 +1786,9 @@ msgstr "设定值已更新"
 msgid "Show detailed report"
 msgstr "显示详细回报"
 
+msgid "Show password"
+msgstr ""
+
 msgid "Sign change"
 msgstr ""
 
@@ -2045,6 +2054,9 @@ msgid "Translation saved"
 msgstr "翻译已储存"
 
 msgid "Tree - Multiple node choice "
+msgstr ""
+
+msgid "Tree values"
 msgstr ""
 
 msgid "True"

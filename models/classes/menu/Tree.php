@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -23,11 +24,11 @@ namespace oat\tao\model\menu;
 
 use oat\oatbox\PhpSerializable;
 
-class Tree  implements PhpSerializable
+class Tree implements PhpSerializable
 {
     const SERIAL_VERSION = 1392821334;
     
-    private $data = array();
+    private $data = [];
 
     /**
      * @param \SimpleXMLElement $node
@@ -35,45 +36,51 @@ class Tree  implements PhpSerializable
      * it makes sure that all instances of fromSimpleXMLElement() use the same interface.
      * @return static
      */
-    public static function fromSimpleXMLElement(\SimpleXMLElement $node, $structureExtensionId) {
-        $data = array();
-        foreach($node->attributes() as $attrName => $attrValue) {
+    public static function fromSimpleXMLElement(\SimpleXMLElement $node, $structureExtensionId)
+    {
+        $data = [];
+        foreach ($node->attributes() as $attrName => $attrValue) {
             $data[$attrName] = (string)$attrValue;
         }
         return new static($data);
     }
     
-    public function __construct($data, $version = self::SERIAL_VERSION) {
+    public function __construct($data, $version = self::SERIAL_VERSION)
+    {
         $this->data = $data;
     }
     
-    public function get($attribute) {
+    public function get($attribute)
+    {
         return isset($this->data[$attribute]) ? $this->data[$attribute] : null;
     }
  
-    public function getAttributes(){
+    public function getAttributes()
+    {
         return array_keys($this->data);
     }
     
     public function getActions()
     {
-        $actions = array();
+        $actions = [];
         foreach ($this->data as $key => $value) {
-            if (!in_array($key, array('rootNode', 'searchNode', 'dataUrl', 'className', 'name'))) {
+            if (!in_array($key, ['rootNode', 'searchNode', 'dataUrl', 'className', 'name'])) {
                 $actions[$key] = $value;
             }
         }
         return $actions;
     }
    
-    public function getName() {
+    public function getName()
+    {
         return $this->data['name'];
     }
     
-    public function __toPhpCode() {
-        return "new ".__CLASS__."("
-            .\common_Utils::toPHPVariableString($this->data).','
-            .\common_Utils::toPHPVariableString(self::SERIAL_VERSION)
-        .")";
+    public function __toPhpCode()
+    {
+        return "new " . __CLASS__ . "("
+            . \common_Utils::toPHPVariableString($this->data) . ','
+            . \common_Utils::toPHPVariableString(self::SERIAL_VERSION)
+        . ")";
     }
 }

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint115\n"
-"PO-Revision-Date: 2019-11-22T10:23:14\n"
+"Project-Id-Version: TAO 3.4.0-sprint124\n"
+"PO-Revision-Date: 2020-03-13T09:36:52\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: it-IT\n"
@@ -183,6 +183,9 @@ msgstr "Azioni"
 
 msgid "Add"
 msgstr "Aggiungi"
+
+msgid "Add / Edit lists"
+msgstr ""
 
 msgid "Add a CSV file"
 msgstr "Aggiungi un file CSV"
@@ -898,6 +901,9 @@ msgstr "Salve, %s<br>hai indicato che hai dimenticato la password per TAO"
 msgid "Hide detailed report"
 msgstr "Nascondi una notifica dettagliata"
 
+msgid "Hide password"
+msgstr ""
+
 msgid "Highlight all"
 msgstr "Evidenzia tutto"
 
@@ -967,10 +973,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1009,10 +1015,10 @@ msgstr "Installazione delle estensioni %s"
 msgid "Instance saved"
 msgstr "Istanza salvata"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "Lingua di interfaccia"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "Lingua di interfaccia"
 
 msgid "Invalid CSP header."
@@ -1107,6 +1113,9 @@ msgstr "Lista - Scelta singola - Scorri giù"
 
 msgid "List - Single choice - Radio button"
 msgstr "Lista - Scelta singola - Tasto radio"
+
+msgid "List values"
+msgstr ""
 
 msgid "ln"
 msgstr ""
@@ -1360,11 +1369,11 @@ msgstr "di"
 msgid "Off"
 msgstr ""
 
-msgid "OK"
-msgstr "SI"
-
 msgid "Ok"
 msgstr "Sì"
+
+msgid "OK"
+msgstr "SI"
 
 msgid "Old Password"
 msgstr "Vecchia password"
@@ -1457,9 +1466,6 @@ msgid "Please provide a reason"
 msgstr "Si prega di fornire una motivazione"
 
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
-msgstr ""
-
-msgid "Please try in %s."
 msgstr ""
 
 msgid "Please wait"
@@ -1778,6 +1784,9 @@ msgstr "Setting aggiornati"
 msgid "Show detailed report"
 msgstr "Mostra una notifica dettagliata"
 
+msgid "Show password"
+msgstr ""
+
 msgid "Sign change"
 msgstr ""
 
@@ -2044,6 +2053,9 @@ msgstr "Traduzione salvata"
 
 msgid "Tree - Multiple node choice "
 msgstr "Scelta nodo Albero - Multiple"
+
+msgid "Tree values"
+msgstr ""
 
 msgid "True"
 msgstr "Vero"
