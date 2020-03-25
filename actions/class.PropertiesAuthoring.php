@@ -54,10 +54,6 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         $this->defaultData();
         $clazz = $this->getClass($this->getRequestParameter('id'));
 
-        if ($this->hasRequestParameter('property_mode')) {
-            $this->setSessionAttribute('property_mode', $this->getRequestParameter('property_mode'));
-        }
-
         $myForm = $this->getClassForm($clazz);
         if ($myForm->isSubmited()) {
             if ($myForm->isValid()) {
@@ -96,18 +92,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
             $index = count($clazz->getProperties(false)) + 1;
         }
 
-        $propMode = 'simple';
-        if ($this->hasSessionAttribute('property_mode')) {
-            $propMode = $this->getSessionAttribute('property_mode');
-        }
-
-        //instanciate a property form
-        $propFormClass = 'tao_actions_form_' . ucfirst(strtolower($propMode)) . 'Property';
-        if (!class_exists($propFormClass)) {
-            $propFormClass = 'tao_actions_form_SimpleProperty';
-        }
-
-        $propFormContainer = new $propFormClass($clazz, $clazz->createProperty('Property_' . $index), ['index' => $index]);
+        $propFormContainer = new tao_actions_form_SimpleProperty($clazz, $clazz->createProperty('Property_' . $index), ['index' => $index]);
         $myForm = $propFormContainer->getForm();
 
         $this->setData('data', $myForm->renderElements());
@@ -307,17 +292,8 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
      */
     public function getClassForm(core_kernel_classes_Class $clazz)
     {
-        $propMode = 'simple';
-        if ($this->hasSessionAttribute('property_mode')) {
-            $propMode = $this->getSessionAttribute('property_mode');
-        }
-
-        $options = [
-            'property_mode' => $propMode,
-            'topClazz' => $this->getClass(GenerisRdf::CLASS_GENERIS_RESOURCE)
-        ];
         $data = $this->getRequestParameters();
-        $formContainer = new tao_actions_form_Clazz($clazz, $this->extractClassData($data), $this->extractPropertyData($data), $propMode);
+        $formContainer = new tao_actions_form_Clazz($clazz, $this->extractClassData($data), $this->extractPropertyData($data));
         $myForm = $formContainer->getForm();
 
         if ($myForm->isSubmited()) {
@@ -344,12 +320,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
                             $indexes = $propertyValues['indexes'];
                             unset($propertyValues['indexes']);
                         }
-                        if ($propMode === 'simple') {
-                            $this->saveSimpleProperty($propertyValues);
-                        } else {
-                            $this->saveAdvProperty($propertyValues);
-                        }
-
+                        $this->saveSimpleProperty($propertyValues);
                         //save index
                         if (!is_null($indexes)) {
                             foreach ($indexes as $indexValues) {
@@ -416,42 +387,6 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         if (isset($propertyMap[$type]['multiple'])) {
             $property->setMultiple($propertyMap[$type]['multiple'] == GenerisRdf::GENERIS_TRUE);
         }
-    }
-
-    /**
-     * Advanced property handling
-     *
-     * @param array $propertyValues
-     */
-    protected function saveAdvProperty($propertyValues)
-    {
-        // might break using hard
-        $range = [];
-        foreach ($propertyValues as $key => $value) {
-            if (is_array($value)) {
-                // set the range
-                foreach ($value as $v) {
-                    $range[] = $this->getClass(tao_helpers_Uri::decode($v));
-                }
-            } else {
-                $values[tao_helpers_Uri::decode($key)] = tao_helpers_Uri::decode($value);
-            }
-        }
-        //if label is empty
-        $validator = new tao_helpers_form_validators_NotEmpty(['message' => __('Property\'s label field is required')]);
-        if (!$validator->evaluate($values[OntologyRdfs::RDFS_LABEL])) {
-            throw new Exception($validator->getMessage());
-        }
-
-        $property = $this->getProperty($values['uri']);
-        unset($values['uri']);
-        $property->removePropertyValues($this->getProperty(OntologyRdfs::RDFS_RANGE));
-        if (!empty($range)) {
-            foreach ($range as $r) {
-                $property->setRange($r);
-            }
-        }
-        $this->bindProperties($property, $values);
     }
 
     protected function savePropertyIndex($indexValues)

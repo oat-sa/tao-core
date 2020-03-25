@@ -21,19 +21,26 @@ declare(strict_types=1);
  *
  */
 
-namespace oat\tao\model\resources;
+namespace oat\tao\test\unit\model\resources;
 
-use RuntimeException;
-use Throwable;
+use core_kernel_classes_Class;
+use oat\generis\test\TestCase;
+use oat\oatbox\user\User;
+use oat\tao\model\resources\GetAllChildrenCacheKeyFactory;
 
-class ResourceAccessDeniedException extends RuntimeException
+class GetAllChildrenCacheKeyFactoryTest extends TestCase
 {
-    public function __construct($forbiddenResourceUri = '', $code = 0, Throwable $previous = null)
+    public function testCreate(): void
     {
-        parent::__construct(
-            sprintf('Access to resource %s is forbidden', $forbiddenResourceUri),
-            $code,
-            $previous
-        );
+        $user = $this->createMock(User::class);
+        $user->expects($this->once())->method('getIdentifier')->willReturn('userId');
+
+        $class = $this->createMock(core_kernel_classes_Class::class);
+        $class->expects($this->once())->method('getUri')->willReturn('classUri');
+
+        $factory = new GetAllChildrenCacheKeyFactory();
+        $key = $factory->create($class, $user);
+
+        $this->assertEquals('SRS:userId:classUri', $key);
     }
 }
