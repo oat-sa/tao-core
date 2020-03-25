@@ -20,23 +20,24 @@
  *               2013-2019 (update and modification) Open Assessment Technologies SA;
  */
 
-use oat\tao\model\http\LegacyController;
-use oat\tao\helpers\LegacySessionUtils;
-use oat\tao\model\action\CommonModuleInterface;
-use oat\tao\model\mvc\RendererTrait;
-use oat\tao\model\security\ActionProtector;
-use oat\tao\helpers\Template;
-use oat\tao\helpers\JavaScript;
-use oat\oatbox\service\ServiceManager;
-use oat\tao\model\accessControl\AclProxy;
-use oat\oatbox\service\ServiceManagerAwareTrait;
-use oat\oatbox\service\ServiceManagerAwareInterface;
-use oat\oatbox\service\exception\InvalidServiceManagerException;
 use oat\oatbox\log\LoggerAwareTrait;
-use function GuzzleHttp\Psr7\stream_for;
+use oat\oatbox\service\exception\InvalidServiceManagerException;
+use oat\oatbox\service\ServiceManager;
+use oat\oatbox\service\ServiceManagerAwareInterface;
+use oat\oatbox\service\ServiceManagerAwareTrait;
+use oat\tao\helpers\JavaScript;
+use oat\tao\helpers\LegacySessionUtils;
+use oat\tao\helpers\Template;
+use oat\tao\model\accessControl\AclProxy;
+use oat\tao\model\action\CommonModuleInterface;
+use oat\tao\model\http\LegacyController;
+use oat\tao\model\mvc\RendererTrait;
 use oat\tao\model\routing\AnnotationReader\security;
+use oat\tao\model\security\ActionProtector;
 use oat\tao\model\security\xsrf\TokenService;
 use Zend\ServiceManager\ServiceLocatorInterface;
+
+use function GuzzleHttp\Psr7\stream_for;
 
 /**
  * Top level controller
@@ -79,7 +80,7 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
     {
         /** @var ActionProtector $actionProtector */
         $actionProtector = $this->getServiceLocator()->get(ActionProtector::SERVICE_ID);
-        $actionProtector->setFrameAncestorsHeader();
+        $actionProtector->setHeaders();
     }
 
     /**
@@ -161,11 +162,14 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
             $this->logWarning('Called '.__FUNCTION__.' in an unsupported AJAX context');
             throw new common_Exception($description);
         }
-
         $this->setData('message', $description);
         $this->setData('returnLink', $returnLink);
-
-        if($httpStatus !== null && file_exists(Template::getTemplate("error/error${httpStatus}.tpl"))){
+        if (parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST) == parse_url(ROOT_URL, PHP_URL_HOST)) {
+            $this->setData('returnUrl', htmlentities($_SERVER['HTTP_REFERER'],ENT_QUOTES));
+        } else {
+            $this->setData('returnUrl', false);
+        }
+        if ($httpStatus !== null && file_exists(Template::getTemplate("error/error${httpStatus}.tpl"))) {
             $this->setView("error/error${httpStatus}.tpl", 'tao');
         } else {
             $this->setView('error/user_error.tpl', 'tao');

@@ -56,12 +56,15 @@ use oat\tao\model\mvc\DefaultUrlService;
 use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\model\notification\NotificationServiceInterface;
+use oat\tao\model\oauth\lockout\NoLockout;
 use oat\tao\model\resources\ResourceWatcher;
 use oat\tao\model\security\SignatureGenerator;
 use oat\tao\model\routing\AnnotationReaderService;
 use oat\tao\model\routing\ControllerService;
 use oat\tao\model\routing\RouteAnnotationService;
 use oat\tao\model\security\ActionProtector;
+use oat\tao\model\security\Business\Contract\SecuritySettingsRepositoryInterface;
+use oat\tao\model\security\DataAccess\Repository\SecuritySettingsRepository;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStore;
 use oat\tao\model\security\xsrf\TokenStoreSession;
@@ -646,7 +649,7 @@ class Updater extends \common_ext_ExtensionUpdater {
         if ($this->isVersion('14.20.0')) {
             if (!$this->getServiceManager()->has(OauthService::SERVICE_ID)) {
                 $this->getServiceManager()->register(OauthService::SERVICE_ID, new OauthService([
-                    OauthService::OPTION_DATASTORE => new DataStore([
+                    OauthService::OPTION_DATA_STORE => new DataStore([
                         DataStore::OPTION_NONCE_STORE => new NoNonce()
                     ])
                 ]));
@@ -920,25 +923,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('22.10.2');
         }
 
-        $this->skip('22.10.0', '22.12.0');
-
-        if ($this->isVersion('22.12.0')) {
-            $this->getServiceManager()->register(
-                ActionProtector::SERVICE_ID,
-                new ActionProtector(['frameSourceWhitelist' => ['self']])
-            );
-            $this->setVersion('22.13.0');
-        }
-
-        if ($this->isVersion('22.13.0')) {
-            $this->getServiceManager()->register(
-                ActionProtector::SERVICE_ID,
-                new ActionProtector(['frameSourceWhitelist' => ["'self'"]])
-            );
-            $this->setVersion('22.13.1');
-        }
-
-        $this->skip('22.13.1', '26.1.7');
+        $this->skip('22.10.0', '26.1.7');
 
         if ($this->isVersion('26.1.7')) {
 
@@ -1229,5 +1214,33 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('38.11.1', '38.13.3.2');
+
+        if ($this->isVersion('38.13.3.2')) {
+            $serviceManager = $this->getServiceManager();
+
+            $oauthService = $serviceManager->get(OauthService::SERVICE_ID);
+            $oauthService->setOption(OauthService::OPTION_LOCKOUT_SERVICE, new NoLockout());
+            $serviceManager->register(OauthService::SERVICE_ID,$oauthService);
+
+            /** @var SettingsStorageInterface $storage */
+            $storage = $serviceManager->get(SettingsStorageInterface::SERVICE_ID);
+            $securitySettingsRepository = new SecuritySettingsRepository($storage);
+
+            $serviceManager->register(
+                SecuritySettingsRepositoryInterface::SERVICE_ID,
+                $securitySettingsRepository
+            );
+            $serviceManager->register(
+                ActionProtector::SERVICE_ID,
+                new ActionProtector(
+                    $securitySettingsRepository,
+                    [
+                        'X-Content-Type-Options: nosniff',
+                    ]
+                )
+            );
+
+            $this->setVersion('38.13.3.3');
+        }
     }
 }

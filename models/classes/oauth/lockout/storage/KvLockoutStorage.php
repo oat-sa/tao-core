@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,23 +15,22 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2013 (original work) (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
+ * Copyright (c) 2020 (original work) (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT)
  */
-namespace oat\tao\model\oauth\nonce;
 
-/**
- * Validates received nonce
- *
- * @author Joel Bout, <joel@taotesting.com>
- */
-interface NonceStore {
-    
-    /**
-     * Returns true if the nonce was not used recently, false if it was
-     *
-     * @param string $id
-     * @return bool
-     */
-    public function isValid($id);
+namespace oat\tao\model\oauth\lockout\storage;
+
+use oat\oatbox\service\ConfigurableService;
+
+class KvLockoutStorage extends ConfigurableService implements LockoutStorageInterface
+{
+    public function store(string $ip, int $ttl = 0)
+    {
+        return true;
+    }
+
+    public function getFailedAttempts(string $ip, int $timeout): int
+    {
+        return 0;
+    }
 }
