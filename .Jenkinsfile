@@ -46,8 +46,8 @@ registry.service.consul:4444/tao/dependency-resolver oat:dependencies:resolve --
             steps {
                 dir('build') {
                     sh(
-                        label: 'Check build/composer.json contents',
-                        script: 'cat composer.json'
+                        label: 'Remove generis dependency',
+                        script: 'composer remove oat-sa/generis'
                     )
                     sh(
                         label: 'Install/Update sources from Composer',
