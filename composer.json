@@ -72,5 +72,6 @@
         "files": [
             "includes/globalHelpers.php"
         ]
-    }
+    },
+    "minimum-stability": "dev"
 }
