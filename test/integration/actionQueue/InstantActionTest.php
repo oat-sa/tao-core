@@ -21,6 +21,10 @@
 
 namespace oat\tao\test\integration\actionQueue;
 
+use oat\ltiDeliveryProvider\model\actions\GetActiveDeliveryExecution;
+use oat\tao\model\actionQueue\ActionQueue;
+
+
 use oat\tao\model\actionQueue\ActionQueueException;
 use oat\tao\model\actionQueue\implementation\InstantActionQueue;
 use oat\tao\model\actionQueue\AbstractQueuedAction;
@@ -60,6 +64,66 @@ class InstantActionTest extends TaoPhpUnitTestRunner
 
         $action->activeActions = 9;
         $this->assertTrue($actionQueue->perform($action, $user));
+    }
+    
+    
+    public function testGetLimits(){
+        
+        
+        $activeDeliveryExecution = new GetActiveDeliveryExecution();
+        $actionQueue = $this->getInstance();
+        
+        $limit = $actionQueue->getLimits($activeDeliveryExecution);
+        
+        $this->assertEquals($limit,99);
+        
+        //var_dump($limit);
+        
+    }
+    public function testSumRestrictions(){
+        
+        $actionQueue = $this->getInstance();
+        
+        $restriction = 10;
+        $limit = $actionQueue->sumRestrictions($restriction);
+        $this->assertEquals($limit,10);
+        
+        $restriction = array('limit'=>11);
+        $limit = $actionQueue->sumRestrictions($restriction);
+        $this->assertEquals($limit,11);
+
+        $restriction = array('limit'=>20);
+        $limit = $actionQueue->sumRestrictions($restriction);
+        $this->assertEquals($limit,20);
+        
+        $restriction = array('limit'=>array(
+            'l1'=>10,
+            'l2'=>10,
+            'l3'=>10,
+        ));
+        $limit = $actionQueue->sumRestrictions($restriction);
+        $this->assertEquals($limit,30);
+        
+        $restriction = array('limit'=>array(
+            'l1'=>10,
+            'l2'=>10,
+            'l3'=>array(
+                'l4'=>10,
+                'l5'=>10,
+            ),
+        ));
+        $limit = $actionQueue->sumRestrictions($restriction);
+        $this->assertEquals($limit,40);
+        
+        $restriction = array('limit'=>"A");
+        $limit = $actionQueue->sumRestrictions($restriction);
+        $this->assertEquals($limit,0);
+        
+        $restriction = array('limit'=>NULL);
+        $limit = $actionQueue->sumRestrictions($restriction);
+        $this->assertEquals($limit,0);
+        
+        
     }
     
     public function testGetPosition()
@@ -144,6 +208,12 @@ class InstantActionTest extends TaoPhpUnitTestRunner
                 GetmypidAction::class => [
                     InstantActionQueue::ACTION_PARAM_LIMIT => 10,
                     InstantActionQueue::ACTION_PARAM_TTL => 1,
+                ],
+                GetActiveDeliveryExecution::class => [
+                        'restrictions' => array(
+                            'activeLimitRestriction' => 99
+                        ),
+                        'ttl' => 3600
                 ]
             ]
         ]);
