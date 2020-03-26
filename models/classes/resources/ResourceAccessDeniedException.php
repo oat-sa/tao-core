@@ -24,7 +24,16 @@ declare(strict_types=1);
 namespace oat\tao\model\resources;
 
 use RuntimeException;
+use Throwable;
 
 class ResourceAccessDeniedException extends RuntimeException
 {
+    public function __construct($forbiddenResourceUri = '', $code = 0, Throwable $previous = null)
+    {
+        parent::__construct(
+            sprintf('Access to resource %s is forbidden', $forbiddenResourceUri),
+            $code,
+            $previous
+        );
+    }
 }
