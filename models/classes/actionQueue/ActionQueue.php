@@ -96,7 +96,7 @@ interface ActionQueue
 
     /**
      * @param QueuedAction $action
-     * @return integer Number of limits
+     * @return bool
      */
-    public function getLimits(QueuedAction $action);
+    public function isActionEnabled(QueuedAction $action): bool;
 }
