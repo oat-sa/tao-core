@@ -85,6 +85,7 @@ use oat\tao\model\OperatedByService;
 use oat\tao\model\resources\GetAllChildrenCacheKeyFactory;
 use oat\tao\model\resources\ListResourceLookup;
 use oat\tao\model\resources\ResourceService;
+use oat\tao\model\oauth\lockout\NoLockout;
 use oat\tao\model\resources\ResourceWatcher;
 use oat\tao\model\resources\SecureResourceCachedService;
 use oat\tao\model\resources\SecureResourceService;
@@ -659,7 +660,7 @@ class Updater extends \common_ext_ExtensionUpdater
         if ($this->isVersion('14.20.0')) {
             if (!$this->getServiceManager()->has(OauthService::SERVICE_ID)) {
                 $this->getServiceManager()->register(OauthService::SERVICE_ID, new OauthService([
-                    OauthService::OPTION_DATASTORE => new DataStore([
+                    OauthService::OPTION_DATA_STORE => new DataStore([
                         DataStore::OPTION_NONCE_STORE => new NoNonce()
                     ])
                 ]));
@@ -1359,6 +1360,14 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('41.6.0');
         }
 
-        $this->skip('41.6.0', '41.7.1');
+        $this->skip('41.6.0', '41.7.0');
+        if($this->isVersion('41.7.0')){
+            $oauthService = $this->getServiceManager()->get(OauthService::SERVICE_ID);
+            $oauthService->setOption(OauthService::OPTION_LOCKOUT_SERVICE, new NoLockout());
+            $this->getServiceManager()->register(OauthService::SERVICE_ID,$oauthService);
+            $this->setVersion('41.8.0');
+        }
+
+        $this->skip('41.8.0', '41.9.1');
     }
 }
