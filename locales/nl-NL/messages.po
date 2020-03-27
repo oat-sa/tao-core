@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint124\n"
-"PO-Revision-Date: 2020-03-20T11:16:55\n"
+"Project-Id-Version: TAO 3.4.0-sprint125\n"
+"PO-Revision-Date: 2020-03-27T12:11:25\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nl-NL\n"
@@ -212,9 +212,6 @@ msgstr "Het toevoegen van de nieuwe klasse is mislukt"
 msgid "Adding the new resource has failed"
 msgstr "Het toevoegen van het nieuwe resource is mislukt"
 
-msgid "Advanced Mode"
-msgstr "Geavanceerde modus"
-
 msgid "Advanced search, add filters"
 msgstr "Geavanceerd zoeken, filters toevoegen"
 
@@ -405,10 +402,10 @@ msgstr "Wijzig het wachtwoord"
 msgid "Change the sign of the current operand"
 msgstr "Verander het teken van de huidige operator"
 
-msgid "Check All"
+msgid "Check all"
 msgstr "Alles selecteren"
 
-msgid "Check all"
+msgid "Check All"
 msgstr "Alles selecteren"
 
 msgid "Check-in"
@@ -450,10 +447,10 @@ msgstr "Alle gegevens wissen"
 msgid "Clear expression"
 msgstr "Expressie wissen"
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr "Historie wissen"
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr "Historie wissen"
 
 msgid "Clear selection"
@@ -975,11 +972,11 @@ msgstr "Geïmporteerde resource \"%s"
 msgid "impossible to update task status"
 msgstr "Onmogelijk om de taakstatus bij te werken"
 
-msgid "In progress"
-msgstr "In behandeling"
-
 msgid "In Progress"
 msgstr "In Behandeling"
+
+msgid "In progress"
+msgstr "In behandeling"
 
 msgid "Inclusive (AND)"
 msgstr "Inclusief (AND)"
@@ -1507,9 +1504,6 @@ msgstr "Ga verder"
 msgid "Properties"
 msgstr "Eigenschappen"
 
-msgid "Property\'s label field is required"
-msgstr ""
-
 msgid "Provided URL is not valid"
 msgstr "De gegeven URL is niet geldig"
 
@@ -1791,9 +1785,6 @@ msgstr ""
 
 msgid "Sign change"
 msgstr ""
-
-msgid "Simple Mode"
-msgstr "Eenvoudige modus"
 
 msgid "sin"
 msgstr ""
