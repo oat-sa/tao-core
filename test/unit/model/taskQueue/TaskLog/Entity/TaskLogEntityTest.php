@@ -51,13 +51,11 @@ class TaskLogEntityTest extends TestCase
                 'children' => []
             ],
             'master_status' => true
-        ]);
+        ], \DateTime::RFC3339);
 
         $this->assertInstanceOf(TaskLogEntity::class, $entity);
         $this->assertInstanceOf(CategorizedStatus::class, $entity->getStatus());
         $this->assertInstanceOf(Report::class, $entity->getReport());
-        $this->assertInstanceOf(\DateTime::class, $entity->getCreatedAt());
-        $this->assertInstanceOf(\DateTime::class, $entity->getUpdatedAt());
         $this->assertIsString($entity->getId());
         $this->assertIsString($entity->getTaskName());
         $this->assertIsArray($entity->getParameters());
@@ -70,10 +68,6 @@ class TaskLogEntityTest extends TestCase
             'taskLabel' => 'Task label',
             'status' => 'completed',
             'statusLabel' => 'Completed',
-            'createdAt' => $createdAt->getTimestamp(),
-            'createdAtElapsed' => (new \DateTime('now', new \DateTimeZone('UTC')))->getTimestamp() - $createdAt->getTimestamp(),
-            'updatedAt' => $updatedAt->getTimestamp(),
-            'updatedAtElapsed' => (new \DateTime('now', new \DateTimeZone('UTC')))->getTimestamp() - $updatedAt->getTimestamp(),
             'report' => [
                 'type' => 'info',
                 'message' => 'Running task http://www.taoinstance.dev/ontologies/tao.rdf#i1508337970199318643',
@@ -97,7 +91,7 @@ class TaskLogEntityTest extends TestCase
             'created_at' => '2017-02-01 12:00:01',
             'updated_at' => '2017-02-01 14:00:01',
             'report' => [],
-        ]);
+        ], \DateTime::RFC3339);
 
         $this->assertNull($entity->getReport());
     }

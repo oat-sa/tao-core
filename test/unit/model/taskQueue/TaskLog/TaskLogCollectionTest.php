@@ -108,6 +108,6 @@ class TaskLogCollectionTest extends TestCase
                    'children' => []
                ],
             ],
-        ]);
+        ], \DateTime::RFC3339);
     }
 }

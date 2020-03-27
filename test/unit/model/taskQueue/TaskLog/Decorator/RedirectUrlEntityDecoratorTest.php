@@ -131,7 +131,7 @@ class RedirectUrlEntityDecoratorTest extends TestCase
                 'children' => []
             ],
             'master_status' => true
-        ]);
+        ], \DateTime::RFC3339);
     }
 
     protected function getFixtureEntityData($status = TaskLogInterface::STATUS_COMPLETED)
@@ -144,10 +144,6 @@ class RedirectUrlEntityDecoratorTest extends TestCase
             'taskLabel' => 'Task label',
             'status' => (string) $status,
             'statusLabel' => $status->getLabel(),
-            'createdAt' => $this->createdAt->getTimestamp(),
-            'createdAtElapsed' => (new \DateTime('now', new \DateTimeZone('UTC')))->getTimestamp() - $this->createdAt->getTimestamp(),
-            'updatedAt' => $this->updatedAt->getTimestamp(),
-            'updatedAtElapsed' => (new \DateTime('now', new \DateTimeZone('UTC')))->getTimestamp() - $this->updatedAt->getTimestamp(),
             'report' => [
                 'type' => 'info',
                 'message' => 'Running task http://www.taoinstance.dev/ontologies/tao.rdf#i1508337970199318643',
