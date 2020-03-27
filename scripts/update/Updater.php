@@ -152,7 +152,6 @@ use oat\tao\scripts\install\RegisterSignatureGenerator;
 use oat\tao\scripts\install\SetClientLoggerConfig;
 use oat\tao\scripts\install\UpdateRequiredActionUrl;
 use oat\tao\scripts\tools\MigrateSecuritySettings;
-use tao_install_utils_ModelCreator;
 use tao_models_classes_UserService;
 
 /**
@@ -1231,24 +1230,10 @@ class Updater extends \common_ext_ExtensionUpdater
             }
             $this->setVersion('39.1.0');
         }
-        $this->skip('39.1.0', '39.3.2');
 
-        if ($this->isVersion('39.3.2')) {
-            OntologyUpdater::syncModels();
-
-            $models = (new tao_install_utils_ModelCreator(LOCAL_NAMESPACE))->getLanguageModels();
-            $rdf = ModelManager::getModel()->getRdfInterface();
-            foreach (array_shift($models) as $file) {
-                $iterator = new FileIterator($file, 1);
-                foreach ($iterator as $triple) {
-                    $rdf->remove($triple);
-                    $rdf->add($triple);
-                }
-            }
-            $this->setVersion('39.3.3');
-        }
-
-        $this->skip('39.3.3', '39.5.5');
+        //Removed update from 39.3.2 -> 39.3.3 due to broken operation cause by removal of `tao_install_utils_ModelCreator` class
+        //Related PR https://github.com/oat-sa/tao-core/pull/2404. Update is re-played on 40.9.5 to 40.9.6
+        $this->skip('39.1.0', '39.5.5');
 
         if ($this->isVersion('39.5.5')) {
             /** @var UnionSearchService|ConfigurableService $service */
@@ -1368,6 +1353,6 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('41.8.0');
         }
 
-        $this->skip('41.8.0', '41.9.2');
+        $this->skip('41.8.0', '41.9.3');
     }
 }
