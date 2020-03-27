@@ -12,7 +12,7 @@ class BaseWebsourceTest extends TestCase
     /** @var BaseWebsource | MockObject */
     private $baseWebsource;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->baseWebsource = $this->getMockForAbstractClass(
             BaseWebsource::class,

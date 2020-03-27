@@ -71,8 +71,8 @@ class OntologyMetadataInjectorTest extends TestCase
         $ontologyInjector->expects($this->exactly(2))
             ->method('getOption')
             ->withConsecutive(
-                $this->stringContains('source'),
-                $this->stringContains('destination')
+                [$this->stringContains('source')],
+                [$this->stringContains('destination')]
             )
             ->willReturnOnConsecutiveCalls(
                 $sourceFixture,
@@ -184,9 +184,9 @@ class OntologyMetadataInjectorTest extends TestCase
         $ontologyInjector->expects($this->exactly(3))
             ->method('buildService')
             ->withConsecutive(
-                $this->stringContains('polop1'),
-                $this->stringContains('polop2'),
-                $this->stringContains('polop3')
+                [$this->stringContains('polop1')],
+                [$this->stringContains('polop2')],
+                [$this->stringContains('polop3')]
             )
             ->willReturnOnConsecutiveCalls(
                 'writerFixture1',
@@ -243,7 +243,7 @@ class OntologyMetadataInjectorTest extends TestCase
         } catch (MetadataInjectorWriteException $e) {
             $this->fail('Exception during test injector write with message : ' . $e->getMessage());
         }
-        
+
         $this->assertTrue(true);
     }
 

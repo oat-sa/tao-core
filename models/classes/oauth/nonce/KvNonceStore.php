@@ -34,11 +34,7 @@ class KvNonceStore extends ConfigurableService implements NonceStore
     const DEFAULT_TTL = 1800;
     
     const PREFIX = 'nonce_';
-    
-    /**
-     * (non-PHPdoc)
-     * @see \oat\tao\model\oauth\nonce\NonceStore::isValid()
-     */
+
     public function isValid($id)
     {
         $ttl = $this->hasOption(self::OPTION_TTL) ? $this->getOption(self::OPTION_TTL) : self::DEFAULT_TTL;

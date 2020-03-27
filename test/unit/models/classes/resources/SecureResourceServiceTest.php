@@ -21,16 +21,19 @@ declare(strict_types=1);
  *
  */
 
-namespace oat\tao\model\resources;
+namespace oat\tao\test\unit\model\resources;
 
 use common_exception_Error;
 use core_kernel_classes_Class;
+use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use core_kernel_users_GenerisUser;
 use oat\generis\model\data\permission\PermissionInterface;
 use oat\generis\test\GenerisTestCase;
-use oat\generis\test\MockObject;
 use oat\oatbox\session\SessionService;
+use oat\tao\model\resources\ResourceAccessDeniedException;
+use oat\tao\model\resources\SecureResourceService;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class SecureResourceServiceTest extends GenerisTestCase
 {
@@ -43,7 +46,7 @@ class SecureResourceServiceTest extends GenerisTestCase
      */
     private $permissionInterface;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->service = new SecureResourceService();
 
@@ -81,11 +84,88 @@ class SecureResourceServiceTest extends GenerisTestCase
 
         $children = $this->service->getAllChildren($class);
 
-        $this->assertCount(3, $children);
+        $this->assertCount(4, $children);
     }
 
     /**
-     * @param array $permissions
+     * @throws common_exception_Error
+     */
+    public function testNestedItems(): void
+    {
+        $this->permissionInterface->method('getPermissions')->willReturn(
+            $this->getPermissions()
+        );
+
+        $accessibleItem1 = $this->createMock(core_kernel_classes_Resource::class);
+        $accessibleItem1->method('getUri')->willReturn('http://resource4_read_write');
+
+        $accessibleItem2 = $this->createMock(core_kernel_classes_Resource::class);
+        $accessibleItem2->method('getUri')->willReturn('http://resource6_unsupported');
+
+        $forbiddenClass = $this->createMock(core_kernel_classes_Class::class);
+        $forbiddenClass->method('getInstances')->willReturn([$accessibleItem1]);
+        $forbiddenClass->method('getUri')->willReturn('http://resource2_no_access');
+
+        $accessibleClass = $this->createMock(core_kernel_classes_Class::class);
+        $accessibleClass->method('getInstances')->willReturn([$accessibleItem2]);
+        $accessibleClass->method('getUri')->willReturn('http://resource1_read');
+
+        /** @var core_kernel_classes_Class|MockObject $class */
+        $class = $this->createMock(core_kernel_classes_Class::class);
+        $class->method('getSubClasses')->willReturn([$forbiddenClass, $accessibleClass]);
+        $class->method('getUri')->willReturn('http://resource5_grant_read_write');
+
+        $children = $this->service->getAllChildren($class);
+
+        $this->assertCount(1, $children);
+        $this->assertEquals('http://resource6_unsupported', current($children)->getUri());
+    }
+
+    /**
+     * @throws common_exception_Error
+     */
+    public function testValidateNestedRestrictions(): void
+    {
+        $this->expectException(ResourceAccessDeniedException::class);
+
+        $this->permissionInterface->method('getPermissions')->willReturn(
+            $this->getPermissions()
+        );
+
+        $accessibleItem1 = $this->createMock(core_kernel_classes_Resource::class);
+        $accessibleItem2 = $this->createMock(core_kernel_classes_Resource::class);
+        $forbiddenClass = $this->createMock(core_kernel_classes_Class::class);
+        $accessibleClass = $this->createMock(core_kernel_classes_Class::class);
+        $class = $this->createMock(core_kernel_classes_Class::class);
+
+        $property = $this->createMock(core_kernel_classes_Property::class);
+
+        $accessibleItem1->method('getUri')->willReturn('http://resource4_read_write');
+        $accessibleItem1->method('getTypes')->willReturn([$forbiddenClass]);
+
+        $accessibleItem2->method('getUri')->willReturn('http://resource6_unsupported');
+        $accessibleItem2->method('getTypes')->willReturn([$accessibleClass]);
+
+        $forbiddenClass->method('getInstances')->willReturn([$accessibleItem1]);
+        $forbiddenClass->method('getUri')->willReturn('http://resource2_no_access');
+        $forbiddenClass->method('getParentClasses')->willReturn([$class]);
+        $forbiddenClass->method('getProperty')->willReturn($property);
+
+        $accessibleClass->method('getInstances')->willReturn([$accessibleItem2]);
+        $accessibleClass->method('getUri')->willReturn('http://resource1_read');
+        $accessibleClass->method('getParentClasses')->willReturn([$class]);
+
+        $class->method('getSubClasses')->willReturn([$forbiddenClass, $accessibleClass]);
+        $class->method('getUri')->willReturn('http://resource5_grant_read_write');
+
+        $this->service->validatePermissions(
+            [$accessibleItem1],
+            ['READ']
+        );
+    }
+
+    /**
+     * @param array $resourceUris
      * @param array $permissionsToCheck
      * @param bool  $hasAccess
      *
@@ -93,12 +173,12 @@ class SecureResourceServiceTest extends GenerisTestCase
      * @dataProvider provideResources
      *
      */
-    public function testValidatePermissions(array $permissions, array $permissionsToCheck, bool $hasAccess): void
+    public function testValidatePermissions(array $resourceUris, array $permissionsToCheck, bool $hasAccess): void
     {
         $this->permissionInterface->method('getPermissions')->willReturn(
             array_intersect_key(
                 $this->getPermissions(),
-                array_flip($permissions)
+                array_flip($resourceUris)
             )
         );
 
@@ -106,7 +186,20 @@ class SecureResourceServiceTest extends GenerisTestCase
             $this->expectException(ResourceAccessDeniedException::class);
         }
 
-        $this->service->validatePermissions($permissions, $permissionsToCheck);
+        $property = $this->createMock(core_kernel_classes_Property::class);
+        $parent = $this->createMock(core_kernel_classes_Class::class);
+        $parent->method('getProperty')->willReturn($property);
+
+        $resources = [];
+        foreach ($resourceUris as $resourceUri) {
+            $mock = $this->createMock(core_kernel_classes_Resource::class);
+            $mock->method('getUri')->willReturn($resourceUri);
+            $mock->method('getTypes')->willReturn([$parent]);
+
+            $resources[] = $mock;
+        }
+
+        $this->service->validatePermissions($resources, $permissionsToCheck);
     }
 
     public function provideResources(): array
@@ -114,35 +207,63 @@ class SecureResourceServiceTest extends GenerisTestCase
         return [
             [
                 [
-                    'http://resource2',
-                    'http://resource1'
+                    'http://resource2_no_access',
+                    'http://resource1_read'
                 ],
                 ['READ'],
                 false
             ],
             [
                 [
-                    'http://resource4',
-                    'http://resource5'
+                    'http://resource4_read_write',
+                    'http://resource5_grant_read_write'
                 ],
                 ['READ'],
                 true
             ],
             [
                 [
-                    'http://resource4',
-                    'http://resource5'
+                    'http://resource4_read_write',
+                    'http://resource5_grant_read_write'
                 ],
                 ['WRITE', 'READ'],
                 true
             ],
             [
                 [
-                    'http://resource4',
-                    'http://resource5'
+                    'http://resource4_read_write',
+                    'http://resource5_grant_read_write'
                 ],
                 ['GRANT'],
                 false
+            ],
+            [
+                [
+                    'http://resource6_unsupported',
+                ],
+                ['READ'],
+                true
+            ],
+            [
+                [
+                    'http://resource6_unsupported',
+                ],
+                ['WRITE'],
+                true
+            ],
+            [
+                [
+                    'http://resource6_unsupported',
+                ],
+                ['READ', 'WRITE'],
+                true
+            ],
+            [
+                [
+                    'http://resource6_unsupported',
+                ],
+                ['WHATEVER'],
+                true
             ],
         ];
     }
@@ -150,11 +271,12 @@ class SecureResourceServiceTest extends GenerisTestCase
     public function getPermissions(): array
     {
         return [
-            'http://resource1' => ['READ'],
-            'http://resource2' => [],
-            'http://resource3' => ['WRITE'],
-            'http://resource4' => ['READ', 'WRITE'],
-            'http://resource5' => ['READ', 'WRITE', 'GRANT'],
+            'http://resource1_read'             => ['READ'],
+            'http://resource2_no_access'        => [],
+            'http://resource3_write'            => ['WRITE'],
+            'http://resource4_read_write'       => ['READ', 'WRITE'],
+            'http://resource5_grant_read_write' => ['READ', 'WRITE', 'GRANT'],
+            'http://resource6_unsupported'      => [PermissionInterface::RIGHT_UNSUPPORTED],
         ];
     }
 

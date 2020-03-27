@@ -29,15 +29,15 @@ class ServiceStorageTestCase extends TestCase
     /**
      * tests initialization
      */
-    public function setUp()
+    public function setUp(): void
     {
     }
-    
-    public function tearDown()
+
+    public function tearDown(): void
     {
     }
-    
-    
+
+
     public function testServiceStorage()
     {
         $service = tao_models_classes_service_StateStorage::singleton();
@@ -47,13 +47,13 @@ class ServiceStorageTestCase extends TestCase
         $this->assertFalse($service->has($userUri, 'testkey'));
         $value = $service->get($userUri, 'testkey');
         $this->assertNull($value);
-        
+
         //  test set
         $this->assertTrue($service->set($userUri, 'testkey', 'testvalue'));
         $this->assertTrue($service->has($userUri, 'testkey'));
         $value = $service->get($userUri, 'testkey');
         $this->assertEquals($value, 'testvalue');
-        
+
         //  test replace
         $this->assertTrue($service->set($userUri, 'testkey', 'testvalue2'));
         $this->assertTrue($service->has($userUri, 'testkey'));

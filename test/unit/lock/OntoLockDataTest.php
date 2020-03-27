@@ -21,6 +21,7 @@
 
 namespace  oat\tao\test\unit\lock;
 
+use common_exception_InconsistentData;
 use oat\tao\model\lock\implementation\OntoLockData;
 use oat\generis\test\TestCase;
 
@@ -51,22 +52,22 @@ class OntoLockDataTest extends TestCase
         $owner->getUri()->willReturn('#ownerUri');
         $resource->getUri()->willReturn('#resourceUri');
         $lock = new OntoLockData($resource->reveal(), $owner->reveal(), 'epoch');
-        
-        
+
+
         $expected = json_encode([
             'resource' => '#resourceUri',
             'owner' =>  '#ownerUri',
             'epoch' => 'epoch'
         ]);
-        
+
         $this->assertEquals($expected, $lock->toJson());
     }
     /**
-     * @expectedException common_exception_InconsistentData
      * @author Lionel Lecaque, lionel@taotesting.com
      */
     public function testGetLockDataExeption()
     {
+        $this->expectException(common_exception_InconsistentData::class);
         OntoLockData::getLockData(json_encode([]));
     }
 }

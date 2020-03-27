@@ -31,9 +31,9 @@ use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\session\SessionService;
 use oat\oatbox\user\User;
 
-class SecureResourceService extends ConfigurableService
+class SecureResourceService extends ConfigurableService implements SecureResourceServiceInterface
 {
-    public const SERVICE_ID = 'tao/SecureResourceService';
+    private const HIGHEST_PARENT_URI = 'http://www.tao.lu/Ontologies/TAO.rdf#AssessmentContentObject';
 
     /** @var User */
     private $user;
@@ -44,29 +44,74 @@ class SecureResourceService extends ConfigurableService
      * @return core_kernel_classes_Resource[]
      * @throws common_exception_Error
      */
-    public function getAllChildren(core_kernel_classes_Class $resource)
+    public function getAllChildren(core_kernel_classes_Class $resource): array
     {
-        $children = $resource->getInstances(true);
+        $subClasses = $resource->getSubClasses(false);
+
+        $accessibleInstances = [[]];
+
         $permissionService = $this->getPermissionProvider();
 
-        $childrenIds = array_map(
+        if ($subClasses) {
+            foreach ($subClasses as $subClass) {
+                $classUri = $subClass->getUri();
+                $classPermissions = $permissionService->getPermissions($this->getUser(), [$classUri]);
+
+                if ($this->hasAccess($classPermissions[$classUri])) {
+                    $accessibleInstances[] = $this->getAllChildren($subClass);
+                }
+            }
+        }
+
+        return array_merge(
+            $this->getInstances($resource),
+            ...$accessibleInstances
+        );
+    }
+
+    /**
+     * @param core_kernel_classes_Class $class
+     *
+     * @return core_kernel_classes_Resource[]
+     * @throws common_exception_Error
+     */
+    private function getInstances(core_kernel_classes_Class $class): array
+    {
+        $instances = $class->getInstances(false);
+
+        if (!$instances) {
+            return [];
+        }
+
+        $childrenUris = array_map(
             static function (core_kernel_classes_Resource $child) {
                 return $child->getUri();
             },
-            $children
+            $instances
         );
 
-        $permissions = $permissionService->getPermissions(
+        $permissions = $this->getPermissionProvider()->getPermissions(
             $this->getUser(),
-            $childrenIds
+            $childrenUris
         );
 
-        return array_filter(
-            $children,
-            static function (core_kernel_classes_Resource $child) use ($permissions) {
-                return in_array('READ', $permissions[$child->getUri()], true);
+        $accessibleInstances = [];
+
+        foreach ($instances as $child) {
+            $uri = $child->getUri();
+            if ($this->hasAccess($permissions[$uri])) {
+                $accessibleInstances[$uri] = $child;
             }
-        );
+        }
+
+        return $accessibleInstances;
+    }
+
+    private function hasAccess(array $permissions, array $permissionsToCheck = ['READ']): bool
+    {
+        return
+            $permissions === [PermissionInterface::RIGHT_UNSUPPORTED]
+            || empty(array_diff($permissionsToCheck, $permissions));
     }
 
     /**
@@ -75,7 +120,7 @@ class SecureResourceService extends ConfigurableService
      *
      * @throws common_exception_Error
      */
-    public function validatePermissions(array $resourceUris, array $permissionsToCheck): void
+    private function validateResourceUriPermissions(array $resourceUris, array $permissionsToCheck): void
     {
         $permissionService = $this->getPermissionProvider();
 
@@ -84,14 +129,85 @@ class SecureResourceService extends ConfigurableService
             $resourceUris
         );
 
-        foreach ($permissions as $permission) {
+        foreach ($permissions as $uri => $permission) {
             if (
                 empty($permission)
-                || !empty(array_diff($permissionsToCheck, $permission))
+                || !$this->hasAccess($permission, $permissionsToCheck)
             ) {
-                throw new ResourceAccessDeniedException('Access to one or more requested resources is forbidden');
+                throw new ResourceAccessDeniedException($uri);
             }
         }
+    }
+
+    /**
+     * @param core_kernel_classes_Resource[] $resources
+     * @param string[]                       $permissionsToCheck
+     *
+     * @throws common_exception_Error
+     */
+    public function validatePermissions(iterable $resources, array $permissionsToCheck): void
+    {
+        foreach ($resources as $resource) {
+            $this->validatePermission($resource, $permissionsToCheck);
+        }
+    }
+
+    /**
+     * @param core_kernel_classes_Resource|string $resource
+     * @param array                               $permissionsToCheck
+     *
+     * @throws common_exception_Error
+     */
+    public function validatePermission($resource, array $permissionsToCheck): void
+    {
+        $permissionService = $this->getPermissionProvider();
+
+        if (is_string($resource)) {
+            $resource = new core_kernel_classes_Resource($resource);
+        }
+
+        $resourceUri = $resource->getUri();
+        $permissions = $permissionService->getPermissions($this->getUser(), [$resourceUri]);
+
+        if (!$this->hasAccess($permissions[$resourceUri], $permissionsToCheck)) {
+            throw new ResourceAccessDeniedException($resourceUri);
+        }
+
+        $parentUris = $this->getParentUris(
+            $this->getClass($resource)
+        );
+
+        $this->validateResourceUriPermissions($parentUris, $permissionsToCheck);
+    }
+
+    private function getClass(core_kernel_classes_Resource $resource): core_kernel_classes_Class
+    {
+        if ($resource instanceof core_kernel_classes_Class) {
+            return $resource;
+        }
+
+        // fetch parent class
+        if (!$resource->isClass()) {
+            return current($resource->getTypes());
+        }
+
+        // the last chance to fetch class form DB
+        return $resource->getClass($resource->getUri());
+    }
+
+    private function getParentUris(core_kernel_classes_Class $parent): array
+    {
+        $parentUris = [$parent->getUri()];
+
+        while ($parentList = $parent->getParentClasses(false)) {
+            $parent = current($parentList);
+            if ($parent->getUri() === self::HIGHEST_PARENT_URI) {
+                break;
+            }
+            $parentUris[] = $parent->getUri();
+        }
+
+        return $parentUris;
     }
 
     private function getPermissionProvider(): PermissionInterface

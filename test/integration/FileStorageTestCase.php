@@ -14,7 +14,7 @@ abstract class FileStorageTestCase extends GenerisPhpUnitTestRunner
     /**
      * tests initialization
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->privateDir = \tao_helpers_File::createTempDir();
         $this->adapterFixture = 'adapterFixture';
@@ -23,7 +23,7 @@ abstract class FileStorageTestCase extends GenerisPhpUnitTestRunner
     /**
      * Remove directory of $adapterFixture
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         \tao_helpers_File::delTree($this->privateDir);
     }
