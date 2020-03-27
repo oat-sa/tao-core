@@ -79,7 +79,7 @@ class SecureResourceService extends ConfigurableService implements SecureResourc
     {
         $instances = $class->getInstances(false);
 
-        if ($instances === null) {
+        if (!$instances) {
             return [];
         }
 
