@@ -17,23 +17,29 @@ declare(strict_types=1);
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020 (original work) (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT)
  *
  */
 
-namespace oat\tao\model\resources;
+namespace oat\tao\model\oauth\lockout;
 
-use RuntimeException;
-use Throwable;
+use oat\oatbox\service\ConfigurableService;
 
-class ResourceAccessDeniedException extends RuntimeException
+/**
+ * Basic implementation of Lockout service, that allows all requests
+ * @package oat\tao\model\oauth\lockout
+ */
+class NoLockout extends ConfigurableService implements LockoutInterface
 {
-    public function __construct($forbiddenResourceUri = '', $code = 0, Throwable $previous = null)
+    public function logFailedAttempt(): void
     {
-        parent::__construct(
-            sprintf('Access to resource %s is forbidden', $forbiddenResourceUri),
-            $code,
-            $previous
-        );
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAllowed(): bool
+    {
+        return true;
     }
 }

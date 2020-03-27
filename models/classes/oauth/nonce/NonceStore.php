@@ -21,18 +21,16 @@
 
 namespace oat\tao\model\oauth\nonce;
 
-use oat\oatbox\service\ConfigurableService;
-
 /**
- * Validates recceived nonce
+ * Validates received nonce
  *
  * @author Joel Bout, <joel@taotesting.com>
  */
 interface NonceStore
 {
-    
     /**
      * Returns true if the nonce was not used recently, false if it was
+     *
      * @param string $id
      * @return bool
      */

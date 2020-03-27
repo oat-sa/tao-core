@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,23 +15,15 @@ declare(strict_types=1);
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020 (original work) (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT)
  *
  */
 
-namespace oat\tao\model\resources;
+namespace oat\tao\model\oauth\lockout;
 
-use RuntimeException;
-use Throwable;
 
-class ResourceAccessDeniedException extends RuntimeException
+use Exception;
+
+class LockOutException extends Exception
 {
-    public function __construct($forbiddenResourceUri = '', $code = 0, Throwable $previous = null)
-    {
-        parent::__construct(
-            sprintf('Access to resource %s is forbidden', $forbiddenResourceUri),
-            $code,
-            $previous
-        );
-    }
 }

@@ -22,6 +22,7 @@
 
 namespace oat\tao\scripts\update;
 
+use common_cache_Cache;
 use common_Exception;
 use common_report_Report as Report;
 use core_kernel_persistence_smoothsql_SmoothModel;
@@ -81,11 +82,16 @@ use oat\tao\model\oauth\DataStore;
 use oat\tao\model\oauth\nonce\NoNonce;
 use oat\tao\model\oauth\OauthService;
 use oat\tao\model\OperatedByService;
+use oat\tao\model\resources\GetAllChildrenCacheKeyFactory;
 use oat\tao\model\resources\ListResourceLookup;
 use oat\tao\model\resources\ResourceService;
+use oat\tao\model\oauth\lockout\NoLockout;
 use oat\tao\model\resources\ResourceWatcher;
+use oat\tao\model\resources\SecureResourceCachedService;
 use oat\tao\model\resources\SecureResourceService;
+use oat\tao\model\resources\SecureResourceServiceInterface;
 use oat\tao\model\resources\TreeResourceLookup;
+use oat\tao\model\resources\ValidatePermissionsCacheKeyFactory;
 use oat\tao\model\routing\AnnotationReaderService;
 use oat\tao\model\routing\ControllerService;
 use oat\tao\model\routing\RouteAnnotationService;
@@ -653,7 +659,7 @@ class Updater extends \common_ext_ExtensionUpdater
         if ($this->isVersion('14.20.0')) {
             if (!$this->getServiceManager()->has(OauthService::SERVICE_ID)) {
                 $this->getServiceManager()->register(OauthService::SERVICE_ID, new OauthService([
-                    OauthService::OPTION_DATASTORE => new DataStore([
+                    OauthService::OPTION_DATA_STORE => new DataStore([
                         DataStore::OPTION_NONCE_STORE => new NoNonce()
                     ])
                 ]));
@@ -1297,7 +1303,7 @@ class Updater extends \common_ext_ExtensionUpdater
 
 
         if ($this->isVersion('41.0.2')) {
-            $this->getServiceManager()->register(SecureResourceService::SERVICE_ID, new SecureResourceService());
+            $this->getServiceManager()->register(SecureResourceServiceInterface::SERVICE_ID, new SecureResourceService());
 
             $this->setVersion('41.1.0');
         }
@@ -1327,6 +1333,23 @@ class Updater extends \common_ext_ExtensionUpdater
 
             $this->setVersion('41.2.0');
         }
-        $this->skip('41.2.0', '41.5.2');
+        $this->skip('41.2.0', '41.5.1');
+
+        if ($this->isVersion('41.5.1')) {
+            $this->addReport(
+                Report::createInfo('To make SecureResourceService use cache please run \oat\tao\scripts\install\InstallSecureResourceCachedService script')
+            );
+            $this->setVersion('41.6.0');
+        }
+
+        $this->skip('41.6.0', '41.7.0');
+        if($this->isVersion('41.7.0')){
+            $oauthService = $this->getServiceManager()->get(OauthService::SERVICE_ID);
+            $oauthService->setOption(OauthService::OPTION_LOCKOUT_SERVICE, new NoLockout());
+            $this->getServiceManager()->register(OauthService::SERVICE_ID,$oauthService);
+            $this->setVersion('41.8.0');
+        }
+
+        $this->skip('41.8.0', '41.9.2');
     }
 }

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,23 +15,22 @@ declare(strict_types=1);
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
- *
+ * Copyright (c) 2020 (original work) (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT)
  */
 
-namespace oat\tao\model\resources;
+namespace oat\tao\model\oauth\lockout\storage;
 
-use RuntimeException;
-use Throwable;
+use oat\oatbox\service\ConfigurableService;
 
-class ResourceAccessDeniedException extends RuntimeException
+class KvLockoutStorage extends ConfigurableService implements LockoutStorageInterface
 {
-    public function __construct($forbiddenResourceUri = '', $code = 0, Throwable $previous = null)
+    public function store(string $ip, int $ttl = 0)
     {
-        parent::__construct(
-            sprintf('Access to resource %s is forbidden', $forbiddenResourceUri),
-            $code,
-            $previous
-        );
+        return true;
+    }
+
+    public function getFailedAttempts(string $ip, int $timeout): int
+    {
+        return 0;
     }
 }
