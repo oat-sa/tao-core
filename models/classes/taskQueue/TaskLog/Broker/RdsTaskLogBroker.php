@@ -25,6 +25,7 @@ use common_persistence_sql_SchemaManager;
 use common_persistence_SqlPersistence as SqlPersistence;
 use common_persistence_Persistence as Persistence;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use common_report_Report as Report;
 use oat\generis\persistence\PersistenceManager;
@@ -119,12 +120,28 @@ class RdsTaskLogBroker extends AbstractTaskLogBroker
             self::COLUMN_TASK_NAME => $task instanceof CallbackTaskInterface && is_object($task->getCallable()) ? get_class($task->getCallable()) : get_class($task),
             self::COLUMN_PARAMETERS => json_encode($task->getParameters()),
             self::COLUMN_LABEL => (string) $label,
-            self::COLUMN_STATUS => (string) $status,
+            self::COLUMN_STATUS => $status,
             self::COLUMN_OWNER => (string) $task->getOwner(),
             self::COLUMN_CREATED_AT => $task->getCreatedAt()->format($this->getPersistence()->getPlatForm()->getDateTimeFormatString()),
             self::COLUMN_UPDATED_AT => $this->getPersistence()->getPlatForm()->getNowExpression(),
-            self::COLUMN_MASTER_STATUS => (int) $task->isMasterStatus(),
-        ]);
+            self::COLUMN_MASTER_STATUS => $task->isMasterStatus(),
+        ], $this->getTypes());
+    }
+
+    protected function getTypes(array $data = []): array
+    {
+        return [
+            ParameterType::STRING,
+            ParameterType::STRING,
+            ParameterType::STRING,
+            ParameterType::STRING,
+            ParameterType::STRING,
+            ParameterType::STRING,
+            ParameterType::STRING,
+            ParameterType::STRING,
+            ParameterType::STRING,
+            ParameterType::BOOLEAN,
+        ];
     }
 
     public function __toPhpCode()

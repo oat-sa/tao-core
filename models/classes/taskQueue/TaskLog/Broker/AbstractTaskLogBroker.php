@@ -26,7 +26,6 @@ use common_persistence_Persistence as Persistence;
 use common_report_Report as Report;
 use Doctrine\DBAL\Query\QueryBuilder;
 use oat\oatbox\PhpSerializable;
-use oat\tao\model\taskQueue\QueueDispatcherInterface;
 use oat\tao\model\taskQueue\Task\TaskInterface;
 use oat\tao\model\taskQueue\TaskLog\CollectionInterface;
 use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
@@ -115,7 +114,10 @@ abstract class AbstractTaskLogBroker implements TaskLogBrokerInterface, PhpSeria
     {
         try {
             $qb = $this->getSearchQuery($filter);
-            $collection = TaskLogCollection::createFromArray($qb->execute()->fetchAll());
+            $collection = TaskLogCollection::createFromArray(
+                $qb->execute()->fetchAll(),
+                $this->getPersistence()->getPlatForm()->getDateTimeFormatString()
+            );
         } catch (\Exception $exception) {
             $this->logError('Searching for task logs failed with MSG: ' . $exception->getMessage());
             $collection = TaskLogCollection::createEmptyCollection();
