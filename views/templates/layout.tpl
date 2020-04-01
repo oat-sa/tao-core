@@ -22,7 +22,7 @@ $hasVersionWarning = empty($_COOKIE['versionWarning'])
     <meta name="google" content="notranslate" />
     <title><?= Layout::getTitle() ?></title>
 
-    <link rel="shortcut icon" href="<?= Template::img('favicon.ico', 'tao') ?>"/>
+    <?= Layout::renderThemeTemplate(Theme::CONTEXT_BACKOFFICE, 'head') ?>
 
     <?= tao_helpers_Scriptloader::render() ?>
 
