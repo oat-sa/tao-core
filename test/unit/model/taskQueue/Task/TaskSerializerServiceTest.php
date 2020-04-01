@@ -51,7 +51,7 @@ class TaskSerializerServiceTest extends TestCase
         $service = new TaskSerializerService();
 
         $task = $this->createMock(TaskInterface::class);
-        $this->assertIsString($service->serialize($task));
+        $this->assertJson($service->serialize($task));
     }
 
     protected function mockActionService()
