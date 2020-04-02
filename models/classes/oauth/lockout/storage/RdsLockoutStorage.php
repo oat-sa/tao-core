@@ -27,16 +27,16 @@ use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Schema\Schema;
 use Exception;
-use oat\generis\persistence\PersistenceManager;
-use oat\oatbox\service\ConfigurableService;
 
 /**
  * Class RdsLockoutStorage
  *
- * @author Ivan Klimchuk <ivan@taotesting.com>
+ * @author  Ivan Klimchuk <ivan@taotesting.com>
  * @package oat\tao\model\oauth\lockout\storage
+ *
+ * @method SqlPersistence getPersistence()
  */
-class RdsLockoutStorage extends ConfigurableService implements LockoutStorageInterface
+class RdsLockoutStorage extends LockoutStorageAbstract
 {
     public const TABLE_NAME = 'oauth_lti_failures';
 
@@ -44,9 +44,6 @@ class RdsLockoutStorage extends ConfigurableService implements LockoutStorageInt
     public const FIELD_ADDRESS = 'address';
     public const FIELD_EXPIRE_AT = 'expire_at';
     public const FIELD_ATTEMPTS = 'attempts';
-
-    /** @var SqlPersistence */
-    private $persistence;
 
     /**
      * @param string $ip
@@ -152,14 +149,6 @@ class RdsLockoutStorage extends ConfigurableService implements LockoutStorageInt
     }
 
     /**
-     * @return string
-     */
-    public function getPersistenceId(): string
-    {
-        return $this->getOption(self::OPTION_PERSISTENCE);
-    }
-
-    /**
      * @param Schema $schema
      *
      * @return mixed
@@ -175,19 +164,5 @@ class RdsLockoutStorage extends ConfigurableService implements LockoutStorageInt
     protected function getQueryBuilder(): QueryBuilder
     {
         return $this->getPersistence()->getPlatForm()->getQueryBuilder();
-    }
-
-    /**
-     * @return SqlPersistence
-     */
-    protected function getPersistence()
-    {
-        if ($this->persistence === null) {
-            $this->persistence = $this->getServiceLocator()
-                ->get(PersistenceManager::SERVICE_ID)
-                ->getPersistenceById($this->getPersistenceId());
-        }
-
-        return $this->persistence;
     }
 }
