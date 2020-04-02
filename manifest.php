@@ -61,10 +61,6 @@ return [
     'requires' => [
         'generis' => '>=12.15.0',
     ],
-    'models' => [
-        'http://www.tao.lu/Ontologies/TAO.rdf',
-        'http://www.tao.lu/middleware/wfEngine.rdf'
-    ],
     'install' => [
         'rdf' => [
             __DIR__ . '/models/ontology/tao.rdf',
@@ -132,10 +128,6 @@ return [
         ]
     ],
     'update' => 'oat\\tao\\scripts\\update\\Updater',
-    'optimizableClasses' => [
-        'http://www.tao.lu/Ontologies/TAO.rdf#Languages',
-        'http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsages'
-    ],
     'managementRole' => TaoRoles::TAO_MANAGER,
     'acl' => [
         ['grant', TaoRoles::ANONYMOUS,            ['ext' => 'tao','mod' => 'Main', 'act' => 'entry']],
@@ -195,9 +187,9 @@ return [
     ],
     'constants' => [
         #TAO version number
-        'TAO_VERSION' => '3.4.0-sprint125',
+        'TAO_VERSION' => '3.5.0-sprint125',
         #TAO version label
-        'TAO_VERSION_NAME' => '3.4.0-sprint125',
+        'TAO_VERSION_NAME' => '3.5.0-sprint125',
         #the name to display
         'PRODUCT_NAME' => 'TAO',
         #TAO release status, use to add specific footer to TAO, available alpha, beta, demo, stable
