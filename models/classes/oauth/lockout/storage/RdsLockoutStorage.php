@@ -35,7 +35,7 @@ use Doctrine\DBAL\Schema\Schema;
  *
  * @method Persistence getPersistence()
  */
-final class RdsLockoutStorage extends LockoutStorageAbstract
+class RdsLockoutStorage extends LockoutStorageAbstract
 {
     public const TABLE_NAME = 'oauth_lti_failures';
 

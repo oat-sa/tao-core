@@ -27,7 +27,7 @@ use common_persistence_KeyValuePersistence as Persistence;
 /**
  * @method Persistence getPersistence()
  */
-final class KvLockoutStorage extends LockoutStorageAbstract
+class KvLockoutStorage extends LockoutStorageAbstract
 {
     /**
      * @inheritDoc
