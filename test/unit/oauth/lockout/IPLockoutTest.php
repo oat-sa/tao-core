@@ -7,6 +7,7 @@ use oat\oatbox\log\LoggerService;
 use oat\tao\model\oauth\lockout\IPFactory;
 use oat\tao\model\oauth\lockout\IPLockout;
 use oat\tao\model\oauth\lockout\storage\LockoutStorageInterface;
+use oat\tao\model\oauth\lockout\storage\RdsLockoutStorage;
 use oat\generis\test\MockObject;
 
 class IPLockoutTest extends TestCase
@@ -22,7 +23,7 @@ class IPLockoutTest extends TestCase
 
     public function setUp(): void
     {
-        $this->lockStorageMock = $this->createMock(LockoutStorageInterface::class);
+        $this->lockStorageMock = $this->createMock(RdsLockoutStorage::class);
 
         $ipFactoryMock = $this->createMock(IPFactory::class);
         $ipFactoryMock->method('create')->willReturn('127.0.0.1');
