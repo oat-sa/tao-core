@@ -120,7 +120,7 @@ class SetUpOAuthLockoutService extends ScriptAction
                 ->get(OauthService::SERVICE_ID)
                 ->getSubService(OauthService::OPTION_LOCKOUT_SERVICE)
                 ->getSubService(IPLockout::OPTION_LOCKOUT_STORAGE);
-            if ($storageService instanceof LockoutStorageInterface) {
+            if ($storageService instanceof RdsLockoutStorage) {
                 $persistenceId = $storageService->getPersistenceId();
                 $persistence = $this->getServiceLocator()
                     ->get(PersistenceManager::SERVICE_ID)
