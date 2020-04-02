@@ -142,6 +142,9 @@ class ConfigurableTheme extends Configurable implements Theme
     public function getTemplate($id, $context = Theme::CONTEXT_BACKOFFICE)
     {
         switch ($id) {
+            case 'head':
+                $template = Template::getTemplate('blocks/head.tpl', 'tao');
+                break;
             case 'header-logo':
                 $template = Template::getTemplate('blocks/header-logo.tpl', 'tao');
                 break;
