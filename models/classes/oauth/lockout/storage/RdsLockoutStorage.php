@@ -47,7 +47,7 @@ class RdsLockoutStorage extends LockoutStorageAbstract
     /**
      * @inheritDoc
      */
-    public function store(string $ip, int $ttl = 0): void
+    public function store(string $ip, int $ttl = 0)
     {
         $id = ip2long($ip);
         $expireAt = time() + $ttl;

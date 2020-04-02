@@ -43,7 +43,7 @@ interface LockoutStorageInterface
      *
      * @throws Exception
      */
-    public function store(string $ip, int $ttl = 0): void;
+    public function store(string $ip, int $ttl = 0);
 
     /**
      * Returns amount of failed attempts for requested IP
