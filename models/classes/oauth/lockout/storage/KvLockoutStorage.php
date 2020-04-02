@@ -22,15 +22,37 @@ declare(strict_types=1);
 
 namespace oat\tao\model\oauth\lockout\storage;
 
-class KvLockoutStorage extends LockoutStorageAbstract
+use common_persistence_KeyValuePersistence as Persistence;
+
+/**
+ * @method Persistence getPersistence()
+ */
+final class KvLockoutStorage extends LockoutStorageAbstract
 {
-    public function store(string $ip, int $ttl = 0)
+    /**
+     * @inheritDoc
+     */
+    public function store(string $ip, int $ttl = 0): void
     {
-        return true;
+        $this->getPersistence()->set(
+            $this->createKey($ip),
+            $this->getFailedAttempts($ip, $ttl) + 1,
+            $ttl
+        );
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getFailedAttempts(string $ip, int $timeout): int
     {
-        return 0;
+        return (int)$this->getPersistence()->get(
+            $this->createKey($ip)
+        );
+    }
+
+    private function createKey(string $ip): string
+    {
+        return sprintf('%s_%u', self::class, ip2long($ip));
     }
 }

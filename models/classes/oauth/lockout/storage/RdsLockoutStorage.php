@@ -22,11 +22,10 @@ declare(strict_types=1);
 
 namespace oat\tao\model\oauth\lockout\storage;
 
-use common_persistence_SqlPersistence as SqlPersistence;
+use common_persistence_SqlPersistence as Persistence;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Schema\Schema;
-use Exception;
 
 /**
  * Class RdsLockoutStorage
@@ -34,9 +33,9 @@ use Exception;
  * @author  Ivan Klimchuk <ivan@taotesting.com>
  * @package oat\tao\model\oauth\lockout\storage
  *
- * @method SqlPersistence getPersistence()
+ * @method Persistence getPersistence()
  */
-class RdsLockoutStorage extends LockoutStorageAbstract
+final class RdsLockoutStorage extends LockoutStorageAbstract
 {
     public const TABLE_NAME = 'oauth_lti_failures';
 
@@ -46,28 +45,26 @@ class RdsLockoutStorage extends LockoutStorageAbstract
     public const FIELD_ATTEMPTS = 'attempts';
 
     /**
-     * @param string $ip
-     * @param int $ttl
-     *
-     * @return int|mixed
-     * @throws Exception
+     * @inheritDoc
      */
-    public function store(string $ip, int $ttl = 0)
+    public function store(string $ip, int $ttl = 0): void
     {
         $id = ip2long($ip);
-        $expiredAt = time() + $ttl;
+        $expireAt = time() + $ttl;
         $addressInfo = $this->getAddressInfo($id);
         if (!$addressInfo) {
             try {
-                return $this->getPersistence()->insert(
+                $this->getPersistence()->insert(
                     self::TABLE_NAME,
                     [
-                        self::FIELD_ID        => ip2long($ip),
+                        self::FIELD_ID        => $id,
                         self::FIELD_ADDRESS   => $ip,
                         self::FIELD_ATTEMPTS  => 1, // first failed attempt
-                        self::FIELD_EXPIRE_AT => $expiredAt
+                        self::FIELD_EXPIRE_AT => $expireAt
                     ]
                 );
+
+                return;
             }catch (UniqueConstraintViolationException $exception){
                 $addressInfo = $this->getAddressInfo($id);
             }
@@ -78,12 +75,12 @@ class RdsLockoutStorage extends LockoutStorageAbstract
         $data = [
             'conditions'   => [self::FIELD_ID => $id],
             'updateValues' => [
-                self::FIELD_EXPIRE_AT => $expiredAt,
+                self::FIELD_EXPIRE_AT => $expireAt,
                 self::FIELD_ATTEMPTS  => $attempts
             ]
         ];
 
-        return $this->getPersistence()->updateMultiple(self::TABLE_NAME, [$data]);
+        $this->getPersistence()->updateMultiple(self::TABLE_NAME, [$data]);
     }
 
     /**
