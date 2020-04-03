@@ -153,7 +153,7 @@ class SetUpOAuthLockoutService extends ScriptAction
         $options[IPLockout::OPTION_IP_FACTORY] = new IPFactory();
         switch ($this->getOption(self::OPT_STORAGE)) {
             case self::STORAGE_KV:
-                $options[IPLockout::OPTION_LOCKOUT_STORAGE] = new KvLockoutStorage([RdsLockoutStorage::OPTION_PERSISTENCE => 'default_kv']);
+                $options[IPLockout::OPTION_LOCKOUT_STORAGE] = new KvLockoutStorage([KvLockoutStorage::OPTION_PERSISTENCE => 'default_kv']);
                 break;
             case self::STORAGE_RDS:
                 $options[IPLockout::OPTION_LOCKOUT_STORAGE] = new RdsLockoutStorage([RdsLockoutStorage::OPTION_PERSISTENCE => 'default']);
