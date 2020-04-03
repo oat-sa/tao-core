@@ -18,19 +18,41 @@
  * Copyright (c) 2020 (original work) (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT)
  */
 
+declare(strict_types=1);
+
 namespace oat\tao\model\oauth\lockout\storage;
 
-use oat\oatbox\service\ConfigurableService;
+use common_persistence_KeyValuePersistence as Persistence;
 
-class KvLockoutStorage extends ConfigurableService implements LockoutStorageInterface
+/**
+ * @method Persistence getPersistence()
+ */
+class KvLockoutStorage extends LockoutStorageAbstract
 {
-    public function store(string $ip, int $ttl = 0)
+    /**
+     * @inheritDoc
+     */
+    public function store(string $ip, int $ttl = 0): void
     {
-        return true;
+        $this->getPersistence()->set(
+            $this->createKey($ip),
+            $this->getFailedAttempts($ip, $ttl) + 1,
+            $ttl
+        );
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getFailedAttempts(string $ip, int $timeout): int
     {
-        return 0;
+        return (int)$this->getPersistence()->get(
+            $this->createKey($ip)
+        );
+    }
+
+    private function createKey(string $ip): string
+    {
+        return sprintf('%s_%u', self::class, ip2long($ip));
     }
 }
