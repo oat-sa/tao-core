@@ -23,6 +23,8 @@ declare(strict_types=1);
 
 namespace oat\tao\model\oauth\lockout\storage;
 
+use Exception;
+
 /**
  * Describe how should be implemented storage of failed OAuth sessions
  *
@@ -39,7 +41,7 @@ interface LockoutStorageInterface
      * @param string $ip Client IP address
      * @param int $ttl How long entry will be valid
      *
-     * @return mixed
+     * @throws Exception
      */
     public function store(string $ip, int $ttl = 0);
 

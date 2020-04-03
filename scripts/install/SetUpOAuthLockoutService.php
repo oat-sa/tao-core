@@ -29,7 +29,6 @@ use oat\tao\model\oauth\lockout\IPLockout;
 use oat\tao\model\oauth\lockout\LockoutInterface;
 use oat\tao\model\oauth\lockout\NoLockout;
 use oat\tao\model\oauth\lockout\storage\KvLockoutStorage;
-use oat\tao\model\oauth\lockout\storage\LockoutStorageInterface;
 use oat\tao\model\oauth\lockout\storage\RdsLockoutStorage;
 use oat\tao\model\oauth\OauthService;
 
@@ -120,7 +119,7 @@ class SetUpOAuthLockoutService extends ScriptAction
                 ->get(OauthService::SERVICE_ID)
                 ->getSubService(OauthService::OPTION_LOCKOUT_SERVICE)
                 ->getSubService(IPLockout::OPTION_LOCKOUT_STORAGE);
-            if ($storageService instanceof LockoutStorageInterface) {
+            if ($storageService instanceof RdsLockoutStorage) {
                 $persistenceId = $storageService->getPersistenceId();
                 $persistence = $this->getServiceLocator()
                     ->get(PersistenceManager::SERVICE_ID)
@@ -154,7 +153,7 @@ class SetUpOAuthLockoutService extends ScriptAction
         $options[IPLockout::OPTION_IP_FACTORY] = new IPFactory();
         switch ($this->getOption(self::OPT_STORAGE)) {
             case self::STORAGE_KV:
-                $options[IPLockout::OPTION_LOCKOUT_STORAGE] = new KvLockoutStorage();
+                $options[IPLockout::OPTION_LOCKOUT_STORAGE] = new KvLockoutStorage([KvLockoutStorage::OPTION_PERSISTENCE => 'default_kv']);
                 break;
             case self::STORAGE_RDS:
                 $options[IPLockout::OPTION_LOCKOUT_STORAGE] = new RdsLockoutStorage([RdsLockoutStorage::OPTION_PERSISTENCE => 'default']);
