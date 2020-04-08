@@ -230,7 +230,7 @@ class tao_install_Setup implements Action
                     $params = $config['options'];
                     if (is_a($className, \oat\oatbox\service\ConfigurableService::class, true)) {
                         if (is_a($className, \oat\tao\model\service\InjectionAwareService::class, true)) {
-                            $service = new $className(...array_values($params));
+                            $service = new $className(...$this->sortParameters($className, $params));
                         } else {
                             $service = new $className($params);
                         }
@@ -284,6 +284,57 @@ class tao_install_Setup implements Action
         }
 
         $this->logNotice('Installation completed!');
+    }
+
+    /**
+     * @param string $class
+     * @param array  $parametersToSort
+     *
+     * @return array
+     * @throws ReflectionException
+     */
+    private function sortParameters(string $class, array $parametersToSort): array
+    {
+        $reflectionClass = new ReflectionClass($class);
+
+        $constructParameters = $reflectionClass->getMethod('__construct')->getParameters();
+
+        $sortedParameters = [];
+
+        foreach ($constructParameters as $parameter) {
+            $parameterName = $parameter->getName();
+            if (isset($parametersToSort[$parameterName])) {
+                $sortedParameters[$parameter->getPosition()] = $parametersToSort[$parameterName];
+            } else if (!$parameter->isDefaultValueAvailable()) {
+                throw new RuntimeException(
+                    sprintf('There is no default parameter for `$%s` in %s::__contruct', $parameter->getName(), $class)
+                );
+            }
+        }
+
+        // checking if there are gaps and default parameters can fill them
+
+        end($sortedParameters);
+        $lastKey = key($sortedParameters);
+        if (count($sortedParameters) - 1 < $lastKey) {
+            $testArray = array_diff(range(0, $lastKey), array_keys($sortedParameters));
+
+            foreach ($constructParameters as $parameter) {
+                if (in_array($parameter->getPosition(), $testArray, true)) {
+                    if (!$parameter->isDefaultValueAvailable()) {
+                        throw new RuntimeException(
+                            sprintf('There is no default parameter for `$%s` in %s::__contruct', $parameter->getName(), $class)
+                        );
+                    }
+
+                    $sortedParameters[$parameter->getPosition()] = $parameter->getDefaultValue();
+                }
+            }
+        }
+
+        ksort($sortedParameters);
+
+        return array_values($sortedParameters);
     }
 
     /**
