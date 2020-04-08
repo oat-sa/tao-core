@@ -366,33 +366,28 @@ define([
                      * @fires layout/tree#ready.taotree
                      */
                     onload: function onload(tree){
-
-                        var $lastSelected, $selectNode;
                         var $firstClass     = $(".node-class:not(.private):first", $container);
                         var $firstInstance  = $(".node-instance:not(.private):first", $container);
                         var treeState       = $container.data('tree-state') || {};
                         var selectNode      = treeState.selectNode || options.selectNode;
-                        var nodeSelection   = function nodeSelection(){
+                        var nodeSelection   = function nodeSelection() {
+                            //after refreshing tree previously node will be already selected.
+                            if(!selectNode && typeof tree.selected !== 'undefined') {
+                                return tree.selected;
+                            }
 
                             //the node to select is given
-                            if(selectNode){
-                                $selectNode = $('#' + selectNode, $container);
-                                if($selectNode.length && !$selectNode.hasClass('private')){
-                                    return tree.select_branch($selectNode);
-                                }
-                            } else if(typeof tree.selected !== 'undefined') {//after refreshing tree previously node will be already selected.
-                                return tree.selected;
+                            if (selectNodeById(selectNode, tree)) {
+                                return;
                             }
 
                             //if selectNode was not given and there is no selected node on the tree then try to find node to select:
 
                             //try to select the last one
-                            if(lastSelected){
-                                $lastSelected = $('#' +  lastSelected, $container);
-                                if($lastSelected.length && !$lastSelected.hasClass('private')){
-                                    return tree.select_branch($lastSelected);
-                                }
+                            if (selectNodeById(lastSelected, tree)) {
+                                return;
                             }
+
                             //or the 1st instance
                             if ($firstInstance.length) {
                                 return tree.select_branch($firstInstance);
@@ -827,6 +822,30 @@ define([
                     }
                 }
                 return treeData;
+            }
+
+            /**
+             * @param {String} id
+             * @param {Object} tree
+             *
+             * @returns {Boolean} Whether or not the selection succeed
+             */
+            function selectNodeById(id, tree) {
+                var $node;
+
+                if (!id) {
+                    return false;
+                }
+
+                $node = $('#' + id, $container);
+
+                if(!$node.length || $node.hasClass('private')){
+                    return false;
+                }
+
+                tree.select_branch($node);
+
+                return true;
             }
 
             return setUpTree();
