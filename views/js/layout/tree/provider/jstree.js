@@ -331,7 +331,6 @@ define([
                      * Used to modify them before building the tree.
                      *
                      * @param {Object} data - the received data
-                     * @param {Object} tree - the tree instance
                      * @returns {Object} data the modified data
                      */
                     ondata: function ondata(data) {
@@ -391,7 +390,6 @@ define([
                             if(lastSelected){
                                 $lastSelected = $('#' +  lastSelected, $container);
                                 if($lastSelected.length && !$lastSelected.hasClass('private')){
-                                    lastSelected = null;
                                     return tree.select_branch($lastSelected);
                                 }
                             }
@@ -460,6 +458,8 @@ define([
                             rootClassUri:  options.rootClassUri,
                             signature: $node.data('signature')
                         };
+
+                        lastSelected = $node.attr('id');
 
                         //mark all unselected
                         $('a.clicked', $container)
@@ -591,9 +591,6 @@ define([
 
                         store('taotree').then(function(treeStore){
                             treeStore.getItem(context.section).then(function(node){
-                                if(node){
-                                    lastSelected = node;
-                                }
                                 //create the tree
                                 setTreeState({ loadNode: options.loadNode });
                                 $container.tree(treeOptions);
