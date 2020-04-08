@@ -21,7 +21,6 @@ pipeline {
                     label : 'Change composer prefer-stable option',
                     script: 'composer config prefer-stable true'
                 )
-                }
             }
         }
         stage('Install') {
