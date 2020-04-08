@@ -371,13 +371,13 @@ define([
                         var treeState       = $container.data('tree-state') || {};
                         var selectNode      = treeState.selectNode || options.selectNode;
                         var nodeSelection   = function nodeSelection() {
-                            //after refreshing tree previously node will be already selected.
-                            if(!selectNode && typeof tree.selected !== 'undefined') {
-                                return tree.selected;
-                            }
-
                             //the node to select is given
                             if (selectNodeById(selectNode, tree)) {
+                                return;
+                            }
+
+                            //after refreshing tree previously node will be already selected.
+                            if (tree.selected) {
                                 return;
                             }
 
@@ -392,8 +392,9 @@ define([
                             if ($firstInstance.length) {
                                 return tree.select_branch($firstInstance);
                             }
+
                             //or something
-                            return tree.select_branch($('.node-class,.node-instance', $container).get(0));
+                            tree.select_branch($('.node-class,.node-instance', $container).get(0));
                         };
 
                         if($firstClass.hasClass('leaf')){
