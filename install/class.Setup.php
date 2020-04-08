@@ -305,15 +305,10 @@ class tao_install_Setup implements Action
             $parameterName = $parameter->getName();
             if (isset($parametersToSort[$parameterName])) {
                 $sortedParameters[$parameter->getPosition()] = $parametersToSort[$parameterName];
-            } else if (!$parameter->isDefaultValueAvailable()) {
-                throw new RuntimeException(
-                    sprintf('There is no default parameter for `$%s` in %s::__contruct', $parameter->getName(), $class)
-                );
             }
         }
 
         // checking if there are gaps and default parameters can fill them
-
         end($sortedParameters);
         $lastKey = key($sortedParameters);
         if (count($sortedParameters) - 1 < $lastKey) {
