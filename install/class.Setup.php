@@ -229,7 +229,11 @@ class tao_install_Setup implements Action
                     $className = $config['class'];
                     $params = $config['options'];
                     if (is_a($className, \oat\oatbox\service\ConfigurableService::class, true)) {
-                        $service = new $className($params);
+                        if (is_a($className, \oat\tao\model\service\InjectionAwareService::class, true)) {
+                            $service = new $className(...array_values($params));
+                        } else {
+                            $service = new $className($params);
+                        }
                         $serviceManager->register($extension . '/' . $key, $service);
                     } else {
                         $this->logWarning('The class : ' . $className . ' can not be set as a Configurable Service');
