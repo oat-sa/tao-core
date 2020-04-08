@@ -13,16 +13,14 @@ pipeline {
                     label : 'Create build build directory',
                     script: 'mkdir -p build'
                 )
-
-                withCredentials([string(credentialsId: 'jenkins_github_token', variable: 'GIT_TOKEN')]) {
-                    sh(
-                        label : 'Run the Dependency Resolver',
-                        script: '''
-changeBranch=$CHANGE_BRANCH
-TEST_BRANCH="${changeBranch:-$BRANCH_NAME}"
-echo "select branch : ${TEST_BRANCH}"
-                        '''
-                    )
+                sh(
+                    label : 'Change composer minimum stability',
+                    script: 'composer config minimum-stability dev'
+                )
+                sh(
+                    label : 'Change composer prefer-stable option',
+                    script: 'composer config prefer-stable true'
+                )
                 }
             }
         }
