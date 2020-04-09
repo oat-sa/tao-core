@@ -36,13 +36,15 @@ abstract class InjectionAwareService extends ConfigurableService
     {
         $content = 'new %s(%s)';
 
-        if (!$this->isChildItem && $this->isFactory()) {
-            $content = "new class implements \\oat\\oatbox\\service\\ServiceFactoryInterface {
-    public function __invoke(\\Zend\\ServiceManager\\ServiceLocatorInterface \$serviceLocator)
+        if (!$this->isChildItem && $this->isFactoryNeeded()) {
+            $content = <<<'FACTORY'
+new class implements \oat\oatbox\service\ServiceFactoryInterface {
+    public function __invoke(\Zend\ServiceManager\ServiceLocatorInterface $serviceLocator)
     {
         return new %s(%s);
     }
-}";
+}
+FACTORY;
         }
 
         return sprintf(
@@ -108,9 +110,9 @@ abstract class InjectionAwareService extends ConfigurableService
                     $propertyValue->isChildItem = true;
                 } elseif ($propertyValue instanceof ConfigurableService) {
                     $className = get_class($propertyValue);
-                    $value = defined("$className::SERVICE_ID") ? "$className::SERVICE_ID" : "$className::class";
+                    $serviceIdentifier = defined("$className::SERVICE_ID") ? "$className::SERVICE_ID" : "$className::class";
 
-                    $propertyValue = new PhpCode(sprintf('$serviceLocator->get(%s)', $value));
+                    $propertyValue = new PhpCode(sprintf('$serviceLocator->get(%s)', $serviceIdentifier));
                 }
             }
 
@@ -123,7 +125,7 @@ abstract class InjectionAwareService extends ConfigurableService
     /**
      * @throws ReflectionException
      */
-    protected function isFactory(): bool
+    protected function isFactoryNeeded(): bool
     {
         foreach ($this->iterateParameters() as $propertyValue) {
             if (
