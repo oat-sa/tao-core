@@ -312,10 +312,10 @@ class tao_install_Setup implements Action
         end($sortedParameters);
         $lastKey = key($sortedParameters);
         if (count($sortedParameters) - 1 < $lastKey) {
-            $listOfGaps = array_diff(range(0, $lastKey), array_keys($sortedParameters));
+            $gapMap = array_diff_key(array_fill(0, $lastKey + 1, true), $sortedParameters);
 
             foreach ($constructParameters as $parameter) {
-                if (in_array($parameter->getPosition(), $listOfGaps, true)) {
+                if (isset($gapMap[$parameter->getPosition()])) {
                     if (!$parameter->isDefaultValueAvailable()) {
                         throw new RuntimeException(
                             sprintf('There is no default parameter for `$%s` in %s::__contruct', $parameter->getName(), $class)
