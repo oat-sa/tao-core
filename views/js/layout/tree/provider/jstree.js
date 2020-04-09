@@ -445,12 +445,11 @@ define([
                      */
                     onselect: function onselect(node, tree) {
 
-                        var $node           = $(node);
+                        var $node        = $(node);
                         var classActions = [];
-                        var nodeId          = $node.attr('id');
-                        var nodeUri         = $node.data('uri');
-                        var $parentNode     = tree.parent($node);
-                        var nodeContext     =  {
+                        var nodeUri      = $node.data('uri');
+                        var $parentNode  = tree.parent($node);
+                        var nodeContext  =  {
                             rootClassUri:  options.rootClassUri,
                             signature: $node.data('signature')
                         };
@@ -460,7 +459,7 @@ define([
                         //mark all unselected
                         $('a.clicked', $container)
                             .parent('li')
-                            .not('[id="' + nodeId + '"]')
+                            .not('[id="' + lastSelected + '"]')
                             .removeClass('clicked');
 
                         //the more node makes you load more resources
@@ -474,7 +473,7 @@ define([
                             if ($node.hasClass('closed')) {
                                 tree.open_branch($node);
                             }
-                            nodeContext.classUri = nodeId;
+                            nodeContext.classUri = lastSelected;
                             nodeContext.classSignature = $node.data('signature');
                             nodeContext.id = nodeUri;
                             nodeContext.context = ['class', 'resource'];
@@ -489,7 +488,7 @@ define([
 
                         //exec the  selectInstance action
                         if ($node.hasClass('node-instance')){
-                            nodeContext.uri = nodeId;
+                            nodeContext.uri = lastSelected;
                             nodeContext.classUri = $parentNode.attr('id');
                             nodeContext.classSignature = $parentNode.data('signature');
                             nodeContext.id = nodeUri;
@@ -497,7 +496,7 @@ define([
 
                             //the last selected node is stored
                             store('taotree').then(function(treeStore){
-                                treeStore.setItem(context.section, nodeId).then(function(){
+                                treeStore.setItem(context.section, lastSelected).then(function(){
                                     generisRouter.pushNodeState(location.href, uri.decode(nodeContext.uri));
                                     executePossibleAction(options.actions, nodeContext, ['moveInstance', 'delete']);
                                 });
