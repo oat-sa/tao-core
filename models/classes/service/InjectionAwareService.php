@@ -61,13 +61,11 @@ abstract class InjectionAwareService extends ConfigurableService
     }
 
     /**
-     * @return array A list of dependencies to be injected in their order.
+     * @return iterable
      * @throws ReflectionException
      */
-    protected function getDependencies(): array
+    protected function iterateParameters(): iterable
     {
-        $dependencies = [];
-
         $class = new ReflectionClass($this);
         $constructor = $class->getMethod('__construct');
         $parameters = $constructor->getParameters();
@@ -91,8 +89,20 @@ abstract class InjectionAwareService extends ConfigurableService
                 $classProperty->setAccessible(true);
             }
 
-            $propertyValue = $classProperty->getValue($this);
+            yield $classProperty->getValue($this);
+        }
+    }
 
+    /**
+     * @return array A list of dependencies to be injected in their order.
+     * @throws ReflectionException
+     */
+    protected function getDependencies(): array
+    {
+        $dependencies = [];
+
+        foreach ($this->iterateParameters() as $parameter) {
+            $propertyValue = $parameter;
             if (is_object($propertyValue)) {
                 if (($propertyValue instanceof self)) {
                     $propertyValue->isChildItem = true;
@@ -110,37 +120,12 @@ abstract class InjectionAwareService extends ConfigurableService
         return $dependencies;
     }
 
-
     /**
      * @throws ReflectionException
      */
     protected function isFactory(): bool
     {
-        $class = new ReflectionClass($this);
-        $constructor = $class->getMethod('__construct');
-        $parameters = $constructor->getParameters();
-
-        foreach ($parameters as $parameter) {
-            $parameterName = $parameter->getName();
-
-            if (!$class->hasProperty($parameterName)) {
-                $message = sprintf(
-                    'Cannot find property "%s" in class %s. Please name properties exactly like constructor parameters, or overload %s',
-                    $parameterName,
-                    static::class,
-                    __METHOD__
-                );
-                throw new RuntimeException($message);
-            }
-
-            $classProperty = $class->getProperty($parameterName);
-
-            if ($classProperty->isPrivate() || $classProperty->isProtected()) {
-                $classProperty->setAccessible(true);
-            }
-
-            $propertyValue = $classProperty->getValue($this);
-
+        foreach ($this->iterateParameters() as $propertyValue) {
             if (
                 is_object($propertyValue)
                 && !($propertyValue instanceof self)
