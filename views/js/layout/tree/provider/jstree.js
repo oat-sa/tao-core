@@ -455,7 +455,7 @@ define([
                             signature: $node.data('signature')
                         };
 
-                        lastSelected = $node.attr('id');
+                        lastSelected = nodeId;
 
                         //mark all unselected
                         $('a.clicked', $container)
