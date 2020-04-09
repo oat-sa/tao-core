@@ -154,7 +154,7 @@ use oat\tao\scripts\tools\MigrateSecuritySettings;
 use tao_models_classes_UserService;
 
 /**
- *
+ * @deprecated 
  * @author Joel Bout <joel@taotesting.com>
  */
 class Updater extends \common_ext_ExtensionUpdater
@@ -1353,5 +1353,7 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         $this->skip('41.8.0', '41.11.1');
+
+        $this->setVersion($this->getExtension()->getVersion());
     }
 }
