@@ -37,7 +37,7 @@ abstract class InjectionAwareService extends ConfigurableService
         $content = 'new %s(%s)';
 
         if (!$this->isChildItem && $this->isFactory()) {
-            $content = "new class implements \\oat\\oatbox\\service\\ServiceFactory {
+            $content = "new class implements \\oat\\oatbox\\service\\ServiceFactoryInterface {
     public function __invoke(\\Zend\\ServiceManager\\ServiceLocatorInterface \$serviceLocator)
     {
         return new %s(%s);
