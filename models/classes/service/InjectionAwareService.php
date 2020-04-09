@@ -108,7 +108,7 @@ abstract class InjectionAwareService extends ConfigurableService
                     $propertyValue->isChildItem = true;
                 } elseif ($propertyValue instanceof ConfigurableService) {
                     $className = get_class($propertyValue);
-                    $value = defined("$className::SERVICE_ID") ? "$className::SERVICE_ID" : "'$className'";
+                    $value = defined("$className::SERVICE_ID") ? "$className::SERVICE_ID" : "$className::class";
 
                     $propertyValue = new PhpCode(sprintf('$serviceLocator->get(%s)', $value));
                 }
