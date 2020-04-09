@@ -28,11 +28,25 @@ use RuntimeException;
 
 abstract class InjectionAwareService extends ConfigurableService
 {
+    /** @var bool */
+    private $isChildItem = false;
+
     /** @noinspection MagicMethodsValidityInspection */
     public function __toPhpCode(): string
     {
+        $content = 'new %s(%s)';
+
+        if (!$this->isChildItem && $this->isFactory()) {
+            $content = "new class implements \\oat\\oatbox\\service\\ServiceFactory {
+    public function __invoke(\\Zend\\ServiceManager\\ServiceLocatorInterface \$serviceLocator)
+    {
+        return new %s(%s);
+    }
+}";
+        }
+
         return sprintf(
-            "new %s(\n%s\n)",
+            $content,
             static::class,
             implode(",\n", $this->getSerializedDependencies())
         );
@@ -77,9 +91,65 @@ abstract class InjectionAwareService extends ConfigurableService
                 $classProperty->setAccessible(true);
             }
 
-            $dependencies[] = $classProperty->getValue($this);
+            $propertyValue = $classProperty->getValue($this);
+
+            if (is_object($propertyValue)) {
+                if (($propertyValue instanceof self)) {
+                    $propertyValue->isChildItem = true;
+                } elseif ($propertyValue instanceof ConfigurableService) {
+                    $className = get_class($propertyValue);
+                    $value = defined("$className::SERVICE_ID") ? "$className::SERVICE_ID" : "'$className'";
+
+                    $propertyValue = new PhpCode(sprintf('$serviceLocator->get(%s)', $value));
+                }
+            }
+
+            $dependencies[] = $propertyValue;
         }
 
         return $dependencies;
+    }
+
+
+    /**
+     * @throws ReflectionException
+     */
+    protected function isFactory(): bool
+    {
+        $class = new ReflectionClass($this);
+        $constructor = $class->getMethod('__construct');
+        $parameters = $constructor->getParameters();
+
+        foreach ($parameters as $parameter) {
+            $parameterName = $parameter->getName();
+
+            if (!$class->hasProperty($parameterName)) {
+                $message = sprintf(
+                    'Cannot find property "%s" in class %s. Please name properties exactly like constructor parameters, or overload %s',
+                    $parameterName,
+                    static::class,
+                    __METHOD__
+                );
+                throw new RuntimeException($message);
+            }
+
+            $classProperty = $class->getProperty($parameterName);
+
+            if ($classProperty->isPrivate() || $classProperty->isProtected()) {
+                $classProperty->setAccessible(true);
+            }
+
+            $propertyValue = $classProperty->getValue($this);
+
+            if (
+                is_object($propertyValue)
+                && !($propertyValue instanceof self)
+                && $propertyValue instanceof ConfigurableService
+            ) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
