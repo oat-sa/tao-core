@@ -87,7 +87,8 @@ class tao_install_utils_ChecksHelper
             $ext = array_pop($extensionIds);
             $manifestPath = dirname(__FILE__) . '/../../../' . $ext . '/manifest.php';
             $dependencies = Manifest::extractDependencies($manifestPath);
-            $extensionIds = array_unique(array_merge($extensionIds, array_diff($dependencies, $toCheck)));
+            $dependencyIds = array_keys($dependencies);
+            $extensionIds = array_unique(array_merge($extensionIds, array_diff($dependencyIds, $toCheck)));
             $toCheck[] = $ext;
         }
         
