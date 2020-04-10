@@ -25,7 +25,6 @@ use oat\generis\model\OntologyRdf;
 use oat\tao\helpers\translation\TranslationBundle;
 use oat\generis\model\data\ModelManager;
 use oat\tao\helpers\translation\rdf\RdfPack;
-use oat\taoDevTools\actions\ExtensionsManager;
 use oat\generis\model\kernel\persistence\file\FileIterator;
 
 /**
