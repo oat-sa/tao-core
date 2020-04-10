@@ -112,9 +112,6 @@ FACTORY;
                     $propertyValue->isChildItem = true;
                 } elseif ($propertyValue instanceof ConfigurableService) {
                     $className = get_class($propertyValue);
-//                    $serviceIdentifier = defined("$className::SERVICE_ID") ? "$className::SERVICE_ID" : "$className::class";
-
-//                    $propertyValue = new PhpCode(sprintf('$serviceLocator->get(%s)', $serviceIdentifier));
                     if (defined("$className::SERVICE_ID")) {
                         $propertyValue = new PhpCode(sprintf('$serviceLocator->get(%s::SERVICE_ID)', $className));
                     }
