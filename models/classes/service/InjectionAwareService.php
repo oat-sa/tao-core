@@ -133,18 +133,17 @@ FACTORY;
     protected function isFactoryNeeded(InjectionAwareService $service): bool
     {
         foreach ($this->iterateParameters($service) as $propertyValue) {
-            if (
-                is_object($propertyValue)
-                && $propertyValue instanceof ConfigurableService
-            ) {
-                if (!($propertyValue instanceof self)) {
-                    return true;
-                }
+            if (!$propertyValue instanceof ConfigurableService) {
+                continue;
+            }
 
-                $result = $this->isFactoryNeeded($propertyValue);
-                if ($result) {
-                    return true;
-                }
+            if (!$propertyValue instanceof self) {
+                return true;
+            }
+
+            $result = $this->isFactoryNeeded($propertyValue);
+            if ($result) {
+                return true;
             }
         }
 
