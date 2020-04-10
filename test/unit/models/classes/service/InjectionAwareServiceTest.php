@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @noinspection UnusedConstructorDependenciesInspection
+ * @noinspection PhpMissingParentConstructorInspection
+ */
+
 declare(strict_types=1);
 
 /**
@@ -200,15 +205,15 @@ EXPECTED;
         $this->assertEquals($expected, $instance->__toPhpCode());
     }
 
-    public function testHostHostPureConfigurableService()
+    public function testHostHostPureConfigurableService(): void
     {
         $instance = new HostHostPureConfigurableService(
             new HostPureConfigurableService(
-                new PureConfigurableService([1,2,3])
+                new PureConfigurableService([1, 2, 3])
             )
         );
 
-        $expected =<<<'EXPECTED'
+        $expected = <<<'EXPECTED'
 new class implements \oat\oatbox\service\ServiceFactoryInterface {
     public function __invoke(\Zend\ServiceManager\ServiceLocatorInterface $serviceLocator)
     {
