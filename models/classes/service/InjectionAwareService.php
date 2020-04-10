@@ -36,7 +36,7 @@ abstract class InjectionAwareService extends ConfigurableService
     {
         $content = 'new %s(%s)';
 
-        if (!$this->isChildItem && $this->isFactoryNeeded()) {
+        if (!$this->isChildItem && $this->isFactoryNeeded($this)) {
             $content = <<<'FACTORY'
 new class implements \oat\oatbox\service\ServiceFactoryInterface {
     public function __invoke(\Zend\ServiceManager\ServiceLocatorInterface $serviceLocator)
@@ -63,12 +63,14 @@ FACTORY;
     }
 
     /**
+     * @param InjectionAwareService $service
+     *
      * @return iterable
      * @throws ReflectionException
      */
-    protected function iterateParameters(): iterable
+    protected function iterateParameters(InjectionAwareService $service): iterable
     {
-        $class = new ReflectionClass($this);
+        $class = new ReflectionClass($service);
         $constructor = $class->getMethod('__construct');
         $parameters = $constructor->getParameters();
 
@@ -91,7 +93,7 @@ FACTORY;
                 $classProperty->setAccessible(true);
             }
 
-            yield $classProperty->getValue($this);
+            yield $classProperty->getValue($service);
         }
     }
 
@@ -103,16 +105,19 @@ FACTORY;
     {
         $dependencies = [];
 
-        foreach ($this->iterateParameters() as $parameter) {
+        foreach ($this->iterateParameters($this) as $parameter) {
             $propertyValue = $parameter;
             if (is_object($propertyValue)) {
                 if (($propertyValue instanceof self)) {
                     $propertyValue->isChildItem = true;
                 } elseif ($propertyValue instanceof ConfigurableService) {
                     $className = get_class($propertyValue);
-                    $serviceIdentifier = defined("$className::SERVICE_ID") ? "$className::SERVICE_ID" : "$className::class";
+//                    $serviceIdentifier = defined("$className::SERVICE_ID") ? "$className::SERVICE_ID" : "$className::class";
 
-                    $propertyValue = new PhpCode(sprintf('$serviceLocator->get(%s)', $serviceIdentifier));
+//                    $propertyValue = new PhpCode(sprintf('$serviceLocator->get(%s)', $serviceIdentifier));
+                    if (defined("$className::SERVICE_ID")) {
+                        $propertyValue = new PhpCode(sprintf('$serviceLocator->get(%s::SERVICE_ID)', $className));
+                    }
                 }
             }
 
@@ -123,17 +128,26 @@ FACTORY;
     }
 
     /**
+     * @param InjectionAwareService $service
+     *
+     * @return bool
      * @throws ReflectionException
      */
-    protected function isFactoryNeeded(): bool
+    protected function isFactoryNeeded(InjectionAwareService $service): bool
     {
-        foreach ($this->iterateParameters() as $propertyValue) {
+        foreach ($this->iterateParameters($service) as $propertyValue) {
             if (
                 is_object($propertyValue)
-                && !($propertyValue instanceof self)
                 && $propertyValue instanceof ConfigurableService
             ) {
-                return true;
+                if (!($propertyValue instanceof self)) {
+                    return true;
+                }
+
+                $result = $this->isFactoryNeeded($propertyValue);
+                if ($result) {
+                    return true;
+                }
             }
         }
 

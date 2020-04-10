@@ -65,6 +65,16 @@ class HostPureConfigurableService extends InjectionAwareService
     }
 }
 
+class HostHostPureConfigurableService extends InjectionAwareService
+{
+    private $var;
+
+    public function __construct(HostPureConfigurableService $var)
+    {
+        $this->var = $var;
+    }
+}
+
 class HostMixService extends InjectionAwareService
 {
     private $var;
@@ -187,6 +197,18 @@ $serviceLocator->get(oat\tao\model\service\PureConfigurableServiceWithId::SERVIC
 }
 EXPECTED;
 
+        $this->assertEquals($expected, $instance->__toPhpCode());
+    }
+
+    public function testHostHostPureConfigurableService()
+    {
+        $instance = new HostHostPureConfigurableService(
+            new HostPureConfigurableService(
+                new PureConfigurableService([1,2,3])
+            )
+        );
+
+        $expected ='new oat\tao\model\service\HostHostPureConfigurableService(new oat\tao\model\service\HostPureConfigurableService($serviceLocator->get(oat\tao\model\service\PureConfigurableService::class)))';
         $this->assertEquals($expected, $instance->__toPhpCode());
     }
 }
