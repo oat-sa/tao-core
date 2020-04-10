@@ -31,7 +31,11 @@ abstract class InjectionAwareService extends ConfigurableService
     /** @var bool */
     private $isChildItem = false;
 
-    /** @noinspection MagicMethodsValidityInspection */
+    /**
+     * @noinspection MagicMethodsValidityInspection
+     *
+     * @throws ReflectionException
+     */
     public function __toPhpCode(): string
     {
         $content = 'new %s(%s)';
@@ -54,6 +58,11 @@ FACTORY;
         );
     }
 
+    /**
+     * @return array
+     *
+     * @throws ReflectionException
+     */
     private function getSerializedDependencies(): array
     {
         return array_map(
@@ -105,16 +114,15 @@ FACTORY;
     {
         $dependencies = [];
 
-        foreach ($this->iterateParameters($this) as $parameter) {
-            $propertyValue = $parameter;
-            if (is_object($propertyValue)) {
-                if (($propertyValue instanceof self)) {
+        foreach ($this->iterateParameters($this) as $propertyValue) {
+            if ($propertyValue instanceof ConfigurableService) {
+                if ($this->hasConfig($propertyValue)) {
+                    $propertyValue = new PhpCode(
+                        sprintf('$serviceLocator->get(%s::SERVICE_ID)', get_class($propertyValue))
+                    );
+                }
+                if ($propertyValue instanceof self) {
                     $propertyValue->isChildItem = true;
-                } elseif ($propertyValue instanceof ConfigurableService) {
-                    $className = get_class($propertyValue);
-                    if (defined("$className::SERVICE_ID")) {
-                        $propertyValue = new PhpCode(sprintf('$serviceLocator->get(%s::SERVICE_ID)', $className));
-                    }
                 }
             }
 
@@ -122,6 +130,13 @@ FACTORY;
         }
 
         return $dependencies;
+    }
+
+    private function hasConfig(ConfigurableService $service): bool
+    {
+        $className = get_class($service);
+
+        return defined("$className::SERVICE_ID");
     }
 
     /**
@@ -137,7 +152,7 @@ FACTORY;
                 continue;
             }
 
-            if (!$propertyValue instanceof self) {
+            if ($this->hasConfig($propertyValue)) {
                 return true;
             }
 
