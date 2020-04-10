@@ -80,7 +80,7 @@ class HostMixService extends InjectionAwareService
     private $var;
     private $var2;
 
-    public function __construct(PureConfigurableService $var, PureInjectionAwareService $var2)
+    public function __construct(PureConfigurableServiceWithId $var, PureInjectionAwareService $var2)
     {
         $this->var = $var;
         $this->var2 = $var2;
@@ -148,7 +148,7 @@ class InjectionAwareServiceTest extends TestCase
 new class implements \oat\oatbox\service\ServiceFactoryInterface {
     public function __invoke(\Zend\ServiceManager\ServiceLocatorInterface $serviceLocator)
     {
-        return new oat\tao\model\service\HostPureConfigurableService($serviceLocator->get(oat\tao\model\service\PureConfigurableService::class));
+        return new oat\tao\model\service\HostPureConfigurableService(new oat\tao\model\service\PureConfigurableService());
     }
 }
 EXPECTED;
@@ -159,7 +159,7 @@ EXPECTED;
     public function testHostMixService(): void
     {
         $instance = new HostMixService(
-            new PureConfigurableService(),
+            new PureConfigurableServiceWithId(),
             new PureInjectionAwareService('a')
         );
 
@@ -167,7 +167,7 @@ EXPECTED;
 new class implements \oat\oatbox\service\ServiceFactoryInterface {
     public function __invoke(\Zend\ServiceManager\ServiceLocatorInterface $serviceLocator)
     {
-        return new oat\tao\model\service\HostMixService($serviceLocator->get(oat\tao\model\service\PureConfigurableService::class),
+        return new oat\tao\model\service\HostMixService($serviceLocator->get(oat\tao\model\service\PureConfigurableServiceWithId::SERVICE_ID),
 new oat\tao\model\service\PureInjectionAwareService('a'));
     }
 }
@@ -190,8 +190,8 @@ EXPECTED;
 new class implements \oat\oatbox\service\ServiceFactoryInterface {
     public function __invoke(\Zend\ServiceManager\ServiceLocatorInterface $serviceLocator)
     {
-        return new oat\tao\model\service\HostMixNestedService($serviceLocator->get(oat\tao\model\service\PureConfigurableService::class),
-new oat\tao\model\service\HostPureConfigurableService($serviceLocator->get(oat\tao\model\service\PureConfigurableService::class)),
+        return new oat\tao\model\service\HostMixNestedService(new oat\tao\model\service\PureConfigurableService(),
+new oat\tao\model\service\HostPureConfigurableService(new oat\tao\model\service\PureConfigurableService()),
 $serviceLocator->get(oat\tao\model\service\PureConfigurableServiceWithId::SERVICE_ID));
     }
 }
@@ -208,7 +208,18 @@ EXPECTED;
             )
         );
 
-        $expected ='new oat\tao\model\service\HostHostPureConfigurableService(new oat\tao\model\service\HostPureConfigurableService($serviceLocator->get(oat\tao\model\service\PureConfigurableService::class)))';
+        $expected =<<<'EXPECTED'
+new class implements \oat\oatbox\service\ServiceFactoryInterface {
+    public function __invoke(\Zend\ServiceManager\ServiceLocatorInterface $serviceLocator)
+    {
+        return new oat\tao\model\service\HostHostPureConfigurableService(new oat\tao\model\service\HostPureConfigurableService(new oat\tao\model\service\PureConfigurableService(array(
+    1,
+    2,
+    3
+))));
+    }
+}
+EXPECTED;
         $this->assertEquals($expected, $instance->__toPhpCode());
     }
 }
