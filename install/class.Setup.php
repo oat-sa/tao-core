@@ -20,12 +20,12 @@
  *
  */
 
-use oat\oatbox\action\Action;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use oat\oatbox\service\ConfigurableService;
-use oat\oatbox\log\LoggerService;
-use oat\oatbox\log\logger\TaoLog;
 use oat\generis\persistence\PersistenceManager;
+use oat\oatbox\action\Action;
+use oat\oatbox\log\logger\TaoLog;
+use oat\oatbox\log\LoggerService;
+use oat\oatbox\service\ConfigurableService;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 class tao_install_Setup implements Action
 {
@@ -301,35 +301,26 @@ class tao_install_Setup implements Action
 
         $sortedParameters = [];
 
-        foreach ($constructParameters as $parameter) {
+        while($constructParameters) {
+            $parameter     = array_shift($constructParameters);
             $parameterName = $parameter->getName();
-            if (isset($parametersToSort[$parameterName])) {
-                $sortedParameters[$parameter->getPosition()] = $parametersToSort[$parameterName];
+            try {
+                $sortedParameters[] = $parametersToSort[$parameterName] ?? $parameter->getDefaultValue();
+                unset($parametersToSort[$parameterName]);
+            } catch (ReflectionException $exception) {
+                throw new RuntimeException(
+                    sprintf('No default value for `$%s` argument in %s::__construct', $parameterName, $class)
+                );
             }
         }
 
-        // checking if there are gaps and default parameters can fill them
-        end($sortedParameters);
-        $lastKey = key($sortedParameters);
-        if (count($sortedParameters) - 1 < $lastKey) {
-            $gapMap = array_diff_key(array_fill(0, $lastKey + 1, true), $sortedParameters);
-
-            foreach ($constructParameters as $parameter) {
-                if (isset($gapMap[$parameter->getPosition()])) {
-                    if (!$parameter->isDefaultValueAvailable()) {
-                        throw new RuntimeException(
-                            sprintf('There is no default parameter for `$%s` in %s::__contruct', $parameter->getName(), $class)
-                        );
-                    }
-
-                    $sortedParameters[$parameter->getPosition()] = $parameter->getDefaultValue();
-                }
-            }
+        if ($parametersToSort) {
+            throw new InvalidArgumentException(
+                sprintf('Invalid arguments `%s` specified for %s', implode(', ', array_keys($parametersToSort)), $class)
+            );
         }
 
-        ksort($sortedParameters);
-
-        return array_values($sortedParameters);
+        return $sortedParameters;
     }
 
     /**
