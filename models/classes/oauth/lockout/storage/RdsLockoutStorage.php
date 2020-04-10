@@ -22,21 +22,20 @@ declare(strict_types=1);
 
 namespace oat\tao\model\oauth\lockout\storage;
 
-use common_persistence_SqlPersistence as SqlPersistence;
+use common_persistence_SqlPersistence as Persistence;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Schema\Schema;
-use Exception;
-use oat\generis\persistence\PersistenceManager;
-use oat\oatbox\service\ConfigurableService;
 
 /**
  * Class RdsLockoutStorage
  *
- * @author Ivan Klimchuk <ivan@taotesting.com>
+ * @author  Ivan Klimchuk <ivan@taotesting.com>
  * @package oat\tao\model\oauth\lockout\storage
+ *
+ * @method Persistence getPersistence()
  */
-class RdsLockoutStorage extends ConfigurableService implements LockoutStorageInterface
+class RdsLockoutStorage extends LockoutStorageAbstract
 {
     public const TABLE_NAME = 'oauth_lti_failures';
 
@@ -45,32 +44,27 @@ class RdsLockoutStorage extends ConfigurableService implements LockoutStorageInt
     public const FIELD_EXPIRE_AT = 'expire_at';
     public const FIELD_ATTEMPTS = 'attempts';
 
-    /** @var SqlPersistence */
-    private $persistence;
-
     /**
-     * @param string $ip
-     * @param int $ttl
-     *
-     * @return int|mixed
-     * @throws Exception
+     * @inheritDoc
      */
-    public function store(string $ip, int $ttl = 0)
+    public function store(string $ip, int $ttl = 0): void
     {
         $id = ip2long($ip);
-        $expiredAt = time() + $ttl;
+        $expireAt = time() + $ttl;
         $addressInfo = $this->getAddressInfo($id);
         if (!$addressInfo) {
             try {
-                return $this->getPersistence()->insert(
+                $this->getPersistence()->insert(
                     self::TABLE_NAME,
                     [
-                        self::FIELD_ID        => ip2long($ip),
+                        self::FIELD_ID        => $id,
                         self::FIELD_ADDRESS   => $ip,
                         self::FIELD_ATTEMPTS  => 1, // first failed attempt
-                        self::FIELD_EXPIRE_AT => $expiredAt
+                        self::FIELD_EXPIRE_AT => $expireAt
                     ]
                 );
+
+                return;
             }catch (UniqueConstraintViolationException $exception){
                 $addressInfo = $this->getAddressInfo($id);
             }
@@ -81,12 +75,12 @@ class RdsLockoutStorage extends ConfigurableService implements LockoutStorageInt
         $data = [
             'conditions'   => [self::FIELD_ID => $id],
             'updateValues' => [
-                self::FIELD_EXPIRE_AT => $expiredAt,
+                self::FIELD_EXPIRE_AT => $expireAt,
                 self::FIELD_ATTEMPTS  => $attempts
             ]
         ];
 
-        return $this->getPersistence()->updateMultiple(self::TABLE_NAME, [$data]);
+        $this->getPersistence()->updateMultiple(self::TABLE_NAME, [$data]);
     }
 
     /**
@@ -152,14 +146,6 @@ class RdsLockoutStorage extends ConfigurableService implements LockoutStorageInt
     }
 
     /**
-     * @return string
-     */
-    public function getPersistenceId(): string
-    {
-        return $this->getOption(self::OPTION_PERSISTENCE);
-    }
-
-    /**
      * @param Schema $schema
      *
      * @return mixed
@@ -175,19 +161,5 @@ class RdsLockoutStorage extends ConfigurableService implements LockoutStorageInt
     protected function getQueryBuilder(): QueryBuilder
     {
         return $this->getPersistence()->getPlatForm()->getQueryBuilder();
-    }
-
-    /**
-     * @return SqlPersistence
-     */
-    protected function getPersistence()
-    {
-        if ($this->persistence === null) {
-            $this->persistence = $this->getServiceLocator()
-                ->get(PersistenceManager::SERVICE_ID)
-                ->getPersistenceById($this->getPersistenceId());
-        }
-
-        return $this->persistence;
     }
 }

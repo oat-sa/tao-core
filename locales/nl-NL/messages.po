@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint125\n"
-"PO-Revision-Date: 2020-03-27T12:11:25\n"
+"Project-Id-Version: TAO 3.4.0-sprint126\n"
+"PO-Revision-Date: 2020-04-10T08:17:42\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nl-NL\n"
@@ -215,9 +215,6 @@ msgstr "Het toevoegen van het nieuwe resource is mislukt"
 msgid "Advanced search, add filters"
 msgstr "Geavanceerd zoeken, filters toevoegen"
 
-msgid "aliases:"
-msgstr ""
-
 msgid "all"
 msgstr "Alle"
 
@@ -283,17 +280,8 @@ msgstr "Weet u zeker dat u de bron met deze versie wilt verwijderen?\n"
 msgid "Are you sure you want to delete it?"
 msgstr "Weet u zeker dat u het wilt verwijderen?"
 
-msgid "Argument check failed: %s"
-msgstr ""
-
-msgid "Arguments %s and %s are mutually exclusive"
-msgstr ""
-
 msgid "Arguments separator"
 msgstr "Scheidingsteken argumenten"
-
-msgid "array"
-msgstr ""
 
 msgid "Assign"
 msgstr "Toewijzen"
@@ -350,9 +338,6 @@ msgstr "Binaire operator /"
 msgid "Binary operator modulo"
 msgstr "Binaire operator modulo"
 
-msgid "boolean"
-msgstr ""
-
 msgid "Browse folders:"
 msgstr "Blader mappen door:"
 
@@ -368,11 +353,11 @@ msgstr "Rekenmachine"
 msgid "Calendar"
 msgstr "Kalender"
 
-msgid "Cancel"
-msgstr "Afbreken"
-
 msgid "cancel"
 msgstr "afbreken"
+
+msgid "Cancel"
+msgstr "Afbreken"
 
 msgid "cancel the action"
 msgstr "breek de actie af"
@@ -410,9 +395,6 @@ msgstr "Alles selecteren"
 
 msgid "Check-in"
 msgstr "Inchecken"
-
-msgid "choices:"
-msgstr ""
 
 msgid "Choose a value..."
 msgstr "Kies een waarde..."
@@ -477,9 +459,6 @@ msgstr "Verzamelen van afgebroken acties in de actiewachtrij ..."
 msgid "Column"
 msgstr "Kolom"
 
-msgid "Commands:"
-msgstr ""
-
 msgid "comment..."
 msgstr "Commentaar..."
 
@@ -522,9 +501,6 @@ msgstr "cosh"
 msgid "Cosine"
 msgstr "Cosinus"
 
-msgid "count"
-msgstr ""
-
 msgid "Create"
 msgstr "Aanmaken"
 
@@ -564,10 +540,10 @@ msgstr "Data is succesvol geïmporteerd"
 msgid "Data imported. Some records are invalid."
 msgstr "Data is geïmporteerd. Sommige records zijn ongeldig."
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "Data taal"
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "Data taal"
 
 msgid "Data not imported. All records are invalid."
@@ -587,9 +563,6 @@ msgstr ""
 
 msgid "Default search"
 msgstr "Standaard zoekopdracht"
-
-msgid "default:"
-msgstr ""
 
 msgid "Define the default values"
 msgstr "Definieer de standaardwaarden"
@@ -621,9 +594,6 @@ msgstr "Verwijderen van de zoekindex voor %s"
 
 msgid "Demo Sandbox"
 msgstr "Demo Sandbox"
-
-msgid "Did you mean %s?"
-msgstr ""
 
 msgid "Digit 0"
 msgstr "Cijfer 0"
@@ -738,9 +708,6 @@ msgstr "Fout in syntaxis"
 
 msgid "Error in value"
 msgstr "Fout in waarde"
-
-msgid "Examples:"
-msgstr ""
 
 msgid "Exclusive (OR)"
 msgstr "Exclusive (OR)"
@@ -876,9 +843,6 @@ msgstr ""
 msgid "Fuzzy Matching"
 msgstr "Fuzzy matching"
 
-msgid "generated-value"
-msgstr ""
-
 msgid "Generis Form"
 msgstr ""
 
@@ -932,9 +896,6 @@ msgstr "Naam"
 
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
 msgstr "Als u uw wachtwoord niet wilt resetten, negeer dan deze e-mail en uw wachtwoord zal ongewijzigd blijven."
-
-msgid "Implications failed:"
-msgstr ""
 
 msgid "Import"
 msgstr "Import"
@@ -1014,10 +975,10 @@ msgstr "Geïnstalleerde extensie %s..."
 msgid "Instance saved"
 msgstr "Instantie is opgeslagen"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "Taal van de omgeving"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "Taal van de omgeving"
 
 msgid "Invalid CSP header."
@@ -1059,9 +1020,6 @@ msgstr ""
 msgid "Invalid input for function"
 msgstr "Ongeldige invoer voor functie"
 
-msgid "Invalid JSON config file: %s"
-msgstr ""
-
 msgid "Invalid login or password. Please try again."
 msgstr "Onjuiste login of wachtwoord. Probeer het opnieuw."
 
@@ -1070,9 +1028,6 @@ msgstr "Ongeldige login of wachtwoord. Uw account is vergrendeld, neem contact o
 
 msgid "invalid regular expression"
 msgstr "Onjuiste reguliere expressie."
-
-msgid "Invalid values:"
-msgstr ""
 
 msgid "items per page"
 msgstr ""
@@ -1328,12 +1283,6 @@ msgstr ""
 msgid "Node duplication has failed"
 msgstr ""
 
-msgid "Not enough arguments following: %s"
-msgstr ""
-
-msgid "Not enough non-option arguments: got %s, need at least %s"
-msgstr ""
-
 msgid "Not started"
 msgstr "Niet gestart"
 
@@ -1356,9 +1305,6 @@ msgstr ""
 msgid "Nth root"
 msgstr "Nde wortel"
 
-msgid "number"
-msgstr ""
-
 msgid "Number of elements"
 msgstr "Aantal segmenten"
 
@@ -1368,11 +1314,11 @@ msgstr "van"
 msgid "Off"
 msgstr "Uit"
 
-msgid "Ok"
-msgstr "Ok"
-
 msgid "OK"
 msgstr "OK"
+
+msgid "Ok"
+msgstr "Ok"
 
 msgid "Old Password"
 msgstr "Oud wachtwoord"
@@ -1592,9 +1538,6 @@ msgid "Request a password reset via Email."
 msgstr "Vraag een wachtwoord reset aan per e-mail."
 
 msgid "require notification ID"
-msgstr ""
-
-msgid "required"
 msgstr ""
 
 msgid "required length"
@@ -1822,9 +1765,6 @@ msgstr ""
 msgid "Store the value a variable"
 msgstr ""
 
-msgid "string"
-msgstr ""
-
 msgid "Submit"
 msgstr ""
 
@@ -2019,9 +1959,6 @@ msgstr ""
 
 msgid "Tokenizer"
 msgstr "Tokenizer"
-
-msgid "Too many non-option arguments: got %s, maximum of %s"
-msgstr ""
 
 msgid "Too many suggestions match your query. Only a few are listed"
 msgstr "Er komen te veel suggesties overeen met uw zoekopdracht. Er worden er slechts een beperkt aantal getoond."

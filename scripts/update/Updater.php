@@ -26,7 +26,6 @@ use common_cache_Cache;
 use common_Exception;
 use common_report_Report as Report;
 use core_kernel_persistence_smoothsql_SmoothModel;
-use oat\funcAcl\models\ModuleAccessService;
 use oat\generis\model\data\event\ResourceCreated;
 use oat\generis\model\data\event\ResourceDeleted;
 use oat\generis\model\data\event\ResourceUpdated;
@@ -589,11 +588,11 @@ class Updater extends \common_ext_ExtensionUpdater
         $this->skip('14.4.1', '14.8.0');
 
         if ($this->isVersion('14.8.0')) {
-            $moduleService = ModuleAccessService::singleton();
-            $moduleService->remove(
+            AclProxy::revokeRule(new AccessRule(
+                AccessRule::GRANT,
                 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',
-                'http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_ExtensionsManager'
-            );
+                ['ext' => 'tao']
+            ));
 
             AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole', ['ext' => 'tao','mod' => 'ExtensionsManager']));
             AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole', ['ext' => 'tao','mod' => 'Api']));
@@ -1353,6 +1352,6 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('41.8.0');
         }
 
-        $this->skip('41.8.0', '41.9.4');
+        $this->skip('41.8.0', '41.11.2');
     }
 }
