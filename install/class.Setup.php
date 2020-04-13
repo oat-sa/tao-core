@@ -25,6 +25,7 @@ use oat\oatbox\action\Action;
 use oat\oatbox\log\logger\TaoLog;
 use oat\oatbox\log\LoggerService;
 use oat\oatbox\service\ConfigurableService;
+use oat\oatbox\service\ServiceManager;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 class tao_install_Setup implements Action
@@ -230,7 +231,7 @@ class tao_install_Setup implements Action
                     $params = $config['options'];
                     if (is_a($className, \oat\oatbox\service\ConfigurableService::class, true)) {
                         if (is_a($className, \oat\tao\model\service\InjectionAwareService::class, true)) {
-                            $service = new $className(...$this->sortParameters($className, $params));
+                            $service = new $className(...$this->prepareParameters($className, $params, $serviceManager));
                         } else {
                             $service = new $className($params);
                         }
@@ -287,13 +288,14 @@ class tao_install_Setup implements Action
     }
 
     /**
-     * @param string $class
-     * @param array  $parametersToSort
+     * @param string         $class
+     * @param array          $parametersToSort
+     * @param ServiceManager $serviceManager
      *
      * @return array
      * @throws ReflectionException
      */
-    private function sortParameters(string $class, array $parametersToSort): array
+    private function prepareParameters(string $class, array $parametersToSort, ServiceManager $serviceManager): array
     {
         $reflectionClass = new ReflectionClass($class);
 
@@ -304,8 +306,12 @@ class tao_install_Setup implements Action
         while($constructParameters && $parametersToSort) {
             $parameter     = array_shift($constructParameters);
             $parameterName = $parameter->getName();
+
             try {
-                $sortedParameters[] = $parametersToSort[$parameterName] ?? $parameter->getDefaultValue();
+                $paramValue = $parametersToSort[$parameterName] ?? $parameter->getDefaultValue();
+
+                $sortedParameters[] = $this->resolveParameter($parameter, $paramValue, $serviceManager);
+
                 unset($parametersToSort[$parameterName]);
             } catch (ReflectionException $exception) {
                 throw new RuntimeException(
@@ -321,6 +327,19 @@ class tao_install_Setup implements Action
         }
 
         return $sortedParameters;
+    }
+
+    private function resolveParameter(ReflectionParameter $parameter, $paramValue, ServiceManager $serviceManager)
+    {
+        if (
+            is_string($paramValue)
+            && $parameter->getClass() !== null
+            && $serviceManager->has($paramValue)
+        ) {
+            $paramValue = $serviceManager->get($paramValue);
+        }
+
+        return $paramValue;
     }
 
     /**
