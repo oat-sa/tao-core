@@ -382,7 +382,7 @@ class Bootstrap implements ServiceManagerAwareInterface
     private function buildRequest(): RequestInterface
     {
         $request = ServerRequest::fromGlobals();
-        return (new RequestRebuilder())->rebuildOffloadedRequest($request);
+        return (new RequestRebuilder())->rebuild($request);
     }
 
 }

@@ -39,9 +39,9 @@ class RequestRebuilderTest extends TestCase
     /**
      * @dataProvider urlHeaderProvider
      */
-    public function testRebuildOffloadedRequest(string $url, array $headers = [], string $expectedUrl): void
+    public function testRebuild(string $url, array $headers, string $expectedUrl): void
     {
-        $request = $this->subject->rebuildOffloadedRequest(new Request('get', $url, $headers));
+        $request = $this->subject->rebuild(new Request('get', $url, $headers));
         $this->assertEquals($expectedUrl, (string)$request->getUri());
     }
 

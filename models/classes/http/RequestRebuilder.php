@@ -27,7 +27,7 @@ use Psr\Http\Message\RequestInterface;
 class RequestRebuilder
 {
 
-    public function rebuildOffloadedRequest(RequestInterface $request): RequestInterface
+    public function rebuild(RequestInterface $request): RequestInterface
     {
         $url = $request->getUri();
 
