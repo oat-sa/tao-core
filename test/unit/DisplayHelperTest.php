@@ -57,9 +57,9 @@ class DisplayHelperTest extends TestCase
         return [
             ['This is a simple text', '_', -1, 'This_is_a_simple_text'],
             ['This is a simple text', '-', 10, 'This_is_a_'],
-            ['@à|`', '-', -1, '----'],
-            ['@à|`', '-', 2, '--'],
-            ['This 4s @ \'stronger\' tèxte', '', -1, 'This_4s__stronger_txte'],
+            ['@à|`', '-', -1, '-à--'],
+            ['@à|`', '-', 2, '-à'],
+            ['This 4s @ \'stronger\' tèxte', '', -1, 'This_4s__stronger_tèxte'],
         ];
     }
 

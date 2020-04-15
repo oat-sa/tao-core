@@ -66,13 +66,19 @@ class tao_helpers_Display
      */
     public static function textCleaner(string $input, string $joker = '_', int $maxLength = -1): string
     {
+        $encoding = self::getEncoding();
+
         if ($maxLength > -1) {
-            $input = mb_substr($input, 0, $maxLength, self::getEncoding());
+            $input = mb_substr($input, 0, $maxLength, $encoding);
         }
 
+        $replacingPattern = strpos($encoding, 'UTF') === 0
+            ? '/[^\p{L}0-9-_]+/u'
+            : '/[^a-z0-9-_]+/ui';
+
         $patternMaps = [
-            '/\s+/u' => [self::class, 'replaceWithUnderscore'],
-            '/[^a-z0-9-_]+/ui' => [self::class, 'replace'],
+            '/\s+/u'          => [self::class, 'replaceWithUnderscore'],
+            $replacingPattern => [self::class, 'replace'],
         ];
 
         self::$replacement = $joker;
