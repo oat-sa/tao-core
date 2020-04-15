@@ -27,6 +27,10 @@ use Psr\Http\Message\RequestInterface;
 class RequestRebuilder
 {
 
+    /**
+     * Takes care about schema rebuilding for the offloaded request
+     * Port rebuilding may be added later ( HTTP_X_FORWARDED_PORT )
+     */
     public function rebuild(RequestInterface $request): RequestInterface
     {
         $url = $request->getUri();
