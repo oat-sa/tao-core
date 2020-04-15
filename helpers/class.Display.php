@@ -44,7 +44,7 @@ class tao_helpers_Display
      * @param  int maxLength (optional, default = 75) The maximum length for the result string.
      * @return string The cut string, enclosed in a <span> html tag. This tag received the 'cutted' CSS class.
      */
-    public static function textCutter(string $input, int $maxLength = 75): string
+    public static function textCutter($input, int $maxLength = 75): string
     {
         $encoding = self::getEncoding();
 
@@ -64,7 +64,7 @@ class tao_helpers_Display
      * @param  int maxLength (optional, default = -1) output maximum length
      * @return string The result string.
      */
-    public static function textCleaner(string $input, string $joker = '_', int $maxLength = -1): string
+    public static function textCleaner($input, string $joker = '_', int $maxLength = -1): string
     {
         $encoding = self::getEncoding();
 
@@ -94,7 +94,7 @@ class tao_helpers_Display
      * @param  string input The input string.
      * @return string The htmlized string.
      */
-    public static function htmlize(string $input): string
+    public static function htmlize($input): string
     {
         return htmlentities($input, ENT_COMPAT, self::getEncoding());
     }
@@ -104,7 +104,7 @@ class tao_helpers_Display
     /**
      *  Convert special characters to HTML entities
      */
-    public static function htmlEscape(string $string): string
+    public static function htmlEscape($string): string
     {
         return htmlspecialchars($string);
     }
@@ -115,7 +115,7 @@ class tao_helpers_Display
      * @param string $string
      * @return string
      */
-    public static function encodeAttrValue(string $string): string
+    public static function encodeAttrValue($string): string
     {
         return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
     }
@@ -129,7 +129,7 @@ class tao_helpers_Display
      * @param string $input the input HTML
      * @return string the sanitized HTML
      */
-    public static function sanitizeXssHtml(string $input): string
+    public static function sanitizeXssHtml($input): string
     {
         $config = HTMLPurifier_Config::createDefault();
 
