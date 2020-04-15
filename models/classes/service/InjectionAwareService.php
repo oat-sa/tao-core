@@ -152,7 +152,10 @@ FACTORY;
                 continue;
             }
 
-            if ($this->hasConfig($propertyValue)) {
+            if (
+                !$propertyValue instanceof self
+                || $this->hasConfig($propertyValue)
+            ) {
                 return true;
             }
 
