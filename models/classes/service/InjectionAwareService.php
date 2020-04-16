@@ -28,16 +28,41 @@ use RuntimeException;
 
 abstract class InjectionAwareService extends ConfigurableService
 {
-    /** @noinspection MagicMethodsValidityInspection */
+    /** @var bool */
+    private $isChildItem = false;
+
+    /**
+     * @noinspection MagicMethodsValidityInspection
+     *
+     * @throws ReflectionException
+     */
     public function __toPhpCode(): string
     {
+        $content = 'new %s(%s)';
+
+        if (!$this->isChildItem && $this->isFactoryNeeded($this)) {
+            $content = <<<'FACTORY'
+new class implements \oat\oatbox\service\ServiceFactoryInterface {
+    public function __invoke(\Zend\ServiceManager\ServiceLocatorInterface $serviceLocator)
+    {
+        return new %s(%s);
+    }
+}
+FACTORY;
+        }
+
         return sprintf(
-            "new %s(\n%s\n)",
+            $content,
             static::class,
             implode(",\n", $this->getSerializedDependencies())
         );
     }
 
+    /**
+     * @return array
+     *
+     * @throws ReflectionException
+     */
     private function getSerializedDependencies(): array
     {
         return array_map(
@@ -47,14 +72,14 @@ abstract class InjectionAwareService extends ConfigurableService
     }
 
     /**
-     * @return array A list of dependencies to be injected in their order.
+     * @param InjectionAwareService $service
+     *
+     * @return iterable
      * @throws ReflectionException
      */
-    protected function getDependencies(): array
+    protected function iterateParameters(InjectionAwareService $service): iterable
     {
-        $dependencies = [];
-
-        $class = new ReflectionClass($this);
+        $class = new ReflectionClass($service);
         $constructor = $class->getMethod('__construct');
         $parameters = $constructor->getParameters();
 
@@ -77,9 +102,69 @@ abstract class InjectionAwareService extends ConfigurableService
                 $classProperty->setAccessible(true);
             }
 
-            $dependencies[] = $classProperty->getValue($this);
+            yield $classProperty->getValue($service);
+        }
+    }
+
+    /**
+     * @return array A list of dependencies to be injected in their order.
+     * @throws ReflectionException
+     */
+    protected function getDependencies(): array
+    {
+        $dependencies = [];
+
+        foreach ($this->iterateParameters($this) as $propertyValue) {
+            if ($propertyValue instanceof ConfigurableService) {
+                if ($this->hasConfig($propertyValue)) {
+                    $propertyValue = new PhpCode(
+                        sprintf('$serviceLocator->get(%s::SERVICE_ID)', get_class($propertyValue))
+                    );
+                }
+                if ($propertyValue instanceof self) {
+                    $propertyValue->isChildItem = true;
+                }
+            }
+
+            $dependencies[] = $propertyValue;
         }
 
         return $dependencies;
+    }
+
+    private function hasConfig(ConfigurableService $service): bool
+    {
+        $className = get_class($service);
+
+        return defined("$className::SERVICE_ID");
+    }
+
+    /**
+     * @param InjectionAwareService $service
+     *
+     * @return bool
+     * @throws ReflectionException
+     */
+    protected function isFactoryNeeded(InjectionAwareService $service): bool
+    {
+        foreach ($this->iterateParameters($service) as $propertyValue) {
+            if (!$propertyValue instanceof ConfigurableService) {
+                continue;
+            }
+
+            if (
+                !$propertyValue instanceof self
+                || $this->hasConfig($propertyValue)
+            ) {
+                return true;
+            }
+
+            $result = $this->isFactoryNeeded($propertyValue);
+            if ($result) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
