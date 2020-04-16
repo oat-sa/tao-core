@@ -78,16 +78,6 @@ class SecuritySettingsRepository extends InjectionAwareService implements Securi
         }
     }
 
-    /**
-     * @inheritDoc
-     */
-    protected function getDependencies(): array
-    {
-        return [
-            $this->storage,
-        ];
-    }
-
     private function createSetting(string $key): Setting
     {
         $rawValue = $this->storage->get($key) ?: '';

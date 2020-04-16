@@ -94,14 +94,6 @@ class ActionProtector extends InjectionAwareService
         );
     }
 
-    protected function getDependencies(): array
-    {
-        return [
-            $this->repository,
-            $this->defaultHeaders,
-        ];
-    }
-
     private function setStrictTransportHeader(SettingsCollection $settings): void
     {
         header(

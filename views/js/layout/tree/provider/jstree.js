@@ -331,7 +331,6 @@ define([
                      * Used to modify them before building the tree.
                      *
                      * @param {Object} data - the received data
-                     * @param {Object} tree - the tree instance
                      * @returns {Object} data the modified data
                      */
                     ondata: function ondata(data) {
@@ -367,40 +366,35 @@ define([
                      * @fires layout/tree#ready.taotree
                      */
                     onload: function onload(tree){
-
-                        var $lastSelected, $selectNode;
                         var $firstClass     = $(".node-class:not(.private):first", $container);
                         var $firstInstance  = $(".node-instance:not(.private):first", $container);
                         var treeState       = $container.data('tree-state') || {};
                         var selectNode      = treeState.selectNode || options.selectNode;
-                        var nodeSelection   = function nodeSelection(){
-
+                        var nodeSelection   = function nodeSelection() {
                             //the node to select is given
-                            if(selectNode){
-                                $selectNode = $('#' + selectNode, $container);
-                                if($selectNode.length && !$selectNode.hasClass('private')){
-                                    return tree.select_branch($selectNode);
-                                }
-                            } else if(typeof tree.selected !== 'undefined') {//after refreshing tree previously node will be already selected.
-                                return tree.selected;
+                            if (selectNodeById(selectNode, tree)) {
+                                return;
+                            }
+
+                            //after refreshing tree previously node will be already selected.
+                            if (tree.selected) {
+                                return;
                             }
 
                             //if selectNode was not given and there is no selected node on the tree then try to find node to select:
 
                             //try to select the last one
-                            if(lastSelected){
-                                $lastSelected = $('#' +  lastSelected, $container);
-                                if($lastSelected.length && !$lastSelected.hasClass('private')){
-                                    lastSelected = null;
-                                    return tree.select_branch($lastSelected);
-                                }
+                            if (selectNodeById(lastSelected, tree)) {
+                                return;
                             }
+
                             //or the 1st instance
                             if ($firstInstance.length) {
                                 return tree.select_branch($firstInstance);
                             }
+
                             //or something
-                            return tree.select_branch($('.node-class,.node-instance', $container).get(0));
+                            tree.select_branch($('.node-class,.node-instance', $container).get(0));
                         };
 
                         if($firstClass.hasClass('leaf')){
@@ -460,6 +454,8 @@ define([
                             rootClassUri:  options.rootClassUri,
                             signature: $node.data('signature')
                         };
+
+                        lastSelected = nodeId;
 
                         //mark all unselected
                         $('a.clicked', $container)
@@ -591,9 +587,6 @@ define([
 
                         store('taotree').then(function(treeStore){
                             treeStore.getItem(context.section).then(function(node){
-                                if(node){
-                                    lastSelected = node;
-                                }
                                 //create the tree
                                 setTreeState({ loadNode: options.loadNode });
                                 $container.tree(treeOptions);
@@ -830,6 +823,30 @@ define([
                     }
                 }
                 return treeData;
+            }
+
+            /**
+             * @param {String} id
+             * @param {Object} tree
+             *
+             * @returns {Boolean} Whether or not the selection succeed
+             */
+            function selectNodeById(id, tree) {
+                var $node;
+
+                if (!id) {
+                    return false;
+                }
+
+                $node = $('#' + id, $container);
+
+                if(!$node.length || $node.hasClass('private')){
+                    return false;
+                }
+
+                tree.select_branch($node);
+
+                return true;
             }
 
             return setUpTree();
