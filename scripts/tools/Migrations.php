@@ -113,24 +113,7 @@ class Migrations extends ScriptAction
      */
     private function doCommand($command)
     {
-        switch ($command) {
-            case self::COMMAND_GENERATE:
-                $output = $this->generate();
-                break;
-            case self::COMMAND_STATUS:
-                $output = $this->status();
-                break;
-            case self::COMMAND_MIGRATE:
-                $output = $this->migrate();
-                break;
-            case self::COMMAND_EXECUTE:
-                $output = $this->executeMigration(false);
-                break;
-            case self::COMMAND_ROLLBACK:
-                $output = $this->executeMigration(true);
-                break;
-        }
-
+        $output = $this->{$command}();
         return new Report(Report::TYPE_INFO, $output->fetch());
     }
 
@@ -159,7 +142,7 @@ class Migrations extends ScriptAction
         $helperSet = new HelperSet();
         $helperSet->set(new QuestionHelper(), 'question');
         $helperSet->set(new ConfigurationHelper($connection, $configuration));
-        $this->execute($helperSet, new ArrayInput($input), $output = new BufferedOutput());
+        $this->executeMigration($helperSet, new ArrayInput($input), $output = new BufferedOutput());
 
         return $output;
     }
@@ -172,7 +155,7 @@ class Migrations extends ScriptAction
     private function status()
     {
         $input = new ArrayInput(['command' => $this->commands[self::COMMAND_STATUS]]);
-        $this->execute(new HelperSet(), $input, $output = new BufferedOutput());
+        $this->executeMigration(new HelperSet(), $input, $output = new BufferedOutput());
         return $output;
     }
 
@@ -182,7 +165,7 @@ class Migrations extends ScriptAction
      * @throws MigrationException
      * @throws ScriptException
      */
-    private function executeMigration($rollback = false)
+    private function execute(bool $rollback = false)
     {
         $input = [
             'command' => $this->commands[self::COMMAND_EXECUTE],
@@ -195,9 +178,20 @@ class Migrations extends ScriptAction
         } else {
             $input['--up'] = true;
         }
+
         $input[] = '--no-interaction';
-        $this->execute(new HelperSet(), new ArrayInput($input), $output = new BufferedOutput());
+        $this->executeMigration(new HelperSet(), new ArrayInput($input), $output = new BufferedOutput());
         return $output;
+    }
+
+    /**
+     * @return BufferedOutput
+     * @throws MigrationException
+     * @throws ScriptException
+     */
+    private function rollback()
+    {
+        return $this->execute(true);
     }
 
     /**
@@ -216,7 +210,7 @@ class Migrations extends ScriptAction
         }
 
         $input[] = '--no-interaction';
-        $this->execute(new HelperSet(), new ArrayInput($input), $output = new BufferedOutput());
+        $this->executeMigration(new HelperSet(), new ArrayInput($input), $output = new BufferedOutput());
         return $output;
     }
 
@@ -227,7 +221,7 @@ class Migrations extends ScriptAction
      * @throws MigrationException
      * @throws ScriptException
      */
-    private function execute(HelperSet $helperSet, InputInterface $input, OutputInterface $output = null)
+    private function executeMigration(HelperSet $helperSet, InputInterface $input, OutputInterface $output = null)
     {
         $helperSet->set(new QuestionHelper(), 'question');
 
@@ -246,8 +240,8 @@ class Migrations extends ScriptAction
             new migrations\commands\GenerateCommand(),
             new Command\MigrateCommand(),
             new Command\StatusCommand(),
-            //new Command\DumpSchemaCommand(),
             new Command\ExecuteCommand(),
+            //new Command\DumpSchemaCommand(),
             //new Command\LatestCommand(),
             //new Command\RollupCommand(),
             //new Command\VersionCommand()
