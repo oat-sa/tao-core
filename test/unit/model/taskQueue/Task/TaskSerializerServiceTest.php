@@ -51,7 +51,7 @@ class TaskSerializerServiceTest extends TestCase
     {
         $service = new TaskSerializerService();
 
-        $task = $this->getMockForAbstractClass(TaskInterface::class, ['', '']);
+        $task = $this->createMock(TaskInterface::class);
         $this->assertIsString($service->serialize($task));
     }
 
