@@ -17,13 +17,12 @@
  *
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *               2013- (update and modification) Open Assessment Technologies SA;
+ *               2013-2020 (update and modification) Open Assessment Technologies SA;
  *
  */
 
 namespace oat\tao\model\mvc;
 
-use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
 use oat\oatbox\service\ServiceConfigDriver;
@@ -32,12 +31,14 @@ use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\tao\helpers\Template;
 use oat\tao\model\asset\AssetService;
+use oat\tao\model\http\RequestRebuilder;
 use oat\tao\model\maintenance\Maintenance;
 use oat\tao\model\routing\TaoFrontController;
 use oat\tao\model\routing\CliController;
 use common_Logger;
 use common_ext_ExtensionsManager;
 use common_report_Report as Report;
+use Psr\Http\Message\RequestInterface;
 use tao_helpers_Context;
 use tao_helpers_Request;
 use tao_helpers_Uri;
@@ -339,7 +340,7 @@ class Bootstrap implements ServiceManagerAwareInterface
      */
     protected function mvc()
     {
-        $request = ServerRequest::fromGlobals();
+        $request = $this->buildRequest();
         $response = new Response();
         $frontController = $this->propagate(new TaoFrontController());
         $frontController($request, $response);
@@ -377,4 +378,11 @@ class Bootstrap implements ServiceManagerAwareInterface
     {
         return $this->getServiceLocator()->get(Maintenance::SERVICE_ID);
     }
+
+    private function buildRequest(): RequestInterface
+    {
+        $request = ServerRequest::fromGlobals();
+        return (new RequestRebuilder())->rebuild($request);
+    }
+
 }
