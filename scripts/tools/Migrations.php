@@ -3,6 +3,7 @@
 namespace oat\tao\scripts\tools;
 
 use Doctrine\DBAL\Connection;
+use oat\oatbox\service\ServiceManager;
 use oat\tao\scripts\tools\migrations\Configuration;
 use Doctrine\Migrations\Tools\Console\Command;
 use Doctrine\Migrations\Tools\Console\Helper\ConfigurationHelper;
@@ -264,7 +265,7 @@ class Migrations extends ScriptAction
     {
         $connection = $this->getConnection();
         $configuration = new Configuration($connection);
-        $configuration->setServiceLocator($this->getServiceLocator());
+        $configuration->setServiceLocator(ServiceManager::getServiceManager());
         $configuration->setName('Tao Migrations');
         $configuration->setMigrationsTableName('doctrine_migration_versions');
         $configuration->setMigrationsColumnName('version');
@@ -323,4 +324,3 @@ class Migrations extends ScriptAction
         return 'oat\\'.$extension->getId().'\\migrations';
     }
 }
-

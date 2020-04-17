@@ -4,11 +4,13 @@
 namespace oat\tao\scripts\tools\migrations;
 
 use Doctrine\Migrations\Configuration\Configuration as DoctrineConfiguration;
+use Doctrine\Migrations\Version\Version;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use DateTimeInterface;
 use common_ext_Extension;
 use Doctrine\Migrations\Exception\UnknownMigrationVersion;
+use \oat\tao\scripts\tools\migrations\AbstractMigration;
 
 class Configuration extends DoctrineConfiguration implements ServiceLocatorAwareInterface
 {
@@ -43,5 +45,28 @@ class Configuration extends DoctrineConfiguration implements ServiceLocatorAware
         $intHash = crc32($this->extension->getId());
         $intHash = substr($intHash,0,4);
         return $version.$intHash.'_'.$this->extension->getId();
+    }
+
+    /**
+     * @param Version $version
+     * @param string $eventName
+     * @param string $direction
+     * @param bool $dryRun
+     */
+    public function dispatchVersionEvent(
+        Version $version,
+        string $eventName,
+        string $direction,
+        bool $dryRun
+    ) : void {
+        /** @var AbstractMigration $migration */
+        $migration = $version->getMigration();
+        $migration->setServiceLocator($this->getServiceLocator());
+        parent::dispatchVersionEvent(
+            $version,
+            $eventName,
+            $direction,
+            $dryRun
+        );
     }
 }

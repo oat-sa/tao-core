@@ -4,18 +4,10 @@
 namespace oat\tao\scripts\tools\migrations;
 
 use Doctrine\Migrations\AbstractMigration as DoctrineAbstractMigration;
-use oat\oatbox\service\ServiceManager;
+use oat\oatbox\service\ServiceManagerAwareInterface;
+use oat\oatbox\service\ServiceManagerAwareTrait;
 
-abstract class AbstractMigration extends DoctrineAbstractMigration
+abstract class AbstractMigration extends DoctrineAbstractMigration implements ServiceManagerAwareInterface
 {
-    /**
-     * Temporary helper until the service manager
-     * gets properly injected migration scripts
-     *
-     * @return ServiceManager
-     */
-    public function getServiceManager(): ServiceManager
-    {
-        return ServiceManager::getServiceManager();
-    }
+    use ServiceManagerAwareTrait;
 }
