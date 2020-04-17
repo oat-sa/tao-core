@@ -10,7 +10,6 @@ use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use DateTimeInterface;
 use common_ext_Extension;
 use Doctrine\Migrations\Exception\UnknownMigrationVersion;
-use \oat\tao\scripts\tools\migrations\AbstractMigration;
 
 class Configuration extends DoctrineConfiguration implements ServiceLocatorAwareInterface
 {
