@@ -41,6 +41,9 @@
         "tao-extension-name": "tao",
         "npm-bridge": {
             "arguments": ["--prefix", "views"]
+        },
+        "branch-alias": {
+            "dev-experiment/dependency": "40.1.x-dev"
         }
     },
     "require": {
