@@ -1341,11 +1341,11 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('41.8.0');
         }
 
-        $this->skip('41.8.0', '41.14.0');
+        $this->skip('41.8.0', '42.0.2');
 
-        if($this->isVersion('41.14.0')){
+        if($this->isVersion('42.0.2')){
             $this->getServiceManager()->unregister('tao/UnionSearchService');
-            $this->setVersion('41.14.1');
+            $this->setVersion('42.0.3');
         }
     }
 }
