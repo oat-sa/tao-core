@@ -20,7 +20,7 @@ use common_ext_Extension;
 use oat\tao\scripts\tools\migrations\TaoFinder;
 use common_report_Report as Report;
 use Doctrine\Migrations\Exception\MigrationException;
-use Doctrine\Migrations\Tools\Console\Exception\DirectoryDoesNotExist;
+use Doctrine\Migrations\Exception\NoMigrationsToExecute;
 
 /**
  * Class Migrations
@@ -248,6 +248,8 @@ class Migrations extends ScriptAction
         ));
         try {
             $cli->run($input, $output);
+        } catch (NoMigrationsToExecute $e) {
+            $output->write($e->getMessage());
         } catch (\Exception $e) {
             $this->logWarning('Migration error: ' . $e->getMessage());
             throw new ScriptException('Migration error: ' . $e->getMessage());
