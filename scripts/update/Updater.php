@@ -66,6 +66,8 @@ use oat\tao\model\event\UserRemovedEvent;
 use oat\tao\model\event\UserUpdatedEvent;
 use oat\tao\model\extension\UpdateLogger;
 use oat\tao\model\i18n\ExtraPoService;
+use oat\tao\model\layout\configuredLayout\LayoutPageTitleService;
+use oat\tao\model\layout\ConfiguredLayoutService;
 use oat\tao\model\maintenance\Maintenance;
 use oat\tao\model\media\MediaService;
 use oat\tao\model\metadata\compiler\ResourceJsonMetadataCompiler;
@@ -1342,6 +1344,14 @@ class Updater extends \common_ext_ExtensionUpdater
         if($this->isVersion('42.0.3')){
             $this->getServiceManager()->unregister('tao/UnionSearchService');
             $this->setVersion('42.0.4');
+        }
+
+        if ($this->isVersion('42.0.4')) {
+            $layoutService = new ConfiguredLayoutService([
+                ConfiguredLayoutService::OPTION_PAGE_TITLE_SERVICE => LayoutPageTitleService::class,
+            ]);
+            $this->getServiceManager()->register(ConfiguredLayoutService::SERVICE_ID, $layoutService);
+            $this->setVersion('42.1.0');
         }
     }
 }

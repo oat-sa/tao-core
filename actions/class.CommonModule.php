@@ -24,6 +24,7 @@
 use oat\tao\model\http\LegacyController;
 use oat\tao\helpers\LegacySessionUtils;
 use oat\tao\model\action\CommonModuleInterface;
+use oat\tao\model\layout\ConfiguredLayoutService;
 use oat\tao\model\mvc\RendererTrait;
 use oat\tao\model\security\ActionProtector;
 use oat\tao\helpers\Template;
@@ -72,6 +73,11 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
     protected $service;
 
     /**
+     * @var ConfiguredLayoutService
+     */
+    protected $configuredLayoutService;
+
+    /**
      * tao_actions_CommonModule constructor.
      * @security("hide");
      */
@@ -82,11 +88,13 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
     /**
      * @inheritdoc
      */
-    public function initialize()
+    public function initialize(): void
     {
         /** @var ActionProtector $actionProtector */
         $actionProtector = $this->getServiceLocator()->get(ActionProtector::SERVICE_ID);
         $actionProtector->setHeaders();
+
+        $this->configuredLayoutService = $this->getServiceLocator()->get(ConfiguredLayoutService::class);
     }
 
     /**
@@ -131,6 +139,8 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
         $this->setData('extension', $context->getExtensionName());
         $this->setData('module', $context->getModuleName());
         $this->setData('action', $context->getActionName());
+
+        $this->setData('title', $this->configuredLayoutService->getPageTitle());
 
         if ($this->hasRequestParameter('uri')) {
             // inform the client of new classUri
