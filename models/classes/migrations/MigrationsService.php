@@ -52,6 +52,10 @@ class MigrationsService extends ConfigurableService
     {
         $migrations = new Migrations();
         $migrations->setServiceLocator($this->getServiceLocator());
-        $migrations->__invoke(['-c', 'add', '-e', $event->getExtension->getId()]);
+        $migrations->__invoke(['-c', 'add', '-e', $event->getExtension()->getId()]);
+        if ($event->getExtension()->getId() === 'tao') {
+            //supposedly application initial install and generis just have been installed.
+            $migrations->__invoke(['-c', 'add', '-e', 'generis']);
+        }
     }
 }
