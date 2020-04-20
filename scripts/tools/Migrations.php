@@ -35,6 +35,8 @@ use Doctrine\Migrations\Exception\NoMigrationsToExecute;
  * sudo -u www-data php index.php '\oat\tao\scripts\tools\Migrations' -c migrate
  * //migrate to version
  * sudo -u www-data php index.php '\oat\tao\scripts\tools\Migrations' -c migrate -v 202003120846502234_tao
+ * //Add migrations to the migrations table without execution (skip extension migrations)
+ * sudo -u www-data php index.php '\oat\tao\scripts\tools\Migrations' -c add -e tao
  * ```
  * @package oat\tao\scripts\tools
  */
@@ -47,6 +49,7 @@ class Migrations extends ScriptAction
     protected const COMMAND_MIGRATE = 'migrate';
     protected const COMMAND_EXECUTE = 'execute';
     protected const COMMAND_ROLLBACK = 'rollback';
+    protected const COMMAND_ADD = 'add';
 
     private $commands = [
         self::COMMAND_GENERATE => 'migrations:generate',
@@ -54,6 +57,7 @@ class Migrations extends ScriptAction
         self::COMMAND_MIGRATE => 'migrations:migrate',
         self::COMMAND_EXECUTE => 'migrations:execute',
         self::COMMAND_ROLLBACK => 'migrations:execute',
+        self::COMMAND_ADD => 'migrations:version',
     ];
 
     protected function provideOptions()
@@ -144,6 +148,33 @@ class Migrations extends ScriptAction
         $helperSet->set(new QuestionHelper(), 'question');
         $helperSet->set(new ConfigurationHelper($connection, $configuration));
         $this->executeMigration($helperSet, new ArrayInput($input), $output = new BufferedOutput());
+
+        return $output;
+    }
+
+    /**
+     * Add versions directly to the migrations table without executing them (skip migration)
+     * @return BufferedOutput
+     * @throws MigrationException
+     * @throws ScriptException
+     * @throws \common_ext_ExtensionException
+     */
+    private function add()
+    {
+        if (!$this->hasOption('extension')) {
+            throw new ScriptException('extension option missed');
+        }
+        $extension = $this->getExtension();
+        $migrations = $this->getMigrationsFinder()->findMigrations($extension->getDir());
+
+        $input = ['command' => $this->commands[self::COMMAND_ADD], '--add' => true];
+        $output = new BufferedOutput();
+        $input[] = '--no-interaction';
+        foreach ($migrations as $version => $migrationClass) {
+            $input['version'] = $version;
+            $input = new ArrayInput($input);
+            $this->executeMigration(new HelperSet(), $input, $output);
+        }
 
         return $output;
     }
@@ -242,10 +273,10 @@ class Migrations extends ScriptAction
             new Command\MigrateCommand(),
             new Command\StatusCommand(),
             new Command\ExecuteCommand(),
+            new Command\VersionCommand(),
             //new Command\DumpSchemaCommand(),
             //new Command\LatestCommand(),
             //new Command\RollupCommand(),
-            //new Command\VersionCommand()
         ));
         try {
             $cli->run($input, $output);
@@ -274,7 +305,7 @@ class Migrations extends ScriptAction
         $configuration->setAllOrNothing(true);
         $configuration->setCheckDatabasePlatform(false);
         $configuration->setMigrationsDirectory(ROOT_PATH);
-        $configuration->setMigrationsFinder(new TaoFinder(ROOT_PATH));
+        $configuration->setMigrationsFinder($this->getMigrationsFinder());
         $configuration->setMigrationsNamespace('oat');
 
         return $configuration;
@@ -322,5 +353,15 @@ class Migrations extends ScriptAction
     private function getExtensionNamespace(common_ext_Extension $extension)
     {
         return 'oat\\'.$extension->getId().'\\migrations';
+    }
+
+    /**
+     * @return TaoFinder
+     */
+    private function getMigrationsFinder()
+    {
+        $finder = new TaoFinder(ROOT_PATH);
+        $finder->setServiceLocator($this->getServiceLocator());
+        return $finder;
     }
 }

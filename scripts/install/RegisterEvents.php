@@ -19,22 +19,20 @@
  *
  */
 
+declare(strict_types = 1);
+
 namespace oat\tao\scripts\install;
 
-use oat\generis\model\data\event\ResourceCreated;
-use oat\generis\model\data\event\ResourceDeleted;
-use oat\generis\model\data\event\ResourceUpdated;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\extension\InstallAction;
 use oat\generis\model\OntologyAwareTrait;
-use oat\tao\model\resources\ResourceWatcher;
+use oat\tao\model\migrations\MigrationsService;
 
 /**
- * Class RegisterResourceEvents
+ * Class RegisterEvents
  * @package oat\tao\scripts\install
- * @author Aleksej Tikhanovich, <aleksej@taotesting.com>
  */
-class RegisterResourceEvents extends InstallAction
+class RegisterEvents extends InstallAction
 {
     use OntologyAwareTrait;
     
@@ -42,11 +40,9 @@ class RegisterResourceEvents extends InstallAction
     {
         /** @var EventManager $eventManager */
         $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
-        $eventManager->attach(ResourceCreated::class, [ResourceWatcher::SERVICE_ID, 'catchCreatedResourceEvent']);
-        $eventManager->attach(ResourceUpdated::class, [ResourceWatcher::SERVICE_ID, 'catchUpdatedResourceEvent']);
-        $eventManager->attach(ResourceDeleted::class, [ResourceWatcher::SERVICE_ID, 'catchDeletedResourceEvent']);
+        $eventManager->attach(\common_ext_event_ExtensionInstalled::class, [MigrationsService::class, 'extensionInstalled']);
         $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
 
-        return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'Resource events is registered');
+        return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'Events registered');
     }
 }

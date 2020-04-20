@@ -71,6 +71,7 @@ use oat\tao\model\maintenance\Maintenance;
 use oat\tao\model\media\MediaService;
 use oat\tao\model\metadata\compiler\ResourceJsonMetadataCompiler;
 use oat\tao\model\metrics\MetricsService;
+use oat\tao\model\migrations\MigrationsService;
 use oat\tao\model\mvc\DefaultUrlService;
 use oat\tao\model\mvc\error\ExceptionInterpreterService;
 use oat\tao\model\mvc\error\ExceptionInterpretor;
@@ -1352,6 +1353,14 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('41.8.0');
         }
 
-        $this->skip('41.8.0', '41.15.0');
+        $this->skip('41.8.0', '41.14.0');
+
+        if ($this->isVersion('41.14.0')) {
+            /** @var EventManager $eventManager */
+            $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
+            $eventManager->attach(\common_ext_event_ExtensionInstalled::class, [MigrationsService::class, 'extensionInstalled']);
+            $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
+            $this->setVersion('14.15.0');
+        }
     }
 }

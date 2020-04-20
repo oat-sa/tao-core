@@ -25,6 +25,7 @@ use common_report_Report;
 use oat\oatbox\log\LoggerAggregator;
 use oat\oatbox\service\ServiceNotFoundException;
 use oat\tao\model\asset\AssetService;
+use oat\tao\model\migrations\MigrationsService;
 use oat\tao\scripts\tools\Migrations;
 
 /**
@@ -51,10 +52,7 @@ class UpdateExtensions extends \common_ext_UpdateExtensions
         }
         $report = parent::__invoke($params);
 
-        $migrations = new Migrations();
-        $migrations->setServiceLocator($this->getServiceLocator());
-        $migrationsReport = $migrations->__invoke(['-c', 'migrate']);
-
+        $migrationsReport = $this->getServiceLocator()->get(MigrationsService::class)->migrate();
         $report->add($migrationsReport);
 
         // regenerate locales
