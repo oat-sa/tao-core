@@ -258,9 +258,7 @@ class Migrations extends ScriptAction
         $helperSet->set(new QuestionHelper(), 'question');
 
         if (!$helperSet->has('configuration')) {
-            $connection = $this->getConnection();
-            $configuration = $this->getConfiguration();
-            $helperSet->set(new ConfigurationHelper($connection, $configuration));
+            $helperSet->set(new ConfigurationHelper($this->getConnection(), $this->getConfiguration()));
         }
 
         $cli = new Application('Doctrine Migrations');
