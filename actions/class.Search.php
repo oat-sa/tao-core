@@ -25,7 +25,6 @@ use oat\tao\model\search\index\OntologyIndexService;
 use oat\tao\model\search\ResultSet;
 use oat\tao\model\search\Search;
 use oat\generis\model\OntologyAwareTrait;
-use oat\tao\model\search\aggregator\UnionSearchService;
 
 /**
  * Controller for indexed searches
@@ -89,7 +88,7 @@ class tao_actions_Search extends tao_actions_CommonModule
 
             //  if there is no results based on considering the query as URI
             if (empty($results)) {
-                $results = $this->getUnionSearchService()->query($query, $class->getUri(), $startRow, $rows);
+                $results = $this->getServiceLocator()->get(Search::SERVICE_ID)->query($query, $class->getUri(), $startRow, $rows);
             }
 
             $totalPages = is_null($rows) ? 1 : ceil($results->getTotalCount() / $rows);
@@ -141,14 +140,5 @@ class tao_actions_Search extends tao_actions_CommonModule
         } else {
             $this->returnJson("The 'rootNode' parameter is missing.", 500);
         }
-    }
-
-    /**
-     * @return UnionSearchService
-     */
-    protected function getUnionSearchService(): UnionSearchService
-    {
-        /** @noinspection PhpIncompatibleReturnTypeInspection */
-        return $this->getServiceLocator()->get(UnionSearchService::SERVICE_ID);
     }
 }
