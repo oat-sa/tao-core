@@ -22,7 +22,6 @@
 
 namespace oat\tao\scripts\update;
 
-use common_cache_Cache;
 use common_Exception;
 use common_report_Report as Report;
 use core_kernel_persistence_smoothsql_SmoothModel;
@@ -78,23 +77,19 @@ use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\oauth\DataStore;
+use oat\tao\model\oauth\lockout\NoLockout;
 use oat\tao\model\oauth\nonce\NoNonce;
 use oat\tao\model\oauth\OauthService;
 use oat\tao\model\OperatedByService;
-use oat\tao\model\resources\GetAllChildrenCacheKeyFactory;
 use oat\tao\model\resources\ListResourceLookup;
 use oat\tao\model\resources\ResourceService;
-use oat\tao\model\oauth\lockout\NoLockout;
 use oat\tao\model\resources\ResourceWatcher;
-use oat\tao\model\resources\SecureResourceCachedService;
 use oat\tao\model\resources\SecureResourceService;
 use oat\tao\model\resources\SecureResourceServiceInterface;
 use oat\tao\model\resources\TreeResourceLookup;
-use oat\tao\model\resources\ValidatePermissionsCacheKeyFactory;
 use oat\tao\model\routing\AnnotationReaderService;
 use oat\tao\model\routing\ControllerService;
 use oat\tao\model\routing\RouteAnnotationService;
-use oat\tao\model\search\aggregator\UnionSearchService;
 use oat\tao\model\search\index\IndexService;
 use oat\tao\model\security\ActionProtector;
 use oat\tao\model\security\Business\Contract\SecuritySettingsRepositoryInterface;
@@ -1232,17 +1227,7 @@ class Updater extends \common_ext_ExtensionUpdater
 
         //Removed update from 39.3.2 -> 39.3.3 due to broken operation cause by removal of `tao_install_utils_ModelCreator` class
         //Related PR https://github.com/oat-sa/tao-core/pull/2404. Update is re-played on 40.9.5 to 40.9.6
-        $this->skip('39.1.0', '39.5.5');
-
-        if ($this->isVersion('39.5.5')) {
-            /** @var UnionSearchService|ConfigurableService $service */
-            $service = new UnionSearchService(['services' => []]);
-            $this->getServiceManager()->register(UnionSearchService::SERVICE_ID, $service);
-
-            $this->setVersion('39.6.0');
-        }
-
-        $this->skip('39.6.0', '40.3.3');
+        $this->skip('39.1.0', '40.3.3');
 
         if ($this->isVersion('40.3.3')) {
             $extManager = $this->getServiceManager()->get(\common_ext_ExtensionsManager::SERVICE_ID);
@@ -1352,6 +1337,12 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('41.8.0');
         }
 
-        $this->skip('41.8.0', '41.11.2');
+        $this->skip('41.8.0', '42.0.3');
+        if($this->isVersion('42.0.3')){
+            $this->getServiceManager()->unregister('tao/UnionSearchService');
+            $this->setVersion('42.0.4');
+        }
+
+        $this->skip('42.0.4', '42.0.5');
     }
 }
