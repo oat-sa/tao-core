@@ -21,16 +21,11 @@
 
 namespace oat\tao\model\accessControl\func\implementation;
 
-use oat\generis\model\GenerisRdf;
-use oat\tao\model\user\TaoRoles;
 use oat\tao\model\accessControl\func\FuncAccessControl;
 use oat\tao\model\accessControl\func\AccessRule;
 use common_ext_ExtensionsManager;
-use oat\tao\model\accessControl\func\FuncHelper;
-use oat\tao\helpers\ControllerHelper;
 use oat\oatbox\user\User;
 use oat\oatbox\service\ConfigurableService;
-use oat\funcAcl\helpers\CacheHelper;
 use oat\tao\model\controllerMap\Factory;
 
 /**
@@ -90,7 +85,7 @@ class CacheOnly extends ConfigurableService implements FuncAccessControl
     
     public function buildCache()
     {
-        $extensionManager = $this->getServiceLocator()->get(\common_ext_ExtensionsManager::SERVICE_ID);
+        $extensionManager = $this->getServiceLocator()->get(common_ext_ExtensionsManager::SERVICE_ID);
         $aclModel = new AclModel();
         foreach ($extensionManager->getInstalledExtensions() as $ext) {
             foreach ($ext->getManifest()->getAclTable() as $tableEntry) {
