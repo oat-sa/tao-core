@@ -18,27 +18,18 @@
  *
  * @author Oleksandr Zagovorychev <zagovorichev@gmail.com>
  */
-
 declare(strict_types=1);
 
 namespace oat\tao\model\layout\configuredLayout;
 
-use oat\oatbox\service\ConfigurableService;
+
 use Request;
 
-class LayoutPageTitleService extends ConfigurableService
+class DefaultLayoutPageTitleService extends AbstractLayoutPageTitleService
 {
-    /**
-     * array that describe which title should be selected
-     */
-    public const OPTION_MAP = [];
-
-    public function getTitle(
-        string $controller,
-        string $action,
-        Request $request
-    ): string
+    public function getTitle(string $controller, string $action, Request $request): ?string
     {
-        return 'default title';
+        // not required by default
+        return null;
     }
 }

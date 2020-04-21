@@ -40,10 +40,15 @@ class ConfiguredLayoutService extends ConfigurableService
     public const OPTION_PAGE_TITLE_SERVICE = 'pageTitleService';
 
     /**
+     * @var Context
+     */
+    private $context;
+
+    /**
      * Configured Title
      * @return string
      */
-    public function getPageTitle(): string
+    public function getPageTitle(): ?string
     {
         return $this->getServiceLocator()
             ->get($this->getOption(self::OPTION_PAGE_TITLE_SERVICE))
@@ -67,6 +72,14 @@ class ConfiguredLayoutService extends ConfigurableService
 
     private function getContext(): Context
     {
-        return Context::getInstance();
+        if (!$this->context) {
+            $this->context = Context::getInstance();
+        }
+        return $this->context;
+    }
+
+    public function setContext(Context $context): void
+    {
+        $this->context = $context;
     }
 }
