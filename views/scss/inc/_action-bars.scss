@@ -5,6 +5,7 @@
     padding: 3px;
     overflow: hidden;
     color: whiten($info, .9);
+    z-index: 10;
 
     li {
         float: left;
