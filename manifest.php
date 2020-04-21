@@ -104,7 +104,6 @@ return [
         ],
         'php' => [
             __DIR__ . '/scripts/install/addFileUploadSource.php',
-            __DIR__ . '/scripts/install/setSimpleAccess.php',
             SetServiceFileStorage::class,
             SetServiceState::class,
             __DIR__ . '/scripts/install/setJsConfig.php',
