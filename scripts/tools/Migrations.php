@@ -1,4 +1,24 @@
 <?php
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2020 (original work) Open Assessment Technologies SA
+ *
+ */
+
+declare(strict_types=1);
 
 namespace oat\tao\scripts\tools;
 
@@ -115,18 +135,6 @@ class Migrations extends ScriptAction
             throw new ScriptException(sprintf('Command "%s" is not supported', $command));
         }
 
-        return $this->doCommand($command);
-    }
-
-    /**
-     * @param string $command
-     * @return Report
-     * @throws MigrationException
-     * @throws ScriptException
-     * @throws \common_ext_ExtensionException
-     */
-    private function doCommand($command)
-    {
         $output = $this->{$command}();
         return new Report(Report::TYPE_INFO, $output->fetch());
     }
@@ -139,19 +147,11 @@ class Migrations extends ScriptAction
      */
     private function generate()
     {
-        if (!$this->hasOption('extension')) {
-            throw new ScriptException('extension option missed');
-        }
-        $extension = $this->getExtension();
         $input = [
             'command' => $this->commands[self::COMMAND_GENERATE],
-            '--namespace' => $this->getExtensionNamespace($extension)
+            '--namespace' => $this->getExtensionNamespace($this->getExtension())
         ];
         $configuration = $this->getConfiguration();
-        $configuration->addMigrationsDirectory(
-            $this->getExtensionNamespace($extension),
-            $extension->getDir().self::MIGRATIONS_DIR
-        );
         $configuration->setCustomTemplate(
             __DIR__.DIRECTORY_SEPARATOR.'migrations'.DIRECTORY_SEPARATOR.'Template.tpl'
         );
@@ -162,8 +162,8 @@ class Migrations extends ScriptAction
 
     /**
      * @return BufferedOutput
-     * @throws MigrationException
      * @throws ScriptException
+     * @throws \common_ext_ExtensionException
      */
     private function migrate()
     {
@@ -171,8 +171,7 @@ class Migrations extends ScriptAction
         if ($this->hasOption('version')) {
             $input['version'] = $this->getOption('version');
         }
-        $configuration = $this->getConfiguration();
-        $dependencyFactory = $this->getDependencyFactory($configuration);
+        $dependencyFactory = $this->getDependencyFactory($this->getConfiguration());
         $input[] = '--no-interaction';
         $this->executeMigration($dependencyFactory, new ArrayInput($input), $output = new BufferedOutput());
         return $output;
@@ -186,9 +185,6 @@ class Migrations extends ScriptAction
      */
     private function add()
     {
-        if (!$this->hasOption('extension')) {
-            throw new ScriptException('extension option missed');
-        }
         $input = ['command' => $this->commands[self::COMMAND_ADD], '--add' => true, '--all' => true];
         $output = new BufferedOutput();
         $input[] = '--no-interaction';
@@ -221,9 +217,8 @@ class Migrations extends ScriptAction
     private function status()
     {
         $output = new BufferedOutput();
-        $input = new ArrayInput(['command' => $this->commands[self::COMMAND_STATUS]]);
         $dependencyFactory = $this->getDependencyFactory($this->getConfiguration());
-        $this->executeMigration($dependencyFactory, $input, $output);
+        $this->executeMigration($dependencyFactory, new ArrayInput(['command' => $this->commands[self::COMMAND_STATUS]]), $output);
         return $output;
     }
 
@@ -238,17 +233,16 @@ class Migrations extends ScriptAction
     {
         $input = [
             'command' => $this->commands[self::COMMAND_EXECUTE],
+            'versions' => [$this->getOption('version')],
         ];
         if ($rollback) {
             $input['--down'] = true;
         } else {
             $input['--up'] = true;
         }
-
-        $input['versions'] = [$this->getOption('version')];
+        $input[] = '--no-interaction';
 
         $dependencyFactory = $this->getDependencyFactory($this->getConfiguration());
-        $input[] = '--no-interaction';
         $this->executeMigration($dependencyFactory, new ArrayInput($input), $output = new BufferedOutput());
         return $output;
     }
@@ -351,7 +345,6 @@ class Migrations extends ScriptAction
     {
         /** @var PersistenceManager $persistenceManager */
         $persistenceManager = $this->getServiceLocator()->get(PersistenceManager::SERVICE_ID);
-        //todo: use migrations service to store persistence id in it's option
         $persistence = $persistenceManager->getPersistenceById('default');
         return $persistence->getDriver()->getDbalConnection();
     }
@@ -362,10 +355,14 @@ class Migrations extends ScriptAction
      */
     private function getExtension()
     {
-        $extensionId = $this->getOption('extension');
         /** @var ExtensionsManager $extensionManager */
         $extensionManager = $this->getServiceLocator()->get(ExtensionsManager::SERVICE_ID);
 
+        if (!$this->hasOption('extension')) {
+            throw new ScriptException('Extension parameter missed');
+        }
+
+        $extensionId = $this->getOption('extension');
         if (!$extensionManager->isInstalled($extensionId)) {
             throw new ScriptException(sprintf('Extension "%s" is not installed', $extensionId));
         }

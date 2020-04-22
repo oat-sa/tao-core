@@ -60,10 +60,20 @@ EOT
         assert(is_string($namespace));
 
         $fqcn = $this->getDependencyFactory()->getClassNameGenerator()->generateClassName($namespace);
-
         $path = $migrationGenerator->generateMigration($fqcn);
+        $output->writeln($this->getOutput($path, $fqcn));
 
-        $output->writeln([
+        return 0;
+    }
+
+    /**
+     * @param string $path
+     * @param string $fqcn
+     * @return array
+     */
+    private function getOutput(string $path, string $fqcn):array
+    {
+        return [
             sprintf('Generated new migration class to "<info>%s</info>"', $path),
             '',
             sprintf(
@@ -75,8 +85,6 @@ EOT
                 'To revert the migration you can use <info>sudo -u www-data php index.php \'\oat\tao\scripts\tools\Migrations\' -c rollback -v %s</info>',
                 $fqcn
             ),
-        ]);
-
-        return 0;
+        ];
     }
 }
