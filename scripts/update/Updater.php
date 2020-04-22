@@ -1339,13 +1339,14 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         $this->skip('41.8.0', '42.0.3');
-
         if($this->isVersion('42.0.3')){
             $this->getServiceManager()->unregister('tao/UnionSearchService');
             $this->setVersion('42.0.4');
         }
 
-        if ($this->isVersion('42.0.4')) {
+        $this->skip('42.0.4', '42.0.5');
+
+        if ($this->isVersion('42.0.5')) {
             /** @var EventManager $eventManager */
             $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
             $eventManager->attach(\common_ext_event_ExtensionInstalled::class, [MigrationsService::class, 'extensionInstalled']);
