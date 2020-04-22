@@ -3,38 +3,45 @@
 namespace oat\tao\scripts\tools;
 
 use Doctrine\DBAL\Connection;
-use oat\oatbox\service\ServiceManager;
-use oat\tao\scripts\tools\migrations\Configuration;
+use Doctrine\Migrations\Configuration\Configuration;
+use Doctrine\Migrations\Configuration\Connection\ExistingConnection;
+use Doctrine\Migrations\Configuration\Migration\ExistingConfiguration;
+use Doctrine\Migrations\DependencyFactory;
+use Doctrine\Migrations\Generator\ClassNameGenerator;
+use Doctrine\Migrations\MigrationRepository;
+use Doctrine\Migrations\Exception\MigrationException;
+use Doctrine\Migrations\Exception\NoMigrationsToExecute;
 use Doctrine\Migrations\Tools\Console\Command;
-use Doctrine\Migrations\Tools\Console\Helper\ConfigurationHelper;
+use Doctrine\Migrations\Version\Comparator;
 use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\QuestionHelper;
 use oat\generis\persistence\PersistenceManager;
 use oat\oatbox\extension\script\ScriptAction;
 use oat\oatbox\extension\script\ScriptException;
+use oat\tao\scripts\tools\migrations\TaoClassNameGenerator;
+use oat\tao\scripts\tools\migrations\commands\GenerateCommand;
+use oat\tao\scripts\tools\migrations\TaoComparator;
+use oat\tao\scripts\tools\migrations\TaoMigrationRepository;
 use common_ext_Extension;
-use oat\tao\scripts\tools\migrations\TaoFinder;
 use common_report_Report as Report;
-use Doctrine\Migrations\Exception\MigrationException;
-use Doctrine\Migrations\Exception\NoMigrationsToExecute;
+use common_ext_ExtensionsManager as ExtensionsManager;
+use common_ext_Extension as Extension;
 
 /**
  * Class Migrations
  * Usage examples:
  * ```
  * //generate new migration class
- * sudo -u www-data php index.php '\oat\tao\scripts\tools\Migrations' -c generate -e taoAct
+ * sudo -u www-data php index.php '\oat\tao\scripts\tools\Migrations' -c generate -e taoItems
  * //show migrations status
  * sudo -u www-data php index.php '\oat\tao\scripts\tools\Migrations' -c status
  * //apply all migrations
  * sudo -u www-data php index.php '\oat\tao\scripts\tools\Migrations' -c migrate
  * //migrate to version
- * sudo -u www-data php index.php '\oat\tao\scripts\tools\Migrations' -c migrate -v 202003120846502234_tao
+ * sudo -u www-data php index.php '\oat\tao\scripts\tools\Migrations' -c migrate -v 'oat\generis\migrations\Version202004220924112348_generis'
  * //Add migrations to the migrations table without execution (skip extension migrations)
  * sudo -u www-data php index.php '\oat\tao\scripts\tools\Migrations' -c add -e tao
  * ```
@@ -50,6 +57,7 @@ class Migrations extends ScriptAction
     protected const COMMAND_EXECUTE = 'execute';
     protected const COMMAND_ROLLBACK = 'rollback';
     protected const COMMAND_ADD = 'add';
+    protected const COMMAND_INIT = 'init';
 
     private $commands = [
         self::COMMAND_GENERATE => 'migrations:generate',
@@ -58,6 +66,7 @@ class Migrations extends ScriptAction
         self::COMMAND_EXECUTE => 'migrations:execute',
         self::COMMAND_ROLLBACK => 'migrations:execute',
         self::COMMAND_ADD => 'migrations:version',
+        self::COMMAND_INIT => 'migrations:sync-metadata-storage',
     ];
 
     protected function provideOptions()
@@ -133,97 +142,22 @@ class Migrations extends ScriptAction
         if (!$this->hasOption('extension')) {
             throw new ScriptException('extension option missed');
         }
-
         $extension = $this->getExtension();
-        $input = ['command' => $this->commands[self::COMMAND_GENERATE]];
+        $input = [
+            'command' => $this->commands[self::COMMAND_GENERATE],
+            '--namespace' => $this->getExtensionNamespace($extension)
+        ];
         $configuration = $this->getConfiguration();
-        $configuration->setExtension($extension);
-        $configuration->setMigrationsDirectory($extension->getDir().self::MIGRATIONS_DIR);
-        $configuration->setMigrationsNamespace($this->getExtensionNamespace($extension));
+        $configuration->addMigrationsDirectory(
+            $this->getExtensionNamespace($extension),
+            $extension->getDir().self::MIGRATIONS_DIR
+        );
         $configuration->setCustomTemplate(
             __DIR__.DIRECTORY_SEPARATOR.'migrations'.DIRECTORY_SEPARATOR.'Template.tpl'
         );
-        $connection = $this->getConnection();
-        $helperSet = new HelperSet();
-        $helperSet->set(new QuestionHelper(), 'question');
-        $helperSet->set(new ConfigurationHelper($connection, $configuration));
-        $this->executeMigration($helperSet, new ArrayInput($input), $output = new BufferedOutput());
-
+        $dependencyFactory = $this->getDependencyFactory($configuration);
+        $this->executeMigration($dependencyFactory, new ArrayInput($input), $output = new BufferedOutput());
         return $output;
-    }
-
-    /**
-     * Add versions directly to the migrations table without executing them (skip migration)
-     * @return BufferedOutput
-     * @throws MigrationException
-     * @throws ScriptException
-     * @throws \common_ext_ExtensionException
-     */
-    private function add()
-    {
-        if (!$this->hasOption('extension')) {
-            throw new ScriptException('extension option missed');
-        }
-        $extension = $this->getExtension();
-        $migrations = $this->getMigrationsFinder()->findMigrations($extension->getDir());
-
-        $input = ['command' => $this->commands[self::COMMAND_ADD], '--add' => true];
-        $output = new BufferedOutput();
-        $input[] = '--no-interaction';
-        foreach ($migrations as $version => $migrationClass) {
-            $input['version'] = $version;
-            $input = new ArrayInput($input);
-            $this->executeMigration(new HelperSet(), $input, $output);
-        }
-
-        return $output;
-    }
-
-    /**
-     * @return BufferedOutput
-     * @throws MigrationException
-     * @throws ScriptException
-     */
-    private function status()
-    {
-        $input = new ArrayInput(['command' => $this->commands[self::COMMAND_STATUS]]);
-        $this->executeMigration(new HelperSet(), $input, $output = new BufferedOutput());
-        return $output;
-    }
-
-    /**
-     * @param bool $rollback
-     * @return BufferedOutput
-     * @throws MigrationException
-     * @throws ScriptException
-     */
-    private function execute(bool $rollback = false)
-    {
-        $input = [
-            'command' => $this->commands[self::COMMAND_EXECUTE],
-        ];
-        if ($this->hasOption('version')) {
-            $input['version'] = $this->getOption('version');
-        }
-        if ($rollback) {
-            $input['--down'] = true;
-        } else {
-            $input['--up'] = true;
-        }
-
-        $input[] = '--no-interaction';
-        $this->executeMigration(new HelperSet(), new ArrayInput($input), $output = new BufferedOutput());
-        return $output;
-    }
-
-    /**
-     * @return BufferedOutput
-     * @throws MigrationException
-     * @throws ScriptException
-     */
-    private function rollback()
-    {
-        return $this->execute(true);
     }
 
     /**
@@ -233,49 +167,123 @@ class Migrations extends ScriptAction
      */
     private function migrate()
     {
-        $input = [
-            'command' => $this->commands[self::COMMAND_MIGRATE],
-        ];
-
+        $input = ['command' => $this->commands[self::COMMAND_MIGRATE]];
         if ($this->hasOption('version')) {
             $input['version'] = $this->getOption('version');
         }
-
+        $configuration = $this->getConfiguration();
+        $dependencyFactory = $this->getDependencyFactory($configuration);
         $input[] = '--no-interaction';
-        $this->executeMigration(new HelperSet(), new ArrayInput($input), $output = new BufferedOutput());
+        $this->executeMigration($dependencyFactory, new ArrayInput($input), $output = new BufferedOutput());
         return $output;
     }
 
     /**
-     * @param HelperSet $helperSet
-     * @param InputInterface $input
-     * @param OutputInterface|null $output
+     * Add versions directly to the migrations table without executing them (skip migration)
+     * @return BufferedOutput
+     * @throws ScriptException
+     * @throws \common_ext_ExtensionException
+     */
+    private function add()
+    {
+        if (!$this->hasOption('extension')) {
+            throw new ScriptException('extension option missed');
+        }
+        $input = ['command' => $this->commands[self::COMMAND_ADD], '--add' => true, '--all' => true];
+        $output = new BufferedOutput();
+        $input[] = '--no-interaction';
+        $dependencyFactory = $this->getDependencyFactory($this->getConfiguration());
+        $this->executeMigration($dependencyFactory, new ArrayInput($input), $output);
+        return $output;
+    }
+
+    /**
+     * @return BufferedOutput
+     * @throws ScriptException
+     * @throws \common_ext_ExtensionException
+     */
+    private function init()
+    {
+        $input = ['command' => $this->commands[self::COMMAND_INIT]];
+        $output = new BufferedOutput();
+        $input[] = '--no-interaction';
+        $dependencyFactory = $this->getDependencyFactory($this->getConfiguration());
+        $this->executeMigration($dependencyFactory, new ArrayInput($input), $output);
+        return $output;
+    }
+
+    /**
+     * @return BufferedOutput
      * @throws MigrationException
      * @throws ScriptException
+     * @throws \common_ext_ExtensionException
      */
-    private function executeMigration(HelperSet $helperSet, InputInterface $input, OutputInterface $output = null)
+    private function status()
     {
-        $helperSet->set(new QuestionHelper(), 'question');
+        $output = new BufferedOutput();
+        $input = new ArrayInput(['command' => $this->commands[self::COMMAND_STATUS]]);
+        $dependencyFactory = $this->getDependencyFactory($this->getConfiguration());
+        $this->executeMigration($dependencyFactory, $input, $output);
+        return $output;
+    }
 
-        if (!$helperSet->has('configuration')) {
-            $helperSet->set(new ConfigurationHelper($this->getConnection(), $this->getConfiguration()));
+    /**
+     * @param bool $rollback
+     * @return BufferedOutput
+     * @throws MigrationException
+     * @throws ScriptException
+     * @throws \common_ext_ExtensionException
+     */
+    private function execute(bool $rollback = false)
+    {
+        $input = [
+            'command' => $this->commands[self::COMMAND_EXECUTE],
+        ];
+        if ($rollback) {
+            $input['--down'] = true;
+        } else {
+            $input['--up'] = true;
         }
 
+        $input['versions'] = [$this->getOption('version')];
+
+        $dependencyFactory = $this->getDependencyFactory($this->getConfiguration());
+        $input[] = '--no-interaction';
+        $this->executeMigration($dependencyFactory, new ArrayInput($input), $output = new BufferedOutput());
+        return $output;
+    }
+
+    /**
+     * @return BufferedOutput
+     * @throws MigrationException
+     * @throws ScriptException
+     * @throws \common_ext_ExtensionException
+     */
+    private function rollback()
+    {
+        return $this->execute(true);
+    }
+
+    /**
+     * @param DependencyFactory $dependencyFactory
+     * @param InputInterface $input
+     * @param OutputInterface|null $output
+     * @throws ScriptException
+     */
+    private function executeMigration(DependencyFactory $dependencyFactory, InputInterface $input, OutputInterface $output = null)
+    {
         $cli = new Application('Doctrine Migrations');
-        $cli->setAutoExit(false);
         $cli->setCatchExceptions(true);
-        $cli->setHelperSet($helperSet);
-        $cli->setCatchExceptions(false);
+        $cli->setAutoExit(false);
         $cli->addCommands(array(
-            new migrations\commands\GenerateCommand(),
-            new Command\MigrateCommand(),
-            new Command\StatusCommand(),
-            new Command\ExecuteCommand(),
-            new Command\VersionCommand(),
-            //new Command\DumpSchemaCommand(),
-            //new Command\LatestCommand(),
-            //new Command\RollupCommand(),
+            new GenerateCommand($dependencyFactory),
+            new Command\MigrateCommand($dependencyFactory),
+            new Command\StatusCommand($dependencyFactory),
+            new Command\ExecuteCommand($dependencyFactory),
+            new Command\VersionCommand($dependencyFactory),
+            new Command\SyncMetadataCommand($dependencyFactory),
         ));
+
         try {
             $cli->run($input, $output);
         } catch (NoMigrationsToExecute $e) {
@@ -286,26 +294,53 @@ class Migrations extends ScriptAction
         }
     }
 
+    private function getDependencyFactory($configuration)
+    {
+        $connection = $this->getConnection();
+        $dependencyFactory = DependencyFactory::fromConnection(
+            new ExistingConfiguration($configuration),
+            new ExistingConnection($connection)
+        );
+        $extManager = $this->getServiceManager()->get(ExtensionsManager::SERVICE_ID);
+        if ($this->hasOption('extension')) {
+            $dependencyFactory->setService(ClassNameGenerator::class, new TaoClassNameGenerator($this->getExtension()));
+        }
+        $dependencyFactory->setService(Comparator::class, new TaoComparator($extManager));
+        $dependencyFactory->setService(MigrationRepository::class, new TaoMigrationRepository(
+            $configuration->getMigrationClasses(),
+            $configuration->getMigrationDirectories(),
+            $dependencyFactory->getMigrationsFinder(),
+            $dependencyFactory->getMigrationFactory(),
+            $dependencyFactory->getVersionComparator()
+        ));
+        return $dependencyFactory;
+    }
+
     /**
      * @return Configuration
-     * @throws MigrationException
+     * @throws ScriptException
+     * @throws \common_ext_ExtensionException
      */
     private function getConfiguration()
     {
-        $connection = $this->getConnection();
-        $configuration = new Configuration($connection);
-        $configuration->setServiceLocator(ServiceManager::getServiceManager());
-        $configuration->setName('Tao Migrations');
-        $configuration->setMigrationsTableName('doctrine_migration_versions');
-        $configuration->setMigrationsColumnName('version');
-        $configuration->setMigrationsColumnLength(255);
-        $configuration->setMigrationsExecutedAtColumnName('executed_at');
-        $configuration->setAllOrNothing(true);
-        $configuration->setCheckDatabasePlatform(false);
-        $configuration->setMigrationsDirectory(ROOT_PATH);
-        $configuration->setMigrationsFinder($this->getMigrationsFinder());
-        $configuration->setMigrationsNamespace('oat');
-
+        $configuration = new Configuration();
+        /** @var ExtensionsManager $extensionManager */
+        $extensionManager = $this->getServiceLocator()->get(ExtensionsManager::SERVICE_ID);
+        /** @var Extension $extension */
+        if ($this->hasOption('extension')) {
+            $extensions = [$this->getExtension()];
+        } else {
+            $extensions = $extensionManager->getInstalledExtensions();
+        }
+        foreach ($extensions as $extension) {
+            $path = $extension->getDir().self::MIGRATIONS_DIR;
+            if (is_dir($path)) {
+                $configuration->addMigrationsDirectory(
+                    $this->getExtensionNamespace($extension),
+                    $extension->getDir().self::MIGRATIONS_DIR
+                );
+            }
+        }
         return $configuration;
     }
 
@@ -328,8 +363,8 @@ class Migrations extends ScriptAction
     private function getExtension()
     {
         $extensionId = $this->getOption('extension');
-        /** @var \common_ext_ExtensionsManager $extensionManager */
-        $extensionManager = $this->getServiceLocator()->get(\common_ext_ExtensionsManager::SERVICE_ID);
+        /** @var ExtensionsManager $extensionManager */
+        $extensionManager = $this->getServiceLocator()->get(ExtensionsManager::SERVICE_ID);
 
         if (!$extensionManager->isInstalled($extensionId)) {
             throw new ScriptException(sprintf('Extension "%s" is not installed', $extensionId));
@@ -351,15 +386,5 @@ class Migrations extends ScriptAction
     private function getExtensionNamespace(common_ext_Extension $extension)
     {
         return 'oat\\'.$extension->getId().'\\migrations';
-    }
-
-    /**
-     * @return TaoFinder
-     */
-    private function getMigrationsFinder()
-    {
-        $finder = new TaoFinder(ROOT_PATH);
-        $finder->setServiceLocator($this->getServiceLocator());
-        return $finder;
     }
 }

@@ -12,7 +12,7 @@ use oat\oatbox\service\ServiceManagerAwareTrait;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version<version> extends AbstractMigration implements ServiceManagerAwareInterface
+final class <className> extends AbstractMigration implements ServiceManagerAwareInterface
 {
     use ServiceManagerAwareTrait;
 
