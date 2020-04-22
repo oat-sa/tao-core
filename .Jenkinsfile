@@ -46,6 +46,14 @@ registry.service.consul:4444/tao/dependency-resolver oat:dependencies:resolve --
             steps {
                 dir('build') {
                     sh(
+                        label : 'Change composer minimum stability',
+                        script: 'composer config minimum-stability dev'
+                    )
+                    sh(
+                        label : 'Change composer prefer-stable option',
+                        script: 'composer config prefer-stable true'
+                    )
+                    sh(
                         label: 'Install/Update sources from Composer',
                         script: 'COMPOSER_DISCARD_CHANGES=true composer update --no-interaction --no-ansi --no-progress --no-scripts'
                     )
