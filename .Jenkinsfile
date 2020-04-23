@@ -133,35 +133,5 @@ mkdir -p tao/views/locales/en-US/
                 }
             }
         }
-        stage('Checks') {
-            parallel {
-                stage('Backend Checks') {
-                    agent {
-                        docker {
-                            image 'alexwijn/docker-git-php-composer'
-                            reuseNode true
-                        }
-                    }
-                    options {
-                        skipDefaultCheckout()
-                    }
-                    steps {
-                        dir('build'){
-                            script {
-                                deps = sh(returnStdout: true, script: "php ./taoDevTools/scripts/depsInfo.php ${EXT_NAME}").trim()
-                                echo deps
-                                def propsJson = readJSON text: deps
-                                missedDeps = propsJson[EXT_NAME]['missedClasses'].toString()
-                                try {
-                                    assert missedDeps == "[]"
-                                } catch(Throwable t) {
-                                    error("Missed dependencies found: $missedDeps")
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
     }
 }
