@@ -273,7 +273,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         $tree = $this->getClassService()->toTree($options['class'], $options);
 
         //retrieve resources permissions
-        $user = \common_Session_SessionManager::getSession()->getUser();
+        $user = \common_session_SessionManager::getSession()->getUser();
         $permissions = $this->getResourceService()->getResourcesPermissions($user, $tree);
 
         //expose the tree
