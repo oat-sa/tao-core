@@ -200,7 +200,7 @@ class MenuService
             }
         }
         if (empty($returnValue)) {
-            \common_logger::w('Structure ' . $perspectiveId . ' not found for extension ' . $extension);
+            \common_Logger::w('Structure ' . $perspectiveId . ' not found for extension ' . $extension);
         }
 
         return $returnValue;
@@ -228,7 +228,7 @@ class MenuService
             }
         }
         if (empty($returnValue)) {
-            \common_logger::w('Section ' . $sectionId . ' not found found for perspective ' . $perspectiveId);
+            \common_Logger::w('Section ' . $sectionId . ' not found found for perspective ' . $perspectiveId);
         }
 
         return $returnValue;

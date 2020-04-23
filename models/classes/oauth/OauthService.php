@@ -104,7 +104,6 @@ class OauthService extends ConfigurableService implements \common_http_Signature
         );
         $signature_method = new OAuthSignatureMethod_HMAC_SHA1();
         $signedRequest->sign_request($signature_method, $consumer, $token);
-        //common_logger::d('Base string from TAO/Joel: '.$signedRequest->get_signature_base_string());
 
         if ($authorizationHeader) {
             $combinedParameters = $signedRequest->get_parameters();

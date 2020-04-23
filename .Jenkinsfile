@@ -45,7 +45,7 @@ pipeline {
                         writeFile(file: 'composer.json', text: """
                         {
                             "require": {
-                                "oat-sa/extension-tao-devtools" : "dev-develop",
+                                "oat-sa/extension-tao-devtools" : "dev-fix/fix_depsinfo_check_is_function",
                                 "${REPO_NAME}" : "dev-${branch}#${GIT_COMMIT}"
                             },
                             "minimum-stability": "dev",
