@@ -320,6 +320,12 @@ class tao_install_Setup implements Action
                 }
             } else {
                 $options['db_driver'] = $defaultPersistenceConfig['connection']['driver'];
+                if (isset($defaultPersistenceConfig['connection']['driverClass'])) {
+                    $options['db_driverClass'] = $defaultPersistenceConfig['connection']['driverClass'];
+                }
+                if (isset($defaultPersistenceConfig['connection']['instance'])) {
+                    $options['db_instance'] = $defaultPersistenceConfig['connection']['instance'];
+                }
                 $options['db_host'] = $defaultPersistenceConfig['connection']['host'];
                 $options['db_name'] = $defaultPersistenceConfig['connection']['dbname'];
                 if (isset($defaultPersistenceConfig['connection']['user'])) {
