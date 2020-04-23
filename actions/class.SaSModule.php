@@ -107,7 +107,6 @@ abstract class tao_actions_SaSModule extends tao_actions_RdfController
         if ($this->hasRequestParameter('classUri')) {
             $clazz = $this->getCurrentClass();
             if (!is_null($clazz)) {
-                $this->setVariables([$this->getDataKind() . 'ClassUri' => $clazz->getUri()]);
                 $message = $clazz->getLabel() . ' ' . __('class selected');
             }
         }
@@ -116,7 +115,6 @@ abstract class tao_actions_SaSModule extends tao_actions_RdfController
         if ($this->hasRequestParameter('uri')) {
             $instance = $this->getCurrentInstance();
             if (!is_null($instance)) {
-                $this->setVariables([$this->getDataKind() . 'Uri' => $instance->getUri()]);
                 $message = __('%s %s selected', $instance->getLabel(), $this->getDataKind());
             }
         }
@@ -140,8 +138,6 @@ abstract class tao_actions_SaSModule extends tao_actions_RdfController
         // @todo call the correct service
         $instance = $this->getClassService()->createInstance($clazz);
         if (!is_null($instance) && $instance instanceof core_kernel_classes_Resource) {
-            //init variable service:
-            $this->setVariables([$this->getDataKind() . 'Uri' => $instance->getUri()]);
 
             $params = [
                 'uri'       => tao_helpers_Uri::encode($instance->getUri()),
@@ -245,19 +241,6 @@ abstract class tao_actions_SaSModule extends tao_actions_RdfController
 
         $returnValue = $hideNode ? ($tree['children']) : $tree;
         $this->returnJson($returnValue);
-    }
-
-    protected function setVariables($variables)
-    {
-        $this->getServiceLocator()->get(common_ext_ExtensionsManager::SERVICE_ID)->getExtensionById('wfEngine')->load();
-
-        $variableService = wfEngine_models_classes_VariableService::singleton();
-
-        $cleaned = [];
-        foreach ($variables as $key => $value) {
-            $cleaned[$key] = (is_object($value) && $value instanceof core_kernel_classes_Resource) ? $value->getUri() : $value;
-        }
-        return $variableService->save($cleaned);
     }
 
     /**

@@ -25,14 +25,12 @@ use oat\tao\helpers\InstallHelper;
 use oat\oatbox\install\Installer;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\OperatedByService;
-use oat\generis\persistence\sql\DbCreator;
 use oat\generis\persistence\sql\SetupDb;
 use oat\generis\persistence\PersistenceManager;
 use oat\generis\model\data\Ontology;
 use oat\tao\model\TaoOntology;
 use oat\generis\model\GenerisRdf;
 use oat\tao\model\user\TaoRoles;
-use oat\oatbox\service\ServiceNotFoundException;
 
 /**
  *

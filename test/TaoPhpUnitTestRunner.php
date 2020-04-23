@@ -23,7 +23,6 @@
 
 namespace oat\tao\test;
 
-use League\Flysystem\Adapter\Local;
 use League\Flysystem\Memory\MemoryAdapter;
 use oat\generis\test\GenerisPhpUnitTestRunner;
 use oat\oatbox\filesystem\Directory;

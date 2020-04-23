@@ -58,7 +58,11 @@
         "pimple/pimple": "^3.0",
         "imsglobal/lti": "^3.0",
         "paragonie/random_compat": "^2.0",
-        "symfony/dotenv": "~4.3"
+        "symfony/dotenv": "~4.3",
+        "phpmailer/phpmailer": "~6.1"
+    },
+    "require-dev": {
+        "league/flysystem-memory": "^1.0@dev"
     },
     "autoload": {
         "psr-4": {
