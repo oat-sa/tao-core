@@ -31,7 +31,11 @@ use Doctrine\Migrations\Generator\ClassNameGenerator;
 use Doctrine\Migrations\MigrationRepository;
 use Doctrine\Migrations\Exception\MigrationException;
 use Doctrine\Migrations\Exception\NoMigrationsToExecute;
-use Doctrine\Migrations\Tools\Console\Command;
+use Doctrine\Migrations\Tools\Console\Command\MigrateCommand;
+use Doctrine\Migrations\Tools\Console\Command\StatusCommand;
+use Doctrine\Migrations\Tools\Console\Command\ExecuteCommand;
+use Doctrine\Migrations\Tools\Console\Command\VersionCommand;
+use Doctrine\Migrations\Tools\Console\Command\SyncMetadataCommand;
 use Doctrine\Migrations\Version\Comparator;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -271,11 +275,11 @@ class Migrations extends ScriptAction
         $cli->setAutoExit(false);
         $cli->addCommands(array(
             new GenerateCommand($dependencyFactory),
-            new Command\MigrateCommand($dependencyFactory),
-            new Command\StatusCommand($dependencyFactory),
-            new Command\ExecuteCommand($dependencyFactory),
-            new Command\VersionCommand($dependencyFactory),
-            new Command\SyncMetadataCommand($dependencyFactory),
+            new MigrateCommand($dependencyFactory),
+            new StatusCommand($dependencyFactory),
+            new ExecuteCommand($dependencyFactory),
+            new VersionCommand($dependencyFactory),
+            new SyncMetadataCommand($dependencyFactory),
         ));
 
         try {
