@@ -46,7 +46,7 @@
     "require": {
         "oat-sa/oatbox-extension-installer": "~1.1||dev-master",
         "oat-sa/jig": "~0.1",
-        "oat-sa/generis": "^12.19.0",
+        "oat-sa/generis": "^12.17.0",
         "oat-sa/composer-npm-bridge": "^0.3.0",
         "php": "^7.1",
         "phpdocumentor/reflection-docblock": "2.*",
