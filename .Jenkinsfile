@@ -56,6 +56,10 @@ pipeline {
                         """
                        )
                     }
+                    sh(
+                        label : 'Change composer discard-changes option',
+                        script: 'composer config discard-changes true'
+                    )
                     withCredentials([string(credentialsId: 'jenkins_github_token', variable: 'GIT_TOKEN')]) {
                         sh(
                             label: 'Install/Update sources from Composer',
