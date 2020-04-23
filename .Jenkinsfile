@@ -59,9 +59,18 @@ pipeline {
                     withCredentials([string(credentialsId: 'jenkins_github_token', variable: 'GIT_TOKEN')]) {
                         sh(
                             label: 'Install/Update sources from Composer',
-                            script: "COMPOSER_AUTH='{\"github-oauth\": {\"github.com\": \"$GIT_TOKEN\"}}\' composer update --no-interaction --no-ansi --no-progress --prefer-source"
+                            script: "COMPOSER_AUTH='{\"github-oauth\": {\"github.com\": \"$GIT_TOKEN\"}}\' composer update --no-interaction --no-ansi --no-progress"
                         )
                     }
+                    sh(
+                        label: "Extra filesystem mocks",
+                        script: '''
+mkdir -p taoQtiItem/views/js/mathjax/ && touch taoQtiItem/views/js/mathjax/MathJax.js
+mkdir -p tao/views/locales/en-US/
+    echo "{\\"serial\\":\\"${BUILD_ID}\\",\\"date\\":$(date +%s),\\"version\\":\\"3.3.0-${BUILD_NUMBER}\\",\\"translations\\":{}}" > tao/views/locales/en-US/messages.json
+mkdir -p tao/views/locales/en-US/
+                        '''
+                    )
                 }
             }
         }
