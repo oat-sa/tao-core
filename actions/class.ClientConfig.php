@@ -24,6 +24,7 @@ use oat\tao\model\asset\AssetService;
 use oat\tao\model\clientConfig\ClientConfigService;
 use oat\tao\model\routing\Resolver;
 use oat\tao\model\security\xsrf\TokenService;
+use oat\tao\model\menu\MenuService;
 use tao_helpers_Date as DateHelper;
 
 /**
@@ -160,7 +161,9 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule
     {
         if ($this->hasRequestParameter('shownStructure')) {
             $structure = $this->getRequestParameter('shownStructure');
-            $perspectives = \oat\tao\model\menu\MenuService::getAllPerspectives();
+            /** @var MenuService $menuService */
+            $menuService = $this->getServiceLocator()->get(MenuService::SERVICE_ID);
+            $perspectives = $menuService->getAllPerspectives();
             foreach ($perspectives as $perspective) {
                 if ($perspective->getId() == $structure) {
                     return $perspective->getId();

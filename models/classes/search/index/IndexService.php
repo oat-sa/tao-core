@@ -179,7 +179,9 @@ class IndexService extends ConfigurableService
     protected function getIndexedClasses()
     {
         $classes = [];
-        foreach (MenuService::getAllPerspectives() as $perspective) {
+        /** @var MenuService $menuService */
+        $menuService = $this->getServiceLocator()->get(MenuService::SERVICE_ID);
+        foreach ($menuService->getAllPerspectives() as $perspective) {
             foreach ($perspective->getChildren() as $structure) {
                 foreach ($structure->getTrees() as $tree) {
                     $rootNode = $tree->get('rootNode');

@@ -27,8 +27,6 @@ use oat\generis\model\OntologyRdfs;
 use oat\tao\model\accessControl\data\DataAccessControl;
 use oat\tao\model\controller\SignedFormInstance;
 use oat\tao\model\lock\LockManager;
-use oat\tao\model\menu\ActionService;
-use oat\tao\model\menu\MenuService;
 use oat\tao\model\metadata\exception\InconsistencyConfigException;
 use oat\tao\model\resources\ResourceService;
 use oat\tao\model\security\SecurityException;
@@ -335,74 +333,6 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             $options['orderdir'] = $this->getRequestParameter('orderdir');
         }
         return $options;
-    }
-
-    /**
-     * Add permission information to the tree structure
-     *
-     * @deprecated
-     *
-     * @param array $tree
-     * @return array
-     */
-    protected function addPermissions($tree)
-    {
-        $user = $this->getSession()->getUser();
-
-        $section = MenuService::getSection(
-            $this->getRequestParameter('extension'),
-            $this->getRequestParameter('perspective'),
-            $this->getRequestParameter('section')
-        );
-
-        $actions = $section->getActions();
-
-        //then compute ACL for each node of the tree
-        $treeKeys = array_keys($tree);
-        if (isset($treeKeys[0]) && is_int($treeKeys[0])) {
-            foreach ($tree as $index => $treeNode) {
-                $tree[$index] = $this->computePermissions($actions, $user, $treeNode);
-            }
-        } else {
-            $tree = $this->computePermissions($actions, $user, $tree);
-        }
-
-        return $tree;
-    }
-
-    /**
-     * compulte permissions for a node against actions
-     *
-     * @deprecated
-     *
-     * @param array[] $actions the actions data with context, name and the resolver
-     * @param User $user the user
-     * @param array $node a tree node
-     * @return array the node augmented with permissions
-     */
-    private function computePermissions($actions, $user, $node)
-    {
-        if (isset($node['attributes']['data-uri'])) {
-            if ($node['type'] == 'class') {
-                $params = ['classUri' => $node['attributes']['data-uri']];
-            } else {
-                $params = [];
-                foreach ($node['attributes'] as $key => $value) {
-                    if (substr($key, 0, strlen('data-')) == 'data-') {
-                        $params[substr($key, strlen('data-'))] = $value;
-                    }
-                }
-            }
-            $params['id'] = $node['attributes']['data-uri'];
-
-            $node['permissions'] = $this->getActionService()->computePermissions($actions, $user, $params);
-        }
-        if (isset($node['children'])) {
-            foreach ($node['children'] as $index => $child) {
-                $node['children'][$index] = $this->computePermissions($actions, $user, $child);
-            }
-        }
-        return $node;
     }
 
     /**
@@ -1303,14 +1233,6 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             'errorMessage' =>  $message
         ];
         $this->returnJson($response, 406);
-    }
-
-    /**
-     * @return ActionService
-     */
-    private function getActionService()
-    {
-        return $this->getServiceLocator()->get(ActionService::SERVICE_ID);
     }
 
     /**

@@ -144,7 +144,7 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule
         $this->assertIsDebugMode();
         $extId = $this->getRequestParameter('id');
         $this->getExtensionManager()->setEnabled($extId, false);
-        MenuService::flushCache();
+        $this->getServiceLocator()->get(MenuService::SERVICE_ID)->flushCache();
         $this->returnJson([
             'success' => true,
             'message' => __('Disabled %s', $this->getRequestParameter('id'))
@@ -163,7 +163,9 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule
 
         $extId = $this->getRequestParameter('id');
         $this->getExtensionManager()->setEnabled($extId, true);
-        MenuService::flushCache();
+        /** @var MenuService $menuService */
+        $menuService = $this->getServiceLocator()->get(MenuService::SERVICE_ID);
+        $menuService->flushCache();
         $this->returnJson([
             'success' => true,
             'message' => __('Enabled %s', $this->getRequestParameter('id'))

@@ -26,14 +26,11 @@ use oat\generis\model\user\UserRdf;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\user\LoginService;
 use oat\tao\helpers\TaoCe;
-use oat\tao\model\accessControl\ActionResolver;
-use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
 use oat\tao\model\entryPoint\EntryPointService;
 use oat\tao\model\event\LoginFailedEvent;
 use oat\tao\model\event\LoginSucceedEvent;
 use oat\tao\model\event\LogoutSucceedEvent;
 use oat\tao\model\menu\MenuService;
-use oat\tao\model\menu\Perspective;
 use oat\tao\model\mvc\DefaultUrlService;
 use oat\tao\model\notification\Notification;
 use oat\tao\model\notification\NotificationServiceInterface;
@@ -84,7 +81,9 @@ class tao_actions_Main extends tao_actions_CommonModule
                 $this->setData('user', $this->getSession()->getUserLabel());
             }
             $this->setData('entries', $entries);
-            $naviElements = $this->getNavigationElementsByGroup('settings');
+            /** @var MenuService $menuService */
+            $menuService = $this->getServiceLocator()->get(MenuService::SERVICE_ID);
+            $naviElements = $menuService->getNavigationElementsByGroup('settings');
             foreach ($naviElements as $key => $naviElement) {
                 if ($naviElement['perspective']->getId() !== 'user_settings') {
                     unset($naviElements[$key]);
@@ -303,7 +302,9 @@ class tao_actions_Main extends tao_actions_CommonModule
                 )
             );
 
-            $sections = $this->getSections($extension, $structure);
+            /** @var MenuService $menuService */
+            $menuService = $this->getServiceLocator()->get(MenuService::SERVICE_ID);
+            $sections = $menuService->getSections($extension, $structure, $this->getSession()->getUser());
             if (count($sections) > 0) {
                 $this->setData('sections', $sections);
             } else {
@@ -321,9 +322,12 @@ class tao_actions_Main extends tao_actions_CommonModule
             }
         }
 
-        $perspectiveTypes = [Perspective::GROUP_DEFAULT, 'settings', 'persistent'];
+        /** @todo mover menu building to taoBackOffice extension */
+        $perspectiveTypes = ['main', 'settings', 'persistent'];
+        /** @var MenuService $menuService */
+        $menuService = $this->getServiceLocator()->get(MenuService::SERVICE_ID);
         foreach ($perspectiveTypes as $perspectiveType) {
-            $this->setData($perspectiveType . '-menu', $this->getNavigationElementsByGroup($perspectiveType));
+            $this->setData($perspectiveType . '-menu', $menuService->getNavigationElementsByGroup($perspectiveType));
         }
 
         /* @var $notifService NotificationServiceInterface */
@@ -367,90 +371,6 @@ class tao_actions_Main extends tao_actions_CommonModule
 
         $this->setView('layout.tpl', 'tao');
     }
-
-    /**
-     * Get perspective data depending on the group set in structure.xml
-     *
-     * @param $groupId
-     * @return array
-     */
-    private function getNavigationElementsByGroup($groupId)
-    {
-        $entries = [];
-        foreach (MenuService::getPerspectivesByGroup($groupId) as $i => $perspective) {
-            $binding = $perspective->getBinding();
-            $children = $this->getMenuElementChildren($perspective);
-
-            if (!empty($binding) || !empty($children)) {
-                $entry = [
-                    'perspective' => $perspective,
-                    'children'    => $children
-                ];
-                if (!is_null($binding)) {
-                    $entry['binding'] = $perspective->getExtension() . '/' . $binding;
-                }
-                $entries[$i] = $entry;
-            }
-        }
-        return $entries;
-    }
-
-    /**
-     * Get nested menu elements depending on user rights.
-     *
-     * @param Perspective $menuElement from the structure.xml
-     * @return array menu elements list
-     */
-    private function getMenuElementChildren(Perspective $menuElement)
-    {
-        $user = $this->getSession()->getUser();
-        $children = [];
-        foreach ($menuElement->getChildren() as $section) {
-            try {
-                $resolver = new ActionResolver($section->getUrl());
-                if (FuncProxy::accessPossible($user, $resolver->getController(), $resolver->getAction())) {
-                    $children[] = $section;
-                }
-            } catch (ResolverException $e) {
-                $this->logWarning('Invalid reference in structures: ' . $e->getMessage());
-            }
-        }
-        return $children;
-    }
-
-    /**
-     * Get the sections of the current extension's structure
-     *
-     * @param string $shownExtension
-     * @param string $shownStructure
-     * @return array the sections
-     */
-    private function getSections($shownExtension, $shownStructure)
-    {
-
-        $sections = [];
-        $user = $this->getSession()->getUser();
-        $structure = MenuService::getPerspective($shownExtension, $shownStructure);
-        if (!is_null($structure)) {
-            foreach ($structure->getChildren() as $section) {
-                $resolver = new ActionResolver($section->getUrl());
-                if (FuncProxy::accessPossible($user, $resolver->getController(), $resolver->getAction())) {
-                    foreach ($section->getActions() as $action) {
-                        $this->propagate($action);
-                        $resolver = new ActionResolver($action->getUrl());
-                        if (!FuncProxy::accessPossible($user, $resolver->getController(), $resolver->getAction())) {
-                            $section->removeAction($action);
-                        }
-                    }
-
-                    $sections[] = $section;
-                }
-            }
-        }
-
-        return $sections;
-    }
-
 
     /**
      * Check if the system is ready

@@ -477,8 +477,8 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
                     $translationFile->setSourceLanguage(tao_helpers_translation_Utils::getDefaultLanguage());
                     $translationFile->setTargetLanguage($this->options['language']);
                     $translationFile->addTranslationUnits($sourceExtractor->getTranslationUnits());
-                    
-                    $file = MenuService::getStructuresFilePath($this->options['extension']);
+
+                    $file = $this->getStructuresFilePath($this->options['extension']);
                     if (!is_null($file)) {
                         $structureExtractor = new tao_helpers_translation_StructureExtractor([$file]);
                         $structureExtractor->extract();
@@ -589,7 +589,7 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
         $translationFile->setTargetLanguage($this->options['language']);
         $translationFile->addTranslationUnits($sourceCodeExtractor->getTranslationUnits());
         
-        $file = MenuService::getStructuresFilePath($this->options['extension']);
+        $file = $this->getStructuresFilePath($this->options['extension']);
         if (!is_null($file)) {
             $structureExtractor = new tao_helpers_translation_StructureExtractor([$file]);
             $structureExtractor->extract();
@@ -982,7 +982,7 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
                         continue;
                     } else {
                         // Is this a TAO extension ?
-                        $file = MenuService::getStructuresFilePath($this->options['extension']);
+                        $file = $this->getStructuresFilePath($this->options['extension']);
                         if (!is_null($file)) {
                             $structureExtractor = new tao_helpers_translation_StructureExtractor([$file]);
                             $structureExtractor->extract();
@@ -1513,5 +1513,30 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
     protected function getOntologyPOFileName($f)
     {
         return basename($f) . '.po';
+    }
+
+    /**
+     * Load the extension structure file.
+     * Return the SimpleXmlElement object (don't forget to cast it)
+     * @param string $extensionId
+     * @return mixed|string|null
+     * @throws \common_ext_ExtensionException
+     * @throws \common_ext_ManifestNotFoundException
+     */
+    public function getStructuresFilePath(string $extensionId)
+    {
+        $extension = \common_ext_ExtensionsManager::singleton()->getExtensionById($extensionId);
+        $extra = $extension->getManifest()->getExtra();
+        if (isset($extra['structures'])) {
+            $structureFilePath = $extra['structures'];
+        } else {
+            $structureFilePath = $extension->getDir() . 'actions/structures.xml';
+        }
+
+        if (file_exists($structureFilePath)) {
+            return $structureFilePath;
+        } else {
+            return null;
+        }
     }
 }

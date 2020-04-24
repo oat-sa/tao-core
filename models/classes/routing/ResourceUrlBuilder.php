@@ -53,8 +53,9 @@ class ResourceUrlBuilder extends ConfigurableService
         $resourceClass = $resource->isClass()
             ? $this->getClass($resource)
             : array_values($resource->getTypes())[0];
-
-        foreach (MenuService::getAllPerspectives() as $perspective) {
+        /** @var MenuService $menuService */
+        $menuService = $this->getServiceLocator()->get(MenuService::SERVICE_ID);
+        foreach ($menuService->getAllPerspectives() as $perspective) {
             foreach ($perspective->getChildren() as $section) {
                 if ($this->isSectionApplicable($resourceClass, $section)) {
                     return $this->getBackofficeUrl($perspective, $section, $resource);

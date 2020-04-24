@@ -121,7 +121,6 @@ return [
             SetContainerService::class,
             RegisterResourceWatcherService::class,
             RegisterResourceEvents::class,
-            RegisterActionService::class,
             RegisterUserLockoutsEventListeners::class,
             RegisterTaskQueueServices::class,
             SetUpQueueTasks::class,

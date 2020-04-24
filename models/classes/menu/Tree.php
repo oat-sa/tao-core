@@ -24,63 +24,14 @@ namespace oat\tao\model\menu;
 
 use oat\oatbox\PhpSerializable;
 
-class Tree implements PhpSerializable
+interface Tree extends PhpSerializable
 {
-    const SERIAL_VERSION = 1392821334;
-    
-    private $data = [];
+    public function get($attribute);
 
-    /**
-     * @param \SimpleXMLElement $node
-     * @param $structureExtensionId Note that this is currently not used, but it will be for SVG icons in the tree. Also
-     * it makes sure that all instances of fromSimpleXMLElement() use the same interface.
-     * @return static
-     */
-    public static function fromSimpleXMLElement(\SimpleXMLElement $node, $structureExtensionId)
-    {
-        $data = [];
-        foreach ($node->attributes() as $attrName => $attrValue) {
-            $data[$attrName] = (string)$attrValue;
-        }
-        return new static($data);
-    }
-    
-    public function __construct($data, $version = self::SERIAL_VERSION)
-    {
-        $this->data = $data;
-    }
-    
-    public function get($attribute)
-    {
-        return isset($this->data[$attribute]) ? $this->data[$attribute] : null;
-    }
- 
-    public function getAttributes()
-    {
-        return array_keys($this->data);
-    }
-    
-    public function getActions()
-    {
-        $actions = [];
-        foreach ($this->data as $key => $value) {
-            if (!in_array($key, ['rootNode', 'searchNode', 'dataUrl', 'className', 'name'])) {
-                $actions[$key] = $value;
-            }
-        }
-        return $actions;
-    }
-   
-    public function getName()
-    {
-        return $this->data['name'];
-    }
-    
-    public function __toPhpCode()
-    {
-        return "new " . __CLASS__ . "("
-            . \common_Utils::toPHPVariableString($this->data) . ','
-            . \common_Utils::toPHPVariableString(self::SERIAL_VERSION)
-        . ")";
-    }
+    public function getAttributes();
+
+    public function getActions();
+
+    public function getName();
+
 }

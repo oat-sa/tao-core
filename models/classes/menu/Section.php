@@ -23,330 +23,59 @@
 namespace oat\tao\model\menu;
 
 use oat\oatbox\PhpSerializable;
-use oat\taoBackOffice\model\menuStructure\ClassActionRegistry;
-use oat\taoBackOffice\model\menuStructure\Action as iAction;
 
-class Section extends MenuElement implements PhpSerializable
+interface Section extends MenuElement, PhpSerializable
 {
 
-    const SERIAL_VERSION = 1392821334;
-    
     const POLICY_MERGE = 'merge';
     
     const POLICY_OVERRIDE = 'override';
 
-    private $data = [];
+    public function getUrl();
 
-    private $trees = [];
+    public function getName();
 
-    private $actions = [];
+    public function getExtensionId();
 
-    /**
-     * @param \SimpleXMLElement $node
-     * @param $structureExtensionId extension of structures.xml
-     * @return static
-     */
-    public static function fromSimpleXMLElement(\SimpleXMLElement $node, $structureExtensionId)
-    {
+    public function getController();
 
-        $url = isset($node['url']) ? (string) $node['url'] : '#';
-        if ($url == '#' || empty($url)) {
-            $extension  = null;
-            $controller = null;
-            $action     = null;
-        } else {
-            $parts = explode('/', trim($url, '/'));
-            $parts = array_replace(array_fill(0, 3, null), $parts);
-
-            list($extension, $controller, $action) = $parts;
-        }
-
-        $data = [
-            'id'         => (string)$node['id'],
-            'name'       => (string)$node['name'],
-            'url'        => $url,
-            'extension'  => $extension,
-            'controller' => $controller,
-            'action'     => $action,
-            'binding'    => isset($node['binding']) ? (string)$node['binding'] : null,
-            'policy'     => isset($node['policy']) ? (string)$node['policy'] : self::POLICY_MERGE,
-            'disabled'   => isset($node['disabled']) ? true : false
-        ];
-
-        $trees = [];
-        foreach ($node->xpath("trees/tree") as $treeNode) {
-            $trees[] = Tree::fromSimpleXMLElement($treeNode, $structureExtensionId);
-        }
-
-        $actions = [];
-        foreach ($node->xpath("actions/action") as $actionNode) {
-            $actions[] = Action::fromSimpleXMLElement($actionNode, $structureExtensionId);
-        }
-        
-        $includeClassActions = isset($node->actions) && isset($node->actions['allowClassActions']) && $node->actions['allowClassActions'] == 'true';
-        
-        if ($includeClassActions) {
-            foreach ($trees as $tree) {
-                $rootNodeUri = $tree->get('rootNode');
-                if (!empty($rootNodeUri)) {
-                    $rootNode = new \core_kernel_classes_Class($rootNodeUri);
-                    foreach (ClassActionRegistry::getRegistry()->getClassActions($rootNode) as $action) {
-                        $actions[] = $action;
-                    }
-                }
-            }
-        }
-
-        return new static($data, $trees, $actions);
-    }
-
-    public function __construct($data, $trees, $actions, $version = self::SERIAL_VERSION)
-    {
-        parent::__construct($data['id'], $version);
-        $this->data    = $data;
-        $this->trees   = $trees;
-        $this->actions = $actions;
-
-        $this->migrateDataFromLegacyFormat();
-    }
-
-    public function getUrl()
-    {
-        return _url($this->getAction(), $this->getController(), $this->getExtensionId());
-    }
-
-    public function getName()
-    {
-        return $this->data['name'];
-    }
-
-    public function getExtensionId()
-    {
-        return $this->data['extension'];
-    }
-
-    public function getController()
-    {
-        return $this->data['controller'];
-    }
-
-    public function getAction()
-    {
-        return $this->data['action'];
-    }
+    public function getAction();
 
     /**
      * Policy on how to deal with existing structures
-     *
      * Only merge or override are currently supported
      *
      * @return string
      */
-    public function getPolicy()
-    {
-        return $this->data['policy'];
-    }
-  
+    public function getPolicy();
+
     /**
      * Get the JavaScript binding to run instead of loading the URL
      *
      * @return string|null the binding name or null if none
      */
-    public function getBinding()
-    {
-        return $this->data['binding'];
-    }
- 
+    public function getBinding();
+
     /**
      * Is the section disabled ?
      *
      * @return boolean if the section is disabled
      */
-    public function getDisabled()
-    {
-        return $this->data['disabled'];
-    }
+    public function getDisabled();
 
-    public function getTrees()
-    {
-        return $this->trees;
-    }
+    public function getTrees();
 
-    public function addTree(Tree $tree)
-    {
-        $this->trees[] = $tree;
-    }
+    public function addTree(Tree $tree);
 
-    public function getActions()
-    {
-        return $this->actions;
-    }
+    public function getActions();
 
-    public function addAction(iAction $action)
-    {
-        $this->actions[] = $action;
-    }
+    public function addAction(Action $action);
 
-    public function removeAction(iAction $action)
-    {
-        $index = array_search($action, $this->actions, true);
-        if ($index !== false) {
-            unset($this->actions[$index]);
-        }
-    }
+    public function removeAction(Action $action);
 
     /**
      * @param string $groupId
      * @return array
      */
-    public function getActionsByGroup($groupId)
-    {
-        $actions = [];
-        foreach ($this->getActions() as $action) {
-            if ($action->getGroup() === $groupId) {
-                $actions[] = $action;
-            }
-        };
-        return $actions;
-    }
-
-    /**
-     * Enables sections to be backward compatible with the structure format
-     * (before some actions were missing as they were defined in the tree part).
-     * legacy format : tao <= 2.6.x
-     * this method should be deprecated from 2.8.0 / 3.0.0
-     */
-    private function migrateDataFromLegacyFormat()
-    {
-
-        if (count($this->trees) > 0) {
-            //tree attributes to be migrated.
-            $mapping = [
-              'editClassUrl' => [
-                'attr'   => 'selectClass',
-                'action' => [
-                    'id'      => 'edit_class',
-                    'name'    => 'edit class',
-                    'group'   => 'none',
-                    'context' => 'class',
-                    'binding' => 'load'
-                ]
-              ],
-              'editInstanceUrl' => [
-                'attr'   => 'selectInstance',
-                'action' => [
-                    'id'      => 'edit_instance',
-                    'name'    => 'edit instance',
-                    'group'   => 'none',
-                    'context' => 'instance',
-                    'binding' => 'load'
-                ]
-              ],
-              'addInstanceUrl'  => [
-                'attr'   => 'addInstance',
-                'action' => [
-                    'id'      => 'add_instance',
-                    'name'    => 'add instance',
-                    'group'   => 'none',
-                    'context' => 'instance',
-                    'binding' => 'instantiate'
-                ]
-              ],
-              'addSubClassUrl'  => [
-                'attr'   => 'addClass',
-                'action' => [
-                    'id'      => 'add_class',
-                    'name'    => 'add class',
-                    'group'   => 'none',
-                    'context' => 'class',
-                    'binding' => 'subClass'
-                ]
-              ],
-              'deleteUrl' => [
-                'attr'   => 'addClass',
-                'action' => [
-                    'id'      => 'add_class',
-                    'name'    => 'add class',
-                    'group'   => 'none',
-                    'context' => 'class',
-                    'binding' => 'subClass'
-                ]
-              ],
-              'moveInstanceUrl' => [
-                'attr'   => 'moveInstance',
-                'action' => [
-                    'id'      => 'move',
-                    'name'    => 'move',
-                    'group'   => 'none',
-                    'context' => 'instance',
-                    'binding' => 'moveNode'
-                ]
-              ]
-            ];
-
-            foreach ($this->trees as $index => $tree) {
-                $needMigration = false;
-                $treeAttributes = $tree->getAttributes();
-            
-                //check if this attribute needs a migration
-                foreach ($treeAttributes as $attr) {
-                    if (array_key_exists($attr, $mapping)) {
-                        $needMigration = true;
-                        break;
-                    }
-                }
-                if ($needMigration) {
-                    $newData = [];
-
-                    //migrate the tree
-                    foreach ($treeAttributes as $attr) {
-                        //if the attribute belongs to the mapping
-                        if (array_key_exists($attr, $mapping)) {
-                            $url = $tree->get($attr);
-                            $actionName = false;
-    
-                            //try to find an action with the same url
-                            foreach ($this->actions as $action) {
-                                if ($action->getRelativeUrl() == $url) {
-                                    $actionName = $action->getId();
-                                    break;
-                                }
-                            }
-                            if ($actionName) {
-                                $newData[$mapping[$attr]['attr']] = $actionName;
-                            } else {
-                                //otherwise create a new action from the mapping
-                                $newData[$mapping[$attr]['attr']] = $mapping[$attr]['action']['id'];
-                                $actionData = $mapping[$attr]['action'];
-                                $actionData['url'] = $url;
-                                
-                                list($extension, $controller, $action) = explode('/', trim($url, '/'));
-                                $actionData['extension'] = $extension;
-                                $actionData['controller'] = $controller;
-                                $actionData['action'] = $action;
-                                
-                                $this->actions[] = new Action($actionData);
-                            }
-                        } else {
-                            $newData[$attr] = $tree->get($attr);
-                        }
-                    }
-    
-                    //the tree is replaced
-                    $this->trees[$index] = new Tree($newData);
-                }
-            }
-        }
-    }
-
-
-    public function __toPhpCode()
-    {
-        return "new " . __CLASS__ . "("
-        . \common_Utils::toPHPVariableString($this->data) . ','
-        . \common_Utils::toPHPVariableString($this->trees) . ','
-        . \common_Utils::toPHPVariableString($this->actions) . ','
-        . \common_Utils::toPHPVariableString(self::SERIAL_VERSION)
-        . ")";
-    }
+    public function getActionsByGroup($groupId);
 }
