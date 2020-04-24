@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,36 +17,31 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
- *
+ * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
  *
  */
 
-namespace oat\tao\model\search\aggregator;
+namespace oat\tao\model\service;
 
-use oat\tao\model\search\ResultSet;
-use oat\tao\model\search\Search;
+use oat\oatbox\PhpSerializable;
 
-interface UnionSearchInterface
+class PhpCode implements PhpSerializable
 {
-    const SERVICE_ID = 'tao/UnionSearchService';
+    /**
+     * @var string
+     */
+    private $code;
+
+    public function __construct(string $code)
+    {
+        $this->code = $code;
+    }
 
     /**
-     *
-     * Returns Search services which was appended for current realisation
-     *
-     * @return Search []
+     * @inheritDoc
      */
-    public function getInternalServices();
-
-    /**
-     * @param string $queryString
-     * @param string $type
-     * @param int $start
-     * @param int $count
-     * @param string $order
-     * @param string $dir
-     * @return ResultSet
-     */
-    public function query($queryString, $type, $start = 0, $count = 10, $order = 'id', $dir = 'DESC');
+    public function __toPhpCode()
+    {
+        return $this->code;
+    }
 }
