@@ -25,7 +25,7 @@ use oat\oatbox\user\User;
 use oat\tao\model\accessControl\AclProxy;
 use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
 use oat\tao\model\taskQueue\TaskLogInterface;
-use oat\taoBackOffice\controller\Redirector;
+use oat\tao\controller\Redirector;
 
 /**
  * @author Gyula Szucs <gyula@taotesting.com>

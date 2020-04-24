@@ -146,6 +146,8 @@ use oat\tao\scripts\install\RegisterSignatureGenerator;
 use oat\tao\scripts\install\SetClientLoggerConfig;
 use oat\tao\scripts\install\UpdateRequiredActionUrl;
 use oat\tao\scripts\tools\MigrateSecuritySettings;
+use oat\tao\model\routing\ResourceUrlBuilder;
+use oat\tao\controller\Redirector;
 use tao_models_classes_UserService;
 
 /**
@@ -1344,5 +1346,16 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         $this->skip('42.0.4', '42.0.5');
+
+        if ($this->isVersion('42.0.5')) {
+            $this->getServiceManager()->register(ResourceUrlBuilder::SERVICE_ID, new ResourceUrlBuilder());
+
+            if ($this->isVersion('2.1.0')) {
+                AclProxy::applyRule(new AccessRule('grant', TaoRoles::BACK_OFFICE, Redirector::class . '@redirectTaskToInstance'));
+                $this->setVersion('2.1.1');
+            }
+
+            $this->setVersion('42.1.0');
+        }
     }
 }

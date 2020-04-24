@@ -48,6 +48,7 @@ use oat\tao\scripts\install\SetServiceFileStorage;
 use oat\tao\scripts\install\SetServiceState;
 use oat\tao\scripts\install\SetupMaintenanceService;
 use oat\tao\scripts\install\SetUpQueueTasks;
+use oat\tao\controller\Redirector;
 
 $extpath = __DIR__ . DIRECTORY_SEPARATOR;
 
@@ -188,6 +189,7 @@ return [
         ['grant', 'http://www.tao.lu/Ontologies/TAO.rdf#PropertyManagerRole', 'tao_actions_PropertiesAuthoring'],
         [AccessRule::GRANT, TaoRoles::SYSTEM_ADMINISTRATOR, oat\tao\controller\api\Users::class],
         [AccessRule::GRANT, TaoRoles::GLOBAL_MANAGER, oat\tao\controller\api\Users::class],
+        [AccessRule::GRANT, TaoRoles::BACK_OFFICE, Redirector::class . '@redirectTaskToInstance'],
     ],
     'routes' => [
         '/tao/api'  => ['class' => ApiRoute::class],
