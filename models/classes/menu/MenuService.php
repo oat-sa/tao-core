@@ -64,7 +64,7 @@ class MenuService extends ConfigurableService
             }
         }
         if (empty($returnValue)) {
-            \common_logger::w('Structure ' . $perspectiveId . ' not found for extension ' . $extension);
+            \common_Logger::w('Structure ' . $perspectiveId . ' not found for extension ' . $extension);
         }
 
         return $returnValue;
