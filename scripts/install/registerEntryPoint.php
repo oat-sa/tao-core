@@ -21,7 +21,6 @@
  */
 
 use oat\oatbox\service\ServiceManager;
-use oat\tao\model\entryPoint\BackOfficeEntrypoint;
 use oat\tao\model\entryPoint\EntryPointService;
 use oat\tao\model\entryPoint\PasswordReset;
 

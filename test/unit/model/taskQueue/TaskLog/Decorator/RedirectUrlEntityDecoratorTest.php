@@ -102,7 +102,7 @@ class RedirectUrlEntityDecoratorTest extends TestCase
         $expectedData = array_merge(
             $this->getFixtureEntityData(),
             [
-                'redirectUrl' => _url('redirectTaskToInstance', 'Redirector', 'taoBackOffice', ['taskId' => $entity->getId()])
+                'redirectUrl' => _url('redirectTaskToInstance', 'Redirector', 'taocore', ['taskId' => $entity->getId()])
             ]
         );
 

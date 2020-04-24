@@ -1349,11 +1349,7 @@ class Updater extends \common_ext_ExtensionUpdater
 
         if ($this->isVersion('42.0.5')) {
             $this->getServiceManager()->register(ResourceUrlBuilder::SERVICE_ID, new ResourceUrlBuilder());
-
-            if ($this->isVersion('2.1.0')) {
-                AclProxy::applyRule(new AccessRule('grant', TaoRoles::BACK_OFFICE, Redirector::class . '@redirectTaskToInstance'));
-                $this->setVersion('2.1.1');
-            }
+            AclProxy::applyRule(new AccessRule('grant', TaoRoles::BACK_OFFICE, Redirector::class . '@redirectTaskToInstance'));
 
             $this->setVersion('42.1.0');
         }
