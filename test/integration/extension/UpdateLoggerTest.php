@@ -21,7 +21,6 @@
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\tao\model\extension\UpdateLogger;
 use oat\oatbox\filesystem\Directory;
-use oat\oatbox\filesystem\FileSystemService;
 
 /**
  * @package tao
@@ -31,21 +30,21 @@ class UpdateLoggerTest extends TaoPhpUnitTestRunner
     public function testLog()
     {
         $tmpDir = $this->getTempDirectory();
-        $logger = new UpdateLogger(array(UpdateLogger::OPTION_FILESYSTEM => $tmpDir->getFileSystemId()));
+        $logger = new UpdateLogger([UpdateLogger::OPTION_FILESYSTEM => $tmpDir->getFileSystemId()]);
         $logger->setServiceLocator($tmpDir->getServiceLocator());
         
-        $files = array();
+        $files = [];
         foreach ($tmpDir->getIterator(Directory::ITERATOR_FILE) as $file) {
             $files[] = $file;
         }
-        $this->assertEquals(0, count($files));
+        $this->assertCount(0, $files);
         $logger->error('SampleError');
-        
-        $files = array();
+        $logger->error('SampleError 2');
+
         foreach ($tmpDir->getIterator(Directory::ITERATOR_FILE) as $file) {
             $files[] = $file;
         }
-        $this->assertEquals(1, count($files));
+        $this->assertCount(2, $files);
         $file = reset($files);
         
         $content = $file->read();
