@@ -340,14 +340,9 @@ class AbstractWorkerTest extends TestCase
         $this->assertSame('unknown', $result);
     }
 
-    private function getCallbackTask()
+    private function getCallbackTask(): CallbackTaskInterface
     {
-        $mock = $this
-            ->getMockBuilder(CallbackTaskInterface::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['__invoke', 'getStatus'])
-            ->getMockForAbstractClass();
-        return $mock;
+        return $this->createMock(CallbackTaskInterface::class);
     }
 
     /**
@@ -355,12 +350,7 @@ class AbstractWorkerTest extends TestCase
      */
     private function getTaskMockCallback()
     {
-        $mock = $this
-            ->getMockBuilder(TaskInterface::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['__invoke', 'getStatus'])
-            ->getMockForAbstractClass();
-        return $mock;
+        return $this->createMock(TaskInterface::class);
     }
 }
 
