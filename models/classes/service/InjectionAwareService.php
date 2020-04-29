@@ -113,7 +113,7 @@ FACTORY;
 
             $parameter->isVariadic()
                 ? yield from $value
-                : yield;
+                : yield $value;
         }
     }
 
