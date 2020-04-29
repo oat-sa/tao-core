@@ -21,6 +21,7 @@
 namespace oat\tao\model\service;
 
 use common_Utils;
+use oat\oatbox\Configurable;
 use oat\oatbox\service\ConfigurableService;
 use ReflectionClass;
 use ReflectionException;
@@ -81,6 +82,12 @@ FACTORY;
     {
         $class = new ReflectionClass($service);
         $constructor = $class->getMethod('__construct');
+
+        // do not check parent constructor inherited from Configurable::class
+        if ($constructor->class === Configurable::class) {
+            return;
+        }
+
         $parameters = $constructor->getParameters();
 
         foreach ($parameters as $parameter) {
@@ -102,7 +109,11 @@ FACTORY;
                 $classProperty->setAccessible(true);
             }
 
-            yield $classProperty->getValue($service);
+            $value = $classProperty->getValue($service);
+
+            $parameter->isVariadic()
+                ? yield from $value
+                : yield;
         }
     }
 
