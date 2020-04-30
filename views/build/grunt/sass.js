@@ -23,12 +23,6 @@ module.exports = function(grunt) {
                     '../js/lib/jsTree/themes/css/style.css' : '../js/lib/jsTree/themes/scss/style.scss'
                 }
             },
-            ckeditor : {
-                files : {
-                    '../js/lib/ckeditor/skins/tao/editor.css' : '../js/lib/ckeditor/skins/tao/scss/editor.scss',
-                    '../js/lib/ckeditor/skins/tao/dialog.css' : '../js/lib/ckeditor/skins/tao/scss/dialog.scss'
-                }
-            },
             component : {
                 files : [{
                     expand: true,
