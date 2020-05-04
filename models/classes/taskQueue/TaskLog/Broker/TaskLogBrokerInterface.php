@@ -70,7 +70,7 @@ interface TaskLogBrokerInterface extends ServiceLocatorAwareInterface
      *
      * @return int count of touched records
      */
-    public function updateStatus(string $taskId, string $newStatus, ?string $prevStatus = null): int;
+    public function updateStatus(string $taskId, string $newStatus, string $prevStatus = null): int;
 
     /**
      * Gets the status of a task.
