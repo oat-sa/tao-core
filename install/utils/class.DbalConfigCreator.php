@@ -35,6 +35,8 @@ class tao_install_utils_DbalConfigCreator
         }
         $dbConnectionParams = [
             'driver' => $installData['db_driver'],
+            'driverClass' => $installData['db_driverClass'],
+            'instance' => $installData['db_instance'],
             'host' => $installData['db_host'],
             'dbname' => $installData['db_name'],
             'user' => $installData['db_user'],
