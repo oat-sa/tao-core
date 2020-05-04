@@ -20,12 +20,13 @@
  *
  */
 
-use oat\oatbox\action\Action;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use oat\oatbox\service\ConfigurableService;
-use oat\oatbox\log\LoggerService;
-use oat\oatbox\log\logger\TaoLog;
 use oat\generis\persistence\PersistenceManager;
+use oat\oatbox\action\Action;
+use oat\oatbox\log\logger\TaoLog;
+use oat\oatbox\log\LoggerService;
+use oat\oatbox\service\ConfigurableService;
+use oat\oatbox\service\ServiceManager;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 class tao_install_Setup implements Action
 {
@@ -229,7 +230,11 @@ class tao_install_Setup implements Action
                     $className = $config['class'];
                     $params = $config['options'];
                     if (is_a($className, \oat\oatbox\service\ConfigurableService::class, true)) {
-                        $service = new $className($params);
+                        if (is_a($className, \oat\tao\model\service\InjectionAwareService::class, true)) {
+                            $service = new $className(...$this->prepareParameters($className, $params, $serviceManager));
+                        } else {
+                            $service = new $className($params);
+                        }
                         $serviceManager->register($extension . '/' . $key, $service);
                     } else {
                         $this->logWarning('The class : ' . $className . ' can not be set as a Configurable Service');
@@ -283,6 +288,61 @@ class tao_install_Setup implements Action
     }
 
     /**
+     * @param string         $class
+     * @param array          $parametersToSort
+     * @param ServiceManager $serviceManager
+     *
+     * @return array
+     * @throws ReflectionException
+     */
+    private function prepareParameters(string $class, array $parametersToSort, ServiceManager $serviceManager): array
+    {
+        $reflectionClass = new ReflectionClass($class);
+
+        $constructParameters = $reflectionClass->getMethod('__construct')->getParameters();
+
+        $sortedParameters = [];
+
+        while($constructParameters && $parametersToSort) {
+            $parameter     = array_shift($constructParameters);
+            $parameterName = $parameter->getName();
+
+            try {
+                $paramValue = $parametersToSort[$parameterName] ?? $parameter->getDefaultValue();
+
+                $sortedParameters[] = $this->resolveParameter($parameter, $paramValue, $serviceManager);
+
+                unset($parametersToSort[$parameterName]);
+            } catch (ReflectionException $exception) {
+                throw new RuntimeException(
+                    sprintf('No default value for `$%s` argument in %s::__construct', $parameterName, $class)
+                );
+            }
+        }
+
+        if ($parametersToSort) {
+            throw new InvalidArgumentException(
+                sprintf('Invalid arguments `%s` specified for %s', implode(', ', array_keys($parametersToSort)), $class)
+            );
+        }
+
+        return $sortedParameters;
+    }
+
+    private function resolveParameter(ReflectionParameter $parameter, $paramValue, ServiceManager $serviceManager)
+    {
+        if (
+            is_string($paramValue)
+            && $parameter->getClass() !== null
+            && $serviceManager->has($paramValue)
+        ) {
+            $paramValue = $serviceManager->get($paramValue);
+        }
+
+        return $paramValue;
+    }
+
+    /**
      * Transforms the seed persistence configuration into command line parameters
      * and then back into a persistence configuration to ensure backwards compatibility
      * with the previous process
@@ -312,19 +372,32 @@ class tao_install_Setup implements Action
                 $options['db_driver'] = $defaultPersistenceConfig['connection']['driver'];
                 $options['db_host'] = $defaultPersistenceConfig['connection']['master']['host'];
                 $options['db_name'] = $defaultPersistenceConfig['connection']['master']['dbname'];
+
                 if (isset($defaultPersistenceConfig['connection']['master']['user'])) {
                     $options['db_user'] = $defaultPersistenceConfig['connection']['master']['user'];
                 }
+
                 if (isset($defaultPersistenceConfig['connection']['master']['password'])) {
                     $options['db_pass'] = $defaultPersistenceConfig['connection']['master']['password'];
                 }
             } else {
                 $options['db_driver'] = $defaultPersistenceConfig['connection']['driver'];
+
+                if (isset($defaultPersistenceConfig['connection']['driverClass'])) {
+                    $options['db_driverClass'] = $defaultPersistenceConfig['connection']['driverClass'];
+                }
+
+                if (isset($defaultPersistenceConfig['connection']['instance'])) {
+                    $options['db_instance'] = $defaultPersistenceConfig['connection']['instance'];
+                }
+
                 $options['db_host'] = $defaultPersistenceConfig['connection']['host'];
                 $options['db_name'] = $defaultPersistenceConfig['connection']['dbname'];
+
                 if (isset($defaultPersistenceConfig['connection']['user'])) {
                     $options['db_user'] = $defaultPersistenceConfig['connection']['user'];
                 }
+
                 if (isset($defaultPersistenceConfig['connection']['password'])) {
                     $options['db_pass'] = $defaultPersistenceConfig['connection']['password'];
                 }
@@ -333,9 +406,11 @@ class tao_install_Setup implements Action
             $options['db_driver'] = $defaultPersistenceConfig['driver'];
             $options['db_host'] = $defaultPersistenceConfig['host'];
             $options['db_name'] = $defaultPersistenceConfig['dbname'];
+
             if (isset($defaultPersistenceConfig['user'])) {
                 $options['db_user'] = $defaultPersistenceConfig['user'];
             }
+
             if (isset($defaultPersistenceConfig['password'])) {
                 $options['db_pass'] = $defaultPersistenceConfig['password'];
             }

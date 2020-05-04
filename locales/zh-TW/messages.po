@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint124\n"
-"PO-Revision-Date: 2020-03-13T09:39:24\n"
+"Project-Id-Version: TAO 3.4.0-sprint126\n"
+"PO-Revision-Date: 2020-04-10T08:19:53\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-TW\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " and "
-msgstr " 和 "
-
 msgid " AND "
 msgstr ""
+
+msgid " and "
+msgstr " 和 "
 
 msgid " has been deleted successfully"
 msgstr " 已成功刪除"
@@ -211,9 +211,6 @@ msgstr ""
 
 msgid "Adding the new resource has failed"
 msgstr ""
-
-msgid "Advanced Mode"
-msgstr "進階模式"
 
 msgid "Advanced search, add filters"
 msgstr ""
@@ -450,10 +447,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
 msgid "Clear selection"
@@ -567,10 +564,10 @@ msgstr "數據已成功匯入"
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "數據語言"
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "數據語言"
 
 msgid "Data not imported. All records are invalid."
@@ -702,9 +699,6 @@ msgstr ""
 
 msgid "Edit Instance"
 msgstr "編輯實例"
-
-msgid "Edit sources that can embed this platform in an iFrame"
-msgstr ""
 
 msgid "Element"
 msgstr "元素"
@@ -859,6 +853,9 @@ msgid "floor"
 msgstr ""
 
 msgid "Forbid for all domains"
+msgstr ""
+
+msgid "Force HTTPS on this platform"
 msgstr ""
 
 msgid "Force Release"
@@ -1017,10 +1014,10 @@ msgstr "正在安裝擴展程序 %s..."
 msgid "Instance saved"
 msgstr "實體已儲存"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "介面語言"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "介面語言"
 
 msgid "Invalid CSP header."
@@ -1316,10 +1313,10 @@ msgstr "無檔案"
 msgid "no label"
 msgstr "無標籤"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "沒有可用的預覽"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "沒有可用的預覽"
 
 msgid "No results found"
@@ -1506,9 +1503,6 @@ msgstr ""
 #, tao-public
 msgid "Properties"
 msgstr "屬性"
-
-msgid "Property\'s label field is required"
-msgstr "必須要屬性的標籤字段"
 
 msgid "Provided URL is not valid"
 msgstr ""
@@ -1734,10 +1728,10 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "Select"
+msgid "select"
 msgstr "選擇"
 
-msgid "select"
+msgid "Select"
 msgstr "選擇"
 
 msgid "Select a class"
@@ -1791,9 +1785,6 @@ msgstr ""
 
 msgid "Sign change"
 msgstr ""
-
-msgid "Simple Mode"
-msgstr "簡單模式"
 
 msgid "sin"
 msgstr ""
@@ -2053,6 +2044,9 @@ msgstr "翻譯範圍"
 msgid "Translation saved"
 msgstr "翻譯已儲存"
 
+msgid "Transport Layer Security"
+msgstr ""
+
 msgid "Tree - Multiple node choice "
 msgstr ""
 
@@ -2128,10 +2122,10 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "全部取消勾選"
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "全部取消勾選"
 
 msgid "Undefined amount of the pages for pagination"

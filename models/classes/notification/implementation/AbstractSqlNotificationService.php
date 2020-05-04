@@ -134,9 +134,6 @@ abstract class AbstractSqlNotificationService extends AbstractNotificationServic
         throw new common_exception_NotFound('Error notification not found ,  requested id: ' . $id);
     }
 
-    /**
-     * @return string
-     */
     protected function getAllFieldString(): string
     {
         return self::NOTIFICATION_FIELD_RECIPIENT . ' , '
@@ -151,7 +148,6 @@ abstract class AbstractSqlNotificationService extends AbstractNotificationServic
 
     public function notificationCount(string $userId): array
     {
-
         $persistence = $this->getPersistence();
         $count = [ Notification::CREATED_STATUS => 0 ];
 
@@ -202,7 +198,7 @@ abstract class AbstractSqlNotificationService extends AbstractNotificationServic
                 $notification->getId(),
             ];
 
-        return $persistence->exec($updateQuery , $data);
+        return $persistence->exec($updateQuery, $data);
     }
 
     private function createNotification(array $notificationDetail): Notification

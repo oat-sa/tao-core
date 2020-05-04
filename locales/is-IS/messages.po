@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint124\n"
-"PO-Revision-Date: 2020-03-13T09:36:40\n"
+"Project-Id-Version: TAO 3.4.0-sprint126\n"
+"PO-Revision-Date: 2020-04-10T08:16:32\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: is-IS\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " and "
-msgstr " og "
-
 msgid " AND "
 msgstr ""
+
+msgid " and "
+msgstr " og "
 
 msgid " has been deleted successfully"
 msgstr " hefur tekist að eyða"
@@ -211,9 +211,6 @@ msgstr ""
 
 msgid "Adding the new resource has failed"
 msgstr ""
-
-msgid "Advanced Mode"
-msgstr "Ítarlegri hamur"
 
 msgid "Advanced search, add filters"
 msgstr ""
@@ -449,10 +446,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
 msgid "Clear selection"
@@ -566,11 +563,11 @@ msgstr "Innflutningur gagna tókst"
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data language"
-msgstr "Tungumál gagna"
-
 msgid "Data Language"
 msgstr "Tungumál Gagna"
+
+msgid "Data language"
+msgstr "Tungumál gagna"
 
 msgid "Data not imported. All records are invalid."
 msgstr ""
@@ -701,9 +698,6 @@ msgstr ""
 
 msgid "Edit Instance"
 msgstr "Breyta tilviki"
-
-msgid "Edit sources that can embed this platform in an iFrame"
-msgstr ""
 
 msgid "Element"
 msgstr ""
@@ -858,6 +852,9 @@ msgid "floor"
 msgstr ""
 
 msgid "Forbid for all domains"
+msgstr ""
+
+msgid "Force HTTPS on this platform"
 msgstr ""
 
 msgid "Force Release"
@@ -1016,10 +1013,10 @@ msgstr "Set upp viðbætur %s..."
 msgid "Instance saved"
 msgstr "Tilvik vistað"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr ""
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr ""
 
 msgid "Invalid CSP header."
@@ -1315,10 +1312,10 @@ msgstr "Engar skrár"
 msgid "no label"
 msgstr "ekkert merki"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr ""
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr ""
 
 msgid "No results found"
@@ -1505,9 +1502,6 @@ msgstr ""
 #, tao-public
 msgid "Properties"
 msgstr "Stillingar"
-
-msgid "Property\'s label field is required"
-msgstr ""
 
 msgid "Provided URL is not valid"
 msgstr ""
@@ -1733,11 +1727,11 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "Select"
-msgstr "Velja"
-
 msgid "select"
 msgstr "velja"
+
+msgid "Select"
+msgstr "Velja"
 
 msgid "Select a class"
 msgstr ""
@@ -1790,9 +1784,6 @@ msgstr ""
 
 msgid "Sign change"
 msgstr ""
-
-msgid "Simple Mode"
-msgstr "Einfaldur hamur"
 
 msgid "sin"
 msgstr ""
@@ -2052,6 +2043,9 @@ msgstr "Þýðingaviðföng"
 msgid "Translation saved"
 msgstr "Þýðing vistuð"
 
+msgid "Transport Layer Security"
+msgstr ""
+
 msgid "Tree - Multiple node choice "
 msgstr ""
 
@@ -2127,10 +2121,10 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr ""
 
 msgid "Undefined amount of the pages for pagination"

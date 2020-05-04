@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint124\n"
-"PO-Revision-Date: 2020-03-13T09:38:09\n"
+"Project-Id-Version: TAO 3.4.0-sprint126\n"
+"PO-Revision-Date: 2020-04-10T08:18:15\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: pt-PT\n"
@@ -16,10 +16,10 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " and "
+msgid " AND "
 msgstr ""
 
-msgid " AND "
+msgid " and "
 msgstr ""
 
 msgid " has been deleted successfully"
@@ -211,9 +211,6 @@ msgstr ""
 
 msgid "Adding the new resource has failed"
 msgstr ""
-
-msgid "Advanced Mode"
-msgstr "Modo avançado"
 
 msgid "Advanced search, add filters"
 msgstr ""
@@ -450,10 +447,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
 msgid "Clear selection"
@@ -567,10 +564,10 @@ msgstr "Informação importada com sucesso"
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "Informação do Idioma"
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "Informação do Idioma"
 
 msgid "Data not imported. All records are invalid."
@@ -702,9 +699,6 @@ msgstr ""
 
 msgid "Edit Instance"
 msgstr "Editar instância"
-
-msgid "Edit sources that can embed this platform in an iFrame"
-msgstr ""
 
 msgid "Element"
 msgstr "Elemento"
@@ -859,6 +853,9 @@ msgid "floor"
 msgstr ""
 
 msgid "Forbid for all domains"
+msgstr ""
+
+msgid "Force HTTPS on this platform"
 msgstr ""
 
 msgid "Force Release"
@@ -1017,11 +1014,11 @@ msgstr "Extensões instaladas %s..."
 msgid "Instance saved"
 msgstr "Instância guardada"
 
-msgid "Interface language"
-msgstr "Idioma do interface"
-
 msgid "Interface Language"
 msgstr "Idioma do Interface"
+
+msgid "Interface language"
+msgstr "Idioma do interface"
 
 msgid "Invalid CSP header."
 msgstr ""
@@ -1316,10 +1313,10 @@ msgstr ""
 msgid "no label"
 msgstr "Sem rótulos"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr ""
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr ""
 
 msgid "No results found"
@@ -1505,9 +1502,6 @@ msgstr ""
 
 #, tao-public
 msgid "Properties"
-msgstr ""
-
-msgid "Property\'s label field is required"
 msgstr ""
 
 msgid "Provided URL is not valid"
@@ -1734,11 +1728,11 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "Select"
-msgstr "Seleccione"
-
 msgid "select"
 msgstr "seleccione"
+
+msgid "Select"
+msgstr "Seleccione"
 
 msgid "Select a class"
 msgstr ""
@@ -1791,9 +1785,6 @@ msgstr ""
 
 msgid "Sign change"
 msgstr ""
-
-msgid "Simple Mode"
-msgstr "Modo simples"
 
 msgid "sin"
 msgstr ""
@@ -2053,6 +2044,9 @@ msgstr "Parâmetros de tradução"
 msgid "Translation saved"
 msgstr "Tradução guardada"
 
+msgid "Transport Layer Security"
+msgstr ""
+
 msgid "Tree - Multiple node choice "
 msgstr ""
 
@@ -2128,11 +2122,11 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck All"
-msgstr "Desmarcar Todos"
-
 msgid "Uncheck all"
 msgstr "Desmarcar todos"
+
+msgid "Uncheck All"
+msgstr "Desmarcar Todos"
 
 msgid "Undefined amount of the pages for pagination"
 msgstr ""

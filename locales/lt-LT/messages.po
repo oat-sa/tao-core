@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint124\n"
-"PO-Revision-Date: 2020-03-13T09:37:26\n"
+"Project-Id-Version: TAO 3.4.0-sprint126\n"
+"PO-Revision-Date: 2020-04-10T08:17:16\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lt-LT\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " and "
-msgstr " ir "
-
 msgid " AND "
 msgstr " IR "
+
+msgid " and "
+msgstr " ir "
 
 msgid " has been deleted successfully"
 msgstr " sėkmingai ištrintas"
@@ -211,9 +211,6 @@ msgstr "Naujos klasės pridėjimas nepavyko"
 
 msgid "Adding the new resource has failed"
 msgstr "Naujo resurso pridėjimas nepavyko"
-
-msgid "Advanced Mode"
-msgstr "Pažengęs Režimas"
 
 msgid "Advanced search, add filters"
 msgstr "Pažengusi paieška, pridėti filtrus"
@@ -450,11 +447,11 @@ msgstr "Išvalyti visus duomenis"
 msgid "Clear expression"
 msgstr "Išvalyti išraišką"
 
-msgid "Clear history"
-msgstr "Išvalyti istoriją"
-
 msgid "Clear History"
 msgstr "Išvalyti Istoriją"
+
+msgid "Clear history"
+msgstr "Išvalyti istoriją"
 
 msgid "Clear selection"
 msgstr "Išvalyti pasirinimą"
@@ -567,11 +564,11 @@ msgstr "Duomenys importuoti sėkmingai"
 msgid "Data imported. Some records are invalid."
 msgstr "Duomenys importuoti. Kaikurie įrašai neteisingi."
 
-msgid "Data language"
-msgstr "Duomenų kalba"
-
 msgid "Data Language"
 msgstr "Duomenų Kalba"
+
+msgid "Data language"
+msgstr "Duomenų kalba"
 
 msgid "Data not imported. All records are invalid."
 msgstr "Duomenys neimportuoti. Visi įrašai neteisingi."
@@ -702,9 +699,6 @@ msgstr "Redaguoti klasę %s"
 
 msgid "Edit Instance"
 msgstr "Redaguoti Instanciją"
-
-msgid "Edit sources that can embed this platform in an iFrame"
-msgstr ""
 
 msgid "Element"
 msgstr "Elementas"
@@ -859,6 +853,9 @@ msgid "floor"
 msgstr "floor"
 
 msgid "Forbid for all domains"
+msgstr ""
+
+msgid "Force HTTPS on this platform"
 msgstr ""
 
 msgid "Force Release"
@@ -1017,11 +1014,11 @@ msgstr "Įdiegiamas plėtinys %s..."
 msgid "Instance saved"
 msgstr "Instancija išsaugota"
 
-msgid "Interface language"
-msgstr "Sąsajos kalba"
-
 msgid "Interface Language"
 msgstr "Sąsajos Kalba"
+
+msgid "Interface language"
+msgstr "Sąsajos kalba"
 
 msgid "Invalid CSP header."
 msgstr ""
@@ -1316,10 +1313,10 @@ msgstr "Nėra failų"
 msgid "no label"
 msgstr "nėra pavadinimo"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "Peržiūra negalima"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "Peržiūra negalima"
 
 msgid "No results found"
@@ -1506,9 +1503,6 @@ msgstr "Tęsti"
 #, tao-public
 msgid "Properties"
 msgstr "Savybės"
-
-msgid "Property\'s label field is required"
-msgstr ""
 
 msgid "Provided URL is not valid"
 msgstr "Pateiktas URL nėra teisingas"
@@ -1734,11 +1728,11 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "Select"
-msgstr "Pasirinkti"
-
 msgid "select"
 msgstr "pasirinkti"
+
+msgid "Select"
+msgstr "Pasirinkti"
 
 msgid "Select a class"
 msgstr "Pasirinkti klasę"
@@ -1791,9 +1785,6 @@ msgstr ""
 
 msgid "Sign change"
 msgstr "Ženklo keitimas"
-
-msgid "Simple Mode"
-msgstr "Paprastas Režimas"
 
 msgid "sin"
 msgstr "sin"
@@ -2053,6 +2044,9 @@ msgstr "Vertimo pasirinkimai"
 msgid "Translation saved"
 msgstr "Vertimas išsaugotas"
 
+msgid "Transport Layer Security"
+msgstr ""
+
 msgid "Tree - Multiple node choice "
 msgstr "Medis - galimi kelių šakų pasirinkimai"
 
@@ -2128,10 +2122,10 @@ msgstr "Vienetinis operatorius +"
 msgid "Unary operator -"
 msgstr "Vienetinis operatorius -"
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "Atžymėti visus"
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "Atžymėti visus"
 
 msgid "Undefined amount of the pages for pagination"

@@ -23,6 +23,7 @@
 
 namespace oat\tao\model\oauth;
 
+use oat\tao\model\oauth\lockout\LockoutInterface;
 use oat\tao\model\TaoOntology;
 use IMSGlobal\LTI\OAuth\OAuthDataStore;
 use IMSGlobal\LTI\OAuth\OAuthConsumer;
@@ -41,7 +42,7 @@ use oat\generis\model\OntologyAwareTrait;
 class DataStore extends ConfigurableService implements ImsOauthDataStoreInterface
 {
     use OntologyAwareTrait;
-    
+
     const OPTION_NONCE_STORE = 'nonce';
 
     const CLASS_URI_OAUTH_CONSUMER = 'http://www.tao.lu/Ontologies/TAO.rdf#OauthConsumer';
@@ -64,6 +65,10 @@ class DataStore extends ConfigurableService implements ImsOauthDataStoreInterfac
         $class = $this->getClass(self::CLASS_URI_OAUTH_CONSUMER);
         $instances = $class->searchInstances([self::PROPERTY_OAUTH_KEY => $consumer_key], ['like' => false, 'recursive' => true]);
         if (count($instances) == 0) {
+            $oauthService = $this->getServiceLocator()->get(OauthService::SERVICE_ID);
+            /** @var LockoutInterface $lockoutService */
+            $lockoutService = $oauthService->getSubService(OauthService::OPTION_LOCKOUT_SERVICE);
+            $lockoutService->logFailedAttempt();
             throw new \tao_models_classes_oauth_Exception('No Credentials for consumer key ' . $consumer_key);
         }
         if (count($instances) > 1) {
@@ -73,7 +78,7 @@ class DataStore extends ConfigurableService implements ImsOauthDataStoreInterfac
 
         return $returnValue;
     }
-    
+
     /**
      * Returns the OAuthConsumer for the provided credentials
      *

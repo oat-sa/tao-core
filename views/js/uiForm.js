@@ -933,7 +933,11 @@ define([
 
                         $('.current-submitter', myForm).each(function () {
                             $(this).removeClass('current-submitter');
-                            serialize.push({ name: this.name, value: this.value });
+                            if (Array.isArray(serialize)) {
+                                serialize.push({name: this.name, value: this.value});
+                            } else {
+                                serialize[this.name] = this.value;
+                            }
                         });
                         $container.load(myForm.prop('action'), serialize);
                     }

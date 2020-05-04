@@ -22,11 +22,9 @@
 
 namespace oat\tao\scripts\update;
 
-use common_cache_Cache;
 use common_Exception;
 use common_report_Report as Report;
 use core_kernel_persistence_smoothsql_SmoothModel;
-use oat\funcAcl\models\ModuleAccessService;
 use oat\generis\model\data\event\ResourceCreated;
 use oat\generis\model\data\event\ResourceDeleted;
 use oat\generis\model\data\event\ResourceUpdated;
@@ -79,22 +77,19 @@ use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\oauth\DataStore;
+use oat\tao\model\oauth\lockout\NoLockout;
 use oat\tao\model\oauth\nonce\NoNonce;
 use oat\tao\model\oauth\OauthService;
 use oat\tao\model\OperatedByService;
-use oat\tao\model\resources\GetAllChildrenCacheKeyFactory;
 use oat\tao\model\resources\ListResourceLookup;
 use oat\tao\model\resources\ResourceService;
 use oat\tao\model\resources\ResourceWatcher;
-use oat\tao\model\resources\SecureResourceCachedService;
 use oat\tao\model\resources\SecureResourceService;
 use oat\tao\model\resources\SecureResourceServiceInterface;
 use oat\tao\model\resources\TreeResourceLookup;
-use oat\tao\model\resources\ValidatePermissionsCacheKeyFactory;
 use oat\tao\model\routing\AnnotationReaderService;
 use oat\tao\model\routing\ControllerService;
 use oat\tao\model\routing\RouteAnnotationService;
-use oat\tao\model\search\aggregator\UnionSearchService;
 use oat\tao\model\search\index\IndexService;
 use oat\tao\model\security\ActionProtector;
 use oat\tao\model\security\Business\Contract\SecuritySettingsRepositoryInterface;
@@ -151,7 +146,6 @@ use oat\tao\scripts\install\RegisterSignatureGenerator;
 use oat\tao\scripts\install\SetClientLoggerConfig;
 use oat\tao\scripts\install\UpdateRequiredActionUrl;
 use oat\tao\scripts\tools\MigrateSecuritySettings;
-use tao_install_utils_ModelCreator;
 use tao_models_classes_UserService;
 
 /**
@@ -589,11 +583,11 @@ class Updater extends \common_ext_ExtensionUpdater
         $this->skip('14.4.1', '14.8.0');
 
         if ($this->isVersion('14.8.0')) {
-            $moduleService = ModuleAccessService::singleton();
-            $moduleService->remove(
+            AclProxy::revokeRule(new AccessRule(
+                AccessRule::GRANT,
                 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',
-                'http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_ExtensionsManager'
-            );
+                ['ext' => 'tao']
+            ));
 
             AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole', ['ext' => 'tao','mod' => 'ExtensionsManager']));
             AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole', ['ext' => 'tao','mod' => 'Api']));
@@ -659,7 +653,7 @@ class Updater extends \common_ext_ExtensionUpdater
         if ($this->isVersion('14.20.0')) {
             if (!$this->getServiceManager()->has(OauthService::SERVICE_ID)) {
                 $this->getServiceManager()->register(OauthService::SERVICE_ID, new OauthService([
-                    OauthService::OPTION_DATASTORE => new DataStore([
+                    OauthService::OPTION_DATA_STORE => new DataStore([
                         DataStore::OPTION_NONCE_STORE => new NoNonce()
                     ])
                 ]));
@@ -1230,34 +1224,10 @@ class Updater extends \common_ext_ExtensionUpdater
             }
             $this->setVersion('39.1.0');
         }
-        $this->skip('39.1.0', '39.3.2');
 
-        if ($this->isVersion('39.3.2')) {
-            OntologyUpdater::syncModels();
-
-            $models = (new tao_install_utils_ModelCreator(LOCAL_NAMESPACE))->getLanguageModels();
-            $rdf = ModelManager::getModel()->getRdfInterface();
-            foreach (array_shift($models) as $file) {
-                $iterator = new FileIterator($file, 1);
-                foreach ($iterator as $triple) {
-                    $rdf->remove($triple);
-                    $rdf->add($triple);
-                }
-            }
-            $this->setVersion('39.3.3');
-        }
-
-        $this->skip('39.3.3', '39.5.5');
-
-        if ($this->isVersion('39.5.5')) {
-            /** @var UnionSearchService|ConfigurableService $service */
-            $service = new UnionSearchService(['services' => []]);
-            $this->getServiceManager()->register(UnionSearchService::SERVICE_ID, $service);
-
-            $this->setVersion('39.6.0');
-        }
-
-        $this->skip('39.6.0', '40.3.3');
+        //Removed update from 39.3.2 -> 39.3.3 due to broken operation cause by removal of `tao_install_utils_ModelCreator` class
+        //Related PR https://github.com/oat-sa/tao-core/pull/2404. Update is re-played on 40.9.5 to 40.9.6
+        $this->skip('39.1.0', '40.3.3');
 
         if ($this->isVersion('40.3.3')) {
             $extManager = $this->getServiceManager()->get(\common_ext_ExtensionsManager::SERVICE_ID);
@@ -1350,7 +1320,6 @@ class Updater extends \common_ext_ExtensionUpdater
 
             $this->setVersion('41.2.0');
         }
-
         $this->skip('41.2.0', '41.5.1');
 
         if ($this->isVersion('41.5.1')) {
@@ -1361,5 +1330,19 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         $this->skip('41.6.0', '41.7.0');
+        if($this->isVersion('41.7.0')){
+            $oauthService = $this->getServiceManager()->get(OauthService::SERVICE_ID);
+            $oauthService->setOption(OauthService::OPTION_LOCKOUT_SERVICE, new NoLockout());
+            $this->getServiceManager()->register(OauthService::SERVICE_ID,$oauthService);
+            $this->setVersion('41.8.0');
+        }
+
+        $this->skip('41.8.0', '42.0.3');
+        if($this->isVersion('42.0.3')){
+            $this->getServiceManager()->unregister('tao/UnionSearchService');
+            $this->setVersion('42.0.4');
+        }
+
+        $this->skip('42.0.4', '42.2.0');
     }
 }
