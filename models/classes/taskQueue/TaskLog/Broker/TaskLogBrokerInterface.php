@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2017-2020 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 
@@ -104,7 +104,6 @@ interface TaskLogBrokerInterface extends ServiceLocatorAwareInterface
      * Setting the status to archive, the record is kept. (Soft Delete)
      */
     public function archive(EntityInterface $entity): bool;
-
 
     /**
      * Setting the status to cancelled, the record is kept. (Soft Delete)
