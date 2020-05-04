@@ -9,7 +9,7 @@ module.exports = function(grunt) {
     grunt.config.merge({
         sass : {
             options: {
-                includePaths : [ '../scss/', '../js/lib/', '../node_modules/@oat-sa/tao-core-ui/scss' ],
+                includePaths : [ '../scss/', '../js/lib/', '../node_modules/@oat-sa/tao-core-ui/scss', '../node_modules/@oat-sa/tao-core-libs/scss' ],
                 outputStyle : 'compressed',
                 sourceMap : true,
                 //set implementation for sass to make 3.x.x branches of grunt-sass work, see https://github.com/nodejs/nan/issues/504#issuecomment-385296082, https://github.com/sourcey/spectacle/issues/156#issuecomment-401731543
