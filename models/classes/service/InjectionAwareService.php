@@ -21,7 +21,6 @@
 namespace oat\tao\model\service;
 
 use common_Utils;
-use oat\oatbox\Configurable;
 use oat\oatbox\service\ConfigurableService;
 use ReflectionClass;
 use ReflectionException;
@@ -31,6 +30,12 @@ abstract class InjectionAwareService extends ConfigurableService
 {
     /** @var bool */
     private $isChildItem = false;
+
+    // to skip checking parent's constructor parameters inherited from Configurable::class
+    public function __construct()
+    {
+        parent::__construct([]);
+    }
 
     /**
      * @noinspection MagicMethodsValidityInspection
@@ -82,11 +87,6 @@ FACTORY;
     {
         $class = new ReflectionClass($service);
         $constructor = $class->getMethod('__construct');
-
-        // do not check parent constructor inherited from Configurable::class
-        if ($constructor->class === Configurable::class) {
-            return;
-        }
 
         $parameters = $constructor->getParameters();
 
