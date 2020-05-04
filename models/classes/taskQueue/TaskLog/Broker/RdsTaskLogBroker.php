@@ -19,6 +19,8 @@
  *
  */
 
+declare(strict_types=1);
+
 namespace oat\tao\model\taskQueue\TaskLog\Broker;
 
 use common_persistence_sql_SchemaManager;
@@ -55,20 +57,10 @@ class RdsTaskLogBroker extends AbstractTaskLogBroker
     /** @var SqlPersistence */
     protected $persistence;
 
-    /**
-     * RdsTaskLogBroker constructor.
-     *
-     * @param string $persistenceId
-     * @param null $containerName
-     */
     public function __construct(string $persistenceId, string $containerName = null)
     {
-        if (empty($persistenceId)) {
-            throw new \InvalidArgumentException("Persistence id needs to be set for " . __CLASS__);
-        }
-
         $this->persistenceId = $persistenceId;
-        $this->containerName = $containerName === null ? self::DEFAULT_CONTAINER_NAME: $containerName;
+        $this->containerName = $containerName ?? self::DEFAULT_CONTAINER_NAME;
     }
 
     /**
@@ -128,7 +120,7 @@ class RdsTaskLogBroker extends AbstractTaskLogBroker
         ], $this->getTypes());
     }
 
-    protected function getTypes(array $data = []): array
+    protected function getTypes(): array
     {
         return [
             ParameterType::STRING,
@@ -250,7 +242,7 @@ class RdsTaskLogBroker extends AbstractTaskLogBroker
     /**
      * @inheritdoc
      */
-    public function deleteById($taskId): bool
+    public function deleteById(string $taskId): bool
     {
         $this->getPersistence()->getPlatform()->beginTransaction();
 
@@ -258,7 +250,7 @@ class RdsTaskLogBroker extends AbstractTaskLogBroker
             $qb = $this->getQueryBuilder()
                 ->delete($this->getTableName())
                 ->where(self::COLUMN_ID . ' = :id')
-                ->setParameter('id', (string) $taskId);
+                ->setParameter('id', $taskId);
 
             $qb->execute();
             $this->getPersistence()->getPlatform()->commit();
