@@ -47,6 +47,13 @@ class ResponseBuilder extends ConfigurableService
         return $this;
     }
 
+    public function addHeader(string $name, string $value): self
+    {
+        $this->headers[$name] = $value;
+
+        return $this;
+    }
+
     /**
      * @param string|array|JsonSerializable|null|resource|StreamInterface $body
      *
