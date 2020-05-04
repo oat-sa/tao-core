@@ -22,20 +22,22 @@ namespace oat\tao\model\webhooks\log;
 
 use common_persistence_SqlPersistence;
 use Doctrine\DBAL\Types\Type;
+use oat\generis\Helper\UuidPrimaryKeyTrait;
 use oat\generis\persistence\sql\SchemaCollection;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\tao\model\metadata\exception\InconsistencyConfigException;
 
-class WebhookLogRepository extends AbstractWebhookLogRepository
+class NewSqlWebhookLogRepository extends AbstractWebhookLogRepository
 {
     use LoggerAwareTrait;
+    use UuidPrimaryKeyTrait;
 
     /** @var common_persistence_SqlPersistence|null */
     private $persistence;
 
-    public const OPTION_PERSISTENCE = 'persistence';
+    private const OPTION_PERSISTENCE = 'persistence';
 
-    private const TABLE_NAME = 'webhook_event_log';
+    private const TABLE_NAME = 'webhook_event_log3';
     private const COLUMN_ID = 'id';
     private const COLUMN_EVENT_ID = 'event_id';
     private const COLUMN_TASK_ID = 'task_id';
@@ -51,7 +53,6 @@ class WebhookLogRepository extends AbstractWebhookLogRepository
     private const COLUMN_RESULT_MESSAGE = 'result_message';
 
     /**
-     * @inheritDoc
      * @throws InconsistencyConfigException
      */
     public function storeLog(WebhookEventLogRecord $webhookEventLog): void
@@ -59,6 +60,7 @@ class WebhookLogRepository extends AbstractWebhookLogRepository
         $this->getPersistence()->insert(
             self::TABLE_NAME,
             [
+                self::COLUMN_ID => $this->getUniquePrimaryKey(),
                 self::COLUMN_EVENT_ID => $webhookEventLog->getEventId(),
                 self::COLUMN_TASK_ID => $webhookEventLog->getTaskId(),
                 self::COLUMN_WEBHOOK_ID => $webhookEventLog->getWebhookId(),
@@ -82,7 +84,7 @@ class WebhookLogRepository extends AbstractWebhookLogRepository
         $logTable = $schema->createTable(self::TABLE_NAME);
         $logTable->addOption('engine', 'InnoDB');
 
-        $logTable->addColumn(self::COLUMN_ID, Type::INTEGER, ['autoincrement' => true]);
+        $logTable->addColumn(self::COLUMN_ID, Type::STRING, ['notnull' => true, 'length' => 36]);
         $logTable->addColumn(self::COLUMN_EVENT_ID, Type::STRING, ['notnull' => false, 'length' => 255]);
         $logTable->addColumn(self::COLUMN_TASK_ID, Type::STRING, ['notnull' => false, 'length' => 255]);
         $logTable->addColumn(self::COLUMN_WEBHOOK_ID, Type::STRING, ['notnull' => false, 'length' => 255]);
