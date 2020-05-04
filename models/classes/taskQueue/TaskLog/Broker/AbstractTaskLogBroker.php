@@ -76,12 +76,12 @@ abstract class AbstractTaskLogBroker implements
     /**
      * @inheritdoc
      */
-    abstract public function add(TaskInterface $task, string $status, ?string $label = null): void;
+    abstract public function add(TaskInterface $task, string $status, string $label = null): void;
 
     /**
      * @inheritdoc
      */
-    abstract public function updateStatus(string $taskId, string $newStatus, ?string $prevStatus = null): int;
+    abstract public function updateStatus(string $taskId, string $newStatus, string $prevStatus = null): int;
 
     /**
      * @inheritdoc

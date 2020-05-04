@@ -61,7 +61,7 @@ interface TaskLogBrokerInterface extends ServiceLocatorAwareInterface
     /**
      * Inserts a new task log with status for a task.
      */
-    public function add(TaskInterface $task, string $status, ?string $label = null): void;
+    public function add(TaskInterface $task, string $status, string $label = null): void;
 
     /**
      * Update the status of a task.
@@ -80,7 +80,7 @@ interface TaskLogBrokerInterface extends ServiceLocatorAwareInterface
     /**
      * Add a report for a task. New status can be supplied as well.
      */
-    public function addReport(string $taskId, Report $report, ?string $newStatus = null): int;
+    public function addReport(string $taskId, Report $report, string $newStatus = null): int;
 
     /**
      * Gets a report for a task.

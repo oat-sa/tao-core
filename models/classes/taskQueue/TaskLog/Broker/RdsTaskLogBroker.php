@@ -61,7 +61,7 @@ class RdsTaskLogBroker extends AbstractTaskLogBroker
      * @param string $persistenceId
      * @param null $containerName
      */
-    public function __construct(string $persistenceId, ?string $containerName = null)
+    public function __construct(string $persistenceId, string $containerName = null)
     {
         if (empty($persistenceId)) {
             throw new \InvalidArgumentException("Persistence id needs to be set for " . __CLASS__);
@@ -112,7 +112,7 @@ class RdsTaskLogBroker extends AbstractTaskLogBroker
     /**
      * @inheritdoc
      */
-    public function add(TaskInterface $task, string $status, ?string $label = null): void
+    public function add(TaskInterface $task, string $status, string $label = null): void
     {
         $this->getPersistence()->insert($this->getTableName(), [
             self::COLUMN_ID   => (string) $task->getId(),
@@ -156,7 +156,7 @@ class RdsTaskLogBroker extends AbstractTaskLogBroker
     /**
      * @inheritdoc
      */
-    public function updateStatus(string $taskId, string $newStatus, ?string $prevStatus = null): int
+    public function updateStatus(string $taskId, string $newStatus, string $prevStatus = null): int
     {
         $qb = $this->getQueryBuilder()
             ->update($this->getTableName())
@@ -178,7 +178,7 @@ class RdsTaskLogBroker extends AbstractTaskLogBroker
     /**
      * @inheritdoc
      */
-    public function addReport(string $taskId, Report $report, ?string $newStatus = null): int
+    public function addReport(string $taskId, Report $report, string $newStatus = null): int
     {
         $qb = $this->getQueryBuilder()
             ->update($this->getTableName())
