@@ -20,37 +20,14 @@
 
 namespace oat\tao\model\webhooks\log;
 
-use common_persistence_SqlPersistence;
 use Doctrine\DBAL\Types\Type;
 use oat\generis\Helper\UuidPrimaryKeyTrait;
 use oat\generis\persistence\sql\SchemaCollection;
-use oat\oatbox\log\LoggerAwareTrait;
 use oat\tao\model\metadata\exception\InconsistencyConfigException;
 
 class NewSqlWebhookLogRepository extends AbstractWebhookLogRepository
 {
-    use LoggerAwareTrait;
     use UuidPrimaryKeyTrait;
-
-    /** @var common_persistence_SqlPersistence|null */
-    private $persistence;
-
-    private const OPTION_PERSISTENCE = 'persistence';
-
-    private const TABLE_NAME = 'webhook_event_log3';
-    private const COLUMN_ID = 'id';
-    private const COLUMN_EVENT_ID = 'event_id';
-    private const COLUMN_TASK_ID = 'task_id';
-    private const COLUMN_WEBHOOK_ID = 'webhook_id';
-    private const COLUMN_HTTP_METHOD = 'http_method';
-    private const COLUMN_ENDPOINT_URL = 'endpoint_url';
-    private const COLUMN_EVENT_NAME = 'event_name';
-    private const COLUMN_HTTP_STATUS_CODE = 'http_status_code';
-    private const COLUMN_RESPONSE_BODY = 'response_body';
-    private const COLUMN_ACKNOWLEDGEMENT_STATUS = 'acknowledgement_status';
-    private const COLUMN_CREATED_AT = 'created_at';
-    private const COLUMN_RESULT = 'result';
-    private const COLUMN_RESULT_MESSAGE = 'result_message';
 
     /**
      * @throws InconsistencyConfigException

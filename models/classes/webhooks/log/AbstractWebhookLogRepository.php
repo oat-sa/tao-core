@@ -30,7 +30,22 @@ abstract class AbstractWebhookLogRepository extends ConfigurableService implemen
     /** @var common_persistence_SqlPersistence|null */
     private $persistence;
 
-    private const OPTION_PERSISTENCE = 'persistence';
+    public const OPTION_PERSISTENCE = 'persistence';
+
+    protected const TABLE_NAME = 'webhook_event_log';
+    protected const COLUMN_ID = 'id';
+    protected const COLUMN_EVENT_ID = 'event_id';
+    protected const COLUMN_TASK_ID = 'task_id';
+    protected const COLUMN_WEBHOOK_ID = 'webhook_id';
+    protected const COLUMN_HTTP_METHOD = 'http_method';
+    protected const COLUMN_ENDPOINT_URL = 'endpoint_url';
+    protected const COLUMN_EVENT_NAME = 'event_name';
+    protected const COLUMN_HTTP_STATUS_CODE = 'http_status_code';
+    protected const COLUMN_RESPONSE_BODY = 'response_body';
+    protected const COLUMN_ACKNOWLEDGEMENT_STATUS = 'acknowledgement_status';
+    protected const COLUMN_CREATED_AT = 'created_at';
+    protected const COLUMN_RESULT = 'result';
+    protected const COLUMN_RESULT_MESSAGE = 'result_message';
 
     /**
      * @throws InconsistencyConfigException
