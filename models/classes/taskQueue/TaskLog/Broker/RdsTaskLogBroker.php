@@ -89,7 +89,7 @@ class RdsTaskLogBroker extends AbstractTaskLogBroker
             $table->addColumn(self::COLUMN_REPORT, 'text', ["notnull" => false, "default" => null]);
             $table->addColumn(self::COLUMN_CREATED_AT, 'datetime', ['notnull' => true]);
             $table->addColumn(self::COLUMN_UPDATED_AT, 'datetime', ['notnull' => false]);
-            $table->setPrimaryKey(['id']);
+            $table->setPrimaryKey([self::COLUMN_ID]);
             $table->addIndex([self::COLUMN_TASK_NAME, self::COLUMN_OWNER], $this->getTableName() . 'IDX_task_name_owner');
             $table->addIndex([self::COLUMN_STATUS], $this->getTableName() . 'IDX_status');
             $table->addIndex([self::COLUMN_CREATED_AT], $this->getTableName() . 'IDX_created_at');
