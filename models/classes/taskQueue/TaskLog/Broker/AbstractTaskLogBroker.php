@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This program is free software; you can redistribute it and/or
@@ -20,11 +22,12 @@
 
 namespace oat\tao\model\taskQueue\TaskLog\Broker;
 
-
 use common_exception_Error;
 use common_persistence_Persistence as Persistence;
 use common_report_Report as Report;
 use Doctrine\DBAL\Query\QueryBuilder;
+use Exception;
+use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\PhpSerializable;
 use oat\tao\model\taskQueue\Task\TaskInterface;
 use oat\tao\model\taskQueue\TaskLog\CollectionInterface;
@@ -34,9 +37,12 @@ use oat\tao\model\taskQueue\TaskLog\TaskLogFilter;
 use oat\tao\model\taskQueue\TaskLog\TasksLogsStats;
 use Psr\Log\LoggerAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
-use oat\oatbox\log\LoggerAwareTrait;
 
-abstract class AbstractTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, LoggerAwareInterface, RdsTaskLogBrokerInterface
+abstract class AbstractTaskLogBroker implements
+    TaskLogBrokerInterface,
+    PhpSerializable,
+    LoggerAwareInterface,
+    RdsTaskLogBrokerInterface
 {
     use ServiceLocatorAwareTrait;
     use LoggerAwareTrait;
@@ -50,7 +56,6 @@ abstract class AbstractTaskLogBroker implements TaskLogBrokerInterface, PhpSeria
 
     /**
      * @inheritdoc
-     * @return mixed
      */
     public function getStatus(string $taskId): string
     {
@@ -87,13 +92,13 @@ abstract class AbstractTaskLogBroker implements TaskLogBrokerInterface, PhpSeria
      * @inheritdoc
      * @throws common_exception_Error
      */
-    public function getReport($taskId): ?Report
+    public function getReport(string $taskId): ?Report
     {
         $qb = $this->getQueryBuilder()
             ->select(self::COLUMN_REPORT)
             ->from($this->getTableName())
             ->andWhere(self::COLUMN_ID . ' = :id')
-            ->setParameter('id', (string)$taskId);
+            ->setParameter('id', $taskId);
 
         if (
             ($reportJson = $qb->execute()->fetchColumn())
@@ -118,7 +123,7 @@ abstract class AbstractTaskLogBroker implements TaskLogBrokerInterface, PhpSeria
                 $qb->execute()->fetchAll(),
                 $this->getPersistence()->getPlatForm()->getDateTimeFormatString()
             );
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             $this->logError('Searching for task logs failed with MSG: ' . $exception->getMessage());
             $collection = TaskLogCollection::createEmptyCollection();
         }
@@ -134,7 +139,7 @@ abstract class AbstractTaskLogBroker implements TaskLogBrokerInterface, PhpSeria
         try {
             $qb = $this->getCountQuery($filter);
             return (int)$qb->execute()->fetchColumn();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->logError('Counting task logs failed with MSG: ' . $e->getMessage());
         }
 
@@ -199,5 +204,5 @@ abstract class AbstractTaskLogBroker implements TaskLogBrokerInterface, PhpSeria
     /**
      * @inheritdoc
      */
-    abstract public function deleteById($taskId): bool;
+    abstract public function deleteById(string $taskId): bool;
 }
