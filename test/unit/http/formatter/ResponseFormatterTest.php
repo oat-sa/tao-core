@@ -20,29 +20,42 @@
 
 namespace oat\tao\test\unit\http;
 
+use GuzzleHttp\Psr7\Response;
 use oat\generis\test\TestCase;
-use oat\tao\model\http\builder\ResponseBuilder;
+use oat\tao\model\http\formatter\ResponseFormatter;
 use oat\tao\model\http\response\SuccessJsonResponse;
 
-class ResponseBuilderTest extends TestCase
+class ResponseFormatterTest extends TestCase
 {
     /**
-     * @var ResponseBuilder
+     * @var ResponseFormatter
      */
     private $subject;
 
     public function setUp(): void
     {
-        $this->subject = new ResponseBuilder();
+        $this->subject = new ResponseFormatter();
     }
 
     public function testBuildDefault(): void
     {
-        $response = $this->subject->build();
+        $response = $this->subject->format(new Response());
 
         $this->assertSame(200, $response->getStatusCode());
-        $this->assertSame(['Content-Type' => ['application/json; charset=UTF-8']], $response->getHeaders());
+        $this->assertSame([], $response->getHeaders());
         $this->assertSame('', (string)$response->getBody());
+    }
+
+    public function testBuildJson(): void
+    {
+        $response = $this->subject
+            ->withJsonHeader()
+            ->withBody(['a' => 'b'])
+            ->format(new Response());
+
+        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame(['Content-Type' => ['application/json']], $response->getHeaders());
+        $this->assertSame('{"a":"b"}', (string)$response->getBody());
     }
 
     public function testBuildCustomized(): void
@@ -55,7 +68,7 @@ class ResponseBuilderTest extends TestCase
             ->withStatusCode($statusCode)
             ->addHeader('Content-Type', $contentType)
             ->withBody($body)
-            ->build();
+            ->format(new Response());
 
         $this->assertSame($statusCode, $response->getStatusCode());
         $this->assertSame(['Content-Type' => [$contentType]], $response->getHeaders());
@@ -68,7 +81,7 @@ class ResponseBuilderTest extends TestCase
 
         $response = $this->subject
             ->withBody($payload)
-            ->build();
+            ->format(new Response());
 
         $this->assertSame($payload->jsonSerialize(), json_decode((string)$response->getBody(), true));
     }

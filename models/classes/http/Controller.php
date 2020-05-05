@@ -55,11 +55,6 @@ abstract class Controller
         return $this;
     }
 
-    public function isJsonRequest(): bool
-    {
-        return $this->request && current($this->request->getHeader('content-type')) === 'application/json';
-    }
-
     /**
      * Set Psr7 http response
      *

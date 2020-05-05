@@ -19,25 +19,23 @@
  *
  */
 
-namespace oat\tao\model\http\builder;
+namespace oat\tao\model\http\formatter;
 
-use GuzzleHttp\Psr7\Response;
 use JsonSerializable;
 use oat\oatbox\service\ConfigurableService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
+use function GuzzleHttp\Psr7\stream_for;
 
-class ResponseBuilder extends ConfigurableService
+class ResponseFormatter extends ConfigurableService
 {
     /** @var int */
-    private $statusCode = 200;
+    private $statusCode;
 
     /** @var string[] */
-    private $headers = [
-        'Content-Type' => 'application/json; charset=UTF-8'
-    ];
+    private $headers = [];
 
-    /** @var string[] */
+    /** @var StreamInterface */
     private $body;
 
     public function withStatusCode(int $statusCode): self
@@ -45,6 +43,11 @@ class ResponseBuilder extends ConfigurableService
         $this->statusCode = $statusCode;
 
         return $this;
+    }
+
+    public function withJsonHeader(): self
+    {
+        return $this->addHeader('Content-Type', 'application/json');
     }
 
     public function addHeader(string $name, string $value): self
@@ -61,17 +64,25 @@ class ResponseBuilder extends ConfigurableService
      */
     public function withBody($body): self
     {
-        $this->body = is_array($body) || $body instanceof JsonSerializable ? json_encode($body) : $body;
+        $this->body = stream_for(is_array($body) || $body instanceof JsonSerializable ? json_encode($body) : $body);
 
         return $this;
     }
 
-    public function build(): ResponseInterface
+    public function format(ResponseInterface $response): ResponseInterface
     {
-        return new Response(
-            $this->statusCode,
-            $this->headers,
-            $this->body
-        );
+        if ($this->body) {
+            $response = $response->withBody($this->body);
+        }
+
+        if ($this->statusCode) {
+            $response = $response->withStatus($this->statusCode);
+        }
+
+        foreach ($this->headers as $headerName => $headerValue) {
+            $response = $response->withHeader($headerName, $headerValue);
+        }
+
+        return $response;
     }
 }
