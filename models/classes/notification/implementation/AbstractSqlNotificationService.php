@@ -198,7 +198,7 @@ abstract class AbstractSqlNotificationService extends AbstractNotificationServic
                 $notification->getId(),
             ];
 
-        return 0 !== $persistence->exec($updateQuery, $data);
+        return (bool)$persistence->exec($updateQuery, $data);
     }
 
     private function createNotification(array $notificationDetail): Notification
