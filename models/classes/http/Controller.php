@@ -37,7 +37,10 @@ abstract class Controller
     use HttpRequestHelperTrait;
     use HttpFlowTrait;
 
+    /** @var ServerRequestInterface */
     protected $request;
+
+    /** @var ResponseInterface */
     protected $response;
 
     /**
@@ -50,6 +53,11 @@ abstract class Controller
     {
         $this->request = $request;
         return $this;
+    }
+
+    public function isJsonRequest(): bool
+    {
+        return $this->request && current($this->request->getHeader('content-type')) === 'application/json';
     }
 
     /**
