@@ -38,11 +38,6 @@ class ErrorJsonResponse implements JsonResponseInterface
         $this->data = $data;
     }
 
-    public function getMessage(): string
-    {
-        return $this->message;
-    }
-
     /**
      * @inheritDoc
      */
