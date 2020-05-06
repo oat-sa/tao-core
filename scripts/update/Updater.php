@@ -1344,14 +1344,14 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('42.0.4');
         }
 
-        $this->skip('42.0.4', '42.0.5');
+        $this->skip('42.0.4', '42.2.1');
 
-        if ($this->isVersion('42.0.5')) {
+        if ($this->isVersion('42.2.1')) {
             /** @var EventManager $eventManager */
             $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
             $eventManager->attach(\common_ext_event_ExtensionInstalled::class, [MigrationsService::class, 'extensionInstalled']);
             $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
-            $this->setVersion('42.1.0');
+            $this->setVersion('42.3.0');
         }
     }
 }

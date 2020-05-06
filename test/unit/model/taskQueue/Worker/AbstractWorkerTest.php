@@ -340,7 +340,7 @@ class AbstractWorkerTest extends TestCase
         $this->assertSame('unknown', $result);
     }
 
-    private function getCallbackTask()
+    private function getCallbackTask(): CallbackTaskInterface
     {
         return $this->createMock(CallbackTaskInterface::class);
     }
