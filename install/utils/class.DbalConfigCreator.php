@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2013-2020 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  * @author Lionel Lecaque  <lionel@taotesting.com>
  * @license GPLv2
@@ -35,8 +35,8 @@ class tao_install_utils_DbalConfigCreator
         }
         $dbConnectionParams = [
             'driver' => $installData['db_driver'],
-            'driverClass' => $installData['db_driverClass'],
-            'instance' => $installData['db_instance'],
+            'driverClass' => $installData['db_driverClass'] ?? null,
+            'instance' => $installData['db_instance'] ?? null,
             'host' => $installData['db_host'],
             'dbname' => $installData['db_name'],
             'user' => $installData['db_user'],
