@@ -151,10 +151,9 @@ abstract class AbstractTaskLogBroker implements
     {
         $qb = $this->getQueryBuilder()
             ->select($filter->getColumns())
-            ->from($this->getTableName());
-
-        $qb->setMaxResults($filter->getLimit());
-        $qb->setFirstResult($filter->getOffset());
+            ->from($this->getTableName())
+            ->setMaxResults($filter->getLimit())
+            ->setFirstResult($filter->getOffset());
 
         if ($filter->getSortBy()) {
             $qb->orderBy($filter->getSortBy(), $filter->getSortOrder());
