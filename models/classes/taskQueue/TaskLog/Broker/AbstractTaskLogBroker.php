@@ -137,8 +137,9 @@ abstract class AbstractTaskLogBroker implements
     public function count(TaskLogFilter $filter): int
     {
         try {
-            $qb = $this->getCountQuery($filter);
-            return (int)$qb->execute()->fetchColumn();
+            return (int)$this->getCountQuery($filter)
+                ->execute()
+                ->fetchColumn();
         } catch (Exception $e) {
             $this->logError('Counting task logs failed with MSG: ' . $e->getMessage());
         }
