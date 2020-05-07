@@ -18,7 +18,6 @@
  * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
  */
 
-
 namespace oat\tao\test\unit\model\notification;
 
 use oat\generis\test\TestCase;
@@ -57,69 +56,69 @@ class NotificationTest extends TestCase
     }
 
     public function testGetStatus(): void
-{
+    {
         $result = $this->subjectCompleted->getStatus();
         $this->assertEquals(self::STATUS, $result);
     }
 
     public function testGetRecipient(): void
-{
+    {
         $result = $this->subjectCompleted->getRecipient();
         $this->assertEquals(self::USER_ID, $result);
     }
 
     public function testGetSenderId(): void
-{
+    {
         $result = $this->subjectCompleted->getSenderId();
         $this->assertEquals(self::SENDER_ID, $result);
     }
 
     public function testGetSenderName(): void
-{
+    {
         $result = $this->subjectCompleted->getSenderName();
         $this->assertEquals(self::SENDER_NAME, $result);
     }
 
     public function testGetMessage(): void
-{
+    {
         $result = $this->subjectCompleted->getMessage();
         $this->assertEquals(self::MESSAGE, $result);
     }
 
     public function testGetId(): void
-{
+    {
         $result = $this->subjectCompleted->getId();
         $this->assertEquals(self::NOTIFICATION_ID, $result);
     }
 
     public function testGetCreatedAt(): void
-{
+    {
         $result = $this->subjectCompleted->getCreatedAt();
         $this->assertEquals(946857599, $result);
     }
 
     public function testGetUpdatedAt(): void
-{
+    {
         $result = $this->subjectCompleted->getUpdatedAt();
         $this->assertEquals(981162000, $result);
     }
 
     public function testSetStatus(): void
-{
+    {
         $result = $this->subjectCompleted->setStatus(2);
         $this->assertEquals(2, $result->getStatus());
         $this->assertNotEquals(self::UPDTAED_AT, $result->getUpdatedAt());
     }
 
     public function testSetId(): void
-{
+    {
         $result = $this->subjectCompleted->setId(self::UPDATED_NOTIFICATION_ID);
         $this->assertInstanceOf(Notification::class, $result);
         $this->assertEquals(self::NOTIFICATION_ID, $result->getId());
     }
 
     public function testSetIdWhenEmpty(): void
-{
+    {
         $subject = new Notification(
             self::USER_ID,
             self::TITLE,
@@ -133,13 +132,13 @@ class NotificationTest extends TestCase
     }
 
     public function testGetTitle(): void
-{
+    {
         $result = $this->subjectCompleted->getTitle();
         $this->assertEquals(self::TITLE, $result);
     }
 
     public function testJsonSerialize(): void
-{
+    {
         $result = $this->subjectCompleted->jsonSerialize();
         $this->assertArrayHasKey('id', $result);
         $this->assertEquals(self::NOTIFICATION_ID, $result['id']);

@@ -18,9 +18,12 @@
  * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
  */
 
+declare(strict_types=1);
+
 namespace oat\tao\model\notification\implementation;
 
 use common_exception_NotFound;
+use common_persistence_Persistence as Persistence;
 use common_persistence_SqlPersistence;
 use Doctrine\DBAL\Driver\Statement;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
@@ -29,11 +32,8 @@ use oat\generis\persistence\PersistenceManager;
 use oat\generis\persistence\sql\SchemaProviderInterface;
 use oat\tao\model\notification\AbstractNotificationService;
 use oat\tao\model\notification\Notification;
-use common_persistence_Persistence as Persistence;
 
 /**
- * Class AbstractSqlNotificationService
- *
  * @deprecated This class is used by client only. It will be moved to client specific extension
  */
 abstract class AbstractSqlNotificationService extends AbstractNotificationService implements SchemaProviderInterface
@@ -57,7 +57,7 @@ abstract class AbstractSqlNotificationService extends AbstractNotificationServic
     public const DEFAULT_PERSISTENCE = 'default';
 
     /**
-     * @var PersistenceManager
+     * @var Persistence
      */
     protected $persistence;
 
@@ -198,7 +198,7 @@ abstract class AbstractSqlNotificationService extends AbstractNotificationServic
                 $notification->getId(),
             ];
 
-        return $persistence->exec($updateQuery, $data);
+        return (bool)$persistence->exec($updateQuery, $data);
     }
 
     private function createNotification(array $notificationDetail): Notification
@@ -208,6 +208,7 @@ abstract class AbstractSqlNotificationService extends AbstractNotificationServic
             $notificationDetail[self::NOTIFICATION_FIELD_TITLE],
             $notificationDetail[self::NOTIFICATION_FIELD_MESSAGE],
             $notificationDetail[self::NOTIFICATION_FIELD_SENDER],
+            $notificationDetail[self::NOTIFICATION_FIELD_SENDER_NAME],
             $notificationDetail[self::NOTIFICATION_FIELD_ID],
             $notificationDetail[self::NOTIFICATION_FIELD_CREATION],
             $notificationDetail[self::NOTIFICATION_FIELD_UPDATED],
