@@ -151,9 +151,13 @@ class Migrations extends ScriptAction
      */
     private function generate()
     {
+        $extension = $this->getExtension();
+        if (!is_dir($extension->getDir().self::MIGRATIONS_DIR)) {
+            mkdir($extension->getDir().self::MIGRATIONS_DIR);
+        }
         $input = [
             'command' => $this->commands[self::COMMAND_GENERATE],
-            '--namespace' => $this->getExtensionNamespace($this->getExtension())
+            '--namespace' => $this->getExtensionNamespace($extension)
         ];
         $configuration = $this->getConfiguration();
         $configuration->setCustomTemplate(
