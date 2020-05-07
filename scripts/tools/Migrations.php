@@ -175,12 +175,11 @@ class Migrations extends ScriptAction
      */
     private function migrate()
     {
-        $input = ['command' => $this->commands[self::COMMAND_MIGRATE]];
+        $input = ['command' => $this->commands[self::COMMAND_MIGRATE], '--no-interaction'];
         if ($this->hasOption('version')) {
             $input['version'] = $this->getOption('version');
         }
         $dependencyFactory = $this->getDependencyFactory($this->getConfiguration());
-        $input[] = '--no-interaction';
         $this->executeMigration($dependencyFactory, new ArrayInput($input), $output = new BufferedOutput());
         return $output;
     }
@@ -193,11 +192,8 @@ class Migrations extends ScriptAction
      */
     private function add()
     {
-        $input = ['command' => $this->commands[self::COMMAND_ADD], '--add' => true, '--all' => true];
-        $output = new BufferedOutput();
-        $input[] = '--no-interaction';
-        $dependencyFactory = $this->getDependencyFactory($this->getConfiguration());
-        $this->executeMigration($dependencyFactory, new ArrayInput($input), $output);
+        $input = ['command' => $this->commands[self::COMMAND_ADD], '--add' => true, '--all' => true, '--no-interaction'];
+        $this->executeMigration($this->getDependencyFactory($this->getConfiguration()), new ArrayInput($input), $output = new BufferedOutput());
         return $output;
     }
 
@@ -208,11 +204,8 @@ class Migrations extends ScriptAction
      */
     private function init()
     {
-        $input = ['command' => $this->commands[self::COMMAND_INIT]];
-        $output = new BufferedOutput();
-        $input[] = '--no-interaction';
-        $dependencyFactory = $this->getDependencyFactory($this->getConfiguration());
-        $this->executeMigration($dependencyFactory, new ArrayInput($input), $output);
+        $input = ['command' => $this->commands[self::COMMAND_INIT], '--no-interaction'];
+        $this->executeMigration($this->getDependencyFactory($this->getConfiguration()), new ArrayInput($input), $output = new BufferedOutput());
         return $output;
     }
 
@@ -224,9 +217,8 @@ class Migrations extends ScriptAction
      */
     private function status()
     {
-        $output = new BufferedOutput();
         $dependencyFactory = $this->getDependencyFactory($this->getConfiguration());
-        $this->executeMigration($dependencyFactory, new ArrayInput(['command' => $this->commands[self::COMMAND_STATUS]]), $output);
+        $this->executeMigration($dependencyFactory, new ArrayInput(['command' => $this->commands[self::COMMAND_STATUS]]), $output = new BufferedOutput());
         return $output;
     }
 
@@ -242,13 +234,13 @@ class Migrations extends ScriptAction
         $input = [
             'command' => $this->commands[self::COMMAND_EXECUTE],
             'versions' => [$this->getOption('version')],
+            '--no-interaction'
         ];
         if ($rollback) {
             $input['--down'] = true;
         } else {
             $input['--up'] = true;
         }
-        $input[] = '--no-interaction';
 
         $dependencyFactory = $this->getDependencyFactory($this->getConfiguration());
         $this->executeMigration($dependencyFactory, new ArrayInput($input), $output = new BufferedOutput());
@@ -335,8 +327,7 @@ class Migrations extends ScriptAction
             $extensions = $extensionManager->getInstalledExtensions();
         }
         foreach ($extensions as $extension) {
-            $path = $extension->getDir().self::MIGRATIONS_DIR;
-            if (is_dir($path)) {
+            if (is_dir($extension->getDir().self::MIGRATIONS_DIR)) {
                 $configuration->addMigrationsDirectory(
                     $this->getExtensionNamespace($extension),
                     $extension->getDir().self::MIGRATIONS_DIR
@@ -353,8 +344,7 @@ class Migrations extends ScriptAction
     {
         /** @var PersistenceManager $persistenceManager */
         $persistenceManager = $this->getServiceLocator()->get(PersistenceManager::SERVICE_ID);
-        $persistence = $persistenceManager->getPersistenceById('default');
-        return $persistence->getDriver()->getDbalConnection();
+        return $persistenceManager->getPersistenceById('default')->getDriver()->getDbalConnection();
     }
 
     /**
