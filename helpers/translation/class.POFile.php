@@ -1,22 +1,22 @@
 <?php
-/**  
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
+ *
  */
 
 /**
@@ -25,10 +25,9 @@
  * @access public
  * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @package tao
- 
+
  */
-class tao_helpers_translation_POFile
-    extends tao_helpers_translation_TaoTranslationFile
+class tao_helpers_translation_POFile extends tao_helpers_translation_TaoTranslationFile
 {
     // --- ASSOCIATIONS ---
 
@@ -41,7 +40,7 @@ class tao_helpers_translation_POFile
      * @access private
      * @var array
      */
-    private $headers = array();
+    private $headers = [];
 
     // --- OPERATIONS ---
 
@@ -58,7 +57,6 @@ class tao_helpers_translation_POFile
     {
         
         $this->headers[$name] = $value;
-        
     }
 
     /**
@@ -73,7 +71,6 @@ class tao_helpers_translation_POFile
     {
         
         unset($this->headers[$name]);
-        
     }
 
     /**
@@ -85,7 +82,7 @@ class tao_helpers_translation_POFile
      */
     public function getHeaders()
     {
-        $returnValue = array();
+        $returnValue = [];
 
         
         $returnValue = $this->headers;
@@ -105,11 +102,11 @@ class tao_helpers_translation_POFile
      */
     public function getByFlag($flag)
     {
-        $returnValue = array();
+        $returnValue = [];
 
         
-        foreach ($this->getTranslationUnits() as $tu){
-            if ($tu->hasFlag($flag)){
+        foreach ($this->getTranslationUnits() as $tu) {
+            if ($tu->hasFlag($flag)) {
                 $returnValue[] = $tu;
             }
         }
@@ -129,22 +126,21 @@ class tao_helpers_translation_POFile
      */
     public function getByFlags($flags)
     {
-        $returnValue = array();
+        $returnValue = [];
 
         
-        foreach ($this->getTranslationUnits() as $tu){
+        foreach ($this->getTranslationUnits() as $tu) {
             $matching = true;
-            foreach ($flags as $f){
-                if (!$tu->hasFlag($f)){
+            foreach ($flags as $f) {
+                if (!$tu->hasFlag($f)) {
                     $matching = false;
                     break;
-                } 
+                }
             }
             
-            if ($matching == true){
+            if ($matching == true) {
                 $returnValue[] = $tu;
-            }
-            else{
+            } else {
                 // Prepare next iteration.
                 $matching = true;
             }
@@ -170,10 +166,10 @@ class tao_helpers_translation_POFile
         // also now we take care about context
         /** @var tao_helpers_translation_TranslationUnit $tu */
         foreach ($this->getTranslationUnits() as $tu) {
-            if ($tu->getSource() == $translationUnit->getSource() &&
+            if (
+                $tu->getSource() == $translationUnit->getSource() &&
                 (!$translationUnit->getContext() || $tu->getContext() == $translationUnit->getContext())
             ) {
-
                 $tu->setTarget($translationUnit->getTarget());
                 $tu->setAnnotations($translationUnit->getAnnotations());
 
@@ -189,5 +185,4 @@ class tao_helpers_translation_POFile
         array_push($tus, $translationUnit);
         $this->setTranslationUnits($tus);
     }
-
 }

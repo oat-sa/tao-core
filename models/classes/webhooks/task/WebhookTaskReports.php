@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -213,7 +214,8 @@ class WebhookTaskReports extends ConfigurableService
      * @param bool $includeSourceInfo Add information about file, line and exception type
      * @return string|null
      */
-    private function getExceptionMessage(\Exception $exception, $includeSourceInfo = false) {
+    private function getExceptionMessage(\Exception $exception, $includeSourceInfo = false)
+    {
         $messages = [];
         if ($includeSourceInfo) {
             $messages[] = sprintf(
@@ -239,7 +241,8 @@ class WebhookTaskReports extends ConfigurableService
      * @param WebhookTaskContext $taskContext
      * @return string
      */
-    private function getEventId(WebhookTaskContext $taskContext) {
+    private function getEventId(WebhookTaskContext $taskContext)
+    {
         $taskParams = $taskContext->getWebhookTaskParams();
         if (!$taskParams) {
             throw new \InvalidArgumentException("Task context doesn't contain task params");

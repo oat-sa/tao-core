@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -34,7 +35,6 @@ use tao_helpers_form_elements_xhtml_Hidden;
  */
 class CsrfToken extends tao_helpers_form_elements_xhtml_Hidden
 {
-
     use LoggerAwareTrait;
 
     /**

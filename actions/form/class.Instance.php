@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -32,8 +33,7 @@ use oat\tao\model\TaoOntology;
  * @package tao
 
  */
-class tao_actions_form_Instance
-    extends tao_actions_form_Generis
+class tao_actions_form_Instance extends tao_actions_form_Generis
 {
 
     /**
@@ -46,8 +46,8 @@ class tao_actions_form_Instance
     protected function initForm()
     {
         $name = isset($this->options['name']) ? $this->options['name'] : '';
-        if(empty($name)){
-            $name = 'form_'.(count(self::$forms)+1);
+        if (empty($name)) {
+            $name = 'form_' . (count(self::$forms) + 1);
         }
         unset($this->options['name']);
 
@@ -84,91 +84,74 @@ class tao_actions_form_Instance
         $classProperties = tao_helpers_form_GenerisFormFactory::getClassProperties($clazz, $this->getTopClazz());
         $propertyCandidates = array_merge($propertyCandidates, $classProperties);
 
-        $additionalProperties = (isset($this->options['additionalProperties']) && is_array($this->options['additionalProperties']))?$this->options['additionalProperties']:array();
-        if(!empty($additionalProperties)){
+        $additionalProperties = (isset($this->options['additionalProperties']) && is_array($this->options['additionalProperties'])) ? $this->options['additionalProperties'] : [];
+        if (!empty($additionalProperties)) {
             $propertyCandidates = array_merge($propertyCandidates, $additionalProperties);
         }
 
-        $excludedProperties = (isset($this->options['excludedProperties']) && is_array($this->options['excludedProperties']))?$this->options['excludedProperties']:array();
-        $editedProperties = array();
-        foreach($propertyCandidates as $property){
-            if(!isset($editedProperties[$property->getUri()]) && !in_array($property->getUri(), $excludedProperties)){
+        $excludedProperties = (isset($this->options['excludedProperties']) && is_array($this->options['excludedProperties'])) ? $this->options['excludedProperties'] : [];
+        $editedProperties = [];
+        foreach ($propertyCandidates as $property) {
+            if (!isset($editedProperties[$property->getUri()]) && !in_array($property->getUri(), $excludedProperties)) {
                 $editedProperties[$property->getUri()] = $property;
             }
         }
 
-        $finalElements = array();
-        foreach($editedProperties as $property){
+        $finalElements = [];
+        foreach ($editedProperties as $property) {
+            $property->feed();
+            $widget = $property->getWidget();
+            if ($widget === null || $widget instanceof core_kernel_classes_Literal) {
+                continue;
+            }
+            //map properties widgets to form elments
+            $element = tao_helpers_form_GenerisFormFactory::elementMap($property);
 
-                $property->feed();
-                $widget = $property->getWidget();
-                if($widget == null || $widget instanceof core_kernel_classes_Literal) {
-                        continue;
+            if ($element !== null) {
+                //take instance values to populate the form
+                if ($instance !== null) {
+                    $values = $instance->getPropertyValuesCollection($property);
+                    foreach ($values->getIterator() as $value) {
+                        if ($value instanceof core_kernel_classes_Resource) {
+                            $elementValue = $element instanceof tao_helpers_form_elements_Readonly ?
+                                $value->getLabel() : $value->getUri();
+                            $element->setValue($elementValue);
+                        }
+                        if ($value instanceof core_kernel_classes_Literal) {
+                            $element->setValue((string) $value);
+                        }
+                    }
                 }
-                //map properties widgets to form elments
-                $element = tao_helpers_form_GenerisFormFactory::elementMap($property);
 
-                if(!is_null($element)){
+                // don't show empty labels
+                if ($element instanceof tao_helpers_form_elements_Label && strlen($element->getRawValue()) === 0) {
+                    continue;
+                }
 
-                    //take instance values to populate the form
-                    if(!is_null($instance)){
+                if ($property->getUri() === OntologyRdfs::RDFS_LABEL) {
+                    // Label will not be a TAO Property. However, it should
+                    // be always first.
+                    array_splice($finalElements, 0, 0, [[$element, 1]]);
+                } elseif (count($guiOrderPropertyValues = $property->getPropertyValues($guiOrderProperty))) {
+                    // get position of this property if it has one.
+                    $position = (int) $guiOrderPropertyValues[0];
 
-                        $values = $instance->getPropertyValuesCollection($property);
-                        foreach($values->getIterator() as $value){
-                            if(!is_null($value)){
-                                if($value instanceof core_kernel_classes_Resource){
-                                    if($element instanceof tao_helpers_form_elements_Readonly){
-                                        $element->setValue($value->getLabel());
-                                    }else if ($element instanceof tao_helpers_form_elements_xhtml_ReadonlyLiteral){
-                                        $element->setValue((string)$value);
-                                    } else {
-                                        $element->setValue($value->getUri());
-                                    }
-                                }
-                                if($value instanceof core_kernel_classes_Literal){
-                                    $element->setValue((string)$value);
-                                }
-                            }
-                        }
+                    // insert the element at the right place.
+                    $i = 0;
+                    while ($i < count($finalElements) && ($position >= $finalElements[$i][1] && $finalElements[$i][1] !== null)) {
+                        $i++;
                     }
 
-                    // don't show empty labels
-                    if($element instanceof tao_helpers_form_elements_Label && strlen($element->getRawValue()) == 0) {
-                        continue;
-                    }
-
-                    //set file element validator:
-                    if($element instanceof tao_helpers_form_elements_AsyncFile){
-
-                    }
-
-                    if ($property->getUri() == OntologyRdfs::RDFS_LABEL){
-                        // Label will not be a TAO Property. However, it should
-                        // be always first.
-                        array_splice($finalElements, 0, 0, array(array($element, 1)));
-                    }
-                    else if (count($guiOrderPropertyValues = $property->getPropertyValues($guiOrderProperty))){
-
-                        // get position of this property if it has one.
-                        $position = intval($guiOrderPropertyValues[0]);
-
-                        // insert the element at the right place.
-                        $i = 0;
-                        while ($i < count($finalElements) && ($position >= $finalElements[$i][1] && $finalElements[$i][1] !== null)){
-                                $i++;
-                        }
-
-                        array_splice($finalElements, $i, 0, array(array($element, $position)));
-                    }
-                    else{
-                        // Unordered properties will go at the end of the form.
-                        $finalElements[] = array($element, null);
-                    }
+                    array_splice($finalElements, $i, 0, [[$element, $position]]);
+                } else {
+                    // Unordered properties will go at the end of the form.
+                    $finalElements[] = [$element, null];
+                }
             }
         }
 
         // Add elements related to class properties to the form.
-        foreach ($finalElements as $element){
+        foreach ($finalElements as $element) {
             $this->form->addElement($element[0]);
         }
 
@@ -177,7 +160,7 @@ class tao_actions_form_Instance
         $classUriElt->setValue(tao_helpers_Uri::encode($clazz->getUri()));
         $this->form->addElement($classUriElt, true);
 
-        if(!is_null($instance)){
+        if (!is_null($instance)) {
             //add an hidden elt for the instance Uri
             $instanceUriElt = tao_helpers_form_FormFactory::getElement('uri', 'Hidden');
             $instanceUriElt->setValue(tao_helpers_Uri::encode($instance->getUri()));
@@ -188,5 +171,4 @@ class tao_actions_form_Instance
             $this->form->addElement($hiddenId, true);
         }
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -35,12 +36,12 @@ class ControllerService extends ConfigurableService
      * @param string $action
      * @throws RouterException
      */
-    private function checkAnnotations ($controllerClass, $action = '') {
+    private function checkAnnotations($controllerClass, $action = '')
+    {
         /** @var RouteAnnotationService $routeAnnotationService */
         $routeAnnotationService = $this->getServiceLocator()->get(RouteAnnotationService::SERVICE_ID);
         // extra layer of the security - to not launch action if denied
-        if (!$routeAnnotationService->hasAccess($controllerClass, $action))
-        {
+        if (!$routeAnnotationService->hasAccess($controllerClass, $action)) {
             $message = $action ? "Unable to run the action '"
                 . $action . "' in '" . $controllerClass
                 . "', blocked by route annotations." : "Class '$controllerClass' blocked by route annotation";
@@ -91,7 +92,7 @@ class ControllerService extends ConfigurableService
             // protected method
             $reflection = new ReflectionMethod($class, $action);
             if (!$reflection->isPublic()) {
-                throw new RouterException('The method "' . $action .'" is not public in the class "' . $class . '"');
+                throw new RouterException('The method "' . $action . '" is not public in the class "' . $class . '"');
             }
         } catch (\ReflectionException $e) {
             throw new RouterException($e->getMessage());

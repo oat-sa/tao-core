@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,6 +18,7 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
+
 namespace oat\tao\helpers\test;
 
 use oat\tao\test\TaoPhpUnitTestRunner;
@@ -110,7 +112,7 @@ class DateHelperTest extends TaoPhpUnitTestRunner
     }
 
     /**
-     * 
+     *
      * @author Lionel Lecaque, lionel@taotesting.com
      */
     public function testgetTimeStamp()
@@ -133,7 +135,7 @@ class DateHelperTest extends TaoPhpUnitTestRunner
     }
 
     /**
-     * 
+     *
      * @author Lionel Lecaque, lionel@taotesting.com
      */
     public function testDisplayInterval()

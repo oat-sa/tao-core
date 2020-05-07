@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -35,12 +36,12 @@ class CallbackTaskTest extends TestCase
     private $fakeId = 'WCDWW544eefdtyh';
     private $fakeOwner = 'FakeOwner2';
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->task = new CallbackTask($this->fakeId, $this->fakeOwner);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->task = null;
     }

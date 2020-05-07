@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint115\n"
-"PO-Revision-Date: 2019-11-08T10:42:38\n"
+"Project-Id-Version: TAO 3.4.0-sprint126\n"
+"PO-Revision-Date: 2020-04-10T08:15:05\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: es-ES\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " and "
-msgstr " y "
-
 msgid " AND "
 msgstr ""
+
+msgid " and "
+msgstr " y "
 
 msgid " has been deleted successfully"
 msgstr " ha sido borrado exitosamente"
@@ -184,6 +184,9 @@ msgstr "Acciones"
 msgid "Add"
 msgstr "Agregar"
 
+msgid "Add / Edit lists"
+msgstr ""
+
 msgid "Add a CSV file"
 msgstr "Agregar archivo CSV"
 
@@ -208,9 +211,6 @@ msgstr ""
 
 msgid "Adding the new resource has failed"
 msgstr ""
-
-msgid "Advanced Mode"
-msgstr "Modo avanzado"
 
 msgid "Advanced search, add filters"
 msgstr ""
@@ -447,10 +447,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
 msgid "Clear selection"
@@ -564,11 +564,11 @@ msgstr "Datos importados exitosamente"
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data language"
-msgstr "Idioma de datos"
-
 msgid "Data Language"
 msgstr "Idioma de Datos"
+
+msgid "Data language"
+msgstr "Idioma de datos"
 
 msgid "Data not imported. All records are invalid."
 msgstr ""
@@ -699,9 +699,6 @@ msgstr "Editar clase %s"
 
 msgid "Edit Instance"
 msgstr "Editar instancia"
-
-msgid "Edit sources that can embed this platform in an iFrame"
-msgstr ""
 
 msgid "Element"
 msgstr ""
@@ -858,6 +855,9 @@ msgstr ""
 msgid "Forbid for all domains"
 msgstr ""
 
+msgid "Force HTTPS on this platform"
+msgstr ""
+
 msgid "Force Release"
 msgstr "Forzar liberación"
 
@@ -899,6 +899,9 @@ msgstr "Hola,%s <br>Usted indicó que ha olvidado su contraseña TAO."
 
 msgid "Hide detailed report"
 msgstr "Ocultar reporte dellado"
+
+msgid "Hide password"
+msgstr ""
 
 msgid "Highlight all"
 msgstr ""
@@ -969,10 +972,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1109,6 +1112,9 @@ msgstr "Lista - Opción sencilla - Lista de selección"
 
 msgid "List - Single choice - Radio button"
 msgstr "Lista - Opción sencilla - Selección única"
+
+msgid "List values"
+msgstr ""
 
 msgid "ln"
 msgstr ""
@@ -1307,10 +1313,10 @@ msgstr "Sin archivos"
 msgid "no label"
 msgstr "sin etiqueta"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr ""
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr ""
 
 msgid "No results found"
@@ -1362,10 +1368,10 @@ msgstr ""
 msgid "Off"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr ""
 
-msgid "Ok"
+msgid "OK"
 msgstr ""
 
 msgid "Old Password"
@@ -1461,9 +1467,6 @@ msgstr ""
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
 msgstr ""
 
-msgid "Please try in %s."
-msgstr ""
-
 msgid "Please wait"
 msgstr "Espera"
 
@@ -1500,9 +1503,6 @@ msgstr ""
 #, tao-public
 msgid "Properties"
 msgstr "Propiedades"
-
-msgid "Property\'s label field is required"
-msgstr "La etiqueta del campo propiedades es requerida"
 
 msgid "Provided URL is not valid"
 msgstr ""
@@ -1728,11 +1728,11 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "Select"
-msgstr "Seleccionar"
-
 msgid "select"
 msgstr "seleccionar"
+
+msgid "Select"
+msgstr "Seleccionar"
 
 msgid "Select a class"
 msgstr ""
@@ -1780,11 +1780,11 @@ msgstr "Configuración actualizada"
 msgid "Show detailed report"
 msgstr "Muestrar reporte detallado"
 
-msgid "Sign change"
+msgid "Show password"
 msgstr ""
 
-msgid "Simple Mode"
-msgstr "Modo simple"
+msgid "Sign change"
+msgstr ""
 
 msgid "sin"
 msgstr ""
@@ -2044,7 +2044,13 @@ msgstr "Parámetros de traducción"
 msgid "Translation saved"
 msgstr "Traducción guardada"
 
+msgid "Transport Layer Security"
+msgstr ""
+
 msgid "Tree - Multiple node choice "
+msgstr ""
+
+msgid "Tree values"
 msgstr ""
 
 msgid "True"
@@ -2116,10 +2122,10 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr ""
 
 msgid "Undefined amount of the pages for pagination"

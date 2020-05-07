@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,6 +21,7 @@
 
 namespace oat\tao\test\unit\model\taskQueue;
 
+use InvalidArgumentException;
 use oat\generis\test\TestCase;
 use oat\tao\model\taskQueue\Queue;
 use oat\tao\model\taskQueue\Queue\Broker\QueueBrokerInterface;
@@ -31,12 +33,10 @@ use oat\generis\test\MockObject;
 
 class QueueTest extends TestCase
 {
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectExceptionMessage  Queue name needs to be set.
-     */
     public function testWhenQueueNameIsEmptyThenThrowException()
     {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Queue name needs to be set.');
         $brokerMock = $this->getMockForAbstractClass(QueueBrokerInterface::class);
 
         new Queue('', $brokerMock);

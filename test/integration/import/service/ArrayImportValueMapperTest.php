@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,6 +17,7 @@
  *
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
+
 namespace oat\tao\test\integration\import\service;
 
 use oat\generis\test\TestCase;
@@ -39,7 +41,7 @@ class ArrayImportValueMapperTest extends TestCase
 
         $mapper = $this->getMockForAbstractClass(ImportValueMapperInterface::class);
         $mapper->method('map')
-            ->willReturnOnConsecutiveCalls('valueMappedInDB1','valueMappedInDB2');
+            ->willReturnOnConsecutiveCalls('valueMappedInDB1', 'valueMappedInDB2');
         $mapper->method('getReport')
             ->willReturn($reportMock);
 

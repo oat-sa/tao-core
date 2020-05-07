@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -33,6 +34,7 @@ class WebhookEntryFactoryTest extends TestCase
             'url' => 'http://url.com',
             'httpMethod' => 'POST',
             'retryMax' => 5,
+            'responseValidation' => true,
             'auth' => [
                 'authClass' => 'SomeClass',
                 'credentials' => [
@@ -49,6 +51,7 @@ class WebhookEntryFactoryTest extends TestCase
         $this->assertEquals(5, $webhook->getMaxRetries());
         $this->assertEquals('SomeClass', $webhook->getAuth()->getAuthClass());
         $this->assertEquals(['p1' => 'v1'], $webhook->getAuth()->getCredentials());
+        $this->assertEquals(true, $webhook->getResponseValidationEnable());
     }
 
     public function testCreateEntryFromArrayWithoutAuth()
@@ -58,7 +61,8 @@ class WebhookEntryFactoryTest extends TestCase
             'id' => 'wh1',
             'url' => 'http://url.com',
             'httpMethod' => 'POST',
-            'retryMax' => 5
+            'retryMax' => 5,
+            'responseValidation' => true
         ]);
 
         $this->assertInstanceOf(WebhookInterface::class, $webhook);
@@ -66,6 +70,7 @@ class WebhookEntryFactoryTest extends TestCase
         $this->assertEquals('wh1', $webhook->getId());
         $this->assertEquals('http://url.com', $webhook->getUrl());
         $this->assertEquals('POST', $webhook->getHttpMethod());
+        $this->assertEquals(true, $webhook->getResponseValidationEnable());
         $this->assertNull($webhook->getAuth());
     }
 
@@ -85,10 +90,9 @@ class WebhookEntryFactoryTest extends TestCase
                     ]
                 ]
             ]);
-        }
-        catch (\InvalidArgumentException $exception) {
-            $this->assertContains('httpMethod', $exception->getMessage());
-            $this->assertContains('url', $exception->getMessage());
+        } catch (\InvalidArgumentException $exception) {
+            $this->assertStringContainsString('httpMethod', $exception->getMessage());
+            $this->assertStringContainsString('url', $exception->getMessage());
             throw $exception;
         }
     }
@@ -109,9 +113,8 @@ class WebhookEntryFactoryTest extends TestCase
                     ]
                 ]
             ]);
-        }
-        catch (\InvalidArgumentException $exception) {
-            $this->assertContains('authClass', $exception->getMessage());
+        } catch (\InvalidArgumentException $exception) {
+            $this->assertStringContainsString('authClass', $exception->getMessage());
             throw $exception;
         }
     }

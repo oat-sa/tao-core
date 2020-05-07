@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint115\n"
-"PO-Revision-Date: 2019-11-08T10:43:17\n"
+"Project-Id-Version: TAO 3.4.0-sprint126\n"
+"PO-Revision-Date: 2020-04-10T08:17:42\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nl-NL\n"
@@ -13,15 +13,15 @@ msgstr ""
 # http://www.tao.lu/Ontologies/TAO.rdf#BasicAuthConsumer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Basic Auth Credentials"
-msgstr ""
+msgstr "Basis Auth Credentials"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#BasicAuthLogin
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Login"
-msgstr ""
+msgstr "Inloggen"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#BasicAuthPassword
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Password"
-msgstr ""
+msgstr "Wachtwoord"
 

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint115\n"
-"PO-Revision-Date: 2019-11-08T10:43:05\n"
+"Project-Id-Version: TAO 3.4.0-sprint126\n"
+"PO-Revision-Date: 2020-04-10T08:16:53\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-JP\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " and "
-msgstr " と "
-
 msgid " AND "
 msgstr ""
+
+msgid " and "
+msgstr " と "
 
 msgid " has been deleted successfully"
 msgstr " 削除しました。"
@@ -184,6 +184,9 @@ msgstr "操作"
 msgid "Add"
 msgstr "追加"
 
+msgid "Add / Edit lists"
+msgstr ""
+
 msgid "Add a CSV file"
 msgstr "CSVファイルを追加"
 
@@ -208,9 +211,6 @@ msgstr ""
 
 msgid "Adding the new resource has failed"
 msgstr ""
-
-msgid "Advanced Mode"
-msgstr "詳細モード"
 
 msgid "Advanced search, add filters"
 msgstr ""
@@ -447,10 +447,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
 msgid "Clear selection"
@@ -564,10 +564,10 @@ msgstr "データインポートに成功しました"
 msgid "Data imported. Some records are invalid."
 msgstr "データインポート終了。いくつかのレコードは無効です。"
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "データ言語"
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "データ言語"
 
 msgid "Data not imported. All records are invalid."
@@ -699,9 +699,6 @@ msgstr "%sクラスの編集"
 
 msgid "Edit Instance"
 msgstr "インスタンスの編集"
-
-msgid "Edit sources that can embed this platform in an iFrame"
-msgstr ""
 
 msgid "Element"
 msgstr "要素"
@@ -858,6 +855,9 @@ msgstr ""
 msgid "Forbid for all domains"
 msgstr ""
 
+msgid "Force HTTPS on this platform"
+msgstr ""
+
 msgid "Force Release"
 msgstr "強制リリース"
 
@@ -899,6 +899,9 @@ msgstr "ハイ、%s<br>あなたはTAOのパスワードを忘れています"
 
 msgid "Hide detailed report"
 msgstr "詳細報告を隠す"
+
+msgid "Hide password"
+msgstr ""
 
 msgid "Highlight all"
 msgstr ""
@@ -969,10 +972,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1109,6 +1112,9 @@ msgstr "リスト - 択一 - ドロップダウン"
 
 msgid "List - Single choice - Radio button"
 msgstr "リスト - 択一 - ラジオボタン"
+
+msgid "List values"
+msgstr ""
 
 msgid "ln"
 msgstr ""
@@ -1307,10 +1313,10 @@ msgstr "ファイルが有りません"
 msgid "no label"
 msgstr "ラベルがありません"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "プレビューは利用できません"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "プレビューは利用できません"
 
 msgid "No results found"
@@ -1362,10 +1368,10 @@ msgstr "の"
 msgid "Off"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr "OK"
 
-msgid "Ok"
+msgid "OK"
 msgstr "OK"
 
 msgid "Old Password"
@@ -1461,9 +1467,6 @@ msgstr "その理由を記入してください"
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
 msgstr ""
 
-msgid "Please try in %s."
-msgstr ""
-
 msgid "Please wait"
 msgstr ""
 
@@ -1500,9 +1503,6 @@ msgstr ""
 #, tao-public
 msgid "Properties"
 msgstr "プロパティ"
-
-msgid "Property\'s label field is required"
-msgstr "プロパティ\\'sは、ラベルフィールドが必要です"
 
 msgid "Provided URL is not valid"
 msgstr "指定されたURLは有効ではありません"
@@ -1728,10 +1728,10 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "Select"
+msgid "select"
 msgstr "選択"
 
-msgid "select"
+msgid "Select"
 msgstr "選択"
 
 msgid "Select a class"
@@ -1780,11 +1780,11 @@ msgstr "設定を更新"
 msgid "Show detailed report"
 msgstr "詳細報告を表示する"
 
-msgid "Sign change"
+msgid "Show password"
 msgstr ""
 
-msgid "Simple Mode"
-msgstr "シンプルモード"
+msgid "Sign change"
+msgstr ""
 
 msgid "sin"
 msgstr ""
@@ -2044,8 +2044,14 @@ msgstr "翻訳パラメータ"
 msgid "Translation saved"
 msgstr "翻訳は保存されました"
 
+msgid "Transport Layer Security"
+msgstr ""
+
 msgid "Tree - Multiple node choice "
 msgstr "ツリー - 複数ノード選択"
+
+msgid "Tree values"
+msgstr ""
 
 msgid "True"
 msgstr "正しい"
@@ -2116,10 +2122,10 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "全て無効"
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "全て無効"
 
 msgid "Undefined amount of the pages for pagination"

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -28,6 +29,7 @@ use oat\oatbox\user\User;
 use core_kernel_classes_Resource;
 use core_kernel_users_GenerisUser;
 use Jig\Utils\StringUtils;
+use oat\oatbox\user\UserService;
 
 /**
  * Utility class to render a User
@@ -37,19 +39,17 @@ use Jig\Utils\StringUtils;
  */
 class UserHelper
 {
-    static public function renderHtmlUser($userId)
+    public static function renderHtmlUser($userId)
     {
         // assume generis user
-        $user = new core_kernel_classes_Resource($userId);
-        $props = $user->getPropertiesValues(array(
-            OntologyRdfs::RDFS_LABEL,
-            GenerisRdf::PROPERTY_USER_MAIL
-        ));
-        $label = (isset($props[OntologyRdfs::RDFS_LABEL]) && !empty($props[OntologyRdfs::RDFS_LABEL])) ? (string)reset($props[OntologyRdfs::RDFS_LABEL]) : '('.$userId.')';
+        $user = self::getUser($userId);
+        $labels = $user->getPropertyValues(OntologyRdfs::RDFS_LABEL);
+        $mails = $user->getPropertyValues(GenerisRdf::PROPERTY_USER_MAIL);
+        $label = !empty($labels) ? (string)reset($labels) : '(' . $userId . ')';
         $label = StringUtils::wrapLongWords($label);
-        $mail = (isset($props[GenerisRdf::PROPERTY_USER_MAIL]) && !empty($props[GenerisRdf::PROPERTY_USER_MAIL])) ? (string)reset($props[GenerisRdf::PROPERTY_USER_MAIL]) : '';
+        $mail = !empty($mails) ? (string)reset($mails) : '';
         return !empty($mail)
-            ? '<a href="mailto:'.$mail.'">'.$label.'</a>'
+            ? '<a href="mailto:' . $mail . '">' . $label . '</a>'
             : $label;
     }
 
@@ -63,10 +63,8 @@ class UserHelper
      */
     public static function getUser($userId)
     {
-        /** @var \tao_models_classes_UserService $userService */
-        $userService = ServiceManager::getServiceManager()->get(\tao_models_classes_UserService::SERVICE_ID);
-        $user = $userService->getUserById($userId);
-        return $user;
+        $userService = ServiceManager::getServiceManager()->get(UserService::SERVICE_ID);
+        return $userService->getUser($userId);
     }
 
     /**

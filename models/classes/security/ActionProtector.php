@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,57 +15,92 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2015 – 2020 (original work) Open Assessment Technologies SA;
  *
  */
 
 namespace oat\tao\model\security;
 
-use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\service\SettingsStorage;
-use oat\tao\model\settings\CspHeaderSettingsInterface;
+use oat\tao\model\security\Business\Contract\SecuritySettingsRepositoryInterface;
+use oat\tao\model\security\Business\Domain\SettingsCollection;
+use oat\tao\model\service\InjectionAwareService;
 
 /**
  * Service that can be used to protect actions.
  *
  * @author Martijn Swinkels <martijn@taotesting.com>
  */
-class ActionProtector extends ConfigurableService
+class ActionProtector extends InjectionAwareService
 {
+    public const SERVICE_ID = 'tao/actionProtection';
 
-    const SERVICE_ID = 'tao/actionProtection';
+    /** @var SecuritySettingsRepositoryInterface */
+    private $repository;
+
+    /** @var string */
+    private $defaultHeaders;
+
+    /** @noinspection MagicMethodsValidityInspection */
+    /** @noinspection PhpMissingParentConstructorInspection */
+    public function __construct(SecuritySettingsRepositoryInterface $repository, array $defaultHeaders = [])
+    {
+        $this->repository     = $repository;
+        $this->defaultHeaders = $defaultHeaders;
+    }
+
+    public function setHeaders(): void
+    {
+        $settings = $this->repository->findAll();
+
+        $this->setDefaultHeaders();
+        $this->setFrameAncestorsHeader($settings);
+        $this->setStrictTransportHeader($settings);
+    }
+
+    public function setDefaultHeaders(): void
+    {
+        foreach ($this->defaultHeaders as $defaultHeader) {
+            header($defaultHeader);
+        }
+    }
 
     /**
      * Set the header that defines which sources are allowed to embed the pages.
      *
-     * @return void
+     * @param SettingsCollection $settings
      */
-    public function setFrameAncestorsHeader()
+    public function setFrameAncestorsHeader(SettingsCollection $settings): void
     {
-        /** @var SettingsStorage $settingsStorage */
-        $settingsStorage = $this->getServiceLocator()->get(SettingsStorage::SERVICE_ID);
-        $whitelistedSources = $settingsStorage->get(CspHeaderSettingsInterface::CSP_HEADER_SETTING);
+        $whitelistedSources = $settings->findContentSecurityPolicy()->getValue();
 
-        if ($whitelistedSources === null) {
+        if (!$whitelistedSources) {
             $whitelistedSources = ["'none'"];
         }
 
         // Wrap directives in quotes
-        if (in_array($whitelistedSources, ['self', 'none'])) {
+        if (in_array($whitelistedSources, ['self', 'none'], true)) {
             $whitelistedSources = ["'" . $whitelistedSources . "'"];
         }
 
         if ($whitelistedSources === 'list') {
-            $whitelistedSources = json_decode($settingsStorage->get(CspHeaderSettingsInterface::CSP_HEADER_LIST), true);
+            $whitelistedSources = explode("\n", $settings->findContentSecurityPolicyWhitelist()->getValue());
         }
 
-        if (!is_array($whitelistedSources)) {
-            $whitelistedSources = [$whitelistedSources];
-        }
+        header(
+            sprintf(
+                'Content-Security-Policy: frame-ancestors %s',
+                implode(' ', (array)$whitelistedSources)
+            )
+        );
+    }
 
-        header(sprintf(
-            'Content-Security-Policy: frame-ancestors %s',
-            implode(' ', $whitelistedSources)
-        ));
+    private function setStrictTransportHeader(SettingsCollection $settings): void
+    {
+        header(
+            sprintf(
+                'Strict-Transport-Security: max-age=%u; includeSubDomains;',
+                $settings->findTransportSecurity()->getValue() ? 31536000 : 0
+            )
+        );
     }
 }

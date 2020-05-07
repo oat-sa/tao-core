@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint115\n"
-"PO-Revision-Date: 2019-11-08T10:42:50\n"
+"Project-Id-Version: TAO 3.4.0-sprint126\n"
+"PO-Revision-Date: 2020-04-10T08:15:53\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-FR\n"
@@ -13,40 +13,40 @@ msgstr ""
 # http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionTimeRule
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Required Action Time Rule"
-msgstr ""
+msgstr "Règle de temps pour l'action requise"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionTimeRule
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Required Action Time Rule"
-msgstr ""
+msgstr "Règle de temps pour l'action requise"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionName
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Required Action Name"
-msgstr ""
+msgstr "Nom de l'action requise"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionName
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Name Of Required Action"
-msgstr ""
+msgstr "Nom de l'action requise"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionExecutionTime
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Executed At Date"
-msgstr ""
+msgstr "Exécutée à Date"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionExecutionTime
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Time of execution of required action"
-msgstr ""
+msgstr "Heure de l'exécution de l'action requise"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionSubject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Executed by"
-msgstr ""
+msgstr "Exécutée par"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionSubject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Required action executed by user"
-msgstr ""
+msgstr "Action requise exécutée par utilisateur"
 

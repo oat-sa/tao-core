@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -26,6 +27,7 @@ class Webhook implements WebhookInterface
     const HTTP_METHOD = 'httpMethod';
     const AUTH = 'auth';
     const RETRY_MAX = 'retryMax';
+    const RESPONSE_VALIDATION = 'responseValidation';
 
     /**
      * @var string
@@ -52,20 +54,25 @@ class Webhook implements WebhookInterface
      */
     private $retryMax;
 
+    /** @var bool */
+    private $responseValidation;
+
     /**
      * @param string $id
      * @param string $url
      * @param string $httpMethod
      * @param int $retryMax
      * @param WebhookAuth|null $auth
+     * @param $responseValidation
      */
-    public function __construct($id, $url, $httpMethod, $retryMax, WebhookAuth $auth = null)
+    public function __construct($id, $url, $httpMethod, $retryMax, WebhookAuth $auth = null, bool $responseValidation = true)
     {
         $this->id = $id;
         $this->url = $url;
         $this->httpMethod = $httpMethod;
         $this->auth = $auth;
         $this->retryMax = $retryMax;
+        $this->responseValidation = $responseValidation;
     }
 
     /**
@@ -121,5 +128,10 @@ class Webhook implements WebhookInterface
     public function getMaxRetries()
     {
         return $this->retryMax;
+    }
+
+    public function getResponseValidationEnable()
+    {
+        return $this->responseValidation;
     }
 }

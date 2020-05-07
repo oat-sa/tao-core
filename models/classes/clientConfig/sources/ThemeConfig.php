@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,22 +18,26 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
+
 namespace oat\tao\model\clientConfig\sources;
 
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\clientConfig\ClientConfig;
 use oat\tao\model\ThemeRegistry;
+
 /**
- * 
+ *
  * @author Joel Bout
  */
-class ThemeConfig extends ConfigurableService implements ClientConfig {
+class ThemeConfig extends ConfigurableService implements ClientConfig
+{
 
     /**
      * (non-PHPdoc)
      * @see \oat\tao\model\clientConfig\ClientConfig::getConfig()
      */
-    public function getConfig() {
+    public function getConfig()
+    {
         return ThemeRegistry::getRegistry()->getAvailableThemes();
     }
 }

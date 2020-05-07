@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,21 +21,21 @@
 
 namespace oat\tao\model\notification;
 
-
 use oat\oatbox\service\ConfigurableService;
 
+/**
+ * Class AbstractNotificationService
+ *
+ * @deprecated This class is used by client only. It will be moved to client specific extension
+ */
 abstract class AbstractNotificationService extends ConfigurableService implements NotificationServiceInterface
 {
-    /**
-     * @return bool
-     */
-    public function getVisibility()
+    public function getVisibility(): bool
     {
-        if($this->hasOption('visibility')) {
+        if ($this->hasOption('visibility')) {
             return $this->getOption('visibility');
         }
 
         return false;
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -54,13 +55,14 @@ class tao_helpers_form_xhtml_Form extends tao_helpers_form_Form
      */
     public function getValues($groupName = '')
     {
-        $returnValue = array();
+        $returnValue = [];
 
         foreach ($this->elements as $element) {
             if (!empty($this->systemElements) && in_array($element->getName(), $this->systemElements)) {
                 continue;
             }
-            if (empty($groupName)
+            if (
+                empty($groupName)
                 || in_array($element->getName(), $this->groups[$groupName]['elements'])
             ) {
                 $returnValue[tao_helpers_Uri::decode($element->getName())] = $element->getEvaluatedValue();
@@ -102,7 +104,7 @@ class tao_helpers_form_xhtml_Form extends tao_helpers_form_Form
     {
         $returnValue = '';
 
-        $requestUri = $_SERVER['REQUEST_URI'];
+        $requestUri = $_SERVER['REQUEST_URI'] ?? '';
         $action = strpos($requestUri, '?') > 0 ? substr($requestUri, 0, strpos($requestUri, '?')) : $requestUri;
 
         // Defensive code, prevent double leading slashes issue.
@@ -122,7 +124,7 @@ class tao_helpers_form_xhtml_Form extends tao_helpers_form_Form
         $returnValue .= "<input type='hidden' class='global' name='{$this->name}_sent' value='1' />\n";
 
         if (!empty($this->error)) {
-            $returnValue .= '<div class="xhtml_form_error">'.$this->error.'</div>';
+            $returnValue .= '<div class="xhtml_form_error">' . $this->error . '</div>';
         }
 
         $returnValue .= $this->renderElements();

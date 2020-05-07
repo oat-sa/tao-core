@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -50,8 +51,8 @@ class TaskSerializerServiceTest extends TestCase
     {
         $service = new TaskSerializerService();
 
-        $task = $this->getMockForAbstractClass(TaskInterface::class);
-        $this->assertInternalType('string', $service->serialize($task));
+        $task = $this->createMock(TaskInterface::class);
+        $this->assertIsString($service->serialize($task));
     }
 
     protected function mockActionService()
@@ -60,7 +61,8 @@ class TaskSerializerServiceTest extends TestCase
 
         $action
             ->method('resolve')
-            ->willReturn(function (){});
+            ->willReturn(function () {
+            });
 
         return $action;
     }

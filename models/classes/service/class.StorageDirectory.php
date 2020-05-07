@@ -1,22 +1,23 @@
 <?php
-/**  
+
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *               
- * 
+ *
+ *
  */
 
 use \oat\tao\model\websource\Websource;
@@ -79,7 +80,7 @@ class tao_models_classes_service_StorageDirectory extends Directory
     /**
      * Returns a URL that allows you to access the files in a directory
      * preserving the relative paths
-     * 
+     *
      * @return string
      * @throws common_Exception
      */
@@ -113,7 +114,7 @@ class tao_models_classes_service_StorageDirectory extends Directory
     {
         $adapter = $this->getFileSystem()->getAdapter();
         if (!$adapter instanceof Local) {
-            throw new common_exception_InconsistentData(__CLASS__.' can only handle local files');
+            throw new common_exception_InconsistentData(__CLASS__ . ' can only handle local files');
         }
         return $adapter->getPathPrefix() . $this->getPrefix();
     }
@@ -207,7 +208,7 @@ class tao_models_classes_service_StorageDirectory extends Directory
      */
     public function update($path, $content, $mimeType = null)
     {
-       return $this->getFile($path)->update($content, $mimeType);
+        return $this->getFile($path)->update($content, $mimeType);
     }
 
     /**
@@ -267,7 +268,7 @@ class tao_models_classes_service_StorageDirectory extends Directory
      */
     public function getIterator()
     {
-        $files = array();
+        $files = [];
         $iterator = $this->getFlyIterator(Directory::ITERATOR_FILE | Directory::ITERATOR_RECURSIVE);
         foreach ($iterator as $file) {
             $files[] = $this->getRelPath($file);

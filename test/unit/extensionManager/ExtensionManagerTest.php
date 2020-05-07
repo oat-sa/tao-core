@@ -4,6 +4,7 @@ namespace oat\tao\test\unit\extensionManager;
 
 use oat\generis\test\TestCase;
 use oat\tao\model\service\ApplicationService;
+use PHPUnit\Framework\ExpectationFailedException;
 
 class ExtensionManagerTest extends TestCase
 {
@@ -91,7 +92,7 @@ class ExtensionManagerTest extends TestCase
     public function testInstallOnDebugMode()
     {
         $controller = $this->getExtensionManagerWithDebugMode(true);
-        $this->expectException(\PHPUnit_Framework_ExpectationFailedException::class);
+        $this->expectException(ExpectationFailedException::class);
         $controller->install();
     }
 
@@ -105,7 +106,7 @@ class ExtensionManagerTest extends TestCase
     public function testUnInstallOnDebugMode()
     {
         $controller = $this->getExtensionManagerWithDebugMode(true);
-        $this->expectException(\PHPUnit_Framework_ExpectationFailedException::class);
+        $this->expectException(ExpectationFailedException::class);
         $controller->uninstall();
     }
 
@@ -119,7 +120,7 @@ class ExtensionManagerTest extends TestCase
     public function testDisableOnDebugMode()
     {
         $controller = $this->getExtensionManagerWithDebugMode(true);
-        $this->expectException(\PHPUnit_Framework_ExpectationFailedException::class);
+        $this->expectException(ExpectationFailedException::class);
         $controller->disable();
     }
 
@@ -134,7 +135,7 @@ class ExtensionManagerTest extends TestCase
     public function testEnableOnDebugMode()
     {
         $controller = $this->getExtensionManagerWithDebugMode(true);
-        $this->expectException(\PHPUnit_Framework_ExpectationFailedException::class);
+        $this->expectException(ExpectationFailedException::class);
         $controller->enable();
     }
 
@@ -161,14 +162,12 @@ class ExtensionManagerFake extends \tao_actions_ExtensionsManager
     public function hasRequestParameter($name)
     {
         // to intercept the flow and avoid to load common_request
-        throw new \PHPUnit_Framework_ExpectationFailedException('HTTP request cannot be handled by unit test');
+        throw new ExpectationFailedException('HTTP request cannot be handled by unit test');
     }
 
     public function getRequestParameter($name)
     {
         // to intercept the flow and avoid to load common_request
-        throw new \PHPUnit_Framework_ExpectationFailedException('HTTP request cannot be handled by unit test');
+        throw new ExpectationFailedException('HTTP request cannot be handled by unit test');
     }
-
-
 }

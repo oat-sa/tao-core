@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,7 +20,7 @@
  */
 
 use oat\tao\model\notification\NotificationServiceInterface;
-use oat\tao\model\notification\NotificationInterface;
+use oat\tao\model\notification\Notification;
 use oat\tao\model\notification\exception\NotListedNotification;
 
 class tao_actions_Notification extends \tao_actions_CommonModule
@@ -39,7 +40,6 @@ class tao_actions_Notification extends \tao_actions_CommonModule
             return $this->returnError($e->getUserMessage());
         }
         return $this->returnJson($count);
-
     }
 
     public function getList()
@@ -60,7 +60,7 @@ class tao_actions_Notification extends \tao_actions_CommonModule
 
     public function getDetail()
     {
-        if( $this->hasRequestParameter('id')) {
+        if ($this->hasRequestParameter('id')) {
             $id = $this->getRequestParameter('id');
             /**
              * @var oat\tao\model\notification\NotificationServiceInterface $notificationService
@@ -90,17 +90,17 @@ class tao_actions_Notification extends \tao_actions_CommonModule
             return $this->returnError($e->getUserMessage());
         }
         /**
-         * @var NotificationInterface $notif
+         * @var Notification $notif
          */
         foreach ($list as $notif) {
-            if($notif->getStatus() === NotificationInterface::CREATED_STATUS) {
-                $notif->setStatus(NotificationInterface::READ_STATUS);
+            if ($notif->getStatus() === Notification::CREATED_STATUS) {
+                $notif->setStatus(Notification::READ_STATUS);
                 $notificationService->changeStatus($notif);
-                $notif->setStatus(NotificationInterface::CREATED_STATUS);
+                $notif->setStatus(Notification::CREATED_STATUS);
             }
         }
 
-        $this->setData('notif-list' , $list);
+        $this->setData('notif-list', $list);
         $this->setView('notification/list.tpl');
     }
 

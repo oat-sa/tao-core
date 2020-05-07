@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -32,7 +33,7 @@ use oat\generis\model\GenerisRdf;
 abstract class CsvAbstractImporter
 {
 
-    protected $validators = array();
+    protected $validators = [];
 
 
     /**
@@ -44,8 +45,9 @@ abstract class CsvAbstractImporter
      *
      * @return array
      */
-    protected function getExludedProperties() {
-        return array();
+    protected function getExludedProperties()
+    {
+        return [];
     }
 
     /**
@@ -57,8 +59,9 @@ abstract class CsvAbstractImporter
      *
      * @return array
      */
-    protected function getStaticData() {
-        return array();
+    protected function getStaticData()
+    {
+        return [];
     }
 
     /**
@@ -71,8 +74,9 @@ abstract class CsvAbstractImporter
      * @see tao_helpers_data_GenerisAdapterCsv
      * @return array
      */
-    protected function getAdditionAdapterOptions() {
-        return array();
+    protected function getAdditionAdapterOptions()
+    {
+        return [];
     }
 
     /**
@@ -95,7 +99,7 @@ abstract class CsvAbstractImporter
     {
         //build the mapping form
         if (!$csv_data->count()) {
-            return array();
+            return [];
         }
 
         // 'class properties' contains an associative array(str:'propertyUri' => 'str:propertyLabel') describing properties belonging to the target class.
@@ -116,7 +120,6 @@ abstract class CsvAbstractImporter
 
             return array_fill(0, $csv_data->getColumnCount(), null);
         }
-
     }
 
     /**
@@ -144,22 +147,22 @@ abstract class CsvAbstractImporter
      */
     public function getStaticMap()
     {
-        return array();
+        return [];
     }
 
 
     /**
      * @param \core_kernel_classes_Class $class where data will be imported
      * @param array $options contains parameters under key => value format
-     *	file => required
-     *	map => required
-     *	callbacks => optional
-     *	field_delimiter => optional
+     *  file => required
+     *  map => required
+     *  callbacks => optional
+     *  field_delimiter => optional
      *  field_encloser => optional
      *  first_row_column_names => optional
      *  multi_values_delimiter => optional
      *  onResourceImported => optional
-     *	staticMap => optional
+     *  staticMap => optional
      * @return \common_report_Report
      */
     public function importFile($class, $options)
@@ -168,7 +171,7 @@ abstract class CsvAbstractImporter
             throw new \BadFunctionCallException("Import file is missing");
         }
 
-        if(!isset($options['staticMap']) || !is_array($options['staticMap'])){
+        if (!isset($options['staticMap']) || !is_array($options['staticMap'])) {
             $options['staticMap'] = $this->getStaticData();
         } else {
             $options['staticMap'] = array_merge($options['staticMap'], $this->getStaticData());
@@ -186,5 +189,4 @@ abstract class CsvAbstractImporter
         }
         return $report;
     }
-
 }

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint115\n"
-"PO-Revision-Date: 2019-11-08T10:43:14\n"
+"Project-Id-Version: TAO 3.4.0-sprint126\n"
+"PO-Revision-Date: 2020-04-10T08:17:34\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nl-BE\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " and "
-msgstr " en "
-
 msgid " AND "
 msgstr ""
+
+msgid " and "
+msgstr " en "
 
 msgid " has been deleted successfully"
 msgstr " is succesvol verwijderd"
@@ -184,6 +184,9 @@ msgstr "Handelingen"
 msgid "Add"
 msgstr "Toevoegen"
 
+msgid "Add / Edit lists"
+msgstr ""
+
 msgid "Add a CSV file"
 msgstr "Voeg een CSV bestand toe"
 
@@ -208,9 +211,6 @@ msgstr ""
 
 msgid "Adding the new resource has failed"
 msgstr ""
-
-msgid "Advanced Mode"
-msgstr "Geavanceerde modus"
 
 msgid "Advanced search, add filters"
 msgstr ""
@@ -447,10 +447,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
 msgid "Clear selection"
@@ -564,10 +564,10 @@ msgstr "Data is succesvol geïmporteerd"
 msgid "Data imported. Some records are invalid."
 msgstr "Data is geïmporteerd. Sommige records zijn ongeldig."
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "Data taal"
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "Data taal"
 
 msgid "Data not imported. All records are invalid."
@@ -699,9 +699,6 @@ msgstr "Pas klasse %s aan"
 
 msgid "Edit Instance"
 msgstr "Pas instantie aan"
-
-msgid "Edit sources that can embed this platform in an iFrame"
-msgstr ""
 
 msgid "Element"
 msgstr "Element"
@@ -858,6 +855,9 @@ msgstr ""
 msgid "Forbid for all domains"
 msgstr ""
 
+msgid "Force HTTPS on this platform"
+msgstr ""
+
 msgid "Force Release"
 msgstr "Forceer het uitgeven"
 
@@ -899,6 +899,9 @@ msgstr "Hallo, %s<br>U heeft aangegeven dat u uw TAO wachtwoord bent vergeten."
 
 msgid "Hide detailed report"
 msgstr "Verberg het uitgebreide rapport"
+
+msgid "Hide password"
+msgstr ""
 
 msgid "Highlight all"
 msgstr ""
@@ -969,10 +972,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1109,6 +1112,9 @@ msgstr "Lijst - Enkele keuze - Keuzelijst"
 
 msgid "List - Single choice - Radio button"
 msgstr "Lijst - Enkele keuze - Radioknop"
+
+msgid "List values"
+msgstr ""
 
 msgid "ln"
 msgstr ""
@@ -1307,10 +1313,10 @@ msgstr "Geen bestanden"
 msgid "no label"
 msgstr "geen label"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "Geen voorbeeld beschikbaar"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "Geen voorbeeld beschikbaar"
 
 msgid "No results found"
@@ -1362,11 +1368,11 @@ msgstr "van"
 msgid "Off"
 msgstr ""
 
-msgid "OK"
-msgstr "OK"
-
 msgid "Ok"
 msgstr "Ok"
+
+msgid "OK"
+msgstr "OK"
 
 msgid "Old Password"
 msgstr "Oud wachtwoord"
@@ -1461,9 +1467,6 @@ msgstr "Geef a.u.b. een reden"
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
 msgstr ""
 
-msgid "Please try in %s."
-msgstr ""
-
 msgid "Please wait"
 msgstr ""
 
@@ -1500,9 +1503,6 @@ msgstr ""
 #, tao-public
 msgid "Properties"
 msgstr "Eigenschappen"
-
-msgid "Property\'s label field is required"
-msgstr ""
 
 msgid "Provided URL is not valid"
 msgstr "De gegeven URL is niet geldig"
@@ -1728,11 +1728,11 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "Select"
-msgstr "Selecteren"
-
 msgid "select"
 msgstr "selecteren"
+
+msgid "Select"
+msgstr "Selecteren"
 
 msgid "Select a class"
 msgstr ""
@@ -1780,11 +1780,11 @@ msgstr "Instellingen geupdate"
 msgid "Show detailed report"
 msgstr "Toon gedetailleerd rapport"
 
-msgid "Sign change"
+msgid "Show password"
 msgstr ""
 
-msgid "Simple Mode"
-msgstr "Eenvoudige modus"
+msgid "Sign change"
+msgstr ""
 
 msgid "sin"
 msgstr ""
@@ -2044,8 +2044,14 @@ msgstr "Vertaal parameters"
 msgid "Translation saved"
 msgstr "Vertaling opgeslagen"
 
+msgid "Transport Layer Security"
+msgstr ""
+
 msgid "Tree - Multiple node choice "
 msgstr "Boom - Meervoudige knooppunten keuze "
+
+msgid "Tree values"
+msgstr ""
 
 msgid "True"
 msgstr "Waar"
@@ -2116,10 +2122,10 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "Alles uitvinken"
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "Alles uitvinken"
 
 msgid "Undefined amount of the pages for pagination"

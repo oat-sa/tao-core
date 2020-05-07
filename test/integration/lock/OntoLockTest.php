@@ -1,24 +1,26 @@
 <?php
-/**  
+
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2013 Open Assessment Technologies S.A.
  */
 
 namespace  oat\tao\test\integration\lock;
 
+use common_exception_InconsistentData;
 use core_kernel_classes_Resource;
 use core_kernel_classes_Property;
 use core_kernel_classes_Class;
@@ -32,7 +34,7 @@ use oat\tao\model\lock\implementation\OntoLock;
  *
  * @author plichart
  * @package tao
- *         
+ *
  */
 class OntoLockTest extends TaoPhpUnitTestRunner
 {
@@ -42,28 +44,28 @@ class OntoLockTest extends TaoPhpUnitTestRunner
     protected $ontoLock = null;
 
     /**
-     * 
+     *
      * @see PHPUnit_Framework_TestCase::setUp()
      */
-    public function setUp()
+    public function setUp(): void
     {
         $resourceClass = new core_kernel_classes_Class(OntologyRdfs::RDFS_RESOURCE);
         $this->tempResource = $resourceClass->createInstance('MyTest');
         $this->ontoLock = new OntoLock();
-        
+
         $this->owner = new core_kernel_classes_Resource('#virtualOwner');
     }
 
     /**
-     * 
+     *
      * @see PHPUnit_Framework_TestCase::tearDown()
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->tempResource->delete();
     }
     /**
-     * 
+     *
      * @author Lionel Lecaque, lionel@taotesting.com
      */
     public function testSetLock()
@@ -82,19 +84,19 @@ class OntoLockTest extends TaoPhpUnitTestRunner
     }
 
     /**
-     * 
+     *
      * @author Lionel Lecaque, lionel@taotesting.com
      */
     public function testReleaseLock()
     {
         $this->assertFalse($this->ontoLock->isLocked($this->tempResource));
         $this->assertFalse($this->ontoLock->releaseLock($this->tempResource, $this->owner->getUri()));
-        
+
         $this->ontoLock->setLock($this->tempResource, $this->owner->getUri());
         $this->assertTrue($this->ontoLock->isLocked($this->tempResource));
         $this->ontoLock->releaseLock($this->tempResource, $this->owner->getUri());
         $this->assertFalse($this->ontoLock->isLocked($this->tempResource));
-        
+
         $this->ontoLock->setLock($this->tempResource, $this->owner->getUri());
         $other = new core_kernel_classes_Resource('#other');
         try {
@@ -104,32 +106,31 @@ class OntoLockTest extends TaoPhpUnitTestRunner
             $this->assertInstanceOf('\common_exception_Unauthorized', $e);
         }
     }
-    
+
     /**
-     * @expectedException common_exception_InconsistentData
      * @author Lionel Lecaque, lionel@taotesting.com
      */
     public function testReleaseLockException()
     {
+        $this->expectException(common_exception_InconsistentData::class);
         $resource = $this->prophesize('core_kernel_classes_Resource');
-        
+
         $lockProp = new core_kernel_classes_Property(TaoOntology::PROPERTY_LOCK);
-        $resource->getPropertyValues($lockProp)->willReturn(array('foo','bar'));
+        $resource->getPropertyValues($lockProp)->willReturn(['foo','bar']);
         $this->ontoLock->releaseLock($resource->reveal(), $this->owner->getUri());
     }
-    
+
     /**
-     * 
+     *
      * @author Lionel Lecaque, lionel@taotesting.com
      */
     public function testForceReleaseLock()
     {
         $resource = $this->prophesize('core_kernel_classes_Resource');
         $lockProp = new core_kernel_classes_Property(TaoOntology::PROPERTY_LOCK);
-        
+
         $this->ontoLock->forceReleaseLock($resource->reveal());
-        
+
         $resource->removePropertyValues($lockProp)->shouldHaveBeenCalled();
-        
     }
 }

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint115\n"
-"PO-Revision-Date: 2019-11-08T10:43:17\n"
+"Project-Id-Version: TAO 3.4.0-sprint126\n"
+"PO-Revision-Date: 2020-04-10T08:17:42\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nl-NL\n"
@@ -18,7 +18,7 @@ msgstr ""
 # http://www.tao.lu/Ontologies/TAO.rdf#accountStatus
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Shows account status, locked or not"
-msgstr ""
+msgstr "Toont de accountstatus, vergrendeld of niet"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LockedStatus
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -33,40 +33,40 @@ msgstr ""
 # http://www.tao.lu/Ontologies/TAO.rdf#Locked
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Yes"
-msgstr ""
+msgstr "Ja"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#Locked
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Yes"
-msgstr ""
+msgstr "Ja"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#logonFailures
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Logon failures"
-msgstr ""
+msgstr "Aanmeldingsfouten"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#logonFailures
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Count of user logon failures"
-msgstr ""
+msgstr "Aantal gebruiker aanmeldingsfouten "
 
 # http://www.tao.lu/Ontologies/TAO.rdf#lastLogonFailureTime
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Last logon failure"
-msgstr ""
+msgstr "Laatste aanmeldingsfout"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#lastLogonFailureTime
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Time when the last logon failure occurred"
-msgstr ""
+msgstr "Tijdstip waarop de laatste aanmeldingsfout optrad"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#lockedBy
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Locked by"
-msgstr ""
+msgstr "Vergrendeld door"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#lockedBy
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Indicates by which user current user was locked"
-msgstr ""
+msgstr "Geeft aan door welke gebruiker de huidige gebruiker is vergrendeld"
 

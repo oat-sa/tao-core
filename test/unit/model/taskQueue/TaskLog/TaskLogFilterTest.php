@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,6 +21,7 @@
 
 namespace oat\tao\test\unit\model\taskQueue\TaskLog;
 
+use InvalidArgumentException;
 use oat\tao\model\taskQueue\TaskLog\Broker\TaskLogBrokerInterface;
 use oat\tao\model\taskQueue\TaskLog\TaskLogFilter;
 use oat\tao\model\taskQueue\TaskLogInterface;
@@ -30,12 +32,12 @@ class TaskLogFilterTest extends TestCase
     /** @var  TaskLogFilter */
     private $filter;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->filter = new TaskLogFilter();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->filter = null;
     }
@@ -57,11 +59,9 @@ class TaskLogFilterTest extends TestCase
         ], $this->filter->getColumns());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testDeselectingABaseColumnShouldThrowException()
     {
+        $this->expectException(InvalidArgumentException::class);
         $this->filter->deselect(TaskLogBrokerInterface::COLUMN_ID);
     }
 
@@ -87,17 +87,15 @@ class TaskLogFilterTest extends TestCase
         $this->assertEquals(55, $this->filter->getOffset(), 'Offset should be 55');
 
         $this->filter->setSortBy(TaskLogBrokerInterface::COLUMN_CREATED_AT);
-        $this->assertEquals(TaskLogBrokerInterface::COLUMN_CREATED_AT, $this->filter->getSortBy(), 'Sort by should be '. TaskLogBrokerInterface::COLUMN_CREATED_AT);
+        $this->assertEquals(TaskLogBrokerInterface::COLUMN_CREATED_AT, $this->filter->getSortBy(), 'Sort by should be ' . TaskLogBrokerInterface::COLUMN_CREATED_AT);
 
         $this->filter->setSortOrder('DESC');
         $this->assertEquals('DESC', $this->filter->getSortOrder(), 'Sort order should be DESC');
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testAddFilterShouldThrowExceptionIfOperatorIsNotValid()
     {
+        $this->expectException(InvalidArgumentException::class);
         $this->filter->addFilter('fakeCol', 'fakeOp', 'fakeValue');
     }
 

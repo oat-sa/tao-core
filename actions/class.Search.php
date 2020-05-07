@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -35,35 +36,35 @@ class tao_actions_Search extends tao_actions_CommonModule
 {
     use OntologyAwareTrait;
 
-	/**
+    /**
      * Search parameters endpoints.
      * The response provides parameters to create a datatable.
-	 */
-	public function searchParams()
-	{
-	    $rawQuery = isset($_POST['query'])?$_POST['query']:'';
-        $this->returnJson(array(
-	    	'url' => _url('search'),
-	        'params' => array(
-	            'query' => $rawQuery,
-    	    	'rootNode' => $this->getRequestParameter('rootNode')
-    	    ),
-	        'filter' => array(),
-	        'model' => array(
-                OntologyRdfs::RDFS_LABEL => array(
+     */
+    public function searchParams()
+    {
+        $rawQuery = isset($_POST['query']) ? $_POST['query'] : '';
+        $this->returnJson([
+            'url' => _url('search'),
+            'params' => [
+                'query' => $rawQuery,
+                'rootNode' => $this->getRequestParameter('rootNode')
+            ],
+            'filter' => [],
+            'model' => [
+                OntologyRdfs::RDFS_LABEL => [
                     'id' => OntologyRdfs::RDFS_LABEL,
                     'label' => __('Label'),
                     'sortable' => false
-	            )
-            ),
-	        'result' => true
-	    ));
-	}
+                ]
+            ],
+            'result' => true
+        ]);
+    }
 
-	/**
-	 * Search results
+    /**
+     * Search results
      * The search is paginated and initiated by the datatable component.
-	 */
+     */
     public function search()
     {
         $params = $this->getRequestParameter('params');
@@ -90,51 +91,49 @@ class tao_actions_Search extends tao_actions_CommonModule
                 $results = $this->getServiceLocator()->get(Search::SERVICE_ID)->query($query, $class->getUri(), $startRow, $rows);
             }
 
-            $totalPages = is_null($rows) ? 1 : ceil( $results->getTotalCount() / $rows );
+            $totalPages = is_null($rows) ? 1 : ceil($results->getTotalCount() / $rows);
 
             $response = new StdClass();
-            if(count($results) > 0 ){
-
-                foreach($results as $uri) {
+            if (count($results) > 0) {
+                foreach ($results as $uri) {
                     $instance = $this->getResource($uri);
-                    $instanceProperties = array(
+                    $instanceProperties = [
                         'id' => $instance->getUri(),
                         OntologyRdfs::RDFS_LABEL => $instance->getLabel()
-                    );
+                    ];
 
                     $response->data[] = $instanceProperties;
                 }
             }
-    		$response->success = true;
+            $response->success = true;
             $response->page = empty($response->data) ? 0 : $page;
-    		$response->total = $totalPages;
-    		$response->records = count($results);
+            $response->total = $totalPages;
+            $response->records = count($results);
 
-    		$this->returnJson($response, 200);
+            $this->returnJson($response, 200);
         } catch (SyntaxException $e) {
-            $this->returnJson(array(
+            $this->returnJson([
                 'success' => false,
                 'msg' => $e->getUserMessage()
-            ));
+            ]);
         }
     }
 
-    public function getIndexes() {
-
+    public function getIndexes()
+    {
         if ($this->hasRequestParameter('rootNode') === true) {
             $rootNodeUri = $this->getRequestParameter('rootNode');
             $indexes = OntologyIndexService::getIndexesByClass($this->getClass($rootNodeUri));
-            $json = array();
+            $json = [];
 
             foreach ($indexes as $propertyUri => $index) {
                 foreach ($index as $i) {
-                    $json[] = array(
+                    $json[] = [
                         'identifier' => $i->getIdentifier(),
                         'fuzzyMatching' => $i->isFuzzyMatching(),
                         'propertyId' => $propertyUri
-                    );
+                    ];
                 }
-
             }
 
             $this->returnJson($json, 200);

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -36,7 +37,7 @@ class PretenderSession extends common_session_DefaultSession
 {
     /**
      * Real user session
-     * 
+     *
      * @var common_session_Session
      */
     private $internalSession;

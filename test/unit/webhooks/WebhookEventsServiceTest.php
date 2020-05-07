@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -49,7 +50,7 @@ class WebhookEventsServiceTest extends TestCase
     /** @var WebhookInterface|MockObject */
     private $webhookConfigMock;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->eventManagerMock = $this->createMock(EventManager::class);
 
@@ -64,7 +65,8 @@ class WebhookEventsServiceTest extends TestCase
                     return isset($this->whRegistryData[$eventName])
                         ? $this->whRegistryData[$eventName]
                         : [];
-                });
+                }
+            );
 
         $this->whTaskServiceMock = $this->createMock(WebhookTaskServiceInterface::class);
     }
@@ -221,8 +223,6 @@ class WebhookEventsServiceTest extends TestCase
         /** @noinspection PhpParamsInspection */
         $event = $this->createMock(Event::class);
         $event->method('getName')->willReturn('TestEvent');
-        $event->method('getWebhookEventName')->willReturn('WhTestEvent');
-        $event->expects($this->never())->method('serializeForWebhook');
 
         $service = new WebhookEventsService([
             WebhookEventsService::OPTION_SUPPORTED_EVENTS => [
@@ -231,7 +231,7 @@ class WebhookEventsServiceTest extends TestCase
         ]);
 
         $service->setServiceLocator($this->getServiceLocatorMock([
-            WebhookTaskServiceInterface::SERVICE_ID => $this->whTaskServiceMock
+            WebhookTaskServiceInterface::SERVICE_ID => $this->whTaskServiceMock,
         ]));
 
         /** @var LoggerInterface|MockObject $logger */

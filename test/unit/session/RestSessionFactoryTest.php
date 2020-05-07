@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,6 +21,8 @@
 
 namespace oat\tao\test\unit\session;
 
+use common_Exception;
+use LogicException;
 use oat\tao\model\routing\Resolver;
 use oat\tao\model\session\restSessionFactory\RestSessionFactory;
 use oat\tao\model\session\restSessionFactory\SessionBuilder;
@@ -43,10 +46,10 @@ class RestSessionFactoryTest extends TestCase
         $sessionBuilderProphecy2->getSession($request)->shouldBeCalled();
 
         $service = new RestSessionFactoryTester();
-        $service->builders = array(
+        $service->builders = [
             $sessionBuilderProphecy->reveal(),
             $sessionBuilderProphecy2->reveal()
-        );
+        ];
 
         $service->createSessionFromRequest($request, $resolverProphecy->reveal());
         $this->assertEquals(1, $service->isSessionStarted);
@@ -64,29 +67,25 @@ class RestSessionFactoryTest extends TestCase
         $this->assertFalse($service->createSessionFromRequest($request, $resolverMock->reveal()));
     }
 
-    /**
-     * @expectedException \common_Exception
-     */
     public function testCreateSessionFromRequestWithNoBuilders()
     {
+        $this->expectException(common_Exception::class);
         $class = TestRest::class;
         $resolverProphecy = $this->prophesize(Resolver::class);
         $resolverProphecy->getControllerClass()->willReturn($class);
 
         $request = new \common_http_Request('http:://fixture.test');
 
-        $service = new RestSessionFactoryTester(array(
-            RestSessionFactoryTester::OPTION_BUILDERS => array()
-        ));
+        $service = new RestSessionFactoryTester([
+            RestSessionFactoryTester::OPTION_BUILDERS => []
+        ]);
 
         $service->createSessionFromRequest($request, $resolverProphecy->reveal());
     }
 
-    /**
-     * @expectedException \common_Exception
-     */
     public function testCreateSessionFromRequestWithNoApplicableBuilders()
     {
+        $this->expectException(common_Exception::class);
         $class = TestRest::class;
         $resolverProphecy = $this->prophesize(Resolver::class);
         $resolverProphecy->getControllerClass()->willReturn($class);
@@ -100,10 +99,10 @@ class RestSessionFactoryTest extends TestCase
         $mock2->isApplicable($request)->willReturn(false);
 
         $service = new RestSessionFactoryTester();
-        $service->builders = array(
+        $service->builders = [
             $mock->reveal(),
             $mock2->reveal()
-        );
+        ];
 
         $service->createSessionFromRequest($request, $resolverProphecy->reveal());
     }
@@ -112,28 +111,26 @@ class RestSessionFactoryTest extends TestCase
     {
         $mock = $this->getMockForAbstractClass(SessionBuilder::class);
 
-        $service = new RestSessionFactoryTester(array(
-            RestSessionFactoryTester::OPTION_BUILDERS => array(
+        $service = new RestSessionFactoryTester([
+            RestSessionFactoryTester::OPTION_BUILDERS => [
                 $mock
-            )
-        ));
+            ]
+        ]);
 
         $this->assertEquals([$mock], $service->getSessionBuilders());
     }
 
-    /**
-     * @expectedException \LogicException
-     */
     public function testGetSessionBuildersWithInvalidBuilder()
     {
+        $this->expectException(LogicException::class);
         $mock = $this->getMockForAbstractClass(SessionBuilder::class);
 
-        $service = new RestSessionFactoryTester(array(
-            RestSessionFactoryTester::OPTION_BUILDERS => array(
+        $service = new RestSessionFactoryTester([
+            RestSessionFactoryTester::OPTION_BUILDERS => [
                 $mock,
                 new \stdClass()
-            )
-        ));
+            ]
+        ]);
 
         $this->assertEquals([$mock], $service->getSessionBuilders());
     }
@@ -155,7 +152,7 @@ class RestSessionFactoryTest extends TestCase
 
     /**
      * Provider of testIsRestController
-     *
+     *@doesNotPerformAssertions
      * @return array
      */
     public function testIsRestControllerProvider()
@@ -170,8 +167,12 @@ class RestSessionFactoryTest extends TestCase
     }
 }
 
-class TestRest extends \tao_actions_RestController {}
-class SubTestRest extends TestRest {}
+class TestRest extends \tao_actions_RestController
+{
+}
+class SubTestRest extends TestRest
+{
+}
 
 class RestSessionFactoryTester extends RestSessionFactory
 {
@@ -195,5 +196,4 @@ class RestSessionFactoryTester extends RestSessionFactory
     {
         $this->isSessionStarted = 1;
     }
-
 }

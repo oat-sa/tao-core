@@ -13,7 +13,7 @@ class ControllerTest extends TestCase
 {
     public function testControllerExtendsHttpTrait()
     {
-        $this->assertArraySubset(
+        $this->assertSame(
             [
                 HttpRequestHelperTrait::class,
                 HttpFlowTrait::class
@@ -50,4 +50,3 @@ class ControllerTest extends TestCase
         $this->assertSame($response, $controllerRequest);
     }
 }
-

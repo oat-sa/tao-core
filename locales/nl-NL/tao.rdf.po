@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint115\n"
-"PO-Revision-Date: 2019-11-08T10:43:17\n"
+"Project-Id-Version: TAO 3.4.0-sprint126\n"
+"PO-Revision-Date: 2020-04-10T08:17:42\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nl-NL\n"
@@ -38,12 +38,12 @@ msgstr "Lijst"
 # http://www.tao.lu/Ontologies/TAO.rdf#UpdatedAt
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Updated"
-msgstr ""
+msgstr "Bijgewerkt"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#UpdatedAt
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Last updated date"
-msgstr ""
+msgstr "Laatst bijgewerkt datum"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#level
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -238,12 +238,12 @@ msgstr "De systeembeheerder rol"
 # http://www.tao.lu/Ontologies/TAO.rdf#TaskQueueManager
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Task Queue Manager"
-msgstr ""
+msgstr "Taakwachtrijmanager"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#TaskQueueManager
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The Task Queue Manager Role"
-msgstr ""
+msgstr "De Taakwachtrijmanager rol"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RestPublisher
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -253,17 +253,17 @@ msgstr ""
 # http://www.tao.lu/Ontologies/TAO.rdf#RestPublisher
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The REST API Publishing Role"
-msgstr ""
+msgstr "De REST API Publishing Rol"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#OperationalAdministrator
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Operational Administrator"
-msgstr ""
+msgstr "Operationeel beheerder"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#OperationalAdministrator
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The Operational Administrator role"
-msgstr ""
+msgstr "De Operationeel beheerder rol"
 
 # At least if this is the one taking an exam and not a system tester
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -308,22 +308,22 @@ msgstr "Blokkeer informatie gerelateerd aan de bron"
 # http://www.tao.lu/Ontologies/generis.rdf#validationRule
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Validation Rules"
-msgstr ""
+msgstr "Validatieregels"
 
 # http://www.tao.lu/Ontologies/generis.rdf#validationRule
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Validation rules for the values of this property"
-msgstr ""
+msgstr "Validatieregels voor de waardes van deze eigenschap"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ValidationSelector
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Validation"
-msgstr ""
+msgstr "Validatie"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ValidationSelector
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Select the validation rules"
-msgstr ""
+msgstr "Selecteer de validatieregels"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LastExtensionUsed
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -353,7 +353,7 @@ msgstr ""
 # http://www.tao.lu/Ontologies/TAO.rdf#AssessmentContentObject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Object to represent assessment contents"
-msgstr ""
+msgstr "Object om de inhoud van de beoordeling weer te geven"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#TAOObject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"

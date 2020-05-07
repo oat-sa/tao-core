@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,6 +18,7 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
+
 namespace oat\tao\test\integration\datatable;
 
 use oat\tao\model\datatable\implementation\AbstractDatatablePayload;
@@ -34,7 +36,7 @@ use Prophecy\Argument;
  */
 class DatatablePayloadTest extends TaoPhpUnitTestRunner
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
     }
@@ -154,7 +156,13 @@ class ConcreteDatatablePayload extends AbstractDatatablePayload
 
 class QueryMock extends \oat\search\Query
 {
-    public function sort(){}
-    public function setLimit(){}
-    public function setOffset(){}
+    public function sort()
+    {
+    }
+    public function setLimit()
+    {
+    }
+    public function setOffset()
+    {
+    }
 }

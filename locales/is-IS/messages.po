@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint115\n"
-"PO-Revision-Date: 2019-11-08T10:42:58\n"
+"Project-Id-Version: TAO 3.4.0-sprint126\n"
+"PO-Revision-Date: 2020-04-10T08:16:32\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: is-IS\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " and "
-msgstr " og "
-
 msgid " AND "
 msgstr ""
+
+msgid " and "
+msgstr " og "
 
 msgid " has been deleted successfully"
 msgstr " hefur tekist að eyða"
@@ -184,6 +184,9 @@ msgstr "Aðgerðir"
 msgid "Add"
 msgstr "Bæta við"
 
+msgid "Add / Edit lists"
+msgstr ""
+
 msgid "Add a CSV file"
 msgstr "Bæta við CSV skrá"
 
@@ -208,9 +211,6 @@ msgstr ""
 
 msgid "Adding the new resource has failed"
 msgstr ""
-
-msgid "Advanced Mode"
-msgstr "Ítarlegri hamur"
 
 msgid "Advanced search, add filters"
 msgstr ""
@@ -446,10 +446,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
 msgid "Clear selection"
@@ -563,11 +563,11 @@ msgstr "Innflutningur gagna tókst"
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data language"
-msgstr "Tungumál gagna"
-
 msgid "Data Language"
 msgstr "Tungumál Gagna"
+
+msgid "Data language"
+msgstr "Tungumál gagna"
 
 msgid "Data not imported. All records are invalid."
 msgstr ""
@@ -698,9 +698,6 @@ msgstr ""
 
 msgid "Edit Instance"
 msgstr "Breyta tilviki"
-
-msgid "Edit sources that can embed this platform in an iFrame"
-msgstr ""
 
 msgid "Element"
 msgstr ""
@@ -857,6 +854,9 @@ msgstr ""
 msgid "Forbid for all domains"
 msgstr ""
 
+msgid "Force HTTPS on this platform"
+msgstr ""
+
 msgid "Force Release"
 msgstr ""
 
@@ -898,6 +898,9 @@ msgstr ""
 
 msgid "Hide detailed report"
 msgstr "Fela nákvæma skýrslu"
+
+msgid "Hide password"
+msgstr ""
 
 msgid "Highlight all"
 msgstr ""
@@ -968,10 +971,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1108,6 +1111,9 @@ msgstr "Listi - Einfalt val - Felligluggi"
 
 msgid "List - Single choice - Radio button"
 msgstr "Listi - Einfalt val - "
+
+msgid "List values"
+msgstr ""
 
 msgid "ln"
 msgstr ""
@@ -1306,10 +1312,10 @@ msgstr "Engar skrár"
 msgid "no label"
 msgstr "ekkert merki"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr ""
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr ""
 
 msgid "No results found"
@@ -1361,10 +1367,10 @@ msgstr ""
 msgid "Off"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr ""
 
-msgid "Ok"
+msgid "OK"
 msgstr ""
 
 msgid "Old Password"
@@ -1460,9 +1466,6 @@ msgstr ""
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
 msgstr ""
 
-msgid "Please try in %s."
-msgstr ""
-
 msgid "Please wait"
 msgstr ""
 
@@ -1499,9 +1502,6 @@ msgstr ""
 #, tao-public
 msgid "Properties"
 msgstr "Stillingar"
-
-msgid "Property\'s label field is required"
-msgstr ""
 
 msgid "Provided URL is not valid"
 msgstr ""
@@ -1727,11 +1727,11 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "Select"
-msgstr "Velja"
-
 msgid "select"
 msgstr "velja"
+
+msgid "Select"
+msgstr "Velja"
 
 msgid "Select a class"
 msgstr ""
@@ -1779,11 +1779,11 @@ msgstr "Stillingar uppfærðar"
 msgid "Show detailed report"
 msgstr "Sýna nákvæma skýrslu"
 
-msgid "Sign change"
+msgid "Show password"
 msgstr ""
 
-msgid "Simple Mode"
-msgstr "Einfaldur hamur"
+msgid "Sign change"
+msgstr ""
 
 msgid "sin"
 msgstr ""
@@ -2043,7 +2043,13 @@ msgstr "Þýðingaviðföng"
 msgid "Translation saved"
 msgstr "Þýðing vistuð"
 
+msgid "Transport Layer Security"
+msgstr ""
+
 msgid "Tree - Multiple node choice "
+msgstr ""
+
+msgid "Tree values"
 msgstr ""
 
 msgid "True"
@@ -2115,10 +2121,10 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr ""
 
 msgid "Undefined amount of the pages for pagination"

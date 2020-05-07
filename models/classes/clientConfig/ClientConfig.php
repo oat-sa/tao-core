@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,19 +18,22 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
+
 namespace oat\tao\model\clientConfig;
 
 use oat\oatbox\PhpSerializable;
+
 /**
- * 
+ *
  * @author Joel Bout
  */
-interface ClientConfig extends PhpSerializable {
+interface ClientConfig extends PhpSerializable
+{
 
     /**
      * Returns either a JsonSerializable object or an associative array
      * hat will be json encoded and passed to the client as is
-     * 
+     *
      * @return mixed
      */
     public function getConfig();

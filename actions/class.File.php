@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -40,20 +41,20 @@ class tao_actions_File extends tao_actions_CommonModule
 {
     use OntologyAwareTrait;
 
-	/**
-	 * Upload a file using http and copy it from the tmp dir to the target folder
-	 * @return void
-	 */
-	public function upload()
-	{
-		$response = array('uploaded' => false);
+    /**
+     * Upload a file using http and copy it from the tmp dir to the target folder
+     * @return void
+     */
+    public function upload()
+    {
+        $response = ['uploaded' => false];
 
-		foreach ((array)$_FILES as $file) {
-			$targetFolder = isset($_POST['folder']) ? $_POST['folder'] : '/';
-			$response = array_merge($response, $this->uploadFile($file, $targetFolder . '/'));
-		}
+        foreach ((array)$_FILES as $file) {
+            $targetFolder = isset($_POST['folder']) ? $_POST['folder'] : '/';
+            $response = array_merge($response, $this->uploadFile($file, $targetFolder . '/'));
+        }
         $this->returnJson($response);
-	}
+    }
 
     /**
      * Get, check and move the file uploaded (described in the posetedFile parameter)
@@ -64,42 +65,41 @@ class tao_actions_File extends tao_actions_CommonModule
      * @throws \oat\oatbox\service\ServiceNotFoundException
      * @throws \common_Exception
      */
-	protected function uploadFile($postedFile, $folder)
-	{
+    protected function uploadFile($postedFile, $folder)
+    {
         $returnValue = [];
 
         if (isset($postedFile['tmp_name'], $postedFile['name']) && $postedFile['tmp_name']) {
             $returnValue = $this->getServiceLocator()->get(UploadService::SERVICE_ID)->uploadFile($postedFile, $folder);
         }
         return $returnValue;
-	}
+    }
 
-	/**
-	 * Download a resource file content
-	 * @param {String} uri Uri of the resource file
-	 */
-	public function downloadFile()
-	{
-		if($this->hasRequestParameter('id')){
-			$fileService = $this->getServiceLocator()->get(FileReferenceSerializer::SERVICE_ID);
-			$file = $fileService->unserialize($this->getRequestParameter('id'));
-			header("Content-Disposition: attachment; filename=\"{$file->getBasename()}\"");
-			tao_helpers_Http::returnStream($file->readPsrStream(), $file->getMimeType());
-		}
-
-	}
-
-	public function getPropertyFileInfo()
+    /**
+     * Download a resource file content
+     * @param {String} uri Uri of the resource file
+     */
+    public function downloadFile()
     {
-		$data = array('name' => __('(empty)'));
+        if ($this->hasRequestParameter('id')) {
+            $fileService = $this->getServiceLocator()->get(FileReferenceSerializer::SERVICE_ID);
+            $file = $fileService->unserialize($this->getRequestParameter('id'));
+            header("Content-Disposition: attachment; filename=\"{$file->getBasename()}\"");
+            tao_helpers_Http::returnStream($file->readPsrStream(), $file->getMimeType());
+        }
+    }
 
-		if ($this->hasRequestParameter('uri') && $this->hasRequestParameter('propertyUri')) {
-			$uri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
-			$propertyUri = tao_helpers_Uri::decode($this->getRequestParameter('propertyUri'));
-			$instance = $this->getResource($uri);
-			$fileResource = $instance->getOnePropertyValue($this->getProperty($propertyUri));
+    public function getPropertyFileInfo()
+    {
+        $data = ['name' => __('(empty)')];
 
-			if (!is_null($fileResource) && $fileResource instanceof core_kernel_classes_Resource) {
+        if ($this->hasRequestParameter('uri') && $this->hasRequestParameter('propertyUri')) {
+            $uri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
+            $propertyUri = tao_helpers_Uri::decode($this->getRequestParameter('propertyUri'));
+            $instance = $this->getResource($uri);
+            $fileResource = $instance->getOnePropertyValue($this->getProperty($propertyUri));
+
+            if (!is_null($fileResource) && $fileResource instanceof core_kernel_classes_Resource) {
                 /** @var FileReferenceSerializer $fileService */
                 $fileService = $this->getServiceLocator()->get(FileReferenceSerializer::SERVICE_ID);
                 $file = $fileService->unserialize($fileResource);
@@ -107,11 +107,11 @@ class tao_actions_File extends tao_actions_CommonModule
                 if ($file instanceof File) {
                     $data['name'] = $file->getBasename();
                 }
-			}
-		}
+            }
+        }
 
-		return $this->returnJson($data);
-	}
+        return $this->returnJson($data);
+    }
 
     /**
      * @throws ResolverException
@@ -120,13 +120,18 @@ class tao_actions_File extends tao_actions_CommonModule
      */
     public function accessFile()
     {
-        list($extension, $module, $action, $code, $filePath) = explode('/', tao_helpers_Request::getRelativeUrl(), 5);;
+        list($extension, $module, $action, $code, $filePath) = explode('/', tao_helpers_Request::getRelativeUrl(), 5);
+        ;
         list($key, $subPath) = explode(' ', base64_decode($code), 2);
 
-        $source = WebsourceManager::singleton()->getWebsource($key);
+        $source = $this->getServiceLocator()->get(WebsourceManager::class)->getWebsource($key);
         if ($source instanceof ActionWebSource) {
-            $path = $subPath.(empty($filePath) ? '' : DIRECTORY_SEPARATOR . $filePath);
-            tao_helpers_Http::returnStream($source->getFileStream($path), $source->getMimetype($path));
+            $path = $subPath . (empty($filePath) ? '' : DIRECTORY_SEPARATOR . $filePath);
+            return $this->getPsrResponse()
+                ->withBody($source->getFileStream($path))
+                ->withHeader('content-type', $source->getMimetype($path));
+        } else {
+            throw new common_exception_NotFound('File not found');
         }
     }
 }

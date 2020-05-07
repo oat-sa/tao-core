@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,17 +23,17 @@
  * This script aims at generating client-side translation bundles while
  * TAO is not installed yet. It creates a translation bundle per locale
  * found accross the code base.
- * 
+ *
  * An optional argument 'p' can be given to the script in order to indicate
  * the path to the root of your TAO platform. In case of 'p' is not given,
  * the current directory is used.
- * 
+ *
  * An optional argument 'v' enables verbose mode.
- * 
+ *
  * Example usage #1 (current directory is the root of the TAO platform):
  * cd /path/to/tao
  * sudo -u www-data php tao/scripts/tools/GenerateTranslationBundles.php -v
- * 
+ *
  * Example usage #2 (current directory is NOT the root of the TAO platform):
  * sudo -u www-data php tao/scripts/tools/GenerateTranslationBundles.php -v -p /path/to/tao
  */

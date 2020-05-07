@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,10 +19,13 @@
  *
  */
 
-
 namespace oat\tao\model\notification;
 
-
+/**
+ * Interface NotificationInterface
+ *
+ * @deprecated This class is used by client only. It will be moved to client specific extension
+ */
 interface NotificationInterface
 {
 
@@ -33,26 +37,62 @@ interface NotificationInterface
     const READ_STATUS     = 3;
     const ARCHIVED_STATUS = 4;
 
-    public function getStatus();
+    /**
+     * @return int
+     */
+    public function getStatus(): int;
 
-    public function getRecipient();
+    /**
+     * @return string
+     */
+    public function getRecipient(): string;
 
-    public function getSenderId();
+    /**
+     * @return string
+     */
+    public function getSenderId(): string;
 
-    public function getSenderName();
+    /**
+     * @return string
+     */
+    public function getSenderName(): string;
 
-    public function getMessage();
+    /**
+     * @return string
+     */
+    public function getMessage(): string;
 
-    public function getCreatedAt();
+    /**
+     * @return int
+     */
+    public function getCreatedAt(): string;
 
-    public function getUpdatedAt();
+    /**
+     * @return int
+     */
+    public function getUpdatedAt(): string;
 
-    public function getId();
+    /**
+     * @return string
+     */
+    public function getId(): string;
 
-    public function setStatus($status);
+    /**
+     * @param int $status
+     *
+     * @return NotificationInterface
+     */
+    public function setStatus($status): self;
 
-    public function setId($id);
+    /**
+     * @param string $id
+     *
+     * @return NotificationInterface
+     */
+    public function setId($id): self;
 
-    public function getTitle();
-
+    /**
+     * @return string
+     */
+    public function getTitle(): string;
 }

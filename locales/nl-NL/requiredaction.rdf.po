@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint115\n"
-"PO-Revision-Date: 2019-11-08T10:43:17\n"
+"Project-Id-Version: TAO 3.4.0-sprint126\n"
+"PO-Revision-Date: 2020-04-10T08:17:42\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nl-NL\n"
@@ -33,20 +33,20 @@ msgstr ""
 # http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionExecutionTime
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Executed At Date"
-msgstr ""
+msgstr "Uitgevoerd op datum"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionExecutionTime
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Time of execution of required action"
-msgstr ""
+msgstr "Tijdstip van uitvoering van de vereiste actie"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionSubject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Executed by"
-msgstr ""
+msgstr "Uitgevoerd door"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionSubject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Required action executed by user"
-msgstr ""
+msgstr "Vereiste actie uitgevoerd door gebruiker"
 

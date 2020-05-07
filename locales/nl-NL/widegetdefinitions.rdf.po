@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint115\n"
-"PO-Revision-Date: 2019-11-08T10:43:17\n"
+"Project-Id-Version: TAO 3.4.0-sprint126\n"
+"PO-Revision-Date: 2020-04-10T08:17:42\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nl-NL\n"
@@ -23,10 +23,10 @@ msgstr "Een specifiek boom venster"
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#JsonObject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Json Object"
-msgstr ""
+msgstr "Json-object"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#JsonObject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Display a Json Object stored as a literal value as a collection of key/value pairs."
-msgstr ""
+msgstr "Geef een Json-object opgeslagen als een literal value weer als een verzameling van key/value pairs."
 

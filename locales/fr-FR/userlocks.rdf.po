@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint115\n"
-"PO-Revision-Date: 2019-11-08T10:42:50\n"
+"Project-Id-Version: TAO 3.4.0-sprint126\n"
+"PO-Revision-Date: 2020-04-10T08:15:53\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-FR\n"
@@ -13,60 +13,60 @@ msgstr ""
 # http://www.tao.lu/Ontologies/TAO.rdf#accountStatus
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Is locked?"
-msgstr ""
+msgstr "Est verrouillé?"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#accountStatus
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Shows account status, locked or not"
-msgstr ""
+msgstr "Montre l'état du compte, verrouillé ou pas"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LockedStatus
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Check Locked"
-msgstr ""
+msgstr "Vérifier Verrouillages"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LockedStatus
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Check Locked"
-msgstr ""
+msgstr "Vérifier Verrouillages"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#Locked
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Yes"
-msgstr ""
+msgstr "Oui"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#Locked
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Yes"
-msgstr ""
+msgstr "Oui"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#logonFailures
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Logon failures"
-msgstr ""
+msgstr "Echecs de connexion"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#logonFailures
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Count of user logon failures"
-msgstr ""
+msgstr "Nombre d'échecs de connexion d'utilisateur"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#lastLogonFailureTime
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Last logon failure"
-msgstr ""
+msgstr "Dernier échec de connexion"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#lastLogonFailureTime
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Time when the last logon failure occurred"
-msgstr ""
+msgstr "Heure à laquelle le dernier échec de connexion s'est produit"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#lockedBy
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Locked by"
-msgstr ""
+msgstr "Verrouillé par"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#lockedBy
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Indicates by which user current user was locked"
-msgstr ""
+msgstr "Indique par quel utilisateur l'utilisateur actuel a été verrouillé"
 

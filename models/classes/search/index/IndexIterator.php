@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,6 +17,7 @@
  *
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA;
  */
+
 namespace oat\tao\model\search\index;
 
 use oat\oatbox\service\ServiceManager;
@@ -36,7 +38,8 @@ class IndexIterator extends \IteratorIterator implements ServiceLocatorAwareInte
         /**
      * @return \oat\oatbox\service\ConfigurableService|IndexService
      */
-    protected function getIndexer() {
+    protected function getIndexer()
+    {
         if (is_null($this->indexService)) {
             $this->indexService = $this->getServiceLocator()->get(IndexService::SERVICE_ID);
         }
@@ -54,7 +57,8 @@ class IndexIterator extends \IteratorIterator implements ServiceLocatorAwareInte
      * @throws \common_Exception
      * @throws \common_exception_InconsistentData
      */
-    public function current() {
+    public function current()
+    {
         return $this->getIndexer()->createDocumentFromResource($this->getInnerIterator()->current());
     }
 }

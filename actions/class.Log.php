@@ -53,26 +53,25 @@ class tao_actions_Log extends \tao_actions_CommonModule
     {
         $result = \common_Logger::TRACE_LEVEL;
         switch ($level) {
-            case 'fatal' :
+            case 'fatal':
                 $result = \common_Logger::FATAL_LEVEL;
                 break;
-            case 'error' :
+            case 'error':
                 $result = \common_Logger::ERROR_LEVEL;
                 break;
-            case 'warn' :
+            case 'warn':
                 $result = \common_Logger::WARNING_LEVEL;
                 break;
-            case 'info' :
+            case 'info':
                 $result = \common_Logger::INFO_LEVEL;
                 break;
-            case 'debug' :
+            case 'debug':
                 $result = \common_Logger::DEBUG_LEVEL;
                 break;
-            case 'trace' :
+            case 'trace':
                 $result = \common_Logger::DEBUG_LEVEL;
                 break;
         }
         return $result;
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,32 +21,27 @@
 
 namespace oat\tao\model\upload;
 
-use common_Utils;
-use oat\oatbox\AbstractRegistry;
+use oat\generis\persistence\PersistenceManager;
 use oat\oatbox\filesystem\File;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
-class TempFlyStorageAssociation extends AbstractRegistry implements TmpLocalAwareStorageInterface
+class TempFlyStorageAssociation implements TmpLocalAwareStorageInterface, ServiceLocatorAwareInterface
 {
-    protected function getExtension()
-    {
-        return \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-    }
-
-    protected function getConfigId()
-    {
-        return 'tmp_fly_files_registry';
-    }
+    use ServiceLocatorAwareTrait;
 
     /**
-     * @return TmpLocalAwareStorageInterface
+     * @param ServiceLocatorInterface $serviceLocator
      */
-    public static function getStorage()
+    public function __construct(ServiceLocatorInterface $serviceLocator)
     {
-        return self::getRegistry();
+        $this->setServiceLocator($serviceLocator);
     }
 
     /**
-     * @param $file
+     * @param File $file
+     * @throws \common_Exception
      */
     public function setUpload(File $file)
     {
@@ -56,6 +52,7 @@ class TempFlyStorageAssociation extends AbstractRegistry implements TmpLocalAwar
     /**
      * @param File $remote
      * @param string $local
+     * @throws \common_Exception
      */
     public function addLocalCopies(File $remote, $local)
     {
@@ -91,5 +88,56 @@ class TempFlyStorageAssociation extends AbstractRegistry implements TmpLocalAwar
     public function removeFiles(File $file)
     {
         $this->remove($this->getHashedKey($file));
+    }
+
+    /**
+     * @return \common_persistence_KeyValuePersistence
+     */
+    private function getKvStorage()
+    {
+        /** @var PersistenceManager $pm */
+        $pm = $this->getServiceLocator()->get(PersistenceManager::SERVICE_ID);
+        return $pm->getPersistenceById('default_kv');
+    }
+
+    /**
+     * @param $key
+     * @param $val
+     * @throws \common_Exception
+     */
+    private function set($key, $val)
+    {
+        $key = $this->getPrefix() . $key;
+        $this->getKvStorage()->set($key, json_encode($val));
+    }
+
+    /**
+     * @param $key
+     */
+    private function remove($key)
+    {
+        $key = $this->getPrefix() . $key;
+        $this->getKvStorage()->del($key);
+    }
+
+    /**
+     * @param $key
+     * @return mixed|null
+     */
+    private function get($key)
+    {
+        $key = $this->getPrefix() . $key;
+        if ($this->getKvStorage()->exists($key)) {
+            return json_decode($this->getKvStorage()->get($key), true);
+        }
+        return null;
+    }
+
+    /**
+     * @return string
+     */
+    private function getPrefix()
+    {
+        return static::class;
     }
 }
