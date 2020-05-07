@@ -46,25 +46,27 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
      */
     protected function initElements()
     {
-        
+
         $property = $this->getPropertyInstance();
 
         $index = $this->getIndex();
 
         $propertyProperties = array_merge(
             tao_helpers_form_GenerisFormFactory::getDefaultProperties(),
-            [new core_kernel_classes_Property(GenerisRdf::PROPERTY_IS_LG_DEPENDENT),
+            [
+                new core_kernel_classes_Property(GenerisRdf::PROPERTY_ALIAS),
+                new core_kernel_classes_Property(GenerisRdf::PROPERTY_IS_LG_DEPENDENT),
                 new core_kernel_classes_Property(TaoOntology::PROPERTY_GUI_ORDER),
                 $this->getProperty(ValidationRuleRegistry::PROPERTY_VALIDATION_RULE)
             ]
         );
         $values = $property->getPropertiesValues($propertyProperties);
-        
+
         $elementNames = [];
         foreach ($propertyProperties as $propertyProperty) {
             //map properties widgets to form elements
             $element = tao_helpers_form_GenerisFormFactory::elementMap($propertyProperty);
-            
+
             if (!is_null($element)) {
                 //take property values to populate the form
                 if (isset($values[$propertyProperty->getUri()])) {
@@ -93,7 +95,7 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
                 $elementNames[] = $element->getName();
             }
         }
-        
+
         //build the type list from the "widget/range to type" map
         $typeElt = tao_helpers_form_FormFactory::getElement("{$index}_type", 'Combobox');
         $typeElt->setDescription(__('Type'));
@@ -140,7 +142,7 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
         $elementNames[] = $treeElt->getName();
 
         //index part
-        $indexes = $property->getPropertyValues(new \core_kernel_classes_Property(OntologyIndex::PROPERTY_INDEX));
+        $indexes = $property->getPropertyValues(new core_kernel_classes_Property(OntologyIndex::PROPERTY_INDEX));
         foreach ($indexes as $i => $indexUri) {
             $indexProperty = new OntologyIndex($indexUri);
             $indexFormContainer = new tao_actions_form_IndexProperty($indexProperty, $index . $i);
