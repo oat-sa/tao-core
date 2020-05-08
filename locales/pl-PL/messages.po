@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint126\n"
-"PO-Revision-Date: 2020-04-10T08:17:56\n"
+"Project-Id-Version: TAO 3.4.0-sprint128\n"
+"PO-Revision-Date: 2020-05-08T09:22:31\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: pl-PL\n"
@@ -16,10 +16,10 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " and "
+msgid " AND "
 msgstr ""
 
-msgid " AND "
+msgid " and "
 msgstr ""
 
 msgid " has been deleted successfully"
@@ -148,18 +148,6 @@ msgstr ""
 msgid "A message with further instructions has been sent to your email address: %s"
 msgstr ""
 
-msgid "A response to every question in this item is required."
-msgstr ""
-
-msgid "A response to this item is required."
-msgstr ""
-
-msgid "A valid response to this item is required."
-msgstr ""
-
-msgid "A visible section is one that is identifiable by the candidate."
-msgstr ""
-
 msgid "abs"
 msgstr ""
 
@@ -193,9 +181,6 @@ msgstr ""
 msgid "Actions"
 msgstr ""
 
-msgid "Activated"
-msgstr ""
-
 msgid "Add"
 msgstr ""
 
@@ -203,9 +188,6 @@ msgid "Add / Edit lists"
 msgstr ""
 
 msgid "Add a CSV file"
-msgstr ""
-
-msgid "add a new weight"
 msgstr ""
 
 #, tao-public
@@ -221,9 +203,6 @@ msgstr ""
 msgid "Add property"
 msgstr ""
 
-msgid "Add selected item(s) here."
-msgstr ""
-
 msgid "Adding search index for %s"
 msgstr ""
 
@@ -236,13 +215,7 @@ msgstr ""
 msgid "Advanced search, add filters"
 msgstr ""
 
-msgid "After you complete the section it would be impossible to return to this section to make changes. Are you sure you want to end the section?"
-msgstr ""
-
 msgid "aliases:"
-msgstr ""
-
-msgid "All"
 msgstr ""
 
 msgid "all"
@@ -257,43 +230,16 @@ msgstr ""
 msgid "All rights reserved."
 msgstr ""
 
-msgid "Allow Comment"
-msgstr ""
-
 msgid "Allow for all domains"
 msgstr ""
 
 msgid "Allow for the following domains"
 msgstr ""
 
-msgid "Allow Review"
-msgstr ""
-
-msgid "Allow Skipping"
-msgstr ""
-
-msgid "Allow the candidate to review his answers."
-msgstr ""
-
 msgid "Alpha version"
 msgstr ""
 
-msgid "Also compute the score per categories"
-msgstr ""
-
 msgid "An email has been sent"
-msgstr ""
-
-msgid "An error occured while retrieving items"
-msgstr ""
-
-msgid "An error occurred during results submission. Please retry."
-msgstr ""
-
-msgid "An error occurred during the test initialization!"
-msgstr ""
-
-msgid "An error occurred during the test, please content your administrator."
 msgstr ""
 
 msgid "An error occurred during user deletion"
@@ -302,37 +248,13 @@ msgstr ""
 msgid "An error occurred!"
 msgstr ""
 
-msgid "An error occurs, please contact your administrator"
-msgstr ""
-
 msgid "An exception occured while running \"%s"
 msgstr ""
 
 msgid "an instance"
 msgstr ""
 
-msgid "An invisible section with a parent that is subject to shuffling can specify whether or not its children, which will appear to the candidate as if they were part of the parent, are shuffled as a block or mixed up with the other children of the parent section."
-msgstr ""
-
-msgid "and"
-msgstr ""
-
-msgid "and flagged %s of them"
-msgstr ""
-
-msgid "and you flagged %s item(s) that you can review now"
-msgstr ""
-
 msgid "Ans"
-msgstr ""
-
-msgid "Answer Eliminator"
-msgstr ""
-
-msgid "Answer Masking"
-msgstr ""
-
-msgid "Answered"
 msgstr ""
 
 msgid "Apply"
@@ -357,22 +279,7 @@ msgid "Are you sure to delete the versioned resource?\n"
 "The history will be lost as well."
 msgstr ""
 
-msgid "Are you sure you want to clear your answer and go to the next item? You will not be able to go back and provide an answer."
-msgstr ""
-
 msgid "Are you sure you want to delete it?"
-msgstr ""
-
-msgid "Are you sure you want to end the test?"
-msgstr ""
-
-msgid "Are you sure you want to go to the next item? You will not be able to go back and change your answer."
-msgstr ""
-
-msgid "Are you sure you want to go to the next item? You will not be able to go back and provide an answer."
-msgstr ""
-
-msgid "Are you sure you want to go to the next item? You will not be able to go back."
 msgstr ""
 
 msgid "Argument check failed: %s"
@@ -395,12 +302,6 @@ msgstr ""
 
 #, tao-public
 msgid "Assign Users"
-msgstr ""
-
-msgid "Associate a blueprint to a section allow you to validate this section against the specified blueprint."
-msgstr ""
-
-msgid "Associate Blueprint"
 msgstr ""
 
 msgid "Author"
@@ -466,13 +367,10 @@ msgstr ""
 msgid "Calendar"
 msgstr ""
 
-msgid "Can not playback media file!"
+msgid "Cancel"
 msgstr ""
 
 msgid "cancel"
-msgstr ""
-
-msgid "Cancel"
 msgstr ""
 
 msgid "cancel the action"
@@ -481,25 +379,13 @@ msgstr ""
 msgid "Cancelled"
 msgstr ""
 
-msgid "Candidate"
-msgstr ""
-
 msgid "Cannot be edited"
 msgstr ""
 
 msgid "Cannot divide by zero"
 msgstr ""
 
-msgid "Cardinality"
-msgstr ""
-
 msgid "Case sensitive"
-msgstr ""
-
-msgid "Categories"
-msgstr ""
-
-msgid "Category score"
 msgstr ""
 
 msgid "ceil"
@@ -509,19 +395,16 @@ msgstr ""
 msgid "Change password"
 msgstr ""
 
-msgid "Change the current color preset"
-msgstr ""
-
 msgid "Change the password"
 msgstr ""
 
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check all"
+msgid "Check All"
 msgstr ""
 
-msgid "Check All"
+msgid "Check all"
 msgstr ""
 
 msgid "Check-in"
@@ -537,9 +420,6 @@ msgid "Choose export format"
 msgstr ""
 
 msgid "Choose import format"
-msgstr ""
-
-msgid "Class"
 msgstr ""
 
 msgid "class selected"
@@ -560,16 +440,10 @@ msgstr ""
 msgid "Clear All"
 msgstr ""
 
-msgid "Clear all active highlights"
-msgstr ""
-
 msgid "Clear all data"
 msgstr ""
 
 msgid "Clear expression"
-msgstr ""
-
-msgid "Clear Highlights"
 msgstr ""
 
 msgid "Clear History"
@@ -590,22 +464,13 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-msgid "Close Magnifier"
+msgid "Close dialog"
 msgstr ""
 
 msgid "Close message"
 msgstr ""
 
-msgid "Close the mask"
-msgstr ""
-
-msgid "Close this Section"
-msgstr ""
-
 msgid "Code Version"
-msgstr ""
-
-msgid "Collapse the review panel"
 msgstr ""
 
 msgid "Collecting of abandoned actions in the action queue ..."
@@ -615,9 +480,6 @@ msgid "Column"
 msgstr ""
 
 msgid "Commands:"
-msgstr ""
-
-msgid "Comment"
 msgstr ""
 
 msgid "comment..."
@@ -632,9 +494,6 @@ msgstr ""
 msgid "Completed - Error"
 msgstr ""
 
-msgid "Completed items"
-msgstr ""
-
 msgid "Compute the expression"
 msgstr ""
 
@@ -644,19 +503,7 @@ msgstr ""
 msgid "Connect to the TAO platform"
 msgstr ""
 
-msgid "Connected to server"
-msgstr ""
-
 msgid "Continue"
-msgstr ""
-
-msgid "Contrast"
-msgstr ""
-
-msgid "Controls the contribution of an individual item score to the overall test score."
-msgstr ""
-
-msgid "Controls the maximum number of attempts allowed. 0 means unlimited."
 msgstr ""
 
 msgid "Copy"
@@ -678,9 +525,6 @@ msgid "Cosine"
 msgstr ""
 
 msgid "count"
-msgstr ""
-
-msgid "Covers parts of the item"
 msgstr ""
 
 msgid "Create"
@@ -711,21 +555,6 @@ msgid "Current language"
 msgstr ""
 
 msgid "Current playback position"
-msgstr ""
-
-msgid "Custom"
-msgstr ""
-
-msgid "custom categories"
-msgstr ""
-
-msgid "Custom outcome processing. No changes will be made to the existing rules."
-msgstr ""
-
-msgid "Cut score"
-msgstr ""
-
-msgid "Cut score (pass ratio)"
 msgstr ""
 
 msgid "Data imported"
@@ -831,18 +660,6 @@ msgstr ""
 msgid "Disabled %s"
 msgstr ""
 
-msgid "Disconnected from server"
-msgstr ""
-
-msgid "Displays a customisable magnifier"
-msgstr ""
-
-msgid "Do not flag the current item for later review"
-msgstr ""
-
-msgid "Do not rename it."
-msgstr ""
-
 msgid "Do you wish to install the following extension(s):\n"
 "%s?"
 msgstr ""
@@ -857,9 +674,6 @@ msgid "Dot"
 msgstr ""
 
 msgid "Download"
-msgstr ""
-
-msgid "Download the pupil responses and submit manually."
 msgstr ""
 
 msgid "Download this file"
@@ -893,16 +707,7 @@ msgstr ""
 msgid "Element deleted."
 msgstr ""
 
-msgid "Eliminate choices"
-msgstr ""
-
 msgid "Email"
-msgstr ""
-
-msgid "Enable selection"
-msgstr ""
-
-msgid "Enable text to speech"
 msgstr ""
 
 msgid "enabled"
@@ -914,16 +719,7 @@ msgstr ""
 msgid "End of document reached. Continuing from the beginning."
 msgstr ""
 
-msgid "End test"
-msgstr ""
-
 msgid "Enter"
-msgstr ""
-
-msgid "Enter a blueprint"
-msgstr ""
-
-msgid "Enter a custom category"
 msgstr ""
 
 msgid "Error"
@@ -957,9 +753,6 @@ msgid "Executing task %s failed"
 msgstr ""
 
 msgid "exp"
-msgstr ""
-
-msgid "Expand the review panel"
 msgstr ""
 
 msgid "Exponent"
@@ -1006,9 +799,6 @@ msgstr ""
 msgid "False"
 msgstr ""
 
-msgid "Feedback block"
-msgstr ""
-
 msgid "Field delimiter"
 msgstr ""
 
@@ -1025,9 +815,6 @@ msgid "File download failed"
 msgstr ""
 
 msgid "File name"
-msgstr ""
-
-msgid "File not found!"
 msgstr ""
 
 msgid "File Properties"
@@ -1061,21 +848,6 @@ msgid "First row column names"
 msgstr ""
 
 msgid "Fit to width"
-msgstr ""
-
-msgid "Fixed"
-msgstr ""
-
-msgid "Fixed position in a shuffled the selection."
-msgstr ""
-
-msgid "Flag for Review"
-msgstr ""
-
-msgid "Flag the current item for later review"
-msgstr ""
-
-msgid "Flagged"
 msgstr ""
 
 msgid "floor"
@@ -1120,12 +892,6 @@ msgstr ""
 msgid "Go Back"
 msgstr ""
 
-msgid "Go to next item"
-msgstr ""
-
-msgid "Go to the next item?"
-msgstr ""
-
 msgid "Height"
 msgstr ""
 
@@ -1138,22 +904,7 @@ msgstr ""
 msgid "Hide password"
 msgstr ""
 
-msgid "Hide Review"
-msgstr ""
-
-msgid "Hide the review screen"
-msgstr ""
-
-msgid "Hide timers"
-msgstr ""
-
-msgid "Highlight"
-msgstr ""
-
 msgid "Highlight all"
-msgstr ""
-
-msgid "Highlight Text"
 msgstr ""
 
 msgid "hours"
@@ -1180,31 +931,7 @@ msgstr ""
 msgid "Identifier"
 msgstr ""
 
-msgid "If required it must appear (at least once) in the selection."
-msgstr ""
-
-msgid "If required, it must appears at least once in the selection."
-msgstr ""
-
-msgid "If set, it causes the order of the child elements to be randomized, otherwise it uses the order in which the child elements are defined."
-msgstr ""
-
-msgid "If the candidate can skip the item, without submitting a response (default is true)."
-msgstr ""
-
-msgid "If the category option is set, the score will also be processed per categories, and each results will take place in the PASS_xxx outcome, where xxx is the name of the category."
-msgstr ""
-
-msgid "If the category option is set, the score will also be processed per categories, and each results will take place in the SCORE_xxx outcome, where xxx is the name of the category."
-msgstr ""
-
-msgid "If the connection cannot be restored, see option B."
-msgstr ""
-
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
-msgstr ""
-
-msgid "If you need help, please contact our Helpline on 0330 088 4171."
 msgstr ""
 
 msgid "Implications failed:"
@@ -1252,16 +979,10 @@ msgstr ""
 msgid "In progress"
 msgstr ""
 
-msgid "In this part of the test navigation is not allowed."
-msgstr ""
-
 msgid "Inclusive (AND)"
 msgstr ""
 
 msgid "Index has been deleted for %s"
-msgstr ""
-
-msgid "Individual"
 msgstr ""
 
 msgid "Infinity"
@@ -1294,10 +1015,10 @@ msgstr ""
 msgid "Instance saved"
 msgstr ""
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr ""
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr ""
 
 msgid "Invalid CSP header."
@@ -1354,49 +1075,7 @@ msgstr ""
 msgid "Invalid values:"
 msgstr ""
 
-msgid "is already used in the test."
-msgstr ""
-
-msgid "is not a valid identifier (alphanum, underscore, dash and dots)"
-msgstr ""
-
-msgid "is not a valid identifier (everything except spaces)"
-msgstr ""
-
-msgid "It is not possible to save your responses while working offline."
-msgstr ""
-
-msgid "Item \"%s\" is completed."
-msgstr ""
-
-msgid "Item %d"
-msgstr ""
-
-msgid "Item %d of %d"
-msgstr ""
-
-msgid "Item Reference Properties"
-msgstr ""
-
-msgid "Item Session Control"
-msgstr ""
-
-msgid "items"
-msgstr ""
-
-msgid "Items"
-msgstr ""
-
-msgid "Items can optionally be assigned to one or more categories."
-msgstr ""
-
-msgid "Items marked for later review"
-msgstr ""
-
 msgid "items per page"
-msgstr ""
-
-msgid "Keep Together"
 msgstr ""
 
 msgid "Label"
@@ -1417,25 +1096,10 @@ msgstr ""
 msgid "Last result"
 msgstr ""
 
-msgid "Late submission allowed"
-msgstr ""
-
-msgid "Leave a comment"
-msgstr ""
-
 msgid "Left parenthesis"
 msgstr ""
 
 msgid "less than a minute"
-msgstr ""
-
-msgid "Line Reader"
-msgstr ""
-
-msgid "Linear"
-msgstr ""
-
-msgid "Link durations to activate the guided navigation"
 msgstr ""
 
 msgid "List"
@@ -1477,9 +1141,6 @@ msgstr ""
 msgid "locked by %s"
 msgstr ""
 
-msgid "Locked duration  : guided navigation. The test transition to the next item once the duration reaches 0."
-msgstr ""
-
 msgid "log"
 msgstr ""
 
@@ -1504,18 +1165,6 @@ msgstr ""
 msgid "Logout"
 msgstr ""
 
-msgid "Magnify less"
-msgstr ""
-
-msgid "Magnify more"
-msgstr ""
-
-msgid "Magnifying Glass"
-msgstr ""
-
-msgid "Main navigation"
-msgstr ""
-
 msgid "Maintenance service must have a persistence option."
 msgstr ""
 
@@ -1535,9 +1184,6 @@ msgstr ""
 msgid "Manage Roles and apply them to users."
 msgstr ""
 
-msgid "Manage Rubric Blocks"
-msgstr ""
-
 #, tao-public
 msgid "Manage users"
 msgstr ""
@@ -1546,36 +1192,6 @@ msgid "Manage Versioned File"
 msgstr ""
 
 msgid "Map the properties to the CSV columns"
-msgstr ""
-
-msgid "Mark for review"
-msgstr ""
-
-msgid "Masking"
-msgstr ""
-
-msgid "Match value"
-msgstr ""
-
-msgid "Max Attempts"
-msgstr ""
-
-msgid "Maximum Duration"
-msgstr ""
-
-msgid "Maximum duration : the items times out when the duration reaches 0."
-msgstr ""
-
-msgid "Maximum duration for the all test."
-msgstr ""
-
-msgid "Maximum duration for this item."
-msgstr ""
-
-msgid "Maximum duration for this section."
-msgstr ""
-
-msgid "Maximum duration for this test part."
 msgstr ""
 
 msgid "Maximum selection reached"
@@ -1593,24 +1209,6 @@ msgstr ""
 msgid "Metadata export is not available for the selected resource."
 msgstr ""
 
-msgid "Minimum Duration"
-msgstr ""
-
-msgid "Minimum duration : enforces the test taker to stay on the item for the given duration."
-msgstr ""
-
-msgid "Minimum duration for the test."
-msgstr ""
-
-msgid "Minimum duration for this item."
-msgstr ""
-
-msgid "Minimum duration for this section."
-msgstr ""
-
-msgid "Minimum duration for this test part."
-msgstr ""
-
 msgid "minutes"
 msgstr ""
 
@@ -1620,9 +1218,6 @@ msgstr ""
 msgid "Missing Parameters"
 msgstr ""
 
-msgid "Missing required configuration option %s"
-msgstr ""
-
 msgid "modulo"
 msgstr ""
 
@@ -1630,9 +1225,6 @@ msgid "More"
 msgstr ""
 
 msgid "Move"
-msgstr ""
-
-msgid "Move Down"
 msgstr ""
 
 msgid "Move Left"
@@ -1652,9 +1244,6 @@ msgid "Move the cursor one step on the right"
 msgstr ""
 
 msgid "Move to"
-msgstr ""
-
-msgid "Move Up"
 msgstr ""
 
 msgid "Moving this element will replace the properties of the previous class by those of the destination class :"
@@ -1682,13 +1271,7 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
-msgid "name of the pupil"
-msgstr ""
-
 msgid "Natural logarithm"
-msgstr ""
-
-msgid "Navigation"
 msgstr ""
 
 msgid "New password"
@@ -1698,9 +1281,6 @@ msgstr ""
 msgid "New role"
 msgstr ""
 
-msgid "New Rubric Block"
-msgstr ""
-
 msgid "Next"
 msgstr ""
 
@@ -1708,9 +1288,6 @@ msgid "Next match"
 msgstr ""
 
 msgid "Next page"
-msgstr ""
-
-msgid "Next Section"
 msgstr ""
 
 msgid "No"
@@ -1737,19 +1314,10 @@ msgstr ""
 msgid "no label"
 msgstr ""
 
-msgid "No more attempts allowed for item \"%s\"."
-msgstr ""
-
-msgid "no outcome declaration found"
-msgstr ""
-
-msgid "No outcome processing. Erase the existing rules, if any."
+msgid "No preview available"
 msgstr ""
 
 msgid "No Preview available"
-msgstr ""
-
-msgid "No preview available"
 msgstr ""
 
 msgid "No results found"
@@ -1761,19 +1329,10 @@ msgstr ""
 msgid "Node duplication has failed"
 msgstr ""
 
-msgid "Non Linear"
-msgstr ""
-
-msgid "None"
-msgstr ""
-
 msgid "Not enough arguments following: %s"
 msgstr ""
 
 msgid "Not enough non-option arguments: got %s, need at least %s"
-msgstr ""
-
-msgid "Not shuffled, the position remains fixed."
 msgstr ""
 
 msgid "Not started"
@@ -1810,16 +1369,10 @@ msgstr ""
 msgid "Off"
 msgstr ""
 
-msgid "Offline"
-msgstr ""
-
 msgid "Ok"
 msgstr ""
 
 msgid "OK"
-msgstr ""
-
-msgid "OK & End test"
 msgstr ""
 
 msgid "Old Password"
@@ -1828,46 +1381,13 @@ msgstr ""
 msgid "On"
 msgstr ""
 
-msgid "Once you close this section, you cannot return to it or change your answers."
-msgstr ""
-
-msgid "Online"
-msgstr ""
-
 msgid "Only allow for my own domain (%s)"
-msgstr ""
-
-msgid "Only display the items marked for review"
-msgstr ""
-
-msgid "Only display the unanswered items"
-msgstr ""
-
-msgid "Open Calculator"
 msgstr ""
 
 msgid "Operated By "
 msgstr ""
 
-msgid "Option A"
-msgstr ""
-
-msgid "Option B"
-msgstr ""
-
 msgid "or"
-msgstr ""
-
-msgid "Ordering"
-msgstr ""
-
-msgid "Outcome"
-msgstr ""
-
-msgid "Outcome declarations"
-msgstr ""
-
-msgid "Outcome processing"
 msgstr ""
 
 msgid "Outlook on the next Synchronization"
@@ -1924,9 +1444,6 @@ msgstr ""
 msgid "Please confirm unlocking of account %s"
 msgstr ""
 
-msgid "Please confirm you want to leave the test."
-msgstr ""
-
 msgid "Please contact %s or an administrator to release it"
 msgstr ""
 
@@ -1957,9 +1474,6 @@ msgstr ""
 msgid "Please wait while ..."
 msgstr ""
 
-msgid "Please wait while we try to restore the connection."
-msgstr ""
-
 msgid "Post install processing"
 msgstr ""
 
@@ -1975,9 +1489,6 @@ msgstr ""
 msgid "Preview"
 msgstr ""
 
-msgid "Preview the covered area"
-msgstr ""
-
 msgid "Previous"
 msgstr ""
 
@@ -1988,12 +1499,6 @@ msgid "Previous page"
 msgstr ""
 
 msgid "Proceed"
-msgstr ""
-
-msgid "PROCEED & END ASSESSMENT"
-msgstr ""
-
-msgid "Proctor"
 msgstr ""
 
 #, tao-public
@@ -2030,13 +1535,7 @@ msgstr ""
 msgid "RDF"
 msgstr ""
 
-msgid "Reference"
-msgstr ""
-
 msgid "Refresh"
-msgstr ""
-
-msgid "Regenerate"
 msgstr ""
 
 msgid "Release"
@@ -2066,16 +1565,7 @@ msgstr ""
 msgid "Remove"
 msgstr ""
 
-msgid "Remove Item Reference"
-msgstr ""
-
 msgid "Remove Message"
-msgstr ""
-
-msgid "Remove Rubric Block"
-msgstr ""
-
-msgid "Remove Section"
 msgstr ""
 
 msgid "Remove this file"
@@ -2108,12 +1598,6 @@ msgstr ""
 msgid "required"
 msgstr ""
 
-msgid "Required"
-msgstr ""
-
-msgid "Required field"
-msgstr ""
-
 msgid "required length"
 msgstr ""
 
@@ -2121,9 +1605,6 @@ msgid "Requires"
 msgstr ""
 
 msgid "Reset"
-msgstr ""
-
-msgid "Reset filters"
 msgstr ""
 
 msgid "Reset the range values"
@@ -2177,12 +1658,6 @@ msgstr ""
 msgid "Return to sign in page"
 msgstr ""
 
-msgid "Review"
-msgstr ""
-
-msgid "Review my Answers"
-msgstr ""
-
 msgid "Right click the tree to manage your lists"
 msgstr ""
 
@@ -2214,15 +1689,6 @@ msgstr ""
 msgid "Row %s"
 msgstr ""
 
-msgid "Rubric Block"
-msgstr ""
-
-msgid "Rubric Block Properties"
-msgstr ""
-
-msgid "Rubric Blocks"
-msgstr ""
-
 msgid "Running task %s"
 msgstr ""
 
@@ -2236,12 +1702,6 @@ msgid "Scientific Calculator"
 msgstr ""
 
 msgid "Scope"
-msgstr ""
-
-msgid "Scorer"
-msgstr ""
-
-msgid "Scoring"
 msgstr ""
 
 msgid "Search"
@@ -2262,18 +1722,6 @@ msgstr ""
 msgid "seconds"
 msgstr ""
 
-msgid "Section %d"
-msgstr ""
-
-msgid "Section %d of %d"
-msgstr ""
-
-msgid "Section level category enables configuring the categories of its composing items all at once. A category in gray means that all items have that category. A category in white means that only a few items have that category."
-msgstr ""
-
-msgid "Section Properties"
-msgstr ""
-
 #, tao-public
 msgid "Security"
 msgstr ""
@@ -2281,13 +1729,10 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "Select"
-msgstr ""
-
 msgid "select"
 msgstr ""
 
-msgid "Select a blueprint"
+msgid "Select"
 msgstr ""
 
 msgid "Select a class"
@@ -2302,9 +1747,6 @@ msgstr ""
 msgid "Select loaded %s"
 msgstr ""
 
-msgid "Select the way the responses of your test should be processed"
-msgstr ""
-
 msgid "Select this file"
 msgstr ""
 
@@ -2317,43 +1759,16 @@ msgstr ""
 msgid "Selected file:"
 msgstr ""
 
-msgid "Selection"
-msgstr ""
-
 msgid "Selection saved successfully"
 msgstr ""
 
 msgid "self-locked"
 msgstr ""
 
-msgid "Send"
-msgstr ""
-
-msgid "Set outcome identifier the feedback block is related to"
-msgstr ""
-
-msgid "Set the cut score (or pass score ratio) associated to the test. It must be a float between 0 and 1."
-msgstr ""
-
-msgid "Set the rubric block as a feedback block"
-msgstr ""
-
 msgid "Set the trigonometric function to work in degrees"
 msgstr ""
 
 msgid "Set the trigonometric function to work in radians"
-msgstr ""
-
-msgid "Set the value of the outcome that will activate the feedback block"
-msgstr ""
-
-msgid "Set the weight identifier used to process the score"
-msgstr ""
-
-msgid "Set the XHTML-QTI class of the rubric block."
-msgstr ""
-
-msgid "Set the XHTML-QTI identifier of the rubric block."
 msgstr ""
 
 #, tao-public
@@ -2366,37 +1781,10 @@ msgstr ""
 msgid "Show detailed report"
 msgstr ""
 
-msgid "Show Feedback"
-msgstr ""
-
 msgid "Show password"
 msgstr ""
 
-msgid "Show Review"
-msgstr ""
-
-msgid "Show Solution"
-msgstr ""
-
-msgid "Show the review screen"
-msgstr ""
-
-msgid "Show the solution once the answer is submitted."
-msgstr ""
-
-msgid "Show timers"
-msgstr ""
-
-msgid "Show/Hide the review screen"
-msgstr ""
-
-msgid "Shuffle"
-msgstr ""
-
 msgid "Sign change"
-msgstr ""
-
-msgid "Simultaneous"
 msgstr ""
 
 msgid "sin"
@@ -2411,31 +1799,10 @@ msgstr ""
 msgid "Size"
 msgstr ""
 
-msgid "Skip"
-msgstr ""
-
-msgid "Skip and end test"
-msgstr ""
-
-msgid "Skip and go to the end of the test"
-msgstr ""
-
-msgid "Skip and go to the next item"
-msgstr ""
-
-msgid "Skip to the next section"
-msgstr ""
-
 msgid "Some resources have not been moved: %s"
 msgstr ""
 
-msgid "Some rubric blocks have been updated to reflect the changes in the list of outcomes."
-msgstr ""
-
 msgid "Sources that can embed this platform in an iFrame"
-msgstr ""
-
-msgid "Speed"
 msgstr ""
 
 msgid "Square root"
@@ -2444,22 +1811,10 @@ msgstr ""
 msgid "Start of document reached. Continuing from the end."
 msgstr ""
 
-msgid "Start Test-part"
-msgstr ""
-
 msgid "Status"
 msgstr ""
 
 msgid "Status of"
-msgstr ""
-
-msgid "Step 1: Download the file (see below when available)."
-msgstr ""
-
-msgid "Step 2: When you are online again, please send the downloaded file to receptionbaseline@nfer.ac.uk together with the "
-msgstr ""
-
-msgid "Step 3: Once you have downloaded the file you can close the browser window. Do not do anything further with the assessment whilst it shows as \"in progress\"; the status will be updated once the helpline has uploaded the file."
 msgstr ""
 
 msgid "Store"
@@ -2471,19 +1826,7 @@ msgstr ""
 msgid "string"
 msgstr ""
 
-msgid "Submission"
-msgstr ""
-
 msgid "Submit"
-msgstr ""
-
-msgid "Submit and go to the end of the test"
-msgstr ""
-
-msgid "Submit and go to the next item"
-msgstr ""
-
-msgid "Submit and go to the previous item"
 msgstr ""
 
 msgid "Success"
@@ -2552,18 +1895,6 @@ msgstr ""
 msgid "Term"
 msgstr ""
 
-msgid "Test constructor"
-msgstr ""
-
-msgid "Test Saved"
-msgstr ""
-
-msgid "Test status"
-msgstr ""
-
-msgid "Test status and review structure"
-msgstr ""
-
 msgid "Text - Long - Box"
 msgstr ""
 
@@ -2571,15 +1902,6 @@ msgid "Text - Long - HTML editor"
 msgstr ""
 
 msgid "Text - Short - Field"
-msgstr ""
-
-msgid "Text to Speech"
-msgstr ""
-
-msgid "Text To Speech"
-msgstr ""
-
-msgid "that was being taken."
 msgstr ""
 
 msgid "The action will be applied to"
@@ -2594,31 +1916,10 @@ msgstr ""
 msgid "The action will not be applied to the following"
 msgstr ""
 
-msgid "the assessment (LCL or Mathematics)"
-msgstr ""
-
-msgid "The candidate is not allowed to submit invalid responses."
-msgstr ""
-
 msgid "The column "
 msgstr ""
 
-msgid "The connection seems to be back, please proceed"
-msgstr ""
-
-msgid "The download will be available in <strong>%d</strong> seconds"
-msgstr ""
-
-msgid "The following identifiers are not unique accross the test : %s"
-msgstr ""
-
 msgid "The format of this field is not valid."
-msgstr ""
-
-msgid "The identifier of the item reference."
-msgstr ""
-
-msgid "The identifier of the section."
 msgstr ""
 
 msgid "The imported file is not properly UTF-8 encoded."
@@ -2630,55 +1931,10 @@ msgstr ""
 msgid "The lock has been released"
 msgstr ""
 
-msgid "The navigation mode determines the general paths that the candidate may take. A linear mode restricts the candidate to attempt each item in turn. Non Linear removes this restriction."
-msgstr ""
-
-msgid "The number of child elements to be selected."
-msgstr ""
-
-msgid "The outcome \"%s\" does not exist, but it is referenced by a feedback block!"
-msgstr ""
-
-msgid "The outcomes have been regenerated!"
-msgstr ""
-
-msgid "The principle identifier of the test."
-msgstr ""
-
 msgid "The properties of the source class will be replaced by those of the destination class. This might result in a loss of metadata. Continue anyway?"
 msgstr ""
 
-msgid "The reference."
-msgstr ""
-
-msgid "The score will be processed for the entire test. A sum of all SCORE outcomes will be computed and divided by the sum of MAX SCORE, the result will be compared to the cut score (or pass ratio), then the PASS_TOTAL outcome will be set accordingly."
-msgstr ""
-
-msgid "The score will be processed for the entire test. A sum of all SCORE outcomes will be computed, the result will take place in the SCORE_TOTAL outcome."
-msgstr ""
-
-msgid "The section title."
-msgstr ""
-
 msgid "The server has sent an empty response"
-msgstr ""
-
-msgid "The submission mode determines when the candidate's responses are submitted for response processing. A testPart in individual mode requires the candidate to submit their responses on an item-by-item basis. In simultaneous mode the candidate's responses are all submitted together at the end of the testPart."
-msgstr ""
-
-msgid "The test has been closed/suspended!"
-msgstr ""
-
-msgid "The test has been paused, we are unable to connect to the server."
-msgstr ""
-
-msgid "The test has not been saved."
-msgstr ""
-
-msgid "The test part identifier."
-msgstr ""
-
-msgid "The test title."
 msgstr ""
 
 msgid "The uploaded file is too large (maximum %s bytes)"
@@ -2700,12 +1956,6 @@ msgid "There is nothing to list!"
 msgstr ""
 
 msgid "This %s is currently checked out"
-msgstr ""
-
-msgid "This constraint affects the visibility of feedback after the end of the last attempt."
-msgstr ""
-
-msgid "This constraint controls whether or not the candidate is allowed to provide a comment on the item during the session. Comments are not part of the assessed responses."
 msgstr ""
 
 msgid "This field is required"
@@ -2747,18 +1997,6 @@ msgstr ""
 msgid "time"
 msgstr ""
 
-msgid "Time limit reached for item \"%s\"."
-msgstr ""
-
-msgid "Time limit reached, this part of the test has ended."
-msgstr ""
-
-msgid "Time limit reached, this part of the test has ended. However you are allowed to finish the current item."
-msgstr ""
-
-msgid "Time Limits"
-msgstr ""
-
 msgid "Time zone"
 msgstr ""
 
@@ -2777,12 +2015,6 @@ msgstr ""
 msgid "Toggle multiple/single selection"
 msgstr ""
 
-msgid "Toggle playback"
-msgstr ""
-
-msgid "Toggle start from here mode"
-msgstr ""
-
 msgid "Toggle the date time picker"
 msgstr ""
 
@@ -2795,13 +2027,7 @@ msgstr ""
 msgid "Too many suggestions match your query. Only a few are listed"
 msgstr ""
 
-msgid "Tool box and flagging for review"
-msgstr ""
-
 msgid "Total duration"
-msgstr ""
-
-msgid "Total score"
 msgstr ""
 
 msgid "Total:"
@@ -2832,12 +2058,6 @@ msgid "True"
 msgstr ""
 
 msgid "trunc"
-msgstr ""
-
-msgid "Try connecting the machine to the internet via cable, or move to an area with a better wifi signal."
-msgstr ""
-
-msgid "Tutor"
 msgstr ""
 
 msgid "Type"
@@ -2897,22 +2117,16 @@ msgstr ""
 msgid "Unable to upload file %s : %s"
 msgstr ""
 
-msgid "Unanswered"
-msgstr ""
-
-msgid "Unanswered items"
-msgstr ""
-
 msgid "Unary operator +"
 msgstr ""
 
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr ""
 
 msgid "Undefined amount of the pages for pagination"
@@ -2925,9 +2139,6 @@ msgid "Undo"
 msgstr ""
 
 msgid "Unexpected error. Please contact administrator"
-msgstr ""
-
-msgid "Unflag for Review"
 msgstr ""
 
 msgid "Uninstall of %s failed"
@@ -2943,9 +2154,6 @@ msgid "Unknown Error"
 msgstr ""
 
 msgid "unkown task id %s"
-msgstr ""
-
-msgid "Unlink to use separated durations"
 msgstr ""
 
 msgid "Update"
@@ -3010,9 +2218,6 @@ msgstr ""
 msgid "Users"
 msgstr ""
 
-msgid "Validate Responses"
-msgstr ""
-
 msgid "Validation for field '%s' has failed. Language does not exist in the system"
 msgstr ""
 
@@ -3029,9 +2234,6 @@ msgid "Validation for field '%s' has failed. Valid URI expected"
 msgstr ""
 
 msgid "Validation for field '%s' has failed. Valid URI expected. Given: %s"
-msgstr ""
-
-msgid "Value"
 msgstr ""
 
 msgid "Value ellipsis"
@@ -3061,79 +2263,16 @@ msgstr ""
 msgid "View resources as a tree"
 msgstr ""
 
-msgid "Viewed"
-msgstr ""
-
-msgid "Viewed items"
-msgstr ""
-
-msgid "Views"
-msgstr ""
-
-msgid "Visible"
-msgstr ""
-
-msgid "Wait for your connection to come back online."
-msgstr ""
-
 msgid "Wait is over"
 msgstr ""
 
 msgid "Waiting"
 msgstr ""
 
-msgid "Warning – You have %s remaining to complete the test."
-msgstr ""
-
-msgid "Warning – You have %s remaining to complete this item."
-msgstr ""
-
-msgid "Warning – You have %s remaining to complete this section."
-msgstr ""
-
-msgid "Warning – You have %s remaining to complete this test part."
-msgstr ""
-
-msgid "Warning – You have %s remaining to complete this test."
-msgstr ""
-
-msgid "We are unable to connect the server to submit your results."
-msgstr ""
-
-msgid "We are unable to connect to the server to retrieve the next item."
-msgstr ""
-
-msgid "Weight"
-msgstr ""
-
-msgid "Weights"
-msgstr ""
-
-msgid "When selecting child elements each element is normally eligible for selection once only."
-msgstr ""
-
-msgid "Whether a candidate's response that is beyond the maximum duration of the item should still be accepted."
-msgstr ""
-
-msgid "Whether a candidate's response that is beyond the maximum duration of the section should still be accepted."
-msgstr ""
-
-msgid "Whether a candidate's response that is beyond the maximum duration of the test part should still be accepted."
-msgstr ""
-
-msgid "Whether a candidate's response that is beyond the maximum duration should still be accepted."
-msgstr ""
-
-msgid "Who can view the rubric block during the delivery."
-msgstr ""
-
 msgid "Whole number part"
 msgstr ""
 
 msgid "Width"
-msgstr ""
-
-msgid "With Replacement"
 msgstr ""
 
 msgid "Wrong or missing parameter extension, module or action"
@@ -3143,33 +2282,6 @@ msgid "Wrong parameter shownExtension"
 msgstr ""
 
 msgid "Yes"
-msgstr ""
-
-msgid "You answered all %s question(s)"
-msgstr ""
-
-msgid "You answered all %s question(s) in this section"
-msgstr ""
-
-msgid "You answered all %s question(s) in this test"
-msgstr ""
-
-msgid "You answered only %s of the %s question(s) in this section"
-msgstr ""
-
-msgid "You are about to go to the next item. Click OK to continue and go to the next item."
-msgstr ""
-
-msgid "You are about to go to the previous item. Click OK to continue and go to the previous item."
-msgstr ""
-
-msgid "You are about to submit the test. You will not be able to access this test once submitted. Click OK to continue and submit the test."
-msgstr ""
-
-msgid "You are currently working offline."
-msgstr ""
-
-msgid "You are encountering a prolonged connectivity loss. "
 msgstr ""
 
 msgid "You are not allowed to write in the class %s"
@@ -3188,18 +2300,6 @@ msgid "You currently have no access to the platform"
 msgstr ""
 
 msgid "You do not have the required rights to edit this resource."
-msgstr ""
-
-msgid "You have %s item(s) marked for review."
-msgstr ""
-
-msgid "You have %s unanswered question(s)"
-msgstr ""
-
-msgid "You have %s unanswered question(s) and have %s item(s) marked for review."
-msgstr ""
-
-msgid "You have %s unanswered question(s)."
 msgstr ""
 
 msgid "You have been locked due to too many failed login attempts. "
@@ -3226,21 +2326,9 @@ msgstr ""
 msgid "Your browser doesn’t support the video player."
 msgstr ""
 
-msgid "Your comment…"
-msgstr ""
-
-msgid "Your connection seems to be back, please proceed."
-msgstr ""
-
 msgid "Your mail"
 msgstr ""
 
 msgid "Your TAO Password"
-msgstr ""
-
-msgid "Zoom in"
-msgstr ""
-
-msgid "Zoom out"
 msgstr ""
 

@@ -21,43 +21,26 @@
 
 namespace oat\tao\model\notification;
 
+/**
+ * Interface NotificationServiceInterface
+ * @deprecated This class is used by client only. It will be moved to client specific extension
+ */
 interface NotificationServiceInterface
 {
+    public const SERVICE_ID  = 'tao/notification';
 
-    const SERVICE_ID  = 'tao/notification';
-
-    /**
-     * @param Notification $notification
-     * @return Notification
-     */
-    public function sendNotification(Notification $notification);
+    public function sendNotification(Notification $notification): Notification;
 
     /**
-     * @param string $userId
-     * @return array an array of NotificationServiceInterface
+     * @return NotificationServiceInterface[]
      */
-    public function getNotifications($userId);
+    public function getNotifications(string $userId): array;
 
-    /**
-     * @param string $id
-     * @return NotificationServiceInterface
-     */
-    public function getNotification($id);
+    public function getNotification(string $id): Notification;
 
-    /**
-     * @param Notification $notification
-     * @return boolean
-     */
-    public function changeStatus(Notification $notification);
+    public function changeStatus(Notification $notification): bool;
 
-    /**
-     * @param string $userId
-     * @return array
-     */
-    public function notificationCount($userId);
+    public function notificationCount(string $userId): array;
 
-    /**
-     * @return boolean
-     */
-    public function getVisibility();
+    public function getVisibility(): bool;
 }

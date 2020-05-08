@@ -31,6 +31,12 @@ abstract class InjectionAwareService extends ConfigurableService
     /** @var bool */
     private $isChildItem = false;
 
+    // to skip checking parent's constructor parameters inherited from Configurable::class
+    public function __construct()
+    {
+        parent::__construct([]);
+    }
+
     /**
      * @noinspection MagicMethodsValidityInspection
      *
@@ -81,6 +87,7 @@ FACTORY;
     {
         $class = new ReflectionClass($service);
         $constructor = $class->getMethod('__construct');
+
         $parameters = $constructor->getParameters();
 
         foreach ($parameters as $parameter) {
@@ -102,7 +109,11 @@ FACTORY;
                 $classProperty->setAccessible(true);
             }
 
-            yield $classProperty->getValue($service);
+            $value = $classProperty->getValue($service);
+
+            $parameter->isVariadic()
+                ? yield from $value
+                : yield $value;
         }
     }
 
