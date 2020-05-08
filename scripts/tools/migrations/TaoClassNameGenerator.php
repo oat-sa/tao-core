@@ -41,11 +41,18 @@ class TaoClassNameGenerator extends ClassNameGenerator
         $this->extension = $extension;
     }
 
+    /**
+     * @param string $namespace
+     * @return string
+     */
     public function generateClassName(string $namespace) : string
     {
         return $namespace . '\\Version' . $this->generateVersionNumber();
     }
 
+    /**
+     * @return string
+     */
     private function generateVersionNumber() : string
     {
         $now = new DateTimeImmutable('now', new DateTimeZone('UTC'));

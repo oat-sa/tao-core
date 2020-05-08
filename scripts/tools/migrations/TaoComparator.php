@@ -36,12 +36,13 @@ class TaoComparator implements Comparator
     private $extensionsManager;
 
     /**
-     * TaoComparator constructor.
      * @param ExtensionsManager $extensionsManager
+     * @param \helpers_ExtensionHelper $extensionHelper
      */
-    public function __construct(ExtensionsManager $extensionsManager)
+    public function __construct(ExtensionsManager $extensionsManager, \helpers_ExtensionHelper $extensionHelper)
     {
         $this->extensionsManager = $extensionsManager;
+        $this->extensionHelper = $extensionHelper;
     }
 
     public function compare(Version $a, Version $b) : int
@@ -50,7 +51,7 @@ class TaoComparator implements Comparator
             $this->extensionsManager->getInstalledExtensions(),
             $this->getMissingExtensions()
         );
-        $sortedExtensions = array_flip(array_keys(\helpers_ExtensionHelper::sortByDependencies($merged)));
+        $sortedExtensions = array_flip(array_keys($this->extensionHelper::sortByDependencies($merged)));
         $versionA = (string) $a;
         $versionB = (string) $b;
         preg_match('/.*Version(\d+)_(.*)$/', $versionA, $matchesA);
@@ -68,9 +69,10 @@ class TaoComparator implements Comparator
      */
     protected function getMissingExtensions()
     {
-        /** @var ExtensionsManager $extManager */
-        return array_map(function ($extId) {
-            return $this->extensionsManager->getExtensionById($extId);
-        }, \helpers_ExtensionHelper::getMissingExtensionIds($this->extensionsManager->getInstalledExtensions()));
+        $result = [];
+        foreach ($this->extensionHelper::getMissingExtensionIds($this->extensionsManager->getInstalledExtensions()) as $extId) {
+            $result[$extId] = $this->extensionsManager->getExtensionById($extId);
+        }
+        return $result;
     }
 }

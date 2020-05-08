@@ -299,7 +299,7 @@ class Migrations extends ScriptAction
         if ($this->hasOption('extension')) {
             $dependencyFactory->setService(ClassNameGenerator::class, new TaoClassNameGenerator($this->getExtension()));
         }
-        $dependencyFactory->setService(Comparator::class, new TaoComparator($extManager));
+        $dependencyFactory->setService(Comparator::class, new TaoComparator($extManager, new \helpers_ExtensionHelper()));
         $dependencyFactory->setService(MigrationRepository::class, new TaoMigrationRepository(
             $configuration->getMigrationClasses(),
             $configuration->getMigrationDirectories(),
