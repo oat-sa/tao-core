@@ -20,7 +20,7 @@
 
 namespace oat\tao\model\webhooks\log;
 
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types;
 use oat\generis\Helper\UuidPrimaryKeyTrait;
 use oat\generis\persistence\sql\SchemaCollection;
 use oat\tao\model\metadata\exception\InconsistencyConfigException;
@@ -61,19 +61,19 @@ class NewSqlWebhookLogRepository extends AbstractWebhookLogRepository
         $logTable = $schema->createTable(self::TABLE_NAME);
         $logTable->addOption('engine', 'InnoDB');
 
-        $logTable->addColumn(self::COLUMN_ID, Type::STRING, ['notnull' => true, 'length' => 36]);
-        $logTable->addColumn(self::COLUMN_EVENT_ID, Type::STRING, ['notnull' => false, 'length' => 255]);
-        $logTable->addColumn(self::COLUMN_TASK_ID, Type::STRING, ['notnull' => false, 'length' => 255]);
-        $logTable->addColumn(self::COLUMN_WEBHOOK_ID, Type::STRING, ['notnull' => false, 'length' => 255]);
-        $logTable->addColumn(self::COLUMN_HTTP_METHOD, Type::STRING, ['notnull' => false, 'length' => 255]);
-        $logTable->addColumn(self::COLUMN_ENDPOINT_URL, Type::STRING, ['notnull' => false, 'length' => 255]);
-        $logTable->addColumn(self::COLUMN_EVENT_NAME, Type::STRING, ['notnull' => false, 'length' => 255]);
-        $logTable->addColumn(self::COLUMN_HTTP_STATUS_CODE, Type::SMALLINT, ['notnull' => false]);
-        $logTable->addColumn(self::COLUMN_RESPONSE_BODY, Type::TEXT, ['notnull' => false]);
-        $logTable->addColumn(self::COLUMN_ACKNOWLEDGEMENT_STATUS, Type::STRING, ['notnull' => false, 'length' => 255]);
-        $logTable->addColumn(self::COLUMN_CREATED_AT, Type::INTEGER, ['notnull' => true]);
-        $logTable->addColumn(self::COLUMN_RESULT, Type::STRING, ['notnull' => true, 'length' => 255]);
-        $logTable->addColumn(self::COLUMN_RESULT_MESSAGE, Type::TEXT, ['notnull' => false]);
+        $logTable->addColumn(self::COLUMN_ID, Types::STRING, ['notnull' => true, 'length' => 36]);
+        $logTable->addColumn(self::COLUMN_EVENT_ID, Types::STRING, ['notnull' => false, 'length' => 255]);
+        $logTable->addColumn(self::COLUMN_TASK_ID, Types::STRING, ['notnull' => false, 'length' => 255]);
+        $logTable->addColumn(self::COLUMN_WEBHOOK_ID, Types::STRING, ['notnull' => false, 'length' => 255]);
+        $logTable->addColumn(self::COLUMN_HTTP_METHOD, Types::STRING, ['notnull' => false, 'length' => 255]);
+        $logTable->addColumn(self::COLUMN_ENDPOINT_URL, Types::STRING, ['notnull' => false, 'length' => 255]);
+        $logTable->addColumn(self::COLUMN_EVENT_NAME, Types::STRING, ['notnull' => false, 'length' => 255]);
+        $logTable->addColumn(self::COLUMN_HTTP_STATUS_CODE, Types::SMALLINT, ['notnull' => false]);
+        $logTable->addColumn(self::COLUMN_RESPONSE_BODY, Types::TEXT, ['notnull' => false]);
+        $logTable->addColumn(self::COLUMN_ACKNOWLEDGEMENT_STATUS, Types::STRING, ['notnull' => false, 'length' => 255]);
+        $logTable->addColumn(self::COLUMN_CREATED_AT, Types::INTEGER, ['notnull' => true]);
+        $logTable->addColumn(self::COLUMN_RESULT, Types::STRING, ['notnull' => true, 'length' => 255]);
+        $logTable->addColumn(self::COLUMN_RESULT_MESSAGE, Types::TEXT, ['notnull' => false]);
 
         $logTable->setPrimaryKey([self::COLUMN_ID]);
 
