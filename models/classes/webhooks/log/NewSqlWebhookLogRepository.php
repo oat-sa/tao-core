@@ -21,11 +21,13 @@
 namespace oat\tao\model\webhooks\log;
 
 use Doctrine\DBAL\Types\Types;
+use oat\generis\Helper\UuidPrimaryKeyTrait;
 use oat\generis\persistence\sql\SchemaCollection;
 use oat\tao\model\metadata\exception\InconsistencyConfigException;
 
-class WebhookLogRepository extends AbstractWebhookLogRepository
+class NewSqlWebhookLogRepository extends AbstractWebhookLogRepository
 {
+    use UuidPrimaryKeyTrait;
 
     /**
      * @throws InconsistencyConfigException
@@ -35,6 +37,7 @@ class WebhookLogRepository extends AbstractWebhookLogRepository
         $this->getPersistence()->insert(
             self::TABLE_NAME,
             [
+                self::COLUMN_ID => $this->getUniquePrimaryKey(),
                 self::COLUMN_EVENT_ID => $webhookEventLog->getEventId(),
                 self::COLUMN_TASK_ID => $webhookEventLog->getTaskId(),
                 self::COLUMN_WEBHOOK_ID => $webhookEventLog->getWebhookId(),
@@ -58,7 +61,7 @@ class WebhookLogRepository extends AbstractWebhookLogRepository
         $logTable = $schema->createTable(self::TABLE_NAME);
         $logTable->addOption('engine', 'InnoDB');
 
-        $logTable->addColumn(self::COLUMN_ID, Types::INTEGER, ['autoincrement' => true]);
+        $logTable->addColumn(self::COLUMN_ID, Types::STRING, ['notnull' => true, 'length' => 36]);
         $logTable->addColumn(self::COLUMN_EVENT_ID, Types::STRING, ['notnull' => false, 'length' => 255]);
         $logTable->addColumn(self::COLUMN_TASK_ID, Types::STRING, ['notnull' => false, 'length' => 255]);
         $logTable->addColumn(self::COLUMN_WEBHOOK_ID, Types::STRING, ['notnull' => false, 'length' => 255]);
