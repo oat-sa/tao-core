@@ -74,7 +74,7 @@ EOT
     private function getOutput(string $path, string $fqcn):array
     {
         return [
-            sprintf('Generated new migration class to "<info>%s</info>"', $path),
+            sprintf('Generated new migration class to "<info>%s</info>"', realpath($path)),
             '',
             sprintf(
                 'To run just this migration for testing purposes, you can use <info>sudo -u www-data php index.php \'\oat\tao\scripts\tools\Migrations\' -c execute -v %s</info>',
