@@ -334,7 +334,6 @@ class tao_helpers_Http
                         fpassthru($fp);
                     }
                     fclose($fp);
-                    exit();
                 }
             } else {
                 if (class_exists('common_Logger')) {
@@ -391,8 +390,6 @@ class tao_helpers_Http
                     }
                 }
             }
-
-            exit();
         } catch (StreamRangeException $e) {
             header('HTTP/1.1 416 Requested Range Not Satisfiable');
         }
