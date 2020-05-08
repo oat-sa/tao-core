@@ -74,19 +74,10 @@ class WebhookLogRepository extends AbstractWebhookLogRepository
 
         $logTable->setPrimaryKey([self::COLUMN_ID]);
 
-        $logTable->addIndex(
-            [self::COLUMN_EVENT_ID],
-            'IDX_' . self::TABLE_NAME . '_event_id'
-        );
+        $logTable->addIndex([self::COLUMN_EVENT_ID], 'IDX_' . self::TABLE_NAME . '_event_id');
 
-        $logTable->addIndex(
-            [self::COLUMN_WEBHOOK_ID],
-            'IDX_' . self::TABLE_NAME . '_webhook_id'
-        );
+        $logTable->addIndex([self::COLUMN_WEBHOOK_ID], 'IDX_' . self::TABLE_NAME . '_webhook_id');
 
-        $logTable->addIndex(
-            [self::COLUMN_CREATED_AT],
-            'IDX_' . self::TABLE_NAME . '_created_at'
-        );
+        $logTable->addIndex([self::COLUMN_CREATED_AT], 'IDX_' . self::TABLE_NAME . '_created_at');
     }
 }
