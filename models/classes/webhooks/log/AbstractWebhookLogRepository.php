@@ -32,8 +32,8 @@ abstract class AbstractWebhookLogRepository extends ConfigurableService implemen
 
     public const OPTION_PERSISTENCE = 'persistence';
 
-    protected const TABLE_NAME = 'webhook_event_log';
-    protected const COLUMN_ID = 'id';
+    public const TABLE_NAME = 'webhook_event_log';
+    public const COLUMN_ID = 'id';
     protected const COLUMN_EVENT_ID = 'event_id';
     protected const COLUMN_TASK_ID = 'task_id';
     protected const COLUMN_WEBHOOK_ID = 'webhook_id';
