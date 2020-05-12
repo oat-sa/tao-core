@@ -25,9 +25,7 @@ namespace oat\tao\model\routing;
 use Context;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
-
 use ReflectionException;
-
 use IExecutable;
 use ActionEnforcingException;
 use oat\tao\model\http\ResponseEmitter;
@@ -104,7 +102,9 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
         if (!class_exists($controllerClass)) {
             throw new ActionEnforcingException('Controller "' . $controllerClass . '" could not be loaded.', $controllerClass, $this->getAction());
         }
-        $controller = new $controllerClass();
+
+        $controller = $this->getClassInstance($controllerClass);
+
         $this->propagate($controller);
         if ($controller instanceof Controller) {
             $controller->setRequest($this->getRequest());
