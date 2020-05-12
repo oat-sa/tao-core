@@ -25,7 +25,7 @@ namespace oat\tao\test\unit\models\layout;
 use Context;
 use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
-use oat\tao\model\layout\configuredLayout\LayoutPageTitleService;
+use oat\tao\model\layout\configuredLayout\AbstractLayoutPageTitleService;
 use oat\tao\model\layout\ConfiguredLayoutService;
 use Request;
 
@@ -41,16 +41,16 @@ class ConfiguredLayoutServiceTest extends TestCase
     {
         parent::setUp();
 
-        /** @var MockObject|LayoutPageTitleService $layoutPageServiceMock */
-        $layoutPageServiceMock = $this->createMock(LayoutPageTitleService::class);
+        /** @var MockObject|AbstractLayoutPageTitleService $layoutPageServiceMock */
+        $layoutPageServiceMock = $this->createMock(AbstractLayoutPageTitleService::class);
         $layoutPageServiceMock->method('getTitle')->willReturn('page title');
 
         $serviceLocatorMock = $this->getServiceLocatorMock([
-            LayoutPageTitleService::class => $layoutPageServiceMock
+            AbstractLayoutPageTitleService::class => $layoutPageServiceMock
         ]);
 
         $this->layoutService = new ConfiguredLayoutService([
-            ConfiguredLayoutService::OPTION_PAGE_TITLE_SERVICE => LayoutPageTitleService::class,
+            ConfiguredLayoutService::OPTION_PAGE_TITLE_SERVICE => AbstractLayoutPageTitleService::class,
         ]);
 
         $this->layoutService->setServiceLocator($serviceLocatorMock);
