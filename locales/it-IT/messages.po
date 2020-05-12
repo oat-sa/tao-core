@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint126\n"
-"PO-Revision-Date: 2020-04-10T08:16:42\n"
+"Project-Id-Version: TAO 3.4.0-sprint128\n"
+"PO-Revision-Date: 2020-05-08T09:21:23\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: it-IT\n"
@@ -401,11 +401,11 @@ msgstr "Cambia la password"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check all"
-msgstr "Verifica tutto"
-
 msgid "Check All"
 msgstr "Controlla Tutti"
+
+msgid "Check all"
+msgstr "Verifica tutto"
 
 msgid "Check-in"
 msgstr "Check-in"
@@ -462,6 +462,9 @@ msgid "Clear the stored variables"
 msgstr ""
 
 msgid "Close"
+msgstr ""
+
+msgid "Close dialog"
 msgstr ""
 
 msgid "Close message"
@@ -1012,10 +1015,10 @@ msgstr "Installazione delle estensioni %s"
 msgid "Instance saved"
 msgstr "Istanza salvata"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "Lingua di interfaccia"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "Lingua di interfaccia"
 
 msgid "Invalid CSP header."
@@ -1311,10 +1314,10 @@ msgstr "Nessun file"
 msgid "no label"
 msgstr "nessuna etichetta"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "Nessuna anteprima disponibile"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "Nessuna anteprima disponibile"
 
 msgid "No results found"

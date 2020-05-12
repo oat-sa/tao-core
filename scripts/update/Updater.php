@@ -1330,19 +1330,19 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         $this->skip('41.6.0', '41.7.0');
-        if($this->isVersion('41.7.0')){
+        if ($this->isVersion('41.7.0')) {
             $oauthService = $this->getServiceManager()->get(OauthService::SERVICE_ID);
             $oauthService->setOption(OauthService::OPTION_LOCKOUT_SERVICE, new NoLockout());
-            $this->getServiceManager()->register(OauthService::SERVICE_ID,$oauthService);
+            $this->getServiceManager()->register(OauthService::SERVICE_ID, $oauthService);
             $this->setVersion('41.8.0');
         }
 
         $this->skip('41.8.0', '42.0.3');
-        if($this->isVersion('42.0.3')){
+        if ($this->isVersion('42.0.3')) {
             $this->getServiceManager()->unregister('tao/UnionSearchService');
             $this->setVersion('42.0.4');
         }
 
-        $this->skip('42.0.4', '42.0.5');
+        $this->skip('42.0.4', '42.7.2');
     }
 }
