@@ -29,10 +29,26 @@ use Request;
 
 class TestPageTitle extends AbstractLayoutPageTitleService
 {
-
+    protected function getMap(): array
+    {
+        return [
+            'controller1' => [
+                'action1' => [
+                    'request' => [
+                        'param1' => 'value1',
+                    ],
+                    'title' => 'title1',
+                ]
+            ],
+            'controller2' => [
+                'action2' => 'title2',
+            ],
+            'controller4' => 'title4',
+        ];
+    }
 }
 
-class LayoutPageTitleServiceTest extends TestCase
+class AbstractLayoutPageTitleServiceTest extends TestCase
 {
 
     /**
@@ -81,22 +97,34 @@ class LayoutPageTitleServiceTest extends TestCase
                 null,
             ],
             [
-                'controller 2',
-                '',
-                [],
-                'title 2',
+                'controller2',
+                'action2',
+                ['param2' => 'value2'],
+                'title2',
             ],
             [
-                'controller 3',
+                'controller3',
                 '',
                 [],
                 null,
             ],
             [
-                'controller 3',
+                'controller3',
                 '',
-                ['param 4' => 'value 4'],
+                ['param3' => 'value3'],
                 null,
+            ],
+            [
+                'controller4',
+                '',
+                ['param4' => 'value4'],
+                'title4',
+            ],
+            [
+                'controller4',
+                '',
+                [],
+                'title4',
             ]
         ];
     }
@@ -106,9 +134,9 @@ class LayoutPageTitleServiceTest extends TestCase
      * @param string $controllerName
      * @param string $actionName
      * @param array $requestParams
-     * @param string $expected
+     * @param $expected
      */
-    public function testGetTitle(string $controllerName, string $actionName, array $requestParams, string $expected): void
+    public function testGetTitle(string $controllerName, string $actionName, array $requestParams, $expected): void
     {
         /** @var Request|MockObject $request */
         $request = new Request();

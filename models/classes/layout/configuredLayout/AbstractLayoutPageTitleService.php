@@ -26,6 +26,10 @@ namespace oat\tao\model\layout\configuredLayout;
 use oat\oatbox\service\ConfigurableService;
 use Request;
 
+/**
+ * Class AbstractLayoutPageTitleService
+ * @package oat\tao\model\layout\configuredLayout
+ */
 abstract class AbstractLayoutPageTitleService extends ConfigurableService
 {
     /**
@@ -45,11 +49,14 @@ abstract class AbstractLayoutPageTitleService extends ConfigurableService
      *      ]
      *  ]
      */
-    protected function getMap(): array
-    {
-        return [];
-    }
+    abstract protected function getMap(): array;
 
+    /**
+     * @param string $controller
+     * @param string $action
+     * @param Request $request
+     * @return string|null
+     */
     public function getTitle(
         string $controller,
         string $action,
@@ -66,12 +73,29 @@ abstract class AbstractLayoutPageTitleService extends ConfigurableService
         return $title;
     }
 
+    /**
+     * @param Request $request
+     * @param array $map
+     * @return bool
+     */
     protected function isExpectedRequest(Request $request, array $map): bool
     {
-        // @todo add request verifier
+        if (array_key_exists('request', $map)) {
+            foreach ($map['request'] as $k => $v) {
+                if (!$request->hasParameter($k) || $request->getParameter($k) !== $v) {
+                    return false;
+                }
+            }
+        }
         return true;
     }
 
+    /**
+     * @param $controllerMap
+     * @param string $action
+     * @param Request $request
+     * @return string|null
+     */
     protected function getTitleForController($controllerMap, string $action, Request $request): ?string
     {
         $title = null;
@@ -90,6 +114,11 @@ abstract class AbstractLayoutPageTitleService extends ConfigurableService
         return $title;
     }
 
+    /**
+     * @param $actionMap
+     * @param Request $request
+     * @return string|null
+     */
     protected function getTitleForAction($actionMap, Request $request): ?string
     {
         $title = null;
