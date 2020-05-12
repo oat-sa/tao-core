@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint126\n"
-"PO-Revision-Date: 2020-04-10T08:16:32\n"
+"Project-Id-Version: TAO 3.4.0-sprint128\n"
+"PO-Revision-Date: 2020-05-08T09:21:12\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: is-IS\n"
@@ -401,10 +401,10 @@ msgstr "Breyta lykilorðinu"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check all"
+msgid "Check All"
 msgstr "Merkja við allt"
 
-msgid "Check All"
+msgid "Check all"
 msgstr "Merkja við allt"
 
 msgid "Check-in"
@@ -462,6 +462,9 @@ msgid "Clear the stored variables"
 msgstr ""
 
 msgid "Close"
+msgstr ""
+
+msgid "Close dialog"
 msgstr ""
 
 msgid "Close message"
@@ -1013,10 +1016,10 @@ msgstr "Set upp viðbætur %s..."
 msgid "Instance saved"
 msgstr "Tilvik vistað"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr ""
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr ""
 
 msgid "Invalid CSP header."
@@ -1312,10 +1315,10 @@ msgstr "Engar skrár"
 msgid "no label"
 msgstr "ekkert merki"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr ""
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr ""
 
 msgid "No results found"
