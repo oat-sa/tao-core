@@ -34,6 +34,7 @@ abstract class AbstractLayoutPageTitleService extends ConfigurableService
 {
     /**
      * To have messages translated we need static programmed map
+     * @param Request $request - to create title based on context
      * @return array
      *
      * @example
@@ -49,7 +50,7 @@ abstract class AbstractLayoutPageTitleService extends ConfigurableService
      *      ]
      *  ]
      */
-    abstract protected function getMap(): array;
+    abstract protected function getMap(Request $request): array;
 
     /**
      * @param string $controller
@@ -65,7 +66,7 @@ abstract class AbstractLayoutPageTitleService extends ConfigurableService
     {
         $title = null;
 
-        $map = $this->getMap();
+        $map = $this->getMap($request);
         if (array_key_exists($controller, $map)) {
             $title = $this->getTitleForController($map[$controller], $action, $request);
         }

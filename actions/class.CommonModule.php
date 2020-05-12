@@ -94,7 +94,10 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
         $actionProtector = $this->getServiceLocator()->get(ActionProtector::SERVICE_ID);
         $actionProtector->setHeaders();
 
-        $this->configuredLayoutService = $this->getServiceLocator()->get(ConfiguredLayoutService::class);
+        if ($this->getServiceLocator()->has(ConfiguredLayoutService::SERVICE_ID)) {
+            // used if defined
+            $this->configuredLayoutService = $this->getServiceLocator()->get(ConfiguredLayoutService::SERVICE_ID);
+        }
     }
 
     /**
@@ -134,13 +137,12 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
      */
     protected function defaultData()
     {
+        /** @var Context $context */
         $context = Context::getInstance();
 
         $this->setData('extension', $context->getExtensionName());
         $this->setData('module', $context->getModuleName());
         $this->setData('action', $context->getActionName());
-
-        $this->setData('title', $this->configuredLayoutService->getPageTitle());
 
         if ($this->hasRequestParameter('uri')) {
             // inform the client of new classUri
@@ -161,6 +163,16 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
 
         $this->setData('client_timeout', $this->getClientTimeout());
         $this->setData('client_config_url', $this->getClientConfigUrl());
+    }
+
+    private function applyConfiguredLayoutProps(): void
+    {
+        if ($this->configuredLayoutService) {
+            $title = $this->configuredLayoutService->getPageTitle();
+            if ($title) {
+                $this->setData('title', $title);
+            }
+        }
     }
 
     /**
@@ -398,6 +410,9 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
      */
     public function getPsrResponse()
     {
+        // rewrite all props if configured layout service
+        $this->applyConfiguredLayoutProps();
+
         $response = parent::getPsrResponse();
         return $this->hasView()
         ? $response->withBody(stream_for($this->getRenderer()->render()))

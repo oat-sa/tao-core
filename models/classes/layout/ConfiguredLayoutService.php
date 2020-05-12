@@ -25,6 +25,7 @@ namespace oat\tao\model\layout;
 
 use oat\oatbox\service\ConfigurableService;
 use Context;
+use oat\tao\model\layout\configuredLayout\AbstractLayoutPageTitleService;
 use Request;
 
 /**
@@ -50,9 +51,9 @@ class ConfiguredLayoutService extends ConfigurableService
      */
     public function getPageTitle(): ?string
     {
-        return $this->getServiceLocator()
-            ->get($this->getOption(self::OPTION_PAGE_TITLE_SERVICE))
-            ->getTitle($this->getController(), $this->getAction(), $this->getRequest());
+        /** @var AbstractLayoutPageTitleService $pageTitleService */
+        $pageTitleService = $this->getOption(self::OPTION_PAGE_TITLE_SERVICE);
+        return $pageTitleService->getTitle($this->getController(), $this->getAction(), $this->getRequest());
     }
 
     private function getController(): string
