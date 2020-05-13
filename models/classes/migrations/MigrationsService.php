@@ -41,7 +41,7 @@ class MigrationsService extends ConfigurableService
     {
         $migrations = new Migrations();
         $migrations->setServiceLocator($this->getServiceLocator());
-        return $migrations->__invoke(['-c', 'migrate']);
+        return $migrations(['-c', 'migrate']);
     }
 
     /**

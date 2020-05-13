@@ -18,12 +18,12 @@ final class Version202005081221002234_tao extends AbstractMigration implements S
 {
     use ServiceManagerAwareTrait;
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return 'Register extensionInstalled event listener to initialize migrations service when tao-core extension installed';
     }
 
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         /** @var EventManager $eventManager */
         $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
@@ -31,7 +31,7 @@ final class Version202005081221002234_tao extends AbstractMigration implements S
         $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
     }
 
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         /** @var EventManager $eventManager */
         $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);

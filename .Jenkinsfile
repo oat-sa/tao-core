@@ -2,13 +2,9 @@ pipeline {
     agent {
         label 'builder'
     }
-    parameters {
-        string(name: 'branch', defaultValue: '')
-    }
     environment {
         REPO_NAME='oat-sa/tao-core'
         EXT_NAME='tao'
-        GITHUB_ORGANIZATION='oat-sa'
     }
     stages {
         stage('Prepare') {
@@ -50,7 +46,7 @@ pipeline {
                             },
                             "minimum-stability": "dev",
                             "require-dev": {
-                                "phpunit/phpunit": "~8.5"
+                                "phpunit/phpunit": "^8.5"
                             }
                         }
                         """

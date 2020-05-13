@@ -26,20 +26,27 @@ use Doctrine\Migrations\Version\Comparator;
 use Doctrine\Migrations\Version\Version;
 use common_ext_ExtensionsManager as ExtensionsManager;
 use common_ext_Extension as Extension;
+use helpers_ExtensionHelper as ExtensionHelper;
 
 /**
- * Class TaoComparator
+ * Class TaoComparator is used by a migration repository to sort migrations by extensions according to
+ * extension dependency order and then migration creation time.
+ *
  * @package oat\tao\scripts\tools\migrations
  */
 class TaoComparator implements Comparator
 {
+    /** @var ExtensionsManager  */
     private $extensionsManager;
+
+    /** @var ExtensionHelper  */
+    private $extensionHelper;
 
     /**
      * @param ExtensionsManager $extensionsManager
-     * @param \helpers_ExtensionHelper $extensionHelper
+     * @param ExtensionHelper $extensionHelper
      */
-    public function __construct(ExtensionsManager $extensionsManager, \helpers_ExtensionHelper $extensionHelper)
+    public function __construct(ExtensionsManager $extensionsManager, ExtensionHelper $extensionHelper)
     {
         $this->extensionsManager = $extensionsManager;
         $this->extensionHelper = $extensionHelper;

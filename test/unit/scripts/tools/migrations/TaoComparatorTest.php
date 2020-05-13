@@ -39,7 +39,7 @@ class TaoComparatorTest extends TestCase
     public function testCompare()
     {
         $extensionsManagerMock = $this->getExtensionManagerMock();
-        $comporator = new TaoComparator($extensionsManagerMock, $this->getExtensionHelperMock());
+        $comparator = new TaoComparator($extensionsManagerMock, $this->getExtensionHelperMock());
         $versions = [
             $versionFoo5 = new Version('Version5_foo'),
             $versionFoo3 = new Version('Version3_foo'),
@@ -48,7 +48,7 @@ class TaoComparatorTest extends TestCase
             $extensionBaz1 = new Version('Version1_baz'),
         ];
 
-        usort($versions, [$comporator, 'compare']);
+        usort($versions, [$comparator, 'compare']);
         $versionKeys = [];
         foreach ($versions as $version) {
             $versionKeys[] = (string) $version;

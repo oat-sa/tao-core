@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class GenerateCommand
+ * @inheritDoc
  * @package oat\tao\scripts\tools\migrations\commands
  */
 class GenerateCommand extends DoctrineCommand

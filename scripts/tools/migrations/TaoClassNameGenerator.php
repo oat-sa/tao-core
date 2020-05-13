@@ -27,6 +27,12 @@ use DateTimeZone;
 use Doctrine\Migrations\Generator\ClassNameGenerator;
 use common_ext_Extension as Extension;
 
+/**
+ * Class is used to generate migration class name to ensure it uniqueness across all tao extensions.
+ *
+ * Class TaoClassNameGenerator
+ * @package oat\tao\scripts\tools\migrations
+ */
 class TaoClassNameGenerator extends ClassNameGenerator
 {
     public const VERSION_FORMAT = 'YmdHis';

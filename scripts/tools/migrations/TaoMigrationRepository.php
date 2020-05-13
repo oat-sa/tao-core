@@ -27,7 +27,9 @@ use \Doctrine\Migrations\Metadata\AvailableMigration;
 use oat\oatbox\service\ServiceManager;
 
 /**
- * Class TaoMigrationRepository
+ * @inheritDoc
+ * Class extends doctrine migration repository in order to add Tao specific features (such as injecting service manager
+ * into the migration).
  * @package oat\tao\scripts\tools\migrations
  */
 class TaoMigrationRepository extends MigrationRepository

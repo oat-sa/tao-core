@@ -55,7 +55,8 @@ use common_ext_ExtensionsManager as ExtensionsManager;
 use common_ext_Extension as Extension;
 
 /**
- * Class Migrations
+ * A script action which is supposed to be used to manage migrations (generate, execute, rollback, etc.) in Tao.
+ *
  * Usage examples:
  * ```
  * //generate new migration class
