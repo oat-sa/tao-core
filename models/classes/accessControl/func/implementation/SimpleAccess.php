@@ -32,15 +32,8 @@ use oat\oatbox\user\User;
 use oat\oatbox\service\ConfigurableService;
 
 /**
- * Simple ACL Implementation deciding whenever or not to allow access
- * strictly by the BASEUSER role and a whitelist
- *
- * Not to be used in production, since testtakers cann access the backoffice
- *
- * @access public
- * @author Joel Bout, <joel@taotesting.com>
- * @package tao
-
+ * DO NOT USE, will leave the system vunerable to exploits
+ * @deprecated
  */
 class SimpleAccess extends ConfigurableService implements FuncAccessControl
 {

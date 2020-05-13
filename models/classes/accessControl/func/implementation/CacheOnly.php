@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2020 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 
@@ -27,25 +27,31 @@ use common_ext_ExtensionsManager;
 use oat\oatbox\user\User;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\controllerMap\Factory;
+use oat\oatbox\cache\SimpleCache;
+use oat\tao\model\accessControl\AccessControl;
 
 /**
- * Simple ACL Implementation deciding whenever or not to allow access
- * strictly by the BASEUSER role and a whitelist
- *
- * Not to be used in production, since testtakers cann access the backoffice
- *
- * @access public
+ * Simple function access controll implementation, that builds the access
+ * right cache based on the extension definitions.
+ * Does not require any update script to maintain
  * @author Joel Bout, <joel@taotesting.com>
- * @package tao
-
  */
-class CacheOnly extends ConfigurableService implements FuncAccessControl
+class CacheOnly extends ConfigurableService implements FuncAccessControl, AccessControl
 {
     private const CACHE_PREFIX = 'funcacl::';
 
     /**
      * (non-PHPdoc)
-     * @see \oat\tao\model\accessControl\func\FuncAccessControl::accessPossible()
+     * @see AccessControl::hasAccess()
+     */
+    public function hasAccess(User $user, $controller, $action, $parameters)
+    {
+        return self::accessPossible($user, $controller, $action);
+    }
+
+    /**
+     * (non-PHPdoc)
+     * @see FuncAccessControl::accessPossible()
      */
     public function accessPossible(User $user, $controllerName, $action)
     {
@@ -67,7 +73,7 @@ class CacheOnly extends ConfigurableService implements FuncAccessControl
     
     /**
      * (non-PHPdoc)
-     * @see \oat\tao\model\accessControl\func\FuncAccessControl::applyRule()
+     * @see FuncAccessControl::applyRule()
      */
     public function applyRule(AccessRule $rule)
     {
@@ -76,14 +82,14 @@ class CacheOnly extends ConfigurableService implements FuncAccessControl
     
     /**
      * (non-PHPdoc)
-     * @see \oat\tao\model\accessControl\func\FuncAccessControl::revokeRule()
+     * @see FuncAccessControl::revokeRule()
      */
     public function revokeRule(AccessRule $rule)
     {
         // nothing to do
     }
     
-    public function buildCache()
+    public function buildCache(): void
     {
         $extensionManager = $this->getServiceLocator()->get(common_ext_ExtensionsManager::SERVICE_ID);
         $aclModel = new AclModel();
@@ -93,7 +99,7 @@ class CacheOnly extends ConfigurableService implements FuncAccessControl
                 $aclModel->applyRule($rule);
             }
         }
-        $controllerFactory = new Factory();
+        $controllerFactory = $this->getControllerMapFactory();
         foreach ($extensionManager->getInstalledExtensions() as $ext) {
             foreach ($controllerFactory->getControllers($ext->getId()) as $controller) {
                 $controllerName = $controller->getClassName();
@@ -104,21 +110,31 @@ class CacheOnly extends ConfigurableService implements FuncAccessControl
     
     protected function fromCache($controllerName): ControllerAccessRight
     {
-        try {
-            return ControllerAccessRight::fromJson($this->getCache()->get(self::CACHE_PREFIX.$controllerName));
-        } catch (\common_cache_NotFoundException $e) {
+        $cache = $this->getCache()->get(self::CACHE_PREFIX.$controllerName);
+        if (is_null($cache)) {
+            if (!$this->getControllerMapFactory()->isControllerClassNameValid($controllerName)) {
+                // do not rebuild cache if controller is invalid, to prevent attacks
+                return new ControllerAccessRight($controllerName);
+            }
             $this->buildCache();
+            $cache = $this->getCache()->get(self::CACHE_PREFIX.$controllerName);
         }
+        return ControllerAccessRight::fromJson($cache);
     }
 
     protected function toCache(ControllerAccessRight $controller): void 
     {
         $data = json_encode($controller);
-        $this->getCache()->put($data, self::CACHE_PREFIX.$controller->getClassName());
+        $this->getCache()->set(self::CACHE_PREFIX.$controller->getClassName(), $data);
     }
 
-    protected function getCache(): \common_cache_Cache
+    protected function getControllerMapFactory(): Factory
     {
-        return $this->getServiceLocator()->get(\common_cache_Cache::SERVICE_ID);
+        return new Factory();
+    }
+
+    protected function getCache(): SimpleCache
+    {
+        return $this->getServiceLocator()->get(SimpleCache::SERVICE_ID);
     }
 }

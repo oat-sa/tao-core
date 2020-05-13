@@ -148,7 +148,7 @@ class Factory
      *
      * @return bool
      */
-    private function isControllerClassNameValid($controllerClassName)
+    public function isControllerClassNameValid($controllerClassName)
     {
         $returnValue = true;
 

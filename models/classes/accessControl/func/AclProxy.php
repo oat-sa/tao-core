@@ -22,8 +22,6 @@
 namespace oat\tao\model\accessControl\func;
 
 use oat\tao\model\accessControl\AccessControl;
-use common_ext_ExtensionsManager;
-use common_Logger;
 use oat\oatbox\user\User;
 use oat\oatbox\service\ServiceManager;
 
