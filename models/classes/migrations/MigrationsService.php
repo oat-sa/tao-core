@@ -23,6 +23,7 @@ declare(strict_types = 1);
 
 namespace oat\tao\model\migrations;
 
+use oat\generis\persistence\PersistenceManager;
 use oat\oatbox\service\ConfigurableService;
 use common_ext_event_ExtensionInstalled as ExtensionInstalled;
 use oat\tao\scripts\tools\Migrations;
@@ -33,6 +34,20 @@ use oat\tao\scripts\tools\Migrations;
  */
 class MigrationsService extends ConfigurableService
 {
+    public const SERVICE_ID = 'tao/MigrationsService';
+    public const OPTION_PERSISTENCE_ID = 'persistence_id';
+    private const DEFAULT_PERSISTENCE_ID = 'default';
+
+    /**
+     * @return \common_persistence_Persistence
+     */
+    public function getPersistence()
+    {
+        /** @var PersistenceManager $persistenceManager */
+        $persistenceManager = $this->getServiceLocator()->get(PersistenceManager::SERVICE_ID);
+        return $persistenceManager->getPersistenceById($this->getPersistenceId());
+    }
+
     /**
      * Apply all migrations
      * @return \common_report_Report
@@ -46,6 +61,7 @@ class MigrationsService extends ConfigurableService
 
     /**
      * Skip extension migrations after installation
+     * common_ext_event_ExtensionInstalled event callback
      * @param ExtensionInstalled $event
      */
     public function extensionInstalled(ExtensionInstalled $event)
@@ -58,5 +74,15 @@ class MigrationsService extends ConfigurableService
             $migrations->__invoke(['-c', 'add', '-e', 'generis']);
         }
         $migrations->__invoke(['-c', 'add', '-e', $event->getExtension()->getId()]);
+    }
+
+    /**
+     * @return string
+     */
+    private function getPersistenceId()
+    {
+        return $this->hasOption(self::OPTION_PERSISTENCE_ID) ?
+            $this->getOption(self::OPTION_PERSISTENCE_ID) :
+            self::DEFAULT_PERSISTENCE_ID;
     }
 }

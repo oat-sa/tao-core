@@ -42,9 +42,9 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\OutputInterface;
-use oat\generis\persistence\PersistenceManager;
 use oat\oatbox\extension\script\ScriptAction;
 use oat\oatbox\extension\script\ScriptException;
+use oat\tao\model\migrations\MigrationsService;
 use oat\tao\scripts\tools\migrations\TaoClassNameGenerator;
 use oat\tao\scripts\tools\migrations\commands\GenerateCommand;
 use oat\tao\scripts\tools\migrations\TaoComparator;
@@ -128,7 +128,6 @@ class Migrations extends ScriptAction
 
     /**
      * @return Report
-     * @throws MigrationException
      * @throws ScriptException
      * @throws \common_ext_ExtensionException
      */
@@ -146,7 +145,6 @@ class Migrations extends ScriptAction
 
     /**
      * @return BufferedOutput
-     * @throws MigrationException
      * @throws ScriptException
      * @throws \common_ext_ExtensionException
      */
@@ -343,9 +341,9 @@ class Migrations extends ScriptAction
      */
     private function getConnection()
     {
-        /** @var PersistenceManager $persistenceManager */
-        $persistenceManager = $this->getServiceLocator()->get(PersistenceManager::SERVICE_ID);
-        return $persistenceManager->getPersistenceById('default')->getDriver()->getDbalConnection();
+        /** @var MigrationsService $migrationService */
+        $migrationService = $this->getServiceLocator()->get(MigrationsService::SERVICE_ID);
+        return $migrationService->getPersistence()->getDriver()->getDbalConnection();
     }
 
     /**

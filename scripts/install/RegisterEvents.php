@@ -40,7 +40,7 @@ class RegisterEvents extends InstallAction
     {
         /** @var EventManager $eventManager */
         $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
-        $eventManager->attach(\common_ext_event_ExtensionInstalled::class, [MigrationsService::class, 'extensionInstalled']);
+        $eventManager->attach(\common_ext_event_ExtensionInstalled::class, [MigrationsService::SERVICE_ID, 'extensionInstalled']);
         $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
 
         return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'Events registered');
