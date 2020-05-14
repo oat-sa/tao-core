@@ -17,7 +17,7 @@ class GenerateCommand extends DoctrineCommand
     /** @var string */
     protected static $defaultName = 'migrations:generate';
 
-    protected function configure() : void
+    protected function configure(): void
     {
         $this
             ->setAliases(['generate'])
@@ -39,7 +39,7 @@ EOT
         parent::configure();
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output) : int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $configuration = $this->getDependencyFactory()->getConfiguration();
 
@@ -71,7 +71,7 @@ EOT
      * @param string $fqcn
      * @return array
      */
-    private function getOutput(string $path, string $fqcn):array
+    private function getOutput(string $path, string $fqcn): array
     {
         return [
             sprintf('Generated new migration class to "<info>%s</info>"', realpath($path)),
