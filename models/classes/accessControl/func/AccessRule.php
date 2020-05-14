@@ -124,69 +124,61 @@ class AccessRule
      * Get ACL components represented by the mask
      * @return string[] tao ACL components
      */
-    protected function getComponents()
+    protected function getComponents(): array
     {
         // string masks
         if (is_string($this->mask)) {
-            if (strpos($this->mask, '@') !== false) {
-                [$controller, $action] = explode('@', $this->mask, 2);
-            } else {
-                $controller = $this->mask;
-                $action = null;
-            }
-            if (class_exists($controller)) {
-                $extension = FuncHelper::getExtensionFromController($controller);
-                $shortName = strpos($controller, '\\') !== false
-                ? substr($controller, strrpos($controller, '\\') + 1)
-                : substr($controller, strrpos($controller, '_') + 1);
-                
-                if (is_null($action)) {
-                    // grant controller
-                    return [$extension, $shortName];
-                }
-                
-                // grant action
-                return [$extension, $shortName, $action];
-            }
-            
-            \common_Logger::w('Unknown controller ' . $controller);
+            return $this->getComponentsFromString($this->mask);
         } elseif (is_array($this->mask)) { /// array masks
-            if (isset($this->mask['act'], $this->mask['mod'], $this->mask['ext'])) {
-                return [$this->mask['ext'], $this->mask['mod'], $this->mask['act']];
-            }
-            
-            if (isset($this->mask['mod'], $this->mask['ext'])) {
-                return [$this->mask['ext'], $this->mask['mod']];
-            }
-            
-            if (isset($this->mask['ext'])) {
-                return [$this->mask['ext']];
-            }
-            
-            if (isset($this->mask['controller'])) {
-                $extension = FuncHelper::getExtensionFromController($this->mask['controller']);
-                $shortName = strpos($this->mask['controller'], '\\') !== false
-                ? substr($this->mask['controller'], strrpos($this->mask['controller'], '\\') + 1)
-                : substr($this->mask['controller'], strrpos($this->mask['controller'], '_') + 1);
-                
-                return [$extension, $shortName];
-            }
-            
-            if (isset($this->mask['act']) && strpos($this->mask['act'], '@') !== false) {
-                [$controller, $action] = explode('@', $this->mask['act'], 2);
-                $extension = FuncHelper::getExtensionFromController($controller);
-                $shortName = strpos($controller, '\\') !== false
-                ? substr($controller, strrpos($controller, '\\') + 1)
-                : substr($controller, strrpos($controller, '_') + 1);
-                
-                return [$extension, $shortName, $action];
-            }
-            
-            \common_Logger::w('Uninterpretable filter in ' . __CLASS__);
+            return $this->getComponentsFromArray($this->mask);
         } else {
             \common_Logger::w('Uninterpretable filtertype ' . gettype($this->mask));
+            return [];
         }
-        
+    }
+
+    protected function getComponentsFromString(string $mask): array
+    {
+        if (strpos($this->mask, '@') !== false) {
+            [$controller, $action] = explode('@', $this->mask, 2);
+        } else {
+            $controller = $this->mask;
+            $action = null;
+        }
+        if (class_exists($controller)) {
+            $extension = FuncHelper::getExtensionFromController($controller);
+            $shortName = strpos($controller, '\\') !== false
+                ? substr($controller, strrpos($controller, '\\') + 1)
+                : substr($controller, strrpos($controller, '_') + 1);
+            if (is_null($action)) {
+                // grant controller
+                return [$extension, $shortName];
+            }
+            // grant action
+            return [$extension, $shortName, $action];
+        }
+        \common_Logger::w('Unknown controller ' . $controller);
+        return [];
+    }
+
+    protected function getComponentsFromArray(array $mask): array
+    {
+        if (isset($this->mask['act'], $this->mask['mod'], $this->mask['ext'])) {
+            return [$this->mask['ext'], $this->mask['mod'], $this->mask['act']];
+        }
+        if (isset($this->mask['mod'], $this->mask['ext'])) {
+            return [$this->mask['ext'], $this->mask['mod']];
+        }
+        if (isset($this->mask['ext'])) {
+            return [$this->mask['ext']];
+        }
+        if (isset($this->mask['controller'])) {
+            return $this->getComponentsFromString($this->mask['controller']);
+        }
+        if (isset($this->mask['act']) && strpos($this->mask['act'], '@') !== false) {
+            return $this->getComponentsFromString($this->mask['act']);
+        }
+        \common_Logger::w('Uninterpretable filter array: '.implode(',', array_keys($mask)));
         return [];
     }
 }
