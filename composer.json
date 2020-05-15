@@ -44,7 +44,6 @@
         }
     },
     "require": {
-        "oat-sa/generis": "^12.20.1",
         "oat-sa/oatbox-extension-installer": "~1.1||dev-master",
         "oat-sa/composer-npm-bridge": "^0.3.0",
         "oat-sa/jig": "~0.1",
