@@ -1325,7 +1325,7 @@ class Updater extends \common_ext_ExtensionUpdater
 
         if ($this->isVersion('41.5.1')) {
             $this->addReport(
-                Report::createInfo('To make SecureResourceService use cache please run \oat\tao\scripts\install\InstallSecureResourceCachedService script')
+                Report::createInfo('To make SecureResourceService use cache see example from default config at: tao/config/default/SecureResourceService.conf.php ')
             );
             $this->setVersion('41.6.0');
         }
@@ -1345,6 +1345,5 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         $this->skip('42.0.4', '42.9.0');
-
     }
 }
