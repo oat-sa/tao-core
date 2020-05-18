@@ -46,7 +46,7 @@ class CacheOnly extends ConfigurableService implements FuncAccessControl, Access
      */
     public function hasAccess(User $user, $controller, $action, $parameters)
     {
-        return self::accessPossible($user, $controller, $action);
+        return $this->accessPossible($user, $controller, $action);
     }
 
     /**

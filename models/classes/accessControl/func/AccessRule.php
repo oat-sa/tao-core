@@ -145,15 +145,10 @@ class AccessRule
 
     private function parseArrayMask(array $mask): void
     {
-         if (isset($mask['controller'])) {
-            $this->parseStringMask($mask['controller']);
-            return;
-        }
-        if (isset($mask['act']) && !isset($mask['controller']) && strpos($mask['act'], '@') !== false) {
-            $this->parseStringMask($mask['act']);
-            return;
-        }
-        if (isset($mask['act'], $mask['mod'], $mask['ext'])) {
+        $legacy = $this->checkLegacyMask($mask);
+        if (!is_null($legacy)) {
+            $this->parseStringMask($legacy);
+        } elseif (isset($mask['act'], $mask['mod'], $mask['ext'])) {
             $this->scope = self::SCOPE_ACTION;
             $this->controller = FuncHelper::getClassName($mask['ext'], $mask['mod']);
             $this->action = $mask['act'];
@@ -165,6 +160,20 @@ class AccessRule
             $this->extension = $mask['ext'];
         } else {
             throw new \common_exception_InconsistentData('Invalid AccessRule mask ' . implode(',', array_keys($mask)));
+        }
+    }
+
+    /**
+     * Legacy notation, should not be used, but we still need to support it
+     */
+    private function checkLegacyMask(array $mask): ?string
+    {
+        if (isset($mask['controller'])) {
+            return $mask['controller'];
+        } elseif (isset($mask['act']) && !isset($mask['controller']) && strpos($mask['act'], '@') !== false) {
+            return $mask['act'];
+        } else {
+            return null;
         }
     }
 }

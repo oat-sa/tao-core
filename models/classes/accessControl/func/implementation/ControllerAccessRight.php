@@ -97,6 +97,4 @@ class ControllerAccessRight implements \JsonSerializable
             'f' => $this->rights_full,
         ];
     }
-
-
 }
