@@ -70,7 +70,6 @@ use oat\tao\model\maintenance\Maintenance;
 use oat\tao\model\media\MediaService;
 use oat\tao\model\metadata\compiler\ResourceJsonMetadataCompiler;
 use oat\tao\model\metrics\MetricsService;
-use oat\tao\model\migrations\MigrationsService;
 use oat\tao\model\mvc\DefaultUrlService;
 use oat\tao\model\mvc\error\ExceptionInterpreterService;
 use oat\tao\model\mvc\error\ExceptionInterpretor;

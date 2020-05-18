@@ -159,8 +159,9 @@ class Migrations extends ScriptAction
             '--namespace' => $this->getExtensionNamespace($extension)
         ];
         $configuration = $this->getConfiguration();
+        $taoRoot = $this->getServiceLocator()->get(ExtensionsManager::SERVICE_ID)->getExtensionById('tao')->getDir();
         $configuration->setCustomTemplate(
-            __DIR__.DIRECTORY_SEPARATOR.'migrations'.DIRECTORY_SEPARATOR.'Template.tpl'
+            $taoRoot.'scripts'.DIRECTORY_SEPARATOR.'tools'.DIRECTORY_SEPARATOR.'migrations'.DIRECTORY_SEPARATOR.'Template.tpl'
         );
         $dependencyFactory = $this->getDependencyFactory($configuration);
         $this->executeMigration($dependencyFactory, new ArrayInput($input), $output = new BufferedOutput());

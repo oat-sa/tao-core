@@ -60,6 +60,9 @@ class TaoComparatorTest extends TestCase
             'Version2_bar',
             'Version4_bar',
         ], $versionKeys);
+
+        $this->assertTrue(0 > $comparator->compare(new Version('Version5_foo'), new Version('Version4_bar')));
+        $this->assertTrue(0 < $comparator->compare(new Version('Version4_bar'), new Version('Version1_baz')));
     }
 
     private function getExtensionManagerMock()
