@@ -29,6 +29,7 @@ use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\controllerMap\Factory;
 use oat\oatbox\cache\SimpleCache;
 use oat\tao\model\accessControl\AccessControl;
+use oat\taoDevTools\actions\ExtensionsManager;
 
 /**
  * Simple function access controll implementation, that builds the access
@@ -57,14 +58,14 @@ class CacheOnly extends ConfigurableService implements FuncAccessControl, Access
     {
         $userRoles = $user->getRoles();
         try {
-            $controllerAccess = $this->fromCache($controllerName);
+            $controllerAccess = $this->getController($controllerName);
             $allowedRoles = $controllerAccess->getAllowedRoles($action);
             $accessAllowed = count(array_intersect($userRoles, $allowedRoles)) > 0;
         } catch (\ReflectionException $e) {
-            \common_Logger::i('Unknown controller ' . $controllerName);
+            $this->logInfo('Unknown controller ' . $controllerName);
             $accessAllowed = false;
         } catch (\common_cache_NotFoundException $e) {
-            \common_Logger::i('Unknown controller ' . $controllerName);
+            $this->logInfo('Unknown controller ' . $controllerName);
             $accessAllowed = false;
         }
         
@@ -88,8 +89,34 @@ class CacheOnly extends ConfigurableService implements FuncAccessControl, Access
     {
         // nothing to do
     }
-    
+
     public function buildCache(): void
+    {
+        $aclModel = $this->buildModel();
+        $this->cacheModel($aclModel);
+    }
+
+    /**
+     * Returns the access rights of a controller, either read from cache
+     * or triggers a regeneration ofthe cache
+     */
+    protected function getController($controllerName): ControllerAccessRight
+    {
+        $cache = $this->getCache()->get(self::CACHE_PREFIX.$controllerName);
+        if (is_null($cache)) {
+            if (!$this->getControllerMapFactory()->isControllerClassNameValid($controllerName)) {
+                // do not rebuild cache if controller is invalid, to prevent CPU consumtion attacks
+                // return empty controller instead
+                return new ControllerAccessRight($controllerName);
+            }
+            // as we need to parse all manifests, it is easier to write whole cache in one go
+            $this->buildCache();
+            $cache = $this->getCache()->get(self::CACHE_PREFIX.$controllerName);
+        }
+        return ControllerAccessRight::fromJson($cache);
+    }
+
+    protected function buildModel(): AclModel
     {
         $extensionManager = $this->getServiceLocator()->get(common_ext_ExtensionsManager::SERVICE_ID);
         $aclModel = new AclModel();
@@ -99,41 +126,42 @@ class CacheOnly extends ConfigurableService implements FuncAccessControl, Access
                 $aclModel->applyRule($rule);
             }
         }
-        $controllerFactory = $this->getControllerMapFactory();
-        foreach ($extensionManager->getInstalledExtensions() as $ext) {
-            foreach ($controllerFactory->getControllers($ext->getId()) as $controller) {
-                $controllerName = $controller->getClassName();
-                $this->toCache($aclModel->getControllerAcl($controllerName));
-            }
-        }
-    }
-    
-    protected function fromCache($controllerName): ControllerAccessRight
-    {
-        $cache = $this->getCache()->get(self::CACHE_PREFIX.$controllerName);
-        if (is_null($cache)) {
-            if (!$this->getControllerMapFactory()->isControllerClassNameValid($controllerName)) {
-                // do not rebuild cache if controller is invalid, to prevent attacks
-                return new ControllerAccessRight($controllerName);
-            }
-            $this->buildCache();
-            $cache = $this->getCache()->get(self::CACHE_PREFIX.$controllerName);
-        }
-        return ControllerAccessRight::fromJson($cache);
+        return $aclModel;
     }
 
-    protected function toCache(ControllerAccessRight $controller): void 
+    /**
+     * Cache the acl model, ensuring to write all controllers,
+     * not just controllers with access rights to prevent
+     * unncesessary regeneration of the cache
+     */
+    protected function cacheModel(AclModel $aclModel): void
+    {
+        $controllerFactory = $this->getControllerMapFactory();
+        foreach ($this->getExtensionManager()->getInstalledExtensions() as $ext) {
+            foreach ($controllerFactory->getControllers($ext->getId()) as $controller) {
+                $controllerName = $controller->getClassName();
+                $this->cacheController($aclModel->getControllerAcl($controllerName));
+            }
+        }
+    }
+
+    private function cacheController(ControllerAccessRight $controller): void
     {
         $data = json_encode($controller);
         $this->getCache()->set(self::CACHE_PREFIX.$controller->getClassName(), $data);
     }
 
-    protected function getControllerMapFactory(): Factory
+    private function getExtensionManager(): ExtensionsManager
+    {
+        return $this->getServiceLocator()->get(common_ext_ExtensionsManager::SERVICE_ID);
+    }
+
+    private function getControllerMapFactory(): Factory
     {
         return new Factory();
     }
 
-    protected function getCache(): SimpleCache
+    private function getCache(): SimpleCache
     {
         return $this->getServiceLocator()->get(SimpleCache::SERVICE_ID);
     }

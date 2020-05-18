@@ -59,22 +59,9 @@ class AclModel
     public function getControllerAcl(string $controllerName): ControllerAccessRight
     {
         $controller = new ControllerAccessRight($controllerName);
-        $extensionId = FuncHelper::getExtensionFromController($controllerName);
-        if (isset($this->extensionRules[$extensionId])) {
-            foreach ($this->extensionRules[$extensionId] as $roleId) {
-                $controller->addFullAccess($roleId);
-            }
-        }
-        if (isset($this->controllerRules[$controllerName])) {
-            foreach ($this->controllerRules[$controllerName] as $roleId) {
-                $controller->addFullAccess($roleId);
-            }
-        }
-        if (isset($this->actionRules[$controllerName])) {
-            foreach ($this->actionRules[$controllerName] as $pair) {
-                $controller->addActionAccess($pair[0], $pair[1]);
-            }
-        }
+        $this->applyExtensionRules($controller);
+        $this->applyControllerRules($controller);
+        $this->applyActionRules($controller);
         return $controller;
     }
 
@@ -104,5 +91,36 @@ class AclModel
             $this->extensionRules[$extensionName] = [];
         }
         $this->extensionRules[$extensionName][] = $rule->getRoleId();
+    }
+
+    private function applyActionRules(ControllerAccessRight $controller): ControllerAccessRight
+    {
+        if (isset($this->actionRules[$controller->getClassName()])) {
+            foreach ($this->actionRules[$controller->getClassName()] as $pair) {
+                $controller->addActionAccess($pair[0], $pair[1]);
+            }
+        }
+        return $controller;
+    }
+
+    private function applyControllerRules(ControllerAccessRight $controller): ControllerAccessRight
+    {
+        if (isset($this->controllerRules[$controller->getClassName()])) {
+            foreach ($this->controllerRules[$controller->getClassName()] as $roleId) {
+                $controller->addFullAccess($roleId);
+            }
+        }
+        return $controller;
+    }
+
+    private function applyExtensionRules(ControllerAccessRight $controller): ControllerAccessRight
+    {
+        $extensionId = FuncHelper::getExtensionFromController($controller->getClassName());
+        if (isset($this->extensionRules[$extensionId])) {
+            foreach ($this->extensionRules[$extensionId] as $roleId) {
+                $controller->addFullAccess($roleId);
+            }
+        }
+        return $controller;
     }
 }
