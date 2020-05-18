@@ -7,6 +7,7 @@
     <title>Error 500 - Internal Server Error</title>
     <link rel="stylesheet" href="<?= ROOT_URL ?>tao/views/css/tao-main-style.css">
     <link rel="stylesheet" href="<?= ROOT_URL ?>tao/views/css/error-pages.css">
+    <link rel="stylesheet" href="<?= ROOT_URL ?>tao/views/css/error-page.css">
 </head>
 
 <body>
@@ -15,37 +16,42 @@
         <a href="<?= ROOT_URL ?>" class="lft" target="_blank">
             <img src="<?= ROOT_URL ?>tao/views/img/tao-logo.png" alt="TAO Logo" id="tao-main-logo">
         </a>
-		<h1>Error 500 - Internal Server Error</h1>
     </header>
 
-    <div class="section-container">
-    	<div class="error-code">500</div>
-    	<div class="error-text">
-	    	<p>The page you requested generated an unexpected error on this server.</p>
-			<ul>
-			    <li>Verify the address you entered in your web browser is valid.</li>
-			    <li>If you are sure that the address is correct but this page is still displayed contact your TAO administrator.</li>
-		    </ul>
-	    </div>
-		<ul class="plain links">
-			<?php if (!empty($returnUrl)) : ?>
-			<li><a href="<?= $returnUrl ?>"><?=__('Go Back')?></a></li>
-			<?php endif; ?>
-			<li><a href="<?= ROOT_URL ?>"><?=__('TAO Home')?></a></li>
-		</ul>
+    <div class="error-page">
+        <div>
+            <div class="error-page__form">
+                <img class="error-page__form__logo"
+                     src="<?= ROOT_URL ?>tao/views/media/thunderbolt.svg"
+                     alt="<?= __('Error') ?>"
+                >
+                <div>
+                    <h2 class="error-page__form__title"><?= __('Something unexpected happened.') ?></h2>
+                    <p class="error-page__form__message">
+                        <?= __(
+                            'It appears there were some issues and we were unable to process your request. You can contact your TAO administrator if needed. Or, alternatively:'
+                        ) ?>
+                    </p>
+                    <div class="error-page__form__action-bar">
+                        <a class="button" href="<?= ROOT_URL ?>"><?= __('go back to home page') ?></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php if (defined('DEBUG_MODE') && DEBUG_MODE == true): ?>
+            <div class="section-container">
 
-	    <?php if (defined('DEBUG_MODE') && DEBUG_MODE == true): ?>
-	    	<?php if (!empty($message)): ?>
-	    		<h2>Debug Message</h2>
-	    		<pre><?= $message ?></pre>
-	    	<?php endif; ?>
+                <?php if (!empty($message)): ?>
+                    <h2>Debug Message</h2>
+                    <pre><?= $message ?></pre>
+                <?php endif; ?>
 
-	    	<?php if (!empty($trace)): ?>
-	    		<h2>Stack Trace</h2>
-	    		<pre><?= $trace ?></pre>
-	    	<?php endif; ?>
-	    <?php endif; ?>
-
+                <?php if (!empty($trace)): ?>
+                    <h2>Stack Trace</h2>
+                    <pre><?= $trace ?></pre>
+                <?php endif; ?>
+            </div>
+        <?php endif; ?>
     </div>
 </div>
 
