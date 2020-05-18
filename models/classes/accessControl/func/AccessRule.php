@@ -48,14 +48,21 @@ class AccessRule
     /** @var string */
     private $mask;
     
-    /** @var array */
-    private $component;
+    /** @var string */
+    private $scope;
+    /** @var string */
+    private $extension;
+    /** @var string */
+    private $controller;
+    /** @var string */
+    private $action;
     
     public function __construct($mode, $roleUri, $mask)
     {
         $this->grantDeny = $mode;
         $this->role = $roleUri;
         $this->mask = $mask;
+        $this->parseMask();
     }
     
     /**
@@ -82,8 +89,7 @@ class AccessRule
     }
 
     /**
-     * Returns the filter of the rule
-     * @return array
+     * @deprecated please used the preparsed extension, controller, action
      */
     public function getMask()
     {
@@ -92,93 +98,73 @@ class AccessRule
 
     public function getScope()
     {
-        switch (count($this->getComponents())) {
-            case 1: return self::SCOPE_EXTENSION;
-            case 2: return self::SCOPE_CONTROLLER;
-            case 3: return self::SCOPE_ACTION;
-            default:
-                throw new \Exception('Invalid rule mask');
-        }
+        return $this->scope;
     }
     
     public function getAction(): ?string
     {
-        $components = $this->getComponents();
-        return count($components) == 3 ? $components[2] : null;
+        return $this->action;
     }
     
     public function getController(): ?string
     {
-        $components = $this->getComponents();
-        return count($components) >= 2
-            ? FuncHelper::getClassName($components[0], $components[1])
-            : null;
+        return $this->controller;
     }
 
-    public function getExtensionId(): string
+    public function getExtensionId(): ?string
     {
-        return $this->getComponents()[0];
+        return $this->extension;
     }
     
-    /**
-     * Get ACL components represented by the mask
-     * @return string[] tao ACL components
-     */
-    protected function getComponents(): array
+    private function parseMask(): void
     {
-        // string masks
         if (is_string($this->mask)) {
-            return $this->getComponentsFromString($this->mask);
+            $this->parseStringMask($this->mask);
         } elseif (is_array($this->mask)) { /// array masks
-            return $this->getComponentsFromArray($this->mask);
+            $this->parseArrayMask($this->mask);
         } else {
-            \common_Logger::w('Uninterpretable filtertype ' . gettype($this->mask));
-            return [];
+            throw new \common_exception_InconsistentData('Invalid AccessRule mask ' . gettype($this->mask));
         }
     }
 
-    protected function getComponentsFromString(string $mask): array
+    private function parseStringMask(string $mask): void
     {
-        if (strpos($this->mask, '@') !== false) {
-            [$controller, $action] = explode('@', $this->mask, 2);
-        } else {
-            $controller = $this->mask;
-            $action = null;
+        $controller = $mask;
+        $action = null;
+        if (strpos($mask, '@') !== false) {
+            [$controller, $action] = explode('@', $mask, 2);
         }
         if (class_exists($controller)) {
-            $extension = FuncHelper::getExtensionFromController($controller);
-            $shortName = strpos($controller, '\\') !== false
-                ? substr($controller, strrpos($controller, '\\') + 1)
-                : substr($controller, strrpos($controller, '_') + 1);
-            if (is_null($action)) {
-                // grant controller
-                return [$extension, $shortName];
-            }
-            // grant action
-            return [$extension, $shortName, $action];
+            $this->scope = is_null($action) ? self::SCOPE_CONTROLLER : self::SCOPE_ACTION;
+            $this->controller = $controller;
+            $this->action = $action;
+        } else {
+            throw new \common_exception_InconsistentData('Invalid AccessRule mask ' . $mask);
         }
-        \common_Logger::w('Unknown controller ' . $controller);
-        return [];
     }
 
-    protected function getComponentsFromArray(array $mask): array
+    private function parseArrayMask(array $mask): void
     {
-        if (isset($this->mask['act'], $this->mask['mod'], $this->mask['ext'])) {
-            return [$this->mask['ext'], $this->mask['mod'], $this->mask['act']];
+         if (isset($mask['controller'])) {
+            $this->parseStringMask($mask['controller']);
+            return;
         }
-        if (isset($this->mask['mod'], $this->mask['ext'])) {
-            return [$this->mask['ext'], $this->mask['mod']];
+        if (isset($mask['act']) && !isset($mask['controller']) && strpos($mask['act'], '@') !== false) {
+            $this->parseStringMask($mask['act']);
+            return;
         }
-        if (isset($this->mask['ext'])) {
-            return [$this->mask['ext']];
+        if (isset($mask['act'], $mask['mod'], $mask['ext'])) {
+            $this->scope = self::SCOPE_ACTION;
+            $this->controller = FuncHelper::getClassName($mask['ext'], $mask['mod']);
+            $this->action = $mask['act'];
+        } elseif (isset($mask['mod'], $mask['ext'])) {
+            $this->scope = self::SCOPE_CONTROLLER;
+            $this->controller = FuncHelper::getClassName($mask['ext'], $mask['mod']);
+        } elseif (isset($mask['ext'])) {
+            $this->scope = self::SCOPE_EXTENSION;
+            $this->extension = $mask['ext'];
+        } else {
+            throw new \common_exception_InconsistentData('Invalid AccessRule mask ' . implode(',', array_keys($mask)));
         }
-        if (isset($this->mask['controller'])) {
-            return $this->getComponentsFromString($this->mask['controller']);
-        }
-        if (isset($this->mask['act']) && strpos($this->mask['act'], '@') !== false) {
-            return $this->getComponentsFromString($this->mask['act']);
-        }
-        \common_Logger::w('Uninterpretable filter array: '.implode(',', array_keys($mask)));
-        return [];
     }
 }
