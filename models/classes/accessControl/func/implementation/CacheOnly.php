@@ -29,7 +29,6 @@ use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\controllerMap\Factory;
 use oat\oatbox\cache\SimpleCache;
 use oat\tao\model\accessControl\AccessControl;
-use oat\taoDevTools\actions\ExtensionsManager;
 
 /**
  * Simple function access controll implementation, that builds the access
@@ -118,9 +117,8 @@ class CacheOnly extends ConfigurableService implements FuncAccessControl, Access
 
     protected function buildModel(): AclModel
     {
-        $extensionManager = $this->getServiceLocator()->get(common_ext_ExtensionsManager::SERVICE_ID);
         $aclModel = new AclModel();
-        foreach ($extensionManager->getInstalledExtensions() as $ext) {
+        foreach ($this->getExtensionManager()->getInstalledExtensions() as $ext) {
             foreach ($ext->getManifest()->getAclTable() as $tableEntry) {
                 $rule = new AccessRule($tableEntry[0], $tableEntry[1], $tableEntry[2]);
                 $aclModel->applyRule($rule);
@@ -140,7 +138,7 @@ class CacheOnly extends ConfigurableService implements FuncAccessControl, Access
         foreach ($this->getExtensionManager()->getInstalledExtensions() as $ext) {
             foreach ($controllerFactory->getControllers($ext->getId()) as $controller) {
                 $controllerName = $controller->getClassName();
-                $this->cacheController($aclModel->getControllerAcl($controllerName));
+                $this->cacheController($aclModel->getControllerAcl($controllerName, $ext->getId()));
             }
         }
     }
@@ -151,7 +149,7 @@ class CacheOnly extends ConfigurableService implements FuncAccessControl, Access
         $this->getCache()->set(self::CACHE_PREFIX.$controller->getClassName(), $data);
     }
 
-    private function getExtensionManager(): ExtensionsManager
+    private function getExtensionManager(): common_ext_ExtensionsManager
     {
         return $this->getServiceLocator()->get(common_ext_ExtensionsManager::SERVICE_ID);
     }

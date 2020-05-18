@@ -67,39 +67,4 @@ class FuncHelper
         }
         return $class;
     }
-
-    /**
-     * @param $controllerClass
-     * @return mixed
-     * @throws \common_exception_Error
-     */
-    public static function getExtensionFromController($controllerClass)
-    {
-        if (strpos($controllerClass, '\\') === false) {
-            return self::getLegacyControllerExtension($controllerClass);
-        } else {
-            foreach (\common_ext_ExtensionsManager::singleton()->getEnabledExtensions() as $ext) {
-                foreach ($ext->getManifest()->getRoutes() as $routePrefix => $route) {
-                    if (is_array($route) && array_key_exists('class', $route)) {
-                        $route = $route['class']::getControllerPrefix() ?: $route;
-                    }
-                    if (is_string($route) && substr($controllerClass, 0, strlen($route)) === $route) {
-                        return $ext->getId();
-                    }
-                }
-            }
-            throw new \common_exception_Error('Unknown controller ' . $controllerClass);
-        }
-    }
-
-    private static function getLegacyControllerExtension($controllerClass): string
-    {
-        $parts = explode('_', $controllerClass);
-        if (count($parts) === 3) {
-            return $parts[0];
-        } else {
-            throw new \common_exception_Error('Unknown controller ' . $controllerClass);
-        }
-    }
-
 }

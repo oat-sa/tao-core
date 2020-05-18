@@ -35,34 +35,37 @@ namespace oat\tao\model\accessControl\func\implementation;
 class ControllerAccessRight implements \JsonSerializable
 {
     private $className;
-    private $actions = [];
-    private $extension = [];
+    private $extensionId;
+
+    private $rights_actions = [];
+    private $rights_full = [];
     
     public static function fromJson(string $json): self
     {
         $data = json_decode($json, true);
-        $controller = new self($data['c']);
-        $controller->actions = $data['a'];
-        $controller->extension = $data['e'];
+        $controller = new self($data['c'], $data['e']);
+        $controller->rights_actions = $data['a'];
+        $controller->rights_full = $data['f'];
         return $controller;
     }
 
-    public function __construct(string $className)
+    public function __construct(string $className, string $extensionId)
     {
         $this->className = $className;
+        $this->extensionId = $extensionId;
     }
 
     public function addFullAccess($role): void
     {
-        $this->extension[] = $role;
+        $this->rights_full[] = $role;
     }
 
     public function addActionAccess($role, $action): void
     {
-        if (!isset($this->actions[$action])) {
-            $this->actions[$action] = [];
+        if (!isset($this->rights_actions[$action])) {
+            $this->rights_actions[$action] = [];
         }
-        $this->actions[$action][] = $role;
+        $this->rights_actions[$action][] = $role;
         
     }
 
@@ -70,12 +73,17 @@ class ControllerAccessRight implements \JsonSerializable
     {
         return $this->className;
     }
-    
+
+    public function getExtensionId(): string
+    {
+        return $this->extensionId;
+    }
+
     public function getAllowedRoles($action)
     {
-        $allowed = $this->extension;
-        if (isset($this->actions[$action])) {
-            $allowed = array_merge($allowed, $this->actions[$action]);
+        $allowed = $this->rights_full;
+        if (isset($this->rights_actions[$action])) {
+            $allowed = array_merge($allowed, $this->rights_actions[$action]);
         }
         return $allowed;
     }
@@ -84,8 +92,9 @@ class ControllerAccessRight implements \JsonSerializable
     {
         return [
             'c' => $this->className,
-            'a' => $this->actions,
-            'e' => $this->extension,
+            'e' => $this->extensionId,
+            'a' => $this->rights_actions,
+            'f' => $this->rights_full,
         ];
     }
 

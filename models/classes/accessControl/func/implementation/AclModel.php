@@ -56,9 +56,9 @@ class AclModel
         }
     }
 
-    public function getControllerAcl(string $controllerName): ControllerAccessRight
+    public function getControllerAcl(string $controllerName, string $extensionId): ControllerAccessRight
     {
-        $controller = new ControllerAccessRight($controllerName);
+        $controller = new ControllerAccessRight($controllerName, $extensionId);
         $this->applyExtensionRules($controller);
         $this->applyControllerRules($controller);
         $this->applyActionRules($controller);
@@ -115,7 +115,7 @@ class AclModel
 
     private function applyExtensionRules(ControllerAccessRight $controller): ControllerAccessRight
     {
-        $extensionId = FuncHelper::getExtensionFromController($controller->getClassName());
+        $extensionId = $controller->getExtensionId();
         if (isset($this->extensionRules[$extensionId])) {
             foreach ($this->extensionRules[$extensionId] as $roleId) {
                 $controller->addFullAccess($roleId);
