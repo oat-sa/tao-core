@@ -19,26 +19,24 @@
     </header>
 
     <div class="error-page">
-        <div>
-            <div class="error-page__form">
-                <img class="error-page__form__logo"
-                     src="<?= ROOT_URL ?>tao/views/media/thunderbolt.svg"
-                     alt="<?= __('Error') ?>"
-                >
-                <div>
-                    <h2 class="error-page__form__title"><?= __('Something unexpected happened.') ?></h2>
-                    <p class="error-page__form__message">
-                        <?= __(
-                            'It appears there were some issues and we were unable to process your request. You can contact your TAO administrator if needed. Or, alternatively:'
-                        ) ?>
-                    </p>
-                    <div class="error-page__form__action-bar">
-                        <a class="button" href="<?= ROOT_URL ?>"><?= __('go back to home page') ?></a>
-                    </div>
+        <div class="error-page__form">
+            <img class="error-page__form__logo"
+                 src="<?= ROOT_URL ?>tao/views/media/thunderbolt.svg"
+                 alt="<?= __('Error') ?>"
+            >
+            <div>
+                <h2 class="error-page__form__title"><?= __('Something unexpected happened.') ?></h2>
+                <p class="error-page__form__message">
+                    <?= __(
+                        'It appears there were some issues and we were unable to process your request. You can contact your TAO administrator if needed. Or, alternatively:'
+                    ) ?>
+                </p>
+                <div class="error-page__form__action-bar">
+                    <a class="button" href="<?= ROOT_URL ?>"><?= __('go back to home page') ?></a>
                 </div>
             </div>
         </div>
-        <?php if (defined('DEBUG_MODE') && DEBUG_MODE == true): ?>
+        <?php if (defined('DEBUG_MODE') && DEBUG_MODE === true): ?>
             <div class="section-container">
 
                 <?php if (!empty($message)): ?>
