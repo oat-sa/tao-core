@@ -239,9 +239,8 @@ class tao_helpers_Http
     {
         if (tao_helpers_File::securityCheck($filename, true)) {
             if (file_exists($filename)) {
-                $mimeType = tao_helpers_File::getMimeType($filename);
                 if ($contenttype) {
-                    header('Content-Type: ' . $mimeType);
+                    header('Content-Type: ' . tao_helpers_File::getMimeType($filename));
                 }
                 $fp = fopen($filename, 'rb');
                 if ($fp === false) {
