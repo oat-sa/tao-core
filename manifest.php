@@ -24,27 +24,27 @@
 use oat\tao\model\accessControl\func\AccessRule;
 use oat\tao\model\routing\ApiRoute;
 use oat\tao\model\routing\LegacyRoute;
+use oat\tao\model\user\TaoRoles;
+use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\AddLogFs;
 use oat\tao\scripts\install\AddTmpFsHandlers;
+use oat\tao\scripts\install\CreateWebhookEventLogTable;
+use oat\tao\scripts\install\InstallNotificationTable;
+use oat\tao\scripts\install\RegisterActionService;
+use oat\tao\scripts\install\RegisterResourceEvents;
+use oat\tao\scripts\install\RegisterResourceWatcherService;
 use oat\tao\scripts\install\RegisterSignatureGenerator;
 use oat\tao\scripts\install\RegisterTaskQueueServices;
 use oat\tao\scripts\install\RegisterUserLockoutsEventListeners;
+use oat\tao\scripts\install\RegisterValidationRules;
 use oat\tao\scripts\install\SetClientLoggerConfig;
 use oat\tao\scripts\install\SetContainerService;
 use oat\tao\scripts\install\SetDefaultCSPHeader;
+use oat\tao\scripts\install\SetLocaleNumbersConfig;
 use oat\tao\scripts\install\SetServiceFileStorage;
-use oat\tao\scripts\install\RegisterValidationRules;
-use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\SetServiceState;
 use oat\tao\scripts\install\SetupMaintenanceService;
-use oat\tao\scripts\install\AddArchiveService;
-use oat\tao\scripts\install\RegisterResourceWatcherService;
-use oat\tao\scripts\install\RegisterResourceEvents;
-use oat\tao\scripts\install\RegisterActionService;
-use oat\tao\model\user\TaoRoles;
 use oat\tao\scripts\install\SetUpQueueTasks;
-use oat\tao\scripts\install\SetLocaleNumbersConfig;
-use \oat\tao\scripts\install\CreateWebhookEventLogTable;
 
 $extpath = dirname(__FILE__) . DIRECTORY_SEPARATOR;
 
@@ -53,7 +53,7 @@ return array(
     'label' => 'TAO Base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '38.13.3.9',
+    'version' => '38.13.3.10',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
         'generis' => '>=12.1.0',

@@ -1,0 +1,60 @@
+// setup for all new error pages
+
+.error-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  min-height: calc(100vh - 99px);
+
+  &__form {
+    display: flex;
+    max-width: 800px;
+    font-family: Arial, Helvetica, sans-serif;
+
+    &__logo {
+      height: 50px;
+    }
+
+    &__title {
+      font-weight: bolder;
+      font-size: 20pt;
+      margin-top: 0;
+      margin-bottom: 20px;
+    }
+
+    &__message {
+      font-size: 16pt;
+      line-height: 1.6
+    }
+
+    &__action-bar {
+      margin-top: 40px;
+    }
+
+    > * {
+      margin: 13px;
+    }
+  }
+
+  > * {
+    margin: 20px;
+  }
+}
+
+.button {
+  color: black;
+  border: 3px solid black;
+  border-radius: 30px;
+  padding: 1em;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 14pt;
+  transition: .4s;
+
+  &:hover {
+    color: white;
+    background-color: black;
+    text-decoration: none;
+  }
+}
