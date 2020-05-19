@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint110\n"
-"PO-Revision-Date: 2019-08-30T08:30:05\n"
+"Project-Id-Version: TAO 3.3.0-sprint111\n"
+"PO-Revision-Date: 2020-05-19T11:26:47\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: da-DK\n"
@@ -16,10 +16,10 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " and "
+msgid " AND "
 msgstr ""
 
-msgid " AND "
+msgid " and "
 msgstr ""
 
 msgid " has been deleted successfully"
@@ -402,11 +402,11 @@ msgstr "Ændre password"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check all"
-msgstr "Tjek alle"
-
 msgid "Check All"
 msgstr "Vælg alle"
+
+msgid "Check all"
+msgstr "Tjek alle"
 
 msgid "Check-in"
 msgstr ""
@@ -447,10 +447,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
 msgid "Clear selection"
@@ -564,10 +564,10 @@ msgstr "Data importeret succesfuldt"
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "Data sprog"
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "Data sprog"
 
 msgid "Data not imported. All records are invalid."
@@ -699,9 +699,6 @@ msgstr ""
 
 msgid "Edit Instance"
 msgstr "Rediger forekomst"
-
-msgid "Edit sources that can embed this platform in an iFrame"
-msgstr ""
 
 msgid "Element"
 msgstr "Element"
@@ -858,6 +855,9 @@ msgstr ""
 msgid "Forbid for all domains"
 msgstr ""
 
+msgid "Force HTTPS on this platform"
+msgstr ""
+
 msgid "Force Release"
 msgstr ""
 
@@ -889,6 +889,9 @@ msgid "Get the history list"
 msgstr ""
 
 msgid "Go Back"
+msgstr ""
+
+msgid "go back to home page"
 msgstr ""
 
 msgid "Height"
@@ -1011,10 +1014,10 @@ msgstr "Installer udvidelser %s..."
 msgid "Instance saved"
 msgstr "Forekomst gemt"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "Interface sprog"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "Interface sprog"
 
 msgid "Invalid CSP header."
@@ -1362,10 +1365,10 @@ msgstr ""
 msgid "Off"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr ""
 
-msgid "Ok"
+msgid "OK"
 msgstr ""
 
 msgid "Old Password"
@@ -1801,6 +1804,9 @@ msgstr ""
 msgid "Some resources have not been moved: %s"
 msgstr ""
 
+msgid "Something unexpected happened."
+msgstr ""
+
 msgid "Sources that can embed this platform in an iFrame"
 msgstr ""
 
@@ -2044,6 +2050,9 @@ msgstr "Oversættelses parameter"
 msgid "Translation saved"
 msgstr "Oversættelse gemt"
 
+msgid "Transport Layer Security"
+msgstr ""
+
 msgid "Tree - Multiple node choice "
 msgstr ""
 
@@ -2116,10 +2125,10 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "Fravælg alle"
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "Fravælg alle"
 
 msgid "Undefined amount of the pages for pagination"
