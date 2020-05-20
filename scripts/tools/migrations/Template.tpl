@@ -6,15 +6,12 @@ namespace <namespace>;
 
 use Doctrine\DBAL\Schema\Schema;
 use oat\tao\scripts\tools\migrations\AbstractMigration;
-use oat\oatbox\service\ServiceManagerAwareInterface;
-use oat\oatbox\service\ServiceManagerAwareTrait;
 
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class <className> extends AbstractMigration implements ServiceManagerAwareInterface
+final class <className> extends AbstractMigration
 {
-    use ServiceManagerAwareTrait;
 
     public function getDescription(): string
     {

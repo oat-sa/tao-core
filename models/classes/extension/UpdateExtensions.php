@@ -53,6 +53,7 @@ class UpdateExtensions extends \common_ext_UpdateExtensions
         $report = parent::__invoke($params);
 
         $migrationsReport = $this->getServiceLocator()->get(MigrationsService::class)->migrate();
+        $this->logInfo(\helpers_Report::renderToCommandline($migrationsReport, false));
         $report->add($migrationsReport);
 
         // regenerate locales

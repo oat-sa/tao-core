@@ -25,8 +25,13 @@ namespace oat\tao\scripts\tools\migrations;
 use Doctrine\Migrations\AbstractMigration as DoctrineAbstractMigration;
 use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\ServiceManagerAwareTrait;
+use oat\oatbox\log\LoggerAwareTrait;
+use oat\oatbox\log\TaoLoggerAwareInterface;
 
-abstract class AbstractMigration extends DoctrineAbstractMigration implements ServiceManagerAwareInterface
+abstract class AbstractMigration
+    extends DoctrineAbstractMigration
+    implements ServiceManagerAwareInterface, TaoLoggerAwareInterface
 {
     use ServiceManagerAwareTrait;
+    use LoggerAwareTrait;
 }
