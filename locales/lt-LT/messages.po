@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint128\n"
-"PO-Revision-Date: 2020-05-08T09:21:57\n"
+"Project-Id-Version: TAO 3.4.0-sprint129\n"
+"PO-Revision-Date: 2020-05-22T08:23:53\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lt-LT\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " AND "
-msgstr " IR "
-
 msgid " and "
 msgstr " ir "
+
+msgid " AND "
+msgstr " IR "
 
 msgid " has been deleted successfully"
 msgstr " sėkmingai ištrintas"
@@ -368,11 +368,11 @@ msgstr "Skaičiuotuvas"
 msgid "Calendar"
 msgstr "Kalendorius"
 
-msgid "Cancel"
-msgstr "Atšaukti"
-
 msgid "cancel"
 msgstr "atšaukti"
+
+msgid "Cancel"
+msgstr "Atšaukti"
 
 msgid "cancel the action"
 msgstr "atšaukti veiksmą"
@@ -402,11 +402,11 @@ msgstr "Pakeisti slaptažodį"
 msgid "Change the sign of the current operand"
 msgstr "Keisti ženklą dabartinio operando"
 
-msgid "Check All"
-msgstr "Pažymėti Visus"
-
 msgid "Check all"
 msgstr "Pažymėti visus"
+
+msgid "Check All"
+msgstr "Pažymėti Visus"
 
 msgid "Check-in"
 msgstr "Pasižymėti"
@@ -567,11 +567,11 @@ msgstr "Duomenys importuoti sėkmingai"
 msgid "Data imported. Some records are invalid."
 msgstr "Duomenys importuoti. Kaikurie įrašai neteisingi."
 
-msgid "Data Language"
-msgstr "Duomenų Kalba"
-
 msgid "Data language"
 msgstr "Duomenų kalba"
+
+msgid "Data Language"
+msgstr "Duomenų Kalba"
 
 msgid "Data not imported. All records are invalid."
 msgstr "Duomenys neimportuoti. Visi įrašai neteisingi."
@@ -893,6 +893,9 @@ msgstr "Gauti istorijos sąrašą"
 
 msgid "Go Back"
 msgstr "Grįžti Atgal"
+
+msgid "go back to home page"
+msgstr ""
 
 msgid "Height"
 msgstr "Aukštis"
@@ -1316,10 +1319,10 @@ msgstr "Nėra failų"
 msgid "no label"
 msgstr "nėra pavadinimo"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "Peržiūra negalima"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "Peržiūra negalima"
 
 msgid "No results found"
@@ -1371,10 +1374,10 @@ msgstr "iš"
 msgid "Off"
 msgstr "Išjungta"
 
-msgid "Ok"
+msgid "OK"
 msgstr "Gerai"
 
-msgid "OK"
+msgid "Ok"
 msgstr "Gerai"
 
 msgid "Old Password"
@@ -1803,6 +1806,9 @@ msgstr "Dydis"
 
 msgid "Some resources have not been moved: %s"
 msgstr "Kai kurie resursai nebuvo perkelti: %s"
+
+msgid "Something unexpected happened."
+msgstr ""
 
 msgid "Sources that can embed this platform in an iFrame"
 msgstr ""
