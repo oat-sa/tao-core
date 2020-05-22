@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint128\n"
-"PO-Revision-Date: 2020-05-08T09:19:48\n"
+"Project-Id-Version: TAO 3.4.0-sprint129\n"
+"PO-Revision-Date: 2020-05-22T08:21:43\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: es-ES\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " AND "
-msgstr ""
-
 msgid " and "
 msgstr " y "
+
+msgid " AND "
+msgstr ""
 
 msgid " has been deleted successfully"
 msgstr " ha sido borrado exitosamente"
@@ -368,10 +368,10 @@ msgstr ""
 msgid "Calendar"
 msgstr "Calendario"
 
-msgid "Cancel"
+msgid "cancel"
 msgstr ""
 
-msgid "cancel"
+msgid "Cancel"
 msgstr ""
 
 msgid "cancel the action"
@@ -402,11 +402,11 @@ msgstr "Cambiar la contraseña"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check All"
-msgstr "Seleccionar Todo"
-
 msgid "Check all"
 msgstr "Seleccionar todo"
+
+msgid "Check All"
+msgstr "Seleccionar Todo"
 
 msgid "Check-in"
 msgstr "Registrarse"
@@ -567,11 +567,11 @@ msgstr "Datos importados exitosamente"
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data Language"
-msgstr "Idioma de Datos"
-
 msgid "Data language"
 msgstr "Idioma de datos"
+
+msgid "Data Language"
+msgstr "Idioma de Datos"
 
 msgid "Data not imported. All records are invalid."
 msgstr ""
@@ -893,6 +893,9 @@ msgstr ""
 
 msgid "Go Back"
 msgstr "Regresar"
+
+msgid "go back to home page"
+msgstr ""
 
 msgid "Height"
 msgstr "Altura"
@@ -1316,10 +1319,10 @@ msgstr "Sin archivos"
 msgid "no label"
 msgstr "sin etiqueta"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr ""
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr ""
 
 msgid "No results found"
@@ -1371,10 +1374,10 @@ msgstr ""
 msgid "Off"
 msgstr ""
 
-msgid "Ok"
+msgid "OK"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr ""
 
 msgid "Old Password"
@@ -1802,6 +1805,9 @@ msgid "Size"
 msgstr "Tamaño"
 
 msgid "Some resources have not been moved: %s"
+msgstr ""
+
+msgid "Something unexpected happened."
 msgstr ""
 
 msgid "Sources that can embed this platform in an iFrame"

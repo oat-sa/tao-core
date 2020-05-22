@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint128\n"
-"PO-Revision-Date: 2020-05-08T09:24:07\n"
+"Project-Id-Version: TAO 3.4.0-sprint129\n"
+"PO-Revision-Date: 2020-05-22T08:25:54\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-TW\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " AND "
-msgstr ""
-
 msgid " and "
 msgstr " 和 "
+
+msgid " AND "
+msgstr ""
 
 msgid " has been deleted successfully"
 msgstr " 已成功刪除"
@@ -368,11 +368,11 @@ msgstr ""
 msgid "Calendar"
 msgstr "日曆"
 
-msgid "Cancel"
-msgstr "取消"
-
 msgid "cancel"
 msgstr ""
+
+msgid "Cancel"
+msgstr "取消"
 
 msgid "cancel the action"
 msgstr ""
@@ -402,10 +402,10 @@ msgstr "更改密碼"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check All"
+msgid "Check all"
 msgstr "全部勾選"
 
-msgid "Check all"
+msgid "Check All"
 msgstr "全部勾選"
 
 msgid "Check-in"
@@ -567,10 +567,10 @@ msgstr "數據已成功匯入"
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "數據語言"
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "數據語言"
 
 msgid "Data not imported. All records are invalid."
@@ -893,6 +893,9 @@ msgstr ""
 
 msgid "Go Back"
 msgstr "返回"
+
+msgid "go back to home page"
+msgstr ""
 
 msgid "Height"
 msgstr "長度"
@@ -1316,10 +1319,10 @@ msgstr "無檔案"
 msgid "no label"
 msgstr "無標籤"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "沒有可用的預覽"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "沒有可用的預覽"
 
 msgid "No results found"
@@ -1371,10 +1374,10 @@ msgstr "的"
 msgid "Off"
 msgstr ""
 
-msgid "Ok"
+msgid "OK"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr ""
 
 msgid "Old Password"
@@ -1802,6 +1805,9 @@ msgid "Size"
 msgstr "大小"
 
 msgid "Some resources have not been moved: %s"
+msgstr ""
+
+msgid "Something unexpected happened."
 msgstr ""
 
 msgid "Sources that can embed this platform in an iFrame"
