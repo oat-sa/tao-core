@@ -236,6 +236,9 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
      *
      * @param array|\JsonSerializable $data
      * @param int $httpStatus
+     *
+     * @deprecated use \oat\tao\model\http\Controller::returnSuccessJsonResponse for standard response
+     * @deprecated use \oat\tao\model\http\Controller::returnErrorJsonResponse for standard response
      */
     protected function returnJson($data, $httpStatus = 200)
     {
