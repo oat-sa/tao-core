@@ -55,7 +55,6 @@
                     <action id="role-move" name="Move role" url="/tao/Roles/moveInstance" context="instance" group="none" binding="moveNode">
                         <icon id="icon-move" src=""/>
                     </action>
-                    <action id="get-languages" name="Get Languages" url="/tao/Languages/index" group="none" context="none" binding="getLanguages" />
                 </actions>
             </section>
         </sections>
