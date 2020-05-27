@@ -80,7 +80,7 @@ class SecureResourceCachedService extends InjectionAwareService implements Secur
      * @throws common_exception_Error
      * @throws common_cache_NotFoundException
      */
-    public function getAllChildren(core_kernel_classes_Class $resource): array
+    public function getAllChildren(RdfClassInterface $resource): array
     {
         $user = $this->getUser();
 
@@ -121,7 +121,7 @@ class SecureResourceCachedService extends InjectionAwareService implements Secur
     {
         $user = $this->getUser();
 
-        $resourceUri = $resource instanceof core_kernel_classes_Resource ? $resource->getUri() : $resource;
+        $resourceUri = $resource instanceof ResourceInterface ? $resource->getUri() : $resource;
 
         $cacheKey = $this->validatePermissionsCacheKeyFactory->create($resourceUri, $user);
 

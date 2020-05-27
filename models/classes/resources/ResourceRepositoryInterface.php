@@ -24,6 +24,8 @@ namespace oat\tao\model\resources;
 
 interface ResourceRepositoryInterface
 {
+    public const SERVICE_ID = 'tao/ResourceRepository';
+
     public function find(string $uri): ResourceInterface;
 
     /**
@@ -32,5 +34,7 @@ interface ResourceRepositoryInterface
      *
      * @return RdfClassInterface[]
      */
-    public function findChildren(RdfClassInterface $class, bool $recursive): array ;
+    public function findChildren(RdfClassInterface $class, bool $recursive): array;
+
+    public function findInstances(RdfClassInterface $class, bool $recursive = false): array;
 }

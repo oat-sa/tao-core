@@ -65,11 +65,8 @@ class ResourceService extends ConfigurableService
 
     private function getRepository(): ResourceRepositoryInterface
     {
-        return new ResourceCacheRepository(
-            new ResourceRepository(),
-            $this->getServiceLocator()->get(PersistenceManager::SERVICE_ID),
-            'redis'
-        );
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return $this->getServiceLocator()->get(ResourceCacheRepository::SERVICE_ID);
     }
 
     /**

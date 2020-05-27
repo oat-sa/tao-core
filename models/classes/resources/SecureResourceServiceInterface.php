@@ -23,13 +23,11 @@ declare(strict_types=1);
 
 namespace oat\tao\model\resources;
 
-use core_kernel_classes_Class;
-
 interface SecureResourceServiceInterface
 {
     public const SERVICE_ID = 'tao/SecureResourceService';
 
-    public function getAllChildren(core_kernel_classes_Class $resource): array;
+    public function getAllChildren(RdfClassInterface $resource): array;
 
     public function validatePermissions(iterable $resources, array $permissionsToCheck): void;
 

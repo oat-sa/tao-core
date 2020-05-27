@@ -57,4 +57,13 @@ class ResourceRepository extends InjectionAwareService implements ResourceReposi
 
         return $rdfClass->getSubClasses($recursive);
     }
+
+    public function findInstances(RdfClassInterface $class, bool $recursive = false): array
+    {
+        $rdfClass = $class instanceof core_kernel_classes_Class
+            ? $class
+            : new core_kernel_classes_Class($class->getUri());
+
+        return $rdfClass->getInstances($recursive);
+    }
 }

@@ -23,9 +23,14 @@ declare(strict_types=1);
 namespace oat\tao\model\resources;
 
 use common_persistence_KeyValuePersistence;
+use core_kernel_classes_Class;
+use core_kernel_classes_Resource;
 use oat\generis\persistence\PersistenceManager;
+use oat\tao\model\service\InjectionAwareService;
+use RuntimeException;
 
-class ResourceCacheRepository implements ResourceRepositoryInterface
+// TODO: warm up script is needed
+class ResourceCacheRepository extends InjectionAwareService implements ResourceRepositoryInterface
 {
     /** @var ResourceRepository */
     private $repository;
@@ -34,6 +39,14 @@ class ResourceCacheRepository implements ResourceRepositoryInterface
     /** @var string */
     private $persistenceName;
 
+    /**
+     * @noinspection MagicMethodsValidityInspection
+     * @noinspection PhpMissingParentConstructorInspection
+     *
+     * @param ResourceRepository $repository
+     * @param PersistenceManager $persistenceManager
+     * @param string             $persistenceName
+     */
     public function __construct(
         ResourceRepository $repository,
         PersistenceManager $persistenceManager,
@@ -99,15 +112,58 @@ class ResourceCacheRepository implements ResourceRepositoryInterface
         return $children;
     }
 
+    public function findInstances(RdfClassInterface $class, bool $recursive = false): array
+    {
+        $key = sprintf('instances:%s:%s', $class->getUri(), var_export($recursive, true));
+
+        $cache = $this->getCache();
+
+        $instancesUris = $cache->get($key);
+
+        if (false !== $instancesUris) {
+            $instances = [];
+
+            foreach (json_decode($instancesUris, true) as $uri) {
+                $instances[] = $this->find($uri);
+            }
+
+            return $instances;
+        }
+
+        $instances = $this->repository->findInstances($class, $recursive);
+
+        $instancesUrl = array_map(
+            static function (ResourceInterface $child) {
+                return $child->getUri();
+            },
+            $instances
+        );
+
+        $cache->set($key, json_encode($instancesUrl));
+
+        return $instances;
+    }
+
     private function unserializeResource(string $serializedResource): ResourceInterface
     {
         //TODO: move to serializer
 
         $json = json_decode($serializedResource, true);
 
-        return new RdfClass(
-            $json['payload']['uri'], $json['payload']['label']
-        );
+        switch ($json['type']) {
+            case core_kernel_classes_Class::class:
+                return new RdfClass(
+                    $json['payload']['uri'], $json['payload']['label']
+                );
+                break;
+            case core_kernel_classes_Resource::class:
+                return new RdfResource(
+                    $json['payload']['uri'], $json['payload']['label']
+                );
+                break;
+        }
+
+        throw new RuntimeException(sprintf('Type %s is not supported', $json['type']));
     }
 
     private function serializeResource(ResourceInterface $resource): string
