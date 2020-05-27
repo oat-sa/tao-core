@@ -12,7 +12,7 @@
 <body>
 
 <div class="content-wrap">
-    <header class="dark-bar clearfix">
+    <header aria-label="Main Menu" class="dark-bar clearfix">
         <a href="<?= ROOT_URL ?>" class="lft" target="_blank">
             <img src="<?= ROOT_URL ?>tao/views/img/tao-logo.png" alt="TAO Logo" id="tao-main-logo">
         </a>
@@ -38,7 +38,7 @@
     </div>
 </div>
 
-<footer class="dark-bar">
+<footer aria-label="About" class="dark-bar">
     © 2013 - <?= date('Y') ?> · <a href="http://taotesting.com" target="_blank">Open Assessment Technologies S.A.</a>
     · All rights reserved.
 </footer>
