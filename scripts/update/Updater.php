@@ -1349,7 +1349,7 @@ class Updater extends \common_ext_ExtensionUpdater
             AclProxy::applyRule(
                 new AccessRule(
                     AccessRule::GRANT,
-                    TaoRoles::BASE_USER,
+                    TaoRoles::BACK_OFFICE,
                     [
                         'ext' => 'tao',
                         'mod' => 'Languages',

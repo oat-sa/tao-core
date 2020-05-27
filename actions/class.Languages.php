@@ -20,21 +20,31 @@
 
 declare(strict_types=1);
 
-class tao_actions_Languages extends tao_actions_CommonModule
+use oat\generis\model\OntologyAwareTrait;
+use oat\tao\model\http\Controller;
+use oat\tao\model\http\HttpJsonResponseTrait;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
+
+class tao_actions_Languages extends Controller implements ServiceLocatorAwareInterface
 {
+    use ServiceLocatorAwareTrait;
+    use HttpJsonResponseTrait;
+    use OntologyAwareTrait;
+
     public function index(): void
     {
         try {
             $this->getResponseFormatter()
                 ->withExpiration(time() + 60);
 
-            $this->returnSuccessJsonResponse(
+            $this->setSuccessJsonResponse(
                 tao_helpers_I18n::getAvailableLangsByUsage(
-                    new core_kernel_classes_Resource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA)
+                    $this->getResource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA)
                 )
             );
         } catch (Throwable $exception) {
-            $this->returnErrorJsonResponse($exception->getMessage());
+            $this->setErrorJsonResponse($exception->getMessage());
         }
     }
 }

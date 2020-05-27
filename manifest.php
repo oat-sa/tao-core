@@ -22,6 +22,7 @@
  *
  */
 
+use oat\tao\controller\api\Users;
 use oat\tao\install\services\SetupSettingsStorage;
 use oat\tao\model\accessControl\func\AccessRule;
 use oat\tao\model\routing\ApiRoute;
@@ -151,7 +152,7 @@ return [
         [AccessRule::GRANT, TaoRoles::BASE_USER,            ['ext' => 'tao','mod' => 'File', 'act' => 'accessFile']],
         [AccessRule::GRANT, TaoRoles::BASE_USER,            ['ext' => 'tao','mod' => 'Log', 'act' => 'log']],
         [AccessRule::GRANT, TaoRoles::BASE_USER,            ['ext' => 'tao','mod' => 'TaskQueueWebApi']],
-        [AccessRule::GRANT, TaoRoles::BASE_USER,            ['ext' => 'tao','mod' => 'Languages', 'act' => 'index']],
+        [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'Languages', 'act' => 'index']],
         [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'File', 'act' => 'upload']],
         [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'Main', 'act' => 'index']],
         [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'Main', 'act' => 'getSectionActions']],
@@ -187,8 +188,8 @@ return [
         [AccessRule::GRANT, TaoRoles::SYSTEM_ADMINISTRATOR, ['ext' => 'tao','mod' => 'ExtensionsManager']],
         [AccessRule::GRANT, TaoRoles::LOCK_MANAGER,     'tao_actions_Lock@forceRelease'],
         [AccessRule::GRANT, TaoRoles::PROPERTY_MANAGER, 'tao_actions_PropertiesAuthoring'],
-        [AccessRule::GRANT, TaoRoles::SYSTEM_ADMINISTRATOR, oat\tao\controller\api\Users::class],
-        [AccessRule::GRANT, TaoRoles::GLOBAL_MANAGER, oat\tao\controller\api\Users::class],
+        [AccessRule::GRANT, TaoRoles::SYSTEM_ADMINISTRATOR, Users::class],
+        [AccessRule::GRANT, TaoRoles::GLOBAL_MANAGER, Users::class],
     ],
     'routes' => [
         '/tao/api'  => ['class' => ApiRoute::class],

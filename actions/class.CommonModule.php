@@ -21,6 +21,7 @@
  *               2013-2019 (update and modification) Open Assessment Technologies SA;
  */
 
+use oat\tao\model\http\HttpJsonResponseTrait;
 use oat\tao\model\http\LegacyController;
 use oat\tao\helpers\LegacySessionUtils;
 use oat\tao\model\action\CommonModuleInterface;
@@ -37,7 +38,6 @@ use oat\oatbox\log\LoggerAwareTrait;
 
 use function GuzzleHttp\Psr7\stream_for;
 
-use oat\tao\model\routing\AnnotationReader\security;
 use oat\tao\model\security\xsrf\TokenService;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -237,8 +237,8 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
      * @param array|\JsonSerializable $data
      * @param int $httpStatus
      *
-     * @deprecated use \oat\tao\model\http\Controller::returnSuccessJsonResponse for standard response
-     * @deprecated use \oat\tao\model\http\Controller::returnErrorJsonResponse for standard response
+     * @deprecated use \oat\tao\model\http\HttpJsonResponseTrait::setSuccessJsonResponse for standard response
+     * @deprecated use \oat\tao\model\http\HttpJsonResponseTrait::setErrorJsonResponse for standard response
      */
     protected function returnJson($data, $httpStatus = 200)
     {

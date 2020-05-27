@@ -118,32 +118,4 @@ abstract class Controller
         $this->response = $this->getPsrResponse()->withHeader('content-type', $contentType . ';' . $charset);
         return $this;
     }
-
-    protected function returnSuccessJsonResponse(array $data, int $statusCode = 200): void
-    {
-        $this->response = $this->getResponseFormatter()
-            ->withJsonHeader()
-            ->withStatusCode($statusCode)
-            ->withBody(new SuccessJsonResponse($data))
-            ->format($this->response);
-    }
-
-    protected function returnErrorJsonResponse(
-        string $errorMessage,
-        int $errorCode = 0,
-        array $data = [],
-        int $statusCode = 400
-    ): void
-    {
-        $this->response = $this->getResponseFormatter()
-            ->withJsonHeader()
-            ->withStatusCode($statusCode)
-            ->withBody(new ErrorJsonResponse($errorCode, $errorMessage, $data))
-            ->format($this->response);
-    }
-
-    protected function getResponseFormatter(): ResponseFormatter
-    {
-        return $this->getServiceLocator()->get(ResponseFormatter::class);
-    }
 }
