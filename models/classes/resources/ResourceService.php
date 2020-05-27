@@ -24,7 +24,6 @@ namespace oat\tao\model\resources;
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
 use oat\generis\model\data\permission\PermissionInterface;
-use oat\generis\persistence\PersistenceManager;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\user\User;
 
@@ -88,7 +87,8 @@ class ResourceService extends ConfigurableService
             if (count($children) > 0) {
                 $entry['children'] = $this->getSubClasses($children);
             }
-            array_push($result, $entry);
+
+            $result[] = $entry;
         }
 
         return $result;

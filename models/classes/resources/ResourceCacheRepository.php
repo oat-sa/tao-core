@@ -38,6 +38,8 @@ class ResourceCacheRepository extends InjectionAwareService implements ResourceR
     private $persistenceManager;
     /** @var string */
     private $persistenceName;
+    /** @var common_persistence_KeyValuePersistence */
+    private $cache;
 
     /**
      * @noinspection MagicMethodsValidityInspection
@@ -190,6 +192,12 @@ class ResourceCacheRepository extends InjectionAwareService implements ResourceR
 
     private function getCache(): common_persistence_KeyValuePersistence
     {
-        return $this->persistenceManager->getPersistenceById($this->persistenceName);
+        if ($this->cache) {
+            return $this->cache;
+        }
+
+        $this->cache = $this->persistenceManager->getPersistenceById($this->persistenceName);
+
+        return $this->cache;
     }
 }
