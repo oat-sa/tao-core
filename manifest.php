@@ -189,8 +189,6 @@ return [
         [AccessRule::GRANT, TaoRoles::BASE_USER, ['ext' => 'tao','mod' => 'Languages', 'act' => 'index']],
         [AccessRule::GRANT, TaoRoles::SYSTEM_ADMINISTRATOR, oat\tao\controller\api\Users::class],
         [AccessRule::GRANT, TaoRoles::GLOBAL_MANAGER, oat\tao\controller\api\Users::class],
-
-
     ],
     'routes' => [
         '/tao/api'  => ['class' => ApiRoute::class],
