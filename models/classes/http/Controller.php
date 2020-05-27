@@ -21,9 +21,6 @@
 
 namespace oat\tao\model\http;
 
-use oat\tao\model\http\formatter\ResponseFormatter;
-use oat\tao\model\http\response\ErrorJsonResponse;
-use oat\tao\model\http\response\SuccessJsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
