@@ -21,9 +21,10 @@
 
 namespace oat\tao\model\resources;
 
-use \core_kernel_classes_Class;
-use \core_kernel_classes_Resource;
+use core_kernel_classes_Class;
+use core_kernel_classes_Resource;
 use oat\generis\model\data\permission\PermissionInterface;
+use oat\generis\persistence\PersistenceManager;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\user\User;
 
@@ -55,13 +56,20 @@ class ResourceService extends ConfigurableService
      */
     public function getAllClasses(core_kernel_classes_Class $rootClass)
     {
-        $result = [
+        return [
             'uri'      => $rootClass->getUri(),
             'label'    => $rootClass->getLabel(),
-            'children' => $this->getSubClasses($rootClass->getSubClasses(false))
+            'children' => $this->getSubClasses($this->getRepository()->findChildren($rootClass, false))
         ];
+    }
 
-        return $result;
+    private function getRepository(): ResourceRepositoryInterface
+    {
+        return new ResourceCacheRepository(
+            new ResourceRepository(),
+            $this->getServiceLocator()->get(PersistenceManager::SERVICE_ID),
+            'redis'
+        );
     }
 
     /**
@@ -71,9 +79,11 @@ class ResourceService extends ConfigurableService
     private function getSubClasses($subClasses)
     {
         $result = [];
+        $repository = $this->getRepository();
 
         foreach ($subClasses as $subClass) {
-            $children = $subClass->getSubClasses(false);
+            $children = $repository->findChildren($subClass, false);
+
             $entry = [
                 'uri' => $subClass->getUri(),
                 'label' => $subClass->getLabel()
