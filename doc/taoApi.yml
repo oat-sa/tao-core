@@ -40,7 +40,7 @@ components:
           type: string
   responses:
     LanguagesResponse:
-      description: Bad request
+      description: The list of languages
       content:
         application/json:
           schema:
