@@ -255,7 +255,7 @@ class IndexService extends ConfigurableService
 
                 if ($propertyTypeUri === WidgetDefinitions::PROPERTY_COMBOBOX
                     || $propertyTypeUri === WidgetDefinitions::PROPERTY_RADIOBOX) {
-                    $customProperties[$fieldName] = (string)$resource->getOnePropertyValue($property)->getLabel();
+                    $customProperties[$fieldName] = (string)$propertyValue->getLabel();
                 }
 
                 if ($propertyTypeUri === WidgetDefinitions::PROPERTY_CHECKBOX) {
