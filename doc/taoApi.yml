@@ -1,0 +1,59 @@
+openapi: 3.0.1
+info:
+  title: TAO Core Internal API
+  description: 'TAO Core Internal API'
+  version: v1
+
+paths:
+  /tao/Languages/index:
+    get:
+      summary: Get a list of available languages in the TAO platform
+      responses:
+        200:
+          $ref: '#/components/responses/LanguagesResponse'
+        400:
+          $ref: '#/components/responses/BadRequestResponse'
+        500:
+          $ref: '#/components/responses/InternalServerErrorResponse'
+components:
+  schemas:
+    Languages:
+      properties:
+        success:
+          type: boolean
+          example: true
+        data:
+          type: object
+          example:
+            en-US: English
+            fr-FR: French
+            de-DE: German
+    ErrorResponse:
+      properties:
+        success:
+          type: boolean
+          example: false
+        code:
+          type: integer
+          example: 400
+        message:
+          type: string
+  responses:
+    LanguagesResponse:
+      description: The list of languages
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Languages'
+    BadRequestResponse:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    InternalServerErrorResponse:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
