@@ -50,6 +50,11 @@ class ResponseFormatter extends ConfigurableService
         return $this->addHeader('Content-Type', 'application/json');
     }
 
+    public function withExpiration(int $timestamp): self
+    {
+        return $this->addHeader('Expires', gmdate('D, d M Y H:i:s \G\M\T', $timestamp));
+    }
+
     public function addHeader(string $name, string $value): self
     {
         $this->headers[$name] = $value;
