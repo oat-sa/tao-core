@@ -95,7 +95,7 @@ class IndexDocument
         return $this->indexesProperties;
     }
 
-    public function getDynamicProperties(): Iterator
+    public function getDynamicProperties(): ?Iterator
     {
         return $this->dynamicProperties;
     }
