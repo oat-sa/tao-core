@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This program is free software; you can redistribute it and/or
@@ -19,6 +19,8 @@
  *
  *
  */
+
+declare(strict_types=1);
 
 use oat\generis\model\data\Ontology;
 use oat\generis\test\TestCase;
