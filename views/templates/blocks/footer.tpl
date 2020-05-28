@@ -3,7 +3,7 @@ use oat\tao\helpers\Layout;
 use oat\tao\helpers\Template;
 use oat\tao\helpers\ApplicationHelper;
 ?>
-<footer aria-label="About" class="dark-bar">
+<footer aria-label="<?=__('About')?>" class="dark-bar">
     <div class="lft">
         © 2013 - <?= date('Y') ?> · <span class="tao-version"><?= ApplicationHelper::getVersionName() ?></span> ·
         <a href="http://taotesting.com" target="_blank">Open Assessment Technologies S.A.</a>
