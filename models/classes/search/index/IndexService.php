@@ -19,6 +19,8 @@
  *
  */
 
+declare(strict_types=1);
+
 namespace oat\tao\model\search\index;
 
 use ArrayIterator;
@@ -73,7 +75,7 @@ class IndexService extends ConfigurableService
         $indexIterator = new IndexIterator($iterator);
         $indexIterator->setServiceLocator($this->getServiceLocator());
         $searchService = $this->getServiceLocator()->get(Search::SERVICE_ID);
-        \common_Logger::i('searchService::index' . get_class($searchService));
+        $this->logInfo('starting indexation');
         $result = $searchService->index($indexIterator);
         $this->logDebug($result . ' resources have been indexed by ' . static::class);
         return $result;
