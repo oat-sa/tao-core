@@ -27,6 +27,7 @@ use oat\oatbox\log\LoggerService;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\ServiceManager;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use oat\tao\install\utils\seed\SeedParser;
 
 class tao_install_Setup implements Action
 {
@@ -71,6 +72,8 @@ class tao_install_Setup implements Action
             }
 
             $filePath = $params[0];
+            $parser = new SeedParser();
+            $seed = $parser->fromFile($filePath);
 
             if (!file_exists($filePath)) {
                 throw new \ErrorException('Unable to find ' . $filePath);
@@ -224,24 +227,8 @@ class tao_install_Setup implements Action
             throw new InvalidArgumentException('Your config should have a \'default\' key under \'persistences\'');
         }
 
-        foreach ($parameters['configuration'] as $extension => $configs) {
-            foreach ($configs as $key => $config) {
-                if (isset($config['type']) && $config['type'] === 'configurableService') {
-                    $className = $config['class'];
-                    $params = $config['options'];
-                    if (is_a($className, \oat\oatbox\service\ConfigurableService::class, true)) {
-                        if (is_a($className, \oat\tao\model\service\InjectionAwareService::class, true)) {
-                            $service = new $className(...$this->prepareParameters($className, $params, $serviceManager));
-                        } else {
-                            $service = new $className($params);
-                        }
-                        $serviceManager->register($extension . '/' . $key, $service);
-                    } else {
-                        $this->logWarning('The class : ' . $className . ' can not be set as a Configurable Service');
-                        $this->logWarning('Make sure your configuration is correct and all required libraries are installed');
-                    }
-                }
-            }
+        foreach($seed->getServices() as $serviceId => $service) {
+            $serviceManager->register($serviceId, $service);
         }
 
         // mod rewrite cannot be detected in CLI Mode.
