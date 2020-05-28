@@ -50,8 +50,6 @@ class IndexService extends ConfigurableService
     use OntologyAwareTrait;
 
     const SERVICE_ID = 'tao/IndexService';
-    const INDEX_MAP_PROPERTY_DEFAULT = 'default';
-    const INDEX_MAP_PROPERTY_FUZZY = 'fuzzy';
     const ALLOWED_DYNAMIC_TYPES = [
         WidgetDefinitions::PROPERTY_TEXTBOX,
         WidgetDefinitions::PROPERTY_TEXTAREA,
