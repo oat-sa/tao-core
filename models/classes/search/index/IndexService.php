@@ -19,19 +19,27 @@
  *
  */
 
+declare(strict_types=1);
+
 namespace oat\tao\model\search\index;
 
+use ArrayIterator;
+use core_kernel_classes_Class;
+use core_kernel_classes_Property;
+use core_kernel_classes_Resource;
+use Iterator;
+use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
+use oat\generis\model\WidgetRdf;
 use oat\oatbox\extension\script\MissingOptionException;
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\menu\MenuService;
+use oat\tao\model\resources\ResourceIterator;
+use oat\tao\model\search\Search;
 use oat\tao\model\search\SearchTokenGenerator;
 use oat\tao\model\TaoOntology;
-use oat\tao\model\search\Search;
-use oat\tao\model\menu\MenuService;
-use oat\generis\model\OntologyAwareTrait;
-use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
-use oat\search\helper\SupportedOperatorHelper;
-use oat\tao\model\resources\ResourceIterator;
+use oat\tao\model\WidgetDefinitions;
+use tao_helpers_form_GenerisFormFactory;
 
 /**
  * Class IndexService
@@ -42,8 +50,14 @@ class IndexService extends ConfigurableService
     use OntologyAwareTrait;
 
     const SERVICE_ID = 'tao/IndexService';
-    const INDEX_MAP_PROPERTY_DEFAULT = 'default';
-    const INDEX_MAP_PROPERTY_FUZZY = 'fuzzy';
+    const ALLOWED_DYNAMIC_TYPES = [
+        WidgetDefinitions::PROPERTY_TEXTBOX,
+        WidgetDefinitions::PROPERTY_TEXTAREA,
+        WidgetDefinitions::PROPERTY_HTMLAREA,
+        WidgetDefinitions::PROPERTY_CHECKBOX,
+        WidgetDefinitions::PROPERTY_COMBOBOX,
+        WidgetDefinitions::PROPERTY_RADIOBOX,
+    ];
 
     /** @var array */
     private $map;
@@ -59,6 +73,7 @@ class IndexService extends ConfigurableService
         $indexIterator = new IndexIterator($iterator);
         $indexIterator->setServiceLocator($this->getServiceLocator());
         $searchService = $this->getServiceLocator()->get(Search::SERVICE_ID);
+        $this->logInfo('starting indexation');
         $result = $searchService->index($indexIterator);
         $this->logDebug($result . ' resources have been indexed by ' . static::class);
         return $result;
@@ -83,12 +98,13 @@ class IndexService extends ConfigurableService
             $indexesProperties[$index->getIdentifier()] = $this->getIndexProperties($index);
         }
         $body['type'] = $this->getTypesForResource($resource);
-        $document = new IndexDocument(
+
+        return new IndexDocument(
             $resource->getUri(),
             $body,
-            $indexesProperties
+            $indexesProperties,
+            $this->getDynamicProperties($body['type'], $resource)
         );
-        return $document;
     }
 
     /**
@@ -153,7 +169,7 @@ class IndexService extends ConfigurableService
 
         $classes = [];
         while (!empty($toDo)) {
-            $class = new \core_kernel_classes_Class(array_pop($toDo));
+            $class = new core_kernel_classes_Class(array_pop($toDo));
             $classes[] = $class->getUri();
             foreach ($class->getParentClasses() as $parent) {
                 if (!in_array($parent->getUri(), $done)) {
@@ -190,5 +206,73 @@ class IndexService extends ConfigurableService
             }
         }
         return array_values($classes);
+    }
+
+    private function getDynamicProperties(array $classes, core_kernel_classes_Resource $resource): Iterator
+    {
+        $customProperties = [];
+
+        foreach ($classes as $class) {
+            $properties = tao_helpers_form_GenerisFormFactory::getClassProperties(
+                new core_kernel_classes_Class($class)
+            );
+
+            foreach ($properties as $property) {
+                /** @var core_kernel_classes_Resource $propertyType |null */
+                $propertyType = $property->getOnePropertyValue(
+                    new core_kernel_classes_Property(
+                        WidgetRdf::PROPERTY_WIDGET
+                    )
+                );
+                if (null === $propertyType) {
+                    continue;
+                }
+
+                $propertyTypeUri = $propertyType->getUri();
+
+                if (!in_array($propertyTypeUri, self::ALLOWED_DYNAMIC_TYPES)) {
+                    continue;
+                }
+
+                $propertyTypeArray = explode('#', $propertyTypeUri, 2);
+                $propertyTypeId = end($propertyTypeArray);
+                $customPropertyLabel = $property->getLabel();
+
+                if (false === $propertyTypeId) {
+                    continue;
+                }
+
+                $fieldName = $propertyTypeId . '_' . $this->getSlug($customPropertyLabel);
+                $propertyValue = $resource->getOnePropertyValue($property);
+
+                if (null === $propertyValue) {
+                    continue;
+                }
+
+                $customProperties[$fieldName] = (string)$propertyValue;
+
+                if ($propertyTypeUri === WidgetDefinitions::PROPERTY_COMBOBOX
+                    || $propertyTypeUri === WidgetDefinitions::PROPERTY_RADIOBOX) {
+                    $customProperties[$fieldName] = (string)$propertyValue->getLabel();
+                }
+
+                if ($propertyTypeUri === WidgetDefinitions::PROPERTY_CHECKBOX) {
+                    $customPropertiesValues = $resource->getPropertyValues($property);
+                    $customProperties[$fieldName] = array_map(
+                        function (string $propertyValue): string {
+                            return (new core_kernel_classes_Property($propertyValue))->getLabel();
+                        },
+                        $customPropertiesValues
+                    );
+                }
+            }
+        }
+
+        return new ArrayIterator($customProperties);
+    }
+
+    private function getSlug(string $text): string
+    {
+        return strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $text)));
     }
 }

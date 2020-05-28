@@ -18,7 +18,11 @@
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA;
  */
 
+declare(strict_types=1);
+
 namespace oat\tao\model\search\index;
+
+use Iterator;
 
 /**
  * Class IndexDocument
@@ -35,17 +39,22 @@ class IndexDocument
     /** @var array */
     protected $indexesProperties;
 
+    /** @var Iterator */
+    private $dynamicProperties;
+
     /**
      * IndexDocument constructor.
      * @param string $id
      * @param array $body
      * @param array $indexesProperties
+     * @param Iterator|null $dynamicProperties
      * @throws \common_Exception
      */
     public function __construct(
-        $id,
-        $body,
-        $indexesProperties = []
+        string $id,
+        array $body,
+        array $indexesProperties = [],
+        Iterator $dynamicProperties = null
     ) {
         $this->id = $id;
 
@@ -54,12 +63,11 @@ class IndexDocument
         }
         $this->body = $body;
         $this->indexesProperties = $indexesProperties;
+        $this->dynamicProperties = $dynamicProperties;
     }
 
-    /**
-     * @return string
-     */
-    public function getId()
+
+    public function getId(): string
     {
         return $this->id;
     }
@@ -72,7 +80,7 @@ class IndexDocument
      * $body[$field'] = $value;
      * @return array
      */
-    public function getBody()
+    public function getBody(): array
     {
         return $this->body;
     }
@@ -82,8 +90,13 @@ class IndexDocument
      *
      * @return array
      */
-    public function getIndexProperties()
+    public function getIndexProperties(): array
     {
         return $this->indexesProperties;
+    }
+
+    public function getDynamicProperties(): ?Iterator
+    {
+        return $this->dynamicProperties;
     }
 }
