@@ -44,9 +44,9 @@ class SecureResourceService extends ConfigurableService implements SecureResourc
      * @return core_kernel_classes_Resource[]
      * @throws common_exception_Error
      */
-    public function getAllChildren(core_kernel_classes_Class $resource): array
+    public function getAllChildren(RdfClassInterface $resource): array
     {
-        $subClasses = $resource->getSubClasses(false);
+        $subClasses = $this->getRepository()->findChildren($resource, false);
 
         $accessibleInstances = [[]];
 
@@ -69,22 +69,30 @@ class SecureResourceService extends ConfigurableService implements SecureResourc
         );
     }
 
+    private function getRepository(): ResourceRepositoryInterface
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return $this->getServiceLocator()->get(ResourceCacheRepository::SERVICE_ID);
+    }
+
     /**
      * @param core_kernel_classes_Class $class
      *
      * @return core_kernel_classes_Resource[]
      * @throws common_exception_Error
      */
-    private function getInstances(core_kernel_classes_Class $class): array
+    private function getInstances(RdfClassInterface $class): array
     {
-        $instances = $class->getInstances(false);
+        $repository = $this->getRepository();
+
+        $instances = $repository->findInstances($class, false);
 
         if (!$instances) {
             return [];
         }
 
         $childrenUris = array_map(
-            static function (core_kernel_classes_Resource $child) {
+            static function (ResourceInterface $child) {
                 return $child->getUri();
             },
             $instances
@@ -182,7 +190,7 @@ class SecureResourceService extends ConfigurableService implements SecureResourc
 
     private function getClass(core_kernel_classes_Resource $resource): core_kernel_classes_Class
     {
-        if ($resource instanceof core_kernel_classes_Class) {
+        if ($resource instanceof RdfClassInterface) {
             return $resource;
         }
 

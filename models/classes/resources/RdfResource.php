@@ -1,7 +1,4 @@
 <?php
-
-declare(strict_types=1);
-
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,15 +18,33 @@ declare(strict_types=1);
  *
  */
 
+declare(strict_types=1);
+
 namespace oat\tao\model\resources;
 
-interface SecureResourceServiceInterface
+class RdfResource implements ResourceInterface
 {
-    public const SERVICE_ID = 'tao/SecureResourceService';
+    /** @var string */
+    private $uri;
+    /** @var string */
+    private $label;
 
-    public function getAllChildren(RdfClassInterface $resource): array;
+    public function __construct(
+        string $uri,
+        string $label
+    )
+    {
+        $this->uri = $uri;
+        $this->label = $label;
+    }
 
-    public function validatePermissions(iterable $resources, array $permissionsToCheck): void;
+    public function getUri(): string
+    {
+        return $this->uri;
+    }
 
-    public function validatePermission($resource, array $permissionsToCheck): void;
+    public function getLabel(): string
+    {
+        return $this->label;
+    }
 }

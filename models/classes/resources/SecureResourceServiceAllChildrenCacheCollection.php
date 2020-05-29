@@ -44,7 +44,7 @@ class SecureResourceServiceAllChildrenCacheCollection
     {
         $result = [];
         foreach ($this->resources as $resource) {
-            $result[] = new core_kernel_classes_Resource($resource);
+            $result[$resource] = new core_kernel_classes_Resource($resource);
         }
 
         return $result;
