@@ -21,6 +21,7 @@
 namespace oat\tao\test\unit\http;
 
 use GuzzleHttp\Psr7\Response;
+use oat\dtms\DateTime;
 use oat\generis\test\TestCase;
 use oat\tao\model\http\formatter\ResponseFormatter;
 use oat\tao\model\http\response\SuccessJsonResponse;
@@ -73,6 +74,15 @@ class ResponseFormatterTest extends TestCase
         $this->assertSame($statusCode, $response->getStatusCode());
         $this->assertSame(['Content-Type' => [$contentType]], $response->getHeaders());
         $this->assertSame($body, (string)$response->getBody());
+    }
+
+    public function testBuildWithExpiration(): void
+    {
+        $response = $this->subject
+            ->withExpiration((new DateTime('2010-10-10 10:10:10'))->getTimestamp())
+            ->format(new Response());
+
+        $this->assertSame('Sun, 10 Oct 2010 10:10:10 GMT', current($response->getHeader('Expires')));
     }
 
     public function testBuildWithJsonSerializable(): void
