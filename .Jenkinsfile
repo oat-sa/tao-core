@@ -50,6 +50,10 @@ registry.service.consul:4444/tao/dependency-resolver oat:dependencies:resolve --
             steps {
                 dir('build') {
                     sh(
+                        label: 'Display generated composer',
+                        script: 'cat composer.json'
+                    )
+                    sh(
                         label: 'Composer clear cache',
                         script: 'composer clear-cache'
                     )
