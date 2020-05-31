@@ -43,6 +43,12 @@
             "arguments": ["--prefix", "views"]
         }
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/oat-sa/migrations"
+        }
+    ],
     "require": {
         "oat-sa/oatbox-extension-installer": "~1.1||dev-master",
         "oat-sa/composer-npm-bridge": "^0.3.0",
@@ -58,7 +64,7 @@
         "imsglobal/lti": "^3.0",
         "paragonie/random_compat": "^2.0",
         "symfony/dotenv": "~4.3",
-        "doctrine/migrations" : "3.0.0-alpha1"
+        "doctrine/migrations" : "3.0.0"
     },
     "autoload": {
         "psr-4": {
