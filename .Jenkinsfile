@@ -10,8 +10,8 @@ pipeline {
             }
             steps {
                 sh(
-                    label: 'Build directory inspection',
-                    script: 'ls -la build'
+                    label: 'Current directory inspection',
+                    script: 'ls -la'
                 )
                 sh(
                     label : 'Create build build directory',
