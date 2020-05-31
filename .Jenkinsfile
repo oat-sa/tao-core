@@ -47,7 +47,7 @@ registry.service.consul:4444/tao/dependency-resolver oat:dependencies:resolve --
                 dir('build') {
                     sh(
                         label: 'Composer clear cache',
-                        script: composer clear-cache
+                        script: 'composer clear-cache'
                     )
                     sh(
                         label: 'Install/Update sources from Composer',
