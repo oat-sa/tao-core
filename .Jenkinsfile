@@ -46,6 +46,10 @@ registry.service.consul:4444/tao/dependency-resolver oat:dependencies:resolve --
             steps {
                 dir('build') {
                     sh(
+                        label: 'Build directory inspection',
+                        script: 'ls -la'
+                    )
+                    sh(
                         label: 'Composer clear cache',
                         script: 'composer clear-cache'
                     )
