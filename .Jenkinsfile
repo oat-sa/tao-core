@@ -10,6 +10,10 @@ pipeline {
             }
             steps {
                 sh(
+                    label: 'Build directory inspection',
+                    script: 'ls -la build'
+                )
+                sh(
                     label : 'Create build build directory',
                     script: 'mkdir -p build'
                 )
@@ -45,10 +49,6 @@ registry.service.consul:4444/tao/dependency-resolver oat:dependencies:resolve --
             }
             steps {
                 dir('build') {
-                    sh(
-                        label: 'Build directory inspection',
-                        script: 'ls -la'
-                    )
                     sh(
                         label: 'Composer clear cache',
                         script: 'composer clear-cache'
