@@ -37,7 +37,8 @@ class SecureResourceServiceAllChildrenCacheCollection
     }
 
     /**
-     * @return array
+     * @return core_kernel_classes_Resource[] the key is a URI of a resource
+     *
      * @throws common_exception_Error
      */
     public function getInstances(): array
