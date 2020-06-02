@@ -1343,6 +1343,24 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('42.0.4');
         }
 
-        $this->skip('42.0.4', '42.10.3');
+        $this->skip('42.0.4', '42.10.2');
+
+        if ($this->isVersion('42.10.2')) {
+            AclProxy::applyRule(
+                new AccessRule(
+                    AccessRule::GRANT,
+                    TaoRoles::BACK_OFFICE,
+                    [
+                        'ext' => 'tao',
+                        'mod' => 'Languages',
+                        'act' => 'index',
+                    ]
+                )
+            );
+
+            $this->setVersion('42.11.0');
+        }
+
+        $this->skip('42.11.0', '42.11.2');
     }
 }
