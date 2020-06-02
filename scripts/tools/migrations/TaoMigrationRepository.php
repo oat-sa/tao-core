@@ -22,7 +22,8 @@ declare(strict_types=1);
 
 namespace oat\tao\scripts\tools\migrations;
 
-use Doctrine\Migrations\MigrationRepository;
+use Doctrine\Migrations\Exception\MigrationException;
+use Doctrine\Migrations\FilesystemMigrationsRepository;
 use \Doctrine\Migrations\Metadata\AvailableMigration;
 use oat\oatbox\service\ServiceManager;
 
@@ -32,8 +33,10 @@ use oat\oatbox\service\ServiceManager;
  * into the migration).
  * @package oat\tao\scripts\tools\migrations
  */
-class TaoMigrationRepository extends MigrationRepository
+class TaoMigrationRepository extends FilesystemMigrationsRepository
 {
+    // @TODO WE CANNOT RELY ON A @internal flagged class. Not part of the public API so no backward compatibility guarantee.
+
     /** @throws MigrationException */
     public function registerMigration(string $migrationClassName) : AvailableMigration
     {
