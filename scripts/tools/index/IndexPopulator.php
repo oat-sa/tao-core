@@ -106,6 +106,7 @@ class IndexPopulator extends ScriptAction implements ServiceLocatorAwareInterfac
             if (!empty($currentClass) && $currentClass !== $class->getUri()) {
                 continue;
             }
+            $reportedClass = empty($currentClass) ? $class->getUri() : $currentClass;
 
             $search = $this->getServiceLocator()->get(ComplexSearchService::SERVICE_ID);
             $queryBuilder = $search->query()
@@ -138,12 +139,12 @@ class IndexPopulator extends ScriptAction implements ServiceLocatorAwareInterfac
 
             $this->logInfo(sprintf('%s resources have been indexed by %s', $result, static::class));
 
-            return $this->getScriptReport($result);
+            return $this->getScriptReport($result, $reportedClass, $limit, $offset);
         }
 
         file_put_contents($this->getOption('lock'), $class->getUri() . PHP_EOL . 'FINISHED');
 
-        return $this->getScriptReport($result);
+        return $this->getScriptReport($result, $reportedClass, $limit, $offset);
     }
 
     protected function getIndexedClasses(): array
@@ -167,13 +168,27 @@ class IndexPopulator extends ScriptAction implements ServiceLocatorAwareInterfac
      * @return common_report_Report
      * @throws \Exception
      */
-    protected function getScriptReport(int $result): common_report_Report
+    protected function getScriptReport(int $result, string $class, int $limit, int $offset): common_report_Report
     {
+        if (0 === $result) {
+            return common_report_Report::createInfo(
+                sprintf(
+                    'There is no resources to be indexed for class: %s, limit: %d, offset: %d',
+                    $class,
+                    $limit,
+                    $offset
+                )
+            );
+        }
+
         return common_report_Report::createSuccess(
             sprintf(
-                'Finished at %s. Number of resources indexed is %d.',
+                'Finished at %s. Indexed %d for class: %s, limit: %d, offset: %d.',
                 (new DateTime('now'))->format(DateTime::ATOM),
-                $result
+                $result,
+                $class,
+                $limit,
+                $offset
             )
         );
     }
