@@ -33,6 +33,7 @@ use oat\generis\model\OntologyRdfs;
 use oat\generis\model\WidgetRdf;
 use oat\oatbox\extension\script\MissingOptionException;
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\elasticsearch\SlugCreator;
 use oat\tao\model\menu\MenuService;
 use oat\tao\model\resources\ResourceIterator;
 use oat\tao\model\search\Search;
@@ -40,6 +41,7 @@ use oat\tao\model\search\SearchTokenGenerator;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\WidgetDefinitions;
 use tao_helpers_form_GenerisFormFactory;
+use tao_helpers_Slug;
 
 /**
  * Class IndexService
@@ -242,7 +244,7 @@ class IndexService extends ConfigurableService
                     continue;
                 }
 
-                $fieldName = $propertyTypeId . '_' . $this->getSlug($customPropertyLabel);
+                $fieldName = $propertyTypeId . '_' . tao_helpers_Slug::create($customPropertyLabel);
                 $propertyValue = $resource->getOnePropertyValue($property);
 
                 if (null === $propertyValue) {
@@ -269,10 +271,5 @@ class IndexService extends ConfigurableService
         }
 
         return new ArrayIterator($customProperties);
-    }
-
-    private function getSlug(string $text): string
-    {
-        return strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $text)));
     }
 }
