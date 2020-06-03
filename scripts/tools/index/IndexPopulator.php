@@ -183,7 +183,7 @@ class IndexPopulator extends ScriptAction implements ServiceLocatorAwareInterfac
 
         return common_report_Report::createSuccess(
             sprintf(
-                'Finished at %s. Indexed %d for class: %s, limit: %d, offset: %d.',
+                'Finished at %s. Indexed %d resources for class: %s, limit: %d, offset: %d.',
                 (new DateTime('now'))->format(DateTime::ATOM),
                 $result,
                 $class,
