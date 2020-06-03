@@ -77,7 +77,7 @@ class IndexPopulator extends ScriptAction implements ServiceLocatorAwareInterfac
                 'defaultValue' => ""
             ],
             'lock' => [
-                'prefix' => 'c',
+                'prefix' => 'k',
                 'longPrefix' => 'lock',
                 'flag' => false,
                 'description' => 'The file used to report when there is no more resources to process.',
