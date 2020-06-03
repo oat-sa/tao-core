@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\scripts\tools\migrations;
 
 use Doctrine\Migrations\AbstractMigration as DoctrineAbstractMigration;
+use oat\oatbox\service\ServiceManager;
 use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\oatbox\log\LoggerAwareTrait;
@@ -34,4 +35,9 @@ abstract class AbstractMigration
 {
     use ServiceManagerAwareTrait;
     use LoggerAwareTrait;
+
+    public function getServiceLocator()
+    {
+        return ServiceManager::getServiceManager();
+    }
 }

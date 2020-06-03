@@ -28,7 +28,6 @@ use Doctrine\Migrations\Configuration\Connection\ExistingConnection;
 use Doctrine\Migrations\Configuration\Migration\ExistingConfiguration;
 use Doctrine\Migrations\DependencyFactory;
 use Doctrine\Migrations\Generator\ClassNameGenerator;
-use Doctrine\Migrations\MigrationRepository;
 use Doctrine\Migrations\Exception\MigrationException;
 use Doctrine\Migrations\Exception\NoMigrationsToExecute;
 use Doctrine\Migrations\Tools\Console\Command\MigrateCommand;
@@ -37,6 +36,7 @@ use Doctrine\Migrations\Tools\Console\Command\ExecuteCommand;
 use Doctrine\Migrations\Tools\Console\Command\VersionCommand;
 use Doctrine\Migrations\Tools\Console\Command\SyncMetadataCommand;
 use Doctrine\Migrations\Version\Comparator;
+use oat\oatbox\service\exception\InvalidServiceManagerException;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
@@ -48,7 +48,6 @@ use oat\tao\model\migrations\MigrationsService;
 use oat\tao\scripts\tools\migrations\TaoClassNameGenerator;
 use oat\tao\scripts\tools\migrations\commands\GenerateCommand;
 use oat\tao\scripts\tools\migrations\TaoComparator;
-use oat\tao\scripts\tools\migrations\TaoMigrationRepository;
 use common_ext_Extension;
 use common_report_Report as Report;
 use common_ext_ExtensionsManager as ExtensionsManager;
@@ -288,6 +287,12 @@ class Migrations extends ScriptAction
         }
     }
 
+    /**
+     * @param Configuration $configuration
+     * @return DependencyFactory
+     * @throws ScriptException
+     * @throws InvalidServiceManagerException
+     */
     private function getDependencyFactory($configuration)
     {
         $connection = $this->getConnection();
@@ -295,18 +300,14 @@ class Migrations extends ScriptAction
             new ExistingConfiguration($configuration),
             new ExistingConnection($connection)
         );
+
+        /** @var ExtensionsManager $extManager */
         $extManager = $this->getServiceManager()->get(ExtensionsManager::SERVICE_ID);
         if ($this->hasOption('extension')) {
             $dependencyFactory->setService(ClassNameGenerator::class, new TaoClassNameGenerator($this->getExtension()));
         }
         $dependencyFactory->setService(Comparator::class, new TaoComparator($extManager, new \helpers_ExtensionHelper()));
-        $dependencyFactory->setService(MigrationRepository::class, new TaoMigrationRepository(
-            $configuration->getMigrationClasses(),
-            $configuration->getMigrationDirectories(),
-            $dependencyFactory->getMigrationsFinder(),
-            $dependencyFactory->getMigrationFactory(),
-            $dependencyFactory->getVersionComparator()
-        ));
+
         return $dependencyFactory;
     }
 
