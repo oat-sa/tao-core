@@ -24,7 +24,6 @@ declare(strict_types=1);
 namespace oat\tao\model\accessControl\func\implementation;
 
 use oat\tao\model\accessControl\func\AccessRule;
-use oat\tao\model\accessControl\func\FuncHelper;
 
 /**
  * Simple ACL Implementation deciding whenever or not to allow access
