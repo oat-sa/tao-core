@@ -19,6 +19,8 @@
  *
  */
 
+declare(strict_types=1);
+
 namespace oat\tao\model\accessControl\func\implementation;
 
 use oat\tao\model\accessControl\func\FuncAccessControl;
@@ -101,7 +103,7 @@ class CacheOnly extends ConfigurableService implements FuncAccessControl, Access
      */
     protected function getController($controllerName): ControllerAccessRight
     {
-        $cache = $this->getCache()->get(self::CACHE_PREFIX.$controllerName);
+        $cache = $this->getCache()->get(self::CACHE_PREFIX . $controllerName);
         if (is_null($cache)) {
             if (!$this->getControllerMapFactory()->isControllerClassNameValid($controllerName)) {
                 // do not rebuild cache if controller is invalid, to prevent CPU consumtion attacks
@@ -110,7 +112,7 @@ class CacheOnly extends ConfigurableService implements FuncAccessControl, Access
             }
             // as we need to parse all manifests, it is easier to write whole cache in one go
             $this->buildCache();
-            $cache = $this->getCache()->get(self::CACHE_PREFIX.$controllerName);
+            $cache = $this->getCache()->get(self::CACHE_PREFIX . $controllerName);
         }
         return ControllerAccessRight::fromJson($cache);
     }
@@ -146,7 +148,7 @@ class CacheOnly extends ConfigurableService implements FuncAccessControl, Access
     private function cacheController(ControllerAccessRight $controller): void
     {
         $data = json_encode($controller);
-        $this->getCache()->set(self::CACHE_PREFIX.$controller->getClassName(), $data);
+        $this->getCache()->set(self::CACHE_PREFIX . $controller->getClassName(), $data);
     }
 
     private function getExtensionManager(): common_ext_ExtensionsManager

@@ -15,9 +15,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2020 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
+
+declare(strict_types=1);
 
 namespace oat\tao\model\accessControl\func\implementation;
 
@@ -44,13 +46,13 @@ class AclModel
     public function applyRule(AccessRule $rule): void
     {
         switch ($rule->getScope()) {
-            case AccessRule::SCOPE_ACTION :
+            case AccessRule::SCOPE_ACTION:
                 $this->addAction($rule);
                 break;
-            case AccessRule::SCOPE_CONTROLLER :
+            case AccessRule::SCOPE_CONTROLLER:
                 $this->addController($rule);
                 break;
-            case AccessRule::SCOPE_EXTENSION :
+            case AccessRule::SCOPE_EXTENSION:
                 $this->addExtension($rule);
                 break;
         }
