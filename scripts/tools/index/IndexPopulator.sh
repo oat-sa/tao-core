@@ -1,6 +1,7 @@
 #!/bin/bash
+set -e
 
-EXPORTER_LOCK_FILE=".export.lock"
+EXPORTER_LOCK_FILE="/tmp/.export.lock"
 TAO_ROOT_PATH=$1
 LIMIT=100
 OFFSET=0;
