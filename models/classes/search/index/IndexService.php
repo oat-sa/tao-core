@@ -74,8 +74,6 @@ class IndexService extends ConfigurableService
     /**
      * @param \core_kernel_classes_Resource $resource
      * @return IndexDocument
-     * @throws \common_Exception
-     * @throws \common_exception_InconsistentData
      *
      * @deprecated should be GenerisDocumentBuilderFactory::createDocumentFromResource instead
      */
@@ -92,7 +90,7 @@ class IndexService extends ConfigurableService
     /**
      * @param array $array
      * @return IndexDocument
-     * @throws MissingOptionException
+     * @throws \common_exception_MissingParameter
      * @throws \common_Exception
      *
      * @deprecated should be GenerisDocumentBuilderFactory::createDocumentFromArray instead
