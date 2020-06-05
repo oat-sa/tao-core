@@ -26,9 +26,10 @@ use oat\generis\model\data\event\ResourceDeleted;
 use oat\generis\model\data\event\ResourceUpdated;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\search\index\IndexService;
+use oat\tao\model\search\tasks\UpdateResourceInIndex;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\search\Search;
+use oat\tao\model\taskQueue\QueueDispatcherInterface;
 
 /**
  * Class ResourceWatcher
@@ -59,6 +60,10 @@ class ResourceWatcher extends ConfigurableService
         $this->updatedAtCache = [];
         $this->updatedAtCache[$resource->getUri()] = $now;
         $resource->editPropertyValues($property, $now);
+
+        $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcherInterface::SERVICE_ID);
+        $queueDispatcher->setOwner('Index');
+        $queueDispatcher->createTask(new UpdateResourceInIndex(), [$resource->getUri()], __('Adding/Updating search index for created resource ', $resource->getUri()));
     }
 
     /**
@@ -79,6 +84,10 @@ class ResourceWatcher extends ConfigurableService
             $this->updatedAtCache[$resource->getUri()] = $now;
             $resource->editPropertyValues($property, $now);
         }
+
+        $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcherInterface::SERVICE_ID);
+        $queueDispatcher->setOwner('Index');
+        $queueDispatcher->createTask(new UpdateResourceInIndex(), [$resource->getUri()], __('Adding/Updating search index for updated resource ', $resource->getUri()));
     }
 
     /**
