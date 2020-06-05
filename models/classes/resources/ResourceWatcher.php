@@ -61,6 +61,9 @@ class ResourceWatcher extends ConfigurableService
         $this->updatedAtCache[$resource->getUri()] = $now;
         $resource->editPropertyValues($property, $now);
 
+        $taskMessage = __('Adding search index for created resource ', $resource->getUri());
+        $this->createResourceIndexingTask($resource, $taskMessage);
+
         $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcherInterface::SERVICE_ID);
         $queueDispatcher->setOwner('Index');
         $queueDispatcher->createTask(new UpdateResourceInIndex(), [$resource->getUri()], __('Adding/Updating search index for created resource ', $resource->getUri()));
@@ -84,13 +87,21 @@ class ResourceWatcher extends ConfigurableService
             $this->updatedAtCache[$resource->getUri()] = $now;
             $resource->editPropertyValues($property, $now);
         }
+
+        $taskMessage = __('Adding/updating search index for updated resource ', $resource->getUri());
+        $this->createResourceIndexingTask($resource, $taskMessage);
     }
 
-    private function createResourceIndexingTask(\core_kernel_classes_Resource $resource, $message )
+    /**
+     * Create a task in the task queue to index/re-index created/updated resource
+     * @param \core_kernel_classes_Resource $resource
+     * @param string $message
+     */
+    private function createResourceIndexingTask(\core_kernel_classes_Resource $resource, string $message)
     {
         $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcherInterface::SERVICE_ID);
         $queueDispatcher->setOwner('Index');
-        $queueDispatcher->createTask(new UpdateResourceInIndex(), [$resource->getUri()], __('Adding/Updating search index for updated resource ', $resource->getUri()));
+        $queueDispatcher->createTask(new UpdateResourceInIndex(), [$resource->getUri()], $message);
     }
 
     /**
