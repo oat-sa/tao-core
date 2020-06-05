@@ -63,10 +63,6 @@ class ResourceWatcher extends ConfigurableService
 
         $taskMessage = __('Adding search index for created resource ', $resource->getUri());
         $this->createResourceIndexingTask($resource, $taskMessage);
-
-        $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcherInterface::SERVICE_ID);
-        $queueDispatcher->setOwner('Index');
-        $queueDispatcher->createTask(new UpdateResourceInIndex(), [$resource->getUri()], __('Adding/Updating search index for created resource ', $resource->getUri()));
     }
 
     /**
@@ -100,7 +96,7 @@ class ResourceWatcher extends ConfigurableService
     private function createResourceIndexingTask(\core_kernel_classes_Resource $resource, string $message)
     {
         $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcherInterface::SERVICE_ID);
-        $queueDispatcher->setOwner('Index');
+        $queueDispatcher->setOwner('ResourceIndexer');
         $queueDispatcher->createTask(new UpdateResourceInIndex(), [$resource->getUri()], $message);
     }
 
