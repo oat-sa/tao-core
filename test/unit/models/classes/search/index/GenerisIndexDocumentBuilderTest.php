@@ -70,7 +70,7 @@ class GenerisIndexDocumentBuilderTest extends TestCase
 
     public function testCreateEmptyDocumentFromResource()
     {
-        $indexService = new GenerisIndexDocumentBuilder();
+        $documentBuilder = new GenerisIndexDocumentBuilder();
 
         $resource = $this->createMock(
             core_kernel_classes_Resource::class
@@ -83,7 +83,7 @@ class GenerisIndexDocumentBuilderTest extends TestCase
             'https://tao.docker.localhost/ontologies/tao.rdf#i5ecbaaf0a627c73a7996557a5480de'
         );
 
-        $document = $indexService->createDocumentFromResource(
+        $document = $documentBuilder->createDocumentFromResource(
             $resource
         );
 
