@@ -85,11 +85,7 @@ class IndexService extends ConfigurableService
      */
     public function createDocumentFromResource(\core_kernel_classes_Resource $resource): ?IndexDocument
     {
-        //TODO: check if it is valid in all cases
-        $resourceTypes = $resource->getTypes();
-        $resourceType = current(array_keys($resourceTypes));
-
-        $document = $this->getDocumentBuilderFactory()->getDocumentBuilderByResourceType($resourceType)->createDocumentFromResource($resource);
+        $document = $this->getDocumentBuilderFactory()->getDocumentBuilderByResourceType("")->createDocumentFromResource($resource);
 
         return $document;
     }
