@@ -23,7 +23,6 @@ declare(strict_types=1);
 
 namespace oat\tao\model\search\index;
 
-use oat\oatbox\extension\script\MissingOptionException;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\search\Search;
 use oat\tao\model\menu\MenuService;
