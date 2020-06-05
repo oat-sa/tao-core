@@ -23,17 +23,11 @@ declare(strict_types=1);
 
 namespace oat\tao\model\search\index;
 
-use Elasticsearch\Common\Exceptions\Missing404Exception;
-use oat\generis\model\OntologyRdfs;
 use oat\oatbox\extension\script\MissingOptionException;
 use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\search\SearchTokenGenerator;
-use oat\tao\model\TaoOntology;
 use oat\tao\model\search\Search;
 use oat\tao\model\menu\MenuService;
 use oat\generis\model\OntologyAwareTrait;
-use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
-use oat\search\helper\SupportedOperatorHelper;
 use oat\tao\model\resources\ResourceIterator;
 
 /**

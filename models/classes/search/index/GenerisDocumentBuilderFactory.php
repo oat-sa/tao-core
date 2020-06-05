@@ -22,7 +22,6 @@ declare(strict_types=1);
 namespace oat\tao\model\search\index;
 
 use oat\generis\model\OntologyRdfs;
-use oat\oatbox\extension\script\MissingOptionException;
 use oat\tao\model\search\SearchTokenGenerator;
 use oat\tao\model\TaoOntology;
 
@@ -75,11 +74,11 @@ class GenerisDocumentBuilderFactory implements IndexDocumentBuilderInterface
     public function createDocumentFromArray(array $resource = []): ?IndexDocument
     {
         if (!isset($resource['id'])) {
-            throw new MissingOptionException('Missed id property for the index document');
+            throw new \common_exception_MissingParameter('id');
         }
 
         if (!isset($resource['body'])) {
-            throw new MissingOptionException('Missed body property for the index document');
+            throw new \common_exception_MissingParameter('body');
         }
 
         $body = $resource['body'];
@@ -146,5 +145,4 @@ class GenerisDocumentBuilderFactory implements IndexDocumentBuilderInterface
 
         return $classes;
     }
-
 }

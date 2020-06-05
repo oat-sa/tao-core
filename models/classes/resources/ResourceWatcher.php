@@ -84,7 +84,10 @@ class ResourceWatcher extends ConfigurableService
             $this->updatedAtCache[$resource->getUri()] = $now;
             $resource->editPropertyValues($property, $now);
         }
+    }
 
+    private function createResourceIndexingTask(\core_kernel_classes_Resource $resource, $message )
+    {
         $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcherInterface::SERVICE_ID);
         $queueDispatcher->setOwner('Index');
         $queueDispatcher->createTask(new UpdateResourceInIndex(), [$resource->getUri()], __('Adding/Updating search index for updated resource ', $resource->getUri()));
