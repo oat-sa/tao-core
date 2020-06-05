@@ -96,7 +96,6 @@ class ResourceWatcher extends ConfigurableService
     private function createResourceIndexingTask(\core_kernel_classes_Resource $resource, string $message)
     {
         $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcherInterface::SERVICE_ID);
-        $queueDispatcher->setOwner('ResourceIndexer');
         $queueDispatcher->createTask(new UpdateResourceInIndex(), [$resource->getUri()], $message);
     }
 
