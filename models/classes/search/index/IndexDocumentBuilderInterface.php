@@ -23,6 +23,8 @@ namespace oat\tao\model\search\index;
 
 interface IndexDocumentBuilderInterface
 {
+    const TYPE_PROPERTY = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type';
+
     /**
      * Creates IndexDocument object from the \core_kernel_classes_Resource data
      * @param \core_kernel_classes_Resource $resource
