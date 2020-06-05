@@ -26,10 +26,12 @@ use oat\generis\model\data\Ontology;
 use oat\generis\test\TestCase;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\search\index\IndexDocument;
+use oat\tao\model\search\index\IndexService;
 use PHPUnit\Framework\MockObject\MockObject;
 use oat\tao\model\search\index\GenerisDocumentBuilderFactory;
+use oat\tao\model\search\index\GenerisIndexDocumentBuilder;
 
-class GenerisDocumentBuilderFactoryTest extends TestCase
+class GenerisIndexDocumentBuilderTest extends TestCase
 {
     /** @var Ontology */
     private $ontology;
@@ -68,7 +70,7 @@ class GenerisDocumentBuilderFactoryTest extends TestCase
 
     public function testCreateEmptyDocumentFromResource()
     {
-        $indexService = new GenerisDocumentBuilderFactory();
+        $indexService = new GenerisIndexDocumentBuilder();
 
         $resource = $this->createMock(
             core_kernel_classes_Resource::class
