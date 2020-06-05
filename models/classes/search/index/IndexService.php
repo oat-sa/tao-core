@@ -64,7 +64,7 @@ class IndexService extends ConfigurableService
      *
      * return mixed
      */
-    public function getDocumentBuilderFactory()
+    public function getDocumentBuilderFactory(): AbstractDocumentBuilderFactory
     {
         $factory = $this->getOption(self::OPTION_DOCUMENT_BUILDER_FACTORY);
         return $factory;
@@ -72,7 +72,9 @@ class IndexService extends ConfigurableService
 
     /**
      * @param \core_kernel_classes_Resource $resource
-     * @return IndexDocument
+     * @return IndexDocument|null
+     * @throws \common_Exception
+     * @throws \common_exception_InconsistentData
      *
      * @deprecated should be GenerisDocumentBuilderFactory::createDocumentFromResource instead
      */
