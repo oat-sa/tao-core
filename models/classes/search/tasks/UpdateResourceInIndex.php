@@ -67,12 +67,15 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
 
         $numberOfIndexed = $searchService->index([$indexDocument]);
 
-        if ($numberOfIndexed === 1) {
+        if ($numberOfIndexed === 0) {
+            $type = Report::TYPE_ERROR;
+            $message = "Zero documents were added/updated in index.";
+        } elseif ($numberOfIndexed === 1) {
             $type = Report::TYPE_SUCCESS;
             $message = "Document in index was succesfully updated.";
         } else {
             $type = Report::TYPE_WARNING;
-            $message = "There is a difference between number of documents to be indexed/reindexed and number of indexed/reindexed documents.";
+            $message = "The number or indexed documents is different than the expected total";
         }
 
         return new Report($type, $message);
