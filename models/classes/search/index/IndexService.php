@@ -48,7 +48,7 @@ class IndexService extends ConfigurableService
      * @return boolean
      * @throws
      */
-    public function runIndexing()
+    public function runIndexing(): int
     {
         $iterator = $this->getResourceIterator();
         $indexIterator = new IndexIterator($iterator);
@@ -66,8 +66,7 @@ class IndexService extends ConfigurableService
      */
     public function getDocumentBuilderFactory(): AbstractDocumentBuilderFactory
     {
-        $factory = $this->getOption(self::OPTION_DOCUMENT_BUILDER_FACTORY);
-        return $factory;
+        return $this->getOption(self::OPTION_DOCUMENT_BUILDER_FACTORY);
     }
 
     /**
@@ -82,10 +81,8 @@ class IndexService extends ConfigurableService
     {
         $resourceTypes = $resource->getTypes();
         $resourceType = current(array_keys($resourceTypes)) ?: '';
-
-        $document = $this->getDocumentBuilderFactory()->getDocumentBuilderByResourceType($resourceType)->createDocumentFromResource($resource);
-
-        return $document;
+    
+        return $this->getDocumentBuilderFactory()->getDocumentBuilderByResourceType($resourceType)->createDocumentFromResource($resource);
     }
 
     /**
@@ -104,10 +101,8 @@ class IndexService extends ConfigurableService
         if (!isset($array['body']['type'])) {
             throw new \common_exception_MissingParameter('body[type]');
         }
-
-        $document = $this->getDocumentBuilderFactory()->getDocumentBuilderByResourceType($array['body']['type'])->createDocumentFromArray($array);
-
-        return $document;
+    
+        return $this->getDocumentBuilderFactory()->getDocumentBuilderByResourceType($array['body']['type'])->createDocumentFromArray($array);
     }
 
     /**

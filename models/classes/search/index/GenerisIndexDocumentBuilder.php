@@ -59,10 +59,10 @@ class GenerisIndexDocumentBuilder extends AbstractIndexDocumentBuilder
 
     /**
      * @param OntologyIndex $index
-     * @return mixed
+     * @return IndexProperty
      * @throws \common_Exception
      */
-    public function getIndexProperties(OntologyIndex $index): ?IndexProperty
+    public function getIndexProperties(OntologyIndex $index): IndexProperty
     {
         if (!isset($this->map[$index->getIdentifier()])) {
             $indexProperty = new IndexProperty(
@@ -78,10 +78,10 @@ class GenerisIndexDocumentBuilder extends AbstractIndexDocumentBuilder
 
     /**
      * @param $resource
-     * @return array
+     * @return string[]
      * @throws \common_exception_Error
      */
-    public function getTypesForResource(\core_kernel_classes_Resource $resource): array
+    private function getTypesForResource(\core_kernel_classes_Resource $resource): array
     {
         $toDo = [];
         foreach ($resource->getTypes() as $class) {
