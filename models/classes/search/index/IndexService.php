@@ -37,11 +37,11 @@ class IndexService extends ConfigurableService
 {
     use OntologyAwareTrait;
 
-    const SERVICE_ID = 'tao/IndexService';
-    const INDEX_MAP_PROPERTY_DEFAULT = 'default';
-    const INDEX_MAP_PROPERTY_FUZZY = 'fuzzy';
+    public const SERVICE_ID = 'tao/IndexService';
+    public const INDEX_MAP_PROPERTY_DEFAULT = 'default';
+    public const INDEX_MAP_PROPERTY_FUZZY = 'fuzzy';
 
-    const OPTION_DOCUMENT_BUILDER_FACTORY = 'documentBuilderFactory';
+    public const OPTION_DOCUMENT_BUILDER_FACTORY = 'documentBuilderFactory';
 
     /**
      * Run a full reindexing
@@ -62,7 +62,7 @@ class IndexService extends ConfigurableService
     /**
      * Returns a factory to get the IndexDocument Builder
      *
-     * return mixed
+     * return AbstractDocumentBuilderFactory
      */
     public function getDocumentBuilderFactory(): AbstractDocumentBuilderFactory
     {
