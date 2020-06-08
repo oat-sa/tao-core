@@ -64,6 +64,6 @@ abstract class AbstractMigration
      */
     protected function addReport(Report $report): void
     {
-        $this->write(ReportHelper::renderToCommandLine($report, false));
+        $this->write(ReportHelper::renderToCommandLine($report));
     }
 }
