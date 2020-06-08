@@ -32,5 +32,4 @@ abstract class AbstractDocumentBuilderFactory
     {
         return new GenerisIndexDocumentBuilder();
     }
-
 }
