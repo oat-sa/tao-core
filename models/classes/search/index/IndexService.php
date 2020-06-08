@@ -72,16 +72,16 @@ class IndexService extends ConfigurableService
 
     /**
      * @param \core_kernel_classes_Resource $resource
-     * @return IndexDocument|null
+     * @return IndexDocument
      * @throws \common_Exception
      * @throws \common_exception_InconsistentData
      *
      * @deprecated should be GenerisDocumentBuilderFactory::createDocumentFromResource instead
      */
-    public function createDocumentFromResource(\core_kernel_classes_Resource $resource): ?IndexDocument
+    public function createDocumentFromResource(\core_kernel_classes_Resource $resource): IndexDocument
     {
         $resourceTypes = $resource->getTypes();
-        $resourceType = current(array_keys($resourceTypes)) ?: "";
+        $resourceType = current(array_keys($resourceTypes)) ?: '';
 
         $document = $this->getDocumentBuilderFactory()->getDocumentBuilderByResourceType($resourceType)->createDocumentFromResource($resource);
 
@@ -96,7 +96,7 @@ class IndexService extends ConfigurableService
      *
      * @deprecated should be GenerisDocumentBuilderFactory::createDocumentFromArray instead
      */
-    public function createDocumentFromArray($array = []): ?IndexDocument
+    public function createDocumentFromArray($array = []): IndexDocument
     {
         if (!isset($array['body'])) {
             throw new \common_exception_MissingParameter('body');

@@ -33,7 +33,7 @@ class GenerisIndexDocumentBuilder implements IndexDocumentBuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function createDocumentFromResource(\core_kernel_classes_Resource $resource): ?IndexDocument
+    public function createDocumentFromResource(\core_kernel_classes_Resource $resource): IndexDocument
     {
         $tokenGenerator = new SearchTokenGenerator();
 
@@ -60,7 +60,7 @@ class GenerisIndexDocumentBuilder implements IndexDocumentBuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function createDocumentFromArray(array $resource = []): ?IndexDocument
+    public function createDocumentFromArray(array $resource = []): IndexDocument
     {
         if (!isset($resource['id'])) {
             throw new \common_exception_MissingParameter('id');
