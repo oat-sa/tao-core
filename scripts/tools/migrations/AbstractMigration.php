@@ -28,6 +28,8 @@ use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\log\TaoLoggerAwareInterface;
+use \common_report_Report as Report;
+use \helpers_Report as ReportHelper;
 
 abstract class AbstractMigration
     extends DoctrineAbstractMigration
@@ -36,8 +38,19 @@ abstract class AbstractMigration
     use ServiceManagerAwareTrait;
     use LoggerAwareTrait;
 
-    public function getServiceLocator()
+    /**
+     * @return ServiceManager
+     */
+    public function getServiceLocator(): ServiceManager
     {
         return ServiceManager::getServiceManager();
+    }
+
+    /**
+     * @param Report $report
+     */
+    protected function addReport(Report $report): void
+    {
+        $this->write(ReportHelper::renderToCommandLine($report, false));
     }
 }
