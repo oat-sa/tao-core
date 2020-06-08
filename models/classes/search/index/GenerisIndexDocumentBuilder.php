@@ -25,7 +25,7 @@ use oat\generis\model\OntologyRdfs;
 use oat\tao\model\search\SearchTokenGenerator;
 use oat\tao\model\TaoOntology;
 
-class GenerisIndexDocumentBuilder implements IndexDocumentBuilderInterface
+class GenerisIndexDocumentBuilder extends AbstractIndexDocumentBuilder
 {
     /** @var array */
     private $map;
@@ -52,35 +52,6 @@ class GenerisIndexDocumentBuilder implements IndexDocumentBuilderInterface
             $resource->getUri(),
             $body,
             $indexesProperties
-        );
-
-        return $document;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function createDocumentFromArray(array $resource = []): IndexDocument
-    {
-        if (!isset($resource['id'])) {
-            throw new \common_exception_MissingParameter('id');
-        }
-
-        if (!isset($resource['body'])) {
-            throw new \common_exception_MissingParameter('body');
-        }
-
-        $body = $resource['body'];
-        $indexProperties = [];
-
-        if (isset($array['indexProperties'])) {
-            $indexProperties = $resource['indexProperties'];
-        }
-
-        $document = new IndexDocument(
-            $resource['id'],
-            $body,
-            $indexProperties
         );
 
         return $document;

@@ -40,6 +40,6 @@ interface IndexDocumentBuilderInterface
      * @return IndexDocument
      * @throws \common_Exception
      */
-    public function createDocumentFromArray(array $resource): IndexDocument;
+    public function createDocumentFromArray(array $resource = []): IndexDocument;
 }
 
