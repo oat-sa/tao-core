@@ -50,16 +50,8 @@ class AbstractMigrationTest extends TestCase
             }
         };
 
-        $expectedUpReportMessage = 'Migration Up!';
-        $expectedDownReportMessage = 'Migration Down!';
-
-        // Reports will be colored only if it is not MS Windows running AND
-        // the 'TAO_CONSOLE' environment variable is not set to 'nocolor'.
-        // Let's make this test resilient to that...
-        if (getenv('TAO_CONSOLE') !== 'nocolor' && strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN') {
-            $expectedUpReportMessage = "\033[0;37m${expectedUpReportMessage}\033[0m" . PHP_EOL;
-            $expectedDownReportMessage = "\033[1;31m${expectedDownReportMessage}\033[0m" . PHP_EOL;
-        }
+        $expectedUpReportMessage = 'Migration Up!' . PHP_EOL;
+        $expectedDownReportMessage = 'Migration Down!' . PHP_EOL;
 
         $loggerMock->expects($this->exactly(2))
                    ->method('notice')
