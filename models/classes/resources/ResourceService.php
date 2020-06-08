@@ -36,7 +36,9 @@ class ResourceService extends ConfigurableService
 {
     const SERVICE_ID = 'tao/ResourceService';
 
-    const LABEL_URI  = 'http://www.w3.org/2000/01/rdf-schema#label';
+    public const OPTION_CLASS_NESTING_LEVEL = 'class-nesting-level';
+
+    private const DEFAULT_CLASS_NESTING_LEVEL = 999;
 
     /**
      * The different lookup formats
@@ -68,8 +70,12 @@ class ResourceService extends ConfigurableService
      * Get the class subclasses
      * @return array the classes hierarchy
      */
-    private function getSubClasses($subClasses)
+    private function getSubClasses(array $subClasses, int $nestingLevel = 0): array
     {
+        if ($nestingLevel >= $this->getNestingLevelLimit()) {
+            return [];
+        }
+
         $result = [];
 
         foreach ($subClasses as $subClass) {
@@ -85,6 +91,11 @@ class ResourceService extends ConfigurableService
         }
 
         return $result;
+    }
+
+    private function getNestingLevelLimit(): int
+    {
+        return $this->getOption(self::OPTION_CLASS_NESTING_LEVEL) ?? self::DEFAULT_CLASS_NESTING_LEVEL;
     }
 
     /**
