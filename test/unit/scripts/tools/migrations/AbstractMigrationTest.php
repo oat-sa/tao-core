@@ -27,6 +27,7 @@ use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Connection;
 use oat\tao\scripts\tools\migrations\AbstractMigration;
 use Psr\Log\LoggerInterface;
+use \common_report_Report as Report;
 
 class AbstractMigrationTest extends TestCase
 {
@@ -34,28 +35,40 @@ class AbstractMigrationTest extends TestCase
     {
         $connectionMock = $this->createMock(Connection::class);
         $loggerMock = $this->createMock(LoggerInterface::class);
+        $schemaMock = $this->createMock(Schema::class);
 
         $migration = new class($connectionMock, $loggerMock) extends AbstractMigration
         {
-            public function up(Schema $schema) : void
+            public function up(Schema $schema): void
             {
-                $this->addReport(\common_report_Report::createInfo('Migration Up!'));
+                $this->addReport(Report::createInfo('Migration Up!'));
+            }
+
+            public function down(Schema $schema): void
+            {
+                $this->addReport(Report::createFailure('Migration Down!'));
             }
         };
 
-        $expectedReportMessage = "Migration Up!";
+        $expectedUpReportMessage = 'Migration Up!';
+        $expectedDownReportMessage = 'Migration Down!';
 
         // Reports will be colored only if it is not MS Windows running AND
         // the 'TAO_CONSOLE' environment variable is not set to 'nocolor'.
         // Let's make this test resilient to that...
         if (getenv('TAO_CONSOLE') !== 'nocolor' && strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN') {
-            $expectedReportMessage = "\033[0;37m${expectedReportMessage}\033[0m" . PHP_EOL;
+            $expectedUpReportMessage = "\033[0;37m${expectedUpReportMessage}\033[0m" . PHP_EOL;
+            $expectedDownReportMessage = "\033[1;31m${expectedDownReportMessage}\033[0m" . PHP_EOL;
         }
 
-        $loggerMock->expects($this->once())
+        $loggerMock->expects($this->exactly(2))
                    ->method('notice')
-                   ->with($this->equalTo($expectedReportMessage));
+                   ->withConsecutive(
+                       [$this->equalTo($expectedUpReportMessage)],
+                       [$this->equalTo($expectedDownReportMessage)]
+                   );
 
-        $migration->up($this->createMock(Schema::class));
+        $migration->up($schemaMock);
+        $migration->down($schemaMock);
     }
 }
