@@ -33,25 +33,55 @@ class AbstractMigrationTest extends TestCase
 {
     public function testAddReport()
     {
+        $expectedUpReportMessage = 'Migration Up!';
+        $expectedDownReportMessage = 'Migration Down!';
+
         $connectionMock = $this->createMock(Connection::class);
         $loggerMock = $this->createMock(LoggerInterface::class);
         $schemaMock = $this->createMock(Schema::class);
 
-        $migration = new class($connectionMock, $loggerMock) extends AbstractMigration
+        $upReportMock = $this->createMock(Report::class);
+        $upReportMock->method('getMessage')
+                     ->willReturn($expectedUpReportMessage);
+        $upReportMock->method('getType')
+                     ->willReturn(Report::TYPE_INFO);
+        $upReportMock->method('getIterator')
+                     ->willReturn($this->createMock(\Traversable::class));
+
+        $downReportMock = $this->createMock(Report::class);
+        $downReportMock->method('getMessage')
+                       ->willReturn($expectedDownReportMessage);
+        $downReportMock->method('getType')
+                       ->willReturn(Report::TYPE_ERROR);
+        $downReportMock->method('getIterator')
+                       ->willReturn($this->createMock(\Traversable::class));
+
+
+        $migration = new class($connectionMock, $loggerMock, $upReportMock, $downReportMock) extends AbstractMigration
         {
+            private $upReportMock;
+            private $downReportMock;
+
+            public function __construct(Connection $connection, LoggerInterface $logger, Report $upReportMock, Report $downReportMock)
+            {
+                parent::__construct($connection, $logger);
+                $this->upReportMock = $upReportMock;
+                $this->downReportMock = $downReportMock;
+            }
+
             public function up(Schema $schema): void
             {
-                $this->addReport(Report::createInfo('Migration Up!'));
+                $this->addReport($this->upReportMock);
             }
 
             public function down(Schema $schema): void
             {
-                $this->addReport(Report::createFailure('Migration Down!'));
+                $this->addReport($this->downReportMock);
             }
         };
 
-        $expectedUpReportMessage = 'Migration Up!' . PHP_EOL;
-        $expectedDownReportMessage = 'Migration Down!' . PHP_EOL;
+        $expectedUpReportMessage .= PHP_EOL;
+        $expectedDownReportMessage .= PHP_EOL;
 
         $loggerMock->expects($this->exactly(2))
                    ->method('notice')
