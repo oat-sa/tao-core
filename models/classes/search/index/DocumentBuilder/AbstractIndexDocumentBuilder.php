@@ -19,9 +19,10 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\search\index;
+namespace oat\tao\model\search\index\DocumentBuilder;
 
 use oat\generis\model\OntologyAwareTrait;
+use oat\tao\model\search\index\IndexDocument;
 
 abstract class AbstractIndexDocumentBuilder implements IndexDocumentBuilderInterface
 {

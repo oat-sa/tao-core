@@ -19,7 +19,7 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\search\index;
+namespace oat\tao\model\search\index\DocumentBuilder;
 
 interface DocumentBuilderFactoryInterface
 {

@@ -19,9 +19,12 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\search\index;
+namespace oat\tao\model\search\index\DocumentBuilder;
 
 use oat\generis\model\OntologyRdfs;
+use oat\tao\model\search\index\IndexDocument;
+use oat\tao\model\search\index\IndexProperty;
+use oat\tao\model\search\index\OntologyIndex;
 use oat\tao\model\search\SearchTokenGenerator;
 use oat\tao\model\TaoOntology;
 

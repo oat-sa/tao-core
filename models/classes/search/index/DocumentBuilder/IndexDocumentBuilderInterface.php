@@ -19,7 +19,9 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\search\index;
+namespace oat\tao\model\search\index\DocumentBuilder;
+
+use oat\tao\model\search\index\IndexDocument;
 
 interface IndexDocumentBuilderInterface
 {
