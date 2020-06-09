@@ -36,61 +36,61 @@ class AbstractMigrationTest extends TestCase
         $expectedUpReportMessage = 'Migration Up!';
         $expectedDownReportMessage = 'Migration Down!';
 
-        $connectionStub = $this->createMock(Connection::class);
-        $loggerStub = $this->createMock(LoggerInterface::class);
-        $schemaStub = $this->createMock(Schema::class);
+        $connectionMock = $this->createMock(Connection::class);
+        $loggerMock = $this->createMock(LoggerInterface::class);
+        $schemaMock = $this->createMock(Schema::class);
 
-        $upReportStub = $this->createMock(Report::class);
-        $upReportStub->method('getMessage')
+        $upReportMock = $this->createMock(Report::class);
+        $upReportMock->method('getMessage')
                      ->willReturn($expectedUpReportMessage);
-        $upReportStub->method('getType')
+        $upReportMock->method('getType')
                      ->willReturn(Report::TYPE_INFO);
-        $upReportStub->method('getIterator')
+        $upReportMock->method('getIterator')
                      ->willReturn($this->createMock(\Traversable::class));
 
-        $downReportStub = $this->createMock(Report::class);
-        $downReportStub->method('getMessage')
+        $downReportMock = $this->createMock(Report::class);
+        $downReportMock->method('getMessage')
                        ->willReturn($expectedDownReportMessage);
-        $downReportStub->method('getType')
+        $downReportMock->method('getType')
                        ->willReturn(Report::TYPE_ERROR);
-        $downReportStub->method('getIterator')
+        $downReportMock->method('getIterator')
                        ->willReturn($this->createMock(\Traversable::class));
 
 
-        $migration = new class($connectionStub, $loggerStub, $upReportStub, $downReportStub) extends AbstractMigration
+        $migration = new class($connectionMock, $loggerMock, $upReportMock, $downReportMock) extends AbstractMigration
         {
-            private $upReportStub;
-            private $downReportStub;
+            private $upReportMock;
+            private $downReportMock;
 
-            public function __construct(Connection $connection, LoggerInterface $logger, Report $upReportStub, Report $downReportStub)
+            public function __construct(Connection $connection, LoggerInterface $logger, Report $upReportMock, Report $downReportMock)
             {
                 parent::__construct($connection, $logger);
-                $this->upReportStub = $upReportStub;
-                $this->downReportStub = $downReportStub;
+                $this->upReportMock = $upReportMock;
+                $this->downReportMock = $downReportMock;
             }
 
             public function up(Schema $schema): void
             {
-                $this->addReport($this->upReportStub);
+                $this->addReport($this->upReportMock);
             }
 
             public function down(Schema $schema): void
             {
-                $this->addReport($this->downReportStub);
+                $this->addReport($this->downReportMock);
             }
         };
 
         $expectedUpReportMessage .= PHP_EOL;
         $expectedDownReportMessage .= PHP_EOL;
 
-        $loggerStub->expects($this->exactly(2))
+        $loggerMock->expects($this->exactly(2))
                    ->method('notice')
                    ->withConsecutive(
                        [$this->equalTo($expectedUpReportMessage)],
                        [$this->equalTo($expectedDownReportMessage)]
                    );
 
-        $migration->up($schemaStub);
-        $migration->down($schemaStub);
+        $migration->up($schemaMock);
+        $migration->down($schemaMock);
     }
 }
