@@ -62,9 +62,9 @@ class IndexService extends ConfigurableService
     /**
      * Returns a factory to get the IndexDocument Builder
      *
-     * return AbstractDocumentBuilderFactory
+     * return DocumentBuilderFactoryInterface
      */
-    public function getDocumentBuilderFactory(): AbstractDocumentBuilderFactory
+    public function getDocumentBuilderFactory(): DocumentBuilderFactoryInterface
     {
         return $this->getOption(self::OPTION_DOCUMENT_BUILDER_FACTORY);
     }

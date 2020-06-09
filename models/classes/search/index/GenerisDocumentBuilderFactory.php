@@ -21,7 +21,15 @@ declare(strict_types=1);
 
 namespace oat\tao\model\search\index;
 
-class GenerisDocumentBuilderFactory extends AbstractDocumentBuilderFactory
+class GenerisDocumentBuilderFactory implements DocumentBuilderFactoryInterface
 {
-
+    /**
+     * Get the IndexDocument builder based on resource type property
+     * @param string $resourceType
+     * @return IndexDocumentBuilderInterface
+     */
+    public function getDocumentBuilderByResourceType(string $resourceType = ""): IndexDocumentBuilderInterface
+    {
+        return new GenerisIndexDocumentBuilder();
+    }
 }
