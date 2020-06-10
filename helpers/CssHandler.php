@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,8 +22,8 @@
 
 namespace oat\tao\helpers;
 
-
-class CssHandler{
+class CssHandler
+{
 
     /**
      * Convert incoming CSS to CSS array
@@ -31,29 +32,30 @@ class CssHandler{
      * @param $css
      * @return mixed
      */
-    public static function cssToArray($css){
-        if(!$css) {
-            return array();
+    public static function cssToArray($css)
+    {
+        if (!$css) {
+            return [];
         }
         $css = str_replace(' /* Do not edit */', '', $css);
         $oldCssArr = explode("\n", $css);
-        $newCssArr = array();
-        foreach($oldCssArr as $line) {
-            if(false === strpos($line, '{')) {
+        $newCssArr = [];
+        foreach ($oldCssArr as $line) {
+            if (false === strpos($line, '{')) {
                 continue;
             }
 
             preg_match('~(?P<selector>[^{]+)(\{)(?P<rules>[^}]+)\}~', $line, $matches);
 
-            foreach($matches as $key => &$match){
-                if(is_numeric($key)) {
+            foreach ($matches as $key => &$match) {
+                if (is_numeric($key)) {
                     continue;
                 }
                 $match = trim($match);
-                if($key === 'rules') {
+                if ($key === 'rules') {
                     $ruleSet = array_filter(array_map('trim', explode(';', $match)));
-                    $match = array();
-                    foreach($ruleSet as $rule) {
+                    $match = [];
+                    foreach ($ruleSet as $rule) {
                         $rule = array_map('trim', explode(':', $rule));
                         $match[$rule[0]] = $rule[1];
                     }
@@ -72,38 +74,38 @@ class CssHandler{
      * @param $compressed boolean add break lines or not
      * @return string
      */
-    public static function arrayToCss($array, $compressed = true){
+    public static function arrayToCss($array, $compressed = true)
+    {
         $css = '';
 
         $break = '';
         $space = '';
-        if(!$compressed){
+        if (!$compressed) {
             $break = "\n\t";
             $space = " ";
         }
         // rebuild CSS
-        foreach($array as $key1 => $value1){
+        foreach ($array as $key1 => $value1) {
             $css .= $key1 . $space . '{';
 
-            foreach($value1 as $key2 => $value2){
+            foreach ($value1 as $key2 => $value2) {
                 // in the case that the code is embedded in a media query
-                if(is_array($value2)){
-                    foreach($value2 as $value3){
+                if (is_array($value2)) {
+                    foreach ($value2 as $value3) {
                         $css .= $break . $key2 . $space . '{';
-                        foreach($value3 as $mProp){
+                        foreach ($value3 as $mProp) {
                             $css .= $break . $mProp . ':' . $value3 . ';';
                         }
-                        $css .= ($compressed)?'}':"\n}\n";
+                        $css .= ($compressed) ? '}' : "\n}\n";
                     }
                 }
                 // regular selectors
-                else{
+                else {
                     $css .= $break . $key2 . ':' . $value2 . ';';
                 }
             }
-            $css .= ($compressed)?'}':"\n}\n";
+            $css .= ($compressed) ? '}' : "\n}\n";
         }
         return $css;
     }
-
-} 
+}

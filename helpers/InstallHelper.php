@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,9 +19,11 @@
  *
  *
  */
+
 namespace oat\tao\helpers;
 
 use common_Logger;
+
 /**
  * Utility class for instalation.
  *
@@ -31,27 +34,27 @@ class InstallHelper extends \helpers_InstallHelper
     /**
      * Override of original install helper to throw install exception
      * on errors
-     * 
+     *
      * @param array $extensionIDs
      * @param array $installData
      * @throws \tao_install_utils_Exception
      * @return multitype:string
      */
-    public static function installRecursively($extensionIDs, $installData=array())
+    public static function installRecursively($extensionIDs, $installData = [])
     {
         try {
             return parent::installRecursively($extensionIDs, $installData);
         } catch (\common_ext_ExtensionException $e) {
-            static::log('w', 'Exception('.$e->getMessage().') during install for extension "'.$e->getExtensionId().'"');
+            static::log('w', 'Exception(' . $e->getMessage() . ') during install for extension "' . $e->getExtensionId() . '"');
             throw new \tao_install_utils_Exception("An error occured during the installation of extension '" . $e->getExtensionId() . "'.");
         }
     }
     
-    protected static function getInstaller($extension, $importLocalData) {
+    protected static function getInstaller($extension, $importLocalData)
+    {
         $instance = new \tao_install_ExtensionInstaller($extension, $importLocalData);
         $instance->initContainer(static::$container);
 
         return $instance;
     }
-
 }

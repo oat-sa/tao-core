@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,6 +21,7 @@
 
 namespace oat\tao\test\unit\model\taskQueue\TaskLog\Broker;
 
+use InvalidArgumentException;
 use oat\generis\test\TestCase;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\taskQueue\Task\CallbackTask;
@@ -36,7 +38,7 @@ class RdsTaskLogBrokerTest extends TestCase
      */
     protected $subject;
 
-    public function setUp()
+    public function setUp(): void
     {
         $persistenceId = 'rds_task_log_test';
         $databaseMock = $this->getSqlMock($persistenceId);
@@ -59,14 +61,6 @@ class RdsTaskLogBrokerTest extends TestCase
         $this->subject->setServiceLocator($serviceManagerMock);
 
         $this->subject->createContainer();
-    }
-
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function testTaskLogBrokerServiceShouldThrowExceptionWhenPersistenceOptionIsEmpty()
-    {
-        new RdsTaskLogBroker('');
     }
 
     public function testGetPersistenceWhenInstantiatingANewOneThenItReturnsOneWithTheRequiredInterface()
@@ -120,7 +114,7 @@ class RdsTaskLogBrokerTest extends TestCase
 
         $bound = $tableNameCaller->bindTo($broker, $broker);
 
-        $this->assertEquals($prefix .'_'. $containerName, $bound());
+        $this->assertEquals($prefix . '_' . $containerName, $bound());
     }
 
     public function testGetTableNameWhenContainerNameIsNotSuppliedByOptionThenTableNameShouldHaveADefaultValue()
@@ -136,7 +130,7 @@ class RdsTaskLogBrokerTest extends TestCase
 
         $bound = $tableNameCaller->bindTo($broker, $broker);
 
-        $this->assertEquals($prefix .'_'. $defaultName, $bound());
+        $this->assertEquals($prefix . '_' . $defaultName, $bound());
     }
 
     public function testCountAndDelete()

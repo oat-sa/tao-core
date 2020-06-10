@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -35,23 +36,37 @@ use oat\tao\model\service\ApplicationService;
 class tao_actions_ExtensionsManager extends tao_actions_CommonModule
 {
     /**
+     * @param array $extensions
+     *
+     * @return array
+     */
+    private function sortExtensionList(array $extensions = [])
+    {
+        usort($extensions, static function ($a, $b) {
+            /** @var common_ext_Extension $a */
+            /** @var common_ext_Extension $b */
+            return strcasecmp($a->getId(), $b->getId());
+        });
+
+        return $extensions;
+    }
+
+    /**
      * Index page
      */
-	public function index()
+    public function index()
     {
         if ($this->isDebugMode() === true) {
             $isProduction = false;
-            $availableExtArray = $this->getExtensionManager()->getAvailableExtensions();
-            usort($availableExtArray, function($a, $b) { return strcasecmp($a->getId(),$b->getId());});
-            $this->setData('availableExtArray', $availableExtArray);
+            $this->setData('availableExtArray', $this->sortExtensionList($this->getExtensionManager()->getAvailableExtensions()));
         } else {
             $isProduction = true;
         }
 
-		$this->setData('isProduction', $isProduction);
-		$this->setData('installedExtArray', $this->getExtensionManager()->getInstalledExtensions());
-		$this->setView('extensionManager/view.tpl');
-	}
+        $this->setData('isProduction', $isProduction);
+        $this->setData('installedExtArray', $this->sortExtensionList($this->getExtensionManager()->getInstalledExtensions()));
+        $this->setView('extensionManager/view.tpl');
+    }
 
     /**
      * Return current extension
@@ -63,12 +78,12 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule
      */
     protected function getCurrentExtension()
     {
-		if ($this->hasRequestParameter('id')) {
-			return $this->getExtensionManager()->getExtensionById($this->getRequestParameter('id'));
-		} else {
+        if ($this->hasRequestParameter('id')) {
+            return $this->getExtensionManager()->getExtensionById($this->getRequestParameter('id'));
+        } else {
             throw new common_exception_MissingParameter();
         }
-	}
+    }
 
     /**
      * Install action
@@ -79,23 +94,20 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule
     public function install()
     {
         $this->assertIsDebugMode();
+        $success = false;
+        try {
+            $extInstaller = new tao_install_ExtensionInstaller($this->getCurrentExtension());
+            $extInstaller->install();
+            $message =   __('Extension "%s" has been installed', $this->getCurrentExtension()->getId());
+            $success = true;
+            // reinit user session
+            $session = $this->getSession()->refresh();
+        } catch (common_ext_ExtensionException $e) {
+            $message = $e->getMessage();
+        }
 
-		$success = false;
-		try {
-			$extInstaller = new tao_install_ExtensionInstaller($this->getCurrentExtension());
-			$extInstaller->install();
-			$message =   __('Extension "%s" has been installed', $this->getCurrentExtension()->getId());
-			$success = true;
-
-			// reinit user session
-			$session = $this->getSession()->refresh();
-		}
-		catch(common_ext_ExtensionException $e) {
-			$message = $e->getMessage();
-		}
-
-        $this->returnJson(array('success' => $success, 'message' => $message));
-	}
+        $this->returnJson(['success' => $success, 'message' => $message]);
+    }
 
     /**
      * Once some extensions have been installed, we trigger this action.
@@ -105,10 +117,8 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule
     public function postInstall()
     {
         $this->assertIsDebugMode();
-
         $success = true;
         $message = '';
-
         // try to regenerate languages bundles
         try {
             tao_models_classes_LanguageService::singleton()->generateAll(true);
@@ -117,30 +127,29 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule
             $success = false;
         }
 
-        $this->returnJson(array(
+        $this->returnJson([
             'success' => $success,
             'message' => $message
-        ));
+        ]);
     }
 
-	/**
-	 * Disable an extension
+    /**
+     * Disable an extension
      *
      * @throws common_exception_BadRequest If platform is on production mode
      * @throws common_exception_Error
-	 */
-	public function disable()
+     */
+    public function disable()
     {
         $this->assertIsDebugMode();
-
-	    $extId = $this->getRequestParameter('id');
+        $extId = $this->getRequestParameter('id');
         $this->getExtensionManager()->setEnabled($extId, false);
-	    MenuService::flushCache();
-        $this->returnJson(array(
-	        'success' => true,
-	        'message' => __('Disabled %s', $this->getRequestParameter('id'))
-	    ));
-	}
+        MenuService::flushCache();
+        $this->returnJson([
+            'success' => true,
+            'message' => __('Disabled %s', $this->getRequestParameter('id'))
+        ]);
+    }
 
     /**
      *  Enable an extension
@@ -148,51 +157,52 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule
      * @throws common_exception_BadRequest If platform is on production mode
      * @throws common_exception_Error
      */
-	public function enable()
+    public function enable()
     {
         $this->assertIsDebugMode();
 
-	    $extId = $this->getRequestParameter('id');
+        $extId = $this->getRequestParameter('id');
         $this->getExtensionManager()->setEnabled($extId, true);
-	    MenuService::flushCache();
-        $this->returnJson(array(
-	        'success' => true,
-	        'message' => __('Enabled %s', $this->getRequestParameter('id'))
-	    ));
-	}
+        MenuService::flushCache();
+        $this->returnJson([
+            'success' => true,
+            'message' => __('Enabled %s', $this->getRequestParameter('id'))
+        ]);
+    }
 
     /**
      * Uninstall an extension
      *
      * @throws common_exception_BadRequest If platform is on production mode
      */
-	public function uninstall()
+    public function uninstall()
     {
         $this->assertIsDebugMode();
-	    try {
-	        $uninstaller = new \tao_install_ExtensionUninstaller($this->getCurrentExtension());
-	        $success = $uninstaller->uninstall();
-	        $message = __('Uninstalled %s', $this->getRequestParameter('id'));
-	    } catch (\common_Exception $e) {
-	        $success = false;
-	        if ($e instanceof \common_exception_UserReadableException) {
-	            $message = $e->getUserMessage();
-	        } else {
-	            $message = __('Uninstall of %s failed', $this->getRequestParameter('id'));
-	        }
-	    }
-        $this->returnJson(array(
-	        'success' => $success,
-	        'message' => $message
-	    ));
-	}
+
+        try {
+            $uninstaller = new \tao_install_ExtensionUninstaller($this->getCurrentExtension());
+            $success = $uninstaller->uninstall();
+            $message = __('Uninstalled %s', $this->getRequestParameter('id'));
+        } catch (\common_Exception $e) {
+            $success = false;
+            if ($e instanceof \common_exception_UserReadableException) {
+                $message = $e->getUserMessage();
+            } else {
+                $message = __('Uninstall of %s failed', $this->getRequestParameter('id'));
+            }
+        }
+        $this->returnJson([
+            'success' => $success,
+            'message' => $message
+        ]);
+    }
 
     /**
      * Throw a bad request exception if the platform is on production mode
      *
      * @throws common_exception_BadRequest
      */
-	protected function assertIsDebugMode()
+    protected function assertIsDebugMode()
     {
         if ($this->isDebugMode() !== true) {
             throw new common_exception_BadRequest('This operation cannot be processed in production mode.');
@@ -217,5 +227,4 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule
     {
         return $this->getServiceLocator()->get(common_ext_ExtensionsManager::SERVICE_ID);
     }
-
 }

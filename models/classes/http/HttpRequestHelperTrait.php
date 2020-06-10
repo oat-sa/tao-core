@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -352,8 +353,8 @@ trait HttpRequestHelperTrait
     protected function isXmlHttpRequest()
     {
         $serverParams = $this->getPsrRequest()->getServerParams();
-        if(isset($serverParams['HTTP_X_REQUESTED_WITH'])){
-            if(strtolower($serverParams['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'){
+        if (isset($serverParams['HTTP_X_REQUESTED_WITH'])) {
+            if (strtolower($serverParams['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
                 return true;
             }
         }
@@ -399,5 +400,4 @@ trait HttpRequestHelperTrait
     {
         return $this->getPsrRequest()->getHeader('content-type');
     }
-
 }

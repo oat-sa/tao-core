@@ -1,23 +1,23 @@
 <?php
 
-/**  
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
+ *
  */
 
 /**
@@ -57,7 +57,7 @@ class tao_helpers_translation_TranslationFile implements tao_helpers_translation
      * @access private
      * @var array
      */
-    private $translationUnits = array();
+    private $translationUnits = [];
 
     /**
      * Ascending sort case-sensitive
@@ -97,7 +97,7 @@ class tao_helpers_translation_TranslationFile implements tao_helpers_translation
      * @access private
      * @var array
      */
-    private $annotations = array();
+    private $annotations = [];
 
     /**
      * Sets the collection of annotations bound to this Translation Object.
@@ -122,7 +122,7 @@ class tao_helpers_translation_TranslationFile implements tao_helpers_translation
      */
     public function getAnnotations()
     {
-        $returnValue = array();
+        $returnValue = [];
         
         $returnValue = $this->annotations;
         
@@ -172,13 +172,13 @@ class tao_helpers_translation_TranslationFile implements tao_helpers_translation
      */
     public function getAnnotation($name)
     {
-        $returnValue = array();
+        $returnValue = [];
         
         if (isset($this->annotations[$name])) {
-            $returnValue = array(
+            $returnValue = [
                 'name' => $name,
                 'value' => $this->annotations[$name]
-            );
+            ];
         } else {
             $returnValue = null;
         }
@@ -198,7 +198,7 @@ class tao_helpers_translation_TranslationFile implements tao_helpers_translation
     {
         $this->setSourceLanguage(tao_helpers_translation_Utils::getDefaultLanguage());
         $this->setTargetLanguage(tao_helpers_translation_Utils::getDefaultLanguage());
-        $this->setTranslationUnits(array());
+        $this->setTranslationUnits([]);
     }
 
     /**
@@ -242,7 +242,7 @@ class tao_helpers_translation_TranslationFile implements tao_helpers_translation
      */
     public function getTranslationUnits()
     {
-        $returnValue = array();
+        $returnValue = [];
         
         return $this->translationUnits;
         
@@ -306,7 +306,6 @@ class tao_helpers_translation_TranslationFile implements tao_helpers_translation
         
         // If the translation unit exists, we replace the target with the new one if it exists.
         foreach ($this->getTranslationUnits() as $tu) {
-            
             if ($tu->getSource() == $translationUnit->getSource()) {
                 // If we are here, it means that this TU is being overriden by
                 // another one having the same source...
@@ -339,7 +338,7 @@ class tao_helpers_translation_TranslationFile implements tao_helpers_translation
     public function removeTranslationUnit(tao_helpers_translation_TranslationUnit $translationUnit)
     {
         $tus = $this->getTranslationUnits();
-        for ($i = 0; $i < count($tus); $i ++) {
+        for ($i = 0; $i < count($tus); $i++) {
             if ($tus[$i] === $translationUnit) {
                 unset($tus[$i]);
                 break;
@@ -479,7 +478,7 @@ class tao_helpers_translation_TranslationFile implements tao_helpers_translation
      */
     public function sortByTarget($sortingType)
     {
-        $returnValue = array();
+        $returnValue = [];
         
         throw new tao_helpers_translation_TranslationException("Not yet implemtented.");
         
@@ -542,4 +541,3 @@ class tao_helpers_translation_TranslationFile implements tao_helpers_translation
         return count($this->getTranslationUnits());
     }
 }
-?>

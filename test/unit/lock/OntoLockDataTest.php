@@ -1,25 +1,27 @@
 <?php
-/**  
+
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2015 Open Assessment Technologies S.A.
- * 
+ *
  */
 
 namespace  oat\tao\test\unit\lock;
 
+use common_exception_InconsistentData;
 use oat\tao\model\lock\implementation\OntoLockData;
 use oat\generis\test\TestCase;
 
@@ -27,7 +29,7 @@ class OntoLockDataTest extends TestCase
 {
 
     /**
-     * 
+     *
      * @author Lionel Lecaque, lionel@taotesting.com
      */
     public function testGetOwner()
@@ -40,7 +42,7 @@ class OntoLockDataTest extends TestCase
         $this->assertEquals('#ownerUri', $lock->getOwner()->getUri());
     }
     /**
-     * 
+     *
      * @author Lionel Lecaque, lionel@taotesting.com
      */
     public function testToJson()
@@ -50,25 +52,22 @@ class OntoLockDataTest extends TestCase
         $owner->getUri()->willReturn('#ownerUri');
         $resource->getUri()->willReturn('#resourceUri');
         $lock = new OntoLockData($resource->reveal(), $owner->reveal(), 'epoch');
-        
-        
-        $expected = json_encode(array(
+
+
+        $expected = json_encode([
             'resource' => '#resourceUri',
             'owner' =>  '#ownerUri',
             'epoch' => 'epoch'
-        ));
-        
+        ]);
+
         $this->assertEquals($expected, $lock->toJson());
     }
     /**
-     * @expectedException common_exception_InconsistentData
      * @author Lionel Lecaque, lionel@taotesting.com
      */
     public function testGetLockDataExeption()
     {
-        OntoLockData::getLockData(json_encode(array()));
+        $this->expectException(common_exception_InconsistentData::class);
+        OntoLockData::getLockData(json_encode([]));
     }
-    
 }
-
-?>

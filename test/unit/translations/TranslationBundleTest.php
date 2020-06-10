@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -44,68 +45,71 @@ class TranslationBundleTest extends TestCase
     /**
      * Set up the temp directory
      */
-    public static function setUpBeforeClass(){
-        self::$tmpDir = sys_get_temp_dir() . '/phpunit-' . __CLASS__;
-        if(!file_exists(self::$tmpDir)){
-            mkdir(self::$tmpDir);
-        }
+    public static function setUpBeforeClass(): void
+    {
+        self::$tmpDir = \tao_helpers_File::createTempDir();
     }
 
     /**
      * Removes the temporary directory
      */
-    public static function tearDownAfterClass(){
-        tao_helpers_File::delTree(self::$tmpDir);  
+    public static function tearDownAfterClass(): void
+    {
+        tao_helpers_File::delTree(self::$tmpDir);
     }
 
     /**
      * Provides wrong constructor parameters
      * @return array() the data
-     */     
-    public function wrongConstructorProvider(){
-        return array(
-            array(true, array(), null),
-            array('test', 12, 10),
-            array(null, null, false),
-        );
-    }   
- 
+     */
+    public function wrongConstructorProvider()
+    {
+        return [
+            [true, [], null],
+            ['test', 12, 10],
+            [null, null, false],
+        ];
+    }
+
     /**
      * Test constructor with wrong parameters
      * @param string $langCode
      * @param array $extensions
      * @dataProvider wrongConstructorProvider
-     * @expectedException InvalidArgumentException
      */
-    public function testWrongConstructor($langCode, $extensions, $basePath){
-       new TranslationBundle($langCode, $extensions, $basePath); 
+    public function testWrongConstructor($langCode, $extensions, $basePath)
+    {
+        $this->expectException(InvalidArgumentException::class);
+        new TranslationBundle($langCode, $extensions, $basePath);
     }
-   
+
     /**
      * Provides data to test the bundle
      * @return array() the data
-     */     
-    public function bundleProvider(){
+     */
+    public function bundleProvider()
+    {
         return [
            ['en-US', ['tao', 'taoItems'], md5('en-US_tao-taoItems')],
            ['fr-FR', ['tao', 'taoItems'], md5('fr-FR_tao-taoItems')],
         ];
-    }   
- 
+    }
+
     /**
      * Test the bundle
      * @param string $langCode
      * @param array $extensions
      * @dataProvider bundleProvider
      */
-    public function testBundle($langCode, $extensions, $expectedSerial){
-       $bundle = new TranslationBundle($langCode, $extensions, __DIR__ . '/../../../'); 
+    public function testBundle($langCode, $extensions, $expectedSerial)
+    {
+        $bundle = new TranslationBundle($langCode, $extensions, __DIR__ . '/../../../');
 
-       $serial = $bundle->getSerial();
-       $this->assertTrue(is_string($serial));
-       $this->assertEquals($expectedSerial, $serial);
+        $serial = $bundle->getSerial();
+        $this->assertTrue(is_string($serial));
+        $this->assertEquals($expectedSerial, $serial);
 
-       if(is_dir(self::$tmpDir)){
+        if (is_dir(self::$tmpDir)) {
             $file = $bundle->generateTo(self::$tmpDir);
             $this->assertTrue(file_exists($file));
 

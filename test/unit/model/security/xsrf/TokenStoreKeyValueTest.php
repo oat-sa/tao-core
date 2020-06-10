@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -68,7 +69,8 @@ class TokenStoreKeyValueTest extends TestCase
         $sessionService = $this->getMockBuilder(SessionService::class)
             ->disableOriginalConstructor()
             ->setMethods(['getCurrentUser'])
-            ->getMock();;
+            ->getMock();
+        ;
         $sessionService->method('getCurrentUser')->willReturn($user);
 
         /** @var ServiceLocatorInterface|MockObject $serviceLocator */

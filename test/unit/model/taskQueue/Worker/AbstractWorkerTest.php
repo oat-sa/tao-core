@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -120,7 +121,7 @@ class AbstractWorkerTest extends TestCase
      */
     private $queueDispatcherMock;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -200,6 +201,7 @@ class AbstractWorkerTest extends TestCase
         $this->taskLog->method('setStatus')->willReturn(1);
         $this->reportMock->method('getType')->willReturn(\common_report_Report::TYPE_INFO);
         $this->taskMock->method('__invoke')->willReturn($this->reportMock);
+        $this->taskMock->method('getId')->willReturn('someStringId');
 
         $this->queue->expects($this->once())->method('count');
         $this->taskLogBrokerMock->expects($this->once())->method('deleteById');
@@ -249,7 +251,6 @@ class AbstractWorkerTest extends TestCase
 
         $result = $this->subject->processTask($this->taskMock);
         $this->assertSame('completed', $result);
-
     }
 
     public function testProcessTaskReturnErrorReport()
@@ -340,14 +341,9 @@ class AbstractWorkerTest extends TestCase
         $this->assertSame('unknown', $result);
     }
 
-    private function getCallbackTask()
+    private function getCallbackTask(): CallbackTaskInterface
     {
-        $mock = $this
-            ->getMockBuilder(CallbackTaskInterface::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['__invoke', 'getStatus'])
-            ->getMockForAbstractClass();
-        return $mock;
+        return $this->createMock(CallbackTaskInterface::class);
     }
 
     /**
@@ -355,12 +351,7 @@ class AbstractWorkerTest extends TestCase
      */
     private function getTaskMockCallback()
     {
-        $mock = $this
-            ->getMockBuilder(TaskInterface::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['__invoke', 'getStatus'])
-            ->getMockForAbstractClass();
-        return $mock;
+        return $this->createMock(TaskInterface::class);
     }
 }
 

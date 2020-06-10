@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -198,20 +199,21 @@ class ArrayValidator
     {
         $errors = [];
         if (count($this->missedKeys) > 0) {
-            $errors[] = 'missed keys: ' . implode(', ' , $this->missedKeys);
+            $errors[] = 'missed keys: ' . implode(', ', $this->missedKeys);
         }
         foreach ($this->typeMismatchKeys as $key => $msg) {
             $errors[] = $key . ' ' . $msg;
         }
         if (count($this->extraKeys) > 0) {
-            $errors[] = 'unexpected keys: ' . implode(', ' , $this->extraKeys);
+            $errors[] = 'unexpected keys: ' . implode(', ', $this->extraKeys);
         }
         return count($errors) > 0
             ? implode('; ', $errors)
             : null;
     }
 
-    private function cleanResults() {
+    private function cleanResults()
+    {
         $this->missedKeys = $this->typeMismatchKeys = $this->extraKeys = [];
     }
 
@@ -222,9 +224,10 @@ class ArrayValidator
      */
     private function validateKey($data, $key, $rule)
     {
-        if (!$this->validateKeyExistence($data, $key, $rule) ||
-            !$this->validateIfKeyTypeCanBeChecked($data, $key, $rule))
-        {
+        if (
+            !$this->validateKeyExistence($data, $key, $rule) ||
+            !$this->validateIfKeyTypeCanBeChecked($data, $key, $rule)
+        ) {
             return;
         }
 

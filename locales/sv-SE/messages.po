@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint107\n"
-"PO-Revision-Date: 2019-12-20T10:46:37\n"
+"Project-Id-Version: TAO 3.4.0-sprint129\n"
+"PO-Revision-Date: 2020-05-22T08:25:09\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: sv-SE\n"
@@ -16,10 +16,10 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " and "
+msgid " AND "
 msgstr ""
 
-msgid " AND "
+msgid " and "
 msgstr ""
 
 msgid " has been deleted successfully"
@@ -184,6 +184,9 @@ msgstr "Funktioner"
 msgid "Add"
 msgstr "Lägg till"
 
+msgid "Add / Edit lists"
+msgstr ""
+
 msgid "Add a CSV file"
 msgstr ""
 
@@ -209,13 +212,7 @@ msgstr ""
 msgid "Adding the new resource has failed"
 msgstr ""
 
-msgid "Advanced Mode"
-msgstr "Avancerad metod"
-
 msgid "Advanced search, add filters"
-msgstr ""
-
-msgid "aliases:"
 msgstr ""
 
 msgid "all"
@@ -282,16 +279,7 @@ msgstr ""
 msgid "Are you sure you want to delete it?"
 msgstr ""
 
-msgid "Argument check failed: %s"
-msgstr ""
-
-msgid "Arguments %s and %s are mutually exclusive"
-msgstr ""
-
 msgid "Arguments separator"
-msgstr ""
-
-msgid "array"
 msgstr ""
 
 msgid "Assign"
@@ -349,9 +337,6 @@ msgstr ""
 msgid "Binary operator modulo"
 msgstr ""
 
-msgid "boolean"
-msgstr ""
-
 msgid "Browse folders:"
 msgstr ""
 
@@ -401,16 +386,13 @@ msgstr "Ändra lösenord"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check all"
-msgstr ""
-
 msgid "Check All"
 msgstr ""
 
-msgid "Check-in"
+msgid "Check all"
 msgstr ""
 
-msgid "choices:"
+msgid "Check-in"
 msgstr ""
 
 msgid "Choose a value..."
@@ -464,6 +446,9 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
+msgid "Close dialog"
+msgstr ""
+
 msgid "Close message"
 msgstr ""
 
@@ -475,9 +460,6 @@ msgstr ""
 
 msgid "Column"
 msgstr "Kolumn"
-
-msgid "Commands:"
-msgstr ""
 
 msgid "comment..."
 msgstr ""
@@ -521,9 +503,6 @@ msgstr ""
 msgid "Cosine"
 msgstr ""
 
-msgid "count"
-msgstr ""
-
 msgid "Create"
 msgstr "Skapa"
 
@@ -563,10 +542,10 @@ msgstr "Data framgångsrikt importerat"
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "Dataspråk"
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "Dataspråk"
 
 msgid "Data not imported. All records are invalid."
@@ -585,9 +564,6 @@ msgid "date time range"
 msgstr ""
 
 msgid "Default search"
-msgstr ""
-
-msgid "default:"
 msgstr ""
 
 msgid "Define the default values"
@@ -619,9 +595,6 @@ msgid "Deleting search index for %s"
 msgstr ""
 
 msgid "Demo Sandbox"
-msgstr ""
-
-msgid "Did you mean %s?"
 msgstr ""
 
 msgid "Digit 0"
@@ -698,9 +671,6 @@ msgstr ""
 msgid "Edit Instance"
 msgstr ""
 
-msgid "Edit sources that can embed this platform in an iFrame"
-msgstr ""
-
 msgid "Element"
 msgstr "Beståndsdel"
 
@@ -738,9 +708,6 @@ msgid "Error in syntax"
 msgstr ""
 
 msgid "Error in value"
-msgstr ""
-
-msgid "Examples:"
 msgstr ""
 
 msgid "Exclusive (OR)"
@@ -856,6 +823,9 @@ msgstr ""
 msgid "Forbid for all domains"
 msgstr ""
 
+msgid "Force HTTPS on this platform"
+msgstr ""
+
 msgid "Force Release"
 msgstr ""
 
@@ -874,9 +844,6 @@ msgstr ""
 msgid "Fuzzy Matching"
 msgstr ""
 
-msgid "generated-value"
-msgstr ""
-
 msgid "Generis Form"
 msgstr ""
 
@@ -889,6 +856,9 @@ msgstr ""
 msgid "Go Back"
 msgstr ""
 
+msgid "go back to home page"
+msgstr ""
+
 msgid "Height"
 msgstr ""
 
@@ -896,6 +866,9 @@ msgid "Hi, %s<br>You indicated that you have forgotten your TAO password."
 msgstr ""
 
 msgid "Hide detailed report"
+msgstr ""
+
+msgid "Hide password"
 msgstr ""
 
 msgid "Highlight all"
@@ -926,9 +899,6 @@ msgid "Identifier"
 msgstr ""
 
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
-msgstr ""
-
-msgid "Implications failed:"
 msgstr ""
 
 msgid "Import"
@@ -967,10 +937,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1009,10 +979,10 @@ msgstr ""
 msgid "Instance saved"
 msgstr ""
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "Gränssnittsspråk"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "Gränssnittsspråk"
 
 msgid "Invalid CSP header."
@@ -1054,9 +1024,6 @@ msgstr ""
 msgid "Invalid input for function"
 msgstr ""
 
-msgid "Invalid JSON config file: %s"
-msgstr ""
-
 msgid "Invalid login or password. Please try again."
 msgstr "Inget konto matchar den angivna inloggningen/lösenordet"
 
@@ -1064,9 +1031,6 @@ msgid "Invalid login or password. Your account has been locked, please contact y
 msgstr ""
 
 msgid "invalid regular expression"
-msgstr ""
-
-msgid "Invalid values:"
 msgstr ""
 
 msgid "items per page"
@@ -1106,6 +1070,9 @@ msgid "List - Single choice - Drop down"
 msgstr ""
 
 msgid "List - Single choice - Radio button"
+msgstr ""
+
+msgid "List values"
 msgstr ""
 
 msgid "ln"
@@ -1305,10 +1272,10 @@ msgstr ""
 msgid "no label"
 msgstr ""
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr ""
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr ""
 
 msgid "No results found"
@@ -1318,12 +1285,6 @@ msgid "No Task yet"
 msgstr ""
 
 msgid "Node duplication has failed"
-msgstr ""
-
-msgid "Not enough arguments following: %s"
-msgstr ""
-
-msgid "Not enough non-option arguments: got %s, need at least %s"
 msgstr ""
 
 msgid "Not started"
@@ -1346,9 +1307,6 @@ msgid "notifications drivers aren\'t persistent. use a persistent database stora
 msgstr ""
 
 msgid "Nth root"
-msgstr ""
-
-msgid "number"
 msgstr ""
 
 msgid "Number of elements"
@@ -1459,9 +1417,6 @@ msgstr ""
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
 msgstr ""
 
-msgid "Please try in %s."
-msgstr ""
-
 msgid "Please wait"
 msgstr ""
 
@@ -1497,9 +1452,6 @@ msgstr ""
 
 #, tao-public
 msgid "Properties"
-msgstr ""
-
-msgid "Property\'s label field is required"
 msgstr ""
 
 msgid "Provided URL is not valid"
@@ -1590,9 +1542,6 @@ msgid "Request a password reset via Email."
 msgstr ""
 
 msgid "require notification ID"
-msgstr ""
-
-msgid "required"
 msgstr ""
 
 msgid "required length"
@@ -1726,11 +1675,11 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "Select"
-msgstr "Välj"
-
 msgid "select"
 msgstr "välj"
+
+msgid "Select"
+msgstr "Välj"
 
 msgid "Select a class"
 msgstr ""
@@ -1778,11 +1727,11 @@ msgstr ""
 msgid "Show detailed report"
 msgstr ""
 
-msgid "Sign change"
+msgid "Show password"
 msgstr ""
 
-msgid "Simple Mode"
-msgstr "Enkel metod"
+msgid "Sign change"
+msgstr ""
 
 msgid "sin"
 msgstr ""
@@ -1797,6 +1746,9 @@ msgid "Size"
 msgstr ""
 
 msgid "Some resources have not been moved: %s"
+msgstr ""
+
+msgid "Something unexpected happened."
 msgstr ""
 
 msgid "Sources that can embed this platform in an iFrame"
@@ -1818,9 +1770,6 @@ msgid "Store"
 msgstr ""
 
 msgid "Store the value a variable"
-msgstr ""
-
-msgid "string"
 msgstr ""
 
 msgid "Submit"
@@ -2018,9 +1967,6 @@ msgstr ""
 msgid "Tokenizer"
 msgstr ""
 
-msgid "Too many non-option arguments: got %s, maximum of %s"
-msgstr ""
-
 msgid "Too many suggestions match your query. Only a few are listed"
 msgstr ""
 
@@ -2042,7 +1988,13 @@ msgstr "Översätt parametrar"
 msgid "Translation saved"
 msgstr "Översättnig sparad"
 
+msgid "Transport Layer Security"
+msgstr ""
+
 msgid "Tree - Multiple node choice "
+msgstr ""
+
+msgid "Tree values"
 msgstr ""
 
 msgid "True"

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -32,6 +33,7 @@ use oat\tao\model\service\ApplicationService;
  */
 class tao_helpers_Display
 {
+    private static $replacement = '_';
 
     /**
      * Enables you to cut a long string and end it with [...] and add an hover
@@ -42,21 +44,19 @@ class tao_helpers_Display
      * @param  int maxLength (optional, default = 75) The maximum length for the result string.
      * @return string The cut string, enclosed in a <span> html tag. This tag received the 'cutted' CSS class.
      */
-    public static function textCutter($input, $maxLength = 75)
+    public static function textCutter($input, int $maxLength = 75): string
     {
-        $encoding = self::getApplicationService()->getDefaultEncoding();
-		if (mb_strlen($input, $encoding) > $maxLength){
-			$input = "<span title='$input' class='cutted' style='cursor:pointer;'>".mb_substr($input, 0, $maxLength, $encoding)."[...]</span>";
-		}
+        $encoding = self::getEncoding();
 
-		$returnValue = $input;
+        if (mb_strlen($input, $encoding) <= $maxLength) {
+            return $input;
+        }
 
-        return (string) $returnValue;
+        return "<span title='$input' class='cutted' style='cursor:pointer;'>" . mb_substr($input, 0, $maxLength, $encoding) . '[...]</span>';
     }
 
     /**
-     * Clean a text with a joker character to replace any characters that is
-     * alphanumeric.
+     * Clean a text with a joker character to replace any characters that is not alphanumeric.
      *
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string input The string input.
@@ -64,33 +64,26 @@ class tao_helpers_Display
      * @param  int maxLength (optional, default = -1) output maximum length
      * @return string The result string.
      */
-    public static function textCleaner($input, $joker = '_', $maxLength = -1)
+    public static function textCleaner($input, string $joker = '_', int $maxLength = -1): string
     {
-        $returnValue = '';
+        $encoding = self::getEncoding();
 
-        $randJoker = ($joker == '*');
-        $length =  ((defined('TAO_DEFAULT_ENCODING')) ? mb_strlen($input, TAO_DEFAULT_ENCODING) : mb_strlen($input));
-        if($maxLength > -1 ){
-            $length = min($length, $maxLength);
+        if ($maxLength > -1) {
+            $input = mb_substr($input, 0, $maxLength, $encoding);
         }
 
-		$i = 0;
-		while ($i < $length){
-			if (preg_match("/^[a-zA-Z0-9_-]{1}$/u", $input[$i])){
-				$returnValue .= $input[$i];
-			}
-			else{
-				if ($input[$i] == ' '){
-					$returnValue .= '_';
-				}
-				else{
-					$returnValue .= ((true === $randJoker) ? chr(rand(97, 122)) : $joker);
-				}
-			}
-			$i++;
-		}
+        $replacingPattern = strpos($encoding, 'UTF') === 0
+            ? '/[^\p{L}0-9-_]+/u'
+            : '/[^a-z0-9-_]+/ui';
 
-        return (string) $returnValue;
+        $patternMaps = [
+            '/\s+/u'          => [self::class, 'replaceWithUnderscore'],
+            $replacingPattern => [self::class, 'replace'],
+        ];
+
+        self::$replacement = $joker;
+
+        return preg_replace_callback_array($patternMaps, $input);
     }
 
     /**
@@ -101,11 +94,9 @@ class tao_helpers_Display
      * @param  string input The input string.
      * @return string The htmlized string.
      */
-    public static function htmlize($input)
+    public static function htmlize($input): string
     {
-        $returnValue = htmlentities($input, ENT_COMPAT, self::getApplicationService()->getDefaultEncoding());
-
-        return (string) $returnValue;
+        return htmlentities($input, ENT_COMPAT, self::getEncoding());
     }
 
 
@@ -113,7 +104,8 @@ class tao_helpers_Display
     /**
      *  Convert special characters to HTML entities
      */
-    public static function htmlEscape($string) {
+    public static function htmlEscape($string): string
+    {
         return htmlspecialchars($string);
     }
 
@@ -123,7 +115,8 @@ class tao_helpers_Display
      * @param string $string
      * @return string
      */
-    public static function encodeAttrValue($string) {
+    public static function encodeAttrValue($string): string
+    {
         return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
     }
 
@@ -136,7 +129,7 @@ class tao_helpers_Display
      * @param string $input the input HTML
      * @return string the sanitized HTML
      */
-    public static function sanitizeXssHtml($input)
+    public static function sanitizeXssHtml($input): string
     {
         $config = HTMLPurifier_Config::createDefault();
 
@@ -149,13 +142,60 @@ class tao_helpers_Display
         $config->set('Attr.AllowedFrameTargets', ['_blank']);
 
         $purifier = new HTMLPurifier($config);
-        return  $purifier->purify( $input );
+        return  $purifier->purify($input);
     }
 
-    /**
-     * @return ApplicationService
-     */
-    private static function getApplicationService() {
+    /** @noinspection PhpUnusedPrivateMethodInspection */
+    private static function replace(array $matches): string
+    {
+        return '*' === self::$replacement
+            ? self::replaceWithRandom($matches)
+            : self::replaceWith($matches, self::$replacement);
+    }
+
+    /** @noinspection PhpUnusedPrivateMethodInspection */
+    private static function replaceWithUnderscore(array $matches): string
+    {
+        return self::replaceWith($matches, '_');
+    }
+
+    private static function replaceWithRandom(array $matches): string
+    {
+        $result = [];
+
+        $length = mb_strlen(reset($matches), self::getEncoding());
+
+        for ($i = 0; $i < $length; $i++) {
+            /** @noinspection RandomApiMigrationInspection */
+            $result[] = chr(mt_rand(97, 122));
+        }
+
+        return implode('', $result);
+    }
+
+    private static function replaceWith(array $matches, string $replacement): string
+    {
+        return str_repeat($replacement, mb_strlen(reset($matches), self::getEncoding()));
+    }
+
+    private static function getEncoding(): string
+    {
+        static $encoding;
+
+        if (null === $encoding) {
+            try {
+                $encoding = self::getApplicationService()->getDefaultEncoding();
+            } catch (common_Exception $exception) {
+                $encoding = mb_internal_encoding();
+            }
+        }
+
+        return $encoding;
+    }
+
+    private static function getApplicationService(): ApplicationService
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return ServiceManager::getServiceManager()->get(ApplicationService::SERVICE_ID);
     }
 }

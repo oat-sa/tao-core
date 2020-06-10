@@ -66,6 +66,7 @@ $footerHeight: 34;
             text-decoration: none;
         }
     }
+    .nav,
     nav {
         background:inherit;
         position: relative;
@@ -127,6 +128,11 @@ $footerHeight: 34;
                 a {
                     cursor: not-allowed !important;
                 }
+            }
+
+            &[data-control="logout"] .logout:focus {
+                outline-offset: -5px;
+                outline: 3px solid $uiGeneralContentBorder !important;
             }
 
             // sub menu
@@ -319,6 +325,7 @@ body > footer {
 // everything required for mobile navi
 @mixin mobile-navi () {
     .dark-bar {
+        .nav,
         nav {
 
             .main-menu {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -42,12 +43,12 @@ class TaskLogCollection implements CollectionInterface
      *
      * @throws \Exception
      */
-    public static function createFromArray(array $rows)
+    public static function createFromArray(array $rows, string $dateFormat)
     {
         $logs = [];
 
         foreach ($rows as $row) {
-            $logs[] = TaskLogEntity::createFromArray($row);
+            $logs[] = TaskLogEntity::createFromArray($row, $dateFormat);
         }
 
         return new static($logs);

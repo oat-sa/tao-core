@@ -33,7 +33,8 @@ class RegisterActionService extends AbstractAction
     public function __invoke($params)
     {
         $this->getServiceManager()->register(
-            ActionService::SERVICE_ID, new ActionService()
+            ActionService::SERVICE_ID,
+            new ActionService()
         );
         return new Report(Report::TYPE_SUCCESS, 'ActionService resgistered');
     }

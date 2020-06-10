@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,7 +22,6 @@
 namespace oat\tao\test\integration\model\resources;
 
 use oat\tao\test\TaoPhpUnitTestRunner;
-
 use oat\tao\model\resources\ResourceIterator;
 use oat\generis\model\OntologyRdfs;
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
@@ -36,7 +36,7 @@ use oat\oatbox\service\ServiceManager;
 class ResourceIteratorTest extends TaoPhpUnitTestRunner
 {
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->removeResources();
     }
@@ -122,7 +122,7 @@ class ResourceIteratorTest extends TaoPhpUnitTestRunner
     {
         $classes = $this->getClasses();
         for ($i = 1; $i <= $amount; $i++) {
-            $classes[$i%2]->createInstance($i);
+            $classes[$i % 2]->createInstance($i);
         }
     }
 

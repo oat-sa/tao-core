@@ -132,5 +132,4 @@ class DateIntervalMS extends \DateInterval
 
         parent::__construct($legacy_spec);
     }
-
 }

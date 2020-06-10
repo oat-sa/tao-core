@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,9 +20,10 @@
  */
 
 use oat\generis\model\OntologyAwareTrait;
+use oat\tao\model\action\RestControllerInterface;
 use oat\tao\model\routing\AnnotationReader\security;
 
-abstract class tao_actions_RestController extends \tao_actions_CommonModule
+abstract class tao_actions_RestController extends \tao_actions_CommonModule implements RestControllerInterface
 {
     use OntologyAwareTrait;
     use \tao_actions_RestTrait;
@@ -47,7 +49,7 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
             }
         }
 
-        header('Content-Type: '.$this->responseEncoding);
+        header('Content-Type: ' . $this->responseEncoding);
     }
 
     /**
@@ -105,7 +107,7 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
         }
         if ($class === null || !$class->exists()) {
             throw new \common_exception_RestApi(
-                'Class does not exist. Please use valid '.self::CLASS_URI_PARAM . ' or '.self::CLASS_LABEL_PARAM
+                'Class does not exist. Please use valid ' . self::CLASS_URI_PARAM . ' or ' . self::CLASS_LABEL_PARAM
             );
         }
         return $class;
@@ -174,5 +176,4 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
 
         return $class;
     }
-
 }

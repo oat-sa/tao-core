@@ -27,8 +27,8 @@
 			<?php endif; ?>
 		</div>
 		<ul class="plain links">
-			<?php if (!empty($_SERVER['HTTP_REFERER'])) : ?>
-			<li><a href="<?= $_SERVER['HTTP_REFERER'] ?>"><?=__('Go Back')?></a></li>
+			<?php if (!empty($returnUrl)) : ?>
+			<li><a href="<?= $returnUrl ?>"><?=__('Go Back')?></a></li>
 			<?php endif; ?>
 			<li><a href="<?= ROOT_URL ?>"><?=__('TAO Home')?></a></li>
 		</ul>

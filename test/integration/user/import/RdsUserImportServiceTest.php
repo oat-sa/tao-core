@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,6 +21,7 @@
 namespace oat\tao\test\integration\user\import;
 
 use core_kernel_classes_Resource;
+use Exception;
 use oat\generis\test\TestCase;
 use oat\tao\model\user\import\RdsUserImportService;
 use oat\tao\model\user\import\UserMapperInterface;
@@ -30,7 +32,7 @@ class RdsUserImportServiceTest extends TestCase
     /**
      * @dataProvider provideMapperProperties
      * @param $data
-     * @throws \Exception
+     * @throws Exception
      * @throws \common_exception_Error
      */
     public function testImport($data)
@@ -46,11 +48,11 @@ class RdsUserImportServiceTest extends TestCase
 
     /**
      * @dataProvider provideMapperProperties
-     * @expectedException \Exception
-     * @throws \Exception
+     * @throws Exception
      */
     public function testImportFileNotExists($data)
     {
+        $this->expectException(Exception::class);
         $importService = $this->getImportService($data);
         $importService->import(__DIR__ . '/not_existing_file.csv');
     }
@@ -106,7 +108,7 @@ class RdsUserImportServiceTest extends TestCase
             ->will($this->onConsecutiveCalls(
                 $mapper,
                 $mapper,
-                $this->throwException(new \Exception())
+                $this->throwException(new Exception())
             ));
         $mapper->method('getReport')
             ->willReturn($reportMock);

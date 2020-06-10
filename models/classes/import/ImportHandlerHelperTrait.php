@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -45,7 +46,7 @@ trait ImportHandlerHelperTrait
 
             /** @var string $file */
             $file = $form->getValue('importFile') ?: $fileInfo['uploaded_file']; // key "importFile" used in CSV import
-        } else if (isset($form['uploaded_file'])) {
+        } elseif (isset($form['uploaded_file'])) {
             /** @var File $file */
             $file = $this->getUploadService()->getUploadDir()->getFile($form['uploaded_file']);
         }

@@ -68,7 +68,7 @@ class tao_helpers_Http
     public static function parseDigest($digest)
     {
         // protect against missing data
-        $needed_parts = array(
+        $needed_parts = [
             'nonce' => 1,
             'nc' => 1,
             'cnonce' => 1,
@@ -76,8 +76,8 @@ class tao_helpers_Http
             'username' => 1,
             'uri' => 1,
             'response' => 1
-        );
-        $data = array();
+        ];
+        $data = [];
         $keys = implode('|', array_keys($needed_parts));
 
         preg_match_all('@(' . $keys . ')=(?:([\'"])([^\2]+?)\2|([^\s,]+))@', $digest, $matches, PREG_SET_ORDER);
@@ -99,7 +99,7 @@ class tao_helpers_Http
             if (function_exists('apache_request_headers')) {
                 $headers = apache_request_headers();
             } else {
-                $headers = array();
+                $headers = [];
                 if (isset($_SERVER['CONTENT_TYPE'])) {
                     $headers['Content-Type'] = $_SERVER['CONTENT_TYPE'];
                 }
@@ -137,19 +137,20 @@ class tao_helpers_Http
     /**
      * verify if file uploads exists.
      * return true if key $name exists in $_FILES
-     * 
+     *
      * @author Christophe GARCIA <christopheg@taotesting.com>
      * @param string $name
      * @return boolean
      */
-    public static function hasUploadedFile($name) {
+    public static function hasUploadedFile($name)
+    {
         return array_key_exists($name, self::getFiles());
     }
 
     /**
      * Get the files data from an HTTP file upload (ie. from the $_FILES)
      * @author "Bertrand Chevrier <bertrand@taotesting.com>
-     * @param string the file field name 
+     * @param string the file field name
      * @return array the file data
      * @throws common_exception_Error in case of wrong upload
      */
@@ -159,14 +160,13 @@ class tao_helpers_Http
         // for large file, the $_FILES may be empty so see this before checking for other updates
         $limit = SystemHelper::getFileUploadLimit();
         $contentLength = intval($_SERVER['CONTENT_LENGTH']);
-        if( $limit > 0 && $contentLength > $limit && count(self::getFiles())===0){
+        if ($limit > 0 && $contentLength > $limit && count(self::getFiles()) === 0) {
             throw new FileUploadException('Exceeded filesize limit of ' . $limit);
         }
 
         $files = self::getFiles();
         $fileData = $files[$name];
         if (isset($files[$name])) {
-
             //check for upload errors
             if (isset($fileData['error']) && $fileData['error'] != UPLOAD_ERR_OK) {
                 switch ($fileData['error']) {
@@ -195,7 +195,7 @@ class tao_helpers_Http
      */
     public static function acceptHeader($supportedMimeTypes = null, $requestedMimeTypes = null)
     {
-        $acceptTypes = Array();
+        $acceptTypes = [];
         $accept = strtolower($requestedMimeTypes);
         $accept = explode(',', $accept);
         foreach ($accept as $a) {
@@ -239,24 +239,22 @@ class tao_helpers_Http
     {
         if (tao_helpers_File::securityCheck($filename, true)) {
             if (file_exists($filename)) {
-                $mimeType = tao_helpers_File::getMimeType($filename, true);
                 if ($contenttype) {
-                    header('Content-Type: ' . $mimeType);
+                    header('Content-Type: ' . tao_helpers_File::getMimeType($filename));
                 }
                 $fp = fopen($filename, 'rb');
                 if ($fp === false) {
                     header("HTTP/1.0 404 Not Found");
                 } else {
-
                     $pathinfo = pathinfo($filename);
                     if (isset($pathinfo['extension']) && $pathinfo['extension'] === 'svgz' && !$svgzSupport) {
                         header('Content-Encoding: gzip');
                     }
-                    
+
                     // session must be closed because, for example, video files might take a while to be sent to the client
                     //  and we need the client to be able to make other calls to the server during that time
                     session_write_close();
-                    
+
                     $http416RequestRangeNotSatisfiable = 'HTTP/1.1 416 Requested Range Not Satisfiable';
                     $http206PartialContent = 'HTTP/1.1 206 Partial Content';
                     $http200OK = 'HTTP/1.1 200 OK';
@@ -266,7 +264,7 @@ class tao_helpers_Http
                     $useFpassthru = false;
                     $partialContent = false;
                     header('Accept-Ranges: bytes');
-                    
+
                     if (isset($_SERVER['HTTP_RANGE'])) {
                         $partialContent = true;
                         preg_match('/bytes=(\d+)-(\d+)?/', $_SERVER['HTTP_RANGE'], $matches);
@@ -278,9 +276,9 @@ class tao_helpers_Http
                             $length = intval($matches[2]) - $offset;
                         }
                     }
-                    
+
                     fseek($fp, $offset);
-                    
+
                     if ($partialContent) {
                         if (($offset < 0) || ($offset > $filesize)) {
                             header($http416RequestRangeNotSatisfiable);
@@ -290,7 +288,9 @@ class tao_helpers_Http
                                 header($http206PartialContent);
                                 header("Content-Length: " . ($filesize - $offset));
                                 header('Content-Range: bytes ' . $offset . '-' . ($filesize - 1) . '/' . $filesize);
-                                if (ob_get_level() > 0) ob_end_flush();
+                                if (ob_get_level() > 0) {
+                                    ob_end_flush();
+                                }
                                 fpassthru($fp);
                             } else {
                                 // we are given a starting position and how many bytes the client asks for
@@ -304,7 +304,9 @@ class tao_helpers_Http
                                     // send 500KB per cycle
                                     $bytesPerCycle = (1024 * 1024) * 0.5;
                                     $currentPosition = $offset;
-                                    if (ob_get_level() > 0) ob_end_flush();
+                                    if (ob_get_level() > 0) {
+                                        ob_end_flush();
+                                    }
                                     // because the client might ask for the whole file, we split the serving into little pieces
                                     // this is also good in case someone with bad intentions tries to get the whole file many times
                                     //  and eat up the server memory, we are not loading the whole file into the memory.
@@ -325,14 +327,16 @@ class tao_helpers_Http
                         // client does not want partial contents so we just serve the whole file
                         header($http200OK);
                         header("Content-Length: " . $filesize);
-                        if (ob_get_level() > 0) ob_end_flush();
+                        if (ob_get_level() > 0) {
+                            ob_end_flush();
+                        }
                         fpassthru($fp);
                     }
                     fclose($fp);
                 }
             } else {
                 if (class_exists('common_Logger')) {
-                    common_Logger::w('File '.$filename.' not found');
+                    common_Logger::w('File ' . $filename . ' not found');
                 }
                 header("HTTP/1.0 404 Not Found");
             }
@@ -353,7 +357,7 @@ class tao_helpers_Http
             header('Content-Type: ' . $mimeType);
         }
 
-        try{
+        try {
             $ranges = StreamRange::createFromRequest($stream, $request);
             $contentLength = 0;
             if (!empty($ranges)) {

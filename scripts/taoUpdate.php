@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,14 +19,14 @@
  *
  *
  */
-require_once dirname(__FILE__) .'/../includes/raw_start.php';
+
+require_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 use oat\tao\model\extension\UpdateExtensions;
 use oat\oatbox\service\ServiceManager;
 
 $action = new UpdateExtensions();
 $action->setServiceLocator(ServiceManager::getServiceManager());
-$report = $action->__invoke(array());
+$report = $action->__invoke([]);
 echo helpers_Report::renderToCommandline($report);
 echo 'Update completed' . PHP_EOL;
-

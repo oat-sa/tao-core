@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,6 +18,7 @@
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
  *
  */
+
 namespace oat\tao\model\routing;
 
 use common_ext_Extension;
@@ -26,14 +28,14 @@ use Psr\Http\Message\ServerRequestInterface;
  * Interface of a router, that based on a relative Url
  * and its configuration provided as $routeData
  * decides which methode of which controller should be executed
- * 
+ *
  * @author Joel Bout, <joel@taotesting.com>
  */
 abstract class AbstractRoute implements Route
 {
     /**
      * Owner of the route
-     * 
+     *
      * @var common_ext_Extension
      */
     private $extension;
@@ -53,38 +55,42 @@ abstract class AbstractRoute implements Route
     private $config;
     
     /**
-     * 
+     *
      * @param common_ext_Extension $extension
      * @param string $routeId
      * @param mixed $routeConfig
      */
-    public function __construct(common_ext_Extension $extension, $routeId, $routeConfig) {
+    public function __construct(common_ext_Extension $extension, $routeId, $routeConfig)
+    {
         $this->extension = $extension;
         $this->id = $routeId;
         $this->config = $routeConfig;
     }
     
     /**
-     * 
+     *
      * @return common_ext_Extension
      */
-    protected function getExtension() {
+    protected function getExtension()
+    {
         return $this->extension;
     }
     
     /**
-     * 
+     *
      * @return mixed
      */
-    protected function getConfig() {
+    protected function getConfig()
+    {
         return $this->config;
     }
     
     /**
-     * 
+     *
      * @return string
      */
-    protected function getId() {
+    protected function getId()
+    {
         return $this->id;
     }
 
@@ -95,5 +101,4 @@ abstract class AbstractRoute implements Route
      * @return string
      */
     abstract public function resolve(ServerRequestInterface $request);
-
 }

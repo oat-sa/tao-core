@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,6 +18,7 @@
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
+use oat\tao\model\security\Business\Contract\SecuritySettingsRepositoryInterface;
 use tao_helpers_form_FormContainer as FormContainer;
 
 /**
@@ -26,27 +28,38 @@ use tao_helpers_form_FormContainer as FormContainer;
  */
 class tao_actions_Security extends tao_actions_CommonModule
 {
+    /** @var SecuritySettingsRepositoryInterface */
+    private $repository;
 
     /**
-     * Index page
+     * @inheritDoc
      */
-    public function index()
+    public function initialize(): void
+    {
+        parent::initialize();
+
+        $this->repository = $this->getServiceLocator()->get(SecuritySettingsRepositoryInterface::class);
+    }
+
+    public function index(): void
     {
         $this->setView('security/view.tpl');
 
         $formFactory = new tao_actions_form_CspHeader(
-            ['serviceLocator' => $this->getServiceLocator()],
+            [tao_actions_form_CspHeader::SETTINGS_DATA => $this->repository->findAll()],
             [FormContainer::CSRF_PROTECTION_OPTION => true]
         );
 
         $cspHeaderForm = $formFactory->getForm();
 
         if ($cspHeaderForm->isSubmited() && $cspHeaderForm->isValid()) {
-            $formFactory->saveSettings();
+            $this->repository->persist(
+                $formFactory->getSettings()
+            );
+
             $this->setData('cspHeaderFormSuccess', __('CSP Header settings were saved successfully!'));
         }
 
-        $this->setData('formTitle', __('Edit sources that can embed this platform in an iFrame'));
         $this->setData('cspHeaderForm', $cspHeaderForm->render());
     }
 }

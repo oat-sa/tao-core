@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint107\n"
-"PO-Revision-Date: 2019-12-20T10:45:33\n"
+"Project-Id-Version: TAO 3.4.0-sprint129\n"
+"PO-Revision-Date: 2020-05-22T08:23:19\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: it-IT\n"
@@ -184,6 +184,9 @@ msgstr "Azioni"
 msgid "Add"
 msgstr "Aggiungi"
 
+msgid "Add / Edit lists"
+msgstr ""
+
 msgid "Add a CSV file"
 msgstr "Aggiungi un file CSV"
 
@@ -208,9 +211,6 @@ msgstr ""
 
 msgid "Adding the new resource has failed"
 msgstr ""
-
-msgid "Advanced Mode"
-msgstr "Modalità Avanzata"
 
 msgid "Advanced search, add filters"
 msgstr ""
@@ -367,11 +367,11 @@ msgstr ""
 msgid "Calendar"
 msgstr "Calendario"
 
-msgid "Cancel"
-msgstr "No"
-
 msgid "cancel"
 msgstr "no"
+
+msgid "Cancel"
+msgstr "No"
 
 msgid "cancel the action"
 msgstr "annulla operazione"
@@ -446,10 +446,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
 msgid "Clear selection"
@@ -462,6 +462,9 @@ msgid "Clear the stored variables"
 msgstr ""
 
 msgid "Close"
+msgstr ""
+
+msgid "Close dialog"
 msgstr ""
 
 msgid "Close message"
@@ -698,9 +701,6 @@ msgstr "Edita la classe %s"
 msgid "Edit Instance"
 msgstr "Modifica Istanza"
 
-msgid "Edit sources that can embed this platform in an iFrame"
-msgstr ""
-
 msgid "Element"
 msgstr "Elemento"
 
@@ -856,6 +856,9 @@ msgstr ""
 msgid "Forbid for all domains"
 msgstr ""
 
+msgid "Force HTTPS on this platform"
+msgstr ""
+
 msgid "Force Release"
 msgstr "Forza il rilascio"
 
@@ -889,6 +892,9 @@ msgstr ""
 msgid "Go Back"
 msgstr "Ritorna"
 
+msgid "go back to home page"
+msgstr ""
+
 msgid "Height"
 msgstr "Altezza"
 
@@ -897,6 +903,9 @@ msgstr "Salve, %s<br>hai indicato che hai dimenticato la password per TAO"
 
 msgid "Hide detailed report"
 msgstr "Nascondi una notifica dettagliata"
+
+msgid "Hide password"
+msgstr ""
 
 msgid "Highlight all"
 msgstr "Evidenzia tutto"
@@ -967,10 +976,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1009,10 +1018,10 @@ msgstr "Installazione delle estensioni %s"
 msgid "Instance saved"
 msgstr "Istanza salvata"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "Lingua di interfaccia"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "Lingua di interfaccia"
 
 msgid "Invalid CSP header."
@@ -1107,6 +1116,9 @@ msgstr "Lista - Scelta singola - Scorri giù"
 
 msgid "List - Single choice - Radio button"
 msgstr "Lista - Scelta singola - Tasto radio"
+
+msgid "List values"
+msgstr ""
 
 msgid "ln"
 msgstr ""
@@ -1305,10 +1317,10 @@ msgstr "Nessun file"
 msgid "no label"
 msgstr "nessuna etichetta"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "Nessuna anteprima disponibile"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "Nessuna anteprima disponibile"
 
 msgid "No results found"
@@ -1459,9 +1471,6 @@ msgstr "Si prega di fornire una motivazione"
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
 msgstr ""
 
-msgid "Please try in %s."
-msgstr ""
-
 msgid "Please wait"
 msgstr ""
 
@@ -1498,9 +1507,6 @@ msgstr ""
 #, tao-public
 msgid "Properties"
 msgstr "Proprietà"
-
-msgid "Property\'s label field is required"
-msgstr "Proprietà\\'s è richiesto il campo etichetta"
 
 msgid "Provided URL is not valid"
 msgstr "URL fornito non valido"
@@ -1726,11 +1732,11 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "Select"
-msgstr "Seleziona"
-
 msgid "select"
 msgstr "seleziona"
+
+msgid "Select"
+msgstr "Seleziona"
 
 msgid "Select a class"
 msgstr ""
@@ -1778,11 +1784,11 @@ msgstr "Setting aggiornati"
 msgid "Show detailed report"
 msgstr "Mostra una notifica dettagliata"
 
-msgid "Sign change"
+msgid "Show password"
 msgstr ""
 
-msgid "Simple Mode"
-msgstr "Modalità semplice"
+msgid "Sign change"
+msgstr ""
 
 msgid "sin"
 msgstr ""
@@ -1797,6 +1803,9 @@ msgid "Size"
 msgstr "Dimensione"
 
 msgid "Some resources have not been moved: %s"
+msgstr ""
+
+msgid "Something unexpected happened."
 msgstr ""
 
 msgid "Sources that can embed this platform in an iFrame"
@@ -2042,8 +2051,14 @@ msgstr "Parametri di traduzione"
 msgid "Translation saved"
 msgstr "Traduzione salvata"
 
+msgid "Transport Layer Security"
+msgstr ""
+
 msgid "Tree - Multiple node choice "
 msgstr "Scelta nodo Albero - Multiple"
+
+msgid "Tree values"
+msgstr ""
 
 msgid "True"
 msgstr "Vero"
@@ -2114,10 +2129,10 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "Deseleziona tutto"
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "Deseleziona tutto"
 
 msgid "Undefined amount of the pages for pagination"

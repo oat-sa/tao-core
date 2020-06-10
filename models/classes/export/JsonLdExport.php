@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,6 +18,7 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
+
 namespace oat\tao\model\export;
 
 use core_kernel_classes_Resource;
@@ -48,26 +50,26 @@ class JsonLdExport implements \JsonSerializable
 
     /**
      * List of uris to exclude during export:
-     * 
+     *
      * @var array
      */
-    private $blackList = array(OntologyRdf::RDF_TYPE);
+    private $blackList = [OntologyRdf::RDF_TYPE];
 
-    private $encoders = array();
+    private $encoders = [];
 
     /**
      * Gets a list of properties to exclude
-     * 
+     *
      * @return array()
      */
     protected function getBlackList()
     {
-    	return $this->blackList;
+        return $this->blackList;
     }
     
     /**
      * Blacklist a property
-     * 
+     *
      * @param string $propertyUri
      */
     public function blackList($propertyUri)
@@ -77,12 +79,12 @@ class JsonLdExport implements \JsonSerializable
     
     /**
      * Create an Exported for the specified resurce
-     * 
+     *
      * @param core_kernel_classes_Resource $resource
      */
     public function __construct(core_kernel_classes_Resource $resource = null)
     {
-        if(!is_null($resource)){
+        if (!is_null($resource)) {
             $this->setTriples($resource->getRdfTriples());
             $this->setTypes($resource->getTypes());
             $this->setUri($resource->getUri());
@@ -155,7 +157,7 @@ class JsonLdExport implements \JsonSerializable
             $key = $map[$triple->predicate];
             if (isset($data[$key])) {
                 if (!is_array($data[$key])) {
-                    $data[$key] = array($data[$key]);
+                    $data[$key] = [$data[$key]];
                 }
                 $data[$key][] = $this->encodeValue($triple->object, $triple->predicate);
             } else {
@@ -171,7 +173,7 @@ class JsonLdExport implements \JsonSerializable
     
     public function registerEncoder($propertyUri, callable $encoder)
     {
-        $this->encoders[$propertyUri] = $encoder; 
+        $this->encoders[$propertyUri] = $encoder;
     }
     
     public function getEncoders()
@@ -181,14 +183,14 @@ class JsonLdExport implements \JsonSerializable
     
     /**
      * Encode a values array
-     * 
+     *
      * @param array $values
      * @return mixed
      */
     private function transfromArray($values)
     {
         if (count($values) > 1) {
-            $encoded = array();
+            $encoded = [];
             foreach ($values as $value) {
                 $encoded[] = $this->encodeValue($value);
             }
@@ -200,7 +202,7 @@ class JsonLdExport implements \JsonSerializable
     
     /**
      * Encode the value in a json-ld compatible way
-     * 
+     *
      * @param mixed $value
      * @param string $propertyUri (optional) The URI of the property the $value is related to.
      * @return string
@@ -214,12 +216,12 @@ class JsonLdExport implements \JsonSerializable
             : ((is_object($value) && $value instanceof \core_kernel_classes_Resource)
                 ? $value->getUri()
                 : (string) $value
-        ); 
+        );
     }
     
     /**
      * Generate a key for the property to use during export
-     * 
+     *
      * @param string $uri
      * @return string
      */
@@ -227,13 +229,13 @@ class JsonLdExport implements \JsonSerializable
     {
         $property = new \core_kernel_classes_Property($uri);
         $label = strtolower(trim($property->getLabel()));
-        $label = preg_replace(array('/\s/', '[^a-z\-]'), array('-', ''), $label);
+        $label = preg_replace(['/\s/', '[^a-z\-]'], ['-', ''], $label);
         return empty($label) ? 'key' : $label;
     }
     
     /**
      * Attempt to apply a specific value encoder.
-     * 
+     *
      * @param mixed $value
      * @param string (optional) The URI of the property the $value belongs to.
      * @return mixed

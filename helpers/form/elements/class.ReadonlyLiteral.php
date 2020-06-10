@@ -22,8 +22,7 @@
 /**
  * Class tao_helpers_form_elements_ReadonlyLiteral
  */
-abstract class tao_helpers_form_elements_ReadonlyLiteral
-    extends tao_helpers_form_FormElement
+abstract class tao_helpers_form_elements_ReadonlyLiteral extends tao_helpers_form_FormElement
 {
     // --- ASSOCIATIONS ---
 
@@ -39,7 +38,4 @@ abstract class tao_helpers_form_elements_ReadonlyLiteral
     protected $widget = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ReadonlyLiteral';
 
     // --- OPERATIONS ---
-
 } /* end of abstract class tao_helpers_form_elements_Readonly */
-
-?>

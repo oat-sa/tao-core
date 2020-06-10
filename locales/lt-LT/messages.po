@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint107\n"
-"PO-Revision-Date: 2019-12-20T10:45:52\n"
+"Project-Id-Version: TAO 3.4.0-sprint129\n"
+"PO-Revision-Date: 2020-05-22T08:23:53\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lt-LT\n"
@@ -184,6 +184,9 @@ msgstr "Veiksmai"
 msgid "Add"
 msgstr "Pridėti"
 
+msgid "Add / Edit lists"
+msgstr ""
+
 msgid "Add a CSV file"
 msgstr "Pridėti CSV failą"
 
@@ -208,9 +211,6 @@ msgstr "Naujos klasės pridėjimas nepavyko"
 
 msgid "Adding the new resource has failed"
 msgstr "Naujo resurso pridėjimas nepavyko"
-
-msgid "Advanced Mode"
-msgstr "Pažengęs Režimas"
 
 msgid "Advanced search, add filters"
 msgstr "Pažengusi paieška, pridėti filtrus"
@@ -368,11 +368,11 @@ msgstr "Skaičiuotuvas"
 msgid "Calendar"
 msgstr "Kalendorius"
 
-msgid "Cancel"
-msgstr "Atšaukti"
-
 msgid "cancel"
 msgstr "atšaukti"
+
+msgid "Cancel"
+msgstr "Atšaukti"
 
 msgid "cancel the action"
 msgstr "atšaukti veiksmą"
@@ -447,11 +447,11 @@ msgstr "Išvalyti visus duomenis"
 msgid "Clear expression"
 msgstr "Išvalyti išraišką"
 
-msgid "Clear history"
-msgstr "Išvalyti istoriją"
-
 msgid "Clear History"
 msgstr "Išvalyti Istoriją"
+
+msgid "Clear history"
+msgstr "Išvalyti istoriją"
 
 msgid "Clear selection"
 msgstr "Išvalyti pasirinimą"
@@ -464,6 +464,9 @@ msgstr "Išvalyti saugomas reikšmes"
 
 msgid "Close"
 msgstr "Uždaryti"
+
+msgid "Close dialog"
+msgstr ""
 
 msgid "Close message"
 msgstr "Uždaryti pranešimą"
@@ -700,9 +703,6 @@ msgstr "Redaguoti klasę %s"
 msgid "Edit Instance"
 msgstr "Redaguoti Instanciją"
 
-msgid "Edit sources that can embed this platform in an iFrame"
-msgstr ""
-
 msgid "Element"
 msgstr "Elementas"
 
@@ -858,6 +858,9 @@ msgstr "floor"
 msgid "Forbid for all domains"
 msgstr ""
 
+msgid "Force HTTPS on this platform"
+msgstr ""
+
 msgid "Force Release"
 msgstr "Priverstinis Išleidimas"
 
@@ -891,6 +894,9 @@ msgstr "Gauti istorijos sąrašą"
 msgid "Go Back"
 msgstr "Grįžti Atgal"
 
+msgid "go back to home page"
+msgstr ""
+
 msgid "Height"
 msgstr "Aukštis"
 
@@ -899,6 +905,9 @@ msgstr "Labas, %s<br>Jūs nurodėte, kad pamiršote savo TAO slaptažodį."
 
 msgid "Hide detailed report"
 msgstr "Slėpti detalią ataskaitą"
+
+msgid "Hide password"
+msgstr ""
 
 msgid "Highlight all"
 msgstr "Pažymėti visus"
@@ -969,10 +978,10 @@ msgstr "Importuotas resursas \"%s"
 msgid "impossible to update task status"
 msgstr "neįmanoma atnaujinti užduoties būsenos"
 
-msgid "In progress"
+msgid "In Progress"
 msgstr "Vykdoma"
 
-msgid "In Progress"
+msgid "In progress"
 msgstr "Vykdoma"
 
 msgid "Inclusive (AND)"
@@ -1011,11 +1020,11 @@ msgstr "Įdiegiamas plėtinys %s..."
 msgid "Instance saved"
 msgstr "Instancija išsaugota"
 
-msgid "Interface Language"
-msgstr "Sąsajos Kalba"
-
 msgid "Interface language"
 msgstr "Sąsajos kalba"
+
+msgid "Interface Language"
+msgstr "Sąsajos Kalba"
 
 msgid "Invalid CSP header."
 msgstr ""
@@ -1109,6 +1118,9 @@ msgstr "Sąrašas - pasirinkimas vienos reikšmės iš iškrentančio sąrašo"
 
 msgid "List - Single choice - Radio button"
 msgstr "Sąrašas - Pasirinkimas tik vienos reikšmės "
+
+msgid "List values"
+msgstr ""
 
 msgid "ln"
 msgstr ""
@@ -1307,10 +1319,10 @@ msgstr "Nėra failų"
 msgid "no label"
 msgstr "nėra pavadinimo"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "Peržiūra negalima"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "Peržiūra negalima"
 
 msgid "No results found"
@@ -1461,9 +1473,6 @@ msgstr "Prašome pateikti priežastį"
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
 msgstr "Klaidas ir komentarus prašome registruoti TAO forume."
 
-msgid "Please try in %s."
-msgstr "Prašome bandyti %s."
-
 msgid "Please wait"
 msgstr "Prašome palaukti"
 
@@ -1500,9 +1509,6 @@ msgstr "Tęsti"
 #, tao-public
 msgid "Properties"
 msgstr "Savybės"
-
-msgid "Property\'s label field is required"
-msgstr ""
 
 msgid "Provided URL is not valid"
 msgstr "Pateiktas URL nėra teisingas"
@@ -1728,11 +1734,11 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "Select"
-msgstr "Pasirinkti"
-
 msgid "select"
 msgstr "pasirinkti"
+
+msgid "Select"
+msgstr "Pasirinkti"
 
 msgid "Select a class"
 msgstr "Pasirinkti klasę"
@@ -1780,11 +1786,11 @@ msgstr "Nustatymai atnaujinti"
 msgid "Show detailed report"
 msgstr "Rodytį detalią ataskaitą"
 
+msgid "Show password"
+msgstr ""
+
 msgid "Sign change"
 msgstr "Ženklo keitimas"
-
-msgid "Simple Mode"
-msgstr "Paprastas Režimas"
 
 msgid "sin"
 msgstr "sin"
@@ -1800,6 +1806,9 @@ msgstr "Dydis"
 
 msgid "Some resources have not been moved: %s"
 msgstr "Kai kurie resursai nebuvo perkelti: %s"
+
+msgid "Something unexpected happened."
+msgstr ""
 
 msgid "Sources that can embed this platform in an iFrame"
 msgstr ""
@@ -2044,8 +2053,14 @@ msgstr "Vertimo pasirinkimai"
 msgid "Translation saved"
 msgstr "Vertimas išsaugotas"
 
+msgid "Transport Layer Security"
+msgstr ""
+
 msgid "Tree - Multiple node choice "
 msgstr "Medis - galimi kelių šakų pasirinkimai"
+
+msgid "Tree values"
+msgstr ""
 
 msgid "True"
 msgstr "Teisingas"
@@ -2116,10 +2131,10 @@ msgstr "Vienetinis operatorius +"
 msgid "Unary operator -"
 msgstr "Vienetinis operatorius -"
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "Atžymėti visus"
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "Atžymėti visus"
 
 msgid "Undefined amount of the pages for pagination"

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -53,18 +54,18 @@ class SetUpLockService extends ScriptAction
     protected function provideOptions()
     {
         return [
-            'persistence' => array(
+            'persistence' => [
                 'prefix'      => 'p',
                 'longPrefix'  => 'persistence',
                 'required'    => true,
                 'description' => 'Redis persistence for lock service',
-            ),
-            'verbose'     => array(
+            ],
+            'verbose'     => [
                 'prefix'      => 'v',
                 'longPrefix'  => 'verbose',
                 'flag'        => true,
                 'description' => 'Output the log as command output.',
-            ),
+            ],
         ];
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Default label search based on generis
  */
