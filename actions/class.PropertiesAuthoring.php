@@ -92,7 +92,12 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
             $index = count($clazz->getProperties(false)) + 1;
         }
 
-        $propFormContainer = new tao_actions_form_SimpleProperty($clazz, $clazz->createProperty('Property_' . $index), ['index' => $index, 'disableIndexChanges' => true]);
+        $options = [
+            'index' => $index,
+            'disableIndexChanges' => $this->isElasticSearchEnabled()
+        ];
+
+        $propFormContainer = new tao_actions_form_SimpleProperty($clazz, $clazz->createProperty('Property_' . $index), $options);
         $myForm = $propFormContainer->getForm();
 
         $this->setData('data', $myForm->renderElements());
@@ -288,13 +293,14 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
      *
      * @param core_kernel_classes_Class    $clazz
      * @param core_kernel_classes_Resource $resource
-     * @param bool $disableIndexChanges
      * @return tao_helpers_form_Form the generated form
      */
-    public function getClassForm(core_kernel_classes_Class $clazz, $disableIndexChanges = false)
+    public function getClassForm(core_kernel_classes_Class $clazz)
     {
         $data = $this->getRequestParameters();
-        $formContainer = new tao_actions_form_Clazz($clazz, $this->extractClassData($data), $this->extractPropertyData($data), $disableIndexChanges);
+        $classData = $this->extractClassData($data);
+        $propertyData = $this->extractPropertyData($data);
+        $formContainer = new tao_actions_form_Clazz($clazz, $classData, $propertyData, $this->isElasticSearchEnabled());
         $myForm = $formContainer->getForm();
 
 
@@ -462,5 +468,15 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
             }
         }
         return $propertyData;
+    }
+
+    private function isElasticSearchEnabled(): bool
+    {
+        try {
+            $searchService = $this->getServiceLocator()->get(\oat\tao\model\search\Search::SERVICE_ID);
+            return get_class($searchService) === \oat\tao\elasticsearch\ElasticSearch::class;
+        } catch (Exception $exception) {
+            return false;
+        }
     }
 }
