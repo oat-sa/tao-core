@@ -54,7 +54,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         $this->defaultData();
         $clazz = $this->getClass($this->getRequestParameter('id'));
 
-        $myForm = $this->getClassForm($clazz);
+        $myForm = $this->getClassForm($clazz, true);
         if ($myForm->isSubmited()) {
             if ($myForm->isValid()) {
                 if ($clazz instanceof core_kernel_classes_Resource) {
@@ -92,7 +92,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
             $index = count($clazz->getProperties(false)) + 1;
         }
 
-        $propFormContainer = new tao_actions_form_SimpleProperty($clazz, $clazz->createProperty('Property_' . $index), ['index' => $index]);
+        $propFormContainer = new tao_actions_form_SimpleProperty($clazz, $clazz->createProperty('Property_' . $index), ['index' => $index, 'disableIndexChanges' => true]);
         $myForm = $propFormContainer->getForm();
 
         $this->setData('data', $myForm->renderElements());
@@ -288,13 +288,15 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
      *
      * @param core_kernel_classes_Class    $clazz
      * @param core_kernel_classes_Resource $resource
+     * @param bool $disableIndexChanges
      * @return tao_helpers_form_Form the generated form
      */
-    public function getClassForm(core_kernel_classes_Class $clazz)
+    public function getClassForm(core_kernel_classes_Class $clazz, $disableIndexChanges = false)
     {
         $data = $this->getRequestParameters();
-        $formContainer = new tao_actions_form_Clazz($clazz, $this->extractClassData($data), $this->extractPropertyData($data));
+        $formContainer = new tao_actions_form_Clazz($clazz, $this->extractClassData($data), $this->extractPropertyData($data), $disableIndexChanges);
         $myForm = $formContainer->getForm();
+
 
         if ($myForm->isSubmited()) {
             if ($myForm->isValid()) {

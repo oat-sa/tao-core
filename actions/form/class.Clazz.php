@@ -45,14 +45,21 @@ class tao_actions_form_Clazz extends tao_helpers_form_FormContainer
     protected $propertyData;
 
     /**
+     * @var bool
+     */
+    private $disableIndexChanges;
+
+    /**
      * @param core_kernel_classes_Class $clazz
      * @param array $classData
      * @param array $propertyData
+     * @param bool $disableIndexChanges
      */
-    public function __construct(core_kernel_classes_Class $clazz, $classData, $propertyData)
+    public function __construct(core_kernel_classes_Class $clazz, $classData, $propertyData, $disableIndexChanges = false)
     {
         $this->clazz    = $clazz;
         $this->propertyData = $propertyData;
+        $this->disableIndexChanges = $disableIndexChanges;
         parent::__construct($classData);
     }
 
@@ -87,7 +94,12 @@ class tao_actions_form_Clazz extends tao_helpers_form_FormContainer
      */
     protected function getPropertyForm($property, $index, $isParentProp, $propData)
     {
-        $propFormContainer = new tao_actions_form_SimpleProperty($this->getClassInstance(), $property, ['index' => $index, 'isParentProperty' => $isParentProp ], $propData);
+        $options = [
+            'index' => $index,
+            'isParentProperty' => $isParentProp,
+            'disableIndexChanges' => $this->disableIndexChanges
+        ];
+        $propFormContainer = new tao_actions_form_SimpleProperty($this->getClassInstance(), $property, $options, $propData);
         return $propFormContainer->getForm();
     }
 
@@ -178,12 +190,12 @@ class tao_actions_form_Clazz extends tao_helpers_form_FormContainer
         $classUriElt->setValue(tao_helpers_Uri::encode($clazz->getUri()));
         $classUriElt->addClass('global');
         $this->form->addElement($classUriElt);
-        
+
         $hiddenId = tao_helpers_form_FormFactory::getElement('id', 'Hidden');
         $hiddenId->setValue($clazz->getUri());
         $hiddenId->addClass('global');
         $this->form->addElement($hiddenId);
-        
+
 
         $localNamespace = common_ext_NamespaceManager::singleton()->getLocalNamespace()->getUri();
 
@@ -198,7 +210,7 @@ class tao_actions_form_Clazz extends tao_helpers_form_FormContainer
         foreach ($classProperties as $classProperty) {
             $i++;
             $useEditor = (bool)preg_match("/^" . preg_quote($localNamespace, '/') . "/", $classProperty->getUri());
-            
+
             $parentProp = true;
             $domains    = $classProperty->getDomain();
             foreach ($domains->getIterator() as $domain) {

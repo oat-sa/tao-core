@@ -46,7 +46,6 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
      */
     protected function initElements()
     {
-
         $property = $this->getPropertyInstance();
 
         $index = $this->getIndex();
@@ -184,7 +183,7 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
         $elementNames[] = $propUriElt;
 
         if (count($elementNames) > 0) {
-            $groupTitle = $this->getGroupTitle($property);
+            $groupTitle = $this->getGroupTitle($property, true);
             $this->form->createGroup("property_{$encodedUri}", $groupTitle, $elementNames);
         }
     }
