@@ -18,6 +18,8 @@
  * Copyright (c) 2015-2018 Open Assessment Technologies S.A.
  */
 
+declare(strict_types=1);
+
 use oat\oatbox\event\EventManager;
 use oat\tao\model\event\ClassFormUpdatedEvent;
 use oat\generis\model\GenerisRdf;
@@ -472,8 +474,8 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
 
     private function isElasticSearchEnabled(): bool
     {
-            $searchService = $this->getServiceLocator()->get(\oat\tao\model\search\Search::SERVICE_ID);
+        $searchService = $this->getServiceLocator()->get(\oat\tao\model\search\Search::SERVICE_ID);
 
-            return get_class($searchService) === \oat\tao\elasticsearch\ElasticSearch::class;
+        return get_class($searchService) === \oat\tao\elasticsearch\ElasticSearch::class;
     }
 }
