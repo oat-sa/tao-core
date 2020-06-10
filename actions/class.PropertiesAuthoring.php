@@ -472,11 +472,8 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
 
     private function isElasticSearchEnabled(): bool
     {
-        try {
             $searchService = $this->getServiceLocator()->get(\oat\tao\model\search\Search::SERVICE_ID);
+
             return get_class($searchService) === \oat\tao\elasticsearch\ElasticSearch::class;
-        } catch (Exception $exception) {
-            return false;
-        }
     }
 }
