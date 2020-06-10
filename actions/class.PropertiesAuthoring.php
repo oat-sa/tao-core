@@ -54,7 +54,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         $this->defaultData();
         $clazz = $this->getClass($this->getRequestParameter('id'));
 
-        $myForm = $this->getClassForm($clazz, true);
+        $myForm = $this->getClassForm($clazz);
         if ($myForm->isSubmited()) {
             if ($myForm->isValid()) {
                 if ($clazz instanceof core_kernel_classes_Resource) {
