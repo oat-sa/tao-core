@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,22 +19,25 @@
  *
  *
  */
+
 namespace oat\tao\install\utils\seed;
 
 use oat\oatbox\extension\AbstractAction;
 use oat\oatbox\user\UserLanguageService;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\Configurable;
+use oat\tao\model\service\InjectionAwareService;
 
 /**
  * Factory that generates seed based on current install
  */
-class SeedFactory extends AbstractAction {
+class SeedFactory extends AbstractAction
+{
     
     public function __invoke($params)
     {
         if (count($params) != 1) {
-            return new \common_report_Report(\common_report_Report::TYPE_ERROR, 'Usage: '.__CLASS__.' OUT_FILE');
+            return new \common_report_Report(\common_report_Report::TYPE_ERROR, 'Usage: ' . __CLASS__ . ' OUT_FILE');
         }
         $file = array_shift($params);
         $extensions = $this->getServiceLocator()->get(\common_ext_ExtensionsManager::SERVICE_ID)->getInstalledExtensions();
@@ -49,7 +53,7 @@ class SeedFactory extends AbstractAction {
             'configuration' => [
                 'global' => [
                     "lang" => $this->getServiceLocator()->get(UserLanguageService::SERVICE_ID)->getDefaultLanguage(),
-                    "mode"=> "debug",
+                    "mode" => "debug",
                     "instance_name" => GENERIS_INSTANCE_NAME,
                     "namespace" => LOCAL_NAMESPACE,
                     "url" => ROOT_URL,
@@ -62,16 +66,18 @@ class SeedFactory extends AbstractAction {
             'postInstall' => []
         ];
         foreach ($extensions as $extension) {
-            $configDir = ROOT_PATH.'config/'.$extension->getId();
+            $configDir = ROOT_PATH . 'config/' . $extension->getId();
             if (file_exists($configDir)) {
                 //$extension = new \common_ext_Extension($id);
-                $files = \tao_helpers_File::scandir(ROOT_PATH.'config/'.$extension->getId(), ['only' => \tao_helpers_File::SCAN_FILE]);
+                $files = \tao_helpers_File::scandir(ROOT_PATH . 'config/' . $extension->getId(), ['only' => \tao_helpers_File::SCAN_FILE]);
                 $extSeed = [];
                 foreach ($files as $configFile) {
                     $configKey = substr($configFile, 0, strpos($configFile, '.'));
-                    $serviceKey = $extension->getId().'/'.$configKey;
+                    $serviceKey = $extension->getId() . '/' . $configKey;
                     $value = $this->getServiceLocator()->get($serviceKey);
-                    $extSeed[$configKey] = $this->transform($value);
+                    if (!$value instanceof InjectionAwareService) {
+                        $extSeed[$configKey] = $this->transform($value);
+                    }
                 }
                 $seed['configuration'][$extension->getId()] = $extSeed;
             }
@@ -104,8 +110,8 @@ class SeedFactory extends AbstractAction {
         // custom seed format
         //$seed['configuration']['generis']['persistences'] = $seed['configuration']['generis']['persistences']['options']['persistences'];
         
-        file_put_contents($file, json_encode($seed,  JSON_PRETTY_PRINT));
-        return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'Wrote seed to file '.$file);
+        file_put_contents($file, json_encode($seed, JSON_PRETTY_PRINT));
+        return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'Wrote seed to file ' . $file);
     }
 
     private function transform($value)
