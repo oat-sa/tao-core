@@ -267,7 +267,8 @@ class QueueDispatcher extends ConfigurableService implements QueueDispatcherInte
      */
     public function initialize()
     {
-        foreach ($this->getQueues() as $queue) {
+        $queues = $this->propagateQueues();
+        foreach ($queues as $queue) {
             $queue->initialize();
         }
     }
@@ -455,5 +456,20 @@ class QueueDispatcher extends ConfigurableService implements QueueDispatcherInte
         if (count($notRegisteredQueues)) {
             throw new \LogicException('Found not registered queue(s) linked to task(s): "' . implode('", "', $notRegisteredQueues) . '". Please check the values of "' . self::OPTION_TASK_TO_QUEUE_ASSOCIATIONS . '" in your queue dispatcher settings.');
         }
+    }
+
+    private function propagateQueues(): array
+    {
+        $queues = $this->getQueues();
+
+        if (!$this->propagated) {
+            // propagate the services for the queues first
+            array_walk($queues, function (QueueInterface $queue) {
+                $this->propagateServices($queue);
+            });
+
+            $this->propagated = true;
+        }
+        return $queues;
     }
 }
