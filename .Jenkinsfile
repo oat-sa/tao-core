@@ -24,7 +24,7 @@ echo "select branch : ${TEST_BRANCH}"
 docker run --rm  \\
 -e "GITHUB_ORGANIZATION=${GITHUB_ORGANIZATION}" \\
 -e "GITHUB_SECRET=${GIT_TOKEN}"  \\
-registry.service.consul:4444/tao/dependency-resolver oat:dependencies:resolve --main-branch ${TEST_BRANCH} --repository-name ${REPO_NAME} > build/composer.json
+tao/dependency-resolver oat:dependencies:resolve --main-branch ${TEST_BRANCH} --repository-name ${REPO_NAME} > build/composer.json
                         '''
                     )
                 }
@@ -47,7 +47,7 @@ registry.service.consul:4444/tao/dependency-resolver oat:dependencies:resolve --
                 dir('build') {
                     sh(
                         label: 'Install/Update sources from Composer',
-                        script: 'COMPOSER_DISCARD_CHANGES=true composer update --no-interaction --no-ansi --no-progress --no-scripts'
+                        script: 'COMPOSER_DISCARD_CHANGES=true composer update --prefer-source --no-interaction --no-ansi --no-progress --no-scripts --no-suggest'
                     )
                     sh(
                         label: 'Add phpunit',
@@ -68,6 +68,11 @@ mkdir -p tao/views/locales/en-US/
         stage('Tests') {
             parallel {
                 stage('Backend Tests') {
+                    when {
+                        expression {
+                            fileExists('build/tao/test/unit')
+                        }
+                    }
                     agent {
                         docker {
                             image 'alexwijn/docker-git-php-composer'
@@ -87,6 +92,11 @@ mkdir -p tao/views/locales/en-US/
                     }
                 }
                 stage('Frontend Tests') {
+                    when {
+                        expression {
+                            fileExists('build/tao/views/build/grunt/test.js')
+                        }
+                    }
                     agent {
                         docker {
                             image 'btamas/puppeteer-git'
@@ -100,15 +110,9 @@ mkdir -p tao/views/locales/en-US/
                         skipDefaultCheckout()
                     }
                     steps {
-                        dir('build/tao/views'){
-                            sh(
-                                label: 'Ensure FE resource are available',
-                                script: 'npm install --production'
-                            )
-                        }
                         dir('build/tao/views/build') {
                             sh(
-                                label: 'Setup frontend toolchain',
+                                label: 'Install tao-core frontend extensions',
                                 script: 'npm install'
                             )
                             sh (
@@ -119,6 +123,11 @@ mkdir -p tao/views/locales/en-US/
                     }
                 }
             }
+        }
+    }
+    post {
+        always {
+            cleanWs disableDeferredWipeout: true
         }
     }
 }
