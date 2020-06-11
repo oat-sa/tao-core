@@ -38,7 +38,7 @@ class MediaService extends ConfigurableService
     public const SERVICE_ID = 'tao/MediaService';
 
     public const OPTION_SOURCE = 'source';
-    public const OPTION_PREPARAR = 'preparer';
+    public const OPTION_PREPARER = 'preparer';
 
     /**
      * Scheme name used to identify media resource URLs
@@ -160,7 +160,7 @@ class MediaService extends ConfigurableService
     public function getMediaResourcePreparer(): ?ConfigurableService
     {
         try {
-            return $this->getSubService(self::OPTION_PREPARAR);
+            return $this->getSubService(self::OPTION_PREPARER);
         } catch (ServiceNotFoundException $e) {
             return null;
         }
