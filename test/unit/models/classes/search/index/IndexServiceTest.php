@@ -28,7 +28,7 @@ use oat\oatbox\service\ServiceManager;
 use oat\tao\model\search\index\IndexDocument;
 use oat\tao\model\search\index\IndexService;
 use PHPUnit\Framework\MockObject\MockObject;
-use oat\tao\model\search\index\GenerisDocumentBuilderFactory;
+use oat\tao\model\search\index\DocumentBuilder\GenerisDocumentBuilderFactory;
 
 class IndexServiceTest extends TestCase
 {
@@ -37,7 +37,17 @@ class IndexServiceTest extends TestCase
 
     /** @var ServiceManager|MockObject */
     private $service;
-
+    
+    /** @var IndexService $indexService */
+    private $indexService;
+    
+    private const ARRAY_RESOURCE = [
+        'id' => 'https://tao.docker.localhost/ontologies/tao.rdf#i5ecbaaf0a627c73a7996557a5480de',
+        'body' => [
+            'type' => [],
+        ]
+    ];
+    
     protected function setUp(): void
     {
         parent::setUp();
@@ -60,18 +70,41 @@ class IndexServiceTest extends TestCase
                     $ontology->expects($this->any())->method('getProperty')->willReturn(
                         $property
                     );
+                    
+                    $resource = $this->createMock(core_kernel_classes_Resource::class);
+                    $resource->expects($this->any())->method('getTypes')->willReturn(
+                        []
+                    );
+                    $ontology->expects($this->any())->method('getResource')->willReturn(
+                        $resource
+                    );
+    
+                    $class = $this->createMock(core_kernel_classes_Class::class);
+                    $ontology->expects($this->any())->method('getClass')->willReturn(
+                        $class
+                    );
+                    
                     return $ontology;
                 }
             );
 
         ServiceManager::setServiceManager($this->service);
     }
+    
+    private function getIndexService()
+    {
+        if (!$this->indexService) {
+            $this->indexService = new IndexService();
+            $this->indexService->setOption(IndexService::OPTION_DOCUMENT_BUILDER_FACTORY, (new GenerisDocumentBuilderFactory()));
+            $this->indexService->setServiceLocator($this->service);
+        }
+        
+        return $this->indexService;
+    }
 
     public function testCreateEmptyDocumentFromResource()
     {
-        $indexService = new IndexService();
-        $indexService->setOption(IndexService::OPTION_DOCUMENT_BUILDER_FACTORY, (new GenerisDocumentBuilderFactory()));
-        $indexService->setServiceLocator($this->service);
+        $indexService = $this->getIndexService();
 
         $resource = $this->createMock(
             core_kernel_classes_Resource::class
@@ -90,6 +123,21 @@ class IndexServiceTest extends TestCase
 
         $this->assertInstanceOf(IndexDocument::class, $document);
 
+        $this->assertEquals('https://tao.docker.localhost/ontologies/tao.rdf#i5ecbaaf0a627c73a7996557a5480de', $document->getId());
+        $this->assertEquals(['type'=>[]], $document->getBody());
+        $this->assertEquals([], (array)$document->getDynamicProperties());
+    }
+    
+    public function testCreateDocumentFromResource()
+    {
+        $indexService = $this->getIndexService();
+    
+        $document = $indexService->createDocumentFromArray(
+            self::ARRAY_RESOURCE
+        );
+    
+        $this->assertInstanceOf(IndexDocument::class, $document);
+    
         $this->assertEquals('https://tao.docker.localhost/ontologies/tao.rdf#i5ecbaaf0a627c73a7996557a5480de', $document->getId());
         $this->assertEquals(['type'=>[]], $document->getBody());
         $this->assertEquals([], (array)$document->getDynamicProperties());

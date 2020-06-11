@@ -26,10 +26,10 @@ use oat\generis\model\data\Ontology;
 use oat\generis\test\TestCase;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\search\index\IndexDocument;
-use oat\tao\model\search\index\IndexService;
 use PHPUnit\Framework\MockObject\MockObject;
-use oat\tao\model\search\index\GenerisDocumentBuilderFactory;
-use oat\tao\model\search\index\GenerisIndexDocumentBuilder;
+use oat\tao\model\search\index\DocumentBuilder\GenerisDocumentBuilderFactory;
+use \oat\tao\model\search\index\DocumentBuilder\IndexDocumentBuilderInterface;
+use \oat\tao\model\search\index\DocumentBuilder\DocumentBuilderFactoryInterface;
 
 class GenerisIndexDocumentBuilderTest extends TestCase
 {
@@ -38,7 +38,17 @@ class GenerisIndexDocumentBuilderTest extends TestCase
 
     /** @var ServiceManager|MockObject */
     private $service;
-
+    
+    /** @var DocumentBuilderFactoryInterface $factory */
+    private $factory;
+    
+    private const ARRAY_RESOURCE = [
+        'id' => 'https://tao.docker.localhost/ontologies/tao.rdf#i5ecbaaf0a627c73a7996557a5480de',
+        'body' => [
+            'type' => []
+        ]
+    ];
+    
     protected function setUp(): void
     {
         parent::setUp();
@@ -66,12 +76,12 @@ class GenerisIndexDocumentBuilderTest extends TestCase
             );
 
         ServiceManager::setServiceManager($this->service);
+        
+        $this->factory = new GenerisDocumentBuilderFactory();
     }
 
     public function testCreateEmptyDocumentFromResource()
     {
-        $documentBuilder = new GenerisIndexDocumentBuilder();
-
         $resource = $this->createMock(
             core_kernel_classes_Resource::class
         );
@@ -82,6 +92,12 @@ class GenerisIndexDocumentBuilderTest extends TestCase
         $resource->expects($this->any())->method('getUri')->willReturn(
             'https://tao.docker.localhost/ontologies/tao.rdf#i5ecbaaf0a627c73a7996557a5480de'
         );
+        
+        $resourceTypes = $resource->getTypes();
+        $resourceType = current(array_keys($resourceTypes)) ?: '';
+    
+        /** @var IndexDocumentBuilderInterface $documentBuilder */
+        $documentBuilder = $this->factory->getDocumentBuilderByResourceType($resourceType);
 
         $document = $documentBuilder->createDocumentFromResource(
             $resource
@@ -89,6 +105,25 @@ class GenerisIndexDocumentBuilderTest extends TestCase
 
         $this->assertInstanceOf(IndexDocument::class, $document);
 
+        $this->assertEquals('https://tao.docker.localhost/ontologies/tao.rdf#i5ecbaaf0a627c73a7996557a5480de', $document->getId());
+        $this->assertEquals(['type'=>[]], $document->getBody());
+        $this->assertEquals([], (array)$document->getDynamicProperties());
+    }
+    
+    public function testCreateDocumentFromResource()
+    {
+        $resourceTypes = self::ARRAY_RESOURCE['body']['type'];
+        $resourceType = current(array_keys($resourceTypes)) ?: '';
+    
+        /** @var IndexDocumentBuilderInterface $documentBuilder */
+        $documentBuilder = $this->factory->getDocumentBuilderByResourceType($resourceType);
+    
+        $document = $documentBuilder->createDocumentFromArray(
+            self::ARRAY_RESOURCE
+        );
+    
+        $this->assertInstanceOf(IndexDocument::class, $document);
+    
         $this->assertEquals('https://tao.docker.localhost/ontologies/tao.rdf#i5ecbaaf0a627c73a7996557a5480de', $document->getId());
         $this->assertEquals(['type'=>[]], $document->getBody());
         $this->assertEquals([], (array)$document->getDynamicProperties());

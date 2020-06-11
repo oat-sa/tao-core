@@ -29,6 +29,7 @@ use oat\tao\model\search\Search;
 use oat\tao\model\menu\MenuService;
 use oat\generis\model\OntologyAwareTrait;
 use oat\tao\model\resources\ResourceIterator;
+use oat\tao\model\TaoOntology;
 
 /**
  * Class IndexService
@@ -71,6 +72,7 @@ class IndexService extends ConfigurableService
     }
 
     /**
+     * Create IndexDocument from core_kernel_classes_Resource
      * @param \core_kernel_classes_Resource $resource
      * @return IndexDocument
      * @throws \common_Exception
@@ -80,13 +82,13 @@ class IndexService extends ConfigurableService
      */
     public function createDocumentFromResource(\core_kernel_classes_Resource $resource): IndexDocument
     {
-        $resourceTypes = $resource->getTypes();
-        $resourceType = current(array_keys($resourceTypes)) ?: '';
+        $resourceType = $this->getResourceRootType($resource);
     
-        return $this->getDocumentBuilderFactory()->getDocumentBuilderByResourceType($resourceType)->createDocumentFromResource($resource);
+        return $this->getDocumentBuilderFactory()->getDocumentBuilderByResourceType($resourceType)->createDocumentFromResource($resource, $resourceType);
     }
 
     /**
+     * Create IndexDocument from array
      * @param array $array
      * @return IndexDocument
      * @throws \common_exception_MissingParameter
@@ -99,11 +101,46 @@ class IndexService extends ConfigurableService
         if (!isset($array['body'])) {
             throw new \common_exception_MissingParameter('body');
         }
+        if (!isset($array['id'])) {
+            throw new \common_exception_MissingParameter('id');
+        }
         if (!isset($array['body']['type'])) {
             throw new \common_exception_MissingParameter('body[type]');
         }
+        
+        $resourceType = $this->getResourceRootType($array['id']);
     
-        return $this->getDocumentBuilderFactory()->getDocumentBuilderByResourceType($array['body']['type'])->createDocumentFromArray($array);
+        return $this->getDocumentBuilderFactory()->getDocumentBuilderByResourceType($resourceType)->createDocumentFromArray($array, $resourceType);
+    }
+    
+    /**
+     * Get "fake" root resource class
+     * @param $resource
+     * @return string
+     */
+    private function getResourceRootType($resource): string
+    {
+        if (!$resource instanceof \core_kernel_classes_Resource) {
+            $resourceInstance = $this->getResource($resource);
+        } else {
+            $resourceInstance = $resource;
+        }
+        
+        if ($resourceInstance->isInstanceOf($this->getClass(TaoOntology::CLASS_URI_ITEM))) {
+            $rootClass = $this->getClass(TaoOntology::CLASS_URI_ITEM)->getUri();
+        } elseif ($resourceInstance->isInstanceOf($this->getClass(TaoOntology::CLASS_URI_TEST))) {
+            $rootClass = $this->getClass(TaoOntology::CLASS_URI_TEST)->getUri();
+        } elseif ($resourceInstance->isInstanceOf($this->getClass(TaoOntology::CLASS_URI_SUBJECT))) {
+            $rootClass = $this->getClass(TaoOntology::CLASS_URI_SUBJECT)->getUri();
+        } elseif ($resourceInstance->isInstanceOf($this->getClass(TaoOntology::CLASS_URI_GROUP))) {
+            $rootClass = $this->getClass(TaoOntology::CLASS_URI_GROUP)->getUri();
+        } elseif ($resourceInstance->isInstanceOf($this->getClass(TaoOntology::CLASS_URI_DELIVERY))) {
+            $rootClass = $this->getClass(TaoOntology::CLASS_URI_DELIVERY)->getUri();
+        } else {
+            $rootClass = !empty(array_keys($resourceInstance->getTypes())) ? current(array_keys($resourceInstance->getTypes())) : '';
+        }
+        
+        return $rootClass;
     }
 
     /**

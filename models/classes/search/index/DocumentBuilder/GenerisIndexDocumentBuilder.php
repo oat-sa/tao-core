@@ -36,7 +36,7 @@ class GenerisIndexDocumentBuilder extends AbstractIndexDocumentBuilder
     /**
      * {@inheritdoc}
      */
-    public function createDocumentFromResource(\core_kernel_classes_Resource $resource): IndexDocument
+    public function createDocumentFromResource(\core_kernel_classes_Resource $resource, string $rootResourceType = ""): IndexDocument
     {
         $tokenGenerator = new SearchTokenGenerator();
 
@@ -49,7 +49,7 @@ class GenerisIndexDocumentBuilder extends AbstractIndexDocumentBuilder
             $indexesProperties[$index->getIdentifier()] = $this->getIndexProperties($index);
         }
 
-        $body['type'] = $this->getTypesForResource($resource);
+        $body['type'] = $rootResourceType ?: $this->getTypesForResource($resource);
 
         $document = new IndexDocument(
             $resource->getUri(),

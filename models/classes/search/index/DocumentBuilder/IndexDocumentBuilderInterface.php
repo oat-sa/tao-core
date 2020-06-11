@@ -30,18 +30,20 @@ interface IndexDocumentBuilderInterface
     /**
      * Creates IndexDocument object from the \core_kernel_classes_Resource data
      * @param \core_kernel_classes_Resource $resource
+     * @param string $rootResourceType
      * @return IndexDocument
      * @throws \common_Exception
      * @throws \common_exception_InconsistentData
      */
-    public function createDocumentFromResource(\core_kernel_classes_Resource $resource): IndexDocument;
+    public function createDocumentFromResource(\core_kernel_classes_Resource $resource, string $rootResourceType = ""): IndexDocument;
 
     /**
      * Creates IndexDocument object from the array data
      * @param $resource $array
+     * @param string $rootResourceType
      * @return IndexDocument
      * @throws \common_Exception
      */
-    public function createDocumentFromArray(array $resource = []): IndexDocument;
+    public function createDocumentFromArray(array $resource = [], string $rootResourceType = ""): IndexDocument;
 }
 

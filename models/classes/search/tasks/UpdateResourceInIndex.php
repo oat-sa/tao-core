@@ -25,6 +25,7 @@ use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\action\Action;
 use oat\tao\model\search\index\IndexService;
 use oat\tao\model\search\Search;
+use oat\tao\model\TaoOntology;
 use oat\tao\model\taskQueue\Task\TaskAwareInterface;
 use oat\tao\model\taskQueue\Task\TaskAwareTrait;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
@@ -50,8 +51,7 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
         }
 
         $createdResource = $this->getResource($params[0]);
-
-        $resourceType = current(array_keys($createdResource->getTypes()));
+        $resourceType = $this->getResourceRootType($createdResource);
 
         /** @var IndexService $indexService */
         $indexService = $this->getServiceLocator()->get(IndexService::SERVICE_ID);
@@ -60,7 +60,7 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
 
         $documentBuilder = $factory->getDocumentBuilderByResourceType($resourceType);
 
-        $indexDocument = $documentBuilder->createDocumentFromResource($createdResource);
+        $indexDocument = $documentBuilder->createDocumentFromResource($createdResource, $resourceType);
 
         /** @var Search $searchService */
         $searchService = $this->getServiceLocator()->get(Search::SERVICE_ID);
@@ -79,5 +79,24 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
         }
 
         return new Report($type, $message);
+    }
+    
+    private function getResourceRootType(\core_kernel_classes_Resource $resource): string
+    {
+        if ($resource->isInstanceOf($this->getClass(TaoOntology::CLASS_URI_ITEM))) {
+            $rootClass = $this->getClass(TaoOntology::CLASS_URI_ITEM)->getUri();
+        } elseif ($resource->isInstanceOf($this->getClass(TaoOntology::CLASS_URI_TEST))) {
+            $rootClass = $this->getClass(TaoOntology::CLASS_URI_TEST)->getUri();
+        } elseif ($resource->isInstanceOf($this->getClass(TaoOntology::CLASS_URI_SUBJECT))) {
+            $rootClass = $this->getClass(TaoOntology::CLASS_URI_SUBJECT)->getUri();
+        } elseif ($resource->isInstanceOf($this->getClass(TaoOntology::CLASS_URI_GROUP))) {
+            $rootClass = $this->getClass(TaoOntology::CLASS_URI_GROUP)->getUri();
+        } elseif ($resource->isInstanceOf($this->getClass(TaoOntology::CLASS_URI_DELIVERY))) {
+            $rootClass = $this->getClass(TaoOntology::CLASS_URI_DELIVERY)->getUri();
+        } else {
+            $rootClass = current(array_keys($resource->getTypes()));
+        }
+        
+        return $rootClass;
     }
 }

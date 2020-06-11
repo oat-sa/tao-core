@@ -31,7 +31,7 @@ abstract class AbstractIndexDocumentBuilder implements IndexDocumentBuilderInter
     /**
      * {@inheritdoc}
      */
-    public function createDocumentFromArray(array $resource = []): IndexDocument
+    public function createDocumentFromArray(array $resource = [], string $rootResourceType = ""): IndexDocument
     {
         if (!isset($resource['id'])) {
             throw new \common_exception_MissingParameter('id');
@@ -46,6 +46,10 @@ abstract class AbstractIndexDocumentBuilder implements IndexDocumentBuilderInter
     
         if (isset($resource['indexProperties'])) {
             $indexProperties = $resource['indexProperties'];
+        }
+        
+        if ($rootResourceType) {
+            $body['type'] = $rootResourceType;
         }
     
         $document = new IndexDocument(
