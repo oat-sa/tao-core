@@ -71,4 +71,12 @@ class FileHelperService extends ConfigurableService
     {
         return tao_helpers_File::remove($directoryPath, true);
     }
+
+    /**
+     * @return string Path to created directory
+     */
+    public function createTempDir(): string
+    {
+        return tao_helpers_File::createTempDir();
+    }
 }
