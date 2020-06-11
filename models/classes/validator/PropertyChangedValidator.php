@@ -21,59 +21,23 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\event;
+namespace oat\tao\model\validator;
 
 use core_kernel_classes_Property;
 use oat\generis\model\WidgetRdf;
-use oat\oatbox\event\Event;
-use oat\tao\model\WidgetDefinitions;
+use oat\tao\model\dto\OldProperty;
 
-class PropertyChangedEvent implements Event
+class PropertyChangedValidator
 {
-    private const EVENT_NAME = self::class;
-
-    /** @var core_kernel_classes_Property */
-    private $property;
-
-    /** @var OldProperty */
-    private $oldProperty;
-
-    public function __construct(core_kernel_classes_Property $property, OldProperty $oldProperty)
+    public function isPropertyChanged(core_kernel_classes_Property $property, OldProperty $oldProperty): bool
     {
-        $this->property = $property;
-        $this->oldProperty = $oldProperty;
-    }
-
-    public function getName(): string
-    {
-        return self::EVENT_NAME;
-    }
-
-    /**
-     * @return core_kernel_classes_Property
-     */
-    public function getProperty(): core_kernel_classes_Property
-    {
-        return $this->property;
-    }
-
-    /**
-     * @return core_kernel_classes_Property
-     */
-    public function getOldProperty(): core_kernel_classes_Property
-    {
-        return $this->oldProperty;
-    }
-
-    public function isPropertyChanged(): bool
-    {
-        if ((string)$this->property->getLabel() !== $this->oldProperty->getLabel()) {
+        if ((string)$property->getLabel() !== $oldProperty->getLabel()) {
             return true;
         }
 
-        $currentPropertyType = $this->property
+        $currentPropertyType = $property
             ->getOnePropertyValue(new core_kernel_classes_Property(WidgetRdf::PROPERTY_WIDGET));
-        $oldPropertyType = $this->oldProperty->getPropertyType();
+        $oldPropertyType = $oldProperty->getPropertyType();
 
         if (null === $currentPropertyType && null === $oldPropertyType) {
             return false;

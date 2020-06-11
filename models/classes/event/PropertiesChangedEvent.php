@@ -21,22 +21,25 @@
 
 namespace oat\tao\model\event;
 
-use oat\oatbox\event\EventManager;
+use oat\oatbox\event\Event;
 
-class PropertyChangedEventTrigger
+class PropertiesChangedEvent implements Event
 {
-    /** @var EventManager */
-    private $eventManager;
+    /** @var array */
+    private $properties;
 
-    public function __construct(EventManager $eventManager)
+    public function __construct(array $properties)
     {
-        $this->eventManager = $eventManager;
+        $this->properties = $properties;
     }
 
-    public function triggerIfNeeded(PropertyChangedEvent $event): void {
-        if ($event->isPropertyChanged()) {
-            \common_Logger::i('PropertyChangedEvent fired.');
-            $this->eventManager->trigger($event);
-        }
+    public function getName(): string
+    {
+        return self::class;
+    }
+
+    public function getProperties(): array
+    {
+        return $this->properties;
     }
 }

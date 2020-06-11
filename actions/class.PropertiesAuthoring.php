@@ -23,8 +23,9 @@ use oat\tao\model\event\ClassFormUpdatedEvent;
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyRdfs;
 use oat\generis\model\WidgetRdf;
-use oat\tao\model\event\OldProperty;
-use oat\tao\model\event\PropertyChangedEvent;
+use oat\tao\model\dto\OldProperty;
+use oat\tao\model\event\PropertiesChangedEvent;
+use oat\tao\model\validator\PropertyChangedValidator;
 use oat\tao\model\event\PropertyChangedEventTrigger;
 use oat\tao\model\search\index\OntologyIndex;
 use oat\tao\model\search\index\OntologyIndexService;
@@ -317,6 +318,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
 
                 //save all properties values
                 if (isset($data['properties'])) {
+                    $changedProperties = [];
                     foreach ($data['properties'] as $i => $propertyValues) {
                         //get index values
                         $indexes = null;
@@ -324,13 +326,40 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
                             $indexes = $propertyValues['indexes'];
                             unset($propertyValues['indexes']);
                         }
-                        $this->saveSimpleProperty($propertyValues);
+
+                        $property = $this->getProperty(tao_helpers_Uri::decode($propertyValues['uri']));
+                        $oldPropertyLabel = $property->getLabel();
+                        $oldPropertyType = $property->getOnePropertyValue(
+                            new \core_kernel_classes_Property(WidgetRdf::PROPERTY_WIDGET)
+                        );
+                        $oldProperty = new OldProperty($oldPropertyLabel, $oldPropertyType);
+
+                        $this->saveSimpleProperty($propertyValues, $property);
+
+                        $currentProperty = $this->getProperty(tao_helpers_Uri::decode($propertyValues['uri']));
+
+                        $isPropertyChanged = (new PropertyChangedValidator())->isPropertyChanged(
+                            $currentProperty,
+                            $oldProperty
+                        );
+
+                        if ($isPropertyChanged) {
+                            $changedProperties[] = [
+                                'property' => $currentProperty,
+                                'oldProperty' => $oldProperty,
+                            ];
+                        }
+
                         //save index
                         if (!is_null($indexes)) {
                             foreach ($indexes as $indexValues) {
                                 $this->savePropertyIndex($indexValues);
                             }
                         }
+                    }
+
+                    if (count($changedProperties) > 0) {
+                        $this->getEventManager()->trigger(new PropertiesChangedEvent($changedProperties));
                     }
                 }
             }
@@ -342,17 +371,15 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
      * Default property handling
      *
      * @param array $propertyValues
+     * @param core_kernel_classes_Resource $property
+     * @throws Exception
      */
-    protected function saveSimpleProperty($propertyValues)
+    protected function saveSimpleProperty($propertyValues, $property)
     {
         $propertyMap = tao_helpers_form_GenerisFormFactory::getPropertyMap();
-        $property = $this->getProperty(tao_helpers_Uri::decode($propertyValues['uri']));
-        $oldPropertyLabel = $property->getLabel();
-        $oldPropertyType = $property->getOnePropertyValue(
-            new \core_kernel_classes_Property(WidgetRdf::PROPERTY_WIDGET)
-        );
         $type = $propertyValues['type'];
         $range = (isset($propertyValues['range']) ? tao_helpers_Uri::decode(trim($propertyValues['range'])) : null);
+        unset($propertyValues['uri']);
         unset($propertyValues['type']);
         unset($propertyValues['range']);
         $rangeNotEmpty = false;
@@ -394,13 +421,6 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         if (isset($propertyMap[$type]['multiple'])) {
             $property->setMultiple($propertyMap[$type]['multiple'] == GenerisRdf::GENERIS_TRUE);
         }
-
-        (new PropertyChangedEventTrigger($this->getEventManager()))->triggerIfNeeded(
-            new PropertyChangedEvent(
-                $this->getProperty(tao_helpers_Uri::decode($propertyValues['uri'])),
-                new OldProperty($oldPropertyLabel, $oldPropertyType)
-            )
-        );
     }
 
     protected function savePropertyIndex($indexValues)

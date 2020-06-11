@@ -1,5 +1,4 @@
-<?php
-
+<?php declare(strict_types=1);
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,33 +19,25 @@
  *
  */
 
-declare(strict_types=1);
+namespace oat\tao\scripts\install;
 
-namespace oat\tao\model\event;
+use oat\oatbox\extension\InstallAction;
+use oat\oatbox\service\exception\InvalidServiceManagerException;
+use oat\tao\model\listener\PropertiesChangedListener;
 
-use core_kernel_classes_Resource;
-
-class OldProperty
+class RegisterPropertiesChangedEventListener extends InstallAction
 {
-    /** @var string */
-    private $label;
-
-    /** @var core_kernel_classes_Resource|null */
-    private $propertyType;
-
-    public function __construct(string $label, ?core_kernel_classes_Resource $propertyType)
+    /**
+     * @param $params
+     *
+     * @return \common_report_Report
+     * @throws \common_Exception
+     * @throws InvalidServiceManagerException
+     */
+    public function __invoke($params)
     {
-        $this->label = $label;
-        $this->propertyType = $propertyType;
-    }
+        $this->getServiceManager()->register(PropertiesChangedListener::SERVICE_ID, new PropertiesChangedListener());
 
-    public function getLabel(): string
-    {
-        return $this->label;
-    }
-
-    public function getPropertyType(): ?core_kernel_classes_Resource
-    {
-        return $this->propertyType;
+        return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'PropertiesChangedListener is registered');
     }
 }
