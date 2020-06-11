@@ -181,17 +181,6 @@ class QueueDispatcher extends ConfigurableService implements QueueDispatcherInte
      */
     public function getQueues()
     {
-        if (!$this->propagated) {
-            $queues = (array) $this->getOption(self::OPTION_QUEUES);
-
-            // propagate the services for the queues first
-            array_walk($queues, function (QueueInterface $queue) {
-                $this->propagateServices($queue);
-            });
-
-            $this->propagated = true;
-        }
-
         return $this->getOption(self::OPTION_QUEUES);
     }
 
