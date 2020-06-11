@@ -1729,7 +1729,7 @@ msgstr "secondes"
 
 #, tao-public
 msgid "Security"
-msgstr ""
+msgstr "Sécurité"
 
 msgid "Security settings"
 msgstr ""
