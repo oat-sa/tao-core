@@ -23,11 +23,15 @@ use oat\tao\model\event\ClassFormUpdatedEvent;
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyRdfs;
 use oat\generis\model\WidgetRdf;
+use oat\tao\model\event\OldProperty;
+use oat\tao\model\event\PropertyChangedEvent;
+use oat\tao\model\event\PropertyChangedEventTrigger;
 use oat\tao\model\search\index\OntologyIndex;
 use oat\tao\model\search\index\OntologyIndexService;
 use oat\tao\helpers\form\ValidationRuleRegistry;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\log\LoggerAwareTrait;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 /**
  * Regrouping all actions related to authoring
@@ -343,9 +347,12 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
     {
         $propertyMap = tao_helpers_form_GenerisFormFactory::getPropertyMap();
         $property = $this->getProperty(tao_helpers_Uri::decode($propertyValues['uri']));
+        $oldPropertyLabel = $property->getLabel();
+        $oldPropertyType = $property->getOnePropertyValue(
+            new \core_kernel_classes_Property(WidgetRdf::PROPERTY_WIDGET)
+        );
         $type = $propertyValues['type'];
         $range = (isset($propertyValues['range']) ? tao_helpers_Uri::decode(trim($propertyValues['range'])) : null);
-        unset($propertyValues['uri']);
         unset($propertyValues['type']);
         unset($propertyValues['range']);
         $rangeNotEmpty = false;
@@ -387,6 +394,13 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         if (isset($propertyMap[$type]['multiple'])) {
             $property->setMultiple($propertyMap[$type]['multiple'] == GenerisRdf::GENERIS_TRUE);
         }
+
+        (new PropertyChangedEventTrigger($this->getEventManager()))->triggerIfNeeded(
+            new PropertyChangedEvent(
+                $this->getProperty(tao_helpers_Uri::decode($propertyValues['uri'])),
+                new OldProperty($oldPropertyLabel, $oldPropertyType)
+            )
+        );
     }
 
     protected function savePropertyIndex($indexValues)
