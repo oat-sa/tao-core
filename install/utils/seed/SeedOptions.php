@@ -24,6 +24,7 @@ class SeedOptions
 {
     private $rootUrl;
     private $localNamespace;
+    private $localFilePath;
     private $options;
 
     const OPTION_LANGUAGE = 'lang';
@@ -32,9 +33,10 @@ class SeedOptions
     const OPTION_DEBUG = 'debug';
     const OPTION_INSTALL_SAMPLES = 'samples';
 
-    public function __construct($rootUrl, $localNamespace, $options = [])
+    public function __construct($rootUrl, $localFilepath, $localNamespace, $options = [])
     {
         $this->rootUrl = $rootUrl;
+        $this->localFilePath = $localFilepath;
         $this->localNamespace = $localNamespace;
         $this->options = $options;
     }
@@ -42,6 +44,11 @@ class SeedOptions
     public function getRootUrl(): string
     {
         return $this->rootUrl;
+    }
+
+    public function getLocalFilePath(): string
+    {
+        return $this->localFilePath;
     }
 
     public function getLocalNamespace(): string

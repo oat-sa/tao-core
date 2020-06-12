@@ -44,6 +44,11 @@ class Seed
 		return $this->options->getRootUrl();
 	}
 
+	public function getLocalFilePath(): string
+	{
+	    return $this->options->getLocalFilePath();
+	}
+
 	public function getLocalNamespace(): string
 	{
 		return $this->options->getLocalNamespace();
@@ -82,14 +87,12 @@ class Seed
 		return $this->extensionsToInstall;
 	}
 
-	public function getUserProperties()
+	/**
+	 * Returns an associative array with property URI as key
+	 */
+	public function getUserData(): array
 	{
-		return [
-			GenerisRdf::PROPERTY_USER_FIRSTNAME,
-			GenerisRdf::PROPERTY_USER_LASTNAME,
-			GenerisRdf::PROPERTY_USER_LOGIN,
-			GenerisRdf::PROPERTY_USER_PASSWORD
-		];
+	    return $this->userData;
 	}
 
 	public function getServices(): array
