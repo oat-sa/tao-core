@@ -38,7 +38,7 @@ class PropertiesChangedListener extends ConfigurableService
 {
     const SERVICE_ID = 'tao/PropertiesChangedListener';
 
-    public function catchPropertiesChangedEvent(PropertiesChangedEvent $event)
+    public function catchPropertiesChangedEvent(PropertiesChangedEvent $event): void
     {
         $taskMessage = __('Updating Indexes');
 
