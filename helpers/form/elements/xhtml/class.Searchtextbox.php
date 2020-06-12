@@ -22,26 +22,22 @@
 
 declare(strict_types=1);
 
-use oat\generis\model\WidgetRdf;
 use oat\tao\helpers\form\elements\xhtml\XhtmlRenderingTrait;
 
-class tao_helpers_form_elements_xhtml_Searchtextbox extends tao_helpers_form_FormElement
+class tao_helpers_form_elements_xhtml_Searchtextbox extends tao_helpers_form_elements_Searchtextbox
 {
     use XhtmlRenderingTrait;
 
-    protected $widget = WidgetRdf::PROPERTY_WIDGET_SEARCH_BOX;
+    protected $attributes = [
+        'class' => 'form_radlst',
+    ];
 
-    /** @var string[] */
-    private $values = [];
-
+    /**
+     * @inheritDoc
+     */
     public function setValue($value): void
     {
         $this->addValue($value);
-    }
-
-    public function addValue(string $value): void
-    {
-        $this->values[] = $value;
     }
 
     /**
@@ -49,30 +45,31 @@ class tao_helpers_form_elements_xhtml_Searchtextbox extends tao_helpers_form_For
      */
     public function render(): string
     {
-        $returnValue = $this->renderLabel();
+        $htmlPieces = [$this->renderLabel()];
 
         $hasUnit = !empty($this->unit);
 
         if ($hasUnit) {
             $this->addClass('has-unit');
         }
-        // TODO: Implement the new widget here
-        $returnValue .= "<input type='text' name='{$this->name}' id='{$this->name}' ";
-        $returnValue .= $this->renderAttributes();
-        $returnValue .= ' value="' . $this->getHtmlValue() . '" />';
 
-        if ($hasUnit) {
-            $returnValue .= '<label class="unit" for="' . $this->name . '">' . _dh($this->unit) . '</label>';
+        // TODO: Implement the new widget here
+        $htmlPieces[] = "<div {$this->renderAttributes()}>";
+
+        foreach ($this->getValues() as $value) {
+            $htmlPieces[] = '<p>';
+            $htmlPieces[] = (new core_kernel_classes_Resource(tao_helpers_Uri::decode($value)))->getLabel();
+            $htmlPieces[] = '</p>';
+
+            $htmlPieces[] = sprintf('<input type="hidden" name="%s[]" value="%s">', $this->name, _dh($value));
         }
 
-        return $returnValue;
-    }
+        if ($hasUnit) {
+            $htmlPieces[] = '<label class="unit" for="' . $this->name . '">' . _dh($this->unit) . '</label>';
+        }
 
-    private function getHtmlValue(): string
-    {
-        return implode(
-            ' ',
-            array_map([tao_helpers_Uri::class, 'encode'], $this->values)
-        );
+        $htmlPieces[] = '</div>';
+
+        return implode('', $htmlPieces);
     }
 }
