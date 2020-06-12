@@ -54,17 +54,17 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
     public function index()
     {
         $this->defaultData();
-        $clazz = $this->getClass($this->getRequestParameter('id'));
+        $class = $this->getClass($this->getRequestParameter('id'));
 
-        $myForm = $this->getClassForm($clazz);
+        $myForm = $this->getClassForm($class);
         if ($myForm->isSubmited()) {
             if ($myForm->isValid()) {
-                if ($clazz instanceof core_kernel_classes_Resource) {
-                    $this->setData("selectNode", tao_helpers_Uri::encode($clazz->getUri()));
+                if ($class instanceof core_kernel_classes_Resource) {
+                    $this->setData("selectNode", tao_helpers_Uri::encode($class->getUri()));
                     $properties = $this->hasRequestParameter('properties') ? $this->getRequestParameter('properties') : [];
-                    $this->getEventManager()->trigger(new ClassFormUpdatedEvent($clazz, $properties));
+                    $this->getEventManager()->trigger(new ClassFormUpdatedEvent($class, $properties));
                 }
-                $this->setData('message', __('%s Class saved', $clazz->getLabel()));
+                $this->setData('message', __('%s Class saved', $class->getLabel()));
                 $this->setData('reload', false);
             }
         }
@@ -86,12 +86,12 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
             throw new common_exception_BadRequest('wrong request mode');
         }
 
-        $clazz = $this->getClass($this->getRequestParameter('id'));
+        $class = $this->getClass($this->getRequestParameter('id'));
 
         if ($this->hasRequestParameter('index')) {
             $index = intval($this->getRequestParameter('index'));
         } else {
-            $index = count($clazz->getProperties(false)) + 1;
+            $index = count($class->getProperties(false)) + 1;
         }
 
         $options = [
@@ -99,7 +99,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
             'disableIndexChanges' => $this->isElasticSearchEnabled()
         ];
 
-        $propFormContainer = new tao_actions_form_SimpleProperty($clazz, $clazz->createProperty('Property_' . $index), $options);
+        $propFormContainer = new tao_actions_form_SimpleProperty($class, $class->createProperty('Property_' . $index), $options);
         $myForm = $propFormContainer->getForm();
 
         $this->setData('data', $myForm->renderElements());
@@ -199,8 +199,6 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         }
         $uri = $this->getRequestParameter('uri');
 
-        $clazz = $this->getCurrentClass();
-
         $index = 1;
         if ($this->hasRequestParameter('index')) {
             $index = $this->getRequestParameter('index');
@@ -263,16 +261,16 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
     {
         $classUri = tao_helpers_Uri::decode($this->getRequestParameter('classUri'));
         if (is_null($classUri) || empty($classUri)) {
-            $clazz = null;
+            $class = null;
             $resource = $this->getCurrentInstance();
             foreach ($resource->getTypes() as $type) {
-                $clazz = $type;
+                $class = $type;
                 break;
             }
-            if (is_null($clazz)) {
+            if (is_null($class)) {
                 throw new Exception("No valid class uri found");
             }
-            $returnValue = $clazz;
+            $returnValue = $class;
         } else {
             $returnValue = $this->getClass($classUri);
         }
@@ -291,18 +289,18 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
 
     /**
      * Create an edit form for a class and its property
-     * and handle the submited data on save
+     * and handle the submitted data on save
      *
-     * @param core_kernel_classes_Class    $clazz
+     * @param core_kernel_classes_Class    $class
      * @param core_kernel_classes_Resource $resource
      * @return tao_helpers_form_Form the generated form
      */
-    public function getClassForm(core_kernel_classes_Class $clazz)
+    public function getClassForm(core_kernel_classes_Class $class)
     {
         $data = $this->getRequestParameters();
         $classData = $this->extractClassData($data);
         $propertyData = $this->extractPropertyData($data);
-        $formContainer = new tao_actions_form_Clazz($clazz, $classData, $propertyData, $this->isElasticSearchEnabled());
+        $formContainer = new tao_actions_form_Clazz($class, $classData, $propertyData, $this->isElasticSearchEnabled());
         $myForm = $formContainer->getForm();
 
 
@@ -318,7 +316,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
                         $classValues[$classKey] =  tao_helpers_Uri::decode($value);
                     }
 
-                    $this->bindProperties($clazz, $classValues);
+                    $this->bindProperties($class, $classValues);
                 }
 
                 //save all properties values
