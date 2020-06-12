@@ -51,7 +51,7 @@ class tao_helpers_form_elements_xhtml_Searchtextbox extends tao_helpers_form_For
     {
         $returnValue = $this->renderLabel();
 
-        $hasUnit = ! empty($this->unit);
+        $hasUnit = !empty($this->unit);
 
         if ($hasUnit) {
             $this->addClass('has-unit');
@@ -59,12 +59,20 @@ class tao_helpers_form_elements_xhtml_Searchtextbox extends tao_helpers_form_For
         // TODO: Implement the new widget here
         $returnValue .= "<input type='text' name='{$this->name}' id='{$this->name}' ";
         $returnValue .= $this->renderAttributes();
-        $returnValue .= ' value="' . implode(' ', array_map('_dh', $this->values)) . '" />';
+        $returnValue .= ' value="' . $this->getHtmlValue() . '" />';
 
         if ($hasUnit) {
             $returnValue .= '<label class="unit" for="' . $this->name . '">' . _dh($this->unit) . '</label>';
         }
 
         return $returnValue;
+    }
+
+    private function getHtmlValue(): string
+    {
+        return implode(
+            ' ',
+            array_map([tao_helpers_Uri::class, 'encode'], $this->values)
+        );
     }
 }

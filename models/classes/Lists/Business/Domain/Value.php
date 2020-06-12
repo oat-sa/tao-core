@@ -25,6 +25,7 @@ declare(strict_types=1);
 namespace oat\tao\model\Lists\Business\Domain;
 
 use JsonSerializable;
+use tao_helpers_Uri;
 
 class Value implements JsonSerializable
 {
@@ -43,7 +44,7 @@ class Value implements JsonSerializable
     public function jsonSerialize(): array
     {
         return [
-            'uri'   => $this->uri,
+            'uri'   => tao_helpers_Uri::encode($this->uri),
             'label' => $this->label,
         ];
     }

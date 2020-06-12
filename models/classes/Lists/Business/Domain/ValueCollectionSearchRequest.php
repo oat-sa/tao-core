@@ -36,7 +36,7 @@ class ValueCollectionSearchRequest
     private $excluded = [];
 
     /** @var int */
-    private $limit = 5;
+    private $limit = 20;
 
     public function __construct(string $uri)
     {

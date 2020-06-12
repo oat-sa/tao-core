@@ -42,17 +42,25 @@ class tao_actions_PropertyValues extends tao_actions_CommonModule
         );
 
         if ($this->hasRequestParameter('exclude')) {
-            $searchRequest->setExcluded($this->getRequestParameter('exclude'));
+            $searchRequest->setExcluded(
+                array_map(
+                    [tao_helpers_Uri::class, 'decode'],
+                    $this->getRequestParameter('exclude')
+                )
+            );
         }
 
         if ($this->hasRequestParameter('subject')) {
             $searchRequest->setSubject($this->getRequestParameter('subject'));
         }
 
+        // TODO: Extract concerns into a responder
         $this->returnJson(
-            $repository->findAll(
-                $searchRequest
-            )
+            [
+                'values' => $repository->findAll(
+                    $searchRequest
+                ),
+            ]
         );
     }
 }
