@@ -20,6 +20,8 @@
  *
  */
 
+declare(strict_types=1);
+
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyRdfs;
 
@@ -38,7 +40,7 @@ class tao_actions_form_Clazz extends tao_helpers_form_FormContainer
     protected $clazz;
 
     /**
-     * Property values that are currently being threated
+     * Property values that are currently being treated
      *
      * @var array
      */
@@ -54,8 +56,9 @@ class tao_actions_form_Clazz extends tao_helpers_form_FormContainer
      * @param array $classData
      * @param array $propertyData
      * @param bool $disableIndexChanges
+     * @throws common_Exception
      */
-    public function __construct(core_kernel_classes_Class $clazz, $classData, $propertyData, $disableIndexChanges = false)
+    public function __construct(core_kernel_classes_Class $clazz, array $classData, array $propertyData, bool $disableIndexChanges = false)
     {
         $this->clazz    = $clazz;
         $this->propertyData = $propertyData;
@@ -68,7 +71,7 @@ class tao_actions_form_Clazz extends tao_helpers_form_FormContainer
      *
      * @return core_kernel_classes_Class
      */
-    protected function getClassInstance()
+    protected function getClassInstance(): core_kernel_classes_Class
     {
         return $this->clazz;
     }
@@ -79,7 +82,7 @@ class tao_actions_form_Clazz extends tao_helpers_form_FormContainer
      *
      * @return core_kernel_classes_Class
      */
-    protected function getTopClazz()
+    protected function getTopClazz(): core_kernel_classes_Class
     {
         return new core_kernel_classes_Class(GenerisRdf::CLASS_GENERIS_RESOURCE);
     }
@@ -90,16 +93,18 @@ class tao_actions_form_Clazz extends tao_helpers_form_FormContainer
      * @param core_kernel_classes_Property $property
      * @param integer $index
      * @param boolean $isParentProp
-     * @param array $propData
+     * @param array $propertyData
+     * @return tao_helpers_form_Form|null
+     * @throws common_Exception
      */
-    protected function getPropertyForm($property, $index, $isParentProp, $propData)
+    protected function getPropertyForm(core_kernel_classes_Property $property, int $index, bool $isParentProp, array $propertyData): ?tao_helpers_form_Form
     {
         $options = [
             'index' => $index,
             'isParentProperty' => $isParentProp,
             'disableIndexChanges' => $this->disableIndexChanges
         ];
-        $propFormContainer = new tao_actions_form_SimpleProperty($this->getClassInstance(), $property, $options, $propData);
+        $propFormContainer = new tao_actions_form_SimpleProperty($this->getClassInstance(), $property, $options, $propertyData);
         return $propFormContainer->getForm();
     }
 
@@ -107,10 +112,11 @@ class tao_actions_form_Clazz extends tao_helpers_form_FormContainer
      * Initialize the form
      *
      * @access protected
+     * @return void
+     * @throws common_Exception
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @return mixed
      */
-    protected function initForm()
+    protected function initForm(): void
     {
         (isset($this->options['name'])) ? $name = $this->options['name'] : $name = '';
         if (empty($name)) {
@@ -142,13 +148,12 @@ class tao_actions_form_Clazz extends tao_helpers_form_FormContainer
      * Initialize the form elements
      *
      * @access protected
+     * @return void
+     * @throws common_Exception
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @return mixed
      */
-    protected function initElements()
+    protected function initElements(): void
     {
-
-
         $clazz = $this->getClassInstance();
 
         //add a group form for the class edition
@@ -253,7 +258,7 @@ class tao_actions_form_Clazz extends tao_helpers_form_FormContainer
      * Returns list of all system property classes
      * @return array
      */
-    protected function getSystemProperties()
+    protected function getSystemProperties(): array
     {
         $constants = get_defined_constants(true);
 
