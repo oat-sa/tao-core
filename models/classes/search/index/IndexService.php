@@ -25,6 +25,7 @@ namespace oat\tao\model\search\index;
 
 use ArrayIterator;
 use core_kernel_classes_Class;
+use core_kernel_classes_Literal;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use Iterator;
@@ -95,7 +96,7 @@ class IndexService extends ConfigurableService
         $indexesProperties = [];
         foreach ($tokenGenerator->generateTokens($resource) as $data) {
             /** @var OntologyIndex $index */
-            list($index, $strings) = $data;
+            [$index, $strings] = $data;
             $body[$index->getIdentifier()] = $strings;
             $indexesProperties[$index->getIdentifier()] = $this->getIndexProperties($index);
         }
@@ -226,6 +227,7 @@ class IndexService extends ConfigurableService
                         WidgetRdf::PROPERTY_WIDGET
                     )
                 );
+
                 if (null === $propertyType) {
                     continue;
                 }
@@ -251,22 +253,19 @@ class IndexService extends ConfigurableService
                     continue;
                 }
 
-                $customProperties[$fieldName] = (string)$propertyValue;
-
-                if ($propertyTypeUri === WidgetDefinitions::PROPERTY_COMBOBOX
-                    || $propertyTypeUri === WidgetDefinitions::PROPERTY_RADIOBOX) {
-                    $customProperties[$fieldName] = (string)$propertyValue->getLabel();
+                if ($propertyValue instanceof core_kernel_classes_Literal) {
+                    $customProperties[$fieldName][] = (string)$propertyValue;
+                    $customProperties[$fieldName] = array_unique($customProperties[$fieldName]);
+                    continue;
                 }
 
-                if ($propertyTypeUri === WidgetDefinitions::PROPERTY_CHECKBOX) {
-                    $customPropertiesValues = $resource->getPropertyValues($property);
-                    $customProperties[$fieldName] = array_map(
-                        function (string $propertyValue): string {
-                            return (new core_kernel_classes_Property($propertyValue))->getLabel();
-                        },
-                        $customPropertiesValues
-                    );
-                }
+                $customPropertiesValues = $resource->getPropertyValues($property);
+                $customProperties[$fieldName] = array_map(
+                    function (string $propertyValue): string {
+                        return (new core_kernel_classes_Property($propertyValue))->getLabel();
+                    },
+                    $customPropertiesValues
+                );
             }
         }
 
