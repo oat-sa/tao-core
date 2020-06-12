@@ -26,7 +26,6 @@ use oat\generis\model\WidgetRdf;
 use oat\tao\model\dto\OldProperty;
 use oat\tao\model\event\PropertiesChangedEvent;
 use oat\tao\model\validator\PropertyChangedValidator;
-use oat\tao\model\event\PropertyChangedEventTrigger;
 use oat\tao\model\search\index\OntologyIndex;
 use oat\tao\model\search\index\OntologyIndexService;
 use oat\tao\helpers\form\ValidationRuleRegistry;
