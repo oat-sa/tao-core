@@ -31,10 +31,12 @@ use core_kernel_persistence_Exception;
 use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\WidgetRdf;
 use oat\oatbox\action\Action;
+use oat\oatbox\log\LoggerAwareTrait;
 use oat\tao\model\search\index\IndexUpdaterInterface;
 use oat\tao\model\taskQueue\Task\TaskAwareInterface;
 use oat\tao\model\taskQueue\Task\TaskAwareTrait;
 use tao_helpers_Slug;
+use Throwable;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
@@ -42,6 +44,7 @@ class RenameIndexProperties implements Action, ServiceLocatorAwareInterface, Tas
 {
     use ServiceLocatorAwareTrait;
     use TaskAwareTrait;
+    use LoggerAwareTrait;
 
     /**
      * @param $properties
@@ -58,7 +61,7 @@ class RenameIndexProperties implements Action, ServiceLocatorAwareInterface, Tas
                 continue;
             }
 
-            $property = (new core_kernel_classes_Property($propertyData['uri']));
+            $property = new core_kernel_classes_Property($propertyData['uri']);
             $domain = $property->getDomain();
             if (null === $domain) {
                 continue;
@@ -88,18 +91,28 @@ class RenameIndexProperties implements Action, ServiceLocatorAwareInterface, Tas
             ];
         }
 
-        $this->getServiceLocator()->get(IndexUpdaterInterface::SERVICE_ID)->updateProperties($indexProperties);
+        $this->getLogger()->info('Indexing properties', $indexProperties);
 
-        $message = __("Indexed with success")   ;
+        try {
+            $this->getServiceLocator()->get(IndexUpdaterInterface::SERVICE_ID)->updateProperties($indexProperties);
+        } catch (Throwable $exception) {
+            $message = 'Failed during indexing';
+            $this->getLogger()->error($message, (array)$exception);
 
-        return common_report_Report::createSuccess($message);
+            return common_report_Report::createFailure(__($message));
+        }
+
+        $message = 'Indexed with success';
+        $this->getLogger()->info($message, $indexProperties);
+
+        return common_report_Report::createSuccess(__($message));
     }
 
     protected function formatField(string $label, string $propertyTypeUri): string
     {
-        $propertyTypeArray = explode('#', $propertyTypeUri, 2);
-        $propertyTypeId = end($propertyTypeArray);
-        return $propertyTypeId . '_' . tao_helpers_Slug::create($label);
+        $parsedUri = parse_url($propertyTypeUri);
+
+        return ($parsedUri['fragment'] ?? '') . '_' . tao_helpers_Slug::create($label);
     }
 
     private function getParentClasses(core_kernel_classes_Class $domain): array

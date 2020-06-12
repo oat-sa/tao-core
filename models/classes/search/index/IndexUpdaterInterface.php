@@ -30,7 +30,6 @@ interface IndexUpdaterInterface
     public const SERVICE_ID = 'tao/IndexUpdaterInterface';
 
     /**
-     * @param string $indexName
      * @param array $properties
      *
      * @throws Throwable
