@@ -33,6 +33,7 @@ use oat\generis\model\data\Ontology;
 use oat\generis\model\kernel\persistence\file\FileIterator;
 use oat\generis\model\OntologyRdfs;
 use oat\generis\model\user\UserRdf;
+use oat\generis\persistence\PersistenceManager;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ConfigurableService;
@@ -66,6 +67,8 @@ use oat\tao\model\event\UserRemovedEvent;
 use oat\tao\model\event\UserUpdatedEvent;
 use oat\tao\model\extension\UpdateLogger;
 use oat\tao\model\i18n\ExtraPoService;
+use oat\tao\model\Lists\Business\Contract\ValueCollectionSearchRepositoryInterface;
+use oat\tao\model\Lists\DataAccess\Repository\RdfValueCollectionSearchRepository;
 use oat\tao\model\maintenance\Maintenance;
 use oat\tao\model\media\MediaService;
 use oat\tao\model\metadata\compiler\ResourceJsonMetadataCompiler;
@@ -1362,5 +1365,19 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         $this->skip('42.11.0', '44.1.1');
+
+        if ($this->isVersion('44.1.1')) {
+            /** @var PersistenceManager $persistenceManager */
+            $persistenceManager = $this->getServiceManager()->get(PersistenceManager::SERVICE_ID);
+
+            $this->getServiceManager()->register(
+                ValueCollectionSearchRepositoryInterface::SERVICE_ID,
+                new RdfValueCollectionSearchRepository($persistenceManager, 'default')
+            );
+
+            AclProxy::applyRule(new AccessRule(AccessRule::GRANT, TaoRoles::PROPERTY_MANAGER, ['ext' => 'tao','mod' => 'PropertyValues']));
+
+            $this->setVersion('44.2.0');
+        }
     }
 }
