@@ -27,6 +27,10 @@ use oat\oatbox\user\UserLanguageService;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\Configurable;
 use oat\tao\model\service\InjectionAwareService;
+use oat\taoDevTools\actions\ExtensionsManager;
+use oat\oatbox\user\UserService;
+use oat\tao\model\TaoOntology;
+use oat\generis\model\GenerisRdf;
 
 /**
  * Factory that generates seed based on current install
@@ -47,7 +51,7 @@ class SeedFactory extends AbstractAction
             ],
             'extensions' => array_keys($extensions),
             'super-user' => [
-                'login' => 'admin',
+                'login' => $this->getRootLogin(),
                 'password' => 'adminAdmin1!'
             ],
             'configuration' => [
@@ -76,10 +80,16 @@ class SeedFactory extends AbstractAction
                     $serviceKey = $extension->getId() . '/' . $configKey;
                     $value = $this->getServiceLocator()->get($serviceKey);
                     if (!$value instanceof InjectionAwareService) {
-                        $extSeed[$configKey] = $this->transform($value);
+                        $defaultSeed = $this->transform($this->getDefaultValue($serviceKey));
+                        $valueSeed = $this->transform($value);
+                        if ($defaultSeed != $valueSeed) {
+                            $extSeed[$configKey] = $valueSeed;
+                        }
                     }
                 }
-                $seed['configuration'][$extension->getId()] = $extSeed;
+                if (!empty($extSeed)) {
+                    $seed['configuration'][$extension->getId()] = $extSeed;
+                }
             }
         }
         // should never be included, not a real config
@@ -112,6 +122,27 @@ class SeedFactory extends AbstractAction
         
         file_put_contents($file, json_encode($seed, JSON_PRETTY_PRINT));
         return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'Wrote seed to file ' . $file);
+    }
+
+    private function getRootLogin(): string
+    {
+        $rootUserId = LOCAL_NAMESPACE . TaoOntology::DEFAULT_USER_URI_SUFFIX;
+        $user = $this->getServiceLocator()->get(UserService::SERVICE_ID)->getUser($rootUserId);
+        return $user->getPropertyValues(GenerisRdf::PROPERTY_USER_LOGIN)[0];
+    }
+
+    private function getDefaultValue($serviceId)
+    {
+        [$extensionId, $subkey] = explode('/', $serviceId, 2);
+        $extManager = $this->getServiceLocator()->get(\common_ext_ExtensionsManager::SERVICE_ID);
+        $ext = $extManager->getExtensionById($extensionId);
+        $path = $ext->getDir() . 'config/default/' . $subkey . '.conf.php';
+        if (file_exists($path)) {
+            $config = include $path;
+            return $config;
+        } else {
+            return null;
+        }
     }
 
     private function transform($value)
