@@ -18,20 +18,19 @@
  * Copyright (c) 2015-2018 Open Assessment Technologies S.A.
  */
 
-use oat\oatbox\event\EventManager;
-use oat\tao\model\event\ClassFormUpdatedEvent;
 use oat\generis\model\GenerisRdf;
+use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
 use oat\generis\model\WidgetRdf;
+use oat\oatbox\event\EventManager;
+use oat\oatbox\log\LoggerAwareTrait;
+use oat\tao\helpers\form\ValidationRuleRegistry;
 use oat\tao\model\dto\OldProperty;
+use oat\tao\model\event\ClassFormUpdatedEvent;
 use oat\tao\model\event\PropertiesChangedEvent;
-use oat\tao\model\validator\PropertyChangedValidator;
 use oat\tao\model\search\index\OntologyIndex;
 use oat\tao\model\search\index\OntologyIndexService;
-use oat\tao\helpers\form\ValidationRuleRegistry;
-use oat\generis\model\OntologyAwareTrait;
-use oat\oatbox\log\LoggerAwareTrait;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use oat\tao\model\validator\PropertyChangedValidator;
 
 /**
  * Regrouping all actions related to authoring
