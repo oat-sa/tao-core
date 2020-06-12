@@ -43,7 +43,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
     /**
      * @return EventManager
      */
-    protected function getEventManager()
+    protected function getEventManager(): EventManager
     {
         return $this->getServiceLocator()->get(EventManager::SERVICE_ID);
     }
@@ -51,7 +51,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
     /**
      * @requiresRight id READ
      */
-    public function index()
+    public function index(): void
     {
         $this->defaultData();
         $class = $this->getClass($this->getRequestParameter('id'));
@@ -80,7 +80,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
      * @return void
      * @requiresRight id WRITE
      */
-    public function addClassProperty()
+    public function addClassProperty(): void
     {
         if (!$this->isXmlHttpRequest()) {
             throw new common_exception_BadRequest('wrong request mode');
@@ -114,7 +114,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
      * @return void
      * @requiresRight classUri WRITE
      */
-    public function removeClassProperty()
+    public function removeClassProperty(): void
     {
         $success = false;
         if (!$this->isXmlHttpRequest()) {
@@ -157,7 +157,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
      * @throws common_exception_BadRequest
      * @return void
      */
-    public function removePropertyIndex()
+    public function removePropertyIndex(): void
     {
         if (!$this->isXmlHttpRequest()) {
             throw new common_exception_BadRequest('wrong request mode');
@@ -189,7 +189,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
      * @throws common_exception_BadRequest
      * @return void
      */
-    public function addPropertyIndex()
+    public function addPropertyIndex(): void
     {
         if (!$this->isXmlHttpRequest()) {
             throw new common_exception_BadRequest('wrong request mode');
@@ -257,7 +257,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         $this->returnJson(['form' => $form]);
     }
 
-    protected function getCurrentClass()
+    protected function getCurrentClass(): core_kernel_classes_Class
     {
         $classUri = tao_helpers_Uri::decode($this->getRequestParameter('classUri'));
         if (is_null($classUri) || empty($classUri)) {
@@ -278,7 +278,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         return $returnValue;
     }
 
-    protected function getCurrentInstance()
+    protected function getCurrentInstance(): core_kernel_classes_Resource
     {
         $uri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
         if (is_null($uri) || empty($uri)) {
@@ -291,11 +291,11 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
      * Create an edit form for a class and its property
      * and handle the submitted data on save
      *
-     * @param core_kernel_classes_Class    $class
-     * @param core_kernel_classes_Resource $resource
+     * @param core_kernel_classes_Class $class
      * @return tao_helpers_form_Form the generated form
+     * @throws Exception
      */
-    public function getClassForm(core_kernel_classes_Class $class)
+    public function getClassForm(core_kernel_classes_Class $class): tao_helpers_form_Form
     {
         $data = $this->getRequestParameters();
         $classData = $this->extractClassData($data);
@@ -347,7 +347,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
      *
      * @param array $propertyValues
      */
-    protected function saveSimpleProperty($propertyValues)
+    protected function saveSimpleProperty(array $propertyValues): void
     {
         $propertyMap = tao_helpers_form_GenerisFormFactory::getPropertyMap();
         $property = $this->getProperty(tao_helpers_Uri::decode($propertyValues['uri']));
@@ -397,7 +397,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         }
     }
 
-    protected function savePropertyIndex($indexValues)
+    protected function savePropertyIndex(array $indexValues): void
     {
         $values = [];
         foreach ($indexValues as $key => $value) {
@@ -428,7 +428,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
      * @param core_kernel_classes_Resource $resource
      * @param array $values
      */
-    protected function bindProperties(core_kernel_classes_Resource $resource, $values)
+    protected function bindProperties(core_kernel_classes_Resource $resource, array $values): void
     {
         $binder = new tao_models_classes_dataBinding_GenerisInstanceDataBinder($resource);
         $binder->bind($values);
@@ -440,7 +440,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
      * @param array $data
      * @return array
      */
-    protected function extractClassData($data)
+    protected function extractClassData(array $data): array
     {
         $classData = [];
         if (isset($data['class'])) {
@@ -459,7 +459,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
      * @param array $data
      * @return array
      */
-    protected function extractPropertyData($data)
+    protected function extractPropertyData($data): array
     {
         $propertyData = [];
         if (isset($data['properties'])) {
