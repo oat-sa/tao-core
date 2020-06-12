@@ -30,6 +30,6 @@ class GenerisIndexUpdater extends ConfigurableService implements IndexUpdaterInt
 {
     public function updateProperties(array $properties): void
     {
-        return;;
+        return;
     }
 }
