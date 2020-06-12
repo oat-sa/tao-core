@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015-2018 Open Assessment Technologies S.A.
+ * Copyright (c) 2015-2020 Open Assessment Technologies S.A.
  */
 
 declare(strict_types=1);
@@ -30,6 +30,7 @@ use oat\tao\model\search\index\OntologyIndexService;
 use oat\tao\helpers\form\ValidationRuleRegistry;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\log\LoggerAwareTrait;
+use oat\tao\model\search\Search;
 
 /**
  * Regrouping all actions related to authoring
@@ -303,7 +304,6 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         $formContainer = new tao_actions_form_Clazz($class, $classData, $propertyData, $this->isElasticSearchEnabled());
         $myForm = $formContainer->getForm();
 
-
         if ($myForm->isSubmited()) {
             if ($myForm->isValid()) {
                 //get the data from parameters
@@ -472,7 +472,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
 
     private function isElasticSearchEnabled(): bool
     {
-        $searchService = $this->getServiceLocator()->get(\oat\tao\model\search\Search::SERVICE_ID);
+        $searchService = $this->getServiceLocator()->get(Search::SERVICE_ID);
 
         return get_class($searchService) === \oat\tao\elasticsearch\ElasticSearch::class;
     }
