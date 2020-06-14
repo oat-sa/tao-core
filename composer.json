@@ -58,7 +58,7 @@
         "imsglobal/lti": "^3.0",
         "paragonie/random_compat": "^2.0",
         "symfony/dotenv": "~4.3",
-        "doctrine/migrations" : "3.0.0-beta1"
+        "doctrine/migrations" : "3.0.0"
     },
     "autoload": {
         "psr-4": {
