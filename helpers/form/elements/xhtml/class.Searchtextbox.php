@@ -96,7 +96,7 @@ class tao_helpers_form_elements_xhtml_Searchtextbox extends tao_helpers_form_ele
             multiple: true,
             minimumInputLength: 3,
             ajax: {
-                quietMillis: 500,
+                quietMillis: 200,
                 url: '$searchUrl',
                 data: function (term) {
                     return {
