@@ -229,6 +229,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
     protected function getClassForm($class, $resource, $topclass = null)
     {
         $controller = new tao_actions_PropertiesAuthoring();
+        $controller->setServiceLocator($this->getServiceLocator());
         return $controller->getClassForm($class);
     }
 
