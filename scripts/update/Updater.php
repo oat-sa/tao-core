@@ -345,9 +345,9 @@ class Updater extends \common_ext_ExtensionUpdater
         $this->skip('7.62.0', '7.68.0');
 
         if ($this->isVersion('7.68.0')) {
-            $registerPropertiesChangedEvent = new InstallNotificationTable();
-            $registerPropertiesChangedEvent->setServiceLocator($this->getServiceManager());
-            $registerPropertiesChangedEvent->__invoke([]);
+            $notifInstaller = new InstallNotificationTable();
+            $notifInstaller->setServiceLocator($this->getServiceManager());
+            $notifInstaller->__invoke([]);
             AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole', ['ext' => 'tao','mod' => 'Notification']));
             $this->setVersion('7.69.0');
         }
