@@ -47,7 +47,17 @@ class ClassPropertyRemovedEvent implements Event, JsonSerializable
 
     public function getName(): string
     {
-        return get_class($this);
+        return self::class;
+    }
+
+    public function getClass(): core_kernel_classes_Class
+    {
+        return $this->class;
+    }
+
+    public function getProperty(): core_kernel_classes_Property
+    {
+        return $this->property;
     }
 
     public function jsonSerialize()
