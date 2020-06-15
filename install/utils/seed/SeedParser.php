@@ -143,6 +143,9 @@ class SeedParser
         if (isset($array['lang'])) {
             $optional[SeedOptions::OPTION_LANGUAGE] = $array['lang'];
         }
+        if (isset($array['anonymous_lang'])) {
+            $optional[SeedOptions::OPTION_ANONYMOUS_LANG] = $array['anonymous_lang'];
+        }
         if (isset($array['mode'])) {
             $optional[SeedOptions::OPTION_DEBUG] = $array['mode'] == 'debug';
         }
@@ -154,6 +157,9 @@ class SeedParser
         }
         if (isset($array['import_data'])) {
             $optional[SeedOptions::OPTION_INSTALL_SAMPLES] = $array['import_data'];
+        }
+        if (isset($array['session_name'])) {
+            $optional[SeedOptions::OPTION_SESSION_NAME] = $array['session_name'];
         }
         return new SeedOptions($array['url'], $array['file_path'], $array['namespace'], $optional);
     }

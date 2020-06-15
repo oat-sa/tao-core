@@ -28,6 +28,8 @@ use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\ServiceManager;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use oat\tao\install\utils\seed\SeedParser;
+use oat\tao\install\SeedInstaller;
+use Pimple\Psr11\Container as PsrContainer;
 
 class tao_install_Setup implements Action
 {
@@ -61,216 +63,27 @@ class tao_install_Setup implements Action
 
         $this->logNotice('Installing TAO...');
 
+        $parser = new SeedParser();
         if ($this->getContainer() !== null && $this->getContainer()->offsetExists(static::SETUP_JSON_CONTENT_OFFSET)) {
             $parameters = json_decode($this->getContainer()->offsetGet(static::SETUP_JSON_CONTENT_OFFSET), true);
             if (is_null($parameters)) {
                 throw new InvalidArgumentException('Your Setup JSON seed is malformed');
             }
+            $seed = $parser->fromArray($parameters);
         } else {
             if (!isset($params[0])) {
                 throw new InvalidArgumentException('You should provide a file path');
             }
-
             $filePath = $params[0];
-            $parser = new SeedParser();
-            $seed = $parser->fromFile($filePath);
-
             if (!file_exists($filePath)) {
                 throw new \ErrorException('Unable to find ' . $filePath);
             }
-
-            $info = pathinfo($filePath);
-
-            switch ($info['extension']) {
-                case 'json':
-                    $parameters = json_decode(file_get_contents($filePath), true);
-                    if (is_null($parameters)) {
-                        throw new InvalidArgumentException('Your JSON file is malformed');
-                    }
-                    break;
-                case 'yml':
-                    if (extension_loaded('yaml')) {
-                        $parameters = \yaml_parse_file($filePath);
-                        if ($parameters === false) {
-                            throw new InvalidArgumentException('Your YAML file is malformed');
-                        }
-                    } else {
-                        throw new ErrorException('Extension yaml should be installed');
-                    }
-                    break;
-                default:
-                    throw new InvalidArgumentException('Please provide a JSON or YAML file');
-            }
+            $parser = new SeedParser();
+            $this->logNotice('Loading seed from '.$filePath);
+            $seed = $parser->fromFile($filePath);
         }
-
-        /** @var LoggerService $loggerService */
-        $loggerService = $this->getContainer()->offsetGet(LoggerService::SERVICE_ID);
-        $loggerService->addLogger(
-            new TaoLog([
-                'appenders' => [
-                    [
-                        'class' => 'SingleFileAppender',
-                        'threshold' => common_Logger::TRACE_LEVEL,
-                        'file' => TAO_INSTALL_PATH . 'tao/install/log/install.log'
-                    ]
-                ]
-            ])
-        );
-
-        $options =  [
-             "install_sent"    =>  "1"
-            , "module_host" =>      "tao.local"
-            , "module_lang" =>      "en-US"
-            , "module_mode" =>      "debug"
-            , "module_name" =>      "mytao"
-            , "module_namespace" => ""
-            , "module_url"  =>      ""
-            , "submit"  =>          "Install"
-            , "user_email"  =>      ""
-            , "user_firstname"  =>  ""
-            , "user_lastname"   =>  ""
-            , "user_login"  =>      ""
-            , "user_pass"   =>      ""
-            , "instance_name" =>    null
-            , "extensions" =>       null
-            , 'timezone'   =>      date_default_timezone_get()
-            , 'extra_persistences' => []
-        ];
-
-        if (!isset($parameters['configuration'])) {
-            throw new InvalidArgumentException('Your config should have a \'configuration\' key');
-        }
-
-        if (!isset($parameters['configuration']['generis'])) {
-            throw new InvalidArgumentException('Your config should have a \'generis\' key under \'configuration\'');
-        }
-
-        if (!isset($parameters['configuration']['global'])) {
-            throw new InvalidArgumentException('Your config should have a \'global\' key under \'configuration\'');
-        }
-
-        $global = $parameters['configuration']['global'];
-        $options['module_namespace'] = $global['namespace'];
-        $options['instance_name'] = $global['instance_name'];
-        $options['module_url'] = $global['url'];
-        $options['module_lang'] = $global['lang'];
-        $options['module_mode'] = $global['mode'];
-        $options['timezone'] = $global['timezone'];
-        $options['import_local'] = (isset($global['import_data']) && $global['import_data'] === true);
-
-        $rootDir = dir(dirname(__FILE__) . '/../../');
-        $options['root_path'] = isset($global['root_path'])
-            ? $global['root_path']
-            : realpath($rootDir->path) . DIRECTORY_SEPARATOR;
-
-        $options['file_path'] = isset($global['file_path'])
-            ? $global['file_path']
-            : $options['root_path'] . 'data' . DIRECTORY_SEPARATOR;
-
-        if (isset($global['session_name'])) {
-            $options['session_name'] = $global['session_name'];
-        }
-
-        if (isset($global['anonymous_lang'])) {
-            $options['anonymous_lang'] = $global['anonymous_lang'];
-        }
-
-        //get extensions to install
-        if (isset($parameters['extensions'])) {
-            $options['extensions'] = $parameters['extensions'];
-        }
-
-        if (!isset($parameters['super-user'])) {
-            throw new InvalidArgumentException('Your config should have a \'global\' key under \'generis\'');
-        }
-
-        $superUser = $parameters['super-user'];
-        $options['user_login'] = $superUser['login'];
-        $options['user_pass1'] = $superUser['password'];
-        if (isset($parameters['lastname'])) {
-            $options['user_lastname'] = $parameters['lastname'];
-        }
-        if (isset($parameters['firstname'])) {
-            $options['user_firstname'] = $parameters['firstname'];
-        }
-        if (isset($parameters['email'])) {
-            $options['user_email'] = $parameters['email'];
-        }
-
-
-        $installOptions = [
-            'root_path'     => $options['root_path'],
-            'install_path'  => $options['root_path'] . 'tao/install/',
-        ];
-
-        if (isset($global['installation_config_path'])) {
-            $installOptions['installation_config_path'] = $global['installation_config_path'];
-        }
-
-        // run the actual install
-        if ($this->getContainer() instanceof \Pimple\Container) {
-            $this->getContainer()->offsetSet(\tao_install_Installator::CONTAINER_INDEX, $installOptions);
-            $installator = new \tao_install_Installator($this->getContainer());
-        } else {
-            $installator = new \tao_install_Installator($installOptions);
-        }
-
-        $serviceManager = $installator->getServiceManager();
-        foreach($seed->getServices() as $serviceId => $service) {
-            $serviceManager->register($serviceId, $service);
-        }
-
-        if (!$serviceManager->has(PersistenceManager::SERVICE_ID)) {
-            if (!isset($parameters['configuration']['generis']['persistences'])) {
-                throw new InvalidArgumentException('Your config should have a \'persistence\' key under \'generis\'');
-            }
-            $persistences = $parameters['configuration']['generis']['persistences'];
-            if (!isset($persistences['default'])) {
-                throw new InvalidArgumentException('Your config should have a \'default\' key under \'persistences\'');
-            }
-            $persistenceManager = $this->wrapPersistenceConfig($persistences);
-            $serviceManager->register(PersistenceManager::SERVICE_ID, $persistenceManager);
-        }
-
-        // mod rewrite cannot be detected in CLI Mode.
-        $installator->escapeCheck('custom_tao_ModRewrite');
-
-        $installator->install($options);
-
-        /** @var common_ext_ExtensionsManager $extensionManager */
-        $extensionManager = $serviceManager->get(common_ext_ExtensionsManager::SERVICE_ID);
-        foreach ($parameters['configuration'] as $ext => $configs) {
-            foreach ($configs as $key => $config) {
-                if (! (isset($config['type']) && $config['type'] === 'configurableService')) {
-                    if (! is_null($extensionManager->getInstalledVersion($ext))) {
-                        $extension = $extensionManager->getExtensionById($ext);
-                        if (! $extension->hasConfig($key) || ! $extension->getConfig($key) instanceof ConfigurableService) {
-                            if (! $extension->setConfig($key, $config)) {
-                                throw new ErrorException('Your config ' . $ext . '/' . $key . ' cannot be set');
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        // execute post install scripts
-        if (isset($parameters['postInstall'])) {
-            foreach ($parameters['postInstall'] as $script) {
-                if (isset($script['class']) && is_a($script['class'], Action::class, true)) {
-                    $object = new $script['class']();
-                    if (is_a($object, ServiceLocatorAwareInterface::class)) {
-                        $object->setServiceLocator($serviceManager);
-                    }
-                    $params = (isset($script['params']) && is_array($script['params'])) ? $script['params'] : [];
-                    $report = call_user_func($object, $params);
-
-                    if ($report instanceof common_report_Report) {
-                        $this->logInfo(helpers_Report::renderToCommandline($report));
-                    }
-                }
-            }
-        }
+        $installer = new SeedInstaller();
+        $installer->install($seed, new PsrContainer($this->getContainer()));
 
         $this->logNotice('Installation completed!');
     }

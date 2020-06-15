@@ -39,6 +39,30 @@ class Seed
 		$this->postInstallScripts = $postInstallScripts;
 	}
 
+	public function getExtensionsToInstall(): array
+	{
+	    return $this->extensionsToInstall;
+	}
+
+	/**
+	 * Returns an associative array with property URI as key
+	 * Defining the super user
+	 */
+	public function getUserData(): array
+	{
+	    return $this->userData;
+	}
+
+	public function getServices(): array
+	{
+	    return $this->services;
+	}
+
+	public function getPostInstallScripts(): array
+	{
+	    return $this->postInstallScripts;
+	}
+
 	public function getRootUrl(): string
 	{
 		return $this->options->getRootUrl();
@@ -62,6 +86,19 @@ class Seed
 		return $this->options->getDefaultLanguage();
 	}
 
+	public function getAnonymousLanguage(): string
+	{
+	    return $this->options->getAnonymousLanguageCode();
+	}
+
+	/**
+	 * @return string|NULL returns the name to use for sessions if specified
+	 */
+	public function getSessionName(): ?string
+	{
+	    return $this->options->getSessionName();
+	}
+
 	public function getDefaultTimezone(): string
 	{
 		return $this->options->getDefaultTimezone();
@@ -82,26 +119,4 @@ class Seed
 		return $this->options->installSamples();
 	}
 
-	public function getExtensionsToInstall(): array
-	{
-		return $this->extensionsToInstall;
-	}
-
-	/**
-	 * Returns an associative array with property URI as key
-	 */
-	public function getUserData(): array
-	{
-	    return $this->userData;
-	}
-
-	public function getServices(): array
-	{
-		return $this->services;
-	}
-
-	public function getPostInstallScripts(): array
-	{
-		return $this->postInstallScripts;
-	}
 }

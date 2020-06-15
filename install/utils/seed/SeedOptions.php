@@ -32,6 +32,8 @@ class SeedOptions
     const OPTION_INSTANCE_NAME = 'name';
     const OPTION_DEBUG = 'debug';
     const OPTION_INSTALL_SAMPLES = 'samples';
+    const OPTION_SESSION_NAME = 'session_name';
+    const OPTION_ANONYMOUS_LANG = 'anonymous_lang';
 
     public function __construct($rootUrl, $localFilepath, $localNamespace, $options = [])
     {
@@ -73,21 +75,35 @@ class SeedOptions
     public function getInstanceName(): string
     {
         return isset($this->options[self::OPTION_INSTANCE_NAME])
-        ? $this->options[self::OPTION_INSTANCE_NAME]
-        : null;
+            ? $this->options[self::OPTION_INSTANCE_NAME]
+            : null;
     }
 
     public function useDebugMode(): bool
     {
         return isset($this->options[self::OPTION_DEBUG])
-        ? $this->options[self::OPTION_DEBUG]
-        : true;
+            ? $this->options[self::OPTION_DEBUG]
+            : true;
     }
 
     public function installSamples(): bool
     {
         return isset($this->options[self::OPTION_INSTALL_SAMPLES])
-        ? $this->options[self::OPTION_INSTALL_SAMPLES]
-        : true;
+            ? $this->options[self::OPTION_INSTALL_SAMPLES]
+            : true;
+    }
+
+    public function getAnonymousLanguageCode(): string
+    {
+        return isset($this->options[self::OPTION_ANONYMOUS_LANG])
+            ? $this->options[self::OPTION_ANONYMOUS_LANG]
+            : $this->getDefaultLanguage();
+    }
+
+    public function getSessionName(): ?string
+    {
+        return isset($this->options[self::OPTION_SESSION_NAME])
+            ? $this->options[self::OPTION_SESSION_NAME]
+            : null;
     }
 }
