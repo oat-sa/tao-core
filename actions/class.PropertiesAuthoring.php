@@ -316,49 +316,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
 
                 //save all properties values
                 if (isset($data['properties'])) {
-                    $changedProperties = [];
-                    foreach ($data['properties'] as $i => $propertyValues) {
-                        //get index values
-                        $indexes = null;
-                        if (isset($propertyValues['indexes'])) {
-                            $indexes = $propertyValues['indexes'];
-                            unset($propertyValues['indexes']);
-                        }
-
-                        $property = $this->getProperty(tao_helpers_Uri::decode($propertyValues['uri']));
-                        $oldPropertyLabel = $property->getLabel();
-                        $oldPropertyType = $property->getOnePropertyValue(
-                            new \core_kernel_classes_Property(WidgetRdf::PROPERTY_WIDGET)
-                        );
-                        $oldProperty = new OldProperty($oldPropertyLabel, $oldPropertyType);
-
-                        $this->saveSimpleProperty($propertyValues, $property);
-
-                        $currentProperty = $this->getProperty(tao_helpers_Uri::decode($propertyValues['uri']));
-
-                        $isPropertyChanged = (new PropertyChangedValidator())->isPropertyChanged(
-                            $currentProperty,
-                            $oldProperty
-                        );
-
-                        if ($isPropertyChanged) {
-                            $changedProperties[] = [
-                                'property' => $currentProperty,
-                                'oldProperty' => $oldProperty,
-                            ];
-                        }
-
-                        //save index
-                        if (!is_null($indexes)) {
-                            foreach ($indexes as $indexValues) {
-                                $this->savePropertyIndex($indexValues);
-                            }
-                        }
-                    }
-
-                    if (count($changedProperties) > 0) {
-                        $this->getEventManager()->trigger(new PropertiesChangedEvent($changedProperties));
-                    }
+                    $this->saveProperties($data);
                 }
             }
         }
@@ -492,5 +450,57 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
             }
         }
         return $propertyData;
+    }
+
+    /**
+     * @param array $properties
+     *
+     * @throws core_kernel_persistence_Exception
+     */
+    private function saveProperties(array $properties): void
+    {
+        $changedProperties = [];
+        foreach ($properties['properties'] as $i => $propertyValues) {
+            //get index values
+            $indexes = null;
+            if (isset($propertyValues['indexes'])) {
+                $indexes = $propertyValues['indexes'];
+                unset($propertyValues['indexes']);
+            }
+
+            $property = $this->getProperty(tao_helpers_Uri::decode($propertyValues['uri']));
+            $oldPropertyLabel = $property->getLabel();
+            $oldPropertyType = $property->getOnePropertyValue(
+                new \core_kernel_classes_Property(WidgetRdf::PROPERTY_WIDGET)
+            );
+            $oldProperty = new OldProperty($oldPropertyLabel, $oldPropertyType);
+
+            $this->saveSimpleProperty($propertyValues, $property);
+
+            $currentProperty = $this->getProperty(tao_helpers_Uri::decode($propertyValues['uri']));
+
+            $isPropertyChanged = (new PropertyChangedValidator())->isPropertyChanged(
+                $currentProperty,
+                $oldProperty
+            );
+
+            if ($isPropertyChanged) {
+                $changedProperties[] = [
+                    'property' => $currentProperty,
+                    'oldProperty' => $oldProperty,
+                ];
+            }
+
+            //save index
+            if (!is_null($indexes)) {
+                foreach ($indexes as $indexValues) {
+                    $this->savePropertyIndex($indexValues);
+                }
+            }
+        }
+
+        if (count($changedProperties) > 0) {
+            $this->getEventManager()->trigger(new PropertiesChangedEvent($changedProperties));
+        }
     }
 }
