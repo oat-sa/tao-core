@@ -26,6 +26,8 @@ use oat\generis\model\WidgetRdf;
 
 abstract class tao_helpers_form_elements_Searchtextbox extends tao_helpers_form_FormElement
 {
+    protected const VALUE_DELIMITER = ',';
+
     protected $widget = WidgetRdf::PROPERTY_WIDGET_SEARCH_BOX;
 
     /** @var string[] */
@@ -38,7 +40,7 @@ abstract class tao_helpers_form_elements_Searchtextbox extends tao_helpers_form_
     {
         $this->values = [];
 
-        foreach (explode(',', ($_POST[$this->name] ?? '')) as $value) {
+        foreach (explode(static::VALUE_DELIMITER, ($_POST[$this->name] ?? '')) as $value) {
             if ($value) {
                 $this->values[] = $value;
             }

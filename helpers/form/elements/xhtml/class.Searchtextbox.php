@@ -56,13 +56,7 @@ class tao_helpers_form_elements_xhtml_Searchtextbox extends tao_helpers_form_ele
         // TODO: Implement the new widget here
         $htmlPieces[] = "<div {$this->renderAttributes()}>";
 
-        $htmlPieces[] = sprintf('<input type="hidden" id="%s" name="%s">', $this->name, $this->name);
-
-        foreach ($this->getValues() as $value) {
-            $htmlPieces[] = '<p>';
-            $htmlPieces[] = (new core_kernel_classes_Resource(tao_helpers_Uri::decode($value)))->getLabel();
-            $htmlPieces[] = '</p>';
-        }
+        $htmlPieces[] = $this->createHiddenInput()->render();
 
         if ($hasUnit) {
             $htmlPieces[] = '<label class="unit" for="' . $this->name . '">' . _dh($this->unit) . '</label>';
@@ -77,7 +71,8 @@ class tao_helpers_form_elements_xhtml_Searchtextbox extends tao_helpers_form_ele
 
     private function createClientCode(): string
     {
-        $searchUrl = tao_helpers_Uri::url('get', 'PropertyValues', 'tao');
+        $searchUrl     = tao_helpers_Uri::url('get', 'PropertyValues', 'tao');
+        $initSelection = json_encode($this->createInitSelectionValues());
 
         return <<<javascript
 <script>
@@ -107,10 +102,35 @@ class tao_helpers_form_elements_xhtml_Searchtextbox extends tao_helpers_form_ele
                         results: data.values.map(normalizeItem)
                     };
                 }
+            },
+            initSelection: function (element, callback) {
+                callback($initSelection);
             }
         });
     });
 </script>
 javascript;
+    }
+
+    private function createInitSelectionValues(): iterable
+    {
+        $result = [];
+
+        foreach ($this->getValues() as $value) {
+            $result[] = [
+                'id'   => $value,
+                'text' => (new core_kernel_classes_Resource(tao_helpers_Uri::decode($value)))->getLabel(),
+            ];
+        }
+
+        return $result;
+    }
+
+    private function createHiddenInput(): tao_helpers_form_elements_xhtml_Hidden
+    {
+        $input = new tao_helpers_form_elements_xhtml_Hidden($this->name);
+        $input->setValue(implode(static::VALUE_DELIMITER, $this->getValues()));
+
+        return $input;
     }
 }
