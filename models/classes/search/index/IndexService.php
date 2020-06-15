@@ -25,7 +25,7 @@ namespace oat\tao\model\search\index;
 
 use ArrayIterator;
 use core_kernel_classes_Class;
-use core_kernel_classes_Literal;
+use core_kernel_classes_Literal as Literal;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use Iterator;
@@ -253,7 +253,7 @@ class IndexService extends ConfigurableService
                     continue;
                 }
 
-                if ($propertyValue instanceof core_kernel_classes_Literal) {
+                if ($propertyValue instanceof Literal) {
                     $customProperties[$fieldName][] = (string)$propertyValue;
                     $customProperties[$fieldName] = array_unique($customProperties[$fieldName]);
                     continue;
