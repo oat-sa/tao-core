@@ -145,6 +145,8 @@ use oat\tao\scripts\install\AddTmpFsHandlers;
 use oat\tao\scripts\install\CreateWebhookEventLogTable;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\RegisterActionService;
+use oat\tao\scripts\install\RegisterPropertiesChangedEvent;
+use oat\tao\scripts\install\RegisterPropertiesChangedEventListener;
 use oat\tao\scripts\install\RegisterSignatureGenerator;
 use oat\tao\scripts\install\SetClientLoggerConfig;
 use oat\tao\scripts\install\UpdateRequiredActionUrl;
@@ -343,9 +345,9 @@ class Updater extends \common_ext_ExtensionUpdater
         $this->skip('7.62.0', '7.68.0');
 
         if ($this->isVersion('7.68.0')) {
-            $notifInstaller = new InstallNotificationTable();
-            $notifInstaller->setServiceLocator($this->getServiceManager());
-            $notifInstaller->__invoke([]);
+            $registerPropertiesChangedEvent = new InstallNotificationTable();
+            $registerPropertiesChangedEvent->setServiceLocator($this->getServiceManager());
+            $registerPropertiesChangedEvent->__invoke([]);
             AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole', ['ext' => 'tao','mod' => 'Notification']));
             $this->setVersion('7.69.0');
         }
@@ -1349,7 +1351,14 @@ class Updater extends \common_ext_ExtensionUpdater
         $this->skip('42.0.4', '42.11.0');
 
 //        if ($this->isVersion('42.11.0')) {
-//            $this->getServiceManager()->register(IndexUpdaterInterface::SERVICE_ID, new GenerisIndexUpdater());
+//            $registerPropertiesChangedEvent = new RegisterPropertiesChangedEvent();
+//            $registerPropertiesChangedEvent->setServiceLocator($this->getServiceManager());
+//            $registerPropertiesChangedEvent->__invoke([]);
+//
+//            $registerPropertiesChangedEventListener = new RegisterPropertiesChangedEventListener();
+//            $registerPropertiesChangedEventListener->setServiceLocator($this->getServiceManager());
+//            $registerPropertiesChangedEventListener->__invoke([]);
+//
 //            $this->setVersion('42.12.0');
 //        }
 //
