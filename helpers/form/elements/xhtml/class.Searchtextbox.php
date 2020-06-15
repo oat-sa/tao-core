@@ -71,12 +71,15 @@ class tao_helpers_form_elements_xhtml_Searchtextbox extends tao_helpers_form_ele
 
     private function createClientCode(): string
     {
+        $delimiter     = static::VALUE_DELIMITER;
         $searchUrl     = tao_helpers_Uri::url('get', 'PropertyValues', 'tao');
         $initSelection = json_encode($this->createInitSelectionValues());
 
         return <<<javascript
 <script>
     require(['jquery'], function ($) {
+        var \$input = $('#$this->name');
+        
         var normalizeItem = function (item) {
             return {
                 id: item.uri,
@@ -84,7 +87,11 @@ class tao_helpers_form_elements_xhtml_Searchtextbox extends tao_helpers_form_ele
             }
         };
 
-        $('#$this->name').select2({
+        var getCurrentValues = function () {
+            return \$input.val().split('$delimiter');
+        };
+
+        \$input.select2({
             width: '100%',
             multiple: true,
             minimumInputLength: 3,
@@ -94,7 +101,8 @@ class tao_helpers_form_elements_xhtml_Searchtextbox extends tao_helpers_form_ele
                 data: function (term) {
                     return {
                         propertyUri: '$this->name',
-                        subject: term
+                        subject: term,
+                        exclude: getCurrentValues()
                     }
                 },
                 results: function (data) {
