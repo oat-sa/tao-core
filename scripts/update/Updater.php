@@ -142,6 +142,8 @@ use oat\tao\scripts\install\AddTmpFsHandlers;
 use oat\tao\scripts\install\CreateWebhookEventLogTable;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\RegisterActionService;
+use oat\tao\scripts\install\RegisterClassPropertyRemovedEvent;
+use oat\tao\scripts\install\RegisterClassPropertyRemovedListener;
 use oat\tao\scripts\install\RegisterSignatureGenerator;
 use oat\tao\scripts\install\SetClientLoggerConfig;
 use oat\tao\scripts\install\UpdateRequiredActionUrl;
@@ -1344,5 +1346,17 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         $this->skip('42.0.4', '42.11.0');
+
+//        if ($this->isVersion('42.11.0')) {
+//            $registerPropertiesChangedEvent = new RegisterClassPropertyRemovedEvent();
+//            $registerPropertiesChangedEvent->setServiceLocator($this->getServiceManager());
+//            $registerPropertiesChangedEvent->__invoke([]);
+//
+//            $registerClassPropertyRemovedListener = new RegisterClassPropertyRemovedListener();
+//            $registerClassPropertyRemovedListener->setServiceLocator($this->getServiceManager());
+//            $registerClassPropertyRemovedListener->__invoke([]);
+//
+//            $this->setVersion('42.12.0');
+//        }
     }
 }

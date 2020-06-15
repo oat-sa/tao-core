@@ -26,11 +26,6 @@ use core_kernel_classes_Property;
 use JsonSerializable;
 use oat\oatbox\event\Event;
 
-/**
- * ClassPropertyRemovedEvent
- *
- * @package oat\tao\model\event
- */
 class ClassPropertyRemovedEvent implements Event, JsonSerializable
 {
     /** @var core_kernel_classes_Class */
