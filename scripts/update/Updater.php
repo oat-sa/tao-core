@@ -40,6 +40,7 @@ use oat\oatbox\service\ServiceNotFoundException;
 use oat\oatbox\task\TaskService;
 use oat\oatbox\user\UserService;
 use oat\tao\controller\api\Users;
+use oat\tao\elasticsearch\IndexUpdater;
 use oat\tao\helpers\dateFormatter\EuropeanFormatter;
 use oat\tao\helpers\form\ValidationRuleRegistry;
 use oat\tao\model\accessControl\func\AccessRule;
@@ -91,6 +92,8 @@ use oat\tao\model\routing\AnnotationReaderService;
 use oat\tao\model\routing\ControllerService;
 use oat\tao\model\routing\RouteAnnotationService;
 use oat\tao\model\search\index\IndexService;
+use oat\tao\model\search\index\IndexUpdaterInterface;
+use oat\tao\model\search\strategy\GenerisIndexUpdater;
 use oat\tao\model\security\ActionProtector;
 use oat\tao\model\security\Business\Contract\SecuritySettingsRepositoryInterface;
 use oat\tao\model\security\DataAccess\Repository\SecuritySettingsRepository;
@@ -1344,5 +1347,12 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         $this->skip('42.0.4', '42.11.0');
+
+//        if ($this->isVersion('42.11.0')) {
+//            $this->getServiceManager()->register(IndexUpdaterInterface::SERVICE_ID, new GenerisIndexUpdater());
+//            $this->setVersion('42.12.0');
+//        }
+//
+//        $this->skip('42.11.0', '42.12.0');
     }
 }
