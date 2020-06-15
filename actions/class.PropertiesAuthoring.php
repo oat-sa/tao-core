@@ -459,7 +459,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
      * @param array $data
      * @return array
      */
-    protected function extractPropertyData($data): array
+    protected function extractPropertyData(array $data): array
     {
         $propertyData = [];
         if (isset($data['properties'])) {
