@@ -38,8 +38,10 @@ abstract class tao_helpers_form_elements_Searchtextbox extends tao_helpers_form_
     {
         $this->values = [];
 
-        foreach ($_POST[$this->name] ?? [] as $value) {
-            $this->values[] = $value;
+        foreach (explode(',', ($_POST[$this->name] ?? '')) as $value) {
+            if ($value) {
+                $this->values[] = $value;
+            }
         }
     }
 

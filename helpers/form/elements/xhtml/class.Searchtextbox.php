@@ -56,12 +56,12 @@ class tao_helpers_form_elements_xhtml_Searchtextbox extends tao_helpers_form_ele
         // TODO: Implement the new widget here
         $htmlPieces[] = "<div {$this->renderAttributes()}>";
 
+        $htmlPieces[] = sprintf('<input type="hidden" id="%s" name="%s">', $this->name, $this->name);
+
         foreach ($this->getValues() as $value) {
             $htmlPieces[] = '<p>';
             $htmlPieces[] = (new core_kernel_classes_Resource(tao_helpers_Uri::decode($value)))->getLabel();
             $htmlPieces[] = '</p>';
-
-            $htmlPieces[] = sprintf('<input type="hidden" name="%s[]" value="%s">', $this->name, _dh($value));
         }
 
         if ($hasUnit) {
@@ -70,6 +70,47 @@ class tao_helpers_form_elements_xhtml_Searchtextbox extends tao_helpers_form_ele
 
         $htmlPieces[] = '</div>';
 
+        $htmlPieces[] = $this->createClientCode();
+
         return implode('', $htmlPieces);
+    }
+
+    private function createClientCode(): string
+    {
+        $searchUrl = tao_helpers_Uri::url('get', 'PropertyValues', 'tao');
+
+        return <<<javascript
+<script>
+    require(['jquery'], function ($) {
+        var normalizeItem = function (item) {
+            return {
+                id: item.uri,
+                text: item.label
+            }
+        };
+        
+        $('#$this->name').select2({
+            width: '100%',
+            multiple: true,
+            minimumInputLength: 3,
+            ajax: {
+                quietMillis: 500,
+                url: '$searchUrl',
+                data: function (term) {
+                    return {
+                        propertyUri: '$this->name',
+                        subject: term
+                    }
+                },
+                results: function (data) {
+                    return {
+                        results: data.values.map(normalizeItem)
+                    };
+                }
+            }
+        });
+    });
+</script>
+javascript;
     }
 }
