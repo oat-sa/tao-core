@@ -26,7 +26,6 @@ namespace oat\tao\model\search\index;
 use ArrayIterator;
 use core_kernel_classes_Class;
 use core_kernel_classes_Literal as Literal;
-use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use Iterator;
 use oat\generis\model\OntologyAwareTrait;
@@ -34,7 +33,6 @@ use oat\generis\model\OntologyRdfs;
 use oat\generis\model\WidgetRdf;
 use oat\oatbox\extension\script\MissingOptionException;
 use oat\oatbox\service\ConfigurableService;
-use oat\tao\elasticsearch\SlugCreator;
 use oat\tao\model\menu\MenuService;
 use oat\tao\model\resources\ResourceIterator;
 use oat\tao\model\search\Search;
@@ -223,7 +221,7 @@ class IndexService extends ConfigurableService
             foreach ($properties as $property) {
                 /** @var core_kernel_classes_Resource $propertyType |null */
                 $propertyType = $property->getOnePropertyValue(
-                    new core_kernel_classes_Property(
+                    $this->getProperty(
                         WidgetRdf::PROPERTY_WIDGET
                     )
                 );
@@ -262,7 +260,7 @@ class IndexService extends ConfigurableService
                 $customPropertiesValues = $resource->getPropertyValues($property);
                 $customProperties[$fieldName] = array_map(
                     function (string $propertyValue): string {
-                        return (new core_kernel_classes_Property($propertyValue))->getLabel();
+                        return $this->getProperty($propertyValue)->getLabel();
                     },
                     $customPropertiesValues
                 );
