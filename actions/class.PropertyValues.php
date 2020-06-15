@@ -22,45 +22,34 @@
 
 declare(strict_types=1);
 
-use oat\tao\model\Lists\Business\Contract\ValueCollectionSearchRepositoryInterface;
-use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
+use oat\tao\model\Lists\Business\Service\ValueCollectionService;
+use oat\tao\model\Lists\Presentation\Web\RequestHandler\ValueCollectionSearchRequestHandler;
 
 class tao_actions_PropertyValues extends tao_actions_CommonModule
 {
     public function get()
     {
-        if (!$this->hasRequestParameter('propertyUri')) {
-            throw new common_exception_BadRequest('propertyUri is required');
-        }
-
-        /** @var ValueCollectionSearchRepositoryInterface $repository */
-        $repository = $this->getServiceLocator()->get(ValueCollectionSearchRepositoryInterface::SERVICE_ID);
-
-        // TODO: Extract concerns into a request handler
-        $searchRequest = new ValueCollectionSearchRequest(
-            tao_helpers_Uri::decode($this->getRequestParameter('propertyUri'))
-        );
-
-        if ($this->hasRequestParameter('exclude')) {
-            $searchRequest->setExcluded(
-                array_map(
-                    [tao_helpers_Uri::class, 'decode'],
-                    $this->getRequestParameter('exclude')
-                )
-            );
-        }
-
-        if ($this->hasRequestParameter('subject')) {
-            $searchRequest->setSubject($this->getRequestParameter('subject'));
-        }
-
         // TODO: Extract concerns into a responder
         $this->returnJson(
             [
-                'values' => $repository->findAll(
-                    $searchRequest
+                'values' => $this->getValueCollectionService()->findAll(
+                    $this->getValueCollectionSearchRequestHandler()->handle(
+                        $this->getPsrRequest()
+                    )
                 ),
             ]
         );
+    }
+
+    private function getValueCollectionSearchRequestHandler(): ValueCollectionSearchRequestHandler
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return $this->getServiceLocator()->get(ValueCollectionSearchRequestHandler::SERVICE_ID);
+    }
+
+    private function getValueCollectionService(): ValueCollectionService
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return $this->getServiceLocator()->get(ValueCollectionService::SERVICE_ID);
     }
 }

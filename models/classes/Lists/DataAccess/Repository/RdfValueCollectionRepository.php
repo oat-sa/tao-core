@@ -30,14 +30,12 @@ use oat\generis\model\OntologyRdf;
 use oat\generis\model\OntologyRdfs;
 use oat\generis\persistence\PersistenceManager;
 use oat\tao\model\service\InjectionAwareService;
-use oat\tao\model\Lists\Business\Contract\ValueCollectionSearchRepositoryInterface;
+use oat\tao\model\Lists\Business\Contract\ValueCollectionRepositoryInterface;
 use oat\tao\model\Lists\Business\Domain\Value;
 use oat\tao\model\Lists\Business\Domain\ValueCollection;
 use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
 
-class RdfValueCollectionSearchRepository
-    extends InjectionAwareService
-    implements ValueCollectionSearchRepositoryInterface
+class RdfValueCollectionRepository extends InjectionAwareService implements ValueCollectionRepositoryInterface
 {
     /** @var PersistenceManager */
     private $persistenceManager;

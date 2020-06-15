@@ -22,14 +22,31 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\Lists\Business\Contract;
+namespace oat\tao\model\Lists\Business\Service;
 
+use oat\tao\model\Lists\Business\Contract\ValueCollectionRepositoryInterface;
 use oat\tao\model\Lists\Business\Domain\ValueCollection;
-use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
+use oat\tao\model\Lists\Business\Input\ValueCollectionSearchInput;
+use oat\tao\model\service\InjectionAwareService;
 
-interface ValueCollectionSearchRepositoryInterface
+class ValueCollectionService extends InjectionAwareService
 {
-    public const SERVICE_ID = 'tao/ValueCollectionSearchRepository';
+    public const SERVICE_ID = 'tao/ValueCollectionService';
 
-    public function findAll(ValueCollectionSearchRequest $searchRequest): ValueCollection;
+    /** @var ValueCollectionRepositoryInterface */
+    private $repository;
+
+    public function __construct(ValueCollectionRepositoryInterface $repository)
+    {
+        parent::__construct();
+
+        $this->repository = $repository;
+    }
+
+    public function findAll(ValueCollectionSearchInput $input): ValueCollection
+    {
+        return $this->repository->findAll(
+            $input->getSearchRequest()
+        );
+    }
 }

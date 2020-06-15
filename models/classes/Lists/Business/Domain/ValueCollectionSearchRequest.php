@@ -78,14 +78,9 @@ class ValueCollectionSearchRequest
         return !empty($this->excluded);
     }
 
-    /**
-     * @param string[] $excluded
-     *
-     * @return $this
-     */
-    public function setExcluded(array $excluded): self
+    public function addExcluded(string $excluded): self
     {
-        $this->excluded = $excluded;
+        $this->excluded[] = $excluded;
 
         return $this;
     }

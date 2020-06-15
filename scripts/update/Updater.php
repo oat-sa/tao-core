@@ -67,8 +67,11 @@ use oat\tao\model\event\UserRemovedEvent;
 use oat\tao\model\event\UserUpdatedEvent;
 use oat\tao\model\extension\UpdateLogger;
 use oat\tao\model\i18n\ExtraPoService;
-use oat\tao\model\Lists\Business\Contract\ValueCollectionSearchRepositoryInterface;
-use oat\tao\model\Lists\DataAccess\Repository\RdfValueCollectionSearchRepository;
+use oat\tao\model\Lists\Business\Contract\ValueCollectionRepositoryInterface;
+use oat\tao\model\Lists\Business\Service\ValueCollectionService;
+use oat\tao\model\Lists\DataAccess\Repository\RdfValueCollectionRepository;
+use oat\tao\model\Lists\Presentation\Web\RequestHandler\ValueCollectionSearchRequestHandler;
+use oat\tao\model\Lists\Presentation\Web\RequestValidator\ValueCollectionSearchRequestValidator;
 use oat\tao\model\maintenance\Maintenance;
 use oat\tao\model\media\MediaService;
 use oat\tao\model\metadata\compiler\ResourceJsonMetadataCompiler;
@@ -1371,8 +1374,22 @@ class Updater extends \common_ext_ExtensionUpdater
             $persistenceManager = $this->getServiceManager()->get(PersistenceManager::SERVICE_ID);
 
             $this->getServiceManager()->register(
-                ValueCollectionSearchRepositoryInterface::SERVICE_ID,
-                new RdfValueCollectionSearchRepository($persistenceManager, 'default')
+                ValueCollectionSearchRequestHandler::SERVICE_ID,
+                new ValueCollectionSearchRequestHandler(
+                    new ValueCollectionSearchRequestValidator()
+                )
+            );
+
+            $valueCollectionRepository = new RdfValueCollectionRepository($persistenceManager, 'default');
+
+            $this->getServiceManager()->register(
+                ValueCollectionRepositoryInterface::SERVICE_ID,
+                $valueCollectionRepository
+            );
+
+            $this->getServiceManager()->register(
+                ValueCollectionService::SERVICE_ID,
+                new ValueCollectionService($valueCollectionRepository)
             );
 
             AclProxy::applyRule(new AccessRule(AccessRule::GRANT, TaoRoles::PROPERTY_MANAGER, ['ext' => 'tao','mod' => 'PropertyValues']));
