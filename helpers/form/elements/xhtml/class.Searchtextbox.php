@@ -53,7 +53,6 @@ class tao_helpers_form_elements_xhtml_Searchtextbox extends tao_helpers_form_ele
             $this->addClass('has-unit');
         }
 
-        // TODO: Implement the new widget here
         $htmlPieces[] = "<div {$this->renderAttributes()}>";
 
         $htmlPieces[] = $this->createHiddenInput()->render();
