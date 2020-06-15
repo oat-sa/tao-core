@@ -88,7 +88,7 @@ class tao_helpers_form_elements_xhtml_Searchtextbox extends tao_helpers_form_ele
                 text: item.label
             }
         };
-        
+
         $('#$this->name').select2({
             width: '100%',
             multiple: true,

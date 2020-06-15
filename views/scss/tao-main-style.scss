@@ -21,3 +21,10 @@
 #tab-items_preview {
     display: none !important;
 }
+
+// TODO move to tao-core-ui
+.select2-container {
+    .select2-input:focus {
+        border: 0 !important;
+    }
+}
