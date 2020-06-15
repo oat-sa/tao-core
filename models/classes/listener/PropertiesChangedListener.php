@@ -28,11 +28,6 @@ use oat\tao\model\search\tasks\RenameIndexProperties;
 use oat\tao\model\taskQueue\QueueDispatcherInterface;
 use RuntimeException;
 
-/**
- * Class ResourceWatcher
- * @package oat\tao\model\resources
- * @author Aleksej Tikhanovich, <aleksej@taotesting.com>
- */
 class PropertiesChangedListener extends ConfigurableService
 {
     const SERVICE_ID = 'tao/PropertiesChangedListener';
