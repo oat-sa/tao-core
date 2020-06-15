@@ -50,19 +50,15 @@ class GenerisIndexDocumentBuilder extends AbstractIndexDocumentBuilder
         }
 
         $body['type'] = $rootResourceType ?: $this->getTypesForResource($resource);
-
-        $document = new IndexDocument(
+    
+        return new IndexDocument(
             $resource->getUri(),
             $body,
             $indexesProperties
         );
-
-        return $document;
     }
 
     /**
-     * @param OntologyIndex $index
-     * @return IndexProperty
      * @throws \common_Exception
      */
     public function getIndexProperties(OntologyIndex $index): IndexProperty
@@ -80,7 +76,6 @@ class GenerisIndexDocumentBuilder extends AbstractIndexDocumentBuilder
     }
 
     /**
-     * @param $resource
      * @return string[]
      * @throws \common_exception_Error
      */
