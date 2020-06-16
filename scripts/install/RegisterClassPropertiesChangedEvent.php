@@ -24,18 +24,18 @@ namespace oat\tao\scripts\install;
 use common_report_Report;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\extension\InstallAction;
-use oat\tao\model\event\PropertiesChangedEvent;
-use oat\tao\model\listener\PropertiesChangedListener;
+use oat\tao\model\event\ClassPropertiesChangedEvent;
+use oat\tao\model\listener\ClassPropertiesChangedListener;
 
-class RegisterPropertiesChangedEvent extends InstallAction
+class RegisterClassPropertiesChangedEvent extends InstallAction
 {
     public function __invoke($params): common_report_Report
     {
         /** @var EventManager $eventManager */
         $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
-        $eventManager->attach(PropertiesChangedEvent::class, [PropertiesChangedListener::SERVICE_ID, 'catchPropertiesChangedEvent']);
+        $eventManager->attach(ClassPropertiesChangedEvent::class, [ClassPropertiesChangedListener::SERVICE_ID, 'catchPropertiesChangedEvent']);
         $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
 
-        return new common_report_Report(common_report_Report::TYPE_SUCCESS, 'PropertiesChangedEvent events are registered');
+        return new common_report_Report(common_report_Report::TYPE_SUCCESS, 'ClassPropertiesChangedEvent events are registered');
     }
 }

@@ -23,12 +23,12 @@ use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\dto\OldProperty;
-use oat\tao\model\event\PropertiesChangedEvent;
-use oat\tao\model\listener\PropertiesChangedListener;
+use oat\tao\model\event\ClassPropertiesChangedEvent;
+use oat\tao\model\listener\ClassPropertiesChangedListener;
 use oat\tao\model\search\tasks\RenameIndexProperties;
 use oat\tao\model\taskQueue\QueueDispatcherInterface;
 
-class PropertiesChangedListenerTest extends TestCase
+class ClassPropertiesChangedListenerTest extends TestCase
 {
     /** @var ServiceManager|MockObject */
     private $serviceManager;
@@ -36,14 +36,14 @@ class PropertiesChangedListenerTest extends TestCase
     /** @var QueueDispatcherInterface|MockObject */
     private $queueDispatcher;
 
-    /** @var PropertiesChangedListener */
+    /** @var ClassPropertiesChangedListener */
     private $sut;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->sut = new PropertiesChangedListener();
+        $this->sut = new ClassPropertiesChangedListener();
 
         $this->serviceManager = $this->createMock(ServiceManager::class);
 
@@ -71,13 +71,13 @@ class PropertiesChangedListenerTest extends TestCase
                         'oldPropertyType' => null,
                     ]
                 ],
-                'Updating Indexes',
+                'Updating search index',
                 null,
                 false
             );
 
         $this->sut->catchPropertiesChangedEvent(
-            new PropertiesChangedEvent(
+            new ClassPropertiesChangedEvent(
                 [
                     [
                         'oldProperty' => new OldProperty('test', null),
@@ -98,7 +98,7 @@ class PropertiesChangedListenerTest extends TestCase
             ->method('createTask');
 
         $this->sut->catchPropertiesChangedEvent(
-            new PropertiesChangedEvent(
+            new ClassPropertiesChangedEvent(
                 [
                     $property
                 ]

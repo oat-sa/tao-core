@@ -29,7 +29,7 @@ use oat\oatbox\log\LoggerAwareTrait;
 use oat\tao\helpers\form\ValidationRuleRegistry;
 use oat\tao\model\dto\OldProperty;
 use oat\tao\model\event\ClassFormUpdatedEvent;
-use oat\tao\model\event\PropertiesChangedEvent;
+use oat\tao\model\event\ClassPropertiesChangedEvent;
 use oat\tao\model\search\index\OntologyIndex;
 use oat\tao\model\search\index\OntologyIndexService;
 use oat\tao\model\validator\PropertyChangedValidator;
@@ -508,7 +508,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         }
 
         if (count($changedProperties) > 0) {
-            $this->getEventManager()->trigger(new PropertiesChangedEvent($changedProperties));
+            $this->getEventManager()->trigger(new ClassPropertiesChangedEvent($changedProperties));
         }
     }
 

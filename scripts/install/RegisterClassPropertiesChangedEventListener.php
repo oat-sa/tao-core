@@ -24,9 +24,9 @@ namespace oat\tao\scripts\install;
 use common_report_Report;
 use oat\oatbox\extension\InstallAction;
 use oat\oatbox\service\exception\InvalidServiceManagerException;
-use oat\tao\model\listener\PropertiesChangedListener;
+use oat\tao\model\listener\ClassPropertiesChangedListener;
 
-class RegisterPropertiesChangedEventListener extends InstallAction
+class RegisterClassPropertiesChangedEventListener extends InstallAction
 {
     /**
      * @param $params
@@ -37,8 +37,8 @@ class RegisterPropertiesChangedEventListener extends InstallAction
      */
     public function __invoke($params): common_report_Report
     {
-        $this->getServiceManager()->register(PropertiesChangedListener::SERVICE_ID, new PropertiesChangedListener());
+        $this->getServiceManager()->register(ClassPropertiesChangedListener::SERVICE_ID, new ClassPropertiesChangedListener());
 
-        return new common_report_Report(common_report_Report::TYPE_SUCCESS, 'PropertiesChangedListener is registered');
+        return new common_report_Report(common_report_Report::TYPE_SUCCESS, 'ClassPropertiesChangedListener is registered');
     }
 }

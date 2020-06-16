@@ -23,16 +23,16 @@ namespace oat\tao\model\listener;
 
 use core_kernel_classes_Property;
 use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\event\PropertiesChangedEvent;
+use oat\tao\model\event\ClassPropertiesChangedEvent;
 use oat\tao\model\search\tasks\RenameIndexProperties;
 use oat\tao\model\taskQueue\QueueDispatcherInterface;
 use RuntimeException;
 
-class PropertiesChangedListener extends ConfigurableService
+class ClassPropertiesChangedListener extends ConfigurableService
 {
-    const SERVICE_ID = 'tao/PropertiesChangedListener';
+    const SERVICE_ID = 'tao/ClassPropertiesChangedListener';
 
-    public function catchPropertiesChangedEvent(PropertiesChangedEvent $event): void
+    public function catchPropertiesChangedEvent(ClassPropertiesChangedEvent $event): void
     {
         $taskMessage = __('Updating search index');
 

@@ -23,7 +23,7 @@ namespace oat\tao\model\event;
 
 use oat\oatbox\event\Event;
 
-class PropertiesChangedEvent implements Event
+class ClassPropertiesChangedEvent implements Event
 {
     /**
      * @var array[{property: \core_kernel_classes_Property, oldProperty: \oat\tao\model\dto\OldProperty}]
