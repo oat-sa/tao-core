@@ -23,7 +23,7 @@ namespace oat\tao\model\search\index;
 
 use Throwable;
 
-interface IndexUpdater
+interface IndexUpdaterInterface
 {
     public const SERVICE_ID = 'tao/IndexUpdater';
 

@@ -92,7 +92,7 @@ use oat\tao\model\routing\AnnotationReaderService;
 use oat\tao\model\routing\ControllerService;
 use oat\tao\model\routing\RouteAnnotationService;
 use oat\tao\model\search\index\IndexService;
-use oat\tao\model\search\index\IndexUpdater;
+use oat\tao\model\search\index\IndexUpdaterInterface;
 use oat\tao\model\search\strategy\GenerisIndexUpdater;
 use oat\tao\model\security\ActionProtector;
 use oat\tao\model\security\Business\Contract\SecuritySettingsRepositoryInterface;
