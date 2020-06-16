@@ -25,6 +25,7 @@ use common_Logger;
 use GuzzleHttp\Client;
 use helpers_TimeOutHelper;
 use oat\tao\model\media\MediaBrowser;
+use Psr\Http\Message\StreamInterface;
 
 /**
  * This media source gives access to files not part of the Tao platform
@@ -141,5 +142,13 @@ class HttpSource implements MediaBrowser
     {
         $client = new Client();
         return $client->get($url);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getProcessedFileStream(string $link): StreamInterface
+    {
+        return $this->getFileStream($link);
     }
 }

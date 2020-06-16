@@ -15,11 +15,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2015-2020 (original work) Open Assessment Technologies SA;
  *
  */
 
 namespace oat\tao\model\media;
+
+use Psr\Http\Message\StreamInterface;
 
 /**
  * Read interface to the media source
@@ -65,6 +67,8 @@ interface MediaBrowser
      * @return \Psr\Http\Message\StreamInterface
      */
     public function getFileStream($link);
+
+    public function getProcessedFileStream(string $link): StreamInterface;
 
         /**
      * @param string $link
