@@ -30,4 +30,9 @@ class GenerisIndexUpdater extends ConfigurableService implements IndexUpdaterInt
     {
         return;
     }
+
+    public function deleteProperty(string $propertyName, array $resources): void
+    {
+        return;
+    }
 }

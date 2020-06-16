@@ -33,4 +33,12 @@ interface IndexUpdaterInterface
      * @throws Throwable
      */
     public function updateProperties(array $properties): void;
+
+    /**
+     * @param string $propertyName
+     * @param array $resources
+     *
+     * @throws Throwable
+     */
+    public function deleteProperty(string $propertyName, array $resources): void;
 }

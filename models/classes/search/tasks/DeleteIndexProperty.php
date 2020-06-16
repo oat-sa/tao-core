@@ -26,6 +26,7 @@ use core_kernel_classes_Class;
 use core_kernel_classes_Property;
 use oat\oatbox\action\Action;
 use oat\oatbox\log\LoggerAwareTrait;
+use oat\tao\model\search\index\IndexUpdaterInterface;
 use oat\tao\model\taskQueue\Task\TaskAwareInterface;
 use oat\tao\model\taskQueue\Task\TaskAwareTrait;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
@@ -43,8 +44,11 @@ class DeleteIndexProperty implements Action, ServiceLocatorAwareInterface, TaskA
 
         $class = new core_kernel_classes_Class($class['uriResource']);
         $property = new core_kernel_classes_Property($property['uriResource']);
-        $documents = $class->getInstances(true);
+        $resources = $class->getInstances(true);
 
+        /** @var IndexUpdaterInterface $indexUpdater */
+        $indexUpdater = $this->getServiceLocator()->get(IndexUpdaterInterface::SERVICE_ID);
+        $indexUpdater->deleteProperty($property->getLabel(), $resources);
 
         $this->getLogger()->debug('Item processed');
     }
