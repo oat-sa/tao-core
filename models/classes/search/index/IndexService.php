@@ -215,7 +215,7 @@ class IndexService extends ConfigurableService
 
         foreach ($classes as $class) {
             $properties = tao_helpers_form_GenerisFormFactory::getClassProperties(
-                new core_kernel_classes_Class($class)
+                $this->getClass($class)
             );
 
             foreach ($properties as $property) {

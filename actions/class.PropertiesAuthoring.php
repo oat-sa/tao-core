@@ -478,8 +478,8 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
 
             $property = $this->getProperty(tao_helpers_Uri::decode($propertyValues['uri']));
             $oldPropertyLabel = $property->getLabel();
-            $oldPropertyType = $property->getProperty(
-                WidgetRdf::PROPERTY_WIDGET
+            $oldPropertyType = $property->getOnePropertyValue(
+                $this->getProperty(WidgetRdf::PROPERTY_WIDGET)
             );
             $oldProperty = new OldProperty($oldPropertyLabel, $oldPropertyType);
 
