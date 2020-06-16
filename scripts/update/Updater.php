@@ -40,6 +40,7 @@ use oat\oatbox\service\ServiceNotFoundException;
 use oat\oatbox\task\TaskService;
 use oat\oatbox\user\UserService;
 use oat\tao\controller\api\Users;
+use oat\tao\elasticsearch\IndexUpdater;
 use oat\tao\helpers\dateFormatter\EuropeanFormatter;
 use oat\tao\helpers\form\ValidationRuleRegistry;
 use oat\tao\model\accessControl\func\AccessRule;
@@ -91,6 +92,8 @@ use oat\tao\model\routing\AnnotationReaderService;
 use oat\tao\model\routing\ControllerService;
 use oat\tao\model\routing\RouteAnnotationService;
 use oat\tao\model\search\index\IndexService;
+use oat\tao\model\search\index\IndexUpdaterInterface;
+use oat\tao\model\search\strategy\GenerisIndexUpdater;
 use oat\tao\model\security\ActionProtector;
 use oat\tao\model\security\Business\Contract\SecuritySettingsRepositoryInterface;
 use oat\tao\model\security\DataAccess\Repository\SecuritySettingsRepository;
@@ -144,6 +147,8 @@ use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\RegisterActionService;
 use oat\tao\scripts\install\RegisterClassPropertyRemovedEvent;
 use oat\tao\scripts\install\RegisterClassPropertyRemovedListener;
+use oat\tao\scripts\install\RegisterClassPropertiesChangedEvent;
+use oat\tao\scripts\install\RegisterClassPropertiesChangedEventListener;
 use oat\tao\scripts\install\RegisterSignatureGenerator;
 use oat\tao\scripts\install\SetClientLoggerConfig;
 use oat\tao\scripts\install\UpdateRequiredActionUrl;
@@ -1348,9 +1353,17 @@ class Updater extends \common_ext_ExtensionUpdater
         $this->skip('42.0.4', '42.11.0');
 
 //        if ($this->isVersion('42.11.0')) {
-//            $registerPropertiesChangedEvent = new RegisterClassPropertyRemovedEvent();
+//            $registerPropertiesChangedEvent = new RegisterClassPropertiesChangedEvent();
 //            $registerPropertiesChangedEvent->setServiceLocator($this->getServiceManager());
 //            $registerPropertiesChangedEvent->__invoke([]);
+//
+//            $registerPropertiesChangedEventListener = new RegisterClassPropertiesChangedEventListener();
+//            $registerPropertiesChangedEventListener->setServiceLocator($this->getServiceManager());
+//            $registerPropertiesChangedEventListener->__invoke([]);
+//
+//            $registerClassPropertyRemovedEvent = new RegisterClassPropertyRemovedEvent();
+//            $registerClassPropertyRemovedEvent->setServiceLocator($this->getServiceManager());
+//            $registerClassPropertyRemovedEvent->__invoke([]);
 //
 //            $registerClassPropertyRemovedListener = new RegisterClassPropertyRemovedListener();
 //            $registerClassPropertyRemovedListener->setServiceLocator($this->getServiceManager());

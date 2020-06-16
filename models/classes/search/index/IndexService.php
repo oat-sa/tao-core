@@ -25,7 +25,7 @@ namespace oat\tao\model\search\index;
 
 use ArrayIterator;
 use core_kernel_classes_Class;
-use core_kernel_classes_Property;
+use core_kernel_classes_Literal as Literal;
 use core_kernel_classes_Resource;
 use Iterator;
 use oat\generis\model\OntologyAwareTrait;
@@ -33,7 +33,6 @@ use oat\generis\model\OntologyRdfs;
 use oat\generis\model\WidgetRdf;
 use oat\oatbox\extension\script\MissingOptionException;
 use oat\oatbox\service\ConfigurableService;
-use oat\tao\elasticsearch\SlugCreator;
 use oat\tao\model\menu\MenuService;
 use oat\tao\model\resources\ResourceIterator;
 use oat\tao\model\search\Search;
@@ -95,7 +94,7 @@ class IndexService extends ConfigurableService
         $indexesProperties = [];
         foreach ($tokenGenerator->generateTokens($resource) as $data) {
             /** @var OntologyIndex $index */
-            list($index, $strings) = $data;
+            [$index, $strings] = $data;
             $body[$index->getIdentifier()] = $strings;
             $indexesProperties[$index->getIdentifier()] = $this->getIndexProperties($index);
         }
@@ -216,16 +215,17 @@ class IndexService extends ConfigurableService
 
         foreach ($classes as $class) {
             $properties = tao_helpers_form_GenerisFormFactory::getClassProperties(
-                new core_kernel_classes_Class($class)
+                $this->getClass($class)
             );
 
             foreach ($properties as $property) {
                 /** @var core_kernel_classes_Resource $propertyType |null */
                 $propertyType = $property->getOnePropertyValue(
-                    new core_kernel_classes_Property(
+                    $this->getProperty(
                         WidgetRdf::PROPERTY_WIDGET
                     )
                 );
+
                 if (null === $propertyType) {
                     continue;
                 }
@@ -251,22 +251,19 @@ class IndexService extends ConfigurableService
                     continue;
                 }
 
-                $customProperties[$fieldName] = (string)$propertyValue;
-
-                if ($propertyTypeUri === WidgetDefinitions::PROPERTY_COMBOBOX
-                    || $propertyTypeUri === WidgetDefinitions::PROPERTY_RADIOBOX) {
-                    $customProperties[$fieldName] = (string)$propertyValue->getLabel();
+                if ($propertyValue instanceof Literal) {
+                    $customProperties[$fieldName][] = (string)$propertyValue;
+                    $customProperties[$fieldName] = array_unique($customProperties[$fieldName]);
+                    continue;
                 }
 
-                if ($propertyTypeUri === WidgetDefinitions::PROPERTY_CHECKBOX) {
-                    $customPropertiesValues = $resource->getPropertyValues($property);
-                    $customProperties[$fieldName] = array_map(
-                        function (string $propertyValue): string {
-                            return (new core_kernel_classes_Property($propertyValue))->getLabel();
-                        },
-                        $customPropertiesValues
-                    );
-                }
+                $customPropertiesValues = $resource->getPropertyValues($property);
+                $customProperties[$fieldName] = array_map(
+                    function (string $propertyValue): string {
+                        return $this->getProperty($propertyValue)->getLabel();
+                    },
+                    $customPropertiesValues
+                );
             }
         }
 

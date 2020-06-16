@@ -20,17 +20,20 @@
 
 declare(strict_types=1);
 
-use oat\oatbox\event\EventManager;
-use oat\tao\model\event\ClassFormUpdatedEvent;
 use oat\generis\model\GenerisRdf;
+use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
 use oat\generis\model\WidgetRdf;
 use oat\tao\model\event\ClassPropertyRemovedEvent;
+use oat\oatbox\event\EventManager;
+use oat\oatbox\log\LoggerAwareTrait;
+use oat\tao\helpers\form\ValidationRuleRegistry;
+use oat\tao\model\dto\OldProperty;
+use oat\tao\model\event\ClassFormUpdatedEvent;
+use oat\tao\model\event\ClassPropertiesChangedEvent;
 use oat\tao\model\search\index\OntologyIndex;
 use oat\tao\model\search\index\OntologyIndexService;
-use oat\tao\helpers\form\ValidationRuleRegistry;
-use oat\generis\model\OntologyAwareTrait;
-use oat\oatbox\log\LoggerAwareTrait;
+use oat\tao\model\validator\PropertyChangedValidator;
 use oat\tao\model\search\Search;
 
 /**
@@ -324,21 +327,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
 
                 //save all properties values
                 if (isset($data['properties'])) {
-                    foreach ($data['properties'] as $i => $propertyValues) {
-                        //get index values
-                        $indexes = null;
-                        if (isset($propertyValues['indexes'])) {
-                            $indexes = $propertyValues['indexes'];
-                            unset($propertyValues['indexes']);
-                        }
-                        $this->saveSimpleProperty($propertyValues);
-                        //save index
-                        if (!is_null($indexes)) {
-                            foreach ($indexes as $indexValues) {
-                                $this->savePropertyIndex($indexValues);
-                            }
-                        }
-                    }
+                    $this->saveProperties($data);
                 }
             }
         }
@@ -349,11 +338,12 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
      * Default property handling
      *
      * @param array $propertyValues
+     * @param core_kernel_classes_Resource $property
+     * @throws Exception
      */
-    protected function saveSimpleProperty(array $propertyValues): void
+    protected function saveSimpleProperty(array $propertyValues, core_kernel_classes_Resource $property): void
     {
         $propertyMap = tao_helpers_form_GenerisFormFactory::getPropertyMap();
-        $property = $this->getProperty(tao_helpers_Uri::decode($propertyValues['uri']));
         $type = $propertyValues['type'];
         $range = (isset($propertyValues['range']) ? tao_helpers_Uri::decode(trim($propertyValues['range'])) : null);
         unset($propertyValues['uri']);
@@ -471,6 +461,58 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
             }
         }
         return $propertyData;
+    }
+
+    /**
+     * @param array $properties
+     *
+     * @throws core_kernel_persistence_Exception
+     */
+    private function saveProperties(array $properties): void
+    {
+        $changedProperties = [];
+        foreach ($properties['properties'] as $i => $propertyValues) {
+            //get index values
+            $indexes = null;
+            if (isset($propertyValues['indexes'])) {
+                $indexes = $propertyValues['indexes'];
+                unset($propertyValues['indexes']);
+            }
+
+            $property = $this->getProperty(tao_helpers_Uri::decode($propertyValues['uri']));
+            $oldPropertyLabel = $property->getLabel();
+            $oldPropertyType = $property->getOnePropertyValue(
+                $this->getProperty(WidgetRdf::PROPERTY_WIDGET)
+            );
+            $oldProperty = new OldProperty($oldPropertyLabel, $oldPropertyType);
+
+            $this->saveSimpleProperty($propertyValues, $property);
+
+            $currentProperty = $this->getProperty(tao_helpers_Uri::decode($propertyValues['uri']));
+
+            $isPropertyChanged = (new PropertyChangedValidator())->isPropertyChanged(
+                $currentProperty,
+                $oldProperty
+            );
+
+            if ($isPropertyChanged) {
+                $changedProperties[] = [
+                    'property' => $currentProperty,
+                    'oldProperty' => $oldProperty,
+                ];
+            }
+
+            //save index
+            if (!is_null($indexes)) {
+                foreach ($indexes as $indexValues) {
+                    $this->savePropertyIndex($indexValues);
+                }
+            }
+        }
+
+        if (count($changedProperties) > 0) {
+            $this->getEventManager()->trigger(new ClassPropertiesChangedEvent($changedProperties));
+        }
     }
 
     private function isElasticSearchEnabled(): bool
