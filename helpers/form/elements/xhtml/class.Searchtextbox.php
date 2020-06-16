@@ -63,59 +63,62 @@ class tao_helpers_form_elements_xhtml_Searchtextbox extends tao_helpers_form_ele
 
         $htmlPieces[] = '</div>';
 
+        $htmlPieces[] = '<script>';
         $htmlPieces[] = $this->createClientCode();
+        $htmlPieces[] = '</script>';
 
         return implode('', $htmlPieces);
     }
 
     private function createClientCode(): string
     {
-        $delimiter     = static::VALUE_DELIMITER;
-        $searchUrl     = tao_helpers_Uri::url('get', 'PropertyValues', 'tao');
+        $searchUrl = tao_helpers_Uri::url('get', 'PropertyValues', 'tao');
+
+        $baseVariables   = $this->createBaseClientVariables();
         $initSelection = json_encode($this->createInitSelectionValues());
 
         return <<<javascript
-<script>
-    require(['jquery'], function ($) {
-        var \$input = $('#$this->name');
-        
-        var normalizeItem = function (item) {
-            return {
-                id: item.uri,
-                text: item.label
-            }
-        };
+require(['jquery'], function ($) {
+    $baseVariables
 
-        var getCurrentValues = function () {
-            return \$input.val().split('$delimiter');
-        };
-
-        \$input.select2({
-            width: '100%',
-            multiple: true,
-            minimumInputLength: 3,
-            ajax: {
-                quietMillis: 200,
-                url: '$searchUrl',
-                data: function (term) {
-                    return {
-                        propertyUri: '$this->name',
-                        subject: term,
-                        exclude: getCurrentValues()
-                    }
-                },
-                results: function (data) {
-                    return {
-                        results: data.data.map(normalizeItem)
-                    };
-                }
-            },
-            initSelection: function (element, callback) {
-                callback($initSelection);
-            }
-        });
+    \$input.select2({
+        width: '100%',
+        multiple: true,
+        minimumInputLength: 3,
+        ajax: {
+            quietMillis: 200,
+            url: '$searchUrl',
+            data: createRequestData,
+            results: normalizeResponse
+        },
+        initSelection: function (element, callback) {
+            callback($initSelection);
+        }
     });
-</script>
+});
+javascript;
+    }
+
+    private function createBaseClientVariables(): string
+    {
+        $delimiter = static::VALUE_DELIMITER;
+
+        return <<<javascript
+var \$input = $('#$this->name');
+
+var normalizeItem = function (item) { return { id: item.uri, text: item.label } };
+
+var normalizeResponse = function (data) { return { results: data.data.map(normalizeItem) } };
+
+var getCurrentValues = function () { return \$input.val().split('$delimiter') };
+
+var createRequestData = function (term) {
+    return {
+        propertyUri: '$this->name',
+        subject: term,
+        exclude: getCurrentValues()
+    }
+};
 javascript;
     }
 

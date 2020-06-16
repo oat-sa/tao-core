@@ -26,6 +26,7 @@ namespace oat\tao\model\Lists\DataAccess\Repository;
 
 use common_persistence_SqlPersistence as SqlPersistence;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Query\QueryBuilder;
 use oat\generis\model\OntologyRdf;
 use oat\generis\model\OntologyRdfs;
 use oat\generis\persistence\PersistenceManager;
@@ -53,13 +54,26 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
 
     public function findAll(ValueCollectionSearchRequest $searchRequest): ValueCollection
     {
-        $queryBuilder = $this->getPersistence()
-            ->getPlatForm()
-            ->getQueryBuilder();
+        $query = $this->createInitialQuery($searchRequest);
 
-        $expressionBuilder = $queryBuilder->expr();
+        $this->enrichQueryWithSubject($searchRequest, $query);
+        $this->enrichQueryWithExcludedValueUris($searchRequest, $query);
 
-        $query = $queryBuilder
+        $values = [];
+        foreach ($query->execute()->fetchAll() as $rawValue) {
+            $values[] = new Value($rawValue['subject'], $rawValue['object']);
+        }
+
+        return new ValueCollection(...$values);
+    }
+
+    private function createInitialQuery(ValueCollectionSearchRequest $searchRequest): QueryBuilder
+    {
+        $query = $this->getPersistence()->getPlatForm()->getQueryBuilder();
+
+        $expressionBuilder = $query->expr();
+
+        return $query
             ->select('filter.subject', 'filter.object')
             ->from('statements', 'filter')
             ->innerJoin(
@@ -78,34 +92,45 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
             ->andWhere($expressionBuilder->eq('property.predicate', ':range_uri'))
             ->andWhere($expressionBuilder->eq('filter.predicate', ':label_uri'))
             ->andWhere($expressionBuilder->eq('collection.predicate', ':type_uri'))
-            ->setParameters(
-                [
-                    'property_uri' => $searchRequest->getPropertyUri(),
-                    'range_uri'    => OntologyRdfs::RDFS_RANGE,
-                    'label_uri'    => OntologyRdfs::RDFS_LABEL,
-                    'type_uri'     => OntologyRdf::RDF_TYPE,
-                ]
-            )
+            ->setParameters($this->createInitialQueryParameters($searchRequest))
             ->setMaxResults($searchRequest->getLimit());
+    }
 
+    private function enrichQueryWithSubject(ValueCollectionSearchRequest $searchRequest, QueryBuilder $query): void
+    {
         if ($searchRequest->hasSubject()) {
             $query
-                ->andWhere($expressionBuilder->like('filter.object', ':subject'))
+                ->andWhere(
+                    $this->getPersistence()->getPlatForm()->getQueryBuilder()->expr()->like('filter.object', ':subject')
+                )
                 ->setParameter('subject', "{$searchRequest->getSubject()}%");
         }
+    }
 
+    private function enrichQueryWithExcludedValueUris(
+        ValueCollectionSearchRequest $searchRequest,
+        QueryBuilder $query
+    ): void {
         if ($searchRequest->hasExcluded()) {
             $query
-                ->andWhere($expressionBuilder->notIn('filter.subject', ':excluded_value_uri'))
+                ->andWhere(
+                    $this->getPersistence()->getPlatForm()->getQueryBuilder()->expr()->notIn(
+                        'filter.subject',
+                        ':excluded_value_uri'
+                    )
+                )
                 ->setParameter('excluded_value_uri', $searchRequest->getExcluded(), Connection::PARAM_STR_ARRAY);
         }
+    }
 
-        $values = [];
-        foreach ($query->execute()->fetchAll() as $rawValue) {
-            $values[] = new Value($rawValue['subject'], $rawValue['object']);
-        }
-
-        return new ValueCollection(...$values);
+    private function createInitialQueryParameters(ValueCollectionSearchRequest $searchRequest): array
+    {
+        return [
+            'property_uri' => $searchRequest->getPropertyUri(),
+            'range_uri'    => OntologyRdfs::RDFS_RANGE,
+            'label_uri'    => OntologyRdfs::RDFS_LABEL,
+            'type_uri'     => OntologyRdf::RDF_TYPE,
+        ];
     }
 
     private function getPersistence(): SqlPersistence

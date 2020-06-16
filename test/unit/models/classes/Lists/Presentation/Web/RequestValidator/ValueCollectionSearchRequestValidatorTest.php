@@ -134,7 +134,7 @@ class ValueCollectionSearchRequestValidatorTest extends TestCase
         $request = $this->createMock(ServerRequestInterface::class);
 
         $request
-            ->expects(static::once())
+            ->expects(static::atLeastOnce())
             ->method('getQueryParams')
             ->willReturn($queryParameters);
 

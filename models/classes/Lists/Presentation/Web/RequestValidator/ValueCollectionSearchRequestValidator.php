@@ -44,9 +44,23 @@ class ValueCollectionSearchRequestValidator extends InjectionAwareService
      */
     public function validate(ServerRequestInterface $request): void
     {
-        $queryParameters = $request->getQueryParams();
+        $this->validateRequired($request);
+        $this->validateSubject($request);
+        $this->validateExclude($request);
+        $this->validateExcludeElements($request);
+    }
 
-        $missingQueryParameters = array_diff_key(array_flip(self::REQUIRED_QUERY_PARAMETERS), $queryParameters);
+    /**
+     * @param ServerRequestInterface $request
+     *
+     * @throws BadRequestException
+     */
+    private function validateRequired(ServerRequestInterface $request): void
+    {
+        $missingQueryParameters = array_diff_key(
+            array_flip(self::REQUIRED_QUERY_PARAMETERS),
+            $request->getQueryParams()
+        );
 
         if ($missingQueryParameters) {
             throw new BadRequestException(
@@ -56,6 +70,16 @@ class ValueCollectionSearchRequestValidator extends InjectionAwareService
                 )
             );
         }
+    }
+
+    /**
+     * @param ServerRequestInterface $request
+     *
+     * @throws BadRequestException
+     */
+    private function validateSubject(ServerRequestInterface $request): void
+    {
+        $queryParameters = $request->getQueryParams();
 
         if (
             isset($queryParameters[ValueCollectionSearchRequestHandler::QUERY_PARAMETER_SUBJECT])
@@ -67,6 +91,16 @@ class ValueCollectionSearchRequestValidator extends InjectionAwareService
                 'string'
             );
         }
+    }
+
+    /**
+     * @param ServerRequestInterface $request
+     *
+     * @throws BadRequestException
+     */
+    private function validateExclude(ServerRequestInterface $request): void
+    {
+        $queryParameters = $request->getQueryParams();
 
         if (
             isset($queryParameters[ValueCollectionSearchRequestHandler::QUERY_PARAMETER_EXCLUDE])
@@ -78,6 +112,16 @@ class ValueCollectionSearchRequestValidator extends InjectionAwareService
                 'array'
             );
         }
+    }
+
+    /**
+     * @param ServerRequestInterface $request
+     *
+     * @throws BadRequestException
+     */
+    private function validateExcludeElements(ServerRequestInterface $request): void
+    {
+        $queryParameters = $request->getQueryParams();
 
         foreach ($queryParameters[ValueCollectionSearchRequestHandler::QUERY_PARAMETER_EXCLUDE] ?? [] as $key => $excluded) {
             if (!is_string($excluded)) {

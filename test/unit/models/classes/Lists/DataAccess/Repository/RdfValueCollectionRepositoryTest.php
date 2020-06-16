@@ -130,13 +130,13 @@ class RdfValueCollectionRepositoryTest extends TestCase
     private function setUpInitialMockExpectations(): void
     {
         $this->persistenceManagerMock
-            ->expects(static::once())
+            ->expects(static::atLeastOnce())
             ->method('getPersistenceById')
             ->with(self::PERSISTENCE_ID)
             ->willReturn($this->persistenceMock);
 
         $this->persistenceMock
-            ->expects(static::once())
+            ->expects(static::atLeastOnce())
             ->method('getPlatform')
             ->willReturn(new SqlPlatform($this->connectionMock));
 
@@ -145,7 +145,7 @@ class RdfValueCollectionRepositoryTest extends TestCase
             ->willReturn($this->platformMock);
 
         $this->connectionMock
-            ->expects(static::once())
+            ->expects(static::atLeastOnce())
             ->method('getExpressionBuilder')
             ->willReturn(new ExpressionBuilder($this->connectionMock));
     }
