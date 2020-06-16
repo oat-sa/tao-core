@@ -24,6 +24,8 @@ namespace oat\tao\model\listener;
 
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\event\ClassPropertyRemovedEvent;
+use oat\tao\model\search\tasks\DeleteIndexProperty;
+use oat\tao\model\taskQueue\QueueDispatcherInterface;
 
 class ClassPropertyRemovedListener extends ConfigurableService
 {
@@ -32,6 +34,17 @@ class ClassPropertyRemovedListener extends ConfigurableService
     public function catchClassPropertyRemovedEvent(ClassPropertyRemovedEvent $event)
     {
         $taskMessage = __('Updating Documents');
+
+        /** @var QueueDispatcherInterface $queueDispatcher */
+        $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcherInterface::SERVICE_ID);
+        $queueDispatcher->createTask(
+            new DeleteIndexProperty(),
+            [
+                $event->getClass(),
+                $event->getProperty()
+            ],
+            $taskMessage
+        );
 
         $this->getLogger()->debug('Got a new item for removal');
     }
