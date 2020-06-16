@@ -1392,7 +1392,9 @@ class Updater extends \common_ext_ExtensionUpdater
                 new ValueCollectionService($valueCollectionRepository)
             );
 
-            AclProxy::applyRule(new AccessRule(AccessRule::GRANT, TaoRoles::PROPERTY_MANAGER, ['ext' => 'tao','mod' => 'PropertyValues']));
+            AclProxy::applyRule(
+                new AccessRule(AccessRule::GRANT, TaoRoles::BACK_OFFICE, ['ext' => 'tao', 'mod' => 'PropertyValues'])
+            );
 
             $this->setVersion('44.2.0');
         }
