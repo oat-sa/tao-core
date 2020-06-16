@@ -25,7 +25,19 @@ use oat\oatbox\event\Event;
 
 class PropertiesChangedEvent implements Event
 {
-    /** @var array */
+    /**
+     * @var array[{property: \core_kernel_classes_Property, oldProperty: \oat\tao\model\dto\OldProperty}]
+     *
+     * list of properties that it was changed following the structure:
+     *  $properties = [
+     *      [
+     *          'property' => (\core_kernel_classes_Property), this is the current property
+     *          'oldProperty' => (\oat\tao\model\dto\OldProperty) this is a DTO object representing the old values
+     *      ],
+     *      ...
+     *  ];
+     *
+     */
     private $properties;
 
     public function __construct(array $properties)
