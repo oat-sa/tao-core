@@ -21,6 +21,8 @@ declare(strict_types=1);
 
 namespace oat\tao\model\search\index;
 
+use core_kernel_classes_Class;
+use core_kernel_classes_Property;
 use Throwable;
 
 interface IndexUpdaterInterface
@@ -35,10 +37,10 @@ interface IndexUpdaterInterface
     public function updateProperties(array $properties): void;
 
     /**
-     * @param string $propertyName
-     * @param array $resources
+     * @param core_kernel_classes_Class $class
+     * @param core_kernel_classes_Property $property
      *
      * @throws Throwable
      */
-    public function deleteProperty(string $propertyName, array $resources): void;
+    public function deleteProperty(core_kernel_classes_Class $class, core_kernel_classes_Property $property): void;
 }

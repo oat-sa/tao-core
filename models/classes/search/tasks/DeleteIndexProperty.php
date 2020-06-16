@@ -44,11 +44,10 @@ class DeleteIndexProperty implements Action, ServiceLocatorAwareInterface, TaskA
 
         $class = new core_kernel_classes_Class($class['uriResource']);
         $property = new core_kernel_classes_Property($property['uriResource']);
-        $resources = $class->getInstances(true);
 
         /** @var IndexUpdaterInterface $indexUpdater */
         $indexUpdater = $this->getServiceLocator()->get(IndexUpdaterInterface::SERVICE_ID);
-        $indexUpdater->deleteProperty($property->getLabel(), $resources);
+        $indexUpdater->deleteProperty($class, $property);
 
         $this->getLogger()->debug('Item processed');
     }
