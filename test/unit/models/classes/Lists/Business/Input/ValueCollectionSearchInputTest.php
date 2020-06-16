@@ -22,40 +22,20 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\Lists\Business\Domain;
+namespace oat\tao\test\unit\model\Lists\Business\Input;
 
-use JsonSerializable;
-use tao_helpers_Uri;
+use oat\generis\test\TestCase;
+use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
+use oat\tao\model\Lists\Business\Input\ValueCollectionSearchInput;
 
-class Value implements JsonSerializable
+class ValueCollectionSearchInputTest extends TestCase
 {
-    /** @var string */
-    private $uri;
-
-    /** @var string */
-    private $label;
-
-    public function __construct(string $uri, string $label)
+    public function testSearchRequestAccessor(): void
     {
-        $this->uri   = $uri;
-        $this->label = $label;
-    }
+        $searchRequest = $this->createMock(ValueCollectionSearchRequest::class);
 
-    public function getUri(): string
-    {
-        return $this->uri;
-    }
+        $sut = new ValueCollectionSearchInput($searchRequest);
 
-    public function getLabel(): string
-    {
-        return $this->label;
-    }
-
-    public function jsonSerialize(): array
-    {
-        return [
-            'uri'   => tao_helpers_Uri::encode($this->uri),
-            'label' => $this->label,
-        ];
+        $this->assertSame($searchRequest, $sut->getSearchRequest());
     }
 }

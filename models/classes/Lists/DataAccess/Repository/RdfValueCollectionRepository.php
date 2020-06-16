@@ -96,11 +96,10 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
 
         if ($searchRequest->hasExcluded()) {
             $query
-                ->andWhere($expressionBuilder->notIn('filter.subject', ':seen'))
-                ->setParameter('seen', $searchRequest->getExcluded(), Connection::PARAM_STR_ARRAY);
+                ->andWhere($expressionBuilder->notIn('filter.subject', ':excluded_value_uri'))
+                ->setParameter('excluded_value_uri', $searchRequest->getExcluded(), Connection::PARAM_STR_ARRAY);
         }
 
-        // TODO: Extract the concern into a mapper
         $values = [];
         foreach ($query->execute()->fetchAll() as $rawValue) {
             $values[] = new Value($rawValue['subject'], $rawValue['object']);

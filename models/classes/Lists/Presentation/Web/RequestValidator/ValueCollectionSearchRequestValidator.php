@@ -75,11 +75,11 @@ class ValueCollectionSearchRequestValidator extends InjectionAwareService
             throw $this->createBadTypeException(
                 ValueCollectionSearchRequestHandler::QUERY_PARAMETER_EXCLUDE,
                 $queryParameters[ValueCollectionSearchRequestHandler::QUERY_PARAMETER_EXCLUDE],
-                'string'
+                'array'
             );
         }
 
-        foreach ($queryParameters[ValueCollectionSearchRequestHandler::QUERY_PARAMETER_EXCLUDE] as $key => $excluded) {
+        foreach ($queryParameters[ValueCollectionSearchRequestHandler::QUERY_PARAMETER_EXCLUDE] ?? [] as $key => $excluded) {
             if (!is_string($excluded)) {
                 throw $this->createBadTypeException(
                     ValueCollectionSearchRequestHandler::QUERY_PARAMETER_EXCLUDE . "[$key]",
@@ -94,7 +94,7 @@ class ValueCollectionSearchRequestValidator extends InjectionAwareService
     {
         return new BadRequestException(
             sprintf(
-                '"%s" query parameter is expected to be of a "%s" type, %s given.',
+                '"%s" query parameter is expected to be of %s type, %s given.',
                 $parameter,
                 $expectedType,
                 gettype($value)
