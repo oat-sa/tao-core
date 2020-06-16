@@ -144,9 +144,6 @@ class HttpSource implements MediaBrowser
         return $client->get($url);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getProcessedFileStream(string $link): StreamInterface
     {
         return $this->getFileStream($link);
