@@ -30,7 +30,7 @@ use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\WidgetRdf;
 use oat\oatbox\action\Action;
 use oat\oatbox\log\LoggerAwareTrait;
-use oat\tao\model\search\index\IndexUpdaterInterface;
+use oat\tao\model\search\index\IndexUpdater;
 use oat\tao\model\taskQueue\Task\TaskAwareInterface;
 use oat\tao\model\taskQueue\Task\TaskAwareTrait;
 use tao_helpers_Slug;
@@ -92,7 +92,7 @@ class RenameIndexProperties implements Action, ServiceLocatorAwareInterface, Tas
         $this->getLogger()->info('Indexing properties', $indexProperties);
 
         try {
-            $this->getServiceLocator()->get(IndexUpdaterInterface::SERVICE_ID)->updateProperties($indexProperties);
+            $this->getServiceLocator()->get(IndexUpdater::SERVICE_ID)->updateProperties($indexProperties);
         } catch (Throwable $exception) {
             $message = 'Failed during indexing';
             $this->getLogger()->error($message, (array)$exception);

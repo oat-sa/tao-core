@@ -23,9 +23,9 @@ namespace oat\tao\model\search\index;
 
 use Throwable;
 
-interface IndexUpdaterInterface
+interface IndexUpdater
 {
-    public const SERVICE_ID = 'tao/IndexUpdaterInterface';
+    public const SERVICE_ID = 'tao/IndexUpdater';
 
     /**
      * @param array $properties

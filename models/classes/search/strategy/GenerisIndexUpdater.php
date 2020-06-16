@@ -22,9 +22,9 @@ declare(strict_types=1);
 namespace oat\tao\model\search\strategy;
 
 use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\search\index\IndexUpdaterInterface;
+use oat\tao\model\search\index\IndexUpdater;
 
-class GenerisIndexUpdater extends ConfigurableService implements IndexUpdaterInterface
+class GenerisIndexUpdater extends ConfigurableService implements IndexUpdater
 {
     public function updateProperties(array $properties): void
     {
