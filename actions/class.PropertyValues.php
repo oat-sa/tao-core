@@ -22,22 +22,22 @@
 
 declare(strict_types=1);
 
+use oat\tao\model\http\HttpJsonResponseTrait;
 use oat\tao\model\Lists\Business\Service\ValueCollectionService;
 use oat\tao\model\Lists\Presentation\Web\RequestHandler\ValueCollectionSearchRequestHandler;
 
 class tao_actions_PropertyValues extends tao_actions_CommonModule
 {
+    use HttpJsonResponseTrait;
+
     public function get()
     {
-        // TODO: Extract concerns into a responder
-        $this->returnJson(
-            [
-                'values' => $this->getValueCollectionService()->findAll(
-                    $this->getValueCollectionSearchRequestHandler()->handle(
-                        $this->getPsrRequest()
-                    )
-                ),
-            ]
+        $this->setSuccessJsonResponse(
+            $this->getValueCollectionService()->findAll(
+                $this->getValueCollectionSearchRequestHandler()->handle(
+                    $this->getPsrRequest()
+                )
+            )
         );
     }
 

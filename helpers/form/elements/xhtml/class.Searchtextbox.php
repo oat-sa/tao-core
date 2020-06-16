@@ -106,7 +106,7 @@ class tao_helpers_form_elements_xhtml_Searchtextbox extends tao_helpers_form_ele
                 },
                 results: function (data) {
                     return {
-                        results: data.values.map(normalizeItem)
+                        results: data.data.map(normalizeItem)
                     };
                 }
             },
