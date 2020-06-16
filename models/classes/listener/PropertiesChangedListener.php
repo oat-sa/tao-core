@@ -34,7 +34,7 @@ class PropertiesChangedListener extends ConfigurableService
 
     public function catchPropertiesChangedEvent(PropertiesChangedEvent $event): void
     {
-        $taskMessage = __('Updating Indexes');
+        $taskMessage = __('Updating search index');
 
         $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcherInterface::SERVICE_ID);
         $queueDispatcher->createTask(
