@@ -55,7 +55,7 @@ class ValueCollectionSearchRequest
 
     public function getSubject(): string
     {
-        return "$this->subject%";
+        return $this->subject;
     }
 
     public function setSubject(string $subject): self

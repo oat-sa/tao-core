@@ -91,7 +91,7 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
         if ($searchRequest->hasSubject()) {
             $query
                 ->andWhere($expressionBuilder->like('filter.object', ':subject'))
-                ->setParameter('subject', $searchRequest->getSubject());
+                ->setParameter('subject', "{$searchRequest->getSubject()}%");
         }
 
         if ($searchRequest->hasExcluded()) {
