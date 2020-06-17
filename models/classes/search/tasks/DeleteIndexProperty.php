@@ -31,7 +31,6 @@ use oat\oatbox\log\LoggerAwareTrait;
 use oat\tao\model\search\index\IndexUpdaterInterface;
 use oat\tao\model\taskQueue\Task\TaskAwareInterface;
 use oat\tao\model\taskQueue\Task\TaskAwareTrait;
-use tao_helpers_Slug;
 use Throwable;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
@@ -41,6 +40,7 @@ class DeleteIndexProperty implements Action, ServiceLocatorAwareInterface, TaskA
     use ServiceLocatorAwareTrait;
     use TaskAwareTrait;
     use LoggerAwareTrait;
+    use IndexTrait;
 
     public function __invoke($params): common_report_Report
     {
@@ -48,12 +48,15 @@ class DeleteIndexProperty implements Action, ServiceLocatorAwareInterface, TaskA
 
         $class = new core_kernel_classes_Class($class['uriResource']);
         $property = new core_kernel_classes_Property($property['uriResource']);
+        $propertyType = $property->getOnePropertyValue(new core_kernel_classes_Property(WidgetRdf::PROPERTY_WIDGET));
 
         $propertyData = [
-            'name' => $this->getPropertyRealName($property),
+            'name' => $this->formatField($property->getLabel(), $propertyType->getUri()),
             'type' => $class->getUri(),
-            'parentClasses' => $this->extractParentClasses($class)
+            'parentClasses' => $this->getParentClasses($class)
         ];
+
+        $this->logInfo('Removing property from index', $propertyData);
 
         try {
             $this->getServiceLocator()
@@ -61,29 +64,14 @@ class DeleteIndexProperty implements Action, ServiceLocatorAwareInterface, TaskA
                 ->deleteProperty($propertyData);
         } catch (Throwable $exception) {
             $message = 'Failed to remove class property from search index';
-            $this->getLogger()->error($message, (array)$exception);
+            $this->logError($message, (array)$exception);
 
             return common_report_Report::createFailure(__($message));
         }
 
         $message = 'Class property removed successfully.';
-        $this->getLogger()->info($message, $propertyData);
+        $this->logInfo($message, $propertyData);
 
         return common_report_Report::createSuccess(__($message));
-    }
-
-    private function getPropertyRealName(core_kernel_classes_Property $property): string
-    {
-        $propertyType = $property->getOnePropertyValue(new core_kernel_classes_Property(WidgetRdf::PROPERTY_WIDGET));
-        $parsedUri = parse_url($propertyType->getUri());
-
-        return ($parsedUri['fragment'] ?? '') . '_' . tao_helpers_Slug::create($property->getLabel());
-    }
-
-    private function extractParentClasses(core_kernel_classes_Class $class): array
-    {
-        return array_map(function ($currentClass) {
-            return $currentClass->getUri();
-        }, $class->getParentClasses(true));
     }
 }
