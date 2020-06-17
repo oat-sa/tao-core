@@ -24,11 +24,13 @@ namespace oat\tao\model\search\tasks;
 
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
+use oat\generis\model\WidgetRdf;
 use oat\oatbox\action\Action;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\tao\model\search\index\IndexUpdaterInterface;
 use oat\tao\model\taskQueue\Task\TaskAwareInterface;
 use oat\tao\model\taskQueue\Task\TaskAwareTrait;
+use tao_helpers_Slug;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
@@ -45,10 +47,31 @@ class DeleteIndexProperty implements Action, ServiceLocatorAwareInterface, TaskA
         $class = new core_kernel_classes_Class($class['uriResource']);
         $property = new core_kernel_classes_Property($property['uriResource']);
 
-        /** @var IndexUpdaterInterface $indexUpdater */
-        $indexUpdater = $this->getServiceLocator()->get(IndexUpdaterInterface::SERVICE_ID);
-        $indexUpdater->deleteProperty($class, $property);
+        $propertyData = [
+            'name' => $this->getPropertyRealName($property),
+            'type' => $class->getUri(),
+            'parentClasses' => $this->extractParentClasses($class)
+        ];
 
-        $this->getLogger()->debug('Item processed');
+        $this->getServiceLocator()
+            ->get(IndexUpdaterInterface::SERVICE_ID)
+            ->deleteProperty($propertyData);
+
+        $this->getLogger()->debug('Class property removed successfully');
+    }
+
+    private function getPropertyRealName(core_kernel_classes_Property $property): string
+    {
+        $propertyType = $property->getOnePropertyValue(new core_kernel_classes_Property(WidgetRdf::PROPERTY_WIDGET));
+        $parsedUri = parse_url($propertyType->getUri());
+
+        return ($parsedUri['fragment'] ?? '') . '_' . tao_helpers_Slug::create($property->getLabel());
+    }
+
+    private function extractParentClasses(core_kernel_classes_Class $class): array
+    {
+        return array_map(function ($currentClass) {
+            return $currentClass->getUri();
+        }, $class->getParentClasses(true));
     }
 }

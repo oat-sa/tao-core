@@ -21,8 +21,6 @@ declare(strict_types=1);
 
 namespace oat\tao\model\search\strategy;
 
-use core_kernel_classes_Class;
-use core_kernel_classes_Property;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\search\index\IndexUpdaterInterface;
 
@@ -33,7 +31,7 @@ class GenerisIndexUpdater extends ConfigurableService implements IndexUpdaterInt
         return;
     }
 
-    public function deleteProperty(core_kernel_classes_Class $class, core_kernel_classes_Property $property): void
+    public function deleteProperty(array $property): void
     {
         return;
     }
