@@ -33,6 +33,8 @@ use oat\tao\scripts\install\AddTmpFsHandlers;
 use oat\tao\scripts\install\CreateWebhookEventLogTable;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\RegisterActionService;
+use oat\tao\scripts\install\RegisterClassPropertiesChangedEvent;
+use oat\tao\scripts\install\RegisterClassPropertiesChangedEventListener;
 use oat\tao\scripts\install\RegisterResourceEvents;
 use oat\tao\scripts\install\RegisterResourceWatcherService;
 use oat\tao\scripts\install\RegisterSignatureGenerator;
@@ -128,7 +130,9 @@ return [
             SetDefaultCSPHeader::class,
             CreateWebhookEventLogTable::class,
             SetupSettingsStorage::class,
-            RegisterUserService::class
+            RegisterUserService::class,
+            RegisterClassPropertiesChangedEvent::class,
+            RegisterClassPropertiesChangedEventListener::class
         ]
     ],
     'update' => 'oat\\tao\\scripts\\update\\Updater',
