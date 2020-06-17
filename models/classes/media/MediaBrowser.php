@@ -21,8 +21,6 @@
 
 namespace oat\tao\model\media;
 
-use Psr\Http\Message\StreamInterface;
-
 /**
  * Read interface to the media source
  */
@@ -68,9 +66,7 @@ interface MediaBrowser
      */
     public function getFileStream($link);
 
-    public function getProcessedFileStream(string $link): StreamInterface;
-
-        /**
+    /**
      * @param string $link
      * @return string baseName of the file
      * @throws \tao_models_classes_FileNotFoundException
