@@ -33,7 +33,7 @@ class ClassPropertyRemovedListener extends ConfigurableService
 
     public function catchClassPropertyRemovedEvent(ClassPropertyRemovedEvent $event)
     {
-        $taskMessage = __('Updating Documents');
+        $taskMessage = __('Updating search index');
 
         /** @var QueueDispatcherInterface $queueDispatcher */
         $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcherInterface::SERVICE_ID);
@@ -45,7 +45,5 @@ class ClassPropertyRemovedListener extends ConfigurableService
             ],
             $taskMessage
         );
-
-        $this->getLogger()->debug('Got a new item for removal');
     }
 }

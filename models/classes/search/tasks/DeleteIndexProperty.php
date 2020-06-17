@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\model\search\tasks;
 
+use common_report_Report;
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
 use oat\generis\model\WidgetRdf;
@@ -31,6 +32,7 @@ use oat\tao\model\search\index\IndexUpdaterInterface;
 use oat\tao\model\taskQueue\Task\TaskAwareInterface;
 use oat\tao\model\taskQueue\Task\TaskAwareTrait;
 use tao_helpers_Slug;
+use Throwable;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
@@ -40,7 +42,7 @@ class DeleteIndexProperty implements Action, ServiceLocatorAwareInterface, TaskA
     use TaskAwareTrait;
     use LoggerAwareTrait;
 
-    public function __invoke($params)
+    public function __invoke($params): common_report_Report
     {
         [$class, $property] = $params;
 
@@ -53,11 +55,21 @@ class DeleteIndexProperty implements Action, ServiceLocatorAwareInterface, TaskA
             'parentClasses' => $this->extractParentClasses($class)
         ];
 
-        $this->getServiceLocator()
-            ->get(IndexUpdaterInterface::SERVICE_ID)
-            ->deleteProperty($propertyData);
+        try {
+            $this->getServiceLocator()
+                ->get(IndexUpdaterInterface::SERVICE_ID)
+                ->deleteProperty($propertyData);
+        } catch (Throwable $exception) {
+            $message = 'Failed to remove class property from search index';
+            $this->getLogger()->error($message, (array)$exception);
 
-        $this->getLogger()->debug('Class property removed successfully');
+            return common_report_Report::createFailure(__($message));
+        }
+
+        $message = 'Class property removed successfully.';
+        $this->getLogger()->info($message, $propertyData);
+
+        return common_report_Report::createSuccess(__($message));
     }
 
     private function getPropertyRealName(core_kernel_classes_Property $property): string
