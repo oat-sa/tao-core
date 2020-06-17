@@ -100,7 +100,7 @@ class RenameIndexProperties implements Action, ServiceLocatorAwareInterface, Tas
             return common_report_Report::createFailure(__($message));
         }
 
-        $message = 'Search index was successful updated.';
+        $message = 'Search index was successfully updated.';
         $this->getLogger()->info($message, $indexProperties);
 
         return common_report_Report::createSuccess(__($message));

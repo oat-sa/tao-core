@@ -42,7 +42,7 @@ class ClassPropertiesChangedListener extends ConfigurableService
             array_map(
                 function (array $property) {
                     if (!isset($property['oldProperty'], $property['property'])) {
-                        throw new RuntimeException('property data are not set');
+                        throw new RuntimeException('property data is empty');
                     }
 
                     /** @var core_kernel_classes_Property $oldPropertyType */
