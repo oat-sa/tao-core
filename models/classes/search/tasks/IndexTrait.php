@@ -37,7 +37,7 @@ trait IndexTrait
         return ($parsedUri['fragment'] ?? '') . '_' . tao_helpers_Slug::create($label);
     }
 
-    public function getPropertyType(core_kernel_classes_Property $property): core_kernel_classes_Resource
+    public function getPropertyType(core_kernel_classes_Property $property): ?core_kernel_classes_Resource
     {
         $widget = new core_kernel_classes_Property(WidgetRdf::PROPERTY_WIDGET);
 
