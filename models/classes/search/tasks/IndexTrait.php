@@ -23,15 +23,25 @@ declare(strict_types=1);
 namespace oat\tao\model\search\tasks;
 
 use core_kernel_classes_Class;
+use core_kernel_classes_Property;
+use core_kernel_classes_Resource;
+use oat\generis\model\WidgetRdf;
 use tao_helpers_Slug;
 
 trait IndexTrait
 {
-    public function formatField(string $label, string $propertyTypeUri): string
+    public function getPropertyRealName(string $label, string $propertyTypeUri): string
     {
         $parsedUri = parse_url($propertyTypeUri);
 
         return ($parsedUri['fragment'] ?? '') . '_' . tao_helpers_Slug::create($label);
+    }
+
+    public function getPropertyType(core_kernel_classes_Property $property): core_kernel_classes_Resource
+    {
+        $widget = new core_kernel_classes_Property(WidgetRdf::PROPERTY_WIDGET);
+
+        return $property->getOnePropertyValue($widget);
     }
 
     public function getParentClasses(core_kernel_classes_Class $class): array
