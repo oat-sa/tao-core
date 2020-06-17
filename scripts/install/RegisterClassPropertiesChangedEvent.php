@@ -36,6 +36,6 @@ class RegisterClassPropertiesChangedEvent extends InstallAction
         $eventManager->attach(ClassPropertiesChangedEvent::class, [ClassPropertiesChangedListener::SERVICE_ID, 'catchPropertiesChangedEvent']);
         $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
 
-        return new common_report_Report(common_report_Report::TYPE_SUCCESS, 'ClassPropertiesChangedEvent events are registered');
+        return new common_report_Report(common_report_Report::TYPE_SUCCESS, 'ClassPropertiesChangedEvent listener registered');
     }
 }

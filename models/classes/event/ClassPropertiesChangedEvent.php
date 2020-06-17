@@ -28,7 +28,7 @@ class ClassPropertiesChangedEvent implements Event
     /**
      * @var array[{property: \core_kernel_classes_Property, oldProperty: \oat\tao\model\dto\OldProperty}]
      *
-     * list of properties that it was changed following the structure:
+     * list of properties that were changed, with the following structure:
      *  $properties = [
      *      [
      *          'property' => (\core_kernel_classes_Property), this is the current property
