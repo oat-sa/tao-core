@@ -55,7 +55,7 @@ class ClassPropertyRemovedEvent implements Event, JsonSerializable
         return $this->property;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             'class_uri' => $this->class->getUri(),

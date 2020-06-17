@@ -22,15 +22,16 @@ declare(strict_types=1);
 
 namespace oat\tao\scripts\install;
 
+use common_report_Report;
 use oat\oatbox\extension\InstallAction;
 use oat\tao\model\listener\ClassPropertyRemovedListener;
 
 class RegisterClassPropertyRemovedListener extends InstallAction
 {
-    public function __invoke($params)
+    public function __invoke($params): common_report_Report
     {
         $this->getServiceManager()->register(ClassPropertyRemovedListener::SERVICE_ID, new ClassPropertyRemovedListener());
 
-        return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'ClassPropertyRemovedListener is registered');
+        return new common_report_Report(common_report_Report::TYPE_SUCCESS, 'ClassPropertyRemovedListener is registered');
     }
 }
