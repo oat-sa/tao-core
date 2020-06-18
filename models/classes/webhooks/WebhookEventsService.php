@@ -261,6 +261,7 @@ class WebhookEventsService extends ConfigurableService implements WebhookEventsS
      */
     private function logEvent(string $message, $event)
     {
+        return;
         $this->logInfo(
             sprintf(
                 '======================= EVENT %s [%s] => %s',
