@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,27 +15,23 @@ declare(strict_types=1);
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2018 (original work) Open Assessment Technologies SA;
+ *
  *
  */
 
-namespace oat\tao\model\resources;
+namespace oat\tao\model\actionQueue\restriction;
 
-use core_kernel_classes_Class;
-use core_kernel_classes_Resource;
+use oat\oatbox\service\ServiceManagerAwareTrait;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
-interface SecureResourceServiceInterface
+abstract class BasicRestriction implements ServiceLocatorAwareInterface
 {
-    public const SERVICE_ID = 'tao/SecureResourceService';
+    use ServiceManagerAwareTrait;
 
     /**
-     * @param core_kernel_classes_Class $resource
-     *
-     * @return core_kernel_classes_Resource[] the key is a URI of a resource
+     * @param mixed $value
+     * @return bool
      */
-    public function getAllChildren(core_kernel_classes_Class $resource): array;
-
-    public function validatePermissions(iterable $resources, array $permissionsToCheck): void;
-
-    public function validatePermission($resource, array $permissionsToCheck): void;
+    abstract public function doesComply($value);
 }

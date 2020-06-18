@@ -39,9 +39,8 @@ class SecureResourceService extends ConfigurableService implements SecureResourc
     private $user;
 
     /**
-     * @param core_kernel_classes_Class $resource
+     * @inheritDoc
      *
-     * @return core_kernel_classes_Resource[]
      * @throws common_exception_Error
      */
     public function getAllChildren(core_kernel_classes_Class $resource): array
@@ -212,6 +211,7 @@ class SecureResourceService extends ConfigurableService implements SecureResourc
 
     private function getPermissionProvider(): PermissionInterface
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->getServiceLocator()->get(PermissionInterface::SERVICE_ID);
     }
 
