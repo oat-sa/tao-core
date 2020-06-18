@@ -15,34 +15,27 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA
+ * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ *
+ * @author Sergei Mikhailov <sergei.mikhailov@taotesting.com>
  */
 
-namespace oat\tao\model\http\response;
+declare(strict_types=1);
 
-use JsonSerializable;
+namespace oat\tao\test\unit\model\Lists\Business\Input;
 
-class SuccessJsonResponse implements JsonResponseInterface
+use oat\generis\test\TestCase;
+use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
+use oat\tao\model\Lists\Business\Input\ValueCollectionSearchInput;
+
+class ValueCollectionSearchInputTest extends TestCase
 {
-    /** @var JsonSerializable|array|int|string|float */
-    private $data;
-
-    /**
-     * @param JsonSerializable|array|int|string|float $data
-     */
-    public function __construct($data)
+    public function testSearchRequestAccessor(): void
     {
-        $this->data = $data;
-    }
+        $searchRequest = $this->createMock(ValueCollectionSearchRequest::class);
 
-    /**
-     * @inheritDoc
-     */
-    public function jsonSerialize(): array
-    {
-        return [
-            'success' => true,
-            'data'    => $this->data,
-        ];
+        $sut = new ValueCollectionSearchInput($searchRequest);
+
+        $this->assertSame($searchRequest, $sut->getSearchRequest());
     }
 }

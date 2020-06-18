@@ -15,34 +15,21 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA
+ * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ *
+ * @author Sergei Mikhailov <sergei.mikhailov@taotesting.com>
  */
 
-namespace oat\tao\model\http\response;
+declare(strict_types=1);
 
-use JsonSerializable;
+namespace oat\tao\model\Lists\Business\Contract;
 
-class SuccessJsonResponse implements JsonResponseInterface
+use oat\tao\model\Lists\Business\Domain\ValueCollection;
+use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
+
+interface ValueCollectionRepositoryInterface
 {
-    /** @var JsonSerializable|array|int|string|float */
-    private $data;
+    public const SERVICE_ID = 'tao/ValueCollectionRepository';
 
-    /**
-     * @param JsonSerializable|array|int|string|float $data
-     */
-    public function __construct($data)
-    {
-        $this->data = $data;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function jsonSerialize(): array
-    {
-        return [
-            'success' => true,
-            'data'    => $this->data,
-        ];
-    }
+    public function findAll(ValueCollectionSearchRequest $searchRequest): ValueCollection;
 }
