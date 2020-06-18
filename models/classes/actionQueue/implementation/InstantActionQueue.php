@@ -29,7 +29,7 @@ use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\actionQueue\QueuedAction;
 use oat\tao\model\actionQueue\ActionQueueException;
 use oat\oatbox\user\User;
-use oat\tao\model\actionQueue\restriction\basicRestriction;
+use oat\tao\model\actionQueue\restriction\BasicRestriction;
 use oat\tao\model\actionQueue\event\InstantActionOnQueueEvent;
 use oat\tao\model\actionQueue\event\ActionQueueTrendEvent;
 
@@ -171,7 +171,7 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
             unset($positions[$user->getIdentifier()]);
             $this->getEventManager()->trigger(new InstantActionOnQueueEvent($key, $user, $positions, 'dequeue', $action));
             $this->getPersistence()->set($key, json_encode($positions));
-            
+
             if ($this->getTrend($action) <= 0) {
                 $this->getEventManager()->trigger(new ActionQueueTrendEvent($action, false));
                 $this->getPersistence()->set(get_class($action) . self::QUEUE_TREND, 1);
@@ -256,11 +256,11 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
         $allowExecution = true;
 
         foreach ($restrictions as $restrictionClass => $value) {
-            if (class_exists($restrictionClass) && is_subclass_of($restrictionClass, basicRestriction::class)) {
-                /** @var basicRestriction $restriction */
+            if (class_exists($restrictionClass) && is_subclass_of($restrictionClass, BasicRestriction::class)) {
+                /** @var BasicRestriction $restriction */
                 $restriction = new $restrictionClass();
                 $this->propagate($restriction);
-                $allowExecution = $allowExecution && $restriction->doesComplies($value);
+                $allowExecution = $allowExecution && $restriction->doesComply($value);
             }
         }
         return $allowExecution;
