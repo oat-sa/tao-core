@@ -25,7 +25,6 @@ use common_Exception;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\exception\InvalidServiceManagerException;
 use oat\oatbox\service\ServiceManager;
-use oat\oatbox\service\ServiceNotFoundException;
 
 /**
  * Service to manage the media sources
@@ -38,7 +37,6 @@ class MediaService extends ConfigurableService
     public const SERVICE_ID = 'tao/MediaService';
 
     public const OPTION_SOURCE = 'source';
-    public const OPTION_PREPARER = 'preparer';
 
     /**
      * Scheme name used to identify media resource URLs
@@ -155,14 +153,5 @@ class MediaService extends ConfigurableService
         $this->setOption(self::OPTION_SOURCE, $sources);
         $this->getServiceManager()->register(self::SERVICE_ID, $this);
         return true;
-    }
-
-    public function getMediaResourcePreparer(): ?ConfigurableService
-    {
-        try {
-            return $this->getSubService(self::OPTION_PREPARER);
-        } catch (ServiceNotFoundException $e) {
-            return null;
-        }
     }
 }

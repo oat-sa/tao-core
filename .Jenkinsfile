@@ -24,8 +24,24 @@ echo "select branch : ${TEST_BRANCH}"
 docker run --rm  \\
 -e "GITHUB_ORGANIZATION=${GITHUB_ORGANIZATION}" \\
 -e "GITHUB_SECRET=${GIT_TOKEN}"  \\
-tao/dependency-resolver oat:dependencies:resolve --main-branch ${TEST_BRANCH} --repository-name ${REPO_NAME} > build/composer.json
+tao/dependency-resolver oat:dependencies:resolve --main-branch ${TEST_BRANCH} --repository-name ${REPO_NAME} > build/dependencies.json
+
+cat > build/composer.json <<- composerjson
+{
+  "repositories": [
+      {
+        "type": "vcs",
+        "url": "https://github.com/${REPO_NAME}",
+        "no-api": true
+      }
+    ],
+composerjson
+tail -n +2 build/dependencies.json >> build/composer.json
                         '''
+                    )
+                    sh(
+                        label: 'composer.json',
+                        script: 'cat build/composer.json'
                     )
                 }
             }
@@ -34,6 +50,7 @@ tao/dependency-resolver oat:dependencies:resolve --main-branch ${TEST_BRANCH} --
             agent {
                 docker {
                     image 'alexwijn/docker-git-php-composer'
+                    args "-v $BUILDER_CACHE_DIR/composer:/tmp/.composer-cache -e COMPOSER_CACHE_DIR=/tmp/.composer-cache"
                     reuseNode true
                 }
             }
@@ -47,11 +64,11 @@ tao/dependency-resolver oat:dependencies:resolve --main-branch ${TEST_BRANCH} --
                 dir('build') {
                     sh(
                         label: 'Install/Update sources from Composer',
-                        script: 'COMPOSER_DISCARD_CHANGES=true composer update --prefer-source --no-interaction --no-ansi --no-progress --no-scripts --no-suggest'
+                        script: 'COMPOSER_DISCARD_CHANGES=true composer install --prefer-dist --no-interaction --no-ansi --no-progress --no-suggest'
                     )
                     sh(
                         label: 'Add phpunit',
-                        script: 'composer require phpunit/phpunit:^8.5'
+                        script: 'composer require phpunit/phpunit:^8.5 --no-progress'
                     )
                     sh(
                         label: "Extra filesystem mocks",
@@ -100,6 +117,7 @@ mkdir -p tao/views/locales/en-US/
                     agent {
                         docker {
                             image 'btamas/puppeteer-git'
+                            args "-v $BUILDER_CACHE_DIR/npm:/tmp/.npm-cache -e npm_config_cache=/tmp/.npm-cache"
                             reuseNode true
                         }
                     }
