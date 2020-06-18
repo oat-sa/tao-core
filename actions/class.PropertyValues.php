@@ -30,26 +30,16 @@ class tao_actions_PropertyValues extends tao_actions_CommonModule
 {
     use HttpJsonResponseTrait;
 
-    public function get()
-    {
+    public function get(
+        ValueCollectionService $valueCollectionService,
+        ValueCollectionSearchRequestHandler $valueCollectionSearchRequestHandler
+    ): void {
         $this->setSuccessJsonResponse(
-            $this->getValueCollectionService()->findAll(
-                $this->getValueCollectionSearchRequestHandler()->handle(
+            $valueCollectionService->findAll(
+                $valueCollectionSearchRequestHandler->handle(
                     $this->getPsrRequest()
                 )
             )
         );
-    }
-
-    private function getValueCollectionSearchRequestHandler(): ValueCollectionSearchRequestHandler
-    {
-        /** @noinspection PhpIncompatibleReturnTypeInspection */
-        return $this->getServiceLocator()->get(ValueCollectionSearchRequestHandler::SERVICE_ID);
-    }
-
-    private function getValueCollectionService(): ValueCollectionService
-    {
-        /** @noinspection PhpIncompatibleReturnTypeInspection */
-        return $this->getServiceLocator()->get(ValueCollectionService::SERVICE_ID);
     }
 }
