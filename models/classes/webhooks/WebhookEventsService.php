@@ -95,8 +95,6 @@ class WebhookEventsService extends ConfigurableService implements WebhookEventsS
             return;
         }
 
-        $this->logEvent('Handle', $event); //@TODO FIXME Remove after test
-
         $tasksParams = $this->prepareTasksParams($event, $webhookConfigIds);
         $this->createWebhookTasks($tasksParams);
     }
@@ -135,8 +133,6 @@ class WebhookEventsService extends ConfigurableService implements WebhookEventsS
      */
     private function prepareTasksParams(WebhookSerializableEventInterface $event, $webhookConfigIds)
     {
-        $this->logEvent('Preparing', $event); //FIXME @TODO Remove after test
-
         try {
             $eventData = $event->serializeForWebhook();
         } catch (\Exception $exception) {
@@ -250,25 +246,5 @@ class WebhookEventsService extends ConfigurableService implements WebhookEventsS
         }
 
         return array_merge($webhookConfig->getExtraPayload(), $eventData);
-    }
-
-    //FIXME
-    //FIXME @TODO Remove me after test
-    //FIXME
-    /**
-     * @param string $message
-     * @param WebhookSerializableEventInterface $event
-     */
-    private function logEvent(string $message, $event)
-    {
-        return;
-        $this->logInfo(
-            sprintf(
-                '======================= EVENT %s [%s] => %s',
-                $message,
-                $event->getWebhookEventName(),
-                var_export($event->serializeForWebhook(), true)
-            )
-        );
     }
 }
