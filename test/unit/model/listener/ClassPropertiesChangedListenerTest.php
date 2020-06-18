@@ -30,9 +30,6 @@ use oat\tao\model\taskQueue\QueueDispatcherInterface;
 
 class ClassPropertiesChangedListenerTest extends TestCase
 {
-    /** @var ServiceManager|MockObject */
-    private $serviceManager;
-
     /** @var QueueDispatcherInterface|MockObject */
     private $queueDispatcher;
 
@@ -45,18 +42,18 @@ class ClassPropertiesChangedListenerTest extends TestCase
 
         $this->sut = new ClassPropertiesChangedListener();
 
-        $this->serviceManager = $this->createMock(ServiceManager::class);
+        $serviceManager = $this->createMock(ServiceManager::class);
 
-        $this->sut->setServiceLocator($this->serviceManager);
+        $this->sut->setServiceLocator($serviceManager);
 
         $this->queueDispatcher = $this->createMock(QueueDispatcherInterface::class);
 
-        $this->serviceManager->expects($this->any())
+        $serviceManager->expects($this->any())
             ->method('get')
             ->with(QueueDispatcherInterface::SERVICE_ID)
             ->willReturn($this->queueDispatcher);
 
-        ServiceManager::setServiceManager($this->serviceManager);
+        ServiceManager::setServiceManager($serviceManager);
     }
 
     public function testCatchPropertiesChangedEvent(): void {
@@ -91,7 +88,8 @@ class ClassPropertiesChangedListenerTest extends TestCase
     /**
      * @dataProvider provideInvalidData
      */
-    public function testCatchPropertiesChangedEventCanReturnException(array $property): void {
+    public function testCatchPropertiesChangedEventCanReturnException(array $property): void
+    {
         $this->expectException(RuntimeException::class);
 
         $this->queueDispatcher->expects($this->never())
@@ -109,12 +107,12 @@ class ClassPropertiesChangedListenerTest extends TestCase
     public function provideInvalidData(): array
     {
         return [
-            'with no old propeerty' => [
+            'with no old property' => [
                 'properties' => [
                     'property' => $this->createMock(core_kernel_classes_Property::class)
                 ]
             ],
-            'with no propeerty' => [
+            'with no property' => [
                 'properties' => [
                     'oldProperty' => new OldProperty('test', null)
                 ]
