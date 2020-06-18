@@ -25,7 +25,7 @@ namespace oat\tao\model\actionQueue\restriction;
 use oat\oatbox\service\ServiceManagerAwareTrait;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
-abstract class basicRestriction implements ServiceLocatorAwareInterface
+abstract class BasicRestriction implements ServiceLocatorAwareInterface
 {
     use ServiceManagerAwareTrait;
 
@@ -33,5 +33,5 @@ abstract class basicRestriction implements ServiceLocatorAwareInterface
      * @param mixed $value
      * @return bool
      */
-    abstract public function doesComplies($value);
+    abstract public function doesComply($value);
 }
