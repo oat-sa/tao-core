@@ -22,6 +22,7 @@
 
 declare(strict_types=1);
 
+use GuzzleHttp\Psr7\ServerRequest;
 use oat\tao\model\http\HttpJsonResponseTrait;
 use oat\tao\model\Lists\Business\Service\ValueCollectionService;
 use oat\tao\model\Lists\Presentation\Web\RequestHandler\ValueCollectionSearchRequestHandler;
@@ -31,14 +32,13 @@ class tao_actions_PropertyValues extends tao_actions_CommonModule
     use HttpJsonResponseTrait;
 
     public function get(
-        ValueCollectionService $valueCollectionService,
-        ValueCollectionSearchRequestHandler $valueCollectionSearchRequestHandler
+        ServerRequest $request,
+        ValueCollectionSearchRequestHandler $valueCollectionSearchRequestHandler,
+        ValueCollectionService $valueCollectionService
     ): void {
         $this->setSuccessJsonResponse(
             $valueCollectionService->findAll(
-                $valueCollectionSearchRequestHandler->handle(
-                    $this->getPsrRequest()
-                )
+                $valueCollectionSearchRequestHandler->handle($request)
             )
         );
     }
