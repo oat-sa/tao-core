@@ -57,10 +57,10 @@ return [
     'label' => 'TAO Base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '44.1.1',
+    'version' => '44.2.0',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => [
-        'generis' => '>=12.21.0',
+        'generis' => '>=12.27.0',
     ],
     'models' => [
         'http://www.tao.lu/Ontologies/TAO.rdf',
@@ -167,6 +167,7 @@ return [
         [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'TaskQueueData']],
         [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'RestResource']],
         [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'RestClass']],
+        [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'PropertyValues']],
         [AccessRule::GRANT, TaoRoles::TAO_MANAGER,          ['ext' => 'tao','mod' => 'Breadcrumbs']],
         [AccessRule::GRANT, TaoRoles::TAO_MANAGER,          ['ext' => 'tao','mod' => 'Export']],
         [AccessRule::GRANT, TaoRoles::TAO_MANAGER,          ['ext' => 'tao','mod' => 'File']],
