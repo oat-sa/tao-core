@@ -31,7 +31,7 @@ use oat\tao\model\TaoOntology;
 class GenerisIndexDocumentBuilder extends AbstractIndexDocumentBuilder
 {
     /** @var array */
-    private $map;
+    private $map = [];
 
     /**
      * {@inheritdoc}
