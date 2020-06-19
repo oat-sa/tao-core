@@ -54,7 +54,8 @@ class GenerisIndexDocumentBuilder extends AbstractIndexDocumentBuilder
         return new IndexDocument(
             $resource->getUri(),
             $body,
-            $indexesProperties
+            $indexesProperties,
+            $this->getDynamicProperties($body['type'], $resource)
         );
     }
 

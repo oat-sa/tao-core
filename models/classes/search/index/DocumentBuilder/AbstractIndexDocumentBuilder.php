@@ -22,7 +22,12 @@ declare(strict_types=1);
 namespace oat\tao\model\search\index\DocumentBuilder;
 
 use oat\generis\model\OntologyAwareTrait;
+use oat\generis\model\WidgetRdf;
 use oat\tao\model\search\index\IndexDocument;
+use ArrayIterator;
+use core_kernel_classes_Literal as Literal;
+use core_kernel_classes_Resource;
+use Iterator;
 
 abstract class AbstractIndexDocumentBuilder implements IndexDocumentBuilderInterface
 {
@@ -59,5 +64,69 @@ abstract class AbstractIndexDocumentBuilder implements IndexDocumentBuilderInter
         );
     
         return $document;
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function getDynamicProperties(array $classes, core_kernel_classes_Resource $resource): Iterator
+    {
+        $customProperties = [];
+        
+        foreach ($classes as $class) {
+            $properties = \tao_helpers_form_GenerisFormFactory::getClassProperties(
+                $this->getClass($class)
+            );
+            
+            foreach ($properties as $property) {
+                /** @var core_kernel_classes_Resource $propertyType |null */
+                $propertyType = $property->getOnePropertyValue(
+                    $this->getProperty(
+                        WidgetRdf::PROPERTY_WIDGET
+                    )
+                );
+                
+                if (null === $propertyType) {
+                    continue;
+                }
+                
+                $propertyTypeUri = $propertyType->getUri();
+                
+                if (!in_array($propertyTypeUri, self::ALLOWED_DYNAMIC_TYPES)) {
+                    continue;
+                }
+                
+                $propertyTypeArray = explode('#', $propertyTypeUri, 2);
+                $propertyTypeId = end($propertyTypeArray);
+                $customPropertyLabel = $property->getLabel();
+                
+                if (false === $propertyTypeId) {
+                    continue;
+                }
+                
+                $fieldName = $propertyTypeId . '_' . \tao_helpers_Slug::create($customPropertyLabel);
+                $propertyValue = $resource->getOnePropertyValue($property);
+                
+                if (null === $propertyValue) {
+                    continue;
+                }
+                
+                if ($propertyValue instanceof Literal) {
+                    $customProperties[$fieldName][] = (string)$propertyValue;
+                    $customProperties[$fieldName] = array_unique($customProperties[$fieldName]);
+                    continue;
+                }
+                
+                $customPropertiesValues = $resource->getPropertyValues($property);
+                $customProperties[$fieldName] = array_map(
+                    function (string $propertyValue): string {
+                        return $this->getProperty($propertyValue)->getLabel();
+                    },
+                    $customPropertiesValues
+                );
+            }
+        }
+        
+        return new ArrayIterator($customProperties);
     }
 }

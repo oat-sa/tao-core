@@ -45,5 +45,13 @@ interface IndexDocumentBuilderInterface
      * @throws \common_Exception
      */
     public function createDocumentFromArray(array $resource = [], string $rootResourceType = ""): IndexDocument;
+    
+    /**
+     * Gets a list of dynamic properties for indexation
+     * @param array $type
+     * @param \core_kernel_classes_Resource $resource
+     * @return \Iterator
+     */
+    public function getDynamicProperties(array $type, \core_kernel_classes_Resource $resource): \Iterator;
 }
 

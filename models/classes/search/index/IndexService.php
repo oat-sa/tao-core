@@ -26,8 +26,8 @@ namespace oat\tao\model\search\index;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\search\index\DocumentBuilder\DocumentBuilderFactoryInterface;
 use oat\tao\model\search\Search;
-use oat\tao\model\menu\MenuService;
 use oat\generis\model\OntologyAwareTrait;
+use oat\tao\model\menu\MenuService;
 use oat\tao\model\resources\ResourceIterator;
 use oat\tao\model\TaoOntology;
 
