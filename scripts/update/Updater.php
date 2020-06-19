@@ -1367,9 +1367,9 @@ class Updater extends \common_ext_ExtensionUpdater
         if ($this->isVersion('44.1.1')) {
             $this->runExtensionScript(RegisterValueCollectionServices::class);
 
-            $this->setVersion('44.3.0');
+            $this->setVersion('44.2.0');
         }
 
-        $this->skip('44.2.0', '44.2.1');
+        $this->skip('44.2.0', '44.3.0');
     }
 }
