@@ -21,7 +21,6 @@ declare(strict_types=1);
 
 use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
-use oat\oatbox\service\ServiceManager;
 use oat\tao\model\dto\OldProperty;
 use oat\tao\model\event\ClassPropertiesChangedEvent;
 use oat\tao\model\listener\ClassPropertiesChangedListener;

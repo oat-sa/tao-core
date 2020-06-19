@@ -22,7 +22,6 @@ declare(strict_types=1);
 
 use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
-use oat\oatbox\service\ServiceManager;
 use oat\tao\model\event\ClassPropertyRemovedEvent;
 use oat\tao\model\listener\ClassPropertyRemovedListener;
 use oat\tao\model\search\tasks\DeleteIndexProperty;
