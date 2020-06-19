@@ -56,7 +56,7 @@ class ClassPropertiesChangedListenerTest extends TestCase
         ServiceManager::setServiceManager($serviceManager);
     }
 
-    public function testCatchPropertiesChangedEvent(): void {
+    public function testRenameClassProperties(): void {
         $this->queueDispatcher->expects($this->once())
             ->method('createTask')
             ->with(
@@ -73,7 +73,7 @@ class ClassPropertiesChangedListenerTest extends TestCase
                 false
             );
 
-        $this->sut->catchPropertiesChangedEvent(
+        $this->sut->renameClassProperties(
             new ClassPropertiesChangedEvent(
                 [
                     [
@@ -88,14 +88,14 @@ class ClassPropertiesChangedListenerTest extends TestCase
     /**
      * @dataProvider provideInvalidData
      */
-    public function testCatchPropertiesChangedEventCanReturnException(array $property): void
+    public function testExceptionWhenCallingRenameClassProperties(array $property): void
     {
         $this->expectException(RuntimeException::class);
 
         $this->queueDispatcher->expects($this->never())
             ->method('createTask');
 
-        $this->sut->catchPropertiesChangedEvent(
+        $this->sut->renameClassProperties(
             new ClassPropertiesChangedEvent(
                 [
                     $property

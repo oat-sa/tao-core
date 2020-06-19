@@ -56,7 +56,7 @@ class ClassPropertyRemovedListenerTest extends TestCase
         ServiceManager::setServiceManager($serviceManager);
     }
 
-    public function testCatchClassPropertyRemovedEvent(): void
+    public function testRemoveClassProperty(): void
     {
         $class = $this->createMock(core_kernel_classes_Class::class);
         $property = $this->createMock(core_kernel_classes_Property::class);
@@ -74,6 +74,6 @@ class ClassPropertyRemovedListenerTest extends TestCase
                 false
             );
 
-        $this->sut->catchClassPropertyRemovedEvent(new ClassPropertyRemovedEvent($class, $property));
+        $this->sut->removeClassProperty(new ClassPropertyRemovedEvent($class, $property));
     }
 }

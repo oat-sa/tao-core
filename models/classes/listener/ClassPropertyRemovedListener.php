@@ -31,7 +31,7 @@ class ClassPropertyRemovedListener extends ConfigurableService
 {
     const SERVICE_ID = 'tao/ClassPropertyRemovedListener';
 
-    public function catchClassPropertyRemovedEvent(ClassPropertyRemovedEvent $event): void
+    public function removeClassProperty(ClassPropertyRemovedEvent $event): void
     {
         $taskMessage = __('Updating search index');
 
