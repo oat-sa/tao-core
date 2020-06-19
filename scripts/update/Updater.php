@@ -143,6 +143,7 @@ use oat\tao\scripts\install\CreateWebhookEventLogTable;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\RegisterActionService;
 use oat\tao\scripts\install\RegisterSignatureGenerator;
+use oat\tao\scripts\install\RegisterValueCollectionServices;
 use oat\tao\scripts\install\SetClientLoggerConfig;
 use oat\tao\scripts\install\UpdateRequiredActionUrl;
 use oat\tao\scripts\tools\MigrateSecuritySettings;
@@ -1361,6 +1362,14 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('42.11.0');
         }
 
-        $this->skip('42.11.0', '44.1.2');
+        $this->skip('42.11.0', '44.1.1');
+
+        if ($this->isVersion('44.1.1')) {
+            $this->runExtensionScript(RegisterValueCollectionServices::class);
+
+            $this->setVersion('44.2.0');
+        }
+
+        $this->skip('44.2.0', '44.3.0');
     }
 }

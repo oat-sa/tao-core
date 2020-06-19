@@ -15,34 +15,39 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA
+ * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ *
+ * @author Sergei Mikhailov <sergei.mikhailov@taotesting.com>
  */
 
-namespace oat\tao\model\http\response;
+declare(strict_types=1);
 
+namespace oat\tao\model\Lists\Business\Domain;
+
+use IteratorAggregate;
 use JsonSerializable;
+use Traversable;
 
-class SuccessJsonResponse implements JsonResponseInterface
+class ValueCollection implements IteratorAggregate, JsonSerializable
 {
-    /** @var JsonSerializable|array|int|string|float */
-    private $data;
+    /** @var Value[] */
+    private $values;
 
-    /**
-     * @param JsonSerializable|array|int|string|float $data
-     */
-    public function __construct($data)
+    public function __construct(Value ...$values)
     {
-        $this->data = $data;
+        $this->values = $values;
     }
 
     /**
-     * @inheritDoc
+     * @return Value[]|Traversable
      */
+    public function getIterator(): Traversable
+    {
+        yield from $this->values;
+    }
+
     public function jsonSerialize(): array
     {
-        return [
-            'success' => true,
-            'data'    => $this->data,
-        ];
+        return $this->values;
     }
 }
