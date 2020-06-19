@@ -77,12 +77,12 @@ EOT
             sprintf('Generated new migration class to "<info>%s</info>"', realpath($path)),
             '',
             sprintf(
-                'To run just this migration for testing purposes, you can use <info>sudo -u www-data php index.php \'\oat\tao\scripts\tools\Migrations\' -c execute -v %s</info>',
+                'To run just this migration for testing purposes, you can use <info>sudo -u www-data php index.php \'\oat\tao\scripts\tools\Migrations\' -c execute -v \'%s\'</info>',
                 $fqcn
             ),
             '',
             sprintf(
-                'To revert the migration you can use <info>sudo -u www-data php index.php \'\oat\tao\scripts\tools\Migrations\' -c rollback -v %s</info>',
+                'To revert the migration you can use <info>sudo -u www-data php index.php \'\oat\tao\scripts\tools\Migrations\' -c rollback -v \'%s\'</info>',
                 $fqcn
             ),
         ];
