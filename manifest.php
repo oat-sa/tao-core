@@ -41,6 +41,7 @@ use oat\tao\scripts\install\RegisterTaskQueueServices;
 use oat\tao\scripts\install\RegisterUserLockoutsEventListeners;
 use oat\tao\scripts\install\RegisterUserService;
 use oat\tao\scripts\install\RegisterValidationRules;
+use oat\tao\scripts\install\RegisterValueCollectionServices;
 use oat\tao\scripts\install\SetClientLoggerConfig;
 use oat\tao\scripts\install\SetContainerService;
 use oat\tao\scripts\install\SetDefaultCSPHeader;
@@ -129,7 +130,8 @@ return [
             SetDefaultCSPHeader::class,
             CreateWebhookEventLogTable::class,
             SetupSettingsStorage::class,
-            RegisterUserService::class
+            RegisterUserService::class,
+            RegisterValueCollectionServices::class,
         ]
     ],
     'update' => 'oat\\tao\\scripts\\update\\Updater',
@@ -198,9 +200,9 @@ return [
     ],
     'constants' => [
         #TAO version number
-        'TAO_VERSION' => '3.4.0-sprint130',
+        'TAO_VERSION' => '3.4.0-sprint131',
         #TAO version label
-        'TAO_VERSION_NAME' => '3.4.0-sprint130',
+        'TAO_VERSION_NAME' => '3.4.0-sprint131',
         #the name to display
         'PRODUCT_NAME' => 'TAO',
         #TAO release status, use to add specific footer to TAO, available alpha, beta, demo, stable

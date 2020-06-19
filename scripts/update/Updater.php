@@ -33,7 +33,6 @@ use oat\generis\model\data\Ontology;
 use oat\generis\model\kernel\persistence\file\FileIterator;
 use oat\generis\model\OntologyRdfs;
 use oat\generis\model\user\UserRdf;
-use oat\generis\persistence\PersistenceManager;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ConfigurableService;
@@ -67,11 +66,6 @@ use oat\tao\model\event\UserRemovedEvent;
 use oat\tao\model\event\UserUpdatedEvent;
 use oat\tao\model\extension\UpdateLogger;
 use oat\tao\model\i18n\ExtraPoService;
-use oat\tao\model\Lists\Business\Contract\ValueCollectionRepositoryInterface;
-use oat\tao\model\Lists\Business\Service\ValueCollectionService;
-use oat\tao\model\Lists\DataAccess\Repository\RdfValueCollectionRepository;
-use oat\tao\model\Lists\Presentation\Web\RequestHandler\ValueCollectionSearchRequestHandler;
-use oat\tao\model\Lists\Presentation\Web\RequestValidator\ValueCollectionSearchRequestValidator;
 use oat\tao\model\maintenance\Maintenance;
 use oat\tao\model\media\MediaService;
 use oat\tao\model\metadata\compiler\ResourceJsonMetadataCompiler;
@@ -149,6 +143,7 @@ use oat\tao\scripts\install\CreateWebhookEventLogTable;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\RegisterActionService;
 use oat\tao\scripts\install\RegisterSignatureGenerator;
+use oat\tao\scripts\install\RegisterValueCollectionServices;
 use oat\tao\scripts\install\SetClientLoggerConfig;
 use oat\tao\scripts\install\UpdateRequiredActionUrl;
 use oat\tao\scripts\tools\MigrateSecuritySettings;
@@ -1370,33 +1365,11 @@ class Updater extends \common_ext_ExtensionUpdater
         $this->skip('42.11.0', '44.1.1');
 
         if ($this->isVersion('44.1.1')) {
-            /** @var PersistenceManager $persistenceManager */
-            $persistenceManager = $this->getServiceManager()->get(PersistenceManager::SERVICE_ID);
-
-            $this->getServiceManager()->register(
-                ValueCollectionSearchRequestHandler::SERVICE_ID,
-                new ValueCollectionSearchRequestHandler(
-                    new ValueCollectionSearchRequestValidator()
-                )
-            );
-
-            $valueCollectionRepository = new RdfValueCollectionRepository($persistenceManager, 'default');
-
-            $this->getServiceManager()->register(
-                ValueCollectionRepositoryInterface::SERVICE_ID,
-                $valueCollectionRepository
-            );
-
-            $this->getServiceManager()->register(
-                ValueCollectionService::SERVICE_ID,
-                new ValueCollectionService($valueCollectionRepository)
-            );
-
-            AclProxy::applyRule(
-                new AccessRule(AccessRule::GRANT, TaoRoles::BACK_OFFICE, ['ext' => 'tao', 'mod' => 'PropertyValues'])
-            );
+            $this->runExtensionScript(RegisterValueCollectionServices::class);
 
             $this->setVersion('44.3.0');
         }
+
+        $this->skip('44.2.0', '44.2.1');
     }
 }
