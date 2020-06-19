@@ -42,18 +42,14 @@ class ClassPropertiesChangedListenerTest extends TestCase
 
         $this->sut = new ClassPropertiesChangedListener();
 
-        $serviceManager = $this->createMock(ServiceManager::class);
-
-        $this->sut->setServiceLocator($serviceManager);
-
         $this->queueDispatcher = $this->createMock(QueueDispatcherInterface::class);
-
-        $serviceManager->expects($this->any())
-            ->method('get')
-            ->with(QueueDispatcherInterface::SERVICE_ID)
-            ->willReturn($this->queueDispatcher);
-
-        ServiceManager::setServiceManager($serviceManager);
+        $this->sut->setServiceLocator(
+            $this->getServiceLocatorMock(
+                [
+                    QueueDispatcherInterface::SERVICE_ID => $this->queueDispatcher
+                ]
+            )
+        );
     }
 
     public function testRenameClassProperties(): void {
