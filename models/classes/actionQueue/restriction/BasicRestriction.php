@@ -15,34 +15,23 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA
+ * Copyright (c) 2018 (original work) Open Assessment Technologies SA;
+ *
+ *
  */
 
-namespace oat\tao\model\http\response;
+namespace oat\tao\model\actionQueue\restriction;
 
-use JsonSerializable;
+use oat\oatbox\service\ServiceManagerAwareTrait;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
-class SuccessJsonResponse implements JsonResponseInterface
+abstract class BasicRestriction implements ServiceLocatorAwareInterface
 {
-    /** @var JsonSerializable|array|int|string|float */
-    private $data;
+    use ServiceManagerAwareTrait;
 
     /**
-     * @param JsonSerializable|array|int|string|float $data
+     * @param mixed $value
+     * @return bool
      */
-    public function __construct($data)
-    {
-        $this->data = $data;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function jsonSerialize(): array
-    {
-        return [
-            'success' => true,
-            'data'    => $this->data,
-        ];
-    }
+    abstract public function doesComply($value);
 }
