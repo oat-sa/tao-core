@@ -41,6 +41,7 @@ use oat\tao\scripts\install\RegisterTaskQueueServices;
 use oat\tao\scripts\install\RegisterUserLockoutsEventListeners;
 use oat\tao\scripts\install\RegisterUserService;
 use oat\tao\scripts\install\RegisterValidationRules;
+use oat\tao\scripts\install\RegisterValueCollectionServices;
 use oat\tao\scripts\install\SetClientLoggerConfig;
 use oat\tao\scripts\install\SetContainerService;
 use oat\tao\scripts\install\SetDefaultCSPHeader;
@@ -57,7 +58,7 @@ return [
     'label' => 'TAO Base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '44.2.0',
+    'version' => '44.2.1',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => [
         'generis' => '>=12.27.0',
@@ -129,7 +130,8 @@ return [
             SetDefaultCSPHeader::class,
             CreateWebhookEventLogTable::class,
             SetupSettingsStorage::class,
-            RegisterUserService::class
+            RegisterUserService::class,
+            RegisterValueCollectionServices::class,
         ]
     ],
     'update' => 'oat\\tao\\scripts\\update\\Updater',
