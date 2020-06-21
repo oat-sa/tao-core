@@ -15,24 +15,35 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ *
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\model\search\strategy;
+namespace oat\tao\model\listener;
 
 use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\search\index\IndexUpdaterInterface;
+use oat\tao\model\event\ClassPropertyRemovedEvent;
+use oat\tao\model\search\tasks\DeleteIndexProperty;
+use oat\tao\model\taskQueue\QueueDispatcherInterface;
 
-class GenerisIndexUpdater extends ConfigurableService implements IndexUpdaterInterface
+class ClassPropertyRemovedListener extends ConfigurableService
 {
-    public function updateProperties(array $properties): void
-    {
-        return;
-    }
+    const SERVICE_ID = 'tao/ClassPropertyRemovedListener';
 
-    public function deleteProperty(array $property): void
+    public function removeClassProperty(ClassPropertyRemovedEvent $event): void
     {
-        return;
+        $taskMessage = __('Updating search index');
+
+        /** @var QueueDispatcherInterface $queueDispatcher */
+        $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcherInterface::SERVICE_ID);
+        $queueDispatcher->createTask(
+            new DeleteIndexProperty(),
+            [
+                $event->getClass(),
+                $event->getProperty()
+            ],
+            $taskMessage
+        );
     }
 }

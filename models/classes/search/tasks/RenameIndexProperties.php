@@ -23,17 +23,13 @@ namespace oat\tao\model\search\tasks;
 
 use common_Exception;
 use common_report_Report;
-use core_kernel_classes_Class;
 use core_kernel_classes_Property;
 use core_kernel_persistence_Exception;
-use oat\generis\model\OntologyAwareTrait;
-use oat\generis\model\WidgetRdf;
 use oat\oatbox\action\Action;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\tao\model\search\index\IndexUpdaterInterface;
 use oat\tao\model\taskQueue\Task\TaskAwareInterface;
 use oat\tao\model\taskQueue\Task\TaskAwareTrait;
-use tao_helpers_Slug;
 use Throwable;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
@@ -43,6 +39,7 @@ class RenameIndexProperties implements Action, ServiceLocatorAwareInterface, Tas
     use ServiceLocatorAwareTrait;
     use TaskAwareTrait;
     use LoggerAwareTrait;
+    use IndexTrait;
 
     /**
      * @param $properties
@@ -76,7 +73,7 @@ class RenameIndexProperties implements Action, ServiceLocatorAwareInterface, Tas
             $parentClasses = $this->getParentClasses($firstDomain);
 
             /** @var core_kernel_classes_Property $propertyType */
-            $propertyType = $property->getOnePropertyValue(new core_kernel_classes_Property(WidgetRdf::PROPERTY_WIDGET));
+            $propertyType = $this->getPropertyType($property);
             if (null === $propertyType) {
                 continue;
             }
@@ -84,43 +81,25 @@ class RenameIndexProperties implements Action, ServiceLocatorAwareInterface, Tas
             $indexProperties[] = [
                 'type' => $type,
                 'parentClasses' => $parentClasses,
-                'oldName' => $this->formatField($propertyData['oldLabel'], $propertyData['oldPropertyType']),
-                'newName' => $this->formatField($property->getLabel(), $propertyType->getUri())
+                'oldName' => $this->getPropertyRealName($propertyData['oldLabel'], $propertyData['oldPropertyType']),
+                'newName' => $this->getPropertyRealName($property->getLabel(), $propertyType->getUri())
             ];
         }
 
-        $this->getLogger()->info('Indexing properties', $indexProperties);
+        $this->logInfo('Indexing properties', $indexProperties);
 
         try {
             $this->getServiceLocator()->get(IndexUpdaterInterface::SERVICE_ID)->updateProperties($indexProperties);
         } catch (Throwable $exception) {
             $message = 'Failed during update search index';
-            $this->getLogger()->error($message, (array)$exception);
+            $this->logError($message, (array)$exception);
 
             return common_report_Report::createFailure(__($message));
         }
 
         $message = 'Search index was successfully updated.';
-        $this->getLogger()->info($message, $indexProperties);
+        $this->logInfo($message, $indexProperties);
 
         return common_report_Report::createSuccess(__($message));
-    }
-
-    protected function formatField(string $label, string $propertyTypeUri): string
-    {
-        $parsedUri = parse_url($propertyTypeUri);
-
-        return ($parsedUri['fragment'] ?? '') . '_' . tao_helpers_Slug::create($label);
-    }
-
-    private function getParentClasses(core_kernel_classes_Class $domain): array
-    {
-        $result = [];
-
-        foreach ($domain->getParentClasses(true) as $parentClass) {
-            $result[] = $parentClass->getUri();
-        }
-
-        return $result;
     }
 }

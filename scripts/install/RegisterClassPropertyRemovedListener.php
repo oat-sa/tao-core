@@ -15,24 +15,23 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ *
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\model\search\strategy;
+namespace oat\tao\scripts\install;
 
-use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\search\index\IndexUpdaterInterface;
+use common_report_Report;
+use oat\oatbox\extension\InstallAction;
+use oat\tao\model\listener\ClassPropertyRemovedListener;
 
-class GenerisIndexUpdater extends ConfigurableService implements IndexUpdaterInterface
+class RegisterClassPropertyRemovedListener extends InstallAction
 {
-    public function updateProperties(array $properties): void
+    public function __invoke($params): common_report_Report
     {
-        return;
-    }
+        $this->getServiceManager()->register(ClassPropertyRemovedListener::SERVICE_ID, new ClassPropertyRemovedListener());
 
-    public function deleteProperty(array $property): void
-    {
-        return;
+        return new common_report_Report(common_report_Report::TYPE_SUCCESS, 'ClassPropertyRemovedListener is registered');
     }
 }

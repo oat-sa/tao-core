@@ -145,6 +145,8 @@ use oat\tao\scripts\install\AddTmpFsHandlers;
 use oat\tao\scripts\install\CreateWebhookEventLogTable;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\RegisterActionService;
+use oat\tao\scripts\install\RegisterClassPropertyRemovedEvent;
+use oat\tao\scripts\install\RegisterClassPropertyRemovedListener;
 use oat\tao\scripts\install\RegisterClassPropertiesChangedEvent;
 use oat\tao\scripts\install\RegisterClassPropertiesChangedEventListener;
 use oat\tao\scripts\install\RegisterSignatureGenerator;
@@ -1369,16 +1371,25 @@ class Updater extends \common_ext_ExtensionUpdater
         $this->skip('42.11.0', '44.0.0');
         $this->skip('42.0.4', '42.11.0');
 
-//        if ($this->isVersion('42.11.0')) {
-//            $registerPropertiesChangedEvent = new RegisterClassPropertiesChangedEvent();
-//            $registerPropertiesChangedEvent->setServiceLocator($this->getServiceManager());
-//            $registerPropertiesChangedEvent->__invoke([]);
-//
-//            $registerPropertiesChangedEventListener = new RegisterClassPropertiesChangedEventListener();
-//            $registerPropertiesChangedEventListener->setServiceLocator($this->getServiceManager());
-//            $registerPropertiesChangedEventListener->__invoke([]);
-//
-//            $this->setVersion('42.12.0');
-//        }
+        //TODO - Change versions when merging to develop
+        if ($this->isVersion('42.11.0')) {
+            $registerPropertiesChangedEvent = new RegisterClassPropertiesChangedEvent();
+            $registerPropertiesChangedEvent->setServiceLocator($this->getServiceManager());
+            $registerPropertiesChangedEvent->__invoke([]);
+
+            $registerPropertiesChangedEventListener = new RegisterClassPropertiesChangedEventListener();
+            $registerPropertiesChangedEventListener->setServiceLocator($this->getServiceManager());
+            $registerPropertiesChangedEventListener->__invoke([]);
+
+            $registerClassPropertyRemovedEvent = new RegisterClassPropertyRemovedEvent();
+            $registerClassPropertyRemovedEvent->setServiceLocator($this->getServiceManager());
+            $registerClassPropertyRemovedEvent->__invoke([]);
+
+            $registerClassPropertyRemovedListener = new RegisterClassPropertyRemovedListener();
+            $registerClassPropertyRemovedListener->setServiceLocator($this->getServiceManager());
+            $registerClassPropertyRemovedListener->__invoke([]);
+
+            $this->setVersion('42.12.0');
+        }
     }
 }

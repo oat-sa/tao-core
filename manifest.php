@@ -34,6 +34,8 @@ use oat\tao\scripts\install\AddTmpFsHandlers;
 use oat\tao\scripts\install\CreateWebhookEventLogTable;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\RegisterActionService;
+use oat\tao\scripts\install\RegisterClassPropertyRemovedEvent;
+use oat\tao\scripts\install\RegisterClassPropertyRemovedListener;
 use oat\tao\scripts\install\RegisterClassPropertiesChangedEvent;
 use oat\tao\scripts\install\RegisterClassPropertiesChangedEventListener;
 use oat\tao\scripts\install\RegisterResourceEvents;
@@ -132,6 +134,8 @@ return [
             CreateWebhookEventLogTable::class,
             SetupSettingsStorage::class,
             RegisterUserService::class,
+            RegisterClassPropertyRemovedEvent::class,
+            RegisterClassPropertyRemovedListener::class,
             RegisterClassPropertiesChangedEvent::class,
             RegisterClassPropertiesChangedEventListener::class
         ]

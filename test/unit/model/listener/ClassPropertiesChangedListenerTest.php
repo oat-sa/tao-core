@@ -21,7 +21,6 @@ declare(strict_types=1);
 
 use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
-use oat\oatbox\service\ServiceManager;
 use oat\tao\model\dto\OldProperty;
 use oat\tao\model\event\ClassPropertiesChangedEvent;
 use oat\tao\model\listener\ClassPropertiesChangedListener;
@@ -30,9 +29,6 @@ use oat\tao\model\taskQueue\QueueDispatcherInterface;
 
 class ClassPropertiesChangedListenerTest extends TestCase
 {
-    /** @var ServiceManager|MockObject */
-    private $serviceManager;
-
     /** @var QueueDispatcherInterface|MockObject */
     private $queueDispatcher;
 
@@ -45,21 +41,17 @@ class ClassPropertiesChangedListenerTest extends TestCase
 
         $this->sut = new ClassPropertiesChangedListener();
 
-        $this->serviceManager = $this->createMock(ServiceManager::class);
-
-        $this->sut->setServiceLocator($this->serviceManager);
-
         $this->queueDispatcher = $this->createMock(QueueDispatcherInterface::class);
-
-        $this->serviceManager->expects($this->any())
-            ->method('get')
-            ->with(QueueDispatcherInterface::SERVICE_ID)
-            ->willReturn($this->queueDispatcher);
-
-        ServiceManager::setServiceManager($this->serviceManager);
+        $this->sut->setServiceLocator(
+            $this->getServiceLocatorMock(
+                [
+                    QueueDispatcherInterface::SERVICE_ID => $this->queueDispatcher
+                ]
+            )
+        );
     }
 
-    public function testCatchPropertiesChangedEvent(): void {
+    public function testRenameClassProperties(): void {
         $this->queueDispatcher->expects($this->once())
             ->method('createTask')
             ->with(
@@ -76,7 +68,7 @@ class ClassPropertiesChangedListenerTest extends TestCase
                 false
             );
 
-        $this->sut->catchPropertiesChangedEvent(
+        $this->sut->renameClassProperties(
             new ClassPropertiesChangedEvent(
                 [
                     [
@@ -91,13 +83,14 @@ class ClassPropertiesChangedListenerTest extends TestCase
     /**
      * @dataProvider provideInvalidData
      */
-    public function testCatchPropertiesChangedEventCanReturnException(array $property): void {
+    public function testExceptionWhenCallingRenameClassProperties(array $property): void
+    {
         $this->expectException(RuntimeException::class);
 
         $this->queueDispatcher->expects($this->never())
             ->method('createTask');
 
-        $this->sut->catchPropertiesChangedEvent(
+        $this->sut->renameClassProperties(
             new ClassPropertiesChangedEvent(
                 [
                     $property
@@ -109,12 +102,12 @@ class ClassPropertiesChangedListenerTest extends TestCase
     public function provideInvalidData(): array
     {
         return [
-            'with no old propeerty' => [
+            'with no old property' => [
                 'properties' => [
                     'property' => $this->createMock(core_kernel_classes_Property::class)
                 ]
             ],
-            'with no propeerty' => [
+            'with no property' => [
                 'properties' => [
                     'oldProperty' => new OldProperty('test', null)
                 ]

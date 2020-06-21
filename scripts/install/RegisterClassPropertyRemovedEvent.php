@@ -15,6 +15,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ *
  */
 
 declare(strict_types=1);
@@ -24,18 +25,18 @@ namespace oat\tao\scripts\install;
 use common_report_Report;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\extension\InstallAction;
-use oat\tao\model\event\ClassPropertiesChangedEvent;
-use oat\tao\model\listener\ClassPropertiesChangedListener;
+use oat\tao\model\event\ClassPropertyRemovedEvent;
+use oat\tao\model\listener\ClassPropertyRemovedListener;
 
-class RegisterClassPropertiesChangedEvent extends InstallAction
+class RegisterClassPropertyRemovedEvent extends InstallAction
 {
     public function __invoke($params): common_report_Report
     {
         /** @var EventManager $eventManager */
         $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
-        $eventManager->attach(ClassPropertiesChangedEvent::class, [ClassPropertiesChangedListener::SERVICE_ID, 'renameClassProperties']);
+        $eventManager->attach(ClassPropertyRemovedEvent::class, [ClassPropertyRemovedListener::SERVICE_ID, 'removeClassProperties']);
         $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
 
-        return new common_report_Report(common_report_Report::TYPE_SUCCESS, 'ClassPropertiesChangedEvent listener registered');
+        return new common_report_Report(common_report_Report::TYPE_SUCCESS, 'ClassPropertyRemovedEvent event registered');
     }
 }

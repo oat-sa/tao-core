@@ -24,6 +24,7 @@ use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
 use oat\generis\model\WidgetRdf;
+use oat\tao\model\event\ClassPropertyRemovedEvent;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\tao\helpers\form\ValidationRuleRegistry;
@@ -127,6 +128,8 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
 
         $class = $this->getClass($this->getRequestParameter('classUri'));
         $property = $this->getProperty($this->getRequestParameter('uri'));
+
+        $this->getEventManager()->trigger(new ClassPropertyRemovedEvent($class, $property));
 
         //delete property mode
         foreach ($class->getProperties() as $classProperty) {
