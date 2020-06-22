@@ -51,4 +51,6 @@ interface WebhookInterface
      * @return bool
      */
     public function getResponseValidationEnable();
+
+    public function getExtraPayload(): array;
 }
