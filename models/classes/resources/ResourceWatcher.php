@@ -26,9 +26,10 @@ use oat\generis\model\data\event\ResourceDeleted;
 use oat\generis\model\data\event\ResourceUpdated;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\search\index\IndexService;
+use oat\tao\model\search\tasks\UpdateResourceInIndex;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\search\Search;
+use oat\tao\model\taskQueue\QueueDispatcherInterface;
 
 /**
  * Class ResourceWatcher
@@ -59,6 +60,11 @@ class ResourceWatcher extends ConfigurableService
         $this->updatedAtCache = [];
         $this->updatedAtCache[$resource->getUri()] = $now;
         $resource->editPropertyValues($property, $now);
+
+        $this->getLogger()->debug('triggering index update on resourceCreated event');
+
+        $taskMessage = __('Adding search index for created resource ', $resource->getUri());
+        $this->createResourceIndexingTask($resource, $taskMessage);
     }
 
     /**
@@ -72,13 +78,31 @@ class ResourceWatcher extends ConfigurableService
         if ($updatedAt && $updatedAt instanceof \core_kernel_classes_Literal) {
             $updatedAt = (int) $updatedAt->literal;
         }
+
         $now = microtime(true);
         $threshold = $this->getOption(self::OPTION_THRESHOLD);
+
         if ($updatedAt === null || ($now - $updatedAt) > $threshold) {
+            $this->getLogger()->debug('triggering index update on resourceUpdated event');
+
+            $taskMessage = __('Adding/updating search index for updated resource ', $resource->getUri());
+            $this->createResourceIndexingTask($resource, $taskMessage);
+
             $property = $this->getProperty(TaoOntology::PROPERTY_UPDATED_AT);
             $this->updatedAtCache[$resource->getUri()] = $now;
             $resource->editPropertyValues($property, $now);
         }
+    }
+
+    /**
+     * Create a task in the task queue to index/re-index created/updated resource
+     * @param \core_kernel_classes_Resource $resource
+     * @param string $message
+     */
+    private function createResourceIndexingTask(\core_kernel_classes_Resource $resource, string $message)
+    {
+        $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcherInterface::SERVICE_ID);
+        $queueDispatcher->createTask(new UpdateResourceInIndex(), [$resource->getUri()], $message);
     }
 
     /**

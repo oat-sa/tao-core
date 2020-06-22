@@ -5,5 +5,8 @@
  */
 
 use oat\tao\model\search\index\IndexService;
+use oat\tao\model\search\index\DocumentBuilder\GenerisDocumentBuilderFactory;
 
-return new IndexService();
+return new IndexService([
+    'documentBuilderFactory' => new GenerisDocumentBuilderFactory()
+]);
