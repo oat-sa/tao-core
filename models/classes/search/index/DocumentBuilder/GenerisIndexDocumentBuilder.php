@@ -50,12 +50,13 @@ class GenerisIndexDocumentBuilder extends AbstractIndexDocumentBuilder
         }
 
         $body['type'] = $rootResourceType ?: $this->getTypesForResource($resource);
+        $dynamicProperties = $this->getDynamicProperties($resource->getTypes(), $resource);
     
         return new IndexDocument(
             $resource->getUri(),
             $body,
             $indexesProperties,
-            $this->getDynamicProperties($body['type'], $resource)
+            $dynamicProperties
         );
     }
 

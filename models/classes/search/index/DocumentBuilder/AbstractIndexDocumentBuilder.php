@@ -28,10 +28,19 @@ use ArrayIterator;
 use core_kernel_classes_Literal as Literal;
 use core_kernel_classes_Resource;
 use Iterator;
+use oat\tao\model\WidgetDefinitions;
 
 abstract class AbstractIndexDocumentBuilder implements IndexDocumentBuilderInterface
 {
     use OntologyAwareTrait;
+    public const ALLOWED_DYNAMIC_TYPES = [
+        WidgetDefinitions::PROPERTY_TEXTBOX,
+        WidgetDefinitions::PROPERTY_TEXTAREA,
+        WidgetDefinitions::PROPERTY_HTMLAREA,
+        WidgetDefinitions::PROPERTY_CHECKBOX,
+        WidgetDefinitions::PROPERTY_COMBOBOX,
+        WidgetDefinitions::PROPERTY_RADIOBOX,
+    ];
     
     /**
      * {@inheritdoc}
