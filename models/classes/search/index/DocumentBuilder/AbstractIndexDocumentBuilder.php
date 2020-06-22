@@ -65,10 +65,6 @@ abstract class AbstractIndexDocumentBuilder implements IndexDocumentBuilderInter
         if ($rootResourceType) {
             $body['type'] = $rootResourceType;
         }
-        
-        if (!is_array($body['type'])) {
-            $body['type'] = [$body['type']];
-        }
     
         $document = new IndexDocument(
             $resource['id'],
