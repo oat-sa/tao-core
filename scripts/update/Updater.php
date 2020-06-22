@@ -24,24 +24,35 @@ namespace oat\tao\scripts\update;
 
 use common_Exception;
 use common_report_Report as Report;
-use oat\funcAcl\models\ModuleAccessService;
+use core_kernel_persistence_smoothsql_SmoothModel;
 use oat\generis\model\data\event\ResourceCreated;
+use oat\generis\model\data\event\ResourceDeleted;
 use oat\generis\model\data\event\ResourceUpdated;
+use oat\generis\model\data\ModelManager;
+use oat\generis\model\data\Ontology;
+use oat\generis\model\kernel\persistence\file\FileIterator;
 use oat\generis\model\OntologyRdfs;
 use oat\generis\model\user\UserRdf;
-use oat\generis\model\data\ModelManager;
-use oat\generis\model\kernel\persistence\file\FileIterator;
 use oat\oatbox\event\EventManager;
+use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ConfigurableService;
+use oat\oatbox\service\ServiceNotFoundException;
+use oat\oatbox\task\TaskService;
 use oat\oatbox\user\UserService;
 use oat\tao\controller\api\Users;
 use oat\tao\helpers\dateFormatter\EuropeanFormatter;
+use oat\tao\helpers\form\ValidationRuleRegistry;
+use oat\tao\model\accessControl\func\AccessRule;
+use oat\tao\model\accessControl\func\AclProxy;
+use oat\tao\model\actionQueue\implementation\InstantActionQueue;
 use oat\tao\model\cliArgument\argument\implementation\Group;
 use oat\tao\model\cliArgument\argument\implementation\verbose\Debug;
 use oat\tao\model\cliArgument\argument\implementation\verbose\Error;
 use oat\tao\model\cliArgument\argument\implementation\verbose\Info;
 use oat\tao\model\cliArgument\argument\implementation\verbose\Notice;
 use oat\tao\model\cliArgument\ArgumentService;
+use oat\tao\model\clientConfig\ClientConfigService;
+use oat\tao\model\clientConfig\sources\ThemeConfig;
 use oat\tao\model\ClientLibConfigRegistry;
 use oat\tao\model\event\FileUploadedEvent;
 use oat\tao\model\event\LoginFailedEvent;
@@ -53,18 +64,36 @@ use oat\tao\model\event\UploadLocalCopyCreatedEvent;
 use oat\tao\model\event\UserCreatedEvent;
 use oat\tao\model\event\UserRemovedEvent;
 use oat\tao\model\event\UserUpdatedEvent;
+use oat\tao\model\extension\UpdateLogger;
+use oat\tao\model\i18n\ExtraPoService;
 use oat\tao\model\maintenance\Maintenance;
+use oat\tao\model\media\MediaService;
 use oat\tao\model\metadata\compiler\ResourceJsonMetadataCompiler;
 use oat\tao\model\metrics\MetricsService;
 use oat\tao\model\mvc\DefaultUrlService;
+use oat\tao\model\mvc\error\ExceptionInterpreterService;
+use oat\tao\model\mvc\error\ExceptionInterpretor;
 use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\model\notification\NotificationServiceInterface;
+use oat\tao\model\oauth\DataStore;
+use oat\tao\model\oauth\lockout\NoLockout;
+use oat\tao\model\oauth\nonce\NoNonce;
+use oat\tao\model\oauth\OauthService;
+use oat\tao\model\OperatedByService;
+use oat\tao\model\resources\ListResourceLookup;
+use oat\tao\model\resources\ResourceService;
 use oat\tao\model\resources\ResourceWatcher;
+use oat\tao\model\resources\SecureResourceService;
+use oat\tao\model\resources\SecureResourceServiceInterface;
+use oat\tao\model\resources\TreeResourceLookup;
 use oat\tao\model\routing\AnnotationReaderService;
 use oat\tao\model\routing\ControllerService;
 use oat\tao\model\routing\RouteAnnotationService;
+use oat\tao\model\search\index\IndexService;
 use oat\tao\model\security\ActionProtector;
+use oat\tao\model\security\Business\Contract\SecuritySettingsRepositoryInterface;
+use oat\tao\model\security\DataAccess\Repository\SecuritySettingsRepository;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStore;
 use oat\tao\model\security\xsrf\TokenStoreSession;
@@ -92,6 +121,7 @@ use oat\tao\model\user\GenerisUserService;
 use oat\tao\model\user\implementation\NoUserLocksService;
 use oat\tao\model\user\import\OntologyUserMapper;
 use oat\tao\model\user\import\UserCsvImporterFactory;
+use oat\tao\model\user\TaoRoles;
 use oat\tao\model\user\UserLocks;
 use oat\tao\model\webhooks\log\WebhookEventLogInterface;
 use oat\tao\model\webhooks\log\WebhookLogRepository;
@@ -108,47 +138,21 @@ use oat\tao\model\webhooks\WebhookRegistryInterface;
 use oat\tao\model\webhooks\WebhookTaskService;
 use oat\tao\model\webhooks\WebhookTaskServiceInterface;
 use oat\tao\scripts\install\AddArchiveService;
+use oat\tao\scripts\install\AddTmpFsHandlers;
 use oat\tao\scripts\install\CreateWebhookEventLogTable;
 use oat\tao\scripts\install\InstallNotificationTable;
-use oat\tao\scripts\install\AddTmpFsHandlers;
-use oat\tao\scripts\install\RegisterSignatureGenerator;
-use oat\tao\scripts\install\UpdateRequiredActionUrl;
-use oat\tao\model\accessControl\func\AclProxy;
-use oat\tao\model\accessControl\func\AccessRule;
-use oat\oatbox\service\ServiceNotFoundException;
-use oat\tao\model\extension\UpdateLogger;
-use oat\oatbox\filesystem\FileSystemService;
-use oat\tao\model\clientConfig\ClientConfigService;
-use oat\tao\model\clientConfig\sources\ThemeConfig;
-use oat\tao\helpers\form\ValidationRuleRegistry;
-use oat\oatbox\task\TaskService;
-use oat\tao\model\i18n\ExtraPoService;
-use oat\tao\scripts\install\SetClientLoggerConfig;
-use oat\tao\model\mvc\error\ExceptionInterpreterService;
-use oat\tao\model\mvc\error\ExceptionInterpretor;
-use oat\tao\model\OperatedByService;
-use oat\tao\model\actionQueue\implementation\InstantActionQueue;
-use oat\tao\model\oauth\OauthService;
-use oat\tao\model\oauth\DataStore;
-use oat\tao\model\oauth\nonce\NoNonce;
 use oat\tao\scripts\install\RegisterActionService;
-use oat\tao\model\resources\ResourceService;
-use oat\tao\model\resources\ListResourceLookup;
-use oat\tao\model\resources\TreeResourceLookup;
-use oat\tao\model\user\TaoRoles;
-use oat\generis\model\data\event\ResourceDeleted;
-use oat\tao\model\search\aggregator\UnionSearchService;
-use oat\tao\model\search\index\IndexService;
+use oat\tao\scripts\install\RegisterSignatureGenerator;
+use oat\tao\scripts\install\RegisterValueCollectionServices;
+use oat\tao\scripts\install\SetClientLoggerConfig;
+use oat\tao\scripts\install\UpdateRequiredActionUrl;
 use oat\tao\scripts\tools\MigrateSecuritySettings;
-use tao_install_utils_ModelCreator;
 use tao_models_classes_UserService;
-use oat\tao\model\media\MediaService;
-use oat\generis\model\data\Ontology;
-use core_kernel_persistence_smoothsql_SmoothModel;
 
 /**
  *
  * @author Joel Bout <joel@taotesting.com>
+ * @deprecated use migrations instead. See https://github.com/oat-sa/generis/wiki/Tao-Update-Process
  */
 class Updater extends \common_ext_ExtensionUpdater
 {
@@ -581,11 +585,11 @@ class Updater extends \common_ext_ExtensionUpdater
         $this->skip('14.4.1', '14.8.0');
 
         if ($this->isVersion('14.8.0')) {
-            $moduleService = ModuleAccessService::singleton();
-            $moduleService->remove(
+            AclProxy::revokeRule(new AccessRule(
+                AccessRule::GRANT,
                 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',
-                'http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_ExtensionsManager'
-            );
+                ['ext' => 'tao']
+            ));
 
             AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole', ['ext' => 'tao','mod' => 'ExtensionsManager']));
             AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole', ['ext' => 'tao','mod' => 'Api']));
@@ -651,7 +655,7 @@ class Updater extends \common_ext_ExtensionUpdater
         if ($this->isVersion('14.20.0')) {
             if (!$this->getServiceManager()->has(OauthService::SERVICE_ID)) {
                 $this->getServiceManager()->register(OauthService::SERVICE_ID, new OauthService([
-                    OauthService::OPTION_DATASTORE => new DataStore([
+                    OauthService::OPTION_DATA_STORE => new DataStore([
                         DataStore::OPTION_NONCE_STORE => new NoNonce()
                     ])
                 ]));
@@ -923,25 +927,7 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('22.10.2');
         }
 
-        $this->skip('22.10.0', '22.12.0');
-
-        if ($this->isVersion('22.12.0')) {
-            $this->getServiceManager()->register(
-                ActionProtector::SERVICE_ID,
-                new ActionProtector(['frameSourceWhitelist' => ['self']])
-            );
-            $this->setVersion('22.13.0');
-        }
-
-        if ($this->isVersion('22.13.0')) {
-            $this->getServiceManager()->register(
-                ActionProtector::SERVICE_ID,
-                new ActionProtector(['frameSourceWhitelist' => ["'self'"]])
-            );
-            $this->setVersion('22.13.1');
-        }
-
-        $this->skip('22.13.1', '26.1.7');
+        $this->skip('22.10.0', '26.1.7');
 
         if ($this->isVersion('26.1.7')) {
             AclProxy::applyRule(new AccessRule(AccessRule::GRANT, TaoRoles::SYSTEM_ADMINISTRATOR, Users::class));
@@ -1240,34 +1226,10 @@ class Updater extends \common_ext_ExtensionUpdater
             }
             $this->setVersion('39.1.0');
         }
-        $this->skip('39.1.0', '39.3.2');
 
-        if ($this->isVersion('39.3.2')) {
-            OntologyUpdater::syncModels();
-
-            $models = (new tao_install_utils_ModelCreator(LOCAL_NAMESPACE))->getLanguageModels();
-            $rdf = ModelManager::getModel()->getRdfInterface();
-            foreach (array_shift($models) as $file) {
-                $iterator = new FileIterator($file, 1);
-                foreach ($iterator as $triple) {
-                    $rdf->remove($triple);
-                    $rdf->add($triple);
-                }
-            }
-            $this->setVersion('39.3.3');
-        }
-
-        $this->skip('39.3.3', '39.5.5');
-
-        if ($this->isVersion('39.5.5')) {
-            /** @var UnionSearchService|ConfigurableService $service */
-            $service = new UnionSearchService(['services' => []]);
-            $this->getServiceManager()->register(UnionSearchService::SERVICE_ID, $service);
-
-            $this->setVersion('39.6.0');
-        }
-
-        $this->skip('39.6.0', '40.3.3');
+        //Removed update from 39.3.2 -> 39.3.3 due to broken operation cause by removal of `tao_install_utils_ModelCreator` class
+        //Related PR https://github.com/oat-sa/tao-core/pull/2404. Update is re-played on 40.9.5 to 40.9.6
+        $this->skip('39.1.0', '40.3.3');
 
         if ($this->isVersion('40.3.3')) {
             $extManager = $this->getServiceManager()->get(\common_ext_ExtensionsManager::SERVICE_ID);
@@ -1321,7 +1283,99 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('40.9.6');
         }
 
-        $this->skip('40.9.6', '42.0.0');
+        $this->skip('40.9.6', '41.0.1');
 
+        if ($this->isVersion('41.0.1')) {
+            AclProxy::applyRule(new AccessRule('grant', TaoRoles::REST_PUBLISHER, ['ext' => 'tao', 'mod' => 'TaskQueue', 'act' => 'getStatus']));
+            $this->setVersion('41.0.2');
+        }
+
+
+        if ($this->isVersion('41.0.2')) {
+            $this->getServiceManager()->register(SecureResourceServiceInterface::SERVICE_ID, new SecureResourceService());
+
+            $this->setVersion('41.1.0');
+        }
+
+        $this->skip('41.1.0', '41.1.2');
+
+        if ($this->isVersion('41.1.2')) {
+            $serviceManager = $this->getServiceManager();
+
+            /** @var SettingsStorageInterface $storage */
+            $storage = $serviceManager->get(SettingsStorageInterface::SERVICE_ID);
+            $securitySettingsRepository = new SecuritySettingsRepository($storage);
+
+            $serviceManager->register(
+                SecuritySettingsRepositoryInterface::SERVICE_ID,
+                $securitySettingsRepository
+            );
+            $serviceManager->register(
+                ActionProtector::SERVICE_ID,
+                new ActionProtector(
+                    $securitySettingsRepository,
+                    [
+                        'X-Content-Type-Options: nosniff',
+                    ]
+                )
+            );
+
+            $this->setVersion('41.2.0');
+        }
+        $this->skip('41.2.0', '41.5.1');
+
+        if ($this->isVersion('41.5.1')) {
+            $this->addReport(
+                Report::createInfo('To make SecureResourceService use cache see example from default config at: tao/config/default/SecureResourceService.conf.php ')
+            );
+            $this->setVersion('41.6.0');
+        }
+
+        $this->skip('41.6.0', '41.7.0');
+        if ($this->isVersion('41.7.0')) {
+            $oauthService = $this->getServiceManager()->get(OauthService::SERVICE_ID);
+            $oauthService->setOption(OauthService::OPTION_LOCKOUT_SERVICE, new NoLockout());
+            $this->getServiceManager()->register(OauthService::SERVICE_ID, $oauthService);
+            $this->setVersion('41.8.0');
+        }
+
+        $this->skip('41.8.0', '42.0.3');
+        if ($this->isVersion('42.0.3')) {
+            $this->getServiceManager()->unregister('tao/UnionSearchService');
+            $this->setVersion('42.0.4');
+        }
+
+        $this->skip('42.0.4', '42.10.2');
+
+        if ($this->isVersion('42.10.2')) {
+            AclProxy::applyRule(
+                new AccessRule(
+                    AccessRule::GRANT,
+                    TaoRoles::BACK_OFFICE,
+                    [
+                        'ext' => 'tao',
+                        'mod' => 'Languages',
+                        'act' => 'index',
+                    ]
+                )
+            );
+
+            $this->setVersion('42.11.0');
+        }
+
+        $this->skip('42.11.0', '44.1.1');
+
+        if ($this->isVersion('44.1.1')) {
+            $this->runExtensionScript(RegisterValueCollectionServices::class);
+
+            $this->setVersion('44.2.0');
+        }
+
+        $this->skip('44.2.0', '44.4.0');
+        
+        //Updater files are deprecated. Please use migrations.
+        //See: https://github.com/oat-sa/generis/wiki/Tao-Update-Process
+
+        $this->setVersion($this->getExtension()->getManifest()->getVersion());
     }
 }

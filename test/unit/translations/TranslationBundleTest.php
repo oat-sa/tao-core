@@ -45,18 +45,15 @@ class TranslationBundleTest extends TestCase
     /**
      * Set up the temp directory
      */
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
-        self::$tmpDir = sys_get_temp_dir() . '/phpunit-' . __CLASS__;
-        if (!file_exists(self::$tmpDir)) {
-            mkdir(self::$tmpDir);
-        }
+        self::$tmpDir = \tao_helpers_File::createTempDir();
     }
 
     /**
      * Removes the temporary directory
      */
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         tao_helpers_File::delTree(self::$tmpDir);
     }
@@ -73,19 +70,19 @@ class TranslationBundleTest extends TestCase
             [null, null, false],
         ];
     }
- 
+
     /**
      * Test constructor with wrong parameters
      * @param string $langCode
      * @param array $extensions
      * @dataProvider wrongConstructorProvider
-     * @expectedException InvalidArgumentException
      */
     public function testWrongConstructor($langCode, $extensions, $basePath)
     {
+        $this->expectException(InvalidArgumentException::class);
         new TranslationBundle($langCode, $extensions, $basePath);
     }
-   
+
     /**
      * Provides data to test the bundle
      * @return array() the data
@@ -97,7 +94,7 @@ class TranslationBundleTest extends TestCase
            ['fr-FR', ['tao', 'taoItems'], md5('fr-FR_tao-taoItems')],
         ];
     }
- 
+
     /**
      * Test the bundle
      * @param string $langCode

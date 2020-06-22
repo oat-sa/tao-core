@@ -36,7 +36,7 @@ use Prophecy\Argument;
  */
 class DatatablePayloadTest extends TaoPhpUnitTestRunner
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
     }

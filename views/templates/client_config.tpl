@@ -63,7 +63,7 @@ require.config({
             '../../../taoQtiItem/views/js/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML-full',
             '../../../taoQtiItem/views/js/MathJaxFallback'
         ],
-        'ckeditor'          : 'lib/ckeditor/ckeditor',
+        'ckeditor'          : '../node_modules/@oat-sa/tao-core-shared-libs/lib/ckeditor/ckeditor',
         'interact'          : '../node_modules/interactjs/dist/interact',
         'd3'                : 'lib/d3js/d3',
         'c3'                : 'lib/c3js/c3',
@@ -78,9 +78,8 @@ require.config({
         'lib/uuid'          : '../node_modules/@oat-sa/tao-core-libs/dist/uuid',
         'core'              : '../node_modules/@oat-sa/tao-core-sdk/dist/core',
         'util'              : '../node_modules/@oat-sa/tao-core-sdk/dist/util',
-        'ui'                : '../node_modules/@oat-sa/tao-core-ui/dist',
-        'fastestsmallesttextencoderdecoder': '../node_modules/fastestsmallesttextencoderdecoder/NodeJS/EncoderAndDecoderNodeJS.min',
-   },
+        'ui'                : '../node_modules/@oat-sa/tao-core-ui/dist'
+    },
    shim : {
         'jqueryui'              : { deps : ['jquery'] },
         'moment'                : { exports : 'moment' },

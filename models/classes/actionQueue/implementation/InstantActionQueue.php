@@ -23,12 +23,13 @@
 namespace oat\tao\model\actionQueue\implementation;
 
 use oat\oatbox\event\EventManager;
+use oat\oatbox\session\SessionService;
 use oat\tao\model\actionQueue\ActionQueue;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\actionQueue\QueuedAction;
 use oat\tao\model\actionQueue\ActionQueueException;
 use oat\oatbox\user\User;
-use oat\tao\model\actionQueue\restriction\basicRestriction;
+use oat\tao\model\actionQueue\restriction\BasicRestriction;
 use oat\tao\model\actionQueue\event\InstantActionOnQueueEvent;
 use oat\tao\model\actionQueue\event\ActionQueueTrendEvent;
 
@@ -60,9 +61,9 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
      */
     public function perform(QueuedAction $action, User $user = null)
     {
-        $action->setServiceLocator($this->getServiceManager());
+        $this->propagate($action);
         if ($user === null) {
-            $user = \common_session_SessionManager::getSession()->getUser();
+            $user = $this->getServiceLocator()->get(SessionService::SERVICE_ID)->getCurrentUser();
         }
         $result = false;
         $actionConfig = $this->getActionConfig($action);
@@ -122,16 +123,20 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
     }
 
     /**
-     * @param QueuedAction $action
-     * @return int
+     * @param  QueuedAction $action
+     * @return bool
      * @throws ActionQueueException
      */
-    public function getLimits(QueuedAction $action)
+    public function isActionEnabled(QueuedAction $action): bool
     {
         $actionConfig = $this->getActionConfig($action);
-        $restrictions = $this->getRestrictions($actionConfig);
-        $limit = $restrictions ? array_sum($restrictions) : 0;
-        return $limit;
+        foreach ($this->getRestrictions($actionConfig) as $restriction => $value) {
+            if ($value !== 0) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -166,7 +171,7 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
             unset($positions[$user->getIdentifier()]);
             $this->getEventManager()->trigger(new InstantActionOnQueueEvent($key, $user, $positions, 'dequeue', $action));
             $this->getPersistence()->set($key, json_encode($positions));
-            
+
             if ($this->getTrend($action) <= 0) {
                 $this->getEventManager()->trigger(new ActionQueueTrendEvent($action, false));
                 $this->getPersistence()->set(get_class($action) . self::QUEUE_TREND, 1);
@@ -237,25 +242,25 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
      * @param array $actionConfig
      * @return array
      */
-    private function getRestrictions(array $actionConfig)
+    private function getRestrictions(array $actionConfig): array
     {
-        return array_key_exists('restrictions', $actionConfig) ? $actionConfig['restrictions'] : [];
+        return $actionConfig['restrictions'] ?? [];
     }
 
     /**
      * @param array $restrictions
      * @return bool
      */
-    private function checkRestrictions(array $restrictions)
+    private function checkRestrictions(array $restrictions): bool
     {
         $allowExecution = true;
 
-        foreach ($restrictions as $restriction => $value) {
-            if (class_exists($restriction) && is_subclass_of($restriction, basicRestriction::class)) {
-                /** @var basicRestriction $r */
-                $r = new $restriction();
-                $this->propagate($r);
-                $allowExecution = $allowExecution && $r->doesComplies($value);
+        foreach ($restrictions as $restrictionClass => $value) {
+            if (class_exists($restrictionClass) && is_subclass_of($restrictionClass, BasicRestriction::class)) {
+                /** @var BasicRestriction $restriction */
+                $restriction = new $restrictionClass();
+                $this->propagate($restriction);
+                $allowExecution = $allowExecution && $restriction->doesComply($value);
             }
         }
         return $allowExecution;

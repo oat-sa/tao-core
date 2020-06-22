@@ -35,7 +35,7 @@ class ResourceSignatureValidatorTest extends TestCase
     /** @var ResourceSignatureValidator */
     private $subject;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

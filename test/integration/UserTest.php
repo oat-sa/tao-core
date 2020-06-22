@@ -87,7 +87,7 @@ class UserTest extends TestCase
     /**
      * tests initialization
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->userService = tao_models_classes_UserService::singleton();
         $this->testUserData[GenerisRdf::PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($this->testUserData[GenerisRdf::PROPERTY_USER_PASSWORD]);
@@ -223,7 +223,7 @@ class UserTest extends TestCase
         return $method;
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         if ($this->testUser) {
             $this->userService->removeUser($this->testUser);
@@ -234,7 +234,7 @@ class UserTest extends TestCase
         }
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         $register = self::getMethod('register');
         $config = self::getMethod('getConfig')->invokeArgs(PasswordConstraintsService::singleton(), []);

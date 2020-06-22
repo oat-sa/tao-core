@@ -22,6 +22,7 @@
 namespace oat\tao\scripts\tools;
 
 use oat\oatbox\extension\AbstractAction;
+use oat\tao\model\OntologyClassService;
 
 /**
  * This post-installation script creates a new local file source for services
@@ -81,7 +82,7 @@ class CleanClass extends AbstractAction
 
         if (isset($params[0])) {
             $serviceName = $params[0];
-            if (is_a($serviceName, \tao_models_classes_ClassService::class, true)) {
+            if (is_a($serviceName, OntologyClassService::class, true)) {
                 $this->service = call_user_func([$serviceName, 'singleton'], []);
             } else {
                 return new \common_report_Report(\common_report_Report::TYPE_ERROR, __('USAGE: please provide a valid service name as first parameter'));

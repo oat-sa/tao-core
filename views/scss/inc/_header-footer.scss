@@ -66,6 +66,7 @@ $footerHeight: 34;
             text-decoration: none;
         }
     }
+    .nav,
     nav {
         background:inherit;
         position: relative;
@@ -324,6 +325,7 @@ body > footer {
 // everything required for mobile navi
 @mixin mobile-navi () {
     .dark-bar {
+        .nav,
         nav {
 
             .main-menu {

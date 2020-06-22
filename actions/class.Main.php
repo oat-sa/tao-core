@@ -35,7 +35,7 @@ use oat\tao\model\event\LogoutSucceedEvent;
 use oat\tao\model\menu\MenuService;
 use oat\tao\model\menu\Perspective;
 use oat\tao\model\mvc\DefaultUrlService;
-use oat\tao\model\notification\NotificationInterface;
+use oat\tao\model\notification\Notification;
 use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\user\UserLocks;
 use oat\oatbox\log\LoggerAwareTrait;
@@ -332,7 +332,7 @@ class tao_actions_Main extends tao_actions_CommonModule
         if ($notifService->getVisibility()) {
             $notif = $notifService->notificationCount($user->getUri());
 
-            $this->setData('unread-notification', $notif[NotificationInterface::CREATED_STATUS]);
+            $this->setData('unread-notification', $notif[Notification::CREATED_STATUS]);
 
             $this->setData('notification-url', _url(
                 'index',

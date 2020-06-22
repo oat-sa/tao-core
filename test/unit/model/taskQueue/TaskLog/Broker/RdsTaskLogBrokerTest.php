@@ -21,6 +21,7 @@
 
 namespace oat\tao\test\unit\model\taskQueue\TaskLog\Broker;
 
+use InvalidArgumentException;
 use oat\generis\test\TestCase;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\taskQueue\Task\CallbackTask;
@@ -37,7 +38,7 @@ class RdsTaskLogBrokerTest extends TestCase
      */
     protected $subject;
 
-    public function setUp()
+    public function setUp(): void
     {
         $persistenceId = 'rds_task_log_test';
         $databaseMock = $this->getSqlMock($persistenceId);
@@ -60,14 +61,6 @@ class RdsTaskLogBrokerTest extends TestCase
         $this->subject->setServiceLocator($serviceManagerMock);
 
         $this->subject->createContainer();
-    }
-
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function testTaskLogBrokerServiceShouldThrowExceptionWhenPersistenceOptionIsEmpty()
-    {
-        new RdsTaskLogBroker('');
     }
 
     public function testGetPersistenceWhenInstantiatingANewOneThenItReturnsOneWithTheRequiredInterface()
