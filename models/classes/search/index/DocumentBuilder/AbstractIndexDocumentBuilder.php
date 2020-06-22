@@ -33,7 +33,7 @@ use oat\tao\model\WidgetDefinitions;
 abstract class AbstractIndexDocumentBuilder implements IndexDocumentBuilderInterface
 {
     use OntologyAwareTrait;
-    const ALLOWED_DYNAMIC_TYPES = [
+    public const ALLOWED_DYNAMIC_TYPES = [
         WidgetDefinitions::PROPERTY_TEXTBOX,
         WidgetDefinitions::PROPERTY_TEXTAREA,
         WidgetDefinitions::PROPERTY_HTMLAREA,
