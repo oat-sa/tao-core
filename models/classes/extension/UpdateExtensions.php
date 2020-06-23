@@ -27,6 +27,7 @@ use oat\oatbox\service\ServiceNotFoundException;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\migrations\MigrationsService;
 use oat\tao\scripts\tools\Migrations;
+use common_ext_ExtensionsManager as ExtensionsManager;
 
 /**
  * Extends the generis updater to take into account
@@ -66,6 +67,12 @@ class UpdateExtensions extends \common_ext_UpdateExtensions
 
         $updateId = $this->generateUpdateId();
         $this->updateCacheBuster($report, $updateId);
+
+        $postUpdateReport = $this->runPostUpdateScripts();
+        if ($postUpdateReport->hasChildren()) {
+            $report->add($postUpdateReport);
+        }
+
         $report->add(new common_report_Report(common_report_Report::TYPE_INFO, __('Update ID : %s', $updateId)));
 
         return $report;
@@ -95,5 +102,26 @@ class UpdateExtensions extends \common_ext_UpdateExtensions
             \common_Logger::e($e->getMessage());
             $report->add(new common_report_Report(common_report_Report::TYPE_WARNING, __('Unable to update the asset service')));
         }
+    }
+
+    /**
+     * @throws \common_exception_Error
+     */
+    private function runPostUpdateScripts()
+    {
+        $report = new common_report_Report(common_report_Report::TYPE_INFO, 'Post update actions:');
+        $extManager = $this->getServiceLocator()->get(ExtensionsManager::SERVICE_ID);
+        $sorted = \helpers_ExtensionHelper::sortByDependencies($extManager->getInstalledExtensions());
+        foreach ($sorted as $ext) {
+            try {
+                $postUpdateExtensionReport = $ext->getUpdater()->postUpdate();
+                if ($postUpdateExtensionReport) {
+                    $report->add($postUpdateExtensionReport);
+                }
+            } catch (\common_ext_ManifestException $e) {
+                $report->add(new common_report_Report(common_report_Report::TYPE_WARNING, $e->getMessage()));
+            }
+        }
+        return $report;
     }
 }
