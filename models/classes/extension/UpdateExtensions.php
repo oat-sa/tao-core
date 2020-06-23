@@ -69,9 +69,7 @@ class UpdateExtensions extends \common_ext_UpdateExtensions
         $this->updateCacheBuster($report, $updateId);
 
         $postUpdateReport = $this->runPostUpdateScripts();
-        if ($postUpdateReport->hasChildren()) {
-            $report->add($postUpdateReport);
-        }
+        $report->add($postUpdateReport);
 
         $report->add(new common_report_Report(common_report_Report::TYPE_INFO, __('Update ID : %s', $updateId)));
 
@@ -121,6 +119,9 @@ class UpdateExtensions extends \common_ext_UpdateExtensions
             } catch (\common_ext_ManifestException $e) {
                 $report->add(new common_report_Report(common_report_Report::TYPE_WARNING, $e->getMessage()));
             }
+        }
+        if (!$report->hasChildren()) {
+            $report->add(new common_report_Report(common_report_Report::TYPE_INFO, 'No actions to be executed'));
         }
         return $report;
     }
