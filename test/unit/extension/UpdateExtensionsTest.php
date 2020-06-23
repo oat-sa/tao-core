@@ -69,7 +69,7 @@ class UpdateExtensionsTest extends TestCase
 
         $this->assertInstanceOf(Report::class, $report);
         $reports = $report->getChildren();
-        $this->assertCount(5, $reports);
+        $this->assertCount(6, $reports);
         $this->assertEquals('foo already up to date', $reports[0]->getMessage());
         $this->assertEquals('bar already up to date', $reports[1]->getMessage());
         $this->assertEquals('Migrations applied', $reports[2]->getMessage());
