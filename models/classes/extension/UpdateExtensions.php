@@ -26,8 +26,8 @@ use oat\oatbox\log\LoggerAggregator;
 use oat\oatbox\service\ServiceNotFoundException;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\migrations\MigrationsService;
-use oat\tao\scripts\tools\Migrations;
 use common_ext_ExtensionsManager as ExtensionsManager;
+use common_ext_Extension as Extension;
 
 /**
  * Extends the generis updater to take into account
@@ -111,17 +111,27 @@ class UpdateExtensions extends \common_ext_UpdateExtensions
         $extManager = $this->getServiceLocator()->get(ExtensionsManager::SERVICE_ID);
         $sorted = \helpers_ExtensionHelper::sortByDependencies($extManager->getInstalledExtensions());
         foreach ($sorted as $ext) {
-            try {
-                $postUpdateExtensionReport = $ext->getUpdater()->postUpdate();
-                if ($postUpdateExtensionReport) {
-                    $report->add($postUpdateExtensionReport);
-                }
-            } catch (\common_ext_ManifestException $e) {
-                $report->add(new common_report_Report(common_report_Report::TYPE_WARNING, $e->getMessage()));
+            $postUpdateExtensionReport = $this->runPostUpdateScript($ext);
+            if ($postUpdateExtensionReport !== null) {
+                $report->add($postUpdateExtensionReport);
             }
         }
         if (!$report->hasChildren()) {
             $report->add(new common_report_Report(common_report_Report::TYPE_INFO, 'No actions to be executed'));
+        }
+        return $report;
+    }
+
+    /**
+     * @param Extension $ext
+     * @return common_report_Report|null
+     */
+    private function runPostUpdateScript(Extension $ext) : ?common_report_Report
+    {
+        try {
+            $report = $ext->getUpdater()->postUpdate();
+        } catch (\common_ext_ManifestException $e) {
+            $report = new common_report_Report(common_report_Report::TYPE_WARNING, $e->getMessage());
         }
         return $report;
     }
