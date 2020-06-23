@@ -13,6 +13,7 @@
         "@oat-sa/tao-core-libs": "oat-sa/tao-core-libs-fe#breaking/TDR-10/upgrade-jquery-handlebars",
         "@oat-sa/tao-core-sdk": "oat-sa/tao-core-sdk-fe#breaking/TDR-10/upgrade-jquery-handlebars",
         "@oat-sa/tao-core-ui": "oat-sa/tao-core-ui-fe#breaking/TDR-10/upgrade-jquery-handlebars",
+        "@oat-sa/tao-core-shared-libs": "1.0.0",
         "async": "0.2.10",
         "decimal.js": "10.1.1",
         "gamp": "0.2.1",
