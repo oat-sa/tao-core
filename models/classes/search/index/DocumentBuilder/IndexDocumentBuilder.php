@@ -35,7 +35,7 @@ use oat\tao\model\search\SearchTokenGenerator;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\WidgetDefinitions;
 
-abstract class AbstractIndexDocumentBuilder implements IndexDocumentBuilderInterface
+class IndexDocumentBuilder implements IndexDocumentBuilderInterface
 {
     use OntologyAwareTrait;
     
