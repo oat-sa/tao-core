@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2015-2020 (original work) Open Assessment Technologies SA;
  *
  */
 
@@ -66,7 +66,7 @@ interface MediaBrowser
      */
     public function getFileStream($link);
 
-        /**
+    /**
      * @param string $link
      * @return string baseName of the file
      * @throws \tao_models_classes_FileNotFoundException
