@@ -65,7 +65,7 @@ class IndexService extends ConfigurableService
      *
      * return IndexDocumentBuilderInterface
      */
-    public function getDocumentBuilderFactory(): IndexDocumentBuilderInterface
+    public function getDocumentBuilder(): IndexDocumentBuilderInterface
     {
         return $this->getOption(self::OPTION_DOCUMENT_BUILDER);
     }
@@ -81,7 +81,7 @@ class IndexService extends ConfigurableService
      */
     public function createDocumentFromResource(\core_kernel_classes_Resource $resource): IndexDocument
     {
-        return $this->getDocumentBuilderFactory()->createDocumentFromResource($resource);
+        return $this->getDocumentBuilder()->createDocumentFromResource($resource);
     }
 
     /**
@@ -102,7 +102,7 @@ class IndexService extends ConfigurableService
             throw new \common_exception_MissingParameter('id');
         }
     
-        return $this->getDocumentBuilderFactory()->createDocumentFromArray($array);
+        return $this->getDocumentBuilder()->createDocumentFromArray($array);
     }
 
     /**
