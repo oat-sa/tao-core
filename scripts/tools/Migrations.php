@@ -191,7 +191,7 @@ class Migrations extends ScriptAction
      */
     private function add()
     {
-        $input = ['command' => $this->commands[self::COMMAND_ADD], '--add' => true, '--all' => true, '--no-interaction'];
+        $input = ['command' => $this->commands[self::COMMAND_ADD], '--add' => true, '--all' => true, '--no-interaction' => true];
         $this->executeMigration($this->getDependencyFactory($this->getConfiguration()), new ArrayInput($input), $output = new BufferedOutput());
         return $output;
     }
