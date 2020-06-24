@@ -26,7 +26,7 @@ use oat\oatbox\log\LoggerAggregator;
 use oat\oatbox\service\ServiceNotFoundException;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\migrations\MigrationsService;
-use common_ext_ExtensionsManager as ExtensionsManager;
+use common_ext_ExtensionsManager as ExtensionManager;
 use common_ext_Extension as Extension;
 
 /**
@@ -108,7 +108,7 @@ class UpdateExtensions extends \common_ext_UpdateExtensions
     private function runPostUpdateScripts()
     {
         $report = new common_report_Report(common_report_Report::TYPE_INFO, 'Post update actions:');
-        $extManager = $this->getServiceLocator()->get(ExtensionsManager::SERVICE_ID);
+        $extManager = $this->getServiceLocator()->get(ExtensionManager::SERVICE_ID);
         $sorted = \helpers_ExtensionHelper::sortByDependencies($extManager->getInstalledExtensions());
         foreach ($sorted as $ext) {
             $postUpdateExtensionReport = $this->runPostUpdateScript($ext);
