@@ -22,17 +22,26 @@ declare(strict_types=1);
 namespace oat\tao\model\search\index\DocumentBuilder;
 
 use oat\generis\model\OntologyAwareTrait;
+use oat\generis\model\OntologyRdfs;
 use oat\generis\model\WidgetRdf;
 use oat\tao\model\search\index\IndexDocument;
 use ArrayIterator;
 use core_kernel_classes_Literal as Literal;
 use core_kernel_classes_Resource;
 use Iterator;
+use oat\tao\model\search\index\IndexProperty;
+use oat\tao\model\search\index\OntologyIndex;
+use oat\tao\model\search\SearchTokenGenerator;
+use oat\tao\model\TaoOntology;
 use oat\tao\model\WidgetDefinitions;
 
-abstract class AbstractIndexDocumentBuilder implements IndexDocumentBuilderInterface
+class IndexDocumentBuilder implements IndexDocumentBuilderInterface
 {
     use OntologyAwareTrait;
+    
+    /** @var array */
+    private $map = [];
+    
     public const ALLOWED_DYNAMIC_TYPES = [
         WidgetDefinitions::PROPERTY_TEXTBOX,
         WidgetDefinitions::PROPERTY_TEXTAREA,
@@ -45,7 +54,28 @@ abstract class AbstractIndexDocumentBuilder implements IndexDocumentBuilderInter
     /**
      * {@inheritdoc}
      */
-    public function createDocumentFromArray(array $resource = [], string $rootResourceType = ""): IndexDocument
+    public function createDocumentFromResource(\core_kernel_classes_Resource $resource): IndexDocument
+    {
+        $tokenizationInfo = $this->getTokenizedResourceBody($resource);
+        
+        $body = $tokenizationInfo['body'];
+        $indexProperties = $tokenizationInfo['indexProperties'];
+        
+        $body['type'] = $this->getTypesForResource($resource);
+        $dynamicProperties = $this->getDynamicProperties($resource->getTypes(), $resource);
+        
+        return new IndexDocument(
+            $resource->getUri(),
+            $body,
+            $indexProperties,
+            $dynamicProperties
+        );
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function createDocumentFromArray(array $resource = []): IndexDocument
     {
         if (!isset($resource['id'])) {
             throw new \common_exception_MissingParameter('id');
@@ -61,14 +91,6 @@ abstract class AbstractIndexDocumentBuilder implements IndexDocumentBuilderInter
         if (isset($resource['indexProperties'])) {
             $indexProperties = $resource['indexProperties'];
         }
-        
-        if ($rootResourceType) {
-            $body['type'] = $rootResourceType;
-        }
-        
-        if (!is_array($body['type'])) {
-            $body['type'] = [$body['type']];
-        }
     
         $document = new IndexDocument(
             $resource['id'],
@@ -80,9 +102,92 @@ abstract class AbstractIndexDocumentBuilder implements IndexDocumentBuilderInter
     }
     
     /**
-     * {@inheritdoc}
+     * @return string[]
+     * @throws \common_exception_Error
      */
-    public function getDynamicProperties(array $classes, core_kernel_classes_Resource $resource): Iterator
+    protected function getTypesForResource(\core_kernel_classes_Resource $resource): array
+    {
+        $toDo = [];
+        foreach ($resource->getTypes() as $class) {
+            $toDo[] = $class->getUri();
+        }
+        
+        $done = [OntologyRdfs::RDFS_RESOURCE, TaoOntology::CLASS_URI_OBJECT];
+        $toDo = array_diff($toDo, $done);
+        
+        $classes = [];
+        while (!empty($toDo)) {
+            $class = new \core_kernel_classes_Class(array_pop($toDo));
+            $classes[] = $class->getUri();
+            foreach ($class->getParentClasses() as $parent) {
+                if (!in_array($parent->getUri(), $done)) {
+                    $toDo[] = $parent->getUri();
+                }
+            }
+            $done[] = $class->getUri();
+        }
+        
+        return $classes;
+    }
+    
+    /**
+     * Get the array of properties to be indexed
+     *
+     * @param core_kernel_classes_Resource $resource
+     * @return array
+     * @throws \common_Exception
+     * @throws \common_exception_InconsistentData
+     */
+    protected function getTokenizedResourceBody(core_kernel_classes_Resource $resource): array
+    {
+        $tokenGenerator = new SearchTokenGenerator();
+        
+        $body = [];
+        $indexProperties = [];
+        
+        foreach ($tokenGenerator->generateTokens($resource) as $data) {
+            /** @var OntologyIndex $index */
+            list($index, $strings) = $data;
+            $body[$index->getIdentifier()] = $strings;
+            $indexProperties[$index->getIdentifier()] = $this->getIndexProperties($index);
+        }
+        
+        $result = [
+            'body' => $body,
+            'indexProperties' => $indexProperties
+        ];
+        
+        return $result;
+    }
+    
+    /**
+     * Get the list of index properties for indexation
+     * @param OntologyIndex $index
+     * @return IndexProperty
+     * @throws \common_Exception
+     */
+    protected function getIndexProperties(OntologyIndex $index): IndexProperty
+    {
+        if (!isset($this->map[$index->getIdentifier()])) {
+            $indexProperty = new IndexProperty(
+                $index->getIdentifier(),
+                $index->isFuzzyMatching(),
+                $index->isDefaultSearchable()
+            );
+            $this->map[$index->getIdentifier()] = $indexProperty;
+        }
+        
+        return $this->map[$index->getIdentifier()];
+    }
+    
+    /**
+     * Get the dynamic properties for indexation
+     * @param array $classes
+     * @param core_kernel_classes_Resource $resource
+     * @return Iterator
+     * @throws \core_kernel_persistence_Exception
+     */
+    protected function getDynamicProperties(array $classes, core_kernel_classes_Resource $resource): Iterator
     {
         $customProperties = [];
         

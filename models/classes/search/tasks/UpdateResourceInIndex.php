@@ -51,16 +51,13 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
         }
 
         $createdResource = $this->getResource($params[0]);
-        $resourceType = $this->getResourceRootType($createdResource);
 
         /** @var IndexService $indexService */
         $indexService = $this->getServiceLocator()->get(IndexService::SERVICE_ID);
+    
+        $documentBuilder = $indexService->getDocumentBuilder();
 
-        $factory = $indexService->getDocumentBuilderFactory();
-
-        $documentBuilder = $factory->getDocumentBuilderByResourceType($resourceType);
-
-        $indexDocument = $documentBuilder->createDocumentFromResource($createdResource, $resourceType);
+        $indexDocument = $documentBuilder->createDocumentFromResource($createdResource);
 
         /** @var Search $searchService */
         $searchService = $this->getServiceLocator()->get(Search::SERVICE_ID);

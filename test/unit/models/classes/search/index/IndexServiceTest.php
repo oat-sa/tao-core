@@ -28,7 +28,7 @@ use oat\oatbox\service\ServiceManager;
 use oat\tao\model\search\index\IndexDocument;
 use oat\tao\model\search\index\IndexService;
 use PHPUnit\Framework\MockObject\MockObject;
-use oat\tao\model\search\index\DocumentBuilder\GenerisDocumentBuilderFactory;
+use \oat\tao\model\search\index\DocumentBuilder\IndexDocumentBuilder;
 
 class IndexServiceTest extends TestCase
 {
@@ -95,7 +95,7 @@ class IndexServiceTest extends TestCase
     {
         if (!$this->indexService) {
             $this->indexService = new IndexService();
-            $this->indexService->setOption(IndexService::OPTION_DOCUMENT_BUILDER_FACTORY, (new GenerisDocumentBuilderFactory()));
+            $this->indexService->setOption(IndexService::OPTION_DOCUMENT_BUILDER, (new IndexDocumentBuilder()));
             $this->indexService->setServiceLocator($this->service);
         }
         

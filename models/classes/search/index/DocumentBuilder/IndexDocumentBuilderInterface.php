@@ -22,6 +22,9 @@ declare(strict_types=1);
 namespace oat\tao\model\search\index\DocumentBuilder;
 
 use oat\tao\model\search\index\IndexDocument;
+use oat\tao\model\search\index\IndexProperty;
+use oat\tao\model\search\index\OntologyIndex;
+use core_kernel_classes_Resource;
 
 interface IndexDocumentBuilderInterface
 {
@@ -30,28 +33,18 @@ interface IndexDocumentBuilderInterface
     /**
      * Creates IndexDocument object from the \core_kernel_classes_Resource data
      * @param \core_kernel_classes_Resource $resource
-     * @param string $rootResourceType
      * @return IndexDocument
      * @throws \common_Exception
      * @throws \common_exception_InconsistentData
      */
-    public function createDocumentFromResource(\core_kernel_classes_Resource $resource, string $rootResourceType = ""): IndexDocument;
+    public function createDocumentFromResource(\core_kernel_classes_Resource $resource): IndexDocument;
 
     /**
      * Creates IndexDocument object from the array data
      * @param $resource $array
-     * @param string $rootResourceType
      * @return IndexDocument
      * @throws \common_Exception
      */
-    public function createDocumentFromArray(array $resource = [], string $rootResourceType = ""): IndexDocument;
-    
-    /**
-     * Gets a list of dynamic properties for indexation
-     * @param array $type
-     * @param \core_kernel_classes_Resource $resource
-     * @return \Iterator
-     */
-    public function getDynamicProperties(array $type, \core_kernel_classes_Resource $resource): \Iterator;
+    public function createDocumentFromArray(array $resource = []): IndexDocument;
 }
 

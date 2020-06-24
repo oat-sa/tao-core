@@ -27,9 +27,8 @@ use oat\generis\test\TestCase;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\search\index\IndexDocument;
 use PHPUnit\Framework\MockObject\MockObject;
-use oat\tao\model\search\index\DocumentBuilder\GenerisDocumentBuilderFactory;
 use \oat\tao\model\search\index\DocumentBuilder\IndexDocumentBuilderInterface;
-use \oat\tao\model\search\index\DocumentBuilder\DocumentBuilderFactoryInterface;
+use \oat\tao\model\search\index\DocumentBuilder\IndexDocumentBuilder;
 
 class GenerisIndexDocumentBuilderTest extends TestCase
 {
@@ -39,8 +38,8 @@ class GenerisIndexDocumentBuilderTest extends TestCase
     /** @var ServiceManager|MockObject */
     private $service;
     
-    /** @var DocumentBuilderFactoryInterface $factory */
-    private $factory;
+    /** @var IndexDocumentBuilderInterface $builder */
+    private $builder;
     
     private const ARRAY_RESOURCE = [
         'id' => 'https://tao.docker.localhost/ontologies/tao.rdf#i5ecbaaf0a627c73a7996557a5480de',
@@ -77,7 +76,7 @@ class GenerisIndexDocumentBuilderTest extends TestCase
 
         ServiceManager::setServiceManager($this->service);
         
-        $this->factory = new GenerisDocumentBuilderFactory();
+        $this->builder = new IndexDocumentBuilder();
     }
 
     public function testCreateEmptyDocumentFromResource()
@@ -92,14 +91,8 @@ class GenerisIndexDocumentBuilderTest extends TestCase
         $resource->expects($this->any())->method('getUri')->willReturn(
             'https://tao.docker.localhost/ontologies/tao.rdf#i5ecbaaf0a627c73a7996557a5480de'
         );
-        
-        $resourceTypes = $resource->getTypes();
-        $resourceType = current(array_keys($resourceTypes)) ?: '';
-    
-        /** @var IndexDocumentBuilderInterface $documentBuilder */
-        $documentBuilder = $this->factory->getDocumentBuilderByResourceType($resourceType);
 
-        $document = $documentBuilder->createDocumentFromResource(
+        $document = $this->builder->createDocumentFromResource(
             $resource
         );
 
@@ -112,13 +105,7 @@ class GenerisIndexDocumentBuilderTest extends TestCase
     
     public function testCreateDocumentFromResource()
     {
-        $resourceTypes = self::ARRAY_RESOURCE['body']['type'];
-        $resourceType = current(array_keys($resourceTypes)) ?: '';
-    
-        /** @var IndexDocumentBuilderInterface $documentBuilder */
-        $documentBuilder = $this->factory->getDocumentBuilderByResourceType($resourceType);
-    
-        $document = $documentBuilder->createDocumentFromArray(
+        $document = $this->builder->createDocumentFromArray(
             self::ARRAY_RESOURCE
         );
     

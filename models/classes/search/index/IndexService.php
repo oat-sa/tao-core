@@ -24,12 +24,11 @@ declare(strict_types=1);
 namespace oat\tao\model\search\index;
 
 use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\search\index\DocumentBuilder\DocumentBuilderFactoryInterface;
+use oat\tao\model\search\index\DocumentBuilder\IndexDocumentBuilderInterface;
 use oat\tao\model\search\Search;
 use oat\generis\model\OntologyAwareTrait;
 use oat\tao\model\menu\MenuService;
 use oat\tao\model\resources\ResourceIterator;
-use oat\tao\model\TaoOntology;
 
 /**
  * Class IndexService
@@ -43,7 +42,7 @@ class IndexService extends ConfigurableService
     public const INDEX_MAP_PROPERTY_DEFAULT = 'default';
     public const INDEX_MAP_PROPERTY_FUZZY = 'fuzzy';
 
-    public const OPTION_DOCUMENT_BUILDER_FACTORY = 'documentBuilderFactory';
+    public const OPTION_DOCUMENT_BUILDER = 'documentBuilder';
 
     /**
      * Run a full reindexing
@@ -64,11 +63,11 @@ class IndexService extends ConfigurableService
     /**
      * Returns a factory to get the IndexDocument Builder
      *
-     * return DocumentBuilderFactoryInterface
+     * return IndexDocumentBuilderInterface
      */
-    public function getDocumentBuilderFactory(): DocumentBuilderFactoryInterface
+    public function getDocumentBuilder(): IndexDocumentBuilderInterface
     {
-        return $this->getOption(self::OPTION_DOCUMENT_BUILDER_FACTORY);
+        return $this->getOption(self::OPTION_DOCUMENT_BUILDER);
     }
 
     /**
@@ -78,13 +77,11 @@ class IndexService extends ConfigurableService
      * @throws \common_Exception
      * @throws \common_exception_InconsistentData
      *
-     * @deprecated should be GenerisDocumentBuilderFactory::createDocumentFromResource instead
+     * @deprecated should be IndexDocumentBuilder::createDocumentFromResource instead
      */
     public function createDocumentFromResource(\core_kernel_classes_Resource $resource): IndexDocument
     {
-        $resourceType = $this->getResourceRootType($resource);
-    
-        return $this->getDocumentBuilderFactory()->getDocumentBuilderByResourceType($resourceType)->createDocumentFromResource($resource, $resourceType);
+        return $this->getDocumentBuilder()->createDocumentFromResource($resource);
     }
 
     /**
@@ -94,7 +91,7 @@ class IndexService extends ConfigurableService
      * @throws \common_exception_MissingParameter
      * @throws \common_Exception
      *
-     * @deprecated should be GenerisDocumentBuilderFactory::createDocumentFromArray instead
+     * @deprecated should be IndexDocumentBuilder::createDocumentFromArray instead
      */
     public function createDocumentFromArray($array = []): IndexDocument
     {
@@ -104,43 +101,8 @@ class IndexService extends ConfigurableService
         if (!isset($array['id'])) {
             throw new \common_exception_MissingParameter('id');
         }
-        if (!isset($array['body']['type'])) {
-            throw new \common_exception_MissingParameter('body[type]');
-        }
-        
-        $resourceType = $this->getResourceRootType($array['id']);
     
-        return $this->getDocumentBuilderFactory()->getDocumentBuilderByResourceType($resourceType)->createDocumentFromArray($array, $resourceType);
-    }
-    
-    /**
-     * Get "fake" root resource class
-     * @param $resource
-     * @return string
-     */
-    private function getResourceRootType($resource): string
-    {
-        if (!$resource instanceof \core_kernel_classes_Resource) {
-            $resourceInstance = $this->getResource($resource);
-        } else {
-            $resourceInstance = $resource;
-        }
-        
-        if ($resourceInstance->isInstanceOf($this->getClass(TaoOntology::CLASS_URI_ITEM))) {
-            $rootClass = $this->getClass(TaoOntology::CLASS_URI_ITEM)->getUri();
-        } elseif ($resourceInstance->isInstanceOf($this->getClass(TaoOntology::CLASS_URI_TEST))) {
-            $rootClass = $this->getClass(TaoOntology::CLASS_URI_TEST)->getUri();
-        } elseif ($resourceInstance->isInstanceOf($this->getClass(TaoOntology::CLASS_URI_SUBJECT))) {
-            $rootClass = $this->getClass(TaoOntology::CLASS_URI_SUBJECT)->getUri();
-        } elseif ($resourceInstance->isInstanceOf($this->getClass(TaoOntology::CLASS_URI_GROUP))) {
-            $rootClass = $this->getClass(TaoOntology::CLASS_URI_GROUP)->getUri();
-        } elseif ($resourceInstance->isInstanceOf($this->getClass(TaoOntology::CLASS_URI_DELIVERY))) {
-            $rootClass = $this->getClass(TaoOntology::CLASS_URI_DELIVERY)->getUri();
-        } else {
-            $rootClass = !empty(array_keys($resourceInstance->getTypes())) ? current(array_keys($resourceInstance->getTypes())) : '';
-        }
-        
-        return $rootClass;
+        return $this->getDocumentBuilder()->createDocumentFromArray($array);
     }
 
     /**
