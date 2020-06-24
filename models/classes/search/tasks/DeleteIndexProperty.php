@@ -43,16 +43,11 @@ class DeleteIndexProperty implements Action, ServiceLocatorAwareInterface, TaskA
 
     public function __invoke($params): common_report_Report
     {
-        [$class, $property] = $params;
+        [$class, $propertyName] = $params;
 
         $class = new core_kernel_classes_Class($class['uriResource']);
-        $property = new core_kernel_classes_Property($property['uriResource']);
-        $propertyType = $this->getPropertyType($property);
-
-        $this->logDebug(get_class($propertyType));
-
         $propertyData = [
-            'name' => $this->getPropertyRealName($property->getLabel(), $propertyType->getUri()),
+            'name' => $propertyName,
             'type' => $class->getUri(),
             'parentClasses' => $this->getParentClasses($class)
         ];

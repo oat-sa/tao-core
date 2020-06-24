@@ -22,7 +22,6 @@ declare(strict_types=1);
 namespace oat\tao\model\event;
 
 use core_kernel_classes_Class;
-use core_kernel_classes_Property;
 use JsonSerializable;
 use oat\oatbox\event\Event;
 
@@ -31,13 +30,13 @@ class ClassPropertyRemovedEvent implements Event, JsonSerializable
     /** @var core_kernel_classes_Class */
     private $class;
 
-    /** @var core_kernel_classes_Property */
-    private $property;
+    /** @var string */
+    private $propertyName;
 
-    public function __construct(core_kernel_classes_Class $class, core_kernel_classes_Property $property)
+    public function __construct(core_kernel_classes_Class $class, string $propertyName)
     {
         $this->class = $class;
-        $this->property = $property;
+        $this->propertyName = $propertyName;
     }
 
     public function getName(): string
@@ -50,9 +49,9 @@ class ClassPropertyRemovedEvent implements Event, JsonSerializable
         return $this->class;
     }
 
-    public function getProperty(): core_kernel_classes_Property
+    public function getPropertyName(): string
     {
-        return $this->property;
+        return $this->propertyName;
     }
 
     public function jsonSerialize(): array
@@ -60,8 +59,7 @@ class ClassPropertyRemovedEvent implements Event, JsonSerializable
         return [
             'class_uri' => $this->class->getUri(),
             'class_label' => $this->class->getLabel(),
-            'property_uri' => $this->property->getUri(),
-            'property_label' => $this->property->getLabel()
+            'property_name' => $this->propertyName,
         ];
     }
 }

@@ -41,7 +41,7 @@ class ClassPropertyRemovedListener extends ConfigurableService
             new DeleteIndexProperty(),
             [
                 $event->getClass(),
-                $event->getProperty()
+                $event->getPropertyName()
             ],
             $taskMessage
         );

@@ -54,7 +54,6 @@ class ClassPropertyRemovedListenerTest extends TestCase
     public function testRemoveClassProperty(): void
     {
         $class = $this->createMock(core_kernel_classes_Class::class);
-        $property = $this->createMock(core_kernel_classes_Property::class);
 
         $this->queueDispatcher->expects($this->once())
             ->method('createTask')
@@ -62,13 +61,13 @@ class ClassPropertyRemovedListenerTest extends TestCase
                 new DeleteIndexProperty(),
                 [
                     $class,
-                    $property
+                    'property-name'
                 ],
                 'Updating search index',
                 null,
                 false
             );
 
-        $this->sut->removeClassProperty(new ClassPropertyRemovedEvent($class, $property));
+        $this->sut->removeClassProperty(new ClassPropertyRemovedEvent($class, 'property-name'));
     }
 }
