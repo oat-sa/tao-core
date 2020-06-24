@@ -77,7 +77,7 @@ class IndexService extends ConfigurableService
      * @throws \common_Exception
      * @throws \common_exception_InconsistentData
      *
-     * @deprecated should be AbstractDocumentBuilderFactory::createDocumentFromResource instead
+     * @deprecated should be IndexDocumentBuilder::createDocumentFromResource instead
      */
     public function createDocumentFromResource(\core_kernel_classes_Resource $resource): IndexDocument
     {
@@ -91,7 +91,7 @@ class IndexService extends ConfigurableService
      * @throws \common_exception_MissingParameter
      * @throws \common_Exception
      *
-     * @deprecated should be AbstractDocumentBuilderFactory::createDocumentFromArray instead
+     * @deprecated should be IndexDocumentBuilder::createDocumentFromArray instead
      */
     public function createDocumentFromArray($array = []): IndexDocument
     {
