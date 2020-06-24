@@ -75,7 +75,7 @@ class IndexDocumentBuilder implements IndexDocumentBuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function createDocumentFromArray(array $resource = [], string $rootResourceType = ""): IndexDocument
+    public function createDocumentFromArray(array $resource = []): IndexDocument
     {
         if (!isset($resource['id'])) {
             throw new \common_exception_MissingParameter('id');
@@ -90,14 +90,6 @@ class IndexDocumentBuilder implements IndexDocumentBuilderInterface
     
         if (isset($resource['indexProperties'])) {
             $indexProperties = $resource['indexProperties'];
-        }
-        
-        if ($rootResourceType) {
-            $body['type'] = $rootResourceType;
-        }
-        
-        if (!is_array($body['type'])) {
-            $body['type'] = [$body['type']];
         }
     
         $document = new IndexDocument(
