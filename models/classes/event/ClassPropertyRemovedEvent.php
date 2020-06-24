@@ -22,10 +22,9 @@ declare(strict_types=1);
 namespace oat\tao\model\event;
 
 use core_kernel_classes_Class;
-use JsonSerializable;
 use oat\oatbox\event\Event;
 
-class ClassPropertyRemovedEvent implements Event, JsonSerializable
+class ClassPropertyRemovedEvent implements Event
 {
     /** @var core_kernel_classes_Class */
     private $class;
@@ -52,14 +51,5 @@ class ClassPropertyRemovedEvent implements Event, JsonSerializable
     public function getPropertyName(): string
     {
         return $this->propertyName;
-    }
-
-    public function jsonSerialize(): array
-    {
-        return [
-            'class_uri' => $this->class->getUri(),
-            'class_label' => $this->class->getLabel(),
-            'property_name' => $this->propertyName,
-        ];
     }
 }
