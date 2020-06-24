@@ -24,8 +24,24 @@ echo "select branch : ${TEST_BRANCH}"
 docker run --rm  \\
 -e "GITHUB_ORGANIZATION=${GITHUB_ORGANIZATION}" \\
 -e "GITHUB_SECRET=${GIT_TOKEN}"  \\
-registry.service.consul:4444/tao/dependency-resolver oat:dependencies:resolve --main-branch ${TEST_BRANCH} --repository-name ${REPO_NAME} > build/composer.json
+tao/dependency-resolver oat:dependencies:resolve --main-branch ${TEST_BRANCH} --repository-name ${REPO_NAME} > build/dependencies.json
+
+cat > build/composer.json <<- composerjson
+{
+  "repositories": [
+      {
+        "type": "vcs",
+        "url": "https://github.com/${REPO_NAME}",
+        "no-api": true
+      }
+    ],
+composerjson
+tail -n +2 build/dependencies.json >> build/composer.json
                         '''
+                    )
+                    sh(
+                        label: 'composer.json',
+                        script: 'cat build/composer.json'
                     )
                 }
             }
@@ -34,6 +50,7 @@ registry.service.consul:4444/tao/dependency-resolver oat:dependencies:resolve --
             agent {
                 docker {
                     image 'alexwijn/docker-git-php-composer'
+                    args "-v $BUILDER_CACHE_DIR/composer:/tmp/.composer-cache -e COMPOSER_CACHE_DIR=/tmp/.composer-cache"
                     reuseNode true
                 }
             }
@@ -47,11 +64,11 @@ registry.service.consul:4444/tao/dependency-resolver oat:dependencies:resolve --
                 dir('build') {
                     sh(
                         label: 'Install/Update sources from Composer',
-                        script: 'COMPOSER_DISCARD_CHANGES=true composer update --no-interaction --no-ansi --no-progress --no-scripts'
+                        script: 'COMPOSER_DISCARD_CHANGES=true composer install --prefer-dist --no-interaction --no-ansi --no-progress --no-suggest'
                     )
                     sh(
                         label: 'Add phpunit',
-                        script: 'composer require phpunit/phpunit:^8.5'
+                        script: 'composer require phpunit/phpunit:^8.5 --no-progress'
                     )
                     sh(
                         label: "Extra filesystem mocks",
@@ -68,6 +85,11 @@ mkdir -p tao/views/locales/en-US/
         stage('Tests') {
             parallel {
                 stage('Backend Tests') {
+                    when {
+                        expression {
+                            fileExists('build/tao/test/unit')
+                        }
+                    }
                     agent {
                         docker {
                             image 'alexwijn/docker-git-php-composer'
@@ -87,9 +109,15 @@ mkdir -p tao/views/locales/en-US/
                     }
                 }
                 stage('Frontend Tests') {
+                    when {
+                        expression {
+                            fileExists('build/tao/views/build/grunt/test.js')
+                        }
+                    }
                     agent {
                         docker {
                             image 'btamas/puppeteer-git'
+                            args "-v $BUILDER_CACHE_DIR/npm:/tmp/.npm-cache -e npm_config_cache=/tmp/.npm-cache"
                             reuseNode true
                         }
                     }
@@ -100,15 +128,9 @@ mkdir -p tao/views/locales/en-US/
                         skipDefaultCheckout()
                     }
                     steps {
-                        dir('build/tao/views'){
-                            sh(
-                                label: 'Ensure FE resource are available',
-                                script: 'npm install --production'
-                            )
-                        }
                         dir('build/tao/views/build') {
                             sh(
-                                label: 'Setup frontend toolchain',
+                                label: 'Install tao-core frontend extensions',
                                 script: 'npm install'
                             )
                             sh (
@@ -119,6 +141,11 @@ mkdir -p tao/views/locales/en-US/
                     }
                 }
             }
+        }
+    }
+    post {
+        always {
+            cleanWs disableDeferredWipeout: true
         }
     }
 }
