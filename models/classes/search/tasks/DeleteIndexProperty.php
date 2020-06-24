@@ -24,7 +24,6 @@ namespace oat\tao\model\search\tasks;
 
 use common_report_Report;
 use core_kernel_classes_Class;
-use core_kernel_classes_Property;
 use oat\oatbox\action\Action;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\tao\model\search\index\IndexUpdaterInterface;
