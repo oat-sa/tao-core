@@ -30,6 +30,9 @@ class ValueCollectionSearchRequest
     private $propertyUri;
 
     /** @var string|null */
+    private $valueCollectionUri;
+
+    /** @var string|null */
     private $subject;
 
     /** @var string[] */
@@ -51,6 +54,23 @@ class ValueCollectionSearchRequest
     public function setPropertyUri(string $propertyUri): self
     {
         $this->propertyUri = $propertyUri;
+
+        return $this;
+    }
+
+    public function hasValueCollectionUri(): bool
+    {
+        return null !== $this->valueCollectionUri;
+    }
+
+    public function getValueCollectionUri(): string
+    {
+        return $this->valueCollectionUri;
+    }
+
+    public function setValueCollectionUri(string $valueCollectionUri): self
+    {
+        $this->valueCollectionUri = $valueCollectionUri;
 
         return $this;
     }

@@ -44,6 +44,7 @@ class ValueCollectionSearchRequestTest extends TestCase
     public function testBareSearchRequest(): void
     {
         $this->assertFalse($this->sut->hasPropertyUri());
+        $this->assertFalse($this->sut->hasValueCollectionUri());
         $this->assertFalse($this->sut->hasSubject());
         $this->assertFalse($this->sut->hasExcluded());
         $this->assertEmpty($this->sut->getExcluded());
@@ -54,6 +55,7 @@ class ValueCollectionSearchRequestTest extends TestCase
      * @param string $method
      *
      * @testWith ["getPropertyUri"]
+     *           ["getValueCollectionUri"]
      *           ["getSubject"]
      *           ["getLimit"]
      */
@@ -62,6 +64,26 @@ class ValueCollectionSearchRequestTest extends TestCase
         $this->expectException(TypeError::class);
 
         $this->sut->$method();
+    }
+
+    public function testWithPropertyUri(): void
+    {
+        $propertyUri = 'https://example.com';
+
+        $this->sut->setPropertyUri($propertyUri);
+
+        $this->assertTrue($this->sut->hasPropertyUri());
+        $this->assertSame($propertyUri, $this->sut->getPropertyUri());
+    }
+
+    public function testWithValueCollectionUri(): void
+    {
+        $propertyUri = 'https://example.com';
+
+        $this->sut->setValueCollectionUri($propertyUri);
+
+        $this->assertTrue($this->sut->hasValueCollectionUri());
+        $this->assertSame($propertyUri, $this->sut->getValueCollectionUri());
     }
 
     public function testWithSubject(): void

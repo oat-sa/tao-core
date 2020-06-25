@@ -59,6 +59,9 @@ class RdfValueCollectionRepositoryTest extends TestCase
     /** @var RdfValueCollectionRepository */
     private $sut;
 
+    /** @var string[] */
+    private $conditions = [];
+
     /** @var array */
     private $queryParameters = [];
 
@@ -110,6 +113,10 @@ class RdfValueCollectionRepositoryTest extends TestCase
                 (new ValueCollectionSearchRequest())
                     ->setPropertyUri('https://example.com'),
             ],
+            'Search request with value collection URI'        => [
+                (new ValueCollectionSearchRequest())
+                    ->setValueCollectionUri('https://example.com'),
+            ],
             'Search request with subject'             => [
                 (new ValueCollectionSearchRequest())
                     ->setPropertyUri('https://example.com')
@@ -129,6 +136,7 @@ class RdfValueCollectionRepositoryTest extends TestCase
             'Search request with all properties'      => [
                 (new ValueCollectionSearchRequest())
                     ->setPropertyUri('https://example.com')
+                    ->setValueCollectionUri('https://example.com')
                     ->setSubject('test')
                     ->addExcluded('https://example.com#1')
                     ->addExcluded('https://example.com#2')
@@ -164,22 +172,35 @@ class RdfValueCollectionRepositoryTest extends TestCase
         $queryParts = [
             $this->createInitialQuery(),
             $this->createPropertyUriCondition($searchRequest),
+            $this->createValueCollectionUriCondition($searchRequest),
             $this->createSubjectCondition($searchRequest),
             $this->createExcludedCondition($searchRequest),
+            $this->createCondition(),
+            $this->createLimit($searchRequest),
         ];
-
-        $queryParts[] = $this->createLimit($searchRequest);
 
         return implode(' ', array_filter($queryParts));
     }
 
     private function createInitialQuery(): string
     {
+        $this->queryParameters = [
+            'label_uri' => OntologyRdfs::RDFS_LABEL,
+            'type_uri'  => OntologyRdf::RDF_TYPE,
+        ];
+
+        $this->conditions = [
+            '(element.predicate = :label_uri)',
+            'AND (collection.predicate = :type_uri)'
+        ];
+
         return implode(
             ' ',
             [
                 'SELECT element.subject, element.object',
                 'FROM statements element',
+                'INNER JOIN statements collection',
+                'ON collection.subject = element.subject',
             ]
         );
     }
@@ -190,26 +211,32 @@ class RdfValueCollectionRepositoryTest extends TestCase
             return null;
         }
 
-        $this->queryParameters = [
-            'property_uri' => $searchRequest->getPropertyUri(),
-            'range_uri'    => OntologyRdfs::RDFS_RANGE,
-            'label_uri'    => OntologyRdfs::RDFS_LABEL,
-            'type_uri'     => OntologyRdf::RDF_TYPE,
-        ];
+        $this->queryParameters['property_uri'] = $searchRequest->getPropertyUri();
+        $this->queryParameters['range_uri']    = OntologyRdfs::RDFS_RANGE;
+
+        $this->conditions[] = 'AND (property.subject = :property_uri)';
+        $this->conditions[] = 'AND (property.predicate = :range_uri)';
 
         return implode(
             ' ',
             [
-                'INNER JOIN statements collection',
-                'ON collection.subject = element.subject',
                 'INNER JOIN statements property',
                 'ON property.object = collection.object',
-                'WHERE (property.subject = :property_uri)',
-                'AND (property.predicate = :range_uri)',
-                'AND (element.predicate = :label_uri)',
-                'AND (collection.predicate = :type_uri)',
             ]
         );
+    }
+
+    private function createValueCollectionUriCondition(ValueCollectionSearchRequest $searchRequest): ?string
+    {
+        if (!$searchRequest->hasValueCollectionUri()) {
+            return null;
+        }
+
+        $this->queryParameters['collection_uri'] = $searchRequest->getValueCollectionUri();
+
+        $this->conditions[] = 'AND (collection.object = :collection_uri)';
+
+        return null;
     }
 
     private function createSubjectCondition(ValueCollectionSearchRequest $searchRequest): ?string
@@ -220,7 +247,9 @@ class RdfValueCollectionRepositoryTest extends TestCase
 
         $this->queryParameters['subject'] = "{$searchRequest->getSubject()}%";
 
-        return 'AND (element.object LIKE :subject)';
+        $this->conditions[] = 'AND (element.object LIKE :subject)';
+
+        return null;
     }
 
     private function createExcludedCondition(ValueCollectionSearchRequest $searchRequest): ?string
@@ -232,7 +261,16 @@ class RdfValueCollectionRepositoryTest extends TestCase
         $this->queryParameters['excluded_value_uri']     = $searchRequest->getExcluded();
         $this->queryParameterTypes['excluded_value_uri'] = Connection::PARAM_STR_ARRAY;
 
-        return 'AND (element.subject NOT IN (:excluded_value_uri))';
+        $this->conditions[] = 'AND (element.subject NOT IN (:excluded_value_uri))';
+
+        return null;
+    }
+
+    private function createCondition(): string
+    {
+        $conditionStatement = implode(' ', $this->conditions);
+
+        return "WHERE $conditionStatement";
     }
 
     private function createLimit(ValueCollectionSearchRequest $searchRequest): ?string

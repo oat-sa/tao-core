@@ -57,6 +57,7 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
         $query = $this->createInitialQuery($searchRequest);
 
         $this->enrichQueryWithPropertySearchConditions($searchRequest, $query);
+        $this->enrichQueryWithValueCollectionSearchCondition($searchRequest, $query);
         $this->enrichQueryWithSubject($searchRequest, $query);
         $this->enrichQueryWithExcludedValueUris($searchRequest, $query);
 
@@ -70,9 +71,27 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
 
     private function createInitialQuery(ValueCollectionSearchRequest $searchRequest): QueryBuilder
     {
-        $query = $this->getPersistence()->getPlatForm()->getQueryBuilder()
+        $query = $this->getPersistence()->getPlatForm()->getQueryBuilder();
+
+        $expressionBuilder = $query->expr();
+
+        $query
             ->select('element.subject', 'element.object')
-            ->from('statements', 'element');
+            ->from('statements', 'element')
+            ->innerJoin(
+                'element',
+                'statements',
+                'collection',
+                $expressionBuilder->eq('collection.subject', 'element.subject')
+            )
+            ->where($expressionBuilder->eq('element.predicate', ':label_uri'))
+            ->andWhere($expressionBuilder->eq('collection.predicate', ':type_uri'))
+            ->setParameters(
+                [
+                    'label_uri' => OntologyRdfs::RDFS_LABEL,
+                    'type_uri'  => OntologyRdf::RDF_TYPE,
+                ]
+            );
 
         if ($searchRequest->hasLimit()) {
             $query->setMaxResults($searchRequest->getLimit());
@@ -93,25 +112,30 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
 
         $query
             ->innerJoin(
-                'element',
-                'statements',
-                'collection',
-                $expressionBuilder->eq('collection.subject', 'element.subject')
-            )
-            ->innerJoin(
                 'collection',
                 'statements',
                 'property',
                 $expressionBuilder->eq('property.object', 'collection.object')
             )
-            ->where($expressionBuilder->eq('property.subject', ':property_uri'))
+            ->andWhere($expressionBuilder->eq('property.subject', ':property_uri'))
             ->andWhere($expressionBuilder->eq('property.predicate', ':range_uri'))
-            ->andWhere($expressionBuilder->eq('element.predicate', ':label_uri'))
-            ->andWhere($expressionBuilder->eq('collection.predicate', ':type_uri'))
             ->setParameter('property_uri', $searchRequest->getPropertyUri())
-            ->setParameter('range_uri', OntologyRdfs::RDFS_RANGE)
-            ->setParameter('label_uri', OntologyRdfs::RDFS_LABEL)
-            ->setParameter('type_uri', OntologyRdf::RDF_TYPE);
+            ->setParameter('range_uri', OntologyRdfs::RDFS_RANGE);
+    }
+
+    private function enrichQueryWithValueCollectionSearchCondition(
+        ValueCollectionSearchRequest $searchRequest,
+        QueryBuilder $query
+    ): void {
+        if (!$searchRequest->hasValueCollectionUri()) {
+            return;
+        }
+
+        $expressionBuilder = $query->expr();
+
+        $query
+            ->andWhere($expressionBuilder->eq('collection.object', ':collection_uri'))
+            ->setParameter('collection_uri', $searchRequest->getValueCollectionUri());
     }
 
     private function enrichQueryWithSubject(ValueCollectionSearchRequest $searchRequest, QueryBuilder $query): void
