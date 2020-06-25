@@ -40,4 +40,11 @@ interface IndexUpdaterInterface
      * @throws Throwable
      */
     public function deleteProperty(array $property): void;
+
+    /**
+     * @param string $class
+     *
+     * @return bool
+     */
+    public function hasClassSupport(string $class): bool;
 }

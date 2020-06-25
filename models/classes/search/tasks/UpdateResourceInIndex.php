@@ -54,7 +54,7 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
 
         /** @var IndexService $indexService */
         $indexService = $this->getServiceLocator()->get(IndexService::SERVICE_ID);
-    
+
         $documentBuilder = $indexService->getDocumentBuilder();
 
         $indexDocument = $documentBuilder->createDocumentFromResource($createdResource);
@@ -76,24 +76,5 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
         }
 
         return new Report($type, $message);
-    }
-    
-    private function getResourceRootType(\core_kernel_classes_Resource $resource): string
-    {
-        if ($resource->isInstanceOf($this->getClass(TaoOntology::CLASS_URI_ITEM))) {
-            $rootClass = $this->getClass(TaoOntology::CLASS_URI_ITEM)->getUri();
-        } elseif ($resource->isInstanceOf($this->getClass(TaoOntology::CLASS_URI_TEST))) {
-            $rootClass = $this->getClass(TaoOntology::CLASS_URI_TEST)->getUri();
-        } elseif ($resource->isInstanceOf($this->getClass(TaoOntology::CLASS_URI_SUBJECT))) {
-            $rootClass = $this->getClass(TaoOntology::CLASS_URI_SUBJECT)->getUri();
-        } elseif ($resource->isInstanceOf($this->getClass(TaoOntology::CLASS_URI_GROUP))) {
-            $rootClass = $this->getClass(TaoOntology::CLASS_URI_GROUP)->getUri();
-        } elseif ($resource->isInstanceOf($this->getClass(TaoOntology::CLASS_URI_DELIVERY))) {
-            $rootClass = $this->getClass(TaoOntology::CLASS_URI_DELIVERY)->getUri();
-        } else {
-            $rootClass = current(array_keys($resource->getTypes()));
-        }
-        
-        return $rootClass;
     }
 }

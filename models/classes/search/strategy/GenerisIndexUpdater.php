@@ -35,4 +35,9 @@ class GenerisIndexUpdater extends ConfigurableService implements IndexUpdaterInt
     {
         return;
     }
+
+    public function hasClassSupport(string $class): bool
+    {
+        return true;
+    }
 }
