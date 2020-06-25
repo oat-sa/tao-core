@@ -26,6 +26,7 @@ namespace oat\tao\model\Lists\DataAccess\Repository;
 
 use common_persistence_SqlPersistence as SqlPersistence;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Query\QueryBuilder;
 use oat\generis\model\OntologyRdf;
 use oat\generis\model\OntologyRdfs;
@@ -54,8 +55,10 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
 
     public function findAll(ValueCollectionSearchRequest $searchRequest): ValueCollection
     {
-        $query = $this->createInitialQuery($searchRequest);
+        $query = $this->getPersistence()->getPlatForm()->getQueryBuilder();
 
+        $this->enrichWithInitialCondition($query);
+        $this->enrichWithSelect($searchRequest, $query);
         $this->enrichQueryWithPropertySearchConditions($searchRequest, $query);
         $this->enrichQueryWithValueCollectionSearchCondition($searchRequest, $query);
         $this->enrichQueryWithSubject($searchRequest, $query);
@@ -63,20 +66,42 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
 
         $values = [];
         foreach ($query->execute()->fetchAll() as $rawValue) {
-            $values[] = new Value($rawValue['subject'], $rawValue['object']);
+            $values[] = new Value((int)$rawValue['id'], $rawValue['subject'], $rawValue['object']);
         }
 
         return new ValueCollection(...$values);
     }
 
-    private function createInitialQuery(ValueCollectionSearchRequest $searchRequest): QueryBuilder
+    public function persist(ValueCollection $valueCollection): bool
     {
-        $query = $this->getPersistence()->getPlatForm()->getQueryBuilder();
+        $platform = $this->getPersistence()->getPlatForm();
 
+        $platform->beginTransaction();
+
+        try {
+            foreach ($valueCollection as $value) {
+                if (null === $value->getId()) {
+                    $this->insert($value);
+                } else {
+                    $this->update($value);
+                }
+            }
+
+            $platform->commit();
+        } catch (DBALException $exception) {
+            $platform->rollBack();
+
+            return false;
+        }
+
+        return true;
+    }
+
+    private function enrichWithInitialCondition(QueryBuilder $query): QueryBuilder
+    {
         $expressionBuilder = $query->expr();
 
         $query
-            ->select('element.subject', 'element.object')
             ->from('statements', 'element')
             ->innerJoin(
                 'element',
@@ -84,7 +109,7 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
                 'collection',
                 $expressionBuilder->eq('collection.subject', 'element.subject')
             )
-            ->where($expressionBuilder->eq('element.predicate', ':label_uri'))
+            ->andWhere($expressionBuilder->eq('element.predicate', ':label_uri'))
             ->andWhere($expressionBuilder->eq('collection.predicate', ':type_uri'))
             ->setParameters(
                 [
@@ -92,6 +117,14 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
                     'type_uri'  => OntologyRdf::RDF_TYPE,
                 ]
             );
+
+        return $query;
+    }
+
+    private function enrichWithSelect(ValueCollectionSearchRequest $searchRequest, QueryBuilder $query): QueryBuilder
+    {
+        $query
+            ->select('element.id', 'element.subject', 'element.object');
 
         if ($searchRequest->hasLimit()) {
             $query->setMaxResults($searchRequest->getLimit());
@@ -167,6 +200,36 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
                 )
             )
             ->setParameter('excluded_value_uri', $searchRequest->getExcluded(), Connection::PARAM_STR_ARRAY);
+    }
+
+    private function insert(Value $value): void
+    {
+        // TODO: implement
+    }
+
+    private function update(Value $value): void
+    {
+        if (!$value->hasChanges()) {
+            return;
+        }
+
+        $query = $this->getPersistence()->getPlatForm()->getQueryBuilder();
+
+        $expressionBuilder = $query->expr();
+
+        $query
+            ->update('statements')
+            ->set('object', ':label')
+            ->where($expressionBuilder->eq('id', ':id'))
+            ->andWhere($expressionBuilder->eq('subject', ':uri'))
+            ->setParameters(
+                [
+                    'id'    => $value->getId(),
+                    'uri'   => $value->getUri(),
+                    'label' => $value->getLabel(),
+                ]
+            )
+            ->execute();
     }
 
     private function getPersistence(): SqlPersistence

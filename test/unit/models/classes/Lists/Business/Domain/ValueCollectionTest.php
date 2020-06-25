@@ -60,8 +60,8 @@ class ValueCollectionTest extends TestCase
         return [
             [
                 'values' => [
-                    new Value('https://example.com#1', '1'),
-                    new Value('https://example.com#2', '2'),
+                    new Value(1, 'https://example.com#1', '1'),
+                    new Value(2, 'https://example.com#2', '2'),
                 ],
             ],
         ];

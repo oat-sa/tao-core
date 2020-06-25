@@ -49,4 +49,10 @@ class ValueCollectionService extends InjectionAwareService
             $input->getSearchRequest()
         );
     }
+
+    public function persist(ValueCollection $valueCollection): bool
+    {
+        // TODO Update linked property values in case a URI gets updated
+        return $this->repository->persist($valueCollection);
+    }
 }

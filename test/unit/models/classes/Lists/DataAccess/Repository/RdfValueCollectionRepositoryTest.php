@@ -93,7 +93,7 @@ class RdfValueCollectionRepositoryTest extends TestCase
      */
     public function testFindAll(ValueCollectionSearchRequest $searchRequest): void
     {
-        $result = new ValueCollection(new Value('1', '1'), new Value('2', '2'));
+        $result = new ValueCollection(new Value(1, '1', '1'), new Value(2, '2', '2'));
 
         $this->expectQuery($searchRequest, $result);
 
@@ -106,34 +106,34 @@ class RdfValueCollectionRepositoryTest extends TestCase
     public function dataProvider(): array
     {
         return [
-            'Bare search request'                     => [
+            'Bare search request'                      => [
                 new ValueCollectionSearchRequest(),
             ],
-            'Search request with property URI'        => [
+            'Search request with property URI'         => [
                 (new ValueCollectionSearchRequest())
                     ->setPropertyUri('https://example.com'),
             ],
-            'Search request with value collection URI'        => [
+            'Search request with value collection URI' => [
                 (new ValueCollectionSearchRequest())
                     ->setValueCollectionUri('https://example.com'),
             ],
-            'Search request with subject'             => [
+            'Search request with subject'              => [
                 (new ValueCollectionSearchRequest())
                     ->setPropertyUri('https://example.com')
                     ->setSubject('test'),
             ],
-            'Search request with excluded value URIs' => [
+            'Search request with excluded value URIs'  => [
                 (new ValueCollectionSearchRequest())
                     ->setPropertyUri('https://example.com')
                     ->addExcluded('https://example.com#1')
                     ->addExcluded('https://example.com#2'),
             ],
-            'Search request with limit'               => [
+            'Search request with limit'                => [
                 (new ValueCollectionSearchRequest())
                     ->setPropertyUri('https://example.com')
                     ->setLimit(1),
             ],
-            'Search request with all properties'      => [
+            'Search request with all properties'       => [
                 (new ValueCollectionSearchRequest())
                     ->setPropertyUri('https://example.com')
                     ->setValueCollectionUri('https://example.com')
@@ -191,13 +191,13 @@ class RdfValueCollectionRepositoryTest extends TestCase
 
         $this->conditions = [
             '(element.predicate = :label_uri)',
-            'AND (collection.predicate = :type_uri)'
+            'AND (collection.predicate = :type_uri)',
         ];
 
         return implode(
             ' ',
             [
-                'SELECT element.subject, element.object',
+                'SELECT element.id, element.subject, element.object',
                 'FROM statements element',
                 'INNER JOIN statements collection',
                 'ON collection.subject = element.subject',
@@ -310,7 +310,11 @@ class RdfValueCollectionRepositoryTest extends TestCase
         $result = [];
 
         foreach ($valueCollection as $value) {
-            $result[] = ['subject' => $value->getUri(), 'object' => $value->getLabel()];
+            $result[] = [
+                'id'      => (string)$value->getId(),
+                'subject' => $value->getUri(),
+                'object'  => $value->getLabel(),
+            ];
         }
 
         return $result;

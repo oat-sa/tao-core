@@ -30,38 +30,71 @@ use oat\tao\model\Lists\Business\Domain\Value;
 class ValueTest extends TestCase
 {
     /**
+     * @param int    $id
      * @param string $uri
      * @param string $label
      * @param array  $expected
      *
      * @dataProvider dataProvider
      */
-    public function testSerialization(string $uri, string $label, array $expected): void
+    public function testSerialization(int $id, string $uri, string $label, array $expected): void
     {
         $this->assertJsonStringEqualsJsonString(
             json_encode($expected),
-            json_encode((new Value($uri, $label)))
+            json_encode((new Value($id, $uri, $label)))
         );
     }
 
     /**
+     * @param int    $id
      * @param string $uri
      * @param string $label
      *
      * @dataProvider dataProvider
      */
-    public function testAccessors(string $uri, string $label): void
+    public function testAccessors(int $id, string $uri, string $label): void
     {
-        $sut = new Value($uri, $label);
+        $sut = new Value($id, $uri, $label);
 
+        $this->assertSame($id, $sut->getId());
         $this->assertSame($uri, $sut->getUri());
         $this->assertSame($label, $sut->getLabel());
+        $this->assertFalse($sut->hasChanges());
+    }
+
+    /**
+     * @param int    $id
+     * @param string $uri
+     * @param string $label
+     *
+     * @dataProvider dataProvider
+     */
+    public function testMutators(int $id, string $uri, string $label): void
+    {
+        $sut = new Value($id, md5($uri), md5($label));
+
+        $this->assertSame($sut, $sut->setUri($sut->getUri()));
+        $this->assertSame($sut, $sut->setLabel($sut->getLabel()));
+        $this->assertFalse($sut->hasChanges());
+
+        $sutClone = clone $sut;
+
+        $sut->setLabel($label);
+
+        $this->assertSame($label, $sut->getLabel());
+        $this->assertTrue($sut->hasChanges());
+
+        $sutClone->setUri($uri);
+
+        $this->assertSame($uri, $sutClone->getUri());
+        $this->assertTrue($sutClone->hasChanges());
     }
 
     public function dataProvider(): array
     {
         return [
             'Domain only URI'            => [
+                'id'       => 1,
                 'uri'      => 'https://example.com',
                 'label'    => 'test value, it can have https://anything.it/needs#1',
                 'expected' => [
@@ -70,6 +103,7 @@ class ValueTest extends TestCase
                 ],
             ],
             'Domain with port URI'       => [
+                'id'       => 2,
                 'uri'      => 'https://example.com:80',
                 'label'    => 'test value',
                 'expected' => [
@@ -78,6 +112,7 @@ class ValueTest extends TestCase
                 ],
             ],
             'URI with path'              => [
+                'id'       => 3,
                 'uri'      => 'https://example.com/path',
                 'label'    => 'test value',
                 'expected' => [
@@ -86,6 +121,7 @@ class ValueTest extends TestCase
                 ],
             ],
             'URI with path and fragment' => [
+                'id'       => 4,
                 'uri'      => 'https://example.com/path#fragment',
                 'label'    => 'test value',
                 'expected' => [

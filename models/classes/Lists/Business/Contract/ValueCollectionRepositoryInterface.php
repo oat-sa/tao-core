@@ -32,4 +32,6 @@ interface ValueCollectionRepositoryInterface
     public const SERVICE_ID = 'tao/ValueCollectionRepository';
 
     public function findAll(ValueCollectionSearchRequest $searchRequest): ValueCollection;
+
+    public function persist(ValueCollection $valueCollection): bool;
 }

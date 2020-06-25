@@ -29,21 +29,60 @@ use tao_helpers_Uri;
 
 class Value implements JsonSerializable
 {
+    /** @var int|null */
+    private $id;
+
     /** @var string */
     private $uri;
 
     /** @var string */
     private $label;
 
-    public function __construct(string $uri, string $label)
+    /** @var bool */
+    private $hasChanges = false;
+
+    public function __construct(?int $id, string $uri, string $label)
     {
+        $this->id    = $id;
         $this->uri   = $uri;
         $this->label = $label;
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function setUri(string $uri): self
+    {
+        if ($this->uri !== $uri) {
+            $this->hasChanges = true;
+        }
+
+        $this->uri = $uri;
+
+        return $this;
     }
 
     public function getUri(): string
     {
         return $this->uri;
+    }
+
+    public function setLabel(string $label): self
+    {
+        if ($this->label !== $label) {
+            $this->hasChanges = true;
+        }
+
+        $this->label = $label;
+
+        return $this;
+    }
+
+    public function hasChanges(): bool
+    {
+        return $this->hasChanges;
     }
 
     public function getLabel(): string
