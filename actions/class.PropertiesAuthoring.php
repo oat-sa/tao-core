@@ -33,6 +33,7 @@ use oat\tao\model\event\ClassFormUpdatedEvent;
 use oat\tao\model\event\ClassPropertiesChangedEvent;
 use oat\tao\model\search\index\OntologyIndex;
 use oat\tao\model\search\index\OntologyIndexService;
+use oat\tao\model\search\tasks\IndexTrait;
 use oat\tao\model\validator\PropertyChangedValidator;
 use oat\tao\model\search\Search;
 
@@ -44,6 +45,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
 {
     use OntologyAwareTrait;
     use LoggerAwareTrait;
+    use IndexTrait;
 
     /**
      * @return EventManager
@@ -128,8 +130,12 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
 
         $class = $this->getClass($this->getRequestParameter('classUri'));
         $property = $this->getProperty($this->getRequestParameter('uri'));
+        $propertyType = $this->getPropertyType($property);
 
-        $this->getEventManager()->trigger(new ClassPropertyRemovedEvent($class, $property));
+        if ($propertyType !== null) {
+            $propertyName = $this->getPropertyRealName($property->getLabel(), $propertyType->getUri());
+            $this->getEventManager()->trigger(new ClassPropertyRemovedEvent($class, $propertyName));
+        }
 
         //delete property mode
         foreach ($class->getProperties() as $classProperty) {

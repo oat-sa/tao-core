@@ -24,7 +24,6 @@ namespace oat\tao\model\search\tasks;
 
 use common_report_Report;
 use core_kernel_classes_Class;
-use core_kernel_classes_Property;
 use oat\oatbox\action\Action;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\tao\model\search\index\IndexUpdaterInterface;
@@ -43,16 +42,11 @@ class DeleteIndexProperty implements Action, ServiceLocatorAwareInterface, TaskA
 
     public function __invoke($params): common_report_Report
     {
-        [$class, $property] = $params;
+        [$class, $propertyName] = $params;
 
         $class = new core_kernel_classes_Class($class['uriResource']);
-        $property = new core_kernel_classes_Property($property['uriResource']);
-        $propertyType = $this->getPropertyType($property);
-
-        $this->logDebug(get_class($propertyType));
-
         $propertyData = [
-            'name' => $this->getPropertyRealName($property->getLabel(), $propertyType->getUri()),
+            'name' => $propertyName,
             'type' => $class->getUri(),
             'parentClasses' => $this->getParentClasses($class)
         ];
