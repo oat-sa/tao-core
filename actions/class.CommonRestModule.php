@@ -221,6 +221,31 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
         }
     }
 
+    private function getPostData(): array
+    {
+        if (!is_array($parameters = $this->getPsrRequest()->getParsedBody())) {
+            $parameters = [];
+        }
+
+        return $parameters;
+    }
+
+    private function getBodyData(): array
+    {
+        $data = null;
+        $json = $this->getPsrRequest()->getBody()->getContents();
+        if ($json) {
+            $data = @json_decode($json, true);
+        }
+
+        return is_array($data) ? $data : [];
+    }
+
+    private function getRequestData(): array
+    {
+        return array_merge($this->getPostData(), $this->getBodyData());
+    }
+
     /**
      * Returns all parameters that are URIs or Aliased with values
      *
@@ -228,14 +253,12 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
      *
      * @return array
      */
-    protected function getParameters()
+    protected function getParameters(): array
     {
         $effectiveParameters = [];
         $missedAliases = [];
 
-        if (!is_array($parameters = $this->getPsrRequest()->getParsedBody())) {
-            $parameters = [];
-        }
+        $parameters = $this->getRequestData();
 
         foreach ($this->getParametersAliases() as $checkParameterShort => $checkParameterUri) {
             if (array_key_exists($checkParameterUri, $parameters)) {
