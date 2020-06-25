@@ -56,6 +56,7 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
     {
         $query = $this->createInitialQuery($searchRequest);
 
+        $this->enrichQueryWithPropertySearchConditions($searchRequest, $query);
         $this->enrichQueryWithSubject($searchRequest, $query);
         $this->enrichQueryWithExcludedValueUris($searchRequest, $query);
 
@@ -69,18 +70,33 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
 
     private function createInitialQuery(ValueCollectionSearchRequest $searchRequest): QueryBuilder
     {
-        $query = $this->getPersistence()->getPlatForm()->getQueryBuilder();
+        $query = $this->getPersistence()->getPlatForm()->getQueryBuilder()
+            ->select('element.subject', 'element.object')
+            ->from('statements', 'element');
+
+        if ($searchRequest->hasLimit()) {
+            $query->setMaxResults($searchRequest->getLimit());
+        }
+
+        return $query;
+    }
+
+    private function enrichQueryWithPropertySearchConditions(
+        ValueCollectionSearchRequest $searchRequest,
+        QueryBuilder $query
+    ): void {
+        if (!$searchRequest->hasPropertyUri()) {
+            return;
+        }
 
         $expressionBuilder = $query->expr();
 
-        return $query
-            ->select('filter.subject', 'filter.object')
-            ->from('statements', 'filter')
+        $query
             ->innerJoin(
-                'filter',
+                'element',
                 'statements',
                 'collection',
-                $expressionBuilder->eq('collection.subject', 'filter.subject')
+                $expressionBuilder->eq('collection.subject', 'element.subject')
             )
             ->innerJoin(
                 'collection',
@@ -90,47 +106,43 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
             )
             ->where($expressionBuilder->eq('property.subject', ':property_uri'))
             ->andWhere($expressionBuilder->eq('property.predicate', ':range_uri'))
-            ->andWhere($expressionBuilder->eq('filter.predicate', ':label_uri'))
+            ->andWhere($expressionBuilder->eq('element.predicate', ':label_uri'))
             ->andWhere($expressionBuilder->eq('collection.predicate', ':type_uri'))
-            ->setParameters($this->createInitialQueryParameters($searchRequest))
-            ->setMaxResults($searchRequest->getLimit());
+            ->setParameter('property_uri', $searchRequest->getPropertyUri())
+            ->setParameter('range_uri', OntologyRdfs::RDFS_RANGE)
+            ->setParameter('label_uri', OntologyRdfs::RDFS_LABEL)
+            ->setParameter('type_uri', OntologyRdf::RDF_TYPE);
     }
 
     private function enrichQueryWithSubject(ValueCollectionSearchRequest $searchRequest, QueryBuilder $query): void
     {
-        if ($searchRequest->hasSubject()) {
-            $query
-                ->andWhere(
-                    $this->getPersistence()->getPlatForm()->getQueryBuilder()->expr()->like('filter.object', ':subject')
-                )
-                ->setParameter('subject', "{$searchRequest->getSubject()}%");
+        if (!$searchRequest->hasSubject()) {
+            return;
         }
+
+        $query
+            ->andWhere(
+                $this->getPersistence()->getPlatForm()->getQueryBuilder()->expr()->like('element.object', ':subject')
+            )
+            ->setParameter('subject', "{$searchRequest->getSubject()}%");
     }
 
     private function enrichQueryWithExcludedValueUris(
         ValueCollectionSearchRequest $searchRequest,
         QueryBuilder $query
     ): void {
-        if ($searchRequest->hasExcluded()) {
-            $query
-                ->andWhere(
-                    $this->getPersistence()->getPlatForm()->getQueryBuilder()->expr()->notIn(
-                        'filter.subject',
-                        ':excluded_value_uri'
-                    )
-                )
-                ->setParameter('excluded_value_uri', $searchRequest->getExcluded(), Connection::PARAM_STR_ARRAY);
+        if (!$searchRequest->hasExcluded()) {
+            return;
         }
-    }
 
-    private function createInitialQueryParameters(ValueCollectionSearchRequest $searchRequest): array
-    {
-        return [
-            'property_uri' => $searchRequest->getPropertyUri(),
-            'range_uri'    => OntologyRdfs::RDFS_RANGE,
-            'label_uri'    => OntologyRdfs::RDFS_LABEL,
-            'type_uri'     => OntologyRdf::RDF_TYPE,
-        ];
+        $query
+            ->andWhere(
+                $this->getPersistence()->getPlatForm()->getQueryBuilder()->expr()->notIn(
+                    'element.subject',
+                    ':excluded_value_uri'
+                )
+            )
+            ->setParameter('excluded_value_uri', $searchRequest->getExcluded(), Connection::PARAM_STR_ARRAY);
     }
 
     private function getPersistence(): SqlPersistence

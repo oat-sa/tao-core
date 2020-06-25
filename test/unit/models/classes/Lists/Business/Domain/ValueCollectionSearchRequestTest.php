@@ -30,8 +30,6 @@ use TypeError;
 
 class ValueCollectionSearchRequestTest extends TestCase
 {
-    private const PROPERTY_URI = 'https://example.com';
-
     /** @var ValueCollectionSearchRequest */
     private $sut;
 
@@ -40,24 +38,30 @@ class ValueCollectionSearchRequestTest extends TestCase
      */
     public function init(): void
     {
-        $this->sut = new ValueCollectionSearchRequest(self::PROPERTY_URI);
+        $this->sut = new ValueCollectionSearchRequest();
     }
 
     public function testBareSearchRequest(): void
     {
-        $this->assertSame(self::PROPERTY_URI, $this->sut->getPropertyUri());
+        $this->assertFalse($this->sut->hasPropertyUri());
         $this->assertFalse($this->sut->hasSubject());
         $this->assertFalse($this->sut->hasExcluded());
         $this->assertEmpty($this->sut->getExcluded());
-        $this->assertSame(20, $this->sut->getLimit());
+        $this->assertFalse($this->sut->hasLimit());
+    }
 
-        $error = null;
-        try {
-            $this->sut->getSubject();
-        } catch (TypeError $error) {
-        } finally {
-            $this->assertNotNull($error);
-        }
+    /**
+     * @param string $method
+     *
+     * @testWith ["getPropertyUri"]
+     *           ["getSubject"]
+     *           ["getLimit"]
+     */
+    public function testNotInitializedGetterCall(string $method): void
+    {
+        $this->expectException(TypeError::class);
+
+        $this->sut->$method();
     }
 
     public function testWithSubject(): void

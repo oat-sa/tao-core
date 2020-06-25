@@ -104,21 +104,31 @@ class RdfValueCollectionRepositoryTest extends TestCase
     {
         return [
             'Bare search request'                     => [
-                new ValueCollectionSearchRequest('https://example.com'),
+                new ValueCollectionSearchRequest(),
+            ],
+            'Search request with property URI'        => [
+                (new ValueCollectionSearchRequest())
+                    ->setPropertyUri('https://example.com'),
             ],
             'Search request with subject'             => [
-                (new ValueCollectionSearchRequest('https://example.com'))->setSubject('test'),
+                (new ValueCollectionSearchRequest())
+                    ->setPropertyUri('https://example.com')
+                    ->setSubject('test'),
             ],
             'Search request with excluded value URIs' => [
-                (new ValueCollectionSearchRequest('https://example.com'))
+                (new ValueCollectionSearchRequest())
+                    ->setPropertyUri('https://example.com')
                     ->addExcluded('https://example.com#1')
                     ->addExcluded('https://example.com#2'),
             ],
-            'Search request with custom limit'             => [
-                (new ValueCollectionSearchRequest('https://example.com'))->setLimit(1),
+            'Search request with limit'               => [
+                (new ValueCollectionSearchRequest())
+                    ->setPropertyUri('https://example.com')
+                    ->setLimit(1),
             ],
-            'Search request with all properties' => [
-                (new ValueCollectionSearchRequest('https://example.com'))
+            'Search request with all properties'      => [
+                (new ValueCollectionSearchRequest())
+                    ->setPropertyUri('https://example.com')
                     ->setSubject('test')
                     ->addExcluded('https://example.com#1')
                     ->addExcluded('https://example.com#2')
@@ -145,7 +155,6 @@ class RdfValueCollectionRepositoryTest extends TestCase
             ->willReturn($this->platformMock);
 
         $this->connectionMock
-            ->expects(static::atLeastOnce())
             ->method('getExpressionBuilder')
             ->willReturn(new ExpressionBuilder($this->connectionMock));
     }
@@ -153,7 +162,8 @@ class RdfValueCollectionRepositoryTest extends TestCase
     private function createQuery(ValueCollectionSearchRequest $searchRequest): string
     {
         $queryParts = [
-            $this->createInitialQuery($searchRequest),
+            $this->createInitialQuery(),
+            $this->createPropertyUriCondition($searchRequest),
             $this->createSubjectCondition($searchRequest),
             $this->createExcludedCondition($searchRequest),
         ];
@@ -163,8 +173,23 @@ class RdfValueCollectionRepositoryTest extends TestCase
         return implode(' ', array_filter($queryParts));
     }
 
-    private function createInitialQuery(ValueCollectionSearchRequest $searchRequest): string
+    private function createInitialQuery(): string
     {
+        return implode(
+            ' ',
+            [
+                'SELECT element.subject, element.object',
+                'FROM statements element',
+            ]
+        );
+    }
+
+    private function createPropertyUriCondition(ValueCollectionSearchRequest $searchRequest): ?string
+    {
+        if (!$searchRequest->hasPropertyUri()) {
+            return null;
+        }
+
         $this->queryParameters = [
             'property_uri' => $searchRequest->getPropertyUri(),
             'range_uri'    => OntologyRdfs::RDFS_RANGE,
@@ -175,15 +200,13 @@ class RdfValueCollectionRepositoryTest extends TestCase
         return implode(
             ' ',
             [
-                'SELECT filter.subject, filter.object',
-                'FROM statements filter',
                 'INNER JOIN statements collection',
-                'ON collection.subject = filter.subject',
+                'ON collection.subject = element.subject',
                 'INNER JOIN statements property',
                 'ON property.object = collection.object',
                 'WHERE (property.subject = :property_uri)',
                 'AND (property.predicate = :range_uri)',
-                'AND (filter.predicate = :label_uri)',
+                'AND (element.predicate = :label_uri)',
                 'AND (collection.predicate = :type_uri)',
             ]
         );
@@ -197,7 +220,7 @@ class RdfValueCollectionRepositoryTest extends TestCase
 
         $this->queryParameters['subject'] = "{$searchRequest->getSubject()}%";
 
-        return 'AND (filter.object LIKE :subject)';
+        return 'AND (element.object LIKE :subject)';
     }
 
     private function createExcludedCondition(ValueCollectionSearchRequest $searchRequest): ?string
@@ -206,14 +229,18 @@ class RdfValueCollectionRepositoryTest extends TestCase
             return null;
         }
 
-        $this->queryParameters['excluded_value_uri'] = $searchRequest->getExcluded();
+        $this->queryParameters['excluded_value_uri']     = $searchRequest->getExcluded();
         $this->queryParameterTypes['excluded_value_uri'] = Connection::PARAM_STR_ARRAY;
 
-        return 'AND (filter.subject NOT IN (:excluded_value_uri))';
+        return 'AND (element.subject NOT IN (:excluded_value_uri))';
     }
 
-    private function createLimit(ValueCollectionSearchRequest $searchRequest): string
+    private function createLimit(ValueCollectionSearchRequest $searchRequest): ?string
     {
+        if (!$searchRequest->hasLimit()) {
+            return null;
+        }
+
         return "LIMIT {$searchRequest->getLimit()}";
     }
 
