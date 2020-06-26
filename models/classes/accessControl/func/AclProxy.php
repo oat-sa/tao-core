@@ -44,29 +44,21 @@ class AclProxy implements AccessControl
     const FALLBACK_IMPLEMENTATION_CLASS = 'oat\tao\model\accessControl\func\implementation\NoAccess';
     
     /**
-     * @var FuncAccessControl
-     */
-    private static $implementation;
-
-    /**
      * @return FuncAccessControl
      */
     protected static function getImplementation()
     {
-        if (is_null(self::$implementation)) {
-            self::$implementation = ServiceManager::getServiceManager()->get(self::SERVICE_ID);
-        }
-        return self::$implementation;
+        return ServiceManager::getServiceManager()->get(self::SERVICE_ID);
     }
     
     /**
      * Change the implementation of the access control permanently
      *
      * @param FuncAccessControl $implementation
+     * @deprecated
      */
     public static function setImplementation(FuncAccessControl $implementation)
     {
-        self::$implementation = $implementation;
         ServiceManager::getServiceManager()->register(self::SERVICE_ID, $implementation);
     }
     
