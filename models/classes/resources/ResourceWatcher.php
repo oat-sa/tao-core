@@ -67,7 +67,7 @@ class ResourceWatcher extends ConfigurableService
 
         $this->getLogger()->debug('triggering index update on resourceCreated event');
 
-        $taskMessage = __('Adding search index for created resource ', $resource->getUri());
+        $taskMessage = __('Adding search index for created resource');
         $this->createResourceIndexingTask($resource, $taskMessage);
     }
 
@@ -89,7 +89,7 @@ class ResourceWatcher extends ConfigurableService
         if ($updatedAt === null || ($now - $updatedAt) > $threshold) {
             $this->getLogger()->debug('triggering index update on resourceUpdated event');
 
-            $taskMessage = __('Adding/updating search index for updated resource ', $resource->getUri());
+            $taskMessage = __('Adding/updating search index for updated resource');
             $this->createResourceIndexingTask($resource, $taskMessage);
 
             $property = $this->getProperty(TaoOntology::PROPERTY_UPDATED_AT);
@@ -108,7 +108,7 @@ class ResourceWatcher extends ConfigurableService
             $searchService->remove($event->getId());
         } catch (\Exception $e) {
             $message = $e->getMessage();
-            \common_Logger::e("Error delete index document for {$event->getId()} with message $message");
+            $this->getLogger()->error("Error delete index document for {$event->getId()} with message $message");
         }
     }
 
