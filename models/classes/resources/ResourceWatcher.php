@@ -29,7 +29,7 @@ use oat\generis\model\data\event\ResourceUpdated;
 use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ConfigurableService;
-use oat\tao\elasticsearch\IndexUpdater;
+use oat\tao\model\search\index\IndexUpdaterInterface;
 use oat\tao\model\search\Search;
 use oat\tao\model\search\tasks\UpdateResourceInIndex;
 use oat\tao\model\TaoOntology;
@@ -163,7 +163,7 @@ class ResourceWatcher extends ConfigurableService
             $classUri = array_pop($resourceTypeIds);
 
             $hasClassSupport = $this->getServiceLocator()
-                ->get(IndexUpdater::SERVICE_ID)
+                ->get(IndexUpdaterInterface::SERVICE_ID)
                 ->hasClassSupport(
                     $classUri
                 );
