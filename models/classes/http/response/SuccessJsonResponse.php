@@ -20,12 +20,17 @@
 
 namespace oat\tao\model\http\response;
 
+use JsonSerializable;
+
 class SuccessJsonResponse implements JsonResponseInterface
 {
-    /** @var array */
+    /** @var JsonSerializable|array|int|string|float */
     private $data;
 
-    public function __construct(array $data)
+    /**
+     * @param JsonSerializable|array|int|string|float $data
+     */
+    public function __construct($data)
     {
         $this->data = $data;
     }
@@ -37,7 +42,7 @@ class SuccessJsonResponse implements JsonResponseInterface
     {
         return [
             'success' => true,
-            'data' => $this->data,
+            'data'    => $this->data,
         ];
     }
 }

@@ -21,6 +21,7 @@
 
 namespace oat\tao\model\http;
 
+use JsonSerializable;
 use oat\tao\model\http\formatter\ResponseFormatter;
 use oat\tao\model\http\response\ErrorJsonResponse;
 use oat\tao\model\http\response\SuccessJsonResponse;
@@ -32,7 +33,11 @@ trait HttpJsonResponseTrait
     /** @var ResponseInterface */
     protected $response;
 
-    protected function setSuccessJsonResponse(array $data, int $statusCode = 200): void
+    /**
+     * @param JsonSerializable|array|int|string|float $data
+     * @param int                                     $statusCode
+     */
+    protected function setSuccessJsonResponse($data, int $statusCode = 200): void
     {
         $this->response = $this->getResponseFormatter()
             ->withJsonHeader()

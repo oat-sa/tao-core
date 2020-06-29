@@ -23,6 +23,7 @@
 use oat\oatbox\event\EventManager;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\event\RdfExportEvent;
+use oat\oatbox\Configurable;
 
 /**
  * The tao default rdf export
@@ -31,7 +32,7 @@ use oat\tao\model\event\RdfExportEvent;
  * @author  Joel Bout, <joel@taotesting.com>
  * @package tao
  */
-class tao_models_classes_export_RdfExporter implements tao_models_classes_export_ExportHandler
+class tao_models_classes_export_RdfExporter extends Configurable implements tao_models_classes_export_ExportHandler
 {
     /**
      * @return EventManager
