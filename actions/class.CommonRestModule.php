@@ -232,10 +232,9 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
 
     private function getBodyData(): array
     {
-        $data = null;
-        $json = $this->getPsrRequest()->getBody()->getContents();
-        if ($json) {
-            $data = @json_decode($json, true);
+        $data = $this->getPsrRequest()->getBody()->getContents();
+        if ($data && $this->hasHeader('Accept') && $this->getHeader('Accept') === 'application/json') {
+            $data = @json_decode($data, true);
         }
 
         return is_array($data) ? $data : [];
