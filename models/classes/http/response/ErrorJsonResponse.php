@@ -40,12 +40,14 @@ class ErrorJsonResponse implements JsonResponseInterface
 
     /**
      * @inheritDoc
+     * @deprecated code
      */
     public function jsonSerialize(): array
     {
         return [
             'success' => false,
             'code' => $this->errorCode,
+            'errorCode' => $this->errorCode,
             'message' => $this->message,
             'data' => $this->data,
         ];
