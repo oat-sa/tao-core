@@ -42,19 +42,24 @@ class IndexDocument
     /** @var Iterator */
     private $dynamicProperties;
 
+    /** @var Iterator */
+    private $accessProperties;
+
     /**
      * IndexDocument constructor.
      * @param string $id
      * @param array $body
      * @param array $indexesProperties
      * @param Iterator|null $dynamicProperties
+     * @param Iterator|null $accessProperties
      * @throws \common_Exception
      */
     public function __construct(
         string $id,
         array $body,
         array $indexesProperties = [],
-        Iterator $dynamicProperties = null
+        Iterator $dynamicProperties = null,
+        Iterator $accessProperties = null
     ) {
         $this->id = $id;
 
@@ -64,6 +69,7 @@ class IndexDocument
         $this->body = $body;
         $this->indexesProperties = $indexesProperties;
         $this->dynamicProperties = $dynamicProperties;
+        $this->accessProperties = $accessProperties;
     }
 
 
@@ -98,5 +104,10 @@ class IndexDocument
     public function getDynamicProperties(): ?Iterator
     {
         return $this->dynamicProperties;
+    }
+
+    public function getAccessProperties(): ?Iterator
+    {
+        return $this->accessProperties;
     }
 }
