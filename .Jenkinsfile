@@ -122,44 +122,48 @@ mkdir -p tao/views/locales/en-US/
         stage('Tests') {
             parallel {
                 stage('Backend Tests') {
-                    when {
-                        expression {
-                            fileExists("build/$extension/test/unit")
+                    stage('Unit tests') {
+                        when {
+                            expression {
+                                fileExists("build/$extension/test/unit")
+                            }
                         }
-                    }
-                    agent {
-                        docker {
-                            image 'dockermisi/php_base_ci:0.0.2'
-                            reuseNode true
+                        agent {
+                            docker {
+                                image 'dockermisi/php_base_ci:0.0.2'
+                                reuseNode true
+                            }
                         }
-                    }
-                    options {
-                        skipDefaultCheckout()
-                    }
-                    steps {
-                        sh(
-                            label: 'Configuring PHPUnit',
-                            script: "cp phpunit_full.xml build"
-                        )
-                        dir('build'){
+                        options {
+                            skipDefaultCheckout()
+                        }
+                        steps {
                             sh(
-                                label: 'Run backend tests',
-                                script: "./vendor/bin/phpunit $extension/test/unit -c phpunit_full.xml"
+                                label: 'Configuring PHPUnit',
+                                script: "cp phpunit_full.xml build"
                             )
+                            dir('build'){
+                                sh(
+                                    label: 'Run backend tests',
+                                    script: "./vendor/bin/phpunit $extension/test/unit -c phpunit_full.xml"
+                                )
+                            }
                         }
                     }
-                }
-                stage('Code analysis') {
-                    when {
-                        expression {
-                            fileExists("build/$extension/test/unit")
+                    stage('Code analysis') {
+                        when {
+                            expression {
+                                fileExists("build/$extension/test/unit")
+                            }
                         }
-                    }
-                    steps {
-                        sh(
-                            label: 'Calculating code coverage',
-                            script: "php vendor/bin/coverage-check clover.xml $phpMinimumCoverage"
-                        )
+                        steps {
+                            dir('build'){
+                                sh(
+                                    label: 'Calculating code coverage',
+                                    script: "php vendor/bin/coverage-check clover.xml $phpMinimumCoverage"
+                                )
+                            }
+                        }
                     }
                 }
                 stage('Frontend Tests') {
