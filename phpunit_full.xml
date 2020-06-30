@@ -2,15 +2,9 @@
     convertErrorsToExceptions="true"
     convertNoticesToExceptions="true"
     convertWarningsToExceptions="true">
-
     <filter>
         <whitelist>
-            <directory suffix=".php">actions</directory>
-            <directory suffix=".php">controller</directory>
-            <directory suffix=".php">helpers</directory>
-            <directory suffix=".php">install</directory>
-            <directory suffix=".php">models</directory>
-            <directory suffix=".php">scripts</directory>
+            <directory suffix=".php">tao</directory>
         </whitelist>
     </filter>
 
