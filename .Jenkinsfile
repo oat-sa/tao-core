@@ -86,7 +86,7 @@ tail -n +2 build/dependencies.json >> build/composer.json
         stage('Install') {
             agent {
                 docker {
-                    image 'dockermisi/php_base_ci:0.0.1'
+                    image 'dockermisi/php_base_ci:0.0.2'
                     args "-v $BUILDER_CACHE_DIR/composer:/tmp/.composer-cache -e COMPOSER_CACHE_DIR=/tmp/.composer-cache"
                     reuseNode true
                 }
@@ -129,7 +129,7 @@ mkdir -p tao/views/locales/en-US/
                     }
                     agent {
                         docker {
-                            image 'dockermisi/php_base_ci:0.0.1'
+                            image 'dockermisi/php_base_ci:0.0.2'
                             reuseNode true
                         }
                     }
