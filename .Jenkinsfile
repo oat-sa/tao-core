@@ -140,7 +140,7 @@ mkdir -p tao/views/locales/en-US/
                         dir('build'){
                             sh(
                                 label: 'Run backend tests',
-                                script: "phpenmod -s cli xdebug && ./vendor/bin/phpunit $extension/test/unit -c phpunit_full.xml"
+                                script: "./vendor/bin/phpunit $extension/test/unit -c phpunit_full.xml"
                             )
                             sh(
                                 label: 'Code coverage',
