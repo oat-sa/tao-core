@@ -119,7 +119,7 @@ mkdir -p tao/views/locales/en-US/
                 }
             }
         }
-        stage('Tests') {
+        stage('Verification') {
             parallel {
                 stage('Backend') {
                     stages {
