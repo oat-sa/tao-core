@@ -84,7 +84,11 @@ tail -n +2 build/dependencies.json >> build/composer.json
             }
         }
         stage('Install') {
-          agent { dockerfile true }
+            agent {
+                dockerfile {
+                    label 'docker'
+                }
+            }
             environment {
                 HOME = '.'
             }
@@ -121,7 +125,11 @@ mkdir -p tao/views/locales/en-US/
                             fileExists("build/$extension/test/unit")
                         }
                     }
-                    agent { dockerfile true }
+                    agent {
+                        dockerfile {
+                            label 'docker'
+                        }
+                    }
                     options {
                         skipDefaultCheckout()
                     }
