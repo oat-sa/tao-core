@@ -121,10 +121,9 @@ mkdir -p tao/views/locales/en-US/
         }
         stage('Tests') {
             parallel {
-                stage {
-                    // Backend tests
+                stage('Backend') {
                     stages {
-                        stage('PHP unit tests') {
+                        stage('Unit tests') {
                             when {
                                 expression {
                                     fileExists("build/$extension/test/unit")
