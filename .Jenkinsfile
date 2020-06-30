@@ -157,6 +157,15 @@ mkdir -p tao/views/locales/en-US/
                                     fileExists("build/$extension/test/unit")
                                 }
                             }
+                            agent {
+                                docker {
+                                    image 'dockermisi/php_base_ci:0.0.2'
+                                    reuseNode true
+                                }
+                            }
+                            options {
+                                skipDefaultCheckout()
+                            }
                             steps {
                                 dir('build'){
                                     sh(
