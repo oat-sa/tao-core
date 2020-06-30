@@ -105,7 +105,7 @@ tail -n +2 build/dependencies.json >> build/composer.json
                     )
                     sh(
                         label: 'Add phpunit',
-                        script: 'composer require phpunit/phpunit:^8.5 --no-progress'
+                        script: 'composer require phpunit/phpunit:^8.5 rregeer/phpunit-coverage-check --no-progress'
                     )
                     sh(
                         label: "Extra filesystem mocks",
@@ -137,14 +137,18 @@ mkdir -p tao/views/locales/en-US/
                         skipDefaultCheckout()
                     }
                     steps {
+                        sh(
+                            label: 'Configuring PHPUnit',
+                            script: "cp phpunit_full.xml build"
+                        )
                         dir('build'){
                             sh(
                                 label: 'Run backend tests',
-                                script: "./vendor/bin/phpunit $extension/test/unit --whitelist models --coverage-clover clover.xml && ls"
+                                script: "./vendor/bin/phpunit $extension/test/unit -c phpunit_full.xml && ls"
                             )
                             sh(
                                 label: 'Code coverage',
-                                script: "composer require rregeer/phpunit-coverage-check && php vendor/bin/coverage-check clover.xml $phpMinimumCoverage"
+                                script: "php vendor/bin/coverage-check clover.xml $phpMinimumCoverage"
                             )
                         }
                     }
