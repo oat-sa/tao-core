@@ -86,7 +86,7 @@ tail -n +2 build/dependencies.json >> build/composer.json
         stage('Install') {
             agent {
                 dockerfile {
-                    label 'docker'
+                    filename 'Dockerfile'
                 }
             }
             environment {
@@ -127,7 +127,7 @@ mkdir -p tao/views/locales/en-US/
                     }
                     agent {
                         dockerfile {
-                            label 'docker'
+                            filename 'Dockerfile'
                         }
                     }
                     options {
