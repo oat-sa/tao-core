@@ -78,7 +78,7 @@ tail -n +2 build/dependencies.json >> build/composer.json
                     )
                     sh(
                         label: 'composer.json',
-                        script: 'cat build/composer.json && ls -l'
+                        script: 'cat build/composer.json'
                     )
                 }
             }
@@ -87,6 +87,7 @@ tail -n +2 build/dependencies.json >> build/composer.json
             agent {
                 dockerfile {
                     filename 'Dockerfile'
+                    dir 'build'
                 }
             }
             environment {
@@ -128,6 +129,7 @@ mkdir -p tao/views/locales/en-US/
                     agent {
                         dockerfile {
                             filename 'Dockerfile'
+                            dir 'build'
                         }
                     }
                     options {
