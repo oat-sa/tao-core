@@ -84,13 +84,7 @@ tail -n +2 build/dependencies.json >> build/composer.json
             }
         }
         stage('Install') {
-            agent {
-                docker {
-                    image 'alexwijn/docker-git-php-composer'
-                    args "-v $BUILDER_CACHE_DIR/composer:/tmp/.composer-cache -e COMPOSER_CACHE_DIR=/tmp/.composer-cache"
-                    reuseNode true
-                }
-            }
+          agent { dockerfile true }
             environment {
                 HOME = '.'
             }
@@ -127,12 +121,7 @@ mkdir -p tao/views/locales/en-US/
                             fileExists("build/$extension/test/unit")
                         }
                     }
-                    agent {
-                        docker {
-                            image 'alexwijn/docker-git-php-composer'
-                            reuseNode true
-                        }
-                    }
+                    agent { dockerfile true }
                     options {
                         skipDefaultCheckout()
                     }
