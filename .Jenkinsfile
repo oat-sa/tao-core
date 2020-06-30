@@ -144,13 +144,22 @@ mkdir -p tao/views/locales/en-US/
                         dir('build'){
                             sh(
                                 label: 'Run backend tests',
-                                script: "./vendor/bin/phpunit $extension/test/unit -c phpunit_full.xml && ls"
-                            )
-                            sh(
-                                label: 'Code coverage',
-                                script: "php vendor/bin/coverage-check clover.xml $phpMinimumCoverage"
+                                script: "./vendor/bin/phpunit $extension/test/unit -c phpunit_full.xml"
                             )
                         }
+                    }
+                }
+                stage('Code analysis') {
+                    when {
+                        expression {
+                            fileExists("build/$extension/test/unit")
+                        }
+                    }
+                    steps {
+                        sh(
+                            label: 'Calculating code coverage',
+                            script: "php vendor/bin/coverage-check clover.xml $phpMinimumCoverage"
+                        )
                     }
                 }
                 stage('Frontend Tests') {
