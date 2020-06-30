@@ -6,6 +6,9 @@ pipeline {
     agent {
         label 'builder'
     }
+    environment {
+        phpMinimumCoverage = 90
+    }
     stages {
         stage('Resolve TAO dependencies') {
             steps {
@@ -137,7 +140,11 @@ mkdir -p tao/views/locales/en-US/
                         dir('build'){
                             sh(
                                 label: 'Run backend tests',
-                                script: "./vendor/bin/phpunit $extension/test/unit"
+                                script: "phpenmod -s cli xdebug && ./vendor/bin/phpunit $extension/test/unit -c phpunit_full.xml"
+                            )
+                            sh(
+                                label: 'Code coverage',
+                                script "php vendor/bin/coverage-check clover.xml $phpMinimumCoverage"
                             )
                         }
                     }

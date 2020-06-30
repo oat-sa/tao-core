@@ -1,0 +1,20 @@
+<phpunit
+    convertErrorsToExceptions="true"
+    convertNoticesToExceptions="true"
+    convertWarningsToExceptions="true">
+
+    <filter>
+        <whitelist>
+            <directory suffix=".php">actions</directory>
+            <directory suffix=".php">controller</directory>
+            <directory suffix=".php">helpers</directory>
+            <directory suffix=".php">install</directory>
+            <directory suffix=".php">models</directory>
+            <directory suffix=".php">scripts</directory>
+        </whitelist>
+    </filter>
+
+    <logging>
+        <log type="coverage-clover" target="clover.xml"/>
+    </logging>
+</phpunit>
