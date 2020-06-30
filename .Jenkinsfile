@@ -1,19 +1,53 @@
+
+final def REPO_REGEX = /^https:\/\/github\.com\/(?<org>[a-z0-9-]+)\/(?<repo>[a-z0-9-]+)\.git$/
+final def TAO_EXTENSION_REGEX = /return\s*(\[|array\()\s*\'name\'\s*=>\s*\'([a-zA-Z0-9]+)\'/
+
 pipeline {
     agent {
         label 'builder'
     }
     stages {
         stage('Resolve TAO dependencies') {
-            environment {
-                GITHUB_ORGANIZATION='oat-sa'
-                REPO_NAME='oat-sa/tao-core'
-            }
             steps {
+               // Extract repository information
+               script {
+                    def matcher = GIT_URL =~ REPO_REGEX
+                    def githubOrganization = ""
+                    def repoName = ""
+
+                    if (matcher.matches()) {
+                        githubOrganization = matcher.group("org")
+                        repoName = matcher.group("repo")
+                        echo "Extracting repository information. GITHUB_ORGANIZATION: '$githubOrganization' REPO_NAME: '$repoName'"
+                    }
+                    else {
+                        echo "Couldn't extract repository information from GIT_URL environment variable."
+                        currentBuild.result = 'FAILURE'
+                    }
+
+                    env.githubOrganization = githubOrganization
+                    env.repoName = repoName
+                }
+                // Extract TAO extension information
+                script {
+                    def manifest = readFile 'manifest.php'
+                    def matcher = manifest =~ TAO_EXTENSION_REGEX
+
+                    def extension = matcher[0][2]
+                    if (extension == null) {
+                        echo "Couldn't extract extension name from manifest file."
+                        currentBuild.result = 'FAILURE'
+                    }
+                    else {
+                        echo "Extracting extension name from manifest file. Extension name: '$extension'"
+                    }
+
+                    env.extension = extension
+                }
                 sh(
                     label : 'Create build build directory',
                     script: 'mkdir -p build'
                 )
-
                 withCredentials([string(credentialsId: 'jenkins_github_token', variable: 'GIT_TOKEN')]) {
                     sh(
                         label : 'Run the Dependency Resolver',
@@ -22,16 +56,16 @@ changeBranch=$CHANGE_BRANCH
 TEST_BRANCH="${changeBranch:-$BRANCH_NAME}"
 echo "select branch : ${TEST_BRANCH}"
 docker run --rm  \\
--e "GITHUB_ORGANIZATION=${GITHUB_ORGANIZATION}" \\
+-e "GITHUB_ORGANIZATION=${githubOrganization}" \\
 -e "GITHUB_SECRET=${GIT_TOKEN}"  \\
-tao/dependency-resolver oat:dependencies:resolve --main-branch ${TEST_BRANCH} --repository-name ${REPO_NAME} > build/dependencies.json
+tao/dependency-resolver oat:dependencies:resolve --main-branch ${TEST_BRANCH} --repository-name $githubOrganization/$repoName > build/dependencies.json
 
 cat > build/composer.json <<- composerjson
 {
   "repositories": [
       {
         "type": "vcs",
-        "url": "https://github.com/${REPO_NAME}",
+        "url": "https://github.com/$githubOrganization/$repoName",
         "no-api": true
       }
     ],
@@ -87,7 +121,7 @@ mkdir -p tao/views/locales/en-US/
                 stage('Backend Tests') {
                     when {
                         expression {
-                            fileExists('build/tao/test/unit')
+                            fileExists("build/$extension/test/unit")
                         }
                     }
                     agent {
@@ -103,7 +137,7 @@ mkdir -p tao/views/locales/en-US/
                         dir('build'){
                             sh(
                                 label: 'Run backend tests',
-                                script: './vendor/bin/phpunit tao/test/unit'
+                                script: "./vendor/bin/phpunit $extension/test/unit"
                             )
                         }
                     }
@@ -111,7 +145,7 @@ mkdir -p tao/views/locales/en-US/
                 stage('Frontend Tests') {
                     when {
                         expression {
-                            fileExists('build/tao/views/build/grunt/test.js')
+                            fileExists("build/$extension/views/build/grunt/test.js")
                         }
                     }
                     agent {
@@ -135,7 +169,7 @@ mkdir -p tao/views/locales/en-US/
                             )
                             sh (
                                 label : 'Run frontend tests',
-                                script: 'npx grunt connect:test taotest'
+                                script: "npx grunt connect:test ${extension.toLowerCase()}test"
                             )
                         }
                     }
