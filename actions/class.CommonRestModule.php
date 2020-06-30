@@ -252,7 +252,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
      *
      * @return array
      */
-    protected function getParameters(): array
+    protected function getParameters()
     {
         $effectiveParameters = [];
         $missedAliases = [];
