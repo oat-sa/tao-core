@@ -144,7 +144,7 @@ mkdir -p tao/views/locales/en-US/
                             )
                             sh(
                                 label: 'Code coverage',
-                                script "php vendor/bin/coverage-check clover.xml $phpMinimumCoverage"
+                                script: "php vendor/bin/coverage-check clover.xml $phpMinimumCoverage"
                             )
                         }
                     }
