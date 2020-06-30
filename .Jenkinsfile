@@ -140,11 +140,11 @@ mkdir -p tao/views/locales/en-US/
                         dir('build'){
                             sh(
                                 label: 'Run backend tests',
-                                script: "./vendor/bin/phpunit $extension/test/unit -c ./phpunit_full.xml"
+                                script: "./vendor/bin/phpunit $extension/test/unit --whitelist models --coverage-clover clover.xml && ls"
                             )
                             sh(
                                 label: 'Code coverage',
-                                script: "php vendor/bin/coverage-check clover.xml $phpMinimumCoverage"
+                                script: "composer require rregeer/phpunit-coverage-check && php vendor/bin/coverage-check clover.xml $phpMinimumCoverage"
                             )
                         }
                     }
