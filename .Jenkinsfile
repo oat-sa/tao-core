@@ -78,7 +78,7 @@ tail -n +2 build/dependencies.json >> build/composer.json
                     )
                     sh(
                         label: 'composer.json',
-                        script: 'cat build/composer.json'
+                        script: "echo $GIT_URL && cat build/composer.json"
                     )
                 }
             }
