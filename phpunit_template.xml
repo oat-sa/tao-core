@@ -4,7 +4,7 @@
     convertWarningsToExceptions="true">
     <filter>
         <whitelist>
-            {WHITELISTED_FILES}
+{WHITELISTED_FILES}
         </whitelist>
     </filter>
     <logging>

@@ -143,7 +143,7 @@ mkdir -p tao/views/locales/en-US/
                                     label: 'Configuring PHPUnit',
                                     script: '''
                                         whitelist=$(git diff origin/develop --name-only -- '*.php' | xargs -IX echo -n "<FILE>X</FILE>") && \
-                                        sed -e "s%{WHITELISTED_FILES}%$whitelist%g" phpunit_template.xml | tidy -xml -qi > phpunit.xml && \
+                                        sed -e "s%{WHITELISTED_FILES}%$whitelist%g" phpunit_template.xml > phpunit.xml && \
                                         cp phpunit.xml build
                                     '''
                                 )
