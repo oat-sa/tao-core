@@ -184,7 +184,7 @@ mkdir -p tao/views/locales/en-US/
                                                 label: 'Calculating code coverage',
                                                 script: "php vendor/bin/coverage-check clover.xml $phpMinimumCoverage",
                                                 returnStdout: true
-                                            )
+                                            ).trim()
 
                                             result = "SUCCESS"
                                         } catch (ex) {
