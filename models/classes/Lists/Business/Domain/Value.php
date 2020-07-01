@@ -38,14 +38,18 @@ class Value implements JsonSerializable
     /** @var string */
     private $label;
 
+    /** @var string */
+    private $originalUri;
+
     /** @var bool */
     private $hasChanges = false;
 
     public function __construct(?int $id, string $uri, string $label)
     {
-        $this->id    = $id;
-        $this->uri   = $uri;
-        $this->label = $label;
+        $this->id          = $id;
+        $this->uri         = $uri;
+        $this->label       = $label;
+        $this->originalUri = $uri;
     }
 
     public function getId(): ?int
@@ -88,6 +92,11 @@ class Value implements JsonSerializable
     public function getLabel(): string
     {
         return $this->label;
+    }
+
+    public function getOriginalUri(): string
+    {
+        return $this->originalUri;
     }
 
     public function jsonSerialize(): array

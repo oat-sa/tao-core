@@ -228,13 +228,69 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
         $query
             ->update('statements')
             ->set('object', ':label')
+            ->set('subject', ':uri')
             ->where($expressionBuilder->eq('id', ':id'))
-            ->andWhere($expressionBuilder->eq('subject', ':uri'))
             ->setParameters(
                 [
                     'id'    => $value->getId(),
                     'uri'   => $value->getUri(),
                     'label' => $value->getLabel(),
+                ]
+            )
+            ->execute();
+
+        $this->updateRelations($value);
+    }
+
+    private function updateRelations(Value $value): void
+    {
+        if ($value->getOriginalUri() === $value->getUri()) {
+            return;
+        }
+
+        $this->updateValues($value);
+        $this->updateProperties($value);
+    }
+
+    /**
+     * @param Value $value
+     */
+    private function updateValues(Value $value): void
+    {
+        $query = $this->getPersistence()->getPlatForm()->getQueryBuilder();
+
+        $expressionBuilder = $query->expr();
+
+        $query
+            ->update('statements')
+            ->set('subject', ':uri')
+            ->where($expressionBuilder->eq('subject', ':original_uri'))
+            ->setParameters(
+                [
+                    'uri'          => $value->getUri(),
+                    'original_uri' => $value->getOriginalUri(),
+                ]
+            )
+            ->execute();
+    }
+
+    /**
+     * @param Value $value
+     */
+    private function updateProperties(Value $value): void
+    {
+        $query = $this->getPersistence()->getPlatForm()->getQueryBuilder();
+
+        $expressionBuilder = $query->expr();
+
+        $query
+            ->update('statements')
+            ->set('object', ':uri')
+            ->where($expressionBuilder->eq('object', ':original_uri'))
+            ->setParameters(
+                [
+                    'uri'          => $value->getUri(),
+                    'original_uri' => $value->getOriginalUri(),
                 ]
             )
             ->execute();

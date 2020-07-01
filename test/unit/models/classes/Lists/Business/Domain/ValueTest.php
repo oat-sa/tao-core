@@ -59,6 +59,7 @@ class ValueTest extends TestCase
         $this->assertSame($id, $sut->getId());
         $this->assertSame($uri, $sut->getUri());
         $this->assertSame($label, $sut->getLabel());
+        $this->assertSame($uri, $sut->getOriginalUri());
         $this->assertFalse($sut->hasChanges());
     }
 
@@ -73,8 +74,11 @@ class ValueTest extends TestCase
     {
         $sut = new Value($id, md5($uri), md5($label));
 
-        $this->assertSame($sut, $sut->setUri($sut->getUri()));
+        $originalUri = $sut->getUri();
+
+        $this->assertSame($sut, $sut->setUri($originalUri));
         $this->assertSame($sut, $sut->setLabel($sut->getLabel()));
+        $this->assertSame($originalUri, $sut->getOriginalUri());
         $this->assertFalse($sut->hasChanges());
 
         $sutClone = clone $sut;
@@ -87,6 +91,7 @@ class ValueTest extends TestCase
         $sutClone->setUri($uri);
 
         $this->assertSame($uri, $sutClone->getUri());
+        $this->assertSame($originalUri, $sut->getOriginalUri());
         $this->assertTrue($sutClone->hasChanges());
     }
 
