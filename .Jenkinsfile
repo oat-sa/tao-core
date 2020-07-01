@@ -178,7 +178,7 @@ mkdir -p tao/views/locales/en-US/
                                 dir('build'){
                                     underMinimumCoverage = sh(
                                         label: 'Calculating code coverage',
-                                        script: "php vendor/bin/coverage-check clover.xml $phpMinimumCoverage"
+                                        script: "php vendor/bin/coverage-check clover.xml $phpMinimumCoverage",
                                         returnStatus: true
                                     )
                                 }
