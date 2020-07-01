@@ -32,27 +32,22 @@ use \oat\tao\model\search\index\DocumentBuilder\IndexDocumentBuilder;
 
 class GenerisIndexDocumentBuilderTest extends TestCase
 {
-    /** @var Ontology */
-    private $ontology;
-
     /** @var ServiceManager|MockObject */
     private $service;
-    
+
     /** @var IndexDocumentBuilderInterface $builder */
     private $builder;
-    
+
     private const ARRAY_RESOURCE = [
         'id' => 'https://tao.docker.localhost/ontologies/tao.rdf#i5ecbaaf0a627c73a7996557a5480de',
         'body' => [
             'type' => []
         ]
     ];
-    
+
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->ontology = $this->createMock(Ontology::class);
 
         $this->service = $this->createMock(ServiceManager::class);
 
@@ -75,7 +70,7 @@ class GenerisIndexDocumentBuilderTest extends TestCase
             );
 
         ServiceManager::setServiceManager($this->service);
-        
+
         $this->builder = new IndexDocumentBuilder();
     }
 
@@ -93,7 +88,8 @@ class GenerisIndexDocumentBuilderTest extends TestCase
         );
 
         $document = $this->builder->createDocumentFromResource(
-            $resource
+            $resource,
+            false
         );
 
         $this->assertInstanceOf(IndexDocument::class, $document);
@@ -102,15 +98,15 @@ class GenerisIndexDocumentBuilderTest extends TestCase
         $this->assertEquals(['type'=>[]], $document->getBody());
         $this->assertEquals([], (array)$document->getDynamicProperties());
     }
-    
+
     public function testCreateDocumentFromResource()
     {
         $document = $this->builder->createDocumentFromArray(
             self::ARRAY_RESOURCE
         );
-    
+
         $this->assertInstanceOf(IndexDocument::class, $document);
-    
+
         $this->assertEquals('https://tao.docker.localhost/ontologies/tao.rdf#i5ecbaaf0a627c73a7996557a5480de', $document->getId());
         $this->assertEquals(['type'=>[]], $document->getBody());
         $this->assertEquals([], (array)$document->getDynamicProperties());

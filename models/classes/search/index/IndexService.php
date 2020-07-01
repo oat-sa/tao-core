@@ -81,7 +81,7 @@ class IndexService extends ConfigurableService
      */
     public function createDocumentFromResource(\core_kernel_classes_Resource $resource): IndexDocument
     {
-        return $this->getDocumentBuilder()->createDocumentFromResource($resource);
+        return $this->getDocumentBuilder()->createDocumentFromResource($resource, false);
     }
 
     /**
@@ -101,7 +101,7 @@ class IndexService extends ConfigurableService
         if (!isset($array['id'])) {
             throw new \common_exception_MissingParameter('id');
         }
-    
+
         return $this->getDocumentBuilder()->createDocumentFromArray($array);
     }
 
