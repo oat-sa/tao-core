@@ -48,6 +48,15 @@ pipeline {
                     env.extension = extension
                 }
                 sh(
+                    label : 'List installed plugins',
+                    script: '''
+                        Jenkins.instance.pluginManager.plugins.each{
+                          plugin ->
+                            println ("${plugin.getDisplayName()} (${plugin.getShortName()}): ${plugin.getVersion()}")
+                        }
+                    '''
+                )
+                sh(
                     label : 'Create build build directory',
                     script: 'mkdir -p build'
                 )
