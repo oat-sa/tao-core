@@ -25,8 +25,8 @@ declare(strict_types=1);
 namespace oat\tao\model\Lists\DataAccess\Repository;
 
 use common_persistence_SqlPersistence as SqlPersistence;
+use core_kernel_classes_Class as KernelClass;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Query\QueryBuilder;
 use oat\generis\model\OntologyRdf;
 use oat\generis\model\OntologyRdfs;
@@ -36,6 +36,7 @@ use oat\tao\model\Lists\Business\Contract\ValueCollectionRepositoryInterface;
 use oat\tao\model\Lists\Business\Domain\Value;
 use oat\tao\model\Lists\Business\Domain\ValueCollection;
 use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
+use Throwable;
 
 class RdfValueCollectionRepository extends InjectionAwareService implements ValueCollectionRepositoryInterface
 {
@@ -69,7 +70,7 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
             $values[] = new Value((int)$rawValue['id'], $rawValue['subject'], $rawValue['object']);
         }
 
-        return new ValueCollection(...$values);
+        return new ValueCollection($rawValue['collection_uri'] ?? null, ...$values);
     }
 
     public function persist(ValueCollection $valueCollection): bool
@@ -81,14 +82,14 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
         try {
             foreach ($valueCollection as $value) {
                 if (null === $value->getId()) {
-                    $this->insert($value);
+                    $this->insert($valueCollection, $value);
                 } else {
                     $this->update($value);
                 }
             }
 
             $platform->commit();
-        } catch (DBALException $exception) {
+        } catch (Throwable $exception) {
             $platform->rollBack();
 
             return false;
@@ -124,7 +125,7 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
     private function enrichWithSelect(ValueCollectionSearchRequest $searchRequest, QueryBuilder $query): QueryBuilder
     {
         $query
-            ->select('element.id', 'element.subject', 'element.object');
+            ->select('collection.object as collection_uri', 'element.id', 'element.subject', 'element.object');
 
         if ($searchRequest->hasLimit()) {
             $query->setMaxResults($searchRequest->getLimit());
@@ -202,9 +203,12 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
             ->setParameter('excluded_value_uri', $searchRequest->getExcluded(), Connection::PARAM_STR_ARRAY);
     }
 
-    private function insert(Value $value): void
+    private function insert(ValueCollection $valueCollection, Value $value): void
     {
-        // TODO: implement
+        /** @noinspection PhpUnhandledExceptionInspection */
+        $valueCollectionResource = new KernelClass($valueCollection->getUri());
+
+        $valueCollectionResource->createInstance($value->getLabel(), '', $value->getUri());
     }
 
     private function update(Value $value): void

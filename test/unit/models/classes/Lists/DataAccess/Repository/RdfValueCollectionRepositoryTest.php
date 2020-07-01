@@ -44,6 +44,8 @@ class RdfValueCollectionRepositoryTest extends TestCase
 {
     private const PERSISTENCE_ID = 'test';
 
+    private const COLLECTION_URI = 'http://example.com';
+
     /** @var PersistenceManager|MockObject */
     private $persistenceManagerMock;
 
@@ -93,7 +95,7 @@ class RdfValueCollectionRepositoryTest extends TestCase
      */
     public function testFindAll(ValueCollectionSearchRequest $searchRequest): void
     {
-        $result = new ValueCollection(new Value(1, '1', '1'), new Value(2, '2', '2'));
+        $result = new ValueCollection(self::COLLECTION_URI, new Value(1, '1', '1'), new Value(2, '2', '2'));
 
         $this->expectQuery($searchRequest, $result);
 
@@ -197,7 +199,7 @@ class RdfValueCollectionRepositoryTest extends TestCase
         return implode(
             ' ',
             [
-                'SELECT element.id, element.subject, element.object',
+                'SELECT collection.object as collection_uri, element.id, element.subject, element.object',
                 'FROM statements element',
                 'INNER JOIN statements collection',
                 'ON collection.subject = element.subject',
@@ -311,9 +313,10 @@ class RdfValueCollectionRepositoryTest extends TestCase
 
         foreach ($valueCollection as $value) {
             $result[] = [
-                'id'      => (string)$value->getId(),
-                'subject' => $value->getUri(),
-                'object'  => $value->getLabel(),
+                'collection_uri' => $valueCollection->getUri(),
+                'id'             => (string)$value->getId(),
+                'subject'        => $value->getUri(),
+                'object'         => $value->getLabel(),
             ];
         }
 
