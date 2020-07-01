@@ -4,8 +4,8 @@
         convertWarningsToExceptions="true">
     <filter>
         <whitelist>
-            <file>./dummy.php</file>
-            <file>./helpers/form/DummyForm.php</file>
+            <file>../dummy.php</file>
+            <file>../helpers/form/DummyForm.php</file>
         </whitelist>
     </filter>
     <logging>
