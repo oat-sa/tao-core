@@ -150,7 +150,7 @@ mkdir -p tao/views/locales/en-US/
                                 dir('build'){
                                     sh(
                                         label: 'Debug phpunit.xml',
-                                        script: 'cat phpunit.xml'
+                                        script: 'cat phpunit.xml && pwd'
                                     )
                                     sh(
                                         label: 'Run backend tests',
@@ -162,7 +162,7 @@ mkdir -p tao/views/locales/en-US/
                         stage('Code analysis') {
                             when {
                                 expression {
-                                    fileExists("build/$extension/test/unit")
+                                    fileExists("build/clover.xml")
                                 }
                             }
                             agent {
