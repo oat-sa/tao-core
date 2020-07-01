@@ -78,7 +78,7 @@ tail -n +2 build/dependencies.json >> build/composer.json
                     )
                     sh(
                         label: 'composer.json',
-                        script: "printenv && cat build/composer.json"
+                        script: 'cat build/composer.json'
                     )
                 }
             }
@@ -142,7 +142,7 @@ mkdir -p tao/views/locales/en-US/
                                 sh(
                                     label: 'Generating PHPUnit configuration',
                                     script: '''
-                                        whitelist=$(git diff origin/develop --name-only -- '*.php' ':!test/*' | xargs -IX echo -n "<file>../X</file>") && \
+                                        whitelist=$(git diff origin/$CHANGE_TARGET --name-only -- '*.php' ':!test/*' | xargs -IX echo -n "<file>../X</file>") && \
                                         sed -e "s%{WHITELISTED_FILES}%$whitelist%g" phpunit_template.xml > phpunit.xml && \
                                         cp phpunit.xml build
                                     '''
