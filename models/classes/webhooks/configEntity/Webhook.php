@@ -22,12 +22,13 @@ namespace oat\tao\model\webhooks\configEntity;
 
 class Webhook implements WebhookInterface
 {
-    const ID = 'id';
-    const URL = 'url';
-    const HTTP_METHOD = 'httpMethod';
-    const AUTH = 'auth';
-    const RETRY_MAX = 'retryMax';
-    const RESPONSE_VALIDATION = 'responseValidation';
+    public const ID = 'id';
+    public const URL = 'url';
+    public const HTTP_METHOD = 'httpMethod';
+    public const AUTH = 'auth';
+    public const RETRY_MAX = 'retryMax';
+    public const RESPONSE_VALIDATION = 'responseValidation';
+    public const EXTRA_PAYLOAD = 'extraPayload';
 
     /**
      * @var string
@@ -57,15 +58,18 @@ class Webhook implements WebhookInterface
     /** @var bool */
     private $responseValidation;
 
-    /**
-     * @param string $id
-     * @param string $url
-     * @param string $httpMethod
-     * @param int $retryMax
-     * @param WebhookAuth|null $auth
-     * @param $responseValidation
-     */
-    public function __construct($id, $url, $httpMethod, $retryMax, WebhookAuth $auth = null, bool $responseValidation = true)
+    /** @var array */
+    private $extraPayload;
+
+    public function __construct(
+        string $id,
+        string $url,
+        string $httpMethod,
+        int $retryMax,
+        WebhookAuth $auth = null,
+        bool $responseValidation = true,
+        array $extraPayload = []
+    )
     {
         $this->id = $id;
         $this->url = $url;
@@ -73,6 +77,7 @@ class Webhook implements WebhookInterface
         $this->auth = $auth;
         $this->retryMax = $retryMax;
         $this->responseValidation = $responseValidation;
+        $this->extraPayload = $extraPayload;
     }
 
     /**
@@ -105,6 +110,11 @@ class Webhook implements WebhookInterface
     public function getAuth()
     {
         return $this->auth;
+    }
+
+    public function getExtraPayload(): array
+    {
+        return $this->extraPayload;
     }
 
     /**
