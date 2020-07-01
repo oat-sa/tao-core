@@ -140,21 +140,21 @@ mkdir -p tao/views/locales/en-US/
                             }
                             steps {
                                 sh(
-                                    label: 'Configuring PHPUnit',
+                                    label: 'Generating PHPUnit configuration',
                                     script: '''
-                                        whitelist=$(git diff origin/develop --name-only -- '*.php' ':!test/*' | xargs -IX echo -n "<file>./X</file>") && \
+                                        whitelist=$(git diff origin/develop --name-only -- '*.php' ':!test/*' | xargs -IX echo -n "<file>../X</file>") && \
                                         sed -e "s%{WHITELISTED_FILES}%$whitelist%g" phpunit_template.xml > phpunit.xml && \
-                                        cp phpunit_prepared.xml build
+                                        cp phpunit.xml build
                                     '''
                                 )
                                 dir('build'){
                                     sh(
-                                        label: 'Debug phpunit.xml',
-                                        script: 'cat phpunit_prepared.xml'
+                                        label: 'PHPUnit configuration',
+                                        script: 'cat phpunit.xml'
                                     )
                                     sh(
                                         label: 'Run backend tests',
-                                        script: "./vendor/bin/phpunit $extension/test/unit -c phpunit_prepared.xml"
+                                        script: "./vendor/bin/phpunit $extension/test/unit -c phpunit.xml"
                                     )
                                 }
                             }
