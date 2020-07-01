@@ -27,6 +27,7 @@ namespace oat\tao\model\Lists\Business\Service;
 use oat\tao\model\Lists\Business\Contract\ValueCollectionRepositoryInterface;
 use oat\tao\model\Lists\Business\Domain\ValueCollection;
 use oat\tao\model\Lists\Business\Input\ValueCollectionSearchInput;
+use oat\tao\model\Lists\DataAccess\Repository\ValueConflictException;
 use oat\tao\model\service\InjectionAwareService;
 
 class ValueCollectionService extends InjectionAwareService
@@ -50,6 +51,13 @@ class ValueCollectionService extends InjectionAwareService
         );
     }
 
+    /**
+     * @param ValueCollection $valueCollection
+     *
+     * @return bool
+     *
+     * @throws ValueConflictException
+     */
     public function persist(ValueCollection $valueCollection): bool
     {
         // TODO Update linked property values in case a URI gets updated

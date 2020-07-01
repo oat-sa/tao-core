@@ -96,6 +96,21 @@ class ValueCollectionTest extends TestCase
         );
     }
 
+    public function testHasDuplicates(): void
+    {
+        $value1 = new Value(null, 'http://example.com#1', '1');
+        $value2 = new Value(null, 'http://example.com#2', '2');
+        $sut    = new ValueCollection(null, $value1, $value2);
+
+        $this->assertFalse($sut->hasDuplicates());
+
+        $value1->setUri(md5($value2->getUri()));
+        $this->assertFalse($sut->hasDuplicates());
+
+        $value1->setUri($value2->getUri());
+        $this->assertTrue($sut->hasDuplicates());
+    }
+
     /**
      * @param Value ...$values
      *

@@ -74,6 +74,19 @@ class ValueCollection implements IteratorAggregate, JsonSerializable, Countable
         return $this->values[$uri] ?? null;
     }
 
+    public function hasDuplicates(): bool
+    {
+        foreach ($this->values as $uri => $value) {
+            $duplicationCandidate = $this->extractValueByUri($value->getUri());
+
+            if (null !== $duplicationCandidate && $duplicationCandidate !== $value) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     /**
      * @return Value[]|Traversable
      */

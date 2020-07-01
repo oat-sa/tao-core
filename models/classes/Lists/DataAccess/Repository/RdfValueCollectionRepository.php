@@ -75,6 +75,10 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
 
     public function persist(ValueCollection $valueCollection): bool
     {
+        if ($valueCollection->hasDuplicates()) {
+            throw new ValueConflictException("Value Collection {$valueCollection->getUri()} has duplicate values.");
+        }
+
         $platform = $this->getPersistence()->getPlatForm();
 
         $platform->beginTransaction();
