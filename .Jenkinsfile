@@ -150,11 +150,11 @@ mkdir -p tao/views/locales/en-US/
                                 dir('build'){
                                     sh(
                                         label: 'Debug phpunit.xml',
-                                        script: 'cat phpunit.xml && pwd'
+                                        script: 'cat phpunit.xml'
                                     )
                                     sh(
                                         label: 'Run backend tests',
-                                        script: "./vendor/bin/phpunit $extension/test/unit -c phpunit.xml"
+                                        script: "pwd && cat phpunit.xml && ./vendor/bin/phpunit $extension/test/unit -c phpunit.xml"
                                     )
                                 }
                             }
