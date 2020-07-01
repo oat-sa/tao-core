@@ -182,13 +182,11 @@ mkdir -p tao/views/locales/en-US/
                                             script: 'cat clover.xml'
                                         )
                                         def result
-                                        def message
                                         try {
-                                            message = sh(
+                                            sh(
                                                 label: 'Calculating code coverage',
-                                                script: "php vendor/bin/coverage-check clover.xml $phpMinimumCoverage",
-                                                returnStdout: true
-                                            ).trim()
+                                                script: "php vendor/bin/coverage-check clover.xml $phpMinimumCoverage > coverage_result.txt",
+                                            )
 
                                             result = "SUCCESS"
                                         } catch (ex) {
@@ -197,7 +195,7 @@ mkdir -p tao/views/locales/en-US/
                                         }
                                         withCredentials([string(credentialsId: 'jenkins_github_token', variable: 'GIT_TOKEN')]) {
                                             sh """
-                                                curl -X POST -H "application/json" -H "Authorization: token $GIT_TOKEN" -d '{"state":"$result", "target_url":"$BUILD_URL", "description":"$message", "context":"Code coverage"}' "https://api.github.com/repos/$githubOrganization/$repoName/statuses/$GIT_COMMIT"
+                                                curl -X POST -H "application/json" -H "Authorization: token $GIT_TOKEN" -d '{"state":"$result", "target_url":"$BUILD_URL", "description":"$(<coverage_result.txt)", "context":"Code coverage"}' "https://api.github.com/repos/$githubOrganization/$repoName/statuses/$GIT_COMMIT"
                                             """
                                         }
                                     }
