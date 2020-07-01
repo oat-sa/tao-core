@@ -159,7 +159,7 @@ mkdir -p tao/views/locales/en-US/
                                 }
                             }
                         }
-                        stage('Code analysis') {
+                        stage('Code coverage') {
                             when {
                                 expression {
                                     fileExists("build/clover.xml")
@@ -175,12 +175,14 @@ mkdir -p tao/views/locales/en-US/
                                 skipDefaultCheckout()
                             }
                             steps {
-                                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                    dir('build') {
+                                dir('build') {
+                                    try {
                                         sh(
                                             label: 'Calculating code coverage',
                                             script: "php vendor/bin/coverage-check clover.xml $phpMinimumCoverage"
                                         )
+                                    } catch (ex) {
+                                      unstable('Code coverage is under threshold!')
                                     }
                                 }
                             }
