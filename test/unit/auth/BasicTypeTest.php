@@ -8,6 +8,8 @@ use GuzzleHttp\Client;
 use oat\tao\model\auth\BasicType;
 
 /**
+ * Let's make a change!
+ *
  * Class BasicAuthTypeTest
  * @package oat\tao\test\unit\auth
  */
