@@ -76,6 +76,9 @@ define([
                 // Request was manually aborted, isn't a error
                 if (thrownError === 'abort') return;
 
+                // Specific error tooManyFolders in sharedStimulus
+                if (request.responseText.includes('999')) { return; }
+
                 if ((request.status === 404 || request.status === 0) && settings.type === 'HEAD') {
                     //consider it as a "test" to check if resource exists
                     return;
