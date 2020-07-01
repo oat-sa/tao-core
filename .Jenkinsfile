@@ -78,7 +78,7 @@ tail -n +2 build/dependencies.json >> build/composer.json
                     )
                     sh(
                         label: 'composer.json',
-                        script: 'cat build/composer.json'
+                        script: 'printenv && cat build/composer.json'
                     )
                 }
             }
@@ -198,7 +198,8 @@ mkdir -p tao/views/locales/en-US/
                                             sh '''
                                                 coverageResult=$(<coverage_result.txt)
                                                 gitSha=$(git rev-parse HEAD)
-                                                curl -X POST -H "application/json" -H "Authorization: token $GIT_TOKEN" -d \'{"state":"$result", "target_url":"$BUILD_URL", "description":"$coverageResult", "context":"Code coverage"}\' "https://api.github.com/repos/$githubOrganization/$repoName/statuses/$gitSha"
+                                                payload=$(echo "'{\"state\":\"$result\", \"target_url\":\"$BUILD_URL\", \"description\":\"$coverageResult\", \"context\":\"Code coverage\"}'")
+                                                curl -X POST -H "application/json" -H "Authorization: token $GIT_TOKEN" -d $payload "https://api.github.com/repos/$githubOrganization/$repoName/statuses/$gitSha"
                                             '''
                                         }
                                     }
