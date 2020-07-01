@@ -175,12 +175,14 @@ mkdir -p tao/views/locales/en-US/
                                 skipDefaultCheckout()
                             }
                             steps {
-                                dir('build'){
-                                    def underMinimumCoverage = sh(
-                                        label: 'Calculating code coverage',
-                                        script: "php vendor/bin/coverage-check clover.xml $phpMinimumCoverage",
-                                        returnStatus: true
-                                    )
+                                dir('build') {
+                                    script {
+                                        def underMinimumCoverage = sh(
+                                            label: 'Calculating code coverage',
+                                            script: "php vendor/bin/coverage-check clover.xml $phpMinimumCoverage",
+                                            returnStatus: true
+                                        )
+                                    }
                                 }
                             }
                         }
