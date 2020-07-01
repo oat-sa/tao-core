@@ -55,7 +55,7 @@ class IndexDocumentBuilder implements IndexDocumentBuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function createDocumentFromResource(\core_kernel_classes_Resource $resource): IndexDocument
+    public function createDocumentFromResource(\core_kernel_classes_Resource $resource, bool $includeAccessData): IndexDocument
     {
         $tokenizationInfo = $this->getTokenizedResourceBody($resource);
 
@@ -64,7 +64,7 @@ class IndexDocumentBuilder implements IndexDocumentBuilderInterface
 
         $body['type'] = $this->getTypesForResource($resource);
         $dynamicProperties = $this->getDynamicProperties($resource->getTypes(), $resource);
-        $accessProperties = $this->getAccessProperties($resource);
+        $accessProperties = ($includeAccessData) ? $this->getAccessProperties($resource) : null;
 
         return new IndexDocument(
             $resource->getUri(),
@@ -253,7 +253,6 @@ class IndexDocumentBuilder implements IndexDocumentBuilderInterface
 
     private function getAccessProperties(core_kernel_classes_Resource $resource): ?Iterator
     {
-        //TODO check if taoDacSimple is enabled
         $accessRights = AdminService::getUsersPermissions($resource->getUri());
 
         $accessRightsURIs = ['read_access' => array_keys($accessRights)];

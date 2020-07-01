@@ -28,11 +28,12 @@ interface IndexDocumentBuilderInterface
     /**
      * Creates IndexDocument object from the \core_kernel_classes_Resource data
      * @param \core_kernel_classes_Resource $resource
+     * @param bool $includeAccessData
      * @return IndexDocument
      * @throws \common_Exception
      * @throws \common_exception_InconsistentData
      */
-    public function createDocumentFromResource(\core_kernel_classes_Resource $resource): IndexDocument;
+    public function createDocumentFromResource(\core_kernel_classes_Resource $resource, bool $includeAccessData): IndexDocument;
 
     /**
      * Creates IndexDocument object from the array data
