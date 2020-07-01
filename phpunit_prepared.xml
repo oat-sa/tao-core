@@ -1,0 +1,14 @@
+<phpunit
+        convertErrorsToExceptions="true"
+        convertNoticesToExceptions="true"
+        convertWarningsToExceptions="true">
+    <filter>
+        <whitelist>
+            <file>./dummy.php</file>
+            <file>./helpers/form/DummyForm.php</file>
+        </whitelist>
+    </filter>
+    <logging>
+        <log type="coverage-clover" target="clover.xml"/>
+    </logging>
+</phpunit>

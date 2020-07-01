@@ -144,7 +144,7 @@ mkdir -p tao/views/locales/en-US/
                                     script: '''
                                         whitelist=$(git diff origin/develop --name-only -- '*.php' ':!test/*' | xargs -IX echo -n "<file>./X</file>") && \
                                         sed -e "s%{WHITELISTED_FILES}%$whitelist%g" phpunit_template.xml > phpunit.xml && \
-                                        cp phpunit.xml build
+                                        cp phpunit_prepared.xml build
                                     '''
                                 )
                                 dir('build'){
@@ -154,7 +154,7 @@ mkdir -p tao/views/locales/en-US/
                                     )
                                     sh(
                                         label: 'Run backend tests',
-                                        script: "pwd && cat phpunit.xml && ./vendor/bin/phpunit $extension/test/unit -c phpunit.xml"
+                                        script: "pwd && cat phpunit_prepared.xml && ./vendor/bin/phpunit $extension/test/unit -c phpunit_prepared.xml"
                                     )
                                 }
                             }
