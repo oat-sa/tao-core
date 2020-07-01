@@ -193,11 +193,15 @@ mkdir -p tao/views/locales/en-US/
                                             result = "SUCCESS"
                                         } catch (ex) {
                                             result = "ERROR"
-                                            unstable('Code coverage is under threshold!')
                                         }
-                                        sh("""
-                                            curl -X POST -H "application/json" -H "Authorization: token $GIT_TOKEN" -d '{"state":"$result", "target_url":"$BUILD_URL", "description":"$message", "context":"Code coverage"}' "https://api.github.com/repos/$githubOrganization/$repoName/statuses/$GIT_COMMIT"
-                                        """)
+                                        withCredentials([string(credentialsId: 'jenkins_github_token', variable: 'GIT_TOKEN')]) {
+                                            sh(
+                                                label: 'Report coverage to Github'
+                                                script: """
+                                                    curl -X POST -H "application/json" -H "Authorization: token $GIT_TOKEN" -d '{"state":"$result", "target_url":"$BUILD_URL", "description":"$message", "context":"Code coverage"}' "https://api.github.com/repos/$githubOrganization/$repoName/statuses/$GIT_COMMIT"
+                                                """
+                                            )
+                                        }
                                     }
                                 }
                             }
