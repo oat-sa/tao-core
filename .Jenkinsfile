@@ -154,7 +154,7 @@ mkdir -p tao/views/locales/en-US/
                                     )
                                     sh(
                                         label: 'Run backend tests',
-                                        script: "./vendor/bin/phpunit $extension/test/unit -c phpunit_prepared.xml"
+                                        script: "./vendor/bin/phpunit $extension/test/unit -c phpunit_prepared.xm"
                                     )
                                 }
                             }
