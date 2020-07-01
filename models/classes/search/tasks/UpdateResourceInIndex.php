@@ -83,15 +83,9 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
 
     private function includeAccessData(): bool
     {
+        /** @var common_ext_ExtensionsManager $extensionManager */
         $extensionManager = $this->getServiceLocator()->get(common_ext_ExtensionsManager::SERVICE_ID);
 
-        /** @var common_ext_Extension $extension */
-        foreach ($extensionManager->getEnabledExtensions() as $extension) {
-            if ($extension->getId() === 'taoDacSimple') {
-                return true;
-            }
-        }
-
-        return false;
+        return $extensionManager->isEnabled('taoDacSimple');
     }
 }
