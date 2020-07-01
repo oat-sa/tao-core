@@ -2,9 +2,11 @@
     convertErrorsToExceptions="true"
     convertNoticesToExceptions="true"
     convertWarningsToExceptions="true">
+
     <filter>
         <whitelist>
-            <directory suffix=".php">tao</directory>
+<!--     git -no-pager diff origin/develop -name-only       -->
+            {WHITELISTED_FILES}
         </whitelist>
     </filter>
 
