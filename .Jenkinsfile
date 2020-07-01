@@ -104,7 +104,7 @@ tail -n +2 build/dependencies.json >> build/composer.json
                         script: 'COMPOSER_DISCARD_CHANGES=true composer install --prefer-dist --no-interaction --no-ansi --no-progress --no-suggest'
                     )
                     sh(
-                        label: 'Add phpunit',
+                        label: 'Add phpunit and coverage checker tool',
                         script: 'composer require phpunit/phpunit:^8.5 rregeer/phpunit-coverage-check --no-progress'
                     )
                     sh(
@@ -141,9 +141,17 @@ mkdir -p tao/views/locales/en-US/
                             steps {
                                 sh(
                                     label: 'Configuring PHPUnit',
-                                    script: "cp phpunit_full.xml build"
+                                    script: '''
+                                        whitelist=$(git diff origin/develop --name-only -- '*.php' | xargs -IX echo -n "<FILE>X</FILE>") && \
+                                        sed -e "s%{WHITELISTED_FILES}%$whitelist%g" phpunit_template.xml | tidy -xml -qi > phpunit.xml && \
+                                        cp phpunit.xml build
+                                    '''
                                 )
                                 dir('build'){
+                                    sh(
+                                        label: 'Debug phpunit.xml',
+                                        script: 'cat phpunit.xml'
+                                    )
                                     sh(
                                         label: 'Run backend tests',
                                         script: "./vendor/bin/phpunit $extension/test/unit -c phpunit_full.xml"

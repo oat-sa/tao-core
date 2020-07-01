@@ -1,5 +1,7 @@
 
-git --no-pager diff origin/develop --name-only | while read -r x; do
-  echo "<FILE>$x</FILE>"
-done
 
+
+
+
+whitelist=$(git diff origin/develop --name-only -- '*.php' | xargs -IX echo -n "<FILE>X</FILE>")
+sed -e "s%{WHITELISTED_FILES}%$whitelist%g" phpunit_full.xml | tidy -xml -qi
