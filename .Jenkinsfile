@@ -176,13 +176,24 @@ mkdir -p tao/views/locales/en-US/
                             }
                             steps {
                                 dir('build') {
-                                    try {
-                                        sh(
-                                            label: 'Calculating code coverage',
-                                            script: "php vendor/bin/coverage-check clover.xml $phpMinimumCoverage"
-                                        )
-                                    } catch (ex) {
-                                      unstable('Code coverage is under threshold!')
+                                    script {
+                                        def result
+                                        def message
+                                        try {
+                                            message = sh(
+                                                label: 'Calculating code coverage',
+                                                script: "php vendor/bin/coverage-check clover.xml $phpMinimumCoverage",
+                                                returnStdout: true
+                                            )
+
+                                            result = "SUCCESS"
+                                        } catch (ex) {
+                                            result = "ERROR"
+                                            unstable('Code coverage is under threshold!')
+                                        }
+                                        sh('''
+                                            curl -X POST -H "application/json" -H "Authorization: token $GIT_TOKEN" -d '{"state":"$result", "target_url":"$BUILD_URL", "description":"$message", "context":"Code coverage"}' "https://api.github.com/repos/$githubOrganization/$repoName/statuses/$GIT_COMMIT"
+                                        ''')
                                     }
                                 }
                             }
