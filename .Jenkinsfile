@@ -177,6 +177,10 @@ mkdir -p tao/views/locales/en-US/
                             steps {
                                 dir('build') {
                                     script {
+                                        sh(
+                                            label: 'Clover.xml',
+                                            script: 'cat clover.xml'
+                                        )
                                         def result
                                         def message
                                         try {
@@ -191,9 +195,9 @@ mkdir -p tao/views/locales/en-US/
                                             result = "ERROR"
                                             unstable('Code coverage is under threshold!')
                                         }
-                                        sh('''
+                                        sh("""
                                             curl -X POST -H "application/json" -H "Authorization: token $GIT_TOKEN" -d '{"state":"$result", "target_url":"$BUILD_URL", "description":"$message", "context":"Code coverage"}' "https://api.github.com/repos/$githubOrganization/$repoName/statuses/$GIT_COMMIT"
-                                        ''')
+                                        """)
                                     }
                                 }
                             }
