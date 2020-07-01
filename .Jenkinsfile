@@ -196,7 +196,7 @@ mkdir -p tao/views/locales/en-US/
 
                                         withCredentials([string(credentialsId: 'jenkins_github_token', variable: 'GIT_TOKEN')]) {
                                             sh """
-                                                coverageResult=$(<coverage_result.txt)
+                                                coverageResult=\$(<coverage_result.txt)
                                                 curl -X POST -H "application/json" -H "Authorization: token $GIT_TOKEN" -d '{"state":"$result", "target_url":"$BUILD_URL", "description":"$coverageResult", "context":"Code coverage"}' "https://api.github.com/repos/$githubOrganization/$repoName/statuses/$GIT_COMMIT"
                                             """
                                         }
