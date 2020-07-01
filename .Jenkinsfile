@@ -181,21 +181,23 @@ mkdir -p tao/views/locales/en-US/
                                             label: 'Clover.xml',
                                             script: 'cat clover.xml'
                                         )
+
                                         def result
                                         try {
                                             sh(
                                                 label: 'Calculating code coverage',
                                                 script: "php vendor/bin/coverage-check clover.xml $phpMinimumCoverage > coverage_result.txt",
                                             )
-
                                             result = "SUCCESS"
                                         } catch (ex) {
                                             result = "ERROR"
                                             unstable('Code coverage is under threshold!')
                                         }
+
                                         withCredentials([string(credentialsId: 'jenkins_github_token', variable: 'GIT_TOKEN')]) {
                                             sh """
-                                                curl -X POST -H "application/json" -H "Authorization: token $GIT_TOKEN" -d '{"state":"$result", "target_url":"$BUILD_URL", "description":"$(<coverage_result.txt)", "context":"Code coverage"}' "https://api.github.com/repos/$githubOrganization/$repoName/statuses/$GIT_COMMIT"
+                                                coverageResult=$(<coverage_result.txt)
+                                                curl -X POST -H "application/json" -H "Authorization: token $GIT_TOKEN" -d '{"state":"$result", "target_url":"$BUILD_URL", "description":"$coverageResult", "context":"Code coverage"}' "https://api.github.com/repos/$githubOrganization/$repoName/statuses/$GIT_COMMIT"
                                             """
                                         }
                                     }
