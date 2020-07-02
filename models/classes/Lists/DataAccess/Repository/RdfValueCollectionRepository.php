@@ -26,6 +26,7 @@ namespace oat\tao\model\Lists\DataAccess\Repository;
 
 use common_persistence_SqlPersistence as SqlPersistence;
 use core_kernel_classes_Class as KernelClass;
+use core_kernel_classes_Resource as KernelResource;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 use oat\generis\model\OntologyRdf;
@@ -89,6 +90,8 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
 
         try {
             foreach ($valueCollection as $value) {
+                $this->verifyUriUniqueness($value);
+
                 if (null === $value->getId()) {
                     $this->insert($valueCollection, $value);
                 } else {
@@ -248,7 +251,7 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
 
     private function updateRelations(Value $value): void
     {
-        if ($value->getOriginalUri() === $value->getUri()) {
+        if (!$value->hasModifiedUri()) {
             return;
         }
 
@@ -298,6 +301,31 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
                 ]
             )
             ->execute();
+    }
+
+    /**
+     * @param Value $value
+     *
+     * @throws ValueConflictException
+     * @noinspection PhpDocMissingThrowsInspection
+     */
+    private function verifyUriUniqueness(Value $value): void
+    {
+        if (!$value->hasModifiedUri()) {
+            return;
+        }
+
+        /** @noinspection PhpUnhandledExceptionInspection */
+        if (!(new KernelResource($value->getUri()))->exists()) {
+            return;
+        }
+
+        /** @noinspection PhpUnhandledExceptionInspection */
+        if (!(new KernelClass($value->getUri()))->exists()) {
+            return;
+        }
+
+        throw new ValueConflictException("Value with {$value->getUri()} is already defined");
     }
 
     private function getPersistence(): SqlPersistence
