@@ -35,7 +35,7 @@ class ValueCollection implements IteratorAggregate, JsonSerializable, Countable
     private $uri;
 
     /** @var Value[] */
-    private $values;
+    private $values = [];
 
     public function __construct(string $uri = null, Value ...$values)
     {
