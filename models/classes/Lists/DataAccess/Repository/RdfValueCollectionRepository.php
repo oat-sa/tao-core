@@ -70,7 +70,11 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
             $values[] = new Value((int)$rawValue['id'], $rawValue['subject'], $rawValue['object']);
         }
 
-        return new ValueCollection($rawValue['collection_uri'] ?? null, ...$values);
+        $valueCollectionUri = $searchRequest->hasValueCollectionUri()
+            ? $searchRequest->getValueCollectionUri()
+            : $rawValue['collection_uri'] ?? null;
+
+        return new ValueCollection($valueCollectionUri, ...$values);
     }
 
     public function persist(ValueCollection $valueCollection): bool
