@@ -100,15 +100,17 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
             }
 
             $platform->commit();
+
+            return true;
         } catch (ValueConflictException $exception) {
             throw $exception;
         } catch (Throwable $exception) {
-            $platform->rollBack();
-
             return false;
+        } finally {
+            if (isset($exception)) {
+                $platform->rollBack();
+            }
         }
-
-        return true;
     }
 
     private function enrichWithInitialCondition(QueryBuilder $query): QueryBuilder
