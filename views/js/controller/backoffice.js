@@ -34,11 +34,7 @@ define([
     'use strict';
 
     function checkAjaxResponse(ajaxResponse) {
-        if (ajaxResponse && ajaxResponse !== null) {
-            return true;
-        } else {
-            return false;
-        }
+        return ajaxResponse && ajaxResponse !== null;
     }
 
     function checkAjaxResponseProperties(ajaxResponse) {
