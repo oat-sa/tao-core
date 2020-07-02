@@ -22,14 +22,9 @@ declare(strict_types=1);
 namespace oat\tao\model\search\index\DocumentBuilder;
 
 use oat\tao\model\search\index\IndexDocument;
-use oat\tao\model\search\index\IndexProperty;
-use oat\tao\model\search\index\OntologyIndex;
-use core_kernel_classes_Resource;
 
 interface IndexDocumentBuilderInterface
 {
-    const TYPE_PROPERTY = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type';
-
     /**
      * Creates IndexDocument object from the \core_kernel_classes_Resource data
      * @param \core_kernel_classes_Resource $resource
