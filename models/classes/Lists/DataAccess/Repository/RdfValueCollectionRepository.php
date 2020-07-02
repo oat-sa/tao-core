@@ -113,6 +113,114 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
         }
     }
 
+    /**
+     * @noinspection PhpDocMissingThrowsInspection
+     *
+     * @param Value $value
+     *
+     * @throws ValueConflictException
+     */
+    protected function verifyUriUniqueness(Value $value): void
+    {
+        if (!$value->hasModifiedUri()) {
+            return;
+        }
+
+        /** @noinspection PhpUnhandledExceptionInspection */
+        if ((new KernelResource($value->getUri()))->exists() || (new KernelClass($value->getUri()))->exists()) {
+            throw new ValueConflictException("Value with {$value->getUri()} is already defined");
+        }
+    }
+
+    protected function insert(ValueCollection $valueCollection, Value $value): void
+    {
+        /** @noinspection PhpUnhandledExceptionInspection */
+        $valueCollectionResource = new KernelClass($valueCollection->getUri());
+
+        $valueCollectionResource->createInstance($value->getLabel(), '', $value->getUri());
+    }
+
+    private function update(Value $value): void
+    {
+        if (!$value->hasChanges()) {
+            return;
+        }
+
+        $query = $this->getPersistence()->getPlatForm()->getQueryBuilder();
+
+        $expressionBuilder = $query->expr();
+
+        $query
+            ->update('statements')
+            ->set('object', ':label')
+            ->set('subject', ':uri')
+            ->where($expressionBuilder->eq('id', ':id'))
+            ->setParameters(
+                [
+                    'id'    => $value->getId(),
+                    'uri'   => $value->getUri(),
+                    'label' => $value->getLabel(),
+                ]
+            )
+            ->execute();
+
+        $this->updateRelations($value);
+    }
+
+    private function updateRelations(Value $value): void
+    {
+        if (!$value->hasModifiedUri()) {
+            return;
+        }
+
+        $this->updateValues($value);
+        $this->updateProperties($value);
+    }
+
+    /**
+     * @param Value $value
+     */
+    private function updateValues(Value $value): void
+    {
+        $query = $this->getPersistence()->getPlatForm()->getQueryBuilder();
+
+        $expressionBuilder = $query->expr();
+
+        $query
+            ->update('statements')
+            ->set('subject', ':uri')
+            ->where($expressionBuilder->eq('subject', ':original_uri'))
+            ->setParameters(
+                [
+                    'uri'          => $value->getUri(),
+                    'original_uri' => $value->getOriginalUri(),
+                ]
+            )
+            ->execute();
+    }
+
+    /**
+     * @param Value $value
+     */
+    private function updateProperties(Value $value): void
+    {
+        $query = $this->getPersistence()->getPlatForm()->getQueryBuilder();
+
+        $expressionBuilder = $query->expr();
+
+        $query
+            ->update('statements')
+            ->set('object', ':uri')
+            ->where($expressionBuilder->eq('object', ':original_uri'))
+            ->setParameters(
+                [
+                    'uri'          => $value->getUri(),
+                    'original_uri' => $value->getOriginalUri(),
+                ]
+            )
+            ->execute();
+    }
+
     private function enrichWithInitialCondition(QueryBuilder $query): QueryBuilder
     {
         $expressionBuilder = $query->expr();
@@ -216,113 +324,6 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
                 )
             )
             ->setParameter('excluded_value_uri', $searchRequest->getExcluded(), Connection::PARAM_STR_ARRAY);
-    }
-
-    protected function insert(ValueCollection $valueCollection, Value $value): void
-    {
-        /** @noinspection PhpUnhandledExceptionInspection */
-        $valueCollectionResource = new KernelClass($valueCollection->getUri());
-
-        $valueCollectionResource->createInstance($value->getLabel(), '', $value->getUri());
-    }
-
-    private function update(Value $value): void
-    {
-        if (!$value->hasChanges()) {
-            return;
-        }
-
-        $query = $this->getPersistence()->getPlatForm()->getQueryBuilder();
-
-        $expressionBuilder = $query->expr();
-
-        $query
-            ->update('statements')
-            ->set('object', ':label')
-            ->set('subject', ':uri')
-            ->where($expressionBuilder->eq('id', ':id'))
-            ->setParameters(
-                [
-                    'id'    => $value->getId(),
-                    'uri'   => $value->getUri(),
-                    'label' => $value->getLabel(),
-                ]
-            )
-            ->execute();
-
-        $this->updateRelations($value);
-    }
-
-    private function updateRelations(Value $value): void
-    {
-        if (!$value->hasModifiedUri()) {
-            return;
-        }
-
-        $this->updateValues($value);
-        $this->updateProperties($value);
-    }
-
-    /**
-     * @param Value $value
-     */
-    private function updateValues(Value $value): void
-    {
-        $query = $this->getPersistence()->getPlatForm()->getQueryBuilder();
-
-        $expressionBuilder = $query->expr();
-
-        $query
-            ->update('statements')
-            ->set('subject', ':uri')
-            ->where($expressionBuilder->eq('subject', ':original_uri'))
-            ->setParameters(
-                [
-                    'uri'          => $value->getUri(),
-                    'original_uri' => $value->getOriginalUri(),
-                ]
-            )
-            ->execute();
-    }
-
-    /**
-     * @param Value $value
-     */
-    private function updateProperties(Value $value): void
-    {
-        $query = $this->getPersistence()->getPlatForm()->getQueryBuilder();
-
-        $expressionBuilder = $query->expr();
-
-        $query
-            ->update('statements')
-            ->set('object', ':uri')
-            ->where($expressionBuilder->eq('object', ':original_uri'))
-            ->setParameters(
-                [
-                    'uri'          => $value->getUri(),
-                    'original_uri' => $value->getOriginalUri(),
-                ]
-            )
-            ->execute();
-    }
-
-    /**
-     * @param Value $value
-     *
-     * @throws ValueConflictException
-     * @noinspection PhpDocMissingThrowsInspection
-     */
-    protected function verifyUriUniqueness(Value $value): void
-    {
-        if (!$value->hasModifiedUri()) {
-            return;
-        }
-
-        /** @noinspection PhpUnhandledExceptionInspection */
-        if ((new KernelResource($value->getUri()))->exists() || (new KernelClass($value->getUri()))->exists()) {
-            throw new ValueConflictException("Value with {$value->getUri()} is already defined");
-        }
     }
 
     private function getPersistence(): SqlPersistence
