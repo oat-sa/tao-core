@@ -30,6 +30,8 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\ResultStatement;
 use Doctrine\DBAL\Platforms\MySqlPlatform;
 use Doctrine\DBAL\Query\Expression\ExpressionBuilder;
+use Doctrine\DBAL\Query\QueryBuilder;
+use Exception;
 use oat\generis\model\OntologyRdf;
 use oat\generis\model\OntologyRdfs;
 use oat\generis\persistence\PersistenceManager;
@@ -39,6 +41,8 @@ use oat\tao\model\Lists\Business\Domain\Value;
 use oat\tao\model\Lists\Business\Domain\ValueCollection;
 use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
 use oat\tao\model\Lists\DataAccess\Repository\RdfValueCollectionRepository;
+use oat\tao\model\Lists\DataAccess\Repository\ValueConflictException;
+use PHPUnit\Framework\MockObject\MockObject as PhpUnitMockObject;
 
 class RdfValueCollectionRepositoryTest extends TestCase
 {
@@ -69,23 +73,41 @@ class RdfValueCollectionRepositoryTest extends TestCase
 
     /** @var int[] */
     private $queryParameterTypes = [];
+    /** @var SqlPlatform|PhpUnitMockObject */
+    private $sqlPlatformMock;
 
     /**
      * @before
      */
     public function init(): void
     {
-        $this->platformMock           = $this->createPartialMock(MySqlPlatform::class, []);
-        $this->connectionMock         = $this->createPartialMock(
+        $this->platformMock = $this->createMock(MySqlPlatform::class);
+        $this->connectionMock = $this->createPartialMock(
             Connection::class,
-            ['getDatabasePlatform', 'getExpressionBuilder', 'executeQuery']
+            [
+                'getDatabasePlatform',
+                'getExpressionBuilder',
+                'executeQuery',
+                'connect',
+                'beginTransaction',
+                'executeUpdate'
+            ]
         );
-        $this->persistenceMock        = $this->createMock(SqlPersistence::class);
+
+        $this->sqlPlatformMock = $this->getMockBuilder(SqlPlatform::class)
+            ->onlyMethods(['rollBack', 'commit'])
+            ->setConstructorArgs([$this->connectionMock])
+            ->getMock();
+
+        $this->persistenceMock = $this->createMock(SqlPersistence::class);
         $this->persistenceManagerMock = $this->createMock(PersistenceManager::class);
 
         $this->setUpInitialMockExpectations();
 
-        $this->sut = new RdfValueCollectionRepository($this->persistenceManagerMock, self::PERSISTENCE_ID);
+        $this->sut = $this->getMockBuilder(RdfValueCollectionRepository::class)
+            ->onlyMethods(['insert'])
+            ->setConstructorArgs([$this->persistenceManagerMock, self::PERSISTENCE_ID])
+            ->getMock();
     }
 
     /**
@@ -103,6 +125,95 @@ class RdfValueCollectionRepositoryTest extends TestCase
             $result,
             $this->sut->findAll($searchRequest)
         );
+    }
+
+    public function testPersistDuplicates(): void
+    {
+        $this->expectException(ValueConflictException::class);
+
+        $valueCollection = $this->createMock(ValueCollection::class);
+        $valueCollection->method('hasDuplicates')->willReturn(true);
+
+        $this->sut->persist($valueCollection);
+    }
+
+    public function testPersistRollback(): void
+    {
+        $this->sqlPlatformMock->expects($this->once())->method('rollback');
+
+        $value = $this->createMock(Value::class);
+        $value->method('getId')->willThrowException(new Exception());
+
+        $valueCollection = new ValueCollection('http://url', $value);
+
+        $result = $this->sut->persist($valueCollection);
+
+        $this->assertFalse($result);
+    }
+
+    public function testPersistUpdateNoChanges(): void
+    {
+        $this->connectionMock
+            ->expects(static::never())
+            ->method('executeUpdate');
+
+        $this->connectionMock
+            ->expects(static::never())
+            ->method('executeQuery');
+
+        $value = new Value(666, 'uri', 'label');
+
+        $valueCollection = new ValueCollection('http://url', $value);
+
+        $result = $this->sut->persist($valueCollection);
+
+        $this->assertTrue($result);
+    }
+
+    public function testPersistUpdate(): void
+    {
+        $this->connectionMock
+            ->expects(static::once())
+            ->method('executeUpdate');
+
+        $value = new Value(666,'uri1','label');
+        $value->setLabel('newLabel');
+
+        $valueCollection = new ValueCollection('http://url', $value);
+
+        $result = $this->sut->persist($valueCollection);
+
+        $this->assertTrue($result);
+    }
+
+    public function testPersistUpdateDifferentUris(): void
+    {
+        $this->connectionMock
+            ->expects(static::exactly(3))
+            ->method('executeUpdate');
+
+        $value = new Value(666,'uri1','label');
+        $value->setUri('uri2');
+
+        $valueCollection = new ValueCollection('http://url', $value);
+
+        $result = $this->sut->persist($valueCollection);
+
+        $this->assertTrue($result);
+    }
+
+    public function testPersistInsert(): void
+    {
+        $this->sut->expects($this->once())->method('insert');
+
+        $value = $this->createMock(Value::class);
+        $value->method('getId')->willReturn(null);
+
+        $valueCollection = new ValueCollection('http://url', $value);
+
+        $result = $this->sut->persist($valueCollection);
+
+        $this->assertTrue($result);
     }
 
     public function dataProvider(): array
@@ -150,15 +261,13 @@ class RdfValueCollectionRepositoryTest extends TestCase
     private function setUpInitialMockExpectations(): void
     {
         $this->persistenceManagerMock
-            ->expects(static::atLeastOnce())
             ->method('getPersistenceById')
             ->with(self::PERSISTENCE_ID)
             ->willReturn($this->persistenceMock);
 
         $this->persistenceMock
-            ->expects(static::atLeastOnce())
             ->method('getPlatform')
-            ->willReturn(new SqlPlatform($this->connectionMock));
+            ->willReturn($this->sqlPlatformMock);
 
         $this->connectionMock
             ->method('getDatabasePlatform')
@@ -214,7 +323,7 @@ class RdfValueCollectionRepositoryTest extends TestCase
         }
 
         $this->queryParameters['property_uri'] = $searchRequest->getPropertyUri();
-        $this->queryParameters['range_uri']    = OntologyRdfs::RDFS_RANGE;
+        $this->queryParameters['range_uri'] = OntologyRdfs::RDFS_RANGE;
 
         $this->conditions[] = 'AND (property.subject = :property_uri)';
         $this->conditions[] = 'AND (property.predicate = :range_uri)';
@@ -260,7 +369,7 @@ class RdfValueCollectionRepositoryTest extends TestCase
             return null;
         }
 
-        $this->queryParameters['excluded_value_uri']     = $searchRequest->getExcluded();
+        $this->queryParameters['excluded_value_uri'] = $searchRequest->getExcluded();
         $this->queryParameterTypes['excluded_value_uri'] = Connection::PARAM_STR_ARRAY;
 
         $this->conditions[] = 'AND (element.subject NOT IN (:excluded_value_uri))';

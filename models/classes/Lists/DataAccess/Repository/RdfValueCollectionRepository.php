@@ -207,7 +207,7 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
             ->setParameter('excluded_value_uri', $searchRequest->getExcluded(), Connection::PARAM_STR_ARRAY);
     }
 
-    private function insert(ValueCollection $valueCollection, Value $value): void
+    protected function insert(ValueCollection $valueCollection, Value $value): void
     {
         /** @noinspection PhpUnhandledExceptionInspection */
         $valueCollectionResource = new KernelClass($valueCollection->getUri());
