@@ -40,7 +40,6 @@ class ErrorJsonResponse implements JsonResponseInterface
 
     /**
      * @inheritDoc
-     * @deprecated code
      */
     public function jsonSerialize(): array
     {
