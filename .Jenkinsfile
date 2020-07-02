@@ -48,15 +48,6 @@ pipeline {
                     env.extension = extension
                 }
                 sh(
-                    label : 'List installed plugins',
-                    script: '''
-                        Jenkins.instance.pluginManager.plugins.each{
-                          plugin ->
-                            println ("${plugin.getDisplayName()} (${plugin.getShortName()}): ${plugin.getVersion()}")
-                        }
-                    '''
-                )
-                sh(
                     label : 'Create build build directory',
                     script: 'mkdir -p build'
                 )
@@ -87,7 +78,7 @@ tail -n +2 build/dependencies.json >> build/composer.json
                     )
                     sh(
                         label: 'composer.json',
-                        script: 'printenv && cat build/composer.json'
+                        script: 'cat build/composer.json'
                     )
                 }
             }
@@ -168,7 +159,7 @@ mkdir -p tao/views/locales/en-US/
                                 }
                             }
                         }
-                        stage('Code coverage') {
+                        stage('Code analysis') {
                             when {
                                 expression {
                                     fileExists("build/clover.xml")
@@ -184,33 +175,12 @@ mkdir -p tao/views/locales/en-US/
                                 skipDefaultCheckout()
                             }
                             steps {
-                                dir('build') {
-                                    script {
+                                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                                    dir('build') {
                                         sh(
-                                            label: 'Clover.xml',
-                                            script: 'cat clover.xml'
+                                            label: 'Calculating code coverage',
+                                            script: "php vendor/bin/coverage-check clover.xml $phpMinimumCoverage"
                                         )
-
-                                        def result
-                                        try {
-                                            sh(
-                                                label: 'Calculating code coverage',
-                                                script: "php vendor/bin/coverage-check clover.xml $phpMinimumCoverage > coverage_result.txt",
-                                            )
-                                            result = "SUCCESS"
-                                        } catch (ex) {
-                                            result = "ERROR"
-                                            unstable('Code coverage is under threshold!')
-                                        }
-
-                                        withCredentials([string(credentialsId: 'jenkins_github_token', variable: 'GIT_TOKEN')]) {
-                                            sh '''
-                                                coverageResult=$(<coverage_result.txt)
-                                                gitSha=$(git rev-parse HEAD)
-                                                payload=$(echo "'{\"state\":\"$result\", \"target_url\":\"$BUILD_URL\", \"description\":\"$coverageResult\", \"context\":\"Code coverage\"}'")
-                                                curl -X POST -H "application/json" -H "Authorization: token $GIT_TOKEN" -d $payload "https://api.github.com/repos/$githubOrganization/$repoName/statuses/$gitSha"
-                                            '''
-                                        }
                                     }
                                 }
                             }
