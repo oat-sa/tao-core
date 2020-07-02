@@ -30,7 +30,6 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\ResultStatement;
 use Doctrine\DBAL\Platforms\MySqlPlatform;
 use Doctrine\DBAL\Query\Expression\ExpressionBuilder;
-use Doctrine\DBAL\Query\QueryBuilder;
 use Exception;
 use oat\generis\model\OntologyRdf;
 use oat\generis\model\OntologyRdfs;
@@ -62,7 +61,7 @@ class RdfValueCollectionRepositoryTest extends TestCase
     /** @var MySqlPlatform|MockObject */
     private $platformMock;
 
-    /** @var RdfValueCollectionRepository */
+    /** @var RdfValueCollectionRepository|MockObject */
     private $sut;
 
     /** @var string[] */
@@ -73,6 +72,7 @@ class RdfValueCollectionRepositoryTest extends TestCase
 
     /** @var int[] */
     private $queryParameterTypes = [];
+
     /** @var SqlPlatform|PhpUnitMockObject */
     private $sqlPlatformMock;
 
@@ -105,7 +105,7 @@ class RdfValueCollectionRepositoryTest extends TestCase
         $this->setUpInitialMockExpectations();
 
         $this->sut = $this->getMockBuilder(RdfValueCollectionRepository::class)
-            ->onlyMethods(['insert'])
+            ->onlyMethods(['insert', 'verifyUriUniqueness'])
             ->setConstructorArgs([$this->persistenceManagerMock, self::PERSISTENCE_ID])
             ->getMock();
     }
@@ -176,7 +176,7 @@ class RdfValueCollectionRepositoryTest extends TestCase
             ->expects(static::once())
             ->method('executeUpdate');
 
-        $value = new Value(666,'uri1','label');
+        $value = new Value(666, 'uri1', 'label');
         $value->setLabel('newLabel');
 
         $valueCollection = new ValueCollection('http://url', $value);
@@ -192,7 +192,7 @@ class RdfValueCollectionRepositoryTest extends TestCase
             ->expects(static::exactly(3))
             ->method('executeUpdate');
 
-        $value = new Value(666,'uri1','label');
+        $value = new Value(666, 'uri1', 'label');
         $value->setUri('uri2');
 
         $valueCollection = new ValueCollection('http://url', $value);
@@ -206,8 +206,7 @@ class RdfValueCollectionRepositoryTest extends TestCase
     {
         $this->sut->expects($this->once())->method('insert');
 
-        $value = $this->createMock(Value::class);
-        $value->method('getId')->willReturn(null);
+        $value = new Value(null, 'uri1', 'label');
 
         $valueCollection = new ValueCollection('http://url', $value);
 

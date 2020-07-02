@@ -311,7 +311,7 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
      * @throws ValueConflictException
      * @noinspection PhpDocMissingThrowsInspection
      */
-    private function verifyUriUniqueness(Value $value): void
+    protected function verifyUriUniqueness(Value $value): void
     {
         if (!$value->hasModifiedUri()) {
             return;
