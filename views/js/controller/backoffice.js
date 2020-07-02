@@ -38,14 +38,10 @@ define([
     }
 
     function checkAjaxResponseProperties(ajaxResponse) {
-        if (typeof ajaxResponse.success !== 'undefined' &&
+        return typeof ajaxResponse.success !== 'undefined' &&
             typeof ajaxResponse.type !== 'undefined' &&
             typeof ajaxResponse.message !== 'undefined' &&
-            typeof ajaxResponse.data !== 'undefined') {
-            return true;
-        } else {
-            return false;
-        }
+            typeof ajaxResponse.data !== 'undefined'
     }
 
     /**
