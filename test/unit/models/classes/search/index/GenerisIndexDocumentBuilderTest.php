@@ -88,10 +88,7 @@ class GenerisIndexDocumentBuilderTest extends TestCase
             'https://tao.docker.localhost/ontologies/tao.rdf#i5ecbaaf0a627c73a7996557a5480de'
         );
 
-        $document = $this->builder->createDocumentFromResource(
-            $resource,
-            false
-        );
+        $document = $this->builder->createDocumentFromResource($resource);
 
         $this->assertInstanceOf(IndexDocument::class, $document);
 
