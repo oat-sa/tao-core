@@ -39,16 +39,11 @@ class ValueCollection implements IteratorAggregate, JsonSerializable, Countable
 
     public function __construct(string $uri = null, Value ...$values)
     {
-        $this->uri    = $uri;
-        $this->values = array_combine(
-            array_map(
-                static function (Value $value) {
-                    return $value->getUri();
-                },
-                $values
-            ),
-            $values
-        );
+        $this->uri = $uri;
+
+        foreach ($values as $value) {
+            $this->values[$value->getUri()] = $value;
+        }
     }
 
     public function getUri(): ?string
