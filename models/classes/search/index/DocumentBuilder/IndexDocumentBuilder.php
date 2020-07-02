@@ -21,6 +21,7 @@ declare(strict_types=1);
 
 namespace oat\tao\model\search\index\DocumentBuilder;
 
+use common_ext_ExtensionsManager;
 use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
 use oat\generis\model\WidgetRdf;
@@ -32,11 +33,12 @@ use Iterator;
 use oat\tao\model\search\index\IndexProperty;
 use oat\tao\model\search\index\OntologyIndex;
 use oat\tao\model\search\SearchTokenGenerator;
+use oat\tao\model\service\InjectionAwareService;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\WidgetDefinitions;
 use oat\taoDacSimple\model\AdminService;
 
-class IndexDocumentBuilder implements IndexDocumentBuilderInterface
+class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumentBuilderInterface
 {
     use OntologyAwareTrait;
 
@@ -55,7 +57,7 @@ class IndexDocumentBuilder implements IndexDocumentBuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function createDocumentFromResource(\core_kernel_classes_Resource $resource, bool $includeAccessData): IndexDocument
+    public function createDocumentFromResource(\core_kernel_classes_Resource $resource): IndexDocument
     {
         $tokenizationInfo = $this->getTokenizedResourceBody($resource);
 
@@ -64,7 +66,7 @@ class IndexDocumentBuilder implements IndexDocumentBuilderInterface
 
         $body['type'] = $this->getTypesForResource($resource);
         $dynamicProperties = $this->getDynamicProperties($resource->getTypes(), $resource);
-        $accessProperties = ($includeAccessData) ? $this->getAccessProperties($resource) : null;
+        $accessProperties = $this->includeAccessData() ? $this->getAccessProperties($resource) : null;
 
         return new IndexDocument(
             $resource->getUri(),
@@ -258,5 +260,13 @@ class IndexDocumentBuilder implements IndexDocumentBuilderInterface
         $accessRightsURIs = ['read_access' => array_keys($accessRights)];
 
         return new ArrayIterator($accessRightsURIs);
+    }
+
+    private function includeAccessData(): bool
+    {
+        /** @var common_ext_ExtensionsManager $extensionManager */
+        $extensionManager = $this->getServiceLocator()->get(common_ext_ExtensionsManager::SERVICE_ID);
+
+        return $extensionManager->isEnabled('taoDacSimple');
     }
 }

@@ -39,10 +39,10 @@ class IndexDocument
     /** @var array */
     protected $indexesProperties;
 
-    /** @var Iterator */
+    /** @var Iterator|null */
     private $dynamicProperties;
 
-    /** @var Iterator */
+    /** @var Iterator|null */
     private $accessProperties;
 
     /**

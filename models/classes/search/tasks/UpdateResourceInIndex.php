@@ -25,6 +25,7 @@ use common_ext_Extension;
 use common_ext_ExtensionsManager;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\action\Action;
+use oat\tao\model\search\index\DocumentBuilder\IndexDocumentBuilder;
 use oat\tao\model\search\index\IndexService;
 use oat\tao\model\search\Search;
 use oat\tao\model\TaoOntology;
@@ -53,14 +54,15 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
         }
 
         $createdResource = $this->getResource($params[0]);
-        $includeAccessData = $this->includeAccessData();
 
         /** @var IndexService $indexService */
         $indexService = $this->getServiceLocator()->get(IndexService::SERVICE_ID);
 
+        /** @var IndexDocumentBuilder $documentBuilder */
         $documentBuilder = $indexService->getDocumentBuilder();
+        $documentBuilder->setServiceLocator($this->getServiceLocator());
 
-        $indexDocument = $documentBuilder->createDocumentFromResource($createdResource, $includeAccessData);
+        $indexDocument = $documentBuilder->createDocumentFromResource($createdResource);
 
         /** @var Search $searchService */
         $searchService = $this->getServiceLocator()->get(Search::SERVICE_ID);
@@ -79,13 +81,5 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
         }
 
         return new Report($type, $message);
-    }
-
-    private function includeAccessData(): bool
-    {
-        /** @var common_ext_ExtensionsManager $extensionManager */
-        $extensionManager = $this->getServiceLocator()->get(common_ext_ExtensionsManager::SERVICE_ID);
-
-        return $extensionManager->isEnabled('taoDacSimple');
     }
 }
