@@ -71,34 +71,27 @@ define([
             //intercept errors
             //TODO this should belongs to the Router
             $doc.ajaxError(function (event, request, settings, thrownError) {
-                var ajaxResponse;
+                var ajaxResponse = $.parseJSON(request.responseText);
                 var errorMessage = __('Unknown Error');
                 // Request was manually aborted, isn't a error
                 if (thrownError === 'abort') return;
 
                 // Specific error tooManyFolders in sharedStimulus
-                if (request.responseText.includes('999')) { return; }
+                if (ajaxResponse.code === '999') { return; }
 
                 if ((request.status === 404 || request.status === 0) && settings.type === 'HEAD') {
                     //consider it as a "test" to check if resource exists
                     return;
                 } else if (request.status === 404 || request.status === 500) {
-                    try {
-                        // is it a common_AjaxResponse? Let's "duck type"
-                        ajaxResponse = $.parseJSON(request.responseText);
-                        if (
-                            ajaxResponse !== null &&
-                            typeof ajaxResponse.success !== 'undefined' &&
-                            typeof ajaxResponse.type !== 'undefined' &&
-                            typeof ajaxResponse.message !== 'undefined' &&
-                            typeof ajaxResponse.data !== 'undefined'
-                        ) {
-                            errorMessage = `${request.status}: ${ajaxResponse.message}`;
-                        } else {
-                            errorMessage = `${request.status}: ${request.responseText}`;
-                        }
-                    } catch (err) {
-                        // It does not seem to be valid JSON.
+                    if (
+                        ajaxResponse !== null &&
+                        typeof ajaxResponse.success !== 'undefined' &&
+                        typeof ajaxResponse.type !== 'undefined' &&
+                        typeof ajaxResponse.message !== 'undefined' &&
+                        typeof ajaxResponse.data !== 'undefined'
+                    ) {
+                        errorMessage = `${request.status}: ${ajaxResponse.message}`;
+                    } else {
                         errorMessage = `${request.status}: ${request.responseText}`;
                     }
                 }
