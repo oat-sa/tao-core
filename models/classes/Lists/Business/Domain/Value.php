@@ -101,7 +101,7 @@ class Value implements JsonSerializable
 
     public function hasModifiedUri(): bool
     {
-        return $this->originalUri !== $this->uri;
+        return $this->uri && $this->originalUri !== $this->uri;
     }
 
     public function jsonSerialize(): array
