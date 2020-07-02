@@ -228,7 +228,7 @@ class RdfValueCollectionRepositoryTest extends TestCase
             ],
             'Search request with value collection URI' => [
                 (new ValueCollectionSearchRequest())
-                    ->setValueCollectionUri('https://example.com'),
+                    ->setValueCollectionUri(self::COLLECTION_URI),
             ],
             'Search request with subject'              => [
                 (new ValueCollectionSearchRequest())
@@ -249,7 +249,7 @@ class RdfValueCollectionRepositoryTest extends TestCase
             'Search request with all properties'       => [
                 (new ValueCollectionSearchRequest())
                     ->setPropertyUri('https://example.com')
-                    ->setValueCollectionUri('https://example.com')
+                    ->setValueCollectionUri(self::COLLECTION_URI)
                     ->setSubject('test')
                     ->addExcluded('https://example.com#1')
                     ->addExcluded('https://example.com#2')
