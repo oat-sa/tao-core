@@ -42,7 +42,7 @@ class ValueCollection implements IteratorAggregate, JsonSerializable, Countable
         $this->uri = $uri;
 
         foreach ($values as $value) {
-            $this->values[$value->getUri()] = $value;
+            $this->addValue($value);
         }
     }
 

@@ -139,12 +139,12 @@ class RdfValueCollectionRepositoryTest extends TestCase
 
     public function testPersistRollback(): void
     {
+        $this->sut
+            ->method('insert')
+            ->willThrowException(new Exception());
         $this->sqlPlatformMock->expects($this->once())->method('rollback');
 
-        $value = $this->createMock(Value::class);
-        $value->method('getId')->willThrowException(new Exception());
-
-        $valueCollection = new ValueCollection('http://url', $value);
+        $valueCollection = new ValueCollection('http://url', new Value(null, '', ''));
 
         $result = $this->sut->persist($valueCollection);
 
