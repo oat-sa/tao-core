@@ -38,7 +38,7 @@ class Value implements JsonSerializable
     /** @var string */
     private $label;
 
-    /** @var string */
+    /** @var string|null */
     private $originalUri;
 
     /** @var bool */
@@ -49,7 +49,7 @@ class Value implements JsonSerializable
         $this->id          = $id;
         $this->uri         = $uri;
         $this->label       = $label;
-        $this->originalUri = $uri;
+        $this->originalUri = null === $id ? null : $uri;
     }
 
     public function getId(): ?int
@@ -94,7 +94,7 @@ class Value implements JsonSerializable
         return $this->label;
     }
 
-    public function getOriginalUri(): string
+    public function getOriginalUri(): ?string
     {
         return $this->originalUri;
     }

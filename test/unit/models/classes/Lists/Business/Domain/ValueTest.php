@@ -30,14 +30,14 @@ use oat\tao\model\Lists\Business\Domain\Value;
 class ValueTest extends TestCase
 {
     /**
-     * @param int    $id
-     * @param string $uri
-     * @param string $label
-     * @param array  $expected
+     * @param int|null $id
+     * @param string   $uri
+     * @param string   $label
+     * @param array    $expected
      *
      * @dataProvider dataProvider
      */
-    public function testSerialization(int $id, string $uri, string $label, array $expected): void
+    public function testSerialization(?int $id, string $uri, string $label, array $expected): void
     {
         $this->assertJsonStringEqualsJsonString(
             json_encode($expected),
@@ -46,31 +46,31 @@ class ValueTest extends TestCase
     }
 
     /**
-     * @param int    $id
-     * @param string $uri
-     * @param string $label
+     * @param int|null $id
+     * @param string   $uri
+     * @param string   $label
      *
      * @dataProvider dataProvider
      */
-    public function testAccessors(int $id, string $uri, string $label): void
+    public function testAccessors(?int $id, string $uri, string $label): void
     {
         $sut = new Value($id, $uri, $label);
 
         $this->assertSame($id, $sut->getId());
         $this->assertSame($uri, $sut->getUri());
         $this->assertSame($label, $sut->getLabel());
-        $this->assertSame($uri, $sut->getOriginalUri());
+        $this->assertSame($id === null ? null : $uri, $sut->getOriginalUri());
         $this->assertFalse($sut->hasChanges());
     }
 
     /**
-     * @param int    $id
-     * @param string $uri
-     * @param string $label
+     * @param int|null $id
+     * @param string   $uri
+     * @param string   $label
      *
      * @dataProvider dataProvider
      */
-    public function testMutators(int $id, string $uri, string $label): void
+    public function testMutators(?int $id, string $uri, string $label): void
     {
         $sut = new Value($id, md5($uri), md5($label));
 
@@ -78,7 +78,7 @@ class ValueTest extends TestCase
 
         $this->assertSame($sut, $sut->setUri($originalUri));
         $this->assertSame($sut, $sut->setLabel($sut->getLabel()));
-        $this->assertSame($originalUri, $sut->getOriginalUri());
+        $this->assertSame($id === null ? null : $originalUri, $sut->getOriginalUri());
         $this->assertFalse($sut->hasChanges());
 
         $sutClone = clone $sut;
@@ -91,7 +91,7 @@ class ValueTest extends TestCase
         $sutClone->setUri($uri);
 
         $this->assertSame($uri, $sutClone->getUri());
-        $this->assertSame($originalUri, $sut->getOriginalUri());
+        $this->assertSame($id === null ? null : $originalUri, $sut->getOriginalUri());
         $this->assertTrue($sutClone->hasChanges());
     }
 
@@ -127,6 +127,15 @@ class ValueTest extends TestCase
             ],
             'URI with path and fragment' => [
                 'id'       => 4,
+                'uri'      => 'https://example.com/path#fragment',
+                'label'    => 'test value',
+                'expected' => [
+                    'uri'   => 'https_2_example_0_com_1_path_3_fragment',
+                    'label' => 'test value',
+                ],
+            ],
+            'New value'                  => [
+                'id'       => null,
                 'uri'      => 'https://example.com/path#fragment',
                 'label'    => 'test value',
                 'expected' => [

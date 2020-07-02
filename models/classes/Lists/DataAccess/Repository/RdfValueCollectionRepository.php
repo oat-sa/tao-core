@@ -100,6 +100,8 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
             }
 
             $platform->commit();
+        } catch (ValueConflictException $exception) {
+            throw $exception;
         } catch (Throwable $exception) {
             $platform->rollBack();
 
@@ -316,16 +318,9 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
         }
 
         /** @noinspection PhpUnhandledExceptionInspection */
-        if (!(new KernelResource($value->getUri()))->exists()) {
-            return;
+        if ((new KernelResource($value->getUri()))->exists() || (new KernelClass($value->getUri()))->exists()) {
+            throw new ValueConflictException("Value with {$value->getUri()} is already defined");
         }
-
-        /** @noinspection PhpUnhandledExceptionInspection */
-        if (!(new KernelClass($value->getUri()))->exists()) {
-            return;
-        }
-
-        throw new ValueConflictException("Value with {$value->getUri()} is already defined");
     }
 
     private function getPersistence(): SqlPersistence
