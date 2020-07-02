@@ -47,7 +47,6 @@ class ErrorJsonResponse implements JsonResponseInterface
         return [
             'success' => false,
             'code' => $this->errorCode,
-            'errorCode' => $this->errorCode,
             'message' => $this->message,
             'data' => $this->data,
         ];
