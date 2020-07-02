@@ -77,7 +77,7 @@ define([
                 if (thrownError === 'abort') return;
 
                 // Specific error tooManyFolders in sharedStimulus
-                if (ajaxResponse.code === '999') { return; }
+                if (ajaxResponse.code === 999) { return; }
 
                 if ((request.status === 404 || request.status === 0) && settings.type === 'HEAD') {
                     //consider it as a "test" to check if resource exists
