@@ -33,6 +33,25 @@ define([
 ], function ($, _, __, context, helpers, router, uikitLoader, history, feedback, logoutEvent) {
     'use strict';
 
+    function checkAjaxResponse(ajaxResponse) {
+        if (ajaxResponse && ajaxResponse !== null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function checkAjaxResponseProperties(ajaxResponse) {
+        if (typeof ajaxResponse.success !== 'undefined' &&
+            typeof ajaxResponse.type !== 'undefined' &&
+            typeof ajaxResponse.message !== 'undefined' &&
+            typeof ajaxResponse.data !== 'undefined') {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     /**
      * The backoffice controller.
      * Starts the ajax based router, the automated error reporting and the UI listeners.
@@ -90,14 +109,7 @@ define([
                     //consider it as a "test" to check if resource exists
                     return;
                 } else if (request.status === 404 || request.status === 500) {
-                    if (
-                        ajaxResponse &&
-                        ajaxResponse !== null &&
-                        typeof ajaxResponse.success !== 'undefined' &&
-                        typeof ajaxResponse.type !== 'undefined' &&
-                        typeof ajaxResponse.message !== 'undefined' &&
-                        typeof ajaxResponse.data !== 'undefined'
-                    ) {
+                    if (checkAjaxResponse() && checkAjaxResponseProperties()) {
                         errorMessage = `${request.status}: ${ajaxResponse.message}`;
                     } else {
                         errorMessage = `${request.status}: ${request.responseText}`;
