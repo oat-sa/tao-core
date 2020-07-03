@@ -59,8 +59,6 @@ class GenerisIndexDocumentBuilderTest extends TestCase
                     switch ($call) {
                         case Ontology::SERVICE_ID:
                             return $this->createOntologyMock();
-                        case DataBaseAccess::SERVICE_ID:
-                            return $this->createDatabaseAccessMock();
                         case common_ext_ExtensionsManager::SERVICE_ID:
                             return $this->createExtensionManagerMock();
                         default:
@@ -125,33 +123,13 @@ class GenerisIndexDocumentBuilderTest extends TestCase
         return $ontology;
     }
 
-    protected function createDatabaseAccessMock(): MockObject
-    {
-        $databaseAccess = $this->createMock(DataBaseAccess::class);
-        $databaseAccess->expects($this->any())
-            ->method('getUsersWithPermissions')
-            ->willReturn(
-                array(
-                    [
-                        [
-                            'resource_id' => 'resource_id',
-                            'user_id' => 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole',
-                            'privilege' => 'READ',
-                        ]
-                    ]
-                )
-            );
-
-        return $databaseAccess;
-    }
-
     protected function createExtensionManagerMock(): MockObject
     {
         $extensionManager = $this->createMock(common_ext_ExtensionsManager::class);
         $extensionManager->expects($this->any())
             ->method('isEnabled')
             ->with('taoDacSimple')
-            ->willReturn(true);
+            ->willReturn(false);
 
         return $extensionManager;
     }
