@@ -253,7 +253,7 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
         return new ArrayIterator($customProperties);
     }
 
-    private function getAccessProperties(core_kernel_classes_Resource $resource): ?Iterator
+    private function getAccessProperties(core_kernel_classes_Resource $resource): Iterator
     {
         $accessRights = AdminService::getUsersPermissions($resource->getUri());
 
