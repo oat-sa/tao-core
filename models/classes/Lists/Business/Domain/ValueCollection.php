@@ -24,18 +24,62 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Lists\Business\Domain;
 
+use Countable;
 use IteratorAggregate;
 use JsonSerializable;
 use Traversable;
 
-class ValueCollection implements IteratorAggregate, JsonSerializable
+class ValueCollection implements IteratorAggregate, JsonSerializable, Countable
 {
-    /** @var Value[] */
-    private $values;
+    /** @var string|null */
+    private $uri;
 
-    public function __construct(Value ...$values)
+    /** @var Value[] */
+    private $values = [];
+
+    public function __construct(string $uri = null, Value ...$values)
     {
-        $this->values = $values;
+        $this->uri = $uri;
+
+        foreach ($values as $value) {
+            $this->addValue($value);
+        }
+    }
+
+    public function getUri(): ?string
+    {
+        return $this->uri;
+    }
+
+    public function addValue(Value $value): self
+    {
+        $value = $this->ensureValueProperties($value);
+
+        if ($value->getUri() === '') {
+            $this->values[] = $value;
+        } else {
+            $this->values[$value->getUri()] = $value;
+        }
+
+        return $this;
+    }
+
+    public function extractValueByUri(string $uri): ?Value
+    {
+        return $this->values[$uri] ?? null;
+    }
+
+    public function hasDuplicates(): bool
+    {
+        foreach ($this->values as $uri => $value) {
+            $duplicationCandidate = $this->extractValueByUri($value->getUri());
+
+            if (null !== $duplicationCandidate && $duplicationCandidate !== $value) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -43,11 +87,34 @@ class ValueCollection implements IteratorAggregate, JsonSerializable
      */
     public function getIterator(): Traversable
     {
-        yield from $this->values;
+        yield from array_values($this->values);
     }
 
     public function jsonSerialize(): array
     {
-        return $this->values;
+        return array_values($this->values);
+    }
+
+    public function count(): int
+    {
+        return count($this->values);
+    }
+
+    private function ensureValueProperties(Value $value): Value
+    {
+        if ($value->getLabel() !== '') {
+            return $value;
+        }
+
+        return new Value(
+            $value->getId(),
+            $value->getUri(),
+            $this->createNewValueLabel()
+        );
+    }
+
+    private function createNewValueLabel(): string
+    {
+        return sprintf('%s %u', __('Element'), count($this) + 1);
     }
 }

@@ -97,20 +97,24 @@ class ValueCollectionSearchRequestHandlerTest extends TestCase
     {
         return [
             'Bare request'                      => [
-                new ValueCollectionSearchRequest('https://example.com/path#fragment'),
+                $this->createBareSearchRequest()
+                    ->setPropertyUri('https://example.com/path#fragment'),
                 [
                     'propertyUri' => 'https_2_example_0_com_1_path_3_fragment',
                 ],
             ],
             'Request with subject'              => [
-                (new ValueCollectionSearchRequest('https://example.com/path#fragment'))->setSubject('test'),
+                $this->createBareSearchRequest()
+                    ->setPropertyUri('https://example.com/path#fragment')
+                    ->setSubject('test'),
                 [
                     'propertyUri' => 'https_2_example_0_com_1_path_3_fragment',
                     'subject'     => 'test',
                 ],
             ],
             'Request with excluded'             => [
-                (new ValueCollectionSearchRequest('https://example.com/path#fragment'))
+                $this->createBareSearchRequest()
+                    ->setPropertyUri('https://example.com/path#fragment')
                     ->addExcluded('https://example.com/path#fragment1')
                     ->addExcluded('https://example.com/path#fragment2'),
                 [
@@ -122,7 +126,8 @@ class ValueCollectionSearchRequestHandlerTest extends TestCase
                 ],
             ],
             'Request with excluded and subject' => [
-                (new ValueCollectionSearchRequest('https://example.com/path#fragment'))
+                $this->createBareSearchRequest()
+                    ->setPropertyUri('https://example.com/path#fragment')
                     ->setSubject('test')
                     ->addExcluded('https://example.com/path#fragment1')
                     ->addExcluded('https://example.com/path#fragment2'),
@@ -148,5 +153,11 @@ class ValueCollectionSearchRequestHandlerTest extends TestCase
             ->willReturn($queryParameters);
 
         return $request;
+    }
+
+    private function createBareSearchRequest(): ValueCollectionSearchRequest
+    {
+        return (new ValueCollectionSearchRequest())
+            ->setLimit(20);
     }
 }

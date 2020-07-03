@@ -22,24 +22,10 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\Lists\Business\Contract;
+namespace oat\tao\model\Lists\DataAccess\Repository;
 
-use oat\tao\model\Lists\Business\Domain\ValueCollection;
-use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
-use oat\tao\model\Lists\DataAccess\Repository\ValueConflictException;
+use DomainException;
 
-interface ValueCollectionRepositoryInterface
+class ValueConflictException extends DomainException
 {
-    public const SERVICE_ID = 'tao/ValueCollectionRepository';
-
-    public function findAll(ValueCollectionSearchRequest $searchRequest): ValueCollection;
-
-    /**
-     * @param ValueCollection $valueCollection
-     *
-     * @return bool
-     *
-     * @throws ValueConflictException
-     */
-    public function persist(ValueCollection $valueCollection): bool;
 }
