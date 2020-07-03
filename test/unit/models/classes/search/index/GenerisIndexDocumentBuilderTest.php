@@ -26,57 +26,51 @@ use oat\generis\model\data\Ontology;
 use oat\generis\test\TestCase;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\search\index\IndexDocument;
+use oat\taoDacSimple\model\DataBaseAccess;
 use PHPUnit\Framework\MockObject\MockObject;
 use \oat\tao\model\search\index\DocumentBuilder\IndexDocumentBuilderInterface;
 use \oat\tao\model\search\index\DocumentBuilder\IndexDocumentBuilder;
 
 class GenerisIndexDocumentBuilderTest extends TestCase
 {
-    /** @var Ontology */
-    private $ontology;
-
     /** @var ServiceManager|MockObject */
     private $service;
-    
+
     /** @var IndexDocumentBuilderInterface $builder */
     private $builder;
-    
+
     private const ARRAY_RESOURCE = [
         'id' => 'https://tao.docker.localhost/ontologies/tao.rdf#i5ecbaaf0a627c73a7996557a5480de',
         'body' => [
             'type' => []
         ]
     ];
-    
+
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->ontology = $this->createMock(Ontology::class);
 
         $this->service = $this->createMock(ServiceManager::class);
 
         $this->service->expects($this->any())
             ->method('get')
-            ->with(Ontology::SERVICE_ID)
             ->willReturnCallback(
-                function () {
-                    $property = $this->createMock(core_kernel_classes_Property::class);
-                    $property->expects($this->any())->method('getPropertyValues')->willReturn(
-                        []
-                    );
-
-                    $ontology = $this->createMock(Ontology::class);
-                    $ontology->expects($this->any())->method('getProperty')->willReturn(
-                        $property
-                    );
-                    return $ontology;
+                function (string $call) {
+                    switch ($call) {
+                        case Ontology::SERVICE_ID:
+                            return $this->createOntologyMock();
+                        case common_ext_ExtensionsManager::SERVICE_ID:
+                            return $this->createExtensionManagerMock();
+                        default:
+                            return null;
+                    }
                 }
             );
 
         ServiceManager::setServiceManager($this->service);
-        
+
         $this->builder = new IndexDocumentBuilder();
+        $this->builder->setServiceLocator($this->service);
     }
 
     public function testCreateEmptyDocumentFromResource()
@@ -92,8 +86,19 @@ class GenerisIndexDocumentBuilderTest extends TestCase
             'https://tao.docker.localhost/ontologies/tao.rdf#i5ecbaaf0a627c73a7996557a5480de'
         );
 
-        $document = $this->builder->createDocumentFromResource(
-            $resource
+        $document = $this->builder->createDocumentFromResource($resource);
+
+        $this->assertInstanceOf(IndexDocument::class, $document);
+
+        $this->assertEquals('https://tao.docker.localhost/ontologies/tao.rdf#i5ecbaaf0a627c73a7996557a5480de', $document->getId());
+        $this->assertEquals(['type'=>[]], $document->getBody());
+        $this->assertEquals([], (array)$document->getDynamicProperties());
+    }
+
+    public function testCreateDocumentFromResource()
+    {
+        $document = $this->builder->createDocumentFromArray(
+            self::ARRAY_RESOURCE
         );
 
         $this->assertInstanceOf(IndexDocument::class, $document);
@@ -102,17 +107,30 @@ class GenerisIndexDocumentBuilderTest extends TestCase
         $this->assertEquals(['type'=>[]], $document->getBody());
         $this->assertEquals([], (array)$document->getDynamicProperties());
     }
-    
-    public function testCreateDocumentFromResource()
+
+    protected function createOntologyMock(): MockObject
     {
-        $document = $this->builder->createDocumentFromArray(
-            self::ARRAY_RESOURCE
+        $property = $this->createMock(core_kernel_classes_Property::class);
+        $property->expects($this->any())->method('getPropertyValues')->willReturn(
+            []
         );
-    
-        $this->assertInstanceOf(IndexDocument::class, $document);
-    
-        $this->assertEquals('https://tao.docker.localhost/ontologies/tao.rdf#i5ecbaaf0a627c73a7996557a5480de', $document->getId());
-        $this->assertEquals(['type'=>[]], $document->getBody());
-        $this->assertEquals([], (array)$document->getDynamicProperties());
+
+        $ontology = $this->createMock(Ontology::class);
+        $ontology->expects($this->any())->method('getProperty')->willReturn(
+            $property
+        );
+
+        return $ontology;
+    }
+
+    protected function createExtensionManagerMock(): MockObject
+    {
+        $extensionManager = $this->createMock(common_ext_ExtensionsManager::class);
+        $extensionManager->expects($this->any())
+            ->method('isEnabled')
+            ->with('taoDacSimple')
+            ->willReturn(false);
+
+        return $extensionManager;
     }
 }

@@ -21,8 +21,11 @@ declare(strict_types=1);
 
 namespace oat\tao\model\search\tasks;
 
+use common_ext_Extension;
+use common_ext_ExtensionsManager;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\action\Action;
+use oat\tao\model\search\index\DocumentBuilder\IndexDocumentBuilder;
 use oat\tao\model\search\index\IndexService;
 use oat\tao\model\search\Search;
 use oat\tao\model\TaoOntology;
@@ -55,7 +58,9 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
         /** @var IndexService $indexService */
         $indexService = $this->getServiceLocator()->get(IndexService::SERVICE_ID);
 
+        /** @var IndexDocumentBuilder $documentBuilder */
         $documentBuilder = $indexService->getDocumentBuilder();
+        $documentBuilder->setServiceLocator($this->getServiceLocator());
 
         $indexDocument = $documentBuilder->createDocumentFromResource($createdResource);
 

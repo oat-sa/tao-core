@@ -21,6 +21,7 @@ declare(strict_types=1);
 
 namespace oat\tao\model\search\index\DocumentBuilder;
 
+use common_ext_ExtensionsManager;
 use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
 use oat\generis\model\WidgetRdf;
@@ -32,16 +33,18 @@ use Iterator;
 use oat\tao\model\search\index\IndexProperty;
 use oat\tao\model\search\index\OntologyIndex;
 use oat\tao\model\search\SearchTokenGenerator;
+use oat\tao\model\service\InjectionAwareService;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\WidgetDefinitions;
+use oat\taoDacSimple\model\AdminService;
 
-class IndexDocumentBuilder implements IndexDocumentBuilderInterface
+class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumentBuilderInterface
 {
     use OntologyAwareTrait;
-    
+
     /** @var array */
     private $map = [];
-    
+
     public const ALLOWED_DYNAMIC_TYPES = [
         WidgetDefinitions::PROPERTY_TEXTBOX,
         WidgetDefinitions::PROPERTY_TEXTAREA,
@@ -50,28 +53,30 @@ class IndexDocumentBuilder implements IndexDocumentBuilderInterface
         WidgetDefinitions::PROPERTY_COMBOBOX,
         WidgetDefinitions::PROPERTY_RADIOBOX,
     ];
-    
+
     /**
      * {@inheritdoc}
      */
     public function createDocumentFromResource(\core_kernel_classes_Resource $resource): IndexDocument
     {
         $tokenizationInfo = $this->getTokenizedResourceBody($resource);
-        
+
         $body = $tokenizationInfo['body'];
         $indexProperties = $tokenizationInfo['indexProperties'];
-        
+
         $body['type'] = $this->getTypesForResource($resource);
         $dynamicProperties = $this->getDynamicProperties($resource->getTypes(), $resource);
-        
+        $accessProperties = $this->includeAccessData() ? $this->getAccessProperties($resource) : null;
+
         return new IndexDocument(
             $resource->getUri(),
             $body,
             $indexProperties,
-            $dynamicProperties
+            $dynamicProperties,
+            $accessProperties
         );
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -80,27 +85,27 @@ class IndexDocumentBuilder implements IndexDocumentBuilderInterface
         if (!isset($resource['id'])) {
             throw new \common_exception_MissingParameter('id');
         }
-    
+
         if (!isset($resource['body'])) {
             throw new \common_exception_MissingParameter('body');
         }
-    
+
         $body = $resource['body'];
         $indexProperties = [];
-    
+
         if (isset($resource['indexProperties'])) {
             $indexProperties = $resource['indexProperties'];
         }
-    
+
         $document = new IndexDocument(
             $resource['id'],
             $body,
             $indexProperties
         );
-    
+
         return $document;
     }
-    
+
     /**
      * @return string[]
      * @throws \common_exception_Error
@@ -111,10 +116,10 @@ class IndexDocumentBuilder implements IndexDocumentBuilderInterface
         foreach ($resource->getTypes() as $class) {
             $toDo[] = $class->getUri();
         }
-        
+
         $done = [OntologyRdfs::RDFS_RESOURCE, TaoOntology::CLASS_URI_OBJECT];
         $toDo = array_diff($toDo, $done);
-        
+
         $classes = [];
         while (!empty($toDo)) {
             $class = new \core_kernel_classes_Class(array_pop($toDo));
@@ -126,10 +131,10 @@ class IndexDocumentBuilder implements IndexDocumentBuilderInterface
             }
             $done[] = $class->getUri();
         }
-        
+
         return $classes;
     }
-    
+
     /**
      * Get the array of properties to be indexed
      *
@@ -141,25 +146,25 @@ class IndexDocumentBuilder implements IndexDocumentBuilderInterface
     protected function getTokenizedResourceBody(core_kernel_classes_Resource $resource): array
     {
         $tokenGenerator = new SearchTokenGenerator();
-        
+
         $body = [];
         $indexProperties = [];
-        
+
         foreach ($tokenGenerator->generateTokens($resource) as $data) {
             /** @var OntologyIndex $index */
             list($index, $strings) = $data;
             $body[$index->getIdentifier()] = $strings;
             $indexProperties[$index->getIdentifier()] = $this->getIndexProperties($index);
         }
-        
+
         $result = [
             'body' => $body,
             'indexProperties' => $indexProperties
         ];
-        
+
         return $result;
     }
-    
+
     /**
      * Get the list of index properties for indexation
      * @param OntologyIndex $index
@@ -176,10 +181,10 @@ class IndexDocumentBuilder implements IndexDocumentBuilderInterface
             );
             $this->map[$index->getIdentifier()] = $indexProperty;
         }
-        
+
         return $this->map[$index->getIdentifier()];
     }
-    
+
     /**
      * Get the dynamic properties for indexation
      * @param array $classes
@@ -190,12 +195,12 @@ class IndexDocumentBuilder implements IndexDocumentBuilderInterface
     protected function getDynamicProperties(array $classes, core_kernel_classes_Resource $resource): Iterator
     {
         $customProperties = [];
-        
+
         foreach ($classes as $class) {
             $properties = \tao_helpers_form_GenerisFormFactory::getClassProperties(
                 $this->getClass($class)
             );
-            
+
             foreach ($properties as $property) {
                 /** @var core_kernel_classes_Resource $propertyType |null */
                 $propertyType = $property->getOnePropertyValue(
@@ -203,38 +208,38 @@ class IndexDocumentBuilder implements IndexDocumentBuilderInterface
                         WidgetRdf::PROPERTY_WIDGET
                     )
                 );
-                
+
                 if (null === $propertyType) {
                     continue;
                 }
-                
+
                 $propertyTypeUri = $propertyType->getUri();
-                
+
                 if (!in_array($propertyTypeUri, self::ALLOWED_DYNAMIC_TYPES)) {
                     continue;
                 }
-                
+
                 $propertyTypeArray = explode('#', $propertyTypeUri, 2);
                 $propertyTypeId = end($propertyTypeArray);
                 $customPropertyLabel = $property->getLabel();
-                
+
                 if (false === $propertyTypeId) {
                     continue;
                 }
-                
+
                 $fieldName = $propertyTypeId . '_' . \tao_helpers_Slug::create($customPropertyLabel);
                 $propertyValue = $resource->getOnePropertyValue($property);
-                
+
                 if (null === $propertyValue) {
                     continue;
                 }
-                
+
                 if ($propertyValue instanceof Literal) {
                     $customProperties[$fieldName][] = (string)$propertyValue;
                     $customProperties[$fieldName] = array_unique($customProperties[$fieldName]);
                     continue;
                 }
-                
+
                 $customPropertiesValues = $resource->getPropertyValues($property);
                 $customProperties[$fieldName] = array_map(
                     function (string $propertyValue): string {
@@ -244,7 +249,24 @@ class IndexDocumentBuilder implements IndexDocumentBuilderInterface
                 );
             }
         }
-        
+
         return new ArrayIterator($customProperties);
+    }
+
+    private function getAccessProperties(core_kernel_classes_Resource $resource): Iterator
+    {
+        $accessRights = AdminService::getUsersPermissions($resource->getUri());
+
+        $accessRightsURIs = ['read_access' => array_keys($accessRights)];
+
+        return new ArrayIterator($accessRightsURIs);
+    }
+
+    private function includeAccessData(): bool
+    {
+        /** @var common_ext_ExtensionsManager $extensionManager */
+        $extensionManager = $this->getServiceLocator()->get(common_ext_ExtensionsManager::SERVICE_ID);
+
+        return $extensionManager->isEnabled('taoDacSimple');
     }
 }

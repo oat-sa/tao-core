@@ -24,6 +24,7 @@ declare(strict_types=1);
 namespace oat\tao\model\search\index;
 
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\search\index\DocumentBuilder\IndexDocumentBuilder;
 use oat\tao\model\search\index\DocumentBuilder\IndexDocumentBuilderInterface;
 use oat\tao\model\search\Search;
 use oat\generis\model\OntologyAwareTrait;
@@ -81,7 +82,11 @@ class IndexService extends ConfigurableService
      */
     public function createDocumentFromResource(\core_kernel_classes_Resource $resource): IndexDocument
     {
-        return $this->getDocumentBuilder()->createDocumentFromResource($resource);
+        /** @var IndexDocumentBuilder $documentBuilder */
+        $documentBuilder = $this->getDocumentBuilder();
+        $documentBuilder->setServiceLocator($this->getServiceLocator());
+
+        return $documentBuilder->createDocumentFromResource($resource);
     }
 
     /**
@@ -101,7 +106,7 @@ class IndexService extends ConfigurableService
         if (!isset($array['id'])) {
             throw new \common_exception_MissingParameter('id');
         }
-    
+
         return $this->getDocumentBuilder()->createDocumentFromArray($array);
     }
 
