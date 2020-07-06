@@ -6,9 +6,6 @@ pipeline {
     agent {
         label 'builder'
     }
-    environment {
-        phpMinimumCoverage = 90
-    }
     stages {
         stage('Resolve TAO dependencies') {
             steps {
@@ -86,7 +83,7 @@ tail -n +2 build/dependencies.json >> build/composer.json
         stage('Install') {
             agent {
                 docker {
-                    image 'dockermisi/php_base_ci:0.0.2'
+                    image 'alexwijn/docker-git-php-composer'
                     args "-v $BUILDER_CACHE_DIR/composer:/tmp/.composer-cache -e COMPOSER_CACHE_DIR=/tmp/.composer-cache"
                     reuseNode true
                 }
@@ -104,8 +101,8 @@ tail -n +2 build/dependencies.json >> build/composer.json
                         script: 'COMPOSER_DISCARD_CHANGES=true composer install --prefer-dist --no-interaction --no-ansi --no-progress --no-suggest'
                     )
                     sh(
-                        label: 'Add phpunit and coverage checker tool',
-                        script: 'composer require phpunit/phpunit:^8.5 rregeer/phpunit-coverage-check --no-progress'
+                        label: 'Add phpunit',
+                        script: 'composer require phpunit/phpunit:^8.5 --no-progress'
                     )
                     sh(
                         label: "Extra filesystem mocks",
@@ -119,71 +116,29 @@ mkdir -p tao/views/locales/en-US/
                 }
             }
         }
-        stage('Verification') {
+        stage('Tests') {
             parallel {
-                stage('Backend') {
-                    stages {
-                        stage('Unit tests') {
-                            when {
-                                expression {
-                                    fileExists("build/$extension/test/unit")
-                                }
-                            }
-                            agent {
-                                docker {
-                                    image 'dockermisi/php_base_ci:0.0.2'
-                                    reuseNode true
-                                }
-                            }
-                            options {
-                                skipDefaultCheckout()
-                            }
-                            steps {
-                                sh(
-                                    label: 'Generating PHPUnit configuration',
-                                    script: '''
-                                        whitelist=$(git diff origin/$CHANGE_TARGET --name-only -- '*.php' ':!test/*' | xargs -IX echo -n "<file>../X</file>") && \
-                                        sed -e "s%{WHITELISTED_FILES}%$whitelist%g" phpunit_template.xml > phpunit.xml && \
-                                        cp phpunit.xml build
-                                    '''
-                                )
-                                dir('build'){
-                                    sh(
-                                        label: 'PHPUnit configuration',
-                                        script: 'cat phpunit.xml'
-                                    )
-                                    sh(
-                                        label: 'Run backend tests',
-                                        script: "./vendor/bin/phpunit $extension/test/unit -c phpunit.xml"
-                                    )
-                                }
-                            }
+                stage('Backend Tests') {
+                    when {
+                        expression {
+                            fileExists("build/$extension/test/unit")
                         }
-                        stage('Code analysis') {
-                            when {
-                                expression {
-                                    fileExists("build/clover.xml")
-                                }
-                            }
-                            agent {
-                                docker {
-                                    image 'dockermisi/php_base_ci:0.0.2'
-                                    reuseNode true
-                                }
-                            }
-                            options {
-                                skipDefaultCheckout()
-                            }
-                            steps {
-                                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                    dir('build') {
-                                        sh(
-                                            label: 'Calculating code coverage',
-                                            script: "php vendor/bin/coverage-check clover.xml $phpMinimumCoverage"
-                                        )
-                                    }
-                                }
-                            }
+                    }
+                    agent {
+                        docker {
+                            image 'alexwijn/docker-git-php-composer'
+                            reuseNode true
+                        }
+                    }
+                    options {
+                        skipDefaultCheckout()
+                    }
+                    steps {
+                        dir('build'){
+                            sh(
+                                label: 'Run backend tests',
+                                script: "./vendor/bin/phpunit $extension/test/unit"
+                            )
                         }
                     }
                 }
