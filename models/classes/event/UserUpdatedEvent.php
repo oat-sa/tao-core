@@ -15,22 +15,18 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015-2020 (original work) Open Assessment Technologies SA
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA
  *
  */
-
-declare(strict_types=1);
 
 namespace oat\tao\model\event;
 
 use core_kernel_classes_Resource;
 use JsonSerializable;
 use oat\oatbox\event\Event;
-use oat\tao\model\webhooks\WebhookSerializableEventInterface;
 
-class UserUpdatedEvent implements Event, JsonSerializable, WebhookSerializableEventInterface
+class UserUpdatedEvent implements Event, JsonSerializable
 {
-    public const WEBHOOK_EVENT_NAME = 'UserUpdated';
 
     /** @var  string */
     protected $user;
@@ -68,18 +64,6 @@ class UserUpdatedEvent implements Event, JsonSerializable, WebhookSerializableEv
         return [
             'uri' => $this->user->getUri(),
             'data' => $this->data,
-        ];
-    }
-
-    public function getWebhookEventName()
-    {
-        return self::WEBHOOK_EVENT_NAME;
-    }
-
-    public function serializeForWebhook()
-    {
-        return [
-            'userId' => $this->user->getUri(),
         ];
     }
 }
