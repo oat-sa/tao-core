@@ -30,7 +30,7 @@ use oat\tao\model\webhooks\WebhookSerializableEventInterface;
 
 class UserCreatedEvent implements Event, JsonSerializable, WebhookSerializableEventInterface
 {
-    public const WEBHOOK_EVENT_NAME = 'UserCreated';
+    private const WEBHOOK_EVENT_NAME = 'UserCreated';
 
     /** @var  string */
     protected $user;
