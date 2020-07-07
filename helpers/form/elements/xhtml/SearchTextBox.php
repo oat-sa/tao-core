@@ -21,10 +21,14 @@
 
 declare(strict_types=1);
 
-use oat\tao\helpers\form\elements\AbstractSearchTextBox;
-use oat\tao\helpers\form\elements\xhtml\XhtmlRenderingTrait;
+namespace oat\tao\helpers\form\elements\xhtml;
 
-class tao_helpers_form_elements_xhtml_Searchtextbox extends AbstractSearchTextBox
+use core_kernel_classes_Resource;
+use oat\tao\helpers\form\elements\AbstractSearchTextBox;
+use tao_helpers_form_elements_xhtml_Hidden;
+use tao_helpers_Uri;
+
+class SearchTextBox extends AbstractSearchTextBox
 {
     use XhtmlRenderingTrait;
 
@@ -144,3 +148,8 @@ javascript;
         return $input;
     }
 }
+
+class_alias(
+    SearchTextBox::class,
+    \tao_helpers_form_elements_xhtml_Searchtextbox::class
+);
