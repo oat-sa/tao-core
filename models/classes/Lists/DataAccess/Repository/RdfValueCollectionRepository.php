@@ -303,7 +303,10 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
 
         $query
             ->andWhere(
-                $this->getPersistence()->getPlatForm()->getQueryBuilder()->expr()->like('element.object', ':subject')
+                $this->getPersistence()->getPlatForm()->getQueryBuilder()->expr()->like(
+                    'lower(element.object)',
+                    'lower(:subject)'
+                )
             )
             ->setParameter('subject', "{$searchRequest->getSubject()}%");
     }
