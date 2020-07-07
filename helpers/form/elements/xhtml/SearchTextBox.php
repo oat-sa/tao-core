@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,9 +21,10 @@
 
 declare(strict_types=1);
 
+use oat\tao\helpers\form\elements\AbstractSearchTextBox;
 use oat\tao\helpers\form\elements\xhtml\XhtmlRenderingTrait;
 
-class tao_helpers_form_elements_xhtml_Searchtextbox extends tao_helpers_form_elements_Searchtextbox
+class tao_helpers_form_elements_xhtml_Searchtextbox extends AbstractSearchTextBox
 {
     use XhtmlRenderingTrait;
 

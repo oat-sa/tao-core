@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,24 +21,26 @@
 
 declare(strict_types=1);
 
-use oat\generis\model\WidgetRdf;
+namespace oat\tao\helpers\form\elements;
 
-abstract class tao_helpers_form_elements_Searchtextbox extends tao_helpers_form_FormElement
+use oat\generis\model\WidgetRdf;
+use tao_helpers_form_elements_MultipleElement;
+use tao_helpers_Uri;
+
+abstract class AbstractSearchTextBox extends tao_helpers_form_elements_MultipleElement
 {
     protected const VALUE_DELIMITER = ',';
 
     protected $widget = WidgetRdf::PROPERTY_WIDGET_SEARCH_BOX;
 
     /** @var string[] */
-    private $values = [];
+    protected $values = [];
 
     /**
      * @inheritDoc
      */
     public function feed(): void
     {
-        $this->values = [];
-
         foreach (explode(static::VALUE_DELIMITER, ($_POST[$this->name] ?? '')) as $value) {
             if ($value) {
                 $this->values[] = $value;
@@ -59,9 +60,9 @@ abstract class tao_helpers_form_elements_Searchtextbox extends tao_helpers_form_
     {
         return $this->values;
     }
-
-    public function addValue(string $value): void
-    {
-        $this->values[] = tao_helpers_Uri::encode($value);
-    }
 }
+
+class_alias(
+    AbstractSearchTextBox::class,
+    \tao_helpers_form_elements_Searchtextbox::class
+);
