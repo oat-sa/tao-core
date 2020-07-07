@@ -30,7 +30,7 @@ use oat\tao\model\webhooks\WebhookSerializableEventInterface;
 class UserRemovedEvent implements Event, JsonSerializable, WebhookSerializableEventInterface
 {
     const EVENT_NAME = __CLASS__;
-    private const WEBHOOK_EVENT_NAME = 'UserRemoved';
+    private const WEBHOOK_EVENT_NAME = 'user-removed';
 
 
     /** @var  string */
