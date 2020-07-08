@@ -225,6 +225,11 @@ class tao_install_Setup implements Action
         }
 
         foreach ($parameters['configuration'] as $extension => $configs) {
+
+            $sortedConfigs = $this->sortConfigs($serviceManager, $configs);
+
+            var_dump(array_keys($sortedConfigs));
+
             foreach ($configs as $key => $config) {
                 if (isset($config['type']) && $config['type'] === 'configurableService') {
                     $className = $config['class'];
@@ -285,6 +290,64 @@ class tao_install_Setup implements Action
         }
 
         $this->logNotice('Installation completed!');
+    }
+
+    private function getDependencies(string $className): array
+    {
+        $reflection = new ReflectionClass($className);
+
+        $constructor = $reflection->getConstructor();
+
+        $result = [];
+
+        foreach ($constructor->getParameters() as $parameter) {
+            if ($class = $parameter->getClass()) {
+                $result[] = $class->name;
+            }
+        }
+
+        return $result;
+    }
+
+    private function sortDependencies(ServiceManager $serviceManager, array $graph, string $key, array &$result): void
+    {
+        echo "> $key\n";
+        echo ">> {$graph[$key]['class']}\n";
+
+//        if (!isset($graph[$key]) || !$serviceManager->get($graph[$key]['class'])) {
+//            throw new Exception("No '$key' in graph");
+//        }
+
+        if (isset($result[$key])) {
+            return;
+        }
+
+        if (!isset($graph[$key]['class'])) {
+            return;
+        }
+
+        $className = $graph[$key]['class'];
+
+        $deps = $this->getDependencies($className);
+
+        var_dump($deps);
+
+        foreach ($deps as $depKey) {
+            $this->sortDependencies($serviceManager, $graph, $depKey, $result);
+        }
+
+        $result[$key] = $graph[$key];
+    }
+
+    private function sortConfigs(ServiceManager $serviceManager, array $config): array
+    {
+        $result = [];
+
+        foreach ($config as $key => $value) {
+            $this->sortDependencies($serviceManager, $config, $key, $result);
+        }
+
+        return $result;
     }
 
     /**
