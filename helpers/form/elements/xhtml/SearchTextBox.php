@@ -148,8 +148,3 @@ javascript;
         return $input;
     }
 }
-
-class_alias(
-    SearchTextBox::class,
-    \tao_helpers_form_elements_xhtml_Searchtextbox::class
-);
