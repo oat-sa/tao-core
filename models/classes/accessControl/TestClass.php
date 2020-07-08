@@ -15,7 +15,7 @@ class TestClass
 
     public function add(int $b)
     {
-        return $this->a + $b;
+        return $this->a = $this->a + $b;
     }
 
     public function toString()
