@@ -53,16 +53,8 @@ abstract class AbstractSearchTextBox extends tao_helpers_form_elements_MultipleE
         return array_map([tao_helpers_Uri::class, 'decode'], $this->values);
     }
 
-    /**
-     * @return string[]
-     */
-    public function getValues(): array
+    public function getRawValue()
     {
         return $this->values;
     }
 }
-
-class_alias(
-    AbstractSearchTextBox::class,
-    \tao_helpers_form_elements_Searchtextbox::class
-);
