@@ -38,7 +38,7 @@ class tao_helpers_form_validators_NotEmpty extends tao_helpers_form_Validator
      * @param  mixed $values
      * @return bool
      */
-    public function evaluate($values): bool
+    public function evaluate($values)
     {
         if (is_string($values)) {
             return !empty(trim($values));
@@ -51,7 +51,7 @@ class tao_helpers_form_validators_NotEmpty extends tao_helpers_form_Validator
         return is_scalar($values);
     }
 
-    protected function getDefaultMessage(): string
+    protected function getDefaultMessage()
     {
         return __('This field is required');
     }
