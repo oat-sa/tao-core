@@ -41,6 +41,8 @@ abstract class AbstractSearchTextBox extends tao_helpers_form_elements_MultipleE
      */
     public function feed(): void
     {
+        $this->values = [];
+
         foreach (explode(static::VALUE_DELIMITER, ($_POST[$this->name] ?? '')) as $value) {
             if ($value) {
                 $this->values[] = $value;
