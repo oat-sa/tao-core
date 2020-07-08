@@ -8,7 +8,7 @@ class TestClassTest extends TestCase
 {
     public function testConstructor()
     {
-        $this->assertInstanceOf(TestClassTest::class, new TestClassTest(13));
+        $this->assertInstanceOf(TestClassTest::class, new TestClass(13));
     }
 
     public function testAdd()
