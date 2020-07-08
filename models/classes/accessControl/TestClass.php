@@ -1,8 +1,6 @@
 <?php
 
-
 namespace oat\tao\model\accessControl;
-
 
 class TestClass
 {
