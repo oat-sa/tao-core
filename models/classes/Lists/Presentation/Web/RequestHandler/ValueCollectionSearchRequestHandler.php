@@ -25,6 +25,7 @@ declare(strict_types=1);
 namespace oat\tao\model\Lists\Presentation\Web\RequestHandler;
 
 use common_exception_BadRequest as BadRequestException;
+use core_kernel_classes_Property as RdfProperty;
 use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
 use oat\tao\model\Lists\Business\Input\ValueCollectionSearchInput;
 use oat\tao\model\Lists\Presentation\Web\RequestValidator\ValueCollectionSearchRequestValidator;
@@ -36,7 +37,7 @@ class ValueCollectionSearchRequestHandler extends InjectionAwareService
 {
     public const SERVICE_ID = 'tao/ValueCollectionSearchRequestHandler';
 
-    public const QUERY_PARAMETER_ID      = 'propertyUri';
+    public const QUERY_PARAMETER_ID = 'propertyUri';
     public const QUERY_PARAMETER_SUBJECT = 'subject';
     public const QUERY_PARAMETER_EXCLUDE = 'exclude';
 
@@ -65,13 +66,20 @@ class ValueCollectionSearchRequestHandler extends InjectionAwareService
 
         $queryParameters = $request->getQueryParams();
 
+        $propertyUri = Id::decode(
+            $queryParameters[self::QUERY_PARAMETER_ID]
+        );
+
         $searchRequest = (new ValueCollectionSearchRequest())
             ->setLimit(self::SEARCH_LIMIT)
-            ->setPropertyUri(
-                Id::decode(
-                    $queryParameters[self::QUERY_PARAMETER_ID]
-                )
-            );
+            ->setPropertyUri($propertyUri);
+
+        $property = new RdfProperty($propertyUri);
+        $list = $property->getRange();
+
+        if ($list !== null) {
+            $searchRequest->setValueCollectionUri($list->getUri());
+        }
 
         $subject = trim($queryParameters[self::QUERY_PARAMETER_SUBJECT] ?? '');
 
