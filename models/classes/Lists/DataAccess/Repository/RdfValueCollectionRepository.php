@@ -303,9 +303,12 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
 
         $query
             ->andWhere(
-                $this->getPersistence()->getPlatForm()->getQueryBuilder()->expr()->like('element.object', ':subject')
+                $this->getPersistence()->getPlatForm()->getQueryBuilder()->expr()->like(
+                    'LOWER(element.object)',
+                    ':subject'
+                )
             )
-            ->setParameter('subject', "{$searchRequest->getSubject()}%");
+            ->setParameter('subject', mb_strtolower($searchRequest->getSubject()) . '%');
     }
 
     private function enrichQueryWithExcludedValueUris(

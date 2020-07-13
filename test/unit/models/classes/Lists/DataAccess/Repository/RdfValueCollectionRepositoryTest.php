@@ -355,9 +355,9 @@ class RdfValueCollectionRepositoryTest extends TestCase
             return null;
         }
 
-        $this->queryParameters['subject'] = "{$searchRequest->getSubject()}%";
+        $this->queryParameters['subject'] = mb_strtolower($searchRequest->getSubject()) . '%';
 
-        $this->conditions[] = 'AND (element.object LIKE :subject)';
+        $this->conditions[] = 'AND (LOWER(element.object) LIKE :subject)';
 
         return null;
     }
