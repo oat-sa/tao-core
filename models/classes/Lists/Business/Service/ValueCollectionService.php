@@ -35,20 +35,28 @@ class ValueCollectionService extends InjectionAwareService
     public const SERVICE_ID = 'tao/ValueCollectionService';
 
     /** @var ValueCollectionRepositoryInterface */
-    private $repository;
+    private $repositories;
 
-    public function __construct(ValueCollectionRepositoryInterface $repository)
+    public function __construct(ValueCollectionRepositoryInterface ...$repository)
     {
         parent::__construct();
 
-        $this->repository = $repository;
+        $this->repositories = $repository;
     }
 
     public function findAll(ValueCollectionSearchInput $input): ValueCollection
     {
-        return $this->repository->findAll(
-            $input->getSearchRequest()
-        );
+        foreach ($this->repositories as $repository) {
+            $result = $repository->findAll(
+                $input->getSearchRequest()
+            );
+
+            if (count($result) > 0) {
+                return $result;
+            }
+        }
+
+        return new ValueCollection();
     }
 
     /**
@@ -60,6 +68,16 @@ class ValueCollectionService extends InjectionAwareService
      */
     public function persist(ValueCollection $valueCollection): bool
     {
-        return $this->repository->persist($valueCollection);
+        foreach ($this->repositories as $repository) {
+            if ($repository->hasCollection($valueCollection->getUri())) {
+                return $repository->persist($valueCollection);
+            }
+        }
+
+        if ($repository) {
+            return $repository->persist($valueCollection);
+        }
+
+        return false;
     }
 }

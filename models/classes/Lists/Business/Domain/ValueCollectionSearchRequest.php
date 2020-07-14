@@ -41,6 +41,9 @@ class ValueCollectionSearchRequest
     /** @var int|null */
     private $limit;
 
+    /** @var string[] */
+    private $uris;
+
     public function hasPropertyUri(): bool
     {
         return null !== $this->propertyUri;
@@ -73,6 +76,26 @@ class ValueCollectionSearchRequest
         $this->valueCollectionUri = $valueCollectionUri;
 
         return $this;
+    }
+
+    public function hasUris(): bool
+    {
+        return !empty($this->uris);
+    }
+
+    public function setUris(string ...$uri): self
+    {
+        $this->uris = $uri;
+
+        return $this;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getUris(): array
+    {
+        return $this->uris;
     }
 
     public function hasSubject(): bool

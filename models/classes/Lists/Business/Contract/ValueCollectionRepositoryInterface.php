@@ -30,9 +30,9 @@ use oat\tao\model\Lists\DataAccess\Repository\ValueConflictException;
 
 interface ValueCollectionRepositoryInterface
 {
-    public const SERVICE_ID = 'tao/ValueCollectionRepository';
-
     public function findAll(ValueCollectionSearchRequest $searchRequest): ValueCollection;
+
+    public function hasCollection(string $collectionUri): bool;
 
     /**
      * @param ValueCollection $valueCollection
