@@ -23,6 +23,7 @@
 declare(strict_types=1);
 
 use oat\generis\model\WidgetRdf;
+use oat\tao\helpers\form\elements\ElementValue;
 
 abstract class tao_helpers_form_elements_Searchtextbox extends tao_helpers_form_FormElement
 {
@@ -42,26 +43,36 @@ abstract class tao_helpers_form_elements_Searchtextbox extends tao_helpers_form_
 
         foreach (explode(static::VALUE_DELIMITER, ($_POST[$this->name] ?? '')) as $value) {
             if ($value) {
-                $this->values[] = $value;
+                $this->values[] = new ElementValue($value, $value);
             }
         }
     }
 
     public function getEvaluatedValue(): array
     {
-        return array_map([tao_helpers_Uri::class, 'decode'], $this->values);
+        return array_map(
+            static function ($value) {
+                return tao_helpers_Uri::decode($value);
+            },
+            $this->values
+        );
     }
 
     /**
-     * @return string[]
+     * @return ElementValue[]
      */
     public function getValues(): array
     {
         return $this->values;
     }
 
-    public function addValue(string $value): void
+    public function addValue($value): void
     {
-        $this->values[] = tao_helpers_Uri::encode($value);
+        if ($value instanceof ElementValue) {
+            $this->values[] = $value;
+        } else {
+            $encodedValue = tao_helpers_Uri::encode($value);
+            $this->values[] = new ElementValue($encodedValue, $value);
+        }
     }
 }

@@ -22,6 +22,7 @@
 
 declare(strict_types=1);
 
+use oat\tao\helpers\form\elements\ElementValue;
 use oat\tao\helpers\form\elements\xhtml\XhtmlRenderingTrait;
 
 class tao_helpers_form_elements_xhtml_Searchtextbox extends tao_helpers_form_elements_Searchtextbox
@@ -74,7 +75,7 @@ class tao_helpers_form_elements_xhtml_Searchtextbox extends tao_helpers_form_ele
     {
         $searchUrl = tao_helpers_Uri::url('get', 'PropertyValues', 'tao');
 
-        $baseVariables   = $this->createBaseClientVariables();
+        $baseVariables = $this->createBaseClientVariables();
         $initSelection = json_encode($this->createInitSelectionValues());
 
         return <<<javascript
@@ -128,8 +129,8 @@ javascript;
 
         foreach ($this->getValues() as $value) {
             $result[] = [
-                'id'   => $value,
-                'text' => (new core_kernel_classes_Resource(tao_helpers_Uri::decode($value)))->getLabel(),
+                'id'   => tao_helpers_Uri::encode($value->getUri()),
+                'text' => $value->getLabel(),
             ];
         }
 
@@ -139,7 +140,15 @@ javascript;
     private function createHiddenInput(): tao_helpers_form_elements_xhtml_Hidden
     {
         $input = new tao_helpers_form_elements_xhtml_Hidden($this->name);
-        $input->setValue(implode(static::VALUE_DELIMITER, $this->getValues()));
+
+        $encodedUris = array_map(
+            static function (ElementValue $value) {
+                return tao_helpers_Uri::encode($value->getUri());
+            },
+            $this->getValues()
+        );
+
+        $input->setValue(implode(static::VALUE_DELIMITER, $encodedUris));
 
         return $input;
     }

@@ -22,7 +22,14 @@
  */
 
 use oat\generis\model\OntologyRdfs;
+use oat\oatbox\service\ServiceManager;
+use oat\tao\helpers\form\ElementMapFactory;
+use oat\tao\helpers\form\elements\ElementValue;
+use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
+use oat\tao\model\Lists\Business\Input\ValueCollectionSearchInput;
+use oat\tao\model\Lists\Business\Service\ValueCollectionService;
 use oat\tao\model\TaoOntology;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Create a form from a  resource of your ontology.
@@ -35,7 +42,6 @@ use oat\tao\model\TaoOntology;
  */
 class tao_actions_form_Instance extends tao_actions_form_Generis
 {
-
     /**
      * Initialize the form
      *
@@ -104,8 +110,12 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
             if ($widget === null || $widget instanceof core_kernel_classes_Literal) {
                 continue;
             }
+
             //map properties widgets to form elments
-            $element = tao_helpers_form_GenerisFormFactory::elementMap($property);
+
+            $element = $this->getElementFactory()->create($property);
+
+            $isList = $this->isList($property);
 
             if ($element !== null) {
                 //take instance values to populate the form
@@ -113,12 +123,22 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
                     $values = $instance->getPropertyValuesCollection($property);
                     foreach ($values->getIterator() as $value) {
                         if ($value instanceof core_kernel_classes_Resource) {
-                            $elementValue = $element instanceof tao_helpers_form_elements_Readonly ?
-                                $value->getLabel() : $value->getUri();
-                            $element->setValue($elementValue);
+                            $elementValue = $element instanceof tao_helpers_form_elements_Readonly
+                                ? $value->getLabel()
+                                : $value->getUri();
+
+                            if ($isList) {
+                                $this->fillListElement($element, $property, $value->getUri());
+                            } else {
+                                $element->setValue($elementValue);
+                            }
                         }
                         if ($value instanceof core_kernel_classes_Literal) {
-                            $element->setValue((string) $value);
+                            if ($isList) {
+                                $this->fillListElement($element, $property, $value);
+                            } else {
+                                $element->setValue((string)$value);
+                            }
                         }
                     }
                 }
@@ -170,5 +190,50 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
             $hiddenId->setValue($instance->getUri());
             $this->form->addElement($hiddenId, true);
         }
+    }
+
+    private function fillListElement($element, $property, $uri): void
+    {
+        $valueService = $this->getValueCollectionService();
+        $searchRequest = new ValueCollectionSearchRequest();
+        $searchRequest->setValueCollectionUri($property->getRange()->getUri());
+        $searchRequest->setUris((string)$uri);
+        $result = $valueService->findAll(
+            new ValueCollectionSearchInput($searchRequest)
+        );
+
+        foreach ($result as $v) {
+            $element->setValue(
+                new ElementValue($v->getUri(), $v->getLabel())
+            );
+        }
+    }
+
+    private function getValueCollectionService(): ValueCollectionService
+    {
+        return $this->getServiceLocator()->get(ValueCollectionService::class);
+    }
+
+    private function getElementFactory(): ElementMapFactory
+    {
+        return $this->getServiceLocator()->get(ElementMapFactory::class);
+    }
+
+    private function getServiceLocator(): ServiceLocatorInterface
+    {
+        return ServiceManager::getServiceManager();
+    }
+
+    private function isList($property): bool
+    {
+        $range = $property->getRange();
+
+        if (!$range instanceof core_kernel_classes_Class) {
+            return false;
+        }
+
+        return $range->isSubClassOf(
+            new core_kernel_classes_Class(TaoOntology::CLASS_URI_LIST)
+        );
     }
 }

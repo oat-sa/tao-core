@@ -63,7 +63,6 @@ abstract class tao_helpers_form_elements_MultipleElement extends tao_helpers_for
      */
     public function setOptions($options)
     {
-        
         $this->options = $options;
     }
 
@@ -76,13 +75,7 @@ abstract class tao_helpers_form_elements_MultipleElement extends tao_helpers_for
      */
     public function getOptions()
     {
-        $returnValue = [];
-
-        
-        $returnValue = $this->options;
-        
-
-        return (array) $returnValue;
+        return (array)$this->options;
     }
 
     /**
@@ -95,8 +88,7 @@ abstract class tao_helpers_form_elements_MultipleElement extends tao_helpers_for
      */
     public function setValue($value)
     {
-        
-        $this->value = tao_helpers_Uri::encode($value);
+        $this->value = tao_helpers_Uri::encode((string)$value);
     }
 
     /**
@@ -109,8 +101,7 @@ abstract class tao_helpers_form_elements_MultipleElement extends tao_helpers_for
      */
     public function addValue($value)
     {
-        
-        $this->values[] = tao_helpers_Uri::encode($value);
+        $this->values[] = tao_helpers_Uri::encode((string)$value);
     }
 
     /**
@@ -122,13 +113,7 @@ abstract class tao_helpers_form_elements_MultipleElement extends tao_helpers_for
      */
     public function getValues()
     {
-        $returnValue = [];
-
-        
-        $returnValue = $this->values;
-        
-
-        return (array) $returnValue;
+        return (array)$this->values;
     }
 
     /**
@@ -141,8 +126,6 @@ abstract class tao_helpers_form_elements_MultipleElement extends tao_helpers_for
      */
     public function setValues($values)
     {
-        
-        
         $this->values = $values;
     }
 } /* end of abstract class tao_helpers_form_elements_MultipleElement */
