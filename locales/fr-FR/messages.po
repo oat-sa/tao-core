@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint129\n"
-"PO-Revision-Date: 2020-05-22T08:22:33\n"
+"Project-Id-Version: TAO 3.4.0-sprint131\n"
+"PO-Revision-Date: 2020-07-03T09:17:13\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-FR\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " and "
-msgstr " et "
-
 msgid " AND "
 msgstr " ET "
+
+msgid " and "
+msgstr " et "
 
 msgid " has been deleted successfully"
 msgstr " a été supprimé avec succès."
@@ -147,6 +147,9 @@ msgstr "Un état de maintenance doit avoir un ÉTAT : \"%s\" ou \"%s"
 
 msgid "A message with further instructions has been sent to your email address: %s"
 msgstr "Un message avec des instructions a été envoyée vers votre adresse courriel: %s"
+
+msgid "About"
+msgstr ""
 
 msgid "abs"
 msgstr "abs"
@@ -567,10 +570,10 @@ msgstr "Données importées avec succès."
 msgid "Data imported. Some records are invalid."
 msgstr "Données importées. Certains enregistrements sont invalides."
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "Langue des données"
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "Langue des données"
 
 msgid "Data not imported. All records are invalid."
@@ -741,6 +744,9 @@ msgstr "Erreur de syntaxe"
 
 msgid "Error in value"
 msgstr "Erreur dans la valeur"
+
+msgid "Error: %s"
+msgstr ""
 
 msgid "Examples:"
 msgstr ""
@@ -978,10 +984,10 @@ msgstr "Ressource %s importée"
 msgid "impossible to update task status"
 msgstr "Impossible de mettre à jour l'état de la tâche"
 
-msgid "In Progress"
+msgid "In progress"
 msgstr "En cours"
 
-msgid "In progress"
+msgid "In Progress"
 msgstr "En cours"
 
 msgid "Inclusive (AND)"
@@ -1113,6 +1119,9 @@ msgstr "Liste"
 msgid "List - Multiple choice - Check box"
 msgstr "Liste - Choix multiple - Case à cocher"
 
+msgid "List - Multiple choice - Search input"
+msgstr ""
+
 msgid "List - Single choice - Drop down"
 msgstr "Liste - Choix unique - Liste déroulante"
 
@@ -1170,8 +1179,20 @@ msgstr "L'identifiant est vide."
 msgid "Logout"
 msgstr "Se déconnecter"
 
+msgid "Main Menu"
+msgstr ""
+
+msgid "Maintenance service is already installed."
+msgstr ""
+
 msgid "Maintenance service must have a persistence option."
 msgstr "Le service de maintenance doit avoir une option de persistance."
+
+msgid "Maintenance service was installed. Platform is disabled."
+msgstr ""
+
+msgid "Maintenance service was installed. Platform is enabled."
+msgstr ""
 
 msgid "Maintenance storage driver is not set"
 msgstr "Le pilote de stockage de maintenance n'est pas configuré."
@@ -1882,6 +1903,24 @@ msgstr "Menu principal TAO"
 msgid "TAO Login"
 msgstr "Connexion à TAO"
 
+msgid "TAO platform is already on live mode since %s"
+msgstr ""
+
+msgid "TAO platform is already on maintenance mode since %s"
+msgstr ""
+
+msgid "TAO platform is live since %s."
+msgstr ""
+
+msgid "TAO platform is now live. It was in maintenance since %s"
+msgstr ""
+
+msgid "TAO platform is now under maintenance. It was in maintenance since %s"
+msgstr ""
+
+msgid "TAO platform is under maintenance since %s"
+msgstr ""
+
 msgid "Task %s has been cancelled, message was not processed."
 msgstr "La tâche %s a été annulée, le message n'a pas été traité."
 
@@ -2178,6 +2217,15 @@ msgstr "Envoyer vers :"
 
 msgid "Usage: ImportRdf RDF_FILE [MODEL_ID]"
 msgstr "Utilisation : ImportRdf FICHIER_RDF [ID_MODELE]"
+
+msgid "USAGE: please provide a valid extension id as second parameter"
+msgstr ""
+
+msgid "USAGE: please provide a valid service name as first parameter"
+msgstr ""
+
+msgid "USAGE: please provide the service name as first parameter"
+msgstr ""
 
 msgid "Use a term"
 msgstr "Utilisez un terme"

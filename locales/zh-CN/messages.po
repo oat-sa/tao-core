@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint129\n"
-"PO-Revision-Date: 2020-05-22T08:25:32\n"
+"Project-Id-Version: TAO 3.4.0-sprint131\n"
+"PO-Revision-Date: 2020-07-03T09:18:06\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-CN\n"
@@ -16,14 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " and "
-msgstr "和"
-
 msgid " AND "
 msgstr ""
 
-msgid " Fill in the gaps in a text from a set of choices."
-msgstr ""
+msgid " and "
+msgstr "和"
 
 msgid " has been deleted successfully"
 msgstr "已成功删除"
@@ -34,9 +31,6 @@ msgstr ""
 msgid " next"
 msgstr "下一个"
 
-msgid " or "
-msgstr ""
-
 msgid " requires a subgrid adapter"
 msgstr "需要一个subgrid adapter"
 
@@ -46,17 +40,11 @@ msgstr ""
 msgid "%d attempts left before your account is locked."
 msgstr ""
 
-msgid "%d characters allowed"
-msgstr ""
-
 msgid "%d day"
 msgstr "%d天"
 
 msgid "%d days"
 msgstr "%d天"
-
-msgid "%d/%d"
-msgstr ""
 
 msgid "%h hour"
 msgstr "%h小时"
@@ -106,12 +94,6 @@ msgstr ""
 msgid "%s has been released"
 msgstr ""
 
-msgid "%s hours %s minutes to answer remaining %s questions."
-msgstr ""
-
-msgid "%s hours %s minutes to answer the current question."
-msgstr ""
-
 msgid "%s instances"
 msgstr ""
 
@@ -119,12 +101,6 @@ msgid "%s is of a type that cannot be published"
 msgstr ""
 
 msgid "%s Locked"
-msgstr ""
-
-msgid "%s minutes to answer remaining %s questions."
-msgstr ""
-
-msgid "%s minutes to answer the current question."
 msgstr ""
 
 msgid "%s\" is not a valid index identifier. It must start with a letter and contain letters, numbers or underscores only"
@@ -138,9 +114,6 @@ msgstr "%y年"
 
 msgid "(empty)"
 msgstr "(空白)"
-
-msgid "-- Any kind of file --"
-msgstr ""
 
 msgid "... reloading page."
 msgstr "。 。 。 正在刷新页面。"
@@ -160,9 +133,6 @@ msgstr ">扩充程式%s已安装成功。"
 msgid "> Installation done."
 msgstr ">安装已完成。"
 
-msgid "A choice must be selected"
-msgstr ""
-
 msgid "a class"
 msgstr ""
 
@@ -172,28 +142,13 @@ msgstr ""
 msgid "A fatal error occured during the installation process."
 msgstr "安装下列项目时发生错误。"
 
-msgid "A human interpretation of the variable's value."
-msgstr ""
-
 msgid "A maintenance status must have a STATUS: \"%s\" or \"%s"
 msgstr ""
 
 msgid "A message with further instructions has been sent to your email address: %s"
 msgstr ""
 
-msgid "A response to every question in this item is required."
-msgstr ""
-
-msgid "A response to this item is required."
-msgstr ""
-
-msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
-msgstr ""
-
-msgid "A valid response to this item is required."
-msgstr ""
-
-msgid "A visible section is one that is identifiable by the candidate."
+msgid "About"
 msgstr ""
 
 msgid "abs"
@@ -229,15 +184,6 @@ msgstr ""
 msgid "Actions"
 msgstr "动作"
 
-msgid "Activated"
-msgstr ""
-
-msgid "Actual size"
-msgstr ""
-
-msgid "Adapt to screen size"
-msgstr ""
-
 msgid "Add"
 msgstr "添加"
 
@@ -247,12 +193,6 @@ msgstr ""
 msgid "Add a CSV file"
 msgstr "添加CSV文件"
 
-msgid "Add a modal feedback"
-msgstr ""
-
-msgid "add a new weight"
-msgstr ""
-
 #, tao-public
 msgid "Add a user"
 msgstr "添加使用者"
@@ -260,29 +200,11 @@ msgstr "添加使用者"
 msgid "Add an RDF/XML file"
 msgstr "添加RDF/XML文件"
 
-msgid "Add another option"
-msgstr ""
-
-msgid "Add choice"
-msgstr ""
-
-msgid "Add else feedback"
-msgstr ""
-
 msgid "Add file(s)"
 msgstr "添加文件"
 
-msgid "Add new pairs"
-msgstr ""
-
 msgid "Add property"
 msgstr "添加属性"
-
-msgid "Add selected item(s) here."
-msgstr ""
-
-msgid "Add Style Sheet"
-msgstr ""
 
 msgid "Adding search index for %s"
 msgstr ""
@@ -296,20 +218,11 @@ msgstr ""
 msgid "Advanced search, add filters"
 msgstr ""
 
-msgid "After you complete the section it would be impossible to return to this section to make changes. Are you sure you want to end the section?"
-msgstr ""
-
 msgid "aliases:"
-msgstr ""
-
-msgid "Alignment"
 msgstr ""
 
 msgid "all"
 msgstr "完全"
-
-msgid "All"
-msgstr ""
 
 msgid "All data will be removed in %s"
 msgstr ""
@@ -320,70 +233,22 @@ msgstr "所有都是必填栏"
 msgid "All rights reserved."
 msgstr "保留所有权利。"
 
-msgid "Allow Comment"
-msgstr ""
-
-msgid "Allow elimination"
-msgstr ""
-
 msgid "Allow for all domains"
 msgstr ""
 
 msgid "Allow for the following domains"
 msgstr ""
 
-msgid "Allow Review"
-msgstr ""
-
-msgid "Allow Skipping"
-msgstr ""
-
-msgid "Allow the candidate to review his answers."
-msgstr ""
-
-msgid "Allowed associations"
-msgstr ""
-
-msgid "Allowed choices"
-msgstr ""
-
-msgid "Allowed number of matches"
-msgstr ""
-
-msgid "Allowed number of uses"
-msgstr ""
-
 msgid "Alpha version"
 msgstr "Alpha版本"
 
-msgid "Also compute the score per categories"
-msgstr ""
-
-msgid "Alt Text"
-msgstr ""
-
 msgid "An email has been sent"
 msgstr "电子邮件已被送出"
-
-msgid "An error occured while retrieving items"
-msgstr ""
-
-msgid "An error occurred during results submission. Please retry."
-msgstr ""
-
-msgid "An error occurred during the test initialization!"
-msgstr ""
-
-msgid "An error occurred during the test, please content your administrator."
-msgstr ""
 
 msgid "An error occurred during user deletion"
 msgstr ""
 
 msgid "An error occurred!"
-msgstr ""
-
-msgid "An error occurs, please contact your administrator"
 msgstr ""
 
 msgid "An exception occured while running \"%s"
@@ -392,34 +257,7 @@ msgstr ""
 msgid "an instance"
 msgstr ""
 
-msgid "An invisible section with a parent that is subject to shuffling can specify whether or not its children, which will appear to the candidate as if they were part of the parent, are shuffled as a block or mixed up with the other children of the parent section."
-msgstr ""
-
-msgid "An optional link to an extended interpretation of the outcome variable."
-msgstr ""
-
-msgid "An unrecoverable error occurred. Your test session will be paused."
-msgstr ""
-
-msgid "and"
-msgstr ""
-
-msgid "and flagged %s of them"
-msgstr ""
-
-msgid "and you flagged %s item(s) that you can review now"
-msgstr ""
-
 msgid "Ans"
-msgstr ""
-
-msgid "Answer Eliminator"
-msgstr ""
-
-msgid "Answer Masking"
-msgstr ""
-
-msgid "Answered"
 msgstr ""
 
 msgid "Apply"
@@ -445,23 +283,8 @@ msgid "Are you sure to delete the versioned resource?\n"
 msgstr "您确定要删除该版本的资源? \n"
 "过去的纪录都将遗失。"
 
-msgid "Are you sure you want to clear your answer and go to the next item? You will not be able to go back and provide an answer."
-msgstr ""
-
 msgid "Are you sure you want to delete it?"
 msgstr "您确定要删除吗？"
-
-msgid "Are you sure you want to end the test?"
-msgstr ""
-
-msgid "Are you sure you want to go to the next item? You will not be able to go back and change your answer."
-msgstr ""
-
-msgid "Are you sure you want to go to the next item? You will not be able to go back and provide an answer."
-msgstr ""
-
-msgid "Are you sure you want to go to the next item? You will not be able to go back."
-msgstr ""
 
 msgid "Argument check failed: %s"
 msgstr ""
@@ -470,9 +293,6 @@ msgid "Arguments %s and %s are mutually exclusive"
 msgstr ""
 
 msgid "Arguments separator"
-msgstr ""
-
-msgid "Arrange a list of choices in the correct order."
 msgstr ""
 
 msgid "array"
@@ -488,24 +308,6 @@ msgstr "分配用户角色"
 msgid "Assign Users"
 msgstr "分配用户"
 
-msgid "Associate"
-msgstr ""
-
-msgid "Associate a blueprint to a section allow you to validate this section against the specified blueprint."
-msgstr ""
-
-msgid "Associate Blueprint"
-msgstr ""
-
-msgid "Associate Interaction"
-msgstr ""
-
-msgid "association pairs"
-msgstr ""
-
-msgid "at least"
-msgstr ""
-
 msgid "Author"
 msgstr "作者"
 
@@ -516,9 +318,6 @@ msgid "Authoring"
 msgstr "创作"
 
 msgid "auto unlocked in %s"
-msgstr ""
-
-msgid "Autostart"
 msgstr ""
 
 msgid "Available"
@@ -532,15 +331,6 @@ msgstr ""
 
 msgid "Back to listing"
 msgstr "回到列表"
-
-msgid "Back to Manage Items"
-msgstr ""
-
-msgid "Background color"
-msgstr ""
-
-msgid "Base"
-msgstr ""
 
 msgid "Base-10 logarithm"
 msgstr ""
@@ -563,26 +353,11 @@ msgstr ""
 msgid "Binary operator modulo"
 msgstr ""
 
-msgid "block"
-msgstr ""
-
-msgid "Block"
-msgstr ""
-
-msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
-msgstr ""
-
 msgid "boolean"
-msgstr ""
-
-msgid "Border color"
 msgstr ""
 
 msgid "Browse folders:"
 msgstr "浏览文件夹："
-
-msgid "Browse your computer and select the appropriate file."
-msgstr ""
 
 msgid "Browse..."
 msgstr "浏览..."
@@ -590,17 +365,11 @@ msgstr "浏览..."
 msgid "C"
 msgstr ""
 
-msgid "C++ file (.cpp)"
-msgstr ""
-
 msgid "Calculator"
 msgstr ""
 
 msgid "Calendar"
 msgstr "日历"
-
-msgid "Can not playback media file!"
-msgstr ""
 
 msgid "cancel"
 msgstr ""
@@ -614,48 +383,21 @@ msgstr ""
 msgid "Cancelled"
 msgstr ""
 
-msgid "Candidate"
-msgstr ""
-
 msgid "Cannot be edited"
 msgstr "无法编辑"
 
-msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
-msgstr ""
-
-msgid "Cannot delete a variable currently used in response processing"
-msgstr ""
-
 msgid "Cannot divide by zero"
-msgstr ""
-
-msgid "Cannot edit a variable currently used in response processing"
-msgstr ""
-
-msgid "Cardinality"
 msgstr ""
 
 msgid "Case sensitive"
 msgstr ""
 
-msgid "Categories"
-msgstr ""
-
-msgid "Category score"
-msgstr ""
-
 msgid "ceil"
-msgstr ""
-
-msgid "Center"
 msgstr ""
 
 #, tao-public
 msgid "Change password"
 msgstr "更改密码"
-
-msgid "Change the current color preset"
-msgstr ""
 
 msgid "Change the password"
 msgstr "更改密码"
@@ -663,32 +405,14 @@ msgstr "更改密码"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check All"
+msgid "Check all"
 msgstr "全部勾选"
 
-msgid "Check all"
+msgid "Check All"
 msgstr "全部勾选"
 
 msgid "Check-in"
 msgstr "登记"
-
-msgid "Choice"
-msgstr ""
-
-msgid "Choice Image"
-msgstr ""
-
-msgid "Choice Interaction"
-msgstr ""
-
-msgid "Choice Properties"
-msgstr ""
-
-msgid "Choices"
-msgstr ""
-
-msgid "choices"
-msgstr ""
 
 msgid "choices:"
 msgstr ""
@@ -701,12 +425,6 @@ msgstr "选择导出格式"
 
 msgid "Choose import format"
 msgstr "选择导入格式"
-
-msgid "Choose the horizontal alignment for the table."
-msgstr ""
-
-msgid "Class"
-msgstr ""
 
 msgid "class selected"
 msgstr "班级已选择"
@@ -726,22 +444,16 @@ msgstr ""
 msgid "Clear All"
 msgstr ""
 
-msgid "Clear all active highlights"
-msgstr ""
-
 msgid "Clear all data"
 msgstr ""
 
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear Highlights"
+msgid "Clear History"
 msgstr ""
 
 msgid "Clear history"
-msgstr ""
-
-msgid "Clear History"
 msgstr ""
 
 msgid "Clear selection"
@@ -753,49 +465,19 @@ msgstr ""
 msgid "Clear the stored variables"
 msgstr ""
 
-msgid "Click again to remove"
-msgstr ""
-
-msgid "Click to display interaction widget"
-msgstr ""
-
 msgid "Close"
-msgstr ""
-
-msgid "Close console"
 msgstr ""
 
 msgid "Close dialog"
 msgstr ""
 
-msgid "Close Magnifier"
-msgstr ""
-
 msgid "Close message"
-msgstr ""
-
-msgid "Close the mask"
-msgstr ""
-
-msgid "Close this Section"
 msgstr ""
 
 msgid "Code Version"
 msgstr ""
 
-msgid "Collapse the review panel"
-msgstr ""
-
-msgid "Collect open-ended information in a short text input (strings or numeric values)."
-msgstr ""
-
-msgid "Collect open-ended information in one or more text area(s) (strings or numeric values)."
-msgstr ""
-
 msgid "Collecting of abandoned actions in the action queue ..."
-msgstr ""
-
-msgid "Color Picker"
 msgstr ""
 
 msgid "Column"
@@ -804,25 +486,16 @@ msgstr "专栏"
 msgid "Commands:"
 msgstr ""
 
-msgid "Comment"
-msgstr ""
-
 msgid "comment..."
 msgstr ""
 
 msgid "Commit"
 msgstr "提交"
 
-msgid "Common Interactions"
-msgstr ""
-
 msgid "Completed"
 msgstr ""
 
 msgid "Completed - Error"
-msgstr ""
-
-msgid "Completed items"
 msgstr ""
 
 msgid "Compute the expression"
@@ -834,26 +507,8 @@ msgstr "确认"
 msgid "Connect to the TAO platform"
 msgstr "连结到TAO平台"
 
-msgid "Connected to server"
-msgstr ""
-
 msgid "Continue"
 msgstr "继续"
-
-msgid "Contraints"
-msgstr ""
-
-msgid "Contrast"
-msgstr ""
-
-msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
-msgstr ""
-
-msgid "Controls the contribution of an individual item score to the overall test score."
-msgstr ""
-
-msgid "Controls the maximum number of attempts allowed. 0 means unlimited."
-msgstr ""
 
 msgid "Copy"
 msgstr ""
@@ -862,12 +517,6 @@ msgid "Copy to"
 msgstr ""
 
 msgid "Copy to clipboard"
-msgstr ""
-
-msgid "correct"
-msgstr ""
-
-msgid "Correct"
 msgstr ""
 
 msgid "cos"
@@ -879,38 +528,14 @@ msgstr ""
 msgid "Cosine"
 msgstr ""
 
-msgid "Cosinus"
-msgstr ""
-
 msgid "count"
-msgstr ""
-
-msgid "Covers parts of the item"
 msgstr ""
 
 msgid "Create"
 msgstr "创建"
 
-msgid "Create assocations and fill the score in the form below"
-msgstr ""
-
-msgid "Create association(s) between areas (hotspots) displayed on a picture."
-msgstr ""
-
-msgid "Create association(s) between two sets of choices displayed in a table (row and column)."
-msgstr ""
-
-msgid "Create gap"
-msgstr ""
-
-msgid "Create hottext"
-msgstr ""
-
 msgid "Create instance of "
 msgstr "创建实例"
-
-msgid "Create pair(s) from a series of choices."
-msgstr ""
 
 msgid "Created"
 msgstr ""
@@ -924,9 +549,6 @@ msgstr ""
 msgid "CSV"
 msgstr "CSV (以逗号分隔)"
 
-msgid "CSV file"
-msgstr ""
-
 msgid "CSV Options"
 msgstr "CSV 选项"
 
@@ -939,33 +561,6 @@ msgstr "目前的语言"
 msgid "Current playback position"
 msgstr ""
 
-msgid "Current value:"
-msgstr ""
-
-msgid "Currently conversion from MathML to LaTeX is not available. Editing MathML here will have the LaTex code discarded."
-msgstr ""
-
-msgid "custom"
-msgstr ""
-
-msgid "Custom"
-msgstr ""
-
-msgid "custom categories"
-msgstr ""
-
-msgid "Custom outcome processing. No changes will be made to the existing rules."
-msgstr ""
-
-msgid "Custom Response Processing Mode"
-msgstr ""
-
-msgid "Cut score"
-msgstr ""
-
-msgid "Cut score (pass ratio)"
-msgstr ""
-
 msgid "Data imported"
 msgstr "已导入的数据"
 
@@ -975,11 +570,11 @@ msgstr "数据已成功导入"
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data language"
-msgstr "数据语言"
-
 msgid "Data Language"
 msgstr "资料语言"
+
+msgid "Data language"
+msgstr "数据语言"
 
 msgid "Data not imported. All records are invalid."
 msgstr ""
@@ -996,44 +591,14 @@ msgstr ""
 msgid "date time range"
 msgstr ""
 
-msgid "default"
-msgstr ""
-
-msgid "Default"
-msgstr ""
-
 msgid "Default search"
 msgstr "默认搜索"
 
 msgid "default:"
 msgstr ""
 
-msgid "Define correct response"
-msgstr ""
-
-msgid "Define item language."
-msgstr ""
-
-msgid "define prompt"
-msgstr ""
-
-msgid "Define the correct response."
-msgstr ""
-
 msgid "Define the default values"
 msgstr "设定默认值"
-
-msgid "Define whether a choice must be selected by the candidate in order to form a valid response to the interaction."
-msgstr ""
-
-msgid "Define whether the item should be time dependent on delivery."
-msgstr ""
-
-msgid "Defined width"
-msgstr ""
-
-msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
-msgstr ""
 
 msgid "Deg"
 msgstr ""
@@ -1041,15 +606,9 @@ msgstr ""
 msgid "Degree"
 msgstr ""
 
-msgid "delete"
-msgstr ""
-
 #, tao-public
 msgid "Delete"
 msgstr "删除"
-
-msgid "Delete else statement"
-msgstr ""
 
 msgid "Delete Left"
 msgstr ""
@@ -1063,23 +622,11 @@ msgstr ""
 msgid "Delete the term on the right side of the cursor"
 msgstr ""
 
-msgid "Delete this modal feedback"
-msgstr ""
-
 msgid "Deleting search index for %s"
-msgstr ""
-
-msgid "Delimiter"
 msgstr ""
 
 msgid "Demo Sandbox"
 msgstr "演示用沙盘"
-
-msgid "Description"
-msgstr ""
-
-msgid "Desktop preview"
-msgstr ""
 
 msgid "Did you mean %s?"
 msgstr ""
@@ -1114,31 +661,7 @@ msgstr ""
 msgid "Digit 9"
 msgstr ""
 
-msgid "Disable this stylesheet temporarily"
-msgstr ""
-
 msgid "Disabled %s"
-msgstr ""
-
-msgid "Disconnected from server"
-msgstr ""
-
-msgid "Display"
-msgstr ""
-
-msgid "Display the choices either horizontally or vertically"
-msgstr ""
-
-msgid "Displays a customisable magnifier"
-msgstr ""
-
-msgid "Divide"
-msgstr ""
-
-msgid "Do not flag the current item for later review"
-msgstr ""
-
-msgid "Do not rename it."
 msgstr ""
 
 msgid "Do you wish to install the following extension(s):\n"
@@ -1152,32 +675,14 @@ msgstr "不相符"
 msgid "Don't set"
 msgstr "不设定"
 
-msgid "Don\'t save"
-msgstr ""
-
-msgid "done"
-msgstr ""
-
-msgid "Done"
-msgstr ""
-
-msgid "Don’t show this again!"
-msgstr ""
-
 msgid "Dot"
 msgstr ""
 
 msgid "Download"
 msgstr "下载"
 
-msgid "Download the pupil responses and submit manually."
-msgstr ""
-
 msgid "Download this file"
 msgstr "下载这个文件"
-
-msgid "Download this stylesheet"
-msgstr ""
 
 msgid "Drag file here"
 msgstr "把文件拖到这里"
@@ -1185,29 +690,8 @@ msgstr "把文件拖到这里"
 msgid "Drag files here"
 msgstr "把文件拖到这里"
 
-msgid "Draw a circle on the image"
-msgstr ""
-
-msgid "Draw a free form on the image"
-msgstr ""
-
-msgid "Draw a rectangle on the image"
-msgstr ""
-
-msgid "Draw an ellipsis on the image"
-msgstr ""
-
 msgid "Drop the files to upload"
 msgstr "把要上传的文件拖到这里"
-
-msgid "Drop the target to select a point"
-msgstr ""
-
-msgid "e.g. 13"
-msgstr ""
-
-msgid "e.g. 960"
-msgstr ""
 
 msgid "Edit"
 msgstr "编辑"
@@ -1216,32 +700,11 @@ msgstr "编辑"
 msgid "Edit a user"
 msgstr "编辑使用者"
 
-msgid "edit choices"
-msgstr ""
-
 msgid "Edit class %s"
 msgstr ""
 
 msgid "Edit Instance"
 msgstr "编辑实例"
-
-msgid "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"
-msgstr ""
-
-msgid "Edit math expression using MathML"
-msgstr ""
-
-msgid "Edit modal feedback"
-msgstr ""
-
-msgid "Edit modal feedback title"
-msgstr ""
-
-msgid "Edit stylesheet label"
-msgstr ""
-
-msgid "Editing Mode"
-msgstr ""
 
 msgid "Element"
 msgstr "元素"
@@ -1249,26 +712,8 @@ msgstr "元素"
 msgid "Element deleted."
 msgstr "元素已被删除。"
 
-msgid "Element Properties"
-msgstr ""
-
-msgid "elements"
-msgstr ""
-
-msgid "Eliminate choices"
-msgstr ""
-
 msgid "Email"
 msgstr "电子邮件"
-
-msgid "Enable selection"
-msgstr ""
-
-msgid "Enable text to speech"
-msgstr ""
-
-msgid "Enable the test taker to pause and restart the playing."
-msgstr ""
 
 msgid "enabled"
 msgstr ""
@@ -1276,41 +721,11 @@ msgstr ""
 msgid "Enabled %s"
 msgstr ""
 
-msgid "End Attempt"
-msgstr ""
-
-msgid "End Attempt Interaction"
-msgstr ""
-
 msgid "End of document reached. Continuing from the beginning."
-msgstr ""
-
-msgid "End test"
-msgstr ""
-
-msgid "Enlarge font size"
 msgstr ""
 
 msgid "Enter"
 msgstr "输入"
-
-msgid "Enter a blueprint"
-msgstr ""
-
-msgid "Enter a custom category"
-msgstr ""
-
-msgid "Enter a select MIME-type"
-msgstr ""
-
-msgid "Enter choices…"
-msgstr ""
-
-msgid "Enter tooltip content"
-msgstr ""
-
-msgid "Enter tooltip target"
-msgstr ""
 
 msgid "Error"
 msgstr "错误"
@@ -1330,7 +745,7 @@ msgstr ""
 msgid "Error in value"
 msgstr ""
 
-msgid "Euler\'s constant"
+msgid "Error: %s"
 msgstr ""
 
 msgid "Examples:"
@@ -1346,9 +761,6 @@ msgid "Executing task %s failed"
 msgstr ""
 
 msgid "exp"
-msgstr ""
-
-msgid "Expand the review panel"
 msgstr ""
 
 msgid "Exponent"
@@ -1376,27 +788,12 @@ msgstr "用RDF/XML文件格式将元数据导出"
 msgid "Export succeeded."
 msgstr ""
 
-msgid "Expose the property value to create automated categories."
-msgstr ""
-
-msgid "Extended Text"
-msgstr ""
-
-msgid "Extended Text Interaction"
-msgstr ""
-
 msgid "Extension \"%s\" has been installed"
 msgstr ""
 
 #, tao-public
 msgid "Extensions manager"
 msgstr "扩展程序管理器"
-
-msgid "External Machine"
-msgstr ""
-
-msgid "External Scored"
-msgstr ""
 
 msgid "Factorial"
 msgstr ""
@@ -1407,23 +804,8 @@ msgstr ""
 msgid "Failed to delete index for %s"
 msgstr ""
 
-msgid "Failed to save item"
-msgstr ""
-
 msgid "False"
 msgstr "假"
-
-msgid "Feedback"
-msgstr ""
-
-msgid "Feedback block"
-msgstr ""
-
-msgid "Feedback Style"
-msgstr ""
-
-msgid "Field"
-msgstr ""
 
 msgid "Field delimiter"
 msgstr "栏的分隔符"
@@ -1443,29 +825,17 @@ msgstr ""
 msgid "File name"
 msgstr "文件名"
 
-msgid "File not found!"
-msgstr ""
-
 msgid "File Properties"
 msgstr "文件属性"
 
 msgid "file selected"
 msgstr "已选择的文件"
 
-msgid "File Upload"
-msgstr ""
-
-msgid "File Upload Interaction"
-msgstr ""
-
 msgid "File Uploader"
 msgstr "文件上传器"
 
 msgid "files selected"
 msgstr "已选择的文件夹"
-
-msgid "Fill in the gaps on a picture with a set of image choices."
-msgstr ""
 
 msgid "Filter"
 msgstr "过滤条件"
@@ -1488,34 +858,7 @@ msgstr "第一列栏位名称"
 msgid "Fit to width"
 msgstr ""
 
-msgid "Fixed"
-msgstr ""
-
-msgid "Fixed position in a shuffled the selection."
-msgstr ""
-
-msgid "Flag for Review"
-msgstr ""
-
-msgid "Flag the current item for later review"
-msgstr ""
-
-msgid "Flagged"
-msgstr ""
-
-msgid "Flagged for review"
-msgstr ""
-
-msgid "Flash video"
-msgstr ""
-
 msgid "floor"
-msgstr ""
-
-msgid "Font family"
-msgstr ""
-
-msgid "Font size"
 msgstr ""
 
 msgid "Forbid for all domains"
@@ -1536,26 +879,11 @@ msgstr ""
 msgid "Form data not saved."
 msgstr ""
 
-msgid "Format"
-msgstr ""
-
-msgid "Fraction"
-msgstr ""
-
 msgid "From"
 msgstr ""
 
 msgid "Fuzzy Matching"
 msgstr "模糊匹配"
-
-msgid "Gap"
-msgstr ""
-
-msgid "Gap Match"
-msgstr ""
-
-msgid "Gap Match Interaction"
-msgstr ""
 
 msgid "generated-value"
 msgstr ""
@@ -1569,34 +897,10 @@ msgstr ""
 msgid "Get the history list"
 msgstr ""
 
-msgid "GIF image"
-msgstr ""
-
 msgid "Go Back"
 msgstr "返回"
 
 msgid "go back to home page"
-msgstr ""
-
-msgid "Go to next item"
-msgstr ""
-
-msgid "Go to the next item?"
-msgstr ""
-
-msgid "Graphic Associate Interaction"
-msgstr ""
-
-msgid "Graphic Gap Match Interaction"
-msgstr ""
-
-msgid "Graphic Interactions"
-msgstr ""
-
-msgid "Graphic Order Interaction"
-msgstr ""
-
-msgid "Greater than or equal"
 msgstr ""
 
 msgid "Height"
@@ -1611,50 +915,11 @@ msgstr "隐藏详细报告"
 msgid "Hide password"
 msgstr ""
 
-msgid "Hide Review"
-msgstr ""
-
-msgid "Hide the review screen"
-msgstr ""
-
-msgid "Hide timers"
-msgstr ""
-
-msgid "Highlight"
-msgstr ""
-
 msgid "Highlight all"
-msgstr ""
-
-msgid "Highlight Text"
-msgstr ""
-
-msgid "Horizontal"
-msgstr ""
-
-msgid "Hotspot"
-msgstr ""
-
-msgid "Hotspot Interaction"
-msgstr ""
-
-msgid "Hottext"
-msgstr ""
-
-msgid "Hottext Interaction"
 msgstr ""
 
 msgid "hours"
 msgstr "小时"
-
-msgid "How the math expression should be displayed."
-msgstr ""
-
-msgid "How the math expression should be edited"
-msgstr ""
-
-msgid "Human"
-msgstr ""
 
 msgid "Hyperbolic arc cosine"
 msgstr ""
@@ -1674,56 +939,11 @@ msgstr ""
 msgid "Hyperbolic tangent"
 msgstr ""
 
-msgid "identical pair already exists"
-msgstr ""
-
-msgid "identifier"
-msgstr ""
-
 msgid "Identifier"
 msgstr "识别码"
 
-msgid "identifier already taken"
-msgstr ""
-
-msgid "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid"
-msgstr ""
-
-msgid "If required it must appear (at least once) in the selection."
-msgstr ""
-
-msgid "If required, it must appears at least once in the selection."
-msgstr ""
-
-msgid "If set, it causes the order of the child elements to be randomized, otherwise it uses the order in which the child elements are defined."
-msgstr ""
-
-msgid "If the candidate can skip the item, without submitting a response (default is true)."
-msgstr ""
-
-msgid "If the category option is set, the score will also be processed per categories, and each results will take place in the PASS_xxx outcome, where xxx is the name of the category."
-msgstr ""
-
-msgid "If the category option is set, the score will also be processed per categories, and each results will take place in the SCORE_xxx outcome, where xxx is the name of the category."
-msgstr ""
-
-msgid "If the connection cannot be restored, see option B."
-msgstr ""
-
-msgid "If the string interaction is bound to a numeric response variable then the base attribute must be used to set the number base in which to interpret the value entered by the candidate."
-msgstr ""
-
-msgid "If the variable value is a float and powerForm is set to 'false', the variable will be rendered using the 'e' or 'E' format. If the powerform is set to 'true', the form 'e+n' is changed to 'x 10n'."
-msgstr ""
-
-msgid "If this box is checked the student will be able to eliminate choices."
-msgstr ""
-
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
 msgstr "如果您不想更改密码，您可以忽略这封电子邮件，您的密码不会改变。"
-
-msgid "If you need help, please contact our Helpline on 0330 088 4171."
-msgstr ""
 
 msgid "Implications failed:"
 msgstr ""
@@ -1770,28 +990,10 @@ msgstr ""
 msgid "In Progress"
 msgstr ""
 
-msgid "In seconds. Delay during which the replay of the media is allowed. Once reached, the media is disabled and cannot be played anymore."
-msgstr ""
-
-msgid "In this part of the test navigation is not allowed."
-msgstr ""
-
-msgid "In visual environments, string interactions are typically represented by empty boxes into which the candidate writes or types.  Delivery engines should use the value of this attribute (if provided) instead of their default placeholder text when this is required."
-msgstr ""
-
 msgid "Inclusive (AND)"
 msgstr "包容(和)"
 
-msgid "incorrect"
-msgstr ""
-
-msgid "Index"
-msgstr ""
-
 msgid "Index has been deleted for %s"
-msgstr ""
-
-msgid "Individual"
 msgstr ""
 
 msgid "Infinity"
@@ -1801,21 +1003,6 @@ msgid "Injector has to contains a valid \"destination\" field."
 msgstr ""
 
 msgid "Injector has to contains a valid \"source\" field."
-msgstr ""
-
-msgid "inline"
-msgstr ""
-
-msgid "Inline Choice"
-msgstr ""
-
-msgid "Inline Choice Interaction"
-msgstr ""
-
-msgid "Inline Interactions"
-msgstr ""
-
-msgid "Inline interactions need to be inserted into a text block."
 msgstr ""
 
 msgid "Install"
@@ -1839,20 +1026,11 @@ msgstr "正在安装扩展程序%s..."
 msgid "Instance saved"
 msgstr "实体已储存"
 
-msgid "Interaction Background"
-msgstr ""
-
-msgid "Interaction Properties"
-msgstr ""
-
 msgid "Interface language"
 msgstr "介面语言"
 
 msgid "Interface Language"
 msgstr "介面语言"
-
-msgid "Interpretation"
-msgstr ""
 
 msgid "Invalid CSP header."
 msgstr ""
@@ -1887,9 +1065,6 @@ msgstr ""
 msgid "Invalid file type!"
 msgstr "无效的文件型态!"
 
-msgid "invalid identifier"
-msgstr ""
-
 msgid "Invalid input"
 msgstr ""
 
@@ -1908,92 +1083,17 @@ msgstr ""
 msgid "invalid regular expression"
 msgstr "无效的正规表示式"
 
-msgid "Invalid URL"
-msgstr ""
-
 msgid "Invalid values:"
-msgstr ""
-
-msgid "is already used in the test."
-msgstr ""
-
-msgid "is not a valid identifier (alphanum, underscore, dash and dots)"
-msgstr ""
-
-msgid "is not a valid identifier (everything except spaces)"
-msgstr ""
-
-msgid "Is this choice the correct response?"
-msgstr ""
-
-msgid "Is this pair the correct response?"
-msgstr ""
-
-msgid "It is not possible to save your responses while working offline."
-msgstr ""
-
-msgid "Item \"%s\" is completed."
-msgstr ""
-
-msgid "Item %d"
-msgstr ""
-
-msgid "Item %d of %d"
-msgstr ""
-
-msgid "Item Properties"
-msgstr ""
-
-msgid "Item properties"
-msgstr ""
-
-msgid "Item Reference Properties"
-msgstr ""
-
-msgid "Item Session Control"
-msgstr ""
-
-msgid "Item width"
-msgstr ""
-
-msgid "Items"
-msgstr ""
-
-msgid "items"
-msgstr ""
-
-msgid "Items can optionally be assigned to one or more categories."
-msgstr ""
-
-msgid "Items marked for later review"
 msgstr ""
 
 msgid "items per page"
 msgstr ""
 
-msgid "JPEG image"
-msgstr ""
-
-msgid "Jump Menu"
-msgstr ""
-
-msgid "Jump to:"
-msgstr ""
-
-msgid "Keep Together"
-msgstr ""
-
 msgid "Label"
 msgstr "标签"
 
-msgid "Landscape"
-msgstr ""
-
 msgid "Language"
 msgstr "语言"
-
-msgid "Large editor"
-msgstr ""
 
 msgid "Last attempt before your account is locked."
 msgstr ""
@@ -2007,59 +1107,11 @@ msgstr ""
 msgid "Last result"
 msgstr ""
 
-msgid "Late submission allowed"
-msgstr ""
-
-msgid "LaTeX"
-msgstr ""
-
-msgid "Latex"
-msgstr ""
-
-msgid "Leave a comment"
-msgstr ""
-
-msgid "leave empty"
-msgstr ""
-
-msgid "left"
-msgstr ""
-
-msgid "Left"
-msgstr ""
-
-msgid "Left bracket"
-msgstr ""
-
 msgid "Left parenthesis"
-msgstr ""
-
-msgid "Length"
 msgstr ""
 
 msgid "less than a minute"
 msgstr "少于一分钟"
-
-msgid "Less than one minute to answer remaining %s questions."
-msgstr ""
-
-msgid "Less than one minute to answer the current question."
-msgstr ""
-
-msgid "Level"
-msgstr ""
-
-msgid "Line Reader"
-msgstr ""
-
-msgid "Linear"
-msgstr ""
-
-msgid "Lines"
-msgstr ""
-
-msgid "Link durations to activate the guided navigation"
-msgstr ""
 
 msgid "List"
 msgstr "清单"
@@ -2067,22 +1119,19 @@ msgstr "清单"
 msgid "List - Multiple choice - Check box"
 msgstr "清单-选择题-复选框"
 
+msgid "List - Multiple choice - Search input"
+msgstr ""
+
 msgid "List - Single choice - Drop down"
 msgstr "清单-单项选择-下拉"
 
 msgid "List - Single choice - Radio button"
 msgstr "清单-单项选择-按钮"
 
-msgid "List Style"
-msgstr ""
-
 msgid "List values"
 msgstr ""
 
 msgid "ln"
-msgstr ""
-
-msgid "Ln"
 msgstr ""
 
 msgid "Load more"
@@ -2106,13 +1155,7 @@ msgstr ""
 msgid "locked by %s"
 msgstr ""
 
-msgid "Locked duration  : guided navigation. The test transition to the next item once the duration reaches 0."
-msgstr ""
-
 msgid "log"
-msgstr ""
-
-msgid "Log"
 msgstr ""
 
 msgid "Log in"
@@ -2136,31 +1179,19 @@ msgstr ""
 msgid "Logout"
 msgstr ""
 
-msgid "Long interpretation"
+msgid "Main Menu"
 msgstr ""
 
-msgid "Loop"
-msgstr ""
-
-msgid "Lower Bound"
-msgstr ""
-
-msgid "Lower than or equal"
-msgstr ""
-
-msgid "Magnify less"
-msgstr ""
-
-msgid "Magnify more"
-msgstr ""
-
-msgid "Magnifying Glass"
-msgstr ""
-
-msgid "Main navigation"
+msgid "Maintenance service is already installed."
 msgstr ""
 
 msgid "Maintenance service must have a persistence option."
+msgstr ""
+
+msgid "Maintenance service was installed. Platform is disabled."
+msgstr ""
+
+msgid "Maintenance service was installed. Platform is enabled."
 msgstr ""
 
 msgid "Maintenance storage driver is not set"
@@ -2172,18 +1203,12 @@ msgstr ""
 msgid "Manage data list"
 msgstr "管理数据清单"
 
-msgid "Manage Items"
-msgstr ""
-
 #, tao-public
 msgid "Manage roles"
 msgstr "管理角色"
 
 msgid "Manage Roles and apply them to users."
 msgstr "管理角色并设定用户。"
-
-msgid "Manage Rubric Blocks"
-msgstr ""
 
 #, tao-public
 msgid "Manage users"
@@ -2192,103 +1217,10 @@ msgstr "管理用户"
 msgid "Manage Versioned File"
 msgstr "管理多版本的文件"
 
-msgid "map response"
-msgstr ""
-
 msgid "Map the properties to the CSV columns"
 msgstr "映射属性设置为CSV列"
 
-msgid "Mapping default"
-msgstr ""
-
-msgid "Mapping Indicator"
-msgstr ""
-
-msgid "Mark for review"
-msgstr ""
-
-msgid "Masking"
-msgstr ""
-
-msgid "Match"
-msgstr ""
-
-msgid "match correct"
-msgstr ""
-
-msgid "Match Interaction"
-msgstr ""
-
-msgid "Match value"
-msgstr ""
-
-msgid "MathJax is not installed."
-msgstr ""
-
-msgid "MathML"
-msgstr ""
-
-msgid "Max"
-msgstr ""
-
-msgid "Max Attempts"
-msgstr ""
-
-msgid "Max length"
-msgstr ""
-
-msgid "Max Length"
-msgstr ""
-
-msgid "Max plays count"
-msgstr ""
-
-msgid "Max words"
-msgstr ""
-
-msgid "Max Words"
-msgstr ""
-
-msgid "Max. number of matches"
-msgstr ""
-
-msgid "Maximal score for this interaction."
-msgstr ""
-
-msgid "Maximum choices reached"
-msgstr ""
-
-msgid "Maximum Duration"
-msgstr ""
-
-msgid "Maximum duration : the items times out when the duration reaches 0."
-msgstr ""
-
-msgid "Maximum duration for the all test."
-msgstr ""
-
-msgid "Maximum duration for this item."
-msgstr ""
-
-msgid "Maximum duration for this section."
-msgstr ""
-
-msgid "Maximum duration for this test part."
-msgstr ""
-
-msgid "Maximum number of choices reached."
-msgstr ""
-
 msgid "Maximum selection reached"
-msgstr ""
-
-msgid "Media"
-msgstr ""
-
-msgid "Media file path or YouTube video address"
-msgstr ""
-
-msgid "Media Interaction"
 msgstr ""
 
 msgid "Media resize along with their container, e.g. 50% means half of the container size not half of the media size."
@@ -2303,42 +1235,6 @@ msgstr ""
 msgid "Metadata export is not available for the selected resource."
 msgstr ""
 
-msgid "Microsoft Excel"
-msgstr ""
-
-msgid "Microsoft Powerpoint"
-msgstr ""
-
-msgid "Microsoft Word"
-msgstr ""
-
-msgid "MIME-type"
-msgstr ""
-
-msgid "Min"
-msgstr ""
-
-msgid "Minimal  score for this interaction."
-msgstr ""
-
-msgid "Minimum Duration"
-msgstr ""
-
-msgid "Minimum duration : enforces the test taker to stay on the item for the given duration."
-msgstr ""
-
-msgid "Minimum duration for the test."
-msgstr ""
-
-msgid "Minimum duration for this item."
-msgstr ""
-
-msgid "Minimum duration for this section."
-msgstr ""
-
-msgid "Minimum duration for this test part."
-msgstr ""
-
 msgid "minutes"
 msgstr "分钟"
 
@@ -2348,21 +1244,6 @@ msgstr ""
 msgid "Missing Parameters"
 msgstr ""
 
-msgid "Missing required configuration option %s"
-msgstr ""
-
-msgid "Mobile preview"
-msgstr ""
-
-msgid "Modal feedback is shown to the candidate directly following response processing."
-msgstr ""
-
-msgid "Modal Feedback Prop."
-msgstr ""
-
-msgid "Modal Feedbacks"
-msgstr ""
-
 msgid "modulo"
 msgstr ""
 
@@ -2370,9 +1251,6 @@ msgid "More"
 msgstr "更多"
 
 msgid "Move"
-msgstr ""
-
-msgid "Move Down"
 msgstr ""
 
 msgid "Move Left"
@@ -2394,26 +1272,11 @@ msgstr ""
 msgid "Move to"
 msgstr "移动到"
 
-msgid "Move Up"
-msgstr ""
-
 msgid "Moving this element will replace the properties of the previous class by those of the destination class :"
 msgstr "当您移动这个元素时，您将会用目标类的属性取代之前类别的属性:"
 
-msgid "MP4 video"
-msgstr ""
-
-msgid "MPEG audio"
-msgstr ""
-
-msgid "MPEG video"
-msgstr ""
-
 msgid "Multiple values delimiter"
 msgstr "多个值分隔符"
-
-msgid "Multiply"
-msgstr ""
 
 msgid "Multiply the value by 10^x"
 msgstr ""
@@ -2434,16 +1297,7 @@ msgstr "我的设定(%s)"
 msgid "Name"
 msgstr "姓名"
 
-msgid "name of the pupil"
-msgstr ""
-
 msgid "Natural logarithm"
-msgstr ""
-
-msgid "Navigation"
-msgstr ""
-
-msgid "negative"
 msgstr ""
 
 msgid "New password"
@@ -2452,12 +1306,6 @@ msgstr "命名空间"
 #, tao-public
 msgid "New role"
 msgstr "新角色"
-
-msgid "New Rubric Block"
-msgstr ""
-
-msgid "New section"
-msgstr ""
 
 msgid "Next"
 msgstr "下一个"
@@ -2468,9 +1316,6 @@ msgstr ""
 msgid "Next page"
 msgstr ""
 
-msgid "Next Section"
-msgstr ""
-
 msgid "No"
 msgstr "否"
 
@@ -2478,9 +1323,6 @@ msgid "No action specified"
 msgstr ""
 
 msgid "No client translation bundles updated"
-msgstr ""
-
-msgid "no configuration property needed"
 msgstr ""
 
 msgid "No extensions available."
@@ -2498,15 +1340,6 @@ msgstr "没有文件"
 msgid "no label"
 msgstr "无标签"
 
-msgid "No more attempts allowed for item \"%s\"."
-msgstr ""
-
-msgid "no outcome declaration found"
-msgstr ""
-
-msgid "No outcome processing. Erase the existing rules, if any."
-msgstr ""
-
 msgid "No Preview available"
 msgstr "没有可用的预览"
 
@@ -2519,37 +1352,13 @@ msgstr "找不到任何资料"
 msgid "No Task yet"
 msgstr ""
 
-msgid "No value set"
-msgstr ""
-
 msgid "Node duplication has failed"
-msgstr ""
-
-msgid "Non Linear"
-msgstr ""
-
-msgid "None"
-msgstr ""
-
-msgid "none"
-msgstr ""
-
-msgid "None defined yet."
-msgstr ""
-
-msgid "Not answered"
 msgstr ""
 
 msgid "Not enough arguments following: %s"
 msgstr ""
 
 msgid "Not enough non-option arguments: got %s, need at least %s"
-msgstr ""
-
-msgid "Not seen"
-msgstr ""
-
-msgid "Not shuffled, the position remains fixed."
 msgstr ""
 
 msgid "Not started"
@@ -2577,9 +1386,6 @@ msgstr ""
 msgid "number"
 msgstr ""
 
-msgid "Number of associations"
-msgstr ""
-
 msgid "Number of elements"
 msgstr "元素的数量"
 
@@ -2589,16 +1395,10 @@ msgstr "的"
 msgid "Off"
 msgstr ""
 
-msgid "Offline"
-msgstr ""
-
 msgid "OK"
 msgstr ""
 
 msgid "Ok"
-msgstr ""
-
-msgid "OK & End test"
 msgstr ""
 
 msgid "Old Password"
@@ -2607,86 +1407,20 @@ msgstr "旧密码"
 msgid "On"
 msgstr ""
 
-msgid "Once you close this section, you cannot return to it or change your answers."
-msgstr ""
-
-msgid "one association pair"
-msgstr ""
-
-msgid "Online"
-msgstr ""
-
 msgid "Only allow for my own domain (%s)"
-msgstr ""
-
-msgid "Only display the items marked for review"
-msgstr ""
-
-msgid "Only display the unanswered items"
-msgstr ""
-
-msgid "Open Calculator"
-msgstr ""
-
-msgid "Open Keyboard Shortcuts"
-msgstr ""
-
-msgid "OpenDocument spreadsheet document"
-msgstr ""
-
-msgid "OpenDocument text document"
 msgstr ""
 
 msgid "Operated By "
 msgstr ""
 
-msgid "Option A"
-msgstr ""
-
-msgid "Option B"
-msgstr ""
-
 msgid "or"
 msgstr "或"
-
-msgid "Order"
-msgstr ""
-
-msgid "Order Interaction"
-msgstr ""
-
-msgid "Order the areas (hotspots) displayed on a picture."
-msgstr ""
-
-msgid "Ordering"
-msgstr ""
-
-msgid "Orientation"
-msgstr ""
-
-msgid "Outcome"
-msgstr ""
-
-msgid "Outcome declarations"
-msgstr ""
-
-msgid "Outcome Declarations"
-msgstr ""
-
-msgid "Outcome processing"
-msgstr ""
 
 msgid "Outlook on the next Synchronization"
 msgstr ""
 
 msgid "Page"
 msgstr "页面"
-
-msgid "Pair scoring"
-msgstr ""
-
-msgid "Pascal file (.pas)"
-msgstr ""
 
 msgid "Password"
 msgstr "密码"
@@ -2706,28 +1440,13 @@ msgstr "密码更改成功"
 msgid "Passwords are not matching"
 msgstr "密码不相符"
 
-msgid "Pattern"
-msgstr ""
-
 msgid "Pause"
-msgstr ""
-
-msgid "PDF file"
 msgstr ""
 
 msgid "Permission denied to write in the selected class"
 msgstr ""
 
-msgid "Pi"
-msgstr ""
-
-msgid "Plain text"
-msgstr ""
-
 msgid "Play"
-msgstr ""
-
-msgid "Please add one or more gaps to the text in question mode."
 msgstr ""
 
 msgid "Please confirm deletion"
@@ -2751,9 +1470,6 @@ msgstr "请确认这个行动。"
 msgid "Please confirm unlocking of account %s"
 msgstr ""
 
-msgid "Please confirm you want to leave the test."
-msgstr ""
-
 msgid "Please contact %s or an administrator to release it"
 msgstr ""
 
@@ -2763,89 +1479,19 @@ msgstr ""
 msgid "Please contact your system administrator."
 msgstr ""
 
-msgid "Please create areas that correspond to the response and associate them a score.\n"
-""
-msgstr ""
-
-msgid "Please define association pairs and their scores below."
-msgstr ""
-
-msgid "Please define the correct association pairs below."
-msgstr ""
-
-msgid "Please define the correct order in the box to the right."
-msgstr ""
-
-msgid "Please define the correct response and the score below."
-msgstr ""
-
-msgid "Please define the correct response below."
-msgstr ""
-
-msgid "Please define the correct response using the slider."
-msgstr ""
-
 msgid "Please download the track and listen offline."
 msgstr ""
 
 msgid "Please download the video and view offline."
 msgstr ""
 
-msgid "Please enter the score for the given hottexts."
-msgstr ""
-
-msgid "Please fill the gap with the correct choices below."
-msgstr ""
-
-msgid "Please fill the gap with the correct choices."
-msgstr ""
-
-msgid "Please fill the gap with the images below, then edit the score for each gap/image pair."
-msgstr ""
-
-msgid "Please fill the gap with the texts below, then edit the score for each pair."
-msgstr ""
-
 msgid "Please give a message to your commit"
 msgstr "请把信息给您的提交"
-
-msgid "Please order the choices below to set the correct answer"
-msgstr ""
 
 msgid "Please provide a reason"
 msgstr ""
 
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
-msgstr ""
-
-msgid "Please select a media file (video or audio) from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
-msgstr ""
-
-msgid "Please select a media file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
-msgstr ""
-
-msgid "Please select a shared stimulus file from the resource manager."
-msgstr ""
-
-msgid "Please select an image file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
-msgstr ""
-
-msgid "Please select the correct hotspot choices below."
-msgstr ""
-
-msgid "Please select the correct hottext choices below."
-msgstr ""
-
-msgid "Please set the correct associations by linking the choices."
-msgstr ""
-
-msgid "Please the score of each hotspot choice."
-msgstr ""
-
-msgid "Please type the correct response below."
-msgstr ""
-
-msgid "Please type the correct response in the box below."
 msgstr ""
 
 msgid "Please wait"
@@ -2854,26 +1500,8 @@ msgstr ""
 msgid "Please wait while ..."
 msgstr ""
 
-msgid "Please wait while we try to restore the connection."
-msgstr ""
-
-msgid "PNG image"
-msgstr ""
-
-msgid "Portrait"
-msgstr ""
-
-msgid "Position one or more points on a picture (response areas are not displayed)."
-msgstr ""
-
-msgid "positive"
-msgstr ""
-
 msgid "Post install processing"
 msgstr "安装后处理过程"
-
-msgid "Power form"
-msgstr ""
 
 msgid "Power of"
 msgstr ""
@@ -2881,23 +1509,11 @@ msgstr ""
 msgid "Power of 10"
 msgstr ""
 
-msgid "Pre-formatted text"
-msgstr ""
-
-msgid "Preparing CSS, please wait…"
-msgstr ""
-
 msgid "Preparing installation..."
 msgstr "正在准备安装中"
 
 msgid "Preview"
 msgstr "预览"
-
-msgid "Preview the covered area"
-msgstr ""
-
-msgid "Preview the item"
-msgstr ""
 
 msgid "Previous"
 msgstr "上一个"
@@ -2908,22 +1524,7 @@ msgstr ""
 msgid "Previous page"
 msgstr ""
 
-msgid "Print"
-msgstr ""
-
-msgid "Print the item"
-msgstr ""
-
-msgid "Printed Variable"
-msgstr ""
-
 msgid "Proceed"
-msgstr ""
-
-msgid "PROCEED & END ASSESSMENT"
-msgstr ""
-
-msgid "Proctor"
 msgstr ""
 
 #, tao-public
@@ -2933,28 +1534,13 @@ msgstr "属性"
 msgid "Provided URL is not valid"
 msgstr ""
 
-msgid "Provides a hint to the candidate as to the expected number of lines of input required. A line is expected to have about 72 characters."
-msgstr ""
-
-msgid "Provides a hint to the candidate as to the expected overall length of the desired response measured in number of characters."
-msgstr ""
-
-msgid "Provides a hint to the candidate as to the expected overall length of the desired response measured in number of characters. This is not a validity constraint."
-msgstr ""
-
 msgid "Publish"
 msgstr ""
 
 msgid "Publish the test"
 msgstr ""
 
-msgid "Question"
-msgstr ""
-
 msgid "Queued"
-msgstr ""
-
-msgid "Quicktime video"
 msgstr ""
 
 msgid "Rad"
@@ -2975,19 +1561,7 @@ msgstr ""
 msgid "RDF"
 msgstr "RDF"
 
-msgid "Recommendations"
-msgstr ""
-
-msgid "Reduce font size"
-msgstr ""
-
-msgid "Reference"
-msgstr ""
-
 msgid "Refresh"
-msgstr ""
-
-msgid "Regenerate"
 msgstr ""
 
 msgid "Release"
@@ -3017,56 +1591,11 @@ msgstr ""
 msgid "Remove"
 msgstr "移除"
 
-msgid "remove"
-msgstr ""
-
-msgid "Remove custom background color"
-msgstr ""
-
-msgid "Remove custom border color"
-msgstr ""
-
-msgid "Remove custom font family"
-msgstr ""
-
-msgid "Remove custom font size"
-msgstr ""
-
-msgid "Remove custom item width"
-msgstr ""
-
-msgid "Remove custom text color"
-msgstr ""
-
-msgid "Remove Item Reference"
-msgstr ""
-
 msgid "Remove Message"
 msgstr "移除信件"
 
-msgid "Remove pair"
-msgstr ""
-
-msgid "Remove Rubric Block"
-msgstr ""
-
-msgid "Remove Section"
-msgstr ""
-
-msgid "Remove Test Part"
-msgstr ""
-
-msgid "Remove the selected shape"
-msgstr ""
-
 msgid "Remove this file"
 msgstr "移除这个文件"
-
-msgid "Remove this message"
-msgstr ""
-
-msgid "Remove this stylesheet"
-msgstr ""
 
 msgid "Removed %s directories"
 msgstr ""
@@ -3086,22 +1615,13 @@ msgstr "重复输入新密吗"
 msgid "Repeat password"
 msgstr ""
 
-msgid "Replay timeout"
-msgstr ""
-
 msgid "Request a password reset via Email."
 msgstr ""
 
 msgid "require notification ID"
 msgstr ""
 
-msgid "Required"
-msgstr ""
-
 msgid "required"
-msgstr ""
-
-msgid "Required field"
 msgstr ""
 
 msgid "required length"
@@ -3112,9 +1632,6 @@ msgstr "需要"
 
 msgid "Reset"
 msgstr "重设"
-
-msgid "Reset filters"
-msgstr ""
 
 msgid "Reset the range values"
 msgstr ""
@@ -3158,18 +1675,6 @@ msgstr ""
 msgid "Resources was not indexed"
 msgstr ""
 
-msgid "Response"
-msgstr ""
-
-msgid "Response identifier"
-msgstr ""
-
-msgid "Response processing"
-msgstr ""
-
-msgid "Response Properties"
-msgstr ""
-
 msgid "Responsive mode"
 msgstr "回应模式"
 
@@ -3178,21 +1683,6 @@ msgstr ""
 
 msgid "Return to sign in page"
 msgstr "回到登錄頁面"
-
-msgid "Review"
-msgstr ""
-
-msgid "Review my Answers"
-msgstr ""
-
-msgid "right"
-msgstr ""
-
-msgid "Right"
-msgstr ""
-
-msgid "Right bracket"
-msgstr ""
 
 msgid "Right click the tree to manage your lists"
 msgstr "用右键点击树来管理您的列表"
@@ -3225,28 +1715,13 @@ msgstr ""
 msgid "Row %s"
 msgstr ""
 
-msgid "Rubric Block"
-msgstr ""
-
-msgid "Rubric Block Properties"
-msgstr ""
-
-msgid "Rubric Blocks"
-msgstr ""
-
 msgid "Running task %s"
 msgstr ""
 
 msgid "Save"
 msgstr "储存"
 
-msgid "Save the item"
-msgstr ""
-
 msgid "Saved."
-msgstr ""
-
-msgid "Scale size"
 msgstr ""
 
 msgid "Scientific Calculator"
@@ -3254,24 +1729,6 @@ msgstr ""
 
 msgid "Scope"
 msgstr "范围"
-
-msgid "Score"
-msgstr ""
-
-msgid "score"
-msgstr ""
-
-msgid "Score range"
-msgstr ""
-
-msgid "Score value"
-msgstr ""
-
-msgid "Scorer"
-msgstr ""
-
-msgid "Scoring"
-msgstr ""
 
 msgid "Search"
 msgstr "搜寻"
@@ -3291,18 +1748,6 @@ msgstr ""
 msgid "seconds"
 msgstr "秒"
 
-msgid "Section %d"
-msgstr ""
-
-msgid "Section %d of %d"
-msgstr ""
-
-msgid "Section level category enables configuring the categories of its composing items all at once. A category in gray means that all items have that category. A category in white means that only a few items have that category."
-msgstr ""
-
-msgid "Section Properties"
-msgstr ""
-
 #, tao-public
 msgid "Security"
 msgstr ""
@@ -3310,23 +1755,11 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "Select"
-msgstr "选择"
-
 msgid "select"
 msgstr "选择"
 
-msgid "Select a "
-msgstr ""
-
-msgid "Select a blueprint"
-msgstr ""
-
-msgid "select a choice"
-msgstr ""
-
-msgid "Select a choice from a drop-down list."
-msgstr ""
+msgid "Select"
+msgstr "选择"
 
 msgid "Select a class"
 msgstr ""
@@ -3337,73 +1770,7 @@ msgstr ""
 msgid "Select a language"
 msgstr "选择语言"
 
-msgid "Select a response identifier from the list."
-msgstr ""
-
-msgid "Select a single (radio buttons) or multiple (check boxes) responses among a set of choices."
-msgstr ""
-
-msgid "Select a value within a numerical range."
-msgstr ""
-
-msgid "Select an image first"
-msgstr ""
-
-msgid "Select an image first."
-msgstr ""
-
-msgid "select correct choice"
-msgstr ""
-
-msgid "Select if you want the outcome declaration to be processed by an external system or human scorer. This is typically the case for items asking candidates to write an essay."
-msgstr ""
-
-msgid "Select image"
-msgstr ""
-
 msgid "Select loaded %s"
-msgstr ""
-
-msgid "Select media file"
-msgstr ""
-
-msgid "Select object"
-msgstr ""
-
-msgid "Select one or more areas (hotspots) displayed on an picture."
-msgstr ""
-
-msgid "Select one or more text parts (hottext) within a text."
-msgstr ""
-
-msgid "Select Point"
-msgstr ""
-
-msgid "Select Point Interaction"
-msgstr ""
-
-msgid "Select predefined feedback style from the list."
-msgstr ""
-
-msgid "Select shared stimulus"
-msgstr ""
-
-msgid "Select the area to add an image"
-msgstr ""
-
-msgid "Select the outcome variable you want to display."
-msgstr ""
-
-msgid "Select the way the response of your interaction should be processed"
-msgstr ""
-
-msgid "Select the way the responses of your test should be processed"
-msgstr ""
-
-msgid "Select this area"
-msgstr ""
-
-msgid "Select this area to start an association"
 msgstr ""
 
 msgid "Select this file"
@@ -3418,49 +1785,16 @@ msgstr ""
 msgid "Selected file:"
 msgstr "已选择的文件:"
 
-msgid "Selection"
-msgstr ""
-
 msgid "Selection saved successfully"
 msgstr "选取储存成功"
 
 msgid "self-locked"
 msgstr ""
 
-msgid "Send"
-msgstr ""
-
-msgid "Set a CSS class name in order to customize the display style."
-msgstr ""
-
-msgid "Set outcome identifier the feedback block is related to"
-msgstr ""
-
-msgid "Set the cut score (or pass score ratio) associated to the test. It must be a float between 0 and 1."
-msgstr ""
-
-msgid "Set the rubric block as a feedback block"
-msgstr ""
-
-msgid "Set the score for this response"
-msgstr ""
-
 msgid "Set the trigonometric function to work in degrees"
 msgstr ""
 
 msgid "Set the trigonometric function to work in radians"
-msgstr ""
-
-msgid "Set the value of the outcome that will activate the feedback block"
-msgstr ""
-
-msgid "Set the weight identifier used to process the score"
-msgstr ""
-
-msgid "Set the XHTML-QTI class of the rubric block."
-msgstr ""
-
-msgid "Set the XHTML-QTI identifier of the rubric block."
 msgstr ""
 
 #, tao-public
@@ -3470,46 +1804,13 @@ msgstr "设定值"
 msgid "Settings updated"
 msgstr "设定值已更新"
 
-msgid "Shape position"
-msgstr ""
-
 msgid "Show detailed report"
 msgstr "显示详细回报"
-
-msgid "Show Feedback"
-msgstr ""
 
 msgid "Show password"
 msgstr ""
 
-msgid "Show Review"
-msgstr ""
-
-msgid "Show Solution"
-msgstr ""
-
-msgid "Show the review screen"
-msgstr ""
-
-msgid "Show the solution once the answer is submitted."
-msgstr ""
-
-msgid "Show timers"
-msgstr ""
-
-msgid "Show/Hide the review screen"
-msgstr ""
-
-msgid "Shuffle"
-msgstr ""
-
-msgid "Shuffle choices"
-msgstr ""
-
 msgid "Sign change"
-msgstr ""
-
-msgid "Simultaneous"
 msgstr ""
 
 msgid "sin"
@@ -3521,43 +1822,10 @@ msgstr ""
 msgid "sinh"
 msgstr ""
 
-msgid "Sinus"
-msgstr ""
-
 msgid "Size"
 msgstr "大小"
 
-msgid "Size and position"
-msgstr ""
-
-msgid "Skip"
-msgstr ""
-
-msgid "Skip and end test"
-msgstr ""
-
-msgid "Skip and go to the end of the test"
-msgstr ""
-
-msgid "Skip and go to the next item"
-msgstr ""
-
-msgid "Skip to the next section"
-msgstr ""
-
-msgid "Slider"
-msgstr ""
-
-msgid "Slider Interaction"
-msgstr ""
-
 msgid "Some resources have not been moved: %s"
-msgstr ""
-
-msgid "Some rubric blocks have been updated to reflect the changes in the list of outcomes."
-msgstr ""
-
-msgid "some text ..."
 msgstr ""
 
 msgid "Something unexpected happened."
@@ -3566,37 +1834,16 @@ msgstr ""
 msgid "Sources that can embed this platform in an iFrame"
 msgstr ""
 
-msgid "Speed"
-msgstr ""
-
 msgid "Square root"
 msgstr ""
 
-msgid "standard"
-msgstr ""
-
 msgid "Start of document reached. Continuing from the end."
-msgstr ""
-
-msgid "Start Test-part"
 msgstr ""
 
 msgid "Status"
 msgstr ""
 
 msgid "Status of"
-msgstr ""
-
-msgid "Step"
-msgstr ""
-
-msgid "Step 1: Download the file (see below when available)."
-msgstr ""
-
-msgid "Step 2: When you are online again, please send the downloaded file to receptionbaseline@nfer.ac.uk together with the "
-msgstr ""
-
-msgid "Step 3: Once you have downloaded the file you can close the browser window. Do not do anything further with the assessment whilst it shows as \"in progress\"; the status will be updated once the helpline has uploaded the file."
 msgstr ""
 
 msgid "Store"
@@ -3608,28 +1855,7 @@ msgstr ""
 msgid "string"
 msgstr ""
 
-msgid "Style Editor"
-msgstr ""
-
-msgid "Style Sheet <b>%s</b> removed<br> Click <i>Add Style Sheet</i> to re-apply."
-msgstr ""
-
-msgid "Style Sheet Manager"
-msgstr ""
-
-msgid "Submission"
-msgstr ""
-
 msgid "Submit"
-msgstr ""
-
-msgid "Submit and go to the end of the test"
-msgstr ""
-
-msgid "Submit and go to the next item"
-msgstr ""
-
-msgid "Submit and go to the previous item"
 msgstr ""
 
 msgid "Success"
@@ -3656,13 +1882,7 @@ msgstr ""
 msgid "Supported export formats"
 msgstr "支援的导出格式"
 
-msgid "SVG image"
-msgstr ""
-
 msgid "Syntax error"
-msgstr ""
-
-msgid "Table headings"
 msgstr ""
 
 msgid "tan"
@@ -3674,9 +1894,6 @@ msgstr ""
 msgid "tanh"
 msgstr ""
 
-msgid "TAO default styles"
-msgstr ""
-
 msgid "Tao Default Theme"
 msgstr ""
 
@@ -3685,6 +1902,24 @@ msgstr "TAO首页"
 
 msgid "TAO Login"
 msgstr "TAO登入"
+
+msgid "TAO platform is already on live mode since %s"
+msgstr ""
+
+msgid "TAO platform is already on maintenance mode since %s"
+msgstr ""
+
+msgid "TAO platform is live since %s."
+msgstr ""
+
+msgid "TAO platform is now live. It was in maintenance since %s"
+msgstr ""
+
+msgid "TAO platform is now under maintenance. It was in maintenance since %s"
+msgstr ""
+
+msgid "TAO platform is under maintenance since %s"
+msgstr ""
 
 msgid "Task %s has been cancelled, message was not processed."
 msgstr ""
@@ -3707,24 +1942,6 @@ msgstr ""
 msgid "Term"
 msgstr ""
 
-msgid "Test constructor"
-msgstr ""
-
-msgid "Test Part Properties"
-msgstr ""
-
-msgid "Test Saved"
-msgstr ""
-
-msgid "Test status"
-msgstr ""
-
-msgid "Test status and review structure"
-msgstr ""
-
-msgid "Test Status and Structure"
-msgstr ""
-
 msgid "Text - Long - Box"
 msgstr "文字-长-方箱"
 
@@ -3733,33 +1950,6 @@ msgstr "文字-长- HTML编辑器"
 
 msgid "Text - Short - Field"
 msgstr "文字-短-栏"
-
-msgid "Text Block"
-msgstr ""
-
-msgid "Text Block CSS Class"
-msgstr ""
-
-msgid "Text Block Properties"
-msgstr ""
-
-msgid "Text color"
-msgstr ""
-
-msgid "Text Entry"
-msgstr ""
-
-msgid "Text Entry Interaction"
-msgstr ""
-
-msgid "Text to Speech"
-msgstr ""
-
-msgid "Text To Speech"
-msgstr ""
-
-msgid "that was being taken."
-msgstr ""
 
 msgid "The action will be applied to"
 msgstr ""
@@ -3773,73 +1963,10 @@ msgstr ""
 msgid "The action will not be applied to the following"
 msgstr ""
 
-msgid "the assessment (LCL or Mathematics)"
-msgstr ""
-
-msgid "The autostart attribute determines if the media object should begin as soon as the candidate starts the attempt (checked) or if the media object should be started under the control of the candidate (unchecked)."
-msgstr ""
-
-msgid "The button label."
-msgstr ""
-
-msgid "The candidate is not allowed to submit invalid responses."
-msgstr ""
-
 msgid "The column "
 msgstr "栏"
 
-msgid "The connection seems to be back, please proceed"
-msgstr ""
-
-msgid "The default value from the target set to be used when no explicit mapping for a source value is given."
-msgstr ""
-
-msgid "The delimiter to use between values when displaying variables of ordered, multiple or record cardinality. \";\" is default when delimiter is not declared. Implementations can override this default with personal preferences or locale settings."
-msgstr ""
-
-msgid "The download will be available in <strong>%d</strong> seconds"
-msgstr ""
-
-msgid "The field specifier to use when displaying variables of record cardinality."
-msgstr ""
-
-msgid "The file path to the image."
-msgstr ""
-
-msgid "The file path to the object."
-msgstr ""
-
-msgid "The file path to the shared stimulus."
-msgstr ""
-
-msgid "The following identifiers are not unique accross the test : %s"
-msgstr ""
-
-msgid "The format conversion specifier to use when converting numerical values to strings. See QTI Number Formatting Rules for details."
-msgstr ""
-
 msgid "The format of this field is not valid."
-msgstr ""
-
-msgid "The highlighted choice cannot be associated more than %d time(s)."
-msgstr ""
-
-msgid "The identifier of the choice. This identifier must not be used by any other choice or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
-msgstr ""
-
-msgid "The identifier of the choice. This identifier must not be used by any other response or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
-msgstr ""
-
-msgid "The identifier of the item reference."
-msgstr ""
-
-msgid "The identifier of the modal feedback. This identifier must not be used by any other modal feedback or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
-msgstr ""
-
-msgid "The identifier of the response identifier. This identifier must not be used by any other response or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
-msgstr ""
-
-msgid "The identifier of the section."
 msgstr ""
 
 msgid "The imported file is not properly UTF-8 encoded."
@@ -3848,169 +1975,16 @@ msgstr ""
 msgid "The index identifier should not be empty"
 msgstr "索引识别码不应该留空"
 
-msgid "The index to use when displaying a variable of ordered cardinality. If a variable of ordered cardinality is to be displayed and index is not set, all the values in the container are displayed."
-msgstr ""
-
-msgid "The item cannot be saved because it contains an unsupported custom interaction."
-msgstr ""
-
-msgid "The item has not been saved!"
-msgstr ""
-
-msgid "The item has unsaved changes, are you sure you want to leave ?"
-msgstr ""
-
-msgid "The item has unsaved changes, would you like to save it ?"
-msgstr ""
-
-msgid "The item needs to be saved before it can be previewed"
-msgstr ""
-
-msgid "The item of the qti item. It is currently used as a meta data only. It is required by the QTI standard."
-msgstr ""
-
-msgid "The left position of the shape relative to the top left corner of the background in pixels. This value may be scaled when the background image size is adapted to it's container"
-msgstr ""
-
 msgid "The lock has been released"
 msgstr "锁已被释放"
 
-msgid "The loop attribute is used to set continuous play mode. In continuous play mode, once the media object has started to play it should play continuously (subject to maxPlays)."
-msgstr ""
-
-msgid "The lower bound of the slider"
-msgstr ""
-
-msgid "The mapping indicator to use between field name and field value when displaying variables of record cardinality. \"=\" is default when mappingIndicator is not declared. Implementations can override this default with personal preferences or locale settings."
-msgstr ""
-
-msgid "The mapping options are available when at least one map entry is defined."
-msgstr ""
-
-msgid "The maximum number of association is unlimited."
-msgstr ""
-
-msgid "The maximum number of associations that the candidate is allowed to make."
-msgstr ""
-
-msgid "The maximum number of choices that the candidate is allowed to select."
-msgstr ""
-
-msgid "The maximum number of choices that the candidate is required to select to form a valid response."
-msgstr ""
-
-msgid "The maximum number of choices this choice may be associated with."
-msgstr ""
-
-msgid "The maximum number of choices this choice may be associated with. If matchMax is 0 there is no restriction."
-msgstr ""
-
-msgid "The maxPlays attribute indicates that the media object can be played at most maxPlays times - it must not be possible for the candidate to play the media object more than maxPlay times. A value of 0 (the default) indicates that there is no limit."
-msgstr ""
-
-msgid "The MIME-type attribute describes which kind of file may be uploaded."
-msgstr ""
-
-msgid "The minimum number of answers is "
-msgstr ""
-
-msgid "The minimum number of associations that the candidate is required to make to form a valid response."
-msgstr ""
-
-msgid "The minimum number of choices that the candidate is required to select to form a valid response."
-msgstr ""
-
-msgid "The minimum number of choices this choice must be associated with to form a valid response."
-msgstr ""
-
-msgid "The navigation mode determines the general paths that the candidate may take. A linear mode restricts the candidate to attempt each item in turn. Non Linear removes this restriction."
-msgstr ""
-
-msgid "The number base to use when converting integer variables to strings with the i conversion type code."
-msgstr ""
-
-msgid "The number of child elements to be selected."
-msgstr ""
-
-msgid "The number of units corresponding to a step on the slider"
-msgstr ""
-
-msgid "The outcome \"%s\" does not exist, but it is referenced by a feedback block!"
-msgstr ""
-
-msgid "The outcomes have been regenerated!"
-msgstr ""
-
-msgid "The principle identifier of the item. This identifier must have a corresponding entry in the item's metadata."
-msgstr ""
-
-msgid "The principle identifier of the test."
-msgstr ""
-
 msgid "The properties of the source class will be replaced by those of the destination class. This might result in a loss of metadata. Continue anyway?"
-msgstr ""
-
-msgid "The property is exposed to category addition.&#13Remove exposition ?"
-msgstr ""
-
-msgid "The purpose for which the rubric is intended to be used. As a reading passage for multiple items, or instructions for a particular section, for example."
-msgstr ""
-
-msgid "The reference."
-msgstr ""
-
-msgid "The score format is not numeric"
-msgstr ""
-
-msgid "The score will be processed for the entire test. A sum of all SCORE outcomes will be computed and divided by the sum of MAX SCORE, the result will be compared to the cut score (or pass ratio), then the PASS_TOTAL outcome will be set accordingly."
-msgstr ""
-
-msgid "The score will be processed for the entire test. A sum of all SCORE outcomes will be computed, the result will take place in the SCORE_TOTAL outcome."
-msgstr ""
-
-msgid "The section title."
-msgstr ""
-
-msgid "The selected file is ready to be sent."
 msgstr ""
 
 msgid "The server has sent an empty response"
 msgstr ""
 
-msgid "The shape height in pixels. This value may be scaled when the background image size is adapted to it's container"
-msgstr ""
-
-msgid "The shape width in pixels. This value may be scaled when the background image size is adapted to it's container"
-msgstr ""
-
-msgid "The submission mode determines when the candidate's responses are submitted for response processing. A testPart in individual mode requires the candidate to submit their responses on an item-by-item basis. In simultaneous mode the candidate's responses are all submitted together at the end of the testPart."
-msgstr ""
-
-msgid "The test has been closed/suspended!"
-msgstr ""
-
-msgid "The test has been paused, we are unable to connect to the server."
-msgstr ""
-
-msgid "The test has not been saved."
-msgstr ""
-
-msgid "The test part identifier."
-msgstr ""
-
-msgid "The test title."
-msgstr ""
-
-msgid "The text to be displayed if the image is not available."
-msgstr ""
-
-msgid "The top position of the shape relative to the top left corner of the background in pixels. This value may be scaled when the background image size is adapted to it's container"
-msgstr ""
-
 msgid "The uploaded file is too large (maximum %s bytes)"
-msgstr ""
-
-msgid "The upper bound of the slider"
 msgstr ""
 
 msgid "The value for the property \"%s\" must be unique."
@@ -4025,22 +1999,10 @@ msgstr "这个栏的值必须是一个整数"
 msgid "The value of this field must be numeric"
 msgstr "这个栏的值必须是数字"
 
-msgid "There is an incomplete element in your item: please click on it to complete it."
-msgstr ""
-
 msgid "There is nothing to list!"
 msgstr ""
 
-msgid "There was a problem downloading your CSS, please try again."
-msgstr ""
-
 msgid "This %s is currently checked out"
-msgstr ""
-
-msgid "This constraint affects the visibility of feedback after the end of the last attempt."
-msgstr ""
-
-msgid "This constraint controls whether or not the candidate is allowed to provide a comment on the item during the session. Comments are not part of the assessed responses."
 msgstr ""
 
 msgid "This field is required"
@@ -4052,23 +2014,11 @@ msgstr "这个栏太长了"
 msgid "This field is too short"
 msgstr "这个栏太短了"
 
-msgid "this identifier is already in use"
-msgstr ""
-
-msgid "This interaction has no text defined in question mode."
-msgstr ""
-
-msgid "This is not a valid answer"
-msgstr ""
-
 msgid "This is not a valid email address."
 msgstr "这不是一个有效的电子邮件地址。"
 
 msgid "this is required"
 msgstr "这是必需的"
-
-msgid "This is required"
-msgstr ""
 
 msgid "This Login is already in use"
 msgstr "这个登录已在使用"
@@ -4078,9 +2028,6 @@ msgstr ""
 
 msgid "This password reset link is no longer valid. It may have already been used. If you still wish to reset your password please request a new link"
 msgstr "这个更换密码的链接已没效了。链接有可能已经使用过。如果您还想更换密码，请再次要一个新的链接。"
-
-msgid "This preview may be scaled to fit your screen. The final rendering may differ."
-msgstr ""
 
 msgid "This resource is locked"
 msgstr "这个资源被锁定"
@@ -4094,28 +2041,7 @@ msgstr ""
 msgid "This should not equal %s"
 msgstr ""
 
-msgid "This stylesheet has not been found on the server. you may want to delete this reference"
-msgstr ""
-
-msgid "This value does not follow scoring traits guidelines. It won\'t be compatible with TAO Manual Scoring"
-msgstr ""
-
 msgid "time"
-msgstr ""
-
-msgid "Time dependent"
-msgstr ""
-
-msgid "Time limit reached for item \"%s\"."
-msgstr ""
-
-msgid "Time limit reached, this part of the test has ended."
-msgstr ""
-
-msgid "Time limit reached, this part of the test has ended. However you are allowed to finish the current item."
-msgstr ""
-
-msgid "Time Limits"
 msgstr ""
 
 msgid "Time zone"
@@ -4136,12 +2062,6 @@ msgstr "翻译"
 msgid "Toggle multiple/single selection"
 msgstr ""
 
-msgid "Toggle playback"
-msgstr ""
-
-msgid "Toggle start from here mode"
-msgstr ""
-
 msgid "Toggle the date time picker"
 msgstr ""
 
@@ -4154,28 +2074,7 @@ msgstr ""
 msgid "Too many suggestions match your query. Only a few are listed"
 msgstr "太多的建议符合您的查询，所以这里只列出几个建议"
 
-msgid "Tool box and flagging for review"
-msgstr ""
-
-msgid "Toolbox"
-msgstr ""
-
-msgid "Tooltip Content"
-msgstr ""
-
-msgid "Tooltip editor"
-msgstr ""
-
-msgid "Tooltip Target"
-msgstr ""
-
-msgid "Top"
-msgstr ""
-
 msgid "Total duration"
-msgstr ""
-
-msgid "Total score"
 msgstr ""
 
 msgid "Total:"
@@ -4202,19 +2101,10 @@ msgstr ""
 msgid "Tree values"
 msgstr ""
 
-msgid "Trigger the end of the item attempt."
-msgstr ""
-
 msgid "True"
 msgstr "真"
 
 msgid "trunc"
-msgstr ""
-
-msgid "Try connecting the machine to the internet via cable, or move to an area with a better wifi signal."
-msgstr ""
-
-msgid "Tutor"
 msgstr ""
 
 msgid "Type"
@@ -4256,9 +2146,6 @@ msgstr "无法解除锁定"
 msgid "Unable to remove the property."
 msgstr "无法删除属性"
 
-msgid "Unable to render the item from %s : %s %s"
-msgstr ""
-
 msgid "Unable to save resource."
 msgstr ""
 
@@ -4275,12 +2162,6 @@ msgid "Unable to upload file"
 msgstr "无法上传文件"
 
 msgid "Unable to upload file %s : %s"
-msgstr ""
-
-msgid "Unanswered"
-msgstr ""
-
-msgid "Unanswered items"
 msgstr ""
 
 msgid "Unary operator +"
@@ -4304,13 +2185,7 @@ msgstr ""
 msgid "Undo"
 msgstr "复原"
 
-msgid "undo"
-msgstr ""
-
 msgid "Unexpected error. Please contact administrator"
-msgstr ""
-
-msgid "Unflag for Review"
 msgstr ""
 
 msgid "Uninstall of %s failed"
@@ -4328,12 +2203,6 @@ msgstr "不明的错误"
 msgid "unkown task id %s"
 msgstr ""
 
-msgid "Unlink to use separated durations"
-msgstr ""
-
-msgid "Unseen"
-msgstr ""
-
 msgid "Update"
 msgstr "更新"
 
@@ -4343,16 +2212,19 @@ msgstr ""
 msgid "Upload"
 msgstr "上传"
 
-msgid "Upload a file (e.g. document, picture...) as a response."
-msgstr ""
-
 msgid "Upload into:"
 msgstr "上传至："
 
-msgid "Upper Bound"
+msgid "Usage: ImportRdf RDF_FILE [MODEL_ID]"
 msgstr ""
 
-msgid "Usage: ImportRdf RDF_FILE [MODEL_ID]"
+msgid "USAGE: please provide a valid extension id as second parameter"
+msgstr ""
+
+msgid "USAGE: please provide a valid service name as first parameter"
+msgstr ""
+
+msgid "USAGE: please provide the service name as first parameter"
 msgstr ""
 
 msgid "Use a term"
@@ -4363,12 +2235,6 @@ msgstr ""
 
 msgid "Use default value"
 msgstr "使用默认值"
-
-msgid "Use this if you want the list of choices to be prefixed (e.g. 1,2,3 a,b,c)"
-msgstr ""
-
-msgid "Used to control the format of the text entered by the candidate."
-msgstr ""
 
 msgid "User"
 msgstr "用户"
@@ -4408,9 +2274,6 @@ msgstr "用户设定"
 msgid "Users"
 msgstr "用户"
 
-msgid "Validate Responses"
-msgstr ""
-
 msgid "Validation for field '%s' has failed. Language does not exist in the system"
 msgstr ""
 
@@ -4427,9 +2290,6 @@ msgid "Validation for field '%s' has failed. Valid URI expected"
 msgstr ""
 
 msgid "Validation for field '%s' has failed. Valid URI expected. Given: %s"
-msgstr ""
-
-msgid "Value"
 msgstr ""
 
 msgid "Value ellipsis"
@@ -4450,9 +2310,6 @@ msgstr ""
 msgid "Version"
 msgstr "版本"
 
-msgid "Vertical"
-msgstr ""
-
 msgid "View report"
 msgstr ""
 
@@ -4462,76 +2319,10 @@ msgstr ""
 msgid "View resources as a tree"
 msgstr ""
 
-msgid "Viewed"
-msgstr ""
-
-msgid "Viewed items"
-msgstr ""
-
-msgid "Views"
-msgstr ""
-
-msgid "Visible"
-msgstr ""
-
-msgid "Wait for your connection to come back online."
-msgstr ""
-
 msgid "Wait is over"
 msgstr ""
 
 msgid "Waiting"
-msgstr ""
-
-msgid "Warning – You have %s remaining to complete the test."
-msgstr ""
-
-msgid "Warning – You have %s remaining to complete this item."
-msgstr ""
-
-msgid "Warning – You have %s remaining to complete this section."
-msgstr ""
-
-msgid "Warning – You have %s remaining to complete this test part."
-msgstr ""
-
-msgid "Warning – You have %s remaining to complete this test."
-msgstr ""
-
-msgid "WAV audio"
-msgstr ""
-
-msgid "We are unable to connect the server to submit your results."
-msgstr ""
-
-msgid "We are unable to connect to the server to retrieve the next item."
-msgstr ""
-
-msgid "We will use the patternMask to do this, to be compliant with the IMS standard"
-msgstr ""
-
-msgid "Weight"
-msgstr ""
-
-msgid "Weights"
-msgstr ""
-
-msgid "When selecting child elements each element is normally eligible for selection once only."
-msgstr ""
-
-msgid "Whether a candidate's response that is beyond the maximum duration of the item should still be accepted."
-msgstr ""
-
-msgid "Whether a candidate's response that is beyond the maximum duration of the section should still be accepted."
-msgstr ""
-
-msgid "Whether a candidate's response that is beyond the maximum duration of the test part should still be accepted."
-msgstr ""
-
-msgid "Whether a candidate's response that is beyond the maximum duration should still be accepted."
-msgstr ""
-
-msgid "Who can view the rubric block during the delivery."
 msgstr ""
 
 msgid "Whole number part"
@@ -4540,80 +2331,20 @@ msgstr ""
 msgid "Width"
 msgstr "宽度"
 
-msgid "Windows Media audio"
-msgstr ""
-
-msgid "Windows Media video"
-msgstr ""
-
-msgid "With Replacement"
-msgstr ""
-
-msgid "Would you like to replace the alt text"
-msgstr ""
-
 msgid "Wrong or missing parameter extension, module or action"
 msgstr ""
 
 msgid "Wrong parameter shownExtension"
 msgstr ""
 
-msgid "WYSIWYG editor"
-msgstr ""
-
-msgid "XHTML"
-msgstr ""
-
 msgid "Yes"
 msgstr "是"
-
-msgid "You answered all %s question(s)"
-msgstr ""
-
-msgid "You answered all %s question(s) in this section"
-msgstr ""
-
-msgid "You answered all %s question(s) in this test"
-msgstr ""
-
-msgid "You answered only %s of the %s question(s) in this section"
-msgstr ""
-
-msgid "You are about to go to the next item. Click OK to continue and go to the next item."
-msgstr ""
-
-msgid "You are about to go to the previous item. Click OK to continue and go to the previous item."
-msgstr ""
-
-msgid "You are about to submit the test. You will not be able to access this test once submitted. Click OK to continue and submit the test."
-msgstr ""
-
-msgid "You are currently working offline."
-msgstr ""
-
-msgid "You are encountering a prolonged connectivity loss. "
-msgstr ""
 
 msgid "You are not allowed to write in the class %s"
 msgstr ""
 
 msgid "You are not authorised to remove this lock"
 msgstr "您无权删除这个锁"
-
-msgid "You can select maximum %d choice"
-msgstr ""
-
-msgid "You can select maximum %d choices"
-msgstr ""
-
-msgid "You can select maximum of %s choices"
-msgstr ""
-
-msgid "You can select maximum of 1 choice"
-msgstr ""
-
-msgid "You can use maximum %d choices"
-msgstr ""
 
 msgid "You cannot delete the root node"
 msgstr "您不能删除根节点"
@@ -4627,80 +2358,14 @@ msgstr "您目前无权进入平台"
 msgid "You do not have the required rights to edit this resource."
 msgstr "您没有编辑这个资源的权利。"
 
-msgid "You have %s item(s) marked for review."
-msgstr ""
-
-msgid "You have %s left to answer remaining %s questions."
-msgstr ""
-
-msgid "You have %s remaining to complete the current item."
-msgstr ""
-
-msgid "You have %s unanswered question(s)"
-msgstr ""
-
-msgid "You have %s unanswered question(s) and have %s item(s) marked for review."
-msgstr ""
-
-msgid "You have %s unanswered question(s)."
-msgstr ""
-
 msgid "You have been locked due to too many failed login attempts. "
 msgstr ""
 
 msgid "You have been logged out. Please login again"
 msgstr ""
 
-msgid "You have deleted"
-msgstr ""
-
-msgid "You have deleted an element"
-msgstr ""
-
-msgid "You have deleted an element."
-msgstr ""
-
-msgid "You may make as many association pairs as you want."
-msgstr ""
-
 msgid "You must activate JavaScript in your browser to run this application."
 msgstr "您必须在浏览器中启用JavaScript才可以应用这个程序。"
-
-msgid "You must select %1$d to %2$d choices."
-msgstr ""
-
-msgid "You must select 0 to %d choices."
-msgstr ""
-
-msgid "You must select at least %d choice"
-msgstr ""
-
-msgid "You must select at least %d choices"
-msgstr ""
-
-msgid "You must select at least %s choices"
-msgstr ""
-
-msgid "You must select at least 1 choice"
-msgstr ""
-
-msgid "You must select exactly %d choice"
-msgstr ""
-
-msgid "You must select exactly %d choice(s)."
-msgstr ""
-
-msgid "You must select exactly %d choices"
-msgstr ""
-
-msgid "You must select exactly %s choices"
-msgstr ""
-
-msgid "You must use at least %d choices"
-msgstr ""
-
-msgid "You need to make"
-msgstr ""
 
 msgid "Your account has been locked, please contact your administrator."
 msgstr ""
@@ -4717,27 +2382,9 @@ msgstr ""
 msgid "Your browser doesn’t support the video player."
 msgstr ""
 
-msgid "Your comment…"
-msgstr ""
-
-msgid "Your connection seems to be back, please proceed."
-msgstr ""
-
-msgid "Your item has been saved"
-msgstr ""
-
 msgid "Your mail"
 msgstr "您的電子郵件"
 
 msgid "Your TAO Password"
 msgstr "您的 TAO 密碼"
-
-msgid "ZIP archive"
-msgstr ""
-
-msgid "Zoom in"
-msgstr ""
-
-msgid "Zoom out"
-msgstr ""
 

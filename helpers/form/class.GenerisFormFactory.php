@@ -229,17 +229,9 @@ class tao_helpers_form_GenerisFormFactory
      */
     public static function getDefaultProperties()
     {
-        $returnValue = [];
-
-
-
-         $returnValue = [
+        return [
             new core_kernel_classes_Property(OntologyRdfs::RDFS_LABEL)
-         ];
-
-
-
-         return (array) $returnValue;
+        ];
     }
 
     /**
@@ -272,8 +264,8 @@ class tao_helpers_form_GenerisFormFactory
         }
         $resourceClass = new core_kernel_classes_Class(OntologyRdf::RDF_PROPERTY);
         foreach ($resourceClass->getProperties() as $property) {
-            if (in_array($property->getUri(), $defaultUris)) {
-                array_push($returnValue, $property);
+            if (in_array($property->getUri(), $defaultUris, true)) {
+                $returnValue[] = $property;
             }
         }
 
@@ -292,8 +284,7 @@ class tao_helpers_form_GenerisFormFactory
      */
     public static function getPropertyMap()
     {
-
-        $returnValue = [
+        return [
             'text' => [
                 'title'     => __('Text - Short - Field'),
                 'widget'    => WidgetDefinitions::PROPERTY_TEXTBOX,
@@ -318,7 +309,6 @@ class tao_helpers_form_GenerisFormFactory
                 'range'     => OntologyRdfs::RDFS_RESOURCE,
                 'multiple'  => GenerisRdf::GENERIS_FALSE
             ],
-
             'multiplenodetree' => [
                 'title'     => __('Tree - Multiple node choice '),
                 'widget'    => WidgetDefinitions::PROPERTY_TREEBOX,
@@ -335,6 +325,12 @@ class tao_helpers_form_GenerisFormFactory
             'multilist' => [
                 'title'     => __('List - Multiple choice - Check box'),
                 'widget'    => WidgetDefinitions::PROPERTY_CHECKBOX,
+                'range'     => OntologyRdfs::RDFS_RESOURCE,
+                'multiple'  => GenerisRdf::GENERIS_TRUE
+            ],
+            'multisearchlist' => [
+                'title'     => __('List - Multiple choice - Search input'),
+                'widget'    => WidgetRdf::PROPERTY_WIDGET_SEARCH_BOX,
                 'range'     => OntologyRdfs::RDFS_RESOURCE,
                 'multiple'  => GenerisRdf::GENERIS_TRUE
             ],
@@ -357,8 +353,6 @@ class tao_helpers_form_GenerisFormFactory
                 'multiple'  => GenerisRdf::GENERIS_FALSE
             ]
         ];
-
-        return $returnValue;
     }
 
 
@@ -390,6 +384,6 @@ class tao_helpers_form_GenerisFormFactory
 
 
 
-        return (array) $returnValue;
+        return $returnValue;
     }
 }
