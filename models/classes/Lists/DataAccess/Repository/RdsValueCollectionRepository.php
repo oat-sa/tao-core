@@ -89,14 +89,7 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
         $this->enrichQueryWithValueCollectionSearchCondition($searchRequest, $query);
         $this->enrichQueryWithSubject($searchRequest, $query);
         $this->enrichQueryWithExcludedValueUris($searchRequest, $query);
-
-        $expressionBuilder = $query->expr();
-
-        if ($searchRequest->hasUris()) {
-            $query
-                ->andWhere($expressionBuilder->in(self::FIELD_ITEM_URI, ':uris'))
-                ->setParameter('uris', $searchRequest->getUris(), Connection::PARAM_STR_ARRAY);
-        }
+        $this->enrichQueryWithFilterValueUris($searchRequest, $query);
 
         $values = [];
         foreach ($query->execute()->fetchAll() as $rawValue) {
@@ -147,6 +140,16 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
                 $platform->rollBack();
             }
         }
+    }
+
+    public function delete(string $listUri): void
+    {
+        $query = $this->getPersistence()->getPlatForm()->getQueryBuilder();
+
+        $query->delete(self::TABLE_LIST_ITEMS)
+            ->where($query->expr()->eq(self::FIELD_ITEM_LIST_URI, ':list_uri'))
+            ->setParameter('list_uri', $listUri)
+            ->execute();
     }
 
     /**
@@ -306,6 +309,22 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
                 )
             )
             ->setParameter('excluded_value_uri', $searchRequest->getExcluded(), Connection::PARAM_STR_ARRAY);
+    }
+
+    private function enrichQueryWithFilterValueUris(
+        ValueCollectionSearchRequest $searchRequest,
+        QueryBuilder $query
+    ): void
+    {
+        if (!$searchRequest->hasUris()) {
+            return;
+        }
+
+        $expressionBuilder = $query->expr();
+
+        $query
+            ->andWhere($expressionBuilder->in(self::FIELD_ITEM_URI, ':uris'))
+            ->setParameter('uris', $searchRequest->getUris(), Connection::PARAM_STR_ARRAY);
     }
 
     private function getPersistence(): SqlPersistence

@@ -85,6 +85,7 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
         $this->enrichQueryWithValueCollectionSearchCondition($searchRequest, $query);
         $this->enrichQueryWithSubject($searchRequest, $query);
         $this->enrichQueryWithExcludedValueUris($searchRequest, $query);
+        $this->enrichQueryWithObjects($searchRequest, $query);
 
         $values = [];
         foreach ($query->execute()->fetchAll() as $rawValue) {
@@ -344,6 +345,22 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
                 )
             )
             ->setParameter('excluded_value_uri', $searchRequest->getExcluded(), Connection::PARAM_STR_ARRAY);
+    }
+
+    private function enrichQueryWithObjects(
+        ValueCollectionSearchRequest $searchRequest,
+        QueryBuilder $query
+    ): void
+    {
+        if (!$searchRequest->hasUris()) {
+            return;
+        }
+
+        $expressionBuilder = $query->expr();
+
+        $query
+            ->andWhere($expressionBuilder->in('element.subject', ':subjects'))
+            ->setParameter('subjects', $searchRequest->getUris(), Connection::PARAM_STR_ARRAY);
     }
 
     private function getPersistence(): SqlPersistence
