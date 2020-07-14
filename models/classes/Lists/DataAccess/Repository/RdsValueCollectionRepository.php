@@ -31,19 +31,24 @@ use core_kernel_classes_Resource as KernelResource;
 use core_kernel_persistence_Exception;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
-use oat\generis\model\OntologyRdf;
-use oat\generis\model\OntologyRdfs;
 use oat\generis\persistence\PersistenceManager;
-use oat\tao\model\service\InjectionAwareService;
 use oat\tao\model\Lists\Business\Contract\ValueCollectionRepositoryInterface;
 use oat\tao\model\Lists\Business\Domain\Value;
 use oat\tao\model\Lists\Business\Domain\ValueCollection;
 use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
+use oat\tao\model\service\InjectionAwareService;
 use Throwable;
 
-class RdfValueCollectionRepository extends InjectionAwareService implements ValueCollectionRepositoryInterface
+class RdsValueCollectionRepository extends InjectionAwareService implements ValueCollectionRepositoryInterface
 {
-    public const SERVICE_ID = 'tao/ValueCollectionRepository';
+    public const SERVICE_ID = 'tao/RdsValueCollectionRepository';
+
+    public const TABLE_LIST_ITEMS = 'list_items';
+
+    public const FIELD_ITEM_LABEL = 'label';
+    public const FIELD_ITEM_ID = 'id';
+    public const FIELD_ITEM_URI = 'uri';
+    public const FIELD_ITEM_LIST_URI = 'list_uri';
 
     /** @var PersistenceManager */
     private $persistenceManager;
@@ -56,7 +61,7 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
         parent::__construct();
 
         $this->persistenceManager = $persistenceManager;
-        $this->persistenceId      = $persistenceId;
+        $this->persistenceId = $persistenceId;
     }
 
     /**
@@ -72,28 +77,39 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
 
         $type = $listClass->getOnePropertyValue($listClass->getProperty('http://www.tao.lu/Ontologies/TAO.rdf#ListType'));
 
-        return !$type || $type->getUri() !== 'http://www.tao.lu/Ontologies/TAO.rdf#ListRemote';
+        return $type && $type->getUri() === 'http://www.tao.lu/Ontologies/TAO.rdf#ListRemote';
     }
 
     public function findAll(ValueCollectionSearchRequest $searchRequest): ValueCollection
     {
         $query = $this->getPersistence()->getPlatForm()->getQueryBuilder();
 
-        $this->enrichWithInitialCondition($query);
-        $this->enrichWithSelect($searchRequest, $query);
-        $this->enrichQueryWithPropertySearchConditions($searchRequest, $query);
+        $this->enrichQueryWithInitialCondition($query);
+        $this->enrichQueryWithSelect($searchRequest, $query);
         $this->enrichQueryWithValueCollectionSearchCondition($searchRequest, $query);
         $this->enrichQueryWithSubject($searchRequest, $query);
         $this->enrichQueryWithExcludedValueUris($searchRequest, $query);
 
+        $expressionBuilder = $query->expr();
+
+        if ($searchRequest->hasUris()) {
+            $query
+                ->andWhere($expressionBuilder->in(self::FIELD_ITEM_URI, ':uris'))
+                ->setParameter('uris', $searchRequest->getUris(), Connection::PARAM_STR_ARRAY);
+        }
+
         $values = [];
         foreach ($query->execute()->fetchAll() as $rawValue) {
-            $values[] = new Value((int)$rawValue['id'], $rawValue['subject'], $rawValue['object']);
+            $values[] = new Value(
+                (int)$rawValue[self::FIELD_ITEM_ID],
+                $rawValue[self::FIELD_ITEM_URI],
+                $rawValue[self::FIELD_ITEM_LABEL]
+            );
         }
 
         $valueCollectionUri = $searchRequest->hasValueCollectionUri()
             ? $searchRequest->getValueCollectionUri()
-            : $rawValue['collection_uri'] ?? null;
+            : $rawValue[self::FIELD_ITEM_LIST_URI] ?? null;
 
         return new ValueCollection($valueCollectionUri, ...$values);
     }
@@ -110,7 +126,7 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
 
         try {
             foreach ($valueCollection as $value) {
-                $this->verifyUriUniqueness($value);
+//                $this->verifyUriUniqueness($value);
 
                 if (null === $value->getId()) {
                     $this->insert($valueCollection, $value);
@@ -154,10 +170,23 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
 
     protected function insert(ValueCollection $valueCollection, Value $value): void
     {
-        /** @noinspection PhpUnhandledExceptionInspection */
-        $valueCollectionResource = new KernelClass($valueCollection->getUri());
-
-        $valueCollectionResource->createInstance($value->getLabel(), '', $value->getUri());
+        $qb = $this->getPersistence()->getPlatForm()->getQueryBuilder();
+        $qb->insert(self::TABLE_LIST_ITEMS)
+            ->values(
+                [
+                    self::FIELD_ITEM_LABEL    => ':label',
+                    self::FIELD_ITEM_URI      => ':uri',
+                    self::FIELD_ITEM_LIST_URI => ':listUri',
+                ]
+            )
+            ->setParameters(
+                [
+                    'uri'     => $value->getUri(),
+                    'label'   => $value->getLabel(),
+                    'listUri' => $valueCollection->getUri()
+                ]
+            )
+            ->execute();
     }
 
     private function update(Value $value): void
@@ -171,9 +200,9 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
         $expressionBuilder = $query->expr();
 
         $query
-            ->update('statements')
-            ->set('object', ':label')
-            ->set('subject', ':uri')
+            ->update(self::TABLE_LIST_ITEMS)
+            ->set(self::FIELD_ITEM_LABEL, ':label')
+            ->set(self::FIELD_ITEM_URI, ':uri')
             ->where($expressionBuilder->eq('id', ':id'))
             ->setParameters(
                 [
@@ -184,39 +213,7 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
             )
             ->execute();
 
-        $this->updateRelations($value);
-    }
-
-    private function updateRelations(Value $value): void
-    {
-        if (!$value->hasModifiedUri()) {
-            return;
-        }
-
-        $this->updateValues($value);
         $this->updateProperties($value);
-    }
-
-    /**
-     * @param Value $value
-     */
-    private function updateValues(Value $value): void
-    {
-        $query = $this->getPersistence()->getPlatForm()->getQueryBuilder();
-
-        $expressionBuilder = $query->expr();
-
-        $query
-            ->update('statements')
-            ->set('subject', ':uri')
-            ->where($expressionBuilder->eq('subject', ':original_uri'))
-            ->setParameters(
-                [
-                    'uri'          => $value->getUri(),
-                    'original_uri' => $value->getOriginalUri(),
-                ]
-            )
-            ->execute();
     }
 
     /**
@@ -224,6 +221,10 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
      */
     private function updateProperties(Value $value): void
     {
+        if (!$value->hasModifiedUri()) {
+            return;
+        }
+
         $query = $this->getPersistence()->getPlatForm()->getQueryBuilder();
 
         $expressionBuilder = $query->expr();
@@ -241,63 +242,24 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
             ->execute();
     }
 
-    private function enrichWithInitialCondition(QueryBuilder $query): QueryBuilder
+    private function enrichQueryWithInitialCondition(QueryBuilder $query): void
     {
-        $expressionBuilder = $query->expr();
-
-        $query
-            ->from('statements', 'element')
-            ->innerJoin(
-                'element',
-                'statements',
-                'collection',
-                $expressionBuilder->eq('collection.subject', 'element.subject')
-            )
-            ->andWhere($expressionBuilder->eq('element.predicate', ':label_uri'))
-            ->andWhere($expressionBuilder->eq('collection.predicate', ':type_uri'))
-            ->setParameters(
-                [
-                    'label_uri' => OntologyRdfs::RDFS_LABEL,
-                    'type_uri'  => OntologyRdf::RDF_TYPE,
-                ]
-            );
-
-        return $query;
+        $query->from(self::TABLE_LIST_ITEMS, 'items');
     }
 
-    private function enrichWithSelect(ValueCollectionSearchRequest $searchRequest, QueryBuilder $query): QueryBuilder
+    private function enrichQueryWithSelect(ValueCollectionSearchRequest $searchRequest, QueryBuilder $query): void
     {
         $query
-            ->select('collection.object as collection_uri', 'element.id', 'element.subject', 'element.object');
+            ->select(
+                'items.' . self::FIELD_ITEM_ID,
+                'items.' . self::FIELD_ITEM_LIST_URI,
+                'items.' . self::FIELD_ITEM_URI,
+                'items.' . self::FIELD_ITEM_LABEL
+            );
 
         if ($searchRequest->hasLimit()) {
             $query->setMaxResults($searchRequest->getLimit());
         }
-
-        return $query;
-    }
-
-    private function enrichQueryWithPropertySearchConditions(
-        ValueCollectionSearchRequest $searchRequest,
-        QueryBuilder $query
-    ): void {
-        if (!$searchRequest->hasPropertyUri()) {
-            return;
-        }
-
-        $expressionBuilder = $query->expr();
-
-        $query
-            ->innerJoin(
-                'collection',
-                'statements',
-                'property',
-                $expressionBuilder->eq('property.object', 'collection.object')
-            )
-            ->andWhere($expressionBuilder->eq('property.subject', ':property_uri'))
-            ->andWhere($expressionBuilder->eq('property.predicate', ':range_uri'))
-            ->setParameter('property_uri', $searchRequest->getPropertyUri())
-            ->setParameter('range_uri', OntologyRdfs::RDFS_RANGE);
     }
 
     private function enrichQueryWithValueCollectionSearchCondition(
@@ -311,7 +273,7 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
         $expressionBuilder = $query->expr();
 
         $query
-            ->andWhere($expressionBuilder->eq('collection.object', ':collection_uri'))
+            ->andWhere($expressionBuilder->eq(self::FIELD_ITEM_LIST_URI, ':collection_uri'))
             ->setParameter('collection_uri', $searchRequest->getValueCollectionUri());
     }
 
@@ -323,9 +285,9 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
 
         $query
             ->andWhere(
-                $this->getPersistence()->getPlatForm()->getQueryBuilder()->expr()->like('element.object', ':subject')
+                $this->getPersistence()->getPlatForm()->getQueryBuilder()->expr()->like(self::FIELD_ITEM_LABEL, ':label')
             )
-            ->setParameter('subject', "{$searchRequest->getSubject()}%");
+            ->setParameter('label', $searchRequest->getSubject() .'%');
     }
 
     private function enrichQueryWithExcludedValueUris(
@@ -339,7 +301,7 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
         $query
             ->andWhere(
                 $this->getPersistence()->getPlatForm()->getQueryBuilder()->expr()->notIn(
-                    'element.subject',
+                    self::FIELD_ITEM_LABEL,
                     ':excluded_value_uri'
                 )
             )
