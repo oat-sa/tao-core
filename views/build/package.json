@@ -16,7 +16,7 @@
   "devDependencies": {
     "@oat-sa/browserslist-config-tao": "^0.1.0",
     "@oat-sa/eslint-config-tao": "^0.1.0",
-    "@oat-sa/grunt-tao-bundle": "0.5.0",
+    "@oat-sa/grunt-tao-bundle": "git+ssh://git@github.com/oat-sa/grunt-tao-bundle#feature/INV-187/exclude-nested-modules-from-bundle",
     "@oat-sa/tao-e2e-runner": "^0.3.0",
     "almond": "^0.3.3",
     "eslint-plugin-es": "^3.0.0",
