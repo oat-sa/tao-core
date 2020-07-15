@@ -24,6 +24,7 @@ namespace oat\tao\model\Lists\Business\Service;
 
 use core_kernel_classes_Property as RdfProperty;
 use core_kernel_persistence_Exception;
+use oat\tao\model\Lists\Business\Domain\CollectionType;
 use oat\tao\model\Lists\Business\Domain\ValueCollection;
 use oat\tao\model\service\InjectionAwareService;
 use oat\taoBackOffice\model\lists\ListService;
@@ -42,17 +43,12 @@ class RemoteSourcedListService extends InjectionAwareService
     /** @var RemoteSource */
     private $remoteSource;
 
-    /**
-     * @noinspection MagicMethodsValidityInspection
-     * @noinspection PhpMissingParentConstructorInspection
-     *
-     * @param ValueCollectionService $valueCollectionService
-     * @param RemoteSource           $remoteSource
-     */
     public function __construct(
         ValueCollectionService $valueCollectionService,
         RemoteSource $remoteSource
     ) {
+        parent::__construct();
+
         $this->valueCollectionService = $valueCollectionService;
         $this->remoteSource = $remoteSource;
     }
@@ -61,8 +57,8 @@ class RemoteSourcedListService extends InjectionAwareService
     {
         $class = $this->getListService()->createList($label);
 
-        $propertyType = new RdfProperty('http://www.tao.lu/Ontologies/TAO.rdf#ListType');
-        $propertyRemote = new RdfProperty('http://www.tao.lu/Ontologies/TAO.rdf#ListRemote');
+        $propertyType = new RdfProperty(CollectionType::TYPE_PROPERTY);
+        $propertyRemote = new RdfProperty((string)CollectionType::remote());
         $class->setPropertyValue($propertyType, $propertyRemote);
 
         $propertySource = new RdfProperty(self::PROPERTY_SOURCE_URI);
