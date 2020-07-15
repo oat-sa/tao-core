@@ -249,8 +249,7 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
     private function enrichQueryWithFilterValueUris(
         ValueCollectionSearchRequest $searchRequest,
         QueryBuilder $query
-    ): void
-    {
+    ): void {
         if (!$searchRequest->hasUris()) {
             return;
         }
