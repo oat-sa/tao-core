@@ -1,7 +1,7 @@
 <?php
 
 
-namespace oat\tao\test;
+namespace oat\tao\test\unit;
 
 use oat\generis\test\TestCase;
 
