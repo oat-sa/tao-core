@@ -34,24 +34,29 @@ class RemoteSource extends InjectionAwareService
     /** @var RemoteSourceParserInterface[] */
     private $parsers;
 
-    /** @var Client */
+    /** @var Client|null */
     private $client;
 
-    public function __construct(array $parsers, ?Client $client = null)
+    public function __construct(array $parsers, Client $client = null)
     {
         parent::__construct();
 
-        $this->client = $client ?? new Client([]);
         $this->parsers = $parsers;
+        $this->client  = $client;
     }
 
     public function fetch(string $sourceUrl, string $uriPath, string $labelPath, string $parser): Traversable
     {
-        $response = $this->client->get($sourceUrl);
+        $response = $this->getClient()->get($sourceUrl);
 
         $body = json_decode((string)$response->getBody(), true);
 
         yield from $this->getParser($parser)->iterate($body, $uriPath, $labelPath);
+    }
+
+    private function getClient(): Client
+    {
+        return $this->client ?? new Client();
     }
 
     private function getParser(string $key): RemoteSourceParserInterface

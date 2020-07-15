@@ -38,11 +38,11 @@ class ValueCollectionService extends InjectionAwareService
     /** @var ValueCollectionRepositoryInterface */
     private $repositories;
 
-    public function __construct(ValueCollectionRepositoryInterface ...$repository)
+    public function __construct(ValueCollectionRepositoryInterface ...$repositories)
     {
         parent::__construct();
 
-        $this->repositories = $repository;
+        $this->repositories = $repositories;
     }
 
     public function findAll(ValueCollectionSearchInput $input): ValueCollection
