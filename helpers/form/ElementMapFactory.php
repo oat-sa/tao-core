@@ -52,23 +52,26 @@ class ElementMapFactory extends ConfigurableService
             return null;
         }
 
+        $widgetUri   = $widgetResource->getUri();
+        $propertyUri = $property->getUri();
+
         //authoring widget is not used in standalone mode
         if (
-            $widgetResource->getUri() === 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Authoring'
+            $widgetUri === 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Authoring'
             && tao_helpers_Context::check('STANDALONE_MODE')
         ) {
             return null;
         }
 
         // horrible hack to fix file widget
-        if ($widgetResource->getUri() === 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#AsyncFile') {
+        if ($widgetUri === 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#AsyncFile') {
             $widgetResource = new core_kernel_classes_Resource(
                 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#GenerisAsyncFile'
             );
         }
 
         $element = tao_helpers_form_FormFactory::getElementByWidget(
-            tao_helpers_Uri::encode($property->getUri()),
+            tao_helpers_Uri::encode($propertyUri),
             $widgetResource
         );
 
@@ -76,11 +79,11 @@ class ElementMapFactory extends ConfigurableService
             return null;
         }
 
-        if ($element->getWidget() !== $widgetResource->getUri()) {
+        if ($element->getWidget() !== $widgetUri) {
             common_Logger::w(sprintf(
                 'Widget definition differs from implementation: %s != %s',
                 $element->getWidget(),
-                $widgetResource->getUri()
+                $widgetUri
             ));
 
             return null;
@@ -89,7 +92,7 @@ class ElementMapFactory extends ConfigurableService
         //use the property label as element description
         $propDesc = (trim($property->getLabel()) !== '')
             ? $property->getLabel()
-            : str_replace(LOCAL_NAMESPACE, '', $property->getUri());
+            : str_replace(LOCAL_NAMESPACE, '', $propertyUri);
 
         $element->setDescription($propDesc);
 
@@ -102,7 +105,7 @@ class ElementMapFactory extends ConfigurableService
 
                 if ($element instanceof TreeAware) {
                     $sortedOptions = $element->rangeToTree(
-                        $property->getUri() === OntologyRdfs::RDFS_RANGE
+                        $propertyUri === OntologyRdfs::RDFS_RANGE
                             ? new core_kernel_classes_Class(OntologyRdfs::RDFS_RESOURCE)
                             : $range
                     );
@@ -176,6 +179,7 @@ class ElementMapFactory extends ConfigurableService
 
     private function getValueCollectionService(): ValueCollectionService
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->getServiceLocator()->get(ValueCollectionService::class);
     }
 }
