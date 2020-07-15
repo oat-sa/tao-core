@@ -46,7 +46,7 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
      * Initialize the form
      *
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @return mixed
+     *
      * @throws common_Exception
      */
     protected function initForm()
@@ -76,7 +76,6 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
      *
      * @access protected
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @return mixed
      */
     protected function initElements()
     {
@@ -133,7 +132,7 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
                                 $element->setValue($elementValue);
                             }
                         }
-                        if ($value instanceof core_kernel_classes_Literal) {
+                        elseif ($value instanceof core_kernel_classes_Literal) {
                             if ($isList) {
                                 $this->fillListElement($element, $property, $value);
                             } else {
@@ -211,11 +210,13 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
 
     private function getValueCollectionService(): ValueCollectionService
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->getServiceLocator()->get(ValueCollectionService::class);
     }
 
     private function getElementFactory(): ElementMapFactory
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->getServiceLocator()->get(ElementMapFactory::class);
     }
 
