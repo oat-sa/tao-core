@@ -111,12 +111,10 @@ class ElementMapFactory extends ConfigurableService
                     );
                 } else {
                     if ($this->isList($range)) {
-                        $cv = $this->getValueCollectionService();
-                        $request = new ValueCollectionSearchRequest();
-                        $request->setValueCollectionUri($range->getUri());
-                        $values = $cv->findAll(
+                        $values = $this->getValueCollectionService()->findAll(
                             new ValueCollectionSearchInput(
-                                $request
+                                (new ValueCollectionSearchRequest())
+                                    ->setValueCollectionUri($range->getUri())
                             )
                         );
 
