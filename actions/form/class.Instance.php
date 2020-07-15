@@ -115,12 +115,12 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
 
             $element = $this->getElementFactory()->create($property);
 
-            $isList = $this->isList($property);
-
             if ($element !== null) {
-                //take instance values to populate the form
+                // take instance values to populate the form
                 if ($instance !== null) {
+                    $isList = $this->isList($property);
                     $values = $instance->getPropertyValuesCollection($property);
+
                     foreach ($values->getIterator() as $value) {
                         if ($value instanceof core_kernel_classes_Resource) {
                             $elementValue = $element instanceof tao_helpers_form_elements_Readonly
