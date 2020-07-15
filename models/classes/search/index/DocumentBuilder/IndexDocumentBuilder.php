@@ -21,7 +21,8 @@ declare(strict_types=1);
 
 namespace oat\tao\model\search\index\DocumentBuilder;
 
-use common_ext_ExtensionsManager;
+use oat\generis\model\data\permission\PermissionInterface;
+use oat\generis\model\data\permission\ReverseRightLookupInterface;
 use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
 use oat\generis\model\WidgetRdf;
@@ -36,7 +37,6 @@ use oat\tao\model\search\SearchTokenGenerator;
 use oat\tao\model\service\InjectionAwareService;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\WidgetDefinitions;
-use oat\taoDacSimple\model\AdminService;
 
 class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumentBuilderInterface
 {
@@ -66,7 +66,7 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
 
         $body['type'] = $this->getTypesForResource($resource);
         $dynamicProperties = $this->getDynamicProperties($resource->getTypes(), $resource);
-        $accessProperties = $this->includeAccessData() ? $this->getAccessProperties($resource) : null;
+        $accessProperties = $this->getAccessProperties($resource);
 
         return new IndexDocument(
             $resource->getUri(),
@@ -253,20 +253,17 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
         return new ArrayIterator($customProperties);
     }
 
-    private function getAccessProperties(core_kernel_classes_Resource $resource): Iterator
+    private function getAccessProperties(core_kernel_classes_Resource $resource): ?Iterator
     {
-        $accessRights = AdminService::getUsersPermissions($resource->getUri());
+        $permissionProvider = $this->getServiceLocator()->get(PermissionInterface::SERVICE_ID);
 
+        if (!$permissionProvider instanceof ReverseRightLookupInterface) {
+            return null;
+        }
+
+        $accessRights = $permissionProvider->getResourceAccessData($resource);
         $accessRightsURIs = ['read_access' => array_keys($accessRights)];
 
         return new ArrayIterator($accessRightsURIs);
-    }
-
-    private function includeAccessData(): bool
-    {
-        /** @var common_ext_ExtensionsManager $extensionManager */
-        $extensionManager = $this->getServiceLocator()->get(common_ext_ExtensionsManager::SERVICE_ID);
-
-        return $extensionManager->isEnabled('taoDacSimple');
     }
 }
