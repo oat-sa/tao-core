@@ -68,13 +68,19 @@ final class CollectionType
 
     public static function fromCollectionUri(string $uri): self
     {
-        $collectionClass = new KernelClass($uri);
+        static $collectionUris = [];
 
-        $value = $collectionClass->getOnePropertyValue(
-            $collectionClass->getProperty(self::TYPE_PROPERTY)
-        );
+        if (!isset($collectionUris[$uri])) {
+            $collectionClass = new KernelClass($uri);
 
-        return null === $value ? self::default() : self::fromValue($value->getUri());
+            $value = $collectionClass->getOnePropertyValue(
+                $collectionClass->getProperty(self::TYPE_PROPERTY)
+            );
+
+            $collectionUris[$uri] = null === $value ? self::default() : self::fromValue($value->getUri());
+        }
+
+        return $collectionUris[$uri];
     }
 
     public function equals(self $collectionType): bool
