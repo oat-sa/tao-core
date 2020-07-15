@@ -24,16 +24,10 @@ namespace oat\tao\model\Lists\Business\Service;
 
 use core_kernel_classes_Property as RdfProperty;
 use core_kernel_persistence_Exception;
-use Generator;
-use GuzzleHttp\Client;
-use oat\tao\model\Lists\Business\Domain\Value;
 use oat\tao\model\Lists\Business\Domain\ValueCollection;
-use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
-use oat\tao\model\Lists\Business\Input\ValueCollectionSearchInput;
 use oat\tao\model\service\InjectionAwareService;
 use oat\taoBackOffice\model\lists\ListService;
 use RuntimeException;
-use Traversable;
 
 class RemoteSourcedListService extends InjectionAwareService
 {
@@ -43,26 +37,24 @@ class RemoteSourcedListService extends InjectionAwareService
     public const PROPERTY_ITEM_URI_PATH = 'http://www.tao.lu/Ontologies/TAO.rdf#RemoteListItemUriPath';
     public const PROPERTY_ITEM_LABEL_PATH = 'http://www.tao.lu/Ontologies/TAO.rdf#RemoteListItemLabelPath';
 
-    /** @var Client */
-    private $client;
     /** @var ValueCollectionService */
     private $valueCollectionService;
-    /** @var array */
-    private $parsers;
+    /** @var RemoteSource */
+    private $remoteSource;
 
     /**
      * @noinspection MagicMethodsValidityInspection
      * @noinspection PhpMissingParentConstructorInspection
      *
-     * @param Client                 $client
      * @param ValueCollectionService $valueCollectionService
-     * @param array                  $parsers
+     * @param RemoteSource           $remoteSource
      */
-    public function __construct(Client $client, ValueCollectionService $valueCollectionService, array $parsers)
-    {
-        $this->client = $client;
+    public function __construct(
+        ValueCollectionService $valueCollectionService,
+        RemoteSource $remoteSource
+    ) {
         $this->valueCollectionService = $valueCollectionService;
-        $this->parsers = $parsers;
+        $this->remoteSource = $remoteSource;
     }
 
     public function createList(string $label, string $source, string $labelPath, string $uriPath): string
@@ -86,13 +78,31 @@ class RemoteSourcedListService extends InjectionAwareService
     }
 
     /**
-     * @param string $url
+     * @param string $listUri
      *
      * @throws core_kernel_persistence_Exception
      */
-    public function sync(string $url): void
+    public function sync(string $listUri): void
     {
-        $collection = new ValueCollection($url, ...iterator_to_array($this->fetch($url)));
+        $listService = $this->getListService();
+        $listClass = $listService->getList($listUri);
+
+        if ($listClass === null) {
+            throw new RuntimeException(sprintf('Wrong remote list uri %s', $listUri));
+        }
+
+        if (!$listService->isRemote($listClass)) {
+            throw new RuntimeException(sprintf('List %s is not remote', $listUri));
+        }
+
+        $sourceUrl = (string)$listClass->getOnePropertyValue($listClass->getProperty(self::PROPERTY_SOURCE_URI));
+        $uriPath = (string)$listClass->getOnePropertyValue($listClass->getProperty(self::PROPERTY_ITEM_URI_PATH));
+        $labelPath = (string)$listClass->getOnePropertyValue($listClass->getProperty(self::PROPERTY_ITEM_LABEL_PATH));
+
+        $collection = new ValueCollection(
+            $listUri,
+            ...iterator_to_array($this->remoteSource->fetch($sourceUrl, $uriPath, $labelPath, 'jsonpath'))
+        );
 
         $result = $this->valueCollectionService->persist($collection);
 
@@ -101,57 +111,8 @@ class RemoteSourcedListService extends InjectionAwareService
         }
     }
 
-    public function findAll(string $listUri): ValueCollection
-    {
-        $request = new ValueCollectionSearchRequest();
-        $request->setValueCollectionUri($listUri);
-
-        return $this->valueCollectionService->findAll(
-            new ValueCollectionSearchInput($request)
-        );
-    }
-
-    /**
-     * @param string $listUri
-     *
-     * @return Generator|Value[]
-     * @throws core_kernel_persistence_Exception
-     */
-    public function fetch(string $listUri): Traversable
-    {
-        $class = $this->getListService()->getList($listUri);
-
-        if ($class === null) {
-            throw new RuntimeException(sprintf('Wrong remote list uri %s', $listUri));
-        }
-
-        $sourceUrl = (string)$class->getOnePropertyValue($class->getProperty(self::PROPERTY_SOURCE_URI));
-        $uriPath = (string)$class->getOnePropertyValue($class->getProperty(self::PROPERTY_ITEM_URI_PATH));
-        $labelPath = (string)$class->getOnePropertyValue($class->getProperty(self::PROPERTY_ITEM_LABEL_PATH));
-
-
-        $this->client = new Client([]);
-
-        $response = $this->client->get($sourceUrl);
-
-        $body = json_decode((string)$response->getBody(), true);
-
-        yield from $this->getParser('jsonpath')->iterate($body, $uriPath, $labelPath);
-    }
-
     protected function getListService(): ListService
     {
         return ListService::singleton();
-    }
-
-    private function getParser(string $key)
-    {
-        if (empty($this->parsers[$key])) {
-            throw new RuntimeException(
-                sprintf('No %s parsers defined', $key)
-            );
-        }
-
-        return $this->parsers[$key];
     }
 }

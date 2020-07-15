@@ -85,7 +85,7 @@ abstract class tao_helpers_form_elements_MultipleElement extends tao_helpers_for
      */
     public function addValue(string $value): void
     {
-        $this->values[] = tao_helpers_Uri::encode((string)$value);
+        $this->values[] = tao_helpers_Uri::encode($value);
     }
 
     /**
