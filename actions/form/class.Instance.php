@@ -197,13 +197,13 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
         $searchRequest = new ValueCollectionSearchRequest();
         $searchRequest->setValueCollectionUri($property->getRange()->getUri());
         $searchRequest->setUris((string)$uri);
-        $result = $valueService->findAll(
+        $valueCollection = $valueService->findAll(
             new ValueCollectionSearchInput($searchRequest)
         );
 
-        foreach ($result as $v) {
+        foreach ($valueCollection as $value) {
             $element->setValue(
-                new ElementValue($v->getUri(), $v->getLabel())
+                new ElementValue($value->getUri(), $value->getLabel())
             );
         }
     }
