@@ -77,10 +77,11 @@ class ElementMapFactory extends ConfigurableService
         }
 
         if ($element->getWidget() !== $widgetResource->getUri()) {
-            common_Logger::w(
-                'Widget definition differs from implementation: ' . $element->getWidget(
-                ) . ' != ' . $widgetResource->getUri()
-            );
+            common_Logger::w(sprintf(
+                'Widget definition differs from implementation: %s != %s',
+                $element->getWidget(),
+                $widgetResource->getUri()
+            ));
 
             return null;
         }
