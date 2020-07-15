@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,9 +21,15 @@
 
 declare(strict_types=1);
 
-use oat\tao\helpers\form\elements\xhtml\XhtmlRenderingTrait;
+namespace oat\tao\helpers\form\elements\xhtml;
 
-class tao_helpers_form_elements_xhtml_Searchtextbox extends tao_helpers_form_elements_Searchtextbox
+use core_kernel_classes_Resource;
+use oat\tao\helpers\form\elements\AbstractSearchTextBox;
+use tao_helpers_Display;
+use tao_helpers_form_elements_xhtml_Hidden;
+use tao_helpers_Uri;
+
+class SearchTextBox extends AbstractSearchTextBox
 {
     use XhtmlRenderingTrait;
 
@@ -45,29 +50,30 @@ class tao_helpers_form_elements_xhtml_Searchtextbox extends tao_helpers_form_ele
      */
     public function render(): string
     {
-        $htmlPieces = [$this->renderLabel()];
-
-        $hasUnit = !empty($this->unit);
-
-        if ($hasUnit) {
+        if (!empty($this->unit)) {
             $this->addClass('has-unit');
+            $label = sprintf(
+                '<label class="%s" for="%s">%s</label>',
+                'unit',
+                $this->name,
+                tao_helpers_Display::htmllize($this->unit)
+            );
         }
 
-        $htmlPieces[] = "<div {$this->renderAttributes()}>";
+        $html = [];
 
-        $htmlPieces[] = $this->createHiddenInput()->render();
+        $html[] = $this->renderLabel();
+        $html[] = sprintf(
+            '<script>%s</script>',
+            $this->createClientCode()
+        );
+        $html[] = sprintf(
+            '<div%s>%s</div>',
+            $this->renderAttributes(),
+            $this->createHiddenInput()->render() . ($label ?? '')
+        );
 
-        if ($hasUnit) {
-            $htmlPieces[] = '<label class="unit" for="' . $this->name . '">' . _dh($this->unit) . '</label>';
-        }
-
-        $htmlPieces[] = '</div>';
-
-        $htmlPieces[] = '<script>';
-        $htmlPieces[] = $this->createClientCode();
-        $htmlPieces[] = '</script>';
-
-        return implode('', $htmlPieces);
+        return implode('', $html);
     }
 
     private function createClientCode(): string
