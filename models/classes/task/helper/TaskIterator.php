@@ -42,7 +42,7 @@ class TaskIterator extends ConfigurableService
             'start' => $start,
             'end' => $end,
             'predicate' => OntologyRdf::RDF_TYPE,
-            'class' => array_keys($itemClasses)
+            'class' => array_unique($itemClasses)
         ];
 
         $types['class'] = Connection::PARAM_STR_ARRAY;
