@@ -105,15 +105,15 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
 
         $platform->beginTransaction();
 
+        $this->purge($valueCollection);
+
         try {
             foreach ($valueCollection as $value) {
-//                $this->verifyUriUniqueness($value);
+                $this->verifyUriUniqueness($value);
+            }
 
-                if (null === $value->getId()) {
-                    $this->insert($valueCollection, $value);
-                } else {
-                    $this->update($value);
-                }
+            foreach ($valueCollection as $value) {
+                $this->insert($valueCollection, $value);
             }
 
             $platform->commit();
@@ -128,16 +128,6 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
                 $platform->rollBack();
             }
         }
-    }
-
-    public function delete(string $listUri): void
-    {
-        $query = $this->getPersistence()->getPlatForm()->getQueryBuilder();
-
-        $query->delete(self::TABLE_LIST_ITEMS)
-            ->where($query->expr()->eq(self::FIELD_ITEM_LIST_URI, ':list_uri'))
-            ->setParameter('list_uri', $listUri)
-            ->execute();
     }
 
     /**
@@ -180,56 +170,13 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
             ->execute();
     }
 
-    private function update(Value $value): void
+    private function purge(ValueCollection $valueCollection): void
     {
-        if (!$value->hasChanges()) {
-            return;
-        }
-
         $query = $this->getPersistence()->getPlatForm()->getQueryBuilder();
 
-        $expressionBuilder = $query->expr();
-
-        $query
-            ->update(self::TABLE_LIST_ITEMS)
-            ->set(self::FIELD_ITEM_LABEL, ':label')
-            ->set(self::FIELD_ITEM_URI, ':uri')
-            ->where($expressionBuilder->eq('id', ':id'))
-            ->setParameters(
-                [
-                    'id'    => $value->getId(),
-                    'uri'   => $value->getUri(),
-                    'label' => $value->getLabel(),
-                ]
-            )
-            ->execute();
-
-        $this->updateProperties($value);
-    }
-
-    /**
-     * @param Value $value
-     */
-    private function updateProperties(Value $value): void
-    {
-        if (!$value->hasModifiedUri()) {
-            return;
-        }
-
-        $query = $this->getPersistence()->getPlatForm()->getQueryBuilder();
-
-        $expressionBuilder = $query->expr();
-
-        $query
-            ->update('statements')
-            ->set('object', ':uri')
-            ->where($expressionBuilder->eq('object', ':original_uri'))
-            ->setParameters(
-                [
-                    'uri'          => $value->getUri(),
-                    'original_uri' => $value->getOriginalUri(),
-                ]
-            )
+        $query->delete(self::TABLE_LIST_ITEMS)
+            ->where($query->expr()->eq(self::FIELD_ITEM_LIST_URI, ':list_uri'))
+            ->setParameter('list_uri', $valueCollection->getUri())
             ->execute();
     }
 
