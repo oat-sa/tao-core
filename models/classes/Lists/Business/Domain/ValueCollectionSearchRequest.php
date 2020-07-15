@@ -42,7 +42,7 @@ class ValueCollectionSearchRequest
     private $limit;
 
     /** @var string[] */
-    private $uris;
+    private $uris = [];
 
     public function hasPropertyUri(): bool
     {
