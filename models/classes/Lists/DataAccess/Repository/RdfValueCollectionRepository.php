@@ -24,6 +24,7 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Lists\DataAccess\Repository;
 
+use BadMethodCallException;
 use common_persistence_SqlPersistence as SqlPersistence;
 use core_kernel_classes_Class as KernelClass;
 use core_kernel_classes_Resource as KernelResource;
@@ -120,6 +121,11 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
                 $platform->rollBack();
             }
         }
+    }
+
+    public function delete(string $valueCollectionUri): void
+    {
+        throw new BadMethodCallException('Not Implemented');
     }
 
     /**

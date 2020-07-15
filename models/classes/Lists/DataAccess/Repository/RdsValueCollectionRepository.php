@@ -105,7 +105,7 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
 
         $platform->beginTransaction();
 
-        $this->purge($valueCollection);
+        $this->delete($valueCollection->getUri());
 
         try {
             foreach ($valueCollection as $value) {
@@ -128,6 +128,16 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
                 $platform->rollBack();
             }
         }
+    }
+
+    public function delete(string $valueCollectionUri): void
+    {
+        $query = $this->getPersistence()->getPlatForm()->getQueryBuilder();
+
+        $query->delete(self::TABLE_LIST_ITEMS)
+            ->where($query->expr()->eq(self::FIELD_ITEM_LIST_URI, ':list_uri'))
+            ->setParameter('list_uri', $valueCollectionUri)
+            ->execute();
     }
 
     /**
@@ -167,16 +177,6 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
                     'listUri' => $valueCollection->getUri()
                 ]
             )
-            ->execute();
-    }
-
-    private function purge(ValueCollection $valueCollection): void
-    {
-        $query = $this->getPersistence()->getPlatForm()->getQueryBuilder();
-
-        $query->delete(self::TABLE_LIST_ITEMS)
-            ->where($query->expr()->eq(self::FIELD_ITEM_LIST_URI, ':list_uri'))
-            ->setParameter('list_uri', $valueCollection->getUri())
             ->execute();
     }
 
