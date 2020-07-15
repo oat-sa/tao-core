@@ -347,8 +347,7 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
     private function enrichQueryWithObjects(
         ValueCollectionSearchRequest $searchRequest,
         QueryBuilder $query
-    ): void
-    {
+    ): void {
         if (!$searchRequest->hasUris()) {
             return;
         }
