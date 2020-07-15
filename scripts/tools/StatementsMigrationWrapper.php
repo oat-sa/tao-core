@@ -28,10 +28,14 @@ use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\extension\script\ScriptAction;
 use oat\tao\model\task\AbstractStatementMigrationTask;
 use oat\tao\model\task\helper\PositionTracker;
+use oat\tao\model\taskQueue\Queue;
+use oat\tao\model\taskQueue\QueueDispatcher;
 use oat\tao\model\taskQueue\QueueDispatcherInterface;
 use oat\tao\model\taskQueue\Task\CallbackTaskInterface;
 use oat\tao\model\taskQueue\TaskLogActionTrait;
 use oat\tao\model\taskQueue\TaskLogInterface;
+use oat\taoTaskQueue\model\QueueBroker\RdsQueueBroker;
+use oat\taoTaskQueue\scripts\tools\InitializeQueue;
 use RuntimeException;
 use Throwable;
 
@@ -88,7 +92,6 @@ class StatementsMigrationWrapper extends ScriptAction
                 'longPrefix' => 'queue',
                 'required' => false,
                 'cast' => 'string',
-                'defaultValue' => 'default',
                 'description' => 'Define task queue broker name to work at'
             ],
 
@@ -122,7 +125,19 @@ class StatementsMigrationWrapper extends ScriptAction
 
         $taskClass = $this->detectTargetClass($this->getOption('target'));
 
-        $this->addTaskBroker($queue);
+        if ($queue) {
+            $report = $this->configureQueues($queue, $taskClass);
+            $result = common_report_Report::createSuccess(
+                sprintf(
+                    '1. Please restart fpm to apply changes ' . PHP_EOL .
+                    '2. Execute `php index.php "oat\taoTaskQueue\scripts\tools\RunWorker" --queue=%s`' . PHP_EOL .
+                    '3. Re-run original command bypassing `queue` parameter' . PHP_EOL,
+                    $queue
+                )
+            );
+            $result->add($report);
+            return $result;
+        }
 
         if ($isRecovery) {
             $start = $this->getServiceLocator()->get(PositionTracker::class)->getLastPosition($taskClass, $start);
@@ -186,8 +201,27 @@ class StatementsMigrationWrapper extends ScriptAction
         );
     }
 
-    private function addTaskBroker(string $queue): void
+    private function configureQueues(string $queue, string $targetClass): common_report_Report
     {
+        /** @var QueueDispatcher $queueService */
+        $queueService = $this->getServiceManager()->get(QueueDispatcher::SERVICE_ID);
+        $existingQueues = $queueService->getOption(QueueDispatcherInterface::OPTION_QUEUES);
+        $newQueue = new Queue($queue, new RdsQueueBroker('default', 1), 30);
+        $existingOptions = $queueService->getOptions();
+        $existingOptions[QueueDispatcherInterface::OPTION_QUEUES] = array_unique(
+            array_merge($existingQueues, [$newQueue])
+        );
+        $existingAssociations = $queueService->getOption(QueueDispatcherInterface::OPTION_TASK_TO_QUEUE_ASSOCIATIONS);
+        $existingOptions[QueueDispatcherInterface::OPTION_TASK_TO_QUEUE_ASSOCIATIONS] = array_merge(
+            $existingAssociations,
+            [$targetClass => $queue]
+        );
+
+        $queueService->setOptions($existingOptions);
+        $this->getServiceManager()->register(QueueDispatcherInterface::SERVICE_ID, $queueService);
+        $initializer = new InitializeQueue();
+        $this->propagate($initializer);
+        return $initializer([]);
     }
 
     protected function returnJson($data, $httpStatus = 200)
