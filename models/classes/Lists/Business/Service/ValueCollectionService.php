@@ -46,14 +46,19 @@ class ValueCollectionService extends InjectionAwareService
 
     public function findAll(ValueCollectionSearchInput $input): ValueCollection
     {
-        foreach ($this->repositories as $repository) {
-            $result = $repository->findAll(
-                $input->getSearchRequest()
-            );
+        $searchRequest = $input->getSearchRequest();
 
-            if (count($result) > 0) {
-                return $result;
+        foreach ($this->repositories as $repository) {
+            if (
+                $searchRequest->hasValueCollectionUri()
+                && !$repository->isApplicable($searchRequest->getValueCollectionUri())
+            ) {
+                continue;
             }
+
+            return $repository->findAll(
+                $searchRequest
+            );
         }
 
         return new ValueCollection();
@@ -69,13 +74,9 @@ class ValueCollectionService extends InjectionAwareService
     public function persist(ValueCollection $valueCollection): bool
     {
         foreach ($this->repositories as $repository) {
-            if ($repository->hasCollection($valueCollection->getUri())) {
+            if ($repository->isApplicable($valueCollection->getUri())) {
                 return $repository->persist($valueCollection);
             }
-        }
-
-        if ($repository) {
-            return $repository->persist($valueCollection);
         }
 
         return false;

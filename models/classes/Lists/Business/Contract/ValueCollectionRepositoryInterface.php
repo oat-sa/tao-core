@@ -32,7 +32,7 @@ interface ValueCollectionRepositoryInterface
 {
     public function findAll(ValueCollectionSearchRequest $searchRequest): ValueCollection;
 
-    public function hasCollection(string $collectionUri): bool;
+    public function isApplicable(string $collectionUri): bool;
 
     /**
      * @param ValueCollection $valueCollection

@@ -63,7 +63,7 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
         $this->persistenceId = $persistenceId;
     }
 
-    public function hasCollection(string $collectionUri): bool
+    public function isApplicable(string $collectionUri): bool
     {
         return CollectionType::fromCollectionUri($collectionUri)->equals(CollectionType::remote());
     }
