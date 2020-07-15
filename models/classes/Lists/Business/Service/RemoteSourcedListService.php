@@ -22,11 +22,9 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Lists\Business\Service;
 
-use core_kernel_classes_Property as RdfProperty;
-use core_kernel_persistence_Exception;
+use core_kernel_classes_Class as KernelClass;
 use oat\tao\model\Lists\Business\Domain\ValueCollection;
 use oat\tao\model\service\InjectionAwareService;
-use oat\taoBackOffice\model\lists\ListService;
 use RuntimeException;
 
 class RemoteSourcedListService extends InjectionAwareService
@@ -42,65 +40,30 @@ class RemoteSourcedListService extends InjectionAwareService
     /** @var RemoteSource */
     private $remoteSource;
 
-    /**
-     * @noinspection MagicMethodsValidityInspection
-     * @noinspection PhpMissingParentConstructorInspection
-     *
-     * @param ValueCollectionService $valueCollectionService
-     * @param RemoteSource           $remoteSource
-     */
     public function __construct(
         ValueCollectionService $valueCollectionService,
         RemoteSource $remoteSource
     ) {
+        parent::__construct();
+
         $this->valueCollectionService = $valueCollectionService;
         $this->remoteSource = $remoteSource;
     }
 
-    public function createList(string $label, string $source, string $labelPath, string $uriPath): string
+    public function sync(KernelClass $collectionClass): void
     {
-        $class = $this->getListService()->createList($label);
-
-        $propertyType = new RdfProperty('http://www.tao.lu/Ontologies/TAO.rdf#ListType');
-        $propertyRemote = new RdfProperty('http://www.tao.lu/Ontologies/TAO.rdf#ListRemote');
-        $class->setPropertyValue($propertyType, $propertyRemote);
-
-        $propertySource = new RdfProperty(self::PROPERTY_SOURCE_URI);
-        $class->setPropertyValue($propertySource, $source);
-
-        $propertySource = new RdfProperty(self::PROPERTY_ITEM_LABEL_PATH);
-        $class->setPropertyValue($propertySource, $labelPath);
-
-        $propertySource = new RdfProperty(self::PROPERTY_ITEM_URI_PATH);
-        $class->setPropertyValue($propertySource, $uriPath);
-
-        return $class->getUri();
-    }
-
-    /**
-     * @param string $listUri
-     *
-     * @throws core_kernel_persistence_Exception
-     */
-    public function sync(string $listUri): void
-    {
-        $listService = $this->getListService();
-        $listClass = $listService->getList($listUri);
-
-        if ($listClass === null) {
-            throw new RuntimeException(sprintf('Wrong remote list uri %s', $listUri));
-        }
-
-        if (!$listService->isRemote($listClass)) {
-            throw new RuntimeException(sprintf('List %s is not remote', $listUri));
-        }
-
-        $sourceUrl = (string)$listClass->getOnePropertyValue($listClass->getProperty(self::PROPERTY_SOURCE_URI));
-        $uriPath = (string)$listClass->getOnePropertyValue($listClass->getProperty(self::PROPERTY_ITEM_URI_PATH));
-        $labelPath = (string)$listClass->getOnePropertyValue($listClass->getProperty(self::PROPERTY_ITEM_LABEL_PATH));
+        $sourceUrl = (string)$collectionClass->getOnePropertyValue(
+            $collectionClass->getProperty(self::PROPERTY_SOURCE_URI)
+        );
+        $uriPath   = (string)$collectionClass->getOnePropertyValue(
+            $collectionClass->getProperty(self::PROPERTY_ITEM_URI_PATH)
+        );
+        $labelPath = (string)$collectionClass->getOnePropertyValue(
+            $collectionClass->getProperty(self::PROPERTY_ITEM_LABEL_PATH)
+        );
 
         $collection = new ValueCollection(
-            $listUri,
+            $collectionClass->getUri(),
             ...iterator_to_array($this->remoteSource->fetch($sourceUrl, $uriPath, $labelPath, 'jsonpath'))
         );
 
@@ -109,10 +72,5 @@ class RemoteSourcedListService extends InjectionAwareService
         if (!$result) {
             throw new RuntimeException('Sync was not successful');
         }
-    }
-
-    protected function getListService(): ListService
-    {
-        return ListService::singleton();
     }
 }

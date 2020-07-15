@@ -27,24 +27,22 @@ use Flow\JSONPath\JSONPathException;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\Lists\Business\Domain\Value;
 use RuntimeException;
-use Traversable;
 
 class RemoteSourceJsonPathParser extends ConfigurableService implements RemoteSourceParserInterface
 {
     /**
-     * @param array  $json
-     * @param string $uriRule
-     * @param string $labelRule
-     *
-     * @return Traversable|Value[]
-     * @throws JSONPathException
+     * @inheritDoc
      */
-    public function iterate(array $json, string $uriRule, string $labelRule): Traversable
+    public function iterate(array $json, string $uriRule, string $labelRule): iterable
     {
         $jsonPath = new JSONPath($json);
 
-        $uris = $jsonPath->find($uriRule);
-        $labels = $jsonPath->find($labelRule);
+        try {
+            $uris   = $jsonPath->find($uriRule);
+            $labels = $jsonPath->find($labelRule);
+        } catch (JSONPathException $e) {
+            throw new RuntimeException($e->getMessage(), $e->getCode(), $e);
+        }
 
         $count = $uris->count();
 

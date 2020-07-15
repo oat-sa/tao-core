@@ -26,6 +26,7 @@ namespace oat\tao\model\Lists\Business\Service;
 
 use oat\tao\model\Lists\Business\Contract\ValueCollectionRepositoryInterface;
 use oat\tao\model\Lists\Business\Domain\ValueCollection;
+use oat\tao\model\Lists\Business\Input\ValueCollectionDeleteInput;
 use oat\tao\model\Lists\Business\Input\ValueCollectionSearchInput;
 use oat\tao\model\Lists\DataAccess\Repository\ValueConflictException;
 use oat\tao\model\service\InjectionAwareService;
@@ -46,17 +47,31 @@ class ValueCollectionService extends InjectionAwareService
 
     public function findAll(ValueCollectionSearchInput $input): ValueCollection
     {
-        foreach ($this->repositories as $repository) {
-            $result = $repository->findAll(
-                $input->getSearchRequest()
-            );
+        $searchRequest = $input->getSearchRequest();
 
-            if (count($result) > 0) {
-                return $result;
+        foreach ($this->repositories as $repository) {
+            if (
+                $searchRequest->hasValueCollectionUri()
+                && !$repository->isApplicable($searchRequest->getValueCollectionUri())
+            ) {
+                continue;
             }
+
+            return $repository->findAll(
+                $searchRequest
+            );
         }
 
         return new ValueCollection();
+    }
+
+    public function delete(ValueCollectionDeleteInput $input): void
+    {
+        foreach ($this->repositories as $repository) {
+            if ($repository->isApplicable($input->getValueCollectionUri())) {
+                $repository->delete($input->getValueCollectionUri());
+            }
+        }
     }
 
     /**
@@ -69,13 +84,9 @@ class ValueCollectionService extends InjectionAwareService
     public function persist(ValueCollection $valueCollection): bool
     {
         foreach ($this->repositories as $repository) {
-            if ($repository->hasCollection($valueCollection->getUri())) {
+            if ($repository->isApplicable($valueCollection->getUri())) {
                 return $repository->persist($valueCollection);
             }
-        }
-
-        if ($repository) {
-            return $repository->persist($valueCollection);
         }
 
         return false;

@@ -22,9 +22,19 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Lists\Business\Service;
 
-use Traversable;
+use oat\tao\model\Lists\Business\Domain\Value;
+use RuntimeException;
 
 interface RemoteSourceParserInterface
 {
-    public function iterate(array $json, string $uriRule, string $labelRule): Traversable;
+    /**
+     * @param array  $json
+     * @param string $uriRule
+     * @param string $labelRule
+     *
+     * @return iterable|Value[]
+     *
+     * @throws RuntimeException
+     */
+    public function iterate(array $json, string $uriRule, string $labelRule): iterable;
 }

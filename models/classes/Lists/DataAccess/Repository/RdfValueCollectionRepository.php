@@ -24,16 +24,16 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Lists\DataAccess\Repository;
 
-use common_exception_Error;
+use BadMethodCallException;
 use common_persistence_SqlPersistence as SqlPersistence;
 use core_kernel_classes_Class as KernelClass;
 use core_kernel_classes_Resource as KernelResource;
-use core_kernel_persistence_Exception;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 use oat\generis\model\OntologyRdf;
 use oat\generis\model\OntologyRdfs;
 use oat\generis\persistence\PersistenceManager;
+use oat\tao\model\Lists\Business\Domain\CollectionType;
 use oat\tao\model\service\InjectionAwareService;
 use oat\tao\model\Lists\Business\Contract\ValueCollectionRepositoryInterface;
 use oat\tao\model\Lists\Business\Domain\Value;
@@ -59,20 +59,9 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
         $this->persistenceId      = $persistenceId;
     }
 
-    /**
-     * @param string $collectionUri
-     *
-     * @return bool
-     * @throws common_exception_Error
-     * @throws core_kernel_persistence_Exception
-     */
-    public function hasCollection(string $collectionUri): bool
+    public function isApplicable(string $collectionUri): bool
     {
-        $listClass = new KernelClass($collectionUri);
-
-        $type = $listClass->getOnePropertyValue($listClass->getProperty('http://www.tao.lu/Ontologies/TAO.rdf#ListType'));
-
-        return !$type || $type->getUri() !== 'http://www.tao.lu/Ontologies/TAO.rdf#ListRemote';
+        return CollectionType::fromCollectionUri($collectionUri)->equals(CollectionType::default());
     }
 
     public function findAll(ValueCollectionSearchRequest $searchRequest): ValueCollection
@@ -132,6 +121,11 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
                 $platform->rollBack();
             }
         }
+    }
+
+    public function delete(string $valueCollectionUri): void
+    {
+        throw new BadMethodCallException('Not Implemented');
     }
 
     /**

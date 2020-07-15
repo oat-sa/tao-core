@@ -24,15 +24,14 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Lists\DataAccess\Repository;
 
-use common_exception_Error;
 use common_persistence_SqlPersistence as SqlPersistence;
 use core_kernel_classes_Class as KernelClass;
 use core_kernel_classes_Resource as KernelResource;
-use core_kernel_persistence_Exception;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 use oat\generis\persistence\PersistenceManager;
 use oat\tao\model\Lists\Business\Contract\ValueCollectionRepositoryInterface;
+use oat\tao\model\Lists\Business\Domain\CollectionType;
 use oat\tao\model\Lists\Business\Domain\Value;
 use oat\tao\model\Lists\Business\Domain\ValueCollection;
 use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
@@ -64,20 +63,9 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
         $this->persistenceId = $persistenceId;
     }
 
-    /**
-     * @param string $collectionUri
-     *
-     * @return bool
-     * @throws common_exception_Error
-     * @throws core_kernel_persistence_Exception
-     */
-    public function hasCollection(string $collectionUri): bool
+    public function isApplicable(string $collectionUri): bool
     {
-        $listClass = new KernelClass($collectionUri);
-
-        $type = $listClass->getOnePropertyValue($listClass->getProperty('http://www.tao.lu/Ontologies/TAO.rdf#ListType'));
-
-        return $type && $type->getUri() === 'http://www.tao.lu/Ontologies/TAO.rdf#ListRemote';
+        return CollectionType::fromCollectionUri($collectionUri)->equals(CollectionType::remote());
     }
 
     public function findAll(ValueCollectionSearchRequest $searchRequest): ValueCollection
@@ -117,15 +105,15 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
 
         $platform->beginTransaction();
 
+        $this->delete($valueCollection->getUri());
+
         try {
             foreach ($valueCollection as $value) {
-//                $this->verifyUriUniqueness($value);
+                $this->verifyUriUniqueness($value);
+            }
 
-                if (null === $value->getId()) {
-                    $this->insert($valueCollection, $value);
-                } else {
-                    $this->update($value);
-                }
+            foreach ($valueCollection as $value) {
+                $this->insert($valueCollection, $value);
             }
 
             $platform->commit();
@@ -142,13 +130,13 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
         }
     }
 
-    public function delete(string $listUri): void
+    public function delete(string $valueCollectionUri): void
     {
         $query = $this->getPersistence()->getPlatForm()->getQueryBuilder();
 
         $query->delete(self::TABLE_LIST_ITEMS)
             ->where($query->expr()->eq(self::FIELD_ITEM_LIST_URI, ':list_uri'))
-            ->setParameter('list_uri', $listUri)
+            ->setParameter('list_uri', $valueCollectionUri)
             ->execute();
     }
 
@@ -187,59 +175,6 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
                     'uri'     => $value->getUri(),
                     'label'   => $value->getLabel(),
                     'listUri' => $valueCollection->getUri()
-                ]
-            )
-            ->execute();
-    }
-
-    private function update(Value $value): void
-    {
-        if (!$value->hasChanges()) {
-            return;
-        }
-
-        $query = $this->getPersistence()->getPlatForm()->getQueryBuilder();
-
-        $expressionBuilder = $query->expr();
-
-        $query
-            ->update(self::TABLE_LIST_ITEMS)
-            ->set(self::FIELD_ITEM_LABEL, ':label')
-            ->set(self::FIELD_ITEM_URI, ':uri')
-            ->where($expressionBuilder->eq('id', ':id'))
-            ->setParameters(
-                [
-                    'id'    => $value->getId(),
-                    'uri'   => $value->getUri(),
-                    'label' => $value->getLabel(),
-                ]
-            )
-            ->execute();
-
-        $this->updateProperties($value);
-    }
-
-    /**
-     * @param Value $value
-     */
-    private function updateProperties(Value $value): void
-    {
-        if (!$value->hasModifiedUri()) {
-            return;
-        }
-
-        $query = $this->getPersistence()->getPlatForm()->getQueryBuilder();
-
-        $expressionBuilder = $query->expr();
-
-        $query
-            ->update('statements')
-            ->set('object', ':uri')
-            ->where($expressionBuilder->eq('object', ':original_uri'))
-            ->setParameters(
-                [
-                    'uri'          => $value->getUri(),
-                    'original_uri' => $value->getOriginalUri(),
                 ]
             )
             ->execute();
