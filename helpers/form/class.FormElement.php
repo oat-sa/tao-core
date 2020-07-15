@@ -21,6 +21,10 @@
  */
 
 use oat\oatbox\validator\ValidatorInterface;
+use oat\tao\helpers\form\elements\xhtml\SearchTextBox;
+
+// Defining aliases for old style class names for backward compatibility
+class_alias(SearchTextBox::class, \tao_helpers_form_elements_xhtml_Searchtextbox::class);
 
 /**
  * Represents a form. It provides the default behavior for form management and

@@ -40,6 +40,8 @@ class ValueCollectionSearchRequestHandler extends InjectionAwareService
     public const QUERY_PARAMETER_SUBJECT = 'subject';
     public const QUERY_PARAMETER_EXCLUDE = 'exclude';
 
+    private const SEARCH_LIMIT = 20;
+
     /** @var ValueCollectionSearchRequestValidator */
     private $requestValidator;
 
@@ -63,11 +65,13 @@ class ValueCollectionSearchRequestHandler extends InjectionAwareService
 
         $queryParameters = $request->getQueryParams();
 
-        $searchRequest = new ValueCollectionSearchRequest(
-            Id::decode(
-                $queryParameters[self::QUERY_PARAMETER_ID]
-            )
-        );
+        $searchRequest = (new ValueCollectionSearchRequest())
+            ->setLimit(self::SEARCH_LIMIT)
+            ->setPropertyUri(
+                Id::decode(
+                    $queryParameters[self::QUERY_PARAMETER_ID]
+                )
+            );
 
         $subject = trim($queryParameters[self::QUERY_PARAMETER_SUBJECT] ?? '');
 

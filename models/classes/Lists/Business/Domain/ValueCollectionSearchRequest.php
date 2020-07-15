@@ -26,8 +26,11 @@ namespace oat\tao\model\Lists\Business\Domain;
 
 class ValueCollectionSearchRequest
 {
-    /** @var string */
+    /** @var string|null */
     private $propertyUri;
+
+    /** @var string|null */
+    private $valueCollectionUri;
 
     /** @var string|null */
     private $subject;
@@ -35,17 +38,41 @@ class ValueCollectionSearchRequest
     /** @var string[] */
     private $excluded = [];
 
-    /** @var int */
-    private $limit = 20;
+    /** @var int|null */
+    private $limit;
 
-    public function __construct(string $uri)
+    public function hasPropertyUri(): bool
     {
-        $this->propertyUri = $uri;
+        return null !== $this->propertyUri;
     }
 
     public function getPropertyUri(): string
     {
         return $this->propertyUri;
+    }
+
+    public function setPropertyUri(string $propertyUri): self
+    {
+        $this->propertyUri = $propertyUri;
+
+        return $this;
+    }
+
+    public function hasValueCollectionUri(): bool
+    {
+        return null !== $this->valueCollectionUri;
+    }
+
+    public function getValueCollectionUri(): string
+    {
+        return $this->valueCollectionUri;
+    }
+
+    public function setValueCollectionUri(string $valueCollectionUri): self
+    {
+        $this->valueCollectionUri = $valueCollectionUri;
+
+        return $this;
     }
 
     public function hasSubject(): bool
@@ -83,6 +110,11 @@ class ValueCollectionSearchRequest
         $this->excluded[] = $excluded;
 
         return $this;
+    }
+
+    public function hasLimit(): bool
+    {
+        return null !== $this->limit;
     }
 
     public function getLimit(): int
