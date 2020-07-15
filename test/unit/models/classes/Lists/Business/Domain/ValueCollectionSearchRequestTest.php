@@ -30,8 +30,6 @@ use TypeError;
 
 class ValueCollectionSearchRequestTest extends TestCase
 {
-    private const PROPERTY_URI = 'https://example.com';
-
     /** @var ValueCollectionSearchRequest */
     private $sut;
 
@@ -40,24 +38,52 @@ class ValueCollectionSearchRequestTest extends TestCase
      */
     public function init(): void
     {
-        $this->sut = new ValueCollectionSearchRequest(self::PROPERTY_URI);
+        $this->sut = new ValueCollectionSearchRequest();
     }
 
     public function testBareSearchRequest(): void
     {
-        $this->assertSame(self::PROPERTY_URI, $this->sut->getPropertyUri());
+        $this->assertFalse($this->sut->hasPropertyUri());
+        $this->assertFalse($this->sut->hasValueCollectionUri());
         $this->assertFalse($this->sut->hasSubject());
         $this->assertFalse($this->sut->hasExcluded());
         $this->assertEmpty($this->sut->getExcluded());
-        $this->assertSame(20, $this->sut->getLimit());
+        $this->assertFalse($this->sut->hasLimit());
+    }
 
-        $error = null;
-        try {
-            $this->sut->getSubject();
-        } catch (TypeError $error) {
-        } finally {
-            $this->assertNotNull($error);
-        }
+    /**
+     * @param string $method
+     *
+     * @testWith ["getPropertyUri"]
+     *           ["getValueCollectionUri"]
+     *           ["getSubject"]
+     *           ["getLimit"]
+     */
+    public function testNotInitializedGetterCall(string $method): void
+    {
+        $this->expectException(TypeError::class);
+
+        $this->sut->$method();
+    }
+
+    public function testWithPropertyUri(): void
+    {
+        $propertyUri = 'https://example.com';
+
+        $this->sut->setPropertyUri($propertyUri);
+
+        $this->assertTrue($this->sut->hasPropertyUri());
+        $this->assertSame($propertyUri, $this->sut->getPropertyUri());
+    }
+
+    public function testWithValueCollectionUri(): void
+    {
+        $propertyUri = 'https://example.com';
+
+        $this->sut->setValueCollectionUri($propertyUri);
+
+        $this->assertTrue($this->sut->hasValueCollectionUri());
+        $this->assertSame($propertyUri, $this->sut->getValueCollectionUri());
     }
 
     public function testWithSubject(): void
