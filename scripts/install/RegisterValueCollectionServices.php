@@ -26,7 +26,6 @@ use oat\oatbox\extension\InstallAction;
 use oat\tao\model\accessControl\func\AccessRule;
 use oat\tao\model\accessControl\func\AclProxy;
 use oat\tao\model\Lists\Business\Service\RemoteSource;
-use oat\tao\model\Lists\Business\Service\RemoteSourcedListService;
 use oat\tao\model\Lists\Business\Service\RemoteSourceJsonPathParser;
 use oat\tao\model\Lists\Business\Service\ValueCollectionService;
 use oat\tao\model\Lists\DataAccess\Repository\RdfValueCollectionRepository;
@@ -66,11 +65,6 @@ class RegisterValueCollectionServices extends InstallAction
         $this->getServiceManager()->register(ValueCollectionService::SERVICE_ID, $valueCollectionService);
 
         $this->getServiceManager()->register(RemoteSource::SERVICE_ID, $remoteSource);
-
-        $this->getServiceManager()->register(
-            RemoteSourcedListService::SERVICE_ID,
-            new RemoteSourcedListService($valueCollectionService, $remoteSource)
-        );
 
         AclProxy::applyRule(
             new AccessRule(AccessRule::GRANT, TaoRoles::BACK_OFFICE, ['ext' => 'tao', 'mod' => 'PropertyValues'])

@@ -6,7 +6,6 @@ namespace oat\tao\migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use oat\tao\model\Lists\Business\Service\RemoteSource;
-use oat\tao\model\Lists\Business\Service\RemoteSourcedListService;
 use oat\tao\model\Lists\Business\Service\ValueCollectionService;
 use oat\tao\model\Lists\DataAccess\Repository\RdfValueCollectionRepository;
 use oat\tao\model\Lists\DataAccess\Repository\RdsValueCollectionRepository;
@@ -44,8 +43,7 @@ final class Version202007151553102234_tao extends AbstractMigration
         foreach (
             [
                 RdsValueCollectionRepository::SERVICE_ID,
-                RemoteSource::SERVICE_ID,
-                RemoteSourcedListService::SERVICE_ID,
+                RemoteSource::SERVICE_ID
             ] as $serviceId
         ) {
             $this->getServiceManager()->unregister($serviceId);
