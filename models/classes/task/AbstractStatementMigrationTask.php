@@ -28,9 +28,9 @@ use Iterator;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\action\Action;
 use oat\oatbox\log\LoggerAwareTrait;
-use oat\tao\model\task\helper\PositionTracker;
-use oat\tao\model\task\helper\StatementLastIdRetriever;
-use oat\tao\model\task\helper\TaskIterator;
+use oat\tao\model\task\migration\service\PositionTracker;
+use oat\tao\model\task\migration\service\StatementLastIdRetriever;
+use oat\tao\model\task\migration\service\StatementTaskIterator;
 use oat\tao\model\taskQueue\QueueDispatcherInterface;
 use oat\tao\model\taskQueue\Task\CallbackTaskInterface;
 use oat\tao\model\taskQueue\Task\TaskAwareInterface;
@@ -47,13 +47,13 @@ abstract class AbstractStatementMigrationTask implements Action, ServiceLocatorA
     use LoggerAwareTrait;
 
     /** @var int */
-    protected $affected;
+    private $affected;
 
     /** @var int */
-    protected $pickSize;
+    private $pickSize;
 
     /** @var common_report_Report */
-    protected $anomalies;
+    private $anomalies;
 
     abstract protected function getTargetClasses(): array;
 
@@ -81,7 +81,7 @@ abstract class AbstractStatementMigrationTask implements Action, ServiceLocatorA
 
         $targetClasses = $this->getTargetClasses();
         $this->initAnomaliesCollector();
-        $iterator = $this->getServiceLocator()->get(TaskIterator::class)->getIterator($targetClasses, $start, $end);
+        $iterator = $this->getServiceLocator()->get(StatementTaskIterator::class)->getIterator($targetClasses, $start, $end);
 
         iterator_apply($iterator, [$this, 'applyProcessor'], [$iterator, $pickSize, $this->affected]);
 
