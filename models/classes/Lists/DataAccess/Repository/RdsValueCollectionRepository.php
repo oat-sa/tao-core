@@ -101,16 +101,16 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
             throw new ValueConflictException("Value Collection {$valueCollection->getUri()} has duplicate values.");
         }
 
+        foreach ($valueCollection as $value) {
+            $this->verifyUriUniqueness($value);
+        }
+
         $platform = $this->getPersistence()->getPlatForm();
 
         $platform->beginTransaction();
 
-        $this->delete($valueCollection->getUri());
-
         try {
-            foreach ($valueCollection as $value) {
-                $this->verifyUriUniqueness($value);
-            }
+            $this->delete($valueCollection->getUri());
 
             foreach ($valueCollection as $value) {
                 $this->insert($valueCollection, $value);
