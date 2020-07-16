@@ -38,7 +38,7 @@ class ValueCollectionSearchRequestHandlerTest extends TestCase
     /** @var ValueCollectionSearchRequestValidator|MockObject */
     private $requestValidatorMock;
 
-    /** @var ValueCollectionSearchRequestHandler */
+    /** @var ValueCollectionSearchRequestHandler|MockObject */
     private $sut;
 
     /**
@@ -48,7 +48,10 @@ class ValueCollectionSearchRequestHandlerTest extends TestCase
     {
         $this->requestValidatorMock = $this->createMock(ValueCollectionSearchRequestValidator::class);
 
-        $this->sut = new ValueCollectionSearchRequestHandler($this->requestValidatorMock);
+        $this->sut = $this->getMockBuilder(ValueCollectionSearchRequestHandler::class)
+            ->setConstructorArgs([$this->requestValidatorMock])
+            ->onlyMethods(['getPropertyListUri'])
+            ->getMock();
     }
 
     /**
@@ -67,6 +70,11 @@ class ValueCollectionSearchRequestHandlerTest extends TestCase
             ->expects(static::once())
             ->method('validate')
             ->with($request);
+
+        $this->sut
+            ->expects(static::once())
+            ->method('getPropertyListUri')
+            ->willReturn($queryParameters['valueCollectionUri'] ?? null);
 
         /** @noinspection PhpUnhandledExceptionInspection */
         $this->assertEquals(
@@ -96,30 +104,39 @@ class ValueCollectionSearchRequestHandlerTest extends TestCase
     public function dataProvider(): array
     {
         return [
-            'Bare request'                      => [
+            'Bare request' => [
                 $this->createBareSearchRequest()
                     ->setPropertyUri('https://example.com/path#fragment'),
                 [
                     'propertyUri' => 'https_2_example_0_com_1_path_3_fragment',
                 ],
             ],
-            'Request with subject'              => [
+            'Request with value collection' => [
+                $this->createBareSearchRequest()
+                    ->setPropertyUri('https://example.com/path#fragment')
+                    ->setValueCollectionUri('https://example.com/path#vc_fragment'),
+                [
+                    'propertyUri' => 'https_2_example_0_com_1_path_3_fragment',
+                    'valueCollectionUri' => 'https://example.com/path#vc_fragment',
+                ],
+            ],
+            'Request with subject' => [
                 $this->createBareSearchRequest()
                     ->setPropertyUri('https://example.com/path#fragment')
                     ->setSubject('test'),
                 [
                     'propertyUri' => 'https_2_example_0_com_1_path_3_fragment',
-                    'subject'     => 'test',
+                    'subject' => 'test',
                 ],
             ],
-            'Request with excluded'             => [
+            'Request with excluded' => [
                 $this->createBareSearchRequest()
                     ->setPropertyUri('https://example.com/path#fragment')
                     ->addExcluded('https://example.com/path#fragment1')
                     ->addExcluded('https://example.com/path#fragment2'),
                 [
                     'propertyUri' => 'https_2_example_0_com_1_path_3_fragment',
-                    'exclude'     => [
+                    'exclude' => [
                         'https_2_example_0_com_1_path_3_fragment1',
                         'https_2_example_0_com_1_path_3_fragment2',
                     ],
@@ -133,8 +150,8 @@ class ValueCollectionSearchRequestHandlerTest extends TestCase
                     ->addExcluded('https://example.com/path#fragment2'),
                 [
                     'propertyUri' => 'https_2_example_0_com_1_path_3_fragment',
-                    'subject'     => 'test',
-                    'exclude'     => [
+                    'subject' => 'test',
+                    'exclude' => [
                         'https_2_example_0_com_1_path_3_fragment1',
                         'https_2_example_0_com_1_path_3_fragment2',
                     ],

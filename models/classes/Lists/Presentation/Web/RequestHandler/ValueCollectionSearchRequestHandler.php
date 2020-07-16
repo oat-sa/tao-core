@@ -74,11 +74,10 @@ class ValueCollectionSearchRequestHandler extends InjectionAwareService
             ->setLimit(self::SEARCH_LIMIT)
             ->setPropertyUri($propertyUri);
 
-        $property = new RdfProperty($propertyUri);
-        $list = $property->getRange();
+        $listUri = $this->getPropertyListUri($propertyUri);
 
-        if ($list !== null) {
-            $searchRequest->setValueCollectionUri($list->getUri());
+        if ($listUri !== null) {
+            $searchRequest->setValueCollectionUri($listUri);
         }
 
         $subject = trim($queryParameters[self::QUERY_PARAMETER_SUBJECT] ?? '');
@@ -94,5 +93,22 @@ class ValueCollectionSearchRequestHandler extends InjectionAwareService
         }
 
         return new ValueCollectionSearchInput($searchRequest);
+    }
+
+    /**
+     * @param string $propertyUri
+     *
+     * @return string|null
+     */
+    protected function getPropertyListUri(string $propertyUri): ?string
+    {
+        $property = new RdfProperty($propertyUri);
+        $list = $property->getRange();
+
+        if ($list !== null) {
+            return $list->getUri();
+        }
+
+        return null;
     }
 }
