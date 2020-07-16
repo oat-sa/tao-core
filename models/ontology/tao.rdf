@@ -43,6 +43,19 @@
      <rdfs:comment xml:lang="en-US"><![CDATA[Remote list source label path]]></rdfs:comment>
      <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#List"/>
   </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#ListType">
+     <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+     <rdfs:label xml:lang="en-US"><![CDATA[List type]]></rdfs:label>
+     <rdfs:comment xml:lang="en-US"><![CDATA[List type]]></rdfs:comment>
+     <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+     <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#List"/>
+   </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#ListRemote">
+      <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#ListType"/>
+      <rdfs:label xml:lang="en-US"><![CDATA[Remote list type]]></rdfs:label>
+      <rdfs:comment xml:lang="en-US"><![CDATA[Remote list type]]></rdfs:comment>
+      <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#List"/>
+  </rdf:Description>
 
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#UpdatedAt">
       <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TAOObject"/>
