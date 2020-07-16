@@ -334,7 +334,7 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
                     ':subject'
                 )
             )
-            ->setParameter('subject', mb_strtolower($searchRequest->getSubject()) . '%');
+            ->setParameter('subject', $searchRequest->getSubject() . '%');
     }
 
     private function enrichQueryWithExcludedValueUris(

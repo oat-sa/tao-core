@@ -223,7 +223,10 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
 
         $query
             ->andWhere(
-                $this->getPersistence()->getPlatForm()->getQueryBuilder()->expr()->like(self::FIELD_ITEM_LABEL, ':label')
+                $this->getPersistence()->getPlatForm()->getQueryBuilder()->expr()->like(
+                    sprintf('LOWER(%s)', self::FIELD_ITEM_LABEL),
+                    ':label'
+                )
             )
             ->setParameter('label', $searchRequest->getSubject() .'%');
     }

@@ -110,7 +110,7 @@ class ValueCollectionSearchRequest
 
     public function setSubject(string $subject): self
     {
-        $this->subject = $subject;
+        $this->subject = mb_strtolower($subject);
 
         return $this;
     }
