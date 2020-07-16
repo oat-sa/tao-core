@@ -37,8 +37,6 @@ class StatementLastIdRetriever extends ConfigurableService
             ->select('MAX(id)')
             ->from('statements');
 
-        $results = $query->execute()->fetchColumn();
-
-        return (int)$results;
+        return (int)$query->execute()->fetchColumn();
     }
 }
