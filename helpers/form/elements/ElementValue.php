@@ -22,7 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\helpers\form\elements;
 
-class ElementValue
+final class ElementValue
 {
     /** @var string */
     private $uri;
