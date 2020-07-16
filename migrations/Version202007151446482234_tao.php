@@ -31,12 +31,9 @@ final class Version202007151446482234_tao extends AbstractMigration
 
         $listItemsTable->setPrimaryKey([RdsValueCollectionRepository::FIELD_ITEM_ID]);
 
-        //TODO: add and check indexes
         $listItemsTable->addIndex([RdsValueCollectionRepository::FIELD_ITEM_LABEL]);
-        $listItemsTable->addIndex([RdsValueCollectionRepository::FIELD_ITEM_URI]);
-        $listItemsTable->addUniqueIndex(
-            [RdsValueCollectionRepository::FIELD_ITEM_LIST_URI, RdsValueCollectionRepository::FIELD_ITEM_URI]
-        );
+        $listItemsTable->addUniqueIndex([RdsValueCollectionRepository::FIELD_ITEM_LIST_URI]);
+        $listItemsTable->addUniqueIndex([RdsValueCollectionRepository::FIELD_ITEM_URI]);
 
         OntologyUpdater::syncModels();
     }
