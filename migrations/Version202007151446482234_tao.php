@@ -7,7 +7,6 @@ namespace oat\tao\migrations;
 use Doctrine\DBAL\Schema\Schema;
 use oat\tao\model\Lists\DataAccess\Repository\RdsValueCollectionRepository;
 use oat\tao\scripts\tools\migrations\AbstractMigration;
-use oat\tao\scripts\update\OntologyUpdater;
 
 /**
  * Auto-generated Migration: Please modify to your needs!
@@ -34,8 +33,6 @@ final class Version202007151446482234_tao extends AbstractMigration
         $listItemsTable->addIndex([RdsValueCollectionRepository::FIELD_ITEM_LABEL]);
         $listItemsTable->addIndex([RdsValueCollectionRepository::FIELD_ITEM_LIST_URI]);
         $listItemsTable->addUniqueIndex([RdsValueCollectionRepository::FIELD_ITEM_URI]);
-
-        OntologyUpdater::syncModels();
     }
 
     public function down(Schema $schema): void
