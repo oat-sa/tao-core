@@ -61,7 +61,7 @@ class RegisterValueCollectionServices extends InstallAction
         );
 
         $this->getServiceManager()->register(RdfValueCollectionRepository::SERVICE_ID, $valueCollectionRepository);
-        $this->getServiceManager()->register(RdsValueCollectionRepository::SERVICE_ID, $valueCollectionRepository);
+        $this->getServiceManager()->register(RdsValueCollectionRepository::SERVICE_ID, $rdsValueCollectionRepository);
 
         $this->getServiceManager()->register(ValueCollectionService::SERVICE_ID, $valueCollectionService);
 
