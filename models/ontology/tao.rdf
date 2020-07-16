@@ -25,6 +25,24 @@
     <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TAOObject"/>
     <rdfs:label xml:lang="en-US"><![CDATA[List]]></rdfs:label>
   </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#RemoteListSource">
+    <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+    <rdfs:label xml:lang="en-US"><![CDATA[Remote list source]]></rdfs:label>
+    <rdfs:comment xml:lang="en-US"><![CDATA[Remote list source]]></rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#List"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#RemoteListItemUriPath">
+     <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+     <rdfs:label xml:lang="en-US"><![CDATA[Remote list source uri path]]></rdfs:label>
+     <rdfs:comment xml:lang="en-US"><![CDATA[Remote list source uri path]]></rdfs:comment>
+     <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#List"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#RemoteListItemLabelPath">
+     <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+     <rdfs:label xml:lang="en-US"><![CDATA[Remote list source label path]]></rdfs:label>
+     <rdfs:comment xml:lang="en-US"><![CDATA[Remote list source label path]]></rdfs:comment>
+     <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#List"/>
+  </rdf:Description>
 
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#UpdatedAt">
       <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TAOObject"/>
@@ -252,11 +270,11 @@
     <widget:renderMode><![CDATA[xhtml]]></widget:renderMode>
     <widget:implementation><![CDATA[oat\tao\helpers\form\elements\xhtml\Validators]]></widget:implementation>
   </rdf:Description>
-  
+
   <rdf:Description rdf:about="http://www.w3.org/2000/01/rdf-schema#label">
     <generis:validationRule><![CDATA[notEmpty]]></generis:validationRule>
   </rdf:Description>
-  
+
     <!-- Some user's meta -->
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#LastExtensionUsed">
     <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
