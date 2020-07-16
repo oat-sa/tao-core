@@ -26,8 +26,8 @@ use common_report_Report;
 use InvalidArgumentException;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\extension\script\ScriptAction;
-use oat\tao\model\task\AbstractStatementMigrationTask;
-use oat\tao\model\task\helper\PositionTracker;
+use oat\tao\model\task\migration\AbstractStatementMigrationTask;
+use oat\tao\model\task\migration\service\PositionTracker;
 use oat\tao\model\taskQueue\Queue;
 use oat\tao\model\taskQueue\QueueDispatcher;
 use oat\tao\model\taskQueue\QueueDispatcherInterface;
@@ -36,6 +36,7 @@ use oat\tao\model\taskQueue\TaskLogActionTrait;
 use oat\tao\model\taskQueue\TaskLogInterface;
 use oat\taoTaskQueue\model\QueueBroker\RdsQueueBroker;
 use oat\taoTaskQueue\scripts\tools\InitializeQueue;
+use oat\taoTaskQueue\scripts\tools\RunWorker;
 use RuntimeException;
 use Throwable;
 
@@ -130,8 +131,9 @@ class StatementsMigrationWrapper extends ScriptAction
             $result = common_report_Report::createSuccess(
                 sprintf(
                     '1. Please restart fpm to apply changes ' . PHP_EOL .
-                    '2. Execute `php index.php "oat\taoTaskQueue\scripts\tools\RunWorker" --queue=%s`' . PHP_EOL .
+                    '2. Execute `php index.php "%s" --queue=%s`' . PHP_EOL .
                     '3. Re-run original command bypassing `queue` parameter' . PHP_EOL,
+                    RunWorker::class,
                     $queue
                 )
             );
@@ -180,6 +182,10 @@ class StatementsMigrationWrapper extends ScriptAction
         ];
     }
 
+    protected function returnJson($data, $httpStatus = 200)
+    {
+    }
+
     private function spawnTask(
         int $start,
         int $chunkSize,
@@ -224,9 +230,6 @@ class StatementsMigrationWrapper extends ScriptAction
         return $initializer([]);
     }
 
-    protected function returnJson($data, $httpStatus = 200)
-    {
-    }
 
     private function detectTargetClass(string $target): string
     {
