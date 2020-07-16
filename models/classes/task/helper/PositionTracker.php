@@ -30,20 +30,20 @@ class PositionTracker extends ConfigurableService
 {
     private const CACHE_KEY = '::_last_known';
 
+    public function getLastPosition(string $id): int
+    {
+        $start = $this->getStorage()->get($id . self::CACHE_KEY);
+        return $start ? (int)$start : 0;
+    }
+
     public function keepCurrentPosition(string $id, int $position): void
     {
         $persistence = $this->getStorage();
         $persistence->set($id . self::CACHE_KEY, $position);
     }
 
-    protected function getStorage(): common_persistence_KeyValuePersistence
+    private function getStorage(): common_persistence_KeyValuePersistence
     {
         return $this->getServiceLocator()->get(PersistenceManager::SERVICE_ID)->getPersistenceById('default_kv');
-    }
-
-    public function getLastPosition(string $id): int
-    {
-        $start = $this->getStorage()->get($id . self::CACHE_KEY);
-        return $start ? (int)$start : 0;
     }
 }
