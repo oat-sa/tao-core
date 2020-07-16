@@ -230,7 +230,6 @@ class StatementsMigrationWrapper extends ScriptAction
         return $initializer([]);
     }
 
-
     private function detectTargetClass(string $target): string
     {
         if (class_exists($target) && is_a($target, AbstractStatementMigrationTask::class, true)) {
