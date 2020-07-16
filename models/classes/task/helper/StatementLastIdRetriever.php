@@ -22,7 +22,6 @@ declare(strict_types=1);
 
 namespace oat\tao\model\task\helper;
 
-
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 
