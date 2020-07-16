@@ -50,7 +50,7 @@ class RegisterValueCollectionServices extends InstallAction
         );
 
         $valueCollectionRepository    = new RdfValueCollectionRepository($persistenceManager, 'default');
-        $rdsValueCollectionRepository = new RdsValueCollectionRepository($persistenceManager, 'defaults');
+        $rdsValueCollectionRepository = new RdsValueCollectionRepository($persistenceManager, 'default');
 
         $valueCollectionService = new ValueCollectionService($valueCollectionRepository, $rdsValueCollectionRepository);
 
