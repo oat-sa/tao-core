@@ -120,24 +120,23 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
                     $isList = $this->isList($property);
                     $values = $instance->getPropertyValuesCollection($property);
 
-                    foreach ($values->getIterator() as $value) {
+                    foreach ($values as $value) {
                         if ($value instanceof core_kernel_classes_Resource) {
-                            $elementValue = $element instanceof tao_helpers_form_elements_Readonly
+                            $elementValue    = $element instanceof tao_helpers_form_elements_Readonly
                                 ? $value->getLabel()
                                 : $value->getUri();
-
-                            if ($isList) {
-                                $this->fillListElement($element, $property, $value->getUri());
-                            } else {
-                                $element->setValue($elementValue);
-                            }
+                            $elementValueUri = $value->getUri();
+                        } elseif ($value instanceof core_kernel_classes_Literal) {
+                            $elementValue    = (string)$value;
+                            $elementValueUri = $elementValue;
+                        } else {
+                            continue;
                         }
-                        elseif ($value instanceof core_kernel_classes_Literal) {
-                            if ($isList) {
-                                $this->fillListElement($element, $property, $value);
-                            } else {
-                                $element->setValue((string)$value);
-                            }
+
+                        if ($isList) {
+                            $this->fillListElement($element, $property, $elementValueUri);
+                        } else {
+                            $element->setValue($elementValue);
                         }
                     }
                 }
@@ -191,12 +190,15 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
         }
     }
 
-    private function fillListElement($element, $property, $uri): void
-    {
+    private function fillListElement(
+        tao_helpers_form_FormElement $element,
+        core_kernel_classes_Property $property,
+        string $uri
+    ): void {
         $valueService = $this->getValueCollectionService();
         $searchRequest = new ValueCollectionSearchRequest();
         $searchRequest->setValueCollectionUri($property->getRange()->getUri());
-        $searchRequest->setUris((string)$uri);
+        $searchRequest->setUris($uri);
         $valueCollection = $valueService->findAll(
             new ValueCollectionSearchInput($searchRequest)
         );
@@ -225,7 +227,7 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
         return ServiceManager::getServiceManager();
     }
 
-    private function isList($property): bool
+    private function isList(core_kernel_classes_Property $property): bool
     {
         $range = $property->getRange();
 

@@ -51,10 +51,10 @@ class tao_actions_form_RemoteList extends tao_helpers_form_FormContainer
      */
     public function initElements()
     {
-        $this->createTextBoxElement(self::FIELD_NAME, 'Name');
-        $this->createTextBoxElement(self::FIELD_SOURCE_URL,'Data source URI');
-        $this->createTextBoxElement(self::FIELD_ITEM_LABEL_PATH,'Label Path');
-        $this->createTextBoxElement(self::FIELD_ITEM_URI_PATH,'URI Path');
+        $this->createTextBoxElement(self::FIELD_NAME, __('Name'));
+        $this->createTextBoxElement(self::FIELD_SOURCE_URL, __('Data source URI'));
+        $this->createTextBoxElement(self::FIELD_ITEM_LABEL_PATH, __('Label Path'));
+        $this->createTextBoxElement(self::FIELD_ITEM_URI_PATH, __('URI Path'));
     }
 
     /**
@@ -67,7 +67,7 @@ class tao_actions_form_RemoteList extends tao_helpers_form_FormContainer
     private function createTextBoxElement(string $name, string $label): void
     {
         $element = tao_helpers_form_FormFactory::getElement($name, 'Textbox');
-        $element->setDescription(__($label));
+        $element->setDescription($label);
         $element->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
         $this->form->addElement($element);
     }
