@@ -203,7 +203,7 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
 
         foreach ($valueCollection as $value) {
             $element->setValue(
-                new ElementValue($value->getUri(), $value->getLabel())
+                new ElementValue(tao_helpers_Uri::encode($value->getUri()), $value->getLabel())
             );
         }
     }

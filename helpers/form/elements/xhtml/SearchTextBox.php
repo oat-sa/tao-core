@@ -56,7 +56,7 @@ class SearchTextBox extends AbstractSearchTextBox
                 '<label class="%s" for="%s">%s</label>',
                 'unit',
                 $this->name,
-                tao_helpers_Display::htmllize($this->unit)
+                tao_helpers_Display::htmlize($this->unit)
             );
         }
 
@@ -132,7 +132,7 @@ javascript;
     {
         $result = [];
 
-        foreach ($this->getValues() as $value) {
+        foreach ($this->getRawValue() as $value) {
             $result[] = [
                 'id'   => tao_helpers_Uri::encode($value->getUri()),
                 'text' => $value->getLabel(),
@@ -146,14 +146,14 @@ javascript;
     {
         $input = new tao_helpers_form_elements_xhtml_Hidden($this->name);
 
-        $encodedUris = array_map(
+        $uris = array_map(
             static function (ElementValue $value) {
-                return tao_helpers_Uri::encode($value->getUri());
+                return $value->getUri();
             },
-            $this->getValues()
+            $this->getRawValue()
         );
 
-        $input->setValue(implode(static::VALUE_DELIMITER, $encodedUris));
+        $input->setValue(implode(static::VALUE_DELIMITER, $uris));
 
         return $input;
     }
