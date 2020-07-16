@@ -20,7 +20,7 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\task\helper;
+namespace oat\tao\model\task\migration\service;
 
 use common_persistence_sql_QueryIterator;
 use Doctrine\DBAL\Connection;
@@ -29,7 +29,7 @@ use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdf;
 use oat\oatbox\service\ConfigurableService;
 
-class TaskIterator extends ConfigurableService
+class StatementTaskIterator extends ConfigurableService
 {
     use OntologyAwareTrait;
 

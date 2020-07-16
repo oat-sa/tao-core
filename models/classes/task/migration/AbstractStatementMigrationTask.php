@@ -20,7 +20,7 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\task;
+namespace oat\tao\model\task\migration;
 
 use common_exception_MissingParameter;
 use common_report_Report;

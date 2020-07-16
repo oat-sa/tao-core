@@ -20,23 +20,30 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\task\helper;
+namespace oat\tao\model\task\migration\service;
 
-use oat\generis\model\OntologyAwareTrait;
+use common_persistence_KeyValuePersistence;
+use oat\generis\persistence\PersistenceManager;
 use oat\oatbox\service\ConfigurableService;
 
-class StatementLastIdRetriever extends ConfigurableService
+class PositionTracker extends ConfigurableService
 {
-    use OntologyAwareTrait;
+    private const CACHE_KEY = '::_last_known';
 
-    public function retrieve(): int
+    public function getLastPosition(string $id): int
     {
-        $platform = $this->getModel()->getPersistence()->getPlatForm();
+        $start = $this->getStorage()->get($id . self::CACHE_KEY);
+        return $start ? (int)$start : 0;
+    }
 
-        $query = $platform->getQueryBuilder()
-            ->select('MAX(id)')
-            ->from('statements');
+    public function keepCurrentPosition(string $id, int $position): void
+    {
+        $persistence = $this->getStorage();
+        $persistence->set($id . self::CACHE_KEY, $position);
+    }
 
-        return (int)$query->execute()->fetchColumn();
+    private function getStorage(): common_persistence_KeyValuePersistence
+    {
+        return $this->getServiceLocator()->get(PersistenceManager::SERVICE_ID)->getPersistenceById('default_kv');
     }
 }
