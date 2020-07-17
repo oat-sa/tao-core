@@ -64,7 +64,7 @@ class PositionTrackerTest extends TestCase
 
     public function testGetLastPositionWhenStartNotDefined(): void
     {
-        $this->persistenceMock->expects($this->once())->method('get')->with('id::_last_known')->willReturn(7);
+        $this->persistenceMock->expects($this->once())->method('get')->with('id::_last_known')->willReturn(false);
         $result = $this->subject->getLastPosition('id');
         $this->assertSame(0, $result);
     }
