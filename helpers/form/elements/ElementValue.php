@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,31 +16,37 @@
  *
  * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
  *
- * @author Sergei Mikhailov <sergei.mikhailov@taotesting.com>
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\model\Lists\Business\Contract;
+namespace oat\tao\helpers\form\elements;
 
-use oat\tao\model\Lists\Business\Domain\ValueCollection;
-use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
-use oat\tao\model\Lists\DataAccess\Repository\ValueConflictException;
-
-interface ValueCollectionRepositoryInterface
+final class ElementValue
 {
-    public function findAll(ValueCollectionSearchRequest $searchRequest): ValueCollection;
+    /** @var string */
+    private $uri;
+    /** @var string */
+    private $label;
 
-    public function isApplicable(string $collectionUri): bool;
+    public function __construct(string $uri, string $label)
+    {
+        $this->uri = $uri;
+        $this->label = $label;
+    }
 
-    /**
-     * @param ValueCollection $valueCollection
-     *
-     * @return bool
-     *
-     * @throws ValueConflictException
-     */
-    public function persist(ValueCollection $valueCollection): bool;
+    public function getUri(): string
+    {
+        return $this->uri;
+    }
 
-    public function delete(string $valueCollectionUri): void;
+    public function getLabel(): string
+    {
+        return $this->label;
+    }
+
+    public function __toString()
+    {
+        return $this->uri;
+    }
 }

@@ -22,26 +22,20 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\Lists\Business\Contract;
+namespace oat\tao\model\Lists\Business\Input;
 
-use oat\tao\model\Lists\Business\Domain\ValueCollection;
-use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
-use oat\tao\model\Lists\DataAccess\Repository\ValueConflictException;
-
-interface ValueCollectionRepositoryInterface
+class ValueCollectionDeleteInput
 {
-    public function findAll(ValueCollectionSearchRequest $searchRequest): ValueCollection;
+    /** @var string */
+    private $valueCollectionUri;
 
-    public function isApplicable(string $collectionUri): bool;
+    public function __construct(string $valueCollectionUri)
+    {
+        $this->valueCollectionUri = $valueCollectionUri;
+    }
 
-    /**
-     * @param ValueCollection $valueCollection
-     *
-     * @return bool
-     *
-     * @throws ValueConflictException
-     */
-    public function persist(ValueCollection $valueCollection): bool;
-
-    public function delete(string $valueCollectionUri): void;
+    public function getValueCollectionUri(): string
+    {
+        return $this->valueCollectionUri;
+    }
 }

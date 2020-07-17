@@ -24,10 +24,10 @@ declare(strict_types=1);
 namespace oat\tao\helpers\form\elements;
 
 use oat\generis\model\WidgetRdf;
-use tao_helpers_form_elements_MultipleElement;
+use tao_helpers_form_FormElement;
 use tao_helpers_Uri;
 
-abstract class AbstractSearchTextBox extends tao_helpers_form_elements_MultipleElement
+abstract class AbstractSearchTextBox extends tao_helpers_form_FormElement
 {
     protected const VALUE_DELIMITER = ',';
 
@@ -41,22 +41,39 @@ abstract class AbstractSearchTextBox extends tao_helpers_form_elements_MultipleE
      */
     public function feed(): void
     {
-        $this->values = [];
+        $newValuesMap = array_flip(explode(static::VALUE_DELIMITER, ($_POST[$this->name] ?? '')));
 
-        foreach (explode(static::VALUE_DELIMITER, ($_POST[$this->name] ?? '')) as $value) {
-            if ($value) {
-                $this->values[] = $value;
+        $this->values = array_intersect_key($this->values, $newValuesMap);
+
+        foreach (array_keys(array_diff_key($newValuesMap, $this->values)) as $newValue) {
+            if ($newValue) {
+                $this->addValue(new ElementValue($newValue, $newValue));
             }
         }
     }
 
     public function getEvaluatedValue(): array
     {
-        return array_map([tao_helpers_Uri::class, 'decode'], $this->values);
+        return array_map(
+            static function ($value) {
+                return tao_helpers_Uri::decode($value);
+            },
+            $this->values
+        );
     }
 
     public function getRawValue()
     {
         return $this->values;
+    }
+
+    public function addValue($value): void
+    {
+        if ($value instanceof ElementValue) {
+            $this->values[$value->getUri()] = $value;
+        } else {
+            $encodedValue = tao_helpers_Uri::encode($value);
+            $this->values[$encodedValue] = new ElementValue($encodedValue, $value);
+        }
     }
 }

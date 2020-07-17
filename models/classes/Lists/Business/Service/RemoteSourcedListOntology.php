@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,31 +16,17 @@
  *
  * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
  *
- * @author Sergei Mikhailov <sergei.mikhailov@taotesting.com>
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\model\Lists\Business\Contract;
+namespace oat\tao\model\Lists\Business\Service;
 
-use oat\tao\model\Lists\Business\Domain\ValueCollection;
-use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
-use oat\tao\model\Lists\DataAccess\Repository\ValueConflictException;
-
-interface ValueCollectionRepositoryInterface
+class RemoteSourcedListOntology
 {
-    public function findAll(ValueCollectionSearchRequest $searchRequest): ValueCollection;
-
-    public function isApplicable(string $collectionUri): bool;
-
-    /**
-     * @param ValueCollection $valueCollection
-     *
-     * @return bool
-     *
-     * @throws ValueConflictException
-     */
-    public function persist(ValueCollection $valueCollection): bool;
-
-    public function delete(string $valueCollectionUri): void;
+    public const PROPERTY_SOURCE_URI = 'http://www.tao.lu/Ontologies/TAO.rdf#RemoteListSource';
+    public const PROPERTY_ITEM_URI_PATH = 'http://www.tao.lu/Ontologies/TAO.rdf#RemoteListItemUriPath';
+    public const PROPERTY_ITEM_LABEL_PATH = 'http://www.tao.lu/Ontologies/TAO.rdf#RemoteListItemLabelPath';
+    public const PROPERTY_LIST_TYPE = 'http://www.tao.lu/Ontologies/TAO.rdf#ListType';
+    public const LIST_TYPE_REMOTE = 'http://www.tao.lu/Ontologies/TAO.rdf#ListRemote';
 }
