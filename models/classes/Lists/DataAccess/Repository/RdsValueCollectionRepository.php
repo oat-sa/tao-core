@@ -28,6 +28,7 @@ use common_persistence_SqlPersistence as SqlPersistence;
 use core_kernel_classes_Class as KernelClass;
 use core_kernel_classes_Resource as KernelResource;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\DBAL\Query\QueryBuilder;
 use oat\generis\persistence\PersistenceManager;
 use oat\tao\model\Lists\Business\Contract\ValueCollectionRepositoryInterface;
@@ -121,6 +122,8 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
             return true;
         } catch (ValueConflictException $exception) {
             throw $exception;
+        } catch (UniqueConstraintViolationException $exception) {
+            throw new ValueConflictException(__('List item URI duplications found'));
         } catch (Throwable $exception) {
             return false;
         } finally {
