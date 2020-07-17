@@ -71,7 +71,7 @@ class PositionTrackerTest extends TestCase
 
     public function testKeepCurrentPosition(): void
     {
-        $this->persistenceMock->expects($this->once())->method('set')->with('id::_last_known');
-        $this->subject->getLastPosition('id');
+        $this->persistenceMock->expects($this->once())->method('set')->with('id::_last_known', 2);
+        $this->subject->keepCurrentPosition('id', 2);
     }
 }
