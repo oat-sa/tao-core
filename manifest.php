@@ -1,5 +1,7 @@
 <?php
 
+use oat\tao\scripts\update\Updater;
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -31,6 +33,7 @@ use oat\tao\model\user\TaoRoles;
 use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\AddLogFs;
 use oat\tao\scripts\install\AddTmpFsHandlers;
+use oat\tao\scripts\install\CreateRdsListStore;
 use oat\tao\scripts\install\CreateWebhookEventLogTable;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\RegisterActionService;
@@ -134,9 +137,10 @@ return [
             SetupSettingsStorage::class,
             RegisterUserService::class,
             RegisterValueCollectionServices::class,
+            CreateRdsListStore::class,
         ]
     ],
-    'update' => 'oat\\tao\\scripts\\update\\Updater',
+    'update' => Updater::class,
     'optimizableClasses' => [
         'http://www.tao.lu/Ontologies/TAO.rdf#Languages',
         'http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsages'
