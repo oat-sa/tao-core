@@ -55,9 +55,7 @@ abstract class AbstractStatementMigrationTask implements Action, ServiceLocatorA
     /** @var common_report_Report */
     private $anomalies;
 
-    abstract protected function getTargetClasses(): array;
-
-    abstract protected function processUnit(array $unit): void;
+    abstract protected function getUnitProcessor(): StatementUnitProcessorInterface;
 
     public function __invoke($params)
     {
@@ -153,5 +151,15 @@ abstract class AbstractStatementMigrationTask implements Action, ServiceLocatorA
     private function initAnomaliesCollector(): void
     {
         $this->anomalies = common_report_Report::createInfo('Anomalies found');
+    }
+
+    private function getTargetClasses(): array
+    {
+        return $this->getUnitProcessor()->getTargetClasses();
+    }
+
+    private function processUnit(array $unit): void
+    {
+        $this->getUnitProcessor()->process(new StatementUnit($unit['subject']));
     }
 }
