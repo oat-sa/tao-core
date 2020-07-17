@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,46 +21,59 @@
 
 declare(strict_types=1);
 
-use oat\generis\model\WidgetRdf;
+namespace oat\tao\helpers\form\elements;
 
-abstract class tao_helpers_form_elements_Searchtextbox extends tao_helpers_form_FormElement
+use oat\generis\model\WidgetRdf;
+use tao_helpers_form_FormElement;
+use tao_helpers_Uri;
+
+abstract class AbstractSearchTextBox extends tao_helpers_form_FormElement
 {
     protected const VALUE_DELIMITER = ',';
 
     protected $widget = WidgetRdf::PROPERTY_WIDGET_SEARCH_BOX;
 
     /** @var string[] */
-    private $values = [];
+    protected $values = [];
 
     /**
      * @inheritDoc
      */
     public function feed(): void
     {
-        $this->values = [];
+        $newValuesMap = array_flip(explode(static::VALUE_DELIMITER, ($_POST[$this->name] ?? '')));
 
-        foreach (explode(static::VALUE_DELIMITER, ($_POST[$this->name] ?? '')) as $value) {
-            if ($value) {
-                $this->values[] = $value;
+        $this->values = array_intersect_key($this->values, $newValuesMap);
+
+        foreach (array_keys(array_diff_key($newValuesMap, $this->values)) as $newValue) {
+            if ($newValue) {
+                $this->addValue(new ElementValue($newValue, $newValue));
             }
         }
     }
 
     public function getEvaluatedValue(): array
     {
-        return array_map([tao_helpers_Uri::class, 'decode'], $this->values);
+        return array_map(
+            static function ($value) {
+                return tao_helpers_Uri::decode($value);
+            },
+            $this->values
+        );
     }
 
-    /**
-     * @return string[]
-     */
-    public function getValues(): array
+    public function getRawValue()
     {
         return $this->values;
     }
 
-    public function addValue(string $value): void
+    public function addValue($value): void
     {
-        $this->values[] = tao_helpers_Uri::encode($value);
+        if ($value instanceof ElementValue) {
+            $this->values[$value->getUri()] = $value;
+        } else {
+            $encodedValue = tao_helpers_Uri::encode($value);
+            $this->values[$encodedValue] = new ElementValue($encodedValue, $value);
+        }
     }
 }

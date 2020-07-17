@@ -58,8 +58,6 @@ class tao_models_classes_ListService extends tao_models_classes_GenerisService
      */
     protected function __construct()
     {
-        
-        
         $this->parentListClass = new core_kernel_classes_Class(TaoOntology::CLASS_URI_LIST);
     }
 
@@ -74,17 +72,11 @@ class tao_models_classes_ListService extends tao_models_classes_GenerisService
     {
         $returnValue = [];
 
-        
-        
         $returnValue[] = new core_kernel_classes_Class(GenerisRdf::GENERIS_BOOLEAN);
-        
+
         foreach ($this->parentListClass->getSubClasses(false) as $list) {
             $returnValue[] = $list;
         }
-        
-        
-        
-        
 
         return (array) $returnValue;
     }
@@ -101,16 +93,12 @@ class tao_models_classes_ListService extends tao_models_classes_GenerisService
     {
         $returnValue = null;
 
-        
-        
         foreach ($this->getLists() as $list) {
             if ($list->getUri() == $uri) {
                  $returnValue = $list;
                  break;
             }
         }
-        
-        
 
         return $returnValue;
     }
@@ -129,8 +117,6 @@ class tao_models_classes_ListService extends tao_models_classes_GenerisService
     {
         $returnValue = null;
 
-        
-        
         if (!empty($uri)) {
             foreach ($this->getListElements($listClass, false) as $element) {
                 if ($element->getUri() == $uri) {
@@ -139,8 +125,6 @@ class tao_models_classes_ListService extends tao_models_classes_GenerisService
                 }
             }
         }
-        
-        
 
         return $returnValue;
     }
@@ -149,18 +133,24 @@ class tao_models_classes_ListService extends tao_models_classes_GenerisService
      * get all the elements of the list
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  Class listClass
-     * @param  boolean sort
+     *
+     * @param core_kernel_classes_Class $listClass
+     * @param boolean sort
+     * @param int                       $limit
+     *
      * @return array
+     * @throws core_kernel_persistence_Exception
+     * @author Joel Bout, <joel.bout@tudor.lu>
      */
-    public function getListElements(core_kernel_classes_Class $listClass, $sort = true)
+    public function getListElements(core_kernel_classes_Class $listClass, $sort = true, $limit = 0)
     {
         $returnValue = [];
 
+        $parameters = $limit === 0 ? [] : ['limit' => $limit];
+
         if ($sort) {
             $levelProperty = new core_kernel_classes_Property(TaoOntology::PROPERTY_LIST_LEVEL);
-            foreach ($listClass->getInstances(false) as $element) {
+            foreach ($listClass->getInstances(false, $parameters) as $element) {
                 $literal = $element->getOnePropertyValue($levelProperty);
                 $level = is_null($literal) ? 0 : (string) $literal;
                 while (isset($returnValue[$level])) {
@@ -170,7 +160,7 @@ class tao_models_classes_ListService extends tao_models_classes_GenerisService
             }
             uksort($returnValue, 'strnatcasecmp');
         } else {
-            $returnValue = $listClass->getInstances(false);
+            $returnValue = $listClass->getInstances(false, $parameters);
         }
 
         return (array) $returnValue;
@@ -188,16 +178,12 @@ class tao_models_classes_ListService extends tao_models_classes_GenerisService
     {
         $returnValue = (bool) false;
 
-        
-        
         if (!is_null($listClass)) {
             foreach ($this->getListElements($listClass) as $element) {
                 $this->removeListElement($element);
             }
             $returnValue = $listClass->delete();
         }
-        
-        
 
         return (bool) $returnValue;
     }
@@ -214,13 +200,9 @@ class tao_models_classes_ListService extends tao_models_classes_GenerisService
     {
         $returnValue = (bool) false;
 
-        
-        
         if (!is_null($element)) {
             $returnValue = $element->delete();
         }
-        
-        
 
         return (bool) $returnValue;
     }
@@ -237,14 +219,10 @@ class tao_models_classes_ListService extends tao_models_classes_GenerisService
     {
         $returnValue = null;
 
-        
-        
         if (empty($label)) {
             $label = __('List') . ' ' . (count($this->getLists()) + 1);
         }
         $returnValue = $this->createSubClass($this->parentListClass, $label);
-        
-        
 
         return $returnValue;
     }
@@ -262,8 +240,6 @@ class tao_models_classes_ListService extends tao_models_classes_GenerisService
     {
         $returnValue = null;
 
-        
-        
         if (!is_null($listClass)) {
             $level = count($this->getListElements($listClass)) + 1;
             if (empty($label)) {
@@ -272,7 +248,6 @@ class tao_models_classes_ListService extends tao_models_classes_GenerisService
             $returnValue = $this->createInstance($listClass, $label);
             $this->bindProperties($returnValue, [TaoOntology::PROPERTY_LIST_LEVEL => count($this->getListElements($listClass, false))]);
         }
-        
 
         return $returnValue;
     }

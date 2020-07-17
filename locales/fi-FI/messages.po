@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint131\n"
-"PO-Revision-Date: 2020-07-03T09:17:07\n"
+"Project-Id-Version: TAO 3.4.0-sprint133\n"
+"PO-Revision-Date: 2020-07-17T08:33:50\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fi-FI\n"
@@ -370,10 +370,10 @@ msgstr ""
 msgid "Calendar"
 msgstr ""
 
-msgid "cancel"
+msgid "Cancel"
 msgstr ""
 
-msgid "Cancel"
+msgid "cancel"
 msgstr ""
 
 msgid "cancel the action"
@@ -449,10 +449,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
 msgid "Clear selection"
@@ -576,6 +576,9 @@ msgid "Data language"
 msgstr ""
 
 msgid "Data not imported. All records are invalid."
+msgstr ""
+
+msgid "Data source URI"
 msgstr ""
 
 msgid "Date"
@@ -982,10 +985,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1024,10 +1027,10 @@ msgstr ""
 msgid "Instance saved"
 msgstr ""
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr ""
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr ""
 
 msgid "Invalid CSP header."
@@ -1090,6 +1093,9 @@ msgstr ""
 msgid "Label"
 msgstr ""
 
+msgid "Label Path"
+msgstr ""
+
 msgid "Language"
 msgstr ""
 
@@ -1124,6 +1130,9 @@ msgid "List - Single choice - Drop down"
 msgstr ""
 
 msgid "List - Single choice - Radio button"
+msgstr ""
+
+msgid "List item URI duplications found"
 msgstr ""
 
 msgid "List values"
@@ -1338,10 +1347,10 @@ msgstr ""
 msgid "no label"
 msgstr ""
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr ""
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr ""
 
 msgid "No results found"
@@ -1753,10 +1762,10 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "select"
+msgid "Select"
 msgstr ""
 
-msgid "Select"
+msgid "select"
 msgstr ""
 
 msgid "Select a class"
@@ -2211,6 +2220,9 @@ msgid "Upload"
 msgstr ""
 
 msgid "Upload into:"
+msgstr ""
+
+msgid "URI Path"
 msgstr ""
 
 msgid "Usage: ImportRdf RDF_FILE [MODEL_ID]"

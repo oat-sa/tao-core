@@ -25,16 +25,18 @@ use oat\generis\persistence\PersistenceManager;
 use oat\oatbox\extension\InstallAction;
 use oat\tao\model\accessControl\func\AccessRule;
 use oat\tao\model\accessControl\func\AclProxy;
-use oat\tao\model\Lists\Business\Contract\ValueCollectionRepositoryInterface;
+use oat\tao\model\Lists\Business\Service\RemoteSource;
+use oat\tao\model\Lists\Business\Service\RemoteSourceJsonPathParser;
 use oat\tao\model\Lists\Business\Service\ValueCollectionService;
 use oat\tao\model\Lists\DataAccess\Repository\RdfValueCollectionRepository;
+use oat\tao\model\Lists\DataAccess\Repository\RdsValueCollectionRepository;
 use oat\tao\model\Lists\Presentation\Web\RequestHandler\ValueCollectionSearchRequestHandler;
 use oat\tao\model\Lists\Presentation\Web\RequestValidator\ValueCollectionSearchRequestValidator;
 use oat\tao\model\user\TaoRoles;
 
 class RegisterValueCollectionServices extends InstallAction
 {
-    public function __invoke($params)
+    public function __invoke($params = [])
     {
         /** @var PersistenceManager $persistenceManager */
         $persistenceManager = $this->getServiceManager()->get(PersistenceManager::SERVICE_ID);
@@ -46,17 +48,23 @@ class RegisterValueCollectionServices extends InstallAction
             )
         );
 
-        $valueCollectionRepository = new RdfValueCollectionRepository($persistenceManager, 'default');
+        $valueCollectionRepository    = new RdfValueCollectionRepository($persistenceManager, 'default');
+        $rdsValueCollectionRepository = new RdsValueCollectionRepository($persistenceManager, 'default');
 
-        $this->getServiceManager()->register(
-            ValueCollectionRepositoryInterface::SERVICE_ID,
-            $valueCollectionRepository
+        $valueCollectionService = new ValueCollectionService($valueCollectionRepository, $rdsValueCollectionRepository);
+
+        $remoteSource = new RemoteSource(
+            [
+                'jsonpath' => new RemoteSourceJsonPathParser(),
+            ]
         );
 
-        $this->getServiceManager()->register(
-            ValueCollectionService::SERVICE_ID,
-            new ValueCollectionService($valueCollectionRepository)
-        );
+        $this->getServiceManager()->register(RdfValueCollectionRepository::SERVICE_ID, $valueCollectionRepository);
+        $this->getServiceManager()->register(RdsValueCollectionRepository::SERVICE_ID, $rdsValueCollectionRepository);
+
+        $this->getServiceManager()->register(ValueCollectionService::SERVICE_ID, $valueCollectionService);
+
+        $this->getServiceManager()->register(RemoteSource::SERVICE_ID, $remoteSource);
 
         AclProxy::applyRule(
             new AccessRule(AccessRule::GRANT, TaoRoles::BACK_OFFICE, ['ext' => 'tao', 'mod' => 'PropertyValues'])

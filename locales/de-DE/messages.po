@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint131\n"
-"PO-Revision-Date: 2020-07-03T09:16:49\n"
+"Project-Id-Version: TAO 3.4.0-sprint133\n"
+"PO-Revision-Date: 2020-07-17T08:31:33\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: de-DE\n"
@@ -371,11 +371,11 @@ msgstr ""
 msgid "Calendar"
 msgstr "Kalender"
 
-msgid "cancel"
-msgstr "abbrechen"
-
 msgid "Cancel"
 msgstr "Abbrechen"
+
+msgid "cancel"
+msgstr "abbrechen"
 
 msgid "cancel the action"
 msgstr "Aktion abbrechen"
@@ -450,10 +450,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
 msgid "Clear selection"
@@ -578,6 +578,9 @@ msgstr "Datensprache"
 
 msgid "Data not imported. All records are invalid."
 msgstr "Keine Daten importiert. Alle Einträge sind ungültig."
+
+msgid "Data source URI"
+msgstr ""
 
 msgid "Date"
 msgstr "Datum"
@@ -984,10 +987,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1026,10 +1029,10 @@ msgstr "Installieren der Erweiterung %s..."
 msgid "Instance saved"
 msgstr "Instanz gespeichert"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "Sprache der Benutzeroberfläche"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "Sprache der Benutzeroberfläche"
 
 msgid "Invalid CSP header."
@@ -1092,6 +1095,9 @@ msgstr ""
 msgid "Label"
 msgstr "Bezeichnung"
 
+msgid "Label Path"
+msgstr ""
+
 msgid "Language"
 msgstr "Sprache"
 
@@ -1127,6 +1133,9 @@ msgstr "Liste - Auswahl - Aufklappmenü"
 
 msgid "List - Single choice - Radio button"
 msgstr "Liste - Auswahl - Optionsfeld"
+
+msgid "List item URI duplications found"
+msgstr ""
 
 msgid "List values"
 msgstr ""
@@ -1340,10 +1349,10 @@ msgstr "keine Dateien"
 msgid "no label"
 msgstr "keine Beschriftung"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "keine Vorschau verfügbar"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "keine Vorschau verfügbar"
 
 msgid "No results found"
@@ -1755,11 +1764,11 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "select"
-msgstr "auswählen"
-
 msgid "Select"
 msgstr "Auswählen"
+
+msgid "select"
+msgstr "auswählen"
 
 msgid "Select a class"
 msgstr ""
@@ -2214,6 +2223,9 @@ msgstr "Hochladen"
 
 msgid "Upload into:"
 msgstr "Hochladen nach:"
+
+msgid "URI Path"
+msgstr ""
 
 msgid "Usage: ImportRdf RDF_FILE [MODEL_ID]"
 msgstr "Verwendung: ImportRdf RDF_FILE [MODEL_ID]"

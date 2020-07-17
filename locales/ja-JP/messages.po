@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint131\n"
-"PO-Revision-Date: 2020-07-03T09:17:28\n"
+"Project-Id-Version: TAO 3.4.0-sprint133\n"
+"PO-Revision-Date: 2020-07-17T08:35:50\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-JP\n"
@@ -371,10 +371,10 @@ msgstr ""
 msgid "Calendar"
 msgstr "カレンダー"
 
-msgid "cancel"
+msgid "Cancel"
 msgstr "キャンセル"
 
-msgid "Cancel"
+msgid "cancel"
 msgstr "キャンセル"
 
 msgid "cancel the action"
@@ -450,10 +450,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
 msgid "Clear selection"
@@ -578,6 +578,9 @@ msgstr "データ言語"
 
 msgid "Data not imported. All records are invalid."
 msgstr "データはインポートされませんでした。すべてのレコードは無効です。"
+
+msgid "Data source URI"
+msgstr ""
 
 msgid "Date"
 msgstr "日付"
@@ -984,10 +987,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1026,10 +1029,10 @@ msgstr "%s拡張機能をインストールしています..."
 msgid "Instance saved"
 msgstr "インスタンスが保存されました"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "インタフェース用言語"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "インタフェース用言語"
 
 msgid "Invalid CSP header."
@@ -1092,6 +1095,9 @@ msgstr ""
 msgid "Label"
 msgstr "ラベル"
 
+msgid "Label Path"
+msgstr ""
+
 msgid "Language"
 msgstr "言語"
 
@@ -1127,6 +1133,9 @@ msgstr "リスト - 択一 - ドロップダウン"
 
 msgid "List - Single choice - Radio button"
 msgstr "リスト - 択一 - ラジオボタン"
+
+msgid "List item URI duplications found"
+msgstr ""
 
 msgid "List values"
 msgstr ""
@@ -1340,10 +1349,10 @@ msgstr "ファイルが有りません"
 msgid "no label"
 msgstr "ラベルがありません"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "プレビューは利用できません"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "プレビューは利用できません"
 
 msgid "No results found"
@@ -1755,10 +1764,10 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "select"
+msgid "Select"
 msgstr "選択"
 
-msgid "Select"
+msgid "select"
 msgstr "選択"
 
 msgid "Select a class"
@@ -2214,6 +2223,9 @@ msgstr "アップロード"
 
 msgid "Upload into:"
 msgstr "アップロード先:"
+
+msgid "URI Path"
+msgstr ""
 
 msgid "Usage: ImportRdf RDF_FILE [MODEL_ID]"
 msgstr "使用法：ImportRdf RDF_FILE [MODEL_ID]"

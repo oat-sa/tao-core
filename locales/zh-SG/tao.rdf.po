@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint131\n"
-"PO-Revision-Date: 2020-07-03T09:18:09\n"
+"Project-Id-Version: TAO 3.4.0-sprint133\n"
+"PO-Revision-Date: 2020-07-17T08:39:32\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-SG\n"
@@ -33,6 +33,56 @@ msgstr ""
 # http://www.tao.lu/Ontologies/TAO.rdf#List
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "List"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#RemoteListSource
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Remote list source"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#RemoteListSource
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Remote list source"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#RemoteListItemUriPath
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Remote list source uri path"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#RemoteListItemUriPath
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Remote list source uri path"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#RemoteListItemLabelPath
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Remote list source label path"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#RemoteListItemLabelPath
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Remote list source label path"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#ListType
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "List type"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#ListType
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "List type"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#ListRemote
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Remote list type"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#ListRemote
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Remote list type"
 msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#UpdatedAt
