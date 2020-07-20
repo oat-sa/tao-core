@@ -157,8 +157,10 @@ class tao_helpers_form_GenerisFormFactory
      * @param  core_kernel_classes_Class $topLevelClazz
      * @return array
      */
-    public static function getClassProperties(core_kernel_classes_Class $clazz, core_kernel_classes_Class $topLevelClazz = null)
-    {
+    public static function getClassProperties(
+        core_kernel_classes_Class $clazz,
+        core_kernel_classes_Class $topLevelClazz = null
+    ): array {
         $returnValue = [];
 
 
@@ -227,7 +229,7 @@ class tao_helpers_form_GenerisFormFactory
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return array
      */
-    public static function getDefaultProperties()
+    public static function getDefaultProperties(): array
     {
         return [
             new core_kernel_classes_Property(OntologyRdfs::RDFS_LABEL)
@@ -242,7 +244,7 @@ class tao_helpers_form_GenerisFormFactory
      * @param  string mode
      * @return array
      */
-    public static function getPropertyProperties($mode = 'simple')
+    public static function getPropertyProperties($mode = 'simple'): array
     {
         $returnValue = [];
 
@@ -282,30 +284,30 @@ class tao_helpers_form_GenerisFormFactory
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return array
      */
-    public static function getPropertyMap()
+    public static function getPropertyMap(): array
     {
         return [
             'text' => [
                 'title'     => __('Text - Short - Field'),
-                'widget'    => WidgetDefinitions::PROPERTY_TEXTBOX,
+                'widget'    => WidgetDefinitions::PROPERTY_WIDGET_FTE,
                 'range'     => OntologyRdfs::RDFS_LITERAL,
                 'multiple'  => GenerisRdf::GENERIS_FALSE
             ],
             'longtext' => [
                 'title'     => __('Text - Long - Box'),
-                'widget'    => WidgetDefinitions::PROPERTY_TEXTAREA,
+                'widget'    => WidgetDefinitions::PROPERTY_WIDGET_TEXT_AREA,
                 'range'     => OntologyRdfs::RDFS_LITERAL,
                 'multiple'  => GenerisRdf::GENERIS_FALSE
             ],
             'html' => [
                 'title'     => __('Text - Long - HTML editor'),
-                'widget'    => WidgetDefinitions::PROPERTY_HTMLAREA,
+                'widget'    => WidgetDefinitions::PROPERTY_WIDGET_HTML_AREA,
                 'range'     => OntologyRdfs::RDFS_LITERAL,
                 'multiple'  => GenerisRdf::GENERIS_FALSE
             ],
             'list' => [
                 'title'     => __('List - Single choice - Radio button'),
-                'widget'    => WidgetDefinitions::PROPERTY_RADIOBOX,
+                'widget'    => WidgetDefinitions::PROPERTY_WIDGET_RADIO,
                 'range'     => OntologyRdfs::RDFS_RESOURCE,
                 'multiple'  => GenerisRdf::GENERIS_FALSE
             ],
@@ -318,19 +320,19 @@ class tao_helpers_form_GenerisFormFactory
 
             'longlist' => [
                 'title'     => __('List - Single choice - Drop down'),
-                'widget'    => WidgetDefinitions::PROPERTY_COMBOBOX,
+                'widget'    => WidgetDefinitions::PROPERTY_WIDGET_COMBO,
                 'range'     => OntologyRdfs::RDFS_RESOURCE,
                 'multiple'  => GenerisRdf::GENERIS_FALSE
             ],
             'multilist' => [
                 'title'     => __('List - Multiple choice - Check box'),
-                'widget'    => WidgetDefinitions::PROPERTY_CHECKBOX,
+                'widget'    => WidgetDefinitions::PROPERTY_WIDGET_CHECK,
                 'range'     => OntologyRdfs::RDFS_RESOURCE,
                 'multiple'  => GenerisRdf::GENERIS_TRUE
             ],
             'multisearchlist' => [
                 'title'     => __('List - Multiple choice - Search input'),
-                'widget'    => WidgetRdf::PROPERTY_WIDGET_SEARCH_BOX,
+                'widget'    => WidgetDefinitions::PROPERTY_WIDGET_SEARCH_BOX,
                 'range'     => OntologyRdfs::RDFS_RESOURCE,
                 'multiple'  => GenerisRdf::GENERIS_TRUE
             ],
@@ -342,7 +344,7 @@ class tao_helpers_form_GenerisFormFactory
             ],
             'password' => [
                 'title'     => __('Password'),
-                'widget'    => WidgetDefinitions::PROPERTY_HIDDENBOX,
+                'widget'    => WidgetDefinitions::PROPERTY_WIDGET_HIDDEN_BOX,
                 'range'     => OntologyRdfs::RDFS_LITERAL,
                 'multiple'  => GenerisRdf::GENERIS_FALSE
             ],
@@ -362,15 +364,11 @@ class tao_helpers_form_GenerisFormFactory
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  array $data
-     * @param  boolean $recursive
      * @return array
      */
-    public static function extractTreeData($data, $recursive = false)
+    public static function extractTreeData($data): array
     {
         $returnValue = [];
-
-
-
 
         if (isset($data['data'])) {
             $data = [$data];
@@ -378,11 +376,9 @@ class tao_helpers_form_GenerisFormFactory
         foreach ($data as $node) {
             $returnValue[$node['attributes']['id']] = $node['data'];
             if (isset($node['children'])) {
-                $returnValue = array_merge($returnValue, self::extractTreeData($node['children'], true));
+                $returnValue = array_merge($returnValue, self::extractTreeData($node['children']));
             }
         }
-
-
 
         return $returnValue;
     }

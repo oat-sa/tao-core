@@ -21,19 +21,14 @@
 
 namespace oat\tao\model;
 
-interface WidgetDefinitions
+use oat\generis\model\WidgetRdf;
+
+interface WidgetDefinitions extends WidgetRdf
 {
-    const PROPERTY_CALENDAR = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Calendar';
-    const PROPERTY_TEXTBOX = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox';
-    const PROPERTY_TREEBOX = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TreeBox';
-    const PROPERTY_TEXTAREA = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextArea';
-    const PROPERTY_HTMLAREA = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#HTMLArea';
-    const PROPERTY_PASSWORD = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Password';
-    const PROPERTY_HIDDENBOX = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#HiddenBox';
-    const PROPERTY_RADIOBOX = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#RadioBox';
-    const PROPERTY_COMBOBOX = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboBox';
-    const PROPERTY_CHECKBOX = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#CheckBox';
-    const PROPERTY_FILE = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#AsyncFile';
-    const PROPERTY_VERSIONEDFILE = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#VersionedFile';
-    const PROPERTY_JSONOBJECT = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#JsonObject';
+    public const PROPERTY_CALENDAR          = self::NAMESPACE . '#Calendar';
+    public const PROPERTY_TREEBOX           = self::NAMESPACE . '#TreeBox';
+    public const PROPERTY_FILE              = self::NAMESPACE . '#AsyncFile';
+    public const PROPERTY_VERSIONEDFILE     = self::NAMESPACE . '#VersionedFile';
+    public const PROPERTY_JSONOBJECT        = self::NAMESPACE . '#JsonObject';
+    public const PROPERTY_WIDGET_SEARCH_BOX = self::NAMESPACE . '#SearchTextBox';
 }
