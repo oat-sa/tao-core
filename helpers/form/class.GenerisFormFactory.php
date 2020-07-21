@@ -68,24 +68,26 @@ class tao_helpers_form_GenerisFormFactory
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  core_kernel_classes_Property $property
+     *
+     * @param core_kernel_classes_Property $property
+     *
      * @return tao_helpers_form_FormElement
+     *
+     * @throws common_Exception
+     * @throws common_exception_Error
+     * @throws core_kernel_persistence_Exception
      */
-    public static function elementMap(core_kernel_classes_Property $property)
+    public static function elementMap(core_kernel_classes_Property $property): ?tao_helpers_form_FormElement
     {
-        $returnValue = null;
-
         //create the element from the right widget
         $property->feed();
 
         $widgetResource = $property->getWidget();
-        if (is_null($widgetResource)) {
-            return null;
-        }
 
         //authoring widget is not used in standalone mode
         if (
-            $widgetResource->getUri() === Authoring::WIDGET_ID
+            null === $widgetResource
+            || $widgetResource->getUri() === Authoring::WIDGET_ID
             && tao_helpers_Context::check('STANDALONE_MODE')
         ) {
             return null;
@@ -98,64 +100,63 @@ class tao_helpers_form_GenerisFormFactory
 
         $element = tao_helpers_form_FormFactory::getElementByWidget(tao_helpers_Uri::encode($property->getUri()), $widgetResource);
 
-        if (!is_null($element)) {
-            if ($element->getWidget() !== $widgetResource->getUri()) {
-                common_Logger::w('Widget definition differs from implementation: ' . $element->getWidget() . ' != ' . $widgetResource->getUri());
-                return null;
-            }
-
-            //use the property label as element description
-            $propDesc = (strlen(trim($property->getLabel())) > 0) ? $property->getLabel() : str_replace(LOCAL_NAMESPACE, '', $property->getUri());
-            $element->setDescription($propDesc);
-
-            //multi elements use the property range as options
-            if (method_exists($element, 'setOptions')) {
-                $range = $property->getRange();
-
-                if ($range !== null) {
-                    $options = [];
-
-                    if ($element instanceof TreeAware) {
-                        $sortedOptions = $element->rangeToTree(
-                            $property->getUri() === OntologyRdfs::RDFS_RANGE ? new core_kernel_classes_Class(OntologyRdfs::RDFS_RESOURCE) : $range
-                        );
-                    } else {
-                        /** @var core_kernel_classes_Resource $rangeInstance */
-                        foreach ($range->getInstances(true) as $rangeInstance) {
-                            $level = $rangeInstance->getOnePropertyValue(new core_kernel_classes_Property(TaoOntology::PROPERTY_LIST_LEVEL));
-                            if (is_null($level)) {
-                                $options[tao_helpers_Uri::encode($rangeInstance->getUri())] = [tao_helpers_Uri::encode($rangeInstance->getUri()), $rangeInstance->getLabel()];
-                            } else {
-                                $level = ($level instanceof core_kernel_classes_Resource) ? $level->getUri() : (string)$level;
-                                $options[$level] = [tao_helpers_Uri::encode($rangeInstance->getUri()), $rangeInstance->getLabel()];
-                            }
-                        }
-                        ksort($options);
-                        $sortedOptions = [];
-                        foreach ($options as $id => $values) {
-                            $sortedOptions[$values[0]] = $values[1];
-                        }
-                        //set the default value to an empty space
-                        if (method_exists($element, 'setEmptyOption')) {
-                            $element->setEmptyOption(' ');
-                        }
-                    }
-
-                    //complete the options listing
-                    $element->setOptions($sortedOptions);
-                }
-            }
-
-            foreach (ValidationRuleRegistry::getRegistry()->getValidators($property) as $validator) {
-                $element->addValidator($validator);
-            }
-
-            $returnValue = $element;
+        if (null === $element) {
+            return null;
         }
 
+        if ($element->getWidget() !== $widgetResource->getUri()) {
+            common_Logger::w('Widget definition differs from implementation: ' . $element->getWidget() . ' != ' . $widgetResource->getUri());
+            return null;
+        }
 
+        //use the property label as element description
+        $propDesc = trim($property->getLabel()) !== ''
+            ? $property->getLabel()
+            : str_replace(LOCAL_NAMESPACE, '', $property->getUri());
+        $element->setDescription($propDesc);
 
-        return $returnValue;
+        //multi elements use the property range as options
+        if (method_exists($element, 'setOptions')) {
+            $range = $property->getRange();
+
+            if ($range !== null) {
+                $options = [];
+
+                if ($element instanceof TreeAware) {
+                    $sortedOptions = $element->rangeToTree(
+                        $property->getUri() === OntologyRdfs::RDFS_RANGE ? new core_kernel_classes_Class(OntologyRdfs::RDFS_RESOURCE) : $range
+                    );
+                } else {
+                    foreach ($range->getInstances(true) as $rangeInstance) {
+                        $level = $rangeInstance->getOnePropertyValue(new core_kernel_classes_Property(TaoOntology::PROPERTY_LIST_LEVEL));
+                        if (is_null($level)) {
+                            $options[tao_helpers_Uri::encode($rangeInstance->getUri())] = [tao_helpers_Uri::encode($rangeInstance->getUri()), $rangeInstance->getLabel()];
+                        } else {
+                            $level = ($level instanceof core_kernel_classes_Resource) ? $level->getUri() : (string)$level;
+                            $options[$level] = [tao_helpers_Uri::encode($rangeInstance->getUri()), $rangeInstance->getLabel()];
+                        }
+                    }
+                    ksort($options);
+                    $sortedOptions = [];
+                    foreach ($options as $id => $values) {
+                        $sortedOptions[$values[0]] = $values[1];
+                    }
+                    //set the default value to an empty space
+                    if (method_exists($element, 'setEmptyOption')) {
+                        $element->setEmptyOption(' ');
+                    }
+                }
+
+                //complete the options listing
+                $element->setOptions($sortedOptions);
+            }
+        }
+
+        foreach (ValidationRuleRegistry::getRegistry()->getValidators($property) as $validator) {
+            $element->addValidator($validator);
+        }
+
+        return $element;
     }
 
     /**
@@ -173,19 +174,12 @@ class tao_helpers_form_GenerisFormFactory
         core_kernel_classes_Class $clazz,
         core_kernel_classes_Class $topLevelClazz = null
     ): array {
-        $returnValue = [];
-
-
-
-
-        if (is_null($topLevelClazz)) {
+        if (null === $topLevelClazz) {
             $topLevelClazz = new core_kernel_classes_Class(TaoOntology::CLASS_URI_OBJECT);
         }
 
-
-        if ($clazz->getUri() == $topLevelClazz->getUri()) {
-            $returnValue = $clazz->getProperties(false);
-            return (array) $returnValue;
+        if ($clazz->getUri() === $topLevelClazz->getUri()) {
+            return $clazz->getProperties(false);
         }
 
         //determine the parent path
@@ -200,15 +194,15 @@ class tao_helpers_form_GenerisFormFactory
                     $parentClasses = array_merge($parentClasses, $parent->getParentClasses(false));
                 }
             }
-            if (count($parentClasses) == 0) {
+            if (empty($parentClasses)) {
                 break;
             }
             $lastLevelParents = [];
             foreach ($parentClasses as $parentClass) {
-                if ($parentClass->getUri() == OntologyRdfs::RDFS_CLASS) {
+                if ($parentClass->getUri() === OntologyRdfs::RDFS_CLASS) {
                     continue;
                 }
-                if ($parentClass->getUri() == $topLevelClazz->getUri()) {
+                if ($parentClass->getUri() === $topLevelClazz->getUri()) {
                     $parents[$parentClass->getUri()] = $parentClass;
                     $top = true;
                     break;
@@ -224,14 +218,13 @@ class tao_helpers_form_GenerisFormFactory
             }
         } while (!$top);
 
+        $propertyChunks = [[]];
         foreach ($parents as $parent) {
-            $returnValue = array_merge($returnValue, $parent->getProperties(false));
+            $propertyChunks[] = $parent->getProperties(false);
         }
-        $returnValue = array_merge($returnValue, $clazz->getProperties(false));
+        $propertyChunks[] = $clazz->getProperties(false);
 
-
-
-        return (array) $returnValue;
+        return array_merge(...$propertyChunks);
     }
 
     /**
@@ -260,8 +253,6 @@ class tao_helpers_form_GenerisFormFactory
     {
         $returnValue = [];
 
-
-
         switch ($mode) {
             case 'simple':
                 $defaultUris = [GenerisRdf::PROPERTY_IS_LG_DEPENDENT];
@@ -283,9 +274,7 @@ class tao_helpers_form_GenerisFormFactory
             }
         }
 
-
-
-        return (array) $returnValue;
+        return $returnValue;
     }
 
     /**
