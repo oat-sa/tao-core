@@ -332,7 +332,7 @@ class tao_helpers_form_GenerisFormFactory
             ],
             'multisearchlist' => [
                 'title'     => __('List - Multiple choice - Search input'),
-                'widget'    => WidgetDefinitions::PROPERTY_WIDGET_SEARCH_BOX,
+                'widget'    => WidgetDefinitions::PROPERTY_WIDGET_SEARCH_TEXT_BOX,
                 'range'     => OntologyRdfs::RDFS_RESOURCE,
                 'multiple'  => GenerisRdf::GENERIS_TRUE
             ],

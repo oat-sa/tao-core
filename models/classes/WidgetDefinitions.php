@@ -25,10 +25,10 @@ use oat\generis\model\WidgetRdf;
 
 interface WidgetDefinitions extends WidgetRdf
 {
-    public const PROPERTY_CALENDAR          = self::NAMESPACE . '#Calendar';
-    public const PROPERTY_TREE_BOX          = self::NAMESPACE . '#TreeBox';
-    public const PROPERTY_FILE              = self::NAMESPACE . '#AsyncFile';
-    public const PROPERTY_VERSIONED_FILE    = self::NAMESPACE . '#VersionedFile';
-    public const PROPERTY_JSON_OBJECT       = self::NAMESPACE . '#JsonObject';
-    public const PROPERTY_WIDGET_SEARCH_BOX = self::NAMESPACE . '#SearchTextBox';
+    public const PROPERTY_CALENDAR               = self::NAMESPACE . '#Calendar';
+    public const PROPERTY_TREE_BOX               = self::NAMESPACE . '#TreeBox';
+    public const PROPERTY_FILE                   = self::NAMESPACE . '#AsyncFile';
+    public const PROPERTY_VERSIONED_FILE         = self::NAMESPACE . '#VersionedFile';
+    public const PROPERTY_JSON_OBJECT            = self::NAMESPACE . '#JsonObject';
+    public const PROPERTY_WIDGET_SEARCH_TEXT_BOX = self::NAMESPACE . '#SearchTextBox';
 }

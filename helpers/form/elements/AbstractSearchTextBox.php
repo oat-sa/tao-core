@@ -31,7 +31,7 @@ abstract class AbstractSearchTextBox extends tao_helpers_form_FormElement
 {
     protected const VALUE_DELIMITER = ',';
 
-    protected $widget = WidgetDefinitions::PROPERTY_WIDGET_SEARCH_BOX;
+    protected $widget = WidgetDefinitions::PROPERTY_WIDGET_SEARCH_TEXT_BOX;
 
     /** @var string[] */
     protected $values = [];
