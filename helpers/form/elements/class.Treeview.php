@@ -33,10 +33,6 @@ use oat\tao\helpers\form\elements\TreeAware;
  */
 abstract class tao_helpers_form_elements_Treeview extends tao_helpers_form_elements_MultipleElement implements TreeAware
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
     public const WIDGET_ID = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TreeView';
 
     /**

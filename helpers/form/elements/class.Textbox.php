@@ -31,11 +31,4 @@
 abstract class tao_helpers_form_elements_Textbox extends tao_helpers_form_FormElement
 {
     public const WIDGET_ID = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox';
-
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    // --- OPERATIONS ---
-} /* end of abstract class tao_helpers_form_elements_Textbox */
+}
