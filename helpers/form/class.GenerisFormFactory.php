@@ -313,7 +313,7 @@ class tao_helpers_form_GenerisFormFactory
             ],
             'multiplenodetree' => [
                 'title'     => __('Tree - Multiple node choice '),
-                'widget'    => WidgetDefinitions::PROPERTY_TREEBOX,
+                'widget'    => WidgetDefinitions::PROPERTY_TREE_BOX,
                 'range'     => OntologyRdfs::RDFS_RESOURCE,
                 'multiple'  => GenerisRdf::GENERIS_TRUE
             ],
