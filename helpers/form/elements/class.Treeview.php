@@ -37,14 +37,7 @@ abstract class tao_helpers_form_elements_Treeview extends tao_helpers_form_eleme
 
 
     // --- ATTRIBUTES ---
-
-    /**
-     * Short description of attribute widget
-     *
-     * @access protected
-     * @var string
-     */
-    protected $widget = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TreeView';
+    public const WIDGET_ID = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TreeView';
 
     /**
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>

@@ -25,9 +25,21 @@ use oat\generis\model\OntologyRdf;
 use oat\generis\model\OntologyRdfs;
 use oat\generis\model\WidgetRdf;
 use oat\tao\helpers\form\elements\TreeAware;
+use oat\tao\helpers\form\elements\xhtml\SearchTextBox;
 use oat\tao\helpers\form\ValidationRuleRegistry;
 use oat\tao\model\TaoOntology;
-use oat\tao\model\WidgetDefinitions;
+use tao_helpers_form_elements_AsyncFile as AsyncFile;
+use tao_helpers_form_elements_Authoring as Authoring;
+use tao_helpers_form_elements_Calendar as Calendar;
+use tao_helpers_form_elements_Checkbox as Checkbox;
+use tao_helpers_form_elements_Combobox as ComboBox;
+use tao_helpers_form_elements_GenerisAsyncFile as GenerisAsyncFile;
+use tao_helpers_form_elements_Hiddenbox as HiddenBox;
+use tao_helpers_form_elements_Htmlarea as HtmlArea;
+use tao_helpers_form_elements_Radiobox as RadioBox;
+use tao_helpers_form_elements_Textarea as TextArea;
+use tao_helpers_form_elements_Textbox as TextBox;
+use tao_helpers_form_elements_Treebox as TreeBox;
 
 /**
  * The GenerisFormFactory enables you to create Forms using rdf data and the
@@ -73,15 +85,15 @@ class tao_helpers_form_GenerisFormFactory
 
         //authoring widget is not used in standalone mode
         if (
-            $widgetResource->getUri() === 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Authoring'
+            $widgetResource->getUri() === Authoring::WIDGET_ID
             && tao_helpers_Context::check('STANDALONE_MODE')
         ) {
             return null;
         }
 
         // horrible hack to fix file widget
-        if ($widgetResource->getUri() === 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#AsyncFile') {
-            $widgetResource = new core_kernel_classes_Resource('http://www.tao.lu/datatypes/WidgetDefinitions.rdf#GenerisAsyncFile');
+        if ($widgetResource->getUri() === AsyncFile::WIDGET_ID) {
+            $widgetResource = new core_kernel_classes_Resource(GenerisAsyncFile::WIDGET_ID);
         }
 
         $element = tao_helpers_form_FormFactory::getElementByWidget(tao_helpers_Uri::encode($property->getUri()), $widgetResource);
@@ -289,68 +301,68 @@ class tao_helpers_form_GenerisFormFactory
         return [
             'text' => [
                 'title'     => __('Text - Short - Field'),
-                'widget'    => WidgetDefinitions::PROPERTY_WIDGET_FTE,
+                'widget'    => TextBox::WIDGET_ID,
                 'range'     => OntologyRdfs::RDFS_LITERAL,
                 'multiple'  => GenerisRdf::GENERIS_FALSE
             ],
             'longtext' => [
                 'title'     => __('Text - Long - Box'),
-                'widget'    => WidgetDefinitions::PROPERTY_WIDGET_TEXT_AREA,
+                'widget'    => TextArea::WIDGET_ID,
                 'range'     => OntologyRdfs::RDFS_LITERAL,
                 'multiple'  => GenerisRdf::GENERIS_FALSE
             ],
             'html' => [
                 'title'     => __('Text - Long - HTML editor'),
-                'widget'    => WidgetDefinitions::PROPERTY_WIDGET_HTML_AREA,
+                'widget'    => HtmlArea::WIDGET_ID,
                 'range'     => OntologyRdfs::RDFS_LITERAL,
                 'multiple'  => GenerisRdf::GENERIS_FALSE
             ],
             'list' => [
                 'title'     => __('List - Single choice - Radio button'),
-                'widget'    => WidgetDefinitions::PROPERTY_WIDGET_RADIO,
+                'widget'    => RadioBox::WIDGET_ID,
                 'range'     => OntologyRdfs::RDFS_RESOURCE,
                 'multiple'  => GenerisRdf::GENERIS_FALSE
             ],
             'multiplenodetree' => [
                 'title'     => __('Tree - Multiple node choice '),
-                'widget'    => WidgetDefinitions::PROPERTY_TREE_BOX,
+                'widget'    => TreeBox::WIDGET_ID,
                 'range'     => OntologyRdfs::RDFS_RESOURCE,
                 'multiple'  => GenerisRdf::GENERIS_TRUE
             ],
 
             'longlist' => [
                 'title'     => __('List - Single choice - Drop down'),
-                'widget'    => WidgetDefinitions::PROPERTY_WIDGET_COMBO,
+                'widget'    => ComboBox::WIDGET_ID,
                 'range'     => OntologyRdfs::RDFS_RESOURCE,
                 'multiple'  => GenerisRdf::GENERIS_FALSE
             ],
             'multilist' => [
                 'title'     => __('List - Multiple choice - Check box'),
-                'widget'    => WidgetDefinitions::PROPERTY_WIDGET_CHECK,
+                'widget'    => Checkbox::WIDGET_ID,
                 'range'     => OntologyRdfs::RDFS_RESOURCE,
                 'multiple'  => GenerisRdf::GENERIS_TRUE
             ],
             'multisearchlist' => [
                 'title'     => __('List - Multiple choice - Search input'),
-                'widget'    => WidgetDefinitions::PROPERTY_WIDGET_SEARCH_TEXT_BOX,
+                'widget'    => SearchTextBox::WIDGET_ID,
                 'range'     => OntologyRdfs::RDFS_RESOURCE,
                 'multiple'  => GenerisRdf::GENERIS_TRUE
             ],
             'calendar' => [
                 'title'     => __('Calendar'),
-                'widget'    => WidgetDefinitions::PROPERTY_CALENDAR,
+                'widget'    => Calendar::WIDGET_ID,
                 'range'     => OntologyRdfs::RDFS_LITERAL,
                 'multiple'  => GenerisRdf::GENERIS_FALSE
             ],
             'password' => [
                 'title'     => __('Password'),
-                'widget'    => WidgetDefinitions::PROPERTY_WIDGET_HIDDEN_BOX,
+                'widget'    => HiddenBox::WIDGET_ID,
                 'range'     => OntologyRdfs::RDFS_LITERAL,
                 'multiple'  => GenerisRdf::GENERIS_FALSE
             ],
             'file' => [
                 'title'     => __('File'),
-                'widget'    => WidgetDefinitions::PROPERTY_FILE,
+                'widget'    => AsyncFile::WIDGET_ID,
                 'range'     => GenerisRdf::CLASS_GENERIS_FILE,
                 'multiple'  => GenerisRdf::GENERIS_FALSE
             ]
