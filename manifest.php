@@ -1,5 +1,7 @@
 <?php
 
+use oat\tao\scripts\update\Updater;
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -31,6 +33,7 @@ use oat\tao\model\user\TaoRoles;
 use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\AddLogFs;
 use oat\tao\scripts\install\AddTmpFsHandlers;
+use oat\tao\scripts\install\CreateRdsListStore;
 use oat\tao\scripts\install\CreateWebhookEventLogTable;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\RegisterActionService;
@@ -59,7 +62,7 @@ return [
     'label' => 'TAO Base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '44.12.0',
+    'version' => '44.13.0',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => [
         'generis' => '>=12.31.0',
@@ -134,9 +137,10 @@ return [
             SetupSettingsStorage::class,
             RegisterUserService::class,
             RegisterValueCollectionServices::class,
+            CreateRdsListStore::class,
         ]
     ],
-    'update' => 'oat\\tao\\scripts\\update\\Updater',
+    'update' => Updater::class,
     'optimizableClasses' => [
         'http://www.tao.lu/Ontologies/TAO.rdf#Languages',
         'http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsages'
@@ -202,9 +206,9 @@ return [
     ],
     'constants' => [
         #TAO version number
-        'TAO_VERSION' => '3.4.0-sprint132',
+        'TAO_VERSION' => '3.4.0-sprint133',
         #TAO version label
-        'TAO_VERSION_NAME' => '3.4.0-sprint132',
+        'TAO_VERSION_NAME' => '3.4.0-sprint133',
         #the name to display
         'PRODUCT_NAME' => 'TAO',
         #TAO release status, use to add specific footer to TAO, available alpha, beta, demo, stable

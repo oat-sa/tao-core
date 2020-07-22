@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint131\n"
-"PO-Revision-Date: 2020-07-03T09:17:36\n"
+"Project-Id-Version: TAO 3.4.0-sprint133\n"
+"PO-Revision-Date: 2020-07-17T08:36:29\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lt-LT\n"
@@ -371,11 +371,11 @@ msgstr "Skaičiuotuvas"
 msgid "Calendar"
 msgstr "Kalendorius"
 
-msgid "cancel"
-msgstr "atšaukti"
-
 msgid "Cancel"
 msgstr "Atšaukti"
+
+msgid "cancel"
+msgstr "atšaukti"
 
 msgid "cancel the action"
 msgstr "atšaukti veiksmą"
@@ -450,11 +450,11 @@ msgstr "Išvalyti visus duomenis"
 msgid "Clear expression"
 msgstr "Išvalyti išraišką"
 
-msgid "Clear History"
-msgstr "Išvalyti Istoriją"
-
 msgid "Clear history"
 msgstr "Išvalyti istoriją"
+
+msgid "Clear History"
+msgstr "Išvalyti Istoriją"
 
 msgid "Clear selection"
 msgstr "Išvalyti pasirinimą"
@@ -578,6 +578,9 @@ msgstr "Duomenų kalba"
 
 msgid "Data not imported. All records are invalid."
 msgstr "Duomenys neimportuoti. Visi įrašai neteisingi."
+
+msgid "Data source URI"
+msgstr ""
 
 msgid "Date"
 msgstr "Data"
@@ -984,10 +987,10 @@ msgstr "Importuotas resursas \"%s"
 msgid "impossible to update task status"
 msgstr "neįmanoma atnaujinti užduoties būsenos"
 
-msgid "In progress"
+msgid "In Progress"
 msgstr "Vykdoma"
 
-msgid "In Progress"
+msgid "In progress"
 msgstr "Vykdoma"
 
 msgid "Inclusive (AND)"
@@ -1026,11 +1029,11 @@ msgstr "Įdiegiamas plėtinys %s..."
 msgid "Instance saved"
 msgstr "Instancija išsaugota"
 
-msgid "Interface language"
-msgstr "Sąsajos kalba"
-
 msgid "Interface Language"
 msgstr "Sąsajos Kalba"
+
+msgid "Interface language"
+msgstr "Sąsajos kalba"
 
 msgid "Invalid CSP header."
 msgstr ""
@@ -1092,6 +1095,9 @@ msgstr ""
 msgid "Label"
 msgstr "Pavadinimas"
 
+msgid "Label Path"
+msgstr ""
+
 msgid "Language"
 msgstr "Kalba"
 
@@ -1127,6 +1133,9 @@ msgstr "Sąrašas - pasirinkimas vienos reikšmės iš iškrentančio sąrašo"
 
 msgid "List - Single choice - Radio button"
 msgstr "Sąrašas - Pasirinkimas tik vienos reikšmės "
+
+msgid "List item URI duplications found"
+msgstr ""
 
 msgid "List values"
 msgstr ""
@@ -1340,10 +1349,10 @@ msgstr "Nėra failų"
 msgid "no label"
 msgstr "nėra pavadinimo"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "Peržiūra negalima"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "Peržiūra negalima"
 
 msgid "No results found"
@@ -1755,11 +1764,11 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "select"
-msgstr "pasirinkti"
-
 msgid "Select"
 msgstr "Pasirinkti"
+
+msgid "select"
+msgstr "pasirinkti"
 
 msgid "Select a class"
 msgstr "Pasirinkti klasę"
@@ -2214,6 +2223,9 @@ msgstr "Įkelti"
 
 msgid "Upload into:"
 msgstr "Įkelti į:"
+
+msgid "URI Path"
+msgstr ""
 
 msgid "Usage: ImportRdf RDF_FILE [MODEL_ID]"
 msgstr "Naudojimo pavyzdys: ImportRdf RDF_FILE [MODEL_ID]"

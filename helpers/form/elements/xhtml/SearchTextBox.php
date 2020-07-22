@@ -23,7 +23,7 @@ declare(strict_types=1);
 
 namespace oat\tao\helpers\form\elements\xhtml;
 
-use core_kernel_classes_Resource;
+use oat\tao\helpers\form\elements\ElementValue;
 use oat\tao\helpers\form\elements\AbstractSearchTextBox;
 use tao_helpers_Display;
 use tao_helpers_form_elements_xhtml_Hidden;
@@ -56,7 +56,7 @@ class SearchTextBox extends AbstractSearchTextBox
                 '<label class="%s" for="%s">%s</label>',
                 'unit',
                 $this->name,
-                tao_helpers_Display::htmllize($this->unit)
+                tao_helpers_Display::htmlize($this->unit)
             );
         }
 
@@ -80,7 +80,7 @@ class SearchTextBox extends AbstractSearchTextBox
     {
         $searchUrl = tao_helpers_Uri::url('get', 'PropertyValues', 'tao');
 
-        $baseVariables   = $this->createBaseClientVariables();
+        $baseVariables = $this->createBaseClientVariables();
         $initSelection = json_encode($this->createInitSelectionValues());
 
         return <<<javascript
@@ -132,10 +132,10 @@ javascript;
     {
         $result = [];
 
-        foreach ($this->getValues() as $value) {
+        foreach ($this->getRawValue() as $value) {
             $result[] = [
-                'id'   => $value,
-                'text' => (new core_kernel_classes_Resource(tao_helpers_Uri::decode($value)))->getLabel(),
+                'id'   => tao_helpers_Uri::encode($value->getUri()),
+                'text' => $value->getLabel(),
             ];
         }
 
@@ -145,7 +145,15 @@ javascript;
     private function createHiddenInput(): tao_helpers_form_elements_xhtml_Hidden
     {
         $input = new tao_helpers_form_elements_xhtml_Hidden($this->name);
-        $input->setValue(implode(static::VALUE_DELIMITER, $this->getValues()));
+
+        $uris = array_map(
+            static function (ElementValue $value) {
+                return $value->getUri();
+            },
+            $this->getRawValue()
+        );
+
+        $input->setValue(implode(static::VALUE_DELIMITER, $uris));
 
         return $input;
     }

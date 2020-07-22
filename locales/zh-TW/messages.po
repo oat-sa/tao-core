@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint131\n"
-"PO-Revision-Date: 2020-07-03T09:18:12\n"
+"Project-Id-Version: TAO 3.4.0-sprint133\n"
+"PO-Revision-Date: 2020-07-17T08:39:54\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-TW\n"
@@ -371,11 +371,11 @@ msgstr ""
 msgid "Calendar"
 msgstr "日曆"
 
-msgid "cancel"
-msgstr ""
-
 msgid "Cancel"
 msgstr "取消"
+
+msgid "cancel"
+msgstr ""
 
 msgid "cancel the action"
 msgstr ""
@@ -450,10 +450,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
 msgid "Clear selection"
@@ -577,6 +577,9 @@ msgid "Data language"
 msgstr "數據語言"
 
 msgid "Data not imported. All records are invalid."
+msgstr ""
+
+msgid "Data source URI"
 msgstr ""
 
 msgid "Date"
@@ -984,10 +987,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1026,10 +1029,10 @@ msgstr "正在安裝擴展程序 %s..."
 msgid "Instance saved"
 msgstr "實體已儲存"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "介面語言"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "介面語言"
 
 msgid "Invalid CSP header."
@@ -1092,6 +1095,9 @@ msgstr ""
 msgid "Label"
 msgstr "標籤"
 
+msgid "Label Path"
+msgstr ""
+
 msgid "Language"
 msgstr "語言"
 
@@ -1127,6 +1133,9 @@ msgstr "清單 - 單項選擇 - 下拉"
 
 msgid "List - Single choice - Radio button"
 msgstr "清單 - 單項選擇 - 按鈕"
+
+msgid "List item URI duplications found"
+msgstr ""
 
 msgid "List values"
 msgstr ""
@@ -1340,10 +1349,10 @@ msgstr "無檔案"
 msgid "no label"
 msgstr "無標籤"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "沒有可用的預覽"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "沒有可用的預覽"
 
 msgid "No results found"
@@ -1755,10 +1764,10 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "select"
+msgid "Select"
 msgstr "選擇"
 
-msgid "Select"
+msgid "select"
 msgstr "選擇"
 
 msgid "Select a class"
@@ -2214,6 +2223,9 @@ msgstr "上傳"
 
 msgid "Upload into:"
 msgstr "上傳到:"
+
+msgid "URI Path"
+msgstr ""
 
 msgid "Usage: ImportRdf RDF_FILE [MODEL_ID]"
 msgstr ""
