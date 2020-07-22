@@ -38,31 +38,31 @@ class SqlExporter extends AbstractFileExporter implements PsrResponseExporter
     private $mappingVarTypes = [
         'integer' => 'INT',
         'boolean' => 'BOOLEAN',
-        'identifier' => 'VARCHAR(64000)',
+        'identifier' => 'VARCHAR(16000)',
         'duration' => 'DECIMAL',
         'float' => 'DECIMAL'
     ];
 
     private $mappingFieldsTypes = [
-        'Test Taker ID' => 'VARCHAR(64000)',
-        'Test Taker' => 'VARCHAR(64000)',
-        'Login' => 'VARCHAR(64000)',
-        'First Name' => 'VARCHAR(64000)',
-        'Last Name' => 'VARCHAR(64000)',
-        'Mail' => 'VARCHAR(64000)',
-        'Interface Language' => 'VARCHAR(64000)',
-        'Group' => 'VARCHAR(64000)',
-        'Delivery' => 'VARCHAR(64000)',
-        'Title' => 'VARCHAR(64000)',
-        'Max. Executions (default: unlimited)' => 'VARCHAR(64000)',
+        'Test Taker ID' => 'VARCHAR(16000)',
+        'Test Taker' => 'VARCHAR(16000)',
+        'Login' => 'VARCHAR(16000)',
+        'First Name' => 'VARCHAR(16000)',
+        'Last Name' => 'VARCHAR(16000)',
+        'Mail' => 'VARCHAR(16000)',
+        'Interface Language' => 'VARCHAR(16000)',
+        'Group' => 'VARCHAR(16000)',
+        'Delivery' => 'VARCHAR(16000)',
+        'Title' => 'VARCHAR(16000)',
+        'Max. Executions (default: unlimited)' => 'VARCHAR(16000)',
         'Start Date' => 'TIMESTAMP',
         'End Date' => 'TIMESTAMP',
-        'Display Order' => 'VARCHAR(64000)',
-        'Access' => 'VARCHAR(64000)',
-        'Runtime' => 'VARCHAR(64000)',
-        'Delivery container serial' => 'VARCHAR(64000)',
-        'Delivery origin' => 'VARCHAR(64000)',
-        'Compilation Directory' => 'VARCHAR(64000)',
+        'Display Order' => 'VARCHAR(16000)',
+        'Access' => 'VARCHAR(16000)',
+        'Runtime' => 'VARCHAR(16000)',
+        'Delivery container serial' => 'VARCHAR(16000)',
+        'Delivery origin' => 'VARCHAR(16000)',
+        'Compilation Directory' => 'VARCHAR(16000)',
         'Compilation Time' => 'INT',
         'Start Delivery Execution' => 'TIMESTAMP',
         'End Delivery Execution' => 'TIMESTAMP'
@@ -125,9 +125,9 @@ class SqlExporter extends AbstractFileExporter implements PsrResponseExporter
                 $fieldName = $this->convertFieldName($key);
                 // if there are several values in the field, override the type to VARCHAR
                 if (strpos($value, '|') !== false) {
-                    $columnTypes[$fieldName] = 'VARCHAR(64000)';
+                    $columnTypes[$fieldName] = 'VARCHAR(16000)';
                 }
-                if (is_null($value) || ($value == '' && $columnTypes[$fieldName] != 'VARCHAR(64000)')) {
+                if (is_null($value) || ($value == '' && $columnTypes[$fieldName] != 'VARCHAR(16000)')) {
                     $fields[$fieldName] = 'null';
                 } elseif ($columnTypes[$fieldName] == 'INT' || $columnTypes[$fieldName] == 'BOOLEAN') {
                     $fields[$fieldName] = "$value";
