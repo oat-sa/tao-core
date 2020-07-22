@@ -40,12 +40,16 @@ abstract class AbstractFileExporter implements Exporter
      */
     protected $data;
 
+    protected $columnsData;
+
     /**
      * @param array $data Data to be exported
+     * @param $columnsData
      */
-    public function __construct($data)
+    public function __construct($data, $columnsData = null)
     {
         $this->data = $data;
+        $this->columnsData = $columnsData;
     }
 
     /**
