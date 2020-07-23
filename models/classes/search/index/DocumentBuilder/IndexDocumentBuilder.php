@@ -261,7 +261,7 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
             return null;
         }
 
-        $accessRights = $permissionProvider->getResourceAccessData($resource);
+        $accessRights = $permissionProvider->getResourceAccessData($resource->getUri());
         $accessRightsURIs = ['read_access' => array_keys($accessRights)];
 
         return new ArrayIterator($accessRightsURIs);
