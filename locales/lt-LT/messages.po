@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint129\n"
-"PO-Revision-Date: 2020-05-22T08:23:53\n"
+"Project-Id-Version: TAO 3.4.0-sprint133\n"
+"PO-Revision-Date: 2020-07-17T08:36:29\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lt-LT\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " and "
-msgstr " ir "
-
 msgid " AND "
 msgstr " IR "
+
+msgid " and "
+msgstr " ir "
 
 msgid " has been deleted successfully"
 msgstr " sėkmingai ištrintas"
@@ -147,6 +147,9 @@ msgstr "Priežiūros būsena turi turėti STATUSĄ: \"%s\" arba \"%s"
 
 msgid "A message with further instructions has been sent to your email address: %s"
 msgstr "Pranešimas su tolimesnėm instrukcijomis buvo nusiųstas į jūsų el. pašto adresą: %s"
+
+msgid "About"
+msgstr ""
 
 msgid "abs"
 msgstr "abs"
@@ -368,11 +371,11 @@ msgstr "Skaičiuotuvas"
 msgid "Calendar"
 msgstr "Kalendorius"
 
-msgid "cancel"
-msgstr "atšaukti"
-
 msgid "Cancel"
 msgstr "Atšaukti"
+
+msgid "cancel"
+msgstr "atšaukti"
 
 msgid "cancel the action"
 msgstr "atšaukti veiksmą"
@@ -447,11 +450,11 @@ msgstr "Išvalyti visus duomenis"
 msgid "Clear expression"
 msgstr "Išvalyti išraišką"
 
-msgid "Clear History"
-msgstr "Išvalyti Istoriją"
-
 msgid "Clear history"
 msgstr "Išvalyti istoriją"
+
+msgid "Clear History"
+msgstr "Išvalyti Istoriją"
 
 msgid "Clear selection"
 msgstr "Išvalyti pasirinimą"
@@ -567,14 +570,17 @@ msgstr "Duomenys importuoti sėkmingai"
 msgid "Data imported. Some records are invalid."
 msgstr "Duomenys importuoti. Kaikurie įrašai neteisingi."
 
-msgid "Data language"
-msgstr "Duomenų kalba"
-
 msgid "Data Language"
 msgstr "Duomenų Kalba"
 
+msgid "Data language"
+msgstr "Duomenų kalba"
+
 msgid "Data not imported. All records are invalid."
 msgstr "Duomenys neimportuoti. Visi įrašai neteisingi."
+
+msgid "Data source URI"
+msgstr ""
 
 msgid "Date"
 msgstr "Data"
@@ -741,6 +747,9 @@ msgstr "Klaida sintaksėje"
 
 msgid "Error in value"
 msgstr "Klaida reikšmėje"
+
+msgid "Error: %s"
+msgstr ""
 
 msgid "Examples:"
 msgstr ""
@@ -1020,11 +1029,11 @@ msgstr "Įdiegiamas plėtinys %s..."
 msgid "Instance saved"
 msgstr "Instancija išsaugota"
 
-msgid "Interface language"
-msgstr "Sąsajos kalba"
-
 msgid "Interface Language"
 msgstr "Sąsajos Kalba"
+
+msgid "Interface language"
+msgstr "Sąsajos kalba"
 
 msgid "Invalid CSP header."
 msgstr ""
@@ -1086,6 +1095,9 @@ msgstr ""
 msgid "Label"
 msgstr "Pavadinimas"
 
+msgid "Label Path"
+msgstr ""
+
 msgid "Language"
 msgstr "Kalba"
 
@@ -1113,11 +1125,17 @@ msgstr "Sąrašas"
 msgid "List - Multiple choice - Check box"
 msgstr "Sąrašas - pasirinkimas, pažymint kelis"
 
+msgid "List - Multiple choice - Search input"
+msgstr ""
+
 msgid "List - Single choice - Drop down"
 msgstr "Sąrašas - pasirinkimas vienos reikšmės iš iškrentančio sąrašo"
 
 msgid "List - Single choice - Radio button"
 msgstr "Sąrašas - Pasirinkimas tik vienos reikšmės "
+
+msgid "List item URI duplications found"
+msgstr ""
 
 msgid "List values"
 msgstr ""
@@ -1170,8 +1188,20 @@ msgstr "Prisijungimas yra tuščias."
 msgid "Logout"
 msgstr "Atsijungti"
 
+msgid "Main Menu"
+msgstr ""
+
+msgid "Maintenance service is already installed."
+msgstr ""
+
 msgid "Maintenance service must have a persistence option."
 msgstr "Priežiūros tarnyba turi turėti palaikymo opciją."
+
+msgid "Maintenance service was installed. Platform is disabled."
+msgstr ""
+
+msgid "Maintenance service was installed. Platform is enabled."
+msgstr ""
 
 msgid "Maintenance storage driver is not set"
 msgstr "Priežiūros saugykla yra nenustatyta"
@@ -1319,10 +1349,10 @@ msgstr "Nėra failų"
 msgid "no label"
 msgstr "nėra pavadinimo"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "Peržiūra negalima"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "Peržiūra negalima"
 
 msgid "No results found"
@@ -1734,11 +1764,11 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "select"
-msgstr "pasirinkti"
-
 msgid "Select"
 msgstr "Pasirinkti"
+
+msgid "select"
+msgstr "pasirinkti"
 
 msgid "Select a class"
 msgstr "Pasirinkti klasę"
@@ -1881,6 +1911,24 @@ msgstr "TAO Namai"
 
 msgid "TAO Login"
 msgstr "TAO Prisijungimas"
+
+msgid "TAO platform is already on live mode since %s"
+msgstr ""
+
+msgid "TAO platform is already on maintenance mode since %s"
+msgstr ""
+
+msgid "TAO platform is live since %s."
+msgstr ""
+
+msgid "TAO platform is now live. It was in maintenance since %s"
+msgstr ""
+
+msgid "TAO platform is now under maintenance. It was in maintenance since %s"
+msgstr ""
+
+msgid "TAO platform is under maintenance since %s"
+msgstr ""
 
 msgid "Task %s has been cancelled, message was not processed."
 msgstr "Užduotis %s buvo atšaukta, pranešimas nebuvo apdorotas."
@@ -2176,8 +2224,20 @@ msgstr "Įkelti"
 msgid "Upload into:"
 msgstr "Įkelti į:"
 
+msgid "URI Path"
+msgstr ""
+
 msgid "Usage: ImportRdf RDF_FILE [MODEL_ID]"
 msgstr "Naudojimo pavyzdys: ImportRdf RDF_FILE [MODEL_ID]"
+
+msgid "USAGE: please provide a valid extension id as second parameter"
+msgstr ""
+
+msgid "USAGE: please provide a valid service name as first parameter"
+msgstr ""
+
+msgid "USAGE: please provide the service name as first parameter"
+msgstr ""
 
 msgid "Use a term"
 msgstr "Naudoti terminą"

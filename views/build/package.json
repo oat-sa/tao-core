@@ -1,6 +1,7 @@
 {
   "name": "tao-build",
-  "version": "1.0.0",
+  "version": "1.1.0",
+  "license": "GPL-2.0",
   "description": "Client side build tool chain for TAO",
   "scripts": {
     "build": "grunt build --no-color",
@@ -16,7 +17,7 @@
   "devDependencies": {
     "@oat-sa/browserslist-config-tao": "^0.1.0",
     "@oat-sa/eslint-config-tao": "^0.1.0",
-    "@oat-sa/grunt-tao-bundle": "^0.4.2",
+    "@oat-sa/grunt-tao-bundle": "^0.6.0",
     "@oat-sa/tao-e2e-runner": "^0.3.0",
     "almond": "^0.3.3",
     "eslint-plugin-es": "^3.0.0",

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint129\n"
-"PO-Revision-Date: 2020-05-22T08:25:00\n"
+"Project-Id-Version: TAO 3.4.0-sprint133\n"
+"PO-Revision-Date: 2020-07-17T08:38:25\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: sk-SK\n"
@@ -148,6 +148,9 @@ msgstr ""
 msgid "A message with further instructions has been sent to your email address: %s"
 msgstr ""
 
+msgid "About"
+msgstr ""
+
 msgid "abs"
 msgstr ""
 
@@ -215,6 +218,9 @@ msgstr ""
 msgid "Advanced search, add filters"
 msgstr ""
 
+msgid "aliases:"
+msgstr ""
+
 msgid "all"
 msgstr ""
 
@@ -279,7 +285,16 @@ msgstr ""
 msgid "Are you sure you want to delete it?"
 msgstr ""
 
+msgid "Argument check failed: %s"
+msgstr ""
+
+msgid "Arguments %s and %s are mutually exclusive"
+msgstr ""
+
 msgid "Arguments separator"
+msgstr ""
+
+msgid "array"
 msgstr ""
 
 msgid "Assign"
@@ -337,6 +352,9 @@ msgstr ""
 msgid "Binary operator modulo"
 msgstr ""
 
+msgid "boolean"
+msgstr ""
+
 msgid "Browse folders:"
 msgstr ""
 
@@ -386,13 +404,16 @@ msgstr ""
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check All"
-msgstr ""
-
 msgid "Check all"
 msgstr ""
 
+msgid "Check All"
+msgstr ""
+
 msgid "Check-in"
+msgstr ""
+
+msgid "choices:"
 msgstr ""
 
 msgid "Choose a value..."
@@ -461,6 +482,9 @@ msgstr ""
 msgid "Column"
 msgstr ""
 
+msgid "Commands:"
+msgstr ""
+
 msgid "comment..."
 msgstr ""
 
@@ -501,6 +525,9 @@ msgid "cosh"
 msgstr ""
 
 msgid "Cosine"
+msgstr ""
+
+msgid "count"
 msgstr ""
 
 msgid "Create"
@@ -551,6 +578,9 @@ msgstr ""
 msgid "Data not imported. All records are invalid."
 msgstr ""
 
+msgid "Data source URI"
+msgstr ""
+
 msgid "Date"
 msgstr ""
 
@@ -564,6 +594,9 @@ msgid "date time range"
 msgstr ""
 
 msgid "Default search"
+msgstr ""
+
+msgid "default:"
 msgstr ""
 
 msgid "Define the default values"
@@ -595,6 +628,9 @@ msgid "Deleting search index for %s"
 msgstr ""
 
 msgid "Demo Sandbox"
+msgstr ""
+
+msgid "Did you mean %s?"
 msgstr ""
 
 msgid "Digit 0"
@@ -708,6 +744,12 @@ msgid "Error in syntax"
 msgstr ""
 
 msgid "Error in value"
+msgstr ""
+
+msgid "Error: %s"
+msgstr ""
+
+msgid "Examples:"
 msgstr ""
 
 msgid "Exclusive (OR)"
@@ -844,6 +886,9 @@ msgstr ""
 msgid "Fuzzy Matching"
 msgstr ""
 
+msgid "generated-value"
+msgstr ""
+
 msgid "Generis Form"
 msgstr ""
 
@@ -899,6 +944,9 @@ msgid "Identifier"
 msgstr ""
 
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
+msgstr ""
+
+msgid "Implications failed:"
 msgstr ""
 
 msgid "Import"
@@ -979,10 +1027,10 @@ msgstr ""
 msgid "Instance saved"
 msgstr ""
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr ""
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr ""
 
 msgid "Invalid CSP header."
@@ -1024,6 +1072,9 @@ msgstr ""
 msgid "Invalid input for function"
 msgstr ""
 
+msgid "Invalid JSON config file: %s"
+msgstr ""
+
 msgid "Invalid login or password. Please try again."
 msgstr ""
 
@@ -1033,10 +1084,16 @@ msgstr ""
 msgid "invalid regular expression"
 msgstr ""
 
+msgid "Invalid values:"
+msgstr ""
+
 msgid "items per page"
 msgstr ""
 
 msgid "Label"
+msgstr ""
+
+msgid "Label Path"
 msgstr ""
 
 msgid "Language"
@@ -1066,10 +1123,16 @@ msgstr ""
 msgid "List - Multiple choice - Check box"
 msgstr ""
 
+msgid "List - Multiple choice - Search input"
+msgstr ""
+
 msgid "List - Single choice - Drop down"
 msgstr ""
 
 msgid "List - Single choice - Radio button"
+msgstr ""
+
+msgid "List item URI duplications found"
 msgstr ""
 
 msgid "List values"
@@ -1123,7 +1186,19 @@ msgstr ""
 msgid "Logout"
 msgstr ""
 
+msgid "Main Menu"
+msgstr ""
+
+msgid "Maintenance service is already installed."
+msgstr ""
+
 msgid "Maintenance service must have a persistence option."
+msgstr ""
+
+msgid "Maintenance service was installed. Platform is disabled."
+msgstr ""
+
+msgid "Maintenance service was installed. Platform is enabled."
 msgstr ""
 
 msgid "Maintenance storage driver is not set"
@@ -1272,10 +1347,10 @@ msgstr ""
 msgid "no label"
 msgstr ""
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr ""
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr ""
 
 msgid "No results found"
@@ -1285,6 +1360,12 @@ msgid "No Task yet"
 msgstr ""
 
 msgid "Node duplication has failed"
+msgstr ""
+
+msgid "Not enough arguments following: %s"
+msgstr ""
+
+msgid "Not enough non-option arguments: got %s, need at least %s"
 msgstr ""
 
 msgid "Not started"
@@ -1307,6 +1388,9 @@ msgid "notifications drivers aren\'t persistent. use a persistent database stora
 msgstr ""
 
 msgid "Nth root"
+msgstr ""
+
+msgid "number"
 msgstr ""
 
 msgid "Number of elements"
@@ -1544,6 +1628,9 @@ msgstr ""
 msgid "require notification ID"
 msgstr ""
 
+msgid "required"
+msgstr ""
+
 msgid "required length"
 msgstr ""
 
@@ -1675,10 +1762,10 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "select"
+msgid "Select"
 msgstr ""
 
-msgid "Select"
+msgid "select"
 msgstr ""
 
 msgid "Select a class"
@@ -1772,6 +1859,9 @@ msgstr ""
 msgid "Store the value a variable"
 msgstr ""
 
+msgid "string"
+msgstr ""
+
 msgid "Submit"
 msgstr ""
 
@@ -1818,6 +1908,24 @@ msgid "TAO Home"
 msgstr ""
 
 msgid "TAO Login"
+msgstr ""
+
+msgid "TAO platform is already on live mode since %s"
+msgstr ""
+
+msgid "TAO platform is already on maintenance mode since %s"
+msgstr ""
+
+msgid "TAO platform is live since %s."
+msgstr ""
+
+msgid "TAO platform is now live. It was in maintenance since %s"
+msgstr ""
+
+msgid "TAO platform is now under maintenance. It was in maintenance since %s"
+msgstr ""
+
+msgid "TAO platform is under maintenance since %s"
 msgstr ""
 
 msgid "Task %s has been cancelled, message was not processed."
@@ -1967,6 +2075,9 @@ msgstr ""
 msgid "Tokenizer"
 msgstr ""
 
+msgid "Too many non-option arguments: got %s, maximum of %s"
+msgstr ""
+
 msgid "Too many suggestions match your query. Only a few are listed"
 msgstr ""
 
@@ -2066,10 +2177,10 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr ""
 
 msgid "Undefined amount of the pages for pagination"
@@ -2111,7 +2222,19 @@ msgstr ""
 msgid "Upload into:"
 msgstr ""
 
+msgid "URI Path"
+msgstr ""
+
 msgid "Usage: ImportRdf RDF_FILE [MODEL_ID]"
+msgstr ""
+
+msgid "USAGE: please provide a valid extension id as second parameter"
+msgstr ""
+
+msgid "USAGE: please provide a valid service name as first parameter"
+msgstr ""
+
+msgid "USAGE: please provide the service name as first parameter"
 msgstr ""
 
 msgid "Use a term"

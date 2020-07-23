@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint129\n"
-"PO-Revision-Date: 2020-05-22T08:25:54\n"
+"Project-Id-Version: TAO 3.4.0-sprint133\n"
+"PO-Revision-Date: 2020-07-17T08:39:54\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-TW\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " and "
-msgstr " 和 "
-
 msgid " AND "
 msgstr ""
+
+msgid " and "
+msgstr " 和 "
 
 msgid " has been deleted successfully"
 msgstr " 已成功刪除"
@@ -146,6 +146,9 @@ msgid "A maintenance status must have a STATUS: \"%s\" or \"%s"
 msgstr ""
 
 msgid "A message with further instructions has been sent to your email address: %s"
+msgstr ""
+
+msgid "About"
 msgstr ""
 
 msgid "abs"
@@ -368,11 +371,11 @@ msgstr ""
 msgid "Calendar"
 msgstr "日曆"
 
-msgid "cancel"
-msgstr ""
-
 msgid "Cancel"
 msgstr "取消"
+
+msgid "cancel"
+msgstr ""
 
 msgid "cancel the action"
 msgstr ""
@@ -447,10 +450,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
 msgid "Clear selection"
@@ -567,13 +570,16 @@ msgstr "數據已成功匯入"
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data language"
-msgstr "數據語言"
-
 msgid "Data Language"
 msgstr "數據語言"
 
+msgid "Data language"
+msgstr "數據語言"
+
 msgid "Data not imported. All records are invalid."
+msgstr ""
+
+msgid "Data source URI"
 msgstr ""
 
 msgid "Date"
@@ -740,6 +746,9 @@ msgid "Error in syntax"
 msgstr ""
 
 msgid "Error in value"
+msgstr ""
+
+msgid "Error: %s"
 msgstr ""
 
 msgid "Examples:"
@@ -1020,10 +1029,10 @@ msgstr "正在安裝擴展程序 %s..."
 msgid "Instance saved"
 msgstr "實體已儲存"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "介面語言"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "介面語言"
 
 msgid "Invalid CSP header."
@@ -1086,6 +1095,9 @@ msgstr ""
 msgid "Label"
 msgstr "標籤"
 
+msgid "Label Path"
+msgstr ""
+
 msgid "Language"
 msgstr "語言"
 
@@ -1113,11 +1125,17 @@ msgstr "清單"
 msgid "List - Multiple choice - Check box"
 msgstr "清單 - 選擇題 - 複選框"
 
+msgid "List - Multiple choice - Search input"
+msgstr ""
+
 msgid "List - Single choice - Drop down"
 msgstr "清單 - 單項選擇 - 下拉"
 
 msgid "List - Single choice - Radio button"
 msgstr "清單 - 單項選擇 - 按鈕"
+
+msgid "List item URI duplications found"
+msgstr ""
 
 msgid "List values"
 msgstr ""
@@ -1170,7 +1188,19 @@ msgstr ""
 msgid "Logout"
 msgstr ""
 
+msgid "Main Menu"
+msgstr ""
+
+msgid "Maintenance service is already installed."
+msgstr ""
+
 msgid "Maintenance service must have a persistence option."
+msgstr ""
+
+msgid "Maintenance service was installed. Platform is disabled."
+msgstr ""
+
+msgid "Maintenance service was installed. Platform is enabled."
 msgstr ""
 
 msgid "Maintenance storage driver is not set"
@@ -1319,10 +1349,10 @@ msgstr "無檔案"
 msgid "no label"
 msgstr "無標籤"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "沒有可用的預覽"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "沒有可用的預覽"
 
 msgid "No results found"
@@ -1734,10 +1764,10 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "select"
+msgid "Select"
 msgstr "選擇"
 
-msgid "Select"
+msgid "select"
 msgstr "選擇"
 
 msgid "Select a class"
@@ -1881,6 +1911,24 @@ msgstr "TAO 首頁"
 
 msgid "TAO Login"
 msgstr "TAO 登入"
+
+msgid "TAO platform is already on live mode since %s"
+msgstr ""
+
+msgid "TAO platform is already on maintenance mode since %s"
+msgstr ""
+
+msgid "TAO platform is live since %s."
+msgstr ""
+
+msgid "TAO platform is now live. It was in maintenance since %s"
+msgstr ""
+
+msgid "TAO platform is now under maintenance. It was in maintenance since %s"
+msgstr ""
+
+msgid "TAO platform is under maintenance since %s"
+msgstr ""
 
 msgid "Task %s has been cancelled, message was not processed."
 msgstr ""
@@ -2176,7 +2224,19 @@ msgstr "上傳"
 msgid "Upload into:"
 msgstr "上傳到:"
 
+msgid "URI Path"
+msgstr ""
+
 msgid "Usage: ImportRdf RDF_FILE [MODEL_ID]"
+msgstr ""
+
+msgid "USAGE: please provide a valid extension id as second parameter"
+msgstr ""
+
+msgid "USAGE: please provide a valid service name as first parameter"
+msgstr ""
+
+msgid "USAGE: please provide the service name as first parameter"
 msgstr ""
 
 msgid "Use a term"

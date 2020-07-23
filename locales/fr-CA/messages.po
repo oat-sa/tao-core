@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint129\n"
-"PO-Revision-Date: 2020-05-22T08:22:20\n"
+"Project-Id-Version: TAO 3.4.0-sprint133\n"
+"PO-Revision-Date: 2020-07-17T08:34:08\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-CA\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " and "
-msgstr " et "
-
 msgid " AND "
 msgstr ""
+
+msgid " and "
+msgstr " et "
 
 msgid " has been deleted successfully"
 msgstr " a été supprimé avec succès."
@@ -147,6 +147,9 @@ msgstr ""
 
 msgid "A message with further instructions has been sent to your email address: %s"
 msgstr "Un message avec des instructions a été envoyée vers votre adresse courriel: %s"
+
+msgid "About"
+msgstr ""
 
 msgid "abs"
 msgstr ""
@@ -368,11 +371,11 @@ msgstr ""
 msgid "Calendar"
 msgstr "Calendrier"
 
-msgid "cancel"
-msgstr ""
-
 msgid "Cancel"
 msgstr "Annuler"
+
+msgid "cancel"
+msgstr ""
 
 msgid "cancel the action"
 msgstr ""
@@ -447,10 +450,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
 msgid "Clear selection"
@@ -567,13 +570,16 @@ msgstr "Données importées avec succès."
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data language"
-msgstr "Langue des données"
-
 msgid "Data Language"
 msgstr "Langue des données"
 
+msgid "Data language"
+msgstr "Langue des données"
+
 msgid "Data not imported. All records are invalid."
+msgstr ""
+
+msgid "Data source URI"
 msgstr ""
 
 msgid "Date"
@@ -740,6 +746,9 @@ msgid "Error in syntax"
 msgstr ""
 
 msgid "Error in value"
+msgstr ""
+
+msgid "Error: %s"
 msgstr ""
 
 msgid "Examples:"
@@ -1020,10 +1029,10 @@ msgstr "Installation de l'extension %s..."
 msgid "Instance saved"
 msgstr "Instance enregistrée"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "Langue de l'interface"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "Langue de l'interface"
 
 msgid "Invalid CSP header."
@@ -1086,6 +1095,9 @@ msgstr ""
 msgid "Label"
 msgstr "Libellé"
 
+msgid "Label Path"
+msgstr ""
+
 msgid "Language"
 msgstr "Langue"
 
@@ -1113,11 +1125,17 @@ msgstr "Liste"
 msgid "List - Multiple choice - Check box"
 msgstr "Liste - Choix multiple - Case à cocher"
 
+msgid "List - Multiple choice - Search input"
+msgstr ""
+
 msgid "List - Single choice - Drop down"
 msgstr "Liste - Choix unique - Liste déroulante"
 
 msgid "List - Single choice - Radio button"
 msgstr "Liste - Choix multiple - Bouton radio"
+
+msgid "List item URI duplications found"
+msgstr ""
 
 msgid "List values"
 msgstr ""
@@ -1170,7 +1188,19 @@ msgstr ""
 msgid "Logout"
 msgstr ""
 
+msgid "Main Menu"
+msgstr ""
+
+msgid "Maintenance service is already installed."
+msgstr ""
+
 msgid "Maintenance service must have a persistence option."
+msgstr ""
+
+msgid "Maintenance service was installed. Platform is disabled."
+msgstr ""
+
+msgid "Maintenance service was installed. Platform is enabled."
 msgstr ""
 
 msgid "Maintenance storage driver is not set"
@@ -1319,10 +1349,10 @@ msgstr "Aucun fichier"
 msgid "no label"
 msgstr "sans étiquette"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "Aucun aperçu disponible"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "Aucun aperçu disponible"
 
 msgid "No results found"
@@ -1734,11 +1764,11 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "select"
-msgstr "choisir"
-
 msgid "Select"
 msgstr "Choisir"
+
+msgid "select"
+msgstr "choisir"
 
 msgid "Select a class"
 msgstr ""
@@ -1881,6 +1911,24 @@ msgstr "Menu principal TAO"
 
 msgid "TAO Login"
 msgstr "Connexion à TAO"
+
+msgid "TAO platform is already on live mode since %s"
+msgstr ""
+
+msgid "TAO platform is already on maintenance mode since %s"
+msgstr ""
+
+msgid "TAO platform is live since %s."
+msgstr ""
+
+msgid "TAO platform is now live. It was in maintenance since %s"
+msgstr ""
+
+msgid "TAO platform is now under maintenance. It was in maintenance since %s"
+msgstr ""
+
+msgid "TAO platform is under maintenance since %s"
+msgstr ""
 
 msgid "Task %s has been cancelled, message was not processed."
 msgstr ""
@@ -2176,7 +2224,19 @@ msgstr "Téléverser"
 msgid "Upload into:"
 msgstr "Envoyer vers :"
 
+msgid "URI Path"
+msgstr ""
+
 msgid "Usage: ImportRdf RDF_FILE [MODEL_ID]"
+msgstr ""
+
+msgid "USAGE: please provide a valid extension id as second parameter"
+msgstr ""
+
+msgid "USAGE: please provide a valid service name as first parameter"
+msgstr ""
+
+msgid "USAGE: please provide the service name as first parameter"
 msgstr ""
 
 msgid "Use a term"

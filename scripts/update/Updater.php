@@ -150,6 +150,7 @@ use oat\tao\scripts\install\RegisterClassPropertyRemovedListener;
 use oat\tao\scripts\install\RegisterClassPropertiesChangedEvent;
 use oat\tao\scripts\install\RegisterClassPropertiesChangedEventListener;
 use oat\tao\scripts\install\RegisterSignatureGenerator;
+use oat\tao\scripts\install\RegisterValueCollectionServices;
 use oat\tao\scripts\install\SetClientLoggerConfig;
 use oat\tao\scripts\install\UpdateRequiredActionUrl;
 use oat\tao\scripts\tools\MigrateSecuritySettings;
@@ -158,6 +159,7 @@ use tao_models_classes_UserService;
 /**
  *
  * @author Joel Bout <joel@taotesting.com>
+ * @deprecated use migrations instead. See https://github.com/oat-sa/generis/wiki/Tao-Update-Process
  */
 class Updater extends \common_ext_ExtensionUpdater
 {
@@ -1368,28 +1370,19 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('42.11.0');
         }
 
-        $this->skip('42.11.0', '44.0.0');
-        $this->skip('42.0.4', '42.11.0');
+        $this->skip('42.11.0', '44.1.1');
 
-        //TODO - Change versions when merging to develop
-        if ($this->isVersion('42.11.0')) {
-            $registerPropertiesChangedEvent = new RegisterClassPropertiesChangedEvent();
-            $registerPropertiesChangedEvent->setServiceLocator($this->getServiceManager());
-            $registerPropertiesChangedEvent->__invoke([]);
+        if ($this->isVersion('44.1.1')) {
+            $this->runExtensionScript(RegisterValueCollectionServices::class);
 
-            $registerPropertiesChangedEventListener = new RegisterClassPropertiesChangedEventListener();
-            $registerPropertiesChangedEventListener->setServiceLocator($this->getServiceManager());
-            $registerPropertiesChangedEventListener->__invoke([]);
-
-            $registerClassPropertyRemovedEvent = new RegisterClassPropertyRemovedEvent();
-            $registerClassPropertyRemovedEvent->setServiceLocator($this->getServiceManager());
-            $registerClassPropertyRemovedEvent->__invoke([]);
-
-            $registerClassPropertyRemovedListener = new RegisterClassPropertyRemovedListener();
-            $registerClassPropertyRemovedListener->setServiceLocator($this->getServiceManager());
-            $registerClassPropertyRemovedListener->__invoke([]);
-
-            $this->setVersion('42.12.0');
+            $this->setVersion('44.2.0');
         }
+
+        $this->skip('44.2.0', '44.4.0');
+
+        //Updater files are deprecated. Please use migrations.
+        //See: https://github.com/oat-sa/generis/wiki/Tao-Update-Process
+
+        $this->setVersion($this->getExtension()->getManifest()->getVersion());
     }
 }

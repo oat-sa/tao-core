@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint129\n"
-"PO-Revision-Date: 2020-05-22T08:24:18\n"
+"Project-Id-Version: TAO 3.4.0-sprint133\n"
+"PO-Revision-Date: 2020-07-17T08:37:14\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nl-NL\n"
@@ -16,10 +16,10 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " and "
+msgid " AND "
 msgstr " en "
 
-msgid " AND "
+msgid " and "
 msgstr " en "
 
 msgid " has been deleted successfully"
@@ -147,6 +147,9 @@ msgstr "Een onderhoudsstatus moet een STATUS hebben: \"%s\" of \"%s\"."
 
 msgid "A message with further instructions has been sent to your email address: %s"
 msgstr "Een bericht met verdere instructies is gestuurd naar uw e-mail adres: %s"
+
+msgid "About"
+msgstr ""
 
 msgid "abs"
 msgstr "abs"
@@ -368,11 +371,11 @@ msgstr "Rekenmachine"
 msgid "Calendar"
 msgstr "Kalender"
 
-msgid "cancel"
-msgstr "afbreken"
-
 msgid "Cancel"
 msgstr "Afbreken"
+
+msgid "cancel"
+msgstr "afbreken"
 
 msgid "cancel the action"
 msgstr "breek de actie af"
@@ -447,10 +450,10 @@ msgstr "Alle gegevens wissen"
 msgid "Clear expression"
 msgstr "Expressie wissen"
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr "Historie wissen"
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr "Historie wissen"
 
 msgid "Clear selection"
@@ -567,14 +570,17 @@ msgstr "Data is succesvol geïmporteerd"
 msgid "Data imported. Some records are invalid."
 msgstr "Data is geïmporteerd. Sommige records zijn ongeldig."
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "Data taal"
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "Data taal"
 
 msgid "Data not imported. All records are invalid."
 msgstr "Data is niet geïmporteerd. Alle records zijn ongeldig."
+
+msgid "Data source URI"
+msgstr ""
 
 msgid "Date"
 msgstr "Datum"
@@ -741,6 +747,9 @@ msgstr "Fout in syntaxis"
 
 msgid "Error in value"
 msgstr "Fout in waarde"
+
+msgid "Error: %s"
+msgstr ""
 
 msgid "Examples:"
 msgstr ""
@@ -1020,10 +1029,10 @@ msgstr "Geïnstalleerde extensie %s..."
 msgid "Instance saved"
 msgstr "Instantie is opgeslagen"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "Taal van de omgeving"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "Taal van de omgeving"
 
 msgid "Invalid CSP header."
@@ -1086,6 +1095,9 @@ msgstr ""
 msgid "Label"
 msgstr "Label"
 
+msgid "Label Path"
+msgstr ""
+
 msgid "Language"
 msgstr "Taal"
 
@@ -1113,11 +1125,17 @@ msgstr "Lijst"
 msgid "List - Multiple choice - Check box"
 msgstr "Lijst - Meerkeuze - Selectievakje"
 
+msgid "List - Multiple choice - Search input"
+msgstr ""
+
 msgid "List - Single choice - Drop down"
 msgstr "Lijst - Enkele keuze - Keuzelijst"
 
 msgid "List - Single choice - Radio button"
 msgstr "Lijst - Enkele keuze - Radioknop"
+
+msgid "List item URI duplications found"
+msgstr ""
 
 msgid "List values"
 msgstr ""
@@ -1170,8 +1188,20 @@ msgstr "Logi is leeg."
 msgid "Logout"
 msgstr "Afmelden"
 
+msgid "Main Menu"
+msgstr ""
+
+msgid "Maintenance service is already installed."
+msgstr ""
+
 msgid "Maintenance service must have a persistence option."
 msgstr "De onderhoudsservice moet een persistentiemogelijkheid hebben."
+
+msgid "Maintenance service was installed. Platform is disabled."
+msgstr ""
+
+msgid "Maintenance service was installed. Platform is enabled."
+msgstr ""
 
 msgid "Maintenance storage driver is not set"
 msgstr ""
@@ -1319,10 +1349,10 @@ msgstr "Geen bestanden"
 msgid "no label"
 msgstr "geen label"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "Geen voorbeeld beschikbaar"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "Geen voorbeeld beschikbaar"
 
 msgid "No results found"
@@ -1734,11 +1764,11 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "select"
-msgstr "selecteren"
-
 msgid "Select"
 msgstr "Selecteren"
+
+msgid "select"
+msgstr "selecteren"
 
 msgid "Select a class"
 msgstr ""
@@ -1881,6 +1911,24 @@ msgstr "TAO thuis"
 
 msgid "TAO Login"
 msgstr "TAO login"
+
+msgid "TAO platform is already on live mode since %s"
+msgstr ""
+
+msgid "TAO platform is already on maintenance mode since %s"
+msgstr ""
+
+msgid "TAO platform is live since %s."
+msgstr ""
+
+msgid "TAO platform is now live. It was in maintenance since %s"
+msgstr ""
+
+msgid "TAO platform is now under maintenance. It was in maintenance since %s"
+msgstr ""
+
+msgid "TAO platform is under maintenance since %s"
+msgstr ""
 
 msgid "Task %s has been cancelled, message was not processed."
 msgstr "Taak %s is geannuleerd, bericht is niet verwerkt."
@@ -2176,8 +2224,20 @@ msgstr "Uploaden"
 msgid "Upload into:"
 msgstr "Uploaden naar:"
 
+msgid "URI Path"
+msgstr ""
+
 msgid "Usage: ImportRdf RDF_FILE [MODEL_ID]"
 msgstr "Gebruik: ImportRdf RDF_FILE [MODEL_ID]"
+
+msgid "USAGE: please provide a valid extension id as second parameter"
+msgstr ""
+
+msgid "USAGE: please provide a valid service name as first parameter"
+msgstr ""
+
+msgid "USAGE: please provide the service name as first parameter"
+msgstr ""
 
 msgid "Use a term"
 msgstr ""
