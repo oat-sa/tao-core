@@ -25,6 +25,7 @@ use oat\generis\model\OntologyRdf;
 use oat\generis\model\OntologyRdfs;
 use oat\generis\model\WidgetRdf;
 use oat\tao\helpers\form\elements\TreeAware;
+use oat\tao\helpers\form\elements\xhtml\SearchDropdown;
 use oat\tao\helpers\form\elements\xhtml\SearchTextBox;
 use oat\tao\helpers\form\ValidationRuleRegistry;
 use oat\tao\model\TaoOntology;
@@ -336,6 +337,12 @@ class tao_helpers_form_GenerisFormFactory
                 'widget'    => SearchTextBox::WIDGET_ID,
                 'range'     => OntologyRdfs::RDFS_RESOURCE,
                 'multiple'  => GenerisRdf::GENERIS_TRUE
+            ],
+            'singlesearchlist' => [
+                'title'     => __('List - Single choice - Search input'),
+                'widget'    => SearchDropdown::WIDGET_ID,
+                'range'     => OntologyRdfs::RDFS_RESOURCE,
+                'multiple'  => GenerisRdf::GENERIS_FALSE
             ],
             'calendar' => [
                 'title'     => __('Calendar'),

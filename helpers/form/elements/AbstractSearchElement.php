@@ -26,10 +26,8 @@ namespace oat\tao\helpers\form\elements;
 use tao_helpers_form_FormElement;
 use tao_helpers_Uri;
 
-abstract class AbstractSearchTextBox extends tao_helpers_form_FormElement
+abstract class AbstractSearchElement extends tao_helpers_form_FormElement
 {
-    public const WIDGET_ID = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#SearchTextBox';
-
     protected const VALUE_DELIMITER = ',';
 
     /** @var string[] */
