@@ -189,6 +189,8 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
             $user = $this->getUserFactoryService()->createUser($this->getResource($task->getOwner()));
             $session = new StatelessSession($user);
             $sessionService->setSession($session);
+        } else if (!$task->getOwner()) {
+            \common_session_SessionManager::endSession();
         }
     }
 
