@@ -23,15 +23,14 @@ declare(strict_types=1);
 
 namespace oat\tao\helpers\form\elements;
 
-use oat\generis\model\WidgetRdf;
 use tao_helpers_form_FormElement;
 use tao_helpers_Uri;
 
 abstract class AbstractSearchTextBox extends tao_helpers_form_FormElement
 {
-    protected const VALUE_DELIMITER = ',';
+    public const WIDGET_ID = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#SearchTextBox';
 
-    protected $widget = WidgetRdf::PROPERTY_WIDGET_SEARCH_BOX;
+    protected const VALUE_DELIMITER = ',';
 
     /** @var string[] */
     protected $values = [];

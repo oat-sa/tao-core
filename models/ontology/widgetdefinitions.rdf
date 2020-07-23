@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<rdf:RDF
+        xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+        xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+        xml:base="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#"
+        xmlns:widget="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#"
+>
+    <rdf:Description rdf:about="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#SearchTextBox">
+        <rdf:type rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#WidgetClass"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[Search Input]]></rdfs:label>
+        <rdfs:comment xml:lang="en-US"><![CDATA[One may select 0 to N values from a defined list]]></rdfs:comment>
+        <widget:rangeConstraint rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#rangeConstraint-Resource"/>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Label">
+        <rdf:type rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#WidgetClass"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[Text Label]]></rdfs:label>
+        <rdfs:comment xml:lang="en-US"><![CDATA[Content is read only]]></rdfs:comment>
+        <widget:rangeConstraint rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#rangeConstraint-Literal"/>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ViewableHiddenBox">
+        <rdf:type rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#WidgetClass"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[Hidden Box]]></rdfs:label>
+        <rdfs:comment xml:lang="en-US"><![CDATA[Content is hidden, but visibility can be toggled]]></rdfs:comment>
+        <widget:rangeConstraint rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#rangeConstraint-Literal"/>
+        <widget:textHeight><![CDATA[1]]></widget:textHeight>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Calendar">
+        <rdf:type rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#WidgetClass"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[Calendar]]></rdfs:label>
+        <rdfs:comment xml:lang="en-US"><![CDATA[Dynamic Calendar for easy date selecting]]></rdfs:comment>
+        <widget:rangeConstraint rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#rangeConstraint-Literal"/>
+        <widget:textHeight><![CDATA[1]]></widget:textHeight>
+        <widget:textLength><![CDATA[3]]></widget:textLength>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Authoring">
+        <rdf:type rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#WidgetClass"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[Authoring]]></rdfs:label>
+        <rdfs:comment xml:lang="en-US"><![CDATA[Open a tool to edit special content]]></rdfs:comment>
+        <widget:rangeConstraint rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#rangeConstraint-Resource"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#VersionedFile">
+        <rdf:type rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#WidgetClass"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[VersionedFile]]></rdfs:label>
+        <rdfs:comment xml:lang="en-US"><![CDATA[Manage your versioned file]]></rdfs:comment>
+        <widget:rangeConstraint rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#rangeConstraint-Resource"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#AsyncFile">
+        <rdf:type rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#WidgetClass"/>
+        <widget:identifier><![CDATA[AsyncFile]]></widget:identifier>
+        <rdfs:label xml:lang="en-US"><![CDATA[File]]></rdfs:label>
+        <rdfs:comment xml:lang="en-US"><![CDATA[Upload and download file]]></rdfs:comment>
+        <widget:rangeConstraint rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#rangeConstraint-Resource"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#AsyncFileXhtmlRenderer">
+        <rdf:type rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#WidgetRenderer"/>
+        <widget:renderedWidget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#AsyncFile"/>
+        <widget:renderMode><![CDATA[xhtml]]></widget:renderMode>
+        <widget:implementation><![CDATA[tao_helpers_form_elements_xhtml_AsyncFile]]></widget:implementation>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#GenerisAsyncFile">
+        <rdf:type rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#WidgetClass"/>
+        <widget:identifier><![CDATA[GenerisAsyncFile]]></widget:identifier>
+        <rdfs:label xml:lang="en-US"><![CDATA[File]]></rdfs:label>
+        <rdfs:comment xml:lang="en-US"><![CDATA[Upload and download file]]></rdfs:comment>
+        <widget:rangeConstraint rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#rangeConstraint-Resource"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#GenerisAsyncFileXhtmlRenderer">
+        <rdf:type rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#WidgetRenderer"/>
+        <widget:renderedWidget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#GenerisAsyncFile"/>
+        <widget:renderMode><![CDATA[xhtml]]></widget:renderMode>
+        <widget:implementation><![CDATA[tao_helpers_form_elements_xhtml_GenerisAsyncFile]]></widget:implementation>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Readonly">
+        <rdf:type rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#WidgetClass"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[Readonly]]></rdfs:label>
+        <rdfs:comment xml:lang="en-US"><![CDATA[Display a constant and uneditable value]]></rdfs:comment>
+        <widget:rangeConstraint rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#rangeConstraint-Literal"/>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ReadonlyLiteral">
+        <rdf:type rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#WidgetClass"/>
+        <widget:identifier><![CDATA[ReadonlyLiteral]]></widget:identifier>
+        <rdfs:label xml:lang="en-US"><![CDATA[Literal Readonly]]></rdfs:label>
+        <rdfs:comment xml:lang="en-US"><![CDATA[Display a literal constant and uneditable value]]></rdfs:comment>
+        <widget:rangeConstraint rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#rangeConstraint-Literal"/>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ReadonlyLiteralXhtmlRenderer">
+        <rdf:type rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#WidgetRenderer"/>
+        <widget:renderedWidget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ReadonlyLiteral"/>
+        <widget:renderMode><![CDATA[xhtml]]></widget:renderMode>
+        <widget:implementation><![CDATA[tao_helpers_form_elements_xhtml_ReadonlyLiteral]]></widget:implementation>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TreeBox">
+        <rdf:type rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#WidgetClass"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[A Tree Box]]></rdfs:label>
+        <rdfs:comment xml:lang="en-US"><![CDATA[A particular tree box]]></rdfs:comment>
+        <widget:rangeConstraint rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#rangeConstraint-Literal"/>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#JsonObject">
+        <rdf:type rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#WidgetClass"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[Json Object]]></rdfs:label>
+        <rdfs:comment xml:lang="en-US"><![CDATA[Display a Json Object stored as a literal value as a collection of key/value pairs.]]></rdfs:comment>
+        <widget:identifier><![CDATA[jsonObject]]></widget:identifier>
+        <widget:rangeConstraint rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#rangeConstraint-Literal"/>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#JsonObjectXhtmlRenderer">
+        <rdf:type rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#WidgetRenderer"/>
+        <widget:renderedWidget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#JsonObject"/>
+        <widget:renderMode><![CDATA[xhtml]]></widget:renderMode>
+        <widget:implementation><![CDATA[tao_helpers_form_elements_xhtml_JsonObject]]></widget:implementation>
+    </rdf:Description>
+</rdf:RDF>
