@@ -52,8 +52,7 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
         WidgetDefinitions::PROPERTY_CHECKBOX,
         WidgetDefinitions::PROPERTY_COMBOBOX,
         WidgetDefinitions::PROPERTY_RADIOBOX,
-        WidgetDefinitions::PROPERTY_RADIOBOX,
-        WidgetRdf::PROPERTY_WIDGET_SEARCH_BOX,
+        WidgetDefinitions::PROPERTY_SEARCHTEXTBOX,
     ];
 
     /**
