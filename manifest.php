@@ -62,10 +62,10 @@ return [
     'label' => 'TAO Base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '44.13.2',
+    'version' => '45.1.2',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => [
-        'generis' => '>=12.31.0',
+        'generis' => '>=13.0.0',
     ],
     'models' => [
         'http://www.tao.lu/Ontologies/TAO.rdf',
@@ -80,7 +80,7 @@ return [
             __DIR__ . '/models/ontology/services.rdf',
             __DIR__ . '/models/ontology/indexation.rdf',
             __DIR__ . '/models/ontology/model.rdf',
-            __DIR__ . '/models/ontology/widegetdefinitions.rdf',
+            __DIR__ . '/models/ontology/widgetdefinitions.rdf',
             __DIR__ . '/models/ontology/requiredaction.rdf',
             __DIR__ . '/models/ontology/auth/basicauth.rdf',
             __DIR__ . '/models/ontology/userlocks.rdf'
