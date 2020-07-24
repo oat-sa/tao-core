@@ -21,11 +21,7 @@
 
 namespace oat\tao\helpers\form\elements;
 
-use oat\tao\model\TaoOntology;
 use tao_helpers_form_elements_MultipleElement;
-use core_kernel_classes_Property;
-use core_kernel_classes_Resource;
-use tao_helpers_Uri;
 use oat\tao\helpers\form\ValidationRuleRegistry;
 
 /**
@@ -36,30 +32,19 @@ use oat\tao\helpers\form\ValidationRuleRegistry;
  */
 abstract class Validators extends tao_helpers_form_elements_MultipleElement
 {
+    public const WIDGET_ID = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ValidationSelector';
 
-    /**
-     * @todo should be a constant
-     * @var string
-     */
-    protected $widget = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ValidationSelector';
-    
     /**
      * (non-PHPdoc)
      * @see tao_helpers_form_elements_MultipleElement::getOptions()
      */
     public function getOptions()
     {
-        $options = parent::getOptions();
-        
-        $statusProperty = new core_kernel_classes_Property(TaoOntology::PROPERTY_ABSTRACT_MODEL_STATUS);
-        $current = $this->getEvaluatedValue();
-                    
         $options = [];
-        $map = ValidationRuleRegistry::getRegistry()->getMap();
         foreach (ValidationRuleRegistry::getRegistry()->getMap() as $id => $validator) {
             $options[$id] = $id;
         }
-        
+
         return $options;
     }
 

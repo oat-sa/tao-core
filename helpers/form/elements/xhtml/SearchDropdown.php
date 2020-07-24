@@ -23,12 +23,22 @@ declare(strict_types=1);
 
 namespace oat\tao\helpers\form\elements\xhtml;
 
-class SearchTextBox extends AbstractXhtmlSearchElement
+class SearchDropdown extends AbstractXhtmlSearchElement
 {
-    public const WIDGET_ID = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#SearchTextBox';
+    public const WIDGET_ID = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#SearchDropdown';
 
     protected function isMultiValue(): bool
     {
-        return true;
+        return false;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setValue($value): void
+    {
+        $this->values = [];
+
+        parent::setValue($value);
     }
 }

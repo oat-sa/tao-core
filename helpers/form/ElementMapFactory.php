@@ -34,6 +34,9 @@ use oat\tao\model\Lists\Business\Input\ValueCollectionSearchInput;
 use oat\tao\model\Lists\Business\Service\ValueCollectionService;
 use oat\tao\model\TaoOntology;
 use tao_helpers_Context;
+use tao_helpers_form_elements_AsyncFile as AsyncFile;
+use tao_helpers_form_elements_Authoring as Authoring;
+use tao_helpers_form_elements_GenerisAsyncFile as GenerisAsyncFile;
 use tao_helpers_form_FormElement;
 use tao_helpers_form_FormFactory;
 use tao_helpers_Uri;
@@ -57,17 +60,15 @@ class ElementMapFactory extends ConfigurableService
 
         //authoring widget is not used in standalone mode
         if (
-            $widgetUri === 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Authoring'
+            $widgetUri === Authoring::WIDGET_ID
             && tao_helpers_Context::check('STANDALONE_MODE')
         ) {
             return null;
         }
 
         // horrible hack to fix file widget
-        if ($widgetUri === 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#AsyncFile') {
-            $widgetResource = new core_kernel_classes_Resource(
-                'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#GenerisAsyncFile'
-            );
+        if ($widgetUri === AsyncFile::WIDGET_ID) {
+            $widgetResource = new core_kernel_classes_Resource(GenerisAsyncFile::WIDGET_ID);
         }
 
         $element = tao_helpers_form_FormFactory::getElementByWidget(
