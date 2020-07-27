@@ -86,7 +86,7 @@ abstract class AbstractStatementMigrationTask implements Action, ServiceLocatorA
 
         iterator_apply($iterator, [$this, 'applyProcessor'], [$iterator, $this->pickSize, $this->affected]);
 
-        if ($$processAllStatements) {
+        if ($processAllStatements) {
             $nStart = $end + 1;
             if ($nStart + $chunkSize <= $max) {
                 $this->respawnTask($nStart, $chunkSize, $this->pickSize);
