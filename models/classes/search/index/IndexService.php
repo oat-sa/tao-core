@@ -100,11 +100,15 @@ class IndexService extends ConfigurableService
      */
     public function createDocumentFromArray($array = []): IndexDocument
     {
-        if (!isset($array['body'])) {
-            throw new \common_exception_MissingParameter('body');
+        if (!isset($array['body']['type'])) {
+            throw new \common_exception_MissingParameter('body[type]');
         }
         if (!isset($array['id'])) {
             throw new \common_exception_MissingParameter('id');
+        }
+
+        if (is_string($array['body']['type'])) {
+            $array['body']['type'] = [$array['body']['type']];
         }
 
         return $this->getDocumentBuilder()->createDocumentFromArray($array);
