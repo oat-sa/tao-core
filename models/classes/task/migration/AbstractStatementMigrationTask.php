@@ -53,40 +53,43 @@ abstract class AbstractStatementMigrationTask implements Action, ServiceLocatorA
     private $pickSize;
 
     /** @var common_report_Report */
-    private $anomalies;
+    private $errorReport;
 
     abstract protected function getUnitProcessor(): StatementUnitProcessorInterface;
 
     public function __invoke($params)
     {
-        if (count($params) < 4) {
+        if (
+            !array_key_exists('start', $params) &&
+            !array_key_exists('chunkSize', $params) &&
+            !array_key_exists('pickSize', $params) &&
+            !array_key_exists('repeat', $params)
+        ) {
             throw new common_exception_MissingParameter();
         }
-        $start = array_shift($params);
-        $chunkSize = array_shift($params);
-        $this->pickSize = $pickSize = array_shift($params);
-        $slideToTheStatementsEnd = (bool)array_shift($params);
+
+        $this->errorReport = common_report_Report::createInfo('Watching for an error');
+
+        $start = (int)$params['start'];
+        $chunkSize = (int )$params['chunkSize'];
+        $this->pickSize = (int)$params['pickSize'];
+        $processAllStatements = (bool)$params['repeat'];
 
         $max = $this->getLastRowNumber();
 
-        $this->getServiceLocator()->get(PositionTracker::class)->keepCurrentPosition(static::class, $start);
+        $this->getPositionTracker()->keepCurrentPosition(static::class, $start);
 
-        $end = $start + $chunkSize;
+        $end = $this->calculateEndPosition($start, $chunkSize, $max);
+        $targetClasses = $this->getUnitProcessor()->getTargetClasses();
 
-        if ($end >= $max) {
-            $end = $max;
-        }
+        $iterator = $this->getStatementTaskIterator()->getIterator($targetClasses, $start, $end);
 
-        $targetClasses = $this->getTargetClasses();
-        $this->initAnomaliesCollector();
-        $iterator = $this->getServiceLocator()->get(StatementTaskIterator::class)->getIterator($targetClasses, $start, $end);
+        iterator_apply($iterator, [$this, 'applyProcessor'], [$iterator, $this->pickSize, $this->affected]);
 
-        iterator_apply($iterator, [$this, 'applyProcessor'], [$iterator, $pickSize, $this->affected]);
-
-        if ($slideToTheStatementsEnd) {
+        if ($$processAllStatements) {
             $nStart = $end + 1;
             if ($nStart + $chunkSize <= $max) {
-                $this->respawnTask($nStart, $chunkSize, $pickSize);
+                $this->respawnTask($nStart, $chunkSize, $this->pickSize);
             }
         }
 
@@ -94,8 +97,8 @@ abstract class AbstractStatementMigrationTask implements Action, ServiceLocatorA
             sprintf("Units in range from %s to %s proceeded in amount of %s", $start, $end, $this->affected)
         );
 
-        if ($this->anomalies->hasChildren()) {
-            $report->add($this->anomalies);
+        if ($this->errorReport->containsError()) {
+            $report->add($this->errorReport);
         }
 
         return $report;
@@ -109,14 +112,16 @@ abstract class AbstractStatementMigrationTask implements Action, ServiceLocatorA
         $id = $unit['id'];
         $subject = $unit['subject'];
 
+        $this->logDebug(sprintf('%s processing %s as %s', static::class, $id, $subject));
+
         try {
-            $this->logDebug(sprintf('%s processing %s as %s', static::class, $id, $subject));
-
             $this->processUnit($unit);
-
-            ++$this->affected;
         } catch (Throwable $exception) {
-            $this->addAnomaly($id, $subject, $exception->getMessage());
+            $this->errorReport->add(
+                new common_report_Report(
+                    common_report_Report::TYPE_WARNING, $exception->getMessage(), [$id, $subject]
+                )
+            );
         }
 
         return $this->pickSize ? $this->affected < $this->pickSize : true;
@@ -128,7 +133,7 @@ abstract class AbstractStatementMigrationTask implements Action, ServiceLocatorA
         $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcherInterface::SERVICE_ID);
         return $queueDispatcher->createTask(
             new static(),
-            [$start, $chunkSize, $pickSize, $repeat],
+            ['start' => $start, 'chunkSize' => $chunkSize, 'pickSize' => $pickSize, 'repeat' => $repeat],
             sprintf(
                 'Unit processing by %s started from %s with chunk size of %s',
                 self::class,
@@ -138,28 +143,34 @@ abstract class AbstractStatementMigrationTask implements Action, ServiceLocatorA
         );
     }
 
+    private function processUnit(array $unit): void
+    {
+        $this->getUnitProcessor()->process(new StatementUnit($unit['subject']));
+        ++$this->affected;
+    }
+
+    private function calculateEndPosition(int $start, int $chunkSize, int $max): int
+    {
+        $end = $start + $chunkSize;
+
+        if ($end >= $max) {
+            $end = $max;
+        }
+        return $end;
+    }
+
     private function getLastRowNumber(): int
     {
         return $this->getServiceLocator()->get(StatementLastIdRetriever::class)->retrieve();
     }
 
-    private function addAnomaly(string $id, string $uri, string $reason): void
+    private function getStatementTaskIterator(): StatementTaskIterator
     {
-        $this->anomalies->add(new common_report_Report(common_report_Report::TYPE_WARNING, $reason, [$id, $uri]));
+        return $this->getServiceLocator()->get(StatementTaskIterator::class);
     }
 
-    private function initAnomaliesCollector(): void
+    private function getPositionTracker(): PositionTracker
     {
-        $this->anomalies = common_report_Report::createInfo('Anomalies found');
-    }
-
-    private function getTargetClasses(): array
-    {
-        return $this->getUnitProcessor()->getTargetClasses();
-    }
-
-    private function processUnit(array $unit): void
-    {
-        $this->getUnitProcessor()->process(new StatementUnit($unit['subject']));
+        return $this->getServiceLocator()->get(PositionTracker::class);
     }
 }

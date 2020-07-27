@@ -149,7 +149,7 @@ class StatementsMigrationWrapper extends ScriptAction
         return [
             'prefix' => 'h',
             'longPrefix' => 'help',
-            'description' => 'Prints the help.'
+            'description' => 'Prints the help.',
         ];
     }
 
@@ -163,12 +163,18 @@ class StatementsMigrationWrapper extends ScriptAction
         int $pickSize,
         string $taskClass,
         bool $repeat = true
-    ): CallbackTaskInterface {
+    ): CallbackTaskInterface
+    {
         /** @var QueueDispatcherInterface $queueDispatcher */
         $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcherInterface::SERVICE_ID);
         return $queueDispatcher->createTask(
             new $taskClass(),
-            [$start, $chunkSize, $pickSize, $repeat],
+            [
+                'start' => $start,
+                'chunkSize' => $chunkSize,
+                'pickSize' => $pickSize,
+                'repeat' => $repeat,
+            ],
             sprintf(
                 'Unit processing by %s started from %s with chunk size %s',
                 $taskClass,
