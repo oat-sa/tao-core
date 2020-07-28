@@ -112,7 +112,7 @@ class SqlExporter extends AbstractFileExporter implements PsrResponseExporter
                 $columnName = $this->convertFieldName($key);
                 $column = $dataTable->getColumn($columnName);
                 if (!$column) {
-                    $columnType = isset($this->mappingFieldsTypes[$key]) ? $this->mappingFieldsTypes[$key] : self::TYPE_VARCHAR;
+                    $columnType = isset($this->mappingFieldsTypes[$key]) ? $this->mappingFieldsTypes[$key] : ExportedColumn::TYPE_VARCHAR;
                     $column = new ExportedColumn($columnName, $columnType);
                     $dataTable->addColumn($column);
                 }
