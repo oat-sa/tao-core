@@ -29,7 +29,7 @@ use oat\taoOutcomeUi\model\table\VariableColumn;
 use Psr\Http\Message\ResponseInterface;
 
 /**
- * Class CsvExporter
+ * Class SqlExporter
  * @package oat\tao\model\export
  */
 class SqlExporter extends AbstractFileExporter implements PsrResponseExporter
@@ -56,7 +56,6 @@ class SqlExporter extends AbstractFileExporter implements PsrResponseExporter
         'Group'                     => ExportedColumn::TYPE_VARCHAR,
         'Delivery'                  => ExportedColumn::TYPE_VARCHAR,
         'Title'                     => ExportedColumn::TYPE_VARCHAR,
-        'Max. Executions (default: unlimited)' => ExportedColumn::TYPE_VARCHAR,
         'Start Date'                => ExportedColumn::TYPE_TIMESTAMP,
         'End Date'                  => ExportedColumn::TYPE_TIMESTAMP,
         'Display Order'             => ExportedColumn::TYPE_VARCHAR,
@@ -68,12 +67,8 @@ class SqlExporter extends AbstractFileExporter implements PsrResponseExporter
         'Compilation Time'          => ExportedColumn::TYPE_INTEGER,
         'Start Delivery Execution'  => ExportedColumn::TYPE_TIMESTAMP,
         'End Delivery Execution'    => ExportedColumn::TYPE_TIMESTAMP,
+        'Max. Executions (default: unlimited)' => ExportedColumn::TYPE_VARCHAR,
     ];
-
-//    /**
-//     * @var string
-//     */
-//    private $testLabel;
 
     /**
      * @var string value of `Content-Type` header
@@ -87,52 +82,16 @@ class SqlExporter extends AbstractFileExporter implements PsrResponseExporter
      */
     public function export($columnNames = false, $download = false)
     {
-        $dataToExport = $this->getDataToExport();
-        $sqlCreator = new SqlCreator($dataToExport);
-
-        return $sqlCreator->getExportSql();
-    }
-
-    /**
-     * @return ExportedTable
-     */
-    private function getDataToExport()
-    {
         foreach ($this->columnsData as $columnData) {
             if ($columnData instanceof VariableColumn) {
                 $this->mappingFieldsTypes[$columnData->label] = $this->mappingVarTypes[$columnData->baseType];
             }
         }
 
-        $dataTable = new ExportedTable();
-        foreach ($this->data as $row) {
+        $exportedTable = new ExportedTable($this->data, $this->mappingVarTypes, 'result_table');
+        $sqlCreator = new SqlCreator($exportedTable);
 
-            $rowFields = [];
-            foreach ($row as $key => $value) {
-                $columnName = $this->convertFieldName($key);
-                $column = $dataTable->getColumn($columnName);
-                if (!$column) {
-                    $columnType = isset($this->mappingFieldsTypes[$key]) ? $this->mappingFieldsTypes[$key] : ExportedColumn::TYPE_VARCHAR;
-                    $column = new ExportedColumn($columnName, $columnType);
-                    $dataTable->addColumn($column);
-                }
-                $rowFields[] = new ExportedField($column, $value);
-            }
-
-            $dataTable->addRow($rowFields);
-        }
-
-
-        return $dataTable;
-    }
-
-    /**
-     * @param $fieldName
-     * @return string|string[]
-     */
-    private function convertFieldName($fieldName)
-    {
-        return preg_replace(['/\s+/', '/[^A-Za-z0-9_\-]/'], ['_', ''], strtolower($fieldName));
+        return $sqlCreator->getExportSql();
     }
 
     /**

@@ -3,13 +3,20 @@
 
 namespace oat\tao\model\export\implementation\sql;
 
-
+/**
+ * Class ExportedField
+ * @package oat\tao\model\export\implementation\sql
+ */
 class ExportedField
 {
-    /**@var ExportedColumn $column */
+    /**
+     * @var ExportedColumn $column
+     */
     private $column;
 
-    /**@var mixed $value */
+    /**
+     * @var mixed $value
+     */
     private $value;
 
     public function __construct(ExportedColumn $column, $value)
