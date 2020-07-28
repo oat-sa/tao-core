@@ -37,7 +37,10 @@ class SqlCreator
         $this->table = $table;
     }
 
-    public function getExportSql()
+    /**
+     * @return string
+     */
+    public function getExportSql() : string
     {
         $sqlCreateTable = $this->getCreateTableSql();
         $sqlInsert = $this->getInsertSql();
@@ -45,6 +48,9 @@ class SqlCreator
         return "$sqlCreateTable\n\n$sqlInsert";
     }
 
+    /**
+     * @return string
+     */
     private function getCreateTableSql(): string
     {
         $columnsCreatingStringArray = [];
@@ -56,7 +62,10 @@ class SqlCreator
         return sprintf("CREATE TABLE %s (\n\t%s\n);", $this->table->getTableName(), implode(",\n\t", $columnsCreatingStringArray));
     }
 
-    private function getInsertSql()
+    /**
+     * @return string
+     */
+    private function getInsertSql() : string
     {
         $columnNamesArray = [];
         foreach ($this->table->getColumns() as $column)

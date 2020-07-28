@@ -79,7 +79,7 @@ class ExportedTable
     }
 
     /**
-     * @return []
+     * @return array
      */
     public function getRows(): array
     {
@@ -97,6 +97,9 @@ class ExportedTable
         return null;
     }
 
+    /**
+     * @param ExportedColumn $column
+     */
     public function addColumn(ExportedColumn $column)
     {
         $this->columns[] = $column;

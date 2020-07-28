@@ -21,7 +21,6 @@
 
 namespace oat\tao\model\export\implementation\sql;
 
-use Exception;
 use GuzzleHttp\Psr7\Response;
 use oat\tao\model\export\implementation\AbstractFileExporter;
 use oat\tao\model\export\PsrResponseExporter;
@@ -30,13 +29,10 @@ use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class SqlExporter
- * @package oat\tao\model\export
+ * @package oat\tao\model\export\implementation\sql
  */
 class SqlExporter extends AbstractFileExporter implements PsrResponseExporter
 {
-    const FILE_NAME = 'export.sql';
-    const SQL_CONTENT_TYPE = 'text/sql; charset=UTF-8';
-
     private $mappingVarTypes = [
         'integer'    => ExportedColumn::TYPE_INTEGER,
         'boolean'    => ExportedColumn::TYPE_BOOLEAN,
@@ -71,20 +67,13 @@ class SqlExporter extends AbstractFileExporter implements PsrResponseExporter
     ];
 
     /**
-     * @var string value of `Content-Type` header
+     * @inheritdoc
      */
-    protected $contentType = self::SQL_CONTENT_TYPE;
-
-    /**
-     * @param bool $columnNames
-     * @param bool $download
-     * @return string
-     */
-    public function export($columnNames = false, $download = false)
+    public function export()
     {
         foreach ($this->columnsData as $columnData) {
             if ($columnData instanceof VariableColumn) {
-                $this->mappingFieldsTypes[$columnData->label] = $this->mappingVarTypes[$columnData->baseType];
+                $this->mappingFieldsTypes[$columnData->getLabel()] = $this->mappingVarTypes[$columnData->getBaseType()];
             }
         }
 
@@ -95,12 +84,7 @@ class SqlExporter extends AbstractFileExporter implements PsrResponseExporter
     }
 
     /**
-     * Returns Psr Response with exported data and proper headers for file download
-     * You can use obtained response to pass it to $this->setResponse() in controller or
-     * emit directly using ResponseEmitter (for special cases)
-     * @param ResponseInterface|null $originResponse
-     * @return ResponseInterface
-     * @throws Exception
+     * @inheritdoc
      */
     public function getFileExportResponse(
         ResponseInterface $originResponse = null
@@ -109,7 +93,8 @@ class SqlExporter extends AbstractFileExporter implements PsrResponseExporter
         if ($originResponse === null) {
             $originResponse = new Response();
         }
+
         $exportedString = $this->export();
-        return $this->preparePsrResponse($originResponse, $exportedString, self::FILE_NAME);
+        return $this->preparePsrResponse($originResponse, $exportedString, 'export.sql');
     }
 }

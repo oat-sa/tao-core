@@ -78,7 +78,7 @@ class ExportedColumn
     /**
      * @param string $type
      */
-    public function setType(string $type): void
+    public function setType(string $type)
     {
         $this->type = $type;
     }
@@ -95,7 +95,7 @@ class ExportedColumn
      * @param $columnName
      * @return string
      */
-    private function convertColumnName($columnName)
+    private function convertColumnName($columnName) : string
     {
         return preg_replace(['/(\s+|-)/', '/[^A-Za-z0-9_]/'], ['_', ''], strtolower($columnName));
     }
