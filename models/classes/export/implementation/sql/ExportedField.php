@@ -14,6 +14,9 @@ class ExportedField
 
     public function __construct(ExportedColumn $column, $value)
     {
+        if (strpos($value, '|') !== false) {
+            $column->setType(ExportedColumn::TYPE_VARCHAR);
+        }
         $this->column = $column;
         $this->value = $value;
     }
@@ -31,7 +34,7 @@ class ExportedField
      */
     public function getFormattedValue()
     {
-        if (is_null($this->value) || ($this->value == '' && $this->getColumn()->getType() != ExportedColumn::TYPE_VARCHAR)) {
+        if (is_null($this->value) || ($this->value === '' && $this->getColumn()->getType() !== ExportedColumn::TYPE_VARCHAR)) {
             return 'null';
         }
 
