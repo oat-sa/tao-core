@@ -43,7 +43,7 @@ class Base64Test extends TestCase
      */
     public function testBase64Encoding($value, bool $result): void
     {
-        $this->assertEquals(Base64::isEncoded($value), $result);
+        $this->assertEquals($result, Base64::isEncoded($value));
     }
 
     /**
@@ -54,7 +54,7 @@ class Base64Test extends TestCase
      */
     public function testBase64EncodingImage($value, bool $result): void
     {
-        $this->assertEquals(Base64::isEncodedImage($value), $result);
+        $this->assertEquals($result, Base64::isEncodedImage($value));
     }
 
     /**
