@@ -79,7 +79,7 @@ return [
             __DIR__ . '/models/ontology/services.rdf',
             __DIR__ . '/models/ontology/indexation.rdf',
             __DIR__ . '/models/ontology/model.rdf',
-            __DIR__ . '/models/ontology/widegetdefinitions.rdf',
+	    __DIR__ . '/models/ontology/widgetdefinitions.rdf',
             __DIR__ . '/models/ontology/requiredaction.rdf',
             __DIR__ . '/models/ontology/auth/basicauth.rdf',
             __DIR__ . '/models/ontology/userlocks.rdf'
@@ -135,7 +135,8 @@ return [
             SetupSettingsStorage::class,
             RegisterUserService::class,
             RegisterValueCollectionServices::class,
-        ]
+            CreateRdsListStore::class,
+	]
     ],
     'update' => Updater::class,
     'optimizableClasses' => [
