@@ -36,4 +36,5 @@ interface WidgetDefinitions
     const PROPERTY_FILE = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#AsyncFile';
     const PROPERTY_VERSIONEDFILE = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#VersionedFile';
     const PROPERTY_JSONOBJECT = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#JsonObject';
+    const PROPERTY_SEARCHTEXTBOX = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#SearchTextBox';
 }
