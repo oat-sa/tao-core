@@ -1,0 +1,55 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-07-27 15:25+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: mn-MN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Translate Toolkit 2.2.5\n"
+"X-Pootle-Path: /mn-MN/tao33/tao/requiredaction.rdf.po\n"
+"X-Pootle-Revision: 27205\n"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionTimeRule
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Required Action Time Rule"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionTimeRule
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Required Action Time Rule"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionName
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Required Action Name"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionName
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Name Of Required Action"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionExecutionTime
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Executed At Date"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionExecutionTime
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Time of execution of required action"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionSubject
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Executed by"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionSubject
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Required action executed by user"
+msgstr ""

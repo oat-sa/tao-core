@@ -1,0 +1,35 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-07-27 15:25+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: vi-VN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Translate Toolkit 2.2.5\n"
+"X-Pootle-Path: /vi-VN/tao33/tao/widegetdefinitions.rdf.po\n"
+"X-Pootle-Revision: 27949\n"
+
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TreeBox
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "A Tree Box"
+msgstr "Cây box"
+
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TreeBox
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "A particular tree box"
+msgstr "Cây box cụ thể"
+
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#JsonObject
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Json Object"
+msgstr "Đối tượng Json"
+
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#JsonObject
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Display a Json Object stored as a literal value as a collection of key/value pairs."
+msgstr "Hiển thị đối tượng Json được lưu trữ dưới dạng một giá trị văn bản như một tập hợp các cặp khóa/giá trị."
