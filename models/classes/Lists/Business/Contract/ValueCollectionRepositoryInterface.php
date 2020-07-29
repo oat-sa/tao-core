@@ -26,10 +26,22 @@ namespace oat\tao\model\Lists\Business\Contract;
 
 use oat\tao\model\Lists\Business\Domain\ValueCollection;
 use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
+use oat\tao\model\Lists\DataAccess\Repository\ValueConflictException;
 
 interface ValueCollectionRepositoryInterface
 {
-    public const SERVICE_ID = 'tao/ValueCollectionRepository';
-
     public function findAll(ValueCollectionSearchRequest $searchRequest): ValueCollection;
+
+    public function isApplicable(string $collectionUri): bool;
+
+    /**
+     * @param ValueCollection $valueCollection
+     *
+     * @return bool
+     *
+     * @throws ValueConflictException
+     */
+    public function persist(ValueCollection $valueCollection): bool;
+
+    public function delete(string $valueCollectionUri): void;
 }

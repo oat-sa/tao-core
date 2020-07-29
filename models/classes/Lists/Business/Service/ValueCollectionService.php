@@ -26,7 +26,9 @@ namespace oat\tao\model\Lists\Business\Service;
 
 use oat\tao\model\Lists\Business\Contract\ValueCollectionRepositoryInterface;
 use oat\tao\model\Lists\Business\Domain\ValueCollection;
+use oat\tao\model\Lists\Business\Input\ValueCollectionDeleteInput;
 use oat\tao\model\Lists\Business\Input\ValueCollectionSearchInput;
+use oat\tao\model\Lists\DataAccess\Repository\ValueConflictException;
 use oat\tao\model\service\InjectionAwareService;
 
 class ValueCollectionService extends InjectionAwareService
@@ -34,19 +36,59 @@ class ValueCollectionService extends InjectionAwareService
     public const SERVICE_ID = 'tao/ValueCollectionService';
 
     /** @var ValueCollectionRepositoryInterface */
-    private $repository;
+    private $repositories;
 
-    public function __construct(ValueCollectionRepositoryInterface $repository)
+    public function __construct(ValueCollectionRepositoryInterface ...$repositories)
     {
         parent::__construct();
 
-        $this->repository = $repository;
+        $this->repositories = $repositories;
     }
 
     public function findAll(ValueCollectionSearchInput $input): ValueCollection
     {
-        return $this->repository->findAll(
-            $input->getSearchRequest()
-        );
+        $searchRequest = $input->getSearchRequest();
+
+        foreach ($this->repositories as $repository) {
+            if (
+                $searchRequest->hasValueCollectionUri()
+                && !$repository->isApplicable($searchRequest->getValueCollectionUri())
+            ) {
+                continue;
+            }
+
+            return $repository->findAll(
+                $searchRequest
+            );
+        }
+
+        return new ValueCollection();
+    }
+
+    public function delete(ValueCollectionDeleteInput $input): void
+    {
+        foreach ($this->repositories as $repository) {
+            if ($repository->isApplicable($input->getValueCollectionUri())) {
+                $repository->delete($input->getValueCollectionUri());
+            }
+        }
+    }
+
+    /**
+     * @param ValueCollection $valueCollection
+     *
+     * @return bool
+     *
+     * @throws ValueConflictException
+     */
+    public function persist(ValueCollection $valueCollection): bool
+    {
+        foreach ($this->repositories as $repository) {
+            if ($repository->isApplicable($valueCollection->getUri())) {
+                return $repository->persist($valueCollection);
+            }
+        }
+
+        return false;
     }
 }

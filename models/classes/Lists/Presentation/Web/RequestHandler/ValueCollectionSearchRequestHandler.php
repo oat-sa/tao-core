@@ -25,6 +25,7 @@ declare(strict_types=1);
 namespace oat\tao\model\Lists\Presentation\Web\RequestHandler;
 
 use common_exception_BadRequest as BadRequestException;
+use core_kernel_classes_Property as RdfProperty;
 use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
 use oat\tao\model\Lists\Business\Input\ValueCollectionSearchInput;
 use oat\tao\model\Lists\Presentation\Web\RequestValidator\ValueCollectionSearchRequestValidator;
@@ -36,9 +37,11 @@ class ValueCollectionSearchRequestHandler extends InjectionAwareService
 {
     public const SERVICE_ID = 'tao/ValueCollectionSearchRequestHandler';
 
-    public const QUERY_PARAMETER_ID      = 'propertyUri';
+    public const QUERY_PARAMETER_ID = 'propertyUri';
     public const QUERY_PARAMETER_SUBJECT = 'subject';
     public const QUERY_PARAMETER_EXCLUDE = 'exclude';
+
+    private const SEARCH_LIMIT = 20;
 
     /** @var ValueCollectionSearchRequestValidator */
     private $requestValidator;
@@ -63,11 +66,19 @@ class ValueCollectionSearchRequestHandler extends InjectionAwareService
 
         $queryParameters = $request->getQueryParams();
 
-        $searchRequest = new ValueCollectionSearchRequest(
-            Id::decode(
-                $queryParameters[self::QUERY_PARAMETER_ID]
-            )
+        $propertyUri = Id::decode(
+            $queryParameters[self::QUERY_PARAMETER_ID]
         );
+
+        $searchRequest = (new ValueCollectionSearchRequest())
+            ->setLimit(self::SEARCH_LIMIT)
+            ->setPropertyUri($propertyUri);
+
+        $listUri = $this->getPropertyListUri($propertyUri);
+
+        if ($listUri !== null) {
+            $searchRequest->setValueCollectionUri($listUri);
+        }
 
         $subject = trim($queryParameters[self::QUERY_PARAMETER_SUBJECT] ?? '');
 
@@ -82,5 +93,22 @@ class ValueCollectionSearchRequestHandler extends InjectionAwareService
         }
 
         return new ValueCollectionSearchInput($searchRequest);
+    }
+
+    /**
+     * @param string $propertyUri
+     *
+     * @return string|null
+     */
+    protected function getPropertyListUri(string $propertyUri): ?string
+    {
+        $property = new RdfProperty($propertyUri);
+        $list = $property->getRange();
+
+        if ($list !== null) {
+            return $list->getUri();
+        }
+
+        return null;
     }
 }
