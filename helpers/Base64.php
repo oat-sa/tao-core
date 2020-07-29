@@ -16,6 +16,6 @@ class Base64
      */
     public static function isEncodedImage($data): bool
     {
-        return is_string($data) && getimagesize($data) !== false;
+        return is_string($data) && preg_match('/^(data:.*;base64)/', $data) && getimagesize($data) !== false;
     }
 }
