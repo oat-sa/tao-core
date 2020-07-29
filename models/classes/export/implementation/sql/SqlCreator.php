@@ -90,6 +90,6 @@ class SqlCreator
         $columnNamesString = implode(",\n\t   ", $columnNamesArray);
         $fieldInsertString = implode(",\n\t", $fieldInsertArray);
 
-        return "INSERT INTO tests_result (\n\t   $columnNamesString\n) VALUES $fieldInsertString;";
+        return sprintf("INSERT INTO %s (\n\t   %s\n) VALUES %s;", $this->table->getTableName(), $columnNamesString, $fieldInsertString);
     }
 }
