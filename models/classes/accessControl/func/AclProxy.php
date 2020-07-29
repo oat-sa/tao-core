@@ -35,12 +35,8 @@ use oat\oatbox\service\ServiceManager;
  */
 class AclProxy implements AccessControl
 {
-    const SERVICE_ID = 'tao/FuncAccessControl';
-    
-    const CONFIG_KEY_IMPLEMENTATION = 'FuncAccessControl';
-    
-    const FALLBACK_IMPLEMENTATION_CLASS = 'oat\tao\model\accessControl\func\implementation\NoAccess';
-    
+    public const SERVICE_ID = 'tao/FuncAccessControl';
+
     /**
      * @return FuncAccessControl
      */

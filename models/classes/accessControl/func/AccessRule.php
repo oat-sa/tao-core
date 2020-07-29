@@ -32,12 +32,12 @@ use core_kernel_classes_Resource;
  */
 class AccessRule
 {
-    const GRANT = 'grant';
-    const DENY = 'deny';
+    public const GRANT = 'grant';
+    public const DENY = 'deny';
     
-    const SCOPE_EXTENSION = 'ext';
-    const SCOPE_CONTROLLER = 'mod';
-    const SCOPE_ACTION = 'act';
+    public const SCOPE_EXTENSION = 'ext';
+    public const SCOPE_CONTROLLER = 'mod';
+    public const SCOPE_ACTION = 'act';
     
     /** @var string */
     private $grantDeny;

@@ -38,7 +38,7 @@ use oat\oatbox\service\ConfigurableService;
 class SimpleAccess extends ConfigurableService implements FuncAccessControl
 {
     
-    const WHITELIST_KEY = 'SimpleAclWhitelist';
+    private const WHITELIST_KEY = 'SimpleAclWhitelist';
     
     private $controllers = [];
     

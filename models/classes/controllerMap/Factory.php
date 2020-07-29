@@ -107,7 +107,6 @@ class Factory
         }
         if (!empty($namespaces)) {
             common_Logger::t('Namespace found in routes for extension ' . $extension->getId());
-            $classes = [];
             $recDir = new RecursiveDirectoryIterator($extension->getDir());
             $recIt = new RecursiveIteratorIterator($recDir);
             $regexIt = new RegexIterator($recIt, '/^.+\.php$/i', RecursiveRegexIterator::GET_MATCH);
@@ -155,7 +154,10 @@ class Factory
         if (!class_exists($controllerClassName)) {
             common_Logger::w($controllerClassName . ' not found');
             $returnValue = false;
-        } elseif (!is_subclass_of($controllerClassName, 'Module') && !is_subclass_of($controllerClassName, Controller::class)) {
+        } elseif (
+            !is_subclass_of($controllerClassName, 'Module')
+            && !is_subclass_of($controllerClassName, Controller::class)
+        ) {
             common_Logger::w($controllerClassName . ' is not a valid Controller.');
             $returnValue = false;
         } else {
