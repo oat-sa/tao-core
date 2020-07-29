@@ -14,8 +14,18 @@ class Base64
      *
      * @return bool
      */
+    public function isEncoded($data): bool
+    {
+        return is_string($data) && preg_match('/^data:.*;base64/', $data)
+    }
+
+    /**
+     * @param $data
+     *
+     * @return bool
+     */
     public static function isEncodedImage($data): bool
     {
-        return is_string($data) && preg_match('/^(data:.*;base64)/', $data) && getimagesize($data) !== false;
+        return self::isEncoded($data) && getimagesize($data) !== false;
     }
 }
