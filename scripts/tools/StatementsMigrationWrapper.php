@@ -131,8 +131,8 @@ class StatementsMigrationWrapper extends ScriptAction
 
         $report = common_report_Report::createSuccess(
             sprintf(
-                "Operation took %fsec and %dMb",
-                (time() - $startedAt),
+                'Operation took %fsec and %dMb',
+                time() - $startedAt,
                 memory_get_peak_usage(true) / 1024 / 1024
             )
         );

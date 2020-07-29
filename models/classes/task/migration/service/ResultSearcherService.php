@@ -26,27 +26,21 @@ use common_persistence_sql_QueryIterator;
 use Doctrine\DBAL\Connection;
 use Iterator;
 use oat\generis\model\OntologyAwareTrait;
-use oat\generis\model\OntologyRdf;
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\task\migration\StatementMigrationConfig;
 
-class StatementTaskIterator extends ConfigurableService
+class ResultSearcherService extends ConfigurableService implements ResultSearcherInterface
 {
     use OntologyAwareTrait;
 
-    public function getIterator(iterable $itemClasses, int $start, int $end): Iterator
+    public function search(StatementMigrationConfig $filter): Iterator
     {
         $persistence = $this->getModel()->getPersistence();
 
         $query = 'SELECT id, subject FROM statements WHERE (id BETWEEN :start AND :end) AND predicate = :predicate AND object IN (:class) ORDER BY id';
-        $params = [
-            'start' => $start,
-            'end' => $end,
-            'predicate' => OntologyRdf::RDF_TYPE,
-            'class' => array_unique($itemClasses)
-        ];
 
         $types['class'] = Connection::PARAM_STR_ARRAY;
 
-        return new common_persistence_sql_QueryIterator($persistence, $query, $params, $types);
+        return new common_persistence_sql_QueryIterator($persistence, $query, $filter->getParameters(), $types);
     }
 }

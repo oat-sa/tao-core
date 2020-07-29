@@ -28,12 +28,12 @@ use core_kernel_persistence_smoothsql_SmoothModel;
 use Doctrine\DBAL\Driver\Statement;
 use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
-use oat\tao\model\task\migration\service\StatementTaskIterator;
+use oat\tao\model\task\migration\service\ResultSearcherService;
 
 class StatementTaskIteratorTest extends TestCase
 {
     /**
-     * @var StatementTaskIterator
+     * @var ResultSearcherService
      */
     private $subject;
 
@@ -65,7 +65,7 @@ class StatementTaskIteratorTest extends TestCase
         $this->platformMock = $this->createMock(common_persistence_sql_Platform::class);
         $this->statementMock = $this->createMock(Statement::class);
         $this->ontologyMock->method('getPersistence')->willReturn($this->persistenceMock);
-        $this->subject = new StatementTaskIterator();
+        $this->subject = new ResultSearcherService();
         $this->subject->setModel($this->ontologyMock);
     }
 

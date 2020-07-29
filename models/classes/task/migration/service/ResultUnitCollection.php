@@ -20,11 +20,11 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\task\migration;
+namespace oat\tao\model\task\migration\service;
 
-interface StatementUnitProcessorInterface
+use Doctrine\Common\Collections\ArrayCollection;
+
+class ResultUnitCollection extends ArrayCollection
 {
-    public function getTargetClasses(): array;
 
-    public function process(StatementUnit $unit): void;
 }
