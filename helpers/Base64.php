@@ -14,7 +14,7 @@ class Base64
      *
      * @return bool
      */
-    public function isEncoded($data): bool
+    public static function isEncoded($data): bool
     {
         return is_string($data) && preg_match('/^data:.*;base64/', $data)
     }
