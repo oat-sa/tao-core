@@ -19,17 +19,19 @@
  *
  */
 
-namespace oat\tao\model\export\implementation\sql;
+namespace oat\tao\model\export\implementation;
 
 use GuzzleHttp\Psr7\Response;
-use oat\tao\model\export\implementation\AbstractFileExporter;
+use oat\tao\model\export\implementation\sql\ExportedColumn;
+use oat\tao\model\export\implementation\sql\ExportedTable;
+use oat\tao\model\export\implementation\sql\SqlCreator;
 use oat\tao\model\export\PsrResponseExporter;
 use oat\taoOutcomeUi\model\table\VariableColumn;
 use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class SqlExporter
- * @package oat\tao\model\export\implementation\sql
+ * @package oat\tao\model\export\implementation
  */
 class SqlExporter extends AbstractFileExporter implements PsrResponseExporter
 {
