@@ -22,6 +22,7 @@
 namespace oat\tao\model\accessControl\func;
 
 use core_kernel_classes_Resource;
+use common_exception_InconsistentData;
 
 /**
  * An access rule gramnting or denying access to a functionality
@@ -56,8 +57,11 @@ class AccessRule
     private $controller;
     /** @var string */
     private $action;
-    
-    public function __construct($mode, $roleUri, $mask)
+
+    /**
+     * @throws common_exception_InconsistentData
+     */
+    public function __construct(string $mode, string $roleUri, $mask)
     {
         $this->grantDeny = $mode;
         $this->role = $roleUri;
@@ -96,7 +100,7 @@ class AccessRule
         return $this->mask;
     }
 
-    public function getScope()
+    public function getScope(): string
     {
         return $this->scope;
     }

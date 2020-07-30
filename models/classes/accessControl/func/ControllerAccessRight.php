@@ -21,7 +21,7 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\accessControl\func\implementation;
+namespace oat\tao\model\accessControl\func;
 
 /**
  * Simple ACL Implementation deciding whenever or not to allow access

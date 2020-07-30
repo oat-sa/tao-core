@@ -31,6 +31,9 @@ use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\controllerMap\Factory;
 use oat\oatbox\cache\SimpleCache;
 use oat\tao\model\accessControl\AccessControl;
+use oat\tao\model\accessControl\func\AclModel;
+use oat\tao\model\accessControl\func\ControllerAccessRight;
+use oat\tao\model\accessControl\func\AclModelFactory;
 
 /**
  * Simple function access controll implementation, that builds the access
@@ -93,8 +96,8 @@ class CacheOnly extends ConfigurableService implements FuncAccessControl, Access
 
     public function buildCache(): void
     {
-        $aclModel = $this->buildModel();
-        $this->cacheModel($aclModel);
+        $factory = $this->getServiceLocator()->get(AclModelFactory::class);
+        $this->cacheModel($factory->buildModel());
     }
 
     /**

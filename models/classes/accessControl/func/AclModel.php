@@ -21,20 +21,13 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\accessControl\func\implementation;
-
-use oat\tao\model\accessControl\func\AccessRule;
+namespace oat\tao\model\accessControl\func;
 
 /**
- * Simple ACL Implementation deciding whenever or not to allow access
- * strictly by the BASEUSER role and a whitelist
- *
- * Not to be used in production, since testtakers cann access the backoffice
+ * Functional Access Control Model representing an entire environment
  *
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
- * @package tao
-
  */
 class AclModel
 {
