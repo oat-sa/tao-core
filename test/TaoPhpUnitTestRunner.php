@@ -34,6 +34,7 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Prophecy\Argument;
+use oat\generis\test\KeyValueMockTrait;
 
 /**
  * Help you to run the test into the TAO Context
@@ -43,6 +44,7 @@ use Prophecy\Argument;
 abstract class TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner implements ServiceLocatorAwareInterface
 {
     use ServiceLocatorAwareTrait;
+    use KeyValueMockTrait;
 
     const SESSION_KEY = 'TAO_TEST_SESSION';
     /**
@@ -113,26 +115,7 @@ abstract class TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner implements 
      */
     public function getKvMock($key)
     {
-        if (!extension_loaded('pdo_sqlite')) {
-            $this->markTestSkipped('sqlite not found, tests skipped.');
-        }
-        $driver = new \common_persistence_InMemoryKvDriver();
-        $persistence = $driver->connect($key, []);
-        $pmProphecy = $this->prophesize(\common_persistence_Manager::class);
-        $pmProphecy->setServiceLocator(Argument::any())->willReturn(null);
-        $pmProphecy->getPersistenceById($key)->willReturn($persistence);
-        return $pmProphecy->reveal();
-    }
-
-    /**
-     * Returns a persistence Manager with a mocked sql persistence
-     *
-     * @param string $key identifier of the persistence
-     * @return \common_persistence_Manager
-     */
-    public function getSqlMock($key)
-    {
-        return parent::getSqlMock($key);
+        return $this->getKeyValueMock($key);
     }
 
     /**
