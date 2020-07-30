@@ -1,24 +1,26 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-27 15:24+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: ca-ES-valencia\n"
+"Project-Id-Version: TAO 3.4.0-sprint121\n"
+"PO-Revision-Date: 2020-07-30T12:39:27\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ca-ES-valencia\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: ca-ES-valencia\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 2.2.5\n"
-"X-Pootle-Path: /ca-ES-valencia/tao33/tao/messages.po\n"
-"X-Pootle-Revision: 26058\n"
+"X-Poedit-Basepath: ../../\n"
+"X-Poedit-KeywordsList: __\n"
+"X-Poedit-SearchPath-0: .\n"
 
-msgid " AND "
+msgid ""
 msgstr ""
 
 msgid " and "
 msgstr " i"
+
+msgid " AND "
+msgstr ""
 
 msgid " has been deleted successfully"
 msgstr " s'ha eliminat correctament"
@@ -182,9 +184,13 @@ msgstr "Accions"
 msgid "Add"
 msgstr "Afig"
 
+msgid "Add / Edit lists"
+msgstr ""
+
 msgid "Add a CSV file"
 msgstr "Afig un fitxer CSV"
 
+#, tao-public
 msgid "Add a user"
 msgstr "Afig un usuari"
 
@@ -224,6 +230,12 @@ msgstr "Tots els camps són obligatoris"
 msgid "All rights reserved."
 msgstr "Tots els drets reservats"
 
+msgid "Allow for all domains"
+msgstr ""
+
+msgid "Allow for the following domains"
+msgstr ""
+
 msgid "Alpha version"
 msgstr "Versió alfa"
 
@@ -248,6 +260,9 @@ msgstr ""
 msgid "Apply"
 msgstr ""
 
+msgid "Apply date range"
+msgstr ""
+
 msgid "Arc cosine"
 msgstr ""
 
@@ -260,11 +275,9 @@ msgstr ""
 msgid "Archived"
 msgstr ""
 
-msgid ""
-"Are you sure to delete the versioned resource?\n"
+msgid "Are you sure to delete the versioned resource?\n"
 "The history will be lost as well."
-msgstr ""
-"Esteu segur que voleu eliminar el recurs versionat?\n"
+msgstr "Esteu segur que voleu eliminar el recurs versionat?\n"
 "També es perdrà l'historial."
 
 msgid "Are you sure you want to delete it?"
@@ -279,6 +292,7 @@ msgstr ""
 msgid "Assign User to role"
 msgstr "Assigna l'usuari a un rol"
 
+#, tao-public
 msgid "Assign Users"
 msgstr "Assigna usuaris"
 
@@ -366,6 +380,7 @@ msgstr "Distingeix majúscules i minúscules"
 msgid "ceil"
 msgstr ""
 
+#, tao-public
 msgid "Change password"
 msgstr "Canvia la contrasenya"
 
@@ -375,10 +390,10 @@ msgstr "Canvia la contrasenya"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check All"
+msgid "Check all"
 msgstr "Selecciona-ho tot"
 
-msgid "Check all"
+msgid "Check All"
 msgstr "Selecciona-ho tot"
 
 msgid "Check-in"
@@ -427,6 +442,9 @@ msgid "Clear history"
 msgstr ""
 
 msgid "Clear selection"
+msgstr ""
+
+msgid "Clear the date time picker"
 msgstr ""
 
 msgid "Clear the stored variables"
@@ -501,7 +519,13 @@ msgstr "Crea una instància de"
 msgid "Created"
 msgstr "Creat"
 
+msgid "Creating report ..."
+msgstr ""
+
 msgid "Creation At"
+msgstr ""
+
+msgid "CSP Header settings were saved successfully!"
 msgstr ""
 
 msgid "CSV"
@@ -540,6 +564,15 @@ msgstr "Dades no importades. Tots els registres són incorrectes."
 msgid "Date"
 msgstr "Data"
 
+msgid "date range"
+msgstr ""
+
+msgid "date time"
+msgstr ""
+
+msgid "date time range"
+msgstr ""
+
 msgid "Default search"
 msgstr "Cerca per defecte"
 
@@ -552,6 +585,7 @@ msgstr ""
 msgid "Degree"
 msgstr ""
 
+#, tao-public
 msgid "Delete"
 msgstr "Suprimeix"
 
@@ -606,11 +640,9 @@ msgstr ""
 msgid "Disabled %s"
 msgstr "S'ha inhabilitat %s"
 
-msgid ""
-"Do you wish to install the following extension(s):\n"
+msgid "Do you wish to install the following extension(s):\n"
 "%s?"
-msgstr ""
-"Voleu instal·lar les extensions següents:\n"
+msgstr "Voleu instal·lar les extensions següents:\n"
 "%s?"
 
 msgid "does not match"
@@ -640,6 +672,7 @@ msgstr "Deixeu anar els fitxers per pujar"
 msgid "Edit"
 msgstr "Edita"
 
+#, tao-public
 msgid "Edit a user"
 msgstr "Edita un usuari"
 
@@ -648,6 +681,9 @@ msgstr "Edita la classe %s"
 
 msgid "Edit Instance"
 msgstr "Edita una instància"
+
+msgid "Edit sources that can embed this platform in an iFrame"
+msgstr ""
 
 msgid "Element"
 msgstr "Element"
@@ -706,6 +742,7 @@ msgstr ""
 msgid "Exponent"
 msgstr ""
 
+#, tao-public
 msgid "Export"
 msgstr "Exporta"
 
@@ -730,6 +767,7 @@ msgstr ""
 msgid "Extension \"%s\" has been installed"
 msgstr ""
 
+#, tao-public
 msgid "Extensions manager"
 msgstr "Gestor d'extensions"
 
@@ -799,11 +837,20 @@ msgstr "Ajusta a l'amplària"
 msgid "floor"
 msgstr ""
 
+msgid "Forbid for all domains"
+msgstr ""
+
 msgid "Force Release"
 msgstr "Imposa la publicació"
 
 msgid "Forgot your password?"
 msgstr "Heu oblidat la contrasenya?"
+
+msgid "Form"
+msgstr ""
+
+msgid "Form data not saved."
+msgstr ""
 
 msgid "From"
 msgstr "De"
@@ -898,11 +945,11 @@ msgstr "S'ha importat el recurs \"%s"
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In progress"
-msgstr "En curs..."
-
 msgid "In Progress"
 msgstr ""
+
+msgid "In progress"
+msgstr "En curs..."
 
 msgid "Inclusive (AND)"
 msgstr "Inclusiu (I)"
@@ -943,11 +990,14 @@ msgstr "S'està instal·lant l'extensió %s..."
 msgid "Instance saved"
 msgstr "Instància guardada"
 
+msgid "Interface Language"
+msgstr "Idioma de la interfície"
+
 msgid "Interface language"
 msgstr "Idioma de la interfície"
 
-msgid "Interface Language"
-msgstr "Idioma de la interfície"
+msgid "Invalid CSP header."
+msgstr ""
 
 msgid "Invalid date range (must be after or the same as: %s)"
 msgstr "L'interval de dates no és vàlid (ha de ser posterior o igual a: %s)"
@@ -979,6 +1029,9 @@ msgstr "La mida del fitxer no és vàlida (mínim %1$s bytes, màxim %2$s bytes)
 msgid "Invalid file type!"
 msgstr "El tipus de fitxer no és vàlid"
 
+msgid "Invalid input"
+msgstr ""
+
 msgid "Invalid input for function"
 msgstr "L'entrada no és vàlida per a la funció"
 
@@ -990,6 +1043,9 @@ msgstr ""
 
 msgid "invalid regular expression"
 msgstr "l'expressió regular no és vàlida"
+
+msgid "items per page"
+msgstr ""
 
 msgid "Label"
 msgstr "Etiqueta"
@@ -1026,6 +1082,9 @@ msgstr "Llista - Opció única - Llista desplegable"
 
 msgid "List - Single choice - Radio button"
 msgstr "Llista - Opció única - Botó d'opció"
+
+msgid "List values"
+msgstr ""
 
 msgid "ln"
 msgstr ""
@@ -1087,12 +1146,14 @@ msgstr ""
 msgid "Manage data list"
 msgstr "Gestiona la llista dades"
 
+#, tao-public
 msgid "Manage roles"
 msgstr "Gestiona els rols"
 
 msgid "Manage Roles and apply them to users."
 msgstr "Gestiona els rols i els aplica als usuaris"
 
+#, tao-public
 msgid "Manage users"
 msgstr "Gestiona els usuaris"
 
@@ -1144,6 +1205,7 @@ msgstr ""
 msgid "Move Right"
 msgstr ""
 
+#, tao-public
 msgid "Move role"
 msgstr "Mou el rol"
 
@@ -1162,6 +1224,9 @@ msgstr "Si es mou aquest element les propietats de la classe anterior es reempla
 msgid "Multiple values delimiter"
 msgstr "Delimitador de valors múltiples"
 
+msgid "Multiply the value by 10^x"
+msgstr ""
+
 msgid "must be numeric"
 msgstr "ha de ser numèric"
 
@@ -1171,6 +1236,7 @@ msgstr "Silenci"
 msgid "My custom text translation"
 msgstr ""
 
+#, tao-public
 msgid "My settings"
 msgstr "Els meus paràmetres"
 
@@ -1186,6 +1252,7 @@ msgstr ""
 msgid "New password"
 msgstr "La meua contrasenya"
 
+#, tao-public
 msgid "New role"
 msgstr "Rol nou"
 
@@ -1222,10 +1289,10 @@ msgstr "Cap fitxer"
 msgid "no label"
 msgstr "sense etiqueta"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "No hi ha cap previsualització disponible"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "No hi ha cap previsualització disponible"
 
 msgid "No results found"
@@ -1249,8 +1316,12 @@ msgstr "No hi ha res per instal·lar"
 msgid "Nothing to list!"
 msgstr "No hi ha res per llistar"
 
+#, tao-public
 msgid "Notifications"
 msgstr "Notificacions"
+
+msgid "notifications drivers aren\'t persistent. use a persistent database storage driver"
+msgstr ""
 
 msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
 msgstr ""
@@ -1279,11 +1350,17 @@ msgstr "Contrasenya antiga"
 msgid "On"
 msgstr ""
 
+msgid "Only allow for my own domain (%s)"
+msgstr ""
+
 msgid "Operated By "
 msgstr "Operat per"
 
 msgid "or"
 msgstr "o"
+
+msgid "Outlook on the next Synchronization"
+msgstr ""
 
 msgid "Page"
 msgstr "Pàgina"
@@ -1348,6 +1425,9 @@ msgstr "Poseu-vos en contacte amb %s o un administrador per a publicar-lo"
 msgid "Please contact your administrator."
 msgstr ""
 
+msgid "Please contact your system administrator."
+msgstr ""
+
 msgid "Please download the track and listen offline."
 msgstr "Baixeu la pista i escolteu-la fora de línia"
 
@@ -1399,8 +1479,12 @@ msgstr "Pàgina anterior"
 msgid "Proceed"
 msgstr ""
 
+#, tao-public
 msgid "Properties"
 msgstr "Propietats"
+
+msgid "Property\'s label field is required"
+msgstr ""
 
 msgid "Property\\'s label field is required"
 msgstr ""
@@ -1507,10 +1591,16 @@ msgstr "Reinicialitza"
 msgid "Reset the original size"
 msgstr "Reinicialitza la mida original"
 
+msgid "Reset the range values"
+msgstr ""
+
 msgid "Resource"
 msgstr "Recurs"
 
 msgid "Resource copied"
+msgstr ""
+
+msgid "Resource deleted"
 msgstr ""
 
 msgid "Resource Identifier"
@@ -1537,6 +1627,12 @@ msgstr ""
 msgid "Resources moved"
 msgstr ""
 
+msgid "Resources successfully indexed"
+msgstr ""
+
+msgid "Resources was not indexed"
+msgstr ""
+
 msgid "Responsive mode"
 msgstr "Mode responsiu"
 
@@ -1558,6 +1654,7 @@ msgstr "Rol guardat"
 msgid "Roles"
 msgstr "Rols"
 
+#, tao-public
 msgid "Roles library"
 msgstr "Biblioteca de rols "
 
@@ -1582,6 +1679,9 @@ msgstr ""
 msgid "Save"
 msgstr "Guarda"
 
+msgid "Saved."
+msgstr ""
+
 msgid "Scientific Calculator"
 msgstr ""
 
@@ -1605,6 +1705,13 @@ msgstr ""
 
 msgid "seconds"
 msgstr "segons"
+
+#, tao-public
+msgid "Security"
+msgstr ""
+
+msgid "Security settings"
+msgstr ""
 
 msgid "select"
 msgstr "selecciona"
@@ -1648,6 +1755,7 @@ msgstr ""
 msgid "Set the trigonometric function to work in radians"
 msgstr ""
 
+#, tao-public
 msgid "Settings"
 msgstr "Configuració"
 
@@ -1678,6 +1786,9 @@ msgstr "Mida"
 msgid "Some resources have not been moved: %s"
 msgstr ""
 
+msgid "Sources that can embed this platform in an iFrame"
+msgstr ""
+
 msgid "Square root"
 msgstr ""
 
@@ -1702,8 +1813,17 @@ msgstr ""
 msgid "Street"
 msgstr ""
 
+msgid "Submit"
+msgstr ""
+
 msgid "Success"
 msgstr "Correcte"
+
+msgid "Successfully cloned instance as %s"
+msgstr ""
+
+msgid "Successfully deleted %s"
+msgstr ""
 
 msgid "Successfully imported \"%s"
 msgstr "S'ha importat \"%s correctament"
@@ -1861,6 +1981,9 @@ msgstr "Això ha de ser igual a %s"
 msgid "This should not equal %s"
 msgstr "Això no ha de ser igual a %s"
 
+msgid "time"
+msgstr ""
+
 msgid "Time zone"
 msgstr "Zona horària"
 
@@ -1877,6 +2000,9 @@ msgid "to translate"
 msgstr "tradueix a"
 
 msgid "Toggle multiple/single selection"
+msgstr ""
+
+msgid "Toggle the date time picker"
 msgstr ""
 
 msgid "Tokenizer"
@@ -1905,6 +2031,9 @@ msgstr "Traducció guardada"
 
 msgid "Tree - Multiple node choice "
 msgstr "Arbre - Selecció múltiple de node"
+
+msgid "Tree values"
+msgstr ""
 
 msgid "True"
 msgstr "Cert"
@@ -1942,6 +2071,9 @@ msgstr ""
 msgid "Unable to open file %s"
 msgstr "No es pot obrir el fitxer %s"
 
+msgid "Unable to process your request"
+msgstr ""
+
 msgid "Unable to release the lock"
 msgstr "No es pot eliminar el bloqueig"
 
@@ -1972,10 +2104,10 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "Desmarca-ho tot"
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "Desmarca-ho tot"
 
 msgid "Undefined amount of the pages for pagination"
@@ -2062,19 +2194,27 @@ msgstr "No s'ha trobat l'usuari"
 msgid "User saved"
 msgstr "Usuari guardat"
 
+#, tao-public
 msgid "User Settings"
 msgstr "Paràmetres de l'usuari"
 
 msgid "Username"
 msgstr ""
 
+#, tao-public
 msgid "Users"
 msgstr "Usuaris"
+
+msgid "Validation for field '%s' has failed. Language does not exist in the system"
+msgstr ""
 
 msgid "Validation for field '%s' has failed. Language does not exists in the system"
 msgstr ""
 
 msgid "Validation for field '%s' has failed. List of values expected"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Should not be empty"
 msgstr ""
 
 msgid "Validation for field '%s' has failed. Valid role expected. Given: %s"
@@ -2084,6 +2224,9 @@ msgid "Validation for field '%s' has failed. Valid URI expected"
 msgstr ""
 
 msgid "Validation for field '%s' has failed. Valid URI expected. Given: %s"
+msgstr ""
+
+msgid "Value ellipsis"
 msgstr ""
 
 msgid "Value of E"
@@ -2181,3 +2324,4 @@ msgstr "La vostra contrasenya del TAO"
 
 msgid "Zip Code"
 msgstr ""
+
