@@ -30,18 +30,5 @@
  */
 abstract class tao_helpers_form_elements_Calendar extends tao_helpers_form_FormElement
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    /**
-     * Short description of attribute widget
-     *
-     * @access protected
-     * @var string
-     */
-    protected $widget = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Calendar';
-
-    // --- OPERATIONS ---
-} /* end of abstract class tao_helpers_form_elements_Calendar */
+    public const WIDGET_ID = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Calendar';
+}

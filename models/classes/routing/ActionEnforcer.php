@@ -124,7 +124,7 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
 
         return $this->getServiceLocator()->has($serviceId)
             ? $this->getServiceLocator()->get($serviceId)
-            : new $className;
+            : $this->propagate(new $className);
     }
 
     protected function getRequest()

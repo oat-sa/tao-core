@@ -35,24 +35,17 @@ use tao_helpers_Uri;
  */
 abstract class Model extends tao_helpers_form_elements_MultipleElement
 {
+    public const WIDGET_ID = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ModelSelector';
 
-    /**
-     * @todo should be a constant
-     * @var string
-     */
-    protected $widget = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ModelSelector';
-    
     /**
      * (non-PHPdoc)
      * @see tao_helpers_form_elements_MultipleElement::getOptions()
      */
     public function getOptions()
     {
-        $options = parent::getOptions();
-        
         $statusProperty = new core_kernel_classes_Property(TaoOntology::PROPERTY_ABSTRACT_MODEL_STATUS);
         $current = $this->getEvaluatedValue();
-                    
+
         $options = [];
         foreach (parent::getOptions() as $optUri => $optLabel) {
             $model = new core_kernel_classes_Resource(tao_helpers_Uri::decode($optUri));
@@ -63,7 +56,7 @@ abstract class Model extends tao_helpers_form_elements_MultipleElement
                 $options[$optUri] = $optLabel . ' (' . (is_null($status) ? __('unknown') : $status->getLabel()) . ')';
             }
         }
-        
+
         return $options;
     }
 }
