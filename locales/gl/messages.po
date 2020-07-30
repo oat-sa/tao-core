@@ -1,24 +1,26 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-27 15:25+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: gl\n"
+"Project-Id-Version: TAO 3.4.0-sprint121\n"
+"PO-Revision-Date: 2020-07-30T12:56:08\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Language: gl\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: gl\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 2.2.5\n"
-"X-Pootle-Path: /gl/tao33/tao/messages.po\n"
-"X-Pootle-Revision: 26664\n"
+"X-Poedit-Basepath: ../../\n"
+"X-Poedit-KeywordsList: __\n"
+"X-Poedit-SearchPath-0: .\n"
 
-msgid " AND "
-msgstr " E "
+msgid ""
+msgstr ""
 
 msgid " and "
 msgstr " e "
+
+msgid " AND "
+msgstr " E "
 
 msgid " has been deleted successfully"
 msgstr " foi eliminado correctamente"
@@ -182,9 +184,13 @@ msgstr "Accións"
 msgid "Add"
 msgstr "Engadir"
 
+msgid "Add / Edit lists"
+msgstr ""
+
 msgid "Add a CSV file"
 msgstr "Engadir un ficheiro CSV"
 
+#, tao-public
 msgid "Add a user"
 msgstr "Engadir un usuario"
 
@@ -224,6 +230,12 @@ msgstr "Requísense todos os campos"
 msgid "All rights reserved."
 msgstr "Todos os dereitos reservados."
 
+msgid "Allow for all domains"
+msgstr ""
+
+msgid "Allow for the following domains"
+msgstr ""
+
 msgid "Alpha version"
 msgstr "Versión alfa"
 
@@ -248,6 +260,9 @@ msgstr ""
 msgid "Apply"
 msgstr "Aplicar"
 
+msgid "Apply date range"
+msgstr ""
+
 msgid "Arc cosine"
 msgstr ""
 
@@ -260,11 +275,9 @@ msgstr ""
 msgid "Archived"
 msgstr ""
 
-msgid ""
-"Are you sure to delete the versioned resource?\n"
+msgid "Are you sure to delete the versioned resource?\n"
 "The history will be lost as well."
-msgstr ""
-"Está seguro de que quere eliminar o recurso versionado?\n"
+msgstr "Está seguro de que quere eliminar o recurso versionado?\n"
 "Tamén perderá o histórico."
 
 msgid "Are you sure you want to delete it?"
@@ -279,6 +292,7 @@ msgstr ""
 msgid "Assign User to role"
 msgstr "Asignar un rol ao usuario"
 
+#, tao-public
 msgid "Assign Users"
 msgstr "Asignar usuarios"
 
@@ -366,6 +380,7 @@ msgstr "Sensible a maiúsculas e minúsculas"
 msgid "ceil"
 msgstr ""
 
+#, tao-public
 msgid "Change password"
 msgstr "Cambiar contrasinal"
 
@@ -375,10 +390,10 @@ msgstr "Cambiar o contrasinal"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check All"
+msgid "Check all"
 msgstr "Comprobar todo"
 
-msgid "Check all"
+msgid "Check All"
 msgstr "Comprobar todo"
 
 msgid "Check-in"
@@ -428,6 +443,9 @@ msgstr ""
 
 msgid "Clear selection"
 msgstr "Borrar selección"
+
+msgid "Clear the date time picker"
+msgstr ""
 
 msgid "Clear the stored variables"
 msgstr ""
@@ -501,7 +519,13 @@ msgstr "Crear unha instancia de "
 msgid "Created"
 msgstr "Creado"
 
+msgid "Creating report ..."
+msgstr ""
+
 msgid "Creation At"
+msgstr ""
+
+msgid "CSP Header settings were saved successfully!"
 msgstr ""
 
 msgid "CSV"
@@ -540,6 +564,15 @@ msgstr "Non se importaron os datos. Son incorrectos todos os rexistros."
 msgid "Date"
 msgstr "Datos"
 
+msgid "date range"
+msgstr ""
+
+msgid "date time"
+msgstr ""
+
+msgid "date time range"
+msgstr ""
+
 msgid "Default search"
 msgstr "Busca predeterminada"
 
@@ -552,6 +585,7 @@ msgstr ""
 msgid "Degree"
 msgstr ""
 
+#, tao-public
 msgid "Delete"
 msgstr "Eliminar"
 
@@ -606,11 +640,9 @@ msgstr ""
 msgid "Disabled %s"
 msgstr "Desactivado %s"
 
-msgid ""
-"Do you wish to install the following extension(s):\n"
+msgid "Do you wish to install the following extension(s):\n"
 "%s?"
-msgstr ""
-"Quere instalar a(s) seguinte(s) extensión(s):\n"
+msgstr "Quere instalar a(s) seguinte(s) extensión(s):\n"
 "%s? "
 
 msgid "does not match"
@@ -640,6 +672,7 @@ msgstr "Arrastrar os ficheiros a enviar"
 msgid "Edit"
 msgstr "Modificar"
 
+#, tao-public
 msgid "Edit a user"
 msgstr "Modificar un usuario"
 
@@ -648,6 +681,9 @@ msgstr "Modificar a clase %s"
 
 msgid "Edit Instance"
 msgstr "Modificar a instancia"
+
+msgid "Edit sources that can embed this platform in an iFrame"
+msgstr ""
 
 msgid "Element"
 msgstr "Elemento"
@@ -706,6 +742,7 @@ msgstr ""
 msgid "Exponent"
 msgstr ""
 
+#, tao-public
 msgid "Export"
 msgstr "Exportar"
 
@@ -730,6 +767,7 @@ msgstr ""
 msgid "Extension \"%s\" has been installed"
 msgstr ""
 
+#, tao-public
 msgid "Extensions manager"
 msgstr "Xestor de complementos"
 
@@ -799,11 +837,20 @@ msgstr "Axustar ao largo"
 msgid "floor"
 msgstr ""
 
+msgid "Forbid for all domains"
+msgstr ""
+
 msgid "Force Release"
 msgstr "Forzar liberación"
 
 msgid "Forgot your password?"
 msgstr "Esqueceu seu contrasinal?"
+
+msgid "Form"
+msgstr ""
+
+msgid "Form data not saved."
+msgstr ""
 
 msgid "From"
 msgstr "De"
@@ -898,11 +945,11 @@ msgstr "Importouse o recurso \"%s"
 msgid "impossible to update task status"
 msgstr "Non se puido actualizar o estado da tarefa"
 
-msgid "In progress"
-msgstr "En progreso"
-
 msgid "In Progress"
 msgstr ""
+
+msgid "In progress"
+msgstr "En progreso"
 
 msgid "Inclusive (AND)"
 msgstr "Inclusivo (AND)"
@@ -943,10 +990,13 @@ msgstr ""
 msgid "Instance saved"
 msgstr ""
 
+msgid "Interface Language"
+msgstr ""
+
 msgid "Interface language"
 msgstr ""
 
-msgid "Interface Language"
+msgid "Invalid CSP header."
 msgstr ""
 
 msgid "Invalid date range (must be after or the same as: %s)"
@@ -979,6 +1029,9 @@ msgstr ""
 msgid "Invalid file type!"
 msgstr ""
 
+msgid "Invalid input"
+msgstr ""
+
 msgid "Invalid input for function"
 msgstr ""
 
@@ -989,6 +1042,9 @@ msgid "Invalid login or password. Your account has been locked, please contact y
 msgstr ""
 
 msgid "invalid regular expression"
+msgstr ""
+
+msgid "items per page"
 msgstr ""
 
 msgid "Label"
@@ -1025,6 +1081,9 @@ msgid "List - Single choice - Drop down"
 msgstr ""
 
 msgid "List - Single choice - Radio button"
+msgstr ""
+
+msgid "List values"
 msgstr ""
 
 msgid "ln"
@@ -1087,12 +1146,14 @@ msgstr ""
 msgid "Manage data list"
 msgstr ""
 
+#, tao-public
 msgid "Manage roles"
 msgstr ""
 
 msgid "Manage Roles and apply them to users."
 msgstr ""
 
+#, tao-public
 msgid "Manage users"
 msgstr ""
 
@@ -1144,6 +1205,7 @@ msgstr ""
 msgid "Move Right"
 msgstr ""
 
+#, tao-public
 msgid "Move role"
 msgstr ""
 
@@ -1162,6 +1224,9 @@ msgstr ""
 msgid "Multiple values delimiter"
 msgstr ""
 
+msgid "Multiply the value by 10^x"
+msgstr ""
+
 msgid "must be numeric"
 msgstr ""
 
@@ -1171,6 +1236,7 @@ msgstr ""
 msgid "My custom text translation"
 msgstr ""
 
+#, tao-public
 msgid "My settings"
 msgstr ""
 
@@ -1186,6 +1252,7 @@ msgstr ""
 msgid "New password"
 msgstr ""
 
+#, tao-public
 msgid "New role"
 msgstr ""
 
@@ -1222,10 +1289,10 @@ msgstr ""
 msgid "no label"
 msgstr ""
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr ""
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr ""
 
 msgid "No results found"
@@ -1249,7 +1316,11 @@ msgstr ""
 msgid "Nothing to list!"
 msgstr ""
 
+#, tao-public
 msgid "Notifications"
+msgstr ""
+
+msgid "notifications drivers aren\'t persistent. use a persistent database storage driver"
 msgstr ""
 
 msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
@@ -1279,10 +1350,16 @@ msgstr ""
 msgid "On"
 msgstr ""
 
+msgid "Only allow for my own domain (%s)"
+msgstr ""
+
 msgid "Operated By "
 msgstr ""
 
 msgid "or"
+msgstr ""
+
+msgid "Outlook on the next Synchronization"
 msgstr ""
 
 msgid "Page"
@@ -1348,6 +1425,9 @@ msgstr ""
 msgid "Please contact your administrator."
 msgstr ""
 
+msgid "Please contact your system administrator."
+msgstr ""
+
 msgid "Please download the track and listen offline."
 msgstr ""
 
@@ -1399,7 +1479,11 @@ msgstr ""
 msgid "Proceed"
 msgstr ""
 
+#, tao-public
 msgid "Properties"
+msgstr ""
+
+msgid "Property\'s label field is required"
 msgstr ""
 
 msgid "Property\\'s label field is required"
@@ -1507,10 +1591,16 @@ msgstr ""
 msgid "Reset the original size"
 msgstr ""
 
+msgid "Reset the range values"
+msgstr ""
+
 msgid "Resource"
 msgstr ""
 
 msgid "Resource copied"
+msgstr ""
+
+msgid "Resource deleted"
 msgstr ""
 
 msgid "Resource Identifier"
@@ -1537,6 +1627,12 @@ msgstr ""
 msgid "Resources moved"
 msgstr ""
 
+msgid "Resources successfully indexed"
+msgstr ""
+
+msgid "Resources was not indexed"
+msgstr ""
+
 msgid "Responsive mode"
 msgstr ""
 
@@ -1558,6 +1654,7 @@ msgstr ""
 msgid "Roles"
 msgstr ""
 
+#, tao-public
 msgid "Roles library"
 msgstr ""
 
@@ -1582,6 +1679,9 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
+msgid "Saved."
+msgstr ""
+
 msgid "Scientific Calculator"
 msgstr ""
 
@@ -1604,6 +1704,13 @@ msgid "second"
 msgstr ""
 
 msgid "seconds"
+msgstr ""
+
+#, tao-public
+msgid "Security"
+msgstr ""
+
+msgid "Security settings"
 msgstr ""
 
 msgid "select"
@@ -1648,6 +1755,7 @@ msgstr ""
 msgid "Set the trigonometric function to work in radians"
 msgstr ""
 
+#, tao-public
 msgid "Settings"
 msgstr ""
 
@@ -1678,6 +1786,9 @@ msgstr ""
 msgid "Some resources have not been moved: %s"
 msgstr ""
 
+msgid "Sources that can embed this platform in an iFrame"
+msgstr ""
+
 msgid "Square root"
 msgstr ""
 
@@ -1702,7 +1813,16 @@ msgstr ""
 msgid "Street"
 msgstr ""
 
+msgid "Submit"
+msgstr ""
+
 msgid "Success"
+msgstr ""
+
+msgid "Successfully cloned instance as %s"
+msgstr ""
+
+msgid "Successfully deleted %s"
 msgstr ""
 
 msgid "Successfully imported \"%s"
@@ -1861,6 +1981,9 @@ msgstr ""
 msgid "This should not equal %s"
 msgstr ""
 
+msgid "time"
+msgstr ""
+
 msgid "Time zone"
 msgstr ""
 
@@ -1877,6 +2000,9 @@ msgid "to translate"
 msgstr ""
 
 msgid "Toggle multiple/single selection"
+msgstr ""
+
+msgid "Toggle the date time picker"
 msgstr ""
 
 msgid "Tokenizer"
@@ -1904,6 +2030,9 @@ msgid "Translation saved"
 msgstr ""
 
 msgid "Tree - Multiple node choice "
+msgstr ""
+
+msgid "Tree values"
 msgstr ""
 
 msgid "True"
@@ -1942,6 +2071,9 @@ msgstr ""
 msgid "Unable to open file %s"
 msgstr ""
 
+msgid "Unable to process your request"
+msgstr ""
+
 msgid "Unable to release the lock"
 msgstr ""
 
@@ -1972,10 +2104,10 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr ""
 
 msgid "Undefined amount of the pages for pagination"
@@ -2062,19 +2194,27 @@ msgstr ""
 msgid "User saved"
 msgstr ""
 
+#, tao-public
 msgid "User Settings"
 msgstr ""
 
 msgid "Username"
 msgstr ""
 
+#, tao-public
 msgid "Users"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Language does not exist in the system"
 msgstr ""
 
 msgid "Validation for field '%s' has failed. Language does not exists in the system"
 msgstr ""
 
 msgid "Validation for field '%s' has failed. List of values expected"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Should not be empty"
 msgstr ""
 
 msgid "Validation for field '%s' has failed. Valid role expected. Given: %s"
@@ -2084,6 +2224,9 @@ msgid "Validation for field '%s' has failed. Valid URI expected"
 msgstr ""
 
 msgid "Validation for field '%s' has failed. Valid URI expected. Given: %s"
+msgstr ""
+
+msgid "Value ellipsis"
 msgstr ""
 
 msgid "Value of E"
@@ -2181,3 +2324,4 @@ msgstr ""
 
 msgid "Zip Code"
 msgstr ""
+
