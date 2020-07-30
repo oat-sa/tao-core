@@ -95,17 +95,9 @@ abstract class AbstractStatementMigrationTask implements Action, ServiceLocatorA
         return $report;
     }
 
-    private function getQueueMigrationService(): QueueMigrationService
-    {
-        return $this->getServiceLocator()->get(QueueMigrationService::class);
-    }
-
     private function respawnTask(int $start, int $chunkSize, int $pickSize, bool $repeat = true): CallbackTaskInterface
     {
-        /** @var QueueDispatcherInterface $queueDispatcher */
-        $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcherInterface::SERVICE_ID);
-
-        return $queueDispatcher->createTask(
+        return $this->getQueueDispatcher()->createTask(
             new static(), //todo replace with valid object
             ['start' => $start, 'chunkSize' => $chunkSize, 'pickSize' => $pickSize, 'repeat' => $repeat],
             sprintf(
@@ -115,5 +107,15 @@ abstract class AbstractStatementMigrationTask implements Action, ServiceLocatorA
                 $chunkSize
             )
         );
+    }
+
+    private function getQueueMigrationService(): QueueMigrationService
+    {
+        return $this->getServiceLocator()->get(QueueMigrationService::class);
+    }
+
+    private function getQueueDispatcher():QueueDispatcherInterface
+    {
+        return $this->getServiceLocator()->get(QueueDispatcherInterface::SERVICE_ID);
     }
 }
