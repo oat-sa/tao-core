@@ -20,20 +20,23 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\task\migration;
+namespace oat\tao\model\task\migration\service;
 
-class StatementUnit
+class ResultUnit
 {
-    /** @var string */
-    private $uri;
+    /** @var object|array */
+    private $resource;
 
-    public function __construct(string $uri)
+    public function __construct($resource)
     {
-        $this->uri = $uri;
+        $this->resource = $resource;
     }
 
-    public function getUri(): string
+    /**
+     * @return array|object
+     */
+    public function getResource()
     {
-        return $this->uri;
+        return $this->resource;
     }
 }

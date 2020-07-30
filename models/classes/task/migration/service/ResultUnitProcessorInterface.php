@@ -21,11 +21,7 @@
 
 namespace oat\tao\model\task\migration\service;
 
-use oat\tao\model\task\migration\StatementUnit;
-
 interface ResultUnitProcessorInterface
 {
-    public function process(StatementUnit $unit): void;
-
-    public function getTargetClasses(): array;
+    public function process(ResultUnit $unit): void;
 }

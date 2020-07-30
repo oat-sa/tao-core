@@ -25,18 +25,18 @@ namespace oat\tao\test\unit\models\classes\task\migration;
 use common_exception_MissingParameter;
 use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
-use oat\tao\model\task\migration\AbstractStatementMigrationTask;
+use oat\tao\model\task\migration\AbstractMigrationTask;
 
 class AbstractStatementMigrationTaskTest extends TestCase
 {
     /**
-     * @var AbstractStatementMigrationTask|MockObject
+     * @var AbstractMigrationTask|MockObject
      */
     private $subject;
 
     public function setUp(): void
     {
-        $this->subject = $this->getMockForAbstractClass(AbstractStatementMigrationTask::class);
+        $this->subject = $this->getMockForAbstractClass(AbstractMigrationTask::class);
     }
 
     public function testInvokeWithNoParams(): void

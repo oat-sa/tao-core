@@ -26,5 +26,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class ResultUnitCollection extends ArrayCollection
 {
-
+    public function __construct(ResultUnit ...$units)
+    {
+        parent::__construct(...$units);
+    }
 }
