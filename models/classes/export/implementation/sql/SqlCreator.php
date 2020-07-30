@@ -59,7 +59,7 @@ class SqlCreator
             $columnsCreatingStringArray[] = $column->getColumnCreatingString();
         }
 
-        return sprintf("CREATE TABLE %s (\n\t%s\n);", $this->table->getTableName(), implode(",\n\t", $columnsCreatingStringArray));
+        return sprintf("CREATE TABLE IF NOT EXISTS %s (\n\t%s\n);", $this->table->getTableName(), implode(",\n\t", $columnsCreatingStringArray));
     }
 
     /**
