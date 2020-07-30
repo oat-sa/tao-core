@@ -21,14 +21,11 @@ declare(strict_types=1);
 
 namespace oat\tao\model\search\tasks;
 
-use common_ext_Extension;
-use common_ext_ExtensionsManager;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\action\Action;
 use oat\tao\model\search\index\DocumentBuilder\IndexDocumentBuilder;
 use oat\tao\model\search\index\IndexService;
 use oat\tao\model\search\Search;
-use oat\tao\model\TaoOntology;
 use oat\tao\model\taskQueue\Task\TaskAwareInterface;
 use oat\tao\model\taskQueue\Task\TaskAwareTrait;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
