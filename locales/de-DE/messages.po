@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.4.0-sprint121\n"
-"PO-Revision-Date: 2020-01-31T09:51:06\n"
+"PO-Revision-Date: 2020-07-30T15:29:47\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: de-DE\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " AND "
-msgstr ""
-
 msgid " and "
 msgstr " und "
+
+msgid " AND "
+msgstr ""
 
 msgid " has been deleted successfully"
 msgstr " wurde erfolgreich gelöscht"
@@ -371,11 +371,11 @@ msgstr ""
 msgid "Calendar"
 msgstr "Kalender"
 
-msgid "Cancel"
-msgstr "Abbrechen"
-
 msgid "cancel"
 msgstr "abbrechen"
+
+msgid "Cancel"
+msgstr "Abbrechen"
 
 msgid "cancel the action"
 msgstr "Aktion abbrechen"
@@ -405,11 +405,11 @@ msgstr "Passwort ändern"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check All"
-msgstr "Alle markieren"
-
 msgid "Check all"
 msgstr "Alles markieren"
+
+msgid "Check All"
+msgstr "Alle markieren"
 
 msgid "Check-in"
 msgstr "Check-In"
@@ -450,10 +450,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
 msgid "Clear selection"
@@ -972,10 +972,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1014,10 +1014,10 @@ msgstr "Installieren der Erweiterung %s..."
 msgid "Instance saved"
 msgstr "Instanz gespeichert"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "Sprache der Benutzeroberfläche"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "Sprache der Benutzeroberfläche"
 
 msgid "Invalid CSP header."
@@ -1368,10 +1368,10 @@ msgstr "von"
 msgid "Off"
 msgstr ""
 
-msgid "Ok"
+msgid "OK"
 msgstr "OK"
 
-msgid "OK"
+msgid "Ok"
 msgstr "OK"
 
 msgid "Old Password"
@@ -1731,11 +1731,11 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "select"
-msgstr "auswählen"
-
 msgid "Select"
 msgstr "Auswählen"
+
+msgid "select"
+msgstr "auswählen"
 
 msgid "Select a class"
 msgstr ""
