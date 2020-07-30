@@ -65,9 +65,9 @@ abstract class AbstractStatementMigrationTask implements Action, ServiceLocatorA
         $report = common_report_Report::createInfo('Statement Migration Task');
 
         if (
-            !array_key_exists('start', $params) &&
-            !array_key_exists('chunkSize', $params) &&
-            !array_key_exists('pickSize', $params) &&
+            !array_key_exists('start', $params) ||
+            !array_key_exists('chunkSize', $params) ||
+            !array_key_exists('pickSize', $params) ||
             !array_key_exists('repeat', $params)
         ) {
             throw new common_exception_MissingParameter();

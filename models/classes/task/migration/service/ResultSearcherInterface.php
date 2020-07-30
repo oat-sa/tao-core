@@ -28,5 +28,4 @@ use oat\tao\model\task\migration\StatementMigrationConfig;
 interface ResultSearcherInterface
 {
     public function search(StatementMigrationConfig $filter): Iterator;
-
 }
