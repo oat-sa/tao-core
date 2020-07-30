@@ -1285,7 +1285,7 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         $this->skip('40.3.4', '40.6.1');
-      
+
         if ($this->isVersion('40.6.1')) {
             /** @var EventManager $eventManager */
             $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
@@ -1298,6 +1298,6 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('40.7.0');
         }
 
-        $this->skip('40.7.0', '40.7.2');
+        $this->skip('40.7.0', '40.7.3');
     }
 }
