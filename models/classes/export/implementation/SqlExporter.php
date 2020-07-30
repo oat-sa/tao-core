@@ -22,11 +22,9 @@
 namespace oat\tao\model\export\implementation;
 
 use GuzzleHttp\Psr7\Response;
-use oat\tao\model\export\implementation\sql\ExportedColumn;
 use oat\tao\model\export\implementation\sql\ExportedTable;
 use oat\tao\model\export\implementation\sql\SqlCreator;
 use oat\tao\model\export\PsrResponseExporter;
-use oat\taoOutcomeUi\model\table\VariableColumn;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -35,51 +33,31 @@ use Psr\Http\Message\ResponseInterface;
  */
 class SqlExporter extends AbstractFileExporter implements PsrResponseExporter
 {
-    private $mappingVarTypes = [
-        'integer'    => ExportedColumn::TYPE_INTEGER,
-        'boolean'    => ExportedColumn::TYPE_BOOLEAN,
-        'identifier' => ExportedColumn::TYPE_VARCHAR,
-        'duration'   => ExportedColumn::TYPE_DECIMAL,
-        'float'      => ExportedColumn::TYPE_DECIMAL
-    ];
-
-    private $mappingFieldsTypes = [
-        'Test Taker ID'             => ExportedColumn::TYPE_VARCHAR,
-        'Test Taker'                => ExportedColumn::TYPE_VARCHAR,
-        'Login'                     => ExportedColumn::TYPE_VARCHAR,
-        'First Name'                => ExportedColumn::TYPE_VARCHAR,
-        'Last Name'                 => ExportedColumn::TYPE_VARCHAR,
-        'Mail'                      => ExportedColumn::TYPE_VARCHAR,
-        'Interface Language'        => ExportedColumn::TYPE_VARCHAR,
-        'Group'                     => ExportedColumn::TYPE_VARCHAR,
-        'Delivery'                  => ExportedColumn::TYPE_VARCHAR,
-        'Title'                     => ExportedColumn::TYPE_VARCHAR,
-        'Start Date'                => ExportedColumn::TYPE_TIMESTAMP,
-        'End Date'                  => ExportedColumn::TYPE_TIMESTAMP,
-        'Display Order'             => ExportedColumn::TYPE_VARCHAR,
-        'Access'                    => ExportedColumn::TYPE_VARCHAR,
-        'Runtime'                   => ExportedColumn::TYPE_VARCHAR,
-        'Delivery container serial' => ExportedColumn::TYPE_VARCHAR,
-        'Delivery origin'           => ExportedColumn::TYPE_VARCHAR,
-        'Compilation Directory'     => ExportedColumn::TYPE_VARCHAR,
-        'Compilation Time'          => ExportedColumn::TYPE_INTEGER,
-        'Start Delivery Execution'  => ExportedColumn::TYPE_TIMESTAMP,
-        'End Delivery Execution'    => ExportedColumn::TYPE_TIMESTAMP,
-        'Max. Executions (default: unlimited)' => ExportedColumn::TYPE_VARCHAR,
-    ];
+    private $tableName;
+    /**
+     * @var array
+     */
+    private $typesMapping;
 
     /**
-     * @inheritdoc
+     * @param array $data Data to be exported
+     * @param array $typesMapping
+     * @param string $tableName
+     */
+    public function __construct($data, array $typesMapping, string $tableName = 'result_table')
+    {
+        parent::__construct($data);
+        $this->data = $data;
+        $this->typesMapping = $typesMapping;
+        $this->tableName = $tableName;
+    }
+
+    /**
+     * @return ResponseInterface|string
      */
     public function export()
     {
-        foreach ($this->columnsData as $columnData) {
-            if ($columnData instanceof VariableColumn) {
-                $this->mappingFieldsTypes[$columnData->getLabel()] = $this->mappingVarTypes[$columnData->getBaseType()];
-            }
-        }
-
-        $exportedTable = new ExportedTable($this->data, $this->mappingVarTypes, 'result_table');
+        $exportedTable = new ExportedTable($this->data, $this->typesMapping, $this->tableName);
         $sqlCreator = new SqlCreator($exportedTable);
 
         return $sqlCreator->getExportSql();

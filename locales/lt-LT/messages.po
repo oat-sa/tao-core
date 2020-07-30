@@ -782,6 +782,9 @@ msgstr "Eksportuoti \"%s\" į %s"
 msgid "Export CSV"
 msgstr "Eksportuoti CSV"
 
+msgid "Export SQL"
+msgstr "Eksportuoti SQL"
+
 msgid "Export failed."
 msgstr "Eksportavimas nepavyko."
 

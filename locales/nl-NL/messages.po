@@ -782,6 +782,9 @@ msgstr ""
 msgid "Export CSV"
 msgstr "Exporteer CSV"
 
+msgid "Export SQL"
+msgstr "Exporteer SQL"
+
 msgid "Export failed."
 msgstr "Export is mislukt."
 
