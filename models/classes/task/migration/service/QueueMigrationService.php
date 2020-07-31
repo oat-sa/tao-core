@@ -41,7 +41,7 @@ class QueueMigrationService extends ConfigurableService
             $max
         );
 
-        $results = $resultSearcher->search($config->getStart(), $end, $max);
+        $results = $resultSearcher->search($config->getStart(), $end);
 
         foreach ($results as $unit) {
             try {

@@ -26,5 +26,5 @@ use oat\tao\model\task\migration\ResultUnitCollection;
 
 interface ResultSearcherInterface
 {
-    public function search(int $start, int $end, int $max): ResultUnitCollection;
+    public function search(int $start, int $end): ResultUnitCollection;
 }
