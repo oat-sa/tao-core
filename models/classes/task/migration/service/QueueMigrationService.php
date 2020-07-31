@@ -32,7 +32,12 @@ class QueueMigrationService extends ConfigurableService
     /** @var int */
     private $affected;
 
-    public function migrate(MigrationConfig $config, ResultUnitProcessorInterface $resultUnitProcessor, ResultSearcherInterface $resultSearcher, common_report_Report $report): ?MigrationConfig
+    public function migrate(
+        MigrationConfig $config,
+        ResultUnitProcessorInterface $resultUnitProcessor,
+        ResultSearcherInterface $resultSearcher,
+        common_report_Report $report
+    ): ?MigrationConfig
     {
         $max = $this->getStatementLastIdRetriever()->retrieve();
         $end = $this->calculateEndPosition(
@@ -53,7 +58,11 @@ class QueueMigrationService extends ConfigurableService
             }
         }
         $report->add(common_report_Report::createSuccess(
-            sprintf('Units in range from %s to %s proceeded in amount of %s', $config->getStart(), $end, $this->affected)));
+            sprintf('Units in range from %s to %s proceeded in amount of %s',
+                $config->getStart(),
+                $end,
+                $this->affected
+            )));
 
         if ($config->isProcessAll()) {
             $nStart = $end + 1;

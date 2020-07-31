@@ -36,13 +36,10 @@ class MigrationConfig
     /** @var bool */
     private $processAll;
 
-    /** @var int */
-    private $end;
-
 
     public function __construct(
-        int $chunkSize,
         int $start,
+        int $chunkSize,
         int $pickSize,
         bool $processAll
     )

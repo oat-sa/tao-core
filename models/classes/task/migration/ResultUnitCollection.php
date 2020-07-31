@@ -28,6 +28,6 @@ class ResultUnitCollection extends ArrayCollection
 {
     public function __construct(ResourceResultUnit ...$units)
     {
-        parent::__construct(...$units);
+        parent::__construct($units);
     }
 }

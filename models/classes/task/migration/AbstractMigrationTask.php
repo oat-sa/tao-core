@@ -77,8 +77,8 @@ abstract class AbstractMigrationTask implements Action, ServiceLocatorAwareInter
         }
 
         $migrationConfig = new MigrationConfig(
-            (int)$params['chunkSize'],
             (int)$params['start'],
+            (int)$params['chunkSize'],
             (int)$params['pickSize'],
             (bool)$params['repeat']
         );
@@ -87,8 +87,8 @@ abstract class AbstractMigrationTask implements Action, ServiceLocatorAwareInter
 
         if ($respawnTaskConfig instanceof MigrationConfig) {
             $this->respawnTask(
-                $respawnTaskConfig->getChunkSize(),
                 $respawnTaskConfig->getStart(),
+                $respawnTaskConfig->getChunkSize(),
                 $respawnTaskConfig->getPickSize(),
                 $respawnTaskConfig->isProcessAll()
             );

@@ -167,6 +167,7 @@ class StatementsMigrationWrapper extends ScriptAction
     {
         /** @var QueueDispatcherInterface $queueDispatcher */
         $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcherInterface::SERVICE_ID);
+
         return $queueDispatcher->createTask(
             new $taskClass(),
             [
