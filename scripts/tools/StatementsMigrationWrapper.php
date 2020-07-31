@@ -72,7 +72,7 @@ class StatementsMigrationWrapper extends ScriptAction
                 'longPrefix' => 'repeat',
                 'required' => false,
                 'cast' => 'boolean',
-                'defaultValue' => true,
+                'flag' => true,
                 'description' => 'Scan all the records to the very end'
             ],
             'start' => [
@@ -108,7 +108,7 @@ class StatementsMigrationWrapper extends ScriptAction
         $start = $this->getOption('start');
         $isRecovery = $this->getOption('recoveryMode');
         $pickSize = $this->getOption('pickSize');
-        $repeat = $this->getOption('repeat');
+        $repeat = (bool) $this->getOption('repeat');
 
         $taskClass = $this->detectTargetClass($this->getOption('target'));
 

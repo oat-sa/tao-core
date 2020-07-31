@@ -30,7 +30,7 @@ use Throwable;
 class QueueMigrationService extends ConfigurableService
 {
     /** @var int */
-    private $affected;
+    private $affected = 0;
 
     public function migrate(
         MigrationConfig $config,
