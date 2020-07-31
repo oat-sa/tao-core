@@ -58,15 +58,11 @@ class QueueMigrationService extends ConfigurableService
             }
         }
         $report->add(common_report_Report::createSuccess(
-            sprintf('Units in range from %s to %s proceeded in amount of %s',
-                $config->getStart(),
-                $end,
-                $this->affected
-            )));
+            sprintf('Units proceed')));
 
         if ($config->isProcessAll()) {
             $nStart = $end + 1;
-            if ($nStart + $config->getChunkSize() <= $max) {
+            if ($nStart < $max) {
                 return new MigrationConfig(
                     $nStart,
                     $config->getChunkSize(),
