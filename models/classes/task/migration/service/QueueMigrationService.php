@@ -22,11 +22,9 @@ declare(strict_types=1);
 
 namespace oat\tao\model\task\migration\service;
 
-
 use common_report_Report;
 use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\task\migration\StatementMigrationConfig;
-use oat\tao\model\task\migration\StatementUnit;
+use oat\tao\model\task\migration\MigrationConfig;
 use Throwable;
 
 class QueueMigrationService extends ConfigurableService
@@ -34,21 +32,19 @@ class QueueMigrationService extends ConfigurableService
     /** @var int */
     private $affected;
 
-    public function migrate(StatementMigrationConfig $config, ResultUnitProcessorInterface $resultUnitProcessor, common_report_Report $report): ?StatementMigrationConfig
+    public function migrate(MigrationConfig $config, ResultUnitProcessorInterface $resultUnitProcessor, ResultSearcherInterface $resultSearcher, common_report_Report $report): ?MigrationConfig
     {
-        $max = $this->getLastRowNumber();
+        $max = $this->getStatementLastIdRetriever()->retrieve();
         $end = $this->calculateEndPosition(
             $config->getStart(),
             $config->getChunkSize(),
             $max
         );
-        $config->setEnd($end);
 
-        $results = $this->getResultSearcher()->search($config);
+        $results = $resultSearcher->search($config->getStart(), $end, $max);
 
         foreach ($results as $unit) {
             try {
-                $unit = new StatementUnit($unit['subject']);
                 $resultUnitProcessor->process($unit);
                 $this->affected++;
             } catch (Throwable $exception) {
@@ -59,15 +55,14 @@ class QueueMigrationService extends ConfigurableService
         $report->add(common_report_Report::createSuccess(
             sprintf('Units in range from %s to %s proceeded in amount of %s', $config->getStart(), $end, $this->affected)));
 
-        if ($config->isProcessAllStatements()) {
+        if ($config->isProcessAll()) {
             $nStart = $end + 1;
             if ($nStart + $config->getChunkSize() <= $max) {
-                return new StatementMigrationConfig(
+                return new MigrationConfig(
                     $nStart,
                     $config->getChunkSize(),
                     $config->getPickSize(),
-                    $config->isProcessAllStatements(),
-                    $resultUnitProcessor->getTargetClasses()
+                    $config->isProcessAll()
                 );
             }
         }
@@ -85,18 +80,13 @@ class QueueMigrationService extends ConfigurableService
         return $end;
     }
 
-    public function getResultSearcher(): ResultSearcherInterface
+    private function getStatementLastIdRetriever(): StatementLastIdRetriever
     {
-        return $this->getServiceLocator()->get(ResultSearcherService::class);
+        return $this->getServiceLocator()->get(StatementLastIdRetriever::class);
     }
 
     public function getResultProcessor(): ResultUnitProcessorInterface
     {
         return $this->getServiceLocator()->get(ResultUnitProcessorInterface::class);
-    }
-
-    private function getLastRowNumber(): int
-    {
-        return $this->getServiceLocator()->get(StatementLastIdRetriever::class)->retrieve();
     }
 }

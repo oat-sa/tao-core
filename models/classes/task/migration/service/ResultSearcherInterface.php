@@ -22,10 +22,9 @@ declare(strict_types=1);
 
 namespace oat\tao\model\task\migration\service;
 
-use Iterator;
-use oat\tao\model\task\migration\StatementMigrationConfig;
+use oat\tao\model\task\migration\ResultUnitCollection;
 
 interface ResultSearcherInterface
 {
-    public function search(StatementMigrationConfig $filter): Iterator;
+    public function search(int $start, int $end, int $max): ResultUnitCollection;
 }

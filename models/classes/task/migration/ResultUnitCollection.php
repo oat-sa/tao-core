@@ -22,18 +22,12 @@ declare(strict_types=1);
 
 namespace oat\tao\model\task\migration;
 
-class StatementUnit
+use Doctrine\Common\Collections\ArrayCollection;
+
+class ResultUnitCollection extends ArrayCollection
 {
-    /** @var string */
-    private $uri;
-
-    public function __construct(string $uri)
+    public function __construct(ResourceResultUnit ...$units)
     {
-        $this->uri = $uri;
-    }
-
-    public function getUri(): string
-    {
-        return $this->uri;
+        parent::__construct(...$units);
     }
 }

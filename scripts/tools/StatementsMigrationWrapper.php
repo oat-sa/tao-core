@@ -26,7 +26,7 @@ use common_report_Report;
 use InvalidArgumentException;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\extension\script\ScriptAction;
-use oat\tao\model\task\migration\AbstractStatementMigrationTask;
+use oat\tao\model\task\migration\AbstractMigrationTask;
 use oat\tao\model\task\migration\service\PositionTracker;
 use oat\tao\model\taskQueue\QueueDispatcherInterface;
 use oat\tao\model\taskQueue\Task\CallbackTaskInterface;
@@ -90,7 +90,7 @@ class StatementsMigrationWrapper extends ScriptAction
                 'cast' => 'string',
                 'description' => sprintf(
                     'Define unit processing task (must extend "%s")',
-                    AbstractStatementMigrationTask::class
+                    AbstractMigrationTask::class
                 )
             ],
         ];
@@ -186,11 +186,11 @@ class StatementsMigrationWrapper extends ScriptAction
 
     private function detectTargetClass(string $target): string
     {
-        if (class_exists($target) && is_a($target, AbstractStatementMigrationTask::class, true)) {
+        if (class_exists($target) && is_a($target, AbstractMigrationTask::class, true)) {
             return $target;
         }
         throw new InvalidArgumentException(
-            sprintf('Task must extend %s', AbstractStatementMigrationTask::class)
+            sprintf('Task must extend %s', AbstractMigrationTask::class)
         );
     }
 }

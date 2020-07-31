@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This program is free software; you can redistribute it and/or
@@ -18,30 +18,27 @@
  * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
  */
 
+declare(strict_types=1);
 
-namespace oat\tao\test\unit\models\classes\task\migration;
+namespace oat\tao\model\task\migration;
 
+use core_kernel_classes_Resource;
 
-use common_exception_MissingParameter;
-use oat\generis\test\MockObject;
-use oat\generis\test\TestCase;
-use oat\tao\model\task\migration\AbstractMigrationTask;
-
-class AbstractStatementMigrationTaskTest extends TestCase
+class ResourceResultUnit
 {
-    /**
-     * @var AbstractMigrationTask|MockObject
-     */
-    private $subject;
+    /** @var array|object */
+    private $resource;
 
-    public function setUp(): void
+    public function __construct(core_kernel_classes_Resource $resource)
     {
-        $this->subject = $this->getMockForAbstractClass(AbstractMigrationTask::class);
+        $this->resource = $resource;
     }
 
-    public function testInvokeWithNoParams(): void
+    /**
+     * @return array|object
+     */
+    public function getResource()
     {
-        $this->expectException(common_exception_MissingParameter::class);
-        $this->subject->__invoke([]);
+        return $this->resource;
     }
 }

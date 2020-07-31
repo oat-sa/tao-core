@@ -20,13 +20,9 @@
 
 declare(strict_types=1);
 
-
 namespace oat\tao\model\task\migration;
 
-
-use oat\generis\model\OntologyRdf;
-
-class StatementMigrationConfig
+class MigrationConfig
 {
     /** @var int */
     private $chunkSize;
@@ -38,10 +34,7 @@ class StatementMigrationConfig
     private $pickSize;
 
     /** @var bool */
-    private $processAllStatements;
-
-    /** @var array */
-    private $itemClasses;
+    private $processAll;
 
     /** @var int */
     private $end;
@@ -51,25 +44,18 @@ class StatementMigrationConfig
         int $chunkSize,
         int $start,
         int $pickSize,
-        bool $processAllStatements,
-        array $itemClasses
+        bool $processAll
     )
     {
-        $this->itemClasses = $itemClasses;
         $this->chunkSize = $chunkSize;
         $this->start = $start;
         $this->pickSize = $pickSize;
-        $this->processAllStatements = $processAllStatements;
+        $this->processAll = $processAll;
     }
 
-    public function setEnd(int $end): void
+    public function isProcessAll(): bool
     {
-        $this->end = $end;
-    }
-
-    public function isProcessAllStatements(): bool
-    {
-        return $this->processAllStatements;
+        return $this->processAll;
     }
 
     public function getChunkSize(): int
@@ -85,24 +71,5 @@ class StatementMigrationConfig
     public function getPickSize(): int
     {
         return $this->pickSize;
-    }
-
-    /**
-     * @return array
-     */
-    public function getItemClasses(): array
-    {
-        return $this->itemClasses;
-    }
-
-
-    public function getParameters(): array
-    {
-        return [
-            'start' => $this->getStart(),
-            'end' => $this->end,
-            'predicate' => OntologyRdf::RDF_TYPE,
-            'class' => array_unique($this->getItemClasses())
-        ];
     }
 }

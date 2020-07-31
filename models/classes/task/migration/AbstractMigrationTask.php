@@ -28,6 +28,7 @@ use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\action\Action;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\tao\model\task\migration\service\QueueMigrationService;
+use oat\tao\model\task\migration\service\ResultSearcherInterface;
 use oat\tao\model\task\migration\service\ResultUnitProcessorInterface;
 use oat\tao\model\taskQueue\QueueDispatcherInterface;
 use oat\tao\model\taskQueue\Task\CallbackTaskInterface;
@@ -36,7 +37,7 @@ use oat\tao\model\taskQueue\Task\TaskAwareTrait;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
-abstract class AbstractStatementMigrationTask implements Action, ServiceLocatorAwareInterface, TaskAwareInterface
+abstract class AbstractMigrationTask implements Action, ServiceLocatorAwareInterface, TaskAwareInterface
 {
     use ServiceLocatorAwareTrait;
     use OntologyAwareTrait;
@@ -53,6 +54,8 @@ abstract class AbstractStatementMigrationTask implements Action, ServiceLocatorA
     private $errorReport;
 
     abstract protected function getUnitProcessor(): ResultUnitProcessorInterface;
+
+    abstract protected function getResultSearcher(): ResultSearcherInterface;
 
     /**
      * @param $params
@@ -73,22 +76,21 @@ abstract class AbstractStatementMigrationTask implements Action, ServiceLocatorA
             throw new common_exception_MissingParameter();
         }
 
-        $migrationConfig = new StatementMigrationConfig(
+        $migrationConfig = new MigrationConfig(
             (int)$params['chunkSize'],
             (int)$params['start'],
             (int)$params['pickSize'],
-            (bool)$params['repeat'],
-            $this->getUnitProcessor()->getTargetClasses()
+            (bool)$params['repeat']
         );
 
-        $respawnTaskConfig = $this->getQueueMigrationService()->migrate($migrationConfig, $this->getUnitProcessor(), $report);
+        $respawnTaskConfig = $this->getQueueMigrationService()->migrate($migrationConfig, $this->getUnitProcessor(), $this->getResultSearcher(), $report);
 
-        if ($respawnTaskConfig instanceof StatementMigrationConfig) {
+        if ($respawnTaskConfig instanceof MigrationConfig) {
             $this->respawnTask(
                 $respawnTaskConfig->getChunkSize(),
                 $respawnTaskConfig->getStart(),
                 $respawnTaskConfig->getPickSize(),
-                $respawnTaskConfig->isProcessAllStatements()
+                $respawnTaskConfig->isProcessAll()
             );
         }
 
@@ -98,7 +100,7 @@ abstract class AbstractStatementMigrationTask implements Action, ServiceLocatorA
     private function respawnTask(int $start, int $chunkSize, int $pickSize, bool $repeat = true): CallbackTaskInterface
     {
         return $this->getQueueDispatcher()->createTask(
-            new static(), //todo replace with valid object
+            new static(),
             ['start' => $start, 'chunkSize' => $chunkSize, 'pickSize' => $pickSize, 'repeat' => $repeat],
             sprintf(
                 'Unit processing by %s started from %s with chunk size of %s',
