@@ -34,6 +34,7 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Prophecy\Argument;
+use oat\generis\test\KeyValueMockTrait;
 
 /**
  * Help you to run the test into the TAO Context
@@ -43,6 +44,7 @@ use Prophecy\Argument;
 abstract class TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner implements ServiceLocatorAwareInterface
 {
     use ServiceLocatorAwareTrait;
+    use KeyValueMockTrait;
 
     const SESSION_KEY = 'TAO_TEST_SESSION';
     /**

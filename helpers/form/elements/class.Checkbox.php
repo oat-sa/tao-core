@@ -30,18 +30,12 @@
  */
 abstract class tao_helpers_form_elements_Checkbox extends tao_helpers_form_elements_MultipleElement
 {
+    public const WIDGET_ID = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#CheckBox';
+
     // --- ASSOCIATIONS ---
 
 
     // --- ATTRIBUTES ---
-
-    /**
-     * Short description of attribute widget
-     *
-     * @access protected
-     * @var string
-     */
-    protected $widget = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#CheckBox';
 
     /**
      * Store options that must be render as readonly
