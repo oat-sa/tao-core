@@ -22,18 +22,23 @@ declare(strict_types=1);
 
 namespace oat\tao\model\task\migration;
 
-class StatementUnit
-{
-    /** @var string */
-    private $uri;
+use core_kernel_classes_Resource;
 
-    public function __construct(string $uri)
+class ResourceResultUnit
+{
+    /** @var array|object */
+    private $resource;
+
+    public function __construct(core_kernel_classes_Resource $resource)
     {
-        $this->uri = $uri;
+        $this->resource = $resource;
     }
 
-    public function getUri(): string
+    /**
+     * @return array|object
+     */
+    public function getResource()
     {
-        return $this->uri;
+        return $this->resource;
     }
 }

@@ -19,29 +19,11 @@
  */
 
 
-namespace oat\tao\test\unit\models\classes\task\migration;
+namespace oat\tao\model\task\migration\service;
 
+use oat\tao\model\task\migration\ResourceResultUnit;
 
-use common_exception_MissingParameter;
-use oat\generis\test\MockObject;
-use oat\generis\test\TestCase;
-use oat\tao\model\task\migration\AbstractMigrationTask;
-
-class AbstractStatementMigrationTaskTest extends TestCase
+interface ResultUnitProcessorInterface
 {
-    /**
-     * @var AbstractMigrationTask|MockObject
-     */
-    private $subject;
-
-    public function setUp(): void
-    {
-        $this->subject = $this->getMockForAbstractClass(AbstractMigrationTask::class);
-    }
-
-    public function testInvokeWithNoParams(): void
-    {
-        $this->expectException(common_exception_MissingParameter::class);
-        $this->subject->__invoke([]);
-    }
+    public function process(ResourceResultUnit $unit): void;
 }

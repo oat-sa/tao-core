@@ -22,9 +22,12 @@ declare(strict_types=1);
 
 namespace oat\tao\model\task\migration;
 
-interface StatementUnitProcessorInterface
-{
-    public function getTargetClasses(): array;
+use Doctrine\Common\Collections\ArrayCollection;
 
-    public function process(StatementUnit $unit): void;
+class ResultUnitCollection extends ArrayCollection
+{
+    public function __construct(ResourceResultUnit ...$units)
+    {
+        parent::__construct(...$units);
+    }
 }

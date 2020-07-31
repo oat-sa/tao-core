@@ -22,57 +22,40 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\models\classes\task\migration\service;
 
-use common_persistence_sql_Platform;
-use common_persistence_SqlPersistence;
+use common_persistence_AdvKeyValuePersistence;
+use core_kernel_persistence_Exception;
 use core_kernel_persistence_smoothsql_SmoothModel;
-use Doctrine\DBAL\Driver\Statement;
 use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
-use oat\tao\model\task\migration\service\StatementTaskIterator;
+use oat\taoMediaManager\model\relation\service\MediaToMediaRdsSearcher;
 
-class StatementTaskIteratorTest extends TestCase
+class MediaToMediaRdsSearcherTest extends TestCase
 {
     /**
-     * @var StatementTaskIterator
+     * @var MediaToMediaRdsSearcher
      */
     private $subject;
 
-    /**
-     * @var common_persistence_SqlPersistence|MockObject
-     */
-    private $persistenceMock;
 
     /**
      * @var core_kernel_persistence_smoothsql_SmoothModel|MockObject
      */
     private $ontologyMock;
 
-
-    /**
-     * @var common_persistence_sql_Platform|MockObject
-     */
-    private $platformMock;
-
-    /**
-     * @var Statement|MockObject
-     */
-    private $statementMock;
-
     public function setUp(): void
     {
         $this->ontologyMock = $this->createMock(core_kernel_persistence_smoothsql_SmoothModel::class);
-        $this->persistenceMock = $this->createMock(common_persistence_SqlPersistence::class);
-        $this->platformMock = $this->createMock(common_persistence_sql_Platform::class);
-        $this->statementMock = $this->createMock(Statement::class);
-        $this->ontologyMock->method('getPersistence')->willReturn($this->persistenceMock);
-        $this->subject = new StatementTaskIterator();
+
+        $this->subject = new MediaToMediaRdsSearcher();
         $this->subject->setModel($this->ontologyMock);
     }
 
-    public function testGetIterator(): void
+    public function testSearchWrongPersistence(): void
     {
-        $this->persistenceMock->expects($this->once())->method('getPlatForm')->willReturn($this->platformMock);
-        $this->persistenceMock->expects($this->once())->method('query')->willReturn($this->statementMock);
-        $this->subject->getIterator([], 0, 1);
+        $advKeyValuePersistence = $this->createMock(common_persistence_AdvKeyValuePersistence::class);
+        $this->ontologyMock->method('getPersistence')->willReturn($advKeyValuePersistence);
+
+        $this->expectException(core_kernel_persistence_Exception::class);
+        $this->subject->search(0, 2, 1);
     }
 }
