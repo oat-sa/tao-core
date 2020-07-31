@@ -83,7 +83,12 @@ abstract class AbstractMigrationTask implements Action, ServiceLocatorAwareInter
             (bool)$params['repeat']
         );
 
-        $respawnTaskConfig = $this->getQueueMigrationService()->migrate($migrationConfig, $this->getUnitProcessor(), $this->getResultSearcher(), $report);
+        $respawnTaskConfig = $this->getQueueMigrationService()->migrate(
+            $migrationConfig,
+            $this->getUnitProcessor(),
+            $this->getResultSearcher(),
+            $report
+        );
 
         if ($respawnTaskConfig instanceof MigrationConfig) {
             $this->respawnTask(
@@ -116,7 +121,7 @@ abstract class AbstractMigrationTask implements Action, ServiceLocatorAwareInter
         return $this->getServiceLocator()->get(QueueMigrationService::class);
     }
 
-    private function getQueueDispatcher():QueueDispatcherInterface
+    private function getQueueDispatcher(): QueueDispatcherInterface
     {
         return $this->getServiceLocator()->get(QueueDispatcherInterface::SERVICE_ID);
     }
