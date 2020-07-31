@@ -57,12 +57,12 @@ class QueueMigrationService extends ConfigurableService
                 return null;
             }
         }
-        $report->add(common_report_Report::createSuccess(
-            sprintf('Units proceed')));
 
         if ($config->isProcessAll()) {
             $nStart = $end + 1;
             if ($nStart < $max) {
+                $report->add(common_report_Report::createInfo(
+                    sprintf('Respawning additional task')));
                 return new MigrationConfig(
                     $nStart,
                     $config->getChunkSize(),
@@ -71,6 +71,8 @@ class QueueMigrationService extends ConfigurableService
                 );
             }
         }
+
+        $report->add(common_report_Report::createSuccess('To repeat this process to other statements please provide -rp flag'));
 
         return null;
     }
