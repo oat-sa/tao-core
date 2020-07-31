@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint133\n"
-"PO-Revision-Date: 2020-07-17T08:34:24\n"
+"Project-Id-Version: TAO 3.4.0-sprint134\n"
+"PO-Revision-Date: 2020-07-31T09:50:50\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-FR\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " AND "
-msgstr " ET "
-
 msgid " and "
 msgstr " et "
+
+msgid " AND "
+msgstr " ET "
 
 msgid " has been deleted successfully"
 msgstr " a été supprimé avec succès."
@@ -371,11 +371,11 @@ msgstr "Calculatrice"
 msgid "Calendar"
 msgstr "Calendrier"
 
-msgid "Cancel"
-msgstr "Annuler"
-
 msgid "cancel"
 msgstr "annuler"
+
+msgid "Cancel"
+msgstr "Annuler"
 
 msgid "cancel the action"
 msgstr "annuler l'action"
@@ -450,10 +450,10 @@ msgstr "Effacer toutes les données"
 msgid "Clear expression"
 msgstr "Effacer l'expression"
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr "Effacer l'historique"
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr "Effacer l'historique"
 
 msgid "Clear selection"
@@ -570,10 +570,10 @@ msgstr "Données importées avec succès."
 msgid "Data imported. Some records are invalid."
 msgstr "Données importées. Certains enregistrements sont invalides."
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "Langue des données"
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "Langue des données"
 
 msgid "Data not imported. All records are invalid."
@@ -987,10 +987,10 @@ msgstr "Ressource %s importée"
 msgid "impossible to update task status"
 msgstr "Impossible de mettre à jour l'état de la tâche"
 
-msgid "In Progress"
+msgid "In progress"
 msgstr "En cours"
 
-msgid "In progress"
+msgid "In Progress"
 msgstr "En cours"
 
 msgid "Inclusive (AND)"
@@ -1133,6 +1133,9 @@ msgstr "Liste - Choix unique - Liste déroulante"
 
 msgid "List - Single choice - Radio button"
 msgstr "Liste - Choix multiple - Bouton radio"
+
+msgid "List - Single choice - Search input"
+msgstr ""
 
 msgid "List item URI duplications found"
 msgstr ""
