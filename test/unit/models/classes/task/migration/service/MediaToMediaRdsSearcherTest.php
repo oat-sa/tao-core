@@ -57,6 +57,5 @@ class MediaToMediaRdsSearcherTest extends TestCase
 
         $this->expectException(core_kernel_persistence_Exception::class);
         $this->subject->search(0, 2, 1);
-
     }
 }
