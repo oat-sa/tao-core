@@ -33,7 +33,7 @@ class ExportedTable
     private $columns = [];
 
     /**
-     * @var array $columns
+     * @var array
      */
     private $rows = [];
 
@@ -86,7 +86,31 @@ class ExportedTable
         return $this->rows;
     }
 
-    public function getColumn($name)
+    /**
+     * @return string
+     */
+    public function getTableName(): string
+    {
+        return $this->tableName;
+    }
+
+    /**
+     * @param ExportedColumn $column
+     */
+    private function addColumn(ExportedColumn $column)
+    {
+        $this->columns[] = $column;
+    }
+
+    /**
+     * @param ExportedField[] $row
+     */
+    private function addRow(array $row)
+    {
+        $this->rows[] = $row;
+    }
+
+    private function getColumn($name)
     {
         foreach ($this->columns as $column) {
             if ($column->getName() === $name) {
@@ -95,29 +119,5 @@ class ExportedTable
         }
 
         return null;
-    }
-
-    /**
-     * @param ExportedColumn $column
-     */
-    public function addColumn(ExportedColumn $column)
-    {
-        $this->columns[] = $column;
-    }
-
-    /**
-     * @param ExportedField[] $row
-     */
-    public function addRow(array $row)
-    {
-        $this->rows[] = $row;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTableName(): string
-    {
-        return $this->tableName;
     }
 }

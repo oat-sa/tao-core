@@ -39,9 +39,6 @@ class ExportedField
 
     public function __construct(ExportedColumn $column, $value)
     {
-        if (strpos($value, '|') !== false) {
-            $column->setType(ExportedColumn::TYPE_VARCHAR);
-        }
         $this->column = $column;
         $this->value = $value;
     }
@@ -63,16 +60,18 @@ class ExportedField
             return 'null';
         }
 
+        $value = addslashes($this->value);
+
         switch ($this->getColumn()->getType()) {
             case ExportedColumn::TYPE_BOOLEAN:
             case ExportedColumn::TYPE_INTEGER:
-                return "$this->value";
+                return "$value";
             case ExportedColumn::TYPE_TIMESTAMP:
-                $date = (\DateTime::createFromFormat('d/m/Y H:i:s', $this->value))->format('Y-m-d H:i:s');
+                $date = (\DateTime::createFromFormat('d/m/Y H:i:s', $value))->format('Y-m-d H:i:s');
                 return "'$date'";
             case ExportedColumn::TYPE_VARCHAR:
             case ExportedColumn::TYPE_DECIMAL:
-                return "'$this->value'";
+                return "'$value'";
         }
     }
 }

@@ -76,14 +76,6 @@ class ExportedColumn
     }
 
     /**
-     * @param string $type
-     */
-    public function setType(string $type)
-    {
-        $this->type = $type;
-    }
-
-    /**
      * @return string
      */
     public function getColumnCreatingString(): string

@@ -45,7 +45,7 @@ class SqlCreator
         $sqlCreateTable = $this->getCreateTableSql();
         $sqlInsert = $this->getInsertSql();
 
-        return "$sqlCreateTable\n\n$sqlInsert";
+        return "$sqlCreateTable\r\n\r\n$sqlInsert";
     }
 
     /**
@@ -59,7 +59,7 @@ class SqlCreator
             $columnsCreatingStringArray[] = $column->getColumnCreatingString();
         }
 
-        return sprintf("CREATE TABLE IF NOT EXISTS %s (\n\t%s\n);", $this->table->getTableName(), implode(",\n\t", $columnsCreatingStringArray));
+        return sprintf("CREATE TABLE IF NOT EXISTS %s (\r\n\t%s\r\n);", $this->table->getTableName(), implode(",\r\n\t", $columnsCreatingStringArray));
     }
 
     /**
@@ -83,13 +83,13 @@ class SqlCreator
                 $rowValuesArray[] = $field->getFormattedValue();
             }
 
-            $rowValuesString = implode(",\n\t   ", $rowValuesArray);
-            $fieldInsertArray[] = "(\n\t   $rowValuesString\n\t)";;
+            $rowValuesString = implode(",\r\n\t   ", $rowValuesArray);
+            $fieldInsertArray[] = "(\r\n\t   $rowValuesString\r\n\t)";;
         }
 
-        $columnNamesString = implode(",\n\t   ", $columnNamesArray);
-        $fieldInsertString = implode(",\n\t", $fieldInsertArray);
+        $columnNamesString = implode(",\r\n\t   ", $columnNamesArray);
+        $fieldInsertString = implode(",\r\n\t", $fieldInsertArray);
 
-        return sprintf("INSERT INTO %s (\n\t   %s\n) VALUES %s;", $this->table->getTableName(), $columnNamesString, $fieldInsertString);
+        return sprintf("INSERT INTO %s (\r\n\t   %s\r\n) VALUES %s;", $this->table->getTableName(), $columnNamesString, $fieldInsertString);
     }
 }
