@@ -66,7 +66,7 @@ class QueueMigrationServiceTest extends TestCase
         ]));
     }
 
-    public function testMigrateExceuteOnce()
+    public function testMigrateExceuteOnce(): void
     {
         $config = new MigrationConfig(0, 2, 1, false);
         $resourceMock = $this->createMock(core_kernel_classes_Resource::class);
@@ -100,7 +100,7 @@ class QueueMigrationServiceTest extends TestCase
         $this->assertNull($result);
     }
 
-    public function testMigrateRespawn()
+    public function testMigrateRespawn(): void
     {
         $resourceMock = $this->createMock(core_kernel_classes_Resource::class);
         $resourceResultUnit = new ResourceResultUnit($resourceMock);
