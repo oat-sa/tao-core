@@ -42,8 +42,7 @@ class MigrationConfig
         int $chunkSize,
         int $pickSize,
         bool $processAll
-    )
-    {
+    ) {
         $this->chunkSize = $chunkSize;
         $this->start = $start;
         $this->pickSize = $pickSize;
