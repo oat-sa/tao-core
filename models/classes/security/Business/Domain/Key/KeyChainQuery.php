@@ -25,12 +25,12 @@ final class KeyChainQuery
     /** @var string */
     private $identifier;
 
-    public function __construct(string $identifier)
+    public function __construct(string $identifier = null)
     {
         $this->identifier = $identifier;
     }
 
-    public function getIdentifier(): string
+    public function getIdentifier(): ?string
     {
         return $this->identifier;
     }
