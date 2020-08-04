@@ -1308,5 +1308,14 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('40.9.0');
         }
         $this->skip('40.9.0', '40.9.2');
+
+        if ($this->isVersion('40.9.2')) {
+            $service = $this->getServiceManager()->get(TokenService::SERVICE_ID);
+            if (!$service->hasOption(TokenService::VALIDATE_TOKENS_OPT)) {
+                $service->setOption(TokenService::VALIDATE_TOKENS_OPT, true);
+                $this->getServiceManager()->register(TokenService::SERVICE_ID, $service);
+            }
+            $this->setVersion('40.9.2.1');
+        }
     }
 }
