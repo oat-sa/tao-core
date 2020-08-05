@@ -50,7 +50,7 @@ class QueueMigrationService extends ConfigurableService
         }
 
         if ($config->isProcessAll()) {
-            $config = $configFactory->spawn($config, $filter);
+            $config = $spawnService->spawn($config, $filter);
 
             if ($config) {
                 $report->add(
