@@ -165,9 +165,7 @@ class TokenService extends ConfigurableService
             throw new common_exception_Unauthorized();
         }
 
-        $this->revokeToken($token);
-
-        return $isValid;
+        return $this->revokeToken($token);
     }
 
     /**
