@@ -178,6 +178,7 @@ class MigrationAction extends ScriptAction
         if (class_exists($target) && is_a($target, AbstractMigrationTask::class, true)) {
             return $target;
         }
+
         throw new InvalidArgumentException(
             sprintf('Task must extend %s', AbstractMigrationTask::class)
         );
