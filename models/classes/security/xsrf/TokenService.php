@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This program is free software; you can redistribute it and/or
@@ -15,16 +15,18 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017-2019 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2017-2020 (original work) Open Assessment Technologies SA ;
  */
 
 namespace oat\tao\model\security\xsrf;
 
+use common_Exception;
 use common_exception_Unauthorized;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\security\TokenGenerator;
 use oat\oatbox\service\exception\InvalidService;
+use oat\tao\model\security\TokenGenerator;
+use PHPSession;
 
 /**
  * This service let's you manage tokens to protect against XSRF.
@@ -42,32 +44,32 @@ class TokenService extends ConfigurableService
     use TokenGenerator;
     use LoggerAwareTrait;
 
-    const SERVICE_ID = 'tao/security-xsrf-token';
+    public const SERVICE_ID = 'tao/security-xsrf-token';
 
     // options keys
-    const POOL_SIZE_OPT = 'poolSize';
-    const TIME_LIMIT_OPT = 'timeLimit';
-    const VALIDATE_TOKENS_OPT = 'validateTokens';
-    const OPTION_STORE = 'store';
+    public const POOL_SIZE_OPT = 'poolSize';
+    public const TIME_LIMIT_OPT = 'timeLimit';
+    public const VALIDATE_TOKENS_OPT = 'validateTokens';
+    public const OPTION_STORE = 'store';
 
-    const DEFAULT_POOL_SIZE = 6;
-    const DEFAULT_TIME_LIMIT = 0;
+    public const CSRF_TOKEN_HEADER = 'X-CSRF-Token';
+    public const FORM_POOL = 'form_pool';
+    public const JS_DATA_KEY = 'tokenHandler';
+    public const JS_TOKEN_KEY = 'tokens';
+    public const JS_TOKEN_POOL_SIZE_KEY = 'maxSize';
+    public const JS_TOKEN_TIME_LIMIT_KEY = 'tokenTimeLimit';
 
-    const CSRF_TOKEN_HEADER = 'X-CSRF-Token';
-    const FORM_POOL = 'form_pool';
-    const JS_DATA_KEY = 'tokenHandler';
-    const JS_TOKEN_KEY = 'tokens';
-    const JS_TOKEN_POOL_SIZE_KEY = 'maxSize';
-    const JS_TOKEN_TIME_LIMIT_KEY = 'tokenTimeLimit';
+    private const DEFAULT_POOL_SIZE = 6;
+    private const DEFAULT_TIME_LIMIT = 0;
 
     /**
      * Generates, stores and return a brand new token
      * Triggers the pool invalidation.
      *
      * @return Token
-     * @throws \common_Exception
+     * @throws common_Exception
      */
-    public function createToken()
+    public function createToken(): Token
     {
         $store = $this->getStore();
         $pool = $this->invalidate($store->getTokens());
@@ -84,9 +86,11 @@ class TokenService extends ConfigurableService
      * (does not revoke)
      *
      * @param string|Token $token The given token to validate
+     *
      * @return boolean
+     * @throws InvalidService
      */
-    public function checkToken($token)
+    public function checkToken($token): bool
     {
         $valid = false;
         $pool = $this->getStore()->getTokens();
@@ -112,10 +116,10 @@ class TokenService extends ConfigurableService
      *
      * @param string |Token $token
      * @return boolean
-     * @throws \common_Exception`
+     * @throws common_Exception
      * @throws common_exception_Unauthorized
      */
-    public function validateToken($token)
+    public function validateToken($token): bool
     {
         $isValid = false;
         $expired = false;
@@ -157,7 +161,7 @@ class TokenService extends ConfigurableService
      * @param Token $token
      * @return bool
      */
-    private function isExpired(Token $token)
+    private function isExpired(Token $token): bool
     {
         $expired = false;
         $actualTime = microtime(true);
@@ -174,9 +178,12 @@ class TokenService extends ConfigurableService
      * Revokes the given token
      *
      * @param string|Token $token
+     *
      * @return true
+     *
+     * @throws InvalidService
      */
-    public function revokeToken($token)
+    public function revokeToken($token): bool
     {
         $revoked = false;
         $store = $this->getStore();
@@ -205,14 +212,15 @@ class TokenService extends ConfigurableService
      * Gets this session's name for token
      * @return string
      */
-    public function getTokenName()
+    public function getTokenName(): string
     {
-        $session = \PHPSession::singleton();
+        /** @var PHPSession $session */
+        $session = PHPSession::singleton();
 
         if ($session->hasAttribute(TokenStore::TOKEN_NAME)) {
             $name = $session->getAttribute(TokenStore::TOKEN_NAME);
         } else {
-            $name = 'tao_' . substr(md5(microtime()), rand(0, 25), 7);
+            $name = 'tao_' . substr(md5(microtime()), mt_rand(0, 25), 7);
             $session->setAttribute(TokenStore::TOKEN_NAME, $name);
         }
 
@@ -223,16 +231,20 @@ class TokenService extends ConfigurableService
      * Invalidate the tokens in the pool :
      *  - remove the oldest if the pool raises it's size limit
      *  - remove the expired tokens
+     *
      * @param Token[] $pool
+     *
      * @return array the invalidated pool
+     *
+     * @throws InvalidService
      */
-    protected function invalidate($pool)
+    protected function invalidate(array $pool): array
     {
         $actualTime = microtime(true);
         $timeLimit = $this->getTimeLimit();
         $poolSize = $this->getPoolSize();
 
-        $reduced = array_filter($pool, function ($token) use ($actualTime, $timeLimit) {
+        $reduced = array_filter($pool, static function (Token $token) use ($actualTime, $timeLimit) {
             if ($timeLimit > 0) {
                 return $token->getCreatedAt() + $timeLimit > $actualTime;
             }
@@ -240,7 +252,7 @@ class TokenService extends ConfigurableService
         });
 
         if ($poolSize > 0 && count($reduced) > 0) {
-            uasort($reduced, function ($a, $b) {
+            uasort($reduced, static function (Token $a, Token $b) {
                 if ($a->getCreatedAt() === $b->getCreatedAt()) {
                     return 0;
                 }
@@ -258,11 +270,14 @@ class TokenService extends ConfigurableService
 
     /**
      * Get the configured pool size
+     *
      * @param bool $withForm - Takes care of the FORM_POOL
+     *
      * @return int the pool size, 10 by default
+     *
      * @throws InvalidService
      */
-    public function getPoolSize($withForm = true)
+    public function getPoolSize(bool $withForm = true): int
     {
         $poolSize = self::DEFAULT_POOL_SIZE;
         if ($this->hasOption(self::POOL_SIZE_OPT)) {
@@ -282,9 +297,10 @@ class TokenService extends ConfigurableService
 
     /**
      * Get the configured time limit in seconds
+     *
      * @return int the limit
      */
-    protected function getTimeLimit()
+    protected function getTimeLimit(): int
     {
         $timeLimit = self::DEFAULT_TIME_LIMIT;
         if ($this->hasOption(self::TIME_LIMIT_OPT)) {
@@ -295,9 +311,12 @@ class TokenService extends ConfigurableService
 
     /**
      * Get the configured store
+     *
      * @return TokenStore the store
+     *
+     * @throws InvalidService
      */
-    protected function getStore()
+    protected function getStore(): TokenStore
     {
         $store = $this->getOption(self::OPTION_STORE);
         if (!$store instanceof TokenStore) {
@@ -310,9 +329,9 @@ class TokenService extends ConfigurableService
      * Generate a token pool, and return it.
      *
      * @return Token[]
-     * @throws \common_Exception
+     * @throws common_Exception
      */
-    public function generateTokenPool()
+    public function generateTokenPool(): array
     {
         $store = $this->getStore();
         $pool = $store->getTokens();
@@ -339,10 +358,12 @@ class TokenService extends ConfigurableService
 
     /**
      * Gets the client configuration
+     *
      * @return array
-     * @throws \common_Exception
+     *
+     * @throws common_Exception
      */
-    public function getClientConfig()
+    public function getClientConfig(): array
     {
         $tokenPool = $this->generateTokenPool();
         $jsTokenPool = [];
@@ -362,9 +383,9 @@ class TokenService extends ConfigurableService
 
     /**
      * Add a token that can be used for forms.
-     * @throws \common_Exception
+     * @throws common_Exception
      */
-    public function addFormToken()
+    public function addFormToken(): void
     {
         $store = $this->getStore();
         $tokenPool = $store->getTokens();
@@ -377,9 +398,9 @@ class TokenService extends ConfigurableService
     /**
      * Get a token from the pool, which can be used for forms.
      * @return Token
-     * @throws \common_Exception
+     * @throws common_Exception
      */
-    public function getFormToken()
+    public function getFormToken(): Token
     {
         $store = $this->getStore();
         $tokenPool = $store->getTokens();
