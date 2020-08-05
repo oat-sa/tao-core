@@ -34,7 +34,7 @@ class QueueMigrationService extends ConfigurableService
         ResultUnitProcessorInterface $resultUnitProcessor,
         ResultSearcherInterface $resultSearcher,
         ResultFilter $filter,
-        SpawnMigrationConfigServiceInterface $configFactory,
+        SpawnMigrationConfigServiceInterface $spawnService,
         common_report_Report $report
     ): ?MigrationConfig
     {
