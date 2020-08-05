@@ -47,27 +47,34 @@ class TokenService extends ConfigurableService
     public const SERVICE_ID = 'tao/security-xsrf-token';
 
     // options keys
-    public const POOL_SIZE_OPT = 'poolSize';
-    public const TIME_LIMIT_OPT = 'timeLimit';
+    public const POOL_SIZE_OPT       = 'poolSize';
+    public const TIME_LIMIT_OPT      = 'timeLimit';
     public const VALIDATE_TOKENS_OPT = 'validateTokens';
-    public const OPTION_STORE = 'store';
+    public const OPTION_STORE        = 'store';
     public const OPTION_CLIENT_STORE = 'clientStore';
 
-    public const OPTION_CLIENT_STORE_LOCAL_STORAGE = 'localStorage';
-    public const OPTION_CLIENT_STORE_LOCAL_SESSION_STORAGE = 'sessionStorage';
+    public const OPTION_CLIENT_STORE_LOCAL_STORAGE            = 'localStorage';
+    public const OPTION_CLIENT_STORE_LOCAL_SESSION_STORAGE    = 'sessionStorage';
     public const OPTION_CLIENT_STORE_LOCAL_SESSION_INDEXED_DB = 'indexedDB';
-    public const OPTION_CLIENT_STORE_MEMORY = 'memory';
+    public const OPTION_CLIENT_STORE_MEMORY                   = 'memory';
 
-    public const CSRF_TOKEN_HEADER = 'X-CSRF-Token';
-    public const FORM_POOL = 'form_pool';
-    public const JS_DATA_KEY = 'tokenHandler';
-    public const JS_TOKEN_KEY = 'tokens';
-    public const JS_TOKEN_POOL_SIZE_KEY = 'maxSize';
+    public const CLIENT_STORE_OPTION_VALUES = [
+        self::OPTION_CLIENT_STORE_LOCAL_STORAGE,
+        self::OPTION_CLIENT_STORE_LOCAL_SESSION_STORAGE,
+        self::OPTION_CLIENT_STORE_LOCAL_SESSION_INDEXED_DB,
+        self::OPTION_CLIENT_STORE_MEMORY,
+    ];
+
+    public const CSRF_TOKEN_HEADER       = 'X-CSRF-Token';
+    public const FORM_POOL               = 'form_pool';
+    public const JS_DATA_KEY             = 'tokenHandler';
+    public const JS_TOKEN_KEY            = 'tokens';
+    public const JS_TOKEN_POOL_SIZE_KEY  = 'maxSize';
     public const JS_TOKEN_TIME_LIMIT_KEY = 'tokenTimeLimit';
-    public const JS_TOKEN_STORE = 'store';
+    public const JS_TOKEN_STORE          = 'store';
 
-    private const DEFAULT_POOL_SIZE = 6;
-    private const DEFAULT_TIME_LIMIT = 0;
+    private const DEFAULT_POOL_SIZE    = 6;
+    private const DEFAULT_TIME_LIMIT   = 0;
     private const DEFAULT_CLIENT_STORE = self::OPTION_CLIENT_STORE_MEMORY;
 
     /**
@@ -426,14 +433,7 @@ class TokenService extends ConfigurableService
     {
         $store = $this->getOption(self::OPTION_CLIENT_STORE, self::DEFAULT_CLIENT_STORE);
 
-        static $validStoreOptions = [
-            self::OPTION_CLIENT_STORE_LOCAL_STORAGE,
-            self::OPTION_CLIENT_STORE_LOCAL_SESSION_STORAGE,
-            self::OPTION_CLIENT_STORE_LOCAL_SESSION_INDEXED_DB,
-            self::OPTION_CLIENT_STORE_MEMORY,
-        ];
-
-        return in_array($store, $validStoreOptions, true)
+        return in_array($store, self::CLIENT_STORE_OPTION_VALUES, true)
             ? $store
             : self::DEFAULT_CLIENT_STORE;
     }
