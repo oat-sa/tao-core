@@ -156,11 +156,14 @@ class MigrationAction extends ScriptAction
 
         return $queueDispatcher->createTask(
             new $taskClass(),
-            array_merge($customParameters ,[
-                'chunkSize' => $chunkSize,
-                'pickSize' => $pickSize,
-                'repeat' => $repeat,
-            ]),
+            array_merge(
+                $customParameters,
+                [
+                    'chunkSize' => $chunkSize,
+                    'pickSize' => $pickSize,
+                    'repeat' => $repeat,
+                ]
+            ),
             sprintf(
                 'Unit processing by %s with parameters %s with chunk size %s',
                 $taskClass,

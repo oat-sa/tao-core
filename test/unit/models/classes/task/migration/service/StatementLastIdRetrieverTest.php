@@ -36,36 +36,23 @@ class StatementLastIdRetrieverTest extends TestCase
 {
     use OntologyMockTrait;
 
-    /**
-     * @var StatementLastIdRetriever
-     */
+    /** @var @var StatementLastIdRetriever */
     private $subject;
 
-    /**
-     * @var core_kernel_persistence_smoothsql_SmoothModel|MockObject
-     */
+    /** @var core_kernel_persistence_smoothsql_SmoothModel|MockObject */
     private $ontologyMock;
 
-    /**
-     * @var common_persistence_SqlPersistence|MockObject
-     */
+    /** @var common_persistence_SqlPersistence|MockObject */
     private $persistenceMock;
 
-    /**
-     * @var common_persistence_sql_Platform|MockObject
-     */
+    /** @var common_persistence_sql_Platform|MockObject */
     private $platformMock;
 
-    /**
-     * @var QueryBuilder|MockObject
-     */
+    /** @var QueryBuilder|MockObject */
     private $queryBuilderMock;
 
-    /**
-     * @var Statement|MockObject
-     */
+    /** @var Statement|MockObject */
     private $statementMock;
-
 
     public function setUp(): void
     {
@@ -76,19 +63,44 @@ class StatementLastIdRetrieverTest extends TestCase
         $this->queryBuilderMock = $this->createMock(QueryBuilder::class);
         $this->statementMock = $this->createMock(Statement::class);
         $this->subject->setModel($this->ontologyMock);
-
     }
 
-    public function testRetrieve()
+    public function testRetrieve(): void
     {
-        $this->ontologyMock->expects($this->once())->method('getPersistence')->willReturn($this->persistenceMock);
-        $this->persistenceMock->expects($this->once())->method('getPlatForm')->willReturn($this->platformMock);
-        $this->platformMock->expects($this->once())->method('getQueryBuilder')->willReturn($this->queryBuilderMock);
-        $this->queryBuilderMock->expects($this->once())->method('select')->with('MAX(id)')->willReturn($this->queryBuilderMock);
-        $this->queryBuilderMock->expects($this->once())->method('from')->with('statements')->willReturn($this->queryBuilderMock);
-        $this->queryBuilderMock->expects($this->once())->method('execute')->willReturn($this->statementMock);
-        $this->statementMock->expects($this->once())->method('fetchColumn')->willReturn(1);
+        $this->ontologyMock
+            ->expects($this->once())
+            ->method('getPersistence')
+            ->willReturn($this->persistenceMock);
 
+        $this->persistenceMock
+            ->expects($this->once())
+            ->method('getPlatForm')
+            ->willReturn($this->platformMock);
+
+        $this->platformMock
+            ->expects($this->once())
+            ->method('getQueryBuilder')
+            ->willReturn($this->queryBuilderMock);
+
+        $this->queryBuilderMock
+            ->expects($this->once())
+            ->method('select')
+            ->with('MAX(id)')->willReturn($this->queryBuilderMock);
+
+        $this->queryBuilderMock
+            ->expects($this->once())
+            ->method('from')
+            ->with('statements')->willReturn($this->queryBuilderMock);
+
+        $this->queryBuilderMock
+            ->expects($this->once())
+            ->method('execute')
+            ->willReturn($this->statementMock);
+
+        $this->statementMock
+            ->expects($this->once())
+            ->method('fetchColumn')
+            ->willReturn(1);
 
         $result = $this->subject->retrieve();
         $this->assertSame(1, $result);
