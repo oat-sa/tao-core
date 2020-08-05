@@ -243,3 +243,26 @@ $filter = (new TaskLogFilter())
     
 $scheduledTasks = $taskLogService->search($filter);    
 ```
+
+## Working with MigrationAction command
+
+MigrationAction was created to help developers performing processes on defined result sets. We are using task queue in order to perform this action.
+
+### How you can reuse AbstractMigrationTask
+
+In order to adopt this command you need to create Task that will extend `\oat\tao\model\task\migration\AbstractMigrationTask`.
+
+### Example
+
+```bash
+$ php index.php "\oat\tao\scripts\tools\MigrationAction" -c 1000 \
+    -cp "start=0\&anotherOption=" \
+    -t "\oat\taoMediaManager\model\relation\task\ItemToMediaRelationMigrationTask" \
+    -rp
+```
+
+This example will iterate over `item` statements and will update item relations in `assets` resources
+
+#### Warning
+
+We are obliged to provide array argument in `-cp` argument.
