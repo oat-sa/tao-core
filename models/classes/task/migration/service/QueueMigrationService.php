@@ -29,9 +29,6 @@ use Throwable;
 
 class QueueMigrationService extends ConfigurableService
 {
-    /** @var int */
-    private $affected = 0;
-
     public function migrate(
         MigrationConfig $config,
         ResultUnitProcessorInterface $resultUnitProcessor,
@@ -46,7 +43,6 @@ class QueueMigrationService extends ConfigurableService
         foreach ($results as $unit) {
             try {
                 $resultUnitProcessor->process($unit);
-                $this->affected++;
             } catch (Throwable $exception) {
                 $report->add(common_report_Report::createFailure($exception->getMessage()));
                 return null;
