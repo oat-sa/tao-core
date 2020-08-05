@@ -49,29 +49,49 @@ class PositionTrackerTest extends TestCase
         $this->subject = new PositionTracker();
         $this->persistenceManagerMock = $this->createMock(PersistenceManager::class);
         $this->persistenceMock = $this->createMock(common_persistence_KeyValuePersistence::class);
-        $this->persistenceManagerMock->method('getPersistenceById')->willReturn($this->persistenceMock);
-        $this->subject->setServiceLocator($this->getServiceLocatorMock([
-            PersistenceManager::SERVICE_ID => $this->persistenceManagerMock,
-        ]));
+
+        $this->persistenceManagerMock
+            ->method('getPersistenceById')
+            ->willReturn($this->persistenceMock);
+
+        $this->subject->setServiceLocator($this->getServiceLocatorMock(
+            [
+                PersistenceManager::SERVICE_ID => $this->persistenceManagerMock,
+            ]
+        ));
     }
 
     public function testGetLastPositionWhenStartDefined():void
     {
-        $this->persistenceMock->expects($this->once())->method('get')->with('id::_last_known')->willReturn(7);
+        $this->persistenceMock
+            ->expects($this->once())
+            ->method('get')
+            ->with('id::_last_known')
+            ->willReturn(7);
+
         $result = $this->subject->getLastPosition('id');
         $this->assertSame(7, $result);
     }
 
     public function testGetLastPositionWhenStartNotDefined(): void
     {
-        $this->persistenceMock->expects($this->once())->method('get')->with('id::_last_known')->willReturn(false);
+        $this->persistenceMock
+            ->expects($this->once())
+            ->method('get')
+            ->with('id::_last_known')
+            ->willReturn(false);
+
         $result = $this->subject->getLastPosition('id');
         $this->assertSame(0, $result);
     }
 
     public function testKeepCurrentPosition(): void
     {
-        $this->persistenceMock->expects($this->once())->method('set')->with('id::_last_known', 2);
+        $this->persistenceMock
+            ->expects($this->once())
+            ->method('set')
+            ->with('id::_last_known', 2);
+
         $this->subject->keepCurrentPosition('id', 2);
     }
 }
