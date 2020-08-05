@@ -60,7 +60,7 @@ class ExportedField
             return 'null';
         }
 
-        $value = addslashes($this->value);
+        $value = str_replace("'", '"', $this->value);
 
         switch ($this->getColumn()->getType()) {
             case ExportedColumn::TYPE_BOOLEAN:
