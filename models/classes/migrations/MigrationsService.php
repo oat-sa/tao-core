@@ -43,9 +43,7 @@ class MigrationsService extends ConfigurableService
      */
     public function getPersistence()
     {
-        /**
-         * @var PersistenceManager $persistenceManager
-         */
+        /** @var PersistenceManager $persistenceManager  */
         $persistenceManager = $this->getServiceLocator()->get(PersistenceManager::SERVICE_ID);
         return $persistenceManager->getPersistenceById($this->getPersistenceId());
     }
