@@ -56,7 +56,7 @@ class MigrationAction extends ScriptAction
                 'required' => false,
                 'cast' => 'integer',
                 'defaultValue' => 0,
-                'description' => 'Amount of items proceed in chunk (for test purposes)'
+                'description' => 'Amount of items proceed in chunk'
             ],
             'repeat' => [
                 'prefix' => 'rp',
