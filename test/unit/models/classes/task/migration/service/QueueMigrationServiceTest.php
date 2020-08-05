@@ -20,9 +20,7 @@
 
 declare(strict_types=1);
 
-
 namespace oat\tao\test\unit\models\classes\task\migration\service;
-
 
 use common_report_Report;
 use core_kernel_classes_Resource;
@@ -70,10 +68,12 @@ class QueueMigrationServiceTest extends TestCase
         $this->resoultFilterMock = $this->createMock(ResultFilter::class);
         $this->spawnMigrationConfigServiceMock = $this->createMock(SpawnMigrationConfigServiceInterface::class);
         $this->subject = new QueueMigrationService();
-        $this->subject->setServiceLocator($this->getServiceLocatorMock([
-            StatementLastIdRetriever::class => $this->statementLastIdRetrieverMock,
-            ResultUnitProcessorInterface::class => $this->resultUnitProcessorMock,
-        ]));
+        $this->subject->setServiceLocator($this->getServiceLocatorMock(
+            [
+                StatementLastIdRetriever::class => $this->statementLastIdRetrieverMock,
+                ResultUnitProcessorInterface::class => $this->resultUnitProcessorMock,
+            ]
+        ));
     }
 
     public function testMigrateExceuteOnce(): void
