@@ -48,7 +48,7 @@ class MigrationAction extends ScriptAction
                 'required' => false,
                 'cast' => 'integer',
                 'defaultValue' => 10000,
-                'description' => 'Amount of `statements` rows provided into taskqueue to proceeded with'
+                'description' => 'Amount of units provided into task queue to proceeded with'
             ],
             'pickSize' => [
                 'prefix' => 'p',
