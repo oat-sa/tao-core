@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This program is free software; you can redistribute it and/or
@@ -18,30 +18,13 @@
  * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
  */
 
+declare(strict_types=1);
 
-namespace oat\tao\test\unit\models\classes\task\migration;
+namespace oat\tao\model\task\migration\service;
 
+use oat\tao\model\task\migration\MigrationConfig;
 
-use common_exception_MissingParameter;
-use oat\generis\test\MockObject;
-use oat\generis\test\TestCase;
-use oat\tao\model\task\migration\AbstractMigrationTask;
-
-class AbstractStatementMigrationTaskTest extends TestCase
+interface ResultFilterFactoryInterface
 {
-    /**
-     * @var AbstractMigrationTask|MockObject
-     */
-    private $subject;
-
-    public function setUp(): void
-    {
-        $this->subject = $this->getMockForAbstractClass(AbstractMigrationTask::class);
-    }
-
-    public function testInvokeWithNoParams(): void
-    {
-        $this->expectException(common_exception_MissingParameter::class);
-        $this->subject->__invoke([]);
-    }
+    public function create(MigrationConfig $config): ResultFilter;
 }

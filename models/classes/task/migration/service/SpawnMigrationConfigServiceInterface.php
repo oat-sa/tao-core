@@ -22,9 +22,9 @@ declare(strict_types=1);
 
 namespace oat\tao\model\task\migration\service;
 
-use oat\tao\model\task\migration\ResultUnit;
+use oat\tao\model\task\migration\MigrationConfig;
 
-interface ResultUnitProcessorInterface
+interface SpawnMigrationConfigServiceInterface
 {
-    public function process(ResultUnit $unit): void;
+    public function spawn(MigrationConfig $config, ResultFilter $resultFilter): ?MigrationConfig;
 }

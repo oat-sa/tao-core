@@ -22,9 +22,27 @@ declare(strict_types=1);
 
 namespace oat\tao\model\task\migration\service;
 
-use oat\tao\model\task\migration\ResultUnit;
+use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\task\migration\MigrationConfig;
 
-interface ResultUnitProcessorInterface
+class SpawnMigrationConfigService extends ConfigurableService implements SpawnMigrationConfigServiceInterface
 {
-    public function process(ResultUnit $unit): void;
+    public function spawn(MigrationConfig $config, ResultFilter $resultFilter): ?MigrationConfig
+    {
+        $end = $resultFilter->getParameter('end');
+        $max = $resultFilter->getParameter('max');
+
+        $nStart = $end + 1;
+        if ($nStart < $max) {
+            return new MigrationConfig(
+                ['start' => $nStart],
+                $config->getChunkSize(),
+                $config->getPickSize(),
+                $config->isProcessAll()
+            );
+        }
+
+        return null;
+    }
+
 }

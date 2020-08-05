@@ -27,8 +27,8 @@ class MigrationConfig
     /** @var int */
     private $chunkSize;
 
-    /** @var int */
-    private $start;
+    /** @var array */
+    private $customParameters;
 
     /** @var int */
     private $pickSize;
@@ -36,15 +36,14 @@ class MigrationConfig
     /** @var bool */
     private $processAll;
 
-
     public function __construct(
-        int $start,
+        array $parameters,
         int $chunkSize,
         int $pickSize,
         bool $processAll
     ) {
         $this->chunkSize = $chunkSize;
-        $this->start = $start;
+        $this->customParameters = $parameters;
         $this->pickSize = $pickSize;
         $this->processAll = $processAll;
     }
@@ -59,13 +58,21 @@ class MigrationConfig
         return $this->chunkSize;
     }
 
-    public function getStart(): int
-    {
-        return $this->start;
-    }
-
     public function getPickSize(): int
     {
         return $this->pickSize;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCustomParameter(string $name)
+    {
+        return $this->customParameters[$name] ?? null;
+    }
+
+    public function getCustomParameters(): array
+    {
+        return $this->customParameters;
     }
 }

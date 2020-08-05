@@ -22,9 +22,28 @@ declare(strict_types=1);
 
 namespace oat\tao\model\task\migration\service;
 
-use oat\tao\model\task\migration\ResultUnit;
+use common_exception_MissingParameter;
+use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\task\migration\MigrationConfig;
 
-interface ResultUnitProcessorInterface
+class MigrationConfigFactory extends ConfigurableService implements MigrationConfigFactoryInterface
 {
-    public function process(ResultUnit $unit): void;
+    public function create(array $parameters): MigrationConfig
+    {
+        if (
+            !array_key_exists('start', $parameters) ||
+            !array_key_exists('chunkSize', $parameters) ||
+            !array_key_exists('pickSize', $parameters) ||
+            !array_key_exists('repeat', $parameters)
+        ) {
+            throw new common_exception_MissingParameter();
+        }
+
+        return new MigrationConfig(
+            ['start' => $parameters['start']],
+            (int)$parameters['chunkSize'],
+            (int)$parameters['pickSize'],
+            (bool)$parameters['repeat']
+        );
+    }
 }

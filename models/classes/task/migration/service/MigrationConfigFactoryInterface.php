@@ -22,9 +22,13 @@ declare(strict_types=1);
 
 namespace oat\tao\model\task\migration\service;
 
-use oat\tao\model\task\migration\ResultUnit;
+use common_exception_MissingParameter;
+use oat\tao\model\task\migration\MigrationConfig;
 
-interface ResultUnitProcessorInterface
+interface MigrationConfigFactoryInterface
 {
-    public function process(ResultUnit $unit): void;
+    /**
+     * @throws common_exception_MissingParameter
+     */
+    public function create(array $parameters): MigrationConfig;
 }

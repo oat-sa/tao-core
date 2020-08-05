@@ -22,23 +22,24 @@ declare(strict_types=1);
 
 namespace oat\tao\model\task\migration;
 
-use core_kernel_classes_Resource;
-
-class ResourceResultUnit
+class ResultUnit
 {
     /** @var array|object */
-    private $resource;
+    private $result;
 
-    public function __construct(core_kernel_classes_Resource $resource)
+    /**
+     * @param $result mixed
+     */
+    public function __construct($result)
     {
-        $this->resource = $resource;
+        $this->result = $result;
     }
 
     /**
      * @return array|object
      */
-    public function getResource()
+    public function getResult()
     {
-        return $this->resource;
+        return $this->result;
     }
 }

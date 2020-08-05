@@ -27,7 +27,6 @@ use InvalidArgumentException;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\extension\script\ScriptAction;
 use oat\tao\model\task\migration\AbstractMigrationTask;
-use oat\tao\model\task\migration\service\PositionTracker;
 use oat\tao\model\taskQueue\QueueDispatcherInterface;
 use oat\tao\model\taskQueue\Task\CallbackTaskInterface;
 use oat\tao\model\taskQueue\TaskLogActionTrait;
@@ -35,7 +34,7 @@ use oat\tao\model\taskQueue\TaskLogInterface;
 use RuntimeException;
 use Throwable;
 
-class StatementsMigrationWrapper extends ScriptAction
+class MigrationAction extends ScriptAction
 {
     use OntologyAwareTrait;
     use TaskLogActionTrait;
@@ -59,14 +58,6 @@ class StatementsMigrationWrapper extends ScriptAction
                 'defaultValue' => 0,
                 'description' => 'Amount of items proceed in chunk (for test purposes)'
             ],
-            'recoveryMode' => [
-                'prefix' => 'r',
-                'longPrefix' => 'recoveryMode',
-                'required' => false,
-                'cast' => 'boolean',
-                'defaultValue' => false,
-                'description' => 'Starts recovery by resuming from the last chunk'
-            ],
             'repeat' => [
                 'prefix' => 'rp',
                 'longPrefix' => 'repeat',
@@ -75,13 +66,12 @@ class StatementsMigrationWrapper extends ScriptAction
                 'flag' => true,
                 'description' => 'Scan all the records to the very end'
             ],
-            'start' => [
-                'prefix' => 's',
-                'longPrefix' => 'start',
+            'customParameters' => [
+                'prefix' => 'cp',
+                'longPrefix' => 'customParameters',
                 'required' => false,
-                'cast' => 'integer',
-                'defaultValue' => 1,
-                'description' => 'Sliding window start range'
+                'defaultValue' => [],
+                'description' => 'Custom parameters for target task ie: “option1=0\&option2=1”'
             ],
             'target' => [
                 'prefix' => 't',
@@ -103,21 +93,17 @@ class StatementsMigrationWrapper extends ScriptAction
     protected function run()
     {
         $startedAt = time();
+        $customParameters = [];
 
         $chunkSize = $this->getOption('chunkSize');
-        $start = $this->getOption('start');
-        $isRecovery = $this->getOption('recoveryMode');
+        parse_str($this->getOption('customParameters'), $customParameters);
         $pickSize = $this->getOption('pickSize');
         $repeat = (bool) $this->getOption('repeat');
 
         $taskClass = $this->detectTargetClass($this->getOption('target'));
 
-        if ($isRecovery) {
-            $start = $this->getServiceLocator()->get(PositionTracker::class)->getLastPosition($taskClass, $start);
-        }
-
         try {
-            $task = $this->spawnTask($start, $chunkSize, $pickSize, $taskClass, $repeat);
+            $task = $this->spawnTask($customParameters, $chunkSize, $pickSize, $taskClass, $repeat);
 
             $taskLogEntity = $this->getTaskLogEntity($task->getId());
             $taskReport = $taskLogEntity->getReport();
@@ -158,7 +144,7 @@ class StatementsMigrationWrapper extends ScriptAction
     }
 
     private function spawnTask(
-        int $start,
+        array $customParameters,
         int $chunkSize,
         int $pickSize,
         string $taskClass,
@@ -170,16 +156,15 @@ class StatementsMigrationWrapper extends ScriptAction
 
         return $queueDispatcher->createTask(
             new $taskClass(),
-            [
-                'start' => $start,
+            array_merge($customParameters ,[
                 'chunkSize' => $chunkSize,
                 'pickSize' => $pickSize,
                 'repeat' => $repeat,
-            ],
+            ]),
             sprintf(
-                'Unit processing by %s started from %s with chunk size %s',
+                'Unit processing by %s with parameters %s with chunk size %s',
                 $taskClass,
-                $start,
+                var_export($customParameters, true),
                 $chunkSize
             )
         );

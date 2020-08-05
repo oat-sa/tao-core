@@ -36,17 +36,12 @@ class QueueMigrationService extends ConfigurableService
         MigrationConfig $config,
         ResultUnitProcessorInterface $resultUnitProcessor,
         ResultSearcherInterface $resultSearcher,
+        ResultFilter $filter,
+        SpawnMigrationConfigServiceInterface $configFactory,
         common_report_Report $report
     ): ?MigrationConfig
     {
-        $max = $this->getStatementLastIdRetriever()->retrieve();
-        $end = $this->calculateEndPosition(
-            $config->getStart(),
-            $config->getChunkSize(),
-            $max
-        );
-
-        $results = $resultSearcher->search($config->getStart(), $end);
+        $results = $resultSearcher->search($filter);
 
         foreach ($results as $unit) {
             try {
@@ -59,41 +54,19 @@ class QueueMigrationService extends ConfigurableService
         }
 
         if ($config->isProcessAll()) {
-            $nStart = $end + 1;
-            if ($nStart < $max) {
-                $report->add(common_report_Report::createInfo(
-                    sprintf('Respawning additional task')));
-                return new MigrationConfig(
-                    $nStart,
-                    $config->getChunkSize(),
-                    $config->getPickSize(),
-                    $config->isProcessAll()
+            $config = $configFactory->spawn($config, $filter);
+
+            if ($config) {
+                $report->add(
+                    common_report_Report::createInfo('Respawning additional task')
                 );
+
+                return $config;
             }
         }
 
         $report->add(common_report_Report::createSuccess('To repeat this process to other statements please provide -rp flag'));
 
         return null;
-    }
-
-    private function calculateEndPosition(int $start, int $chunkSize, int $max): int
-    {
-        $end = $start + $chunkSize;
-
-        if ($end >= $max) {
-            $end = $max;
-        }
-        return $end;
-    }
-
-    private function getStatementLastIdRetriever(): StatementLastIdRetriever
-    {
-        return $this->getServiceLocator()->get(StatementLastIdRetriever::class);
-    }
-
-    public function getResultProcessor(): ResultUnitProcessorInterface
-    {
-        return $this->getServiceLocator()->get(ResultUnitProcessorInterface::class);
     }
 }

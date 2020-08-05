@@ -22,9 +22,23 @@ declare(strict_types=1);
 
 namespace oat\tao\model\task\migration\service;
 
-use oat\tao\model\task\migration\ResultUnit;
-
-interface ResultUnitProcessorInterface
+class ResultFilter
 {
-    public function process(ResultUnit $unit): void;
+    /**
+     * @var array
+     */
+    private $parameters;
+
+    public function __construct(array $parameters)
+    {
+        $this->parameters = $parameters;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getParameter(string $name)
+    {
+        return $this->parameters[$name] ?? null;
+    }
 }

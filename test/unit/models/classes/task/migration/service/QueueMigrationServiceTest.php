@@ -29,11 +29,13 @@ use core_kernel_classes_Resource;
 use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
 use oat\tao\model\task\migration\MigrationConfig;
-use oat\tao\model\task\migration\ResourceResultUnit;
+use oat\tao\model\task\migration\ResultUnit;
 use oat\tao\model\task\migration\ResultUnitCollection;
 use oat\tao\model\task\migration\service\QueueMigrationService;
+use oat\tao\model\task\migration\service\ResultFilter;
 use oat\tao\model\task\migration\service\ResultSearcherInterface;
 use oat\tao\model\task\migration\service\ResultUnitProcessorInterface;
+use oat\tao\model\task\migration\service\SpawnMigrationConfigServiceInterface;
 use oat\tao\model\task\migration\service\StatementLastIdRetriever;
 
 class QueueMigrationServiceTest extends TestCase
@@ -53,12 +55,20 @@ class QueueMigrationServiceTest extends TestCase
     /** @var common_report_Report|MockObject */
     private $reportMock;
 
+    /** @var ResultFilter|MockObject */
+    private $resoultFilterMock;
+
+    /** @var SpawnMigrationConfigServiceInterface|MockObject */
+    private $spawnMigrationConfigServiceMock;
+
     public function setUp(): void
     {
         $this->resultSearcherMock = $this->createMock(ResultSearcherInterface::class);
         $this->resultUnitProcessorMock = $this->createMock(ResultUnitProcessorInterface::class);
         $this->statementLastIdRetrieverMock = $this->createMock(StatementLastIdRetriever::class);
         $this->reportMock = $this->createMock(common_report_Report::class);
+        $this->resoultFilterMock = $this->createMock(ResultFilter::class);
+        $this->spawnMigrationConfigServiceMock = $this->createMock(SpawnMigrationConfigServiceInterface::class);
         $this->subject = new QueueMigrationService();
         $this->subject->setServiceLocator($this->getServiceLocatorMock([
             StatementLastIdRetriever::class => $this->statementLastIdRetrieverMock,
@@ -68,9 +78,9 @@ class QueueMigrationServiceTest extends TestCase
 
     public function testMigrateExceuteOnce(): void
     {
-        $config = new MigrationConfig(0, 2, 1, false);
+        $config = new MigrationConfig(['start' => 0], 2, 1, false);
         $resourceMock = $this->createMock(core_kernel_classes_Resource::class);
-        $resourceResultUnit = new ResourceResultUnit($resourceMock);
+        $resourceResultUnit = new ResultUnit($resourceMock);
         $resourceResultUnitCollection = new ResultUnitCollection($resourceResultUnit, $resourceResultUnit);
 
         $this->statementLastIdRetrieverMock
@@ -94,6 +104,8 @@ class QueueMigrationServiceTest extends TestCase
             $config,
             $this->resultUnitProcessorMock,
             $this->resultSearcherMock,
+            $this->resoultFilterMock,
+            $this->spawnMigrationConfigServiceMock,
             $this->reportMock
         );
 
@@ -103,7 +115,7 @@ class QueueMigrationServiceTest extends TestCase
     public function testMigrateRespawn(): void
     {
         $resourceMock = $this->createMock(core_kernel_classes_Resource::class);
-        $resourceResultUnit = new ResourceResultUnit($resourceMock);
+        $resourceResultUnit = new ResultUnit($resourceMock);
         $resourceResultUnitCollection = new ResultUnitCollection($resourceResultUnit, $resourceResultUnit);
 
         $this->statementLastIdRetrieverMock
@@ -123,17 +135,23 @@ class QueueMigrationServiceTest extends TestCase
             ->expects($this->once())
             ->method('add');
 
-        $config = new MigrationConfig(0, 2, 1, true);
+        $this->spawnMigrationConfigServiceMock
+            ->method('spawn')
+            ->willReturn(new MigrationConfig(['start'=> 10], 2, 1, true));
+
+        $config = new MigrationConfig(['start' => 0], 2, 1, true);
 
         $result = $this->subject->migrate(
             $config,
             $this->resultUnitProcessorMock,
             $this->resultSearcherMock,
+            $this->resoultFilterMock,
+            $this->spawnMigrationConfigServiceMock,
             $this->reportMock
         );
 
         $this->assertInstanceOf(MigrationConfig::class, $result);
-        $this->assertSame(3, $result->getStart());
+        $this->assertSame(10, $result->getCustomParameters()['start']);
         $this->assertSame(1, $result->getPickSize());
         $this->assertSame(2, $result->getChunkSize());
         $this->assertTrue($result->isProcessAll());

@@ -27,9 +27,12 @@ use common_report_Report;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\action\Action;
 use oat\oatbox\log\LoggerAwareTrait;
+use oat\tao\model\task\migration\service\MigrationConfigFactoryInterface;
 use oat\tao\model\task\migration\service\QueueMigrationService;
+use oat\tao\model\task\migration\service\ResultFilterFactoryInterface;
 use oat\tao\model\task\migration\service\ResultSearcherInterface;
 use oat\tao\model\task\migration\service\ResultUnitProcessorInterface;
+use oat\tao\model\task\migration\service\SpawnMigrationConfigServiceInterface;
 use oat\tao\model\taskQueue\QueueDispatcherInterface;
 use oat\tao\model\taskQueue\Task\CallbackTaskInterface;
 use oat\tao\model\taskQueue\Task\TaskAwareInterface;
@@ -53,65 +56,61 @@ abstract class AbstractMigrationTask implements Action, ServiceLocatorAwareInter
     /** @var common_report_Report */
     private $errorReport;
 
-    abstract protected function getUnitProcessor(): ResultUnitProcessorInterface;
-
-    abstract protected function getResultSearcher(): ResultSearcherInterface;
-
     /**
      * @param $params
-     *
-     * @return \common_report_Report
-     * @throws \common_exception_MissingParameter
+     * @throws common_exception_MissingParameter
+     * @return common_report_Report
      */
     public function __invoke($params)
     {
         $report = common_report_Report::createInfo('Statement Migration Task');
 
-        if (
-            !array_key_exists('start', $params) ||
-            !array_key_exists('chunkSize', $params) ||
-            !array_key_exists('pickSize', $params) ||
-            !array_key_exists('repeat', $params)
-        ) {
-            throw new common_exception_MissingParameter();
-        }
-
-        $migrationConfig = new MigrationConfig(
-            (int)$params['start'],
-            (int)$params['chunkSize'],
-            (int)$params['pickSize'],
-            (bool)$params['repeat']
-        );
+        $migrationConfig = $this->getMigrationConfigFactory()->create($params);
+        $resultFilter = $this->getResultFilterFactory()->create($migrationConfig);
 
         $respawnTaskConfig = $this->getQueueMigrationService()->migrate(
             $migrationConfig,
             $this->getUnitProcessor(),
             $this->getResultSearcher(),
+            $resultFilter,
+            $this->getSpawnMigrationConfigService(),
             $report
         );
 
         if ($respawnTaskConfig instanceof MigrationConfig) {
-            $this->respawnTask(
-                $respawnTaskConfig->getStart(),
-                $respawnTaskConfig->getChunkSize(),
-                $respawnTaskConfig->getPickSize(),
-                $respawnTaskConfig->isProcessAll()
-            );
+            $this->respawnTask($respawnTaskConfig);
         }
 
         return $report;
     }
 
-    private function respawnTask(int $start, int $chunkSize, int $pickSize, bool $repeat = true): CallbackTaskInterface
+    abstract protected function getUnitProcessor(): ResultUnitProcessorInterface;
+
+    abstract protected function getResultSearcher(): ResultSearcherInterface;
+
+    abstract protected function getSpawnMigrationConfigService(): SpawnMigrationConfigServiceInterface;
+
+    abstract protected function getResultFilterFactory(): ResultFilterFactoryInterface;
+
+    abstract protected function getMigrationConfigFactory(): MigrationConfigFactoryInterface;
+
+    private function respawnTask(MigrationConfig $config): CallbackTaskInterface
     {
         return $this->getQueueDispatcher()->createTask(
             new static(),
-            ['start' => $start, 'chunkSize' => $chunkSize, 'pickSize' => $pickSize, 'repeat' => $repeat],
+            array_merge(
+                $config->getCustomParameters(),
+                [
+                    'chunkSize' => $config->getChunkSize(),
+                    'pickSize' => $config->getPickSize(),
+                    'repeat' => $config->isProcessAll(),
+                ]
+            ),
             sprintf(
                 'Unit processing by %s started from %s with chunk size of %s',
                 self::class,
-                $start,
-                $chunkSize
+                var_export($config->getCustomParameters(), true),
+                $config->getChunkSize()
             )
         );
     }
