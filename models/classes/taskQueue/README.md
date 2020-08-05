@@ -265,4 +265,4 @@ This example will iterate over `item` statements and will update item relations 
 
 #### Warning
 
-We are obliged to provide array argument in `-cp` argument.
+We are obliged to provide `queryString` argument in `-cp` argument.
