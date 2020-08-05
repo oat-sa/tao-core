@@ -385,7 +385,7 @@ class TokenServiceTest extends TestCase
         $storeMock = $this->prophesize(TokenStore::class);
         $storeMock->getTokens()->willReturn([]);
         $storeMock->setTokens(Argument::any())->will(
-            static function ($args) use ($storeMock) {
+            function ($args) use ($storeMock) {
                 $storeMock->getTokens()->willReturn($args[0]);
             }
         );
