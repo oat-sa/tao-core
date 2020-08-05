@@ -1,7 +1,5 @@
 <?php
 
-use oat\tao\scripts\update\Updater;
-
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -37,8 +35,8 @@ use oat\tao\scripts\install\CreateRdsListStore;
 use oat\tao\scripts\install\CreateWebhookEventLogTable;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\RegisterActionService;
-use oat\tao\scripts\install\RegisterResourceEvents;
 use oat\tao\scripts\install\RegisterEvents;
+use oat\tao\scripts\install\RegisterResourceEvents;
 use oat\tao\scripts\install\RegisterResourceWatcherService;
 use oat\tao\scripts\install\RegisterSignatureGenerator;
 use oat\tao\scripts\install\RegisterTaskQueueServices;
@@ -54,6 +52,7 @@ use oat\tao\scripts\install\SetServiceFileStorage;
 use oat\tao\scripts\install\SetServiceState;
 use oat\tao\scripts\install\SetupMaintenanceService;
 use oat\tao\scripts\install\SetUpQueueTasks;
+use oat\tao\scripts\update\Updater;
 
 $extpath = __DIR__ . DIRECTORY_SEPARATOR;
 
@@ -62,7 +61,7 @@ return [
     'label' => 'TAO Base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '45.5.0',
+    'version' => '45.6.0',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => [
         'generis' => '>=13.0.0',
