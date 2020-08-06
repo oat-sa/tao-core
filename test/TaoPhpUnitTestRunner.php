@@ -23,8 +23,8 @@
 
 namespace oat\tao\test;
 
-use League\Flysystem\Adapter\Local;
 use League\Flysystem\Memory\MemoryAdapter;
+use oat\generis\persistence\PersistenceManager;
 use oat\generis\test\GenerisPhpUnitTestRunner;
 use oat\oatbox\filesystem\Directory;
 use oat\oatbox\filesystem\FileSystemService;
@@ -115,7 +115,26 @@ abstract class TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner implements 
      */
     public function getKvMock($key)
     {
-        return $this->getKeyValueMock($key);
+        if (!extension_loaded('pdo_sqlite')) {
+            $this->markTestSkipped('sqlite not found, tests skipped.');
+        }
+        $driver = new \common_persistence_InMemoryKvDriver();
+        $persistence = $driver->connect($key, []);
+        $pmProphecy = $this->prophesize(\common_persistence_Manager::class);
+        $pmProphecy->setServiceLocator(Argument::any())->willReturn(null);
+        $pmProphecy->getPersistenceById($key)->willReturn($persistence);
+        return $pmProphecy->reveal();
+    }
+
+    /**
+     * Returns a persistence Manager with a mocked sql persistence
+     *
+     * @param string $key identifier of the persistence
+     * @return \common_persistence_Manager
+     */
+    public function getSqlMock($key): PersistenceManager
+    {
+        return parent::getSqlMock($key);
     }
 
     /**

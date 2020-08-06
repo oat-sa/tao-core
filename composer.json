@@ -62,6 +62,7 @@
         "slim/slim": "^3.0",
         "symfony/dotenv": "~4.3",
         "doctrine/migrations" : "3.0.1",
+        "doctrine/collections": "1.6.7",
         "flow/jsonpath": "~0.5"
     },
     "autoload": {
