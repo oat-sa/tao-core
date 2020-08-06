@@ -27,13 +27,13 @@ use oat\generis\persistence\PersistenceManager;
 use oat\oatbox\filesystem\FileSystemService;
 use Psr\Container\ContainerInterface;
 
-class ContainerDefinitionExample implements ContainerDefinitionInterface
+class ExampleContainerDefinition implements ContainerDefinitionInterface
 {
     public function getDefinitions(): array
     {
         return [
-            ClassExample::class => function (ContainerInterface $container) {
-                return new ClassExample(
+            ExampleClass::class => static function (ContainerInterface $container) {
+                return new ExampleClass(
                     $container->get(FileSystemService::SERVICE_ID),
                     $container->get(PersistenceManager::SERVICE_ID)
                 );

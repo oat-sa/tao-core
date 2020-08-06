@@ -26,7 +26,7 @@ namespace oat\tao\model\DependencyInjection;
 use oat\generis\persistence\PersistenceManager;
 use oat\oatbox\filesystem\FileSystemService;
 
-class ClassExample
+class ExampleClass
 {
     /** @var FileSystemService */
     private $fileSystemService;
@@ -43,5 +43,10 @@ class ClassExample
     public function test()
     {
         echo 'Worked!!';
+        echo PHP_EOL;
+        echo PHP_EOL;
+        var_export(get_class($this->fileSystemService));
+        echo PHP_EOL;
+        var_export(get_class($this->persistenceManager));
     }
 }

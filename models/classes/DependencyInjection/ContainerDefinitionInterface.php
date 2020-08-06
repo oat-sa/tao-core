@@ -18,9 +18,9 @@
  * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
  */
 
-namespace oat\tao\model\entryPoint;
+namespace oat\tao\model\DependencyInjection;
 
-class ContainerDefinitionInterface
+interface ContainerDefinitionInterface
 {
-
+    public function getDefinitions(): array;
 }

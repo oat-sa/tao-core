@@ -20,83 +20,49 @@
 
 namespace oat\tao\model\DependencyInjection;
 
-use DI\ContainerBuilder;
+use DI\ContainerBuilder as DiContainerBuilder;
 use Psr\Container\ContainerInterface;
-use Throwable;
-use Zend\ServiceManager\Exception\ServiceNotFoundException;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class Container implements ContainerInterface
-{
-    /** @var ContainerInterface */
-    private $container;
+/*
+Example: @TODO This comment will be removed on final version:
 
-    /** @var ContainerInterface */
-    private $container2;
+$containerBuilder = new ContainerBuilder($this->getServiceLocator());
+$containerBuilder->addDefinition(new ExampleContainerDefinition());
+$container = $containerBuilder->build();
+$container->get(ExampleClass::class)->test();
+*/
+class ContainerBuilder extends DiContainerBuilder
+{
+    /** @var ServiceLocatorInterface */
+    private $serviceLocator;
 
     /** @var ContainerDefinitionInterface[] */
     private $definitions;
 
-    /** @var ServiceLocatorInterface */
-    private $serviceLocator;
-
     public function __construct(ServiceLocatorInterface $serviceLocator)
     {
+        parent::__construct(Container::class);
+
         $this->serviceLocator = $serviceLocator;
         $this->definitions = [];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function get($id)
-    {
-        $service = null;
-
-        try {
-            $service = $this->serviceLocator->get($id);
-
-            return $service;
-        } catch (ServiceNotFoundException $exception) {
-            $service = $this->getContainer()->get($id);
-
-            return $service;
-        } catch (Throwable $exception) {
-            $service = $this->container2->get($id);
-
-            return $service;
-        }
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function has($id)
-    {
-        return $this->serviceLocator->has($id) || $this->getContainer()->has($id);
-    }
-
     public function addDefinition(ContainerDefinitionInterface $definition): self
     {
-        $this->definitions = array_merge(
-            $this->definitions,
-            $definition->getDefinitions()
-        );
+        $this->definitions = array_merge($this->definitions, $definition->getDefinitions());
 
         return $this;
     }
 
-    private function getContainer(): ContainerInterface
+    public function build(): ContainerInterface
     {
-        if (!$this->container) {
-            $builder = new ContainerBuilder();
-            $builder->addDefinitions($this->definitions);
+        parent::addDefinitions($this->definitions);
 
-            $this->container2 = $builder->build();
+        /** @var Container $container */
+        $container = parent::build();
+        $container->setServiceLocator($this->serviceLocator);
 
-            $this->container = $this;
-        }
-
-        return $this->container;
+        return $container;
     }
 }
