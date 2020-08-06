@@ -266,3 +266,13 @@ This example will iterate over `item` statements and will update item relations 
 #### Warning
 
 We are obliged to provide `queryString` argument in `-cp` argument.
+
+### Other DB implementations
+
+This migration is database agnostic. You can easily implement different types of databases using those interfaces:
+
+* `models/classes/task/migration/service/MigrationConfigFactoryInterface`
+* `models/classes/task/migration/service/ResultFilterFactoryInterface`
+* `models/classes/task/migration/service/ResultSearcherInterface`
+* `models/classes/task/migration/service/ResultUnitProcessorInterface`
+* `models/classes/task/migration/service/SpawnMigrationConfigServiceInterface`
