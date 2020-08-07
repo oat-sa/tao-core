@@ -21,11 +21,13 @@
 
 declare(strict_types=1);
 
+use oat\generis\model\data\permission\PermissionHelper;
+use oat\generis\model\data\permission\PermissionInterface;
 use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
 use oat\tao\model\search\index\OntologyIndexService;
 use oat\tao\model\search\ResultSet;
-use oat\taoPublishing\model\search\GenerisSearch;
+use oat\tao\model\search\strategy\GenerisSearch;
 
 /**
  * Controller for indexed searches
@@ -66,9 +68,10 @@ class tao_actions_Search extends tao_actions_CommonModule
      * Search results
      * The search is paginated and initiated by the datatable component.
      *
-     * @param GenerisSearch $searchService
+     * @param GenerisSearch    $searchService
+     * @param PermissionHelper $permissionHelper
      */
-    public function search(GenerisSearch $searchService): void
+    public function search(GenerisSearch $searchService, PermissionHelper $permissionHelper): void
     {
         $params = $this->getRequestParameter('params');
         $query = $params['query'];
@@ -95,20 +98,41 @@ class tao_actions_Search extends tao_actions_CommonModule
 
         $totalPages = is_null($rows) ? 1 : ceil($results->getTotalCount() / $rows);
 
+        $results = $results->getArrayCopy();
+
+        $accessibleResultsMap = array_flip(
+            $permissionHelper->filterByPermission($results, PermissionInterface::RIGHT_READ)
+        );
+
         $resultAmount = count($results);
 
         $response = new StdClass();
         if ($resultAmount > 0) {
             foreach ($results as $uri) {
                 $instance = $this->getResource($uri);
+                $isAccessible = isset($accessibleResultsMap[$uri]);
+
+                if (!$isAccessible) {
+                    $instance->label = __('Access Denied');
+                }
+
                 $instanceProperties = [
                     'id' => $instance->getUri(),
-                    OntologyRdfs::RDFS_LABEL => $instance->getLabel()
+                    OntologyRdfs::RDFS_LABEL => $instance->getLabel(),
                 ];
 
                 $response->data[] = $instanceProperties;
             }
         }
+        $response->readonly = array_fill_keys(
+            array_keys(
+                array_diff_key(
+                    array_flip($results),
+                    $accessibleResultsMap
+                )
+            ),
+            true
+        );
         $response->success = true;
         $response->page = empty($response->data) ? 0 : $page;
         $response->total = $totalPages;
