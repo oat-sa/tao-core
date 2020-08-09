@@ -1,4 +1,4 @@
-description: unexpected error
+description: Unexpected Error
 content:
   application/json:
     schema:
