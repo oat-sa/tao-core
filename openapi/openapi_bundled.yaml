@@ -101,7 +101,7 @@ components:
           type: string
   responses:
     UnexpectedError:
-      description: Unexpected Error
+      description: 'Bro, Unexpected Error'
       content:
         application/json:
           schema:

@@ -1,4 +1,4 @@
-oescription: Bro, Unexpected Error
+description: Bro, Unexpected Error
 content:
   application/json:
     schema:
