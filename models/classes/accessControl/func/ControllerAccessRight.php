@@ -80,7 +80,10 @@ class ControllerAccessRight implements \JsonSerializable
         return $this->extensionId;
     }
 
-    public function getAllowedRoles($action)
+    /**
+     * @return array list of roles that have access to this action
+     */
+    public function getAllowedRoles(string $action): array
     {
         $allowed = $this->rights_full;
         if (isset($this->rights_actions[$action])) {

@@ -193,10 +193,10 @@ return [
         [AccessRule::GRANT, TaoRoles::REST_PUBLISHER,       ['ext' => 'tao','mod' => 'TaskQueue', 'act' => 'get']],
         [AccessRule::GRANT, TaoRoles::REST_PUBLISHER,       ['ext' => 'tao','mod' => 'TaskQueue', 'act' => 'getStatus']],
         [AccessRule::GRANT, TaoRoles::SYSTEM_ADMINISTRATOR, ['ext' => 'tao','mod' => 'ExtensionsManager']],
-        [AccessRule::GRANT, TaoRoles::LOCK_MANAGER,     'tao_actions_Lock@forceRelease'],
-        [AccessRule::GRANT, TaoRoles::PROPERTY_MANAGER, 'tao_actions_PropertiesAuthoring'],
+        [AccessRule::GRANT, TaoRoles::LOCK_MANAGER,         tao_actions_Lock::class.'@forceRelease'],
+        [AccessRule::GRANT, TaoRoles::PROPERTY_MANAGER,     tao_actions_PropertiesAuthoring::class],
         [AccessRule::GRANT, TaoRoles::SYSTEM_ADMINISTRATOR, Users::class],
-        [AccessRule::GRANT, TaoRoles::GLOBAL_MANAGER, Users::class],
+        [AccessRule::GRANT, TaoRoles::GLOBAL_MANAGER,       Users::class],
     ],
     'routes' => [
         '/tao/api'  => ['class' => ApiRoute::class],
