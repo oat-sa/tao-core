@@ -62,7 +62,7 @@ class SqlCreatorTest extends TestCase
         $sqlCreator = new SqlCreator($this->exportedTable);
         $sql = $sqlCreator->getExportSql();
 
-        $sqlExpected = file_get_contents(__DIR__ . 'sqlFixture.sql');
+        $sqlExpected = file_get_contents(__DIR__ . '\sqlFixture.sql');
 
         $this->assertEquals($sqlExpected, $sql);
     }
