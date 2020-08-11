@@ -9,7 +9,7 @@ INSERT INTO fixture_table_name (
 	   col_compilation_time,
 	   col_field_without_type
 ) VALUES (
-	   'http://nec-pr.docker.localhost/tao.rdf#i5f16bd028eb6e202ad4b5d184\'f67e22',
+	   'http://nec-pr.docker.localhost/tao.rdf#i5f16bd028eb6e202ad4b5d184"f67e22',
 	   1594828375,
 	   '12345'
 	),

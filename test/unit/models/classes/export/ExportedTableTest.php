@@ -94,7 +94,7 @@ class ExportedTableTest extends TestCase
         $this->assertEquals($rowField->getColumn()->getType(), ExportedColumn::TYPE_VARCHAR);
         $this->assertEquals($rowField->getColumn()->getColumnCreatingString(), ExportedColumn::PREFIX . 'test_taker_id' . ' ' . ExportedColumn::TYPE_VARCHAR);
 
-        $this->assertEquals($rowField->getFormattedValue(), "'http://nec-pr.docker.localhost/tao.rdf#i5f16bd028eb6e202ad4b5d184\'f67e22'");
+        $this->assertEquals($rowField->getFormattedValue(), '\'http://nec-pr.docker.localhost/tao.rdf#i5f16bd028eb6e202ad4b5d184"f67e22\'');
 
         $row = $rows[0];
         $rowField = $row[1];
