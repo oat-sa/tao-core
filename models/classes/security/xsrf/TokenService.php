@@ -47,6 +47,7 @@ class TokenService extends ConfigurableService
     // options keys
     const POOL_SIZE_OPT = 'poolSize';
     const TIME_LIMIT_OPT = 'timeLimit';
+    const VALIDATE_TOKENS_OPT = 'validateTokens';
     const OPTION_STORE = 'store';
 
     const DEFAULT_POOL_SIZE = 6;
@@ -354,7 +355,8 @@ class TokenService extends ConfigurableService
         return [
             self::JS_TOKEN_TIME_LIMIT_KEY => $this->getTimeLimit() * 1000,
             self::JS_TOKEN_POOL_SIZE_KEY => $this->getPoolSize(false),
-            self::JS_TOKEN_KEY => $jsTokenPool
+            self::JS_TOKEN_KEY => $jsTokenPool,
+            self::VALIDATE_TOKENS_OPT => $this->getOption(self::VALIDATE_TOKENS_OPT)
         ];
     }
 

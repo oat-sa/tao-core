@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint133\n"
-"PO-Revision-Date: 2020-07-17T08:35:50\n"
+"Project-Id-Version: TAO 3.4.0-sprint134\n"
+"PO-Revision-Date: 2020-07-31T09:51:05\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-JP\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " AND "
-msgstr ""
-
 msgid " and "
 msgstr " と "
+
+msgid " AND "
+msgstr ""
 
 msgid " has been deleted successfully"
 msgstr " 削除しました。"
@@ -371,10 +371,10 @@ msgstr ""
 msgid "Calendar"
 msgstr "カレンダー"
 
-msgid "Cancel"
+msgid "cancel"
 msgstr "キャンセル"
 
-msgid "cancel"
+msgid "Cancel"
 msgstr "キャンセル"
 
 msgid "cancel the action"
@@ -450,10 +450,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
 msgid "Clear selection"
@@ -570,10 +570,10 @@ msgstr "データインポートに成功しました"
 msgid "Data imported. Some records are invalid."
 msgstr "データインポート終了。いくつかのレコードは無効です。"
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "データ言語"
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "データ言語"
 
 msgid "Data not imported. All records are invalid."
@@ -987,10 +987,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1133,6 +1133,9 @@ msgstr "リスト - 択一 - ドロップダウン"
 
 msgid "List - Single choice - Radio button"
 msgstr "リスト - 択一 - ラジオボタン"
+
+msgid "List - Single choice - Search input"
+msgstr ""
 
 msgid "List item URI duplications found"
 msgstr ""
