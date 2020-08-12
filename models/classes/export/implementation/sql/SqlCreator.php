@@ -45,7 +45,7 @@ class SqlCreator
         $sqlCreateTable = $this->getCreateTableSql();
         $sqlInsert = $this->getInsertSql();
 
-        return "$sqlCreateTable\r\n\r\n$sqlInsert";
+        return $sqlCreateTable . PHP_EOL . PHP_EOL . $sqlInsert;
     }
 
     /**
@@ -59,7 +59,12 @@ class SqlCreator
             $columnsCreatingStringArray[] = $column->getColumnCreatingString();
         }
 
-        return sprintf("CREATE TABLE IF NOT EXISTS %s (\r\n\t%s\r\n);", $this->table->getTableName(), implode(",\r\n\t", $columnsCreatingStringArray));
+        return sprintf("CREATE TABLE IF NOT EXISTS %s (%s\t%s%s);",
+            $this->table->getTableName(),
+            PHP_EOL,
+            implode("," . PHP_EOL . "\t", $columnsCreatingStringArray),
+            PHP_EOL
+        );
     }
 
     /**
@@ -83,13 +88,19 @@ class SqlCreator
                 $rowValuesArray[] = $field->getFormattedValue();
             }
 
-            $rowValuesString = implode(",\r\n\t   ", $rowValuesArray);
-            $fieldInsertArray[] = "(\r\n\t   $rowValuesString\r\n\t)";;
+            $rowValuesString = implode("," . PHP_EOL . "\t   ", $rowValuesArray);
+            $fieldInsertArray[] = "(" . PHP_EOL . "\t   $rowValuesString" . PHP_EOL . "\t)";
         }
 
-        $columnNamesString = implode(",\r\n\t   ", $columnNamesArray);
-        $fieldInsertString = implode(",\r\n\t", $fieldInsertArray);
+        $columnNamesString = implode("," . PHP_EOL . "\t   ", $columnNamesArray);
+        $fieldInsertString = implode("," . PHP_EOL . "\t", $fieldInsertArray);
 
-        return sprintf("INSERT INTO %s (\r\n\t   %s\r\n) VALUES %s;", $this->table->getTableName(), $columnNamesString, $fieldInsertString);
+        return sprintf("INSERT INTO %s (%s\t   %s%s) VALUES %s;",
+            $this->table->getTableName(),
+            PHP_EOL,
+            $columnNamesString,
+            PHP_EOL,
+            $fieldInsertString
+        );
     }
 }
