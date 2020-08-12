@@ -22,8 +22,6 @@
 namespace oat\tao\model\accessControl\func;
 
 use oat\tao\model\accessControl\AccessControl;
-use common_ext_ExtensionsManager;
-use common_Logger;
 use oat\oatbox\user\User;
 use oat\oatbox\service\ServiceManager;
 
@@ -37,12 +35,8 @@ use oat\oatbox\service\ServiceManager;
  */
 class AclProxy implements AccessControl
 {
-    const SERVICE_ID = 'tao/FuncAccessControl';
-    
-    const CONFIG_KEY_IMPLEMENTATION = 'FuncAccessControl';
-    
-    const FALLBACK_IMPLEMENTATION_CLASS = 'oat\tao\model\accessControl\func\implementation\NoAccess';
-    
+    public const SERVICE_ID = 'tao/FuncAccessControl';
+
     /**
      * @return FuncAccessControl
      */

@@ -28,7 +28,8 @@ use oat\oatbox\user\User;
  */
 interface FuncAccessControl
 {
-    
+    public const SERVICE_ID = 'tao/FuncAccessControl';
+
     /**
      * Returns whenever or not a user has access to a specified call
      *
