@@ -34,6 +34,7 @@ use oat\tao\model\accessControl\AccessControl;
 use oat\tao\model\accessControl\func\AclModel;
 use oat\tao\model\accessControl\func\ControllerAccessRight;
 use oat\tao\model\accessControl\func\AclModelFactory;
+use Psr\SimpleCache\CacheInterface;
 
 /**
  * Simple function access controll implementation, that builds the access
@@ -41,7 +42,7 @@ use oat\tao\model\accessControl\func\AclModelFactory;
  * Does not require any update script to maintain
  * @author Joel Bout, <joel@taotesting.com>
  */
-class CacheOnly extends ConfigurableService implements FuncAccessControl, AccessControl
+class CachedModel extends ConfigurableService implements FuncAccessControl, AccessControl
 {
     private const CACHE_PREFIX = 'funcacl::';
 
@@ -111,25 +112,13 @@ class CacheOnly extends ConfigurableService implements FuncAccessControl, Access
             if (!$this->getControllerMapFactory()->isControllerClassNameValid($controllerName)) {
                 // do not rebuild cache if controller is invalid, to prevent CPU consumtion attacks
                 // return empty controller instead
-                return new ControllerAccessRight($controllerName);
+                return new ControllerAccessRight($controllerName, 'false');
             }
             // as we need to parse all manifests, it is easier to write whole cache in one go
             $this->buildCache();
             $cache = $this->getCache()->get(self::CACHE_PREFIX . $controllerName);
         }
         return ControllerAccessRight::fromJson($cache);
-    }
-
-    protected function buildModel(): AclModel
-    {
-        $aclModel = new AclModel();
-        foreach ($this->getExtensionManager()->getInstalledExtensions() as $ext) {
-            foreach ($ext->getManifest()->getAclTable() as $tableEntry) {
-                $rule = new AccessRule($tableEntry[0], $tableEntry[1], $tableEntry[2]);
-                $aclModel->applyRule($rule);
-            }
-        }
-        return $aclModel;
     }
 
     /**
@@ -164,7 +153,7 @@ class CacheOnly extends ConfigurableService implements FuncAccessControl, Access
         return new Factory();
     }
 
-    private function getCache(): SimpleCache
+    private function getCache(): CacheInterface
     {
         return $this->getServiceLocator()->get(SimpleCache::SERVICE_ID);
     }

@@ -18,6 +18,6 @@
  * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
  */
 
-use oat\tao\model\accessControl\func\implementation\CacheOnly;
+use oat\tao\model\accessControl\func\implementation\CachedModel;
 
-return new CacheOnly();
+return new CachedModel();
