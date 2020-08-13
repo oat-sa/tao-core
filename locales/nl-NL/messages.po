@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint133\n"
-"PO-Revision-Date: 2020-07-17T08:37:14\n"
+"Project-Id-Version: TAO 3.4.0-sprint134\n"
+"PO-Revision-Date: 2020-07-31T09:51:17\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nl-NL\n"
@@ -16,10 +16,10 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " AND "
+msgid " and "
 msgstr " en "
 
-msgid " and "
+msgid " AND "
 msgstr " en "
 
 msgid " has been deleted successfully"
@@ -371,11 +371,11 @@ msgstr "Rekenmachine"
 msgid "Calendar"
 msgstr "Kalender"
 
-msgid "Cancel"
-msgstr "Afbreken"
-
 msgid "cancel"
 msgstr "afbreken"
+
+msgid "Cancel"
+msgstr "Afbreken"
 
 msgid "cancel the action"
 msgstr "breek de actie af"
@@ -450,10 +450,10 @@ msgstr "Alle gegevens wissen"
 msgid "Clear expression"
 msgstr "Expressie wissen"
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr "Historie wissen"
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr "Historie wissen"
 
 msgid "Clear selection"
@@ -570,10 +570,10 @@ msgstr "Data is succesvol geïmporteerd"
 msgid "Data imported. Some records are invalid."
 msgstr "Data is geïmporteerd. Sommige records zijn ongeldig."
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "Data taal"
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "Data taal"
 
 msgid "Data not imported. All records are invalid."
@@ -782,6 +782,9 @@ msgstr ""
 msgid "Export CSV"
 msgstr "Exporteer CSV"
 
+msgid "Export SQL"
+msgstr "Exporteer SQL"
+
 msgid "Export failed."
 msgstr "Export is mislukt."
 
@@ -987,11 +990,11 @@ msgstr "Geïmporteerde resource \"%s"
 msgid "impossible to update task status"
 msgstr "Onmogelijk om de taakstatus bij te werken"
 
-msgid "In Progress"
-msgstr "In Behandeling"
-
 msgid "In progress"
 msgstr "In behandeling"
+
+msgid "In Progress"
+msgstr "In Behandeling"
 
 msgid "Inclusive (AND)"
 msgstr "Inclusief (AND)"
@@ -1133,6 +1136,9 @@ msgstr "Lijst - Enkele keuze - Keuzelijst"
 
 msgid "List - Single choice - Radio button"
 msgstr "Lijst - Enkele keuze - Radioknop"
+
+msgid "List - Single choice - Search input"
+msgstr ""
 
 msgid "List item URI duplications found"
 msgstr ""

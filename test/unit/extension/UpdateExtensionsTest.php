@@ -45,6 +45,10 @@ use core_kernel_persistence_ClassInterface as ClassImplementation;
  */
 class UpdateExtensionsTest extends TestCase
 {
+    public function setUp(): void
+    {
+        defined('TAO_VERSION') ?: define('TAO_VERSION', 'TAO_VERSION');
+    }
 
     public function testInvoke()
     {

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint133\n"
-"PO-Revision-Date: 2020-07-17T08:36:29\n"
+"Project-Id-Version: TAO 3.4.0-sprint134\n"
+"PO-Revision-Date: 2020-07-31T09:51:11\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lt-LT\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " AND "
-msgstr " IR "
-
 msgid " and "
 msgstr " ir "
+
+msgid " AND "
+msgstr " IR "
 
 msgid " has been deleted successfully"
 msgstr " sėkmingai ištrintas"
@@ -371,11 +371,11 @@ msgstr "Skaičiuotuvas"
 msgid "Calendar"
 msgstr "Kalendorius"
 
-msgid "Cancel"
-msgstr "Atšaukti"
-
 msgid "cancel"
 msgstr "atšaukti"
+
+msgid "Cancel"
+msgstr "Atšaukti"
 
 msgid "cancel the action"
 msgstr "atšaukti veiksmą"
@@ -450,11 +450,11 @@ msgstr "Išvalyti visus duomenis"
 msgid "Clear expression"
 msgstr "Išvalyti išraišką"
 
-msgid "Clear history"
-msgstr "Išvalyti istoriją"
-
 msgid "Clear History"
 msgstr "Išvalyti Istoriją"
+
+msgid "Clear history"
+msgstr "Išvalyti istoriją"
 
 msgid "Clear selection"
 msgstr "Išvalyti pasirinimą"
@@ -570,11 +570,11 @@ msgstr "Duomenys importuoti sėkmingai"
 msgid "Data imported. Some records are invalid."
 msgstr "Duomenys importuoti. Kaikurie įrašai neteisingi."
 
-msgid "Data Language"
-msgstr "Duomenų Kalba"
-
 msgid "Data language"
 msgstr "Duomenų kalba"
+
+msgid "Data Language"
+msgstr "Duomenų Kalba"
 
 msgid "Data not imported. All records are invalid."
 msgstr "Duomenys neimportuoti. Visi įrašai neteisingi."
@@ -782,6 +782,9 @@ msgstr "Eksportuoti \"%s\" į %s"
 msgid "Export CSV"
 msgstr "Eksportuoti CSV"
 
+msgid "Export SQL"
+msgstr "Eksportuoti SQL"
+
 msgid "Export failed."
 msgstr "Eksportavimas nepavyko."
 
@@ -987,10 +990,10 @@ msgstr "Importuotas resursas \"%s"
 msgid "impossible to update task status"
 msgstr "neįmanoma atnaujinti užduoties būsenos"
 
-msgid "In Progress"
+msgid "In progress"
 msgstr "Vykdoma"
 
-msgid "In progress"
+msgid "In Progress"
 msgstr "Vykdoma"
 
 msgid "Inclusive (AND)"
@@ -1133,6 +1136,9 @@ msgstr "Sąrašas - pasirinkimas vienos reikšmės iš iškrentančio sąrašo"
 
 msgid "List - Single choice - Radio button"
 msgstr "Sąrašas - Pasirinkimas tik vienos reikšmės "
+
+msgid "List - Single choice - Search input"
+msgstr ""
 
 msgid "List item URI duplications found"
 msgstr ""
