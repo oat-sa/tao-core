@@ -53,7 +53,7 @@ class SqlExporterTest extends TestCase
         $exporter = new SqlExporter($this->rowsFixture, $this->typeMappingFixture, $this->tableNameFixture);
         $sqlData = $exporter->export();
 
-        $sqlExpected = file_get_contents(__DIR__ . '\sqlFixture.sql');
+        $sqlExpected = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'sqlFixture.sql');
         $this->assertEquals($sqlData, $sqlExpected);
     }
 }
