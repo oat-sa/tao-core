@@ -269,7 +269,7 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
                 $actionParameters[$paramName] = $parameters[$paramName];
             } elseif($paramTypeName === ServerRequest::class) {
                 $actionParameters[$paramName] = $request;
-            } elseif (class_exists($paramTypeName)) {
+            } elseif (class_exists($paramTypeName) || interface_exists($paramTypeName)) {
                 $actionParameters[$paramName] = $this->getClassInstance($paramTypeName);
             } elseif (!$param->isDefaultValueAvailable()) {
                 $this->logWarning('Missing parameter ' . $paramName . ' for ' . $this->getControllerClass() . '@' . $action);
