@@ -32,6 +32,8 @@ use tao_helpers_Uri as UriHelper;
 
 class SessionCookieAttributesFactory extends InjectionAwareService implements SessionCookieAttributesFactoryInterface
 {
+    public const SERVICE_ID = 'tao/SessionCookieAttributesFactory';
+
     public function create(): SessionCookieAttributeCollection
     {
         return (new SessionCookieAttributeCollection())
