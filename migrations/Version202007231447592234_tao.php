@@ -9,6 +9,8 @@ use oat\tao\model\event\ClassPropertiesChangedEvent;
 use oat\tao\model\event\ClassPropertyRemovedEvent;
 use oat\tao\model\listener\ClassPropertiesChangedListener;
 use oat\tao\model\listener\ClassPropertyRemovedListener;
+use oat\tao\model\search\index\IndexUpdaterInterface;
+use oat\tao\model\search\strategy\GenerisIndexUpdater;
 use oat\tao\scripts\tools\migrations\AbstractMigration;
 use oat\oatbox\event\EventManager;
 
@@ -31,6 +33,8 @@ final class Version202007231447592234_tao extends AbstractMigration
         $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
         $this->getServiceManager()->register(ClassPropertiesChangedListener::SERVICE_ID, new ClassPropertiesChangedListener());
         $this->getServiceManager()->register(ClassPropertyRemovedListener::SERVICE_ID, new ClassPropertyRemovedListener());
+
+        $this->getServiceManager()->register(IndexUpdaterInterface::SERVICE_ID, new GenerisIndexUpdater());
     }
 
     public function down(Schema $schema): void
@@ -44,5 +48,7 @@ final class Version202007231447592234_tao extends AbstractMigration
         $eventManager->detach(ClassPropertyRemovedEvent::class, [ClassPropertyRemovedListener::SERVICE_ID, 'removeClassProperty']);
 
         $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
+
+        $this->getServiceManager()->unregister(IndexUpdaterInterface::SERVICE_ID);
     }
 }
