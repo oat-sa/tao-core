@@ -65,9 +65,6 @@
         "doctrine/collections": "1.6.7",
         "flow/jsonpath": "~0.5"
     },
-    "require-dev": {
-        "php-mock/php-mock-phpunit": "^2.6"
-    },
     "autoload": {
         "psr-4": {
             "oat\\tao\\controller\\": "controller",

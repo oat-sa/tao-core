@@ -22,168 +22,203 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\test\unit\session\Business\Service;
+namespace oat\tao\model\session\Business\Service {
 
-use common_Config as Config;
-use common_http_Request as Request;
-use oat\generis\test\TestCase;
-use oat\tao\model\session\Business\Contract\SessionCookieAttributesFactoryInterface;
-use oat\tao\model\session\Business\Domain\SessionCookieAttribute;
-use oat\tao\model\session\Business\Domain\SessionCookieAttributeCollection;
-use oat\tao\model\session\Business\Service\SessionCookieService;
-use phpmock\phpunit\PHPMock;
-use tao_helpers_Uri as UriHelper;
-
-/**
- * @covers \oat\tao\model\session\Business\Service\SessionCookieService
- */
-class SessionCookieServiceTest extends TestCase
-{
-    use PHPMock;
-
-    private const SESSION_ATTRIBUTE_NAME  = 'test-name';
-    private const SESSION_ATTRIBUTE_VALUE = 'test-value';
-
-    private const TIME = 1;
-
-    private const SESSION_ID = 'test';
-
-    /** @var SessionCookieService */
-    private $sut;
-
-    /**
-     * @beforeClass
-     */
-    public static function initializeConfiguration(): void
+    function session_get_cookie_params(): array
     {
-        Config::load();
+        return \oat\tao\test\unit\session\Business\Service\session_get_cookie_params();
     }
 
-    /**
-     * @before
-     */
-    public function init(): void
+    function session_set_cookie_params(): bool
     {
-        $this->sut = new SessionCookieService(
-            $this->createSessionCookieAttributeFactoryMock()
-        );
+        return \oat\tao\test\unit\session\Business\Service\session_set_cookie_params(...func_get_args());
     }
 
-    /**
-     * @param string $domain
-     * @param int    $lifetime
-     *
-     * @dataProvider dataProvider
-     */
-    public function testInitializeSessionCookie(string $domain, int $lifetime): void
+    function session_name(): string
     {
-        $this->expectCookieParametersCall($domain, $lifetime);
-
-        $this->sut->initializeSessionCookie();
+        return \oat\tao\test\unit\session\Business\Service\session_name(...func_get_args());
     }
 
-    /**
-     * @param string $domain
-     * @param int    $lifetime
-     *
-     * @dataProvider dataProvider
-     * @runInSeparateProcess
-     */
-    public function testReInitializeSessionCookie(string $domain, int $lifetime): void
+    function session_start(): bool
     {
-        $_COOKIE[GENERIS_SESSION_NAME] = 'test';
+        return \oat\tao\test\unit\session\Business\Service\session_start(...func_get_args());
+    }
 
-        $this->expectCookieParametersCall($domain, $lifetime);
-        $this->expectSessionReStart();
+    function time(): int
+    {
+        return \oat\tao\test\unit\session\Business\Service\time();
+    }
 
-        if (0 !== $lifetime) {
-            $this->expectSessionCookieReset($lifetime, $domain);
+    function session_id(): string
+    {
+        return \oat\tao\test\unit\session\Business\Service\session_id(...func_get_args());
+    }
+
+    function setcookie(): bool
+    {
+        return \oat\tao\test\unit\session\Business\Service\setcookie(...func_get_args());
+    }
+}
+
+namespace oat\tao\test\unit\session\Business\Service {
+
+    use common_Config as Config;
+    use common_http_Request as Request;
+    use oat\generis\test\TestCase;
+    use oat\tao\model\session\Business\Contract\SessionCookieAttributesFactoryInterface;
+    use oat\tao\model\session\Business\Domain\SessionCookieAttribute;
+    use oat\tao\model\session\Business\Domain\SessionCookieAttributeCollection;
+    use oat\tao\model\session\Business\Service\SessionCookieService;
+    use tao_helpers_Uri as UriHelper;
+
+    /**
+     * @covers \oat\tao\model\session\Business\Service\SessionCookieService
+     */
+    class SessionCookieServiceTest extends TestCase
+    {
+        private const SESSION_ATTRIBUTE_NAME  = 'test-name';
+        private const SESSION_ATTRIBUTE_VALUE = 'test-value';
+
+        private const TIME = 1;
+
+        private const SESSION_ID = 'test';
+
+        /** @var SessionCookieService */
+        private $sut;
+
+        /**
+         * @beforeClass
+         */
+        public static function initializeConfiguration(): void
+        {
+            Config::load();
         }
 
-        $this->sut->initializeSessionCookie();
-    }
+        /**
+         * @beforeClass
+         * @after
+         */
+        public static function resetGlobalFunctionExpectations(): void
+        {
+            resetGlobalFunctionExpectations();
+        }
 
-    public function dataProvider(): array
-    {
-        return [
-            [
-                'domain'   => 'test0.com',
-                'lifetime' => 0,
-            ],[
-                'domain'   => 'test1.com',
-                'lifetime' => 1,
-            ],
-        ];
-    }
+        /**
+         * @before
+         */
+        public function init(): void
+        {
+            $this->sut = new SessionCookieService(
+                $this->createSessionCookieAttributeFactoryMock()
+            );
+        }
 
-    private function createSessionCookieAttributeFactoryMock(): SessionCookieAttributesFactoryInterface
-    {
-        $sessionCookieAttributesFactoryMock = $this->createMock(SessionCookieAttributesFactoryInterface::class);
+        /**
+         * @after
+         */
+        public function assertGlobalFunctionCalls(): void
+        {
+            foreach (getGlobalFunctionExpectations() as $globalFunctionExpectation) {
+                static::assertSame(
+                    $globalFunctionExpectation['arguments'],
+                    $globalFunctionExpectation['actualArguments']
+                );
+            }
+        }
 
-        $sessionCookieAttributesFactoryMock
-            ->expects(static::once())
-            ->method('create')
-            ->willReturn($this->createSessionCookieAttributeCollection());
+        /**
+         * @param string $domain
+         * @param int    $lifetime
+         *
+         * @dataProvider dataProvider
+         */
+        public function testInitializeSessionCookie(string $domain, int $lifetime): void
+        {
+            $this->expectCookieParametersCall($domain, $lifetime);
 
-        return $sessionCookieAttributesFactoryMock;
-    }
+            $this->sut->initializeSessionCookie();
+        }
 
-    private function createSessionCookieAttributeCollection(): SessionCookieAttributeCollection
-    {
-        return (new SessionCookieAttributeCollection())
-            ->add(new SessionCookieAttribute(self::SESSION_ATTRIBUTE_NAME, self::SESSION_ATTRIBUTE_VALUE));
-    }
+        /**
+         * @param string $domain
+         * @param int    $lifetime
+         *
+         * @dataProvider dataProvider
+         * @runInSeparateProcess
+         */
+        public function testReInitializeSessionCookie(string $domain, int $lifetime): void
+        {
+            $_COOKIE[GENERIS_SESSION_NAME] = 'test';
 
-    private function expectCookieParametersCall(string $domain, int $lifetime): void
-    {
-        $getCookieParametersMock = $this->getFunctionMock($this->getSutNamespace(), 'session_get_cookie_params');
-        $getCookieParametersMock
-            ->expects(static::once())
-            ->willReturn(compact('domain', 'lifetime'));
+            $this->expectCookieParametersCall($domain, $lifetime);
+            $this->expectSessionReStart();
 
-        $setCookieParametersMock = $this->getFunctionMock($this->getSutNamespace(), 'session_set_cookie_params');
-        $setCookieParametersMock
-            ->expects(static::once())
-            ->with(
+            if (0 !== $lifetime) {
+                $this->expectSessionCookieReset($lifetime, $domain);
+            }
+
+            $this->sut->initializeSessionCookie();
+        }
+
+        public function dataProvider(): array
+        {
+            return [
+                [
+                    'domain'   => 'test0.com',
+                    'lifetime' => 0,
+                ],
+                [
+                    'domain'   => 'test1.com',
+                    'lifetime' => 1,
+                ],
+            ];
+        }
+
+        private function createSessionCookieAttributeFactoryMock(): SessionCookieAttributesFactoryInterface
+        {
+            $sessionCookieAttributesFactoryMock = $this->createMock(SessionCookieAttributesFactoryInterface::class);
+
+            $sessionCookieAttributesFactoryMock
+                ->expects(static::once())
+                ->method('create')
+                ->willReturn($this->createSessionCookieAttributeCollection());
+
+            return $sessionCookieAttributesFactoryMock;
+        }
+
+        private function createSessionCookieAttributeCollection(): SessionCookieAttributeCollection
+        {
+            return (new SessionCookieAttributeCollection())
+                ->add(new SessionCookieAttribute(self::SESSION_ATTRIBUTE_NAME, self::SESSION_ATTRIBUTE_VALUE));
+        }
+
+        private function expectCookieParametersCall(string $domain, int $lifetime): void
+        {
+            setGlobalFunctionExpectations('session_get_cookie_params', compact('domain', 'lifetime'));
+            setGlobalFunctionExpectations(
+                'session_set_cookie_params',
+                true,
                 $lifetime,
                 $this->createSessionCookieAttributeString(),
                 $this->getCookieDomain($domain),
                 Request::isHttps(),
                 true
-            )
-            ->willReturn(true);
+            );
+            setGlobalFunctionExpectations('session_name', GENERIS_SESSION_NAME, GENERIS_SESSION_NAME);
+        }
 
-        $sessionNameMock = $this->getFunctionMock($this->getSutNamespace(), 'session_name');
-        $sessionNameMock
-            ->expects(static::once())
-            ->with(GENERIS_SESSION_NAME)
-            ->willReturn(GENERIS_SESSION_NAME);
-    }
+        private function expectSessionReStart(): void
+        {
+            setGlobalFunctionExpectations('session_start', true);
+        }
 
-    private function expectSessionReStart(): void
-    {
-        $sessionStartMock = $this->getFunctionMock($this->getSutNamespace(), 'session_start');
-        $sessionStartMock
-            ->expects(static::once())
-            ->willReturn(true);
-    }
-
-    private function expectSessionCookieReset(int $lifetime, string $domain): void
-    {
-        $timeMock = $this->getFunctionMock($this->getSutNamespace(), 'time');
-        $timeMock
-            ->expects(static::once())
-            ->willReturn(self::TIME);
-
-        $sessionIdMock = $this->getFunctionMock($this->getSutNamespace(), 'session_id');
-        $sessionIdMock
-            ->expects(static::once())
-            ->willReturn(self::SESSION_ID);
-
-        $setCookieMock = $this->getFunctionMock($this->getSutNamespace(), 'setcookie');
-        $setCookieMock
-            ->expects(static::once())
-            ->with(
+        private function expectSessionCookieReset(int $lifetime, string $domain): void
+        {
+            setGlobalFunctionExpectations('time', self::TIME);
+            setGlobalFunctionExpectations('session_id', self::SESSION_ID);
+            setGlobalFunctionExpectations(
+                'setcookie',
+                true,
                 GENERIS_SESSION_NAME,
                 self::SESSION_ID,
                 $lifetime + self::TIME,
@@ -191,34 +226,145 @@ class SessionCookieServiceTest extends TestCase
                 $this->getCookieDomain($domain),
                 Request::isHttps(),
                 true
-            )
-            ->willReturn(true);
-    }
-
-    private function createSessionCookieAttributeString(): string
-    {
-        return sprintf('%s=%s', self::SESSION_ATTRIBUTE_NAME, self::SESSION_ATTRIBUTE_VALUE);
-    }
-
-    private function getSutNamespace(): string
-    {
-        static $namespace;
-
-        if (null === $namespace) {
-            $classNameParts = explode('\\', get_class($this->sut));
-
-            array_pop($classNameParts);
-
-            $namespace = implode('\\', $classNameParts);
+            );
         }
 
-        return $namespace;
+        private function createSessionCookieAttributeString(): string
+        {
+            return sprintf('%s=%s', self::SESSION_ATTRIBUTE_NAME, self::SESSION_ATTRIBUTE_VALUE);
+        }
+
+        private function getCookieDomain(string $domain): string
+        {
+            return UriHelper::isValidAsCookieDomain(ROOT_URL)
+                ? UriHelper::getDomain(ROOT_URL)
+                : $domain;
+        }
     }
 
-    private function getCookieDomain(string $domain): string
+    function resetGlobalFunctionExpectations(): void
     {
-        return UriHelper::isValidAsCookieDomain(ROOT_URL)
-            ? UriHelper::getDomain(ROOT_URL)
-            : $domain;
+        global $mockFunctions;
+
+        $mockFunctions = [];
+    }
+
+    function setGlobalFunctionExpectations(string $function, $return, ...$arguments): void
+    {
+        global $mockFunctions;
+
+        $mockFunctions[$function] = compact('return', 'arguments');
+    }
+
+    function getGlobalFunctionExpectations(): array
+    {
+        global $mockFunctions;
+
+        return $mockFunctions;
+    }
+
+    function session_get_cookie_params(): array
+    {
+        global $mockFunctions;
+
+        $definition = &$mockFunctions['session_get_cookie_params'];
+
+        if ($definition) {
+            $definition['actualArguments'] = func_get_args();
+
+            return $definition['return'];
+        }
+
+        return \session_get_cookie_params();
+    }
+
+    function session_set_cookie_params(): bool
+    {
+        global $mockFunctions;
+
+        $definition = &$mockFunctions['session_set_cookie_params'];
+
+        if ($definition) {
+            $definition['actualArguments'] = func_get_args();
+
+            return $definition['return'];
+        }
+
+        return \session_set_cookie_params(...func_get_args());
+    }
+
+    function session_name(): string
+    {
+        global $mockFunctions;
+
+        $definition = &$mockFunctions['session_name'];
+
+        if ($definition) {
+            $definition['actualArguments'] = func_get_args();
+
+            return $definition['return'];
+        }
+
+        return \session_name(...func_get_args());
+    }
+
+    function session_start(): bool
+    {
+        global $mockFunctions;
+
+        $definition = &$mockFunctions['session_start'];
+
+        if ($definition) {
+            $definition['actualArguments'] = func_get_args();
+
+            return $definition['return'];
+        }
+
+        return \session_start(...func_get_args());
+    }
+
+    function time(): int
+    {
+        global $mockFunctions;
+
+        $definition = &$mockFunctions['time'];
+
+        if ($definition) {
+            $definition['actualArguments'] = func_get_args();
+
+            return $definition['return'];
+        }
+
+        return \time();
+    }
+
+    function session_id(): string
+    {
+        global $mockFunctions;
+
+        $definition = &$mockFunctions['session_id'];
+
+        if ($definition) {
+            $definition['actualArguments'] = func_get_args();
+
+            return $definition['return'];
+        }
+
+        return \session_id(...func_get_args());
+    }
+
+    function setcookie(): bool
+    {
+        global $mockFunctions;
+
+        $definition = &$mockFunctions['setcookie'];
+
+        if ($definition) {
+            $definition['actualArguments'] = func_get_args();
+
+            return $definition['return'];
+        }
+
+        return \setcookie(...func_get_args());
     }
 }
