@@ -24,7 +24,6 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\session\DataAccess\Factory;
 
-use common_Config as Config;
 use oat\generis\test\TestCase;
 use oat\tao\model\session\DataAccess\Factory\SessionCookieAttributesFactory;
 use tao_helpers_Uri as UriHelper;
@@ -43,7 +42,7 @@ class SessionCookieAttributesFactoryTest extends TestCase
      */
     public static function initializeConfiguration(): void
     {
-        Config::load();
+        define('ROOT_URL', 'http://test.com/');
     }
 
     /**
