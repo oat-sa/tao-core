@@ -62,7 +62,6 @@ namespace oat\tao\model\session\Business\Service {
 
 namespace oat\tao\test\unit\session\Business\Service {
 
-    use common_Config as Config;
     use common_http_Request as Request;
     use oat\generis\test\TestCase;
     use oat\tao\model\session\Business\Contract\SessionCookieAttributesFactoryInterface;
@@ -73,6 +72,7 @@ namespace oat\tao\test\unit\session\Business\Service {
 
     /**
      * @covers \oat\tao\model\session\Business\Service\SessionCookieService
+     * @runClassInSeparateProcess
      */
     class SessionCookieServiceTest extends TestCase
     {
@@ -91,7 +91,8 @@ namespace oat\tao\test\unit\session\Business\Service {
          */
         public static function initializeConfiguration(): void
         {
-            Config::load();
+            define('ROOT_URL', 'http://test.com/');
+            define('GENERIS_SESSION_NAME', 'test');
         }
 
         /**
