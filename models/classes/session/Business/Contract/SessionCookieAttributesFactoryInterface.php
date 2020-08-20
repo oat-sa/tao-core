@@ -28,7 +28,5 @@ use oat\tao\model\session\Business\Domain\SessionCookieAttributeCollection;
 
 interface SessionCookieAttributesFactoryInterface
 {
-    public const SERVICE_ID = 'tao/SessionCookieAttributesFactory';
-
     public function create(): SessionCookieAttributeCollection;
 }
