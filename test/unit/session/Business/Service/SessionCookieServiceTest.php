@@ -24,39 +24,41 @@ declare(strict_types=1);
 
 namespace oat\tao\model\session\Business\Service {
 
+    use oat\tao\test\unit\session\Business\Service\SessionCookieServiceTest;
+
     function session_get_cookie_params(): array
     {
-        return \oat\tao\test\unit\session\Business\Service\session_get_cookie_params();
+        return SessionCookieServiceTest::makeMockFunctionCall('session_get_cookie_params');
     }
 
     function session_set_cookie_params(): bool
     {
-        return \oat\tao\test\unit\session\Business\Service\session_set_cookie_params(...func_get_args());
+        return SessionCookieServiceTest::makeMockFunctionCall('session_set_cookie_params', func_get_args());
     }
 
     function session_name(): string
     {
-        return \oat\tao\test\unit\session\Business\Service\session_name(...func_get_args());
+        return SessionCookieServiceTest::makeMockFunctionCall('session_name', func_get_args());
     }
 
     function session_start(): bool
     {
-        return \oat\tao\test\unit\session\Business\Service\session_start(...func_get_args());
+        return SessionCookieServiceTest::makeMockFunctionCall('session_start', func_get_args());
     }
 
     function time(): int
     {
-        return \oat\tao\test\unit\session\Business\Service\time();
+        return SessionCookieServiceTest::makeMockFunctionCall('time');
     }
 
     function session_id(): string
     {
-        return \oat\tao\test\unit\session\Business\Service\session_id(...func_get_args());
+        return SessionCookieServiceTest::makeMockFunctionCall('session_id', func_get_args());
     }
 
     function setcookie(): bool
     {
-        return \oat\tao\test\unit\session\Business\Service\setcookie(...func_get_args());
+        return SessionCookieServiceTest::makeMockFunctionCall('setcookie', func_get_args());
     }
 }
 
@@ -83,8 +85,26 @@ namespace oat\tao\test\unit\session\Business\Service {
 
         private const SESSION_ID = 'test';
 
+        /** @var array[] */
+        private static $mockFunctions = [];
+
         /** @var SessionCookieService */
         private $sut;
+
+        public static function makeMockFunctionCall(string $function, array $arguments = [])
+        {
+            $definition = &self::$mockFunctions[$function];
+
+            if ($definition) {
+                $definition['actualArguments'] = $arguments;
+
+                return $definition['return'];
+            }
+
+            $function = "\\$function";
+
+            return $function(...$arguments);
+        }
 
         /**
          * @beforeClass
@@ -93,15 +113,6 @@ namespace oat\tao\test\unit\session\Business\Service {
         {
             define('ROOT_URL', 'http://test.com/');
             define('GENERIS_SESSION_NAME', 'test');
-        }
-
-        /**
-         * @beforeClass
-         * @after
-         */
-        public static function resetGlobalFunctionExpectations(): void
-        {
-            resetGlobalFunctionExpectations();
         }
 
         /**
@@ -115,11 +126,19 @@ namespace oat\tao\test\unit\session\Business\Service {
         }
 
         /**
+         * @before
+         */
+        public function resetGlobalFunctionExpectations(): void
+        {
+            self::$mockFunctions = [];
+        }
+
+        /**
          * @after
          */
         public function assertGlobalFunctionCalls(): void
         {
-            foreach (getGlobalFunctionExpectations() as $globalFunctionExpectation) {
+            foreach (self::$mockFunctions as $globalFunctionExpectation) {
                 static::assertSame(
                     $globalFunctionExpectation['arguments'],
                     $globalFunctionExpectation['actualArguments']
@@ -175,6 +194,11 @@ namespace oat\tao\test\unit\session\Business\Service {
             ];
         }
 
+        private static function setGlobalFunctionExpectations(string $function, $return, ...$arguments): void
+        {
+            self::$mockFunctions[$function] = compact('return', 'arguments');
+        }
+
         private function createSessionCookieAttributeFactoryMock(): SessionCookieAttributesFactoryInterface
         {
             $sessionCookieAttributesFactoryMock = $this->createMock(SessionCookieAttributesFactoryInterface::class);
@@ -195,8 +219,8 @@ namespace oat\tao\test\unit\session\Business\Service {
 
         private function expectCookieParametersCall(string $domain, int $lifetime): void
         {
-            setGlobalFunctionExpectations('session_get_cookie_params', compact('domain', 'lifetime'));
-            setGlobalFunctionExpectations(
+            self::setGlobalFunctionExpectations('session_get_cookie_params', compact('domain', 'lifetime'));
+            self::setGlobalFunctionExpectations(
                 'session_set_cookie_params',
                 true,
                 $lifetime,
@@ -205,19 +229,19 @@ namespace oat\tao\test\unit\session\Business\Service {
                 Request::isHttps(),
                 true
             );
-            setGlobalFunctionExpectations('session_name', GENERIS_SESSION_NAME, GENERIS_SESSION_NAME);
+            self::setGlobalFunctionExpectations('session_name', GENERIS_SESSION_NAME, GENERIS_SESSION_NAME);
         }
 
         private function expectSessionReStart(): void
         {
-            setGlobalFunctionExpectations('session_start', true);
+            self::setGlobalFunctionExpectations('session_start', true);
         }
 
         private function expectSessionCookieReset(int $lifetime, string $domain): void
         {
-            setGlobalFunctionExpectations('time', self::TIME);
-            setGlobalFunctionExpectations('session_id', self::SESSION_ID);
-            setGlobalFunctionExpectations(
+            self::setGlobalFunctionExpectations('time', self::TIME);
+            self::setGlobalFunctionExpectations('session_id', self::SESSION_ID);
+            self::setGlobalFunctionExpectations(
                 'setcookie',
                 true,
                 GENERIS_SESSION_NAME,
@@ -241,131 +265,5 @@ namespace oat\tao\test\unit\session\Business\Service {
                 ? UriHelper::getDomain(ROOT_URL)
                 : $domain;
         }
-    }
-
-    function resetGlobalFunctionExpectations(): void
-    {
-        global $mockFunctions;
-
-        $mockFunctions = [];
-    }
-
-    function setGlobalFunctionExpectations(string $function, $return, ...$arguments): void
-    {
-        global $mockFunctions;
-
-        $mockFunctions[$function] = compact('return', 'arguments');
-    }
-
-    function getGlobalFunctionExpectations(): array
-    {
-        global $mockFunctions;
-
-        return $mockFunctions;
-    }
-
-    function session_get_cookie_params(): array
-    {
-        global $mockFunctions;
-
-        $definition = &$mockFunctions['session_get_cookie_params'];
-
-        if ($definition) {
-            $definition['actualArguments'] = func_get_args();
-
-            return $definition['return'];
-        }
-
-        return \session_get_cookie_params();
-    }
-
-    function session_set_cookie_params(): bool
-    {
-        global $mockFunctions;
-
-        $definition = &$mockFunctions['session_set_cookie_params'];
-
-        if ($definition) {
-            $definition['actualArguments'] = func_get_args();
-
-            return $definition['return'];
-        }
-
-        return \session_set_cookie_params(...func_get_args());
-    }
-
-    function session_name(): string
-    {
-        global $mockFunctions;
-
-        $definition = &$mockFunctions['session_name'];
-
-        if ($definition) {
-            $definition['actualArguments'] = func_get_args();
-
-            return $definition['return'];
-        }
-
-        return \session_name(...func_get_args());
-    }
-
-    function session_start(): bool
-    {
-        global $mockFunctions;
-
-        $definition = &$mockFunctions['session_start'];
-
-        if ($definition) {
-            $definition['actualArguments'] = func_get_args();
-
-            return $definition['return'];
-        }
-
-        return \session_start(...func_get_args());
-    }
-
-    function time(): int
-    {
-        global $mockFunctions;
-
-        $definition = &$mockFunctions['time'];
-
-        if ($definition) {
-            $definition['actualArguments'] = func_get_args();
-
-            return $definition['return'];
-        }
-
-        return \time();
-    }
-
-    function session_id(): string
-    {
-        global $mockFunctions;
-
-        $definition = &$mockFunctions['session_id'];
-
-        if ($definition) {
-            $definition['actualArguments'] = func_get_args();
-
-            return $definition['return'];
-        }
-
-        return \session_id(...func_get_args());
-    }
-
-    function setcookie(): bool
-    {
-        global $mockFunctions;
-
-        $definition = &$mockFunctions['setcookie'];
-
-        if ($definition) {
-            $definition['actualArguments'] = func_get_args();
-
-            return $definition['return'];
-        }
-
-        return \setcookie(...func_get_args());
     }
 }
