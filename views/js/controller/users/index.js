@@ -26,21 +26,21 @@ define([
             uri: uri
         };
 
-        dialogConfirm(confirmMessage, function() {
+        dialogConfirm(confirmMessage, function () {
             request({
                 url: urlHelper.route(action, 'Users', 'tao'),
                 data: data,
                 method: 'POST'
             })
-            .then(function(response) {
-                if (response.success) {
-                    feedback().success(response.message);
-                }
-                $('#user-list').datatable('refresh');
-            })
-            .catch(function(err) {
-                feedback().error(err);
-            });
+                .then(function (response) {
+                    if (response.success) {
+                        feedback().success(response.message);
+                    }
+                    $('#user-list').datatable('refresh');
+                })
+                .catch(function (err) {
+                    feedback().error(err);
+                });
         });
     };
 
@@ -52,7 +52,7 @@ define([
         section
             .get('edit_user')
             .enable()
-            .loadContentBlock(urlHelper.route('edit', 'Users', 'tao'), {uri : uri})
+            .loadContentBlock(urlHelper.route('edit', 'Users', 'tao'), { uri: uri })
             .show();
     };
 
@@ -88,7 +88,7 @@ define([
      * @exports controller/users/index
      */
     return {
-        start : function(){
+        start: function () {
             var $userList = $('#user-list');
 
             section.on('show', function (section) {
@@ -97,74 +97,81 @@ define([
                 }
             });
 
-            var actions = {
-                edit: editUser,
-                remove: removeUser,
-                lock: lockUser,
-                unlock: unlockUser
-            };
+            var actions = [
+                { id: 'edit', label: __('edit'), icon: 'edit', action: editUser },
+                { id: 'remove', label: __('remove'), icon: 'remove', action: removeUser },
+                { id: 'lock', label: __('lock'), icon: 'lock', action: lockUser },
+                { id: 'unlock', label: __('unlock'), icon: 'unlock', action: unlockUser }
+            ];
 
             // initialize the user manager component
-            $userList.on('load.datatable', function (e, dataset) {
-                _.forEach(dataset.data, function(row) {
-                    var lockBtn = '[data-item-identifier="' + row.id + '"] button.lock';
-                    var unlockBtn = '[data-item-identifier="' + row.id + '"] button.unlock';
-                    if (row.lockable) {
-                        $(row.locked ? lockBtn : unlockBtn, $userList).hide();
-                    } else {
-                        _.forEach([lockBtn, unlockBtn], function (btn) {
-                            $(btn, $userList).hide();
-                        });
-                    }
-                });
-            }).datatable({
-                url: urlHelper.route('data', 'Users', 'tao'),
-                paginationStrategyBottom: 'pages',
-                filter: true,
-                actions: actions,
-                model: [
-                    {
-                        id : 'login',
-                        label : __('Login'),
-                        sortable : true
-                    },{
-                        id : 'firstname',
-                        label : __('First Name'),
-                        sortable : true
-                    },{
-                        id : 'lastname',
-                        label : __('Last Name'),
-                        sortable : true
-                    },{
-                        id : 'email',
-                        label : __('Email'),
-                        sortable : true
-                    },{
-                        id : 'roles',
-                        label : __('Roles'),
-                        sortable : false
-                    },{
-                        id : 'dataLg',
-                        label : __('Data Language'),
-                        sortable : true,
-                        visible : $userList.data('user-data-lang-enabled')
-                    },{
-                        id: 'guiLg',
-                        label : __('Interface Language'),
-                        sortable : true
-                    }, {
-                        id: 'status',
-                        label: __('Account status'),
-                        sortable: true,
-                        transform: function (value) {
-                            var icon = value === 'enabled'
-                                ? 'result-ok'
-                                : 'lock';
-                            return '<span class="icon-' + icon + '"></span> ' + value;
+            $userList
+                .on('load.datatable', function (e, dataset) {
+                    _.forEach(dataset.data, function (row) {
+                        var lockBtn = '[data-item-identifier="' + row.id + '"] button.lock';
+                        var unlockBtn = '[data-item-identifier="' + row.id + '"] button.unlock';
+                        if (row.lockable) {
+                            $(row.locked ? lockBtn : unlockBtn, $userList).hide();
+                        } else {
+                            _.forEach([lockBtn, unlockBtn], function (btn) {
+                                $(btn, $userList).hide();
+                            });
                         }
-                    }
-                ]
-            });
+                    });
+                })
+                .datatable({
+                    url: urlHelper.route('data', 'Users', 'tao'),
+                    paginationStrategyBottom: 'pages',
+                    filter: true,
+                    actions: actions,
+                    model: [
+                        {
+                            id: 'login',
+                            label: __('Login'),
+                            sortable: true
+                        },
+                        {
+                            id: 'firstname',
+                            label: __('First Name'),
+                            sortable: true
+                        },
+                        {
+                            id: 'lastname',
+                            label: __('Last Name'),
+                            sortable: true
+                        },
+                        {
+                            id: 'email',
+                            label: __('Email'),
+                            sortable: true
+                        },
+                        {
+                            id: 'roles',
+                            label: __('Roles'),
+                            sortable: false
+                        },
+                        {
+                            id: 'dataLg',
+                            label: __('Data Language'),
+                            sortable: true,
+                            visible: $userList.data('user-data-lang-enabled')
+                        },
+                        {
+                            id: 'guiLg',
+                            label: __('Interface Language'),
+                            sortable: true
+                        },
+                        {
+                            id: 'status',
+                            label: __('Account status'),
+                            sortable: true,
+                            transform: function (value) {
+                                var icon = value === 'enabled' ? 'result-ok' : 'lock';
+                                return '<span class="icon-' + icon + '"></span> ' + value;
+                            }
+                        }
+                    ]
+                });
         }
     };
 });
