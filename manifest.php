@@ -1,7 +1,5 @@
 <?php
 
-use oat\tao\scripts\update\Updater;
-
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -41,8 +39,8 @@ use oat\tao\scripts\install\RegisterClassPropertyRemovedEvent;
 use oat\tao\scripts\install\RegisterClassPropertyRemovedListener;
 use oat\tao\scripts\install\RegisterClassPropertiesChangedEvent;
 use oat\tao\scripts\install\RegisterClassPropertiesChangedEventListener;
-use oat\tao\scripts\install\RegisterResourceEvents;
 use oat\tao\scripts\install\RegisterEvents;
+use oat\tao\scripts\install\RegisterResourceEvents;
 use oat\tao\scripts\install\RegisterResourceWatcherService;
 use oat\tao\scripts\install\RegisterSignatureGenerator;
 use oat\tao\scripts\install\RegisterTaskQueueServices;
@@ -58,6 +56,7 @@ use oat\tao\scripts\install\SetServiceFileStorage;
 use oat\tao\scripts\install\SetServiceState;
 use oat\tao\scripts\install\SetupMaintenanceService;
 use oat\tao\scripts\install\SetUpQueueTasks;
+use oat\tao\scripts\update\Updater;
 
 $extpath = __DIR__ . DIRECTORY_SEPARATOR;
 
@@ -66,10 +65,10 @@ return [
     'label' => 'TAO Base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '44.13.2',
+    'version' => '45.6.5',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => [
-        'generis' => '>=12.31.0',
+        'generis' => '>=13.0.0',
     ],
     'models' => [
         'http://www.tao.lu/Ontologies/TAO.rdf',
@@ -84,7 +83,7 @@ return [
             __DIR__ . '/models/ontology/services.rdf',
             __DIR__ . '/models/ontology/indexation.rdf',
             __DIR__ . '/models/ontology/model.rdf',
-            __DIR__ . '/models/ontology/widegetdefinitions.rdf',
+            __DIR__ . '/models/ontology/widgetdefinitions.rdf',
             __DIR__ . '/models/ontology/requiredaction.rdf',
             __DIR__ . '/models/ontology/auth/basicauth.rdf',
             __DIR__ . '/models/ontology/userlocks.rdf'
@@ -214,9 +213,9 @@ return [
     ],
     'constants' => [
         #TAO version number
-        'TAO_VERSION' => '3.4.0-sprint133',
+        'TAO_VERSION' => '3.4.0-sprint135',
         #TAO version label
-        'TAO_VERSION_NAME' => '3.4.0-sprint133',
+        'TAO_VERSION_NAME' => '3.4.0-sprint135',
         #the name to display
         'PRODUCT_NAME' => 'TAO',
         #TAO release status, use to add specific footer to TAO, available alpha, beta, demo, stable

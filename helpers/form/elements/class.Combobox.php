@@ -30,18 +30,12 @@
  */
 abstract class tao_helpers_form_elements_Combobox extends tao_helpers_form_elements_MultipleElement
 {
+    public const WIDGET_ID = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboBox';
+
     // --- ASSOCIATIONS ---
 
 
     // --- ATTRIBUTES ---
-
-    /**
-     * Short description of attribute widget
-     *
-     * @access protected
-     * @var string
-     */
-    protected $widget = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboBox';
 
     /**
      * Short description of attribute emptyOption
@@ -59,12 +53,9 @@ abstract class tao_helpers_form_elements_Combobox extends tao_helpers_form_eleme
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string display
-     * @return mixed
      */
     public function setEmptyOption($display)
     {
-        
-        
         $this->emptyOption = $display;
     }
 } /* end of abstract class tao_helpers_form_elements_Combobox */
