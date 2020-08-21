@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint134\n"
-"PO-Revision-Date: 2020-07-31T09:51:17\n"
+"Project-Id-Version: TAO 3.4.0-sprint135\n"
+"PO-Revision-Date: 2020-08-14T08:27:54\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nl-NL\n"
@@ -371,11 +371,11 @@ msgstr "Rekenmachine"
 msgid "Calendar"
 msgstr "Kalender"
 
-msgid "cancel"
-msgstr "afbreken"
-
 msgid "Cancel"
 msgstr "Afbreken"
+
+msgid "cancel"
+msgstr "afbreken"
 
 msgid "cancel the action"
 msgstr "breek de actie af"
@@ -405,10 +405,10 @@ msgstr "Wijzig het wachtwoord"
 msgid "Change the sign of the current operand"
 msgstr "Verander het teken van de huidige operator"
 
-msgid "Check all"
+msgid "Check All"
 msgstr "Alles selecteren"
 
-msgid "Check All"
+msgid "Check all"
 msgstr "Alles selecteren"
 
 msgid "Check-in"
@@ -570,10 +570,10 @@ msgstr "Data is succesvol geïmporteerd"
 msgid "Data imported. Some records are invalid."
 msgstr "Data is geïmporteerd. Sommige records zijn ongeldig."
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "Data taal"
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "Data taal"
 
 msgid "Data not imported. All records are invalid."
@@ -987,11 +987,11 @@ msgstr "Geïmporteerde resource \"%s"
 msgid "impossible to update task status"
 msgstr "Onmogelijk om de taakstatus bij te werken"
 
-msgid "In progress"
-msgstr "In behandeling"
-
 msgid "In Progress"
 msgstr "In Behandeling"
+
+msgid "In progress"
+msgstr "In behandeling"
 
 msgid "Inclusive (AND)"
 msgstr "Inclusief (AND)"
@@ -1352,10 +1352,10 @@ msgstr "Geen bestanden"
 msgid "no label"
 msgstr "geen label"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "Geen voorbeeld beschikbaar"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "Geen voorbeeld beschikbaar"
 
 msgid "No results found"
@@ -1407,11 +1407,11 @@ msgstr "van"
 msgid "Off"
 msgstr "Uit"
 
-msgid "OK"
-msgstr "OK"
-
 msgid "Ok"
 msgstr "Ok"
+
+msgid "OK"
+msgstr "OK"
 
 msgid "Old Password"
 msgstr "Oud wachtwoord"
@@ -2182,10 +2182,10 @@ msgstr "Unaire operator +"
 msgid "Unary operator -"
 msgstr "Unaire operator -"
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "Alles uitvinken"
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "Alles uitvinken"
 
 msgid "Undefined amount of the pages for pagination"
