@@ -93,12 +93,7 @@ class Bootstrap implements ServiceManagerAwareInterface
      */
     public function __construct($configuration)
     {
-        $envFile = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR
-            . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '.env';
-        if (file_exists($envFile)) {
-            $dotenv = new Dotenv();
-            $dotenv->loadEnv($envFile);
-        }
+        new DotEnvReader();
 
         if (! is_string($configuration) || ! is_readable($configuration)) {
             throw new \common_exception_PreConditionFailure('TAO platform seems to be not installed.');

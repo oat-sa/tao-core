@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint126\n"
-"PO-Revision-Date: 2020-04-10T08:17:16\n"
+"Project-Id-Version: TAO 3.4.0-sprint135\n"
+"PO-Revision-Date: 2020-08-14T08:27:30\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lt-LT\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " AND "
-msgstr " IR "
-
 msgid " and "
 msgstr " ir "
+
+msgid " AND "
+msgstr " IR "
 
 msgid " has been deleted successfully"
 msgstr " sėkmingai ištrintas"
@@ -147,6 +147,9 @@ msgstr "Priežiūros būsena turi turėti STATUSĄ: \"%s\" arba \"%s"
 
 msgid "A message with further instructions has been sent to your email address: %s"
 msgstr "Pranešimas su tolimesnėm instrukcijomis buvo nusiųstas į jūsų el. pašto adresą: %s"
+
+msgid "About"
+msgstr ""
 
 msgid "abs"
 msgstr "abs"
@@ -402,11 +405,11 @@ msgstr "Pakeisti slaptažodį"
 msgid "Change the sign of the current operand"
 msgstr "Keisti ženklą dabartinio operando"
 
-msgid "Check all"
-msgstr "Pažymėti visus"
-
 msgid "Check All"
 msgstr "Pažymėti Visus"
+
+msgid "Check all"
+msgstr "Pažymėti visus"
 
 msgid "Check-in"
 msgstr "Pasižymėti"
@@ -464,6 +467,9 @@ msgstr "Išvalyti saugomas reikšmes"
 
 msgid "Close"
 msgstr "Uždaryti"
+
+msgid "Close dialog"
+msgstr ""
 
 msgid "Close message"
 msgstr "Uždaryti pranešimą"
@@ -572,6 +578,9 @@ msgstr "Duomenų kalba"
 
 msgid "Data not imported. All records are invalid."
 msgstr "Duomenys neimportuoti. Visi įrašai neteisingi."
+
+msgid "Data source URI"
+msgstr ""
 
 msgid "Date"
 msgstr "Data"
@@ -739,6 +748,9 @@ msgstr "Klaida sintaksėje"
 msgid "Error in value"
 msgstr "Klaida reikšmėje"
 
+msgid "Error: %s"
+msgstr ""
+
 msgid "Examples:"
 msgstr ""
 
@@ -890,6 +902,9 @@ msgstr "Gauti istorijos sąrašą"
 
 msgid "Go Back"
 msgstr "Grįžti Atgal"
+
+msgid "go back to home page"
+msgstr ""
 
 msgid "Height"
 msgstr "Aukštis"
@@ -1080,6 +1095,9 @@ msgstr ""
 msgid "Label"
 msgstr "Pavadinimas"
 
+msgid "Label Path"
+msgstr ""
+
 msgid "Language"
 msgstr "Kalba"
 
@@ -1107,11 +1125,20 @@ msgstr "Sąrašas"
 msgid "List - Multiple choice - Check box"
 msgstr "Sąrašas - pasirinkimas, pažymint kelis"
 
+msgid "List - Multiple choice - Search input"
+msgstr ""
+
 msgid "List - Single choice - Drop down"
 msgstr "Sąrašas - pasirinkimas vienos reikšmės iš iškrentančio sąrašo"
 
 msgid "List - Single choice - Radio button"
 msgstr "Sąrašas - Pasirinkimas tik vienos reikšmės "
+
+msgid "List - Single choice - Search input"
+msgstr ""
+
+msgid "List item URI duplications found"
+msgstr ""
 
 msgid "List values"
 msgstr ""
@@ -1164,8 +1191,20 @@ msgstr "Prisijungimas yra tuščias."
 msgid "Logout"
 msgstr "Atsijungti"
 
+msgid "Main Menu"
+msgstr ""
+
+msgid "Maintenance service is already installed."
+msgstr ""
+
 msgid "Maintenance service must have a persistence option."
 msgstr "Priežiūros tarnyba turi turėti palaikymo opciją."
+
+msgid "Maintenance service was installed. Platform is disabled."
+msgstr ""
+
+msgid "Maintenance service was installed. Platform is enabled."
+msgstr ""
 
 msgid "Maintenance storage driver is not set"
 msgstr "Priežiūros saugykla yra nenustatyta"
@@ -1728,11 +1767,11 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "select"
-msgstr "pasirinkti"
-
 msgid "Select"
 msgstr "Pasirinkti"
+
+msgid "select"
+msgstr "pasirinkti"
 
 msgid "Select a class"
 msgstr "Pasirinkti klasę"
@@ -1800,6 +1839,9 @@ msgstr "Dydis"
 
 msgid "Some resources have not been moved: %s"
 msgstr "Kai kurie resursai nebuvo perkelti: %s"
+
+msgid "Something unexpected happened."
+msgstr ""
 
 msgid "Sources that can embed this platform in an iFrame"
 msgstr ""
@@ -1872,6 +1914,24 @@ msgstr "TAO Namai"
 
 msgid "TAO Login"
 msgstr "TAO Prisijungimas"
+
+msgid "TAO platform is already on live mode since %s"
+msgstr ""
+
+msgid "TAO platform is already on maintenance mode since %s"
+msgstr ""
+
+msgid "TAO platform is live since %s."
+msgstr ""
+
+msgid "TAO platform is now live. It was in maintenance since %s"
+msgstr ""
+
+msgid "TAO platform is now under maintenance. It was in maintenance since %s"
+msgstr ""
+
+msgid "TAO platform is under maintenance since %s"
+msgstr ""
 
 msgid "Task %s has been cancelled, message was not processed."
 msgstr "Užduotis %s buvo atšaukta, pranešimas nebuvo apdorotas."
@@ -2122,10 +2182,10 @@ msgstr "Vienetinis operatorius +"
 msgid "Unary operator -"
 msgstr "Vienetinis operatorius -"
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "Atžymėti visus"
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "Atžymėti visus"
 
 msgid "Undefined amount of the pages for pagination"
@@ -2167,8 +2227,20 @@ msgstr "Įkelti"
 msgid "Upload into:"
 msgstr "Įkelti į:"
 
+msgid "URI Path"
+msgstr ""
+
 msgid "Usage: ImportRdf RDF_FILE [MODEL_ID]"
 msgstr "Naudojimo pavyzdys: ImportRdf RDF_FILE [MODEL_ID]"
+
+msgid "USAGE: please provide a valid extension id as second parameter"
+msgstr ""
+
+msgid "USAGE: please provide a valid service name as first parameter"
+msgstr ""
+
+msgid "USAGE: please provide the service name as first parameter"
+msgstr ""
 
 msgid "Use a term"
 msgstr "Naudoti terminą"

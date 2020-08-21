@@ -63,12 +63,6 @@ class RdsTaskLogBrokerTest extends TestCase
         $this->subject->createContainer();
     }
 
-    public function testTaskLogBrokerServiceShouldThrowExceptionWhenPersistenceOptionIsEmpty()
-    {
-        $this->expectException(InvalidArgumentException::class);
-        new RdsTaskLogBroker('');
-    }
-
     public function testGetPersistenceWhenInstantiatingANewOneThenItReturnsOneWithTheRequiredInterface()
     {
         $commonPersistenceSqlPersistenceMock = $this->getMockBuilder(\common_persistence_SqlPersistence::class)->disableOriginalConstructor()->getMock();

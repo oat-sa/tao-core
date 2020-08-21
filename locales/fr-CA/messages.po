@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint126\n"
-"PO-Revision-Date: 2020-04-10T08:15:36\n"
+"Project-Id-Version: TAO 3.4.0-sprint135\n"
+"PO-Revision-Date: 2020-08-14T08:25:44\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-CA\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " AND "
-msgstr ""
-
 msgid " and "
 msgstr " et "
+
+msgid " AND "
+msgstr ""
 
 msgid " has been deleted successfully"
 msgstr " a été supprimé avec succès."
@@ -147,6 +147,9 @@ msgstr ""
 
 msgid "A message with further instructions has been sent to your email address: %s"
 msgstr "Un message avec des instructions a été envoyée vers votre adresse courriel: %s"
+
+msgid "About"
+msgstr ""
 
 msgid "abs"
 msgstr ""
@@ -402,11 +405,11 @@ msgstr "Modifier le mot de passe"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check all"
-msgstr "Cocher tout"
-
 msgid "Check All"
 msgstr "Cocher Tout"
+
+msgid "Check all"
+msgstr "Cocher tout"
 
 msgid "Check-in"
 msgstr ""
@@ -463,6 +466,9 @@ msgid "Clear the stored variables"
 msgstr ""
 
 msgid "Close"
+msgstr ""
+
+msgid "Close dialog"
 msgstr ""
 
 msgid "Close message"
@@ -571,6 +577,9 @@ msgid "Data language"
 msgstr "Langue des données"
 
 msgid "Data not imported. All records are invalid."
+msgstr ""
+
+msgid "Data source URI"
 msgstr ""
 
 msgid "Date"
@@ -739,6 +748,9 @@ msgstr ""
 msgid "Error in value"
 msgstr ""
 
+msgid "Error: %s"
+msgstr ""
+
 msgid "Examples:"
 msgstr ""
 
@@ -890,6 +902,9 @@ msgstr ""
 
 msgid "Go Back"
 msgstr "Revenir"
+
+msgid "go back to home page"
+msgstr ""
 
 msgid "Height"
 msgstr "Hauteur"
@@ -1080,6 +1095,9 @@ msgstr ""
 msgid "Label"
 msgstr "Libellé"
 
+msgid "Label Path"
+msgstr ""
+
 msgid "Language"
 msgstr "Langue"
 
@@ -1107,11 +1125,20 @@ msgstr "Liste"
 msgid "List - Multiple choice - Check box"
 msgstr "Liste - Choix multiple - Case à cocher"
 
+msgid "List - Multiple choice - Search input"
+msgstr ""
+
 msgid "List - Single choice - Drop down"
 msgstr "Liste - Choix unique - Liste déroulante"
 
 msgid "List - Single choice - Radio button"
 msgstr "Liste - Choix multiple - Bouton radio"
+
+msgid "List - Single choice - Search input"
+msgstr ""
+
+msgid "List item URI duplications found"
+msgstr ""
 
 msgid "List values"
 msgstr ""
@@ -1164,7 +1191,19 @@ msgstr ""
 msgid "Logout"
 msgstr ""
 
+msgid "Main Menu"
+msgstr ""
+
+msgid "Maintenance service is already installed."
+msgstr ""
+
 msgid "Maintenance service must have a persistence option."
+msgstr ""
+
+msgid "Maintenance service was installed. Platform is disabled."
+msgstr ""
+
+msgid "Maintenance service was installed. Platform is enabled."
 msgstr ""
 
 msgid "Maintenance storage driver is not set"
@@ -1728,11 +1767,11 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "select"
-msgstr "choisir"
-
 msgid "Select"
 msgstr "Choisir"
+
+msgid "select"
+msgstr "choisir"
 
 msgid "Select a class"
 msgstr ""
@@ -1799,6 +1838,9 @@ msgid "Size"
 msgstr "Taille"
 
 msgid "Some resources have not been moved: %s"
+msgstr ""
+
+msgid "Something unexpected happened."
 msgstr ""
 
 msgid "Sources that can embed this platform in an iFrame"
@@ -1872,6 +1914,24 @@ msgstr "Menu principal TAO"
 
 msgid "TAO Login"
 msgstr "Connexion à TAO"
+
+msgid "TAO platform is already on live mode since %s"
+msgstr ""
+
+msgid "TAO platform is already on maintenance mode since %s"
+msgstr ""
+
+msgid "TAO platform is live since %s."
+msgstr ""
+
+msgid "TAO platform is now live. It was in maintenance since %s"
+msgstr ""
+
+msgid "TAO platform is now under maintenance. It was in maintenance since %s"
+msgstr ""
+
+msgid "TAO platform is under maintenance since %s"
+msgstr ""
 
 msgid "Task %s has been cancelled, message was not processed."
 msgstr ""
@@ -2122,10 +2182,10 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "Décocher tout"
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "Décocher tout"
 
 msgid "Undefined amount of the pages for pagination"
@@ -2167,7 +2227,19 @@ msgstr "Téléverser"
 msgid "Upload into:"
 msgstr "Envoyer vers :"
 
+msgid "URI Path"
+msgstr ""
+
 msgid "Usage: ImportRdf RDF_FILE [MODEL_ID]"
+msgstr ""
+
+msgid "USAGE: please provide a valid extension id as second parameter"
+msgstr ""
+
+msgid "USAGE: please provide a valid service name as first parameter"
+msgstr ""
+
+msgid "USAGE: please provide the service name as first parameter"
 msgstr ""
 
 msgid "Use a term"

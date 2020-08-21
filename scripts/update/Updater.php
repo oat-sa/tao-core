@@ -143,6 +143,7 @@ use oat\tao\scripts\install\CreateWebhookEventLogTable;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\RegisterActionService;
 use oat\tao\scripts\install\RegisterSignatureGenerator;
+use oat\tao\scripts\install\RegisterValueCollectionServices;
 use oat\tao\scripts\install\SetClientLoggerConfig;
 use oat\tao\scripts\install\UpdateRequiredActionUrl;
 use oat\tao\scripts\tools\MigrateSecuritySettings;
@@ -151,6 +152,7 @@ use tao_models_classes_UserService;
 /**
  *
  * @author Joel Bout <joel@taotesting.com>
+ * @deprecated use migrations instead. See https://github.com/oat-sa/generis/wiki/Tao-Update-Process
  */
 class Updater extends \common_ext_ExtensionUpdater
 {
@@ -1324,25 +1326,56 @@ class Updater extends \common_ext_ExtensionUpdater
 
         if ($this->isVersion('41.5.1')) {
             $this->addReport(
-                Report::createInfo('To make SecureResourceService use cache please run \oat\tao\scripts\install\InstallSecureResourceCachedService script')
+                Report::createInfo('To make SecureResourceService use cache see example from default config at: tao/config/default/SecureResourceService.conf.php ')
             );
             $this->setVersion('41.6.0');
         }
 
         $this->skip('41.6.0', '41.7.0');
-        if($this->isVersion('41.7.0')){
+        if ($this->isVersion('41.7.0')) {
             $oauthService = $this->getServiceManager()->get(OauthService::SERVICE_ID);
             $oauthService->setOption(OauthService::OPTION_LOCKOUT_SERVICE, new NoLockout());
-            $this->getServiceManager()->register(OauthService::SERVICE_ID,$oauthService);
+            $this->getServiceManager()->register(OauthService::SERVICE_ID, $oauthService);
             $this->setVersion('41.8.0');
         }
 
         $this->skip('41.8.0', '42.0.3');
-        if($this->isVersion('42.0.3')){
+        if ($this->isVersion('42.0.3')) {
             $this->getServiceManager()->unregister('tao/UnionSearchService');
             $this->setVersion('42.0.4');
         }
 
-        $this->skip('42.0.4', '42.0.5');
+        $this->skip('42.0.4', '42.10.2');
+
+        if ($this->isVersion('42.10.2')) {
+            AclProxy::applyRule(
+                new AccessRule(
+                    AccessRule::GRANT,
+                    TaoRoles::BACK_OFFICE,
+                    [
+                        'ext' => 'tao',
+                        'mod' => 'Languages',
+                        'act' => 'index',
+                    ]
+                )
+            );
+
+            $this->setVersion('42.11.0');
+        }
+
+        $this->skip('42.11.0', '44.1.1');
+
+        if ($this->isVersion('44.1.1')) {
+            $this->runExtensionScript(RegisterValueCollectionServices::class);
+
+            $this->setVersion('44.2.0');
+        }
+
+        $this->skip('44.2.0', '44.4.0');
+
+        //Updater files are deprecated. Please use migrations.
+        //See: https://github.com/oat-sa/generis/wiki/Tao-Update-Process
+
+        $this->setVersion($this->getExtension()->getManifest()->getVersion());
     }
 }

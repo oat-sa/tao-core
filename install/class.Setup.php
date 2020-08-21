@@ -372,19 +372,32 @@ class tao_install_Setup implements Action
                 $options['db_driver'] = $defaultPersistenceConfig['connection']['driver'];
                 $options['db_host'] = $defaultPersistenceConfig['connection']['master']['host'];
                 $options['db_name'] = $defaultPersistenceConfig['connection']['master']['dbname'];
+
                 if (isset($defaultPersistenceConfig['connection']['master']['user'])) {
                     $options['db_user'] = $defaultPersistenceConfig['connection']['master']['user'];
                 }
+
                 if (isset($defaultPersistenceConfig['connection']['master']['password'])) {
                     $options['db_pass'] = $defaultPersistenceConfig['connection']['master']['password'];
                 }
             } else {
                 $options['db_driver'] = $defaultPersistenceConfig['connection']['driver'];
+
+                if (isset($defaultPersistenceConfig['connection']['driverClass'])) {
+                    $options['db_driverClass'] = $defaultPersistenceConfig['connection']['driverClass'];
+                }
+
+                if (isset($defaultPersistenceConfig['connection']['instance'])) {
+                    $options['db_instance'] = $defaultPersistenceConfig['connection']['instance'];
+                }
+
                 $options['db_host'] = $defaultPersistenceConfig['connection']['host'];
                 $options['db_name'] = $defaultPersistenceConfig['connection']['dbname'];
+
                 if (isset($defaultPersistenceConfig['connection']['user'])) {
                     $options['db_user'] = $defaultPersistenceConfig['connection']['user'];
                 }
+
                 if (isset($defaultPersistenceConfig['connection']['password'])) {
                     $options['db_pass'] = $defaultPersistenceConfig['connection']['password'];
                 }
@@ -393,9 +406,11 @@ class tao_install_Setup implements Action
             $options['db_driver'] = $defaultPersistenceConfig['driver'];
             $options['db_host'] = $defaultPersistenceConfig['host'];
             $options['db_name'] = $defaultPersistenceConfig['dbname'];
+
             if (isset($defaultPersistenceConfig['user'])) {
                 $options['db_user'] = $defaultPersistenceConfig['user'];
             }
+
             if (isset($defaultPersistenceConfig['password'])) {
                 $options['db_pass'] = $defaultPersistenceConfig['password'];
             }

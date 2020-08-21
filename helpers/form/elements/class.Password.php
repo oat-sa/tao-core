@@ -30,20 +30,7 @@
  */
 abstract class tao_helpers_form_elements_Password extends tao_helpers_form_FormElement
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    /**
-     * Short description of attribute widget
-     *
-     * @access protected
-     * @var string
-     */
-    protected $widget = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Password';
-
-    // --- OPERATIONS ---
+    public const WIDGET_ID = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Password';
 
     /**
      * Short description of method __construct
@@ -51,11 +38,9 @@ abstract class tao_helpers_form_elements_Password extends tao_helpers_form_FormE
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  string name
-     * @return mixed
      */
     public function __construct($name = '')
     {
-        
         parent::__construct($name);
         $this->addValidators([
             tao_helpers_form_FormFactory::getValidator('Password'),
