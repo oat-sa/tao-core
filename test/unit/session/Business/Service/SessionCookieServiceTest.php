@@ -117,20 +117,21 @@ namespace oat\tao\test\unit\session\Business\Service {
 
         /**
          * @before
+         * @afterClass
+         */
+        public static function resetGlobalFunctionExpectations(): void
+        {
+            self::$mockFunctions = [];
+        }
+
+        /**
+         * @before
          */
         public function init(): void
         {
             $this->sut = new SessionCookieService(
                 $this->createSessionCookieAttributeFactoryMock()
             );
-        }
-
-        /**
-         * @before
-         */
-        public function resetGlobalFunctionExpectations(): void
-        {
-            self::$mockFunctions = [];
         }
 
         /**
