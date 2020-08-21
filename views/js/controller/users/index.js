@@ -38,8 +38,8 @@ define([
      * @param {String} action
      * @param {String} confirmMessage
      */
-    var runUserAction = function runUserAction(uri, action, confirmMessage) {
-        var data = {
+    const runUserAction = (uri, action, confirmMessage) => {
+        const data = {
             uri: uri
         };
 
@@ -65,7 +65,7 @@ define([
      * Edit a user (shows the edit section)
      * @param {String} uri - the user uri
      */
-    var editUser = function editUser(uri) {
+    const editUser = uri => {
         section
             .get('edit_user')
             .enable()
@@ -78,7 +78,7 @@ define([
      * @param {String} uri - the user uri
      * @param row
      */
-    var removeUser = function removeUser(uri, row) {
+    const removeUser = (uri, row) => {
         runUserAction(uri, 'delete', __('Please confirm deletion of user %s', row.login));
     };
 
@@ -87,7 +87,7 @@ define([
      * @param {String} uri - the user uri
      * @param row
      */
-    var lockUser = function lockUser(uri, row) {
+    const lockUser = (uri, row) => {
         runUserAction(uri, 'lock', __('Please confirm locking of account %s', row.login));
     };
 
@@ -96,7 +96,7 @@ define([
      * @param {String} uri - the user uri
      * @param row
      */
-    var unlockUser = function unlockUser(uri, row) {
+    const unlockUser = (uri, row) => {
         runUserAction(uri, 'unlock', __('Please confirm unlocking of account %s', row.login));
     };
 
@@ -105,8 +105,8 @@ define([
      * @exports controller/users/index
      */
     return {
-        start: function () {
-            var $userList = $('#user-list');
+        start() {
+            const $userList = $('#user-list');
 
             section.on('show', function (section) {
                 if (section.id === 'list_users') {
@@ -114,7 +114,7 @@ define([
                 }
             });
 
-            var actions = [
+            const actions = [
                 { id: 'edit', label: __('edit'), icon: 'edit', action: editUser },
                 { id: 'remove', label: __('remove'), icon: 'remove', action: removeUser },
                 { id: 'lock', label: __('lock'), icon: 'lock', action: lockUser },
@@ -125,8 +125,9 @@ define([
             $userList
                 .on('load.datatable', function (e, dataset) {
                     _.forEach(dataset.data, function (row) {
-                        var lockBtn = '[data-item-identifier="' + row.id + '"] button.lock';
-                        var unlockBtn = '[data-item-identifier="' + row.id + '"] button.unlock';
+                        const lockBtn = '[data-item-identifier="' + row.id + '"] button.lock';
+                        const unlockBtn = '[data-item-identifier="' + row.id + '"] button.unlock';
+
                         if (row.lockable) {
                             $(row.locked ? lockBtn : unlockBtn, $userList).hide();
                         } else {
@@ -183,7 +184,7 @@ define([
                             label: __('Account status'),
                             sortable: true,
                             transform: function (value) {
-                                var icon = value === 'enabled' ? 'result-ok' : 'lock';
+                                const icon = value === 'enabled' ? 'result-ok' : 'lock';
                                 return '<span class="icon-' + icon + '"></span> ' + value;
                             }
                         }
