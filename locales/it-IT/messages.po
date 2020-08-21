@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint133\n"
-"PO-Revision-Date: 2020-07-17T08:35:28\n"
+"Project-Id-Version: TAO 3.4.0-sprint135\n"
+"PO-Revision-Date: 2020-08-14T08:26:50\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: it-IT\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " AND "
-msgstr ""
-
 msgid " and "
 msgstr "e"
+
+msgid " AND "
+msgstr ""
 
 msgid " has been deleted successfully"
 msgstr " è stato rimosso correttamente"
@@ -404,11 +404,11 @@ msgstr "Cambia la password"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check all"
-msgstr "Verifica tutto"
-
 msgid "Check All"
 msgstr "Controlla Tutti"
+
+msgid "Check all"
+msgstr "Verifica tutto"
 
 msgid "Check-in"
 msgstr "Check-in"
@@ -449,10 +449,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
 msgid "Clear selection"
@@ -1132,6 +1132,9 @@ msgstr "Lista - Scelta singola - Scorri giù"
 msgid "List - Single choice - Radio button"
 msgstr "Lista - Scelta singola - Tasto radio"
 
+msgid "List - Single choice - Search input"
+msgstr ""
+
 msgid "List item URI duplications found"
 msgstr ""
 
@@ -1347,10 +1350,10 @@ msgstr "Nessun file"
 msgid "no label"
 msgstr "nessuna etichetta"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "Nessuna anteprima disponibile"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "Nessuna anteprima disponibile"
 
 msgid "No results found"
@@ -1402,11 +1405,11 @@ msgstr "di"
 msgid "Off"
 msgstr ""
 
-msgid "OK"
-msgstr "SI"
-
 msgid "Ok"
 msgstr "Sì"
+
+msgid "OK"
+msgstr "SI"
 
 msgid "Old Password"
 msgstr "Vecchia password"
@@ -2177,10 +2180,10 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "Deseleziona tutto"
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "Deseleziona tutto"
 
 msgid "Undefined amount of the pages for pagination"

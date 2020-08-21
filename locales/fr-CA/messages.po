@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint133\n"
-"PO-Revision-Date: 2020-07-17T08:34:08\n"
+"Project-Id-Version: TAO 3.4.0-sprint135\n"
+"PO-Revision-Date: 2020-08-14T08:25:44\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-CA\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " AND "
-msgstr ""
-
 msgid " and "
 msgstr " et "
+
+msgid " AND "
+msgstr ""
 
 msgid " has been deleted successfully"
 msgstr " a été supprimé avec succès."
@@ -405,11 +405,11 @@ msgstr "Modifier le mot de passe"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check all"
-msgstr "Cocher tout"
-
 msgid "Check All"
 msgstr "Cocher Tout"
+
+msgid "Check all"
+msgstr "Cocher tout"
 
 msgid "Check-in"
 msgstr ""
@@ -450,10 +450,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
 msgid "Clear selection"
@@ -1134,6 +1134,9 @@ msgstr "Liste - Choix unique - Liste déroulante"
 msgid "List - Single choice - Radio button"
 msgstr "Liste - Choix multiple - Bouton radio"
 
+msgid "List - Single choice - Search input"
+msgstr ""
+
 msgid "List item URI duplications found"
 msgstr ""
 
@@ -1349,10 +1352,10 @@ msgstr "Aucun fichier"
 msgid "no label"
 msgstr "sans étiquette"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "Aucun aperçu disponible"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "Aucun aperçu disponible"
 
 msgid "No results found"
@@ -1404,10 +1407,10 @@ msgstr "de"
 msgid "Off"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr "Ok"
 
-msgid "Ok"
+msgid "OK"
 msgstr "Ok"
 
 msgid "Old Password"
@@ -2179,10 +2182,10 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "Décocher tout"
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "Décocher tout"
 
 msgid "Undefined amount of the pages for pagination"

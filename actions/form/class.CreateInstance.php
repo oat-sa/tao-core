@@ -21,12 +21,12 @@
  */
 
 use oat\generis\model\OntologyRdfs;
-use oat\generis\model\WidgetRdf;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\helpers\form\validators\ResourceSignatureValidator;
 use oat\tao\model\security\SignatureGenerator;
 use oat\tao\model\security\SignatureValidator;
 use oat\tao\model\TaoOntology;
+use tao_helpers_form_elements_Treeview as TreeView;
 
 /**
  * Short description of class tao_actions_form_CreateInstance
@@ -60,7 +60,6 @@ class tao_actions_form_CreateInstance extends tao_helpers_form_FormContainer
      * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  array classes
      * @param  array options
-     * @return mixed
      */
     public function __construct(array $classes, $options)
     {
@@ -74,22 +73,21 @@ class tao_actions_form_CreateInstance extends tao_helpers_form_FormContainer
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @return mixed
      */
     public function initForm()
     {
-        
+
         $name = isset($this->options['name']) ? $this->options['name'] : 'form_' . (count(self::$forms) + 1);
         unset($this->options['name']);
-        
+
         $this->form = tao_helpers_form_FormFactory::getForm($name, $this->options);
-        
+
         //add create action in toolbar
         $action = tao_helpers_form_FormFactory::getElement('save', 'Free');
         $value =  '<a href="#" class="form-submitter btn-success small"><span class="icon-save"></span> ' . __('Create') . '</a>';
 
         $action->setValue($value);
-        
+
         $this->form->setActions([$action], 'top');
         $this->form->setActions([$action], 'bottom');
     }
@@ -99,20 +97,19 @@ class tao_actions_form_CreateInstance extends tao_helpers_form_FormContainer
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @return mixed
      */
     public function initElements()
     {
-        
+
         $guiOrderProperty = new core_kernel_classes_Property(TaoOntology::PROPERTY_GUI_ORDER);
-        
+
         //get the list of properties to set in the form
         $defaultProperties  = tao_helpers_form_GenerisFormFactory::getDefaultProperties();
         $editedProperties = $defaultProperties;
         $excludedProperties = (isset($this->options['excludedProperties']) && is_array($this->options['excludedProperties'])) ? $this->options['excludedProperties'] : [];
         $additionalProperties = (isset($this->options['additionalProperties']) && is_array($this->options['additionalProperties'])) ? $this->options['additionalProperties'] : [];
         $finalElements = [];
-        
+
         $classProperties = [];
         foreach ($this->classes as $class) {
             $classProperties = array_merge(tao_helpers_form_GenerisFormFactory::getClassProperties($class));
@@ -120,28 +117,33 @@ class tao_actions_form_CreateInstance extends tao_helpers_form_FormContainer
         if (!empty($additionalProperties)) {
             $classProperties = array_merge($classProperties, $additionalProperties);
         }
-        
+
         foreach ($classProperties as $property) {
-            if (!isset($editedProperties[$property->getUri()]) && !in_array($property->getUri(), $excludedProperties)) {
+            if (
+                !isset($editedProperties[$property->getUri()])
+                && !in_array($property->getUri(), $excludedProperties, true)
+            ) {
                 $editedProperties[$property->getUri()] = $property;
             }
         }
-            
+
         foreach ($editedProperties as $property) {
             $property->feed();
             $widget = $property->getWidget();
-            if ($widget == null || $widget instanceof core_kernel_classes_Literal) {
-                continue;
-            } elseif ($widget instanceof core_kernel_classes_Resource && $widget->getUri() == WidgetRdf::PROPERTY_WIDGET_TREEVIEW) {
+            if ($widget === null || $widget instanceof core_kernel_classes_Literal) {
                 continue;
             }
-            
-            //map properties widgets to form elments
+
+            if ($widget instanceof core_kernel_classes_Resource && $widget->getUri() === TreeView::WIDGET_ID) {
+                continue;
+            }
+
+            //map properties widgets to form elements
             $element = tao_helpers_form_GenerisFormFactory::elementMap($property);
-            
+
             if (!is_null($element)) {
                 //set label validator
-                if ($property->getUri() == OntologyRdfs::RDFS_LABEL) {
+                if ($property->getUri() === OntologyRdfs::RDFS_LABEL) {
                     $element->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
                 }
 
@@ -149,11 +151,7 @@ class tao_actions_form_CreateInstance extends tao_helpers_form_FormContainer
                 if ($element instanceof tao_helpers_form_elements_Label && strlen($element->getRawValue()) == 0) {
                     continue;
                 }
-                
-                //set file element validator:
-                if ($element instanceof tao_helpers_form_elements_AsyncFile) {
-                }
-                
+
                 if ($property->getUri() == OntologyRdfs::RDFS_LABEL) {
                     // Label will not be a TAO Property. However, it should
                     // be always first.
@@ -161,13 +159,13 @@ class tao_actions_form_CreateInstance extends tao_helpers_form_FormContainer
                 } elseif (count($guiOrderPropertyValues = $property->getPropertyValues($guiOrderProperty))) {
                     // get position of this property if it has one.
                     $position = intval($guiOrderPropertyValues[0]);
-                    
+
                     // insert the element at the right place.
                     $i = 0;
                     while ($i < count($finalElements) && ($position >= $finalElements[$i][1] && $finalElements[$i][1] !== null)) {
                         $i++;
                     }
-                    
+
                     array_splice($finalElements, $i, 0, [[$element, $position]]);
                 } else {
                     // Unordered properties will go at the end of the form.
@@ -175,12 +173,12 @@ class tao_actions_form_CreateInstance extends tao_helpers_form_FormContainer
                 }
             }
         }
-        
+
         // Add elements related to class properties to the form.
         foreach ($finalElements as $element) {
             $this->form->addElement($element[0]);
         }
-        
+
         // @todo currently tao cannot handle multiple classes
         /*
         $classUriElt = tao_helpers_form_FormFactory::getElement('classes', 'Hidden');
@@ -190,12 +188,12 @@ class tao_actions_form_CreateInstance extends tao_helpers_form_FormContainer
         }
         $classUriElt->setValue($uris);
         */
-        
+
         //add an hidden elt for the class uri
         $classUriElt = tao_helpers_form_FormFactory::getElement('classUri', 'Hidden');
         $classUriElt->setValue(tao_helpers_Uri::encode($class->getUri()));
         $this->form->addElement($classUriElt);
-        
+
         $this->form->addElement($classUriElt);
 
         $this->addSignature();

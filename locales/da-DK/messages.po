@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint133\n"
-"PO-Revision-Date: 2020-07-17T08:31:08\n"
+"Project-Id-Version: TAO 3.4.0-sprint135\n"
+"PO-Revision-Date: 2020-08-14T08:23:50\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: da-DK\n"
@@ -16,10 +16,10 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " AND "
+msgid " and "
 msgstr ""
 
-msgid " and "
+msgid " AND "
 msgstr ""
 
 msgid " has been deleted successfully"
@@ -405,11 +405,11 @@ msgstr "Ændre password"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check all"
-msgstr "Tjek alle"
-
 msgid "Check All"
 msgstr "Vælg alle"
+
+msgid "Check all"
+msgstr "Tjek alle"
 
 msgid "Check-in"
 msgstr ""
@@ -450,10 +450,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
 msgid "Clear selection"
@@ -1134,6 +1134,9 @@ msgstr ""
 msgid "List - Single choice - Radio button"
 msgstr ""
 
+msgid "List - Single choice - Search input"
+msgstr ""
+
 msgid "List item URI duplications found"
 msgstr ""
 
@@ -1349,10 +1352,10 @@ msgstr ""
 msgid "no label"
 msgstr ""
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr ""
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr ""
 
 msgid "No results found"
@@ -1404,10 +1407,10 @@ msgstr ""
 msgid "Off"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr ""
 
-msgid "Ok"
+msgid "OK"
 msgstr ""
 
 msgid "Old Password"
@@ -2179,10 +2182,10 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "Fravælg alle"
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "Fravælg alle"
 
 msgid "Undefined amount of the pages for pagination"

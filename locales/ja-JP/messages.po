@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint133\n"
-"PO-Revision-Date: 2020-07-17T08:35:50\n"
+"Project-Id-Version: TAO 3.4.0-sprint135\n"
+"PO-Revision-Date: 2020-08-14T08:27:03\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-JP\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " AND "
-msgstr ""
-
 msgid " and "
 msgstr " と "
+
+msgid " AND "
+msgstr ""
 
 msgid " has been deleted successfully"
 msgstr " 削除しました。"
@@ -405,10 +405,10 @@ msgstr "パスワードを変更"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check all"
+msgid "Check All"
 msgstr "すべてチェック"
 
-msgid "Check All"
+msgid "Check all"
 msgstr "すべてチェック"
 
 msgid "Check-in"
@@ -450,10 +450,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
 msgid "Clear selection"
@@ -1134,6 +1134,9 @@ msgstr "リスト - 択一 - ドロップダウン"
 msgid "List - Single choice - Radio button"
 msgstr "リスト - 択一 - ラジオボタン"
 
+msgid "List - Single choice - Search input"
+msgstr ""
+
 msgid "List item URI duplications found"
 msgstr ""
 
@@ -1349,10 +1352,10 @@ msgstr "ファイルが有りません"
 msgid "no label"
 msgstr "ラベルがありません"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "プレビューは利用できません"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "プレビューは利用できません"
 
 msgid "No results found"
@@ -1404,10 +1407,10 @@ msgstr "の"
 msgid "Off"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr "OK"
 
-msgid "Ok"
+msgid "OK"
 msgstr "OK"
 
 msgid "Old Password"
@@ -2179,10 +2182,10 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "全て無効"
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "全て無効"
 
 msgid "Undefined amount of the pages for pagination"

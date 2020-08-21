@@ -26,6 +26,7 @@ use oat\generis\model\data\permission\ReverseRightLookupInterface;
 use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
 use oat\generis\model\WidgetRdf;
+use oat\tao\helpers\form\elements\xhtml\SearchTextBox;
 use oat\tao\model\search\index\IndexDocument;
 use ArrayIterator;
 use core_kernel_classes_Literal as Literal;
@@ -37,6 +38,12 @@ use oat\tao\model\search\SearchTokenGenerator;
 use oat\tao\model\service\InjectionAwareService;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\WidgetDefinitions;
+use tao_helpers_form_elements_Checkbox;
+use tao_helpers_form_elements_Combobox;
+use tao_helpers_form_elements_Htmlarea;
+use tao_helpers_form_elements_Radiobox;
+use tao_helpers_form_elements_Textarea;
+use tao_helpers_form_elements_Textbox;
 
 class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumentBuilderInterface
 {
@@ -46,13 +53,13 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
     private $map = [];
 
     public const ALLOWED_DYNAMIC_TYPES = [
-        WidgetDefinitions::PROPERTY_TEXTBOX,
-        WidgetDefinitions::PROPERTY_TEXTAREA,
-        WidgetDefinitions::PROPERTY_HTMLAREA,
-        WidgetDefinitions::PROPERTY_CHECKBOX,
-        WidgetDefinitions::PROPERTY_COMBOBOX,
-        WidgetDefinitions::PROPERTY_RADIOBOX,
-        WidgetDefinitions::PROPERTY_SEARCHTEXTBOX,
+        tao_helpers_form_elements_Textbox::WIDGET_ID,
+        tao_helpers_form_elements_Textarea::WIDGET_ID,
+        tao_helpers_form_elements_Htmlarea::WIDGET_ID,
+        tao_helpers_form_elements_Checkbox::WIDGET_ID,
+        tao_helpers_form_elements_Combobox::WIDGET_ID,
+        tao_helpers_form_elements_Radiobox::WIDGET_ID,
+        SearchTextBox::WIDGET_ID,
     ];
 
     /**
@@ -153,7 +160,7 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
 
         foreach ($tokenGenerator->generateTokens($resource) as $data) {
             /** @var OntologyIndex $index */
-            list($index, $strings) = $data;
+            [$index, $strings] = $data;
             $body[$index->getIdentifier()] = $strings;
             $indexProperties[$index->getIdentifier()] = $this->getIndexProperties($index);
         }
