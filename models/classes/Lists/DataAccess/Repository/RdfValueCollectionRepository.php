@@ -24,6 +24,7 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Lists\DataAccess\Repository;
 
+use common_exception_Error;
 use common_persistence_SqlPersistence as SqlPersistence;
 use core_kernel_classes_Class as KernelClass;
 use core_kernel_classes_Resource as KernelResource;
@@ -32,6 +33,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use oat\generis\model\OntologyRdf;
 use oat\generis\model\OntologyRdfs;
 use oat\generis\persistence\PersistenceManager;
+use oat\tao\model\Lists\Business\Domain\CollectionType;
 use oat\tao\model\service\InjectionAwareService;
 use oat\tao\model\Lists\Business\Contract\ValueCollectionRepositoryInterface;
 use oat\tao\model\Lists\Business\Domain\Value;
@@ -41,6 +43,8 @@ use Throwable;
 
 class RdfValueCollectionRepository extends InjectionAwareService implements ValueCollectionRepositoryInterface
 {
+    public const SERVICE_ID = 'tao/ValueCollectionRepository';
+
     /** @var PersistenceManager */
     private $persistenceManager;
 
@@ -55,6 +59,11 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
         $this->persistenceId      = $persistenceId;
     }
 
+    public function isApplicable(string $collectionUri): bool
+    {
+        return CollectionType::fromCollectionUri($collectionUri)->equals(CollectionType::default());
+    }
+
     public function findAll(ValueCollectionSearchRequest $searchRequest): ValueCollection
     {
         $query = $this->getPersistence()->getPlatForm()->getQueryBuilder();
@@ -65,6 +74,7 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
         $this->enrichQueryWithValueCollectionSearchCondition($searchRequest, $query);
         $this->enrichQueryWithSubject($searchRequest, $query);
         $this->enrichQueryWithExcludedValueUris($searchRequest, $query);
+        $this->enrichQueryWithObjects($searchRequest, $query);
 
         $values = [];
         foreach ($query->execute()->fetchAll() as $rawValue) {
@@ -110,6 +120,22 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
             if (isset($exception)) {
                 $platform->rollBack();
             }
+        }
+    }
+
+    /**
+     * @param string $valueCollectionUri
+     *
+     * @throws common_exception_Error
+     */
+    public function delete(string $valueCollectionUri): void
+    {
+        $listClass = new KernelClass($valueCollectionUri);
+
+        $listItems = $listClass->getInstances(false);
+
+        foreach ($listItems as $listItem) {
+            $listItem->delete();
         }
     }
 
@@ -303,9 +329,12 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
 
         $query
             ->andWhere(
-                $this->getPersistence()->getPlatForm()->getQueryBuilder()->expr()->like('element.object', ':subject')
+                $this->getPersistence()->getPlatForm()->getQueryBuilder()->expr()->like(
+                    'LOWER(element.object)',
+                    ':subject'
+                )
             )
-            ->setParameter('subject', "{$searchRequest->getSubject()}%");
+            ->setParameter('subject', $searchRequest->getSubject() . '%');
     }
 
     private function enrichQueryWithExcludedValueUris(
@@ -324,6 +353,21 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
                 )
             )
             ->setParameter('excluded_value_uri', $searchRequest->getExcluded(), Connection::PARAM_STR_ARRAY);
+    }
+
+    private function enrichQueryWithObjects(
+        ValueCollectionSearchRequest $searchRequest,
+        QueryBuilder $query
+    ): void {
+        if (!$searchRequest->hasUris()) {
+            return;
+        }
+
+        $expressionBuilder = $query->expr();
+
+        $query
+            ->andWhere($expressionBuilder->in('element.subject', ':subjects'))
+            ->setParameter('subjects', $searchRequest->getUris(), Connection::PARAM_STR_ARRAY);
     }
 
     private function getPersistence(): SqlPersistence
