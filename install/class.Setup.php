@@ -26,6 +26,7 @@ use oat\oatbox\log\logger\TaoLog;
 use oat\oatbox\log\LoggerService;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\ServiceManager;
+use oat\tao\model\install\seed\SeedSorter;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 class tao_install_Setup implements Action
@@ -52,6 +53,7 @@ class tao_install_Setup implements Action
      * @throws common_ext_ExtensionException When a presented parameter is invalid or malformed.
      * @throws InvalidArgumentException
      * @throws tao_install_utils_Exception
+     * @throws ReflectionException
      */
     public function __invoke($params)
     {
@@ -223,12 +225,10 @@ class tao_install_Setup implements Action
         } elseif (!isset($persistences['type'])) {
             throw new InvalidArgumentException('Your config should have a \'default\' key under \'persistences\'');
         }
-
+        $seedSorter = new SeedSorter();
         foreach ($parameters['configuration'] as $extension => $configs) {
 
-            $sortedConfigs = $this->sortConfigs($serviceManager, $configs);
-
-            var_dump(array_keys($sortedConfigs));
+            $configs = $seedSorter->sort($configs);
 
             foreach ($configs as $key => $config) {
                 if (isset($config['type']) && $config['type'] === 'configurableService') {
@@ -290,64 +290,6 @@ class tao_install_Setup implements Action
         }
 
         $this->logNotice('Installation completed!');
-    }
-
-    private function getDependencies(string $className): array
-    {
-        $reflection = new ReflectionClass($className);
-
-        $constructor = $reflection->getConstructor();
-
-        $result = [];
-
-        foreach ($constructor->getParameters() as $parameter) {
-            if ($class = $parameter->getClass()) {
-                $result[] = $class->name;
-            }
-        }
-
-        return $result;
-    }
-
-    private function sortDependencies(ServiceManager $serviceManager, array $graph, string $key, array &$result): void
-    {
-        echo "> $key\n";
-        echo ">> {$graph[$key]['class']}\n";
-
-//        if (!isset($graph[$key]) || !$serviceManager->get($graph[$key]['class'])) {
-//            throw new Exception("No '$key' in graph");
-//        }
-
-        if (isset($result[$key])) {
-            return;
-        }
-
-        if (!isset($graph[$key]['class'])) {
-            return;
-        }
-
-        $className = $graph[$key]['class'];
-
-        $deps = $this->getDependencies($className);
-
-        var_dump($deps);
-
-        foreach ($deps as $depKey) {
-            $this->sortDependencies($serviceManager, $graph, $depKey, $result);
-        }
-
-        $result[$key] = $graph[$key];
-    }
-
-    private function sortConfigs(ServiceManager $serviceManager, array $config): array
-    {
-        $result = [];
-
-        foreach ($config as $key => $value) {
-            $this->sortDependencies($serviceManager, $config, $key, $result);
-        }
-
-        return $result;
     }
 
     /**
