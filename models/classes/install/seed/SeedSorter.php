@@ -89,7 +89,6 @@ class SeedSorter
                 $dependencyKey = $this->findServiceKey($config, $dependencyClassName);
                 $this->sortDependencies($config, $dependencyKey, $result);
             } catch (SeedSorterException $e) {
-                continue;
             }
         }
 
