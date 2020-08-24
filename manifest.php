@@ -38,6 +38,7 @@ use oat\tao\scripts\install\RegisterActionService;
 use oat\tao\scripts\install\RegisterEvents;
 use oat\tao\scripts\install\RegisterResourceEvents;
 use oat\tao\scripts\install\RegisterResourceWatcherService;
+use oat\tao\scripts\install\RegisterSessionCookieService;
 use oat\tao\scripts\install\RegisterSignatureGenerator;
 use oat\tao\scripts\install\RegisterTaskQueueServices;
 use oat\tao\scripts\install\RegisterUserLockoutsEventListeners;
@@ -61,7 +62,7 @@ return [
     'label' => 'TAO Base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '45.6.7',
+    'version' => '45.7.1',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => [
         'generis' => '>=13.0.0',
@@ -137,6 +138,7 @@ return [
             RegisterUserService::class,
             RegisterValueCollectionServices::class,
             CreateRdsListStore::class,
+            RegisterSessionCookieService::class,
         ]
     ],
     'update' => Updater::class,
