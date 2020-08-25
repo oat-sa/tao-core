@@ -26,9 +26,10 @@ define([
     'layout/section',
     'layout/actions',
     'ui/feedback',
-    'ui/datatable'
+    'ui/datatable',
+    'ui/searchModal'
 ],
-function($, _, __, section, actionManager, feedback){
+function($, _, __, section, actionManager, feedback, datatable, searchModal){
     'use strict';
 
     /**
@@ -118,10 +119,15 @@ function($, _, __, section, actionManager, feedback){
 
                 //or press ENTER
                 $searchInput.off('keypress').on('keypress', function(e){
-                    var query = $searchInput.val();
                     if(e.which === 13){
+                        const url = $('.action-bar .search-area').data('url')
+                        const query = $searchInput.val();
                         e.preventDefault();
-                        searchHandler(query);
+                        searchModal({
+                            query: query,
+                            url: url,
+                            events: actionManager
+                        });
                     }
                 });
             }
