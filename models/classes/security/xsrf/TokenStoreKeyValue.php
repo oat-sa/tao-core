@@ -21,6 +21,7 @@
 namespace oat\tao\model\security\xsrf;
 
 use common_persistence_KeyValuePersistence;
+use common_persistence_AdvKeyValuePersistence;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\session\SessionService;
 
@@ -29,7 +30,7 @@ use oat\oatbox\session\SessionService;
  *
  * @author Martijn Swinkels <m.swinkels@taotesting.com>
  */
-class TokenStoreKeyValue extends ConfigurableService implements TokenStore
+class TokenStoreKeyValue extends ConfigurableService implements TokenStore, TokenStorageInterface
 {
 
     const OPTION_PERSISTENCE = 'persistence';
@@ -39,6 +40,11 @@ class TokenStoreKeyValue extends ConfigurableService implements TokenStore
      * @var common_persistence_KeyValuePersistence
      */
     private $persistence;
+
+    /**
+     * @var null|string
+     */
+    private $keyPrefix = null;
 
     /**
      * @return Token[]
@@ -77,13 +83,18 @@ class TokenStoreKeyValue extends ConfigurableService implements TokenStore
     }
 
     /**
-     * @return common_persistence_KeyValuePersistence|\common_persistence_Persistence
+     * @return common_persistence_AdvKeyValuePersistence
      */
-    protected function getPersistence()
+    protected function getPersistence(): common_persistence_AdvKeyValuePersistence
     {
         if ($this->persistence === null) {
             $persistenceManager = $this->getServiceLocator()->get(\common_persistence_Manager::class);
-            $this->persistence = $persistenceManager->getPersistenceById($this->getOption(self::OPTION_PERSISTENCE));
+            $persistence = $persistenceManager->getPersistenceById($this->getOption(self::OPTION_PERSISTENCE));
+
+            if (!$persistence instanceof common_persistence_AdvKeyValuePersistence) {
+                throw new \common_exception_Error('TokenSToreKeyValue expects advanced key value persistence implementation.');
+            }
+            $this->persistence = $persistence;
         }
         return $this->persistence;
     }
@@ -94,7 +105,78 @@ class TokenStoreKeyValue extends ConfigurableService implements TokenStore
      */
     protected function getKey()
     {
-        $user = $this->getServiceLocator()->get(SessionService::class)->getCurrentUser();
-        return $user->getIdentifier() . '_' . static::TOKENS_STORAGE_KEY;
+        if ($this->keyPrefix === null) {
+            $user = $this->getServiceLocator()->get(SessionService::class)->getCurrentUser();
+            $this->keyPrefix = $user->getIdentifier() . '_' . static::TOKENS_STORAGE_KEY;
+        }
+
+        return $this->keyPrefix;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getToken(string $tokenId): ?Token
+    {
+        if (!$this->hasToken($tokenId)) {
+            return null;
+        }
+
+        $token = $this->getPersistence()->hGet($this->getKey(), $tokenId);
+        return new Token(json_decode($token, true));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setToken(string $tokenId, Token $token): void
+    {
+        $this->getPersistence()->hSet($this->getKey(), $tokenId, json_encode($token));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function hasToken(string $tokenId): bool
+    {
+        return $this->getPersistence()->hExists($this->getKey(),  $tokenId);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function removeToken(string $tokenId): bool
+    {
+        if (!$this->hasToken($tokenId)) {
+            return false;
+        }
+        $this->getPersistence()->hDel($this->getKey(), $tokenId);
+
+        return true;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function clear(): void
+    {
+        $tokens = $this->getPersistence()->hGetAll($this->getKey());
+        foreach ($tokens as $tokenId => $value) {
+            $this->getPersistence()->hDel($this->getKey(), $tokenId);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getAll(): array
+    {
+        $tokens = [];
+        $tokensData = $this->getPersistence()->hGetAll($this->getKey());
+        foreach ($tokensData as $tokenData) {
+            $tokens[] = new Token(json_decode($tokenData, true));
+        }
+
+        return $tokens;
     }
 }

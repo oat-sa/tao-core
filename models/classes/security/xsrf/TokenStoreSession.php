@@ -85,7 +85,9 @@ class TokenStoreSession extends Configurable implements TokenStore, TokenStorage
 
     public function getToken(string $tokenId): ?Token
     {
-        return $this->hasToken($tokenId) ? $this->getSession()->getAttribute(self::TOKEN_NAMESPACE . $tokenId) : null;
+        return $this->hasToken($tokenId)
+            ? $this->getSession()->getAttribute(self::TOKEN_NAMESPACE . $tokenId)
+            : null;
     }
 
     public function setToken(string $tokenId, Token $token): void
