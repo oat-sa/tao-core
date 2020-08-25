@@ -122,6 +122,33 @@ class TokenService extends ConfigurableService
     }
 
     /**
+     * Check if form token is valid (does not revoke)
+     *
+     * @param string|Token $token The given token to validate
+     *
+     * @return boolean
+     * @throws InvalidService
+     */
+    public function checkFormToken($token): bool
+    {
+        $valid = false;
+        if (is_object($token) && $token instanceof Token) {
+            $token = $token->getValue();
+        }
+
+        if (!$this->getStore()->hasToken(self::FORM_TOKEN_NAMESPACE)) {
+            return false;
+        }
+
+        $savedToken = $savedToken = $this->getStore()->getToken(self::FORM_TOKEN_NAMESPACE);
+        if ($savedToken->getValue() === $token && !$this->isExpired($savedToken)) {
+            $valid = true;
+        }
+
+        return $valid;
+    }
+
+    /**
      * Check if the given token is valid
      *
      * @param string |Token $token
