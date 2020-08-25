@@ -28,8 +28,9 @@ use PHPSession;
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-class TokenStoreSession extends Configurable implements TokenStore
+class TokenStoreSession extends Configurable implements TokenStore, TokenStorageInterface
 {
+    private const TOKEN_NAMESPACE = 'CSRF_TOKEN_';
 
     /**
      * @var PHPSession
@@ -80,5 +81,52 @@ class TokenStoreSession extends Configurable implements TokenStore
             $this->session = PHPSession::singleton();
         }
         return $this->session;
+    }
+
+    public function getToken(string $tokenId): ?Token
+    {
+        return $this->hasToken($tokenId) ? $this->getSession()->getAttribute(self::TOKEN_NAMESPACE . $tokenId) : null;
+    }
+
+    public function setToken(string $tokenId, Token $token): void
+    {
+        $this->getSession()->setAttribute(self::TOKEN_NAMESPACE . $tokenId, $token);
+    }
+
+    public function hasToken(string $tokenId): bool
+    {
+        return $this->getSession()->hasAttribute(self::TOKEN_NAMESPACE . $tokenId);
+    }
+
+    public function removeToken(string $tokenId): bool
+    {
+        $removed = false;
+        if ($this->hasToken($tokenId)) {
+            $this->getSession()->removeAttribute(self::TOKEN_NAMESPACE . $tokenId);
+            $removed = true;
+        }
+
+        return $removed;
+    }
+
+    public function clear(): void
+    {
+        foreach($this->getSession()->getAttributeNames() as $key) {
+            if (strpos($key, self::TOKEN_NAMESPACE) === 0) {
+                $this->getSession()->removeAttribute($key);
+            }
+        }
+    }
+
+    public function getAll(): array
+    {
+        $tokens = [];
+        foreach($this->getSession()->getAttributeNames() as $key) {
+            if (strpos($key, self::TOKEN_NAMESPACE) === 0) {
+                $tokens[] = $this->getSession()->getAttribute($key);
+            }
+        }
+
+        return $tokens;
     }
 }
