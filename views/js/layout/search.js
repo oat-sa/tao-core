@@ -13,60 +13,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (update and modification) Open Assessment Technologies SA;
+ * Copyright (c) 2014-2020 (update and modification) Open Assessment Technologies SA;
  */
 
 /**
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define([
-    'jquery',
-    'lodash',
-    'i18n',
-    'layout/section',
-    'layout/actions',
-    'ui/feedback',
-    'ui/datatable',
-    'ui/searchModal'
-],
-function($, _, __, section, actionManager, feedback, datatable, searchModal){
-    'use strict';
-
-    /**
-     * Create the table that contains the search results
-     * @param {Object} data - the datatable parameters
-     * @param {Object} data.model - the datatable model
-     * @param {Object} data.url
-     * @param {Object} data.params - extra parameters to give to the datatable endpoint
-     * @param {Object} data.filters - extra parameters to give to the datatable endpoint
-     */
-    var buildResponseTable  = function buildResponseTable(data){
-
-        //update the section container
-        var $tableContainer = $('<div class="flex-container-full"></div>');
-        section.updateContentBlock($tableContainer);
-
-        //create a datatable
-        $tableContainer.datatable({
-            url: data.url,
-            model: _.values(data.model),
-            actions: [{
-                id: 'open',
-                label: 'Open',
-                action: function openResource(id) {
-                    actionManager.trigger('refresh', {
-                        uri: id
-                    });
-                }
-            }],
-            params: {
-                params: data.params,
-                filters: data.filters,
-                rows: 20
-            }
-        });
-    };
-
+define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store'], function ($, actionManager, searchModal, store) {
     /**
      * Behavior of the tao backend global search.
      * It runs by himself using the init method.
@@ -75,64 +28,52 @@ function($, _, __, section, actionManager, feedback, datatable, searchModal){
      *
      * @exports layout/search
      */
-    var searchComponent =  {
-
-        /**
-         * Initialize, only entry point
-         */
-        init : function init(){
-
-            var searchHandler;
-            var running      = false;
-            var $container   = $('.action-bar .search-area');
-            var $searchInput = $('input' , $container);
-            var $searchBtn   = $('button' , $container);
-
-            if($container && $container.length){
-
-                //throttle and control to prevent sending too many requests
-                searchHandler = _.throttle(function searchHandlerThrottled(query){
-                    if(running === false){
-                        running = true;
-                        $.ajax({
-                            url : $container.data('url'),
-                            type : 'POST',
-                            data :  {query : query},
-                            dataType : 'json'
-                        }).done(function(response){
-                            if(response && response.result && response.result === true){
-                                buildResponseTable(response);
-                            } else {
-                                feedback().warning(__('No results found'));
-                            }
-                        }).complete(function(){
-                            running = false;
-                        });
-                    }
-                }, 100);
-
-                //clicking the button trigger the request
-                $searchBtn.off('click').on('click', function(e){
-                    e.preventDefault();
-                    searchHandler($searchInput.val());
-                });
-
-                //or press ENTER
-                $searchInput.off('keypress').on('keypress', function(e){
-                    if(e.which === 13){
-                        const url = $('.action-bar .search-area').data('url')
-                        const query = $searchInput.val();
-                        e.preventDefault();
-                        searchModal({
-                            query: query,
-                            url: url,
-                            events: actionManager
-                        });
-                    }
-                });
-            }
+    const searchComponent = {
+        searchStore: null,
+        init: function init() {
+            initSearchStore().then(initializeEvents);
         }
     };
+
+    function initSearchStore() {
+        return store('search').then(function (store) {
+            searchComponent.searchStore = store;
+        });
+    }
+
+    function initializeEvents() {
+        debugger;
+        const $container = $('.action-bar .search-area');
+        const $searchInput = $('input', $container);
+        const $searchBtn = $('button', $container);
+        if ($container && $container.length) {
+            //clicking the button trigger the request
+            $searchBtn.off('click').on('click', function (e) {
+                const url = $('.action-bar .search-area').data('url');
+                const query = $searchInput.val();
+                e.preventDefault();
+                searchModal({
+                    query: query,
+                    url: url,
+                    events: actionManager
+                });
+            });
+
+            //or press ENTER
+            $searchInput.off('keypress').on('keypress', function (e) {
+                if (e.which === 13) {
+                    const url = $('.action-bar .search-area').data('url');
+                    const query = $searchInput.val();
+                    e.preventDefault();
+                    searchModal({
+                        query: query,
+                        url: url,
+                        events: actionManager
+                    });
+                }
+            });
+        }
+    }
 
     return searchComponent;
 });
