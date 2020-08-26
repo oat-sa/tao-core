@@ -29,6 +29,7 @@ define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store'], function ($
      * @exports layout/search
      */
     const searchComponent = {
+        container: null,
         searchStore: null,
         init: function init() {
             initSearchStore().then(initializeEvents);
@@ -41,15 +42,13 @@ define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store'], function ($
         });
     }
 
-    async function initializeEvents() {
-        const $container = $('.action-bar .search-area');
-        const $searchInput = $('input', $container);
-        const $searchBtn = $('button', $container);
-        let test = await searchComponent.searchStore.getItem('query');
-        if (test) {
-            $searchInput.val(test);
-        }
-        if ($container && $container.length) {
+    function initializeEvents() {
+        this.container = $('.action-bar .search-area');
+        const $searchInput = $('input', container);
+        const $searchBtn = $('button', container);
+        manageSearchStoreUpdate.bind(this)();
+
+        if (container && container.length) {
             //clicking the button trigger the request
             $searchBtn.off('click').on('click', function (e) {
                 const url = $('.action-bar .search-area').data('url');
@@ -68,14 +67,27 @@ define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store'], function ($
                     const url = $('.action-bar .search-area').data('url');
                     const query = $searchInput.val();
                     e.preventDefault();
-                    searchModal({
+                    const searchModalInstance = searchModal({
                         query: query,
                         url: url,
                         events: actionManager
                     });
+                    searchModalInstance.on('searchStoreUpdate', function () {
+                        manageSearchStoreUpdate();
+                    });
                 }
             });
         }
+    }
+
+    async function manageSearchStoreUpdate() {
+        const storedSearchQuery = await searchComponent.searchStore.getItem('query');
+        const storedSearchResults = await searchComponent.searchStore.getItem('results');
+        const $resultsCounter = $('.icon-ul', container);
+        const $searchInput = $('input', container);
+
+        $searchInput.val(storedSearchQuery);
+        storedSearchResults ? $resultsCounter.css('display', 'initial') : $resultsCounter.css('display', 'none');
     }
 
     return searchComponent;
