@@ -41,11 +41,14 @@ define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store'], function ($
         });
     }
 
-    function initializeEvents() {
-        debugger;
+    async function initializeEvents() {
         const $container = $('.action-bar .search-area');
         const $searchInput = $('input', $container);
         const $searchBtn = $('button', $container);
+        let test = await searchComponent.searchStore.getItem('query');
+        if (test) {
+            $searchInput.val(test);
+        }
         if ($container && $container.length) {
             //clicking the button trigger the request
             $searchBtn.off('click').on('click', function (e) {
