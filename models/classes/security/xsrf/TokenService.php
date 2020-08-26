@@ -318,7 +318,7 @@ class TokenService extends ConfigurableService
     /**
      * Get the configured store
      *
-     * @return TokenStore|TokenStorageInterface the store
+     * @return TokenStore the store
      *
      * @throws InvalidService
      */

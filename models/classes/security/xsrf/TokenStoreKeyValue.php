@@ -22,6 +22,7 @@ namespace oat\tao\model\security\xsrf;
 
 use common_persistence_KeyValuePersistence;
 use common_persistence_AdvKeyValuePersistence;
+use oat\generis\persistence\PersistenceManager;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\session\SessionService;
 
@@ -30,7 +31,7 @@ use oat\oatbox\session\SessionService;
  *
  * @author Martijn Swinkels <m.swinkels@taotesting.com>
  */
-class TokenStoreKeyValue extends ConfigurableService implements TokenStore, TokenStorageInterface
+class TokenStoreKeyValue extends ConfigurableService implements TokenStore
 {
 
     const OPTION_PERSISTENCE = 'persistence';
@@ -47,48 +48,12 @@ class TokenStoreKeyValue extends ConfigurableService implements TokenStore, Toke
     private $keyPrefix = null;
 
     /**
-     * @return Token[]
-     * @throws \common_exception_Error
-     * @throws \common_Exception
-     */
-    public function getTokens()
-    {
-        $value = $this->getPersistence()->get($this->getKey());
-        $storedTokens = json_decode($value, true) ?: [];
-        $pool = [];
-
-        foreach ($storedTokens as $key => $storedToken) {
-            $pool[$key] = new Token($storedToken);
-        }
-
-        return $pool;
-    }
-
-    /**
-     * @param Token[] $tokens
-     * @throws \common_Exception
-     */
-    public function setTokens(array $tokens = [])
-    {
-        $this->getPersistence()->set($this->getKey(), json_encode($tokens));
-    }
-
-    /**
-     * @return bool
-     * @throws \common_exception_Error
-     */
-    public function removeTokens()
-    {
-        return $this->getPersistence()->del($this->getKey());
-    }
-
-    /**
      * @return common_persistence_AdvKeyValuePersistence
      */
     protected function getPersistence(): common_persistence_AdvKeyValuePersistence
     {
         if ($this->persistence === null) {
-            $persistenceManager = $this->getServiceLocator()->get(\common_persistence_Manager::class);
+            $persistenceManager = $this->getServiceLocator()->get(PersistenceManager::SERVICE_ID);
             $persistence = $persistenceManager->getPersistenceById($this->getOption(self::OPTION_PERSISTENCE));
 
             if (!$persistence instanceof common_persistence_AdvKeyValuePersistence) {
@@ -106,7 +71,7 @@ class TokenStoreKeyValue extends ConfigurableService implements TokenStore, Toke
     protected function getKey()
     {
         if ($this->keyPrefix === null) {
-            $user = $this->getServiceLocator()->get(SessionService::class)->getCurrentUser();
+            $user = $this->getServiceLocator()->get(SessionService::SERVICE_ID)->getCurrentUser();
             $this->keyPrefix = $user->getIdentifier() . '_' . static::TOKENS_STORAGE_KEY;
         }
 
@@ -150,9 +115,8 @@ class TokenStoreKeyValue extends ConfigurableService implements TokenStore, Toke
         if (!$this->hasToken($tokenId)) {
             return false;
         }
-        $this->getPersistence()->hDel($this->getKey(), $tokenId);
 
-        return true;
+        return $this->getPersistence()->hDel($this->getKey(), $tokenId);
     }
 
     /**

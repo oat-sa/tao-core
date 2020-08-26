@@ -28,7 +28,7 @@ use PHPSession;
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-class TokenStoreSession extends Configurable implements TokenStore, TokenStorageInterface
+class TokenStoreSession extends Configurable implements TokenStore
 {
     private const TOKEN_NAMESPACE = 'CSRF_TOKEN_';
 
@@ -36,41 +36,6 @@ class TokenStoreSession extends Configurable implements TokenStore, TokenStorage
      * @var PHPSession
      */
     private $session;
-
-    /**
-     * Retrieve the pool of tokens
-     * @return Token[]
-     */
-    public function getTokens()
-    {
-        $pool = [];
-        $session = $this->getSession();
-
-        if ($session->hasAttribute(self::TOKEN_KEY)) {
-            $pool = $session->getAttribute(self::TOKEN_KEY) ?: [];
-        }
-
-        return $pool;
-    }
-
-    /**
-     * Set the pool of tokens
-     * @param Token[] $tokens
-     */
-    public function setTokens(array $tokens = [])
-    {
-        $session = $this->getSession();
-        $session->setAttribute(self::TOKEN_KEY, $tokens);
-    }
-
-    /**
-     * Remove all tokens
-     */
-    public function removeTokens()
-    {
-        $session = $this->getSession();
-        $session->setAttribute(self::TOKEN_KEY, []);
-    }
 
     /**
      * @return PHPSession
