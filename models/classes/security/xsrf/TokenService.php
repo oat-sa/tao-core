@@ -352,7 +352,6 @@ class TokenService extends ConfigurableService
         }
 
         $remainingPoolSize = $this->getPoolSize() - count($tokens);
-
         for ($i = 0; $i < $remainingPoolSize; $i++) {
             $newToken = new Token();
             $store->setToken($newToken->getValue(), $newToken);

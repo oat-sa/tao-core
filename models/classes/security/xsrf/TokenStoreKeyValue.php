@@ -173,6 +173,10 @@ class TokenStoreKeyValue extends ConfigurableService implements TokenStore, Toke
     {
         $tokens = [];
         $tokensData = $this->getPersistence()->hGetAll($this->getKey());
+        if (!is_array($tokensData)) {
+            return $tokens;
+        }
+
         foreach ($tokensData as $tokenData) {
             $tokens[] = new Token(json_decode($tokenData, true));
         }
