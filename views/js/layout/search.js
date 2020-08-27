@@ -19,76 +19,118 @@
 /**
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store'], function ($, actionManager, searchModal, store) {
+define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store', 'context'], function (
+    $,
+    actionManager,
+    searchModal,
+    store,
+    context
+) {
     /**
-     * Behavior of the tao backend global search.
-     * It runs by himself using the init method.
-     *
-     * @example  search.init();
-     *
-     * @exports layout/search
+     * Seach bar component for TAO action bar. It exposes
+     * the container, the indexeddb store that manages
+     * search results, and @init function
      */
     const searchComponent = {
         container: null,
         searchStore: null,
-        init: function init() {
-            initSearchStore().then(initializeEvents);
+        init: function () {
+            initSearchStore().then(function () {
+                initializeEvents();
+                manageSearchStoreUpdate();
+            });
         }
     };
 
+    /**
+     * Create/opens search store and assigns it to searchStore property
+     * @returns {Promise} - promise that will be completed when store is opened
+     */
     function initSearchStore() {
         return store('search').then(function (store) {
             searchComponent.searchStore = store;
         });
     }
 
+    /**
+     * Inits search component event on search and results icons click, and enter keypress
+     */
     function initializeEvents() {
-        this.container = $('.action-bar .search-area');
-        const $searchInput = $('input', container);
-        const $searchBtn = $('button', container);
-        manageSearchStoreUpdate.bind(this)();
+        searchComponent.container = $('.action-bar .search-area');
+        const $searchBtn = $('button.icon-find', searchComponent.container);
+        const $searchInput = $('input', searchComponent.container);
+        const $resultsBtn = $('button.icon-ul', searchComponent.container);
 
-        if (container && container.length) {
-            //clicking the button trigger the request
-            $searchBtn.off('click').on('click', function (e) {
-                const url = $('.action-bar .search-area').data('url');
-                const query = $searchInput.val();
-                e.preventDefault();
-                searchModal({
-                    query: query,
-                    url: url,
-                    events: actionManager
-                });
-            });
+        $searchBtn.off('click').on('click', () => createSearchModalInstance());
 
-            //or press ENTER
-            $searchInput.off('keypress').on('keypress', function (e) {
-                if (e.which === 13) {
-                    const url = $('.action-bar .search-area').data('url');
-                    const query = $searchInput.val();
-                    e.preventDefault();
-                    const searchModalInstance = searchModal({
-                        query: query,
-                        url: url,
-                        events: actionManager
-                    });
-                    searchModalInstance.on('searchStoreUpdate', function () {
-                        manageSearchStoreUpdate();
-                    });
-                }
-            });
-        }
+        $searchInput.off('keypress').on('keypress', e => (e.which === 13 ? createSearchModalInstance() : undefined));
+
+        $resultsBtn.off('click').on('click', () => {
+            searchComponent.searchStore
+                .getItem('query')
+                .then(storedSearchQuery => createSearchModalInstance(storedSearchQuery, false));
+        });
     }
 
-    async function manageSearchStoreUpdate() {
-        const storedSearchQuery = await searchComponent.searchStore.getItem('query');
-        const storedSearchResults = await searchComponent.searchStore.getItem('results');
-        const $resultsCounter = $('.icon-ul', container);
-        const $searchInput = $('input', container);
+    /**
+     * Creates a search modal instance and set up searchStoreUpdate listener to update
+     * search component visuals according when search store changes
+     * @param {boolean} updateResults - if datatable results on search modal must be requested to backend, or recover from search store isntead
+     */
+    function createSearchModalInstance(query, updateResults = true) {
+        query = query ? query : $('input', searchComponent.container).val();
+        const url = $('.action-bar .search-area').data('url');
+        const searchModalInstance = searchModal({
+            query: query,
+            url: url,
+            events: actionManager,
+            updateResults: updateResults
+        });
+
+        searchModalInstance.on('searchStoreUpdate', manageSearchStoreUpdate);
+    }
+
+    /**
+     * Callback to searchStoreUpdate event. First checks if current location is the same as the stored one, and if
+     * it is not, clears the store. Then requests stored query and results if still necessary, and updates view
+     */
+    function manageSearchStoreUpdate() {
+        searchComponent.searchStore.getItem('location').then(storedLocation => {
+            if (storedLocation !== context.shownStructure) {
+                searchComponent.searchStore.clear();
+                updateViewAfterSeachStoreUpdate('');
+            } else {
+                let promises = [];
+                promises.push(searchComponent.searchStore.getItem('query'));
+                promises.push(searchComponent.searchStore.getItem('results'));
+                Promise.all(promises).then(values => {
+                    updateViewAfterSeachStoreUpdate(values[0], values[1]);
+                });
+            }
+        });
+    }
+
+    /**
+     * Updates template with the received query and results dataset
+     * @param {string} storedSearchQuery - stored search query, to be set on search input
+     * @param {object} storedSearchResults - stored search results dataset, to display number of saved results on .results-counter
+     */
+    function updateViewAfterSeachStoreUpdate(storedSearchQuery, storedSearchResults) {
+        const $resultsCounter = $('.icon-ul', searchComponent.container);
+        const $searchInput = $('input', searchComponent.container);
+        const $resultsCounterContainer = $('.results-counter', searchComponent.container);
+        const $searchAreaButtonsContainer = $('.search-area-buttons-container', searchComponent.container);
 
         $searchInput.val(storedSearchQuery);
-        storedSearchResults ? $resultsCounter.css('display', 'initial') : $resultsCounter.css('display', 'none');
+        if (storedSearchResults) {
+            $resultsCounter.css('display', 'initial');
+            $searchAreaButtonsContainer.css('right', '15px');
+            $resultsCounterContainer.text(storedSearchResults.records > 99 ? '+99' : storedSearchResults.records);
+        } else {
+            $searchAreaButtonsContainer.css('right', '30px');
+            $resultsCounter.css('display', 'none');
+            $resultsCounterContainer.text('');
+        }
     }
-
     return searchComponent;
 });

@@ -4,7 +4,7 @@
     <input type="text" value="" name="query" placeholder="<?= get_data('searchLabel') ?>">
     <div class="search-area-buttons-container">
         <button class="icon-find" type="button"></button>
-        <button class="icon-ul" type="button"></button>
+        <button class="icon-ul" type="button" title="Open results"><div class="results-counter"></div></button>
     </div>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
     <div class="tooltip-content" >

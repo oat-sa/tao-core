@@ -53,19 +53,23 @@
             .search-area-buttons-container {
                 position: absolute;
                 top: -2px;
-                right: 36px;
+                right: 30px;
             }
             .icon-find,
             .icon-ul {
                 cursor: default;
-                opacity: 0.5;
                 background: transparent;
-                width: 25px;
                 height: 25px;
                 &:before {
-                    color: #666;
+                    color: black;
                 }
             }
+            // TODO - Asked UX about applying this styles for accessibility or not
+            // .icon-find:focus,
+            // .icon-ul:focus {
+            //     outline: none;
+            //     border: 1px solid$lightBlueGrey;
+            // }
             .icon-help {
                 position: absolute;
                 right: 5px;
@@ -80,10 +84,23 @@
                 text-align: center;
             }
             .icon-find {
+                padding: 0px;
+                cursor: pointer;
+                width: 25px;
             }
             .icon-ul {
+                cursor: pointer;
                 border-left: 1px solid $grey;
                 display: none;
+                margin: 0px 5px 0px 0px;
+                padding-left: 5px;
+                text-decoration: none;
+                .results-counter {
+                    color: black;
+                    margin-left: 5px;
+                    display: inline;
+                    vertical-align: middle;
+                }
             }
         }
         li {
