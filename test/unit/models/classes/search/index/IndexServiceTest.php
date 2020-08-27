@@ -24,6 +24,10 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\models\classes\search\index;
 
+use common_ext_ExtensionsManager;
+use core_kernel_classes_Class;
+use core_kernel_classes_Property;
+use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
 use oat\generis\test\TestCase;
 use oat\oatbox\service\ServiceManager;

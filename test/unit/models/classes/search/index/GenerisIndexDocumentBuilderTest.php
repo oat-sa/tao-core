@@ -24,14 +24,16 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\models\classes\search\index;
 
+use common_ext_ExtensionsManager;
+use core_kernel_classes_Property;
+use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
 use oat\generis\test\TestCase;
 use oat\oatbox\service\ServiceManager;
+use oat\tao\model\search\index\DocumentBuilder\IndexDocumentBuilder;
+use oat\tao\model\search\index\DocumentBuilder\IndexDocumentBuilderInterface;
 use oat\tao\model\search\index\IndexDocument;
-use oat\taoDacSimple\model\DataBaseAccess;
 use PHPUnit\Framework\MockObject\MockObject;
-use \oat\tao\model\search\index\DocumentBuilder\IndexDocumentBuilderInterface;
-use \oat\tao\model\search\index\DocumentBuilder\IndexDocumentBuilder;
 
 class GenerisIndexDocumentBuilderTest extends TestCase
 {

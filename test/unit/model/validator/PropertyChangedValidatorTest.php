@@ -28,7 +28,7 @@ class PropertyChangedValidatorTest extends TestCase
 {
     public function testDoNotTriggerIfDoesNotHaveChanges(): void
     {
-        $property = $this->createPropertyMock();
+        $property = $this->createPropertyMock('');
 
         $this->assertFalse(
             (new PropertyChangedValidator())->isPropertyChanged($property, new OldProperty('', $property))
@@ -50,7 +50,7 @@ class PropertyChangedValidatorTest extends TestCase
 
     public function testTriggerIfHaveCurrentPropertyTypeButDoesNotHaveOldPropertyType(): void
     {
-        $property = $this->createPropertyMock();
+        $property = $this->createPropertyMock('');
 
         $this->assertTrue(
             (new PropertyChangedValidator())->isPropertyChanged($property, new OldProperty('', null))
