@@ -158,8 +158,6 @@ class ResourceWatcher extends ConfigurableService
 
     private function hasResourceSupport(core_kernel_classes_Resource $resource): bool
     {
-        $this->logInfo(self::class. ' :: '. $resource->getUri(). ' ::' . $resource->getLabel() );
-
         $resourceTypeIds = array_map(
             function (core_kernel_classes_Class $resourceType): string {
                 return $resourceType->getUri();
