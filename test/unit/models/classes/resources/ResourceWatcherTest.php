@@ -113,8 +113,7 @@ class ResourceWatcherTest extends TestCase
         );
     }
 
-    public function testCatchCreatedResourceEvent_mustCreateIndexTaskInCaseResourceIsSupportedByIndexWhenRootClassBelongsToParent(
-    ): void
+    public function testCatchCreatedResourceEvent_mustCreateIndexTaskInCaseResourceIsSupportedByIndexWhenRootClassBelongsToParent(): void
     {
         $classUri = 'https://tao.docker.localhost/ontologies/tao.rdf#Item';
         $this->indexUpdater->expects($this->at(0))
